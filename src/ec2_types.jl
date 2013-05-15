@@ -1,9 +1,20 @@
+type XSDateTime
+	y::Int
+	m::Int
+	d::Int
+	h::Int
+	mi::Int
+	s::Int
+end
+
 type CreateImageResponseType
     requestId::String
     imageId::String
 
     CreateImageResponseType(requestId, imageId) =  new(requestId, imageId)
 end
+export CreateImageResponseType
+
 
 type RegisterImageResponseType
     requestId::String
@@ -11,25 +22,33 @@ type RegisterImageResponseType
 
     RegisterImageResponseType(requestId, imageId) =  new(requestId, imageId)
 end
+export RegisterImageResponseType
+
 
 type DeregisterImageType
     imageId::String
 
     DeregisterImageType(imageId) =  new(imageId)
 end
+export DeregisterImageType
+
 
 type DeregisterImageResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    DeregisterImageResponseType(requestId, return) =  new(requestId, return)
+    DeregisterImageResponseType(requestId, _return) =  new(requestId, _return)
 end
+export DeregisterImageResponseType
+
 
 type CreateKeyPairType
     keyName::String
 
     CreateKeyPairType(keyName) =  new(keyName)
 end
+export CreateKeyPairType
+
 
 type CreateKeyPairResponseType
     requestId::String
@@ -39,6 +58,8 @@ type CreateKeyPairResponseType
 
     CreateKeyPairResponseType(requestId, keyName, keyFingerprint, keyMaterial) =  new(requestId, keyName, keyFingerprint, keyMaterial)
 end
+export CreateKeyPairResponseType
+
 
 type ImportKeyPairType
     keyName::String
@@ -46,6 +67,8 @@ type ImportKeyPairType
 
     ImportKeyPairType(keyName, publicKeyMaterial) =  new(keyName, publicKeyMaterial)
 end
+export ImportKeyPairType
+
 
 type ImportKeyPairResponseType
     requestId::String
@@ -54,25 +77,33 @@ type ImportKeyPairResponseType
 
     ImportKeyPairResponseType(requestId, keyName, keyFingerprint) =  new(requestId, keyName, keyFingerprint)
 end
+export ImportKeyPairResponseType
+
 
 type DeleteKeyPairType
     keyName::String
 
     DeleteKeyPairType(keyName) =  new(keyName)
 end
+export DeleteKeyPairType
+
 
 type DeleteKeyPairResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    DeleteKeyPairResponseType(requestId, return) =  new(requestId, return)
+    DeleteKeyPairResponseType(requestId, _return) =  new(requestId, _return)
 end
+export DeleteKeyPairResponseType
+
 
 type DescribeKeyPairsItemType
     keyName::String
 
     DescribeKeyPairsItemType(keyName) =  new(keyName)
 end
+export DescribeKeyPairsItemType
+
 
 type DescribeKeyPairsResponseItemType
     keyName::String
@@ -80,6 +111,8 @@ type DescribeKeyPairsResponseItemType
 
     DescribeKeyPairsResponseItemType(keyName, keyFingerprint) =  new(keyName, keyFingerprint)
 end
+export DescribeKeyPairsResponseItemType
+
 
 type IamInstanceProfileRequestType
     arn::Union(String, Nothing)
@@ -87,6 +120,8 @@ type IamInstanceProfileRequestType
 
     IamInstanceProfileRequestType() =  new(nothing, nothing)
 end
+export IamInstanceProfileRequestType
+
 
 type PrivateIpAddressesSetItemRequestType
     privateIpAddress::String
@@ -94,6 +129,8 @@ type PrivateIpAddressesSetItemRequestType
 
     PrivateIpAddressesSetItemRequestType(privateIpAddress) =  new(privateIpAddress, nothing)
 end
+export PrivateIpAddressesSetItemRequestType
+
 
 type ImportInstanceGroupItemType
     groupId::Union(String, Nothing)
@@ -101,6 +138,8 @@ type ImportInstanceGroupItemType
 
     ImportInstanceGroupItemType() =  new(nothing, nothing)
 end
+export ImportInstanceGroupItemType
+
 
 type GroupItemType
     groupId::Union(String, Nothing)
@@ -108,18 +147,24 @@ type GroupItemType
 
     GroupItemType() =  new(nothing, nothing)
 end
+export GroupItemType
+
 
 type UserDataType
     data::Union(String, Nothing)
 
     UserDataType() =  new(nothing)
 end
+export UserDataType
+
 
 type BlockDeviceMappingItemType
     deviceName::String
 
     BlockDeviceMappingItemType(deviceName) =  new(deviceName)
 end
+export BlockDeviceMappingItemType
+
 
 type EbsBlockDeviceType
     snapshotId::Union(String, Nothing)
@@ -130,6 +175,8 @@ type EbsBlockDeviceType
 
     EbsBlockDeviceType() =  new(nothing, nothing, nothing, nothing, nothing)
 end
+export EbsBlockDeviceType
+
 
 type PlacementRequestType
     availabilityZone::Union(String, Nothing)
@@ -138,6 +185,8 @@ type PlacementRequestType
 
     PlacementRequestType() =  new(nothing, nothing, nothing)
 end
+export PlacementRequestType
+
 
 type SpotPlacementRequestType
     availabilityZone::Union(String, Nothing)
@@ -145,6 +194,8 @@ type SpotPlacementRequestType
 
     SpotPlacementRequestType() =  new(nothing, nothing)
 end
+export SpotPlacementRequestType
+
 
 type InstancePlacementType
     availabilityZone::Union(String, Nothing)
@@ -152,18 +203,24 @@ type InstancePlacementType
 
     InstancePlacementType() =  new(nothing, nothing)
 end
+export InstancePlacementType
+
 
 type MonitoringInstanceType
     enabled::Union(Bool, Nothing)
 
     MonitoringInstanceType() =  new(nothing)
 end
+export MonitoringInstanceType
+
 
 type InstanceLicenseRequestType
     pool::String
 
     InstanceLicenseRequestType(pool) =  new(pool)
 end
+export InstanceLicenseRequestType
+
 
 type IamInstanceProfileResponseType
     arn::String
@@ -171,16 +228,20 @@ type IamInstanceProfileResponseType
 
     IamInstanceProfileResponseType(arn, id) =  new(arn, id)
 end
+export IamInstanceProfileResponseType
+
 
 type InstanceNetworkInterfaceAttachmentType
     attachmentId::String
     deviceIndex::Int32
     status::String
-    attachTime::DateTime
+    attachTime::XSDateTime
     deleteOnTermination::Bool
 
     InstanceNetworkInterfaceAttachmentType(attachmentId, deviceIndex, status, attachTime, deleteOnTermination) =  new(attachmentId, deviceIndex, status, attachTime, deleteOnTermination)
 end
+export InstanceNetworkInterfaceAttachmentType
+
 
 type InstanceNetworkInterfaceAssociationType
     publicIp::String
@@ -189,6 +250,8 @@ type InstanceNetworkInterfaceAssociationType
 
     InstanceNetworkInterfaceAssociationType(publicIp) =  new(publicIp, nothing, nothing)
 end
+export InstanceNetworkInterfaceAssociationType
+
 
 type PlacementResponseType
     availabilityZone::String
@@ -197,6 +260,8 @@ type PlacementResponseType
 
     PlacementResponseType(availabilityZone) =  new(availabilityZone, nothing, nothing)
 end
+export PlacementResponseType
+
 
 type StateReasonType
     code::String
@@ -204,45 +269,59 @@ type StateReasonType
 
     StateReasonType(code, message) =  new(code, message)
 end
+export StateReasonType
+
 
 type InstanceBlockDeviceMappingResponseItemType
     deviceName::String
 
     InstanceBlockDeviceMappingResponseItemType(deviceName) =  new(deviceName)
 end
+export InstanceBlockDeviceMappingResponseItemType
+
 
 type EbsInstanceBlockDeviceMappingResponseType
     volumeId::String
     status::String
-    attachTime::DateTime
+    attachTime::XSDateTime
     deleteOnTermination::Union(Bool, Nothing)
 
     EbsInstanceBlockDeviceMappingResponseType(volumeId, status, attachTime) =  new(volumeId, status, attachTime, nothing)
 end
+export EbsInstanceBlockDeviceMappingResponseType
+
 
 type InstanceLicenseResponseType
     pool::String
 
     InstanceLicenseResponseType(pool) =  new(pool)
 end
+export InstanceLicenseResponseType
+
 
 type AccountAttributeNameSetItemType
     attributeName::String
 
     AccountAttributeNameSetItemType(attributeName) =  new(attributeName)
 end
+export AccountAttributeNameSetItemType
+
 
 type AccountAttributeValueSetItemType
     attributeValue::String
 
     AccountAttributeValueSetItemType(attributeValue) =  new(attributeValue)
 end
+export AccountAttributeValueSetItemType
+
 
 type DescribeVpcAttributeType
     vpcId::String
 
     DescribeVpcAttributeType(vpcId) =  new(vpcId)
 end
+export DescribeVpcAttributeType
+
 
 type DescribeVpcAttributeResponseType
     requestId::String
@@ -250,61 +329,79 @@ type DescribeVpcAttributeResponseType
 
     DescribeVpcAttributeResponseType(requestId, vpcId) =  new(requestId, vpcId)
 end
+export DescribeVpcAttributeResponseType
+
 
 type ModifyVpcAttributeType
     vpcId::String
 
     ModifyVpcAttributeType(vpcId) =  new(vpcId)
 end
+export ModifyVpcAttributeType
+
 
 type ModifyVpcAttributeResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    ModifyVpcAttributeResponseType(requestId, return) =  new(requestId, return)
+    ModifyVpcAttributeResponseType(requestId, _return) =  new(requestId, _return)
 end
+export ModifyVpcAttributeResponseType
+
 
 type GetConsoleOutputType
     instanceId::String
 
     GetConsoleOutputType(instanceId) =  new(instanceId)
 end
+export GetConsoleOutputType
+
 
 type GetConsoleOutputResponseType
     requestId::String
     instanceId::String
-    timestamp::DateTime
+    timestamp::XSDateTime
     output::String
 
     GetConsoleOutputResponseType(requestId, instanceId, timestamp, output) =  new(requestId, instanceId, timestamp, output)
 end
+export GetConsoleOutputResponseType
+
 
 type GetPasswordDataType
     instanceId::String
 
     GetPasswordDataType(instanceId) =  new(instanceId)
 end
+export GetPasswordDataType
+
 
 type GetPasswordDataResponseType
     requestId::String
     instanceId::String
-    timestamp::DateTime
+    timestamp::XSDateTime
     passwordData::String
 
     GetPasswordDataResponseType(requestId, instanceId, timestamp, passwordData) =  new(requestId, instanceId, timestamp, passwordData)
 end
+export GetPasswordDataResponseType
+
 
 type InstanceIdType
     instanceId::String
 
     InstanceIdType(instanceId) =  new(instanceId)
 end
+export InstanceIdType
+
 
 type InstanceBlockDeviceMappingItemType
     deviceName::String
 
     InstanceBlockDeviceMappingItemType(deviceName) =  new(deviceName)
 end
+export InstanceBlockDeviceMappingItemType
+
 
 type InstanceEbsBlockDeviceType
     volumeId::String
@@ -312,49 +409,65 @@ type InstanceEbsBlockDeviceType
 
     InstanceEbsBlockDeviceType(volumeId) =  new(volumeId, nothing)
 end
+export InstanceEbsBlockDeviceType
+
 
 type RebootInstancesItemType
     instanceId::String
 
     RebootInstancesItemType(instanceId) =  new(instanceId)
 end
+export RebootInstancesItemType
+
 
 type RebootInstancesResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    RebootInstancesResponseType(requestId, return) =  new(requestId, return)
+    RebootInstancesResponseType(requestId, _return) =  new(requestId, _return)
 end
+export RebootInstancesResponseType
+
 
 type DescribeInstancesItemType
     instanceId::String
 
     DescribeInstancesItemType(instanceId) =  new(instanceId)
 end
+export DescribeInstancesItemType
+
 
 type UnavailableResultType
     availabilityZone::String
 
     UnavailableResultType(availabilityZone) =  new(availabilityZone)
 end
+export UnavailableResultType
+
 
 type DescribeImagesItemType
     imageId::String
 
     DescribeImagesItemType(imageId) =  new(imageId)
 end
+export DescribeImagesItemType
+
 
 type DescribeImagesOwnerType
     owner::String
 
     DescribeImagesOwnerType(owner) =  new(owner)
 end
+export DescribeImagesOwnerType
+
 
 type DescribeImagesExecutableByType
     user::String
 
     DescribeImagesExecutableByType(user) =  new(user)
 end
+export DescribeImagesExecutableByType
+
 
 type CreateSecurityGroupType
     groupName::String
@@ -363,14 +476,18 @@ type CreateSecurityGroupType
 
     CreateSecurityGroupType(groupName, groupDescription) =  new(groupName, groupDescription, nothing)
 end
+export CreateSecurityGroupType
+
 
 type CreateSecurityGroupResponseType
     requestId::String
-    return::Bool
+    _return::Bool
     groupId::String
 
-    CreateSecurityGroupResponseType(requestId, return, groupId) =  new(requestId, return, groupId)
+    CreateSecurityGroupResponseType(requestId, _return, groupId) =  new(requestId, _return, groupId)
 end
+export CreateSecurityGroupResponseType
+
 
 type DeleteSecurityGroupType
     groupId::Union(String, Nothing)
@@ -378,31 +495,41 @@ type DeleteSecurityGroupType
 
     DeleteSecurityGroupType() =  new(nothing, nothing)
 end
+export DeleteSecurityGroupType
+
 
 type DeleteSecurityGroupResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    DeleteSecurityGroupResponseType(requestId, return) =  new(requestId, return)
+    DeleteSecurityGroupResponseType(requestId, _return) =  new(requestId, _return)
 end
+export DeleteSecurityGroupResponseType
+
 
 type DescribeSecurityGroupsSetItemType
     groupName::String
 
     DescribeSecurityGroupsSetItemType(groupName) =  new(groupName)
 end
+export DescribeSecurityGroupsSetItemType
+
 
 type DescribeSecurityGroupsIdSetItemType
     groupId::String
 
     DescribeSecurityGroupsIdSetItemType(groupId) =  new(groupId)
 end
+export DescribeSecurityGroupsIdSetItemType
+
 
 type IpRangeItemType
     cidrIp::String
 
     IpRangeItemType(cidrIp) =  new(cidrIp)
 end
+export IpRangeItemType
+
 
 type UserIdGroupPairType
     userId::Union(String, Nothing)
@@ -411,34 +538,44 @@ type UserIdGroupPairType
 
     UserIdGroupPairType() =  new(nothing, nothing, nothing)
 end
+export UserIdGroupPairType
+
 
 type AuthorizeSecurityGroupIngressResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    AuthorizeSecurityGroupIngressResponseType(requestId, return) =  new(requestId, return)
+    AuthorizeSecurityGroupIngressResponseType(requestId, _return) =  new(requestId, _return)
 end
+export AuthorizeSecurityGroupIngressResponseType
+
 
 type RevokeSecurityGroupIngressResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    RevokeSecurityGroupIngressResponseType(requestId, return) =  new(requestId, return)
+    RevokeSecurityGroupIngressResponseType(requestId, _return) =  new(requestId, _return)
 end
+export RevokeSecurityGroupIngressResponseType
+
 
 type AuthorizeSecurityGroupEgressResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    AuthorizeSecurityGroupEgressResponseType(requestId, return) =  new(requestId, return)
+    AuthorizeSecurityGroupEgressResponseType(requestId, _return) =  new(requestId, _return)
 end
+export AuthorizeSecurityGroupEgressResponseType
+
 
 type RevokeSecurityGroupEgressResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    RevokeSecurityGroupEgressResponseType(requestId, return) =  new(requestId, return)
+    RevokeSecurityGroupEgressResponseType(requestId, _return) =  new(requestId, _return)
 end
+export RevokeSecurityGroupEgressResponseType
+
 
 type InstanceStateType
     code::Int32
@@ -446,44 +583,58 @@ type InstanceStateType
 
     InstanceStateType(code, name) =  new(code, name)
 end
+export InstanceStateType
+
 
 type ModifyInstanceAttributeType
     instanceId::String
 
     ModifyInstanceAttributeType(instanceId) =  new(instanceId)
 end
+export ModifyInstanceAttributeType
+
 
 type SecurityGroupIdSetItemType
     groupId::String
 
     SecurityGroupIdSetItemType(groupId) =  new(groupId)
 end
+export SecurityGroupIdSetItemType
+
 
 type ModifyInstanceAttributeResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    ModifyInstanceAttributeResponseType(requestId, return) =  new(requestId, return)
+    ModifyInstanceAttributeResponseType(requestId, _return) =  new(requestId, _return)
 end
+export ModifyInstanceAttributeResponseType
+
 
 type ResetInstanceAttributeType
     instanceId::String
 
     ResetInstanceAttributeType(instanceId) =  new(instanceId)
 end
+export ResetInstanceAttributeType
+
 
 type ResetInstanceAttributeResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    ResetInstanceAttributeResponseType(requestId, return) =  new(requestId, return)
+    ResetInstanceAttributeResponseType(requestId, _return) =  new(requestId, _return)
 end
+export ResetInstanceAttributeResponseType
+
 
 type DescribeInstanceAttributeType
     instanceId::String
 
     DescribeInstanceAttributeType(instanceId) =  new(instanceId)
 end
+export DescribeInstanceAttributeType
+
 
 type DescribeInstanceAttributeResponseType
     requestId::String
@@ -491,12 +642,16 @@ type DescribeInstanceAttributeResponseType
 
     DescribeInstanceAttributeResponseType(requestId, instanceId) =  new(requestId, instanceId)
 end
+export DescribeInstanceAttributeResponseType
+
 
 type ModifyImageAttributeType
     imageId::String
 
     ModifyImageAttributeType(imageId) =  new(imageId)
 end
+export ModifyImageAttributeType
+
 
 type LaunchPermissionItemType
     userId::Union(String, Nothing)
@@ -504,43 +659,50 @@ type LaunchPermissionItemType
 
     LaunchPermissionItemType() =  new(nothing, nothing)
 end
+export LaunchPermissionItemType
+
 
 type ProductCodeItemType
     productCode::String
 
     ProductCodeItemType(productCode) =  new(productCode)
 end
+export ProductCodeItemType
+
 
 type ModifyImageAttributeResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    ModifyImageAttributeResponseType(requestId, return) =  new(requestId, return)
+    ModifyImageAttributeResponseType(requestId, _return) =  new(requestId, _return)
 end
+export ModifyImageAttributeResponseType
+
 
 type ResetImageAttributeType
     imageId::String
 
     ResetImageAttributeType(imageId) =  new(imageId)
 end
+export ResetImageAttributeType
 
-type EmptyElementType
-
-    EmptyElementType() =  new()
-end
 
 type ResetImageAttributeResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    ResetImageAttributeResponseType(requestId, return) =  new(requestId, return)
+    ResetImageAttributeResponseType(requestId, _return) =  new(requestId, _return)
 end
+export ResetImageAttributeResponseType
+
 
 type DescribeImageAttributeType
     imageId::String
 
     DescribeImageAttributeType(imageId) =  new(imageId)
 end
+export DescribeImageAttributeType
+
 
 type DescribeImageAttributeResponseType
     requestId::String
@@ -548,30 +710,40 @@ type DescribeImageAttributeResponseType
 
     DescribeImageAttributeResponseType(requestId, imageId) =  new(requestId, imageId)
 end
+export DescribeImageAttributeResponseType
+
 
 type NullableAttributeValueType
     value::Union(String, Nothing)
 
     NullableAttributeValueType() =  new(nothing)
 end
+export NullableAttributeValueType
+
 
 type NullableAttributeBooleanValueType
     value::Union(Bool, Nothing)
 
     NullableAttributeBooleanValueType() =  new(nothing)
 end
+export NullableAttributeBooleanValueType
+
 
 type AttributeValueType
     value::String
 
     AttributeValueType(value) =  new(value)
 end
+export AttributeValueType
+
 
 type AttributeBooleanValueType
     value::Bool
 
     AttributeBooleanValueType(value) =  new(value)
 end
+export AttributeBooleanValueType
+
 
 type ConfirmProductInstanceType
     productCode::String
@@ -579,39 +751,51 @@ type ConfirmProductInstanceType
 
     ConfirmProductInstanceType(productCode, instanceId) =  new(productCode, instanceId)
 end
+export ConfirmProductInstanceType
+
 
 type ProductCodesSetItemType
     productCode::String
-    type::String
+    _type::String
 
-    ProductCodesSetItemType(productCode, type) =  new(productCode, type)
+    ProductCodesSetItemType(productCode, _type) =  new(productCode, _type)
 end
+export ProductCodesSetItemType
+
 
 type ConfirmProductInstanceResponseType
     requestId::String
-    return::Bool
+    _return::Bool
     ownerId::Union(String, Nothing)
 
-    ConfirmProductInstanceResponseType(requestId, return) =  new(requestId, return, nothing)
+    ConfirmProductInstanceResponseType(requestId, _return) =  new(requestId, _return, nothing)
 end
+export ConfirmProductInstanceResponseType
+
 
 type DescribeAvailabilityZonesSetItemType
     zoneName::String
 
     DescribeAvailabilityZonesSetItemType(zoneName) =  new(zoneName)
 end
+export DescribeAvailabilityZonesSetItemType
+
 
 type AvailabilityZoneMessageType
     message::String
 
     AvailabilityZoneMessageType(message) =  new(message)
 end
+export AvailabilityZoneMessageType
+
 
 type AllocateAddressType
     domain::Union(String, Nothing)
 
     AllocateAddressType() =  new(nothing)
 end
+export AllocateAddressType
+
 
 type AllocateAddressResponseType
     requestId::String
@@ -621,30 +805,42 @@ type AllocateAddressResponseType
 
     AllocateAddressResponseType(requestId, publicIp, domain) =  new(requestId, publicIp, domain, nothing)
 end
+export AllocateAddressResponseType
+
 
 type ReleaseAddressType
+    publicIp::Union(String, Nothing)
+    allocationId::Union(String, Nothing)
 
-    ReleaseAddressType() =  new()
+    ReleaseAddressType() =  new(nothing, nothing)
 end
+export ReleaseAddressType
+
 
 type ReleaseAddressResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    ReleaseAddressResponseType(requestId, return) =  new(requestId, return)
+    ReleaseAddressResponseType(requestId, _return) =  new(requestId, _return)
 end
+export ReleaseAddressResponseType
+
 
 type AllocationIdSetItemType
     allocationId::String
 
     AllocationIdSetItemType(allocationId) =  new(allocationId)
 end
+export AllocationIdSetItemType
+
 
 type DescribeAddressesItemType
     publicIp::String
 
     DescribeAddressesItemType(publicIp) =  new(publicIp)
 end
+export DescribeAddressesItemType
+
 
 type DescribeAddressesResponseItemType
     publicIp::String
@@ -658,6 +854,8 @@ type DescribeAddressesResponseItemType
 
     DescribeAddressesResponseItemType(publicIp, domain) =  new(publicIp, nothing, domain, nothing, nothing, nothing, nothing, nothing)
 end
+export DescribeAddressesResponseItemType
+
 
 type AssociateAddressType
     privateIpAddress::Union(String, Nothing)
@@ -665,14 +863,18 @@ type AssociateAddressType
 
     AssociateAddressType() =  new(nothing, nothing)
 end
+export AssociateAddressType
+
 
 type AssociateAddressResponseType
     requestId::String
-    return::Bool
+    _return::Bool
     associationId::Union(String, Nothing)
 
-    AssociateAddressResponseType(requestId, return) =  new(requestId, return, nothing)
+    AssociateAddressResponseType(requestId, _return) =  new(requestId, _return, nothing)
 end
+export AssociateAddressResponseType
+
 
 type DisassociateAddressType
     publicIp::Union(String, Nothing)
@@ -680,13 +882,17 @@ type DisassociateAddressType
 
     DisassociateAddressType() =  new(nothing, nothing)
 end
+export DisassociateAddressType
+
 
 type DisassociateAddressResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    DisassociateAddressResponseType(requestId, return) =  new(requestId, return)
+    DisassociateAddressResponseType(requestId, _return) =  new(requestId, _return)
 end
+export DisassociateAddressResponseType
+
 
 type CreateVolumeType
     size::Union(String, Nothing)
@@ -697,6 +903,8 @@ type CreateVolumeType
 
     CreateVolumeType(availabilityZone) =  new(nothing, nothing, availabilityZone, nothing, nothing)
 end
+export CreateVolumeType
+
 
 type CreateVolumeResponseType
     requestId::String
@@ -705,42 +913,52 @@ type CreateVolumeResponseType
     snapshotId::String
     availabilityZone::String
     status::String
-    createTime::DateTime
+    createTime::XSDateTime
     volumeType::String
     iops::Union(Int32, Nothing)
 
     CreateVolumeResponseType(requestId, volumeId, size, snapshotId, availabilityZone, status, createTime, volumeType) =  new(requestId, volumeId, size, snapshotId, availabilityZone, status, createTime, volumeType, nothing)
 end
+export CreateVolumeResponseType
+
 
 type DeleteVolumeType
     volumeId::String
 
     DeleteVolumeType(volumeId) =  new(volumeId)
 end
+export DeleteVolumeType
+
 
 type DeleteVolumeResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    DeleteVolumeResponseType(requestId, return) =  new(requestId, return)
+    DeleteVolumeResponseType(requestId, _return) =  new(requestId, _return)
 end
+export DeleteVolumeResponseType
+
 
 type DescribeVolumesSetItemType
     volumeId::String
 
     DescribeVolumesSetItemType(volumeId) =  new(volumeId)
 end
+export DescribeVolumesSetItemType
+
 
 type AttachmentSetItemResponseType
     volumeId::String
     instanceId::String
     device::String
     status::String
-    attachTime::DateTime
+    attachTime::XSDateTime
     deleteOnTermination::Bool
 
     AttachmentSetItemResponseType(volumeId, instanceId, device, status, attachTime, deleteOnTermination) =  new(volumeId, instanceId, device, status, attachTime, deleteOnTermination)
 end
+export AttachmentSetItemResponseType
+
 
 type AttachVolumeType
     volumeId::String
@@ -749,6 +967,8 @@ type AttachVolumeType
 
     AttachVolumeType(volumeId, instanceId, device) =  new(volumeId, instanceId, device)
 end
+export AttachVolumeType
+
 
 type AttachVolumeResponseType
     requestId::String
@@ -756,10 +976,12 @@ type AttachVolumeResponseType
     instanceId::String
     device::String
     status::String
-    attachTime::DateTime
+    attachTime::XSDateTime
 
     AttachVolumeResponseType(requestId, volumeId, instanceId, device, status, attachTime) =  new(requestId, volumeId, instanceId, device, status, attachTime)
 end
+export AttachVolumeResponseType
+
 
 type DetachVolumeType
     volumeId::String
@@ -769,6 +991,8 @@ type DetachVolumeType
 
     DetachVolumeType(volumeId) =  new(volumeId, nothing, nothing, nothing)
 end
+export DetachVolumeType
+
 
 type DetachVolumeResponseType
     requestId::String
@@ -776,10 +1000,12 @@ type DetachVolumeResponseType
     instanceId::String
     device::String
     status::String
-    attachTime::DateTime
+    attachTime::XSDateTime
 
     DetachVolumeResponseType(requestId, volumeId, instanceId, device, status, attachTime) =  new(requestId, volumeId, instanceId, device, status, attachTime)
 end
+export DetachVolumeResponseType
+
 
 type CreateSnapshotType
     volumeId::String
@@ -787,13 +1013,15 @@ type CreateSnapshotType
 
     CreateSnapshotType(volumeId) =  new(volumeId, nothing)
 end
+export CreateSnapshotType
+
 
 type CreateSnapshotResponseType
     requestId::String
     snapshotId::String
     volumeId::String
     status::String
-    startTime::DateTime
+    startTime::XSDateTime
     progress::String
     ownerId::String
     volumeSize::String
@@ -801,6 +1029,8 @@ type CreateSnapshotResponseType
 
     CreateSnapshotResponseType(requestId, snapshotId, volumeId, status, startTime, progress, ownerId, volumeSize) =  new(requestId, snapshotId, volumeId, status, startTime, progress, ownerId, volumeSize, nothing)
 end
+export CreateSnapshotResponseType
+
 
 type CopySnapshotType
     sourceRegion::String
@@ -809,6 +1039,8 @@ type CopySnapshotType
 
     CopySnapshotType(sourceRegion, sourceSnapshotId) =  new(sourceRegion, sourceSnapshotId, nothing)
 end
+export CopySnapshotType
+
 
 type CopySnapshotResponseType
     requestId::String
@@ -816,37 +1048,49 @@ type CopySnapshotResponseType
 
     CopySnapshotResponseType(requestId, snapshotId) =  new(requestId, snapshotId)
 end
+export CopySnapshotResponseType
+
 
 type DeleteSnapshotType
     snapshotId::String
 
     DeleteSnapshotType(snapshotId) =  new(snapshotId)
 end
+export DeleteSnapshotType
+
 
 type DeleteSnapshotResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    DeleteSnapshotResponseType(requestId, return) =  new(requestId, return)
+    DeleteSnapshotResponseType(requestId, _return) =  new(requestId, _return)
 end
+export DeleteSnapshotResponseType
+
 
 type DescribeSnapshotsSetItemType
     snapshotId::String
 
     DescribeSnapshotsSetItemType(snapshotId) =  new(snapshotId)
 end
+export DescribeSnapshotsSetItemType
+
 
 type DescribeSnapshotsOwnerType
     owner::String
 
     DescribeSnapshotsOwnerType(owner) =  new(owner)
 end
+export DescribeSnapshotsOwnerType
+
 
 type DescribeSnapshotsRestorableByType
     user::String
 
     DescribeSnapshotsRestorableByType(user) =  new(user)
 end
+export DescribeSnapshotsRestorableByType
+
 
 type CreateVolumePermissionItemType
     userId::Union(String, Nothing)
@@ -854,32 +1098,42 @@ type CreateVolumePermissionItemType
 
     CreateVolumePermissionItemType() =  new(nothing, nothing)
 end
+export CreateVolumePermissionItemType
+
 
 type ModifySnapshotAttributeResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    ModifySnapshotAttributeResponseType(requestId, return) =  new(requestId, return)
+    ModifySnapshotAttributeResponseType(requestId, _return) =  new(requestId, _return)
 end
+export ModifySnapshotAttributeResponseType
+
 
 type ResetSnapshotAttributeType
     snapshotId::String
 
     ResetSnapshotAttributeType(snapshotId) =  new(snapshotId)
 end
+export ResetSnapshotAttributeType
+
 
 type ResetSnapshotAttributeResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    ResetSnapshotAttributeResponseType(requestId, return) =  new(requestId, return)
+    ResetSnapshotAttributeResponseType(requestId, _return) =  new(requestId, _return)
 end
+export ResetSnapshotAttributeResponseType
+
 
 type DescribeSnapshotAttributeType
     snapshotId::String
 
     DescribeSnapshotAttributeType(snapshotId) =  new(snapshotId)
 end
+export DescribeSnapshotAttributeType
+
 
 type DescribeSnapshotAttributeResponseType
     requestId::String
@@ -887,6 +1141,8 @@ type DescribeSnapshotAttributeResponseType
 
     DescribeSnapshotAttributeResponseType(requestId, snapshotId) =  new(requestId, snapshotId)
 end
+export DescribeSnapshotAttributeResponseType
+
 
 type BundleInstanceS3StorageType
     bucket::String
@@ -897,6 +1153,8 @@ type BundleInstanceS3StorageType
 
     BundleInstanceS3StorageType(bucket, prefix) =  new(bucket, prefix, nothing, nothing, nothing)
 end
+export BundleInstanceS3StorageType
+
 
 type BundleInstanceTaskErrorType
     code::String
@@ -904,18 +1162,24 @@ type BundleInstanceTaskErrorType
 
     BundleInstanceTaskErrorType(code, message) =  new(code, message)
 end
+export BundleInstanceTaskErrorType
+
 
 type DescribeBundleTasksItemType
     bundleId::String
 
     DescribeBundleTasksItemType(bundleId) =  new(bundleId)
 end
+export DescribeBundleTasksItemType
+
 
 type CancelBundleTaskType
     bundleId::String
 
     CancelBundleTaskType(bundleId) =  new(bundleId)
 end
+export CancelBundleTaskType
+
 
 type CopyImageType
     sourceRegion::String
@@ -926,6 +1190,8 @@ type CopyImageType
 
     CopyImageType(sourceRegion, sourceImageId, name) =  new(sourceRegion, sourceImageId, name, nothing, nothing)
 end
+export CopyImageType
+
 
 type CopyImageResponseType
     requestId::String
@@ -933,12 +1199,16 @@ type CopyImageResponseType
 
     CopyImageResponseType(requestId, imageId) =  new(requestId, imageId)
 end
+export CopyImageResponseType
+
 
 type DescribeRegionsSetItemType
     regionName::String
 
     DescribeRegionsSetItemType(regionName) =  new(regionName)
 end
+export DescribeRegionsSetItemType
+
 
 type RegionItemType
     regionName::String
@@ -946,12 +1216,16 @@ type RegionItemType
 
     RegionItemType(regionName, regionEndpoint) =  new(regionName, regionEndpoint)
 end
+export RegionItemType
+
 
 type DescribeReservedInstancesOfferingsSetItemType
     reservedInstancesOfferingId::String
 
     DescribeReservedInstancesOfferingsSetItemType(reservedInstancesOfferingId) =  new(reservedInstancesOfferingId)
 end
+export DescribeReservedInstancesOfferingsSetItemType
+
 
 type RecurringChargesSetItemType
     frequency::String
@@ -959,6 +1233,8 @@ type RecurringChargesSetItemType
 
     RecurringChargesSetItemType(frequency, amount) =  new(frequency, amount)
 end
+export RecurringChargesSetItemType
+
 
 type PricingDetailsSetItemType
     price::Float64
@@ -966,6 +1242,8 @@ type PricingDetailsSetItemType
 
     PricingDetailsSetItemType(price, count) =  new(price, count)
 end
+export PricingDetailsSetItemType
+
 
 type ReservedInstanceLimitPriceType
     amount::Float64
@@ -973,6 +1251,8 @@ type ReservedInstanceLimitPriceType
 
     ReservedInstanceLimitPriceType(amount) =  new(amount, nothing)
 end
+export ReservedInstanceLimitPriceType
+
 
 type PurchaseReservedInstancesOfferingResponseType
     requestId::String
@@ -980,12 +1260,16 @@ type PurchaseReservedInstancesOfferingResponseType
 
     PurchaseReservedInstancesOfferingResponseType(requestId, reservedInstancesId) =  new(requestId, reservedInstancesId)
 end
+export PurchaseReservedInstancesOfferingResponseType
+
 
 type DescribeReservedInstancesSetItemType
     reservedInstancesId::String
 
     DescribeReservedInstancesSetItemType(reservedInstancesId) =  new(reservedInstancesId)
 end
+export DescribeReservedInstancesSetItemType
+
 
 type PriceScheduleRequestSetItemType
     term::Int64
@@ -994,18 +1278,24 @@ type PriceScheduleRequestSetItemType
 
     PriceScheduleRequestSetItemType(term, price) =  new(term, price, nothing)
 end
+export PriceScheduleRequestSetItemType
+
 
 type CancelReservedInstancesListingType
     reservedInstancesListingId::String
 
     CancelReservedInstancesListingType(reservedInstancesListingId) =  new(reservedInstancesListingId)
 end
+export CancelReservedInstancesListingType
+
 
 type DescribeReservedInstancesListingSetItemType
     reservedInstancesListingId::String
 
     DescribeReservedInstancesListingSetItemType(reservedInstancesListingId) =  new(reservedInstancesListingId)
 end
+export DescribeReservedInstancesListingSetItemType
+
 
 type InstanceCountsSetItemType
     state::String
@@ -1013,6 +1303,8 @@ type InstanceCountsSetItemType
 
     InstanceCountsSetItemType(state, instanceCount) =  new(state, instanceCount)
 end
+export InstanceCountsSetItemType
+
 
 type PriceScheduleSetItemType
     term::Int64
@@ -1022,18 +1314,24 @@ type PriceScheduleSetItemType
 
     PriceScheduleSetItemType(term, price, active) =  new(term, price, nothing, active)
 end
+export PriceScheduleSetItemType
+
 
 type MonitorInstancesSetItemType
     instanceId::String
 
     MonitorInstancesSetItemType(instanceId) =  new(instanceId)
 end
+export MonitorInstancesSetItemType
+
 
 type InstanceMonitoringStateType
     state::String
 
     InstanceMonitoringStateType(state) =  new(state)
 end
+export InstanceMonitoringStateType
+
 
 type AttachmentType
     vpcId::String
@@ -1041,12 +1339,16 @@ type AttachmentType
 
     AttachmentType(vpcId, state) =  new(vpcId, state)
 end
+export AttachmentType
+
 
 type VpnConnectionOptionsResponseType
     staticRoutesOnly::Union(Bool, Nothing)
 
     VpnConnectionOptionsResponseType() =  new(nothing)
 end
+export VpnConnectionOptionsResponseType
+
 
 type VpnStaticRouteType
     destinationCidrBlock::String
@@ -1055,111 +1357,145 @@ type VpnStaticRouteType
 
     VpnStaticRouteType(destinationCidrBlock, source, state) =  new(destinationCidrBlock, source, state)
 end
+export VpnStaticRouteType
+
 
 type VpnTunnelTelemetryType
     outsideIpAddress::String
     status::String
-    lastStatusChange::DateTime
+    lastStatusChange::XSDateTime
     statusMessage::Union(String, Nothing)
     acceptedRouteCount::Int32
 
     VpnTunnelTelemetryType(outsideIpAddress, status, lastStatusChange, acceptedRouteCount) =  new(outsideIpAddress, status, lastStatusChange, nothing, acceptedRouteCount)
 end
+export VpnTunnelTelemetryType
+
 
 type CustomerGatewayIdSetItemType
     customerGatewayId::String
 
     CustomerGatewayIdSetItemType(customerGatewayId) =  new(customerGatewayId)
 end
+export CustomerGatewayIdSetItemType
+
 
 type VpnGatewayIdSetItemType
     vpnGatewayId::String
 
     VpnGatewayIdSetItemType(vpnGatewayId) =  new(vpnGatewayId)
 end
+export VpnGatewayIdSetItemType
+
 
 type VpnConnectionIdSetItemType
     vpnConnectionId::String
 
     VpnConnectionIdSetItemType(vpnConnectionId) =  new(vpnConnectionId)
 end
+export VpnConnectionIdSetItemType
+
 
 type VpcIdSetItemType
     vpcId::String
 
     VpcIdSetItemType(vpcId) =  new(vpcId)
 end
+export VpcIdSetItemType
+
 
 type SubnetIdSetItemType
     subnetId::String
 
     SubnetIdSetItemType(subnetId) =  new(subnetId)
 end
+export SubnetIdSetItemType
+
 
 type DhcpOptionsIdSetItemType
     dhcpOptionsId::String
 
     DhcpOptionsIdSetItemType(dhcpOptionsId) =  new(dhcpOptionsId)
 end
+export DhcpOptionsIdSetItemType
+
 
 type DhcpValueType
     value::String
 
     DhcpValueType(value) =  new(value)
 end
+export DhcpValueType
+
 
 type ValueType
     value::String
 
     ValueType(value) =  new(value)
 end
+export ValueType
+
 
 type CreateCustomerGatewayType
-    type::String
+    _type::String
     ipAddress::String
     bgpAsn::Union(Int32, Nothing)
 
-    CreateCustomerGatewayType(type, ipAddress) =  new(type, ipAddress, nothing)
+    CreateCustomerGatewayType(_type, ipAddress) =  new(_type, ipAddress, nothing)
 end
+export CreateCustomerGatewayType
+
 
 type DeleteCustomerGatewayType
     customerGatewayId::String
 
     DeleteCustomerGatewayType(customerGatewayId) =  new(customerGatewayId)
 end
+export DeleteCustomerGatewayType
+
 
 type DeleteCustomerGatewayResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    DeleteCustomerGatewayResponseType(requestId, return) =  new(requestId, return)
+    DeleteCustomerGatewayResponseType(requestId, _return) =  new(requestId, _return)
 end
+export DeleteCustomerGatewayResponseType
+
 
 type CreateVpnGatewayType
-    type::String
+    _type::String
     availabilityZone::Union(String, Nothing)
 
-    CreateVpnGatewayType(type) =  new(type, nothing)
+    CreateVpnGatewayType(_type) =  new(_type, nothing)
 end
+export CreateVpnGatewayType
+
 
 type DeleteVpnGatewayType
     vpnGatewayId::String
 
     DeleteVpnGatewayType(vpnGatewayId) =  new(vpnGatewayId)
 end
+export DeleteVpnGatewayType
+
 
 type DeleteVpnGatewayResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    DeleteVpnGatewayResponseType(requestId, return) =  new(requestId, return)
+    DeleteVpnGatewayResponseType(requestId, _return) =  new(requestId, _return)
 end
+export DeleteVpnGatewayResponseType
+
 
 type VpnConnectionOptionsRequestType
     staticRoutesOnly::Union(Bool, Nothing)
 
     VpnConnectionOptionsRequestType() =  new(nothing)
 end
+export VpnConnectionOptionsRequestType
+
 
 type CreateVpnConnectionRouteType
     vpnConnectionId::String
@@ -1167,13 +1503,17 @@ type CreateVpnConnectionRouteType
 
     CreateVpnConnectionRouteType(vpnConnectionId, destinationCidrBlock) =  new(vpnConnectionId, destinationCidrBlock)
 end
+export CreateVpnConnectionRouteType
+
 
 type CreateVpnConnectionRouteResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    CreateVpnConnectionRouteResponseType(requestId, return) =  new(requestId, return)
+    CreateVpnConnectionRouteResponseType(requestId, _return) =  new(requestId, _return)
 end
+export CreateVpnConnectionRouteResponseType
+
 
 type DeleteVpnConnectionRouteType
     vpnConnectionId::String
@@ -1181,26 +1521,34 @@ type DeleteVpnConnectionRouteType
 
     DeleteVpnConnectionRouteType(vpnConnectionId, destinationCidrBlock) =  new(vpnConnectionId, destinationCidrBlock)
 end
+export DeleteVpnConnectionRouteType
+
 
 type DeleteVpnConnectionRouteResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    DeleteVpnConnectionRouteResponseType(requestId, return) =  new(requestId, return)
+    DeleteVpnConnectionRouteResponseType(requestId, _return) =  new(requestId, _return)
 end
+export DeleteVpnConnectionRouteResponseType
+
 
 type DeleteVpnConnectionType
     vpnConnectionId::String
 
     DeleteVpnConnectionType(vpnConnectionId) =  new(vpnConnectionId)
 end
+export DeleteVpnConnectionType
+
 
 type DeleteVpnConnectionResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    DeleteVpnConnectionResponseType(requestId, return) =  new(requestId, return)
+    DeleteVpnConnectionResponseType(requestId, _return) =  new(requestId, _return)
 end
+export DeleteVpnConnectionResponseType
+
 
 type AttachVpnGatewayType
     vpnGatewayId::String
@@ -1208,6 +1556,8 @@ type AttachVpnGatewayType
 
     AttachVpnGatewayType(vpnGatewayId, vpcId) =  new(vpnGatewayId, vpcId)
 end
+export AttachVpnGatewayType
+
 
 type DetachVpnGatewayType
     vpnGatewayId::String
@@ -1215,13 +1565,17 @@ type DetachVpnGatewayType
 
     DetachVpnGatewayType(vpnGatewayId, vpcId) =  new(vpnGatewayId, vpcId)
 end
+export DetachVpnGatewayType
+
 
 type DetachVpnGatewayResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    DetachVpnGatewayResponseType(requestId, return) =  new(requestId, return)
+    DetachVpnGatewayResponseType(requestId, _return) =  new(requestId, _return)
 end
+export DetachVpnGatewayResponseType
+
 
 type CreateVpcType
     cidrBlock::String
@@ -1229,19 +1583,25 @@ type CreateVpcType
 
     CreateVpcType(cidrBlock) =  new(cidrBlock, nothing)
 end
+export CreateVpcType
+
 
 type DeleteVpcType
     vpcId::String
 
     DeleteVpcType(vpcId) =  new(vpcId)
 end
+export DeleteVpcType
+
 
 type DeleteVpcResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    DeleteVpcResponseType(requestId, return) =  new(requestId, return)
+    DeleteVpcResponseType(requestId, _return) =  new(requestId, _return)
 end
+export DeleteVpcResponseType
+
 
 type CreateSubnetType
     vpcId::String
@@ -1250,32 +1610,42 @@ type CreateSubnetType
 
     CreateSubnetType(vpcId, cidrBlock) =  new(vpcId, cidrBlock, nothing)
 end
+export CreateSubnetType
+
 
 type DeleteSubnetType
     subnetId::String
 
     DeleteSubnetType(subnetId) =  new(subnetId)
 end
+export DeleteSubnetType
+
 
 type DeleteSubnetResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    DeleteSubnetResponseType(requestId, return) =  new(requestId, return)
+    DeleteSubnetResponseType(requestId, _return) =  new(requestId, _return)
 end
+export DeleteSubnetResponseType
+
 
 type DeleteDhcpOptionsType
     dhcpOptionsId::String
 
     DeleteDhcpOptionsType(dhcpOptionsId) =  new(dhcpOptionsId)
 end
+export DeleteDhcpOptionsType
+
 
 type DeleteDhcpOptionsResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    DeleteDhcpOptionsResponseType(requestId, return) =  new(requestId, return)
+    DeleteDhcpOptionsResponseType(requestId, _return) =  new(requestId, _return)
 end
+export DeleteDhcpOptionsResponseType
+
 
 type AssociateDhcpOptionsType
     dhcpOptionsId::String
@@ -1283,13 +1653,17 @@ type AssociateDhcpOptionsType
 
     AssociateDhcpOptionsType(dhcpOptionsId, vpcId) =  new(dhcpOptionsId, vpcId)
 end
+export AssociateDhcpOptionsType
+
 
 type AssociateDhcpOptionsResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    AssociateDhcpOptionsResponseType(requestId, return) =  new(requestId, return)
+    AssociateDhcpOptionsResponseType(requestId, _return) =  new(requestId, _return)
 end
+export AssociateDhcpOptionsResponseType
+
 
 type SpotInstanceStateFaultType
     code::String
@@ -1297,20 +1671,26 @@ type SpotInstanceStateFaultType
 
     SpotInstanceStateFaultType(code, message) =  new(code, message)
 end
+export SpotInstanceStateFaultType
+
 
 type SpotInstanceStatusMessageType
     code::Union(String, Nothing)
-    updateTime::Union(DateTime, Nothing)
+    updateTime::Union(XSDateTime, Nothing)
     message::Union(String, Nothing)
 
     SpotInstanceStatusMessageType() =  new(nothing, nothing, nothing)
 end
+export SpotInstanceStatusMessageType
+
 
 type SpotInstanceRequestIdSetItemType
     spotInstanceRequestId::String
 
     SpotInstanceRequestIdSetItemType(spotInstanceRequestId) =  new(spotInstanceRequestId)
 end
+export SpotInstanceRequestIdSetItemType
+
 
 type CancelSpotInstanceRequestsResponseSetItemType
     spotInstanceRequestId::String
@@ -1318,28 +1698,36 @@ type CancelSpotInstanceRequestsResponseSetItemType
 
     CancelSpotInstanceRequestsResponseSetItemType(spotInstanceRequestId, state) =  new(spotInstanceRequestId, state)
 end
+export CancelSpotInstanceRequestsResponseSetItemType
+
 
 type InstanceTypeSetItemType
     instanceType::String
 
     InstanceTypeSetItemType(instanceType) =  new(instanceType)
 end
+export InstanceTypeSetItemType
+
 
 type ProductDescriptionSetItemType
     productDescription::String
 
     ProductDescriptionSetItemType(productDescription) =  new(productDescription)
 end
+export ProductDescriptionSetItemType
+
 
 type SpotPriceHistorySetItemType
     instanceType::String
     productDescription::String
     spotPrice::String
-    timestamp::DateTime
+    timestamp::XSDateTime
     availabilityZone::Union(String, Nothing)
 
     SpotPriceHistorySetItemType(instanceType, productDescription, spotPrice, timestamp) =  new(instanceType, productDescription, spotPrice, timestamp, nothing)
 end
+export SpotPriceHistorySetItemType
+
 
 type CreateSpotDatafeedSubscriptionType
     bucket::String
@@ -1347,38 +1735,36 @@ type CreateSpotDatafeedSubscriptionType
 
     CreateSpotDatafeedSubscriptionType(bucket, prefix) =  new(bucket, prefix)
 end
+export CreateSpotDatafeedSubscriptionType
 
-type DescribeSpotDatafeedSubscriptionType
-
-    DescribeSpotDatafeedSubscriptionType() =  new()
-end
-
-type DeleteSpotDatafeedSubscriptionType
-
-    DeleteSpotDatafeedSubscriptionType() =  new()
-end
 
 type DeleteSpotDatafeedSubscriptionResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    DeleteSpotDatafeedSubscriptionResponseType(requestId, return) =  new(requestId, return)
+    DeleteSpotDatafeedSubscriptionResponseType(requestId, _return) =  new(requestId, _return)
 end
+export DeleteSpotDatafeedSubscriptionResponseType
+
 
 type LicenseIdSetItemType
     licenseId::String
 
     LicenseIdSetItemType(licenseId) =  new(licenseId)
 end
+export LicenseIdSetItemType
+
 
 type LicenseCapacitySetItemType
     capacity::Int32
     instanceCapacity::Int32
     state::String
-    earliestAllowedDeactivationTime::Union(DateTime, Nothing)
+    earliestAllowedDeactivationTime::Union(XSDateTime, Nothing)
 
     LicenseCapacitySetItemType(capacity, instanceCapacity, state) =  new(capacity, instanceCapacity, state, nothing)
 end
+export LicenseCapacitySetItemType
+
 
 type ActivateLicenseType
     licenseId::String
@@ -1386,13 +1772,17 @@ type ActivateLicenseType
 
     ActivateLicenseType(licenseId, capacity) =  new(licenseId, capacity)
 end
+export ActivateLicenseType
+
 
 type ActivateLicenseResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    ActivateLicenseResponseType(requestId, return) =  new(requestId, return)
+    ActivateLicenseResponseType(requestId, _return) =  new(requestId, _return)
 end
+export ActivateLicenseResponseType
+
 
 type DeactivateLicenseType
     licenseId::String
@@ -1400,13 +1790,17 @@ type DeactivateLicenseType
 
     DeactivateLicenseType(licenseId, capacity) =  new(licenseId, capacity)
 end
+export DeactivateLicenseType
+
 
 type DeactivateLicenseResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    DeactivateLicenseResponseType(requestId, return) =  new(requestId, return)
+    DeactivateLicenseResponseType(requestId, _return) =  new(requestId, _return)
 end
+export DeactivateLicenseResponseType
+
 
 type CreatePlacementGroupType
     groupName::String
@@ -1414,32 +1808,42 @@ type CreatePlacementGroupType
 
     CreatePlacementGroupType(groupName, strategy) =  new(groupName, strategy)
 end
+export CreatePlacementGroupType
+
 
 type CreatePlacementGroupResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    CreatePlacementGroupResponseType(requestId, return) =  new(requestId, return)
+    CreatePlacementGroupResponseType(requestId, _return) =  new(requestId, _return)
 end
+export CreatePlacementGroupResponseType
+
 
 type DeletePlacementGroupType
     groupName::String
 
     DeletePlacementGroupType(groupName) =  new(groupName)
 end
+export DeletePlacementGroupType
+
 
 type DeletePlacementGroupResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    DeletePlacementGroupResponseType(requestId, return) =  new(requestId, return)
+    DeletePlacementGroupResponseType(requestId, _return) =  new(requestId, _return)
 end
+export DeletePlacementGroupResponseType
+
 
 type DescribePlacementGroupItemType
     groupName::String
 
     DescribePlacementGroupItemType(groupName) =  new(groupName)
 end
+export DescribePlacementGroupItemType
+
 
 type PlacementGroupInfoType
     groupName::String
@@ -1448,12 +1852,16 @@ type PlacementGroupInfoType
 
     PlacementGroupInfoType(groupName, strategy, state) =  new(groupName, strategy, state)
 end
+export PlacementGroupInfoType
+
 
 type ResourceIdSetItemType
     resourceId::String
 
     ResourceIdSetItemType(resourceId) =  new(resourceId)
 end
+export ResourceIdSetItemType
+
 
 type ResourceTagSetItemType
     key::String
@@ -1461,13 +1869,17 @@ type ResourceTagSetItemType
 
     ResourceTagSetItemType(key, value) =  new(key, value)
 end
+export ResourceTagSetItemType
+
 
 type CreateTagsResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    CreateTagsResponseType(requestId, return) =  new(requestId, return)
+    CreateTagsResponseType(requestId, _return) =  new(requestId, _return)
 end
+export CreateTagsResponseType
+
 
 type TagSetItemType
     resourceId::Union(String, Nothing)
@@ -1477,6 +1889,8 @@ type TagSetItemType
 
     TagSetItemType() =  new(nothing, nothing, nothing, nothing)
 end
+export TagSetItemType
+
 
 type DeleteTagsSetItemType
     key::Union(String, Nothing)
@@ -1484,13 +1898,17 @@ type DeleteTagsSetItemType
 
     DeleteTagsSetItemType() =  new(nothing, nothing)
 end
+export DeleteTagsSetItemType
+
 
 type DeleteTagsResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    DeleteTagsResponseType(requestId, return) =  new(requestId, return)
+    DeleteTagsResponseType(requestId, _return) =  new(requestId, _return)
 end
+export DeleteTagsResponseType
+
 
 type DiskImageDetailType
     format::String
@@ -1499,12 +1917,16 @@ type DiskImageDetailType
 
     DiskImageDetailType(format, bytes, importManifestUrl) =  new(format, bytes, importManifestUrl)
 end
+export DiskImageDetailType
+
 
 type DiskImageVolumeType
     size::Int
 
     DiskImageVolumeType(size) =  new(size)
 end
+export DiskImageVolumeType
+
 
 type DiskImageVolumeDescriptionType
     size::Int
@@ -1512,6 +1934,8 @@ type DiskImageVolumeDescriptionType
 
     DiskImageVolumeDescriptionType(size, id) =  new(size, id)
 end
+export DiskImageVolumeDescriptionType
+
 
 type DiskImageDescriptionType
     format::String
@@ -1521,25 +1945,33 @@ type DiskImageDescriptionType
 
     DiskImageDescriptionType(format, size, importManifestUrl) =  new(format, size, importManifestUrl, nothing)
 end
+export DiskImageDescriptionType
+
 
 type ConversionTaskIdItemType
     conversionTaskId::String
 
     ConversionTaskIdItemType(conversionTaskId) =  new(conversionTaskId)
 end
+export ConversionTaskIdItemType
+
 
 type CancelConversionTaskType
     conversionTaskId::String
 
     CancelConversionTaskType(conversionTaskId) =  new(conversionTaskId)
 end
+export CancelConversionTaskType
+
 
 type CancelConversionTaskResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    CancelConversionTaskResponseType(requestId, return) =  new(requestId, return)
+    CancelConversionTaskResponseType(requestId, _return) =  new(requestId, _return)
 end
+export CancelConversionTaskResponseType
+
 
 type CreateInstanceExportTaskType
     description::Union(String, Nothing)
@@ -1548,6 +1980,8 @@ type CreateInstanceExportTaskType
 
     CreateInstanceExportTaskType(instanceId, targetEnvironment) =  new(nothing, instanceId, targetEnvironment)
 end
+export CreateInstanceExportTaskType
+
 
 type ExportToS3TaskType
     diskImageFormat::Union(String, Nothing)
@@ -1557,12 +1991,16 @@ type ExportToS3TaskType
 
     ExportToS3TaskType(s3Bucket, s3Prefix) =  new(nothing, nothing, s3Bucket, s3Prefix)
 end
+export ExportToS3TaskType
+
 
 type ExportTaskIdType
     exportTaskId::String
 
     ExportTaskIdType(exportTaskId) =  new(exportTaskId)
 end
+export ExportTaskIdType
+
 
 type ExportTaskResponseType
     exportTaskId::String
@@ -1572,6 +2010,8 @@ type ExportTaskResponseType
 
     ExportTaskResponseType(exportTaskId, state) =  new(exportTaskId, nothing, state, nothing)
 end
+export ExportTaskResponseType
+
 
 type InstanceExportTaskResponseType
     instanceId::String
@@ -1579,6 +2019,8 @@ type InstanceExportTaskResponseType
 
     InstanceExportTaskResponseType(instanceId) =  new(instanceId, nothing)
 end
+export InstanceExportTaskResponseType
+
 
 type ExportToS3TaskResponseType
     diskImageFormat::String
@@ -1588,24 +2030,25 @@ type ExportToS3TaskResponseType
 
     ExportToS3TaskResponseType(diskImageFormat, s3Bucket, s3Key) =  new(diskImageFormat, nothing, s3Bucket, s3Key)
 end
+export ExportToS3TaskResponseType
+
 
 type CancelExportTaskType
     exportTaskId::String
 
     CancelExportTaskType(exportTaskId) =  new(exportTaskId)
 end
+export CancelExportTaskType
+
 
 type CancelExportTaskResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    CancelExportTaskResponseType(requestId, return) =  new(requestId, return)
+    CancelExportTaskResponseType(requestId, _return) =  new(requestId, _return)
 end
+export CancelExportTaskResponseType
 
-type CreateInternetGatewayType
-
-    CreateInternetGatewayType() =  new()
-end
 
 type InternetGatewayAttachmentType
     vpcId::String
@@ -1613,25 +2056,33 @@ type InternetGatewayAttachmentType
 
     InternetGatewayAttachmentType(vpcId, state) =  new(vpcId, state)
 end
+export InternetGatewayAttachmentType
+
 
 type InternetGatewayIdSetItemType
     internetGatewayId::String
 
     InternetGatewayIdSetItemType(internetGatewayId) =  new(internetGatewayId)
 end
+export InternetGatewayIdSetItemType
+
 
 type DeleteInternetGatewayType
     internetGatewayId::String
 
     DeleteInternetGatewayType(internetGatewayId) =  new(internetGatewayId)
 end
+export DeleteInternetGatewayType
+
 
 type DeleteInternetGatewayResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    DeleteInternetGatewayResponseType(requestId, return) =  new(requestId, return)
+    DeleteInternetGatewayResponseType(requestId, _return) =  new(requestId, _return)
 end
+export DeleteInternetGatewayResponseType
+
 
 type AttachInternetGatewayType
     internetGatewayId::String
@@ -1639,13 +2090,17 @@ type AttachInternetGatewayType
 
     AttachInternetGatewayType(internetGatewayId, vpcId) =  new(internetGatewayId, vpcId)
 end
+export AttachInternetGatewayType
+
 
 type AttachInternetGatewayResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    AttachInternetGatewayResponseType(requestId, return) =  new(requestId, return)
+    AttachInternetGatewayResponseType(requestId, _return) =  new(requestId, _return)
 end
+export AttachInternetGatewayResponseType
+
 
 type DetachInternetGatewayType
     internetGatewayId::String
@@ -1653,19 +2108,25 @@ type DetachInternetGatewayType
 
     DetachInternetGatewayType(internetGatewayId, vpcId) =  new(internetGatewayId, vpcId)
 end
+export DetachInternetGatewayType
+
 
 type DetachInternetGatewayResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    DetachInternetGatewayResponseType(requestId, return) =  new(requestId, return)
+    DetachInternetGatewayResponseType(requestId, _return) =  new(requestId, _return)
 end
+export DetachInternetGatewayResponseType
+
 
 type CreateRouteTableType
     vpcId::String
 
     CreateRouteTableType(vpcId) =  new(vpcId)
 end
+export CreateRouteTableType
+
 
 type RouteType
     destinationCidrBlock::String
@@ -1678,6 +2139,8 @@ type RouteType
 
     RouteType(destinationCidrBlock, state, origin) =  new(destinationCidrBlock, nothing, nothing, nothing, nothing, state, origin)
 end
+export RouteType
+
 
 type RouteTableAssociationType
     routeTableAssociationId::String
@@ -1685,18 +2148,24 @@ type RouteTableAssociationType
 
     RouteTableAssociationType(routeTableAssociationId, routeTableId) =  new(routeTableAssociationId, routeTableId)
 end
+export RouteTableAssociationType
+
 
 type PropagatingVgwType
     gatewayId::String
 
     PropagatingVgwType(gatewayId) =  new(gatewayId)
 end
+export PropagatingVgwType
+
 
 type RouteTableIdSetItemType
     routeTableId::String
 
     RouteTableIdSetItemType(routeTableId) =  new(routeTableId)
 end
+export RouteTableIdSetItemType
+
 
 type EnableVgwRoutePropagationRequestType
     routeTableId::String
@@ -1704,13 +2173,17 @@ type EnableVgwRoutePropagationRequestType
 
     EnableVgwRoutePropagationRequestType(routeTableId, gatewayId) =  new(routeTableId, gatewayId)
 end
+export EnableVgwRoutePropagationRequestType
+
 
 type EnableVgwRoutePropagationResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    EnableVgwRoutePropagationResponseType(requestId, return) =  new(requestId, return)
+    EnableVgwRoutePropagationResponseType(requestId, _return) =  new(requestId, _return)
 end
+export EnableVgwRoutePropagationResponseType
+
 
 type DisableVgwRoutePropagationRequestType
     routeTableId::String
@@ -1718,26 +2191,34 @@ type DisableVgwRoutePropagationRequestType
 
     DisableVgwRoutePropagationRequestType(routeTableId, gatewayId) =  new(routeTableId, gatewayId)
 end
+export DisableVgwRoutePropagationRequestType
+
 
 type DisableVgwRoutePropagationResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    DisableVgwRoutePropagationResponseType(requestId, return) =  new(requestId, return)
+    DisableVgwRoutePropagationResponseType(requestId, _return) =  new(requestId, _return)
 end
+export DisableVgwRoutePropagationResponseType
+
 
 type DeleteRouteTableType
     routeTableId::String
 
     DeleteRouteTableType(routeTableId) =  new(routeTableId)
 end
+export DeleteRouteTableType
+
 
 type DeleteRouteTableResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    DeleteRouteTableResponseType(requestId, return) =  new(requestId, return)
+    DeleteRouteTableResponseType(requestId, _return) =  new(requestId, _return)
 end
+export DeleteRouteTableResponseType
+
 
 type AssociateRouteTableType
     routeTableId::String
@@ -1745,6 +2226,8 @@ type AssociateRouteTableType
 
     AssociateRouteTableType(routeTableId, subnetId) =  new(routeTableId, subnetId)
 end
+export AssociateRouteTableType
+
 
 type AssociateRouteTableResponseType
     requestId::String
@@ -1752,6 +2235,8 @@ type AssociateRouteTableResponseType
 
     AssociateRouteTableResponseType(requestId, associationId) =  new(requestId, associationId)
 end
+export AssociateRouteTableResponseType
+
 
 type ReplaceRouteTableAssociationType
     associationId::String
@@ -1759,6 +2244,8 @@ type ReplaceRouteTableAssociationType
 
     ReplaceRouteTableAssociationType(associationId, routeTableId) =  new(associationId, routeTableId)
 end
+export ReplaceRouteTableAssociationType
+
 
 type ReplaceRouteTableAssociationResponseType
     requestId::String
@@ -1766,19 +2253,25 @@ type ReplaceRouteTableAssociationResponseType
 
     ReplaceRouteTableAssociationResponseType(requestId, newAssociationId) =  new(requestId, newAssociationId)
 end
+export ReplaceRouteTableAssociationResponseType
+
 
 type DisassociateRouteTableType
     associationId::String
 
     DisassociateRouteTableType(associationId) =  new(associationId)
 end
+export DisassociateRouteTableType
+
 
 type DisassociateRouteTableResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    DisassociateRouteTableResponseType(requestId, return) =  new(requestId, return)
+    DisassociateRouteTableResponseType(requestId, _return) =  new(requestId, _return)
 end
+export DisassociateRouteTableResponseType
+
 
 type CreateRouteType
     routeTableId::String
@@ -1786,13 +2279,17 @@ type CreateRouteType
 
     CreateRouteType(routeTableId, destinationCidrBlock) =  new(routeTableId, destinationCidrBlock)
 end
+export CreateRouteType
+
 
 type CreateRouteResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    CreateRouteResponseType(requestId, return) =  new(requestId, return)
+    CreateRouteResponseType(requestId, _return) =  new(requestId, _return)
 end
+export CreateRouteResponseType
+
 
 type ReplaceRouteType
     routeTableId::String
@@ -1800,13 +2297,17 @@ type ReplaceRouteType
 
     ReplaceRouteType(routeTableId, destinationCidrBlock) =  new(routeTableId, destinationCidrBlock)
 end
+export ReplaceRouteType
+
 
 type ReplaceRouteResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    ReplaceRouteResponseType(requestId, return) =  new(requestId, return)
+    ReplaceRouteResponseType(requestId, _return) =  new(requestId, _return)
 end
+export ReplaceRouteResponseType
+
 
 type DeleteRouteType
     routeTableId::String
@@ -1814,26 +2315,34 @@ type DeleteRouteType
 
     DeleteRouteType(routeTableId, destinationCidrBlock) =  new(routeTableId, destinationCidrBlock)
 end
+export DeleteRouteType
+
 
 type DeleteRouteResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    DeleteRouteResponseType(requestId, return) =  new(requestId, return)
+    DeleteRouteResponseType(requestId, _return) =  new(requestId, _return)
 end
+export DeleteRouteResponseType
+
 
 type CreateNetworkAclType
     vpcId::String
 
     CreateNetworkAclType(vpcId) =  new(vpcId)
 end
+export CreateNetworkAclType
+
 
 type IcmpTypeCodeType
     code::Int32
-    type::Int32
+    _type::Int32
 
-    IcmpTypeCodeType(code, type) =  new(code, type)
+    IcmpTypeCodeType(code, _type) =  new(code, _type)
 end
+export IcmpTypeCodeType
+
 
 type PortRangeType
     from::Int32
@@ -1841,6 +2350,8 @@ type PortRangeType
 
     PortRangeType(from, to) =  new(from, to)
 end
+export PortRangeType
+
 
 type NetworkAclAssociationType
     networkAclAssociationId::String
@@ -1849,25 +2360,33 @@ type NetworkAclAssociationType
 
     NetworkAclAssociationType(networkAclAssociationId, networkAclId, subnetId) =  new(networkAclAssociationId, networkAclId, subnetId)
 end
+export NetworkAclAssociationType
+
 
 type NetworkAclIdSetItemType
     networkAclId::String
 
     NetworkAclIdSetItemType(networkAclId) =  new(networkAclId)
 end
+export NetworkAclIdSetItemType
+
 
 type DeleteNetworkAclType
     networkAclId::String
 
     DeleteNetworkAclType(networkAclId) =  new(networkAclId)
 end
+export DeleteNetworkAclType
+
 
 type DeleteNetworkAclResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    DeleteNetworkAclResponseType(requestId, return) =  new(requestId, return)
+    DeleteNetworkAclResponseType(requestId, _return) =  new(requestId, _return)
 end
+export DeleteNetworkAclResponseType
+
 
 type ReplaceNetworkAclAssociationType
     associationId::String
@@ -1875,6 +2394,8 @@ type ReplaceNetworkAclAssociationType
 
     ReplaceNetworkAclAssociationType(associationId, networkAclId) =  new(associationId, networkAclId)
 end
+export ReplaceNetworkAclAssociationType
+
 
 type ReplaceNetworkAclAssociationResponseType
     requestId::String
@@ -1882,20 +2403,26 @@ type ReplaceNetworkAclAssociationResponseType
 
     ReplaceNetworkAclAssociationResponseType(requestId, newAssociationId) =  new(requestId, newAssociationId)
 end
+export ReplaceNetworkAclAssociationResponseType
+
 
 type CreateNetworkAclEntryResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    CreateNetworkAclEntryResponseType(requestId, return) =  new(requestId, return)
+    CreateNetworkAclEntryResponseType(requestId, _return) =  new(requestId, _return)
 end
+export CreateNetworkAclEntryResponseType
+
 
 type ReplaceNetworkAclEntryResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    ReplaceNetworkAclEntryResponseType(requestId, return) =  new(requestId, return)
+    ReplaceNetworkAclEntryResponseType(requestId, _return) =  new(requestId, _return)
 end
+export ReplaceNetworkAclEntryResponseType
+
 
 type DeleteNetworkAclEntryType
     networkAclId::String
@@ -1904,49 +2431,63 @@ type DeleteNetworkAclEntryType
 
     DeleteNetworkAclEntryType(networkAclId, ruleNumber, egress) =  new(networkAclId, ruleNumber, egress)
 end
+export DeleteNetworkAclEntryType
+
 
 type DeleteNetworkAclEntryResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    DeleteNetworkAclEntryResponseType(requestId, return) =  new(requestId, return)
+    DeleteNetworkAclEntryResponseType(requestId, _return) =  new(requestId, _return)
 end
+export DeleteNetworkAclEntryResponseType
+
 
 type InstanceStatusDetailsSetItemType
     name::String
     status::String
-    impairedSince::Union(DateTime, Nothing)
+    impairedSince::Union(XSDateTime, Nothing)
 
     InstanceStatusDetailsSetItemType(name, status) =  new(name, status, nothing)
 end
+export InstanceStatusDetailsSetItemType
+
 
 type InstanceStatusEventType
     code::String
     description::String
-    notBefore::DateTime
-    notAfter::Union(DateTime, Nothing)
+    notBefore::XSDateTime
+    notAfter::Union(XSDateTime, Nothing)
 
     InstanceStatusEventType(code, description, notBefore) =  new(code, description, notBefore, nothing)
 end
+export InstanceStatusEventType
+
 
 type ReportInstanceStatusReasonCodeSetItemType
     reasonCode::String
 
     ReportInstanceStatusReasonCodeSetItemType(reasonCode) =  new(reasonCode)
 end
+export ReportInstanceStatusReasonCodeSetItemType
+
 
 type ReportInstanceStatusResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    ReportInstanceStatusResponseType(requestId, return) =  new(requestId, return)
+    ReportInstanceStatusResponseType(requestId, _return) =  new(requestId, _return)
 end
+export ReportInstanceStatusResponseType
+
 
 type NetworkInterfaceIdSetItemType
     networkInterfaceId::String
 
     NetworkInterfaceIdSetItemType(networkInterfaceId) =  new(networkInterfaceId)
 end
+export NetworkInterfaceIdSetItemType
+
 
 type NetworkInterfaceAttachmentType
     attachmentId::String
@@ -1954,11 +2495,13 @@ type NetworkInterfaceAttachmentType
     instanceOwnerId::Union(String, Nothing)
     deviceIndex::Int32
     status::String
-    attachTime::DateTime
+    attachTime::XSDateTime
     deleteOnTermination::Bool
 
     NetworkInterfaceAttachmentType(attachmentId, deviceIndex, status, attachTime, deleteOnTermination) =  new(attachmentId, nothing, nothing, deviceIndex, status, attachTime, deleteOnTermination)
 end
+export NetworkInterfaceAttachmentType
+
 
 type NetworkInterfaceAssociationType
     publicIp::String
@@ -1969,19 +2512,25 @@ type NetworkInterfaceAssociationType
 
     NetworkInterfaceAssociationType(publicIp) =  new(publicIp, nothing, nothing, nothing, nothing)
 end
+export NetworkInterfaceAssociationType
+
 
 type DeleteNetworkInterfaceType
     networkInterfaceId::String
 
     DeleteNetworkInterfaceType(networkInterfaceId) =  new(networkInterfaceId)
 end
+export DeleteNetworkInterfaceType
+
 
 type DeleteNetworkInterfaceResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    DeleteNetworkInterfaceResponseType(requestId, return) =  new(requestId, return)
+    DeleteNetworkInterfaceResponseType(requestId, _return) =  new(requestId, _return)
 end
+export DeleteNetworkInterfaceResponseType
+
 
 type AttachNetworkInterfaceType
     networkInterfaceId::String
@@ -1990,6 +2539,8 @@ type AttachNetworkInterfaceType
 
     AttachNetworkInterfaceType(networkInterfaceId, instanceId, deviceIndex) =  new(networkInterfaceId, instanceId, deviceIndex)
 end
+export AttachNetworkInterfaceType
+
 
 type AttachNetworkInterfaceResponseType
     requestId::String
@@ -1997,6 +2548,8 @@ type AttachNetworkInterfaceResponseType
 
     AttachNetworkInterfaceResponseType(requestId, attachmentId) =  new(requestId, attachmentId)
 end
+export AttachNetworkInterfaceResponseType
+
 
 type DetachNetworkInterfaceType
     attachmentId::String
@@ -2004,19 +2557,25 @@ type DetachNetworkInterfaceType
 
     DetachNetworkInterfaceType(attachmentId) =  new(attachmentId, nothing)
 end
+export DetachNetworkInterfaceType
+
 
 type DetachNetworkInterfaceResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    DetachNetworkInterfaceResponseType(requestId, return) =  new(requestId, return)
+    DetachNetworkInterfaceResponseType(requestId, _return) =  new(requestId, _return)
 end
+export DetachNetworkInterfaceResponseType
+
 
 type DescribeNetworkInterfaceAttributeType
     networkInterfaceId::String
 
     DescribeNetworkInterfaceAttributeType(networkInterfaceId) =  new(networkInterfaceId)
 end
+export DescribeNetworkInterfaceAttributeType
+
 
 type DescribeNetworkInterfaceAttributeResponseType
     requestId::String
@@ -2024,12 +2583,16 @@ type DescribeNetworkInterfaceAttributeResponseType
 
     DescribeNetworkInterfaceAttributeResponseType(requestId, networkInterfaceId) =  new(requestId, networkInterfaceId)
 end
+export DescribeNetworkInterfaceAttributeResponseType
+
 
 type ModifyNetworkInterfaceAttributeType
     networkInterfaceId::String
 
     ModifyNetworkInterfaceAttributeType(networkInterfaceId) =  new(networkInterfaceId)
 end
+export ModifyNetworkInterfaceAttributeType
+
 
 type ModifyNetworkInterfaceAttachmentType
     attachmentId::String
@@ -2037,46 +2600,60 @@ type ModifyNetworkInterfaceAttachmentType
 
     ModifyNetworkInterfaceAttachmentType(attachmentId, deleteOnTermination) =  new(attachmentId, deleteOnTermination)
 end
+export ModifyNetworkInterfaceAttachmentType
+
 
 type ModifyNetworkInterfaceAttributeResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    ModifyNetworkInterfaceAttributeResponseType(requestId, return) =  new(requestId, return)
+    ModifyNetworkInterfaceAttributeResponseType(requestId, _return) =  new(requestId, _return)
 end
+export ModifyNetworkInterfaceAttributeResponseType
+
 
 type ResetNetworkInterfaceAttributeType
     networkInterfaceId::String
 
     ResetNetworkInterfaceAttributeType(networkInterfaceId) =  new(networkInterfaceId)
 end
+export ResetNetworkInterfaceAttributeType
+
 
 type ResetNetworkInterfaceAttributeResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    ResetNetworkInterfaceAttributeResponseType(requestId, return) =  new(requestId, return)
+    ResetNetworkInterfaceAttributeResponseType(requestId, _return) =  new(requestId, _return)
 end
+export ResetNetworkInterfaceAttributeResponseType
+
 
 type AssignPrivateIpAddressesResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    AssignPrivateIpAddressesResponseType(requestId, return) =  new(requestId, return)
+    AssignPrivateIpAddressesResponseType(requestId, _return) =  new(requestId, _return)
 end
+export AssignPrivateIpAddressesResponseType
+
 
 type UnassignPrivateIpAddressesResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    UnassignPrivateIpAddressesResponseType(requestId, return) =  new(requestId, return)
+    UnassignPrivateIpAddressesResponseType(requestId, _return) =  new(requestId, _return)
 end
+export UnassignPrivateIpAddressesResponseType
+
 
 type AssignPrivateIpAddressesSetItemRequestType
     privateIpAddress::String
 
     AssignPrivateIpAddressesSetItemRequestType(privateIpAddress) =  new(privateIpAddress)
 end
+export AssignPrivateIpAddressesSetItemRequestType
+
 
 type VolumeStatusDetailsItemType
     name::String
@@ -2084,16 +2661,20 @@ type VolumeStatusDetailsItemType
 
     VolumeStatusDetailsItemType(name, status) =  new(name, status)
 end
+export VolumeStatusDetailsItemType
+
 
 type VolumeStatusEventItemType
     description::String
-    notBefore::DateTime
-    notAfter::DateTime
+    notBefore::XSDateTime
+    notAfter::XSDateTime
     eventId::String
     eventType::String
 
     VolumeStatusEventItemType(description, notBefore, notAfter, eventId, eventType) =  new(description, notBefore, notAfter, eventId, eventType)
 end
+export VolumeStatusEventItemType
+
 
 type VolumeStatusActionItemType
     description::String
@@ -2103,38 +2684,50 @@ type VolumeStatusActionItemType
 
     VolumeStatusActionItemType(description, code, eventId, eventType) =  new(description, code, eventId, eventType)
 end
+export VolumeStatusActionItemType
+
 
 type EnableVolumeIOType
     volumeId::String
 
     EnableVolumeIOType(volumeId) =  new(volumeId)
 end
+export EnableVolumeIOType
+
 
 type EnableVolumeIOResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    EnableVolumeIOResponseType(requestId, return) =  new(requestId, return)
+    EnableVolumeIOResponseType(requestId, _return) =  new(requestId, _return)
 end
+export EnableVolumeIOResponseType
+
 
 type ModifyVolumeAttributeType
     volumeId::String
 
     ModifyVolumeAttributeType(volumeId) =  new(volumeId)
 end
+export ModifyVolumeAttributeType
+
 
 type ModifyVolumeAttributeResponseType
     requestId::String
-    return::Bool
+    _return::Bool
 
-    ModifyVolumeAttributeResponseType(requestId, return) =  new(requestId, return)
+    ModifyVolumeAttributeResponseType(requestId, _return) =  new(requestId, _return)
 end
+export ModifyVolumeAttributeResponseType
+
 
 type DescribeVolumeAttributeType
     volumeId::String
 
     DescribeVolumeAttributeType(volumeId) =  new(volumeId)
 end
+export DescribeVolumeAttributeType
+
 
 type DescribeVolumeAttributeResponseType
     requestId::String
@@ -2142,36 +2735,48 @@ type DescribeVolumeAttributeResponseType
 
     DescribeVolumeAttributeResponseType(requestId, volumeId) =  new(requestId, volumeId)
 end
+export DescribeVolumeAttributeResponseType
+
 
 type PriceScheduleRequestSetType
     item::Array{PriceScheduleRequestSetItemType,1}
 
     PriceScheduleRequestSetType(item) =  new(item)
 end
+export PriceScheduleRequestSetType
+
 
 type VpnGatewayIdSetType
     item::Union(Array{VpnGatewayIdSetItemType,1}, Nothing)
 
     VpnGatewayIdSetType() =  new(nothing)
 end
+export VpnGatewayIdSetType
+
 
 type AvailabilityZoneMessageSetType
     item::Union(Array{AvailabilityZoneMessageType,1}, Nothing)
 
     AvailabilityZoneMessageSetType() =  new(nothing)
 end
+export AvailabilityZoneMessageSetType
+
 
 type DescribeSecurityGroupsSetType
     item::Union(Array{DescribeSecurityGroupsSetItemType,1}, Nothing)
 
     DescribeSecurityGroupsSetType() =  new(nothing)
 end
+export DescribeSecurityGroupsSetType
+
 
 type VgwTelemetryType
     item::Union(Array{VpnTunnelTelemetryType,1}, Nothing)
 
     VgwTelemetryType() =  new(nothing)
 end
+export VgwTelemetryType
+
 
 type CreateReservedInstancesListingType
     reservedInstancesId::String
@@ -2181,18 +2786,24 @@ type CreateReservedInstancesListingType
 
     CreateReservedInstancesListingType(reservedInstancesId, priceSchedules, clientToken) =  new(reservedInstancesId, nothing, priceSchedules, clientToken)
 end
+export CreateReservedInstancesListingType
+
 
 type UnavailableResultSetType
     item::Union(Array{UnavailableResultType,1}, Nothing)
 
     UnavailableResultSetType() =  new(nothing)
 end
+export UnavailableResultSetType
+
 
 type DescribeReservedInstancesListingSetType
     item::Array{DescribeReservedInstancesListingSetItemType,1}
 
     DescribeReservedInstancesListingSetType(item) =  new(item)
 end
+export DescribeReservedInstancesListingSetType
+
 
 type NetworkAclEntryType
     ruleNumber::Int32
@@ -2205,54 +2816,72 @@ type NetworkAclEntryType
 
     NetworkAclEntryType(ruleNumber, protocol, ruleAction, egress, cidrBlock) =  new(ruleNumber, protocol, ruleAction, egress, cidrBlock, nothing, nothing)
 end
+export NetworkAclEntryType
+
 
 type BundleInstanceTaskStorageType
     S3::BundleInstanceS3StorageType
 
     BundleInstanceTaskStorageType(S3) =  new(S3)
 end
+export BundleInstanceTaskStorageType
+
 
 type DescribeAddressesInfoType
     item::Union(Array{DescribeAddressesItemType,1}, Nothing)
 
     DescribeAddressesInfoType() =  new(nothing)
 end
+export DescribeAddressesInfoType
+
 
 type AttachmentSetType
     item::Union(Array{AttachmentType,1}, Nothing)
 
     AttachmentSetType() =  new(nothing)
 end
+export AttachmentSetType
+
 
 type ProductDescriptionSetType
     item::Array{ProductDescriptionSetItemType,1}
 
     ProductDescriptionSetType(item) =  new(item)
 end
+export ProductDescriptionSetType
+
 
 type ProductCodesSetType
     item::Union(Array{ProductCodesSetItemType,1}, Nothing)
 
     ProductCodesSetType() =  new(nothing)
 end
+export ProductCodesSetType
+
 
 type DescribeRegionsSetType
     item::Union(Array{DescribeRegionsSetItemType,1}, Nothing)
 
     DescribeRegionsSetType() =  new(nothing)
 end
+export DescribeRegionsSetType
+
 
 type ResourceIdSetType
     item::Union(Array{ResourceIdSetItemType,1}, Nothing)
 
     ResourceIdSetType() =  new(nothing)
 end
+export ResourceIdSetType
+
 
 type PriceScheduleSetType
     item::Union(Array{PriceScheduleSetItemType,1}, Nothing)
 
     PriceScheduleSetType() =  new(nothing)
 end
+export PriceScheduleSetType
+
 
 type ImportInstanceVolumeDetailItemType
     bytesConverted::Int64
@@ -2265,69 +2894,91 @@ type ImportInstanceVolumeDetailItemType
 
     ImportInstanceVolumeDetailItemType(bytesConverted, availabilityZone, image, volume, status) =  new(bytesConverted, availabilityZone, image, nothing, volume, status, nothing)
 end
+export ImportInstanceVolumeDetailItemType
+
 
 type CustomerGatewayIdSetType
     item::Union(Array{CustomerGatewayIdSetItemType,1}, Nothing)
 
     CustomerGatewayIdSetType() =  new(nothing)
 end
+export CustomerGatewayIdSetType
+
 
 type ValueSetType
     item::Union(Array{ValueType,1}, Nothing)
 
     ValueSetType() =  new(nothing)
 end
+export ValueSetType
+
 
 type GroupSetType
     item::Union(Array{GroupItemType,1}, Nothing)
 
     GroupSetType() =  new(nothing)
 end
+export GroupSetType
+
 
 type DeleteTagsSetType
     item::Union(Array{DeleteTagsSetItemType,1}, Nothing)
 
     DeleteTagsSetType() =  new(nothing)
 end
+export DeleteTagsSetType
+
 
 type DescribeKeyPairsInfoType
     item::Union(Array{DescribeKeyPairsItemType,1}, Nothing)
 
     DescribeKeyPairsInfoType() =  new(nothing)
 end
+export DescribeKeyPairsInfoType
+
 
 type DescribeVolumesSetType
     item::Union(Array{DescribeVolumesSetItemType,1}, Nothing)
 
     DescribeVolumesSetType() =  new(nothing)
 end
+export DescribeVolumesSetType
+
 
 type SpotPriceHistorySetType
     item::Union(Array{SpotPriceHistorySetItemType,1}, Nothing)
 
     SpotPriceHistorySetType() =  new(nothing)
 end
+export SpotPriceHistorySetType
+
 
 type IpRangeSetType
     item::Union(Array{IpRangeItemType,1}, Nothing)
 
     IpRangeSetType() =  new(nothing)
 end
+export IpRangeSetType
+
 
 type DescribeKeyPairsResponseInfoType
     item::Union(Array{DescribeKeyPairsResponseItemType,1}, Nothing)
 
     DescribeKeyPairsResponseInfoType() =  new(nothing)
 end
+export DescribeKeyPairsResponseInfoType
+
 
 type CreateVpnConnectionType
-    type::String
+    _type::String
     customerGatewayId::String
     vpnGatewayId::String
     options::Union(VpnConnectionOptionsRequestType, Nothing)
 
-    CreateVpnConnectionType(type, customerGatewayId, vpnGatewayId) =  new(type, customerGatewayId, vpnGatewayId, nothing)
+    CreateVpnConnectionType(_type, customerGatewayId, vpnGatewayId) =  new(_type, customerGatewayId, vpnGatewayId, nothing)
 end
+export CreateVpnConnectionType
+
 
 type AvailabilityZoneItemType
     zoneName::String
@@ -2337,6 +2988,8 @@ type AvailabilityZoneItemType
 
     AvailabilityZoneItemType(zoneName, zoneState, regionName, messageSet) =  new(zoneName, zoneState, regionName, messageSet)
 end
+export AvailabilityZoneItemType
+
 
 type ReplaceNetworkAclEntryType
     networkAclId::String
@@ -2350,42 +3003,56 @@ type ReplaceNetworkAclEntryType
 
     ReplaceNetworkAclEntryType(networkAclId, ruleNumber, protocol, ruleAction, egress, cidrBlock) =  new(networkAclId, ruleNumber, protocol, ruleAction, egress, cidrBlock, nothing, nothing)
 end
+export ReplaceNetworkAclEntryType
+
 
 type DescribeAvailabilityZonesSetType
     item::Union(Array{DescribeAvailabilityZonesSetItemType,1}, Nothing)
 
     DescribeAvailabilityZonesSetType() =  new(nothing)
 end
+export DescribeAvailabilityZonesSetType
+
 
 type DescribeSnapshotsSetType
     item::Union(Array{DescribeSnapshotsSetItemType,1}, Nothing)
 
     DescribeSnapshotsSetType() =  new(nothing)
 end
+export DescribeSnapshotsSetType
+
 
 type SubnetIdSetType
     item::Union(Array{SubnetIdSetItemType,1}, Nothing)
 
     SubnetIdSetType() =  new(nothing)
 end
+export SubnetIdSetType
+
 
 type VpcIdSetType
     item::Union(Array{VpcIdSetItemType,1}, Nothing)
 
     VpcIdSetType() =  new(nothing)
 end
+export VpcIdSetType
+
 
 type ConversionTaskIdSetType
     item::Union(Array{ConversionTaskIdItemType,1}, Nothing)
 
     ConversionTaskIdSetType() =  new(nothing)
 end
+export ConversionTaskIdSetType
+
 
 type PlacementGroupSetType
     item::Union(Array{PlacementGroupInfoType,1}, Nothing)
 
     PlacementGroupSetType() =  new(nothing)
 end
+export PlacementGroupSetType
+
 
 type SpotDatafeedSubscriptionType
     ownerId::String
@@ -2396,48 +3063,64 @@ type SpotDatafeedSubscriptionType
 
     SpotDatafeedSubscriptionType(ownerId, bucket, prefix, state) =  new(ownerId, bucket, prefix, state, nothing)
 end
+export SpotDatafeedSubscriptionType
+
 
 type AllocationIdSetType
     item::Union(Array{AllocationIdSetItemType,1}, Nothing)
 
     AllocationIdSetType() =  new(nothing)
 end
+export AllocationIdSetType
+
 
 type DescribeBundleTasksInfoType
     item::Union(Array{DescribeBundleTasksItemType,1}, Nothing)
 
     DescribeBundleTasksInfoType() =  new(nothing)
 end
+export DescribeBundleTasksInfoType
+
 
 type TagSetType
     item::Union(Array{TagSetItemType,1}, Nothing)
 
     TagSetType() =  new(nothing)
 end
+export TagSetType
+
 
 type NetworkAclAssociationSetType
     item::Union(Array{NetworkAclAssociationType,1}, Nothing)
 
     NetworkAclAssociationSetType() =  new(nothing)
 end
+export NetworkAclAssociationSetType
+
 
 type DescribeImagesInfoType
     item::Union(Array{DescribeImagesItemType,1}, Nothing)
 
     DescribeImagesInfoType() =  new(nothing)
 end
+export DescribeImagesInfoType
+
 
 type NetworkInterfaceIdSetType
     item::Union(Array{NetworkInterfaceIdSetItemType,1}, Nothing)
 
     NetworkInterfaceIdSetType() =  new(nothing)
 end
+export NetworkInterfaceIdSetType
+
 
 type DescribeSnapshotsRestorableBySetType
     item::Union(Array{DescribeSnapshotsRestorableByType,1}, Nothing)
 
     DescribeSnapshotsRestorableBySetType() =  new(nothing)
 end
+export DescribeSnapshotsRestorableBySetType
+
 
 type ImportVolumeType
     availabilityZone::String
@@ -2447,66 +3130,88 @@ type ImportVolumeType
 
     ImportVolumeType(availabilityZone, image, volume) =  new(availabilityZone, image, nothing, volume)
 end
+export ImportVolumeType
+
 
 type RegionSetType
     item::Union(Array{RegionItemType,1}, Nothing)
 
     RegionSetType() =  new(nothing)
 end
+export RegionSetType
+
 
 type VpnConnectionIdSetType
     item::Union(Array{VpnConnectionIdSetItemType,1}, Nothing)
 
     VpnConnectionIdSetType() =  new(nothing)
 end
+export VpnConnectionIdSetType
+
 
 type VolumeStatusEventsSetType
     item::Union(Array{VolumeStatusEventItemType,1}, Nothing)
 
     VolumeStatusEventsSetType() =  new(nothing)
 end
+export VolumeStatusEventsSetType
+
 
 type RebootInstancesInfoType
     item::Array{RebootInstancesItemType,1}
 
     RebootInstancesInfoType(item) =  new(item)
 end
+export RebootInstancesInfoType
+
 
 type VpnStaticRoutesSetType
     item::Union(Array{VpnStaticRouteType,1}, Nothing)
 
     VpnStaticRoutesSetType() =  new(nothing)
 end
+export VpnStaticRoutesSetType
+
 
 type ExportTaskSetResponseType
     item::Union(Array{ExportTaskResponseType,1}, Nothing)
 
     ExportTaskSetResponseType() =  new(nothing)
 end
+export ExportTaskSetResponseType
+
 
 type RebootInstancesType
     instancesSet::RebootInstancesInfoType
 
     RebootInstancesType(instancesSet) =  new(instancesSet)
 end
+export RebootInstancesType
+
 
 type RouteTableAssociationSetType
     item::Union(Array{RouteTableAssociationType,1}, Nothing)
 
     RouteTableAssociationSetType() =  new(nothing)
 end
+export RouteTableAssociationSetType
+
 
 type VolumeStatusActionsSetType
     item::Union(Array{VolumeStatusActionItemType,1}, Nothing)
 
     VolumeStatusActionsSetType() =  new(nothing)
 end
+export VolumeStatusActionsSetType
+
 
 type DescribeImagesOwnersType
     item::Union(Array{DescribeImagesOwnerType,1}, Nothing)
 
     DescribeImagesOwnersType() =  new(nothing)
 end
+export DescribeImagesOwnersType
+
 
 type DescribePlacementGroupsResponseType
     requestId::String
@@ -2514,25 +3219,31 @@ type DescribePlacementGroupsResponseType
 
     DescribePlacementGroupsResponseType(requestId, placementGroupSet) =  new(requestId, placementGroupSet)
 end
+export DescribePlacementGroupsResponseType
+
 
 type SpotInstanceRequestIdSetType
     item::Union(Array{SpotInstanceRequestIdSetItemType,1}, Nothing)
 
     SpotInstanceRequestIdSetType() =  new(nothing)
 end
+export SpotInstanceRequestIdSetType
+
 
 type BundleInstanceTaskType
     instanceId::String
     bundleId::String
     state::String
-    startTime::DateTime
-    updateTime::DateTime
+    startTime::XSDateTime
+    updateTime::XSDateTime
     storage::BundleInstanceTaskStorageType
     progress::Union(String, Nothing)
     error::Union(BundleInstanceTaskErrorType, Nothing)
 
     BundleInstanceTaskType(instanceId, bundleId, state, startTime, updateTime, storage) =  new(instanceId, bundleId, state, startTime, updateTime, storage, nothing, nothing)
 end
+export BundleInstanceTaskType
+
 
 type CreateInstanceExportTaskResponseType
     requestId::String
@@ -2540,48 +3251,64 @@ type CreateInstanceExportTaskResponseType
 
     CreateInstanceExportTaskResponseType(requestId, exportTask) =  new(requestId, exportTask)
 end
+export CreateInstanceExportTaskResponseType
+
 
 type InstanceIdSetType
     item::Union(Array{InstanceIdType,1}, Nothing)
 
     InstanceIdSetType() =  new(nothing)
 end
+export InstanceIdSetType
+
 
 type LicenseCapacitySetType
     item::Union(Array{LicenseCapacitySetItemType,1}, Nothing)
 
     LicenseCapacitySetType() =  new(nothing)
 end
+export LicenseCapacitySetType
+
 
 type InstanceBlockDeviceMappingType
     item::Union(Array{InstanceBlockDeviceMappingItemType,1}, Nothing)
 
     InstanceBlockDeviceMappingType() =  new(nothing)
 end
+export InstanceBlockDeviceMappingType
+
 
 type InstanceBlockDeviceMappingResponseType
     item::Union(Array{InstanceBlockDeviceMappingResponseItemType,1}, Nothing)
 
     InstanceBlockDeviceMappingResponseType() =  new(nothing)
 end
+export InstanceBlockDeviceMappingResponseType
+
 
 type InstanceStatusDetailsSetType
     item::Union(Array{InstanceStatusDetailsSetItemType,1}, Nothing)
 
     InstanceStatusDetailsSetType() =  new(nothing)
 end
+export InstanceStatusDetailsSetType
+
 
 type RecurringChargesSetType
     item::Union(Array{RecurringChargesSetItemType,1}, Nothing)
 
     RecurringChargesSetType() =  new(nothing)
 end
+export RecurringChargesSetType
+
 
 type InternetGatewayIdSetType
     item::Union(Array{InternetGatewayIdSetItemType,1}, Nothing)
 
     InternetGatewayIdSetType() =  new(nothing)
 end
+export InternetGatewayIdSetType
+
 
 type DescribeExportTasksResponseType
     requestId::String
@@ -2589,12 +3316,16 @@ type DescribeExportTasksResponseType
 
     DescribeExportTasksResponseType(requestId, exportTaskSet) =  new(requestId, exportTaskSet)
 end
+export DescribeExportTasksResponseType
+
 
 type BlockDeviceMappingType
     item::Union(Array{BlockDeviceMappingItemType,1}, Nothing)
 
     BlockDeviceMappingType() =  new(nothing)
 end
+export BlockDeviceMappingType
+
 
 type DescribeRegionsResponseType
     requestId::String
@@ -2602,30 +3333,40 @@ type DescribeRegionsResponseType
 
     DescribeRegionsResponseType(requestId, regionInfo) =  new(requestId, regionInfo)
 end
+export DescribeRegionsResponseType
+
 
 type AccountAttributeValueSetType
     item::Union(Array{AccountAttributeValueSetItemType,1}, Nothing)
 
     AccountAttributeValueSetType() =  new(nothing)
 end
+export AccountAttributeValueSetType
+
 
 type ExportTaskIdSetType
     item::Union(Array{ExportTaskIdType,1}, Nothing)
 
     ExportTaskIdSetType() =  new(nothing)
 end
+export ExportTaskIdSetType
+
 
 type InstanceCountsSetType
     item::Array{InstanceCountsSetItemType,1}
 
     InstanceCountsSetType(item) =  new(item)
 end
+export InstanceCountsSetType
+
 
 type DescribeAddressesResponseInfoType
     item::Union(Array{DescribeAddressesResponseItemType,1}, Nothing)
 
     DescribeAddressesResponseInfoType() =  new(nothing)
 end
+export DescribeAddressesResponseInfoType
+
 
 type DescribeKeyPairsResponseType
     requestId::String
@@ -2633,42 +3374,56 @@ type DescribeKeyPairsResponseType
 
     DescribeKeyPairsResponseType(requestId, keySet) =  new(requestId, keySet)
 end
+export DescribeKeyPairsResponseType
+
 
 type DescribeReservedInstancesOfferingsSetType
     item::Union(Array{DescribeReservedInstancesOfferingsSetItemType,1}, Nothing)
 
     DescribeReservedInstancesOfferingsSetType() =  new(nothing)
 end
+export DescribeReservedInstancesOfferingsSetType
+
 
 type LicenseIdSetType
     item::Union(Array{LicenseIdSetItemType,1}, Nothing)
 
     LicenseIdSetType() =  new(nothing)
 end
+export LicenseIdSetType
+
 
 type InstanceStatusEventsSetType
     item::Union(Array{InstanceStatusEventType,1}, Nothing)
 
     InstanceStatusEventsSetType() =  new(nothing)
 end
+export InstanceStatusEventsSetType
+
 
 type DescribeImagesExecutableBySetType
     item::Union(Array{DescribeImagesExecutableByType,1}, Nothing)
 
     DescribeImagesExecutableBySetType() =  new(nothing)
 end
+export DescribeImagesExecutableBySetType
+
 
 type RouteTableIdSetType
     item::Union(Array{RouteTableIdSetItemType,1}, Nothing)
 
     RouteTableIdSetType() =  new(nothing)
 end
+export RouteTableIdSetType
+
 
 type AssignPrivateIpAddressesSetRequestType
     item::Array{AssignPrivateIpAddressesSetItemRequestType,1}
 
     AssignPrivateIpAddressesSetRequestType(item) =  new(item)
 end
+export AssignPrivateIpAddressesSetRequestType
+
 
 type ImportVolumeTaskDetailsType
     bytesConverted::Int64
@@ -2679,6 +3434,8 @@ type ImportVolumeTaskDetailsType
 
     ImportVolumeTaskDetailsType(bytesConverted, availabilityZone, image, volume) =  new(bytesConverted, availabilityZone, nothing, image, volume)
 end
+export ImportVolumeTaskDetailsType
+
 
 type FilterType
     name::String
@@ -2686,30 +3443,40 @@ type FilterType
 
     FilterType(name, valueSet) =  new(name, valueSet)
 end
+export FilterType
+
 
 type NetworkAclIdSetType
     item::Union(Array{NetworkAclIdSetItemType,1}, Nothing)
 
     NetworkAclIdSetType() =  new(nothing)
 end
+export NetworkAclIdSetType
+
 
 type DescribeInstancesInfoType
     item::Union(Array{DescribeInstancesItemType,1}, Nothing)
 
     DescribeInstancesInfoType() =  new(nothing)
 end
+export DescribeInstancesInfoType
+
 
 type ImportInstanceGroupSetType
     item::Union(Array{ImportInstanceGroupItemType,1}, Nothing)
 
     ImportInstanceGroupSetType() =  new(nothing)
 end
+export ImportInstanceGroupSetType
+
 
 type MonitorInstancesSetType
     item::Array{MonitorInstancesSetItemType,1}
 
     MonitorInstancesSetType(item) =  new(item)
 end
+export MonitorInstancesSetType
+
 
 type PurchaseReservedInstancesOfferingType
     reservedInstancesOfferingId::String
@@ -2718,6 +3485,8 @@ type PurchaseReservedInstancesOfferingType
 
     PurchaseReservedInstancesOfferingType(reservedInstancesOfferingId, instanceCount) =  new(reservedInstancesOfferingId, instanceCount, nothing)
 end
+export PurchaseReservedInstancesOfferingType
+
 
 type CreateNetworkAclEntryType
     networkAclId::String
@@ -2731,6 +3500,8 @@ type CreateNetworkAclEntryType
 
     CreateNetworkAclEntryType(networkAclId, ruleNumber, protocol, ruleAction, egress, cidrBlock) =  new(networkAclId, ruleNumber, protocol, ruleAction, egress, cidrBlock, nothing, nothing)
 end
+export CreateNetworkAclEntryType
+
 
 type CreateImageType
     instanceId::String
@@ -2741,36 +3512,48 @@ type CreateImageType
 
     CreateImageType(instanceId, name) =  new(instanceId, name, nothing, nothing, nothing)
 end
+export CreateImageType
+
 
 type PropagatingVgwSetType
     item::Union(Array{PropagatingVgwType,1}, Nothing)
 
     PropagatingVgwSetType() =  new(nothing)
 end
+export PropagatingVgwSetType
+
 
 type AttachmentSetResponseType
     item::Union(Array{AttachmentSetItemResponseType,1}, Nothing)
 
     AttachmentSetResponseType() =  new(nothing)
 end
+export AttachmentSetResponseType
+
 
 type StartInstancesType
     instancesSet::InstanceIdSetType
 
     StartInstancesType(instancesSet) =  new(instancesSet)
 end
+export StartInstancesType
+
 
 type PricingDetailsSetType
     item::Union(Array{PricingDetailsSetItemType,1}, Nothing)
 
     PricingDetailsSetType() =  new(nothing)
 end
+export PricingDetailsSetType
+
 
 type ProductCodeListType
     item::Union(Array{ProductCodeItemType,1}, Nothing)
 
     ProductCodeListType() =  new(nothing)
 end
+export ProductCodeListType
+
 
 type DescribeSpotDatafeedSubscriptionResponseType
     requestId::String
@@ -2778,12 +3561,16 @@ type DescribeSpotDatafeedSubscriptionResponseType
 
     DescribeSpotDatafeedSubscriptionResponseType(requestId, spotDatafeedSubscription) =  new(requestId, spotDatafeedSubscription)
 end
+export DescribeSpotDatafeedSubscriptionResponseType
+
 
 type DescribeSnapshotsOwnersType
     item::Union(Array{DescribeSnapshotsOwnerType,1}, Nothing)
 
     DescribeSnapshotsOwnersType() =  new(nothing)
 end
+export DescribeSnapshotsOwnersType
+
 
 type CreateSpotDatafeedSubscriptionResponseType
     requestId::String
@@ -2791,18 +3578,24 @@ type CreateSpotDatafeedSubscriptionResponseType
 
     CreateSpotDatafeedSubscriptionResponseType(requestId, spotDatafeedSubscription) =  new(requestId, spotDatafeedSubscription)
 end
+export CreateSpotDatafeedSubscriptionResponseType
+
 
 type DescribeSecurityGroupsIdSetType
     item::Union(Array{DescribeSecurityGroupsIdSetItemType,1}, Nothing)
 
     DescribeSecurityGroupsIdSetType() =  new(nothing)
 end
+export DescribeSecurityGroupsIdSetType
+
 
 type DescribeReservedInstancesSetType
     item::Union(Array{DescribeReservedInstancesSetItemType,1}, Nothing)
 
     DescribeReservedInstancesSetType() =  new(nothing)
 end
+export DescribeReservedInstancesSetType
+
 
 type AccountAttributeSetItemType
     attributeName::String
@@ -2810,18 +3603,24 @@ type AccountAttributeSetItemType
 
     AccountAttributeSetItemType(attributeName, attributeValueSet) =  new(attributeName, attributeValueSet)
 end
+export AccountAttributeSetItemType
+
 
 type FilterSetType
     item::Union(Array{FilterType,1}, Nothing)
 
     FilterSetType() =  new(nothing)
 end
+export FilterSetType
+
 
 type AvailabilityZoneSetType
     item::Union(Array{AvailabilityZoneItemType,1}, Nothing)
 
     AvailabilityZoneSetType() =  new(nothing)
 end
+export AvailabilityZoneSetType
+
 
 type InstanceStateChangeType
     instanceId::String
@@ -2830,12 +3629,16 @@ type InstanceStateChangeType
 
     InstanceStateChangeType(instanceId, currentState, previousState) =  new(instanceId, currentState, previousState)
 end
+export InstanceStateChangeType
+
 
 type ReportInstanceStatusReasonCodesSetType
     item::Array{ReportInstanceStatusReasonCodeSetItemType,1}
 
     ReportInstanceStatusReasonCodesSetType(item) =  new(item)
 end
+export ReportInstanceStatusReasonCodesSetType
+
 
 type DescribeBundleTasksType
     bundlesSet::DescribeBundleTasksInfoType
@@ -2843,6 +3646,8 @@ type DescribeBundleTasksType
 
     DescribeBundleTasksType(bundlesSet) =  new(bundlesSet, nothing)
 end
+export DescribeBundleTasksType
+
 
 type DescribeRouteTablesType
     routeTableIdSet::RouteTableIdSetType
@@ -2850,12 +3655,16 @@ type DescribeRouteTablesType
 
     DescribeRouteTablesType(routeTableIdSet) =  new(routeTableIdSet, nothing)
 end
+export DescribeRouteTablesType
+
 
 type DescribePlacementGroupsInfoType
     item::Union(Array{DescribePlacementGroupItemType,1}, Nothing)
 
     DescribePlacementGroupsInfoType() =  new(nothing)
 end
+export DescribePlacementGroupsInfoType
+
 
 type DescribeSecurityGroupsType
     securityGroupSet::DescribeSecurityGroupsSetType
@@ -2864,6 +3673,8 @@ type DescribeSecurityGroupsType
 
     DescribeSecurityGroupsType(securityGroupSet) =  new(securityGroupSet, nothing, nothing)
 end
+export DescribeSecurityGroupsType
+
 
 type CancelBundleTaskResponseType
     requestId::String
@@ -2871,6 +3682,8 @@ type CancelBundleTaskResponseType
 
     CancelBundleTaskResponseType(requestId, bundleInstanceTask) =  new(requestId, bundleInstanceTask)
 end
+export CancelBundleTaskResponseType
+
 
 type NetworkInterfacePrivateIpAddressesSetItemType
     privateIpAddress::String
@@ -2880,12 +3693,16 @@ type NetworkInterfacePrivateIpAddressesSetItemType
 
     NetworkInterfacePrivateIpAddressesSetItemType(privateIpAddress, primary) =  new(privateIpAddress, nothing, primary, nothing)
 end
+export NetworkInterfacePrivateIpAddressesSetItemType
+
 
 type InstanceTypeSetType
     item::Array{InstanceTypeSetItemType,1}
 
     InstanceTypeSetType(item) =  new(item)
 end
+export InstanceTypeSetType
+
 
 type DiskImageType
     image::DiskImageDetailType
@@ -2894,48 +3711,64 @@ type DiskImageType
 
     DiskImageType(image, volume) =  new(image, nothing, volume)
 end
+export DiskImageType
+
 
 type AccountAttributeSetType
     item::Union(Array{AccountAttributeSetItemType,1}, Nothing)
 
     AccountAttributeSetType() =  new(nothing)
 end
+export AccountAttributeSetType
+
 
 type UserIdGroupPairSetType
     item::Union(Array{UserIdGroupPairType,1}, Nothing)
 
     UserIdGroupPairSetType() =  new(nothing)
 end
+export UserIdGroupPairSetType
+
 
 type ResourceTagSetType
     item::Union(Array{ResourceTagSetItemType,1}, Nothing)
 
     ResourceTagSetType() =  new(nothing)
 end
+export ResourceTagSetType
+
 
 type NetworkAclEntrySetType
     item::Union(Array{NetworkAclEntryType,1}, Nothing)
 
     NetworkAclEntrySetType() =  new(nothing)
 end
+export NetworkAclEntrySetType
+
 
 type LaunchPermissionListType
     item::Union(Array{LaunchPermissionItemType,1}, Nothing)
 
     LaunchPermissionListType() =  new(nothing)
 end
+export LaunchPermissionListType
+
 
 type SecurityGroupIdSetType
     item::Union(Array{SecurityGroupIdSetItemType,1}, Nothing)
 
     SecurityGroupIdSetType() =  new(nothing)
 end
+export SecurityGroupIdSetType
+
 
 type InternetGatewayAttachmentSetType
     item::Union(Array{InternetGatewayAttachmentType,1}, Nothing)
 
     InternetGatewayAttachmentSetType() =  new(nothing)
 end
+export InternetGatewayAttachmentSetType
+
 
 type ConversionTaskType
     conversionTaskId::String
@@ -2946,12 +3779,16 @@ type ConversionTaskType
 
     ConversionTaskType(conversionTaskId, state) =  new(conversionTaskId, nothing, state, nothing, nothing)
 end
+export ConversionTaskType
+
 
 type VolumeStatusDetailsSetType
     item::Union(Array{VolumeStatusDetailsItemType,1}, Nothing)
 
     VolumeStatusDetailsSetType() =  new(nothing)
 end
+export VolumeStatusDetailsSetType
+
 
 type AttachVpnGatewayResponseType
     requestId::String
@@ -2959,6 +3796,8 @@ type AttachVpnGatewayResponseType
 
     AttachVpnGatewayResponseType(requestId, attachment) =  new(requestId, attachment)
 end
+export AttachVpnGatewayResponseType
+
 
 type MonitorInstancesResponseSetItemType
     instanceId::String
@@ -2966,6 +3805,8 @@ type MonitorInstancesResponseSetItemType
 
     MonitorInstancesResponseSetItemType(instanceId, monitoring) =  new(instanceId, monitoring)
 end
+export MonitorInstancesResponseSetItemType
+
 
 type InstancePrivateIpAddressesSetItemType
     privateIpAddress::Union(String, Nothing)
@@ -2975,30 +3816,40 @@ type InstancePrivateIpAddressesSetItemType
 
     InstancePrivateIpAddressesSetItemType() =  new(nothing, nothing, nothing, nothing)
 end
+export InstancePrivateIpAddressesSetItemType
+
 
 type RouteSetType
     item::Union(Array{RouteType,1}, Nothing)
 
     RouteSetType() =  new(nothing)
 end
+export RouteSetType
+
 
 type PrivateIpAddressesSetRequestType
     item::Union(Array{PrivateIpAddressesSetItemRequestType,1}, Nothing)
 
     PrivateIpAddressesSetRequestType() =  new(nothing)
 end
+export PrivateIpAddressesSetRequestType
+
 
 type ImportInstanceVolumeDetailSetType
     item::Union(Array{ImportInstanceVolumeDetailItemType,1}, Nothing)
 
     ImportInstanceVolumeDetailSetType() =  new(nothing)
 end
+export ImportInstanceVolumeDetailSetType
+
 
 type DhcpOptionsIdSetType
     item::Union(Array{DhcpOptionsIdSetItemType,1}, Nothing)
 
     DhcpOptionsIdSetType() =  new(nothing)
 end
+export DhcpOptionsIdSetType
+
 
 type DescribeRegionsType
     regionSet::DescribeRegionsSetType
@@ -3006,6 +3857,8 @@ type DescribeRegionsType
 
     DescribeRegionsType(regionSet) =  new(regionSet, nothing)
 end
+export DescribeRegionsType
+
 
 type BundleInstanceType
     instanceId::String
@@ -3013,6 +3866,8 @@ type BundleInstanceType
 
     BundleInstanceType(instanceId, storage) =  new(instanceId, storage)
 end
+export BundleInstanceType
+
 
 type ImportInstanceResponseType
     requestId::String
@@ -3020,6 +3875,8 @@ type ImportInstanceResponseType
 
     ImportInstanceResponseType(requestId, conversionTask) =  new(requestId, conversionTask)
 end
+export ImportInstanceResponseType
+
 
 type DescribeAddressesResponseType
     requestId::String
@@ -3027,30 +3884,40 @@ type DescribeAddressesResponseType
 
     DescribeAddressesResponseType(requestId, addressesSet) =  new(requestId, addressesSet)
 end
+export DescribeAddressesResponseType
+
 
 type CancelSpotInstanceRequestsResponseSetType
     item::Array{CancelSpotInstanceRequestsResponseSetItemType,1}
 
     CancelSpotInstanceRequestsResponseSetType(item) =  new(item)
 end
+export CancelSpotInstanceRequestsResponseSetType
+
 
 type DhcpValueSetType
     item::Union(Array{DhcpValueType,1}, Nothing)
 
     DhcpValueSetType() =  new(nothing)
 end
+export DhcpValueSetType
+
 
 type CreateVolumePermissionListType
     item::Union(Array{CreateVolumePermissionItemType,1}, Nothing)
 
     CreateVolumePermissionListType() =  new(nothing)
 end
+export CreateVolumePermissionListType
+
 
 type AccountAttributeNameSetType
     item::Union(Array{AccountAttributeNameSetItemType,1}, Nothing)
 
     AccountAttributeNameSetType() =  new(nothing)
 end
+export AccountAttributeNameSetType
+
 
 type DhcpConfigurationItemType
     key::String
@@ -3058,6 +3925,8 @@ type DhcpConfigurationItemType
 
     DhcpConfigurationItemType(key, valueSet) =  new(key, valueSet)
 end
+export DhcpConfigurationItemType
+
 
 type DescribeImagesResponseItemType
     imageId::String
@@ -3084,6 +3953,8 @@ type DescribeImagesResponseItemType
 
     DescribeImagesResponseItemType(imageId, imageState, imageOwnerId, isPublic) =  new(imageId, nothing, imageState, imageOwnerId, isPublic, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing)
 end
+export DescribeImagesResponseItemType
+
 
 type DescribeInstancesType
     instancesSet::DescribeInstancesInfoType
@@ -3091,6 +3962,8 @@ type DescribeInstancesType
 
     DescribeInstancesType(instancesSet) =  new(instancesSet, nothing)
 end
+export DescribeInstancesType
+
 
 type DescribeAvailabilityZonesResponseType
     requestId::String
@@ -3098,6 +3971,8 @@ type DescribeAvailabilityZonesResponseType
 
     DescribeAvailabilityZonesResponseType(requestId, availabilityZoneInfo) =  new(requestId, availabilityZoneInfo)
 end
+export DescribeAvailabilityZonesResponseType
+
 
 type VpcType
     vpcId::String
@@ -3110,6 +3985,8 @@ type VpcType
 
     VpcType(vpcId) =  new(vpcId, nothing, nothing, nothing, nothing, nothing, nothing)
 end
+export VpcType
+
 
 type DescribeReservedInstancesListingsType
     reservedInstancesListingSet::Union(DescribeReservedInstancesListingSetType, Nothing)
@@ -3118,6 +3995,8 @@ type DescribeReservedInstancesListingsType
 
     DescribeReservedInstancesListingsType() =  new(nothing, nothing, nothing)
 end
+export DescribeReservedInstancesListingsType
+
 
 type DescribeVolumesSetItemResponseType
     volumeId::String
@@ -3125,7 +4004,7 @@ type DescribeVolumesSetItemResponseType
     snapshotId::String
     availabilityZone::String
     status::String
-    createTime::DateTime
+    createTime::XSDateTime
     attachmentSet::AttachmentSetResponseType
     tagSet::Union(ResourceTagSetType, Nothing)
     volumeType::String
@@ -3133,17 +4012,21 @@ type DescribeVolumesSetItemResponseType
 
     DescribeVolumesSetItemResponseType(volumeId, size, snapshotId, availabilityZone, status, createTime, attachmentSet, volumeType) =  new(volumeId, size, snapshotId, availabilityZone, status, createTime, attachmentSet, nothing, volumeType, nothing)
 end
+export DescribeVolumesSetItemResponseType
+
 
 type ReportInstanceStatusType
     instancesSet::InstanceIdSetType
     status::String
-    startTime::Union(DateTime, Nothing)
-    endTime::Union(DateTime, Nothing)
+    startTime::Union(XSDateTime, Nothing)
+    endTime::Union(XSDateTime, Nothing)
     reasonCodesSet::ReportInstanceStatusReasonCodesSetType
     description::Union(String, Nothing)
 
     ReportInstanceStatusType(instancesSet, status, reasonCodesSet) =  new(instancesSet, status, nothing, nothing, reasonCodesSet, nothing)
 end
+export ReportInstanceStatusType
+
 
 type IpPermissionType
     ipProtocol::String
@@ -3154,12 +4037,16 @@ type IpPermissionType
 
     IpPermissionType(ipProtocol, groups, ipRanges) =  new(ipProtocol, nothing, nothing, groups, ipRanges)
 end
+export IpPermissionType
+
 
 type DescribeTagsType
     filterSet::Union(FilterSetType, Nothing)
 
     DescribeTagsType() =  new(nothing)
 end
+export DescribeTagsType
+
 
 type DescribeInternetGatewaysType
     internetGatewayIdSet::InternetGatewayIdSetType
@@ -3167,6 +4054,8 @@ type DescribeInternetGatewaysType
 
     DescribeInternetGatewaysType(internetGatewayIdSet) =  new(internetGatewayIdSet, nothing)
 end
+export DescribeInternetGatewaysType
+
 
 type DescribeSpotPriceHistoryResponseType
     requestId::String
@@ -3175,6 +4064,8 @@ type DescribeSpotPriceHistoryResponseType
 
     DescribeSpotPriceHistoryResponseType(requestId, spotPriceHistorySet) =  new(requestId, spotPriceHistorySet, nothing)
 end
+export DescribeSpotPriceHistoryResponseType
+
 
 type CreateVolumePermissionOperationType
     add::Union(CreateVolumePermissionListType, Nothing)
@@ -3182,6 +4073,8 @@ type CreateVolumePermissionOperationType
 
     CreateVolumePermissionOperationType() =  new(nothing, nothing)
 end
+export CreateVolumePermissionOperationType
+
 
 type SubnetType
     subnetId::String
@@ -3196,6 +4089,8 @@ type SubnetType
 
     SubnetType(subnetId) =  new(subnetId, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing)
 end
+export SubnetType
+
 
 type DescribeAccountAttributesResponseType
     requestId::String
@@ -3203,22 +4098,28 @@ type DescribeAccountAttributesResponseType
 
     DescribeAccountAttributesResponseType(requestId) =  new(requestId, nothing)
 end
+export DescribeAccountAttributesResponseType
+
 
 type CancelSpotInstanceRequestsType
     spotInstanceRequestIdSet::SpotInstanceRequestIdSetType
 
     CancelSpotInstanceRequestsType(spotInstanceRequestIdSet) =  new(spotInstanceRequestIdSet)
 end
+export CancelSpotInstanceRequestsType
+
 
 type LicenseSetItemType
     licenseId::String
-    type::String
+    _type::String
     pool::String
     capacitySet::LicenseCapacitySetType
     tagSet::Union(ResourceTagSetType, Nothing)
 
-    LicenseSetItemType(licenseId, type, pool, capacitySet) =  new(licenseId, type, pool, capacitySet, nothing)
+    LicenseSetItemType(licenseId, _type, pool, capacitySet) =  new(licenseId, _type, pool, capacitySet, nothing)
 end
+export LicenseSetItemType
+
 
 type DescribeVolumesType
     volumeSet::DescribeVolumesSetType
@@ -3226,6 +4127,8 @@ type DescribeVolumesType
 
     DescribeVolumesType(volumeSet) =  new(volumeSet, nothing)
 end
+export DescribeVolumesType
+
 
 type DescribeVolumeStatusType
     volumeSet::DescribeVolumesSetType
@@ -3235,29 +4138,37 @@ type DescribeVolumeStatusType
 
     DescribeVolumeStatusType(volumeSet) =  new(volumeSet, nothing, nothing, nothing)
 end
+export DescribeVolumeStatusType
+
 
 type VpcSetType
     item::Union(Array{VpcType,1}, Nothing)
 
     VpcSetType() =  new(nothing)
 end
+export VpcSetType
+
 
 type TerminateInstancesType
     instancesSet::InstanceIdSetType
 
     TerminateInstancesType(instancesSet) =  new(instancesSet)
 end
+export TerminateInstancesType
+
 
 type VpnGatewayType
     vpnGatewayId::String
     state::String
-    type::String
+    _type::String
     availabilityZone::Union(String, Nothing)
     attachments::AttachmentSetType
     tagSet::Union(ResourceTagSetType, Nothing)
 
-    VpnGatewayType(vpnGatewayId, state, type, attachments) =  new(vpnGatewayId, state, type, nothing, attachments, nothing)
+    VpnGatewayType(vpnGatewayId, state, _type, attachments) =  new(vpnGatewayId, state, _type, nothing, attachments, nothing)
 end
+export VpnGatewayType
+
 
 type DescribeAddressesType
     publicIpsSet::DescribeAddressesInfoType
@@ -3266,6 +4177,8 @@ type DescribeAddressesType
 
     DescribeAddressesType(publicIpsSet, allocationIdsSet) =  new(publicIpsSet, allocationIdsSet, nothing)
 end
+export DescribeAddressesType
+
 
 type DescribeSubnetsType
     subnetSet::Union(SubnetIdSetType, Nothing)
@@ -3273,18 +4186,24 @@ type DescribeSubnetsType
 
     DescribeSubnetsType() =  new(nothing, nothing)
 end
+export DescribeSubnetsType
+
 
 type InstanceStateChangeSetType
     item::Union(Array{InstanceStateChangeType,1}, Nothing)
 
     InstanceStateChangeSetType() =  new(nothing)
 end
+export InstanceStateChangeSetType
+
 
 type DescribeVolumesSetResponseType
     item::Union(Array{DescribeVolumesSetItemResponseType,1}, Nothing)
 
     DescribeVolumesSetResponseType() =  new(nothing)
 end
+export DescribeVolumesSetResponseType
+
 
 type ModifySnapshotAttributeType
     snapshotId::String
@@ -3292,6 +4211,8 @@ type ModifySnapshotAttributeType
 
     ModifySnapshotAttributeType(snapshotId, createVolumePermission) =  new(snapshotId, createVolumePermission)
 end
+export ModifySnapshotAttributeType
+
 
 type DescribeVpcsResponseType
     requestId::String
@@ -3299,10 +4220,12 @@ type DescribeVpcsResponseType
 
     DescribeVpcsResponseType(requestId, vpcSet) =  new(requestId, vpcSet)
 end
+export DescribeVpcsResponseType
+
 
 type DescribeSpotPriceHistoryType
-    startTime::Union(DateTime, Nothing)
-    endTime::Union(DateTime, Nothing)
+    startTime::Union(XSDateTime, Nothing)
+    endTime::Union(XSDateTime, Nothing)
     instanceTypeSet::Union(InstanceTypeSetType, Nothing)
     productDescriptionSet::Union(ProductDescriptionSetType, Nothing)
     filterSet::Union(FilterSetType, Nothing)
@@ -3312,6 +4235,8 @@ type DescribeSpotPriceHistoryType
 
     DescribeSpotPriceHistoryType() =  new(nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing)
 end
+export DescribeSpotPriceHistoryType
+
 
 type DescribeVpnGatewaysType
     vpnGatewaySet::Union(VpnGatewayIdSetType, Nothing)
@@ -3319,6 +4244,8 @@ type DescribeVpnGatewaysType
 
     DescribeVpnGatewaysType() =  new(nothing, nothing)
 end
+export DescribeVpnGatewaysType
+
 
 type StopInstancesType
     instancesSet::InstanceIdSetType
@@ -3326,12 +4253,16 @@ type StopInstancesType
 
     StopInstancesType(instancesSet) =  new(instancesSet, nothing)
 end
+export StopInstancesType
+
 
 type BundleInstanceTasksSetType
     item::Union(Array{BundleInstanceTaskType,1}, Nothing)
 
     BundleInstanceTasksSetType() =  new(nothing)
 end
+export BundleInstanceTasksSetType
+
 
 type DescribeNetworkAclsType
     networkAclIdSet::NetworkAclIdSetType
@@ -3339,6 +4270,8 @@ type DescribeNetworkAclsType
 
     DescribeNetworkAclsType(networkAclIdSet) =  new(networkAclIdSet, nothing)
 end
+export DescribeNetworkAclsType
+
 
 type UnassignPrivateIpAddressesType
     networkInterfaceId::String
@@ -3346,6 +4279,8 @@ type UnassignPrivateIpAddressesType
 
     UnassignPrivateIpAddressesType(networkInterfaceId, privateIpAddressesSet) =  new(networkInterfaceId, privateIpAddressesSet)
 end
+export UnassignPrivateIpAddressesType
+
 
 type DescribeReservedInstancesType
     reservedInstancesSet::Union(DescribeReservedInstancesSetType, Nothing)
@@ -3354,17 +4289,21 @@ type DescribeReservedInstancesType
 
     DescribeReservedInstancesType() =  new(nothing, nothing, nothing)
 end
+export DescribeReservedInstancesType
+
 
 type CustomerGatewayType
     customerGatewayId::String
     state::String
-    type::String
+    _type::String
     ipAddress::String
     bgpAsn::Union(Int32, Nothing)
     tagSet::Union(ResourceTagSetType, Nothing)
 
-    CustomerGatewayType(customerGatewayId, state, type, ipAddress) =  new(customerGatewayId, state, type, ipAddress, nothing, nothing)
+    CustomerGatewayType(customerGatewayId, state, _type, ipAddress) =  new(customerGatewayId, state, _type, ipAddress, nothing, nothing)
 end
+export CustomerGatewayType
+
 
 type CreateSubnetResponseType
     requestId::String
@@ -3372,6 +4311,8 @@ type CreateSubnetResponseType
 
     CreateSubnetResponseType(requestId, subnet) =  new(requestId, subnet)
 end
+export CreateSubnetResponseType
+
 
 type TerminateInstancesResponseType
     requestId::String
@@ -3379,12 +4320,16 @@ type TerminateInstancesResponseType
 
     TerminateInstancesResponseType(requestId, instancesSet) =  new(requestId, instancesSet)
 end
+export TerminateInstancesResponseType
+
 
 type MonitorInstancesType
     instancesSet::MonitorInstancesSetType
 
     MonitorInstancesType(instancesSet) =  new(instancesSet)
 end
+export MonitorInstancesType
+
 
 type DescribeBundleTasksResponseType
     requestId::String
@@ -3392,6 +4337,8 @@ type DescribeBundleTasksResponseType
 
     DescribeBundleTasksResponseType(requestId, bundleInstanceTasksSet) =  new(requestId, bundleInstanceTasksSet)
 end
+export DescribeBundleTasksResponseType
+
 
 type VolumeStatusInfoType
     status::String
@@ -3399,6 +4346,8 @@ type VolumeStatusInfoType
 
     VolumeStatusInfoType(status, details) =  new(status, details)
 end
+export VolumeStatusInfoType
+
 
 type StopInstancesResponseType
     requestId::String
@@ -3406,12 +4355,14 @@ type StopInstancesResponseType
 
     StopInstancesResponseType(requestId, instancesSet) =  new(requestId, instancesSet)
 end
+export StopInstancesResponseType
+
 
 type DescribeSnapshotsSetItemResponseType
     snapshotId::String
     volumeId::String
     status::String
-    startTime::DateTime
+    startTime::XSDateTime
     progress::String
     ownerId::String
     volumeSize::String
@@ -3421,6 +4372,8 @@ type DescribeSnapshotsSetItemResponseType
 
     DescribeSnapshotsSetItemResponseType(snapshotId, volumeId, status, startTime, progress, ownerId, volumeSize) =  new(snapshotId, volumeId, status, startTime, progress, ownerId, volumeSize, nothing, nothing, nothing)
 end
+export DescribeSnapshotsSetItemResponseType
+
 
 type InternetGatewayType
     internetGatewayId::String
@@ -3429,6 +4382,8 @@ type InternetGatewayType
 
     InternetGatewayType(internetGatewayId, attachmentSet) =  new(internetGatewayId, attachmentSet, nothing)
 end
+export InternetGatewayType
+
 
 type DescribeAccountAttributesType
     accountAttributeNameSet::Union(AccountAttributeNameSetType, Nothing)
@@ -3436,6 +4391,8 @@ type DescribeAccountAttributesType
 
     DescribeAccountAttributesType() =  new(nothing, nothing)
 end
+export DescribeAccountAttributesType
+
 
 type CreateVpcResponseType
     requestId::String
@@ -3443,12 +4400,16 @@ type CreateVpcResponseType
 
     CreateVpcResponseType(requestId, vpc) =  new(requestId, vpc)
 end
+export CreateVpcResponseType
+
 
 type CustomerGatewaySetType
     item::Union(Array{CustomerGatewayType,1}, Nothing)
 
     CustomerGatewaySetType() =  new(nothing)
 end
+export CustomerGatewaySetType
+
 
 type LaunchPermissionOperationType
     add::Union(LaunchPermissionListType, Nothing)
@@ -3456,12 +4417,16 @@ type LaunchPermissionOperationType
 
     LaunchPermissionOperationType() =  new(nothing, nothing)
 end
+export LaunchPermissionOperationType
+
 
 type VpnGatewaySetType
     item::Union(Array{VpnGatewayType,1}, Nothing)
 
     VpnGatewaySetType() =  new(nothing)
 end
+export VpnGatewaySetType
+
 
 type DescribePlacementGroupsType
     placementGroupSet::DescribePlacementGroupsInfoType
@@ -3469,6 +4434,8 @@ type DescribePlacementGroupsType
 
     DescribePlacementGroupsType(placementGroupSet) =  new(placementGroupSet, nothing)
 end
+export DescribePlacementGroupsType
+
 
 type DescribeVpnConnectionsType
     vpnConnectionSet::Union(VpnConnectionIdSetType, Nothing)
@@ -3476,6 +4443,8 @@ type DescribeVpnConnectionsType
 
     DescribeVpnConnectionsType() =  new(nothing, nothing)
 end
+export DescribeVpnConnectionsType
+
 
 type RouteTableType
     routeTableId::String
@@ -3487,6 +4456,8 @@ type RouteTableType
 
     RouteTableType(routeTableId, vpcId, routeSet, associationSet, propagatingVgwSet) =  new(routeTableId, vpcId, routeSet, associationSet, propagatingVgwSet, nothing)
 end
+export RouteTableType
+
 
 type DescribeReservedInstancesOfferingsResponseSetItemType
     reservedInstancesOfferingId::String
@@ -3505,12 +4476,16 @@ type DescribeReservedInstancesOfferingsResponseSetItemType
 
     DescribeReservedInstancesOfferingsResponseSetItemType(reservedInstancesOfferingId, instanceType, availabilityZone, duration, fixedPrice, usagePrice, productDescription, instanceTenancy, currencyCode, offeringType, recurringCharges) =  new(reservedInstancesOfferingId, instanceType, availabilityZone, duration, fixedPrice, usagePrice, productDescription, instanceTenancy, currencyCode, offeringType, recurringCharges, nothing, nothing)
 end
+export DescribeReservedInstancesOfferingsResponseSetItemType
+
 
 type DiskImageSetType
     item::Union(Array{DiskImageType,1}, Nothing)
 
     DiskImageSetType() =  new(nothing)
 end
+export DiskImageSetType
+
 
 type ImportInstanceLaunchSpecificationType
     architecture::String
@@ -3525,12 +4500,14 @@ type ImportInstanceLaunchSpecificationType
 
     ImportInstanceLaunchSpecificationType(architecture, instanceType) =  new(architecture, nothing, nothing, instanceType, nothing, nothing, nothing, nothing, nothing)
 end
+export ImportInstanceLaunchSpecificationType
+
 
 type VpnConnectionType
     vpnConnectionId::String
     state::String
     customerGatewayConfiguration::Union(String, Nothing)
-    type::Union(String, Nothing)
+    _type::Union(String, Nothing)
     customerGatewayId::String
     vpnGatewayId::String
     tagSet::Union(ResourceTagSetType, Nothing)
@@ -3540,6 +4517,8 @@ type VpnConnectionType
 
     VpnConnectionType(vpnConnectionId, state, customerGatewayId, vpnGatewayId) =  new(vpnConnectionId, state, nothing, nothing, customerGatewayId, vpnGatewayId, nothing, nothing, nothing, nothing)
 end
+export VpnConnectionType
+
 
 type CreateTagsType
     resourcesSet::ResourceIdSetType
@@ -3547,12 +4526,16 @@ type CreateTagsType
 
     CreateTagsType(resourcesSet, tagSet) =  new(resourcesSet, tagSet)
 end
+export CreateTagsType
+
 
 type ConversionTaskSetType
     item::Union(Array{ConversionTaskType,1}, Nothing)
 
     ConversionTaskSetType() =  new(nothing)
 end
+export ConversionTaskSetType
+
 
 type DescribeDhcpOptionsType
     dhcpOptionsSet::Union(DhcpOptionsIdSetType, Nothing)
@@ -3560,6 +4543,8 @@ type DescribeDhcpOptionsType
 
     DescribeDhcpOptionsType() =  new(nothing, nothing)
 end
+export DescribeDhcpOptionsType
+
 
 type DescribeSpotInstanceRequestsType
     spotInstanceRequestIdSet::SpotInstanceRequestIdSetType
@@ -3567,12 +4552,16 @@ type DescribeSpotInstanceRequestsType
 
     DescribeSpotInstanceRequestsType(spotInstanceRequestIdSet) =  new(spotInstanceRequestIdSet, nothing)
 end
+export DescribeSpotInstanceRequestsType
+
 
 type InternetGatewaySetType
     item::Union(Array{InternetGatewayType,1}, Nothing)
 
     InternetGatewaySetType() =  new(nothing)
 end
+export InternetGatewaySetType
+
 
 type DescribeImagesType
     executableBySet::Union(DescribeImagesExecutableBySetType, Nothing)
@@ -3582,6 +4571,8 @@ type DescribeImagesType
 
     DescribeImagesType(imagesSet) =  new(nothing, imagesSet, nothing, nothing)
 end
+export DescribeImagesType
+
 
 type DescribeCustomerGatewaysType
     customerGatewaySet::Union(CustomerGatewayIdSetType, Nothing)
@@ -3589,12 +4580,16 @@ type DescribeCustomerGatewaysType
 
     DescribeCustomerGatewaysType() =  new(nothing, nothing)
 end
+export DescribeCustomerGatewaysType
+
 
 type InstancePrivateIpAddressesSetType
     item::Union(Array{InstancePrivateIpAddressesSetItemType,1}, Nothing)
 
     InstancePrivateIpAddressesSetType() =  new(nothing)
 end
+export InstancePrivateIpAddressesSetType
+
 
 type DescribeVpcsType
     vpcSet::Union(VpcIdSetType, Nothing)
@@ -3602,6 +4597,8 @@ type DescribeVpcsType
 
     DescribeVpcsType() =  new(nothing, nothing)
 end
+export DescribeVpcsType
+
 
 type DescribeReservedInstancesOfferingsType
     reservedInstancesOfferingsSet::Union(DescribeReservedInstancesOfferingsSetType, Nothing)
@@ -3620,12 +4617,16 @@ type DescribeReservedInstancesOfferingsType
 
     DescribeReservedInstancesOfferingsType() =  new(nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing)
 end
+export DescribeReservedInstancesOfferingsType
+
 
 type DescribeSnapshotsSetResponseType
     item::Union(Array{DescribeSnapshotsSetItemResponseType,1}, Nothing)
 
     DescribeSnapshotsSetResponseType() =  new(nothing)
 end
+export DescribeSnapshotsSetResponseType
+
 
 type DescribeAvailabilityZonesType
     availabilityZoneSet::DescribeAvailabilityZonesSetType
@@ -3633,6 +4634,8 @@ type DescribeAvailabilityZonesType
 
     DescribeAvailabilityZonesType(availabilityZoneSet) =  new(availabilityZoneSet, nothing)
 end
+export DescribeAvailabilityZonesType
+
 
 type RegisterImageType
     imageLocation::Union(String, Nothing)
@@ -3646,6 +4649,8 @@ type RegisterImageType
 
     RegisterImageType(name) =  new(nothing, name, nothing, nothing, nothing, nothing, nothing, nothing)
 end
+export RegisterImageType
+
 
 type StartInstancesResponseType
     requestId::String
@@ -3653,6 +4658,8 @@ type StartInstancesResponseType
 
     StartInstancesResponseType(requestId, instancesSet) =  new(requestId, instancesSet)
 end
+export StartInstancesResponseType
+
 
 type ImportInstanceTaskDetailsType
     volumes::ImportInstanceVolumeDetailSetType
@@ -3662,6 +4669,8 @@ type ImportInstanceTaskDetailsType
 
     ImportInstanceTaskDetailsType(volumes) =  new(volumes, nothing, nothing, nothing)
 end
+export ImportInstanceTaskDetailsType
+
 
 type ImportVolumeResponseType
     requestId::String
@@ -3669,18 +4678,24 @@ type ImportVolumeResponseType
 
     ImportVolumeResponseType(requestId, conversionTask) =  new(requestId, conversionTask)
 end
+export ImportVolumeResponseType
+
 
 type MonitorInstancesResponseSetType
     item::Array{MonitorInstancesResponseSetItemType,1}
 
     MonitorInstancesResponseSetType(item) =  new(item)
 end
+export MonitorInstancesResponseSetType
+
 
 type LicenseSetType
     item::Union(Array{LicenseSetItemType,1}, Nothing)
 
     LicenseSetType() =  new(nothing)
 end
+export LicenseSetType
+
 
 type CreateNetworkInterfaceType
     subnetId::String
@@ -3692,6 +4707,8 @@ type CreateNetworkInterfaceType
 
     CreateNetworkInterfaceType(subnetId) =  new(subnetId, nothing, nothing, nothing, nothing, nothing)
 end
+export CreateNetworkInterfaceType
+
 
 type InstanceNetworkInterfaceSetItemRequestType
     networkInterfaceId::Union(String, Nothing)
@@ -3706,18 +4723,24 @@ type InstanceNetworkInterfaceSetItemRequestType
 
     InstanceNetworkInterfaceSetItemRequestType(deviceIndex) =  new(nothing, deviceIndex, nothing, nothing, nothing, nothing, nothing, nothing, nothing)
 end
+export InstanceNetworkInterfaceSetItemRequestType
+
 
 type NetworkInterfacePrivateIpAddressesSetType
     item::Union(Array{NetworkInterfacePrivateIpAddressesSetItemType,1}, Nothing)
 
     NetworkInterfacePrivateIpAddressesSetType() =  new(nothing)
 end
+export NetworkInterfacePrivateIpAddressesSetType
+
 
 type DescribeImagesResponseInfoType
     item::Union(Array{DescribeImagesResponseItemType,1}, Nothing)
 
     DescribeImagesResponseInfoType() =  new(nothing)
 end
+export DescribeImagesResponseInfoType
+
 
 type CancelSpotInstanceRequestsResponseType
     requestId::String
@@ -3725,6 +4748,8 @@ type CancelSpotInstanceRequestsResponseType
 
     CancelSpotInstanceRequestsResponseType(requestId, spotInstanceRequestSet) =  new(requestId, spotInstanceRequestSet)
 end
+export CancelSpotInstanceRequestsResponseType
+
 
 type MonitorInstancesResponseType
     requestId::String
@@ -3732,12 +4757,16 @@ type MonitorInstancesResponseType
 
     MonitorInstancesResponseType(requestId, instancesSet) =  new(requestId, instancesSet)
 end
+export MonitorInstancesResponseType
+
 
 type DescribeConversionTasksType
     conversionTaskIdSet::ConversionTaskIdSetType
 
     DescribeConversionTasksType(conversionTaskIdSet) =  new(conversionTaskIdSet)
 end
+export DescribeConversionTasksType
+
 
 type NetworkAclType
     networkAclId::String
@@ -3749,12 +4778,16 @@ type NetworkAclType
 
     NetworkAclType(networkAclId, vpcId, default, entrySet, associationSet) =  new(networkAclId, vpcId, default, entrySet, associationSet, nothing)
 end
+export NetworkAclType
+
 
 type RouteTableSetType
     item::Union(Array{RouteTableType,1}, Nothing)
 
     RouteTableSetType() =  new(nothing)
 end
+export RouteTableSetType
+
 
 type CreateVpnGatewayResponseType
     requestId::String
@@ -3762,6 +4795,8 @@ type CreateVpnGatewayResponseType
 
     CreateVpnGatewayResponseType(requestId, vpnGateway) =  new(requestId, vpnGateway)
 end
+export CreateVpnGatewayResponseType
+
 
 type DeleteTagsType
     resourcesSet::ResourceIdSetType
@@ -3769,12 +4804,16 @@ type DeleteTagsType
 
     DeleteTagsType(resourcesSet, tagSet) =  new(resourcesSet, tagSet)
 end
+export DeleteTagsType
+
 
 type DhcpConfigurationItemSetType
     item::Union(Array{DhcpConfigurationItemType,1}, Nothing)
 
     DhcpConfigurationItemSetType() =  new(nothing)
 end
+export DhcpConfigurationItemSetType
+
 
 type InstanceStatusType
     status::String
@@ -3782,6 +4821,8 @@ type InstanceStatusType
 
     InstanceStatusType(status) =  new(status, nothing)
 end
+export InstanceStatusType
+
 
 type DescribeRouteTablesResponseType
     requestId::String
@@ -3789,6 +4830,8 @@ type DescribeRouteTablesResponseType
 
     DescribeRouteTablesResponseType(requestId, routeTableSet) =  new(requestId, routeTableSet)
 end
+export DescribeRouteTablesResponseType
+
 
 type AssignPrivateIpAddressesType
     networkInterfaceId::String
@@ -3798,6 +4841,8 @@ type AssignPrivateIpAddressesType
 
     AssignPrivateIpAddressesType(networkInterfaceId) =  new(networkInterfaceId, nothing, nothing, nothing)
 end
+export AssignPrivateIpAddressesType
+
 
 type BundleInstanceResponseType
     requestId::String
@@ -3805,6 +4850,8 @@ type BundleInstanceResponseType
 
     BundleInstanceResponseType(requestId, bundleInstanceTask) =  new(requestId, bundleInstanceTask)
 end
+export BundleInstanceResponseType
+
 
 type DescribeInternetGatewaysResponseType
     requestId::String
@@ -3812,6 +4859,8 @@ type DescribeInternetGatewaysResponseType
 
     DescribeInternetGatewaysResponseType(requestId, internetGatewaySet) =  new(requestId, internetGatewaySet)
 end
+export DescribeInternetGatewaysResponseType
+
 
 type DescribeTagsResponseType
     requestId::String
@@ -3819,12 +4868,16 @@ type DescribeTagsResponseType
 
     DescribeTagsResponseType(requestId, tagSet) =  new(requestId, tagSet)
 end
+export DescribeTagsResponseType
+
 
 type SubnetSetType
     item::Union(Array{SubnetType,1}, Nothing)
 
     SubnetSetType() =  new(nothing)
 end
+export SubnetSetType
+
 
 type DescribeInstanceStatusType
     instancesSet::InstanceIdSetType
@@ -3835,6 +4888,8 @@ type DescribeInstanceStatusType
 
     DescribeInstanceStatusType(instancesSet) =  new(instancesSet, nothing, nothing, nothing, nothing)
 end
+export DescribeInstanceStatusType
+
 
 type DescribeKeyPairsType
     keySet::DescribeKeyPairsInfoType
@@ -3842,12 +4897,16 @@ type DescribeKeyPairsType
 
     DescribeKeyPairsType(keySet) =  new(keySet, nothing)
 end
+export DescribeKeyPairsType
+
 
 type VpnConnectionSetType
     item::Union(Array{VpnConnectionType,1}, Nothing)
 
     VpnConnectionSetType() =  new(nothing)
 end
+export VpnConnectionSetType
+
 
 type DescribeSubnetsResponseType
     requestId::String
@@ -3855,6 +4914,8 @@ type DescribeSubnetsResponseType
 
     DescribeSubnetsResponseType(requestId, subnetSet) =  new(requestId, subnetSet)
 end
+export DescribeSubnetsResponseType
+
 
 type DescribeNetworkInterfacesType
     networkInterfaceIdSet::Union(NetworkInterfaceIdSetType, Nothing)
@@ -3862,18 +4923,22 @@ type DescribeNetworkInterfacesType
 
     DescribeNetworkInterfacesType() =  new(nothing, nothing)
 end
+export DescribeNetworkInterfacesType
+
 
 type IpPermissionSetType
     item::Union(Array{IpPermissionType,1}, Nothing)
 
     IpPermissionSetType() =  new(nothing)
 end
+export IpPermissionSetType
+
 
 type DescribeReservedInstancesListingsResponseSetItemType
     reservedInstancesListingId::String
     reservedInstancesId::String
-    createDate::DateTime
-    updateDate::DateTime
+    createDate::XSDateTime
+    updateDate::XSDateTime
     status::String
     statusMessage::String
     instanceCounts::InstanceCountsSetType
@@ -3883,6 +4948,8 @@ type DescribeReservedInstancesListingsResponseSetItemType
 
     DescribeReservedInstancesListingsResponseSetItemType(reservedInstancesListingId, reservedInstancesId, createDate, updateDate, status, statusMessage, instanceCounts, priceSchedules) =  new(reservedInstancesListingId, reservedInstancesId, createDate, updateDate, status, statusMessage, instanceCounts, priceSchedules, nothing, nothing)
 end
+export DescribeReservedInstancesListingsResponseSetItemType
+
 
 type DescribeLicensesType
     licenseIdSet::Union(LicenseIdSetType, Nothing)
@@ -3890,6 +4957,8 @@ type DescribeLicensesType
 
     DescribeLicensesType() =  new(nothing, nothing)
 end
+export DescribeLicensesType
+
 
 type DescribeSnapshotsType
     snapshotSet::DescribeSnapshotsSetType
@@ -3899,6 +4968,8 @@ type DescribeSnapshotsType
 
     DescribeSnapshotsType(snapshotSet) =  new(snapshotSet, nothing, nothing, nothing)
 end
+export DescribeSnapshotsType
+
 
 type CreateRouteTableResponseType
     requestId::String
@@ -3906,18 +4977,22 @@ type CreateRouteTableResponseType
 
     CreateRouteTableResponseType(requestId, routeTable) =  new(requestId, routeTable)
 end
+export CreateRouteTableResponseType
+
 
 type DescribeExportTasksType
     exportTaskIdSet::ExportTaskIdSetType
 
     DescribeExportTasksType(exportTaskIdSet) =  new(exportTaskIdSet)
 end
+export DescribeExportTasksType
+
 
 type DescribeReservedInstancesResponseSetItemType
     reservedInstancesId::String
     instanceType::String
     availabilityZone::String
-    start::DateTime
+    start::XSDateTime
     duration::Int64
     fixedPrice::Float64
     usagePrice::Float64
@@ -3932,6 +5007,8 @@ type DescribeReservedInstancesResponseSetItemType
 
     DescribeReservedInstancesResponseSetItemType(reservedInstancesId, instanceType, availabilityZone, start, duration, fixedPrice, usagePrice, instanceCount, productDescription, state, instanceTenancy, currencyCode, offeringType) =  new(reservedInstancesId, instanceType, availabilityZone, start, duration, fixedPrice, usagePrice, instanceCount, productDescription, state, nothing, instanceTenancy, currencyCode, offeringType, nothing)
 end
+export DescribeReservedInstancesResponseSetItemType
+
 
 type InstanceNetworkInterfaceSetItemType
     networkInterfaceId::String
@@ -3951,6 +5028,8 @@ type InstanceNetworkInterfaceSetItemType
 
     InstanceNetworkInterfaceSetItemType(networkInterfaceId, ownerId, status, attachment) =  new(networkInterfaceId, nothing, nothing, nothing, ownerId, status, nothing, nothing, nothing, nothing, nothing, attachment, nothing, nothing)
 end
+export InstanceNetworkInterfaceSetItemType
+
 
 type DescribeConversionTasksResponseType
     requestId::String
@@ -3958,6 +5037,8 @@ type DescribeConversionTasksResponseType
 
     DescribeConversionTasksResponseType(requestId, conversionTasks) =  new(requestId, conversionTasks)
 end
+export DescribeConversionTasksResponseType
+
 
 type DescribeCustomerGatewaysResponseType
     requestId::String
@@ -3965,6 +5046,8 @@ type DescribeCustomerGatewaysResponseType
 
     DescribeCustomerGatewaysResponseType(requestId, customerGatewaySet) =  new(requestId, customerGatewaySet)
 end
+export DescribeCustomerGatewaysResponseType
+
 
 type InstanceStatusItemType
     instanceId::String
@@ -3976,12 +5059,16 @@ type InstanceStatusItemType
 
     InstanceStatusItemType(instanceId, availabilityZone, instanceState, systemStatus, instanceStatus) =  new(instanceId, availabilityZone, nothing, instanceState, systemStatus, instanceStatus)
 end
+export InstanceStatusItemType
+
 
 type DescribeReservedInstancesResponseSetType
     item::Union(Array{DescribeReservedInstancesResponseSetItemType,1}, Nothing)
 
     DescribeReservedInstancesResponseSetType() =  new(nothing)
 end
+export DescribeReservedInstancesResponseSetType
+
 
 type DescribeVpnConnectionsResponseType
     requestId::String
@@ -3989,6 +5076,8 @@ type DescribeVpnConnectionsResponseType
 
     DescribeVpnConnectionsResponseType(requestId, vpnConnectionSet) =  new(requestId, vpnConnectionSet)
 end
+export DescribeVpnConnectionsResponseType
+
 
 type CreateNetworkAclResponseType
     requestId::String
@@ -3996,6 +5085,8 @@ type CreateNetworkAclResponseType
 
     CreateNetworkAclResponseType(requestId, networkAcl) =  new(requestId, networkAcl)
 end
+export CreateNetworkAclResponseType
+
 
 type VolumeStatusItemType
     volumeId::String
@@ -4006,12 +5097,16 @@ type VolumeStatusItemType
 
     VolumeStatusItemType(volumeId, availabilityZone, volumeStatus, eventsSet, actionsSet) =  new(volumeId, availabilityZone, volumeStatus, eventsSet, actionsSet)
 end
+export VolumeStatusItemType
+
 
 type VolumeStatusSetType
     item::Union(Array{VolumeStatusItemType,1}, Nothing)
 
     VolumeStatusSetType() =  new(nothing)
 end
+export VolumeStatusSetType
+
 
 type DescribeLicensesResponseType
     requestId::String
@@ -4019,6 +5114,8 @@ type DescribeLicensesResponseType
 
     DescribeLicensesResponseType(requestId, licenseSet) =  new(requestId, licenseSet)
 end
+export DescribeLicensesResponseType
+
 
 type ImportInstanceType
     description::Union(String, Nothing)
@@ -4029,6 +5126,8 @@ type ImportInstanceType
 
     ImportInstanceType(launchSpecification, diskImageSet, platform) =  new(nothing, launchSpecification, diskImageSet, nothing, platform)
 end
+export ImportInstanceType
+
 
 type DescribeVolumesResponseType
     requestId::String
@@ -4036,12 +5135,16 @@ type DescribeVolumesResponseType
 
     DescribeVolumesResponseType(requestId, volumeSet) =  new(requestId, volumeSet)
 end
+export DescribeVolumesResponseType
+
 
 type CreateDhcpOptionsType
     dhcpConfigurationSet::DhcpConfigurationItemSetType
 
     CreateDhcpOptionsType(dhcpConfigurationSet) =  new(dhcpConfigurationSet)
 end
+export CreateDhcpOptionsType
+
 
 type CreateCustomerGatewayResponseType
     requestId::String
@@ -4049,18 +5152,24 @@ type CreateCustomerGatewayResponseType
 
     CreateCustomerGatewayResponseType(requestId, customerGateway) =  new(requestId, customerGateway)
 end
+export CreateCustomerGatewayResponseType
+
 
 type DescribeReservedInstancesListingsResponseSetType
     item::Union(Array{DescribeReservedInstancesListingsResponseSetItemType,1}, Nothing)
 
     DescribeReservedInstancesListingsResponseSetType() =  new(nothing)
 end
+export DescribeReservedInstancesListingsResponseSetType
+
 
 type DescribeReservedInstancesOfferingsResponseSetType
     item::Union(Array{DescribeReservedInstancesOfferingsResponseSetItemType,1}, Nothing)
 
     DescribeReservedInstancesOfferingsResponseSetType() =  new(nothing)
 end
+export DescribeReservedInstancesOfferingsResponseSetType
+
 
 type DescribeSnapshotsResponseType
     requestId::String
@@ -4068,6 +5177,8 @@ type DescribeSnapshotsResponseType
 
     DescribeSnapshotsResponseType(requestId, snapshotSet) =  new(requestId, snapshotSet)
 end
+export DescribeSnapshotsResponseType
+
 
 type CreateInternetGatewayResponseType
     requestId::String
@@ -4075,6 +5186,8 @@ type CreateInternetGatewayResponseType
 
     CreateInternetGatewayResponseType(requestId, internetGateway) =  new(requestId, internetGateway)
 end
+export CreateInternetGatewayResponseType
+
 
 type RevokeSecurityGroupEgressType
     groupId::String
@@ -4082,6 +5195,8 @@ type RevokeSecurityGroupEgressType
 
     RevokeSecurityGroupEgressType(groupId, ipPermissions) =  new(groupId, ipPermissions)
 end
+export RevokeSecurityGroupEgressType
+
 
 type CreateVpnConnectionResponseType
     requestId::String
@@ -4089,6 +5204,8 @@ type CreateVpnConnectionResponseType
 
     CreateVpnConnectionResponseType(requestId, vpnConnection) =  new(requestId, vpnConnection)
 end
+export CreateVpnConnectionResponseType
+
 
 type CancelReservedInstancesListingResponseType
     requestId::String
@@ -4096,6 +5213,8 @@ type CancelReservedInstancesListingResponseType
 
     CancelReservedInstancesListingResponseType(requestId, reservedInstancesListingsSet) =  new(requestId, reservedInstancesListingsSet)
 end
+export CancelReservedInstancesListingResponseType
+
 
 type DhcpOptionsType
     dhcpOptionsId::String
@@ -4104,6 +5223,8 @@ type DhcpOptionsType
 
     DhcpOptionsType(dhcpOptionsId, dhcpConfigurationSet) =  new(dhcpOptionsId, dhcpConfigurationSet, nothing)
 end
+export DhcpOptionsType
+
 
 type DescribeVpnGatewaysResponseType
     requestId::String
@@ -4111,6 +5232,8 @@ type DescribeVpnGatewaysResponseType
 
     DescribeVpnGatewaysResponseType(requestId, vpnGatewaySet) =  new(requestId, vpnGatewaySet)
 end
+export DescribeVpnGatewaysResponseType
+
 
 type NetworkInterfaceType
     networkInterfaceId::String
@@ -4134,12 +5257,16 @@ type NetworkInterfaceType
 
     NetworkInterfaceType(networkInterfaceId, ownerId, status, macAddress, privateIpAddress, sourceDestCheck, groupSet) =  new(networkInterfaceId, nothing, nothing, nothing, nothing, ownerId, nothing, nothing, status, macAddress, privateIpAddress, nothing, sourceDestCheck, groupSet, nothing, nothing, nothing, nothing)
 end
+export NetworkInterfaceType
+
 
 type InstanceNetworkInterfaceSetRequestType
     item::Union(Array{InstanceNetworkInterfaceSetItemRequestType,1}, Nothing)
 
     InstanceNetworkInterfaceSetRequestType() =  new(nothing)
 end
+export InstanceNetworkInterfaceSetRequestType
+
 
 type DescribeReservedInstancesListingsResponseType
     requestId::String
@@ -4147,12 +5274,16 @@ type DescribeReservedInstancesListingsResponseType
 
     DescribeReservedInstancesListingsResponseType(requestId, reservedInstancesListingsSet) =  new(requestId, reservedInstancesListingsSet)
 end
+export DescribeReservedInstancesListingsResponseType
+
 
 type NetworkAclSetType
     item::Union(Array{NetworkAclType,1}, Nothing)
 
     NetworkAclSetType() =  new(nothing)
 end
+export NetworkAclSetType
+
 
 type DescribeNetworkAclsResponseType
     requestId::String
@@ -4160,6 +5291,8 @@ type DescribeNetworkAclsResponseType
 
     DescribeNetworkAclsResponseType(requestId, networkAclSet) =  new(requestId, networkAclSet)
 end
+export DescribeNetworkAclsResponseType
+
 
 type DescribeVolumeStatusResponseType
     requestId::String
@@ -4168,6 +5301,8 @@ type DescribeVolumeStatusResponseType
 
     DescribeVolumeStatusResponseType(requestId, volumeStatusSet) =  new(requestId, volumeStatusSet, nothing)
 end
+export DescribeVolumeStatusResponseType
+
 
 type DescribeImagesResponseType
     requestId::String
@@ -4175,6 +5310,8 @@ type DescribeImagesResponseType
 
     DescribeImagesResponseType(requestId, imagesSet) =  new(requestId, imagesSet)
 end
+export DescribeImagesResponseType
+
 
 type AuthorizeSecurityGroupIngressType
     userId::Union(String, Nothing)
@@ -4182,12 +5319,16 @@ type AuthorizeSecurityGroupIngressType
 
     AuthorizeSecurityGroupIngressType(ipPermissions) =  new(nothing, ipPermissions)
 end
+export AuthorizeSecurityGroupIngressType
+
 
 type InstanceStatusSetType
     item::Union(Array{InstanceStatusItemType,1}, Nothing)
 
     InstanceStatusSetType() =  new(nothing)
 end
+export InstanceStatusSetType
+
 
 type SecurityGroupItemType
     ownerId::String
@@ -4201,6 +5342,8 @@ type SecurityGroupItemType
 
     SecurityGroupItemType(ownerId, groupId, groupName, groupDescription, ipPermissions) =  new(ownerId, groupId, groupName, groupDescription, nothing, ipPermissions, nothing, nothing)
 end
+export SecurityGroupItemType
+
 
 type DescribeReservedInstancesResponseType
     requestId::String
@@ -4208,12 +5351,16 @@ type DescribeReservedInstancesResponseType
 
     DescribeReservedInstancesResponseType(requestId, reservedInstancesSet) =  new(requestId, reservedInstancesSet)
 end
+export DescribeReservedInstancesResponseType
+
 
 type DhcpOptionsSetType
     item::Union(Array{DhcpOptionsType,1}, Nothing)
 
     DhcpOptionsSetType() =  new(nothing)
 end
+export DhcpOptionsSetType
+
 
 type CreateReservedInstancesListingResponseType
     requestId::String
@@ -4221,6 +5368,8 @@ type CreateReservedInstancesListingResponseType
 
     CreateReservedInstancesListingResponseType(requestId, reservedInstancesListingsSet) =  new(requestId, reservedInstancesListingsSet)
 end
+export CreateReservedInstancesListingResponseType
+
 
 type AuthorizeSecurityGroupEgressType
     groupId::String
@@ -4228,6 +5377,8 @@ type AuthorizeSecurityGroupEgressType
 
     AuthorizeSecurityGroupEgressType(groupId, ipPermissions) =  new(groupId, ipPermissions)
 end
+export AuthorizeSecurityGroupEgressType
+
 
 type DescribeReservedInstancesOfferingsResponseType
     requestId::String
@@ -4236,6 +5387,8 @@ type DescribeReservedInstancesOfferingsResponseType
 
     DescribeReservedInstancesOfferingsResponseType(requestId, reservedInstancesOfferingsSet) =  new(requestId, reservedInstancesOfferingsSet, nothing)
 end
+export DescribeReservedInstancesOfferingsResponseType
+
 
 type RevokeSecurityGroupIngressType
     userId::Union(String, Nothing)
@@ -4243,12 +5396,16 @@ type RevokeSecurityGroupIngressType
 
     RevokeSecurityGroupIngressType(ipPermissions) =  new(nothing, ipPermissions)
 end
+export RevokeSecurityGroupIngressType
+
 
 type InstanceNetworkInterfaceSetType
     item::Union(Array{InstanceNetworkInterfaceSetItemType,1}, Nothing)
 
     InstanceNetworkInterfaceSetType() =  new(nothing)
 end
+export InstanceNetworkInterfaceSetType
+
 
 type LaunchSpecificationResponseType
     imageId::String
@@ -4268,6 +5425,8 @@ type LaunchSpecificationResponseType
 
     LaunchSpecificationResponseType(imageId, groupSet, instanceType) =  new(imageId, nothing, groupSet, nothing, instanceType, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing)
 end
+export LaunchSpecificationResponseType
+
 
 type RunInstancesType
     imageId::String
@@ -4296,6 +5455,8 @@ type RunInstancesType
 
     RunInstancesType(imageId, minCount, maxCount, groupSet, instanceType) =  new(imageId, minCount, maxCount, nothing, groupSet, nothing, nothing, nothing, instanceType, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing)
 end
+export RunInstancesType
+
 
 type LaunchSpecificationRequestType
     imageId::String
@@ -4316,6 +5477,8 @@ type LaunchSpecificationRequestType
 
     LaunchSpecificationRequestType(imageId, groupSet, instanceType) =  new(imageId, nothing, groupSet, nothing, nothing, instanceType, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing)
 end
+export LaunchSpecificationRequestType
+
 
 type RunningInstancesItemType
     instanceId::String
@@ -4328,7 +5491,7 @@ type RunningInstancesItemType
     amiLaunchIndex::Union(String, Nothing)
     productCodes::Union(ProductCodesSetType, Nothing)
     instanceType::String
-    launchTime::DateTime
+    launchTime::XSDateTime
     placement::Union(PlacementResponseType, Nothing)
     kernelId::Union(String, Nothing)
     ramdiskId::Union(String, Nothing)
@@ -4358,6 +5521,8 @@ type RunningInstancesItemType
 
     RunningInstancesItemType(instanceId, instanceState, privateDnsName, instanceType, launchTime, groupSet) =  new(instanceId, nothing, instanceState, privateDnsName, nothing, nothing, nothing, nothing, nothing, instanceType, launchTime, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, groupSet, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing)
 end
+export RunningInstancesItemType
+
 
 type CreateDhcpOptionsResponseType
     requestId::String
@@ -4365,12 +5530,16 @@ type CreateDhcpOptionsResponseType
 
     CreateDhcpOptionsResponseType(requestId, dhcpOptions) =  new(requestId, dhcpOptions)
 end
+export CreateDhcpOptionsResponseType
+
 
 type NetworkInterfaceSetType
     item::Union(Array{NetworkInterfaceType,1}, Nothing)
 
     NetworkInterfaceSetType() =  new(nothing)
 end
+export NetworkInterfaceSetType
+
 
 type CreateNetworkInterfaceResponseType
     requestId::String
@@ -4378,6 +5547,8 @@ type CreateNetworkInterfaceResponseType
 
     CreateNetworkInterfaceResponseType(requestId, networkInterface) =  new(requestId, networkInterface)
 end
+export CreateNetworkInterfaceResponseType
+
 
 type DescribeNetworkInterfacesResponseType
     requestId::String
@@ -4385,25 +5556,31 @@ type DescribeNetworkInterfacesResponseType
 
     DescribeNetworkInterfacesResponseType(requestId, networkInterfaceSet) =  new(requestId, networkInterfaceSet)
 end
+export DescribeNetworkInterfacesResponseType
+
 
 type SecurityGroupSetType
     item::Union(Array{SecurityGroupItemType,1}, Nothing)
 
     SecurityGroupSetType() =  new(nothing)
 end
+export SecurityGroupSetType
+
 
 type RequestSpotInstancesType
     spotPrice::String
     instanceCount::Union(Int, Nothing)
-    type::Union(String, Nothing)
-    validFrom::Union(DateTime, Nothing)
-    validUntil::Union(DateTime, Nothing)
+    _type::Union(String, Nothing)
+    validFrom::Union(XSDateTime, Nothing)
+    validUntil::Union(XSDateTime, Nothing)
     launchGroup::Union(String, Nothing)
     availabilityZoneGroup::Union(String, Nothing)
     launchSpecification::LaunchSpecificationRequestType
 
     RequestSpotInstancesType(spotPrice, launchSpecification) =  new(spotPrice, nothing, nothing, nothing, nothing, nothing, nothing, launchSpecification)
 end
+export RequestSpotInstancesType
+
 
 type DescribeInstanceStatusResponseType
     requestId::String
@@ -4412,6 +5589,8 @@ type DescribeInstanceStatusResponseType
 
     DescribeInstanceStatusResponseType(requestId, instanceStatusSet) =  new(requestId, instanceStatusSet, nothing)
 end
+export DescribeInstanceStatusResponseType
+
 
 type DescribeDhcpOptionsResponseType
     requestId::String
@@ -4419,33 +5598,39 @@ type DescribeDhcpOptionsResponseType
 
     DescribeDhcpOptionsResponseType(requestId, dhcpOptionsSet) =  new(requestId, dhcpOptionsSet)
 end
+export DescribeDhcpOptionsResponseType
+
 
 type SpotInstanceRequestSetItemType
     spotInstanceRequestId::String
     spotPrice::String
-    type::String
+    _type::String
     state::String
     fault::Union(SpotInstanceStateFaultType, Nothing)
     status::Union(SpotInstanceStatusMessageType, Nothing)
-    validFrom::Union(DateTime, Nothing)
-    validUntil::Union(DateTime, Nothing)
+    validFrom::Union(XSDateTime, Nothing)
+    validUntil::Union(XSDateTime, Nothing)
     launchGroup::Union(String, Nothing)
     availabilityZoneGroup::Union(String, Nothing)
     launchSpecification::Union(LaunchSpecificationResponseType, Nothing)
     instanceId::Union(String, Nothing)
-    createTime::Union(DateTime, Nothing)
+    createTime::Union(XSDateTime, Nothing)
     productDescription::Union(String, Nothing)
     tagSet::Union(ResourceTagSetType, Nothing)
     launchedAvailabilityZone::Union(String, Nothing)
 
-    SpotInstanceRequestSetItemType(spotInstanceRequestId, spotPrice, type, state) =  new(spotInstanceRequestId, spotPrice, type, state, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing)
+    SpotInstanceRequestSetItemType(spotInstanceRequestId, spotPrice, _type, state) =  new(spotInstanceRequestId, spotPrice, _type, state, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing)
 end
+export SpotInstanceRequestSetItemType
+
 
 type RunningInstancesSetType
     item::Array{RunningInstancesItemType,1}
 
     RunningInstancesSetType(item) =  new(item)
 end
+export RunningInstancesSetType
+
 
 type ReservationInfoType
     reservationId::String
@@ -4456,6 +5641,8 @@ type ReservationInfoType
 
     ReservationInfoType(reservationId, ownerId, groupSet, instancesSet) =  new(reservationId, ownerId, groupSet, instancesSet, nothing)
 end
+export ReservationInfoType
+
 
 type RunInstancesResponseType
     requestId::String
@@ -4467,18 +5654,24 @@ type RunInstancesResponseType
 
     RunInstancesResponseType(requestId, reservationId, ownerId, groupSet, instancesSet) =  new(requestId, reservationId, ownerId, groupSet, instancesSet, nothing)
 end
+export RunInstancesResponseType
+
 
 type ReservationSetType
     item::Union(Array{ReservationInfoType,1}, Nothing)
 
     ReservationSetType() =  new(nothing)
 end
+export ReservationSetType
+
 
 type SpotInstanceRequestSetType
     item::Union(Array{SpotInstanceRequestSetItemType,1}, Nothing)
 
     SpotInstanceRequestSetType() =  new(nothing)
 end
+export SpotInstanceRequestSetType
+
 
 type DescribeSpotInstanceRequestsResponseType
     requestId::String
@@ -4486,6 +5679,8 @@ type DescribeSpotInstanceRequestsResponseType
 
     DescribeSpotInstanceRequestsResponseType(requestId, spotInstanceRequestSet) =  new(requestId, spotInstanceRequestSet)
 end
+export DescribeSpotInstanceRequestsResponseType
+
 
 type DescribeSecurityGroupsResponseType
     requestId::String
@@ -4493,6 +5688,8 @@ type DescribeSecurityGroupsResponseType
 
     DescribeSecurityGroupsResponseType(requestId, securityGroupInfo) =  new(requestId, securityGroupInfo)
 end
+export DescribeSecurityGroupsResponseType
+
 
 type DescribeInstancesResponseType
     requestId::String
@@ -4500,6 +5697,8 @@ type DescribeInstancesResponseType
 
     DescribeInstancesResponseType(requestId, reservationSet) =  new(requestId, reservationSet)
 end
+export DescribeInstancesResponseType
+
 
 type RequestSpotInstancesResponseType
     requestId::String
@@ -4507,4 +5706,6 @@ type RequestSpotInstancesResponseType
 
     RequestSpotInstancesResponseType(requestId, spotInstanceRequestSet) =  new(requestId, spotInstanceRequestSet)
 end
+export RequestSpotInstancesResponseType
+
 
