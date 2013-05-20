@@ -1,6 +1,7 @@
 using AWSLib.EC2
+using AWSLib.AWSEnv
 
-env = EC2Env(EC2.EP_US_WEST_OREGON, ENV["AWS_ID"], ENV["AWS_SECKEY"], true)
+env = AWSEnv(EC2.EP_US_WEST_OREGON, ENV["AWS_ID"], ENV["AWS_SECKEY"], true)
 
 resp = EC2.DescribeAvailabilityZones(env, nothing)
 

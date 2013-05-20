@@ -6,6 +6,8 @@ using Sodium
 using Codecs
 using libCURL
 using libCURL.HTTPC
+using AWSLib.AWSEnv
+
 
 type XSDateTime
     yr::Int
@@ -17,18 +19,8 @@ type XSDateTime
 end
 export XSDateTime
 
-type EC2Env
-    ep::String          # region endpoint
-    aws_id::String      # AWS Access Key id
-    aws_seckey::String  # AWS Secret key for signing requests
-    dry_run::Bool         # If true, no actual request will be made - it will only be printed to screen
-    
-    EC2Env(ep, id, key) = new(ep, id, key, false)
-    EC2Env(ep, id, key, dbg) = new(ep, id, key, dbg)
-end
-export EC2Env
 
-
+#import AWSLib.AWSEnv
 include("ec2_types.jl")
 include("ec2_operations.jl")
 
@@ -46,7 +38,6 @@ export EP_US_EAST_NORTHERN_VIRGINIA, EP_US_WEST_OREGON, EP_US_WEST_NORTHERN_CALI
 export EP_EU_IRELAND, EP_AP_SINGAPORE, EP_AP_SYDNEY, EP_AP_TOKYO, EP_SA_SAO_PAULO
 
 
-import Base.string
 function aws_string(v::XSDateTime)
     return "$(v.yr)-$(v.mo)-$(v.da)T$(v.hr):$(v.mi):$(v.se)"
 end
@@ -151,10 +142,10 @@ function urlencode_params(params)
     return querystr
 end
 
-ec2_generic(env::EC2Env, action::String, params_in::Array{Tuple}) = call_ec2(env, action, nothing, params_in)
+ec2_generic(env::AWSEnv, action::String, params_in::Array{Tuple}) = call_ec2(env, action, nothing, params_in)
 export ec2_generic
 
-function call_ec2(env::EC2Env, action::String, msg=nothing, params_in=nothing)
+function call_ec2(env::AWSEnv, action::String, msg=nothing, params_in=nothing)
     # Prepare the standard params
     params=Array(Tuple,0)
     if params_in != nothing
@@ -218,11 +209,11 @@ function call_ec2(env::EC2Env, action::String, msg=nothing, params_in=nothing)
         end
     else
         for (k, v) in sorted
-            println("$k => $v\n")
+            println("$k => $v")
         end
-        println("Signature => " * bytestring(signature_b64) * "\n\n")
+        println("Signature => " * bytestring(signature_b64) * "\n")
         
-        println("URL:\n$complete_url \n\n")
+        println("URL:\n$complete_url \n")
         return nothing
     end
 end

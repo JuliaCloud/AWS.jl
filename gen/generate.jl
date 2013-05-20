@@ -6,7 +6,6 @@ using LibExpat
 # not reduced to string
 #IpRanges
 
-# Handle _type and _return
 
 type TypeContext
     name
