@@ -1,10 +1,18 @@
 using LibExpat
 
+# 0-indexed
+#AssignPrivateIpAddresses
+
+# not reduced to string
+#IpRanges
+
+# Handle _type and _return
 
 type TypeContext
     name
     const_lhs
     const_rhs
+    nothings_str
     deps
     definition
     f
@@ -12,7 +20,8 @@ type TypeContext
     TypeContext(name, f) = new(
             name,
             "    " * name * "(" ,
-            " new(", 
+            " new(",
+            "",
             Set(),
             "type " * name * "\n",
             f
@@ -34,15 +43,42 @@ written = Set()
 pending = Set()
 empty_types = Set()
 all_ctypes_map = Dict{String, ParsedData}()
+valid_rqst_msgs={}
 
-function is_set_type(type_name)
+function get_type_in_jl(xtype_name)
+    if beginswith(xtype_name, "xs:")
+        if xtype_name == "xs:string"
+            native_type = "ASCIIString"
+        elseif xtype_name == "xs:integer"
+            native_type = "Int"
+        elseif xtype_name == "xs:int"
+            native_type = "Int32"
+        elseif xtype_name == "xs:long"
+            native_type = "Int64"
+        elseif xtype_name == "xs:double"
+            native_type = "Float64"
+        elseif xtype_name == "xs:dateTime"
+            native_type = "XSDateTime"
+        elseif xtype_name == "xs:boolean"
+            native_type = "Bool"
+        else
+            error("Unhandled xs type!")
+        end
+        
+        return (native_type, true)
+    elseif beginswith(xtype_name, "tns:")
+        return (xtype_name[5:], false)
+    end 
+end
+
+function is_set_type(type_name, is_native)
     ctype = all_ctypes_map[type_name]
     elements = find (ctype, "xs:sequence/xs:element")
     if isa(elements, Array) && (length(elements) == 1)
         ele = elements[1]
         if haskey(ele.attr, "maxOccurs") && (ele.attr["maxOccurs"] == "unbounded")
             ele_type_name = ele.attr["type"]
-            println("Found type with single entry of type $ele_type_name array for $type_name")
+#            println("Found type with single entry of type $ele_type_name array for $type_name")
             
             if beginswith(ele_type_name, "tns:")
                 ele_type_name = ele_type_name[5:]
@@ -56,40 +92,29 @@ function is_set_type(type_name)
                 ele_ele_name = ele_ele.attr["name"]
                 ele_ele_type_name = ele_ele.attr["type"]
                 
-                if beginswith(ele_ele_type_name, "xs:")
-                    println("$ele_type_name is of a basic type $ele_ele_type_name")
-                    return (true, ele_ele_type_name[4:])
-                else
-                    println("$ele_type_name is of a compound type $ele_ele_type_name")
-                    return (true, ele_ele_type_name[5:])
-                end
+                (jl_type, is_native) =  get_type_in_jl(ele_ele_type_name) 
+                return (true, jl_type, is_native)
             elseif isa(ele_elements, Array)
-                println("$ele_type_name is not reduceable further")
-                return (true, ele_type_name)
+#                println("$ele_type_name is not reduceable further")
+                return (true, ele_type_name, is_native)
             else
-                println("$ele_type_name is probably a choice")
-                return (true, ele_type_name)
+#                println("$ele_type_name is probably a choice")
+                return (true, ele_type_name, is_native)
             end
         end
     end
-    return (false, nothing)
+    return (false, type_name, is_native)
 end
 
 
 
-function get_type_for_elements(tctx, elements, optional_in=false)
+function get_type_for_elements(tctx, elements)
     lhs_pfx = ""
     rhs_pfx = ""
     
     for x in elements
         xtype = x.attr["type"]
         xname = check_member_name(x.attr["name"])
-        
-        optional = optional_in ? true : false
-        if haskey(x.attr, "minOccurs")
-            minOccurs = parseint(x.attr["minOccurs"])
-            if (minOccurs == 0) optional = true end
-        end
         
         isarrtype = false
         if haskey(x.attr, "maxOccurs")
@@ -101,58 +126,50 @@ function get_type_for_elements(tctx, elements, optional_in=false)
             end
         end
 
+
+        (jltype, native) = get_type_in_jl(xtype)
+        
+        
+        if native
+            replacewitharr = false
+            new_jltype = jltype
+        else
+            # If this element type is a single element array type and
+            # the array is not of a compound type, just create the array 
+            # directly here.
+            
+            (replacewitharr, new_jltype, native) = is_set_type(jltype, native)
+            if !native
+                add!(tctx.deps, new_jltype)
+            end
+        end
+
+#         if replacewitharr
+#             println("Replacing $jltype with $new_jltype")
+#         end
+        
         type_name = "    " * xname * "::"
-        if isarrtype
+        if isarrtype || replacewitharr
             valid_type = "Array{TYPE,1}"
         else
             valid_type = "TYPE"
         end
-        
-        
-        
-        if !optional
-            tctx.const_lhs = tctx.const_lhs * lhs_pfx * xname
-            tctx.const_rhs = tctx.const_rhs * rhs_pfx * xname
-            lhs_pfx = ", "
-        else
-            tctx.const_rhs = tctx.const_rhs * rhs_pfx *  "nothing"
-            valid_type = "Union($valid_type, Nothing)"
-        end
-        rhs_pfx = ", "
 
+        tctx.const_lhs = tctx.const_lhs * lhs_pfx * xname
+        tctx.const_rhs = tctx.const_rhs * rhs_pfx * xname
+        tctx.nothings_str = tctx.nothings_str * rhs_pfx * "nothing"
+        
+        lhs_pfx = ", "
+        rhs_pfx = ", "
+        
+        # NOTE : Allowing "Nothing" for all elements since the WSDL is wrong is some places
+        # w.r.t. mandatory elements.
+        valid_type = "Union($valid_type, Nothing)"
+        
         typetpl = type_name*valid_type
         
         
-        if xtype == "xs:string"
-            eletype = "String"
-        elseif xtype == "xs:integer"
-            eletype = "Int"
-        elseif xtype == "xs:int"
-            eletype = "Int32"
-        elseif xtype == "xs:long"
-            eletype = "Int64"
-        elseif xtype == "xs:double"
-            eletype = "Float64"
-        elseif xtype == "xs:dateTime"
-            eletype = "XSDateTime"
-        elseif xtype == "xs:boolean"
-            eletype = "Bool"
-        else
-            if beginswith(xtype, "tns:") 
-                eletype = xtype[5:]
-                
-                # If this element type is a single element array type and
-                # the array is not of a compound type, just create the array 
-                # directly here.
-                is_set_type(eletype)
-                
-                add!(tctx.deps, eletype)
-            else
-                error("Unknown element datatype $xtype !")
-            end
-        end
-        
-        typestr = replace(typetpl, "TYPE", eletype)
+        typestr = replace(typetpl, "TYPE", new_jltype)
         tctx.definition = tctx.definition * typestr*"\n"
     end
 end
@@ -162,7 +179,7 @@ function process_choice_tags(tctx, choice_elems)
     for choice in choice_elems
         if haskey(choice.elements, "xs:element")
             xs_elements = choice_elems[1].elements["xs:element"]
-            get_type_for_elements(tctx, xs_elements, true)
+            get_type_for_elements(tctx, xs_elements)
         else
             error("No 'element's under choice!")
         end
@@ -192,7 +209,7 @@ function generate_all_types(ctypes, f)
                 process_choice_tags(tctx, seq_elems[1].elements["xs:choice"])
                 
             elseif haskey(sequence.elements, "xs:group")
-                tctx.definition = "    attribute::String\n"
+                tctx.definition = "    attribute::ASCIIString\n"
             else
                 error("Unknown SEQUENCE TYPE!")
             end
@@ -205,7 +222,8 @@ function generate_all_types(ctypes, f)
         else
             error("Unknown elements type!")
         end 
-        tctx.definition = tctx.definition * "\n" * tctx.const_lhs * ") = " * tctx.const_rhs * ")\n" * "end\n"
+        tctx.definition = tctx.definition * "\n" * tctx.const_lhs * ") = \n        " * tctx.const_rhs * ")\n"
+        tctx.definition = tctx.definition * "    " * tctx.name * "() = \n        new(" * tctx.nothings_str * ")\n" * "end\n"
         
         
         if length(tctx.deps) == 0
@@ -273,6 +291,8 @@ function generate_operations(wsdl, operations, f)
         msg_type_map[m.attr["name"]] = m_type
     end
     
+
+    op_tpl = open(readall, "op.tpl")
     
     for op in operations
         op_name = op.attr["name"]
@@ -283,14 +303,20 @@ function generate_operations(wsdl, operations, f)
 
         # make sure that the rqst type is not a NULL type....
         if contains(empty_types, rqst_type)
-            write (f, "function $op_name ()\n") 
+            op_params = ""
+            op_msg = ""
         else
-            write (f, "function $op_name (msg::$rqst_type)\n") 
+            op_params = ", msg::Union($rqst_type, Nothing)"
+            op_msg = ", msg"
         end
+
+        push!(valid_rqst_msgs, rqst_type)
+
+        op_str = replace(op_tpl, "[[OP_NAME]]", op_name)
+        op_str = replace(op_str, "[[OP_MSG]]", op_msg)
+        op_str = replace(op_str, "[[OP_PARAMS]]", op_params)
         
-        write (f, "# response of type $resp_type\n") 
-        write (f, "end\n") 
-        write (f, "export $op_name\n\n\n") 
+        write (f, "$op_str\n\n") 
     
     end
 
@@ -305,7 +331,6 @@ for wsdl_file in split(readall(`ls ./wsdl`))
     
     # EC2 types....
     f = open("../src/ec2_types.jl", "w+")
-    write(f, "type XSDateTime\n\ty::Int\n\tm::Int\n\td::Int\n\th::Int\n\tmi::Int\n\ts::Int\nend\n\n")
     
     ctypes = find(wsdl, "definitions/types/xs:schema/xs:complexType")
     generate_all_types(ctypes, f)
@@ -317,6 +342,12 @@ for wsdl_file in split(readall(`ls ./wsdl`))
     operations = find(wsdl, "definitions/portType/operation")
     generate_operations(wsdl, operations, f)
     
+    # generate the list of valid rqst messages 
+    write(f, "ValidRqstMsgs = [\n    \"$(valid_rqst_msgs[1])\"=>true")
+    for v in valid_rqst_msgs[2:]
+        write(f, ",\n    \"$v\"=>true")
+    end
+    write(f, "\n]\n\n")
     
     close(f)
     
