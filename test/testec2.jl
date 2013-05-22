@@ -1,9 +1,21 @@
 using AWSLib.EC2
-using AWSLib.AWSEnv
+using AWSLib
 
-env = AWSEnv(EC2.EP_US_WEST_OREGON, ENV["AWS_ID"], ENV["AWS_SECKEY"], true)
+env = AWSEnv(ENV["AWS_ID"], ENV["AWS_SECKEY"], EP_US_EAST_NORTHERN_VIRGINIA, false, true)
 
-resp = EC2.DescribeAvailabilityZones(env, nothing)
+resp = EC2.DescribeInstances(env, nothing)
+println(resp)
+
+exit()
+
+try
+    resp = EC2.DescribeAvailabilityZones(env, nothing)
+    println(resp)
+catch e
+    println(e)
+end
+
+
 
 msg = AssignPrivateIpAddressesType()
 msg.networkInterfaceId = "NIC"

@@ -44,21 +44,21 @@ empty_types = Set()
 all_ctypes_map = Dict{String, ParsedData}()
 valid_rqst_msgs={}
 
-function get_type_in_jl(xtype_name)
-    if beginswith(xtype_name, "xs:")
-        if xtype_name == "xs:string"
+function get_type_in_jl(xtype_name, ns_pfx)
+    if beginswith(xtype_name, ns_pfx)
+        if xtype_name == "$(ns_pfx)string"
             native_type = "ASCIIString"
-        elseif xtype_name == "xs:integer"
+        elseif xtype_name == "$(ns_pfx)integer"
             native_type = "Int"
-        elseif xtype_name == "xs:int"
+        elseif xtype_name == "$(ns_pfx)int"
             native_type = "Int32"
-        elseif xtype_name == "xs:long"
+        elseif xtype_name == "$(ns_pfx)long"
             native_type = "Int64"
-        elseif xtype_name == "xs:double"
+        elseif xtype_name == "$(ns_pfx)double"
             native_type = "Float64"
-        elseif xtype_name == "xs:dateTime"
+        elseif xtype_name == "$(ns_pfx)dateTime"
             native_type = "XSDateTime"
-        elseif xtype_name == "xs:boolean"
+        elseif xtype_name == "$(ns_pfx)boolean"
             native_type = "Bool"
         else
             error("Unhandled xs type!")
@@ -70,9 +70,9 @@ function get_type_in_jl(xtype_name)
     end 
 end
 
-function is_set_type(type_name, is_native)
+function is_set_type(type_name, is_native, ns_pfx)
     ctype = all_ctypes_map[type_name]
-    elements = find (ctype, "xs:sequence/xs:element")
+    elements = find (ctype, "$(ns_pfx)sequence/$(ns_pfx)element")
     if isa(elements, Array) && (length(elements) == 1)
         ele = elements[1]
         if haskey(ele.attr, "maxOccurs") && (ele.attr["maxOccurs"] == "unbounded")
@@ -84,14 +84,14 @@ function is_set_type(type_name, is_native)
             end
             
             ele_type = all_ctypes_map[ele_type_name]
-            ele_elements = find (ele_type, "xs:sequence/xs:element")
+            ele_elements = find (ele_type, "$(ns_pfx)sequence/$(ns_pfx)element")
             
             if isa(ele_elements, Array) && (length(ele_elements) == 1)
                 ele_ele = ele_elements[1]
                 ele_ele_name = ele_ele.attr["name"]
                 ele_ele_type_name = ele_ele.attr["type"]
                 
-                (jl_type, is_native) =  get_type_in_jl(ele_ele_type_name) 
+                (jl_type, is_native) =  get_type_in_jl(ele_ele_type_name, ns_pfx) 
                 return (true, jl_type, is_native)
             elseif isa(ele_elements, Array)
 #                println("$ele_type_name is not reduceable further")
@@ -107,7 +107,7 @@ end
 
 
 
-function get_type_for_elements(tctx, elements)
+function get_type_for_elements(tctx, elements, ns_pfx)
     lhs_pfx = ""
     rhs_pfx = ""
     
@@ -126,7 +126,7 @@ function get_type_for_elements(tctx, elements)
         end
 
 
-        (jltype, native) = get_type_in_jl(xtype)
+        (jltype, native) = get_type_in_jl(xtype, ns_pfx)
         
         
         if native
@@ -137,7 +137,7 @@ function get_type_for_elements(tctx, elements)
             # the array is not of a compound type, just create the array 
             # directly here.
             
-            (replacewitharr, new_jltype, native) = is_set_type(jltype, native)
+            (replacewitharr, new_jltype, native) = is_set_type(jltype, native, ns_pfx)
             if !native
                 add!(tctx.deps, new_jltype)
             end
@@ -174,52 +174,57 @@ function get_type_for_elements(tctx, elements)
 end
 
 
-function process_choice_tags(tctx, choice_elems)
+function process_choice_tags(tctx, choice_elems, ns_pfx)
     for choice in choice_elems
-        if haskey(choice.elements, "xs:element")
-            xs_elements = choice_elems[1].elements["xs:element"]
-            get_type_for_elements(tctx, xs_elements)
+        if haskey(choice.elements, "$(ns_pfx)element")
+            xs_elements = choice_elems[1].elements["$(ns_pfx)element"]
+            get_type_for_elements(tctx, xs_elements, ns_pfx)
         else
             error("No 'element's under choice!")
         end
     end
 end
 
-function generate_all_types(ctypes, f)
+function generate_all_types(ctypes, f, ns_pfx)
     #populate the global map of ctypes
     for ctype in ctypes
         all_ctypes_map[ctype.attr["name"]] = ctype
     end
 
+    tag_sequence = ns_pfx * "sequence"
+    tag_element = ns_pfx * "element"
+    tag_choice = ns_pfx * "choice"
+    tag_group = ns_pfx * "group"
+    
     for ctype in ctypes
         tctx = TypeContext(ctype.attr["name"], f)
         
-        if haskey(ctype.elements, "xs:sequence")
-            seq_elems = ctype.elements["xs:sequence"]
+        if haskey(ctype.elements, tag_sequence)
+            seq_elems = ctype.elements[tag_sequence]
             # sanity check
             if length(seq_elems) > 1 error("More than one sequence!") end
             sequence = seq_elems[1]
             
-            if haskey(sequence.elements, "xs:element")
-                xs_elements = seq_elems[1].elements["xs:element"]
-                get_type_for_elements(tctx, xs_elements)
+            if haskey(sequence.elements, tag_element)
+                xs_elements = seq_elems[1].elements[tag_element]
+                get_type_for_elements(tctx, xs_elements, ns_pfx)
                 
-            elseif haskey(sequence.elements, "xs:choice")
-                process_choice_tags(tctx, seq_elems[1].elements["xs:choice"])
+            elseif haskey(sequence.elements, tag_choice)
+                process_choice_tags(tctx, seq_elems[1].elements[tag_choice], ns_pfx)
                 
-            elseif haskey(sequence.elements, "xs:group")
+            elseif haskey(sequence.elements, tag_group)
                 tctx.definition = "    attribute::ASCIIString\n"
             else
                 error("Unknown SEQUENCE TYPE!")
             end
-        elseif haskey(ctype.elements, "xs:choice")
-            process_choice_tags(tctx, ctype.elements["xs:choice"])
+        elseif haskey(ctype.elements, tag_choice)
+            process_choice_tags(tctx, ctype.elements[tag_choice], ns_pfx)
             
         elseif length(ctype.elements) == 0
             add!(empty_types, ctype.attr["name"])
             continue
         else
-            error("Unknown elements type!")
+            error("Unknown elements type: " * string(ctype.elements))
         end 
         tctx.definition = tctx.definition * "\n" * tctx.const_lhs * ") = \n        " * tctx.const_rhs * ")\n"
         tctx.definition = tctx.definition * "    " * tctx.name * "() = \n        new(" * tctx.nothings_str * ")\n" * "end\n"
@@ -277,8 +282,8 @@ function write_dependent_types(f)
 end
 
 
-function generate_operations(wsdl, operations, f)
-    msg_elements = find(wsdl, "definitions/types/xs:schema/xs:element")
+function generate_operations(wsdl, operations, f, ns_pfx)
+    msg_elements = find(wsdl, "definitions/types/$(ns_pfx)schema/$(ns_pfx)element")
     msg_type_map = Dict{String, String}()
     
     
@@ -323,36 +328,77 @@ end
 
 
 
-# Load all the WSDLs
-for wsdl_file in split(readall(`ls ./wsdl`))
-    wsdl = xp_parse(open(readall, "./wsdl/" * wsdl_file))
+# Generate for EC2
+wsdl = xp_parse(open(readall, "./wsdl/ec2_2013_02_01.wsdl"))
 
-    
-    # EC2 types....
-    f = open("../src/ec2_types.jl", "w+")
-    
-    ctypes = find(wsdl, "definitions/types/xs:schema/xs:complexType")
-    generate_all_types(ctypes, f)
-    write_dependent_types(f)
-    close(f)
-    
-    # EC2 calls....
-    f = open("../src/ec2_operations.jl", "w+")
-    operations = find(wsdl, "definitions/portType/operation")
-    generate_operations(wsdl, operations, f)
-    
-    # generate the list of valid rqst messages 
-    write(f, "ValidRqstMsgs = [\n    \"$(valid_rqst_msgs[1])\"=>true")
-    for v in valid_rqst_msgs[2:]
-        write(f, ",\n    \"$v\"=>true")
-    end
-    write(f, "\n]\n\n")
-    
-    close(f)
-    
-    
+
+# EC2 types....
+f = open("../src/ec2_types.jl", "w+")
+
+ctypes = find(wsdl, "definitions/types/xs:schema/xs:complexType")
+generate_all_types(ctypes, f, "xs:")
+write_dependent_types(f)
+close(f)
+
+# EC2 calls....
+f = open("../src/ec2_operations.jl", "w+")
+operations = find(wsdl, "definitions/portType/operation")
+generate_operations(wsdl, operations, f, "xs:")
+
+# generate the list of valid rqst messages 
+write(f, "ValidRqstMsgs = [\n    \"$(valid_rqst_msgs[1])\"=>true")
+for v in valid_rqst_msgs[2:]
+    write(f, ",\n    \"$v\"=>true")
 end
+write(f, "\n]\n\n")
 
+close(f)
+    
+
+#Reset all global structures...
+types_map = Dict{String, String}()
+dep_map = Dict{String, Set}()
+written = Set()
+pending = Set()
+empty_types = Set()
+all_ctypes_map = Dict{String, ParsedData}()
+valid_rqst_msgs={}
+    
+# Generate for S3
+wsdl = xp_parse(open(readall, "./wsdl/AmazonS3.xsd"))
+
+
+# EC2 types....
+f = open("../src/s3_types.jl", "w+")
+
+ctypes = find(wsdl, "xsd:schema/xsd:complexType")
+generate_all_types(ctypes, f, "xsd:")
+write_dependent_types(f)
+close(f)
+
+# # EC2 calls....
+# f = open("../src/ec2_operations.jl", "w+")
+# operations = find(wsdl, "definitions/portType/operation")
+# generate_operations(wsdl, operations, f, "xs:")
+# 
+# # generate the list of valid rqst messages 
+# write(f, "ValidRqstMsgs = [\n    \"$(valid_rqst_msgs[1])\"=>true")
+# for v in valid_rqst_msgs[2:]
+#     write(f, ",\n    \"$v\"=>true")
+# end
+# write(f, "\n]\n\n")
+# 
+# close(f)
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 
 

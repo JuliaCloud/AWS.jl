@@ -2,7 +2,7 @@ module EC2
 
 using LibExpat
 using Calendar
-using Sodium
+using OpenSSL.Crypto
 using Codecs
 using libCURL
 using libCURL.HTTPC
@@ -25,17 +25,6 @@ include("ec2_types.jl")
 include("ec2_operations.jl")
 
 
-const EP_US_EAST_NORTHERN_VIRGINIA     = "ec2.us-east-1.amazonaws.com"
-const EP_US_WEST_OREGON                = "ec2.us-west-2.amazonaws.com"
-const EP_US_WEST_NORTHERN_CALIFORNIA   = "ec2.us-west-1.amazonaws.com"
-const EP_EU_IRELAND                    = "ec2.eu-west-1.amazonaws.com"
-const EP_AP_SINGAPORE                  = "ec2.ap-southeast-1.amazonaws.com"
-const EP_AP_SYDNEY                     = "ec2.ap-southeast-2.amazonaws.com"
-const EP_AP_TOKYO                      = "ec2.ap-northeast-1.amazonaws.com"
-const EP_SA_SAO_PAULO                  = "ec2.sa-east-1.amazonaws.com"
-
-export EP_US_EAST_NORTHERN_VIRGINIA, EP_US_WEST_OREGON, EP_US_WEST_NORTHERN_CALIFORNIA
-export EP_EU_IRELAND, EP_AP_SINGAPORE, EP_AP_SYDNEY, EP_AP_TOKYO, EP_SA_SAO_PAULO
 
 
 function aws_string(v::XSDateTime)
@@ -155,7 +144,7 @@ function call_ec2(env::AWSEnv, action::String, msg=nothing, params_in=nothing)
     end 
     
     push!(params, ("Action", action))
-    push!(params, ("AccessKeyId", env.aws_id))
+    push!(params, ("AWSAccessKeyId", env.aws_id))
     push!(params, ("Timestamp", get_utc_timestamp()))
     push!(params, ("Version", "2013-02-01"))
 #    push!(params, ("Expires", get_utc_timestamp(300))) # Request expires after 300 seconds
@@ -173,24 +162,13 @@ function call_ec2(env::AWSEnv, action::String, msg=nothing, params_in=nothing)
     end
 
     sorted = sort(params)
-    
-    querystr = urlencode_params(params)
+    querystr = urlencode_params(sorted)
     
     str2sign = "GET\n" * lowercase(env.ep) * "\n" * "/\n" * querystr
+    println(str2sign)
+    sb = Crypto.hmacsha256_digest(str2sign, env.aws_seckey)
     
-    signature_bytes = zeros(Uint8, 32)
-    key_bytes = zeros(Uint8, 64)
-    
-    if length(env.aws_seckey) <= 64
-        copy!(key_bytes, convert(Array{Uint8,1}, env.aws_seckey))
-    else
-        Sodium.crypto_hash_sha256(key_bytes, env.aws_seckey, length(env.aws_seckey));
-    end
-    
-    
-    rc = Sodium.crypto_auth_hmacsha256(signature_bytes, str2sign, length(str2sign), key_bytes)
-    
-    signature_b64 = Codecs.encode(Base64, signature_bytes)
+    signature_b64 = Codecs.encode(Base64, sb)
     
     #escape the signature
     signature_querystr = urlencode_params([("Signature", bytestring(signature_b64))])
@@ -198,24 +176,39 @@ function call_ec2(env::AWSEnv, action::String, msg=nothing, params_in=nothing)
     complete_url = "http://" * env.ep * "/?" * querystr * "&" * signature_querystr
     
     #make the request
-    if !(env.dry_run)
-        resp = HTTPC.get(complete_url)
-        
-        if (resp.http_code == 200)
-            xom = xp_parse(resp.body)
-            return xom
-        else
-            error("HTTP error : $(resp.http_code)")
-        end
-    else
+    if (env.dbg)
         for (k, v) in sorted
             println("$k => $v")
         end
         println("Signature => " * bytestring(signature_b64) * "\n")
         
         println("URL:\n$complete_url \n")
-        return nothing
     end
+    
+    if !(env.dry_run)
+        resp = HTTPC.get(complete_url)
+        
+        if (resp.http_code == 200)
+            xom = xp_parse(resp.body)
+            return xom
+        elseif (resp.http_code >= 400) && (resp.http_code <= 599)
+            ec = ""
+            ec_msg = ""
+            rid = ""
+            if length(resp.body) > 0
+                xom = xp_parse(resp.body)
+                rid = find(xom, "Response/RequestID#text")
+                ec = find(xom, "Response/Errors/Error/Code#text")
+                ec_msg = find(xom, "Response/Errors/Error/Message#text")
+            end
+        
+            return (rid, resp.http_code, ec, ec_msg)
+        else
+            error("HTTP error : $(resp.http_code), $(resp.body)")
+        end
+    end 
+    
+    return nothing
 end
 
         
