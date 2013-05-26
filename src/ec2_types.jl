@@ -280,7 +280,7 @@ type InstanceNetworkInterfaceAttachmentType
     attachmentId::Union(ASCIIString, Nothing)
     deviceIndex::Union(Int32, Nothing)
     status::Union(ASCIIString, Nothing)
-    attachTime::Union(XSDateTime, Nothing)
+    attachTime::Union(CalendarTime, Nothing)
     deleteOnTermination::Union(Bool, Nothing)
 
     InstanceNetworkInterfaceAttachmentType(; attachmentId=nothing, deviceIndex=nothing, status=nothing, attachTime=nothing, deleteOnTermination=nothing) = 
@@ -333,7 +333,7 @@ export InstanceBlockDeviceMappingResponseItemType
 type EbsInstanceBlockDeviceMappingResponseType
     volumeId::Union(ASCIIString, Nothing)
     status::Union(ASCIIString, Nothing)
-    attachTime::Union(XSDateTime, Nothing)
+    attachTime::Union(CalendarTime, Nothing)
     deleteOnTermination::Union(Bool, Nothing)
 
     EbsInstanceBlockDeviceMappingResponseType(; volumeId=nothing, status=nothing, attachTime=nothing, deleteOnTermination=nothing) = 
@@ -429,7 +429,7 @@ export GetConsoleOutputType
 type GetConsoleOutputResponseType
     requestId::Union(ASCIIString, Nothing)
     instanceId::Union(ASCIIString, Nothing)
-    timestamp::Union(XSDateTime, Nothing)
+    timestamp::Union(CalendarTime, Nothing)
     output::Union(ASCIIString, Nothing)
 
     GetConsoleOutputResponseType(; requestId=nothing, instanceId=nothing, timestamp=nothing, output=nothing) = 
@@ -450,7 +450,7 @@ export GetPasswordDataType
 type GetPasswordDataResponseType
     requestId::Union(ASCIIString, Nothing)
     instanceId::Union(ASCIIString, Nothing)
-    timestamp::Union(XSDateTime, Nothing)
+    timestamp::Union(CalendarTime, Nothing)
     passwordData::Union(ASCIIString, Nothing)
 
     GetPasswordDataResponseType(; requestId=nothing, instanceId=nothing, timestamp=nothing, passwordData=nothing) = 
@@ -1093,7 +1093,7 @@ type CreateVolumeResponseType
     snapshotId::Union(ASCIIString, Nothing)
     availabilityZone::Union(ASCIIString, Nothing)
     status::Union(ASCIIString, Nothing)
-    createTime::Union(XSDateTime, Nothing)
+    createTime::Union(CalendarTime, Nothing)
     volumeType::Union(ASCIIString, Nothing)
     iops::Union(Int32, Nothing)
 
@@ -1136,7 +1136,7 @@ type AttachmentSetItemResponseType
     instanceId::Union(ASCIIString, Nothing)
     device::Union(ASCIIString, Nothing)
     status::Union(ASCIIString, Nothing)
-    attachTime::Union(XSDateTime, Nothing)
+    attachTime::Union(CalendarTime, Nothing)
     deleteOnTermination::Union(Bool, Nothing)
 
     AttachmentSetItemResponseType(; volumeId=nothing, instanceId=nothing, device=nothing, status=nothing, attachTime=nothing, deleteOnTermination=nothing) = 
@@ -1162,7 +1162,7 @@ type AttachVolumeResponseType
     instanceId::Union(ASCIIString, Nothing)
     device::Union(ASCIIString, Nothing)
     status::Union(ASCIIString, Nothing)
-    attachTime::Union(XSDateTime, Nothing)
+    attachTime::Union(CalendarTime, Nothing)
 
     AttachVolumeResponseType(; requestId=nothing, volumeId=nothing, instanceId=nothing, device=nothing, status=nothing, attachTime=nothing) = 
          new(requestId, volumeId, instanceId, device, status, attachTime)
@@ -1188,7 +1188,7 @@ type DetachVolumeResponseType
     instanceId::Union(ASCIIString, Nothing)
     device::Union(ASCIIString, Nothing)
     status::Union(ASCIIString, Nothing)
-    attachTime::Union(XSDateTime, Nothing)
+    attachTime::Union(CalendarTime, Nothing)
 
     DetachVolumeResponseType(; requestId=nothing, volumeId=nothing, instanceId=nothing, device=nothing, status=nothing, attachTime=nothing) = 
          new(requestId, volumeId, instanceId, device, status, attachTime)
@@ -1211,7 +1211,7 @@ type CreateSnapshotResponseType
     snapshotId::Union(ASCIIString, Nothing)
     volumeId::Union(ASCIIString, Nothing)
     status::Union(ASCIIString, Nothing)
-    startTime::Union(XSDateTime, Nothing)
+    startTime::Union(CalendarTime, Nothing)
     progress::Union(ASCIIString, Nothing)
     ownerId::Union(ASCIIString, Nothing)
     volumeSize::Union(ASCIIString, Nothing)
@@ -1600,7 +1600,7 @@ export VpnStaticRouteType
 type VpnTunnelTelemetryType
     outsideIpAddress::Union(ASCIIString, Nothing)
     status::Union(ASCIIString, Nothing)
-    lastStatusChange::Union(XSDateTime, Nothing)
+    lastStatusChange::Union(CalendarTime, Nothing)
     statusMessage::Union(ASCIIString, Nothing)
     acceptedRouteCount::Union(Int32, Nothing)
 
@@ -1969,7 +1969,7 @@ export SpotInstanceStateFaultType
 
 type SpotInstanceStatusMessageType
     code::Union(ASCIIString, Nothing)
-    updateTime::Union(XSDateTime, Nothing)
+    updateTime::Union(CalendarTime, Nothing)
     message::Union(ASCIIString, Nothing)
 
     SpotInstanceStatusMessageType(; code=nothing, updateTime=nothing, message=nothing) = 
@@ -2028,7 +2028,7 @@ type SpotPriceHistorySetItemType
     instanceType::Union(ASCIIString, Nothing)
     productDescription::Union(ASCIIString, Nothing)
     spotPrice::Union(ASCIIString, Nothing)
-    timestamp::Union(XSDateTime, Nothing)
+    timestamp::Union(CalendarTime, Nothing)
     availabilityZone::Union(ASCIIString, Nothing)
 
     SpotPriceHistorySetItemType(; instanceType=nothing, productDescription=nothing, spotPrice=nothing, timestamp=nothing, availabilityZone=nothing) = 
@@ -2070,7 +2070,7 @@ type LicenseCapacitySetItemType
     capacity::Union(Int32, Nothing)
     instanceCapacity::Union(Int32, Nothing)
     state::Union(ASCIIString, Nothing)
-    earliestAllowedDeactivationTime::Union(XSDateTime, Nothing)
+    earliestAllowedDeactivationTime::Union(CalendarTime, Nothing)
 
     LicenseCapacitySetItemType(; capacity=nothing, instanceCapacity=nothing, state=nothing, earliestAllowedDeactivationTime=nothing) = 
          new(capacity, instanceCapacity, state, earliestAllowedDeactivationTime)
@@ -2851,7 +2851,7 @@ export DeleteNetworkAclEntryResponseType
 type InstanceStatusDetailsSetItemType
     name::Union(ASCIIString, Nothing)
     status::Union(ASCIIString, Nothing)
-    impairedSince::Union(XSDateTime, Nothing)
+    impairedSince::Union(CalendarTime, Nothing)
 
     InstanceStatusDetailsSetItemType(; name=nothing, status=nothing, impairedSince=nothing) = 
          new(name, status, impairedSince)
@@ -2862,8 +2862,8 @@ export InstanceStatusDetailsSetItemType
 type InstanceStatusEventType
     code::Union(ASCIIString, Nothing)
     description::Union(ASCIIString, Nothing)
-    notBefore::Union(XSDateTime, Nothing)
-    notAfter::Union(XSDateTime, Nothing)
+    notBefore::Union(CalendarTime, Nothing)
+    notAfter::Union(CalendarTime, Nothing)
 
     InstanceStatusEventType(; code=nothing, description=nothing, notBefore=nothing, notAfter=nothing) = 
          new(code, description, notBefore, notAfter)
@@ -2874,8 +2874,8 @@ export InstanceStatusEventType
 type ReportInstanceStatusType
     instancesSet::Union(Array{ASCIIString,1}, Nothing)
     status::Union(ASCIIString, Nothing)
-    startTime::Union(XSDateTime, Nothing)
-    endTime::Union(XSDateTime, Nothing)
+    startTime::Union(CalendarTime, Nothing)
+    endTime::Union(CalendarTime, Nothing)
     reasonCodesSet::Union(Array{ASCIIString,1}, Nothing)
     description::Union(ASCIIString, Nothing)
 
@@ -2919,7 +2919,7 @@ type NetworkInterfaceAttachmentType
     instanceOwnerId::Union(ASCIIString, Nothing)
     deviceIndex::Union(Int32, Nothing)
     status::Union(ASCIIString, Nothing)
-    attachTime::Union(XSDateTime, Nothing)
+    attachTime::Union(CalendarTime, Nothing)
     deleteOnTermination::Union(Bool, Nothing)
 
     NetworkInterfaceAttachmentType(; attachmentId=nothing, instanceId=nothing, instanceOwnerId=nothing, deviceIndex=nothing, status=nothing, attachTime=nothing, deleteOnTermination=nothing) = 
@@ -3131,8 +3131,8 @@ export VolumeStatusDetailsItemType
 
 type VolumeStatusEventItemType
     description::Union(ASCIIString, Nothing)
-    notBefore::Union(XSDateTime, Nothing)
-    notAfter::Union(XSDateTime, Nothing)
+    notBefore::Union(CalendarTime, Nothing)
+    notAfter::Union(CalendarTime, Nothing)
     eventId::Union(ASCIIString, Nothing)
     eventType::Union(ASCIIString, Nothing)
 
@@ -3673,8 +3673,8 @@ export DescribeKeyPairsInfoType
 type DescribeReservedInstancesListingsResponseSetItemType
     reservedInstancesListingId::Union(ASCIIString, Nothing)
     reservedInstancesId::Union(ASCIIString, Nothing)
-    createDate::Union(XSDateTime, Nothing)
-    updateDate::Union(XSDateTime, Nothing)
+    createDate::Union(CalendarTime, Nothing)
+    updateDate::Union(CalendarTime, Nothing)
     status::Union(ASCIIString, Nothing)
     statusMessage::Union(ASCIIString, Nothing)
     instanceCounts::Union(Array{InstanceCountsSetItemType,1}, Nothing)
@@ -3714,7 +3714,7 @@ type DescribeReservedInstancesResponseSetItemType
     reservedInstancesId::Union(ASCIIString, Nothing)
     instanceType::Union(ASCIIString, Nothing)
     availabilityZone::Union(ASCIIString, Nothing)
-    start::Union(XSDateTime, Nothing)
+    start::Union(CalendarTime, Nothing)
     duration::Union(Int64, Nothing)
     fixedPrice::Union(Float64, Nothing)
     usagePrice::Union(Float64, Nothing)
@@ -4262,8 +4262,8 @@ type BundleInstanceTaskType
     instanceId::Union(ASCIIString, Nothing)
     bundleId::Union(ASCIIString, Nothing)
     state::Union(ASCIIString, Nothing)
-    startTime::Union(XSDateTime, Nothing)
-    updateTime::Union(XSDateTime, Nothing)
+    startTime::Union(CalendarTime, Nothing)
+    updateTime::Union(CalendarTime, Nothing)
     storage::Union(BundleInstanceTaskStorageType, Nothing)
     progress::Union(ASCIIString, Nothing)
     error::Union(BundleInstanceTaskErrorType, Nothing)
@@ -4921,7 +4921,7 @@ type DescribeVolumesSetItemResponseType
     snapshotId::Union(ASCIIString, Nothing)
     availabilityZone::Union(ASCIIString, Nothing)
     status::Union(ASCIIString, Nothing)
-    createTime::Union(XSDateTime, Nothing)
+    createTime::Union(CalendarTime, Nothing)
     attachmentSet::Union(Array{AttachmentSetItemResponseType,1}, Nothing)
     tagSet::Union(Array{ResourceTagSetItemType,1}, Nothing)
     volumeType::Union(ASCIIString, Nothing)
@@ -5041,8 +5041,8 @@ export CreateCustomerGatewayResponseType
 
 
 type DescribeSpotPriceHistoryType
-    startTime::Union(XSDateTime, Nothing)
-    endTime::Union(XSDateTime, Nothing)
+    startTime::Union(CalendarTime, Nothing)
+    endTime::Union(CalendarTime, Nothing)
     instanceTypeSet::Union(Array{ASCIIString,1}, Nothing)
     productDescriptionSet::Union(Array{ASCIIString,1}, Nothing)
     filterSet::Union(Array{FilterType,1}, Nothing)
@@ -5176,7 +5176,7 @@ type DescribeSnapshotsSetItemResponseType
     snapshotId::Union(ASCIIString, Nothing)
     volumeId::Union(ASCIIString, Nothing)
     status::Union(ASCIIString, Nothing)
-    startTime::Union(XSDateTime, Nothing)
+    startTime::Union(CalendarTime, Nothing)
     progress::Union(ASCIIString, Nothing)
     ownerId::Union(ASCIIString, Nothing)
     volumeSize::Union(ASCIIString, Nothing)
@@ -5717,13 +5717,13 @@ type SpotInstanceRequestSetItemType
     state::Union(ASCIIString, Nothing)
     fault::Union(SpotInstanceStateFaultType, Nothing)
     status::Union(SpotInstanceStatusMessageType, Nothing)
-    validFrom::Union(XSDateTime, Nothing)
-    validUntil::Union(XSDateTime, Nothing)
+    validFrom::Union(CalendarTime, Nothing)
+    validUntil::Union(CalendarTime, Nothing)
     launchGroup::Union(ASCIIString, Nothing)
     availabilityZoneGroup::Union(ASCIIString, Nothing)
     launchSpecification::Union(LaunchSpecificationResponseType, Nothing)
     instanceId::Union(ASCIIString, Nothing)
-    createTime::Union(XSDateTime, Nothing)
+    createTime::Union(CalendarTime, Nothing)
     productDescription::Union(ASCIIString, Nothing)
     tagSet::Union(Array{ResourceTagSetItemType,1}, Nothing)
     launchedAvailabilityZone::Union(ASCIIString, Nothing)
@@ -5824,8 +5824,8 @@ type RequestSpotInstancesType
     spotPrice::Union(ASCIIString, Nothing)
     instanceCount::Union(Int, Nothing)
     _type::Union(ASCIIString, Nothing)
-    validFrom::Union(XSDateTime, Nothing)
-    validUntil::Union(XSDateTime, Nothing)
+    validFrom::Union(CalendarTime, Nothing)
+    validUntil::Union(CalendarTime, Nothing)
     launchGroup::Union(ASCIIString, Nothing)
     availabilityZoneGroup::Union(ASCIIString, Nothing)
     launchSpecification::Union(LaunchSpecificationRequestType, Nothing)
@@ -6179,7 +6179,7 @@ type RunningInstancesItemType
     amiLaunchIndex::Union(ASCIIString, Nothing)
     productCodes::Union(Array{ProductCodesSetItemType,1}, Nothing)
     instanceType::Union(ASCIIString, Nothing)
-    launchTime::Union(XSDateTime, Nothing)
+    launchTime::Union(CalendarTime, Nothing)
     placement::Union(PlacementResponseType, Nothing)
     kernelId::Union(ASCIIString, Nothing)
     ramdiskId::Union(ASCIIString, Nothing)

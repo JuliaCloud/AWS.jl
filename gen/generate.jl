@@ -55,7 +55,7 @@ function get_type_in_jl(xtype_name, ns_pfx)
         elseif xtype_name == "$(ns_pfx)double"
             native_type = "Float64"
         elseif xtype_name == "$(ns_pfx)dateTime"
-            native_type = "XSDateTime"
+            native_type = "CalendarTime"
         elseif xtype_name == "$(ns_pfx)boolean"
             native_type = "Bool"
         else

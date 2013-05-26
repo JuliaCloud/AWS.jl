@@ -9,16 +9,6 @@ using libCURL.HTTPC
 using AWS.AWSEnv
 
 
-type XSDateTime
-    yr::Int
-    mo::Int
-    da::Int
-    hr::Int
-    mi::Int
-    se::Int
-end
-export XSDateTime
-
 
 #import AWSLib.AWSEnv
 include("ec2_types.jl")
@@ -27,8 +17,8 @@ include("ec2_operations.jl")
 
 
 
-function aws_string(v::XSDateTime)
-    return "$(v.yr)-$(v.mo)-$(v.da)T$(v.hr):$(v.mi):$(v.se)"
+function aws_string(v::CalendarTime)
+    return format("yyyy-MM-DD'T'HH:mm:ss", v)
 end
 
 aws_string(v::Bool) = v ? "True" : "False"
@@ -38,7 +28,7 @@ aws_string(v::Any) = string(v)
 function is_basic_type(v)
     if  isa(v, String) || isa(v, Int) || isa(v, Int32) || 
         isa(v, Int64) || isa(v, Float64) || isa(v, Bool) || 
-        isa(v, XSDateTime)
+        isa(v, CalendarTime)
         
         return true
     end
