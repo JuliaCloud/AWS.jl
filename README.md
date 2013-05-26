@@ -1,4 +1,4 @@
-## AWSLib - Julia interface to Amazon Web Services
+## AWS - Julia interface to Amazon Web Services
 
 This package is a WIP for providing a native julia interface to the AWS API
 

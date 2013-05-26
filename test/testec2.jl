@@ -1,20 +1,20 @@
-using AWSLib.EC2
-using AWSLib
+using AWS.EC2
+using AWS
 
 env = AWSEnv(ENV["AWS_ID"], ENV["AWS_SECKEY"], EP_US_EAST_NORTHERN_VIRGINIA, false, true)
 
-resp = EC2.DescribeInstances(env, nothing)
+resp = EC2.DescribeInstances(env)
 println(resp)
 
-exit()
 
 try
-    resp = EC2.DescribeAvailabilityZones(env, nothing)
+    resp = EC2.DescribeAvailabilityZones(env)
     println(resp)
 catch e
     println(e)
 end
 
+exit()
 
 
 msg = AssignPrivateIpAddressesType()
@@ -63,13 +63,15 @@ ip2.groups = [ugp21, ugp22]
 ip2.ipRanges = ["range21", "range22"]
 
 
-msg = AuthorizeSecurityGroupEgressType()
+msg = AuthorizeSecurityGroupEgressType
+()
 msg.groupId = "ASGroupId"
 msg.ipPermissions = [ip1, ip2]
 
 EC2.AuthorizeSecurityGroupEgress(env, msg)
 
-msg = CreateNetworkAclEntryType("netaclid", 42, "Myproto", "Myaction", true, "CIDRBlock-127.0.0.0/24", IcmpTypeCodeType(42,43), PortRangeType(78,79))
+msg = CreateNetworkAclEntryType
+("netaclid", 42, "Myproto", "Myaction", true, "CIDRBlock-127.0.0.0/24", IcmpTypeCodeType(42,43), PortRangeType(78,79))
 EC2.CreateNetworkAclEntry(env, msg)
 
 

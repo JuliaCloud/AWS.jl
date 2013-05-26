@@ -1,4 +1,4 @@
-module AWSLib
+module AWS
 
 const EP_US_EAST_NORTHERN_VIRGINIA     = "ec2.us-east-1.amazonaws.com"
 const EP_US_WEST_OREGON                = "ec2.us-west-2.amazonaws.com"
@@ -25,5 +25,8 @@ type AWSEnv
 end
 export AWSEnv
 
+
+
+include("crypto.jl")
 include("EC2.jl")
 end

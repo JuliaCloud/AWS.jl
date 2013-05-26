@@ -2,11 +2,11 @@ module EC2
 
 using LibExpat
 using Calendar
-using OpenSSL.Crypto
+using AWS.Crypto
 using Codecs
 using libCURL
 using libCURL.HTTPC
-using AWSLib.AWSEnv
+using AWS.AWSEnv
 
 
 type XSDateTime
@@ -85,6 +85,7 @@ function add_to_params(params, obj, pfx)
     end
 end
 
+#ISO8601
 function get_utc_timestamp(addsecs=0)
     t = Calendar.now() + Calendar.seconds(addsecs)
     utc = Calendar.tz(t, "UTC")
@@ -100,36 +101,6 @@ function get_utc_timestamp(addsecs=0)
 end
 
 
-function urlencode_params(params)
-    curl = curl_easy_init()
-    if (curl == C_NULL) throw("curl_easy_init() failed") end
-
-    querystr = 
-    mapreduce(
-            i -> begin
-                    k,v = i;
-                    sk = string(k)
-                    sv = string(v)
-                    
-                    ek = curl_easy_escape( curl, sk, length(sk))
-                    ev = curl_easy_escape( curl, sv, length(sv))
-
-                    ep = bytestring(ek) * "=" * bytestring(ev)
-
-                    curl_free(ek)
-                    curl_free(ev)
-                    
-                    ep
-                end,
-                
-            (ep1,ep2) -> ep1 * "&" * ep2,
-            
-            params
-    )
-    
-    curl_easy_cleanup(curl)
-    return querystr
-end
 
 ec2_generic(env::AWSEnv, action::String, params_in::Array{Tuple}) = call_ec2(env, action, nothing, params_in)
 export ec2_generic
@@ -162,7 +133,7 @@ function call_ec2(env::AWSEnv, action::String, msg=nothing, params_in=nothing)
     end
 
     sorted = sort(params)
-    querystr = urlencode_params(sorted)
+    querystr = HTTPC.urlencode_query_params(sorted)
     
     str2sign = "GET\n" * lowercase(env.ep) * "\n" * "/\n" * querystr
     println(str2sign)
@@ -171,7 +142,7 @@ function call_ec2(env::AWSEnv, action::String, msg=nothing, params_in=nothing)
     signature_b64 = Codecs.encode(Base64, sb)
     
     #escape the signature
-    signature_querystr = urlencode_params([("Signature", bytestring(signature_b64))])
+    signature_querystr = HTTPC.urlencode_query_params([("Signature", bytestring(signature_b64))])
     
     complete_url = "http://" * env.ep * "/?" * querystr * "&" * signature_querystr
     

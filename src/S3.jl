@@ -1,5 +1,7 @@
 # Etag should always be quoted - in XML as well as headers...
 # handle Content-MD5 for IO stream objects too...
+using OpenSSLCrypto.Crypto
+
 
 type S3Error
     code::String
@@ -312,4 +314,126 @@ end
 function do_request(verb, bucket, req_tag; hdr_params=nothing, query_params=nothing, req_body=nothing, req_istream=nothing, resp_obj=nothing, resp_ostream=nothing)
     return(S3Response, resp)
 end
+
+
+
+const SUB_RESOURCES = 
+    Set("acl", 
+        "lifecycle", 
+        "location", 
+        "logging", 
+        "notification", 
+        "partNumber", 
+        "policy", 
+        "requestPayment", 
+        "torrent", 
+        "uploadId", 
+        "uploads", 
+        "versionId", 
+        "versioning", 
+        "versions",
+        "website",
+        "delete"
+        )
+
+function do_http(env::AWSEnv, verb, bucket, key, sub_resources, http_hdrs, amz_hdrs; content_type="", req_body=nothing, req_istream=nothing)
+    if req_body != nothing
+        digest = zeros(Uint8, 16)
+        MD5(req_body, length(req_body), digest)
+        md5 = bytestring(Codecs.encode(Base64, Crypto.md5(req_body)))
+    elseif req_istream != nothing
+        # Read the entire istream to get the MD5 of the same.
+        md5 = bytestring(Codecs.encode(Base64, Crypto.md5(req_istream)))
+    else
+        md5 = ""
+    end
+    
+    (new_amz_hdrs, full_path, s_b64) = canonicalize_and_sign(env::AWSEnv, verb, bucket, key, sub_resources, md5, content_type, amz_hdrs)
+    
+    url = "https://s3.amazonaws.com" * full_path
+    
+    if verb == :GET
+        
+    elseif verb == :PUT
+    elseif verb == :POST
+    elseif verb == :DELETE
+    elseif verb == :HEAD
+    else
+        error("Unknown HTTP verb $verb")
+    end
+    
+    
+end
+        
+        
+function canonicalize_and_sign(env::AWSEnv, verb, bucket, key, sub_resources, md5, content_type, amz_hdrs)
+    new_amz_hdrs, amz_hdrs_str = get_canon_amz_headers(amz_hdrs)
+    full_path = get_canonicalized_resource(bucket, key, sub_resources)
+
+    str2sign = string(verb) * "\n" *
+    md5 * "\n" *
+    content_type * "\n" * "\n" * # Using x-amz-date instead of Date.
+    amz_hdrs_str * full_path
+    
+    s_raw = Crypto.hmacsha1_digest(str2sign, env.aws_seckey)
+    s_b64 = bytestring(Codecs.encode(Base64, s_raw))
+    
+    return new_amz_hdrs, full_path, s_b64
+end
+
+function get_canonicalized_resource(bucket, key, sub_resources)
+    if length(bucket) > 0
+        part1 = (beginswith(bucket, "/") ? "" : "/") * bucket * 
+        (beginswith(key, "/") ? "" : "/") * key 
+    else
+        part1 = "/"
+    end
+    
+    if length(sub_resources) > 0
+        return part1 * "?" * HTTPC.urlencode_query_params(sort(sub_resources))
+    else
+        return part1
+    end
+end
+
+function get_canon_amz_headers(headers::Vector{Tuple})
+    if length(headers) == 0 return end
+    
+    lcase = [k,v -> (lowercase(strip(k)), v) for k,v in headers]
+    if contains(lcase, "x-amz-date")
+        delete!(lcase, "x-amz-date")
+    end
+    
+    #rfc2616
+    lcase["x-amz-date"] = format("EEE, dd MMM yyyy hh:mm:ss V", Calendar.tz(Calendar.now(), "UTC"))
+    
+    reduced = Dict(String, String)()
+    for k,v in lcase
+        if beginswith("x-amz-", k)
+            new_v = strip(replace(v, "\n", ' '))
+            if contains(reduced, k)
+                ev = reduced[k]
+                reduced[k] = ev * "," * new_v
+            else
+                reduced[k] = new_v
+            end
+        end
+    end
+
+    # Use the sorted one in the final request too since the order of 'values' 
+    sorted = sort(collect(reduced))
+    canon_hdr_str = reduce((acc,elem) -> begin (k,v) = elem; acc * k * ":" * v * "\n" end, "", sorted) 
+    
+    return sorted, canon_hdr_str
+end
+
+
+
+
+
+
+
+
+
+
 

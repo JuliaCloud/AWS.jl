@@ -1,124 +1,124 @@
-function ActivateLicense(env::AWSEnv , msg::Union(ActivateLicenseType, Nothing))
+function ActivateLicense(env::AWSEnv , msg::ActivateLicenseType=ActivateLicenseType())
     return call_ec2(env, "ActivateLicense" , msg)
 end
 export ActivateLicense
 
-function AllocateAddress(env::AWSEnv , msg::Union(AllocateAddressType, Nothing))
+function AllocateAddress(env::AWSEnv , msg::AllocateAddressType=AllocateAddressType())
     return call_ec2(env, "AllocateAddress" , msg)
 end
 export AllocateAddress
 
-function AssignPrivateIpAddresses(env::AWSEnv , msg::Union(AssignPrivateIpAddressesType, Nothing))
+function AssignPrivateIpAddresses(env::AWSEnv , msg::AssignPrivateIpAddressesType=AssignPrivateIpAddressesType())
     return call_ec2(env, "AssignPrivateIpAddresses" , msg)
 end
 export AssignPrivateIpAddresses
 
-function AssociateAddress(env::AWSEnv , msg::Union(AssociateAddressType, Nothing))
+function AssociateAddress(env::AWSEnv , msg::AssociateAddressType=AssociateAddressType())
     return call_ec2(env, "AssociateAddress" , msg)
 end
 export AssociateAddress
 
-function AssociateDhcpOptions(env::AWSEnv , msg::Union(AssociateDhcpOptionsType, Nothing))
+function AssociateDhcpOptions(env::AWSEnv , msg::AssociateDhcpOptionsType=AssociateDhcpOptionsType())
     return call_ec2(env, "AssociateDhcpOptions" , msg)
 end
 export AssociateDhcpOptions
 
-function AssociateRouteTable(env::AWSEnv , msg::Union(AssociateRouteTableType, Nothing))
+function AssociateRouteTable(env::AWSEnv , msg::AssociateRouteTableType=AssociateRouteTableType())
     return call_ec2(env, "AssociateRouteTable" , msg)
 end
 export AssociateRouteTable
 
-function AttachInternetGateway(env::AWSEnv , msg::Union(AttachInternetGatewayType, Nothing))
+function AttachInternetGateway(env::AWSEnv , msg::AttachInternetGatewayType=AttachInternetGatewayType())
     return call_ec2(env, "AttachInternetGateway" , msg)
 end
 export AttachInternetGateway
 
-function AttachNetworkInterface(env::AWSEnv , msg::Union(AttachNetworkInterfaceType, Nothing))
+function AttachNetworkInterface(env::AWSEnv , msg::AttachNetworkInterfaceType=AttachNetworkInterfaceType())
     return call_ec2(env, "AttachNetworkInterface" , msg)
 end
 export AttachNetworkInterface
 
-function AttachVolume(env::AWSEnv , msg::Union(AttachVolumeType, Nothing))
+function AttachVolume(env::AWSEnv , msg::AttachVolumeType=AttachVolumeType())
     return call_ec2(env, "AttachVolume" , msg)
 end
 export AttachVolume
 
-function AttachVpnGateway(env::AWSEnv , msg::Union(AttachVpnGatewayType, Nothing))
+function AttachVpnGateway(env::AWSEnv , msg::AttachVpnGatewayType=AttachVpnGatewayType())
     return call_ec2(env, "AttachVpnGateway" , msg)
 end
 export AttachVpnGateway
 
-function AuthorizeSecurityGroupEgress(env::AWSEnv , msg::Union(AuthorizeSecurityGroupEgressType, Nothing))
+function AuthorizeSecurityGroupEgress(env::AWSEnv , msg::AuthorizeSecurityGroupEgressType=AuthorizeSecurityGroupEgressType())
     return call_ec2(env, "AuthorizeSecurityGroupEgress" , msg)
 end
 export AuthorizeSecurityGroupEgress
 
-function AuthorizeSecurityGroupIngress(env::AWSEnv , msg::Union(AuthorizeSecurityGroupIngressType, Nothing))
+function AuthorizeSecurityGroupIngress(env::AWSEnv , msg::AuthorizeSecurityGroupIngressType=AuthorizeSecurityGroupIngressType())
     return call_ec2(env, "AuthorizeSecurityGroupIngress" , msg)
 end
 export AuthorizeSecurityGroupIngress
 
-function BundleInstance(env::AWSEnv , msg::Union(BundleInstanceType, Nothing))
+function BundleInstance(env::AWSEnv , msg::BundleInstanceType=BundleInstanceType())
     return call_ec2(env, "BundleInstance" , msg)
 end
 export BundleInstance
 
-function CancelBundleTask(env::AWSEnv , msg::Union(CancelBundleTaskType, Nothing))
+function CancelBundleTask(env::AWSEnv , msg::CancelBundleTaskType=CancelBundleTaskType())
     return call_ec2(env, "CancelBundleTask" , msg)
 end
 export CancelBundleTask
 
-function CancelConversionTask(env::AWSEnv , msg::Union(CancelConversionTaskType, Nothing))
+function CancelConversionTask(env::AWSEnv , msg::CancelConversionTaskType=CancelConversionTaskType())
     return call_ec2(env, "CancelConversionTask" , msg)
 end
 export CancelConversionTask
 
-function CancelExportTask(env::AWSEnv , msg::Union(CancelExportTaskType, Nothing))
+function CancelExportTask(env::AWSEnv , msg::CancelExportTaskType=CancelExportTaskType())
     return call_ec2(env, "CancelExportTask" , msg)
 end
 export CancelExportTask
 
-function CancelReservedInstancesListing(env::AWSEnv , msg::Union(CancelReservedInstancesListingType, Nothing))
+function CancelReservedInstancesListing(env::AWSEnv , msg::CancelReservedInstancesListingType=CancelReservedInstancesListingType())
     return call_ec2(env, "CancelReservedInstancesListing" , msg)
 end
 export CancelReservedInstancesListing
 
-function CancelSpotInstanceRequests(env::AWSEnv , msg::Union(CancelSpotInstanceRequestsType, Nothing))
+function CancelSpotInstanceRequests(env::AWSEnv , msg::CancelSpotInstanceRequestsType=CancelSpotInstanceRequestsType())
     return call_ec2(env, "CancelSpotInstanceRequests" , msg)
 end
 export CancelSpotInstanceRequests
 
-function ConfirmProductInstance(env::AWSEnv , msg::Union(ConfirmProductInstanceType, Nothing))
+function ConfirmProductInstance(env::AWSEnv , msg::ConfirmProductInstanceType=ConfirmProductInstanceType())
     return call_ec2(env, "ConfirmProductInstance" , msg)
 end
 export ConfirmProductInstance
 
-function CopyImage(env::AWSEnv , msg::Union(CopyImageType, Nothing))
+function CopyImage(env::AWSEnv , msg::CopyImageType=CopyImageType())
     return call_ec2(env, "CopyImage" , msg)
 end
 export CopyImage
 
-function CopySnapshot(env::AWSEnv , msg::Union(CopySnapshotType, Nothing))
+function CopySnapshot(env::AWSEnv , msg::CopySnapshotType=CopySnapshotType())
     return call_ec2(env, "CopySnapshot" , msg)
 end
 export CopySnapshot
 
-function CreateCustomerGateway(env::AWSEnv , msg::Union(CreateCustomerGatewayType, Nothing))
+function CreateCustomerGateway(env::AWSEnv , msg::CreateCustomerGatewayType=CreateCustomerGatewayType())
     return call_ec2(env, "CreateCustomerGateway" , msg)
 end
 export CreateCustomerGateway
 
-function CreateDhcpOptions(env::AWSEnv , msg::Union(CreateDhcpOptionsType, Nothing))
+function CreateDhcpOptions(env::AWSEnv , msg::CreateDhcpOptionsType=CreateDhcpOptionsType())
     return call_ec2(env, "CreateDhcpOptions" , msg)
 end
 export CreateDhcpOptions
 
-function CreateImage(env::AWSEnv , msg::Union(CreateImageType, Nothing))
+function CreateImage(env::AWSEnv , msg::CreateImageType=CreateImageType())
     return call_ec2(env, "CreateImage" , msg)
 end
 export CreateImage
 
-function CreateInstanceExportTask(env::AWSEnv , msg::Union(CreateInstanceExportTaskType, Nothing))
+function CreateInstanceExportTask(env::AWSEnv , msg::CreateInstanceExportTaskType=CreateInstanceExportTaskType())
     return call_ec2(env, "CreateInstanceExportTask" , msg)
 end
 export CreateInstanceExportTask
@@ -128,157 +128,157 @@ function CreateInternetGateway(env::AWSEnv )
 end
 export CreateInternetGateway
 
-function CreateKeyPair(env::AWSEnv , msg::Union(CreateKeyPairType, Nothing))
+function CreateKeyPair(env::AWSEnv , msg::CreateKeyPairType=CreateKeyPairType())
     return call_ec2(env, "CreateKeyPair" , msg)
 end
 export CreateKeyPair
 
-function CreateNetworkAcl(env::AWSEnv , msg::Union(CreateNetworkAclType, Nothing))
+function CreateNetworkAcl(env::AWSEnv , msg::CreateNetworkAclType=CreateNetworkAclType())
     return call_ec2(env, "CreateNetworkAcl" , msg)
 end
 export CreateNetworkAcl
 
-function CreateNetworkAclEntry(env::AWSEnv , msg::Union(CreateNetworkAclEntryType, Nothing))
+function CreateNetworkAclEntry(env::AWSEnv , msg::CreateNetworkAclEntryType=CreateNetworkAclEntryType())
     return call_ec2(env, "CreateNetworkAclEntry" , msg)
 end
 export CreateNetworkAclEntry
 
-function CreateNetworkInterface(env::AWSEnv , msg::Union(CreateNetworkInterfaceType, Nothing))
+function CreateNetworkInterface(env::AWSEnv , msg::CreateNetworkInterfaceType=CreateNetworkInterfaceType())
     return call_ec2(env, "CreateNetworkInterface" , msg)
 end
 export CreateNetworkInterface
 
-function CreatePlacementGroup(env::AWSEnv , msg::Union(CreatePlacementGroupType, Nothing))
+function CreatePlacementGroup(env::AWSEnv , msg::CreatePlacementGroupType=CreatePlacementGroupType())
     return call_ec2(env, "CreatePlacementGroup" , msg)
 end
 export CreatePlacementGroup
 
-function CreateReservedInstancesListing(env::AWSEnv , msg::Union(CreateReservedInstancesListingType, Nothing))
+function CreateReservedInstancesListing(env::AWSEnv , msg::CreateReservedInstancesListingType=CreateReservedInstancesListingType())
     return call_ec2(env, "CreateReservedInstancesListing" , msg)
 end
 export CreateReservedInstancesListing
 
-function CreateRoute(env::AWSEnv , msg::Union(CreateRouteType, Nothing))
+function CreateRoute(env::AWSEnv , msg::CreateRouteType=CreateRouteType())
     return call_ec2(env, "CreateRoute" , msg)
 end
 export CreateRoute
 
-function CreateRouteTable(env::AWSEnv , msg::Union(CreateRouteTableType, Nothing))
+function CreateRouteTable(env::AWSEnv , msg::CreateRouteTableType=CreateRouteTableType())
     return call_ec2(env, "CreateRouteTable" , msg)
 end
 export CreateRouteTable
 
-function CreateSecurityGroup(env::AWSEnv , msg::Union(CreateSecurityGroupType, Nothing))
+function CreateSecurityGroup(env::AWSEnv , msg::CreateSecurityGroupType=CreateSecurityGroupType())
     return call_ec2(env, "CreateSecurityGroup" , msg)
 end
 export CreateSecurityGroup
 
-function CreateSnapshot(env::AWSEnv , msg::Union(CreateSnapshotType, Nothing))
+function CreateSnapshot(env::AWSEnv , msg::CreateSnapshotType=CreateSnapshotType())
     return call_ec2(env, "CreateSnapshot" , msg)
 end
 export CreateSnapshot
 
-function CreateSpotDatafeedSubscription(env::AWSEnv , msg::Union(CreateSpotDatafeedSubscriptionType, Nothing))
+function CreateSpotDatafeedSubscription(env::AWSEnv , msg::CreateSpotDatafeedSubscriptionType=CreateSpotDatafeedSubscriptionType())
     return call_ec2(env, "CreateSpotDatafeedSubscription" , msg)
 end
 export CreateSpotDatafeedSubscription
 
-function CreateSubnet(env::AWSEnv , msg::Union(CreateSubnetType, Nothing))
+function CreateSubnet(env::AWSEnv , msg::CreateSubnetType=CreateSubnetType())
     return call_ec2(env, "CreateSubnet" , msg)
 end
 export CreateSubnet
 
-function CreateTags(env::AWSEnv , msg::Union(CreateTagsType, Nothing))
+function CreateTags(env::AWSEnv , msg::CreateTagsType=CreateTagsType())
     return call_ec2(env, "CreateTags" , msg)
 end
 export CreateTags
 
-function CreateVolume(env::AWSEnv , msg::Union(CreateVolumeType, Nothing))
+function CreateVolume(env::AWSEnv , msg::CreateVolumeType=CreateVolumeType())
     return call_ec2(env, "CreateVolume" , msg)
 end
 export CreateVolume
 
-function CreateVpc(env::AWSEnv , msg::Union(CreateVpcType, Nothing))
+function CreateVpc(env::AWSEnv , msg::CreateVpcType=CreateVpcType())
     return call_ec2(env, "CreateVpc" , msg)
 end
 export CreateVpc
 
-function CreateVpnConnection(env::AWSEnv , msg::Union(CreateVpnConnectionType, Nothing))
+function CreateVpnConnection(env::AWSEnv , msg::CreateVpnConnectionType=CreateVpnConnectionType())
     return call_ec2(env, "CreateVpnConnection" , msg)
 end
 export CreateVpnConnection
 
-function CreateVpnConnectionRoute(env::AWSEnv , msg::Union(CreateVpnConnectionRouteType, Nothing))
+function CreateVpnConnectionRoute(env::AWSEnv , msg::CreateVpnConnectionRouteType=CreateVpnConnectionRouteType())
     return call_ec2(env, "CreateVpnConnectionRoute" , msg)
 end
 export CreateVpnConnectionRoute
 
-function CreateVpnGateway(env::AWSEnv , msg::Union(CreateVpnGatewayType, Nothing))
+function CreateVpnGateway(env::AWSEnv , msg::CreateVpnGatewayType=CreateVpnGatewayType())
     return call_ec2(env, "CreateVpnGateway" , msg)
 end
 export CreateVpnGateway
 
-function DeactivateLicense(env::AWSEnv , msg::Union(DeactivateLicenseType, Nothing))
+function DeactivateLicense(env::AWSEnv , msg::DeactivateLicenseType=DeactivateLicenseType())
     return call_ec2(env, "DeactivateLicense" , msg)
 end
 export DeactivateLicense
 
-function DeleteCustomerGateway(env::AWSEnv , msg::Union(DeleteCustomerGatewayType, Nothing))
+function DeleteCustomerGateway(env::AWSEnv , msg::DeleteCustomerGatewayType=DeleteCustomerGatewayType())
     return call_ec2(env, "DeleteCustomerGateway" , msg)
 end
 export DeleteCustomerGateway
 
-function DeleteDhcpOptions(env::AWSEnv , msg::Union(DeleteDhcpOptionsType, Nothing))
+function DeleteDhcpOptions(env::AWSEnv , msg::DeleteDhcpOptionsType=DeleteDhcpOptionsType())
     return call_ec2(env, "DeleteDhcpOptions" , msg)
 end
 export DeleteDhcpOptions
 
-function DeleteInternetGateway(env::AWSEnv , msg::Union(DeleteInternetGatewayType, Nothing))
+function DeleteInternetGateway(env::AWSEnv , msg::DeleteInternetGatewayType=DeleteInternetGatewayType())
     return call_ec2(env, "DeleteInternetGateway" , msg)
 end
 export DeleteInternetGateway
 
-function DeleteKeyPair(env::AWSEnv , msg::Union(DeleteKeyPairType, Nothing))
+function DeleteKeyPair(env::AWSEnv , msg::DeleteKeyPairType=DeleteKeyPairType())
     return call_ec2(env, "DeleteKeyPair" , msg)
 end
 export DeleteKeyPair
 
-function DeleteNetworkAcl(env::AWSEnv , msg::Union(DeleteNetworkAclType, Nothing))
+function DeleteNetworkAcl(env::AWSEnv , msg::DeleteNetworkAclType=DeleteNetworkAclType())
     return call_ec2(env, "DeleteNetworkAcl" , msg)
 end
 export DeleteNetworkAcl
 
-function DeleteNetworkAclEntry(env::AWSEnv , msg::Union(DeleteNetworkAclEntryType, Nothing))
+function DeleteNetworkAclEntry(env::AWSEnv , msg::DeleteNetworkAclEntryType=DeleteNetworkAclEntryType())
     return call_ec2(env, "DeleteNetworkAclEntry" , msg)
 end
 export DeleteNetworkAclEntry
 
-function DeleteNetworkInterface(env::AWSEnv , msg::Union(DeleteNetworkInterfaceType, Nothing))
+function DeleteNetworkInterface(env::AWSEnv , msg::DeleteNetworkInterfaceType=DeleteNetworkInterfaceType())
     return call_ec2(env, "DeleteNetworkInterface" , msg)
 end
 export DeleteNetworkInterface
 
-function DeletePlacementGroup(env::AWSEnv , msg::Union(DeletePlacementGroupType, Nothing))
+function DeletePlacementGroup(env::AWSEnv , msg::DeletePlacementGroupType=DeletePlacementGroupType())
     return call_ec2(env, "DeletePlacementGroup" , msg)
 end
 export DeletePlacementGroup
 
-function DeleteRoute(env::AWSEnv , msg::Union(DeleteRouteType, Nothing))
+function DeleteRoute(env::AWSEnv , msg::DeleteRouteType=DeleteRouteType())
     return call_ec2(env, "DeleteRoute" , msg)
 end
 export DeleteRoute
 
-function DeleteRouteTable(env::AWSEnv , msg::Union(DeleteRouteTableType, Nothing))
+function DeleteRouteTable(env::AWSEnv , msg::DeleteRouteTableType=DeleteRouteTableType())
     return call_ec2(env, "DeleteRouteTable" , msg)
 end
 export DeleteRouteTable
 
-function DeleteSecurityGroup(env::AWSEnv , msg::Union(DeleteSecurityGroupType, Nothing))
+function DeleteSecurityGroup(env::AWSEnv , msg::DeleteSecurityGroupType=DeleteSecurityGroupType())
     return call_ec2(env, "DeleteSecurityGroup" , msg)
 end
 export DeleteSecurityGroup
 
-function DeleteSnapshot(env::AWSEnv , msg::Union(DeleteSnapshotType, Nothing))
+function DeleteSnapshot(env::AWSEnv , msg::DeleteSnapshotType=DeleteSnapshotType())
     return call_ec2(env, "DeleteSnapshot" , msg)
 end
 export DeleteSnapshot
@@ -288,182 +288,182 @@ function DeleteSpotDatafeedSubscription(env::AWSEnv )
 end
 export DeleteSpotDatafeedSubscription
 
-function DeleteSubnet(env::AWSEnv , msg::Union(DeleteSubnetType, Nothing))
+function DeleteSubnet(env::AWSEnv , msg::DeleteSubnetType=DeleteSubnetType())
     return call_ec2(env, "DeleteSubnet" , msg)
 end
 export DeleteSubnet
 
-function DeleteTags(env::AWSEnv , msg::Union(DeleteTagsType, Nothing))
+function DeleteTags(env::AWSEnv , msg::DeleteTagsType=DeleteTagsType())
     return call_ec2(env, "DeleteTags" , msg)
 end
 export DeleteTags
 
-function DeleteVolume(env::AWSEnv , msg::Union(DeleteVolumeType, Nothing))
+function DeleteVolume(env::AWSEnv , msg::DeleteVolumeType=DeleteVolumeType())
     return call_ec2(env, "DeleteVolume" , msg)
 end
 export DeleteVolume
 
-function DeleteVpc(env::AWSEnv , msg::Union(DeleteVpcType, Nothing))
+function DeleteVpc(env::AWSEnv , msg::DeleteVpcType=DeleteVpcType())
     return call_ec2(env, "DeleteVpc" , msg)
 end
 export DeleteVpc
 
-function DeleteVpnConnection(env::AWSEnv , msg::Union(DeleteVpnConnectionType, Nothing))
+function DeleteVpnConnection(env::AWSEnv , msg::DeleteVpnConnectionType=DeleteVpnConnectionType())
     return call_ec2(env, "DeleteVpnConnection" , msg)
 end
 export DeleteVpnConnection
 
-function DeleteVpnConnectionRoute(env::AWSEnv , msg::Union(DeleteVpnConnectionRouteType, Nothing))
+function DeleteVpnConnectionRoute(env::AWSEnv , msg::DeleteVpnConnectionRouteType=DeleteVpnConnectionRouteType())
     return call_ec2(env, "DeleteVpnConnectionRoute" , msg)
 end
 export DeleteVpnConnectionRoute
 
-function DeleteVpnGateway(env::AWSEnv , msg::Union(DeleteVpnGatewayType, Nothing))
+function DeleteVpnGateway(env::AWSEnv , msg::DeleteVpnGatewayType=DeleteVpnGatewayType())
     return call_ec2(env, "DeleteVpnGateway" , msg)
 end
 export DeleteVpnGateway
 
-function DeregisterImage(env::AWSEnv , msg::Union(DeregisterImageType, Nothing))
+function DeregisterImage(env::AWSEnv , msg::DeregisterImageType=DeregisterImageType())
     return call_ec2(env, "DeregisterImage" , msg)
 end
 export DeregisterImage
 
-function DescribeAccountAttributes(env::AWSEnv , msg::Union(DescribeAccountAttributesType, Nothing))
+function DescribeAccountAttributes(env::AWSEnv , msg::DescribeAccountAttributesType=DescribeAccountAttributesType())
     return call_ec2(env, "DescribeAccountAttributes" , msg)
 end
 export DescribeAccountAttributes
 
-function DescribeAddresses(env::AWSEnv , msg::Union(DescribeAddressesType, Nothing))
+function DescribeAddresses(env::AWSEnv , msg::DescribeAddressesType=DescribeAddressesType())
     return call_ec2(env, "DescribeAddresses" , msg)
 end
 export DescribeAddresses
 
-function DescribeAvailabilityZones(env::AWSEnv , msg::Union(DescribeAvailabilityZonesType, Nothing))
+function DescribeAvailabilityZones(env::AWSEnv , msg::DescribeAvailabilityZonesType=DescribeAvailabilityZonesType())
     return call_ec2(env, "DescribeAvailabilityZones" , msg)
 end
 export DescribeAvailabilityZones
 
-function DescribeBundleTasks(env::AWSEnv , msg::Union(DescribeBundleTasksType, Nothing))
+function DescribeBundleTasks(env::AWSEnv , msg::DescribeBundleTasksType=DescribeBundleTasksType())
     return call_ec2(env, "DescribeBundleTasks" , msg)
 end
 export DescribeBundleTasks
 
-function DescribeConversionTasks(env::AWSEnv , msg::Union(DescribeConversionTasksType, Nothing))
+function DescribeConversionTasks(env::AWSEnv , msg::DescribeConversionTasksType=DescribeConversionTasksType())
     return call_ec2(env, "DescribeConversionTasks" , msg)
 end
 export DescribeConversionTasks
 
-function DescribeCustomerGateways(env::AWSEnv , msg::Union(DescribeCustomerGatewaysType, Nothing))
+function DescribeCustomerGateways(env::AWSEnv , msg::DescribeCustomerGatewaysType=DescribeCustomerGatewaysType())
     return call_ec2(env, "DescribeCustomerGateways" , msg)
 end
 export DescribeCustomerGateways
 
-function DescribeDhcpOptions(env::AWSEnv , msg::Union(DescribeDhcpOptionsType, Nothing))
+function DescribeDhcpOptions(env::AWSEnv , msg::DescribeDhcpOptionsType=DescribeDhcpOptionsType())
     return call_ec2(env, "DescribeDhcpOptions" , msg)
 end
 export DescribeDhcpOptions
 
-function DescribeExportTasks(env::AWSEnv , msg::Union(DescribeExportTasksType, Nothing))
+function DescribeExportTasks(env::AWSEnv , msg::DescribeExportTasksType=DescribeExportTasksType())
     return call_ec2(env, "DescribeExportTasks" , msg)
 end
 export DescribeExportTasks
 
-function DescribeImageAttribute(env::AWSEnv , msg::Union(DescribeImageAttributeType, Nothing))
+function DescribeImageAttribute(env::AWSEnv , msg::DescribeImageAttributeType=DescribeImageAttributeType())
     return call_ec2(env, "DescribeImageAttribute" , msg)
 end
 export DescribeImageAttribute
 
-function DescribeImages(env::AWSEnv , msg::Union(DescribeImagesType, Nothing))
+function DescribeImages(env::AWSEnv , msg::DescribeImagesType=DescribeImagesType())
     return call_ec2(env, "DescribeImages" , msg)
 end
 export DescribeImages
 
-function DescribeInstanceAttribute(env::AWSEnv , msg::Union(DescribeInstanceAttributeType, Nothing))
+function DescribeInstanceAttribute(env::AWSEnv , msg::DescribeInstanceAttributeType=DescribeInstanceAttributeType())
     return call_ec2(env, "DescribeInstanceAttribute" , msg)
 end
 export DescribeInstanceAttribute
 
-function DescribeInstances(env::AWSEnv , msg::Union(DescribeInstancesType, Nothing))
+function DescribeInstances(env::AWSEnv , msg::DescribeInstancesType=DescribeInstancesType())
     return call_ec2(env, "DescribeInstances" , msg)
 end
 export DescribeInstances
 
-function DescribeInstanceStatus(env::AWSEnv , msg::Union(DescribeInstanceStatusType, Nothing))
+function DescribeInstanceStatus(env::AWSEnv , msg::DescribeInstanceStatusType=DescribeInstanceStatusType())
     return call_ec2(env, "DescribeInstanceStatus" , msg)
 end
 export DescribeInstanceStatus
 
-function DescribeInternetGateways(env::AWSEnv , msg::Union(DescribeInternetGatewaysType, Nothing))
+function DescribeInternetGateways(env::AWSEnv , msg::DescribeInternetGatewaysType=DescribeInternetGatewaysType())
     return call_ec2(env, "DescribeInternetGateways" , msg)
 end
 export DescribeInternetGateways
 
-function DescribeKeyPairs(env::AWSEnv , msg::Union(DescribeKeyPairsType, Nothing))
+function DescribeKeyPairs(env::AWSEnv , msg::DescribeKeyPairsType=DescribeKeyPairsType())
     return call_ec2(env, "DescribeKeyPairs" , msg)
 end
 export DescribeKeyPairs
 
-function DescribeLicenses(env::AWSEnv , msg::Union(DescribeLicensesType, Nothing))
+function DescribeLicenses(env::AWSEnv , msg::DescribeLicensesType=DescribeLicensesType())
     return call_ec2(env, "DescribeLicenses" , msg)
 end
 export DescribeLicenses
 
-function DescribeNetworkAcls(env::AWSEnv , msg::Union(DescribeNetworkAclsType, Nothing))
+function DescribeNetworkAcls(env::AWSEnv , msg::DescribeNetworkAclsType=DescribeNetworkAclsType())
     return call_ec2(env, "DescribeNetworkAcls" , msg)
 end
 export DescribeNetworkAcls
 
-function DescribeNetworkInterfaceAttribute(env::AWSEnv , msg::Union(DescribeNetworkInterfaceAttributeType, Nothing))
+function DescribeNetworkInterfaceAttribute(env::AWSEnv , msg::DescribeNetworkInterfaceAttributeType=DescribeNetworkInterfaceAttributeType())
     return call_ec2(env, "DescribeNetworkInterfaceAttribute" , msg)
 end
 export DescribeNetworkInterfaceAttribute
 
-function DescribeNetworkInterfaces(env::AWSEnv , msg::Union(DescribeNetworkInterfacesType, Nothing))
+function DescribeNetworkInterfaces(env::AWSEnv , msg::DescribeNetworkInterfacesType=DescribeNetworkInterfacesType())
     return call_ec2(env, "DescribeNetworkInterfaces" , msg)
 end
 export DescribeNetworkInterfaces
 
-function DescribePlacementGroups(env::AWSEnv , msg::Union(DescribePlacementGroupsType, Nothing))
+function DescribePlacementGroups(env::AWSEnv , msg::DescribePlacementGroupsType=DescribePlacementGroupsType())
     return call_ec2(env, "DescribePlacementGroups" , msg)
 end
 export DescribePlacementGroups
 
-function DescribeRegions(env::AWSEnv , msg::Union(DescribeRegionsType, Nothing))
+function DescribeRegions(env::AWSEnv , msg::DescribeRegionsType=DescribeRegionsType())
     return call_ec2(env, "DescribeRegions" , msg)
 end
 export DescribeRegions
 
-function DescribeReservedInstances(env::AWSEnv , msg::Union(DescribeReservedInstancesType, Nothing))
+function DescribeReservedInstances(env::AWSEnv , msg::DescribeReservedInstancesType=DescribeReservedInstancesType())
     return call_ec2(env, "DescribeReservedInstances" , msg)
 end
 export DescribeReservedInstances
 
-function DescribeReservedInstancesListings(env::AWSEnv , msg::Union(DescribeReservedInstancesListingsType, Nothing))
+function DescribeReservedInstancesListings(env::AWSEnv , msg::DescribeReservedInstancesListingsType=DescribeReservedInstancesListingsType())
     return call_ec2(env, "DescribeReservedInstancesListings" , msg)
 end
 export DescribeReservedInstancesListings
 
-function DescribeReservedInstancesOfferings(env::AWSEnv , msg::Union(DescribeReservedInstancesOfferingsType, Nothing))
+function DescribeReservedInstancesOfferings(env::AWSEnv , msg::DescribeReservedInstancesOfferingsType=DescribeReservedInstancesOfferingsType())
     return call_ec2(env, "DescribeReservedInstancesOfferings" , msg)
 end
 export DescribeReservedInstancesOfferings
 
-function DescribeRouteTables(env::AWSEnv , msg::Union(DescribeRouteTablesType, Nothing))
+function DescribeRouteTables(env::AWSEnv , msg::DescribeRouteTablesType=DescribeRouteTablesType())
     return call_ec2(env, "DescribeRouteTables" , msg)
 end
 export DescribeRouteTables
 
-function DescribeSecurityGroups(env::AWSEnv , msg::Union(DescribeSecurityGroupsType, Nothing))
+function DescribeSecurityGroups(env::AWSEnv , msg::DescribeSecurityGroupsType=DescribeSecurityGroupsType())
     return call_ec2(env, "DescribeSecurityGroups" , msg)
 end
 export DescribeSecurityGroups
 
-function DescribeSnapshotAttribute(env::AWSEnv , msg::Union(DescribeSnapshotAttributeType, Nothing))
+function DescribeSnapshotAttribute(env::AWSEnv , msg::DescribeSnapshotAttributeType=DescribeSnapshotAttributeType())
     return call_ec2(env, "DescribeSnapshotAttribute" , msg)
 end
 export DescribeSnapshotAttribute
 
-function DescribeSnapshots(env::AWSEnv , msg::Union(DescribeSnapshotsType, Nothing))
+function DescribeSnapshots(env::AWSEnv , msg::DescribeSnapshotsType=DescribeSnapshotsType())
     return call_ec2(env, "DescribeSnapshots" , msg)
 end
 export DescribeSnapshots
@@ -473,272 +473,272 @@ function DescribeSpotDatafeedSubscription(env::AWSEnv )
 end
 export DescribeSpotDatafeedSubscription
 
-function DescribeSpotInstanceRequests(env::AWSEnv , msg::Union(DescribeSpotInstanceRequestsType, Nothing))
+function DescribeSpotInstanceRequests(env::AWSEnv , msg::DescribeSpotInstanceRequestsType=DescribeSpotInstanceRequestsType())
     return call_ec2(env, "DescribeSpotInstanceRequests" , msg)
 end
 export DescribeSpotInstanceRequests
 
-function DescribeSpotPriceHistory(env::AWSEnv , msg::Union(DescribeSpotPriceHistoryType, Nothing))
+function DescribeSpotPriceHistory(env::AWSEnv , msg::DescribeSpotPriceHistoryType=DescribeSpotPriceHistoryType())
     return call_ec2(env, "DescribeSpotPriceHistory" , msg)
 end
 export DescribeSpotPriceHistory
 
-function DescribeSubnets(env::AWSEnv , msg::Union(DescribeSubnetsType, Nothing))
+function DescribeSubnets(env::AWSEnv , msg::DescribeSubnetsType=DescribeSubnetsType())
     return call_ec2(env, "DescribeSubnets" , msg)
 end
 export DescribeSubnets
 
-function DescribeTags(env::AWSEnv , msg::Union(DescribeTagsType, Nothing))
+function DescribeTags(env::AWSEnv , msg::DescribeTagsType=DescribeTagsType())
     return call_ec2(env, "DescribeTags" , msg)
 end
 export DescribeTags
 
-function DescribeVolumeAttribute(env::AWSEnv , msg::Union(DescribeVolumeAttributeType, Nothing))
+function DescribeVolumeAttribute(env::AWSEnv , msg::DescribeVolumeAttributeType=DescribeVolumeAttributeType())
     return call_ec2(env, "DescribeVolumeAttribute" , msg)
 end
 export DescribeVolumeAttribute
 
-function DescribeVolumes(env::AWSEnv , msg::Union(DescribeVolumesType, Nothing))
+function DescribeVolumes(env::AWSEnv , msg::DescribeVolumesType=DescribeVolumesType())
     return call_ec2(env, "DescribeVolumes" , msg)
 end
 export DescribeVolumes
 
-function DescribeVolumeStatus(env::AWSEnv , msg::Union(DescribeVolumeStatusType, Nothing))
+function DescribeVolumeStatus(env::AWSEnv , msg::DescribeVolumeStatusType=DescribeVolumeStatusType())
     return call_ec2(env, "DescribeVolumeStatus" , msg)
 end
 export DescribeVolumeStatus
 
-function DescribeVpcAttribute(env::AWSEnv , msg::Union(DescribeVpcAttributeType, Nothing))
+function DescribeVpcAttribute(env::AWSEnv , msg::DescribeVpcAttributeType=DescribeVpcAttributeType())
     return call_ec2(env, "DescribeVpcAttribute" , msg)
 end
 export DescribeVpcAttribute
 
-function DescribeVpcs(env::AWSEnv , msg::Union(DescribeVpcsType, Nothing))
+function DescribeVpcs(env::AWSEnv , msg::DescribeVpcsType=DescribeVpcsType())
     return call_ec2(env, "DescribeVpcs" , msg)
 end
 export DescribeVpcs
 
-function DescribeVpnConnections(env::AWSEnv , msg::Union(DescribeVpnConnectionsType, Nothing))
+function DescribeVpnConnections(env::AWSEnv , msg::DescribeVpnConnectionsType=DescribeVpnConnectionsType())
     return call_ec2(env, "DescribeVpnConnections" , msg)
 end
 export DescribeVpnConnections
 
-function DescribeVpnGateways(env::AWSEnv , msg::Union(DescribeVpnGatewaysType, Nothing))
+function DescribeVpnGateways(env::AWSEnv , msg::DescribeVpnGatewaysType=DescribeVpnGatewaysType())
     return call_ec2(env, "DescribeVpnGateways" , msg)
 end
 export DescribeVpnGateways
 
-function DetachInternetGateway(env::AWSEnv , msg::Union(DetachInternetGatewayType, Nothing))
+function DetachInternetGateway(env::AWSEnv , msg::DetachInternetGatewayType=DetachInternetGatewayType())
     return call_ec2(env, "DetachInternetGateway" , msg)
 end
 export DetachInternetGateway
 
-function DetachNetworkInterface(env::AWSEnv , msg::Union(DetachNetworkInterfaceType, Nothing))
+function DetachNetworkInterface(env::AWSEnv , msg::DetachNetworkInterfaceType=DetachNetworkInterfaceType())
     return call_ec2(env, "DetachNetworkInterface" , msg)
 end
 export DetachNetworkInterface
 
-function DetachVolume(env::AWSEnv , msg::Union(DetachVolumeType, Nothing))
+function DetachVolume(env::AWSEnv , msg::DetachVolumeType=DetachVolumeType())
     return call_ec2(env, "DetachVolume" , msg)
 end
 export DetachVolume
 
-function DetachVpnGateway(env::AWSEnv , msg::Union(DetachVpnGatewayType, Nothing))
+function DetachVpnGateway(env::AWSEnv , msg::DetachVpnGatewayType=DetachVpnGatewayType())
     return call_ec2(env, "DetachVpnGateway" , msg)
 end
 export DetachVpnGateway
 
-function DisableVgwRoutePropagation(env::AWSEnv , msg::Union(DisableVgwRoutePropagationRequestType, Nothing))
+function DisableVgwRoutePropagation(env::AWSEnv , msg::DisableVgwRoutePropagationRequestType=DisableVgwRoutePropagationRequestType())
     return call_ec2(env, "DisableVgwRoutePropagation" , msg)
 end
 export DisableVgwRoutePropagation
 
-function DisassociateAddress(env::AWSEnv , msg::Union(DisassociateAddressType, Nothing))
+function DisassociateAddress(env::AWSEnv , msg::DisassociateAddressType=DisassociateAddressType())
     return call_ec2(env, "DisassociateAddress" , msg)
 end
 export DisassociateAddress
 
-function DisassociateRouteTable(env::AWSEnv , msg::Union(DisassociateRouteTableType, Nothing))
+function DisassociateRouteTable(env::AWSEnv , msg::DisassociateRouteTableType=DisassociateRouteTableType())
     return call_ec2(env, "DisassociateRouteTable" , msg)
 end
 export DisassociateRouteTable
 
-function EnableVgwRoutePropagation(env::AWSEnv , msg::Union(EnableVgwRoutePropagationRequestType, Nothing))
+function EnableVgwRoutePropagation(env::AWSEnv , msg::EnableVgwRoutePropagationRequestType=EnableVgwRoutePropagationRequestType())
     return call_ec2(env, "EnableVgwRoutePropagation" , msg)
 end
 export EnableVgwRoutePropagation
 
-function EnableVolumeIO(env::AWSEnv , msg::Union(EnableVolumeIOType, Nothing))
+function EnableVolumeIO(env::AWSEnv , msg::EnableVolumeIOType=EnableVolumeIOType())
     return call_ec2(env, "EnableVolumeIO" , msg)
 end
 export EnableVolumeIO
 
-function GetConsoleOutput(env::AWSEnv , msg::Union(GetConsoleOutputType, Nothing))
+function GetConsoleOutput(env::AWSEnv , msg::GetConsoleOutputType=GetConsoleOutputType())
     return call_ec2(env, "GetConsoleOutput" , msg)
 end
 export GetConsoleOutput
 
-function GetPasswordData(env::AWSEnv , msg::Union(GetPasswordDataType, Nothing))
+function GetPasswordData(env::AWSEnv , msg::GetPasswordDataType=GetPasswordDataType())
     return call_ec2(env, "GetPasswordData" , msg)
 end
 export GetPasswordData
 
-function ImportInstance(env::AWSEnv , msg::Union(ImportInstanceType, Nothing))
+function ImportInstance(env::AWSEnv , msg::ImportInstanceType=ImportInstanceType())
     return call_ec2(env, "ImportInstance" , msg)
 end
 export ImportInstance
 
-function ImportKeyPair(env::AWSEnv , msg::Union(ImportKeyPairType, Nothing))
+function ImportKeyPair(env::AWSEnv , msg::ImportKeyPairType=ImportKeyPairType())
     return call_ec2(env, "ImportKeyPair" , msg)
 end
 export ImportKeyPair
 
-function ImportVolume(env::AWSEnv , msg::Union(ImportVolumeType, Nothing))
+function ImportVolume(env::AWSEnv , msg::ImportVolumeType=ImportVolumeType())
     return call_ec2(env, "ImportVolume" , msg)
 end
 export ImportVolume
 
-function ModifyImageAttribute(env::AWSEnv , msg::Union(ModifyImageAttributeType, Nothing))
+function ModifyImageAttribute(env::AWSEnv , msg::ModifyImageAttributeType=ModifyImageAttributeType())
     return call_ec2(env, "ModifyImageAttribute" , msg)
 end
 export ModifyImageAttribute
 
-function ModifyInstanceAttribute(env::AWSEnv , msg::Union(ModifyInstanceAttributeType, Nothing))
+function ModifyInstanceAttribute(env::AWSEnv , msg::ModifyInstanceAttributeType=ModifyInstanceAttributeType())
     return call_ec2(env, "ModifyInstanceAttribute" , msg)
 end
 export ModifyInstanceAttribute
 
-function ModifyNetworkInterfaceAttribute(env::AWSEnv , msg::Union(ModifyNetworkInterfaceAttributeType, Nothing))
+function ModifyNetworkInterfaceAttribute(env::AWSEnv , msg::ModifyNetworkInterfaceAttributeType=ModifyNetworkInterfaceAttributeType())
     return call_ec2(env, "ModifyNetworkInterfaceAttribute" , msg)
 end
 export ModifyNetworkInterfaceAttribute
 
-function ModifySnapshotAttribute(env::AWSEnv , msg::Union(ModifySnapshotAttributeType, Nothing))
+function ModifySnapshotAttribute(env::AWSEnv , msg::ModifySnapshotAttributeType=ModifySnapshotAttributeType())
     return call_ec2(env, "ModifySnapshotAttribute" , msg)
 end
 export ModifySnapshotAttribute
 
-function ModifyVolumeAttribute(env::AWSEnv , msg::Union(ModifyVolumeAttributeType, Nothing))
+function ModifyVolumeAttribute(env::AWSEnv , msg::ModifyVolumeAttributeType=ModifyVolumeAttributeType())
     return call_ec2(env, "ModifyVolumeAttribute" , msg)
 end
 export ModifyVolumeAttribute
 
-function ModifyVpcAttribute(env::AWSEnv , msg::Union(ModifyVpcAttributeType, Nothing))
+function ModifyVpcAttribute(env::AWSEnv , msg::ModifyVpcAttributeType=ModifyVpcAttributeType())
     return call_ec2(env, "ModifyVpcAttribute" , msg)
 end
 export ModifyVpcAttribute
 
-function MonitorInstances(env::AWSEnv , msg::Union(MonitorInstancesType, Nothing))
+function MonitorInstances(env::AWSEnv , msg::MonitorInstancesType=MonitorInstancesType())
     return call_ec2(env, "MonitorInstances" , msg)
 end
 export MonitorInstances
 
-function PurchaseReservedInstancesOffering(env::AWSEnv , msg::Union(PurchaseReservedInstancesOfferingType, Nothing))
+function PurchaseReservedInstancesOffering(env::AWSEnv , msg::PurchaseReservedInstancesOfferingType=PurchaseReservedInstancesOfferingType())
     return call_ec2(env, "PurchaseReservedInstancesOffering" , msg)
 end
 export PurchaseReservedInstancesOffering
 
-function RebootInstances(env::AWSEnv , msg::Union(RebootInstancesType, Nothing))
+function RebootInstances(env::AWSEnv , msg::RebootInstancesType=RebootInstancesType())
     return call_ec2(env, "RebootInstances" , msg)
 end
 export RebootInstances
 
-function RegisterImage(env::AWSEnv , msg::Union(RegisterImageType, Nothing))
+function RegisterImage(env::AWSEnv , msg::RegisterImageType=RegisterImageType())
     return call_ec2(env, "RegisterImage" , msg)
 end
 export RegisterImage
 
-function ReleaseAddress(env::AWSEnv , msg::Union(ReleaseAddressType, Nothing))
+function ReleaseAddress(env::AWSEnv , msg::ReleaseAddressType=ReleaseAddressType())
     return call_ec2(env, "ReleaseAddress" , msg)
 end
 export ReleaseAddress
 
-function ReplaceNetworkAclAssociation(env::AWSEnv , msg::Union(ReplaceNetworkAclAssociationType, Nothing))
+function ReplaceNetworkAclAssociation(env::AWSEnv , msg::ReplaceNetworkAclAssociationType=ReplaceNetworkAclAssociationType())
     return call_ec2(env, "ReplaceNetworkAclAssociation" , msg)
 end
 export ReplaceNetworkAclAssociation
 
-function ReplaceNetworkAclEntry(env::AWSEnv , msg::Union(ReplaceNetworkAclEntryType, Nothing))
+function ReplaceNetworkAclEntry(env::AWSEnv , msg::ReplaceNetworkAclEntryType=ReplaceNetworkAclEntryType())
     return call_ec2(env, "ReplaceNetworkAclEntry" , msg)
 end
 export ReplaceNetworkAclEntry
 
-function ReplaceRoute(env::AWSEnv , msg::Union(ReplaceRouteType, Nothing))
+function ReplaceRoute(env::AWSEnv , msg::ReplaceRouteType=ReplaceRouteType())
     return call_ec2(env, "ReplaceRoute" , msg)
 end
 export ReplaceRoute
 
-function ReplaceRouteTableAssociation(env::AWSEnv , msg::Union(ReplaceRouteTableAssociationType, Nothing))
+function ReplaceRouteTableAssociation(env::AWSEnv , msg::ReplaceRouteTableAssociationType=ReplaceRouteTableAssociationType())
     return call_ec2(env, "ReplaceRouteTableAssociation" , msg)
 end
 export ReplaceRouteTableAssociation
 
-function ReportInstanceStatus(env::AWSEnv , msg::Union(ReportInstanceStatusType, Nothing))
+function ReportInstanceStatus(env::AWSEnv , msg::ReportInstanceStatusType=ReportInstanceStatusType())
     return call_ec2(env, "ReportInstanceStatus" , msg)
 end
 export ReportInstanceStatus
 
-function RequestSpotInstances(env::AWSEnv , msg::Union(RequestSpotInstancesType, Nothing))
+function RequestSpotInstances(env::AWSEnv , msg::RequestSpotInstancesType=RequestSpotInstancesType())
     return call_ec2(env, "RequestSpotInstances" , msg)
 end
 export RequestSpotInstances
 
-function ResetImageAttribute(env::AWSEnv , msg::Union(ResetImageAttributeType, Nothing))
+function ResetImageAttribute(env::AWSEnv , msg::ResetImageAttributeType=ResetImageAttributeType())
     return call_ec2(env, "ResetImageAttribute" , msg)
 end
 export ResetImageAttribute
 
-function ResetInstanceAttribute(env::AWSEnv , msg::Union(ResetInstanceAttributeType, Nothing))
+function ResetInstanceAttribute(env::AWSEnv , msg::ResetInstanceAttributeType=ResetInstanceAttributeType())
     return call_ec2(env, "ResetInstanceAttribute" , msg)
 end
 export ResetInstanceAttribute
 
-function ResetNetworkInterfaceAttribute(env::AWSEnv , msg::Union(ResetNetworkInterfaceAttributeType, Nothing))
+function ResetNetworkInterfaceAttribute(env::AWSEnv , msg::ResetNetworkInterfaceAttributeType=ResetNetworkInterfaceAttributeType())
     return call_ec2(env, "ResetNetworkInterfaceAttribute" , msg)
 end
 export ResetNetworkInterfaceAttribute
 
-function ResetSnapshotAttribute(env::AWSEnv , msg::Union(ResetSnapshotAttributeType, Nothing))
+function ResetSnapshotAttribute(env::AWSEnv , msg::ResetSnapshotAttributeType=ResetSnapshotAttributeType())
     return call_ec2(env, "ResetSnapshotAttribute" , msg)
 end
 export ResetSnapshotAttribute
 
-function RevokeSecurityGroupEgress(env::AWSEnv , msg::Union(RevokeSecurityGroupEgressType, Nothing))
+function RevokeSecurityGroupEgress(env::AWSEnv , msg::RevokeSecurityGroupEgressType=RevokeSecurityGroupEgressType())
     return call_ec2(env, "RevokeSecurityGroupEgress" , msg)
 end
 export RevokeSecurityGroupEgress
 
-function RevokeSecurityGroupIngress(env::AWSEnv , msg::Union(RevokeSecurityGroupIngressType, Nothing))
+function RevokeSecurityGroupIngress(env::AWSEnv , msg::RevokeSecurityGroupIngressType=RevokeSecurityGroupIngressType())
     return call_ec2(env, "RevokeSecurityGroupIngress" , msg)
 end
 export RevokeSecurityGroupIngress
 
-function RunInstances(env::AWSEnv , msg::Union(RunInstancesType, Nothing))
+function RunInstances(env::AWSEnv , msg::RunInstancesType=RunInstancesType())
     return call_ec2(env, "RunInstances" , msg)
 end
 export RunInstances
 
-function StartInstances(env::AWSEnv , msg::Union(StartInstancesType, Nothing))
+function StartInstances(env::AWSEnv , msg::StartInstancesType=StartInstancesType())
     return call_ec2(env, "StartInstances" , msg)
 end
 export StartInstances
 
-function StopInstances(env::AWSEnv , msg::Union(StopInstancesType, Nothing))
+function StopInstances(env::AWSEnv , msg::StopInstancesType=StopInstancesType())
     return call_ec2(env, "StopInstances" , msg)
 end
 export StopInstances
 
-function TerminateInstances(env::AWSEnv , msg::Union(TerminateInstancesType, Nothing))
+function TerminateInstances(env::AWSEnv , msg::TerminateInstancesType=TerminateInstancesType())
     return call_ec2(env, "TerminateInstances" , msg)
 end
 export TerminateInstances
 
-function UnassignPrivateIpAddresses(env::AWSEnv , msg::Union(UnassignPrivateIpAddressesType, Nothing))
+function UnassignPrivateIpAddresses(env::AWSEnv , msg::UnassignPrivateIpAddressesType=UnassignPrivateIpAddressesType())
     return call_ec2(env, "UnassignPrivateIpAddresses" , msg)
 end
 export UnassignPrivateIpAddresses
 
-function UnmonitorInstances(env::AWSEnv , msg::Union(MonitorInstancesType, Nothing))
+function UnmonitorInstances(env::AWSEnv , msg::MonitorInstancesType=MonitorInstancesType())
     return call_ec2(env, "UnmonitorInstances" , msg)
 end
 export UnmonitorInstances

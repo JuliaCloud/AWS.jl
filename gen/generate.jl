@@ -11,16 +11,14 @@ type TypeContext
     name
     const_lhs
     const_rhs
-    nothings_str
     deps
     definition
     f
     
     TypeContext(name, f) = new(
             name,
-            "    " * name * "(" ,
+            "    " * name * "(; " ,
             " new(",
-            "",
             Set(),
             "type " * name * "\n",
             f
@@ -154,9 +152,8 @@ function get_type_for_elements(tctx, elements, ns_pfx)
             valid_type = "TYPE"
         end
 
-        tctx.const_lhs = tctx.const_lhs * lhs_pfx * xname
+        tctx.const_lhs = tctx.const_lhs * lhs_pfx * xname * "=nothing"
         tctx.const_rhs = tctx.const_rhs * rhs_pfx * xname
-        tctx.nothings_str = tctx.nothings_str * rhs_pfx * "nothing"
         
         lhs_pfx = ", "
         rhs_pfx = ", "
@@ -226,9 +223,7 @@ function generate_all_types(ctypes, f, ns_pfx)
         else
             error("Unknown elements type: " * string(ctype.elements))
         end 
-        tctx.definition = tctx.definition * "\n" * tctx.const_lhs * ") = \n        " * tctx.const_rhs * ")\n"
-        tctx.definition = tctx.definition * "    " * tctx.name * "() = \n        new(" * tctx.nothings_str * ")\n" * "end\n"
-        
+        tctx.definition = tctx.definition * "\n" * tctx.const_lhs * ") = \n        " * tctx.const_rhs * ")\nend\n"
         
         if length(tctx.deps) == 0
             write(f, tctx.definition)
@@ -310,7 +305,7 @@ function generate_operations(wsdl, operations, f, ns_pfx)
             op_params = ""
             op_msg = ""
         else
-            op_params = ", msg::Union($rqst_type, Nothing)"
+            op_params = ", msg::$rqst_type=$rqst_type()"
             op_msg = ", msg"
         end
 
@@ -368,7 +363,7 @@ valid_rqst_msgs={}
 wsdl = xp_parse(open(readall, "./wsdl/AmazonS3.xsd"))
 
 
-# EC2 types....
+# S3 types....
 f = open("../src/s3_types.jl", "w+")
 
 ctypes = find(wsdl, "xsd:schema/xsd:complexType")
