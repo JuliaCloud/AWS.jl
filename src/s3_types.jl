@@ -54,8 +54,32 @@ type Grant
     permission::String
 end
 xml(o::Grant) = xml("Grant", [o.grantee, ("Permission", o.permission)])
+# permission must be one of "READ", "WRITE", "READ_ACP", "WRITE_ACP" or "FULL_CONTROL"
 
 
+
+function parse_grants(grants::Vector{ParsedData})
+    jl_grants::Vector{Grants} = []
+    for grant_pd in grants
+        grantee_pd = find(grant_pd, "Grantee[1]")
+        grantee_type = grantee_pd.attr["xsi:type"]
+        if grantee_type == "AmazonCustomerByEmail"
+            grantee=GranteeEmail(find(grantee_pd, "EmailAddress#text"))
+        elseif grantee_type == "CanonicalUser"
+            grantee=GranteeID(find(grantee_pd, "ID#text"), find(grantee_pd, "DisplayName#text")) 
+        elseif grantee_type == "Group"
+            grantee=GranteeURI(find(grantee_pd, "URI#text"))
+        else
+            error("Unknown grantee type")
+        end
+        
+        permission = find(grant_pd, "Permission#text")
+    
+        push!(jl_grants, Grant(grantee, permission))
+    end
+    
+    return jl_grants
+end
 
 
 type BucketLoggingStatus
@@ -67,30 +91,14 @@ type BucketLoggingStatus
 end
 
 BucketLoggingStatus() = BucketLoggingStatus(false, "", "", [])
-function BucketLoggingStatus(pd::ParsedData)
+function BucketLoggingStatus(pd_bls::ParsedData)
     bls = BucketLoggingStatus()
-    if haskey(pd.elements, "LoggingEnabled")
-        bls.targetBucket = find(pd, "LoggingEnabled/TargetBucket#text")
-        bls.targetPrefix = find(pd, "LoggingEnabled/TargetPrefix#text")
+    if haskey(pd_bls.elements, "LoggingEnabled")
+        bls.targetBucket = find(pd_bls, "LoggingEnabled/TargetBucket#text")
+        bls.targetPrefix = find(pd_bls, "LoggingEnabled/TargetPrefix#text")
         
-        grants = find(pd, "LoggingEnabled/TargetGrants/Grant")
-        for grant_pd in grants
-            grantee_pd = find(grant_pd, "Grantee")
-            grantee_type = grantee_pd.attr["xsi:type"]
-            if grantee_type == "AmazonCustomerByEmail"
-                grantee=find(grantee_pd, "EmailAddress#text")
-            elseif grantee_type == "CanonicalUser"
-                grantee=GranteeID(find(grantee_pd, "ID#text"), find(grantee_pd, "DisplayName#text")) 
-            elseif grantee_type == "Group"
-                grantee=find(grantee_pd, "URI#text")
-            else
-                error("Unknown grantee type")
-            end
-            
-            permission = find(grant_pd, "Permission#text")
-        
-            push!(bls.targetGrants, LoggingGrantee(grantee, permission))
-        end
+        grants = find(pd_bls, "LoggingEnabled/TargetGrants/Grant")
+        bls.targetGrants = parse_grants(grants)
     else
         return bls
     end
@@ -115,6 +123,7 @@ type Owner
     displayName::String
 end
 xml(o::Owner) = xml("Owner", [("ID", o.id), ("DisplayName", o.displayName)])
+Owner(pd_owner::ParsedData)=Owner(find(pd_owner, "ID#text"), find(pd_owner, "DisplayName#text")) 
 
 
 type AccessControlPolicy
@@ -122,325 +131,65 @@ type AccessControlPolicy
     accessControlList::Vector{Grant}
 end
 
-
-
-  
-
-  <xsd:element name="GetObjectAccessControlPolicy">
-    <xsd:complexType>
-      <xsd:sequence>
-    Bucket::String
-    Key::String
-    AWSAccessKeyId::String
-    Timestamp" type="xsd:dateTime" minOccurs="0"/>
-    Signature::String
-    Credential::String
-      </xsd:sequence>
-  end
-  </xsd:element>
-
-  <xsd:element name="GetObjectAccessControlPolicyResponse">
-    <xsd:complexType>
-      <xsd:sequence>
-    GetObjectAccessControlPolicyResponse" type="tns:AccessControlPolicy"/>
-      </xsd:sequence>
-  end
-  </xsd:element>
-
-  <xsd:element name="GetBucketAccessControlPolicy">
-    <xsd:complexType>
-      <xsd:sequence>
-    Bucket::String
-    AWSAccessKeyId::String
-    Timestamp" type="xsd:dateTime" minOccurs="0"/>
-    Signature::String
-    Credential::String
-      </xsd:sequence>
-  end
-  </xsd:element>
-
-  <xsd:element name="GetBucketAccessControlPolicyResponse">
-    <xsd:complexType>
-      <xsd:sequence>
-    GetBucketAccessControlPolicyResponse" type="tns:AccessControlPolicy"/>
-      </xsd:sequence>
-  end
-  </xsd:element>
-
-  <xsd:complexType abstract="true" name="Grantee"/>
-
-type User" abstract="true">
-    <xsd:complexContent>
-      <xsd:extension base="tns:Grantee"/>
-    </xsd:complexContent>
+function AccessControlPolicy(pd_acl::ParsedData)
+    owner = Owner(find(pd_acl, "Owner[1]"))
+    accessControlList = parse_grants(find(pd_bls, "AccessControlList/Grant"))
+    return AccessControlPolicy(owner, accessControlList)
 end
 
-type AmazonCustomerByEmail">
-    <xsd:complexContent>
-      <xsd:extension base="tns:User">
-        <xsd:sequence>
-      EmailAddress::String              
-        </xsd:sequence>
-      </xsd:extension>
-    </xsd:complexContent>
+function xml(o::AccessControlPolicy)
+    xml_hdr("AccessControlPolicy") * 
+    xml("Owner", o.owner) *  
+    xml("AccessControlList", o.accessControlList) *
+    xml_ftr("AccessControlPolicy")
 end
 
-type CanonicalUser">
-    <xsd:complexContent>
-      <xsd:extension base="tns:User">
-        <xsd:sequence>
-      ID::String              
-      DisplayName::String
-        </xsd:sequence>
-      </xsd:extension>
-    </xsd:complexContent>
+# Storage class must be one of "STANDARD", "REDUCED_REDUNDANCY", "GLACIER" or "UNKNOWN"
+
+
+type CreateBucketConfiguration
+    locationConstraint::String
+end
+CreateBucketConfiguration(pd_cbc::ParsedData) = CreateBucketConfiguration(find(pd_cbc, "LocationConstraint#text"))
+xml(o::CreateBucketConfiguration) = xml_hdr("CreateBucketConfiguration") * 
+                                    xml("LocationConstraint", o.locationConstraint) * 
+                                    xml_ftr("CreateBucketConfiguration")
+
+
+
+type ListBucketResult
+    metadata::Vector{MetadataEntry}
+    name::String
+    prefix::String
+    marker::String
+    nextMarker::String
+    maxKeys::Int
+    delimiter::String
+    isTruncated::Bool
+    contents::Vector{ListEntry}
+    commonPrefixes::Vector{PrefixEntry}
+    
+    ListBucketResult() = new([], "", "", "", "", 0, "", false, [], [])
 end
 
-type Group">
-    <xsd:complexContent>
-      <xsd:extension base="tns:Grantee">
-        <xsd:sequence>
-      URI::String
-        </xsd:sequence>
-      </xsd:extension>
-    </xsd:complexContent>
-end
+function ListBucketResult(pd_lbr::ParsedData)
+    lbr = ListBucketResult()
 
-  <xsd:simpleType name="Permission">
-    <xsd:restriction base="xsd:string">
-      <xsd:enumeration value="READ"/>
-      <xsd:enumeration value="WRITE"/>
-      <xsd:enumeration value="READ_ACP"/>
-      <xsd:enumeration value="WRITE_ACP"/>
-      <xsd:enumeration value="FULL_CONTROL"/>
-    </xsd:restriction>
-  </xsd:simpleType>
-
-  <xsd:simpleType name="StorageClass">
-    <xsd:restriction base="xsd:string">
-      <xsd:enumeration value="STANDARD"/>
-      <xsd:enumeration value="REDUCED_REDUNDANCY"/>
-      <xsd:enumeration value="GLACIER"/>
-      <xsd:enumeration value="UNKNOWN"/>
-    </xsd:restriction>
-  </xsd:simpleType>
-
-
-type CreateBucketConfiguration">
-    <xsd:sequence>
-    LocationConstraint" type="tns:LocationConstraint"/>
-    </xsd:sequence>
-end
-
-type LocationConstraint">
-    <xsd:simpleContent>
-      <xsd:extension base="xsd:string"/>
-    </xsd:simpleContent>
 end
 
 
-  <xsd:element name="SetObjectAccessControlPolicy">
-    <xsd:complexType>
-      <xsd:sequence>
-    Bucket::String
-    Key::String
-    AccessControlList" type="tns:AccessControlList"/>
-    AWSAccessKeyId::String
-    Timestamp" type="xsd:dateTime" minOccurs="0"/>
-    Signature::String
-    Credential::String
-      </xsd:sequence>
-  end
-  </xsd:element>
 
-  <xsd:element name="SetObjectAccessControlPolicyResponse">
-    <xsd:complexType>
-      <xsd:sequence/>
-  end
-  </xsd:element>
 
-  <xsd:element name="SetBucketAccessControlPolicy">
-    <xsd:complexType>
-      <xsd:sequence>
-    Bucket::String
-    AccessControlList::AccessControlList
-    AWSAccessKeyId::String
-    Timestamp" type="xsd:dateTime" minOccurs="0"/>
-    Signature::String
-    Credential::String
-      </xsd:sequence>
-  end
-  </xsd:element>
 
-  <xsd:element name="SetBucketAccessControlPolicyResponse">
-    <xsd:complexType>
-      <xsd:sequence/>
-  end
-  </xsd:element>
 
-  <xsd:element name="GetObject">
-    <xsd:complexType>
-      <xsd:sequence>
-    Bucket::String
-    Key::String
-    GetMetadata" type="xsd:boolean"/>
-    GetData" type="xsd:boolean"/>
-    InlineData" type="xsd:boolean"/>
-    AWSAccessKeyId::String
-    Timestamp" type="xsd:dateTime" minOccurs="0"/>
-    Signature::String
-    Credential::String
-        
-      </xsd:sequence>
-  end
-  </xsd:element>
 
-  <xsd:element name="GetObjectResponse">
-    <xsd:complexType>
-      <xsd:sequence>
-    GetObjectResponse" type="tns:GetObjectResult"/>
-      </xsd:sequence>
-  end
-  </xsd:element>
 
-type GetObjectResult">
-    <xsd:complexContent>
-      <xsd:extension base="tns:Result">
-        <xsd:sequence>
-      Metadata" type="tns:MetadataEntry" minOccurs="0" maxOccurs="unbounded"/>
-      Data" type="xsd:base64Binary" nillable="true"/>
-      LastModified" type="xsd:dateTime"/>
-      ETag::String
-        </xsd:sequence>
-      </xsd:extension>
-    </xsd:complexContent>
-end
 
-  <xsd:element name="GetObjectExtended">
-    <xsd:complexType>
-      <xsd:sequence>
-    Bucket::String
-    Key::String
-    GetMetadata" type="xsd:boolean"/>
-    GetData" type="xsd:boolean"/>
-    InlineData" type="xsd:boolean"/>
-    ByteRangeStart" type="xsd:long" minOccurs="0"/>
-    ByteRangeEnd" type="xsd:long" minOccurs="0"/>
-    IfModifiedSince" type="xsd:dateTime" minOccurs="0"/>
-    IfUnmodifiedSince" type="xsd:dateTime" minOccurs="0"/>
-    IfMatch" type="xsd:string" minOccurs="0" maxOccurs="100"/>
-    IfNoneMatch" type="xsd:string" minOccurs="0" maxOccurs="100"/>
-    ReturnCompleteObjectOnConditionFailure" type="xsd:boolean" minOccurs="0"/>
-    AWSAccessKeyId::String
-    Timestamp" type="xsd:dateTime" minOccurs="0"/>
-    Signature::String
-    Credential::String
-      </xsd:sequence>
-  end
-  </xsd:element>
 
-  <xsd:element name="GetObjectExtendedResponse">
-    <xsd:complexType>
-      <xsd:sequence>
-    GetObjectResponse" type="tns:GetObjectResult"/>
-      </xsd:sequence>
-  end
-  </xsd:element>
 
-  <xsd:element name="PutObject">
-    <xsd:complexType>
-      <xsd:sequence>
-    Bucket::String
-    Key::String
-    Metadata" type="tns:MetadataEntry" minOccurs="0" maxOccurs="100"/>
-    ContentLength" type="xsd:long"/>
-    AccessControlList::AccessControlList
-    StorageClass" type="tns:StorageClass" minOccurs="0"/>
-    AWSAccessKeyId::String
-    Timestamp" type="xsd:dateTime" minOccurs="0"/>
-    Signature::String
-    Credential::String
-      </xsd:sequence>
-  end
-  </xsd:element>
 
-  <xsd:element name="PutObjectResponse">
-    <xsd:complexType>
-      <xsd:sequence>
-    PutObjectResponse" type="tns:PutObjectResult"/>
-      </xsd:sequence>
-  end
-  </xsd:element>
 
-type PutObjectResult">
-    <xsd:sequence>
-    ETag::String
-    LastModified" type="xsd:dateTime"/>
-    </xsd:sequence>
-end
 
-  <xsd:element name="PutObjectInline">
-    <xsd:complexType>
-      <xsd:sequence>
-    Bucket::String
-    Key::String
-        <xsd:element minOccurs="0" maxOccurs="100" name="Metadata" type="tns:MetadataEntry"/>
-    Data" type="xsd:base64Binary"/>
-    ContentLength" type="xsd:long"/>
-    AccessControlList::AccessControlList
-    StorageClass" type="tns:StorageClass" minOccurs="0"/>
-    AWSAccessKeyId::String
-    Timestamp" type="xsd:dateTime" minOccurs="0"/>
-    Signature::String
-    Credential::String
-      </xsd:sequence>
-  end
-  </xsd:element>
-
-  <xsd:element name="PutObjectInlineResponse">
-    <xsd:complexType>
-      <xsd:sequence>
-    PutObjectInlineResponse" type="tns:PutObjectResult"/>
-      </xsd:sequence>
-  end
-  </xsd:element>
-
-  <xsd:element name="DeleteObject">
-    <xsd:complexType>
-      <xsd:sequence>
-    Bucket::String
-    Key::String
-    AWSAccessKeyId::String
-    Timestamp" type="xsd:dateTime" minOccurs="0"/>
-    Signature::String
-    Credential::String
-      </xsd:sequence>
-  end
-  </xsd:element>
-
-  <xsd:element name="DeleteObjectResponse">
-    <xsd:complexType>
-      <xsd:sequence>
-    DeleteObjectResponse" type="tns:Status"/>
-      </xsd:sequence>
-  end
-  </xsd:element>
-
-  <xsd:element name="ListBucket">
-    <xsd:complexType>
-      <xsd:sequence>
-    Bucket::String
-    Prefix::String
-    Marker::String
-    MaxKeys" type="xsd:int" minOccurs="0"/>
-    Delimiter::String
-    AWSAccessKeyId::String
-    Timestamp" type="xsd:dateTime" minOccurs="0"/>
-    Signature::String
-    Credential::String
-      </xsd:sequence>
-  end
-  </xsd:element>
 
   <xsd:element name="ListBucketResponse">
     <xsd:complexType>
@@ -498,20 +247,6 @@ type PrefixEntry">
     </xsd:sequence>
 end
 
-type ListBucketResult">
-    <xsd:sequence>
-    Metadata" type="tns:MetadataEntry" minOccurs="0" maxOccurs="unbounded"/>
-    Name::String
-    Prefix::String
-    Marker::String
-    NextMarker::String
-    MaxKeys" type="xsd:int"/>
-    Delimiter::String
-    IsTruncated" type="xsd:boolean"/>
-    Contents" type="tns:ListEntry" minOccurs="0" maxOccurs="unbounded"/>
-    CommonPrefixes" type="tns:PrefixEntry" minOccurs="0" maxOccurs="unbounded"/>
-    </xsd:sequence>
-end
 
 type ListVersionsResult">
     <xsd:sequence>
