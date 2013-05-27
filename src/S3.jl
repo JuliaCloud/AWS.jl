@@ -1,6 +1,7 @@
 # Etag should always be quoted - in XML as well as headers...
 # handle Content-MD5 for IO stream objects too...
-using OpenSSLCrypto.Crypto
+using AWS.Crypto
+using libCURL.HTTPC
 
 
 type S3Error
@@ -29,18 +30,33 @@ type S3Response
     S3Response() = new(0, "", "", "", Dict{String,String,}(), nothing, nothing)
 end
 
+type RO # RequestOptions
+    verb::Symbol                  # HTTP verb
+    bkt::String                   # bucket
+    key::String                   # object id typically  
+    sub_res::Vector{Tuple}
+    http_hdrs::Vector{Tuple}
+    amz_hdrs::Vector{Tuple}
+    cont_typ::String
+    body::String
+    istream::Union(String, Nothing)
+    ostream::Union(String, Nothing)
+    
+    RO() = new(:GET, "", "", [], [], [], "", "", nothing, nothing)
+end
+
 # TODO: Send Content-MD5 header with all requests having a body....
 # TODO: Support IO objects as an interface for file PUT and GET
 
 get() = do_request(:GET, "", "", nothing, nothing, ListAllMyBucketsResult())
 
 
-del_bucket(bucket::String) = do_request(:DELETE, bucket, "")
-del_bucket_cors(bucket::String) = do_request(:DELETE, bucket, "cors")
-del_bucket_lifecycle(bucket::String) = do_request(:DELETE, bucket, "lifecycle")
-del_bucket_policy(bucket::String) = do_request(:DELETE, bucket, "policy")
-del_bucket_tagging(bucket::String) = do_request(:DELETE, bucket, "tagging")
-del_bucket_website(bucket::String) = do_request(:DELETE, bucket, "website")
+del_bkt(bkt::String) = do_request(:DELETE, bkt, "")
+del_bkt_cors(bkt::String) = do_request(:DELETE, bkt, "cors")
+del_bkt_lifecycle(bkt::String) = do_request(:DELETE, bkt, "lifecycle")
+del_bkt_policy(bkt::String) = do_request(:DELETE, bkt, "policy")
+del_bkt_tagging(bkt::String) = do_request(:DELETE, bkt, "tagging")
+del_bkt_website(bkt::String) = do_request(:DELETE, bkt, "website")
 
 type GetBucketOptions
     delimiter::Union(String, Nothing)
@@ -49,15 +65,15 @@ type GetBucketOptions
     prefix::Union(String, Nothing)
 end
 
-get_bucket(bucket::String, options::Union(GetBucketOptions, Nothing)) = do_request(:GET, bucket, "", options, nothing, resp_obj=ListBucketResult())
-get_bucket_acl(bucket::String) = do_request(:GET, bucket, "acl", nothing, nothing, resp_obj=AccessControlPolicy())
-get_bucket_cors(bucket::String) = do_request(:GET, bucket, "cors", nothing, nothing, resp_obj=CORSConfiguration())
-get_bucket_lifecycle(bucket::String) = do_request(:GET, bucket, "lifecycle", nothing, nothing, resp_obj=LifecycleConfiguration())
-get_bucket_policy(bucket::String) = do_request(:GET, bucket, "policy", nothing, nothing, resp_obj=:STRING)
-get_bucket_location(bucket::String) = do_request(:GET, bucket, "location", nothing, nothing, resp_obj=LocationConstraint())
-get_bucket_logging(bucket::String) = do_request(:GET, bucket, "logging", nothing, nothing, resp_obj=BucketLoggingStatus())
-get_bucket_notification(bucket::String) = do_request(:GET, bucket, "notification", nothing, nothing, resp_obj=NotificationConfiguration())
-get_bucket_tagging(bucket::String) = do_request(:GET, bucket, "tagging", nothing, nothing, resp_obj=Tagging())
+get_bkt(bkt::String, options::Union(GetBucketOptions, Nothing)) = do_request(:GET, bkt, "", options, nothing, resp_obj=ListBucketResult())
+get_bkt_acl(bkt::String) = do_request(:GET, bkt, "acl", nothing, nothing, resp_obj=AccessControlPolicy())
+get_bkt_cors(bkt::String) = do_request(:GET, bkt, "cors", nothing, nothing, resp_obj=CORSConfiguration())
+get_bkt_lifecycle(bkt::String) = do_request(:GET, bkt, "lifecycle", nothing, nothing, resp_obj=LifecycleConfiguration())
+get_bkt_policy(bkt::String) = do_request(:GET, bkt, "policy", nothing, nothing, resp_obj=:STRING)
+get_bkt_location(bkt::String) = do_request(:GET, bkt, "location", nothing, nothing, resp_obj=LocationConstraint())
+get_bkt_logging(bkt::String) = do_request(:GET, bkt, "logging", nothing, nothing, resp_obj=BucketLoggingStatus())
+get_bkt_notification(bkt::String) = do_request(:GET, bkt, "notification", nothing, nothing, resp_obj=NotificationConfiguration())
+get_bkt_tagging(bkt::String) = do_request(:GET, bkt, "tagging", nothing, nothing, resp_obj=Tagging())
 
 type GetBucketObjectVersionsOptions
     delimiter::Union(String, Nothing)
@@ -67,11 +83,11 @@ type GetBucketObjectVersionsOptions
     version_id_marker::Union(String, Nothing)
 end
 
-get_bucket_object_versions(bucket::String, options::Union(GetBucketObjectVersionsOptions, Nothing)) = do_request(:GET, bucket, "versions", options, nothing, resp_obj=ListVersionsResult())
+get_bkt_object_versions(bkt::String, options::Union(GetBucketObjectVersionsOptions, Nothing)) = do_request(:GET, bkt, "versions", options, nothing, resp_obj=ListVersionsResult())
 
-get_bucket_request_payment(bucket::String) = do_request(:GET, bucket, "requestPayment", nothing, nothing, resp_obj=RequestPaymentConfiguration())
-get_bucket_versioning(bucket::String) = do_request(:GET, bucket, "versioning", nothing, nothing, resp_obj=VersioningConfiguration())
-get_bucket_website(bucket::String) = do_request(:GET, bucket, "website", nothing, nothing, resp_obj=WebsiteConfiguration())
+get_bkt_request_payment(bkt::String) = do_request(:GET, bkt, "requestPayment", nothing, nothing, resp_obj=RequestPaymentConfiguration())
+get_bkt_versioning(bkt::String) = do_request(:GET, bkt, "versioning", nothing, nothing, resp_obj=VersioningConfiguration())
+get_bkt_website(bkt::String) = do_request(:GET, bkt, "website", nothing, nothing, resp_obj=WebsiteConfiguration())
 
 
 type GetBucketUploadsOptions
@@ -81,11 +97,11 @@ type GetBucketUploadsOptions
     prefix::Union(String, Nothing)
     upload_id_marker::Union(String, Nothing)
 end
-get_bucket_multipart_uploads(bucket::String, options::Union(GetBucketObjectVersionsOptions, Nothing)) = do_request(:GET, bucket, "uploads", options, nothing, resp_obj=ListMultipartUploadsResult())
+get_bkt_multipart_uploads(bkt::String, options::Union(GetBucketObjectVersionsOptions, Nothing)) = do_request(:GET, bkt, "uploads", options, nothing, resp_obj=ListMultipartUploadsResult())
 
 
 
-function test_bucket(bucket::String)
+function test_bkt(bkt::String)
 end
 
 type S3_ACL_Grantee
@@ -104,25 +120,25 @@ type S3_ACL
 end
 
 
-function create_bucket(bucket::String, acl::Union(S3_ACL, Nothing), location_constraint::Union(String, Nothing))
-    return do_request(:PUT, bucket, "", params, req_body, nothing)
+function create_bkt(bkt::String, acl::Union(S3_ACL, Nothing), location_constraint::Union(String, Nothing))
+    return do_request(:PUT, bkt, "", params, req_body, nothing)
 end
 
 
-set_bucket_acl(bucket::String, acl::Union(S3_ACL, Nothing)) = do_request(:PUT, bucket, "acl", acl)
-set_bucket_cors(bucket::String, cors::CORSConfiguration) = do_request(:PUT, bucket, "cors", nothing, cors_xml)
-set_bucket_lifecycle(bucket::String, lc::LifecycleConfiguration) = do_request(:PUT, bucket, "lifecycle", nothing, lc_xml)
-set_bucket_policy(bucket::String, policy_json::String) = do_request(:PUT, bucket, "policy", nothing, policy_json)
+set_bkt_acl(bkt::String, acl::Union(S3_ACL, Nothing)) = do_request(:PUT, bkt, "acl", acl)
+set_bkt_cors(bkt::String, cors::CORSConfiguration) = do_request(:PUT, bkt, "cors", nothing, cors_xml)
+set_bkt_lifecycle(bkt::String, lc::LifecycleConfiguration) = do_request(:PUT, bkt, "lifecycle", nothing, lc_xml)
+set_bkt_policy(bkt::String, policy_json::String) = do_request(:PUT, bkt, "policy", nothing, policy_json)
 
-function set_bucket_logging(bucket::String, logging::BucketLoggingStatus)
-    do_request(:PUT, bucket, "logging", nothing, logging_xml)
+function set_bkt_logging(bkt::String, logging::BucketLoggingStatus)
+    do_request(:PUT, bkt, "logging", nothing, logging_xml)
 end
 
 
 
-function set_bucket_notification(bucket::String, notif::NotificationConfiguration)
+function set_bkt_notification(bkt::String, notif::NotificationConfiguration)
     # NOTE: x-amz-sns-test-message-id is returned as a header - needs to be extracted....
-    do_request(:PUT, bucket, "notification", nothing, notif_xml)
+    do_request(:PUT, bkt, "notification", nothing, notif_xml)
 end
 
 type Tag
@@ -136,24 +152,24 @@ type Tagging
 end
 
 
-set_bucket_tagging(bucket::String, tagging::Tagging) = do_request(:PUT, bucket, "tagging", nothing, tagging_xml)
-set_bucket_request_payment(bucket::String, pay::RequestPaymentConfiguration) = do_request(:PUT, bucket, "requestPayment", nothing, pay_xml)
+set_bkt_tagging(bkt::String, tagging::Tagging) = do_request(:PUT, bkt, "tagging", nothing, tagging_xml)
+set_bkt_request_payment(bkt::String, pay::RequestPaymentConfiguration) = do_request(:PUT, bkt, "requestPayment", nothing, pay_xml)
 
-function set_bucket_versioning(bucket::String, mfa::Union(String, Nothing), config::VersioningConfiguration)
+function set_bkt_versioning(bkt::String, mfa::Union(String, Nothing), config::VersioningConfiguration)
     #x-amz-mfa is not mandatory if status is suspended
-    do_request(:PUT, bucket, "versioning", params, config_xml)
+    do_request(:PUT, bkt, "versioning", params, config_xml)
 
 end
-set_bucket_website(bucket::String, config::WebsiteConfiguration) = do_request(:PUT, bucket, "website", nothing, config_xml)
+set_bkt_website(bkt::String, config::WebsiteConfiguration) = do_request(:PUT, bkt, "website", nothing, config_xml)
 
 
 ######################################
 ### OPERATIONS ON OBJECTS
 ######################################
 
-function del_object(bucket::String, key::String, version=nothing, mfa=nothing) 
+function del_object(bkt::String, key::String, version=nothing, mfa=nothing) 
     #TODO - handle version and mfa
-    do_request(:DELETE, bucket, key, hp, qp)
+    do_request(:DELETE, bkt, key, hp, qp)
 end
 
 type ObjectType
@@ -167,15 +183,15 @@ type DeleteObjectsType
 end
 
 
-function del_object_multi(bucket::String, delset::DeleteObjectsType, mfa=nothing)
+function del_object_multi(bkt::String, delset::DeleteObjectsType, mfa=nothing)
     # TODO : Make XML out of delset
     #TODO - handle mfa
-    do_request(:POST, bucket, "delete", query_params=, req_body=, resp_obj=DeleteResult())
+    do_request(:POST, bkt, "delete", query_params=, req_body=, resp_obj=DeleteResult())
 end
 
 type GetObjectOptions
     # These go into the query string
-    response_content_type::Union(String, Nothing)   
+    response_cont_typ::Union(String, Nothing)   
     response_content_language::Union(String, Nothing)   
     response_expires::Union(String, Nothing)   
     response_cache_control::Union(String, Nothing)   
@@ -192,36 +208,36 @@ type GetObjectOptions
     if_none_match::Union(String, Nothing)   
 end
 
-function get_object(bucket::String, key::String, options::GetObjectOptions, outstream=nothing)
+function get_object(bkt::String, key::String, options::GetObjectOptions, outstream=nothing)
     # write to out stream if it is an IO Stream, else return an Array of Uint8s
     # TODO : Split options between hdr and query params...
-    do_request(:GET, bucket, key, hdr_params=, query_params=, resp_ostream=outstream)
+    do_request(:GET, bkt, key, hdr_params=, query_params=, resp_ostream=outstream)
 end
 
-function get_object_acl(bucket::String, key::String, version=nothing)
-    do_request(:GET, bucket, key, query_params=, resp_obj=AccessControlPolicy())
+function get_object_acl(bkt::String, key::String, version=nothing)
+    do_request(:GET, bkt, key, query_params=, resp_obj=AccessControlPolicy())
 end
 
-function get_object_torrent(bucket::String, key) 
+function get_object_torrent(bkt::String, key) 
     # set torrent
-    do_request(:GET, bucket, key, query_params=, resp_obj=:BYTE_ARRAY)
+    do_request(:GET, bkt, key, query_params=, resp_obj=:BYTE_ARRAY)
 end
 
-function describe_object(bucket::String, key::String, options::GetObjectOptions)
+function describe_object(bkt::String, key::String, options::GetObjectOptions)
     # TODO : Split options between hdr and query params...
-    do_request(:HEAD, bucket, key, hdr_params=, query_params=)
+    do_request(:HEAD, bkt, key, hdr_params=, query_params=)
 end
 
-function test_object(bucket::String, key::String, origin::Union(String, Nothing), method::Union(String, Nothing), headers::Union(String, Nothing))
-    do_request(:OPTIONS, bucket, key, hdr_params=)
+function test_object(bkt::String, key::String, origin::Union(String, Nothing), method::Union(String, Nothing), headers::Union(String, Nothing))
+    do_request(:OPTIONS, bkt, key, hdr_params=)
 end
 
 #POST Object
 
-function restore_object(bucket::String, key::String, days::Int)
+function restore_object(bkt::String, key::String, days::Int)
     # TODO qp = "restore"
     # convert days to RestoreRequest
-    do_request(:RESTORE, bucket, key, hdr_params=, query_params=)
+    do_request(:RESTORE, bkt, key, hdr_params=, query_params=)
 end
 
 type PutObjectOptions
@@ -229,7 +245,7 @@ type PutObjectOptions
     cache_control::Union(String, Nothing)
     content_disposition::Union(String, Nothing)
     content_encoding::Union(String, Nothing)
-    content_type::Union(String, Nothing)
+    cont_typ::Union(String, Nothing)
 #Expect  not supported...
     expires::Union(DateTime, Nothing)
     
@@ -241,12 +257,12 @@ type PutObjectOptions
     acl::Union(S3_ACL, Nothing)
 end
 
-function put_object(bucket::String, key::String, options::PutObjectOptions, data::Union(IOStream, String))
-    do_request(:PUT, bucket, key, query_params=, req_istream=instream, req_body=)
+function put_object(bkt::String, key::String, options::PutObjectOptions, data::Union(IOStream, String))
+    do_request(:PUT, bkt, key, query_params=, req_istream=instream, req_body=)
 end
 
-function put_object_acl(bucket::String, key::String, acl::AccessControlPolicy, version=Union(String, Nothing))
-    do_request(:PUT, bucket, key , query_params="?acl", req_body=acl_xml)
+function put_object_acl(bkt::String, key::String, acl::AccessControlPolicy, version=Union(String, Nothing))
+    do_request(:PUT, bkt, key , query_params="?acl", req_body=acl_xml)
 end
 
 type CopyMatchOptions
@@ -271,16 +287,16 @@ type CopyObjectOptions
     acl::Union(S3_ACL, Nothing)
 end
 
-function copy_object(dest_bucket::String, dest_key::String, options::CopyObjectOptions)
-    do_request(:PUT, dest_bucket, dest_key, hdr_params=, resp_obj = CopyObjectResult())
+function copy_object(dest_bkt::String, dest_key::String, options::CopyObjectOptions)
+    do_request(:PUT, dest_bkt, dest_key, hdr_params=, resp_obj = CopyObjectResult())
 end
 
-function initiate_multipart_upload(bucket::String, key::String, options::PutObjectOptions)
-    do_request(:POST, bucket, key, query_params="uploads", hdr_params=, resp_obj = InitiateMultipartUploadResult())
+function initiate_multipart_upload(bkt::String, key::String, options::PutObjectOptions)
+    do_request(:POST, bkt, key, query_params="uploads", hdr_params=, resp_obj = InitiateMultipartUploadResult())
 end
 
-function upload_part(bucket::String, key::String, part_number::String, upload_id::String, data::Union(IOStream, String))
-    do_request(:PUT, bucket, key, query_params=, hdr_params=, resp_obj=, req_istream=)
+function upload_part(bkt::String, key::String, part_number::String, upload_id::String, data::Union(IOStream, String))
+    do_request(:PUT, bkt, key, query_params=, hdr_params=, resp_obj=, req_istream=)
 end
 
 type CopyUploadPartOptions
@@ -289,8 +305,8 @@ type CopyUploadPartOptions
     match_options::Union(CopyMatchOptions, Nothing)
 end
 
-function copy_upload_part(bucket::String, key::String, part_number::String, upload_id::String, options::CopyUploadPartOptions)
-    do_request(:PUT, bucket, key, query_params=, hdr_params=, resp_obj=CopyPartResult())
+function copy_upload_part(bkt::String, key::String, part_number::String, upload_id::String, options::CopyUploadPartOptions)
+    do_request(:PUT, bkt, key, query_params=, hdr_params=, resp_obj=CopyPartResult())
 end
 
 type S3PartTag
@@ -298,20 +314,23 @@ type S3PartTag
     etag::String
 end
 
-function complete_multipart_upload(bucket::String, key::String, upload_id::String, part_ids::Vector{S3PartTag})
-    do_request(:POST, bucket, key, query_params=upload_id..., req_body=req_xml, resp_obj=CompleteMultipartUploadResult())
+function complete_multipart_upload(bkt::String, key::String, upload_id::String, part_ids::Vector{S3PartTag})
+    do_request(:POST, bkt, key, query_params=upload_id..., req_body=req_xml, resp_obj=CompleteMultipartUploadResult())
 end
 
 
-function abort_multipart_upload(bucket::String, key::String, upload_id::String)
-    do_request(:DELETE, bucket, key, query_params=upload_id...)
+function abort_multipart_upload(bkt::String, key::String, upload_id::String)
+    do_request(:DELETE, bkt, key, query_params=upload_id...)
 end
 
-function list_upload_parts(bucket::String, key::String, upload_id::String)
-    do_request(:GET, bucket, key, query_params=upload_id..., resp_obj=ListPartsResult())
+function list_upload_parts(bkt::String, key::String, upload_id::String)
+    do_request(:GET, bkt, key, query_params=upload_id..., resp_obj=ListPartsResult())
 end
 
-function do_request(verb, bucket, req_tag; hdr_params=nothing, query_params=nothing, req_body=nothing, req_istream=nothing, resp_obj=nothing, resp_ostream=nothing)
+function do_request(verb, bkt, key, ro::RO)
+
+
+
     return(S3Response, resp)
 end
 
@@ -336,43 +355,78 @@ const SUB_RESOURCES =
         "delete"
         )
 
-function do_http(env::AWSEnv, verb, bucket, key, sub_resources, http_hdrs, amz_hdrs; content_type="", req_body=nothing, req_istream=nothing)
-    if req_body != nothing
+function do_http(env::AWSEnv, ro::RO)
+    if ro.req_body != nothing
         digest = zeros(Uint8, 16)
         MD5(req_body, length(req_body), digest)
-        md5 = bytestring(Codecs.encode(Base64, Crypto.md5(req_body)))
-    elseif req_istream != nothing
+        md5 = bytestring(Codecs.encode(Base64, Crypto.md5(ro.req_body)))
+    elseif ro.req_istream != nothing
         # Read the entire istream to get the MD5 of the same.
-        md5 = bytestring(Codecs.encode(Base64, Crypto.md5(req_istream)))
+        md5 = bytestring(Codecs.encode(Base64, Crypto.md5(ro.req_istream)))
+        seekstart(ro.req_istream)
     else
         md5 = ""
     end
     
-    (new_amz_hdrs, full_path, s_b64) = canonicalize_and_sign(env::AWSEnv, verb, bucket, key, sub_resources, md5, content_type, amz_hdrs)
+    (new_amz_hdrs, full_path, s_b64) = canonicalize_and_sign(env, ro, md5)
+    
+    all_hdrs = new_amz_hdrs
+    all_hdrs = (md5 != "") ? cat(1, all_hdrs, [("Content-MD5", md5)]) : all_hdrs
+    all_hdrs = (cont_typ != "") ? cat(1, all_hdrs, [("Content-Type", cont_typ)]) : all_hdrs
+
+    # Remove Content-MD5 and Expect headers from the passed http_hdrs
+    for (name, value) in ro.http_hdrs
+        lname = lowercase(strip(name))
+        if (lname != "content-md5")) && (lname != "expect") && (lname != "content-type")
+            push!(all_hdrs, (name, value))
+        elseif (lname == "content-type") && (ro.cont_typ == "")
+            # If content type has been set as part of RO, it will be used.
+            push!(all_hdrs, (name, value))
+        end
+    end
+
+    Add Authorization header
     
     url = "https://s3.amazonaws.com" * full_path
     
+    http_options = RequestOptions(headers=all_hdrs, ostream=ro.ostream, request_timeout=env.timeout)
     if verb == :GET
-        
+        http_resp = HTTPC.get(url, http_options)
     elseif verb == :PUT
+        if ro.istream != nothing
+            http_resp = HTTPC.put(url, ro.istream, http_options)
+        else 
+            http_resp = HTTPC.put(url, ro.body, http_options)
+        end
+        
     elseif verb == :POST
+        if ro.istream != nothing
+            http_resp = HTTPC.post(url, ro.istream, http_options)
+        else 
+            http_resp = HTTPC.post(url, ro.body, http_options)
+        end
+    
     elseif verb == :DELETE
+        http_resp = HTTPC.delete(url, http_options)
+        
     elseif verb == :HEAD
+        http_resp = HTTPC.head(url, http_options)
+    
     else
         error("Unknown HTTP verb $verb")
     end
     
-    
+    return http_resp
 end
         
         
-function canonicalize_and_sign(env::AWSEnv, verb, bucket, key, sub_resources, md5, content_type, amz_hdrs)
-    new_amz_hdrs, amz_hdrs_str = get_canon_amz_headers(amz_hdrs)
-    full_path = get_canonicalized_resource(bucket, key, sub_resources)
+function canonicalize_and_sign(env::AWSEnv, ro::RO, md5::String)
+    new_amz_hdrs, amz_hdrs_str = get_canon_amz_headers(ro.amz_hdrs)
+    full_path = get_canonicalized_resource(ro)
 
-    str2sign = string(verb) * "\n" *
+    str2sign = string(ro.verb) * "\n" *
     md5 * "\n" *
-    content_type * "\n" * "\n" * # Using x-amz-date instead of Date.
+    ro.cont_typ * "\n" * "\n" * # Using x-amz-date instead of Date.
     amz_hdrs_str * full_path
     
     s_raw = Crypto.hmacsha1_digest(str2sign, env.aws_seckey)
@@ -381,16 +435,16 @@ function canonicalize_and_sign(env::AWSEnv, verb, bucket, key, sub_resources, md
     return new_amz_hdrs, full_path, s_b64
 end
 
-function get_canonicalized_resource(bucket, key, sub_resources)
-    if length(bucket) > 0
-        part1 = (beginswith(bucket, "/") ? "" : "/") * bucket * 
-        (beginswith(key, "/") ? "" : "/") * key 
+function get_canonicalized_resource(ro::RO)
+    if length(ro.bkt) > 0
+        part1 = (beginswith(ro.bkt, "/") ? "" : "/") * ro.bkt * 
+        (beginswith(ro.key, "/") ? "" : "/") * ro.key 
     else
         part1 = "/"
     end
     
-    if length(sub_resources) > 0
-        return part1 * "?" * HTTPC.urlencode_query_params(sort(sub_resources))
+    if length(ro.sub_res) > 0
+        return part1 * "?" * HTTPC.urlencode_query_params(sort(ro.sub_res))
     else
         return part1
     end

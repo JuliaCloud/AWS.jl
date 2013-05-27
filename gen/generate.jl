@@ -69,6 +69,11 @@ function get_type_in_jl(xtype_name, ns_pfx)
 end
 
 function is_set_type(type_name, is_native, ns_pfx)
+    if !haskey(all_ctypes_map, type_name)
+        println("WARNING : type $type_name not defined yet. Skipping...")
+        return (false, type_name, is_native)
+    end
+    
     ctype = all_ctypes_map[type_name]
     elements = find (ctype, "$(ns_pfx)sequence/$(ns_pfx)element")
     if isa(elements, Array) && (length(elements) == 1)
@@ -194,8 +199,14 @@ function generate_all_types(ctypes, f, ns_pfx)
     tag_group = ns_pfx * "group"
     
     for ctype in ctypes
-        tctx = TypeContext(ctype.attr["name"], f)
+        if haskey(ctype.attr, "abstract")
+            println("Skipping " * ctype.attr["name"] * " - Define manually.")
+            continue
+        end
         
+        tctx = TypeContext(ctype.attr["name"], f)
+
+        # Skip abstract types (for now)
         if haskey(ctype.elements, tag_sequence)
             seq_elems = ctype.elements[tag_sequence]
             # sanity check
@@ -221,7 +232,8 @@ function generate_all_types(ctypes, f, ns_pfx)
             add!(empty_types, ctype.attr["name"])
             continue
         else
-            error("Unknown elements type: " * string(ctype.elements))
+            println("Skipping " * ctype.attr["name"] * ". Define manually if required")
+            continue
         end 
         tctx.definition = tctx.definition * "\n" * tctx.const_lhs * ") = \n        " * tctx.const_rhs * ")\nend\n"
         
@@ -359,17 +371,17 @@ empty_types = Set()
 all_ctypes_map = Dict{String, ParsedData}()
 valid_rqst_msgs={}
     
-# Generate for S3
-wsdl = xp_parse(open(readall, "./wsdl/AmazonS3.xsd"))
-
-
-# S3 types....
-f = open("../src/s3_types.jl", "w+")
-
-ctypes = find(wsdl, "xsd:schema/xsd:complexType")
-generate_all_types(ctypes, f, "xsd:")
-write_dependent_types(f)
-close(f)
+# # Generate for S3
+# wsdl = xp_parse(open(readall, "./wsdl/AmazonS3.xsd"))
+# 
+# 
+# # S3 types....
+# f = open("../src/s3_gentypes.jl", "w+")
+# 
+# ctypes = find(wsdl, "xsd:schema/xsd:complexType")
+# generate_all_types(ctypes, f, "xsd:")
+# write_dependent_types(f)
+# close(f)
 
 # # EC2 calls....
 # f = open("../src/ec2_operations.jl", "w+")
