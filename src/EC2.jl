@@ -149,7 +149,7 @@ function call_ec2(env::AWSEnv, action::String, msg=nothing, params_in=nothing)
     if !(env.dry_run)
         resp = HTTPC.get(complete_url)
         
-        if (resp.http_code == 200)
+        if (resp.http_code >= 200)
             xom = xp_parse(resp.body)
             return xom
         elseif (resp.http_code >= 400) && (resp.http_code <= 599)
@@ -158,9 +158,9 @@ function call_ec2(env::AWSEnv, action::String, msg=nothing, params_in=nothing)
             rid = ""
             if length(resp.body) > 0
                 xom = xp_parse(resp.body)
-                rid = find(xom, "Response/RequestID#text")
-                ec = find(xom, "Response/Errors/Error/Code#text")
-                ec_msg = find(xom, "Response/Errors/Error/Message#text")
+                rid = find(xom, "RequestID#text")
+                ec = find(xom, "Errors/Error/Code#text")
+                ec_msg = find(xom, "Errors/Error/Message#text")
             end
         
             return (rid, resp.http_code, ec, ec_msg)

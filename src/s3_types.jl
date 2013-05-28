@@ -22,7 +22,8 @@ function xml(tag::String, children::Vector{Any}; xmlns="", xsi_type="")
     
     children_xml = ""
     for child in children
-        if isa(Tuple, (child_tag, child_value))
+        if isa(Tuple, child)
+            (child_tag, child_value) = child
             children_xml = children_xml * xml(child_tag, child_value)
         else
             children_xml = children_xml * xml(child)
@@ -190,7 +191,7 @@ function ListBucketResult(pd_lbr::ParsedData)
         if (length(maxstr) > 0) lbr.maxKeys = parseint(maxstr) end 
     end
     if haskey(lbr.elements, "Delimiter") lbr.delimiter = find(pd_lbr, "Delimiter#text") end
-    if haskey(lbr.elements, "IsTruncated") lbr.isTruncated = (lowercase(find(pd_lbr, "Delimiter#text")) == "true") ? true : false  end
+    if haskey(lbr.elements, "IsTruncated") lbr.isTruncated = (lowercase(find(pd_lbr, "IsTruncated#text")) == "true") ? true : false  end
     if haskey(lbr.elements, "Contents") lbr.contents = @parse_vector(Contents, lbr.elements["Contents"]) end
     if haskey(lbr.elements, "CommonPrefixes") lbr.commonPrefixes = @parse_vector(CommonPrefixes, lbr.elements["CommonPrefixes"]) end
 end
@@ -252,7 +253,7 @@ function ListVersionsResult(pd_lvr::ParsedData)
         if (length(maxstr) > 0) lvr.maxKeys = parseint(maxstr) end 
     end
     if haskey(lvr.elements, "Delimiter") lvr.delimiter = find(pd_lvr, "Delimiter#text") end
-    if haskey(lvr.elements, "IsTruncated") lvr.isTruncated = (lowercase(find(pd_lvr, "Delimiter#text")) == "true") ? true : false  end
+    if haskey(lvr.elements, "IsTruncated") lvr.isTruncated = (lowercase(find(pd_lvr, "IsTruncated#text")) == "true") ? true : false  end
     if haskey(lvr.elements, "Version") lvr.version = @parse_vector(Version, lvr.elements["Version"]) end
     if haskey(lvr.elements, "DeleteMarker") lvr.deleteMarker = @parse_vector(DeleteMarker, lvr.elements["DeleteMarker"]) end
     if haskey(lvr.elements, "CommonPrefixes") lvr.commonPrefixes = @parse_vector(CommonPrefixes, lvr.elements["CommonPrefixes"]) end
@@ -411,4 +412,103 @@ function xml(o::TopicConfiguration)
     
     xml("TopicConfiguration", topic * events)
 end
+
+
+
+
+
+type InitiateMultipartUploadResult
+    bucket::String
+    key::String
+    uploadId::String
+end
+function InitiateMultipartUploadResult(pd::ParsedData)
+    InitiateMultipartUploadResult(find(pd, "Bucket#text"), find(pd, "Key#text"), find(pd, "UploadId#text"))
+end
+
+type CopyPartResult
+   lastModified::CalendarTime
+   eTag::String
+end
+function CopyPartResult(pd::ParsedData)
+    datestr = find(pd, "LastModified#text")
+    t = Calendar.parse("yyyy-MM-DD'T'HH:mm:ss", datestr[1:end-1], "GMT")
+    CopyPartResult(t, find(pd, "ETag#text"))
+end
+
+
+type Part
+    partNumber::String
+    lastModified::Union(CalendarTime, Nothing)
+    eTag::String
+    size::Union(Int64, Nothing)
+    
+    Part(partNumber, eTag) = new(partNumber, nothing, eTag, nothing)
+    Part(partNumber, lastModified, eTag, size) = new(partNumber, lastModified, eTag, size)
+end
+# We don't need to xmlify lastModified and Size...
+xml(o::Part) = xml("Part", [("PartNumber", o.partNumber), ("ETag", o.eTag)])
+function Part(pd::ParsedData)
+    datestr = find(pd, "LastModified#text")
+    t = Calendar.parse("yyyy-MM-DD'T'HH:mm:ss.SSS", datestr[1:end-1], "GMT")
+
+    Part(find(pd, "PartNumber#text"), t, find(pd, "ETag#text"), int64(find(pd, "Size#text")))
+end
+
+
+type CompleteMultipartUpload
+    parts::vector{Part}
+end
+xml(o::CompleteMultipartUpload) = xml("CompleteMultipartUpload", o.parts)
+
+
+
+type CompleteMultipartUploadResult
+    location::String
+    bucket::String
+    key::String
+    eTag::String
+end
+CompleteMultipartUploadResult(pd::ParsedData) = 
+    CompleteMultipartUploadResult(
+        find(pd, "Location#text"),
+        find(pd, "Bucket#text"),
+        find(pd, "Key#text"),
+        find(pd, "ETag#text"),
+    )
+
+
+    
+type ListPartsResult
+    bucket::String
+    key::String
+    uploadId::String
+    initiator::Initiator
+    owner::Owner
+    storageClass::String
+    partNumberMarker::String
+    nextPartNumberMarker::String
+    maxParts::Int
+    isTruncated::Bool
+    parts::Vector{Part}
+end  
+function ListPartsResult(pd::ParsedData)
+    ListPartsResult(
+        find(pd, "Bucket#text"),
+        find(pd, "Key#text"),
+        find(pd, "UploadId#text"),
+        Initiator(find(pd, "Initiator[1]")),
+        Owner(find(pd, "Owner[1]")),
+        find(pd, "StorageClass#text"),
+        find(pd, "PartNumberMarker#text"),
+        find(pd, "NextPartNumberMarker#text"),
+        int(find(pd, "MaxParts#text")),
+        (lowercase(find(pd, "IsTruncated#text")) == "true") ? true : false,
+        @parse_vector(Part, find(pd, "Part"))
+    )
+end
+
+
+
+
 

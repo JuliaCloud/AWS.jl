@@ -3,22 +3,37 @@
 using AWS.Crypto
 using libCURL.HTTPC
 
+typealias Maybe{T} Union(T,Nothing)
 
 type S3Error
     code::String
     message::String
     resource::String
-    request_id::String
+    requestId::String
 end
+function S3Error(pde::ParsedData) 
+    code = find(pde, "Code#text")
+    message = find(pde, "Message#text")
+    resource = find(pde, "Resource#text")
+    requestId = find(pde, "RequestId#text")
+    
+    S3Error(code, message, resource, requestId)
+end
+
 
 type S3Response
     content_length::Int  
     #Connection (open or closed) - we will not use this  
     date::String    #The date and time Amazon S3 responded, for example, Wed, 01 Mar 2009 12:00:00 GMT.
     server::String  #The name of the server that created the response.
-    etag::String
+    eTag::String
     http_code::Int
-# Define common amz fields here
+
+    # Common amz fields here
+    delete_marker::Bool
+    id_2::String
+    request_id::String
+    version_id::String
 
 # all header fields
     headers::Dict
@@ -27,7 +42,7 @@ type S3Response
     obj::Any
     error::Union(S3Error, Nothing)
     
-    S3Response() = new(0, "", "", "", Dict{String,String,}(), nothing, nothing)
+    S3Response() = new(0, "", "", "", false, "","","",Dict{String,String,}(), nothing, nothing)
 end
 
 type RO # RequestOptions
@@ -327,14 +342,42 @@ function list_upload_parts(bkt::String, key::String, upload_id::String)
     do_request(:GET, bkt, key, query_params=upload_id..., resp_obj=ListPartsResult())
 end
 
-function do_request(verb, bkt, key, ro::RO)
+function do_request(ro::RO)
+    http_resp = do_http(ro)
+    
+    s3_resp = S3Response()
+    
+    s3_resp.http_code = http_resp.http_code
+    cl_s = get(http_resp.headers, "Content-Length", "") 
+    if cl_s != ""
+        s3_resp.content_length = int(cl_s)
+    end
+    s3_resp.date = get(http_resp.headers, "Date", "") 
+    s3_resp.eTag = get(http_resp.headers, "ETag", "") 
+    s3_resp.server = get(http_resp.headers, "Server", "") 
+    
+    s3_resp.delete_marker = lowercase(get(http_resp.headers, "x-amz-delete-marker", "false")) == "true" ? true : false 
+    s3_resp.id_2 = get(http_resp.headers, "x-amz-id-2", "") 
+    s3_resp.request_id = get(http_resp.headers, "x-amz-request-id", "") 
+    s3_resp.version_id = get(http_resp.headers, "x-amz-version-id", "") 
 
+    s3_resp.headers = http_resp.headers
 
-
-    return(S3Response, resp)
+    if  get(http_resp.headers, "Content-Type", "") == "application/xml"
+        xom = xp_parse(resp.body)
+        if xom.name == "Error"
+            s3_resp.error = S3Error(xom) 
+        else
+            obj_name = xom.name
+            s3_resp.obj = eval(:(obj_name(xom)))
+        end
+    end
+    
+    s3_resp
 end
 
-
+# All header fields    
+    obj::Any
 
 const SUB_RESOURCES = 
     Set("acl", 
@@ -371,8 +414,8 @@ function do_http(env::AWSEnv, ro::RO)
     (new_amz_hdrs, full_path, s_b64) = canonicalize_and_sign(env, ro, md5)
     
     all_hdrs = new_amz_hdrs
-    all_hdrs = (md5 != "") ? cat(1, all_hdrs, [("Content-MD5", md5)]) : all_hdrs
-    all_hdrs = (cont_typ != "") ? cat(1, all_hdrs, [("Content-Type", cont_typ)]) : all_hdrs
+    (md5 != "") ? push!(all_hdrs, [("Content-MD5", md5)]) : nothing
+    (cont_typ != "") ? push!(all_hdrs, [("Content-Type", cont_typ)]) : nothing
 
     # Remove Content-MD5 and Expect headers from the passed http_hdrs
     for (name, value) in ro.http_hdrs
@@ -385,31 +428,31 @@ function do_http(env::AWSEnv, ro::RO)
         end
     end
 
-    Add Authorization header
+    push!(all_hdrs, [("Authorization",  "AWS " * env.aws_id * ":" * s_b64)])
     
     url = "https://s3.amazonaws.com" * full_path
     
     http_options = RequestOptions(headers=all_hdrs, ostream=ro.ostream, request_timeout=env.timeout)
-    if verb == :GET
+    if ro.verb == :GET
         http_resp = HTTPC.get(url, http_options)
-    elseif verb == :PUT
+    elseif ro.verb == :PUT
         if ro.istream != nothing
             http_resp = HTTPC.put(url, ro.istream, http_options)
         else 
             http_resp = HTTPC.put(url, ro.body, http_options)
         end
         
-    elseif verb == :POST
+    elseif ro.verb == :POST
         if ro.istream != nothing
             http_resp = HTTPC.post(url, ro.istream, http_options)
         else 
             http_resp = HTTPC.post(url, ro.body, http_options)
         end
     
-    elseif verb == :DELETE
+    elseif ro.verb == :DELETE
         http_resp = HTTPC.delete(url, http_options)
         
-    elseif verb == :HEAD
+    elseif ro.verb == :HEAD
         http_resp = HTTPC.head(url, http_options)
     
     else
