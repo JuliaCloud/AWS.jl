@@ -1,15 +1,17 @@
 
-type MetadataEntry
-    Name::String
-    Value::String
-end
+# Seems like Metadata is not returned via XML in case of the REST API.
+# type MetadataEntry
+#     name::String
+#     value::String
+# end
+
 
 const XMLNS_ATTR = "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\""
 xml_hdr(name) = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><$(name) xmlns=\"http://doc.s3.amazonaws.com/2006-03-01\">"
 xml_ftr(name) = "</$(name)>"
 
 xml(o::Any) = string(o)
-xml(tag::String, value::Any) = "<$(child_tag)>" * xml(value) * "</$(child_tag)>"
+xml(tag::String, value::Any) = "<$(tag)>" * xml(value) * "</$(tag)>"
 
 function xml(tag::String, children::Vector{Any}; xmlns="", xsi_type="")
     if (xsi_type != "")
@@ -30,6 +32,16 @@ function xml(tag::String, children::Vector{Any}; xmlns="", xsi_type="")
     return open_tag * children_xml * "</$(tag)>"
 end
 
+macro parse_vector (typ, vect)
+    quote
+        jl_vect::Vector{$(typ)} = []
+        for pd in $(vect)
+            push!(jl_vect, $(typ)(pd))
+        end
+        
+        jl_vect
+    end
+end
 
 
 type GranteeEmail
@@ -55,31 +67,24 @@ type Grant
 end
 xml(o::Grant) = xml("Grant", [o.grantee, ("Permission", o.permission)])
 # permission must be one of "READ", "WRITE", "READ_ACP", "WRITE_ACP" or "FULL_CONTROL"
-
-
-
-function parse_grants(grants::Vector{ParsedData})
-    jl_grants::Vector{Grants} = []
-    for grant_pd in grants
-        grantee_pd = find(grant_pd, "Grantee[1]")
-        grantee_type = grantee_pd.attr["xsi:type"]
-        if grantee_type == "AmazonCustomerByEmail"
-            grantee=GranteeEmail(find(grantee_pd, "EmailAddress#text"))
-        elseif grantee_type == "CanonicalUser"
-            grantee=GranteeID(find(grantee_pd, "ID#text"), find(grantee_pd, "DisplayName#text")) 
-        elseif grantee_type == "Group"
-            grantee=GranteeURI(find(grantee_pd, "URI#text"))
-        else
-            error("Unknown grantee type")
-        end
-        
-        permission = find(grant_pd, "Permission#text")
-    
-        push!(jl_grants, Grant(grantee, permission))
+function Grant(pd_g::ParsedData)
+    grantee_pd = find(pd_g, "Grantee[1]")
+    grantee_type = pd_g.attr["xsi:type"]
+    if grantee_type == "AmazonCustomerByEmail"
+        grantee=GranteeEmail(find(grantee_pd, "EmailAddress#text"))
+    elseif grantee_type == "CanonicalUser"
+        grantee=GranteeID(find(grantee_pd, "ID#text"), find(grantee_pd, "DisplayName#text")) 
+    elseif grantee_type == "Group"
+        grantee=GranteeURI(find(grantee_pd, "URI#text"))
+    else
+        error("Unknown grantee type")
     end
     
-    return jl_grants
+    permission = find(pd_g, "Permission#text")
+    Grant(grantee, permission)
 end
+
+
 
 
 type BucketLoggingStatus
@@ -98,7 +103,7 @@ function BucketLoggingStatus(pd_bls::ParsedData)
         bls.targetPrefix = find(pd_bls, "LoggingEnabled/TargetPrefix#text")
         
         grants = find(pd_bls, "LoggingEnabled/TargetGrants/Grant")
-        bls.targetGrants = parse_grants(grants)
+        bls.targetGrants = @parse_vector(Grant, grants)
     else
         return bls
     end
@@ -123,17 +128,20 @@ type Owner
     displayName::String
 end
 xml(o::Owner) = xml("Owner", [("ID", o.id), ("DisplayName", o.displayName)])
-Owner(pd_owner::ParsedData)=Owner(find(pd_owner, "ID#text"), find(pd_owner, "DisplayName#text")) 
-
+function Owner(pd_owner::ParsedData)
+    id = find(pd_owner, "ID#text")
+    displayName = haskey(pd_owner.elements, "DisplayName") ? find(pd_owner, "DisplayName#text")) : ""
+    Owner(id,displayName)  
+end
 
 type AccessControlPolicy
-    owner::CanonicalUser
+    owner::Owner
     accessControlList::Vector{Grant}
 end
 
 function AccessControlPolicy(pd_acl::ParsedData)
     owner = Owner(find(pd_acl, "Owner[1]"))
-    accessControlList = parse_grants(find(pd_bls, "AccessControlList/Grant"))
+    accessControlList = @parse_vector(Grant, find(pd_bls, "AccessControlList/Grant"))
     return AccessControlPolicy(owner, accessControlList)
 end
 
@@ -158,7 +166,6 @@ xml(o::CreateBucketConfiguration) = xml_hdr("CreateBucketConfiguration") *
 
 
 type ListBucketResult
-    metadata::Vector{MetadataEntry}
     name::String
     prefix::String
     marker::String
@@ -166,247 +173,242 @@ type ListBucketResult
     maxKeys::Int
     delimiter::String
     isTruncated::Bool
-    contents::Vector{ListEntry}
-    commonPrefixes::Vector{PrefixEntry}
+    contents::Vector{Contents}
+    commonPrefixes::Vector{CommonPrefixes}
     
     ListBucketResult() = new([], "", "", "", "", 0, "", false, [], [])
 end
 
 function ListBucketResult(pd_lbr::ParsedData)
     lbr = ListBucketResult()
-
+    if haskey(lbr.elements, "Name") lbr.name = find(pd_lbr, "Name#text") end
+    if haskey(lbr.elements, "Prefix") lbr.prefix = find(pd_lbr, "Prefix#text") end
+    if haskey(lbr.elements, "Marker") lbr.marker = find(pd_lbr, "Marker#text") end
+    if haskey(lbr.elements, "NextMarker") lbr.nextMarker = find(pd_lbr, "NextMarker#text") end
+    if haskey(lbr.elements, "MaxKeys") 
+        maxstr = find(pd_lbr, "MaxKeys#text")
+        if (length(maxstr) > 0) lbr.maxKeys = parseint(maxstr) end 
+    end
+    if haskey(lbr.elements, "Delimiter") lbr.delimiter = find(pd_lbr, "Delimiter#text") end
+    if haskey(lbr.elements, "IsTruncated") lbr.isTruncated = (lowercase(find(pd_lbr, "Delimiter#text")) == "true") ? true : false  end
+    if haskey(lbr.elements, "Contents") lbr.contents = @parse_vector(Contents, lbr.elements["Contents"]) end
+    if haskey(lbr.elements, "CommonPrefixes") lbr.commonPrefixes = @parse_vector(CommonPrefixes, lbr.elements["CommonPrefixes"]) end
 end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <xsd:element name="ListBucketResponse">
-    <xsd:complexType>
-      <xsd:sequence>
-    ListBucketResponse" type="tns:ListBucketResult"/>
-      </xsd:sequence>
-  end
-  </xsd:element>
-
-  <xsd:element name="ListVersionsResponse">
-    <xsd:complexType>
-      <xsd:sequence>
-    ListVersionsResponse" type="tns:ListVersionsResult"/>
-      </xsd:sequence>
-  end
-  </xsd:element>  
-
-type ListEntry">
-    <xsd:sequence>
-    Key::String
-    LastModified" type="xsd:dateTime"/>
-    ETag::String
-    Size" type="xsd:long"/>
-    Owner" type="tns:CanonicalUser" minOccurs="0"/>
-    StorageClass" type="tns:StorageClass"/>
-    </xsd:sequence>
+type Contents
+    key::String
+    lastModified::CalendarTime
+    eTag::String
+    size::Int64
+    owner::Owner
+    storageClass::String
 end
+function Contents(pd_le::ParsedData)
+    key = find(pd_le, "Key#text")
+    datestr = find(pd_le, "LastModified#text")
+    t = Calendar.parse("yyyy-MM-DD'T'HH:mm:ss.SSS", datestr[1:end-1], "GMT")
+    etag = find(pd_le, "ETag#text")
+    size = parseint(find(pd_le, "Size#text"))
+    owner=Owner(find(pd_le, "Owner[1]"))
+    storageClass = find(pd_le, "StorageClass#text")
 
-type VersionEntry">
-    <xsd:sequence>
-    Key::String
-    VersionId::String
-    IsLatest" type="xsd:boolean"/>
-    LastModified" type="xsd:dateTime"/>
-    ETag::String
-    Size" type="xsd:long"/>
-    Owner" type="tns:CanonicalUser" minOccurs="0"/>
-    StorageClass" type="tns:StorageClass"/>
-    </xsd:sequence>
-end
-
-type DeleteMarkerEntry">
-    <xsd:sequence>
-    Key::String
-    VersionId::String
-    IsLatest" type="xsd:boolean"/>
-    LastModified" type="xsd:dateTime"/>
-    Owner" type="tns:CanonicalUser" minOccurs="0"/>
-    </xsd:sequence>
-end
-
-type PrefixEntry">
-    <xsd:sequence>
-    Prefix::String
-    </xsd:sequence>
+    Contents(key, t, etag, size, owner, storageClass)
 end
 
 
-type ListVersionsResult">
-    <xsd:sequence>
-    Metadata" type="tns:MetadataEntry" minOccurs="0" maxOccurs="unbounded"/>
-    Name::String
-    Prefix::String
-    KeyMarker::String
-    VersionIdMarker::String
-    NextKeyMarker::String
-    NextVersionIdMarker::String
-    MaxKeys" type="xsd:int"/>
-    Delimiter::String
-    IsTruncated" type="xsd:boolean"/>
-      <xsd:choice minOccurs="0" maxOccurs="unbounded">
-      Version" type="tns:VersionEntry"/>
-      DeleteMarker" type="tns:DeleteMarkerEntry"/>
-      </xsd:choice>
-    CommonPrefixes" type="tns:PrefixEntry" minOccurs="0" maxOccurs="unbounded"/>
-    </xsd:sequence>
+type CommonPrefixes
+    prefix::String
+end
+CommonPrefixes(pd_cp::ParsedData) = CommonPrefixes(find(pd_cp, "Prefix#text"))
+
+
+type ListVersionsResult
+    name::String
+    prefix::String
+    keyMarker::String
+    versionIdMarker::String
+    nextKeyMarker::String
+    nextVersionIdMarker::String
+    maxKeys::Int
+    delimiter::String
+    isTruncated::Bool
+    version::Vector{Version}
+    deleteMarker::Vector{DeleteMarker}
+    commonPrefixes::Vector{CommonPrefixes}
+    
+    ListVersionsResult() = new("", "", "", "", "", "", 0, "", false, [], [], [])
 end  
-
-  <xsd:element name="ListAllMyBuckets">
-    <xsd:complexType>
-      <xsd:sequence>
-    AWSAccessKeyId::String
-    Timestamp" type="xsd:dateTime" minOccurs="0"/>
-    Signature::String
-      </xsd:sequence>
-  end
-  </xsd:element>
-
-  <xsd:element name="ListAllMyBucketsResponse">
-    <xsd:complexType>
-      <xsd:sequence>
-    ListAllMyBucketsResponse" type="tns:ListAllMyBucketsResult"/>
-      </xsd:sequence>
-  end
-  </xsd:element>
-
-type ListAllMyBucketsEntry">
-    <xsd:sequence>
-    Name::String
-    CreationDate" type="xsd:dateTime"/>
-    </xsd:sequence>
+function ListVersionsResult(pd_lvr::ParsedData)
+    lvr = ListVersionsResult()
+    if haskey(lvr.elements, "Name") lvr.name = find(pd_lvr, "Name#text") end
+    if haskey(lvr.elements, "Prefix") lvr.prefix = find(pd_lvr, "Prefix#text") end
+    if haskey(lvr.elements, "KeyMarker") lvr.keyMarker = find(pd_lvr, "KeyMarker#text") end
+    if haskey(lvr.elements, "VersionIdMarker") lvr.versionIdMarker = find(pd_lvr, "VersionIdMarker#text") end
+    if haskey(lvr.elements, "NextKeyMarker") lvr.nextKeyMarker = find(pd_lvr, "NextKeyMarker#text") end
+    if haskey(lvr.elements, "NextVersionIdMarker") lvr.nextVersionIdMarker = find(pd_lvr, "NextVersionIdMarker#text") end
+    if haskey(lvr.elements, "MaxKeys") 
+        maxstr = find(pd_lvr, "MaxKeys#text")
+        if (length(maxstr) > 0) lvr.maxKeys = parseint(maxstr) end 
+    end
+    if haskey(lvr.elements, "Delimiter") lvr.delimiter = find(pd_lvr, "Delimiter#text") end
+    if haskey(lvr.elements, "IsTruncated") lvr.isTruncated = (lowercase(find(pd_lvr, "Delimiter#text")) == "true") ? true : false  end
+    if haskey(lvr.elements, "Version") lvr.version = @parse_vector(Version, lvr.elements["Version"]) end
+    if haskey(lvr.elements, "DeleteMarker") lvr.deleteMarker = @parse_vector(DeleteMarker, lvr.elements["DeleteMarker"]) end
+    if haskey(lvr.elements, "CommonPrefixes") lvr.commonPrefixes = @parse_vector(CommonPrefixes, lvr.elements["CommonPrefixes"]) end
 end
 
-type ListAllMyBucketsResult">
-    <xsd:sequence>
-    Owner" type="tns:CanonicalUser"/>
-    Buckets" type="tns:ListAllMyBucketsList"/>
-    </xsd:sequence>
+
+
+type Version
+    key::String
+    versionId::String
+    isLatest::Bool
+    lastModified::CalendarTime
+    eTag::String
+    size::Int64
+    owner::Owner
+    storageClass::String
+end
+function Version(pd_v::ParsedData)
+    key = find(pd_v, "Key#text")
+    versionId = find(pd_v, "VersionId#text")
+    isLatest = (lowercase(find(pd_v, "IsLatest#text")) == "true") ? true : false 
+    datestr = find(pd_v, "LastModified#text")
+    t = Calendar.parse("yyyy-MM-DD'T'HH:mm:ss.SSS", datestr[1:end-1], "GMT")
+    etag = find(pd_v, "ETag#text")
+    size = parseint(find(pd_v, "Size#text"))
+    owner=Owner(find(pd_v, "Owner[1]"))
+    storageClass = find(pd_v, "StorageClass#text")
+
+    Version(key, versionId, isLatest, t, etag, size, owner, storageClass)
 end
 
-type ListAllMyBucketsList">
-    <xsd:sequence>
-    Bucket" type="tns:ListAllMyBucketsEntry" minOccurs="0" maxOccurs="unbounded"/>
-    </xsd:sequence>
+
+
+
+type DeleteMarker
+    key::String
+    versionId::String
+    isLatest::Bool
+    lastModified::CalendarTime
+    owner::Owner
+end
+function DeleteMarker(pd_dm::ParsedData)
+    key = find(pd_dm, "Key#text")
+    versionId = find(pd_dm, "VersionId#text")
+    isLatest = (lowercase(find(pd_dm, "IsLatest#text")) == "true") ? true : false 
+    datestr = find(pd_dm, "LastModified#text")
+    t = Calendar.parse("yyyy-MM-DD'T'HH:mm:ss.SSS", datestr[1:end-1], "GMT")
+    owner=Owner(find(pd_dm, "Owner[1]"))
+    DeleteMarker(key, versionId, isLatest, t, owner)
 end
 
-  <xsd:element name="PostResponse">
-    <xsd:complexType>
-      <xsd:sequence>
-    Location" type="xsd:anyURI"/>
-    Bucket::String
-    Key::String
-    ETag::String
-      </xsd:sequence>
-  end
-  </xsd:element>
 
-  <xsd:simpleType name="MetadataDirective">
-    <xsd:restriction base="xsd:string">
-      <xsd:enumeration value="COPY"/>
-      <xsd:enumeration value="REPLACE"/>
-    </xsd:restriction>
-  </xsd:simpleType>
 
-  <xsd:element name="CopyObject">
-    <xsd:complexType>
-      <xsd:sequence>
-    SourceBucket::String
-    SourceKey::String
-    DestinationBucket::String
-    DestinationKey::String
-    MetadataDirective" type="tns:MetadataDirective" minOccurs="0"/>
-    Metadata" type="tns:MetadataEntry" minOccurs="0" maxOccurs="100"/>
-    AccessControlList::AccessControlList
-    <xsd:element name="CopySourceIfModifiedSince" type="xsd:dateTime" minOccurs="0"/>
-    CopySourceIfUnmodifiedSince" type="xsd:dateTime" minOccurs="0"/>
-    CopySourceIfMatch" type="xsd:string" minOccurs="0" maxOccurs="100"/>
-    CopySourceIfNoneMatch" type="xsd:string" minOccurs="0" maxOccurs="100"/>
-    StorageClass" type="tns:StorageClass" minOccurs="0"/>
-    AWSAccessKeyId::String
-    Timestamp" type="xsd:dateTime" minOccurs="0"/>
-    Signature::String
-    Credential::String
-      </xsd:sequence>
-  end
-  </xsd:element>
-
-  <xsd:element name="CopyObjectResponse">
-    <xsd:complexType>
-      <xsd:sequence>
-    CopyObjectResult" type="tns:CopyObjectResult" />
-      </xsd:sequence>
-  end
-  </xsd:element>
-
-type CopyObjectResult">
-    <xsd:sequence>
-    LastModified" type="xsd:dateTime"/>
-    ETag::String      
-    </xsd:sequence>
+type ListAllMyBucketsResult
+    owner::Owner
+    buckets::Vector{Bucket}
+end
+function ListAllMyBucketsResult(pd_lab::ParsedData)
+    owner = Owner(find(pd_lab, "Owner[1]"))
+    buckets = []
+    try
+        buckets = @parse_vector(Bucket, find(pd_lab, "Owner/Buckets/Bucket"))
+    catch
+        buckets = []
+    end
+    
+    ListAllMyBucketsResult(owner, buckets)
 end
 
-type RequestPaymentConfiguration">
-    <xsd:sequence>
-    Payer" type="tns:Payer" minOccurs="1" maxOccurs="1"/>
-    </xsd:sequence>
+type Bucket
+    name::String
+    creationDate::CalendarTime
+end
+function Bucket(pd_b::ParsedData)
+    datestr = find(pd_b, "CreationDate#text")
+    t = Calendar.parse("yyyy-MM-DD'T'HH:mm:ss.SSS", datestr[1:end-1], "GMT")
+    
+    Bucket(find(pd_b, "Name#text"), t)
 end
 
-  <xsd:simpleType name="Payer">
-    <xsd:restriction base="xsd:string">
-      <xsd:enumeration value="BucketOwner"/>
-      <xsd:enumeration value="Requester"/>
-    </xsd:restriction>
-  </xsd:simpleType>
+
+
+
+type CopyObjectResult
+    lastModified::CalendarTime
+    eTag::String      
+end
+function CopyObjectResult(pd_cor::ParsedData)
+    datestr = find(pd_cor, "LastModified#text")
+    t = Calendar.parse("yyyy-MM-DD'T'HH:mm:ss.SSS", datestr[1:end-1], "GMT")
+    
+    CopyObjectResult(t, find(pd_cor, "ETag#text"))
+end
+
+
+
+
+type RequestPaymentConfiguration
+    payer::String
+end
+xml(o::RequestPaymentConfiguration) = xml_hdr("RequestPaymentConfiguration") * xml("Payer", o.payer) * xml_ftr("RequestPaymentConfiguration")
+RequestPaymentConfiguration(pd_rpc::ParsedData) = RequestPaymentConfiguration(find(pd_rpc, "Payer#text"))
+
   
-type VersioningConfiguration">
-    <xsd:sequence>
-    Status" type="tns:VersioningStatus" minOccurs="0"/>
-    MfaDelete" type="tns:MfaDeleteStatus" minOccurs="0"/>
-    </xsd:sequence>
+type VersioningConfiguration
+    status::String
+    mfaDelete::String
+end
+function xml(o::VersioningConfiguration)    
+    xml_hdr("VersioningConfiguration") * 
+    ((o.status != "") ? xml("Status", o.status) : "") * 
+    ((o.mfaDelete 1= "") ? xml("MfaDelete", o.mfaDelete) : "")  * 
+    xml_ftr("VersioningConfiguration")
+end
+function VersioningConfiguration(pd_vc::VersioningConfiguration) 
+    status = (haskey(pd_vc.elements, "Status") ? find(pd_vc, "Status#text") : "")
+    mfaDelete = (haskey(pd_vc.elements, "MfaDelete") ? find(pd_vc, "MfaDelete#text") : "")
+    
+    VersioningConfiguration(status, mfaDelete)
 end
 
-  <xsd:simpleType name="MfaDeleteStatus">
-    <xsd:restriction base="xsd:string">
-      <xsd:enumeration value="Enabled"/>
-      <xsd:enumeration value="Disabled"/>
-    </xsd:restriction>
-  </xsd:simpleType>
 
-  <xsd:simpleType name="VersioningStatus">
-    <xsd:restriction base="xsd:string">
-      <xsd:enumeration value="Enabled"/>
-      <xsd:enumeration value="Suspended"/>
-    </xsd:restriction>
-  </xsd:simpleType>
-
-type NotificationConfiguration">
-    <xsd:sequence>
-    TopicConfiguration" minOccurs="0" maxOccurs="unbounded" type="tns:TopicConfiguration"/>
-    </xsd:sequence>
+type NotificationConfiguration
+    topicConfiguration::Union(Vector{TopicConfiguration}, Nothing)
+end
+function xml(o::NotificationConfiguration)
+    if o.topicConfiguration == nothing
+        xml("NotificationConfiguration", "")
+    else
+        topics = ""
+        for t in o.topicConfiguration
+            topics = topics * xml("TopicConfiguration", t)
+        end
+        xml("NotificationConfiguration", topics)
+    end
 end
 
-type TopicConfiguration">
-    <xsd:sequence>
-    Topic" minOccurs="1" maxOccurs="1::String
-    Event" minOccurs="1" maxOccurs="unbounded::String
-    </xsd:sequence>
+type TopicConfiguration
+    topic::String
+    event::Vector{String}
+end
+function TopicConfiguration(pd_tc::ParsedData)
+    topic = find(pd_tc, "Topic#text")
+    event = [] 
+    for pde in find(pd_tc, "Event")
+        push!(event, pde.text)
+    end
+    TopicConfiguration(topic, event)
+end
+function xml(o::TopicConfiguration)
+    topic = xml("Topic", o.topic)
+    events = ""
+    for e in o.event
+        events = events * xml("Event", e)
+    end
+    
+    xml("TopicConfiguration", topic * events)
 end
 
-</xsd:schema>
