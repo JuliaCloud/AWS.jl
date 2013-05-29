@@ -1,5 +1,6 @@
 module EC2
 
+
 using LibExpat
 using Calendar
 using AWS.Crypto
@@ -7,14 +8,33 @@ using Codecs
 using libCURL
 using libCURL.HTTPC
 using AWS.AWSEnv
+using AWS
 
 
 
 #import AWSLib.AWSEnv
+include("aws_utils.jl")
 include("ec2_types.jl")
 include("ec2_operations.jl")
 
+type EC2Error
+    code::String
+    msg::String
+    request_id::Union(String, Nothing)
+end
 
+
+type EC2Response
+    http_code::Int
+    headers
+    body::Union(String, Nothing)
+    pd::Union(ParsedData, Nothing)
+    error::Union(EC2Error, Nothing)
+    obj::Any
+    
+    EC2Response() = new(0, Dict{Any, Any}(), "", nothing, nothing, nothing)
+
+end
 
 
 function aws_string(v::CalendarTime)
@@ -126,7 +146,6 @@ function call_ec2(env::AWSEnv, action::String, msg=nothing, params_in=nothing)
     querystr = HTTPC.urlencode_query_params(sorted)
     
     str2sign = "GET\n" * lowercase(env.ep) * "\n" * "/\n" * querystr
-    println(str2sign)
     sb = Crypto.hmacsha256_digest(str2sign, env.aws_seckey)
     
     signature_b64 = Codecs.encode(Base64, sb)
@@ -146,30 +165,37 @@ function call_ec2(env::AWSEnv, action::String, msg=nothing, params_in=nothing)
         println("URL:\n$complete_url \n")
     end
     
+    ec2resp = EC2Response()
     if !(env.dry_run)
         resp = HTTPC.get(complete_url)
         
-        if (resp.http_code >= 200)
-            xom = xp_parse(resp.body)
-            return xom
+        ec2resp.http_code = resp.http_code
+        ec2resp.headers = resp.headers
+        ec2resp.body = resp.body
+        
+        println(resp.headers)
+        
+        if (resp.http_code >= 200) && (resp.http_code <= 299)
+#             println(typeof(resp.headers))
+                
+             if (search(Base.get(resp.headers, "Content-Type", ""), "/xml") != 0:-1)
+#            if  haskey(resp.headers, "Content-Type") && (resp.headers["Content-Type"] == "application/xml")
+                ec2resp.pd = xp_parse(resp.body)
+            end
         elseif (resp.http_code >= 400) && (resp.http_code <= 599)
-            ec = ""
-            ec_msg = ""
-            rid = ""
             if length(resp.body) > 0
                 xom = xp_parse(resp.body)
-                rid = find(xom, "RequestID#text")
-                ec = find(xom, "Errors/Error/Code#text")
-                ec_msg = find(xom, "Errors/Error/Message#text")
+                epd = find(xom, "Errors/Error[1]")
+                ec2resp.error = EC2Error(find(epd, "Code#text"), find(epd, "Message#text"), find(xom, "RequestID#text"))
+            else
+                error("HTTP error : $(resp.http_code)")
             end
-        
-            return (rid, resp.http_code, ec, ec_msg)
         else
             error("HTTP error : $(resp.http_code), $(resp.body)")
         end
     end 
     
-    return nothing
+    ec2resp
 end
 
         

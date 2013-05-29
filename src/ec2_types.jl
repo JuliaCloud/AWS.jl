@@ -1,16 +1,3 @@
-type CreateImageType
-    instanceId::Union(ASCIIString, Nothing)
-    name::Union(ASCIIString, Nothing)
-    description::Union(ASCIIString, Nothing)
-    noReboot::Union(Bool, Nothing)
-    blockDeviceMapping::Union(Array{ASCIIString,1}, Nothing)
-
-    CreateImageType(; instanceId=nothing, name=nothing, description=nothing, noReboot=nothing, blockDeviceMapping=nothing) = 
-         new(instanceId, name, description, noReboot, blockDeviceMapping)
-end
-export CreateImageType
-
-
 type CreateImageResponseType
     requestId::Union(ASCIIString, Nothing)
     imageId::Union(ASCIIString, Nothing)
@@ -18,23 +5,14 @@ type CreateImageResponseType
     CreateImageResponseType(; requestId=nothing, imageId=nothing) = 
          new(requestId, imageId)
 end
-export CreateImageResponseType
-
-
-type RegisterImageType
-    imageLocation::Union(ASCIIString, Nothing)
-    name::Union(ASCIIString, Nothing)
-    description::Union(ASCIIString, Nothing)
-    architecture::Union(ASCIIString, Nothing)
-    kernelId::Union(ASCIIString, Nothing)
-    ramdiskId::Union(ASCIIString, Nothing)
-    rootDeviceName::Union(ASCIIString, Nothing)
-    blockDeviceMapping::Union(Array{ASCIIString,1}, Nothing)
-
-    RegisterImageType(; imageLocation=nothing, name=nothing, description=nothing, architecture=nothing, kernelId=nothing, ramdiskId=nothing, rootDeviceName=nothing, blockDeviceMapping=nothing) = 
-         new(imageLocation, name, description, architecture, kernelId, ramdiskId, rootDeviceName, blockDeviceMapping)
+function CreateImageResponseType(pd::ParsedData)
+    o = CreateImageResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.imageId = find(pd, "imageId#text")
+    o
 end
-export RegisterImageType
+
+export CreateImageResponseType
 
 
 type RegisterImageResponseType
@@ -44,6 +22,13 @@ type RegisterImageResponseType
     RegisterImageResponseType(; requestId=nothing, imageId=nothing) = 
          new(requestId, imageId)
 end
+function RegisterImageResponseType(pd::ParsedData)
+    o = RegisterImageResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.imageId = find(pd, "imageId#text")
+    o
+end
+
 export RegisterImageResponseType
 
 
@@ -53,6 +38,12 @@ type DeregisterImageType
     DeregisterImageType(; imageId=nothing) = 
          new(imageId)
 end
+function DeregisterImageType(pd::ParsedData)
+    o = DeregisterImageType()
+    o.imageId = find(pd, "imageId#text")
+    o
+end
+
 export DeregisterImageType
 
 
@@ -63,6 +54,13 @@ type DeregisterImageResponseType
     DeregisterImageResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function DeregisterImageResponseType(pd::ParsedData)
+    o = DeregisterImageResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export DeregisterImageResponseType
 
 
@@ -72,6 +70,12 @@ type CreateKeyPairType
     CreateKeyPairType(; keyName=nothing) = 
          new(keyName)
 end
+function CreateKeyPairType(pd::ParsedData)
+    o = CreateKeyPairType()
+    o.keyName = find(pd, "keyName#text")
+    o
+end
+
 export CreateKeyPairType
 
 
@@ -84,6 +88,15 @@ type CreateKeyPairResponseType
     CreateKeyPairResponseType(; requestId=nothing, keyName=nothing, keyFingerprint=nothing, keyMaterial=nothing) = 
          new(requestId, keyName, keyFingerprint, keyMaterial)
 end
+function CreateKeyPairResponseType(pd::ParsedData)
+    o = CreateKeyPairResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.keyName = find(pd, "keyName#text")
+    o.keyFingerprint = find(pd, "keyFingerprint#text")
+    o.keyMaterial = find(pd, "keyMaterial#text")
+    o
+end
+
 export CreateKeyPairResponseType
 
 
@@ -94,6 +107,13 @@ type ImportKeyPairType
     ImportKeyPairType(; keyName=nothing, publicKeyMaterial=nothing) = 
          new(keyName, publicKeyMaterial)
 end
+function ImportKeyPairType(pd::ParsedData)
+    o = ImportKeyPairType()
+    o.keyName = find(pd, "keyName#text")
+    o.publicKeyMaterial = find(pd, "publicKeyMaterial#text")
+    o
+end
+
 export ImportKeyPairType
 
 
@@ -105,6 +125,14 @@ type ImportKeyPairResponseType
     ImportKeyPairResponseType(; requestId=nothing, keyName=nothing, keyFingerprint=nothing) = 
          new(requestId, keyName, keyFingerprint)
 end
+function ImportKeyPairResponseType(pd::ParsedData)
+    o = ImportKeyPairResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.keyName = find(pd, "keyName#text")
+    o.keyFingerprint = find(pd, "keyFingerprint#text")
+    o
+end
+
 export ImportKeyPairResponseType
 
 
@@ -114,6 +142,12 @@ type DeleteKeyPairType
     DeleteKeyPairType(; keyName=nothing) = 
          new(keyName)
 end
+function DeleteKeyPairType(pd::ParsedData)
+    o = DeleteKeyPairType()
+    o.keyName = find(pd, "keyName#text")
+    o
+end
+
 export DeleteKeyPairType
 
 
@@ -124,6 +158,13 @@ type DeleteKeyPairResponseType
     DeleteKeyPairResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function DeleteKeyPairResponseType(pd::ParsedData)
+    o = DeleteKeyPairResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export DeleteKeyPairResponseType
 
 
@@ -133,6 +174,12 @@ type DescribeKeyPairsItemType
     DescribeKeyPairsItemType(; keyName=nothing) = 
          new(keyName)
 end
+function DescribeKeyPairsItemType(pd::ParsedData)
+    o = DescribeKeyPairsItemType()
+    o.keyName = find(pd, "keyName#text")
+    o
+end
+
 export DescribeKeyPairsItemType
 
 
@@ -143,6 +190,13 @@ type DescribeKeyPairsResponseItemType
     DescribeKeyPairsResponseItemType(; keyName=nothing, keyFingerprint=nothing) = 
          new(keyName, keyFingerprint)
 end
+function DescribeKeyPairsResponseItemType(pd::ParsedData)
+    o = DescribeKeyPairsResponseItemType()
+    o.keyName = find(pd, "keyName#text")
+    o.keyFingerprint = find(pd, "keyFingerprint#text")
+    o
+end
+
 export DescribeKeyPairsResponseItemType
 
 
@@ -153,6 +207,13 @@ type IamInstanceProfileRequestType
     IamInstanceProfileRequestType(; arn=nothing, name=nothing) = 
          new(arn, name)
 end
+function IamInstanceProfileRequestType(pd::ParsedData)
+    o = IamInstanceProfileRequestType()
+    o.arn = find(pd, "arn#text")
+    o.name = find(pd, "name#text")
+    o
+end
+
 export IamInstanceProfileRequestType
 
 
@@ -163,6 +224,13 @@ type PrivateIpAddressesSetItemRequestType
     PrivateIpAddressesSetItemRequestType(; privateIpAddress=nothing, primary=nothing) = 
          new(privateIpAddress, primary)
 end
+function PrivateIpAddressesSetItemRequestType(pd::ParsedData)
+    o = PrivateIpAddressesSetItemRequestType()
+    o.privateIpAddress = find(pd, "privateIpAddress#text")
+    o.primary = safe_parse_as(Bool, find(pd, "primary#text"))
+    o
+end
+
 export PrivateIpAddressesSetItemRequestType
 
 
@@ -173,6 +241,13 @@ type ImportInstanceGroupItemType
     ImportInstanceGroupItemType(; groupId=nothing, groupName=nothing) = 
          new(groupId, groupName)
 end
+function ImportInstanceGroupItemType(pd::ParsedData)
+    o = ImportInstanceGroupItemType()
+    o.groupId = find(pd, "groupId#text")
+    o.groupName = find(pd, "groupName#text")
+    o
+end
+
 export ImportInstanceGroupItemType
 
 
@@ -183,6 +258,13 @@ type GroupItemType
     GroupItemType(; groupId=nothing, groupName=nothing) = 
          new(groupId, groupName)
 end
+function GroupItemType(pd::ParsedData)
+    o = GroupItemType()
+    o.groupId = find(pd, "groupId#text")
+    o.groupName = find(pd, "groupName#text")
+    o
+end
+
 export GroupItemType
 
 
@@ -192,6 +274,12 @@ type UserDataType
     UserDataType(; data=nothing) = 
          new(data)
 end
+function UserDataType(pd::ParsedData)
+    o = UserDataType()
+    o.data = find(pd, "data#text")
+    o
+end
+
 export UserDataType
 
 
@@ -201,6 +289,12 @@ type BlockDeviceMappingItemType
     BlockDeviceMappingItemType(; deviceName=nothing) = 
          new(deviceName)
 end
+function BlockDeviceMappingItemType(pd::ParsedData)
+    o = BlockDeviceMappingItemType()
+    o.deviceName = find(pd, "deviceName#text")
+    o
+end
+
 export BlockDeviceMappingItemType
 
 
@@ -214,6 +308,16 @@ type EbsBlockDeviceType
     EbsBlockDeviceType(; snapshotId=nothing, volumeSize=nothing, deleteOnTermination=nothing, volumeType=nothing, iops=nothing) = 
          new(snapshotId, volumeSize, deleteOnTermination, volumeType, iops)
 end
+function EbsBlockDeviceType(pd::ParsedData)
+    o = EbsBlockDeviceType()
+    o.snapshotId = find(pd, "snapshotId#text")
+    o.volumeSize = safe_parse_as(Int32, find(pd, "volumeSize#text"))
+    o.deleteOnTermination = safe_parse_as(Bool, find(pd, "deleteOnTermination#text"))
+    o.volumeType = find(pd, "volumeType#text")
+    o.iops = safe_parse_as(Int32, find(pd, "iops#text"))
+    o
+end
+
 export EbsBlockDeviceType
 
 
@@ -225,6 +329,14 @@ type PlacementRequestType
     PlacementRequestType(; availabilityZone=nothing, groupName=nothing, tenancy=nothing) = 
          new(availabilityZone, groupName, tenancy)
 end
+function PlacementRequestType(pd::ParsedData)
+    o = PlacementRequestType()
+    o.availabilityZone = find(pd, "availabilityZone#text")
+    o.groupName = find(pd, "groupName#text")
+    o.tenancy = find(pd, "tenancy#text")
+    o
+end
+
 export PlacementRequestType
 
 
@@ -235,6 +347,13 @@ type SpotPlacementRequestType
     SpotPlacementRequestType(; availabilityZone=nothing, groupName=nothing) = 
          new(availabilityZone, groupName)
 end
+function SpotPlacementRequestType(pd::ParsedData)
+    o = SpotPlacementRequestType()
+    o.availabilityZone = find(pd, "availabilityZone#text")
+    o.groupName = find(pd, "groupName#text")
+    o
+end
+
 export SpotPlacementRequestType
 
 
@@ -245,6 +364,13 @@ type InstancePlacementType
     InstancePlacementType(; availabilityZone=nothing, groupName=nothing) = 
          new(availabilityZone, groupName)
 end
+function InstancePlacementType(pd::ParsedData)
+    o = InstancePlacementType()
+    o.availabilityZone = find(pd, "availabilityZone#text")
+    o.groupName = find(pd, "groupName#text")
+    o
+end
+
 export InstancePlacementType
 
 
@@ -254,6 +380,12 @@ type MonitoringInstanceType
     MonitoringInstanceType(; enabled=nothing) = 
          new(enabled)
 end
+function MonitoringInstanceType(pd::ParsedData)
+    o = MonitoringInstanceType()
+    o.enabled = safe_parse_as(Bool, find(pd, "enabled#text"))
+    o
+end
+
 export MonitoringInstanceType
 
 
@@ -263,6 +395,12 @@ type InstanceLicenseRequestType
     InstanceLicenseRequestType(; pool=nothing) = 
          new(pool)
 end
+function InstanceLicenseRequestType(pd::ParsedData)
+    o = InstanceLicenseRequestType()
+    o.pool = find(pd, "pool#text")
+    o
+end
+
 export InstanceLicenseRequestType
 
 
@@ -273,6 +411,13 @@ type IamInstanceProfileResponseType
     IamInstanceProfileResponseType(; arn=nothing, id=nothing) = 
          new(arn, id)
 end
+function IamInstanceProfileResponseType(pd::ParsedData)
+    o = IamInstanceProfileResponseType()
+    o.arn = find(pd, "arn#text")
+    o.id = find(pd, "id#text")
+    o
+end
+
 export IamInstanceProfileResponseType
 
 
@@ -286,6 +431,16 @@ type InstanceNetworkInterfaceAttachmentType
     InstanceNetworkInterfaceAttachmentType(; attachmentId=nothing, deviceIndex=nothing, status=nothing, attachTime=nothing, deleteOnTermination=nothing) = 
          new(attachmentId, deviceIndex, status, attachTime, deleteOnTermination)
 end
+function InstanceNetworkInterfaceAttachmentType(pd::ParsedData)
+    o = InstanceNetworkInterfaceAttachmentType()
+    o.attachmentId = find(pd, "attachmentId#text")
+    o.deviceIndex = safe_parse_as(Int32, find(pd, "deviceIndex#text"))
+    o.status = find(pd, "status#text")
+    o.attachTime = safe_parse_as(CalendarTime, find(pd, "attachTime#text"))
+    o.deleteOnTermination = safe_parse_as(Bool, find(pd, "deleteOnTermination#text"))
+    o
+end
+
 export InstanceNetworkInterfaceAttachmentType
 
 
@@ -297,6 +452,14 @@ type InstanceNetworkInterfaceAssociationType
     InstanceNetworkInterfaceAssociationType(; publicIp=nothing, publicDnsName=nothing, ipOwnerId=nothing) = 
          new(publicIp, publicDnsName, ipOwnerId)
 end
+function InstanceNetworkInterfaceAssociationType(pd::ParsedData)
+    o = InstanceNetworkInterfaceAssociationType()
+    o.publicIp = find(pd, "publicIp#text")
+    o.publicDnsName = find(pd, "publicDnsName#text")
+    o.ipOwnerId = find(pd, "ipOwnerId#text")
+    o
+end
+
 export InstanceNetworkInterfaceAssociationType
 
 
@@ -308,6 +471,14 @@ type PlacementResponseType
     PlacementResponseType(; availabilityZone=nothing, groupName=nothing, tenancy=nothing) = 
          new(availabilityZone, groupName, tenancy)
 end
+function PlacementResponseType(pd::ParsedData)
+    o = PlacementResponseType()
+    o.availabilityZone = find(pd, "availabilityZone#text")
+    o.groupName = find(pd, "groupName#text")
+    o.tenancy = find(pd, "tenancy#text")
+    o
+end
+
 export PlacementResponseType
 
 
@@ -318,6 +489,13 @@ type StateReasonType
     StateReasonType(; code=nothing, message=nothing) = 
          new(code, message)
 end
+function StateReasonType(pd::ParsedData)
+    o = StateReasonType()
+    o.code = find(pd, "code#text")
+    o.message = find(pd, "message#text")
+    o
+end
+
 export StateReasonType
 
 
@@ -327,6 +505,12 @@ type InstanceBlockDeviceMappingResponseItemType
     InstanceBlockDeviceMappingResponseItemType(; deviceName=nothing) = 
          new(deviceName)
 end
+function InstanceBlockDeviceMappingResponseItemType(pd::ParsedData)
+    o = InstanceBlockDeviceMappingResponseItemType()
+    o.deviceName = find(pd, "deviceName#text")
+    o
+end
+
 export InstanceBlockDeviceMappingResponseItemType
 
 
@@ -339,6 +523,15 @@ type EbsInstanceBlockDeviceMappingResponseType
     EbsInstanceBlockDeviceMappingResponseType(; volumeId=nothing, status=nothing, attachTime=nothing, deleteOnTermination=nothing) = 
          new(volumeId, status, attachTime, deleteOnTermination)
 end
+function EbsInstanceBlockDeviceMappingResponseType(pd::ParsedData)
+    o = EbsInstanceBlockDeviceMappingResponseType()
+    o.volumeId = find(pd, "volumeId#text")
+    o.status = find(pd, "status#text")
+    o.attachTime = safe_parse_as(CalendarTime, find(pd, "attachTime#text"))
+    o.deleteOnTermination = safe_parse_as(Bool, find(pd, "deleteOnTermination#text"))
+    o
+end
+
 export EbsInstanceBlockDeviceMappingResponseType
 
 
@@ -348,6 +541,12 @@ type InstanceLicenseResponseType
     InstanceLicenseResponseType(; pool=nothing) = 
          new(pool)
 end
+function InstanceLicenseResponseType(pd::ParsedData)
+    o = InstanceLicenseResponseType()
+    o.pool = find(pd, "pool#text")
+    o
+end
+
 export InstanceLicenseResponseType
 
 
@@ -357,16 +556,29 @@ type AccountAttributeNameSetItemType
     AccountAttributeNameSetItemType(; attributeName=nothing) = 
          new(attributeName)
 end
+function AccountAttributeNameSetItemType(pd::ParsedData)
+    o = AccountAttributeNameSetItemType()
+    o.attributeName = find(pd, "attributeName#text")
+    o
+end
+
 export AccountAttributeNameSetItemType
 
 
 type AccountAttributeSetItemType
     attributeName::Union(ASCIIString, Nothing)
-    attributeValueSet::Union(Array{ASCIIString,1}, Nothing)
+    attributeValueSet::Union(Vector{ASCIIString}, Nothing)
 
     AccountAttributeSetItemType(; attributeName=nothing, attributeValueSet=nothing) = 
          new(attributeName, attributeValueSet)
 end
+function AccountAttributeSetItemType(pd::ParsedData)
+    o = AccountAttributeSetItemType()
+    o.attributeName = find(pd, "attributeName#text")
+    o.attributeValueSet = parse_vector_as(ASCIIString, "attributeValue", find(pd, "item/attributeValue"))
+    o
+end
+
 export AccountAttributeSetItemType
 
 
@@ -376,6 +588,12 @@ type AccountAttributeValueSetItemType
     AccountAttributeValueSetItemType(; attributeValue=nothing) = 
          new(attributeValue)
 end
+function AccountAttributeValueSetItemType(pd::ParsedData)
+    o = AccountAttributeValueSetItemType()
+    o.attributeValue = find(pd, "attributeValue#text")
+    o
+end
+
 export AccountAttributeValueSetItemType
 
 
@@ -385,6 +603,12 @@ type DescribeVpcAttributeType
     DescribeVpcAttributeType(; vpcId=nothing) = 
          new(vpcId)
 end
+function DescribeVpcAttributeType(pd::ParsedData)
+    o = DescribeVpcAttributeType()
+    o.vpcId = find(pd, "vpcId#text")
+    o
+end
+
 export DescribeVpcAttributeType
 
 
@@ -395,6 +619,13 @@ type DescribeVpcAttributeResponseType
     DescribeVpcAttributeResponseType(; requestId=nothing, vpcId=nothing) = 
          new(requestId, vpcId)
 end
+function DescribeVpcAttributeResponseType(pd::ParsedData)
+    o = DescribeVpcAttributeResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.vpcId = find(pd, "vpcId#text")
+    o
+end
+
 export DescribeVpcAttributeResponseType
 
 
@@ -404,6 +635,12 @@ type ModifyVpcAttributeType
     ModifyVpcAttributeType(; vpcId=nothing) = 
          new(vpcId)
 end
+function ModifyVpcAttributeType(pd::ParsedData)
+    o = ModifyVpcAttributeType()
+    o.vpcId = find(pd, "vpcId#text")
+    o
+end
+
 export ModifyVpcAttributeType
 
 
@@ -414,6 +651,13 @@ type ModifyVpcAttributeResponseType
     ModifyVpcAttributeResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function ModifyVpcAttributeResponseType(pd::ParsedData)
+    o = ModifyVpcAttributeResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export ModifyVpcAttributeResponseType
 
 
@@ -423,6 +667,12 @@ type GetConsoleOutputType
     GetConsoleOutputType(; instanceId=nothing) = 
          new(instanceId)
 end
+function GetConsoleOutputType(pd::ParsedData)
+    o = GetConsoleOutputType()
+    o.instanceId = find(pd, "instanceId#text")
+    o
+end
+
 export GetConsoleOutputType
 
 
@@ -435,6 +685,15 @@ type GetConsoleOutputResponseType
     GetConsoleOutputResponseType(; requestId=nothing, instanceId=nothing, timestamp=nothing, output=nothing) = 
          new(requestId, instanceId, timestamp, output)
 end
+function GetConsoleOutputResponseType(pd::ParsedData)
+    o = GetConsoleOutputResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.instanceId = find(pd, "instanceId#text")
+    o.timestamp = safe_parse_as(CalendarTime, find(pd, "timestamp#text"))
+    o.output = find(pd, "output#text")
+    o
+end
+
 export GetConsoleOutputResponseType
 
 
@@ -444,6 +703,12 @@ type GetPasswordDataType
     GetPasswordDataType(; instanceId=nothing) = 
          new(instanceId)
 end
+function GetPasswordDataType(pd::ParsedData)
+    o = GetPasswordDataType()
+    o.instanceId = find(pd, "instanceId#text")
+    o
+end
+
 export GetPasswordDataType
 
 
@@ -456,6 +721,15 @@ type GetPasswordDataResponseType
     GetPasswordDataResponseType(; requestId=nothing, instanceId=nothing, timestamp=nothing, passwordData=nothing) = 
          new(requestId, instanceId, timestamp, passwordData)
 end
+function GetPasswordDataResponseType(pd::ParsedData)
+    o = GetPasswordDataResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.instanceId = find(pd, "instanceId#text")
+    o.timestamp = safe_parse_as(CalendarTime, find(pd, "timestamp#text"))
+    o.passwordData = find(pd, "passwordData#text")
+    o
+end
+
 export GetPasswordDataResponseType
 
 
@@ -465,15 +739,27 @@ type InstanceIdType
     InstanceIdType(; instanceId=nothing) = 
          new(instanceId)
 end
+function InstanceIdType(pd::ParsedData)
+    o = InstanceIdType()
+    o.instanceId = find(pd, "instanceId#text")
+    o
+end
+
 export InstanceIdType
 
 
 type TerminateInstancesType
-    instancesSet::Union(Array{ASCIIString,1}, Nothing)
+    instancesSet::Union(Vector{ASCIIString}, Nothing)
 
     TerminateInstancesType(; instancesSet=nothing) = 
          new(instancesSet)
 end
+function TerminateInstancesType(pd::ParsedData)
+    o = TerminateInstancesType()
+    o.instancesSet = parse_vector_as(ASCIIString, "instanceId", find(pd, "item/instanceId"))
+    o
+end
+
 export TerminateInstancesType
 
 
@@ -483,6 +769,12 @@ type InstanceBlockDeviceMappingItemType
     InstanceBlockDeviceMappingItemType(; deviceName=nothing) = 
          new(deviceName)
 end
+function InstanceBlockDeviceMappingItemType(pd::ParsedData)
+    o = InstanceBlockDeviceMappingItemType()
+    o.deviceName = find(pd, "deviceName#text")
+    o
+end
+
 export InstanceBlockDeviceMappingItemType
 
 
@@ -493,34 +785,60 @@ type InstanceEbsBlockDeviceType
     InstanceEbsBlockDeviceType(; volumeId=nothing, deleteOnTermination=nothing) = 
          new(volumeId, deleteOnTermination)
 end
+function InstanceEbsBlockDeviceType(pd::ParsedData)
+    o = InstanceEbsBlockDeviceType()
+    o.volumeId = find(pd, "volumeId#text")
+    o.deleteOnTermination = safe_parse_as(Bool, find(pd, "deleteOnTermination#text"))
+    o
+end
+
 export InstanceEbsBlockDeviceType
 
 
 type StopInstancesType
-    instancesSet::Union(Array{ASCIIString,1}, Nothing)
+    instancesSet::Union(Vector{ASCIIString}, Nothing)
     force::Union(Bool, Nothing)
 
     StopInstancesType(; instancesSet=nothing, force=nothing) = 
          new(instancesSet, force)
 end
+function StopInstancesType(pd::ParsedData)
+    o = StopInstancesType()
+    o.instancesSet = parse_vector_as(ASCIIString, "instanceId", find(pd, "item/instanceId"))
+    o.force = safe_parse_as(Bool, find(pd, "force#text"))
+    o
+end
+
 export StopInstancesType
 
 
 type StartInstancesType
-    instancesSet::Union(Array{ASCIIString,1}, Nothing)
+    instancesSet::Union(Vector{ASCIIString}, Nothing)
 
     StartInstancesType(; instancesSet=nothing) = 
          new(instancesSet)
 end
+function StartInstancesType(pd::ParsedData)
+    o = StartInstancesType()
+    o.instancesSet = parse_vector_as(ASCIIString, "instanceId", find(pd, "item/instanceId"))
+    o
+end
+
 export StartInstancesType
 
 
 type RebootInstancesType
-    instancesSet::Union(Array{ASCIIString,1}, Nothing)
+    instancesSet::Union(Vector{ASCIIString}, Nothing)
 
     RebootInstancesType(; instancesSet=nothing) = 
          new(instancesSet)
 end
+function RebootInstancesType(pd::ParsedData)
+    o = RebootInstancesType()
+    o.instancesSet = parse_vector_as(ASCIIString, "instanceId", find(pd, "item/instanceId"))
+    o
+end
+
 export RebootInstancesType
 
 
@@ -530,6 +848,12 @@ type RebootInstancesItemType
     RebootInstancesItemType(; instanceId=nothing) = 
          new(instanceId)
 end
+function RebootInstancesItemType(pd::ParsedData)
+    o = RebootInstancesItemType()
+    o.instanceId = find(pd, "instanceId#text")
+    o
+end
+
 export RebootInstancesItemType
 
 
@@ -540,6 +864,13 @@ type RebootInstancesResponseType
     RebootInstancesResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function RebootInstancesResponseType(pd::ParsedData)
+    o = RebootInstancesResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export RebootInstancesResponseType
 
 
@@ -549,6 +880,12 @@ type DescribeInstancesItemType
     DescribeInstancesItemType(; instanceId=nothing) = 
          new(instanceId)
 end
+function DescribeInstancesItemType(pd::ParsedData)
+    o = DescribeInstancesItemType()
+    o.instanceId = find(pd, "instanceId#text")
+    o
+end
+
 export DescribeInstancesItemType
 
 
@@ -558,6 +895,12 @@ type UnavailableResultType
     UnavailableResultType(; availabilityZone=nothing) = 
          new(availabilityZone)
 end
+function UnavailableResultType(pd::ParsedData)
+    o = UnavailableResultType()
+    o.availabilityZone = find(pd, "availabilityZone#text")
+    o
+end
+
 export UnavailableResultType
 
 
@@ -567,6 +910,12 @@ type DescribeImagesItemType
     DescribeImagesItemType(; imageId=nothing) = 
          new(imageId)
 end
+function DescribeImagesItemType(pd::ParsedData)
+    o = DescribeImagesItemType()
+    o.imageId = find(pd, "imageId#text")
+    o
+end
+
 export DescribeImagesItemType
 
 
@@ -576,6 +925,12 @@ type DescribeImagesOwnerType
     DescribeImagesOwnerType(; owner=nothing) = 
          new(owner)
 end
+function DescribeImagesOwnerType(pd::ParsedData)
+    o = DescribeImagesOwnerType()
+    o.owner = find(pd, "owner#text")
+    o
+end
+
 export DescribeImagesOwnerType
 
 
@@ -585,6 +940,12 @@ type DescribeImagesExecutableByType
     DescribeImagesExecutableByType(; user=nothing) = 
          new(user)
 end
+function DescribeImagesExecutableByType(pd::ParsedData)
+    o = DescribeImagesExecutableByType()
+    o.user = find(pd, "user#text")
+    o
+end
+
 export DescribeImagesExecutableByType
 
 
@@ -596,6 +957,14 @@ type CreateSecurityGroupType
     CreateSecurityGroupType(; groupName=nothing, groupDescription=nothing, vpcId=nothing) = 
          new(groupName, groupDescription, vpcId)
 end
+function CreateSecurityGroupType(pd::ParsedData)
+    o = CreateSecurityGroupType()
+    o.groupName = find(pd, "groupName#text")
+    o.groupDescription = find(pd, "groupDescription#text")
+    o.vpcId = find(pd, "vpcId#text")
+    o
+end
+
 export CreateSecurityGroupType
 
 
@@ -607,6 +976,14 @@ type CreateSecurityGroupResponseType
     CreateSecurityGroupResponseType(; requestId=nothing, _return=nothing, groupId=nothing) = 
          new(requestId, _return, groupId)
 end
+function CreateSecurityGroupResponseType(pd::ParsedData)
+    o = CreateSecurityGroupResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o.groupId = find(pd, "groupId#text")
+    o
+end
+
 export CreateSecurityGroupResponseType
 
 
@@ -617,6 +994,13 @@ type DeleteSecurityGroupType
     DeleteSecurityGroupType(; groupId=nothing, groupName=nothing) = 
          new(groupId, groupName)
 end
+function DeleteSecurityGroupType(pd::ParsedData)
+    o = DeleteSecurityGroupType()
+    o.groupId = find(pd, "groupId#text")
+    o.groupName = find(pd, "groupName#text")
+    o
+end
+
 export DeleteSecurityGroupType
 
 
@@ -627,6 +1011,13 @@ type DeleteSecurityGroupResponseType
     DeleteSecurityGroupResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function DeleteSecurityGroupResponseType(pd::ParsedData)
+    o = DeleteSecurityGroupResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export DeleteSecurityGroupResponseType
 
 
@@ -636,6 +1027,12 @@ type DescribeSecurityGroupsSetItemType
     DescribeSecurityGroupsSetItemType(; groupName=nothing) = 
          new(groupName)
 end
+function DescribeSecurityGroupsSetItemType(pd::ParsedData)
+    o = DescribeSecurityGroupsSetItemType()
+    o.groupName = find(pd, "groupName#text")
+    o
+end
+
 export DescribeSecurityGroupsSetItemType
 
 
@@ -645,6 +1042,12 @@ type DescribeSecurityGroupsIdSetItemType
     DescribeSecurityGroupsIdSetItemType(; groupId=nothing) = 
          new(groupId)
 end
+function DescribeSecurityGroupsIdSetItemType(pd::ParsedData)
+    o = DescribeSecurityGroupsIdSetItemType()
+    o.groupId = find(pd, "groupId#text")
+    o
+end
+
 export DescribeSecurityGroupsIdSetItemType
 
 
@@ -654,6 +1057,12 @@ type IpRangeItemType
     IpRangeItemType(; cidrIp=nothing) = 
          new(cidrIp)
 end
+function IpRangeItemType(pd::ParsedData)
+    o = IpRangeItemType()
+    o.cidrIp = find(pd, "cidrIp#text")
+    o
+end
+
 export IpRangeItemType
 
 
@@ -665,6 +1074,14 @@ type UserIdGroupPairType
     UserIdGroupPairType(; userId=nothing, groupId=nothing, groupName=nothing) = 
          new(userId, groupId, groupName)
 end
+function UserIdGroupPairType(pd::ParsedData)
+    o = UserIdGroupPairType()
+    o.userId = find(pd, "userId#text")
+    o.groupId = find(pd, "groupId#text")
+    o.groupName = find(pd, "groupName#text")
+    o
+end
+
 export UserIdGroupPairType
 
 
@@ -675,6 +1092,13 @@ type AuthorizeSecurityGroupIngressResponseType
     AuthorizeSecurityGroupIngressResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function AuthorizeSecurityGroupIngressResponseType(pd::ParsedData)
+    o = AuthorizeSecurityGroupIngressResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export AuthorizeSecurityGroupIngressResponseType
 
 
@@ -685,6 +1109,13 @@ type RevokeSecurityGroupIngressResponseType
     RevokeSecurityGroupIngressResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function RevokeSecurityGroupIngressResponseType(pd::ParsedData)
+    o = RevokeSecurityGroupIngressResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export RevokeSecurityGroupIngressResponseType
 
 
@@ -695,6 +1126,13 @@ type AuthorizeSecurityGroupEgressResponseType
     AuthorizeSecurityGroupEgressResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function AuthorizeSecurityGroupEgressResponseType(pd::ParsedData)
+    o = AuthorizeSecurityGroupEgressResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export AuthorizeSecurityGroupEgressResponseType
 
 
@@ -705,6 +1143,13 @@ type RevokeSecurityGroupEgressResponseType
     RevokeSecurityGroupEgressResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function RevokeSecurityGroupEgressResponseType(pd::ParsedData)
+    o = RevokeSecurityGroupEgressResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export RevokeSecurityGroupEgressResponseType
 
 
@@ -715,6 +1160,13 @@ type InstanceStateType
     InstanceStateType(; code=nothing, name=nothing) = 
          new(code, name)
 end
+function InstanceStateType(pd::ParsedData)
+    o = InstanceStateType()
+    o.code = safe_parse_as(Int32, find(pd, "code#text"))
+    o.name = find(pd, "name#text")
+    o
+end
+
 export InstanceStateType
 
 
@@ -724,6 +1176,12 @@ type ModifyInstanceAttributeType
     ModifyInstanceAttributeType(; instanceId=nothing) = 
          new(instanceId)
 end
+function ModifyInstanceAttributeType(pd::ParsedData)
+    o = ModifyInstanceAttributeType()
+    o.instanceId = find(pd, "instanceId#text")
+    o
+end
+
 export ModifyInstanceAttributeType
 
 
@@ -733,6 +1191,12 @@ type SecurityGroupIdSetItemType
     SecurityGroupIdSetItemType(; groupId=nothing) = 
          new(groupId)
 end
+function SecurityGroupIdSetItemType(pd::ParsedData)
+    o = SecurityGroupIdSetItemType()
+    o.groupId = find(pd, "groupId#text")
+    o
+end
+
 export SecurityGroupIdSetItemType
 
 
@@ -743,6 +1207,13 @@ type ModifyInstanceAttributeResponseType
     ModifyInstanceAttributeResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function ModifyInstanceAttributeResponseType(pd::ParsedData)
+    o = ModifyInstanceAttributeResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export ModifyInstanceAttributeResponseType
 
 
@@ -752,6 +1223,12 @@ type ResetInstanceAttributeType
     ResetInstanceAttributeType(; instanceId=nothing) = 
          new(instanceId)
 end
+function ResetInstanceAttributeType(pd::ParsedData)
+    o = ResetInstanceAttributeType()
+    o.instanceId = find(pd, "instanceId#text")
+    o
+end
+
 export ResetInstanceAttributeType
 
 
@@ -762,6 +1239,13 @@ type ResetInstanceAttributeResponseType
     ResetInstanceAttributeResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function ResetInstanceAttributeResponseType(pd::ParsedData)
+    o = ResetInstanceAttributeResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export ResetInstanceAttributeResponseType
 
 
@@ -771,6 +1255,12 @@ type DescribeInstanceAttributeType
     DescribeInstanceAttributeType(; instanceId=nothing) = 
          new(instanceId)
 end
+function DescribeInstanceAttributeType(pd::ParsedData)
+    o = DescribeInstanceAttributeType()
+    o.instanceId = find(pd, "instanceId#text")
+    o
+end
+
 export DescribeInstanceAttributeType
 
 
@@ -781,6 +1271,13 @@ type DescribeInstanceAttributeResponseType
     DescribeInstanceAttributeResponseType(; requestId=nothing, instanceId=nothing) = 
          new(requestId, instanceId)
 end
+function DescribeInstanceAttributeResponseType(pd::ParsedData)
+    o = DescribeInstanceAttributeResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.instanceId = find(pd, "instanceId#text")
+    o
+end
+
 export DescribeInstanceAttributeResponseType
 
 
@@ -790,6 +1287,12 @@ type ModifyImageAttributeType
     ModifyImageAttributeType(; imageId=nothing) = 
          new(imageId)
 end
+function ModifyImageAttributeType(pd::ParsedData)
+    o = ModifyImageAttributeType()
+    o.imageId = find(pd, "imageId#text")
+    o
+end
+
 export ModifyImageAttributeType
 
 
@@ -800,6 +1303,13 @@ type LaunchPermissionItemType
     LaunchPermissionItemType(; userId=nothing, group=nothing) = 
          new(userId, group)
 end
+function LaunchPermissionItemType(pd::ParsedData)
+    o = LaunchPermissionItemType()
+    o.userId = find(pd, "userId#text")
+    o.group = find(pd, "group#text")
+    o
+end
+
 export LaunchPermissionItemType
 
 
@@ -809,6 +1319,12 @@ type ProductCodeItemType
     ProductCodeItemType(; productCode=nothing) = 
          new(productCode)
 end
+function ProductCodeItemType(pd::ParsedData)
+    o = ProductCodeItemType()
+    o.productCode = find(pd, "productCode#text")
+    o
+end
+
 export ProductCodeItemType
 
 
@@ -819,6 +1335,13 @@ type ModifyImageAttributeResponseType
     ModifyImageAttributeResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function ModifyImageAttributeResponseType(pd::ParsedData)
+    o = ModifyImageAttributeResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export ModifyImageAttributeResponseType
 
 
@@ -828,6 +1351,12 @@ type ResetImageAttributeType
     ResetImageAttributeType(; imageId=nothing) = 
          new(imageId)
 end
+function ResetImageAttributeType(pd::ParsedData)
+    o = ResetImageAttributeType()
+    o.imageId = find(pd, "imageId#text")
+    o
+end
+
 export ResetImageAttributeType
 
 
@@ -838,6 +1367,13 @@ type ResetImageAttributeResponseType
     ResetImageAttributeResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function ResetImageAttributeResponseType(pd::ParsedData)
+    o = ResetImageAttributeResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export ResetImageAttributeResponseType
 
 
@@ -847,6 +1383,12 @@ type DescribeImageAttributeType
     DescribeImageAttributeType(; imageId=nothing) = 
          new(imageId)
 end
+function DescribeImageAttributeType(pd::ParsedData)
+    o = DescribeImageAttributeType()
+    o.imageId = find(pd, "imageId#text")
+    o
+end
+
 export DescribeImageAttributeType
 
 
@@ -857,6 +1399,13 @@ type DescribeImageAttributeResponseType
     DescribeImageAttributeResponseType(; requestId=nothing, imageId=nothing) = 
          new(requestId, imageId)
 end
+function DescribeImageAttributeResponseType(pd::ParsedData)
+    o = DescribeImageAttributeResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.imageId = find(pd, "imageId#text")
+    o
+end
+
 export DescribeImageAttributeResponseType
 
 
@@ -866,6 +1415,12 @@ type NullableAttributeValueType
     NullableAttributeValueType(; value=nothing) = 
          new(value)
 end
+function NullableAttributeValueType(pd::ParsedData)
+    o = NullableAttributeValueType()
+    o.value = find(pd, "value#text")
+    o
+end
+
 export NullableAttributeValueType
 
 
@@ -875,6 +1430,12 @@ type NullableAttributeBooleanValueType
     NullableAttributeBooleanValueType(; value=nothing) = 
          new(value)
 end
+function NullableAttributeBooleanValueType(pd::ParsedData)
+    o = NullableAttributeBooleanValueType()
+    o.value = safe_parse_as(Bool, find(pd, "value#text"))
+    o
+end
+
 export NullableAttributeBooleanValueType
 
 
@@ -884,6 +1445,12 @@ type AttributeValueType
     AttributeValueType(; value=nothing) = 
          new(value)
 end
+function AttributeValueType(pd::ParsedData)
+    o = AttributeValueType()
+    o.value = find(pd, "value#text")
+    o
+end
+
 export AttributeValueType
 
 
@@ -893,6 +1460,12 @@ type AttributeBooleanValueType
     AttributeBooleanValueType(; value=nothing) = 
          new(value)
 end
+function AttributeBooleanValueType(pd::ParsedData)
+    o = AttributeBooleanValueType()
+    o.value = safe_parse_as(Bool, find(pd, "value#text"))
+    o
+end
+
 export AttributeBooleanValueType
 
 
@@ -903,6 +1476,13 @@ type ConfirmProductInstanceType
     ConfirmProductInstanceType(; productCode=nothing, instanceId=nothing) = 
          new(productCode, instanceId)
 end
+function ConfirmProductInstanceType(pd::ParsedData)
+    o = ConfirmProductInstanceType()
+    o.productCode = find(pd, "productCode#text")
+    o.instanceId = find(pd, "instanceId#text")
+    o
+end
+
 export ConfirmProductInstanceType
 
 
@@ -913,6 +1493,13 @@ type ProductCodesSetItemType
     ProductCodesSetItemType(; productCode=nothing, _type=nothing) = 
          new(productCode, _type)
 end
+function ProductCodesSetItemType(pd::ParsedData)
+    o = ProductCodesSetItemType()
+    o.productCode = find(pd, "productCode#text")
+    o._type = find(pd, "_type#text")
+    o
+end
+
 export ProductCodesSetItemType
 
 
@@ -924,6 +1511,14 @@ type ConfirmProductInstanceResponseType
     ConfirmProductInstanceResponseType(; requestId=nothing, _return=nothing, ownerId=nothing) = 
          new(requestId, _return, ownerId)
 end
+function ConfirmProductInstanceResponseType(pd::ParsedData)
+    o = ConfirmProductInstanceResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o.ownerId = find(pd, "ownerId#text")
+    o
+end
+
 export ConfirmProductInstanceResponseType
 
 
@@ -933,6 +1528,12 @@ type DescribeAvailabilityZonesSetItemType
     DescribeAvailabilityZonesSetItemType(; zoneName=nothing) = 
          new(zoneName)
 end
+function DescribeAvailabilityZonesSetItemType(pd::ParsedData)
+    o = DescribeAvailabilityZonesSetItemType()
+    o.zoneName = find(pd, "zoneName#text")
+    o
+end
+
 export DescribeAvailabilityZonesSetItemType
 
 
@@ -942,6 +1543,12 @@ type AvailabilityZoneMessageType
     AvailabilityZoneMessageType(; message=nothing) = 
          new(message)
 end
+function AvailabilityZoneMessageType(pd::ParsedData)
+    o = AvailabilityZoneMessageType()
+    o.message = find(pd, "message#text")
+    o
+end
+
 export AvailabilityZoneMessageType
 
 
@@ -949,11 +1556,20 @@ type AvailabilityZoneItemType
     zoneName::Union(ASCIIString, Nothing)
     zoneState::Union(ASCIIString, Nothing)
     regionName::Union(ASCIIString, Nothing)
-    messageSet::Union(Array{ASCIIString,1}, Nothing)
+    messageSet::Union(Vector{ASCIIString}, Nothing)
 
     AvailabilityZoneItemType(; zoneName=nothing, zoneState=nothing, regionName=nothing, messageSet=nothing) = 
          new(zoneName, zoneState, regionName, messageSet)
 end
+function AvailabilityZoneItemType(pd::ParsedData)
+    o = AvailabilityZoneItemType()
+    o.zoneName = find(pd, "zoneName#text")
+    o.zoneState = find(pd, "zoneState#text")
+    o.regionName = find(pd, "regionName#text")
+    o.messageSet = parse_vector_as(ASCIIString, "message", find(pd, "item/message"))
+    o
+end
+
 export AvailabilityZoneItemType
 
 
@@ -963,6 +1579,12 @@ type AllocateAddressType
     AllocateAddressType(; domain=nothing) = 
          new(domain)
 end
+function AllocateAddressType(pd::ParsedData)
+    o = AllocateAddressType()
+    o.domain = find(pd, "domain#text")
+    o
+end
+
 export AllocateAddressType
 
 
@@ -975,6 +1597,15 @@ type AllocateAddressResponseType
     AllocateAddressResponseType(; requestId=nothing, publicIp=nothing, domain=nothing, allocationId=nothing) = 
          new(requestId, publicIp, domain, allocationId)
 end
+function AllocateAddressResponseType(pd::ParsedData)
+    o = AllocateAddressResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.publicIp = find(pd, "publicIp#text")
+    o.domain = find(pd, "domain#text")
+    o.allocationId = find(pd, "allocationId#text")
+    o
+end
+
 export AllocateAddressResponseType
 
 
@@ -985,6 +1616,13 @@ type ReleaseAddressType
     ReleaseAddressType(; publicIp=nothing, allocationId=nothing) = 
          new(publicIp, allocationId)
 end
+function ReleaseAddressType(pd::ParsedData)
+    o = ReleaseAddressType()
+    o.publicIp = find(pd, "publicIp#text")
+    o.allocationId = find(pd, "allocationId#text")
+    o
+end
+
 export ReleaseAddressType
 
 
@@ -995,6 +1633,13 @@ type ReleaseAddressResponseType
     ReleaseAddressResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function ReleaseAddressResponseType(pd::ParsedData)
+    o = ReleaseAddressResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export ReleaseAddressResponseType
 
 
@@ -1004,6 +1649,12 @@ type AllocationIdSetItemType
     AllocationIdSetItemType(; allocationId=nothing) = 
          new(allocationId)
 end
+function AllocationIdSetItemType(pd::ParsedData)
+    o = AllocationIdSetItemType()
+    o.allocationId = find(pd, "allocationId#text")
+    o
+end
+
 export AllocationIdSetItemType
 
 
@@ -1013,6 +1664,12 @@ type DescribeAddressesItemType
     DescribeAddressesItemType(; publicIp=nothing) = 
          new(publicIp)
 end
+function DescribeAddressesItemType(pd::ParsedData)
+    o = DescribeAddressesItemType()
+    o.publicIp = find(pd, "publicIp#text")
+    o
+end
+
 export DescribeAddressesItemType
 
 
@@ -1029,6 +1686,19 @@ type DescribeAddressesResponseItemType
     DescribeAddressesResponseItemType(; publicIp=nothing, allocationId=nothing, domain=nothing, instanceId=nothing, associationId=nothing, networkInterfaceId=nothing, networkInterfaceOwnerId=nothing, privateIpAddress=nothing) = 
          new(publicIp, allocationId, domain, instanceId, associationId, networkInterfaceId, networkInterfaceOwnerId, privateIpAddress)
 end
+function DescribeAddressesResponseItemType(pd::ParsedData)
+    o = DescribeAddressesResponseItemType()
+    o.publicIp = find(pd, "publicIp#text")
+    o.allocationId = find(pd, "allocationId#text")
+    o.domain = find(pd, "domain#text")
+    o.instanceId = find(pd, "instanceId#text")
+    o.associationId = find(pd, "associationId#text")
+    o.networkInterfaceId = find(pd, "networkInterfaceId#text")
+    o.networkInterfaceOwnerId = find(pd, "networkInterfaceOwnerId#text")
+    o.privateIpAddress = find(pd, "privateIpAddress#text")
+    o
+end
+
 export DescribeAddressesResponseItemType
 
 
@@ -1039,6 +1709,13 @@ type AssociateAddressType
     AssociateAddressType(; privateIpAddress=nothing, allowReassociation=nothing) = 
          new(privateIpAddress, allowReassociation)
 end
+function AssociateAddressType(pd::ParsedData)
+    o = AssociateAddressType()
+    o.privateIpAddress = find(pd, "privateIpAddress#text")
+    o.allowReassociation = safe_parse_as(Bool, find(pd, "allowReassociation#text"))
+    o
+end
+
 export AssociateAddressType
 
 
@@ -1050,6 +1727,14 @@ type AssociateAddressResponseType
     AssociateAddressResponseType(; requestId=nothing, _return=nothing, associationId=nothing) = 
          new(requestId, _return, associationId)
 end
+function AssociateAddressResponseType(pd::ParsedData)
+    o = AssociateAddressResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o.associationId = find(pd, "associationId#text")
+    o
+end
+
 export AssociateAddressResponseType
 
 
@@ -1060,6 +1745,13 @@ type DisassociateAddressType
     DisassociateAddressType(; publicIp=nothing, associationId=nothing) = 
          new(publicIp, associationId)
 end
+function DisassociateAddressType(pd::ParsedData)
+    o = DisassociateAddressType()
+    o.publicIp = find(pd, "publicIp#text")
+    o.associationId = find(pd, "associationId#text")
+    o
+end
+
 export DisassociateAddressType
 
 
@@ -1070,6 +1762,13 @@ type DisassociateAddressResponseType
     DisassociateAddressResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function DisassociateAddressResponseType(pd::ParsedData)
+    o = DisassociateAddressResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export DisassociateAddressResponseType
 
 
@@ -1083,6 +1782,16 @@ type CreateVolumeType
     CreateVolumeType(; size=nothing, snapshotId=nothing, availabilityZone=nothing, volumeType=nothing, iops=nothing) = 
          new(size, snapshotId, availabilityZone, volumeType, iops)
 end
+function CreateVolumeType(pd::ParsedData)
+    o = CreateVolumeType()
+    o.size = find(pd, "size#text")
+    o.snapshotId = find(pd, "snapshotId#text")
+    o.availabilityZone = find(pd, "availabilityZone#text")
+    o.volumeType = find(pd, "volumeType#text")
+    o.iops = safe_parse_as(Int32, find(pd, "iops#text"))
+    o
+end
+
 export CreateVolumeType
 
 
@@ -1100,6 +1809,20 @@ type CreateVolumeResponseType
     CreateVolumeResponseType(; requestId=nothing, volumeId=nothing, size=nothing, snapshotId=nothing, availabilityZone=nothing, status=nothing, createTime=nothing, volumeType=nothing, iops=nothing) = 
          new(requestId, volumeId, size, snapshotId, availabilityZone, status, createTime, volumeType, iops)
 end
+function CreateVolumeResponseType(pd::ParsedData)
+    o = CreateVolumeResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.volumeId = find(pd, "volumeId#text")
+    o.size = find(pd, "size#text")
+    o.snapshotId = find(pd, "snapshotId#text")
+    o.availabilityZone = find(pd, "availabilityZone#text")
+    o.status = find(pd, "status#text")
+    o.createTime = safe_parse_as(CalendarTime, find(pd, "createTime#text"))
+    o.volumeType = find(pd, "volumeType#text")
+    o.iops = safe_parse_as(Int32, find(pd, "iops#text"))
+    o
+end
+
 export CreateVolumeResponseType
 
 
@@ -1109,6 +1832,12 @@ type DeleteVolumeType
     DeleteVolumeType(; volumeId=nothing) = 
          new(volumeId)
 end
+function DeleteVolumeType(pd::ParsedData)
+    o = DeleteVolumeType()
+    o.volumeId = find(pd, "volumeId#text")
+    o
+end
+
 export DeleteVolumeType
 
 
@@ -1119,6 +1848,13 @@ type DeleteVolumeResponseType
     DeleteVolumeResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function DeleteVolumeResponseType(pd::ParsedData)
+    o = DeleteVolumeResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export DeleteVolumeResponseType
 
 
@@ -1128,6 +1864,12 @@ type DescribeVolumesSetItemType
     DescribeVolumesSetItemType(; volumeId=nothing) = 
          new(volumeId)
 end
+function DescribeVolumesSetItemType(pd::ParsedData)
+    o = DescribeVolumesSetItemType()
+    o.volumeId = find(pd, "volumeId#text")
+    o
+end
+
 export DescribeVolumesSetItemType
 
 
@@ -1142,6 +1884,17 @@ type AttachmentSetItemResponseType
     AttachmentSetItemResponseType(; volumeId=nothing, instanceId=nothing, device=nothing, status=nothing, attachTime=nothing, deleteOnTermination=nothing) = 
          new(volumeId, instanceId, device, status, attachTime, deleteOnTermination)
 end
+function AttachmentSetItemResponseType(pd::ParsedData)
+    o = AttachmentSetItemResponseType()
+    o.volumeId = find(pd, "volumeId#text")
+    o.instanceId = find(pd, "instanceId#text")
+    o.device = find(pd, "device#text")
+    o.status = find(pd, "status#text")
+    o.attachTime = safe_parse_as(CalendarTime, find(pd, "attachTime#text"))
+    o.deleteOnTermination = safe_parse_as(Bool, find(pd, "deleteOnTermination#text"))
+    o
+end
+
 export AttachmentSetItemResponseType
 
 
@@ -1153,6 +1906,14 @@ type AttachVolumeType
     AttachVolumeType(; volumeId=nothing, instanceId=nothing, device=nothing) = 
          new(volumeId, instanceId, device)
 end
+function AttachVolumeType(pd::ParsedData)
+    o = AttachVolumeType()
+    o.volumeId = find(pd, "volumeId#text")
+    o.instanceId = find(pd, "instanceId#text")
+    o.device = find(pd, "device#text")
+    o
+end
+
 export AttachVolumeType
 
 
@@ -1167,6 +1928,17 @@ type AttachVolumeResponseType
     AttachVolumeResponseType(; requestId=nothing, volumeId=nothing, instanceId=nothing, device=nothing, status=nothing, attachTime=nothing) = 
          new(requestId, volumeId, instanceId, device, status, attachTime)
 end
+function AttachVolumeResponseType(pd::ParsedData)
+    o = AttachVolumeResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.volumeId = find(pd, "volumeId#text")
+    o.instanceId = find(pd, "instanceId#text")
+    o.device = find(pd, "device#text")
+    o.status = find(pd, "status#text")
+    o.attachTime = safe_parse_as(CalendarTime, find(pd, "attachTime#text"))
+    o
+end
+
 export AttachVolumeResponseType
 
 
@@ -1179,6 +1951,15 @@ type DetachVolumeType
     DetachVolumeType(; volumeId=nothing, instanceId=nothing, device=nothing, force=nothing) = 
          new(volumeId, instanceId, device, force)
 end
+function DetachVolumeType(pd::ParsedData)
+    o = DetachVolumeType()
+    o.volumeId = find(pd, "volumeId#text")
+    o.instanceId = find(pd, "instanceId#text")
+    o.device = find(pd, "device#text")
+    o.force = safe_parse_as(Bool, find(pd, "force#text"))
+    o
+end
+
 export DetachVolumeType
 
 
@@ -1193,6 +1974,17 @@ type DetachVolumeResponseType
     DetachVolumeResponseType(; requestId=nothing, volumeId=nothing, instanceId=nothing, device=nothing, status=nothing, attachTime=nothing) = 
          new(requestId, volumeId, instanceId, device, status, attachTime)
 end
+function DetachVolumeResponseType(pd::ParsedData)
+    o = DetachVolumeResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.volumeId = find(pd, "volumeId#text")
+    o.instanceId = find(pd, "instanceId#text")
+    o.device = find(pd, "device#text")
+    o.status = find(pd, "status#text")
+    o.attachTime = safe_parse_as(CalendarTime, find(pd, "attachTime#text"))
+    o
+end
+
 export DetachVolumeResponseType
 
 
@@ -1203,6 +1995,13 @@ type CreateSnapshotType
     CreateSnapshotType(; volumeId=nothing, description=nothing) = 
          new(volumeId, description)
 end
+function CreateSnapshotType(pd::ParsedData)
+    o = CreateSnapshotType()
+    o.volumeId = find(pd, "volumeId#text")
+    o.description = find(pd, "description#text")
+    o
+end
+
 export CreateSnapshotType
 
 
@@ -1220,6 +2019,20 @@ type CreateSnapshotResponseType
     CreateSnapshotResponseType(; requestId=nothing, snapshotId=nothing, volumeId=nothing, status=nothing, startTime=nothing, progress=nothing, ownerId=nothing, volumeSize=nothing, description=nothing) = 
          new(requestId, snapshotId, volumeId, status, startTime, progress, ownerId, volumeSize, description)
 end
+function CreateSnapshotResponseType(pd::ParsedData)
+    o = CreateSnapshotResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.snapshotId = find(pd, "snapshotId#text")
+    o.volumeId = find(pd, "volumeId#text")
+    o.status = find(pd, "status#text")
+    o.startTime = safe_parse_as(CalendarTime, find(pd, "startTime#text"))
+    o.progress = find(pd, "progress#text")
+    o.ownerId = find(pd, "ownerId#text")
+    o.volumeSize = find(pd, "volumeSize#text")
+    o.description = find(pd, "description#text")
+    o
+end
+
 export CreateSnapshotResponseType
 
 
@@ -1231,6 +2044,14 @@ type CopySnapshotType
     CopySnapshotType(; sourceRegion=nothing, sourceSnapshotId=nothing, description=nothing) = 
          new(sourceRegion, sourceSnapshotId, description)
 end
+function CopySnapshotType(pd::ParsedData)
+    o = CopySnapshotType()
+    o.sourceRegion = find(pd, "sourceRegion#text")
+    o.sourceSnapshotId = find(pd, "sourceSnapshotId#text")
+    o.description = find(pd, "description#text")
+    o
+end
+
 export CopySnapshotType
 
 
@@ -1241,6 +2062,13 @@ type CopySnapshotResponseType
     CopySnapshotResponseType(; requestId=nothing, snapshotId=nothing) = 
          new(requestId, snapshotId)
 end
+function CopySnapshotResponseType(pd::ParsedData)
+    o = CopySnapshotResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.snapshotId = find(pd, "snapshotId#text")
+    o
+end
+
 export CopySnapshotResponseType
 
 
@@ -1250,6 +2078,12 @@ type DeleteSnapshotType
     DeleteSnapshotType(; snapshotId=nothing) = 
          new(snapshotId)
 end
+function DeleteSnapshotType(pd::ParsedData)
+    o = DeleteSnapshotType()
+    o.snapshotId = find(pd, "snapshotId#text")
+    o
+end
+
 export DeleteSnapshotType
 
 
@@ -1260,6 +2094,13 @@ type DeleteSnapshotResponseType
     DeleteSnapshotResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function DeleteSnapshotResponseType(pd::ParsedData)
+    o = DeleteSnapshotResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export DeleteSnapshotResponseType
 
 
@@ -1269,6 +2110,12 @@ type DescribeSnapshotsSetItemType
     DescribeSnapshotsSetItemType(; snapshotId=nothing) = 
          new(snapshotId)
 end
+function DescribeSnapshotsSetItemType(pd::ParsedData)
+    o = DescribeSnapshotsSetItemType()
+    o.snapshotId = find(pd, "snapshotId#text")
+    o
+end
+
 export DescribeSnapshotsSetItemType
 
 
@@ -1278,6 +2125,12 @@ type DescribeSnapshotsOwnerType
     DescribeSnapshotsOwnerType(; owner=nothing) = 
          new(owner)
 end
+function DescribeSnapshotsOwnerType(pd::ParsedData)
+    o = DescribeSnapshotsOwnerType()
+    o.owner = find(pd, "owner#text")
+    o
+end
+
 export DescribeSnapshotsOwnerType
 
 
@@ -1287,6 +2140,12 @@ type DescribeSnapshotsRestorableByType
     DescribeSnapshotsRestorableByType(; user=nothing) = 
          new(user)
 end
+function DescribeSnapshotsRestorableByType(pd::ParsedData)
+    o = DescribeSnapshotsRestorableByType()
+    o.user = find(pd, "user#text")
+    o
+end
+
 export DescribeSnapshotsRestorableByType
 
 
@@ -1297,6 +2156,13 @@ type CreateVolumePermissionItemType
     CreateVolumePermissionItemType(; userId=nothing, group=nothing) = 
          new(userId, group)
 end
+function CreateVolumePermissionItemType(pd::ParsedData)
+    o = CreateVolumePermissionItemType()
+    o.userId = find(pd, "userId#text")
+    o.group = find(pd, "group#text")
+    o
+end
+
 export CreateVolumePermissionItemType
 
 
@@ -1307,6 +2173,13 @@ type ModifySnapshotAttributeResponseType
     ModifySnapshotAttributeResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function ModifySnapshotAttributeResponseType(pd::ParsedData)
+    o = ModifySnapshotAttributeResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export ModifySnapshotAttributeResponseType
 
 
@@ -1316,6 +2189,12 @@ type ResetSnapshotAttributeType
     ResetSnapshotAttributeType(; snapshotId=nothing) = 
          new(snapshotId)
 end
+function ResetSnapshotAttributeType(pd::ParsedData)
+    o = ResetSnapshotAttributeType()
+    o.snapshotId = find(pd, "snapshotId#text")
+    o
+end
+
 export ResetSnapshotAttributeType
 
 
@@ -1326,6 +2205,13 @@ type ResetSnapshotAttributeResponseType
     ResetSnapshotAttributeResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function ResetSnapshotAttributeResponseType(pd::ParsedData)
+    o = ResetSnapshotAttributeResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export ResetSnapshotAttributeResponseType
 
 
@@ -1335,6 +2221,12 @@ type DescribeSnapshotAttributeType
     DescribeSnapshotAttributeType(; snapshotId=nothing) = 
          new(snapshotId)
 end
+function DescribeSnapshotAttributeType(pd::ParsedData)
+    o = DescribeSnapshotAttributeType()
+    o.snapshotId = find(pd, "snapshotId#text")
+    o
+end
+
 export DescribeSnapshotAttributeType
 
 
@@ -1345,6 +2237,13 @@ type DescribeSnapshotAttributeResponseType
     DescribeSnapshotAttributeResponseType(; requestId=nothing, snapshotId=nothing) = 
          new(requestId, snapshotId)
 end
+function DescribeSnapshotAttributeResponseType(pd::ParsedData)
+    o = DescribeSnapshotAttributeResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.snapshotId = find(pd, "snapshotId#text")
+    o
+end
+
 export DescribeSnapshotAttributeResponseType
 
 
@@ -1358,6 +2257,16 @@ type BundleInstanceS3StorageType
     BundleInstanceS3StorageType(; bucket=nothing, prefix=nothing, awsAccessKeyId=nothing, uploadPolicy=nothing, uploadPolicySignature=nothing) = 
          new(bucket, prefix, awsAccessKeyId, uploadPolicy, uploadPolicySignature)
 end
+function BundleInstanceS3StorageType(pd::ParsedData)
+    o = BundleInstanceS3StorageType()
+    o.bucket = find(pd, "bucket#text")
+    o.prefix = find(pd, "prefix#text")
+    o.awsAccessKeyId = find(pd, "awsAccessKeyId#text")
+    o.uploadPolicy = find(pd, "uploadPolicy#text")
+    o.uploadPolicySignature = find(pd, "uploadPolicySignature#text")
+    o
+end
+
 export BundleInstanceS3StorageType
 
 
@@ -1368,6 +2277,13 @@ type BundleInstanceTaskErrorType
     BundleInstanceTaskErrorType(; code=nothing, message=nothing) = 
          new(code, message)
 end
+function BundleInstanceTaskErrorType(pd::ParsedData)
+    o = BundleInstanceTaskErrorType()
+    o.code = find(pd, "code#text")
+    o.message = find(pd, "message#text")
+    o
+end
+
 export BundleInstanceTaskErrorType
 
 
@@ -1377,6 +2293,12 @@ type DescribeBundleTasksItemType
     DescribeBundleTasksItemType(; bundleId=nothing) = 
          new(bundleId)
 end
+function DescribeBundleTasksItemType(pd::ParsedData)
+    o = DescribeBundleTasksItemType()
+    o.bundleId = find(pd, "bundleId#text")
+    o
+end
+
 export DescribeBundleTasksItemType
 
 
@@ -1386,6 +2308,12 @@ type CancelBundleTaskType
     CancelBundleTaskType(; bundleId=nothing) = 
          new(bundleId)
 end
+function CancelBundleTaskType(pd::ParsedData)
+    o = CancelBundleTaskType()
+    o.bundleId = find(pd, "bundleId#text")
+    o
+end
+
 export CancelBundleTaskType
 
 
@@ -1399,6 +2327,16 @@ type CopyImageType
     CopyImageType(; sourceRegion=nothing, sourceImageId=nothing, name=nothing, description=nothing, clientToken=nothing) = 
          new(sourceRegion, sourceImageId, name, description, clientToken)
 end
+function CopyImageType(pd::ParsedData)
+    o = CopyImageType()
+    o.sourceRegion = find(pd, "sourceRegion#text")
+    o.sourceImageId = find(pd, "sourceImageId#text")
+    o.name = find(pd, "name#text")
+    o.description = find(pd, "description#text")
+    o.clientToken = find(pd, "clientToken#text")
+    o
+end
+
 export CopyImageType
 
 
@@ -1409,6 +2347,13 @@ type CopyImageResponseType
     CopyImageResponseType(; requestId=nothing, imageId=nothing) = 
          new(requestId, imageId)
 end
+function CopyImageResponseType(pd::ParsedData)
+    o = CopyImageResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.imageId = find(pd, "imageId#text")
+    o
+end
+
 export CopyImageResponseType
 
 
@@ -1418,6 +2363,12 @@ type DescribeRegionsSetItemType
     DescribeRegionsSetItemType(; regionName=nothing) = 
          new(regionName)
 end
+function DescribeRegionsSetItemType(pd::ParsedData)
+    o = DescribeRegionsSetItemType()
+    o.regionName = find(pd, "regionName#text")
+    o
+end
+
 export DescribeRegionsSetItemType
 
 
@@ -1428,6 +2379,13 @@ type RegionItemType
     RegionItemType(; regionName=nothing, regionEndpoint=nothing) = 
          new(regionName, regionEndpoint)
 end
+function RegionItemType(pd::ParsedData)
+    o = RegionItemType()
+    o.regionName = find(pd, "regionName#text")
+    o.regionEndpoint = find(pd, "regionEndpoint#text")
+    o
+end
+
 export RegionItemType
 
 
@@ -1437,6 +2395,12 @@ type DescribeReservedInstancesOfferingsSetItemType
     DescribeReservedInstancesOfferingsSetItemType(; reservedInstancesOfferingId=nothing) = 
          new(reservedInstancesOfferingId)
 end
+function DescribeReservedInstancesOfferingsSetItemType(pd::ParsedData)
+    o = DescribeReservedInstancesOfferingsSetItemType()
+    o.reservedInstancesOfferingId = find(pd, "reservedInstancesOfferingId#text")
+    o
+end
+
 export DescribeReservedInstancesOfferingsSetItemType
 
 
@@ -1447,6 +2411,13 @@ type RecurringChargesSetItemType
     RecurringChargesSetItemType(; frequency=nothing, amount=nothing) = 
          new(frequency, amount)
 end
+function RecurringChargesSetItemType(pd::ParsedData)
+    o = RecurringChargesSetItemType()
+    o.frequency = find(pd, "frequency#text")
+    o.amount = safe_parse_as(Float64, find(pd, "amount#text"))
+    o
+end
+
 export RecurringChargesSetItemType
 
 
@@ -1457,6 +2428,13 @@ type PricingDetailsSetItemType
     PricingDetailsSetItemType(; price=nothing, count=nothing) = 
          new(price, count)
 end
+function PricingDetailsSetItemType(pd::ParsedData)
+    o = PricingDetailsSetItemType()
+    o.price = safe_parse_as(Float64, find(pd, "price#text"))
+    o.count = safe_parse_as(Int32, find(pd, "count#text"))
+    o
+end
+
 export PricingDetailsSetItemType
 
 
@@ -1467,6 +2445,13 @@ type ReservedInstanceLimitPriceType
     ReservedInstanceLimitPriceType(; amount=nothing, currencyCode=nothing) = 
          new(amount, currencyCode)
 end
+function ReservedInstanceLimitPriceType(pd::ParsedData)
+    o = ReservedInstanceLimitPriceType()
+    o.amount = safe_parse_as(Float64, find(pd, "amount#text"))
+    o.currencyCode = find(pd, "currencyCode#text")
+    o
+end
+
 export ReservedInstanceLimitPriceType
 
 
@@ -1477,6 +2462,13 @@ type PurchaseReservedInstancesOfferingResponseType
     PurchaseReservedInstancesOfferingResponseType(; requestId=nothing, reservedInstancesId=nothing) = 
          new(requestId, reservedInstancesId)
 end
+function PurchaseReservedInstancesOfferingResponseType(pd::ParsedData)
+    o = PurchaseReservedInstancesOfferingResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.reservedInstancesId = find(pd, "reservedInstancesId#text")
+    o
+end
+
 export PurchaseReservedInstancesOfferingResponseType
 
 
@@ -1486,6 +2478,12 @@ type DescribeReservedInstancesSetItemType
     DescribeReservedInstancesSetItemType(; reservedInstancesId=nothing) = 
          new(reservedInstancesId)
 end
+function DescribeReservedInstancesSetItemType(pd::ParsedData)
+    o = DescribeReservedInstancesSetItemType()
+    o.reservedInstancesId = find(pd, "reservedInstancesId#text")
+    o
+end
+
 export DescribeReservedInstancesSetItemType
 
 
@@ -1497,6 +2495,14 @@ type PriceScheduleRequestSetItemType
     PriceScheduleRequestSetItemType(; term=nothing, price=nothing, currencyCode=nothing) = 
          new(term, price, currencyCode)
 end
+function PriceScheduleRequestSetItemType(pd::ParsedData)
+    o = PriceScheduleRequestSetItemType()
+    o.term = safe_parse_as(Int64, find(pd, "term#text"))
+    o.price = safe_parse_as(Float64, find(pd, "price#text"))
+    o.currencyCode = find(pd, "currencyCode#text")
+    o
+end
+
 export PriceScheduleRequestSetItemType
 
 
@@ -1506,6 +2512,12 @@ type CancelReservedInstancesListingType
     CancelReservedInstancesListingType(; reservedInstancesListingId=nothing) = 
          new(reservedInstancesListingId)
 end
+function CancelReservedInstancesListingType(pd::ParsedData)
+    o = CancelReservedInstancesListingType()
+    o.reservedInstancesListingId = find(pd, "reservedInstancesListingId#text")
+    o
+end
+
 export CancelReservedInstancesListingType
 
 
@@ -1515,6 +2527,12 @@ type DescribeReservedInstancesListingSetItemType
     DescribeReservedInstancesListingSetItemType(; reservedInstancesListingId=nothing) = 
          new(reservedInstancesListingId)
 end
+function DescribeReservedInstancesListingSetItemType(pd::ParsedData)
+    o = DescribeReservedInstancesListingSetItemType()
+    o.reservedInstancesListingId = find(pd, "reservedInstancesListingId#text")
+    o
+end
+
 export DescribeReservedInstancesListingSetItemType
 
 
@@ -1525,6 +2543,13 @@ type InstanceCountsSetItemType
     InstanceCountsSetItemType(; state=nothing, instanceCount=nothing) = 
          new(state, instanceCount)
 end
+function InstanceCountsSetItemType(pd::ParsedData)
+    o = InstanceCountsSetItemType()
+    o.state = find(pd, "state#text")
+    o.instanceCount = safe_parse_as(Int32, find(pd, "instanceCount#text"))
+    o
+end
+
 export InstanceCountsSetItemType
 
 
@@ -1537,15 +2562,30 @@ type PriceScheduleSetItemType
     PriceScheduleSetItemType(; term=nothing, price=nothing, currencyCode=nothing, active=nothing) = 
          new(term, price, currencyCode, active)
 end
+function PriceScheduleSetItemType(pd::ParsedData)
+    o = PriceScheduleSetItemType()
+    o.term = safe_parse_as(Int64, find(pd, "term#text"))
+    o.price = safe_parse_as(Float64, find(pd, "price#text"))
+    o.currencyCode = find(pd, "currencyCode#text")
+    o.active = safe_parse_as(Bool, find(pd, "active#text"))
+    o
+end
+
 export PriceScheduleSetItemType
 
 
 type MonitorInstancesType
-    instancesSet::Union(Array{ASCIIString,1}, Nothing)
+    instancesSet::Union(Vector{ASCIIString}, Nothing)
 
     MonitorInstancesType(; instancesSet=nothing) = 
          new(instancesSet)
 end
+function MonitorInstancesType(pd::ParsedData)
+    o = MonitorInstancesType()
+    o.instancesSet = parse_vector_as(ASCIIString, "instanceId", find(pd, "item/instanceId"))
+    o
+end
+
 export MonitorInstancesType
 
 
@@ -1555,6 +2595,12 @@ type MonitorInstancesSetItemType
     MonitorInstancesSetItemType(; instanceId=nothing) = 
          new(instanceId)
 end
+function MonitorInstancesSetItemType(pd::ParsedData)
+    o = MonitorInstancesSetItemType()
+    o.instanceId = find(pd, "instanceId#text")
+    o
+end
+
 export MonitorInstancesSetItemType
 
 
@@ -1564,6 +2610,12 @@ type InstanceMonitoringStateType
     InstanceMonitoringStateType(; state=nothing) = 
          new(state)
 end
+function InstanceMonitoringStateType(pd::ParsedData)
+    o = InstanceMonitoringStateType()
+    o.state = find(pd, "state#text")
+    o
+end
+
 export InstanceMonitoringStateType
 
 
@@ -1574,6 +2626,13 @@ type AttachmentType
     AttachmentType(; vpcId=nothing, state=nothing) = 
          new(vpcId, state)
 end
+function AttachmentType(pd::ParsedData)
+    o = AttachmentType()
+    o.vpcId = find(pd, "vpcId#text")
+    o.state = find(pd, "state#text")
+    o
+end
+
 export AttachmentType
 
 
@@ -1583,6 +2642,12 @@ type VpnConnectionOptionsResponseType
     VpnConnectionOptionsResponseType(; staticRoutesOnly=nothing) = 
          new(staticRoutesOnly)
 end
+function VpnConnectionOptionsResponseType(pd::ParsedData)
+    o = VpnConnectionOptionsResponseType()
+    o.staticRoutesOnly = safe_parse_as(Bool, find(pd, "staticRoutesOnly#text"))
+    o
+end
+
 export VpnConnectionOptionsResponseType
 
 
@@ -1594,6 +2659,14 @@ type VpnStaticRouteType
     VpnStaticRouteType(; destinationCidrBlock=nothing, source=nothing, state=nothing) = 
          new(destinationCidrBlock, source, state)
 end
+function VpnStaticRouteType(pd::ParsedData)
+    o = VpnStaticRouteType()
+    o.destinationCidrBlock = find(pd, "destinationCidrBlock#text")
+    o.source = find(pd, "source#text")
+    o.state = find(pd, "state#text")
+    o
+end
+
 export VpnStaticRouteType
 
 
@@ -1607,6 +2680,16 @@ type VpnTunnelTelemetryType
     VpnTunnelTelemetryType(; outsideIpAddress=nothing, status=nothing, lastStatusChange=nothing, statusMessage=nothing, acceptedRouteCount=nothing) = 
          new(outsideIpAddress, status, lastStatusChange, statusMessage, acceptedRouteCount)
 end
+function VpnTunnelTelemetryType(pd::ParsedData)
+    o = VpnTunnelTelemetryType()
+    o.outsideIpAddress = find(pd, "outsideIpAddress#text")
+    o.status = find(pd, "status#text")
+    o.lastStatusChange = safe_parse_as(CalendarTime, find(pd, "lastStatusChange#text"))
+    o.statusMessage = find(pd, "statusMessage#text")
+    o.acceptedRouteCount = safe_parse_as(Int32, find(pd, "acceptedRouteCount#text"))
+    o
+end
+
 export VpnTunnelTelemetryType
 
 
@@ -1616,6 +2699,12 @@ type CustomerGatewayIdSetItemType
     CustomerGatewayIdSetItemType(; customerGatewayId=nothing) = 
          new(customerGatewayId)
 end
+function CustomerGatewayIdSetItemType(pd::ParsedData)
+    o = CustomerGatewayIdSetItemType()
+    o.customerGatewayId = find(pd, "customerGatewayId#text")
+    o
+end
+
 export CustomerGatewayIdSetItemType
 
 
@@ -1625,6 +2714,12 @@ type VpnGatewayIdSetItemType
     VpnGatewayIdSetItemType(; vpnGatewayId=nothing) = 
          new(vpnGatewayId)
 end
+function VpnGatewayIdSetItemType(pd::ParsedData)
+    o = VpnGatewayIdSetItemType()
+    o.vpnGatewayId = find(pd, "vpnGatewayId#text")
+    o
+end
+
 export VpnGatewayIdSetItemType
 
 
@@ -1634,6 +2729,12 @@ type VpnConnectionIdSetItemType
     VpnConnectionIdSetItemType(; vpnConnectionId=nothing) = 
          new(vpnConnectionId)
 end
+function VpnConnectionIdSetItemType(pd::ParsedData)
+    o = VpnConnectionIdSetItemType()
+    o.vpnConnectionId = find(pd, "vpnConnectionId#text")
+    o
+end
+
 export VpnConnectionIdSetItemType
 
 
@@ -1643,6 +2744,12 @@ type VpcIdSetItemType
     VpcIdSetItemType(; vpcId=nothing) = 
          new(vpcId)
 end
+function VpcIdSetItemType(pd::ParsedData)
+    o = VpcIdSetItemType()
+    o.vpcId = find(pd, "vpcId#text")
+    o
+end
+
 export VpcIdSetItemType
 
 
@@ -1652,6 +2759,12 @@ type SubnetIdSetItemType
     SubnetIdSetItemType(; subnetId=nothing) = 
          new(subnetId)
 end
+function SubnetIdSetItemType(pd::ParsedData)
+    o = SubnetIdSetItemType()
+    o.subnetId = find(pd, "subnetId#text")
+    o
+end
+
 export SubnetIdSetItemType
 
 
@@ -1661,16 +2774,29 @@ type DhcpOptionsIdSetItemType
     DhcpOptionsIdSetItemType(; dhcpOptionsId=nothing) = 
          new(dhcpOptionsId)
 end
+function DhcpOptionsIdSetItemType(pd::ParsedData)
+    o = DhcpOptionsIdSetItemType()
+    o.dhcpOptionsId = find(pd, "dhcpOptionsId#text")
+    o
+end
+
 export DhcpOptionsIdSetItemType
 
 
 type DhcpConfigurationItemType
     key::Union(ASCIIString, Nothing)
-    valueSet::Union(Array{ASCIIString,1}, Nothing)
+    valueSet::Union(Vector{ASCIIString}, Nothing)
 
     DhcpConfigurationItemType(; key=nothing, valueSet=nothing) = 
          new(key, valueSet)
 end
+function DhcpConfigurationItemType(pd::ParsedData)
+    o = DhcpConfigurationItemType()
+    o.key = find(pd, "key#text")
+    o.valueSet = parse_vector_as(ASCIIString, "value", find(pd, "item/value"))
+    o
+end
+
 export DhcpConfigurationItemType
 
 
@@ -1680,16 +2806,29 @@ type DhcpValueType
     DhcpValueType(; value=nothing) = 
          new(value)
 end
+function DhcpValueType(pd::ParsedData)
+    o = DhcpValueType()
+    o.value = find(pd, "value#text")
+    o
+end
+
 export DhcpValueType
 
 
 type FilterType
     name::Union(ASCIIString, Nothing)
-    valueSet::Union(Array{ASCIIString,1}, Nothing)
+    valueSet::Union(Vector{ASCIIString}, Nothing)
 
     FilterType(; name=nothing, valueSet=nothing) = 
          new(name, valueSet)
 end
+function FilterType(pd::ParsedData)
+    o = FilterType()
+    o.name = find(pd, "name#text")
+    o.valueSet = parse_vector_as(ASCIIString, "value", find(pd, "item/value"))
+    o
+end
+
 export FilterType
 
 
@@ -1699,6 +2838,12 @@ type ValueType
     ValueType(; value=nothing) = 
          new(value)
 end
+function ValueType(pd::ParsedData)
+    o = ValueType()
+    o.value = find(pd, "value#text")
+    o
+end
+
 export ValueType
 
 
@@ -1710,6 +2855,14 @@ type CreateCustomerGatewayType
     CreateCustomerGatewayType(; _type=nothing, ipAddress=nothing, bgpAsn=nothing) = 
          new(_type, ipAddress, bgpAsn)
 end
+function CreateCustomerGatewayType(pd::ParsedData)
+    o = CreateCustomerGatewayType()
+    o._type = find(pd, "_type#text")
+    o.ipAddress = find(pd, "ipAddress#text")
+    o.bgpAsn = safe_parse_as(Int32, find(pd, "bgpAsn#text"))
+    o
+end
+
 export CreateCustomerGatewayType
 
 
@@ -1719,6 +2872,12 @@ type DeleteCustomerGatewayType
     DeleteCustomerGatewayType(; customerGatewayId=nothing) = 
          new(customerGatewayId)
 end
+function DeleteCustomerGatewayType(pd::ParsedData)
+    o = DeleteCustomerGatewayType()
+    o.customerGatewayId = find(pd, "customerGatewayId#text")
+    o
+end
+
 export DeleteCustomerGatewayType
 
 
@@ -1729,6 +2888,13 @@ type DeleteCustomerGatewayResponseType
     DeleteCustomerGatewayResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function DeleteCustomerGatewayResponseType(pd::ParsedData)
+    o = DeleteCustomerGatewayResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export DeleteCustomerGatewayResponseType
 
 
@@ -1739,6 +2905,13 @@ type CreateVpnGatewayType
     CreateVpnGatewayType(; _type=nothing, availabilityZone=nothing) = 
          new(_type, availabilityZone)
 end
+function CreateVpnGatewayType(pd::ParsedData)
+    o = CreateVpnGatewayType()
+    o._type = find(pd, "_type#text")
+    o.availabilityZone = find(pd, "availabilityZone#text")
+    o
+end
+
 export CreateVpnGatewayType
 
 
@@ -1748,6 +2921,12 @@ type DeleteVpnGatewayType
     DeleteVpnGatewayType(; vpnGatewayId=nothing) = 
          new(vpnGatewayId)
 end
+function DeleteVpnGatewayType(pd::ParsedData)
+    o = DeleteVpnGatewayType()
+    o.vpnGatewayId = find(pd, "vpnGatewayId#text")
+    o
+end
+
 export DeleteVpnGatewayType
 
 
@@ -1758,6 +2937,13 @@ type DeleteVpnGatewayResponseType
     DeleteVpnGatewayResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function DeleteVpnGatewayResponseType(pd::ParsedData)
+    o = DeleteVpnGatewayResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export DeleteVpnGatewayResponseType
 
 
@@ -1767,6 +2953,12 @@ type VpnConnectionOptionsRequestType
     VpnConnectionOptionsRequestType(; staticRoutesOnly=nothing) = 
          new(staticRoutesOnly)
 end
+function VpnConnectionOptionsRequestType(pd::ParsedData)
+    o = VpnConnectionOptionsRequestType()
+    o.staticRoutesOnly = safe_parse_as(Bool, find(pd, "staticRoutesOnly#text"))
+    o
+end
+
 export VpnConnectionOptionsRequestType
 
 
@@ -1777,6 +2969,13 @@ type CreateVpnConnectionRouteType
     CreateVpnConnectionRouteType(; vpnConnectionId=nothing, destinationCidrBlock=nothing) = 
          new(vpnConnectionId, destinationCidrBlock)
 end
+function CreateVpnConnectionRouteType(pd::ParsedData)
+    o = CreateVpnConnectionRouteType()
+    o.vpnConnectionId = find(pd, "vpnConnectionId#text")
+    o.destinationCidrBlock = find(pd, "destinationCidrBlock#text")
+    o
+end
+
 export CreateVpnConnectionRouteType
 
 
@@ -1787,6 +2986,13 @@ type CreateVpnConnectionRouteResponseType
     CreateVpnConnectionRouteResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function CreateVpnConnectionRouteResponseType(pd::ParsedData)
+    o = CreateVpnConnectionRouteResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export CreateVpnConnectionRouteResponseType
 
 
@@ -1797,6 +3003,13 @@ type DeleteVpnConnectionRouteType
     DeleteVpnConnectionRouteType(; vpnConnectionId=nothing, destinationCidrBlock=nothing) = 
          new(vpnConnectionId, destinationCidrBlock)
 end
+function DeleteVpnConnectionRouteType(pd::ParsedData)
+    o = DeleteVpnConnectionRouteType()
+    o.vpnConnectionId = find(pd, "vpnConnectionId#text")
+    o.destinationCidrBlock = find(pd, "destinationCidrBlock#text")
+    o
+end
+
 export DeleteVpnConnectionRouteType
 
 
@@ -1807,6 +3020,13 @@ type DeleteVpnConnectionRouteResponseType
     DeleteVpnConnectionRouteResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function DeleteVpnConnectionRouteResponseType(pd::ParsedData)
+    o = DeleteVpnConnectionRouteResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export DeleteVpnConnectionRouteResponseType
 
 
@@ -1816,6 +3036,12 @@ type DeleteVpnConnectionType
     DeleteVpnConnectionType(; vpnConnectionId=nothing) = 
          new(vpnConnectionId)
 end
+function DeleteVpnConnectionType(pd::ParsedData)
+    o = DeleteVpnConnectionType()
+    o.vpnConnectionId = find(pd, "vpnConnectionId#text")
+    o
+end
+
 export DeleteVpnConnectionType
 
 
@@ -1826,6 +3052,13 @@ type DeleteVpnConnectionResponseType
     DeleteVpnConnectionResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function DeleteVpnConnectionResponseType(pd::ParsedData)
+    o = DeleteVpnConnectionResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export DeleteVpnConnectionResponseType
 
 
@@ -1836,6 +3069,13 @@ type AttachVpnGatewayType
     AttachVpnGatewayType(; vpnGatewayId=nothing, vpcId=nothing) = 
          new(vpnGatewayId, vpcId)
 end
+function AttachVpnGatewayType(pd::ParsedData)
+    o = AttachVpnGatewayType()
+    o.vpnGatewayId = find(pd, "vpnGatewayId#text")
+    o.vpcId = find(pd, "vpcId#text")
+    o
+end
+
 export AttachVpnGatewayType
 
 
@@ -1846,6 +3086,13 @@ type DetachVpnGatewayType
     DetachVpnGatewayType(; vpnGatewayId=nothing, vpcId=nothing) = 
          new(vpnGatewayId, vpcId)
 end
+function DetachVpnGatewayType(pd::ParsedData)
+    o = DetachVpnGatewayType()
+    o.vpnGatewayId = find(pd, "vpnGatewayId#text")
+    o.vpcId = find(pd, "vpcId#text")
+    o
+end
+
 export DetachVpnGatewayType
 
 
@@ -1856,6 +3103,13 @@ type DetachVpnGatewayResponseType
     DetachVpnGatewayResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function DetachVpnGatewayResponseType(pd::ParsedData)
+    o = DetachVpnGatewayResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export DetachVpnGatewayResponseType
 
 
@@ -1866,6 +3120,13 @@ type CreateVpcType
     CreateVpcType(; cidrBlock=nothing, instanceTenancy=nothing) = 
          new(cidrBlock, instanceTenancy)
 end
+function CreateVpcType(pd::ParsedData)
+    o = CreateVpcType()
+    o.cidrBlock = find(pd, "cidrBlock#text")
+    o.instanceTenancy = find(pd, "instanceTenancy#text")
+    o
+end
+
 export CreateVpcType
 
 
@@ -1875,6 +3136,12 @@ type DeleteVpcType
     DeleteVpcType(; vpcId=nothing) = 
          new(vpcId)
 end
+function DeleteVpcType(pd::ParsedData)
+    o = DeleteVpcType()
+    o.vpcId = find(pd, "vpcId#text")
+    o
+end
+
 export DeleteVpcType
 
 
@@ -1885,6 +3152,13 @@ type DeleteVpcResponseType
     DeleteVpcResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function DeleteVpcResponseType(pd::ParsedData)
+    o = DeleteVpcResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export DeleteVpcResponseType
 
 
@@ -1896,6 +3170,14 @@ type CreateSubnetType
     CreateSubnetType(; vpcId=nothing, cidrBlock=nothing, availabilityZone=nothing) = 
          new(vpcId, cidrBlock, availabilityZone)
 end
+function CreateSubnetType(pd::ParsedData)
+    o = CreateSubnetType()
+    o.vpcId = find(pd, "vpcId#text")
+    o.cidrBlock = find(pd, "cidrBlock#text")
+    o.availabilityZone = find(pd, "availabilityZone#text")
+    o
+end
+
 export CreateSubnetType
 
 
@@ -1905,6 +3187,12 @@ type DeleteSubnetType
     DeleteSubnetType(; subnetId=nothing) = 
          new(subnetId)
 end
+function DeleteSubnetType(pd::ParsedData)
+    o = DeleteSubnetType()
+    o.subnetId = find(pd, "subnetId#text")
+    o
+end
+
 export DeleteSubnetType
 
 
@@ -1915,6 +3203,13 @@ type DeleteSubnetResponseType
     DeleteSubnetResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function DeleteSubnetResponseType(pd::ParsedData)
+    o = DeleteSubnetResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export DeleteSubnetResponseType
 
 
@@ -1924,6 +3219,12 @@ type DeleteDhcpOptionsType
     DeleteDhcpOptionsType(; dhcpOptionsId=nothing) = 
          new(dhcpOptionsId)
 end
+function DeleteDhcpOptionsType(pd::ParsedData)
+    o = DeleteDhcpOptionsType()
+    o.dhcpOptionsId = find(pd, "dhcpOptionsId#text")
+    o
+end
+
 export DeleteDhcpOptionsType
 
 
@@ -1934,6 +3235,13 @@ type DeleteDhcpOptionsResponseType
     DeleteDhcpOptionsResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function DeleteDhcpOptionsResponseType(pd::ParsedData)
+    o = DeleteDhcpOptionsResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export DeleteDhcpOptionsResponseType
 
 
@@ -1944,6 +3252,13 @@ type AssociateDhcpOptionsType
     AssociateDhcpOptionsType(; dhcpOptionsId=nothing, vpcId=nothing) = 
          new(dhcpOptionsId, vpcId)
 end
+function AssociateDhcpOptionsType(pd::ParsedData)
+    o = AssociateDhcpOptionsType()
+    o.dhcpOptionsId = find(pd, "dhcpOptionsId#text")
+    o.vpcId = find(pd, "vpcId#text")
+    o
+end
+
 export AssociateDhcpOptionsType
 
 
@@ -1954,6 +3269,13 @@ type AssociateDhcpOptionsResponseType
     AssociateDhcpOptionsResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function AssociateDhcpOptionsResponseType(pd::ParsedData)
+    o = AssociateDhcpOptionsResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export AssociateDhcpOptionsResponseType
 
 
@@ -1964,6 +3286,13 @@ type SpotInstanceStateFaultType
     SpotInstanceStateFaultType(; code=nothing, message=nothing) = 
          new(code, message)
 end
+function SpotInstanceStateFaultType(pd::ParsedData)
+    o = SpotInstanceStateFaultType()
+    o.code = find(pd, "code#text")
+    o.message = find(pd, "message#text")
+    o
+end
+
 export SpotInstanceStateFaultType
 
 
@@ -1975,6 +3304,14 @@ type SpotInstanceStatusMessageType
     SpotInstanceStatusMessageType(; code=nothing, updateTime=nothing, message=nothing) = 
          new(code, updateTime, message)
 end
+function SpotInstanceStatusMessageType(pd::ParsedData)
+    o = SpotInstanceStatusMessageType()
+    o.code = find(pd, "code#text")
+    o.updateTime = safe_parse_as(CalendarTime, find(pd, "updateTime#text"))
+    o.message = find(pd, "message#text")
+    o
+end
+
 export SpotInstanceStatusMessageType
 
 
@@ -1984,15 +3321,27 @@ type SpotInstanceRequestIdSetItemType
     SpotInstanceRequestIdSetItemType(; spotInstanceRequestId=nothing) = 
          new(spotInstanceRequestId)
 end
+function SpotInstanceRequestIdSetItemType(pd::ParsedData)
+    o = SpotInstanceRequestIdSetItemType()
+    o.spotInstanceRequestId = find(pd, "spotInstanceRequestId#text")
+    o
+end
+
 export SpotInstanceRequestIdSetItemType
 
 
 type CancelSpotInstanceRequestsType
-    spotInstanceRequestIdSet::Union(Array{ASCIIString,1}, Nothing)
+    spotInstanceRequestIdSet::Union(Vector{ASCIIString}, Nothing)
 
     CancelSpotInstanceRequestsType(; spotInstanceRequestIdSet=nothing) = 
          new(spotInstanceRequestIdSet)
 end
+function CancelSpotInstanceRequestsType(pd::ParsedData)
+    o = CancelSpotInstanceRequestsType()
+    o.spotInstanceRequestIdSet = parse_vector_as(ASCIIString, "spotInstanceRequestId", find(pd, "item/spotInstanceRequestId"))
+    o
+end
+
 export CancelSpotInstanceRequestsType
 
 
@@ -2003,6 +3352,13 @@ type CancelSpotInstanceRequestsResponseSetItemType
     CancelSpotInstanceRequestsResponseSetItemType(; spotInstanceRequestId=nothing, state=nothing) = 
          new(spotInstanceRequestId, state)
 end
+function CancelSpotInstanceRequestsResponseSetItemType(pd::ParsedData)
+    o = CancelSpotInstanceRequestsResponseSetItemType()
+    o.spotInstanceRequestId = find(pd, "spotInstanceRequestId#text")
+    o.state = find(pd, "state#text")
+    o
+end
+
 export CancelSpotInstanceRequestsResponseSetItemType
 
 
@@ -2012,6 +3368,12 @@ type InstanceTypeSetItemType
     InstanceTypeSetItemType(; instanceType=nothing) = 
          new(instanceType)
 end
+function InstanceTypeSetItemType(pd::ParsedData)
+    o = InstanceTypeSetItemType()
+    o.instanceType = find(pd, "instanceType#text")
+    o
+end
+
 export InstanceTypeSetItemType
 
 
@@ -2021,6 +3383,12 @@ type ProductDescriptionSetItemType
     ProductDescriptionSetItemType(; productDescription=nothing) = 
          new(productDescription)
 end
+function ProductDescriptionSetItemType(pd::ParsedData)
+    o = ProductDescriptionSetItemType()
+    o.productDescription = find(pd, "productDescription#text")
+    o
+end
+
 export ProductDescriptionSetItemType
 
 
@@ -2034,6 +3402,16 @@ type SpotPriceHistorySetItemType
     SpotPriceHistorySetItemType(; instanceType=nothing, productDescription=nothing, spotPrice=nothing, timestamp=nothing, availabilityZone=nothing) = 
          new(instanceType, productDescription, spotPrice, timestamp, availabilityZone)
 end
+function SpotPriceHistorySetItemType(pd::ParsedData)
+    o = SpotPriceHistorySetItemType()
+    o.instanceType = find(pd, "instanceType#text")
+    o.productDescription = find(pd, "productDescription#text")
+    o.spotPrice = find(pd, "spotPrice#text")
+    o.timestamp = safe_parse_as(CalendarTime, find(pd, "timestamp#text"))
+    o.availabilityZone = find(pd, "availabilityZone#text")
+    o
+end
+
 export SpotPriceHistorySetItemType
 
 
@@ -2044,6 +3422,13 @@ type CreateSpotDatafeedSubscriptionType
     CreateSpotDatafeedSubscriptionType(; bucket=nothing, prefix=nothing) = 
          new(bucket, prefix)
 end
+function CreateSpotDatafeedSubscriptionType(pd::ParsedData)
+    o = CreateSpotDatafeedSubscriptionType()
+    o.bucket = find(pd, "bucket#text")
+    o.prefix = find(pd, "prefix#text")
+    o
+end
+
 export CreateSpotDatafeedSubscriptionType
 
 
@@ -2054,6 +3439,13 @@ type DeleteSpotDatafeedSubscriptionResponseType
     DeleteSpotDatafeedSubscriptionResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function DeleteSpotDatafeedSubscriptionResponseType(pd::ParsedData)
+    o = DeleteSpotDatafeedSubscriptionResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export DeleteSpotDatafeedSubscriptionResponseType
 
 
@@ -2063,6 +3455,12 @@ type LicenseIdSetItemType
     LicenseIdSetItemType(; licenseId=nothing) = 
          new(licenseId)
 end
+function LicenseIdSetItemType(pd::ParsedData)
+    o = LicenseIdSetItemType()
+    o.licenseId = find(pd, "licenseId#text")
+    o
+end
+
 export LicenseIdSetItemType
 
 
@@ -2075,6 +3473,15 @@ type LicenseCapacitySetItemType
     LicenseCapacitySetItemType(; capacity=nothing, instanceCapacity=nothing, state=nothing, earliestAllowedDeactivationTime=nothing) = 
          new(capacity, instanceCapacity, state, earliestAllowedDeactivationTime)
 end
+function LicenseCapacitySetItemType(pd::ParsedData)
+    o = LicenseCapacitySetItemType()
+    o.capacity = safe_parse_as(Int32, find(pd, "capacity#text"))
+    o.instanceCapacity = safe_parse_as(Int32, find(pd, "instanceCapacity#text"))
+    o.state = find(pd, "state#text")
+    o.earliestAllowedDeactivationTime = safe_parse_as(CalendarTime, find(pd, "earliestAllowedDeactivationTime#text"))
+    o
+end
+
 export LicenseCapacitySetItemType
 
 
@@ -2085,6 +3492,13 @@ type ActivateLicenseType
     ActivateLicenseType(; licenseId=nothing, capacity=nothing) = 
          new(licenseId, capacity)
 end
+function ActivateLicenseType(pd::ParsedData)
+    o = ActivateLicenseType()
+    o.licenseId = find(pd, "licenseId#text")
+    o.capacity = safe_parse_as(Int32, find(pd, "capacity#text"))
+    o
+end
+
 export ActivateLicenseType
 
 
@@ -2095,6 +3509,13 @@ type ActivateLicenseResponseType
     ActivateLicenseResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function ActivateLicenseResponseType(pd::ParsedData)
+    o = ActivateLicenseResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export ActivateLicenseResponseType
 
 
@@ -2105,6 +3526,13 @@ type DeactivateLicenseType
     DeactivateLicenseType(; licenseId=nothing, capacity=nothing) = 
          new(licenseId, capacity)
 end
+function DeactivateLicenseType(pd::ParsedData)
+    o = DeactivateLicenseType()
+    o.licenseId = find(pd, "licenseId#text")
+    o.capacity = safe_parse_as(Int32, find(pd, "capacity#text"))
+    o
+end
+
 export DeactivateLicenseType
 
 
@@ -2115,6 +3543,13 @@ type DeactivateLicenseResponseType
     DeactivateLicenseResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function DeactivateLicenseResponseType(pd::ParsedData)
+    o = DeactivateLicenseResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export DeactivateLicenseResponseType
 
 
@@ -2125,6 +3560,13 @@ type CreatePlacementGroupType
     CreatePlacementGroupType(; groupName=nothing, strategy=nothing) = 
          new(groupName, strategy)
 end
+function CreatePlacementGroupType(pd::ParsedData)
+    o = CreatePlacementGroupType()
+    o.groupName = find(pd, "groupName#text")
+    o.strategy = find(pd, "strategy#text")
+    o
+end
+
 export CreatePlacementGroupType
 
 
@@ -2135,6 +3577,13 @@ type CreatePlacementGroupResponseType
     CreatePlacementGroupResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function CreatePlacementGroupResponseType(pd::ParsedData)
+    o = CreatePlacementGroupResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export CreatePlacementGroupResponseType
 
 
@@ -2144,6 +3593,12 @@ type DeletePlacementGroupType
     DeletePlacementGroupType(; groupName=nothing) = 
          new(groupName)
 end
+function DeletePlacementGroupType(pd::ParsedData)
+    o = DeletePlacementGroupType()
+    o.groupName = find(pd, "groupName#text")
+    o
+end
+
 export DeletePlacementGroupType
 
 
@@ -2154,6 +3609,13 @@ type DeletePlacementGroupResponseType
     DeletePlacementGroupResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function DeletePlacementGroupResponseType(pd::ParsedData)
+    o = DeletePlacementGroupResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export DeletePlacementGroupResponseType
 
 
@@ -2163,6 +3625,12 @@ type DescribePlacementGroupItemType
     DescribePlacementGroupItemType(; groupName=nothing) = 
          new(groupName)
 end
+function DescribePlacementGroupItemType(pd::ParsedData)
+    o = DescribePlacementGroupItemType()
+    o.groupName = find(pd, "groupName#text")
+    o
+end
+
 export DescribePlacementGroupItemType
 
 
@@ -2174,6 +3642,14 @@ type PlacementGroupInfoType
     PlacementGroupInfoType(; groupName=nothing, strategy=nothing, state=nothing) = 
          new(groupName, strategy, state)
 end
+function PlacementGroupInfoType(pd::ParsedData)
+    o = PlacementGroupInfoType()
+    o.groupName = find(pd, "groupName#text")
+    o.strategy = find(pd, "strategy#text")
+    o.state = find(pd, "state#text")
+    o
+end
+
 export PlacementGroupInfoType
 
 
@@ -2183,6 +3659,12 @@ type ResourceIdSetItemType
     ResourceIdSetItemType(; resourceId=nothing) = 
          new(resourceId)
 end
+function ResourceIdSetItemType(pd::ParsedData)
+    o = ResourceIdSetItemType()
+    o.resourceId = find(pd, "resourceId#text")
+    o
+end
+
 export ResourceIdSetItemType
 
 
@@ -2193,6 +3675,13 @@ type ResourceTagSetItemType
     ResourceTagSetItemType(; key=nothing, value=nothing) = 
          new(key, value)
 end
+function ResourceTagSetItemType(pd::ParsedData)
+    o = ResourceTagSetItemType()
+    o.key = find(pd, "key#text")
+    o.value = find(pd, "value#text")
+    o
+end
+
 export ResourceTagSetItemType
 
 
@@ -2203,6 +3692,13 @@ type CreateTagsResponseType
     CreateTagsResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function CreateTagsResponseType(pd::ParsedData)
+    o = CreateTagsResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export CreateTagsResponseType
 
 
@@ -2215,6 +3711,15 @@ type TagSetItemType
     TagSetItemType(; resourceId=nothing, resourceType=nothing, key=nothing, value=nothing) = 
          new(resourceId, resourceType, key, value)
 end
+function TagSetItemType(pd::ParsedData)
+    o = TagSetItemType()
+    o.resourceId = find(pd, "resourceId#text")
+    o.resourceType = find(pd, "resourceType#text")
+    o.key = find(pd, "key#text")
+    o.value = find(pd, "value#text")
+    o
+end
+
 export TagSetItemType
 
 
@@ -2225,6 +3730,13 @@ type DeleteTagsSetItemType
     DeleteTagsSetItemType(; key=nothing, value=nothing) = 
          new(key, value)
 end
+function DeleteTagsSetItemType(pd::ParsedData)
+    o = DeleteTagsSetItemType()
+    o.key = find(pd, "key#text")
+    o.value = find(pd, "value#text")
+    o
+end
+
 export DeleteTagsSetItemType
 
 
@@ -2235,6 +3747,13 @@ type DeleteTagsResponseType
     DeleteTagsResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function DeleteTagsResponseType(pd::ParsedData)
+    o = DeleteTagsResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export DeleteTagsResponseType
 
 
@@ -2246,25 +3765,46 @@ type DiskImageDetailType
     DiskImageDetailType(; format=nothing, bytes=nothing, importManifestUrl=nothing) = 
          new(format, bytes, importManifestUrl)
 end
+function DiskImageDetailType(pd::ParsedData)
+    o = DiskImageDetailType()
+    o.format = find(pd, "format#text")
+    o.bytes = safe_parse_as(Int64, find(pd, "bytes#text"))
+    o.importManifestUrl = find(pd, "importManifestUrl#text")
+    o
+end
+
 export DiskImageDetailType
 
 
 type DiskImageVolumeType
-    size::Union(Int, Nothing)
+    size::Union(Int32, Nothing)
 
     DiskImageVolumeType(; size=nothing) = 
          new(size)
 end
+function DiskImageVolumeType(pd::ParsedData)
+    o = DiskImageVolumeType()
+    o.size = safe_parse_as(Int32, find(pd, "size#text"))
+    o
+end
+
 export DiskImageVolumeType
 
 
 type DiskImageVolumeDescriptionType
-    size::Union(Int, Nothing)
+    size::Union(Int32, Nothing)
     id::Union(ASCIIString, Nothing)
 
     DiskImageVolumeDescriptionType(; size=nothing, id=nothing) = 
          new(size, id)
 end
+function DiskImageVolumeDescriptionType(pd::ParsedData)
+    o = DiskImageVolumeDescriptionType()
+    o.size = safe_parse_as(Int32, find(pd, "size#text"))
+    o.id = find(pd, "id#text")
+    o
+end
+
 export DiskImageVolumeDescriptionType
 
 
@@ -2277,15 +3817,30 @@ type DiskImageDescriptionType
     DiskImageDescriptionType(; format=nothing, size=nothing, importManifestUrl=nothing, checksum=nothing) = 
          new(format, size, importManifestUrl, checksum)
 end
+function DiskImageDescriptionType(pd::ParsedData)
+    o = DiskImageDescriptionType()
+    o.format = find(pd, "format#text")
+    o.size = safe_parse_as(Int64, find(pd, "size#text"))
+    o.importManifestUrl = find(pd, "importManifestUrl#text")
+    o.checksum = find(pd, "checksum#text")
+    o
+end
+
 export DiskImageDescriptionType
 
 
 type DescribeConversionTasksType
-    conversionTaskIdSet::Union(Array{ASCIIString,1}, Nothing)
+    conversionTaskIdSet::Union(Vector{ASCIIString}, Nothing)
 
     DescribeConversionTasksType(; conversionTaskIdSet=nothing) = 
          new(conversionTaskIdSet)
 end
+function DescribeConversionTasksType(pd::ParsedData)
+    o = DescribeConversionTasksType()
+    o.conversionTaskIdSet = parse_vector_as(ASCIIString, "conversionTaskId", find(pd, "item/conversionTaskId"))
+    o
+end
+
 export DescribeConversionTasksType
 
 
@@ -2295,6 +3850,12 @@ type ConversionTaskIdItemType
     ConversionTaskIdItemType(; conversionTaskId=nothing) = 
          new(conversionTaskId)
 end
+function ConversionTaskIdItemType(pd::ParsedData)
+    o = ConversionTaskIdItemType()
+    o.conversionTaskId = find(pd, "conversionTaskId#text")
+    o
+end
+
 export ConversionTaskIdItemType
 
 
@@ -2304,6 +3865,12 @@ type CancelConversionTaskType
     CancelConversionTaskType(; conversionTaskId=nothing) = 
          new(conversionTaskId)
 end
+function CancelConversionTaskType(pd::ParsedData)
+    o = CancelConversionTaskType()
+    o.conversionTaskId = find(pd, "conversionTaskId#text")
+    o
+end
+
 export CancelConversionTaskType
 
 
@@ -2314,6 +3881,13 @@ type CancelConversionTaskResponseType
     CancelConversionTaskResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function CancelConversionTaskResponseType(pd::ParsedData)
+    o = CancelConversionTaskResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export CancelConversionTaskResponseType
 
 
@@ -2325,6 +3899,14 @@ type CreateInstanceExportTaskType
     CreateInstanceExportTaskType(; description=nothing, instanceId=nothing, targetEnvironment=nothing) = 
          new(description, instanceId, targetEnvironment)
 end
+function CreateInstanceExportTaskType(pd::ParsedData)
+    o = CreateInstanceExportTaskType()
+    o.description = find(pd, "description#text")
+    o.instanceId = find(pd, "instanceId#text")
+    o.targetEnvironment = find(pd, "targetEnvironment#text")
+    o
+end
+
 export CreateInstanceExportTaskType
 
 
@@ -2337,15 +3919,30 @@ type ExportToS3TaskType
     ExportToS3TaskType(; diskImageFormat=nothing, containerFormat=nothing, s3Bucket=nothing, s3Prefix=nothing) = 
          new(diskImageFormat, containerFormat, s3Bucket, s3Prefix)
 end
+function ExportToS3TaskType(pd::ParsedData)
+    o = ExportToS3TaskType()
+    o.diskImageFormat = find(pd, "diskImageFormat#text")
+    o.containerFormat = find(pd, "containerFormat#text")
+    o.s3Bucket = find(pd, "s3Bucket#text")
+    o.s3Prefix = find(pd, "s3Prefix#text")
+    o
+end
+
 export ExportToS3TaskType
 
 
 type DescribeExportTasksType
-    exportTaskIdSet::Union(Array{ASCIIString,1}, Nothing)
+    exportTaskIdSet::Union(Vector{ASCIIString}, Nothing)
 
     DescribeExportTasksType(; exportTaskIdSet=nothing) = 
          new(exportTaskIdSet)
 end
+function DescribeExportTasksType(pd::ParsedData)
+    o = DescribeExportTasksType()
+    o.exportTaskIdSet = parse_vector_as(ASCIIString, "exportTaskId", find(pd, "item/exportTaskId"))
+    o
+end
+
 export DescribeExportTasksType
 
 
@@ -2355,6 +3952,12 @@ type ExportTaskIdType
     ExportTaskIdType(; exportTaskId=nothing) = 
          new(exportTaskId)
 end
+function ExportTaskIdType(pd::ParsedData)
+    o = ExportTaskIdType()
+    o.exportTaskId = find(pd, "exportTaskId#text")
+    o
+end
+
 export ExportTaskIdType
 
 
@@ -2367,6 +3970,15 @@ type ExportTaskResponseType
     ExportTaskResponseType(; exportTaskId=nothing, description=nothing, state=nothing, statusMessage=nothing) = 
          new(exportTaskId, description, state, statusMessage)
 end
+function ExportTaskResponseType(pd::ParsedData)
+    o = ExportTaskResponseType()
+    o.exportTaskId = find(pd, "exportTaskId#text")
+    o.description = find(pd, "description#text")
+    o.state = find(pd, "state#text")
+    o.statusMessage = find(pd, "statusMessage#text")
+    o
+end
+
 export ExportTaskResponseType
 
 
@@ -2377,6 +3989,13 @@ type InstanceExportTaskResponseType
     InstanceExportTaskResponseType(; instanceId=nothing, targetEnvironment=nothing) = 
          new(instanceId, targetEnvironment)
 end
+function InstanceExportTaskResponseType(pd::ParsedData)
+    o = InstanceExportTaskResponseType()
+    o.instanceId = find(pd, "instanceId#text")
+    o.targetEnvironment = find(pd, "targetEnvironment#text")
+    o
+end
+
 export InstanceExportTaskResponseType
 
 
@@ -2389,6 +4008,15 @@ type ExportToS3TaskResponseType
     ExportToS3TaskResponseType(; diskImageFormat=nothing, containerFormat=nothing, s3Bucket=nothing, s3Key=nothing) = 
          new(diskImageFormat, containerFormat, s3Bucket, s3Key)
 end
+function ExportToS3TaskResponseType(pd::ParsedData)
+    o = ExportToS3TaskResponseType()
+    o.diskImageFormat = find(pd, "diskImageFormat#text")
+    o.containerFormat = find(pd, "containerFormat#text")
+    o.s3Bucket = find(pd, "s3Bucket#text")
+    o.s3Key = find(pd, "s3Key#text")
+    o
+end
+
 export ExportToS3TaskResponseType
 
 
@@ -2398,6 +4026,12 @@ type CancelExportTaskType
     CancelExportTaskType(; exportTaskId=nothing) = 
          new(exportTaskId)
 end
+function CancelExportTaskType(pd::ParsedData)
+    o = CancelExportTaskType()
+    o.exportTaskId = find(pd, "exportTaskId#text")
+    o
+end
+
 export CancelExportTaskType
 
 
@@ -2408,6 +4042,13 @@ type CancelExportTaskResponseType
     CancelExportTaskResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function CancelExportTaskResponseType(pd::ParsedData)
+    o = CancelExportTaskResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export CancelExportTaskResponseType
 
 
@@ -2418,6 +4059,13 @@ type InternetGatewayAttachmentType
     InternetGatewayAttachmentType(; vpcId=nothing, state=nothing) = 
          new(vpcId, state)
 end
+function InternetGatewayAttachmentType(pd::ParsedData)
+    o = InternetGatewayAttachmentType()
+    o.vpcId = find(pd, "vpcId#text")
+    o.state = find(pd, "state#text")
+    o
+end
+
 export InternetGatewayAttachmentType
 
 
@@ -2427,6 +4075,12 @@ type InternetGatewayIdSetItemType
     InternetGatewayIdSetItemType(; internetGatewayId=nothing) = 
          new(internetGatewayId)
 end
+function InternetGatewayIdSetItemType(pd::ParsedData)
+    o = InternetGatewayIdSetItemType()
+    o.internetGatewayId = find(pd, "internetGatewayId#text")
+    o
+end
+
 export InternetGatewayIdSetItemType
 
 
@@ -2436,6 +4090,12 @@ type DeleteInternetGatewayType
     DeleteInternetGatewayType(; internetGatewayId=nothing) = 
          new(internetGatewayId)
 end
+function DeleteInternetGatewayType(pd::ParsedData)
+    o = DeleteInternetGatewayType()
+    o.internetGatewayId = find(pd, "internetGatewayId#text")
+    o
+end
+
 export DeleteInternetGatewayType
 
 
@@ -2446,6 +4106,13 @@ type DeleteInternetGatewayResponseType
     DeleteInternetGatewayResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function DeleteInternetGatewayResponseType(pd::ParsedData)
+    o = DeleteInternetGatewayResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export DeleteInternetGatewayResponseType
 
 
@@ -2456,6 +4123,13 @@ type AttachInternetGatewayType
     AttachInternetGatewayType(; internetGatewayId=nothing, vpcId=nothing) = 
          new(internetGatewayId, vpcId)
 end
+function AttachInternetGatewayType(pd::ParsedData)
+    o = AttachInternetGatewayType()
+    o.internetGatewayId = find(pd, "internetGatewayId#text")
+    o.vpcId = find(pd, "vpcId#text")
+    o
+end
+
 export AttachInternetGatewayType
 
 
@@ -2466,6 +4140,13 @@ type AttachInternetGatewayResponseType
     AttachInternetGatewayResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function AttachInternetGatewayResponseType(pd::ParsedData)
+    o = AttachInternetGatewayResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export AttachInternetGatewayResponseType
 
 
@@ -2476,6 +4157,13 @@ type DetachInternetGatewayType
     DetachInternetGatewayType(; internetGatewayId=nothing, vpcId=nothing) = 
          new(internetGatewayId, vpcId)
 end
+function DetachInternetGatewayType(pd::ParsedData)
+    o = DetachInternetGatewayType()
+    o.internetGatewayId = find(pd, "internetGatewayId#text")
+    o.vpcId = find(pd, "vpcId#text")
+    o
+end
+
 export DetachInternetGatewayType
 
 
@@ -2486,6 +4174,13 @@ type DetachInternetGatewayResponseType
     DetachInternetGatewayResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function DetachInternetGatewayResponseType(pd::ParsedData)
+    o = DetachInternetGatewayResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export DetachInternetGatewayResponseType
 
 
@@ -2495,6 +4190,12 @@ type CreateRouteTableType
     CreateRouteTableType(; vpcId=nothing) = 
          new(vpcId)
 end
+function CreateRouteTableType(pd::ParsedData)
+    o = CreateRouteTableType()
+    o.vpcId = find(pd, "vpcId#text")
+    o
+end
+
 export CreateRouteTableType
 
 
@@ -2510,6 +4211,18 @@ type RouteType
     RouteType(; destinationCidrBlock=nothing, gatewayId=nothing, instanceId=nothing, instanceOwnerId=nothing, networkInterfaceId=nothing, state=nothing, origin=nothing) = 
          new(destinationCidrBlock, gatewayId, instanceId, instanceOwnerId, networkInterfaceId, state, origin)
 end
+function RouteType(pd::ParsedData)
+    o = RouteType()
+    o.destinationCidrBlock = find(pd, "destinationCidrBlock#text")
+    o.gatewayId = find(pd, "gatewayId#text")
+    o.instanceId = find(pd, "instanceId#text")
+    o.instanceOwnerId = find(pd, "instanceOwnerId#text")
+    o.networkInterfaceId = find(pd, "networkInterfaceId#text")
+    o.state = find(pd, "state#text")
+    o.origin = find(pd, "origin#text")
+    o
+end
+
 export RouteType
 
 
@@ -2520,6 +4233,13 @@ type RouteTableAssociationType
     RouteTableAssociationType(; routeTableAssociationId=nothing, routeTableId=nothing) = 
          new(routeTableAssociationId, routeTableId)
 end
+function RouteTableAssociationType(pd::ParsedData)
+    o = RouteTableAssociationType()
+    o.routeTableAssociationId = find(pd, "routeTableAssociationId#text")
+    o.routeTableId = find(pd, "routeTableId#text")
+    o
+end
+
 export RouteTableAssociationType
 
 
@@ -2529,6 +4249,12 @@ type PropagatingVgwType
     PropagatingVgwType(; gatewayId=nothing) = 
          new(gatewayId)
 end
+function PropagatingVgwType(pd::ParsedData)
+    o = PropagatingVgwType()
+    o.gatewayId = find(pd, "gatewayId#text")
+    o
+end
+
 export PropagatingVgwType
 
 
@@ -2538,6 +4264,12 @@ type RouteTableIdSetItemType
     RouteTableIdSetItemType(; routeTableId=nothing) = 
          new(routeTableId)
 end
+function RouteTableIdSetItemType(pd::ParsedData)
+    o = RouteTableIdSetItemType()
+    o.routeTableId = find(pd, "routeTableId#text")
+    o
+end
+
 export RouteTableIdSetItemType
 
 
@@ -2548,6 +4280,13 @@ type EnableVgwRoutePropagationRequestType
     EnableVgwRoutePropagationRequestType(; routeTableId=nothing, gatewayId=nothing) = 
          new(routeTableId, gatewayId)
 end
+function EnableVgwRoutePropagationRequestType(pd::ParsedData)
+    o = EnableVgwRoutePropagationRequestType()
+    o.routeTableId = find(pd, "routeTableId#text")
+    o.gatewayId = find(pd, "gatewayId#text")
+    o
+end
+
 export EnableVgwRoutePropagationRequestType
 
 
@@ -2558,6 +4297,13 @@ type EnableVgwRoutePropagationResponseType
     EnableVgwRoutePropagationResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function EnableVgwRoutePropagationResponseType(pd::ParsedData)
+    o = EnableVgwRoutePropagationResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export EnableVgwRoutePropagationResponseType
 
 
@@ -2568,6 +4314,13 @@ type DisableVgwRoutePropagationRequestType
     DisableVgwRoutePropagationRequestType(; routeTableId=nothing, gatewayId=nothing) = 
          new(routeTableId, gatewayId)
 end
+function DisableVgwRoutePropagationRequestType(pd::ParsedData)
+    o = DisableVgwRoutePropagationRequestType()
+    o.routeTableId = find(pd, "routeTableId#text")
+    o.gatewayId = find(pd, "gatewayId#text")
+    o
+end
+
 export DisableVgwRoutePropagationRequestType
 
 
@@ -2578,6 +4331,13 @@ type DisableVgwRoutePropagationResponseType
     DisableVgwRoutePropagationResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function DisableVgwRoutePropagationResponseType(pd::ParsedData)
+    o = DisableVgwRoutePropagationResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export DisableVgwRoutePropagationResponseType
 
 
@@ -2587,6 +4347,12 @@ type DeleteRouteTableType
     DeleteRouteTableType(; routeTableId=nothing) = 
          new(routeTableId)
 end
+function DeleteRouteTableType(pd::ParsedData)
+    o = DeleteRouteTableType()
+    o.routeTableId = find(pd, "routeTableId#text")
+    o
+end
+
 export DeleteRouteTableType
 
 
@@ -2597,6 +4363,13 @@ type DeleteRouteTableResponseType
     DeleteRouteTableResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function DeleteRouteTableResponseType(pd::ParsedData)
+    o = DeleteRouteTableResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export DeleteRouteTableResponseType
 
 
@@ -2607,6 +4380,13 @@ type AssociateRouteTableType
     AssociateRouteTableType(; routeTableId=nothing, subnetId=nothing) = 
          new(routeTableId, subnetId)
 end
+function AssociateRouteTableType(pd::ParsedData)
+    o = AssociateRouteTableType()
+    o.routeTableId = find(pd, "routeTableId#text")
+    o.subnetId = find(pd, "subnetId#text")
+    o
+end
+
 export AssociateRouteTableType
 
 
@@ -2617,6 +4397,13 @@ type AssociateRouteTableResponseType
     AssociateRouteTableResponseType(; requestId=nothing, associationId=nothing) = 
          new(requestId, associationId)
 end
+function AssociateRouteTableResponseType(pd::ParsedData)
+    o = AssociateRouteTableResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.associationId = find(pd, "associationId#text")
+    o
+end
+
 export AssociateRouteTableResponseType
 
 
@@ -2627,6 +4414,13 @@ type ReplaceRouteTableAssociationType
     ReplaceRouteTableAssociationType(; associationId=nothing, routeTableId=nothing) = 
          new(associationId, routeTableId)
 end
+function ReplaceRouteTableAssociationType(pd::ParsedData)
+    o = ReplaceRouteTableAssociationType()
+    o.associationId = find(pd, "associationId#text")
+    o.routeTableId = find(pd, "routeTableId#text")
+    o
+end
+
 export ReplaceRouteTableAssociationType
 
 
@@ -2637,6 +4431,13 @@ type ReplaceRouteTableAssociationResponseType
     ReplaceRouteTableAssociationResponseType(; requestId=nothing, newAssociationId=nothing) = 
          new(requestId, newAssociationId)
 end
+function ReplaceRouteTableAssociationResponseType(pd::ParsedData)
+    o = ReplaceRouteTableAssociationResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.newAssociationId = find(pd, "newAssociationId#text")
+    o
+end
+
 export ReplaceRouteTableAssociationResponseType
 
 
@@ -2646,6 +4447,12 @@ type DisassociateRouteTableType
     DisassociateRouteTableType(; associationId=nothing) = 
          new(associationId)
 end
+function DisassociateRouteTableType(pd::ParsedData)
+    o = DisassociateRouteTableType()
+    o.associationId = find(pd, "associationId#text")
+    o
+end
+
 export DisassociateRouteTableType
 
 
@@ -2656,6 +4463,13 @@ type DisassociateRouteTableResponseType
     DisassociateRouteTableResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function DisassociateRouteTableResponseType(pd::ParsedData)
+    o = DisassociateRouteTableResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export DisassociateRouteTableResponseType
 
 
@@ -2666,6 +4480,13 @@ type CreateRouteType
     CreateRouteType(; routeTableId=nothing, destinationCidrBlock=nothing) = 
          new(routeTableId, destinationCidrBlock)
 end
+function CreateRouteType(pd::ParsedData)
+    o = CreateRouteType()
+    o.routeTableId = find(pd, "routeTableId#text")
+    o.destinationCidrBlock = find(pd, "destinationCidrBlock#text")
+    o
+end
+
 export CreateRouteType
 
 
@@ -2676,6 +4497,13 @@ type CreateRouteResponseType
     CreateRouteResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function CreateRouteResponseType(pd::ParsedData)
+    o = CreateRouteResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export CreateRouteResponseType
 
 
@@ -2686,6 +4514,13 @@ type ReplaceRouteType
     ReplaceRouteType(; routeTableId=nothing, destinationCidrBlock=nothing) = 
          new(routeTableId, destinationCidrBlock)
 end
+function ReplaceRouteType(pd::ParsedData)
+    o = ReplaceRouteType()
+    o.routeTableId = find(pd, "routeTableId#text")
+    o.destinationCidrBlock = find(pd, "destinationCidrBlock#text")
+    o
+end
+
 export ReplaceRouteType
 
 
@@ -2696,6 +4531,13 @@ type ReplaceRouteResponseType
     ReplaceRouteResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function ReplaceRouteResponseType(pd::ParsedData)
+    o = ReplaceRouteResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export ReplaceRouteResponseType
 
 
@@ -2706,6 +4548,13 @@ type DeleteRouteType
     DeleteRouteType(; routeTableId=nothing, destinationCidrBlock=nothing) = 
          new(routeTableId, destinationCidrBlock)
 end
+function DeleteRouteType(pd::ParsedData)
+    o = DeleteRouteType()
+    o.routeTableId = find(pd, "routeTableId#text")
+    o.destinationCidrBlock = find(pd, "destinationCidrBlock#text")
+    o
+end
+
 export DeleteRouteType
 
 
@@ -2716,6 +4565,13 @@ type DeleteRouteResponseType
     DeleteRouteResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function DeleteRouteResponseType(pd::ParsedData)
+    o = DeleteRouteResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export DeleteRouteResponseType
 
 
@@ -2725,6 +4581,12 @@ type CreateNetworkAclType
     CreateNetworkAclType(; vpcId=nothing) = 
          new(vpcId)
 end
+function CreateNetworkAclType(pd::ParsedData)
+    o = CreateNetworkAclType()
+    o.vpcId = find(pd, "vpcId#text")
+    o
+end
+
 export CreateNetworkAclType
 
 
@@ -2735,6 +4597,13 @@ type IcmpTypeCodeType
     IcmpTypeCodeType(; code=nothing, _type=nothing) = 
          new(code, _type)
 end
+function IcmpTypeCodeType(pd::ParsedData)
+    o = IcmpTypeCodeType()
+    o.code = safe_parse_as(Int32, find(pd, "code#text"))
+    o._type = safe_parse_as(Int32, find(pd, "_type#text"))
+    o
+end
+
 export IcmpTypeCodeType
 
 
@@ -2745,6 +4614,13 @@ type PortRangeType
     PortRangeType(; from=nothing, to=nothing) = 
          new(from, to)
 end
+function PortRangeType(pd::ParsedData)
+    o = PortRangeType()
+    o.from = safe_parse_as(Int32, find(pd, "from#text"))
+    o.to = safe_parse_as(Int32, find(pd, "to#text"))
+    o
+end
+
 export PortRangeType
 
 
@@ -2756,6 +4632,14 @@ type NetworkAclAssociationType
     NetworkAclAssociationType(; networkAclAssociationId=nothing, networkAclId=nothing, subnetId=nothing) = 
          new(networkAclAssociationId, networkAclId, subnetId)
 end
+function NetworkAclAssociationType(pd::ParsedData)
+    o = NetworkAclAssociationType()
+    o.networkAclAssociationId = find(pd, "networkAclAssociationId#text")
+    o.networkAclId = find(pd, "networkAclId#text")
+    o.subnetId = find(pd, "subnetId#text")
+    o
+end
+
 export NetworkAclAssociationType
 
 
@@ -2765,6 +4649,12 @@ type NetworkAclIdSetItemType
     NetworkAclIdSetItemType(; networkAclId=nothing) = 
          new(networkAclId)
 end
+function NetworkAclIdSetItemType(pd::ParsedData)
+    o = NetworkAclIdSetItemType()
+    o.networkAclId = find(pd, "networkAclId#text")
+    o
+end
+
 export NetworkAclIdSetItemType
 
 
@@ -2774,6 +4664,12 @@ type DeleteNetworkAclType
     DeleteNetworkAclType(; networkAclId=nothing) = 
          new(networkAclId)
 end
+function DeleteNetworkAclType(pd::ParsedData)
+    o = DeleteNetworkAclType()
+    o.networkAclId = find(pd, "networkAclId#text")
+    o
+end
+
 export DeleteNetworkAclType
 
 
@@ -2784,6 +4680,13 @@ type DeleteNetworkAclResponseType
     DeleteNetworkAclResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function DeleteNetworkAclResponseType(pd::ParsedData)
+    o = DeleteNetworkAclResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export DeleteNetworkAclResponseType
 
 
@@ -2794,6 +4697,13 @@ type ReplaceNetworkAclAssociationType
     ReplaceNetworkAclAssociationType(; associationId=nothing, networkAclId=nothing) = 
          new(associationId, networkAclId)
 end
+function ReplaceNetworkAclAssociationType(pd::ParsedData)
+    o = ReplaceNetworkAclAssociationType()
+    o.associationId = find(pd, "associationId#text")
+    o.networkAclId = find(pd, "networkAclId#text")
+    o
+end
+
 export ReplaceNetworkAclAssociationType
 
 
@@ -2804,6 +4714,13 @@ type ReplaceNetworkAclAssociationResponseType
     ReplaceNetworkAclAssociationResponseType(; requestId=nothing, newAssociationId=nothing) = 
          new(requestId, newAssociationId)
 end
+function ReplaceNetworkAclAssociationResponseType(pd::ParsedData)
+    o = ReplaceNetworkAclAssociationResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.newAssociationId = find(pd, "newAssociationId#text")
+    o
+end
+
 export ReplaceNetworkAclAssociationResponseType
 
 
@@ -2814,6 +4731,13 @@ type CreateNetworkAclEntryResponseType
     CreateNetworkAclEntryResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function CreateNetworkAclEntryResponseType(pd::ParsedData)
+    o = CreateNetworkAclEntryResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export CreateNetworkAclEntryResponseType
 
 
@@ -2824,6 +4748,13 @@ type ReplaceNetworkAclEntryResponseType
     ReplaceNetworkAclEntryResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function ReplaceNetworkAclEntryResponseType(pd::ParsedData)
+    o = ReplaceNetworkAclEntryResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export ReplaceNetworkAclEntryResponseType
 
 
@@ -2835,6 +4766,14 @@ type DeleteNetworkAclEntryType
     DeleteNetworkAclEntryType(; networkAclId=nothing, ruleNumber=nothing, egress=nothing) = 
          new(networkAclId, ruleNumber, egress)
 end
+function DeleteNetworkAclEntryType(pd::ParsedData)
+    o = DeleteNetworkAclEntryType()
+    o.networkAclId = find(pd, "networkAclId#text")
+    o.ruleNumber = safe_parse_as(Int32, find(pd, "ruleNumber#text"))
+    o.egress = safe_parse_as(Bool, find(pd, "egress#text"))
+    o
+end
+
 export DeleteNetworkAclEntryType
 
 
@@ -2845,6 +4784,13 @@ type DeleteNetworkAclEntryResponseType
     DeleteNetworkAclEntryResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function DeleteNetworkAclEntryResponseType(pd::ParsedData)
+    o = DeleteNetworkAclEntryResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export DeleteNetworkAclEntryResponseType
 
 
@@ -2856,6 +4802,14 @@ type InstanceStatusDetailsSetItemType
     InstanceStatusDetailsSetItemType(; name=nothing, status=nothing, impairedSince=nothing) = 
          new(name, status, impairedSince)
 end
+function InstanceStatusDetailsSetItemType(pd::ParsedData)
+    o = InstanceStatusDetailsSetItemType()
+    o.name = find(pd, "name#text")
+    o.status = find(pd, "status#text")
+    o.impairedSince = safe_parse_as(CalendarTime, find(pd, "impairedSince#text"))
+    o
+end
+
 export InstanceStatusDetailsSetItemType
 
 
@@ -2868,20 +4822,40 @@ type InstanceStatusEventType
     InstanceStatusEventType(; code=nothing, description=nothing, notBefore=nothing, notAfter=nothing) = 
          new(code, description, notBefore, notAfter)
 end
+function InstanceStatusEventType(pd::ParsedData)
+    o = InstanceStatusEventType()
+    o.code = find(pd, "code#text")
+    o.description = find(pd, "description#text")
+    o.notBefore = safe_parse_as(CalendarTime, find(pd, "notBefore#text"))
+    o.notAfter = safe_parse_as(CalendarTime, find(pd, "notAfter#text"))
+    o
+end
+
 export InstanceStatusEventType
 
 
 type ReportInstanceStatusType
-    instancesSet::Union(Array{ASCIIString,1}, Nothing)
+    instancesSet::Union(Vector{ASCIIString}, Nothing)
     status::Union(ASCIIString, Nothing)
     startTime::Union(CalendarTime, Nothing)
     endTime::Union(CalendarTime, Nothing)
-    reasonCodesSet::Union(Array{ASCIIString,1}, Nothing)
+    reasonCodesSet::Union(Vector{ASCIIString}, Nothing)
     description::Union(ASCIIString, Nothing)
 
     ReportInstanceStatusType(; instancesSet=nothing, status=nothing, startTime=nothing, endTime=nothing, reasonCodesSet=nothing, description=nothing) = 
          new(instancesSet, status, startTime, endTime, reasonCodesSet, description)
 end
+function ReportInstanceStatusType(pd::ParsedData)
+    o = ReportInstanceStatusType()
+    o.instancesSet = parse_vector_as(ASCIIString, "instanceId", find(pd, "item/instanceId"))
+    o.status = find(pd, "status#text")
+    o.startTime = safe_parse_as(CalendarTime, find(pd, "startTime#text"))
+    o.endTime = safe_parse_as(CalendarTime, find(pd, "endTime#text"))
+    o.reasonCodesSet = parse_vector_as(ASCIIString, "reasonCode", find(pd, "item/reasonCode"))
+    o.description = find(pd, "description#text")
+    o
+end
+
 export ReportInstanceStatusType
 
 
@@ -2891,6 +4865,12 @@ type ReportInstanceStatusReasonCodeSetItemType
     ReportInstanceStatusReasonCodeSetItemType(; reasonCode=nothing) = 
          new(reasonCode)
 end
+function ReportInstanceStatusReasonCodeSetItemType(pd::ParsedData)
+    o = ReportInstanceStatusReasonCodeSetItemType()
+    o.reasonCode = find(pd, "reasonCode#text")
+    o
+end
+
 export ReportInstanceStatusReasonCodeSetItemType
 
 
@@ -2901,6 +4881,13 @@ type ReportInstanceStatusResponseType
     ReportInstanceStatusResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function ReportInstanceStatusResponseType(pd::ParsedData)
+    o = ReportInstanceStatusResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export ReportInstanceStatusResponseType
 
 
@@ -2910,6 +4897,12 @@ type NetworkInterfaceIdSetItemType
     NetworkInterfaceIdSetItemType(; networkInterfaceId=nothing) = 
          new(networkInterfaceId)
 end
+function NetworkInterfaceIdSetItemType(pd::ParsedData)
+    o = NetworkInterfaceIdSetItemType()
+    o.networkInterfaceId = find(pd, "networkInterfaceId#text")
+    o
+end
+
 export NetworkInterfaceIdSetItemType
 
 
@@ -2925,6 +4918,18 @@ type NetworkInterfaceAttachmentType
     NetworkInterfaceAttachmentType(; attachmentId=nothing, instanceId=nothing, instanceOwnerId=nothing, deviceIndex=nothing, status=nothing, attachTime=nothing, deleteOnTermination=nothing) = 
          new(attachmentId, instanceId, instanceOwnerId, deviceIndex, status, attachTime, deleteOnTermination)
 end
+function NetworkInterfaceAttachmentType(pd::ParsedData)
+    o = NetworkInterfaceAttachmentType()
+    o.attachmentId = find(pd, "attachmentId#text")
+    o.instanceId = find(pd, "instanceId#text")
+    o.instanceOwnerId = find(pd, "instanceOwnerId#text")
+    o.deviceIndex = safe_parse_as(Int32, find(pd, "deviceIndex#text"))
+    o.status = find(pd, "status#text")
+    o.attachTime = safe_parse_as(CalendarTime, find(pd, "attachTime#text"))
+    o.deleteOnTermination = safe_parse_as(Bool, find(pd, "deleteOnTermination#text"))
+    o
+end
+
 export NetworkInterfaceAttachmentType
 
 
@@ -2938,6 +4943,16 @@ type NetworkInterfaceAssociationType
     NetworkInterfaceAssociationType(; publicIp=nothing, publicDnsName=nothing, ipOwnerId=nothing, allocationId=nothing, associationId=nothing) = 
          new(publicIp, publicDnsName, ipOwnerId, allocationId, associationId)
 end
+function NetworkInterfaceAssociationType(pd::ParsedData)
+    o = NetworkInterfaceAssociationType()
+    o.publicIp = find(pd, "publicIp#text")
+    o.publicDnsName = find(pd, "publicDnsName#text")
+    o.ipOwnerId = find(pd, "ipOwnerId#text")
+    o.allocationId = find(pd, "allocationId#text")
+    o.associationId = find(pd, "associationId#text")
+    o
+end
+
 export NetworkInterfaceAssociationType
 
 
@@ -2947,6 +4962,12 @@ type DeleteNetworkInterfaceType
     DeleteNetworkInterfaceType(; networkInterfaceId=nothing) = 
          new(networkInterfaceId)
 end
+function DeleteNetworkInterfaceType(pd::ParsedData)
+    o = DeleteNetworkInterfaceType()
+    o.networkInterfaceId = find(pd, "networkInterfaceId#text")
+    o
+end
+
 export DeleteNetworkInterfaceType
 
 
@@ -2957,6 +4978,13 @@ type DeleteNetworkInterfaceResponseType
     DeleteNetworkInterfaceResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function DeleteNetworkInterfaceResponseType(pd::ParsedData)
+    o = DeleteNetworkInterfaceResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export DeleteNetworkInterfaceResponseType
 
 
@@ -2968,6 +4996,14 @@ type AttachNetworkInterfaceType
     AttachNetworkInterfaceType(; networkInterfaceId=nothing, instanceId=nothing, deviceIndex=nothing) = 
          new(networkInterfaceId, instanceId, deviceIndex)
 end
+function AttachNetworkInterfaceType(pd::ParsedData)
+    o = AttachNetworkInterfaceType()
+    o.networkInterfaceId = find(pd, "networkInterfaceId#text")
+    o.instanceId = find(pd, "instanceId#text")
+    o.deviceIndex = safe_parse_as(Int32, find(pd, "deviceIndex#text"))
+    o
+end
+
 export AttachNetworkInterfaceType
 
 
@@ -2978,6 +5014,13 @@ type AttachNetworkInterfaceResponseType
     AttachNetworkInterfaceResponseType(; requestId=nothing, attachmentId=nothing) = 
          new(requestId, attachmentId)
 end
+function AttachNetworkInterfaceResponseType(pd::ParsedData)
+    o = AttachNetworkInterfaceResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.attachmentId = find(pd, "attachmentId#text")
+    o
+end
+
 export AttachNetworkInterfaceResponseType
 
 
@@ -2988,6 +5031,13 @@ type DetachNetworkInterfaceType
     DetachNetworkInterfaceType(; attachmentId=nothing, force=nothing) = 
          new(attachmentId, force)
 end
+function DetachNetworkInterfaceType(pd::ParsedData)
+    o = DetachNetworkInterfaceType()
+    o.attachmentId = find(pd, "attachmentId#text")
+    o.force = safe_parse_as(Bool, find(pd, "force#text"))
+    o
+end
+
 export DetachNetworkInterfaceType
 
 
@@ -2998,6 +5048,13 @@ type DetachNetworkInterfaceResponseType
     DetachNetworkInterfaceResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function DetachNetworkInterfaceResponseType(pd::ParsedData)
+    o = DetachNetworkInterfaceResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export DetachNetworkInterfaceResponseType
 
 
@@ -3007,6 +5064,12 @@ type DescribeNetworkInterfaceAttributeType
     DescribeNetworkInterfaceAttributeType(; networkInterfaceId=nothing) = 
          new(networkInterfaceId)
 end
+function DescribeNetworkInterfaceAttributeType(pd::ParsedData)
+    o = DescribeNetworkInterfaceAttributeType()
+    o.networkInterfaceId = find(pd, "networkInterfaceId#text")
+    o
+end
+
 export DescribeNetworkInterfaceAttributeType
 
 
@@ -3017,6 +5080,13 @@ type DescribeNetworkInterfaceAttributeResponseType
     DescribeNetworkInterfaceAttributeResponseType(; requestId=nothing, networkInterfaceId=nothing) = 
          new(requestId, networkInterfaceId)
 end
+function DescribeNetworkInterfaceAttributeResponseType(pd::ParsedData)
+    o = DescribeNetworkInterfaceAttributeResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.networkInterfaceId = find(pd, "networkInterfaceId#text")
+    o
+end
+
 export DescribeNetworkInterfaceAttributeResponseType
 
 
@@ -3026,6 +5096,12 @@ type ModifyNetworkInterfaceAttributeType
     ModifyNetworkInterfaceAttributeType(; networkInterfaceId=nothing) = 
          new(networkInterfaceId)
 end
+function ModifyNetworkInterfaceAttributeType(pd::ParsedData)
+    o = ModifyNetworkInterfaceAttributeType()
+    o.networkInterfaceId = find(pd, "networkInterfaceId#text")
+    o
+end
+
 export ModifyNetworkInterfaceAttributeType
 
 
@@ -3036,6 +5112,13 @@ type ModifyNetworkInterfaceAttachmentType
     ModifyNetworkInterfaceAttachmentType(; attachmentId=nothing, deleteOnTermination=nothing) = 
          new(attachmentId, deleteOnTermination)
 end
+function ModifyNetworkInterfaceAttachmentType(pd::ParsedData)
+    o = ModifyNetworkInterfaceAttachmentType()
+    o.attachmentId = find(pd, "attachmentId#text")
+    o.deleteOnTermination = safe_parse_as(Bool, find(pd, "deleteOnTermination#text"))
+    o
+end
+
 export ModifyNetworkInterfaceAttachmentType
 
 
@@ -3046,6 +5129,13 @@ type ModifyNetworkInterfaceAttributeResponseType
     ModifyNetworkInterfaceAttributeResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function ModifyNetworkInterfaceAttributeResponseType(pd::ParsedData)
+    o = ModifyNetworkInterfaceAttributeResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export ModifyNetworkInterfaceAttributeResponseType
 
 
@@ -3055,6 +5145,12 @@ type ResetNetworkInterfaceAttributeType
     ResetNetworkInterfaceAttributeType(; networkInterfaceId=nothing) = 
          new(networkInterfaceId)
 end
+function ResetNetworkInterfaceAttributeType(pd::ParsedData)
+    o = ResetNetworkInterfaceAttributeType()
+    o.networkInterfaceId = find(pd, "networkInterfaceId#text")
+    o
+end
+
 export ResetNetworkInterfaceAttributeType
 
 
@@ -3065,18 +5161,34 @@ type ResetNetworkInterfaceAttributeResponseType
     ResetNetworkInterfaceAttributeResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function ResetNetworkInterfaceAttributeResponseType(pd::ParsedData)
+    o = ResetNetworkInterfaceAttributeResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export ResetNetworkInterfaceAttributeResponseType
 
 
 type AssignPrivateIpAddressesType
     networkInterfaceId::Union(ASCIIString, Nothing)
-    privateIpAddressesSet::Union(Array{ASCIIString,1}, Nothing)
+    privateIpAddressesSet::Union(Vector{ASCIIString}, Nothing)
     secondaryPrivateIpAddressCount::Union(Int32, Nothing)
     allowReassignment::Union(Bool, Nothing)
 
     AssignPrivateIpAddressesType(; networkInterfaceId=nothing, privateIpAddressesSet=nothing, secondaryPrivateIpAddressCount=nothing, allowReassignment=nothing) = 
          new(networkInterfaceId, privateIpAddressesSet, secondaryPrivateIpAddressCount, allowReassignment)
 end
+function AssignPrivateIpAddressesType(pd::ParsedData)
+    o = AssignPrivateIpAddressesType()
+    o.networkInterfaceId = find(pd, "networkInterfaceId#text")
+    o.privateIpAddressesSet = parse_vector_as(ASCIIString, "privateIpAddress", find(pd, "item/privateIpAddress"))
+    o.secondaryPrivateIpAddressCount = safe_parse_as(Int32, find(pd, "secondaryPrivateIpAddressCount#text"))
+    o.allowReassignment = safe_parse_as(Bool, find(pd, "allowReassignment#text"))
+    o
+end
+
 export AssignPrivateIpAddressesType
 
 
@@ -3087,16 +5199,30 @@ type AssignPrivateIpAddressesResponseType
     AssignPrivateIpAddressesResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function AssignPrivateIpAddressesResponseType(pd::ParsedData)
+    o = AssignPrivateIpAddressesResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export AssignPrivateIpAddressesResponseType
 
 
 type UnassignPrivateIpAddressesType
     networkInterfaceId::Union(ASCIIString, Nothing)
-    privateIpAddressesSet::Union(Array{ASCIIString,1}, Nothing)
+    privateIpAddressesSet::Union(Vector{ASCIIString}, Nothing)
 
     UnassignPrivateIpAddressesType(; networkInterfaceId=nothing, privateIpAddressesSet=nothing) = 
          new(networkInterfaceId, privateIpAddressesSet)
 end
+function UnassignPrivateIpAddressesType(pd::ParsedData)
+    o = UnassignPrivateIpAddressesType()
+    o.networkInterfaceId = find(pd, "networkInterfaceId#text")
+    o.privateIpAddressesSet = parse_vector_as(ASCIIString, "privateIpAddress", find(pd, "item/privateIpAddress"))
+    o
+end
+
 export UnassignPrivateIpAddressesType
 
 
@@ -3107,6 +5233,13 @@ type UnassignPrivateIpAddressesResponseType
     UnassignPrivateIpAddressesResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function UnassignPrivateIpAddressesResponseType(pd::ParsedData)
+    o = UnassignPrivateIpAddressesResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export UnassignPrivateIpAddressesResponseType
 
 
@@ -3116,6 +5249,12 @@ type AssignPrivateIpAddressesSetItemRequestType
     AssignPrivateIpAddressesSetItemRequestType(; privateIpAddress=nothing) = 
          new(privateIpAddress)
 end
+function AssignPrivateIpAddressesSetItemRequestType(pd::ParsedData)
+    o = AssignPrivateIpAddressesSetItemRequestType()
+    o.privateIpAddress = find(pd, "privateIpAddress#text")
+    o
+end
+
 export AssignPrivateIpAddressesSetItemRequestType
 
 
@@ -3126,6 +5265,13 @@ type VolumeStatusDetailsItemType
     VolumeStatusDetailsItemType(; name=nothing, status=nothing) = 
          new(name, status)
 end
+function VolumeStatusDetailsItemType(pd::ParsedData)
+    o = VolumeStatusDetailsItemType()
+    o.name = find(pd, "name#text")
+    o.status = find(pd, "status#text")
+    o
+end
+
 export VolumeStatusDetailsItemType
 
 
@@ -3139,6 +5285,16 @@ type VolumeStatusEventItemType
     VolumeStatusEventItemType(; description=nothing, notBefore=nothing, notAfter=nothing, eventId=nothing, eventType=nothing) = 
          new(description, notBefore, notAfter, eventId, eventType)
 end
+function VolumeStatusEventItemType(pd::ParsedData)
+    o = VolumeStatusEventItemType()
+    o.description = find(pd, "description#text")
+    o.notBefore = safe_parse_as(CalendarTime, find(pd, "notBefore#text"))
+    o.notAfter = safe_parse_as(CalendarTime, find(pd, "notAfter#text"))
+    o.eventId = find(pd, "eventId#text")
+    o.eventType = find(pd, "eventType#text")
+    o
+end
+
 export VolumeStatusEventItemType
 
 
@@ -3151,6 +5307,15 @@ type VolumeStatusActionItemType
     VolumeStatusActionItemType(; description=nothing, code=nothing, eventId=nothing, eventType=nothing) = 
          new(description, code, eventId, eventType)
 end
+function VolumeStatusActionItemType(pd::ParsedData)
+    o = VolumeStatusActionItemType()
+    o.description = find(pd, "description#text")
+    o.code = find(pd, "code#text")
+    o.eventId = find(pd, "eventId#text")
+    o.eventType = find(pd, "eventType#text")
+    o
+end
+
 export VolumeStatusActionItemType
 
 
@@ -3160,6 +5325,12 @@ type EnableVolumeIOType
     EnableVolumeIOType(; volumeId=nothing) = 
          new(volumeId)
 end
+function EnableVolumeIOType(pd::ParsedData)
+    o = EnableVolumeIOType()
+    o.volumeId = find(pd, "volumeId#text")
+    o
+end
+
 export EnableVolumeIOType
 
 
@@ -3170,6 +5341,13 @@ type EnableVolumeIOResponseType
     EnableVolumeIOResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function EnableVolumeIOResponseType(pd::ParsedData)
+    o = EnableVolumeIOResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export EnableVolumeIOResponseType
 
 
@@ -3179,6 +5357,12 @@ type ModifyVolumeAttributeType
     ModifyVolumeAttributeType(; volumeId=nothing) = 
          new(volumeId)
 end
+function ModifyVolumeAttributeType(pd::ParsedData)
+    o = ModifyVolumeAttributeType()
+    o.volumeId = find(pd, "volumeId#text")
+    o
+end
+
 export ModifyVolumeAttributeType
 
 
@@ -3189,6 +5373,13 @@ type ModifyVolumeAttributeResponseType
     ModifyVolumeAttributeResponseType(; requestId=nothing, _return=nothing) = 
          new(requestId, _return)
 end
+function ModifyVolumeAttributeResponseType(pd::ParsedData)
+    o = ModifyVolumeAttributeResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o
+end
+
 export ModifyVolumeAttributeResponseType
 
 
@@ -3198,6 +5389,12 @@ type DescribeVolumeAttributeType
     DescribeVolumeAttributeType(; volumeId=nothing) = 
          new(volumeId)
 end
+function DescribeVolumeAttributeType(pd::ParsedData)
+    o = DescribeVolumeAttributeType()
+    o.volumeId = find(pd, "volumeId#text")
+    o
+end
+
 export DescribeVolumeAttributeType
 
 
@@ -3208,134 +5405,124 @@ type DescribeVolumeAttributeResponseType
     DescribeVolumeAttributeResponseType(; requestId=nothing, volumeId=nothing) = 
          new(requestId, volumeId)
 end
-export DescribeVolumeAttributeResponseType
-
-
-type PriceScheduleRequestSetType
-    item::Union(Array{PriceScheduleRequestSetItemType,1}, Nothing)
-
-    PriceScheduleRequestSetType(; item=nothing) = 
-         new(item)
+function DescribeVolumeAttributeResponseType(pd::ParsedData)
+    o = DescribeVolumeAttributeResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.volumeId = find(pd, "volumeId#text")
+    o
 end
-export PriceScheduleRequestSetType
+
+export DescribeVolumeAttributeResponseType
 
 
 type DescribeAvailabilityZonesResponseType
     requestId::Union(ASCIIString, Nothing)
-    availabilityZoneInfo::Union(Array{AvailabilityZoneItemType,1}, Nothing)
+    availabilityZoneInfo::Union(Vector{AvailabilityZoneItemType}, Nothing)
 
     DescribeAvailabilityZonesResponseType(; requestId=nothing, availabilityZoneInfo=nothing) = 
          new(requestId, availabilityZoneInfo)
 end
+function DescribeAvailabilityZonesResponseType(pd::ParsedData)
+    o = DescribeAvailabilityZonesResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.availabilityZoneInfo = @parse_vector(AvailabilityZoneItemType, find(pd, "availabilityZoneInfo/item"))
+    o
+end
+
 export DescribeAvailabilityZonesResponseType
 
 
-type VpnGatewayIdSetType
-    item::Union(Array{VpnGatewayIdSetItemType,1}, Nothing)
-
-    VpnGatewayIdSetType(; item=nothing) = 
-         new(item)
-end
-export VpnGatewayIdSetType
-
-
-type AvailabilityZoneMessageSetType
-    item::Union(Array{AvailabilityZoneMessageType,1}, Nothing)
-
-    AvailabilityZoneMessageSetType(; item=nothing) = 
-         new(item)
-end
-export AvailabilityZoneMessageSetType
-
-
 type DescribeInternetGatewaysType
-    internetGatewayIdSet::Union(Array{ASCIIString,1}, Nothing)
-    filterSet::Union(Array{FilterType,1}, Nothing)
+    internetGatewayIdSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
 
     DescribeInternetGatewaysType(; internetGatewayIdSet=nothing, filterSet=nothing) = 
          new(internetGatewayIdSet, filterSet)
 end
+function DescribeInternetGatewaysType(pd::ParsedData)
+    o = DescribeInternetGatewaysType()
+    o.internetGatewayIdSet = parse_vector_as(ASCIIString, "internetGatewayId", find(pd, "item/internetGatewayId"))
+    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o
+end
+
 export DescribeInternetGatewaysType
 
 
 type DescribeSpotPriceHistoryResponseType
     requestId::Union(ASCIIString, Nothing)
-    spotPriceHistorySet::Union(Array{SpotPriceHistorySetItemType,1}, Nothing)
+    spotPriceHistorySet::Union(Vector{SpotPriceHistorySetItemType}, Nothing)
     nextToken::Union(ASCIIString, Nothing)
 
     DescribeSpotPriceHistoryResponseType(; requestId=nothing, spotPriceHistorySet=nothing, nextToken=nothing) = 
          new(requestId, spotPriceHistorySet, nextToken)
 end
+function DescribeSpotPriceHistoryResponseType(pd::ParsedData)
+    o = DescribeSpotPriceHistoryResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.spotPriceHistorySet = @parse_vector(SpotPriceHistorySetItemType, find(pd, "spotPriceHistorySet/item"))
+    o.nextToken = find(pd, "nextToken#text")
+    o
+end
+
 export DescribeSpotPriceHistoryResponseType
 
 
 type CreateVolumePermissionOperationType
-    add::Union(Array{CreateVolumePermissionItemType,1}, Nothing)
-    remove::Union(Array{CreateVolumePermissionItemType,1}, Nothing)
+    add::Union(Vector{CreateVolumePermissionItemType}, Nothing)
+    remove::Union(Vector{CreateVolumePermissionItemType}, Nothing)
 
     CreateVolumePermissionOperationType(; add=nothing, remove=nothing) = 
          new(add, remove)
 end
+function CreateVolumePermissionOperationType(pd::ParsedData)
+    o = CreateVolumePermissionOperationType()
+    o.add = @parse_vector(CreateVolumePermissionItemType, find(pd, "add/item"))
+    o.remove = @parse_vector(CreateVolumePermissionItemType, find(pd, "remove/item"))
+    o
+end
+
 export CreateVolumePermissionOperationType
-
-
-type DescribeSecurityGroupsSetType
-    item::Union(Array{DescribeSecurityGroupsSetItemType,1}, Nothing)
-
-    DescribeSecurityGroupsSetType(; item=nothing) = 
-         new(item)
-end
-export DescribeSecurityGroupsSetType
-
-
-type VgwTelemetryType
-    item::Union(Array{VpnTunnelTelemetryType,1}, Nothing)
-
-    VgwTelemetryType(; item=nothing) = 
-         new(item)
-end
-export VgwTelemetryType
 
 
 type CreateReservedInstancesListingType
     reservedInstancesId::Union(ASCIIString, Nothing)
     instanceCount::Union(Int32, Nothing)
-    priceSchedules::Union(Array{PriceScheduleRequestSetItemType,1}, Nothing)
+    priceSchedules::Union(Vector{PriceScheduleRequestSetItemType}, Nothing)
     clientToken::Union(ASCIIString, Nothing)
 
     CreateReservedInstancesListingType(; reservedInstancesId=nothing, instanceCount=nothing, priceSchedules=nothing, clientToken=nothing) = 
          new(reservedInstancesId, instanceCount, priceSchedules, clientToken)
 end
+function CreateReservedInstancesListingType(pd::ParsedData)
+    o = CreateReservedInstancesListingType()
+    o.reservedInstancesId = find(pd, "reservedInstancesId#text")
+    o.instanceCount = safe_parse_as(Int32, find(pd, "instanceCount#text"))
+    o.priceSchedules = @parse_vector(PriceScheduleRequestSetItemType, find(pd, "priceSchedules/item"))
+    o.clientToken = find(pd, "clientToken#text")
+    o
+end
+
 export CreateReservedInstancesListingType
 
 
 type DescribeAddressesType
-    publicIpsSet::Union(Array{ASCIIString,1}, Nothing)
-    allocationIdsSet::Union(Array{ASCIIString,1}, Nothing)
-    filterSet::Union(Array{FilterType,1}, Nothing)
+    publicIpsSet::Union(Vector{ASCIIString}, Nothing)
+    allocationIdsSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
 
     DescribeAddressesType(; publicIpsSet=nothing, allocationIdsSet=nothing, filterSet=nothing) = 
          new(publicIpsSet, allocationIdsSet, filterSet)
 end
+function DescribeAddressesType(pd::ParsedData)
+    o = DescribeAddressesType()
+    o.publicIpsSet = parse_vector_as(ASCIIString, "publicIp", find(pd, "item/publicIp"))
+    o.allocationIdsSet = parse_vector_as(ASCIIString, "allocationId", find(pd, "item/allocationId"))
+    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o
+end
+
 export DescribeAddressesType
-
-
-type UnavailableResultSetType
-    item::Union(Array{UnavailableResultType,1}, Nothing)
-
-    UnavailableResultSetType(; item=nothing) = 
-         new(item)
-end
-export UnavailableResultSetType
-
-
-type DescribeReservedInstancesListingSetType
-    item::Union(Array{DescribeReservedInstancesListingSetItemType,1}, Nothing)
-
-    DescribeReservedInstancesListingSetType(; item=nothing) = 
-         new(item)
-end
-export DescribeReservedInstancesListingSetType
 
 
 type ModifySnapshotAttributeType
@@ -3345,6 +5532,13 @@ type ModifySnapshotAttributeType
     ModifySnapshotAttributeType(; snapshotId=nothing, createVolumePermission=nothing) = 
          new(snapshotId, createVolumePermission)
 end
+function ModifySnapshotAttributeType(pd::ParsedData)
+    o = ModifySnapshotAttributeType()
+    o.snapshotId = find(pd, "snapshotId#text")
+    o.createVolumePermission = haskey(pd.elements, "createVolumePermissionOperation") ?  CreateVolumePermissionOperationType(find(pd, "createVolumePermissionOperation[1]")) : nothing
+    o
+end
+
 export ModifySnapshotAttributeType
 
 
@@ -3360,16 +5554,35 @@ type NetworkAclEntryType
     NetworkAclEntryType(; ruleNumber=nothing, protocol=nothing, ruleAction=nothing, egress=nothing, cidrBlock=nothing, icmpTypeCode=nothing, portRange=nothing) = 
          new(ruleNumber, protocol, ruleAction, egress, cidrBlock, icmpTypeCode, portRange)
 end
+function NetworkAclEntryType(pd::ParsedData)
+    o = NetworkAclEntryType()
+    o.ruleNumber = safe_parse_as(Int32, find(pd, "ruleNumber#text"))
+    o.protocol = find(pd, "protocol#text")
+    o.ruleAction = find(pd, "ruleAction#text")
+    o.egress = safe_parse_as(Bool, find(pd, "egress#text"))
+    o.cidrBlock = find(pd, "cidrBlock#text")
+    o.icmpTypeCode = haskey(pd.elements, "icmpTypeCode") ?  IcmpTypeCodeType(find(pd, "icmpTypeCode[1]")) : nothing
+    o.portRange = haskey(pd.elements, "portRange") ?  PortRangeType(find(pd, "portRange[1]")) : nothing
+    o
+end
+
 export NetworkAclEntryType
 
 
 type DescribeVpnGatewaysType
-    vpnGatewaySet::Union(Array{ASCIIString,1}, Nothing)
-    filterSet::Union(Array{FilterType,1}, Nothing)
+    vpnGatewaySet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
 
     DescribeVpnGatewaysType(; vpnGatewaySet=nothing, filterSet=nothing) = 
          new(vpnGatewaySet, filterSet)
 end
+function DescribeVpnGatewaysType(pd::ParsedData)
+    o = DescribeVpnGatewaysType()
+    o.vpnGatewaySet = parse_vector_as(ASCIIString, "vpnGatewayId", find(pd, "item/vpnGatewayId"))
+    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o
+end
+
 export DescribeVpnGatewaysType
 
 
@@ -3379,45 +5592,32 @@ type BundleInstanceTaskStorageType
     BundleInstanceTaskStorageType(; S3=nothing) = 
          new(S3)
 end
+function BundleInstanceTaskStorageType(pd::ParsedData)
+    o = BundleInstanceTaskStorageType()
+    o.S3 = haskey(pd.elements, "bundleInstanceS3Storage") ?  BundleInstanceS3StorageType(find(pd, "bundleInstanceS3Storage[1]")) : nothing
+    o
+end
+
 export BundleInstanceTaskStorageType
 
 
-type DescribeAddressesInfoType
-    item::Union(Array{DescribeAddressesItemType,1}, Nothing)
-
-    DescribeAddressesInfoType(; item=nothing) = 
-         new(item)
-end
-export DescribeAddressesInfoType
-
-
 type DescribeReservedInstancesType
-    reservedInstancesSet::Union(Array{ASCIIString,1}, Nothing)
-    filterSet::Union(Array{FilterType,1}, Nothing)
+    reservedInstancesSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
     offeringType::Union(ASCIIString, Nothing)
 
     DescribeReservedInstancesType(; reservedInstancesSet=nothing, filterSet=nothing, offeringType=nothing) = 
          new(reservedInstancesSet, filterSet, offeringType)
 end
+function DescribeReservedInstancesType(pd::ParsedData)
+    o = DescribeReservedInstancesType()
+    o.reservedInstancesSet = parse_vector_as(ASCIIString, "reservedInstancesId", find(pd, "item/reservedInstancesId"))
+    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o.offeringType = find(pd, "offeringType#text")
+    o
+end
+
 export DescribeReservedInstancesType
-
-
-type AttachmentSetType
-    item::Union(Array{AttachmentType,1}, Nothing)
-
-    AttachmentSetType(; item=nothing) = 
-         new(item)
-end
-export AttachmentSetType
-
-
-type ProductDescriptionSetType
-    item::Union(Array{ProductDescriptionSetItemType,1}, Nothing)
-
-    ProductDescriptionSetType(; item=nothing) = 
-         new(item)
-end
-export ProductDescriptionSetType
 
 
 type CustomerGatewayType
@@ -3426,50 +5626,42 @@ type CustomerGatewayType
     _type::Union(ASCIIString, Nothing)
     ipAddress::Union(ASCIIString, Nothing)
     bgpAsn::Union(Int32, Nothing)
-    tagSet::Union(Array{ResourceTagSetItemType,1}, Nothing)
+    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
 
     CustomerGatewayType(; customerGatewayId=nothing, state=nothing, _type=nothing, ipAddress=nothing, bgpAsn=nothing, tagSet=nothing) = 
          new(customerGatewayId, state, _type, ipAddress, bgpAsn, tagSet)
 end
+function CustomerGatewayType(pd::ParsedData)
+    o = CustomerGatewayType()
+    o.customerGatewayId = find(pd, "customerGatewayId#text")
+    o.state = find(pd, "state#text")
+    o._type = find(pd, "_type#text")
+    o.ipAddress = find(pd, "ipAddress#text")
+    o.bgpAsn = safe_parse_as(Int32, find(pd, "bgpAsn#text"))
+    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o
+end
+
 export CustomerGatewayType
-
-
-type ProductCodesSetType
-    item::Union(Array{ProductCodesSetItemType,1}, Nothing)
-
-    ProductCodesSetType(; item=nothing) = 
-         new(item)
-end
-export ProductCodesSetType
-
-
-type DescribeRegionsSetType
-    item::Union(Array{DescribeRegionsSetItemType,1}, Nothing)
-
-    DescribeRegionsSetType(; item=nothing) = 
-         new(item)
-end
-export DescribeRegionsSetType
 
 
 type InternetGatewayType
     internetGatewayId::Union(ASCIIString, Nothing)
-    attachmentSet::Union(Array{InternetGatewayAttachmentType,1}, Nothing)
-    tagSet::Union(Array{ResourceTagSetItemType,1}, Nothing)
+    attachmentSet::Union(Vector{InternetGatewayAttachmentType}, Nothing)
+    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
 
     InternetGatewayType(; internetGatewayId=nothing, attachmentSet=nothing, tagSet=nothing) = 
          new(internetGatewayId, attachmentSet, tagSet)
 end
-export InternetGatewayType
-
-
-type ResourceIdSetType
-    item::Union(Array{ResourceIdSetItemType,1}, Nothing)
-
-    ResourceIdSetType(; item=nothing) = 
-         new(item)
+function InternetGatewayType(pd::ParsedData)
+    o = InternetGatewayType()
+    o.internetGatewayId = find(pd, "internetGatewayId#text")
+    o.attachmentSet = @parse_vector(InternetGatewayAttachmentType, find(pd, "attachmentSet/item"))
+    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o
 end
-export ResourceIdSetType
+
+export InternetGatewayType
 
 
 type DescribeReservedInstancesOfferingsResponseSetItemType
@@ -3483,19 +5675,37 @@ type DescribeReservedInstancesOfferingsResponseSetItemType
     instanceTenancy::Union(ASCIIString, Nothing)
     currencyCode::Union(ASCIIString, Nothing)
     offeringType::Union(ASCIIString, Nothing)
-    recurringCharges::Union(Array{RecurringChargesSetItemType,1}, Nothing)
+    recurringCharges::Union(Vector{RecurringChargesSetItemType}, Nothing)
     marketplace::Union(Bool, Nothing)
-    pricingDetailsSet::Union(Array{PricingDetailsSetItemType,1}, Nothing)
+    pricingDetailsSet::Union(Vector{PricingDetailsSetItemType}, Nothing)
 
     DescribeReservedInstancesOfferingsResponseSetItemType(; reservedInstancesOfferingId=nothing, instanceType=nothing, availabilityZone=nothing, duration=nothing, fixedPrice=nothing, usagePrice=nothing, productDescription=nothing, instanceTenancy=nothing, currencyCode=nothing, offeringType=nothing, recurringCharges=nothing, marketplace=nothing, pricingDetailsSet=nothing) = 
          new(reservedInstancesOfferingId, instanceType, availabilityZone, duration, fixedPrice, usagePrice, productDescription, instanceTenancy, currencyCode, offeringType, recurringCharges, marketplace, pricingDetailsSet)
 end
+function DescribeReservedInstancesOfferingsResponseSetItemType(pd::ParsedData)
+    o = DescribeReservedInstancesOfferingsResponseSetItemType()
+    o.reservedInstancesOfferingId = find(pd, "reservedInstancesOfferingId#text")
+    o.instanceType = find(pd, "instanceType#text")
+    o.availabilityZone = find(pd, "availabilityZone#text")
+    o.duration = safe_parse_as(Int64, find(pd, "duration#text"))
+    o.fixedPrice = safe_parse_as(Float64, find(pd, "fixedPrice#text"))
+    o.usagePrice = safe_parse_as(Float64, find(pd, "usagePrice#text"))
+    o.productDescription = find(pd, "productDescription#text")
+    o.instanceTenancy = find(pd, "instanceTenancy#text")
+    o.currencyCode = find(pd, "currencyCode#text")
+    o.offeringType = find(pd, "offeringType#text")
+    o.recurringCharges = @parse_vector(RecurringChargesSetItemType, find(pd, "recurringCharges/item"))
+    o.marketplace = safe_parse_as(Bool, find(pd, "marketplace#text"))
+    o.pricingDetailsSet = @parse_vector(PricingDetailsSetItemType, find(pd, "pricingDetailsSet/item"))
+    o
+end
+
 export DescribeReservedInstancesOfferingsResponseSetItemType
 
 
 type ImportInstanceLaunchSpecificationType
     architecture::Union(ASCIIString, Nothing)
-    groupSet::Union(Array{ImportInstanceGroupItemType,1}, Nothing)
+    groupSet::Union(Vector{ImportInstanceGroupItemType}, Nothing)
     userData::Union(UserDataType, Nothing)
     instanceType::Union(ASCIIString, Nothing)
     placement::Union(InstancePlacementType, Nothing)
@@ -3507,54 +5717,80 @@ type ImportInstanceLaunchSpecificationType
     ImportInstanceLaunchSpecificationType(; architecture=nothing, groupSet=nothing, userData=nothing, instanceType=nothing, placement=nothing, monitoring=nothing, subnetId=nothing, instanceInitiatedShutdownBehavior=nothing, privateIpAddress=nothing) = 
          new(architecture, groupSet, userData, instanceType, placement, monitoring, subnetId, instanceInitiatedShutdownBehavior, privateIpAddress)
 end
+function ImportInstanceLaunchSpecificationType(pd::ParsedData)
+    o = ImportInstanceLaunchSpecificationType()
+    o.architecture = find(pd, "architecture#text")
+    o.groupSet = @parse_vector(ImportInstanceGroupItemType, find(pd, "groupSet/item"))
+    o.userData = haskey(pd.elements, "userData") ?  UserDataType(find(pd, "userData[1]")) : nothing
+    o.instanceType = find(pd, "instanceType#text")
+    o.placement = haskey(pd.elements, "instancePlacement") ?  InstancePlacementType(find(pd, "instancePlacement[1]")) : nothing
+    o.monitoring = haskey(pd.elements, "monitoringInstance") ?  MonitoringInstanceType(find(pd, "monitoringInstance[1]")) : nothing
+    o.subnetId = find(pd, "subnetId#text")
+    o.instanceInitiatedShutdownBehavior = find(pd, "instanceInitiatedShutdownBehavior#text")
+    o.privateIpAddress = find(pd, "privateIpAddress#text")
+    o
+end
+
 export ImportInstanceLaunchSpecificationType
 
 
-type PriceScheduleSetType
-    item::Union(Array{PriceScheduleSetItemType,1}, Nothing)
-
-    PriceScheduleSetType(; item=nothing) = 
-         new(item)
-end
-export PriceScheduleSetType
-
-
 type CreateTagsType
-    resourcesSet::Union(Array{ASCIIString,1}, Nothing)
-    tagSet::Union(Array{ResourceTagSetItemType,1}, Nothing)
+    resourcesSet::Union(Vector{ASCIIString}, Nothing)
+    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
 
     CreateTagsType(; resourcesSet=nothing, tagSet=nothing) = 
          new(resourcesSet, tagSet)
 end
+function CreateTagsType(pd::ParsedData)
+    o = CreateTagsType()
+    o.resourcesSet = parse_vector_as(ASCIIString, "resourceId", find(pd, "item/resourceId"))
+    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o
+end
+
 export CreateTagsType
 
 
 type DescribeSpotInstanceRequestsType
-    spotInstanceRequestIdSet::Union(Array{ASCIIString,1}, Nothing)
-    filterSet::Union(Array{FilterType,1}, Nothing)
+    spotInstanceRequestIdSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
 
     DescribeSpotInstanceRequestsType(; spotInstanceRequestIdSet=nothing, filterSet=nothing) = 
          new(spotInstanceRequestIdSet, filterSet)
 end
+function DescribeSpotInstanceRequestsType(pd::ParsedData)
+    o = DescribeSpotInstanceRequestsType()
+    o.spotInstanceRequestIdSet = parse_vector_as(ASCIIString, "spotInstanceRequestId", find(pd, "item/spotInstanceRequestId"))
+    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o
+end
+
 export DescribeSpotInstanceRequestsType
 
 
 type DescribeCustomerGatewaysType
-    customerGatewaySet::Union(Array{ASCIIString,1}, Nothing)
-    filterSet::Union(Array{FilterType,1}, Nothing)
+    customerGatewaySet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
 
     DescribeCustomerGatewaysType(; customerGatewaySet=nothing, filterSet=nothing) = 
          new(customerGatewaySet, filterSet)
 end
+function DescribeCustomerGatewaysType(pd::ParsedData)
+    o = DescribeCustomerGatewaysType()
+    o.customerGatewaySet = parse_vector_as(ASCIIString, "customerGatewayId", find(pd, "item/customerGatewayId"))
+    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o
+end
+
 export DescribeCustomerGatewaysType
 
 
 type DescribeReservedInstancesOfferingsType
-    reservedInstancesOfferingsSet::Union(Array{ASCIIString,1}, Nothing)
+    reservedInstancesOfferingsSet::Union(Vector{ASCIIString}, Nothing)
     instanceType::Union(ASCIIString, Nothing)
     availabilityZone::Union(ASCIIString, Nothing)
     productDescription::Union(ASCIIString, Nothing)
-    filterSet::Union(Array{FilterType,1}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
     instanceTenancy::Union(ASCIIString, Nothing)
     offeringType::Union(ASCIIString, Nothing)
     includeMarketplace::Union(Bool, Nothing)
@@ -3567,17 +5803,71 @@ type DescribeReservedInstancesOfferingsType
     DescribeReservedInstancesOfferingsType(; reservedInstancesOfferingsSet=nothing, instanceType=nothing, availabilityZone=nothing, productDescription=nothing, filterSet=nothing, instanceTenancy=nothing, offeringType=nothing, includeMarketplace=nothing, minDuration=nothing, maxDuration=nothing, maxInstanceCount=nothing, nextToken=nothing, maxResults=nothing) = 
          new(reservedInstancesOfferingsSet, instanceType, availabilityZone, productDescription, filterSet, instanceTenancy, offeringType, includeMarketplace, minDuration, maxDuration, maxInstanceCount, nextToken, maxResults)
 end
+function DescribeReservedInstancesOfferingsType(pd::ParsedData)
+    o = DescribeReservedInstancesOfferingsType()
+    o.reservedInstancesOfferingsSet = parse_vector_as(ASCIIString, "reservedInstancesOfferingId", find(pd, "item/reservedInstancesOfferingId"))
+    o.instanceType = find(pd, "instanceType#text")
+    o.availabilityZone = find(pd, "availabilityZone#text")
+    o.productDescription = find(pd, "productDescription#text")
+    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o.instanceTenancy = find(pd, "instanceTenancy#text")
+    o.offeringType = find(pd, "offeringType#text")
+    o.includeMarketplace = safe_parse_as(Bool, find(pd, "includeMarketplace#text"))
+    o.minDuration = safe_parse_as(Int64, find(pd, "minDuration#text"))
+    o.maxDuration = safe_parse_as(Int64, find(pd, "maxDuration#text"))
+    o.maxInstanceCount = safe_parse_as(Int32, find(pd, "maxInstanceCount#text"))
+    o.nextToken = find(pd, "nextToken#text")
+    o.maxResults = safe_parse_as(Int32, find(pd, "maxResults#text"))
+    o
+end
+
 export DescribeReservedInstancesOfferingsType
 
 
 type DescribeAvailabilityZonesType
-    availabilityZoneSet::Union(Array{ASCIIString,1}, Nothing)
-    filterSet::Union(Array{FilterType,1}, Nothing)
+    availabilityZoneSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
 
     DescribeAvailabilityZonesType(; availabilityZoneSet=nothing, filterSet=nothing) = 
          new(availabilityZoneSet, filterSet)
 end
+function DescribeAvailabilityZonesType(pd::ParsedData)
+    o = DescribeAvailabilityZonesType()
+    o.availabilityZoneSet = parse_vector_as(ASCIIString, "zoneName", find(pd, "item/zoneName"))
+    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o
+end
+
 export DescribeAvailabilityZonesType
+
+
+type RegisterImageType
+    imageLocation::Union(ASCIIString, Nothing)
+    name::Union(ASCIIString, Nothing)
+    description::Union(ASCIIString, Nothing)
+    architecture::Union(ASCIIString, Nothing)
+    kernelId::Union(ASCIIString, Nothing)
+    ramdiskId::Union(ASCIIString, Nothing)
+    rootDeviceName::Union(ASCIIString, Nothing)
+    blockDeviceMapping::Union(Vector{BlockDeviceMappingItemType}, Nothing)
+
+    RegisterImageType(; imageLocation=nothing, name=nothing, description=nothing, architecture=nothing, kernelId=nothing, ramdiskId=nothing, rootDeviceName=nothing, blockDeviceMapping=nothing) = 
+         new(imageLocation, name, description, architecture, kernelId, ramdiskId, rootDeviceName, blockDeviceMapping)
+end
+function RegisterImageType(pd::ParsedData)
+    o = RegisterImageType()
+    o.imageLocation = find(pd, "imageLocation#text")
+    o.name = find(pd, "name#text")
+    o.description = find(pd, "description#text")
+    o.architecture = find(pd, "architecture#text")
+    o.kernelId = find(pd, "kernelId#text")
+    o.ramdiskId = find(pd, "ramdiskId#text")
+    o.rootDeviceName = find(pd, "rootDeviceName#text")
+    o.blockDeviceMapping = @parse_vector(BlockDeviceMappingItemType, find(pd, "blockDeviceMapping/item"))
+    o
+end
+
+export RegisterImageType
 
 
 type ImportInstanceVolumeDetailItemType
@@ -3592,82 +5882,70 @@ type ImportInstanceVolumeDetailItemType
     ImportInstanceVolumeDetailItemType(; bytesConverted=nothing, availabilityZone=nothing, image=nothing, description=nothing, volume=nothing, status=nothing, statusMessage=nothing) = 
          new(bytesConverted, availabilityZone, image, description, volume, status, statusMessage)
 end
+function ImportInstanceVolumeDetailItemType(pd::ParsedData)
+    o = ImportInstanceVolumeDetailItemType()
+    o.bytesConverted = safe_parse_as(Int64, find(pd, "bytesConverted#text"))
+    o.availabilityZone = find(pd, "availabilityZone#text")
+    o.image = haskey(pd.elements, "diskImageDescription") ?  DiskImageDescriptionType(find(pd, "diskImageDescription[1]")) : nothing
+    o.description = find(pd, "description#text")
+    o.volume = haskey(pd.elements, "diskImageVolumeDescription") ?  DiskImageVolumeDescriptionType(find(pd, "diskImageVolumeDescription[1]")) : nothing
+    o.status = find(pd, "status#text")
+    o.statusMessage = find(pd, "statusMessage#text")
+    o
+end
+
 export ImportInstanceVolumeDetailItemType
 
 
-type CustomerGatewayIdSetType
-    item::Union(Array{CustomerGatewayIdSetItemType,1}, Nothing)
-
-    CustomerGatewayIdSetType(; item=nothing) = 
-         new(item)
-end
-export CustomerGatewayIdSetType
-
-
-type ValueSetType
-    item::Union(Array{ValueType,1}, Nothing)
-
-    ValueSetType(; item=nothing) = 
-         new(item)
-end
-export ValueSetType
-
-
-type GroupSetType
-    item::Union(Array{GroupItemType,1}, Nothing)
-
-    GroupSetType(; item=nothing) = 
-         new(item)
-end
-export GroupSetType
-
-
 type DeleteTagsType
-    resourcesSet::Union(Array{ASCIIString,1}, Nothing)
-    tagSet::Union(Array{DeleteTagsSetItemType,1}, Nothing)
+    resourcesSet::Union(Vector{ASCIIString}, Nothing)
+    tagSet::Union(Vector{DeleteTagsSetItemType}, Nothing)
 
     DeleteTagsType(; resourcesSet=nothing, tagSet=nothing) = 
          new(resourcesSet, tagSet)
 end
+function DeleteTagsType(pd::ParsedData)
+    o = DeleteTagsType()
+    o.resourcesSet = parse_vector_as(ASCIIString, "resourceId", find(pd, "item/resourceId"))
+    o.tagSet = @parse_vector(DeleteTagsSetItemType, find(pd, "tagSet/item"))
+    o
+end
+
 export DeleteTagsType
 
 
 type InstanceStatusType
     status::Union(ASCIIString, Nothing)
-    details::Union(Array{InstanceStatusDetailsSetItemType,1}, Nothing)
+    details::Union(Vector{InstanceStatusDetailsSetItemType}, Nothing)
 
     InstanceStatusType(; status=nothing, details=nothing) = 
          new(status, details)
 end
-export InstanceStatusType
-
-
-type DeleteTagsSetType
-    item::Union(Array{DeleteTagsSetItemType,1}, Nothing)
-
-    DeleteTagsSetType(; item=nothing) = 
-         new(item)
+function InstanceStatusType(pd::ParsedData)
+    o = InstanceStatusType()
+    o.status = find(pd, "status#text")
+    o.details = @parse_vector(InstanceStatusDetailsSetItemType, find(pd, "details/item"))
+    o
 end
-export DeleteTagsSetType
+
+export InstanceStatusType
 
 
 type DescribeTagsResponseType
     requestId::Union(ASCIIString, Nothing)
-    tagSet::Union(Array{TagSetItemType,1}, Nothing)
+    tagSet::Union(Vector{TagSetItemType}, Nothing)
 
     DescribeTagsResponseType(; requestId=nothing, tagSet=nothing) = 
          new(requestId, tagSet)
 end
-export DescribeTagsResponseType
-
-
-type DescribeKeyPairsInfoType
-    item::Union(Array{DescribeKeyPairsItemType,1}, Nothing)
-
-    DescribeKeyPairsInfoType(; item=nothing) = 
-         new(item)
+function DescribeTagsResponseType(pd::ParsedData)
+    o = DescribeTagsResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.tagSet = @parse_vector(TagSetItemType, find(pd, "tagSet/item"))
+    o
 end
-export DescribeKeyPairsInfoType
+
+export DescribeTagsResponseType
 
 
 type DescribeReservedInstancesListingsResponseSetItemType
@@ -3677,36 +5955,67 @@ type DescribeReservedInstancesListingsResponseSetItemType
     updateDate::Union(CalendarTime, Nothing)
     status::Union(ASCIIString, Nothing)
     statusMessage::Union(ASCIIString, Nothing)
-    instanceCounts::Union(Array{InstanceCountsSetItemType,1}, Nothing)
-    priceSchedules::Union(Array{PriceScheduleSetItemType,1}, Nothing)
-    tagSet::Union(Array{ResourceTagSetItemType,1}, Nothing)
+    instanceCounts::Union(Vector{InstanceCountsSetItemType}, Nothing)
+    priceSchedules::Union(Vector{PriceScheduleSetItemType}, Nothing)
+    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
     clientToken::Union(ASCIIString, Nothing)
 
     DescribeReservedInstancesListingsResponseSetItemType(; reservedInstancesListingId=nothing, reservedInstancesId=nothing, createDate=nothing, updateDate=nothing, status=nothing, statusMessage=nothing, instanceCounts=nothing, priceSchedules=nothing, tagSet=nothing, clientToken=nothing) = 
          new(reservedInstancesListingId, reservedInstancesId, createDate, updateDate, status, statusMessage, instanceCounts, priceSchedules, tagSet, clientToken)
 end
+function DescribeReservedInstancesListingsResponseSetItemType(pd::ParsedData)
+    o = DescribeReservedInstancesListingsResponseSetItemType()
+    o.reservedInstancesListingId = find(pd, "reservedInstancesListingId#text")
+    o.reservedInstancesId = find(pd, "reservedInstancesId#text")
+    o.createDate = safe_parse_as(CalendarTime, find(pd, "createDate#text"))
+    o.updateDate = safe_parse_as(CalendarTime, find(pd, "updateDate#text"))
+    o.status = find(pd, "status#text")
+    o.statusMessage = find(pd, "statusMessage#text")
+    o.instanceCounts = @parse_vector(InstanceCountsSetItemType, find(pd, "instanceCounts/item"))
+    o.priceSchedules = @parse_vector(PriceScheduleSetItemType, find(pd, "priceSchedules/item"))
+    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.clientToken = find(pd, "clientToken#text")
+    o
+end
+
 export DescribeReservedInstancesListingsResponseSetItemType
 
 
 type DescribeLicensesType
-    licenseIdSet::Union(Array{ASCIIString,1}, Nothing)
-    filterSet::Union(Array{FilterType,1}, Nothing)
+    licenseIdSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
 
     DescribeLicensesType(; licenseIdSet=nothing, filterSet=nothing) = 
          new(licenseIdSet, filterSet)
 end
+function DescribeLicensesType(pd::ParsedData)
+    o = DescribeLicensesType()
+    o.licenseIdSet = parse_vector_as(ASCIIString, "licenseId", find(pd, "item/licenseId"))
+    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o
+end
+
 export DescribeLicensesType
 
 
 type DescribeSnapshotsType
-    snapshotSet::Union(Array{ASCIIString,1}, Nothing)
-    ownersSet::Union(Array{ASCIIString,1}, Nothing)
-    restorableBySet::Union(Array{ASCIIString,1}, Nothing)
-    filterSet::Union(Array{FilterType,1}, Nothing)
+    snapshotSet::Union(Vector{ASCIIString}, Nothing)
+    ownersSet::Union(Vector{ASCIIString}, Nothing)
+    restorableBySet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
 
     DescribeSnapshotsType(; snapshotSet=nothing, ownersSet=nothing, restorableBySet=nothing, filterSet=nothing) = 
          new(snapshotSet, ownersSet, restorableBySet, filterSet)
 end
+function DescribeSnapshotsType(pd::ParsedData)
+    o = DescribeSnapshotsType()
+    o.snapshotSet = parse_vector_as(ASCIIString, "snapshotId", find(pd, "item/snapshotId"))
+    o.ownersSet = parse_vector_as(ASCIIString, "owner", find(pd, "item/owner"))
+    o.restorableBySet = parse_vector_as(ASCIIString, "user", find(pd, "item/user"))
+    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o
+end
+
 export DescribeSnapshotsType
 
 
@@ -3718,77 +6027,62 @@ type DescribeReservedInstancesResponseSetItemType
     duration::Union(Int64, Nothing)
     fixedPrice::Union(Float64, Nothing)
     usagePrice::Union(Float64, Nothing)
-    instanceCount::Union(Int, Nothing)
+    instanceCount::Union(Int32, Nothing)
     productDescription::Union(ASCIIString, Nothing)
     state::Union(ASCIIString, Nothing)
-    tagSet::Union(Array{ResourceTagSetItemType,1}, Nothing)
+    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
     instanceTenancy::Union(ASCIIString, Nothing)
     currencyCode::Union(ASCIIString, Nothing)
     offeringType::Union(ASCIIString, Nothing)
-    recurringCharges::Union(Array{RecurringChargesSetItemType,1}, Nothing)
+    recurringCharges::Union(Vector{RecurringChargesSetItemType}, Nothing)
 
     DescribeReservedInstancesResponseSetItemType(; reservedInstancesId=nothing, instanceType=nothing, availabilityZone=nothing, start=nothing, duration=nothing, fixedPrice=nothing, usagePrice=nothing, instanceCount=nothing, productDescription=nothing, state=nothing, tagSet=nothing, instanceTenancy=nothing, currencyCode=nothing, offeringType=nothing, recurringCharges=nothing) = 
          new(reservedInstancesId, instanceType, availabilityZone, start, duration, fixedPrice, usagePrice, instanceCount, productDescription, state, tagSet, instanceTenancy, currencyCode, offeringType, recurringCharges)
 end
+function DescribeReservedInstancesResponseSetItemType(pd::ParsedData)
+    o = DescribeReservedInstancesResponseSetItemType()
+    o.reservedInstancesId = find(pd, "reservedInstancesId#text")
+    o.instanceType = find(pd, "instanceType#text")
+    o.availabilityZone = find(pd, "availabilityZone#text")
+    o.start = safe_parse_as(CalendarTime, find(pd, "start#text"))
+    o.duration = safe_parse_as(Int64, find(pd, "duration#text"))
+    o.fixedPrice = safe_parse_as(Float64, find(pd, "fixedPrice#text"))
+    o.usagePrice = safe_parse_as(Float64, find(pd, "usagePrice#text"))
+    o.instanceCount = safe_parse_as(Int32, find(pd, "instanceCount#text"))
+    o.productDescription = find(pd, "productDescription#text")
+    o.state = find(pd, "state#text")
+    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.instanceTenancy = find(pd, "instanceTenancy#text")
+    o.currencyCode = find(pd, "currencyCode#text")
+    o.offeringType = find(pd, "offeringType#text")
+    o.recurringCharges = @parse_vector(RecurringChargesSetItemType, find(pd, "recurringCharges/item"))
+    o
+end
+
 export DescribeReservedInstancesResponseSetItemType
-
-
-type DescribeVolumesSetType
-    item::Union(Array{DescribeVolumesSetItemType,1}, Nothing)
-
-    DescribeVolumesSetType(; item=nothing) = 
-         new(item)
-end
-export DescribeVolumesSetType
-
-
-type SpotPriceHistorySetType
-    item::Union(Array{SpotPriceHistorySetItemType,1}, Nothing)
-
-    SpotPriceHistorySetType(; item=nothing) = 
-         new(item)
-end
-export SpotPriceHistorySetType
-
-
-type DescribeReservedInstancesResponseSetType
-    item::Union(Array{DescribeReservedInstancesResponseSetItemType,1}, Nothing)
-
-    DescribeReservedInstancesResponseSetType(; item=nothing) = 
-         new(item)
-end
-export DescribeReservedInstancesResponseSetType
 
 
 type IpPermissionType
     ipProtocol::Union(ASCIIString, Nothing)
     fromPort::Union(Int32, Nothing)
     toPort::Union(Int32, Nothing)
-    groups::Union(Array{UserIdGroupPairType,1}, Nothing)
-    ipRanges::Union(Array{ASCIIString,1}, Nothing)
+    groups::Union(Vector{UserIdGroupPairType}, Nothing)
+    ipRanges::Union(Vector{ASCIIString}, Nothing)
 
     IpPermissionType(; ipProtocol=nothing, fromPort=nothing, toPort=nothing, groups=nothing, ipRanges=nothing) = 
          new(ipProtocol, fromPort, toPort, groups, ipRanges)
 end
+function IpPermissionType(pd::ParsedData)
+    o = IpPermissionType()
+    o.ipProtocol = find(pd, "ipProtocol#text")
+    o.fromPort = safe_parse_as(Int32, find(pd, "fromPort#text"))
+    o.toPort = safe_parse_as(Int32, find(pd, "toPort#text"))
+    o.groups = @parse_vector(UserIdGroupPairType, find(pd, "groups/item"))
+    o.ipRanges = parse_vector_as(ASCIIString, "cidrIp", find(pd, "item/cidrIp"))
+    o
+end
+
 export IpPermissionType
-
-
-type IpRangeSetType
-    item::Union(Array{IpRangeItemType,1}, Nothing)
-
-    IpRangeSetType(; item=nothing) = 
-         new(item)
-end
-export IpRangeSetType
-
-
-type DescribeKeyPairsResponseInfoType
-    item::Union(Array{DescribeKeyPairsResponseItemType,1}, Nothing)
-
-    DescribeKeyPairsResponseInfoType(; item=nothing) = 
-         new(item)
-end
-export DescribeKeyPairsResponseInfoType
 
 
 type CreateVpnConnectionType
@@ -3800,6 +6094,15 @@ type CreateVpnConnectionType
     CreateVpnConnectionType(; _type=nothing, customerGatewayId=nothing, vpnGatewayId=nothing, options=nothing) = 
          new(_type, customerGatewayId, vpnGatewayId, options)
 end
+function CreateVpnConnectionType(pd::ParsedData)
+    o = CreateVpnConnectionType()
+    o._type = find(pd, "_type#text")
+    o.customerGatewayId = find(pd, "customerGatewayId#text")
+    o.vpnGatewayId = find(pd, "vpnGatewayId#text")
+    o.options = haskey(pd.elements, "vpnConnectionOptionsRequest") ?  VpnConnectionOptionsRequestType(find(pd, "vpnConnectionOptionsRequest[1]")) : nothing
+    o
+end
+
 export CreateVpnConnectionType
 
 
@@ -3807,12 +6110,22 @@ type LicenseSetItemType
     licenseId::Union(ASCIIString, Nothing)
     _type::Union(ASCIIString, Nothing)
     pool::Union(ASCIIString, Nothing)
-    capacitySet::Union(Array{LicenseCapacitySetItemType,1}, Nothing)
-    tagSet::Union(Array{ResourceTagSetItemType,1}, Nothing)
+    capacitySet::Union(Vector{LicenseCapacitySetItemType}, Nothing)
+    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
 
     LicenseSetItemType(; licenseId=nothing, _type=nothing, pool=nothing, capacitySet=nothing, tagSet=nothing) = 
          new(licenseId, _type, pool, capacitySet, tagSet)
 end
+function LicenseSetItemType(pd::ParsedData)
+    o = LicenseSetItemType()
+    o.licenseId = find(pd, "licenseId#text")
+    o._type = find(pd, "_type#text")
+    o.pool = find(pd, "pool#text")
+    o.capacitySet = @parse_vector(LicenseCapacitySetItemType, find(pd, "capacitySet/item"))
+    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o
+end
+
 export LicenseSetItemType
 
 
@@ -3829,81 +6142,54 @@ type ReplaceNetworkAclEntryType
     ReplaceNetworkAclEntryType(; networkAclId=nothing, ruleNumber=nothing, protocol=nothing, ruleAction=nothing, egress=nothing, cidrBlock=nothing, icmpTypeCode=nothing, portRange=nothing) = 
          new(networkAclId, ruleNumber, protocol, ruleAction, egress, cidrBlock, icmpTypeCode, portRange)
 end
+function ReplaceNetworkAclEntryType(pd::ParsedData)
+    o = ReplaceNetworkAclEntryType()
+    o.networkAclId = find(pd, "networkAclId#text")
+    o.ruleNumber = safe_parse_as(Int32, find(pd, "ruleNumber#text"))
+    o.protocol = find(pd, "protocol#text")
+    o.ruleAction = find(pd, "ruleAction#text")
+    o.egress = safe_parse_as(Bool, find(pd, "egress#text"))
+    o.cidrBlock = find(pd, "cidrBlock#text")
+    o.icmpTypeCode = haskey(pd.elements, "icmpTypeCode") ?  IcmpTypeCodeType(find(pd, "icmpTypeCode[1]")) : nothing
+    o.portRange = haskey(pd.elements, "portRange") ?  PortRangeType(find(pd, "portRange[1]")) : nothing
+    o
+end
+
 export ReplaceNetworkAclEntryType
-
-
-type DescribeAvailabilityZonesSetType
-    item::Union(Array{DescribeAvailabilityZonesSetItemType,1}, Nothing)
-
-    DescribeAvailabilityZonesSetType(; item=nothing) = 
-         new(item)
-end
-export DescribeAvailabilityZonesSetType
-
-
-type DescribeSnapshotsSetType
-    item::Union(Array{DescribeSnapshotsSetItemType,1}, Nothing)
-
-    DescribeSnapshotsSetType(; item=nothing) = 
-         new(item)
-end
-export DescribeSnapshotsSetType
 
 
 type CancelReservedInstancesListingResponseType
     requestId::Union(ASCIIString, Nothing)
-    reservedInstancesListingsSet::Union(Array{DescribeReservedInstancesListingsResponseSetItemType,1}, Nothing)
+    reservedInstancesListingsSet::Union(Vector{DescribeReservedInstancesListingsResponseSetItemType}, Nothing)
 
     CancelReservedInstancesListingResponseType(; requestId=nothing, reservedInstancesListingsSet=nothing) = 
          new(requestId, reservedInstancesListingsSet)
 end
+function CancelReservedInstancesListingResponseType(pd::ParsedData)
+    o = CancelReservedInstancesListingResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.reservedInstancesListingsSet = @parse_vector(DescribeReservedInstancesListingsResponseSetItemType, find(pd, "reservedInstancesListingsSet/item"))
+    o
+end
+
 export CancelReservedInstancesListingResponseType
 
 
-type SubnetIdSetType
-    item::Union(Array{SubnetIdSetItemType,1}, Nothing)
-
-    SubnetIdSetType(; item=nothing) = 
-         new(item)
-end
-export SubnetIdSetType
-
-
-type VpcIdSetType
-    item::Union(Array{VpcIdSetItemType,1}, Nothing)
-
-    VpcIdSetType(; item=nothing) = 
-         new(item)
-end
-export VpcIdSetType
-
-
-type ConversionTaskIdSetType
-    item::Union(Array{ConversionTaskIdItemType,1}, Nothing)
-
-    ConversionTaskIdSetType(; item=nothing) = 
-         new(item)
-end
-export ConversionTaskIdSetType
-
-
 type DescribeVpnConnectionsType
-    vpnConnectionSet::Union(Array{ASCIIString,1}, Nothing)
-    filterSet::Union(Array{FilterType,1}, Nothing)
+    vpnConnectionSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
 
     DescribeVpnConnectionsType(; vpnConnectionSet=nothing, filterSet=nothing) = 
          new(vpnConnectionSet, filterSet)
 end
-export DescribeVpnConnectionsType
-
-
-type PlacementGroupSetType
-    item::Union(Array{PlacementGroupInfoType,1}, Nothing)
-
-    PlacementGroupSetType(; item=nothing) = 
-         new(item)
+function DescribeVpnConnectionsType(pd::ParsedData)
+    o = DescribeVpnConnectionsType()
+    o.vpnConnectionSet = parse_vector_as(ASCIIString, "vpnConnectionId", find(pd, "item/vpnConnectionId"))
+    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o
 end
-export PlacementGroupSetType
+
+export DescribeVpnConnectionsType
 
 
 type SpotDatafeedSubscriptionType
@@ -3916,144 +6202,130 @@ type SpotDatafeedSubscriptionType
     SpotDatafeedSubscriptionType(; ownerId=nothing, bucket=nothing, prefix=nothing, state=nothing, fault=nothing) = 
          new(ownerId, bucket, prefix, state, fault)
 end
+function SpotDatafeedSubscriptionType(pd::ParsedData)
+    o = SpotDatafeedSubscriptionType()
+    o.ownerId = find(pd, "ownerId#text")
+    o.bucket = find(pd, "bucket#text")
+    o.prefix = find(pd, "prefix#text")
+    o.state = find(pd, "state#text")
+    o.fault = haskey(pd.elements, "spotInstanceStateFault") ?  SpotInstanceStateFaultType(find(pd, "spotInstanceStateFault[1]")) : nothing
+    o
+end
+
 export SpotDatafeedSubscriptionType
-
-
-type AllocationIdSetType
-    item::Union(Array{AllocationIdSetItemType,1}, Nothing)
-
-    AllocationIdSetType(; item=nothing) = 
-         new(item)
-end
-export AllocationIdSetType
-
-
-type DescribeBundleTasksInfoType
-    item::Union(Array{DescribeBundleTasksItemType,1}, Nothing)
-
-    DescribeBundleTasksInfoType(; item=nothing) = 
-         new(item)
-end
-export DescribeBundleTasksInfoType
-
-
-type TagSetType
-    item::Union(Array{TagSetItemType,1}, Nothing)
-
-    TagSetType(; item=nothing) = 
-         new(item)
-end
-export TagSetType
 
 
 type DescribeReservedInstancesListingsResponseType
     requestId::Union(ASCIIString, Nothing)
-    reservedInstancesListingsSet::Union(Array{DescribeReservedInstancesListingsResponseSetItemType,1}, Nothing)
+    reservedInstancesListingsSet::Union(Vector{DescribeReservedInstancesListingsResponseSetItemType}, Nothing)
 
     DescribeReservedInstancesListingsResponseType(; requestId=nothing, reservedInstancesListingsSet=nothing) = 
          new(requestId, reservedInstancesListingsSet)
 end
+function DescribeReservedInstancesListingsResponseType(pd::ParsedData)
+    o = DescribeReservedInstancesListingsResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.reservedInstancesListingsSet = @parse_vector(DescribeReservedInstancesListingsResponseSetItemType, find(pd, "reservedInstancesListingsSet/item"))
+    o
+end
+
 export DescribeReservedInstancesListingsResponseType
 
 
-type NetworkAclAssociationSetType
-    item::Union(Array{NetworkAclAssociationType,1}, Nothing)
-
-    NetworkAclAssociationSetType(; item=nothing) = 
-         new(item)
-end
-export NetworkAclAssociationSetType
-
-
 type DescribeImagesType
-    executableBySet::Union(Array{ASCIIString,1}, Nothing)
-    imagesSet::Union(Array{ASCIIString,1}, Nothing)
-    ownersSet::Union(Array{ASCIIString,1}, Nothing)
-    filterSet::Union(Array{FilterType,1}, Nothing)
+    executableBySet::Union(Vector{ASCIIString}, Nothing)
+    imagesSet::Union(Vector{ASCIIString}, Nothing)
+    ownersSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
 
     DescribeImagesType(; executableBySet=nothing, imagesSet=nothing, ownersSet=nothing, filterSet=nothing) = 
          new(executableBySet, imagesSet, ownersSet, filterSet)
 end
+function DescribeImagesType(pd::ParsedData)
+    o = DescribeImagesType()
+    o.executableBySet = parse_vector_as(ASCIIString, "user", find(pd, "item/user"))
+    o.imagesSet = parse_vector_as(ASCIIString, "imageId", find(pd, "item/imageId"))
+    o.ownersSet = parse_vector_as(ASCIIString, "owner", find(pd, "item/owner"))
+    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o
+end
+
 export DescribeImagesType
 
 
 type DescribeVpcsType
-    vpcSet::Union(Array{ASCIIString,1}, Nothing)
-    filterSet::Union(Array{FilterType,1}, Nothing)
+    vpcSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
 
     DescribeVpcsType(; vpcSet=nothing, filterSet=nothing) = 
          new(vpcSet, filterSet)
 end
-export DescribeVpcsType
-
-
-type LicenseSetType
-    item::Union(Array{LicenseSetItemType,1}, Nothing)
-
-    LicenseSetType(; item=nothing) = 
-         new(item)
+function DescribeVpcsType(pd::ParsedData)
+    o = DescribeVpcsType()
+    o.vpcSet = parse_vector_as(ASCIIString, "vpcId", find(pd, "item/vpcId"))
+    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o
 end
-export LicenseSetType
+
+export DescribeVpcsType
 
 
 type CreateNetworkInterfaceType
     subnetId::Union(ASCIIString, Nothing)
     description::Union(ASCIIString, Nothing)
     privateIpAddress::Union(ASCIIString, Nothing)
-    groupSet::Union(Array{ASCIIString,1}, Nothing)
-    privateIpAddressesSet::Union(Array{PrivateIpAddressesSetItemRequestType,1}, Nothing)
+    groupSet::Union(Vector{ASCIIString}, Nothing)
+    privateIpAddressesSet::Union(Vector{PrivateIpAddressesSetItemRequestType}, Nothing)
     secondaryPrivateIpAddressCount::Union(Int32, Nothing)
 
     CreateNetworkInterfaceType(; subnetId=nothing, description=nothing, privateIpAddress=nothing, groupSet=nothing, privateIpAddressesSet=nothing, secondaryPrivateIpAddressCount=nothing) = 
          new(subnetId, description, privateIpAddress, groupSet, privateIpAddressesSet, secondaryPrivateIpAddressCount)
 end
+function CreateNetworkInterfaceType(pd::ParsedData)
+    o = CreateNetworkInterfaceType()
+    o.subnetId = find(pd, "subnetId#text")
+    o.description = find(pd, "description#text")
+    o.privateIpAddress = find(pd, "privateIpAddress#text")
+    o.groupSet = parse_vector_as(ASCIIString, "groupId", find(pd, "item/groupId"))
+    o.privateIpAddressesSet = @parse_vector(PrivateIpAddressesSetItemRequestType, find(pd, "privateIpAddressesSet/item"))
+    o.secondaryPrivateIpAddressCount = safe_parse_as(Int32, find(pd, "secondaryPrivateIpAddressCount#text"))
+    o
+end
+
 export CreateNetworkInterfaceType
-
-
-type DescribeImagesInfoType
-    item::Union(Array{DescribeImagesItemType,1}, Nothing)
-
-    DescribeImagesInfoType(; item=nothing) = 
-         new(item)
-end
-export DescribeImagesInfoType
-
-
-type NetworkInterfaceIdSetType
-    item::Union(Array{NetworkInterfaceIdSetItemType,1}, Nothing)
-
-    NetworkInterfaceIdSetType(; item=nothing) = 
-         new(item)
-end
-export NetworkInterfaceIdSetType
-
-
-type DescribeSnapshotsRestorableBySetType
-    item::Union(Array{DescribeSnapshotsRestorableByType,1}, Nothing)
-
-    DescribeSnapshotsRestorableBySetType(; item=nothing) = 
-         new(item)
-end
-export DescribeSnapshotsRestorableBySetType
 
 
 type CancelSpotInstanceRequestsResponseType
     requestId::Union(ASCIIString, Nothing)
-    spotInstanceRequestSet::Union(Array{CancelSpotInstanceRequestsResponseSetItemType,1}, Nothing)
+    spotInstanceRequestSet::Union(Vector{CancelSpotInstanceRequestsResponseSetItemType}, Nothing)
 
     CancelSpotInstanceRequestsResponseType(; requestId=nothing, spotInstanceRequestSet=nothing) = 
          new(requestId, spotInstanceRequestSet)
 end
+function CancelSpotInstanceRequestsResponseType(pd::ParsedData)
+    o = CancelSpotInstanceRequestsResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.spotInstanceRequestSet = @parse_vector(CancelSpotInstanceRequestsResponseSetItemType, find(pd, "spotInstanceRequestSet/item"))
+    o
+end
+
 export CancelSpotInstanceRequestsResponseType
 
 
 type DescribeReservedInstancesResponseType
     requestId::Union(ASCIIString, Nothing)
-    reservedInstancesSet::Union(Array{DescribeReservedInstancesResponseSetItemType,1}, Nothing)
+    reservedInstancesSet::Union(Vector{DescribeReservedInstancesResponseSetItemType}, Nothing)
 
     DescribeReservedInstancesResponseType(; requestId=nothing, reservedInstancesSet=nothing) = 
          new(requestId, reservedInstancesSet)
 end
+function DescribeReservedInstancesResponseType(pd::ParsedData)
+    o = DescribeReservedInstancesResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.reservedInstancesSet = @parse_vector(DescribeReservedInstancesResponseSetItemType, find(pd, "reservedInstancesSet/item"))
+    o
+end
+
 export DescribeReservedInstancesResponseType
 
 
@@ -4061,13 +6333,24 @@ type NetworkAclType
     networkAclId::Union(ASCIIString, Nothing)
     vpcId::Union(ASCIIString, Nothing)
     default::Union(Bool, Nothing)
-    entrySet::Union(Array{NetworkAclEntryType,1}, Nothing)
-    associationSet::Union(Array{NetworkAclAssociationType,1}, Nothing)
-    tagSet::Union(Array{ResourceTagSetItemType,1}, Nothing)
+    entrySet::Union(Vector{NetworkAclEntryType}, Nothing)
+    associationSet::Union(Vector{NetworkAclAssociationType}, Nothing)
+    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
 
     NetworkAclType(; networkAclId=nothing, vpcId=nothing, default=nothing, entrySet=nothing, associationSet=nothing, tagSet=nothing) = 
          new(networkAclId, vpcId, default, entrySet, associationSet, tagSet)
 end
+function NetworkAclType(pd::ParsedData)
+    o = NetworkAclType()
+    o.networkAclId = find(pd, "networkAclId#text")
+    o.vpcId = find(pd, "vpcId#text")
+    o.default = safe_parse_as(Bool, find(pd, "default#text"))
+    o.entrySet = @parse_vector(NetworkAclEntryType, find(pd, "entrySet/item"))
+    o.associationSet = @parse_vector(NetworkAclAssociationType, find(pd, "associationSet/item"))
+    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o
+end
+
 export NetworkAclType
 
 
@@ -4080,95 +6363,39 @@ type ImportVolumeType
     ImportVolumeType(; availabilityZone=nothing, image=nothing, description=nothing, volume=nothing) = 
          new(availabilityZone, image, description, volume)
 end
+function ImportVolumeType(pd::ParsedData)
+    o = ImportVolumeType()
+    o.availabilityZone = find(pd, "availabilityZone#text")
+    o.image = haskey(pd.elements, "diskImageDetail") ?  DiskImageDetailType(find(pd, "diskImageDetail[1]")) : nothing
+    o.description = find(pd, "description#text")
+    o.volume = haskey(pd.elements, "diskImageVolume") ?  DiskImageVolumeType(find(pd, "diskImageVolume[1]")) : nothing
+    o
+end
+
 export ImportVolumeType
 
 
-type RegionSetType
-    item::Union(Array{RegionItemType,1}, Nothing)
-
-    RegionSetType(; item=nothing) = 
-         new(item)
-end
-export RegionSetType
-
-
-type VpnConnectionIdSetType
-    item::Union(Array{VpnConnectionIdSetItemType,1}, Nothing)
-
-    VpnConnectionIdSetType(; item=nothing) = 
-         new(item)
-end
-export VpnConnectionIdSetType
-
-
-type VolumeStatusEventsSetType
-    item::Union(Array{VolumeStatusEventItemType,1}, Nothing)
-
-    VolumeStatusEventsSetType(; item=nothing) = 
-         new(item)
-end
-export VolumeStatusEventsSetType
-
-
-type RebootInstancesInfoType
-    item::Union(Array{RebootInstancesItemType,1}, Nothing)
-
-    RebootInstancesInfoType(; item=nothing) = 
-         new(item)
-end
-export RebootInstancesInfoType
-
-
-type VpnStaticRoutesSetType
-    item::Union(Array{VpnStaticRouteType,1}, Nothing)
-
-    VpnStaticRoutesSetType(; item=nothing) = 
-         new(item)
-end
-export VpnStaticRoutesSetType
-
-
 type DescribeNetworkInterfacesType
-    networkInterfaceIdSet::Union(Array{ASCIIString,1}, Nothing)
-    filterSet::Union(Array{FilterType,1}, Nothing)
+    networkInterfaceIdSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
 
     DescribeNetworkInterfacesType(; networkInterfaceIdSet=nothing, filterSet=nothing) = 
          new(networkInterfaceIdSet, filterSet)
 end
+function DescribeNetworkInterfacesType(pd::ParsedData)
+    o = DescribeNetworkInterfacesType()
+    o.networkInterfaceIdSet = parse_vector_as(ASCIIString, "networkInterfaceId", find(pd, "item/networkInterfaceId"))
+    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o
+end
+
 export DescribeNetworkInterfacesType
-
-
-type IpPermissionSetType
-    item::Union(Array{IpPermissionType,1}, Nothing)
-
-    IpPermissionSetType(; item=nothing) = 
-         new(item)
-end
-export IpPermissionSetType
-
-
-type ExportTaskSetResponseType
-    item::Union(Array{ExportTaskResponseType,1}, Nothing)
-
-    ExportTaskSetResponseType(; item=nothing) = 
-         new(item)
-end
-export ExportTaskSetResponseType
-
-
-type RouteTableAssociationSetType
-    item::Union(Array{RouteTableAssociationType,1}, Nothing)
-
-    RouteTableAssociationSetType(; item=nothing) = 
-         new(item)
-end
-export RouteTableAssociationSetType
 
 
 type InstanceStatusItemType
     instanceId::Union(ASCIIString, Nothing)
     availabilityZone::Union(ASCIIString, Nothing)
-    eventsSet::Union(Array{InstanceStatusEventType,1}, Nothing)
+    eventsSet::Union(Vector{InstanceStatusEventType}, Nothing)
     instanceState::Union(InstanceStateType, Nothing)
     systemStatus::Union(InstanceStatusType, Nothing)
     instanceStatus::Union(InstanceStatusType, Nothing)
@@ -4176,25 +6403,34 @@ type InstanceStatusItemType
     InstanceStatusItemType(; instanceId=nothing, availabilityZone=nothing, eventsSet=nothing, instanceState=nothing, systemStatus=nothing, instanceStatus=nothing) = 
          new(instanceId, availabilityZone, eventsSet, instanceState, systemStatus, instanceStatus)
 end
+function InstanceStatusItemType(pd::ParsedData)
+    o = InstanceStatusItemType()
+    o.instanceId = find(pd, "instanceId#text")
+    o.availabilityZone = find(pd, "availabilityZone#text")
+    o.eventsSet = @parse_vector(InstanceStatusEventType, find(pd, "eventsSet/item"))
+    o.instanceState = haskey(pd.elements, "instanceState") ?  InstanceStateType(find(pd, "instanceState[1]")) : nothing
+    o.systemStatus = haskey(pd.elements, "instanceStatus") ?  InstanceStatusType(find(pd, "instanceStatus[1]")) : nothing
+    o.instanceStatus = haskey(pd.elements, "instanceStatus") ?  InstanceStatusType(find(pd, "instanceStatus[1]")) : nothing
+    o
+end
+
 export InstanceStatusItemType
 
 
-type VolumeStatusActionsSetType
-    item::Union(Array{VolumeStatusActionItemType,1}, Nothing)
-
-    VolumeStatusActionsSetType(; item=nothing) = 
-         new(item)
-end
-export VolumeStatusActionsSetType
-
-
 type DescribeInstancesType
-    instancesSet::Union(Array{ASCIIString,1}, Nothing)
-    filterSet::Union(Array{FilterType,1}, Nothing)
+    instancesSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
 
     DescribeInstancesType(; instancesSet=nothing, filterSet=nothing) = 
          new(instancesSet, filterSet)
 end
+function DescribeInstancesType(pd::ParsedData)
+    o = DescribeInstancesType()
+    o.instancesSet = parse_vector_as(ASCIIString, "instanceId", find(pd, "item/instanceId"))
+    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o
+end
+
 export DescribeInstancesType
 
 
@@ -4203,23 +6439,26 @@ type VpcType
     state::Union(ASCIIString, Nothing)
     cidrBlock::Union(ASCIIString, Nothing)
     dhcpOptionsId::Union(ASCIIString, Nothing)
-    tagSet::Union(Array{ResourceTagSetItemType,1}, Nothing)
+    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
     instanceTenancy::Union(ASCIIString, Nothing)
     isDefault::Union(Bool, Nothing)
 
     VpcType(; vpcId=nothing, state=nothing, cidrBlock=nothing, dhcpOptionsId=nothing, tagSet=nothing, instanceTenancy=nothing, isDefault=nothing) = 
          new(vpcId, state, cidrBlock, dhcpOptionsId, tagSet, instanceTenancy, isDefault)
 end
-export VpcType
-
-
-type DescribeImagesOwnersType
-    item::Union(Array{DescribeImagesOwnerType,1}, Nothing)
-
-    DescribeImagesOwnersType(; item=nothing) = 
-         new(item)
+function VpcType(pd::ParsedData)
+    o = VpcType()
+    o.vpcId = find(pd, "vpcId#text")
+    o.state = find(pd, "state#text")
+    o.cidrBlock = find(pd, "cidrBlock#text")
+    o.dhcpOptionsId = find(pd, "dhcpOptionsId#text")
+    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.instanceTenancy = find(pd, "instanceTenancy#text")
+    o.isDefault = safe_parse_as(Bool, find(pd, "isDefault#text"))
+    o
 end
-export DescribeImagesOwnersType
+
+export VpcType
 
 
 type SubnetType
@@ -4231,31 +6470,43 @@ type SubnetType
     availabilityZone::Union(ASCIIString, Nothing)
     defaultForAz::Union(Bool, Nothing)
     mapPublicIpOnLaunch::Union(Bool, Nothing)
-    tagSet::Union(Array{ResourceTagSetItemType,1}, Nothing)
+    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
 
     SubnetType(; subnetId=nothing, state=nothing, vpcId=nothing, cidrBlock=nothing, availableIpAddressCount=nothing, availabilityZone=nothing, defaultForAz=nothing, mapPublicIpOnLaunch=nothing, tagSet=nothing) = 
          new(subnetId, state, vpcId, cidrBlock, availableIpAddressCount, availabilityZone, defaultForAz, mapPublicIpOnLaunch, tagSet)
 end
+function SubnetType(pd::ParsedData)
+    o = SubnetType()
+    o.subnetId = find(pd, "subnetId#text")
+    o.state = find(pd, "state#text")
+    o.vpcId = find(pd, "vpcId#text")
+    o.cidrBlock = find(pd, "cidrBlock#text")
+    o.availableIpAddressCount = safe_parse_as(Int32, find(pd, "availableIpAddressCount#text"))
+    o.availabilityZone = find(pd, "availabilityZone#text")
+    o.defaultForAz = safe_parse_as(Bool, find(pd, "defaultForAz#text"))
+    o.mapPublicIpOnLaunch = safe_parse_as(Bool, find(pd, "mapPublicIpOnLaunch#text"))
+    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o
+end
+
 export SubnetType
 
 
 type DescribePlacementGroupsResponseType
     requestId::Union(ASCIIString, Nothing)
-    placementGroupSet::Union(Array{PlacementGroupInfoType,1}, Nothing)
+    placementGroupSet::Union(Vector{PlacementGroupInfoType}, Nothing)
 
     DescribePlacementGroupsResponseType(; requestId=nothing, placementGroupSet=nothing) = 
          new(requestId, placementGroupSet)
 end
-export DescribePlacementGroupsResponseType
-
-
-type SpotInstanceRequestIdSetType
-    item::Union(Array{SpotInstanceRequestIdSetItemType,1}, Nothing)
-
-    SpotInstanceRequestIdSetType(; item=nothing) = 
-         new(item)
+function DescribePlacementGroupsResponseType(pd::ParsedData)
+    o = DescribePlacementGroupsResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.placementGroupSet = @parse_vector(PlacementGroupInfoType, find(pd, "placementGroupSet/item"))
+    o
 end
-export SpotInstanceRequestIdSetType
+
+export DescribePlacementGroupsResponseType
 
 
 type BundleInstanceTaskType
@@ -4271,35 +6522,53 @@ type BundleInstanceTaskType
     BundleInstanceTaskType(; instanceId=nothing, bundleId=nothing, state=nothing, startTime=nothing, updateTime=nothing, storage=nothing, progress=nothing, error=nothing) = 
          new(instanceId, bundleId, state, startTime, updateTime, storage, progress, error)
 end
+function BundleInstanceTaskType(pd::ParsedData)
+    o = BundleInstanceTaskType()
+    o.instanceId = find(pd, "instanceId#text")
+    o.bundleId = find(pd, "bundleId#text")
+    o.state = find(pd, "state#text")
+    o.startTime = safe_parse_as(CalendarTime, find(pd, "startTime#text"))
+    o.updateTime = safe_parse_as(CalendarTime, find(pd, "updateTime#text"))
+    o.storage = haskey(pd.elements, "bundleInstanceTaskStorage") ?  BundleInstanceTaskStorageType(find(pd, "bundleInstanceTaskStorage[1]")) : nothing
+    o.progress = find(pd, "progress#text")
+    o.error = haskey(pd.elements, "bundleInstanceTaskError") ?  BundleInstanceTaskErrorType(find(pd, "bundleInstanceTaskError[1]")) : nothing
+    o
+end
+
 export BundleInstanceTaskType
 
 
 type DescribeVolumesType
-    volumeSet::Union(Array{ASCIIString,1}, Nothing)
-    filterSet::Union(Array{FilterType,1}, Nothing)
+    volumeSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
 
     DescribeVolumesType(; volumeSet=nothing, filterSet=nothing) = 
          new(volumeSet, filterSet)
 end
-export DescribeVolumesType
-
-
-type VpcSetType
-    item::Union(Array{VpcType,1}, Nothing)
-
-    VpcSetType(; item=nothing) = 
-         new(item)
+function DescribeVolumesType(pd::ParsedData)
+    o = DescribeVolumesType()
+    o.volumeSet = parse_vector_as(ASCIIString, "volumeId", find(pd, "item/volumeId"))
+    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o
 end
-export VpcSetType
+
+export DescribeVolumesType
 
 
 type DescribeLicensesResponseType
     requestId::Union(ASCIIString, Nothing)
-    licenseSet::Union(Array{LicenseSetItemType,1}, Nothing)
+    licenseSet::Union(Vector{LicenseSetItemType}, Nothing)
 
     DescribeLicensesResponseType(; requestId=nothing, licenseSet=nothing) = 
          new(requestId, licenseSet)
 end
+function DescribeLicensesResponseType(pd::ParsedData)
+    o = DescribeLicensesResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.licenseSet = @parse_vector(LicenseSetItemType, find(pd, "licenseSet/item"))
+    o
+end
+
 export DescribeLicensesResponseType
 
 
@@ -4310,6 +6579,13 @@ type CreateInstanceExportTaskResponseType
     CreateInstanceExportTaskResponseType(; requestId=nothing, exportTask=nothing) = 
          new(requestId, exportTask)
 end
+function CreateInstanceExportTaskResponseType(pd::ParsedData)
+    o = CreateInstanceExportTaskResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.exportTask = haskey(pd.elements, "exportTaskResponse") ?  ExportTaskResponseType(find(pd, "exportTaskResponse[1]")) : nothing
+    o
+end
+
 export CreateInstanceExportTaskResponseType
 
 
@@ -4318,285 +6594,289 @@ type VpnGatewayType
     state::Union(ASCIIString, Nothing)
     _type::Union(ASCIIString, Nothing)
     availabilityZone::Union(ASCIIString, Nothing)
-    attachments::Union(Array{AttachmentType,1}, Nothing)
-    tagSet::Union(Array{ResourceTagSetItemType,1}, Nothing)
+    attachments::Union(Vector{AttachmentType}, Nothing)
+    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
 
     VpnGatewayType(; vpnGatewayId=nothing, state=nothing, _type=nothing, availabilityZone=nothing, attachments=nothing, tagSet=nothing) = 
          new(vpnGatewayId, state, _type, availabilityZone, attachments, tagSet)
 end
+function VpnGatewayType(pd::ParsedData)
+    o = VpnGatewayType()
+    o.vpnGatewayId = find(pd, "vpnGatewayId#text")
+    o.state = find(pd, "state#text")
+    o._type = find(pd, "_type#text")
+    o.availabilityZone = find(pd, "availabilityZone#text")
+    o.attachments = @parse_vector(AttachmentType, find(pd, "attachments/item"))
+    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o
+end
+
 export VpnGatewayType
 
 
 type DescribeSubnetsType
-    subnetSet::Union(Array{ASCIIString,1}, Nothing)
-    filterSet::Union(Array{FilterType,1}, Nothing)
+    subnetSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
 
     DescribeSubnetsType(; subnetSet=nothing, filterSet=nothing) = 
          new(subnetSet, filterSet)
 end
+function DescribeSubnetsType(pd::ParsedData)
+    o = DescribeSubnetsType()
+    o.subnetSet = parse_vector_as(ASCIIString, "subnetId", find(pd, "item/subnetId"))
+    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o
+end
+
 export DescribeSubnetsType
 
 
 type CreateDhcpOptionsType
-    dhcpConfigurationSet::Union(Array{DhcpConfigurationItemType,1}, Nothing)
+    dhcpConfigurationSet::Union(Vector{DhcpConfigurationItemType}, Nothing)
 
     CreateDhcpOptionsType(; dhcpConfigurationSet=nothing) = 
          new(dhcpConfigurationSet)
 end
+function CreateDhcpOptionsType(pd::ParsedData)
+    o = CreateDhcpOptionsType()
+    o.dhcpConfigurationSet = @parse_vector(DhcpConfigurationItemType, find(pd, "dhcpConfigurationSet/item"))
+    o
+end
+
 export CreateDhcpOptionsType
 
 
 type DescribeVpcsResponseType
     requestId::Union(ASCIIString, Nothing)
-    vpcSet::Union(Array{VpcType,1}, Nothing)
+    vpcSet::Union(Vector{VpcType}, Nothing)
 
     DescribeVpcsResponseType(; requestId=nothing, vpcSet=nothing) = 
          new(requestId, vpcSet)
 end
+function DescribeVpcsResponseType(pd::ParsedData)
+    o = DescribeVpcsResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.vpcSet = @parse_vector(VpcType, find(pd, "vpcSet/item"))
+    o
+end
+
 export DescribeVpcsResponseType
 
 
-type InstanceIdSetType
-    item::Union(Array{InstanceIdType,1}, Nothing)
-
-    InstanceIdSetType(; item=nothing) = 
-         new(item)
-end
-export InstanceIdSetType
-
-
-type LicenseCapacitySetType
-    item::Union(Array{LicenseCapacitySetItemType,1}, Nothing)
-
-    LicenseCapacitySetType(; item=nothing) = 
-         new(item)
-end
-export LicenseCapacitySetType
-
-
-type InstanceBlockDeviceMappingType
-    item::Union(Array{InstanceBlockDeviceMappingItemType,1}, Nothing)
-
-    InstanceBlockDeviceMappingType(; item=nothing) = 
-         new(item)
-end
-export InstanceBlockDeviceMappingType
-
-
-type DescribeReservedInstancesOfferingsResponseSetType
-    item::Union(Array{DescribeReservedInstancesOfferingsResponseSetItemType,1}, Nothing)
-
-    DescribeReservedInstancesOfferingsResponseSetType(; item=nothing) = 
-         new(item)
-end
-export DescribeReservedInstancesOfferingsResponseSetType
-
-
 type DescribeNetworkAclsType
-    networkAclIdSet::Union(Array{ASCIIString,1}, Nothing)
-    filterSet::Union(Array{FilterType,1}, Nothing)
+    networkAclIdSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
 
     DescribeNetworkAclsType(; networkAclIdSet=nothing, filterSet=nothing) = 
          new(networkAclIdSet, filterSet)
 end
+function DescribeNetworkAclsType(pd::ParsedData)
+    o = DescribeNetworkAclsType()
+    o.networkAclIdSet = parse_vector_as(ASCIIString, "networkAclId", find(pd, "item/networkAclId"))
+    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o
+end
+
 export DescribeNetworkAclsType
 
 
 type RevokeSecurityGroupEgressType
     groupId::Union(ASCIIString, Nothing)
-    ipPermissions::Union(Array{IpPermissionType,1}, Nothing)
+    ipPermissions::Union(Vector{IpPermissionType}, Nothing)
 
     RevokeSecurityGroupEgressType(; groupId=nothing, ipPermissions=nothing) = 
          new(groupId, ipPermissions)
 end
+function RevokeSecurityGroupEgressType(pd::ParsedData)
+    o = RevokeSecurityGroupEgressType()
+    o.groupId = find(pd, "groupId#text")
+    o.ipPermissions = @parse_vector(IpPermissionType, find(pd, "ipPermissions/item"))
+    o
+end
+
 export RevokeSecurityGroupEgressType
 
 
 type DhcpOptionsType
     dhcpOptionsId::Union(ASCIIString, Nothing)
-    dhcpConfigurationSet::Union(Array{DhcpConfigurationItemType,1}, Nothing)
-    tagSet::Union(Array{ResourceTagSetItemType,1}, Nothing)
+    dhcpConfigurationSet::Union(Vector{DhcpConfigurationItemType}, Nothing)
+    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
 
     DhcpOptionsType(; dhcpOptionsId=nothing, dhcpConfigurationSet=nothing, tagSet=nothing) = 
          new(dhcpOptionsId, dhcpConfigurationSet, tagSet)
 end
+function DhcpOptionsType(pd::ParsedData)
+    o = DhcpOptionsType()
+    o.dhcpOptionsId = find(pd, "dhcpOptionsId#text")
+    o.dhcpConfigurationSet = @parse_vector(DhcpConfigurationItemType, find(pd, "dhcpConfigurationSet/item"))
+    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o
+end
+
 export DhcpOptionsType
-
-
-type InstanceBlockDeviceMappingResponseType
-    item::Union(Array{InstanceBlockDeviceMappingResponseItemType,1}, Nothing)
-
-    InstanceBlockDeviceMappingResponseType(; item=nothing) = 
-         new(item)
-end
-export InstanceBlockDeviceMappingResponseType
-
-
-type InstanceStatusDetailsSetType
-    item::Union(Array{InstanceStatusDetailsSetItemType,1}, Nothing)
-
-    InstanceStatusDetailsSetType(; item=nothing) = 
-         new(item)
-end
-export InstanceStatusDetailsSetType
 
 
 type DescribeBundleTasksResponseType
     requestId::Union(ASCIIString, Nothing)
-    bundleInstanceTasksSet::Union(Array{BundleInstanceTaskType,1}, Nothing)
+    bundleInstanceTasksSet::Union(Vector{BundleInstanceTaskType}, Nothing)
 
     DescribeBundleTasksResponseType(; requestId=nothing, bundleInstanceTasksSet=nothing) = 
          new(requestId, bundleInstanceTasksSet)
 end
+function DescribeBundleTasksResponseType(pd::ParsedData)
+    o = DescribeBundleTasksResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.bundleInstanceTasksSet = @parse_vector(BundleInstanceTaskType, find(pd, "bundleInstanceTasksSet/item"))
+    o
+end
+
 export DescribeBundleTasksResponseType
 
 
 type VolumeStatusInfoType
     status::Union(ASCIIString, Nothing)
-    details::Union(Array{VolumeStatusDetailsItemType,1}, Nothing)
+    details::Union(Vector{VolumeStatusDetailsItemType}, Nothing)
 
     VolumeStatusInfoType(; status=nothing, details=nothing) = 
          new(status, details)
 end
+function VolumeStatusInfoType(pd::ParsedData)
+    o = VolumeStatusInfoType()
+    o.status = find(pd, "status#text")
+    o.details = @parse_vector(VolumeStatusDetailsItemType, find(pd, "details/item"))
+    o
+end
+
 export VolumeStatusInfoType
 
 
-type RecurringChargesSetType
-    item::Union(Array{RecurringChargesSetItemType,1}, Nothing)
-
-    RecurringChargesSetType(; item=nothing) = 
-         new(item)
-end
-export RecurringChargesSetType
-
-
-type InternetGatewayIdSetType
-    item::Union(Array{InternetGatewayIdSetItemType,1}, Nothing)
-
-    InternetGatewayIdSetType(; item=nothing) = 
-         new(item)
-end
-export InternetGatewayIdSetType
-
-
 type DescribeAccountAttributesType
-    accountAttributeNameSet::Union(Array{ASCIIString,1}, Nothing)
-    filterSet::Union(Array{FilterType,1}, Nothing)
+    accountAttributeNameSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
 
     DescribeAccountAttributesType(; accountAttributeNameSet=nothing, filterSet=nothing) = 
          new(accountAttributeNameSet, filterSet)
 end
+function DescribeAccountAttributesType(pd::ParsedData)
+    o = DescribeAccountAttributesType()
+    o.accountAttributeNameSet = parse_vector_as(ASCIIString, "attributeName", find(pd, "item/attributeName"))
+    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o
+end
+
 export DescribeAccountAttributesType
 
 
-type CustomerGatewaySetType
-    item::Union(Array{CustomerGatewayType,1}, Nothing)
-
-    CustomerGatewaySetType(; item=nothing) = 
-         new(item)
-end
-export CustomerGatewaySetType
-
-
 type LaunchPermissionOperationType
-    add::Union(Array{LaunchPermissionItemType,1}, Nothing)
-    remove::Union(Array{LaunchPermissionItemType,1}, Nothing)
+    add::Union(Vector{LaunchPermissionItemType}, Nothing)
+    remove::Union(Vector{LaunchPermissionItemType}, Nothing)
 
     LaunchPermissionOperationType(; add=nothing, remove=nothing) = 
          new(add, remove)
 end
+function LaunchPermissionOperationType(pd::ParsedData)
+    o = LaunchPermissionOperationType()
+    o.add = @parse_vector(LaunchPermissionItemType, find(pd, "add/item"))
+    o.remove = @parse_vector(LaunchPermissionItemType, find(pd, "remove/item"))
+    o
+end
+
 export LaunchPermissionOperationType
 
 
 type DescribePlacementGroupsType
-    placementGroupSet::Union(Array{ASCIIString,1}, Nothing)
-    filterSet::Union(Array{FilterType,1}, Nothing)
+    placementGroupSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
 
     DescribePlacementGroupsType(; placementGroupSet=nothing, filterSet=nothing) = 
          new(placementGroupSet, filterSet)
 end
+function DescribePlacementGroupsType(pd::ParsedData)
+    o = DescribePlacementGroupsType()
+    o.placementGroupSet = parse_vector_as(ASCIIString, "groupName", find(pd, "item/groupName"))
+    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o
+end
+
 export DescribePlacementGroupsType
 
 
 type DescribeExportTasksResponseType
     requestId::Union(ASCIIString, Nothing)
-    exportTaskSet::Union(Array{ExportTaskResponseType,1}, Nothing)
+    exportTaskSet::Union(Vector{ExportTaskResponseType}, Nothing)
 
     DescribeExportTasksResponseType(; requestId=nothing, exportTaskSet=nothing) = 
          new(requestId, exportTaskSet)
 end
+function DescribeExportTasksResponseType(pd::ParsedData)
+    o = DescribeExportTasksResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.exportTaskSet = @parse_vector(ExportTaskResponseType, find(pd, "exportTaskSet/item"))
+    o
+end
+
 export DescribeExportTasksResponseType
 
 
 type DescribeInstanceStatusResponseType
     requestId::Union(ASCIIString, Nothing)
-    instanceStatusSet::Union(Array{InstanceStatusItemType,1}, Nothing)
+    instanceStatusSet::Union(Vector{InstanceStatusItemType}, Nothing)
     nextToken::Union(ASCIIString, Nothing)
 
     DescribeInstanceStatusResponseType(; requestId=nothing, instanceStatusSet=nothing, nextToken=nothing) = 
          new(requestId, instanceStatusSet, nextToken)
 end
-export DescribeInstanceStatusResponseType
-
-
-type BlockDeviceMappingType
-    item::Union(Array{BlockDeviceMappingItemType,1}, Nothing)
-
-    BlockDeviceMappingType(; item=nothing) = 
-         new(item)
+function DescribeInstanceStatusResponseType(pd::ParsedData)
+    o = DescribeInstanceStatusResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.instanceStatusSet = @parse_vector(InstanceStatusItemType, find(pd, "instanceStatusSet/item"))
+    o.nextToken = find(pd, "nextToken#text")
+    o
 end
-export BlockDeviceMappingType
+
+export DescribeInstanceStatusResponseType
 
 
 type DescribeRegionsResponseType
     requestId::Union(ASCIIString, Nothing)
-    regionInfo::Union(Array{RegionItemType,1}, Nothing)
+    regionInfo::Union(Vector{RegionItemType}, Nothing)
 
     DescribeRegionsResponseType(; requestId=nothing, regionInfo=nothing) = 
          new(requestId, regionInfo)
 end
+function DescribeRegionsResponseType(pd::ParsedData)
+    o = DescribeRegionsResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.regionInfo = @parse_vector(RegionItemType, find(pd, "regionInfo/item"))
+    o
+end
+
 export DescribeRegionsResponseType
 
 
 type RouteTableType
     routeTableId::Union(ASCIIString, Nothing)
     vpcId::Union(ASCIIString, Nothing)
-    routeSet::Union(Array{RouteType,1}, Nothing)
-    associationSet::Union(Array{RouteTableAssociationType,1}, Nothing)
-    propagatingVgwSet::Union(Array{ASCIIString,1}, Nothing)
-    tagSet::Union(Array{ResourceTagSetItemType,1}, Nothing)
+    routeSet::Union(Vector{RouteType}, Nothing)
+    associationSet::Union(Vector{RouteTableAssociationType}, Nothing)
+    propagatingVgwSet::Union(Vector{ASCIIString}, Nothing)
+    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
 
     RouteTableType(; routeTableId=nothing, vpcId=nothing, routeSet=nothing, associationSet=nothing, propagatingVgwSet=nothing, tagSet=nothing) = 
          new(routeTableId, vpcId, routeSet, associationSet, propagatingVgwSet, tagSet)
 end
+function RouteTableType(pd::ParsedData)
+    o = RouteTableType()
+    o.routeTableId = find(pd, "routeTableId#text")
+    o.vpcId = find(pd, "vpcId#text")
+    o.routeSet = @parse_vector(RouteType, find(pd, "routeSet/item"))
+    o.associationSet = @parse_vector(RouteTableAssociationType, find(pd, "associationSet/item"))
+    o.propagatingVgwSet = parse_vector_as(ASCIIString, "gatewayId", find(pd, "item/gatewayId"))
+    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o
+end
+
 export RouteTableType
-
-
-type AccountAttributeValueSetType
-    item::Union(Array{AccountAttributeValueSetItemType,1}, Nothing)
-
-    AccountAttributeValueSetType(; item=nothing) = 
-         new(item)
-end
-export AccountAttributeValueSetType
-
-
-type ExportTaskIdSetType
-    item::Union(Array{ExportTaskIdType,1}, Nothing)
-
-    ExportTaskIdSetType(; item=nothing) = 
-         new(item)
-end
-export ExportTaskIdSetType
-
-
-type InstanceCountsSetType
-    item::Union(Array{InstanceCountsSetItemType,1}, Nothing)
-
-    InstanceCountsSetType(; item=nothing) = 
-         new(item)
-end
-export InstanceCountsSetType
 
 
 type VpnConnectionType
@@ -4606,93 +6886,68 @@ type VpnConnectionType
     _type::Union(ASCIIString, Nothing)
     customerGatewayId::Union(ASCIIString, Nothing)
     vpnGatewayId::Union(ASCIIString, Nothing)
-    tagSet::Union(Array{ResourceTagSetItemType,1}, Nothing)
-    vgwTelemetry::Union(Array{VpnTunnelTelemetryType,1}, Nothing)
+    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
+    vgwTelemetry::Union(Vector{VpnTunnelTelemetryType}, Nothing)
     options::Union(VpnConnectionOptionsResponseType, Nothing)
-    routes::Union(Array{VpnStaticRouteType,1}, Nothing)
+    routes::Union(Vector{VpnStaticRouteType}, Nothing)
 
     VpnConnectionType(; vpnConnectionId=nothing, state=nothing, customerGatewayConfiguration=nothing, _type=nothing, customerGatewayId=nothing, vpnGatewayId=nothing, tagSet=nothing, vgwTelemetry=nothing, options=nothing, routes=nothing) = 
          new(vpnConnectionId, state, customerGatewayConfiguration, _type, customerGatewayId, vpnGatewayId, tagSet, vgwTelemetry, options, routes)
 end
-export VpnConnectionType
-
-
-type DescribeAddressesResponseInfoType
-    item::Union(Array{DescribeAddressesResponseItemType,1}, Nothing)
-
-    DescribeAddressesResponseInfoType(; item=nothing) = 
-         new(item)
+function VpnConnectionType(pd::ParsedData)
+    o = VpnConnectionType()
+    o.vpnConnectionId = find(pd, "vpnConnectionId#text")
+    o.state = find(pd, "state#text")
+    o.customerGatewayConfiguration = find(pd, "customerGatewayConfiguration#text")
+    o._type = find(pd, "_type#text")
+    o.customerGatewayId = find(pd, "customerGatewayId#text")
+    o.vpnGatewayId = find(pd, "vpnGatewayId#text")
+    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.vgwTelemetry = @parse_vector(VpnTunnelTelemetryType, find(pd, "vgwTelemetry/item"))
+    o.options = haskey(pd.elements, "vpnConnectionOptionsResponse") ?  VpnConnectionOptionsResponseType(find(pd, "vpnConnectionOptionsResponse[1]")) : nothing
+    o.routes = @parse_vector(VpnStaticRouteType, find(pd, "routes/item"))
+    o
 end
-export DescribeAddressesResponseInfoType
+
+export VpnConnectionType
 
 
 type DescribeKeyPairsResponseType
     requestId::Union(ASCIIString, Nothing)
-    keySet::Union(Array{DescribeKeyPairsResponseItemType,1}, Nothing)
+    keySet::Union(Vector{DescribeKeyPairsResponseItemType}, Nothing)
 
     DescribeKeyPairsResponseType(; requestId=nothing, keySet=nothing) = 
          new(requestId, keySet)
 end
+function DescribeKeyPairsResponseType(pd::ParsedData)
+    o = DescribeKeyPairsResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.keySet = @parse_vector(DescribeKeyPairsResponseItemType, find(pd, "keySet/item"))
+    o
+end
+
 export DescribeKeyPairsResponseType
 
 
 type DescribeDhcpOptionsType
-    dhcpOptionsSet::Union(Array{ASCIIString,1}, Nothing)
-    filterSet::Union(Array{FilterType,1}, Nothing)
+    dhcpOptionsSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
 
     DescribeDhcpOptionsType(; dhcpOptionsSet=nothing, filterSet=nothing) = 
          new(dhcpOptionsSet, filterSet)
 end
+function DescribeDhcpOptionsType(pd::ParsedData)
+    o = DescribeDhcpOptionsType()
+    o.dhcpOptionsSet = parse_vector_as(ASCIIString, "dhcpOptionsId", find(pd, "item/dhcpOptionsId"))
+    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o
+end
+
 export DescribeDhcpOptionsType
 
 
-type InternetGatewaySetType
-    item::Union(Array{InternetGatewayType,1}, Nothing)
-
-    InternetGatewaySetType(; item=nothing) = 
-         new(item)
-end
-export InternetGatewaySetType
-
-
-type DescribeReservedInstancesOfferingsSetType
-    item::Union(Array{DescribeReservedInstancesOfferingsSetItemType,1}, Nothing)
-
-    DescribeReservedInstancesOfferingsSetType(; item=nothing) = 
-         new(item)
-end
-export DescribeReservedInstancesOfferingsSetType
-
-
-type LicenseIdSetType
-    item::Union(Array{LicenseIdSetItemType,1}, Nothing)
-
-    LicenseIdSetType(; item=nothing) = 
-         new(item)
-end
-export LicenseIdSetType
-
-
-type InstanceStatusEventsSetType
-    item::Union(Array{InstanceStatusEventType,1}, Nothing)
-
-    InstanceStatusEventsSetType(; item=nothing) = 
-         new(item)
-end
-export InstanceStatusEventsSetType
-
-
-type DescribeImagesExecutableBySetType
-    item::Union(Array{DescribeImagesExecutableByType,1}, Nothing)
-
-    DescribeImagesExecutableBySetType(; item=nothing) = 
-         new(item)
-end
-export DescribeImagesExecutableBySetType
-
-
 type ImportInstanceTaskDetailsType
-    volumes::Union(Array{ImportInstanceVolumeDetailItemType,1}, Nothing)
+    volumes::Union(Vector{ImportInstanceVolumeDetailItemType}, Nothing)
     instanceId::Union(ASCIIString, Nothing)
     platform::Union(ASCIIString, Nothing)
     description::Union(ASCIIString, Nothing)
@@ -4700,25 +6955,16 @@ type ImportInstanceTaskDetailsType
     ImportInstanceTaskDetailsType(; volumes=nothing, instanceId=nothing, platform=nothing, description=nothing) = 
          new(volumes, instanceId, platform, description)
 end
+function ImportInstanceTaskDetailsType(pd::ParsedData)
+    o = ImportInstanceTaskDetailsType()
+    o.volumes = @parse_vector(ImportInstanceVolumeDetailItemType, find(pd, "volumes/item"))
+    o.instanceId = find(pd, "instanceId#text")
+    o.platform = find(pd, "platform#text")
+    o.description = find(pd, "description#text")
+    o
+end
+
 export ImportInstanceTaskDetailsType
-
-
-type RouteTableIdSetType
-    item::Union(Array{RouteTableIdSetItemType,1}, Nothing)
-
-    RouteTableIdSetType(; item=nothing) = 
-         new(item)
-end
-export RouteTableIdSetType
-
-
-type AssignPrivateIpAddressesSetRequestType
-    item::Union(Array{AssignPrivateIpAddressesSetItemRequestType,1}, Nothing)
-
-    AssignPrivateIpAddressesSetRequestType(; item=nothing) = 
-         new(item)
-end
-export AssignPrivateIpAddressesSetRequestType
 
 
 type ImportVolumeTaskDetailsType
@@ -4731,6 +6977,16 @@ type ImportVolumeTaskDetailsType
     ImportVolumeTaskDetailsType(; bytesConverted=nothing, availabilityZone=nothing, description=nothing, image=nothing, volume=nothing) = 
          new(bytesConverted, availabilityZone, description, image, volume)
 end
+function ImportVolumeTaskDetailsType(pd::ParsedData)
+    o = ImportVolumeTaskDetailsType()
+    o.bytesConverted = safe_parse_as(Int64, find(pd, "bytesConverted#text"))
+    o.availabilityZone = find(pd, "availabilityZone#text")
+    o.description = find(pd, "description#text")
+    o.image = haskey(pd.elements, "diskImageDescription") ?  DiskImageDescriptionType(find(pd, "diskImageDescription[1]")) : nothing
+    o.volume = haskey(pd.elements, "diskImageVolumeDescription") ?  DiskImageVolumeDescriptionType(find(pd, "diskImageVolumeDescription[1]")) : nothing
+    o
+end
+
 export ImportVolumeTaskDetailsType
 
 
@@ -4740,60 +6996,29 @@ type InstanceNetworkInterfaceSetItemRequestType
     subnetId::Union(ASCIIString, Nothing)
     description::Union(ASCIIString, Nothing)
     privateIpAddress::Union(ASCIIString, Nothing)
-    groupSet::Union(Array{ASCIIString,1}, Nothing)
+    groupSet::Union(Vector{ASCIIString}, Nothing)
     deleteOnTermination::Union(Bool, Nothing)
-    privateIpAddressesSet::Union(Array{PrivateIpAddressesSetItemRequestType,1}, Nothing)
+    privateIpAddressesSet::Union(Vector{PrivateIpAddressesSetItemRequestType}, Nothing)
     secondaryPrivateIpAddressCount::Union(Int32, Nothing)
 
     InstanceNetworkInterfaceSetItemRequestType(; networkInterfaceId=nothing, deviceIndex=nothing, subnetId=nothing, description=nothing, privateIpAddress=nothing, groupSet=nothing, deleteOnTermination=nothing, privateIpAddressesSet=nothing, secondaryPrivateIpAddressCount=nothing) = 
          new(networkInterfaceId, deviceIndex, subnetId, description, privateIpAddress, groupSet, deleteOnTermination, privateIpAddressesSet, secondaryPrivateIpAddressCount)
 end
+function InstanceNetworkInterfaceSetItemRequestType(pd::ParsedData)
+    o = InstanceNetworkInterfaceSetItemRequestType()
+    o.networkInterfaceId = find(pd, "networkInterfaceId#text")
+    o.deviceIndex = safe_parse_as(Int32, find(pd, "deviceIndex#text"))
+    o.subnetId = find(pd, "subnetId#text")
+    o.description = find(pd, "description#text")
+    o.privateIpAddress = find(pd, "privateIpAddress#text")
+    o.groupSet = parse_vector_as(ASCIIString, "groupId", find(pd, "item/groupId"))
+    o.deleteOnTermination = safe_parse_as(Bool, find(pd, "deleteOnTermination#text"))
+    o.privateIpAddressesSet = @parse_vector(PrivateIpAddressesSetItemRequestType, find(pd, "privateIpAddressesSet/item"))
+    o.secondaryPrivateIpAddressCount = safe_parse_as(Int32, find(pd, "secondaryPrivateIpAddressCount#text"))
+    o
+end
+
 export InstanceNetworkInterfaceSetItemRequestType
-
-
-type NetworkAclIdSetType
-    item::Union(Array{NetworkAclIdSetItemType,1}, Nothing)
-
-    NetworkAclIdSetType(; item=nothing) = 
-         new(item)
-end
-export NetworkAclIdSetType
-
-
-type InstanceStatusSetType
-    item::Union(Array{InstanceStatusItemType,1}, Nothing)
-
-    InstanceStatusSetType(; item=nothing) = 
-         new(item)
-end
-export InstanceStatusSetType
-
-
-type DescribeInstancesInfoType
-    item::Union(Array{DescribeInstancesItemType,1}, Nothing)
-
-    DescribeInstancesInfoType(; item=nothing) = 
-         new(item)
-end
-export DescribeInstancesInfoType
-
-
-type ImportInstanceGroupSetType
-    item::Union(Array{ImportInstanceGroupItemType,1}, Nothing)
-
-    ImportInstanceGroupSetType(; item=nothing) = 
-         new(item)
-end
-export ImportInstanceGroupSetType
-
-
-type MonitorInstancesSetType
-    item::Union(Array{MonitorInstancesSetItemType,1}, Nothing)
-
-    MonitorInstancesSetType(; item=nothing) = 
-         new(item)
-end
-export MonitorInstancesSetType
 
 
 type PurchaseReservedInstancesOfferingType
@@ -4804,17 +7029,33 @@ type PurchaseReservedInstancesOfferingType
     PurchaseReservedInstancesOfferingType(; reservedInstancesOfferingId=nothing, instanceCount=nothing, limitPrice=nothing) = 
          new(reservedInstancesOfferingId, instanceCount, limitPrice)
 end
+function PurchaseReservedInstancesOfferingType(pd::ParsedData)
+    o = PurchaseReservedInstancesOfferingType()
+    o.reservedInstancesOfferingId = find(pd, "reservedInstancesOfferingId#text")
+    o.instanceCount = safe_parse_as(Int32, find(pd, "instanceCount#text"))
+    o.limitPrice = haskey(pd.elements, "reservedInstanceLimitPrice") ?  ReservedInstanceLimitPriceType(find(pd, "reservedInstanceLimitPrice[1]")) : nothing
+    o
+end
+
 export PurchaseReservedInstancesOfferingType
 
 
 type DescribeReservedInstancesOfferingsResponseType
     requestId::Union(ASCIIString, Nothing)
-    reservedInstancesOfferingsSet::Union(Array{DescribeReservedInstancesOfferingsResponseSetItemType,1}, Nothing)
+    reservedInstancesOfferingsSet::Union(Vector{DescribeReservedInstancesOfferingsResponseSetItemType}, Nothing)
     nextToken::Union(ASCIIString, Nothing)
 
     DescribeReservedInstancesOfferingsResponseType(; requestId=nothing, reservedInstancesOfferingsSet=nothing, nextToken=nothing) = 
          new(requestId, reservedInstancesOfferingsSet, nextToken)
 end
+function DescribeReservedInstancesOfferingsResponseType(pd::ParsedData)
+    o = DescribeReservedInstancesOfferingsResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.reservedInstancesOfferingsSet = @parse_vector(DescribeReservedInstancesOfferingsResponseSetItemType, find(pd, "reservedInstancesOfferingsSet/item"))
+    o.nextToken = find(pd, "nextToken#text")
+    o
+end
+
 export DescribeReservedInstancesOfferingsResponseType
 
 
@@ -4831,22 +7072,65 @@ type CreateNetworkAclEntryType
     CreateNetworkAclEntryType(; networkAclId=nothing, ruleNumber=nothing, protocol=nothing, ruleAction=nothing, egress=nothing, cidrBlock=nothing, icmpTypeCode=nothing, portRange=nothing) = 
          new(networkAclId, ruleNumber, protocol, ruleAction, egress, cidrBlock, icmpTypeCode, portRange)
 end
+function CreateNetworkAclEntryType(pd::ParsedData)
+    o = CreateNetworkAclEntryType()
+    o.networkAclId = find(pd, "networkAclId#text")
+    o.ruleNumber = safe_parse_as(Int32, find(pd, "ruleNumber#text"))
+    o.protocol = find(pd, "protocol#text")
+    o.ruleAction = find(pd, "ruleAction#text")
+    o.egress = safe_parse_as(Bool, find(pd, "egress#text"))
+    o.cidrBlock = find(pd, "cidrBlock#text")
+    o.icmpTypeCode = haskey(pd.elements, "icmpTypeCode") ?  IcmpTypeCodeType(find(pd, "icmpTypeCode[1]")) : nothing
+    o.portRange = haskey(pd.elements, "portRange") ?  PortRangeType(find(pd, "portRange[1]")) : nothing
+    o
+end
+
 export CreateNetworkAclEntryType
 
 
 type RevokeSecurityGroupIngressType
     userId::Union(ASCIIString, Nothing)
-    ipPermissions::Union(Array{IpPermissionType,1}, Nothing)
+    ipPermissions::Union(Vector{IpPermissionType}, Nothing)
 
     RevokeSecurityGroupIngressType(; userId=nothing, ipPermissions=nothing) = 
          new(userId, ipPermissions)
 end
+function RevokeSecurityGroupIngressType(pd::ParsedData)
+    o = RevokeSecurityGroupIngressType()
+    o.userId = find(pd, "userId#text")
+    o.ipPermissions = @parse_vector(IpPermissionType, find(pd, "ipPermissions/item"))
+    o
+end
+
 export RevokeSecurityGroupIngressType
 
 
+type CreateImageType
+    instanceId::Union(ASCIIString, Nothing)
+    name::Union(ASCIIString, Nothing)
+    description::Union(ASCIIString, Nothing)
+    noReboot::Union(Bool, Nothing)
+    blockDeviceMapping::Union(Vector{BlockDeviceMappingItemType}, Nothing)
+
+    CreateImageType(; instanceId=nothing, name=nothing, description=nothing, noReboot=nothing, blockDeviceMapping=nothing) = 
+         new(instanceId, name, description, noReboot, blockDeviceMapping)
+end
+function CreateImageType(pd::ParsedData)
+    o = CreateImageType()
+    o.instanceId = find(pd, "instanceId#text")
+    o.name = find(pd, "name#text")
+    o.description = find(pd, "description#text")
+    o.noReboot = safe_parse_as(Bool, find(pd, "noReboot#text"))
+    o.blockDeviceMapping = @parse_vector(BlockDeviceMappingItemType, find(pd, "blockDeviceMapping/item"))
+    o
+end
+
+export CreateImageType
+
+
 type DescribeInstanceStatusType
-    instancesSet::Union(Array{ASCIIString,1}, Nothing)
-    filterSet::Union(Array{FilterType,1}, Nothing)
+    instancesSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
     nextToken::Union(ASCIIString, Nothing)
     maxResults::Union(Int32, Nothing)
     includeAllInstances::Union(Bool, Nothing)
@@ -4854,64 +7138,69 @@ type DescribeInstanceStatusType
     DescribeInstanceStatusType(; instancesSet=nothing, filterSet=nothing, nextToken=nothing, maxResults=nothing, includeAllInstances=nothing) = 
          new(instancesSet, filterSet, nextToken, maxResults, includeAllInstances)
 end
+function DescribeInstanceStatusType(pd::ParsedData)
+    o = DescribeInstanceStatusType()
+    o.instancesSet = parse_vector_as(ASCIIString, "instanceId", find(pd, "item/instanceId"))
+    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o.nextToken = find(pd, "nextToken#text")
+    o.maxResults = safe_parse_as(Int32, find(pd, "maxResults#text"))
+    o.includeAllInstances = safe_parse_as(Bool, find(pd, "includeAllInstances#text"))
+    o
+end
+
 export DescribeInstanceStatusType
 
 
 type DescribeKeyPairsType
-    keySet::Union(Array{ASCIIString,1}, Nothing)
-    filterSet::Union(Array{FilterType,1}, Nothing)
+    keySet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
 
     DescribeKeyPairsType(; keySet=nothing, filterSet=nothing) = 
          new(keySet, filterSet)
 end
+function DescribeKeyPairsType(pd::ParsedData)
+    o = DescribeKeyPairsType()
+    o.keySet = parse_vector_as(ASCIIString, "keyName", find(pd, "item/keyName"))
+    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o
+end
+
 export DescribeKeyPairsType
-
-
-type PropagatingVgwSetType
-    item::Union(Array{PropagatingVgwType,1}, Nothing)
-
-    PropagatingVgwSetType(; item=nothing) = 
-         new(item)
-end
-export PropagatingVgwSetType
-
-
-type AttachmentSetResponseType
-    item::Union(Array{AttachmentSetItemResponseType,1}, Nothing)
-
-    AttachmentSetResponseType(; item=nothing) = 
-         new(item)
-end
-export AttachmentSetResponseType
 
 
 type DescribeCustomerGatewaysResponseType
     requestId::Union(ASCIIString, Nothing)
-    customerGatewaySet::Union(Array{CustomerGatewayType,1}, Nothing)
+    customerGatewaySet::Union(Vector{CustomerGatewayType}, Nothing)
 
     DescribeCustomerGatewaysResponseType(; requestId=nothing, customerGatewaySet=nothing) = 
          new(requestId, customerGatewaySet)
 end
+function DescribeCustomerGatewaysResponseType(pd::ParsedData)
+    o = DescribeCustomerGatewaysResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.customerGatewaySet = @parse_vector(CustomerGatewayType, find(pd, "customerGatewaySet/item"))
+    o
+end
+
 export DescribeCustomerGatewaysResponseType
 
 
-type PricingDetailsSetType
-    item::Union(Array{PricingDetailsSetItemType,1}, Nothing)
-
-    PricingDetailsSetType(; item=nothing) = 
-         new(item)
-end
-export PricingDetailsSetType
-
-
 type DescribeReservedInstancesListingsType
-    reservedInstancesListingSet::Union(Array{ASCIIString,1}, Nothing)
-    reservedInstancesSet::Union(Array{ASCIIString,1}, Nothing)
-    filterSet::Union(Array{FilterType,1}, Nothing)
+    reservedInstancesListingSet::Union(Vector{ASCIIString}, Nothing)
+    reservedInstancesSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
 
     DescribeReservedInstancesListingsType(; reservedInstancesListingSet=nothing, reservedInstancesSet=nothing, filterSet=nothing) = 
          new(reservedInstancesListingSet, reservedInstancesSet, filterSet)
 end
+function DescribeReservedInstancesListingsType(pd::ParsedData)
+    o = DescribeReservedInstancesListingsType()
+    o.reservedInstancesListingSet = parse_vector_as(ASCIIString, "reservedInstancesListingId", find(pd, "item/reservedInstancesListingId"))
+    o.reservedInstancesSet = parse_vector_as(ASCIIString, "reservedInstancesId", find(pd, "item/reservedInstancesId"))
+    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o
+end
+
 export DescribeReservedInstancesListingsType
 
 
@@ -4922,24 +7211,30 @@ type DescribeVolumesSetItemResponseType
     availabilityZone::Union(ASCIIString, Nothing)
     status::Union(ASCIIString, Nothing)
     createTime::Union(CalendarTime, Nothing)
-    attachmentSet::Union(Array{AttachmentSetItemResponseType,1}, Nothing)
-    tagSet::Union(Array{ResourceTagSetItemType,1}, Nothing)
+    attachmentSet::Union(Vector{AttachmentSetItemResponseType}, Nothing)
+    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
     volumeType::Union(ASCIIString, Nothing)
     iops::Union(Int32, Nothing)
 
     DescribeVolumesSetItemResponseType(; volumeId=nothing, size=nothing, snapshotId=nothing, availabilityZone=nothing, status=nothing, createTime=nothing, attachmentSet=nothing, tagSet=nothing, volumeType=nothing, iops=nothing) = 
          new(volumeId, size, snapshotId, availabilityZone, status, createTime, attachmentSet, tagSet, volumeType, iops)
 end
-export DescribeVolumesSetItemResponseType
-
-
-type ProductCodeListType
-    item::Union(Array{ProductCodeItemType,1}, Nothing)
-
-    ProductCodeListType(; item=nothing) = 
-         new(item)
+function DescribeVolumesSetItemResponseType(pd::ParsedData)
+    o = DescribeVolumesSetItemResponseType()
+    o.volumeId = find(pd, "volumeId#text")
+    o.size = find(pd, "size#text")
+    o.snapshotId = find(pd, "snapshotId#text")
+    o.availabilityZone = find(pd, "availabilityZone#text")
+    o.status = find(pd, "status#text")
+    o.createTime = safe_parse_as(CalendarTime, find(pd, "createTime#text"))
+    o.attachmentSet = @parse_vector(AttachmentSetItemResponseType, find(pd, "attachmentSet/item"))
+    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.volumeType = find(pd, "volumeType#text")
+    o.iops = safe_parse_as(Int32, find(pd, "iops#text"))
+    o
 end
-export ProductCodeListType
+
+export DescribeVolumesSetItemResponseType
 
 
 type CreateNetworkAclResponseType
@@ -4949,6 +7244,13 @@ type CreateNetworkAclResponseType
     CreateNetworkAclResponseType(; requestId=nothing, networkAcl=nothing) = 
          new(requestId, networkAcl)
 end
+function CreateNetworkAclResponseType(pd::ParsedData)
+    o = CreateNetworkAclResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.networkAcl = haskey(pd.elements, "networkAcl") ?  NetworkAclType(find(pd, "networkAcl[1]")) : nothing
+    o
+end
+
 export CreateNetworkAclResponseType
 
 
@@ -4959,34 +7261,45 @@ type DescribeSpotDatafeedSubscriptionResponseType
     DescribeSpotDatafeedSubscriptionResponseType(; requestId=nothing, spotDatafeedSubscription=nothing) = 
          new(requestId, spotDatafeedSubscription)
 end
+function DescribeSpotDatafeedSubscriptionResponseType(pd::ParsedData)
+    o = DescribeSpotDatafeedSubscriptionResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.spotDatafeedSubscription = haskey(pd.elements, "spotDatafeedSubscription") ?  SpotDatafeedSubscriptionType(find(pd, "spotDatafeedSubscription[1]")) : nothing
+    o
+end
+
 export DescribeSpotDatafeedSubscriptionResponseType
 
 
-type DescribeSnapshotsOwnersType
-    item::Union(Array{DescribeSnapshotsOwnerType,1}, Nothing)
-
-    DescribeSnapshotsOwnersType(; item=nothing) = 
-         new(item)
-end
-export DescribeSnapshotsOwnersType
-
-
 type DescribeTagsType
-    filterSet::Union(Array{FilterType,1}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
 
     DescribeTagsType(; filterSet=nothing) = 
          new(filterSet)
 end
+function DescribeTagsType(pd::ParsedData)
+    o = DescribeTagsType()
+    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o
+end
+
 export DescribeTagsType
 
 
 type DescribeAccountAttributesResponseType
     requestId::Union(ASCIIString, Nothing)
-    accountAttributeSet::Union(Array{AccountAttributeSetItemType,1}, Nothing)
+    accountAttributeSet::Union(Vector{AccountAttributeSetItemType}, Nothing)
 
     DescribeAccountAttributesResponseType(; requestId=nothing, accountAttributeSet=nothing) = 
          new(requestId, accountAttributeSet)
 end
+function DescribeAccountAttributesResponseType(pd::ParsedData)
+    o = DescribeAccountAttributesResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.accountAttributeSet = @parse_vector(AccountAttributeSetItemType, find(pd, "accountAttributeSet/item"))
+    o
+end
+
 export DescribeAccountAttributesResponseType
 
 
@@ -4997,37 +7310,35 @@ type CreateSpotDatafeedSubscriptionResponseType
     CreateSpotDatafeedSubscriptionResponseType(; requestId=nothing, spotDatafeedSubscription=nothing) = 
          new(requestId, spotDatafeedSubscription)
 end
+function CreateSpotDatafeedSubscriptionResponseType(pd::ParsedData)
+    o = CreateSpotDatafeedSubscriptionResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.spotDatafeedSubscription = haskey(pd.elements, "spotDatafeedSubscription") ?  SpotDatafeedSubscriptionType(find(pd, "spotDatafeedSubscription[1]")) : nothing
+    o
+end
+
 export CreateSpotDatafeedSubscriptionResponseType
 
 
-type DescribeSecurityGroupsIdSetType
-    item::Union(Array{DescribeSecurityGroupsIdSetItemType,1}, Nothing)
-
-    DescribeSecurityGroupsIdSetType(; item=nothing) = 
-         new(item)
-end
-export DescribeSecurityGroupsIdSetType
-
-
 type DescribeVolumeStatusType
-    volumeSet::Union(Array{ASCIIString,1}, Nothing)
-    filterSet::Union(Array{FilterType,1}, Nothing)
-    maxResults::Union(Int, Nothing)
+    volumeSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
+    maxResults::Union(Int32, Nothing)
     nextToken::Union(ASCIIString, Nothing)
 
     DescribeVolumeStatusType(; volumeSet=nothing, filterSet=nothing, maxResults=nothing, nextToken=nothing) = 
          new(volumeSet, filterSet, maxResults, nextToken)
 end
-export DescribeVolumeStatusType
-
-
-type DescribeReservedInstancesSetType
-    item::Union(Array{DescribeReservedInstancesSetItemType,1}, Nothing)
-
-    DescribeReservedInstancesSetType(; item=nothing) = 
-         new(item)
+function DescribeVolumeStatusType(pd::ParsedData)
+    o = DescribeVolumeStatusType()
+    o.volumeSet = parse_vector_as(ASCIIString, "volumeId", find(pd, "item/volumeId"))
+    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o.maxResults = safe_parse_as(Int32, find(pd, "maxResults#text"))
+    o.nextToken = find(pd, "nextToken#text")
+    o
 end
-export DescribeReservedInstancesSetType
+
+export DescribeVolumeStatusType
 
 
 type CreateCustomerGatewayResponseType
@@ -5037,32 +7348,43 @@ type CreateCustomerGatewayResponseType
     CreateCustomerGatewayResponseType(; requestId=nothing, customerGateway=nothing) = 
          new(requestId, customerGateway)
 end
+function CreateCustomerGatewayResponseType(pd::ParsedData)
+    o = CreateCustomerGatewayResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.customerGateway = haskey(pd.elements, "customerGateway") ?  CustomerGatewayType(find(pd, "customerGateway[1]")) : nothing
+    o
+end
+
 export CreateCustomerGatewayResponseType
 
 
 type DescribeSpotPriceHistoryType
     startTime::Union(CalendarTime, Nothing)
     endTime::Union(CalendarTime, Nothing)
-    instanceTypeSet::Union(Array{ASCIIString,1}, Nothing)
-    productDescriptionSet::Union(Array{ASCIIString,1}, Nothing)
-    filterSet::Union(Array{FilterType,1}, Nothing)
+    instanceTypeSet::Union(Vector{ASCIIString}, Nothing)
+    productDescriptionSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
     availabilityZone::Union(ASCIIString, Nothing)
-    maxResults::Union(Int, Nothing)
+    maxResults::Union(Int32, Nothing)
     nextToken::Union(ASCIIString, Nothing)
 
     DescribeSpotPriceHistoryType(; startTime=nothing, endTime=nothing, instanceTypeSet=nothing, productDescriptionSet=nothing, filterSet=nothing, availabilityZone=nothing, maxResults=nothing, nextToken=nothing) = 
          new(startTime, endTime, instanceTypeSet, productDescriptionSet, filterSet, availabilityZone, maxResults, nextToken)
 end
-export DescribeSpotPriceHistoryType
-
-
-type DescribeReservedInstancesListingsResponseSetType
-    item::Union(Array{DescribeReservedInstancesListingsResponseSetItemType,1}, Nothing)
-
-    DescribeReservedInstancesListingsResponseSetType(; item=nothing) = 
-         new(item)
+function DescribeSpotPriceHistoryType(pd::ParsedData)
+    o = DescribeSpotPriceHistoryType()
+    o.startTime = safe_parse_as(CalendarTime, find(pd, "startTime#text"))
+    o.endTime = safe_parse_as(CalendarTime, find(pd, "endTime#text"))
+    o.instanceTypeSet = parse_vector_as(ASCIIString, "instanceType", find(pd, "item/instanceType"))
+    o.productDescriptionSet = parse_vector_as(ASCIIString, "productDescription", find(pd, "item/productDescription"))
+    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o.availabilityZone = find(pd, "availabilityZone#text")
+    o.maxResults = safe_parse_as(Int32, find(pd, "maxResults#text"))
+    o.nextToken = find(pd, "nextToken#text")
+    o
 end
-export DescribeReservedInstancesListingsResponseSetType
+
+export DescribeSpotPriceHistoryType
 
 
 type CreateDhcpOptionsResponseType
@@ -5072,6 +7394,13 @@ type CreateDhcpOptionsResponseType
     CreateDhcpOptionsResponseType(; requestId=nothing, dhcpOptions=nothing) = 
          new(requestId, dhcpOptions)
 end
+function CreateDhcpOptionsResponseType(pd::ParsedData)
+    o = CreateDhcpOptionsResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.dhcpOptions = haskey(pd.elements, "dhcpOptions") ?  DhcpOptionsType(find(pd, "dhcpOptions[1]")) : nothing
+    o
+end
+
 export CreateDhcpOptionsResponseType
 
 
@@ -5082,25 +7411,14 @@ type CreateInternetGatewayResponseType
     CreateInternetGatewayResponseType(; requestId=nothing, internetGateway=nothing) = 
          new(requestId, internetGateway)
 end
+function CreateInternetGatewayResponseType(pd::ParsedData)
+    o = CreateInternetGatewayResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.internetGateway = haskey(pd.elements, "internetGateway") ?  InternetGatewayType(find(pd, "internetGateway[1]")) : nothing
+    o
+end
+
 export CreateInternetGatewayResponseType
-
-
-type FilterSetType
-    item::Union(Array{FilterType,1}, Nothing)
-
-    FilterSetType(; item=nothing) = 
-         new(item)
-end
-export FilterSetType
-
-
-type AvailabilityZoneSetType
-    item::Union(Array{AvailabilityZoneItemType,1}, Nothing)
-
-    AvailabilityZoneSetType(; item=nothing) = 
-         new(item)
-end
-export AvailabilityZoneSetType
 
 
 type CreateVpnConnectionResponseType
@@ -5110,6 +7428,13 @@ type CreateVpnConnectionResponseType
     CreateVpnConnectionResponseType(; requestId=nothing, vpnConnection=nothing) = 
          new(requestId, vpnConnection)
 end
+function CreateVpnConnectionResponseType(pd::ParsedData)
+    o = CreateVpnConnectionResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.vpnConnection = haskey(pd.elements, "vpnConnection") ?  VpnConnectionType(find(pd, "vpnConnection[1]")) : nothing
+    o
+end
+
 export CreateVpnConnectionResponseType
 
 
@@ -5121,55 +7446,66 @@ type InstanceStateChangeType
     InstanceStateChangeType(; instanceId=nothing, currentState=nothing, previousState=nothing) = 
          new(instanceId, currentState, previousState)
 end
+function InstanceStateChangeType(pd::ParsedData)
+    o = InstanceStateChangeType()
+    o.instanceId = find(pd, "instanceId#text")
+    o.currentState = haskey(pd.elements, "instanceState") ?  InstanceStateType(find(pd, "instanceState[1]")) : nothing
+    o.previousState = haskey(pd.elements, "instanceState") ?  InstanceStateType(find(pd, "instanceState[1]")) : nothing
+    o
+end
+
 export InstanceStateChangeType
 
 
-type ReportInstanceStatusReasonCodesSetType
-    item::Union(Array{ReportInstanceStatusReasonCodeSetItemType,1}, Nothing)
-
-    ReportInstanceStatusReasonCodesSetType(; item=nothing) = 
-         new(item)
-end
-export ReportInstanceStatusReasonCodesSetType
-
-
 type DescribeBundleTasksType
-    bundlesSet::Union(Array{ASCIIString,1}, Nothing)
-    filterSet::Union(Array{FilterType,1}, Nothing)
+    bundlesSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
 
     DescribeBundleTasksType(; bundlesSet=nothing, filterSet=nothing) = 
          new(bundlesSet, filterSet)
 end
+function DescribeBundleTasksType(pd::ParsedData)
+    o = DescribeBundleTasksType()
+    o.bundlesSet = parse_vector_as(ASCIIString, "bundleId", find(pd, "item/bundleId"))
+    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o
+end
+
 export DescribeBundleTasksType
 
 
 type DescribeRouteTablesType
-    routeTableIdSet::Union(Array{ASCIIString,1}, Nothing)
-    filterSet::Union(Array{FilterType,1}, Nothing)
+    routeTableIdSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
 
     DescribeRouteTablesType(; routeTableIdSet=nothing, filterSet=nothing) = 
          new(routeTableIdSet, filterSet)
 end
+function DescribeRouteTablesType(pd::ParsedData)
+    o = DescribeRouteTablesType()
+    o.routeTableIdSet = parse_vector_as(ASCIIString, "routeTableId", find(pd, "item/routeTableId"))
+    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o
+end
+
 export DescribeRouteTablesType
 
 
 type DescribeVpnGatewaysResponseType
     requestId::Union(ASCIIString, Nothing)
-    vpnGatewaySet::Union(Array{VpnGatewayType,1}, Nothing)
+    vpnGatewaySet::Union(Vector{VpnGatewayType}, Nothing)
 
     DescribeVpnGatewaysResponseType(; requestId=nothing, vpnGatewaySet=nothing) = 
          new(requestId, vpnGatewaySet)
 end
-export DescribeVpnGatewaysResponseType
-
-
-type DescribePlacementGroupsInfoType
-    item::Union(Array{DescribePlacementGroupItemType,1}, Nothing)
-
-    DescribePlacementGroupsInfoType(; item=nothing) = 
-         new(item)
+function DescribeVpnGatewaysResponseType(pd::ParsedData)
+    o = DescribeVpnGatewaysResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.vpnGatewaySet = @parse_vector(VpnGatewayType, find(pd, "vpnGatewaySet/item"))
+    o
 end
-export DescribePlacementGroupsInfoType
+
+export DescribeVpnGatewaysResponseType
 
 
 type DescribeSnapshotsSetItemResponseType
@@ -5182,22 +7518,45 @@ type DescribeSnapshotsSetItemResponseType
     volumeSize::Union(ASCIIString, Nothing)
     description::Union(ASCIIString, Nothing)
     ownerAlias::Union(ASCIIString, Nothing)
-    tagSet::Union(Array{ResourceTagSetItemType,1}, Nothing)
+    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
 
     DescribeSnapshotsSetItemResponseType(; snapshotId=nothing, volumeId=nothing, status=nothing, startTime=nothing, progress=nothing, ownerId=nothing, volumeSize=nothing, description=nothing, ownerAlias=nothing, tagSet=nothing) = 
          new(snapshotId, volumeId, status, startTime, progress, ownerId, volumeSize, description, ownerAlias, tagSet)
 end
+function DescribeSnapshotsSetItemResponseType(pd::ParsedData)
+    o = DescribeSnapshotsSetItemResponseType()
+    o.snapshotId = find(pd, "snapshotId#text")
+    o.volumeId = find(pd, "volumeId#text")
+    o.status = find(pd, "status#text")
+    o.startTime = safe_parse_as(CalendarTime, find(pd, "startTime#text"))
+    o.progress = find(pd, "progress#text")
+    o.ownerId = find(pd, "ownerId#text")
+    o.volumeSize = find(pd, "volumeSize#text")
+    o.description = find(pd, "description#text")
+    o.ownerAlias = find(pd, "ownerAlias#text")
+    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o
+end
+
 export DescribeSnapshotsSetItemResponseType
 
 
 type DescribeSecurityGroupsType
-    securityGroupSet::Union(Array{ASCIIString,1}, Nothing)
-    securityGroupIdSet::Union(Array{ASCIIString,1}, Nothing)
-    filterSet::Union(Array{FilterType,1}, Nothing)
+    securityGroupSet::Union(Vector{ASCIIString}, Nothing)
+    securityGroupIdSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
 
     DescribeSecurityGroupsType(; securityGroupSet=nothing, securityGroupIdSet=nothing, filterSet=nothing) = 
          new(securityGroupSet, securityGroupIdSet, filterSet)
 end
+function DescribeSecurityGroupsType(pd::ParsedData)
+    o = DescribeSecurityGroupsType()
+    o.securityGroupSet = parse_vector_as(ASCIIString, "groupName", find(pd, "item/groupName"))
+    o.securityGroupIdSet = parse_vector_as(ASCIIString, "groupId", find(pd, "item/groupId"))
+    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o
+end
+
 export DescribeSecurityGroupsType
 
 
@@ -5208,6 +7567,13 @@ type CancelBundleTaskResponseType
     CancelBundleTaskResponseType(; requestId=nothing, bundleInstanceTask=nothing) = 
          new(requestId, bundleInstanceTask)
 end
+function CancelBundleTaskResponseType(pd::ParsedData)
+    o = CancelBundleTaskResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.bundleInstanceTask = haskey(pd.elements, "bundleInstanceTask") ?  BundleInstanceTaskType(find(pd, "bundleInstanceTask[1]")) : nothing
+    o
+end
+
 export CancelBundleTaskResponseType
 
 
@@ -5220,16 +7586,16 @@ type NetworkInterfacePrivateIpAddressesSetItemType
     NetworkInterfacePrivateIpAddressesSetItemType(; privateIpAddress=nothing, privateDnsName=nothing, primary=nothing, association=nothing) = 
          new(privateIpAddress, privateDnsName, primary, association)
 end
-export NetworkInterfacePrivateIpAddressesSetItemType
-
-
-type InstanceTypeSetType
-    item::Union(Array{InstanceTypeSetItemType,1}, Nothing)
-
-    InstanceTypeSetType(; item=nothing) = 
-         new(item)
+function NetworkInterfacePrivateIpAddressesSetItemType(pd::ParsedData)
+    o = NetworkInterfacePrivateIpAddressesSetItemType()
+    o.privateIpAddress = find(pd, "privateIpAddress#text")
+    o.privateDnsName = find(pd, "privateDnsName#text")
+    o.primary = safe_parse_as(Bool, find(pd, "primary#text"))
+    o.association = haskey(pd.elements, "networkInterfaceAssociation") ?  NetworkInterfaceAssociationType(find(pd, "networkInterfaceAssociation[1]")) : nothing
+    o
 end
-export InstanceTypeSetType
+
+export NetworkInterfacePrivateIpAddressesSetItemType
 
 
 type DiskImageType
@@ -5240,80 +7606,32 @@ type DiskImageType
     DiskImageType(; image=nothing, description=nothing, volume=nothing) = 
          new(image, description, volume)
 end
+function DiskImageType(pd::ParsedData)
+    o = DiskImageType()
+    o.image = haskey(pd.elements, "diskImageDetail") ?  DiskImageDetailType(find(pd, "diskImageDetail[1]")) : nothing
+    o.description = find(pd, "description#text")
+    o.volume = haskey(pd.elements, "diskImageVolume") ?  DiskImageVolumeType(find(pd, "diskImageVolume[1]")) : nothing
+    o
+end
+
 export DiskImageType
-
-
-type AccountAttributeSetType
-    item::Union(Array{AccountAttributeSetItemType,1}, Nothing)
-
-    AccountAttributeSetType(; item=nothing) = 
-         new(item)
-end
-export AccountAttributeSetType
-
-
-type UserIdGroupPairSetType
-    item::Union(Array{UserIdGroupPairType,1}, Nothing)
-
-    UserIdGroupPairSetType(; item=nothing) = 
-         new(item)
-end
-export UserIdGroupPairSetType
-
-
-type ResourceTagSetType
-    item::Union(Array{ResourceTagSetItemType,1}, Nothing)
-
-    ResourceTagSetType(; item=nothing) = 
-         new(item)
-end
-export ResourceTagSetType
-
-
-type NetworkAclEntrySetType
-    item::Union(Array{NetworkAclEntryType,1}, Nothing)
-
-    NetworkAclEntrySetType(; item=nothing) = 
-         new(item)
-end
-export NetworkAclEntrySetType
-
-
-type LaunchPermissionListType
-    item::Union(Array{LaunchPermissionItemType,1}, Nothing)
-
-    LaunchPermissionListType(; item=nothing) = 
-         new(item)
-end
-export LaunchPermissionListType
 
 
 type StartInstancesResponseType
     requestId::Union(ASCIIString, Nothing)
-    instancesSet::Union(Array{InstanceStateChangeType,1}, Nothing)
+    instancesSet::Union(Vector{InstanceStateChangeType}, Nothing)
 
     StartInstancesResponseType(; requestId=nothing, instancesSet=nothing) = 
          new(requestId, instancesSet)
 end
+function StartInstancesResponseType(pd::ParsedData)
+    o = StartInstancesResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.instancesSet = @parse_vector(InstanceStateChangeType, find(pd, "instancesSet/item"))
+    o
+end
+
 export StartInstancesResponseType
-
-
-type SecurityGroupIdSetType
-    item::Union(Array{SecurityGroupIdSetItemType,1}, Nothing)
-
-    SecurityGroupIdSetType(; item=nothing) = 
-         new(item)
-end
-export SecurityGroupIdSetType
-
-
-type InternetGatewayAttachmentSetType
-    item::Union(Array{InternetGatewayAttachmentType,1}, Nothing)
-
-    InternetGatewayAttachmentSetType(; item=nothing) = 
-         new(item)
-end
-export InternetGatewayAttachmentSetType
 
 
 type ConversionTaskType
@@ -5321,21 +7639,22 @@ type ConversionTaskType
     expirationTime::Union(ASCIIString, Nothing)
     state::Union(ASCIIString, Nothing)
     statusMessage::Union(ASCIIString, Nothing)
-    tagSet::Union(Array{ResourceTagSetItemType,1}, Nothing)
+    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
 
     ConversionTaskType(; conversionTaskId=nothing, expirationTime=nothing, state=nothing, statusMessage=nothing, tagSet=nothing) = 
          new(conversionTaskId, expirationTime, state, statusMessage, tagSet)
 end
-export ConversionTaskType
-
-
-type VolumeStatusDetailsSetType
-    item::Union(Array{VolumeStatusDetailsItemType,1}, Nothing)
-
-    VolumeStatusDetailsSetType(; item=nothing) = 
-         new(item)
+function ConversionTaskType(pd::ParsedData)
+    o = ConversionTaskType()
+    o.conversionTaskId = find(pd, "conversionTaskId#text")
+    o.expirationTime = find(pd, "expirationTime#text")
+    o.state = find(pd, "state#text")
+    o.statusMessage = find(pd, "statusMessage#text")
+    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o
 end
-export VolumeStatusDetailsSetType
+
+export ConversionTaskType
 
 
 type AttachVpnGatewayResponseType
@@ -5345,6 +7664,13 @@ type AttachVpnGatewayResponseType
     AttachVpnGatewayResponseType(; requestId=nothing, attachment=nothing) = 
          new(requestId, attachment)
 end
+function AttachVpnGatewayResponseType(pd::ParsedData)
+    o = AttachVpnGatewayResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.attachment = haskey(pd.elements, "attachment") ?  AttachmentType(find(pd, "attachment[1]")) : nothing
+    o
+end
+
 export AttachVpnGatewayResponseType
 
 
@@ -5355,6 +7681,13 @@ type MonitorInstancesResponseSetItemType
     MonitorInstancesResponseSetItemType(; instanceId=nothing, monitoring=nothing) = 
          new(instanceId, monitoring)
 end
+function MonitorInstancesResponseSetItemType(pd::ParsedData)
+    o = MonitorInstancesResponseSetItemType()
+    o.instanceId = find(pd, "instanceId#text")
+    o.monitoring = haskey(pd.elements, "instanceMonitoringState") ?  InstanceMonitoringStateType(find(pd, "instanceMonitoringState[1]")) : nothing
+    o
+end
+
 export MonitorInstancesResponseSetItemType
 
 
@@ -5367,45 +7700,50 @@ type InstancePrivateIpAddressesSetItemType
     InstancePrivateIpAddressesSetItemType(; privateIpAddress=nothing, privateDnsName=nothing, primary=nothing, association=nothing) = 
          new(privateIpAddress, privateDnsName, primary, association)
 end
+function InstancePrivateIpAddressesSetItemType(pd::ParsedData)
+    o = InstancePrivateIpAddressesSetItemType()
+    o.privateIpAddress = find(pd, "privateIpAddress#text")
+    o.privateDnsName = find(pd, "privateDnsName#text")
+    o.primary = safe_parse_as(Bool, find(pd, "primary#text"))
+    o.association = haskey(pd.elements, "instanceNetworkInterfaceAssociation") ?  InstanceNetworkInterfaceAssociationType(find(pd, "instanceNetworkInterfaceAssociation[1]")) : nothing
+    o
+end
+
 export InstancePrivateIpAddressesSetItemType
 
 
 type DescribeDhcpOptionsResponseType
     requestId::Union(ASCIIString, Nothing)
-    dhcpOptionsSet::Union(Array{DhcpOptionsType,1}, Nothing)
+    dhcpOptionsSet::Union(Vector{DhcpOptionsType}, Nothing)
 
     DescribeDhcpOptionsResponseType(; requestId=nothing, dhcpOptionsSet=nothing) = 
          new(requestId, dhcpOptionsSet)
 end
+function DescribeDhcpOptionsResponseType(pd::ParsedData)
+    o = DescribeDhcpOptionsResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.dhcpOptionsSet = @parse_vector(DhcpOptionsType, find(pd, "dhcpOptionsSet/item"))
+    o
+end
+
 export DescribeDhcpOptionsResponseType
 
 
 type AuthorizeSecurityGroupIngressType
     userId::Union(ASCIIString, Nothing)
-    ipPermissions::Union(Array{IpPermissionType,1}, Nothing)
+    ipPermissions::Union(Vector{IpPermissionType}, Nothing)
 
     AuthorizeSecurityGroupIngressType(; userId=nothing, ipPermissions=nothing) = 
          new(userId, ipPermissions)
 end
+function AuthorizeSecurityGroupIngressType(pd::ParsedData)
+    o = AuthorizeSecurityGroupIngressType()
+    o.userId = find(pd, "userId#text")
+    o.ipPermissions = @parse_vector(IpPermissionType, find(pd, "ipPermissions/item"))
+    o
+end
+
 export AuthorizeSecurityGroupIngressType
-
-
-type RouteSetType
-    item::Union(Array{RouteType,1}, Nothing)
-
-    RouteSetType(; item=nothing) = 
-         new(item)
-end
-export RouteSetType
-
-
-type RouteTableSetType
-    item::Union(Array{RouteTableType,1}, Nothing)
-
-    RouteTableSetType(; item=nothing) = 
-         new(item)
-end
-export RouteTableSetType
 
 
 type CreateVpnGatewayResponseType
@@ -5415,82 +7753,81 @@ type CreateVpnGatewayResponseType
     CreateVpnGatewayResponseType(; requestId=nothing, vpnGateway=nothing) = 
          new(requestId, vpnGateway)
 end
-export CreateVpnGatewayResponseType
-
-
-type PrivateIpAddressesSetRequestType
-    item::Union(Array{PrivateIpAddressesSetItemRequestType,1}, Nothing)
-
-    PrivateIpAddressesSetRequestType(; item=nothing) = 
-         new(item)
+function CreateVpnGatewayResponseType(pd::ParsedData)
+    o = CreateVpnGatewayResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.vpnGateway = haskey(pd.elements, "vpnGateway") ?  VpnGatewayType(find(pd, "vpnGateway[1]")) : nothing
+    o
 end
-export PrivateIpAddressesSetRequestType
+
+export CreateVpnGatewayResponseType
 
 
 type CreateReservedInstancesListingResponseType
     requestId::Union(ASCIIString, Nothing)
-    reservedInstancesListingsSet::Union(Array{DescribeReservedInstancesListingsResponseSetItemType,1}, Nothing)
+    reservedInstancesListingsSet::Union(Vector{DescribeReservedInstancesListingsResponseSetItemType}, Nothing)
 
     CreateReservedInstancesListingResponseType(; requestId=nothing, reservedInstancesListingsSet=nothing) = 
          new(requestId, reservedInstancesListingsSet)
 end
+function CreateReservedInstancesListingResponseType(pd::ParsedData)
+    o = CreateReservedInstancesListingResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.reservedInstancesListingsSet = @parse_vector(DescribeReservedInstancesListingsResponseSetItemType, find(pd, "reservedInstancesListingsSet/item"))
+    o
+end
+
 export CreateReservedInstancesListingResponseType
-
-
-type ImportInstanceVolumeDetailSetType
-    item::Union(Array{ImportInstanceVolumeDetailItemType,1}, Nothing)
-
-    ImportInstanceVolumeDetailSetType(; item=nothing) = 
-         new(item)
-end
-export ImportInstanceVolumeDetailSetType
-
-
-type DhcpConfigurationItemSetType
-    item::Union(Array{DhcpConfigurationItemType,1}, Nothing)
-
-    DhcpConfigurationItemSetType(; item=nothing) = 
-         new(item)
-end
-export DhcpConfigurationItemSetType
 
 
 type DescribeRouteTablesResponseType
     requestId::Union(ASCIIString, Nothing)
-    routeTableSet::Union(Array{RouteTableType,1}, Nothing)
+    routeTableSet::Union(Vector{RouteTableType}, Nothing)
 
     DescribeRouteTablesResponseType(; requestId=nothing, routeTableSet=nothing) = 
          new(requestId, routeTableSet)
 end
+function DescribeRouteTablesResponseType(pd::ParsedData)
+    o = DescribeRouteTablesResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.routeTableSet = @parse_vector(RouteTableType, find(pd, "routeTableSet/item"))
+    o
+end
+
 export DescribeRouteTablesResponseType
 
 
-type DhcpOptionsIdSetType
-    item::Union(Array{DhcpOptionsIdSetItemType,1}, Nothing)
-
-    DhcpOptionsIdSetType(; item=nothing) = 
-         new(item)
-end
-export DhcpOptionsIdSetType
-
-
 type DescribeRegionsType
-    regionSet::Union(Array{ASCIIString,1}, Nothing)
-    filterSet::Union(Array{FilterType,1}, Nothing)
+    regionSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
 
     DescribeRegionsType(; regionSet=nothing, filterSet=nothing) = 
          new(regionSet, filterSet)
 end
+function DescribeRegionsType(pd::ParsedData)
+    o = DescribeRegionsType()
+    o.regionSet = parse_vector_as(ASCIIString, "regionName", find(pd, "item/regionName"))
+    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o
+end
+
 export DescribeRegionsType
 
 
 type DescribeInternetGatewaysResponseType
     requestId::Union(ASCIIString, Nothing)
-    internetGatewaySet::Union(Array{InternetGatewayType,1}, Nothing)
+    internetGatewaySet::Union(Vector{InternetGatewayType}, Nothing)
 
     DescribeInternetGatewaysResponseType(; requestId=nothing, internetGatewaySet=nothing) = 
          new(requestId, internetGatewaySet)
 end
+function DescribeInternetGatewaysResponseType(pd::ParsedData)
+    o = DescribeInternetGatewaysResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.internetGatewaySet = @parse_vector(InternetGatewayType, find(pd, "internetGatewaySet/item"))
+    o
+end
+
 export DescribeInternetGatewaysResponseType
 
 
@@ -5501,6 +7838,13 @@ type BundleInstanceType
     BundleInstanceType(; instanceId=nothing, storage=nothing) = 
          new(instanceId, storage)
 end
+function BundleInstanceType(pd::ParsedData)
+    o = BundleInstanceType()
+    o.instanceId = find(pd, "instanceId#text")
+    o.storage = haskey(pd.elements, "bundleInstanceTaskStorage") ?  BundleInstanceTaskStorageType(find(pd, "bundleInstanceTaskStorage[1]")) : nothing
+    o
+end
+
 export BundleInstanceType
 
 
@@ -5511,75 +7855,72 @@ type ImportInstanceResponseType
     ImportInstanceResponseType(; requestId=nothing, conversionTask=nothing) = 
          new(requestId, conversionTask)
 end
+function ImportInstanceResponseType(pd::ParsedData)
+    o = ImportInstanceResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.conversionTask = haskey(pd.elements, "conversionTask") ?  ConversionTaskType(find(pd, "conversionTask[1]")) : nothing
+    o
+end
+
 export ImportInstanceResponseType
 
 
 type DescribeAddressesResponseType
     requestId::Union(ASCIIString, Nothing)
-    addressesSet::Union(Array{DescribeAddressesResponseItemType,1}, Nothing)
+    addressesSet::Union(Vector{DescribeAddressesResponseItemType}, Nothing)
 
     DescribeAddressesResponseType(; requestId=nothing, addressesSet=nothing) = 
          new(requestId, addressesSet)
 end
+function DescribeAddressesResponseType(pd::ParsedData)
+    o = DescribeAddressesResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.addressesSet = @parse_vector(DescribeAddressesResponseItemType, find(pd, "addressesSet/item"))
+    o
+end
+
 export DescribeAddressesResponseType
-
-
-type CancelSpotInstanceRequestsResponseSetType
-    item::Union(Array{CancelSpotInstanceRequestsResponseSetItemType,1}, Nothing)
-
-    CancelSpotInstanceRequestsResponseSetType(; item=nothing) = 
-         new(item)
-end
-export CancelSpotInstanceRequestsResponseSetType
-
-
-type DhcpValueSetType
-    item::Union(Array{DhcpValueType,1}, Nothing)
-
-    DhcpValueSetType(; item=nothing) = 
-         new(item)
-end
-export DhcpValueSetType
 
 
 type LaunchSpecificationResponseType
     imageId::Union(ASCIIString, Nothing)
     keyName::Union(ASCIIString, Nothing)
-    groupSet::Union(Array{GroupItemType,1}, Nothing)
+    groupSet::Union(Vector{GroupItemType}, Nothing)
     addressingType::Union(ASCIIString, Nothing)
     instanceType::Union(ASCIIString, Nothing)
     placement::Union(SpotPlacementRequestType, Nothing)
     kernelId::Union(ASCIIString, Nothing)
     ramdiskId::Union(ASCIIString, Nothing)
-    blockDeviceMapping::Union(Array{ASCIIString,1}, Nothing)
+    blockDeviceMapping::Union(Vector{BlockDeviceMappingItemType}, Nothing)
     monitoring::Union(MonitoringInstanceType, Nothing)
     subnetId::Union(ASCIIString, Nothing)
-    networkInterfaceSet::Union(Array{InstanceNetworkInterfaceSetItemRequestType,1}, Nothing)
+    networkInterfaceSet::Union(Vector{InstanceNetworkInterfaceSetItemRequestType}, Nothing)
     iamInstanceProfile::Union(IamInstanceProfileRequestType, Nothing)
     ebsOptimized::Union(Bool, Nothing)
 
     LaunchSpecificationResponseType(; imageId=nothing, keyName=nothing, groupSet=nothing, addressingType=nothing, instanceType=nothing, placement=nothing, kernelId=nothing, ramdiskId=nothing, blockDeviceMapping=nothing, monitoring=nothing, subnetId=nothing, networkInterfaceSet=nothing, iamInstanceProfile=nothing, ebsOptimized=nothing) = 
          new(imageId, keyName, groupSet, addressingType, instanceType, placement, kernelId, ramdiskId, blockDeviceMapping, monitoring, subnetId, networkInterfaceSet, iamInstanceProfile, ebsOptimized)
 end
+function LaunchSpecificationResponseType(pd::ParsedData)
+    o = LaunchSpecificationResponseType()
+    o.imageId = find(pd, "imageId#text")
+    o.keyName = find(pd, "keyName#text")
+    o.groupSet = @parse_vector(GroupItemType, find(pd, "groupSet/item"))
+    o.addressingType = find(pd, "addressingType#text")
+    o.instanceType = find(pd, "instanceType#text")
+    o.placement = haskey(pd.elements, "spotPlacementRequest") ?  SpotPlacementRequestType(find(pd, "spotPlacementRequest[1]")) : nothing
+    o.kernelId = find(pd, "kernelId#text")
+    o.ramdiskId = find(pd, "ramdiskId#text")
+    o.blockDeviceMapping = @parse_vector(BlockDeviceMappingItemType, find(pd, "blockDeviceMapping/item"))
+    o.monitoring = haskey(pd.elements, "monitoringInstance") ?  MonitoringInstanceType(find(pd, "monitoringInstance[1]")) : nothing
+    o.subnetId = find(pd, "subnetId#text")
+    o.networkInterfaceSet = @parse_vector(InstanceNetworkInterfaceSetItemRequestType, find(pd, "networkInterfaceSet/item"))
+    o.iamInstanceProfile = haskey(pd.elements, "iamInstanceProfileRequest") ?  IamInstanceProfileRequestType(find(pd, "iamInstanceProfileRequest[1]")) : nothing
+    o.ebsOptimized = safe_parse_as(Bool, find(pd, "ebsOptimized#text"))
+    o
+end
+
 export LaunchSpecificationResponseType
-
-
-type CreateVolumePermissionListType
-    item::Union(Array{CreateVolumePermissionItemType,1}, Nothing)
-
-    CreateVolumePermissionListType(; item=nothing) = 
-         new(item)
-end
-export CreateVolumePermissionListType
-
-
-type AccountAttributeNameSetType
-    item::Union(Array{AccountAttributeNameSetItemType,1}, Nothing)
-
-    AccountAttributeNameSetType(; item=nothing) = 
-         new(item)
-end
-export AccountAttributeNameSetType
 
 
 type DescribeImagesResponseItemType
@@ -5588,7 +7929,7 @@ type DescribeImagesResponseItemType
     imageState::Union(ASCIIString, Nothing)
     imageOwnerId::Union(ASCIIString, Nothing)
     isPublic::Union(Bool, Nothing)
-    productCodes::Union(Array{ProductCodesSetItemType,1}, Nothing)
+    productCodes::Union(Vector{ProductCodesSetItemType}, Nothing)
     architecture::Union(ASCIIString, Nothing)
     imageType::Union(ASCIIString, Nothing)
     kernelId::Union(ASCIIString, Nothing)
@@ -5600,14 +7941,40 @@ type DescribeImagesResponseItemType
     description::Union(ASCIIString, Nothing)
     rootDeviceType::Union(ASCIIString, Nothing)
     rootDeviceName::Union(ASCIIString, Nothing)
-    blockDeviceMapping::Union(Array{ASCIIString,1}, Nothing)
+    blockDeviceMapping::Union(Vector{BlockDeviceMappingItemType}, Nothing)
     virtualizationType::Union(ASCIIString, Nothing)
-    tagSet::Union(Array{ResourceTagSetItemType,1}, Nothing)
+    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
     hypervisor::Union(ASCIIString, Nothing)
 
     DescribeImagesResponseItemType(; imageId=nothing, imageLocation=nothing, imageState=nothing, imageOwnerId=nothing, isPublic=nothing, productCodes=nothing, architecture=nothing, imageType=nothing, kernelId=nothing, ramdiskId=nothing, platform=nothing, stateReason=nothing, imageOwnerAlias=nothing, name=nothing, description=nothing, rootDeviceType=nothing, rootDeviceName=nothing, blockDeviceMapping=nothing, virtualizationType=nothing, tagSet=nothing, hypervisor=nothing) = 
          new(imageId, imageLocation, imageState, imageOwnerId, isPublic, productCodes, architecture, imageType, kernelId, ramdiskId, platform, stateReason, imageOwnerAlias, name, description, rootDeviceType, rootDeviceName, blockDeviceMapping, virtualizationType, tagSet, hypervisor)
 end
+function DescribeImagesResponseItemType(pd::ParsedData)
+    o = DescribeImagesResponseItemType()
+    o.imageId = find(pd, "imageId#text")
+    o.imageLocation = find(pd, "imageLocation#text")
+    o.imageState = find(pd, "imageState#text")
+    o.imageOwnerId = find(pd, "imageOwnerId#text")
+    o.isPublic = safe_parse_as(Bool, find(pd, "isPublic#text"))
+    o.productCodes = @parse_vector(ProductCodesSetItemType, find(pd, "productCodes/item"))
+    o.architecture = find(pd, "architecture#text")
+    o.imageType = find(pd, "imageType#text")
+    o.kernelId = find(pd, "kernelId#text")
+    o.ramdiskId = find(pd, "ramdiskId#text")
+    o.platform = find(pd, "platform#text")
+    o.stateReason = haskey(pd.elements, "stateReason") ?  StateReasonType(find(pd, "stateReason[1]")) : nothing
+    o.imageOwnerAlias = find(pd, "imageOwnerAlias#text")
+    o.name = find(pd, "name#text")
+    o.description = find(pd, "description#text")
+    o.rootDeviceType = find(pd, "rootDeviceType#text")
+    o.rootDeviceName = find(pd, "rootDeviceName#text")
+    o.blockDeviceMapping = @parse_vector(BlockDeviceMappingItemType, find(pd, "blockDeviceMapping/item"))
+    o.virtualizationType = find(pd, "virtualizationType#text")
+    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.hypervisor = find(pd, "hypervisor#text")
+    o
+end
+
 export DescribeImagesResponseItemType
 
 
@@ -5616,7 +7983,7 @@ type RunInstancesType
     minCount::Union(Int32, Nothing)
     maxCount::Union(Int32, Nothing)
     keyName::Union(ASCIIString, Nothing)
-    groupSet::Union(Array{GroupItemType,1}, Nothing)
+    groupSet::Union(Vector{GroupItemType}, Nothing)
     additionalInfo::Union(ASCIIString, Nothing)
     userData::Union(UserDataType, Nothing)
     addressingType::Union(ASCIIString, Nothing)
@@ -5624,7 +7991,7 @@ type RunInstancesType
     placement::Union(PlacementRequestType, Nothing)
     kernelId::Union(ASCIIString, Nothing)
     ramdiskId::Union(ASCIIString, Nothing)
-    blockDeviceMapping::Union(Array{ASCIIString,1}, Nothing)
+    blockDeviceMapping::Union(Vector{BlockDeviceMappingItemType}, Nothing)
     monitoring::Union(MonitoringInstanceType, Nothing)
     subnetId::Union(ASCIIString, Nothing)
     disableApiTermination::Union(Bool, Nothing)
@@ -5632,46 +7999,101 @@ type RunInstancesType
     license::Union(InstanceLicenseRequestType, Nothing)
     privateIpAddress::Union(ASCIIString, Nothing)
     clientToken::Union(ASCIIString, Nothing)
-    networkInterfaceSet::Union(Array{InstanceNetworkInterfaceSetItemRequestType,1}, Nothing)
+    networkInterfaceSet::Union(Vector{InstanceNetworkInterfaceSetItemRequestType}, Nothing)
     iamInstanceProfile::Union(IamInstanceProfileRequestType, Nothing)
     ebsOptimized::Union(Bool, Nothing)
 
     RunInstancesType(; imageId=nothing, minCount=nothing, maxCount=nothing, keyName=nothing, groupSet=nothing, additionalInfo=nothing, userData=nothing, addressingType=nothing, instanceType=nothing, placement=nothing, kernelId=nothing, ramdiskId=nothing, blockDeviceMapping=nothing, monitoring=nothing, subnetId=nothing, disableApiTermination=nothing, instanceInitiatedShutdownBehavior=nothing, license=nothing, privateIpAddress=nothing, clientToken=nothing, networkInterfaceSet=nothing, iamInstanceProfile=nothing, ebsOptimized=nothing) = 
          new(imageId, minCount, maxCount, keyName, groupSet, additionalInfo, userData, addressingType, instanceType, placement, kernelId, ramdiskId, blockDeviceMapping, monitoring, subnetId, disableApiTermination, instanceInitiatedShutdownBehavior, license, privateIpAddress, clientToken, networkInterfaceSet, iamInstanceProfile, ebsOptimized)
 end
+function RunInstancesType(pd::ParsedData)
+    o = RunInstancesType()
+    o.imageId = find(pd, "imageId#text")
+    o.minCount = safe_parse_as(Int32, find(pd, "minCount#text"))
+    o.maxCount = safe_parse_as(Int32, find(pd, "maxCount#text"))
+    o.keyName = find(pd, "keyName#text")
+    o.groupSet = @parse_vector(GroupItemType, find(pd, "groupSet/item"))
+    o.additionalInfo = find(pd, "additionalInfo#text")
+    o.userData = haskey(pd.elements, "userData") ?  UserDataType(find(pd, "userData[1]")) : nothing
+    o.addressingType = find(pd, "addressingType#text")
+    o.instanceType = find(pd, "instanceType#text")
+    o.placement = haskey(pd.elements, "placementRequest") ?  PlacementRequestType(find(pd, "placementRequest[1]")) : nothing
+    o.kernelId = find(pd, "kernelId#text")
+    o.ramdiskId = find(pd, "ramdiskId#text")
+    o.blockDeviceMapping = @parse_vector(BlockDeviceMappingItemType, find(pd, "blockDeviceMapping/item"))
+    o.monitoring = haskey(pd.elements, "monitoringInstance") ?  MonitoringInstanceType(find(pd, "monitoringInstance[1]")) : nothing
+    o.subnetId = find(pd, "subnetId#text")
+    o.disableApiTermination = safe_parse_as(Bool, find(pd, "disableApiTermination#text"))
+    o.instanceInitiatedShutdownBehavior = find(pd, "instanceInitiatedShutdownBehavior#text")
+    o.license = haskey(pd.elements, "instanceLicenseRequest") ?  InstanceLicenseRequestType(find(pd, "instanceLicenseRequest[1]")) : nothing
+    o.privateIpAddress = find(pd, "privateIpAddress#text")
+    o.clientToken = find(pd, "clientToken#text")
+    o.networkInterfaceSet = @parse_vector(InstanceNetworkInterfaceSetItemRequestType, find(pd, "networkInterfaceSet/item"))
+    o.iamInstanceProfile = haskey(pd.elements, "iamInstanceProfileRequest") ?  IamInstanceProfileRequestType(find(pd, "iamInstanceProfileRequest[1]")) : nothing
+    o.ebsOptimized = safe_parse_as(Bool, find(pd, "ebsOptimized#text"))
+    o
+end
+
 export RunInstancesType
 
 
 type LaunchSpecificationRequestType
     imageId::Union(ASCIIString, Nothing)
     keyName::Union(ASCIIString, Nothing)
-    groupSet::Union(Array{GroupItemType,1}, Nothing)
+    groupSet::Union(Vector{GroupItemType}, Nothing)
     userData::Union(UserDataType, Nothing)
     addressingType::Union(ASCIIString, Nothing)
     instanceType::Union(ASCIIString, Nothing)
     placement::Union(SpotPlacementRequestType, Nothing)
     kernelId::Union(ASCIIString, Nothing)
     ramdiskId::Union(ASCIIString, Nothing)
-    blockDeviceMapping::Union(Array{ASCIIString,1}, Nothing)
+    blockDeviceMapping::Union(Vector{BlockDeviceMappingItemType}, Nothing)
     monitoring::Union(MonitoringInstanceType, Nothing)
     subnetId::Union(ASCIIString, Nothing)
-    networkInterfaceSet::Union(Array{InstanceNetworkInterfaceSetItemRequestType,1}, Nothing)
+    networkInterfaceSet::Union(Vector{InstanceNetworkInterfaceSetItemRequestType}, Nothing)
     iamInstanceProfile::Union(IamInstanceProfileRequestType, Nothing)
     ebsOptimized::Union(Bool, Nothing)
 
     LaunchSpecificationRequestType(; imageId=nothing, keyName=nothing, groupSet=nothing, userData=nothing, addressingType=nothing, instanceType=nothing, placement=nothing, kernelId=nothing, ramdiskId=nothing, blockDeviceMapping=nothing, monitoring=nothing, subnetId=nothing, networkInterfaceSet=nothing, iamInstanceProfile=nothing, ebsOptimized=nothing) = 
          new(imageId, keyName, groupSet, userData, addressingType, instanceType, placement, kernelId, ramdiskId, blockDeviceMapping, monitoring, subnetId, networkInterfaceSet, iamInstanceProfile, ebsOptimized)
 end
+function LaunchSpecificationRequestType(pd::ParsedData)
+    o = LaunchSpecificationRequestType()
+    o.imageId = find(pd, "imageId#text")
+    o.keyName = find(pd, "keyName#text")
+    o.groupSet = @parse_vector(GroupItemType, find(pd, "groupSet/item"))
+    o.userData = haskey(pd.elements, "userData") ?  UserDataType(find(pd, "userData[1]")) : nothing
+    o.addressingType = find(pd, "addressingType#text")
+    o.instanceType = find(pd, "instanceType#text")
+    o.placement = haskey(pd.elements, "spotPlacementRequest") ?  SpotPlacementRequestType(find(pd, "spotPlacementRequest[1]")) : nothing
+    o.kernelId = find(pd, "kernelId#text")
+    o.ramdiskId = find(pd, "ramdiskId#text")
+    o.blockDeviceMapping = @parse_vector(BlockDeviceMappingItemType, find(pd, "blockDeviceMapping/item"))
+    o.monitoring = haskey(pd.elements, "monitoringInstance") ?  MonitoringInstanceType(find(pd, "monitoringInstance[1]")) : nothing
+    o.subnetId = find(pd, "subnetId#text")
+    o.networkInterfaceSet = @parse_vector(InstanceNetworkInterfaceSetItemRequestType, find(pd, "networkInterfaceSet/item"))
+    o.iamInstanceProfile = haskey(pd.elements, "iamInstanceProfileRequest") ?  IamInstanceProfileRequestType(find(pd, "iamInstanceProfileRequest[1]")) : nothing
+    o.ebsOptimized = safe_parse_as(Bool, find(pd, "ebsOptimized#text"))
+    o
+end
+
 export LaunchSpecificationRequestType
 
 
 type DescribeVpnConnectionsResponseType
     requestId::Union(ASCIIString, Nothing)
-    vpnConnectionSet::Union(Array{VpnConnectionType,1}, Nothing)
+    vpnConnectionSet::Union(Vector{VpnConnectionType}, Nothing)
 
     DescribeVpnConnectionsResponseType(; requestId=nothing, vpnConnectionSet=nothing) = 
          new(requestId, vpnConnectionSet)
 end
+function DescribeVpnConnectionsResponseType(pd::ParsedData)
+    o = DescribeVpnConnectionsResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.vpnConnectionSet = @parse_vector(VpnConnectionType, find(pd, "vpnConnectionSet/item"))
+    o
+end
+
 export DescribeVpnConnectionsResponseType
 
 
@@ -5679,34 +8101,45 @@ type VolumeStatusItemType
     volumeId::Union(ASCIIString, Nothing)
     availabilityZone::Union(ASCIIString, Nothing)
     volumeStatus::Union(VolumeStatusInfoType, Nothing)
-    eventsSet::Union(Array{VolumeStatusEventItemType,1}, Nothing)
-    actionsSet::Union(Array{VolumeStatusActionItemType,1}, Nothing)
+    eventsSet::Union(Vector{VolumeStatusEventItemType}, Nothing)
+    actionsSet::Union(Vector{VolumeStatusActionItemType}, Nothing)
 
     VolumeStatusItemType(; volumeId=nothing, availabilityZone=nothing, volumeStatus=nothing, eventsSet=nothing, actionsSet=nothing) = 
          new(volumeId, availabilityZone, volumeStatus, eventsSet, actionsSet)
 end
-export VolumeStatusItemType
-
-
-type VolumeStatusSetType
-    item::Union(Array{VolumeStatusItemType,1}, Nothing)
-
-    VolumeStatusSetType(; item=nothing) = 
-         new(item)
+function VolumeStatusItemType(pd::ParsedData)
+    o = VolumeStatusItemType()
+    o.volumeId = find(pd, "volumeId#text")
+    o.availabilityZone = find(pd, "availabilityZone#text")
+    o.volumeStatus = haskey(pd.elements, "volumeStatusInfo") ?  VolumeStatusInfoType(find(pd, "volumeStatusInfo[1]")) : nothing
+    o.eventsSet = @parse_vector(VolumeStatusEventItemType, find(pd, "eventsSet/item"))
+    o.actionsSet = @parse_vector(VolumeStatusActionItemType, find(pd, "actionsSet/item"))
+    o
 end
-export VolumeStatusSetType
+
+export VolumeStatusItemType
 
 
 type ImportInstanceType
     description::Union(ASCIIString, Nothing)
     launchSpecification::Union(ImportInstanceLaunchSpecificationType, Nothing)
-    diskImageSet::Union(Array{DiskImageType,1}, Nothing)
+    diskImageSet::Union(Vector{DiskImageType}, Nothing)
     keepPartialImports::Union(Bool, Nothing)
     platform::Union(ASCIIString, Nothing)
 
     ImportInstanceType(; description=nothing, launchSpecification=nothing, diskImageSet=nothing, keepPartialImports=nothing, platform=nothing) = 
          new(description, launchSpecification, diskImageSet, keepPartialImports, platform)
 end
+function ImportInstanceType(pd::ParsedData)
+    o = ImportInstanceType()
+    o.description = find(pd, "description#text")
+    o.launchSpecification = haskey(pd.elements, "importInstanceLaunchSpecification") ?  ImportInstanceLaunchSpecificationType(find(pd, "importInstanceLaunchSpecification[1]")) : nothing
+    o.diskImageSet = @parse_vector(DiskImageType, find(pd, "diskImageSet/item"))
+    o.keepPartialImports = safe_parse_as(Bool, find(pd, "keepPartialImports#text"))
+    o.platform = find(pd, "platform#text")
+    o
+end
+
 export ImportInstanceType
 
 
@@ -5725,69 +8158,68 @@ type SpotInstanceRequestSetItemType
     instanceId::Union(ASCIIString, Nothing)
     createTime::Union(CalendarTime, Nothing)
     productDescription::Union(ASCIIString, Nothing)
-    tagSet::Union(Array{ResourceTagSetItemType,1}, Nothing)
+    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
     launchedAvailabilityZone::Union(ASCIIString, Nothing)
 
     SpotInstanceRequestSetItemType(; spotInstanceRequestId=nothing, spotPrice=nothing, _type=nothing, state=nothing, fault=nothing, status=nothing, validFrom=nothing, validUntil=nothing, launchGroup=nothing, availabilityZoneGroup=nothing, launchSpecification=nothing, instanceId=nothing, createTime=nothing, productDescription=nothing, tagSet=nothing, launchedAvailabilityZone=nothing) = 
          new(spotInstanceRequestId, spotPrice, _type, state, fault, status, validFrom, validUntil, launchGroup, availabilityZoneGroup, launchSpecification, instanceId, createTime, productDescription, tagSet, launchedAvailabilityZone)
 end
+function SpotInstanceRequestSetItemType(pd::ParsedData)
+    o = SpotInstanceRequestSetItemType()
+    o.spotInstanceRequestId = find(pd, "spotInstanceRequestId#text")
+    o.spotPrice = find(pd, "spotPrice#text")
+    o._type = find(pd, "_type#text")
+    o.state = find(pd, "state#text")
+    o.fault = haskey(pd.elements, "spotInstanceStateFault") ?  SpotInstanceStateFaultType(find(pd, "spotInstanceStateFault[1]")) : nothing
+    o.status = haskey(pd.elements, "spotInstanceStatusMessage") ?  SpotInstanceStatusMessageType(find(pd, "spotInstanceStatusMessage[1]")) : nothing
+    o.validFrom = safe_parse_as(CalendarTime, find(pd, "validFrom#text"))
+    o.validUntil = safe_parse_as(CalendarTime, find(pd, "validUntil#text"))
+    o.launchGroup = find(pd, "launchGroup#text")
+    o.availabilityZoneGroup = find(pd, "availabilityZoneGroup#text")
+    o.launchSpecification = haskey(pd.elements, "launchSpecificationResponse") ?  LaunchSpecificationResponseType(find(pd, "launchSpecificationResponse[1]")) : nothing
+    o.instanceId = find(pd, "instanceId#text")
+    o.createTime = safe_parse_as(CalendarTime, find(pd, "createTime#text"))
+    o.productDescription = find(pd, "productDescription#text")
+    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.launchedAvailabilityZone = find(pd, "launchedAvailabilityZone#text")
+    o
+end
+
 export SpotInstanceRequestSetItemType
 
 
 type DescribeVolumesResponseType
     requestId::Union(ASCIIString, Nothing)
-    volumeSet::Union(Array{DescribeVolumesSetItemResponseType,1}, Nothing)
+    volumeSet::Union(Vector{DescribeVolumesSetItemResponseType}, Nothing)
 
     DescribeVolumesResponseType(; requestId=nothing, volumeSet=nothing) = 
          new(requestId, volumeSet)
 end
+function DescribeVolumesResponseType(pd::ParsedData)
+    o = DescribeVolumesResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.volumeSet = @parse_vector(DescribeVolumesSetItemResponseType, find(pd, "volumeSet/item"))
+    o
+end
+
 export DescribeVolumesResponseType
-
-
-type InstanceStateChangeSetType
-    item::Union(Array{InstanceStateChangeType,1}, Nothing)
-
-    InstanceStateChangeSetType(; item=nothing) = 
-         new(item)
-end
-export InstanceStateChangeSetType
-
-
-type DescribeVolumesSetResponseType
-    item::Union(Array{DescribeVolumesSetItemResponseType,1}, Nothing)
-
-    DescribeVolumesSetResponseType(; item=nothing) = 
-         new(item)
-end
-export DescribeVolumesSetResponseType
-
-
-type BundleInstanceTasksSetType
-    item::Union(Array{BundleInstanceTaskType,1}, Nothing)
-
-    BundleInstanceTasksSetType(; item=nothing) = 
-         new(item)
-end
-export BundleInstanceTasksSetType
 
 
 type DescribeSnapshotsResponseType
     requestId::Union(ASCIIString, Nothing)
-    snapshotSet::Union(Array{DescribeSnapshotsSetItemResponseType,1}, Nothing)
+    snapshotSet::Union(Vector{DescribeSnapshotsSetItemResponseType}, Nothing)
 
     DescribeSnapshotsResponseType(; requestId=nothing, snapshotSet=nothing) = 
          new(requestId, snapshotSet)
 end
-export DescribeSnapshotsResponseType
-
-
-type SpotInstanceRequestSetType
-    item::Union(Array{SpotInstanceRequestSetItemType,1}, Nothing)
-
-    SpotInstanceRequestSetType(; item=nothing) = 
-         new(item)
+function DescribeSnapshotsResponseType(pd::ParsedData)
+    o = DescribeSnapshotsResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.snapshotSet = @parse_vector(DescribeSnapshotsSetItemResponseType, find(pd, "snapshotSet/item"))
+    o
 end
-export SpotInstanceRequestSetType
+
+export DescribeSnapshotsResponseType
 
 
 type CreateSubnetResponseType
@@ -5797,32 +8229,53 @@ type CreateSubnetResponseType
     CreateSubnetResponseType(; requestId=nothing, subnet=nothing) = 
          new(requestId, subnet)
 end
+function CreateSubnetResponseType(pd::ParsedData)
+    o = CreateSubnetResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.subnet = haskey(pd.elements, "subnet") ?  SubnetType(find(pd, "subnet[1]")) : nothing
+    o
+end
+
 export CreateSubnetResponseType
 
 
 type TerminateInstancesResponseType
     requestId::Union(ASCIIString, Nothing)
-    instancesSet::Union(Array{InstanceStateChangeType,1}, Nothing)
+    instancesSet::Union(Vector{InstanceStateChangeType}, Nothing)
 
     TerminateInstancesResponseType(; requestId=nothing, instancesSet=nothing) = 
          new(requestId, instancesSet)
 end
+function TerminateInstancesResponseType(pd::ParsedData)
+    o = TerminateInstancesResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.instancesSet = @parse_vector(InstanceStateChangeType, find(pd, "instancesSet/item"))
+    o
+end
+
 export TerminateInstancesResponseType
 
 
 type StopInstancesResponseType
     requestId::Union(ASCIIString, Nothing)
-    instancesSet::Union(Array{InstanceStateChangeType,1}, Nothing)
+    instancesSet::Union(Vector{InstanceStateChangeType}, Nothing)
 
     StopInstancesResponseType(; requestId=nothing, instancesSet=nothing) = 
          new(requestId, instancesSet)
 end
+function StopInstancesResponseType(pd::ParsedData)
+    o = StopInstancesResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.instancesSet = @parse_vector(InstanceStateChangeType, find(pd, "instancesSet/item"))
+    o
+end
+
 export StopInstancesResponseType
 
 
 type RequestSpotInstancesType
     spotPrice::Union(ASCIIString, Nothing)
-    instanceCount::Union(Int, Nothing)
+    instanceCount::Union(Int32, Nothing)
     _type::Union(ASCIIString, Nothing)
     validFrom::Union(CalendarTime, Nothing)
     validUntil::Union(CalendarTime, Nothing)
@@ -5833,6 +8286,19 @@ type RequestSpotInstancesType
     RequestSpotInstancesType(; spotPrice=nothing, instanceCount=nothing, _type=nothing, validFrom=nothing, validUntil=nothing, launchGroup=nothing, availabilityZoneGroup=nothing, launchSpecification=nothing) = 
          new(spotPrice, instanceCount, _type, validFrom, validUntil, launchGroup, availabilityZoneGroup, launchSpecification)
 end
+function RequestSpotInstancesType(pd::ParsedData)
+    o = RequestSpotInstancesType()
+    o.spotPrice = find(pd, "spotPrice#text")
+    o.instanceCount = safe_parse_as(Int32, find(pd, "instanceCount#text"))
+    o._type = find(pd, "_type#text")
+    o.validFrom = safe_parse_as(CalendarTime, find(pd, "validFrom#text"))
+    o.validUntil = safe_parse_as(CalendarTime, find(pd, "validUntil#text"))
+    o.launchGroup = find(pd, "launchGroup#text")
+    o.availabilityZoneGroup = find(pd, "availabilityZoneGroup#text")
+    o.launchSpecification = haskey(pd.elements, "launchSpecificationRequest") ?  LaunchSpecificationRequestType(find(pd, "launchSpecificationRequest[1]")) : nothing
+    o
+end
+
 export RequestSpotInstancesType
 
 
@@ -5843,6 +8309,13 @@ type CreateVpcResponseType
     CreateVpcResponseType(; requestId=nothing, vpc=nothing) = 
          new(requestId, vpc)
 end
+function CreateVpcResponseType(pd::ParsedData)
+    o = CreateVpcResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.vpc = haskey(pd.elements, "vpc") ?  VpcType(find(pd, "vpc[1]")) : nothing
+    o
+end
+
 export CreateVpcResponseType
 
 
@@ -5860,108 +8333,89 @@ type NetworkInterfaceType
     privateIpAddress::Union(ASCIIString, Nothing)
     privateDnsName::Union(ASCIIString, Nothing)
     sourceDestCheck::Union(Bool, Nothing)
-    groupSet::Union(Array{GroupItemType,1}, Nothing)
+    groupSet::Union(Vector{GroupItemType}, Nothing)
     attachment::Union(NetworkInterfaceAttachmentType, Nothing)
     association::Union(NetworkInterfaceAssociationType, Nothing)
-    tagSet::Union(Array{ResourceTagSetItemType,1}, Nothing)
-    privateIpAddressesSet::Union(Array{NetworkInterfacePrivateIpAddressesSetItemType,1}, Nothing)
+    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
+    privateIpAddressesSet::Union(Vector{NetworkInterfacePrivateIpAddressesSetItemType}, Nothing)
 
     NetworkInterfaceType(; networkInterfaceId=nothing, subnetId=nothing, vpcId=nothing, availabilityZone=nothing, description=nothing, ownerId=nothing, requesterId=nothing, requesterManaged=nothing, status=nothing, macAddress=nothing, privateIpAddress=nothing, privateDnsName=nothing, sourceDestCheck=nothing, groupSet=nothing, attachment=nothing, association=nothing, tagSet=nothing, privateIpAddressesSet=nothing) = 
          new(networkInterfaceId, subnetId, vpcId, availabilityZone, description, ownerId, requesterId, requesterManaged, status, macAddress, privateIpAddress, privateDnsName, sourceDestCheck, groupSet, attachment, association, tagSet, privateIpAddressesSet)
 end
+function NetworkInterfaceType(pd::ParsedData)
+    o = NetworkInterfaceType()
+    o.networkInterfaceId = find(pd, "networkInterfaceId#text")
+    o.subnetId = find(pd, "subnetId#text")
+    o.vpcId = find(pd, "vpcId#text")
+    o.availabilityZone = find(pd, "availabilityZone#text")
+    o.description = find(pd, "description#text")
+    o.ownerId = find(pd, "ownerId#text")
+    o.requesterId = find(pd, "requesterId#text")
+    o.requesterManaged = safe_parse_as(Bool, find(pd, "requesterManaged#text"))
+    o.status = find(pd, "status#text")
+    o.macAddress = find(pd, "macAddress#text")
+    o.privateIpAddress = find(pd, "privateIpAddress#text")
+    o.privateDnsName = find(pd, "privateDnsName#text")
+    o.sourceDestCheck = safe_parse_as(Bool, find(pd, "sourceDestCheck#text"))
+    o.groupSet = @parse_vector(GroupItemType, find(pd, "groupSet/item"))
+    o.attachment = haskey(pd.elements, "networkInterfaceAttachment") ?  NetworkInterfaceAttachmentType(find(pd, "networkInterfaceAttachment[1]")) : nothing
+    o.association = haskey(pd.elements, "networkInterfaceAssociation") ?  NetworkInterfaceAssociationType(find(pd, "networkInterfaceAssociation[1]")) : nothing
+    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.privateIpAddressesSet = @parse_vector(NetworkInterfacePrivateIpAddressesSetItemType, find(pd, "privateIpAddressesSet/item"))
+    o
+end
+
 export NetworkInterfaceType
-
-
-type VpnGatewaySetType
-    item::Union(Array{VpnGatewayType,1}, Nothing)
-
-    VpnGatewaySetType(; item=nothing) = 
-         new(item)
-end
-export VpnGatewaySetType
-
-
-type DiskImageSetType
-    item::Union(Array{DiskImageType,1}, Nothing)
-
-    DiskImageSetType(; item=nothing) = 
-         new(item)
-end
-export DiskImageSetType
-
-
-type InstanceNetworkInterfaceSetRequestType
-    item::Union(Array{InstanceNetworkInterfaceSetItemRequestType,1}, Nothing)
-
-    InstanceNetworkInterfaceSetRequestType(; item=nothing) = 
-         new(item)
-end
-export InstanceNetworkInterfaceSetRequestType
-
-
-type ConversionTaskSetType
-    item::Union(Array{ConversionTaskType,1}, Nothing)
-
-    ConversionTaskSetType(; item=nothing) = 
-         new(item)
-end
-export ConversionTaskSetType
-
-
-type InstancePrivateIpAddressesSetType
-    item::Union(Array{InstancePrivateIpAddressesSetItemType,1}, Nothing)
-
-    InstancePrivateIpAddressesSetType(; item=nothing) = 
-         new(item)
-end
-export InstancePrivateIpAddressesSetType
-
-
-type NetworkAclSetType
-    item::Union(Array{NetworkAclType,1}, Nothing)
-
-    NetworkAclSetType(; item=nothing) = 
-         new(item)
-end
-export NetworkAclSetType
-
-
-type DescribeSnapshotsSetResponseType
-    item::Union(Array{DescribeSnapshotsSetItemResponseType,1}, Nothing)
-
-    DescribeSnapshotsSetResponseType(; item=nothing) = 
-         new(item)
-end
-export DescribeSnapshotsSetResponseType
 
 
 type RequestSpotInstancesResponseType
     requestId::Union(ASCIIString, Nothing)
-    spotInstanceRequestSet::Union(Array{SpotInstanceRequestSetItemType,1}, Nothing)
+    spotInstanceRequestSet::Union(Vector{SpotInstanceRequestSetItemType}, Nothing)
 
     RequestSpotInstancesResponseType(; requestId=nothing, spotInstanceRequestSet=nothing) = 
          new(requestId, spotInstanceRequestSet)
 end
+function RequestSpotInstancesResponseType(pd::ParsedData)
+    o = RequestSpotInstancesResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.spotInstanceRequestSet = @parse_vector(SpotInstanceRequestSetItemType, find(pd, "spotInstanceRequestSet/item"))
+    o
+end
+
 export RequestSpotInstancesResponseType
 
 
 type DescribeSpotInstanceRequestsResponseType
     requestId::Union(ASCIIString, Nothing)
-    spotInstanceRequestSet::Union(Array{SpotInstanceRequestSetItemType,1}, Nothing)
+    spotInstanceRequestSet::Union(Vector{SpotInstanceRequestSetItemType}, Nothing)
 
     DescribeSpotInstanceRequestsResponseType(; requestId=nothing, spotInstanceRequestSet=nothing) = 
          new(requestId, spotInstanceRequestSet)
 end
+function DescribeSpotInstanceRequestsResponseType(pd::ParsedData)
+    o = DescribeSpotInstanceRequestsResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.spotInstanceRequestSet = @parse_vector(SpotInstanceRequestSetItemType, find(pd, "spotInstanceRequestSet/item"))
+    o
+end
+
 export DescribeSpotInstanceRequestsResponseType
 
 
 type DescribeNetworkAclsResponseType
     requestId::Union(ASCIIString, Nothing)
-    networkAclSet::Union(Array{NetworkAclType,1}, Nothing)
+    networkAclSet::Union(Vector{NetworkAclType}, Nothing)
 
     DescribeNetworkAclsResponseType(; requestId=nothing, networkAclSet=nothing) = 
          new(requestId, networkAclSet)
 end
+function DescribeNetworkAclsResponseType(pd::ParsedData)
+    o = DescribeNetworkAclsResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.networkAclSet = @parse_vector(NetworkAclType, find(pd, "networkAclSet/item"))
+    o
+end
+
 export DescribeNetworkAclsResponseType
 
 
@@ -5972,55 +8426,50 @@ type ImportVolumeResponseType
     ImportVolumeResponseType(; requestId=nothing, conversionTask=nothing) = 
          new(requestId, conversionTask)
 end
+function ImportVolumeResponseType(pd::ParsedData)
+    o = ImportVolumeResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.conversionTask = haskey(pd.elements, "conversionTask") ?  ConversionTaskType(find(pd, "conversionTask[1]")) : nothing
+    o
+end
+
 export ImportVolumeResponseType
 
 
 type DescribeVolumeStatusResponseType
     requestId::Union(ASCIIString, Nothing)
-    volumeStatusSet::Union(Array{VolumeStatusItemType,1}, Nothing)
+    volumeStatusSet::Union(Vector{VolumeStatusItemType}, Nothing)
     nextToken::Union(ASCIIString, Nothing)
 
     DescribeVolumeStatusResponseType(; requestId=nothing, volumeStatusSet=nothing, nextToken=nothing) = 
          new(requestId, volumeStatusSet, nextToken)
 end
-export DescribeVolumeStatusResponseType
-
-
-type MonitorInstancesResponseSetType
-    item::Union(Array{MonitorInstancesResponseSetItemType,1}, Nothing)
-
-    MonitorInstancesResponseSetType(; item=nothing) = 
-         new(item)
+function DescribeVolumeStatusResponseType(pd::ParsedData)
+    o = DescribeVolumeStatusResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.volumeStatusSet = @parse_vector(VolumeStatusItemType, find(pd, "volumeStatusSet/item"))
+    o.nextToken = find(pd, "nextToken#text")
+    o
 end
-export MonitorInstancesResponseSetType
+
+export DescribeVolumeStatusResponseType
 
 
 type DescribeImagesResponseType
     requestId::Union(ASCIIString, Nothing)
-    imagesSet::Union(Array{DescribeImagesResponseItemType,1}, Nothing)
+    imagesSet::Union(Vector{DescribeImagesResponseItemType}, Nothing)
 
     DescribeImagesResponseType(; requestId=nothing, imagesSet=nothing) = 
          new(requestId, imagesSet)
 end
+function DescribeImagesResponseType(pd::ParsedData)
+    o = DescribeImagesResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.imagesSet = @parse_vector(DescribeImagesResponseItemType, find(pd, "imagesSet/item"))
+    o
+end
+
 export DescribeImagesResponseType
-
-
-type NetworkInterfacePrivateIpAddressesSetType
-    item::Union(Array{NetworkInterfacePrivateIpAddressesSetItemType,1}, Nothing)
-
-    NetworkInterfacePrivateIpAddressesSetType(; item=nothing) = 
-         new(item)
-end
-export NetworkInterfacePrivateIpAddressesSetType
-
-
-type DescribeImagesResponseInfoType
-    item::Union(Array{DescribeImagesResponseItemType,1}, Nothing)
-
-    DescribeImagesResponseInfoType(; item=nothing) = 
-         new(item)
-end
-export DescribeImagesResponseInfoType
 
 
 type SecurityGroupItemType
@@ -6029,42 +8478,60 @@ type SecurityGroupItemType
     groupName::Union(ASCIIString, Nothing)
     groupDescription::Union(ASCIIString, Nothing)
     vpcId::Union(ASCIIString, Nothing)
-    ipPermissions::Union(Array{IpPermissionType,1}, Nothing)
-    ipPermissionsEgress::Union(Array{IpPermissionType,1}, Nothing)
-    tagSet::Union(Array{ResourceTagSetItemType,1}, Nothing)
+    ipPermissions::Union(Vector{IpPermissionType}, Nothing)
+    ipPermissionsEgress::Union(Vector{IpPermissionType}, Nothing)
+    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
 
     SecurityGroupItemType(; ownerId=nothing, groupId=nothing, groupName=nothing, groupDescription=nothing, vpcId=nothing, ipPermissions=nothing, ipPermissionsEgress=nothing, tagSet=nothing) = 
          new(ownerId, groupId, groupName, groupDescription, vpcId, ipPermissions, ipPermissionsEgress, tagSet)
 end
+function SecurityGroupItemType(pd::ParsedData)
+    o = SecurityGroupItemType()
+    o.ownerId = find(pd, "ownerId#text")
+    o.groupId = find(pd, "groupId#text")
+    o.groupName = find(pd, "groupName#text")
+    o.groupDescription = find(pd, "groupDescription#text")
+    o.vpcId = find(pd, "vpcId#text")
+    o.ipPermissions = @parse_vector(IpPermissionType, find(pd, "ipPermissions/item"))
+    o.ipPermissionsEgress = @parse_vector(IpPermissionType, find(pd, "ipPermissionsEgress/item"))
+    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o
+end
+
 export SecurityGroupItemType
 
 
 type MonitorInstancesResponseType
     requestId::Union(ASCIIString, Nothing)
-    instancesSet::Union(Array{MonitorInstancesResponseSetItemType,1}, Nothing)
+    instancesSet::Union(Vector{MonitorInstancesResponseSetItemType}, Nothing)
 
     MonitorInstancesResponseType(; requestId=nothing, instancesSet=nothing) = 
          new(requestId, instancesSet)
 end
-export MonitorInstancesResponseType
-
-
-type DhcpOptionsSetType
-    item::Union(Array{DhcpOptionsType,1}, Nothing)
-
-    DhcpOptionsSetType(; item=nothing) = 
-         new(item)
+function MonitorInstancesResponseType(pd::ParsedData)
+    o = MonitorInstancesResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.instancesSet = @parse_vector(MonitorInstancesResponseSetItemType, find(pd, "instancesSet/item"))
+    o
 end
-export DhcpOptionsSetType
+
+export MonitorInstancesResponseType
 
 
 type AuthorizeSecurityGroupEgressType
     groupId::Union(ASCIIString, Nothing)
-    ipPermissions::Union(Array{IpPermissionType,1}, Nothing)
+    ipPermissions::Union(Vector{IpPermissionType}, Nothing)
 
     AuthorizeSecurityGroupEgressType(; groupId=nothing, ipPermissions=nothing) = 
          new(groupId, ipPermissions)
 end
+function AuthorizeSecurityGroupEgressType(pd::ParsedData)
+    o = AuthorizeSecurityGroupEgressType()
+    o.groupId = find(pd, "groupId#text")
+    o.ipPermissions = @parse_vector(IpPermissionType, find(pd, "ipPermissions/item"))
+    o
+end
+
 export AuthorizeSecurityGroupEgressType
 
 
@@ -6075,44 +8542,47 @@ type BundleInstanceResponseType
     BundleInstanceResponseType(; requestId=nothing, bundleInstanceTask=nothing) = 
          new(requestId, bundleInstanceTask)
 end
-export BundleInstanceResponseType
-
-
-type SubnetSetType
-    item::Union(Array{SubnetType,1}, Nothing)
-
-    SubnetSetType(; item=nothing) = 
-         new(item)
+function BundleInstanceResponseType(pd::ParsedData)
+    o = BundleInstanceResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.bundleInstanceTask = haskey(pd.elements, "bundleInstanceTask") ?  BundleInstanceTaskType(find(pd, "bundleInstanceTask[1]")) : nothing
+    o
 end
-export SubnetSetType
+
+export BundleInstanceResponseType
 
 
 type DescribeNetworkInterfacesResponseType
     requestId::Union(ASCIIString, Nothing)
-    networkInterfaceSet::Union(Array{NetworkInterfaceType,1}, Nothing)
+    networkInterfaceSet::Union(Vector{NetworkInterfaceType}, Nothing)
 
     DescribeNetworkInterfacesResponseType(; requestId=nothing, networkInterfaceSet=nothing) = 
          new(requestId, networkInterfaceSet)
 end
-export DescribeNetworkInterfacesResponseType
-
-
-type VpnConnectionSetType
-    item::Union(Array{VpnConnectionType,1}, Nothing)
-
-    VpnConnectionSetType(; item=nothing) = 
-         new(item)
+function DescribeNetworkInterfacesResponseType(pd::ParsedData)
+    o = DescribeNetworkInterfacesResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.networkInterfaceSet = @parse_vector(NetworkInterfaceType, find(pd, "networkInterfaceSet/item"))
+    o
 end
-export VpnConnectionSetType
+
+export DescribeNetworkInterfacesResponseType
 
 
 type DescribeSubnetsResponseType
     requestId::Union(ASCIIString, Nothing)
-    subnetSet::Union(Array{SubnetType,1}, Nothing)
+    subnetSet::Union(Vector{SubnetType}, Nothing)
 
     DescribeSubnetsResponseType(; requestId=nothing, subnetSet=nothing) = 
          new(requestId, subnetSet)
 end
+function DescribeSubnetsResponseType(pd::ParsedData)
+    o = DescribeSubnetsResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.subnetSet = @parse_vector(SubnetType, find(pd, "subnetSet/item"))
+    o
+end
+
 export DescribeSubnetsResponseType
 
 
@@ -6123,6 +8593,13 @@ type CreateRouteTableResponseType
     CreateRouteTableResponseType(; requestId=nothing, routeTable=nothing) = 
          new(requestId, routeTable)
 end
+function CreateRouteTableResponseType(pd::ParsedData)
+    o = CreateRouteTableResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.routeTable = haskey(pd.elements, "routeTable") ?  RouteTableType(find(pd, "routeTable[1]")) : nothing
+    o
+end
+
 export CreateRouteTableResponseType
 
 
@@ -6137,24 +8614,50 @@ type InstanceNetworkInterfaceSetItemType
     privateIpAddress::Union(ASCIIString, Nothing)
     privateDnsName::Union(ASCIIString, Nothing)
     sourceDestCheck::Union(Bool, Nothing)
-    groupSet::Union(Array{GroupItemType,1}, Nothing)
+    groupSet::Union(Vector{GroupItemType}, Nothing)
     attachment::Union(InstanceNetworkInterfaceAttachmentType, Nothing)
     association::Union(InstanceNetworkInterfaceAssociationType, Nothing)
-    privateIpAddressesSet::Union(Array{InstancePrivateIpAddressesSetItemType,1}, Nothing)
+    privateIpAddressesSet::Union(Vector{InstancePrivateIpAddressesSetItemType}, Nothing)
 
     InstanceNetworkInterfaceSetItemType(; networkInterfaceId=nothing, subnetId=nothing, vpcId=nothing, description=nothing, ownerId=nothing, status=nothing, macAddress=nothing, privateIpAddress=nothing, privateDnsName=nothing, sourceDestCheck=nothing, groupSet=nothing, attachment=nothing, association=nothing, privateIpAddressesSet=nothing) = 
          new(networkInterfaceId, subnetId, vpcId, description, ownerId, status, macAddress, privateIpAddress, privateDnsName, sourceDestCheck, groupSet, attachment, association, privateIpAddressesSet)
 end
+function InstanceNetworkInterfaceSetItemType(pd::ParsedData)
+    o = InstanceNetworkInterfaceSetItemType()
+    o.networkInterfaceId = find(pd, "networkInterfaceId#text")
+    o.subnetId = find(pd, "subnetId#text")
+    o.vpcId = find(pd, "vpcId#text")
+    o.description = find(pd, "description#text")
+    o.ownerId = find(pd, "ownerId#text")
+    o.status = find(pd, "status#text")
+    o.macAddress = find(pd, "macAddress#text")
+    o.privateIpAddress = find(pd, "privateIpAddress#text")
+    o.privateDnsName = find(pd, "privateDnsName#text")
+    o.sourceDestCheck = safe_parse_as(Bool, find(pd, "sourceDestCheck#text"))
+    o.groupSet = @parse_vector(GroupItemType, find(pd, "groupSet/item"))
+    o.attachment = haskey(pd.elements, "instanceNetworkInterfaceAttachment") ?  InstanceNetworkInterfaceAttachmentType(find(pd, "instanceNetworkInterfaceAttachment[1]")) : nothing
+    o.association = haskey(pd.elements, "instanceNetworkInterfaceAssociation") ?  InstanceNetworkInterfaceAssociationType(find(pd, "instanceNetworkInterfaceAssociation[1]")) : nothing
+    o.privateIpAddressesSet = @parse_vector(InstancePrivateIpAddressesSetItemType, find(pd, "privateIpAddressesSet/item"))
+    o
+end
+
 export InstanceNetworkInterfaceSetItemType
 
 
 type DescribeConversionTasksResponseType
     requestId::Union(ASCIIString, Nothing)
-    conversionTasks::Union(Array{ConversionTaskType,1}, Nothing)
+    conversionTasks::Union(Vector{ConversionTaskType}, Nothing)
 
     DescribeConversionTasksResponseType(; requestId=nothing, conversionTasks=nothing) = 
          new(requestId, conversionTasks)
 end
+function DescribeConversionTasksResponseType(pd::ParsedData)
+    o = DescribeConversionTasksResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.conversionTasks = @parse_vector(ConversionTaskType, find(pd, "conversionTasks/item"))
+    o
+end
+
 export DescribeConversionTasksResponseType
 
 
@@ -6165,6 +8668,13 @@ type CreateNetworkInterfaceResponseType
     CreateNetworkInterfaceResponseType(; requestId=nothing, networkInterface=nothing) = 
          new(requestId, networkInterface)
 end
+function CreateNetworkInterfaceResponseType(pd::ParsedData)
+    o = CreateNetworkInterfaceResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.networkInterface = haskey(pd.elements, "networkInterface") ?  NetworkInterfaceType(find(pd, "networkInterface[1]")) : nothing
+    o
+end
+
 export CreateNetworkInterfaceResponseType
 
 
@@ -6177,7 +8687,7 @@ type RunningInstancesItemType
     reason::Union(ASCIIString, Nothing)
     keyName::Union(ASCIIString, Nothing)
     amiLaunchIndex::Union(ASCIIString, Nothing)
-    productCodes::Union(Array{ProductCodesSetItemType,1}, Nothing)
+    productCodes::Union(Vector{ProductCodesSetItemType}, Nothing)
     instanceType::Union(ASCIIString, Nothing)
     launchTime::Union(CalendarTime, Nothing)
     placement::Union(PlacementResponseType, Nothing)
@@ -6190,85 +8700,108 @@ type RunningInstancesItemType
     privateIpAddress::Union(ASCIIString, Nothing)
     ipAddress::Union(ASCIIString, Nothing)
     sourceDestCheck::Union(Bool, Nothing)
-    groupSet::Union(Array{GroupItemType,1}, Nothing)
+    groupSet::Union(Vector{GroupItemType}, Nothing)
     stateReason::Union(StateReasonType, Nothing)
     architecture::Union(ASCIIString, Nothing)
     rootDeviceType::Union(ASCIIString, Nothing)
     rootDeviceName::Union(ASCIIString, Nothing)
-    blockDeviceMapping::Union(Array{ASCIIString,1}, Nothing)
+    blockDeviceMapping::Union(Vector{InstanceBlockDeviceMappingResponseItemType}, Nothing)
     instanceLifecycle::Union(ASCIIString, Nothing)
     spotInstanceRequestId::Union(ASCIIString, Nothing)
     license::Union(InstanceLicenseResponseType, Nothing)
     virtualizationType::Union(ASCIIString, Nothing)
     clientToken::Union(ASCIIString, Nothing)
-    tagSet::Union(Array{ResourceTagSetItemType,1}, Nothing)
+    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
     hypervisor::Union(ASCIIString, Nothing)
-    networkInterfaceSet::Union(Array{InstanceNetworkInterfaceSetItemType,1}, Nothing)
+    networkInterfaceSet::Union(Vector{InstanceNetworkInterfaceSetItemType}, Nothing)
     iamInstanceProfile::Union(IamInstanceProfileResponseType, Nothing)
     ebsOptimized::Union(Bool, Nothing)
 
     RunningInstancesItemType(; instanceId=nothing, imageId=nothing, instanceState=nothing, privateDnsName=nothing, dnsName=nothing, reason=nothing, keyName=nothing, amiLaunchIndex=nothing, productCodes=nothing, instanceType=nothing, launchTime=nothing, placement=nothing, kernelId=nothing, ramdiskId=nothing, platform=nothing, monitoring=nothing, subnetId=nothing, vpcId=nothing, privateIpAddress=nothing, ipAddress=nothing, sourceDestCheck=nothing, groupSet=nothing, stateReason=nothing, architecture=nothing, rootDeviceType=nothing, rootDeviceName=nothing, blockDeviceMapping=nothing, instanceLifecycle=nothing, spotInstanceRequestId=nothing, license=nothing, virtualizationType=nothing, clientToken=nothing, tagSet=nothing, hypervisor=nothing, networkInterfaceSet=nothing, iamInstanceProfile=nothing, ebsOptimized=nothing) = 
          new(instanceId, imageId, instanceState, privateDnsName, dnsName, reason, keyName, amiLaunchIndex, productCodes, instanceType, launchTime, placement, kernelId, ramdiskId, platform, monitoring, subnetId, vpcId, privateIpAddress, ipAddress, sourceDestCheck, groupSet, stateReason, architecture, rootDeviceType, rootDeviceName, blockDeviceMapping, instanceLifecycle, spotInstanceRequestId, license, virtualizationType, clientToken, tagSet, hypervisor, networkInterfaceSet, iamInstanceProfile, ebsOptimized)
 end
-export RunningInstancesItemType
-
-
-type RunningInstancesSetType
-    item::Union(Array{RunningInstancesItemType,1}, Nothing)
-
-    RunningInstancesSetType(; item=nothing) = 
-         new(item)
+function RunningInstancesItemType(pd::ParsedData)
+    o = RunningInstancesItemType()
+    o.instanceId = find(pd, "instanceId#text")
+    o.imageId = find(pd, "imageId#text")
+    o.instanceState = haskey(pd.elements, "instanceState") ?  InstanceStateType(find(pd, "instanceState[1]")) : nothing
+    o.privateDnsName = find(pd, "privateDnsName#text")
+    o.dnsName = find(pd, "dnsName#text")
+    o.reason = find(pd, "reason#text")
+    o.keyName = find(pd, "keyName#text")
+    o.amiLaunchIndex = find(pd, "amiLaunchIndex#text")
+    o.productCodes = @parse_vector(ProductCodesSetItemType, find(pd, "productCodes/item"))
+    o.instanceType = find(pd, "instanceType#text")
+    o.launchTime = safe_parse_as(CalendarTime, find(pd, "launchTime#text"))
+    o.placement = haskey(pd.elements, "placementResponse") ?  PlacementResponseType(find(pd, "placementResponse[1]")) : nothing
+    o.kernelId = find(pd, "kernelId#text")
+    o.ramdiskId = find(pd, "ramdiskId#text")
+    o.platform = find(pd, "platform#text")
+    o.monitoring = haskey(pd.elements, "instanceMonitoringState") ?  InstanceMonitoringStateType(find(pd, "instanceMonitoringState[1]")) : nothing
+    o.subnetId = find(pd, "subnetId#text")
+    o.vpcId = find(pd, "vpcId#text")
+    o.privateIpAddress = find(pd, "privateIpAddress#text")
+    o.ipAddress = find(pd, "ipAddress#text")
+    o.sourceDestCheck = safe_parse_as(Bool, find(pd, "sourceDestCheck#text"))
+    o.groupSet = @parse_vector(GroupItemType, find(pd, "groupSet/item"))
+    o.stateReason = haskey(pd.elements, "stateReason") ?  StateReasonType(find(pd, "stateReason[1]")) : nothing
+    o.architecture = find(pd, "architecture#text")
+    o.rootDeviceType = find(pd, "rootDeviceType#text")
+    o.rootDeviceName = find(pd, "rootDeviceName#text")
+    o.blockDeviceMapping = @parse_vector(InstanceBlockDeviceMappingResponseItemType, find(pd, "blockDeviceMapping/item"))
+    o.instanceLifecycle = find(pd, "instanceLifecycle#text")
+    o.spotInstanceRequestId = find(pd, "spotInstanceRequestId#text")
+    o.license = haskey(pd.elements, "instanceLicenseResponse") ?  InstanceLicenseResponseType(find(pd, "instanceLicenseResponse[1]")) : nothing
+    o.virtualizationType = find(pd, "virtualizationType#text")
+    o.clientToken = find(pd, "clientToken#text")
+    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.hypervisor = find(pd, "hypervisor#text")
+    o.networkInterfaceSet = @parse_vector(InstanceNetworkInterfaceSetItemType, find(pd, "networkInterfaceSet/item"))
+    o.iamInstanceProfile = haskey(pd.elements, "iamInstanceProfileResponse") ?  IamInstanceProfileResponseType(find(pd, "iamInstanceProfileResponse[1]")) : nothing
+    o.ebsOptimized = safe_parse_as(Bool, find(pd, "ebsOptimized#text"))
+    o
 end
-export RunningInstancesSetType
+
+export RunningInstancesItemType
 
 
 type DescribeSecurityGroupsResponseType
     requestId::Union(ASCIIString, Nothing)
-    securityGroupInfo::Union(Array{SecurityGroupItemType,1}, Nothing)
+    securityGroupInfo::Union(Vector{SecurityGroupItemType}, Nothing)
 
     DescribeSecurityGroupsResponseType(; requestId=nothing, securityGroupInfo=nothing) = 
          new(requestId, securityGroupInfo)
 end
+function DescribeSecurityGroupsResponseType(pd::ParsedData)
+    o = DescribeSecurityGroupsResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.securityGroupInfo = @parse_vector(SecurityGroupItemType, find(pd, "securityGroupInfo/item"))
+    o
+end
+
 export DescribeSecurityGroupsResponseType
-
-
-type InstanceNetworkInterfaceSetType
-    item::Union(Array{InstanceNetworkInterfaceSetItemType,1}, Nothing)
-
-    InstanceNetworkInterfaceSetType(; item=nothing) = 
-         new(item)
-end
-export InstanceNetworkInterfaceSetType
-
-
-type NetworkInterfaceSetType
-    item::Union(Array{NetworkInterfaceType,1}, Nothing)
-
-    NetworkInterfaceSetType(; item=nothing) = 
-         new(item)
-end
-export NetworkInterfaceSetType
-
-
-type SecurityGroupSetType
-    item::Union(Array{SecurityGroupItemType,1}, Nothing)
-
-    SecurityGroupSetType(; item=nothing) = 
-         new(item)
-end
-export SecurityGroupSetType
 
 
 type ReservationInfoType
     reservationId::Union(ASCIIString, Nothing)
     ownerId::Union(ASCIIString, Nothing)
-    groupSet::Union(Array{GroupItemType,1}, Nothing)
-    instancesSet::Union(Array{RunningInstancesItemType,1}, Nothing)
+    groupSet::Union(Vector{GroupItemType}, Nothing)
+    instancesSet::Union(Vector{RunningInstancesItemType}, Nothing)
     requesterId::Union(ASCIIString, Nothing)
 
     ReservationInfoType(; reservationId=nothing, ownerId=nothing, groupSet=nothing, instancesSet=nothing, requesterId=nothing) = 
          new(reservationId, ownerId, groupSet, instancesSet, requesterId)
 end
+function ReservationInfoType(pd::ParsedData)
+    o = ReservationInfoType()
+    o.reservationId = find(pd, "reservationId#text")
+    o.ownerId = find(pd, "ownerId#text")
+    o.groupSet = @parse_vector(GroupItemType, find(pd, "groupSet/item"))
+    o.instancesSet = @parse_vector(RunningInstancesItemType, find(pd, "instancesSet/item"))
+    o.requesterId = find(pd, "requesterId#text")
+    o
+end
+
 export ReservationInfoType
 
 
@@ -6276,32 +8809,41 @@ type RunInstancesResponseType
     requestId::Union(ASCIIString, Nothing)
     reservationId::Union(ASCIIString, Nothing)
     ownerId::Union(ASCIIString, Nothing)
-    groupSet::Union(Array{GroupItemType,1}, Nothing)
-    instancesSet::Union(Array{RunningInstancesItemType,1}, Nothing)
+    groupSet::Union(Vector{GroupItemType}, Nothing)
+    instancesSet::Union(Vector{RunningInstancesItemType}, Nothing)
     requesterId::Union(ASCIIString, Nothing)
 
     RunInstancesResponseType(; requestId=nothing, reservationId=nothing, ownerId=nothing, groupSet=nothing, instancesSet=nothing, requesterId=nothing) = 
          new(requestId, reservationId, ownerId, groupSet, instancesSet, requesterId)
 end
-export RunInstancesResponseType
-
-
-type ReservationSetType
-    item::Union(Array{ReservationInfoType,1}, Nothing)
-
-    ReservationSetType(; item=nothing) = 
-         new(item)
+function RunInstancesResponseType(pd::ParsedData)
+    o = RunInstancesResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.reservationId = find(pd, "reservationId#text")
+    o.ownerId = find(pd, "ownerId#text")
+    o.groupSet = @parse_vector(GroupItemType, find(pd, "groupSet/item"))
+    o.instancesSet = @parse_vector(RunningInstancesItemType, find(pd, "instancesSet/item"))
+    o.requesterId = find(pd, "requesterId#text")
+    o
 end
-export ReservationSetType
+
+export RunInstancesResponseType
 
 
 type DescribeInstancesResponseType
     requestId::Union(ASCIIString, Nothing)
-    reservationSet::Union(Array{ReservationInfoType,1}, Nothing)
+    reservationSet::Union(Vector{ReservationInfoType}, Nothing)
 
     DescribeInstancesResponseType(; requestId=nothing, reservationSet=nothing) = 
          new(requestId, reservationSet)
 end
+function DescribeInstancesResponseType(pd::ParsedData)
+    o = DescribeInstancesResponseType()
+    o.requestId = find(pd, "requestId#text")
+    o.reservationSet = @parse_vector(ReservationInfoType, find(pd, "reservationSet/item"))
+    o
+end
+
 export DescribeInstancesResponseType
 
 

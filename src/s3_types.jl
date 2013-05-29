@@ -5,13 +5,14 @@
 #     value::String
 # end
 
-
 const XMLNS_ATTR = "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\""
 xml_hdr(name) = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><$(name) xmlns=\"http://doc.s3.amazonaws.com/2006-03-01\">"
 xml_ftr(name) = "</$(name)>"
 
+
+
 xml(o::Any) = string(o)
-xml(tag::String, value::Any) = "<$(tag)>" * xml(value) * "</$(tag)>"
+xml(tag::String, value::Any) = (value != nothing) ? "<$(tag)>" * xml(value) * "</$(tag)>" : ""
 
 function xml(tag::String, children::Vector{Any}; xmlns="", xsi_type="")
     if (xsi_type != "")
@@ -33,16 +34,25 @@ function xml(tag::String, children::Vector{Any}; xmlns="", xsi_type="")
     return open_tag * children_xml * "</$(tag)>"
 end
 
-macro parse_vector (typ, vect)
+
+
+
+macro declare_utype(utype)
     quote
-        jl_vect::Vector{$(typ)} = []
-        for pd in $(vect)
-            push!(jl_vect, $(typ)(pd))
+        type $(esc(utype))
+            id::String         
+            displayName::Union(String, Nothing)
         end
-        
-        jl_vect
+        xml(o::$(esc(utype))) = xml($(string(utype)), [("ID", o.id), ("DisplayName", o.displayName)])
+        function $(esc(utype))(pd::ParsedData)
+            o = $(esc(utype))(find(pd, "ID#text"), find(pd, "DisplayName#text"))  
+        end
     end
 end
+
+@declare_utype Owner
+@declare_utype Initiator
+
 
 
 type GranteeEmail
@@ -70,7 +80,7 @@ xml(o::Grant) = xml("Grant", [o.grantee, ("Permission", o.permission)])
 # permission must be one of "READ", "WRITE", "READ_ACP", "WRITE_ACP" or "FULL_CONTROL"
 function Grant(pd_g::ParsedData)
     grantee_pd = find(pd_g, "Grantee[1]")
-    grantee_type = pd_g.attr["xsi:type"]
+    grantee_type = grantee_pd.attr["xsi:type"]
     if grantee_type == "AmazonCustomerByEmail"
         grantee=GranteeEmail(find(grantee_pd, "EmailAddress#text"))
     elseif grantee_type == "CanonicalUser"
@@ -89,14 +99,13 @@ end
 
 
 type BucketLoggingStatus
-    loggingEnabled::Bool
-    targetBucket::String
-    targetPrefix::String
-    targetGrants::Vector{Grant}
-    
+    loggingEnabled::Union(Bool, Nothing)
+    targetBucket::Union(String, Nothing)
+    targetPrefix::Union(String, Nothing)
+    targetGrants::Union(Vector{Grant}, Nothing)
 end
 
-BucketLoggingStatus() = BucketLoggingStatus(false, "", "", [])
+BucketLoggingStatus() = BucketLoggingStatus(false, nothing, nothing, nothing)
 function BucketLoggingStatus(pd_bls::ParsedData)
     bls = BucketLoggingStatus()
     if haskey(pd_bls.elements, "LoggingEnabled")
@@ -123,18 +132,6 @@ function xml(o::BucketLoggingStatus)
     end
 end
 
-
-type Owner
-    id::String         
-    displayName::String
-end
-xml(o::Owner) = xml("Owner", [("ID", o.id), ("DisplayName", o.displayName)])
-function Owner(pd_owner::ParsedData)
-    id = find(pd_owner, "ID#text")
-    displayName = haskey(pd_owner.elements, "DisplayName") ? find(pd_owner, "DisplayName#text")) : ""
-    Owner(id,displayName)  
-end
-
 type AccessControlPolicy
     owner::Owner
     accessControlList::Vector{Grant}
@@ -142,7 +139,7 @@ end
 
 function AccessControlPolicy(pd_acl::ParsedData)
     owner = Owner(find(pd_acl, "Owner[1]"))
-    accessControlList = @parse_vector(Grant, find(pd_bls, "AccessControlList/Grant"))
+    accessControlList = @parse_vector(Grant, find(pd_acl, "AccessControlList/Grant"))
     return AccessControlPolicy(owner, accessControlList)
 end
 
@@ -157,7 +154,7 @@ end
 
 
 type CreateBucketConfiguration
-    locationConstraint::String
+    locationConstraint::Union(String, Nothing)
 end
 CreateBucketConfiguration(pd_cbc::ParsedData) = CreateBucketConfiguration(find(pd_cbc, "LocationConstraint#text"))
 xml(o::CreateBucketConfiguration) = xml_hdr("CreateBucketConfiguration") * 
@@ -165,52 +162,22 @@ xml(o::CreateBucketConfiguration) = xml_hdr("CreateBucketConfiguration") *
                                     xml_ftr("CreateBucketConfiguration")
 
 
-
-type ListBucketResult
-    name::String
-    prefix::String
-    marker::String
-    nextMarker::String
-    maxKeys::Int
-    delimiter::String
-    isTruncated::Bool
-    contents::Vector{Contents}
-    commonPrefixes::Vector{CommonPrefixes}
-    
-    ListBucketResult() = new([], "", "", "", "", 0, "", false, [], [])
-end
-
-function ListBucketResult(pd_lbr::ParsedData)
-    lbr = ListBucketResult()
-    if haskey(lbr.elements, "Name") lbr.name = find(pd_lbr, "Name#text") end
-    if haskey(lbr.elements, "Prefix") lbr.prefix = find(pd_lbr, "Prefix#text") end
-    if haskey(lbr.elements, "Marker") lbr.marker = find(pd_lbr, "Marker#text") end
-    if haskey(lbr.elements, "NextMarker") lbr.nextMarker = find(pd_lbr, "NextMarker#text") end
-    if haskey(lbr.elements, "MaxKeys") 
-        maxstr = find(pd_lbr, "MaxKeys#text")
-        if (length(maxstr) > 0) lbr.maxKeys = parseint(maxstr) end 
-    end
-    if haskey(lbr.elements, "Delimiter") lbr.delimiter = find(pd_lbr, "Delimiter#text") end
-    if haskey(lbr.elements, "IsTruncated") lbr.isTruncated = (lowercase(find(pd_lbr, "IsTruncated#text")) == "true") ? true : false  end
-    if haskey(lbr.elements, "Contents") lbr.contents = @parse_vector(Contents, lbr.elements["Contents"]) end
-    if haskey(lbr.elements, "CommonPrefixes") lbr.commonPrefixes = @parse_vector(CommonPrefixes, lbr.elements["CommonPrefixes"]) end
-end
-
-
+                                    
+                                    
 type Contents
-    key::String
+    key::Union(String, Nothing)
     lastModified::CalendarTime
-    eTag::String
-    size::Int64
+    eTag::Union(String, Nothing)
+    size::Union(Int64, Nothing)
     owner::Owner
-    storageClass::String
+    storageClass::Union(String, Nothing)
 end
 function Contents(pd_le::ParsedData)
     key = find(pd_le, "Key#text")
     datestr = find(pd_le, "LastModified#text")
     t = Calendar.parse("yyyy-MM-DD'T'HH:mm:ss.SSS", datestr[1:end-1], "GMT")
     etag = find(pd_le, "ETag#text")
-    size = parseint(find(pd_le, "Size#text"))
+    size = safe_parseint64(find(pd_le, "Size#text"))
     owner=Owner(find(pd_le, "Owner[1]"))
     storageClass = find(pd_le, "StorageClass#text")
 
@@ -219,57 +186,48 @@ end
 
 
 type CommonPrefixes
-    prefix::String
+    prefix::Union(String, Nothing)
 end
 CommonPrefixes(pd_cp::ParsedData) = CommonPrefixes(find(pd_cp, "Prefix#text"))
 
-
-type ListVersionsResult
-    name::String
-    prefix::String
-    keyMarker::String
-    versionIdMarker::String
-    nextKeyMarker::String
-    nextVersionIdMarker::String
-    maxKeys::Int
-    delimiter::String
-    isTruncated::Bool
-    version::Vector{Version}
-    deleteMarker::Vector{DeleteMarker}
+type ListBucketResult
+    name::Union(String, Nothing)
+    prefix::Union(String, Nothing)
+    marker::Union(String, Nothing)
+    nextMarker::Union(String, Nothing)
+    maxKeys::Union(Int, Nothing)
+    delimiter::Union(String, Nothing)
+    isTruncated::Union(Bool, Nothing)
+    contents::Vector{Contents}
     commonPrefixes::Vector{CommonPrefixes}
     
-    ListVersionsResult() = new("", "", "", "", "", "", 0, "", false, [], [], [])
-end  
-function ListVersionsResult(pd_lvr::ParsedData)
-    lvr = ListVersionsResult()
-    if haskey(lvr.elements, "Name") lvr.name = find(pd_lvr, "Name#text") end
-    if haskey(lvr.elements, "Prefix") lvr.prefix = find(pd_lvr, "Prefix#text") end
-    if haskey(lvr.elements, "KeyMarker") lvr.keyMarker = find(pd_lvr, "KeyMarker#text") end
-    if haskey(lvr.elements, "VersionIdMarker") lvr.versionIdMarker = find(pd_lvr, "VersionIdMarker#text") end
-    if haskey(lvr.elements, "NextKeyMarker") lvr.nextKeyMarker = find(pd_lvr, "NextKeyMarker#text") end
-    if haskey(lvr.elements, "NextVersionIdMarker") lvr.nextVersionIdMarker = find(pd_lvr, "NextVersionIdMarker#text") end
-    if haskey(lvr.elements, "MaxKeys") 
-        maxstr = find(pd_lvr, "MaxKeys#text")
-        if (length(maxstr) > 0) lvr.maxKeys = parseint(maxstr) end 
-    end
-    if haskey(lvr.elements, "Delimiter") lvr.delimiter = find(pd_lvr, "Delimiter#text") end
-    if haskey(lvr.elements, "IsTruncated") lvr.isTruncated = (lowercase(find(pd_lvr, "IsTruncated#text")) == "true") ? true : false  end
-    if haskey(lvr.elements, "Version") lvr.version = @parse_vector(Version, lvr.elements["Version"]) end
-    if haskey(lvr.elements, "DeleteMarker") lvr.deleteMarker = @parse_vector(DeleteMarker, lvr.elements["DeleteMarker"]) end
-    if haskey(lvr.elements, "CommonPrefixes") lvr.commonPrefixes = @parse_vector(CommonPrefixes, lvr.elements["CommonPrefixes"]) end
+    ListBucketResult() = new()
+end
+
+function ListBucketResult(pd_lbr::ParsedData)
+    lbr = ListBucketResult()
+    lbr.name = find(pd_lbr, "Name#text")
+    lbr.prefix = find(pd_lbr, "Prefix#text")
+    lbr.marker = find(pd_lbr, "Marker#text")
+    lbr.nextMarker = find(pd_lbr, "NextMarker#text")
+    lbr.maxKeys = safe_parseint(find(pd_lbr, "MaxKeys#text")) 
+    lbr.delimiter = find(pd_lbr, "Delimiter#text")
+    lbr.isTruncated = safe_parsebool(find(pd_lbr, "IsTruncated#text"))
+    lbr.contents = @parse_vector(Contents, pd_lbr.elements["Contents"])
+    lbr.commonPrefixes = @parse_vector(CommonPrefixes, pd_lbr.elements["CommonPrefixes"])
+    lbr
 end
 
 
-
 type Version
-    key::String
-    versionId::String
-    isLatest::Bool
+    key::Union(String, Nothing)
+    versionId::Union(String, Nothing)
+    isLatest::Union(Bool, Nothing)
     lastModified::CalendarTime
-    eTag::String
-    size::Int64
+    eTag::Union(String, Nothing)
+    size::Union(Int64, Nothing)
     owner::Owner
-    storageClass::String
+    storageClass::Union(String, Nothing)
 end
 function Version(pd_v::ParsedData)
     key = find(pd_v, "Key#text")
@@ -278,7 +236,7 @@ function Version(pd_v::ParsedData)
     datestr = find(pd_v, "LastModified#text")
     t = Calendar.parse("yyyy-MM-DD'T'HH:mm:ss.SSS", datestr[1:end-1], "GMT")
     etag = find(pd_v, "ETag#text")
-    size = parseint(find(pd_v, "Size#text"))
+    size = safe_parseint64(find(pd_v, "Size#text"))
     owner=Owner(find(pd_v, "Owner[1]"))
     storageClass = find(pd_v, "StorageClass#text")
 
@@ -289,9 +247,9 @@ end
 
 
 type DeleteMarker
-    key::String
-    versionId::String
-    isLatest::Bool
+    key::Union(String, Nothing)
+    versionId::Union(String, Nothing)
+    isLatest::Union(Bool, Nothing)
     lastModified::CalendarTime
     owner::Owner
 end
@@ -307,24 +265,46 @@ end
 
 
 
-type ListAllMyBucketsResult
-    owner::Owner
-    buckets::Vector{Bucket}
-end
-function ListAllMyBucketsResult(pd_lab::ParsedData)
-    owner = Owner(find(pd_lab, "Owner[1]"))
-    buckets = []
-    try
-        buckets = @parse_vector(Bucket, find(pd_lab, "Owner/Buckets/Bucket"))
-    catch
-        buckets = []
-    end
+
+
+type ListVersionsResult
+    name::Union(String, Nothing)
+    prefix::Union(String, Nothing)
+    keyMarker::Union(String, Nothing)
+    versionIdMarker::Union(String, Nothing)
+    nextKeyMarker::Union(String, Nothing)
+    nextVersionIdMarker::Union(String, Nothing)
+    maxKeys::Union(Int, Nothing)
+    delimiter::Union(String, Nothing)
+    isTruncated::Union(Bool, Nothing)
+    version::Union(Vector{Version}, Nothing)
+    deleteMarker::Union(Vector{DeleteMarker}, Nothing)
+    commonPrefixes::Union(Vector{CommonPrefixes}, Nothing)
     
-    ListAllMyBucketsResult(owner, buckets)
+    ListVersionsResult() = new()
+end  
+function ListVersionsResult(pd_lvr::ParsedData)
+    lvr = ListVersionsResult()
+    lvr.name = find(pd_lvr, "Name#text")
+    lvr.prefix = find(pd_lvr, "Prefix#text")
+    lvr.keyMarker = find(pd_lvr, "KeyMarker#text")
+    lvr.versionIdMarker = find(pd_lvr, "VersionIdMarker#text")
+    lvr.nextKeyMarker = find(pd_lvr, "NextKeyMarker#text")
+    lvr.nextVersionIdMarker = find(pd_lvr, "NextVersionIdMarker#text")
+    lvr.maxKeys = safe_parseint(find(pd_lvr, "MaxKeys#text"))
+    lvr.delimiter = find(pd_lvr, "Delimiter#text")
+    lvr.isTruncated = safe_parsebool(find(pd_lvr, "IsTruncated#text"))
+    lvr.version = @parse_vector(Version, find(pd_lvr, "Version"))
+    lvr.deleteMarker = @parse_vector(DeleteMarker, find(pd_lvr, "DeleteMarker"))
+    lvr.commonPrefixes = @parse_vector(CommonPrefixes, find(pd_lvr, "CommonPrefixes"))
+    lvr
 end
 
+
+
+
 type Bucket
-    name::String
+    name::Union(String, Nothing)
     creationDate::CalendarTime
 end
 function Bucket(pd_b::ParsedData)
@@ -337,9 +317,22 @@ end
 
 
 
+
+type ListAllMyBucketsResult
+    owner::Owner
+    buckets::Vector{Bucket}
+end
+function ListAllMyBucketsResult(pd_lab::ParsedData)
+    owner = Owner(find(pd_lab, "Owner[1]"))
+    buckets = @parse_vector(Bucket, find(pd_lab, "Buckets/Bucket"))
+    ListAllMyBucketsResult(owner, buckets)
+end
+
+
+
 type CopyObjectResult
     lastModified::CalendarTime
-    eTag::String      
+    eTag::Union(String, Nothing)      
 end
 function CopyObjectResult(pd_cor::ParsedData)
     datestr = find(pd_cor, "LastModified#text")
@@ -352,23 +345,23 @@ end
 
 
 type RequestPaymentConfiguration
-    payer::String
+    payer::Union(String, Nothing)
 end
 xml(o::RequestPaymentConfiguration) = xml_hdr("RequestPaymentConfiguration") * xml("Payer", o.payer) * xml_ftr("RequestPaymentConfiguration")
 RequestPaymentConfiguration(pd_rpc::ParsedData) = RequestPaymentConfiguration(find(pd_rpc, "Payer#text"))
 
   
 type VersioningConfiguration
-    status::String
-    mfaDelete::String
+    status::Union(String, Nothing)
+    mfaDelete::Union(String, Nothing)
 end
 function xml(o::VersioningConfiguration)    
     xml_hdr("VersioningConfiguration") * 
     ((o.status != "") ? xml("Status", o.status) : "") * 
-    ((o.mfaDelete 1= "") ? xml("MfaDelete", o.mfaDelete) : "")  * 
+    ((o.mfaDelete != "") ? xml("MfaDelete", o.mfaDelete) : "")  * 
     xml_ftr("VersioningConfiguration")
 end
-function VersioningConfiguration(pd_vc::VersioningConfiguration) 
+function VersioningConfiguration(pd_vc::ParsedData) 
     status = (haskey(pd_vc.elements, "Status") ? find(pd_vc, "Status#text") : "")
     mfaDelete = (haskey(pd_vc.elements, "MfaDelete") ? find(pd_vc, "MfaDelete#text") : "")
     
@@ -376,28 +369,13 @@ function VersioningConfiguration(pd_vc::VersioningConfiguration)
 end
 
 
-type NotificationConfiguration
-    topicConfiguration::Union(Vector{TopicConfiguration}, Nothing)
-end
-function xml(o::NotificationConfiguration)
-    if o.topicConfiguration == nothing
-        xml("NotificationConfiguration", "")
-    else
-        topics = ""
-        for t in o.topicConfiguration
-            topics = topics * xml("TopicConfiguration", t)
-        end
-        xml("NotificationConfiguration", topics)
-    end
-end
-
 type TopicConfiguration
-    topic::String
+    topic::Union(String, Nothing)
     event::Vector{String}
 end
 function TopicConfiguration(pd_tc::ParsedData)
     topic = find(pd_tc, "Topic#text")
-    event = [] 
+    event = String[] 
     for pde in find(pd_tc, "Event")
         push!(event, pde.text)
     end
@@ -417,10 +395,31 @@ end
 
 
 
+
+
+type NotificationConfiguration
+    topicConfiguration::Union(Vector{TopicConfiguration}, Nothing)
+end
+NotificationConfiguration(pd::ParsedData) = NotificationConfiguration(@parse_vector(TopicConfiguration, find(pd, "TopicConfiguration")))
+
+function xml(o::NotificationConfiguration)
+    if o.topicConfiguration == nothing
+        xml("NotificationConfiguration", "")
+    else
+        topics = ""
+        for t in o.topicConfiguration
+            topics = topics * xml("TopicConfiguration", t)
+        end
+        xml("NotificationConfiguration", topics)
+    end
+end
+
+
+
 type InitiateMultipartUploadResult
-    bucket::String
-    key::String
-    uploadId::String
+    bucket::Union(String, Nothing)
+    key::Union(String, Nothing)
+    uploadId::Union(String, Nothing)
 end
 function InitiateMultipartUploadResult(pd::ParsedData)
     InitiateMultipartUploadResult(find(pd, "Bucket#text"), find(pd, "Key#text"), find(pd, "UploadId#text"))
@@ -428,7 +427,7 @@ end
 
 type CopyPartResult
    lastModified::CalendarTime
-   eTag::String
+   eTag::Union(String, Nothing)
 end
 function CopyPartResult(pd::ParsedData)
     datestr = find(pd, "LastModified#text")
@@ -438,9 +437,9 @@ end
 
 
 type Part
-    partNumber::String
+    partNumber::Union(String, Nothing)
     lastModified::Union(CalendarTime, Nothing)
-    eTag::String
+    eTag::Union(String, Nothing)
     size::Union(Int64, Nothing)
     
     Part(partNumber, eTag) = new(partNumber, nothing, eTag, nothing)
@@ -457,17 +456,17 @@ end
 
 
 type CompleteMultipartUpload
-    parts::vector{Part}
+    parts::Vector{Part}
 end
 xml(o::CompleteMultipartUpload) = xml("CompleteMultipartUpload", o.parts)
 
 
 
 type CompleteMultipartUploadResult
-    location::String
-    bucket::String
-    key::String
-    eTag::String
+    location::Union(String, Nothing)
+    bucket::Union(String, Nothing)
+    key::Union(String, Nothing)
+    eTag::Union(String, Nothing)
 end
 CompleteMultipartUploadResult(pd::ParsedData) = 
     CompleteMultipartUploadResult(
@@ -480,16 +479,16 @@ CompleteMultipartUploadResult(pd::ParsedData) =
 
     
 type ListPartsResult
-    bucket::String
-    key::String
-    uploadId::String
+    bucket::Union(String, Nothing)
+    key::Union(String, Nothing)
+    uploadId::Union(String, Nothing)
     initiator::Initiator
     owner::Owner
-    storageClass::String
-    partNumberMarker::String
-    nextPartNumberMarker::String
-    maxParts::Int
-    isTruncated::Bool
+    storageClass::Union(String, Nothing)
+    partNumberMarker::Union(String, Nothing)
+    nextPartNumberMarker::Union(String, Nothing)
+    maxParts::Union(Int, Nothing)
+    isTruncated::Union(Bool, Nothing)
     parts::Vector{Part}
 end  
 function ListPartsResult(pd::ParsedData)
@@ -509,6 +508,62 @@ function ListPartsResult(pd::ParsedData)
 end
 
 
+type CORSRule
+    id::Union(String, Nothing)
+    allowedMethod::Union(Vector{String}, Nothing)
+    allowedOrigin::Union(Vector{String}, Nothing)
+    allowedHeader::Union(Vector{String}, Nothing)
+    maxAgeSeconds::Union(String, Int)
+    exposeHeader::Union(Vector{String}, Nothing)
+end
+
+xml(o::CORSRule) = xml("CORSRule", [
+        ("ID", o.id),
+        ("AllowedMethod", o.allowedMethod),
+        ("AllowedOrigin", o.allowedOrigin),
+        ("AllowedHeader", o.allowedHeader),
+        ("MaxAgeSeconds", o.maxAgeSeconds),
+        ("ExposeHeader", o.exposeHeader)
+    ])
+    
+function CORSRule(pd::ParsedData)
+    id = find(pd, "ID#text")
+    allowedMethod = parse_vector_as(String, "AllowedMethod", find(pd, "AllowedMethod"))
+    allowedOrigin = parse_vector_as(String, "AllowedOrigin", find(pd, "AllowedOrigin"))
+    allowedHeader = parse_vector_as(String, "AllowedHeader", find(pd, "AllowedHeader"))
+    seconds = find(pd, "MaxAgeSeconds#text")
+    if (seconds != nothing) maxAgeSeconds = int(seconds) end
+    exposeHeader = parse_vector_as(String, "ExposeHeader", find(pd, "ExposeHeader"))
+    
+    CORSRule(id, allowedMethod, allowedOrigin, allowedHeader, maxAgeSeconds, exposeHeader)
+    
+end
+
+
+
+type CORSConfiguration
+    corsrules::Vector{CORSRule}
+end
+xml(o::CORSConfiguration) = xml("CORSConfiguration", o.corsrules)
+CORSConfiguration(pd::ParsedData) = @parse_vector(CORSRule, find(pd, "CORSRule"))
+
+
+type S3Error
+    code::Union(String, Nothing)
+    message::Union(String, Nothing)
+    resource::Union(String, Nothing)
+    hostId::Union(String, Nothing)
+    requestId::Union(String, Nothing)
+end
+function S3Error(pde::ParsedData) 
+    code = find(pde, "Code#text")
+    message = find(pde, "Message#text")
+    resource = find(pde, "Resource#text")
+    hostId = find(pde, "HostId#text")
+    requestId = find(pde, "RequestId#text")
+    
+    S3Error(code, message, resource, hostId, requestId)
+end
 
 
 

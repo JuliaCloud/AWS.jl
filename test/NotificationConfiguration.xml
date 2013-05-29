@@ -1,0 +1,6 @@
+<NotificationConfiguration> 
+   <TopicConfiguration>
+       <Topic>arn:aws:sns:us-east-1:123456789012:myTopic</Topic>
+       <Event>s3:ReducedRedundancyLostObject</Event>
+   </TopicConfiguration>
+</NotificationConfiguration>

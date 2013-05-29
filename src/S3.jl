@@ -3,22 +3,6 @@
 using AWS.Crypto
 using libCURL.HTTPC
 
-typealias Maybe{T} Union(T,Nothing)
-
-type S3Error
-    code::String
-    message::String
-    resource::String
-    requestId::String
-end
-function S3Error(pde::ParsedData) 
-    code = find(pde, "Code#text")
-    message = find(pde, "Message#text")
-    resource = find(pde, "Resource#text")
-    requestId = find(pde, "RequestId#text")
-    
-    S3Error(code, message, resource, requestId)
-end
 
 
 type S3Response

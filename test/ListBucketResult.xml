@@ -1,0 +1,22 @@
+<ListBucketResult xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+  <Name>example-bucket</Name>
+  <Prefix></Prefix>
+  <Marker></Marker>
+  <MaxKeys>1000</MaxKeys>
+  <Delimiter>/</Delimiter>
+  <IsTruncated>false</IsTruncated>
+  <Contents>
+    <Key>sample.html</Key>
+    <LastModified>2011-02-26T01:56:20.000Z</LastModified>
+    <ETag>&quot;bf1d737a4d46a19f3bced6905cc8b902&quot;</ETag>
+    <Size>142863</Size>
+    <Owner>
+      <ID>canonical-user-id</ID>
+      <DisplayName>display-name</DisplayName>
+    </Owner>
+    <StorageClass>STANDARD</StorageClass>
+  </Contents>
+  <CommonPrefixes>
+    <Prefix>photos/</Prefix>
+  </CommonPrefixes>
+</ListBucketResult>

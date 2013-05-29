@@ -1,4 +1,7 @@
 module AWS
+using LibExpat
+using Calendar
+
 
 const EP_US_EAST_NORTHERN_VIRGINIA     = "ec2.us-east-1.amazonaws.com"
 const EP_US_WEST_OREGON                = "ec2.us-west-2.amazonaws.com"

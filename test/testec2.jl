@@ -1,18 +1,21 @@
 using AWS.EC2
 using AWS
 
-env = AWSEnv(ENV["AWS_ID"], ENV["AWS_SECKEY"], EP_US_EAST_NORTHERN_VIRGINIA, false, true)
+const ami_ubuntu_13_04_64_bit_US_east = "ami-77147f1e"
+env = AWSEnv(ENV["AWS_ID"], ENV["AWS_SECKEY"], EP_US_EAST_NORTHERN_VIRGINIA)
+
 
 resp = EC2.DescribeInstances(env)
+println(resp.obj)
+
+resp = EC2.DescribeAvailabilityZones(env)
+println(resp.obj)
+
+exit()
+
+resp = RunInstances(env, RunInstancesType(imageId=ami_ubuntu_13_04_64_bit_US_east, minCount=1, maxCount=1, keyName="jublr"))
 println(resp)
 
-
-try
-    resp = EC2.DescribeAvailabilityZones(env)
-    println(resp)
-catch e
-    println(e)
-end
 
 exit()
 
