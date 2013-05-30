@@ -7,6 +7,7 @@ using Calendar
 # not reduced to string
 #IpRanges
 
+#TODO : handle XML Group definitions 
 
 type TypeContext
     name
@@ -121,7 +122,9 @@ function get_type_for_elements(tctx, elements, ns_pfx)
     
     for x in elements
         xtype = x.attr["type"]
-        xname = check_member_name(x.attr["name"])
+        rawname = x.attr["name"]
+        xname = check_member_name(rawname)
+        
         
         isarrtype = false
         if haskey(x.attr, "maxOccurs")
@@ -145,7 +148,7 @@ function get_type_for_elements(tctx, elements, ns_pfx)
             # the array is not of a compound type, just create the array 
             # directly here.
             
-            (replacewitharr, new_jltype_str, native, findpath, roottype) = is_set_type(jltype_str, native, ns_pfx, xname)
+            (replacewitharr, new_jltype_str, native, findpath, roottype) = is_set_type(jltype_str, native, ns_pfx, rawname)
             if !native
                 add!(tctx.deps, new_jltype_str)
             end
@@ -173,24 +176,24 @@ function get_type_for_elements(tctx, elements, ns_pfx)
         if isarrtype || replacewitharr
             if native
                 last_in_path = split(findpath, "/")[end]
-                tctx.constructor = tctx.constructor * "    o.$(xname) = parse_vector_as($(new_jltype_str), \"$(last_in_path)\", find(pd, \"$(findpath)\"))\n"
+                tctx.constructor = tctx.constructor * "    o.$(xname) = AWS.parse_vector_as($(new_jltype_str), \"$(last_in_path)\", find(pd, \"$(findpath)\"))\n"
             else
                 if replacewitharr
-                    tctx.constructor = tctx.constructor * "    o.$(xname) = @parse_vector($(roottype), find(pd, \"$(findpath)\"))\n"
+                    tctx.constructor = tctx.constructor * "    o.$(xname) = AWS.@parse_vector(AWS.EC2.$(roottype), find(pd, \"$(findpath)\"))\n"
                 else
                     # Looks like this can be safely ignored - added it to skip list.
                     # Uncomment the below line if you want them generated again
                     add!(skip, tctx.name)
                 
-                    tctx.constructor = tctx.constructor * "    o.$(xname) = @parse_vector($(new_jltype_str), find(pd, \"$(xname)\"))\n"
+                    tctx.constructor = tctx.constructor * "    o.$(xname) = AWS.@parse_vector(AWS.EC2.$(new_jltype_str), find(pd, \"$(rawname)\"))\n"
                 end
             end
         else
             if native
                 if jltype == ASCIIString
-                    tctx.constructor = tctx.constructor * "    o.$(xname) = find(pd, \"$(xname)#text\")\n"
+                    tctx.constructor = tctx.constructor * "    o.$(xname) = find(pd, \"$(rawname)#text\")\n"
                 else
-                    tctx.constructor = tctx.constructor * "    o.$(xname) = safe_parse_as($(jltype), find(pd, \"$(xname)#text\"))\n"
+                    tctx.constructor = tctx.constructor * "    o.$(xname) = AWS.safe_parse_as($(jltype), find(pd, \"$(rawname)#text\"))\n"
                 end
             else
                 xml_tag_name = new_jltype_str

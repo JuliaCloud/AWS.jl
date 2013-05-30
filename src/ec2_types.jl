@@ -57,7 +57,7 @@ end
 function DeregisterImageResponseType(pd::ParsedData)
     o = DeregisterImageResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -161,7 +161,7 @@ end
 function DeleteKeyPairResponseType(pd::ParsedData)
     o = DeleteKeyPairResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -227,7 +227,7 @@ end
 function PrivateIpAddressesSetItemRequestType(pd::ParsedData)
     o = PrivateIpAddressesSetItemRequestType()
     o.privateIpAddress = find(pd, "privateIpAddress#text")
-    o.primary = safe_parse_as(Bool, find(pd, "primary#text"))
+    o.primary = AWS.safe_parse_as(Bool, find(pd, "primary#text"))
     o
 end
 
@@ -311,10 +311,10 @@ end
 function EbsBlockDeviceType(pd::ParsedData)
     o = EbsBlockDeviceType()
     o.snapshotId = find(pd, "snapshotId#text")
-    o.volumeSize = safe_parse_as(Int32, find(pd, "volumeSize#text"))
-    o.deleteOnTermination = safe_parse_as(Bool, find(pd, "deleteOnTermination#text"))
+    o.volumeSize = AWS.safe_parse_as(Int32, find(pd, "volumeSize#text"))
+    o.deleteOnTermination = AWS.safe_parse_as(Bool, find(pd, "deleteOnTermination#text"))
     o.volumeType = find(pd, "volumeType#text")
-    o.iops = safe_parse_as(Int32, find(pd, "iops#text"))
+    o.iops = AWS.safe_parse_as(Int32, find(pd, "iops#text"))
     o
 end
 
@@ -382,7 +382,7 @@ type MonitoringInstanceType
 end
 function MonitoringInstanceType(pd::ParsedData)
     o = MonitoringInstanceType()
-    o.enabled = safe_parse_as(Bool, find(pd, "enabled#text"))
+    o.enabled = AWS.safe_parse_as(Bool, find(pd, "enabled#text"))
     o
 end
 
@@ -434,10 +434,10 @@ end
 function InstanceNetworkInterfaceAttachmentType(pd::ParsedData)
     o = InstanceNetworkInterfaceAttachmentType()
     o.attachmentId = find(pd, "attachmentId#text")
-    o.deviceIndex = safe_parse_as(Int32, find(pd, "deviceIndex#text"))
+    o.deviceIndex = AWS.safe_parse_as(Int32, find(pd, "deviceIndex#text"))
     o.status = find(pd, "status#text")
-    o.attachTime = safe_parse_as(CalendarTime, find(pd, "attachTime#text"))
-    o.deleteOnTermination = safe_parse_as(Bool, find(pd, "deleteOnTermination#text"))
+    o.attachTime = AWS.safe_parse_as(CalendarTime, find(pd, "attachTime#text"))
+    o.deleteOnTermination = AWS.safe_parse_as(Bool, find(pd, "deleteOnTermination#text"))
     o
 end
 
@@ -527,8 +527,8 @@ function EbsInstanceBlockDeviceMappingResponseType(pd::ParsedData)
     o = EbsInstanceBlockDeviceMappingResponseType()
     o.volumeId = find(pd, "volumeId#text")
     o.status = find(pd, "status#text")
-    o.attachTime = safe_parse_as(CalendarTime, find(pd, "attachTime#text"))
-    o.deleteOnTermination = safe_parse_as(Bool, find(pd, "deleteOnTermination#text"))
+    o.attachTime = AWS.safe_parse_as(CalendarTime, find(pd, "attachTime#text"))
+    o.deleteOnTermination = AWS.safe_parse_as(Bool, find(pd, "deleteOnTermination#text"))
     o
 end
 
@@ -575,7 +575,7 @@ end
 function AccountAttributeSetItemType(pd::ParsedData)
     o = AccountAttributeSetItemType()
     o.attributeName = find(pd, "attributeName#text")
-    o.attributeValueSet = parse_vector_as(ASCIIString, "attributeValue", find(pd, "item/attributeValue"))
+    o.attributeValueSet = AWS.parse_vector_as(ASCIIString, "attributeValue", find(pd, "item/attributeValue"))
     o
 end
 
@@ -654,7 +654,7 @@ end
 function ModifyVpcAttributeResponseType(pd::ParsedData)
     o = ModifyVpcAttributeResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -689,7 +689,7 @@ function GetConsoleOutputResponseType(pd::ParsedData)
     o = GetConsoleOutputResponseType()
     o.requestId = find(pd, "requestId#text")
     o.instanceId = find(pd, "instanceId#text")
-    o.timestamp = safe_parse_as(CalendarTime, find(pd, "timestamp#text"))
+    o.timestamp = AWS.safe_parse_as(CalendarTime, find(pd, "timestamp#text"))
     o.output = find(pd, "output#text")
     o
 end
@@ -725,7 +725,7 @@ function GetPasswordDataResponseType(pd::ParsedData)
     o = GetPasswordDataResponseType()
     o.requestId = find(pd, "requestId#text")
     o.instanceId = find(pd, "instanceId#text")
-    o.timestamp = safe_parse_as(CalendarTime, find(pd, "timestamp#text"))
+    o.timestamp = AWS.safe_parse_as(CalendarTime, find(pd, "timestamp#text"))
     o.passwordData = find(pd, "passwordData#text")
     o
 end
@@ -756,7 +756,7 @@ type TerminateInstancesType
 end
 function TerminateInstancesType(pd::ParsedData)
     o = TerminateInstancesType()
-    o.instancesSet = parse_vector_as(ASCIIString, "instanceId", find(pd, "item/instanceId"))
+    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", find(pd, "item/instanceId"))
     o
 end
 
@@ -788,7 +788,7 @@ end
 function InstanceEbsBlockDeviceType(pd::ParsedData)
     o = InstanceEbsBlockDeviceType()
     o.volumeId = find(pd, "volumeId#text")
-    o.deleteOnTermination = safe_parse_as(Bool, find(pd, "deleteOnTermination#text"))
+    o.deleteOnTermination = AWS.safe_parse_as(Bool, find(pd, "deleteOnTermination#text"))
     o
 end
 
@@ -804,8 +804,8 @@ type StopInstancesType
 end
 function StopInstancesType(pd::ParsedData)
     o = StopInstancesType()
-    o.instancesSet = parse_vector_as(ASCIIString, "instanceId", find(pd, "item/instanceId"))
-    o.force = safe_parse_as(Bool, find(pd, "force#text"))
+    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", find(pd, "item/instanceId"))
+    o.force = AWS.safe_parse_as(Bool, find(pd, "force#text"))
     o
 end
 
@@ -820,7 +820,7 @@ type StartInstancesType
 end
 function StartInstancesType(pd::ParsedData)
     o = StartInstancesType()
-    o.instancesSet = parse_vector_as(ASCIIString, "instanceId", find(pd, "item/instanceId"))
+    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", find(pd, "item/instanceId"))
     o
 end
 
@@ -835,7 +835,7 @@ type RebootInstancesType
 end
 function RebootInstancesType(pd::ParsedData)
     o = RebootInstancesType()
-    o.instancesSet = parse_vector_as(ASCIIString, "instanceId", find(pd, "item/instanceId"))
+    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", find(pd, "item/instanceId"))
     o
 end
 
@@ -867,7 +867,7 @@ end
 function RebootInstancesResponseType(pd::ParsedData)
     o = RebootInstancesResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -979,7 +979,7 @@ end
 function CreateSecurityGroupResponseType(pd::ParsedData)
     o = CreateSecurityGroupResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o.groupId = find(pd, "groupId#text")
     o
 end
@@ -1014,7 +1014,7 @@ end
 function DeleteSecurityGroupResponseType(pd::ParsedData)
     o = DeleteSecurityGroupResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -1095,7 +1095,7 @@ end
 function AuthorizeSecurityGroupIngressResponseType(pd::ParsedData)
     o = AuthorizeSecurityGroupIngressResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -1112,7 +1112,7 @@ end
 function RevokeSecurityGroupIngressResponseType(pd::ParsedData)
     o = RevokeSecurityGroupIngressResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -1129,7 +1129,7 @@ end
 function AuthorizeSecurityGroupEgressResponseType(pd::ParsedData)
     o = AuthorizeSecurityGroupEgressResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -1146,7 +1146,7 @@ end
 function RevokeSecurityGroupEgressResponseType(pd::ParsedData)
     o = RevokeSecurityGroupEgressResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -1162,7 +1162,7 @@ type InstanceStateType
 end
 function InstanceStateType(pd::ParsedData)
     o = InstanceStateType()
-    o.code = safe_parse_as(Int32, find(pd, "code#text"))
+    o.code = AWS.safe_parse_as(Int32, find(pd, "code#text"))
     o.name = find(pd, "name#text")
     o
 end
@@ -1210,7 +1210,7 @@ end
 function ModifyInstanceAttributeResponseType(pd::ParsedData)
     o = ModifyInstanceAttributeResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -1242,7 +1242,7 @@ end
 function ResetInstanceAttributeResponseType(pd::ParsedData)
     o = ResetInstanceAttributeResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -1338,7 +1338,7 @@ end
 function ModifyImageAttributeResponseType(pd::ParsedData)
     o = ModifyImageAttributeResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -1370,7 +1370,7 @@ end
 function ResetImageAttributeResponseType(pd::ParsedData)
     o = ResetImageAttributeResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -1432,7 +1432,7 @@ type NullableAttributeBooleanValueType
 end
 function NullableAttributeBooleanValueType(pd::ParsedData)
     o = NullableAttributeBooleanValueType()
-    o.value = safe_parse_as(Bool, find(pd, "value#text"))
+    o.value = AWS.safe_parse_as(Bool, find(pd, "value#text"))
     o
 end
 
@@ -1462,7 +1462,7 @@ type AttributeBooleanValueType
 end
 function AttributeBooleanValueType(pd::ParsedData)
     o = AttributeBooleanValueType()
-    o.value = safe_parse_as(Bool, find(pd, "value#text"))
+    o.value = AWS.safe_parse_as(Bool, find(pd, "value#text"))
     o
 end
 
@@ -1496,7 +1496,7 @@ end
 function ProductCodesSetItemType(pd::ParsedData)
     o = ProductCodesSetItemType()
     o.productCode = find(pd, "productCode#text")
-    o._type = find(pd, "_type#text")
+    o._type = find(pd, "type#text")
     o
 end
 
@@ -1514,7 +1514,7 @@ end
 function ConfirmProductInstanceResponseType(pd::ParsedData)
     o = ConfirmProductInstanceResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o.ownerId = find(pd, "ownerId#text")
     o
 end
@@ -1566,7 +1566,7 @@ function AvailabilityZoneItemType(pd::ParsedData)
     o.zoneName = find(pd, "zoneName#text")
     o.zoneState = find(pd, "zoneState#text")
     o.regionName = find(pd, "regionName#text")
-    o.messageSet = parse_vector_as(ASCIIString, "message", find(pd, "item/message"))
+    o.messageSet = AWS.parse_vector_as(ASCIIString, "message", find(pd, "item/message"))
     o
 end
 
@@ -1636,7 +1636,7 @@ end
 function ReleaseAddressResponseType(pd::ParsedData)
     o = ReleaseAddressResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -1712,7 +1712,7 @@ end
 function AssociateAddressType(pd::ParsedData)
     o = AssociateAddressType()
     o.privateIpAddress = find(pd, "privateIpAddress#text")
-    o.allowReassociation = safe_parse_as(Bool, find(pd, "allowReassociation#text"))
+    o.allowReassociation = AWS.safe_parse_as(Bool, find(pd, "allowReassociation#text"))
     o
 end
 
@@ -1730,7 +1730,7 @@ end
 function AssociateAddressResponseType(pd::ParsedData)
     o = AssociateAddressResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o.associationId = find(pd, "associationId#text")
     o
 end
@@ -1765,7 +1765,7 @@ end
 function DisassociateAddressResponseType(pd::ParsedData)
     o = DisassociateAddressResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -1788,7 +1788,7 @@ function CreateVolumeType(pd::ParsedData)
     o.snapshotId = find(pd, "snapshotId#text")
     o.availabilityZone = find(pd, "availabilityZone#text")
     o.volumeType = find(pd, "volumeType#text")
-    o.iops = safe_parse_as(Int32, find(pd, "iops#text"))
+    o.iops = AWS.safe_parse_as(Int32, find(pd, "iops#text"))
     o
 end
 
@@ -1817,9 +1817,9 @@ function CreateVolumeResponseType(pd::ParsedData)
     o.snapshotId = find(pd, "snapshotId#text")
     o.availabilityZone = find(pd, "availabilityZone#text")
     o.status = find(pd, "status#text")
-    o.createTime = safe_parse_as(CalendarTime, find(pd, "createTime#text"))
+    o.createTime = AWS.safe_parse_as(CalendarTime, find(pd, "createTime#text"))
     o.volumeType = find(pd, "volumeType#text")
-    o.iops = safe_parse_as(Int32, find(pd, "iops#text"))
+    o.iops = AWS.safe_parse_as(Int32, find(pd, "iops#text"))
     o
 end
 
@@ -1851,7 +1851,7 @@ end
 function DeleteVolumeResponseType(pd::ParsedData)
     o = DeleteVolumeResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -1890,8 +1890,8 @@ function AttachmentSetItemResponseType(pd::ParsedData)
     o.instanceId = find(pd, "instanceId#text")
     o.device = find(pd, "device#text")
     o.status = find(pd, "status#text")
-    o.attachTime = safe_parse_as(CalendarTime, find(pd, "attachTime#text"))
-    o.deleteOnTermination = safe_parse_as(Bool, find(pd, "deleteOnTermination#text"))
+    o.attachTime = AWS.safe_parse_as(CalendarTime, find(pd, "attachTime#text"))
+    o.deleteOnTermination = AWS.safe_parse_as(Bool, find(pd, "deleteOnTermination#text"))
     o
 end
 
@@ -1935,7 +1935,7 @@ function AttachVolumeResponseType(pd::ParsedData)
     o.instanceId = find(pd, "instanceId#text")
     o.device = find(pd, "device#text")
     o.status = find(pd, "status#text")
-    o.attachTime = safe_parse_as(CalendarTime, find(pd, "attachTime#text"))
+    o.attachTime = AWS.safe_parse_as(CalendarTime, find(pd, "attachTime#text"))
     o
 end
 
@@ -1956,7 +1956,7 @@ function DetachVolumeType(pd::ParsedData)
     o.volumeId = find(pd, "volumeId#text")
     o.instanceId = find(pd, "instanceId#text")
     o.device = find(pd, "device#text")
-    o.force = safe_parse_as(Bool, find(pd, "force#text"))
+    o.force = AWS.safe_parse_as(Bool, find(pd, "force#text"))
     o
 end
 
@@ -1981,7 +1981,7 @@ function DetachVolumeResponseType(pd::ParsedData)
     o.instanceId = find(pd, "instanceId#text")
     o.device = find(pd, "device#text")
     o.status = find(pd, "status#text")
-    o.attachTime = safe_parse_as(CalendarTime, find(pd, "attachTime#text"))
+    o.attachTime = AWS.safe_parse_as(CalendarTime, find(pd, "attachTime#text"))
     o
 end
 
@@ -2025,7 +2025,7 @@ function CreateSnapshotResponseType(pd::ParsedData)
     o.snapshotId = find(pd, "snapshotId#text")
     o.volumeId = find(pd, "volumeId#text")
     o.status = find(pd, "status#text")
-    o.startTime = safe_parse_as(CalendarTime, find(pd, "startTime#text"))
+    o.startTime = AWS.safe_parse_as(CalendarTime, find(pd, "startTime#text"))
     o.progress = find(pd, "progress#text")
     o.ownerId = find(pd, "ownerId#text")
     o.volumeSize = find(pd, "volumeSize#text")
@@ -2097,7 +2097,7 @@ end
 function DeleteSnapshotResponseType(pd::ParsedData)
     o = DeleteSnapshotResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -2176,7 +2176,7 @@ end
 function ModifySnapshotAttributeResponseType(pd::ParsedData)
     o = ModifySnapshotAttributeResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -2208,7 +2208,7 @@ end
 function ResetSnapshotAttributeResponseType(pd::ParsedData)
     o = ResetSnapshotAttributeResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -2414,7 +2414,7 @@ end
 function RecurringChargesSetItemType(pd::ParsedData)
     o = RecurringChargesSetItemType()
     o.frequency = find(pd, "frequency#text")
-    o.amount = safe_parse_as(Float64, find(pd, "amount#text"))
+    o.amount = AWS.safe_parse_as(Float64, find(pd, "amount#text"))
     o
 end
 
@@ -2430,8 +2430,8 @@ type PricingDetailsSetItemType
 end
 function PricingDetailsSetItemType(pd::ParsedData)
     o = PricingDetailsSetItemType()
-    o.price = safe_parse_as(Float64, find(pd, "price#text"))
-    o.count = safe_parse_as(Int32, find(pd, "count#text"))
+    o.price = AWS.safe_parse_as(Float64, find(pd, "price#text"))
+    o.count = AWS.safe_parse_as(Int32, find(pd, "count#text"))
     o
 end
 
@@ -2447,7 +2447,7 @@ type ReservedInstanceLimitPriceType
 end
 function ReservedInstanceLimitPriceType(pd::ParsedData)
     o = ReservedInstanceLimitPriceType()
-    o.amount = safe_parse_as(Float64, find(pd, "amount#text"))
+    o.amount = AWS.safe_parse_as(Float64, find(pd, "amount#text"))
     o.currencyCode = find(pd, "currencyCode#text")
     o
 end
@@ -2497,8 +2497,8 @@ type PriceScheduleRequestSetItemType
 end
 function PriceScheduleRequestSetItemType(pd::ParsedData)
     o = PriceScheduleRequestSetItemType()
-    o.term = safe_parse_as(Int64, find(pd, "term#text"))
-    o.price = safe_parse_as(Float64, find(pd, "price#text"))
+    o.term = AWS.safe_parse_as(Int64, find(pd, "term#text"))
+    o.price = AWS.safe_parse_as(Float64, find(pd, "price#text"))
     o.currencyCode = find(pd, "currencyCode#text")
     o
 end
@@ -2546,7 +2546,7 @@ end
 function InstanceCountsSetItemType(pd::ParsedData)
     o = InstanceCountsSetItemType()
     o.state = find(pd, "state#text")
-    o.instanceCount = safe_parse_as(Int32, find(pd, "instanceCount#text"))
+    o.instanceCount = AWS.safe_parse_as(Int32, find(pd, "instanceCount#text"))
     o
 end
 
@@ -2564,10 +2564,10 @@ type PriceScheduleSetItemType
 end
 function PriceScheduleSetItemType(pd::ParsedData)
     o = PriceScheduleSetItemType()
-    o.term = safe_parse_as(Int64, find(pd, "term#text"))
-    o.price = safe_parse_as(Float64, find(pd, "price#text"))
+    o.term = AWS.safe_parse_as(Int64, find(pd, "term#text"))
+    o.price = AWS.safe_parse_as(Float64, find(pd, "price#text"))
     o.currencyCode = find(pd, "currencyCode#text")
-    o.active = safe_parse_as(Bool, find(pd, "active#text"))
+    o.active = AWS.safe_parse_as(Bool, find(pd, "active#text"))
     o
 end
 
@@ -2582,7 +2582,7 @@ type MonitorInstancesType
 end
 function MonitorInstancesType(pd::ParsedData)
     o = MonitorInstancesType()
-    o.instancesSet = parse_vector_as(ASCIIString, "instanceId", find(pd, "item/instanceId"))
+    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", find(pd, "item/instanceId"))
     o
 end
 
@@ -2644,7 +2644,7 @@ type VpnConnectionOptionsResponseType
 end
 function VpnConnectionOptionsResponseType(pd::ParsedData)
     o = VpnConnectionOptionsResponseType()
-    o.staticRoutesOnly = safe_parse_as(Bool, find(pd, "staticRoutesOnly#text"))
+    o.staticRoutesOnly = AWS.safe_parse_as(Bool, find(pd, "staticRoutesOnly#text"))
     o
 end
 
@@ -2684,9 +2684,9 @@ function VpnTunnelTelemetryType(pd::ParsedData)
     o = VpnTunnelTelemetryType()
     o.outsideIpAddress = find(pd, "outsideIpAddress#text")
     o.status = find(pd, "status#text")
-    o.lastStatusChange = safe_parse_as(CalendarTime, find(pd, "lastStatusChange#text"))
+    o.lastStatusChange = AWS.safe_parse_as(CalendarTime, find(pd, "lastStatusChange#text"))
     o.statusMessage = find(pd, "statusMessage#text")
-    o.acceptedRouteCount = safe_parse_as(Int32, find(pd, "acceptedRouteCount#text"))
+    o.acceptedRouteCount = AWS.safe_parse_as(Int32, find(pd, "acceptedRouteCount#text"))
     o
 end
 
@@ -2793,7 +2793,7 @@ end
 function DhcpConfigurationItemType(pd::ParsedData)
     o = DhcpConfigurationItemType()
     o.key = find(pd, "key#text")
-    o.valueSet = parse_vector_as(ASCIIString, "value", find(pd, "item/value"))
+    o.valueSet = AWS.parse_vector_as(ASCIIString, "value", find(pd, "item/value"))
     o
 end
 
@@ -2825,7 +2825,7 @@ end
 function FilterType(pd::ParsedData)
     o = FilterType()
     o.name = find(pd, "name#text")
-    o.valueSet = parse_vector_as(ASCIIString, "value", find(pd, "item/value"))
+    o.valueSet = AWS.parse_vector_as(ASCIIString, "value", find(pd, "item/value"))
     o
 end
 
@@ -2857,9 +2857,9 @@ type CreateCustomerGatewayType
 end
 function CreateCustomerGatewayType(pd::ParsedData)
     o = CreateCustomerGatewayType()
-    o._type = find(pd, "_type#text")
+    o._type = find(pd, "type#text")
     o.ipAddress = find(pd, "ipAddress#text")
-    o.bgpAsn = safe_parse_as(Int32, find(pd, "bgpAsn#text"))
+    o.bgpAsn = AWS.safe_parse_as(Int32, find(pd, "bgpAsn#text"))
     o
 end
 
@@ -2891,7 +2891,7 @@ end
 function DeleteCustomerGatewayResponseType(pd::ParsedData)
     o = DeleteCustomerGatewayResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -2907,7 +2907,7 @@ type CreateVpnGatewayType
 end
 function CreateVpnGatewayType(pd::ParsedData)
     o = CreateVpnGatewayType()
-    o._type = find(pd, "_type#text")
+    o._type = find(pd, "type#text")
     o.availabilityZone = find(pd, "availabilityZone#text")
     o
 end
@@ -2940,7 +2940,7 @@ end
 function DeleteVpnGatewayResponseType(pd::ParsedData)
     o = DeleteVpnGatewayResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -2955,7 +2955,7 @@ type VpnConnectionOptionsRequestType
 end
 function VpnConnectionOptionsRequestType(pd::ParsedData)
     o = VpnConnectionOptionsRequestType()
-    o.staticRoutesOnly = safe_parse_as(Bool, find(pd, "staticRoutesOnly#text"))
+    o.staticRoutesOnly = AWS.safe_parse_as(Bool, find(pd, "staticRoutesOnly#text"))
     o
 end
 
@@ -2989,7 +2989,7 @@ end
 function CreateVpnConnectionRouteResponseType(pd::ParsedData)
     o = CreateVpnConnectionRouteResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -3023,7 +3023,7 @@ end
 function DeleteVpnConnectionRouteResponseType(pd::ParsedData)
     o = DeleteVpnConnectionRouteResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -3055,7 +3055,7 @@ end
 function DeleteVpnConnectionResponseType(pd::ParsedData)
     o = DeleteVpnConnectionResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -3106,7 +3106,7 @@ end
 function DetachVpnGatewayResponseType(pd::ParsedData)
     o = DetachVpnGatewayResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -3155,7 +3155,7 @@ end
 function DeleteVpcResponseType(pd::ParsedData)
     o = DeleteVpcResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -3206,7 +3206,7 @@ end
 function DeleteSubnetResponseType(pd::ParsedData)
     o = DeleteSubnetResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -3238,7 +3238,7 @@ end
 function DeleteDhcpOptionsResponseType(pd::ParsedData)
     o = DeleteDhcpOptionsResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -3272,7 +3272,7 @@ end
 function AssociateDhcpOptionsResponseType(pd::ParsedData)
     o = AssociateDhcpOptionsResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -3307,7 +3307,7 @@ end
 function SpotInstanceStatusMessageType(pd::ParsedData)
     o = SpotInstanceStatusMessageType()
     o.code = find(pd, "code#text")
-    o.updateTime = safe_parse_as(CalendarTime, find(pd, "updateTime#text"))
+    o.updateTime = AWS.safe_parse_as(CalendarTime, find(pd, "updateTime#text"))
     o.message = find(pd, "message#text")
     o
 end
@@ -3338,7 +3338,7 @@ type CancelSpotInstanceRequestsType
 end
 function CancelSpotInstanceRequestsType(pd::ParsedData)
     o = CancelSpotInstanceRequestsType()
-    o.spotInstanceRequestIdSet = parse_vector_as(ASCIIString, "spotInstanceRequestId", find(pd, "item/spotInstanceRequestId"))
+    o.spotInstanceRequestIdSet = AWS.parse_vector_as(ASCIIString, "spotInstanceRequestId", find(pd, "item/spotInstanceRequestId"))
     o
 end
 
@@ -3407,7 +3407,7 @@ function SpotPriceHistorySetItemType(pd::ParsedData)
     o.instanceType = find(pd, "instanceType#text")
     o.productDescription = find(pd, "productDescription#text")
     o.spotPrice = find(pd, "spotPrice#text")
-    o.timestamp = safe_parse_as(CalendarTime, find(pd, "timestamp#text"))
+    o.timestamp = AWS.safe_parse_as(CalendarTime, find(pd, "timestamp#text"))
     o.availabilityZone = find(pd, "availabilityZone#text")
     o
 end
@@ -3442,7 +3442,7 @@ end
 function DeleteSpotDatafeedSubscriptionResponseType(pd::ParsedData)
     o = DeleteSpotDatafeedSubscriptionResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -3475,10 +3475,10 @@ type LicenseCapacitySetItemType
 end
 function LicenseCapacitySetItemType(pd::ParsedData)
     o = LicenseCapacitySetItemType()
-    o.capacity = safe_parse_as(Int32, find(pd, "capacity#text"))
-    o.instanceCapacity = safe_parse_as(Int32, find(pd, "instanceCapacity#text"))
+    o.capacity = AWS.safe_parse_as(Int32, find(pd, "capacity#text"))
+    o.instanceCapacity = AWS.safe_parse_as(Int32, find(pd, "instanceCapacity#text"))
     o.state = find(pd, "state#text")
-    o.earliestAllowedDeactivationTime = safe_parse_as(CalendarTime, find(pd, "earliestAllowedDeactivationTime#text"))
+    o.earliestAllowedDeactivationTime = AWS.safe_parse_as(CalendarTime, find(pd, "earliestAllowedDeactivationTime#text"))
     o
 end
 
@@ -3495,7 +3495,7 @@ end
 function ActivateLicenseType(pd::ParsedData)
     o = ActivateLicenseType()
     o.licenseId = find(pd, "licenseId#text")
-    o.capacity = safe_parse_as(Int32, find(pd, "capacity#text"))
+    o.capacity = AWS.safe_parse_as(Int32, find(pd, "capacity#text"))
     o
 end
 
@@ -3512,7 +3512,7 @@ end
 function ActivateLicenseResponseType(pd::ParsedData)
     o = ActivateLicenseResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -3529,7 +3529,7 @@ end
 function DeactivateLicenseType(pd::ParsedData)
     o = DeactivateLicenseType()
     o.licenseId = find(pd, "licenseId#text")
-    o.capacity = safe_parse_as(Int32, find(pd, "capacity#text"))
+    o.capacity = AWS.safe_parse_as(Int32, find(pd, "capacity#text"))
     o
 end
 
@@ -3546,7 +3546,7 @@ end
 function DeactivateLicenseResponseType(pd::ParsedData)
     o = DeactivateLicenseResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -3580,7 +3580,7 @@ end
 function CreatePlacementGroupResponseType(pd::ParsedData)
     o = CreatePlacementGroupResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -3612,7 +3612,7 @@ end
 function DeletePlacementGroupResponseType(pd::ParsedData)
     o = DeletePlacementGroupResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -3695,7 +3695,7 @@ end
 function CreateTagsResponseType(pd::ParsedData)
     o = CreateTagsResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -3750,7 +3750,7 @@ end
 function DeleteTagsResponseType(pd::ParsedData)
     o = DeleteTagsResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -3768,7 +3768,7 @@ end
 function DiskImageDetailType(pd::ParsedData)
     o = DiskImageDetailType()
     o.format = find(pd, "format#text")
-    o.bytes = safe_parse_as(Int64, find(pd, "bytes#text"))
+    o.bytes = AWS.safe_parse_as(Int64, find(pd, "bytes#text"))
     o.importManifestUrl = find(pd, "importManifestUrl#text")
     o
 end
@@ -3784,7 +3784,7 @@ type DiskImageVolumeType
 end
 function DiskImageVolumeType(pd::ParsedData)
     o = DiskImageVolumeType()
-    o.size = safe_parse_as(Int32, find(pd, "size#text"))
+    o.size = AWS.safe_parse_as(Int32, find(pd, "size#text"))
     o
 end
 
@@ -3800,7 +3800,7 @@ type DiskImageVolumeDescriptionType
 end
 function DiskImageVolumeDescriptionType(pd::ParsedData)
     o = DiskImageVolumeDescriptionType()
-    o.size = safe_parse_as(Int32, find(pd, "size#text"))
+    o.size = AWS.safe_parse_as(Int32, find(pd, "size#text"))
     o.id = find(pd, "id#text")
     o
 end
@@ -3820,7 +3820,7 @@ end
 function DiskImageDescriptionType(pd::ParsedData)
     o = DiskImageDescriptionType()
     o.format = find(pd, "format#text")
-    o.size = safe_parse_as(Int64, find(pd, "size#text"))
+    o.size = AWS.safe_parse_as(Int64, find(pd, "size#text"))
     o.importManifestUrl = find(pd, "importManifestUrl#text")
     o.checksum = find(pd, "checksum#text")
     o
@@ -3837,7 +3837,7 @@ type DescribeConversionTasksType
 end
 function DescribeConversionTasksType(pd::ParsedData)
     o = DescribeConversionTasksType()
-    o.conversionTaskIdSet = parse_vector_as(ASCIIString, "conversionTaskId", find(pd, "item/conversionTaskId"))
+    o.conversionTaskIdSet = AWS.parse_vector_as(ASCIIString, "conversionTaskId", find(pd, "item/conversionTaskId"))
     o
 end
 
@@ -3884,7 +3884,7 @@ end
 function CancelConversionTaskResponseType(pd::ParsedData)
     o = CancelConversionTaskResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -3939,7 +3939,7 @@ type DescribeExportTasksType
 end
 function DescribeExportTasksType(pd::ParsedData)
     o = DescribeExportTasksType()
-    o.exportTaskIdSet = parse_vector_as(ASCIIString, "exportTaskId", find(pd, "item/exportTaskId"))
+    o.exportTaskIdSet = AWS.parse_vector_as(ASCIIString, "exportTaskId", find(pd, "item/exportTaskId"))
     o
 end
 
@@ -4045,7 +4045,7 @@ end
 function CancelExportTaskResponseType(pd::ParsedData)
     o = CancelExportTaskResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -4109,7 +4109,7 @@ end
 function DeleteInternetGatewayResponseType(pd::ParsedData)
     o = DeleteInternetGatewayResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -4143,7 +4143,7 @@ end
 function AttachInternetGatewayResponseType(pd::ParsedData)
     o = AttachInternetGatewayResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -4177,7 +4177,7 @@ end
 function DetachInternetGatewayResponseType(pd::ParsedData)
     o = DetachInternetGatewayResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -4300,7 +4300,7 @@ end
 function EnableVgwRoutePropagationResponseType(pd::ParsedData)
     o = EnableVgwRoutePropagationResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -4334,7 +4334,7 @@ end
 function DisableVgwRoutePropagationResponseType(pd::ParsedData)
     o = DisableVgwRoutePropagationResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -4366,7 +4366,7 @@ end
 function DeleteRouteTableResponseType(pd::ParsedData)
     o = DeleteRouteTableResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -4466,7 +4466,7 @@ end
 function DisassociateRouteTableResponseType(pd::ParsedData)
     o = DisassociateRouteTableResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -4500,7 +4500,7 @@ end
 function CreateRouteResponseType(pd::ParsedData)
     o = CreateRouteResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -4534,7 +4534,7 @@ end
 function ReplaceRouteResponseType(pd::ParsedData)
     o = ReplaceRouteResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -4568,7 +4568,7 @@ end
 function DeleteRouteResponseType(pd::ParsedData)
     o = DeleteRouteResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -4599,8 +4599,8 @@ type IcmpTypeCodeType
 end
 function IcmpTypeCodeType(pd::ParsedData)
     o = IcmpTypeCodeType()
-    o.code = safe_parse_as(Int32, find(pd, "code#text"))
-    o._type = safe_parse_as(Int32, find(pd, "_type#text"))
+    o.code = AWS.safe_parse_as(Int32, find(pd, "code#text"))
+    o._type = AWS.safe_parse_as(Int32, find(pd, "type#text"))
     o
 end
 
@@ -4616,8 +4616,8 @@ type PortRangeType
 end
 function PortRangeType(pd::ParsedData)
     o = PortRangeType()
-    o.from = safe_parse_as(Int32, find(pd, "from#text"))
-    o.to = safe_parse_as(Int32, find(pd, "to#text"))
+    o.from = AWS.safe_parse_as(Int32, find(pd, "from#text"))
+    o.to = AWS.safe_parse_as(Int32, find(pd, "to#text"))
     o
 end
 
@@ -4683,7 +4683,7 @@ end
 function DeleteNetworkAclResponseType(pd::ParsedData)
     o = DeleteNetworkAclResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -4734,7 +4734,7 @@ end
 function CreateNetworkAclEntryResponseType(pd::ParsedData)
     o = CreateNetworkAclEntryResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -4751,7 +4751,7 @@ end
 function ReplaceNetworkAclEntryResponseType(pd::ParsedData)
     o = ReplaceNetworkAclEntryResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -4769,8 +4769,8 @@ end
 function DeleteNetworkAclEntryType(pd::ParsedData)
     o = DeleteNetworkAclEntryType()
     o.networkAclId = find(pd, "networkAclId#text")
-    o.ruleNumber = safe_parse_as(Int32, find(pd, "ruleNumber#text"))
-    o.egress = safe_parse_as(Bool, find(pd, "egress#text"))
+    o.ruleNumber = AWS.safe_parse_as(Int32, find(pd, "ruleNumber#text"))
+    o.egress = AWS.safe_parse_as(Bool, find(pd, "egress#text"))
     o
 end
 
@@ -4787,7 +4787,7 @@ end
 function DeleteNetworkAclEntryResponseType(pd::ParsedData)
     o = DeleteNetworkAclEntryResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -4806,7 +4806,7 @@ function InstanceStatusDetailsSetItemType(pd::ParsedData)
     o = InstanceStatusDetailsSetItemType()
     o.name = find(pd, "name#text")
     o.status = find(pd, "status#text")
-    o.impairedSince = safe_parse_as(CalendarTime, find(pd, "impairedSince#text"))
+    o.impairedSince = AWS.safe_parse_as(CalendarTime, find(pd, "impairedSince#text"))
     o
 end
 
@@ -4826,8 +4826,8 @@ function InstanceStatusEventType(pd::ParsedData)
     o = InstanceStatusEventType()
     o.code = find(pd, "code#text")
     o.description = find(pd, "description#text")
-    o.notBefore = safe_parse_as(CalendarTime, find(pd, "notBefore#text"))
-    o.notAfter = safe_parse_as(CalendarTime, find(pd, "notAfter#text"))
+    o.notBefore = AWS.safe_parse_as(CalendarTime, find(pd, "notBefore#text"))
+    o.notAfter = AWS.safe_parse_as(CalendarTime, find(pd, "notAfter#text"))
     o
 end
 
@@ -4847,11 +4847,11 @@ type ReportInstanceStatusType
 end
 function ReportInstanceStatusType(pd::ParsedData)
     o = ReportInstanceStatusType()
-    o.instancesSet = parse_vector_as(ASCIIString, "instanceId", find(pd, "item/instanceId"))
+    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", find(pd, "item/instanceId"))
     o.status = find(pd, "status#text")
-    o.startTime = safe_parse_as(CalendarTime, find(pd, "startTime#text"))
-    o.endTime = safe_parse_as(CalendarTime, find(pd, "endTime#text"))
-    o.reasonCodesSet = parse_vector_as(ASCIIString, "reasonCode", find(pd, "item/reasonCode"))
+    o.startTime = AWS.safe_parse_as(CalendarTime, find(pd, "startTime#text"))
+    o.endTime = AWS.safe_parse_as(CalendarTime, find(pd, "endTime#text"))
+    o.reasonCodesSet = AWS.parse_vector_as(ASCIIString, "reasonCode", find(pd, "item/reasonCode"))
     o.description = find(pd, "description#text")
     o
 end
@@ -4884,7 +4884,7 @@ end
 function ReportInstanceStatusResponseType(pd::ParsedData)
     o = ReportInstanceStatusResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -4923,10 +4923,10 @@ function NetworkInterfaceAttachmentType(pd::ParsedData)
     o.attachmentId = find(pd, "attachmentId#text")
     o.instanceId = find(pd, "instanceId#text")
     o.instanceOwnerId = find(pd, "instanceOwnerId#text")
-    o.deviceIndex = safe_parse_as(Int32, find(pd, "deviceIndex#text"))
+    o.deviceIndex = AWS.safe_parse_as(Int32, find(pd, "deviceIndex#text"))
     o.status = find(pd, "status#text")
-    o.attachTime = safe_parse_as(CalendarTime, find(pd, "attachTime#text"))
-    o.deleteOnTermination = safe_parse_as(Bool, find(pd, "deleteOnTermination#text"))
+    o.attachTime = AWS.safe_parse_as(CalendarTime, find(pd, "attachTime#text"))
+    o.deleteOnTermination = AWS.safe_parse_as(Bool, find(pd, "deleteOnTermination#text"))
     o
 end
 
@@ -4981,7 +4981,7 @@ end
 function DeleteNetworkInterfaceResponseType(pd::ParsedData)
     o = DeleteNetworkInterfaceResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -5000,7 +5000,7 @@ function AttachNetworkInterfaceType(pd::ParsedData)
     o = AttachNetworkInterfaceType()
     o.networkInterfaceId = find(pd, "networkInterfaceId#text")
     o.instanceId = find(pd, "instanceId#text")
-    o.deviceIndex = safe_parse_as(Int32, find(pd, "deviceIndex#text"))
+    o.deviceIndex = AWS.safe_parse_as(Int32, find(pd, "deviceIndex#text"))
     o
 end
 
@@ -5034,7 +5034,7 @@ end
 function DetachNetworkInterfaceType(pd::ParsedData)
     o = DetachNetworkInterfaceType()
     o.attachmentId = find(pd, "attachmentId#text")
-    o.force = safe_parse_as(Bool, find(pd, "force#text"))
+    o.force = AWS.safe_parse_as(Bool, find(pd, "force#text"))
     o
 end
 
@@ -5051,7 +5051,7 @@ end
 function DetachNetworkInterfaceResponseType(pd::ParsedData)
     o = DetachNetworkInterfaceResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -5115,7 +5115,7 @@ end
 function ModifyNetworkInterfaceAttachmentType(pd::ParsedData)
     o = ModifyNetworkInterfaceAttachmentType()
     o.attachmentId = find(pd, "attachmentId#text")
-    o.deleteOnTermination = safe_parse_as(Bool, find(pd, "deleteOnTermination#text"))
+    o.deleteOnTermination = AWS.safe_parse_as(Bool, find(pd, "deleteOnTermination#text"))
     o
 end
 
@@ -5132,7 +5132,7 @@ end
 function ModifyNetworkInterfaceAttributeResponseType(pd::ParsedData)
     o = ModifyNetworkInterfaceAttributeResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -5164,7 +5164,7 @@ end
 function ResetNetworkInterfaceAttributeResponseType(pd::ParsedData)
     o = ResetNetworkInterfaceAttributeResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -5183,9 +5183,9 @@ end
 function AssignPrivateIpAddressesType(pd::ParsedData)
     o = AssignPrivateIpAddressesType()
     o.networkInterfaceId = find(pd, "networkInterfaceId#text")
-    o.privateIpAddressesSet = parse_vector_as(ASCIIString, "privateIpAddress", find(pd, "item/privateIpAddress"))
-    o.secondaryPrivateIpAddressCount = safe_parse_as(Int32, find(pd, "secondaryPrivateIpAddressCount#text"))
-    o.allowReassignment = safe_parse_as(Bool, find(pd, "allowReassignment#text"))
+    o.privateIpAddressesSet = AWS.parse_vector_as(ASCIIString, "privateIpAddress", find(pd, "item/privateIpAddress"))
+    o.secondaryPrivateIpAddressCount = AWS.safe_parse_as(Int32, find(pd, "secondaryPrivateIpAddressCount#text"))
+    o.allowReassignment = AWS.safe_parse_as(Bool, find(pd, "allowReassignment#text"))
     o
 end
 
@@ -5202,7 +5202,7 @@ end
 function AssignPrivateIpAddressesResponseType(pd::ParsedData)
     o = AssignPrivateIpAddressesResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -5219,7 +5219,7 @@ end
 function UnassignPrivateIpAddressesType(pd::ParsedData)
     o = UnassignPrivateIpAddressesType()
     o.networkInterfaceId = find(pd, "networkInterfaceId#text")
-    o.privateIpAddressesSet = parse_vector_as(ASCIIString, "privateIpAddress", find(pd, "item/privateIpAddress"))
+    o.privateIpAddressesSet = AWS.parse_vector_as(ASCIIString, "privateIpAddress", find(pd, "item/privateIpAddress"))
     o
 end
 
@@ -5236,7 +5236,7 @@ end
 function UnassignPrivateIpAddressesResponseType(pd::ParsedData)
     o = UnassignPrivateIpAddressesResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -5288,8 +5288,8 @@ end
 function VolumeStatusEventItemType(pd::ParsedData)
     o = VolumeStatusEventItemType()
     o.description = find(pd, "description#text")
-    o.notBefore = safe_parse_as(CalendarTime, find(pd, "notBefore#text"))
-    o.notAfter = safe_parse_as(CalendarTime, find(pd, "notAfter#text"))
+    o.notBefore = AWS.safe_parse_as(CalendarTime, find(pd, "notBefore#text"))
+    o.notAfter = AWS.safe_parse_as(CalendarTime, find(pd, "notAfter#text"))
     o.eventId = find(pd, "eventId#text")
     o.eventType = find(pd, "eventType#text")
     o
@@ -5344,7 +5344,7 @@ end
 function EnableVolumeIOResponseType(pd::ParsedData)
     o = EnableVolumeIOResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -5376,7 +5376,7 @@ end
 function ModifyVolumeAttributeResponseType(pd::ParsedData)
     o = ModifyVolumeAttributeResponseType()
     o.requestId = find(pd, "requestId#text")
-    o._return = safe_parse_as(Bool, find(pd, "_return#text"))
+    o._return = AWS.safe_parse_as(Bool, find(pd, "return#text"))
     o
 end
 
@@ -5425,7 +5425,7 @@ end
 function DescribeAvailabilityZonesResponseType(pd::ParsedData)
     o = DescribeAvailabilityZonesResponseType()
     o.requestId = find(pd, "requestId#text")
-    o.availabilityZoneInfo = @parse_vector(AvailabilityZoneItemType, find(pd, "availabilityZoneInfo/item"))
+    o.availabilityZoneInfo = AWS.@parse_vector(AWS.EC2.AvailabilityZoneItemType, find(pd, "availabilityZoneInfo/item"))
     o
 end
 
@@ -5441,8 +5441,8 @@ type DescribeInternetGatewaysType
 end
 function DescribeInternetGatewaysType(pd::ParsedData)
     o = DescribeInternetGatewaysType()
-    o.internetGatewayIdSet = parse_vector_as(ASCIIString, "internetGatewayId", find(pd, "item/internetGatewayId"))
-    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o.internetGatewayIdSet = AWS.parse_vector_as(ASCIIString, "internetGatewayId", find(pd, "item/internetGatewayId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
     o
 end
 
@@ -5460,7 +5460,7 @@ end
 function DescribeSpotPriceHistoryResponseType(pd::ParsedData)
     o = DescribeSpotPriceHistoryResponseType()
     o.requestId = find(pd, "requestId#text")
-    o.spotPriceHistorySet = @parse_vector(SpotPriceHistorySetItemType, find(pd, "spotPriceHistorySet/item"))
+    o.spotPriceHistorySet = AWS.@parse_vector(AWS.EC2.SpotPriceHistorySetItemType, find(pd, "spotPriceHistorySet/item"))
     o.nextToken = find(pd, "nextToken#text")
     o
 end
@@ -5477,8 +5477,8 @@ type CreateVolumePermissionOperationType
 end
 function CreateVolumePermissionOperationType(pd::ParsedData)
     o = CreateVolumePermissionOperationType()
-    o.add = @parse_vector(CreateVolumePermissionItemType, find(pd, "add/item"))
-    o.remove = @parse_vector(CreateVolumePermissionItemType, find(pd, "remove/item"))
+    o.add = AWS.@parse_vector(AWS.EC2.CreateVolumePermissionItemType, find(pd, "add/item"))
+    o.remove = AWS.@parse_vector(AWS.EC2.CreateVolumePermissionItemType, find(pd, "remove/item"))
     o
 end
 
@@ -5497,8 +5497,8 @@ end
 function CreateReservedInstancesListingType(pd::ParsedData)
     o = CreateReservedInstancesListingType()
     o.reservedInstancesId = find(pd, "reservedInstancesId#text")
-    o.instanceCount = safe_parse_as(Int32, find(pd, "instanceCount#text"))
-    o.priceSchedules = @parse_vector(PriceScheduleRequestSetItemType, find(pd, "priceSchedules/item"))
+    o.instanceCount = AWS.safe_parse_as(Int32, find(pd, "instanceCount#text"))
+    o.priceSchedules = AWS.@parse_vector(AWS.EC2.PriceScheduleRequestSetItemType, find(pd, "priceSchedules/item"))
     o.clientToken = find(pd, "clientToken#text")
     o
 end
@@ -5516,9 +5516,9 @@ type DescribeAddressesType
 end
 function DescribeAddressesType(pd::ParsedData)
     o = DescribeAddressesType()
-    o.publicIpsSet = parse_vector_as(ASCIIString, "publicIp", find(pd, "item/publicIp"))
-    o.allocationIdsSet = parse_vector_as(ASCIIString, "allocationId", find(pd, "item/allocationId"))
-    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o.publicIpsSet = AWS.parse_vector_as(ASCIIString, "publicIp", find(pd, "item/publicIp"))
+    o.allocationIdsSet = AWS.parse_vector_as(ASCIIString, "allocationId", find(pd, "item/allocationId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
     o
 end
 
@@ -5556,10 +5556,10 @@ type NetworkAclEntryType
 end
 function NetworkAclEntryType(pd::ParsedData)
     o = NetworkAclEntryType()
-    o.ruleNumber = safe_parse_as(Int32, find(pd, "ruleNumber#text"))
+    o.ruleNumber = AWS.safe_parse_as(Int32, find(pd, "ruleNumber#text"))
     o.protocol = find(pd, "protocol#text")
     o.ruleAction = find(pd, "ruleAction#text")
-    o.egress = safe_parse_as(Bool, find(pd, "egress#text"))
+    o.egress = AWS.safe_parse_as(Bool, find(pd, "egress#text"))
     o.cidrBlock = find(pd, "cidrBlock#text")
     o.icmpTypeCode = haskey(pd.elements, "icmpTypeCode") ?  IcmpTypeCodeType(find(pd, "icmpTypeCode[1]")) : nothing
     o.portRange = haskey(pd.elements, "portRange") ?  PortRangeType(find(pd, "portRange[1]")) : nothing
@@ -5578,8 +5578,8 @@ type DescribeVpnGatewaysType
 end
 function DescribeVpnGatewaysType(pd::ParsedData)
     o = DescribeVpnGatewaysType()
-    o.vpnGatewaySet = parse_vector_as(ASCIIString, "vpnGatewayId", find(pd, "item/vpnGatewayId"))
-    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o.vpnGatewaySet = AWS.parse_vector_as(ASCIIString, "vpnGatewayId", find(pd, "item/vpnGatewayId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
     o
 end
 
@@ -5611,8 +5611,8 @@ type DescribeReservedInstancesType
 end
 function DescribeReservedInstancesType(pd::ParsedData)
     o = DescribeReservedInstancesType()
-    o.reservedInstancesSet = parse_vector_as(ASCIIString, "reservedInstancesId", find(pd, "item/reservedInstancesId"))
-    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o.reservedInstancesSet = AWS.parse_vector_as(ASCIIString, "reservedInstancesId", find(pd, "item/reservedInstancesId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
     o.offeringType = find(pd, "offeringType#text")
     o
 end
@@ -5635,10 +5635,10 @@ function CustomerGatewayType(pd::ParsedData)
     o = CustomerGatewayType()
     o.customerGatewayId = find(pd, "customerGatewayId#text")
     o.state = find(pd, "state#text")
-    o._type = find(pd, "_type#text")
+    o._type = find(pd, "type#text")
     o.ipAddress = find(pd, "ipAddress#text")
-    o.bgpAsn = safe_parse_as(Int32, find(pd, "bgpAsn#text"))
-    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.bgpAsn = AWS.safe_parse_as(Int32, find(pd, "bgpAsn#text"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
     o
 end
 
@@ -5656,8 +5656,8 @@ end
 function InternetGatewayType(pd::ParsedData)
     o = InternetGatewayType()
     o.internetGatewayId = find(pd, "internetGatewayId#text")
-    o.attachmentSet = @parse_vector(InternetGatewayAttachmentType, find(pd, "attachmentSet/item"))
-    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.attachmentSet = AWS.@parse_vector(AWS.EC2.InternetGatewayAttachmentType, find(pd, "attachmentSet/item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
     o
 end
 
@@ -5687,16 +5687,16 @@ function DescribeReservedInstancesOfferingsResponseSetItemType(pd::ParsedData)
     o.reservedInstancesOfferingId = find(pd, "reservedInstancesOfferingId#text")
     o.instanceType = find(pd, "instanceType#text")
     o.availabilityZone = find(pd, "availabilityZone#text")
-    o.duration = safe_parse_as(Int64, find(pd, "duration#text"))
-    o.fixedPrice = safe_parse_as(Float64, find(pd, "fixedPrice#text"))
-    o.usagePrice = safe_parse_as(Float64, find(pd, "usagePrice#text"))
+    o.duration = AWS.safe_parse_as(Int64, find(pd, "duration#text"))
+    o.fixedPrice = AWS.safe_parse_as(Float64, find(pd, "fixedPrice#text"))
+    o.usagePrice = AWS.safe_parse_as(Float64, find(pd, "usagePrice#text"))
     o.productDescription = find(pd, "productDescription#text")
     o.instanceTenancy = find(pd, "instanceTenancy#text")
     o.currencyCode = find(pd, "currencyCode#text")
     o.offeringType = find(pd, "offeringType#text")
-    o.recurringCharges = @parse_vector(RecurringChargesSetItemType, find(pd, "recurringCharges/item"))
-    o.marketplace = safe_parse_as(Bool, find(pd, "marketplace#text"))
-    o.pricingDetailsSet = @parse_vector(PricingDetailsSetItemType, find(pd, "pricingDetailsSet/item"))
+    o.recurringCharges = AWS.@parse_vector(AWS.EC2.RecurringChargesSetItemType, find(pd, "recurringCharges/item"))
+    o.marketplace = AWS.safe_parse_as(Bool, find(pd, "marketplace#text"))
+    o.pricingDetailsSet = AWS.@parse_vector(AWS.EC2.PricingDetailsSetItemType, find(pd, "pricingDetailsSet/item"))
     o
 end
 
@@ -5720,7 +5720,7 @@ end
 function ImportInstanceLaunchSpecificationType(pd::ParsedData)
     o = ImportInstanceLaunchSpecificationType()
     o.architecture = find(pd, "architecture#text")
-    o.groupSet = @parse_vector(ImportInstanceGroupItemType, find(pd, "groupSet/item"))
+    o.groupSet = AWS.@parse_vector(AWS.EC2.ImportInstanceGroupItemType, find(pd, "groupSet/item"))
     o.userData = haskey(pd.elements, "userData") ?  UserDataType(find(pd, "userData[1]")) : nothing
     o.instanceType = find(pd, "instanceType#text")
     o.placement = haskey(pd.elements, "instancePlacement") ?  InstancePlacementType(find(pd, "instancePlacement[1]")) : nothing
@@ -5743,8 +5743,8 @@ type CreateTagsType
 end
 function CreateTagsType(pd::ParsedData)
     o = CreateTagsType()
-    o.resourcesSet = parse_vector_as(ASCIIString, "resourceId", find(pd, "item/resourceId"))
-    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.resourcesSet = AWS.parse_vector_as(ASCIIString, "resourceId", find(pd, "item/resourceId"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
     o
 end
 
@@ -5760,8 +5760,8 @@ type DescribeSpotInstanceRequestsType
 end
 function DescribeSpotInstanceRequestsType(pd::ParsedData)
     o = DescribeSpotInstanceRequestsType()
-    o.spotInstanceRequestIdSet = parse_vector_as(ASCIIString, "spotInstanceRequestId", find(pd, "item/spotInstanceRequestId"))
-    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o.spotInstanceRequestIdSet = AWS.parse_vector_as(ASCIIString, "spotInstanceRequestId", find(pd, "item/spotInstanceRequestId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
     o
 end
 
@@ -5777,8 +5777,8 @@ type DescribeCustomerGatewaysType
 end
 function DescribeCustomerGatewaysType(pd::ParsedData)
     o = DescribeCustomerGatewaysType()
-    o.customerGatewaySet = parse_vector_as(ASCIIString, "customerGatewayId", find(pd, "item/customerGatewayId"))
-    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o.customerGatewaySet = AWS.parse_vector_as(ASCIIString, "customerGatewayId", find(pd, "item/customerGatewayId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
     o
 end
 
@@ -5805,19 +5805,19 @@ type DescribeReservedInstancesOfferingsType
 end
 function DescribeReservedInstancesOfferingsType(pd::ParsedData)
     o = DescribeReservedInstancesOfferingsType()
-    o.reservedInstancesOfferingsSet = parse_vector_as(ASCIIString, "reservedInstancesOfferingId", find(pd, "item/reservedInstancesOfferingId"))
+    o.reservedInstancesOfferingsSet = AWS.parse_vector_as(ASCIIString, "reservedInstancesOfferingId", find(pd, "item/reservedInstancesOfferingId"))
     o.instanceType = find(pd, "instanceType#text")
     o.availabilityZone = find(pd, "availabilityZone#text")
     o.productDescription = find(pd, "productDescription#text")
-    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
     o.instanceTenancy = find(pd, "instanceTenancy#text")
     o.offeringType = find(pd, "offeringType#text")
-    o.includeMarketplace = safe_parse_as(Bool, find(pd, "includeMarketplace#text"))
-    o.minDuration = safe_parse_as(Int64, find(pd, "minDuration#text"))
-    o.maxDuration = safe_parse_as(Int64, find(pd, "maxDuration#text"))
-    o.maxInstanceCount = safe_parse_as(Int32, find(pd, "maxInstanceCount#text"))
+    o.includeMarketplace = AWS.safe_parse_as(Bool, find(pd, "includeMarketplace#text"))
+    o.minDuration = AWS.safe_parse_as(Int64, find(pd, "minDuration#text"))
+    o.maxDuration = AWS.safe_parse_as(Int64, find(pd, "maxDuration#text"))
+    o.maxInstanceCount = AWS.safe_parse_as(Int32, find(pd, "maxInstanceCount#text"))
     o.nextToken = find(pd, "nextToken#text")
-    o.maxResults = safe_parse_as(Int32, find(pd, "maxResults#text"))
+    o.maxResults = AWS.safe_parse_as(Int32, find(pd, "maxResults#text"))
     o
 end
 
@@ -5833,8 +5833,8 @@ type DescribeAvailabilityZonesType
 end
 function DescribeAvailabilityZonesType(pd::ParsedData)
     o = DescribeAvailabilityZonesType()
-    o.availabilityZoneSet = parse_vector_as(ASCIIString, "zoneName", find(pd, "item/zoneName"))
-    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o.availabilityZoneSet = AWS.parse_vector_as(ASCIIString, "zoneName", find(pd, "item/zoneName"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
     o
 end
 
@@ -5863,7 +5863,7 @@ function RegisterImageType(pd::ParsedData)
     o.kernelId = find(pd, "kernelId#text")
     o.ramdiskId = find(pd, "ramdiskId#text")
     o.rootDeviceName = find(pd, "rootDeviceName#text")
-    o.blockDeviceMapping = @parse_vector(BlockDeviceMappingItemType, find(pd, "blockDeviceMapping/item"))
+    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, find(pd, "blockDeviceMapping/item"))
     o
 end
 
@@ -5884,7 +5884,7 @@ type ImportInstanceVolumeDetailItemType
 end
 function ImportInstanceVolumeDetailItemType(pd::ParsedData)
     o = ImportInstanceVolumeDetailItemType()
-    o.bytesConverted = safe_parse_as(Int64, find(pd, "bytesConverted#text"))
+    o.bytesConverted = AWS.safe_parse_as(Int64, find(pd, "bytesConverted#text"))
     o.availabilityZone = find(pd, "availabilityZone#text")
     o.image = haskey(pd.elements, "diskImageDescription") ?  DiskImageDescriptionType(find(pd, "diskImageDescription[1]")) : nothing
     o.description = find(pd, "description#text")
@@ -5906,8 +5906,8 @@ type DeleteTagsType
 end
 function DeleteTagsType(pd::ParsedData)
     o = DeleteTagsType()
-    o.resourcesSet = parse_vector_as(ASCIIString, "resourceId", find(pd, "item/resourceId"))
-    o.tagSet = @parse_vector(DeleteTagsSetItemType, find(pd, "tagSet/item"))
+    o.resourcesSet = AWS.parse_vector_as(ASCIIString, "resourceId", find(pd, "item/resourceId"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.DeleteTagsSetItemType, find(pd, "tagSet/item"))
     o
 end
 
@@ -5924,7 +5924,7 @@ end
 function InstanceStatusType(pd::ParsedData)
     o = InstanceStatusType()
     o.status = find(pd, "status#text")
-    o.details = @parse_vector(InstanceStatusDetailsSetItemType, find(pd, "details/item"))
+    o.details = AWS.@parse_vector(AWS.EC2.InstanceStatusDetailsSetItemType, find(pd, "details/item"))
     o
 end
 
@@ -5941,7 +5941,7 @@ end
 function DescribeTagsResponseType(pd::ParsedData)
     o = DescribeTagsResponseType()
     o.requestId = find(pd, "requestId#text")
-    o.tagSet = @parse_vector(TagSetItemType, find(pd, "tagSet/item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.TagSetItemType, find(pd, "tagSet/item"))
     o
 end
 
@@ -5967,13 +5967,13 @@ function DescribeReservedInstancesListingsResponseSetItemType(pd::ParsedData)
     o = DescribeReservedInstancesListingsResponseSetItemType()
     o.reservedInstancesListingId = find(pd, "reservedInstancesListingId#text")
     o.reservedInstancesId = find(pd, "reservedInstancesId#text")
-    o.createDate = safe_parse_as(CalendarTime, find(pd, "createDate#text"))
-    o.updateDate = safe_parse_as(CalendarTime, find(pd, "updateDate#text"))
+    o.createDate = AWS.safe_parse_as(CalendarTime, find(pd, "createDate#text"))
+    o.updateDate = AWS.safe_parse_as(CalendarTime, find(pd, "updateDate#text"))
     o.status = find(pd, "status#text")
     o.statusMessage = find(pd, "statusMessage#text")
-    o.instanceCounts = @parse_vector(InstanceCountsSetItemType, find(pd, "instanceCounts/item"))
-    o.priceSchedules = @parse_vector(PriceScheduleSetItemType, find(pd, "priceSchedules/item"))
-    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.instanceCounts = AWS.@parse_vector(AWS.EC2.InstanceCountsSetItemType, find(pd, "instanceCounts/item"))
+    o.priceSchedules = AWS.@parse_vector(AWS.EC2.PriceScheduleSetItemType, find(pd, "priceSchedules/item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
     o.clientToken = find(pd, "clientToken#text")
     o
 end
@@ -5990,8 +5990,8 @@ type DescribeLicensesType
 end
 function DescribeLicensesType(pd::ParsedData)
     o = DescribeLicensesType()
-    o.licenseIdSet = parse_vector_as(ASCIIString, "licenseId", find(pd, "item/licenseId"))
-    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o.licenseIdSet = AWS.parse_vector_as(ASCIIString, "licenseId", find(pd, "item/licenseId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
     o
 end
 
@@ -6009,10 +6009,10 @@ type DescribeSnapshotsType
 end
 function DescribeSnapshotsType(pd::ParsedData)
     o = DescribeSnapshotsType()
-    o.snapshotSet = parse_vector_as(ASCIIString, "snapshotId", find(pd, "item/snapshotId"))
-    o.ownersSet = parse_vector_as(ASCIIString, "owner", find(pd, "item/owner"))
-    o.restorableBySet = parse_vector_as(ASCIIString, "user", find(pd, "item/user"))
-    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o.snapshotSet = AWS.parse_vector_as(ASCIIString, "snapshotId", find(pd, "item/snapshotId"))
+    o.ownersSet = AWS.parse_vector_as(ASCIIString, "owner", find(pd, "item/owner"))
+    o.restorableBySet = AWS.parse_vector_as(ASCIIString, "user", find(pd, "item/user"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
     o
 end
 
@@ -6044,18 +6044,18 @@ function DescribeReservedInstancesResponseSetItemType(pd::ParsedData)
     o.reservedInstancesId = find(pd, "reservedInstancesId#text")
     o.instanceType = find(pd, "instanceType#text")
     o.availabilityZone = find(pd, "availabilityZone#text")
-    o.start = safe_parse_as(CalendarTime, find(pd, "start#text"))
-    o.duration = safe_parse_as(Int64, find(pd, "duration#text"))
-    o.fixedPrice = safe_parse_as(Float64, find(pd, "fixedPrice#text"))
-    o.usagePrice = safe_parse_as(Float64, find(pd, "usagePrice#text"))
-    o.instanceCount = safe_parse_as(Int32, find(pd, "instanceCount#text"))
+    o.start = AWS.safe_parse_as(CalendarTime, find(pd, "start#text"))
+    o.duration = AWS.safe_parse_as(Int64, find(pd, "duration#text"))
+    o.fixedPrice = AWS.safe_parse_as(Float64, find(pd, "fixedPrice#text"))
+    o.usagePrice = AWS.safe_parse_as(Float64, find(pd, "usagePrice#text"))
+    o.instanceCount = AWS.safe_parse_as(Int32, find(pd, "instanceCount#text"))
     o.productDescription = find(pd, "productDescription#text")
     o.state = find(pd, "state#text")
-    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
     o.instanceTenancy = find(pd, "instanceTenancy#text")
     o.currencyCode = find(pd, "currencyCode#text")
     o.offeringType = find(pd, "offeringType#text")
-    o.recurringCharges = @parse_vector(RecurringChargesSetItemType, find(pd, "recurringCharges/item"))
+    o.recurringCharges = AWS.@parse_vector(AWS.EC2.RecurringChargesSetItemType, find(pd, "recurringCharges/item"))
     o
 end
 
@@ -6075,10 +6075,10 @@ end
 function IpPermissionType(pd::ParsedData)
     o = IpPermissionType()
     o.ipProtocol = find(pd, "ipProtocol#text")
-    o.fromPort = safe_parse_as(Int32, find(pd, "fromPort#text"))
-    o.toPort = safe_parse_as(Int32, find(pd, "toPort#text"))
-    o.groups = @parse_vector(UserIdGroupPairType, find(pd, "groups/item"))
-    o.ipRanges = parse_vector_as(ASCIIString, "cidrIp", find(pd, "item/cidrIp"))
+    o.fromPort = AWS.safe_parse_as(Int32, find(pd, "fromPort#text"))
+    o.toPort = AWS.safe_parse_as(Int32, find(pd, "toPort#text"))
+    o.groups = AWS.@parse_vector(AWS.EC2.UserIdGroupPairType, find(pd, "groups/item"))
+    o.ipRanges = AWS.parse_vector_as(ASCIIString, "cidrIp", find(pd, "item/cidrIp"))
     o
 end
 
@@ -6096,7 +6096,7 @@ type CreateVpnConnectionType
 end
 function CreateVpnConnectionType(pd::ParsedData)
     o = CreateVpnConnectionType()
-    o._type = find(pd, "_type#text")
+    o._type = find(pd, "type#text")
     o.customerGatewayId = find(pd, "customerGatewayId#text")
     o.vpnGatewayId = find(pd, "vpnGatewayId#text")
     o.options = haskey(pd.elements, "vpnConnectionOptionsRequest") ?  VpnConnectionOptionsRequestType(find(pd, "vpnConnectionOptionsRequest[1]")) : nothing
@@ -6119,10 +6119,10 @@ end
 function LicenseSetItemType(pd::ParsedData)
     o = LicenseSetItemType()
     o.licenseId = find(pd, "licenseId#text")
-    o._type = find(pd, "_type#text")
+    o._type = find(pd, "type#text")
     o.pool = find(pd, "pool#text")
-    o.capacitySet = @parse_vector(LicenseCapacitySetItemType, find(pd, "capacitySet/item"))
-    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.capacitySet = AWS.@parse_vector(AWS.EC2.LicenseCapacitySetItemType, find(pd, "capacitySet/item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
     o
 end
 
@@ -6145,10 +6145,10 @@ end
 function ReplaceNetworkAclEntryType(pd::ParsedData)
     o = ReplaceNetworkAclEntryType()
     o.networkAclId = find(pd, "networkAclId#text")
-    o.ruleNumber = safe_parse_as(Int32, find(pd, "ruleNumber#text"))
+    o.ruleNumber = AWS.safe_parse_as(Int32, find(pd, "ruleNumber#text"))
     o.protocol = find(pd, "protocol#text")
     o.ruleAction = find(pd, "ruleAction#text")
-    o.egress = safe_parse_as(Bool, find(pd, "egress#text"))
+    o.egress = AWS.safe_parse_as(Bool, find(pd, "egress#text"))
     o.cidrBlock = find(pd, "cidrBlock#text")
     o.icmpTypeCode = haskey(pd.elements, "icmpTypeCode") ?  IcmpTypeCodeType(find(pd, "icmpTypeCode[1]")) : nothing
     o.portRange = haskey(pd.elements, "portRange") ?  PortRangeType(find(pd, "portRange[1]")) : nothing
@@ -6168,7 +6168,7 @@ end
 function CancelReservedInstancesListingResponseType(pd::ParsedData)
     o = CancelReservedInstancesListingResponseType()
     o.requestId = find(pd, "requestId#text")
-    o.reservedInstancesListingsSet = @parse_vector(DescribeReservedInstancesListingsResponseSetItemType, find(pd, "reservedInstancesListingsSet/item"))
+    o.reservedInstancesListingsSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesListingsResponseSetItemType, find(pd, "reservedInstancesListingsSet/item"))
     o
 end
 
@@ -6184,8 +6184,8 @@ type DescribeVpnConnectionsType
 end
 function DescribeVpnConnectionsType(pd::ParsedData)
     o = DescribeVpnConnectionsType()
-    o.vpnConnectionSet = parse_vector_as(ASCIIString, "vpnConnectionId", find(pd, "item/vpnConnectionId"))
-    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o.vpnConnectionSet = AWS.parse_vector_as(ASCIIString, "vpnConnectionId", find(pd, "item/vpnConnectionId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
     o
 end
 
@@ -6225,7 +6225,7 @@ end
 function DescribeReservedInstancesListingsResponseType(pd::ParsedData)
     o = DescribeReservedInstancesListingsResponseType()
     o.requestId = find(pd, "requestId#text")
-    o.reservedInstancesListingsSet = @parse_vector(DescribeReservedInstancesListingsResponseSetItemType, find(pd, "reservedInstancesListingsSet/item"))
+    o.reservedInstancesListingsSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesListingsResponseSetItemType, find(pd, "reservedInstancesListingsSet/item"))
     o
 end
 
@@ -6243,10 +6243,10 @@ type DescribeImagesType
 end
 function DescribeImagesType(pd::ParsedData)
     o = DescribeImagesType()
-    o.executableBySet = parse_vector_as(ASCIIString, "user", find(pd, "item/user"))
-    o.imagesSet = parse_vector_as(ASCIIString, "imageId", find(pd, "item/imageId"))
-    o.ownersSet = parse_vector_as(ASCIIString, "owner", find(pd, "item/owner"))
-    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o.executableBySet = AWS.parse_vector_as(ASCIIString, "user", find(pd, "item/user"))
+    o.imagesSet = AWS.parse_vector_as(ASCIIString, "imageId", find(pd, "item/imageId"))
+    o.ownersSet = AWS.parse_vector_as(ASCIIString, "owner", find(pd, "item/owner"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
     o
 end
 
@@ -6262,8 +6262,8 @@ type DescribeVpcsType
 end
 function DescribeVpcsType(pd::ParsedData)
     o = DescribeVpcsType()
-    o.vpcSet = parse_vector_as(ASCIIString, "vpcId", find(pd, "item/vpcId"))
-    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o.vpcSet = AWS.parse_vector_as(ASCIIString, "vpcId", find(pd, "item/vpcId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
     o
 end
 
@@ -6286,9 +6286,9 @@ function CreateNetworkInterfaceType(pd::ParsedData)
     o.subnetId = find(pd, "subnetId#text")
     o.description = find(pd, "description#text")
     o.privateIpAddress = find(pd, "privateIpAddress#text")
-    o.groupSet = parse_vector_as(ASCIIString, "groupId", find(pd, "item/groupId"))
-    o.privateIpAddressesSet = @parse_vector(PrivateIpAddressesSetItemRequestType, find(pd, "privateIpAddressesSet/item"))
-    o.secondaryPrivateIpAddressCount = safe_parse_as(Int32, find(pd, "secondaryPrivateIpAddressCount#text"))
+    o.groupSet = AWS.parse_vector_as(ASCIIString, "groupId", find(pd, "item/groupId"))
+    o.privateIpAddressesSet = AWS.@parse_vector(AWS.EC2.PrivateIpAddressesSetItemRequestType, find(pd, "privateIpAddressesSet/item"))
+    o.secondaryPrivateIpAddressCount = AWS.safe_parse_as(Int32, find(pd, "secondaryPrivateIpAddressCount#text"))
     o
 end
 
@@ -6305,7 +6305,7 @@ end
 function CancelSpotInstanceRequestsResponseType(pd::ParsedData)
     o = CancelSpotInstanceRequestsResponseType()
     o.requestId = find(pd, "requestId#text")
-    o.spotInstanceRequestSet = @parse_vector(CancelSpotInstanceRequestsResponseSetItemType, find(pd, "spotInstanceRequestSet/item"))
+    o.spotInstanceRequestSet = AWS.@parse_vector(AWS.EC2.CancelSpotInstanceRequestsResponseSetItemType, find(pd, "spotInstanceRequestSet/item"))
     o
 end
 
@@ -6322,7 +6322,7 @@ end
 function DescribeReservedInstancesResponseType(pd::ParsedData)
     o = DescribeReservedInstancesResponseType()
     o.requestId = find(pd, "requestId#text")
-    o.reservedInstancesSet = @parse_vector(DescribeReservedInstancesResponseSetItemType, find(pd, "reservedInstancesSet/item"))
+    o.reservedInstancesSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesResponseSetItemType, find(pd, "reservedInstancesSet/item"))
     o
 end
 
@@ -6344,10 +6344,10 @@ function NetworkAclType(pd::ParsedData)
     o = NetworkAclType()
     o.networkAclId = find(pd, "networkAclId#text")
     o.vpcId = find(pd, "vpcId#text")
-    o.default = safe_parse_as(Bool, find(pd, "default#text"))
-    o.entrySet = @parse_vector(NetworkAclEntryType, find(pd, "entrySet/item"))
-    o.associationSet = @parse_vector(NetworkAclAssociationType, find(pd, "associationSet/item"))
-    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.default = AWS.safe_parse_as(Bool, find(pd, "default#text"))
+    o.entrySet = AWS.@parse_vector(AWS.EC2.NetworkAclEntryType, find(pd, "entrySet/item"))
+    o.associationSet = AWS.@parse_vector(AWS.EC2.NetworkAclAssociationType, find(pd, "associationSet/item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
     o
 end
 
@@ -6384,8 +6384,8 @@ type DescribeNetworkInterfacesType
 end
 function DescribeNetworkInterfacesType(pd::ParsedData)
     o = DescribeNetworkInterfacesType()
-    o.networkInterfaceIdSet = parse_vector_as(ASCIIString, "networkInterfaceId", find(pd, "item/networkInterfaceId"))
-    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o.networkInterfaceIdSet = AWS.parse_vector_as(ASCIIString, "networkInterfaceId", find(pd, "item/networkInterfaceId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
     o
 end
 
@@ -6407,7 +6407,7 @@ function InstanceStatusItemType(pd::ParsedData)
     o = InstanceStatusItemType()
     o.instanceId = find(pd, "instanceId#text")
     o.availabilityZone = find(pd, "availabilityZone#text")
-    o.eventsSet = @parse_vector(InstanceStatusEventType, find(pd, "eventsSet/item"))
+    o.eventsSet = AWS.@parse_vector(AWS.EC2.InstanceStatusEventType, find(pd, "eventsSet/item"))
     o.instanceState = haskey(pd.elements, "instanceState") ?  InstanceStateType(find(pd, "instanceState[1]")) : nothing
     o.systemStatus = haskey(pd.elements, "instanceStatus") ?  InstanceStatusType(find(pd, "instanceStatus[1]")) : nothing
     o.instanceStatus = haskey(pd.elements, "instanceStatus") ?  InstanceStatusType(find(pd, "instanceStatus[1]")) : nothing
@@ -6426,8 +6426,8 @@ type DescribeInstancesType
 end
 function DescribeInstancesType(pd::ParsedData)
     o = DescribeInstancesType()
-    o.instancesSet = parse_vector_as(ASCIIString, "instanceId", find(pd, "item/instanceId"))
-    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", find(pd, "item/instanceId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
     o
 end
 
@@ -6452,9 +6452,9 @@ function VpcType(pd::ParsedData)
     o.state = find(pd, "state#text")
     o.cidrBlock = find(pd, "cidrBlock#text")
     o.dhcpOptionsId = find(pd, "dhcpOptionsId#text")
-    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
     o.instanceTenancy = find(pd, "instanceTenancy#text")
-    o.isDefault = safe_parse_as(Bool, find(pd, "isDefault#text"))
+    o.isDefault = AWS.safe_parse_as(Bool, find(pd, "isDefault#text"))
     o
 end
 
@@ -6481,11 +6481,11 @@ function SubnetType(pd::ParsedData)
     o.state = find(pd, "state#text")
     o.vpcId = find(pd, "vpcId#text")
     o.cidrBlock = find(pd, "cidrBlock#text")
-    o.availableIpAddressCount = safe_parse_as(Int32, find(pd, "availableIpAddressCount#text"))
+    o.availableIpAddressCount = AWS.safe_parse_as(Int32, find(pd, "availableIpAddressCount#text"))
     o.availabilityZone = find(pd, "availabilityZone#text")
-    o.defaultForAz = safe_parse_as(Bool, find(pd, "defaultForAz#text"))
-    o.mapPublicIpOnLaunch = safe_parse_as(Bool, find(pd, "mapPublicIpOnLaunch#text"))
-    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.defaultForAz = AWS.safe_parse_as(Bool, find(pd, "defaultForAz#text"))
+    o.mapPublicIpOnLaunch = AWS.safe_parse_as(Bool, find(pd, "mapPublicIpOnLaunch#text"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
     o
 end
 
@@ -6502,7 +6502,7 @@ end
 function DescribePlacementGroupsResponseType(pd::ParsedData)
     o = DescribePlacementGroupsResponseType()
     o.requestId = find(pd, "requestId#text")
-    o.placementGroupSet = @parse_vector(PlacementGroupInfoType, find(pd, "placementGroupSet/item"))
+    o.placementGroupSet = AWS.@parse_vector(AWS.EC2.PlacementGroupInfoType, find(pd, "placementGroupSet/item"))
     o
 end
 
@@ -6527,8 +6527,8 @@ function BundleInstanceTaskType(pd::ParsedData)
     o.instanceId = find(pd, "instanceId#text")
     o.bundleId = find(pd, "bundleId#text")
     o.state = find(pd, "state#text")
-    o.startTime = safe_parse_as(CalendarTime, find(pd, "startTime#text"))
-    o.updateTime = safe_parse_as(CalendarTime, find(pd, "updateTime#text"))
+    o.startTime = AWS.safe_parse_as(CalendarTime, find(pd, "startTime#text"))
+    o.updateTime = AWS.safe_parse_as(CalendarTime, find(pd, "updateTime#text"))
     o.storage = haskey(pd.elements, "bundleInstanceTaskStorage") ?  BundleInstanceTaskStorageType(find(pd, "bundleInstanceTaskStorage[1]")) : nothing
     o.progress = find(pd, "progress#text")
     o.error = haskey(pd.elements, "bundleInstanceTaskError") ?  BundleInstanceTaskErrorType(find(pd, "bundleInstanceTaskError[1]")) : nothing
@@ -6547,8 +6547,8 @@ type DescribeVolumesType
 end
 function DescribeVolumesType(pd::ParsedData)
     o = DescribeVolumesType()
-    o.volumeSet = parse_vector_as(ASCIIString, "volumeId", find(pd, "item/volumeId"))
-    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o.volumeSet = AWS.parse_vector_as(ASCIIString, "volumeId", find(pd, "item/volumeId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
     o
 end
 
@@ -6565,7 +6565,7 @@ end
 function DescribeLicensesResponseType(pd::ParsedData)
     o = DescribeLicensesResponseType()
     o.requestId = find(pd, "requestId#text")
-    o.licenseSet = @parse_vector(LicenseSetItemType, find(pd, "licenseSet/item"))
+    o.licenseSet = AWS.@parse_vector(AWS.EC2.LicenseSetItemType, find(pd, "licenseSet/item"))
     o
 end
 
@@ -6604,10 +6604,10 @@ function VpnGatewayType(pd::ParsedData)
     o = VpnGatewayType()
     o.vpnGatewayId = find(pd, "vpnGatewayId#text")
     o.state = find(pd, "state#text")
-    o._type = find(pd, "_type#text")
+    o._type = find(pd, "type#text")
     o.availabilityZone = find(pd, "availabilityZone#text")
-    o.attachments = @parse_vector(AttachmentType, find(pd, "attachments/item"))
-    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.attachments = AWS.@parse_vector(AWS.EC2.AttachmentType, find(pd, "attachments/item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
     o
 end
 
@@ -6623,8 +6623,8 @@ type DescribeSubnetsType
 end
 function DescribeSubnetsType(pd::ParsedData)
     o = DescribeSubnetsType()
-    o.subnetSet = parse_vector_as(ASCIIString, "subnetId", find(pd, "item/subnetId"))
-    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o.subnetSet = AWS.parse_vector_as(ASCIIString, "subnetId", find(pd, "item/subnetId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
     o
 end
 
@@ -6639,7 +6639,7 @@ type CreateDhcpOptionsType
 end
 function CreateDhcpOptionsType(pd::ParsedData)
     o = CreateDhcpOptionsType()
-    o.dhcpConfigurationSet = @parse_vector(DhcpConfigurationItemType, find(pd, "dhcpConfigurationSet/item"))
+    o.dhcpConfigurationSet = AWS.@parse_vector(AWS.EC2.DhcpConfigurationItemType, find(pd, "dhcpConfigurationSet/item"))
     o
 end
 
@@ -6656,7 +6656,7 @@ end
 function DescribeVpcsResponseType(pd::ParsedData)
     o = DescribeVpcsResponseType()
     o.requestId = find(pd, "requestId#text")
-    o.vpcSet = @parse_vector(VpcType, find(pd, "vpcSet/item"))
+    o.vpcSet = AWS.@parse_vector(AWS.EC2.VpcType, find(pd, "vpcSet/item"))
     o
 end
 
@@ -6672,8 +6672,8 @@ type DescribeNetworkAclsType
 end
 function DescribeNetworkAclsType(pd::ParsedData)
     o = DescribeNetworkAclsType()
-    o.networkAclIdSet = parse_vector_as(ASCIIString, "networkAclId", find(pd, "item/networkAclId"))
-    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o.networkAclIdSet = AWS.parse_vector_as(ASCIIString, "networkAclId", find(pd, "item/networkAclId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
     o
 end
 
@@ -6690,7 +6690,7 @@ end
 function RevokeSecurityGroupEgressType(pd::ParsedData)
     o = RevokeSecurityGroupEgressType()
     o.groupId = find(pd, "groupId#text")
-    o.ipPermissions = @parse_vector(IpPermissionType, find(pd, "ipPermissions/item"))
+    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, find(pd, "ipPermissions/item"))
     o
 end
 
@@ -6708,8 +6708,8 @@ end
 function DhcpOptionsType(pd::ParsedData)
     o = DhcpOptionsType()
     o.dhcpOptionsId = find(pd, "dhcpOptionsId#text")
-    o.dhcpConfigurationSet = @parse_vector(DhcpConfigurationItemType, find(pd, "dhcpConfigurationSet/item"))
-    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.dhcpConfigurationSet = AWS.@parse_vector(AWS.EC2.DhcpConfigurationItemType, find(pd, "dhcpConfigurationSet/item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
     o
 end
 
@@ -6726,7 +6726,7 @@ end
 function DescribeBundleTasksResponseType(pd::ParsedData)
     o = DescribeBundleTasksResponseType()
     o.requestId = find(pd, "requestId#text")
-    o.bundleInstanceTasksSet = @parse_vector(BundleInstanceTaskType, find(pd, "bundleInstanceTasksSet/item"))
+    o.bundleInstanceTasksSet = AWS.@parse_vector(AWS.EC2.BundleInstanceTaskType, find(pd, "bundleInstanceTasksSet/item"))
     o
 end
 
@@ -6743,7 +6743,7 @@ end
 function VolumeStatusInfoType(pd::ParsedData)
     o = VolumeStatusInfoType()
     o.status = find(pd, "status#text")
-    o.details = @parse_vector(VolumeStatusDetailsItemType, find(pd, "details/item"))
+    o.details = AWS.@parse_vector(AWS.EC2.VolumeStatusDetailsItemType, find(pd, "details/item"))
     o
 end
 
@@ -6759,8 +6759,8 @@ type DescribeAccountAttributesType
 end
 function DescribeAccountAttributesType(pd::ParsedData)
     o = DescribeAccountAttributesType()
-    o.accountAttributeNameSet = parse_vector_as(ASCIIString, "attributeName", find(pd, "item/attributeName"))
-    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o.accountAttributeNameSet = AWS.parse_vector_as(ASCIIString, "attributeName", find(pd, "item/attributeName"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
     o
 end
 
@@ -6776,8 +6776,8 @@ type LaunchPermissionOperationType
 end
 function LaunchPermissionOperationType(pd::ParsedData)
     o = LaunchPermissionOperationType()
-    o.add = @parse_vector(LaunchPermissionItemType, find(pd, "add/item"))
-    o.remove = @parse_vector(LaunchPermissionItemType, find(pd, "remove/item"))
+    o.add = AWS.@parse_vector(AWS.EC2.LaunchPermissionItemType, find(pd, "add/item"))
+    o.remove = AWS.@parse_vector(AWS.EC2.LaunchPermissionItemType, find(pd, "remove/item"))
     o
 end
 
@@ -6793,8 +6793,8 @@ type DescribePlacementGroupsType
 end
 function DescribePlacementGroupsType(pd::ParsedData)
     o = DescribePlacementGroupsType()
-    o.placementGroupSet = parse_vector_as(ASCIIString, "groupName", find(pd, "item/groupName"))
-    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o.placementGroupSet = AWS.parse_vector_as(ASCIIString, "groupName", find(pd, "item/groupName"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
     o
 end
 
@@ -6811,7 +6811,7 @@ end
 function DescribeExportTasksResponseType(pd::ParsedData)
     o = DescribeExportTasksResponseType()
     o.requestId = find(pd, "requestId#text")
-    o.exportTaskSet = @parse_vector(ExportTaskResponseType, find(pd, "exportTaskSet/item"))
+    o.exportTaskSet = AWS.@parse_vector(AWS.EC2.ExportTaskResponseType, find(pd, "exportTaskSet/item"))
     o
 end
 
@@ -6829,7 +6829,7 @@ end
 function DescribeInstanceStatusResponseType(pd::ParsedData)
     o = DescribeInstanceStatusResponseType()
     o.requestId = find(pd, "requestId#text")
-    o.instanceStatusSet = @parse_vector(InstanceStatusItemType, find(pd, "instanceStatusSet/item"))
+    o.instanceStatusSet = AWS.@parse_vector(AWS.EC2.InstanceStatusItemType, find(pd, "instanceStatusSet/item"))
     o.nextToken = find(pd, "nextToken#text")
     o
 end
@@ -6847,7 +6847,7 @@ end
 function DescribeRegionsResponseType(pd::ParsedData)
     o = DescribeRegionsResponseType()
     o.requestId = find(pd, "requestId#text")
-    o.regionInfo = @parse_vector(RegionItemType, find(pd, "regionInfo/item"))
+    o.regionInfo = AWS.@parse_vector(AWS.EC2.RegionItemType, find(pd, "regionInfo/item"))
     o
 end
 
@@ -6869,10 +6869,10 @@ function RouteTableType(pd::ParsedData)
     o = RouteTableType()
     o.routeTableId = find(pd, "routeTableId#text")
     o.vpcId = find(pd, "vpcId#text")
-    o.routeSet = @parse_vector(RouteType, find(pd, "routeSet/item"))
-    o.associationSet = @parse_vector(RouteTableAssociationType, find(pd, "associationSet/item"))
-    o.propagatingVgwSet = parse_vector_as(ASCIIString, "gatewayId", find(pd, "item/gatewayId"))
-    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.routeSet = AWS.@parse_vector(AWS.EC2.RouteType, find(pd, "routeSet/item"))
+    o.associationSet = AWS.@parse_vector(AWS.EC2.RouteTableAssociationType, find(pd, "associationSet/item"))
+    o.propagatingVgwSet = AWS.parse_vector_as(ASCIIString, "gatewayId", find(pd, "item/gatewayId"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
     o
 end
 
@@ -6899,13 +6899,13 @@ function VpnConnectionType(pd::ParsedData)
     o.vpnConnectionId = find(pd, "vpnConnectionId#text")
     o.state = find(pd, "state#text")
     o.customerGatewayConfiguration = find(pd, "customerGatewayConfiguration#text")
-    o._type = find(pd, "_type#text")
+    o._type = find(pd, "type#text")
     o.customerGatewayId = find(pd, "customerGatewayId#text")
     o.vpnGatewayId = find(pd, "vpnGatewayId#text")
-    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
-    o.vgwTelemetry = @parse_vector(VpnTunnelTelemetryType, find(pd, "vgwTelemetry/item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.vgwTelemetry = AWS.@parse_vector(AWS.EC2.VpnTunnelTelemetryType, find(pd, "vgwTelemetry/item"))
     o.options = haskey(pd.elements, "vpnConnectionOptionsResponse") ?  VpnConnectionOptionsResponseType(find(pd, "vpnConnectionOptionsResponse[1]")) : nothing
-    o.routes = @parse_vector(VpnStaticRouteType, find(pd, "routes/item"))
+    o.routes = AWS.@parse_vector(AWS.EC2.VpnStaticRouteType, find(pd, "routes/item"))
     o
 end
 
@@ -6922,7 +6922,7 @@ end
 function DescribeKeyPairsResponseType(pd::ParsedData)
     o = DescribeKeyPairsResponseType()
     o.requestId = find(pd, "requestId#text")
-    o.keySet = @parse_vector(DescribeKeyPairsResponseItemType, find(pd, "keySet/item"))
+    o.keySet = AWS.@parse_vector(AWS.EC2.DescribeKeyPairsResponseItemType, find(pd, "keySet/item"))
     o
 end
 
@@ -6938,8 +6938,8 @@ type DescribeDhcpOptionsType
 end
 function DescribeDhcpOptionsType(pd::ParsedData)
     o = DescribeDhcpOptionsType()
-    o.dhcpOptionsSet = parse_vector_as(ASCIIString, "dhcpOptionsId", find(pd, "item/dhcpOptionsId"))
-    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o.dhcpOptionsSet = AWS.parse_vector_as(ASCIIString, "dhcpOptionsId", find(pd, "item/dhcpOptionsId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
     o
 end
 
@@ -6957,7 +6957,7 @@ type ImportInstanceTaskDetailsType
 end
 function ImportInstanceTaskDetailsType(pd::ParsedData)
     o = ImportInstanceTaskDetailsType()
-    o.volumes = @parse_vector(ImportInstanceVolumeDetailItemType, find(pd, "volumes/item"))
+    o.volumes = AWS.@parse_vector(AWS.EC2.ImportInstanceVolumeDetailItemType, find(pd, "volumes/item"))
     o.instanceId = find(pd, "instanceId#text")
     o.platform = find(pd, "platform#text")
     o.description = find(pd, "description#text")
@@ -6979,7 +6979,7 @@ type ImportVolumeTaskDetailsType
 end
 function ImportVolumeTaskDetailsType(pd::ParsedData)
     o = ImportVolumeTaskDetailsType()
-    o.bytesConverted = safe_parse_as(Int64, find(pd, "bytesConverted#text"))
+    o.bytesConverted = AWS.safe_parse_as(Int64, find(pd, "bytesConverted#text"))
     o.availabilityZone = find(pd, "availabilityZone#text")
     o.description = find(pd, "description#text")
     o.image = haskey(pd.elements, "diskImageDescription") ?  DiskImageDescriptionType(find(pd, "diskImageDescription[1]")) : nothing
@@ -7007,14 +7007,14 @@ end
 function InstanceNetworkInterfaceSetItemRequestType(pd::ParsedData)
     o = InstanceNetworkInterfaceSetItemRequestType()
     o.networkInterfaceId = find(pd, "networkInterfaceId#text")
-    o.deviceIndex = safe_parse_as(Int32, find(pd, "deviceIndex#text"))
+    o.deviceIndex = AWS.safe_parse_as(Int32, find(pd, "deviceIndex#text"))
     o.subnetId = find(pd, "subnetId#text")
     o.description = find(pd, "description#text")
     o.privateIpAddress = find(pd, "privateIpAddress#text")
-    o.groupSet = parse_vector_as(ASCIIString, "groupId", find(pd, "item/groupId"))
-    o.deleteOnTermination = safe_parse_as(Bool, find(pd, "deleteOnTermination#text"))
-    o.privateIpAddressesSet = @parse_vector(PrivateIpAddressesSetItemRequestType, find(pd, "privateIpAddressesSet/item"))
-    o.secondaryPrivateIpAddressCount = safe_parse_as(Int32, find(pd, "secondaryPrivateIpAddressCount#text"))
+    o.groupSet = AWS.parse_vector_as(ASCIIString, "groupId", find(pd, "item/groupId"))
+    o.deleteOnTermination = AWS.safe_parse_as(Bool, find(pd, "deleteOnTermination#text"))
+    o.privateIpAddressesSet = AWS.@parse_vector(AWS.EC2.PrivateIpAddressesSetItemRequestType, find(pd, "privateIpAddressesSet/item"))
+    o.secondaryPrivateIpAddressCount = AWS.safe_parse_as(Int32, find(pd, "secondaryPrivateIpAddressCount#text"))
     o
 end
 
@@ -7032,7 +7032,7 @@ end
 function PurchaseReservedInstancesOfferingType(pd::ParsedData)
     o = PurchaseReservedInstancesOfferingType()
     o.reservedInstancesOfferingId = find(pd, "reservedInstancesOfferingId#text")
-    o.instanceCount = safe_parse_as(Int32, find(pd, "instanceCount#text"))
+    o.instanceCount = AWS.safe_parse_as(Int32, find(pd, "instanceCount#text"))
     o.limitPrice = haskey(pd.elements, "reservedInstanceLimitPrice") ?  ReservedInstanceLimitPriceType(find(pd, "reservedInstanceLimitPrice[1]")) : nothing
     o
 end
@@ -7051,7 +7051,7 @@ end
 function DescribeReservedInstancesOfferingsResponseType(pd::ParsedData)
     o = DescribeReservedInstancesOfferingsResponseType()
     o.requestId = find(pd, "requestId#text")
-    o.reservedInstancesOfferingsSet = @parse_vector(DescribeReservedInstancesOfferingsResponseSetItemType, find(pd, "reservedInstancesOfferingsSet/item"))
+    o.reservedInstancesOfferingsSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesOfferingsResponseSetItemType, find(pd, "reservedInstancesOfferingsSet/item"))
     o.nextToken = find(pd, "nextToken#text")
     o
 end
@@ -7075,10 +7075,10 @@ end
 function CreateNetworkAclEntryType(pd::ParsedData)
     o = CreateNetworkAclEntryType()
     o.networkAclId = find(pd, "networkAclId#text")
-    o.ruleNumber = safe_parse_as(Int32, find(pd, "ruleNumber#text"))
+    o.ruleNumber = AWS.safe_parse_as(Int32, find(pd, "ruleNumber#text"))
     o.protocol = find(pd, "protocol#text")
     o.ruleAction = find(pd, "ruleAction#text")
-    o.egress = safe_parse_as(Bool, find(pd, "egress#text"))
+    o.egress = AWS.safe_parse_as(Bool, find(pd, "egress#text"))
     o.cidrBlock = find(pd, "cidrBlock#text")
     o.icmpTypeCode = haskey(pd.elements, "icmpTypeCode") ?  IcmpTypeCodeType(find(pd, "icmpTypeCode[1]")) : nothing
     o.portRange = haskey(pd.elements, "portRange") ?  PortRangeType(find(pd, "portRange[1]")) : nothing
@@ -7098,7 +7098,7 @@ end
 function RevokeSecurityGroupIngressType(pd::ParsedData)
     o = RevokeSecurityGroupIngressType()
     o.userId = find(pd, "userId#text")
-    o.ipPermissions = @parse_vector(IpPermissionType, find(pd, "ipPermissions/item"))
+    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, find(pd, "ipPermissions/item"))
     o
 end
 
@@ -7120,8 +7120,8 @@ function CreateImageType(pd::ParsedData)
     o.instanceId = find(pd, "instanceId#text")
     o.name = find(pd, "name#text")
     o.description = find(pd, "description#text")
-    o.noReboot = safe_parse_as(Bool, find(pd, "noReboot#text"))
-    o.blockDeviceMapping = @parse_vector(BlockDeviceMappingItemType, find(pd, "blockDeviceMapping/item"))
+    o.noReboot = AWS.safe_parse_as(Bool, find(pd, "noReboot#text"))
+    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, find(pd, "blockDeviceMapping/item"))
     o
 end
 
@@ -7140,11 +7140,11 @@ type DescribeInstanceStatusType
 end
 function DescribeInstanceStatusType(pd::ParsedData)
     o = DescribeInstanceStatusType()
-    o.instancesSet = parse_vector_as(ASCIIString, "instanceId", find(pd, "item/instanceId"))
-    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", find(pd, "item/instanceId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
     o.nextToken = find(pd, "nextToken#text")
-    o.maxResults = safe_parse_as(Int32, find(pd, "maxResults#text"))
-    o.includeAllInstances = safe_parse_as(Bool, find(pd, "includeAllInstances#text"))
+    o.maxResults = AWS.safe_parse_as(Int32, find(pd, "maxResults#text"))
+    o.includeAllInstances = AWS.safe_parse_as(Bool, find(pd, "includeAllInstances#text"))
     o
 end
 
@@ -7160,8 +7160,8 @@ type DescribeKeyPairsType
 end
 function DescribeKeyPairsType(pd::ParsedData)
     o = DescribeKeyPairsType()
-    o.keySet = parse_vector_as(ASCIIString, "keyName", find(pd, "item/keyName"))
-    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o.keySet = AWS.parse_vector_as(ASCIIString, "keyName", find(pd, "item/keyName"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
     o
 end
 
@@ -7178,7 +7178,7 @@ end
 function DescribeCustomerGatewaysResponseType(pd::ParsedData)
     o = DescribeCustomerGatewaysResponseType()
     o.requestId = find(pd, "requestId#text")
-    o.customerGatewaySet = @parse_vector(CustomerGatewayType, find(pd, "customerGatewaySet/item"))
+    o.customerGatewaySet = AWS.@parse_vector(AWS.EC2.CustomerGatewayType, find(pd, "customerGatewaySet/item"))
     o
 end
 
@@ -7195,9 +7195,9 @@ type DescribeReservedInstancesListingsType
 end
 function DescribeReservedInstancesListingsType(pd::ParsedData)
     o = DescribeReservedInstancesListingsType()
-    o.reservedInstancesListingSet = parse_vector_as(ASCIIString, "reservedInstancesListingId", find(pd, "item/reservedInstancesListingId"))
-    o.reservedInstancesSet = parse_vector_as(ASCIIString, "reservedInstancesId", find(pd, "item/reservedInstancesId"))
-    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o.reservedInstancesListingSet = AWS.parse_vector_as(ASCIIString, "reservedInstancesListingId", find(pd, "item/reservedInstancesListingId"))
+    o.reservedInstancesSet = AWS.parse_vector_as(ASCIIString, "reservedInstancesId", find(pd, "item/reservedInstancesId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
     o
 end
 
@@ -7226,11 +7226,11 @@ function DescribeVolumesSetItemResponseType(pd::ParsedData)
     o.snapshotId = find(pd, "snapshotId#text")
     o.availabilityZone = find(pd, "availabilityZone#text")
     o.status = find(pd, "status#text")
-    o.createTime = safe_parse_as(CalendarTime, find(pd, "createTime#text"))
-    o.attachmentSet = @parse_vector(AttachmentSetItemResponseType, find(pd, "attachmentSet/item"))
-    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.createTime = AWS.safe_parse_as(CalendarTime, find(pd, "createTime#text"))
+    o.attachmentSet = AWS.@parse_vector(AWS.EC2.AttachmentSetItemResponseType, find(pd, "attachmentSet/item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
     o.volumeType = find(pd, "volumeType#text")
-    o.iops = safe_parse_as(Int32, find(pd, "iops#text"))
+    o.iops = AWS.safe_parse_as(Int32, find(pd, "iops#text"))
     o
 end
 
@@ -7279,7 +7279,7 @@ type DescribeTagsType
 end
 function DescribeTagsType(pd::ParsedData)
     o = DescribeTagsType()
-    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
     o
 end
 
@@ -7296,7 +7296,7 @@ end
 function DescribeAccountAttributesResponseType(pd::ParsedData)
     o = DescribeAccountAttributesResponseType()
     o.requestId = find(pd, "requestId#text")
-    o.accountAttributeSet = @parse_vector(AccountAttributeSetItemType, find(pd, "accountAttributeSet/item"))
+    o.accountAttributeSet = AWS.@parse_vector(AWS.EC2.AccountAttributeSetItemType, find(pd, "accountAttributeSet/item"))
     o
 end
 
@@ -7331,9 +7331,9 @@ type DescribeVolumeStatusType
 end
 function DescribeVolumeStatusType(pd::ParsedData)
     o = DescribeVolumeStatusType()
-    o.volumeSet = parse_vector_as(ASCIIString, "volumeId", find(pd, "item/volumeId"))
-    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
-    o.maxResults = safe_parse_as(Int32, find(pd, "maxResults#text"))
+    o.volumeSet = AWS.parse_vector_as(ASCIIString, "volumeId", find(pd, "item/volumeId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o.maxResults = AWS.safe_parse_as(Int32, find(pd, "maxResults#text"))
     o.nextToken = find(pd, "nextToken#text")
     o
 end
@@ -7373,13 +7373,13 @@ type DescribeSpotPriceHistoryType
 end
 function DescribeSpotPriceHistoryType(pd::ParsedData)
     o = DescribeSpotPriceHistoryType()
-    o.startTime = safe_parse_as(CalendarTime, find(pd, "startTime#text"))
-    o.endTime = safe_parse_as(CalendarTime, find(pd, "endTime#text"))
-    o.instanceTypeSet = parse_vector_as(ASCIIString, "instanceType", find(pd, "item/instanceType"))
-    o.productDescriptionSet = parse_vector_as(ASCIIString, "productDescription", find(pd, "item/productDescription"))
-    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o.startTime = AWS.safe_parse_as(CalendarTime, find(pd, "startTime#text"))
+    o.endTime = AWS.safe_parse_as(CalendarTime, find(pd, "endTime#text"))
+    o.instanceTypeSet = AWS.parse_vector_as(ASCIIString, "instanceType", find(pd, "item/instanceType"))
+    o.productDescriptionSet = AWS.parse_vector_as(ASCIIString, "productDescription", find(pd, "item/productDescription"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
     o.availabilityZone = find(pd, "availabilityZone#text")
-    o.maxResults = safe_parse_as(Int32, find(pd, "maxResults#text"))
+    o.maxResults = AWS.safe_parse_as(Int32, find(pd, "maxResults#text"))
     o.nextToken = find(pd, "nextToken#text")
     o
 end
@@ -7466,8 +7466,8 @@ type DescribeBundleTasksType
 end
 function DescribeBundleTasksType(pd::ParsedData)
     o = DescribeBundleTasksType()
-    o.bundlesSet = parse_vector_as(ASCIIString, "bundleId", find(pd, "item/bundleId"))
-    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o.bundlesSet = AWS.parse_vector_as(ASCIIString, "bundleId", find(pd, "item/bundleId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
     o
 end
 
@@ -7483,8 +7483,8 @@ type DescribeRouteTablesType
 end
 function DescribeRouteTablesType(pd::ParsedData)
     o = DescribeRouteTablesType()
-    o.routeTableIdSet = parse_vector_as(ASCIIString, "routeTableId", find(pd, "item/routeTableId"))
-    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o.routeTableIdSet = AWS.parse_vector_as(ASCIIString, "routeTableId", find(pd, "item/routeTableId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
     o
 end
 
@@ -7501,7 +7501,7 @@ end
 function DescribeVpnGatewaysResponseType(pd::ParsedData)
     o = DescribeVpnGatewaysResponseType()
     o.requestId = find(pd, "requestId#text")
-    o.vpnGatewaySet = @parse_vector(VpnGatewayType, find(pd, "vpnGatewaySet/item"))
+    o.vpnGatewaySet = AWS.@parse_vector(AWS.EC2.VpnGatewayType, find(pd, "vpnGatewaySet/item"))
     o
 end
 
@@ -7528,13 +7528,13 @@ function DescribeSnapshotsSetItemResponseType(pd::ParsedData)
     o.snapshotId = find(pd, "snapshotId#text")
     o.volumeId = find(pd, "volumeId#text")
     o.status = find(pd, "status#text")
-    o.startTime = safe_parse_as(CalendarTime, find(pd, "startTime#text"))
+    o.startTime = AWS.safe_parse_as(CalendarTime, find(pd, "startTime#text"))
     o.progress = find(pd, "progress#text")
     o.ownerId = find(pd, "ownerId#text")
     o.volumeSize = find(pd, "volumeSize#text")
     o.description = find(pd, "description#text")
     o.ownerAlias = find(pd, "ownerAlias#text")
-    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
     o
 end
 
@@ -7551,9 +7551,9 @@ type DescribeSecurityGroupsType
 end
 function DescribeSecurityGroupsType(pd::ParsedData)
     o = DescribeSecurityGroupsType()
-    o.securityGroupSet = parse_vector_as(ASCIIString, "groupName", find(pd, "item/groupName"))
-    o.securityGroupIdSet = parse_vector_as(ASCIIString, "groupId", find(pd, "item/groupId"))
-    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o.securityGroupSet = AWS.parse_vector_as(ASCIIString, "groupName", find(pd, "item/groupName"))
+    o.securityGroupIdSet = AWS.parse_vector_as(ASCIIString, "groupId", find(pd, "item/groupId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
     o
 end
 
@@ -7590,7 +7590,7 @@ function NetworkInterfacePrivateIpAddressesSetItemType(pd::ParsedData)
     o = NetworkInterfacePrivateIpAddressesSetItemType()
     o.privateIpAddress = find(pd, "privateIpAddress#text")
     o.privateDnsName = find(pd, "privateDnsName#text")
-    o.primary = safe_parse_as(Bool, find(pd, "primary#text"))
+    o.primary = AWS.safe_parse_as(Bool, find(pd, "primary#text"))
     o.association = haskey(pd.elements, "networkInterfaceAssociation") ?  NetworkInterfaceAssociationType(find(pd, "networkInterfaceAssociation[1]")) : nothing
     o
 end
@@ -7627,7 +7627,7 @@ end
 function StartInstancesResponseType(pd::ParsedData)
     o = StartInstancesResponseType()
     o.requestId = find(pd, "requestId#text")
-    o.instancesSet = @parse_vector(InstanceStateChangeType, find(pd, "instancesSet/item"))
+    o.instancesSet = AWS.@parse_vector(AWS.EC2.InstanceStateChangeType, find(pd, "instancesSet/item"))
     o
 end
 
@@ -7650,7 +7650,7 @@ function ConversionTaskType(pd::ParsedData)
     o.expirationTime = find(pd, "expirationTime#text")
     o.state = find(pd, "state#text")
     o.statusMessage = find(pd, "statusMessage#text")
-    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
     o
 end
 
@@ -7704,7 +7704,7 @@ function InstancePrivateIpAddressesSetItemType(pd::ParsedData)
     o = InstancePrivateIpAddressesSetItemType()
     o.privateIpAddress = find(pd, "privateIpAddress#text")
     o.privateDnsName = find(pd, "privateDnsName#text")
-    o.primary = safe_parse_as(Bool, find(pd, "primary#text"))
+    o.primary = AWS.safe_parse_as(Bool, find(pd, "primary#text"))
     o.association = haskey(pd.elements, "instanceNetworkInterfaceAssociation") ?  InstanceNetworkInterfaceAssociationType(find(pd, "instanceNetworkInterfaceAssociation[1]")) : nothing
     o
 end
@@ -7722,7 +7722,7 @@ end
 function DescribeDhcpOptionsResponseType(pd::ParsedData)
     o = DescribeDhcpOptionsResponseType()
     o.requestId = find(pd, "requestId#text")
-    o.dhcpOptionsSet = @parse_vector(DhcpOptionsType, find(pd, "dhcpOptionsSet/item"))
+    o.dhcpOptionsSet = AWS.@parse_vector(AWS.EC2.DhcpOptionsType, find(pd, "dhcpOptionsSet/item"))
     o
 end
 
@@ -7739,7 +7739,7 @@ end
 function AuthorizeSecurityGroupIngressType(pd::ParsedData)
     o = AuthorizeSecurityGroupIngressType()
     o.userId = find(pd, "userId#text")
-    o.ipPermissions = @parse_vector(IpPermissionType, find(pd, "ipPermissions/item"))
+    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, find(pd, "ipPermissions/item"))
     o
 end
 
@@ -7773,7 +7773,7 @@ end
 function CreateReservedInstancesListingResponseType(pd::ParsedData)
     o = CreateReservedInstancesListingResponseType()
     o.requestId = find(pd, "requestId#text")
-    o.reservedInstancesListingsSet = @parse_vector(DescribeReservedInstancesListingsResponseSetItemType, find(pd, "reservedInstancesListingsSet/item"))
+    o.reservedInstancesListingsSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesListingsResponseSetItemType, find(pd, "reservedInstancesListingsSet/item"))
     o
 end
 
@@ -7790,7 +7790,7 @@ end
 function DescribeRouteTablesResponseType(pd::ParsedData)
     o = DescribeRouteTablesResponseType()
     o.requestId = find(pd, "requestId#text")
-    o.routeTableSet = @parse_vector(RouteTableType, find(pd, "routeTableSet/item"))
+    o.routeTableSet = AWS.@parse_vector(AWS.EC2.RouteTableType, find(pd, "routeTableSet/item"))
     o
 end
 
@@ -7806,8 +7806,8 @@ type DescribeRegionsType
 end
 function DescribeRegionsType(pd::ParsedData)
     o = DescribeRegionsType()
-    o.regionSet = parse_vector_as(ASCIIString, "regionName", find(pd, "item/regionName"))
-    o.filterSet = @parse_vector(FilterType, find(pd, "filterSet/item"))
+    o.regionSet = AWS.parse_vector_as(ASCIIString, "regionName", find(pd, "item/regionName"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
     o
 end
 
@@ -7824,7 +7824,7 @@ end
 function DescribeInternetGatewaysResponseType(pd::ParsedData)
     o = DescribeInternetGatewaysResponseType()
     o.requestId = find(pd, "requestId#text")
-    o.internetGatewaySet = @parse_vector(InternetGatewayType, find(pd, "internetGatewaySet/item"))
+    o.internetGatewaySet = AWS.@parse_vector(AWS.EC2.InternetGatewayType, find(pd, "internetGatewaySet/item"))
     o
 end
 
@@ -7875,7 +7875,7 @@ end
 function DescribeAddressesResponseType(pd::ParsedData)
     o = DescribeAddressesResponseType()
     o.requestId = find(pd, "requestId#text")
-    o.addressesSet = @parse_vector(DescribeAddressesResponseItemType, find(pd, "addressesSet/item"))
+    o.addressesSet = AWS.@parse_vector(AWS.EC2.DescribeAddressesResponseItemType, find(pd, "addressesSet/item"))
     o
 end
 
@@ -7905,18 +7905,18 @@ function LaunchSpecificationResponseType(pd::ParsedData)
     o = LaunchSpecificationResponseType()
     o.imageId = find(pd, "imageId#text")
     o.keyName = find(pd, "keyName#text")
-    o.groupSet = @parse_vector(GroupItemType, find(pd, "groupSet/item"))
+    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, find(pd, "groupSet/item"))
     o.addressingType = find(pd, "addressingType#text")
     o.instanceType = find(pd, "instanceType#text")
     o.placement = haskey(pd.elements, "spotPlacementRequest") ?  SpotPlacementRequestType(find(pd, "spotPlacementRequest[1]")) : nothing
     o.kernelId = find(pd, "kernelId#text")
     o.ramdiskId = find(pd, "ramdiskId#text")
-    o.blockDeviceMapping = @parse_vector(BlockDeviceMappingItemType, find(pd, "blockDeviceMapping/item"))
+    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, find(pd, "blockDeviceMapping/item"))
     o.monitoring = haskey(pd.elements, "monitoringInstance") ?  MonitoringInstanceType(find(pd, "monitoringInstance[1]")) : nothing
     o.subnetId = find(pd, "subnetId#text")
-    o.networkInterfaceSet = @parse_vector(InstanceNetworkInterfaceSetItemRequestType, find(pd, "networkInterfaceSet/item"))
+    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.InstanceNetworkInterfaceSetItemRequestType, find(pd, "networkInterfaceSet/item"))
     o.iamInstanceProfile = haskey(pd.elements, "iamInstanceProfileRequest") ?  IamInstanceProfileRequestType(find(pd, "iamInstanceProfileRequest[1]")) : nothing
-    o.ebsOptimized = safe_parse_as(Bool, find(pd, "ebsOptimized#text"))
+    o.ebsOptimized = AWS.safe_parse_as(Bool, find(pd, "ebsOptimized#text"))
     o
 end
 
@@ -7955,8 +7955,8 @@ function DescribeImagesResponseItemType(pd::ParsedData)
     o.imageLocation = find(pd, "imageLocation#text")
     o.imageState = find(pd, "imageState#text")
     o.imageOwnerId = find(pd, "imageOwnerId#text")
-    o.isPublic = safe_parse_as(Bool, find(pd, "isPublic#text"))
-    o.productCodes = @parse_vector(ProductCodesSetItemType, find(pd, "productCodes/item"))
+    o.isPublic = AWS.safe_parse_as(Bool, find(pd, "isPublic#text"))
+    o.productCodes = AWS.@parse_vector(AWS.EC2.ProductCodesSetItemType, find(pd, "productCodes/item"))
     o.architecture = find(pd, "architecture#text")
     o.imageType = find(pd, "imageType#text")
     o.kernelId = find(pd, "kernelId#text")
@@ -7968,9 +7968,9 @@ function DescribeImagesResponseItemType(pd::ParsedData)
     o.description = find(pd, "description#text")
     o.rootDeviceType = find(pd, "rootDeviceType#text")
     o.rootDeviceName = find(pd, "rootDeviceName#text")
-    o.blockDeviceMapping = @parse_vector(BlockDeviceMappingItemType, find(pd, "blockDeviceMapping/item"))
+    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, find(pd, "blockDeviceMapping/item"))
     o.virtualizationType = find(pd, "virtualizationType#text")
-    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
     o.hypervisor = find(pd, "hypervisor#text")
     o
 end
@@ -8009,10 +8009,10 @@ end
 function RunInstancesType(pd::ParsedData)
     o = RunInstancesType()
     o.imageId = find(pd, "imageId#text")
-    o.minCount = safe_parse_as(Int32, find(pd, "minCount#text"))
-    o.maxCount = safe_parse_as(Int32, find(pd, "maxCount#text"))
+    o.minCount = AWS.safe_parse_as(Int32, find(pd, "minCount#text"))
+    o.maxCount = AWS.safe_parse_as(Int32, find(pd, "maxCount#text"))
     o.keyName = find(pd, "keyName#text")
-    o.groupSet = @parse_vector(GroupItemType, find(pd, "groupSet/item"))
+    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, find(pd, "groupSet/item"))
     o.additionalInfo = find(pd, "additionalInfo#text")
     o.userData = haskey(pd.elements, "userData") ?  UserDataType(find(pd, "userData[1]")) : nothing
     o.addressingType = find(pd, "addressingType#text")
@@ -8020,17 +8020,17 @@ function RunInstancesType(pd::ParsedData)
     o.placement = haskey(pd.elements, "placementRequest") ?  PlacementRequestType(find(pd, "placementRequest[1]")) : nothing
     o.kernelId = find(pd, "kernelId#text")
     o.ramdiskId = find(pd, "ramdiskId#text")
-    o.blockDeviceMapping = @parse_vector(BlockDeviceMappingItemType, find(pd, "blockDeviceMapping/item"))
+    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, find(pd, "blockDeviceMapping/item"))
     o.monitoring = haskey(pd.elements, "monitoringInstance") ?  MonitoringInstanceType(find(pd, "monitoringInstance[1]")) : nothing
     o.subnetId = find(pd, "subnetId#text")
-    o.disableApiTermination = safe_parse_as(Bool, find(pd, "disableApiTermination#text"))
+    o.disableApiTermination = AWS.safe_parse_as(Bool, find(pd, "disableApiTermination#text"))
     o.instanceInitiatedShutdownBehavior = find(pd, "instanceInitiatedShutdownBehavior#text")
     o.license = haskey(pd.elements, "instanceLicenseRequest") ?  InstanceLicenseRequestType(find(pd, "instanceLicenseRequest[1]")) : nothing
     o.privateIpAddress = find(pd, "privateIpAddress#text")
     o.clientToken = find(pd, "clientToken#text")
-    o.networkInterfaceSet = @parse_vector(InstanceNetworkInterfaceSetItemRequestType, find(pd, "networkInterfaceSet/item"))
+    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.InstanceNetworkInterfaceSetItemRequestType, find(pd, "networkInterfaceSet/item"))
     o.iamInstanceProfile = haskey(pd.elements, "iamInstanceProfileRequest") ?  IamInstanceProfileRequestType(find(pd, "iamInstanceProfileRequest[1]")) : nothing
-    o.ebsOptimized = safe_parse_as(Bool, find(pd, "ebsOptimized#text"))
+    o.ebsOptimized = AWS.safe_parse_as(Bool, find(pd, "ebsOptimized#text"))
     o
 end
 
@@ -8061,19 +8061,19 @@ function LaunchSpecificationRequestType(pd::ParsedData)
     o = LaunchSpecificationRequestType()
     o.imageId = find(pd, "imageId#text")
     o.keyName = find(pd, "keyName#text")
-    o.groupSet = @parse_vector(GroupItemType, find(pd, "groupSet/item"))
+    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, find(pd, "groupSet/item"))
     o.userData = haskey(pd.elements, "userData") ?  UserDataType(find(pd, "userData[1]")) : nothing
     o.addressingType = find(pd, "addressingType#text")
     o.instanceType = find(pd, "instanceType#text")
     o.placement = haskey(pd.elements, "spotPlacementRequest") ?  SpotPlacementRequestType(find(pd, "spotPlacementRequest[1]")) : nothing
     o.kernelId = find(pd, "kernelId#text")
     o.ramdiskId = find(pd, "ramdiskId#text")
-    o.blockDeviceMapping = @parse_vector(BlockDeviceMappingItemType, find(pd, "blockDeviceMapping/item"))
+    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, find(pd, "blockDeviceMapping/item"))
     o.monitoring = haskey(pd.elements, "monitoringInstance") ?  MonitoringInstanceType(find(pd, "monitoringInstance[1]")) : nothing
     o.subnetId = find(pd, "subnetId#text")
-    o.networkInterfaceSet = @parse_vector(InstanceNetworkInterfaceSetItemRequestType, find(pd, "networkInterfaceSet/item"))
+    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.InstanceNetworkInterfaceSetItemRequestType, find(pd, "networkInterfaceSet/item"))
     o.iamInstanceProfile = haskey(pd.elements, "iamInstanceProfileRequest") ?  IamInstanceProfileRequestType(find(pd, "iamInstanceProfileRequest[1]")) : nothing
-    o.ebsOptimized = safe_parse_as(Bool, find(pd, "ebsOptimized#text"))
+    o.ebsOptimized = AWS.safe_parse_as(Bool, find(pd, "ebsOptimized#text"))
     o
 end
 
@@ -8090,7 +8090,7 @@ end
 function DescribeVpnConnectionsResponseType(pd::ParsedData)
     o = DescribeVpnConnectionsResponseType()
     o.requestId = find(pd, "requestId#text")
-    o.vpnConnectionSet = @parse_vector(VpnConnectionType, find(pd, "vpnConnectionSet/item"))
+    o.vpnConnectionSet = AWS.@parse_vector(AWS.EC2.VpnConnectionType, find(pd, "vpnConnectionSet/item"))
     o
 end
 
@@ -8112,8 +8112,8 @@ function VolumeStatusItemType(pd::ParsedData)
     o.volumeId = find(pd, "volumeId#text")
     o.availabilityZone = find(pd, "availabilityZone#text")
     o.volumeStatus = haskey(pd.elements, "volumeStatusInfo") ?  VolumeStatusInfoType(find(pd, "volumeStatusInfo[1]")) : nothing
-    o.eventsSet = @parse_vector(VolumeStatusEventItemType, find(pd, "eventsSet/item"))
-    o.actionsSet = @parse_vector(VolumeStatusActionItemType, find(pd, "actionsSet/item"))
+    o.eventsSet = AWS.@parse_vector(AWS.EC2.VolumeStatusEventItemType, find(pd, "eventsSet/item"))
+    o.actionsSet = AWS.@parse_vector(AWS.EC2.VolumeStatusActionItemType, find(pd, "actionsSet/item"))
     o
 end
 
@@ -8134,8 +8134,8 @@ function ImportInstanceType(pd::ParsedData)
     o = ImportInstanceType()
     o.description = find(pd, "description#text")
     o.launchSpecification = haskey(pd.elements, "importInstanceLaunchSpecification") ?  ImportInstanceLaunchSpecificationType(find(pd, "importInstanceLaunchSpecification[1]")) : nothing
-    o.diskImageSet = @parse_vector(DiskImageType, find(pd, "diskImageSet/item"))
-    o.keepPartialImports = safe_parse_as(Bool, find(pd, "keepPartialImports#text"))
+    o.diskImageSet = AWS.@parse_vector(AWS.EC2.DiskImageType, find(pd, "diskImageSet/item"))
+    o.keepPartialImports = AWS.safe_parse_as(Bool, find(pd, "keepPartialImports#text"))
     o.platform = find(pd, "platform#text")
     o
 end
@@ -8168,19 +8168,19 @@ function SpotInstanceRequestSetItemType(pd::ParsedData)
     o = SpotInstanceRequestSetItemType()
     o.spotInstanceRequestId = find(pd, "spotInstanceRequestId#text")
     o.spotPrice = find(pd, "spotPrice#text")
-    o._type = find(pd, "_type#text")
+    o._type = find(pd, "type#text")
     o.state = find(pd, "state#text")
     o.fault = haskey(pd.elements, "spotInstanceStateFault") ?  SpotInstanceStateFaultType(find(pd, "spotInstanceStateFault[1]")) : nothing
     o.status = haskey(pd.elements, "spotInstanceStatusMessage") ?  SpotInstanceStatusMessageType(find(pd, "spotInstanceStatusMessage[1]")) : nothing
-    o.validFrom = safe_parse_as(CalendarTime, find(pd, "validFrom#text"))
-    o.validUntil = safe_parse_as(CalendarTime, find(pd, "validUntil#text"))
+    o.validFrom = AWS.safe_parse_as(CalendarTime, find(pd, "validFrom#text"))
+    o.validUntil = AWS.safe_parse_as(CalendarTime, find(pd, "validUntil#text"))
     o.launchGroup = find(pd, "launchGroup#text")
     o.availabilityZoneGroup = find(pd, "availabilityZoneGroup#text")
     o.launchSpecification = haskey(pd.elements, "launchSpecificationResponse") ?  LaunchSpecificationResponseType(find(pd, "launchSpecificationResponse[1]")) : nothing
     o.instanceId = find(pd, "instanceId#text")
-    o.createTime = safe_parse_as(CalendarTime, find(pd, "createTime#text"))
+    o.createTime = AWS.safe_parse_as(CalendarTime, find(pd, "createTime#text"))
     o.productDescription = find(pd, "productDescription#text")
-    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
     o.launchedAvailabilityZone = find(pd, "launchedAvailabilityZone#text")
     o
 end
@@ -8198,7 +8198,7 @@ end
 function DescribeVolumesResponseType(pd::ParsedData)
     o = DescribeVolumesResponseType()
     o.requestId = find(pd, "requestId#text")
-    o.volumeSet = @parse_vector(DescribeVolumesSetItemResponseType, find(pd, "volumeSet/item"))
+    o.volumeSet = AWS.@parse_vector(AWS.EC2.DescribeVolumesSetItemResponseType, find(pd, "volumeSet/item"))
     o
 end
 
@@ -8215,7 +8215,7 @@ end
 function DescribeSnapshotsResponseType(pd::ParsedData)
     o = DescribeSnapshotsResponseType()
     o.requestId = find(pd, "requestId#text")
-    o.snapshotSet = @parse_vector(DescribeSnapshotsSetItemResponseType, find(pd, "snapshotSet/item"))
+    o.snapshotSet = AWS.@parse_vector(AWS.EC2.DescribeSnapshotsSetItemResponseType, find(pd, "snapshotSet/item"))
     o
 end
 
@@ -8249,7 +8249,7 @@ end
 function TerminateInstancesResponseType(pd::ParsedData)
     o = TerminateInstancesResponseType()
     o.requestId = find(pd, "requestId#text")
-    o.instancesSet = @parse_vector(InstanceStateChangeType, find(pd, "instancesSet/item"))
+    o.instancesSet = AWS.@parse_vector(AWS.EC2.InstanceStateChangeType, find(pd, "instancesSet/item"))
     o
 end
 
@@ -8266,7 +8266,7 @@ end
 function StopInstancesResponseType(pd::ParsedData)
     o = StopInstancesResponseType()
     o.requestId = find(pd, "requestId#text")
-    o.instancesSet = @parse_vector(InstanceStateChangeType, find(pd, "instancesSet/item"))
+    o.instancesSet = AWS.@parse_vector(AWS.EC2.InstanceStateChangeType, find(pd, "instancesSet/item"))
     o
 end
 
@@ -8289,10 +8289,10 @@ end
 function RequestSpotInstancesType(pd::ParsedData)
     o = RequestSpotInstancesType()
     o.spotPrice = find(pd, "spotPrice#text")
-    o.instanceCount = safe_parse_as(Int32, find(pd, "instanceCount#text"))
-    o._type = find(pd, "_type#text")
-    o.validFrom = safe_parse_as(CalendarTime, find(pd, "validFrom#text"))
-    o.validUntil = safe_parse_as(CalendarTime, find(pd, "validUntil#text"))
+    o.instanceCount = AWS.safe_parse_as(Int32, find(pd, "instanceCount#text"))
+    o._type = find(pd, "type#text")
+    o.validFrom = AWS.safe_parse_as(CalendarTime, find(pd, "validFrom#text"))
+    o.validUntil = AWS.safe_parse_as(CalendarTime, find(pd, "validUntil#text"))
     o.launchGroup = find(pd, "launchGroup#text")
     o.availabilityZoneGroup = find(pd, "availabilityZoneGroup#text")
     o.launchSpecification = haskey(pd.elements, "launchSpecificationRequest") ?  LaunchSpecificationRequestType(find(pd, "launchSpecificationRequest[1]")) : nothing
@@ -8351,17 +8351,17 @@ function NetworkInterfaceType(pd::ParsedData)
     o.description = find(pd, "description#text")
     o.ownerId = find(pd, "ownerId#text")
     o.requesterId = find(pd, "requesterId#text")
-    o.requesterManaged = safe_parse_as(Bool, find(pd, "requesterManaged#text"))
+    o.requesterManaged = AWS.safe_parse_as(Bool, find(pd, "requesterManaged#text"))
     o.status = find(pd, "status#text")
     o.macAddress = find(pd, "macAddress#text")
     o.privateIpAddress = find(pd, "privateIpAddress#text")
     o.privateDnsName = find(pd, "privateDnsName#text")
-    o.sourceDestCheck = safe_parse_as(Bool, find(pd, "sourceDestCheck#text"))
-    o.groupSet = @parse_vector(GroupItemType, find(pd, "groupSet/item"))
+    o.sourceDestCheck = AWS.safe_parse_as(Bool, find(pd, "sourceDestCheck#text"))
+    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, find(pd, "groupSet/item"))
     o.attachment = haskey(pd.elements, "networkInterfaceAttachment") ?  NetworkInterfaceAttachmentType(find(pd, "networkInterfaceAttachment[1]")) : nothing
     o.association = haskey(pd.elements, "networkInterfaceAssociation") ?  NetworkInterfaceAssociationType(find(pd, "networkInterfaceAssociation[1]")) : nothing
-    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
-    o.privateIpAddressesSet = @parse_vector(NetworkInterfacePrivateIpAddressesSetItemType, find(pd, "privateIpAddressesSet/item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.privateIpAddressesSet = AWS.@parse_vector(AWS.EC2.NetworkInterfacePrivateIpAddressesSetItemType, find(pd, "privateIpAddressesSet/item"))
     o
 end
 
@@ -8378,7 +8378,7 @@ end
 function RequestSpotInstancesResponseType(pd::ParsedData)
     o = RequestSpotInstancesResponseType()
     o.requestId = find(pd, "requestId#text")
-    o.spotInstanceRequestSet = @parse_vector(SpotInstanceRequestSetItemType, find(pd, "spotInstanceRequestSet/item"))
+    o.spotInstanceRequestSet = AWS.@parse_vector(AWS.EC2.SpotInstanceRequestSetItemType, find(pd, "spotInstanceRequestSet/item"))
     o
 end
 
@@ -8395,7 +8395,7 @@ end
 function DescribeSpotInstanceRequestsResponseType(pd::ParsedData)
     o = DescribeSpotInstanceRequestsResponseType()
     o.requestId = find(pd, "requestId#text")
-    o.spotInstanceRequestSet = @parse_vector(SpotInstanceRequestSetItemType, find(pd, "spotInstanceRequestSet/item"))
+    o.spotInstanceRequestSet = AWS.@parse_vector(AWS.EC2.SpotInstanceRequestSetItemType, find(pd, "spotInstanceRequestSet/item"))
     o
 end
 
@@ -8412,7 +8412,7 @@ end
 function DescribeNetworkAclsResponseType(pd::ParsedData)
     o = DescribeNetworkAclsResponseType()
     o.requestId = find(pd, "requestId#text")
-    o.networkAclSet = @parse_vector(NetworkAclType, find(pd, "networkAclSet/item"))
+    o.networkAclSet = AWS.@parse_vector(AWS.EC2.NetworkAclType, find(pd, "networkAclSet/item"))
     o
 end
 
@@ -8447,7 +8447,7 @@ end
 function DescribeVolumeStatusResponseType(pd::ParsedData)
     o = DescribeVolumeStatusResponseType()
     o.requestId = find(pd, "requestId#text")
-    o.volumeStatusSet = @parse_vector(VolumeStatusItemType, find(pd, "volumeStatusSet/item"))
+    o.volumeStatusSet = AWS.@parse_vector(AWS.EC2.VolumeStatusItemType, find(pd, "volumeStatusSet/item"))
     o.nextToken = find(pd, "nextToken#text")
     o
 end
@@ -8465,7 +8465,7 @@ end
 function DescribeImagesResponseType(pd::ParsedData)
     o = DescribeImagesResponseType()
     o.requestId = find(pd, "requestId#text")
-    o.imagesSet = @parse_vector(DescribeImagesResponseItemType, find(pd, "imagesSet/item"))
+    o.imagesSet = AWS.@parse_vector(AWS.EC2.DescribeImagesResponseItemType, find(pd, "imagesSet/item"))
     o
 end
 
@@ -8492,9 +8492,9 @@ function SecurityGroupItemType(pd::ParsedData)
     o.groupName = find(pd, "groupName#text")
     o.groupDescription = find(pd, "groupDescription#text")
     o.vpcId = find(pd, "vpcId#text")
-    o.ipPermissions = @parse_vector(IpPermissionType, find(pd, "ipPermissions/item"))
-    o.ipPermissionsEgress = @parse_vector(IpPermissionType, find(pd, "ipPermissionsEgress/item"))
-    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, find(pd, "ipPermissions/item"))
+    o.ipPermissionsEgress = AWS.@parse_vector(AWS.EC2.IpPermissionType, find(pd, "ipPermissionsEgress/item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
     o
 end
 
@@ -8511,7 +8511,7 @@ end
 function MonitorInstancesResponseType(pd::ParsedData)
     o = MonitorInstancesResponseType()
     o.requestId = find(pd, "requestId#text")
-    o.instancesSet = @parse_vector(MonitorInstancesResponseSetItemType, find(pd, "instancesSet/item"))
+    o.instancesSet = AWS.@parse_vector(AWS.EC2.MonitorInstancesResponseSetItemType, find(pd, "instancesSet/item"))
     o
 end
 
@@ -8528,7 +8528,7 @@ end
 function AuthorizeSecurityGroupEgressType(pd::ParsedData)
     o = AuthorizeSecurityGroupEgressType()
     o.groupId = find(pd, "groupId#text")
-    o.ipPermissions = @parse_vector(IpPermissionType, find(pd, "ipPermissions/item"))
+    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, find(pd, "ipPermissions/item"))
     o
 end
 
@@ -8562,7 +8562,7 @@ end
 function DescribeNetworkInterfacesResponseType(pd::ParsedData)
     o = DescribeNetworkInterfacesResponseType()
     o.requestId = find(pd, "requestId#text")
-    o.networkInterfaceSet = @parse_vector(NetworkInterfaceType, find(pd, "networkInterfaceSet/item"))
+    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.NetworkInterfaceType, find(pd, "networkInterfaceSet/item"))
     o
 end
 
@@ -8579,7 +8579,7 @@ end
 function DescribeSubnetsResponseType(pd::ParsedData)
     o = DescribeSubnetsResponseType()
     o.requestId = find(pd, "requestId#text")
-    o.subnetSet = @parse_vector(SubnetType, find(pd, "subnetSet/item"))
+    o.subnetSet = AWS.@parse_vector(AWS.EC2.SubnetType, find(pd, "subnetSet/item"))
     o
 end
 
@@ -8633,11 +8633,11 @@ function InstanceNetworkInterfaceSetItemType(pd::ParsedData)
     o.macAddress = find(pd, "macAddress#text")
     o.privateIpAddress = find(pd, "privateIpAddress#text")
     o.privateDnsName = find(pd, "privateDnsName#text")
-    o.sourceDestCheck = safe_parse_as(Bool, find(pd, "sourceDestCheck#text"))
-    o.groupSet = @parse_vector(GroupItemType, find(pd, "groupSet/item"))
+    o.sourceDestCheck = AWS.safe_parse_as(Bool, find(pd, "sourceDestCheck#text"))
+    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, find(pd, "groupSet/item"))
     o.attachment = haskey(pd.elements, "instanceNetworkInterfaceAttachment") ?  InstanceNetworkInterfaceAttachmentType(find(pd, "instanceNetworkInterfaceAttachment[1]")) : nothing
     o.association = haskey(pd.elements, "instanceNetworkInterfaceAssociation") ?  InstanceNetworkInterfaceAssociationType(find(pd, "instanceNetworkInterfaceAssociation[1]")) : nothing
-    o.privateIpAddressesSet = @parse_vector(InstancePrivateIpAddressesSetItemType, find(pd, "privateIpAddressesSet/item"))
+    o.privateIpAddressesSet = AWS.@parse_vector(AWS.EC2.InstancePrivateIpAddressesSetItemType, find(pd, "privateIpAddressesSet/item"))
     o
 end
 
@@ -8654,7 +8654,7 @@ end
 function DescribeConversionTasksResponseType(pd::ParsedData)
     o = DescribeConversionTasksResponseType()
     o.requestId = find(pd, "requestId#text")
-    o.conversionTasks = @parse_vector(ConversionTaskType, find(pd, "conversionTasks/item"))
+    o.conversionTasks = AWS.@parse_vector(AWS.EC2.ConversionTaskType, find(pd, "conversionTasks/item"))
     o
 end
 
@@ -8730,9 +8730,9 @@ function RunningInstancesItemType(pd::ParsedData)
     o.reason = find(pd, "reason#text")
     o.keyName = find(pd, "keyName#text")
     o.amiLaunchIndex = find(pd, "amiLaunchIndex#text")
-    o.productCodes = @parse_vector(ProductCodesSetItemType, find(pd, "productCodes/item"))
+    o.productCodes = AWS.@parse_vector(AWS.EC2.ProductCodesSetItemType, find(pd, "productCodes/item"))
     o.instanceType = find(pd, "instanceType#text")
-    o.launchTime = safe_parse_as(CalendarTime, find(pd, "launchTime#text"))
+    o.launchTime = AWS.safe_parse_as(CalendarTime, find(pd, "launchTime#text"))
     o.placement = haskey(pd.elements, "placementResponse") ?  PlacementResponseType(find(pd, "placementResponse[1]")) : nothing
     o.kernelId = find(pd, "kernelId#text")
     o.ramdiskId = find(pd, "ramdiskId#text")
@@ -8742,23 +8742,23 @@ function RunningInstancesItemType(pd::ParsedData)
     o.vpcId = find(pd, "vpcId#text")
     o.privateIpAddress = find(pd, "privateIpAddress#text")
     o.ipAddress = find(pd, "ipAddress#text")
-    o.sourceDestCheck = safe_parse_as(Bool, find(pd, "sourceDestCheck#text"))
-    o.groupSet = @parse_vector(GroupItemType, find(pd, "groupSet/item"))
+    o.sourceDestCheck = AWS.safe_parse_as(Bool, find(pd, "sourceDestCheck#text"))
+    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, find(pd, "groupSet/item"))
     o.stateReason = haskey(pd.elements, "stateReason") ?  StateReasonType(find(pd, "stateReason[1]")) : nothing
     o.architecture = find(pd, "architecture#text")
     o.rootDeviceType = find(pd, "rootDeviceType#text")
     o.rootDeviceName = find(pd, "rootDeviceName#text")
-    o.blockDeviceMapping = @parse_vector(InstanceBlockDeviceMappingResponseItemType, find(pd, "blockDeviceMapping/item"))
+    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.InstanceBlockDeviceMappingResponseItemType, find(pd, "blockDeviceMapping/item"))
     o.instanceLifecycle = find(pd, "instanceLifecycle#text")
     o.spotInstanceRequestId = find(pd, "spotInstanceRequestId#text")
     o.license = haskey(pd.elements, "instanceLicenseResponse") ?  InstanceLicenseResponseType(find(pd, "instanceLicenseResponse[1]")) : nothing
     o.virtualizationType = find(pd, "virtualizationType#text")
     o.clientToken = find(pd, "clientToken#text")
-    o.tagSet = @parse_vector(ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
     o.hypervisor = find(pd, "hypervisor#text")
-    o.networkInterfaceSet = @parse_vector(InstanceNetworkInterfaceSetItemType, find(pd, "networkInterfaceSet/item"))
+    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.InstanceNetworkInterfaceSetItemType, find(pd, "networkInterfaceSet/item"))
     o.iamInstanceProfile = haskey(pd.elements, "iamInstanceProfileResponse") ?  IamInstanceProfileResponseType(find(pd, "iamInstanceProfileResponse[1]")) : nothing
-    o.ebsOptimized = safe_parse_as(Bool, find(pd, "ebsOptimized#text"))
+    o.ebsOptimized = AWS.safe_parse_as(Bool, find(pd, "ebsOptimized#text"))
     o
 end
 
@@ -8775,7 +8775,7 @@ end
 function DescribeSecurityGroupsResponseType(pd::ParsedData)
     o = DescribeSecurityGroupsResponseType()
     o.requestId = find(pd, "requestId#text")
-    o.securityGroupInfo = @parse_vector(SecurityGroupItemType, find(pd, "securityGroupInfo/item"))
+    o.securityGroupInfo = AWS.@parse_vector(AWS.EC2.SecurityGroupItemType, find(pd, "securityGroupInfo/item"))
     o
 end
 
@@ -8796,8 +8796,8 @@ function ReservationInfoType(pd::ParsedData)
     o = ReservationInfoType()
     o.reservationId = find(pd, "reservationId#text")
     o.ownerId = find(pd, "ownerId#text")
-    o.groupSet = @parse_vector(GroupItemType, find(pd, "groupSet/item"))
-    o.instancesSet = @parse_vector(RunningInstancesItemType, find(pd, "instancesSet/item"))
+    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, find(pd, "groupSet/item"))
+    o.instancesSet = AWS.@parse_vector(AWS.EC2.RunningInstancesItemType, find(pd, "instancesSet/item"))
     o.requesterId = find(pd, "requesterId#text")
     o
 end
@@ -8821,8 +8821,8 @@ function RunInstancesResponseType(pd::ParsedData)
     o.requestId = find(pd, "requestId#text")
     o.reservationId = find(pd, "reservationId#text")
     o.ownerId = find(pd, "ownerId#text")
-    o.groupSet = @parse_vector(GroupItemType, find(pd, "groupSet/item"))
-    o.instancesSet = @parse_vector(RunningInstancesItemType, find(pd, "instancesSet/item"))
+    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, find(pd, "groupSet/item"))
+    o.instancesSet = AWS.@parse_vector(AWS.EC2.RunningInstancesItemType, find(pd, "instancesSet/item"))
     o.requesterId = find(pd, "requesterId#text")
     o
 end
@@ -8840,7 +8840,7 @@ end
 function DescribeInstancesResponseType(pd::ParsedData)
     o = DescribeInstancesResponseType()
     o.requestId = find(pd, "requestId#text")
-    o.reservationSet = @parse_vector(ReservationInfoType, find(pd, "reservationSet/item"))
+    o.reservationSet = AWS.@parse_vector(AWS.EC2.ReservationInfoType, find(pd, "reservationSet/item"))
     o
 end
 

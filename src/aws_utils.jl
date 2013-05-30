@@ -22,6 +22,7 @@ function safe_parse_as(as::Type, s::Union(String, Nothing))
     end
     error("Unsupported parse type")
 end
+export safe_parse_as
 
 macro parse_vector (typ, vect)
      quote

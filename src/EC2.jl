@@ -13,7 +13,6 @@ using AWS
 
 
 #import AWSLib.AWSEnv
-include("aws_utils.jl")
 include("ec2_types.jl")
 include("ec2_operations.jl")
 
@@ -55,14 +54,28 @@ function is_basic_type(v)
     return false
 end
 
+corrections_map=[
+    ("CreateTagsType", "resourcesSet") => "resourceId",
+    ("DeleteTagsType", "resourcesSet") => "resourceId",
 
+    ("MonitorInstancesType", "instancesSet") => "instanceId",
+    ("DescribeInstancesType", "instancesSet") => "instanceId",
+    ("DescribeInstanceStatusType", "instancesSet") => "instanceId",
+    ("TerminateInstancesType", "instancesSet") => "instanceId",
+    ("StopInstancesType", "instancesSet") => "instanceId",
+    ("StartInstancesType", "instancesSet") => "instanceId",
+    ("ReportInstanceStatusType", "instancesSet") => "instanceId"
+    
+]
 
 function add_to_params(params, obj, pfx)
     for m in names(typeof(obj))
         fld_val = getfield(obj, m)
         if (fld_val != nothing)  
             fld_name = string(m)
-            if endswith(fld_name, "Set")
+            if haskey(corrections_map, (string(typeof(obj)), fld_name))
+                arg_name = corrections_map[(string(typeof(obj)), fld_name)]
+            elseif endswith(fld_name, "Set")
                 arg_name = fld_name[1:end-3]
             else
                 arg_name = fld_name
@@ -82,7 +95,7 @@ function add_to_params(params, obj, pfx)
                 for (idx, fv) in enumerate(fld_val)
                     subarg_name = "$(pfx)$(arg_name).$(idx)"
                     if is_basic_type(fv)
-                        push!(params, (pfx * subarg_name, aws_string(fv)))
+                        push!(params, (subarg_name, aws_string(fv)))
                     else
                         add_to_params(params, fv, subarg_name*".") 
                     end
@@ -172,8 +185,6 @@ function call_ec2(env::AWSEnv, action::String, msg=nothing, params_in=nothing)
         ec2resp.http_code = resp.http_code
         ec2resp.headers = resp.headers
         ec2resp.body = resp.body
-        
-        println(resp.headers)
         
         if (resp.http_code >= 200) && (resp.http_code <= 299)
 #             println(typeof(resp.headers))
