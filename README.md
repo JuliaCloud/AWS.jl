@@ -16,12 +16,10 @@ Types are defined in ```ec2_types.jl```
 Names and usage are similar to the AWS documentation http://awsdocs.s3.amazonaws.com/EC2/latest/ec2-api.pdf
 
 ### Current status
-- Most of the APIs are yet untested. Any testing will be helpful
-
-- While the requests take in native julia objects, the response currently is an XML object. It is of type ParsedData
-  as provided by LibExpat - https://github.com/amitmurthy/LibExpat.jl .
-  
-- libsodium support for signing AWS requests needs to be implemented - see https://github.com/jedisct1/libsodium/issues/43
+- Most of the APIs are yet untested. Any testing will be helpful. The REST API does not not match exactly in certain cases
+  with the WSDL. Since the bulk of the code is generated from the WSDL, in certain cases breakage may occur due to wrong
+  request syntax. Any issues filed on guthub with the output from running the request in debug mode, i.e., with env.dbg = true,
+  will be helpful.
   
 
 ### Usage
@@ -29,13 +27,16 @@ Names and usage are similar to the AWS documentation http://awsdocs.s3.amazonaws
 
 ```
 type AWSEnv
-    ep::String          # region endpoint
     aws_id::String      # AWS Access Key id
     aws_seckey::String  # AWS Secret key for signing requests
-    dry_run::Bool       # If true, no actual request will be made - it will only be printed to screen
+    ep::String          # region endpoint
+    timeout::Float64    # request timeout in seconds, default is 180 seconds
+    dry_run::Bool       # If true, no actual request will be made - implies dbg flag below
+    dbg::Bool           # print request to screen
     
-    AWSEnv(ep, id, key) = new(ep, id, key, false)
-    AWSEnv(ep, id, key, dbg) = new(ep, id, key, dbg)
+    AWSEnv(id, key) = AWSEnv(id, key, EP_US_EAST_NORTHERN_VIRGINIA)
+    AWSEnv(id, key, ep) = AWSEnv(id, key, ep, 180.0, false, false)
+    AWSEnv(id, key, ep, timeout, dr, dbg) = dr ? new(id, key, ep, timeout, dr, true) : new(id, key, ep, timeout, false, dbg)
 end
 ```
 
@@ -52,7 +53,7 @@ type RunInstancesType
     minCount::Union(Int32, Nothing)
     maxCount::Union(Int32, Nothing)
     keyName::Union(ASCIIString, Nothing)
-    groupSet::Union(Array{GroupItemType,1}, Nothing)
+    groupSet::Union(Vector{GroupItemType}, Nothing)
     additionalInfo::Union(ASCIIString, Nothing)
     userData::Union(UserDataType, Nothing)
     addressingType::Union(ASCIIString, Nothing)
@@ -60,7 +61,7 @@ type RunInstancesType
     placement::Union(PlacementRequestType, Nothing)
     kernelId::Union(ASCIIString, Nothing)
     ramdiskId::Union(ASCIIString, Nothing)
-    blockDeviceMapping::Union(Array{ASCIIString,1}, Nothing)
+    blockDeviceMapping::Union(Vector{BlockDeviceMappingItemType}, Nothing)
     monitoring::Union(MonitoringInstanceType, Nothing)
     subnetId::Union(ASCIIString, Nothing)
     disableApiTermination::Union(Bool, Nothing)
@@ -68,18 +69,44 @@ type RunInstancesType
     license::Union(InstanceLicenseRequestType, Nothing)
     privateIpAddress::Union(ASCIIString, Nothing)
     clientToken::Union(ASCIIString, Nothing)
-    networkInterfaceSet::Union(Array{InstanceNetworkInterfaceSetItemRequestType,1}, Nothing)
+    networkInterfaceSet::Union(Vector{InstanceNetworkInterfaceSetItemRequestType}, Nothing)
     iamInstanceProfile::Union(IamInstanceProfileRequestType, Nothing)
     ebsOptimized::Union(Bool, Nothing)
 
-    RunInstancesType(imageId, minCount, maxCount, keyName, groupSet, additionalInfo, userData, addressingType, instanceType, placement, kernelId, ramdiskId, blockDeviceMapping, monitoring, subnetId, disableApiTermination, instanceInitiatedShutdownBehavior, license, privateIpAddress, clientToken, networkInterfaceSet, iamInstanceProfile, ebsOptimized) = 
+    RunInstancesType(; imageId=nothing, minCount=nothing, maxCount=nothing, keyName=nothing, groupSet=nothing, additionalInfo=nothing, userData=nothing, addressingType=nothing, instanceType=nothing, placement=nothing, kernelId=nothing, ramdiskId=nothing, blockDeviceMapping=nothing, monitoring=nothing, subnetId=nothing, disableApiTermination=nothing, instanceInitiatedShutdownBehavior=nothing, license=nothing, privateIpAddress=nothing, clientToken=nothing, networkInterfaceSet=nothing, iamInstanceProfile=nothing, ebsOptimized=nothing) = 
          new(imageId, minCount, maxCount, keyName, groupSet, additionalInfo, userData, addressingType, instanceType, placement, kernelId, ramdiskId, blockDeviceMapping, monitoring, subnetId, disableApiTermination, instanceInitiatedShutdownBehavior, license, privateIpAddress, clientToken, networkInterfaceSet, iamInstanceProfile, ebsOptimized)
-    RunInstancesType() = 
-        new(nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing, nothing)
 end
 ```
 
+Each of the functions returns an object of type:
 
+```
+type EC2Response
+    http_code::Int
+    headers
+    body::Union(String, Nothing)
+    pd::Union(ParsedData, Nothing)
+    error::Union(EC2Error, Nothing)
+    obj::Any
+    
+    EC2Response() = new(0, Dict{Any, Any}(), "", nothing, nothing, nothing)
+
+end
+```
+
+In the event of an error, EC2Response.error has an object of type
+
+```
+type EC2Error
+    code::String
+    msg::String
+    request_id::Union(String, Nothing)
+end
+```
+
+For succcessful requests, EC2Response.obj will contain an object of the appropriate type.
+
+For example, for RunInstances, the EC2Response.obj will be of type RunInstancesResponseType 
 
 
 ```ec2_generic(env::AWSEnv, action::String, params_in::Array{Tuple})``` just bundles the 
@@ -95,8 +122,6 @@ Codecs
 
 LibExpat
 
-Sodium
-
 libCURL
 
 
@@ -104,7 +129,14 @@ libCURL
 
 libcurl must be installed
 
-libsodium must be downloaded, compiled and installed - https://github.com/jedisct1/libsodium
+
+### NOTE
+
+- DateTime fields returned by the APIs may be invalid due to this bug - https://github.com/nolta/Calendar.jl/issues/20
+
+- The crypto functions required for this package are in https://github.com/amitmurthy/AWS.jl/blob/master/src/crypto.jl , since
+  both libsodium and OpenSSL.jl do not yet support the functions this package needs. This will be replaced with calls
+  to Sodium or OpenSSL.jl when they support the same.
 
 
 
