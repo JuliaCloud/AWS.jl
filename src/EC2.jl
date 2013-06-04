@@ -198,7 +198,7 @@ function call_ec2(env::AWSEnv, action::String, msg=nothing, params_in=nothing)
             if length(resp.body) > 0
                 xom = xp_parse(resp.body)
                 epd = find(xom, "Errors/Error[1]")
-                ec2resp.obj = EC2Error(find(epd, "Code#text"), find(epd, "Message#text"), find(xom, "RequestID#text"))
+                ec2resp.obj = EC2Error(find(epd, "Code#string"), find(epd, "Message#string"), find(xom, "RequestID#string"))
             else
                 error("HTTP error : $(resp.http_code)")
             end

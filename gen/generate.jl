@@ -191,16 +191,16 @@ function get_type_for_elements(tctx, elements, ns_pfx)
         else
             if native
                 if jltype == ASCIIString
-                    tctx.constructor = tctx.constructor * "    o.$(xname) = find(pd, \"$(rawname)#text\")\n"
+                    tctx.constructor = tctx.constructor * "    o.$(xname) = find(pd, \"$(rawname)#string\")\n"
                 else
-                    tctx.constructor = tctx.constructor * "    o.$(xname) = AWS.safe_parse_as($(jltype), find(pd, \"$(rawname)#text\"))\n"
+                    tctx.constructor = tctx.constructor * "    o.$(xname) = AWS.safe_parse_as($(jltype), find(pd, \"$(rawname)#string\"))\n"
                 end
             else
                 xml_tag_name = new_jltype_str
                 if endswith(xml_tag_name, "Type") xml_tag_name = new_jltype_str[1:end-4] end
                 xml_tag_name = lowercase(xml_tag_name[1:1]) * xml_tag_name[2:end]
                 
-                tctx.constructor = tctx.constructor * "    o.$(xname) = haskey(pd.elements, \"$(xml_tag_name)\") ?  $(jltype)(find(pd, \"$(xml_tag_name)[1]\")) : nothing\n"
+                tctx.constructor = tctx.constructor * "    o.$(xname) = length(pd[\"$(xml_tag_name)\"]) > 0 ?  $(jltype)(find(pd,\"$(xml_tag_name)[1]\")) : nothing\n"
             end
         end
         
@@ -219,8 +219,8 @@ end
 
 function process_choice_tags(tctx, choice_elems, ns_pfx)
     for choice in choice_elems
-        if haskey(choice.elements, "$(ns_pfx)element")
-            xs_elements = choice_elems[1].elements["$(ns_pfx)element"]
+        xs_elements = choice["$(ns_pfx)element"]
+        if length(xs_elements) > 0
             get_type_for_elements(tctx, xs_elements, ns_pfx)
         else
             error("No 'element's under choice!")
@@ -248,28 +248,32 @@ function generate_all_types(ctypes, f, ns_pfx)
         tctx = TypeContext(ctype.attr["name"], f)
 
         # Skip abstract types (for now)
-        if haskey(ctype.elements, tag_sequence)
-            seq_elems = ctype.elements[tag_sequence]
+        seq_elems = ctype[tag_sequence]
+        choice_elems = ctype[tag_choice]
+        if (length(seq_elems) > 0)
             # sanity check
             if length(seq_elems) > 1 error("More than one sequence!") end
             sequence = seq_elems[1]
             
-            if haskey(sequence.elements, tag_element)
-                xs_elements = seq_elems[1].elements[tag_element]
+            xs_elements = sequence[tag_element]
+            choice_elems = sequence[tag_choice]
+            group_elems = sequence[tag_group]
+            
+            if length(xs_elements) > 0
                 get_type_for_elements(tctx, xs_elements, ns_pfx)
                 
-            elseif haskey(sequence.elements, tag_choice)
-                process_choice_tags(tctx, seq_elems[1].elements[tag_choice], ns_pfx)
+            elseif length(choice_elems) > 0
+                process_choice_tags(tctx, choice_elems, ns_pfx)
                 
-            elseif haskey(sequence.elements, tag_group)
+            elseif length(group_elems) > 0
                 tctx.definition = "    attribute::ASCIIString\n"
             else
                 error("Unknown SEQUENCE TYPE!")
             end
-        elseif haskey(ctype.elements, tag_choice)
-            process_choice_tags(tctx, ctype.elements[tag_choice], ns_pfx)
+        elseif length(choice_elems) > 0
+            process_choice_tags(tctx, choice_elems, ns_pfx)
             
-        elseif length(ctype.elements) == 0
+        elseif length(ctype["*"]) == 0 
             add!(empty_types, ctype.attr["name"])
             continue
         else
