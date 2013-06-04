@@ -1,6 +1,6 @@
 ## AWS - Julia interface to Amazon Web Services
 
-This package is a WIP for providing a native julia interface to the AWS API
+This package is a WIP for providing a native julia interface to the Amazon Web Services API
 
 Initially, the EC2 and S3 API will be supported.
 

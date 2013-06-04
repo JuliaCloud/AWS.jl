@@ -10,8 +10,6 @@ using libCURL.HTTPC
 using AWS.AWSEnv
 using AWS
 
-
-
 #import AWSLib.AWSEnv
 include("ec2_types.jl")
 include("ec2_operations.jl")
@@ -21,6 +19,10 @@ type EC2Error
     msg::String
     request_id::Union(String, Nothing)
 end
+export EC2Error
+
+ec2_error_str(o::EC2Error) = "code: $(o.code), msg : $(o.msg), $(o.request_id)"
+export ec2_error_str
 
 
 type EC2Response
@@ -28,12 +30,11 @@ type EC2Response
     headers
     body::Union(String, Nothing)
     pd::Union(ParsedData, Nothing)
-    error::Union(EC2Error, Nothing)
     obj::Any
     
-    EC2Response() = new(0, Dict{Any, Any}(), "", nothing, nothing, nothing)
-
+    EC2Response() = new(0, Dict{Any, Any}(), "", nothing, nothing)
 end
+export EC2Response
 
 
 function aws_string(v::CalendarTime)
@@ -197,7 +198,7 @@ function call_ec2(env::AWSEnv, action::String, msg=nothing, params_in=nothing)
             if length(resp.body) > 0
                 xom = xp_parse(resp.body)
                 epd = find(xom, "Errors/Error[1]")
-                ec2resp.error = EC2Error(find(epd, "Code#text"), find(epd, "Message#text"), find(xom, "RequestID#text"))
+                ec2resp.obj = EC2Error(find(epd, "Code#text"), find(epd, "Message#text"), find(xom, "RequestID#text"))
             else
                 error("HTTP error : $(resp.http_code)")
             end
