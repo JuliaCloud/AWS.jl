@@ -57,6 +57,19 @@ function hmacsha_digest(s::String, k::Union(String, Vector{Uint8}), evp, dgst_le
 end
 
 
+function md5_file(s::String)
+    f = open(s)
+    md = nothing
+    try
+        md = md5(f)
+    catch e
+        rethrow(e)
+    finally
+        close(f)
+    end
+    md
+end
+export md5_file
 
 function md5(s::String)
     md = zeros(Uint8, 16)
@@ -92,6 +105,7 @@ function md5(s::IO)
 
     return md
 end
+export md5
 
 
 end # Module end

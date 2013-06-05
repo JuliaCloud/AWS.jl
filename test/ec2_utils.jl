@@ -70,7 +70,10 @@ end
 
 
 function launch_n_ec2(n::Int)
-    resp = CHK_ERR(RunInstances(env, RunInstancesType(imageId=ami_ubuntu_13_04_32_bit_US_east, instanceType="m1.small", minCount=n, maxCount=n, keyName="jublr")))
+# "c1.medium"
+# "m1.small"
+
+    resp = CHK_ERR(RunInstances(env, RunInstancesType(imageId=ami_ubuntu_13_04_32_bit_US_east, instanceType="c1.medium", minCount=n, maxCount=n, keyName="jublr")))
     instances = ASCIIString[]
     for inst in resp.instancesSet
         push!(instances, inst.instanceId)

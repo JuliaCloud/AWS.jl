@@ -45,7 +45,7 @@ macro declare_utype(utype)
         end
         xml(o::$(esc(utype))) = xml($(string(utype)), [("ID", o.id), ("DisplayName", o.displayName)])
         function $(esc(utype))(pd::ParsedData)
-            o = $(esc(utype))(find(pd, "ID#text"), find(pd, "DisplayName#text"))  
+            o = $(esc(utype))(find(pd, "ID#string"), find(pd, "DisplayName#string"))  
         end
     end
 end
@@ -82,16 +82,16 @@ function Grant(pd_g::ParsedData)
     grantee_pd = find(pd_g, "Grantee[1]")
     grantee_type = grantee_pd.attr["xsi:type"]
     if grantee_type == "AmazonCustomerByEmail"
-        grantee=GranteeEmail(find(grantee_pd, "EmailAddress#text"))
+        grantee=GranteeEmail(find(grantee_pd, "EmailAddress#string"))
     elseif grantee_type == "CanonicalUser"
-        grantee=GranteeID(find(grantee_pd, "ID#text"), find(grantee_pd, "DisplayName#text")) 
+        grantee=GranteeID(find(grantee_pd, "ID#string"), find(grantee_pd, "DisplayName#string")) 
     elseif grantee_type == "Group"
-        grantee=GranteeURI(find(grantee_pd, "URI#text"))
+        grantee=GranteeURI(find(grantee_pd, "URI#string"))
     else
         error("Unknown grantee type")
     end
     
-    permission = find(pd_g, "Permission#text")
+    permission = find(pd_g, "Permission#string")
     Grant(grantee, permission)
 end
 
@@ -109,8 +109,8 @@ BucketLoggingStatus() = BucketLoggingStatus(false, nothing, nothing, nothing)
 function BucketLoggingStatus(pd_bls::ParsedData)
     bls = BucketLoggingStatus()
     if haskey(pd_bls.elements, "LoggingEnabled")
-        bls.targetBucket = find(pd_bls, "LoggingEnabled/TargetBucket#text")
-        bls.targetPrefix = find(pd_bls, "LoggingEnabled/TargetPrefix#text")
+        bls.targetBucket = find(pd_bls, "LoggingEnabled/TargetBucket#string")
+        bls.targetPrefix = find(pd_bls, "LoggingEnabled/TargetPrefix#string")
         
         grants = find(pd_bls, "LoggingEnabled/TargetGrants/Grant")
         bls.targetGrants = @parse_vector(Grant, grants)
@@ -156,7 +156,7 @@ end
 type CreateBucketConfiguration
     locationConstraint::Union(String, Nothing)
 end
-CreateBucketConfiguration(pd_cbc::ParsedData) = CreateBucketConfiguration(find(pd_cbc, "LocationConstraint#text"))
+CreateBucketConfiguration(pd_cbc::ParsedData) = CreateBucketConfiguration(find(pd_cbc, "LocationConstraint#string"))
 xml(o::CreateBucketConfiguration) = xml_hdr("CreateBucketConfiguration") * 
                                     xml("LocationConstraint", o.locationConstraint) * 
                                     xml_ftr("CreateBucketConfiguration")
@@ -173,13 +173,13 @@ type Contents
     storageClass::Union(String, Nothing)
 end
 function Contents(pd_le::ParsedData)
-    key = find(pd_le, "Key#text")
-    datestr = find(pd_le, "LastModified#text")
-    t = Calendar.parse("yyyy-MM-DD'T'HH:mm:ss.SSS", datestr[1:end-1], "GMT")
-    etag = find(pd_le, "ETag#text")
-    size = safe_parseint64(find(pd_le, "Size#text"))
+    key = find(pd_le, "Key#string")
+    datestr = find(pd_le, "LastModified#string")
+    t = Calendar.parse("yyyy-MM-dd'T'HH:mm:ss.SSS", datestr[1:end-1], "GMT")
+    etag = find(pd_le, "ETag#string")
+    size = safe_parseint64(find(pd_le, "Size#string"))
     owner=Owner(find(pd_le, "Owner[1]"))
-    storageClass = find(pd_le, "StorageClass#text")
+    storageClass = find(pd_le, "StorageClass#string")
 
     Contents(key, t, etag, size, owner, storageClass)
 end
@@ -188,7 +188,7 @@ end
 type CommonPrefixes
     prefix::Union(String, Nothing)
 end
-CommonPrefixes(pd_cp::ParsedData) = CommonPrefixes(find(pd_cp, "Prefix#text"))
+CommonPrefixes(pd_cp::ParsedData) = CommonPrefixes(find(pd_cp, "Prefix#string"))
 
 type ListBucketResult
     name::Union(String, Nothing)
@@ -206,13 +206,13 @@ end
 
 function ListBucketResult(pd_lbr::ParsedData)
     lbr = ListBucketResult()
-    lbr.name = find(pd_lbr, "Name#text")
-    lbr.prefix = find(pd_lbr, "Prefix#text")
-    lbr.marker = find(pd_lbr, "Marker#text")
-    lbr.nextMarker = find(pd_lbr, "NextMarker#text")
-    lbr.maxKeys = safe_parseint(find(pd_lbr, "MaxKeys#text")) 
-    lbr.delimiter = find(pd_lbr, "Delimiter#text")
-    lbr.isTruncated = safe_parsebool(find(pd_lbr, "IsTruncated#text"))
+    lbr.name = find(pd_lbr, "Name#string")
+    lbr.prefix = find(pd_lbr, "Prefix#string")
+    lbr.marker = find(pd_lbr, "Marker#string")
+    lbr.nextMarker = find(pd_lbr, "NextMarker#string")
+    lbr.maxKeys = safe_parseint(find(pd_lbr, "MaxKeys#string")) 
+    lbr.delimiter = find(pd_lbr, "Delimiter#string")
+    lbr.isTruncated = safe_parsebool(find(pd_lbr, "IsTruncated#string"))
     lbr.contents = @parse_vector(Contents, pd_lbr.elements["Contents"])
     lbr.commonPrefixes = @parse_vector(CommonPrefixes, pd_lbr.elements["CommonPrefixes"])
     lbr
@@ -230,15 +230,15 @@ type Version
     storageClass::Union(String, Nothing)
 end
 function Version(pd_v::ParsedData)
-    key = find(pd_v, "Key#text")
-    versionId = find(pd_v, "VersionId#text")
-    isLatest = (lowercase(find(pd_v, "IsLatest#text")) == "true") ? true : false 
-    datestr = find(pd_v, "LastModified#text")
-    t = Calendar.parse("yyyy-MM-DD'T'HH:mm:ss.SSS", datestr[1:end-1], "GMT")
-    etag = find(pd_v, "ETag#text")
-    size = safe_parseint64(find(pd_v, "Size#text"))
+    key = find(pd_v, "Key#string")
+    versionId = find(pd_v, "VersionId#string")
+    isLatest = (lowercase(find(pd_v, "IsLatest#string")) == "true") ? true : false 
+    datestr = find(pd_v, "LastModified#string")
+    t = Calendar.parse("yyyy-MM-dd'T'HH:mm:ss.SSS", datestr[1:end-1], "GMT")
+    etag = find(pd_v, "ETag#string")
+    size = safe_parseint64(find(pd_v, "Size#string"))
     owner=Owner(find(pd_v, "Owner[1]"))
-    storageClass = find(pd_v, "StorageClass#text")
+    storageClass = find(pd_v, "StorageClass#string")
 
     Version(key, versionId, isLatest, t, etag, size, owner, storageClass)
 end
@@ -254,11 +254,11 @@ type DeleteMarker
     owner::Owner
 end
 function DeleteMarker(pd_dm::ParsedData)
-    key = find(pd_dm, "Key#text")
-    versionId = find(pd_dm, "VersionId#text")
-    isLatest = (lowercase(find(pd_dm, "IsLatest#text")) == "true") ? true : false 
-    datestr = find(pd_dm, "LastModified#text")
-    t = Calendar.parse("yyyy-MM-DD'T'HH:mm:ss.SSS", datestr[1:end-1], "GMT")
+    key = find(pd_dm, "Key#string")
+    versionId = find(pd_dm, "VersionId#string")
+    isLatest = (lowercase(find(pd_dm, "IsLatest#string")) == "true") ? true : false 
+    datestr = find(pd_dm, "LastModified#string")
+    t = Calendar.parse("yyyy-MM-dd'T'HH:mm:ss.SSS", datestr[1:end-1], "GMT")
     owner=Owner(find(pd_dm, "Owner[1]"))
     DeleteMarker(key, versionId, isLatest, t, owner)
 end
@@ -285,15 +285,15 @@ type ListVersionsResult
 end  
 function ListVersionsResult(pd_lvr::ParsedData)
     lvr = ListVersionsResult()
-    lvr.name = find(pd_lvr, "Name#text")
-    lvr.prefix = find(pd_lvr, "Prefix#text")
-    lvr.keyMarker = find(pd_lvr, "KeyMarker#text")
-    lvr.versionIdMarker = find(pd_lvr, "VersionIdMarker#text")
-    lvr.nextKeyMarker = find(pd_lvr, "NextKeyMarker#text")
-    lvr.nextVersionIdMarker = find(pd_lvr, "NextVersionIdMarker#text")
-    lvr.maxKeys = safe_parseint(find(pd_lvr, "MaxKeys#text"))
-    lvr.delimiter = find(pd_lvr, "Delimiter#text")
-    lvr.isTruncated = safe_parsebool(find(pd_lvr, "IsTruncated#text"))
+    lvr.name = find(pd_lvr, "Name#string")
+    lvr.prefix = find(pd_lvr, "Prefix#string")
+    lvr.keyMarker = find(pd_lvr, "KeyMarker#string")
+    lvr.versionIdMarker = find(pd_lvr, "VersionIdMarker#string")
+    lvr.nextKeyMarker = find(pd_lvr, "NextKeyMarker#string")
+    lvr.nextVersionIdMarker = find(pd_lvr, "NextVersionIdMarker#string")
+    lvr.maxKeys = safe_parseint(find(pd_lvr, "MaxKeys#string"))
+    lvr.delimiter = find(pd_lvr, "Delimiter#string")
+    lvr.isTruncated = safe_parsebool(find(pd_lvr, "IsTruncated#string"))
     lvr.version = @parse_vector(Version, find(pd_lvr, "Version"))
     lvr.deleteMarker = @parse_vector(DeleteMarker, find(pd_lvr, "DeleteMarker"))
     lvr.commonPrefixes = @parse_vector(CommonPrefixes, find(pd_lvr, "CommonPrefixes"))
@@ -308,10 +308,10 @@ type Bucket
     creationDate::CalendarTime
 end
 function Bucket(pd_b::ParsedData)
-    datestr = find(pd_b, "CreationDate#text")
-    t = Calendar.parse("yyyy-MM-DD'T'HH:mm:ss.SSS", datestr[1:end-1], "GMT")
+    datestr = find(pd_b, "CreationDate#string")
+    t = Calendar.parse("yyyy-MM-dd'T'HH:mm:ss.SSS", datestr[1:end-1], "GMT")
     
-    Bucket(find(pd_b, "Name#text"), t)
+    Bucket(find(pd_b, "Name#string"), t)
 end
 
 
@@ -335,10 +335,10 @@ type CopyObjectResult
     eTag::Union(String, Nothing)      
 end
 function CopyObjectResult(pd_cor::ParsedData)
-    datestr = find(pd_cor, "LastModified#text")
-    t = Calendar.parse("yyyy-MM-DD'T'HH:mm:ss.SSS", datestr[1:end-1], "GMT")
+    datestr = find(pd_cor, "LastModified#string")
+    t = Calendar.parse("yyyy-MM-dd'T'HH:mm:ss.SSS", datestr[1:end-1], "GMT")
     
-    CopyObjectResult(t, find(pd_cor, "ETag#text"))
+    CopyObjectResult(t, find(pd_cor, "ETag#string"))
 end
 
 
@@ -348,7 +348,7 @@ type RequestPaymentConfiguration
     payer::Union(String, Nothing)
 end
 xml(o::RequestPaymentConfiguration) = xml_hdr("RequestPaymentConfiguration") * xml("Payer", o.payer) * xml_ftr("RequestPaymentConfiguration")
-RequestPaymentConfiguration(pd_rpc::ParsedData) = RequestPaymentConfiguration(find(pd_rpc, "Payer#text"))
+RequestPaymentConfiguration(pd_rpc::ParsedData) = RequestPaymentConfiguration(find(pd_rpc, "Payer#string"))
 
   
 type VersioningConfiguration
@@ -362,8 +362,8 @@ function xml(o::VersioningConfiguration)
     xml_ftr("VersioningConfiguration")
 end
 function VersioningConfiguration(pd_vc::ParsedData) 
-    status = (haskey(pd_vc.elements, "Status") ? find(pd_vc, "Status#text") : "")
-    mfaDelete = (haskey(pd_vc.elements, "MfaDelete") ? find(pd_vc, "MfaDelete#text") : "")
+    status = (haskey(pd_vc.elements, "Status") ? find(pd_vc, "Status#string") : "")
+    mfaDelete = (haskey(pd_vc.elements, "MfaDelete") ? find(pd_vc, "MfaDelete#string") : "")
     
     VersioningConfiguration(status, mfaDelete)
 end
@@ -374,7 +374,7 @@ type TopicConfiguration
     event::Vector{String}
 end
 function TopicConfiguration(pd_tc::ParsedData)
-    topic = find(pd_tc, "Topic#text")
+    topic = find(pd_tc, "Topic#string")
     event = String[] 
     for pde in find(pd_tc, "Event")
         push!(event, pde.text)
@@ -422,7 +422,7 @@ type InitiateMultipartUploadResult
     uploadId::Union(String, Nothing)
 end
 function InitiateMultipartUploadResult(pd::ParsedData)
-    InitiateMultipartUploadResult(find(pd, "Bucket#text"), find(pd, "Key#text"), find(pd, "UploadId#text"))
+    InitiateMultipartUploadResult(find(pd, "Bucket#string"), find(pd, "Key#string"), find(pd, "UploadId#string"))
 end
 
 type CopyPartResult
@@ -430,9 +430,9 @@ type CopyPartResult
    eTag::Union(String, Nothing)
 end
 function CopyPartResult(pd::ParsedData)
-    datestr = find(pd, "LastModified#text")
-    t = Calendar.parse("yyyy-MM-DD'T'HH:mm:ss", datestr[1:end-1], "GMT")
-    CopyPartResult(t, find(pd, "ETag#text"))
+    datestr = find(pd, "LastModified#string")
+    t = Calendar.parse("yyyy-MM-dd'T'HH:mm:ss", datestr[1:end-1], "GMT")
+    CopyPartResult(t, find(pd, "ETag#string"))
 end
 
 
@@ -448,10 +448,10 @@ end
 # We don't need to xmlify lastModified and Size...
 xml(o::Part) = xml("Part", [("PartNumber", o.partNumber), ("ETag", o.eTag)])
 function Part(pd::ParsedData)
-    datestr = find(pd, "LastModified#text")
-    t = Calendar.parse("yyyy-MM-DD'T'HH:mm:ss.SSS", datestr[1:end-1], "GMT")
+    datestr = find(pd, "LastModified#string")
+    t = Calendar.parse("yyyy-MM-dd'T'HH:mm:ss.SSS", datestr[1:end-1], "GMT")
 
-    Part(find(pd, "PartNumber#text"), t, find(pd, "ETag#text"), int64(find(pd, "Size#text")))
+    Part(find(pd, "PartNumber#string"), t, find(pd, "ETag#string"), int64(find(pd, "Size#string")))
 end
 
 
@@ -470,10 +470,10 @@ type CompleteMultipartUploadResult
 end
 CompleteMultipartUploadResult(pd::ParsedData) = 
     CompleteMultipartUploadResult(
-        find(pd, "Location#text"),
-        find(pd, "Bucket#text"),
-        find(pd, "Key#text"),
-        find(pd, "ETag#text"),
+        find(pd, "Location#string"),
+        find(pd, "Bucket#string"),
+        find(pd, "Key#string"),
+        find(pd, "ETag#string"),
     )
 
 
@@ -493,16 +493,16 @@ type ListPartsResult
 end  
 function ListPartsResult(pd::ParsedData)
     ListPartsResult(
-        find(pd, "Bucket#text"),
-        find(pd, "Key#text"),
-        find(pd, "UploadId#text"),
+        find(pd, "Bucket#string"),
+        find(pd, "Key#string"),
+        find(pd, "UploadId#string"),
         Initiator(find(pd, "Initiator[1]")),
         Owner(find(pd, "Owner[1]")),
-        find(pd, "StorageClass#text"),
-        find(pd, "PartNumberMarker#text"),
-        find(pd, "NextPartNumberMarker#text"),
-        int(find(pd, "MaxParts#text")),
-        (lowercase(find(pd, "IsTruncated#text")) == "true") ? true : false,
+        find(pd, "StorageClass#string"),
+        find(pd, "PartNumberMarker#string"),
+        find(pd, "NextPartNumberMarker#string"),
+        int(find(pd, "MaxParts#string")),
+        (lowercase(find(pd, "IsTruncated#string")) == "true") ? true : false,
         @parse_vector(Part, find(pd, "Part"))
     )
 end
@@ -527,11 +527,11 @@ xml(o::CORSRule) = xml("CORSRule", [
     ])
     
 function CORSRule(pd::ParsedData)
-    id = find(pd, "ID#text")
+    id = find(pd, "ID#string")
     allowedMethod = parse_vector_as(String, "AllowedMethod", find(pd, "AllowedMethod"))
     allowedOrigin = parse_vector_as(String, "AllowedOrigin", find(pd, "AllowedOrigin"))
     allowedHeader = parse_vector_as(String, "AllowedHeader", find(pd, "AllowedHeader"))
-    seconds = find(pd, "MaxAgeSeconds#text")
+    seconds = find(pd, "MaxAgeSeconds#string")
     if (seconds != nothing) maxAgeSeconds = int(seconds) end
     exposeHeader = parse_vector_as(String, "ExposeHeader", find(pd, "ExposeHeader"))
     
@@ -556,14 +556,119 @@ type S3Error
     requestId::Union(String, Nothing)
 end
 function S3Error(pde::ParsedData) 
-    code = find(pde, "Code#text")
-    message = find(pde, "Message#text")
-    resource = find(pde, "Resource#text")
-    hostId = find(pde, "HostId#text")
-    requestId = find(pde, "RequestId#text")
+    code = find(pde, "Code#string")
+    message = find(pde, "Message#string")
+    resource = find(pde, "Resource#string")
+    hostId = find(pde, "HostId#string")
+    requestId = find(pde, "RequestId#string")
     
     S3Error(code, message, resource, hostId, requestId)
 end
 
 
+
+type S3PartTag
+    part_number::String
+    etag::String
+end
+xml(o::S3PartTag) = xml("Part", [("PartNumber", o.part_number), ("ETag", o.etag)])
+
+type CopyMatchOptions
+    if_match::Union(String, Nothing)
+    if_none_match::Union(String, Nothing) 
+    if_unmodified_since::Union(String, Nothing)
+    if_modified_since::Union(String, Nothing)
+end
+function amz_headers(hdrs, o::CopyMatchOptions)
+    @add_amz_hdr("copy-source-if-match", o.if_match)
+    @add_amz_hdr("copy-source-if-none-match", o.if_none_match)
+    @add_amz_hdr("copy-source-if-unmodified-since", o.if_unmodified_since)
+    @add_amz_hdr("copy-source-if-modified-since", o.if_modified_since)
+    hdrs
+end
+
+type CopyObjectOptions
+# All are x-amz options
+    copy_source::String  
+    metadata_directive::Union(String, Nothing)
+    match_options::Union(CopyMatchOptions, Nothing)
+    
+# x-amz only header fields    
+    server_side​_encryption::Union(String, Nothing)   
+    storage_class::Union(String, Nothing) 
+    website​_redirect_location::Union(String, Nothing)    
+    acl::Union(S3_ACL, Nothing)
+end
+function amz_headers(hdrs, o::CopyObjectOptions)
+    @add_amz_hdr("copy-source", o.copy_source)
+    @add_amz_hdr("metadata-directive", o.metadata_directive)
+    
+    if (o.match_options != nothing)
+        hdrs = amz_headers(hdrs, o.match_options)
+    end
+
+    @add_amz_hdr("server-side-encryption", o.server_side​_encryption)
+    @add_amz_hdr("storage-class", o.storage_class)
+    @add_amz_hdr("website-redirect-location", o.website​_redirect_location)
+    
+    if o.acl != nothing
+        hdrs = amz_headers(hdrs, o.acl)
+    end
+    hdrs
+end
+
+type CopyUploadPartOptions
+    copy_source::String   
+    source_range::Union(String, Nothing)
+    match_options::Union(CopyMatchOptions, Nothing)
+end
+function amz_headers(o::CopyUploadPartOptions)
+    hdrs = [("x-amz-copy-source", o.copy_source)]
+    @add_amz_hdr("source-range", o.source_range)
+    hdrs = (o.match_options != nothing) ? amz_headers(hdrs, o.match_options) : hdrs
+    hdrs
+end
+
+type PutObjectOptions
+# Standard HTTP headers
+    cache_control::Union(String, Nothing)
+    content_disposition::Union(String, Nothing)
+    content_encoding::Union(String, Nothing)
+    cont_typ::Union(String, Nothing)
+#Expect  not supported...
+    expires::Union(DateTime, Nothing)
+    
+# x-amz header fields    
+    meta::Union(Dict{String, String}, Nothing)
+    server_side​_encryption::Union(String, Nothing)   
+    storage_class::Union(String, Nothing) 
+    website​_redirect_location::Union(String, Nothing)    
+    acl::Union(S3_ACL, Nothing)
+    
+    PutObjectOptions() = new(nothing,nothing,nothing,nothing,nothing,nothing,nothing,nothing,nothing,nothing)
+end
+function amz_headers(hdrs, o::PutObjectOptions)
+    if (o.meta != nothing)
+        for t in collect(o.meta)
+            @add_amz_hdr("meta-" * t[1], t[2])
+        end
+    end
+    
+    @add_amz_hdr("server-side-encryption", o.server_side​_encryption)
+    @add_amz_hdr("storage-class", o.storage_class)
+    @add_amz_hdr("website-redirect-location", o.website​_redirect_location)
+    
+    if o.acl != nothing
+        hdrs = amz_headers(hdrs, o.acl)
+    end
+    hdrs
+end
+
+function http_headers(hdrs, o::PutObjectOptions)
+    @add_http_hdr("Cache-Control", o.cache_control)
+    @add_http_hdr("Content-​Disposition", o.content_disposition)
+    @add_http_hdr("Content-Encoding", o.content_encoding)
+    @add_http_hdr("Expires", rfc1123_date(o.expires))
+    hdrs
+end
 

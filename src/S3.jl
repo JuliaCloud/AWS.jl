@@ -2,7 +2,17 @@
 # handle Content-MD5 for IO stream objects too...
 using AWS.Crypto
 using libCURL.HTTPC
+using LibExpat
 
+macro req_n_process(resp_obj_type)
+    quote
+        s3_resp = do_request(ro)
+        if (s3_resp.obj == nothing) && (typeof(s3_resp.pd) == ParsedData)
+            s3_resp.obj = $(esc(resp_obj_type))(s3_resp.pd)
+        end
+        s3_resp
+    end
+end
 
 
 type S3Response
@@ -24,9 +34,9 @@ type S3Response
     
 # All header fields    
     obj::Any
-    error::Union(S3Error, Nothing)
+    pd::Union(ParsedData, Nothing)
     
-    S3Response() = new(0, "", "", "", false, "","","",Dict{String,String,}(), nothing, nothing)
+    S3Response() = new(0, "", "", "", false, "","","",Dict{String,String,}(), nothing, nothing, nothing)
 end
 
 type RO # RequestOptions
@@ -38,10 +48,11 @@ type RO # RequestOptions
     amz_hdrs::Vector{Tuple}
     cont_typ::String
     body::String
-    istream::Union(String, Nothing)
-    ostream::Union(String, Nothing)
+    istream::Any
+    ostream::Any
     
     RO() = new(:GET, "", "", [], [], [], "", "", nothing, nothing)
+    RO(verb, bkt, key) = new(verb, bkt, key, [], [], [], "", "", nothing, nothing)
 end
 
 # TODO: Send Content-MD5 header with all requests having a body....
@@ -107,17 +118,46 @@ type S3_ACL_Grantee
     email_address::Union(String, Nothing)
     id::Union(String, Nothing)
     uri::Union(String, Nothing)
+    S3_ACL_Grantee() = new(nothing, nothing, nothing)
+end
+function hdr_str(g::S3_ACL_Grantee)
+    if g.email_address != nothing
+        return "emailAddress=$(g.email_address)"
+    elseif g.id != nothing
+        return "id=$(g.id)"
+    elseif g.uri != nothing
+        return "uri=$(g.uri)"
+    else
+        error("At least one of the grantee types must be defined.")
+    end
 end
 
 type S3_ACL
     acl::Union(String, Nothing)
-    grant_read::Union(Array{S3_ACL_Grantee, 1}, Nothing)
-    grant_write::Union(Array{S3_ACL_Grantee, 1}, Nothing)   
-    grant_read_acp::Union(Array{S3_ACL_Grantee, 1}, Nothing)    
-    grant_write_acp::Union(Array{S3_ACL_Grantee, 1}, Nothing)   
-    grant_full_control::Union(Array{S3_ACL_Grantee, 1}, Nothing)
+    grant_read::Vector{S3_ACL_Grantee}
+    grant_write::Vector{S3_ACL_Grantee}   
+    grant_read_acp::Vector{S3_ACL_Grantee}
+    grant_write_acp::Vector{S3_ACL_Grantee}
+    grant_full_control::Vector{S3_ACL_Grantee}
+    
+    S3_ACL() = new(nothing, S3_ACL_Grantee[], S3_ACL_Grantee[], S3_ACL_Grantee[], S3_ACL_Grantee[], S3_ACL_Grantee[])
+end
+function amz_headers(hdrs, o::S3_ACL)
+    @add_amz_hdr("acl", o.acl)
+    add_acl_grantee(hdrs, "grant-read", o.grant_read)
+    add_acl_grantee(hdrs, "grant-write", o.grant_write)
+    add_acl_grantee(hdrs, "grant-read-acp", o.grant_read_acp)
+    add_acl_grantee(hdrs, "grant-write-acp", o.grant_write_acp)
+    add_acl_grantee(hdrs, "grant-full-control", o.grant_full_control)
+    hdrs
 end
 
+function add_acl_grantee(hdrs, xamz_name::String, arr::Vector{S3_ACL_Grantee})
+    for a in arr
+        @add_amz_hdr(xamz_name, hdr_str(a))
+    end
+    hdrs
+end
 
 function create_bkt(bkt::String, acl::Union(S3_ACL, Nothing), location_constraint::Union(String, Nothing))
     return do_request(:PUT, bkt, "", params, req_body, nothing)
@@ -239,22 +279,6 @@ function restore_object(bkt::String, key::String, days::Int)
     do_request(:RESTORE, bkt, key, hdr_params=, query_params=)
 end
 
-type PutObjectOptions
-# Standard HTTP headers
-    cache_control::Union(String, Nothing)
-    content_disposition::Union(String, Nothing)
-    content_encoding::Union(String, Nothing)
-    cont_typ::Union(String, Nothing)
-#Expect  not supported...
-    expires::Union(DateTime, Nothing)
-    
-# x-amz header fields    
-    meta::Union(Dict{String, String}, Nothing)
-    server_side​_encryption::Union(String, Nothing)   
-    storage_class::Union(String, Nothing) 
-    website​_redirect_location::Union(String, Nothing)    
-    acl::Union(S3_ACL, Nothing)
-end
 
 function put_object(bkt::String, key::String, options::PutObjectOptions, data::Union(IOStream, String))
     do_request(:PUT, bkt, key, query_params=, req_istream=instream, req_body=)
@@ -264,66 +288,88 @@ function put_object_acl(bkt::String, key::String, acl::AccessControlPolicy, vers
     do_request(:PUT, bkt, key , query_params="?acl", req_body=acl_xml)
 end
 
-type CopyMatchOptions
-# below prefixed with x-amz-copy-source-
-    if_match::Union(String, Nothing)
-    if_none_match::Union(String, Nothing) 
-    if_unmodified_since::Union(String, Nothing)
-    if_modified_since::Union(String, Nothing)
-end
-
-type CopyObjectOptions
-# All are x-amz options
-    copy_source::String  
-    metadata_directive::Union(String, Nothing)
-    match_options::Union(CopyMatchOptions, Nothing)
+function copy_object(dest_bkt::String, dest_key::String, options::CopyObjectOptions, version_id::String="")
+    ro = RO(:PUT, dest_bkt, dest_key)
+    ro.amz_hdrs = amz_headers(Array(Tuple,0), options)
+    if (version_id != "")
+        ro.sub_res=[("versionId", version_id)]
+    end
     
-# x-amz only header fields    
-    meta::Union(Dict{String, String}, Nothing)
-    server_side​_encryption::Union(String, Nothing)   
-    storage_class::Union(String, Nothing) 
-    website​_redirect_location::Union(String, Nothing)    
-    acl::Union(S3_ACL, Nothing)
+    @req_n_process(CopyObjectResult)
 end
 
-function copy_object(dest_bkt::String, dest_key::String, options::CopyObjectOptions)
-    do_request(:PUT, dest_bkt, dest_key, hdr_params=, resp_obj = CopyObjectResult())
+function initiate_multipart_upload(bkt::String, key::String; content_type="", options::PutObjectOptions=PutObjectOptions())
+    ro = RO(:POST, bkt, key)
+    ro.amz_hdrs = amz_headers(Array(Tuple,0), options)
+    ro.http_hdrs = http_headers(Array(Tuple, 0), options)
+    if (content_type != "") ro.content_type = content_type end
+    ro.sub_res=[("uploads", "")]
+
+    @req_n_process(InitiateMultipartUploadResult)
 end
 
-function initiate_multipart_upload(bkt::String, key::String, options::PutObjectOptions)
-    do_request(:POST, bkt, key, query_params="uploads", hdr_params=, resp_obj = InitiateMultipartUploadResult())
-end
-
-function upload_part(bkt::String, key::String, part_number::String, upload_id::String, data::Union(IOStream, String))
-    do_request(:PUT, bkt, key, query_params=, hdr_params=, resp_obj=, req_istream=)
-end
-
-type CopyUploadPartOptions
-    copy_source::String   
-    source_range::Union(String, Nothing)
-    match_options::Union(CopyMatchOptions, Nothing)
+function upload_part(bkt::String, key::String, part_number::String, upload_id::String, data::Union(IOStream, String, Tuple))
+    ro = RO(:PUT, bkt, key)
+    ro.sub_res = [("partNumber", "$(part_number)"), ("uploadId", "$(upload_id)")]
+    
+    if isa(data, String) 
+        ro.body = data
+    elseif isa(data, IO) 
+        ro.istream = data
+    elseif (isa(data, Tuple) && data[1] == :file)
+        ro.istream = data[2]
+    else
+        error("Nothing to upload")
+    end
+    
+    s3_resp = do_request(ro)
+    s3_resp
+    
 end
 
 function copy_upload_part(bkt::String, key::String, part_number::String, upload_id::String, options::CopyUploadPartOptions)
-    do_request(:PUT, bkt, key, query_params=, hdr_params=, resp_obj=CopyPartResult())
+    ro = RO(:PUT, bkt, key)
+    ro.sub_res = [("partNumber", "$(part_number)"), ("uploadId", "$(upload_id)")]
+    ro.amz_hdrs = amz_headers(options)
+    
+    @req_n_process(CopyPartResult)
 end
 
-type S3PartTag
-    part_number::String
-    etag::String
-end
 
 function complete_multipart_upload(bkt::String, key::String, upload_id::String, part_ids::Vector{S3PartTag})
-    do_request(:POST, bkt, key, query_params=upload_id..., req_body=req_xml, resp_obj=CompleteMultipartUploadResult())
+    ro = RO(:POST, bkt, key)
+    ro.sub_res = [("uploadId", "$(upload_id)")]
+   
+    ro.body = xml("CompleteMultipartUpload", part_ids)
+    
+    @req_n_process(CompleteMultipartUploadResult)
 end
 
 
 function abort_multipart_upload(bkt::String, key::String, upload_id::String)
-    do_request(:DELETE, bkt, key, query_params=upload_id...)
+    ro = RO(:DELETE, bkt, key)
+    ro.sub_res = [("uploadId", "$(upload_id)")]
+    
+    s3_resp = do_request(ro)
+    s3_resp
 end
 
-function list_upload_parts(bkt::String, key::String, upload_id::String)
-    do_request(:GET, bkt, key, query_params=upload_id..., resp_obj=ListPartsResult())
+function list_upload_parts(bkt::String, key::String, 
+    upload_id::String; 
+    max_parts::Union(Int, Nothing)=nothing, 
+    part_number​_marker::Union(Int, Nothing)=nothing)
+    
+    ro = RO(:GET, bkt, key)
+    ro.sub_res = [("uploadId", "$(upload_id)"), ("max-parts", "$max_parts"), ("part-number​-marker", "$part_number​_marker")]
+    
+    @req_n_process(ListPartsResult)
+end
+
+
+macro add_amz_hdr(name, value) 
+    quote
+        if ($(esc(value)) != nothing) push!(hdrs, ("x-amz-" * $(esc(name)), $(esc(value)))) end
+    end
 end
 
 function do_request(ro::RO)
@@ -348,49 +394,28 @@ function do_request(ro::RO)
     s3_resp.headers = http_resp.headers
 
     if  get(http_resp.headers, "Content-Type", "") == "application/xml"
-        xom = xp_parse(resp.body)
-        if xom.name == "Error"
-            s3_resp.error = S3Error(xom) 
-        else
-            obj_name = xom.name
-            s3_resp.obj = eval(:(obj_name(xom)))
+        s3_resp.pd = xp_parse(resp.body)
+        if s3_resp.pd.name == "Error"
+            s3_resp.obj = S3Error(s3_resp.pd) 
         end
     end
     
     s3_resp
 end
 
-# All header fields    
-    obj::Any
-
-const SUB_RESOURCES = 
-    Set("acl", 
-        "lifecycle", 
-        "location", 
-        "logging", 
-        "notification", 
-        "partNumber", 
-        "policy", 
-        "requestPayment", 
-        "torrent", 
-        "uploadId", 
-        "uploads", 
-        "versionId", 
-        "versioning", 
-        "versions",
-        "website",
-        "delete"
-        )
 
 function do_http(env::AWSEnv, ro::RO)
-    if ro.req_body != nothing
+    if ro.body != nothing
         digest = zeros(Uint8, 16)
-        MD5(req_body, length(req_body), digest)
-        md5 = bytestring(Codecs.encode(Base64, Crypto.md5(ro.req_body)))
-    elseif ro.req_istream != nothing
+        MD5(body, length(body), digest)
+        md5 = bytestring(Codecs.encode(Base64, Crypto.md5(ro.body)))
+    elseif isa(ro.istream, IO)
         # Read the entire istream to get the MD5 of the same.
-        md5 = bytestring(Codecs.encode(Base64, Crypto.md5(ro.req_istream)))
-        seekstart(ro.req_istream)
+        md5 = bytestring(Codecs.encode(Base64, Crypto.md5(ro.istream)))
+        seekstart(ro.istream)
+    elseif isa(ro.istream, String)
+        # The file will be read twice (once to get the MD5 and once while sending - no other way?
+        md5 = bytestring(Codecs.encode(Base64, Crypto.md5_file(ro.istream)))
     else
         md5 = ""
     end
@@ -419,20 +444,18 @@ function do_http(env::AWSEnv, ro::RO)
     http_options = RequestOptions(headers=all_hdrs, ostream=ro.ostream, request_timeout=env.timeout)
     if ro.verb == :GET
         http_resp = HTTPC.get(url, http_options)
-    elseif ro.verb == :PUT
-        if ro.istream != nothing
-            http_resp = HTTPC.put(url, ro.istream, http_options)
+    elseif (ro.verb == :PUT) || (ro.verb == :POST)
+        senddata = (ro.body != nothing) ? ro.body :
+                   isa(ro.istream, IO) ? ro.istream :
+                   isa(ro.istream, String) ? (file: ro.istream) :
+                   error("Must specify either a body or istream for PUT/POST")
+    
+        if (ro.verb == :PUT)
+            http_resp = HTTPC.put(url, senddata, http_options)
         else 
-            http_resp = HTTPC.put(url, ro.body, http_options)
+            http_resp = HTTPC.post(url, senddata, http_options)
         end
         
-    elseif ro.verb == :POST
-        if ro.istream != nothing
-            http_resp = HTTPC.post(url, ro.istream, http_options)
-        else 
-            http_resp = HTTPC.post(url, ro.body, http_options)
-        end
-    
     elseif ro.verb == :DELETE
         http_resp = HTTPC.delete(url, http_options)
         
@@ -485,8 +508,7 @@ function get_canon_amz_headers(headers::Vector{Tuple})
         delete!(lcase, "x-amz-date")
     end
     
-    #rfc2616
-    lcase["x-amz-date"] = format("EEE, dd MMM yyyy hh:mm:ss V", Calendar.tz(Calendar.now(), "UTC"))
+    lcase["x-amz-date"] = rfc1123_date(Calendar.now())
     
     reduced = Dict(String, String)()
     for k,v in lcase
@@ -508,7 +530,9 @@ function get_canon_amz_headers(headers::Vector{Tuple})
     return sorted, canon_hdr_str
 end
 
-
+function rfc1123_date(d::DateTime)
+    format("EEE, dd MMM yyyy hh:mm:ss V", Calendar.tz(d, "UTC"))
+end
 
 
 
