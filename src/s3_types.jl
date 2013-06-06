@@ -10,31 +10,17 @@ xml_hdr(name) = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><$(name) xmlns=\"http
 xml_ftr(name) = "</$(name)>"
 
 
-
-xml(o::Any) = string(o)
-xml(tag::String, value::Any) = (value != nothing) ? "<$(tag)>" * xml(value) * "</$(tag)>" : ""
-
-function xml(tag::String, children::Vector{Any}; xmlns="", xsi_type="")
-    if (xsi_type != "")
-        open_tag = "<$tag $xmlns xsi:type=\"$(xsi_type)\">"
-    else
-        open_tag = "<$tag $xmlns>"
+macro add_amz_hdr(name, value) 
+    quote
+        if ($(esc(value)) != nothing) push!(hdrs, ("x-amz-" * $(esc(name)), string($(esc(value)))  )) end
     end
-    
-    children_xml = ""
-    for child in children
-        if isa(Tuple, child)
-            (child_tag, child_value) = child
-            children_xml = children_xml * xml(child_tag, child_value)
-        else
-            children_xml = children_xml * xml(child)
-        end
-    end
-    
-    return open_tag * children_xml * "</$(tag)>"
 end
 
-
+macro chk_n_add(name, value) 
+    quote
+        if ($(esc(value)) != nothing) push!(arr, ($(esc(name)), string($(esc(value)))  )) end
+    end
+end
 
 
 macro declare_utype(utype)
@@ -587,91 +573,6 @@ function amz_headers(hdrs, o::CopyMatchOptions)
     hdrs
 end
 
-type CopyObjectOptions
-# All are x-amz options
-    copy_source::String  
-    metadata_directive::Union(String, Nothing)
-    match_options::Union(CopyMatchOptions, Nothing)
-    
-# x-amz only header fields    
-    server_side​_encryption::Union(String, Nothing)   
-    storage_class::Union(String, Nothing) 
-    website​_redirect_location::Union(String, Nothing)    
-    acl::Union(S3_ACL, Nothing)
-end
-function amz_headers(hdrs, o::CopyObjectOptions)
-    @add_amz_hdr("copy-source", o.copy_source)
-    @add_amz_hdr("metadata-directive", o.metadata_directive)
-    
-    if (o.match_options != nothing)
-        hdrs = amz_headers(hdrs, o.match_options)
-    end
-
-    @add_amz_hdr("server-side-encryption", o.server_side​_encryption)
-    @add_amz_hdr("storage-class", o.storage_class)
-    @add_amz_hdr("website-redirect-location", o.website​_redirect_location)
-    
-    if o.acl != nothing
-        hdrs = amz_headers(hdrs, o.acl)
-    end
-    hdrs
-end
-
-type CopyUploadPartOptions
-    copy_source::String   
-    source_range::Union(String, Nothing)
-    match_options::Union(CopyMatchOptions, Nothing)
-end
-function amz_headers(o::CopyUploadPartOptions)
-    hdrs = [("x-amz-copy-source", o.copy_source)]
-    @add_amz_hdr("source-range", o.source_range)
-    hdrs = (o.match_options != nothing) ? amz_headers(hdrs, o.match_options) : hdrs
-    hdrs
-end
-
-type PutObjectOptions
-# Standard HTTP headers
-    cache_control::Union(String, Nothing)
-    content_disposition::Union(String, Nothing)
-    content_encoding::Union(String, Nothing)
-    cont_typ::Union(String, Nothing)
-#Expect  not supported...
-    expires::Union(DateTime, Nothing)
-    
-# x-amz header fields    
-    meta::Union(Dict{String, String}, Nothing)
-    server_side​_encryption::Union(String, Nothing)   
-    storage_class::Union(String, Nothing) 
-    website​_redirect_location::Union(String, Nothing)    
-    acl::Union(S3_ACL, Nothing)
-    
-    PutObjectOptions() = new(nothing,nothing,nothing,nothing,nothing,nothing,nothing,nothing,nothing,nothing)
-end
-function amz_headers(hdrs, o::PutObjectOptions)
-    if (o.meta != nothing)
-        for t in collect(o.meta)
-            @add_amz_hdr("meta-" * t[1], t[2])
-        end
-    end
-    
-    @add_amz_hdr("server-side-encryption", o.server_side​_encryption)
-    @add_amz_hdr("storage-class", o.storage_class)
-    @add_amz_hdr("website-redirect-location", o.website​_redirect_location)
-    
-    if o.acl != nothing
-        hdrs = amz_headers(hdrs, o.acl)
-    end
-    hdrs
-end
-
-function http_headers(arr, o::PutObjectOptions)
-    @chk_n_add("Cache-Control", o.cache_control)
-    @chk_n_add("Content-​Disposition", o.content_disposition)
-    @chk_n_add("Content-Encoding", o.content_encoding)
-    @chk_n_add("Expires", rfc1123_date(o.expires))
-    arr
-end
-
 type S3_ACL_Grantee
     email_address::Union(String, Nothing)
     id::Union(String, Nothing)
@@ -721,6 +622,93 @@ function add_acl_grantee(hdrs, xamz_name::String, arr::Vector{S3_ACL_Grantee})
     hdrs
 end
 
+
+
+type CopyObjectOptions
+# All are x-amz options
+    copy_source::String  
+    metadata_directive::Union(String, Nothing)
+    match_options::Union(CopyMatchOptions, Nothing)
+    
+# x-amz only header fields    
+    server_side​_encryption::Union(String, Nothing)   
+    storage_class::Union(String, Nothing) 
+    website​_redirect_location::Union(String, Nothing)    
+    acl::Union(S3_ACL, Nothing)
+end
+function amz_headers(hdrs, o::CopyObjectOptions)
+    @add_amz_hdr("copy-source", o.copy_source)
+    @add_amz_hdr("metadata-directive", o.metadata_directive)
+    
+    if (o.match_options != nothing)
+        hdrs = amz_headers(hdrs, o.match_options)
+    end
+
+    @add_amz_hdr("server-side-encryption", o.server_side​_encryption)
+    @add_amz_hdr("storage-class", o.storage_class)
+    @add_amz_hdr("website-redirect-location", o.website​_redirect_location)
+    
+    if o.acl != nothing
+        hdrs = amz_headers(hdrs, o.acl)
+    end
+    hdrs
+end
+
+type CopyUploadPartOptions
+    copy_source::String   
+    source_range::Union(String, Nothing)
+    match_options::Union(CopyMatchOptions, Nothing)
+end
+function amz_headers(o::CopyUploadPartOptions)
+    hdrs = [("x-amz-copy-source", o.copy_source)]
+    @add_amz_hdr("source-range", o.source_range)
+    hdrs = (o.match_options != nothing) ? amz_headers(hdrs, o.match_options) : hdrs
+    hdrs
+end
+
+type PutObjectOptions
+# Standard HTTP headers
+    cache_control::Union(String, Nothing)
+    content_disposition::Union(String, Nothing)
+    content_encoding::Union(String, Nothing)
+    cont_typ::Union(String, Nothing)
+#Expect  not supported...
+    expires::Union(CalendarTime, Nothing)
+    
+# x-amz header fields    
+    meta::Union(Dict{String, String}, Nothing)
+    server_side​_encryption::Union(String, Nothing)   
+    storage_class::Union(String, Nothing) 
+    website​_redirect_location::Union(String, Nothing)    
+    acl::Union(S3_ACL, Nothing)
+    
+    PutObjectOptions() = new(nothing,nothing,nothing,nothing,nothing,nothing,nothing,nothing,nothing,nothing)
+end
+function amz_headers(hdrs, o::PutObjectOptions)
+    if (o.meta != nothing)
+        for t in collect(o.meta)
+            @add_amz_hdr("meta-" * t[1], t[2])
+        end
+    end
+    
+    @add_amz_hdr("server-side-encryption", o.server_side​_encryption)
+    @add_amz_hdr("storage-class", o.storage_class)
+    @add_amz_hdr("website-redirect-location", o.website​_redirect_location)
+    
+    if o.acl != nothing
+        hdrs = amz_headers(hdrs, o.acl)
+    end
+    hdrs
+end
+
+function http_headers(arr, o::PutObjectOptions)
+    @chk_n_add("Cache-Control", o.cache_control)
+    @chk_n_add("Content-​Disposition", o.content_disposition)
+    @chk_n_add("Content-Encoding", o.content_encoding)
+    @chk_n_add("Expires", rfc1123_date(o.expires))
+    arr
+end
+
 type GetObjectOptions
     # These go into the query string
     response_cont_typ::Union(String, Nothing)   
@@ -732,8 +720,8 @@ type GetObjectOptions
     
     # These go into the header
     range::Union(String, Nothing)   
-    if_modified_since::Union(DateTime, Nothing)   
-    if_unmodified_since::Union(DateTime, Nothing)   
+    if_modified_since::Union(CalendarTime, Nothing)   
+    if_unmodified_since::Union(CalendarTime, Nothing)   
     if_match::Union(String, Nothing)   
     if_none_match::Union(String, Nothing)   
     
@@ -756,4 +744,89 @@ function query_params(arr, o::GetObjectOptions)
     @chk_n_add("response-content-disposition", o.response_content_disposition)
     @chk_n_add("response-content-encoding", o.response_content_encoding)
     arr
+end
+
+type ObjectType
+    key::String
+    versionId::Union(String, Nothing)
+    ObjectType(key) = ObjectType(key, nothing) 
+    ObjectType(key, version) = new(key, version) 
+end
+function xml(o::ObjectType)
+    xml("Object", [("Key", o.key), ("VersionId", o.versionId)])
+end
+
+type DeleteObjectsType
+    quiet::Bool
+    objects::Vector{ObjectType}
+    DeleteObjectsType() = DeleteObjectsType(false, ObjectType[])
+    DeleteObjectsType(objects) = DeleteObjectsType(false, objects)
+    DeleteObjectsType(objects, quiet) = new(quiet, objects)
+end
+function xml(o::DeleteObjectsType)
+    xml("Delete", [("Quiet", o.quiet), o.objects])
+end
+
+type Tag
+    key::String
+    value::String
+end
+xml(o::Tag) = xml("Tag", [("Key", o.key), ("Value", o.value)])
+
+# Not a xmlns type
+type Tagging
+    tagSet::Vector{Tag}
+end
+xml(o::Tagging) = xml("Tagging", [("TagSet", o.tagSet)])
+
+
+type GetBucketUploadsOptions
+    delimiter::Union(String, Nothing)
+    key_marker::Union(String, Nothing)
+    max_uploads::Union(Int, Nothing)
+    prefix::Union(String, Nothing)
+    upload_id_marker::Union(String, Nothing)
+    
+    GetBucketUploadsOptions() = GetBucketUploadsOptions(nothing,nothing,nothing,nothing,nothing)
+    GetBucketUploadsOptions(v1,v2,v3,v4,v5) = new(v1,v2,v3,v4,v5)
+    
+end
+function get_subres(arr, o::GetBucketUploadsOptions)
+    @chk_n_add("delimiter", o.delimiter) 
+    @chk_n_add("key-marker", o.key_marker) 
+    @chk_n_add("max-uploads", o.max_uploads) 
+    @chk_n_add("prefix", o.prefix) 
+    @chk_n_add("upload-id-marker", o.upload_id_marker) 
+end
+
+type GetBucketObjectVersionsOptions
+    delimiter::Union(String, Nothing)
+    key_marker::Union(String, Nothing)
+    max_keys::Union(Int, Nothing)
+    prefix::Union(String, Nothing)
+    version_id_marker::Union(String, Nothing)
+    GetBucketObjectVersionsOptions() = GetBucketObjectVersionsOptions(nothing,nothing,nothing,nothing,nothing)
+    GetBucketObjectVersionsOptions(v1,v2,v3,v4,v5) = new(v1,v2,v3,v4,v5)
+end
+function get_subres(arr, o::GetBucketObjectVersionsOptions)
+    @chk_n_add("delimiter", o.delimiter) 
+    @chk_n_add("key-marker", o.key_marker) 
+    @chk_n_add("max-keys", o.max_keys) 
+    @chk_n_add("prefix", o.prefix) 
+    @chk_n_add("version-id-marker", o.version_id_marker) 
+end
+
+type GetBucketOptions
+    delimiter::Union(String, Nothing)
+    marker::Union(String, Nothing)
+    max_keys::Union(Int, Nothing)
+    prefix::Union(String, Nothing)
+    GetBucketOptions() = GetBucketOptions(nothing,nothing,nothing,nothing)
+    GetBucketOptions(v1,v2,v3,v4) = new(v1,v2,v3,v4)
+end
+function get_subres(arr, o::GetBucketOptions)
+    @chk_n_add("delimiter", o.delimiter) 
+    @chk_n_add("marker", o.marker) 
+    @chk_n_add("max-keys", o.max_keys) 
+    @chk_n_add("prefix", o.prefix) 
 end

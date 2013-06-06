@@ -34,4 +34,5 @@ export AWSEnv
 include("aws_utils.jl")
 include("crypto.jl")
 include("EC2.jl")
+include("S3.jl")
 end
