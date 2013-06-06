@@ -86,15 +86,11 @@ type EC2Response
     headers
     body::Union(String, Nothing)
     pd::Union(ParsedData, Nothing)
-    error::Union(EC2Error, Nothing)
     obj::Any
-    
-    EC2Response() = new(0, Dict{Any, Any}(), "", nothing, nothing, nothing)
-
 end
 ```
 
-In the event of an error, EC2Response.error has an object of type
+In the event of an error, EC2Response.obj has an object of type
 
 ```
 type EC2Error
@@ -128,20 +124,11 @@ libCURL
 ### Binary dependencies
 
 libcurl must be installed
-
+libexpat must be installed
 
 ### NOTE
-
-- DateTime fields returned by the APIs may be invalid due to this bug - https://github.com/nolta/Calendar.jl/issues/20
 
 - The crypto functions required for this package are in https://github.com/amitmurthy/AWS.jl/blob/master/src/crypto.jl , since
   both libsodium and OpenSSL.jl do not yet support the functions this package needs. This will be replaced with calls
   to Sodium or OpenSSL.jl when they support the same.
-
-
-
-
-
-
-
 
