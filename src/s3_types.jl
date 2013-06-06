@@ -664,11 +664,96 @@ function amz_headers(hdrs, o::PutObjectOptions)
     hdrs
 end
 
-function http_headers(hdrs, o::PutObjectOptions)
-    @add_http_hdr("Cache-Control", o.cache_control)
-    @add_http_hdr("Content-​Disposition", o.content_disposition)
-    @add_http_hdr("Content-Encoding", o.content_encoding)
-    @add_http_hdr("Expires", rfc1123_date(o.expires))
+function http_headers(arr, o::PutObjectOptions)
+    @chk_n_add("Cache-Control", o.cache_control)
+    @chk_n_add("Content-​Disposition", o.content_disposition)
+    @chk_n_add("Content-Encoding", o.content_encoding)
+    @chk_n_add("Expires", rfc1123_date(o.expires))
+    arr
+end
+
+type S3_ACL_Grantee
+    email_address::Union(String, Nothing)
+    id::Union(String, Nothing)
+    uri::Union(String, Nothing)
+    S3_ACL_Grantee() = new(nothing, nothing, nothing)
+end
+function hdr_str(g::S3_ACL_Grantee)
+    if g.email_address != nothing
+        return "emailAddress=$(g.email_address)"
+    elseif g.id != nothing
+        return "id=$(g.id)"
+    elseif g.uri != nothing
+        return "uri=$(g.uri)"
+    else
+        error("At least one of the grantee types must be defined.")
+    end
+end
+
+type S3_ACL
+    acl::Union(String, Nothing)
+    grant_read::Vector{S3_ACL_Grantee}
+    grant_write::Vector{S3_ACL_Grantee}   
+    grant_read_acp::Vector{S3_ACL_Grantee}
+    grant_write_acp::Vector{S3_ACL_Grantee}
+    grant_full_control::Vector{S3_ACL_Grantee}
+    
+    S3_ACL() = new(nothing, S3_ACL_Grantee[], S3_ACL_Grantee[], S3_ACL_Grantee[], S3_ACL_Grantee[], S3_ACL_Grantee[])
+end
+function amz_headers(hdrs, o::S3_ACL)
+    # Either a canned acl or specific acls (but not both) are supported
+    if acl != nothing
+        @add_amz_hdr("acl", o.acl)
+    else
+        add_acl_grantee(hdrs, "grant-read", o.grant_read)
+        add_acl_grantee(hdrs, "grant-write", o.grant_write)
+        add_acl_grantee(hdrs, "grant-read-acp", o.grant_read_acp)
+        add_acl_grantee(hdrs, "grant-write-acp", o.grant_write_acp)
+        add_acl_grantee(hdrs, "grant-full-control", o.grant_full_control)
+    end
     hdrs
 end
 
+function add_acl_grantee(hdrs, xamz_name::String, arr::Vector{S3_ACL_Grantee})
+    for a in arr
+        @add_amz_hdr(xamz_name, hdr_str(a))
+    end
+    hdrs
+end
+
+type GetObjectOptions
+    # These go into the query string
+    response_cont_typ::Union(String, Nothing)   
+    response_content_language::Union(String, Nothing)   
+    response_expires::Union(String, Nothing)   
+    response_cache_control::Union(String, Nothing)   
+    response_content_disposition::Union(String, Nothing)   
+    response_content_encoding::Union(String, Nothing)   
+    
+    # These go into the header
+    range::Union(String, Nothing)   
+    if_modified_since::Union(DateTime, Nothing)   
+    if_unmodified_since::Union(DateTime, Nothing)   
+    if_match::Union(String, Nothing)   
+    if_none_match::Union(String, Nothing)   
+    
+    GetObjectOptions() = new(nothing,nothing,nothing,nothing,nothing,nothing,nothing,nothing,nothing,nothing,nothing)
+end
+function http_headers(arr, o::GetObjectOptions)
+    @chk_n_add("Range", o.range)
+    @chk_n_add("If-Modified-Since", rfc1123_date(o.if_modified_since))
+    @chk_n_add("If-Unmodified-Since", rfc1123_date(o.if_unmodified_since))
+    @chk_n_add("If-Match", o.if_match)
+    @chk_n_add("If-None-Match", o.if_none_match)
+    hdrs
+end
+
+function query_params(arr, o::GetObjectOptions)
+    @chk_n_add("response-cont-typ", o.response_cont_typ)
+    @chk_n_add("response-content-language", o.response_content_language)
+    @chk_n_add("response-expires", o.response_expires)
+    @chk_n_add("response-cache-control", o.response_cache_control)
+    @chk_n_add("response-content-disposition", o.response_content_disposition)
+    @chk_n_add("response-content-encoding", o.response_content_encoding)
+    arr
+end

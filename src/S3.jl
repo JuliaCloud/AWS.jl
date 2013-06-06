@@ -7,10 +7,24 @@ using LibExpat
 macro req_n_process(resp_obj_type)
     quote
         s3_resp = do_request(ro)
-        if (s3_resp.obj == nothing) && (typeof(s3_resp.pd) == ParsedData)
+        if (isa(s3_resp.obj, String) &&  (length(s3_resp.obj) > 0))
+            s3_resp.pd = xp_parse(s3_resp.obj)
             s3_resp.obj = $(esc(resp_obj_type))(s3_resp.pd)
         end
         s3_resp
+    end
+end
+
+
+macro add_amz_hdr(name, value) 
+    quote
+        if ($(esc(value)) != nothing) push!(hdrs, ("x-amz-" * $(esc(name)), $(esc(value)))) end
+    end
+end
+
+macro chk_n_add(name, value) 
+    quote
+        if ($(esc(value)) != nothing) push!(arr, ($(esc(name)), $(esc(value)))) end
     end
 end
 
@@ -114,50 +128,6 @@ get_bkt_multipart_uploads(bkt::String, options::Union(GetBucketObjectVersionsOpt
 function test_bkt(bkt::String)
 end
 
-type S3_ACL_Grantee
-    email_address::Union(String, Nothing)
-    id::Union(String, Nothing)
-    uri::Union(String, Nothing)
-    S3_ACL_Grantee() = new(nothing, nothing, nothing)
-end
-function hdr_str(g::S3_ACL_Grantee)
-    if g.email_address != nothing
-        return "emailAddress=$(g.email_address)"
-    elseif g.id != nothing
-        return "id=$(g.id)"
-    elseif g.uri != nothing
-        return "uri=$(g.uri)"
-    else
-        error("At least one of the grantee types must be defined.")
-    end
-end
-
-type S3_ACL
-    acl::Union(String, Nothing)
-    grant_read::Vector{S3_ACL_Grantee}
-    grant_write::Vector{S3_ACL_Grantee}   
-    grant_read_acp::Vector{S3_ACL_Grantee}
-    grant_write_acp::Vector{S3_ACL_Grantee}
-    grant_full_control::Vector{S3_ACL_Grantee}
-    
-    S3_ACL() = new(nothing, S3_ACL_Grantee[], S3_ACL_Grantee[], S3_ACL_Grantee[], S3_ACL_Grantee[], S3_ACL_Grantee[])
-end
-function amz_headers(hdrs, o::S3_ACL)
-    @add_amz_hdr("acl", o.acl)
-    add_acl_grantee(hdrs, "grant-read", o.grant_read)
-    add_acl_grantee(hdrs, "grant-write", o.grant_write)
-    add_acl_grantee(hdrs, "grant-read-acp", o.grant_read_acp)
-    add_acl_grantee(hdrs, "grant-write-acp", o.grant_write_acp)
-    add_acl_grantee(hdrs, "grant-full-control", o.grant_full_control)
-    hdrs
-end
-
-function add_acl_grantee(hdrs, xamz_name::String, arr::Vector{S3_ACL_Grantee})
-    for a in arr
-        @add_amz_hdr(xamz_name, hdr_str(a))
-    end
-    hdrs
-end
 
 function create_bkt(bkt::String, acl::Union(S3_ACL, Nothing), location_constraint::Union(String, Nothing))
     return do_request(:PUT, bkt, "", params, req_body, nothing)
@@ -228,65 +198,110 @@ function del_object_multi(bkt::String, delset::DeleteObjectsType, mfa=nothing)
     do_request(:POST, bkt, "delete", query_params=, req_body=, resp_obj=DeleteResult())
 end
 
-type GetObjectOptions
-    # These go into the query string
-    response_cont_typ::Union(String, Nothing)   
-    response_content_language::Union(String, Nothing)   
-    response_expires::Union(String, Nothing)   
-    response_cache_control::Union(String, Nothing)   
-    response_content_disposition::Union(String, Nothing)   
-    response_content_encoding::Union(String, Nothing)   
+
+function get_object(bkt::String, key::String; options::GetObjectOptions=GetObjectOptions(), out::Union(IO, String, Nothing)=nothing, version_id::String="")
+    ro = RO(:GET, bkt, key)
+    ro.sub_res = Array(Tuple,0)
     
-    versionId::Union(String, Nothing)
+    if (version_id != "") push!(ro.sub_res, ("versionId", version_id)) end
+    ro.sub_res = query_params(ro.sub_res, options)
+    
+    ro.http_hdrs = http_headers(Array(Tuple,0), options)
+    ro.ostream = out
 
-    # These go into the header
-    range::Union(String, Nothing)   
-    if_modified_since::Union(String, Nothing)   
-    if_unmodified_since::Union(String, Nothing)   
-    if_match::Union(String, Nothing)   
-    if_none_match::Union(String, Nothing)   
+    s3_resp = do_request(ro)
+    s3_resp
 end
 
-function get_object(bkt::String, key::String, options::GetObjectOptions, outstream=nothing)
-    # write to out stream if it is an IO Stream, else return an Array of Uint8s
-    # TODO : Split options between hdr and query params...
-    do_request(:GET, bkt, key, hdr_params=, query_params=, resp_ostream=outstream)
+function get_object_acl(bkt::String, key::String; version_id::String="")
+    ro = RO(:GET, bkt, key)
+    ro.sub_res=[("acl", "")]
+    if (version_id != "") push!(ro.sub_res, ("versionId", version_id)) end
+    
+    @req_n_process(AccessControlPolicy)
 end
 
-function get_object_acl(bkt::String, key::String, version=nothing)
-    do_request(:GET, bkt, key, query_params=, resp_obj=AccessControlPolicy())
+function get_object_torrent(bkt::String, key::String, out::Union(IO, String)) # out is either an IOStream or a filename
+    ro = RO(:GET, bkt, key)
+    ro.sub_res=[("torrent","")]
+    ro.ostream = out
+    
+    s3_resp = do_request(ro)
+    s3_resp
 end
 
-function get_object_torrent(bkt::String, key) 
-    # set torrent
-    do_request(:GET, bkt, key, query_params=, resp_obj=:BYTE_ARRAY)
+function describe_object(bkt::String, key::String; options::GetObjectOptions=GetObjectOptions(); version_id::String="")
+    ro = RO(:HEAD, bkt, key)
+    ro.http_hdrs = http_headers(options)
+    if (version_id != "") ro.sub_res=[("versionId", version_id)] end
+
+    s3_resp = do_request(ro)
+    s3_resp
 end
 
-function describe_object(bkt::String, key::String, options::GetObjectOptions)
-    # TODO : Split options between hdr and query params...
-    do_request(:HEAD, bkt, key, hdr_params=, query_params=)
+function test_object(bkt::String, key::String, origin::String, acc_ctrl_req_method::String; acc_ctrl_req_hdrs::Union(String, Nothing)=nothing)
+    ro = RO(:OPTIONS, bkt, key)
+    ro.http_hdrs = [("Origin", origin), ("Access-Control-Request-Method",acc_ctrl_req_method)]
+    if headers != nothing
+        push!(ro.http_hdrs, ("Access-Control-Request-Headers", acc_ctrl_req_hdrs))
+    end
+
+    s3_resp = do_request(ro)
+    s3_resp
 end
 
-function test_object(bkt::String, key::String, origin::Union(String, Nothing), method::Union(String, Nothing), headers::Union(String, Nothing))
-    do_request(:OPTIONS, bkt, key, hdr_params=)
-end
+#post_object, a different version of put_object is not supported
 
-#POST Object
 
 function restore_object(bkt::String, key::String, days::Int)
     # TODO qp = "restore"
     # convert days to RestoreRequest
-    do_request(:RESTORE, bkt, key, hdr_params=, query_params=)
+    ro = RO(:POST, bkt, key)
+
+    ro.sub_res=[("restore", "")]
+    ro.body = "<RestoreRequest xmlns=\"http://s3.amazonaws.com/doc/2006-3-01\"><Days>$(days)</Days></RestoreRequest>"
+    
+    s3_resp = do_request(ro)
+    s3_resp
 end
 
 
-function put_object(bkt::String, key::String, options::PutObjectOptions, data::Union(IOStream, String))
-    do_request(:PUT, bkt, key, query_params=, req_istream=instream, req_body=)
+function put_object(bkt::String, key::String, data::Union(IOStream, String, Tuple); content_type="", options::PutObjectOptions=PutObjectOptions(), version_id::String="")
+    ro = RO(:PUT, bkt, key)
+    
+    ro.amz_hdrs = amz_headers(Array(Tuple,0), options)
+    ro.http_hdrs = http_headers(Array(Tuple, 0), options)
+    if (content_type != "") ro.content_type = content_type end
+    
+    if isa(data, String) 
+        ro.body = data
+    elseif isa(data, IO) 
+        ro.istream = data
+    elseif (isa(data, Tuple) && data[1] == :file)
+        ro.istream = data[2]
+    else
+        error("Nothing to upload")
+    end
+
+    if (version_id != "") ro.sub_res=[("versionId", version_id)] end
+    
+    s3_resp = do_request(ro)
+    s3_resp
 end
 
-function put_object_acl(bkt::String, key::String, acl::AccessControlPolicy, version=Union(String, Nothing))
-    do_request(:PUT, bkt, key , query_params="?acl", req_body=acl_xml)
+function put_object_acl(bkt::String, key::String, acl::Union(AccessControlPolicy, S3_ACL))
+    ro = RO(:PUT, bkt, key)
+    ro.sub_res=[("acl", "")]
+    if isa(acl, AccessControlPolicy)
+        ro.body = xml(acl)
+    else
+        ro.amz_hdrs = amz_headers(Array(Tuple,0), acl)
+    end
+    
+    s3_resp = do_request(ro)
+    s3_resp
 end
+
 
 function copy_object(dest_bkt::String, dest_key::String, options::CopyObjectOptions, version_id::String="")
     ro = RO(:PUT, dest_bkt, dest_key)
@@ -365,13 +380,6 @@ function list_upload_parts(bkt::String, key::String,
     @req_n_process(ListPartsResult)
 end
 
-
-macro add_amz_hdr(name, value) 
-    quote
-        if ($(esc(value)) != nothing) push!(hdrs, ("x-amz-" * $(esc(name)), $(esc(value)))) end
-    end
-end
-
 function do_request(ro::RO)
     http_resp = do_http(ro)
     
@@ -393,16 +401,21 @@ function do_request(ro::RO)
 
     s3_resp.headers = http_resp.headers
 
-    if  get(http_resp.headers, "Content-Type", "") == "application/xml"
-        s3_resp.pd = xp_parse(resp.body)
-        if s3_resp.pd.name == "Error"
-            s3_resp.obj = S3Error(s3_resp.pd) 
+    if (http_resp.http_code > 299)
+        if  (search(Base.get(http_resp.headers, "Content-Type", ""), "/xml") != 0:-1) &&
+            (s3_resp.content_length > 0) &&
+            (http_resp.body != "")
+            s3_resp.pd = xp_parse(http_resp.body)
+            if s3_resp.pd.name == "Error"
+                s3_resp.obj = S3Error(s3_resp.pd) 
+            end
         end
+    else
+        s3_resp.obj = http_resp.body
     end
     
     s3_resp
 end
-
 
 function do_http(env::AWSEnv, ro::RO)
     if ro.body != nothing

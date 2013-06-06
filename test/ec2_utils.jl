@@ -5,6 +5,8 @@ using AWS
 const ami_ubuntu_13_04_64_bit_US_east = "ami-59482230" # This is the Julia installed version of 13_04
 const ami_ubuntu_13_04_32_bit_US_east = "ami-5b8be132" # With Julia
 
+const ami_ubuntu_13_04_32bit_USeast_dev = "ami-8bdda8e2"
+
 env = AWSEnv(ENV["AWS_ID"], ENV["AWS_SECKEY"], EP_US_EAST_NORTHERN_VIRGINIA)
 
 CHK_ERR(resp::EC2Response) = (typeof(resp.obj) == EC2Error) ? error(ec2_error_str(resp.obj)) : resp.obj
@@ -73,7 +75,7 @@ function launch_n_ec2(n::Int)
 # "c1.medium"
 # "m1.small"
 
-    resp = CHK_ERR(RunInstances(env, RunInstancesType(imageId=ami_ubuntu_13_04_32_bit_US_east, instanceType="c1.medium", minCount=n, maxCount=n, keyName="jublr")))
+    resp = CHK_ERR(RunInstances(env, RunInstancesType(imageId=ami_ubuntu_13_04_32bit_USeast_dev, instanceType="m1.small", minCount=n, maxCount=n, keyName="jublr")))
     instances = ASCIIString[]
     for inst in resp.instancesSet
         push!(instances, inst.instanceId)
