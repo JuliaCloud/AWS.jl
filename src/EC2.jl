@@ -12,7 +12,6 @@ using AWS
 
 import AWS.xml
 
-include("xml_utils.jl")
 include("ec2_types.jl")
 include("ec2_operations.jl")
 
