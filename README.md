@@ -248,6 +248,7 @@ libCURL
 ### Binary dependencies
 
 libcurl must be installed
+
 libexpat must be installed
 
 ### NOTE
