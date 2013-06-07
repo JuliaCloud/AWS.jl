@@ -38,6 +38,7 @@ end
   as in http://s3.amazonaws.com/doc/2006-03-01/AmazonS3.wsdl‎ 
   
 - Sample code
+
 ```
 using AWS
 using AWS.S3
@@ -95,6 +96,8 @@ println("$(resp.http_code), $(resp.obj)")
 ```
 
 - Each of the S3 APIs returns an object of type
+
+
 ```
 type S3Response
     content_length::Int  
