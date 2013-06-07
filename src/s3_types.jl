@@ -94,15 +94,14 @@ end
 BucketLoggingStatus() = BucketLoggingStatus(false, nothing, nothing, nothing)
 function BucketLoggingStatus(pd_bls::ParsedData)
     bls = BucketLoggingStatus()
-    if haskey(pd_bls.elements, "LoggingEnabled")
+    if length(pd_bls["LoggingEnabled"]) > 0
         bls.targetBucket = find(pd_bls, "LoggingEnabled/TargetBucket#string")
         bls.targetPrefix = find(pd_bls, "LoggingEnabled/TargetPrefix#string")
         
         grants = find(pd_bls, "LoggingEnabled/TargetGrants/Grant")
-        bls.targetGrants = @parse_vector(Grant, grants)
-    else
-        return bls
+        bls.targetGrants = AWS.@parse_vector(AWS.S3.Grant, grants)
     end
+    bls
 end
 
 function xml(o::BucketLoggingStatus)
@@ -125,7 +124,7 @@ end
 
 function AccessControlPolicy(pd_acl::ParsedData)
     owner = Owner(find(pd_acl, "Owner[1]"))
-    accessControlList = @parse_vector(Grant, find(pd_acl, "AccessControlList/Grant"))
+    accessControlList = AWS.@parse_vector(AWS.S3.Grant, find(pd_acl, "AccessControlList/Grant"))
     return AccessControlPolicy(owner, accessControlList)
 end
 
@@ -163,7 +162,7 @@ function Contents(pd_le::ParsedData)
     datestr = find(pd_le, "LastModified#string")
     t = Calendar.parse("yyyy-MM-dd'T'HH:mm:ss.SSS", datestr[1:end-1], "GMT")
     etag = find(pd_le, "ETag#string")
-    size = safe_parseint64(find(pd_le, "Size#string"))
+    size = AWS.safe_parseint64(find(pd_le, "Size#string"))
     owner=Owner(find(pd_le, "Owner[1]"))
     storageClass = find(pd_le, "StorageClass#string")
 
@@ -187,7 +186,7 @@ type ListBucketResult
     contents::Vector{Contents}
     commonPrefixes::Vector{CommonPrefixes}
     
-    ListBucketResult() = new()
+    ListBucketResult() = new(nothing,nothing,nothing,nothing,nothing,nothing,nothing,Contents[], CommonPrefixes[])
 end
 
 function ListBucketResult(pd_lbr::ParsedData)
@@ -196,11 +195,11 @@ function ListBucketResult(pd_lbr::ParsedData)
     lbr.prefix = find(pd_lbr, "Prefix#string")
     lbr.marker = find(pd_lbr, "Marker#string")
     lbr.nextMarker = find(pd_lbr, "NextMarker#string")
-    lbr.maxKeys = safe_parseint(find(pd_lbr, "MaxKeys#string")) 
+    lbr.maxKeys = AWS.safe_parseint(find(pd_lbr, "MaxKeys#string")) 
     lbr.delimiter = find(pd_lbr, "Delimiter#string")
-    lbr.isTruncated = safe_parsebool(find(pd_lbr, "IsTruncated#string"))
-    lbr.contents = @parse_vector(Contents, pd_lbr.elements["Contents"])
-    lbr.commonPrefixes = @parse_vector(CommonPrefixes, pd_lbr.elements["CommonPrefixes"])
+    lbr.isTruncated = AWS.safe_parsebool(find(pd_lbr, "IsTruncated#string"))
+    lbr.contents = AWS.@parse_vector(AWS.S3.Contents, pd_lbr["Contents"])
+    lbr.commonPrefixes = AWS.@parse_vector(AWS.S3.CommonPrefixes, pd_lbr["CommonPrefixes"])
     lbr
 end
 
@@ -222,7 +221,7 @@ function Version(pd_v::ParsedData)
     datestr = find(pd_v, "LastModified#string")
     t = Calendar.parse("yyyy-MM-dd'T'HH:mm:ss.SSS", datestr[1:end-1], "GMT")
     etag = find(pd_v, "ETag#string")
-    size = safe_parseint64(find(pd_v, "Size#string"))
+    size = AWS.safe_parseint64(find(pd_v, "Size#string"))
     owner=Owner(find(pd_v, "Owner[1]"))
     storageClass = find(pd_v, "StorageClass#string")
 
@@ -277,12 +276,12 @@ function ListVersionsResult(pd_lvr::ParsedData)
     lvr.versionIdMarker = find(pd_lvr, "VersionIdMarker#string")
     lvr.nextKeyMarker = find(pd_lvr, "NextKeyMarker#string")
     lvr.nextVersionIdMarker = find(pd_lvr, "NextVersionIdMarker#string")
-    lvr.maxKeys = safe_parseint(find(pd_lvr, "MaxKeys#string"))
+    lvr.maxKeys = AWS.safe_parseint(find(pd_lvr, "MaxKeys#string"))
     lvr.delimiter = find(pd_lvr, "Delimiter#string")
-    lvr.isTruncated = safe_parsebool(find(pd_lvr, "IsTruncated#string"))
-    lvr.version = @parse_vector(Version, find(pd_lvr, "Version"))
-    lvr.deleteMarker = @parse_vector(DeleteMarker, find(pd_lvr, "DeleteMarker"))
-    lvr.commonPrefixes = @parse_vector(CommonPrefixes, find(pd_lvr, "CommonPrefixes"))
+    lvr.isTruncated = AWS.safe_parsebool(find(pd_lvr, "IsTruncated#string"))
+    lvr.version = AWS.@parse_vector(AWS.S3.Version, find(pd_lvr, "Version"))
+    lvr.deleteMarker = AWS.@parse_vector(AWS.S3.DeleteMarker, find(pd_lvr, "DeleteMarker"))
+    lvr.commonPrefixes = AWS.@parse_vector(AWS.S3.CommonPrefixes, find(pd_lvr, "CommonPrefixes"))
     lvr
 end
 
@@ -310,7 +309,7 @@ type ListAllMyBucketsResult
 end
 function ListAllMyBucketsResult(pd_lab::ParsedData)
     owner = Owner(find(pd_lab, "Owner[1]"))
-    buckets = @parse_vector(Bucket, find(pd_lab, "Buckets/Bucket"))
+    buckets = AWS.@parse_vector(AWS.S3.AWS.S3.Bucket, find(pd_lab, "Buckets/Bucket"))
     ListAllMyBucketsResult(owner, buckets)
 end
 
@@ -348,8 +347,8 @@ function xml(o::VersioningConfiguration)
     xml_ftr("VersioningConfiguration")
 end
 function VersioningConfiguration(pd_vc::ParsedData) 
-    status = (haskey(pd_vc.elements, "Status") ? find(pd_vc, "Status#string") : "")
-    mfaDelete = (haskey(pd_vc.elements, "MfaDelete") ? find(pd_vc, "MfaDelete#string") : "")
+    status = length(pd_vc["Status"]) > 0  ? find(pd_vc, "Status#string") : ""
+    mfaDelete = length(pd_vc["MfaDelete"]) > 0  ? find(pd_vc, "MfaDelete#string") : ""
     
     VersioningConfiguration(status, mfaDelete)
 end
@@ -380,13 +379,10 @@ end
 
 
 
-
-
-
 type NotificationConfiguration
     topicConfiguration::Union(Vector{TopicConfiguration}, Nothing)
 end
-NotificationConfiguration(pd::ParsedData) = NotificationConfiguration(@parse_vector(TopicConfiguration, find(pd, "TopicConfiguration")))
+NotificationConfiguration(pd::ParsedData) = NotificationConfiguration(AWS.@parse_vector(AWS.S3.TopicConfiguration, find(pd, "TopicConfiguration")))
 
 function xml(o::NotificationConfiguration)
     if o.topicConfiguration == nothing
@@ -489,7 +485,7 @@ function ListPartsResult(pd::ParsedData)
         find(pd, "NextPartNumberMarker#string"),
         int(find(pd, "MaxParts#string")),
         (lowercase(find(pd, "IsTruncated#string")) == "true") ? true : false,
-        @parse_vector(Part, find(pd, "Part"))
+        AWS.@parse_vector(AWS.S3.Part, find(pd, "Part"))
     )
 end
 
@@ -531,7 +527,7 @@ type CORSConfiguration
     corsrules::Vector{CORSRule}
 end
 xml(o::CORSConfiguration) = xml("CORSConfiguration", o.corsrules)
-CORSConfiguration(pd::ParsedData) = @parse_vector(CORSRule, find(pd, "CORSRule"))
+CORSConfiguration(pd::ParsedData) = AWS.@parse_vector(AWS.S3.CORSRule, find(pd, "CORSRule"))
 
 
 type S3Error
@@ -733,7 +729,7 @@ function http_headers(arr, o::GetObjectOptions)
     @chk_n_add("If-Unmodified-Since", rfc1123_date(o.if_unmodified_since))
     @chk_n_add("If-Match", o.if_match)
     @chk_n_add("If-None-Match", o.if_none_match)
-    hdrs
+    arr
 end
 
 function query_params(arr, o::GetObjectOptions)
@@ -760,7 +756,7 @@ type DeleteObjectsType
     quiet::Bool
     objects::Vector{ObjectType}
     DeleteObjectsType() = DeleteObjectsType(false, ObjectType[])
-    DeleteObjectsType(objects) = DeleteObjectsType(false, objects)
+    DeleteObjectsType(objects) = DeleteObjectsType(objects, false)
     DeleteObjectsType(objects, quiet) = new(quiet, objects)
 end
 function xml(o::DeleteObjectsType)
@@ -797,6 +793,7 @@ function get_subres(arr, o::GetBucketUploadsOptions)
     @chk_n_add("max-uploads", o.max_uploads) 
     @chk_n_add("prefix", o.prefix) 
     @chk_n_add("upload-id-marker", o.upload_id_marker) 
+    arr
 end
 
 type GetBucketObjectVersionsOptions
@@ -814,6 +811,7 @@ function get_subres(arr, o::GetBucketObjectVersionsOptions)
     @chk_n_add("max-keys", o.max_keys) 
     @chk_n_add("prefix", o.prefix) 
     @chk_n_add("version-id-marker", o.version_id_marker) 
+    arr
 end
 
 type GetBucketOptions
@@ -829,4 +827,57 @@ function get_subres(arr, o::GetBucketOptions)
     @chk_n_add("marker", o.marker) 
     @chk_n_add("max-keys", o.max_keys) 
     @chk_n_add("prefix", o.prefix) 
+    arr
+end
+
+type Deleted
+    key::Union(String, Nothing)
+    version_id::Union(String, Nothing) 
+    marker::Union(Bool, Nothing)
+    marker_version_id::Union(String, Nothing)
+end
+Deleted() = Deleted(nothing,nothing,nothing,nothing)
+function Deleted(pd::ParsedData)
+    d = Deleted()
+    d.key = find(pd, "Key#string")
+    d.version_id = find(pd, "VersionId#string") 
+    d.marker = AWS.safe_parsebool(find(pd, "DeleteMarker#string"))
+    d.marker_version_id = find(pd, "DeleteMarkerVersionId#string")
+    d
+end
+
+
+type DeleteError
+    key::Union(String, Nothing)
+    version_id::Union(String, Nothing) 
+    code::Union(String, Nothing)
+    message::Union(String, Nothing)
+end
+DeleteError() = DeleteError(nothing,nothing,nothing,nothing)
+function DeleteError(pd::ParsedData)
+    de = DeleteError()
+    de.key = find(pd, "Key#string")
+    de.version_id = find(pd, "VersionId#string") 
+    de.code = find(pd, "Code#string")
+    de.message = find(pd, "Message#string")
+    de
+end
+
+
+type DeleteResult
+    deleted::Union(Vector{Deleted}, Nothing)
+    delete_errors::Union(Vector{DeleteError}, Nothing)
+end
+DeleteResult() = DeleteResult(nothing, nothing)
+function DeleteResult(pd::ParsedData)
+    dr = DeleteResult()
+    deleted = pd["Deleted"]
+    if length(deleted) > 0
+        dr.deleted = AWS.@parse_vector(AWS.S3.Deleted, deleted)
+    end
+    delete_errors = pd["Error"]
+    if length(delete_errors) > 0
+        dr.delete_errors = AWS.@parse_vector(AWS.S3.DeleteError, delete_errors)
+    end
+    dr
 end

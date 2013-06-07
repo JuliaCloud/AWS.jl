@@ -1,11 +1,19 @@
+module S3
+
 # Etag should always be quoted - in XML as well as headers...
 # handle Content-MD5 for IO stream objects too...
+using AWS
 using AWS.Crypto
 using libCURL.HTTPC
 using LibExpat
 using Calendar
+using Codecs
+using Base.get 
+
+import AWS.xml
 
 include("s3_types.jl")
+
 
 macro req_n_process(resp_obj_type)
     quote
@@ -41,7 +49,7 @@ type S3Response
     obj::Any
     pd::Union(ParsedData, Nothing)
     
-    S3Response() = new(0, "", "", "", false, "","","",Dict{String,String,}(), nothing, nothing, nothing)
+    S3Response() = new(0, "", "", "", 0, false, "","","",Dict{String,String}(), nothing, nothing)
 end
 
 type RO # RequestOptions
@@ -56,8 +64,8 @@ type RO # RequestOptions
     istream::Any
     ostream::Any
     
-    RO() = new(:GET, "", "", [], [], [], "", "", nothing, nothing)
-    RO(verb, bkt, key) = new(verb, bkt, key, [], [], [], "", "", nothing, nothing)
+    RO() = new(:GET, "", "", {}, {}, {}, "", "", nothing, nothing)
+    RO(verb, bkt, key) = new(verb, bkt, key, {}, {}, {}, "", "", nothing, nothing)
 end
 
 
@@ -118,7 +126,7 @@ end
 
 function get_bkt(env::AWSEnv, bkt::String; options::GetBucketOptions=GetBucketOptions()) 
     ro = RO(:GET, bkt, "")
-    ro.sub_res=get_subres(Array(Tuple,0), options)
+    ro.sub_res=get_subres({}, options)
     
     @req_n_process(ListBucketResult)
 end
@@ -236,7 +244,7 @@ end
 function create_bkt(env::AWSEnv, bkt::String; acl::Union(S3_ACL, Nothing)=nothing, config::Union(CreateBucketConfiguration, Nothing)=nothing)
     ro = RO(:PUT, bkt, "")
     if isa(acl, AccessControlPolicy)
-        ro.amz_hdrs = amz_headers(Array(Tuple,0), acl)
+        ro.amz_hdrs = amz_headers({}, acl)
     end
     if (config != nothing)
         ro.body = xml(config)
@@ -253,7 +261,7 @@ function set_bkt_acl(env::AWSEnv, bkt::String, acl::Union(AccessControlPolicy, S
     if isa(acl, AccessControlPolicy)
         ro.body = xml(acl)
     else
-        ro.amz_hdrs = amz_headers(Array(Tuple,0), acl)
+        ro.amz_hdrs = amz_headers({}, acl)
     end
     
     s3_resp = do_request(env, ro)
@@ -362,7 +370,7 @@ function del_object(env::AWSEnv, bkt::String, key::String; version_id::String=""
 end
 
 function del_object_multi(env::AWSEnv, bkt::String, delset::DeleteObjectsType; mfa::String="")
-    ro = RO(:POST, bkt, key)
+    ro = RO(:POST, bkt, "")
     ro.sub_res = {("delete", "")}
     ro.body= xml(delset)
     if (mfa != "") ro.amz_hdrs = {("mfa", mfa)} end
@@ -373,12 +381,12 @@ end
 
 function get_object(env::AWSEnv, bkt::String, key::String; options::GetObjectOptions=GetObjectOptions(), out::Union(IO, String, Nothing)=nothing, version_id::String="")
     ro = RO(:GET, bkt, key)
-    ro.sub_res = Array(Tuple,0)
+    ro.sub_res = {}
     
     if (version_id != "") push!(ro.sub_res, ("versionId", version_id)) end
     ro.sub_res = query_params(ro.sub_res, options)
     
-    ro.http_hdrs = http_headers(Array(Tuple,0), options)
+    ro.http_hdrs = http_headers({}, options)
     ro.ostream = out
 
     s3_resp = do_request(env, ro)
@@ -441,7 +449,7 @@ end
 function put_object(env::AWSEnv, bkt::String, key::String, data::Union(IOStream, String, Tuple); content_type="", options::PutObjectOptions=PutObjectOptions(), version_id::String="")
     ro = RO(:PUT, bkt, key)
     
-    ro.amz_hdrs = amz_headers(Array(Tuple,0), options)
+    ro.amz_hdrs = amz_headers({}, options)
     ro.http_hdrs = http_headers(Array(Tuple, 0), options)
     if (content_type != "") ro.content_type = content_type end
     
@@ -467,7 +475,7 @@ function put_object_acl(env::AWSEnv, bkt::String, key::String, acl::Union(Access
     if isa(acl, AccessControlPolicy)
         ro.body = xml(acl)
     else
-        ro.amz_hdrs = amz_headers(Array(Tuple,0), acl)
+        ro.amz_hdrs = amz_headers({}, acl)
     end
     
     s3_resp = do_request(env, ro)
@@ -477,7 +485,7 @@ end
 
 function copy_object(env::AWSEnv, dest_bkt::String, dest_key::String, options::CopyObjectOptions, version_id::String="")
     ro = RO(:PUT, dest_bkt, dest_key)
-    ro.amz_hdrs = amz_headers(Array(Tuple,0), options)
+    ro.amz_hdrs = amz_headers({}, options)
     if (version_id != "")
         ro.sub_res={("versionId", version_id)}
     end
@@ -487,7 +495,7 @@ end
 
 function initiate_multipart_upload(env::AWSEnv, bkt::String, key::String; content_type="", options::PutObjectOptions=PutObjectOptions())
     ro = RO(:POST, bkt, key)
-    ro.amz_hdrs = amz_headers(Array(Tuple,0), options)
+    ro.amz_hdrs = amz_headers({}, options)
     ro.http_hdrs = http_headers(Array(Tuple, 0), options)
     if (content_type != "") ro.content_type = content_type end
     ro.sub_res={("uploads", "")}
@@ -553,7 +561,7 @@ function list_upload_parts(env::AWSEnv, bkt::String, key::String,
 end
 
 function do_request(env::AWSEnv, ro::RO)
-    http_resp = do_http(ro)
+    http_resp = do_http(env, ro)
     
     s3_resp = S3Response()
     
@@ -575,7 +583,6 @@ function do_request(env::AWSEnv, ro::RO)
 
     if (http_resp.http_code > 299)
         if  (search(Base.get(http_resp.headers, "Content-Type", ""), "/xml") != 0:-1) &&
-            (s3_resp.content_length > 0) &&
             (http_resp.body != "")
             s3_resp.pd = xp_parse(http_resp.body)
             if s3_resp.pd.name == "Error"
@@ -590,9 +597,9 @@ function do_request(env::AWSEnv, ro::RO)
 end
 
 function do_http(env::AWSEnv, ro::RO)
-    if ro.body != nothing
-        digest = zeros(Uint8, 16)
-        MD5(body, length(body), digest)
+    if ro.body != ""
+#        digest = zeros(Uint8, 16)
+#        MD5(body, length(body), digest)
         md5 = bytestring(Codecs.encode(Base64, Crypto.md5(ro.body)))
     elseif isa(ro.istream, IO)
         # Read the entire istream to get the MD5 of the same.
@@ -608,8 +615,8 @@ function do_http(env::AWSEnv, ro::RO)
     (new_amz_hdrs, full_path, s_b64) = canonicalize_and_sign(env, ro, md5)
     
     all_hdrs = new_amz_hdrs
-    (md5 != "") ? push!(all_hdrs, {("Content-MD5", md5)}) : nothing
-    (cont_typ != "") ? push!(all_hdrs, {("Content-Type", cont_typ)}) : nothing
+    (md5 != "") ? push!(all_hdrs, ("Content-MD5", md5)) : nothing
+    (ro.cont_typ != "") ? push!(all_hdrs, ("Content-Type", ro.cont_typ)) : nothing
 
     # Remove Content-MD5 and Expect headers from the passed http_hdrs
     for (name, value) in ro.http_hdrs
@@ -622,11 +629,26 @@ function do_http(env::AWSEnv, ro::RO)
         end
     end
 
-    push!(all_hdrs, {("Authorization",  "AWS " * env.aws_id * ":" * s_b64)})
+    push!(all_hdrs, ("Authorization",  "AWS " * env.aws_id * ":" * s_b64))
     
     url = "https://s3.amazonaws.com" * full_path
     
-    http_options = RequestOptions(headers=all_hdrs, ostream=ro.ostream, request_timeout=env.timeout)
+    http_options = RequestOptions(headers=all_hdrs, ostream=ro.ostream, request_timeout=env.timeout, auto_content_type=false)
+
+    if env.dbg
+        println("Verb : " * string(ro.verb))
+        println("URL : " * url)
+        println("Headers : ")
+        for (k,v) in http_options.headers
+            println("  $k : $v")
+        end
+        println("Body : " * string(ro.body))
+    end
+    
+    if env.dry_run
+        return HTTPC.Response()
+    end
+    
     if ro.verb == :GET
         http_resp = HTTPC.get(url, http_options)
     elseif (ro.verb == :PUT) || (ro.verb == :POST)
@@ -650,19 +672,27 @@ function do_http(env::AWSEnv, ro::RO)
     else
         error("Unknown HTTP verb $verb")
     end
+
+#     if env.dbg
+#         println("Response : " * string(http_resp))
+#     end
     
     return http_resp
 end
         
         
 function canonicalize_and_sign(env::AWSEnv, ro::RO, md5::String)
-    new_amz_hdrs, amz_hdrs_str = get_canon_amz_headers(ro.amz_hdrs)
-    full_path = get_canonicalized_resource(ro)
+    (new_amz_hdrs, amz_hdrs_str) = get_canon_amz_headers(ro.amz_hdrs)
+    (full_path, sign_path) = get_canonicalized_resource(ro)
 
     str2sign = string(ro.verb) * "\n" *
     md5 * "\n" *
     ro.cont_typ * "\n" * "\n" * # Using x-amz-date instead of Date.
-    amz_hdrs_str * full_path
+    amz_hdrs_str * sign_path
+    
+    if (env.dbg)
+        println("String to sign:\n$(str2sign)")
+    end
     
     s_raw = Crypto.hmacsha1_digest(str2sign, env.aws_seckey)
     s_b64 = bytestring(Codecs.encode(Base64, s_raw))
@@ -670,34 +700,85 @@ function canonicalize_and_sign(env::AWSEnv, ro::RO, md5::String)
     return new_amz_hdrs, full_path, s_b64
 end
 
+const qstr_sign_list = Set(
+    "acl", 
+    "lifecycle", 
+    "location", 
+    "logging", 
+    "notification", 
+    "partNumber", 
+    "policy", 
+    "requestPayment", 
+    "torrent", 
+    "uploadId", 
+    "uploads", 
+    "versionId", 
+    "versioning", 
+    "versions", 
+    "website",
+    "response-content-type", 
+    "response-content-language", 
+    "response-expires", 
+    "response-cache-control", 
+    "response-content-disposition", 
+    "response-content-encoding",
+    "delete"
+)
+
 function get_canonicalized_resource(ro::RO)
     if length(ro.bkt) > 0
-        part1 = (beginswith(ro.bkt, "/") ? "" : "/") * ro.bkt * 
-        (beginswith(ro.key, "/") ? "" : "/") * ro.key 
+        part1 = (beginswith(ro.bkt, "/") ? "" : "/") * ro.bkt
+        if length(ro.key) > 0
+            part1 = part1 * (beginswith(ro.key, "/") ? "" : "/") * ro.key 
+        else
+            part1 = part1 * "/"
+        end
     else
         part1 = "/"
     end
     
+    sorted = sort(ro.sub_res)
+    signlist = filter(x -> begin (k,v) = x; contains(qstr_sign_list, k) end, sorted)
+    
+    signparams = 
+    mapreduce(
+            x -> begin
+                    k,v = x;
+                    if (v != "") 
+                        ep = string(k) * "=" * string(v)
+                    else
+                        ep = string(k)
+                    end
+                    ep
+                end,
+            (r1,r2) -> r1 == "" ? r2 :
+                       r2 == "" ? r1 :
+                       r1 * "&" * r2,
+            "", signlist
+    )
+
+    
+    canon_res = part1
+    canon_sign_res = part1 
     if length(ro.sub_res) > 0
-        return part1 * "?" * HTTPC.urlencode_query_params(sort(ro.sub_res))
-    else
-        return part1
+        canon_res = canon_res * "?" * HTTPC.urlencode_query_params(sorted)
+        canon_sign_res = canon_sign_res * "?" * signparams
     end
+    
+    return (canon_res, canon_sign_res)
 end
 
 function get_canon_amz_headers(headers::Vector{Tuple})
-    if length(headers) == 0 return end
-    
     lcase = [(lowercase(strip(k)), v) for (k,v) in headers]
-    if contains(lcase, "x-amz-date")
-        delete!(lcase, "x-amz-date")
-    end
     
-    lcase["x-amz-date"] = rfc1123_date(Calendar.now())
+    # remove any existing amz-date header
+    lcase = filter(x -> begin k,v = x; k != "x-amz-date" end, lcase)
     
-    reduced = Dict(String, String)()
+    push!(lcase, ("x-amz-date", rfc1123_date(Calendar.now())))
+
+    reduced = Dict{String, String}()
     for (k,v) in lcase
-        if beginswith("x-amz-", k)
+        if beginswith(k,"x-amz-")
             new_v = strip(replace(v, "\n", ' '))
             if contains(reduced, k)
                 ev = reduced[k]
@@ -716,11 +797,12 @@ function get_canon_amz_headers(headers::Vector{Tuple})
 end
 
 function rfc1123_date(d::CalendarTime)
-    format("EEE, dd MMM yyyy hh:mm:ss V", Calendar.tz(d, "UTC"))
+    format("EEE, dd MMM yyyy HH:mm:ss V", Calendar.tz(d, "UTC"))
 end
+rfc1123_date(d::Nothing) = nothing
 
 
-
+end
 
 
 

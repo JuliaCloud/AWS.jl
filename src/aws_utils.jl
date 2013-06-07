@@ -62,16 +62,16 @@ parse_calendar_time(pd::ParsedData, elem::String) = parse_calendar_time(pd, elem
 xml(o::Any) = string(o)
 xml(tag::String, value::Any) = (value != nothing) ? "<$(tag)>" * xml(value) * "</$(tag)>" : ""
 
-function xml(tag::String, children::Vector{Any}; xmlns="", xsi_type="")
+function xml(tag::String, children::Array; xmlns="", xsi_type="")
     if (xsi_type != "")
-        open_tag = "<$tag $xmlns xsi:type=\"$(xsi_type)\">"
+        open_tag = "<$(tag)$(xmlns) xsi:type=\"$(xsi_type)\">"
     else
-        open_tag = "<$tag $xmlns>"
+        open_tag = "<$(tag)$(xmlns)>"
     end
     
     children_xml = ""
     for child in children
-        if isa(Tuple, child)
+        if isa(child, Tuple)
             (child_tag, child_value) = child
             children_xml = children_xml * xml(child_tag, child_value)
         else
@@ -81,5 +81,4 @@ function xml(tag::String, children::Vector{Any}; xmlns="", xsi_type="")
     
     return open_tag * children_xml * "</$(tag)>"
 end
-
 

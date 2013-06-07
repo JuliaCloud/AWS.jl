@@ -10,7 +10,9 @@ using libCURL.HTTPC
 using AWS.AWSEnv
 using AWS
 
-#import AWSLib.AWSEnv
+import AWS.xml
+
+include("xml_utils.jl")
 include("ec2_types.jl")
 include("ec2_operations.jl")
 
@@ -181,7 +183,8 @@ function call_ec2(env::AWSEnv, action::String, msg=nothing, params_in=nothing)
     
     ec2resp = EC2Response()
     if !(env.dry_run)
-        resp = HTTPC.get(complete_url)
+        ro = HTTPC.RequestOptions(request_timeout = env.timeout)
+        resp = HTTPC.get(complete_url, ro)
         
         ec2resp.http_code = resp.http_code
         ec2resp.headers = resp.headers

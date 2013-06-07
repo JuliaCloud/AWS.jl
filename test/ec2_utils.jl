@@ -11,6 +11,11 @@ env = AWSEnv(ENV["AWS_ID"], ENV["AWS_SECKEY"], EP_US_EAST_NORTHERN_VIRGINIA)
 
 CHK_ERR(resp::EC2Response) = (typeof(resp.obj) == EC2Error) ? error(ec2_error_str(resp.obj)) : resp.obj
 
+function desc_avail_zones()
+    resp = CHK_ERR(DescribeAvailabilityZones(env))
+    resp
+end
+
 
 function terminate_instances (instances)
     req = TerminateInstancesType(instancesSet=instances)
