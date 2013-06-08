@@ -40,12 +40,12 @@ macro show_func(n, t)
 end
 
 # Create default show method for all types in EC2
-for n in names(AWS.EC2)
-    t = AWS.EC2.(n)
-    if isa(t,Type)
-        id_sym = t.names[1]
-        @eval @show_func $n $t 
-    end
-end
+#for n in names(AWS.EC2)
+#    t = AWS.EC2.(n)
+#    if isa(t,Type)
+#        id_sym = t.names[1]
+#        #@eval @show_func $n $t 
+#    end
+#end
 
 end

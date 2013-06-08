@@ -1,6 +1,5 @@
 module EC2
 
-
 using LibExpat
 using Calendar
 using AWS.Crypto
@@ -13,7 +12,129 @@ using AWS
 import AWS.xml
 
 include("ec2_types.jl")
+
+function check_member_name(mname)
+    if mname == "return"
+        return "_return"
+    elseif mname == "type"
+        return "_type"
+    end
+    return mname
+end
+
+# Generate Types
+
+macro gentype(name,fields,types)
+    args = Expr(:block)
+    for i = 1:length(fields)
+        t = types[i]
+        push!(args.args,:($(symbol(fields[i]))::$t))
+    end
+    println(args)
+    block = quote
+        type $(esc(symbol(check_member_name(name))))
+            $args
+        end
+    end
+    Expr(:toplevel,Expr(:export,symbol(name)),block)
+end
+
+# Native types that are not bitstypes
+native_types = [:CalendarTime,:DataTime]
+isnative(t::Type) = isbits(t) || contains(native_types,t)
+
+macro genconstructor(name,fields,types,findpaths)
+    ret = Expr(:block)
+
+    # Keyword constructor
+    p = Expr(:parameters)
+    p1 = Expr(:call,symbol(name))
+    for i in 1:length(fields)
+        if typeintersect(types[i],Nothing) == Nothing
+            # Field may be empty
+            push!(p.args,:($(fields[i])::$(types[i])=nothing))
+        else  
+            push!(p.args,:($(fields[i])::$(types[i])))
+        end
+        push!(p1.args,fields[i])
+    end
+    push!(ret.args,Expr(:function,Expr(:call,symbol(name),p),Expr(:block,p1)))
+    
+    # XML constructor
+    block = Expr(:block)
+    for i in 1:length(fields)
+        n = fields[i]
+        t = types[i]
+        fp = findpaths[i]
+        # TODO: Do Properly
+        if isa(fp,Array)
+            fp = fp[1]
+        end
+        if typeintersect(t,Array) != None
+            if isnative(eval(t))
+                last_in_path = split(fp, "/")[end]
+                push!(block.args,:($n = AWS.parse_vector_as($t,$last_in_path,find(pd,$fp))))
+            else
+                push!(block.args,:($n = AWS.@parse_vector(AWS.EC2.($(quot(t))), find(pd, $fp))))
+            end
+        else
+            if isnative(eval(t))
+                if t == ASCIIString
+                    push!(block.args,:($n = find(pd, $(fp*"#string"))))
+                else
+                    push!(block.args,:($n = AWS.safe_parse_as($t, $(fp*"#string"))))
+                end
+            else
+                xml_tag_name = string(t)
+                if endswith(xml_tag_name, "Type") xml_tag_name = xml_tag_name[1:end-4] end
+                xml_tag_name = lowercase(xml_tag_name[1:1]) * xml_tag_name[2:end]
+                push!(block.args,:($n = length(pd[$xml_tag_name]) > 0 ?  $(t)(find(pd,xml_tag_name)[1]) : nothing))
+            end
+        end
+    end 
+    push!(ret.args,Expr(:function,Expr(:call,symbol(name),:(pd::ParsedData)),block))
+end
+
+for (name,fieldnames,fieldtypes,findpaths) in types
+    println(name)
+    @assert length(fieldnames) == length(fieldtypes)
+    @eval @gentype $name $fieldnames $fieldtypes
+    @eval @genconstructor $name $fieldnames $fieldtypes $findpaths
+end
+
+
+# Generate Operations functions
 include("ec2_operations.jl")
+macro operation(name,rqst_type,resp_type)
+    block = Expr(:block)
+    if rqst_type == nothing
+        push!(block.args,quote 
+            function $(esc(symbol(name)))(env::AWSEnv)
+                ec2resp::EC2Response = call_ec2(env, $name)::EC2Response
+                if  (ec2resp.pd != nothing) && (ec2resp.obj == nothing)
+                    ec2resp.obj = $(resp_type)(ec2resp.pd)
+                end
+                ec2resp   
+            end        
+        end)
+    else 
+        push!(block.args,quote
+            function $(esc(symbol(name)))(env::AWSEnv,msg::$(rqst_type)=$(rqst_type)())
+                ec2resp::EC2Response = call_ec2(env, $name, msg)::EC2Response
+                if  (ec2resp.pd != nothing) && (ec2resp.obj == nothing)
+                    ec2resp.obj = $(resp_type)(ec2resp.pd)
+                end
+                ec2resp
+            end
+        end)
+    end
+    Expr(:toplevel,block,Expr(:export,symbol(name)))
+end
+
+for (x,y,z) in operations
+    @eval @operation $x $y $z
+end
+
 
 type EC2Error
     code::String
