@@ -18,14 +18,34 @@ export EP_EU_IRELAND, EP_AP_SINGAPORE, EP_AP_SYDNEY, EP_AP_TOKYO, EP_SA_SAO_PAUL
 type AWSEnv
     aws_id::String      # AWS Access Key id
     aws_seckey::String  # AWS Secret key for signing requests
-    ep::String          # region endpoint
+    ep_host::String     # region endpoint (host)
+    ep_path::String     # region eddpoint (path)
     timeout::Float64    # request timeout in seconds, default is no timeout.
     dry_run::Bool       # If true, no actual request will be made - implies dbg flag below
     dbg::Bool           # print request to screen
     
     AWSEnv(id, key) = AWSEnv(id, key, EP_US_EAST_NORTHERN_VIRGINIA)
     AWSEnv(id, key, ep) = AWSEnv(id, key, ep, 0.0, false, false)
-    AWSEnv(id, key, ep, timeout, dr, dbg) = dr ? new(id, key, ep, timeout, dr, true) : new(id, key, ep, timeout, false, dbg)
+    function AWSEnv(id, key, ep, timeout, dr, dbg) 
+        s = search(ep,"/")
+        if length(s) == 0
+            ep_host = ep
+            ep_path = "/"
+        else 
+            ep_host = ep[1:(first(s)-1)]
+            ep_path = ep[first(s):end]
+        end
+        AWSEnv(id,key,ep_host,ep_path,timeout,dr,dbg)
+    end
+
+    function AWSEnv(id, key, ep_host, ep_path, timeout, dr, dbg) 
+        if dr 
+            new(id, key, ep_host, ep_path, timeout, dr, true) 
+        else 
+            new(id, key, ep_host, ep_path, timeout, false, dbg)
+        end
+    end
+
 end
 export AWSEnv
 

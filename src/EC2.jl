@@ -160,7 +160,7 @@ function call_ec2(env::AWSEnv, action::String, msg=nothing, params_in=nothing)
     sorted = sort(params)
     querystr = HTTPC.urlencode_query_params(sorted)
     
-    str2sign = "GET\n" * lowercase(env.ep) * "\n" * "/\n" * querystr
+    str2sign = "GET\n" * lowercase(env.ep_host) * "\n" * env.ep_path * "\n" * querystr
     sb = Crypto.hmacsha256_digest(str2sign, env.aws_seckey)
     
     signature_b64 = Codecs.encode(Base64, sb)
@@ -168,13 +168,14 @@ function call_ec2(env::AWSEnv, action::String, msg=nothing, params_in=nothing)
     #escape the signature
     signature_querystr = HTTPC.urlencode_query_params([("Signature", bytestring(signature_b64))])
     
-    complete_url = "http://" * env.ep * "/?" * querystr * "&" * signature_querystr
+    complete_url = "http://" * env.ep_host * env.ep_path * "/?" * querystr * "&" * signature_querystr
     
     #make the request
     if (env.dbg)
         for (k, v) in sorted
             println("$k => $v")
         end
+	println("String to sign => " * str2sign)
         println("Signature => " * bytestring(signature_b64) * "\n")
         
         println("URL:\n$complete_url \n")
