@@ -26,10 +26,14 @@ type AWSEnv
     dry_run::Bool       # If true, no actual request will be made - implies dbg flag below
     dbg::Bool           # print request and raw response to screen
     
-    AWSEnv(id, key) = AWSEnv(id, key, EP_US_EAST_NORTHERN_VIRGINIA)
-    AWSEnv(id, key, ep) = AWSEnv(id, key, ep, 180.0, false, false)
-    AWSEnv(id, key, ep, timeout, dr, dbg) = dr ? new(id, key, ep, timeout, dr, true) : new(id, key, ep, timeout, false, dbg)
 end
+```
+Constructors:
+
+```
+AWSEnv(id, key)                  # Region defaults to EP_US_EAST_NORTHERN_VIRGINIA
+AWSEnv(id, key, ep_full_path)    # Region endpoint as one string (Host + Path) 
+AWSEnv(id, key, ep_full_path, timeout, dry_run, dbg) 
 ```
 
 ### S3 API
