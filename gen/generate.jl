@@ -38,6 +38,7 @@ function check_member_name(mname)
     return mname
 end
 
+
 types_map = Dict{String, String}()
 dep_map = Dict{String, Set}()
 written = Set()
@@ -54,9 +55,9 @@ function get_type_in_jl(xtype_name, ns_pfx)
         elseif xtype_name == "$(ns_pfx)integer"
             native_type = Int
         elseif xtype_name == "$(ns_pfx)int"
-            native_type = Int32
+            native_type = Int
         elseif xtype_name == "$(ns_pfx)long"
-            native_type = Int64
+            native_type = Int
         elseif xtype_name == "$(ns_pfx)double"
             native_type = Float64
         elseif xtype_name == "$(ns_pfx)dateTime"
@@ -112,7 +113,6 @@ function is_set_type(type_name, is_native, ns_pfx, findpath)
     end
     return (false, type_name, is_native, "", "")
 end
-
 
 
 function get_type_for_elements(tctx, elements, ns_pfx)
@@ -216,7 +216,6 @@ function get_type_for_elements(tctx, elements, ns_pfx)
     end
 end
 
-
 function process_choice_tags(tctx, choice_elems, ns_pfx)
     for choice in choice_elems
         xs_elements = choice["$(ns_pfx)element"]
@@ -299,7 +298,6 @@ function generate_all_types(ctypes, f, ns_pfx)
     end
 end
 
-
 function write_dependent_types(f)
     # Make multiple passes on the dep_map list and keep writing out whatever is possible in each pass
     while true
@@ -337,7 +335,6 @@ function write_dependent_types(f)
     end
 
 end
-
 
 function generate_operations(wsdl, operations, f, ns_pfx)
     msg_elements = find(wsdl, "types/$(ns_pfx)schema/$(ns_pfx)element")
@@ -387,7 +384,6 @@ end
 
 # Generate for EC2
 wsdl = xp_parse(open(readall, "./wsdl/ec2_2013_02_01.wsdl"))
-
 # EC2 types....
 f = open("../src/ec2_types.jl", "w+")
 
