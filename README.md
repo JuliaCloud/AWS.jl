@@ -20,7 +20,8 @@ Initially, the EC2 and S3 API will be supported.
 type AWSEnv
     aws_id::String      # AWS Access Key id
     aws_seckey::String  # AWS Secret key for signing requests
-    ep::String          # region endpoint
+    ep_host::String     # region endpoint (host)
+    ep_path::String     # region eddpoint (path)
     timeout::Float64    # request timeout in seconds, if set to 0.0, request will never time out. Default is 0.0
     dry_run::Bool       # If true, no actual request will be made - implies dbg flag below
     dbg::Bool           # print request and raw response to screen

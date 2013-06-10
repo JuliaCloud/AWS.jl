@@ -168,14 +168,14 @@ function call_ec2(env::AWSEnv, action::String, msg=nothing, params_in=nothing)
     #escape the signature
     signature_querystr = HTTPC.urlencode_query_params([("Signature", bytestring(signature_b64))])
     
-    complete_url = "http://" * env.ep_host * env.ep_path * "/?" * querystr * "&" * signature_querystr
+    complete_url = "http://" * env.ep_host * env.ep_path * (env.ep_path[end] == '/' ? "" : "/") * "?" * querystr * "&" * signature_querystr
     
     #make the request
     if (env.dbg)
         for (k, v) in sorted
             println("$k => $v")
         end
-	println("String to sign => " * str2sign)
+        println("String to sign => " * str2sign)
         println("Signature => " * bytestring(signature_b64) * "\n")
         
         println("URL:\n$complete_url \n")
