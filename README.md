@@ -204,9 +204,10 @@ For succcessful requests, EC2Response.obj will contain an object of the appropri
 For example, for RunInstances, the EC2Response.obj will be of type RunInstancesResponseType 
 
 
-```ec2_generic(env::AWSEnv, action::String, params_in::Array{Tuple})``` just bundles the 
+```ec2_basic(env::AWSEnv, action::String, params_in::Dict{Any, Any})``` just bundles the 
 supplied params_in into an EC2 request. It is meant to be used while bugs, if any, in the 
-generated code exist for any of the APIs.
+generated code exist for any of the APIs. Values in the params can be basic julia types,
+CalendarTime, Dict or an Array itself.
 
 
 ### EC2 Sample
