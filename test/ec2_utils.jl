@@ -89,14 +89,17 @@ function launch_n_ec2(n::Int)
     end
     println("Launched instances : $instances" )
     
-    # Tag the instances....
-    tags = [ResourceTagSetItemType(key="Name", value="AWSTest"), ResourceTagSetItemType(key="Owner", value="amitm")]
-    tag_rqst = CreateTagsType(resourcesSet=instances, tagSet=tags)
-    resp = CHK_ERR(CreateTags(env, tag_rqst))
-    if resp._return == true
-        println("Successfully added tags!")
+    # Tag the instances..also test ec2_basic API..
+    resp = ec2_basic(env, "CreateTags", {"ResourceId"=>instances, "Tag"=>[{"Key"=>"Name","Value"=>"AWSTest"}, {"Key"=>"Owner","Value"=>"amitm"}]})
+    if (typeof(resp.obj) == EC2Error) 
+        error(ec2_error_str(resp.obj))
     else
-        error("error adding tags!")
+        resp.obj = CreateTagsResponseType(resp.pd)
+        if resp.obj._return == true
+            println("Successfully added tags!")
+        else
+            error("error adding tags!")
+        end
     end
     println("Tagged instances : $instances" )
 

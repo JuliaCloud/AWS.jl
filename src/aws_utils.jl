@@ -35,7 +35,7 @@ macro parse_vector (typ, vect)
         jl_vect
      end
 end
-export parse_vector
+export @parse_vector
 
 
 function parse_vector_as (as_type::Type, typ_str::String, vect)

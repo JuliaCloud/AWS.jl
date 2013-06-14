@@ -12,8 +12,9 @@ using AWS
 
 import AWS.xml
 
-include("ec2_types.jl")
-include("ec2_operations.jl")
+include("ec2_basic.jl")
+include("ec2_typed.jl")
+
 
 type EC2Error
     code::String
@@ -46,70 +47,6 @@ aws_string(v::Bool) = v ? "True" : "False"
 aws_string(v::Any) = string(v)
 
 
-function is_basic_type(v)
-    if  isa(v, String) || isa(v, Int) || isa(v, Int32) || 
-        isa(v, Int64) || isa(v, Float64) || isa(v, Bool) || 
-        isa(v, CalendarTime)
-        
-        return true
-    end
-    return false
-end
-
-corrections_map=[
-    ("CreateTagsType", "resourcesSet") => "resourceId",
-    ("DeleteTagsType", "resourcesSet") => "resourceId",
-
-    ("MonitorInstancesType", "instancesSet") => "instanceId",
-    ("DescribeInstancesType", "instancesSet") => "instanceId",
-    ("DescribeInstanceStatusType", "instancesSet") => "instanceId",
-    ("TerminateInstancesType", "instancesSet") => "instanceId",
-    ("StopInstancesType", "instancesSet") => "instanceId",
-    ("StartInstancesType", "instancesSet") => "instanceId",
-    ("ReportInstanceStatusType", "instancesSet") => "instanceId"
-    
-]
-
-function add_to_params(params, obj, pfx)
-    for m in names(typeof(obj))
-        fld_val = getfield(obj, m)
-        if (fld_val != nothing)  
-            fld_name = string(m)
-            if haskey(corrections_map, (string(typeof(obj)), fld_name))
-                arg_name = corrections_map[(string(typeof(obj)), fld_name)]
-            elseif endswith(fld_name, "Set")
-                arg_name = fld_name[1:end-3]
-            else
-                arg_name = fld_name
-            end
-            
-            if beginswith(arg_name, "_")
-                # handle field names that match julia reserved types....
-                arg_name =  arg_name[2:]
-            end
-            
-            #Captitalize the first letter for the argument.
-            arg_name = uppercase(arg_name[1:1]) * arg_name[2:]
-
-            if is_basic_type(fld_val)
-                push!(params, (pfx * arg_name, aws_string(fld_val)))
-            elseif isa(fld_val, Array)
-                for (idx, fv) in enumerate(fld_val)
-                    subarg_name = "$(pfx)$(arg_name).$(idx)"
-                    if is_basic_type(fv)
-                        push!(params, (subarg_name, aws_string(fv)))
-                    else
-                        add_to_params(params, fv, subarg_name*".") 
-                    end
-                end
-            else
-                # compound type
-                add_to_params(params, fld_val, "$(pfx)$(arg_name).")
-            end
-        end
-    end
-end
-
 #ISO8601
 function get_utc_timestamp(addsecs=0)
     t = Calendar.now() + Calendar.seconds(addsecs)
@@ -126,17 +63,11 @@ function get_utc_timestamp(addsecs=0)
 end
 
 
-
-ec2_generic(env::AWSEnv, action::String, params_in::Array{Tuple}) = call_ec2(env, action, nothing, params_in)
-export ec2_generic
-
-function call_ec2(env::AWSEnv, action::String, msg=nothing, params_in=nothing)
+function ec2_execute(env::AWSEnv, action::String, params_in=nothing)
     # Prepare the standard params
     params=Array(Tuple,0)
     if params_in != nothing
-        for p in params_in
-            push!(params, p)
-        end
+        params = [params, params_in]
     end 
     
     push!(params, ("Action", action))
@@ -147,15 +78,6 @@ function call_ec2(env::AWSEnv, action::String, msg=nothing, params_in=nothing)
     push!(params, ("SignatureVersion", "2"))
     push!(params, ("SignatureMethod", "HmacSHA256"))
 
-    if (msg != nothing) 
-        # make sure it is a valid type
-        msg_type = typeof(msg)
-        msg_name = string(msg_type)
-        
-        if !haskey(ValidRqstMsgs, msg_name) error("Invalid message for request: $msg_name") end
-        
-        add_to_params(params, msg, "")
-    end
 
     sorted = sort(params)
     querystr = HTTPC.urlencode_query_params(sorted)
@@ -171,7 +93,7 @@ function call_ec2(env::AWSEnv, action::String, msg=nothing, params_in=nothing)
     complete_url = "http://" * env.ep_host * env.ep_path * (env.ep_path[end] == '/' ? "" : "/") * "?" * querystr * "&" * signature_querystr
     
     #make the request
-    if (env.dbg)
+    if (env.dbg) || (env.dry_run)
         for (k, v) in sorted
             println("$k => $v")
         end
