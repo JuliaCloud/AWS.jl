@@ -797,7 +797,7 @@ function get_canon_amz_headers(headers::Vector{Tuple})
 end
 
 function rfc1123_date(d::CalendarTime)
-    format("EEE, dd MMM yyyy HH:mm:ss V", Calendar.tz(d, "UTC"))
+    convert(ASCIIString, format("EEE, dd MMM yyyy HH:mm:ss V", Calendar.tz(d, "UTC")))
 end
 rfc1123_date(d::Nothing) = nothing
 

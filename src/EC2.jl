@@ -12,9 +12,6 @@ using AWS
 
 import AWS.xml
 
-include("ec2_basic.jl")
-include("ec2_typed.jl")
-
 
 type EC2Error
     code::String
@@ -39,8 +36,10 @@ end
 export EC2Response
 
 
+
+
 function aws_string(v::CalendarTime)
-    return format("yyyy-MM-DD'T'HH:mm:ss", v)
+    return convert(ASCIIString, format("yyyy-MM-DD'T'HH:mm:ss", v))
 end
 
 aws_string(v::Bool) = v ? "True" : "False"
@@ -135,5 +134,8 @@ function ec2_execute(env::AWSEnv, action::String, params_in=nothing)
     ec2resp
 end
 
-        
+include("ec2_basic.jl")
+include("ec2_typed.jl")
+
+
 end
