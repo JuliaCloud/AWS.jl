@@ -44,8 +44,7 @@ end
 
 function check_running(env, chk_instances)
     new_chk_instances = ASCIIString[]
-    req = DescribeInstanceStatusType(instancesSet=chk_instances, includeAllInstances=true)
-    resp = CHK_ERR(DescribeInstanceStatus(env, req))
+    resp = CHK_ERR(DescribeInstanceStatus(env, instancesSet=chk_instances, includeAllInstances=true))
     statuses = resp.instanceStatusSet
     for status in statuses
         println("Status of $(status.instanceId) is $(status.instanceState.code):$(status.instanceState.name)")
@@ -58,8 +57,7 @@ end
 
 function ec2_get_hostnames(instances; env=def_env())
     names = NTuple[]
-    req = DescribeInstancesType(instancesSet=instances)
-    resp = CHK_ERR(DescribeInstances(env, req))
+    resp = CHK_ERR(DescribeInstances(env, instancesSet=instances))
     reservs = resp.reservationSet
     for reserv in reservs
         instancesSet = reserv.instancesSet
@@ -107,15 +105,17 @@ function ec2_launch(ami::String, seckey::String; env=def_env(), insttype::String
 
     # Wait for the instances to come to a running state....
     wait_till_running(env, instances, 600.0)
+
+    println("Lanched launchset $launchset" )
     
-    (instances, launchset)
+    instances
 end
 
-function ec2_addprocs(instances, ec2_keyfile::String; env=def_env(), hostuser::String="ubuntu", dir=JULIA_HOME)
+function ec2_addprocs(instances, ec2_keyfile::String; env=def_env(), hostuser::String="ubuntu", dir=JULIA_HOME, tunnel=true)
     hostnames = ec2_get_hostnames(instances, env=env)
-    sshnames = String["$(hostuser)@$(host)" for host in hostnames]
+    sshnames = String["$(hostuser)@$(host[2])" for host in hostnames]
 
-    addprocs(sshnames, sshflags=`-i $(ec2_keyfile) -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no`, tunnel=true)
+    addprocs(sshnames, sshflags=`-i $(ec2_keyfile) -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no`, dir=dir, tunnel=tunnel)
 end
 
 function wait_till_running(env, instances, timeout)

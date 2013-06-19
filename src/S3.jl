@@ -47,7 +47,7 @@ type S3Response
     
 # All header fields    
     obj::Any
-    pd::Union(ParsedData, Nothing)
+    pd::Union(ETree, Nothing)
     
     S3Response() = new(0, "", "", "", 0, false, "","","",Dict{String,String}(), nothing, nothing)
 end

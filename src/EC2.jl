@@ -28,7 +28,7 @@ type EC2Response
     http_code::Int
     headers
     body::Union(String, Nothing)
-    pd::Union(ParsedData, Nothing)
+    pd::Union(ETree, Nothing)
     obj::Any
     
     EC2Response() = new(0, Dict{Any, Any}(), "", nothing, nothing)
@@ -134,7 +134,7 @@ function ec2_execute(env::AWSEnv, action::String, params_in=nothing)
     ec2resp
 end
 
-include("ec2_basic.jl")
+include("ec2_simple.jl")
 include("ec2_typed.jl")
 
 

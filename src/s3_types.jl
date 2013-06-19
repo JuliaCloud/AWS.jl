@@ -30,7 +30,7 @@ macro declare_utype(utype)
             displayName::Union(String, Nothing)
         end
         xml(o::$(esc(utype))) = xml($(string(utype)), [("ID", o.id), ("DisplayName", o.displayName)])
-        function $(esc(utype))(pd::ParsedData)
+        function $(esc(utype))(pd::ETree)
             o = $(esc(utype))(find(pd, "ID#string"), find(pd, "DisplayName#string"))  
         end
     end
@@ -64,7 +64,7 @@ type Grant
 end
 xml(o::Grant) = xml("Grant", [o.grantee, ("Permission", o.permission)])
 # permission must be one of "READ", "WRITE", "READ_ACP", "WRITE_ACP" or "FULL_CONTROL"
-function Grant(pd_g::ParsedData)
+function Grant(pd_g::ETree)
     grantee_pd = find(pd_g, "Grantee[1]")
     grantee_type = grantee_pd.attr["xsi:type"]
     if grantee_type == "AmazonCustomerByEmail"
@@ -92,7 +92,7 @@ type BucketLoggingStatus
 end
 
 BucketLoggingStatus() = BucketLoggingStatus(false, nothing, nothing, nothing)
-function BucketLoggingStatus(pd_bls::ParsedData)
+function BucketLoggingStatus(pd_bls::ETree)
     bls = BucketLoggingStatus()
     if length(pd_bls["LoggingEnabled"]) > 0
         bls.targetBucket = find(pd_bls, "LoggingEnabled/TargetBucket#string")
@@ -122,7 +122,7 @@ type AccessControlPolicy
     accessControlList::Vector{Grant}
 end
 
-function AccessControlPolicy(pd_acl::ParsedData)
+function AccessControlPolicy(pd_acl::ETree)
     owner = Owner(find(pd_acl, "Owner[1]"))
     accessControlList = AWS.@parse_vector(AWS.S3.Grant, find(pd_acl, "AccessControlList/Grant"))
     return AccessControlPolicy(owner, accessControlList)
@@ -141,7 +141,7 @@ end
 type CreateBucketConfiguration
     locationConstraint::Union(String, Nothing)
 end
-CreateBucketConfiguration(pd_cbc::ParsedData) = CreateBucketConfiguration(find(pd_cbc, "LocationConstraint#string"))
+CreateBucketConfiguration(pd_cbc::ETree) = CreateBucketConfiguration(find(pd_cbc, "LocationConstraint#string"))
 xml(o::CreateBucketConfiguration) = xml_hdr("CreateBucketConfiguration") * 
                                     xml("LocationConstraint", o.locationConstraint) * 
                                     xml_ftr("CreateBucketConfiguration")
@@ -157,7 +157,7 @@ type Contents
     owner::Owner
     storageClass::Union(String, Nothing)
 end
-function Contents(pd_le::ParsedData)
+function Contents(pd_le::ETree)
     key = find(pd_le, "Key#string")
     datestr = find(pd_le, "LastModified#string")
     t = Calendar.parse("yyyy-MM-dd'T'HH:mm:ss.SSS", datestr[1:end-1], "GMT")
@@ -173,7 +173,7 @@ end
 type CommonPrefixes
     prefix::Union(String, Nothing)
 end
-CommonPrefixes(pd_cp::ParsedData) = CommonPrefixes(find(pd_cp, "Prefix#string"))
+CommonPrefixes(pd_cp::ETree) = CommonPrefixes(find(pd_cp, "Prefix#string"))
 
 type ListBucketResult
     name::Union(String, Nothing)
@@ -189,7 +189,7 @@ type ListBucketResult
     ListBucketResult() = new(nothing,nothing,nothing,nothing,nothing,nothing,nothing,Contents[], CommonPrefixes[])
 end
 
-function ListBucketResult(pd_lbr::ParsedData)
+function ListBucketResult(pd_lbr::ETree)
     lbr = ListBucketResult()
     lbr.name = find(pd_lbr, "Name#string")
     lbr.prefix = find(pd_lbr, "Prefix#string")
@@ -214,7 +214,7 @@ type Version
     owner::Owner
     storageClass::Union(String, Nothing)
 end
-function Version(pd_v::ParsedData)
+function Version(pd_v::ETree)
     key = find(pd_v, "Key#string")
     versionId = find(pd_v, "VersionId#string")
     isLatest = (lowercase(find(pd_v, "IsLatest#string")) == "true") ? true : false 
@@ -238,7 +238,7 @@ type DeleteMarker
     lastModified::CalendarTime
     owner::Owner
 end
-function DeleteMarker(pd_dm::ParsedData)
+function DeleteMarker(pd_dm::ETree)
     key = find(pd_dm, "Key#string")
     versionId = find(pd_dm, "VersionId#string")
     isLatest = (lowercase(find(pd_dm, "IsLatest#string")) == "true") ? true : false 
@@ -268,7 +268,7 @@ type ListVersionsResult
     
     ListVersionsResult() = new()
 end  
-function ListVersionsResult(pd_lvr::ParsedData)
+function ListVersionsResult(pd_lvr::ETree)
     lvr = ListVersionsResult()
     lvr.name = find(pd_lvr, "Name#string")
     lvr.prefix = find(pd_lvr, "Prefix#string")
@@ -292,7 +292,7 @@ type Bucket
     name::Union(String, Nothing)
     creationDate::CalendarTime
 end
-function Bucket(pd_b::ParsedData)
+function Bucket(pd_b::ETree)
     datestr = find(pd_b, "CreationDate#string")
     t = Calendar.parse("yyyy-MM-dd'T'HH:mm:ss.SSS", datestr[1:end-1], "GMT")
     
@@ -307,7 +307,7 @@ type ListAllMyBucketsResult
     owner::Owner
     buckets::Vector{Bucket}
 end
-function ListAllMyBucketsResult(pd_lab::ParsedData)
+function ListAllMyBucketsResult(pd_lab::ETree)
     owner = Owner(find(pd_lab, "Owner[1]"))
     buckets = AWS.@parse_vector(AWS.S3.AWS.S3.Bucket, find(pd_lab, "Buckets/Bucket"))
     ListAllMyBucketsResult(owner, buckets)
@@ -319,7 +319,7 @@ type CopyObjectResult
     lastModified::CalendarTime
     eTag::Union(String, Nothing)      
 end
-function CopyObjectResult(pd_cor::ParsedData)
+function CopyObjectResult(pd_cor::ETree)
     datestr = find(pd_cor, "LastModified#string")
     t = Calendar.parse("yyyy-MM-dd'T'HH:mm:ss.SSS", datestr[1:end-1], "GMT")
     
@@ -333,7 +333,7 @@ type RequestPaymentConfiguration
     payer::Union(String, Nothing)
 end
 xml(o::RequestPaymentConfiguration) = xml_hdr("RequestPaymentConfiguration") * xml("Payer", o.payer) * xml_ftr("RequestPaymentConfiguration")
-RequestPaymentConfiguration(pd_rpc::ParsedData) = RequestPaymentConfiguration(find(pd_rpc, "Payer#string"))
+RequestPaymentConfiguration(pd_rpc::ETree) = RequestPaymentConfiguration(find(pd_rpc, "Payer#string"))
 
   
 type VersioningConfiguration
@@ -346,7 +346,7 @@ function xml(o::VersioningConfiguration)
     ((o.mfaDelete != "") ? xml("MfaDelete", o.mfaDelete) : "")  * 
     xml_ftr("VersioningConfiguration")
 end
-function VersioningConfiguration(pd_vc::ParsedData) 
+function VersioningConfiguration(pd_vc::ETree) 
     status = length(pd_vc["Status"]) > 0  ? find(pd_vc, "Status#string") : ""
     mfaDelete = length(pd_vc["MfaDelete"]) > 0  ? find(pd_vc, "MfaDelete#string") : ""
     
@@ -358,7 +358,7 @@ type TopicConfiguration
     topic::Union(String, Nothing)
     event::Vector{String}
 end
-function TopicConfiguration(pd_tc::ParsedData)
+function TopicConfiguration(pd_tc::ETree)
     topic = find(pd_tc, "Topic#string")
     event = String[] 
     for pde in find(pd_tc, "Event")
@@ -382,7 +382,7 @@ end
 type NotificationConfiguration
     topicConfiguration::Union(Vector{TopicConfiguration}, Nothing)
 end
-NotificationConfiguration(pd::ParsedData) = NotificationConfiguration(AWS.@parse_vector(AWS.S3.TopicConfiguration, find(pd, "TopicConfiguration")))
+NotificationConfiguration(pd::ETree) = NotificationConfiguration(AWS.@parse_vector(AWS.S3.TopicConfiguration, find(pd, "TopicConfiguration")))
 
 function xml(o::NotificationConfiguration)
     if o.topicConfiguration == nothing
@@ -403,7 +403,7 @@ type InitiateMultipartUploadResult
     key::Union(String, Nothing)
     uploadId::Union(String, Nothing)
 end
-function InitiateMultipartUploadResult(pd::ParsedData)
+function InitiateMultipartUploadResult(pd::ETree)
     InitiateMultipartUploadResult(find(pd, "Bucket#string"), find(pd, "Key#string"), find(pd, "UploadId#string"))
 end
 
@@ -411,7 +411,7 @@ type CopyPartResult
    lastModified::CalendarTime
    eTag::Union(String, Nothing)
 end
-function CopyPartResult(pd::ParsedData)
+function CopyPartResult(pd::ETree)
     datestr = find(pd, "LastModified#string")
     t = Calendar.parse("yyyy-MM-dd'T'HH:mm:ss", datestr[1:end-1], "GMT")
     CopyPartResult(t, find(pd, "ETag#string"))
@@ -429,7 +429,7 @@ type Part
 end
 # We don't need to xmlify lastModified and Size...
 xml(o::Part) = xml("Part", [("PartNumber", o.partNumber), ("ETag", o.eTag)])
-function Part(pd::ParsedData)
+function Part(pd::ETree)
     datestr = find(pd, "LastModified#string")
     t = Calendar.parse("yyyy-MM-dd'T'HH:mm:ss.SSS", datestr[1:end-1], "GMT")
 
@@ -450,7 +450,7 @@ type CompleteMultipartUploadResult
     key::Union(String, Nothing)
     eTag::Union(String, Nothing)
 end
-CompleteMultipartUploadResult(pd::ParsedData) = 
+CompleteMultipartUploadResult(pd::ETree) = 
     CompleteMultipartUploadResult(
         find(pd, "Location#string"),
         find(pd, "Bucket#string"),
@@ -473,7 +473,7 @@ type ListPartsResult
     isTruncated::Union(Bool, Nothing)
     parts::Vector{Part}
 end  
-function ListPartsResult(pd::ParsedData)
+function ListPartsResult(pd::ETree)
     ListPartsResult(
         find(pd, "Bucket#string"),
         find(pd, "Key#string"),
@@ -508,7 +508,7 @@ xml(o::CORSRule) = xml("CORSRule", [
         ("ExposeHeader", o.exposeHeader)
     ])
     
-function CORSRule(pd::ParsedData)
+function CORSRule(pd::ETree)
     id = find(pd, "ID#string")
     allowedMethod = parse_vector_as(String, "AllowedMethod", find(pd, "AllowedMethod"))
     allowedOrigin = parse_vector_as(String, "AllowedOrigin", find(pd, "AllowedOrigin"))
@@ -527,7 +527,7 @@ type CORSConfiguration
     corsrules::Vector{CORSRule}
 end
 xml(o::CORSConfiguration) = xml("CORSConfiguration", o.corsrules)
-CORSConfiguration(pd::ParsedData) = AWS.@parse_vector(AWS.S3.CORSRule, find(pd, "CORSRule"))
+CORSConfiguration(pd::ETree) = AWS.@parse_vector(AWS.S3.CORSRule, find(pd, "CORSRule"))
 
 
 type S3Error
@@ -537,7 +537,7 @@ type S3Error
     hostId::Union(String, Nothing)
     requestId::Union(String, Nothing)
 end
-function S3Error(pde::ParsedData) 
+function S3Error(pde::ETree) 
     code = find(pde, "Code#string")
     message = find(pde, "Message#string")
     resource = find(pde, "Resource#string")
@@ -837,7 +837,7 @@ type Deleted
     marker_version_id::Union(String, Nothing)
 end
 Deleted() = Deleted(nothing,nothing,nothing,nothing)
-function Deleted(pd::ParsedData)
+function Deleted(pd::ETree)
     d = Deleted()
     d.key = find(pd, "Key#string")
     d.version_id = find(pd, "VersionId#string") 
@@ -854,7 +854,7 @@ type DeleteError
     message::Union(String, Nothing)
 end
 DeleteError() = DeleteError(nothing,nothing,nothing,nothing)
-function DeleteError(pd::ParsedData)
+function DeleteError(pd::ETree)
     de = DeleteError()
     de.key = find(pd, "Key#string")
     de.version_id = find(pd, "VersionId#string") 
@@ -869,7 +869,7 @@ type DeleteResult
     delete_errors::Union(Vector{DeleteError}, Nothing)
 end
 DeleteResult() = DeleteResult(nothing, nothing)
-function DeleteResult(pd::ParsedData)
+function DeleteResult(pd::ETree)
     dr = DeleteResult()
     deleted = pd["Deleted"]
     if length(deleted) > 0

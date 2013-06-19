@@ -52,11 +52,11 @@ function parse_vector_as (as_type::Type, typ_str::String, vect)
 end
 export parse_vector_as
 
-function parse_calendar_time(pd::ParsedData, elem::String, format::String)
+function parse_calendar_time(pd::ETree, elem::String, format::String)
     datestr = find(pd, "$(elem)#text")
     Calendar.parse(format, datestr[1:end-1], "GMT")
 end
-parse_calendar_time(pd::ParsedData, elem::String) = parse_calendar_time(pd, elem, "yyyy-MM-DD'T'HH:mm:ss")
+parse_calendar_time(pd::ETree, elem::String) = parse_calendar_time(pd, elem, "yyyy-MM-DD'T'HH:mm:ss")
 
 
 xml(o::Any) = string(o)
