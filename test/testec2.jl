@@ -1,18 +1,18 @@
 using AWS.EC2
 using AWS
 
-include("ec2_utils.jl")
+const ami_ubuntu_13_04_64_bit_US_east = "ami-8d5928e4" # This is the Julia installed version of 13_04
+instances = ec2_launch(ami_ubuntu_13_04_64_bit_US_east, "jublr")
+println(instances)
 
-println("desc_avail_zones")
-desc_avail_zones()
-println("launch_n_ec2")
-instances = launch_n_ec2(1)
-println("get_hostnames")
-hostnames = get_hostnames(instances)
-println("get_running_instances_by_owner")
-instances = get_running_instances_by_owner ("amitm")
-println("terminate_instances")
-terminate_instances(instances)
-println("DONE!!")
+instances=ec2_instances_by_owner("julia")
+println(instances)
 
+ec2_show_status(instances)
 
+hostnames = ec2_get_hostnames(instances)
+println(hostnames)
+
+ec2_terminate(instances)
+
+ec2_show_status(instances)

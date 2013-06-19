@@ -5,4 +5,5 @@ function [[OP_NAME]](env::AWSEnv[[OP_PARAMS]])
     end
     ec2resp
 end
+[[OP_ALTSIG]]
 export [[OP_NAME]]

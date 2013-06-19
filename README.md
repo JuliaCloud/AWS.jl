@@ -123,15 +123,48 @@ type S3Response
                             # it is parsed and set here.
                             # Else it will contain the raw string of the response
                             
-    pd::Union(ParsedData, Nothing)
+    pd::Union(ETree, Nothing)
 end
 ```
 
 
 ### EC2 API
 
+EC2 has two sets of APIs
+
+- One is a lower level API that directly maps onto Amazon's WSDL for teh service
+
+- The other is a simple API that provides limited functionality but with a a higher abstraction
+
+### EC2 Simple API 
+
+- Currently the following are available:
+
+- ec2_terminate
+- ec2_launch
+- ec2_start
+- ec2_stop
+- ec2_show_status
+- ec2_get_hostnames
+- ec2_instances_by_owner
+- ec2_addprocs
+
+These are detailed in ```src/ec2_simple.jl``` and will be documented once the API stablizes.
+For now please refer to the source.
+
+A generic API is ```ec2_basic```
+
+```ec2_basic(env::AWSEnv, action::String, params_in::Dict{Any, Any})``` just bundles the 
+supplied params_in into an EC2 request. It is meant to be used while bugs, if any, in the 
+advanced (generated) code exist for any of the APIs. Values in the params can be basic julia types,
+CalendarTime, Dict or an Array itself. Keys in the Dict MUST be same as those mentioned in 
+the Amazon EC2 documentation for the corresponding action.
+
+### EC2 Advanced API 
+
+
 Much of the boilerplate code is generated from the corresponding WSDL.
-For example, for the EC2 API, the Julia types and functions are based on http://s3.amazonaws.com/ec2-downloads/ec2.wsdl
+For example, for the advanced API, the Julia types and functions are based on http://s3.amazonaws.com/ec2-downloads/ec2.wsdl
 
 Exported functions are in ```ec2_operations.jl```
 
@@ -151,31 +184,18 @@ type RunInstancesType
     imageId::Union(ASCIIString, Nothing)
     minCount::Union(Int32, Nothing)
     maxCount::Union(Int32, Nothing)
-    keyName::Union(ASCIIString, Nothing)
-    groupSet::Union(Vector{GroupItemType}, Nothing)
-    additionalInfo::Union(ASCIIString, Nothing)
-    userData::Union(UserDataType, Nothing)
-    addressingType::Union(ASCIIString, Nothing)
-    instanceType::Union(ASCIIString, Nothing)
-    placement::Union(PlacementRequestType, Nothing)
-    kernelId::Union(ASCIIString, Nothing)
-    ramdiskId::Union(ASCIIString, Nothing)
-    blockDeviceMapping::Union(Vector{BlockDeviceMappingItemType}, Nothing)
-    monitoring::Union(MonitoringInstanceType, Nothing)
-    subnetId::Union(ASCIIString, Nothing)
-    disableApiTermination::Union(Bool, Nothing)
-    instanceInitiatedShutdownBehavior::Union(ASCIIString, Nothing)
-    license::Union(InstanceLicenseRequestType, Nothing)
-    privateIpAddress::Union(ASCIIString, Nothing)
-    clientToken::Union(ASCIIString, Nothing)
-    networkInterfaceSet::Union(Vector{InstanceNetworkInterfaceSetItemRequestType}, Nothing)
-    iamInstanceProfile::Union(IamInstanceProfileRequestType, Nothing)
-    ebsOptimized::Union(Bool, Nothing)
-
+    ...
+    
     RunInstancesType(; imageId=nothing, minCount=nothing, maxCount=nothing, keyName=nothing, groupSet=nothing, additionalInfo=nothing, userData=nothing, addressingType=nothing, instanceType=nothing, placement=nothing, kernelId=nothing, ramdiskId=nothing, blockDeviceMapping=nothing, monitoring=nothing, subnetId=nothing, disableApiTermination=nothing, instanceInitiatedShutdownBehavior=nothing, license=nothing, privateIpAddress=nothing, clientToken=nothing, networkInterfaceSet=nothing, iamInstanceProfile=nothing, ebsOptimized=nothing) = 
          new(imageId, minCount, maxCount, keyName, groupSet, additionalInfo, userData, addressingType, instanceType, placement, kernelId, ramdiskId, blockDeviceMapping, monitoring, subnetId, disableApiTermination, instanceInitiatedShutdownBehavior, license, privateIpAddress, clientToken, networkInterfaceSet, iamInstanceProfile, ebsOptimized)
 end
 ```
+
+Alternatively, the request can also be executed with the request type replaced by keyword arguments.
+
+For example ```For example : ```RunInstances(env, imageId="ami-xxxxxxxx", minCount=1)```
+
+
 
 Each of the functions returns an object of type:
 
@@ -184,7 +204,7 @@ type EC2Response
     http_code::Int
     headers
     body::Union(String, Nothing)
-    pd::Union(ParsedData, Nothing)
+    pd::Union(ETree, Nothing)
     obj::Any
 end
 ```
@@ -204,41 +224,7 @@ For succcessful requests, EC2Response.obj will contain an object of the appropri
 For example, for RunInstances, the EC2Response.obj will be of type RunInstancesResponseType 
 
 
-```ec2_basic(env::AWSEnv, action::String, params_in::Dict{Any, Any})``` just bundles the 
-supplied params_in into an EC2 request. It is meant to be used while bugs, if any, in the 
-generated code exist for any of the APIs. Values in the params can be basic julia types,
-CalendarTime, Dict or an Array itself.
 
-
-### EC2 Sample
-
-- Given the large number of parameters for most EC2 APIs, most folks will likely customize this API into simpler
-  calls. See ```test/ec2_utils.jl``` as a template for the same.
-  
-- Using ```test/ec2_utils.jl```, the following code makes it possible to boot up 'n' instances of EC2 nodes,
-  add it to the worker pool using addprocs(), do work and then shut them down.
-  
-
-```
-using AWS.EC2
-using AWS
-
-include("ec2_utils.jl")
-
-println("launch_n_ec2")
-instances = launch_n_ec2(10)
-
-println("get_hostnames")
-hostnames = get_hostnames(instances)
-
-sshnames = ["ubuntu@" * h[2] for h in hostnames]
-addprocs(sshnames, dir="/usr/bin", sshflags=`-i /path/to/key.pem -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no`)
-
-#.... Do parallel work
-
-println("terminate_instances")
-terminate_instances(instances)
-```
 
 ### Julia Dependencies
 

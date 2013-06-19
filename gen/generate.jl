@@ -25,7 +25,7 @@ type TypeContext
             Set(),
             "type $(name)\n",
             f,
-            "function " * name * "(pd::ParsedData)\n    o = $name()\n"
+            "function " * name * "(pd::ETree)\n    o = $name()\n"
         )
 end
 
@@ -45,7 +45,7 @@ written = Set()
 pending = Set()
 skip = Set()
 empty_types = Set()
-all_ctypes_map = Dict{String, ParsedData}()
+all_ctypes_map = Dict{String, ETree}()
 valid_rqst_msgs={}
 
 function get_type_in_jl(xtype_name, ns_pfx)
@@ -363,16 +363,23 @@ function generate_operations(wsdl, operations, f, ns_pfx)
         if contains(empty_types, rqst_type)
             op_params = ""
             op_msg = ""
+            op_altsig=""
         else
-            op_params = ", msg::$rqst_type=$rqst_type()"
+            op_params = ", msg::$rqst_type"
             op_msg = ", msg"
+            op_altsig = open(readall, "op2.tpl")
         end
 
         push!(valid_rqst_msgs, rqst_type)
 
-        op_str = replace(op_tpl, "[[OP_NAME]]", op_name)
-        op_str = replace(op_str, "[[OP_MSG]]", op_msg)
-        op_str = replace(op_str, "[[OP_PARAMS]]", op_params)
+        op_str = replace(op_tpl, "[[OP_ALTSIG]]", op_altsig)
+        # Due to a bug in replace() that wasn't replacing 
+        # all occurances. Delete loop once fixed.
+        for i in 1:10
+            op_str = replace(op_str, "[[OP_NAME]]", op_name)
+            op_str = replace(op_str, "[[OP_MSG]]", op_msg)
+            op_str = replace(op_str, "[[OP_PARAMS]]", op_params)
+        end
         
         write (f, "$op_str\n\n") 
     

@@ -47,7 +47,7 @@ type S3Response
     
 # All header fields    
     obj::Any
-    pd::Union(ParsedData, Nothing)
+    pd::Union(ETree, Nothing)
     
     S3Response() = new(0, "", "", "", 0, false, "","","",Dict{String,String}(), nothing, nothing)
 end
@@ -797,7 +797,7 @@ function get_canon_amz_headers(headers::Vector{Tuple})
 end
 
 function rfc1123_date(d::CalendarTime)
-    format("EEE, dd MMM yyyy HH:mm:ss V", Calendar.tz(d, "UTC"))
+    convert(ASCIIString, format("EEE, dd MMM yyyy HH:mm:ss V", Calendar.tz(d, "UTC")))
 end
 rfc1123_date(d::Nothing) = nothing
 
