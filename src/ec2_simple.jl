@@ -1,5 +1,6 @@
 
-export ec2_terminate, ec2_addprocs, ec2_launch, ec2_start, ec2_stop, ec2_show_status, ec2_get_hostnames, ec2_instances_by_owner
+export ec2_terminate, ec2_addprocs, ec2_launch, ec2_start, ec2_stop, ec2_show_status, ec2_hostnames, ec2_instances_by_owner
+export ec2_mount_snapshot
 
 
 ec2_basic(env::AWSEnv, action::String, params_in::Dict{Any, Any}) = ec2_execute(env, action, flatten_params(params_in))
@@ -55,7 +56,7 @@ function check_running(env, chk_instances)
     new_chk_instances
 end
 
-function ec2_get_hostnames(instances; env=def_env())
+function ec2_hostnames(instances; env=def_env())
     names = NTuple[]
     resp = CHK_ERR(DescribeInstances(env, instancesSet=instances))
     reservs = resp.reservationSet
@@ -112,7 +113,7 @@ function ec2_launch(ami::String, seckey::String; env=def_env(), insttype::String
 end
 
 function ec2_addprocs(instances, ec2_keyfile::String; env=def_env(), hostuser::String="ubuntu", dir=JULIA_HOME, tunnel=true)
-    hostnames = ec2_get_hostnames(instances, env=env)
+    hostnames = ec2_hostnames(instances, env=env)
     sshnames = String["$(hostuser)@$(host[2])" for host in hostnames]
 
     addprocs(sshnames, sshflags=`-i $(ec2_keyfile) -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no`, dir=dir, tunnel=tunnel)
@@ -190,3 +191,49 @@ function ec2_instances_by_owner (owner::String; env=def_env())
     end
     instances
 end
+
+
+function ec2_mount_snapshot (instance::String, snapshot::String, mount::String, ec2_keyfile::String; env=def_env(), dev="/dev/sdh", 
+                                hostuser::String="ubuntu")
+    # first get the availability zone....
+    resp = CHK_ERR(DescribeInstances(env, instancesSet=[instance]))
+    zone = resp.reservationSet[1].instancesSet[1].placement.availabilityZone
+    hostname = resp.reservationSet[1].instancesSet[1].dnsName
+
+    resp = CHK_ERR(CreateVolume(env, snapshotId=snapshot, availabilityZone=zone))
+    volumeId = resp.volumeId
+    status = resp.status
+    
+    println("Created volume $volumeId")
+    
+    while (status == "creating")
+        resp = CHK_ERR(DescribeVolumes(env, volumeSet=[volumeId]))
+        status = resp.volumeSet[1].status
+    end
+    
+    if (status != "available")
+        error("Volume is unavailable. Status $status")
+    end
+    
+    resp = CHK_ERR(AttachVolume(env, instanceId=instance, volumeId=volumeId, device=dev))
+    status = resp.status    
+    while (status == "attaching")
+        resp = CHK_ERR(DescribeVolumes(env, volumeSet=[volumeId]))
+        status = resp.volumeSet[1].attachmentSet[1].status
+    end
+    
+    if (status != "attached")
+        error("Unable to attach volume. Status $status")
+    end
+
+    println("Attached $volumeId to $instance")
+    
+    
+    run(`ssh -i $(ec2_keyfile) -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $(hostuser)@$(hostname) "mkdir -p $(mount); sudo mount $dev $mount"`)
+
+    println("Mounted volume $volumeId at $mount")
+    println("To login use 'ssh -i $(ec2_keyfile) $(hostuser)@$(hostname)'")
+    
+    volumeId
+end
+

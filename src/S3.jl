@@ -652,9 +652,9 @@ function do_http(env::AWSEnv, ro::RO)
     if ro.verb == :GET
         http_resp = HTTPC.get(url, http_options)
     elseif (ro.verb == :PUT) || (ro.verb == :POST)
-        senddata = (ro.body != nothing) ? ro.body :
+        senddata = (ro.body != "") ? ro.body :
                    isa(ro.istream, IO) ? ro.istream :
-                   isa(ro.istream, String) ? (file: ro.istream) :
+                   isa(ro.istream, String) ? (:file, ro.istream) :
                    error("Must specify either a body or istream for PUT/POST")
     
         if (ro.verb == :PUT)

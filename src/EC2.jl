@@ -110,6 +110,10 @@ function ec2_execute(env::AWSEnv, action::String, params_in=nothing)
         ec2resp.http_code = resp.http_code
         ec2resp.headers = resp.headers
         ec2resp.body = resp.body
+
+        if (env.dbg) 
+            print("HTTPCode: ", ec2resp.http_code, "\nHeaders: ", ec2resp.headers, "\nBody : ", ec2resp.body, "\n")
+        end
         
         if (resp.http_code >= 200) && (resp.http_code <= 299)
 #             println(typeof(resp.headers))

@@ -5485,8 +5485,8 @@ end
 function InstanceStateChangeType(pd::ETree)
     o = InstanceStateChangeType()
     o.instanceId = find(pd, "instanceId#string")
-    o.currentState = length(pd["instanceState"]) > 0 ?  InstanceStateType(find(pd,"instanceState[1]")) : nothing
-    o.previousState = length(pd["instanceState"]) > 0 ?  InstanceStateType(find(pd,"instanceState[1]")) : nothing
+    o.currentState = length(pd["currentState"]) > 0 ?  InstanceStateType(find(pd,"currentState[1]")) : nothing
+    o.previousState = length(pd["previousState"]) > 0 ?  InstanceStateType(find(pd,"previousState[1]")) : nothing
     o
 end
 
@@ -5643,7 +5643,7 @@ function InstancePrivateIpAddressesSetItemType(pd::ETree)
     o.privateIpAddress = find(pd, "privateIpAddress#string")
     o.privateDnsName = find(pd, "privateDnsName#string")
     o.primary = AWS.safe_parse_as(Bool, find(pd, "primary#string"))
-    o.association = length(pd["instanceNetworkInterfaceAssociation"]) > 0 ?  InstanceNetworkInterfaceAssociationType(find(pd,"instanceNetworkInterfaceAssociation[1]")) : nothing
+    o.association = length(pd["association"]) > 0 ?  InstanceNetworkInterfaceAssociationType(find(pd,"association[1]")) : nothing
     o
 end
 
@@ -5788,7 +5788,7 @@ end
 function CreateInstanceExportTaskResponseType(pd::ETree)
     o = CreateInstanceExportTaskResponseType()
     o.requestId = find(pd, "requestId#string")
-    o.exportTask = length(pd["exportTaskResponse"]) > 0 ?  ExportTaskResponseType(find(pd,"exportTaskResponse[1]")) : nothing
+    o.exportTask = length(pd["exportTask"]) > 0 ?  ExportTaskResponseType(find(pd,"exportTask[1]")) : nothing
     o
 end
 
@@ -5805,9 +5805,9 @@ type DiskImageType
 end
 function DiskImageType(pd::ETree)
     o = DiskImageType()
-    o.image = length(pd["diskImageDetail"]) > 0 ?  DiskImageDetailType(find(pd,"diskImageDetail[1]")) : nothing
+    o.image = length(pd["image"]) > 0 ?  DiskImageDetailType(find(pd,"image[1]")) : nothing
     o.description = find(pd, "description#string")
-    o.volume = length(pd["diskImageVolume"]) > 0 ?  DiskImageVolumeType(find(pd,"diskImageVolume[1]")) : nothing
+    o.volume = length(pd["volume"]) > 0 ?  DiskImageVolumeType(find(pd,"volume[1]")) : nothing
     o
 end
 
@@ -6032,8 +6032,8 @@ function ImportVolumeTaskDetailsType(pd::ETree)
     o.bytesConverted = AWS.safe_parse_as(Int64, find(pd, "bytesConverted#string"))
     o.availabilityZone = find(pd, "availabilityZone#string")
     o.description = find(pd, "description#string")
-    o.image = length(pd["diskImageDescription"]) > 0 ?  DiskImageDescriptionType(find(pd,"diskImageDescription[1]")) : nothing
-    o.volume = length(pd["diskImageVolumeDescription"]) > 0 ?  DiskImageVolumeDescriptionType(find(pd,"diskImageVolumeDescription[1]")) : nothing
+    o.image = length(pd["image"]) > 0 ?  DiskImageDescriptionType(find(pd,"image[1]")) : nothing
+    o.volume = length(pd["volume"]) > 0 ?  DiskImageVolumeDescriptionType(find(pd,"volume[1]")) : nothing
     o
 end
 
@@ -6311,7 +6311,7 @@ function PurchaseReservedInstancesOfferingType(pd::ETree)
     o = PurchaseReservedInstancesOfferingType()
     o.reservedInstancesOfferingId = find(pd, "reservedInstancesOfferingId#string")
     o.instanceCount = AWS.safe_parse_as(Int64, find(pd, "instanceCount#string"))
-    o.limitPrice = length(pd["reservedInstanceLimitPrice"]) > 0 ?  ReservedInstanceLimitPriceType(find(pd,"reservedInstanceLimitPrice[1]")) : nothing
+    o.limitPrice = length(pd["limitPrice"]) > 0 ?  ReservedInstanceLimitPriceType(find(pd,"limitPrice[1]")) : nothing
     o
 end
 
@@ -6350,8 +6350,8 @@ function InstanceNetworkInterfaceSetItemType(pd::ETree)
     o.privateDnsName = find(pd, "privateDnsName#string")
     o.sourceDestCheck = AWS.safe_parse_as(Bool, find(pd, "sourceDestCheck#string"))
     o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, find(pd, "groupSet/item"))
-    o.attachment = length(pd["instanceNetworkInterfaceAttachment"]) > 0 ?  InstanceNetworkInterfaceAttachmentType(find(pd,"instanceNetworkInterfaceAttachment[1]")) : nothing
-    o.association = length(pd["instanceNetworkInterfaceAssociation"]) > 0 ?  InstanceNetworkInterfaceAssociationType(find(pd,"instanceNetworkInterfaceAssociation[1]")) : nothing
+    o.attachment = length(pd["attachment"]) > 0 ?  InstanceNetworkInterfaceAttachmentType(find(pd,"attachment[1]")) : nothing
+    o.association = length(pd["association"]) > 0 ?  InstanceNetworkInterfaceAssociationType(find(pd,"association[1]")) : nothing
     o.privateIpAddressesSet = AWS.@parse_vector(AWS.EC2.InstancePrivateIpAddressesSetItemType, find(pd, "privateIpAddressesSet/item"))
     o
 end
@@ -6483,7 +6483,7 @@ function SpotDatafeedSubscriptionType(pd::ETree)
     o.bucket = find(pd, "bucket#string")
     o.prefix = find(pd, "prefix#string")
     o.state = find(pd, "state#string")
-    o.fault = length(pd["spotInstanceStateFault"]) > 0 ?  SpotInstanceStateFaultType(find(pd,"spotInstanceStateFault[1]")) : nothing
+    o.fault = length(pd["fault"]) > 0 ?  SpotInstanceStateFaultType(find(pd,"fault[1]")) : nothing
     o
 end
 
@@ -6587,9 +6587,9 @@ end
 function ImportVolumeType(pd::ETree)
     o = ImportVolumeType()
     o.availabilityZone = find(pd, "availabilityZone#string")
-    o.image = length(pd["diskImageDetail"]) > 0 ?  DiskImageDetailType(find(pd,"diskImageDetail[1]")) : nothing
+    o.image = length(pd["image"]) > 0 ?  DiskImageDetailType(find(pd,"image[1]")) : nothing
     o.description = find(pd, "description#string")
-    o.volume = length(pd["diskImageVolume"]) > 0 ?  DiskImageVolumeType(find(pd,"diskImageVolume[1]")) : nothing
+    o.volume = length(pd["volume"]) > 0 ?  DiskImageVolumeType(find(pd,"volume[1]")) : nothing
     o
 end
 
@@ -6793,8 +6793,8 @@ function ImportInstanceLaunchSpecificationType(pd::ETree)
     o.groupSet = AWS.@parse_vector(AWS.EC2.ImportInstanceGroupItemType, find(pd, "groupSet/item"))
     o.userData = length(pd["userData"]) > 0 ?  UserDataType(find(pd,"userData[1]")) : nothing
     o.instanceType = find(pd, "instanceType#string")
-    o.placement = length(pd["instancePlacement"]) > 0 ?  InstancePlacementType(find(pd,"instancePlacement[1]")) : nothing
-    o.monitoring = length(pd["monitoringInstance"]) > 0 ?  MonitoringInstanceType(find(pd,"monitoringInstance[1]")) : nothing
+    o.placement = length(pd["placement"]) > 0 ?  InstancePlacementType(find(pd,"placement[1]")) : nothing
+    o.monitoring = length(pd["monitoring"]) > 0 ?  MonitoringInstanceType(find(pd,"monitoring[1]")) : nothing
     o.subnetId = find(pd, "subnetId#string")
     o.instanceInitiatedShutdownBehavior = find(pd, "instanceInitiatedShutdownBehavior#string")
     o.privateIpAddress = find(pd, "privateIpAddress#string")
@@ -6910,9 +6910,9 @@ function ImportInstanceVolumeDetailItemType(pd::ETree)
     o = ImportInstanceVolumeDetailItemType()
     o.bytesConverted = AWS.safe_parse_as(Int64, find(pd, "bytesConverted#string"))
     o.availabilityZone = find(pd, "availabilityZone#string")
-    o.image = length(pd["diskImageDescription"]) > 0 ?  DiskImageDescriptionType(find(pd,"diskImageDescription[1]")) : nothing
+    o.image = length(pd["image"]) > 0 ?  DiskImageDescriptionType(find(pd,"image[1]")) : nothing
     o.description = find(pd, "description#string")
-    o.volume = length(pd["diskImageVolumeDescription"]) > 0 ?  DiskImageVolumeDescriptionType(find(pd,"diskImageVolumeDescription[1]")) : nothing
+    o.volume = length(pd["volume"]) > 0 ?  DiskImageVolumeDescriptionType(find(pd,"volume[1]")) : nothing
     o.status = find(pd, "status#string")
     o.statusMessage = find(pd, "statusMessage#string")
     o
@@ -6935,7 +6935,7 @@ function CreateVpnConnectionType(pd::ETree)
     o._type = find(pd, "type#string")
     o.customerGatewayId = find(pd, "customerGatewayId#string")
     o.vpnGatewayId = find(pd, "vpnGatewayId#string")
-    o.options = length(pd["vpnConnectionOptionsRequest"]) > 0 ?  VpnConnectionOptionsRequestType(find(pd,"vpnConnectionOptionsRequest[1]")) : nothing
+    o.options = length(pd["options"]) > 0 ?  VpnConnectionOptionsRequestType(find(pd,"options[1]")) : nothing
     o
 end
 
@@ -6952,7 +6952,7 @@ end
 function ModifySnapshotAttributeType(pd::ETree)
     o = ModifySnapshotAttributeType()
     o.snapshotId = find(pd, "snapshotId#string")
-    o.createVolumePermission = length(pd["createVolumePermissionOperation"]) > 0 ?  CreateVolumePermissionOperationType(find(pd,"createVolumePermissionOperation[1]")) : nothing
+    o.createVolumePermission = length(pd["createVolumePermission"]) > 0 ?  CreateVolumePermissionOperationType(find(pd,"createVolumePermission[1]")) : nothing
     o
 end
 
@@ -7033,7 +7033,7 @@ function VolumeStatusItemType(pd::ETree)
     o = VolumeStatusItemType()
     o.volumeId = find(pd, "volumeId#string")
     o.availabilityZone = find(pd, "availabilityZone#string")
-    o.volumeStatus = length(pd["volumeStatusInfo"]) > 0 ?  VolumeStatusInfoType(find(pd,"volumeStatusInfo[1]")) : nothing
+    o.volumeStatus = length(pd["volumeStatus"]) > 0 ?  VolumeStatusInfoType(find(pd,"volumeStatus[1]")) : nothing
     o.eventsSet = AWS.@parse_vector(AWS.EC2.VolumeStatusEventItemType, find(pd, "eventsSet/item"))
     o.actionsSet = AWS.@parse_vector(AWS.EC2.VolumeStatusActionItemType, find(pd, "actionsSet/item"))
     o
@@ -7275,7 +7275,7 @@ end
 function MonitorInstancesResponseSetItemType(pd::ETree)
     o = MonitorInstancesResponseSetItemType()
     o.instanceId = find(pd, "instanceId#string")
-    o.monitoring = length(pd["instanceMonitoringState"]) > 0 ?  InstanceMonitoringStateType(find(pd,"instanceMonitoringState[1]")) : nothing
+    o.monitoring = length(pd["monitoring"]) > 0 ?  InstanceMonitoringStateType(find(pd,"monitoring[1]")) : nothing
     o
 end
 
@@ -7438,7 +7438,7 @@ type BundleInstanceTaskStorageType
 end
 function BundleInstanceTaskStorageType(pd::ETree)
     o = BundleInstanceTaskStorageType()
-    o.S3 = length(pd["bundleInstanceS3Storage"]) > 0 ?  BundleInstanceS3StorageType(find(pd,"bundleInstanceS3Storage[1]")) : nothing
+    o.S3 = length(pd["S3"]) > 0 ?  BundleInstanceS3StorageType(find(pd,"S3[1]")) : nothing
     o
 end
 
@@ -7717,7 +7717,7 @@ function VpnConnectionType(pd::ETree)
     o.vpnGatewayId = find(pd, "vpnGatewayId#string")
     o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
     o.vgwTelemetry = AWS.@parse_vector(AWS.EC2.VpnTunnelTelemetryType, find(pd, "vgwTelemetry/item"))
-    o.options = length(pd["vpnConnectionOptionsResponse"]) > 0 ?  VpnConnectionOptionsResponseType(find(pd,"vpnConnectionOptionsResponse[1]")) : nothing
+    o.options = length(pd["options"]) > 0 ?  VpnConnectionOptionsResponseType(find(pd,"options[1]")) : nothing
     o.routes = AWS.@parse_vector(AWS.EC2.VpnStaticRouteType, find(pd, "routes/item"))
     o
 end
@@ -7781,7 +7781,7 @@ function NetworkInterfacePrivateIpAddressesSetItemType(pd::ETree)
     o.privateIpAddress = find(pd, "privateIpAddress#string")
     o.privateDnsName = find(pd, "privateDnsName#string")
     o.primary = AWS.safe_parse_as(Bool, find(pd, "primary#string"))
-    o.association = length(pd["networkInterfaceAssociation"]) > 0 ?  NetworkInterfaceAssociationType(find(pd,"networkInterfaceAssociation[1]")) : nothing
+    o.association = length(pd["association"]) > 0 ?  NetworkInterfaceAssociationType(find(pd,"association[1]")) : nothing
     o
 end
 
@@ -7863,8 +7863,8 @@ function NetworkInterfaceType(pd::ETree)
     o.privateDnsName = find(pd, "privateDnsName#string")
     o.sourceDestCheck = AWS.safe_parse_as(Bool, find(pd, "sourceDestCheck#string"))
     o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, find(pd, "groupSet/item"))
-    o.attachment = length(pd["networkInterfaceAttachment"]) > 0 ?  NetworkInterfaceAttachmentType(find(pd,"networkInterfaceAttachment[1]")) : nothing
-    o.association = length(pd["networkInterfaceAssociation"]) > 0 ?  NetworkInterfaceAssociationType(find(pd,"networkInterfaceAssociation[1]")) : nothing
+    o.attachment = length(pd["attachment"]) > 0 ?  NetworkInterfaceAttachmentType(find(pd,"attachment[1]")) : nothing
+    o.association = length(pd["association"]) > 0 ?  NetworkInterfaceAssociationType(find(pd,"association[1]")) : nothing
     o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
     o.privateIpAddressesSet = AWS.@parse_vector(AWS.EC2.NetworkInterfacePrivateIpAddressesSetItemType, find(pd, "privateIpAddressesSet/item"))
     o
@@ -7893,9 +7893,9 @@ function BundleInstanceTaskType(pd::ETree)
     o.state = find(pd, "state#string")
     o.startTime = AWS.safe_parse_as(CalendarTime, find(pd, "startTime#string"))
     o.updateTime = AWS.safe_parse_as(CalendarTime, find(pd, "updateTime#string"))
-    o.storage = length(pd["bundleInstanceTaskStorage"]) > 0 ?  BundleInstanceTaskStorageType(find(pd,"bundleInstanceTaskStorage[1]")) : nothing
+    o.storage = length(pd["storage"]) > 0 ?  BundleInstanceTaskStorageType(find(pd,"storage[1]")) : nothing
     o.progress = find(pd, "progress#string")
-    o.error = length(pd["bundleInstanceTaskError"]) > 0 ?  BundleInstanceTaskErrorType(find(pd,"bundleInstanceTaskError[1]")) : nothing
+    o.error = length(pd["error"]) > 0 ?  BundleInstanceTaskErrorType(find(pd,"error[1]")) : nothing
     o
 end
 
@@ -7998,14 +7998,14 @@ function LaunchSpecificationRequestType(pd::ETree)
     o.userData = length(pd["userData"]) > 0 ?  UserDataType(find(pd,"userData[1]")) : nothing
     o.addressingType = find(pd, "addressingType#string")
     o.instanceType = find(pd, "instanceType#string")
-    o.placement = length(pd["spotPlacementRequest"]) > 0 ?  SpotPlacementRequestType(find(pd,"spotPlacementRequest[1]")) : nothing
+    o.placement = length(pd["placement"]) > 0 ?  SpotPlacementRequestType(find(pd,"placement[1]")) : nothing
     o.kernelId = find(pd, "kernelId#string")
     o.ramdiskId = find(pd, "ramdiskId#string")
     o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, find(pd, "blockDeviceMapping/item"))
-    o.monitoring = length(pd["monitoringInstance"]) > 0 ?  MonitoringInstanceType(find(pd,"monitoringInstance[1]")) : nothing
+    o.monitoring = length(pd["monitoring"]) > 0 ?  MonitoringInstanceType(find(pd,"monitoring[1]")) : nothing
     o.subnetId = find(pd, "subnetId#string")
     o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.InstanceNetworkInterfaceSetItemRequestType, find(pd, "networkInterfaceSet/item"))
-    o.iamInstanceProfile = length(pd["iamInstanceProfileRequest"]) > 0 ?  IamInstanceProfileRequestType(find(pd,"iamInstanceProfileRequest[1]")) : nothing
+    o.iamInstanceProfile = length(pd["iamInstanceProfile"]) > 0 ?  IamInstanceProfileRequestType(find(pd,"iamInstanceProfile[1]")) : nothing
     o.ebsOptimized = AWS.safe_parse_as(Bool, find(pd, "ebsOptimized#string"))
     o
 end
@@ -8149,7 +8149,7 @@ function RequestSpotInstancesType(pd::ETree)
     o.validUntil = AWS.safe_parse_as(CalendarTime, find(pd, "validUntil#string"))
     o.launchGroup = find(pd, "launchGroup#string")
     o.availabilityZoneGroup = find(pd, "availabilityZoneGroup#string")
-    o.launchSpecification = length(pd["launchSpecificationRequest"]) > 0 ?  LaunchSpecificationRequestType(find(pd,"launchSpecificationRequest[1]")) : nothing
+    o.launchSpecification = length(pd["launchSpecification"]) > 0 ?  LaunchSpecificationRequestType(find(pd,"launchSpecification[1]")) : nothing
     o
 end
 
@@ -8166,7 +8166,7 @@ end
 function BundleInstanceType(pd::ETree)
     o = BundleInstanceType()
     o.instanceId = find(pd, "instanceId#string")
-    o.storage = length(pd["bundleInstanceTaskStorage"]) > 0 ?  BundleInstanceTaskStorageType(find(pd,"bundleInstanceTaskStorage[1]")) : nothing
+    o.storage = length(pd["storage"]) > 0 ?  BundleInstanceTaskStorageType(find(pd,"storage[1]")) : nothing
     o
 end
 
@@ -8246,19 +8246,19 @@ function RunInstancesType(pd::ETree)
     o.userData = length(pd["userData"]) > 0 ?  UserDataType(find(pd,"userData[1]")) : nothing
     o.addressingType = find(pd, "addressingType#string")
     o.instanceType = find(pd, "instanceType#string")
-    o.placement = length(pd["placementRequest"]) > 0 ?  PlacementRequestType(find(pd,"placementRequest[1]")) : nothing
+    o.placement = length(pd["placement"]) > 0 ?  PlacementRequestType(find(pd,"placement[1]")) : nothing
     o.kernelId = find(pd, "kernelId#string")
     o.ramdiskId = find(pd, "ramdiskId#string")
     o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, find(pd, "blockDeviceMapping/item"))
-    o.monitoring = length(pd["monitoringInstance"]) > 0 ?  MonitoringInstanceType(find(pd,"monitoringInstance[1]")) : nothing
+    o.monitoring = length(pd["monitoring"]) > 0 ?  MonitoringInstanceType(find(pd,"monitoring[1]")) : nothing
     o.subnetId = find(pd, "subnetId#string")
     o.disableApiTermination = AWS.safe_parse_as(Bool, find(pd, "disableApiTermination#string"))
     o.instanceInitiatedShutdownBehavior = find(pd, "instanceInitiatedShutdownBehavior#string")
-    o.license = length(pd["instanceLicenseRequest"]) > 0 ?  InstanceLicenseRequestType(find(pd,"instanceLicenseRequest[1]")) : nothing
+    o.license = length(pd["license"]) > 0 ?  InstanceLicenseRequestType(find(pd,"license[1]")) : nothing
     o.privateIpAddress = find(pd, "privateIpAddress#string")
     o.clientToken = find(pd, "clientToken#string")
     o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.InstanceNetworkInterfaceSetItemRequestType, find(pd, "networkInterfaceSet/item"))
-    o.iamInstanceProfile = length(pd["iamInstanceProfileRequest"]) > 0 ?  IamInstanceProfileRequestType(find(pd,"iamInstanceProfileRequest[1]")) : nothing
+    o.iamInstanceProfile = length(pd["iamInstanceProfile"]) > 0 ?  IamInstanceProfileRequestType(find(pd,"iamInstanceProfile[1]")) : nothing
     o.ebsOptimized = AWS.safe_parse_as(Bool, find(pd, "ebsOptimized#string"))
     o
 end
@@ -8347,7 +8347,7 @@ end
 function ImportInstanceType(pd::ETree)
     o = ImportInstanceType()
     o.description = find(pd, "description#string")
-    o.launchSpecification = length(pd["importInstanceLaunchSpecification"]) > 0 ?  ImportInstanceLaunchSpecificationType(find(pd,"importInstanceLaunchSpecification[1]")) : nothing
+    o.launchSpecification = length(pd["launchSpecification"]) > 0 ?  ImportInstanceLaunchSpecificationType(find(pd,"launchSpecification[1]")) : nothing
     o.diskImageSet = AWS.@parse_vector(AWS.EC2.DiskImageType, find(pd, "diskImageSet/item"))
     o.keepPartialImports = AWS.safe_parse_as(Bool, find(pd, "keepPartialImports#string"))
     o.platform = find(pd, "platform#string")
@@ -8412,11 +8412,11 @@ function RunningInstancesItemType(pd::ETree)
     o.productCodes = AWS.@parse_vector(AWS.EC2.ProductCodesSetItemType, find(pd, "productCodes/item"))
     o.instanceType = find(pd, "instanceType#string")
     o.launchTime = AWS.safe_parse_as(CalendarTime, find(pd, "launchTime#string"))
-    o.placement = length(pd["placementResponse"]) > 0 ?  PlacementResponseType(find(pd,"placementResponse[1]")) : nothing
+    o.placement = length(pd["placement"]) > 0 ?  PlacementResponseType(find(pd,"placement[1]")) : nothing
     o.kernelId = find(pd, "kernelId#string")
     o.ramdiskId = find(pd, "ramdiskId#string")
     o.platform = find(pd, "platform#string")
-    o.monitoring = length(pd["instanceMonitoringState"]) > 0 ?  InstanceMonitoringStateType(find(pd,"instanceMonitoringState[1]")) : nothing
+    o.monitoring = length(pd["monitoring"]) > 0 ?  InstanceMonitoringStateType(find(pd,"monitoring[1]")) : nothing
     o.subnetId = find(pd, "subnetId#string")
     o.vpcId = find(pd, "vpcId#string")
     o.privateIpAddress = find(pd, "privateIpAddress#string")
@@ -8430,13 +8430,13 @@ function RunningInstancesItemType(pd::ETree)
     o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.InstanceBlockDeviceMappingResponseItemType, find(pd, "blockDeviceMapping/item"))
     o.instanceLifecycle = find(pd, "instanceLifecycle#string")
     o.spotInstanceRequestId = find(pd, "spotInstanceRequestId#string")
-    o.license = length(pd["instanceLicenseResponse"]) > 0 ?  InstanceLicenseResponseType(find(pd,"instanceLicenseResponse[1]")) : nothing
+    o.license = length(pd["license"]) > 0 ?  InstanceLicenseResponseType(find(pd,"license[1]")) : nothing
     o.virtualizationType = find(pd, "virtualizationType#string")
     o.clientToken = find(pd, "clientToken#string")
     o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
     o.hypervisor = find(pd, "hypervisor#string")
     o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.InstanceNetworkInterfaceSetItemType, find(pd, "networkInterfaceSet/item"))
-    o.iamInstanceProfile = length(pd["iamInstanceProfileResponse"]) > 0 ?  IamInstanceProfileResponseType(find(pd,"iamInstanceProfileResponse[1]")) : nothing
+    o.iamInstanceProfile = length(pd["iamInstanceProfile"]) > 0 ?  IamInstanceProfileResponseType(find(pd,"iamInstanceProfile[1]")) : nothing
     o.ebsOptimized = AWS.safe_parse_as(Bool, find(pd, "ebsOptimized#string"))
     o
 end
@@ -8548,7 +8548,7 @@ function InstanceStatusItemType(pd::ETree)
     o.availabilityZone = find(pd, "availabilityZone#string")
     o.eventsSet = AWS.@parse_vector(AWS.EC2.InstanceStatusEventType, find(pd, "eventsSet/item"))
     o.instanceState = length(pd["instanceState"]) > 0 ?  InstanceStateType(find(pd,"instanceState[1]")) : nothing
-    o.systemStatus = length(pd["instanceStatus"]) > 0 ?  InstanceStatusType(find(pd,"instanceStatus[1]")) : nothing
+    o.systemStatus = length(pd["systemStatus"]) > 0 ?  InstanceStatusType(find(pd,"systemStatus[1]")) : nothing
     o.instanceStatus = length(pd["instanceStatus"]) > 0 ?  InstanceStatusType(find(pd,"instanceStatus[1]")) : nothing
     o
 end
@@ -8633,14 +8633,14 @@ function LaunchSpecificationResponseType(pd::ETree)
     o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, find(pd, "groupSet/item"))
     o.addressingType = find(pd, "addressingType#string")
     o.instanceType = find(pd, "instanceType#string")
-    o.placement = length(pd["spotPlacementRequest"]) > 0 ?  SpotPlacementRequestType(find(pd,"spotPlacementRequest[1]")) : nothing
+    o.placement = length(pd["placement"]) > 0 ?  SpotPlacementRequestType(find(pd,"placement[1]")) : nothing
     o.kernelId = find(pd, "kernelId#string")
     o.ramdiskId = find(pd, "ramdiskId#string")
     o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, find(pd, "blockDeviceMapping/item"))
-    o.monitoring = length(pd["monitoringInstance"]) > 0 ?  MonitoringInstanceType(find(pd,"monitoringInstance[1]")) : nothing
+    o.monitoring = length(pd["monitoring"]) > 0 ?  MonitoringInstanceType(find(pd,"monitoring[1]")) : nothing
     o.subnetId = find(pd, "subnetId#string")
     o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.InstanceNetworkInterfaceSetItemRequestType, find(pd, "networkInterfaceSet/item"))
-    o.iamInstanceProfile = length(pd["iamInstanceProfileRequest"]) > 0 ?  IamInstanceProfileRequestType(find(pd,"iamInstanceProfileRequest[1]")) : nothing
+    o.iamInstanceProfile = length(pd["iamInstanceProfile"]) > 0 ?  IamInstanceProfileRequestType(find(pd,"iamInstanceProfile[1]")) : nothing
     o.ebsOptimized = AWS.safe_parse_as(Bool, find(pd, "ebsOptimized#string"))
     o
 end
@@ -8675,13 +8675,13 @@ function SpotInstanceRequestSetItemType(pd::ETree)
     o.spotPrice = find(pd, "spotPrice#string")
     o._type = find(pd, "type#string")
     o.state = find(pd, "state#string")
-    o.fault = length(pd["spotInstanceStateFault"]) > 0 ?  SpotInstanceStateFaultType(find(pd,"spotInstanceStateFault[1]")) : nothing
-    o.status = length(pd["spotInstanceStatusMessage"]) > 0 ?  SpotInstanceStatusMessageType(find(pd,"spotInstanceStatusMessage[1]")) : nothing
+    o.fault = length(pd["fault"]) > 0 ?  SpotInstanceStateFaultType(find(pd,"fault[1]")) : nothing
+    o.status = length(pd["status"]) > 0 ?  SpotInstanceStatusMessageType(find(pd,"status[1]")) : nothing
     o.validFrom = AWS.safe_parse_as(CalendarTime, find(pd, "validFrom#string"))
     o.validUntil = AWS.safe_parse_as(CalendarTime, find(pd, "validUntil#string"))
     o.launchGroup = find(pd, "launchGroup#string")
     o.availabilityZoneGroup = find(pd, "availabilityZoneGroup#string")
-    o.launchSpecification = length(pd["launchSpecificationResponse"]) > 0 ?  LaunchSpecificationResponseType(find(pd,"launchSpecificationResponse[1]")) : nothing
+    o.launchSpecification = length(pd["launchSpecification"]) > 0 ?  LaunchSpecificationResponseType(find(pd,"launchSpecification[1]")) : nothing
     o.instanceId = find(pd, "instanceId#string")
     o.createTime = AWS.safe_parse_as(CalendarTime, find(pd, "createTime#string"))
     o.productDescription = find(pd, "productDescription#string")

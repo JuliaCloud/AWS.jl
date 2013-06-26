@@ -196,11 +196,11 @@ function get_type_for_elements(tctx, elements, ns_pfx)
                     tctx.constructor = tctx.constructor * "    o.$(xname) = AWS.safe_parse_as($(jltype), find(pd, \"$(rawname)#string\"))\n"
                 end
             else
-                xml_tag_name = new_jltype_str
-                if endswith(xml_tag_name, "Type") xml_tag_name = new_jltype_str[1:end-4] end
-                xml_tag_name = lowercase(xml_tag_name[1:1]) * xml_tag_name[2:end]
+#                 xml_tag_name = new_jltype_str
+#                 if endswith(xml_tag_name, "Type") xml_tag_name = new_jltype_str[1:end-4] end
+#                 xml_tag_name = lowercase(xml_tag_name[1:1]) * xml_tag_name[2:end]
                 
-                tctx.constructor = tctx.constructor * "    o.$(xname) = length(pd[\"$(xml_tag_name)\"]) > 0 ?  $(jltype)(find(pd,\"$(xml_tag_name)[1]\")) : nothing\n"
+                tctx.constructor = tctx.constructor * "    o.$(xname) = length(pd[\"$(rawname)\"]) > 0 ?  $(jltype)(find(pd,\"$(rawname)[1]\")) : nothing\n"
             end
         end
         

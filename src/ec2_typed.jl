@@ -20,6 +20,9 @@ corrections_map=[
     ("CreateTagsType", "resourcesSet") => "resourceId",
     ("DeleteTagsType", "resourcesSet") => "resourceId",
 
+    ("DescribeVolumesType", "volumeSet") => "volumeId",
+    ("DescribeVolumeStatusType", "volumeSet") => "volumeId",
+    
     ("MonitorInstancesType", "instancesSet") => "instanceId",
     ("DescribeInstancesType", "instancesSet") => "instanceId",
     ("DescribeInstanceStatusType", "instancesSet") => "instanceId",
@@ -27,7 +30,11 @@ corrections_map=[
     ("StopInstancesType", "instancesSet") => "instanceId",
     ("StartInstancesType", "instancesSet") => "instanceId",
     ("ReportInstanceStatusType", "instancesSet") => "instanceId"
-    
+ 
+ 
+ 
+ 
+ 
 ]
 
 function add_to_params(params, obj, pfx)
