@@ -597,7 +597,7 @@ function do_request(env::AWSEnv, ro::RO)
 end
 
 function do_http(env::AWSEnv, ro::RO)
-    if ro.body != ""
+    if isa(ro.body, String) && (ro.body != "")
 #        digest = zeros(Uint8, 16)
 #        MD5(body, length(body), digest)
         md5 = bytestring(Codecs.encode(Base64, Crypto.md5(ro.body)))
@@ -652,10 +652,11 @@ function do_http(env::AWSEnv, ro::RO)
     if ro.verb == :GET
         http_resp = HTTPC.get(url, http_options)
     elseif (ro.verb == :PUT) || (ro.verb == :POST)
-        senddata = (ro.body != "") ? ro.body :
-                   isa(ro.istream, IO) ? ro.istream :
+        senddata = isa(ro.istream, IO) ? ro.istream :
                    isa(ro.istream, String) ? (:file, ro.istream) :
-                   error("Must specify either a body or istream for PUT/POST")
+                   (isa(ro.body, String) && (ro.body != "")) ? ro.body :
+                   ""
+#                   error("Must specify either a body or istream for PUT/POST")
     
         if (ro.verb == :PUT)
             http_resp = HTTPC.put(url, senddata, http_options)

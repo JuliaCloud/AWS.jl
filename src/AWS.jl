@@ -15,6 +15,16 @@ const EP_SA_SAO_PAULO                  = "ec2.sa-east-1.amazonaws.com"
 export EP_US_EAST_NORTHERN_VIRGINIA, EP_US_WEST_OREGON, EP_US_WEST_NORTHERN_CALIFORNIA
 export EP_EU_IRELAND, EP_AP_SINGAPORE, EP_AP_SYDNEY, EP_AP_TOKYO, EP_SA_SAO_PAULO
 
+
+const AP_NORTHEAST_1 = "ap-northeast-1" # Asia Pacific (Tokyo) Region
+const AP_SOUTHEAST_1 = "ap-southeast-1" # Asia Pacific (Singapore) Region
+const AP_SOUTHEAST_2 = "ap-southeast-2" # Asia Pacific (Sydney) Region
+const EU_WEST_1 = "eu-west-1" # EU (Ireland) Region
+const SA_EAST_1 = "sa-east-1" # South America (Sao Paulo) Region
+const US_EAST_1 = "us-east-1" # US East (Northern Virginia) Region
+const US_WEST_1 = "us-west-1" # US West (Northern California) Region
+const US_WEST_2 = "us-west-2" # US West (Oregon) Region
+
 type AWSEnv
     aws_id::String      # AWS Access Key id
     aws_seckey::String  # AWS Secret key for signing requests

@@ -122,9 +122,9 @@ end
 function wait_till_running(env, instances, timeout)
     start = time()
     chk_instances = check_running(env, instances)
-    wait_time = 15.0
+    wait_time = 5.0
     while (((time() - start) < timeout) && (length(chk_instances) > 0))
-        println("All instances not yet in a running state. Trying again after $wait_time seconds....")
+        println("All instances not yet in a running state. Trying again in $wait_time seconds....")
         sleep(wait_time)
         
         chk_instances = check_running(env, chk_instances)
@@ -193,7 +193,7 @@ function ec2_instances_by_owner (owner::String; env=def_env())
 end
 
 
-function ec2_mount_snapshot (instance::String, snapshot::String, mount::String, ec2_keyfile::String; env=def_env(), dev="/dev/sdh", 
+function ec2_mount_snapshot (instance::String, snapshot::String, mount::String, ec2_keyfile::String; env=def_env(), dev="/dev/xvdh", 
                                 hostuser::String="ubuntu")
     # first get the availability zone....
     resp = CHK_ERR(DescribeInstances(env, instancesSet=[instance]))

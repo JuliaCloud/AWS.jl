@@ -13,6 +13,25 @@ using AWS
 import AWS.xml
 
 
+const VM_CC_OXL = "cc2.8xlarge" ##Cluster Compute Eight Extra Large
+const VM_CC_QXL = "cc1.4xlarge" #Cluster Compute Quadruple Extra Large
+const VM_CG_QXL = "cg1.4xlarge" #Cluster GPU Quadruple Extra Large
+const VM_CPU_XL = "c1.xlarge"   #High-CPU Extra Large   
+const VM_CPU_M = "c1.medium"    #High-CPU Medium
+const VM_HIO_QXL = "hi1.4xlarge"  #High I/O Quadruple Extra Large
+const VM_HM_DXL = "m2.2xlarge"  #High-Memory Double Extra Large
+const VM_HM_XL = "m2.xlarge"    #High-Memory Extra Large
+const VM_HM_QXL = "m2.4xlarge"  #High-Memory Quadruple Extra Large
+const VM_HMCC_OXL = "cr1.8xlarge" #High-Memory Cluster Eight Extra Large
+const VM_HS_OXL = "hs1.8xlarge" #High Storage Eight Extra Large
+const VM_XL = "m1.xlarge"       #M1 Extra Large
+const VM_L = "m1.large"         #M1 Large
+const VM_M = "m1.medium"        #M1 Medium
+const VM_S = "m1.small"         #M1 Small
+const VM_DXL = "m3.2xlarge"     #M3 Double Extra Large
+const VM_XL2 = "m3.xlarge"      #M3 Extra Large
+const VM_MICRO = "t1.micro"     #Micro
+
 type EC2Error
     code::String
     msg::String
