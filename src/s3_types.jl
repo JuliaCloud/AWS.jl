@@ -599,7 +599,7 @@ type S3_ACL
 end
 function amz_headers(hdrs, o::S3_ACL)
     # Either a canned acl or specific acls (but not both) are supported
-    if acl != nothing
+    if o.acl != nothing
         @add_amz_hdr("acl", o.acl)
     else
         add_acl_grantee(hdrs, "grant-read", o.grant_read)

@@ -11,12 +11,15 @@ println(resp.obj)
 
 println("Create a bucket")
 acl=S3.S3_ACL()
-acl.acl="private"
+acl.acl="public-read"
 resp=S3.create_bkt(env, bkt, acl=acl)
 println("$(resp.http_code), $(resp.obj)")
 
+po = S3.PutObjectOptions()
+po.acl = acl
+
 println("Add a file")
-resp = S3.put_object(env, bkt, "file1", "Hello ")
+resp = S3.put_object(env, bkt, "file1", "Hello ", options=po)
 println("$(resp.http_code), $(resp.obj)")
 
 
