@@ -4,7 +4,7 @@ module S3
 # handle Content-MD5 for IO stream objects too...
 using AWS
 using AWS.Crypto
-using libCURL.HTTPC
+using HTTPClient.HTTPC
 using LibExpat
 using Calendar
 using Codecs

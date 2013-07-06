@@ -5,12 +5,12 @@ using LibExpat
 using Calendar
 using AWS.Crypto
 using Codecs
-using libCURL
-using libCURL.HTTPC
+using HTTPClient.HTTPC
 using AWS.AWSEnv
 using AWS
 
 import AWS.xml
+import Base.show
 
 
 const VM_CC_OXL = "cc2.8xlarge" ##Cluster Compute Eight Extra Large

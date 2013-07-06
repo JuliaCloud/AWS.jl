@@ -10,7 +10,7 @@ println(instances)
 
 ec2_show_status(instances)
 
-hostnames = ec2_get_hostnames(instances)
+hostnames = ec2_hostnames(instances)
 println(hostnames)
 
 ec2_terminate(instances)
