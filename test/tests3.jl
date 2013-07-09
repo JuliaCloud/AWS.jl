@@ -13,45 +13,45 @@ println("Create a bucket")
 acl=S3.S3_ACL()
 acl.acl="public-read"
 resp=S3.create_bkt(env, bkt, acl=acl)
-println("$(resp.http_code), $(resp.obj)")
+println(resp)
 
 po = S3.PutObjectOptions()
 po.acl = acl
 
 println("Add a file")
 resp = S3.put_object(env, bkt, "file1", "Hello ", options=po)
-println("$(resp.http_code), $(resp.obj)")
+println(resp)
 
 
 println("Add another file")
 resp = S3.put_object(env, bkt, "file2", "World ")
-println("$(resp.http_code), $(resp.obj)")
+println(resp)
 
 
 println("List bucket")
 resp = S3.get_bkt(env, bkt)
-println("$(resp.http_code), $(resp.obj)")
+println(resp)
 
 println("Get file 1")
 resp = S3.get_object(env, bkt, "file1")
-println("$(resp.http_code), $(resp.obj)")
+println(resp)
 
 println("Get file 2")
 resp = S3.get_object(env, bkt, "file2")
-println("$(resp.http_code), $(resp.obj)")
+println(resp)
 
 
 println("Delete file 1")
 resp = S3.del_object(env, bkt, "file1") 
-println("$(resp.http_code), $(resp.obj)")
+println(resp)
 
 println("Delete file 2 using the multi api")
 resp = S3.del_object_multi(env, bkt, S3.DeleteObjectsType([S3.ObjectType("file2")]))
-println("$(resp.http_code), $(resp.obj)")
+println(resp)
 
 
 println("Delete Bucket")
 resp = S3.del_bkt(env, bkt)
-println("$(resp.http_code), $(resp.obj)")
+println(resp)
 
 

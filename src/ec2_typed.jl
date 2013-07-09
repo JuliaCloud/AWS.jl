@@ -1,7 +1,6 @@
 
 include("ec2_types.jl")
 include("ec2_operations.jl")
-include("show.jl")
 #include("api.jl")
 
 

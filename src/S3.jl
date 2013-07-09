@@ -1,7 +1,6 @@
 module S3
 
 # Etag should always be quoted - in XML as well as headers...
-# handle Content-MD5 for IO stream objects too...
 using AWS
 using AWS.Crypto
 using HTTPClient.HTTPC
@@ -51,6 +50,7 @@ type S3Response
     
     S3Response() = new(0, "", "", "", 0, false, "","","",Dict{String,String}(), nothing, nothing)
 end
+export S3Response
 
 type RO # RequestOptions
     verb::Symbol                  # HTTP verb
@@ -67,7 +67,7 @@ type RO # RequestOptions
     RO() = new(:GET, "", "", {}, {}, {}, "", "", nothing, nothing)
     RO(verb, bkt, key) = new(verb, bkt, key, {}, {}, {}, "", "", nothing, nothing)
 end
-
+export RO
 
 function list_all_buckets(env::AWSEnv)
     ro = RO(:GET, "", "")
@@ -582,8 +582,7 @@ function do_request(env::AWSEnv, ro::RO)
     s3_resp.headers = http_resp.headers
 
     if (http_resp.http_code > 299)
-        if  (search(Base.get(http_resp.headers, "Content-Type", ""), "/xml") != 0:-1) &&
-            (http_resp.body != "")
+        if  (search(Base.get(http_resp.headers, "Content-Type", ""), "/xml") != 0:-1) && (http_resp.body != "")
             s3_resp.pd = xp_parse(http_resp.body)
             if s3_resp.pd.name == "Error"
                 s3_resp.obj = S3Error(s3_resp.pd) 

@@ -29,6 +29,7 @@ macro declare_utype(utype)
             id::String         
             displayName::Union(String, Nothing)
         end
+        
         xml(o::$(esc(utype))) = xml($(string(utype)), [("ID", o.id), ("DisplayName", o.displayName)])
         function $(esc(utype))(pd::ETree)
             o = $(esc(utype))(find(pd, "ID#string"), find(pd, "DisplayName#string"))  
@@ -38,25 +39,28 @@ end
 
 @declare_utype Owner
 @declare_utype Initiator
-
+export Owner, Initiator
 
 
 type GranteeEmail
     email::String
 end
 xml(o::GranteeEmail) = xml("Grantee", [("EmailAddress", o.email)], xmlns=$XMLNS_ATTR, xsi_type="AmazonCustomerByEmail")
-
+export GranteeEmail
 
 type GranteeURI 
     uri::String
 end
 xml(o::GranteeURI) = xml("Grantee", [("URI", o.uri)], xmlns=$XMLNS_ATTR, xsi_type="Group") 
+export GranteeURI 
 
 type GranteeID
     id::String         
     displayName::String
 end
 xml(o::GranteeID) = xml("Grantee", [("ID", o.id), ("DisplayName", o.displayName)], xmlns=$XMLNS_ATTR, xsi_type="CanonicalUser")
+export GranteeID
+
 
 type Grant
     grantee::Union(GranteeEmail, GranteeURI, GranteeID)
@@ -80,7 +84,7 @@ function Grant(pd_g::ETree)
     permission = find(pd_g, "Permission#string")
     Grant(grantee, permission)
 end
-
+export Grant
 
 
 
@@ -116,6 +120,9 @@ function xml(o::BucketLoggingStatus)
         xml_hdr("BucketLoggingStatus") * xml_ftr("BucketLoggingStatus")
     end
 end
+export BucketLoggingStatus
+
+
 
 type AccessControlPolicy
     owner::Owner
@@ -134,7 +141,7 @@ function xml(o::AccessControlPolicy)
     xml("AccessControlList", o.accessControlList) *
     xml_ftr("AccessControlPolicy")
 end
-
+export AccessControlPolicy
 # Storage class must be one of "STANDARD", "REDUCED_REDUNDANCY", "GLACIER" or "UNKNOWN"
 
 
@@ -145,7 +152,7 @@ CreateBucketConfiguration(pd_cbc::ETree) = CreateBucketConfiguration(find(pd_cbc
 xml(o::CreateBucketConfiguration) = xml_hdr("CreateBucketConfiguration") * 
                                     xml("LocationConstraint", o.locationConstraint) * 
                                     xml_ftr("CreateBucketConfiguration")
-
+export CreateBucketConfiguration
 
                                     
                                     
@@ -168,12 +175,16 @@ function Contents(pd_le::ETree)
 
     Contents(key, t, etag, size, owner, storageClass)
 end
+export Contents
+
 
 
 type CommonPrefixes
     prefix::Union(String, Nothing)
 end
 CommonPrefixes(pd_cp::ETree) = CommonPrefixes(find(pd_cp, "Prefix#string"))
+export CommonPrefixes
+
 
 type ListBucketResult
     name::Union(String, Nothing)
@@ -202,7 +213,7 @@ function ListBucketResult(pd_lbr::ETree)
     lbr.commonPrefixes = AWS.@parse_vector(AWS.S3.CommonPrefixes, pd_lbr["CommonPrefixes"])
     lbr
 end
-
+export ListBucketResult
 
 type Version
     key::Union(String, Nothing)
@@ -227,7 +238,7 @@ function Version(pd_v::ETree)
 
     Version(key, versionId, isLatest, t, etag, size, owner, storageClass)
 end
-
+export Version
 
 
 
@@ -247,7 +258,7 @@ function DeleteMarker(pd_dm::ETree)
     owner=Owner(find(pd_dm, "Owner[1]"))
     DeleteMarker(key, versionId, isLatest, t, owner)
 end
-
+export DeleteMarker
 
 
 
@@ -284,7 +295,7 @@ function ListVersionsResult(pd_lvr::ETree)
     lvr.commonPrefixes = AWS.@parse_vector(AWS.S3.CommonPrefixes, find(pd_lvr, "CommonPrefixes"))
     lvr
 end
-
+export ListVersionsResult
 
 
 
@@ -298,7 +309,7 @@ function Bucket(pd_b::ETree)
     
     Bucket(find(pd_b, "Name#string"), t)
 end
-
+export Bucket
 
 
 
@@ -312,7 +323,7 @@ function ListAllMyBucketsResult(pd_lab::ETree)
     buckets = AWS.@parse_vector(AWS.S3.AWS.S3.Bucket, find(pd_lab, "Buckets/Bucket"))
     ListAllMyBucketsResult(owner, buckets)
 end
-
+export ListAllMyBucketsResult
 
 
 type CopyObjectResult
@@ -325,7 +336,7 @@ function CopyObjectResult(pd_cor::ETree)
     
     CopyObjectResult(t, find(pd_cor, "ETag#string"))
 end
-
+export CopyObjectResult
 
 
 
@@ -334,7 +345,7 @@ type RequestPaymentConfiguration
 end
 xml(o::RequestPaymentConfiguration) = xml_hdr("RequestPaymentConfiguration") * xml("Payer", o.payer) * xml_ftr("RequestPaymentConfiguration")
 RequestPaymentConfiguration(pd_rpc::ETree) = RequestPaymentConfiguration(find(pd_rpc, "Payer#string"))
-
+export RequestPaymentConfiguration
   
 type VersioningConfiguration
     status::Union(String, Nothing)
@@ -352,7 +363,7 @@ function VersioningConfiguration(pd_vc::ETree)
     
     VersioningConfiguration(status, mfaDelete)
 end
-
+export VersioningConfiguration
 
 type TopicConfiguration
     topic::Union(String, Nothing)
@@ -375,7 +386,7 @@ function xml(o::TopicConfiguration)
     
     xml("TopicConfiguration", topic * events)
 end
-
+export TopicConfiguration
 
 
 
@@ -395,7 +406,7 @@ function xml(o::NotificationConfiguration)
         xml("NotificationConfiguration", topics)
     end
 end
-
+export NotificationConfiguration
 
 
 type InitiateMultipartUploadResult
@@ -406,6 +417,9 @@ end
 function InitiateMultipartUploadResult(pd::ETree)
     InitiateMultipartUploadResult(find(pd, "Bucket#string"), find(pd, "Key#string"), find(pd, "UploadId#string"))
 end
+export InitiateMultipartUploadResult
+
+
 
 type CopyPartResult
    lastModified::CalendarTime
@@ -416,7 +430,7 @@ function CopyPartResult(pd::ETree)
     t = Calendar.parse("yyyy-MM-dd'T'HH:mm:ss", datestr[1:end-1], "GMT")
     CopyPartResult(t, find(pd, "ETag#string"))
 end
-
+export CopyPartResult
 
 type Part
     partNumber::Union(String, Nothing)
@@ -435,13 +449,13 @@ function Part(pd::ETree)
 
     Part(find(pd, "PartNumber#string"), t, find(pd, "ETag#string"), int64(find(pd, "Size#string")))
 end
-
+export Part
 
 type CompleteMultipartUpload
     parts::Vector{Part}
 end
 xml(o::CompleteMultipartUpload) = xml("CompleteMultipartUpload", o.parts)
-
+export CompleteMultipartUpload
 
 
 type CompleteMultipartUploadResult
@@ -457,7 +471,7 @@ CompleteMultipartUploadResult(pd::ETree) =
         find(pd, "Key#string"),
         find(pd, "ETag#string"),
     )
-
+export CompleteMultipartUploadResult
 
     
 type ListPartsResult
@@ -488,7 +502,7 @@ function ListPartsResult(pd::ETree)
         AWS.@parse_vector(AWS.S3.Part, find(pd, "Part"))
     )
 end
-
+export ListPartsResult
 
 type CORSRule
     id::Union(String, Nothing)
@@ -520,7 +534,7 @@ function CORSRule(pd::ETree)
     CORSRule(id, allowedMethod, allowedOrigin, allowedHeader, maxAgeSeconds, exposeHeader)
     
 end
-
+export CORSRule
 
 
 type CORSConfiguration
@@ -546,7 +560,7 @@ function S3Error(pde::ETree)
     
     S3Error(code, message, resource, hostId, requestId)
 end
-
+export CORSConfiguration
 
 
 type S3PartTag
@@ -568,6 +582,8 @@ function amz_headers(hdrs, o::CopyMatchOptions)
     @add_amz_hdr("copy-source-if-modified-since", o.if_modified_since)
     hdrs
 end
+export S3PartTag
+
 
 type S3_ACL_Grantee
     email_address::Union(String, Nothing)
@@ -586,6 +602,8 @@ function hdr_str(g::S3_ACL_Grantee)
         error("At least one of the grantee types must be defined.")
     end
 end
+export S3_ACL_Grantee
+
 
 type S3_ACL
     acl::Union(String, Nothing)
@@ -617,7 +635,7 @@ function add_acl_grantee(hdrs, xamz_name::String, arr::Vector{S3_ACL_Grantee})
     end
     hdrs
 end
-
+export S3_ACL
 
 
 type CopyObjectOptions
@@ -649,6 +667,8 @@ function amz_headers(hdrs, o::CopyObjectOptions)
     end
     hdrs
 end
+export CopyObjectOptions
+
 
 type CopyUploadPartOptions
     copy_source::String   
@@ -661,6 +681,8 @@ function amz_headers(o::CopyUploadPartOptions)
     hdrs = (o.match_options != nothing) ? amz_headers(hdrs, o.match_options) : hdrs
     hdrs
 end
+export CopyUploadPartOptions
+
 
 type PutObjectOptions
 # Standard HTTP headers
@@ -704,6 +726,9 @@ function http_headers(arr, o::PutObjectOptions)
     @chk_n_add("Expires", rfc1123_date(o.expires))
     arr
 end
+export PutObjectOptions
+
+
 
 type GetObjectOptions
     # These go into the query string
@@ -741,6 +766,8 @@ function query_params(arr, o::GetObjectOptions)
     @chk_n_add("response-content-encoding", o.response_content_encoding)
     arr
 end
+export GetObjectOptions
+
 
 type ObjectType
     key::String
@@ -751,6 +778,8 @@ end
 function xml(o::ObjectType)
     xml("Object", [("Key", o.key), ("VersionId", o.versionId)])
 end
+export ObjectType
+
 
 type DeleteObjectsType
     quiet::Bool
@@ -762,19 +791,23 @@ end
 function xml(o::DeleteObjectsType)
     xml("Delete", [("Quiet", o.quiet), o.objects])
 end
+export DeleteObjectsType
+
 
 type Tag
     key::String
     value::String
 end
 xml(o::Tag) = xml("Tag", [("Key", o.key), ("Value", o.value)])
+export Tag
+
 
 # Not a xmlns type
 type Tagging
     tagSet::Vector{Tag}
 end
 xml(o::Tagging) = xml("Tagging", [("TagSet", o.tagSet)])
-
+export Tagging
 
 type GetBucketUploadsOptions
     delimiter::Union(String, Nothing)
@@ -795,6 +828,9 @@ function get_subres(arr, o::GetBucketUploadsOptions)
     @chk_n_add("upload-id-marker", o.upload_id_marker) 
     arr
 end
+export GetBucketUploadsOptions
+
+
 
 type GetBucketObjectVersionsOptions
     delimiter::Union(String, Nothing)
@@ -813,6 +849,8 @@ function get_subres(arr, o::GetBucketObjectVersionsOptions)
     @chk_n_add("version-id-marker", o.version_id_marker) 
     arr
 end
+export GetBucketObjectVersionsOptions
+
 
 type GetBucketOptions
     delimiter::Union(String, Nothing)
@@ -829,6 +867,8 @@ function get_subres(arr, o::GetBucketOptions)
     @chk_n_add("prefix", o.prefix) 
     arr
 end
+export GetBucketOptions
+
 
 type Deleted
     key::Union(String, Nothing)
@@ -845,6 +885,8 @@ function Deleted(pd::ETree)
     d.marker_version_id = find(pd, "DeleteMarkerVersionId#string")
     d
 end
+export Deleted
+
 
 
 type DeleteError
@@ -862,6 +904,7 @@ function DeleteError(pd::ETree)
     de.message = find(pd, "Message#string")
     de
 end
+export DeleteError
 
 
 type DeleteResult
@@ -881,3 +924,4 @@ function DeleteResult(pd::ETree)
     end
     dr
 end
+export DeleteResult

@@ -2,6 +2,7 @@ module Showing
 
 using AWS
 using AWS.EC2
+using AWS.S3
 
 import Base.show, Base.Meta.quot
 
@@ -15,6 +16,14 @@ function show_indented(io::IO, s::Array, indent)
     for x in s 
         print_indented(io,"",indent)
         show_indented(io,x,indent+4)
+    end
+end
+
+function show_indented(io::IO, s::Dict, indent)
+    println(io,eltype(s)," Dict")
+    for (k,v) in collect(s) 
+        print_indented(io,"",indent)
+        show_indented(io,string(k," => ",v),indent+4)
     end
 end
 
@@ -39,12 +48,14 @@ macro show_func(n, t)
     ret
 end
 
-# Create default show method for all types in EC2
-for n in names(AWS.EC2)
-    t = AWS.EC2.(n)
-    if isa(t,Type)
-        id_sym = t.names[1]
-        @eval @show_func $n $t 
+# Create default show method for all types 
+for m in [AWS, AWS.EC2, AWS.S3]
+    for n in names(m)
+        t = (m).(n)
+        if isa(t,Type)
+            id_sym = t.names[1]
+            @eval @show_func $n $t 
+        end
     end
 end
 
