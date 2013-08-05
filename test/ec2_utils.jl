@@ -2,7 +2,7 @@ using AWS.EC2
 using AWS
 
     
-const ami_ubuntu_13_04_64_bit_US_east = "ami-59482230" # This is the Julia installed version of 13_04
+const ami_ubuntu_13_04_64_bit_US_east = "ami-64a4de0d" # Julia nightly 25th july
 const ami_ubuntu_13_04_32_bit_US_east = "ami-5b8be132" # With Julia
 
 const ami_ubuntu_13_04_32bit_USeast_dev = "ami-8bdda8e2"

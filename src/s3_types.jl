@@ -34,6 +34,7 @@ macro declare_utype(utype)
         function $(esc(utype))(pd::ETree)
             o = $(esc(utype))(find(pd, "ID#string"), find(pd, "DisplayName#string"))  
         end
+        $(esc(utype))(nothing::Nothing) = nothing
     end
 end
 
@@ -161,7 +162,7 @@ type Contents
     lastModified::CalendarTime
     eTag::Union(String, Nothing)
     size::Union(Int64, Nothing)
-    owner::Owner
+    owner::Union(Owner, Nothing)
     storageClass::Union(String, Nothing)
 end
 function Contents(pd_le::ETree)
@@ -222,7 +223,7 @@ type Version
     lastModified::CalendarTime
     eTag::Union(String, Nothing)
     size::Union(Int64, Nothing)
-    owner::Owner
+    owner::Union(Owner, Nothing)
     storageClass::Union(String, Nothing)
 end
 function Version(pd_v::ETree)
@@ -247,7 +248,7 @@ type DeleteMarker
     versionId::Union(String, Nothing)
     isLatest::Union(Bool, Nothing)
     lastModified::CalendarTime
-    owner::Owner
+    owner::Union(Owner, Nothing)
 end
 function DeleteMarker(pd_dm::ETree)
     key = find(pd_dm, "Key#string")
@@ -315,7 +316,7 @@ export Bucket
 
 
 type ListAllMyBucketsResult
-    owner::Owner
+    owner::Union(Owner, Nothing)
     buckets::Vector{Bucket}
 end
 function ListAllMyBucketsResult(pd_lab::ETree)
@@ -479,7 +480,7 @@ type ListPartsResult
     key::Union(String, Nothing)
     uploadId::Union(String, Nothing)
     initiator::Initiator
-    owner::Owner
+    owner::Union(Owner, Nothing)
     storageClass::Union(String, Nothing)
     partNumberMarker::Union(String, Nothing)
     nextPartNumberMarker::Union(String, Nothing)
@@ -574,6 +575,9 @@ type CopyMatchOptions
     if_none_match::Union(String, Nothing) 
     if_unmodified_since::Union(String, Nothing)
     if_modified_since::Union(String, Nothing)
+    CopyMatchOptions(;if_match=nothing, if_none_match=nothing, if_unmodified_since=nothing, if_modified_since=nothing) = begin
+        new(if_match, if_none_match, if_unmodified_since, if_modified_since)
+    end
 end
 function amz_headers(hdrs, o::CopyMatchOptions)
     @add_amz_hdr("copy-source-if-match", o.if_match)
@@ -649,6 +653,12 @@ type CopyObjectOptions
     storage_class::Union(String, Nothing) 
     website​_redirect_location::Union(String, Nothing)    
     acl::Union(S3_ACL, Nothing)
+    
+    CopyObjectOptions(copy_source; metadata_directive=nothing, match_options=nothing, 
+        server_side​_encryption=nothing, storage_class=nothing, website​_redirect_location=nothing, acl=nothing) = begin
+            new(copy_source, metadata_directive,  match_options, server_side​_encryption, storage_class, website​_redirect_location, acl)
+    end
+    
 end
 function amz_headers(hdrs, o::CopyObjectOptions)
     @add_amz_hdr("copy-source", o.copy_source)
@@ -674,6 +684,8 @@ type CopyUploadPartOptions
     copy_source::String   
     source_range::Union(String, Nothing)
     match_options::Union(CopyMatchOptions, Nothing)
+    
+    CopyUploadPartOptions(copy_source; source_range=nothing, match_options=nothing) = new(copy_source, source_range, match_options)
 end
 function amz_headers(o::CopyUploadPartOptions)
     hdrs = [("x-amz-copy-source", o.copy_source)]
@@ -700,7 +712,11 @@ type PutObjectOptions
     website​_redirect_location::Union(String, Nothing)    
     acl::Union(S3_ACL, Nothing)
     
-    PutObjectOptions() = new(nothing,nothing,nothing,nothing,nothing,nothing,nothing,nothing,nothing,nothing)
+    PutObjectOptions(;cache_control=nothing,content_disposition=nothing,content_encoding=nothing,
+                        cont_typ=nothing,expires=nothing,meta=nothing,server_side​_encryption=nothing,
+                        storage_class=nothing,website​_redirect_location=nothing,acl=nothing) = begin
+            new(cache_control,content_disposition,content_encoding,cont_typ,expires,meta,server_side​_encryption,storage_class,website​_redirect_location,acl)
+    end
 end
 function amz_headers(hdrs, o::PutObjectOptions)
     if (o.meta != nothing)
@@ -746,7 +762,10 @@ type GetObjectOptions
     if_match::Union(String, Nothing)   
     if_none_match::Union(String, Nothing)   
     
-    GetObjectOptions() = new(nothing,nothing,nothing,nothing,nothing,nothing,nothing,nothing,nothing,nothing,nothing)
+    GetObjectOptions(;response_cont_typ=nothing, response_content_language=nothing, response_expires=nothing, response_cache_control=nothing, response_content_disposition=nothing,
+        response_content_encoding=nothing, range=nothing, if_modified_since=nothing, if_unmodified_since=nothing, if_match=nothing, if_none_match=nothing) = begin
+            new (response_cont_typ, response_content_language, response_expires, response_cache_control, response_content_disposition,response_content_encoding, range, if_modified_since, if_unmodified_since, if_match, if_none_match) 
+        end
 end
 function http_headers(arr, o::GetObjectOptions)
     @chk_n_add("Range", o.range)
@@ -816,9 +835,9 @@ type GetBucketUploadsOptions
     prefix::Union(String, Nothing)
     upload_id_marker::Union(String, Nothing)
     
-    GetBucketUploadsOptions() = GetBucketUploadsOptions(nothing,nothing,nothing,nothing,nothing)
-    GetBucketUploadsOptions(v1,v2,v3,v4,v5) = new(v1,v2,v3,v4,v5)
-    
+    GetBucketUploadsOptions(; delimiter=nothing, key_marker=nothing, max_uploads=nothing, prefix=nothing, upload_id_marker=nothing) = begin 
+        new(delimiter, key_marker, max_uploads, prefix, upload_id_marker)
+    end
 end
 function get_subres(arr, o::GetBucketUploadsOptions)
     @chk_n_add("delimiter", o.delimiter) 
@@ -838,8 +857,9 @@ type GetBucketObjectVersionsOptions
     max_keys::Union(Int, Nothing)
     prefix::Union(String, Nothing)
     version_id_marker::Union(String, Nothing)
-    GetBucketObjectVersionsOptions() = GetBucketObjectVersionsOptions(nothing,nothing,nothing,nothing,nothing)
-    GetBucketObjectVersionsOptions(v1,v2,v3,v4,v5) = new(v1,v2,v3,v4,v5)
+    GetBucketObjectVersionsOptions(; delimiter=nothing, key_marker=nothing, max_keys=nothing, prefix=nothing, version_id_marker=nothing) = begin
+        new(delimiter, key_marker, max_keys, prefix, version_id_marker)
+    end
 end
 function get_subres(arr, o::GetBucketObjectVersionsOptions)
     @chk_n_add("delimiter", o.delimiter) 
@@ -857,8 +877,7 @@ type GetBucketOptions
     marker::Union(String, Nothing)
     max_keys::Union(Int, Nothing)
     prefix::Union(String, Nothing)
-    GetBucketOptions() = GetBucketOptions(nothing,nothing,nothing,nothing)
-    GetBucketOptions(v1,v2,v3,v4) = new(v1,v2,v3,v4)
+    GetBucketOptions(;delimiter=nothing, marker=nothing, max_keys=nothing, prefix=nothing) = new(delimiter, marker, max_keys, prefix)
 end
 function get_subres(arr, o::GetBucketOptions)
     @chk_n_add("delimiter", o.delimiter) 

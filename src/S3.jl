@@ -673,9 +673,9 @@ function do_http(env::AWSEnv, ro::RO)
         error("Unknown HTTP verb $verb")
     end
 
-#     if env.dbg
-#         println("Response : " * string(http_resp))
-#     end
+     if env.dbg
+         println("Response : ", http_resp)
+     end
     
     return http_resp
 end
@@ -758,10 +758,10 @@ function get_canonicalized_resource(ro::RO)
     )
 
     
-    canon_res = part1
+    canon_res = part1 * "?" * HTTPC.urlencode_query_params(sorted)
+    
     canon_sign_res = part1 
-    if length(ro.sub_res) > 0
-        canon_res = canon_res * "?" * HTTPC.urlencode_query_params(sorted)
+    if length(signlist) > 0
         canon_sign_res = canon_sign_res * "?" * signparams
     end
     
