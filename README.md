@@ -31,10 +31,11 @@ end
 Constructors:
 
 ```
-AWSEnv(id, key)                  # Region defaults to EP_US_EAST_NORTHERN_VIRGINIA
-AWSEnv(id, key, ep_full_path)    # Region endpoint as one string (Host + Path) 
-AWSEnv(id, key, ep_full_path, timeout, dry_run, dbg) 
+AWSEnv(; id=AWS_ID, key=AWS_SECKEY, ep=EP_US_EAST_NORTHERN_VIRGINIA, timeout=0.0, dr=false, dbg=false)
 ```
+
+- The ```AWS_ID``` and ```AWS_SECKEY``` are initialized from env if available. Else a file ~/.awssecret is read (if available) for the same.
+
 
 ### S3 API
 - This package uses the REST interface of S3
@@ -48,7 +49,7 @@ AWSEnv(id, key, ep_full_path, timeout, dry_run, dbg)
 using AWS
 using AWS.S3
 
-env = AWSEnv(ENV["AWS_ID"], ENV["AWS_SECKEY"], EP_US_EAST_NORTHERN_VIRGINIA, 60.0, false, false)
+env = AWSEnv(timeout=60.0)
 
 bkt = "some_globally_unique_name"
 

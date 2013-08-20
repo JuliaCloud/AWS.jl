@@ -1,7 +1,7 @@
 using AWS
 using AWS.S3
 
-env = AWSEnv(ENV["AWS_ID"], ENV["AWS_SECKEY"], EP_US_EAST_NORTHERN_VIRGINIA, 60.0, false, false)
+env = AWSEnv(timeout=60.0)
 
 bkt = "rnam0987"
 

@@ -7,7 +7,7 @@ const ami_ubuntu_13_04_32_bit_US_east = "ami-5b8be132" # With Julia
 
 const ami_ubuntu_13_04_32bit_USeast_dev = "ami-8bdda8e2"
 
-env = AWSEnv(ENV["AWS_ID"], ENV["AWS_SECKEY"], EP_US_EAST_NORTHERN_VIRGINIA)
+env = AWSEnv()
 # env.dbg=true
 # env.dry_run=true
 

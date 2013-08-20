@@ -36,27 +36,8 @@ end
 
 CHK_ERR(resp::EC2Response) = (typeof(resp.obj) == EC2Error) ? error(ec2_error_str(resp.obj)) : resp.obj
 
-# Search for default AWS_ID and AWS_SECKEY
-AWS_ID = ""
-AWS_SECKEY = ""
-if haskey(ENV, "AWS_ID") && haskey(ENV, "AWS_SECKEY")
-    AWS_ID = ENV["AWS_ID"]
-    AWS_SECKEY = ENV["AWS_SECKEY"]
-else
-    secret_path = "$(ENV["HOME"])/.awssecret"
-    @windows_only begin
-        secret_path = "$(ENV["APPDATA"])/.awssecret"
-    end
-        
-    if isfile(secret_path)
-        AWS_ID, AWS_SECKEY = split(readchomp(open(secret_path)))
-    end
-end
 
-def_env() = AWSEnv(AWS_ID, AWS_SECKEY, EP_US_EAST_NORTHERN_VIRGINIA)
-
-
-function ec2_terminate (instances; env=def_env())
+function ec2_terminate (instances; env=AWSEnv())
     req = TerminateInstancesType(instancesSet=instances)
     resp = CHK_ERR(TerminateInstances(env, req))
     instances
@@ -75,7 +56,7 @@ function check_running(env, chk_instances)
     new_chk_instances
 end
 
-function ec2_hostnames(instances; env=def_env())
+function ec2_hostnames(instances; env=AWSEnv())
     names = NTuple[]
     resp = CHK_ERR(DescribeInstances(env, instancesSet=instances))
     reservs = resp.reservationSet
@@ -90,7 +71,7 @@ end
 
 
 
-function ec2_launch(ami::String, seckey::String; env=def_env(), insttype::String="m1.small", n::Integer=1, 
+function ec2_launch(ami::String, seckey::String; env=AWSEnv(), insttype::String="m1.small", n::Integer=1, 
                     uname::String="julia", instname::String="julia", launchset::String="")
 # "c1.medium"
 # "m1.small"
@@ -131,7 +112,7 @@ function ec2_launch(ami::String, seckey::String; env=def_env(), insttype::String
     instances
 end
 
-function ec2_addprocs(instances, ec2_keyfile::String; env=def_env(), hostuser::String="ubuntu", dir=JULIA_HOME, tunnel=true)
+function ec2_addprocs(instances, ec2_keyfile::String; env=AWSEnv(), hostuser::String="ubuntu", dir=JULIA_HOME, tunnel=true)
     hostnames = ec2_hostnames(instances, env=env)
     sshnames = String["$(hostuser)@$(host[2])" for host in hostnames]
 
@@ -154,7 +135,7 @@ function wait_till_running(env, instances, timeout)
     end
 end
 
-function ec2_start(instances; env=def_env())
+function ec2_start(instances; env=AWSEnv())
     # Tag the instances..also tests ec2_basic API..
     resp = ec2_basic(env, "StartInstances", {"InstanceId"=>instances})
     if (typeof(resp.obj) == EC2Error) 
@@ -168,7 +149,7 @@ function ec2_start(instances; env=def_env())
 end
 
 
-function ec2_stop(instances; env=def_env())
+function ec2_stop(instances; env=AWSEnv())
     # Tag the instances..also tests ec2_basic API..
     resp = ec2_basic(env, "StopInstances", {"InstanceId"=>instances})
     if (typeof(resp.obj) == EC2Error) 
@@ -178,7 +159,7 @@ function ec2_stop(instances; env=def_env())
     instances
 end
 
-function ec2_show_status(instances; env=def_env())
+function ec2_show_status(instances; env=AWSEnv())
     # Tag the instances..also tests ec2_basic API..
     resp = ec2_basic(env, "DescribeInstanceStatus", {"InstanceId"=>instances, "IncludeAllInstances"=>true})
     if (typeof(resp.obj) == EC2Error) 
@@ -197,7 +178,7 @@ end
 
 
 
-function ec2_instances_by_owner (owner::String; env=def_env())
+function ec2_instances_by_owner (owner::String; env=AWSEnv())
     instances = ASCIIString[]
     req = DescribeInstancesType(filterSet=[FilterType(name="tag:Owner", valueSet=[owner])])
     resp = CHK_ERR(DescribeInstances(env, req))
@@ -212,7 +193,7 @@ function ec2_instances_by_owner (owner::String; env=def_env())
 end
 
 
-function ec2_mount_snapshot (instance::String, snapshot::String, mount::String, ec2_keyfile::String; env=def_env(), dev="/dev/xvdh", 
+function ec2_mount_snapshot (instance::String, snapshot::String, mount::String, ec2_keyfile::String; env=AWSEnv(), dev="/dev/xvdh", 
                                 hostuser::String="ubuntu")
     # first get the availability zone....
     resp = CHK_ERR(DescribeInstances(env, instancesSet=[instance]))

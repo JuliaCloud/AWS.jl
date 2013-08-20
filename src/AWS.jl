@@ -25,6 +25,23 @@ const US_EAST_1 = "us-east-1" # US East (Northern Virginia) Region
 const US_WEST_1 = "us-west-1" # US West (Northern California) Region
 const US_WEST_2 = "us-west-2" # US West (Oregon) Region
 
+# Search for default AWS_ID and AWS_SECKEY
+AWS_ID = ""
+AWS_SECKEY = ""
+if haskey(ENV, "AWS_ID") && haskey(ENV, "AWS_SECKEY")
+    AWS_ID = ENV["AWS_ID"]
+    AWS_SECKEY = ENV["AWS_SECKEY"]
+else
+    secret_path = "$(ENV["HOME"])/.awssecret"
+    @windows_only begin
+        secret_path = "$(ENV["APPDATA"])/.awssecret"
+    end
+        
+    if isfile(secret_path)
+        AWS_ID, AWS_SECKEY = split(readchomp(open(secret_path)))
+    end
+end
+
 type AWSEnv
     aws_id::String      # AWS Access Key id
     aws_seckey::String  # AWS Secret key for signing requests
@@ -34,9 +51,12 @@ type AWSEnv
     dry_run::Bool       # If true, no actual request will be made - implies dbg flag below
     dbg::Bool           # print request to screen
     
-    AWSEnv(id, key) = AWSEnv(id, key, EP_US_EAST_NORTHERN_VIRGINIA)
-    AWSEnv(id, key, ep) = AWSEnv(id, key, ep, 0.0, false, false)
-    function AWSEnv(id, key, ep, timeout, dr, dbg) 
+
+    function AWSEnv(; id=AWS_ID, key=AWS_SECKEY, ep=EP_US_EAST_NORTHERN_VIRGINIA, timeout=0.0, dr=false, dbg=false) 
+        if (id == "") || (key == "")
+            error("Invalid AWS security credentials provided")
+        end
+    
         s = search(ep,"/")
         if length(s) == 0
             ep_host = ep
@@ -45,10 +65,7 @@ type AWSEnv
             ep_host = ep[1:(first(s)-1)]
             ep_path = ep[first(s):end]
         end
-        AWSEnv(id,key,ep_host,ep_path,timeout,dr,dbg)
-    end
-
-    function AWSEnv(id, key, ep_host, ep_path, timeout, dr, dbg) 
+    
         if dr 
             new(id, key, ep_host, ep_path, timeout, dr, true) 
         else 
