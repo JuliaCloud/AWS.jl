@@ -36,7 +36,26 @@ end
 
 CHK_ERR(resp::EC2Response) = (typeof(resp.obj) == EC2Error) ? error(ec2_error_str(resp.obj)) : resp.obj
 
-def_env() = AWSEnv(ENV["AWS_ID"], ENV["AWS_SECKEY"], EP_US_EAST_NORTHERN_VIRGINIA)
+# Search for default AWS_ID and AWS_SECKEY
+AWS_ID = ""
+AWS_SECKEY = ""
+if haskey(ENV, "AWS_ID") && haskey(ENV, "AWS_SECKEY")
+    AWS_ID = ENV["AWS_ID"]
+    AWS_SECKEY = ENV["AWS_SECKEY"]
+else
+    secret_path = "$(ENV["HOME"])/.awssecret"
+    @windows_only begin
+        secret_path = "$(ENV["APPDATA"])/.awssecret"
+    end
+        
+    if isfile(secret_path)
+        AWS_ID, AWS_SECKEY = split(readchomp(open(secret_path)))
+    end
+end
+
+def_env() = AWSEnv(AWS_ID, AWS_SECKEY, EP_US_EAST_NORTHERN_VIRGINIA)
+
+
 function ec2_terminate (instances; env=def_env())
     req = TerminateInstancesType(instancesSet=instances)
     resp = CHK_ERR(TerminateInstances(env, req))
