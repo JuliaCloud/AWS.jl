@@ -738,7 +738,7 @@ function get_canonicalized_resource(ro::RO)
     end
     
     sorted = sort(ro.sub_res)
-    signlist = filter(x -> begin (k,v) = x; contains(qstr_sign_list, k) end, sorted)
+    signlist = filter(x -> begin (k,v) = x; in(k, qstr_sign_list) end, sorted)
     
     signparams = 
     mapreduce(
@@ -780,7 +780,7 @@ function get_canon_amz_headers(headers::Vector{Tuple})
     for (k,v) in lcase
         if beginswith(k,"x-amz-")
             new_v = strip(replace(v, "\n", ' '))
-            if contains(reduced, k)
+            if in(k, reduced)
                 ev = reduced[k]
                 reduced[k] = ev * "," * new_v
             else
