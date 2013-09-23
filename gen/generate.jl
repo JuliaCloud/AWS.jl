@@ -150,7 +150,7 @@ function get_type_for_elements(tctx, elements, ns_pfx)
             
             (replacewitharr, new_jltype_str, native, findpath, roottype) = is_set_type(jltype_str, native, ns_pfx, rawname)
             if !native
-                add!(tctx.deps, new_jltype_str)
+                push!(tctx.deps, new_jltype_str)
             end
         end
 #        if endswith(new_jltype_str, "SetType") println("$xname depends on $new_jltype_str") end
@@ -183,7 +183,7 @@ function get_type_for_elements(tctx, elements, ns_pfx)
                 else
                     # Looks like this can be safely ignored - added it to skip list.
                     # Uncomment the below line if you want them generated again
-                    add!(skip, tctx.name)
+                    push!(skip, tctx.name)
                 
                     tctx.constructor = tctx.constructor * "    o.$(xname) = AWS.@parse_vector(AWS.EC2.$(new_jltype_str), find(pd, \"$(rawname)\"))\n"
                 end
@@ -273,7 +273,7 @@ function generate_all_types(ctypes, f, ns_pfx)
             process_choice_tags(tctx, choice_elems, ns_pfx)
             
         elseif length(ctype["*"]) == 0 
-            add!(empty_types, ctype.attr["name"])
+            push!(empty_types, ctype.attr["name"])
             continue
         else
             println("Skipping " * ctype.attr["name"] * ". Define manually if required")
@@ -284,14 +284,14 @@ function generate_all_types(ctypes, f, ns_pfx)
         
         if length(tctx.deps) == 0
             #filter out the "SetTypes", not required...
-            if (!endswith(tctx.name, "SetType") && !contains(skip, tctx.name))
+            if (!endswith(tctx.name, "SetType") && !(tctx.name in skip))
                 write(f, tctx.definition)
                 write(f, "export $(tctx.name)\n\n\n")
              end
-            add!(written, tctx.name)
+            push!(written, tctx.name)
         else
             types_map[tctx.name] = tctx.definition
-            add!(pending, tctx.name)
+            push!(pending, tctx.name)
             dep_map[tctx.name] = tctx.deps
             #println("$tctx.name has $tctx.deps dependencies")
         end
@@ -309,7 +309,7 @@ function write_dependent_types(f)
             #check to see if all the dependcies have been met
             deps_met = true
             for dep in deps 
-                if !contains(written, dep) 
+                if !(dep in written) 
                     deps_met = false
                     break
                 end
@@ -317,11 +317,11 @@ function write_dependent_types(f)
             
             if deps_met
                 #filter out the "SetTypes", not required...
-                if (!endswith(item, "SetType") && !contains(skip, item))
+                if (!endswith(item, "SetType") && !(item in skip))
                     write(f, types_map[item])
                     write(f, "export $(item)\n\n\n")
                 end
-                add!(written, item)
+                push!(written, item)
                 delete!(pending, item)
             end
         end
@@ -360,7 +360,7 @@ function generate_operations(wsdl, operations, f, ns_pfx)
         resp_type = msg_type_map[op_name * "Response"]
 
         # make sure that the rqst type is not a NULL type....
-        if contains(empty_types, rqst_type)
+        if rqst_type in empty_types
             op_params = ""
             op_msg = ""
             op_altsig=""
