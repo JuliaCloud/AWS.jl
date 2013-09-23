@@ -128,7 +128,7 @@ function ec2_execute(env::AWSEnv, action::String, params_in=nothing)
         
         ec2resp.http_code = resp.http_code
         ec2resp.headers = resp.headers
-        ec2resp.body = resp.body
+        ec2resp.body = bytestring(resp.body)
 
         if (env.dbg) 
             print("HTTPCode: ", ec2resp.http_code, "\nHeaders: ", ec2resp.headers, "\nBody : ", ec2resp.body, "\n")
@@ -139,18 +139,18 @@ function ec2_execute(env::AWSEnv, action::String, params_in=nothing)
                 
              if (search(Base.get(resp.headers, "Content-Type", ""), "/xml") != 0:-1)
 #            if  haskey(resp.headers, "Content-Type") && (resp.headers["Content-Type"] == "application/xml")
-                ec2resp.pd = xp_parse(resp.body)
+                ec2resp.pd = xp_parse(ec2resp.body)
             end
         elseif (resp.http_code >= 400) && (resp.http_code <= 599)
-            if length(resp.body) > 0
-                xom = xp_parse(resp.body)
+            if length(ec2resp.body) > 0
+                xom = xp_parse(ec2resp.body)
                 epd = find(xom, "Errors/Error[1]")
                 ec2resp.obj = EC2Error(find(epd, "Code#string"), find(epd, "Message#string"), find(xom, "RequestID#string"))
             else
                 error("HTTP error : $(resp.http_code)")
             end
         else
-            error("HTTP error : $(resp.http_code), $(resp.body)")
+            error("HTTP error : $(resp.http_code), $(ec2resp.body)")
         end
     end 
     

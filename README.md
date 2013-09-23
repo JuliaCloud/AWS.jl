@@ -122,7 +122,7 @@ type S3Response
     
     obj::Any                # If the response was an XML representing a Julia S3 response type,
                             # it is parsed and set here.
-                            # Else it will contain the raw string of the response
+                            # Else it will contain an IOBuffer object
                             
     pd::Union(ETree, Nothing)
 end

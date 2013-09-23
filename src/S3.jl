@@ -389,7 +389,7 @@ function get_object(env::AWSEnv, bkt::String, key::String; options::GetObjectOpt
     ro.http_hdrs = http_headers({}, options)
     ro.ostream = out
 
-    s3_resp = do_request(env, ro)
+    s3_resp = do_request(env, ro, conv_to_string=false)
     s3_resp
 end
 
@@ -406,7 +406,7 @@ function get_object_torrent(env::AWSEnv, bkt::String, key::String, out::Union(IO
     ro.sub_res={("torrent","")}
     ro.ostream = out
     
-    s3_resp = do_request(env, ro)
+    s3_resp = do_request(env, ro, conv_to_string=false)
     s3_resp
 end
 
@@ -560,7 +560,7 @@ function list_upload_parts(env::AWSEnv, bkt::String, key::String,
     @req_n_process(ListPartsResult)
 end
 
-function do_request(env::AWSEnv, ro::RO)
+function do_request(env::AWSEnv, ro::RO; conv_to_string=true)
     http_resp = do_http(env, ro)
     
     s3_resp = S3Response()
@@ -582,14 +582,14 @@ function do_request(env::AWSEnv, ro::RO)
     s3_resp.headers = http_resp.headers
 
     if (http_resp.http_code > 299)
-        if  (search(Base.get(http_resp.headers, "Content-Type", ""), "/xml") != 0:-1) && (http_resp.body != "")
-            s3_resp.pd = xp_parse(http_resp.body)
+        if  (search(Base.get(http_resp.headers, "Content-Type", ""), "/xml") != 0:-1) && isa(http_resp.body, IO) && (position(http_resp.body) > 0)
+            s3_resp.pd = xp_parse(bytestring(http_resp.body))
             if s3_resp.pd.name == "Error"
                 s3_resp.obj = S3Error(s3_resp.pd) 
             end
         end
     else
-        s3_resp.obj = http_resp.body
+        s3_resp.obj = conv_to_string ? bytestring(http_resp.body) : http_resp.body
     end
     
     s3_resp
