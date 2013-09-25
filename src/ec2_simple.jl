@@ -180,7 +180,11 @@ end
 
 function ec2_instances_by_owner (owner::String; env=AWSEnv())
     instances = ASCIIString[]
-    req = DescribeInstancesType(filterSet=[FilterType(name="tag:Owner", valueSet=[owner])])
+    
+    tagfilter = FilterType(name="tag:Owner", valueSet=[owner])
+    statefilter = FilterType(name="instance-state-name", valueSet=["running"])
+    
+    req = DescribeInstancesType(filterSet=[tagfilter, statefilter])
     resp = CHK_ERR(DescribeInstances(env, req))
     reservs = resp.reservationSet
     for reserv in reservs
