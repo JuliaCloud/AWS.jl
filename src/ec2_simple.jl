@@ -1,4 +1,3 @@
-
 export ec2_terminate, ec2_addprocs, ec2_launch, ec2_start, ec2_stop, ec2_show_status, ec2_hostnames, ec2_instances_by_owner
 export ec2_mount_snapshot
 
@@ -63,7 +62,7 @@ function ec2_hostnames(instances; env=AWSEnv())
     for reserv in reservs
         instancesSet = reserv.instancesSet
         for i in instancesSet
-            push!(names, (i.instanceId, i.dnsName))
+            push!(names, (i.instanceId, i.dnsName, i.privateDnsName))
         end
     end
     names
@@ -112,9 +111,10 @@ function ec2_launch(ami::String, seckey::String; env=AWSEnv(), insttype::String=
     instances
 end
 
-function ec2_addprocs(instances, ec2_keyfile::String; env=AWSEnv(), hostuser::String="ubuntu", dir=JULIA_HOME, tunnel=true)
+function ec2_addprocs(instances, ec2_keyfile::String; env=AWSEnv(), hostuser::String="ubuntu", dir=JULIA_HOME, tunnel=true, use_public_dnsname=true)
     hostnames = ec2_hostnames(instances, env=env)
-    sshnames = String["$(hostuser)@$(host[2])" for host in hostnames]
+    idx = use_public_dnsname ? 2 : 3
+    sshnames = String["$(hostuser)@$(host[idx])" for host in hostnames]
 
     addprocs(sshnames, sshflags=`-i $(ec2_keyfile) -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no`, dir=dir, tunnel=tunnel)
 end
@@ -180,7 +180,11 @@ end
 
 function ec2_instances_by_owner (owner::String; env=AWSEnv())
     instances = ASCIIString[]
-    req = DescribeInstancesType(filterSet=[FilterType(name="tag:Owner", valueSet=[owner])])
+    
+    tagfilter = FilterType(name="tag:Owner", valueSet=[owner])
+    statefilter = FilterType(name="instance-state-name", valueSet=["running"])
+    
+    req = DescribeInstancesType(filterSet=[tagfilter, statefilter])
     resp = CHK_ERR(DescribeInstances(env, req))
     reservs = resp.reservationSet
     for reserv in reservs
