@@ -111,7 +111,7 @@ function ec2_launch(ami::String, seckey::String; env=AWSEnv(), insttype::String=
     instances
 end
 
-function ec2_addprocs(instances, ec2_keyfile::String; env=AWSEnv(), hostuser::String="ubuntu", dir=JULIA_HOME, tunnel=true)
+function ec2_addprocs(instances, ec2_keyfile::String; env=AWSEnv(), hostuser::String="ubuntu", dir=JULIA_HOME, tunnel=true, use_public_dnsname=true)
     hostnames = ec2_hostnames(instances, env=env)
     idx = use_public_dnsname ? 2 : 3
     sshnames = String["$(hostuser)@$(host[idx])" for host in hostnames]
