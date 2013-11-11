@@ -740,23 +740,26 @@ function get_canonicalized_resource(ro::RO)
     sorted = sort(ro.sub_res)
     signlist = filter(x -> begin (k,v) = x; in(k, qstr_sign_list) end, sorted)
     
-    signparams = 
-    mapreduce(
-            x -> begin
-                    k,v = x;
-                    if (v != "") 
-                        ep = string(k) * "=" * string(v)
-                    else
-                        ep = string(k)
-                    end
-                    ep
-                end,
-            (r1,r2) -> r1 == "" ? r2 :
-                       r2 == "" ? r1 :
-                       r1 * "&" * r2,
-            "", signlist
-    )
-
+    redf(r1,r2) = begin
+        r1 == "" ? r2 :
+        r2 == "" ? r1 :
+        r1 * "&" * r2
+    end
+    
+    signparams = ""
+    for x in signlist
+        k,v = x;
+        if (v != "") 
+            ep = string(k) * "=" * string(v)
+        else
+            ep = string(k)
+        end
+        if signparams == ""
+            signparams = ep
+        else
+            signparams = signparams  * "&" * ep
+        end
+    end
     
     canon_res = part1 * "?" * HTTPC.urlencode_query_params(sorted)
     
@@ -791,7 +794,11 @@ function get_canon_amz_headers(headers::Vector{Tuple})
 
     # Use the sorted one in the final request too since the order of 'values' 
     sorted = sort(collect(reduced))
-    canon_hdr_str = reduce((acc,elem) -> begin (k,v) = elem; acc * k * ":" * v * "\n" end, "", sorted) 
+    canon_hdr_str = ""
+    for x in sorted
+        (k,v) = x
+        canon_hdr_str = canon_hdr_str * k * ":" * v * "\n"
+    end
     
     return sorted, canon_hdr_str
 end
