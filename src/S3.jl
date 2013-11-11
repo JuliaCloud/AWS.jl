@@ -740,12 +740,6 @@ function get_canonicalized_resource(ro::RO)
     sorted = sort(ro.sub_res)
     signlist = filter(x -> begin (k,v) = x; in(k, qstr_sign_list) end, sorted)
     
-    redf(r1,r2) = begin
-        r1 == "" ? r2 :
-        r2 == "" ? r1 :
-        r1 * "&" * r2
-    end
-    
     signparams = ""
     for x in signlist
         k,v = x;
