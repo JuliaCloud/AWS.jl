@@ -1,11 +1,12 @@
 ## ec2_simple API
 
 #### ec2_launch
+
 ```
     ec2_launch(ami::String, seckey::String; env=AWSEnv(), insttype::String="m1.small", 
         n::Integer=1, uname::String="julia", instname::String="julia", 
         launchset::String="")
-    ```
+```
 
 - can be used to launch `n` instances of ami `ami`. 
 
@@ -24,7 +25,7 @@ The created instances are tagged with the following keys:
 
 #### ec2_addprocs
     
-```ec2_addprocs(instances, ec2_keyfile::String; env=AWSEnv(), hostuser::String="ubuntu", dir=JULIA_HOME, tunnel=true, use_public_dnsname=true)```
+`ec2_addprocs(instances, ec2_keyfile::String; env=AWSEnv(), hostuser::String="ubuntu", dir=JULIA_HOME, tunnel=true, use_public_dnsname=true)`
 
 is the AWS:EC2 equivalent of the built-in `addprocs`
 
@@ -40,23 +41,29 @@ is the AWS:EC2 equivalent of the built-in `addprocs`
 
 
 #### ec2_start
-- ```ec2_start(instances; env=AWSEnv())``` starts stopped EC2 instances
+
+- `ec2_start(instances; env=AWSEnv())` starts stopped EC2 instances
 
 
 #### ec2_stop
-- ```ec2_stop(instances; env=AWSEnv())``` stops running EC2 instances
+
+- `ec2_stop(instances; env=AWSEnv())` stops running EC2 instances
 
 #### ec2_terminate
-- ```ec2_terminate (instances; env=AWSEnv())``` terminates the EC2 instances
+
+- `ec2_terminate (instances; env=AWSEnv())` terminates the EC2 instances
 
 
 #### ec2_show_status
-- ```ec2_show_status(instances; env=AWSEnv())``` prints and returns an array of `(instanceId, instanceState.code, instanceState.name)` for each of the instances specified.
+
+- `ec2_show_status(instances; env=AWSEnv())` prints and returns an array of `(instanceId, instanceState.code, instanceState.name)` for each of the instances specified.
 
 
 #### ec2_instances_by_owner
-- ```ec2_instances_by_owner (owner::String; env=AWSEnv())``` returns all running instances tagged with "Owner" 'owner'
 
+- `ec2_instances_by_owner (owner::String; env=AWSEnv())` returns all running instances tagged with "Owner" 'owner'
 
-- ```ec2_mount_snapshot (instance::String, snapshot::String, mount::String, ec2_keyfile::String; env=AWSEnv(), dev="/dev/xvdh", hostuser::String="ubuntu")`
+#### ec2_mount_snapshot
+
+- `ec2_mount_snapshot (instance::String, snapshot::String, mount::String, ec2_keyfile::String; env=AWSEnv(), dev="/dev/xvdh", hostuser::String="ubuntu")`
     attaches the specified `snapshot` to `dev` and then mounts it at mountpoint `mount` on the instance specified by `instance`
