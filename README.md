@@ -150,8 +150,8 @@ EC2 has two sets of APIs
 - ec2_instances_by_owner
 - ec2_addprocs
 
-These are detailed in ```src/ec2_simple.jl``` and will be documented once the API stablizes.
-For now please refer to the source.
+These are described in [here](../doc/ec2-simple.md)
+The source is in ```src/ec2_simple.jl``` 
 
 A generic API is ```ec2_basic```
 
