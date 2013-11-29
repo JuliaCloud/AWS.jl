@@ -15,12 +15,13 @@
 `insttype` is the EC2 instance type.
 
 The created instances are tagged with the following keys:
-    - `LaunchSet` => value of keyword argument `launchset`. If `""`, current datetime is used to tag.
-        This is mail used to identify different clusters of nodes on the same AWS account.
-        
-    - `Name` => value of keyword argument `instname`.    
+
+- `LaunchSet` => value of keyword argument `launchset`. If `""`, current datetime is used to tag. This is mainly used to 
+    identify different clusters of nodes on the same AWS account.
     
-    - `Owner` => value of keyword argument `uname`.    
+- `Name` => value of keyword argument `instname`.    
+
+- `Owner` => value of keyword argument `uname`.    
 
 `ec2_launch` returns an array of `instanceId` s    
     
@@ -30,7 +31,7 @@ The created instances are tagged with the following keys:
 ```
     ec2_addprocs(instances, ec2_keyfile::String; env=AWSEnv(), hostuser::String="ubuntu", 
         dir=JULIA_HOME, tunnel=true, use_public_dnsname=true)
-````
+```
 
 is the AWS:EC2 equivalent of the built-in `addprocs`
 
@@ -70,8 +71,9 @@ is the AWS:EC2 equivalent of the built-in `addprocs`
 
 #### ec2_mount_snapshot
 
- ```
+```
     ec2_mount_snapshot (instance::String, snapshot::String, mount::String, 
         ec2_keyfile::String; env=AWSEnv(), dev="/dev/xvdh", hostuser::String="ubuntu")
- ```
+```
+    
     attaches the specified `snapshot` to `dev` and then mounts it at mountpoint `mount` on the instance specified by `instance`
