@@ -51,11 +51,11 @@ function add_to_params(params, obj, pfx)
             
             if beginswith(arg_name, "_")
                 # handle field names that match julia reserved types....
-                arg_name =  arg_name[2:]
+                arg_name =  arg_name[2:end]
             end
             
             #Captitalize the first letter for the argument.
-            arg_name = uppercase(arg_name[1:1]) * arg_name[2:]
+            arg_name = uppercase(arg_name[1:1]) * arg_name[2:end]
 
             if is_basic_type(fld_val)
                 push!(params, (pfx * arg_name, aws_string(fld_val)))
