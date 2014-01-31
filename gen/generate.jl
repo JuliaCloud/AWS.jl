@@ -70,7 +70,7 @@ function get_type_in_jl(xtype_name, ns_pfx)
         
         return (native_type, true)
     elseif beginswith(xtype_name, "tns:")
-        return (xtype_name[5:], false)
+        return (xtype_name[5:end], false)
     end 
 end
 
@@ -88,7 +88,7 @@ function is_set_type(type_name, is_native, ns_pfx, findpath)
         if haskey(ele.attr, "maxOccurs") && (ele.attr["maxOccurs"] == "unbounded")
             ele_type_name = ele.attr["type"]
 #            println("Found type with single entry of type $ele_type_name array for $type_name")
-            beginswith(ele_type_name, "tns:") ? ele_type_name = ele_type_name[5:] : nothing
+            beginswith(ele_type_name, "tns:") ? ele_type_name = ele_type_name[5:end] : nothing
             
             ele_type = all_ctypes_map[ele_type_name]
             ele_elements = find (ele_type, "$(ns_pfx)sequence/$(ns_pfx)element")
@@ -344,7 +344,7 @@ function generate_operations(wsdl, operations, f, ns_pfx)
     for m in msg_elements
         m_type = m.attr["type"]
         if beginswith(m_type, "tns:")
-            m_type = m_type[5:]
+            m_type = m_type[5:end]
         end
         msg_type_map[m.attr["name"]] = m_type
     end
@@ -407,7 +407,7 @@ generate_operations(wsdl, operations, f, "xs:")
 
 # generate the list of valid rqst messages 
 write(f, "ValidRqstMsgs = [\n    \"$(valid_rqst_msgs[1])\"=>true")
-for v in valid_rqst_msgs[2:]
+for v in valid_rqst_msgs[2:end]
     write(f, ",\n    \"$v\"=>true")
 end
 write(f, "\n]\n\n")
