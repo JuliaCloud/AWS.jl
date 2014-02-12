@@ -451,7 +451,7 @@ function put_object(env::AWSEnv, bkt::String, key::String, data::Union(IOStream,
     
     ro.amz_hdrs = amz_headers({}, options)
     ro.http_hdrs = http_headers(Array(Tuple, 0), options)
-    if (content_type != "") ro.content_type = content_type end
+    if (content_type != "") ro.cont_typ = content_type end
     
     if isa(data, String) 
         ro.body = data
@@ -497,7 +497,7 @@ function initiate_multipart_upload(env::AWSEnv, bkt::String, key::String; conten
     ro = RO(:POST, bkt, key)
     ro.amz_hdrs = amz_headers({}, options)
     ro.http_hdrs = http_headers(Array(Tuple, 0), options)
-    if (content_type != "") ro.content_type = content_type end
+    if (content_type != "") ro.cont_typ = content_type end
     ro.sub_res={("uploads", "")}
 
     @req_n_process(InitiateMultipartUploadResult)
