@@ -1,7 +1,7 @@
 using AWS.EC2
 using AWS
 
-const ami_ubuntu_13_04_64_bit_US_east = "ami-8d5928e4" # This is the Julia installed version of 13_04
+const ami_ubuntu_13_04_64_bit_US_east = "ami-0d848f64" # This is the Julia installed version of 13_04
 instances = ec2_launch(ami_ubuntu_13_04_64_bit_US_east, "jublr")
 println(instances)
 

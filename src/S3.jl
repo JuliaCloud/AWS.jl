@@ -700,7 +700,7 @@ function canonicalize_and_sign(env::AWSEnv, ro::RO, md5::String)
     return new_amz_hdrs, full_path, s_b64
 end
 
-const qstr_sign_list = Set(
+const qstr_sign_list = Set([
     "acl", 
     "lifecycle", 
     "location", 
@@ -722,7 +722,7 @@ const qstr_sign_list = Set(
     "response-cache-control", 
     "response-content-disposition", 
     "response-content-encoding",
-    "delete"
+    "delete"]
 )
 
 function get_canonicalized_resource(ro::RO)

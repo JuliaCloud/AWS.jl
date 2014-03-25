@@ -8,7 +8,7 @@ end
 function ActivateLicense(env::AWSEnv; kwargs...)
     msg=ActivateLicenseType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     ActivateLicense(env, msg)
 end
@@ -25,7 +25,7 @@ end
 function AllocateAddress(env::AWSEnv; kwargs...)
     msg=AllocateAddressType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     AllocateAddress(env, msg)
 end
@@ -42,7 +42,7 @@ end
 function AssignPrivateIpAddresses(env::AWSEnv; kwargs...)
     msg=AssignPrivateIpAddressesType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     AssignPrivateIpAddresses(env, msg)
 end
@@ -59,7 +59,7 @@ end
 function AssociateAddress(env::AWSEnv; kwargs...)
     msg=AssociateAddressType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     AssociateAddress(env, msg)
 end
@@ -76,7 +76,7 @@ end
 function AssociateDhcpOptions(env::AWSEnv; kwargs...)
     msg=AssociateDhcpOptionsType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     AssociateDhcpOptions(env, msg)
 end
@@ -93,7 +93,7 @@ end
 function AssociateRouteTable(env::AWSEnv; kwargs...)
     msg=AssociateRouteTableType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     AssociateRouteTable(env, msg)
 end
@@ -110,7 +110,7 @@ end
 function AttachInternetGateway(env::AWSEnv; kwargs...)
     msg=AttachInternetGatewayType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     AttachInternetGateway(env, msg)
 end
@@ -127,7 +127,7 @@ end
 function AttachNetworkInterface(env::AWSEnv; kwargs...)
     msg=AttachNetworkInterfaceType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     AttachNetworkInterface(env, msg)
 end
@@ -144,7 +144,7 @@ end
 function AttachVolume(env::AWSEnv; kwargs...)
     msg=AttachVolumeType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     AttachVolume(env, msg)
 end
@@ -161,7 +161,7 @@ end
 function AttachVpnGateway(env::AWSEnv; kwargs...)
     msg=AttachVpnGatewayType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     AttachVpnGateway(env, msg)
 end
@@ -178,7 +178,7 @@ end
 function AuthorizeSecurityGroupEgress(env::AWSEnv; kwargs...)
     msg=AuthorizeSecurityGroupEgressType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     AuthorizeSecurityGroupEgress(env, msg)
 end
@@ -195,7 +195,7 @@ end
 function AuthorizeSecurityGroupIngress(env::AWSEnv; kwargs...)
     msg=AuthorizeSecurityGroupIngressType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     AuthorizeSecurityGroupIngress(env, msg)
 end
@@ -212,7 +212,7 @@ end
 function BundleInstance(env::AWSEnv; kwargs...)
     msg=BundleInstanceType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     BundleInstance(env, msg)
 end
@@ -229,7 +229,7 @@ end
 function CancelBundleTask(env::AWSEnv; kwargs...)
     msg=CancelBundleTaskType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     CancelBundleTask(env, msg)
 end
@@ -246,7 +246,7 @@ end
 function CancelConversionTask(env::AWSEnv; kwargs...)
     msg=CancelConversionTaskType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     CancelConversionTask(env, msg)
 end
@@ -263,7 +263,7 @@ end
 function CancelExportTask(env::AWSEnv; kwargs...)
     msg=CancelExportTaskType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     CancelExportTask(env, msg)
 end
@@ -280,7 +280,7 @@ end
 function CancelReservedInstancesListing(env::AWSEnv; kwargs...)
     msg=CancelReservedInstancesListingType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     CancelReservedInstancesListing(env, msg)
 end
@@ -297,7 +297,7 @@ end
 function CancelSpotInstanceRequests(env::AWSEnv; kwargs...)
     msg=CancelSpotInstanceRequestsType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     CancelSpotInstanceRequests(env, msg)
 end
@@ -314,7 +314,7 @@ end
 function ConfirmProductInstance(env::AWSEnv; kwargs...)
     msg=ConfirmProductInstanceType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     ConfirmProductInstance(env, msg)
 end
@@ -331,7 +331,7 @@ end
 function CopyImage(env::AWSEnv; kwargs...)
     msg=CopyImageType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     CopyImage(env, msg)
 end
@@ -348,7 +348,7 @@ end
 function CopySnapshot(env::AWSEnv; kwargs...)
     msg=CopySnapshotType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     CopySnapshot(env, msg)
 end
@@ -365,7 +365,7 @@ end
 function CreateCustomerGateway(env::AWSEnv; kwargs...)
     msg=CreateCustomerGatewayType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     CreateCustomerGateway(env, msg)
 end
@@ -382,7 +382,7 @@ end
 function CreateDhcpOptions(env::AWSEnv; kwargs...)
     msg=CreateDhcpOptionsType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     CreateDhcpOptions(env, msg)
 end
@@ -399,7 +399,7 @@ end
 function CreateImage(env::AWSEnv; kwargs...)
     msg=CreateImageType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     CreateImage(env, msg)
 end
@@ -416,7 +416,7 @@ end
 function CreateInstanceExportTask(env::AWSEnv; kwargs...)
     msg=CreateInstanceExportTaskType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     CreateInstanceExportTask(env, msg)
 end
@@ -444,7 +444,7 @@ end
 function CreateKeyPair(env::AWSEnv; kwargs...)
     msg=CreateKeyPairType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     CreateKeyPair(env, msg)
 end
@@ -461,7 +461,7 @@ end
 function CreateNetworkAcl(env::AWSEnv; kwargs...)
     msg=CreateNetworkAclType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     CreateNetworkAcl(env, msg)
 end
@@ -478,7 +478,7 @@ end
 function CreateNetworkAclEntry(env::AWSEnv; kwargs...)
     msg=CreateNetworkAclEntryType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     CreateNetworkAclEntry(env, msg)
 end
@@ -495,7 +495,7 @@ end
 function CreateNetworkInterface(env::AWSEnv; kwargs...)
     msg=CreateNetworkInterfaceType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     CreateNetworkInterface(env, msg)
 end
@@ -512,7 +512,7 @@ end
 function CreatePlacementGroup(env::AWSEnv; kwargs...)
     msg=CreatePlacementGroupType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     CreatePlacementGroup(env, msg)
 end
@@ -529,7 +529,7 @@ end
 function CreateReservedInstancesListing(env::AWSEnv; kwargs...)
     msg=CreateReservedInstancesListingType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     CreateReservedInstancesListing(env, msg)
 end
@@ -546,7 +546,7 @@ end
 function CreateRoute(env::AWSEnv; kwargs...)
     msg=CreateRouteType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     CreateRoute(env, msg)
 end
@@ -563,7 +563,7 @@ end
 function CreateRouteTable(env::AWSEnv; kwargs...)
     msg=CreateRouteTableType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     CreateRouteTable(env, msg)
 end
@@ -580,7 +580,7 @@ end
 function CreateSecurityGroup(env::AWSEnv; kwargs...)
     msg=CreateSecurityGroupType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     CreateSecurityGroup(env, msg)
 end
@@ -597,7 +597,7 @@ end
 function CreateSnapshot(env::AWSEnv; kwargs...)
     msg=CreateSnapshotType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     CreateSnapshot(env, msg)
 end
@@ -614,7 +614,7 @@ end
 function CreateSpotDatafeedSubscription(env::AWSEnv; kwargs...)
     msg=CreateSpotDatafeedSubscriptionType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     CreateSpotDatafeedSubscription(env, msg)
 end
@@ -631,7 +631,7 @@ end
 function CreateSubnet(env::AWSEnv; kwargs...)
     msg=CreateSubnetType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     CreateSubnet(env, msg)
 end
@@ -648,7 +648,7 @@ end
 function CreateTags(env::AWSEnv; kwargs...)
     msg=CreateTagsType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     CreateTags(env, msg)
 end
@@ -665,7 +665,7 @@ end
 function CreateVolume(env::AWSEnv; kwargs...)
     msg=CreateVolumeType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     CreateVolume(env, msg)
 end
@@ -682,7 +682,7 @@ end
 function CreateVpc(env::AWSEnv; kwargs...)
     msg=CreateVpcType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     CreateVpc(env, msg)
 end
@@ -699,7 +699,7 @@ end
 function CreateVpnConnection(env::AWSEnv; kwargs...)
     msg=CreateVpnConnectionType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     CreateVpnConnection(env, msg)
 end
@@ -716,7 +716,7 @@ end
 function CreateVpnConnectionRoute(env::AWSEnv; kwargs...)
     msg=CreateVpnConnectionRouteType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     CreateVpnConnectionRoute(env, msg)
 end
@@ -733,7 +733,7 @@ end
 function CreateVpnGateway(env::AWSEnv; kwargs...)
     msg=CreateVpnGatewayType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     CreateVpnGateway(env, msg)
 end
@@ -750,7 +750,7 @@ end
 function DeactivateLicense(env::AWSEnv; kwargs...)
     msg=DeactivateLicenseType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DeactivateLicense(env, msg)
 end
@@ -767,7 +767,7 @@ end
 function DeleteCustomerGateway(env::AWSEnv; kwargs...)
     msg=DeleteCustomerGatewayType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DeleteCustomerGateway(env, msg)
 end
@@ -784,7 +784,7 @@ end
 function DeleteDhcpOptions(env::AWSEnv; kwargs...)
     msg=DeleteDhcpOptionsType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DeleteDhcpOptions(env, msg)
 end
@@ -801,7 +801,7 @@ end
 function DeleteInternetGateway(env::AWSEnv; kwargs...)
     msg=DeleteInternetGatewayType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DeleteInternetGateway(env, msg)
 end
@@ -818,7 +818,7 @@ end
 function DeleteKeyPair(env::AWSEnv; kwargs...)
     msg=DeleteKeyPairType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DeleteKeyPair(env, msg)
 end
@@ -835,7 +835,7 @@ end
 function DeleteNetworkAcl(env::AWSEnv; kwargs...)
     msg=DeleteNetworkAclType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DeleteNetworkAcl(env, msg)
 end
@@ -852,7 +852,7 @@ end
 function DeleteNetworkAclEntry(env::AWSEnv; kwargs...)
     msg=DeleteNetworkAclEntryType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DeleteNetworkAclEntry(env, msg)
 end
@@ -869,7 +869,7 @@ end
 function DeleteNetworkInterface(env::AWSEnv; kwargs...)
     msg=DeleteNetworkInterfaceType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DeleteNetworkInterface(env, msg)
 end
@@ -886,7 +886,7 @@ end
 function DeletePlacementGroup(env::AWSEnv; kwargs...)
     msg=DeletePlacementGroupType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DeletePlacementGroup(env, msg)
 end
@@ -903,7 +903,7 @@ end
 function DeleteRoute(env::AWSEnv; kwargs...)
     msg=DeleteRouteType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DeleteRoute(env, msg)
 end
@@ -920,7 +920,7 @@ end
 function DeleteRouteTable(env::AWSEnv; kwargs...)
     msg=DeleteRouteTableType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DeleteRouteTable(env, msg)
 end
@@ -937,7 +937,7 @@ end
 function DeleteSecurityGroup(env::AWSEnv; kwargs...)
     msg=DeleteSecurityGroupType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DeleteSecurityGroup(env, msg)
 end
@@ -954,7 +954,7 @@ end
 function DeleteSnapshot(env::AWSEnv; kwargs...)
     msg=DeleteSnapshotType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DeleteSnapshot(env, msg)
 end
@@ -982,7 +982,7 @@ end
 function DeleteSubnet(env::AWSEnv; kwargs...)
     msg=DeleteSubnetType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DeleteSubnet(env, msg)
 end
@@ -999,7 +999,7 @@ end
 function DeleteTags(env::AWSEnv; kwargs...)
     msg=DeleteTagsType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DeleteTags(env, msg)
 end
@@ -1016,7 +1016,7 @@ end
 function DeleteVolume(env::AWSEnv; kwargs...)
     msg=DeleteVolumeType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DeleteVolume(env, msg)
 end
@@ -1033,7 +1033,7 @@ end
 function DeleteVpc(env::AWSEnv; kwargs...)
     msg=DeleteVpcType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DeleteVpc(env, msg)
 end
@@ -1050,7 +1050,7 @@ end
 function DeleteVpnConnection(env::AWSEnv; kwargs...)
     msg=DeleteVpnConnectionType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DeleteVpnConnection(env, msg)
 end
@@ -1067,7 +1067,7 @@ end
 function DeleteVpnConnectionRoute(env::AWSEnv; kwargs...)
     msg=DeleteVpnConnectionRouteType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DeleteVpnConnectionRoute(env, msg)
 end
@@ -1084,7 +1084,7 @@ end
 function DeleteVpnGateway(env::AWSEnv; kwargs...)
     msg=DeleteVpnGatewayType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DeleteVpnGateway(env, msg)
 end
@@ -1101,7 +1101,7 @@ end
 function DeregisterImage(env::AWSEnv; kwargs...)
     msg=DeregisterImageType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DeregisterImage(env, msg)
 end
@@ -1118,7 +1118,7 @@ end
 function DescribeAccountAttributes(env::AWSEnv; kwargs...)
     msg=DescribeAccountAttributesType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DescribeAccountAttributes(env, msg)
 end
@@ -1135,7 +1135,7 @@ end
 function DescribeAddresses(env::AWSEnv; kwargs...)
     msg=DescribeAddressesType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DescribeAddresses(env, msg)
 end
@@ -1152,7 +1152,7 @@ end
 function DescribeAvailabilityZones(env::AWSEnv; kwargs...)
     msg=DescribeAvailabilityZonesType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DescribeAvailabilityZones(env, msg)
 end
@@ -1169,7 +1169,7 @@ end
 function DescribeBundleTasks(env::AWSEnv; kwargs...)
     msg=DescribeBundleTasksType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DescribeBundleTasks(env, msg)
 end
@@ -1186,7 +1186,7 @@ end
 function DescribeConversionTasks(env::AWSEnv; kwargs...)
     msg=DescribeConversionTasksType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DescribeConversionTasks(env, msg)
 end
@@ -1203,7 +1203,7 @@ end
 function DescribeCustomerGateways(env::AWSEnv; kwargs...)
     msg=DescribeCustomerGatewaysType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DescribeCustomerGateways(env, msg)
 end
@@ -1220,7 +1220,7 @@ end
 function DescribeDhcpOptions(env::AWSEnv; kwargs...)
     msg=DescribeDhcpOptionsType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DescribeDhcpOptions(env, msg)
 end
@@ -1237,7 +1237,7 @@ end
 function DescribeExportTasks(env::AWSEnv; kwargs...)
     msg=DescribeExportTasksType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DescribeExportTasks(env, msg)
 end
@@ -1254,7 +1254,7 @@ end
 function DescribeImageAttribute(env::AWSEnv; kwargs...)
     msg=DescribeImageAttributeType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DescribeImageAttribute(env, msg)
 end
@@ -1271,7 +1271,7 @@ end
 function DescribeImages(env::AWSEnv; kwargs...)
     msg=DescribeImagesType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DescribeImages(env, msg)
 end
@@ -1288,7 +1288,7 @@ end
 function DescribeInstanceAttribute(env::AWSEnv; kwargs...)
     msg=DescribeInstanceAttributeType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DescribeInstanceAttribute(env, msg)
 end
@@ -1305,7 +1305,7 @@ end
 function DescribeInstances(env::AWSEnv; kwargs...)
     msg=DescribeInstancesType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DescribeInstances(env, msg)
 end
@@ -1322,7 +1322,7 @@ end
 function DescribeInstanceStatus(env::AWSEnv; kwargs...)
     msg=DescribeInstanceStatusType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DescribeInstanceStatus(env, msg)
 end
@@ -1339,7 +1339,7 @@ end
 function DescribeInternetGateways(env::AWSEnv; kwargs...)
     msg=DescribeInternetGatewaysType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DescribeInternetGateways(env, msg)
 end
@@ -1356,7 +1356,7 @@ end
 function DescribeKeyPairs(env::AWSEnv; kwargs...)
     msg=DescribeKeyPairsType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DescribeKeyPairs(env, msg)
 end
@@ -1373,7 +1373,7 @@ end
 function DescribeLicenses(env::AWSEnv; kwargs...)
     msg=DescribeLicensesType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DescribeLicenses(env, msg)
 end
@@ -1390,7 +1390,7 @@ end
 function DescribeNetworkAcls(env::AWSEnv; kwargs...)
     msg=DescribeNetworkAclsType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DescribeNetworkAcls(env, msg)
 end
@@ -1407,7 +1407,7 @@ end
 function DescribeNetworkInterfaceAttribute(env::AWSEnv; kwargs...)
     msg=DescribeNetworkInterfaceAttributeType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DescribeNetworkInterfaceAttribute(env, msg)
 end
@@ -1424,7 +1424,7 @@ end
 function DescribeNetworkInterfaces(env::AWSEnv; kwargs...)
     msg=DescribeNetworkInterfacesType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DescribeNetworkInterfaces(env, msg)
 end
@@ -1441,7 +1441,7 @@ end
 function DescribePlacementGroups(env::AWSEnv; kwargs...)
     msg=DescribePlacementGroupsType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DescribePlacementGroups(env, msg)
 end
@@ -1458,7 +1458,7 @@ end
 function DescribeRegions(env::AWSEnv; kwargs...)
     msg=DescribeRegionsType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DescribeRegions(env, msg)
 end
@@ -1475,7 +1475,7 @@ end
 function DescribeReservedInstances(env::AWSEnv; kwargs...)
     msg=DescribeReservedInstancesType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DescribeReservedInstances(env, msg)
 end
@@ -1492,7 +1492,7 @@ end
 function DescribeReservedInstancesListings(env::AWSEnv; kwargs...)
     msg=DescribeReservedInstancesListingsType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DescribeReservedInstancesListings(env, msg)
 end
@@ -1509,7 +1509,7 @@ end
 function DescribeReservedInstancesOfferings(env::AWSEnv; kwargs...)
     msg=DescribeReservedInstancesOfferingsType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DescribeReservedInstancesOfferings(env, msg)
 end
@@ -1526,7 +1526,7 @@ end
 function DescribeRouteTables(env::AWSEnv; kwargs...)
     msg=DescribeRouteTablesType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DescribeRouteTables(env, msg)
 end
@@ -1543,7 +1543,7 @@ end
 function DescribeSecurityGroups(env::AWSEnv; kwargs...)
     msg=DescribeSecurityGroupsType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DescribeSecurityGroups(env, msg)
 end
@@ -1560,7 +1560,7 @@ end
 function DescribeSnapshotAttribute(env::AWSEnv; kwargs...)
     msg=DescribeSnapshotAttributeType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DescribeSnapshotAttribute(env, msg)
 end
@@ -1577,7 +1577,7 @@ end
 function DescribeSnapshots(env::AWSEnv; kwargs...)
     msg=DescribeSnapshotsType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DescribeSnapshots(env, msg)
 end
@@ -1605,7 +1605,7 @@ end
 function DescribeSpotInstanceRequests(env::AWSEnv; kwargs...)
     msg=DescribeSpotInstanceRequestsType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DescribeSpotInstanceRequests(env, msg)
 end
@@ -1622,7 +1622,7 @@ end
 function DescribeSpotPriceHistory(env::AWSEnv; kwargs...)
     msg=DescribeSpotPriceHistoryType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DescribeSpotPriceHistory(env, msg)
 end
@@ -1639,7 +1639,7 @@ end
 function DescribeSubnets(env::AWSEnv; kwargs...)
     msg=DescribeSubnetsType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DescribeSubnets(env, msg)
 end
@@ -1656,7 +1656,7 @@ end
 function DescribeTags(env::AWSEnv; kwargs...)
     msg=DescribeTagsType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DescribeTags(env, msg)
 end
@@ -1673,7 +1673,7 @@ end
 function DescribeVolumeAttribute(env::AWSEnv; kwargs...)
     msg=DescribeVolumeAttributeType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DescribeVolumeAttribute(env, msg)
 end
@@ -1690,7 +1690,7 @@ end
 function DescribeVolumes(env::AWSEnv; kwargs...)
     msg=DescribeVolumesType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DescribeVolumes(env, msg)
 end
@@ -1707,7 +1707,7 @@ end
 function DescribeVolumeStatus(env::AWSEnv; kwargs...)
     msg=DescribeVolumeStatusType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DescribeVolumeStatus(env, msg)
 end
@@ -1724,7 +1724,7 @@ end
 function DescribeVpcAttribute(env::AWSEnv; kwargs...)
     msg=DescribeVpcAttributeType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DescribeVpcAttribute(env, msg)
 end
@@ -1741,7 +1741,7 @@ end
 function DescribeVpcs(env::AWSEnv; kwargs...)
     msg=DescribeVpcsType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DescribeVpcs(env, msg)
 end
@@ -1758,7 +1758,7 @@ end
 function DescribeVpnConnections(env::AWSEnv; kwargs...)
     msg=DescribeVpnConnectionsType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DescribeVpnConnections(env, msg)
 end
@@ -1775,7 +1775,7 @@ end
 function DescribeVpnGateways(env::AWSEnv; kwargs...)
     msg=DescribeVpnGatewaysType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DescribeVpnGateways(env, msg)
 end
@@ -1792,7 +1792,7 @@ end
 function DetachInternetGateway(env::AWSEnv; kwargs...)
     msg=DetachInternetGatewayType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DetachInternetGateway(env, msg)
 end
@@ -1809,7 +1809,7 @@ end
 function DetachNetworkInterface(env::AWSEnv; kwargs...)
     msg=DetachNetworkInterfaceType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DetachNetworkInterface(env, msg)
 end
@@ -1826,7 +1826,7 @@ end
 function DetachVolume(env::AWSEnv; kwargs...)
     msg=DetachVolumeType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DetachVolume(env, msg)
 end
@@ -1843,7 +1843,7 @@ end
 function DetachVpnGateway(env::AWSEnv; kwargs...)
     msg=DetachVpnGatewayType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DetachVpnGateway(env, msg)
 end
@@ -1860,7 +1860,7 @@ end
 function DisableVgwRoutePropagation(env::AWSEnv; kwargs...)
     msg=DisableVgwRoutePropagationType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DisableVgwRoutePropagation(env, msg)
 end
@@ -1877,7 +1877,7 @@ end
 function DisassociateAddress(env::AWSEnv; kwargs...)
     msg=DisassociateAddressType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DisassociateAddress(env, msg)
 end
@@ -1894,7 +1894,7 @@ end
 function DisassociateRouteTable(env::AWSEnv; kwargs...)
     msg=DisassociateRouteTableType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     DisassociateRouteTable(env, msg)
 end
@@ -1911,7 +1911,7 @@ end
 function EnableVgwRoutePropagation(env::AWSEnv; kwargs...)
     msg=EnableVgwRoutePropagationType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     EnableVgwRoutePropagation(env, msg)
 end
@@ -1928,7 +1928,7 @@ end
 function EnableVolumeIO(env::AWSEnv; kwargs...)
     msg=EnableVolumeIOType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     EnableVolumeIO(env, msg)
 end
@@ -1945,7 +1945,7 @@ end
 function GetConsoleOutput(env::AWSEnv; kwargs...)
     msg=GetConsoleOutputType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     GetConsoleOutput(env, msg)
 end
@@ -1962,7 +1962,7 @@ end
 function GetPasswordData(env::AWSEnv; kwargs...)
     msg=GetPasswordDataType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     GetPasswordData(env, msg)
 end
@@ -1979,7 +1979,7 @@ end
 function ImportInstance(env::AWSEnv; kwargs...)
     msg=ImportInstanceType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     ImportInstance(env, msg)
 end
@@ -1996,7 +1996,7 @@ end
 function ImportKeyPair(env::AWSEnv; kwargs...)
     msg=ImportKeyPairType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     ImportKeyPair(env, msg)
 end
@@ -2013,7 +2013,7 @@ end
 function ImportVolume(env::AWSEnv; kwargs...)
     msg=ImportVolumeType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     ImportVolume(env, msg)
 end
@@ -2030,7 +2030,7 @@ end
 function ModifyImageAttribute(env::AWSEnv; kwargs...)
     msg=ModifyImageAttributeType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     ModifyImageAttribute(env, msg)
 end
@@ -2047,7 +2047,7 @@ end
 function ModifyInstanceAttribute(env::AWSEnv; kwargs...)
     msg=ModifyInstanceAttributeType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     ModifyInstanceAttribute(env, msg)
 end
@@ -2064,7 +2064,7 @@ end
 function ModifyNetworkInterfaceAttribute(env::AWSEnv; kwargs...)
     msg=ModifyNetworkInterfaceAttributeType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     ModifyNetworkInterfaceAttribute(env, msg)
 end
@@ -2081,7 +2081,7 @@ end
 function ModifySnapshotAttribute(env::AWSEnv; kwargs...)
     msg=ModifySnapshotAttributeType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     ModifySnapshotAttribute(env, msg)
 end
@@ -2098,7 +2098,7 @@ end
 function ModifyVolumeAttribute(env::AWSEnv; kwargs...)
     msg=ModifyVolumeAttributeType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     ModifyVolumeAttribute(env, msg)
 end
@@ -2115,7 +2115,7 @@ end
 function ModifyVpcAttribute(env::AWSEnv; kwargs...)
     msg=ModifyVpcAttributeType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     ModifyVpcAttribute(env, msg)
 end
@@ -2132,7 +2132,7 @@ end
 function MonitorInstances(env::AWSEnv; kwargs...)
     msg=MonitorInstancesType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     MonitorInstances(env, msg)
 end
@@ -2149,7 +2149,7 @@ end
 function PurchaseReservedInstancesOffering(env::AWSEnv; kwargs...)
     msg=PurchaseReservedInstancesOfferingType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     PurchaseReservedInstancesOffering(env, msg)
 end
@@ -2166,7 +2166,7 @@ end
 function RebootInstances(env::AWSEnv; kwargs...)
     msg=RebootInstancesType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     RebootInstances(env, msg)
 end
@@ -2183,7 +2183,7 @@ end
 function RegisterImage(env::AWSEnv; kwargs...)
     msg=RegisterImageType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     RegisterImage(env, msg)
 end
@@ -2200,7 +2200,7 @@ end
 function ReleaseAddress(env::AWSEnv; kwargs...)
     msg=ReleaseAddressType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     ReleaseAddress(env, msg)
 end
@@ -2217,7 +2217,7 @@ end
 function ReplaceNetworkAclAssociation(env::AWSEnv; kwargs...)
     msg=ReplaceNetworkAclAssociationType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     ReplaceNetworkAclAssociation(env, msg)
 end
@@ -2234,7 +2234,7 @@ end
 function ReplaceNetworkAclEntry(env::AWSEnv; kwargs...)
     msg=ReplaceNetworkAclEntryType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     ReplaceNetworkAclEntry(env, msg)
 end
@@ -2251,7 +2251,7 @@ end
 function ReplaceRoute(env::AWSEnv; kwargs...)
     msg=ReplaceRouteType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     ReplaceRoute(env, msg)
 end
@@ -2268,7 +2268,7 @@ end
 function ReplaceRouteTableAssociation(env::AWSEnv; kwargs...)
     msg=ReplaceRouteTableAssociationType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     ReplaceRouteTableAssociation(env, msg)
 end
@@ -2285,7 +2285,7 @@ end
 function ReportInstanceStatus(env::AWSEnv; kwargs...)
     msg=ReportInstanceStatusType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     ReportInstanceStatus(env, msg)
 end
@@ -2302,7 +2302,7 @@ end
 function RequestSpotInstances(env::AWSEnv; kwargs...)
     msg=RequestSpotInstancesType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     RequestSpotInstances(env, msg)
 end
@@ -2319,7 +2319,7 @@ end
 function ResetImageAttribute(env::AWSEnv; kwargs...)
     msg=ResetImageAttributeType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     ResetImageAttribute(env, msg)
 end
@@ -2336,7 +2336,7 @@ end
 function ResetInstanceAttribute(env::AWSEnv; kwargs...)
     msg=ResetInstanceAttributeType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     ResetInstanceAttribute(env, msg)
 end
@@ -2353,7 +2353,7 @@ end
 function ResetNetworkInterfaceAttribute(env::AWSEnv; kwargs...)
     msg=ResetNetworkInterfaceAttributeType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     ResetNetworkInterfaceAttribute(env, msg)
 end
@@ -2370,7 +2370,7 @@ end
 function ResetSnapshotAttribute(env::AWSEnv; kwargs...)
     msg=ResetSnapshotAttributeType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     ResetSnapshotAttribute(env, msg)
 end
@@ -2387,7 +2387,7 @@ end
 function RevokeSecurityGroupEgress(env::AWSEnv; kwargs...)
     msg=RevokeSecurityGroupEgressType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     RevokeSecurityGroupEgress(env, msg)
 end
@@ -2404,7 +2404,7 @@ end
 function RevokeSecurityGroupIngress(env::AWSEnv; kwargs...)
     msg=RevokeSecurityGroupIngressType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     RevokeSecurityGroupIngress(env, msg)
 end
@@ -2421,7 +2421,7 @@ end
 function RunInstances(env::AWSEnv; kwargs...)
     msg=RunInstancesType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     RunInstances(env, msg)
 end
@@ -2438,7 +2438,7 @@ end
 function StartInstances(env::AWSEnv; kwargs...)
     msg=StartInstancesType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     StartInstances(env, msg)
 end
@@ -2455,7 +2455,7 @@ end
 function StopInstances(env::AWSEnv; kwargs...)
     msg=StopInstancesType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     StopInstances(env, msg)
 end
@@ -2472,7 +2472,7 @@ end
 function TerminateInstances(env::AWSEnv; kwargs...)
     msg=TerminateInstancesType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     TerminateInstances(env, msg)
 end
@@ -2489,7 +2489,7 @@ end
 function UnassignPrivateIpAddresses(env::AWSEnv; kwargs...)
     msg=UnassignPrivateIpAddressesType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     UnassignPrivateIpAddresses(env, msg)
 end
@@ -2506,7 +2506,7 @@ end
 function UnmonitorInstances(env::AWSEnv; kwargs...)
     msg=UnmonitorInstancesType()
     for p in kwargs
-        setfield(msg, p[1], p[2])
+        setfield!(msg, p[1], p[2])
     end
     UnmonitorInstances(env, msg)
 end

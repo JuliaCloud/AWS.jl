@@ -111,12 +111,38 @@ function ec2_launch(ami::String, seckey::String; env=AWSEnv(), insttype::String=
     instances
 end
 
-function ec2_addprocs(instances, ec2_keyfile::String; env=AWSEnv(), hostuser::String="ubuntu", dir=JULIA_HOME, tunnel=true, use_public_dnsname=true)
+function ec2_addprocs(instances, ec2_keyfile::String; env=AWSEnv(), hostuser::String="ubuntu", dir=JULIA_HOME, tunnel=true, use_public_dnsname=true, workers_per_instance=0)
     hostnames = ec2_hostnames(instances, env=env)
     idx = use_public_dnsname ? 2 : 3
-    sshnames = String["$(hostuser)@$(host[idx])" for host in hostnames]
-
-    addprocs(sshnames, sshflags=`-i $(ec2_keyfile) -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no`, dir=dir, tunnel=tunnel)
+    sshnames = String[]
+    sshflags = `-i $(ec2_keyfile) -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no`
+    
+    if workers_per_instance > 0
+        base_set = String["$(hostuser)@$(host[idx])" for host in hostnames]
+        while workers_per_instance > 0
+            append!(sshnames, base_set)
+            workers_per_instance = workers_per_instance - 1
+        end
+    else
+        # Detech the num cores on each first .....
+        ncmap = Dict{String, Int}()
+        @sync begin
+            for host in hostnames
+                hostname = host[idx]
+                cmd = `ssh $(Base.shell_escape(sshflags)) $(hostuser)@$(hostname) nproc`
+                @async begin
+                    nclocal = parseint(readall(cmd))
+                    ncmap[hostname] = nclocal
+                end
+            end
+        end
+        
+        for (hostname,nc) in ncmap
+            append!(sshnames, fill("$(hostuser)@$(hostname)", nc))
+        end
+    end
+    
+    addprocs(sshnames, sshflags=sshflags, dir=dir, tunnel=tunnel)
 end
 
 function wait_till_running(env, instances, timeout)
