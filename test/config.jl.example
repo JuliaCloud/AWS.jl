@@ -1,0 +1,6 @@
+const ami = "ami-0d848f64" # This is the Julia installed version of 13_04
+const dir_on_ami = "/home/ubuntu/julia/usr/bin"
+const insttype = "m1.large"
+const keyname = "<put ec2keyname here>"
+const uname = "awstest"
+const keyfile = "<put full path to ec2keyfile here>"

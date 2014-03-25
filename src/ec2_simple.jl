@@ -106,6 +106,25 @@ function ec2_launch(ami::String, seckey::String; env=AWSEnv(), insttype::String=
     # Wait for the instances to come to a running state....
     wait_till_running(env, instances, 600.0)
 
+    # Wait till they are pingable, the network interfaces take some time to come up
+    println("Testing TCP connects (on port 22) to all newly started hosts...")
+    hosts = ec2_hostnames(instances)
+    testidx = 1
+    while true
+        try
+            for (i,h) in enumerate(hosts)
+                s=connect(h[2], 22)
+                close(s)
+                testidx = i
+            end
+            break;
+        catch
+            println("Some newly started hosts are still unreachable. Trying again in 2.0 seconds.")
+            sleep(2.0)
+            hosts=hosts[testidx:end]
+        end
+    end
+    
     println("Lanched launchset $launchset" )
     
     instances
@@ -115,7 +134,7 @@ function ec2_addprocs(instances, ec2_keyfile::String; env=AWSEnv(), hostuser::St
     hostnames = ec2_hostnames(instances, env=env)
     idx = use_public_dnsname ? 2 : 3
     sshnames = String[]
-    sshflags = `-i $(ec2_keyfile) -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no`
+    sshflags = `-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i $(ec2_keyfile)`
     
     if workers_per_instance > 0
         base_set = String["$(hostuser)@$(host[idx])" for host in hostnames]
@@ -124,12 +143,12 @@ function ec2_addprocs(instances, ec2_keyfile::String; env=AWSEnv(), hostuser::St
             workers_per_instance = workers_per_instance - 1
         end
     else
-        # Detech the num cores on each first .....
+        # Detect the num cores on each first .....
         ncmap = Dict{String, Int}()
         @sync begin
             for host in hostnames
                 hostname = host[idx]
-                cmd = `ssh $(Base.shell_escape(sshflags)) $(hostuser)@$(hostname) nproc`
+                cmd = `ssh $sshflags $(hostuser)@$(hostname) nproc`
                 @async begin
                     nclocal = parseint(readall(cmd))
                     ncmap[hostname] = nclocal
