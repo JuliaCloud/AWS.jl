@@ -130,13 +130,62 @@ function ec2_launch(ami::String, seckey::String; env=AWSEnv(), insttype::String=
     instances
 end
 
-function ec2_addprocs(instances, ec2_keyfile::String; env=AWSEnv(), hostuser::String="ubuntu", dir=JULIA_HOME, tunnel=true, use_public_dnsname=true, workers_per_instance=0)
+function detect_num_cores(hostnames, hidx, sshflags, hostuser)
+    cmdmap = Array(Tuple, 0)
+    for host in hostnames
+        hostname = host[hidx]
+        cmd = `ssh $sshflags $(hostuser)@$(hostname) nproc`
+        io, pobj = readsfrom(detach(cmd))
+        push!(cmdmap, (host, io))
+    end
+    ncmap = Array(Tuple, 0)
+    for (h, io) in cmdmap
+        push!(ncmap, (h, parseint(readall(io))))
+    end
+    
+    ncmap
+end
+
+function ec2_addprocs(instances, ec2_keyfile::String; env=AWSEnv(), hostuser::String="ubuntu", 
+                        dir=JULIA_HOME, tunnel=true, use_public_dnsname=true, 
+                        workers_per_instance=0, num_workers=0)
+                        
     hostnames = ec2_hostnames(instances, env=env)
     idx = use_public_dnsname ? 2 : 3
     sshnames = String[]
     sshflags = `-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i $(ec2_keyfile)`
+    num_hosts = length(hostnames)
     
-    if workers_per_instance > 0
+    if num_workers > 0
+        if num_workers < num_hosts
+            for i in 1:num_workers
+                host = hostnames[i][idx]
+                push!(sshnames, "$(hostuser)@$(host)")
+            end
+        else
+            # distribute it weighted on the number of cores on each instance
+            ncmap = detect_num_cores(hostnames, idx, sshflags, hostuser)
+            total_cores = foldl((x,y)->((k,v)=y; x+v), 0, ncmap)
+        
+            nwmap = Array(Tuple, 0)
+            for (host,nc) in ncmap
+                push!(nwmap, (host, int(floor((nc * num_workers) / total_cores))))
+            end
+
+            # distribute any remaining equally 
+            num_rem = num_workers - foldl((x,y)->((k,v)=y; x+v), 0, nwmap)
+            for i in 1:num_rem
+                idxnwmap = ((i-1) % num_hosts) + 1
+                (host,nw) = nwmap[idxnwmap]
+                nwmap[idxnwmap] = (host,nw+1)
+            end
+
+            for (host,nw) in nwmap
+                append!(sshnames, fill("$(hostuser)@$(host[idx])", nw))
+            end
+        end
+    
+    elseif workers_per_instance > 0
         base_set = String["$(hostuser)@$(host[idx])" for host in hostnames]
         while workers_per_instance > 0
             append!(sshnames, base_set)
@@ -144,20 +193,10 @@ function ec2_addprocs(instances, ec2_keyfile::String; env=AWSEnv(), hostuser::St
         end
     else
         # Detect the num cores on each first .....
-        ncmap = Dict{String, Int}()
-        @sync begin
-            for host in hostnames
-                hostname = host[idx]
-                cmd = `ssh $sshflags $(hostuser)@$(hostname) nproc`
-                @async begin
-                    nclocal = parseint(readall(cmd))
-                    ncmap[hostname] = nclocal
-                end
-            end
-        end
+        ncmap = detect_num_cores(hostnames, idx, sshflags, hostuser)
         
-        for (hostname,nc) in ncmap
-            append!(sshnames, fill("$(hostuser)@$(hostname)", nc))
+        for (host,nc) in ncmap
+            append!(sshnames, fill("$(hostuser)@$(host[idx])", nc))
         end
     end
     

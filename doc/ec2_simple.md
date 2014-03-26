@@ -30,7 +30,7 @@ The created instances are tagged with the following keys:
     
 ```
     ec2_addprocs(instances, ec2_keyfile::String; env=AWSEnv(), hostuser::String="ubuntu", 
-        dir=JULIA_HOME, tunnel=true, use_public_dnsname=true)
+        dir=JULIA_HOME, tunnel=true, use_public_dnsname=true, workers_per_instance=0)
 ```
 
 is the AWS:EC2 equivalent of the built-in `addprocs`
@@ -41,10 +41,9 @@ is the AWS:EC2 equivalent of the built-in `addprocs`
 
 -  `hostuser`, `dir` and `tunnel` are as defined in the julia builtin `addprocs`
 - set `use_public_dnsname` to true if you are creating a julia cluster from a julia session outside of EC2 - for example, from your laptop.
+- `workers_per_instance=n` results in 'n' workers being started on each instance. If unspecified(or 0), `n` is taken to be the number of 
+  CPU cores on the machine and an equal number of processes are started on the node. 
     
-    
-
-
 
 #### ec2_start
 
