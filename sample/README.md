@@ -6,11 +6,9 @@ A typical computational task on EC2 may involve most or all of the following ste
 
 - Launch a bunch of EC2 instances
 
-- Optionally log into one of the newly started hosts 
+- Optionally log into one of the newly started hosts and perform computations from an EC2 head node
 
-- Add workers from a local REPL or a REPL on a newly started host
-
-- Compute
+- Or execute from a julia session external to EC2
 
 - Terminate the cluster.
 
@@ -74,6 +72,16 @@ on each instance
 For example : __ec2_instnum = 2__
 
 
+Specify the number of workers_per_instance to be launched. If set to 0,
+it is set to the number of cores for each instance.
+For example : __workers_per_instance = 8__
+
+
+Alternatively, you can just specify the total number of workers. This count is 
+distributed across the instances weighted by the number of cores on each insatnce.
+For example : __ec2_num_workers = 50__
+
+
 Specify the Julia installed path on the public AMI provided by the Julia team.
 Change appropriately if you have your own AMI with a custom Julia
 installation 
@@ -89,55 +97,69 @@ For example : __ec2_clustername = "amitm"__
 
 A sample config.jl 
 ```
-ec2_ami = "ami-0d848f64"   
-ec2_sshkey = "jukey"
-ec2_sshkey_file = "/home/myname/mykeys/jukey.pem"
-ec2_insttype = "m1.large"
-ec2_instnum = 2
-ec2_julia_dir = "/home/ubuntu/julia/usr/bin"
-ec2_clustername = "amitm"
+ec2_ami = "ami-ab8190c2"   
+ec2_sshkey = "jublr"
+ec2_sshkey_file = "/home/amitm/keys/jublr.pem"
+ec2_insttype = "m2.4xlarge"
+ec2_instnum = 1
+ec2_workers_per_instance = 0
+ec2_num_workers = 10
+ec2_julia_dir = "/home/ubuntu/julia/usr/bin" 
+ec2_clustername = "jusample"
 ```
 
-## Sample commands to launch the instances
+## Available helper scripts for executing on EC2
 
-```
-    instances = ec2_launch(ec2_ami, ec2_sshkey, insttype=ec2_insttype, n=ec2_instnum, clustername=clustername)
-    hosts = ec2_hostnames(instances)
-    println("To ssh into an instance, type : ")
-    println("ssh -i $ec2_sshkey_file ubuntu@$(hosts[1][2])")
-```
+- startup.jl - Starts EC2 nodes based on values specified in config.jl
 
-## Launching julia workers
+- addprocs_*.jl - Generated files with "addprocs" statements to add the appropriate 
+                  number of workers either from a headnode or an external host
+                  
+- setup_headnode.jl - Creates addprocs_headnode.jl, 
+                      copies the scripts into /home/ubuntu/run onto one of the EC2 nodes, 
+                      prints instructions to connect and execute from the headnode.
+                      
+- setup_external.jl - Creates addprocs_external.jl
+                      prints instructions to execute from an external host.
 
-If you want to execute from one of the AWS instances, open an ssh session to the same and
-setup 
-- AWS credentials
-- AWS private key file 
-- config.jl
-- Pkg.install("AWS"), etc 
-
-Start a julia REPL and add julia workers
-
-To start n workers, spread in a weighted manner(by number of cores) across all nodes in the 
-cluster, execute:
-
-```
-n = 500
-instances = ec2_instances_by_tag("ClusterName", ec2_clustername)
-newp = ec2_addprocs(instances, ec2_sshkey_file; dir=ec2_julia_dir, num_workers=n)
-```
-
-## Terminate the cluster
-```
-ec2_terminate(instances)
-ec2_show_status(instances)
-```
-
-Make sure that the status shows "shutting-down" or equivalent for the instances. If, in a running state
-you will continue to be billed by Amazon for the same.
+- shutdown.jl - Terminates all instances associated with the cluster
 
 
-A sample script with the commands described above is available in `sample.jl`
+## Typical workflow for executing from a head node
+
+From the local, i.e. machine external to EC2
+- Change and edit config.jl
+- julia startup.jl
+- julia setup_headnode.jl
+- ssh into a headnode
+
+At the headnode
+- cd run
+- julia 
+- julia include("compute_headnode.jl")
+
+After all work is done, exit from the host, and from the localhost
+- julia shutdown.jl           # VERY VERY IMPORTANT
+
+
+## Typical workflow for executing locally 
+
+From the local, i.e. machine external to EC2
+- Change and edit config.jl
+- julia startup.jl
+- julia setup_external.jl
+- cd run
+- julia 
+- julia include("compute_external.jl")
+
+After all work is done, 
+- julia shutdown.jl           # VERY VERY IMPORTANT
+
+
+
+
+
+
 
 
 ## AMI NOTES
