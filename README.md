@@ -147,7 +147,7 @@ EC2 has two sets of APIs
 - ec2_stop
 - ec2_show_status
 - ec2_get_hostnames
-- ec2_instances_by_owner
+- ec2_instances_by_tag
 - ec2_addprocs
 
 These are described [here](doc/ec2_simple.md)

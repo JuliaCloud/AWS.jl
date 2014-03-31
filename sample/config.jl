@@ -1,0 +1,9 @@
+ec2_ami = "ami-ab8190c2"   
+ec2_sshkey = "jublr"
+ec2_sshkey_file = "/home/amitm/keys/jublr.pem"
+ec2_insttype = "m2.4xlarge"
+ec2_instnum = 1
+ec2_workers_per_instance = 0
+ec2_num_workers = 10
+ec2_julia_dir = "/home/ubuntu/julia/usr/bin" 
+ec2_clustername = "jusample"

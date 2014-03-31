@@ -4,7 +4,7 @@
 
 ```
     ec2_launch(ami::String, seckey::String; env=AWSEnv(), insttype::String="m1.small", 
-        n::Integer=1, uname::String="julia", instname::String="julia", 
+        n::Integer=1, owner::String="julia", clustername::String="julia", 
         launchset::String="")
 ```
 
@@ -16,12 +16,12 @@
 
 The created instances are tagged with the following keys:
 
-- `LaunchSet` => value of keyword argument `launchset`. If `""`, current datetime is used to tag. This is mainly used to 
-    identify different clusters of nodes on the same AWS account.
+- `LaunchSet` => value of keyword argument `launchset`. If `""`, current datetime is used to tag. 
     
-- `Name` => value of keyword argument `instname`.    
+- `ClusterName` => value of keyword argument `clustername`. This is mainly used to 
+    identify different clusters of nodes on the same AWS account.   
 
-- `Owner` => value of keyword argument `uname`.    
+- `Owner` => value of keyword argument `owner`.
 
 `ec2_launch` returns an array of `instanceId` s    
     
@@ -30,7 +30,7 @@ The created instances are tagged with the following keys:
     
 ```
     ec2_addprocs(instances, ec2_keyfile::String; env=AWSEnv(), hostuser::String="ubuntu", 
-        dir=JULIA_HOME, tunnel=true, use_public_dnsname=true, workers_per_instance=0)
+        dir=JULIA_HOME, tunnel=true, use_public_dnsname=true, workers_per_instance=0, num_workers=0)
 ```
 
 is the AWS:EC2 equivalent of the built-in `addprocs`
@@ -43,6 +43,8 @@ is the AWS:EC2 equivalent of the built-in `addprocs`
 - set `use_public_dnsname` to true if you are creating a julia cluster from a julia session outside of EC2 - for example, from your laptop.
 - `workers_per_instance=n` results in 'n' workers being started on each instance. If unspecified(or 0), `n` is taken to be the number of 
   CPU cores on the machine and an equal number of processes are started on the node. 
+- If num_workers > 0, it takes precendence over workers_per_instance, and the total of num_workers is distributed across all instances
+  in propotion to the number of cores on each instance.
     
 
 #### ec2_start
@@ -64,9 +66,23 @@ is the AWS:EC2 equivalent of the built-in `addprocs`
  `ec2_show_status(instances; env=AWSEnv())` prints and returns an array of `(instanceId, instanceState.code, instanceState.name)` for each of the instances specified.
 
 
-#### ec2_instances_by_owner
+#### ec2_instances_by_tag
 
- `ec2_instances_by_owner (owner::String; env=AWSEnv())` returns all running instances tagged with "Owner" 'owner'
+ `ec2_instances_by_owner (tag, tagvalue; env=AWSEnv(), running_only=true)` returns all instances with the requested tag.
+ By default, the following tags are available for each instance
+ 
+ - "Owner" - Identifies the owner of the instances. Helpful when an AWS account is shared by more than one person. Defaults to "julia"
+ 
+ - "LaunchSet" - Identifies a set of EC2 instances launched together. Defaults to a stringified timestamp.
+ 
+ - "ClusterName" - Identifies a set of logically related instances. Defaults to "julia"
+
+ - "Name" - Same as ClusterName.
+ 
+ Also, by default the call only returns running instances, not stopped or terminated ones. To see all instances
+ pass running_only=false
+ 
+ 
 
 #### ec2_mount_snapshot
 
