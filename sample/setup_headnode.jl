@@ -22,7 +22,7 @@ for mset in machines
     end
     print(f, "]; sshflags=`-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o LogLevel=ERROR`)\n\n")
 end
-println(f, "println(\"nprocs = $(nprocs())\")")
+println(f, "println(\"nprocs = \$(nprocs())\")")
 flush(f)
 close(f)
 

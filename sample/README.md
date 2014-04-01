@@ -4,16 +4,16 @@ A typical computational task on EC2 may involve most or all of the following ste
 
 - Create a config.jl specifying EC2 related configuration
 
-- Launch a bunch of EC2 instances
+- Launch (or Start a previously stopped) a bunch of EC2 instances
 
 - Optionally log into one of the newly started hosts and perform computations from an EC2 head node
 
 - Or execute from a julia session external to EC2
 
-- Terminate the cluster.
+- Terminate(or Stop) the cluster.
 
 THIS LAST STEP IS VERY IMPORTANT AS THE MACHINES LAUNCHED 
-WILL CONTINUE TO BE BILLED BY AMAZON TILL THEY ARE EXPLICITLY STOPPED.
+WILL CONTINUE TO BE BILLED BY AMAZON TILL THEY ARE EXPLICITLY STOPPED/TERMINATED.
 
 ## Setting up AWS config
 
@@ -129,7 +129,9 @@ ec2_clustername = "jusample"
 
 ## Available helper scripts for executing on EC2
 
-- startup.jl - Starts EC2 nodes based on values specified in config.jl
+- launch.jl - Launches EC2 nodes based on values specified in config.jl
+
+- start.jl - Starts previously stopped EC2 nodes based on values specified in config.jl
 
 - addprocs_*.jl - Generated files with "addprocs" statements to add the appropriate 
                   number of workers either from a headnode or an external host
@@ -141,14 +143,25 @@ ec2_clustername = "jusample"
 - setup_external.jl - Creates addprocs_external.jl,
                       prints instructions to execute from an external host.
 
-- shutdown.jl - Terminates all instances associated with the cluster
+- compute_headnode.jl - This adds workers based on the generated, addprocs_headnode.jl file
+                        Also includes a user file "compute.jl" if present. User code can thus 
+                        be added to compute.jl and it will be executed after the workers have been 
+                        added
+
+- compute_external.jl - Similar to compute_headnode.jl above, but for execution from an external 
+                        host(like a laptop)
+
+- stop.jl - Stops all instances associated with the cluster. This allows for having a set of machines
+            ready and primed to be started whenever required.
+
+- terminate.jl - Terminates all instances associated with the cluster
 
 
 ## Typical workflow for executing from a head node
 
 From the localhost, i.e. machine external to EC2
 - Change and edit config.jl
-- julia startup.jl
+- julia launch.jl
 - julia setup_headnode.jl
 - ssh into a headnode
 
@@ -159,27 +172,27 @@ At the headnode
 - do other work
 
 After all work is done, exit from the host, and from localhost
-- julia shutdown.jl           # VERY VERY IMPORTANT
+- julia terminate.jl           # VERY VERY IMPORTANT
 
 
 ## Typical workflow for executing an external host
 
 From the local, i.e. machine external to EC2
 - Change and edit config.jl
-- julia startup.jl
+- julia launch.jl
 - julia setup_external.jl
 - julia 
 - julia include("compute_external.jl")
 - do other work
 
 After all work is done, 
-- julia shutdown.jl           # VERY VERY IMPORTANT
+- julia terminate.jl           # VERY VERY IMPORTANT
 
 
 
 
-
-
+NOTE: In the steps above, launch.jl and terminate.jl can be replaced by start.jl and stop.jl respectively, if you intend to 
+work off a previously launched cluster.
 
 
 ## AMI NOTES
@@ -196,5 +209,5 @@ After all work is done,
 
 - julia to be built using 'make dist' since we may run across different EC2 machines types
 
-- julia is memory hungry - it limits the number of julia workers that can be started on an EC2 node
+- julia is memory hungry - it effectively limits the number of julia workers that can be started on an EC2 node
 

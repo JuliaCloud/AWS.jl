@@ -107,31 +107,9 @@ function ec2_launch(ami::String, seckey::String; env=AWSEnv(), insttype::String=
 
     # Wait for the instances to come to a running state....
     wait_till_running(env, instances, 600.0)
-
-    # Wait till they are pingable, the network interfaces take some time to come up
-    println("Testing TCP connects (on port 22) to all newly started hosts...")
-    hosts = ec2_hostnames(instances)
-    testhosts = copy(hosts)
-    testidx = 1
-    while true
-        try
-            for (i,h) in enumerate(testhosts)
-                println("Testing connection to ", h[2])
-                s=connect(h[2], 22)
-                close(s)
-                testidx = i
-            end
-            break;
-        catch
-            println("Some newly started hosts are still unreachable. Trying again in 2.0 seconds.")
-            sleep(2.0)
-            testhosts=testhosts[testidx:end]
-        end
-    end
     
     println("Lanched LaunchSet $launchset, ClusterName $clustername, Owner $owner" )
-    println(hosts)
-    
+
     instances
 end
 
@@ -266,6 +244,30 @@ function wait_till_running(env, instances, timeout)
     if (length(chk_instances) > 0)
         println("All instances not yet in a running state. Please check after some time.")
     end
+    
+    # Wait till they are pingable, the network interfaces take some time to come up
+    println("Testing TCP connects (on port 22) to all newly started hosts...")
+    hosts = ec2_hostnames(instances)
+    testhosts = copy(hosts)
+    testidx = 1
+    while true
+        try
+            for (i,h) in enumerate(testhosts)
+                println("Testing connection to ", h[2])
+                s=connect(h[2], 22)
+                close(s)
+                testidx = i
+            end
+            break;
+        catch
+            println("Some newly started hosts are still unreachable. Trying again in 2.0 seconds.")
+            sleep(2.0)
+            testhosts=testhosts[testidx:end]
+        end
+    end
+    
+    println(hosts)
+    :ok
 end
 
 function ec2_start(instances; env=AWSEnv())
