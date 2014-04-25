@@ -37,8 +37,10 @@ CHK_ERR(resp::EC2Response) = (typeof(resp.obj) == EC2Error) ? error(ec2_error_st
 
 
 function ec2_terminate (instances; env=AWSEnv())
-    req = TerminateInstancesType(instancesSet=instances)
-    resp = CHK_ERR(TerminateInstances(env, req))
+    if length(instances) > 0
+        req = TerminateInstancesType(instancesSet=instances)
+        resp = CHK_ERR(TerminateInstances(env, req))
+    end
     instances
 end
 
@@ -272,25 +274,27 @@ end
 
 function ec2_start(instances; env=AWSEnv())
     # Tag the instances..also tests ec2_basic API..
-    resp = ec2_basic(env, "StartInstances", {"InstanceId"=>instances})
-    if (typeof(resp.obj) == EC2Error) 
-        error(ec2_error_str(resp.obj))
-    end
+    if length(instances) > 0
+        resp = ec2_basic(env, "StartInstances", {"InstanceId"=>instances})
+        if (typeof(resp.obj) == EC2Error) 
+            error(ec2_error_str(resp.obj))
+        end
 
-    # Wait for the instances to come to a running state....
-    wait_till_running(env, instances, 600.0)
-    
+        # Wait for the instances to come to a running state....
+        wait_till_running(env, instances, 600.0)
+    end
     instances
 end
 
 
 function ec2_stop(instances; env=AWSEnv())
     # Tag the instances..also tests ec2_basic API..
-    resp = ec2_basic(env, "StopInstances", {"InstanceId"=>instances})
-    if (typeof(resp.obj) == EC2Error) 
-        error(ec2_error_str(resp.obj))
+    if length(instances) > 0
+        resp = ec2_basic(env, "StopInstances", {"InstanceId"=>instances})
+        if (typeof(resp.obj) == EC2Error) 
+            error(ec2_error_str(resp.obj))
+        end
     end
-
     instances
 end
 

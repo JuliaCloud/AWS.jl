@@ -13,7 +13,11 @@ machines = ec2_addprocs(instances, ec2_sshkey_file;
                         num_workers=ec2_num_workers, 
                         workers_per_instance=ec2_workers_per_instance,
                         machines_only=true)
-                        
+
+if ec2_install_julia
+    ec2_julia_dir = "/usr/bin"
+end
+
 for mset in machines
     print(f, "addprocs([")
     lenmset = length(mset)
@@ -22,7 +26,7 @@ for mset in machines
     end
     print(f, "]; tunnel=true, dir=\"$(ec2_julia_dir)\",  sshflags=`-i $ec2_sshkey_file -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o LogLevel=ERROR`)\n\n")
 end
-println(f, "println(\"nprocs = \$(nprocs())\")")
+println(f, "println(\"nworkers = \$(nworkers())\")")
 flush(f)
 close(f)
 

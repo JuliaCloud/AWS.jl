@@ -45,15 +45,23 @@ HHgUj8G6BNmkuFGtGBDR9KJhTEr2GGtdmnaU9Q/s
 ## config.jl
 
 Create a config file, config.jl, for your run. This file will contain all EC2
-related configuration.
+related configuration. This directory contains a file called config.jl.sample
+which you can copy as config.jl and edit as per your environment.
 
 config.jl should contain the following fields:
 
 __ec2_ami = "ami-0d848f64"__
 
 Specify the AMI to use. The sample config.jl will by default have a public AMI
-with a base Julia install. Replace it, if desired with your own AMI
+(with a base Julia install), and also base Ubuntu AMIs. 
+Replace it, if desired with your own AMI
 
+__ec2_install_julia = true__
+
+If this is true, Julia and its dependencies will be installed on the base
+Ubuntu image from the daily Julia nightlies. System parameters will also be 
+tuned to support a large number of julia processes. `jinstall.sh`
+is the script that will be run on each node.
 
 
 __ec2_sshkey = "xxxxx"__
@@ -116,7 +124,8 @@ All instances launched will be tagged with the key "Owner" set to ec2_clusternam
 
 A sample config.jl 
 ```
-ec2_ami = "ami-ab8190c2"   
+ec2_ami = "ami-7bccd012"   
+ec2_install_julia = true
 ec2_sshkey = "juec2key"
 ec2_sshkey_file = "/home/user/keys/juec2key.pem"
 ec2_insttype = "m2.4xlarge"

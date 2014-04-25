@@ -22,14 +22,18 @@ for mset in machines
     end
     print(f, "]; sshflags=`-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o LogLevel=ERROR`)\n\n")
 end
-println(f, "println(\"nprocs = \$(nprocs())\")")
+println(f, "println(\"nworkers = \$(nworkers())\")")
 flush(f)
 close(f)
 
 println("Copy files to head node into directory /home/ubuntu/run")
 
 sshflags = `-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o LogLevel=ERROR -i $(ec2_sshkey_file)`
-run(`scp $sshflags -r . ubuntu@$(hosts[1][2]):/home/ubuntu/run`)
+run(`ssh $sshflags ubuntu@$(hosts[1][2]) "mkdir -p /home/ubuntu/run"`)
+run(`scp $sshflags compute_headnode.jl config.jl addprocs_headnode.jl test_workers.jl ubuntu@$(hosts[1][2]):/home/ubuntu/run`)
+if isfile("compute.jl")
+    run(`scp $sshflags compute.jl ubuntu@$(hosts[1][2]):/home/ubuntu/run`)
+end
 
 println()
 println("Use the following commands to connect, cd and execute on the head node")
