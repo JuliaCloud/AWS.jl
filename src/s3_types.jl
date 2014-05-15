@@ -649,14 +649,14 @@ type CopyObjectOptions
     match_options::Union(CopyMatchOptions, Nothing)
     
 # x-amz only header fields    
-    server_side​_encryption::Union(String, Nothing)   
+    server_side_encryption::Union(String, Nothing)
     storage_class::Union(String, Nothing) 
-    website​_redirect_location::Union(String, Nothing)    
+    website_redirect_location::Union(String, Nothing)    
     acl::Union(S3_ACL, Nothing)
     
     CopyObjectOptions(copy_source; metadata_directive=nothing, match_options=nothing, 
-        server_side​_encryption=nothing, storage_class=nothing, website​_redirect_location=nothing, acl=nothing) = begin
-            new(copy_source, metadata_directive,  match_options, server_side​_encryption, storage_class, website​_redirect_location, acl)
+        server_side_encryption=nothing, storage_class=nothing, website_redirect_location=nothing, acl=nothing) = begin
+            new(copy_source, metadata_directive,  match_options, server_side_encryption, storage_class, website_redirect_location, acl)
     end
     
 end
@@ -668,9 +668,9 @@ function amz_headers(hdrs, o::CopyObjectOptions)
         hdrs = amz_headers(hdrs, o.match_options)
     end
 
-    @add_amz_hdr("server-side-encryption", o.server_side​_encryption)
+    @add_amz_hdr("server-side-encryption", o.server_side_encryption)
     @add_amz_hdr("storage-class", o.storage_class)
-    @add_amz_hdr("website-redirect-location", o.website​_redirect_location)
+    @add_amz_hdr("website-redirect-location", o.website_redirect_location)
     
     if o.acl != nothing
         hdrs = amz_headers(hdrs, o.acl)
@@ -707,15 +707,15 @@ type PutObjectOptions
     
 # x-amz header fields    
     meta::Union(Dict{String, String}, Nothing)
-    server_side​_encryption::Union(String, Nothing)   
+    server_side_encryption::Union(String, Nothing)   
     storage_class::Union(String, Nothing) 
-    website​_redirect_location::Union(String, Nothing)    
+    website_redirect_location::Union(String, Nothing)    
     acl::Union(S3_ACL, Nothing)
     
     PutObjectOptions(;cache_control=nothing,content_disposition=nothing,content_encoding=nothing,
-                        cont_typ=nothing,expires=nothing,meta=nothing,server_side​_encryption=nothing,
-                        storage_class=nothing,website​_redirect_location=nothing,acl=nothing) = begin
-            new(cache_control,content_disposition,content_encoding,cont_typ,expires,meta,server_side​_encryption,storage_class,website​_redirect_location,acl)
+                        cont_typ=nothing,expires=nothing,meta=nothing,server_side_encryption=nothing,
+                        storage_class=nothing,website_redirect_location=nothing,acl=nothing) = begin
+            new(cache_control,content_disposition,content_encoding,cont_typ,expires,meta,server_side_encryption,storage_class,website_redirect_location,acl)
     end
 end
 function amz_headers(hdrs, o::PutObjectOptions)
@@ -725,9 +725,9 @@ function amz_headers(hdrs, o::PutObjectOptions)
         end
     end
     
-    @add_amz_hdr("server-side-encryption", o.server_side​_encryption)
+    @add_amz_hdr("server-side-encryption", o.server_side_encryption)
     @add_amz_hdr("storage-class", o.storage_class)
-    @add_amz_hdr("website-redirect-location", o.website​_redirect_location)
+    @add_amz_hdr("website-redirect-location", o.website_redirect_location)
     
     if o.acl != nothing
         hdrs = amz_headers(hdrs, o.acl)
@@ -737,7 +737,7 @@ end
 
 function http_headers(arr, o::PutObjectOptions)
     @chk_n_add("Cache-Control", o.cache_control)
-    @chk_n_add("Content-​Disposition", o.content_disposition)
+    @chk_n_add("Content-Disposition", o.content_disposition)
     @chk_n_add("Content-Encoding", o.content_encoding)
     @chk_n_add("Expires", rfc1123_date(o.expires))
     arr

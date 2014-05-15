@@ -552,10 +552,10 @@ end
 function list_upload_parts(env::AWSEnv, bkt::String, key::String, 
     upload_id::String; 
     max_parts::Union(Int, Nothing)=nothing, 
-    part_number​_marker::Union(Int, Nothing)=nothing)
+    part_number_marker::Union(Int, Nothing)=nothing)
     
     ro = RO(:GET, bkt, key)
-    ro.sub_res = {("uploadId", "$(upload_id)"), ("max-parts", "$max_parts"), ("part-number​-marker", "$part_number​_marker")}
+    ro.sub_res = {("uploadId", "$(upload_id)"), ("max-parts", "$max_parts"), ("part-number-marker", "$part_number_marker")}
     
     @req_n_process(ListPartsResult)
 end

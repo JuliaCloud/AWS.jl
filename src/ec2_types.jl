@@ -5415,6 +5415,262 @@ end
 export DescribeVolumeAttributeResponseType
 
 
+type LaunchPermissionOperationType
+    add::Union(Vector{LaunchPermissionItemType}, Nothing)
+    remove::Union(Vector{LaunchPermissionItemType}, Nothing)
+
+    LaunchPermissionOperationType(; add=nothing, remove=nothing) = 
+         new(add, remove)
+end
+function LaunchPermissionOperationType(pd::ETree)
+    o = LaunchPermissionOperationType()
+    o.add = AWS.@parse_vector(AWS.EC2.LaunchPermissionItemType, find(pd, "add/item"))
+    o.remove = AWS.@parse_vector(AWS.EC2.LaunchPermissionItemType, find(pd, "remove/item"))
+    o
+end
+
+export LaunchPermissionOperationType
+
+
+type DescribeReservedInstancesResponseSetItemType
+    reservedInstancesId::Union(ASCIIString, Nothing)
+    instanceType::Union(ASCIIString, Nothing)
+    availabilityZone::Union(ASCIIString, Nothing)
+    start::Union(CalendarTime, Nothing)
+    duration::Union(Int64, Nothing)
+    fixedPrice::Union(Float64, Nothing)
+    usagePrice::Union(Float64, Nothing)
+    instanceCount::Union(Int64, Nothing)
+    productDescription::Union(ASCIIString, Nothing)
+    state::Union(ASCIIString, Nothing)
+    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
+    instanceTenancy::Union(ASCIIString, Nothing)
+    currencyCode::Union(ASCIIString, Nothing)
+    offeringType::Union(ASCIIString, Nothing)
+    recurringCharges::Union(Vector{RecurringChargesSetItemType}, Nothing)
+
+    DescribeReservedInstancesResponseSetItemType(; reservedInstancesId=nothing, instanceType=nothing, availabilityZone=nothing, start=nothing, duration=nothing, fixedPrice=nothing, usagePrice=nothing, instanceCount=nothing, productDescription=nothing, state=nothing, tagSet=nothing, instanceTenancy=nothing, currencyCode=nothing, offeringType=nothing, recurringCharges=nothing) = 
+         new(reservedInstancesId, instanceType, availabilityZone, start, duration, fixedPrice, usagePrice, instanceCount, productDescription, state, tagSet, instanceTenancy, currencyCode, offeringType, recurringCharges)
+end
+function DescribeReservedInstancesResponseSetItemType(pd::ETree)
+    o = DescribeReservedInstancesResponseSetItemType()
+    o.reservedInstancesId = find(pd, "reservedInstancesId#string")
+    o.instanceType = find(pd, "instanceType#string")
+    o.availabilityZone = find(pd, "availabilityZone#string")
+    o.start = AWS.safe_parse_as(CalendarTime, find(pd, "start#string"))
+    o.duration = AWS.safe_parse_as(Int64, find(pd, "duration#string"))
+    o.fixedPrice = AWS.safe_parse_as(Float64, find(pd, "fixedPrice#string"))
+    o.usagePrice = AWS.safe_parse_as(Float64, find(pd, "usagePrice#string"))
+    o.instanceCount = AWS.safe_parse_as(Int64, find(pd, "instanceCount#string"))
+    o.productDescription = find(pd, "productDescription#string")
+    o.state = find(pd, "state#string")
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.instanceTenancy = find(pd, "instanceTenancy#string")
+    o.currencyCode = find(pd, "currencyCode#string")
+    o.offeringType = find(pd, "offeringType#string")
+    o.recurringCharges = AWS.@parse_vector(AWS.EC2.RecurringChargesSetItemType, find(pd, "recurringCharges/item"))
+    o
+end
+
+export DescribeReservedInstancesResponseSetItemType
+
+
+type CancelSpotInstanceRequestsResponseType
+    requestId::Union(ASCIIString, Nothing)
+    spotInstanceRequestSet::Union(Vector{CancelSpotInstanceRequestsResponseSetItemType}, Nothing)
+
+    CancelSpotInstanceRequestsResponseType(; requestId=nothing, spotInstanceRequestSet=nothing) = 
+         new(requestId, spotInstanceRequestSet)
+end
+function CancelSpotInstanceRequestsResponseType(pd::ETree)
+    o = CancelSpotInstanceRequestsResponseType()
+    o.requestId = find(pd, "requestId#string")
+    o.spotInstanceRequestSet = AWS.@parse_vector(AWS.EC2.CancelSpotInstanceRequestsResponseSetItemType, find(pd, "spotInstanceRequestSet/item"))
+    o
+end
+
+export CancelSpotInstanceRequestsResponseType
+
+
+type CreateDhcpOptionsType
+    dhcpConfigurationSet::Union(Vector{DhcpConfigurationItemType}, Nothing)
+
+    CreateDhcpOptionsType(; dhcpConfigurationSet=nothing) = 
+         new(dhcpConfigurationSet)
+end
+function CreateDhcpOptionsType(pd::ETree)
+    o = CreateDhcpOptionsType()
+    o.dhcpConfigurationSet = AWS.@parse_vector(AWS.EC2.DhcpConfigurationItemType, find(pd, "dhcpConfigurationSet/item"))
+    o
+end
+
+export CreateDhcpOptionsType
+
+
+type DescribeInstanceStatusType
+    instancesSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
+    nextToken::Union(ASCIIString, Nothing)
+    maxResults::Union(Int64, Nothing)
+    includeAllInstances::Union(Bool, Nothing)
+
+    DescribeInstanceStatusType(; instancesSet=nothing, filterSet=nothing, nextToken=nothing, maxResults=nothing, includeAllInstances=nothing) = 
+         new(instancesSet, filterSet, nextToken, maxResults, includeAllInstances)
+end
+function DescribeInstanceStatusType(pd::ETree)
+    o = DescribeInstanceStatusType()
+    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", find(pd, "item/instanceId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o.nextToken = find(pd, "nextToken#string")
+    o.maxResults = AWS.safe_parse_as(Int64, find(pd, "maxResults#string"))
+    o.includeAllInstances = AWS.safe_parse_as(Bool, find(pd, "includeAllInstances#string"))
+    o
+end
+
+export DescribeInstanceStatusType
+
+
+type DescribePlacementGroupsType
+    placementGroupSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
+
+    DescribePlacementGroupsType(; placementGroupSet=nothing, filterSet=nothing) = 
+         new(placementGroupSet, filterSet)
+end
+function DescribePlacementGroupsType(pd::ETree)
+    o = DescribePlacementGroupsType()
+    o.placementGroupSet = AWS.parse_vector_as(ASCIIString, "groupName", find(pd, "item/groupName"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o
+end
+
+export DescribePlacementGroupsType
+
+
+type RegisterImageType
+    imageLocation::Union(ASCIIString, Nothing)
+    name::Union(ASCIIString, Nothing)
+    description::Union(ASCIIString, Nothing)
+    architecture::Union(ASCIIString, Nothing)
+    kernelId::Union(ASCIIString, Nothing)
+    ramdiskId::Union(ASCIIString, Nothing)
+    rootDeviceName::Union(ASCIIString, Nothing)
+    blockDeviceMapping::Union(Vector{BlockDeviceMappingItemType}, Nothing)
+
+    RegisterImageType(; imageLocation=nothing, name=nothing, description=nothing, architecture=nothing, kernelId=nothing, ramdiskId=nothing, rootDeviceName=nothing, blockDeviceMapping=nothing) = 
+         new(imageLocation, name, description, architecture, kernelId, ramdiskId, rootDeviceName, blockDeviceMapping)
+end
+function RegisterImageType(pd::ETree)
+    o = RegisterImageType()
+    o.imageLocation = find(pd, "imageLocation#string")
+    o.name = find(pd, "name#string")
+    o.description = find(pd, "description#string")
+    o.architecture = find(pd, "architecture#string")
+    o.kernelId = find(pd, "kernelId#string")
+    o.ramdiskId = find(pd, "ramdiskId#string")
+    o.rootDeviceName = find(pd, "rootDeviceName#string")
+    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, find(pd, "blockDeviceMapping/item"))
+    o
+end
+
+export RegisterImageType
+
+
+type DescribeNetworkInterfacesType
+    networkInterfaceIdSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
+
+    DescribeNetworkInterfacesType(; networkInterfaceIdSet=nothing, filterSet=nothing) = 
+         new(networkInterfaceIdSet, filterSet)
+end
+function DescribeNetworkInterfacesType(pd::ETree)
+    o = DescribeNetworkInterfacesType()
+    o.networkInterfaceIdSet = AWS.parse_vector_as(ASCIIString, "networkInterfaceId", find(pd, "item/networkInterfaceId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o
+end
+
+export DescribeNetworkInterfacesType
+
+
+type CreateReservedInstancesListingType
+    reservedInstancesId::Union(ASCIIString, Nothing)
+    instanceCount::Union(Int64, Nothing)
+    priceSchedules::Union(Vector{PriceScheduleRequestSetItemType}, Nothing)
+    clientToken::Union(ASCIIString, Nothing)
+
+    CreateReservedInstancesListingType(; reservedInstancesId=nothing, instanceCount=nothing, priceSchedules=nothing, clientToken=nothing) = 
+         new(reservedInstancesId, instanceCount, priceSchedules, clientToken)
+end
+function CreateReservedInstancesListingType(pd::ETree)
+    o = CreateReservedInstancesListingType()
+    o.reservedInstancesId = find(pd, "reservedInstancesId#string")
+    o.instanceCount = AWS.safe_parse_as(Int64, find(pd, "instanceCount#string"))
+    o.priceSchedules = AWS.@parse_vector(AWS.EC2.PriceScheduleRequestSetItemType, find(pd, "priceSchedules/item"))
+    o.clientToken = find(pd, "clientToken#string")
+    o
+end
+
+export CreateReservedInstancesListingType
+
+
+type DescribeVpnGatewaysType
+    vpnGatewaySet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
+
+    DescribeVpnGatewaysType(; vpnGatewaySet=nothing, filterSet=nothing) = 
+         new(vpnGatewaySet, filterSet)
+end
+function DescribeVpnGatewaysType(pd::ETree)
+    o = DescribeVpnGatewaysType()
+    o.vpnGatewaySet = AWS.parse_vector_as(ASCIIString, "vpnGatewayId", find(pd, "item/vpnGatewayId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o
+end
+
+export DescribeVpnGatewaysType
+
+
+type DescribeVolumeStatusType
+    volumeSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
+    maxResults::Union(Int64, Nothing)
+    nextToken::Union(ASCIIString, Nothing)
+
+    DescribeVolumeStatusType(; volumeSet=nothing, filterSet=nothing, maxResults=nothing, nextToken=nothing) = 
+         new(volumeSet, filterSet, maxResults, nextToken)
+end
+function DescribeVolumeStatusType(pd::ETree)
+    o = DescribeVolumeStatusType()
+    o.volumeSet = AWS.parse_vector_as(ASCIIString, "volumeId", find(pd, "item/volumeId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o.maxResults = AWS.safe_parse_as(Int64, find(pd, "maxResults#string"))
+    o.nextToken = find(pd, "nextToken#string")
+    o
+end
+
+export DescribeVolumeStatusType
+
+
+type DhcpOptionsType
+    dhcpOptionsId::Union(ASCIIString, Nothing)
+    dhcpConfigurationSet::Union(Vector{DhcpConfigurationItemType}, Nothing)
+    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
+
+    DhcpOptionsType(; dhcpOptionsId=nothing, dhcpConfigurationSet=nothing, tagSet=nothing) = 
+         new(dhcpOptionsId, dhcpConfigurationSet, tagSet)
+end
+function DhcpOptionsType(pd::ETree)
+    o = DhcpOptionsType()
+    o.dhcpOptionsId = find(pd, "dhcpOptionsId#string")
+    o.dhcpConfigurationSet = AWS.@parse_vector(AWS.EC2.DhcpConfigurationItemType, find(pd, "dhcpConfigurationSet/item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o
+end
+
+export DhcpOptionsType
+
+
 type ImportInstanceVolumeDetailItemType
     bytesConverted::Union(Int64, Nothing)
     availabilityZone::Union(ASCIIString, Nothing)
@@ -5442,359 +5698,57 @@ end
 export ImportInstanceVolumeDetailItemType
 
 
-type DescribeReservedInstancesListingsResponseSetItemType
-    reservedInstancesListingId::Union(ASCIIString, Nothing)
-    reservedInstancesId::Union(ASCIIString, Nothing)
-    createDate::Union(CalendarTime, Nothing)
-    updateDate::Union(CalendarTime, Nothing)
+type DescribeExportTasksResponseType
+    requestId::Union(ASCIIString, Nothing)
+    exportTaskSet::Union(Vector{ExportTaskResponseType}, Nothing)
+
+    DescribeExportTasksResponseType(; requestId=nothing, exportTaskSet=nothing) = 
+         new(requestId, exportTaskSet)
+end
+function DescribeExportTasksResponseType(pd::ETree)
+    o = DescribeExportTasksResponseType()
+    o.requestId = find(pd, "requestId#string")
+    o.exportTaskSet = AWS.@parse_vector(AWS.EC2.ExportTaskResponseType, find(pd, "exportTaskSet/item"))
+    o
+end
+
+export DescribeExportTasksResponseType
+
+
+type DescribeSecurityGroupsType
+    securityGroupSet::Union(Vector{ASCIIString}, Nothing)
+    securityGroupIdSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
+
+    DescribeSecurityGroupsType(; securityGroupSet=nothing, securityGroupIdSet=nothing, filterSet=nothing) = 
+         new(securityGroupSet, securityGroupIdSet, filterSet)
+end
+function DescribeSecurityGroupsType(pd::ETree)
+    o = DescribeSecurityGroupsType()
+    o.securityGroupSet = AWS.parse_vector_as(ASCIIString, "groupName", find(pd, "item/groupName"))
+    o.securityGroupIdSet = AWS.parse_vector_as(ASCIIString, "groupId", find(pd, "item/groupId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o
+end
+
+export DescribeSecurityGroupsType
+
+
+type InstanceStatusType
     status::Union(ASCIIString, Nothing)
-    statusMessage::Union(ASCIIString, Nothing)
-    instanceCounts::Union(Vector{InstanceCountsSetItemType}, Nothing)
-    priceSchedules::Union(Vector{PriceScheduleSetItemType}, Nothing)
-    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
-    clientToken::Union(ASCIIString, Nothing)
+    details::Union(Vector{InstanceStatusDetailsSetItemType}, Nothing)
 
-    DescribeReservedInstancesListingsResponseSetItemType(; reservedInstancesListingId=nothing, reservedInstancesId=nothing, createDate=nothing, updateDate=nothing, status=nothing, statusMessage=nothing, instanceCounts=nothing, priceSchedules=nothing, tagSet=nothing, clientToken=nothing) = 
-         new(reservedInstancesListingId, reservedInstancesId, createDate, updateDate, status, statusMessage, instanceCounts, priceSchedules, tagSet, clientToken)
+    InstanceStatusType(; status=nothing, details=nothing) = 
+         new(status, details)
 end
-function DescribeReservedInstancesListingsResponseSetItemType(pd::ETree)
-    o = DescribeReservedInstancesListingsResponseSetItemType()
-    o.reservedInstancesListingId = find(pd, "reservedInstancesListingId#string")
-    o.reservedInstancesId = find(pd, "reservedInstancesId#string")
-    o.createDate = AWS.safe_parse_as(CalendarTime, find(pd, "createDate#string"))
-    o.updateDate = AWS.safe_parse_as(CalendarTime, find(pd, "updateDate#string"))
+function InstanceStatusType(pd::ETree)
+    o = InstanceStatusType()
     o.status = find(pd, "status#string")
-    o.statusMessage = find(pd, "statusMessage#string")
-    o.instanceCounts = AWS.@parse_vector(AWS.EC2.InstanceCountsSetItemType, find(pd, "instanceCounts/item"))
-    o.priceSchedules = AWS.@parse_vector(AWS.EC2.PriceScheduleSetItemType, find(pd, "priceSchedules/item"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
-    o.clientToken = find(pd, "clientToken#string")
+    o.details = AWS.@parse_vector(AWS.EC2.InstanceStatusDetailsSetItemType, find(pd, "details/item"))
     o
 end
 
-export DescribeReservedInstancesListingsResponseSetItemType
-
-
-type DescribePlacementGroupsResponseType
-    requestId::Union(ASCIIString, Nothing)
-    placementGroupSet::Union(Vector{PlacementGroupInfoType}, Nothing)
-
-    DescribePlacementGroupsResponseType(; requestId=nothing, placementGroupSet=nothing) = 
-         new(requestId, placementGroupSet)
-end
-function DescribePlacementGroupsResponseType(pd::ETree)
-    o = DescribePlacementGroupsResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.placementGroupSet = AWS.@parse_vector(AWS.EC2.PlacementGroupInfoType, find(pd, "placementGroupSet/item"))
-    o
-end
-
-export DescribePlacementGroupsResponseType
-
-
-type IpPermissionType
-    ipProtocol::Union(ASCIIString, Nothing)
-    fromPort::Union(Int64, Nothing)
-    toPort::Union(Int64, Nothing)
-    groups::Union(Vector{UserIdGroupPairType}, Nothing)
-    ipRanges::Union(Vector{ASCIIString}, Nothing)
-
-    IpPermissionType(; ipProtocol=nothing, fromPort=nothing, toPort=nothing, groups=nothing, ipRanges=nothing) = 
-         new(ipProtocol, fromPort, toPort, groups, ipRanges)
-end
-function IpPermissionType(pd::ETree)
-    o = IpPermissionType()
-    o.ipProtocol = find(pd, "ipProtocol#string")
-    o.fromPort = AWS.safe_parse_as(Int64, find(pd, "fromPort#string"))
-    o.toPort = AWS.safe_parse_as(Int64, find(pd, "toPort#string"))
-    o.groups = AWS.@parse_vector(AWS.EC2.UserIdGroupPairType, find(pd, "groups/item"))
-    o.ipRanges = AWS.parse_vector_as(ASCIIString, "cidrIp", find(pd, "item/cidrIp"))
-    o
-end
-
-export IpPermissionType
-
-
-type DescribeRegionsResponseType
-    requestId::Union(ASCIIString, Nothing)
-    regionInfo::Union(Vector{RegionItemType}, Nothing)
-
-    DescribeRegionsResponseType(; requestId=nothing, regionInfo=nothing) = 
-         new(requestId, regionInfo)
-end
-function DescribeRegionsResponseType(pd::ETree)
-    o = DescribeRegionsResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.regionInfo = AWS.@parse_vector(AWS.EC2.RegionItemType, find(pd, "regionInfo/item"))
-    o
-end
-
-export DescribeRegionsResponseType
-
-
-type DescribeNetworkAclsType
-    networkAclIdSet::Union(Vector{ASCIIString}, Nothing)
-    filterSet::Union(Vector{FilterType}, Nothing)
-
-    DescribeNetworkAclsType(; networkAclIdSet=nothing, filterSet=nothing) = 
-         new(networkAclIdSet, filterSet)
-end
-function DescribeNetworkAclsType(pd::ETree)
-    o = DescribeNetworkAclsType()
-    o.networkAclIdSet = AWS.parse_vector_as(ASCIIString, "networkAclId", find(pd, "item/networkAclId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
-    o
-end
-
-export DescribeNetworkAclsType
-
-
-type DescribeCustomerGatewaysType
-    customerGatewaySet::Union(Vector{ASCIIString}, Nothing)
-    filterSet::Union(Vector{FilterType}, Nothing)
-
-    DescribeCustomerGatewaysType(; customerGatewaySet=nothing, filterSet=nothing) = 
-         new(customerGatewaySet, filterSet)
-end
-function DescribeCustomerGatewaysType(pd::ETree)
-    o = DescribeCustomerGatewaysType()
-    o.customerGatewaySet = AWS.parse_vector_as(ASCIIString, "customerGatewayId", find(pd, "item/customerGatewayId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
-    o
-end
-
-export DescribeCustomerGatewaysType
-
-
-type CreateImageType
-    instanceId::Union(ASCIIString, Nothing)
-    name::Union(ASCIIString, Nothing)
-    description::Union(ASCIIString, Nothing)
-    noReboot::Union(Bool, Nothing)
-    blockDeviceMapping::Union(Vector{BlockDeviceMappingItemType}, Nothing)
-
-    CreateImageType(; instanceId=nothing, name=nothing, description=nothing, noReboot=nothing, blockDeviceMapping=nothing) = 
-         new(instanceId, name, description, noReboot, blockDeviceMapping)
-end
-function CreateImageType(pd::ETree)
-    o = CreateImageType()
-    o.instanceId = find(pd, "instanceId#string")
-    o.name = find(pd, "name#string")
-    o.description = find(pd, "description#string")
-    o.noReboot = AWS.safe_parse_as(Bool, find(pd, "noReboot#string"))
-    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, find(pd, "blockDeviceMapping/item"))
-    o
-end
-
-export CreateImageType
-
-
-type VpnConnectionType
-    vpnConnectionId::Union(ASCIIString, Nothing)
-    state::Union(ASCIIString, Nothing)
-    customerGatewayConfiguration::Union(ASCIIString, Nothing)
-    _type::Union(ASCIIString, Nothing)
-    customerGatewayId::Union(ASCIIString, Nothing)
-    vpnGatewayId::Union(ASCIIString, Nothing)
-    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
-    vgwTelemetry::Union(Vector{VpnTunnelTelemetryType}, Nothing)
-    options::Union(VpnConnectionOptionsResponseType, Nothing)
-    routes::Union(Vector{VpnStaticRouteType}, Nothing)
-
-    VpnConnectionType(; vpnConnectionId=nothing, state=nothing, customerGatewayConfiguration=nothing, _type=nothing, customerGatewayId=nothing, vpnGatewayId=nothing, tagSet=nothing, vgwTelemetry=nothing, options=nothing, routes=nothing) = 
-         new(vpnConnectionId, state, customerGatewayConfiguration, _type, customerGatewayId, vpnGatewayId, tagSet, vgwTelemetry, options, routes)
-end
-function VpnConnectionType(pd::ETree)
-    o = VpnConnectionType()
-    o.vpnConnectionId = find(pd, "vpnConnectionId#string")
-    o.state = find(pd, "state#string")
-    o.customerGatewayConfiguration = find(pd, "customerGatewayConfiguration#string")
-    o._type = find(pd, "type#string")
-    o.customerGatewayId = find(pd, "customerGatewayId#string")
-    o.vpnGatewayId = find(pd, "vpnGatewayId#string")
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
-    o.vgwTelemetry = AWS.@parse_vector(AWS.EC2.VpnTunnelTelemetryType, find(pd, "vgwTelemetry/item"))
-    o.options = length(pd["options"]) > 0 ?  VpnConnectionOptionsResponseType(find(pd,"options[1]")) : nothing
-    o.routes = AWS.@parse_vector(AWS.EC2.VpnStaticRouteType, find(pd, "routes/item"))
-    o
-end
-
-export VpnConnectionType
-
-
-type InstanceStateChangeType
-    instanceId::Union(ASCIIString, Nothing)
-    currentState::Union(InstanceStateType, Nothing)
-    previousState::Union(InstanceStateType, Nothing)
-
-    InstanceStateChangeType(; instanceId=nothing, currentState=nothing, previousState=nothing) = 
-         new(instanceId, currentState, previousState)
-end
-function InstanceStateChangeType(pd::ETree)
-    o = InstanceStateChangeType()
-    o.instanceId = find(pd, "instanceId#string")
-    o.currentState = length(pd["currentState"]) > 0 ?  InstanceStateType(find(pd,"currentState[1]")) : nothing
-    o.previousState = length(pd["previousState"]) > 0 ?  InstanceStateType(find(pd,"previousState[1]")) : nothing
-    o
-end
-
-export InstanceStateChangeType
-
-
-type DescribeVolumesSetItemResponseType
-    volumeId::Union(ASCIIString, Nothing)
-    size::Union(ASCIIString, Nothing)
-    snapshotId::Union(ASCIIString, Nothing)
-    availabilityZone::Union(ASCIIString, Nothing)
-    status::Union(ASCIIString, Nothing)
-    createTime::Union(CalendarTime, Nothing)
-    attachmentSet::Union(Vector{AttachmentSetItemResponseType}, Nothing)
-    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
-    volumeType::Union(ASCIIString, Nothing)
-    iops::Union(Int64, Nothing)
-
-    DescribeVolumesSetItemResponseType(; volumeId=nothing, size=nothing, snapshotId=nothing, availabilityZone=nothing, status=nothing, createTime=nothing, attachmentSet=nothing, tagSet=nothing, volumeType=nothing, iops=nothing) = 
-         new(volumeId, size, snapshotId, availabilityZone, status, createTime, attachmentSet, tagSet, volumeType, iops)
-end
-function DescribeVolumesSetItemResponseType(pd::ETree)
-    o = DescribeVolumesSetItemResponseType()
-    o.volumeId = find(pd, "volumeId#string")
-    o.size = find(pd, "size#string")
-    o.snapshotId = find(pd, "snapshotId#string")
-    o.availabilityZone = find(pd, "availabilityZone#string")
-    o.status = find(pd, "status#string")
-    o.createTime = AWS.safe_parse_as(CalendarTime, find(pd, "createTime#string"))
-    o.attachmentSet = AWS.@parse_vector(AWS.EC2.AttachmentSetItemResponseType, find(pd, "attachmentSet/item"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
-    o.volumeType = find(pd, "volumeType#string")
-    o.iops = AWS.safe_parse_as(Int64, find(pd, "iops#string"))
-    o
-end
-
-export DescribeVolumesSetItemResponseType
-
-
-type DescribeKeyPairsResponseType
-    requestId::Union(ASCIIString, Nothing)
-    keySet::Union(Vector{DescribeKeyPairsResponseItemType}, Nothing)
-
-    DescribeKeyPairsResponseType(; requestId=nothing, keySet=nothing) = 
-         new(requestId, keySet)
-end
-function DescribeKeyPairsResponseType(pd::ETree)
-    o = DescribeKeyPairsResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.keySet = AWS.@parse_vector(AWS.EC2.DescribeKeyPairsResponseItemType, find(pd, "keySet/item"))
-    o
-end
-
-export DescribeKeyPairsResponseType
-
-
-type LaunchPermissionOperationType
-    add::Union(Vector{LaunchPermissionItemType}, Nothing)
-    remove::Union(Vector{LaunchPermissionItemType}, Nothing)
-
-    LaunchPermissionOperationType(; add=nothing, remove=nothing) = 
-         new(add, remove)
-end
-function LaunchPermissionOperationType(pd::ETree)
-    o = LaunchPermissionOperationType()
-    o.add = AWS.@parse_vector(AWS.EC2.LaunchPermissionItemType, find(pd, "add/item"))
-    o.remove = AWS.@parse_vector(AWS.EC2.LaunchPermissionItemType, find(pd, "remove/item"))
-    o
-end
-
-export LaunchPermissionOperationType
-
-
-type DescribeVpnConnectionsResponseType
-    requestId::Union(ASCIIString, Nothing)
-    vpnConnectionSet::Union(Vector{VpnConnectionType}, Nothing)
-
-    DescribeVpnConnectionsResponseType(; requestId=nothing, vpnConnectionSet=nothing) = 
-         new(requestId, vpnConnectionSet)
-end
-function DescribeVpnConnectionsResponseType(pd::ETree)
-    o = DescribeVpnConnectionsResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.vpnConnectionSet = AWS.@parse_vector(AWS.EC2.VpnConnectionType, find(pd, "vpnConnectionSet/item"))
-    o
-end
-
-export DescribeVpnConnectionsResponseType
-
-
-type DescribeAddressesType
-    publicIpsSet::Union(Vector{ASCIIString}, Nothing)
-    allocationIdsSet::Union(Vector{ASCIIString}, Nothing)
-    filterSet::Union(Vector{FilterType}, Nothing)
-
-    DescribeAddressesType(; publicIpsSet=nothing, allocationIdsSet=nothing, filterSet=nothing) = 
-         new(publicIpsSet, allocationIdsSet, filterSet)
-end
-function DescribeAddressesType(pd::ETree)
-    o = DescribeAddressesType()
-    o.publicIpsSet = AWS.parse_vector_as(ASCIIString, "publicIp", find(pd, "item/publicIp"))
-    o.allocationIdsSet = AWS.parse_vector_as(ASCIIString, "allocationId", find(pd, "item/allocationId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
-    o
-end
-
-export DescribeAddressesType
-
-
-type RevokeSecurityGroupEgressType
-    groupId::Union(ASCIIString, Nothing)
-    ipPermissions::Union(Vector{IpPermissionType}, Nothing)
-
-    RevokeSecurityGroupEgressType(; groupId=nothing, ipPermissions=nothing) = 
-         new(groupId, ipPermissions)
-end
-function RevokeSecurityGroupEgressType(pd::ETree)
-    o = RevokeSecurityGroupEgressType()
-    o.groupId = find(pd, "groupId#string")
-    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, find(pd, "ipPermissions/item"))
-    o
-end
-
-export RevokeSecurityGroupEgressType
-
-
-type DhcpOptionsType
-    dhcpOptionsId::Union(ASCIIString, Nothing)
-    dhcpConfigurationSet::Union(Vector{DhcpConfigurationItemType}, Nothing)
-    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
-
-    DhcpOptionsType(; dhcpOptionsId=nothing, dhcpConfigurationSet=nothing, tagSet=nothing) = 
-         new(dhcpOptionsId, dhcpConfigurationSet, tagSet)
-end
-function DhcpOptionsType(pd::ETree)
-    o = DhcpOptionsType()
-    o.dhcpOptionsId = find(pd, "dhcpOptionsId#string")
-    o.dhcpConfigurationSet = AWS.@parse_vector(AWS.EC2.DhcpConfigurationItemType, find(pd, "dhcpConfigurationSet/item"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
-    o
-end
-
-export DhcpOptionsType
-
-
-type RevokeSecurityGroupIngressType
-    userId::Union(ASCIIString, Nothing)
-    ipPermissions::Union(Vector{IpPermissionType}, Nothing)
-
-    RevokeSecurityGroupIngressType(; userId=nothing, ipPermissions=nothing) = 
-         new(userId, ipPermissions)
-end
-function RevokeSecurityGroupIngressType(pd::ETree)
-    o = RevokeSecurityGroupIngressType()
-    o.userId = find(pd, "userId#string")
-    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, find(pd, "ipPermissions/item"))
-    o
-end
-
-export RevokeSecurityGroupIngressType
+export InstanceStatusType
 
 
 type DescribeImagesResponseItemType
@@ -5869,23 +5823,404 @@ end
 export DescribeBundleTasksType
 
 
-type PurchaseReservedInstancesOfferingType
-    reservedInstancesOfferingId::Union(ASCIIString, Nothing)
-    instanceCount::Union(Int64, Nothing)
-    limitPrice::Union(ReservedInstanceLimitPriceType, Nothing)
+type DeleteTagsType
+    resourcesSet::Union(Vector{ASCIIString}, Nothing)
+    tagSet::Union(Vector{DeleteTagsSetItemType}, Nothing)
 
-    PurchaseReservedInstancesOfferingType(; reservedInstancesOfferingId=nothing, instanceCount=nothing, limitPrice=nothing) = 
-         new(reservedInstancesOfferingId, instanceCount, limitPrice)
+    DeleteTagsType(; resourcesSet=nothing, tagSet=nothing) = 
+         new(resourcesSet, tagSet)
 end
-function PurchaseReservedInstancesOfferingType(pd::ETree)
-    o = PurchaseReservedInstancesOfferingType()
-    o.reservedInstancesOfferingId = find(pd, "reservedInstancesOfferingId#string")
-    o.instanceCount = AWS.safe_parse_as(Int64, find(pd, "instanceCount#string"))
-    o.limitPrice = length(pd["limitPrice"]) > 0 ?  ReservedInstanceLimitPriceType(find(pd,"limitPrice[1]")) : nothing
+function DeleteTagsType(pd::ETree)
+    o = DeleteTagsType()
+    o.resourcesSet = AWS.parse_vector_as(ASCIIString, "resourceId", find(pd, "item/resourceId"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.DeleteTagsSetItemType, find(pd, "tagSet/item"))
     o
 end
 
-export PurchaseReservedInstancesOfferingType
+export DeleteTagsType
+
+
+type SpotDatafeedSubscriptionType
+    ownerId::Union(ASCIIString, Nothing)
+    bucket::Union(ASCIIString, Nothing)
+    prefix::Union(ASCIIString, Nothing)
+    state::Union(ASCIIString, Nothing)
+    fault::Union(SpotInstanceStateFaultType, Nothing)
+
+    SpotDatafeedSubscriptionType(; ownerId=nothing, bucket=nothing, prefix=nothing, state=nothing, fault=nothing) = 
+         new(ownerId, bucket, prefix, state, fault)
+end
+function SpotDatafeedSubscriptionType(pd::ETree)
+    o = SpotDatafeedSubscriptionType()
+    o.ownerId = find(pd, "ownerId#string")
+    o.bucket = find(pd, "bucket#string")
+    o.prefix = find(pd, "prefix#string")
+    o.state = find(pd, "state#string")
+    o.fault = length(pd["fault"]) > 0 ?  SpotInstanceStateFaultType(find(pd,"fault[1]")) : nothing
+    o
+end
+
+export SpotDatafeedSubscriptionType
+
+
+type DescribeNetworkAclsType
+    networkAclIdSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
+
+    DescribeNetworkAclsType(; networkAclIdSet=nothing, filterSet=nothing) = 
+         new(networkAclIdSet, filterSet)
+end
+function DescribeNetworkAclsType(pd::ETree)
+    o = DescribeNetworkAclsType()
+    o.networkAclIdSet = AWS.parse_vector_as(ASCIIString, "networkAclId", find(pd, "item/networkAclId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o
+end
+
+export DescribeNetworkAclsType
+
+
+type DescribeVolumesSetItemResponseType
+    volumeId::Union(ASCIIString, Nothing)
+    size::Union(ASCIIString, Nothing)
+    snapshotId::Union(ASCIIString, Nothing)
+    availabilityZone::Union(ASCIIString, Nothing)
+    status::Union(ASCIIString, Nothing)
+    createTime::Union(CalendarTime, Nothing)
+    attachmentSet::Union(Vector{AttachmentSetItemResponseType}, Nothing)
+    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
+    volumeType::Union(ASCIIString, Nothing)
+    iops::Union(Int64, Nothing)
+
+    DescribeVolumesSetItemResponseType(; volumeId=nothing, size=nothing, snapshotId=nothing, availabilityZone=nothing, status=nothing, createTime=nothing, attachmentSet=nothing, tagSet=nothing, volumeType=nothing, iops=nothing) = 
+         new(volumeId, size, snapshotId, availabilityZone, status, createTime, attachmentSet, tagSet, volumeType, iops)
+end
+function DescribeVolumesSetItemResponseType(pd::ETree)
+    o = DescribeVolumesSetItemResponseType()
+    o.volumeId = find(pd, "volumeId#string")
+    o.size = find(pd, "size#string")
+    o.snapshotId = find(pd, "snapshotId#string")
+    o.availabilityZone = find(pd, "availabilityZone#string")
+    o.status = find(pd, "status#string")
+    o.createTime = AWS.safe_parse_as(CalendarTime, find(pd, "createTime#string"))
+    o.attachmentSet = AWS.@parse_vector(AWS.EC2.AttachmentSetItemResponseType, find(pd, "attachmentSet/item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.volumeType = find(pd, "volumeType#string")
+    o.iops = AWS.safe_parse_as(Int64, find(pd, "iops#string"))
+    o
+end
+
+export DescribeVolumesSetItemResponseType
+
+
+type DescribeVolumesType
+    volumeSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
+
+    DescribeVolumesType(; volumeSet=nothing, filterSet=nothing) = 
+         new(volumeSet, filterSet)
+end
+function DescribeVolumesType(pd::ETree)
+    o = DescribeVolumesType()
+    o.volumeSet = AWS.parse_vector_as(ASCIIString, "volumeId", find(pd, "item/volumeId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o
+end
+
+export DescribeVolumesType
+
+
+type DescribeDhcpOptionsType
+    dhcpOptionsSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
+
+    DescribeDhcpOptionsType(; dhcpOptionsSet=nothing, filterSet=nothing) = 
+         new(dhcpOptionsSet, filterSet)
+end
+function DescribeDhcpOptionsType(pd::ETree)
+    o = DescribeDhcpOptionsType()
+    o.dhcpOptionsSet = AWS.parse_vector_as(ASCIIString, "dhcpOptionsId", find(pd, "item/dhcpOptionsId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o
+end
+
+export DescribeDhcpOptionsType
+
+
+type CreateTagsType
+    resourcesSet::Union(Vector{ASCIIString}, Nothing)
+    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
+
+    CreateTagsType(; resourcesSet=nothing, tagSet=nothing) = 
+         new(resourcesSet, tagSet)
+end
+function CreateTagsType(pd::ETree)
+    o = CreateTagsType()
+    o.resourcesSet = AWS.parse_vector_as(ASCIIString, "resourceId", find(pd, "item/resourceId"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o
+end
+
+export CreateTagsType
+
+
+type ImportInstanceTaskDetailsType
+    volumes::Union(Vector{ImportInstanceVolumeDetailItemType}, Nothing)
+    instanceId::Union(ASCIIString, Nothing)
+    platform::Union(ASCIIString, Nothing)
+    description::Union(ASCIIString, Nothing)
+
+    ImportInstanceTaskDetailsType(; volumes=nothing, instanceId=nothing, platform=nothing, description=nothing) = 
+         new(volumes, instanceId, platform, description)
+end
+function ImportInstanceTaskDetailsType(pd::ETree)
+    o = ImportInstanceTaskDetailsType()
+    o.volumes = AWS.@parse_vector(AWS.EC2.ImportInstanceVolumeDetailItemType, find(pd, "volumes/item"))
+    o.instanceId = find(pd, "instanceId#string")
+    o.platform = find(pd, "platform#string")
+    o.description = find(pd, "description#string")
+    o
+end
+
+export ImportInstanceTaskDetailsType
+
+
+type ConversionTaskType
+    conversionTaskId::Union(ASCIIString, Nothing)
+    expirationTime::Union(ASCIIString, Nothing)
+    state::Union(ASCIIString, Nothing)
+    statusMessage::Union(ASCIIString, Nothing)
+    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
+
+    ConversionTaskType(; conversionTaskId=nothing, expirationTime=nothing, state=nothing, statusMessage=nothing, tagSet=nothing) = 
+         new(conversionTaskId, expirationTime, state, statusMessage, tagSet)
+end
+function ConversionTaskType(pd::ETree)
+    o = ConversionTaskType()
+    o.conversionTaskId = find(pd, "conversionTaskId#string")
+    o.expirationTime = find(pd, "expirationTime#string")
+    o.state = find(pd, "state#string")
+    o.statusMessage = find(pd, "statusMessage#string")
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o
+end
+
+export ConversionTaskType
+
+
+type CreateSpotDatafeedSubscriptionResponseType
+    requestId::Union(ASCIIString, Nothing)
+    spotDatafeedSubscription::Union(SpotDatafeedSubscriptionType, Nothing)
+
+    CreateSpotDatafeedSubscriptionResponseType(; requestId=nothing, spotDatafeedSubscription=nothing) = 
+         new(requestId, spotDatafeedSubscription)
+end
+function CreateSpotDatafeedSubscriptionResponseType(pd::ETree)
+    o = CreateSpotDatafeedSubscriptionResponseType()
+    o.requestId = find(pd, "requestId#string")
+    o.spotDatafeedSubscription = length(pd["spotDatafeedSubscription"]) > 0 ?  SpotDatafeedSubscriptionType(find(pd,"spotDatafeedSubscription[1]")) : nothing
+    o
+end
+
+export CreateSpotDatafeedSubscriptionResponseType
+
+
+type DescribeCustomerGatewaysType
+    customerGatewaySet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
+
+    DescribeCustomerGatewaysType(; customerGatewaySet=nothing, filterSet=nothing) = 
+         new(customerGatewaySet, filterSet)
+end
+function DescribeCustomerGatewaysType(pd::ETree)
+    o = DescribeCustomerGatewaysType()
+    o.customerGatewaySet = AWS.parse_vector_as(ASCIIString, "customerGatewayId", find(pd, "item/customerGatewayId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o
+end
+
+export DescribeCustomerGatewaysType
+
+
+type DescribePlacementGroupsResponseType
+    requestId::Union(ASCIIString, Nothing)
+    placementGroupSet::Union(Vector{PlacementGroupInfoType}, Nothing)
+
+    DescribePlacementGroupsResponseType(; requestId=nothing, placementGroupSet=nothing) = 
+         new(requestId, placementGroupSet)
+end
+function DescribePlacementGroupsResponseType(pd::ETree)
+    o = DescribePlacementGroupsResponseType()
+    o.requestId = find(pd, "requestId#string")
+    o.placementGroupSet = AWS.@parse_vector(AWS.EC2.PlacementGroupInfoType, find(pd, "placementGroupSet/item"))
+    o
+end
+
+export DescribePlacementGroupsResponseType
+
+
+type DescribeReservedInstancesResponseType
+    requestId::Union(ASCIIString, Nothing)
+    reservedInstancesSet::Union(Vector{DescribeReservedInstancesResponseSetItemType}, Nothing)
+
+    DescribeReservedInstancesResponseType(; requestId=nothing, reservedInstancesSet=nothing) = 
+         new(requestId, reservedInstancesSet)
+end
+function DescribeReservedInstancesResponseType(pd::ETree)
+    o = DescribeReservedInstancesResponseType()
+    o.requestId = find(pd, "requestId#string")
+    o.reservedInstancesSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesResponseSetItemType, find(pd, "reservedInstancesSet/item"))
+    o
+end
+
+export DescribeReservedInstancesResponseType
+
+
+type ReplaceNetworkAclEntryType
+    networkAclId::Union(ASCIIString, Nothing)
+    ruleNumber::Union(Int64, Nothing)
+    protocol::Union(ASCIIString, Nothing)
+    ruleAction::Union(ASCIIString, Nothing)
+    egress::Union(Bool, Nothing)
+    cidrBlock::Union(ASCIIString, Nothing)
+    icmpTypeCode::Union(IcmpTypeCodeType, Nothing)
+    portRange::Union(PortRangeType, Nothing)
+
+    ReplaceNetworkAclEntryType(; networkAclId=nothing, ruleNumber=nothing, protocol=nothing, ruleAction=nothing, egress=nothing, cidrBlock=nothing, icmpTypeCode=nothing, portRange=nothing) = 
+         new(networkAclId, ruleNumber, protocol, ruleAction, egress, cidrBlock, icmpTypeCode, portRange)
+end
+function ReplaceNetworkAclEntryType(pd::ETree)
+    o = ReplaceNetworkAclEntryType()
+    o.networkAclId = find(pd, "networkAclId#string")
+    o.ruleNumber = AWS.safe_parse_as(Int64, find(pd, "ruleNumber#string"))
+    o.protocol = find(pd, "protocol#string")
+    o.ruleAction = find(pd, "ruleAction#string")
+    o.egress = AWS.safe_parse_as(Bool, find(pd, "egress#string"))
+    o.cidrBlock = find(pd, "cidrBlock#string")
+    o.icmpTypeCode = length(pd["icmpTypeCode"]) > 0 ?  IcmpTypeCodeType(find(pd,"icmpTypeCode[1]")) : nothing
+    o.portRange = length(pd["portRange"]) > 0 ?  PortRangeType(find(pd,"portRange[1]")) : nothing
+    o
+end
+
+export ReplaceNetworkAclEntryType
+
+
+type NetworkAclEntryType
+    ruleNumber::Union(Int64, Nothing)
+    protocol::Union(ASCIIString, Nothing)
+    ruleAction::Union(ASCIIString, Nothing)
+    egress::Union(Bool, Nothing)
+    cidrBlock::Union(ASCIIString, Nothing)
+    icmpTypeCode::Union(IcmpTypeCodeType, Nothing)
+    portRange::Union(PortRangeType, Nothing)
+
+    NetworkAclEntryType(; ruleNumber=nothing, protocol=nothing, ruleAction=nothing, egress=nothing, cidrBlock=nothing, icmpTypeCode=nothing, portRange=nothing) = 
+         new(ruleNumber, protocol, ruleAction, egress, cidrBlock, icmpTypeCode, portRange)
+end
+function NetworkAclEntryType(pd::ETree)
+    o = NetworkAclEntryType()
+    o.ruleNumber = AWS.safe_parse_as(Int64, find(pd, "ruleNumber#string"))
+    o.protocol = find(pd, "protocol#string")
+    o.ruleAction = find(pd, "ruleAction#string")
+    o.egress = AWS.safe_parse_as(Bool, find(pd, "egress#string"))
+    o.cidrBlock = find(pd, "cidrBlock#string")
+    o.icmpTypeCode = length(pd["icmpTypeCode"]) > 0 ?  IcmpTypeCodeType(find(pd,"icmpTypeCode[1]")) : nothing
+    o.portRange = length(pd["portRange"]) > 0 ?  PortRangeType(find(pd,"portRange[1]")) : nothing
+    o
+end
+
+export NetworkAclEntryType
+
+
+type InternetGatewayType
+    internetGatewayId::Union(ASCIIString, Nothing)
+    attachmentSet::Union(Vector{InternetGatewayAttachmentType}, Nothing)
+    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
+
+    InternetGatewayType(; internetGatewayId=nothing, attachmentSet=nothing, tagSet=nothing) = 
+         new(internetGatewayId, attachmentSet, tagSet)
+end
+function InternetGatewayType(pd::ETree)
+    o = InternetGatewayType()
+    o.internetGatewayId = find(pd, "internetGatewayId#string")
+    o.attachmentSet = AWS.@parse_vector(AWS.EC2.InternetGatewayAttachmentType, find(pd, "attachmentSet/item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o
+end
+
+export InternetGatewayType
+
+
+type DescribeRegionsType
+    regionSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
+
+    DescribeRegionsType(; regionSet=nothing, filterSet=nothing) = 
+         new(regionSet, filterSet)
+end
+function DescribeRegionsType(pd::ETree)
+    o = DescribeRegionsType()
+    o.regionSet = AWS.parse_vector_as(ASCIIString, "regionName", find(pd, "item/regionName"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o
+end
+
+export DescribeRegionsType
+
+
+type DescribeSnapshotsType
+    snapshotSet::Union(Vector{ASCIIString}, Nothing)
+    ownersSet::Union(Vector{ASCIIString}, Nothing)
+    restorableBySet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
+
+    DescribeSnapshotsType(; snapshotSet=nothing, ownersSet=nothing, restorableBySet=nothing, filterSet=nothing) = 
+         new(snapshotSet, ownersSet, restorableBySet, filterSet)
+end
+function DescribeSnapshotsType(pd::ETree)
+    o = DescribeSnapshotsType()
+    o.snapshotSet = AWS.parse_vector_as(ASCIIString, "snapshotId", find(pd, "item/snapshotId"))
+    o.ownersSet = AWS.parse_vector_as(ASCIIString, "owner", find(pd, "item/owner"))
+    o.restorableBySet = AWS.parse_vector_as(ASCIIString, "user", find(pd, "item/user"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o
+end
+
+export DescribeSnapshotsType
+
+
+type DescribeKeyPairsResponseType
+    requestId::Union(ASCIIString, Nothing)
+    keySet::Union(Vector{DescribeKeyPairsResponseItemType}, Nothing)
+
+    DescribeKeyPairsResponseType(; requestId=nothing, keySet=nothing) = 
+         new(requestId, keySet)
+end
+function DescribeKeyPairsResponseType(pd::ETree)
+    o = DescribeKeyPairsResponseType()
+    o.requestId = find(pd, "requestId#string")
+    o.keySet = AWS.@parse_vector(AWS.EC2.DescribeKeyPairsResponseItemType, find(pd, "keySet/item"))
+    o
+end
+
+export DescribeKeyPairsResponseType
+
+
+type DescribeAvailabilityZonesResponseType
+    requestId::Union(ASCIIString, Nothing)
+    availabilityZoneInfo::Union(Vector{AvailabilityZoneItemType}, Nothing)
+
+    DescribeAvailabilityZonesResponseType(; requestId=nothing, availabilityZoneInfo=nothing) = 
+         new(requestId, availabilityZoneInfo)
+end
+function DescribeAvailabilityZonesResponseType(pd::ETree)
+    o = DescribeAvailabilityZonesResponseType()
+    o.requestId = find(pd, "requestId#string")
+    o.availabilityZoneInfo = AWS.@parse_vector(AWS.EC2.AvailabilityZoneItemType, find(pd, "availabilityZoneInfo/item"))
+    o
+end
+
+export DescribeAvailabilityZonesResponseType
 
 
 type VpcType
@@ -5915,648 +6250,55 @@ end
 export VpcType
 
 
-type CreateReservedInstancesListingType
-    reservedInstancesId::Union(ASCIIString, Nothing)
-    instanceCount::Union(Int64, Nothing)
-    priceSchedules::Union(Vector{PriceScheduleRequestSetItemType}, Nothing)
-    clientToken::Union(ASCIIString, Nothing)
-
-    CreateReservedInstancesListingType(; reservedInstancesId=nothing, instanceCount=nothing, priceSchedules=nothing, clientToken=nothing) = 
-         new(reservedInstancesId, instanceCount, priceSchedules, clientToken)
-end
-function CreateReservedInstancesListingType(pd::ETree)
-    o = CreateReservedInstancesListingType()
-    o.reservedInstancesId = find(pd, "reservedInstancesId#string")
-    o.instanceCount = AWS.safe_parse_as(Int64, find(pd, "instanceCount#string"))
-    o.priceSchedules = AWS.@parse_vector(AWS.EC2.PriceScheduleRequestSetItemType, find(pd, "priceSchedules/item"))
-    o.clientToken = find(pd, "clientToken#string")
-    o
-end
-
-export CreateReservedInstancesListingType
-
-
-type DescribeImagesType
-    executableBySet::Union(Vector{ASCIIString}, Nothing)
-    imagesSet::Union(Vector{ASCIIString}, Nothing)
-    ownersSet::Union(Vector{ASCIIString}, Nothing)
+type DescribeSubnetsType
+    subnetSet::Union(Vector{ASCIIString}, Nothing)
     filterSet::Union(Vector{FilterType}, Nothing)
 
-    DescribeImagesType(; executableBySet=nothing, imagesSet=nothing, ownersSet=nothing, filterSet=nothing) = 
-         new(executableBySet, imagesSet, ownersSet, filterSet)
+    DescribeSubnetsType(; subnetSet=nothing, filterSet=nothing) = 
+         new(subnetSet, filterSet)
 end
-function DescribeImagesType(pd::ETree)
-    o = DescribeImagesType()
-    o.executableBySet = AWS.parse_vector_as(ASCIIString, "user", find(pd, "item/user"))
-    o.imagesSet = AWS.parse_vector_as(ASCIIString, "imageId", find(pd, "item/imageId"))
-    o.ownersSet = AWS.parse_vector_as(ASCIIString, "owner", find(pd, "item/owner"))
+function DescribeSubnetsType(pd::ETree)
+    o = DescribeSubnetsType()
+    o.subnetSet = AWS.parse_vector_as(ASCIIString, "subnetId", find(pd, "item/subnetId"))
     o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
     o
 end
 
-export DescribeImagesType
+export DescribeSubnetsType
 
 
-type DescribeReservedInstancesResponseSetItemType
-    reservedInstancesId::Union(ASCIIString, Nothing)
-    instanceType::Union(ASCIIString, Nothing)
-    availabilityZone::Union(ASCIIString, Nothing)
-    start::Union(CalendarTime, Nothing)
-    duration::Union(Int64, Nothing)
-    fixedPrice::Union(Float64, Nothing)
-    usagePrice::Union(Float64, Nothing)
-    instanceCount::Union(Int64, Nothing)
-    productDescription::Union(ASCIIString, Nothing)
-    state::Union(ASCIIString, Nothing)
-    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
-    instanceTenancy::Union(ASCIIString, Nothing)
-    currencyCode::Union(ASCIIString, Nothing)
-    offeringType::Union(ASCIIString, Nothing)
-    recurringCharges::Union(Vector{RecurringChargesSetItemType}, Nothing)
-
-    DescribeReservedInstancesResponseSetItemType(; reservedInstancesId=nothing, instanceType=nothing, availabilityZone=nothing, start=nothing, duration=nothing, fixedPrice=nothing, usagePrice=nothing, instanceCount=nothing, productDescription=nothing, state=nothing, tagSet=nothing, instanceTenancy=nothing, currencyCode=nothing, offeringType=nothing, recurringCharges=nothing) = 
-         new(reservedInstancesId, instanceType, availabilityZone, start, duration, fixedPrice, usagePrice, instanceCount, productDescription, state, tagSet, instanceTenancy, currencyCode, offeringType, recurringCharges)
-end
-function DescribeReservedInstancesResponseSetItemType(pd::ETree)
-    o = DescribeReservedInstancesResponseSetItemType()
-    o.reservedInstancesId = find(pd, "reservedInstancesId#string")
-    o.instanceType = find(pd, "instanceType#string")
-    o.availabilityZone = find(pd, "availabilityZone#string")
-    o.start = AWS.safe_parse_as(CalendarTime, find(pd, "start#string"))
-    o.duration = AWS.safe_parse_as(Int64, find(pd, "duration#string"))
-    o.fixedPrice = AWS.safe_parse_as(Float64, find(pd, "fixedPrice#string"))
-    o.usagePrice = AWS.safe_parse_as(Float64, find(pd, "usagePrice#string"))
-    o.instanceCount = AWS.safe_parse_as(Int64, find(pd, "instanceCount#string"))
-    o.productDescription = find(pd, "productDescription#string")
-    o.state = find(pd, "state#string")
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
-    o.instanceTenancy = find(pd, "instanceTenancy#string")
-    o.currencyCode = find(pd, "currencyCode#string")
-    o.offeringType = find(pd, "offeringType#string")
-    o.recurringCharges = AWS.@parse_vector(AWS.EC2.RecurringChargesSetItemType, find(pd, "recurringCharges/item"))
-    o
-end
-
-export DescribeReservedInstancesResponseSetItemType
-
-
-type SubnetType
-    subnetId::Union(ASCIIString, Nothing)
-    state::Union(ASCIIString, Nothing)
-    vpcId::Union(ASCIIString, Nothing)
-    cidrBlock::Union(ASCIIString, Nothing)
-    availableIpAddressCount::Union(Int64, Nothing)
-    availabilityZone::Union(ASCIIString, Nothing)
-    defaultForAz::Union(Bool, Nothing)
-    mapPublicIpOnLaunch::Union(Bool, Nothing)
-    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
-
-    SubnetType(; subnetId=nothing, state=nothing, vpcId=nothing, cidrBlock=nothing, availableIpAddressCount=nothing, availabilityZone=nothing, defaultForAz=nothing, mapPublicIpOnLaunch=nothing, tagSet=nothing) = 
-         new(subnetId, state, vpcId, cidrBlock, availableIpAddressCount, availabilityZone, defaultForAz, mapPublicIpOnLaunch, tagSet)
-end
-function SubnetType(pd::ETree)
-    o = SubnetType()
-    o.subnetId = find(pd, "subnetId#string")
-    o.state = find(pd, "state#string")
-    o.vpcId = find(pd, "vpcId#string")
-    o.cidrBlock = find(pd, "cidrBlock#string")
-    o.availableIpAddressCount = AWS.safe_parse_as(Int64, find(pd, "availableIpAddressCount#string"))
-    o.availabilityZone = find(pd, "availabilityZone#string")
-    o.defaultForAz = AWS.safe_parse_as(Bool, find(pd, "defaultForAz#string"))
-    o.mapPublicIpOnLaunch = AWS.safe_parse_as(Bool, find(pd, "mapPublicIpOnLaunch#string"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
-    o
-end
-
-export SubnetType
-
-
-type DescribeVolumesResponseType
+type DescribeRegionsResponseType
     requestId::Union(ASCIIString, Nothing)
-    volumeSet::Union(Vector{DescribeVolumesSetItemResponseType}, Nothing)
+    regionInfo::Union(Vector{RegionItemType}, Nothing)
 
-    DescribeVolumesResponseType(; requestId=nothing, volumeSet=nothing) = 
-         new(requestId, volumeSet)
+    DescribeRegionsResponseType(; requestId=nothing, regionInfo=nothing) = 
+         new(requestId, regionInfo)
 end
-function DescribeVolumesResponseType(pd::ETree)
-    o = DescribeVolumesResponseType()
+function DescribeRegionsResponseType(pd::ETree)
+    o = DescribeRegionsResponseType()
     o.requestId = find(pd, "requestId#string")
-    o.volumeSet = AWS.@parse_vector(AWS.EC2.DescribeVolumesSetItemResponseType, find(pd, "volumeSet/item"))
+    o.regionInfo = AWS.@parse_vector(AWS.EC2.RegionItemType, find(pd, "regionInfo/item"))
     o
 end
 
-export DescribeVolumesResponseType
+export DescribeRegionsResponseType
 
 
-type ImportInstanceLaunchSpecificationType
-    architecture::Union(ASCIIString, Nothing)
-    groupSet::Union(Vector{ImportInstanceGroupItemType}, Nothing)
-    userData::Union(UserDataType, Nothing)
-    instanceType::Union(ASCIIString, Nothing)
-    placement::Union(InstancePlacementType, Nothing)
-    monitoring::Union(MonitoringInstanceType, Nothing)
-    subnetId::Union(ASCIIString, Nothing)
-    instanceInitiatedShutdownBehavior::Union(ASCIIString, Nothing)
-    privateIpAddress::Union(ASCIIString, Nothing)
-
-    ImportInstanceLaunchSpecificationType(; architecture=nothing, groupSet=nothing, userData=nothing, instanceType=nothing, placement=nothing, monitoring=nothing, subnetId=nothing, instanceInitiatedShutdownBehavior=nothing, privateIpAddress=nothing) = 
-         new(architecture, groupSet, userData, instanceType, placement, monitoring, subnetId, instanceInitiatedShutdownBehavior, privateIpAddress)
-end
-function ImportInstanceLaunchSpecificationType(pd::ETree)
-    o = ImportInstanceLaunchSpecificationType()
-    o.architecture = find(pd, "architecture#string")
-    o.groupSet = AWS.@parse_vector(AWS.EC2.ImportInstanceGroupItemType, find(pd, "groupSet/item"))
-    o.userData = length(pd["userData"]) > 0 ?  UserDataType(find(pd,"userData[1]")) : nothing
-    o.instanceType = find(pd, "instanceType#string")
-    o.placement = length(pd["placement"]) > 0 ?  InstancePlacementType(find(pd,"placement[1]")) : nothing
-    o.monitoring = length(pd["monitoring"]) > 0 ?  MonitoringInstanceType(find(pd,"monitoring[1]")) : nothing
-    o.subnetId = find(pd, "subnetId#string")
-    o.instanceInitiatedShutdownBehavior = find(pd, "instanceInitiatedShutdownBehavior#string")
-    o.privateIpAddress = find(pd, "privateIpAddress#string")
-    o
-end
-
-export ImportInstanceLaunchSpecificationType
-
-
-type CreateNetworkInterfaceType
-    subnetId::Union(ASCIIString, Nothing)
-    description::Union(ASCIIString, Nothing)
-    privateIpAddress::Union(ASCIIString, Nothing)
-    groupSet::Union(Vector{ASCIIString}, Nothing)
-    privateIpAddressesSet::Union(Vector{PrivateIpAddressesSetItemRequestType}, Nothing)
-    secondaryPrivateIpAddressCount::Union(Int64, Nothing)
-
-    CreateNetworkInterfaceType(; subnetId=nothing, description=nothing, privateIpAddress=nothing, groupSet=nothing, privateIpAddressesSet=nothing, secondaryPrivateIpAddressCount=nothing) = 
-         new(subnetId, description, privateIpAddress, groupSet, privateIpAddressesSet, secondaryPrivateIpAddressCount)
-end
-function CreateNetworkInterfaceType(pd::ETree)
-    o = CreateNetworkInterfaceType()
-    o.subnetId = find(pd, "subnetId#string")
-    o.description = find(pd, "description#string")
-    o.privateIpAddress = find(pd, "privateIpAddress#string")
-    o.groupSet = AWS.parse_vector_as(ASCIIString, "groupId", find(pd, "item/groupId"))
-    o.privateIpAddressesSet = AWS.@parse_vector(AWS.EC2.PrivateIpAddressesSetItemRequestType, find(pd, "privateIpAddressesSet/item"))
-    o.secondaryPrivateIpAddressCount = AWS.safe_parse_as(Int64, find(pd, "secondaryPrivateIpAddressCount#string"))
-    o
-end
-
-export CreateNetworkInterfaceType
-
-
-type DescribeInternetGatewaysType
-    internetGatewayIdSet::Union(Vector{ASCIIString}, Nothing)
-    filterSet::Union(Vector{FilterType}, Nothing)
-
-    DescribeInternetGatewaysType(; internetGatewayIdSet=nothing, filterSet=nothing) = 
-         new(internetGatewayIdSet, filterSet)
-end
-function DescribeInternetGatewaysType(pd::ETree)
-    o = DescribeInternetGatewaysType()
-    o.internetGatewayIdSet = AWS.parse_vector_as(ASCIIString, "internetGatewayId", find(pd, "item/internetGatewayId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
-    o
-end
-
-export DescribeInternetGatewaysType
-
-
-type DescribeVpnGatewaysType
-    vpnGatewaySet::Union(Vector{ASCIIString}, Nothing)
-    filterSet::Union(Vector{FilterType}, Nothing)
-
-    DescribeVpnGatewaysType(; vpnGatewaySet=nothing, filterSet=nothing) = 
-         new(vpnGatewaySet, filterSet)
-end
-function DescribeVpnGatewaysType(pd::ETree)
-    o = DescribeVpnGatewaysType()
-    o.vpnGatewaySet = AWS.parse_vector_as(ASCIIString, "vpnGatewayId", find(pd, "item/vpnGatewayId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
-    o
-end
-
-export DescribeVpnGatewaysType
-
-
-type DescribeReservedInstancesListingsResponseType
+type DescribeSpotDatafeedSubscriptionResponseType
     requestId::Union(ASCIIString, Nothing)
-    reservedInstancesListingsSet::Union(Vector{DescribeReservedInstancesListingsResponseSetItemType}, Nothing)
+    spotDatafeedSubscription::Union(SpotDatafeedSubscriptionType, Nothing)
 
-    DescribeReservedInstancesListingsResponseType(; requestId=nothing, reservedInstancesListingsSet=nothing) = 
-         new(requestId, reservedInstancesListingsSet)
+    DescribeSpotDatafeedSubscriptionResponseType(; requestId=nothing, spotDatafeedSubscription=nothing) = 
+         new(requestId, spotDatafeedSubscription)
 end
-function DescribeReservedInstancesListingsResponseType(pd::ETree)
-    o = DescribeReservedInstancesListingsResponseType()
+function DescribeSpotDatafeedSubscriptionResponseType(pd::ETree)
+    o = DescribeSpotDatafeedSubscriptionResponseType()
     o.requestId = find(pd, "requestId#string")
-    o.reservedInstancesListingsSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesListingsResponseSetItemType, find(pd, "reservedInstancesListingsSet/item"))
+    o.spotDatafeedSubscription = length(pd["spotDatafeedSubscription"]) > 0 ?  SpotDatafeedSubscriptionType(find(pd,"spotDatafeedSubscription[1]")) : nothing
     o
 end
 
-export DescribeReservedInstancesListingsResponseType
-
-
-type DescribeExportTasksResponseType
-    requestId::Union(ASCIIString, Nothing)
-    exportTaskSet::Union(Vector{ExportTaskResponseType}, Nothing)
-
-    DescribeExportTasksResponseType(; requestId=nothing, exportTaskSet=nothing) = 
-         new(requestId, exportTaskSet)
-end
-function DescribeExportTasksResponseType(pd::ETree)
-    o = DescribeExportTasksResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.exportTaskSet = AWS.@parse_vector(AWS.EC2.ExportTaskResponseType, find(pd, "exportTaskSet/item"))
-    o
-end
-
-export DescribeExportTasksResponseType
-
-
-type CreateVpnConnectionType
-    _type::Union(ASCIIString, Nothing)
-    customerGatewayId::Union(ASCIIString, Nothing)
-    vpnGatewayId::Union(ASCIIString, Nothing)
-    options::Union(VpnConnectionOptionsRequestType, Nothing)
-
-    CreateVpnConnectionType(; _type=nothing, customerGatewayId=nothing, vpnGatewayId=nothing, options=nothing) = 
-         new(_type, customerGatewayId, vpnGatewayId, options)
-end
-function CreateVpnConnectionType(pd::ETree)
-    o = CreateVpnConnectionType()
-    o._type = find(pd, "type#string")
-    o.customerGatewayId = find(pd, "customerGatewayId#string")
-    o.vpnGatewayId = find(pd, "vpnGatewayId#string")
-    o.options = length(pd["options"]) > 0 ?  VpnConnectionOptionsRequestType(find(pd,"options[1]")) : nothing
-    o
-end
-
-export CreateVpnConnectionType
-
-
-type DeleteTagsType
-    resourcesSet::Union(Vector{ASCIIString}, Nothing)
-    tagSet::Union(Vector{DeleteTagsSetItemType}, Nothing)
-
-    DeleteTagsType(; resourcesSet=nothing, tagSet=nothing) = 
-         new(resourcesSet, tagSet)
-end
-function DeleteTagsType(pd::ETree)
-    o = DeleteTagsType()
-    o.resourcesSet = AWS.parse_vector_as(ASCIIString, "resourceId", find(pd, "item/resourceId"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.DeleteTagsSetItemType, find(pd, "tagSet/item"))
-    o
-end
-
-export DeleteTagsType
-
-
-type InstancePrivateIpAddressesSetItemType
-    privateIpAddress::Union(ASCIIString, Nothing)
-    privateDnsName::Union(ASCIIString, Nothing)
-    primary::Union(Bool, Nothing)
-    association::Union(InstanceNetworkInterfaceAssociationType, Nothing)
-
-    InstancePrivateIpAddressesSetItemType(; privateIpAddress=nothing, privateDnsName=nothing, primary=nothing, association=nothing) = 
-         new(privateIpAddress, privateDnsName, primary, association)
-end
-function InstancePrivateIpAddressesSetItemType(pd::ETree)
-    o = InstancePrivateIpAddressesSetItemType()
-    o.privateIpAddress = find(pd, "privateIpAddress#string")
-    o.privateDnsName = find(pd, "privateDnsName#string")
-    o.primary = AWS.safe_parse_as(Bool, find(pd, "primary#string"))
-    o.association = length(pd["association"]) > 0 ?  InstanceNetworkInterfaceAssociationType(find(pd,"association[1]")) : nothing
-    o
-end
-
-export InstancePrivateIpAddressesSetItemType
-
-
-type CreateInstanceExportTaskResponseType
-    requestId::Union(ASCIIString, Nothing)
-    exportTask::Union(ExportTaskResponseType, Nothing)
-
-    CreateInstanceExportTaskResponseType(; requestId=nothing, exportTask=nothing) = 
-         new(requestId, exportTask)
-end
-function CreateInstanceExportTaskResponseType(pd::ETree)
-    o = CreateInstanceExportTaskResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.exportTask = length(pd["exportTask"]) > 0 ?  ExportTaskResponseType(find(pd,"exportTask[1]")) : nothing
-    o
-end
-
-export CreateInstanceExportTaskResponseType
-
-
-type DescribeRegionsType
-    regionSet::Union(Vector{ASCIIString}, Nothing)
-    filterSet::Union(Vector{FilterType}, Nothing)
-
-    DescribeRegionsType(; regionSet=nothing, filterSet=nothing) = 
-         new(regionSet, filterSet)
-end
-function DescribeRegionsType(pd::ETree)
-    o = DescribeRegionsType()
-    o.regionSet = AWS.parse_vector_as(ASCIIString, "regionName", find(pd, "item/regionName"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
-    o
-end
-
-export DescribeRegionsType
-
-
-type DescribePlacementGroupsType
-    placementGroupSet::Union(Vector{ASCIIString}, Nothing)
-    filterSet::Union(Vector{FilterType}, Nothing)
-
-    DescribePlacementGroupsType(; placementGroupSet=nothing, filterSet=nothing) = 
-         new(placementGroupSet, filterSet)
-end
-function DescribePlacementGroupsType(pd::ETree)
-    o = DescribePlacementGroupsType()
-    o.placementGroupSet = AWS.parse_vector_as(ASCIIString, "groupName", find(pd, "item/groupName"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
-    o
-end
-
-export DescribePlacementGroupsType
-
-
-type InstanceNetworkInterfaceSetItemRequestType
-    networkInterfaceId::Union(ASCIIString, Nothing)
-    deviceIndex::Union(Int64, Nothing)
-    subnetId::Union(ASCIIString, Nothing)
-    description::Union(ASCIIString, Nothing)
-    privateIpAddress::Union(ASCIIString, Nothing)
-    groupSet::Union(Vector{ASCIIString}, Nothing)
-    deleteOnTermination::Union(Bool, Nothing)
-    privateIpAddressesSet::Union(Vector{PrivateIpAddressesSetItemRequestType}, Nothing)
-    secondaryPrivateIpAddressCount::Union(Int64, Nothing)
-
-    InstanceNetworkInterfaceSetItemRequestType(; networkInterfaceId=nothing, deviceIndex=nothing, subnetId=nothing, description=nothing, privateIpAddress=nothing, groupSet=nothing, deleteOnTermination=nothing, privateIpAddressesSet=nothing, secondaryPrivateIpAddressCount=nothing) = 
-         new(networkInterfaceId, deviceIndex, subnetId, description, privateIpAddress, groupSet, deleteOnTermination, privateIpAddressesSet, secondaryPrivateIpAddressCount)
-end
-function InstanceNetworkInterfaceSetItemRequestType(pd::ETree)
-    o = InstanceNetworkInterfaceSetItemRequestType()
-    o.networkInterfaceId = find(pd, "networkInterfaceId#string")
-    o.deviceIndex = AWS.safe_parse_as(Int64, find(pd, "deviceIndex#string"))
-    o.subnetId = find(pd, "subnetId#string")
-    o.description = find(pd, "description#string")
-    o.privateIpAddress = find(pd, "privateIpAddress#string")
-    o.groupSet = AWS.parse_vector_as(ASCIIString, "groupId", find(pd, "item/groupId"))
-    o.deleteOnTermination = AWS.safe_parse_as(Bool, find(pd, "deleteOnTermination#string"))
-    o.privateIpAddressesSet = AWS.@parse_vector(AWS.EC2.PrivateIpAddressesSetItemRequestType, find(pd, "privateIpAddressesSet/item"))
-    o.secondaryPrivateIpAddressCount = AWS.safe_parse_as(Int64, find(pd, "secondaryPrivateIpAddressCount#string"))
-    o
-end
-
-export InstanceNetworkInterfaceSetItemRequestType
-
-
-type StopInstancesResponseType
-    requestId::Union(ASCIIString, Nothing)
-    instancesSet::Union(Vector{InstanceStateChangeType}, Nothing)
-
-    StopInstancesResponseType(; requestId=nothing, instancesSet=nothing) = 
-         new(requestId, instancesSet)
-end
-function StopInstancesResponseType(pd::ETree)
-    o = StopInstancesResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.instancesSet = AWS.@parse_vector(AWS.EC2.InstanceStateChangeType, find(pd, "instancesSet/item"))
-    o
-end
-
-export StopInstancesResponseType
-
-
-type DescribeAvailabilityZonesType
-    availabilityZoneSet::Union(Vector{ASCIIString}, Nothing)
-    filterSet::Union(Vector{FilterType}, Nothing)
-
-    DescribeAvailabilityZonesType(; availabilityZoneSet=nothing, filterSet=nothing) = 
-         new(availabilityZoneSet, filterSet)
-end
-function DescribeAvailabilityZonesType(pd::ETree)
-    o = DescribeAvailabilityZonesType()
-    o.availabilityZoneSet = AWS.parse_vector_as(ASCIIString, "zoneName", find(pd, "item/zoneName"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
-    o
-end
-
-export DescribeAvailabilityZonesType
-
-
-type InstanceStatusType
-    status::Union(ASCIIString, Nothing)
-    details::Union(Vector{InstanceStatusDetailsSetItemType}, Nothing)
-
-    InstanceStatusType(; status=nothing, details=nothing) = 
-         new(status, details)
-end
-function InstanceStatusType(pd::ETree)
-    o = InstanceStatusType()
-    o.status = find(pd, "status#string")
-    o.details = AWS.@parse_vector(AWS.EC2.InstanceStatusDetailsSetItemType, find(pd, "details/item"))
-    o
-end
-
-export InstanceStatusType
-
-
-type AuthorizeSecurityGroupIngressType
-    userId::Union(ASCIIString, Nothing)
-    ipPermissions::Union(Vector{IpPermissionType}, Nothing)
-
-    AuthorizeSecurityGroupIngressType(; userId=nothing, ipPermissions=nothing) = 
-         new(userId, ipPermissions)
-end
-function AuthorizeSecurityGroupIngressType(pd::ETree)
-    o = AuthorizeSecurityGroupIngressType()
-    o.userId = find(pd, "userId#string")
-    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, find(pd, "ipPermissions/item"))
-    o
-end
-
-export AuthorizeSecurityGroupIngressType
-
-
-type SpotDatafeedSubscriptionType
-    ownerId::Union(ASCIIString, Nothing)
-    bucket::Union(ASCIIString, Nothing)
-    prefix::Union(ASCIIString, Nothing)
-    state::Union(ASCIIString, Nothing)
-    fault::Union(SpotInstanceStateFaultType, Nothing)
-
-    SpotDatafeedSubscriptionType(; ownerId=nothing, bucket=nothing, prefix=nothing, state=nothing, fault=nothing) = 
-         new(ownerId, bucket, prefix, state, fault)
-end
-function SpotDatafeedSubscriptionType(pd::ETree)
-    o = SpotDatafeedSubscriptionType()
-    o.ownerId = find(pd, "ownerId#string")
-    o.bucket = find(pd, "bucket#string")
-    o.prefix = find(pd, "prefix#string")
-    o.state = find(pd, "state#string")
-    o.fault = length(pd["fault"]) > 0 ?  SpotInstanceStateFaultType(find(pd,"fault[1]")) : nothing
-    o
-end
-
-export SpotDatafeedSubscriptionType
-
-
-type CancelSpotInstanceRequestsResponseType
-    requestId::Union(ASCIIString, Nothing)
-    spotInstanceRequestSet::Union(Vector{CancelSpotInstanceRequestsResponseSetItemType}, Nothing)
-
-    CancelSpotInstanceRequestsResponseType(; requestId=nothing, spotInstanceRequestSet=nothing) = 
-         new(requestId, spotInstanceRequestSet)
-end
-function CancelSpotInstanceRequestsResponseType(pd::ETree)
-    o = CancelSpotInstanceRequestsResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.spotInstanceRequestSet = AWS.@parse_vector(AWS.EC2.CancelSpotInstanceRequestsResponseSetItemType, find(pd, "spotInstanceRequestSet/item"))
-    o
-end
-
-export CancelSpotInstanceRequestsResponseType
-
-
-type DescribeAvailabilityZonesResponseType
-    requestId::Union(ASCIIString, Nothing)
-    availabilityZoneInfo::Union(Vector{AvailabilityZoneItemType}, Nothing)
-
-    DescribeAvailabilityZonesResponseType(; requestId=nothing, availabilityZoneInfo=nothing) = 
-         new(requestId, availabilityZoneInfo)
-end
-function DescribeAvailabilityZonesResponseType(pd::ETree)
-    o = DescribeAvailabilityZonesResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.availabilityZoneInfo = AWS.@parse_vector(AWS.EC2.AvailabilityZoneItemType, find(pd, "availabilityZoneInfo/item"))
-    o
-end
-
-export DescribeAvailabilityZonesResponseType
-
-
-type NetworkInterfacePrivateIpAddressesSetItemType
-    privateIpAddress::Union(ASCIIString, Nothing)
-    privateDnsName::Union(ASCIIString, Nothing)
-    primary::Union(Bool, Nothing)
-    association::Union(NetworkInterfaceAssociationType, Nothing)
-
-    NetworkInterfacePrivateIpAddressesSetItemType(; privateIpAddress=nothing, privateDnsName=nothing, primary=nothing, association=nothing) = 
-         new(privateIpAddress, privateDnsName, primary, association)
-end
-function NetworkInterfacePrivateIpAddressesSetItemType(pd::ETree)
-    o = NetworkInterfacePrivateIpAddressesSetItemType()
-    o.privateIpAddress = find(pd, "privateIpAddress#string")
-    o.privateDnsName = find(pd, "privateDnsName#string")
-    o.primary = AWS.safe_parse_as(Bool, find(pd, "primary#string"))
-    o.association = length(pd["association"]) > 0 ?  NetworkInterfaceAssociationType(find(pd,"association[1]")) : nothing
-    o
-end
-
-export NetworkInterfacePrivateIpAddressesSetItemType
-
-
-type VpnGatewayType
-    vpnGatewayId::Union(ASCIIString, Nothing)
-    state::Union(ASCIIString, Nothing)
-    _type::Union(ASCIIString, Nothing)
-    availabilityZone::Union(ASCIIString, Nothing)
-    attachments::Union(Vector{AttachmentType}, Nothing)
-    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
-
-    VpnGatewayType(; vpnGatewayId=nothing, state=nothing, _type=nothing, availabilityZone=nothing, attachments=nothing, tagSet=nothing) = 
-         new(vpnGatewayId, state, _type, availabilityZone, attachments, tagSet)
-end
-function VpnGatewayType(pd::ETree)
-    o = VpnGatewayType()
-    o.vpnGatewayId = find(pd, "vpnGatewayId#string")
-    o.state = find(pd, "state#string")
-    o._type = find(pd, "type#string")
-    o.availabilityZone = find(pd, "availabilityZone#string")
-    o.attachments = AWS.@parse_vector(AWS.EC2.AttachmentType, find(pd, "attachments/item"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
-    o
-end
-
-export VpnGatewayType
-
-
-type CustomerGatewayType
-    customerGatewayId::Union(ASCIIString, Nothing)
-    state::Union(ASCIIString, Nothing)
-    _type::Union(ASCIIString, Nothing)
-    ipAddress::Union(ASCIIString, Nothing)
-    bgpAsn::Union(Int64, Nothing)
-    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
-
-    CustomerGatewayType(; customerGatewayId=nothing, state=nothing, _type=nothing, ipAddress=nothing, bgpAsn=nothing, tagSet=nothing) = 
-         new(customerGatewayId, state, _type, ipAddress, bgpAsn, tagSet)
-end
-function CustomerGatewayType(pd::ETree)
-    o = CustomerGatewayType()
-    o.customerGatewayId = find(pd, "customerGatewayId#string")
-    o.state = find(pd, "state#string")
-    o._type = find(pd, "type#string")
-    o.ipAddress = find(pd, "ipAddress#string")
-    o.bgpAsn = AWS.safe_parse_as(Int64, find(pd, "bgpAsn#string"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
-    o
-end
-
-export CustomerGatewayType
-
-
-type DescribeSnapshotsSetItemResponseType
-    snapshotId::Union(ASCIIString, Nothing)
-    volumeId::Union(ASCIIString, Nothing)
-    status::Union(ASCIIString, Nothing)
-    startTime::Union(CalendarTime, Nothing)
-    progress::Union(ASCIIString, Nothing)
-    ownerId::Union(ASCIIString, Nothing)
-    volumeSize::Union(ASCIIString, Nothing)
-    description::Union(ASCIIString, Nothing)
-    ownerAlias::Union(ASCIIString, Nothing)
-    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
-
-    DescribeSnapshotsSetItemResponseType(; snapshotId=nothing, volumeId=nothing, status=nothing, startTime=nothing, progress=nothing, ownerId=nothing, volumeSize=nothing, description=nothing, ownerAlias=nothing, tagSet=nothing) = 
-         new(snapshotId, volumeId, status, startTime, progress, ownerId, volumeSize, description, ownerAlias, tagSet)
-end
-function DescribeSnapshotsSetItemResponseType(pd::ETree)
-    o = DescribeSnapshotsSetItemResponseType()
-    o.snapshotId = find(pd, "snapshotId#string")
-    o.volumeId = find(pd, "volumeId#string")
-    o.status = find(pd, "status#string")
-    o.startTime = AWS.safe_parse_as(CalendarTime, find(pd, "startTime#string"))
-    o.progress = find(pd, "progress#string")
-    o.ownerId = find(pd, "ownerId#string")
-    o.volumeSize = find(pd, "volumeSize#string")
-    o.description = find(pd, "description#string")
-    o.ownerAlias = find(pd, "ownerAlias#string")
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
-    o
-end
-
-export DescribeSnapshotsSetItemResponseType
-
-
-type CreateDhcpOptionsResponseType
-    requestId::Union(ASCIIString, Nothing)
-    dhcpOptions::Union(DhcpOptionsType, Nothing)
-
-    CreateDhcpOptionsResponseType(; requestId=nothing, dhcpOptions=nothing) = 
-         new(requestId, dhcpOptions)
-end
-function CreateDhcpOptionsResponseType(pd::ETree)
-    o = CreateDhcpOptionsResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.dhcpOptions = length(pd["dhcpOptions"]) > 0 ?  DhcpOptionsType(find(pd,"dhcpOptions[1]")) : nothing
-    o
-end
-
-export CreateDhcpOptionsResponseType
+export DescribeSpotDatafeedSubscriptionResponseType
 
 
 type DescribeReservedInstancesType
@@ -6576,370 +6318,6 @@ function DescribeReservedInstancesType(pd::ETree)
 end
 
 export DescribeReservedInstancesType
-
-
-type DescribeVpnConnectionsType
-    vpnConnectionSet::Union(Vector{ASCIIString}, Nothing)
-    filterSet::Union(Vector{FilterType}, Nothing)
-
-    DescribeVpnConnectionsType(; vpnConnectionSet=nothing, filterSet=nothing) = 
-         new(vpnConnectionSet, filterSet)
-end
-function DescribeVpnConnectionsType(pd::ETree)
-    o = DescribeVpnConnectionsType()
-    o.vpnConnectionSet = AWS.parse_vector_as(ASCIIString, "vpnConnectionId", find(pd, "item/vpnConnectionId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
-    o
-end
-
-export DescribeVpnConnectionsType
-
-
-type ImportVolumeType
-    availabilityZone::Union(ASCIIString, Nothing)
-    image::Union(DiskImageDetailType, Nothing)
-    description::Union(ASCIIString, Nothing)
-    volume::Union(DiskImageVolumeType, Nothing)
-
-    ImportVolumeType(; availabilityZone=nothing, image=nothing, description=nothing, volume=nothing) = 
-         new(availabilityZone, image, description, volume)
-end
-function ImportVolumeType(pd::ETree)
-    o = ImportVolumeType()
-    o.availabilityZone = find(pd, "availabilityZone#string")
-    o.image = length(pd["image"]) > 0 ?  DiskImageDetailType(find(pd,"image[1]")) : nothing
-    o.description = find(pd, "description#string")
-    o.volume = length(pd["volume"]) > 0 ?  DiskImageVolumeType(find(pd,"volume[1]")) : nothing
-    o
-end
-
-export ImportVolumeType
-
-
-type DiskImageType
-    image::Union(DiskImageDetailType, Nothing)
-    description::Union(ASCIIString, Nothing)
-    volume::Union(DiskImageVolumeType, Nothing)
-
-    DiskImageType(; image=nothing, description=nothing, volume=nothing) = 
-         new(image, description, volume)
-end
-function DiskImageType(pd::ETree)
-    o = DiskImageType()
-    o.image = length(pd["image"]) > 0 ?  DiskImageDetailType(find(pd,"image[1]")) : nothing
-    o.description = find(pd, "description#string")
-    o.volume = length(pd["volume"]) > 0 ?  DiskImageVolumeType(find(pd,"volume[1]")) : nothing
-    o
-end
-
-export DiskImageType
-
-
-type DescribeSnapshotsType
-    snapshotSet::Union(Vector{ASCIIString}, Nothing)
-    ownersSet::Union(Vector{ASCIIString}, Nothing)
-    restorableBySet::Union(Vector{ASCIIString}, Nothing)
-    filterSet::Union(Vector{FilterType}, Nothing)
-
-    DescribeSnapshotsType(; snapshotSet=nothing, ownersSet=nothing, restorableBySet=nothing, filterSet=nothing) = 
-         new(snapshotSet, ownersSet, restorableBySet, filterSet)
-end
-function DescribeSnapshotsType(pd::ETree)
-    o = DescribeSnapshotsType()
-    o.snapshotSet = AWS.parse_vector_as(ASCIIString, "snapshotId", find(pd, "item/snapshotId"))
-    o.ownersSet = AWS.parse_vector_as(ASCIIString, "owner", find(pd, "item/owner"))
-    o.restorableBySet = AWS.parse_vector_as(ASCIIString, "user", find(pd, "item/user"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
-    o
-end
-
-export DescribeSnapshotsType
-
-
-type CreateReservedInstancesListingResponseType
-    requestId::Union(ASCIIString, Nothing)
-    reservedInstancesListingsSet::Union(Vector{DescribeReservedInstancesListingsResponseSetItemType}, Nothing)
-
-    CreateReservedInstancesListingResponseType(; requestId=nothing, reservedInstancesListingsSet=nothing) = 
-         new(requestId, reservedInstancesListingsSet)
-end
-function CreateReservedInstancesListingResponseType(pd::ETree)
-    o = CreateReservedInstancesListingResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.reservedInstancesListingsSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesListingsResponseSetItemType, find(pd, "reservedInstancesListingsSet/item"))
-    o
-end
-
-export CreateReservedInstancesListingResponseType
-
-
-type DescribeSnapshotsResponseType
-    requestId::Union(ASCIIString, Nothing)
-    snapshotSet::Union(Vector{DescribeSnapshotsSetItemResponseType}, Nothing)
-
-    DescribeSnapshotsResponseType(; requestId=nothing, snapshotSet=nothing) = 
-         new(requestId, snapshotSet)
-end
-function DescribeSnapshotsResponseType(pd::ETree)
-    o = DescribeSnapshotsResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.snapshotSet = AWS.@parse_vector(AWS.EC2.DescribeSnapshotsSetItemResponseType, find(pd, "snapshotSet/item"))
-    o
-end
-
-export DescribeSnapshotsResponseType
-
-
-type CancelReservedInstancesListingResponseType
-    requestId::Union(ASCIIString, Nothing)
-    reservedInstancesListingsSet::Union(Vector{DescribeReservedInstancesListingsResponseSetItemType}, Nothing)
-
-    CancelReservedInstancesListingResponseType(; requestId=nothing, reservedInstancesListingsSet=nothing) = 
-         new(requestId, reservedInstancesListingsSet)
-end
-function CancelReservedInstancesListingResponseType(pd::ETree)
-    o = CancelReservedInstancesListingResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.reservedInstancesListingsSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesListingsResponseSetItemType, find(pd, "reservedInstancesListingsSet/item"))
-    o
-end
-
-export CancelReservedInstancesListingResponseType
-
-
-type TerminateInstancesResponseType
-    requestId::Union(ASCIIString, Nothing)
-    instancesSet::Union(Vector{InstanceStateChangeType}, Nothing)
-
-    TerminateInstancesResponseType(; requestId=nothing, instancesSet=nothing) = 
-         new(requestId, instancesSet)
-end
-function TerminateInstancesResponseType(pd::ETree)
-    o = TerminateInstancesResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.instancesSet = AWS.@parse_vector(AWS.EC2.InstanceStateChangeType, find(pd, "instancesSet/item"))
-    o
-end
-
-export TerminateInstancesResponseType
-
-
-type DescribeSpotInstanceRequestsType
-    spotInstanceRequestIdSet::Union(Vector{ASCIIString}, Nothing)
-    filterSet::Union(Vector{FilterType}, Nothing)
-
-    DescribeSpotInstanceRequestsType(; spotInstanceRequestIdSet=nothing, filterSet=nothing) = 
-         new(spotInstanceRequestIdSet, filterSet)
-end
-function DescribeSpotInstanceRequestsType(pd::ETree)
-    o = DescribeSpotInstanceRequestsType()
-    o.spotInstanceRequestIdSet = AWS.parse_vector_as(ASCIIString, "spotInstanceRequestId", find(pd, "item/spotInstanceRequestId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
-    o
-end
-
-export DescribeSpotInstanceRequestsType
-
-
-type CreateVpnGatewayResponseType
-    requestId::Union(ASCIIString, Nothing)
-    vpnGateway::Union(VpnGatewayType, Nothing)
-
-    CreateVpnGatewayResponseType(; requestId=nothing, vpnGateway=nothing) = 
-         new(requestId, vpnGateway)
-end
-function CreateVpnGatewayResponseType(pd::ETree)
-    o = CreateVpnGatewayResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.vpnGateway = length(pd["vpnGateway"]) > 0 ?  VpnGatewayType(find(pd,"vpnGateway[1]")) : nothing
-    o
-end
-
-export CreateVpnGatewayResponseType
-
-
-type DescribeDhcpOptionsResponseType
-    requestId::Union(ASCIIString, Nothing)
-    dhcpOptionsSet::Union(Vector{DhcpOptionsType}, Nothing)
-
-    DescribeDhcpOptionsResponseType(; requestId=nothing, dhcpOptionsSet=nothing) = 
-         new(requestId, dhcpOptionsSet)
-end
-function DescribeDhcpOptionsResponseType(pd::ETree)
-    o = DescribeDhcpOptionsResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.dhcpOptionsSet = AWS.@parse_vector(AWS.EC2.DhcpOptionsType, find(pd, "dhcpOptionsSet/item"))
-    o
-end
-
-export DescribeDhcpOptionsResponseType
-
-
-type CreateDhcpOptionsType
-    dhcpConfigurationSet::Union(Vector{DhcpConfigurationItemType}, Nothing)
-
-    CreateDhcpOptionsType(; dhcpConfigurationSet=nothing) = 
-         new(dhcpConfigurationSet)
-end
-function CreateDhcpOptionsType(pd::ETree)
-    o = CreateDhcpOptionsType()
-    o.dhcpConfigurationSet = AWS.@parse_vector(AWS.EC2.DhcpConfigurationItemType, find(pd, "dhcpConfigurationSet/item"))
-    o
-end
-
-export CreateDhcpOptionsType
-
-
-type AuthorizeSecurityGroupEgressType
-    groupId::Union(ASCIIString, Nothing)
-    ipPermissions::Union(Vector{IpPermissionType}, Nothing)
-
-    AuthorizeSecurityGroupEgressType(; groupId=nothing, ipPermissions=nothing) = 
-         new(groupId, ipPermissions)
-end
-function AuthorizeSecurityGroupEgressType(pd::ETree)
-    o = AuthorizeSecurityGroupEgressType()
-    o.groupId = find(pd, "groupId#string")
-    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, find(pd, "ipPermissions/item"))
-    o
-end
-
-export AuthorizeSecurityGroupEgressType
-
-
-type DescribeReservedInstancesListingsType
-    reservedInstancesListingSet::Union(Vector{ASCIIString}, Nothing)
-    reservedInstancesSet::Union(Vector{ASCIIString}, Nothing)
-    filterSet::Union(Vector{FilterType}, Nothing)
-
-    DescribeReservedInstancesListingsType(; reservedInstancesListingSet=nothing, reservedInstancesSet=nothing, filterSet=nothing) = 
-         new(reservedInstancesListingSet, reservedInstancesSet, filterSet)
-end
-function DescribeReservedInstancesListingsType(pd::ETree)
-    o = DescribeReservedInstancesListingsType()
-    o.reservedInstancesListingSet = AWS.parse_vector_as(ASCIIString, "reservedInstancesListingId", find(pd, "item/reservedInstancesListingId"))
-    o.reservedInstancesSet = AWS.parse_vector_as(ASCIIString, "reservedInstancesId", find(pd, "item/reservedInstancesId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
-    o
-end
-
-export DescribeReservedInstancesListingsType
-
-
-type DescribeVpcsType
-    vpcSet::Union(Vector{ASCIIString}, Nothing)
-    filterSet::Union(Vector{FilterType}, Nothing)
-
-    DescribeVpcsType(; vpcSet=nothing, filterSet=nothing) = 
-         new(vpcSet, filterSet)
-end
-function DescribeVpcsType(pd::ETree)
-    o = DescribeVpcsType()
-    o.vpcSet = AWS.parse_vector_as(ASCIIString, "vpcId", find(pd, "item/vpcId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
-    o
-end
-
-export DescribeVpcsType
-
-
-type DescribeLicensesType
-    licenseIdSet::Union(Vector{ASCIIString}, Nothing)
-    filterSet::Union(Vector{FilterType}, Nothing)
-
-    DescribeLicensesType(; licenseIdSet=nothing, filterSet=nothing) = 
-         new(licenseIdSet, filterSet)
-end
-function DescribeLicensesType(pd::ETree)
-    o = DescribeLicensesType()
-    o.licenseIdSet = AWS.parse_vector_as(ASCIIString, "licenseId", find(pd, "item/licenseId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
-    o
-end
-
-export DescribeLicensesType
-
-
-type DescribeInstanceStatusType
-    instancesSet::Union(Vector{ASCIIString}, Nothing)
-    filterSet::Union(Vector{FilterType}, Nothing)
-    nextToken::Union(ASCIIString, Nothing)
-    maxResults::Union(Int64, Nothing)
-    includeAllInstances::Union(Bool, Nothing)
-
-    DescribeInstanceStatusType(; instancesSet=nothing, filterSet=nothing, nextToken=nothing, maxResults=nothing, includeAllInstances=nothing) = 
-         new(instancesSet, filterSet, nextToken, maxResults, includeAllInstances)
-end
-function DescribeInstanceStatusType(pd::ETree)
-    o = DescribeInstanceStatusType()
-    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", find(pd, "item/instanceId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
-    o.nextToken = find(pd, "nextToken#string")
-    o.maxResults = AWS.safe_parse_as(Int64, find(pd, "maxResults#string"))
-    o.includeAllInstances = AWS.safe_parse_as(Bool, find(pd, "includeAllInstances#string"))
-    o
-end
-
-export DescribeInstanceStatusType
-
-
-type DescribeImagesResponseType
-    requestId::Union(ASCIIString, Nothing)
-    imagesSet::Union(Vector{DescribeImagesResponseItemType}, Nothing)
-
-    DescribeImagesResponseType(; requestId=nothing, imagesSet=nothing) = 
-         new(requestId, imagesSet)
-end
-function DescribeImagesResponseType(pd::ETree)
-    o = DescribeImagesResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.imagesSet = AWS.@parse_vector(AWS.EC2.DescribeImagesResponseItemType, find(pd, "imagesSet/item"))
-    o
-end
-
-export DescribeImagesResponseType
-
-
-type RouteTableType
-    routeTableId::Union(ASCIIString, Nothing)
-    vpcId::Union(ASCIIString, Nothing)
-    routeSet::Union(Vector{RouteType}, Nothing)
-    associationSet::Union(Vector{RouteTableAssociationType}, Nothing)
-    propagatingVgwSet::Union(Vector{ASCIIString}, Nothing)
-    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
-
-    RouteTableType(; routeTableId=nothing, vpcId=nothing, routeSet=nothing, associationSet=nothing, propagatingVgwSet=nothing, tagSet=nothing) = 
-         new(routeTableId, vpcId, routeSet, associationSet, propagatingVgwSet, tagSet)
-end
-function RouteTableType(pd::ETree)
-    o = RouteTableType()
-    o.routeTableId = find(pd, "routeTableId#string")
-    o.vpcId = find(pd, "vpcId#string")
-    o.routeSet = AWS.@parse_vector(AWS.EC2.RouteType, find(pd, "routeSet/item"))
-    o.associationSet = AWS.@parse_vector(AWS.EC2.RouteTableAssociationType, find(pd, "associationSet/item"))
-    o.propagatingVgwSet = AWS.parse_vector_as(ASCIIString, "gatewayId", find(pd, "item/gatewayId"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
-    o
-end
-
-export RouteTableType
-
-
-type DescribeTagsResponseType
-    requestId::Union(ASCIIString, Nothing)
-    tagSet::Union(Vector{TagSetItemType}, Nothing)
-
-    DescribeTagsResponseType(; requestId=nothing, tagSet=nothing) = 
-         new(requestId, tagSet)
-end
-function DescribeTagsResponseType(pd::ETree)
-    o = DescribeTagsResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.tagSet = AWS.@parse_vector(AWS.EC2.TagSetItemType, find(pd, "tagSet/item"))
-    o
-end
-
-export DescribeTagsResponseType
 
 
 type DescribeReservedInstancesOfferingsType
@@ -6981,6 +6359,321 @@ end
 export DescribeReservedInstancesOfferingsType
 
 
+type DescribeImagesType
+    executableBySet::Union(Vector{ASCIIString}, Nothing)
+    imagesSet::Union(Vector{ASCIIString}, Nothing)
+    ownersSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
+
+    DescribeImagesType(; executableBySet=nothing, imagesSet=nothing, ownersSet=nothing, filterSet=nothing) = 
+         new(executableBySet, imagesSet, ownersSet, filterSet)
+end
+function DescribeImagesType(pd::ETree)
+    o = DescribeImagesType()
+    o.executableBySet = AWS.parse_vector_as(ASCIIString, "user", find(pd, "item/user"))
+    o.imagesSet = AWS.parse_vector_as(ASCIIString, "imageId", find(pd, "item/imageId"))
+    o.ownersSet = AWS.parse_vector_as(ASCIIString, "owner", find(pd, "item/owner"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o
+end
+
+export DescribeImagesType
+
+
+type DescribeConversionTasksResponseType
+    requestId::Union(ASCIIString, Nothing)
+    conversionTasks::Union(Vector{ConversionTaskType}, Nothing)
+
+    DescribeConversionTasksResponseType(; requestId=nothing, conversionTasks=nothing) = 
+         new(requestId, conversionTasks)
+end
+function DescribeConversionTasksResponseType(pd::ETree)
+    o = DescribeConversionTasksResponseType()
+    o.requestId = find(pd, "requestId#string")
+    o.conversionTasks = AWS.@parse_vector(AWS.EC2.ConversionTaskType, find(pd, "conversionTasks/item"))
+    o
+end
+
+export DescribeConversionTasksResponseType
+
+
+type DescribeAccountAttributesResponseType
+    requestId::Union(ASCIIString, Nothing)
+    accountAttributeSet::Union(Vector{AccountAttributeSetItemType}, Nothing)
+
+    DescribeAccountAttributesResponseType(; requestId=nothing, accountAttributeSet=nothing) = 
+         new(requestId, accountAttributeSet)
+end
+function DescribeAccountAttributesResponseType(pd::ETree)
+    o = DescribeAccountAttributesResponseType()
+    o.requestId = find(pd, "requestId#string")
+    o.accountAttributeSet = AWS.@parse_vector(AWS.EC2.AccountAttributeSetItemType, find(pd, "accountAttributeSet/item"))
+    o
+end
+
+export DescribeAccountAttributesResponseType
+
+
+type CreateNetworkAclEntryType
+    networkAclId::Union(ASCIIString, Nothing)
+    ruleNumber::Union(Int64, Nothing)
+    protocol::Union(ASCIIString, Nothing)
+    ruleAction::Union(ASCIIString, Nothing)
+    egress::Union(Bool, Nothing)
+    cidrBlock::Union(ASCIIString, Nothing)
+    icmpTypeCode::Union(IcmpTypeCodeType, Nothing)
+    portRange::Union(PortRangeType, Nothing)
+
+    CreateNetworkAclEntryType(; networkAclId=nothing, ruleNumber=nothing, protocol=nothing, ruleAction=nothing, egress=nothing, cidrBlock=nothing, icmpTypeCode=nothing, portRange=nothing) = 
+         new(networkAclId, ruleNumber, protocol, ruleAction, egress, cidrBlock, icmpTypeCode, portRange)
+end
+function CreateNetworkAclEntryType(pd::ETree)
+    o = CreateNetworkAclEntryType()
+    o.networkAclId = find(pd, "networkAclId#string")
+    o.ruleNumber = AWS.safe_parse_as(Int64, find(pd, "ruleNumber#string"))
+    o.protocol = find(pd, "protocol#string")
+    o.ruleAction = find(pd, "ruleAction#string")
+    o.egress = AWS.safe_parse_as(Bool, find(pd, "egress#string"))
+    o.cidrBlock = find(pd, "cidrBlock#string")
+    o.icmpTypeCode = length(pd["icmpTypeCode"]) > 0 ?  IcmpTypeCodeType(find(pd,"icmpTypeCode[1]")) : nothing
+    o.portRange = length(pd["portRange"]) > 0 ?  PortRangeType(find(pd,"portRange[1]")) : nothing
+    o
+end
+
+export CreateNetworkAclEntryType
+
+
+type DescribeSnapshotsSetItemResponseType
+    snapshotId::Union(ASCIIString, Nothing)
+    volumeId::Union(ASCIIString, Nothing)
+    status::Union(ASCIIString, Nothing)
+    startTime::Union(CalendarTime, Nothing)
+    progress::Union(ASCIIString, Nothing)
+    ownerId::Union(ASCIIString, Nothing)
+    volumeSize::Union(ASCIIString, Nothing)
+    description::Union(ASCIIString, Nothing)
+    ownerAlias::Union(ASCIIString, Nothing)
+    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
+
+    DescribeSnapshotsSetItemResponseType(; snapshotId=nothing, volumeId=nothing, status=nothing, startTime=nothing, progress=nothing, ownerId=nothing, volumeSize=nothing, description=nothing, ownerAlias=nothing, tagSet=nothing) = 
+         new(snapshotId, volumeId, status, startTime, progress, ownerId, volumeSize, description, ownerAlias, tagSet)
+end
+function DescribeSnapshotsSetItemResponseType(pd::ETree)
+    o = DescribeSnapshotsSetItemResponseType()
+    o.snapshotId = find(pd, "snapshotId#string")
+    o.volumeId = find(pd, "volumeId#string")
+    o.status = find(pd, "status#string")
+    o.startTime = AWS.safe_parse_as(CalendarTime, find(pd, "startTime#string"))
+    o.progress = find(pd, "progress#string")
+    o.ownerId = find(pd, "ownerId#string")
+    o.volumeSize = find(pd, "volumeSize#string")
+    o.description = find(pd, "description#string")
+    o.ownerAlias = find(pd, "ownerAlias#string")
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o
+end
+
+export DescribeSnapshotsSetItemResponseType
+
+
+type BundleInstanceTaskStorageType
+    S3::Union(BundleInstanceS3StorageType, Nothing)
+
+    BundleInstanceTaskStorageType(; S3=nothing) = 
+         new(S3)
+end
+function BundleInstanceTaskStorageType(pd::ETree)
+    o = BundleInstanceTaskStorageType()
+    o.S3 = length(pd["S3"]) > 0 ?  BundleInstanceS3StorageType(find(pd,"S3[1]")) : nothing
+    o
+end
+
+export BundleInstanceTaskStorageType
+
+
+type InstanceStatusItemType
+    instanceId::Union(ASCIIString, Nothing)
+    availabilityZone::Union(ASCIIString, Nothing)
+    eventsSet::Union(Vector{InstanceStatusEventType}, Nothing)
+    instanceState::Union(InstanceStateType, Nothing)
+    systemStatus::Union(InstanceStatusType, Nothing)
+    instanceStatus::Union(InstanceStatusType, Nothing)
+
+    InstanceStatusItemType(; instanceId=nothing, availabilityZone=nothing, eventsSet=nothing, instanceState=nothing, systemStatus=nothing, instanceStatus=nothing) = 
+         new(instanceId, availabilityZone, eventsSet, instanceState, systemStatus, instanceStatus)
+end
+function InstanceStatusItemType(pd::ETree)
+    o = InstanceStatusItemType()
+    o.instanceId = find(pd, "instanceId#string")
+    o.availabilityZone = find(pd, "availabilityZone#string")
+    o.eventsSet = AWS.@parse_vector(AWS.EC2.InstanceStatusEventType, find(pd, "eventsSet/item"))
+    o.instanceState = length(pd["instanceState"]) > 0 ?  InstanceStateType(find(pd,"instanceState[1]")) : nothing
+    o.systemStatus = length(pd["systemStatus"]) > 0 ?  InstanceStatusType(find(pd,"systemStatus[1]")) : nothing
+    o.instanceStatus = length(pd["instanceStatus"]) > 0 ?  InstanceStatusType(find(pd,"instanceStatus[1]")) : nothing
+    o
+end
+
+export InstanceStatusItemType
+
+
+type InstanceNetworkInterfaceSetItemRequestType
+    networkInterfaceId::Union(ASCIIString, Nothing)
+    deviceIndex::Union(Int64, Nothing)
+    subnetId::Union(ASCIIString, Nothing)
+    description::Union(ASCIIString, Nothing)
+    privateIpAddress::Union(ASCIIString, Nothing)
+    groupSet::Union(Vector{ASCIIString}, Nothing)
+    deleteOnTermination::Union(Bool, Nothing)
+    privateIpAddressesSet::Union(Vector{PrivateIpAddressesSetItemRequestType}, Nothing)
+    secondaryPrivateIpAddressCount::Union(Int64, Nothing)
+
+    InstanceNetworkInterfaceSetItemRequestType(; networkInterfaceId=nothing, deviceIndex=nothing, subnetId=nothing, description=nothing, privateIpAddress=nothing, groupSet=nothing, deleteOnTermination=nothing, privateIpAddressesSet=nothing, secondaryPrivateIpAddressCount=nothing) = 
+         new(networkInterfaceId, deviceIndex, subnetId, description, privateIpAddress, groupSet, deleteOnTermination, privateIpAddressesSet, secondaryPrivateIpAddressCount)
+end
+function InstanceNetworkInterfaceSetItemRequestType(pd::ETree)
+    o = InstanceNetworkInterfaceSetItemRequestType()
+    o.networkInterfaceId = find(pd, "networkInterfaceId#string")
+    o.deviceIndex = AWS.safe_parse_as(Int64, find(pd, "deviceIndex#string"))
+    o.subnetId = find(pd, "subnetId#string")
+    o.description = find(pd, "description#string")
+    o.privateIpAddress = find(pd, "privateIpAddress#string")
+    o.groupSet = AWS.parse_vector_as(ASCIIString, "groupId", find(pd, "item/groupId"))
+    o.deleteOnTermination = AWS.safe_parse_as(Bool, find(pd, "deleteOnTermination#string"))
+    o.privateIpAddressesSet = AWS.@parse_vector(AWS.EC2.PrivateIpAddressesSetItemRequestType, find(pd, "privateIpAddressesSet/item"))
+    o.secondaryPrivateIpAddressCount = AWS.safe_parse_as(Int64, find(pd, "secondaryPrivateIpAddressCount#string"))
+    o
+end
+
+export InstanceNetworkInterfaceSetItemRequestType
+
+
+type DescribeReservedInstancesListingsType
+    reservedInstancesListingSet::Union(Vector{ASCIIString}, Nothing)
+    reservedInstancesSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
+
+    DescribeReservedInstancesListingsType(; reservedInstancesListingSet=nothing, reservedInstancesSet=nothing, filterSet=nothing) = 
+         new(reservedInstancesListingSet, reservedInstancesSet, filterSet)
+end
+function DescribeReservedInstancesListingsType(pd::ETree)
+    o = DescribeReservedInstancesListingsType()
+    o.reservedInstancesListingSet = AWS.parse_vector_as(ASCIIString, "reservedInstancesListingId", find(pd, "item/reservedInstancesListingId"))
+    o.reservedInstancesSet = AWS.parse_vector_as(ASCIIString, "reservedInstancesId", find(pd, "item/reservedInstancesId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o
+end
+
+export DescribeReservedInstancesListingsType
+
+
+type DescribeSpotPriceHistoryType
+    startTime::Union(CalendarTime, Nothing)
+    endTime::Union(CalendarTime, Nothing)
+    instanceTypeSet::Union(Vector{ASCIIString}, Nothing)
+    productDescriptionSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
+    availabilityZone::Union(ASCIIString, Nothing)
+    maxResults::Union(Int64, Nothing)
+    nextToken::Union(ASCIIString, Nothing)
+
+    DescribeSpotPriceHistoryType(; startTime=nothing, endTime=nothing, instanceTypeSet=nothing, productDescriptionSet=nothing, filterSet=nothing, availabilityZone=nothing, maxResults=nothing, nextToken=nothing) = 
+         new(startTime, endTime, instanceTypeSet, productDescriptionSet, filterSet, availabilityZone, maxResults, nextToken)
+end
+function DescribeSpotPriceHistoryType(pd::ETree)
+    o = DescribeSpotPriceHistoryType()
+    o.startTime = AWS.safe_parse_as(CalendarTime, find(pd, "startTime#string"))
+    o.endTime = AWS.safe_parse_as(CalendarTime, find(pd, "endTime#string"))
+    o.instanceTypeSet = AWS.parse_vector_as(ASCIIString, "instanceType", find(pd, "item/instanceType"))
+    o.productDescriptionSet = AWS.parse_vector_as(ASCIIString, "productDescription", find(pd, "item/productDescription"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o.availabilityZone = find(pd, "availabilityZone#string")
+    o.maxResults = AWS.safe_parse_as(Int64, find(pd, "maxResults#string"))
+    o.nextToken = find(pd, "nextToken#string")
+    o
+end
+
+export DescribeSpotPriceHistoryType
+
+
+type DescribeReservedInstancesOfferingsResponseSetItemType
+    reservedInstancesOfferingId::Union(ASCIIString, Nothing)
+    instanceType::Union(ASCIIString, Nothing)
+    availabilityZone::Union(ASCIIString, Nothing)
+    duration::Union(Int64, Nothing)
+    fixedPrice::Union(Float64, Nothing)
+    usagePrice::Union(Float64, Nothing)
+    productDescription::Union(ASCIIString, Nothing)
+    instanceTenancy::Union(ASCIIString, Nothing)
+    currencyCode::Union(ASCIIString, Nothing)
+    offeringType::Union(ASCIIString, Nothing)
+    recurringCharges::Union(Vector{RecurringChargesSetItemType}, Nothing)
+    marketplace::Union(Bool, Nothing)
+    pricingDetailsSet::Union(Vector{PricingDetailsSetItemType}, Nothing)
+
+    DescribeReservedInstancesOfferingsResponseSetItemType(; reservedInstancesOfferingId=nothing, instanceType=nothing, availabilityZone=nothing, duration=nothing, fixedPrice=nothing, usagePrice=nothing, productDescription=nothing, instanceTenancy=nothing, currencyCode=nothing, offeringType=nothing, recurringCharges=nothing, marketplace=nothing, pricingDetailsSet=nothing) = 
+         new(reservedInstancesOfferingId, instanceType, availabilityZone, duration, fixedPrice, usagePrice, productDescription, instanceTenancy, currencyCode, offeringType, recurringCharges, marketplace, pricingDetailsSet)
+end
+function DescribeReservedInstancesOfferingsResponseSetItemType(pd::ETree)
+    o = DescribeReservedInstancesOfferingsResponseSetItemType()
+    o.reservedInstancesOfferingId = find(pd, "reservedInstancesOfferingId#string")
+    o.instanceType = find(pd, "instanceType#string")
+    o.availabilityZone = find(pd, "availabilityZone#string")
+    o.duration = AWS.safe_parse_as(Int64, find(pd, "duration#string"))
+    o.fixedPrice = AWS.safe_parse_as(Float64, find(pd, "fixedPrice#string"))
+    o.usagePrice = AWS.safe_parse_as(Float64, find(pd, "usagePrice#string"))
+    o.productDescription = find(pd, "productDescription#string")
+    o.instanceTenancy = find(pd, "instanceTenancy#string")
+    o.currencyCode = find(pd, "currencyCode#string")
+    o.offeringType = find(pd, "offeringType#string")
+    o.recurringCharges = AWS.@parse_vector(AWS.EC2.RecurringChargesSetItemType, find(pd, "recurringCharges/item"))
+    o.marketplace = AWS.safe_parse_as(Bool, find(pd, "marketplace#string"))
+    o.pricingDetailsSet = AWS.@parse_vector(AWS.EC2.PricingDetailsSetItemType, find(pd, "pricingDetailsSet/item"))
+    o
+end
+
+export DescribeReservedInstancesOfferingsResponseSetItemType
+
+
+type IpPermissionType
+    ipProtocol::Union(ASCIIString, Nothing)
+    fromPort::Union(Int64, Nothing)
+    toPort::Union(Int64, Nothing)
+    groups::Union(Vector{UserIdGroupPairType}, Nothing)
+    ipRanges::Union(Vector{ASCIIString}, Nothing)
+
+    IpPermissionType(; ipProtocol=nothing, fromPort=nothing, toPort=nothing, groups=nothing, ipRanges=nothing) = 
+         new(ipProtocol, fromPort, toPort, groups, ipRanges)
+end
+function IpPermissionType(pd::ETree)
+    o = IpPermissionType()
+    o.ipProtocol = find(pd, "ipProtocol#string")
+    o.fromPort = AWS.safe_parse_as(Int64, find(pd, "fromPort#string"))
+    o.toPort = AWS.safe_parse_as(Int64, find(pd, "toPort#string"))
+    o.groups = AWS.@parse_vector(AWS.EC2.UserIdGroupPairType, find(pd, "groups/item"))
+    o.ipRanges = AWS.parse_vector_as(ASCIIString, "cidrIp", find(pd, "item/cidrIp"))
+    o
+end
+
+export IpPermissionType
+
+
+type DescribeVolumesResponseType
+    requestId::Union(ASCIIString, Nothing)
+    volumeSet::Union(Vector{DescribeVolumesSetItemResponseType}, Nothing)
+
+    DescribeVolumesResponseType(; requestId=nothing, volumeSet=nothing) = 
+         new(requestId, volumeSet)
+end
+function DescribeVolumesResponseType(pd::ETree)
+    o = DescribeVolumesResponseType()
+    o.requestId = find(pd, "requestId#string")
+    o.volumeSet = AWS.@parse_vector(AWS.EC2.DescribeVolumesSetItemResponseType, find(pd, "volumeSet/item"))
+    o
+end
+
+export DescribeVolumesResponseType
+
+
 type DescribeSpotPriceHistoryResponseType
     requestId::Union(ASCIIString, Nothing)
     spotPriceHistorySet::Union(Vector{SpotPriceHistorySetItemType}, Nothing)
@@ -7000,44 +6693,318 @@ end
 export DescribeSpotPriceHistoryResponseType
 
 
-type DescribeSubnetsResponseType
-    requestId::Union(ASCIIString, Nothing)
-    subnetSet::Union(Vector{SubnetType}, Nothing)
+type DescribeSpotInstanceRequestsType
+    spotInstanceRequestIdSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
 
-    DescribeSubnetsResponseType(; requestId=nothing, subnetSet=nothing) = 
-         new(requestId, subnetSet)
+    DescribeSpotInstanceRequestsType(; spotInstanceRequestIdSet=nothing, filterSet=nothing) = 
+         new(spotInstanceRequestIdSet, filterSet)
 end
-function DescribeSubnetsResponseType(pd::ETree)
-    o = DescribeSubnetsResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.subnetSet = AWS.@parse_vector(AWS.EC2.SubnetType, find(pd, "subnetSet/item"))
+function DescribeSpotInstanceRequestsType(pd::ETree)
+    o = DescribeSpotInstanceRequestsType()
+    o.spotInstanceRequestIdSet = AWS.parse_vector_as(ASCIIString, "spotInstanceRequestId", find(pd, "item/spotInstanceRequestId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
     o
 end
 
-export DescribeSubnetsResponseType
+export DescribeSpotInstanceRequestsType
 
 
-type LicenseSetItemType
-    licenseId::Union(ASCIIString, Nothing)
-    _type::Union(ASCIIString, Nothing)
-    pool::Union(ASCIIString, Nothing)
-    capacitySet::Union(Vector{LicenseCapacitySetItemType}, Nothing)
+type CreateDhcpOptionsResponseType
+    requestId::Union(ASCIIString, Nothing)
+    dhcpOptions::Union(DhcpOptionsType, Nothing)
+
+    CreateDhcpOptionsResponseType(; requestId=nothing, dhcpOptions=nothing) = 
+         new(requestId, dhcpOptions)
+end
+function CreateDhcpOptionsResponseType(pd::ETree)
+    o = CreateDhcpOptionsResponseType()
+    o.requestId = find(pd, "requestId#string")
+    o.dhcpOptions = length(pd["dhcpOptions"]) > 0 ?  DhcpOptionsType(find(pd,"dhcpOptions[1]")) : nothing
+    o
+end
+
+export CreateDhcpOptionsResponseType
+
+
+type DescribeRouteTablesType
+    routeTableIdSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
+
+    DescribeRouteTablesType(; routeTableIdSet=nothing, filterSet=nothing) = 
+         new(routeTableIdSet, filterSet)
+end
+function DescribeRouteTablesType(pd::ETree)
+    o = DescribeRouteTablesType()
+    o.routeTableIdSet = AWS.parse_vector_as(ASCIIString, "routeTableId", find(pd, "item/routeTableId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o
+end
+
+export DescribeRouteTablesType
+
+
+type DescribeInternetGatewaysResponseType
+    requestId::Union(ASCIIString, Nothing)
+    internetGatewaySet::Union(Vector{InternetGatewayType}, Nothing)
+
+    DescribeInternetGatewaysResponseType(; requestId=nothing, internetGatewaySet=nothing) = 
+         new(requestId, internetGatewaySet)
+end
+function DescribeInternetGatewaysResponseType(pd::ETree)
+    o = DescribeInternetGatewaysResponseType()
+    o.requestId = find(pd, "requestId#string")
+    o.internetGatewaySet = AWS.@parse_vector(AWS.EC2.InternetGatewayType, find(pd, "internetGatewaySet/item"))
+    o
+end
+
+export DescribeInternetGatewaysResponseType
+
+
+type CreateInstanceExportTaskResponseType
+    requestId::Union(ASCIIString, Nothing)
+    exportTask::Union(ExportTaskResponseType, Nothing)
+
+    CreateInstanceExportTaskResponseType(; requestId=nothing, exportTask=nothing) = 
+         new(requestId, exportTask)
+end
+function CreateInstanceExportTaskResponseType(pd::ETree)
+    o = CreateInstanceExportTaskResponseType()
+    o.requestId = find(pd, "requestId#string")
+    o.exportTask = length(pd["exportTask"]) > 0 ?  ExportTaskResponseType(find(pd,"exportTask[1]")) : nothing
+    o
+end
+
+export CreateInstanceExportTaskResponseType
+
+
+type CreateImageType
+    instanceId::Union(ASCIIString, Nothing)
+    name::Union(ASCIIString, Nothing)
+    description::Union(ASCIIString, Nothing)
+    noReboot::Union(Bool, Nothing)
+    blockDeviceMapping::Union(Vector{BlockDeviceMappingItemType}, Nothing)
+
+    CreateImageType(; instanceId=nothing, name=nothing, description=nothing, noReboot=nothing, blockDeviceMapping=nothing) = 
+         new(instanceId, name, description, noReboot, blockDeviceMapping)
+end
+function CreateImageType(pd::ETree)
+    o = CreateImageType()
+    o.instanceId = find(pd, "instanceId#string")
+    o.name = find(pd, "name#string")
+    o.description = find(pd, "description#string")
+    o.noReboot = AWS.safe_parse_as(Bool, find(pd, "noReboot#string"))
+    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, find(pd, "blockDeviceMapping/item"))
+    o
+end
+
+export CreateImageType
+
+
+type DescribeInternetGatewaysType
+    internetGatewayIdSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
+
+    DescribeInternetGatewaysType(; internetGatewayIdSet=nothing, filterSet=nothing) = 
+         new(internetGatewayIdSet, filterSet)
+end
+function DescribeInternetGatewaysType(pd::ETree)
+    o = DescribeInternetGatewaysType()
+    o.internetGatewayIdSet = AWS.parse_vector_as(ASCIIString, "internetGatewayId", find(pd, "item/internetGatewayId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o
+end
+
+export DescribeInternetGatewaysType
+
+
+type InstanceStateChangeType
+    instanceId::Union(ASCIIString, Nothing)
+    currentState::Union(InstanceStateType, Nothing)
+    previousState::Union(InstanceStateType, Nothing)
+
+    InstanceStateChangeType(; instanceId=nothing, currentState=nothing, previousState=nothing) = 
+         new(instanceId, currentState, previousState)
+end
+function InstanceStateChangeType(pd::ETree)
+    o = InstanceStateChangeType()
+    o.instanceId = find(pd, "instanceId#string")
+    o.currentState = length(pd["currentState"]) > 0 ?  InstanceStateType(find(pd,"currentState[1]")) : nothing
+    o.previousState = length(pd["previousState"]) > 0 ?  InstanceStateType(find(pd,"previousState[1]")) : nothing
+    o
+end
+
+export InstanceStateChangeType
+
+
+type PurchaseReservedInstancesOfferingType
+    reservedInstancesOfferingId::Union(ASCIIString, Nothing)
+    instanceCount::Union(Int64, Nothing)
+    limitPrice::Union(ReservedInstanceLimitPriceType, Nothing)
+
+    PurchaseReservedInstancesOfferingType(; reservedInstancesOfferingId=nothing, instanceCount=nothing, limitPrice=nothing) = 
+         new(reservedInstancesOfferingId, instanceCount, limitPrice)
+end
+function PurchaseReservedInstancesOfferingType(pd::ETree)
+    o = PurchaseReservedInstancesOfferingType()
+    o.reservedInstancesOfferingId = find(pd, "reservedInstancesOfferingId#string")
+    o.instanceCount = AWS.safe_parse_as(Int64, find(pd, "instanceCount#string"))
+    o.limitPrice = length(pd["limitPrice"]) > 0 ?  ReservedInstanceLimitPriceType(find(pd,"limitPrice[1]")) : nothing
+    o
+end
+
+export PurchaseReservedInstancesOfferingType
+
+
+type RouteTableType
+    routeTableId::Union(ASCIIString, Nothing)
+    vpcId::Union(ASCIIString, Nothing)
+    routeSet::Union(Vector{RouteType}, Nothing)
+    associationSet::Union(Vector{RouteTableAssociationType}, Nothing)
+    propagatingVgwSet::Union(Vector{ASCIIString}, Nothing)
     tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
 
-    LicenseSetItemType(; licenseId=nothing, _type=nothing, pool=nothing, capacitySet=nothing, tagSet=nothing) = 
-         new(licenseId, _type, pool, capacitySet, tagSet)
+    RouteTableType(; routeTableId=nothing, vpcId=nothing, routeSet=nothing, associationSet=nothing, propagatingVgwSet=nothing, tagSet=nothing) = 
+         new(routeTableId, vpcId, routeSet, associationSet, propagatingVgwSet, tagSet)
 end
-function LicenseSetItemType(pd::ETree)
-    o = LicenseSetItemType()
-    o.licenseId = find(pd, "licenseId#string")
-    o._type = find(pd, "type#string")
-    o.pool = find(pd, "pool#string")
-    o.capacitySet = AWS.@parse_vector(AWS.EC2.LicenseCapacitySetItemType, find(pd, "capacitySet/item"))
+function RouteTableType(pd::ETree)
+    o = RouteTableType()
+    o.routeTableId = find(pd, "routeTableId#string")
+    o.vpcId = find(pd, "vpcId#string")
+    o.routeSet = AWS.@parse_vector(AWS.EC2.RouteType, find(pd, "routeSet/item"))
+    o.associationSet = AWS.@parse_vector(AWS.EC2.RouteTableAssociationType, find(pd, "associationSet/item"))
+    o.propagatingVgwSet = AWS.parse_vector_as(ASCIIString, "gatewayId", find(pd, "item/gatewayId"))
     o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
     o
 end
 
-export LicenseSetItemType
+export RouteTableType
+
+
+type DescribeVpnConnectionsType
+    vpnConnectionSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
+
+    DescribeVpnConnectionsType(; vpnConnectionSet=nothing, filterSet=nothing) = 
+         new(vpnConnectionSet, filterSet)
+end
+function DescribeVpnConnectionsType(pd::ETree)
+    o = DescribeVpnConnectionsType()
+    o.vpnConnectionSet = AWS.parse_vector_as(ASCIIString, "vpnConnectionId", find(pd, "item/vpnConnectionId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o
+end
+
+export DescribeVpnConnectionsType
+
+
+type CreateNetworkInterfaceType
+    subnetId::Union(ASCIIString, Nothing)
+    description::Union(ASCIIString, Nothing)
+    privateIpAddress::Union(ASCIIString, Nothing)
+    groupSet::Union(Vector{ASCIIString}, Nothing)
+    privateIpAddressesSet::Union(Vector{PrivateIpAddressesSetItemRequestType}, Nothing)
+    secondaryPrivateIpAddressCount::Union(Int64, Nothing)
+
+    CreateNetworkInterfaceType(; subnetId=nothing, description=nothing, privateIpAddress=nothing, groupSet=nothing, privateIpAddressesSet=nothing, secondaryPrivateIpAddressCount=nothing) = 
+         new(subnetId, description, privateIpAddress, groupSet, privateIpAddressesSet, secondaryPrivateIpAddressCount)
+end
+function CreateNetworkInterfaceType(pd::ETree)
+    o = CreateNetworkInterfaceType()
+    o.subnetId = find(pd, "subnetId#string")
+    o.description = find(pd, "description#string")
+    o.privateIpAddress = find(pd, "privateIpAddress#string")
+    o.groupSet = AWS.parse_vector_as(ASCIIString, "groupId", find(pd, "item/groupId"))
+    o.privateIpAddressesSet = AWS.@parse_vector(AWS.EC2.PrivateIpAddressesSetItemRequestType, find(pd, "privateIpAddressesSet/item"))
+    o.secondaryPrivateIpAddressCount = AWS.safe_parse_as(Int64, find(pd, "secondaryPrivateIpAddressCount#string"))
+    o
+end
+
+export CreateNetworkInterfaceType
+
+
+type DescribeVpcsResponseType
+    requestId::Union(ASCIIString, Nothing)
+    vpcSet::Union(Vector{VpcType}, Nothing)
+
+    DescribeVpcsResponseType(; requestId=nothing, vpcSet=nothing) = 
+         new(requestId, vpcSet)
+end
+function DescribeVpcsResponseType(pd::ETree)
+    o = DescribeVpcsResponseType()
+    o.requestId = find(pd, "requestId#string")
+    o.vpcSet = AWS.@parse_vector(AWS.EC2.VpcType, find(pd, "vpcSet/item"))
+    o
+end
+
+export DescribeVpcsResponseType
+
+
+type DescribeReservedInstancesListingsResponseSetItemType
+    reservedInstancesListingId::Union(ASCIIString, Nothing)
+    reservedInstancesId::Union(ASCIIString, Nothing)
+    createDate::Union(CalendarTime, Nothing)
+    updateDate::Union(CalendarTime, Nothing)
+    status::Union(ASCIIString, Nothing)
+    statusMessage::Union(ASCIIString, Nothing)
+    instanceCounts::Union(Vector{InstanceCountsSetItemType}, Nothing)
+    priceSchedules::Union(Vector{PriceScheduleSetItemType}, Nothing)
+    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
+    clientToken::Union(ASCIIString, Nothing)
+
+    DescribeReservedInstancesListingsResponseSetItemType(; reservedInstancesListingId=nothing, reservedInstancesId=nothing, createDate=nothing, updateDate=nothing, status=nothing, statusMessage=nothing, instanceCounts=nothing, priceSchedules=nothing, tagSet=nothing, clientToken=nothing) = 
+         new(reservedInstancesListingId, reservedInstancesId, createDate, updateDate, status, statusMessage, instanceCounts, priceSchedules, tagSet, clientToken)
+end
+function DescribeReservedInstancesListingsResponseSetItemType(pd::ETree)
+    o = DescribeReservedInstancesListingsResponseSetItemType()
+    o.reservedInstancesListingId = find(pd, "reservedInstancesListingId#string")
+    o.reservedInstancesId = find(pd, "reservedInstancesId#string")
+    o.createDate = AWS.safe_parse_as(CalendarTime, find(pd, "createDate#string"))
+    o.updateDate = AWS.safe_parse_as(CalendarTime, find(pd, "updateDate#string"))
+    o.status = find(pd, "status#string")
+    o.statusMessage = find(pd, "statusMessage#string")
+    o.instanceCounts = AWS.@parse_vector(AWS.EC2.InstanceCountsSetItemType, find(pd, "instanceCounts/item"))
+    o.priceSchedules = AWS.@parse_vector(AWS.EC2.PriceScheduleSetItemType, find(pd, "priceSchedules/item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.clientToken = find(pd, "clientToken#string")
+    o
+end
+
+export DescribeReservedInstancesListingsResponseSetItemType
+
+
+type DescribeVpcsType
+    vpcSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
+
+    DescribeVpcsType(; vpcSet=nothing, filterSet=nothing) = 
+         new(vpcSet, filterSet)
+end
+function DescribeVpcsType(pd::ETree)
+    o = DescribeVpcsType()
+    o.vpcSet = AWS.parse_vector_as(ASCIIString, "vpcId", find(pd, "item/vpcId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o
+end
+
+export DescribeVpcsType
+
+
+type DescribeDhcpOptionsResponseType
+    requestId::Union(ASCIIString, Nothing)
+    dhcpOptionsSet::Union(Vector{DhcpOptionsType}, Nothing)
+
+    DescribeDhcpOptionsResponseType(; requestId=nothing, dhcpOptionsSet=nothing) = 
+         new(requestId, dhcpOptionsSet)
+end
+function DescribeDhcpOptionsResponseType(pd::ETree)
+    o = DescribeDhcpOptionsResponseType()
+    o.requestId = find(pd, "requestId#string")
+    o.dhcpOptionsSet = AWS.@parse_vector(AWS.EC2.DhcpOptionsType, find(pd, "dhcpOptionsSet/item"))
+    o
+end
+
+export DescribeDhcpOptionsResponseType
 
 
 type DescribeTagsType
@@ -7055,200 +7022,371 @@ end
 export DescribeTagsType
 
 
-type CreateSpotDatafeedSubscriptionResponseType
+type MonitorInstancesResponseSetItemType
+    instanceId::Union(ASCIIString, Nothing)
+    monitoring::Union(InstanceMonitoringStateType, Nothing)
+
+    MonitorInstancesResponseSetItemType(; instanceId=nothing, monitoring=nothing) = 
+         new(instanceId, monitoring)
+end
+function MonitorInstancesResponseSetItemType(pd::ETree)
+    o = MonitorInstancesResponseSetItemType()
+    o.instanceId = find(pd, "instanceId#string")
+    o.monitoring = length(pd["monitoring"]) > 0 ?  InstanceMonitoringStateType(find(pd,"monitoring[1]")) : nothing
+    o
+end
+
+export MonitorInstancesResponseSetItemType
+
+
+type DescribeRouteTablesResponseType
     requestId::Union(ASCIIString, Nothing)
-    spotDatafeedSubscription::Union(SpotDatafeedSubscriptionType, Nothing)
+    routeTableSet::Union(Vector{RouteTableType}, Nothing)
 
-    CreateSpotDatafeedSubscriptionResponseType(; requestId=nothing, spotDatafeedSubscription=nothing) = 
-         new(requestId, spotDatafeedSubscription)
+    DescribeRouteTablesResponseType(; requestId=nothing, routeTableSet=nothing) = 
+         new(requestId, routeTableSet)
 end
-function CreateSpotDatafeedSubscriptionResponseType(pd::ETree)
-    o = CreateSpotDatafeedSubscriptionResponseType()
+function DescribeRouteTablesResponseType(pd::ETree)
+    o = DescribeRouteTablesResponseType()
     o.requestId = find(pd, "requestId#string")
-    o.spotDatafeedSubscription = length(pd["spotDatafeedSubscription"]) > 0 ?  SpotDatafeedSubscriptionType(find(pd,"spotDatafeedSubscription[1]")) : nothing
+    o.routeTableSet = AWS.@parse_vector(AWS.EC2.RouteTableType, find(pd, "routeTableSet/item"))
     o
 end
 
-export CreateSpotDatafeedSubscriptionResponseType
+export DescribeRouteTablesResponseType
 
 
-type DescribeReservedInstancesResponseType
-    requestId::Union(ASCIIString, Nothing)
-    reservedInstancesSet::Union(Vector{DescribeReservedInstancesResponseSetItemType}, Nothing)
-
-    DescribeReservedInstancesResponseType(; requestId=nothing, reservedInstancesSet=nothing) = 
-         new(requestId, reservedInstancesSet)
-end
-function DescribeReservedInstancesResponseType(pd::ETree)
-    o = DescribeReservedInstancesResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.reservedInstancesSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesResponseSetItemType, find(pd, "reservedInstancesSet/item"))
-    o
-end
-
-export DescribeReservedInstancesResponseType
-
-
-type CreateVolumePermissionOperationType
-    add::Union(Vector{CreateVolumePermissionItemType}, Nothing)
-    remove::Union(Vector{CreateVolumePermissionItemType}, Nothing)
-
-    CreateVolumePermissionOperationType(; add=nothing, remove=nothing) = 
-         new(add, remove)
-end
-function CreateVolumePermissionOperationType(pd::ETree)
-    o = CreateVolumePermissionOperationType()
-    o.add = AWS.@parse_vector(AWS.EC2.CreateVolumePermissionItemType, find(pd, "add/item"))
-    o.remove = AWS.@parse_vector(AWS.EC2.CreateVolumePermissionItemType, find(pd, "remove/item"))
-    o
-end
-
-export CreateVolumePermissionOperationType
-
-
-type ImportVolumeTaskDetailsType
-    bytesConverted::Union(Int64, Nothing)
-    availabilityZone::Union(ASCIIString, Nothing)
-    description::Union(ASCIIString, Nothing)
-    image::Union(DiskImageDescriptionType, Nothing)
-    volume::Union(DiskImageVolumeDescriptionType, Nothing)
-
-    ImportVolumeTaskDetailsType(; bytesConverted=nothing, availabilityZone=nothing, description=nothing, image=nothing, volume=nothing) = 
-         new(bytesConverted, availabilityZone, description, image, volume)
-end
-function ImportVolumeTaskDetailsType(pd::ETree)
-    o = ImportVolumeTaskDetailsType()
-    o.bytesConverted = AWS.safe_parse_as(Int64, find(pd, "bytesConverted#string"))
-    o.availabilityZone = find(pd, "availabilityZone#string")
-    o.description = find(pd, "description#string")
-    o.image = length(pd["image"]) > 0 ?  DiskImageDescriptionType(find(pd,"image[1]")) : nothing
-    o.volume = length(pd["volume"]) > 0 ?  DiskImageVolumeDescriptionType(find(pd,"volume[1]")) : nothing
-    o
-end
-
-export ImportVolumeTaskDetailsType
-
-
-type DescribeInstancesType
-    instancesSet::Union(Vector{ASCIIString}, Nothing)
+type DescribeAccountAttributesType
+    accountAttributeNameSet::Union(Vector{ASCIIString}, Nothing)
     filterSet::Union(Vector{FilterType}, Nothing)
 
-    DescribeInstancesType(; instancesSet=nothing, filterSet=nothing) = 
-         new(instancesSet, filterSet)
+    DescribeAccountAttributesType(; accountAttributeNameSet=nothing, filterSet=nothing) = 
+         new(accountAttributeNameSet, filterSet)
 end
-function DescribeInstancesType(pd::ETree)
-    o = DescribeInstancesType()
-    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", find(pd, "item/instanceId"))
+function DescribeAccountAttributesType(pd::ETree)
+    o = DescribeAccountAttributesType()
+    o.accountAttributeNameSet = AWS.parse_vector_as(ASCIIString, "attributeName", find(pd, "item/attributeName"))
     o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
     o
 end
 
-export DescribeInstancesType
+export DescribeAccountAttributesType
 
 
-type ConversionTaskType
-    conversionTaskId::Union(ASCIIString, Nothing)
-    expirationTime::Union(ASCIIString, Nothing)
+type DescribeInstanceStatusResponseType
+    requestId::Union(ASCIIString, Nothing)
+    instanceStatusSet::Union(Vector{InstanceStatusItemType}, Nothing)
+    nextToken::Union(ASCIIString, Nothing)
+
+    DescribeInstanceStatusResponseType(; requestId=nothing, instanceStatusSet=nothing, nextToken=nothing) = 
+         new(requestId, instanceStatusSet, nextToken)
+end
+function DescribeInstanceStatusResponseType(pd::ETree)
+    o = DescribeInstanceStatusResponseType()
+    o.requestId = find(pd, "requestId#string")
+    o.instanceStatusSet = AWS.@parse_vector(AWS.EC2.InstanceStatusItemType, find(pd, "instanceStatusSet/item"))
+    o.nextToken = find(pd, "nextToken#string")
+    o
+end
+
+export DescribeInstanceStatusResponseType
+
+
+type VpnGatewayType
+    vpnGatewayId::Union(ASCIIString, Nothing)
     state::Union(ASCIIString, Nothing)
-    statusMessage::Union(ASCIIString, Nothing)
+    _type::Union(ASCIIString, Nothing)
+    availabilityZone::Union(ASCIIString, Nothing)
+    attachments::Union(Vector{AttachmentType}, Nothing)
     tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
 
-    ConversionTaskType(; conversionTaskId=nothing, expirationTime=nothing, state=nothing, statusMessage=nothing, tagSet=nothing) = 
-         new(conversionTaskId, expirationTime, state, statusMessage, tagSet)
+    VpnGatewayType(; vpnGatewayId=nothing, state=nothing, _type=nothing, availabilityZone=nothing, attachments=nothing, tagSet=nothing) = 
+         new(vpnGatewayId, state, _type, availabilityZone, attachments, tagSet)
 end
-function ConversionTaskType(pd::ETree)
-    o = ConversionTaskType()
-    o.conversionTaskId = find(pd, "conversionTaskId#string")
-    o.expirationTime = find(pd, "expirationTime#string")
+function VpnGatewayType(pd::ETree)
+    o = VpnGatewayType()
+    o.vpnGatewayId = find(pd, "vpnGatewayId#string")
     o.state = find(pd, "state#string")
-    o.statusMessage = find(pd, "statusMessage#string")
+    o._type = find(pd, "type#string")
+    o.availabilityZone = find(pd, "availabilityZone#string")
+    o.attachments = AWS.@parse_vector(AWS.EC2.AttachmentType, find(pd, "attachments/item"))
     o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
     o
 end
 
-export ConversionTaskType
+export VpnGatewayType
 
 
-type DescribeVolumesType
-    volumeSet::Union(Vector{ASCIIString}, Nothing)
+type DescribeKeyPairsType
+    keySet::Union(Vector{ASCIIString}, Nothing)
     filterSet::Union(Vector{FilterType}, Nothing)
 
-    DescribeVolumesType(; volumeSet=nothing, filterSet=nothing) = 
-         new(volumeSet, filterSet)
+    DescribeKeyPairsType(; keySet=nothing, filterSet=nothing) = 
+         new(keySet, filterSet)
 end
-function DescribeVolumesType(pd::ETree)
-    o = DescribeVolumesType()
-    o.volumeSet = AWS.parse_vector_as(ASCIIString, "volumeId", find(pd, "item/volumeId"))
+function DescribeKeyPairsType(pd::ETree)
+    o = DescribeKeyPairsType()
+    o.keySet = AWS.parse_vector_as(ASCIIString, "keyName", find(pd, "item/keyName"))
     o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
     o
 end
 
-export DescribeVolumesType
+export DescribeKeyPairsType
 
 
-type ReplaceNetworkAclEntryType
-    networkAclId::Union(ASCIIString, Nothing)
-    ruleNumber::Union(Int64, Nothing)
-    protocol::Union(ASCIIString, Nothing)
-    ruleAction::Union(ASCIIString, Nothing)
-    egress::Union(Bool, Nothing)
-    cidrBlock::Union(ASCIIString, Nothing)
-    icmpTypeCode::Union(IcmpTypeCodeType, Nothing)
-    portRange::Union(PortRangeType, Nothing)
+type BundleInstanceType
+    instanceId::Union(ASCIIString, Nothing)
+    storage::Union(BundleInstanceTaskStorageType, Nothing)
 
-    ReplaceNetworkAclEntryType(; networkAclId=nothing, ruleNumber=nothing, protocol=nothing, ruleAction=nothing, egress=nothing, cidrBlock=nothing, icmpTypeCode=nothing, portRange=nothing) = 
-         new(networkAclId, ruleNumber, protocol, ruleAction, egress, cidrBlock, icmpTypeCode, portRange)
+    BundleInstanceType(; instanceId=nothing, storage=nothing) = 
+         new(instanceId, storage)
 end
-function ReplaceNetworkAclEntryType(pd::ETree)
-    o = ReplaceNetworkAclEntryType()
-    o.networkAclId = find(pd, "networkAclId#string")
-    o.ruleNumber = AWS.safe_parse_as(Int64, find(pd, "ruleNumber#string"))
-    o.protocol = find(pd, "protocol#string")
-    o.ruleAction = find(pd, "ruleAction#string")
-    o.egress = AWS.safe_parse_as(Bool, find(pd, "egress#string"))
-    o.cidrBlock = find(pd, "cidrBlock#string")
-    o.icmpTypeCode = length(pd["icmpTypeCode"]) > 0 ?  IcmpTypeCodeType(find(pd,"icmpTypeCode[1]")) : nothing
-    o.portRange = length(pd["portRange"]) > 0 ?  PortRangeType(find(pd,"portRange[1]")) : nothing
+function BundleInstanceType(pd::ETree)
+    o = BundleInstanceType()
+    o.instanceId = find(pd, "instanceId#string")
+    o.storage = length(pd["storage"]) > 0 ?  BundleInstanceTaskStorageType(find(pd,"storage[1]")) : nothing
     o
 end
 
-export ReplaceNetworkAclEntryType
+export BundleInstanceType
 
 
-type CreateCustomerGatewayResponseType
+type InstancePrivateIpAddressesSetItemType
+    privateIpAddress::Union(ASCIIString, Nothing)
+    privateDnsName::Union(ASCIIString, Nothing)
+    primary::Union(Bool, Nothing)
+    association::Union(InstanceNetworkInterfaceAssociationType, Nothing)
+
+    InstancePrivateIpAddressesSetItemType(; privateIpAddress=nothing, privateDnsName=nothing, primary=nothing, association=nothing) = 
+         new(privateIpAddress, privateDnsName, primary, association)
+end
+function InstancePrivateIpAddressesSetItemType(pd::ETree)
+    o = InstancePrivateIpAddressesSetItemType()
+    o.privateIpAddress = find(pd, "privateIpAddress#string")
+    o.privateDnsName = find(pd, "privateDnsName#string")
+    o.primary = AWS.safe_parse_as(Bool, find(pd, "primary#string"))
+    o.association = length(pd["association"]) > 0 ?  InstanceNetworkInterfaceAssociationType(find(pd,"association[1]")) : nothing
+    o
+end
+
+export InstancePrivateIpAddressesSetItemType
+
+
+type ImportInstanceLaunchSpecificationType
+    architecture::Union(ASCIIString, Nothing)
+    groupSet::Union(Vector{ImportInstanceGroupItemType}, Nothing)
+    userData::Union(UserDataType, Nothing)
+    instanceType::Union(ASCIIString, Nothing)
+    placement::Union(InstancePlacementType, Nothing)
+    monitoring::Union(MonitoringInstanceType, Nothing)
+    subnetId::Union(ASCIIString, Nothing)
+    instanceInitiatedShutdownBehavior::Union(ASCIIString, Nothing)
+    privateIpAddress::Union(ASCIIString, Nothing)
+
+    ImportInstanceLaunchSpecificationType(; architecture=nothing, groupSet=nothing, userData=nothing, instanceType=nothing, placement=nothing, monitoring=nothing, subnetId=nothing, instanceInitiatedShutdownBehavior=nothing, privateIpAddress=nothing) = 
+         new(architecture, groupSet, userData, instanceType, placement, monitoring, subnetId, instanceInitiatedShutdownBehavior, privateIpAddress)
+end
+function ImportInstanceLaunchSpecificationType(pd::ETree)
+    o = ImportInstanceLaunchSpecificationType()
+    o.architecture = find(pd, "architecture#string")
+    o.groupSet = AWS.@parse_vector(AWS.EC2.ImportInstanceGroupItemType, find(pd, "groupSet/item"))
+    o.userData = length(pd["userData"]) > 0 ?  UserDataType(find(pd,"userData[1]")) : nothing
+    o.instanceType = find(pd, "instanceType#string")
+    o.placement = length(pd["placement"]) > 0 ?  InstancePlacementType(find(pd,"placement[1]")) : nothing
+    o.monitoring = length(pd["monitoring"]) > 0 ?  MonitoringInstanceType(find(pd,"monitoring[1]")) : nothing
+    o.subnetId = find(pd, "subnetId#string")
+    o.instanceInitiatedShutdownBehavior = find(pd, "instanceInitiatedShutdownBehavior#string")
+    o.privateIpAddress = find(pd, "privateIpAddress#string")
+    o
+end
+
+export ImportInstanceLaunchSpecificationType
+
+
+type DescribeAddressesType
+    publicIpsSet::Union(Vector{ASCIIString}, Nothing)
+    allocationIdsSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
+
+    DescribeAddressesType(; publicIpsSet=nothing, allocationIdsSet=nothing, filterSet=nothing) = 
+         new(publicIpsSet, allocationIdsSet, filterSet)
+end
+function DescribeAddressesType(pd::ETree)
+    o = DescribeAddressesType()
+    o.publicIpsSet = AWS.parse_vector_as(ASCIIString, "publicIp", find(pd, "item/publicIp"))
+    o.allocationIdsSet = AWS.parse_vector_as(ASCIIString, "allocationId", find(pd, "item/allocationId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o
+end
+
+export DescribeAddressesType
+
+
+type VolumeStatusInfoType
+    status::Union(ASCIIString, Nothing)
+    details::Union(Vector{VolumeStatusDetailsItemType}, Nothing)
+
+    VolumeStatusInfoType(; status=nothing, details=nothing) = 
+         new(status, details)
+end
+function VolumeStatusInfoType(pd::ETree)
+    o = VolumeStatusInfoType()
+    o.status = find(pd, "status#string")
+    o.details = AWS.@parse_vector(AWS.EC2.VolumeStatusDetailsItemType, find(pd, "details/item"))
+    o
+end
+
+export VolumeStatusInfoType
+
+
+type StartInstancesResponseType
     requestId::Union(ASCIIString, Nothing)
-    customerGateway::Union(CustomerGatewayType, Nothing)
+    instancesSet::Union(Vector{InstanceStateChangeType}, Nothing)
 
-    CreateCustomerGatewayResponseType(; requestId=nothing, customerGateway=nothing) = 
-         new(requestId, customerGateway)
+    StartInstancesResponseType(; requestId=nothing, instancesSet=nothing) = 
+         new(requestId, instancesSet)
 end
-function CreateCustomerGatewayResponseType(pd::ETree)
-    o = CreateCustomerGatewayResponseType()
+function StartInstancesResponseType(pd::ETree)
+    o = StartInstancesResponseType()
     o.requestId = find(pd, "requestId#string")
-    o.customerGateway = length(pd["customerGateway"]) > 0 ?  CustomerGatewayType(find(pd,"customerGateway[1]")) : nothing
+    o.instancesSet = AWS.@parse_vector(AWS.EC2.InstanceStateChangeType, find(pd, "instancesSet/item"))
     o
 end
 
-export CreateCustomerGatewayResponseType
+export StartInstancesResponseType
 
 
-type DescribeSecurityGroupsType
-    securityGroupSet::Union(Vector{ASCIIString}, Nothing)
-    securityGroupIdSet::Union(Vector{ASCIIString}, Nothing)
-    filterSet::Union(Vector{FilterType}, Nothing)
+type CreateVpnConnectionType
+    _type::Union(ASCIIString, Nothing)
+    customerGatewayId::Union(ASCIIString, Nothing)
+    vpnGatewayId::Union(ASCIIString, Nothing)
+    options::Union(VpnConnectionOptionsRequestType, Nothing)
 
-    DescribeSecurityGroupsType(; securityGroupSet=nothing, securityGroupIdSet=nothing, filterSet=nothing) = 
-         new(securityGroupSet, securityGroupIdSet, filterSet)
+    CreateVpnConnectionType(; _type=nothing, customerGatewayId=nothing, vpnGatewayId=nothing, options=nothing) = 
+         new(_type, customerGatewayId, vpnGatewayId, options)
 end
-function DescribeSecurityGroupsType(pd::ETree)
-    o = DescribeSecurityGroupsType()
-    o.securityGroupSet = AWS.parse_vector_as(ASCIIString, "groupName", find(pd, "item/groupName"))
-    o.securityGroupIdSet = AWS.parse_vector_as(ASCIIString, "groupId", find(pd, "item/groupId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+function CreateVpnConnectionType(pd::ETree)
+    o = CreateVpnConnectionType()
+    o._type = find(pd, "type#string")
+    o.customerGatewayId = find(pd, "customerGatewayId#string")
+    o.vpnGatewayId = find(pd, "vpnGatewayId#string")
+    o.options = length(pd["options"]) > 0 ?  VpnConnectionOptionsRequestType(find(pd,"options[1]")) : nothing
     o
 end
 
-export DescribeSecurityGroupsType
+export CreateVpnConnectionType
+
+
+type AuthorizeSecurityGroupEgressType
+    groupId::Union(ASCIIString, Nothing)
+    ipPermissions::Union(Vector{IpPermissionType}, Nothing)
+
+    AuthorizeSecurityGroupEgressType(; groupId=nothing, ipPermissions=nothing) = 
+         new(groupId, ipPermissions)
+end
+function AuthorizeSecurityGroupEgressType(pd::ETree)
+    o = AuthorizeSecurityGroupEgressType()
+    o.groupId = find(pd, "groupId#string")
+    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, find(pd, "ipPermissions/item"))
+    o
+end
+
+export AuthorizeSecurityGroupEgressType
+
+
+type CreateReservedInstancesListingResponseType
+    requestId::Union(ASCIIString, Nothing)
+    reservedInstancesListingsSet::Union(Vector{DescribeReservedInstancesListingsResponseSetItemType}, Nothing)
+
+    CreateReservedInstancesListingResponseType(; requestId=nothing, reservedInstancesListingsSet=nothing) = 
+         new(requestId, reservedInstancesListingsSet)
+end
+function CreateReservedInstancesListingResponseType(pd::ETree)
+    o = CreateReservedInstancesListingResponseType()
+    o.requestId = find(pd, "requestId#string")
+    o.reservedInstancesListingsSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesListingsResponseSetItemType, find(pd, "reservedInstancesListingsSet/item"))
+    o
+end
+
+export CreateReservedInstancesListingResponseType
+
+
+type NetworkAclType
+    networkAclId::Union(ASCIIString, Nothing)
+    vpcId::Union(ASCIIString, Nothing)
+    default::Union(Bool, Nothing)
+    entrySet::Union(Vector{NetworkAclEntryType}, Nothing)
+    associationSet::Union(Vector{NetworkAclAssociationType}, Nothing)
+    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
+
+    NetworkAclType(; networkAclId=nothing, vpcId=nothing, default=nothing, entrySet=nothing, associationSet=nothing, tagSet=nothing) = 
+         new(networkAclId, vpcId, default, entrySet, associationSet, tagSet)
+end
+function NetworkAclType(pd::ETree)
+    o = NetworkAclType()
+    o.networkAclId = find(pd, "networkAclId#string")
+    o.vpcId = find(pd, "vpcId#string")
+    o.default = AWS.safe_parse_as(Bool, find(pd, "default#string"))
+    o.entrySet = AWS.@parse_vector(AWS.EC2.NetworkAclEntryType, find(pd, "entrySet/item"))
+    o.associationSet = AWS.@parse_vector(AWS.EC2.NetworkAclAssociationType, find(pd, "associationSet/item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o
+end
+
+export NetworkAclType
+
+
+type DescribeAddressesResponseType
+    requestId::Union(ASCIIString, Nothing)
+    addressesSet::Union(Vector{DescribeAddressesResponseItemType}, Nothing)
+
+    DescribeAddressesResponseType(; requestId=nothing, addressesSet=nothing) = 
+         new(requestId, addressesSet)
+end
+function DescribeAddressesResponseType(pd::ETree)
+    o = DescribeAddressesResponseType()
+    o.requestId = find(pd, "requestId#string")
+    o.addressesSet = AWS.@parse_vector(AWS.EC2.DescribeAddressesResponseItemType, find(pd, "addressesSet/item"))
+    o
+end
+
+export DescribeAddressesResponseType
+
+
+type TerminateInstancesResponseType
+    requestId::Union(ASCIIString, Nothing)
+    instancesSet::Union(Vector{InstanceStateChangeType}, Nothing)
+
+    TerminateInstancesResponseType(; requestId=nothing, instancesSet=nothing) = 
+         new(requestId, instancesSet)
+end
+function TerminateInstancesResponseType(pd::ETree)
+    o = TerminateInstancesResponseType()
+    o.requestId = find(pd, "requestId#string")
+    o.instancesSet = AWS.@parse_vector(AWS.EC2.InstanceStateChangeType, find(pd, "instancesSet/item"))
+    o
+end
+
+export TerminateInstancesResponseType
+
+
+type DiskImageType
+    image::Union(DiskImageDetailType, Nothing)
+    description::Union(ASCIIString, Nothing)
+    volume::Union(DiskImageVolumeType, Nothing)
+
+    DiskImageType(; image=nothing, description=nothing, volume=nothing) = 
+         new(image, description, volume)
+end
+function DiskImageType(pd::ETree)
+    o = DiskImageType()
+    o.image = length(pd["image"]) > 0 ?  DiskImageDetailType(find(pd,"image[1]")) : nothing
+    o.description = find(pd, "description#string")
+    o.volume = length(pd["volume"]) > 0 ?  DiskImageVolumeType(find(pd,"volume[1]")) : nothing
+    o
+end
+
+export DiskImageType
 
 
 type RunInstancesType
@@ -7310,363 +7448,38 @@ end
 export RunInstancesType
 
 
-type InstanceStatusItemType
-    instanceId::Union(ASCIIString, Nothing)
-    availabilityZone::Union(ASCIIString, Nothing)
-    eventsSet::Union(Vector{InstanceStatusEventType}, Nothing)
-    instanceState::Union(InstanceStateType, Nothing)
-    systemStatus::Union(InstanceStatusType, Nothing)
-    instanceStatus::Union(InstanceStatusType, Nothing)
-
-    InstanceStatusItemType(; instanceId=nothing, availabilityZone=nothing, eventsSet=nothing, instanceState=nothing, systemStatus=nothing, instanceStatus=nothing) = 
-         new(instanceId, availabilityZone, eventsSet, instanceState, systemStatus, instanceStatus)
-end
-function InstanceStatusItemType(pd::ETree)
-    o = InstanceStatusItemType()
-    o.instanceId = find(pd, "instanceId#string")
-    o.availabilityZone = find(pd, "availabilityZone#string")
-    o.eventsSet = AWS.@parse_vector(AWS.EC2.InstanceStatusEventType, find(pd, "eventsSet/item"))
-    o.instanceState = length(pd["instanceState"]) > 0 ?  InstanceStateType(find(pd,"instanceState[1]")) : nothing
-    o.systemStatus = length(pd["systemStatus"]) > 0 ?  InstanceStatusType(find(pd,"systemStatus[1]")) : nothing
-    o.instanceStatus = length(pd["instanceStatus"]) > 0 ?  InstanceStatusType(find(pd,"instanceStatus[1]")) : nothing
-    o
-end
-
-export InstanceStatusItemType
-
-
-type MonitorInstancesResponseSetItemType
-    instanceId::Union(ASCIIString, Nothing)
-    monitoring::Union(InstanceMonitoringStateType, Nothing)
-
-    MonitorInstancesResponseSetItemType(; instanceId=nothing, monitoring=nothing) = 
-         new(instanceId, monitoring)
-end
-function MonitorInstancesResponseSetItemType(pd::ETree)
-    o = MonitorInstancesResponseSetItemType()
-    o.instanceId = find(pd, "instanceId#string")
-    o.monitoring = length(pd["monitoring"]) > 0 ?  InstanceMonitoringStateType(find(pd,"monitoring[1]")) : nothing
-    o
-end
-
-export MonitorInstancesResponseSetItemType
-
-
-type DescribeAddressesResponseType
-    requestId::Union(ASCIIString, Nothing)
-    addressesSet::Union(Vector{DescribeAddressesResponseItemType}, Nothing)
-
-    DescribeAddressesResponseType(; requestId=nothing, addressesSet=nothing) = 
-         new(requestId, addressesSet)
-end
-function DescribeAddressesResponseType(pd::ETree)
-    o = DescribeAddressesResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.addressesSet = AWS.@parse_vector(AWS.EC2.DescribeAddressesResponseItemType, find(pd, "addressesSet/item"))
-    o
-end
-
-export DescribeAddressesResponseType
-
-
-type CreateNetworkAclEntryType
-    networkAclId::Union(ASCIIString, Nothing)
-    ruleNumber::Union(Int64, Nothing)
-    protocol::Union(ASCIIString, Nothing)
-    ruleAction::Union(ASCIIString, Nothing)
-    egress::Union(Bool, Nothing)
-    cidrBlock::Union(ASCIIString, Nothing)
-    icmpTypeCode::Union(IcmpTypeCodeType, Nothing)
-    portRange::Union(PortRangeType, Nothing)
-
-    CreateNetworkAclEntryType(; networkAclId=nothing, ruleNumber=nothing, protocol=nothing, ruleAction=nothing, egress=nothing, cidrBlock=nothing, icmpTypeCode=nothing, portRange=nothing) = 
-         new(networkAclId, ruleNumber, protocol, ruleAction, egress, cidrBlock, icmpTypeCode, portRange)
-end
-function CreateNetworkAclEntryType(pd::ETree)
-    o = CreateNetworkAclEntryType()
-    o.networkAclId = find(pd, "networkAclId#string")
-    o.ruleNumber = AWS.safe_parse_as(Int64, find(pd, "ruleNumber#string"))
-    o.protocol = find(pd, "protocol#string")
-    o.ruleAction = find(pd, "ruleAction#string")
-    o.egress = AWS.safe_parse_as(Bool, find(pd, "egress#string"))
-    o.cidrBlock = find(pd, "cidrBlock#string")
-    o.icmpTypeCode = length(pd["icmpTypeCode"]) > 0 ?  IcmpTypeCodeType(find(pd,"icmpTypeCode[1]")) : nothing
-    o.portRange = length(pd["portRange"]) > 0 ?  PortRangeType(find(pd,"portRange[1]")) : nothing
-    o
-end
-
-export CreateNetworkAclEntryType
-
-
-type AttachVpnGatewayResponseType
-    requestId::Union(ASCIIString, Nothing)
-    attachment::Union(AttachmentType, Nothing)
-
-    AttachVpnGatewayResponseType(; requestId=nothing, attachment=nothing) = 
-         new(requestId, attachment)
-end
-function AttachVpnGatewayResponseType(pd::ETree)
-    o = AttachVpnGatewayResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.attachment = length(pd["attachment"]) > 0 ?  AttachmentType(find(pd,"attachment[1]")) : nothing
-    o
-end
-
-export AttachVpnGatewayResponseType
-
-
-type BundleInstanceTaskStorageType
-    S3::Union(BundleInstanceS3StorageType, Nothing)
-
-    BundleInstanceTaskStorageType(; S3=nothing) = 
-         new(S3)
-end
-function BundleInstanceTaskStorageType(pd::ETree)
-    o = BundleInstanceTaskStorageType()
-    o.S3 = length(pd["S3"]) > 0 ?  BundleInstanceS3StorageType(find(pd,"S3[1]")) : nothing
-    o
-end
-
-export BundleInstanceTaskStorageType
-
-
-type ImportInstanceTaskDetailsType
-    volumes::Union(Vector{ImportInstanceVolumeDetailItemType}, Nothing)
-    instanceId::Union(ASCIIString, Nothing)
-    platform::Union(ASCIIString, Nothing)
-    description::Union(ASCIIString, Nothing)
-
-    ImportInstanceTaskDetailsType(; volumes=nothing, instanceId=nothing, platform=nothing, description=nothing) = 
-         new(volumes, instanceId, platform, description)
-end
-function ImportInstanceTaskDetailsType(pd::ETree)
-    o = ImportInstanceTaskDetailsType()
-    o.volumes = AWS.@parse_vector(AWS.EC2.ImportInstanceVolumeDetailItemType, find(pd, "volumes/item"))
-    o.instanceId = find(pd, "instanceId#string")
-    o.platform = find(pd, "platform#string")
-    o.description = find(pd, "description#string")
-    o
-end
-
-export ImportInstanceTaskDetailsType
-
-
-type DescribeSpotPriceHistoryType
-    startTime::Union(CalendarTime, Nothing)
-    endTime::Union(CalendarTime, Nothing)
-    instanceTypeSet::Union(Vector{ASCIIString}, Nothing)
-    productDescriptionSet::Union(Vector{ASCIIString}, Nothing)
-    filterSet::Union(Vector{FilterType}, Nothing)
-    availabilityZone::Union(ASCIIString, Nothing)
-    maxResults::Union(Int64, Nothing)
-    nextToken::Union(ASCIIString, Nothing)
-
-    DescribeSpotPriceHistoryType(; startTime=nothing, endTime=nothing, instanceTypeSet=nothing, productDescriptionSet=nothing, filterSet=nothing, availabilityZone=nothing, maxResults=nothing, nextToken=nothing) = 
-         new(startTime, endTime, instanceTypeSet, productDescriptionSet, filterSet, availabilityZone, maxResults, nextToken)
-end
-function DescribeSpotPriceHistoryType(pd::ETree)
-    o = DescribeSpotPriceHistoryType()
-    o.startTime = AWS.safe_parse_as(CalendarTime, find(pd, "startTime#string"))
-    o.endTime = AWS.safe_parse_as(CalendarTime, find(pd, "endTime#string"))
-    o.instanceTypeSet = AWS.parse_vector_as(ASCIIString, "instanceType", find(pd, "item/instanceType"))
-    o.productDescriptionSet = AWS.parse_vector_as(ASCIIString, "productDescription", find(pd, "item/productDescription"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
-    o.availabilityZone = find(pd, "availabilityZone#string")
-    o.maxResults = AWS.safe_parse_as(Int64, find(pd, "maxResults#string"))
-    o.nextToken = find(pd, "nextToken#string")
-    o
-end
-
-export DescribeSpotPriceHistoryType
-
-
-type CreateSubnetResponseType
-    requestId::Union(ASCIIString, Nothing)
-    subnet::Union(SubnetType, Nothing)
-
-    CreateSubnetResponseType(; requestId=nothing, subnet=nothing) = 
-         new(requestId, subnet)
-end
-function CreateSubnetResponseType(pd::ETree)
-    o = CreateSubnetResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.subnet = length(pd["subnet"]) > 0 ?  SubnetType(find(pd,"subnet[1]")) : nothing
-    o
-end
-
-export CreateSubnetResponseType
-
-
-type DescribeAccountAttributesResponseType
-    requestId::Union(ASCIIString, Nothing)
-    accountAttributeSet::Union(Vector{AccountAttributeSetItemType}, Nothing)
-
-    DescribeAccountAttributesResponseType(; requestId=nothing, accountAttributeSet=nothing) = 
-         new(requestId, accountAttributeSet)
-end
-function DescribeAccountAttributesResponseType(pd::ETree)
-    o = DescribeAccountAttributesResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.accountAttributeSet = AWS.@parse_vector(AWS.EC2.AccountAttributeSetItemType, find(pd, "accountAttributeSet/item"))
-    o
-end
-
-export DescribeAccountAttributesResponseType
-
-
-type DescribeVpcsResponseType
-    requestId::Union(ASCIIString, Nothing)
-    vpcSet::Union(Vector{VpcType}, Nothing)
-
-    DescribeVpcsResponseType(; requestId=nothing, vpcSet=nothing) = 
-         new(requestId, vpcSet)
-end
-function DescribeVpcsResponseType(pd::ETree)
-    o = DescribeVpcsResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.vpcSet = AWS.@parse_vector(AWS.EC2.VpcType, find(pd, "vpcSet/item"))
-    o
-end
-
-export DescribeVpcsResponseType
-
-
-type DescribeSubnetsType
-    subnetSet::Union(Vector{ASCIIString}, Nothing)
+type DescribeAvailabilityZonesType
+    availabilityZoneSet::Union(Vector{ASCIIString}, Nothing)
     filterSet::Union(Vector{FilterType}, Nothing)
 
-    DescribeSubnetsType(; subnetSet=nothing, filterSet=nothing) = 
-         new(subnetSet, filterSet)
+    DescribeAvailabilityZonesType(; availabilityZoneSet=nothing, filterSet=nothing) = 
+         new(availabilityZoneSet, filterSet)
 end
-function DescribeSubnetsType(pd::ETree)
-    o = DescribeSubnetsType()
-    o.subnetSet = AWS.parse_vector_as(ASCIIString, "subnetId", find(pd, "item/subnetId"))
+function DescribeAvailabilityZonesType(pd::ETree)
+    o = DescribeAvailabilityZonesType()
+    o.availabilityZoneSet = AWS.parse_vector_as(ASCIIString, "zoneName", find(pd, "item/zoneName"))
     o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
     o
 end
 
-export DescribeSubnetsType
+export DescribeAvailabilityZonesType
 
 
-type DescribeDhcpOptionsType
-    dhcpOptionsSet::Union(Vector{ASCIIString}, Nothing)
-    filterSet::Union(Vector{FilterType}, Nothing)
+type CreateVolumePermissionOperationType
+    add::Union(Vector{CreateVolumePermissionItemType}, Nothing)
+    remove::Union(Vector{CreateVolumePermissionItemType}, Nothing)
 
-    DescribeDhcpOptionsType(; dhcpOptionsSet=nothing, filterSet=nothing) = 
-         new(dhcpOptionsSet, filterSet)
+    CreateVolumePermissionOperationType(; add=nothing, remove=nothing) = 
+         new(add, remove)
 end
-function DescribeDhcpOptionsType(pd::ETree)
-    o = DescribeDhcpOptionsType()
-    o.dhcpOptionsSet = AWS.parse_vector_as(ASCIIString, "dhcpOptionsId", find(pd, "item/dhcpOptionsId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+function CreateVolumePermissionOperationType(pd::ETree)
+    o = CreateVolumePermissionOperationType()
+    o.add = AWS.@parse_vector(AWS.EC2.CreateVolumePermissionItemType, find(pd, "add/item"))
+    o.remove = AWS.@parse_vector(AWS.EC2.CreateVolumePermissionItemType, find(pd, "remove/item"))
     o
 end
 
-export DescribeDhcpOptionsType
-
-
-type RegisterImageType
-    imageLocation::Union(ASCIIString, Nothing)
-    name::Union(ASCIIString, Nothing)
-    description::Union(ASCIIString, Nothing)
-    architecture::Union(ASCIIString, Nothing)
-    kernelId::Union(ASCIIString, Nothing)
-    ramdiskId::Union(ASCIIString, Nothing)
-    rootDeviceName::Union(ASCIIString, Nothing)
-    blockDeviceMapping::Union(Vector{BlockDeviceMappingItemType}, Nothing)
-
-    RegisterImageType(; imageLocation=nothing, name=nothing, description=nothing, architecture=nothing, kernelId=nothing, ramdiskId=nothing, rootDeviceName=nothing, blockDeviceMapping=nothing) = 
-         new(imageLocation, name, description, architecture, kernelId, ramdiskId, rootDeviceName, blockDeviceMapping)
-end
-function RegisterImageType(pd::ETree)
-    o = RegisterImageType()
-    o.imageLocation = find(pd, "imageLocation#string")
-    o.name = find(pd, "name#string")
-    o.description = find(pd, "description#string")
-    o.architecture = find(pd, "architecture#string")
-    o.kernelId = find(pd, "kernelId#string")
-    o.ramdiskId = find(pd, "ramdiskId#string")
-    o.rootDeviceName = find(pd, "rootDeviceName#string")
-    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, find(pd, "blockDeviceMapping/item"))
-    o
-end
-
-export RegisterImageType
-
-
-type DescribeReservedInstancesOfferingsResponseSetItemType
-    reservedInstancesOfferingId::Union(ASCIIString, Nothing)
-    instanceType::Union(ASCIIString, Nothing)
-    availabilityZone::Union(ASCIIString, Nothing)
-    duration::Union(Int64, Nothing)
-    fixedPrice::Union(Float64, Nothing)
-    usagePrice::Union(Float64, Nothing)
-    productDescription::Union(ASCIIString, Nothing)
-    instanceTenancy::Union(ASCIIString, Nothing)
-    currencyCode::Union(ASCIIString, Nothing)
-    offeringType::Union(ASCIIString, Nothing)
-    recurringCharges::Union(Vector{RecurringChargesSetItemType}, Nothing)
-    marketplace::Union(Bool, Nothing)
-    pricingDetailsSet::Union(Vector{PricingDetailsSetItemType}, Nothing)
-
-    DescribeReservedInstancesOfferingsResponseSetItemType(; reservedInstancesOfferingId=nothing, instanceType=nothing, availabilityZone=nothing, duration=nothing, fixedPrice=nothing, usagePrice=nothing, productDescription=nothing, instanceTenancy=nothing, currencyCode=nothing, offeringType=nothing, recurringCharges=nothing, marketplace=nothing, pricingDetailsSet=nothing) = 
-         new(reservedInstancesOfferingId, instanceType, availabilityZone, duration, fixedPrice, usagePrice, productDescription, instanceTenancy, currencyCode, offeringType, recurringCharges, marketplace, pricingDetailsSet)
-end
-function DescribeReservedInstancesOfferingsResponseSetItemType(pd::ETree)
-    o = DescribeReservedInstancesOfferingsResponseSetItemType()
-    o.reservedInstancesOfferingId = find(pd, "reservedInstancesOfferingId#string")
-    o.instanceType = find(pd, "instanceType#string")
-    o.availabilityZone = find(pd, "availabilityZone#string")
-    o.duration = AWS.safe_parse_as(Int64, find(pd, "duration#string"))
-    o.fixedPrice = AWS.safe_parse_as(Float64, find(pd, "fixedPrice#string"))
-    o.usagePrice = AWS.safe_parse_as(Float64, find(pd, "usagePrice#string"))
-    o.productDescription = find(pd, "productDescription#string")
-    o.instanceTenancy = find(pd, "instanceTenancy#string")
-    o.currencyCode = find(pd, "currencyCode#string")
-    o.offeringType = find(pd, "offeringType#string")
-    o.recurringCharges = AWS.@parse_vector(AWS.EC2.RecurringChargesSetItemType, find(pd, "recurringCharges/item"))
-    o.marketplace = AWS.safe_parse_as(Bool, find(pd, "marketplace#string"))
-    o.pricingDetailsSet = AWS.@parse_vector(AWS.EC2.PricingDetailsSetItemType, find(pd, "pricingDetailsSet/item"))
-    o
-end
-
-export DescribeReservedInstancesOfferingsResponseSetItemType
-
-
-type MonitorInstancesResponseType
-    requestId::Union(ASCIIString, Nothing)
-    instancesSet::Union(Vector{MonitorInstancesResponseSetItemType}, Nothing)
-
-    MonitorInstancesResponseType(; requestId=nothing, instancesSet=nothing) = 
-         new(requestId, instancesSet)
-end
-function MonitorInstancesResponseType(pd::ETree)
-    o = MonitorInstancesResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.instancesSet = AWS.@parse_vector(AWS.EC2.MonitorInstancesResponseSetItemType, find(pd, "instancesSet/item"))
-    o
-end
-
-export MonitorInstancesResponseType
-
-
-type InternetGatewayType
-    internetGatewayId::Union(ASCIIString, Nothing)
-    attachmentSet::Union(Vector{InternetGatewayAttachmentType}, Nothing)
-    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
-
-    InternetGatewayType(; internetGatewayId=nothing, attachmentSet=nothing, tagSet=nothing) = 
-         new(internetGatewayId, attachmentSet, tagSet)
-end
-function InternetGatewayType(pd::ETree)
-    o = InternetGatewayType()
-    o.internetGatewayId = find(pd, "internetGatewayId#string")
-    o.attachmentSet = AWS.@parse_vector(AWS.EC2.InternetGatewayAttachmentType, find(pd, "attachmentSet/item"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
-    o
-end
-
-export InternetGatewayType
+export CreateVolumePermissionOperationType
 
 
 type InstanceNetworkInterfaceSetItemType
@@ -7710,224 +7523,283 @@ end
 export InstanceNetworkInterfaceSetItemType
 
 
-type CreateVpcResponseType
-    requestId::Union(ASCIIString, Nothing)
-    vpc::Union(VpcType, Nothing)
-
-    CreateVpcResponseType(; requestId=nothing, vpc=nothing) = 
-         new(requestId, vpc)
-end
-function CreateVpcResponseType(pd::ETree)
-    o = CreateVpcResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.vpc = length(pd["vpc"]) > 0 ?  VpcType(find(pd,"vpc[1]")) : nothing
-    o
-end
-
-export CreateVpcResponseType
-
-
-type DescribeAccountAttributesType
-    accountAttributeNameSet::Union(Vector{ASCIIString}, Nothing)
-    filterSet::Union(Vector{FilterType}, Nothing)
-
-    DescribeAccountAttributesType(; accountAttributeNameSet=nothing, filterSet=nothing) = 
-         new(accountAttributeNameSet, filterSet)
-end
-function DescribeAccountAttributesType(pd::ETree)
-    o = DescribeAccountAttributesType()
-    o.accountAttributeNameSet = AWS.parse_vector_as(ASCIIString, "attributeName", find(pd, "item/attributeName"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
-    o
-end
-
-export DescribeAccountAttributesType
-
-
-type DescribeRouteTablesType
-    routeTableIdSet::Union(Vector{ASCIIString}, Nothing)
-    filterSet::Union(Vector{FilterType}, Nothing)
-
-    DescribeRouteTablesType(; routeTableIdSet=nothing, filterSet=nothing) = 
-         new(routeTableIdSet, filterSet)
-end
-function DescribeRouteTablesType(pd::ETree)
-    o = DescribeRouteTablesType()
-    o.routeTableIdSet = AWS.parse_vector_as(ASCIIString, "routeTableId", find(pd, "item/routeTableId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
-    o
-end
-
-export DescribeRouteTablesType
-
-
-type ModifySnapshotAttributeType
-    snapshotId::Union(ASCIIString, Nothing)
-    createVolumePermission::Union(CreateVolumePermissionOperationType, Nothing)
-
-    ModifySnapshotAttributeType(; snapshotId=nothing, createVolumePermission=nothing) = 
-         new(snapshotId, createVolumePermission)
-end
-function ModifySnapshotAttributeType(pd::ETree)
-    o = ModifySnapshotAttributeType()
-    o.snapshotId = find(pd, "snapshotId#string")
-    o.createVolumePermission = length(pd["createVolumePermission"]) > 0 ?  CreateVolumePermissionOperationType(find(pd,"createVolumePermission[1]")) : nothing
-    o
-end
-
-export ModifySnapshotAttributeType
-
-
-type DescribeVolumeStatusType
-    volumeSet::Union(Vector{ASCIIString}, Nothing)
-    filterSet::Union(Vector{FilterType}, Nothing)
-    maxResults::Union(Int64, Nothing)
-    nextToken::Union(ASCIIString, Nothing)
-
-    DescribeVolumeStatusType(; volumeSet=nothing, filterSet=nothing, maxResults=nothing, nextToken=nothing) = 
-         new(volumeSet, filterSet, maxResults, nextToken)
-end
-function DescribeVolumeStatusType(pd::ETree)
-    o = DescribeVolumeStatusType()
-    o.volumeSet = AWS.parse_vector_as(ASCIIString, "volumeId", find(pd, "item/volumeId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
-    o.maxResults = AWS.safe_parse_as(Int64, find(pd, "maxResults#string"))
-    o.nextToken = find(pd, "nextToken#string")
-    o
-end
-
-export DescribeVolumeStatusType
-
-
-type CreateTagsType
-    resourcesSet::Union(Vector{ASCIIString}, Nothing)
+type LicenseSetItemType
+    licenseId::Union(ASCIIString, Nothing)
+    _type::Union(ASCIIString, Nothing)
+    pool::Union(ASCIIString, Nothing)
+    capacitySet::Union(Vector{LicenseCapacitySetItemType}, Nothing)
     tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
 
-    CreateTagsType(; resourcesSet=nothing, tagSet=nothing) = 
-         new(resourcesSet, tagSet)
+    LicenseSetItemType(; licenseId=nothing, _type=nothing, pool=nothing, capacitySet=nothing, tagSet=nothing) = 
+         new(licenseId, _type, pool, capacitySet, tagSet)
 end
-function CreateTagsType(pd::ETree)
-    o = CreateTagsType()
-    o.resourcesSet = AWS.parse_vector_as(ASCIIString, "resourceId", find(pd, "item/resourceId"))
+function LicenseSetItemType(pd::ETree)
+    o = LicenseSetItemType()
+    o.licenseId = find(pd, "licenseId#string")
+    o._type = find(pd, "type#string")
+    o.pool = find(pd, "pool#string")
+    o.capacitySet = AWS.@parse_vector(AWS.EC2.LicenseCapacitySetItemType, find(pd, "capacitySet/item"))
     o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
     o
 end
 
-export CreateTagsType
+export LicenseSetItemType
 
 
-type StartInstancesResponseType
+type ImportVolumeTaskDetailsType
+    bytesConverted::Union(Int64, Nothing)
+    availabilityZone::Union(ASCIIString, Nothing)
+    description::Union(ASCIIString, Nothing)
+    image::Union(DiskImageDescriptionType, Nothing)
+    volume::Union(DiskImageVolumeDescriptionType, Nothing)
+
+    ImportVolumeTaskDetailsType(; bytesConverted=nothing, availabilityZone=nothing, description=nothing, image=nothing, volume=nothing) = 
+         new(bytesConverted, availabilityZone, description, image, volume)
+end
+function ImportVolumeTaskDetailsType(pd::ETree)
+    o = ImportVolumeTaskDetailsType()
+    o.bytesConverted = AWS.safe_parse_as(Int64, find(pd, "bytesConverted#string"))
+    o.availabilityZone = find(pd, "availabilityZone#string")
+    o.description = find(pd, "description#string")
+    o.image = length(pd["image"]) > 0 ?  DiskImageDescriptionType(find(pd,"image[1]")) : nothing
+    o.volume = length(pd["volume"]) > 0 ?  DiskImageVolumeDescriptionType(find(pd,"volume[1]")) : nothing
+    o
+end
+
+export ImportVolumeTaskDetailsType
+
+
+type DescribeReservedInstancesListingsResponseType
+    requestId::Union(ASCIIString, Nothing)
+    reservedInstancesListingsSet::Union(Vector{DescribeReservedInstancesListingsResponseSetItemType}, Nothing)
+
+    DescribeReservedInstancesListingsResponseType(; requestId=nothing, reservedInstancesListingsSet=nothing) = 
+         new(requestId, reservedInstancesListingsSet)
+end
+function DescribeReservedInstancesListingsResponseType(pd::ETree)
+    o = DescribeReservedInstancesListingsResponseType()
+    o.requestId = find(pd, "requestId#string")
+    o.reservedInstancesListingsSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesListingsResponseSetItemType, find(pd, "reservedInstancesListingsSet/item"))
+    o
+end
+
+export DescribeReservedInstancesListingsResponseType
+
+
+type RevokeSecurityGroupIngressType
+    userId::Union(ASCIIString, Nothing)
+    ipPermissions::Union(Vector{IpPermissionType}, Nothing)
+
+    RevokeSecurityGroupIngressType(; userId=nothing, ipPermissions=nothing) = 
+         new(userId, ipPermissions)
+end
+function RevokeSecurityGroupIngressType(pd::ETree)
+    o = RevokeSecurityGroupIngressType()
+    o.userId = find(pd, "userId#string")
+    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, find(pd, "ipPermissions/item"))
+    o
+end
+
+export RevokeSecurityGroupIngressType
+
+
+type StopInstancesResponseType
     requestId::Union(ASCIIString, Nothing)
     instancesSet::Union(Vector{InstanceStateChangeType}, Nothing)
 
-    StartInstancesResponseType(; requestId=nothing, instancesSet=nothing) = 
+    StopInstancesResponseType(; requestId=nothing, instancesSet=nothing) = 
          new(requestId, instancesSet)
 end
-function StartInstancesResponseType(pd::ETree)
-    o = StartInstancesResponseType()
+function StopInstancesResponseType(pd::ETree)
+    o = StopInstancesResponseType()
     o.requestId = find(pd, "requestId#string")
     o.instancesSet = AWS.@parse_vector(AWS.EC2.InstanceStateChangeType, find(pd, "instancesSet/item"))
     o
 end
 
-export StartInstancesResponseType
+export StopInstancesResponseType
 
 
-type NetworkAclEntryType
-    ruleNumber::Union(Int64, Nothing)
-    protocol::Union(ASCIIString, Nothing)
-    ruleAction::Union(ASCIIString, Nothing)
-    egress::Union(Bool, Nothing)
-    cidrBlock::Union(ASCIIString, Nothing)
-    icmpTypeCode::Union(IcmpTypeCodeType, Nothing)
-    portRange::Union(PortRangeType, Nothing)
+type ImportVolumeType
+    availabilityZone::Union(ASCIIString, Nothing)
+    image::Union(DiskImageDetailType, Nothing)
+    description::Union(ASCIIString, Nothing)
+    volume::Union(DiskImageVolumeType, Nothing)
 
-    NetworkAclEntryType(; ruleNumber=nothing, protocol=nothing, ruleAction=nothing, egress=nothing, cidrBlock=nothing, icmpTypeCode=nothing, portRange=nothing) = 
-         new(ruleNumber, protocol, ruleAction, egress, cidrBlock, icmpTypeCode, portRange)
+    ImportVolumeType(; availabilityZone=nothing, image=nothing, description=nothing, volume=nothing) = 
+         new(availabilityZone, image, description, volume)
 end
-function NetworkAclEntryType(pd::ETree)
-    o = NetworkAclEntryType()
-    o.ruleNumber = AWS.safe_parse_as(Int64, find(pd, "ruleNumber#string"))
-    o.protocol = find(pd, "protocol#string")
-    o.ruleAction = find(pd, "ruleAction#string")
-    o.egress = AWS.safe_parse_as(Bool, find(pd, "egress#string"))
-    o.cidrBlock = find(pd, "cidrBlock#string")
-    o.icmpTypeCode = length(pd["icmpTypeCode"]) > 0 ?  IcmpTypeCodeType(find(pd,"icmpTypeCode[1]")) : nothing
-    o.portRange = length(pd["portRange"]) > 0 ?  PortRangeType(find(pd,"portRange[1]")) : nothing
+function ImportVolumeType(pd::ETree)
+    o = ImportVolumeType()
+    o.availabilityZone = find(pd, "availabilityZone#string")
+    o.image = length(pd["image"]) > 0 ?  DiskImageDetailType(find(pd,"image[1]")) : nothing
+    o.description = find(pd, "description#string")
+    o.volume = length(pd["volume"]) > 0 ?  DiskImageVolumeType(find(pd,"volume[1]")) : nothing
     o
 end
 
-export NetworkAclEntryType
+export ImportVolumeType
 
 
-type DescribeKeyPairsType
-    keySet::Union(Vector{ASCIIString}, Nothing)
+type VpnConnectionType
+    vpnConnectionId::Union(ASCIIString, Nothing)
+    state::Union(ASCIIString, Nothing)
+    customerGatewayConfiguration::Union(ASCIIString, Nothing)
+    _type::Union(ASCIIString, Nothing)
+    customerGatewayId::Union(ASCIIString, Nothing)
+    vpnGatewayId::Union(ASCIIString, Nothing)
+    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
+    vgwTelemetry::Union(Vector{VpnTunnelTelemetryType}, Nothing)
+    options::Union(VpnConnectionOptionsResponseType, Nothing)
+    routes::Union(Vector{VpnStaticRouteType}, Nothing)
+
+    VpnConnectionType(; vpnConnectionId=nothing, state=nothing, customerGatewayConfiguration=nothing, _type=nothing, customerGatewayId=nothing, vpnGatewayId=nothing, tagSet=nothing, vgwTelemetry=nothing, options=nothing, routes=nothing) = 
+         new(vpnConnectionId, state, customerGatewayConfiguration, _type, customerGatewayId, vpnGatewayId, tagSet, vgwTelemetry, options, routes)
+end
+function VpnConnectionType(pd::ETree)
+    o = VpnConnectionType()
+    o.vpnConnectionId = find(pd, "vpnConnectionId#string")
+    o.state = find(pd, "state#string")
+    o.customerGatewayConfiguration = find(pd, "customerGatewayConfiguration#string")
+    o._type = find(pd, "type#string")
+    o.customerGatewayId = find(pd, "customerGatewayId#string")
+    o.vpnGatewayId = find(pd, "vpnGatewayId#string")
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.vgwTelemetry = AWS.@parse_vector(AWS.EC2.VpnTunnelTelemetryType, find(pd, "vgwTelemetry/item"))
+    o.options = length(pd["options"]) > 0 ?  VpnConnectionOptionsResponseType(find(pd,"options[1]")) : nothing
+    o.routes = AWS.@parse_vector(AWS.EC2.VpnStaticRouteType, find(pd, "routes/item"))
+    o
+end
+
+export VpnConnectionType
+
+
+type DescribeInstancesType
+    instancesSet::Union(Vector{ASCIIString}, Nothing)
     filterSet::Union(Vector{FilterType}, Nothing)
 
-    DescribeKeyPairsType(; keySet=nothing, filterSet=nothing) = 
-         new(keySet, filterSet)
+    DescribeInstancesType(; instancesSet=nothing, filterSet=nothing) = 
+         new(instancesSet, filterSet)
 end
-function DescribeKeyPairsType(pd::ETree)
-    o = DescribeKeyPairsType()
-    o.keySet = AWS.parse_vector_as(ASCIIString, "keyName", find(pd, "item/keyName"))
+function DescribeInstancesType(pd::ETree)
+    o = DescribeInstancesType()
+    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", find(pd, "item/instanceId"))
     o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
     o
 end
 
-export DescribeKeyPairsType
+export DescribeInstancesType
 
 
-type VolumeStatusInfoType
-    status::Union(ASCIIString, Nothing)
-    details::Union(Vector{VolumeStatusDetailsItemType}, Nothing)
-
-    VolumeStatusInfoType(; status=nothing, details=nothing) = 
-         new(status, details)
-end
-function VolumeStatusInfoType(pd::ETree)
-    o = VolumeStatusInfoType()
-    o.status = find(pd, "status#string")
-    o.details = AWS.@parse_vector(AWS.EC2.VolumeStatusDetailsItemType, find(pd, "details/item"))
-    o
-end
-
-export VolumeStatusInfoType
-
-
-type DescribeNetworkInterfacesType
-    networkInterfaceIdSet::Union(Vector{ASCIIString}, Nothing)
-    filterSet::Union(Vector{FilterType}, Nothing)
-
-    DescribeNetworkInterfacesType(; networkInterfaceIdSet=nothing, filterSet=nothing) = 
-         new(networkInterfaceIdSet, filterSet)
-end
-function DescribeNetworkInterfacesType(pd::ETree)
-    o = DescribeNetworkInterfacesType()
-    o.networkInterfaceIdSet = AWS.parse_vector_as(ASCIIString, "networkInterfaceId", find(pd, "item/networkInterfaceId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
-    o
-end
-
-export DescribeNetworkInterfacesType
-
-
-type DescribeInstanceStatusResponseType
+type DescribeImagesResponseType
     requestId::Union(ASCIIString, Nothing)
-    instanceStatusSet::Union(Vector{InstanceStatusItemType}, Nothing)
-    nextToken::Union(ASCIIString, Nothing)
+    imagesSet::Union(Vector{DescribeImagesResponseItemType}, Nothing)
 
-    DescribeInstanceStatusResponseType(; requestId=nothing, instanceStatusSet=nothing, nextToken=nothing) = 
-         new(requestId, instanceStatusSet, nextToken)
+    DescribeImagesResponseType(; requestId=nothing, imagesSet=nothing) = 
+         new(requestId, imagesSet)
 end
-function DescribeInstanceStatusResponseType(pd::ETree)
-    o = DescribeInstanceStatusResponseType()
+function DescribeImagesResponseType(pd::ETree)
+    o = DescribeImagesResponseType()
     o.requestId = find(pd, "requestId#string")
-    o.instanceStatusSet = AWS.@parse_vector(AWS.EC2.InstanceStatusItemType, find(pd, "instanceStatusSet/item"))
-    o.nextToken = find(pd, "nextToken#string")
+    o.imagesSet = AWS.@parse_vector(AWS.EC2.DescribeImagesResponseItemType, find(pd, "imagesSet/item"))
     o
 end
 
-export DescribeInstanceStatusResponseType
+export DescribeImagesResponseType
+
+
+type CustomerGatewayType
+    customerGatewayId::Union(ASCIIString, Nothing)
+    state::Union(ASCIIString, Nothing)
+    _type::Union(ASCIIString, Nothing)
+    ipAddress::Union(ASCIIString, Nothing)
+    bgpAsn::Union(Int64, Nothing)
+    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
+
+    CustomerGatewayType(; customerGatewayId=nothing, state=nothing, _type=nothing, ipAddress=nothing, bgpAsn=nothing, tagSet=nothing) = 
+         new(customerGatewayId, state, _type, ipAddress, bgpAsn, tagSet)
+end
+function CustomerGatewayType(pd::ETree)
+    o = CustomerGatewayType()
+    o.customerGatewayId = find(pd, "customerGatewayId#string")
+    o.state = find(pd, "state#string")
+    o._type = find(pd, "type#string")
+    o.ipAddress = find(pd, "ipAddress#string")
+    o.bgpAsn = AWS.safe_parse_as(Int64, find(pd, "bgpAsn#string"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o
+end
+
+export CustomerGatewayType
+
+
+type SubnetType
+    subnetId::Union(ASCIIString, Nothing)
+    state::Union(ASCIIString, Nothing)
+    vpcId::Union(ASCIIString, Nothing)
+    cidrBlock::Union(ASCIIString, Nothing)
+    availableIpAddressCount::Union(Int64, Nothing)
+    availabilityZone::Union(ASCIIString, Nothing)
+    defaultForAz::Union(Bool, Nothing)
+    mapPublicIpOnLaunch::Union(Bool, Nothing)
+    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
+
+    SubnetType(; subnetId=nothing, state=nothing, vpcId=nothing, cidrBlock=nothing, availableIpAddressCount=nothing, availabilityZone=nothing, defaultForAz=nothing, mapPublicIpOnLaunch=nothing, tagSet=nothing) = 
+         new(subnetId, state, vpcId, cidrBlock, availableIpAddressCount, availabilityZone, defaultForAz, mapPublicIpOnLaunch, tagSet)
+end
+function SubnetType(pd::ETree)
+    o = SubnetType()
+    o.subnetId = find(pd, "subnetId#string")
+    o.state = find(pd, "state#string")
+    o.vpcId = find(pd, "vpcId#string")
+    o.cidrBlock = find(pd, "cidrBlock#string")
+    o.availableIpAddressCount = AWS.safe_parse_as(Int64, find(pd, "availableIpAddressCount#string"))
+    o.availabilityZone = find(pd, "availabilityZone#string")
+    o.defaultForAz = AWS.safe_parse_as(Bool, find(pd, "defaultForAz#string"))
+    o.mapPublicIpOnLaunch = AWS.safe_parse_as(Bool, find(pd, "mapPublicIpOnLaunch#string"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o
+end
+
+export SubnetType
+
+
+type DescribeLicensesResponseType
+    requestId::Union(ASCIIString, Nothing)
+    licenseSet::Union(Vector{LicenseSetItemType}, Nothing)
+
+    DescribeLicensesResponseType(; requestId=nothing, licenseSet=nothing) = 
+         new(requestId, licenseSet)
+end
+function DescribeLicensesResponseType(pd::ETree)
+    o = DescribeLicensesResponseType()
+    o.requestId = find(pd, "requestId#string")
+    o.licenseSet = AWS.@parse_vector(AWS.EC2.LicenseSetItemType, find(pd, "licenseSet/item"))
+    o
+end
+
+export DescribeLicensesResponseType
+
+
+type NetworkInterfacePrivateIpAddressesSetItemType
+    privateIpAddress::Union(ASCIIString, Nothing)
+    privateDnsName::Union(ASCIIString, Nothing)
+    primary::Union(Bool, Nothing)
+    association::Union(NetworkInterfaceAssociationType, Nothing)
+
+    NetworkInterfacePrivateIpAddressesSetItemType(; privateIpAddress=nothing, privateDnsName=nothing, primary=nothing, association=nothing) = 
+         new(privateIpAddress, privateDnsName, primary, association)
+end
+function NetworkInterfacePrivateIpAddressesSetItemType(pd::ETree)
+    o = NetworkInterfacePrivateIpAddressesSetItemType()
+    o.privateIpAddress = find(pd, "privateIpAddress#string")
+    o.privateDnsName = find(pd, "privateDnsName#string")
+    o.primary = AWS.safe_parse_as(Bool, find(pd, "primary#string"))
+    o.association = length(pd["association"]) > 0 ?  NetworkInterfaceAssociationType(find(pd,"association[1]")) : nothing
+    o
+end
+
+export NetworkInterfacePrivateIpAddressesSetItemType
 
 
 type CreateVpnConnectionResponseType
@@ -7947,23 +7819,106 @@ end
 export CreateVpnConnectionResponseType
 
 
-type DescribeReservedInstancesOfferingsResponseType
+type DescribeTagsResponseType
     requestId::Union(ASCIIString, Nothing)
-    reservedInstancesOfferingsSet::Union(Vector{DescribeReservedInstancesOfferingsResponseSetItemType}, Nothing)
-    nextToken::Union(ASCIIString, Nothing)
+    tagSet::Union(Vector{TagSetItemType}, Nothing)
 
-    DescribeReservedInstancesOfferingsResponseType(; requestId=nothing, reservedInstancesOfferingsSet=nothing, nextToken=nothing) = 
-         new(requestId, reservedInstancesOfferingsSet, nextToken)
+    DescribeTagsResponseType(; requestId=nothing, tagSet=nothing) = 
+         new(requestId, tagSet)
 end
-function DescribeReservedInstancesOfferingsResponseType(pd::ETree)
-    o = DescribeReservedInstancesOfferingsResponseType()
+function DescribeTagsResponseType(pd::ETree)
+    o = DescribeTagsResponseType()
     o.requestId = find(pd, "requestId#string")
-    o.reservedInstancesOfferingsSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesOfferingsResponseSetItemType, find(pd, "reservedInstancesOfferingsSet/item"))
-    o.nextToken = find(pd, "nextToken#string")
+    o.tagSet = AWS.@parse_vector(AWS.EC2.TagSetItemType, find(pd, "tagSet/item"))
     o
 end
 
-export DescribeReservedInstancesOfferingsResponseType
+export DescribeTagsResponseType
+
+
+type CreateInternetGatewayResponseType
+    requestId::Union(ASCIIString, Nothing)
+    internetGateway::Union(InternetGatewayType, Nothing)
+
+    CreateInternetGatewayResponseType(; requestId=nothing, internetGateway=nothing) = 
+         new(requestId, internetGateway)
+end
+function CreateInternetGatewayResponseType(pd::ETree)
+    o = CreateInternetGatewayResponseType()
+    o.requestId = find(pd, "requestId#string")
+    o.internetGateway = length(pd["internetGateway"]) > 0 ?  InternetGatewayType(find(pd,"internetGateway[1]")) : nothing
+    o
+end
+
+export CreateInternetGatewayResponseType
+
+
+type AttachVpnGatewayResponseType
+    requestId::Union(ASCIIString, Nothing)
+    attachment::Union(AttachmentType, Nothing)
+
+    AttachVpnGatewayResponseType(; requestId=nothing, attachment=nothing) = 
+         new(requestId, attachment)
+end
+function AttachVpnGatewayResponseType(pd::ETree)
+    o = AttachVpnGatewayResponseType()
+    o.requestId = find(pd, "requestId#string")
+    o.attachment = length(pd["attachment"]) > 0 ?  AttachmentType(find(pd,"attachment[1]")) : nothing
+    o
+end
+
+export AttachVpnGatewayResponseType
+
+
+type DescribeLicensesType
+    licenseIdSet::Union(Vector{ASCIIString}, Nothing)
+    filterSet::Union(Vector{FilterType}, Nothing)
+
+    DescribeLicensesType(; licenseIdSet=nothing, filterSet=nothing) = 
+         new(licenseIdSet, filterSet)
+end
+function DescribeLicensesType(pd::ETree)
+    o = DescribeLicensesType()
+    o.licenseIdSet = AWS.parse_vector_as(ASCIIString, "licenseId", find(pd, "item/licenseId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o
+end
+
+export DescribeLicensesType
+
+
+type AuthorizeSecurityGroupIngressType
+    userId::Union(ASCIIString, Nothing)
+    ipPermissions::Union(Vector{IpPermissionType}, Nothing)
+
+    AuthorizeSecurityGroupIngressType(; userId=nothing, ipPermissions=nothing) = 
+         new(userId, ipPermissions)
+end
+function AuthorizeSecurityGroupIngressType(pd::ETree)
+    o = AuthorizeSecurityGroupIngressType()
+    o.userId = find(pd, "userId#string")
+    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, find(pd, "ipPermissions/item"))
+    o
+end
+
+export AuthorizeSecurityGroupIngressType
+
+
+type CreateSubnetResponseType
+    requestId::Union(ASCIIString, Nothing)
+    subnet::Union(SubnetType, Nothing)
+
+    CreateSubnetResponseType(; requestId=nothing, subnet=nothing) = 
+         new(requestId, subnet)
+end
+function CreateSubnetResponseType(pd::ETree)
+    o = CreateSubnetResponseType()
+    o.requestId = find(pd, "requestId#string")
+    o.subnet = length(pd["subnet"]) > 0 ?  SubnetType(find(pd,"subnet[1]")) : nothing
+    o
+end
+
+export CreateSubnetResponseType
 
 
 type NetworkInterfaceType
@@ -8032,168 +7987,106 @@ end
 export ImportVolumeResponseType
 
 
-type SecurityGroupItemType
-    ownerId::Union(ASCIIString, Nothing)
-    groupId::Union(ASCIIString, Nothing)
-    groupName::Union(ASCIIString, Nothing)
-    groupDescription::Union(ASCIIString, Nothing)
-    vpcId::Union(ASCIIString, Nothing)
-    ipPermissions::Union(Vector{IpPermissionType}, Nothing)
-    ipPermissionsEgress::Union(Vector{IpPermissionType}, Nothing)
-    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
+type ModifySnapshotAttributeType
+    snapshotId::Union(ASCIIString, Nothing)
+    createVolumePermission::Union(CreateVolumePermissionOperationType, Nothing)
 
-    SecurityGroupItemType(; ownerId=nothing, groupId=nothing, groupName=nothing, groupDescription=nothing, vpcId=nothing, ipPermissions=nothing, ipPermissionsEgress=nothing, tagSet=nothing) = 
-         new(ownerId, groupId, groupName, groupDescription, vpcId, ipPermissions, ipPermissionsEgress, tagSet)
+    ModifySnapshotAttributeType(; snapshotId=nothing, createVolumePermission=nothing) = 
+         new(snapshotId, createVolumePermission)
 end
-function SecurityGroupItemType(pd::ETree)
-    o = SecurityGroupItemType()
-    o.ownerId = find(pd, "ownerId#string")
-    o.groupId = find(pd, "groupId#string")
-    o.groupName = find(pd, "groupName#string")
-    o.groupDescription = find(pd, "groupDescription#string")
-    o.vpcId = find(pd, "vpcId#string")
-    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, find(pd, "ipPermissions/item"))
-    o.ipPermissionsEgress = AWS.@parse_vector(AWS.EC2.IpPermissionType, find(pd, "ipPermissionsEgress/item"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
+function ModifySnapshotAttributeType(pd::ETree)
+    o = ModifySnapshotAttributeType()
+    o.snapshotId = find(pd, "snapshotId#string")
+    o.createVolumePermission = length(pd["createVolumePermission"]) > 0 ?  CreateVolumePermissionOperationType(find(pd,"createVolumePermission[1]")) : nothing
     o
 end
 
-export SecurityGroupItemType
+export ModifySnapshotAttributeType
 
 
-type DescribeConversionTasksResponseType
+type CreateNetworkInterfaceResponseType
     requestId::Union(ASCIIString, Nothing)
-    conversionTasks::Union(Vector{ConversionTaskType}, Nothing)
+    networkInterface::Union(NetworkInterfaceType, Nothing)
 
-    DescribeConversionTasksResponseType(; requestId=nothing, conversionTasks=nothing) = 
-         new(requestId, conversionTasks)
+    CreateNetworkInterfaceResponseType(; requestId=nothing, networkInterface=nothing) = 
+         new(requestId, networkInterface)
 end
-function DescribeConversionTasksResponseType(pd::ETree)
-    o = DescribeConversionTasksResponseType()
+function CreateNetworkInterfaceResponseType(pd::ETree)
+    o = CreateNetworkInterfaceResponseType()
     o.requestId = find(pd, "requestId#string")
-    o.conversionTasks = AWS.@parse_vector(AWS.EC2.ConversionTaskType, find(pd, "conversionTasks/item"))
+    o.networkInterface = length(pd["networkInterface"]) > 0 ?  NetworkInterfaceType(find(pd,"networkInterface[1]")) : nothing
     o
 end
 
-export DescribeConversionTasksResponseType
+export CreateNetworkInterfaceResponseType
 
 
-type LaunchSpecificationResponseType
-    imageId::Union(ASCIIString, Nothing)
-    keyName::Union(ASCIIString, Nothing)
-    groupSet::Union(Vector{GroupItemType}, Nothing)
-    addressingType::Union(ASCIIString, Nothing)
-    instanceType::Union(ASCIIString, Nothing)
-    placement::Union(SpotPlacementRequestType, Nothing)
-    kernelId::Union(ASCIIString, Nothing)
-    ramdiskId::Union(ASCIIString, Nothing)
-    blockDeviceMapping::Union(Vector{BlockDeviceMappingItemType}, Nothing)
-    monitoring::Union(MonitoringInstanceType, Nothing)
-    subnetId::Union(ASCIIString, Nothing)
-    networkInterfaceSet::Union(Vector{InstanceNetworkInterfaceSetItemRequestType}, Nothing)
-    iamInstanceProfile::Union(IamInstanceProfileRequestType, Nothing)
-    ebsOptimized::Union(Bool, Nothing)
-
-    LaunchSpecificationResponseType(; imageId=nothing, keyName=nothing, groupSet=nothing, addressingType=nothing, instanceType=nothing, placement=nothing, kernelId=nothing, ramdiskId=nothing, blockDeviceMapping=nothing, monitoring=nothing, subnetId=nothing, networkInterfaceSet=nothing, iamInstanceProfile=nothing, ebsOptimized=nothing) = 
-         new(imageId, keyName, groupSet, addressingType, instanceType, placement, kernelId, ramdiskId, blockDeviceMapping, monitoring, subnetId, networkInterfaceSet, iamInstanceProfile, ebsOptimized)
-end
-function LaunchSpecificationResponseType(pd::ETree)
-    o = LaunchSpecificationResponseType()
-    o.imageId = find(pd, "imageId#string")
-    o.keyName = find(pd, "keyName#string")
-    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, find(pd, "groupSet/item"))
-    o.addressingType = find(pd, "addressingType#string")
-    o.instanceType = find(pd, "instanceType#string")
-    o.placement = length(pd["placement"]) > 0 ?  SpotPlacementRequestType(find(pd,"placement[1]")) : nothing
-    o.kernelId = find(pd, "kernelId#string")
-    o.ramdiskId = find(pd, "ramdiskId#string")
-    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, find(pd, "blockDeviceMapping/item"))
-    o.monitoring = length(pd["monitoring"]) > 0 ?  MonitoringInstanceType(find(pd,"monitoring[1]")) : nothing
-    o.subnetId = find(pd, "subnetId#string")
-    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.InstanceNetworkInterfaceSetItemRequestType, find(pd, "networkInterfaceSet/item"))
-    o.iamInstanceProfile = length(pd["iamInstanceProfile"]) > 0 ?  IamInstanceProfileRequestType(find(pd,"iamInstanceProfile[1]")) : nothing
-    o.ebsOptimized = AWS.safe_parse_as(Bool, find(pd, "ebsOptimized#string"))
-    o
-end
-
-export LaunchSpecificationResponseType
-
-
-type CreateInternetGatewayResponseType
+type CancelReservedInstancesListingResponseType
     requestId::Union(ASCIIString, Nothing)
-    internetGateway::Union(InternetGatewayType, Nothing)
+    reservedInstancesListingsSet::Union(Vector{DescribeReservedInstancesListingsResponseSetItemType}, Nothing)
 
-    CreateInternetGatewayResponseType(; requestId=nothing, internetGateway=nothing) = 
-         new(requestId, internetGateway)
+    CancelReservedInstancesListingResponseType(; requestId=nothing, reservedInstancesListingsSet=nothing) = 
+         new(requestId, reservedInstancesListingsSet)
 end
-function CreateInternetGatewayResponseType(pd::ETree)
-    o = CreateInternetGatewayResponseType()
+function CancelReservedInstancesListingResponseType(pd::ETree)
+    o = CancelReservedInstancesListingResponseType()
     o.requestId = find(pd, "requestId#string")
-    o.internetGateway = length(pd["internetGateway"]) > 0 ?  InternetGatewayType(find(pd,"internetGateway[1]")) : nothing
+    o.reservedInstancesListingsSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesListingsResponseSetItemType, find(pd, "reservedInstancesListingsSet/item"))
     o
 end
 
-export CreateInternetGatewayResponseType
+export CancelReservedInstancesListingResponseType
 
 
-type DescribeRouteTablesResponseType
+type MonitorInstancesResponseType
     requestId::Union(ASCIIString, Nothing)
-    routeTableSet::Union(Vector{RouteTableType}, Nothing)
+    instancesSet::Union(Vector{MonitorInstancesResponseSetItemType}, Nothing)
 
-    DescribeRouteTablesResponseType(; requestId=nothing, routeTableSet=nothing) = 
-         new(requestId, routeTableSet)
+    MonitorInstancesResponseType(; requestId=nothing, instancesSet=nothing) = 
+         new(requestId, instancesSet)
 end
-function DescribeRouteTablesResponseType(pd::ETree)
-    o = DescribeRouteTablesResponseType()
+function MonitorInstancesResponseType(pd::ETree)
+    o = MonitorInstancesResponseType()
     o.requestId = find(pd, "requestId#string")
-    o.routeTableSet = AWS.@parse_vector(AWS.EC2.RouteTableType, find(pd, "routeTableSet/item"))
+    o.instancesSet = AWS.@parse_vector(AWS.EC2.MonitorInstancesResponseSetItemType, find(pd, "instancesSet/item"))
     o
 end
 
-export DescribeRouteTablesResponseType
+export MonitorInstancesResponseType
 
 
-type LaunchSpecificationRequestType
-    imageId::Union(ASCIIString, Nothing)
-    keyName::Union(ASCIIString, Nothing)
-    groupSet::Union(Vector{GroupItemType}, Nothing)
-    userData::Union(UserDataType, Nothing)
-    addressingType::Union(ASCIIString, Nothing)
-    instanceType::Union(ASCIIString, Nothing)
-    placement::Union(SpotPlacementRequestType, Nothing)
-    kernelId::Union(ASCIIString, Nothing)
-    ramdiskId::Union(ASCIIString, Nothing)
-    blockDeviceMapping::Union(Vector{BlockDeviceMappingItemType}, Nothing)
-    monitoring::Union(MonitoringInstanceType, Nothing)
-    subnetId::Union(ASCIIString, Nothing)
-    networkInterfaceSet::Union(Vector{InstanceNetworkInterfaceSetItemRequestType}, Nothing)
-    iamInstanceProfile::Union(IamInstanceProfileRequestType, Nothing)
-    ebsOptimized::Union(Bool, Nothing)
+type CreateCustomerGatewayResponseType
+    requestId::Union(ASCIIString, Nothing)
+    customerGateway::Union(CustomerGatewayType, Nothing)
 
-    LaunchSpecificationRequestType(; imageId=nothing, keyName=nothing, groupSet=nothing, userData=nothing, addressingType=nothing, instanceType=nothing, placement=nothing, kernelId=nothing, ramdiskId=nothing, blockDeviceMapping=nothing, monitoring=nothing, subnetId=nothing, networkInterfaceSet=nothing, iamInstanceProfile=nothing, ebsOptimized=nothing) = 
-         new(imageId, keyName, groupSet, userData, addressingType, instanceType, placement, kernelId, ramdiskId, blockDeviceMapping, monitoring, subnetId, networkInterfaceSet, iamInstanceProfile, ebsOptimized)
+    CreateCustomerGatewayResponseType(; requestId=nothing, customerGateway=nothing) = 
+         new(requestId, customerGateway)
 end
-function LaunchSpecificationRequestType(pd::ETree)
-    o = LaunchSpecificationRequestType()
-    o.imageId = find(pd, "imageId#string")
-    o.keyName = find(pd, "keyName#string")
-    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, find(pd, "groupSet/item"))
-    o.userData = length(pd["userData"]) > 0 ?  UserDataType(find(pd,"userData[1]")) : nothing
-    o.addressingType = find(pd, "addressingType#string")
-    o.instanceType = find(pd, "instanceType#string")
-    o.placement = length(pd["placement"]) > 0 ?  SpotPlacementRequestType(find(pd,"placement[1]")) : nothing
-    o.kernelId = find(pd, "kernelId#string")
-    o.ramdiskId = find(pd, "ramdiskId#string")
-    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, find(pd, "blockDeviceMapping/item"))
-    o.monitoring = length(pd["monitoring"]) > 0 ?  MonitoringInstanceType(find(pd,"monitoring[1]")) : nothing
-    o.subnetId = find(pd, "subnetId#string")
-    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.InstanceNetworkInterfaceSetItemRequestType, find(pd, "networkInterfaceSet/item"))
-    o.iamInstanceProfile = length(pd["iamInstanceProfile"]) > 0 ?  IamInstanceProfileRequestType(find(pd,"iamInstanceProfile[1]")) : nothing
-    o.ebsOptimized = AWS.safe_parse_as(Bool, find(pd, "ebsOptimized#string"))
+function CreateCustomerGatewayResponseType(pd::ETree)
+    o = CreateCustomerGatewayResponseType()
+    o.requestId = find(pd, "requestId#string")
+    o.customerGateway = length(pd["customerGateway"]) > 0 ?  CustomerGatewayType(find(pd,"customerGateway[1]")) : nothing
     o
 end
 
-export LaunchSpecificationRequestType
+export CreateCustomerGatewayResponseType
+
+
+type DescribeVpnConnectionsResponseType
+    requestId::Union(ASCIIString, Nothing)
+    vpnConnectionSet::Union(Vector{VpnConnectionType}, Nothing)
+
+    DescribeVpnConnectionsResponseType(; requestId=nothing, vpnConnectionSet=nothing) = 
+         new(requestId, vpnConnectionSet)
+end
+function DescribeVpnConnectionsResponseType(pd::ETree)
+    o = DescribeVpnConnectionsResponseType()
+    o.requestId = find(pd, "requestId#string")
+    o.vpnConnectionSet = AWS.@parse_vector(AWS.EC2.VpnConnectionType, find(pd, "vpnConnectionSet/item"))
+    o
+end
+
+export DescribeVpnConnectionsResponseType
 
 
 type RunningInstancesItemType
@@ -8283,103 +8176,38 @@ end
 export RunningInstancesItemType
 
 
-type NetworkAclType
-    networkAclId::Union(ASCIIString, Nothing)
-    vpcId::Union(ASCIIString, Nothing)
-    default::Union(Bool, Nothing)
-    entrySet::Union(Vector{NetworkAclEntryType}, Nothing)
-    associationSet::Union(Vector{NetworkAclAssociationType}, Nothing)
-    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
-
-    NetworkAclType(; networkAclId=nothing, vpcId=nothing, default=nothing, entrySet=nothing, associationSet=nothing, tagSet=nothing) = 
-         new(networkAclId, vpcId, default, entrySet, associationSet, tagSet)
-end
-function NetworkAclType(pd::ETree)
-    o = NetworkAclType()
-    o.networkAclId = find(pd, "networkAclId#string")
-    o.vpcId = find(pd, "vpcId#string")
-    o.default = AWS.safe_parse_as(Bool, find(pd, "default#string"))
-    o.entrySet = AWS.@parse_vector(AWS.EC2.NetworkAclEntryType, find(pd, "entrySet/item"))
-    o.associationSet = AWS.@parse_vector(AWS.EC2.NetworkAclAssociationType, find(pd, "associationSet/item"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
-    o
-end
-
-export NetworkAclType
-
-
-type CreateRouteTableResponseType
+type DescribeSnapshotsResponseType
     requestId::Union(ASCIIString, Nothing)
-    routeTable::Union(RouteTableType, Nothing)
+    snapshotSet::Union(Vector{DescribeSnapshotsSetItemResponseType}, Nothing)
 
-    CreateRouteTableResponseType(; requestId=nothing, routeTable=nothing) = 
-         new(requestId, routeTable)
+    DescribeSnapshotsResponseType(; requestId=nothing, snapshotSet=nothing) = 
+         new(requestId, snapshotSet)
 end
-function CreateRouteTableResponseType(pd::ETree)
-    o = CreateRouteTableResponseType()
+function DescribeSnapshotsResponseType(pd::ETree)
+    o = DescribeSnapshotsResponseType()
     o.requestId = find(pd, "requestId#string")
-    o.routeTable = length(pd["routeTable"]) > 0 ?  RouteTableType(find(pd,"routeTable[1]")) : nothing
+    o.snapshotSet = AWS.@parse_vector(AWS.EC2.DescribeSnapshotsSetItemResponseType, find(pd, "snapshotSet/item"))
     o
 end
 
-export CreateRouteTableResponseType
+export DescribeSnapshotsResponseType
 
 
-type ReservationInfoType
-    reservationId::Union(ASCIIString, Nothing)
-    ownerId::Union(ASCIIString, Nothing)
-    groupSet::Union(Vector{GroupItemType}, Nothing)
-    instancesSet::Union(Vector{RunningInstancesItemType}, Nothing)
-    requesterId::Union(ASCIIString, Nothing)
-
-    ReservationInfoType(; reservationId=nothing, ownerId=nothing, groupSet=nothing, instancesSet=nothing, requesterId=nothing) = 
-         new(reservationId, ownerId, groupSet, instancesSet, requesterId)
-end
-function ReservationInfoType(pd::ETree)
-    o = ReservationInfoType()
-    o.reservationId = find(pd, "reservationId#string")
-    o.ownerId = find(pd, "ownerId#string")
-    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, find(pd, "groupSet/item"))
-    o.instancesSet = AWS.@parse_vector(AWS.EC2.RunningInstancesItemType, find(pd, "instancesSet/item"))
-    o.requesterId = find(pd, "requesterId#string")
-    o
-end
-
-export ReservationInfoType
-
-
-type DescribeSpotDatafeedSubscriptionResponseType
+type CreateVpcResponseType
     requestId::Union(ASCIIString, Nothing)
-    spotDatafeedSubscription::Union(SpotDatafeedSubscriptionType, Nothing)
+    vpc::Union(VpcType, Nothing)
 
-    DescribeSpotDatafeedSubscriptionResponseType(; requestId=nothing, spotDatafeedSubscription=nothing) = 
-         new(requestId, spotDatafeedSubscription)
+    CreateVpcResponseType(; requestId=nothing, vpc=nothing) = 
+         new(requestId, vpc)
 end
-function DescribeSpotDatafeedSubscriptionResponseType(pd::ETree)
-    o = DescribeSpotDatafeedSubscriptionResponseType()
+function CreateVpcResponseType(pd::ETree)
+    o = CreateVpcResponseType()
     o.requestId = find(pd, "requestId#string")
-    o.spotDatafeedSubscription = length(pd["spotDatafeedSubscription"]) > 0 ?  SpotDatafeedSubscriptionType(find(pd,"spotDatafeedSubscription[1]")) : nothing
+    o.vpc = length(pd["vpc"]) > 0 ?  VpcType(find(pd,"vpc[1]")) : nothing
     o
 end
 
-export DescribeSpotDatafeedSubscriptionResponseType
-
-
-type CreateNetworkInterfaceResponseType
-    requestId::Union(ASCIIString, Nothing)
-    networkInterface::Union(NetworkInterfaceType, Nothing)
-
-    CreateNetworkInterfaceResponseType(; requestId=nothing, networkInterface=nothing) = 
-         new(requestId, networkInterface)
-end
-function CreateNetworkInterfaceResponseType(pd::ETree)
-    o = CreateNetworkInterfaceResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.networkInterface = length(pd["networkInterface"]) > 0 ?  NetworkInterfaceType(find(pd,"networkInterface[1]")) : nothing
-    o
-end
-
-export CreateNetworkInterfaceResponseType
+export CreateVpcResponseType
 
 
 type ImportInstanceType
@@ -8405,33 +8233,249 @@ end
 export ImportInstanceType
 
 
-type RequestSpotInstancesType
-    spotPrice::Union(ASCIIString, Nothing)
-    instanceCount::Union(Int64, Nothing)
-    _type::Union(ASCIIString, Nothing)
-    validFrom::Union(CalendarTime, Nothing)
-    validUntil::Union(CalendarTime, Nothing)
-    launchGroup::Union(ASCIIString, Nothing)
-    availabilityZoneGroup::Union(ASCIIString, Nothing)
-    launchSpecification::Union(LaunchSpecificationRequestType, Nothing)
+type BundleInstanceTaskType
+    instanceId::Union(ASCIIString, Nothing)
+    bundleId::Union(ASCIIString, Nothing)
+    state::Union(ASCIIString, Nothing)
+    startTime::Union(CalendarTime, Nothing)
+    updateTime::Union(CalendarTime, Nothing)
+    storage::Union(BundleInstanceTaskStorageType, Nothing)
+    progress::Union(ASCIIString, Nothing)
+    error::Union(BundleInstanceTaskErrorType, Nothing)
 
-    RequestSpotInstancesType(; spotPrice=nothing, instanceCount=nothing, _type=nothing, validFrom=nothing, validUntil=nothing, launchGroup=nothing, availabilityZoneGroup=nothing, launchSpecification=nothing) = 
-         new(spotPrice, instanceCount, _type, validFrom, validUntil, launchGroup, availabilityZoneGroup, launchSpecification)
+    BundleInstanceTaskType(; instanceId=nothing, bundleId=nothing, state=nothing, startTime=nothing, updateTime=nothing, storage=nothing, progress=nothing, error=nothing) = 
+         new(instanceId, bundleId, state, startTime, updateTime, storage, progress, error)
 end
-function RequestSpotInstancesType(pd::ETree)
-    o = RequestSpotInstancesType()
-    o.spotPrice = find(pd, "spotPrice#string")
-    o.instanceCount = AWS.safe_parse_as(Int64, find(pd, "instanceCount#string"))
-    o._type = find(pd, "type#string")
-    o.validFrom = AWS.safe_parse_as(CalendarTime, find(pd, "validFrom#string"))
-    o.validUntil = AWS.safe_parse_as(CalendarTime, find(pd, "validUntil#string"))
-    o.launchGroup = find(pd, "launchGroup#string")
-    o.availabilityZoneGroup = find(pd, "availabilityZoneGroup#string")
-    o.launchSpecification = length(pd["launchSpecification"]) > 0 ?  LaunchSpecificationRequestType(find(pd,"launchSpecification[1]")) : nothing
+function BundleInstanceTaskType(pd::ETree)
+    o = BundleInstanceTaskType()
+    o.instanceId = find(pd, "instanceId#string")
+    o.bundleId = find(pd, "bundleId#string")
+    o.state = find(pd, "state#string")
+    o.startTime = AWS.safe_parse_as(CalendarTime, find(pd, "startTime#string"))
+    o.updateTime = AWS.safe_parse_as(CalendarTime, find(pd, "updateTime#string"))
+    o.storage = length(pd["storage"]) > 0 ?  BundleInstanceTaskStorageType(find(pd,"storage[1]")) : nothing
+    o.progress = find(pd, "progress#string")
+    o.error = length(pd["error"]) > 0 ?  BundleInstanceTaskErrorType(find(pd,"error[1]")) : nothing
     o
 end
 
-export RequestSpotInstancesType
+export BundleInstanceTaskType
+
+
+type CancelBundleTaskResponseType
+    requestId::Union(ASCIIString, Nothing)
+    bundleInstanceTask::Union(BundleInstanceTaskType, Nothing)
+
+    CancelBundleTaskResponseType(; requestId=nothing, bundleInstanceTask=nothing) = 
+         new(requestId, bundleInstanceTask)
+end
+function CancelBundleTaskResponseType(pd::ETree)
+    o = CancelBundleTaskResponseType()
+    o.requestId = find(pd, "requestId#string")
+    o.bundleInstanceTask = length(pd["bundleInstanceTask"]) > 0 ?  BundleInstanceTaskType(find(pd,"bundleInstanceTask[1]")) : nothing
+    o
+end
+
+export CancelBundleTaskResponseType
+
+
+type LaunchSpecificationResponseType
+    imageId::Union(ASCIIString, Nothing)
+    keyName::Union(ASCIIString, Nothing)
+    groupSet::Union(Vector{GroupItemType}, Nothing)
+    addressingType::Union(ASCIIString, Nothing)
+    instanceType::Union(ASCIIString, Nothing)
+    placement::Union(SpotPlacementRequestType, Nothing)
+    kernelId::Union(ASCIIString, Nothing)
+    ramdiskId::Union(ASCIIString, Nothing)
+    blockDeviceMapping::Union(Vector{BlockDeviceMappingItemType}, Nothing)
+    monitoring::Union(MonitoringInstanceType, Nothing)
+    subnetId::Union(ASCIIString, Nothing)
+    networkInterfaceSet::Union(Vector{InstanceNetworkInterfaceSetItemRequestType}, Nothing)
+    iamInstanceProfile::Union(IamInstanceProfileRequestType, Nothing)
+    ebsOptimized::Union(Bool, Nothing)
+
+    LaunchSpecificationResponseType(; imageId=nothing, keyName=nothing, groupSet=nothing, addressingType=nothing, instanceType=nothing, placement=nothing, kernelId=nothing, ramdiskId=nothing, blockDeviceMapping=nothing, monitoring=nothing, subnetId=nothing, networkInterfaceSet=nothing, iamInstanceProfile=nothing, ebsOptimized=nothing) = 
+         new(imageId, keyName, groupSet, addressingType, instanceType, placement, kernelId, ramdiskId, blockDeviceMapping, monitoring, subnetId, networkInterfaceSet, iamInstanceProfile, ebsOptimized)
+end
+function LaunchSpecificationResponseType(pd::ETree)
+    o = LaunchSpecificationResponseType()
+    o.imageId = find(pd, "imageId#string")
+    o.keyName = find(pd, "keyName#string")
+    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, find(pd, "groupSet/item"))
+    o.addressingType = find(pd, "addressingType#string")
+    o.instanceType = find(pd, "instanceType#string")
+    o.placement = length(pd["placement"]) > 0 ?  SpotPlacementRequestType(find(pd,"placement[1]")) : nothing
+    o.kernelId = find(pd, "kernelId#string")
+    o.ramdiskId = find(pd, "ramdiskId#string")
+    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, find(pd, "blockDeviceMapping/item"))
+    o.monitoring = length(pd["monitoring"]) > 0 ?  MonitoringInstanceType(find(pd,"monitoring[1]")) : nothing
+    o.subnetId = find(pd, "subnetId#string")
+    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.InstanceNetworkInterfaceSetItemRequestType, find(pd, "networkInterfaceSet/item"))
+    o.iamInstanceProfile = length(pd["iamInstanceProfile"]) > 0 ?  IamInstanceProfileRequestType(find(pd,"iamInstanceProfile[1]")) : nothing
+    o.ebsOptimized = AWS.safe_parse_as(Bool, find(pd, "ebsOptimized#string"))
+    o
+end
+
+export LaunchSpecificationResponseType
+
+
+type SecurityGroupItemType
+    ownerId::Union(ASCIIString, Nothing)
+    groupId::Union(ASCIIString, Nothing)
+    groupName::Union(ASCIIString, Nothing)
+    groupDescription::Union(ASCIIString, Nothing)
+    vpcId::Union(ASCIIString, Nothing)
+    ipPermissions::Union(Vector{IpPermissionType}, Nothing)
+    ipPermissionsEgress::Union(Vector{IpPermissionType}, Nothing)
+    tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
+
+    SecurityGroupItemType(; ownerId=nothing, groupId=nothing, groupName=nothing, groupDescription=nothing, vpcId=nothing, ipPermissions=nothing, ipPermissionsEgress=nothing, tagSet=nothing) = 
+         new(ownerId, groupId, groupName, groupDescription, vpcId, ipPermissions, ipPermissionsEgress, tagSet)
+end
+function SecurityGroupItemType(pd::ETree)
+    o = SecurityGroupItemType()
+    o.ownerId = find(pd, "ownerId#string")
+    o.groupId = find(pd, "groupId#string")
+    o.groupName = find(pd, "groupName#string")
+    o.groupDescription = find(pd, "groupDescription#string")
+    o.vpcId = find(pd, "vpcId#string")
+    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, find(pd, "ipPermissions/item"))
+    o.ipPermissionsEgress = AWS.@parse_vector(AWS.EC2.IpPermissionType, find(pd, "ipPermissionsEgress/item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o
+end
+
+export SecurityGroupItemType
+
+
+type CreateNetworkAclResponseType
+    requestId::Union(ASCIIString, Nothing)
+    networkAcl::Union(NetworkAclType, Nothing)
+
+    CreateNetworkAclResponseType(; requestId=nothing, networkAcl=nothing) = 
+         new(requestId, networkAcl)
+end
+function CreateNetworkAclResponseType(pd::ETree)
+    o = CreateNetworkAclResponseType()
+    o.requestId = find(pd, "requestId#string")
+    o.networkAcl = length(pd["networkAcl"]) > 0 ?  NetworkAclType(find(pd,"networkAcl[1]")) : nothing
+    o
+end
+
+export CreateNetworkAclResponseType
+
+
+type CreateVpnGatewayResponseType
+    requestId::Union(ASCIIString, Nothing)
+    vpnGateway::Union(VpnGatewayType, Nothing)
+
+    CreateVpnGatewayResponseType(; requestId=nothing, vpnGateway=nothing) = 
+         new(requestId, vpnGateway)
+end
+function CreateVpnGatewayResponseType(pd::ETree)
+    o = CreateVpnGatewayResponseType()
+    o.requestId = find(pd, "requestId#string")
+    o.vpnGateway = length(pd["vpnGateway"]) > 0 ?  VpnGatewayType(find(pd,"vpnGateway[1]")) : nothing
+    o
+end
+
+export CreateVpnGatewayResponseType
+
+
+type RunInstancesResponseType
+    requestId::Union(ASCIIString, Nothing)
+    reservationId::Union(ASCIIString, Nothing)
+    ownerId::Union(ASCIIString, Nothing)
+    groupSet::Union(Vector{GroupItemType}, Nothing)
+    instancesSet::Union(Vector{RunningInstancesItemType}, Nothing)
+    requesterId::Union(ASCIIString, Nothing)
+
+    RunInstancesResponseType(; requestId=nothing, reservationId=nothing, ownerId=nothing, groupSet=nothing, instancesSet=nothing, requesterId=nothing) = 
+         new(requestId, reservationId, ownerId, groupSet, instancesSet, requesterId)
+end
+function RunInstancesResponseType(pd::ETree)
+    o = RunInstancesResponseType()
+    o.requestId = find(pd, "requestId#string")
+    o.reservationId = find(pd, "reservationId#string")
+    o.ownerId = find(pd, "ownerId#string")
+    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, find(pd, "groupSet/item"))
+    o.instancesSet = AWS.@parse_vector(AWS.EC2.RunningInstancesItemType, find(pd, "instancesSet/item"))
+    o.requesterId = find(pd, "requesterId#string")
+    o
+end
+
+export RunInstancesResponseType
+
+
+type RevokeSecurityGroupEgressType
+    groupId::Union(ASCIIString, Nothing)
+    ipPermissions::Union(Vector{IpPermissionType}, Nothing)
+
+    RevokeSecurityGroupEgressType(; groupId=nothing, ipPermissions=nothing) = 
+         new(groupId, ipPermissions)
+end
+function RevokeSecurityGroupEgressType(pd::ETree)
+    o = RevokeSecurityGroupEgressType()
+    o.groupId = find(pd, "groupId#string")
+    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, find(pd, "ipPermissions/item"))
+    o
+end
+
+export RevokeSecurityGroupEgressType
+
+
+type DescribeNetworkAclsResponseType
+    requestId::Union(ASCIIString, Nothing)
+    networkAclSet::Union(Vector{NetworkAclType}, Nothing)
+
+    DescribeNetworkAclsResponseType(; requestId=nothing, networkAclSet=nothing) = 
+         new(requestId, networkAclSet)
+end
+function DescribeNetworkAclsResponseType(pd::ETree)
+    o = DescribeNetworkAclsResponseType()
+    o.requestId = find(pd, "requestId#string")
+    o.networkAclSet = AWS.@parse_vector(AWS.EC2.NetworkAclType, find(pd, "networkAclSet/item"))
+    o
+end
+
+export DescribeNetworkAclsResponseType
+
+
+type DescribeNetworkInterfacesResponseType
+    requestId::Union(ASCIIString, Nothing)
+    networkInterfaceSet::Union(Vector{NetworkInterfaceType}, Nothing)
+
+    DescribeNetworkInterfacesResponseType(; requestId=nothing, networkInterfaceSet=nothing) = 
+         new(requestId, networkInterfaceSet)
+end
+function DescribeNetworkInterfacesResponseType(pd::ETree)
+    o = DescribeNetworkInterfacesResponseType()
+    o.requestId = find(pd, "requestId#string")
+    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.NetworkInterfaceType, find(pd, "networkInterfaceSet/item"))
+    o
+end
+
+export DescribeNetworkInterfacesResponseType
+
+
+type DescribeReservedInstancesOfferingsResponseType
+    requestId::Union(ASCIIString, Nothing)
+    reservedInstancesOfferingsSet::Union(Vector{DescribeReservedInstancesOfferingsResponseSetItemType}, Nothing)
+    nextToken::Union(ASCIIString, Nothing)
+
+    DescribeReservedInstancesOfferingsResponseType(; requestId=nothing, reservedInstancesOfferingsSet=nothing, nextToken=nothing) = 
+         new(requestId, reservedInstancesOfferingsSet, nextToken)
+end
+function DescribeReservedInstancesOfferingsResponseType(pd::ETree)
+    o = DescribeReservedInstancesOfferingsResponseType()
+    o.requestId = find(pd, "requestId#string")
+    o.reservedInstancesOfferingsSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesOfferingsResponseSetItemType, find(pd, "reservedInstancesOfferingsSet/item"))
+    o.nextToken = find(pd, "nextToken#string")
+    o
+end
+
+export DescribeReservedInstancesOfferingsResponseType
 
 
 type SpotInstanceRequestSetItemType
@@ -8479,21 +8523,21 @@ end
 export SpotInstanceRequestSetItemType
 
 
-type BundleInstanceType
-    instanceId::Union(ASCIIString, Nothing)
-    storage::Union(BundleInstanceTaskStorageType, Nothing)
+type ImportInstanceResponseType
+    requestId::Union(ASCIIString, Nothing)
+    conversionTask::Union(ConversionTaskType, Nothing)
 
-    BundleInstanceType(; instanceId=nothing, storage=nothing) = 
-         new(instanceId, storage)
+    ImportInstanceResponseType(; requestId=nothing, conversionTask=nothing) = 
+         new(requestId, conversionTask)
 end
-function BundleInstanceType(pd::ETree)
-    o = BundleInstanceType()
-    o.instanceId = find(pd, "instanceId#string")
-    o.storage = length(pd["storage"]) > 0 ?  BundleInstanceTaskStorageType(find(pd,"storage[1]")) : nothing
+function ImportInstanceResponseType(pd::ETree)
+    o = ImportInstanceResponseType()
+    o.requestId = find(pd, "requestId#string")
+    o.conversionTask = length(pd["conversionTask"]) > 0 ?  ConversionTaskType(find(pd,"conversionTask[1]")) : nothing
     o
 end
 
-export BundleInstanceType
+export ImportInstanceResponseType
 
 
 type VolumeStatusItemType
@@ -8519,154 +8563,6 @@ end
 export VolumeStatusItemType
 
 
-type CreateNetworkAclResponseType
-    requestId::Union(ASCIIString, Nothing)
-    networkAcl::Union(NetworkAclType, Nothing)
-
-    CreateNetworkAclResponseType(; requestId=nothing, networkAcl=nothing) = 
-         new(requestId, networkAcl)
-end
-function CreateNetworkAclResponseType(pd::ETree)
-    o = CreateNetworkAclResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.networkAcl = length(pd["networkAcl"]) > 0 ?  NetworkAclType(find(pd,"networkAcl[1]")) : nothing
-    o
-end
-
-export CreateNetworkAclResponseType
-
-
-type DescribeNetworkInterfacesResponseType
-    requestId::Union(ASCIIString, Nothing)
-    networkInterfaceSet::Union(Vector{NetworkInterfaceType}, Nothing)
-
-    DescribeNetworkInterfacesResponseType(; requestId=nothing, networkInterfaceSet=nothing) = 
-         new(requestId, networkInterfaceSet)
-end
-function DescribeNetworkInterfacesResponseType(pd::ETree)
-    o = DescribeNetworkInterfacesResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.NetworkInterfaceType, find(pd, "networkInterfaceSet/item"))
-    o
-end
-
-export DescribeNetworkInterfacesResponseType
-
-
-type RequestSpotInstancesResponseType
-    requestId::Union(ASCIIString, Nothing)
-    spotInstanceRequestSet::Union(Vector{SpotInstanceRequestSetItemType}, Nothing)
-
-    RequestSpotInstancesResponseType(; requestId=nothing, spotInstanceRequestSet=nothing) = 
-         new(requestId, spotInstanceRequestSet)
-end
-function RequestSpotInstancesResponseType(pd::ETree)
-    o = RequestSpotInstancesResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.spotInstanceRequestSet = AWS.@parse_vector(AWS.EC2.SpotInstanceRequestSetItemType, find(pd, "spotInstanceRequestSet/item"))
-    o
-end
-
-export RequestSpotInstancesResponseType
-
-
-type DescribeSecurityGroupsResponseType
-    requestId::Union(ASCIIString, Nothing)
-    securityGroupInfo::Union(Vector{SecurityGroupItemType}, Nothing)
-
-    DescribeSecurityGroupsResponseType(; requestId=nothing, securityGroupInfo=nothing) = 
-         new(requestId, securityGroupInfo)
-end
-function DescribeSecurityGroupsResponseType(pd::ETree)
-    o = DescribeSecurityGroupsResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.securityGroupInfo = AWS.@parse_vector(AWS.EC2.SecurityGroupItemType, find(pd, "securityGroupInfo/item"))
-    o
-end
-
-export DescribeSecurityGroupsResponseType
-
-
-type DescribeVpnGatewaysResponseType
-    requestId::Union(ASCIIString, Nothing)
-    vpnGatewaySet::Union(Vector{VpnGatewayType}, Nothing)
-
-    DescribeVpnGatewaysResponseType(; requestId=nothing, vpnGatewaySet=nothing) = 
-         new(requestId, vpnGatewaySet)
-end
-function DescribeVpnGatewaysResponseType(pd::ETree)
-    o = DescribeVpnGatewaysResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.vpnGatewaySet = AWS.@parse_vector(AWS.EC2.VpnGatewayType, find(pd, "vpnGatewaySet/item"))
-    o
-end
-
-export DescribeVpnGatewaysResponseType
-
-
-type ImportInstanceResponseType
-    requestId::Union(ASCIIString, Nothing)
-    conversionTask::Union(ConversionTaskType, Nothing)
-
-    ImportInstanceResponseType(; requestId=nothing, conversionTask=nothing) = 
-         new(requestId, conversionTask)
-end
-function ImportInstanceResponseType(pd::ETree)
-    o = ImportInstanceResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.conversionTask = length(pd["conversionTask"]) > 0 ?  ConversionTaskType(find(pd,"conversionTask[1]")) : nothing
-    o
-end
-
-export ImportInstanceResponseType
-
-
-type BundleInstanceTaskType
-    instanceId::Union(ASCIIString, Nothing)
-    bundleId::Union(ASCIIString, Nothing)
-    state::Union(ASCIIString, Nothing)
-    startTime::Union(CalendarTime, Nothing)
-    updateTime::Union(CalendarTime, Nothing)
-    storage::Union(BundleInstanceTaskStorageType, Nothing)
-    progress::Union(ASCIIString, Nothing)
-    error::Union(BundleInstanceTaskErrorType, Nothing)
-
-    BundleInstanceTaskType(; instanceId=nothing, bundleId=nothing, state=nothing, startTime=nothing, updateTime=nothing, storage=nothing, progress=nothing, error=nothing) = 
-         new(instanceId, bundleId, state, startTime, updateTime, storage, progress, error)
-end
-function BundleInstanceTaskType(pd::ETree)
-    o = BundleInstanceTaskType()
-    o.instanceId = find(pd, "instanceId#string")
-    o.bundleId = find(pd, "bundleId#string")
-    o.state = find(pd, "state#string")
-    o.startTime = AWS.safe_parse_as(CalendarTime, find(pd, "startTime#string"))
-    o.updateTime = AWS.safe_parse_as(CalendarTime, find(pd, "updateTime#string"))
-    o.storage = length(pd["storage"]) > 0 ?  BundleInstanceTaskStorageType(find(pd,"storage[1]")) : nothing
-    o.progress = find(pd, "progress#string")
-    o.error = length(pd["error"]) > 0 ?  BundleInstanceTaskErrorType(find(pd,"error[1]")) : nothing
-    o
-end
-
-export BundleInstanceTaskType
-
-
-type DescribeCustomerGatewaysResponseType
-    requestId::Union(ASCIIString, Nothing)
-    customerGatewaySet::Union(Vector{CustomerGatewayType}, Nothing)
-
-    DescribeCustomerGatewaysResponseType(; requestId=nothing, customerGatewaySet=nothing) = 
-         new(requestId, customerGatewaySet)
-end
-function DescribeCustomerGatewaysResponseType(pd::ETree)
-    o = DescribeCustomerGatewaysResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.customerGatewaySet = AWS.@parse_vector(AWS.EC2.CustomerGatewayType, find(pd, "customerGatewaySet/item"))
-    o
-end
-
-export DescribeCustomerGatewaysResponseType
-
-
 type DescribeSpotInstanceRequestsResponseType
     requestId::Union(ASCIIString, Nothing)
     spotInstanceRequestSet::Union(Vector{SpotInstanceRequestSetItemType}, Nothing)
@@ -8684,131 +8580,21 @@ end
 export DescribeSpotInstanceRequestsResponseType
 
 
-type RunInstancesResponseType
+type DescribeCustomerGatewaysResponseType
     requestId::Union(ASCIIString, Nothing)
-    reservationId::Union(ASCIIString, Nothing)
-    ownerId::Union(ASCIIString, Nothing)
-    groupSet::Union(Vector{GroupItemType}, Nothing)
-    instancesSet::Union(Vector{RunningInstancesItemType}, Nothing)
-    requesterId::Union(ASCIIString, Nothing)
+    customerGatewaySet::Union(Vector{CustomerGatewayType}, Nothing)
 
-    RunInstancesResponseType(; requestId=nothing, reservationId=nothing, ownerId=nothing, groupSet=nothing, instancesSet=nothing, requesterId=nothing) = 
-         new(requestId, reservationId, ownerId, groupSet, instancesSet, requesterId)
+    DescribeCustomerGatewaysResponseType(; requestId=nothing, customerGatewaySet=nothing) = 
+         new(requestId, customerGatewaySet)
 end
-function RunInstancesResponseType(pd::ETree)
-    o = RunInstancesResponseType()
+function DescribeCustomerGatewaysResponseType(pd::ETree)
+    o = DescribeCustomerGatewaysResponseType()
     o.requestId = find(pd, "requestId#string")
-    o.reservationId = find(pd, "reservationId#string")
-    o.ownerId = find(pd, "ownerId#string")
-    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, find(pd, "groupSet/item"))
-    o.instancesSet = AWS.@parse_vector(AWS.EC2.RunningInstancesItemType, find(pd, "instancesSet/item"))
-    o.requesterId = find(pd, "requesterId#string")
+    o.customerGatewaySet = AWS.@parse_vector(AWS.EC2.CustomerGatewayType, find(pd, "customerGatewaySet/item"))
     o
 end
 
-export RunInstancesResponseType
-
-
-type DescribeLicensesResponseType
-    requestId::Union(ASCIIString, Nothing)
-    licenseSet::Union(Vector{LicenseSetItemType}, Nothing)
-
-    DescribeLicensesResponseType(; requestId=nothing, licenseSet=nothing) = 
-         new(requestId, licenseSet)
-end
-function DescribeLicensesResponseType(pd::ETree)
-    o = DescribeLicensesResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.licenseSet = AWS.@parse_vector(AWS.EC2.LicenseSetItemType, find(pd, "licenseSet/item"))
-    o
-end
-
-export DescribeLicensesResponseType
-
-
-type DescribeBundleTasksResponseType
-    requestId::Union(ASCIIString, Nothing)
-    bundleInstanceTasksSet::Union(Vector{BundleInstanceTaskType}, Nothing)
-
-    DescribeBundleTasksResponseType(; requestId=nothing, bundleInstanceTasksSet=nothing) = 
-         new(requestId, bundleInstanceTasksSet)
-end
-function DescribeBundleTasksResponseType(pd::ETree)
-    o = DescribeBundleTasksResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.bundleInstanceTasksSet = AWS.@parse_vector(AWS.EC2.BundleInstanceTaskType, find(pd, "bundleInstanceTasksSet/item"))
-    o
-end
-
-export DescribeBundleTasksResponseType
-
-
-type DescribeNetworkAclsResponseType
-    requestId::Union(ASCIIString, Nothing)
-    networkAclSet::Union(Vector{NetworkAclType}, Nothing)
-
-    DescribeNetworkAclsResponseType(; requestId=nothing, networkAclSet=nothing) = 
-         new(requestId, networkAclSet)
-end
-function DescribeNetworkAclsResponseType(pd::ETree)
-    o = DescribeNetworkAclsResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.networkAclSet = AWS.@parse_vector(AWS.EC2.NetworkAclType, find(pd, "networkAclSet/item"))
-    o
-end
-
-export DescribeNetworkAclsResponseType
-
-
-type DescribeInternetGatewaysResponseType
-    requestId::Union(ASCIIString, Nothing)
-    internetGatewaySet::Union(Vector{InternetGatewayType}, Nothing)
-
-    DescribeInternetGatewaysResponseType(; requestId=nothing, internetGatewaySet=nothing) = 
-         new(requestId, internetGatewaySet)
-end
-function DescribeInternetGatewaysResponseType(pd::ETree)
-    o = DescribeInternetGatewaysResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.internetGatewaySet = AWS.@parse_vector(AWS.EC2.InternetGatewayType, find(pd, "internetGatewaySet/item"))
-    o
-end
-
-export DescribeInternetGatewaysResponseType
-
-
-type DescribeInstancesResponseType
-    requestId::Union(ASCIIString, Nothing)
-    reservationSet::Union(Vector{ReservationInfoType}, Nothing)
-
-    DescribeInstancesResponseType(; requestId=nothing, reservationSet=nothing) = 
-         new(requestId, reservationSet)
-end
-function DescribeInstancesResponseType(pd::ETree)
-    o = DescribeInstancesResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.reservationSet = AWS.@parse_vector(AWS.EC2.ReservationInfoType, find(pd, "reservationSet/item"))
-    o
-end
-
-export DescribeInstancesResponseType
-
-
-type CancelBundleTaskResponseType
-    requestId::Union(ASCIIString, Nothing)
-    bundleInstanceTask::Union(BundleInstanceTaskType, Nothing)
-
-    CancelBundleTaskResponseType(; requestId=nothing, bundleInstanceTask=nothing) = 
-         new(requestId, bundleInstanceTask)
-end
-function CancelBundleTaskResponseType(pd::ETree)
-    o = CancelBundleTaskResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.bundleInstanceTask = length(pd["bundleInstanceTask"]) > 0 ?  BundleInstanceTaskType(find(pd,"bundleInstanceTask[1]")) : nothing
-    o
-end
-
-export CancelBundleTaskResponseType
+export DescribeCustomerGatewaysResponseType
 
 
 type DescribeVolumeStatusResponseType
@@ -8830,6 +8616,186 @@ end
 export DescribeVolumeStatusResponseType
 
 
+type DescribeVpnGatewaysResponseType
+    requestId::Union(ASCIIString, Nothing)
+    vpnGatewaySet::Union(Vector{VpnGatewayType}, Nothing)
+
+    DescribeVpnGatewaysResponseType(; requestId=nothing, vpnGatewaySet=nothing) = 
+         new(requestId, vpnGatewaySet)
+end
+function DescribeVpnGatewaysResponseType(pd::ETree)
+    o = DescribeVpnGatewaysResponseType()
+    o.requestId = find(pd, "requestId#string")
+    o.vpnGatewaySet = AWS.@parse_vector(AWS.EC2.VpnGatewayType, find(pd, "vpnGatewaySet/item"))
+    o
+end
+
+export DescribeVpnGatewaysResponseType
+
+
+type LaunchSpecificationRequestType
+    imageId::Union(ASCIIString, Nothing)
+    keyName::Union(ASCIIString, Nothing)
+    groupSet::Union(Vector{GroupItemType}, Nothing)
+    userData::Union(UserDataType, Nothing)
+    addressingType::Union(ASCIIString, Nothing)
+    instanceType::Union(ASCIIString, Nothing)
+    placement::Union(SpotPlacementRequestType, Nothing)
+    kernelId::Union(ASCIIString, Nothing)
+    ramdiskId::Union(ASCIIString, Nothing)
+    blockDeviceMapping::Union(Vector{BlockDeviceMappingItemType}, Nothing)
+    monitoring::Union(MonitoringInstanceType, Nothing)
+    subnetId::Union(ASCIIString, Nothing)
+    networkInterfaceSet::Union(Vector{InstanceNetworkInterfaceSetItemRequestType}, Nothing)
+    iamInstanceProfile::Union(IamInstanceProfileRequestType, Nothing)
+    ebsOptimized::Union(Bool, Nothing)
+
+    LaunchSpecificationRequestType(; imageId=nothing, keyName=nothing, groupSet=nothing, userData=nothing, addressingType=nothing, instanceType=nothing, placement=nothing, kernelId=nothing, ramdiskId=nothing, blockDeviceMapping=nothing, monitoring=nothing, subnetId=nothing, networkInterfaceSet=nothing, iamInstanceProfile=nothing, ebsOptimized=nothing) = 
+         new(imageId, keyName, groupSet, userData, addressingType, instanceType, placement, kernelId, ramdiskId, blockDeviceMapping, monitoring, subnetId, networkInterfaceSet, iamInstanceProfile, ebsOptimized)
+end
+function LaunchSpecificationRequestType(pd::ETree)
+    o = LaunchSpecificationRequestType()
+    o.imageId = find(pd, "imageId#string")
+    o.keyName = find(pd, "keyName#string")
+    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, find(pd, "groupSet/item"))
+    o.userData = length(pd["userData"]) > 0 ?  UserDataType(find(pd,"userData[1]")) : nothing
+    o.addressingType = find(pd, "addressingType#string")
+    o.instanceType = find(pd, "instanceType#string")
+    o.placement = length(pd["placement"]) > 0 ?  SpotPlacementRequestType(find(pd,"placement[1]")) : nothing
+    o.kernelId = find(pd, "kernelId#string")
+    o.ramdiskId = find(pd, "ramdiskId#string")
+    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, find(pd, "blockDeviceMapping/item"))
+    o.monitoring = length(pd["monitoring"]) > 0 ?  MonitoringInstanceType(find(pd,"monitoring[1]")) : nothing
+    o.subnetId = find(pd, "subnetId#string")
+    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.InstanceNetworkInterfaceSetItemRequestType, find(pd, "networkInterfaceSet/item"))
+    o.iamInstanceProfile = length(pd["iamInstanceProfile"]) > 0 ?  IamInstanceProfileRequestType(find(pd,"iamInstanceProfile[1]")) : nothing
+    o.ebsOptimized = AWS.safe_parse_as(Bool, find(pd, "ebsOptimized#string"))
+    o
+end
+
+export LaunchSpecificationRequestType
+
+
+type ReservationInfoType
+    reservationId::Union(ASCIIString, Nothing)
+    ownerId::Union(ASCIIString, Nothing)
+    groupSet::Union(Vector{GroupItemType}, Nothing)
+    instancesSet::Union(Vector{RunningInstancesItemType}, Nothing)
+    requesterId::Union(ASCIIString, Nothing)
+
+    ReservationInfoType(; reservationId=nothing, ownerId=nothing, groupSet=nothing, instancesSet=nothing, requesterId=nothing) = 
+         new(reservationId, ownerId, groupSet, instancesSet, requesterId)
+end
+function ReservationInfoType(pd::ETree)
+    o = ReservationInfoType()
+    o.reservationId = find(pd, "reservationId#string")
+    o.ownerId = find(pd, "ownerId#string")
+    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, find(pd, "groupSet/item"))
+    o.instancesSet = AWS.@parse_vector(AWS.EC2.RunningInstancesItemType, find(pd, "instancesSet/item"))
+    o.requesterId = find(pd, "requesterId#string")
+    o
+end
+
+export ReservationInfoType
+
+
+type DescribeBundleTasksResponseType
+    requestId::Union(ASCIIString, Nothing)
+    bundleInstanceTasksSet::Union(Vector{BundleInstanceTaskType}, Nothing)
+
+    DescribeBundleTasksResponseType(; requestId=nothing, bundleInstanceTasksSet=nothing) = 
+         new(requestId, bundleInstanceTasksSet)
+end
+function DescribeBundleTasksResponseType(pd::ETree)
+    o = DescribeBundleTasksResponseType()
+    o.requestId = find(pd, "requestId#string")
+    o.bundleInstanceTasksSet = AWS.@parse_vector(AWS.EC2.BundleInstanceTaskType, find(pd, "bundleInstanceTasksSet/item"))
+    o
+end
+
+export DescribeBundleTasksResponseType
+
+
+type CreateRouteTableResponseType
+    requestId::Union(ASCIIString, Nothing)
+    routeTable::Union(RouteTableType, Nothing)
+
+    CreateRouteTableResponseType(; requestId=nothing, routeTable=nothing) = 
+         new(requestId, routeTable)
+end
+function CreateRouteTableResponseType(pd::ETree)
+    o = CreateRouteTableResponseType()
+    o.requestId = find(pd, "requestId#string")
+    o.routeTable = length(pd["routeTable"]) > 0 ?  RouteTableType(find(pd,"routeTable[1]")) : nothing
+    o
+end
+
+export CreateRouteTableResponseType
+
+
+type RequestSpotInstancesResponseType
+    requestId::Union(ASCIIString, Nothing)
+    spotInstanceRequestSet::Union(Vector{SpotInstanceRequestSetItemType}, Nothing)
+
+    RequestSpotInstancesResponseType(; requestId=nothing, spotInstanceRequestSet=nothing) = 
+         new(requestId, spotInstanceRequestSet)
+end
+function RequestSpotInstancesResponseType(pd::ETree)
+    o = RequestSpotInstancesResponseType()
+    o.requestId = find(pd, "requestId#string")
+    o.spotInstanceRequestSet = AWS.@parse_vector(AWS.EC2.SpotInstanceRequestSetItemType, find(pd, "spotInstanceRequestSet/item"))
+    o
+end
+
+export RequestSpotInstancesResponseType
+
+
+type DescribeSubnetsResponseType
+    requestId::Union(ASCIIString, Nothing)
+    subnetSet::Union(Vector{SubnetType}, Nothing)
+
+    DescribeSubnetsResponseType(; requestId=nothing, subnetSet=nothing) = 
+         new(requestId, subnetSet)
+end
+function DescribeSubnetsResponseType(pd::ETree)
+    o = DescribeSubnetsResponseType()
+    o.requestId = find(pd, "requestId#string")
+    o.subnetSet = AWS.@parse_vector(AWS.EC2.SubnetType, find(pd, "subnetSet/item"))
+    o
+end
+
+export DescribeSubnetsResponseType
+
+
+type RequestSpotInstancesType
+    spotPrice::Union(ASCIIString, Nothing)
+    instanceCount::Union(Int64, Nothing)
+    _type::Union(ASCIIString, Nothing)
+    validFrom::Union(CalendarTime, Nothing)
+    validUntil::Union(CalendarTime, Nothing)
+    launchGroup::Union(ASCIIString, Nothing)
+    availabilityZoneGroup::Union(ASCIIString, Nothing)
+    launchSpecification::Union(LaunchSpecificationRequestType, Nothing)
+
+    RequestSpotInstancesType(; spotPrice=nothing, instanceCount=nothing, _type=nothing, validFrom=nothing, validUntil=nothing, launchGroup=nothing, availabilityZoneGroup=nothing, launchSpecification=nothing) = 
+         new(spotPrice, instanceCount, _type, validFrom, validUntil, launchGroup, availabilityZoneGroup, launchSpecification)
+end
+function RequestSpotInstancesType(pd::ETree)
+    o = RequestSpotInstancesType()
+    o.spotPrice = find(pd, "spotPrice#string")
+    o.instanceCount = AWS.safe_parse_as(Int64, find(pd, "instanceCount#string"))
+    o._type = find(pd, "type#string")
+    o.validFrom = AWS.safe_parse_as(CalendarTime, find(pd, "validFrom#string"))
+    o.validUntil = AWS.safe_parse_as(CalendarTime, find(pd, "validUntil#string"))
+    o.launchGroup = find(pd, "launchGroup#string")
+    o.availabilityZoneGroup = find(pd, "availabilityZoneGroup#string")
+    o.launchSpecification = length(pd["launchSpecification"]) > 0 ?  LaunchSpecificationRequestType(find(pd,"launchSpecification[1]")) : nothing
+    o
+end
+
+export RequestSpotInstancesType
+
+
 type BundleInstanceResponseType
     requestId::Union(ASCIIString, Nothing)
     bundleInstanceTask::Union(BundleInstanceTaskType, Nothing)
@@ -8845,5 +8811,39 @@ function BundleInstanceResponseType(pd::ETree)
 end
 
 export BundleInstanceResponseType
+
+
+type DescribeInstancesResponseType
+    requestId::Union(ASCIIString, Nothing)
+    reservationSet::Union(Vector{ReservationInfoType}, Nothing)
+
+    DescribeInstancesResponseType(; requestId=nothing, reservationSet=nothing) = 
+         new(requestId, reservationSet)
+end
+function DescribeInstancesResponseType(pd::ETree)
+    o = DescribeInstancesResponseType()
+    o.requestId = find(pd, "requestId#string")
+    o.reservationSet = AWS.@parse_vector(AWS.EC2.ReservationInfoType, find(pd, "reservationSet/item"))
+    o
+end
+
+export DescribeInstancesResponseType
+
+
+type DescribeSecurityGroupsResponseType
+    requestId::Union(ASCIIString, Nothing)
+    securityGroupInfo::Union(Vector{SecurityGroupItemType}, Nothing)
+
+    DescribeSecurityGroupsResponseType(; requestId=nothing, securityGroupInfo=nothing) = 
+         new(requestId, securityGroupInfo)
+end
+function DescribeSecurityGroupsResponseType(pd::ETree)
+    o = DescribeSecurityGroupsResponseType()
+    o.requestId = find(pd, "requestId#string")
+    o.securityGroupInfo = AWS.@parse_vector(AWS.EC2.SecurityGroupItemType, find(pd, "securityGroupInfo/item"))
+    o
+end
+
+export DescribeSecurityGroupsResponseType
 
 
