@@ -120,7 +120,7 @@ function detect_num_cores(hostnames, hidx, sshflags, hostuser)
     for host in hostnames
         hostname = host[hidx]
         cmd = `ssh $sshflags $(hostuser)@$(hostname) nproc`
-        io, pobj = readsfrom(detach(cmd))
+        io, pobj = open(detach(cmd))
         push!(cmdmap, (host, io))
     end
     ncmap = Array(Tuple, 0)
