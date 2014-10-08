@@ -2513,7 +2513,7 @@ end
 export UnmonitorInstances
 
 
-ValidRqstMsgs = [
+ValidRqstMsgs = Dict(
     "ActivateLicenseType"=>true,
     "AllocateAddressType"=>true,
     "AssignPrivateIpAddressesType"=>true,
@@ -2663,5 +2663,5 @@ ValidRqstMsgs = [
     "TerminateInstancesType"=>true,
     "UnassignPrivateIpAddressesType"=>true,
     "MonitorInstancesType"=>true
-]
+)
 

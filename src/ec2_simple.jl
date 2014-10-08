@@ -2,13 +2,13 @@ export ec2_terminate, ec2_addprocs, ec2_launch, ec2_start, ec2_stop, ec2_show_st
 export ec2_mount_snapshot
 
 
-ec2_basic(env::AWSEnv, action::String, params_in::Dict{Any, Any}) = ec2_execute(env, action, flatten_params(params_in))
+ec2_basic(env::AWSEnv, action::String, params_in::Dict) = ec2_execute(env, action, flatten_params(params_in))
 export ec2_basic
 
 
 
-flatten_params(d::Dict{Any, Any}) = flatten_params(Array(Tuple, 0), "", d)
-function flatten_params(ft::Array, pfx::String, d::Dict{Any, Any})
+flatten_params(d::Dict) = flatten_params(Array(Tuple, 0), "", d)
+function flatten_params(ft::Array, pfx::String, d::Dict)
     for (k, v) in collect(d)
         if isa(v, Array)
             for (i, x) in enumerate(v)
@@ -90,13 +90,13 @@ function ec2_launch(ami::String, seckey::String; env=AWSEnv(), insttype::String=
     end
     
     # Tag the instances..also tests ec2_basic API..
-    resp = ec2_basic(env, "CreateTags", {
+    resp = ec2_basic(env, "CreateTags", Dict(
         "ResourceId"=>instances, 
         "Tag"=>[
-            {"Key"=>"LaunchSet","Value"=>launchset}, 
-            {"Key"=>"ClusterName","Value"=>clustername}, 
-            {"Key"=>"Name","Value"=>clustername}, # Just so that it is visible on the AWS Web console
-            {"Key"=>"Owner","Value"=>owner}]})
+            Dict("Key"=>"LaunchSet","Value"=>launchset), 
+            Dict("Key"=>"ClusterName","Value"=>clustername), 
+            Dict("Key"=>"Name","Value"=>clustername), # Just so that it is visible on the AWS Web console
+            Dict("Key"=>"Owner","Value"=>owner)]))
     if (typeof(resp.obj) == EC2Error) 
         error(ec2_error_str(resp.obj))
     else
@@ -275,7 +275,7 @@ end
 function ec2_start(instances; env=AWSEnv())
     # Tag the instances..also tests ec2_basic API..
     if length(instances) > 0
-        resp = ec2_basic(env, "StartInstances", {"InstanceId"=>instances})
+        resp = ec2_basic(env, "StartInstances", Dict("InstanceId"=>instances))
         if (typeof(resp.obj) == EC2Error) 
             error(ec2_error_str(resp.obj))
         end
@@ -290,7 +290,7 @@ end
 function ec2_stop(instances; env=AWSEnv())
     # Tag the instances..also tests ec2_basic API..
     if length(instances) > 0
-        resp = ec2_basic(env, "StopInstances", {"InstanceId"=>instances})
+        resp = ec2_basic(env, "StopInstances", Dict("InstanceId"=>instances))
         if (typeof(resp.obj) == EC2Error) 
             error(ec2_error_str(resp.obj))
         end
@@ -300,7 +300,7 @@ end
 
 function ec2_show_status(instances; env=AWSEnv())
     # Tag the instances..also tests ec2_basic API..
-    resp = ec2_basic(env, "DescribeInstanceStatus", {"InstanceId"=>instances, "IncludeAllInstances"=>true})
+    resp = ec2_basic(env, "DescribeInstanceStatus", Dict("InstanceId"=>instances, "IncludeAllInstances"=>true))
     if (typeof(resp.obj) == EC2Error) 
         error(ec2_error_str(resp.obj))
     end

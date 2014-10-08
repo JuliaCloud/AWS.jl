@@ -6,7 +6,6 @@ using AWS.Crypto
 using HTTPClient.HTTPC
 using LibExpat
 using Calendar
-using Codecs
 using Base.get 
 
 import AWS.xml
@@ -599,14 +598,14 @@ function do_http(env::AWSEnv, ro::RO)
     if isa(ro.body, String) && (ro.body != "")
 #        digest = zeros(Uint8, 16)
 #        MD5(body, length(body), digest)
-        md5 = bytestring(Codecs.encode(Base64, Crypto.md5(ro.body)))
+        md5 = base64(Crypto.md5(ro.body))
     elseif isa(ro.istream, IO)
         # Read the entire istream to get the MD5 of the same.
-        md5 = bytestring(Codecs.encode(Base64, Crypto.md5(ro.istream)))
+        md5 = base64(Crypto.md5(ro.istream))
         seekstart(ro.istream)
     elseif isa(ro.istream, String)
         # The file will be read twice (once to get the MD5 and once while sending - no other way?
-        md5 = bytestring(Codecs.encode(Base64, Crypto.md5_file(ro.istream)))
+        md5 = base64(Crypto.md5_file(ro.istream))
     else
         md5 = ""
     end
@@ -694,8 +693,7 @@ function canonicalize_and_sign(env::AWSEnv, ro::RO, md5::String)
         println("String to sign:\n$(str2sign)")
     end
     
-    s_raw = Crypto.hmacsha1_digest(str2sign, env.aws_seckey)
-    s_b64 = bytestring(Codecs.encode(Base64, s_raw))
+    s_b64 = base64(Crypto.hmacsha1_digest(str2sign, env.aws_seckey))
     
     return new_amz_hdrs, full_path, s_b64
 end

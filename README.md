@@ -231,8 +231,6 @@ For example, for RunInstances, the EC2Response.obj will be of type RunInstancesR
 
 Calendar
 
-Codecs
-
 LibExpat
 
 libCURL

@@ -4,7 +4,6 @@ module EC2
 using LibExpat
 using Calendar
 using AWS.Crypto
-using Codecs
 using HTTPClient.HTTPC
 using AWS.AWSEnv
 using AWS
@@ -104,7 +103,7 @@ function ec2_execute(env::AWSEnv, action::String, params_in=nothing)
     str2sign = "GET\n" * lowercase(env.ep_host) * "\n" * env.ep_path * "\n" * querystr
     sb = Crypto.hmacsha256_digest(str2sign, env.aws_seckey)
     
-    signature_b64 = Codecs.encode(Base64, sb)
+    signature_b64 = base64(sb)
     
     #escape the signature
     signature_querystr = HTTPC.urlencode_query_params([("Signature", bytestring(signature_b64))])

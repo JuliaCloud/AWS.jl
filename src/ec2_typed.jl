@@ -15,7 +15,7 @@ function is_basic_type(v)
     return false
 end
 
-corrections_map=[
+corrections_map = Dict(
     ("CreateTagsType", "resourcesSet") => "resourceId",
     ("DeleteTagsType", "resourcesSet") => "resourceId",
 
@@ -28,13 +28,7 @@ corrections_map=[
     ("TerminateInstancesType", "instancesSet") => "instanceId",
     ("StopInstancesType", "instancesSet") => "instanceId",
     ("StartInstancesType", "instancesSet") => "instanceId",
-    ("ReportInstanceStatusType", "instancesSet") => "instanceId"
- 
- 
- 
- 
- 
-]
+    ("ReportInstanceStatusType", "instancesSet") => "instanceId")
 
 function add_to_params(params, obj, pfx)
     for m in names(typeof(obj))

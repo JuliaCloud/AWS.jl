@@ -406,11 +406,11 @@ operations = find(wsdl, "portType/operation")
 generate_operations(wsdl, operations, f, "xs:")
 
 # generate the list of valid rqst messages 
-write(f, "ValidRqstMsgs = [\n    \"$(valid_rqst_msgs[1])\"=>true")
+write(f, "ValidRqstMsgs = Dict(\n    \"$(valid_rqst_msgs[1])\"=>true")
 for v in valid_rqst_msgs[2:end]
     write(f, ",\n    \"$v\"=>true")
 end
-write(f, "\n]\n\n")
+write(f, "\n)\n\n")
 
 close(f)
     
