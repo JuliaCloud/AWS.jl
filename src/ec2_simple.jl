@@ -19,13 +19,13 @@ function flatten_params(ft::Array, pfx::String, d::Dict)
                     push!(ft, (npfx, aws_string(x)))
                 end
             end
-            
+
         elseif isa(v, Dict)
             flatten_params(ft, pfx*k*".", v)
         else
             push!(ft, (pfx*k, aws_string(v)))
         end
-    
+
     end
     ft
 end
@@ -72,7 +72,7 @@ end
 
 
 
-function ec2_launch(ami::String, seckey::String; env=AWSEnv(), insttype::String="m1.small", n::Integer=1, 
+function ec2_launch(ami::String, seckey::String; env=AWSEnv(), insttype::String="m1.small", n::Integer=1,
                     owner::String="julia", clustername::String="julia", launchset::String="")
 # "c1.medium"
 # "m1.small"
@@ -84,20 +84,20 @@ function ec2_launch(ami::String, seckey::String; env=AWSEnv(), insttype::String=
     end
     println("Launched instances : " )
     println(instances)
-    
+
     if launchset == ""
-       launchset = convert(ASCIIString, format("YYYY-MM-dd HH:mm:SS", now()))
+       launchset =  aws_string(now(Dates.UTC))
     end
-    
+
     # Tag the instances..also tests ec2_basic API..
     resp = ec2_basic(env, "CreateTags", Dict(
-        "ResourceId"=>instances, 
+        "ResourceId"=>instances,
         "Tag"=>[
-            Dict("Key"=>"LaunchSet","Value"=>launchset), 
-            Dict("Key"=>"ClusterName","Value"=>clustername), 
+            Dict("Key"=>"LaunchSet","Value"=>launchset),
+            Dict("Key"=>"ClusterName","Value"=>clustername),
             Dict("Key"=>"Name","Value"=>clustername), # Just so that it is visible on the AWS Web console
             Dict("Key"=>"Owner","Value"=>owner)]))
-    if (typeof(resp.obj) == EC2Error) 
+    if (typeof(resp.obj) == EC2Error)
         error(ec2_error_str(resp.obj))
     else
         resp.obj = CreateTagsResponseType(resp.pd)
@@ -109,7 +109,7 @@ function ec2_launch(ami::String, seckey::String; env=AWSEnv(), insttype::String=
 
     # Wait for the instances to come to a running state....
     wait_till_running(env, instances, 600.0)
-    
+
     println("Lanched LaunchSet $launchset, ClusterName $clustername, Owner $owner" )
 
     instances
@@ -127,7 +127,7 @@ function detect_num_cores(hostnames, hidx, sshflags, hostuser)
     for (h, io) in cmdmap
         push!(ncmap, (h, parseint(readall(io))))
     end
-    
+
     ncmap
 end
 
@@ -145,13 +145,13 @@ function generate_sshnames(hostnames, num_workers, workers_per_instance, use_pub
             # distribute it weighted on the number of cores on each instance
             ncmap = detect_num_cores(hostnames, 2, sshflags, hostuser)
             total_cores = foldl((x,y)->((k,v)=y; x+v), 0, ncmap)
-        
+
             nwmap = Array(Tuple, 0)
             for (host,nc) in ncmap
                 push!(nwmap, (host, int(floor((nc * num_workers) / total_cores))))
             end
 
-            # distribute any remaining equally 
+            # distribute any remaining equally
             num_rem = num_workers - foldl((x,y)->((k,v)=y; x+v), 0, nwmap)
             for i in 1:num_rem
                 idxnwmap = ((i-1) % num_hosts) + 1
@@ -163,7 +163,7 @@ function generate_sshnames(hostnames, num_workers, workers_per_instance, use_pub
                 sshnames["$(hostuser)@$(host[idx])"] = nw
             end
         end
-    
+
     elseif workers_per_instance > 0
         for host in hostnames
             sshnames["$(hostuser)@$(host[idx])"] = workers_per_instance
@@ -171,7 +171,7 @@ function generate_sshnames(hostnames, num_workers, workers_per_instance, use_pub
     else
         # Detect the num cores on each first .....
         ncmap = detect_num_cores(hostnames, 2, sshflags, hostuser)
-        
+
         for (host,nc) in ncmap
             sshnames["$(hostuser)@$(host[idx])"] = nc
         end
@@ -180,15 +180,15 @@ function generate_sshnames(hostnames, num_workers, workers_per_instance, use_pub
 end
 
 
-function ec2_addprocs(instances, ec2_keyfile::String; env=AWSEnv(), hostuser::String="ubuntu", 
-                        dir=JULIA_HOME, tunnel=true, use_public_dnsname=true, 
+function ec2_addprocs(instances, ec2_keyfile::String; env=AWSEnv(), hostuser::String="ubuntu",
+                        dir=JULIA_HOME, tunnel=true, use_public_dnsname=true, exename=joinpath(JULIA_HOME,Base.julia_exename()),
                         workers_per_instance=0, num_workers=0, machines_only=false)
-                        
+
     hostnames = ec2_hostnames(instances, env=env)
     sshflags = `-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o LogLevel=ERROR -i $(ec2_keyfile)`
-    
+
     sshnames = generate_sshnames(hostnames, num_workers, workers_per_instance, use_public_dnsname, sshflags, hostuser)
-    
+
     # The default MaxStartups config for sshd is typically 10:30:100
     # Hence to an addprocs 10 at a time to a given host
     npids=Int[]
@@ -196,20 +196,20 @@ function ec2_addprocs(instances, ec2_keyfile::String; env=AWSEnv(), hostuser::St
     while true
         sshnamesset = String[]
         for (k,v) in sshnames
-            n = v > 10 ? 10 : v 
+            n = v > 10 ? 10 : v
             append!(sshnamesset, fill(k, n))
             sshnames[k] = v - n
         end
-        
+
         if length(sshnamesset) > 0
             if machines_only
                 push!(machines, sshnamesset)
             else
     #            println(sshnamesset, "\n", sshflags, "\n", dir, "\n", tunnel)
-                lpids = addprocs(sshnamesset, sshflags=sshflags, dir=dir, tunnel=tunnel)
+                lpids = addprocs(sshnamesset, sshflags=sshflags, dir=dir, tunnel=tunnel, exename=exename)
                 println("Added worker set (pids) : ")
                 for p in lpids
-                    print(p, " ") 
+                    print(p, " ")
                 end
                 println()
                 append!(npids, lpids)
@@ -218,13 +218,13 @@ function ec2_addprocs(instances, ec2_keyfile::String; env=AWSEnv(), hostuser::St
             break
         end
     end
-    
+
     if machines_only
         return machines
     else
         println("All workers added : ")
         for p in npids
-            print(p, " ") 
+            print(p, " ")
         end
         println()
         return npids
@@ -239,14 +239,14 @@ function wait_till_running(env, instances, timeout)
     while (((time() - start) < timeout) && (length(chk_instances) > 0))
         println("All instances not yet in a running state. Trying again in $wait_time seconds....")
         sleep(wait_time)
-        
+
         chk_instances = check_running(env, chk_instances)
     end
-    
+
     if (length(chk_instances) > 0)
         println("All instances not yet in a running state. Please check after some time.")
     end
-    
+
     # Wait till they are pingable, the network interfaces take some time to come up
     println("Testing TCP connects (on port 22) to all newly started hosts...")
     hosts = ec2_hostnames(instances)
@@ -267,7 +267,7 @@ function wait_till_running(env, instances, timeout)
             testhosts=testhosts[testidx:end]
         end
     end
-    
+
     println(hosts)
     :ok
 end
@@ -276,7 +276,7 @@ function ec2_start(instances; env=AWSEnv())
     # Tag the instances..also tests ec2_basic API..
     if length(instances) > 0
         resp = ec2_basic(env, "StartInstances", Dict("InstanceId"=>instances))
-        if (typeof(resp.obj) == EC2Error) 
+        if (typeof(resp.obj) == EC2Error)
             error(ec2_error_str(resp.obj))
         end
 
@@ -291,7 +291,7 @@ function ec2_stop(instances; env=AWSEnv())
     # Tag the instances..also tests ec2_basic API..
     if length(instances) > 0
         resp = ec2_basic(env, "StopInstances", Dict("InstanceId"=>instances))
-        if (typeof(resp.obj) == EC2Error) 
+        if (typeof(resp.obj) == EC2Error)
             error(ec2_error_str(resp.obj))
         end
     end
@@ -301,12 +301,12 @@ end
 function ec2_show_status(instances; env=AWSEnv())
     # Tag the instances..also tests ec2_basic API..
     resp = ec2_basic(env, "DescribeInstanceStatus", Dict("InstanceId"=>instances, "IncludeAllInstances"=>true))
-    if (typeof(resp.obj) == EC2Error) 
+    if (typeof(resp.obj) == EC2Error)
         error(ec2_error_str(resp.obj))
     end
-    
+
     resp.obj = DescribeInstanceStatusResponseType(resp.pd)
-    
+
     statuses = resp.obj.instanceStatusSet
     for status in statuses
         println("Status of $(status.instanceId) is $(status.instanceState.code):$(status.instanceState.name)")
@@ -325,7 +325,7 @@ function ec2_instances_by_tag (tag, tagvalue; env=AWSEnv(), running_only=true)
         filterset = [tagfilter]
     end
     instances = ASCIIString[]
-    
+
     req = DescribeInstancesType(filterSet=filterset)
     resp = CHK_ERR(DescribeInstances(env, req))
     reservs = resp.reservationSet
@@ -339,7 +339,7 @@ function ec2_instances_by_tag (tag, tagvalue; env=AWSEnv(), running_only=true)
 end
 
 
-function ec2_mount_snapshot (instance::String, snapshot::String, mount::String, ec2_keyfile::String; env=AWSEnv(), dev="/dev/xvdh", 
+function ec2_mount_snapshot (instance::String, snapshot::String, mount::String, ec2_keyfile::String; env=AWSEnv(), dev="/dev/xvdh",
                                 hostuser::String="ubuntu")
     # first get the availability zone....
     resp = CHK_ERR(DescribeInstances(env, instancesSet=[instance]))
@@ -349,37 +349,37 @@ function ec2_mount_snapshot (instance::String, snapshot::String, mount::String, 
     resp = CHK_ERR(CreateVolume(env, snapshotId=snapshot, availabilityZone=zone))
     volumeId = resp.volumeId
     status = resp.status
-    
+
     println("Created volume $volumeId")
-    
+
     while (status == "creating")
         resp = CHK_ERR(DescribeVolumes(env, volumeSet=[volumeId]))
         status = resp.volumeSet[1].status
     end
-    
+
     if (status != "available")
         error("Volume is unavailable. Status $status")
     end
-    
+
     resp = CHK_ERR(AttachVolume(env, instanceId=instance, volumeId=volumeId, device=dev))
-    status = resp.status    
+    status = resp.status
     while (status == "attaching")
         resp = CHK_ERR(DescribeVolumes(env, volumeSet=[volumeId]))
         status = resp.volumeSet[1].attachmentSet[1].status
     end
-    
+
     if (status != "attached")
         error("Unable to attach volume. Status $status")
     end
 
     println("Attached $volumeId to $instance")
-    
-    
+
+
     run(`ssh -i $(ec2_keyfile) -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -o LogLevel=ERROR $(hostuser)@$(hostname) "mkdir -p $(mount); sudo mount $dev $mount"`)
 
     println("Mounted volume $volumeId at $mount")
     println("To login use 'ssh -i $(ec2_keyfile) $(hostuser)@$(hostname)'")
-    
+
     volumeId
 end
 
