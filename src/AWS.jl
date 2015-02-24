@@ -1,6 +1,5 @@
 module AWS
 using LibExpat
-using Calendar
 
 
 const EP_US_EAST_NORTHERN_VIRGINIA     = "ec2.us-east-1.amazonaws.com"
@@ -36,7 +35,7 @@ else
     @windows_only begin
         secret_path = "$(ENV["APPDATA"])/.awssecret"
     end
-        
+
     if isfile(secret_path)
         AWS_ID, AWS_SECKEY = split(readchomp(open(secret_path)))
     end
@@ -50,25 +49,25 @@ type AWSEnv
     timeout::Float64    # request timeout in seconds, default is no timeout.
     dry_run::Bool       # If true, no actual request will be made - implies dbg flag below
     dbg::Bool           # print request to screen
-    
 
-    function AWSEnv(; id=AWS_ID, key=AWS_SECKEY, ep=EP_US_EAST_NORTHERN_VIRGINIA, timeout=0.0, dr=false, dbg=false) 
+
+    function AWSEnv(; id=AWS_ID, key=AWS_SECKEY, ep=EP_US_EAST_NORTHERN_VIRGINIA, timeout=0.0, dr=false, dbg=false)
         if (id == "") || (key == "")
             error("Invalid AWS security credentials provided")
         end
-    
+
         s = search(ep,"/")
         if length(s) == 0
             ep_host = ep
             ep_path = "/"
-        else 
+        else
             ep_host = ep[1:(first(s)-1)]
             ep_path = ep[first(s):end]
         end
-    
-        if dr 
-            new(id, key, ep_host, ep_path, timeout, dr, true) 
-        else 
+
+        if dr
+            new(id, key, ep_host, ep_path, timeout, dr, true)
+        else
             new(id, key, ep_host, ep_path, timeout, false, dbg)
         end
     end

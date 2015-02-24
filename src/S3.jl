@@ -5,8 +5,7 @@ using AWS
 using AWS.Crypto
 using HTTPClient.HTTPC
 using LibExpat
-using Calendar
-using Base.get 
+using Base.get
 
 import AWS.xml
 
@@ -27,8 +26,8 @@ end
 
 
 type S3Response
-    content_length::Int  
-    #Connection (open or closed) - we will not use this  
+    content_length::Int
+    #Connection (open or closed) - we will not use this
     date::String    #The date and time Amazon S3 responded, for example, Wed, 01 Mar 2009 12:00:00 GMT.
     server::String  #The name of the server that created the response.
     eTag::String
@@ -42,11 +41,11 @@ type S3Response
 
 # all header fields
     headers::Dict
-    
-# All header fields    
+
+# All header fields
     obj::Any
     pd::Union(ETree, Nothing)
-    
+
     S3Response() = new(0, "", "", "", 0, false, "","","",Dict{String,String}(), nothing, nothing)
 end
 export S3Response
@@ -54,7 +53,7 @@ export S3Response
 type RO # RequestOptions
     verb::Symbol                  # HTTP verb
     bkt::String                   # bucket
-    key::String                   # object id typically  
+    key::String                   # object id typically
     sub_res::Vector{Tuple}
     http_hdrs::Vector{Tuple}
     amz_hdrs::Vector{Tuple}
@@ -62,131 +61,131 @@ type RO # RequestOptions
     body::String
     istream::Any
     ostream::Any
-    
-    RO() = new(:GET, "", "", {}, {}, {}, "", "", nothing, nothing)
-    RO(verb, bkt, key) = new(verb, bkt, key, {}, {}, {}, "", "", nothing, nothing)
+
+    RO() = RO(:GET, "", "")
+    RO(verb, bkt, key) = new(verb, bkt, key, Tuple[], Tuple[], Tuple[], "", "", nothing, nothing)
 end
 export RO
 
 function list_all_buckets(env::AWSEnv)
     ro = RO(:GET, "", "")
     @req_n_process(ListAllMyBucketsResult)
-end 
+end
 
 
 function del_bkt(env::AWSEnv, bkt::String)
     ro = RO(:DELETE, bkt, "")
-    
+
     s3_resp = do_request(env, ro)
     s3_resp
 end
 
-function del_bkt_cors(env::AWSEnv, bkt::String) 
+function del_bkt_cors(env::AWSEnv, bkt::String)
     ro = RO(:DELETE, bkt, "")
     ro.sub_res={("cors", "")}
-    
+
     s3_resp = do_request(env, ro)
     s3_resp
 end
 
-function del_bkt_lifecycle(env::AWSEnv, bkt::String) 
+function del_bkt_lifecycle(env::AWSEnv, bkt::String)
     ro = RO(:DELETE, bkt, "")
     ro.sub_res={("lifecycle", "")}
-    
+
     s3_resp = do_request(env, ro)
     s3_resp
 end
 
 
-function del_bkt_policy(env::AWSEnv, bkt::String) 
+function del_bkt_policy(env::AWSEnv, bkt::String)
     ro = RO(:DELETE, bkt, "")
     ro.sub_res={("policy", "")}
-    
+
     s3_resp = do_request(env, ro)
     s3_resp
 end
 
-function del_bkt_tagging(env::AWSEnv, bkt::String) 
+function del_bkt_tagging(env::AWSEnv, bkt::String)
     ro = RO(:DELETE, bkt, "")
     ro.sub_res={("tagging", "")}
-    
+
     s3_resp = do_request(env, ro)
     s3_resp
 end
 
-function del_bkt_website(env::AWSEnv, bkt::String) 
+function del_bkt_website(env::AWSEnv, bkt::String)
     ro = RO(:DELETE, bkt, "")
     ro.sub_res={("website", "")}
-    
+
     s3_resp = do_request(env, ro)
     s3_resp
 end
 
 
-function get_bkt(env::AWSEnv, bkt::String; options::GetBucketOptions=GetBucketOptions()) 
+function get_bkt(env::AWSEnv, bkt::String; options::GetBucketOptions=GetBucketOptions())
     ro = RO(:GET, bkt, "")
-    ro.sub_res=get_subres({}, options)
-    
+    ro.sub_res=get_subres(Tuple[], options)
+
     @req_n_process(ListBucketResult)
 end
 
-function get_bkt_acl(env::AWSEnv, bkt::String) 
+function get_bkt_acl(env::AWSEnv, bkt::String)
     ro = RO(:GET, bkt, "")
     ro.sub_res={("acl", "")}
-    
+
     @req_n_process(AccessControlPolicy)
 end
 
-function get_bkt_cors(env::AWSEnv, bkt::String) 
+function get_bkt_cors(env::AWSEnv, bkt::String)
     ro = RO(:GET, bkt, "")
     ro.sub_res={("cors", "")}
-    
+
     @req_n_process(CORSConfiguration)
 end
 
-function get_bkt_lifecycle(env::AWSEnv, bkt::String) 
+function get_bkt_lifecycle(env::AWSEnv, bkt::String)
     ro = RO(:GET, bkt, "")
     ro.sub_res={("lifecycle", "")}
-    
+
     s3_resp = do_request(env, ro)
     s3_resp
-   
+
 end
 
 function get_bkt_policy(env::AWSEnv, bkt::String)
     ro = RO(:GET, bkt, "")
     ro.sub_res={("policy", "")}
-    
+
     s3_resp = do_request(env, ro)
     s3_resp
-   
+
 end
 
-function get_bkt_location(env::AWSEnv, bkt::String) 
+function get_bkt_location(env::AWSEnv, bkt::String)
     ro = RO(:GET, bkt, "")
     ro.sub_res={("location", "")}
-    
+
     @req_n_process(LocationConstraint)
 end
 
-function get_bkt_logging(env::AWSEnv, bkt::String) 
+function get_bkt_logging(env::AWSEnv, bkt::String)
     ro = RO(:GET, bkt, "")
     ro.sub_res={("logging", "")}
-    
+
     @req_n_process(BucketLoggingStatus)
 end
 
-function get_bkt_notification(env::AWSEnv, bkt::String) 
+function get_bkt_notification(env::AWSEnv, bkt::String)
     ro = RO(:GET, bkt, "")
     ro.sub_res={("notification", "")}
-    
+
     @req_n_process(NotificationConfiguration)
 end
 
-function get_bkt_tagging(env::AWSEnv, bkt::String) 
+function get_bkt_tagging(env::AWSEnv, bkt::String)
     ro = RO(:GET, bkt, "")
     ro.sub_res={("tagging", "")}
-    
+
     @req_n_process(Tagging)
 
 end
@@ -194,36 +193,36 @@ end
 
 function get_bkt_object_versions(env::AWSEnv, bkt::String; options::GetBucketObjectVersionsOptions=GetBucketObjectVersionsOptions())
     ro = RO(:GET, bkt, "")
-    ro.sub_res=get_subres({("versions", "")}, options) 
-    
+    ro.sub_res=get_subres([("versions", "")], options)
+
     @req_n_process(ListVersionsResult)
 end
 
-function get_bkt_request_payment(env::AWSEnv, bkt::String) 
+function get_bkt_request_payment(env::AWSEnv, bkt::String)
     ro = RO(:GET, bkt, "")
     ro.sub_res={("requestPayment", "")}
-    
+
     @req_n_process(RequestPaymentConfiguration)
 end
 
 function get_bkt_versioning(env::AWSEnv, bkt::String)
     ro = RO(:GET, bkt, "")
     ro.sub_res={("versioning", "")}
-    
+
     @req_n_process(VersioningConfiguration)
 end
 
 function get_bkt_website(env::AWSEnv, bkt::String)
     ro = RO(:GET, bkt, "")
     ro.sub_res={("website", "")}
-    
+
     s3_resp = do_request(env, ro)
     s3_resp
-end 
+end
 
 function test_bkt(env::AWSEnv, bkt::String)
     ro = RO(:HEAD, bkt, "")
-    
+
     s3_resp = do_request(env, ro)
     s3_resp
 end
@@ -231,8 +230,8 @@ end
 
 function get_bkt_multipart_uploads(env::AWSEnv, bkt::String; options::GetBucketUploadsOptions=GetBucketUploadsOptions())
     ro = RO(:GET, bkt, "")
-    ro.sub_res=get_subres({("uploads", "")}, options) 
-    
+    ro.sub_res=get_subres([("uploads", "")], options)
+
     @req_n_process(ListMultipartUploadsResult)
 end
 
@@ -243,12 +242,12 @@ end
 function create_bkt(env::AWSEnv, bkt::String; acl::Union(S3_ACL, Nothing)=nothing, config::Union(CreateBucketConfiguration, Nothing)=nothing)
     ro = RO(:PUT, bkt, "")
     if isa(acl, AccessControlPolicy)
-        ro.amz_hdrs = amz_headers({}, acl)
+        ro.amz_hdrs = amz_headers(Tuple[], acl)
     end
     if (config != nothing)
         ro.body = xml(config)
     end
-    
+
     s3_resp = do_request(env, ro)
     s3_resp
 end
@@ -260,18 +259,18 @@ function set_bkt_acl(env::AWSEnv, bkt::String, acl::Union(AccessControlPolicy, S
     if isa(acl, AccessControlPolicy)
         ro.body = xml(acl)
     else
-        ro.amz_hdrs = amz_headers({}, acl)
+        ro.amz_hdrs = amz_headers(Tuple[], acl)
     end
-    
+
     s3_resp = do_request(env, ro)
     s3_resp
 end
 
 function set_bkt_cors(env::AWSEnv, bkt::String, cors::CORSConfiguration)
     ro = RO(:PUT, bkt, "")
-    ro.sub_res = {("cors", "")} 
+    ro.sub_res = {("cors", "")}
     ro.body = xml(cors)
-    
+
     s3_resp = do_request(env, ro)
     s3_resp
 end
@@ -279,28 +278,28 @@ end
 #TODO : Create LifecycleCongig type
 function set_bkt_lifecycle(env::AWSEnv, bkt::String, lifecycleconfig::String)
     ro = RO(:PUT, bkt, "")
-    ro.sub_res = {("lifecycle", "")} 
+    ro.sub_res = {("lifecycle", "")}
     ro.body = lifecycleconfig
-    
+
     s3_resp = do_request(env, ro)
     s3_resp
 
 end
 
-function set_bkt_policy(env::AWSEnv, bkt::String, policy_json::String) 
+function set_bkt_policy(env::AWSEnv, bkt::String, policy_json::String)
     ro = RO(:PUT, bkt, "")
-    ro.sub_res = {("policy", "")} 
+    ro.sub_res = {("policy", "")}
     ro.body = policy_json
-    
+
     s3_resp = do_request(env, ro)
     s3_resp
 end
 
 function set_bkt_logging(env::AWSEnv, bkt::String, logging::BucketLoggingStatus)
     ro = RO(:PUT, bkt, "")
-    ro.sub_res = {("logging", "")} 
+    ro.sub_res = {("logging", "")}
     ro.body = xml(logging)
-    
+
     s3_resp = do_request(env, ro)
     s3_resp
 end
@@ -309,48 +308,48 @@ end
 
 function set_bkt_notification(env::AWSEnv, bkt::String, notif::NotificationConfiguration)
     ro = RO(:PUT, bkt, "")
-    ro.sub_res = {("notification", "")} 
+    ro.sub_res = {("notification", "")}
     ro.body = xml(notif)
-    
+
     s3_resp = do_request(env, ro)
     s3_resp
 end
 
 
-function set_bkt_tagging(env::AWSEnv, bkt::String, tagging::Tagging) 
+function set_bkt_tagging(env::AWSEnv, bkt::String, tagging::Tagging)
     ro = RO(:PUT, bkt, "")
-    ro.sub_res = {("tagging", "")} 
+    ro.sub_res = {("tagging", "")}
     ro.body = xml(tagging)
-    
+
     s3_resp = do_request(env, ro)
     s3_resp
 end
 
-function set_bkt_request_payment(env::AWSEnv, bkt::String, pay::RequestPaymentConfiguration) 
+function set_bkt_request_payment(env::AWSEnv, bkt::String, pay::RequestPaymentConfiguration)
     ro = RO(:PUT, bkt, "")
-    ro.sub_res = {("requestPayment", "")} 
+    ro.sub_res = {("requestPayment", "")}
     ro.body = xml(pay)
-    
+
     s3_resp = do_request(env, ro)
     s3_resp
 end
 
 function set_bkt_versioning(env::AWSEnv, bkt::String, config::VersioningConfiguration; mfa::String="")
     ro = RO(:PUT, bkt, "")
-    ro.sub_res = {("versioning", "")} 
+    ro.sub_res = {("versioning", "")}
     ro.body = xml(config)
     if (mfa != "") ro.amz_hdrs = {("mfa", mfa)} end
-    
+
     s3_resp = do_request(env, ro)
     s3_resp
 end
 
 #TODO: Define WebsiteConfiguration as a type and use that....
-function set_bkt_website(env::AWSEnv, bkt::String, websiteconfig::String) 
+function set_bkt_website(env::AWSEnv, bkt::String, websiteconfig::String)
     ro = RO(:PUT, bkt, "")
-    ro.sub_res = {("website", "")} 
+    ro.sub_res = {("website", "")}
     ro.body = websiteconfig
-    
+
     s3_resp = do_request(env, ro)
     s3_resp
 end
@@ -359,11 +358,11 @@ end
 ### OPERATIONS ON OBJECTS
 ######################################
 
-function del_object(env::AWSEnv, bkt::String, key::String; version_id::String="", mfa::String="") 
+function del_object(env::AWSEnv, bkt::String, key::String; version_id::String="", mfa::String="")
     ro = RO(:DELETE, bkt, key)
     if (version_id != "") ro.sub_res = {("versionId", version_id)} end
     if (mfa != "") ro.amz_hdrs = {("mfa", mfa)} end
-    
+
     s3_resp = do_request(env, ro)
     s3_resp
 end
@@ -373,19 +372,19 @@ function del_object_multi(env::AWSEnv, bkt::String, delset::DeleteObjectsType; m
     ro.sub_res = {("delete", "")}
     ro.body= xml(delset)
     if (mfa != "") ro.amz_hdrs = {("mfa", mfa)} end
-    
+
     @req_n_process(DeleteResult)
 end
 
 
 function get_object(env::AWSEnv, bkt::String, key::String; options::GetObjectOptions=GetObjectOptions(), out::Union(IO, String, Nothing)=nothing, version_id::String="")
     ro = RO(:GET, bkt, key)
-    ro.sub_res = {}
-    
+    ro.sub_res = Tuple[]
+
     if (version_id != "") push!(ro.sub_res, ("versionId", version_id)) end
     ro.sub_res = query_params(ro.sub_res, options)
-    
-    ro.http_hdrs = http_headers({}, options)
+
+    ro.http_hdrs = http_headers(Tuple[], options)
     ro.ostream = out
 
     s3_resp = do_request(env, ro, conv_to_string=false)
@@ -396,7 +395,7 @@ function get_object_acl(env::AWSEnv, bkt::String, key::String; version_id::Strin
     ro = RO(:GET, bkt, key)
     ro.sub_res={("acl", "")}
     if (version_id != "") push!(ro.sub_res, ("versionId", version_id)) end
-    
+
     @req_n_process(AccessControlPolicy)
 end
 
@@ -404,7 +403,7 @@ function get_object_torrent(env::AWSEnv, bkt::String, key::String, out::Union(IO
     ro = RO(:GET, bkt, key)
     ro.sub_res={("torrent","")}
     ro.ostream = out
-    
+
     s3_resp = do_request(env, ro, conv_to_string=false)
     s3_resp
 end
@@ -439,7 +438,7 @@ function restore_object(env::AWSEnv, bkt::String, key::String, days::Int)
 
     ro.sub_res={("restore", "")}
     ro.body = "<RestoreRequest xmlns=\"http://s3.amazonaws.com/doc/2006-3-01\"><Days>$(days)</Days></RestoreRequest>"
-    
+
     s3_resp = do_request(env, ro)
     s3_resp
 end
@@ -447,14 +446,14 @@ end
 
 function put_object(env::AWSEnv, bkt::String, key::String, data::Union(IOStream, String, Tuple); content_type="", options::PutObjectOptions=PutObjectOptions(), version_id::String="")
     ro = RO(:PUT, bkt, key)
-    
-    ro.amz_hdrs = amz_headers({}, options)
+
+    ro.amz_hdrs = amz_headers(Tuple[], options)
     ro.http_hdrs = http_headers(Array(Tuple, 0), options)
     if (content_type != "") ro.cont_typ = content_type end
-    
-    if isa(data, String) 
+
+    if isa(data, String)
         ro.body = data
-    elseif isa(data, IO) 
+    elseif isa(data, IO)
         ro.istream = data
     elseif (isa(data, Tuple) && data[1] == :file)
         ro.istream = data[2]
@@ -463,7 +462,7 @@ function put_object(env::AWSEnv, bkt::String, key::String, data::Union(IOStream,
     end
 
     if (version_id != "") ro.sub_res={("versionId", version_id)} end
-    
+
     s3_resp = do_request(env, ro)
     s3_resp
 end
@@ -474,9 +473,9 @@ function put_object_acl(env::AWSEnv, bkt::String, key::String, acl::Union(Access
     if isa(acl, AccessControlPolicy)
         ro.body = xml(acl)
     else
-        ro.amz_hdrs = amz_headers({}, acl)
+        ro.amz_hdrs = amz_headers(Tuple[], acl)
     end
-    
+
     s3_resp = do_request(env, ro)
     s3_resp
 end
@@ -484,17 +483,17 @@ end
 
 function copy_object(env::AWSEnv, dest_bkt::String, dest_key::String, options::CopyObjectOptions, version_id::String="")
     ro = RO(:PUT, dest_bkt, dest_key)
-    ro.amz_hdrs = amz_headers({}, options)
+    ro.amz_hdrs = amz_headers(Tuple[], options)
     if (version_id != "")
         ro.sub_res={("versionId", version_id)}
     end
-    
+
     @req_n_process(CopyObjectResult)
 end
 
 function initiate_multipart_upload(env::AWSEnv, bkt::String, key::String; content_type="", options::PutObjectOptions=PutObjectOptions())
     ro = RO(:POST, bkt, key)
-    ro.amz_hdrs = amz_headers({}, options)
+    ro.amz_hdrs = amz_headers(Tuple[], options)
     ro.http_hdrs = http_headers(Array(Tuple, 0), options)
     if (content_type != "") ro.cont_typ = content_type end
     ro.sub_res={("uploads", "")}
@@ -505,27 +504,27 @@ end
 function upload_part(env::AWSEnv, bkt::String, key::String, part_number::String, upload_id::String, data::Union(IOStream, String, Tuple))
     ro = RO(:PUT, bkt, key)
     ro.sub_res = {("partNumber", "$(part_number)"), ("uploadId", "$(upload_id)")}
-    
-    if isa(data, String) 
+
+    if isa(data, String)
         ro.body = data
-    elseif isa(data, IO) 
+    elseif isa(data, IO)
         ro.istream = data
     elseif (isa(data, Tuple) && data[1] == :file)
         ro.istream = data[2]
     else
         error("Nothing to upload")
     end
-    
+
     s3_resp = do_request(env, ro)
     s3_resp
-    
+
 end
 
 function copy_upload_part(env::AWSEnv, bkt::String, key::String, part_number::String, upload_id::String, options::CopyUploadPartOptions)
     ro = RO(:PUT, bkt, key)
     ro.sub_res = {("partNumber", "$(part_number)"), ("uploadId", "$(upload_id)")}
     ro.amz_hdrs = amz_headers(options)
-    
+
     @req_n_process(CopyPartResult)
 end
 
@@ -533,9 +532,9 @@ end
 function complete_multipart_upload(env::AWSEnv, bkt::String, key::String, upload_id::String, part_ids::Vector{S3PartTag})
     ro = RO(:POST, bkt, key)
     ro.sub_res = {("uploadId", "$(upload_id)")}
-   
+
     ro.body = xml("CompleteMultipartUpload", part_ids)
-    
+
     @req_n_process(CompleteMultipartUploadResult)
 end
 
@@ -543,54 +542,54 @@ end
 function abort_multipart_upload(env::AWSEnv, bkt::String, key::String, upload_id::String)
     ro = RO(:DELETE, bkt, key)
     ro.sub_res = {("uploadId", "$(upload_id)")}
-    
+
     s3_resp = do_request(env, ro)
     s3_resp
 end
 
-function list_upload_parts(env::AWSEnv, bkt::String, key::String, 
-    upload_id::String; 
-    max_parts::Union(Int, Nothing)=nothing, 
+function list_upload_parts(env::AWSEnv, bkt::String, key::String,
+    upload_id::String;
+    max_parts::Union(Int, Nothing)=nothing,
     part_number_marker::Union(Int, Nothing)=nothing)
-    
+
     ro = RO(:GET, bkt, key)
     ro.sub_res = {("uploadId", "$(upload_id)"), ("max-parts", "$max_parts"), ("part-number-marker", "$part_number_marker")}
-    
+
     @req_n_process(ListPartsResult)
 end
 
 function do_request(env::AWSEnv, ro::RO; conv_to_string=true)
     http_resp = do_http(env, ro)
-    
+
     s3_resp = S3Response()
-    
+
     s3_resp.http_code = http_resp.http_code
-    cl_s = get(http_resp.headers, "Content-Length", "") 
+    cl_s = get(http_resp.headers, "Content-Length", [""])[1]
     if cl_s != ""
         s3_resp.content_length = int(cl_s)
     end
-    s3_resp.date = get(http_resp.headers, "Date", "") 
-    s3_resp.eTag = get(http_resp.headers, "ETag", "") 
-    s3_resp.server = get(http_resp.headers, "Server", "") 
-    
-    s3_resp.delete_marker = lowercase(get(http_resp.headers, "x-amz-delete-marker", "false")) == "true" ? true : false 
-    s3_resp.id_2 = get(http_resp.headers, "x-amz-id-2", "") 
-    s3_resp.request_id = get(http_resp.headers, "x-amz-request-id", "") 
-    s3_resp.version_id = get(http_resp.headers, "x-amz-version-id", "") 
+    s3_resp.date = get(http_resp.headers, "Date", [""])[1]
+    s3_resp.eTag = get(http_resp.headers, "ETag", [""])[1]
+    s3_resp.server = get(http_resp.headers, "Server", [""])[1]
+
+    s3_resp.delete_marker = lowercase(get(http_resp.headers, "x-amz-delete-marker", ["false"])[1]) == "true" ? true : false
+    s3_resp.id_2 = get(http_resp.headers, "x-amz-id-2", [""])[1]
+    s3_resp.request_id = get(http_resp.headers, "x-amz-request-id", [""])[1]
+    s3_resp.version_id = get(http_resp.headers, "x-amz-version-id", [""])[1]
 
     s3_resp.headers = http_resp.headers
 
     if (http_resp.http_code > 299)
-        if  (search(Base.get(http_resp.headers, "Content-Type", ""), "/xml") != 0:-1) && isa(http_resp.body, IO) && (position(http_resp.body) > 0)
+        if  (search(Base.get(http_resp.headers, "Content-Type", [""])[1], "/xml") != 0:-1) && isa(http_resp.body, IO) && (position(http_resp.body) > 0)
             s3_resp.pd = xp_parse(bytestring(http_resp.body))
             if s3_resp.pd.name == "Error"
-                s3_resp.obj = S3Error(s3_resp.pd) 
+                s3_resp.obj = S3Error(s3_resp.pd)
             end
         end
     else
         s3_resp.obj = conv_to_string ? bytestring(http_resp.body) : http_resp.body
     end
-    
+
     s3_resp
 end
 
@@ -609,9 +608,9 @@ function do_http(env::AWSEnv, ro::RO)
     else
         md5 = ""
     end
-    
+
     (new_amz_hdrs, full_path, s_b64) = canonicalize_and_sign(env, ro, md5)
-    
+
     all_hdrs = new_amz_hdrs
     (md5 != "") ? push!(all_hdrs, ("Content-MD5", md5)) : nothing
     (ro.cont_typ != "") ? push!(all_hdrs, ("Content-Type", ro.cont_typ)) : nothing
@@ -628,9 +627,9 @@ function do_http(env::AWSEnv, ro::RO)
     end
 
     push!(all_hdrs, ("Authorization",  "AWS " * env.aws_id * ":" * s_b64))
-    
+
     url = "https://s3.amazonaws.com" * full_path
-    
+
     http_options = RequestOptions(headers=all_hdrs, ostream=ro.ostream, request_timeout=env.timeout, auto_content_type=false)
 
     if env.dbg
@@ -642,11 +641,11 @@ function do_http(env::AWSEnv, ro::RO)
         end
         println("Body : " * string(ro.body))
     end
-    
+
     if env.dry_run
         return HTTPC.Response()
     end
-    
+
     if ro.verb == :GET
         http_resp = HTTPC.get(url, http_options)
     elseif (ro.verb == :PUT) || (ro.verb == :POST)
@@ -655,19 +654,19 @@ function do_http(env::AWSEnv, ro::RO)
                    (isa(ro.body, String) && (ro.body != "")) ? ro.body :
                    ""
 #                   error("Must specify either a body or istream for PUT/POST")
-    
+
         if (ro.verb == :PUT)
             http_resp = HTTPC.put(url, senddata, http_options)
-        else 
+        else
             http_resp = HTTPC.post(url, senddata, http_options)
         end
-        
+
     elseif ro.verb == :DELETE
         http_resp = HTTPC.delete(url, http_options)
-        
+
     elseif ro.verb == :HEAD
         http_resp = HTTPC.head(url, http_options)
-    
+
     else
         error("Unknown HTTP verb $verb")
     end
@@ -675,11 +674,11 @@ function do_http(env::AWSEnv, ro::RO)
      if env.dbg
          println("Response : ", http_resp)
      end
-    
+
     return http_resp
 end
-        
-        
+
+
 function canonicalize_and_sign(env::AWSEnv, ro::RO, md5::String)
     (new_amz_hdrs, amz_hdrs_str) = get_canon_amz_headers(ro.amz_hdrs)
     (full_path, sign_path) = get_canonicalized_resource(ro)
@@ -688,60 +687,60 @@ function canonicalize_and_sign(env::AWSEnv, ro::RO, md5::String)
     md5 * "\n" *
     ro.cont_typ * "\n" * "\n" * # Using x-amz-date instead of Date.
     amz_hdrs_str * sign_path
-    
+
     if (env.dbg)
         println("String to sign:\n$(str2sign)")
     end
-    
+
     s_b64 = base64(Crypto.hmacsha1_digest(str2sign, env.aws_seckey))
-    
+
     return new_amz_hdrs, full_path, s_b64
 end
 
 const qstr_sign_list = Set([
-    "acl", 
-    "lifecycle", 
-    "location", 
-    "logging", 
-    "notification", 
-    "partNumber", 
-    "policy", 
-    "requestPayment", 
-    "torrent", 
-    "uploadId", 
-    "uploads", 
-    "versionId", 
-    "versioning", 
-    "versions", 
+    "acl",
+    "lifecycle",
+    "location",
+    "logging",
+    "notification",
+    "partNumber",
+    "policy",
+    "requestPayment",
+    "torrent",
+    "uploadId",
+    "uploads",
+    "versionId",
+    "versioning",
+    "versions",
     "website",
-    "response-content-type", 
-    "response-content-language", 
-    "response-expires", 
-    "response-cache-control", 
-    "response-content-disposition", 
+    "response-content-type",
+    "response-content-language",
+    "response-expires",
+    "response-cache-control",
+    "response-content-disposition",
     "response-content-encoding",
     "delete"]
 )
 
 function get_canonicalized_resource(ro::RO)
     if length(ro.bkt) > 0
-        part1 = (beginswith(ro.bkt, "/") ? "" : "/") * ro.bkt
+        part1 = (startswith(ro.bkt, "/") ? "" : "/") * ro.bkt
         if length(ro.key) > 0
-            part1 = part1 * (beginswith(ro.key, "/") ? "" : "/") * ro.key 
+            part1 = part1 * (startswith(ro.key, "/") ? "" : "/") * ro.key
         else
             part1 = part1 * "/"
         end
     else
         part1 = "/"
     end
-    
+
     sorted = sort(ro.sub_res)
     signlist = filter(x -> begin (k,v) = x; in(k, qstr_sign_list) end, sorted)
-    
+
     signparams = ""
     for x in signlist
         k,v = x;
-        if (v != "") 
+        if (v != "")
             ep = string(k) * "=" * string(v)
         else
             ep = string(k)
@@ -752,28 +751,28 @@ function get_canonicalized_resource(ro::RO)
             signparams = signparams  * "&" * ep
         end
     end
-    
+
     canon_res = part1 * "?" * HTTPC.urlencode_query_params(sorted)
-    
-    canon_sign_res = part1 
+
+    canon_sign_res = part1
     if length(signlist) > 0
         canon_sign_res = canon_sign_res * "?" * signparams
     end
-    
+
     return (canon_res, canon_sign_res)
 end
 
 function get_canon_amz_headers(headers::Vector{Tuple})
     lcase = [(lowercase(strip(k)), v) for (k,v) in headers]
-    
+
     # remove any existing amz-date header
     lcase = filter(x -> begin k,v = x; k != "x-amz-date" end, lcase)
-    
-    push!(lcase, ("x-amz-date", rfc1123_date(Calendar.now())))
+
+    push!(lcase, ("x-amz-date", rfc1123_date()))
 
     reduced = Dict{String, String}()
     for (k,v) in lcase
-        if beginswith(k,"x-amz-")
+        if startswith(k,"x-amz-")
             new_v = strip(replace(v, "\n", ' '))
             if in(k, reduced)
                 ev = reduced[k]
@@ -784,19 +783,33 @@ function get_canon_amz_headers(headers::Vector{Tuple})
         end
     end
 
-    # Use the sorted one in the final request too since the order of 'values' 
+    # Use the sorted one in the final request too since the order of 'values'
     sorted = sort(collect(reduced))
     canon_hdr_str = ""
     for x in sorted
         (k,v) = x
         canon_hdr_str = canon_hdr_str * k * ":" * v * "\n"
     end
-    
+
     return sorted, canon_hdr_str
 end
 
-function rfc1123_date(d::CalendarTime)
-    convert(ASCIIString, format("EEE, dd MMM yyyy HH:mm:ss V", Calendar.tz(d, "UTC")))
+rfc1123_date() = rfc1123_date(now(Dates.UTC))
+function rfc1123_date(dt)
+    y,m,d = Dates.yearmonthday(dt)
+    h,mi,s = Dates.hour(dt),Dates.minute(dt),Dates.second(dt)
+
+    dayofweek = Dates.dayabbr(dt)
+    dd = lpad(d,2,"0")
+    monthname = Dates.monthabbr(dt)
+    yy = y < 0 ? @sprintf("%05i",y) : lpad(y,4,"0")
+    hh = lpad(h,2,"0")
+    mii = lpad(mi,2,"0")
+    ss = lpad(s,2,"0")
+
+    #format("EEE, dd MMM yyyy HH:mm:ss V")
+    # "Tue, 24 Feb 2015 05:21:51 GMT"
+    return "$dayofweek, $dd $monthname $yy $hh:$mii:$ss GMT"
 end
 rfc1123_date(d::Nothing) = nothing
 

@@ -425,7 +425,7 @@ type InstanceNetworkInterfaceAttachmentType
     attachmentId::Union(ASCIIString, Nothing)
     deviceIndex::Union(Int64, Nothing)
     status::Union(ASCIIString, Nothing)
-    attachTime::Union(CalendarTime, Nothing)
+    attachTime::Union(Base.Dates.DateTime, Nothing)
     deleteOnTermination::Union(Bool, Nothing)
 
     InstanceNetworkInterfaceAttachmentType(; attachmentId=nothing, deviceIndex=nothing, status=nothing, attachTime=nothing, deleteOnTermination=nothing) = 
@@ -436,7 +436,7 @@ function InstanceNetworkInterfaceAttachmentType(pd::ETree)
     o.attachmentId = find(pd, "attachmentId#string")
     o.deviceIndex = AWS.safe_parse_as(Int64, find(pd, "deviceIndex#string"))
     o.status = find(pd, "status#string")
-    o.attachTime = AWS.safe_parse_as(CalendarTime, find(pd, "attachTime#string"))
+    o.attachTime = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "attachTime#string"))
     o.deleteOnTermination = AWS.safe_parse_as(Bool, find(pd, "deleteOnTermination#string"))
     o
 end
@@ -517,7 +517,7 @@ export InstanceBlockDeviceMappingResponseItemType
 type EbsInstanceBlockDeviceMappingResponseType
     volumeId::Union(ASCIIString, Nothing)
     status::Union(ASCIIString, Nothing)
-    attachTime::Union(CalendarTime, Nothing)
+    attachTime::Union(Base.Dates.DateTime, Nothing)
     deleteOnTermination::Union(Bool, Nothing)
 
     EbsInstanceBlockDeviceMappingResponseType(; volumeId=nothing, status=nothing, attachTime=nothing, deleteOnTermination=nothing) = 
@@ -527,7 +527,7 @@ function EbsInstanceBlockDeviceMappingResponseType(pd::ETree)
     o = EbsInstanceBlockDeviceMappingResponseType()
     o.volumeId = find(pd, "volumeId#string")
     o.status = find(pd, "status#string")
-    o.attachTime = AWS.safe_parse_as(CalendarTime, find(pd, "attachTime#string"))
+    o.attachTime = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "attachTime#string"))
     o.deleteOnTermination = AWS.safe_parse_as(Bool, find(pd, "deleteOnTermination#string"))
     o
 end
@@ -679,7 +679,7 @@ export GetConsoleOutputType
 type GetConsoleOutputResponseType
     requestId::Union(ASCIIString, Nothing)
     instanceId::Union(ASCIIString, Nothing)
-    timestamp::Union(CalendarTime, Nothing)
+    timestamp::Union(Base.Dates.DateTime, Nothing)
     output::Union(ASCIIString, Nothing)
 
     GetConsoleOutputResponseType(; requestId=nothing, instanceId=nothing, timestamp=nothing, output=nothing) = 
@@ -689,7 +689,7 @@ function GetConsoleOutputResponseType(pd::ETree)
     o = GetConsoleOutputResponseType()
     o.requestId = find(pd, "requestId#string")
     o.instanceId = find(pd, "instanceId#string")
-    o.timestamp = AWS.safe_parse_as(CalendarTime, find(pd, "timestamp#string"))
+    o.timestamp = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "timestamp#string"))
     o.output = find(pd, "output#string")
     o
 end
@@ -715,7 +715,7 @@ export GetPasswordDataType
 type GetPasswordDataResponseType
     requestId::Union(ASCIIString, Nothing)
     instanceId::Union(ASCIIString, Nothing)
-    timestamp::Union(CalendarTime, Nothing)
+    timestamp::Union(Base.Dates.DateTime, Nothing)
     passwordData::Union(ASCIIString, Nothing)
 
     GetPasswordDataResponseType(; requestId=nothing, instanceId=nothing, timestamp=nothing, passwordData=nothing) = 
@@ -725,7 +725,7 @@ function GetPasswordDataResponseType(pd::ETree)
     o = GetPasswordDataResponseType()
     o.requestId = find(pd, "requestId#string")
     o.instanceId = find(pd, "instanceId#string")
-    o.timestamp = AWS.safe_parse_as(CalendarTime, find(pd, "timestamp#string"))
+    o.timestamp = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "timestamp#string"))
     o.passwordData = find(pd, "passwordData#string")
     o
 end
@@ -1802,7 +1802,7 @@ type CreateVolumeResponseType
     snapshotId::Union(ASCIIString, Nothing)
     availabilityZone::Union(ASCIIString, Nothing)
     status::Union(ASCIIString, Nothing)
-    createTime::Union(CalendarTime, Nothing)
+    createTime::Union(Base.Dates.DateTime, Nothing)
     volumeType::Union(ASCIIString, Nothing)
     iops::Union(Int64, Nothing)
 
@@ -1817,7 +1817,7 @@ function CreateVolumeResponseType(pd::ETree)
     o.snapshotId = find(pd, "snapshotId#string")
     o.availabilityZone = find(pd, "availabilityZone#string")
     o.status = find(pd, "status#string")
-    o.createTime = AWS.safe_parse_as(CalendarTime, find(pd, "createTime#string"))
+    o.createTime = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "createTime#string"))
     o.volumeType = find(pd, "volumeType#string")
     o.iops = AWS.safe_parse_as(Int64, find(pd, "iops#string"))
     o
@@ -1878,7 +1878,7 @@ type AttachmentSetItemResponseType
     instanceId::Union(ASCIIString, Nothing)
     device::Union(ASCIIString, Nothing)
     status::Union(ASCIIString, Nothing)
-    attachTime::Union(CalendarTime, Nothing)
+    attachTime::Union(Base.Dates.DateTime, Nothing)
     deleteOnTermination::Union(Bool, Nothing)
 
     AttachmentSetItemResponseType(; volumeId=nothing, instanceId=nothing, device=nothing, status=nothing, attachTime=nothing, deleteOnTermination=nothing) = 
@@ -1890,7 +1890,7 @@ function AttachmentSetItemResponseType(pd::ETree)
     o.instanceId = find(pd, "instanceId#string")
     o.device = find(pd, "device#string")
     o.status = find(pd, "status#string")
-    o.attachTime = AWS.safe_parse_as(CalendarTime, find(pd, "attachTime#string"))
+    o.attachTime = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "attachTime#string"))
     o.deleteOnTermination = AWS.safe_parse_as(Bool, find(pd, "deleteOnTermination#string"))
     o
 end
@@ -1923,7 +1923,7 @@ type AttachVolumeResponseType
     instanceId::Union(ASCIIString, Nothing)
     device::Union(ASCIIString, Nothing)
     status::Union(ASCIIString, Nothing)
-    attachTime::Union(CalendarTime, Nothing)
+    attachTime::Union(Base.Dates.DateTime, Nothing)
 
     AttachVolumeResponseType(; requestId=nothing, volumeId=nothing, instanceId=nothing, device=nothing, status=nothing, attachTime=nothing) = 
          new(requestId, volumeId, instanceId, device, status, attachTime)
@@ -1935,7 +1935,7 @@ function AttachVolumeResponseType(pd::ETree)
     o.instanceId = find(pd, "instanceId#string")
     o.device = find(pd, "device#string")
     o.status = find(pd, "status#string")
-    o.attachTime = AWS.safe_parse_as(CalendarTime, find(pd, "attachTime#string"))
+    o.attachTime = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "attachTime#string"))
     o
 end
 
@@ -1969,7 +1969,7 @@ type DetachVolumeResponseType
     instanceId::Union(ASCIIString, Nothing)
     device::Union(ASCIIString, Nothing)
     status::Union(ASCIIString, Nothing)
-    attachTime::Union(CalendarTime, Nothing)
+    attachTime::Union(Base.Dates.DateTime, Nothing)
 
     DetachVolumeResponseType(; requestId=nothing, volumeId=nothing, instanceId=nothing, device=nothing, status=nothing, attachTime=nothing) = 
          new(requestId, volumeId, instanceId, device, status, attachTime)
@@ -1981,7 +1981,7 @@ function DetachVolumeResponseType(pd::ETree)
     o.instanceId = find(pd, "instanceId#string")
     o.device = find(pd, "device#string")
     o.status = find(pd, "status#string")
-    o.attachTime = AWS.safe_parse_as(CalendarTime, find(pd, "attachTime#string"))
+    o.attachTime = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "attachTime#string"))
     o
 end
 
@@ -2010,7 +2010,7 @@ type CreateSnapshotResponseType
     snapshotId::Union(ASCIIString, Nothing)
     volumeId::Union(ASCIIString, Nothing)
     status::Union(ASCIIString, Nothing)
-    startTime::Union(CalendarTime, Nothing)
+    startTime::Union(Base.Dates.DateTime, Nothing)
     progress::Union(ASCIIString, Nothing)
     ownerId::Union(ASCIIString, Nothing)
     volumeSize::Union(ASCIIString, Nothing)
@@ -2025,7 +2025,7 @@ function CreateSnapshotResponseType(pd::ETree)
     o.snapshotId = find(pd, "snapshotId#string")
     o.volumeId = find(pd, "volumeId#string")
     o.status = find(pd, "status#string")
-    o.startTime = AWS.safe_parse_as(CalendarTime, find(pd, "startTime#string"))
+    o.startTime = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "startTime#string"))
     o.progress = find(pd, "progress#string")
     o.ownerId = find(pd, "ownerId#string")
     o.volumeSize = find(pd, "volumeSize#string")
@@ -2673,7 +2673,7 @@ export VpnStaticRouteType
 type VpnTunnelTelemetryType
     outsideIpAddress::Union(ASCIIString, Nothing)
     status::Union(ASCIIString, Nothing)
-    lastStatusChange::Union(CalendarTime, Nothing)
+    lastStatusChange::Union(Base.Dates.DateTime, Nothing)
     statusMessage::Union(ASCIIString, Nothing)
     acceptedRouteCount::Union(Int64, Nothing)
 
@@ -2684,7 +2684,7 @@ function VpnTunnelTelemetryType(pd::ETree)
     o = VpnTunnelTelemetryType()
     o.outsideIpAddress = find(pd, "outsideIpAddress#string")
     o.status = find(pd, "status#string")
-    o.lastStatusChange = AWS.safe_parse_as(CalendarTime, find(pd, "lastStatusChange#string"))
+    o.lastStatusChange = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "lastStatusChange#string"))
     o.statusMessage = find(pd, "statusMessage#string")
     o.acceptedRouteCount = AWS.safe_parse_as(Int64, find(pd, "acceptedRouteCount#string"))
     o
@@ -3298,7 +3298,7 @@ export SpotInstanceStateFaultType
 
 type SpotInstanceStatusMessageType
     code::Union(ASCIIString, Nothing)
-    updateTime::Union(CalendarTime, Nothing)
+    updateTime::Union(Base.Dates.DateTime, Nothing)
     message::Union(ASCIIString, Nothing)
 
     SpotInstanceStatusMessageType(; code=nothing, updateTime=nothing, message=nothing) = 
@@ -3307,7 +3307,7 @@ end
 function SpotInstanceStatusMessageType(pd::ETree)
     o = SpotInstanceStatusMessageType()
     o.code = find(pd, "code#string")
-    o.updateTime = AWS.safe_parse_as(CalendarTime, find(pd, "updateTime#string"))
+    o.updateTime = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "updateTime#string"))
     o.message = find(pd, "message#string")
     o
 end
@@ -3396,7 +3396,7 @@ type SpotPriceHistorySetItemType
     instanceType::Union(ASCIIString, Nothing)
     productDescription::Union(ASCIIString, Nothing)
     spotPrice::Union(ASCIIString, Nothing)
-    timestamp::Union(CalendarTime, Nothing)
+    timestamp::Union(Base.Dates.DateTime, Nothing)
     availabilityZone::Union(ASCIIString, Nothing)
 
     SpotPriceHistorySetItemType(; instanceType=nothing, productDescription=nothing, spotPrice=nothing, timestamp=nothing, availabilityZone=nothing) = 
@@ -3407,7 +3407,7 @@ function SpotPriceHistorySetItemType(pd::ETree)
     o.instanceType = find(pd, "instanceType#string")
     o.productDescription = find(pd, "productDescription#string")
     o.spotPrice = find(pd, "spotPrice#string")
-    o.timestamp = AWS.safe_parse_as(CalendarTime, find(pd, "timestamp#string"))
+    o.timestamp = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "timestamp#string"))
     o.availabilityZone = find(pd, "availabilityZone#string")
     o
 end
@@ -3468,7 +3468,7 @@ type LicenseCapacitySetItemType
     capacity::Union(Int64, Nothing)
     instanceCapacity::Union(Int64, Nothing)
     state::Union(ASCIIString, Nothing)
-    earliestAllowedDeactivationTime::Union(CalendarTime, Nothing)
+    earliestAllowedDeactivationTime::Union(Base.Dates.DateTime, Nothing)
 
     LicenseCapacitySetItemType(; capacity=nothing, instanceCapacity=nothing, state=nothing, earliestAllowedDeactivationTime=nothing) = 
          new(capacity, instanceCapacity, state, earliestAllowedDeactivationTime)
@@ -3478,7 +3478,7 @@ function LicenseCapacitySetItemType(pd::ETree)
     o.capacity = AWS.safe_parse_as(Int64, find(pd, "capacity#string"))
     o.instanceCapacity = AWS.safe_parse_as(Int64, find(pd, "instanceCapacity#string"))
     o.state = find(pd, "state#string")
-    o.earliestAllowedDeactivationTime = AWS.safe_parse_as(CalendarTime, find(pd, "earliestAllowedDeactivationTime#string"))
+    o.earliestAllowedDeactivationTime = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "earliestAllowedDeactivationTime#string"))
     o
 end
 
@@ -4797,7 +4797,7 @@ export DeleteNetworkAclEntryResponseType
 type InstanceStatusDetailsSetItemType
     name::Union(ASCIIString, Nothing)
     status::Union(ASCIIString, Nothing)
-    impairedSince::Union(CalendarTime, Nothing)
+    impairedSince::Union(Base.Dates.DateTime, Nothing)
 
     InstanceStatusDetailsSetItemType(; name=nothing, status=nothing, impairedSince=nothing) = 
          new(name, status, impairedSince)
@@ -4806,7 +4806,7 @@ function InstanceStatusDetailsSetItemType(pd::ETree)
     o = InstanceStatusDetailsSetItemType()
     o.name = find(pd, "name#string")
     o.status = find(pd, "status#string")
-    o.impairedSince = AWS.safe_parse_as(CalendarTime, find(pd, "impairedSince#string"))
+    o.impairedSince = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "impairedSince#string"))
     o
 end
 
@@ -4816,8 +4816,8 @@ export InstanceStatusDetailsSetItemType
 type InstanceStatusEventType
     code::Union(ASCIIString, Nothing)
     description::Union(ASCIIString, Nothing)
-    notBefore::Union(CalendarTime, Nothing)
-    notAfter::Union(CalendarTime, Nothing)
+    notBefore::Union(Base.Dates.DateTime, Nothing)
+    notAfter::Union(Base.Dates.DateTime, Nothing)
 
     InstanceStatusEventType(; code=nothing, description=nothing, notBefore=nothing, notAfter=nothing) = 
          new(code, description, notBefore, notAfter)
@@ -4826,8 +4826,8 @@ function InstanceStatusEventType(pd::ETree)
     o = InstanceStatusEventType()
     o.code = find(pd, "code#string")
     o.description = find(pd, "description#string")
-    o.notBefore = AWS.safe_parse_as(CalendarTime, find(pd, "notBefore#string"))
-    o.notAfter = AWS.safe_parse_as(CalendarTime, find(pd, "notAfter#string"))
+    o.notBefore = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "notBefore#string"))
+    o.notAfter = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "notAfter#string"))
     o
 end
 
@@ -4837,8 +4837,8 @@ export InstanceStatusEventType
 type ReportInstanceStatusType
     instancesSet::Union(Vector{ASCIIString}, Nothing)
     status::Union(ASCIIString, Nothing)
-    startTime::Union(CalendarTime, Nothing)
-    endTime::Union(CalendarTime, Nothing)
+    startTime::Union(Base.Dates.DateTime, Nothing)
+    endTime::Union(Base.Dates.DateTime, Nothing)
     reasonCodesSet::Union(Vector{ASCIIString}, Nothing)
     description::Union(ASCIIString, Nothing)
 
@@ -4849,8 +4849,8 @@ function ReportInstanceStatusType(pd::ETree)
     o = ReportInstanceStatusType()
     o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", find(pd, "item/instanceId"))
     o.status = find(pd, "status#string")
-    o.startTime = AWS.safe_parse_as(CalendarTime, find(pd, "startTime#string"))
-    o.endTime = AWS.safe_parse_as(CalendarTime, find(pd, "endTime#string"))
+    o.startTime = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "startTime#string"))
+    o.endTime = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "endTime#string"))
     o.reasonCodesSet = AWS.parse_vector_as(ASCIIString, "reasonCode", find(pd, "item/reasonCode"))
     o.description = find(pd, "description#string")
     o
@@ -4912,7 +4912,7 @@ type NetworkInterfaceAttachmentType
     instanceOwnerId::Union(ASCIIString, Nothing)
     deviceIndex::Union(Int64, Nothing)
     status::Union(ASCIIString, Nothing)
-    attachTime::Union(CalendarTime, Nothing)
+    attachTime::Union(Base.Dates.DateTime, Nothing)
     deleteOnTermination::Union(Bool, Nothing)
 
     NetworkInterfaceAttachmentType(; attachmentId=nothing, instanceId=nothing, instanceOwnerId=nothing, deviceIndex=nothing, status=nothing, attachTime=nothing, deleteOnTermination=nothing) = 
@@ -4925,7 +4925,7 @@ function NetworkInterfaceAttachmentType(pd::ETree)
     o.instanceOwnerId = find(pd, "instanceOwnerId#string")
     o.deviceIndex = AWS.safe_parse_as(Int64, find(pd, "deviceIndex#string"))
     o.status = find(pd, "status#string")
-    o.attachTime = AWS.safe_parse_as(CalendarTime, find(pd, "attachTime#string"))
+    o.attachTime = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "attachTime#string"))
     o.deleteOnTermination = AWS.safe_parse_as(Bool, find(pd, "deleteOnTermination#string"))
     o
 end
@@ -5277,8 +5277,8 @@ export VolumeStatusDetailsItemType
 
 type VolumeStatusEventItemType
     description::Union(ASCIIString, Nothing)
-    notBefore::Union(CalendarTime, Nothing)
-    notAfter::Union(CalendarTime, Nothing)
+    notBefore::Union(Base.Dates.DateTime, Nothing)
+    notAfter::Union(Base.Dates.DateTime, Nothing)
     eventId::Union(ASCIIString, Nothing)
     eventType::Union(ASCIIString, Nothing)
 
@@ -5288,8 +5288,8 @@ end
 function VolumeStatusEventItemType(pd::ETree)
     o = VolumeStatusEventItemType()
     o.description = find(pd, "description#string")
-    o.notBefore = AWS.safe_parse_as(CalendarTime, find(pd, "notBefore#string"))
-    o.notAfter = AWS.safe_parse_as(CalendarTime, find(pd, "notAfter#string"))
+    o.notBefore = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "notBefore#string"))
+    o.notAfter = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "notAfter#string"))
     o.eventId = find(pd, "eventId#string")
     o.eventType = find(pd, "eventType#string")
     o
@@ -5436,7 +5436,7 @@ type DescribeReservedInstancesResponseSetItemType
     reservedInstancesId::Union(ASCIIString, Nothing)
     instanceType::Union(ASCIIString, Nothing)
     availabilityZone::Union(ASCIIString, Nothing)
-    start::Union(CalendarTime, Nothing)
+    start::Union(Base.Dates.DateTime, Nothing)
     duration::Union(Int64, Nothing)
     fixedPrice::Union(Float64, Nothing)
     usagePrice::Union(Float64, Nothing)
@@ -5457,7 +5457,7 @@ function DescribeReservedInstancesResponseSetItemType(pd::ETree)
     o.reservedInstancesId = find(pd, "reservedInstancesId#string")
     o.instanceType = find(pd, "instanceType#string")
     o.availabilityZone = find(pd, "availabilityZone#string")
-    o.start = AWS.safe_parse_as(CalendarTime, find(pd, "start#string"))
+    o.start = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "start#string"))
     o.duration = AWS.safe_parse_as(Int64, find(pd, "duration#string"))
     o.fixedPrice = AWS.safe_parse_as(Float64, find(pd, "fixedPrice#string"))
     o.usagePrice = AWS.safe_parse_as(Float64, find(pd, "usagePrice#string"))
@@ -5886,7 +5886,7 @@ type DescribeVolumesSetItemResponseType
     snapshotId::Union(ASCIIString, Nothing)
     availabilityZone::Union(ASCIIString, Nothing)
     status::Union(ASCIIString, Nothing)
-    createTime::Union(CalendarTime, Nothing)
+    createTime::Union(Base.Dates.DateTime, Nothing)
     attachmentSet::Union(Vector{AttachmentSetItemResponseType}, Nothing)
     tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
     volumeType::Union(ASCIIString, Nothing)
@@ -5902,7 +5902,7 @@ function DescribeVolumesSetItemResponseType(pd::ETree)
     o.snapshotId = find(pd, "snapshotId#string")
     o.availabilityZone = find(pd, "availabilityZone#string")
     o.status = find(pd, "status#string")
-    o.createTime = AWS.safe_parse_as(CalendarTime, find(pd, "createTime#string"))
+    o.createTime = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "createTime#string"))
     o.attachmentSet = AWS.@parse_vector(AWS.EC2.AttachmentSetItemResponseType, find(pd, "attachmentSet/item"))
     o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
     o.volumeType = find(pd, "volumeType#string")
@@ -6447,7 +6447,7 @@ type DescribeSnapshotsSetItemResponseType
     snapshotId::Union(ASCIIString, Nothing)
     volumeId::Union(ASCIIString, Nothing)
     status::Union(ASCIIString, Nothing)
-    startTime::Union(CalendarTime, Nothing)
+    startTime::Union(Base.Dates.DateTime, Nothing)
     progress::Union(ASCIIString, Nothing)
     ownerId::Union(ASCIIString, Nothing)
     volumeSize::Union(ASCIIString, Nothing)
@@ -6463,7 +6463,7 @@ function DescribeSnapshotsSetItemResponseType(pd::ETree)
     o.snapshotId = find(pd, "snapshotId#string")
     o.volumeId = find(pd, "volumeId#string")
     o.status = find(pd, "status#string")
-    o.startTime = AWS.safe_parse_as(CalendarTime, find(pd, "startTime#string"))
+    o.startTime = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "startTime#string"))
     o.progress = find(pd, "progress#string")
     o.ownerId = find(pd, "ownerId#string")
     o.volumeSize = find(pd, "volumeSize#string")
@@ -6567,8 +6567,8 @@ export DescribeReservedInstancesListingsType
 
 
 type DescribeSpotPriceHistoryType
-    startTime::Union(CalendarTime, Nothing)
-    endTime::Union(CalendarTime, Nothing)
+    startTime::Union(Base.Dates.DateTime, Nothing)
+    endTime::Union(Base.Dates.DateTime, Nothing)
     instanceTypeSet::Union(Vector{ASCIIString}, Nothing)
     productDescriptionSet::Union(Vector{ASCIIString}, Nothing)
     filterSet::Union(Vector{FilterType}, Nothing)
@@ -6581,8 +6581,8 @@ type DescribeSpotPriceHistoryType
 end
 function DescribeSpotPriceHistoryType(pd::ETree)
     o = DescribeSpotPriceHistoryType()
-    o.startTime = AWS.safe_parse_as(CalendarTime, find(pd, "startTime#string"))
-    o.endTime = AWS.safe_parse_as(CalendarTime, find(pd, "endTime#string"))
+    o.startTime = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "startTime#string"))
+    o.endTime = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "endTime#string"))
     o.instanceTypeSet = AWS.parse_vector_as(ASCIIString, "instanceType", find(pd, "item/instanceType"))
     o.productDescriptionSet = AWS.parse_vector_as(ASCIIString, "productDescription", find(pd, "item/productDescription"))
     o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
@@ -6943,8 +6943,8 @@ export DescribeVpcsResponseType
 type DescribeReservedInstancesListingsResponseSetItemType
     reservedInstancesListingId::Union(ASCIIString, Nothing)
     reservedInstancesId::Union(ASCIIString, Nothing)
-    createDate::Union(CalendarTime, Nothing)
-    updateDate::Union(CalendarTime, Nothing)
+    createDate::Union(Base.Dates.DateTime, Nothing)
+    updateDate::Union(Base.Dates.DateTime, Nothing)
     status::Union(ASCIIString, Nothing)
     statusMessage::Union(ASCIIString, Nothing)
     instanceCounts::Union(Vector{InstanceCountsSetItemType}, Nothing)
@@ -6959,8 +6959,8 @@ function DescribeReservedInstancesListingsResponseSetItemType(pd::ETree)
     o = DescribeReservedInstancesListingsResponseSetItemType()
     o.reservedInstancesListingId = find(pd, "reservedInstancesListingId#string")
     o.reservedInstancesId = find(pd, "reservedInstancesId#string")
-    o.createDate = AWS.safe_parse_as(CalendarTime, find(pd, "createDate#string"))
-    o.updateDate = AWS.safe_parse_as(CalendarTime, find(pd, "updateDate#string"))
+    o.createDate = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "createDate#string"))
+    o.updateDate = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "updateDate#string"))
     o.status = find(pd, "status#string")
     o.statusMessage = find(pd, "statusMessage#string")
     o.instanceCounts = AWS.@parse_vector(AWS.EC2.InstanceCountsSetItemType, find(pd, "instanceCounts/item"))
@@ -8100,7 +8100,7 @@ type RunningInstancesItemType
     amiLaunchIndex::Union(ASCIIString, Nothing)
     productCodes::Union(Vector{ProductCodesSetItemType}, Nothing)
     instanceType::Union(ASCIIString, Nothing)
-    launchTime::Union(CalendarTime, Nothing)
+    launchTime::Union(Base.Dates.DateTime, Nothing)
     placement::Union(PlacementResponseType, Nothing)
     kernelId::Union(ASCIIString, Nothing)
     ramdiskId::Union(ASCIIString, Nothing)
@@ -8143,7 +8143,7 @@ function RunningInstancesItemType(pd::ETree)
     o.amiLaunchIndex = find(pd, "amiLaunchIndex#string")
     o.productCodes = AWS.@parse_vector(AWS.EC2.ProductCodesSetItemType, find(pd, "productCodes/item"))
     o.instanceType = find(pd, "instanceType#string")
-    o.launchTime = AWS.safe_parse_as(CalendarTime, find(pd, "launchTime#string"))
+    o.launchTime = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "launchTime#string"))
     o.placement = length(pd["placement"]) > 0 ?  PlacementResponseType(find(pd,"placement[1]")) : nothing
     o.kernelId = find(pd, "kernelId#string")
     o.ramdiskId = find(pd, "ramdiskId#string")
@@ -8237,8 +8237,8 @@ type BundleInstanceTaskType
     instanceId::Union(ASCIIString, Nothing)
     bundleId::Union(ASCIIString, Nothing)
     state::Union(ASCIIString, Nothing)
-    startTime::Union(CalendarTime, Nothing)
-    updateTime::Union(CalendarTime, Nothing)
+    startTime::Union(Base.Dates.DateTime, Nothing)
+    updateTime::Union(Base.Dates.DateTime, Nothing)
     storage::Union(BundleInstanceTaskStorageType, Nothing)
     progress::Union(ASCIIString, Nothing)
     error::Union(BundleInstanceTaskErrorType, Nothing)
@@ -8251,8 +8251,8 @@ function BundleInstanceTaskType(pd::ETree)
     o.instanceId = find(pd, "instanceId#string")
     o.bundleId = find(pd, "bundleId#string")
     o.state = find(pd, "state#string")
-    o.startTime = AWS.safe_parse_as(CalendarTime, find(pd, "startTime#string"))
-    o.updateTime = AWS.safe_parse_as(CalendarTime, find(pd, "updateTime#string"))
+    o.startTime = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "startTime#string"))
+    o.updateTime = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "updateTime#string"))
     o.storage = length(pd["storage"]) > 0 ?  BundleInstanceTaskStorageType(find(pd,"storage[1]")) : nothing
     o.progress = find(pd, "progress#string")
     o.error = length(pd["error"]) > 0 ?  BundleInstanceTaskErrorType(find(pd,"error[1]")) : nothing
@@ -8485,13 +8485,13 @@ type SpotInstanceRequestSetItemType
     state::Union(ASCIIString, Nothing)
     fault::Union(SpotInstanceStateFaultType, Nothing)
     status::Union(SpotInstanceStatusMessageType, Nothing)
-    validFrom::Union(CalendarTime, Nothing)
-    validUntil::Union(CalendarTime, Nothing)
+    validFrom::Union(Base.Dates.DateTime, Nothing)
+    validUntil::Union(Base.Dates.DateTime, Nothing)
     launchGroup::Union(ASCIIString, Nothing)
     availabilityZoneGroup::Union(ASCIIString, Nothing)
     launchSpecification::Union(LaunchSpecificationResponseType, Nothing)
     instanceId::Union(ASCIIString, Nothing)
-    createTime::Union(CalendarTime, Nothing)
+    createTime::Union(Base.Dates.DateTime, Nothing)
     productDescription::Union(ASCIIString, Nothing)
     tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
     launchedAvailabilityZone::Union(ASCIIString, Nothing)
@@ -8507,13 +8507,13 @@ function SpotInstanceRequestSetItemType(pd::ETree)
     o.state = find(pd, "state#string")
     o.fault = length(pd["fault"]) > 0 ?  SpotInstanceStateFaultType(find(pd,"fault[1]")) : nothing
     o.status = length(pd["status"]) > 0 ?  SpotInstanceStatusMessageType(find(pd,"status[1]")) : nothing
-    o.validFrom = AWS.safe_parse_as(CalendarTime, find(pd, "validFrom#string"))
-    o.validUntil = AWS.safe_parse_as(CalendarTime, find(pd, "validUntil#string"))
+    o.validFrom = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "validFrom#string"))
+    o.validUntil = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "validUntil#string"))
     o.launchGroup = find(pd, "launchGroup#string")
     o.availabilityZoneGroup = find(pd, "availabilityZoneGroup#string")
     o.launchSpecification = length(pd["launchSpecification"]) > 0 ?  LaunchSpecificationResponseType(find(pd,"launchSpecification[1]")) : nothing
     o.instanceId = find(pd, "instanceId#string")
-    o.createTime = AWS.safe_parse_as(CalendarTime, find(pd, "createTime#string"))
+    o.createTime = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "createTime#string"))
     o.productDescription = find(pd, "productDescription#string")
     o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
     o.launchedAvailabilityZone = find(pd, "launchedAvailabilityZone#string")
@@ -8771,8 +8771,8 @@ type RequestSpotInstancesType
     spotPrice::Union(ASCIIString, Nothing)
     instanceCount::Union(Int64, Nothing)
     _type::Union(ASCIIString, Nothing)
-    validFrom::Union(CalendarTime, Nothing)
-    validUntil::Union(CalendarTime, Nothing)
+    validFrom::Union(Base.Dates.DateTime, Nothing)
+    validUntil::Union(Base.Dates.DateTime, Nothing)
     launchGroup::Union(ASCIIString, Nothing)
     availabilityZoneGroup::Union(ASCIIString, Nothing)
     launchSpecification::Union(LaunchSpecificationRequestType, Nothing)
@@ -8785,8 +8785,8 @@ function RequestSpotInstancesType(pd::ETree)
     o.spotPrice = find(pd, "spotPrice#string")
     o.instanceCount = AWS.safe_parse_as(Int64, find(pd, "instanceCount#string"))
     o._type = find(pd, "type#string")
-    o.validFrom = AWS.safe_parse_as(CalendarTime, find(pd, "validFrom#string"))
-    o.validUntil = AWS.safe_parse_as(CalendarTime, find(pd, "validUntil#string"))
+    o.validFrom = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "validFrom#string"))
+    o.validUntil = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "validUntil#string"))
     o.launchGroup = find(pd, "launchGroup#string")
     o.availabilityZoneGroup = find(pd, "availabilityZoneGroup#string")
     o.launchSpecification = length(pd["launchSpecification"]) > 0 ?  LaunchSpecificationRequestType(find(pd,"launchSpecification[1]")) : nothing

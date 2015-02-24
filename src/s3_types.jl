@@ -10,13 +10,13 @@ xml_hdr(name) = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><$(name) xmlns=\"http
 xml_ftr(name) = "</$(name)>"
 
 
-macro add_amz_hdr(name, value) 
+macro add_amz_hdr(name, value)
     quote
         if ($(esc(value)) != nothing) push!(hdrs, ("x-amz-" * $(esc(name)), string($(esc(value)))  )) end
     end
 end
 
-macro chk_n_add(name, value) 
+macro chk_n_add(name, value)
     quote
         if ($(esc(value)) != nothing) push!(arr, ($(esc(name)), string($(esc(value)))  )) end
     end
@@ -26,13 +26,13 @@ end
 macro declare_utype(utype)
     quote
         type $(esc(utype))
-            id::String         
+            id::String
             displayName::Union(String, Nothing)
         end
-        
+
         xml(o::$(esc(utype))) = xml($(string(utype)), [("ID", o.id), ("DisplayName", o.displayName)])
         function $(esc(utype))(pd::ETree)
-            o = $(esc(utype))(find(pd, "ID#string"), find(pd, "DisplayName#string"))  
+            o = $(esc(utype))(find(pd, "ID#string"), find(pd, "DisplayName#string"))
         end
         $(esc(utype))(nothing::Nothing) = nothing
     end
@@ -49,14 +49,14 @@ end
 xml(o::GranteeEmail) = xml("Grantee", [("EmailAddress", o.email)], xmlns=$XMLNS_ATTR, xsi_type="AmazonCustomerByEmail")
 export GranteeEmail
 
-type GranteeURI 
+type GranteeURI
     uri::String
 end
-xml(o::GranteeURI) = xml("Grantee", [("URI", o.uri)], xmlns=$XMLNS_ATTR, xsi_type="Group") 
-export GranteeURI 
+xml(o::GranteeURI) = xml("Grantee", [("URI", o.uri)], xmlns=$XMLNS_ATTR, xsi_type="Group")
+export GranteeURI
 
 type GranteeID
-    id::String         
+    id::String
     displayName::String
 end
 xml(o::GranteeID) = xml("Grantee", [("ID", o.id), ("DisplayName", o.displayName)], xmlns=$XMLNS_ATTR, xsi_type="CanonicalUser")
@@ -75,13 +75,13 @@ function Grant(pd_g::ETree)
     if grantee_type == "AmazonCustomerByEmail"
         grantee=GranteeEmail(find(grantee_pd, "EmailAddress#string"))
     elseif grantee_type == "CanonicalUser"
-        grantee=GranteeID(find(grantee_pd, "ID#string"), find(grantee_pd, "DisplayName#string")) 
+        grantee=GranteeID(find(grantee_pd, "ID#string"), find(grantee_pd, "DisplayName#string"))
     elseif grantee_type == "Group"
         grantee=GranteeURI(find(grantee_pd, "URI#string"))
     else
         error("Unknown grantee type")
     end
-    
+
     permission = find(pd_g, "Permission#string")
     Grant(grantee, permission)
 end
@@ -102,7 +102,7 @@ function BucketLoggingStatus(pd_bls::ETree)
     if length(pd_bls["LoggingEnabled"]) > 0
         bls.targetBucket = find(pd_bls, "LoggingEnabled/TargetBucket#string")
         bls.targetPrefix = find(pd_bls, "LoggingEnabled/TargetPrefix#string")
-        
+
         grants = find(pd_bls, "LoggingEnabled/TargetGrants/Grant")
         bls.targetGrants = AWS.@parse_vector(AWS.S3.Grant, grants)
     end
@@ -111,12 +111,12 @@ end
 
 function xml(o::BucketLoggingStatus)
     if (o.loggingEnabled)
-        xml_hdr("BucketLoggingStatus") * 
-        xml("TargetBucket", o.targetBucket) *  
-        xml("TargetPrefix", o.targetPrefix) *  
+        xml_hdr("BucketLoggingStatus") *
+        xml("TargetBucket", o.targetBucket) *
+        xml("TargetPrefix", o.targetPrefix) *
         xml("TargetGrants", o.targetGrants) *
         xml_ftr("BucketLoggingStatus")
-    
+
     else
         xml_hdr("BucketLoggingStatus") * xml_ftr("BucketLoggingStatus")
     end
@@ -137,8 +137,8 @@ function AccessControlPolicy(pd_acl::ETree)
 end
 
 function xml(o::AccessControlPolicy)
-    xml_hdr("AccessControlPolicy") * 
-    xml("Owner", o.owner) *  
+    xml_hdr("AccessControlPolicy") *
+    xml("Owner", o.owner) *
     xml("AccessControlList", o.accessControlList) *
     xml_ftr("AccessControlPolicy")
 end
@@ -150,16 +150,16 @@ type CreateBucketConfiguration
     locationConstraint::Union(String, Nothing)
 end
 CreateBucketConfiguration(pd_cbc::ETree) = CreateBucketConfiguration(find(pd_cbc, "LocationConstraint#string"))
-xml(o::CreateBucketConfiguration) = xml_hdr("CreateBucketConfiguration") * 
-                                    xml("LocationConstraint", o.locationConstraint) * 
+xml(o::CreateBucketConfiguration) = xml_hdr("CreateBucketConfiguration") *
+                                    xml("LocationConstraint", o.locationConstraint) *
                                     xml_ftr("CreateBucketConfiguration")
 export CreateBucketConfiguration
 
-                                    
-                                    
+
+
 type Contents
     key::Union(String, Nothing)
-    lastModified::CalendarTime
+    lastModified::DateTime
     eTag::Union(String, Nothing)
     size::Union(Int64, Nothing)
     owner::Union(Owner, Nothing)
@@ -168,7 +168,7 @@ end
 function Contents(pd_le::ETree)
     key = find(pd_le, "Key#string")
     datestr = find(pd_le, "LastModified#string")
-    t = Calendar.parse("yyyy-MM-dd'T'HH:mm:ss.SSS", datestr[1:end-1], "GMT")
+    t = DateTime(datestr[1:end-1], "y-m-d'T'H:M:S.s")
     etag = find(pd_le, "ETag#string")
     size = AWS.safe_parseint64(find(pd_le, "Size#string"))
     owner=Owner(find(pd_le, "Owner[1]"))
@@ -197,7 +197,7 @@ type ListBucketResult
     isTruncated::Union(Bool, Nothing)
     contents::Vector{Contents}
     commonPrefixes::Vector{CommonPrefixes}
-    
+
     ListBucketResult() = new(nothing,nothing,nothing,nothing,nothing,nothing,nothing,Contents[], CommonPrefixes[])
 end
 
@@ -207,7 +207,7 @@ function ListBucketResult(pd_lbr::ETree)
     lbr.prefix = find(pd_lbr, "Prefix#string")
     lbr.marker = find(pd_lbr, "Marker#string")
     lbr.nextMarker = find(pd_lbr, "NextMarker#string")
-    lbr.maxKeys = AWS.safe_parseint(find(pd_lbr, "MaxKeys#string")) 
+    lbr.maxKeys = AWS.safe_parseint(find(pd_lbr, "MaxKeys#string"))
     lbr.delimiter = find(pd_lbr, "Delimiter#string")
     lbr.isTruncated = AWS.safe_parsebool(find(pd_lbr, "IsTruncated#string"))
     lbr.contents = AWS.@parse_vector(AWS.S3.Contents, pd_lbr["Contents"])
@@ -220,7 +220,7 @@ type Version
     key::Union(String, Nothing)
     versionId::Union(String, Nothing)
     isLatest::Union(Bool, Nothing)
-    lastModified::CalendarTime
+    lastModified::DateTime
     eTag::Union(String, Nothing)
     size::Union(Int64, Nothing)
     owner::Union(Owner, Nothing)
@@ -229,9 +229,9 @@ end
 function Version(pd_v::ETree)
     key = find(pd_v, "Key#string")
     versionId = find(pd_v, "VersionId#string")
-    isLatest = (lowercase(find(pd_v, "IsLatest#string")) == "true") ? true : false 
+    isLatest = (lowercase(find(pd_v, "IsLatest#string")) == "true") ? true : false
     datestr = find(pd_v, "LastModified#string")
-    t = Calendar.parse("yyyy-MM-dd'T'HH:mm:ss.SSS", datestr[1:end-1], "GMT")
+    t = DateTime(datestr[1:end-1], "y-m-d'T'H:M:S.s")
     etag = find(pd_v, "ETag#string")
     size = AWS.safe_parseint64(find(pd_v, "Size#string"))
     owner=Owner(find(pd_v, "Owner[1]"))
@@ -247,15 +247,15 @@ type DeleteMarker
     key::Union(String, Nothing)
     versionId::Union(String, Nothing)
     isLatest::Union(Bool, Nothing)
-    lastModified::CalendarTime
+    lastModified::DateTime
     owner::Union(Owner, Nothing)
 end
 function DeleteMarker(pd_dm::ETree)
     key = find(pd_dm, "Key#string")
     versionId = find(pd_dm, "VersionId#string")
-    isLatest = (lowercase(find(pd_dm, "IsLatest#string")) == "true") ? true : false 
+    isLatest = (lowercase(find(pd_dm, "IsLatest#string")) == "true") ? true : false
     datestr = find(pd_dm, "LastModified#string")
-    t = Calendar.parse("yyyy-MM-dd'T'HH:mm:ss.SSS", datestr[1:end-1], "GMT")
+    t = DateTime(datestr[1:end-1], "y-m-d'T'H:M:S.s")
     owner=Owner(find(pd_dm, "Owner[1]"))
     DeleteMarker(key, versionId, isLatest, t, owner)
 end
@@ -277,9 +277,9 @@ type ListVersionsResult
     version::Union(Vector{Version}, Nothing)
     deleteMarker::Union(Vector{DeleteMarker}, Nothing)
     commonPrefixes::Union(Vector{CommonPrefixes}, Nothing)
-    
+
     ListVersionsResult() = new()
-end  
+end
 function ListVersionsResult(pd_lvr::ETree)
     lvr = ListVersionsResult()
     lvr.name = find(pd_lvr, "Name#string")
@@ -302,12 +302,12 @@ export ListVersionsResult
 
 type Bucket
     name::Union(String, Nothing)
-    creationDate::CalendarTime
+    creationDate::DateTime
 end
 function Bucket(pd_b::ETree)
     datestr = find(pd_b, "CreationDate#string")
-    t = Calendar.parse("yyyy-MM-dd'T'HH:mm:ss.SSS", datestr[1:end-1], "GMT")
-    
+    t = DateTime(datestr[1:end-1], "y-m-d'T'H:M:S.s")
+
     Bucket(find(pd_b, "Name#string"), t)
 end
 export Bucket
@@ -328,13 +328,13 @@ export ListAllMyBucketsResult
 
 
 type CopyObjectResult
-    lastModified::CalendarTime
-    eTag::Union(String, Nothing)      
+    lastModified::DateTime
+    eTag::Union(String, Nothing)
 end
 function CopyObjectResult(pd_cor::ETree)
     datestr = find(pd_cor, "LastModified#string")
-    t = Calendar.parse("yyyy-MM-dd'T'HH:mm:ss.SSS", datestr[1:end-1], "GMT")
-    
+    t = DateTime(datestr[1:end-1], "y-m-d'T'H:M:S.s")
+
     CopyObjectResult(t, find(pd_cor, "ETag#string"))
 end
 export CopyObjectResult
@@ -347,21 +347,21 @@ end
 xml(o::RequestPaymentConfiguration) = xml_hdr("RequestPaymentConfiguration") * xml("Payer", o.payer) * xml_ftr("RequestPaymentConfiguration")
 RequestPaymentConfiguration(pd_rpc::ETree) = RequestPaymentConfiguration(find(pd_rpc, "Payer#string"))
 export RequestPaymentConfiguration
-  
+
 type VersioningConfiguration
     status::Union(String, Nothing)
     mfaDelete::Union(String, Nothing)
 end
-function xml(o::VersioningConfiguration)    
-    xml_hdr("VersioningConfiguration") * 
-    ((o.status != "") ? xml("Status", o.status) : "") * 
-    ((o.mfaDelete != "") ? xml("MfaDelete", o.mfaDelete) : "")  * 
+function xml(o::VersioningConfiguration)
+    xml_hdr("VersioningConfiguration") *
+    ((o.status != "") ? xml("Status", o.status) : "") *
+    ((o.mfaDelete != "") ? xml("MfaDelete", o.mfaDelete) : "")  *
     xml_ftr("VersioningConfiguration")
 end
-function VersioningConfiguration(pd_vc::ETree) 
+function VersioningConfiguration(pd_vc::ETree)
     status = length(pd_vc["Status"]) > 0  ? find(pd_vc, "Status#string") : ""
     mfaDelete = length(pd_vc["MfaDelete"]) > 0  ? find(pd_vc, "MfaDelete#string") : ""
-    
+
     VersioningConfiguration(status, mfaDelete)
 end
 export VersioningConfiguration
@@ -372,7 +372,7 @@ type TopicConfiguration
 end
 function TopicConfiguration(pd_tc::ETree)
     topic = find(pd_tc, "Topic#string")
-    event = String[] 
+    event = String[]
     for pde in find(pd_tc, "Event")
         push!(event, pde.text)
     end
@@ -384,7 +384,7 @@ function xml(o::TopicConfiguration)
     for e in o.event
         events = events * xml("Event", e)
     end
-    
+
     xml("TopicConfiguration", topic * events)
 end
 export TopicConfiguration
@@ -423,22 +423,22 @@ export InitiateMultipartUploadResult
 
 
 type CopyPartResult
-   lastModified::CalendarTime
+   lastModified::DateTime
    eTag::Union(String, Nothing)
 end
 function CopyPartResult(pd::ETree)
     datestr = find(pd, "LastModified#string")
-    t = Calendar.parse("yyyy-MM-dd'T'HH:mm:ss", datestr[1:end-1], "GMT")
+    t = DateTime(datestr[1:end-1], "y-m-d'T'H:M:S")
     CopyPartResult(t, find(pd, "ETag#string"))
 end
 export CopyPartResult
 
 type Part
     partNumber::Union(String, Nothing)
-    lastModified::Union(CalendarTime, Nothing)
+    lastModified::Union(DateTime, Nothing)
     eTag::Union(String, Nothing)
     size::Union(Int64, Nothing)
-    
+
     Part(partNumber, eTag) = new(partNumber, nothing, eTag, nothing)
     Part(partNumber, lastModified, eTag, size) = new(partNumber, lastModified, eTag, size)
 end
@@ -446,7 +446,7 @@ end
 xml(o::Part) = xml("Part", [("PartNumber", o.partNumber), ("ETag", o.eTag)])
 function Part(pd::ETree)
     datestr = find(pd, "LastModified#string")
-    t = Calendar.parse("yyyy-MM-dd'T'HH:mm:ss.SSS", datestr[1:end-1], "GMT")
+    t = DateTime(datestr[1:end-1], "y-m-d'T'H:M:S.s")
 
     Part(find(pd, "PartNumber#string"), t, find(pd, "ETag#string"), int64(find(pd, "Size#string")))
 end
@@ -465,7 +465,7 @@ type CompleteMultipartUploadResult
     key::Union(String, Nothing)
     eTag::Union(String, Nothing)
 end
-CompleteMultipartUploadResult(pd::ETree) = 
+CompleteMultipartUploadResult(pd::ETree) =
     CompleteMultipartUploadResult(
         find(pd, "Location#string"),
         find(pd, "Bucket#string"),
@@ -474,7 +474,7 @@ CompleteMultipartUploadResult(pd::ETree) =
     )
 export CompleteMultipartUploadResult
 
-    
+
 type ListPartsResult
     bucket::Union(String, Nothing)
     key::Union(String, Nothing)
@@ -487,7 +487,7 @@ type ListPartsResult
     maxParts::Union(Int, Nothing)
     isTruncated::Union(Bool, Nothing)
     parts::Vector{Part}
-end  
+end
 function ListPartsResult(pd::ETree)
     ListPartsResult(
         find(pd, "Bucket#string"),
@@ -522,7 +522,7 @@ xml(o::CORSRule) = xml("CORSRule", [
         ("MaxAgeSeconds", o.maxAgeSeconds),
         ("ExposeHeader", o.exposeHeader)
     ])
-    
+
 function CORSRule(pd::ETree)
     id = find(pd, "ID#string")
     allowedMethod = parse_vector_as(String, "AllowedMethod", find(pd, "AllowedMethod"))
@@ -531,9 +531,9 @@ function CORSRule(pd::ETree)
     seconds = find(pd, "MaxAgeSeconds#string")
     if (seconds != nothing) maxAgeSeconds = int(seconds) end
     exposeHeader = parse_vector_as(String, "ExposeHeader", find(pd, "ExposeHeader"))
-    
+
     CORSRule(id, allowedMethod, allowedOrigin, allowedHeader, maxAgeSeconds, exposeHeader)
-    
+
 end
 export CORSRule
 
@@ -552,13 +552,13 @@ type S3Error
     hostId::Union(String, Nothing)
     requestId::Union(String, Nothing)
 end
-function S3Error(pde::ETree) 
+function S3Error(pde::ETree)
     code = find(pde, "Code#string")
     message = find(pde, "Message#string")
     resource = find(pde, "Resource#string")
     hostId = find(pde, "HostId#string")
     requestId = find(pde, "RequestId#string")
-    
+
     S3Error(code, message, resource, hostId, requestId)
 end
 export CORSConfiguration
@@ -572,7 +572,7 @@ xml(o::S3PartTag) = xml("Part", [("PartNumber", o.part_number), ("ETag", o.etag)
 
 type CopyMatchOptions
     if_match::Union(String, Nothing)
-    if_none_match::Union(String, Nothing) 
+    if_none_match::Union(String, Nothing)
     if_unmodified_since::Union(String, Nothing)
     if_modified_since::Union(String, Nothing)
     CopyMatchOptions(;if_match=nothing, if_none_match=nothing, if_unmodified_since=nothing, if_modified_since=nothing) = begin
@@ -612,11 +612,11 @@ export S3_ACL_Grantee
 type S3_ACL
     acl::Union(String, Nothing)
     grant_read::Vector{S3_ACL_Grantee}
-    grant_write::Vector{S3_ACL_Grantee}   
+    grant_write::Vector{S3_ACL_Grantee}
     grant_read_acp::Vector{S3_ACL_Grantee}
     grant_write_acp::Vector{S3_ACL_Grantee}
     grant_full_control::Vector{S3_ACL_Grantee}
-    
+
     S3_ACL() = new(nothing, S3_ACL_Grantee[], S3_ACL_Grantee[], S3_ACL_Grantee[], S3_ACL_Grantee[], S3_ACL_Grantee[])
 end
 function amz_headers(hdrs, o::S3_ACL)
@@ -644,26 +644,26 @@ export S3_ACL
 
 type CopyObjectOptions
 # All are x-amz options
-    copy_source::String  
+    copy_source::String
     metadata_directive::Union(String, Nothing)
     match_options::Union(CopyMatchOptions, Nothing)
-    
-# x-amz only header fields    
+
+# x-amz only header fields
     server_side_encryption::Union(String, Nothing)
-    storage_class::Union(String, Nothing) 
-    website_redirect_location::Union(String, Nothing)    
+    storage_class::Union(String, Nothing)
+    website_redirect_location::Union(String, Nothing)
     acl::Union(S3_ACL, Nothing)
-    
-    CopyObjectOptions(copy_source; metadata_directive=nothing, match_options=nothing, 
+
+    CopyObjectOptions(copy_source; metadata_directive=nothing, match_options=nothing,
         server_side_encryption=nothing, storage_class=nothing, website_redirect_location=nothing, acl=nothing) = begin
             new(copy_source, metadata_directive,  match_options, server_side_encryption, storage_class, website_redirect_location, acl)
     end
-    
+
 end
 function amz_headers(hdrs, o::CopyObjectOptions)
     @add_amz_hdr("copy-source", o.copy_source)
     @add_amz_hdr("metadata-directive", o.metadata_directive)
-    
+
     if (o.match_options != nothing)
         hdrs = amz_headers(hdrs, o.match_options)
     end
@@ -671,7 +671,7 @@ function amz_headers(hdrs, o::CopyObjectOptions)
     @add_amz_hdr("server-side-encryption", o.server_side_encryption)
     @add_amz_hdr("storage-class", o.storage_class)
     @add_amz_hdr("website-redirect-location", o.website_redirect_location)
-    
+
     if o.acl != nothing
         hdrs = amz_headers(hdrs, o.acl)
     end
@@ -681,10 +681,10 @@ export CopyObjectOptions
 
 
 type CopyUploadPartOptions
-    copy_source::String   
+    copy_source::String
     source_range::Union(String, Nothing)
     match_options::Union(CopyMatchOptions, Nothing)
-    
+
     CopyUploadPartOptions(copy_source; source_range=nothing, match_options=nothing) = new(copy_source, source_range, match_options)
 end
 function amz_headers(o::CopyUploadPartOptions)
@@ -703,15 +703,15 @@ type PutObjectOptions
     content_encoding::Union(String, Nothing)
     cont_typ::Union(String, Nothing)
 #Expect  not supported...
-    expires::Union(CalendarTime, Nothing)
-    
-# x-amz header fields    
+    expires::Union(DateTime, Nothing)
+
+# x-amz header fields
     meta::Union(Dict{String, String}, Nothing)
-    server_side_encryption::Union(String, Nothing)   
-    storage_class::Union(String, Nothing) 
-    website_redirect_location::Union(String, Nothing)    
+    server_side_encryption::Union(String, Nothing)
+    storage_class::Union(String, Nothing)
+    website_redirect_location::Union(String, Nothing)
     acl::Union(S3_ACL, Nothing)
-    
+
     PutObjectOptions(;cache_control=nothing,content_disposition=nothing,content_encoding=nothing,
                         cont_typ=nothing,expires=nothing,meta=nothing,server_side_encryption=nothing,
                         storage_class=nothing,website_redirect_location=nothing,acl=nothing) = begin
@@ -724,11 +724,11 @@ function amz_headers(hdrs, o::PutObjectOptions)
             @add_amz_hdr("meta-" * t[1], t[2])
         end
     end
-    
+
     @add_amz_hdr("server-side-encryption", o.server_side_encryption)
     @add_amz_hdr("storage-class", o.storage_class)
     @add_amz_hdr("website-redirect-location", o.website_redirect_location)
-    
+
     if o.acl != nothing
         hdrs = amz_headers(hdrs, o.acl)
     end
@@ -748,23 +748,23 @@ export PutObjectOptions
 
 type GetObjectOptions
     # These go into the query string
-    response_cont_typ::Union(String, Nothing)   
-    response_content_language::Union(String, Nothing)   
-    response_expires::Union(String, Nothing)   
-    response_cache_control::Union(String, Nothing)   
-    response_content_disposition::Union(String, Nothing)   
-    response_content_encoding::Union(String, Nothing)   
-    
+    response_cont_typ::Union(String, Nothing)
+    response_content_language::Union(String, Nothing)
+    response_expires::Union(String, Nothing)
+    response_cache_control::Union(String, Nothing)
+    response_content_disposition::Union(String, Nothing)
+    response_content_encoding::Union(String, Nothing)
+
     # These go into the header
-    range::Union(String, Nothing)   
-    if_modified_since::Union(CalendarTime, Nothing)   
-    if_unmodified_since::Union(CalendarTime, Nothing)   
-    if_match::Union(String, Nothing)   
-    if_none_match::Union(String, Nothing)   
-    
+    range::Union(String, Nothing)
+    if_modified_since::Union(DateTime, Nothing)
+    if_unmodified_since::Union(DateTime, Nothing)
+    if_match::Union(String, Nothing)
+    if_none_match::Union(String, Nothing)
+
     GetObjectOptions(;response_cont_typ=nothing, response_content_language=nothing, response_expires=nothing, response_cache_control=nothing, response_content_disposition=nothing,
         response_content_encoding=nothing, range=nothing, if_modified_since=nothing, if_unmodified_since=nothing, if_match=nothing, if_none_match=nothing) = begin
-            new (response_cont_typ, response_content_language, response_expires, response_cache_control, response_content_disposition,response_content_encoding, range, if_modified_since, if_unmodified_since, if_match, if_none_match) 
+            new (response_cont_typ, response_content_language, response_expires, response_cache_control, response_content_disposition,response_content_encoding, range, if_modified_since, if_unmodified_since, if_match, if_none_match)
         end
 end
 function http_headers(arr, o::GetObjectOptions)
@@ -791,8 +791,8 @@ export GetObjectOptions
 type ObjectType
     key::String
     versionId::Union(String, Nothing)
-    ObjectType(key) = ObjectType(key, nothing) 
-    ObjectType(key, version) = new(key, version) 
+    ObjectType(key) = ObjectType(key, nothing)
+    ObjectType(key, version) = new(key, version)
 end
 function xml(o::ObjectType)
     xml("Object", [("Key", o.key), ("VersionId", o.versionId)])
@@ -834,17 +834,17 @@ type GetBucketUploadsOptions
     max_uploads::Union(Int, Nothing)
     prefix::Union(String, Nothing)
     upload_id_marker::Union(String, Nothing)
-    
-    GetBucketUploadsOptions(; delimiter=nothing, key_marker=nothing, max_uploads=nothing, prefix=nothing, upload_id_marker=nothing) = begin 
+
+    GetBucketUploadsOptions(; delimiter=nothing, key_marker=nothing, max_uploads=nothing, prefix=nothing, upload_id_marker=nothing) = begin
         new(delimiter, key_marker, max_uploads, prefix, upload_id_marker)
     end
 end
 function get_subres(arr, o::GetBucketUploadsOptions)
-    @chk_n_add("delimiter", o.delimiter) 
-    @chk_n_add("key-marker", o.key_marker) 
-    @chk_n_add("max-uploads", o.max_uploads) 
-    @chk_n_add("prefix", o.prefix) 
-    @chk_n_add("upload-id-marker", o.upload_id_marker) 
+    @chk_n_add("delimiter", o.delimiter)
+    @chk_n_add("key-marker", o.key_marker)
+    @chk_n_add("max-uploads", o.max_uploads)
+    @chk_n_add("prefix", o.prefix)
+    @chk_n_add("upload-id-marker", o.upload_id_marker)
     arr
 end
 export GetBucketUploadsOptions
@@ -862,11 +862,11 @@ type GetBucketObjectVersionsOptions
     end
 end
 function get_subres(arr, o::GetBucketObjectVersionsOptions)
-    @chk_n_add("delimiter", o.delimiter) 
-    @chk_n_add("key-marker", o.key_marker) 
-    @chk_n_add("max-keys", o.max_keys) 
-    @chk_n_add("prefix", o.prefix) 
-    @chk_n_add("version-id-marker", o.version_id_marker) 
+    @chk_n_add("delimiter", o.delimiter)
+    @chk_n_add("key-marker", o.key_marker)
+    @chk_n_add("max-keys", o.max_keys)
+    @chk_n_add("prefix", o.prefix)
+    @chk_n_add("version-id-marker", o.version_id_marker)
     arr
 end
 export GetBucketObjectVersionsOptions
@@ -880,10 +880,10 @@ type GetBucketOptions
     GetBucketOptions(;delimiter=nothing, marker=nothing, max_keys=nothing, prefix=nothing) = new(delimiter, marker, max_keys, prefix)
 end
 function get_subres(arr, o::GetBucketOptions)
-    @chk_n_add("delimiter", o.delimiter) 
-    @chk_n_add("marker", o.marker) 
-    @chk_n_add("max-keys", o.max_keys) 
-    @chk_n_add("prefix", o.prefix) 
+    @chk_n_add("delimiter", o.delimiter)
+    @chk_n_add("marker", o.marker)
+    @chk_n_add("max-keys", o.max_keys)
+    @chk_n_add("prefix", o.prefix)
     arr
 end
 export GetBucketOptions
@@ -891,7 +891,7 @@ export GetBucketOptions
 
 type Deleted
     key::Union(String, Nothing)
-    version_id::Union(String, Nothing) 
+    version_id::Union(String, Nothing)
     marker::Union(Bool, Nothing)
     marker_version_id::Union(String, Nothing)
 end
@@ -899,7 +899,7 @@ Deleted() = Deleted(nothing,nothing,nothing,nothing)
 function Deleted(pd::ETree)
     d = Deleted()
     d.key = find(pd, "Key#string")
-    d.version_id = find(pd, "VersionId#string") 
+    d.version_id = find(pd, "VersionId#string")
     d.marker = AWS.safe_parsebool(find(pd, "DeleteMarker#string"))
     d.marker_version_id = find(pd, "DeleteMarkerVersionId#string")
     d
@@ -910,7 +910,7 @@ export Deleted
 
 type DeleteError
     key::Union(String, Nothing)
-    version_id::Union(String, Nothing) 
+    version_id::Union(String, Nothing)
     code::Union(String, Nothing)
     message::Union(String, Nothing)
 end
@@ -918,7 +918,7 @@ DeleteError() = DeleteError(nothing,nothing,nothing,nothing)
 function DeleteError(pd::ETree)
     de = DeleteError()
     de.key = find(pd, "Key#string")
-    de.version_id = find(pd, "VersionId#string") 
+    de.version_id = find(pd, "VersionId#string")
     de.code = find(pd, "Code#string")
     de.message = find(pd, "Message#string")
     de

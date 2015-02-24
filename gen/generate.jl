@@ -1,5 +1,4 @@
 using LibExpat
-using Calendar
 
 # 0-indexed
 #AssignPrivateIpAddresses
@@ -7,7 +6,7 @@ using Calendar
 # not reduced to string
 #IpRanges
 
-#TODO : handle XML Group definitions 
+#TODO : handle XML Group definitions
 
 type TypeContext
     name
@@ -17,7 +16,7 @@ type TypeContext
     definition
     f
     constructor
-    
+
     TypeContext(name, f) = new(
             name,
             "    $(name)(; " ,
@@ -46,10 +45,10 @@ pending = Set()
 skip = Set()
 empty_types = Set()
 all_ctypes_map = Dict{String, ETree}()
-valid_rqst_msgs={}
+valid_rqst_msgs=[]
 
 function get_type_in_jl(xtype_name, ns_pfx)
-    if beginswith(xtype_name, ns_pfx)
+    if startswith(xtype_name, ns_pfx)
         if xtype_name == "$(ns_pfx)string"
             native_type = ASCIIString
         elseif xtype_name == "$(ns_pfx)integer"
@@ -61,17 +60,17 @@ function get_type_in_jl(xtype_name, ns_pfx)
         elseif xtype_name == "$(ns_pfx)double"
             native_type = Float64
         elseif xtype_name == "$(ns_pfx)dateTime"
-            native_type = CalendarTime
+            native_type = DateTime
         elseif xtype_name == "$(ns_pfx)boolean"
             native_type = Bool
         else
             error("Unhandled xs type!")
         end
-        
+
         return (native_type, true)
-    elseif beginswith(xtype_name, "tns:")
+    elseif startswith(xtype_name, "tns:")
         return (xtype_name[5:end], false)
-    end 
+    end
 end
 
 function is_set_type(type_name, is_native, ns_pfx, findpath)
@@ -79,7 +78,7 @@ function is_set_type(type_name, is_native, ns_pfx, findpath)
         println("WARNING : type $type_name not defined yet. Skipping...")
         return (false, type_name, is_native, "", "")
     end
-    
+
     ctype = all_ctypes_map[type_name]
     elements = find (ctype, "$(ns_pfx)sequence/$(ns_pfx)element")
     if isa(elements, Array) && (length(elements) == 1)
@@ -88,19 +87,19 @@ function is_set_type(type_name, is_native, ns_pfx, findpath)
         if haskey(ele.attr, "maxOccurs") && (ele.attr["maxOccurs"] == "unbounded")
             ele_type_name = ele.attr["type"]
 #            println("Found type with single entry of type $ele_type_name array for $type_name")
-            beginswith(ele_type_name, "tns:") ? ele_type_name = ele_type_name[5:end] : nothing
-            
+            startswith(ele_type_name, "tns:") ? ele_type_name = ele_type_name[5:end] : nothing
+
             ele_type = all_ctypes_map[ele_type_name]
             ele_elements = find (ele_type, "$(ns_pfx)sequence/$(ns_pfx)element")
             ele_choices = find (ele_type, "$(ns_pfx)sequence/$(ns_pfx)choice")
             total_ele = (ele_choices == nothing ? 0 : length(ele_choices)) + (ele_elements == nothing ? 0 : length(ele_elements))
-            
+
             if isa(ele_elements, Array) && (total_ele == 1)
                 ele_ele = ele_elements[1]
                 ele_ele_name = ele_ele.attr["name"]
                 ele_ele_type_name = ele_ele.attr["type"]
 
-                (jl_type, is_native) =  get_type_in_jl(ele_ele_type_name, ns_pfx) 
+                (jl_type, is_native) =  get_type_in_jl(ele_ele_type_name, ns_pfx)
                 return (true, string(jl_type), is_native, "$(ele_name)/$(ele_ele_name)", jl_type)
             elseif isa(ele_elements, Array)
 #                println("$ele_type_name is not reduceable further")
@@ -119,13 +118,13 @@ function get_type_for_elements(tctx, elements, ns_pfx)
     lhs_pfx = ""
     rhs_pfx = ""
     path = ""
-    
+
     for x in elements
         xtype = x.attr["type"]
         rawname = x.attr["name"]
         xname = check_member_name(rawname)
-        
-        
+
+
         isarrtype = false
         if haskey(x.attr, "maxOccurs")
             if x.attr["maxOccurs"] == "unbounded"
@@ -139,15 +138,15 @@ function get_type_for_elements(tctx, elements, ns_pfx)
 
         (jltype, native) = get_type_in_jl(xtype, ns_pfx)
         jltype_str = string(jltype)
-        
+
         if native
             replacewitharr = false
             new_jltype_str = jltype_str
         else
             # If this element type is a single element array type and
-            # the array is not of a compound type, just create the array 
+            # the array is not of a compound type, just create the array
             # directly here.
-            
+
             (replacewitharr, new_jltype_str, native, findpath, roottype) = is_set_type(jltype_str, native, ns_pfx, rawname)
             if !native
                 push!(tctx.deps, new_jltype_str)
@@ -158,7 +157,7 @@ function get_type_for_elements(tctx, elements, ns_pfx)
 #         if replacewitharr
 #             println("Replacing $jltype with $new_jltype")
 #         end
-        
+
         type_name = "    " * xname * "::"
         if isarrtype || replacewitharr
             valid_type = "Vector{TYPE}"
@@ -168,10 +167,10 @@ function get_type_for_elements(tctx, elements, ns_pfx)
 
         tctx.const_lhs = tctx.const_lhs * lhs_pfx * xname * "=nothing"
         tctx.const_rhs = tctx.const_rhs * rhs_pfx * xname
-        
+
         lhs_pfx = ", "
         rhs_pfx = ", "
-        
+
         # Constructor stuff
         if isarrtype || replacewitharr
             if native
@@ -184,7 +183,7 @@ function get_type_for_elements(tctx, elements, ns_pfx)
                     # Looks like this can be safely ignored - added it to skip list.
                     # Uncomment the below line if you want them generated again
                     push!(skip, tctx.name)
-                
+
                     tctx.constructor = tctx.constructor * "    o.$(xname) = AWS.@parse_vector(AWS.EC2.$(new_jltype_str), find(pd, \"$(rawname)\"))\n"
                 end
             end
@@ -199,18 +198,18 @@ function get_type_for_elements(tctx, elements, ns_pfx)
 #                 xml_tag_name = new_jltype_str
 #                 if endswith(xml_tag_name, "Type") xml_tag_name = new_jltype_str[1:end-4] end
 #                 xml_tag_name = lowercase(xml_tag_name[1:1]) * xml_tag_name[2:end]
-                
+
                 tctx.constructor = tctx.constructor * "    o.$(xname) = length(pd[\"$(rawname)\"]) > 0 ?  $(jltype)(find(pd,\"$(rawname)[1]\")) : nothing\n"
             end
         end
-        
+
         # NOTE : Allowing "Nothing" for all elements since the WSDL is wrong is some places
         # w.r.t. mandatory elements.
         valid_type = "Union($valid_type, Nothing)"
-        
+
         typetpl = type_name*valid_type
-        
-        
+
+
         typestr = replace(typetpl, "TYPE", new_jltype_str)
         tctx.definition = tctx.definition * typestr*"\n"
     end
@@ -237,13 +236,13 @@ function generate_all_types(ctypes, f, ns_pfx)
     tag_element = ns_pfx * "element"
     tag_choice = ns_pfx * "choice"
     tag_group = ns_pfx * "group"
-    
+
     for ctype in ctypes
         if haskey(ctype.attr, "abstract")
             println("Skipping " * ctype.attr["name"] * " - Define manually.")
             continue
         end
-        
+
         tctx = TypeContext(ctype.attr["name"], f)
 
         # Skip abstract types (for now)
@@ -253,17 +252,17 @@ function generate_all_types(ctypes, f, ns_pfx)
             # sanity check
             if length(seq_elems) > 1 error("More than one sequence!") end
             sequence = seq_elems[1]
-            
+
             xs_elements = sequence[tag_element]
             choice_elems = sequence[tag_choice]
             group_elems = sequence[tag_group]
-            
+
             if length(xs_elements) > 0
                 get_type_for_elements(tctx, xs_elements, ns_pfx)
-                
+
             elseif length(choice_elems) > 0
                 process_choice_tags(tctx, choice_elems, ns_pfx)
-                
+
             elseif length(group_elems) > 0
                 tctx.definition = "    attribute::ASCIIString\n"
             else
@@ -271,17 +270,17 @@ function generate_all_types(ctypes, f, ns_pfx)
             end
         elseif length(choice_elems) > 0
             process_choice_tags(tctx, choice_elems, ns_pfx)
-            
-        elseif length(ctype["*"]) == 0 
+
+        elseif length(ctype["*"]) == 0
             push!(empty_types, ctype.attr["name"])
             continue
         else
             println("Skipping " * ctype.attr["name"] * ". Define manually if required")
             continue
-        end 
+        end
         tctx.definition = tctx.definition * "\n" * tctx.const_lhs * ") = \n        " * tctx.const_rhs * ")\nend\n"
         tctx.definition = tctx.definition * tctx.constructor * "    o\nend\n\n"
-        
+
         if length(tctx.deps) == 0
             #filter out the "SetTypes", not required...
             if (!endswith(tctx.name, "SetType") && !(tctx.name in skip))
@@ -302,19 +301,19 @@ function write_dependent_types(f)
     # Make multiple passes on the dep_map list and keep writing out whatever is possible in each pass
     while true
         start_cnt = length(pending)
-        pending_copy =  copy(pending)   
+        pending_copy =  copy(pending)
         for item in pending_copy
             deps = dep_map[item]
-            
+
             #check to see if all the dependcies have been met
             deps_met = true
-            for dep in deps 
-                if !(dep in written) 
+            for dep in deps
+                if !(dep in written)
                     deps_met = false
                     break
                 end
             end
-            
+
             if deps_met
                 #filter out the "SetTypes", not required...
                 if (!endswith(item, "SetType") && !(item in skip))
@@ -325,9 +324,9 @@ function write_dependent_types(f)
                 delete!(pending, item)
             end
         end
-        
+
         new_cnt = length(pending)
-        if (new_cnt == 0) 
+        if (new_cnt == 0)
             break
         elseif (new_cnt == start_cnt)
             error("Circular dependency detected!")
@@ -339,22 +338,22 @@ end
 function generate_operations(wsdl, operations, f, ns_pfx)
     msg_elements = find(wsdl, "types/$(ns_pfx)schema/$(ns_pfx)element")
     msg_type_map = Dict{String, String}()
-    
-    
+
+
     for m in msg_elements
         m_type = m.attr["type"]
-        if beginswith(m_type, "tns:")
+        if startswith(m_type, "tns:")
             m_type = m_type[5:end]
         end
         msg_type_map[m.attr["name"]] = m_type
     end
-    
+
 
     op_tpl = open(readall, "op.tpl")
-    
+
     for op in operations
         op_name = op.attr["name"]
-        
+
         # Just following the typical way stuff is done across EC2 APIs
         rqst_type = msg_type_map[op_name]
         resp_type = msg_type_map[op_name * "Response"]
@@ -373,16 +372,16 @@ function generate_operations(wsdl, operations, f, ns_pfx)
         push!(valid_rqst_msgs, rqst_type)
 
         op_str = replace(op_tpl, "[[OP_ALTSIG]]", op_altsig)
-        # Due to a bug in replace() that wasn't replacing 
+        # Due to a bug in replace() that wasn't replacing
         # all occurances. Delete loop once fixed.
         for i in 1:10
             op_str = replace(op_str, "[[OP_NAME]]", op_name)
             op_str = replace(op_str, "[[OP_MSG]]", op_msg)
             op_str = replace(op_str, "[[OP_PARAMS]]", op_params)
         end
-        
-        write (f, "$op_str\n\n") 
-    
+
+        write (f, "$op_str\n\n")
+
     end
 
 end
@@ -405,7 +404,7 @@ f = open("../src/ec2_operations.jl", "w+")
 operations = find(wsdl, "portType/operation")
 generate_operations(wsdl, operations, f, "xs:")
 
-# generate the list of valid rqst messages 
+# generate the list of valid rqst messages
 write(f, "ValidRqstMsgs = Dict(\n    \"$(valid_rqst_msgs[1])\"=>true")
 for v in valid_rqst_msgs[2:end]
     write(f, ",\n    \"$v\"=>true")
@@ -413,13 +412,13 @@ end
 write(f, "\n)\n\n")
 
 close(f)
-    
 
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
 
 
