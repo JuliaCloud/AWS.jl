@@ -46,6 +46,8 @@ catch e
     # We anyway need to terminate the instances....
 end
 
+rmprocs(workers())
+
 ec2_terminate(instances)
 
 ec2_show_status(instances)

@@ -100,7 +100,7 @@ function ec2_execute(env::AWSEnv, action::String, params_in=nothing)
     str2sign = "GET\n" * lowercase(env.ep_host) * "\n" * env.ep_path * "\n" * querystr
     sb = Crypto.hmacsha256_digest(str2sign, env.aws_seckey)
 
-    signature_b64 = base64(sb)
+    signature_b64 = base64encode(sb)
 
     #escape the signature
     signature_querystr = HTTPC.urlencode_query_params([("Signature", bytestring(signature_b64))])
@@ -141,8 +141,8 @@ function ec2_execute(env::AWSEnv, action::String, params_in=nothing)
         elseif (resp.http_code >= 400) && (resp.http_code <= 599)
             if length(ec2resp.body) > 0
                 xom = xp_parse(ec2resp.body)
-                epd = find(xom, "Errors/Error[1]")
-                ec2resp.obj = EC2Error(find(epd, "Code#string"), find(epd, "Message#string"), find(xom, "RequestID#string"))
+                epd = LibExpat.find(xom, "Errors/Error[1]")
+                ec2resp.obj = EC2Error(LibExpat.find(epd, "Code#string"), LibExpat.find(epd, "Message#string"), LibExpat.find(xom, "RequestID#string"))
             else
                 error("HTTP error : $(resp.http_code)")
             end

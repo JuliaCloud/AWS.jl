@@ -32,7 +32,7 @@ macro declare_utype(utype)
 
         xml(o::$(esc(utype))) = xml($(string(utype)), [("ID", o.id), ("DisplayName", o.displayName)])
         function $(esc(utype))(pd::ETree)
-            o = $(esc(utype))(find(pd, "ID#string"), find(pd, "DisplayName#string"))
+            o = $(esc(utype))(LibExpat.find(pd, "ID#string"), LibExpat.find(pd, "DisplayName#string"))
         end
         $(esc(utype))(nothing::Nothing) = nothing
     end
@@ -70,19 +70,19 @@ end
 xml(o::Grant) = xml("Grant", [o.grantee, ("Permission", o.permission)])
 # permission must be one of "READ", "WRITE", "READ_ACP", "WRITE_ACP" or "FULL_CONTROL"
 function Grant(pd_g::ETree)
-    grantee_pd = find(pd_g, "Grantee[1]")
+    grantee_pd = LibExpat.find(pd_g, "Grantee[1]")
     grantee_type = grantee_pd.attr["xsi:type"]
     if grantee_type == "AmazonCustomerByEmail"
-        grantee=GranteeEmail(find(grantee_pd, "EmailAddress#string"))
+        grantee=GranteeEmail(LibExpat.find(grantee_pd, "EmailAddress#string"))
     elseif grantee_type == "CanonicalUser"
-        grantee=GranteeID(find(grantee_pd, "ID#string"), find(grantee_pd, "DisplayName#string"))
+        grantee=GranteeID(LibExpat.find(grantee_pd, "ID#string"), LibExpat.find(grantee_pd, "DisplayName#string"))
     elseif grantee_type == "Group"
-        grantee=GranteeURI(find(grantee_pd, "URI#string"))
+        grantee=GranteeURI(LibExpat.find(grantee_pd, "URI#string"))
     else
         error("Unknown grantee type")
     end
 
-    permission = find(pd_g, "Permission#string")
+    permission = LibExpat.find(pd_g, "Permission#string")
     Grant(grantee, permission)
 end
 export Grant
@@ -100,10 +100,10 @@ BucketLoggingStatus() = BucketLoggingStatus(false, nothing, nothing, nothing)
 function BucketLoggingStatus(pd_bls::ETree)
     bls = BucketLoggingStatus()
     if length(pd_bls["LoggingEnabled"]) > 0
-        bls.targetBucket = find(pd_bls, "LoggingEnabled/TargetBucket#string")
-        bls.targetPrefix = find(pd_bls, "LoggingEnabled/TargetPrefix#string")
+        bls.targetBucket = LibExpat.find(pd_bls, "LoggingEnabled/TargetBucket#string")
+        bls.targetPrefix = LibExpat.find(pd_bls, "LoggingEnabled/TargetPrefix#string")
 
-        grants = find(pd_bls, "LoggingEnabled/TargetGrants/Grant")
+        grants = LibExpat.find(pd_bls, "LoggingEnabled/TargetGrants/Grant")
         bls.targetGrants = AWS.@parse_vector(AWS.S3.Grant, grants)
     end
     bls
@@ -131,8 +131,8 @@ type AccessControlPolicy
 end
 
 function AccessControlPolicy(pd_acl::ETree)
-    owner = Owner(find(pd_acl, "Owner[1]"))
-    accessControlList = AWS.@parse_vector(AWS.S3.Grant, find(pd_acl, "AccessControlList/Grant"))
+    owner = Owner(LibExpat.find(pd_acl, "Owner[1]"))
+    accessControlList = AWS.@parse_vector(AWS.S3.Grant, LibExpat.find(pd_acl, "AccessControlList/Grant"))
     return AccessControlPolicy(owner, accessControlList)
 end
 
@@ -149,7 +149,7 @@ export AccessControlPolicy
 type CreateBucketConfiguration
     locationConstraint::Union(String, Nothing)
 end
-CreateBucketConfiguration(pd_cbc::ETree) = CreateBucketConfiguration(find(pd_cbc, "LocationConstraint#string"))
+CreateBucketConfiguration(pd_cbc::ETree) = CreateBucketConfiguration(LibExpat.find(pd_cbc, "LocationConstraint#string"))
 xml(o::CreateBucketConfiguration) = xml_hdr("CreateBucketConfiguration") *
                                     xml("LocationConstraint", o.locationConstraint) *
                                     xml_ftr("CreateBucketConfiguration")
@@ -166,13 +166,13 @@ type Contents
     storageClass::Union(String, Nothing)
 end
 function Contents(pd_le::ETree)
-    key = find(pd_le, "Key#string")
-    datestr = find(pd_le, "LastModified#string")
+    key = LibExpat.find(pd_le, "Key#string")
+    datestr = LibExpat.find(pd_le, "LastModified#string")
     t = DateTime(datestr[1:end-1], "y-m-d'T'H:M:S.s")
-    etag = find(pd_le, "ETag#string")
-    size = AWS.safe_parseint64(find(pd_le, "Size#string"))
-    owner=Owner(find(pd_le, "Owner[1]"))
-    storageClass = find(pd_le, "StorageClass#string")
+    etag = LibExpat.find(pd_le, "ETag#string")
+    size = AWS.safe_parseint64(LibExpat.find(pd_le, "Size#string"))
+    owner=Owner(LibExpat.find(pd_le, "Owner[1]"))
+    storageClass = LibExpat.find(pd_le, "StorageClass#string")
 
     Contents(key, t, etag, size, owner, storageClass)
 end
@@ -183,7 +183,7 @@ export Contents
 type CommonPrefixes
     prefix::Union(String, Nothing)
 end
-CommonPrefixes(pd_cp::ETree) = CommonPrefixes(find(pd_cp, "Prefix#string"))
+CommonPrefixes(pd_cp::ETree) = CommonPrefixes(LibExpat.find(pd_cp, "Prefix#string"))
 export CommonPrefixes
 
 
@@ -203,13 +203,13 @@ end
 
 function ListBucketResult(pd_lbr::ETree)
     lbr = ListBucketResult()
-    lbr.name = find(pd_lbr, "Name#string")
-    lbr.prefix = find(pd_lbr, "Prefix#string")
-    lbr.marker = find(pd_lbr, "Marker#string")
-    lbr.nextMarker = find(pd_lbr, "NextMarker#string")
-    lbr.maxKeys = AWS.safe_parseint(find(pd_lbr, "MaxKeys#string"))
-    lbr.delimiter = find(pd_lbr, "Delimiter#string")
-    lbr.isTruncated = AWS.safe_parsebool(find(pd_lbr, "IsTruncated#string"))
+    lbr.name = LibExpat.find(pd_lbr, "Name#string")
+    lbr.prefix = LibExpat.find(pd_lbr, "Prefix#string")
+    lbr.marker = LibExpat.find(pd_lbr, "Marker#string")
+    lbr.nextMarker = LibExpat.find(pd_lbr, "NextMarker#string")
+    lbr.maxKeys = AWS.safe_parseint(LibExpat.find(pd_lbr, "MaxKeys#string"))
+    lbr.delimiter = LibExpat.find(pd_lbr, "Delimiter#string")
+    lbr.isTruncated = AWS.safe_parsebool(LibExpat.find(pd_lbr, "IsTruncated#string"))
     lbr.contents = AWS.@parse_vector(AWS.S3.Contents, pd_lbr["Contents"])
     lbr.commonPrefixes = AWS.@parse_vector(AWS.S3.CommonPrefixes, pd_lbr["CommonPrefixes"])
     lbr
@@ -227,15 +227,15 @@ type Version
     storageClass::Union(String, Nothing)
 end
 function Version(pd_v::ETree)
-    key = find(pd_v, "Key#string")
-    versionId = find(pd_v, "VersionId#string")
-    isLatest = (lowercase(find(pd_v, "IsLatest#string")) == "true") ? true : false
-    datestr = find(pd_v, "LastModified#string")
+    key = LibExpat.find(pd_v, "Key#string")
+    versionId = LibExpat.find(pd_v, "VersionId#string")
+    isLatest = (lowercase(LibExpat.find(pd_v, "IsLatest#string")) == "true") ? true : false
+    datestr = LibExpat.find(pd_v, "LastModified#string")
     t = DateTime(datestr[1:end-1], "y-m-d'T'H:M:S.s")
-    etag = find(pd_v, "ETag#string")
-    size = AWS.safe_parseint64(find(pd_v, "Size#string"))
-    owner=Owner(find(pd_v, "Owner[1]"))
-    storageClass = find(pd_v, "StorageClass#string")
+    etag = LibExpat.find(pd_v, "ETag#string")
+    size = AWS.safe_parseint64(LibExpat.find(pd_v, "Size#string"))
+    owner=Owner(LibExpat.find(pd_v, "Owner[1]"))
+    storageClass = LibExpat.find(pd_v, "StorageClass#string")
 
     Version(key, versionId, isLatest, t, etag, size, owner, storageClass)
 end
@@ -251,12 +251,12 @@ type DeleteMarker
     owner::Union(Owner, Nothing)
 end
 function DeleteMarker(pd_dm::ETree)
-    key = find(pd_dm, "Key#string")
-    versionId = find(pd_dm, "VersionId#string")
-    isLatest = (lowercase(find(pd_dm, "IsLatest#string")) == "true") ? true : false
-    datestr = find(pd_dm, "LastModified#string")
+    key = LibExpat.find(pd_dm, "Key#string")
+    versionId = LibExpat.find(pd_dm, "VersionId#string")
+    isLatest = (lowercase(LibExpat.find(pd_dm, "IsLatest#string")) == "true") ? true : false
+    datestr = LibExpat.find(pd_dm, "LastModified#string")
     t = DateTime(datestr[1:end-1], "y-m-d'T'H:M:S.s")
-    owner=Owner(find(pd_dm, "Owner[1]"))
+    owner=Owner(LibExpat.find(pd_dm, "Owner[1]"))
     DeleteMarker(key, versionId, isLatest, t, owner)
 end
 export DeleteMarker
@@ -282,18 +282,18 @@ type ListVersionsResult
 end
 function ListVersionsResult(pd_lvr::ETree)
     lvr = ListVersionsResult()
-    lvr.name = find(pd_lvr, "Name#string")
-    lvr.prefix = find(pd_lvr, "Prefix#string")
-    lvr.keyMarker = find(pd_lvr, "KeyMarker#string")
-    lvr.versionIdMarker = find(pd_lvr, "VersionIdMarker#string")
-    lvr.nextKeyMarker = find(pd_lvr, "NextKeyMarker#string")
-    lvr.nextVersionIdMarker = find(pd_lvr, "NextVersionIdMarker#string")
-    lvr.maxKeys = AWS.safe_parseint(find(pd_lvr, "MaxKeys#string"))
-    lvr.delimiter = find(pd_lvr, "Delimiter#string")
-    lvr.isTruncated = AWS.safe_parsebool(find(pd_lvr, "IsTruncated#string"))
-    lvr.version = AWS.@parse_vector(AWS.S3.Version, find(pd_lvr, "Version"))
-    lvr.deleteMarker = AWS.@parse_vector(AWS.S3.DeleteMarker, find(pd_lvr, "DeleteMarker"))
-    lvr.commonPrefixes = AWS.@parse_vector(AWS.S3.CommonPrefixes, find(pd_lvr, "CommonPrefixes"))
+    lvr.name = LibExpat.find(pd_lvr, "Name#string")
+    lvr.prefix = LibExpat.find(pd_lvr, "Prefix#string")
+    lvr.keyMarker = LibExpat.find(pd_lvr, "KeyMarker#string")
+    lvr.versionIdMarker = LibExpat.find(pd_lvr, "VersionIdMarker#string")
+    lvr.nextKeyMarker = LibExpat.find(pd_lvr, "NextKeyMarker#string")
+    lvr.nextVersionIdMarker = LibExpat.find(pd_lvr, "NextVersionIdMarker#string")
+    lvr.maxKeys = AWS.safe_parseint(LibExpat.find(pd_lvr, "MaxKeys#string"))
+    lvr.delimiter = LibExpat.find(pd_lvr, "Delimiter#string")
+    lvr.isTruncated = AWS.safe_parsebool(LibExpat.find(pd_lvr, "IsTruncated#string"))
+    lvr.version = AWS.@parse_vector(AWS.S3.Version, LibExpat.find(pd_lvr, "Version"))
+    lvr.deleteMarker = AWS.@parse_vector(AWS.S3.DeleteMarker, LibExpat.find(pd_lvr, "DeleteMarker"))
+    lvr.commonPrefixes = AWS.@parse_vector(AWS.S3.CommonPrefixes, LibExpat.find(pd_lvr, "CommonPrefixes"))
     lvr
 end
 export ListVersionsResult
@@ -305,10 +305,10 @@ type Bucket
     creationDate::DateTime
 end
 function Bucket(pd_b::ETree)
-    datestr = find(pd_b, "CreationDate#string")
+    datestr = LibExpat.find(pd_b, "CreationDate#string")
     t = DateTime(datestr[1:end-1], "y-m-d'T'H:M:S.s")
 
-    Bucket(find(pd_b, "Name#string"), t)
+    Bucket(LibExpat.find(pd_b, "Name#string"), t)
 end
 export Bucket
 
@@ -320,8 +320,8 @@ type ListAllMyBucketsResult
     buckets::Vector{Bucket}
 end
 function ListAllMyBucketsResult(pd_lab::ETree)
-    owner = Owner(find(pd_lab, "Owner[1]"))
-    buckets = AWS.@parse_vector(AWS.S3.AWS.S3.Bucket, find(pd_lab, "Buckets/Bucket"))
+    owner = Owner(LibExpat.find(pd_lab, "Owner[1]"))
+    buckets = AWS.@parse_vector(AWS.S3.AWS.S3.Bucket, LibExpat.find(pd_lab, "Buckets/Bucket"))
     ListAllMyBucketsResult(owner, buckets)
 end
 export ListAllMyBucketsResult
@@ -332,10 +332,10 @@ type CopyObjectResult
     eTag::Union(String, Nothing)
 end
 function CopyObjectResult(pd_cor::ETree)
-    datestr = find(pd_cor, "LastModified#string")
+    datestr = LibExpat.find(pd_cor, "LastModified#string")
     t = DateTime(datestr[1:end-1], "y-m-d'T'H:M:S.s")
 
-    CopyObjectResult(t, find(pd_cor, "ETag#string"))
+    CopyObjectResult(t, LibExpat.find(pd_cor, "ETag#string"))
 end
 export CopyObjectResult
 
@@ -345,7 +345,7 @@ type RequestPaymentConfiguration
     payer::Union(String, Nothing)
 end
 xml(o::RequestPaymentConfiguration) = xml_hdr("RequestPaymentConfiguration") * xml("Payer", o.payer) * xml_ftr("RequestPaymentConfiguration")
-RequestPaymentConfiguration(pd_rpc::ETree) = RequestPaymentConfiguration(find(pd_rpc, "Payer#string"))
+RequestPaymentConfiguration(pd_rpc::ETree) = RequestPaymentConfiguration(LibExpat.find(pd_rpc, "Payer#string"))
 export RequestPaymentConfiguration
 
 type VersioningConfiguration
@@ -359,8 +359,8 @@ function xml(o::VersioningConfiguration)
     xml_ftr("VersioningConfiguration")
 end
 function VersioningConfiguration(pd_vc::ETree)
-    status = length(pd_vc["Status"]) > 0  ? find(pd_vc, "Status#string") : ""
-    mfaDelete = length(pd_vc["MfaDelete"]) > 0  ? find(pd_vc, "MfaDelete#string") : ""
+    status = length(pd_vc["Status"]) > 0  ? LibExpat.find(pd_vc, "Status#string") : ""
+    mfaDelete = length(pd_vc["MfaDelete"]) > 0  ? LibExpat.find(pd_vc, "MfaDelete#string") : ""
 
     VersioningConfiguration(status, mfaDelete)
 end
@@ -371,9 +371,9 @@ type TopicConfiguration
     event::Vector{String}
 end
 function TopicConfiguration(pd_tc::ETree)
-    topic = find(pd_tc, "Topic#string")
+    topic = LibExpat.find(pd_tc, "Topic#string")
     event = String[]
-    for pde in find(pd_tc, "Event")
+    for pde in LibExpat.find(pd_tc, "Event")
         push!(event, pde.text)
     end
     TopicConfiguration(topic, event)
@@ -394,7 +394,7 @@ export TopicConfiguration
 type NotificationConfiguration
     topicConfiguration::Union(Vector{TopicConfiguration}, Nothing)
 end
-NotificationConfiguration(pd::ETree) = NotificationConfiguration(AWS.@parse_vector(AWS.S3.TopicConfiguration, find(pd, "TopicConfiguration")))
+NotificationConfiguration(pd::ETree) = NotificationConfiguration(AWS.@parse_vector(AWS.S3.TopicConfiguration, LibExpat.find(pd, "TopicConfiguration")))
 
 function xml(o::NotificationConfiguration)
     if o.topicConfiguration == nothing
@@ -416,7 +416,7 @@ type InitiateMultipartUploadResult
     uploadId::Union(String, Nothing)
 end
 function InitiateMultipartUploadResult(pd::ETree)
-    InitiateMultipartUploadResult(find(pd, "Bucket#string"), find(pd, "Key#string"), find(pd, "UploadId#string"))
+    InitiateMultipartUploadResult(LibExpat.find(pd, "Bucket#string"), LibExpat.find(pd, "Key#string"), LibExpat.find(pd, "UploadId#string"))
 end
 export InitiateMultipartUploadResult
 
@@ -427,9 +427,9 @@ type CopyPartResult
    eTag::Union(String, Nothing)
 end
 function CopyPartResult(pd::ETree)
-    datestr = find(pd, "LastModified#string")
+    datestr = LibExpat.find(pd, "LastModified#string")
     t = DateTime(datestr[1:end-1], "y-m-d'T'H:M:S")
-    CopyPartResult(t, find(pd, "ETag#string"))
+    CopyPartResult(t, LibExpat.find(pd, "ETag#string"))
 end
 export CopyPartResult
 
@@ -445,10 +445,10 @@ end
 # We don't need to xmlify lastModified and Size...
 xml(o::Part) = xml("Part", [("PartNumber", o.partNumber), ("ETag", o.eTag)])
 function Part(pd::ETree)
-    datestr = find(pd, "LastModified#string")
+    datestr = LibExpat.find(pd, "LastModified#string")
     t = DateTime(datestr[1:end-1], "y-m-d'T'H:M:S.s")
 
-    Part(find(pd, "PartNumber#string"), t, find(pd, "ETag#string"), int64(find(pd, "Size#string")))
+    Part(LibExpat.find(pd, "PartNumber#string"), t, LibExpat.find(pd, "ETag#string"), int64(LibExpat.find(pd, "Size#string")))
 end
 export Part
 
@@ -467,10 +467,10 @@ type CompleteMultipartUploadResult
 end
 CompleteMultipartUploadResult(pd::ETree) =
     CompleteMultipartUploadResult(
-        find(pd, "Location#string"),
-        find(pd, "Bucket#string"),
-        find(pd, "Key#string"),
-        find(pd, "ETag#string"),
+        LibExpat.find(pd, "Location#string"),
+        LibExpat.find(pd, "Bucket#string"),
+        LibExpat.find(pd, "Key#string"),
+        LibExpat.find(pd, "ETag#string"),
     )
 export CompleteMultipartUploadResult
 
@@ -490,17 +490,17 @@ type ListPartsResult
 end
 function ListPartsResult(pd::ETree)
     ListPartsResult(
-        find(pd, "Bucket#string"),
-        find(pd, "Key#string"),
-        find(pd, "UploadId#string"),
-        Initiator(find(pd, "Initiator[1]")),
-        Owner(find(pd, "Owner[1]")),
-        find(pd, "StorageClass#string"),
-        find(pd, "PartNumberMarker#string"),
-        find(pd, "NextPartNumberMarker#string"),
-        int(find(pd, "MaxParts#string")),
-        (lowercase(find(pd, "IsTruncated#string")) == "true") ? true : false,
-        AWS.@parse_vector(AWS.S3.Part, find(pd, "Part"))
+        LibExpat.find(pd, "Bucket#string"),
+        LibExpat.find(pd, "Key#string"),
+        LibExpat.find(pd, "UploadId#string"),
+        Initiator(LibExpat.find(pd, "Initiator[1]")),
+        Owner(LibExpat.find(pd, "Owner[1]")),
+        LibExpat.find(pd, "StorageClass#string"),
+        LibExpat.find(pd, "PartNumberMarker#string"),
+        LibExpat.find(pd, "NextPartNumberMarker#string"),
+        int(LibExpat.find(pd, "MaxParts#string")),
+        (lowercase(LibExpat.find(pd, "IsTruncated#string")) == "true") ? true : false,
+        AWS.@parse_vector(AWS.S3.Part, LibExpat.find(pd, "Part"))
     )
 end
 export ListPartsResult
@@ -524,13 +524,13 @@ xml(o::CORSRule) = xml("CORSRule", [
     ])
 
 function CORSRule(pd::ETree)
-    id = find(pd, "ID#string")
-    allowedMethod = parse_vector_as(String, "AllowedMethod", find(pd, "AllowedMethod"))
-    allowedOrigin = parse_vector_as(String, "AllowedOrigin", find(pd, "AllowedOrigin"))
-    allowedHeader = parse_vector_as(String, "AllowedHeader", find(pd, "AllowedHeader"))
-    seconds = find(pd, "MaxAgeSeconds#string")
+    id = LibExpat.find(pd, "ID#string")
+    allowedMethod = parse_vector_as(String, "AllowedMethod", LibExpat.find(pd, "AllowedMethod"))
+    allowedOrigin = parse_vector_as(String, "AllowedOrigin", LibExpat.find(pd, "AllowedOrigin"))
+    allowedHeader = parse_vector_as(String, "AllowedHeader", LibExpat.find(pd, "AllowedHeader"))
+    seconds = LibExpat.find(pd, "MaxAgeSeconds#string")
     if (seconds != nothing) maxAgeSeconds = int(seconds) end
-    exposeHeader = parse_vector_as(String, "ExposeHeader", find(pd, "ExposeHeader"))
+    exposeHeader = parse_vector_as(String, "ExposeHeader", LibExpat.find(pd, "ExposeHeader"))
 
     CORSRule(id, allowedMethod, allowedOrigin, allowedHeader, maxAgeSeconds, exposeHeader)
 
@@ -542,7 +542,7 @@ type CORSConfiguration
     corsrules::Vector{CORSRule}
 end
 xml(o::CORSConfiguration) = xml("CORSConfiguration", o.corsrules)
-CORSConfiguration(pd::ETree) = AWS.@parse_vector(AWS.S3.CORSRule, find(pd, "CORSRule"))
+CORSConfiguration(pd::ETree) = AWS.@parse_vector(AWS.S3.CORSRule, LibExpat.find(pd, "CORSRule"))
 
 
 type S3Error
@@ -553,11 +553,11 @@ type S3Error
     requestId::Union(String, Nothing)
 end
 function S3Error(pde::ETree)
-    code = find(pde, "Code#string")
-    message = find(pde, "Message#string")
-    resource = find(pde, "Resource#string")
-    hostId = find(pde, "HostId#string")
-    requestId = find(pde, "RequestId#string")
+    code = LibExpat.find(pde, "Code#string")
+    message = LibExpat.find(pde, "Message#string")
+    resource = LibExpat.find(pde, "Resource#string")
+    hostId = LibExpat.find(pde, "HostId#string")
+    requestId = LibExpat.find(pde, "RequestId#string")
 
     S3Error(code, message, resource, hostId, requestId)
 end
@@ -898,10 +898,10 @@ end
 Deleted() = Deleted(nothing,nothing,nothing,nothing)
 function Deleted(pd::ETree)
     d = Deleted()
-    d.key = find(pd, "Key#string")
-    d.version_id = find(pd, "VersionId#string")
-    d.marker = AWS.safe_parsebool(find(pd, "DeleteMarker#string"))
-    d.marker_version_id = find(pd, "DeleteMarkerVersionId#string")
+    d.key = LibExpat.find(pd, "Key#string")
+    d.version_id = LibExpat.find(pd, "VersionId#string")
+    d.marker = AWS.safe_parsebool(LibExpat.find(pd, "DeleteMarker#string"))
+    d.marker_version_id = LibExpat.find(pd, "DeleteMarkerVersionId#string")
     d
 end
 export Deleted
@@ -917,10 +917,10 @@ end
 DeleteError() = DeleteError(nothing,nothing,nothing,nothing)
 function DeleteError(pd::ETree)
     de = DeleteError()
-    de.key = find(pd, "Key#string")
-    de.version_id = find(pd, "VersionId#string")
-    de.code = find(pd, "Code#string")
-    de.message = find(pd, "Message#string")
+    de.key = LibExpat.find(pd, "Key#string")
+    de.version_id = LibExpat.find(pd, "VersionId#string")
+    de.code = LibExpat.find(pd, "Code#string")
+    de.message = LibExpat.find(pd, "Message#string")
     de
 end
 export DeleteError

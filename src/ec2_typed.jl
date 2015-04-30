@@ -31,7 +31,7 @@ corrections_map = Dict(
     ("ReportInstanceStatusType", "instancesSet") => "instanceId")
 
 function add_to_params(params, obj, pfx)
-    for m in names(typeof(obj))
+    for m in fieldnames(typeof(obj))
         fld_val = getfield(obj, m)
         if (fld_val != nothing)
             fld_name = string(m)

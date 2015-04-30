@@ -7,8 +7,8 @@ type CreateImageResponseType
 end
 function CreateImageResponseType(pd::ETree)
     o = CreateImageResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.imageId = find(pd, "imageId#string")
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.imageId = LibExpat.find(pd, "imageId#string")
     o
 end
 
@@ -24,8 +24,8 @@ type RegisterImageResponseType
 end
 function RegisterImageResponseType(pd::ETree)
     o = RegisterImageResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.imageId = find(pd, "imageId#string")
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.imageId = LibExpat.find(pd, "imageId#string")
     o
 end
 
@@ -40,7 +40,7 @@ type DeregisterImageType
 end
 function DeregisterImageType(pd::ETree)
     o = DeregisterImageType()
-    o.imageId = find(pd, "imageId#string")
+    o.imageId = LibExpat.find(pd, "imageId#string")
     o
 end
 
@@ -56,8 +56,8 @@ type DeregisterImageResponseType
 end
 function DeregisterImageResponseType(pd::ETree)
     o = DeregisterImageResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -72,7 +72,7 @@ type CreateKeyPairType
 end
 function CreateKeyPairType(pd::ETree)
     o = CreateKeyPairType()
-    o.keyName = find(pd, "keyName#string")
+    o.keyName = LibExpat.find(pd, "keyName#string")
     o
 end
 
@@ -90,10 +90,10 @@ type CreateKeyPairResponseType
 end
 function CreateKeyPairResponseType(pd::ETree)
     o = CreateKeyPairResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.keyName = find(pd, "keyName#string")
-    o.keyFingerprint = find(pd, "keyFingerprint#string")
-    o.keyMaterial = find(pd, "keyMaterial#string")
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.keyName = LibExpat.find(pd, "keyName#string")
+    o.keyFingerprint = LibExpat.find(pd, "keyFingerprint#string")
+    o.keyMaterial = LibExpat.find(pd, "keyMaterial#string")
     o
 end
 
@@ -109,8 +109,8 @@ type ImportKeyPairType
 end
 function ImportKeyPairType(pd::ETree)
     o = ImportKeyPairType()
-    o.keyName = find(pd, "keyName#string")
-    o.publicKeyMaterial = find(pd, "publicKeyMaterial#string")
+    o.keyName = LibExpat.find(pd, "keyName#string")
+    o.publicKeyMaterial = LibExpat.find(pd, "publicKeyMaterial#string")
     o
 end
 
@@ -127,9 +127,9 @@ type ImportKeyPairResponseType
 end
 function ImportKeyPairResponseType(pd::ETree)
     o = ImportKeyPairResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.keyName = find(pd, "keyName#string")
-    o.keyFingerprint = find(pd, "keyFingerprint#string")
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.keyName = LibExpat.find(pd, "keyName#string")
+    o.keyFingerprint = LibExpat.find(pd, "keyFingerprint#string")
     o
 end
 
@@ -144,7 +144,7 @@ type DeleteKeyPairType
 end
 function DeleteKeyPairType(pd::ETree)
     o = DeleteKeyPairType()
-    o.keyName = find(pd, "keyName#string")
+    o.keyName = LibExpat.find(pd, "keyName#string")
     o
 end
 
@@ -160,8 +160,8 @@ type DeleteKeyPairResponseType
 end
 function DeleteKeyPairResponseType(pd::ETree)
     o = DeleteKeyPairResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -176,7 +176,7 @@ type DescribeKeyPairsItemType
 end
 function DescribeKeyPairsItemType(pd::ETree)
     o = DescribeKeyPairsItemType()
-    o.keyName = find(pd, "keyName#string")
+    o.keyName = LibExpat.find(pd, "keyName#string")
     o
 end
 
@@ -192,8 +192,8 @@ type DescribeKeyPairsResponseItemType
 end
 function DescribeKeyPairsResponseItemType(pd::ETree)
     o = DescribeKeyPairsResponseItemType()
-    o.keyName = find(pd, "keyName#string")
-    o.keyFingerprint = find(pd, "keyFingerprint#string")
+    o.keyName = LibExpat.find(pd, "keyName#string")
+    o.keyFingerprint = LibExpat.find(pd, "keyFingerprint#string")
     o
 end
 
@@ -209,8 +209,8 @@ type IamInstanceProfileRequestType
 end
 function IamInstanceProfileRequestType(pd::ETree)
     o = IamInstanceProfileRequestType()
-    o.arn = find(pd, "arn#string")
-    o.name = find(pd, "name#string")
+    o.arn = LibExpat.find(pd, "arn#string")
+    o.name = LibExpat.find(pd, "name#string")
     o
 end
 
@@ -226,8 +226,8 @@ type PrivateIpAddressesSetItemRequestType
 end
 function PrivateIpAddressesSetItemRequestType(pd::ETree)
     o = PrivateIpAddressesSetItemRequestType()
-    o.privateIpAddress = find(pd, "privateIpAddress#string")
-    o.primary = AWS.safe_parse_as(Bool, find(pd, "primary#string"))
+    o.privateIpAddress = LibExpat.find(pd, "privateIpAddress#string")
+    o.primary = AWS.safe_parse_as(Bool, LibExpat.find(pd, "primary#string"))
     o
 end
 
@@ -243,8 +243,8 @@ type ImportInstanceGroupItemType
 end
 function ImportInstanceGroupItemType(pd::ETree)
     o = ImportInstanceGroupItemType()
-    o.groupId = find(pd, "groupId#string")
-    o.groupName = find(pd, "groupName#string")
+    o.groupId = LibExpat.find(pd, "groupId#string")
+    o.groupName = LibExpat.find(pd, "groupName#string")
     o
 end
 
@@ -260,8 +260,8 @@ type GroupItemType
 end
 function GroupItemType(pd::ETree)
     o = GroupItemType()
-    o.groupId = find(pd, "groupId#string")
-    o.groupName = find(pd, "groupName#string")
+    o.groupId = LibExpat.find(pd, "groupId#string")
+    o.groupName = LibExpat.find(pd, "groupName#string")
     o
 end
 
@@ -276,7 +276,7 @@ type UserDataType
 end
 function UserDataType(pd::ETree)
     o = UserDataType()
-    o.data = find(pd, "data#string")
+    o.data = LibExpat.find(pd, "data#string")
     o
 end
 
@@ -291,7 +291,7 @@ type BlockDeviceMappingItemType
 end
 function BlockDeviceMappingItemType(pd::ETree)
     o = BlockDeviceMappingItemType()
-    o.deviceName = find(pd, "deviceName#string")
+    o.deviceName = LibExpat.find(pd, "deviceName#string")
     o
 end
 
@@ -310,11 +310,11 @@ type EbsBlockDeviceType
 end
 function EbsBlockDeviceType(pd::ETree)
     o = EbsBlockDeviceType()
-    o.snapshotId = find(pd, "snapshotId#string")
-    o.volumeSize = AWS.safe_parse_as(Int64, find(pd, "volumeSize#string"))
-    o.deleteOnTermination = AWS.safe_parse_as(Bool, find(pd, "deleteOnTermination#string"))
-    o.volumeType = find(pd, "volumeType#string")
-    o.iops = AWS.safe_parse_as(Int64, find(pd, "iops#string"))
+    o.snapshotId = LibExpat.find(pd, "snapshotId#string")
+    o.volumeSize = AWS.safe_parse_as(Int64, LibExpat.find(pd, "volumeSize#string"))
+    o.deleteOnTermination = AWS.safe_parse_as(Bool, LibExpat.find(pd, "deleteOnTermination#string"))
+    o.volumeType = LibExpat.find(pd, "volumeType#string")
+    o.iops = AWS.safe_parse_as(Int64, LibExpat.find(pd, "iops#string"))
     o
 end
 
@@ -331,9 +331,9 @@ type PlacementRequestType
 end
 function PlacementRequestType(pd::ETree)
     o = PlacementRequestType()
-    o.availabilityZone = find(pd, "availabilityZone#string")
-    o.groupName = find(pd, "groupName#string")
-    o.tenancy = find(pd, "tenancy#string")
+    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
+    o.groupName = LibExpat.find(pd, "groupName#string")
+    o.tenancy = LibExpat.find(pd, "tenancy#string")
     o
 end
 
@@ -349,8 +349,8 @@ type SpotPlacementRequestType
 end
 function SpotPlacementRequestType(pd::ETree)
     o = SpotPlacementRequestType()
-    o.availabilityZone = find(pd, "availabilityZone#string")
-    o.groupName = find(pd, "groupName#string")
+    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
+    o.groupName = LibExpat.find(pd, "groupName#string")
     o
 end
 
@@ -366,8 +366,8 @@ type InstancePlacementType
 end
 function InstancePlacementType(pd::ETree)
     o = InstancePlacementType()
-    o.availabilityZone = find(pd, "availabilityZone#string")
-    o.groupName = find(pd, "groupName#string")
+    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
+    o.groupName = LibExpat.find(pd, "groupName#string")
     o
 end
 
@@ -382,7 +382,7 @@ type MonitoringInstanceType
 end
 function MonitoringInstanceType(pd::ETree)
     o = MonitoringInstanceType()
-    o.enabled = AWS.safe_parse_as(Bool, find(pd, "enabled#string"))
+    o.enabled = AWS.safe_parse_as(Bool, LibExpat.find(pd, "enabled#string"))
     o
 end
 
@@ -397,7 +397,7 @@ type InstanceLicenseRequestType
 end
 function InstanceLicenseRequestType(pd::ETree)
     o = InstanceLicenseRequestType()
-    o.pool = find(pd, "pool#string")
+    o.pool = LibExpat.find(pd, "pool#string")
     o
 end
 
@@ -413,8 +413,8 @@ type IamInstanceProfileResponseType
 end
 function IamInstanceProfileResponseType(pd::ETree)
     o = IamInstanceProfileResponseType()
-    o.arn = find(pd, "arn#string")
-    o.id = find(pd, "id#string")
+    o.arn = LibExpat.find(pd, "arn#string")
+    o.id = LibExpat.find(pd, "id#string")
     o
 end
 
@@ -433,11 +433,11 @@ type InstanceNetworkInterfaceAttachmentType
 end
 function InstanceNetworkInterfaceAttachmentType(pd::ETree)
     o = InstanceNetworkInterfaceAttachmentType()
-    o.attachmentId = find(pd, "attachmentId#string")
-    o.deviceIndex = AWS.safe_parse_as(Int64, find(pd, "deviceIndex#string"))
-    o.status = find(pd, "status#string")
-    o.attachTime = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "attachTime#string"))
-    o.deleteOnTermination = AWS.safe_parse_as(Bool, find(pd, "deleteOnTermination#string"))
+    o.attachmentId = LibExpat.find(pd, "attachmentId#string")
+    o.deviceIndex = AWS.safe_parse_as(Int64, LibExpat.find(pd, "deviceIndex#string"))
+    o.status = LibExpat.find(pd, "status#string")
+    o.attachTime = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "attachTime#string"))
+    o.deleteOnTermination = AWS.safe_parse_as(Bool, LibExpat.find(pd, "deleteOnTermination#string"))
     o
 end
 
@@ -454,9 +454,9 @@ type InstanceNetworkInterfaceAssociationType
 end
 function InstanceNetworkInterfaceAssociationType(pd::ETree)
     o = InstanceNetworkInterfaceAssociationType()
-    o.publicIp = find(pd, "publicIp#string")
-    o.publicDnsName = find(pd, "publicDnsName#string")
-    o.ipOwnerId = find(pd, "ipOwnerId#string")
+    o.publicIp = LibExpat.find(pd, "publicIp#string")
+    o.publicDnsName = LibExpat.find(pd, "publicDnsName#string")
+    o.ipOwnerId = LibExpat.find(pd, "ipOwnerId#string")
     o
 end
 
@@ -473,9 +473,9 @@ type PlacementResponseType
 end
 function PlacementResponseType(pd::ETree)
     o = PlacementResponseType()
-    o.availabilityZone = find(pd, "availabilityZone#string")
-    o.groupName = find(pd, "groupName#string")
-    o.tenancy = find(pd, "tenancy#string")
+    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
+    o.groupName = LibExpat.find(pd, "groupName#string")
+    o.tenancy = LibExpat.find(pd, "tenancy#string")
     o
 end
 
@@ -491,8 +491,8 @@ type StateReasonType
 end
 function StateReasonType(pd::ETree)
     o = StateReasonType()
-    o.code = find(pd, "code#string")
-    o.message = find(pd, "message#string")
+    o.code = LibExpat.find(pd, "code#string")
+    o.message = LibExpat.find(pd, "message#string")
     o
 end
 
@@ -507,7 +507,7 @@ type InstanceBlockDeviceMappingResponseItemType
 end
 function InstanceBlockDeviceMappingResponseItemType(pd::ETree)
     o = InstanceBlockDeviceMappingResponseItemType()
-    o.deviceName = find(pd, "deviceName#string")
+    o.deviceName = LibExpat.find(pd, "deviceName#string")
     o
 end
 
@@ -525,10 +525,10 @@ type EbsInstanceBlockDeviceMappingResponseType
 end
 function EbsInstanceBlockDeviceMappingResponseType(pd::ETree)
     o = EbsInstanceBlockDeviceMappingResponseType()
-    o.volumeId = find(pd, "volumeId#string")
-    o.status = find(pd, "status#string")
-    o.attachTime = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "attachTime#string"))
-    o.deleteOnTermination = AWS.safe_parse_as(Bool, find(pd, "deleteOnTermination#string"))
+    o.volumeId = LibExpat.find(pd, "volumeId#string")
+    o.status = LibExpat.find(pd, "status#string")
+    o.attachTime = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "attachTime#string"))
+    o.deleteOnTermination = AWS.safe_parse_as(Bool, LibExpat.find(pd, "deleteOnTermination#string"))
     o
 end
 
@@ -543,7 +543,7 @@ type InstanceLicenseResponseType
 end
 function InstanceLicenseResponseType(pd::ETree)
     o = InstanceLicenseResponseType()
-    o.pool = find(pd, "pool#string")
+    o.pool = LibExpat.find(pd, "pool#string")
     o
 end
 
@@ -558,7 +558,7 @@ type AccountAttributeNameSetItemType
 end
 function AccountAttributeNameSetItemType(pd::ETree)
     o = AccountAttributeNameSetItemType()
-    o.attributeName = find(pd, "attributeName#string")
+    o.attributeName = LibExpat.find(pd, "attributeName#string")
     o
 end
 
@@ -574,8 +574,8 @@ type AccountAttributeSetItemType
 end
 function AccountAttributeSetItemType(pd::ETree)
     o = AccountAttributeSetItemType()
-    o.attributeName = find(pd, "attributeName#string")
-    o.attributeValueSet = AWS.parse_vector_as(ASCIIString, "attributeValue", find(pd, "item/attributeValue"))
+    o.attributeName = LibExpat.find(pd, "attributeName#string")
+    o.attributeValueSet = AWS.parse_vector_as(ASCIIString, "attributeValue", LibExpat.find(pd, "item/attributeValue"))
     o
 end
 
@@ -590,7 +590,7 @@ type AccountAttributeValueSetItemType
 end
 function AccountAttributeValueSetItemType(pd::ETree)
     o = AccountAttributeValueSetItemType()
-    o.attributeValue = find(pd, "attributeValue#string")
+    o.attributeValue = LibExpat.find(pd, "attributeValue#string")
     o
 end
 
@@ -605,7 +605,7 @@ type DescribeVpcAttributeType
 end
 function DescribeVpcAttributeType(pd::ETree)
     o = DescribeVpcAttributeType()
-    o.vpcId = find(pd, "vpcId#string")
+    o.vpcId = LibExpat.find(pd, "vpcId#string")
     o
 end
 
@@ -621,8 +621,8 @@ type DescribeVpcAttributeResponseType
 end
 function DescribeVpcAttributeResponseType(pd::ETree)
     o = DescribeVpcAttributeResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.vpcId = find(pd, "vpcId#string")
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.vpcId = LibExpat.find(pd, "vpcId#string")
     o
 end
 
@@ -637,7 +637,7 @@ type ModifyVpcAttributeType
 end
 function ModifyVpcAttributeType(pd::ETree)
     o = ModifyVpcAttributeType()
-    o.vpcId = find(pd, "vpcId#string")
+    o.vpcId = LibExpat.find(pd, "vpcId#string")
     o
 end
 
@@ -653,8 +653,8 @@ type ModifyVpcAttributeResponseType
 end
 function ModifyVpcAttributeResponseType(pd::ETree)
     o = ModifyVpcAttributeResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -669,7 +669,7 @@ type GetConsoleOutputType
 end
 function GetConsoleOutputType(pd::ETree)
     o = GetConsoleOutputType()
-    o.instanceId = find(pd, "instanceId#string")
+    o.instanceId = LibExpat.find(pd, "instanceId#string")
     o
 end
 
@@ -687,10 +687,10 @@ type GetConsoleOutputResponseType
 end
 function GetConsoleOutputResponseType(pd::ETree)
     o = GetConsoleOutputResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.instanceId = find(pd, "instanceId#string")
-    o.timestamp = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "timestamp#string"))
-    o.output = find(pd, "output#string")
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.instanceId = LibExpat.find(pd, "instanceId#string")
+    o.timestamp = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "timestamp#string"))
+    o.output = LibExpat.find(pd, "output#string")
     o
 end
 
@@ -705,7 +705,7 @@ type GetPasswordDataType
 end
 function GetPasswordDataType(pd::ETree)
     o = GetPasswordDataType()
-    o.instanceId = find(pd, "instanceId#string")
+    o.instanceId = LibExpat.find(pd, "instanceId#string")
     o
 end
 
@@ -723,10 +723,10 @@ type GetPasswordDataResponseType
 end
 function GetPasswordDataResponseType(pd::ETree)
     o = GetPasswordDataResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.instanceId = find(pd, "instanceId#string")
-    o.timestamp = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "timestamp#string"))
-    o.passwordData = find(pd, "passwordData#string")
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.instanceId = LibExpat.find(pd, "instanceId#string")
+    o.timestamp = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "timestamp#string"))
+    o.passwordData = LibExpat.find(pd, "passwordData#string")
     o
 end
 
@@ -741,7 +741,7 @@ type InstanceIdType
 end
 function InstanceIdType(pd::ETree)
     o = InstanceIdType()
-    o.instanceId = find(pd, "instanceId#string")
+    o.instanceId = LibExpat.find(pd, "instanceId#string")
     o
 end
 
@@ -756,7 +756,7 @@ type TerminateInstancesType
 end
 function TerminateInstancesType(pd::ETree)
     o = TerminateInstancesType()
-    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", find(pd, "item/instanceId"))
+    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", LibExpat.find(pd, "item/instanceId"))
     o
 end
 
@@ -771,7 +771,7 @@ type InstanceBlockDeviceMappingItemType
 end
 function InstanceBlockDeviceMappingItemType(pd::ETree)
     o = InstanceBlockDeviceMappingItemType()
-    o.deviceName = find(pd, "deviceName#string")
+    o.deviceName = LibExpat.find(pd, "deviceName#string")
     o
 end
 
@@ -787,8 +787,8 @@ type InstanceEbsBlockDeviceType
 end
 function InstanceEbsBlockDeviceType(pd::ETree)
     o = InstanceEbsBlockDeviceType()
-    o.volumeId = find(pd, "volumeId#string")
-    o.deleteOnTermination = AWS.safe_parse_as(Bool, find(pd, "deleteOnTermination#string"))
+    o.volumeId = LibExpat.find(pd, "volumeId#string")
+    o.deleteOnTermination = AWS.safe_parse_as(Bool, LibExpat.find(pd, "deleteOnTermination#string"))
     o
 end
 
@@ -804,8 +804,8 @@ type StopInstancesType
 end
 function StopInstancesType(pd::ETree)
     o = StopInstancesType()
-    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", find(pd, "item/instanceId"))
-    o.force = AWS.safe_parse_as(Bool, find(pd, "force#string"))
+    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", LibExpat.find(pd, "item/instanceId"))
+    o.force = AWS.safe_parse_as(Bool, LibExpat.find(pd, "force#string"))
     o
 end
 
@@ -820,7 +820,7 @@ type StartInstancesType
 end
 function StartInstancesType(pd::ETree)
     o = StartInstancesType()
-    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", find(pd, "item/instanceId"))
+    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", LibExpat.find(pd, "item/instanceId"))
     o
 end
 
@@ -835,7 +835,7 @@ type RebootInstancesType
 end
 function RebootInstancesType(pd::ETree)
     o = RebootInstancesType()
-    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", find(pd, "item/instanceId"))
+    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", LibExpat.find(pd, "item/instanceId"))
     o
 end
 
@@ -850,7 +850,7 @@ type RebootInstancesItemType
 end
 function RebootInstancesItemType(pd::ETree)
     o = RebootInstancesItemType()
-    o.instanceId = find(pd, "instanceId#string")
+    o.instanceId = LibExpat.find(pd, "instanceId#string")
     o
 end
 
@@ -866,8 +866,8 @@ type RebootInstancesResponseType
 end
 function RebootInstancesResponseType(pd::ETree)
     o = RebootInstancesResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -882,7 +882,7 @@ type DescribeInstancesItemType
 end
 function DescribeInstancesItemType(pd::ETree)
     o = DescribeInstancesItemType()
-    o.instanceId = find(pd, "instanceId#string")
+    o.instanceId = LibExpat.find(pd, "instanceId#string")
     o
 end
 
@@ -897,7 +897,7 @@ type UnavailableResultType
 end
 function UnavailableResultType(pd::ETree)
     o = UnavailableResultType()
-    o.availabilityZone = find(pd, "availabilityZone#string")
+    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
     o
 end
 
@@ -912,7 +912,7 @@ type DescribeImagesItemType
 end
 function DescribeImagesItemType(pd::ETree)
     o = DescribeImagesItemType()
-    o.imageId = find(pd, "imageId#string")
+    o.imageId = LibExpat.find(pd, "imageId#string")
     o
 end
 
@@ -927,7 +927,7 @@ type DescribeImagesOwnerType
 end
 function DescribeImagesOwnerType(pd::ETree)
     o = DescribeImagesOwnerType()
-    o.owner = find(pd, "owner#string")
+    o.owner = LibExpat.find(pd, "owner#string")
     o
 end
 
@@ -942,7 +942,7 @@ type DescribeImagesExecutableByType
 end
 function DescribeImagesExecutableByType(pd::ETree)
     o = DescribeImagesExecutableByType()
-    o.user = find(pd, "user#string")
+    o.user = LibExpat.find(pd, "user#string")
     o
 end
 
@@ -959,9 +959,9 @@ type CreateSecurityGroupType
 end
 function CreateSecurityGroupType(pd::ETree)
     o = CreateSecurityGroupType()
-    o.groupName = find(pd, "groupName#string")
-    o.groupDescription = find(pd, "groupDescription#string")
-    o.vpcId = find(pd, "vpcId#string")
+    o.groupName = LibExpat.find(pd, "groupName#string")
+    o.groupDescription = LibExpat.find(pd, "groupDescription#string")
+    o.vpcId = LibExpat.find(pd, "vpcId#string")
     o
 end
 
@@ -978,9 +978,9 @@ type CreateSecurityGroupResponseType
 end
 function CreateSecurityGroupResponseType(pd::ETree)
     o = CreateSecurityGroupResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
-    o.groupId = find(pd, "groupId#string")
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.groupId = LibExpat.find(pd, "groupId#string")
     o
 end
 
@@ -996,8 +996,8 @@ type DeleteSecurityGroupType
 end
 function DeleteSecurityGroupType(pd::ETree)
     o = DeleteSecurityGroupType()
-    o.groupId = find(pd, "groupId#string")
-    o.groupName = find(pd, "groupName#string")
+    o.groupId = LibExpat.find(pd, "groupId#string")
+    o.groupName = LibExpat.find(pd, "groupName#string")
     o
 end
 
@@ -1013,8 +1013,8 @@ type DeleteSecurityGroupResponseType
 end
 function DeleteSecurityGroupResponseType(pd::ETree)
     o = DeleteSecurityGroupResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -1029,7 +1029,7 @@ type DescribeSecurityGroupsSetItemType
 end
 function DescribeSecurityGroupsSetItemType(pd::ETree)
     o = DescribeSecurityGroupsSetItemType()
-    o.groupName = find(pd, "groupName#string")
+    o.groupName = LibExpat.find(pd, "groupName#string")
     o
 end
 
@@ -1044,7 +1044,7 @@ type DescribeSecurityGroupsIdSetItemType
 end
 function DescribeSecurityGroupsIdSetItemType(pd::ETree)
     o = DescribeSecurityGroupsIdSetItemType()
-    o.groupId = find(pd, "groupId#string")
+    o.groupId = LibExpat.find(pd, "groupId#string")
     o
 end
 
@@ -1059,7 +1059,7 @@ type IpRangeItemType
 end
 function IpRangeItemType(pd::ETree)
     o = IpRangeItemType()
-    o.cidrIp = find(pd, "cidrIp#string")
+    o.cidrIp = LibExpat.find(pd, "cidrIp#string")
     o
 end
 
@@ -1076,9 +1076,9 @@ type UserIdGroupPairType
 end
 function UserIdGroupPairType(pd::ETree)
     o = UserIdGroupPairType()
-    o.userId = find(pd, "userId#string")
-    o.groupId = find(pd, "groupId#string")
-    o.groupName = find(pd, "groupName#string")
+    o.userId = LibExpat.find(pd, "userId#string")
+    o.groupId = LibExpat.find(pd, "groupId#string")
+    o.groupName = LibExpat.find(pd, "groupName#string")
     o
 end
 
@@ -1094,8 +1094,8 @@ type AuthorizeSecurityGroupIngressResponseType
 end
 function AuthorizeSecurityGroupIngressResponseType(pd::ETree)
     o = AuthorizeSecurityGroupIngressResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -1111,8 +1111,8 @@ type RevokeSecurityGroupIngressResponseType
 end
 function RevokeSecurityGroupIngressResponseType(pd::ETree)
     o = RevokeSecurityGroupIngressResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -1128,8 +1128,8 @@ type AuthorizeSecurityGroupEgressResponseType
 end
 function AuthorizeSecurityGroupEgressResponseType(pd::ETree)
     o = AuthorizeSecurityGroupEgressResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -1145,8 +1145,8 @@ type RevokeSecurityGroupEgressResponseType
 end
 function RevokeSecurityGroupEgressResponseType(pd::ETree)
     o = RevokeSecurityGroupEgressResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -1162,8 +1162,8 @@ type InstanceStateType
 end
 function InstanceStateType(pd::ETree)
     o = InstanceStateType()
-    o.code = AWS.safe_parse_as(Int64, find(pd, "code#string"))
-    o.name = find(pd, "name#string")
+    o.code = AWS.safe_parse_as(Int64, LibExpat.find(pd, "code#string"))
+    o.name = LibExpat.find(pd, "name#string")
     o
 end
 
@@ -1178,7 +1178,7 @@ type ModifyInstanceAttributeType
 end
 function ModifyInstanceAttributeType(pd::ETree)
     o = ModifyInstanceAttributeType()
-    o.instanceId = find(pd, "instanceId#string")
+    o.instanceId = LibExpat.find(pd, "instanceId#string")
     o
 end
 
@@ -1193,7 +1193,7 @@ type SecurityGroupIdSetItemType
 end
 function SecurityGroupIdSetItemType(pd::ETree)
     o = SecurityGroupIdSetItemType()
-    o.groupId = find(pd, "groupId#string")
+    o.groupId = LibExpat.find(pd, "groupId#string")
     o
 end
 
@@ -1209,8 +1209,8 @@ type ModifyInstanceAttributeResponseType
 end
 function ModifyInstanceAttributeResponseType(pd::ETree)
     o = ModifyInstanceAttributeResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -1225,7 +1225,7 @@ type ResetInstanceAttributeType
 end
 function ResetInstanceAttributeType(pd::ETree)
     o = ResetInstanceAttributeType()
-    o.instanceId = find(pd, "instanceId#string")
+    o.instanceId = LibExpat.find(pd, "instanceId#string")
     o
 end
 
@@ -1241,8 +1241,8 @@ type ResetInstanceAttributeResponseType
 end
 function ResetInstanceAttributeResponseType(pd::ETree)
     o = ResetInstanceAttributeResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -1257,7 +1257,7 @@ type DescribeInstanceAttributeType
 end
 function DescribeInstanceAttributeType(pd::ETree)
     o = DescribeInstanceAttributeType()
-    o.instanceId = find(pd, "instanceId#string")
+    o.instanceId = LibExpat.find(pd, "instanceId#string")
     o
 end
 
@@ -1273,8 +1273,8 @@ type DescribeInstanceAttributeResponseType
 end
 function DescribeInstanceAttributeResponseType(pd::ETree)
     o = DescribeInstanceAttributeResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.instanceId = find(pd, "instanceId#string")
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.instanceId = LibExpat.find(pd, "instanceId#string")
     o
 end
 
@@ -1289,7 +1289,7 @@ type ModifyImageAttributeType
 end
 function ModifyImageAttributeType(pd::ETree)
     o = ModifyImageAttributeType()
-    o.imageId = find(pd, "imageId#string")
+    o.imageId = LibExpat.find(pd, "imageId#string")
     o
 end
 
@@ -1305,8 +1305,8 @@ type LaunchPermissionItemType
 end
 function LaunchPermissionItemType(pd::ETree)
     o = LaunchPermissionItemType()
-    o.userId = find(pd, "userId#string")
-    o.group = find(pd, "group#string")
+    o.userId = LibExpat.find(pd, "userId#string")
+    o.group = LibExpat.find(pd, "group#string")
     o
 end
 
@@ -1321,7 +1321,7 @@ type ProductCodeItemType
 end
 function ProductCodeItemType(pd::ETree)
     o = ProductCodeItemType()
-    o.productCode = find(pd, "productCode#string")
+    o.productCode = LibExpat.find(pd, "productCode#string")
     o
 end
 
@@ -1337,8 +1337,8 @@ type ModifyImageAttributeResponseType
 end
 function ModifyImageAttributeResponseType(pd::ETree)
     o = ModifyImageAttributeResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -1353,7 +1353,7 @@ type ResetImageAttributeType
 end
 function ResetImageAttributeType(pd::ETree)
     o = ResetImageAttributeType()
-    o.imageId = find(pd, "imageId#string")
+    o.imageId = LibExpat.find(pd, "imageId#string")
     o
 end
 
@@ -1369,8 +1369,8 @@ type ResetImageAttributeResponseType
 end
 function ResetImageAttributeResponseType(pd::ETree)
     o = ResetImageAttributeResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -1385,7 +1385,7 @@ type DescribeImageAttributeType
 end
 function DescribeImageAttributeType(pd::ETree)
     o = DescribeImageAttributeType()
-    o.imageId = find(pd, "imageId#string")
+    o.imageId = LibExpat.find(pd, "imageId#string")
     o
 end
 
@@ -1401,8 +1401,8 @@ type DescribeImageAttributeResponseType
 end
 function DescribeImageAttributeResponseType(pd::ETree)
     o = DescribeImageAttributeResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.imageId = find(pd, "imageId#string")
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.imageId = LibExpat.find(pd, "imageId#string")
     o
 end
 
@@ -1417,7 +1417,7 @@ type NullableAttributeValueType
 end
 function NullableAttributeValueType(pd::ETree)
     o = NullableAttributeValueType()
-    o.value = find(pd, "value#string")
+    o.value = LibExpat.find(pd, "value#string")
     o
 end
 
@@ -1432,7 +1432,7 @@ type NullableAttributeBooleanValueType
 end
 function NullableAttributeBooleanValueType(pd::ETree)
     o = NullableAttributeBooleanValueType()
-    o.value = AWS.safe_parse_as(Bool, find(pd, "value#string"))
+    o.value = AWS.safe_parse_as(Bool, LibExpat.find(pd, "value#string"))
     o
 end
 
@@ -1447,7 +1447,7 @@ type AttributeValueType
 end
 function AttributeValueType(pd::ETree)
     o = AttributeValueType()
-    o.value = find(pd, "value#string")
+    o.value = LibExpat.find(pd, "value#string")
     o
 end
 
@@ -1462,7 +1462,7 @@ type AttributeBooleanValueType
 end
 function AttributeBooleanValueType(pd::ETree)
     o = AttributeBooleanValueType()
-    o.value = AWS.safe_parse_as(Bool, find(pd, "value#string"))
+    o.value = AWS.safe_parse_as(Bool, LibExpat.find(pd, "value#string"))
     o
 end
 
@@ -1478,8 +1478,8 @@ type ConfirmProductInstanceType
 end
 function ConfirmProductInstanceType(pd::ETree)
     o = ConfirmProductInstanceType()
-    o.productCode = find(pd, "productCode#string")
-    o.instanceId = find(pd, "instanceId#string")
+    o.productCode = LibExpat.find(pd, "productCode#string")
+    o.instanceId = LibExpat.find(pd, "instanceId#string")
     o
 end
 
@@ -1495,8 +1495,8 @@ type ProductCodesSetItemType
 end
 function ProductCodesSetItemType(pd::ETree)
     o = ProductCodesSetItemType()
-    o.productCode = find(pd, "productCode#string")
-    o._type = find(pd, "type#string")
+    o.productCode = LibExpat.find(pd, "productCode#string")
+    o._type = LibExpat.find(pd, "type#string")
     o
 end
 
@@ -1513,9 +1513,9 @@ type ConfirmProductInstanceResponseType
 end
 function ConfirmProductInstanceResponseType(pd::ETree)
     o = ConfirmProductInstanceResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
-    o.ownerId = find(pd, "ownerId#string")
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.ownerId = LibExpat.find(pd, "ownerId#string")
     o
 end
 
@@ -1530,7 +1530,7 @@ type DescribeAvailabilityZonesSetItemType
 end
 function DescribeAvailabilityZonesSetItemType(pd::ETree)
     o = DescribeAvailabilityZonesSetItemType()
-    o.zoneName = find(pd, "zoneName#string")
+    o.zoneName = LibExpat.find(pd, "zoneName#string")
     o
 end
 
@@ -1545,7 +1545,7 @@ type AvailabilityZoneMessageType
 end
 function AvailabilityZoneMessageType(pd::ETree)
     o = AvailabilityZoneMessageType()
-    o.message = find(pd, "message#string")
+    o.message = LibExpat.find(pd, "message#string")
     o
 end
 
@@ -1563,10 +1563,10 @@ type AvailabilityZoneItemType
 end
 function AvailabilityZoneItemType(pd::ETree)
     o = AvailabilityZoneItemType()
-    o.zoneName = find(pd, "zoneName#string")
-    o.zoneState = find(pd, "zoneState#string")
-    o.regionName = find(pd, "regionName#string")
-    o.messageSet = AWS.parse_vector_as(ASCIIString, "message", find(pd, "item/message"))
+    o.zoneName = LibExpat.find(pd, "zoneName#string")
+    o.zoneState = LibExpat.find(pd, "zoneState#string")
+    o.regionName = LibExpat.find(pd, "regionName#string")
+    o.messageSet = AWS.parse_vector_as(ASCIIString, "message", LibExpat.find(pd, "item/message"))
     o
 end
 
@@ -1581,7 +1581,7 @@ type AllocateAddressType
 end
 function AllocateAddressType(pd::ETree)
     o = AllocateAddressType()
-    o.domain = find(pd, "domain#string")
+    o.domain = LibExpat.find(pd, "domain#string")
     o
 end
 
@@ -1599,10 +1599,10 @@ type AllocateAddressResponseType
 end
 function AllocateAddressResponseType(pd::ETree)
     o = AllocateAddressResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.publicIp = find(pd, "publicIp#string")
-    o.domain = find(pd, "domain#string")
-    o.allocationId = find(pd, "allocationId#string")
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.publicIp = LibExpat.find(pd, "publicIp#string")
+    o.domain = LibExpat.find(pd, "domain#string")
+    o.allocationId = LibExpat.find(pd, "allocationId#string")
     o
 end
 
@@ -1618,8 +1618,8 @@ type ReleaseAddressType
 end
 function ReleaseAddressType(pd::ETree)
     o = ReleaseAddressType()
-    o.publicIp = find(pd, "publicIp#string")
-    o.allocationId = find(pd, "allocationId#string")
+    o.publicIp = LibExpat.find(pd, "publicIp#string")
+    o.allocationId = LibExpat.find(pd, "allocationId#string")
     o
 end
 
@@ -1635,8 +1635,8 @@ type ReleaseAddressResponseType
 end
 function ReleaseAddressResponseType(pd::ETree)
     o = ReleaseAddressResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -1651,7 +1651,7 @@ type AllocationIdSetItemType
 end
 function AllocationIdSetItemType(pd::ETree)
     o = AllocationIdSetItemType()
-    o.allocationId = find(pd, "allocationId#string")
+    o.allocationId = LibExpat.find(pd, "allocationId#string")
     o
 end
 
@@ -1666,7 +1666,7 @@ type DescribeAddressesItemType
 end
 function DescribeAddressesItemType(pd::ETree)
     o = DescribeAddressesItemType()
-    o.publicIp = find(pd, "publicIp#string")
+    o.publicIp = LibExpat.find(pd, "publicIp#string")
     o
 end
 
@@ -1688,14 +1688,14 @@ type DescribeAddressesResponseItemType
 end
 function DescribeAddressesResponseItemType(pd::ETree)
     o = DescribeAddressesResponseItemType()
-    o.publicIp = find(pd, "publicIp#string")
-    o.allocationId = find(pd, "allocationId#string")
-    o.domain = find(pd, "domain#string")
-    o.instanceId = find(pd, "instanceId#string")
-    o.associationId = find(pd, "associationId#string")
-    o.networkInterfaceId = find(pd, "networkInterfaceId#string")
-    o.networkInterfaceOwnerId = find(pd, "networkInterfaceOwnerId#string")
-    o.privateIpAddress = find(pd, "privateIpAddress#string")
+    o.publicIp = LibExpat.find(pd, "publicIp#string")
+    o.allocationId = LibExpat.find(pd, "allocationId#string")
+    o.domain = LibExpat.find(pd, "domain#string")
+    o.instanceId = LibExpat.find(pd, "instanceId#string")
+    o.associationId = LibExpat.find(pd, "associationId#string")
+    o.networkInterfaceId = LibExpat.find(pd, "networkInterfaceId#string")
+    o.networkInterfaceOwnerId = LibExpat.find(pd, "networkInterfaceOwnerId#string")
+    o.privateIpAddress = LibExpat.find(pd, "privateIpAddress#string")
     o
 end
 
@@ -1711,8 +1711,8 @@ type AssociateAddressType
 end
 function AssociateAddressType(pd::ETree)
     o = AssociateAddressType()
-    o.privateIpAddress = find(pd, "privateIpAddress#string")
-    o.allowReassociation = AWS.safe_parse_as(Bool, find(pd, "allowReassociation#string"))
+    o.privateIpAddress = LibExpat.find(pd, "privateIpAddress#string")
+    o.allowReassociation = AWS.safe_parse_as(Bool, LibExpat.find(pd, "allowReassociation#string"))
     o
 end
 
@@ -1729,9 +1729,9 @@ type AssociateAddressResponseType
 end
 function AssociateAddressResponseType(pd::ETree)
     o = AssociateAddressResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
-    o.associationId = find(pd, "associationId#string")
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.associationId = LibExpat.find(pd, "associationId#string")
     o
 end
 
@@ -1747,8 +1747,8 @@ type DisassociateAddressType
 end
 function DisassociateAddressType(pd::ETree)
     o = DisassociateAddressType()
-    o.publicIp = find(pd, "publicIp#string")
-    o.associationId = find(pd, "associationId#string")
+    o.publicIp = LibExpat.find(pd, "publicIp#string")
+    o.associationId = LibExpat.find(pd, "associationId#string")
     o
 end
 
@@ -1764,8 +1764,8 @@ type DisassociateAddressResponseType
 end
 function DisassociateAddressResponseType(pd::ETree)
     o = DisassociateAddressResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -1784,11 +1784,11 @@ type CreateVolumeType
 end
 function CreateVolumeType(pd::ETree)
     o = CreateVolumeType()
-    o.size = find(pd, "size#string")
-    o.snapshotId = find(pd, "snapshotId#string")
-    o.availabilityZone = find(pd, "availabilityZone#string")
-    o.volumeType = find(pd, "volumeType#string")
-    o.iops = AWS.safe_parse_as(Int64, find(pd, "iops#string"))
+    o.size = LibExpat.find(pd, "size#string")
+    o.snapshotId = LibExpat.find(pd, "snapshotId#string")
+    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
+    o.volumeType = LibExpat.find(pd, "volumeType#string")
+    o.iops = AWS.safe_parse_as(Int64, LibExpat.find(pd, "iops#string"))
     o
 end
 
@@ -1811,15 +1811,15 @@ type CreateVolumeResponseType
 end
 function CreateVolumeResponseType(pd::ETree)
     o = CreateVolumeResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.volumeId = find(pd, "volumeId#string")
-    o.size = find(pd, "size#string")
-    o.snapshotId = find(pd, "snapshotId#string")
-    o.availabilityZone = find(pd, "availabilityZone#string")
-    o.status = find(pd, "status#string")
-    o.createTime = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "createTime#string"))
-    o.volumeType = find(pd, "volumeType#string")
-    o.iops = AWS.safe_parse_as(Int64, find(pd, "iops#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.volumeId = LibExpat.find(pd, "volumeId#string")
+    o.size = LibExpat.find(pd, "size#string")
+    o.snapshotId = LibExpat.find(pd, "snapshotId#string")
+    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
+    o.status = LibExpat.find(pd, "status#string")
+    o.createTime = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "createTime#string"))
+    o.volumeType = LibExpat.find(pd, "volumeType#string")
+    o.iops = AWS.safe_parse_as(Int64, LibExpat.find(pd, "iops#string"))
     o
 end
 
@@ -1834,7 +1834,7 @@ type DeleteVolumeType
 end
 function DeleteVolumeType(pd::ETree)
     o = DeleteVolumeType()
-    o.volumeId = find(pd, "volumeId#string")
+    o.volumeId = LibExpat.find(pd, "volumeId#string")
     o
 end
 
@@ -1850,8 +1850,8 @@ type DeleteVolumeResponseType
 end
 function DeleteVolumeResponseType(pd::ETree)
     o = DeleteVolumeResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -1866,7 +1866,7 @@ type DescribeVolumesSetItemType
 end
 function DescribeVolumesSetItemType(pd::ETree)
     o = DescribeVolumesSetItemType()
-    o.volumeId = find(pd, "volumeId#string")
+    o.volumeId = LibExpat.find(pd, "volumeId#string")
     o
 end
 
@@ -1886,12 +1886,12 @@ type AttachmentSetItemResponseType
 end
 function AttachmentSetItemResponseType(pd::ETree)
     o = AttachmentSetItemResponseType()
-    o.volumeId = find(pd, "volumeId#string")
-    o.instanceId = find(pd, "instanceId#string")
-    o.device = find(pd, "device#string")
-    o.status = find(pd, "status#string")
-    o.attachTime = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "attachTime#string"))
-    o.deleteOnTermination = AWS.safe_parse_as(Bool, find(pd, "deleteOnTermination#string"))
+    o.volumeId = LibExpat.find(pd, "volumeId#string")
+    o.instanceId = LibExpat.find(pd, "instanceId#string")
+    o.device = LibExpat.find(pd, "device#string")
+    o.status = LibExpat.find(pd, "status#string")
+    o.attachTime = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "attachTime#string"))
+    o.deleteOnTermination = AWS.safe_parse_as(Bool, LibExpat.find(pd, "deleteOnTermination#string"))
     o
 end
 
@@ -1908,9 +1908,9 @@ type AttachVolumeType
 end
 function AttachVolumeType(pd::ETree)
     o = AttachVolumeType()
-    o.volumeId = find(pd, "volumeId#string")
-    o.instanceId = find(pd, "instanceId#string")
-    o.device = find(pd, "device#string")
+    o.volumeId = LibExpat.find(pd, "volumeId#string")
+    o.instanceId = LibExpat.find(pd, "instanceId#string")
+    o.device = LibExpat.find(pd, "device#string")
     o
 end
 
@@ -1930,12 +1930,12 @@ type AttachVolumeResponseType
 end
 function AttachVolumeResponseType(pd::ETree)
     o = AttachVolumeResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.volumeId = find(pd, "volumeId#string")
-    o.instanceId = find(pd, "instanceId#string")
-    o.device = find(pd, "device#string")
-    o.status = find(pd, "status#string")
-    o.attachTime = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "attachTime#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.volumeId = LibExpat.find(pd, "volumeId#string")
+    o.instanceId = LibExpat.find(pd, "instanceId#string")
+    o.device = LibExpat.find(pd, "device#string")
+    o.status = LibExpat.find(pd, "status#string")
+    o.attachTime = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "attachTime#string"))
     o
 end
 
@@ -1953,10 +1953,10 @@ type DetachVolumeType
 end
 function DetachVolumeType(pd::ETree)
     o = DetachVolumeType()
-    o.volumeId = find(pd, "volumeId#string")
-    o.instanceId = find(pd, "instanceId#string")
-    o.device = find(pd, "device#string")
-    o.force = AWS.safe_parse_as(Bool, find(pd, "force#string"))
+    o.volumeId = LibExpat.find(pd, "volumeId#string")
+    o.instanceId = LibExpat.find(pd, "instanceId#string")
+    o.device = LibExpat.find(pd, "device#string")
+    o.force = AWS.safe_parse_as(Bool, LibExpat.find(pd, "force#string"))
     o
 end
 
@@ -1976,12 +1976,12 @@ type DetachVolumeResponseType
 end
 function DetachVolumeResponseType(pd::ETree)
     o = DetachVolumeResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.volumeId = find(pd, "volumeId#string")
-    o.instanceId = find(pd, "instanceId#string")
-    o.device = find(pd, "device#string")
-    o.status = find(pd, "status#string")
-    o.attachTime = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "attachTime#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.volumeId = LibExpat.find(pd, "volumeId#string")
+    o.instanceId = LibExpat.find(pd, "instanceId#string")
+    o.device = LibExpat.find(pd, "device#string")
+    o.status = LibExpat.find(pd, "status#string")
+    o.attachTime = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "attachTime#string"))
     o
 end
 
@@ -1997,8 +1997,8 @@ type CreateSnapshotType
 end
 function CreateSnapshotType(pd::ETree)
     o = CreateSnapshotType()
-    o.volumeId = find(pd, "volumeId#string")
-    o.description = find(pd, "description#string")
+    o.volumeId = LibExpat.find(pd, "volumeId#string")
+    o.description = LibExpat.find(pd, "description#string")
     o
 end
 
@@ -2021,15 +2021,15 @@ type CreateSnapshotResponseType
 end
 function CreateSnapshotResponseType(pd::ETree)
     o = CreateSnapshotResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.snapshotId = find(pd, "snapshotId#string")
-    o.volumeId = find(pd, "volumeId#string")
-    o.status = find(pd, "status#string")
-    o.startTime = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "startTime#string"))
-    o.progress = find(pd, "progress#string")
-    o.ownerId = find(pd, "ownerId#string")
-    o.volumeSize = find(pd, "volumeSize#string")
-    o.description = find(pd, "description#string")
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.snapshotId = LibExpat.find(pd, "snapshotId#string")
+    o.volumeId = LibExpat.find(pd, "volumeId#string")
+    o.status = LibExpat.find(pd, "status#string")
+    o.startTime = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "startTime#string"))
+    o.progress = LibExpat.find(pd, "progress#string")
+    o.ownerId = LibExpat.find(pd, "ownerId#string")
+    o.volumeSize = LibExpat.find(pd, "volumeSize#string")
+    o.description = LibExpat.find(pd, "description#string")
     o
 end
 
@@ -2046,9 +2046,9 @@ type CopySnapshotType
 end
 function CopySnapshotType(pd::ETree)
     o = CopySnapshotType()
-    o.sourceRegion = find(pd, "sourceRegion#string")
-    o.sourceSnapshotId = find(pd, "sourceSnapshotId#string")
-    o.description = find(pd, "description#string")
+    o.sourceRegion = LibExpat.find(pd, "sourceRegion#string")
+    o.sourceSnapshotId = LibExpat.find(pd, "sourceSnapshotId#string")
+    o.description = LibExpat.find(pd, "description#string")
     o
 end
 
@@ -2064,8 +2064,8 @@ type CopySnapshotResponseType
 end
 function CopySnapshotResponseType(pd::ETree)
     o = CopySnapshotResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.snapshotId = find(pd, "snapshotId#string")
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.snapshotId = LibExpat.find(pd, "snapshotId#string")
     o
 end
 
@@ -2080,7 +2080,7 @@ type DeleteSnapshotType
 end
 function DeleteSnapshotType(pd::ETree)
     o = DeleteSnapshotType()
-    o.snapshotId = find(pd, "snapshotId#string")
+    o.snapshotId = LibExpat.find(pd, "snapshotId#string")
     o
 end
 
@@ -2096,8 +2096,8 @@ type DeleteSnapshotResponseType
 end
 function DeleteSnapshotResponseType(pd::ETree)
     o = DeleteSnapshotResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -2112,7 +2112,7 @@ type DescribeSnapshotsSetItemType
 end
 function DescribeSnapshotsSetItemType(pd::ETree)
     o = DescribeSnapshotsSetItemType()
-    o.snapshotId = find(pd, "snapshotId#string")
+    o.snapshotId = LibExpat.find(pd, "snapshotId#string")
     o
 end
 
@@ -2127,7 +2127,7 @@ type DescribeSnapshotsOwnerType
 end
 function DescribeSnapshotsOwnerType(pd::ETree)
     o = DescribeSnapshotsOwnerType()
-    o.owner = find(pd, "owner#string")
+    o.owner = LibExpat.find(pd, "owner#string")
     o
 end
 
@@ -2142,7 +2142,7 @@ type DescribeSnapshotsRestorableByType
 end
 function DescribeSnapshotsRestorableByType(pd::ETree)
     o = DescribeSnapshotsRestorableByType()
-    o.user = find(pd, "user#string")
+    o.user = LibExpat.find(pd, "user#string")
     o
 end
 
@@ -2158,8 +2158,8 @@ type CreateVolumePermissionItemType
 end
 function CreateVolumePermissionItemType(pd::ETree)
     o = CreateVolumePermissionItemType()
-    o.userId = find(pd, "userId#string")
-    o.group = find(pd, "group#string")
+    o.userId = LibExpat.find(pd, "userId#string")
+    o.group = LibExpat.find(pd, "group#string")
     o
 end
 
@@ -2175,8 +2175,8 @@ type ModifySnapshotAttributeResponseType
 end
 function ModifySnapshotAttributeResponseType(pd::ETree)
     o = ModifySnapshotAttributeResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -2191,7 +2191,7 @@ type ResetSnapshotAttributeType
 end
 function ResetSnapshotAttributeType(pd::ETree)
     o = ResetSnapshotAttributeType()
-    o.snapshotId = find(pd, "snapshotId#string")
+    o.snapshotId = LibExpat.find(pd, "snapshotId#string")
     o
 end
 
@@ -2207,8 +2207,8 @@ type ResetSnapshotAttributeResponseType
 end
 function ResetSnapshotAttributeResponseType(pd::ETree)
     o = ResetSnapshotAttributeResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -2223,7 +2223,7 @@ type DescribeSnapshotAttributeType
 end
 function DescribeSnapshotAttributeType(pd::ETree)
     o = DescribeSnapshotAttributeType()
-    o.snapshotId = find(pd, "snapshotId#string")
+    o.snapshotId = LibExpat.find(pd, "snapshotId#string")
     o
 end
 
@@ -2239,8 +2239,8 @@ type DescribeSnapshotAttributeResponseType
 end
 function DescribeSnapshotAttributeResponseType(pd::ETree)
     o = DescribeSnapshotAttributeResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.snapshotId = find(pd, "snapshotId#string")
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.snapshotId = LibExpat.find(pd, "snapshotId#string")
     o
 end
 
@@ -2259,11 +2259,11 @@ type BundleInstanceS3StorageType
 end
 function BundleInstanceS3StorageType(pd::ETree)
     o = BundleInstanceS3StorageType()
-    o.bucket = find(pd, "bucket#string")
-    o.prefix = find(pd, "prefix#string")
-    o.awsAccessKeyId = find(pd, "awsAccessKeyId#string")
-    o.uploadPolicy = find(pd, "uploadPolicy#string")
-    o.uploadPolicySignature = find(pd, "uploadPolicySignature#string")
+    o.bucket = LibExpat.find(pd, "bucket#string")
+    o.prefix = LibExpat.find(pd, "prefix#string")
+    o.awsAccessKeyId = LibExpat.find(pd, "awsAccessKeyId#string")
+    o.uploadPolicy = LibExpat.find(pd, "uploadPolicy#string")
+    o.uploadPolicySignature = LibExpat.find(pd, "uploadPolicySignature#string")
     o
 end
 
@@ -2279,8 +2279,8 @@ type BundleInstanceTaskErrorType
 end
 function BundleInstanceTaskErrorType(pd::ETree)
     o = BundleInstanceTaskErrorType()
-    o.code = find(pd, "code#string")
-    o.message = find(pd, "message#string")
+    o.code = LibExpat.find(pd, "code#string")
+    o.message = LibExpat.find(pd, "message#string")
     o
 end
 
@@ -2295,7 +2295,7 @@ type DescribeBundleTasksItemType
 end
 function DescribeBundleTasksItemType(pd::ETree)
     o = DescribeBundleTasksItemType()
-    o.bundleId = find(pd, "bundleId#string")
+    o.bundleId = LibExpat.find(pd, "bundleId#string")
     o
 end
 
@@ -2310,7 +2310,7 @@ type CancelBundleTaskType
 end
 function CancelBundleTaskType(pd::ETree)
     o = CancelBundleTaskType()
-    o.bundleId = find(pd, "bundleId#string")
+    o.bundleId = LibExpat.find(pd, "bundleId#string")
     o
 end
 
@@ -2329,11 +2329,11 @@ type CopyImageType
 end
 function CopyImageType(pd::ETree)
     o = CopyImageType()
-    o.sourceRegion = find(pd, "sourceRegion#string")
-    o.sourceImageId = find(pd, "sourceImageId#string")
-    o.name = find(pd, "name#string")
-    o.description = find(pd, "description#string")
-    o.clientToken = find(pd, "clientToken#string")
+    o.sourceRegion = LibExpat.find(pd, "sourceRegion#string")
+    o.sourceImageId = LibExpat.find(pd, "sourceImageId#string")
+    o.name = LibExpat.find(pd, "name#string")
+    o.description = LibExpat.find(pd, "description#string")
+    o.clientToken = LibExpat.find(pd, "clientToken#string")
     o
 end
 
@@ -2349,8 +2349,8 @@ type CopyImageResponseType
 end
 function CopyImageResponseType(pd::ETree)
     o = CopyImageResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.imageId = find(pd, "imageId#string")
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.imageId = LibExpat.find(pd, "imageId#string")
     o
 end
 
@@ -2365,7 +2365,7 @@ type DescribeRegionsSetItemType
 end
 function DescribeRegionsSetItemType(pd::ETree)
     o = DescribeRegionsSetItemType()
-    o.regionName = find(pd, "regionName#string")
+    o.regionName = LibExpat.find(pd, "regionName#string")
     o
 end
 
@@ -2381,8 +2381,8 @@ type RegionItemType
 end
 function RegionItemType(pd::ETree)
     o = RegionItemType()
-    o.regionName = find(pd, "regionName#string")
-    o.regionEndpoint = find(pd, "regionEndpoint#string")
+    o.regionName = LibExpat.find(pd, "regionName#string")
+    o.regionEndpoint = LibExpat.find(pd, "regionEndpoint#string")
     o
 end
 
@@ -2397,7 +2397,7 @@ type DescribeReservedInstancesOfferingsSetItemType
 end
 function DescribeReservedInstancesOfferingsSetItemType(pd::ETree)
     o = DescribeReservedInstancesOfferingsSetItemType()
-    o.reservedInstancesOfferingId = find(pd, "reservedInstancesOfferingId#string")
+    o.reservedInstancesOfferingId = LibExpat.find(pd, "reservedInstancesOfferingId#string")
     o
 end
 
@@ -2413,8 +2413,8 @@ type RecurringChargesSetItemType
 end
 function RecurringChargesSetItemType(pd::ETree)
     o = RecurringChargesSetItemType()
-    o.frequency = find(pd, "frequency#string")
-    o.amount = AWS.safe_parse_as(Float64, find(pd, "amount#string"))
+    o.frequency = LibExpat.find(pd, "frequency#string")
+    o.amount = AWS.safe_parse_as(Float64, LibExpat.find(pd, "amount#string"))
     o
 end
 
@@ -2430,8 +2430,8 @@ type PricingDetailsSetItemType
 end
 function PricingDetailsSetItemType(pd::ETree)
     o = PricingDetailsSetItemType()
-    o.price = AWS.safe_parse_as(Float64, find(pd, "price#string"))
-    o.count = AWS.safe_parse_as(Int64, find(pd, "count#string"))
+    o.price = AWS.safe_parse_as(Float64, LibExpat.find(pd, "price#string"))
+    o.count = AWS.safe_parse_as(Int64, LibExpat.find(pd, "count#string"))
     o
 end
 
@@ -2447,8 +2447,8 @@ type ReservedInstanceLimitPriceType
 end
 function ReservedInstanceLimitPriceType(pd::ETree)
     o = ReservedInstanceLimitPriceType()
-    o.amount = AWS.safe_parse_as(Float64, find(pd, "amount#string"))
-    o.currencyCode = find(pd, "currencyCode#string")
+    o.amount = AWS.safe_parse_as(Float64, LibExpat.find(pd, "amount#string"))
+    o.currencyCode = LibExpat.find(pd, "currencyCode#string")
     o
 end
 
@@ -2464,8 +2464,8 @@ type PurchaseReservedInstancesOfferingResponseType
 end
 function PurchaseReservedInstancesOfferingResponseType(pd::ETree)
     o = PurchaseReservedInstancesOfferingResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.reservedInstancesId = find(pd, "reservedInstancesId#string")
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.reservedInstancesId = LibExpat.find(pd, "reservedInstancesId#string")
     o
 end
 
@@ -2480,7 +2480,7 @@ type DescribeReservedInstancesSetItemType
 end
 function DescribeReservedInstancesSetItemType(pd::ETree)
     o = DescribeReservedInstancesSetItemType()
-    o.reservedInstancesId = find(pd, "reservedInstancesId#string")
+    o.reservedInstancesId = LibExpat.find(pd, "reservedInstancesId#string")
     o
 end
 
@@ -2497,9 +2497,9 @@ type PriceScheduleRequestSetItemType
 end
 function PriceScheduleRequestSetItemType(pd::ETree)
     o = PriceScheduleRequestSetItemType()
-    o.term = AWS.safe_parse_as(Int64, find(pd, "term#string"))
-    o.price = AWS.safe_parse_as(Float64, find(pd, "price#string"))
-    o.currencyCode = find(pd, "currencyCode#string")
+    o.term = AWS.safe_parse_as(Int64, LibExpat.find(pd, "term#string"))
+    o.price = AWS.safe_parse_as(Float64, LibExpat.find(pd, "price#string"))
+    o.currencyCode = LibExpat.find(pd, "currencyCode#string")
     o
 end
 
@@ -2514,7 +2514,7 @@ type CancelReservedInstancesListingType
 end
 function CancelReservedInstancesListingType(pd::ETree)
     o = CancelReservedInstancesListingType()
-    o.reservedInstancesListingId = find(pd, "reservedInstancesListingId#string")
+    o.reservedInstancesListingId = LibExpat.find(pd, "reservedInstancesListingId#string")
     o
 end
 
@@ -2529,7 +2529,7 @@ type DescribeReservedInstancesListingSetItemType
 end
 function DescribeReservedInstancesListingSetItemType(pd::ETree)
     o = DescribeReservedInstancesListingSetItemType()
-    o.reservedInstancesListingId = find(pd, "reservedInstancesListingId#string")
+    o.reservedInstancesListingId = LibExpat.find(pd, "reservedInstancesListingId#string")
     o
 end
 
@@ -2545,8 +2545,8 @@ type InstanceCountsSetItemType
 end
 function InstanceCountsSetItemType(pd::ETree)
     o = InstanceCountsSetItemType()
-    o.state = find(pd, "state#string")
-    o.instanceCount = AWS.safe_parse_as(Int64, find(pd, "instanceCount#string"))
+    o.state = LibExpat.find(pd, "state#string")
+    o.instanceCount = AWS.safe_parse_as(Int64, LibExpat.find(pd, "instanceCount#string"))
     o
 end
 
@@ -2564,10 +2564,10 @@ type PriceScheduleSetItemType
 end
 function PriceScheduleSetItemType(pd::ETree)
     o = PriceScheduleSetItemType()
-    o.term = AWS.safe_parse_as(Int64, find(pd, "term#string"))
-    o.price = AWS.safe_parse_as(Float64, find(pd, "price#string"))
-    o.currencyCode = find(pd, "currencyCode#string")
-    o.active = AWS.safe_parse_as(Bool, find(pd, "active#string"))
+    o.term = AWS.safe_parse_as(Int64, LibExpat.find(pd, "term#string"))
+    o.price = AWS.safe_parse_as(Float64, LibExpat.find(pd, "price#string"))
+    o.currencyCode = LibExpat.find(pd, "currencyCode#string")
+    o.active = AWS.safe_parse_as(Bool, LibExpat.find(pd, "active#string"))
     o
 end
 
@@ -2582,7 +2582,7 @@ type MonitorInstancesType
 end
 function MonitorInstancesType(pd::ETree)
     o = MonitorInstancesType()
-    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", find(pd, "item/instanceId"))
+    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", LibExpat.find(pd, "item/instanceId"))
     o
 end
 
@@ -2597,7 +2597,7 @@ type MonitorInstancesSetItemType
 end
 function MonitorInstancesSetItemType(pd::ETree)
     o = MonitorInstancesSetItemType()
-    o.instanceId = find(pd, "instanceId#string")
+    o.instanceId = LibExpat.find(pd, "instanceId#string")
     o
 end
 
@@ -2612,7 +2612,7 @@ type InstanceMonitoringStateType
 end
 function InstanceMonitoringStateType(pd::ETree)
     o = InstanceMonitoringStateType()
-    o.state = find(pd, "state#string")
+    o.state = LibExpat.find(pd, "state#string")
     o
 end
 
@@ -2628,8 +2628,8 @@ type AttachmentType
 end
 function AttachmentType(pd::ETree)
     o = AttachmentType()
-    o.vpcId = find(pd, "vpcId#string")
-    o.state = find(pd, "state#string")
+    o.vpcId = LibExpat.find(pd, "vpcId#string")
+    o.state = LibExpat.find(pd, "state#string")
     o
 end
 
@@ -2644,7 +2644,7 @@ type VpnConnectionOptionsResponseType
 end
 function VpnConnectionOptionsResponseType(pd::ETree)
     o = VpnConnectionOptionsResponseType()
-    o.staticRoutesOnly = AWS.safe_parse_as(Bool, find(pd, "staticRoutesOnly#string"))
+    o.staticRoutesOnly = AWS.safe_parse_as(Bool, LibExpat.find(pd, "staticRoutesOnly#string"))
     o
 end
 
@@ -2661,9 +2661,9 @@ type VpnStaticRouteType
 end
 function VpnStaticRouteType(pd::ETree)
     o = VpnStaticRouteType()
-    o.destinationCidrBlock = find(pd, "destinationCidrBlock#string")
-    o.source = find(pd, "source#string")
-    o.state = find(pd, "state#string")
+    o.destinationCidrBlock = LibExpat.find(pd, "destinationCidrBlock#string")
+    o.source = LibExpat.find(pd, "source#string")
+    o.state = LibExpat.find(pd, "state#string")
     o
 end
 
@@ -2682,11 +2682,11 @@ type VpnTunnelTelemetryType
 end
 function VpnTunnelTelemetryType(pd::ETree)
     o = VpnTunnelTelemetryType()
-    o.outsideIpAddress = find(pd, "outsideIpAddress#string")
-    o.status = find(pd, "status#string")
-    o.lastStatusChange = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "lastStatusChange#string"))
-    o.statusMessage = find(pd, "statusMessage#string")
-    o.acceptedRouteCount = AWS.safe_parse_as(Int64, find(pd, "acceptedRouteCount#string"))
+    o.outsideIpAddress = LibExpat.find(pd, "outsideIpAddress#string")
+    o.status = LibExpat.find(pd, "status#string")
+    o.lastStatusChange = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "lastStatusChange#string"))
+    o.statusMessage = LibExpat.find(pd, "statusMessage#string")
+    o.acceptedRouteCount = AWS.safe_parse_as(Int64, LibExpat.find(pd, "acceptedRouteCount#string"))
     o
 end
 
@@ -2701,7 +2701,7 @@ type CustomerGatewayIdSetItemType
 end
 function CustomerGatewayIdSetItemType(pd::ETree)
     o = CustomerGatewayIdSetItemType()
-    o.customerGatewayId = find(pd, "customerGatewayId#string")
+    o.customerGatewayId = LibExpat.find(pd, "customerGatewayId#string")
     o
 end
 
@@ -2716,7 +2716,7 @@ type VpnGatewayIdSetItemType
 end
 function VpnGatewayIdSetItemType(pd::ETree)
     o = VpnGatewayIdSetItemType()
-    o.vpnGatewayId = find(pd, "vpnGatewayId#string")
+    o.vpnGatewayId = LibExpat.find(pd, "vpnGatewayId#string")
     o
 end
 
@@ -2731,7 +2731,7 @@ type VpnConnectionIdSetItemType
 end
 function VpnConnectionIdSetItemType(pd::ETree)
     o = VpnConnectionIdSetItemType()
-    o.vpnConnectionId = find(pd, "vpnConnectionId#string")
+    o.vpnConnectionId = LibExpat.find(pd, "vpnConnectionId#string")
     o
 end
 
@@ -2746,7 +2746,7 @@ type VpcIdSetItemType
 end
 function VpcIdSetItemType(pd::ETree)
     o = VpcIdSetItemType()
-    o.vpcId = find(pd, "vpcId#string")
+    o.vpcId = LibExpat.find(pd, "vpcId#string")
     o
 end
 
@@ -2761,7 +2761,7 @@ type SubnetIdSetItemType
 end
 function SubnetIdSetItemType(pd::ETree)
     o = SubnetIdSetItemType()
-    o.subnetId = find(pd, "subnetId#string")
+    o.subnetId = LibExpat.find(pd, "subnetId#string")
     o
 end
 
@@ -2776,7 +2776,7 @@ type DhcpOptionsIdSetItemType
 end
 function DhcpOptionsIdSetItemType(pd::ETree)
     o = DhcpOptionsIdSetItemType()
-    o.dhcpOptionsId = find(pd, "dhcpOptionsId#string")
+    o.dhcpOptionsId = LibExpat.find(pd, "dhcpOptionsId#string")
     o
 end
 
@@ -2792,8 +2792,8 @@ type DhcpConfigurationItemType
 end
 function DhcpConfigurationItemType(pd::ETree)
     o = DhcpConfigurationItemType()
-    o.key = find(pd, "key#string")
-    o.valueSet = AWS.parse_vector_as(ASCIIString, "value", find(pd, "item/value"))
+    o.key = LibExpat.find(pd, "key#string")
+    o.valueSet = AWS.parse_vector_as(ASCIIString, "value", LibExpat.find(pd, "item/value"))
     o
 end
 
@@ -2808,7 +2808,7 @@ type DhcpValueType
 end
 function DhcpValueType(pd::ETree)
     o = DhcpValueType()
-    o.value = find(pd, "value#string")
+    o.value = LibExpat.find(pd, "value#string")
     o
 end
 
@@ -2824,8 +2824,8 @@ type FilterType
 end
 function FilterType(pd::ETree)
     o = FilterType()
-    o.name = find(pd, "name#string")
-    o.valueSet = AWS.parse_vector_as(ASCIIString, "value", find(pd, "item/value"))
+    o.name = LibExpat.find(pd, "name#string")
+    o.valueSet = AWS.parse_vector_as(ASCIIString, "value", LibExpat.find(pd, "item/value"))
     o
 end
 
@@ -2840,7 +2840,7 @@ type ValueType
 end
 function ValueType(pd::ETree)
     o = ValueType()
-    o.value = find(pd, "value#string")
+    o.value = LibExpat.find(pd, "value#string")
     o
 end
 
@@ -2857,9 +2857,9 @@ type CreateCustomerGatewayType
 end
 function CreateCustomerGatewayType(pd::ETree)
     o = CreateCustomerGatewayType()
-    o._type = find(pd, "type#string")
-    o.ipAddress = find(pd, "ipAddress#string")
-    o.bgpAsn = AWS.safe_parse_as(Int64, find(pd, "bgpAsn#string"))
+    o._type = LibExpat.find(pd, "type#string")
+    o.ipAddress = LibExpat.find(pd, "ipAddress#string")
+    o.bgpAsn = AWS.safe_parse_as(Int64, LibExpat.find(pd, "bgpAsn#string"))
     o
 end
 
@@ -2874,7 +2874,7 @@ type DeleteCustomerGatewayType
 end
 function DeleteCustomerGatewayType(pd::ETree)
     o = DeleteCustomerGatewayType()
-    o.customerGatewayId = find(pd, "customerGatewayId#string")
+    o.customerGatewayId = LibExpat.find(pd, "customerGatewayId#string")
     o
 end
 
@@ -2890,8 +2890,8 @@ type DeleteCustomerGatewayResponseType
 end
 function DeleteCustomerGatewayResponseType(pd::ETree)
     o = DeleteCustomerGatewayResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -2907,8 +2907,8 @@ type CreateVpnGatewayType
 end
 function CreateVpnGatewayType(pd::ETree)
     o = CreateVpnGatewayType()
-    o._type = find(pd, "type#string")
-    o.availabilityZone = find(pd, "availabilityZone#string")
+    o._type = LibExpat.find(pd, "type#string")
+    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
     o
 end
 
@@ -2923,7 +2923,7 @@ type DeleteVpnGatewayType
 end
 function DeleteVpnGatewayType(pd::ETree)
     o = DeleteVpnGatewayType()
-    o.vpnGatewayId = find(pd, "vpnGatewayId#string")
+    o.vpnGatewayId = LibExpat.find(pd, "vpnGatewayId#string")
     o
 end
 
@@ -2939,8 +2939,8 @@ type DeleteVpnGatewayResponseType
 end
 function DeleteVpnGatewayResponseType(pd::ETree)
     o = DeleteVpnGatewayResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -2955,7 +2955,7 @@ type VpnConnectionOptionsRequestType
 end
 function VpnConnectionOptionsRequestType(pd::ETree)
     o = VpnConnectionOptionsRequestType()
-    o.staticRoutesOnly = AWS.safe_parse_as(Bool, find(pd, "staticRoutesOnly#string"))
+    o.staticRoutesOnly = AWS.safe_parse_as(Bool, LibExpat.find(pd, "staticRoutesOnly#string"))
     o
 end
 
@@ -2971,8 +2971,8 @@ type CreateVpnConnectionRouteType
 end
 function CreateVpnConnectionRouteType(pd::ETree)
     o = CreateVpnConnectionRouteType()
-    o.vpnConnectionId = find(pd, "vpnConnectionId#string")
-    o.destinationCidrBlock = find(pd, "destinationCidrBlock#string")
+    o.vpnConnectionId = LibExpat.find(pd, "vpnConnectionId#string")
+    o.destinationCidrBlock = LibExpat.find(pd, "destinationCidrBlock#string")
     o
 end
 
@@ -2988,8 +2988,8 @@ type CreateVpnConnectionRouteResponseType
 end
 function CreateVpnConnectionRouteResponseType(pd::ETree)
     o = CreateVpnConnectionRouteResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -3005,8 +3005,8 @@ type DeleteVpnConnectionRouteType
 end
 function DeleteVpnConnectionRouteType(pd::ETree)
     o = DeleteVpnConnectionRouteType()
-    o.vpnConnectionId = find(pd, "vpnConnectionId#string")
-    o.destinationCidrBlock = find(pd, "destinationCidrBlock#string")
+    o.vpnConnectionId = LibExpat.find(pd, "vpnConnectionId#string")
+    o.destinationCidrBlock = LibExpat.find(pd, "destinationCidrBlock#string")
     o
 end
 
@@ -3022,8 +3022,8 @@ type DeleteVpnConnectionRouteResponseType
 end
 function DeleteVpnConnectionRouteResponseType(pd::ETree)
     o = DeleteVpnConnectionRouteResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -3038,7 +3038,7 @@ type DeleteVpnConnectionType
 end
 function DeleteVpnConnectionType(pd::ETree)
     o = DeleteVpnConnectionType()
-    o.vpnConnectionId = find(pd, "vpnConnectionId#string")
+    o.vpnConnectionId = LibExpat.find(pd, "vpnConnectionId#string")
     o
 end
 
@@ -3054,8 +3054,8 @@ type DeleteVpnConnectionResponseType
 end
 function DeleteVpnConnectionResponseType(pd::ETree)
     o = DeleteVpnConnectionResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -3071,8 +3071,8 @@ type AttachVpnGatewayType
 end
 function AttachVpnGatewayType(pd::ETree)
     o = AttachVpnGatewayType()
-    o.vpnGatewayId = find(pd, "vpnGatewayId#string")
-    o.vpcId = find(pd, "vpcId#string")
+    o.vpnGatewayId = LibExpat.find(pd, "vpnGatewayId#string")
+    o.vpcId = LibExpat.find(pd, "vpcId#string")
     o
 end
 
@@ -3088,8 +3088,8 @@ type DetachVpnGatewayType
 end
 function DetachVpnGatewayType(pd::ETree)
     o = DetachVpnGatewayType()
-    o.vpnGatewayId = find(pd, "vpnGatewayId#string")
-    o.vpcId = find(pd, "vpcId#string")
+    o.vpnGatewayId = LibExpat.find(pd, "vpnGatewayId#string")
+    o.vpcId = LibExpat.find(pd, "vpcId#string")
     o
 end
 
@@ -3105,8 +3105,8 @@ type DetachVpnGatewayResponseType
 end
 function DetachVpnGatewayResponseType(pd::ETree)
     o = DetachVpnGatewayResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -3122,8 +3122,8 @@ type CreateVpcType
 end
 function CreateVpcType(pd::ETree)
     o = CreateVpcType()
-    o.cidrBlock = find(pd, "cidrBlock#string")
-    o.instanceTenancy = find(pd, "instanceTenancy#string")
+    o.cidrBlock = LibExpat.find(pd, "cidrBlock#string")
+    o.instanceTenancy = LibExpat.find(pd, "instanceTenancy#string")
     o
 end
 
@@ -3138,7 +3138,7 @@ type DeleteVpcType
 end
 function DeleteVpcType(pd::ETree)
     o = DeleteVpcType()
-    o.vpcId = find(pd, "vpcId#string")
+    o.vpcId = LibExpat.find(pd, "vpcId#string")
     o
 end
 
@@ -3154,8 +3154,8 @@ type DeleteVpcResponseType
 end
 function DeleteVpcResponseType(pd::ETree)
     o = DeleteVpcResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -3172,9 +3172,9 @@ type CreateSubnetType
 end
 function CreateSubnetType(pd::ETree)
     o = CreateSubnetType()
-    o.vpcId = find(pd, "vpcId#string")
-    o.cidrBlock = find(pd, "cidrBlock#string")
-    o.availabilityZone = find(pd, "availabilityZone#string")
+    o.vpcId = LibExpat.find(pd, "vpcId#string")
+    o.cidrBlock = LibExpat.find(pd, "cidrBlock#string")
+    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
     o
 end
 
@@ -3189,7 +3189,7 @@ type DeleteSubnetType
 end
 function DeleteSubnetType(pd::ETree)
     o = DeleteSubnetType()
-    o.subnetId = find(pd, "subnetId#string")
+    o.subnetId = LibExpat.find(pd, "subnetId#string")
     o
 end
 
@@ -3205,8 +3205,8 @@ type DeleteSubnetResponseType
 end
 function DeleteSubnetResponseType(pd::ETree)
     o = DeleteSubnetResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -3221,7 +3221,7 @@ type DeleteDhcpOptionsType
 end
 function DeleteDhcpOptionsType(pd::ETree)
     o = DeleteDhcpOptionsType()
-    o.dhcpOptionsId = find(pd, "dhcpOptionsId#string")
+    o.dhcpOptionsId = LibExpat.find(pd, "dhcpOptionsId#string")
     o
 end
 
@@ -3237,8 +3237,8 @@ type DeleteDhcpOptionsResponseType
 end
 function DeleteDhcpOptionsResponseType(pd::ETree)
     o = DeleteDhcpOptionsResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -3254,8 +3254,8 @@ type AssociateDhcpOptionsType
 end
 function AssociateDhcpOptionsType(pd::ETree)
     o = AssociateDhcpOptionsType()
-    o.dhcpOptionsId = find(pd, "dhcpOptionsId#string")
-    o.vpcId = find(pd, "vpcId#string")
+    o.dhcpOptionsId = LibExpat.find(pd, "dhcpOptionsId#string")
+    o.vpcId = LibExpat.find(pd, "vpcId#string")
     o
 end
 
@@ -3271,8 +3271,8 @@ type AssociateDhcpOptionsResponseType
 end
 function AssociateDhcpOptionsResponseType(pd::ETree)
     o = AssociateDhcpOptionsResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -3288,8 +3288,8 @@ type SpotInstanceStateFaultType
 end
 function SpotInstanceStateFaultType(pd::ETree)
     o = SpotInstanceStateFaultType()
-    o.code = find(pd, "code#string")
-    o.message = find(pd, "message#string")
+    o.code = LibExpat.find(pd, "code#string")
+    o.message = LibExpat.find(pd, "message#string")
     o
 end
 
@@ -3306,9 +3306,9 @@ type SpotInstanceStatusMessageType
 end
 function SpotInstanceStatusMessageType(pd::ETree)
     o = SpotInstanceStatusMessageType()
-    o.code = find(pd, "code#string")
-    o.updateTime = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "updateTime#string"))
-    o.message = find(pd, "message#string")
+    o.code = LibExpat.find(pd, "code#string")
+    o.updateTime = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "updateTime#string"))
+    o.message = LibExpat.find(pd, "message#string")
     o
 end
 
@@ -3323,7 +3323,7 @@ type SpotInstanceRequestIdSetItemType
 end
 function SpotInstanceRequestIdSetItemType(pd::ETree)
     o = SpotInstanceRequestIdSetItemType()
-    o.spotInstanceRequestId = find(pd, "spotInstanceRequestId#string")
+    o.spotInstanceRequestId = LibExpat.find(pd, "spotInstanceRequestId#string")
     o
 end
 
@@ -3338,7 +3338,7 @@ type CancelSpotInstanceRequestsType
 end
 function CancelSpotInstanceRequestsType(pd::ETree)
     o = CancelSpotInstanceRequestsType()
-    o.spotInstanceRequestIdSet = AWS.parse_vector_as(ASCIIString, "spotInstanceRequestId", find(pd, "item/spotInstanceRequestId"))
+    o.spotInstanceRequestIdSet = AWS.parse_vector_as(ASCIIString, "spotInstanceRequestId", LibExpat.find(pd, "item/spotInstanceRequestId"))
     o
 end
 
@@ -3354,8 +3354,8 @@ type CancelSpotInstanceRequestsResponseSetItemType
 end
 function CancelSpotInstanceRequestsResponseSetItemType(pd::ETree)
     o = CancelSpotInstanceRequestsResponseSetItemType()
-    o.spotInstanceRequestId = find(pd, "spotInstanceRequestId#string")
-    o.state = find(pd, "state#string")
+    o.spotInstanceRequestId = LibExpat.find(pd, "spotInstanceRequestId#string")
+    o.state = LibExpat.find(pd, "state#string")
     o
 end
 
@@ -3370,7 +3370,7 @@ type InstanceTypeSetItemType
 end
 function InstanceTypeSetItemType(pd::ETree)
     o = InstanceTypeSetItemType()
-    o.instanceType = find(pd, "instanceType#string")
+    o.instanceType = LibExpat.find(pd, "instanceType#string")
     o
 end
 
@@ -3385,7 +3385,7 @@ type ProductDescriptionSetItemType
 end
 function ProductDescriptionSetItemType(pd::ETree)
     o = ProductDescriptionSetItemType()
-    o.productDescription = find(pd, "productDescription#string")
+    o.productDescription = LibExpat.find(pd, "productDescription#string")
     o
 end
 
@@ -3404,11 +3404,11 @@ type SpotPriceHistorySetItemType
 end
 function SpotPriceHistorySetItemType(pd::ETree)
     o = SpotPriceHistorySetItemType()
-    o.instanceType = find(pd, "instanceType#string")
-    o.productDescription = find(pd, "productDescription#string")
-    o.spotPrice = find(pd, "spotPrice#string")
-    o.timestamp = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "timestamp#string"))
-    o.availabilityZone = find(pd, "availabilityZone#string")
+    o.instanceType = LibExpat.find(pd, "instanceType#string")
+    o.productDescription = LibExpat.find(pd, "productDescription#string")
+    o.spotPrice = LibExpat.find(pd, "spotPrice#string")
+    o.timestamp = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "timestamp#string"))
+    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
     o
 end
 
@@ -3424,8 +3424,8 @@ type CreateSpotDatafeedSubscriptionType
 end
 function CreateSpotDatafeedSubscriptionType(pd::ETree)
     o = CreateSpotDatafeedSubscriptionType()
-    o.bucket = find(pd, "bucket#string")
-    o.prefix = find(pd, "prefix#string")
+    o.bucket = LibExpat.find(pd, "bucket#string")
+    o.prefix = LibExpat.find(pd, "prefix#string")
     o
 end
 
@@ -3441,8 +3441,8 @@ type DeleteSpotDatafeedSubscriptionResponseType
 end
 function DeleteSpotDatafeedSubscriptionResponseType(pd::ETree)
     o = DeleteSpotDatafeedSubscriptionResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -3457,7 +3457,7 @@ type LicenseIdSetItemType
 end
 function LicenseIdSetItemType(pd::ETree)
     o = LicenseIdSetItemType()
-    o.licenseId = find(pd, "licenseId#string")
+    o.licenseId = LibExpat.find(pd, "licenseId#string")
     o
 end
 
@@ -3475,10 +3475,10 @@ type LicenseCapacitySetItemType
 end
 function LicenseCapacitySetItemType(pd::ETree)
     o = LicenseCapacitySetItemType()
-    o.capacity = AWS.safe_parse_as(Int64, find(pd, "capacity#string"))
-    o.instanceCapacity = AWS.safe_parse_as(Int64, find(pd, "instanceCapacity#string"))
-    o.state = find(pd, "state#string")
-    o.earliestAllowedDeactivationTime = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "earliestAllowedDeactivationTime#string"))
+    o.capacity = AWS.safe_parse_as(Int64, LibExpat.find(pd, "capacity#string"))
+    o.instanceCapacity = AWS.safe_parse_as(Int64, LibExpat.find(pd, "instanceCapacity#string"))
+    o.state = LibExpat.find(pd, "state#string")
+    o.earliestAllowedDeactivationTime = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "earliestAllowedDeactivationTime#string"))
     o
 end
 
@@ -3494,8 +3494,8 @@ type ActivateLicenseType
 end
 function ActivateLicenseType(pd::ETree)
     o = ActivateLicenseType()
-    o.licenseId = find(pd, "licenseId#string")
-    o.capacity = AWS.safe_parse_as(Int64, find(pd, "capacity#string"))
+    o.licenseId = LibExpat.find(pd, "licenseId#string")
+    o.capacity = AWS.safe_parse_as(Int64, LibExpat.find(pd, "capacity#string"))
     o
 end
 
@@ -3511,8 +3511,8 @@ type ActivateLicenseResponseType
 end
 function ActivateLicenseResponseType(pd::ETree)
     o = ActivateLicenseResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -3528,8 +3528,8 @@ type DeactivateLicenseType
 end
 function DeactivateLicenseType(pd::ETree)
     o = DeactivateLicenseType()
-    o.licenseId = find(pd, "licenseId#string")
-    o.capacity = AWS.safe_parse_as(Int64, find(pd, "capacity#string"))
+    o.licenseId = LibExpat.find(pd, "licenseId#string")
+    o.capacity = AWS.safe_parse_as(Int64, LibExpat.find(pd, "capacity#string"))
     o
 end
 
@@ -3545,8 +3545,8 @@ type DeactivateLicenseResponseType
 end
 function DeactivateLicenseResponseType(pd::ETree)
     o = DeactivateLicenseResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -3562,8 +3562,8 @@ type CreatePlacementGroupType
 end
 function CreatePlacementGroupType(pd::ETree)
     o = CreatePlacementGroupType()
-    o.groupName = find(pd, "groupName#string")
-    o.strategy = find(pd, "strategy#string")
+    o.groupName = LibExpat.find(pd, "groupName#string")
+    o.strategy = LibExpat.find(pd, "strategy#string")
     o
 end
 
@@ -3579,8 +3579,8 @@ type CreatePlacementGroupResponseType
 end
 function CreatePlacementGroupResponseType(pd::ETree)
     o = CreatePlacementGroupResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -3595,7 +3595,7 @@ type DeletePlacementGroupType
 end
 function DeletePlacementGroupType(pd::ETree)
     o = DeletePlacementGroupType()
-    o.groupName = find(pd, "groupName#string")
+    o.groupName = LibExpat.find(pd, "groupName#string")
     o
 end
 
@@ -3611,8 +3611,8 @@ type DeletePlacementGroupResponseType
 end
 function DeletePlacementGroupResponseType(pd::ETree)
     o = DeletePlacementGroupResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -3627,7 +3627,7 @@ type DescribePlacementGroupItemType
 end
 function DescribePlacementGroupItemType(pd::ETree)
     o = DescribePlacementGroupItemType()
-    o.groupName = find(pd, "groupName#string")
+    o.groupName = LibExpat.find(pd, "groupName#string")
     o
 end
 
@@ -3644,9 +3644,9 @@ type PlacementGroupInfoType
 end
 function PlacementGroupInfoType(pd::ETree)
     o = PlacementGroupInfoType()
-    o.groupName = find(pd, "groupName#string")
-    o.strategy = find(pd, "strategy#string")
-    o.state = find(pd, "state#string")
+    o.groupName = LibExpat.find(pd, "groupName#string")
+    o.strategy = LibExpat.find(pd, "strategy#string")
+    o.state = LibExpat.find(pd, "state#string")
     o
 end
 
@@ -3661,7 +3661,7 @@ type ResourceIdSetItemType
 end
 function ResourceIdSetItemType(pd::ETree)
     o = ResourceIdSetItemType()
-    o.resourceId = find(pd, "resourceId#string")
+    o.resourceId = LibExpat.find(pd, "resourceId#string")
     o
 end
 
@@ -3677,8 +3677,8 @@ type ResourceTagSetItemType
 end
 function ResourceTagSetItemType(pd::ETree)
     o = ResourceTagSetItemType()
-    o.key = find(pd, "key#string")
-    o.value = find(pd, "value#string")
+    o.key = LibExpat.find(pd, "key#string")
+    o.value = LibExpat.find(pd, "value#string")
     o
 end
 
@@ -3694,8 +3694,8 @@ type CreateTagsResponseType
 end
 function CreateTagsResponseType(pd::ETree)
     o = CreateTagsResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -3713,10 +3713,10 @@ type TagSetItemType
 end
 function TagSetItemType(pd::ETree)
     o = TagSetItemType()
-    o.resourceId = find(pd, "resourceId#string")
-    o.resourceType = find(pd, "resourceType#string")
-    o.key = find(pd, "key#string")
-    o.value = find(pd, "value#string")
+    o.resourceId = LibExpat.find(pd, "resourceId#string")
+    o.resourceType = LibExpat.find(pd, "resourceType#string")
+    o.key = LibExpat.find(pd, "key#string")
+    o.value = LibExpat.find(pd, "value#string")
     o
 end
 
@@ -3732,8 +3732,8 @@ type DeleteTagsSetItemType
 end
 function DeleteTagsSetItemType(pd::ETree)
     o = DeleteTagsSetItemType()
-    o.key = find(pd, "key#string")
-    o.value = find(pd, "value#string")
+    o.key = LibExpat.find(pd, "key#string")
+    o.value = LibExpat.find(pd, "value#string")
     o
 end
 
@@ -3749,8 +3749,8 @@ type DeleteTagsResponseType
 end
 function DeleteTagsResponseType(pd::ETree)
     o = DeleteTagsResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -3767,9 +3767,9 @@ type DiskImageDetailType
 end
 function DiskImageDetailType(pd::ETree)
     o = DiskImageDetailType()
-    o.format = find(pd, "format#string")
-    o.bytes = AWS.safe_parse_as(Int64, find(pd, "bytes#string"))
-    o.importManifestUrl = find(pd, "importManifestUrl#string")
+    o.format = LibExpat.find(pd, "format#string")
+    o.bytes = AWS.safe_parse_as(Int64, LibExpat.find(pd, "bytes#string"))
+    o.importManifestUrl = LibExpat.find(pd, "importManifestUrl#string")
     o
 end
 
@@ -3784,7 +3784,7 @@ type DiskImageVolumeType
 end
 function DiskImageVolumeType(pd::ETree)
     o = DiskImageVolumeType()
-    o.size = AWS.safe_parse_as(Int64, find(pd, "size#string"))
+    o.size = AWS.safe_parse_as(Int64, LibExpat.find(pd, "size#string"))
     o
 end
 
@@ -3800,8 +3800,8 @@ type DiskImageVolumeDescriptionType
 end
 function DiskImageVolumeDescriptionType(pd::ETree)
     o = DiskImageVolumeDescriptionType()
-    o.size = AWS.safe_parse_as(Int64, find(pd, "size#string"))
-    o.id = find(pd, "id#string")
+    o.size = AWS.safe_parse_as(Int64, LibExpat.find(pd, "size#string"))
+    o.id = LibExpat.find(pd, "id#string")
     o
 end
 
@@ -3819,10 +3819,10 @@ type DiskImageDescriptionType
 end
 function DiskImageDescriptionType(pd::ETree)
     o = DiskImageDescriptionType()
-    o.format = find(pd, "format#string")
-    o.size = AWS.safe_parse_as(Int64, find(pd, "size#string"))
-    o.importManifestUrl = find(pd, "importManifestUrl#string")
-    o.checksum = find(pd, "checksum#string")
+    o.format = LibExpat.find(pd, "format#string")
+    o.size = AWS.safe_parse_as(Int64, LibExpat.find(pd, "size#string"))
+    o.importManifestUrl = LibExpat.find(pd, "importManifestUrl#string")
+    o.checksum = LibExpat.find(pd, "checksum#string")
     o
 end
 
@@ -3837,7 +3837,7 @@ type DescribeConversionTasksType
 end
 function DescribeConversionTasksType(pd::ETree)
     o = DescribeConversionTasksType()
-    o.conversionTaskIdSet = AWS.parse_vector_as(ASCIIString, "conversionTaskId", find(pd, "item/conversionTaskId"))
+    o.conversionTaskIdSet = AWS.parse_vector_as(ASCIIString, "conversionTaskId", LibExpat.find(pd, "item/conversionTaskId"))
     o
 end
 
@@ -3852,7 +3852,7 @@ type ConversionTaskIdItemType
 end
 function ConversionTaskIdItemType(pd::ETree)
     o = ConversionTaskIdItemType()
-    o.conversionTaskId = find(pd, "conversionTaskId#string")
+    o.conversionTaskId = LibExpat.find(pd, "conversionTaskId#string")
     o
 end
 
@@ -3867,7 +3867,7 @@ type CancelConversionTaskType
 end
 function CancelConversionTaskType(pd::ETree)
     o = CancelConversionTaskType()
-    o.conversionTaskId = find(pd, "conversionTaskId#string")
+    o.conversionTaskId = LibExpat.find(pd, "conversionTaskId#string")
     o
 end
 
@@ -3883,8 +3883,8 @@ type CancelConversionTaskResponseType
 end
 function CancelConversionTaskResponseType(pd::ETree)
     o = CancelConversionTaskResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -3901,9 +3901,9 @@ type CreateInstanceExportTaskType
 end
 function CreateInstanceExportTaskType(pd::ETree)
     o = CreateInstanceExportTaskType()
-    o.description = find(pd, "description#string")
-    o.instanceId = find(pd, "instanceId#string")
-    o.targetEnvironment = find(pd, "targetEnvironment#string")
+    o.description = LibExpat.find(pd, "description#string")
+    o.instanceId = LibExpat.find(pd, "instanceId#string")
+    o.targetEnvironment = LibExpat.find(pd, "targetEnvironment#string")
     o
 end
 
@@ -3921,10 +3921,10 @@ type ExportToS3TaskType
 end
 function ExportToS3TaskType(pd::ETree)
     o = ExportToS3TaskType()
-    o.diskImageFormat = find(pd, "diskImageFormat#string")
-    o.containerFormat = find(pd, "containerFormat#string")
-    o.s3Bucket = find(pd, "s3Bucket#string")
-    o.s3Prefix = find(pd, "s3Prefix#string")
+    o.diskImageFormat = LibExpat.find(pd, "diskImageFormat#string")
+    o.containerFormat = LibExpat.find(pd, "containerFormat#string")
+    o.s3Bucket = LibExpat.find(pd, "s3Bucket#string")
+    o.s3Prefix = LibExpat.find(pd, "s3Prefix#string")
     o
 end
 
@@ -3939,7 +3939,7 @@ type DescribeExportTasksType
 end
 function DescribeExportTasksType(pd::ETree)
     o = DescribeExportTasksType()
-    o.exportTaskIdSet = AWS.parse_vector_as(ASCIIString, "exportTaskId", find(pd, "item/exportTaskId"))
+    o.exportTaskIdSet = AWS.parse_vector_as(ASCIIString, "exportTaskId", LibExpat.find(pd, "item/exportTaskId"))
     o
 end
 
@@ -3954,7 +3954,7 @@ type ExportTaskIdType
 end
 function ExportTaskIdType(pd::ETree)
     o = ExportTaskIdType()
-    o.exportTaskId = find(pd, "exportTaskId#string")
+    o.exportTaskId = LibExpat.find(pd, "exportTaskId#string")
     o
 end
 
@@ -3972,10 +3972,10 @@ type ExportTaskResponseType
 end
 function ExportTaskResponseType(pd::ETree)
     o = ExportTaskResponseType()
-    o.exportTaskId = find(pd, "exportTaskId#string")
-    o.description = find(pd, "description#string")
-    o.state = find(pd, "state#string")
-    o.statusMessage = find(pd, "statusMessage#string")
+    o.exportTaskId = LibExpat.find(pd, "exportTaskId#string")
+    o.description = LibExpat.find(pd, "description#string")
+    o.state = LibExpat.find(pd, "state#string")
+    o.statusMessage = LibExpat.find(pd, "statusMessage#string")
     o
 end
 
@@ -3991,8 +3991,8 @@ type InstanceExportTaskResponseType
 end
 function InstanceExportTaskResponseType(pd::ETree)
     o = InstanceExportTaskResponseType()
-    o.instanceId = find(pd, "instanceId#string")
-    o.targetEnvironment = find(pd, "targetEnvironment#string")
+    o.instanceId = LibExpat.find(pd, "instanceId#string")
+    o.targetEnvironment = LibExpat.find(pd, "targetEnvironment#string")
     o
 end
 
@@ -4010,10 +4010,10 @@ type ExportToS3TaskResponseType
 end
 function ExportToS3TaskResponseType(pd::ETree)
     o = ExportToS3TaskResponseType()
-    o.diskImageFormat = find(pd, "diskImageFormat#string")
-    o.containerFormat = find(pd, "containerFormat#string")
-    o.s3Bucket = find(pd, "s3Bucket#string")
-    o.s3Key = find(pd, "s3Key#string")
+    o.diskImageFormat = LibExpat.find(pd, "diskImageFormat#string")
+    o.containerFormat = LibExpat.find(pd, "containerFormat#string")
+    o.s3Bucket = LibExpat.find(pd, "s3Bucket#string")
+    o.s3Key = LibExpat.find(pd, "s3Key#string")
     o
 end
 
@@ -4028,7 +4028,7 @@ type CancelExportTaskType
 end
 function CancelExportTaskType(pd::ETree)
     o = CancelExportTaskType()
-    o.exportTaskId = find(pd, "exportTaskId#string")
+    o.exportTaskId = LibExpat.find(pd, "exportTaskId#string")
     o
 end
 
@@ -4044,8 +4044,8 @@ type CancelExportTaskResponseType
 end
 function CancelExportTaskResponseType(pd::ETree)
     o = CancelExportTaskResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -4061,8 +4061,8 @@ type InternetGatewayAttachmentType
 end
 function InternetGatewayAttachmentType(pd::ETree)
     o = InternetGatewayAttachmentType()
-    o.vpcId = find(pd, "vpcId#string")
-    o.state = find(pd, "state#string")
+    o.vpcId = LibExpat.find(pd, "vpcId#string")
+    o.state = LibExpat.find(pd, "state#string")
     o
 end
 
@@ -4077,7 +4077,7 @@ type InternetGatewayIdSetItemType
 end
 function InternetGatewayIdSetItemType(pd::ETree)
     o = InternetGatewayIdSetItemType()
-    o.internetGatewayId = find(pd, "internetGatewayId#string")
+    o.internetGatewayId = LibExpat.find(pd, "internetGatewayId#string")
     o
 end
 
@@ -4092,7 +4092,7 @@ type DeleteInternetGatewayType
 end
 function DeleteInternetGatewayType(pd::ETree)
     o = DeleteInternetGatewayType()
-    o.internetGatewayId = find(pd, "internetGatewayId#string")
+    o.internetGatewayId = LibExpat.find(pd, "internetGatewayId#string")
     o
 end
 
@@ -4108,8 +4108,8 @@ type DeleteInternetGatewayResponseType
 end
 function DeleteInternetGatewayResponseType(pd::ETree)
     o = DeleteInternetGatewayResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -4125,8 +4125,8 @@ type AttachInternetGatewayType
 end
 function AttachInternetGatewayType(pd::ETree)
     o = AttachInternetGatewayType()
-    o.internetGatewayId = find(pd, "internetGatewayId#string")
-    o.vpcId = find(pd, "vpcId#string")
+    o.internetGatewayId = LibExpat.find(pd, "internetGatewayId#string")
+    o.vpcId = LibExpat.find(pd, "vpcId#string")
     o
 end
 
@@ -4142,8 +4142,8 @@ type AttachInternetGatewayResponseType
 end
 function AttachInternetGatewayResponseType(pd::ETree)
     o = AttachInternetGatewayResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -4159,8 +4159,8 @@ type DetachInternetGatewayType
 end
 function DetachInternetGatewayType(pd::ETree)
     o = DetachInternetGatewayType()
-    o.internetGatewayId = find(pd, "internetGatewayId#string")
-    o.vpcId = find(pd, "vpcId#string")
+    o.internetGatewayId = LibExpat.find(pd, "internetGatewayId#string")
+    o.vpcId = LibExpat.find(pd, "vpcId#string")
     o
 end
 
@@ -4176,8 +4176,8 @@ type DetachInternetGatewayResponseType
 end
 function DetachInternetGatewayResponseType(pd::ETree)
     o = DetachInternetGatewayResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -4192,7 +4192,7 @@ type CreateRouteTableType
 end
 function CreateRouteTableType(pd::ETree)
     o = CreateRouteTableType()
-    o.vpcId = find(pd, "vpcId#string")
+    o.vpcId = LibExpat.find(pd, "vpcId#string")
     o
 end
 
@@ -4213,13 +4213,13 @@ type RouteType
 end
 function RouteType(pd::ETree)
     o = RouteType()
-    o.destinationCidrBlock = find(pd, "destinationCidrBlock#string")
-    o.gatewayId = find(pd, "gatewayId#string")
-    o.instanceId = find(pd, "instanceId#string")
-    o.instanceOwnerId = find(pd, "instanceOwnerId#string")
-    o.networkInterfaceId = find(pd, "networkInterfaceId#string")
-    o.state = find(pd, "state#string")
-    o.origin = find(pd, "origin#string")
+    o.destinationCidrBlock = LibExpat.find(pd, "destinationCidrBlock#string")
+    o.gatewayId = LibExpat.find(pd, "gatewayId#string")
+    o.instanceId = LibExpat.find(pd, "instanceId#string")
+    o.instanceOwnerId = LibExpat.find(pd, "instanceOwnerId#string")
+    o.networkInterfaceId = LibExpat.find(pd, "networkInterfaceId#string")
+    o.state = LibExpat.find(pd, "state#string")
+    o.origin = LibExpat.find(pd, "origin#string")
     o
 end
 
@@ -4235,8 +4235,8 @@ type RouteTableAssociationType
 end
 function RouteTableAssociationType(pd::ETree)
     o = RouteTableAssociationType()
-    o.routeTableAssociationId = find(pd, "routeTableAssociationId#string")
-    o.routeTableId = find(pd, "routeTableId#string")
+    o.routeTableAssociationId = LibExpat.find(pd, "routeTableAssociationId#string")
+    o.routeTableId = LibExpat.find(pd, "routeTableId#string")
     o
 end
 
@@ -4251,7 +4251,7 @@ type PropagatingVgwType
 end
 function PropagatingVgwType(pd::ETree)
     o = PropagatingVgwType()
-    o.gatewayId = find(pd, "gatewayId#string")
+    o.gatewayId = LibExpat.find(pd, "gatewayId#string")
     o
 end
 
@@ -4266,7 +4266,7 @@ type RouteTableIdSetItemType
 end
 function RouteTableIdSetItemType(pd::ETree)
     o = RouteTableIdSetItemType()
-    o.routeTableId = find(pd, "routeTableId#string")
+    o.routeTableId = LibExpat.find(pd, "routeTableId#string")
     o
 end
 
@@ -4282,8 +4282,8 @@ type EnableVgwRoutePropagationRequestType
 end
 function EnableVgwRoutePropagationRequestType(pd::ETree)
     o = EnableVgwRoutePropagationRequestType()
-    o.routeTableId = find(pd, "routeTableId#string")
-    o.gatewayId = find(pd, "gatewayId#string")
+    o.routeTableId = LibExpat.find(pd, "routeTableId#string")
+    o.gatewayId = LibExpat.find(pd, "gatewayId#string")
     o
 end
 
@@ -4299,8 +4299,8 @@ type EnableVgwRoutePropagationResponseType
 end
 function EnableVgwRoutePropagationResponseType(pd::ETree)
     o = EnableVgwRoutePropagationResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -4316,8 +4316,8 @@ type DisableVgwRoutePropagationRequestType
 end
 function DisableVgwRoutePropagationRequestType(pd::ETree)
     o = DisableVgwRoutePropagationRequestType()
-    o.routeTableId = find(pd, "routeTableId#string")
-    o.gatewayId = find(pd, "gatewayId#string")
+    o.routeTableId = LibExpat.find(pd, "routeTableId#string")
+    o.gatewayId = LibExpat.find(pd, "gatewayId#string")
     o
 end
 
@@ -4333,8 +4333,8 @@ type DisableVgwRoutePropagationResponseType
 end
 function DisableVgwRoutePropagationResponseType(pd::ETree)
     o = DisableVgwRoutePropagationResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -4349,7 +4349,7 @@ type DeleteRouteTableType
 end
 function DeleteRouteTableType(pd::ETree)
     o = DeleteRouteTableType()
-    o.routeTableId = find(pd, "routeTableId#string")
+    o.routeTableId = LibExpat.find(pd, "routeTableId#string")
     o
 end
 
@@ -4365,8 +4365,8 @@ type DeleteRouteTableResponseType
 end
 function DeleteRouteTableResponseType(pd::ETree)
     o = DeleteRouteTableResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -4382,8 +4382,8 @@ type AssociateRouteTableType
 end
 function AssociateRouteTableType(pd::ETree)
     o = AssociateRouteTableType()
-    o.routeTableId = find(pd, "routeTableId#string")
-    o.subnetId = find(pd, "subnetId#string")
+    o.routeTableId = LibExpat.find(pd, "routeTableId#string")
+    o.subnetId = LibExpat.find(pd, "subnetId#string")
     o
 end
 
@@ -4399,8 +4399,8 @@ type AssociateRouteTableResponseType
 end
 function AssociateRouteTableResponseType(pd::ETree)
     o = AssociateRouteTableResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.associationId = find(pd, "associationId#string")
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.associationId = LibExpat.find(pd, "associationId#string")
     o
 end
 
@@ -4416,8 +4416,8 @@ type ReplaceRouteTableAssociationType
 end
 function ReplaceRouteTableAssociationType(pd::ETree)
     o = ReplaceRouteTableAssociationType()
-    o.associationId = find(pd, "associationId#string")
-    o.routeTableId = find(pd, "routeTableId#string")
+    o.associationId = LibExpat.find(pd, "associationId#string")
+    o.routeTableId = LibExpat.find(pd, "routeTableId#string")
     o
 end
 
@@ -4433,8 +4433,8 @@ type ReplaceRouteTableAssociationResponseType
 end
 function ReplaceRouteTableAssociationResponseType(pd::ETree)
     o = ReplaceRouteTableAssociationResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.newAssociationId = find(pd, "newAssociationId#string")
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.newAssociationId = LibExpat.find(pd, "newAssociationId#string")
     o
 end
 
@@ -4449,7 +4449,7 @@ type DisassociateRouteTableType
 end
 function DisassociateRouteTableType(pd::ETree)
     o = DisassociateRouteTableType()
-    o.associationId = find(pd, "associationId#string")
+    o.associationId = LibExpat.find(pd, "associationId#string")
     o
 end
 
@@ -4465,8 +4465,8 @@ type DisassociateRouteTableResponseType
 end
 function DisassociateRouteTableResponseType(pd::ETree)
     o = DisassociateRouteTableResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -4482,8 +4482,8 @@ type CreateRouteType
 end
 function CreateRouteType(pd::ETree)
     o = CreateRouteType()
-    o.routeTableId = find(pd, "routeTableId#string")
-    o.destinationCidrBlock = find(pd, "destinationCidrBlock#string")
+    o.routeTableId = LibExpat.find(pd, "routeTableId#string")
+    o.destinationCidrBlock = LibExpat.find(pd, "destinationCidrBlock#string")
     o
 end
 
@@ -4499,8 +4499,8 @@ type CreateRouteResponseType
 end
 function CreateRouteResponseType(pd::ETree)
     o = CreateRouteResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -4516,8 +4516,8 @@ type ReplaceRouteType
 end
 function ReplaceRouteType(pd::ETree)
     o = ReplaceRouteType()
-    o.routeTableId = find(pd, "routeTableId#string")
-    o.destinationCidrBlock = find(pd, "destinationCidrBlock#string")
+    o.routeTableId = LibExpat.find(pd, "routeTableId#string")
+    o.destinationCidrBlock = LibExpat.find(pd, "destinationCidrBlock#string")
     o
 end
 
@@ -4533,8 +4533,8 @@ type ReplaceRouteResponseType
 end
 function ReplaceRouteResponseType(pd::ETree)
     o = ReplaceRouteResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -4550,8 +4550,8 @@ type DeleteRouteType
 end
 function DeleteRouteType(pd::ETree)
     o = DeleteRouteType()
-    o.routeTableId = find(pd, "routeTableId#string")
-    o.destinationCidrBlock = find(pd, "destinationCidrBlock#string")
+    o.routeTableId = LibExpat.find(pd, "routeTableId#string")
+    o.destinationCidrBlock = LibExpat.find(pd, "destinationCidrBlock#string")
     o
 end
 
@@ -4567,8 +4567,8 @@ type DeleteRouteResponseType
 end
 function DeleteRouteResponseType(pd::ETree)
     o = DeleteRouteResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -4583,7 +4583,7 @@ type CreateNetworkAclType
 end
 function CreateNetworkAclType(pd::ETree)
     o = CreateNetworkAclType()
-    o.vpcId = find(pd, "vpcId#string")
+    o.vpcId = LibExpat.find(pd, "vpcId#string")
     o
 end
 
@@ -4599,8 +4599,8 @@ type IcmpTypeCodeType
 end
 function IcmpTypeCodeType(pd::ETree)
     o = IcmpTypeCodeType()
-    o.code = AWS.safe_parse_as(Int64, find(pd, "code#string"))
-    o._type = AWS.safe_parse_as(Int64, find(pd, "type#string"))
+    o.code = AWS.safe_parse_as(Int64, LibExpat.find(pd, "code#string"))
+    o._type = AWS.safe_parse_as(Int64, LibExpat.find(pd, "type#string"))
     o
 end
 
@@ -4616,8 +4616,8 @@ type PortRangeType
 end
 function PortRangeType(pd::ETree)
     o = PortRangeType()
-    o.from = AWS.safe_parse_as(Int64, find(pd, "from#string"))
-    o.to = AWS.safe_parse_as(Int64, find(pd, "to#string"))
+    o.from = AWS.safe_parse_as(Int64, LibExpat.find(pd, "from#string"))
+    o.to = AWS.safe_parse_as(Int64, LibExpat.find(pd, "to#string"))
     o
 end
 
@@ -4634,9 +4634,9 @@ type NetworkAclAssociationType
 end
 function NetworkAclAssociationType(pd::ETree)
     o = NetworkAclAssociationType()
-    o.networkAclAssociationId = find(pd, "networkAclAssociationId#string")
-    o.networkAclId = find(pd, "networkAclId#string")
-    o.subnetId = find(pd, "subnetId#string")
+    o.networkAclAssociationId = LibExpat.find(pd, "networkAclAssociationId#string")
+    o.networkAclId = LibExpat.find(pd, "networkAclId#string")
+    o.subnetId = LibExpat.find(pd, "subnetId#string")
     o
 end
 
@@ -4651,7 +4651,7 @@ type NetworkAclIdSetItemType
 end
 function NetworkAclIdSetItemType(pd::ETree)
     o = NetworkAclIdSetItemType()
-    o.networkAclId = find(pd, "networkAclId#string")
+    o.networkAclId = LibExpat.find(pd, "networkAclId#string")
     o
 end
 
@@ -4666,7 +4666,7 @@ type DeleteNetworkAclType
 end
 function DeleteNetworkAclType(pd::ETree)
     o = DeleteNetworkAclType()
-    o.networkAclId = find(pd, "networkAclId#string")
+    o.networkAclId = LibExpat.find(pd, "networkAclId#string")
     o
 end
 
@@ -4682,8 +4682,8 @@ type DeleteNetworkAclResponseType
 end
 function DeleteNetworkAclResponseType(pd::ETree)
     o = DeleteNetworkAclResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -4699,8 +4699,8 @@ type ReplaceNetworkAclAssociationType
 end
 function ReplaceNetworkAclAssociationType(pd::ETree)
     o = ReplaceNetworkAclAssociationType()
-    o.associationId = find(pd, "associationId#string")
-    o.networkAclId = find(pd, "networkAclId#string")
+    o.associationId = LibExpat.find(pd, "associationId#string")
+    o.networkAclId = LibExpat.find(pd, "networkAclId#string")
     o
 end
 
@@ -4716,8 +4716,8 @@ type ReplaceNetworkAclAssociationResponseType
 end
 function ReplaceNetworkAclAssociationResponseType(pd::ETree)
     o = ReplaceNetworkAclAssociationResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.newAssociationId = find(pd, "newAssociationId#string")
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.newAssociationId = LibExpat.find(pd, "newAssociationId#string")
     o
 end
 
@@ -4733,8 +4733,8 @@ type CreateNetworkAclEntryResponseType
 end
 function CreateNetworkAclEntryResponseType(pd::ETree)
     o = CreateNetworkAclEntryResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -4750,8 +4750,8 @@ type ReplaceNetworkAclEntryResponseType
 end
 function ReplaceNetworkAclEntryResponseType(pd::ETree)
     o = ReplaceNetworkAclEntryResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -4768,9 +4768,9 @@ type DeleteNetworkAclEntryType
 end
 function DeleteNetworkAclEntryType(pd::ETree)
     o = DeleteNetworkAclEntryType()
-    o.networkAclId = find(pd, "networkAclId#string")
-    o.ruleNumber = AWS.safe_parse_as(Int64, find(pd, "ruleNumber#string"))
-    o.egress = AWS.safe_parse_as(Bool, find(pd, "egress#string"))
+    o.networkAclId = LibExpat.find(pd, "networkAclId#string")
+    o.ruleNumber = AWS.safe_parse_as(Int64, LibExpat.find(pd, "ruleNumber#string"))
+    o.egress = AWS.safe_parse_as(Bool, LibExpat.find(pd, "egress#string"))
     o
 end
 
@@ -4786,8 +4786,8 @@ type DeleteNetworkAclEntryResponseType
 end
 function DeleteNetworkAclEntryResponseType(pd::ETree)
     o = DeleteNetworkAclEntryResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -4804,9 +4804,9 @@ type InstanceStatusDetailsSetItemType
 end
 function InstanceStatusDetailsSetItemType(pd::ETree)
     o = InstanceStatusDetailsSetItemType()
-    o.name = find(pd, "name#string")
-    o.status = find(pd, "status#string")
-    o.impairedSince = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "impairedSince#string"))
+    o.name = LibExpat.find(pd, "name#string")
+    o.status = LibExpat.find(pd, "status#string")
+    o.impairedSince = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "impairedSince#string"))
     o
 end
 
@@ -4824,10 +4824,10 @@ type InstanceStatusEventType
 end
 function InstanceStatusEventType(pd::ETree)
     o = InstanceStatusEventType()
-    o.code = find(pd, "code#string")
-    o.description = find(pd, "description#string")
-    o.notBefore = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "notBefore#string"))
-    o.notAfter = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "notAfter#string"))
+    o.code = LibExpat.find(pd, "code#string")
+    o.description = LibExpat.find(pd, "description#string")
+    o.notBefore = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "notBefore#string"))
+    o.notAfter = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "notAfter#string"))
     o
 end
 
@@ -4847,12 +4847,12 @@ type ReportInstanceStatusType
 end
 function ReportInstanceStatusType(pd::ETree)
     o = ReportInstanceStatusType()
-    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", find(pd, "item/instanceId"))
-    o.status = find(pd, "status#string")
-    o.startTime = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "startTime#string"))
-    o.endTime = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "endTime#string"))
-    o.reasonCodesSet = AWS.parse_vector_as(ASCIIString, "reasonCode", find(pd, "item/reasonCode"))
-    o.description = find(pd, "description#string")
+    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", LibExpat.find(pd, "item/instanceId"))
+    o.status = LibExpat.find(pd, "status#string")
+    o.startTime = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "startTime#string"))
+    o.endTime = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "endTime#string"))
+    o.reasonCodesSet = AWS.parse_vector_as(ASCIIString, "reasonCode", LibExpat.find(pd, "item/reasonCode"))
+    o.description = LibExpat.find(pd, "description#string")
     o
 end
 
@@ -4867,7 +4867,7 @@ type ReportInstanceStatusReasonCodeSetItemType
 end
 function ReportInstanceStatusReasonCodeSetItemType(pd::ETree)
     o = ReportInstanceStatusReasonCodeSetItemType()
-    o.reasonCode = find(pd, "reasonCode#string")
+    o.reasonCode = LibExpat.find(pd, "reasonCode#string")
     o
 end
 
@@ -4883,8 +4883,8 @@ type ReportInstanceStatusResponseType
 end
 function ReportInstanceStatusResponseType(pd::ETree)
     o = ReportInstanceStatusResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -4899,7 +4899,7 @@ type NetworkInterfaceIdSetItemType
 end
 function NetworkInterfaceIdSetItemType(pd::ETree)
     o = NetworkInterfaceIdSetItemType()
-    o.networkInterfaceId = find(pd, "networkInterfaceId#string")
+    o.networkInterfaceId = LibExpat.find(pd, "networkInterfaceId#string")
     o
 end
 
@@ -4920,13 +4920,13 @@ type NetworkInterfaceAttachmentType
 end
 function NetworkInterfaceAttachmentType(pd::ETree)
     o = NetworkInterfaceAttachmentType()
-    o.attachmentId = find(pd, "attachmentId#string")
-    o.instanceId = find(pd, "instanceId#string")
-    o.instanceOwnerId = find(pd, "instanceOwnerId#string")
-    o.deviceIndex = AWS.safe_parse_as(Int64, find(pd, "deviceIndex#string"))
-    o.status = find(pd, "status#string")
-    o.attachTime = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "attachTime#string"))
-    o.deleteOnTermination = AWS.safe_parse_as(Bool, find(pd, "deleteOnTermination#string"))
+    o.attachmentId = LibExpat.find(pd, "attachmentId#string")
+    o.instanceId = LibExpat.find(pd, "instanceId#string")
+    o.instanceOwnerId = LibExpat.find(pd, "instanceOwnerId#string")
+    o.deviceIndex = AWS.safe_parse_as(Int64, LibExpat.find(pd, "deviceIndex#string"))
+    o.status = LibExpat.find(pd, "status#string")
+    o.attachTime = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "attachTime#string"))
+    o.deleteOnTermination = AWS.safe_parse_as(Bool, LibExpat.find(pd, "deleteOnTermination#string"))
     o
 end
 
@@ -4945,11 +4945,11 @@ type NetworkInterfaceAssociationType
 end
 function NetworkInterfaceAssociationType(pd::ETree)
     o = NetworkInterfaceAssociationType()
-    o.publicIp = find(pd, "publicIp#string")
-    o.publicDnsName = find(pd, "publicDnsName#string")
-    o.ipOwnerId = find(pd, "ipOwnerId#string")
-    o.allocationId = find(pd, "allocationId#string")
-    o.associationId = find(pd, "associationId#string")
+    o.publicIp = LibExpat.find(pd, "publicIp#string")
+    o.publicDnsName = LibExpat.find(pd, "publicDnsName#string")
+    o.ipOwnerId = LibExpat.find(pd, "ipOwnerId#string")
+    o.allocationId = LibExpat.find(pd, "allocationId#string")
+    o.associationId = LibExpat.find(pd, "associationId#string")
     o
 end
 
@@ -4964,7 +4964,7 @@ type DeleteNetworkInterfaceType
 end
 function DeleteNetworkInterfaceType(pd::ETree)
     o = DeleteNetworkInterfaceType()
-    o.networkInterfaceId = find(pd, "networkInterfaceId#string")
+    o.networkInterfaceId = LibExpat.find(pd, "networkInterfaceId#string")
     o
 end
 
@@ -4980,8 +4980,8 @@ type DeleteNetworkInterfaceResponseType
 end
 function DeleteNetworkInterfaceResponseType(pd::ETree)
     o = DeleteNetworkInterfaceResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -4998,9 +4998,9 @@ type AttachNetworkInterfaceType
 end
 function AttachNetworkInterfaceType(pd::ETree)
     o = AttachNetworkInterfaceType()
-    o.networkInterfaceId = find(pd, "networkInterfaceId#string")
-    o.instanceId = find(pd, "instanceId#string")
-    o.deviceIndex = AWS.safe_parse_as(Int64, find(pd, "deviceIndex#string"))
+    o.networkInterfaceId = LibExpat.find(pd, "networkInterfaceId#string")
+    o.instanceId = LibExpat.find(pd, "instanceId#string")
+    o.deviceIndex = AWS.safe_parse_as(Int64, LibExpat.find(pd, "deviceIndex#string"))
     o
 end
 
@@ -5016,8 +5016,8 @@ type AttachNetworkInterfaceResponseType
 end
 function AttachNetworkInterfaceResponseType(pd::ETree)
     o = AttachNetworkInterfaceResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.attachmentId = find(pd, "attachmentId#string")
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.attachmentId = LibExpat.find(pd, "attachmentId#string")
     o
 end
 
@@ -5033,8 +5033,8 @@ type DetachNetworkInterfaceType
 end
 function DetachNetworkInterfaceType(pd::ETree)
     o = DetachNetworkInterfaceType()
-    o.attachmentId = find(pd, "attachmentId#string")
-    o.force = AWS.safe_parse_as(Bool, find(pd, "force#string"))
+    o.attachmentId = LibExpat.find(pd, "attachmentId#string")
+    o.force = AWS.safe_parse_as(Bool, LibExpat.find(pd, "force#string"))
     o
 end
 
@@ -5050,8 +5050,8 @@ type DetachNetworkInterfaceResponseType
 end
 function DetachNetworkInterfaceResponseType(pd::ETree)
     o = DetachNetworkInterfaceResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -5066,7 +5066,7 @@ type DescribeNetworkInterfaceAttributeType
 end
 function DescribeNetworkInterfaceAttributeType(pd::ETree)
     o = DescribeNetworkInterfaceAttributeType()
-    o.networkInterfaceId = find(pd, "networkInterfaceId#string")
+    o.networkInterfaceId = LibExpat.find(pd, "networkInterfaceId#string")
     o
 end
 
@@ -5082,8 +5082,8 @@ type DescribeNetworkInterfaceAttributeResponseType
 end
 function DescribeNetworkInterfaceAttributeResponseType(pd::ETree)
     o = DescribeNetworkInterfaceAttributeResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.networkInterfaceId = find(pd, "networkInterfaceId#string")
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.networkInterfaceId = LibExpat.find(pd, "networkInterfaceId#string")
     o
 end
 
@@ -5098,7 +5098,7 @@ type ModifyNetworkInterfaceAttributeType
 end
 function ModifyNetworkInterfaceAttributeType(pd::ETree)
     o = ModifyNetworkInterfaceAttributeType()
-    o.networkInterfaceId = find(pd, "networkInterfaceId#string")
+    o.networkInterfaceId = LibExpat.find(pd, "networkInterfaceId#string")
     o
 end
 
@@ -5114,8 +5114,8 @@ type ModifyNetworkInterfaceAttachmentType
 end
 function ModifyNetworkInterfaceAttachmentType(pd::ETree)
     o = ModifyNetworkInterfaceAttachmentType()
-    o.attachmentId = find(pd, "attachmentId#string")
-    o.deleteOnTermination = AWS.safe_parse_as(Bool, find(pd, "deleteOnTermination#string"))
+    o.attachmentId = LibExpat.find(pd, "attachmentId#string")
+    o.deleteOnTermination = AWS.safe_parse_as(Bool, LibExpat.find(pd, "deleteOnTermination#string"))
     o
 end
 
@@ -5131,8 +5131,8 @@ type ModifyNetworkInterfaceAttributeResponseType
 end
 function ModifyNetworkInterfaceAttributeResponseType(pd::ETree)
     o = ModifyNetworkInterfaceAttributeResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -5147,7 +5147,7 @@ type ResetNetworkInterfaceAttributeType
 end
 function ResetNetworkInterfaceAttributeType(pd::ETree)
     o = ResetNetworkInterfaceAttributeType()
-    o.networkInterfaceId = find(pd, "networkInterfaceId#string")
+    o.networkInterfaceId = LibExpat.find(pd, "networkInterfaceId#string")
     o
 end
 
@@ -5163,8 +5163,8 @@ type ResetNetworkInterfaceAttributeResponseType
 end
 function ResetNetworkInterfaceAttributeResponseType(pd::ETree)
     o = ResetNetworkInterfaceAttributeResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -5182,10 +5182,10 @@ type AssignPrivateIpAddressesType
 end
 function AssignPrivateIpAddressesType(pd::ETree)
     o = AssignPrivateIpAddressesType()
-    o.networkInterfaceId = find(pd, "networkInterfaceId#string")
-    o.privateIpAddressesSet = AWS.parse_vector_as(ASCIIString, "privateIpAddress", find(pd, "item/privateIpAddress"))
-    o.secondaryPrivateIpAddressCount = AWS.safe_parse_as(Int64, find(pd, "secondaryPrivateIpAddressCount#string"))
-    o.allowReassignment = AWS.safe_parse_as(Bool, find(pd, "allowReassignment#string"))
+    o.networkInterfaceId = LibExpat.find(pd, "networkInterfaceId#string")
+    o.privateIpAddressesSet = AWS.parse_vector_as(ASCIIString, "privateIpAddress", LibExpat.find(pd, "item/privateIpAddress"))
+    o.secondaryPrivateIpAddressCount = AWS.safe_parse_as(Int64, LibExpat.find(pd, "secondaryPrivateIpAddressCount#string"))
+    o.allowReassignment = AWS.safe_parse_as(Bool, LibExpat.find(pd, "allowReassignment#string"))
     o
 end
 
@@ -5201,8 +5201,8 @@ type AssignPrivateIpAddressesResponseType
 end
 function AssignPrivateIpAddressesResponseType(pd::ETree)
     o = AssignPrivateIpAddressesResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -5218,8 +5218,8 @@ type UnassignPrivateIpAddressesType
 end
 function UnassignPrivateIpAddressesType(pd::ETree)
     o = UnassignPrivateIpAddressesType()
-    o.networkInterfaceId = find(pd, "networkInterfaceId#string")
-    o.privateIpAddressesSet = AWS.parse_vector_as(ASCIIString, "privateIpAddress", find(pd, "item/privateIpAddress"))
+    o.networkInterfaceId = LibExpat.find(pd, "networkInterfaceId#string")
+    o.privateIpAddressesSet = AWS.parse_vector_as(ASCIIString, "privateIpAddress", LibExpat.find(pd, "item/privateIpAddress"))
     o
 end
 
@@ -5235,8 +5235,8 @@ type UnassignPrivateIpAddressesResponseType
 end
 function UnassignPrivateIpAddressesResponseType(pd::ETree)
     o = UnassignPrivateIpAddressesResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -5251,7 +5251,7 @@ type AssignPrivateIpAddressesSetItemRequestType
 end
 function AssignPrivateIpAddressesSetItemRequestType(pd::ETree)
     o = AssignPrivateIpAddressesSetItemRequestType()
-    o.privateIpAddress = find(pd, "privateIpAddress#string")
+    o.privateIpAddress = LibExpat.find(pd, "privateIpAddress#string")
     o
 end
 
@@ -5267,8 +5267,8 @@ type VolumeStatusDetailsItemType
 end
 function VolumeStatusDetailsItemType(pd::ETree)
     o = VolumeStatusDetailsItemType()
-    o.name = find(pd, "name#string")
-    o.status = find(pd, "status#string")
+    o.name = LibExpat.find(pd, "name#string")
+    o.status = LibExpat.find(pd, "status#string")
     o
 end
 
@@ -5287,11 +5287,11 @@ type VolumeStatusEventItemType
 end
 function VolumeStatusEventItemType(pd::ETree)
     o = VolumeStatusEventItemType()
-    o.description = find(pd, "description#string")
-    o.notBefore = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "notBefore#string"))
-    o.notAfter = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "notAfter#string"))
-    o.eventId = find(pd, "eventId#string")
-    o.eventType = find(pd, "eventType#string")
+    o.description = LibExpat.find(pd, "description#string")
+    o.notBefore = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "notBefore#string"))
+    o.notAfter = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "notAfter#string"))
+    o.eventId = LibExpat.find(pd, "eventId#string")
+    o.eventType = LibExpat.find(pd, "eventType#string")
     o
 end
 
@@ -5309,10 +5309,10 @@ type VolumeStatusActionItemType
 end
 function VolumeStatusActionItemType(pd::ETree)
     o = VolumeStatusActionItemType()
-    o.description = find(pd, "description#string")
-    o.code = find(pd, "code#string")
-    o.eventId = find(pd, "eventId#string")
-    o.eventType = find(pd, "eventType#string")
+    o.description = LibExpat.find(pd, "description#string")
+    o.code = LibExpat.find(pd, "code#string")
+    o.eventId = LibExpat.find(pd, "eventId#string")
+    o.eventType = LibExpat.find(pd, "eventType#string")
     o
 end
 
@@ -5327,7 +5327,7 @@ type EnableVolumeIOType
 end
 function EnableVolumeIOType(pd::ETree)
     o = EnableVolumeIOType()
-    o.volumeId = find(pd, "volumeId#string")
+    o.volumeId = LibExpat.find(pd, "volumeId#string")
     o
 end
 
@@ -5343,8 +5343,8 @@ type EnableVolumeIOResponseType
 end
 function EnableVolumeIOResponseType(pd::ETree)
     o = EnableVolumeIOResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -5359,7 +5359,7 @@ type ModifyVolumeAttributeType
 end
 function ModifyVolumeAttributeType(pd::ETree)
     o = ModifyVolumeAttributeType()
-    o.volumeId = find(pd, "volumeId#string")
+    o.volumeId = LibExpat.find(pd, "volumeId#string")
     o
 end
 
@@ -5375,8 +5375,8 @@ type ModifyVolumeAttributeResponseType
 end
 function ModifyVolumeAttributeResponseType(pd::ETree)
     o = ModifyVolumeAttributeResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, find(pd, "return#string"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
     o
 end
 
@@ -5391,7 +5391,7 @@ type DescribeVolumeAttributeType
 end
 function DescribeVolumeAttributeType(pd::ETree)
     o = DescribeVolumeAttributeType()
-    o.volumeId = find(pd, "volumeId#string")
+    o.volumeId = LibExpat.find(pd, "volumeId#string")
     o
 end
 
@@ -5407,8 +5407,8 @@ type DescribeVolumeAttributeResponseType
 end
 function DescribeVolumeAttributeResponseType(pd::ETree)
     o = DescribeVolumeAttributeResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.volumeId = find(pd, "volumeId#string")
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.volumeId = LibExpat.find(pd, "volumeId#string")
     o
 end
 
@@ -5424,8 +5424,8 @@ type LaunchPermissionOperationType
 end
 function LaunchPermissionOperationType(pd::ETree)
     o = LaunchPermissionOperationType()
-    o.add = AWS.@parse_vector(AWS.EC2.LaunchPermissionItemType, find(pd, "add/item"))
-    o.remove = AWS.@parse_vector(AWS.EC2.LaunchPermissionItemType, find(pd, "remove/item"))
+    o.add = AWS.@parse_vector(AWS.EC2.LaunchPermissionItemType, LibExpat.find(pd, "add/item"))
+    o.remove = AWS.@parse_vector(AWS.EC2.LaunchPermissionItemType, LibExpat.find(pd, "remove/item"))
     o
 end
 
@@ -5454,21 +5454,21 @@ type DescribeReservedInstancesResponseSetItemType
 end
 function DescribeReservedInstancesResponseSetItemType(pd::ETree)
     o = DescribeReservedInstancesResponseSetItemType()
-    o.reservedInstancesId = find(pd, "reservedInstancesId#string")
-    o.instanceType = find(pd, "instanceType#string")
-    o.availabilityZone = find(pd, "availabilityZone#string")
-    o.start = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "start#string"))
-    o.duration = AWS.safe_parse_as(Int64, find(pd, "duration#string"))
-    o.fixedPrice = AWS.safe_parse_as(Float64, find(pd, "fixedPrice#string"))
-    o.usagePrice = AWS.safe_parse_as(Float64, find(pd, "usagePrice#string"))
-    o.instanceCount = AWS.safe_parse_as(Int64, find(pd, "instanceCount#string"))
-    o.productDescription = find(pd, "productDescription#string")
-    o.state = find(pd, "state#string")
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
-    o.instanceTenancy = find(pd, "instanceTenancy#string")
-    o.currencyCode = find(pd, "currencyCode#string")
-    o.offeringType = find(pd, "offeringType#string")
-    o.recurringCharges = AWS.@parse_vector(AWS.EC2.RecurringChargesSetItemType, find(pd, "recurringCharges/item"))
+    o.reservedInstancesId = LibExpat.find(pd, "reservedInstancesId#string")
+    o.instanceType = LibExpat.find(pd, "instanceType#string")
+    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
+    o.start = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "start#string"))
+    o.duration = AWS.safe_parse_as(Int64, LibExpat.find(pd, "duration#string"))
+    o.fixedPrice = AWS.safe_parse_as(Float64, LibExpat.find(pd, "fixedPrice#string"))
+    o.usagePrice = AWS.safe_parse_as(Float64, LibExpat.find(pd, "usagePrice#string"))
+    o.instanceCount = AWS.safe_parse_as(Int64, LibExpat.find(pd, "instanceCount#string"))
+    o.productDescription = LibExpat.find(pd, "productDescription#string")
+    o.state = LibExpat.find(pd, "state#string")
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
+    o.instanceTenancy = LibExpat.find(pd, "instanceTenancy#string")
+    o.currencyCode = LibExpat.find(pd, "currencyCode#string")
+    o.offeringType = LibExpat.find(pd, "offeringType#string")
+    o.recurringCharges = AWS.@parse_vector(AWS.EC2.RecurringChargesSetItemType, LibExpat.find(pd, "recurringCharges/item"))
     o
 end
 
@@ -5484,8 +5484,8 @@ type CancelSpotInstanceRequestsResponseType
 end
 function CancelSpotInstanceRequestsResponseType(pd::ETree)
     o = CancelSpotInstanceRequestsResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.spotInstanceRequestSet = AWS.@parse_vector(AWS.EC2.CancelSpotInstanceRequestsResponseSetItemType, find(pd, "spotInstanceRequestSet/item"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.spotInstanceRequestSet = AWS.@parse_vector(AWS.EC2.CancelSpotInstanceRequestsResponseSetItemType, LibExpat.find(pd, "spotInstanceRequestSet/item"))
     o
 end
 
@@ -5500,7 +5500,7 @@ type CreateDhcpOptionsType
 end
 function CreateDhcpOptionsType(pd::ETree)
     o = CreateDhcpOptionsType()
-    o.dhcpConfigurationSet = AWS.@parse_vector(AWS.EC2.DhcpConfigurationItemType, find(pd, "dhcpConfigurationSet/item"))
+    o.dhcpConfigurationSet = AWS.@parse_vector(AWS.EC2.DhcpConfigurationItemType, LibExpat.find(pd, "dhcpConfigurationSet/item"))
     o
 end
 
@@ -5519,11 +5519,11 @@ type DescribeInstanceStatusType
 end
 function DescribeInstanceStatusType(pd::ETree)
     o = DescribeInstanceStatusType()
-    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", find(pd, "item/instanceId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
-    o.nextToken = find(pd, "nextToken#string")
-    o.maxResults = AWS.safe_parse_as(Int64, find(pd, "maxResults#string"))
-    o.includeAllInstances = AWS.safe_parse_as(Bool, find(pd, "includeAllInstances#string"))
+    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", LibExpat.find(pd, "item/instanceId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
+    o.nextToken = LibExpat.find(pd, "nextToken#string")
+    o.maxResults = AWS.safe_parse_as(Int64, LibExpat.find(pd, "maxResults#string"))
+    o.includeAllInstances = AWS.safe_parse_as(Bool, LibExpat.find(pd, "includeAllInstances#string"))
     o
 end
 
@@ -5539,8 +5539,8 @@ type DescribePlacementGroupsType
 end
 function DescribePlacementGroupsType(pd::ETree)
     o = DescribePlacementGroupsType()
-    o.placementGroupSet = AWS.parse_vector_as(ASCIIString, "groupName", find(pd, "item/groupName"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o.placementGroupSet = AWS.parse_vector_as(ASCIIString, "groupName", LibExpat.find(pd, "item/groupName"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
     o
 end
 
@@ -5562,14 +5562,14 @@ type RegisterImageType
 end
 function RegisterImageType(pd::ETree)
     o = RegisterImageType()
-    o.imageLocation = find(pd, "imageLocation#string")
-    o.name = find(pd, "name#string")
-    o.description = find(pd, "description#string")
-    o.architecture = find(pd, "architecture#string")
-    o.kernelId = find(pd, "kernelId#string")
-    o.ramdiskId = find(pd, "ramdiskId#string")
-    o.rootDeviceName = find(pd, "rootDeviceName#string")
-    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, find(pd, "blockDeviceMapping/item"))
+    o.imageLocation = LibExpat.find(pd, "imageLocation#string")
+    o.name = LibExpat.find(pd, "name#string")
+    o.description = LibExpat.find(pd, "description#string")
+    o.architecture = LibExpat.find(pd, "architecture#string")
+    o.kernelId = LibExpat.find(pd, "kernelId#string")
+    o.ramdiskId = LibExpat.find(pd, "ramdiskId#string")
+    o.rootDeviceName = LibExpat.find(pd, "rootDeviceName#string")
+    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, LibExpat.find(pd, "blockDeviceMapping/item"))
     o
 end
 
@@ -5585,8 +5585,8 @@ type DescribeNetworkInterfacesType
 end
 function DescribeNetworkInterfacesType(pd::ETree)
     o = DescribeNetworkInterfacesType()
-    o.networkInterfaceIdSet = AWS.parse_vector_as(ASCIIString, "networkInterfaceId", find(pd, "item/networkInterfaceId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o.networkInterfaceIdSet = AWS.parse_vector_as(ASCIIString, "networkInterfaceId", LibExpat.find(pd, "item/networkInterfaceId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
     o
 end
 
@@ -5604,10 +5604,10 @@ type CreateReservedInstancesListingType
 end
 function CreateReservedInstancesListingType(pd::ETree)
     o = CreateReservedInstancesListingType()
-    o.reservedInstancesId = find(pd, "reservedInstancesId#string")
-    o.instanceCount = AWS.safe_parse_as(Int64, find(pd, "instanceCount#string"))
-    o.priceSchedules = AWS.@parse_vector(AWS.EC2.PriceScheduleRequestSetItemType, find(pd, "priceSchedules/item"))
-    o.clientToken = find(pd, "clientToken#string")
+    o.reservedInstancesId = LibExpat.find(pd, "reservedInstancesId#string")
+    o.instanceCount = AWS.safe_parse_as(Int64, LibExpat.find(pd, "instanceCount#string"))
+    o.priceSchedules = AWS.@parse_vector(AWS.EC2.PriceScheduleRequestSetItemType, LibExpat.find(pd, "priceSchedules/item"))
+    o.clientToken = LibExpat.find(pd, "clientToken#string")
     o
 end
 
@@ -5623,8 +5623,8 @@ type DescribeVpnGatewaysType
 end
 function DescribeVpnGatewaysType(pd::ETree)
     o = DescribeVpnGatewaysType()
-    o.vpnGatewaySet = AWS.parse_vector_as(ASCIIString, "vpnGatewayId", find(pd, "item/vpnGatewayId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o.vpnGatewaySet = AWS.parse_vector_as(ASCIIString, "vpnGatewayId", LibExpat.find(pd, "item/vpnGatewayId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
     o
 end
 
@@ -5642,10 +5642,10 @@ type DescribeVolumeStatusType
 end
 function DescribeVolumeStatusType(pd::ETree)
     o = DescribeVolumeStatusType()
-    o.volumeSet = AWS.parse_vector_as(ASCIIString, "volumeId", find(pd, "item/volumeId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
-    o.maxResults = AWS.safe_parse_as(Int64, find(pd, "maxResults#string"))
-    o.nextToken = find(pd, "nextToken#string")
+    o.volumeSet = AWS.parse_vector_as(ASCIIString, "volumeId", LibExpat.find(pd, "item/volumeId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
+    o.maxResults = AWS.safe_parse_as(Int64, LibExpat.find(pd, "maxResults#string"))
+    o.nextToken = LibExpat.find(pd, "nextToken#string")
     o
 end
 
@@ -5662,9 +5662,9 @@ type DhcpOptionsType
 end
 function DhcpOptionsType(pd::ETree)
     o = DhcpOptionsType()
-    o.dhcpOptionsId = find(pd, "dhcpOptionsId#string")
-    o.dhcpConfigurationSet = AWS.@parse_vector(AWS.EC2.DhcpConfigurationItemType, find(pd, "dhcpConfigurationSet/item"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.dhcpOptionsId = LibExpat.find(pd, "dhcpOptionsId#string")
+    o.dhcpConfigurationSet = AWS.@parse_vector(AWS.EC2.DhcpConfigurationItemType, LibExpat.find(pd, "dhcpConfigurationSet/item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
     o
 end
 
@@ -5685,13 +5685,13 @@ type ImportInstanceVolumeDetailItemType
 end
 function ImportInstanceVolumeDetailItemType(pd::ETree)
     o = ImportInstanceVolumeDetailItemType()
-    o.bytesConverted = AWS.safe_parse_as(Int64, find(pd, "bytesConverted#string"))
-    o.availabilityZone = find(pd, "availabilityZone#string")
-    o.image = length(pd["image"]) > 0 ?  DiskImageDescriptionType(find(pd,"image[1]")) : nothing
-    o.description = find(pd, "description#string")
-    o.volume = length(pd["volume"]) > 0 ?  DiskImageVolumeDescriptionType(find(pd,"volume[1]")) : nothing
-    o.status = find(pd, "status#string")
-    o.statusMessage = find(pd, "statusMessage#string")
+    o.bytesConverted = AWS.safe_parse_as(Int64, LibExpat.find(pd, "bytesConverted#string"))
+    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
+    o.image = length(pd["image"]) > 0 ?  DiskImageDescriptionType(LibExpat.find(pd,"image[1]")) : nothing
+    o.description = LibExpat.find(pd, "description#string")
+    o.volume = length(pd["volume"]) > 0 ?  DiskImageVolumeDescriptionType(LibExpat.find(pd,"volume[1]")) : nothing
+    o.status = LibExpat.find(pd, "status#string")
+    o.statusMessage = LibExpat.find(pd, "statusMessage#string")
     o
 end
 
@@ -5707,8 +5707,8 @@ type DescribeExportTasksResponseType
 end
 function DescribeExportTasksResponseType(pd::ETree)
     o = DescribeExportTasksResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.exportTaskSet = AWS.@parse_vector(AWS.EC2.ExportTaskResponseType, find(pd, "exportTaskSet/item"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.exportTaskSet = AWS.@parse_vector(AWS.EC2.ExportTaskResponseType, LibExpat.find(pd, "exportTaskSet/item"))
     o
 end
 
@@ -5725,9 +5725,9 @@ type DescribeSecurityGroupsType
 end
 function DescribeSecurityGroupsType(pd::ETree)
     o = DescribeSecurityGroupsType()
-    o.securityGroupSet = AWS.parse_vector_as(ASCIIString, "groupName", find(pd, "item/groupName"))
-    o.securityGroupIdSet = AWS.parse_vector_as(ASCIIString, "groupId", find(pd, "item/groupId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o.securityGroupSet = AWS.parse_vector_as(ASCIIString, "groupName", LibExpat.find(pd, "item/groupName"))
+    o.securityGroupIdSet = AWS.parse_vector_as(ASCIIString, "groupId", LibExpat.find(pd, "item/groupId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
     o
 end
 
@@ -5743,8 +5743,8 @@ type InstanceStatusType
 end
 function InstanceStatusType(pd::ETree)
     o = InstanceStatusType()
-    o.status = find(pd, "status#string")
-    o.details = AWS.@parse_vector(AWS.EC2.InstanceStatusDetailsSetItemType, find(pd, "details/item"))
+    o.status = LibExpat.find(pd, "status#string")
+    o.details = AWS.@parse_vector(AWS.EC2.InstanceStatusDetailsSetItemType, LibExpat.find(pd, "details/item"))
     o
 end
 
@@ -5779,27 +5779,27 @@ type DescribeImagesResponseItemType
 end
 function DescribeImagesResponseItemType(pd::ETree)
     o = DescribeImagesResponseItemType()
-    o.imageId = find(pd, "imageId#string")
-    o.imageLocation = find(pd, "imageLocation#string")
-    o.imageState = find(pd, "imageState#string")
-    o.imageOwnerId = find(pd, "imageOwnerId#string")
-    o.isPublic = AWS.safe_parse_as(Bool, find(pd, "isPublic#string"))
-    o.productCodes = AWS.@parse_vector(AWS.EC2.ProductCodesSetItemType, find(pd, "productCodes/item"))
-    o.architecture = find(pd, "architecture#string")
-    o.imageType = find(pd, "imageType#string")
-    o.kernelId = find(pd, "kernelId#string")
-    o.ramdiskId = find(pd, "ramdiskId#string")
-    o.platform = find(pd, "platform#string")
-    o.stateReason = length(pd["stateReason"]) > 0 ?  StateReasonType(find(pd,"stateReason[1]")) : nothing
-    o.imageOwnerAlias = find(pd, "imageOwnerAlias#string")
-    o.name = find(pd, "name#string")
-    o.description = find(pd, "description#string")
-    o.rootDeviceType = find(pd, "rootDeviceType#string")
-    o.rootDeviceName = find(pd, "rootDeviceName#string")
-    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, find(pd, "blockDeviceMapping/item"))
-    o.virtualizationType = find(pd, "virtualizationType#string")
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
-    o.hypervisor = find(pd, "hypervisor#string")
+    o.imageId = LibExpat.find(pd, "imageId#string")
+    o.imageLocation = LibExpat.find(pd, "imageLocation#string")
+    o.imageState = LibExpat.find(pd, "imageState#string")
+    o.imageOwnerId = LibExpat.find(pd, "imageOwnerId#string")
+    o.isPublic = AWS.safe_parse_as(Bool, LibExpat.find(pd, "isPublic#string"))
+    o.productCodes = AWS.@parse_vector(AWS.EC2.ProductCodesSetItemType, LibExpat.find(pd, "productCodes/item"))
+    o.architecture = LibExpat.find(pd, "architecture#string")
+    o.imageType = LibExpat.find(pd, "imageType#string")
+    o.kernelId = LibExpat.find(pd, "kernelId#string")
+    o.ramdiskId = LibExpat.find(pd, "ramdiskId#string")
+    o.platform = LibExpat.find(pd, "platform#string")
+    o.stateReason = length(pd["stateReason"]) > 0 ?  StateReasonType(LibExpat.find(pd,"stateReason[1]")) : nothing
+    o.imageOwnerAlias = LibExpat.find(pd, "imageOwnerAlias#string")
+    o.name = LibExpat.find(pd, "name#string")
+    o.description = LibExpat.find(pd, "description#string")
+    o.rootDeviceType = LibExpat.find(pd, "rootDeviceType#string")
+    o.rootDeviceName = LibExpat.find(pd, "rootDeviceName#string")
+    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, LibExpat.find(pd, "blockDeviceMapping/item"))
+    o.virtualizationType = LibExpat.find(pd, "virtualizationType#string")
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
+    o.hypervisor = LibExpat.find(pd, "hypervisor#string")
     o
 end
 
@@ -5815,8 +5815,8 @@ type DescribeBundleTasksType
 end
 function DescribeBundleTasksType(pd::ETree)
     o = DescribeBundleTasksType()
-    o.bundlesSet = AWS.parse_vector_as(ASCIIString, "bundleId", find(pd, "item/bundleId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o.bundlesSet = AWS.parse_vector_as(ASCIIString, "bundleId", LibExpat.find(pd, "item/bundleId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
     o
 end
 
@@ -5832,8 +5832,8 @@ type DeleteTagsType
 end
 function DeleteTagsType(pd::ETree)
     o = DeleteTagsType()
-    o.resourcesSet = AWS.parse_vector_as(ASCIIString, "resourceId", find(pd, "item/resourceId"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.DeleteTagsSetItemType, find(pd, "tagSet/item"))
+    o.resourcesSet = AWS.parse_vector_as(ASCIIString, "resourceId", LibExpat.find(pd, "item/resourceId"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.DeleteTagsSetItemType, LibExpat.find(pd, "tagSet/item"))
     o
 end
 
@@ -5852,11 +5852,11 @@ type SpotDatafeedSubscriptionType
 end
 function SpotDatafeedSubscriptionType(pd::ETree)
     o = SpotDatafeedSubscriptionType()
-    o.ownerId = find(pd, "ownerId#string")
-    o.bucket = find(pd, "bucket#string")
-    o.prefix = find(pd, "prefix#string")
-    o.state = find(pd, "state#string")
-    o.fault = length(pd["fault"]) > 0 ?  SpotInstanceStateFaultType(find(pd,"fault[1]")) : nothing
+    o.ownerId = LibExpat.find(pd, "ownerId#string")
+    o.bucket = LibExpat.find(pd, "bucket#string")
+    o.prefix = LibExpat.find(pd, "prefix#string")
+    o.state = LibExpat.find(pd, "state#string")
+    o.fault = length(pd["fault"]) > 0 ?  SpotInstanceStateFaultType(LibExpat.find(pd,"fault[1]")) : nothing
     o
 end
 
@@ -5872,8 +5872,8 @@ type DescribeNetworkAclsType
 end
 function DescribeNetworkAclsType(pd::ETree)
     o = DescribeNetworkAclsType()
-    o.networkAclIdSet = AWS.parse_vector_as(ASCIIString, "networkAclId", find(pd, "item/networkAclId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o.networkAclIdSet = AWS.parse_vector_as(ASCIIString, "networkAclId", LibExpat.find(pd, "item/networkAclId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
     o
 end
 
@@ -5897,16 +5897,16 @@ type DescribeVolumesSetItemResponseType
 end
 function DescribeVolumesSetItemResponseType(pd::ETree)
     o = DescribeVolumesSetItemResponseType()
-    o.volumeId = find(pd, "volumeId#string")
-    o.size = find(pd, "size#string")
-    o.snapshotId = find(pd, "snapshotId#string")
-    o.availabilityZone = find(pd, "availabilityZone#string")
-    o.status = find(pd, "status#string")
-    o.createTime = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "createTime#string"))
-    o.attachmentSet = AWS.@parse_vector(AWS.EC2.AttachmentSetItemResponseType, find(pd, "attachmentSet/item"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
-    o.volumeType = find(pd, "volumeType#string")
-    o.iops = AWS.safe_parse_as(Int64, find(pd, "iops#string"))
+    o.volumeId = LibExpat.find(pd, "volumeId#string")
+    o.size = LibExpat.find(pd, "size#string")
+    o.snapshotId = LibExpat.find(pd, "snapshotId#string")
+    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
+    o.status = LibExpat.find(pd, "status#string")
+    o.createTime = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "createTime#string"))
+    o.attachmentSet = AWS.@parse_vector(AWS.EC2.AttachmentSetItemResponseType, LibExpat.find(pd, "attachmentSet/item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
+    o.volumeType = LibExpat.find(pd, "volumeType#string")
+    o.iops = AWS.safe_parse_as(Int64, LibExpat.find(pd, "iops#string"))
     o
 end
 
@@ -5922,8 +5922,8 @@ type DescribeVolumesType
 end
 function DescribeVolumesType(pd::ETree)
     o = DescribeVolumesType()
-    o.volumeSet = AWS.parse_vector_as(ASCIIString, "volumeId", find(pd, "item/volumeId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o.volumeSet = AWS.parse_vector_as(ASCIIString, "volumeId", LibExpat.find(pd, "item/volumeId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
     o
 end
 
@@ -5939,8 +5939,8 @@ type DescribeDhcpOptionsType
 end
 function DescribeDhcpOptionsType(pd::ETree)
     o = DescribeDhcpOptionsType()
-    o.dhcpOptionsSet = AWS.parse_vector_as(ASCIIString, "dhcpOptionsId", find(pd, "item/dhcpOptionsId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o.dhcpOptionsSet = AWS.parse_vector_as(ASCIIString, "dhcpOptionsId", LibExpat.find(pd, "item/dhcpOptionsId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
     o
 end
 
@@ -5956,8 +5956,8 @@ type CreateTagsType
 end
 function CreateTagsType(pd::ETree)
     o = CreateTagsType()
-    o.resourcesSet = AWS.parse_vector_as(ASCIIString, "resourceId", find(pd, "item/resourceId"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.resourcesSet = AWS.parse_vector_as(ASCIIString, "resourceId", LibExpat.find(pd, "item/resourceId"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
     o
 end
 
@@ -5975,10 +5975,10 @@ type ImportInstanceTaskDetailsType
 end
 function ImportInstanceTaskDetailsType(pd::ETree)
     o = ImportInstanceTaskDetailsType()
-    o.volumes = AWS.@parse_vector(AWS.EC2.ImportInstanceVolumeDetailItemType, find(pd, "volumes/item"))
-    o.instanceId = find(pd, "instanceId#string")
-    o.platform = find(pd, "platform#string")
-    o.description = find(pd, "description#string")
+    o.volumes = AWS.@parse_vector(AWS.EC2.ImportInstanceVolumeDetailItemType, LibExpat.find(pd, "volumes/item"))
+    o.instanceId = LibExpat.find(pd, "instanceId#string")
+    o.platform = LibExpat.find(pd, "platform#string")
+    o.description = LibExpat.find(pd, "description#string")
     o
 end
 
@@ -5997,11 +5997,11 @@ type ConversionTaskType
 end
 function ConversionTaskType(pd::ETree)
     o = ConversionTaskType()
-    o.conversionTaskId = find(pd, "conversionTaskId#string")
-    o.expirationTime = find(pd, "expirationTime#string")
-    o.state = find(pd, "state#string")
-    o.statusMessage = find(pd, "statusMessage#string")
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.conversionTaskId = LibExpat.find(pd, "conversionTaskId#string")
+    o.expirationTime = LibExpat.find(pd, "expirationTime#string")
+    o.state = LibExpat.find(pd, "state#string")
+    o.statusMessage = LibExpat.find(pd, "statusMessage#string")
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
     o
 end
 
@@ -6017,8 +6017,8 @@ type CreateSpotDatafeedSubscriptionResponseType
 end
 function CreateSpotDatafeedSubscriptionResponseType(pd::ETree)
     o = CreateSpotDatafeedSubscriptionResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.spotDatafeedSubscription = length(pd["spotDatafeedSubscription"]) > 0 ?  SpotDatafeedSubscriptionType(find(pd,"spotDatafeedSubscription[1]")) : nothing
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.spotDatafeedSubscription = length(pd["spotDatafeedSubscription"]) > 0 ?  SpotDatafeedSubscriptionType(LibExpat.find(pd,"spotDatafeedSubscription[1]")) : nothing
     o
 end
 
@@ -6034,8 +6034,8 @@ type DescribeCustomerGatewaysType
 end
 function DescribeCustomerGatewaysType(pd::ETree)
     o = DescribeCustomerGatewaysType()
-    o.customerGatewaySet = AWS.parse_vector_as(ASCIIString, "customerGatewayId", find(pd, "item/customerGatewayId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o.customerGatewaySet = AWS.parse_vector_as(ASCIIString, "customerGatewayId", LibExpat.find(pd, "item/customerGatewayId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
     o
 end
 
@@ -6051,8 +6051,8 @@ type DescribePlacementGroupsResponseType
 end
 function DescribePlacementGroupsResponseType(pd::ETree)
     o = DescribePlacementGroupsResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.placementGroupSet = AWS.@parse_vector(AWS.EC2.PlacementGroupInfoType, find(pd, "placementGroupSet/item"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.placementGroupSet = AWS.@parse_vector(AWS.EC2.PlacementGroupInfoType, LibExpat.find(pd, "placementGroupSet/item"))
     o
 end
 
@@ -6068,8 +6068,8 @@ type DescribeReservedInstancesResponseType
 end
 function DescribeReservedInstancesResponseType(pd::ETree)
     o = DescribeReservedInstancesResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.reservedInstancesSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesResponseSetItemType, find(pd, "reservedInstancesSet/item"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.reservedInstancesSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesResponseSetItemType, LibExpat.find(pd, "reservedInstancesSet/item"))
     o
 end
 
@@ -6091,14 +6091,14 @@ type ReplaceNetworkAclEntryType
 end
 function ReplaceNetworkAclEntryType(pd::ETree)
     o = ReplaceNetworkAclEntryType()
-    o.networkAclId = find(pd, "networkAclId#string")
-    o.ruleNumber = AWS.safe_parse_as(Int64, find(pd, "ruleNumber#string"))
-    o.protocol = find(pd, "protocol#string")
-    o.ruleAction = find(pd, "ruleAction#string")
-    o.egress = AWS.safe_parse_as(Bool, find(pd, "egress#string"))
-    o.cidrBlock = find(pd, "cidrBlock#string")
-    o.icmpTypeCode = length(pd["icmpTypeCode"]) > 0 ?  IcmpTypeCodeType(find(pd,"icmpTypeCode[1]")) : nothing
-    o.portRange = length(pd["portRange"]) > 0 ?  PortRangeType(find(pd,"portRange[1]")) : nothing
+    o.networkAclId = LibExpat.find(pd, "networkAclId#string")
+    o.ruleNumber = AWS.safe_parse_as(Int64, LibExpat.find(pd, "ruleNumber#string"))
+    o.protocol = LibExpat.find(pd, "protocol#string")
+    o.ruleAction = LibExpat.find(pd, "ruleAction#string")
+    o.egress = AWS.safe_parse_as(Bool, LibExpat.find(pd, "egress#string"))
+    o.cidrBlock = LibExpat.find(pd, "cidrBlock#string")
+    o.icmpTypeCode = length(pd["icmpTypeCode"]) > 0 ?  IcmpTypeCodeType(LibExpat.find(pd,"icmpTypeCode[1]")) : nothing
+    o.portRange = length(pd["portRange"]) > 0 ?  PortRangeType(LibExpat.find(pd,"portRange[1]")) : nothing
     o
 end
 
@@ -6119,13 +6119,13 @@ type NetworkAclEntryType
 end
 function NetworkAclEntryType(pd::ETree)
     o = NetworkAclEntryType()
-    o.ruleNumber = AWS.safe_parse_as(Int64, find(pd, "ruleNumber#string"))
-    o.protocol = find(pd, "protocol#string")
-    o.ruleAction = find(pd, "ruleAction#string")
-    o.egress = AWS.safe_parse_as(Bool, find(pd, "egress#string"))
-    o.cidrBlock = find(pd, "cidrBlock#string")
-    o.icmpTypeCode = length(pd["icmpTypeCode"]) > 0 ?  IcmpTypeCodeType(find(pd,"icmpTypeCode[1]")) : nothing
-    o.portRange = length(pd["portRange"]) > 0 ?  PortRangeType(find(pd,"portRange[1]")) : nothing
+    o.ruleNumber = AWS.safe_parse_as(Int64, LibExpat.find(pd, "ruleNumber#string"))
+    o.protocol = LibExpat.find(pd, "protocol#string")
+    o.ruleAction = LibExpat.find(pd, "ruleAction#string")
+    o.egress = AWS.safe_parse_as(Bool, LibExpat.find(pd, "egress#string"))
+    o.cidrBlock = LibExpat.find(pd, "cidrBlock#string")
+    o.icmpTypeCode = length(pd["icmpTypeCode"]) > 0 ?  IcmpTypeCodeType(LibExpat.find(pd,"icmpTypeCode[1]")) : nothing
+    o.portRange = length(pd["portRange"]) > 0 ?  PortRangeType(LibExpat.find(pd,"portRange[1]")) : nothing
     o
 end
 
@@ -6142,9 +6142,9 @@ type InternetGatewayType
 end
 function InternetGatewayType(pd::ETree)
     o = InternetGatewayType()
-    o.internetGatewayId = find(pd, "internetGatewayId#string")
-    o.attachmentSet = AWS.@parse_vector(AWS.EC2.InternetGatewayAttachmentType, find(pd, "attachmentSet/item"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.internetGatewayId = LibExpat.find(pd, "internetGatewayId#string")
+    o.attachmentSet = AWS.@parse_vector(AWS.EC2.InternetGatewayAttachmentType, LibExpat.find(pd, "attachmentSet/item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
     o
 end
 
@@ -6160,8 +6160,8 @@ type DescribeRegionsType
 end
 function DescribeRegionsType(pd::ETree)
     o = DescribeRegionsType()
-    o.regionSet = AWS.parse_vector_as(ASCIIString, "regionName", find(pd, "item/regionName"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o.regionSet = AWS.parse_vector_as(ASCIIString, "regionName", LibExpat.find(pd, "item/regionName"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
     o
 end
 
@@ -6179,10 +6179,10 @@ type DescribeSnapshotsType
 end
 function DescribeSnapshotsType(pd::ETree)
     o = DescribeSnapshotsType()
-    o.snapshotSet = AWS.parse_vector_as(ASCIIString, "snapshotId", find(pd, "item/snapshotId"))
-    o.ownersSet = AWS.parse_vector_as(ASCIIString, "owner", find(pd, "item/owner"))
-    o.restorableBySet = AWS.parse_vector_as(ASCIIString, "user", find(pd, "item/user"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o.snapshotSet = AWS.parse_vector_as(ASCIIString, "snapshotId", LibExpat.find(pd, "item/snapshotId"))
+    o.ownersSet = AWS.parse_vector_as(ASCIIString, "owner", LibExpat.find(pd, "item/owner"))
+    o.restorableBySet = AWS.parse_vector_as(ASCIIString, "user", LibExpat.find(pd, "item/user"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
     o
 end
 
@@ -6198,8 +6198,8 @@ type DescribeKeyPairsResponseType
 end
 function DescribeKeyPairsResponseType(pd::ETree)
     o = DescribeKeyPairsResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.keySet = AWS.@parse_vector(AWS.EC2.DescribeKeyPairsResponseItemType, find(pd, "keySet/item"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.keySet = AWS.@parse_vector(AWS.EC2.DescribeKeyPairsResponseItemType, LibExpat.find(pd, "keySet/item"))
     o
 end
 
@@ -6215,8 +6215,8 @@ type DescribeAvailabilityZonesResponseType
 end
 function DescribeAvailabilityZonesResponseType(pd::ETree)
     o = DescribeAvailabilityZonesResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.availabilityZoneInfo = AWS.@parse_vector(AWS.EC2.AvailabilityZoneItemType, find(pd, "availabilityZoneInfo/item"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.availabilityZoneInfo = AWS.@parse_vector(AWS.EC2.AvailabilityZoneItemType, LibExpat.find(pd, "availabilityZoneInfo/item"))
     o
 end
 
@@ -6237,13 +6237,13 @@ type VpcType
 end
 function VpcType(pd::ETree)
     o = VpcType()
-    o.vpcId = find(pd, "vpcId#string")
-    o.state = find(pd, "state#string")
-    o.cidrBlock = find(pd, "cidrBlock#string")
-    o.dhcpOptionsId = find(pd, "dhcpOptionsId#string")
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
-    o.instanceTenancy = find(pd, "instanceTenancy#string")
-    o.isDefault = AWS.safe_parse_as(Bool, find(pd, "isDefault#string"))
+    o.vpcId = LibExpat.find(pd, "vpcId#string")
+    o.state = LibExpat.find(pd, "state#string")
+    o.cidrBlock = LibExpat.find(pd, "cidrBlock#string")
+    o.dhcpOptionsId = LibExpat.find(pd, "dhcpOptionsId#string")
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
+    o.instanceTenancy = LibExpat.find(pd, "instanceTenancy#string")
+    o.isDefault = AWS.safe_parse_as(Bool, LibExpat.find(pd, "isDefault#string"))
     o
 end
 
@@ -6259,8 +6259,8 @@ type DescribeSubnetsType
 end
 function DescribeSubnetsType(pd::ETree)
     o = DescribeSubnetsType()
-    o.subnetSet = AWS.parse_vector_as(ASCIIString, "subnetId", find(pd, "item/subnetId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o.subnetSet = AWS.parse_vector_as(ASCIIString, "subnetId", LibExpat.find(pd, "item/subnetId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
     o
 end
 
@@ -6276,8 +6276,8 @@ type DescribeRegionsResponseType
 end
 function DescribeRegionsResponseType(pd::ETree)
     o = DescribeRegionsResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.regionInfo = AWS.@parse_vector(AWS.EC2.RegionItemType, find(pd, "regionInfo/item"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.regionInfo = AWS.@parse_vector(AWS.EC2.RegionItemType, LibExpat.find(pd, "regionInfo/item"))
     o
 end
 
@@ -6293,8 +6293,8 @@ type DescribeSpotDatafeedSubscriptionResponseType
 end
 function DescribeSpotDatafeedSubscriptionResponseType(pd::ETree)
     o = DescribeSpotDatafeedSubscriptionResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.spotDatafeedSubscription = length(pd["spotDatafeedSubscription"]) > 0 ?  SpotDatafeedSubscriptionType(find(pd,"spotDatafeedSubscription[1]")) : nothing
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.spotDatafeedSubscription = length(pd["spotDatafeedSubscription"]) > 0 ?  SpotDatafeedSubscriptionType(LibExpat.find(pd,"spotDatafeedSubscription[1]")) : nothing
     o
 end
 
@@ -6311,9 +6311,9 @@ type DescribeReservedInstancesType
 end
 function DescribeReservedInstancesType(pd::ETree)
     o = DescribeReservedInstancesType()
-    o.reservedInstancesSet = AWS.parse_vector_as(ASCIIString, "reservedInstancesId", find(pd, "item/reservedInstancesId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
-    o.offeringType = find(pd, "offeringType#string")
+    o.reservedInstancesSet = AWS.parse_vector_as(ASCIIString, "reservedInstancesId", LibExpat.find(pd, "item/reservedInstancesId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
+    o.offeringType = LibExpat.find(pd, "offeringType#string")
     o
 end
 
@@ -6340,19 +6340,19 @@ type DescribeReservedInstancesOfferingsType
 end
 function DescribeReservedInstancesOfferingsType(pd::ETree)
     o = DescribeReservedInstancesOfferingsType()
-    o.reservedInstancesOfferingsSet = AWS.parse_vector_as(ASCIIString, "reservedInstancesOfferingId", find(pd, "item/reservedInstancesOfferingId"))
-    o.instanceType = find(pd, "instanceType#string")
-    o.availabilityZone = find(pd, "availabilityZone#string")
-    o.productDescription = find(pd, "productDescription#string")
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
-    o.instanceTenancy = find(pd, "instanceTenancy#string")
-    o.offeringType = find(pd, "offeringType#string")
-    o.includeMarketplace = AWS.safe_parse_as(Bool, find(pd, "includeMarketplace#string"))
-    o.minDuration = AWS.safe_parse_as(Int64, find(pd, "minDuration#string"))
-    o.maxDuration = AWS.safe_parse_as(Int64, find(pd, "maxDuration#string"))
-    o.maxInstanceCount = AWS.safe_parse_as(Int64, find(pd, "maxInstanceCount#string"))
-    o.nextToken = find(pd, "nextToken#string")
-    o.maxResults = AWS.safe_parse_as(Int64, find(pd, "maxResults#string"))
+    o.reservedInstancesOfferingsSet = AWS.parse_vector_as(ASCIIString, "reservedInstancesOfferingId", LibExpat.find(pd, "item/reservedInstancesOfferingId"))
+    o.instanceType = LibExpat.find(pd, "instanceType#string")
+    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
+    o.productDescription = LibExpat.find(pd, "productDescription#string")
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
+    o.instanceTenancy = LibExpat.find(pd, "instanceTenancy#string")
+    o.offeringType = LibExpat.find(pd, "offeringType#string")
+    o.includeMarketplace = AWS.safe_parse_as(Bool, LibExpat.find(pd, "includeMarketplace#string"))
+    o.minDuration = AWS.safe_parse_as(Int64, LibExpat.find(pd, "minDuration#string"))
+    o.maxDuration = AWS.safe_parse_as(Int64, LibExpat.find(pd, "maxDuration#string"))
+    o.maxInstanceCount = AWS.safe_parse_as(Int64, LibExpat.find(pd, "maxInstanceCount#string"))
+    o.nextToken = LibExpat.find(pd, "nextToken#string")
+    o.maxResults = AWS.safe_parse_as(Int64, LibExpat.find(pd, "maxResults#string"))
     o
 end
 
@@ -6370,10 +6370,10 @@ type DescribeImagesType
 end
 function DescribeImagesType(pd::ETree)
     o = DescribeImagesType()
-    o.executableBySet = AWS.parse_vector_as(ASCIIString, "user", find(pd, "item/user"))
-    o.imagesSet = AWS.parse_vector_as(ASCIIString, "imageId", find(pd, "item/imageId"))
-    o.ownersSet = AWS.parse_vector_as(ASCIIString, "owner", find(pd, "item/owner"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o.executableBySet = AWS.parse_vector_as(ASCIIString, "user", LibExpat.find(pd, "item/user"))
+    o.imagesSet = AWS.parse_vector_as(ASCIIString, "imageId", LibExpat.find(pd, "item/imageId"))
+    o.ownersSet = AWS.parse_vector_as(ASCIIString, "owner", LibExpat.find(pd, "item/owner"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
     o
 end
 
@@ -6389,8 +6389,8 @@ type DescribeConversionTasksResponseType
 end
 function DescribeConversionTasksResponseType(pd::ETree)
     o = DescribeConversionTasksResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.conversionTasks = AWS.@parse_vector(AWS.EC2.ConversionTaskType, find(pd, "conversionTasks/item"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.conversionTasks = AWS.@parse_vector(AWS.EC2.ConversionTaskType, LibExpat.find(pd, "conversionTasks/item"))
     o
 end
 
@@ -6406,8 +6406,8 @@ type DescribeAccountAttributesResponseType
 end
 function DescribeAccountAttributesResponseType(pd::ETree)
     o = DescribeAccountAttributesResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.accountAttributeSet = AWS.@parse_vector(AWS.EC2.AccountAttributeSetItemType, find(pd, "accountAttributeSet/item"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.accountAttributeSet = AWS.@parse_vector(AWS.EC2.AccountAttributeSetItemType, LibExpat.find(pd, "accountAttributeSet/item"))
     o
 end
 
@@ -6429,14 +6429,14 @@ type CreateNetworkAclEntryType
 end
 function CreateNetworkAclEntryType(pd::ETree)
     o = CreateNetworkAclEntryType()
-    o.networkAclId = find(pd, "networkAclId#string")
-    o.ruleNumber = AWS.safe_parse_as(Int64, find(pd, "ruleNumber#string"))
-    o.protocol = find(pd, "protocol#string")
-    o.ruleAction = find(pd, "ruleAction#string")
-    o.egress = AWS.safe_parse_as(Bool, find(pd, "egress#string"))
-    o.cidrBlock = find(pd, "cidrBlock#string")
-    o.icmpTypeCode = length(pd["icmpTypeCode"]) > 0 ?  IcmpTypeCodeType(find(pd,"icmpTypeCode[1]")) : nothing
-    o.portRange = length(pd["portRange"]) > 0 ?  PortRangeType(find(pd,"portRange[1]")) : nothing
+    o.networkAclId = LibExpat.find(pd, "networkAclId#string")
+    o.ruleNumber = AWS.safe_parse_as(Int64, LibExpat.find(pd, "ruleNumber#string"))
+    o.protocol = LibExpat.find(pd, "protocol#string")
+    o.ruleAction = LibExpat.find(pd, "ruleAction#string")
+    o.egress = AWS.safe_parse_as(Bool, LibExpat.find(pd, "egress#string"))
+    o.cidrBlock = LibExpat.find(pd, "cidrBlock#string")
+    o.icmpTypeCode = length(pd["icmpTypeCode"]) > 0 ?  IcmpTypeCodeType(LibExpat.find(pd,"icmpTypeCode[1]")) : nothing
+    o.portRange = length(pd["portRange"]) > 0 ?  PortRangeType(LibExpat.find(pd,"portRange[1]")) : nothing
     o
 end
 
@@ -6460,16 +6460,16 @@ type DescribeSnapshotsSetItemResponseType
 end
 function DescribeSnapshotsSetItemResponseType(pd::ETree)
     o = DescribeSnapshotsSetItemResponseType()
-    o.snapshotId = find(pd, "snapshotId#string")
-    o.volumeId = find(pd, "volumeId#string")
-    o.status = find(pd, "status#string")
-    o.startTime = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "startTime#string"))
-    o.progress = find(pd, "progress#string")
-    o.ownerId = find(pd, "ownerId#string")
-    o.volumeSize = find(pd, "volumeSize#string")
-    o.description = find(pd, "description#string")
-    o.ownerAlias = find(pd, "ownerAlias#string")
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.snapshotId = LibExpat.find(pd, "snapshotId#string")
+    o.volumeId = LibExpat.find(pd, "volumeId#string")
+    o.status = LibExpat.find(pd, "status#string")
+    o.startTime = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "startTime#string"))
+    o.progress = LibExpat.find(pd, "progress#string")
+    o.ownerId = LibExpat.find(pd, "ownerId#string")
+    o.volumeSize = LibExpat.find(pd, "volumeSize#string")
+    o.description = LibExpat.find(pd, "description#string")
+    o.ownerAlias = LibExpat.find(pd, "ownerAlias#string")
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
     o
 end
 
@@ -6484,7 +6484,7 @@ type BundleInstanceTaskStorageType
 end
 function BundleInstanceTaskStorageType(pd::ETree)
     o = BundleInstanceTaskStorageType()
-    o.S3 = length(pd["S3"]) > 0 ?  BundleInstanceS3StorageType(find(pd,"S3[1]")) : nothing
+    o.S3 = length(pd["S3"]) > 0 ?  BundleInstanceS3StorageType(LibExpat.find(pd,"S3[1]")) : nothing
     o
 end
 
@@ -6504,12 +6504,12 @@ type InstanceStatusItemType
 end
 function InstanceStatusItemType(pd::ETree)
     o = InstanceStatusItemType()
-    o.instanceId = find(pd, "instanceId#string")
-    o.availabilityZone = find(pd, "availabilityZone#string")
-    o.eventsSet = AWS.@parse_vector(AWS.EC2.InstanceStatusEventType, find(pd, "eventsSet/item"))
-    o.instanceState = length(pd["instanceState"]) > 0 ?  InstanceStateType(find(pd,"instanceState[1]")) : nothing
-    o.systemStatus = length(pd["systemStatus"]) > 0 ?  InstanceStatusType(find(pd,"systemStatus[1]")) : nothing
-    o.instanceStatus = length(pd["instanceStatus"]) > 0 ?  InstanceStatusType(find(pd,"instanceStatus[1]")) : nothing
+    o.instanceId = LibExpat.find(pd, "instanceId#string")
+    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
+    o.eventsSet = AWS.@parse_vector(AWS.EC2.InstanceStatusEventType, LibExpat.find(pd, "eventsSet/item"))
+    o.instanceState = length(pd["instanceState"]) > 0 ?  InstanceStateType(LibExpat.find(pd,"instanceState[1]")) : nothing
+    o.systemStatus = length(pd["systemStatus"]) > 0 ?  InstanceStatusType(LibExpat.find(pd,"systemStatus[1]")) : nothing
+    o.instanceStatus = length(pd["instanceStatus"]) > 0 ?  InstanceStatusType(LibExpat.find(pd,"instanceStatus[1]")) : nothing
     o
 end
 
@@ -6532,15 +6532,15 @@ type InstanceNetworkInterfaceSetItemRequestType
 end
 function InstanceNetworkInterfaceSetItemRequestType(pd::ETree)
     o = InstanceNetworkInterfaceSetItemRequestType()
-    o.networkInterfaceId = find(pd, "networkInterfaceId#string")
-    o.deviceIndex = AWS.safe_parse_as(Int64, find(pd, "deviceIndex#string"))
-    o.subnetId = find(pd, "subnetId#string")
-    o.description = find(pd, "description#string")
-    o.privateIpAddress = find(pd, "privateIpAddress#string")
-    o.groupSet = AWS.parse_vector_as(ASCIIString, "groupId", find(pd, "item/groupId"))
-    o.deleteOnTermination = AWS.safe_parse_as(Bool, find(pd, "deleteOnTermination#string"))
-    o.privateIpAddressesSet = AWS.@parse_vector(AWS.EC2.PrivateIpAddressesSetItemRequestType, find(pd, "privateIpAddressesSet/item"))
-    o.secondaryPrivateIpAddressCount = AWS.safe_parse_as(Int64, find(pd, "secondaryPrivateIpAddressCount#string"))
+    o.networkInterfaceId = LibExpat.find(pd, "networkInterfaceId#string")
+    o.deviceIndex = AWS.safe_parse_as(Int64, LibExpat.find(pd, "deviceIndex#string"))
+    o.subnetId = LibExpat.find(pd, "subnetId#string")
+    o.description = LibExpat.find(pd, "description#string")
+    o.privateIpAddress = LibExpat.find(pd, "privateIpAddress#string")
+    o.groupSet = AWS.parse_vector_as(ASCIIString, "groupId", LibExpat.find(pd, "item/groupId"))
+    o.deleteOnTermination = AWS.safe_parse_as(Bool, LibExpat.find(pd, "deleteOnTermination#string"))
+    o.privateIpAddressesSet = AWS.@parse_vector(AWS.EC2.PrivateIpAddressesSetItemRequestType, LibExpat.find(pd, "privateIpAddressesSet/item"))
+    o.secondaryPrivateIpAddressCount = AWS.safe_parse_as(Int64, LibExpat.find(pd, "secondaryPrivateIpAddressCount#string"))
     o
 end
 
@@ -6557,9 +6557,9 @@ type DescribeReservedInstancesListingsType
 end
 function DescribeReservedInstancesListingsType(pd::ETree)
     o = DescribeReservedInstancesListingsType()
-    o.reservedInstancesListingSet = AWS.parse_vector_as(ASCIIString, "reservedInstancesListingId", find(pd, "item/reservedInstancesListingId"))
-    o.reservedInstancesSet = AWS.parse_vector_as(ASCIIString, "reservedInstancesId", find(pd, "item/reservedInstancesId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o.reservedInstancesListingSet = AWS.parse_vector_as(ASCIIString, "reservedInstancesListingId", LibExpat.find(pd, "item/reservedInstancesListingId"))
+    o.reservedInstancesSet = AWS.parse_vector_as(ASCIIString, "reservedInstancesId", LibExpat.find(pd, "item/reservedInstancesId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
     o
 end
 
@@ -6581,14 +6581,14 @@ type DescribeSpotPriceHistoryType
 end
 function DescribeSpotPriceHistoryType(pd::ETree)
     o = DescribeSpotPriceHistoryType()
-    o.startTime = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "startTime#string"))
-    o.endTime = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "endTime#string"))
-    o.instanceTypeSet = AWS.parse_vector_as(ASCIIString, "instanceType", find(pd, "item/instanceType"))
-    o.productDescriptionSet = AWS.parse_vector_as(ASCIIString, "productDescription", find(pd, "item/productDescription"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
-    o.availabilityZone = find(pd, "availabilityZone#string")
-    o.maxResults = AWS.safe_parse_as(Int64, find(pd, "maxResults#string"))
-    o.nextToken = find(pd, "nextToken#string")
+    o.startTime = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "startTime#string"))
+    o.endTime = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "endTime#string"))
+    o.instanceTypeSet = AWS.parse_vector_as(ASCIIString, "instanceType", LibExpat.find(pd, "item/instanceType"))
+    o.productDescriptionSet = AWS.parse_vector_as(ASCIIString, "productDescription", LibExpat.find(pd, "item/productDescription"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
+    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
+    o.maxResults = AWS.safe_parse_as(Int64, LibExpat.find(pd, "maxResults#string"))
+    o.nextToken = LibExpat.find(pd, "nextToken#string")
     o
 end
 
@@ -6615,19 +6615,19 @@ type DescribeReservedInstancesOfferingsResponseSetItemType
 end
 function DescribeReservedInstancesOfferingsResponseSetItemType(pd::ETree)
     o = DescribeReservedInstancesOfferingsResponseSetItemType()
-    o.reservedInstancesOfferingId = find(pd, "reservedInstancesOfferingId#string")
-    o.instanceType = find(pd, "instanceType#string")
-    o.availabilityZone = find(pd, "availabilityZone#string")
-    o.duration = AWS.safe_parse_as(Int64, find(pd, "duration#string"))
-    o.fixedPrice = AWS.safe_parse_as(Float64, find(pd, "fixedPrice#string"))
-    o.usagePrice = AWS.safe_parse_as(Float64, find(pd, "usagePrice#string"))
-    o.productDescription = find(pd, "productDescription#string")
-    o.instanceTenancy = find(pd, "instanceTenancy#string")
-    o.currencyCode = find(pd, "currencyCode#string")
-    o.offeringType = find(pd, "offeringType#string")
-    o.recurringCharges = AWS.@parse_vector(AWS.EC2.RecurringChargesSetItemType, find(pd, "recurringCharges/item"))
-    o.marketplace = AWS.safe_parse_as(Bool, find(pd, "marketplace#string"))
-    o.pricingDetailsSet = AWS.@parse_vector(AWS.EC2.PricingDetailsSetItemType, find(pd, "pricingDetailsSet/item"))
+    o.reservedInstancesOfferingId = LibExpat.find(pd, "reservedInstancesOfferingId#string")
+    o.instanceType = LibExpat.find(pd, "instanceType#string")
+    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
+    o.duration = AWS.safe_parse_as(Int64, LibExpat.find(pd, "duration#string"))
+    o.fixedPrice = AWS.safe_parse_as(Float64, LibExpat.find(pd, "fixedPrice#string"))
+    o.usagePrice = AWS.safe_parse_as(Float64, LibExpat.find(pd, "usagePrice#string"))
+    o.productDescription = LibExpat.find(pd, "productDescription#string")
+    o.instanceTenancy = LibExpat.find(pd, "instanceTenancy#string")
+    o.currencyCode = LibExpat.find(pd, "currencyCode#string")
+    o.offeringType = LibExpat.find(pd, "offeringType#string")
+    o.recurringCharges = AWS.@parse_vector(AWS.EC2.RecurringChargesSetItemType, LibExpat.find(pd, "recurringCharges/item"))
+    o.marketplace = AWS.safe_parse_as(Bool, LibExpat.find(pd, "marketplace#string"))
+    o.pricingDetailsSet = AWS.@parse_vector(AWS.EC2.PricingDetailsSetItemType, LibExpat.find(pd, "pricingDetailsSet/item"))
     o
 end
 
@@ -6646,11 +6646,11 @@ type IpPermissionType
 end
 function IpPermissionType(pd::ETree)
     o = IpPermissionType()
-    o.ipProtocol = find(pd, "ipProtocol#string")
-    o.fromPort = AWS.safe_parse_as(Int64, find(pd, "fromPort#string"))
-    o.toPort = AWS.safe_parse_as(Int64, find(pd, "toPort#string"))
-    o.groups = AWS.@parse_vector(AWS.EC2.UserIdGroupPairType, find(pd, "groups/item"))
-    o.ipRanges = AWS.parse_vector_as(ASCIIString, "cidrIp", find(pd, "item/cidrIp"))
+    o.ipProtocol = LibExpat.find(pd, "ipProtocol#string")
+    o.fromPort = AWS.safe_parse_as(Int64, LibExpat.find(pd, "fromPort#string"))
+    o.toPort = AWS.safe_parse_as(Int64, LibExpat.find(pd, "toPort#string"))
+    o.groups = AWS.@parse_vector(AWS.EC2.UserIdGroupPairType, LibExpat.find(pd, "groups/item"))
+    o.ipRanges = AWS.parse_vector_as(ASCIIString, "cidrIp", LibExpat.find(pd, "item/cidrIp"))
     o
 end
 
@@ -6666,8 +6666,8 @@ type DescribeVolumesResponseType
 end
 function DescribeVolumesResponseType(pd::ETree)
     o = DescribeVolumesResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.volumeSet = AWS.@parse_vector(AWS.EC2.DescribeVolumesSetItemResponseType, find(pd, "volumeSet/item"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.volumeSet = AWS.@parse_vector(AWS.EC2.DescribeVolumesSetItemResponseType, LibExpat.find(pd, "volumeSet/item"))
     o
 end
 
@@ -6684,9 +6684,9 @@ type DescribeSpotPriceHistoryResponseType
 end
 function DescribeSpotPriceHistoryResponseType(pd::ETree)
     o = DescribeSpotPriceHistoryResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.spotPriceHistorySet = AWS.@parse_vector(AWS.EC2.SpotPriceHistorySetItemType, find(pd, "spotPriceHistorySet/item"))
-    o.nextToken = find(pd, "nextToken#string")
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.spotPriceHistorySet = AWS.@parse_vector(AWS.EC2.SpotPriceHistorySetItemType, LibExpat.find(pd, "spotPriceHistorySet/item"))
+    o.nextToken = LibExpat.find(pd, "nextToken#string")
     o
 end
 
@@ -6702,8 +6702,8 @@ type DescribeSpotInstanceRequestsType
 end
 function DescribeSpotInstanceRequestsType(pd::ETree)
     o = DescribeSpotInstanceRequestsType()
-    o.spotInstanceRequestIdSet = AWS.parse_vector_as(ASCIIString, "spotInstanceRequestId", find(pd, "item/spotInstanceRequestId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o.spotInstanceRequestIdSet = AWS.parse_vector_as(ASCIIString, "spotInstanceRequestId", LibExpat.find(pd, "item/spotInstanceRequestId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
     o
 end
 
@@ -6719,8 +6719,8 @@ type CreateDhcpOptionsResponseType
 end
 function CreateDhcpOptionsResponseType(pd::ETree)
     o = CreateDhcpOptionsResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.dhcpOptions = length(pd["dhcpOptions"]) > 0 ?  DhcpOptionsType(find(pd,"dhcpOptions[1]")) : nothing
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.dhcpOptions = length(pd["dhcpOptions"]) > 0 ?  DhcpOptionsType(LibExpat.find(pd,"dhcpOptions[1]")) : nothing
     o
 end
 
@@ -6736,8 +6736,8 @@ type DescribeRouteTablesType
 end
 function DescribeRouteTablesType(pd::ETree)
     o = DescribeRouteTablesType()
-    o.routeTableIdSet = AWS.parse_vector_as(ASCIIString, "routeTableId", find(pd, "item/routeTableId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o.routeTableIdSet = AWS.parse_vector_as(ASCIIString, "routeTableId", LibExpat.find(pd, "item/routeTableId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
     o
 end
 
@@ -6753,8 +6753,8 @@ type DescribeInternetGatewaysResponseType
 end
 function DescribeInternetGatewaysResponseType(pd::ETree)
     o = DescribeInternetGatewaysResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.internetGatewaySet = AWS.@parse_vector(AWS.EC2.InternetGatewayType, find(pd, "internetGatewaySet/item"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.internetGatewaySet = AWS.@parse_vector(AWS.EC2.InternetGatewayType, LibExpat.find(pd, "internetGatewaySet/item"))
     o
 end
 
@@ -6770,8 +6770,8 @@ type CreateInstanceExportTaskResponseType
 end
 function CreateInstanceExportTaskResponseType(pd::ETree)
     o = CreateInstanceExportTaskResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.exportTask = length(pd["exportTask"]) > 0 ?  ExportTaskResponseType(find(pd,"exportTask[1]")) : nothing
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.exportTask = length(pd["exportTask"]) > 0 ?  ExportTaskResponseType(LibExpat.find(pd,"exportTask[1]")) : nothing
     o
 end
 
@@ -6790,11 +6790,11 @@ type CreateImageType
 end
 function CreateImageType(pd::ETree)
     o = CreateImageType()
-    o.instanceId = find(pd, "instanceId#string")
-    o.name = find(pd, "name#string")
-    o.description = find(pd, "description#string")
-    o.noReboot = AWS.safe_parse_as(Bool, find(pd, "noReboot#string"))
-    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, find(pd, "blockDeviceMapping/item"))
+    o.instanceId = LibExpat.find(pd, "instanceId#string")
+    o.name = LibExpat.find(pd, "name#string")
+    o.description = LibExpat.find(pd, "description#string")
+    o.noReboot = AWS.safe_parse_as(Bool, LibExpat.find(pd, "noReboot#string"))
+    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, LibExpat.find(pd, "blockDeviceMapping/item"))
     o
 end
 
@@ -6810,8 +6810,8 @@ type DescribeInternetGatewaysType
 end
 function DescribeInternetGatewaysType(pd::ETree)
     o = DescribeInternetGatewaysType()
-    o.internetGatewayIdSet = AWS.parse_vector_as(ASCIIString, "internetGatewayId", find(pd, "item/internetGatewayId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o.internetGatewayIdSet = AWS.parse_vector_as(ASCIIString, "internetGatewayId", LibExpat.find(pd, "item/internetGatewayId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
     o
 end
 
@@ -6828,9 +6828,9 @@ type InstanceStateChangeType
 end
 function InstanceStateChangeType(pd::ETree)
     o = InstanceStateChangeType()
-    o.instanceId = find(pd, "instanceId#string")
-    o.currentState = length(pd["currentState"]) > 0 ?  InstanceStateType(find(pd,"currentState[1]")) : nothing
-    o.previousState = length(pd["previousState"]) > 0 ?  InstanceStateType(find(pd,"previousState[1]")) : nothing
+    o.instanceId = LibExpat.find(pd, "instanceId#string")
+    o.currentState = length(pd["currentState"]) > 0 ?  InstanceStateType(LibExpat.find(pd,"currentState[1]")) : nothing
+    o.previousState = length(pd["previousState"]) > 0 ?  InstanceStateType(LibExpat.find(pd,"previousState[1]")) : nothing
     o
 end
 
@@ -6847,9 +6847,9 @@ type PurchaseReservedInstancesOfferingType
 end
 function PurchaseReservedInstancesOfferingType(pd::ETree)
     o = PurchaseReservedInstancesOfferingType()
-    o.reservedInstancesOfferingId = find(pd, "reservedInstancesOfferingId#string")
-    o.instanceCount = AWS.safe_parse_as(Int64, find(pd, "instanceCount#string"))
-    o.limitPrice = length(pd["limitPrice"]) > 0 ?  ReservedInstanceLimitPriceType(find(pd,"limitPrice[1]")) : nothing
+    o.reservedInstancesOfferingId = LibExpat.find(pd, "reservedInstancesOfferingId#string")
+    o.instanceCount = AWS.safe_parse_as(Int64, LibExpat.find(pd, "instanceCount#string"))
+    o.limitPrice = length(pd["limitPrice"]) > 0 ?  ReservedInstanceLimitPriceType(LibExpat.find(pd,"limitPrice[1]")) : nothing
     o
 end
 
@@ -6869,12 +6869,12 @@ type RouteTableType
 end
 function RouteTableType(pd::ETree)
     o = RouteTableType()
-    o.routeTableId = find(pd, "routeTableId#string")
-    o.vpcId = find(pd, "vpcId#string")
-    o.routeSet = AWS.@parse_vector(AWS.EC2.RouteType, find(pd, "routeSet/item"))
-    o.associationSet = AWS.@parse_vector(AWS.EC2.RouteTableAssociationType, find(pd, "associationSet/item"))
-    o.propagatingVgwSet = AWS.parse_vector_as(ASCIIString, "gatewayId", find(pd, "item/gatewayId"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.routeTableId = LibExpat.find(pd, "routeTableId#string")
+    o.vpcId = LibExpat.find(pd, "vpcId#string")
+    o.routeSet = AWS.@parse_vector(AWS.EC2.RouteType, LibExpat.find(pd, "routeSet/item"))
+    o.associationSet = AWS.@parse_vector(AWS.EC2.RouteTableAssociationType, LibExpat.find(pd, "associationSet/item"))
+    o.propagatingVgwSet = AWS.parse_vector_as(ASCIIString, "gatewayId", LibExpat.find(pd, "item/gatewayId"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
     o
 end
 
@@ -6890,8 +6890,8 @@ type DescribeVpnConnectionsType
 end
 function DescribeVpnConnectionsType(pd::ETree)
     o = DescribeVpnConnectionsType()
-    o.vpnConnectionSet = AWS.parse_vector_as(ASCIIString, "vpnConnectionId", find(pd, "item/vpnConnectionId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o.vpnConnectionSet = AWS.parse_vector_as(ASCIIString, "vpnConnectionId", LibExpat.find(pd, "item/vpnConnectionId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
     o
 end
 
@@ -6911,12 +6911,12 @@ type CreateNetworkInterfaceType
 end
 function CreateNetworkInterfaceType(pd::ETree)
     o = CreateNetworkInterfaceType()
-    o.subnetId = find(pd, "subnetId#string")
-    o.description = find(pd, "description#string")
-    o.privateIpAddress = find(pd, "privateIpAddress#string")
-    o.groupSet = AWS.parse_vector_as(ASCIIString, "groupId", find(pd, "item/groupId"))
-    o.privateIpAddressesSet = AWS.@parse_vector(AWS.EC2.PrivateIpAddressesSetItemRequestType, find(pd, "privateIpAddressesSet/item"))
-    o.secondaryPrivateIpAddressCount = AWS.safe_parse_as(Int64, find(pd, "secondaryPrivateIpAddressCount#string"))
+    o.subnetId = LibExpat.find(pd, "subnetId#string")
+    o.description = LibExpat.find(pd, "description#string")
+    o.privateIpAddress = LibExpat.find(pd, "privateIpAddress#string")
+    o.groupSet = AWS.parse_vector_as(ASCIIString, "groupId", LibExpat.find(pd, "item/groupId"))
+    o.privateIpAddressesSet = AWS.@parse_vector(AWS.EC2.PrivateIpAddressesSetItemRequestType, LibExpat.find(pd, "privateIpAddressesSet/item"))
+    o.secondaryPrivateIpAddressCount = AWS.safe_parse_as(Int64, LibExpat.find(pd, "secondaryPrivateIpAddressCount#string"))
     o
 end
 
@@ -6932,8 +6932,8 @@ type DescribeVpcsResponseType
 end
 function DescribeVpcsResponseType(pd::ETree)
     o = DescribeVpcsResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.vpcSet = AWS.@parse_vector(AWS.EC2.VpcType, find(pd, "vpcSet/item"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.vpcSet = AWS.@parse_vector(AWS.EC2.VpcType, LibExpat.find(pd, "vpcSet/item"))
     o
 end
 
@@ -6957,16 +6957,16 @@ type DescribeReservedInstancesListingsResponseSetItemType
 end
 function DescribeReservedInstancesListingsResponseSetItemType(pd::ETree)
     o = DescribeReservedInstancesListingsResponseSetItemType()
-    o.reservedInstancesListingId = find(pd, "reservedInstancesListingId#string")
-    o.reservedInstancesId = find(pd, "reservedInstancesId#string")
-    o.createDate = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "createDate#string"))
-    o.updateDate = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "updateDate#string"))
-    o.status = find(pd, "status#string")
-    o.statusMessage = find(pd, "statusMessage#string")
-    o.instanceCounts = AWS.@parse_vector(AWS.EC2.InstanceCountsSetItemType, find(pd, "instanceCounts/item"))
-    o.priceSchedules = AWS.@parse_vector(AWS.EC2.PriceScheduleSetItemType, find(pd, "priceSchedules/item"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
-    o.clientToken = find(pd, "clientToken#string")
+    o.reservedInstancesListingId = LibExpat.find(pd, "reservedInstancesListingId#string")
+    o.reservedInstancesId = LibExpat.find(pd, "reservedInstancesId#string")
+    o.createDate = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "createDate#string"))
+    o.updateDate = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "updateDate#string"))
+    o.status = LibExpat.find(pd, "status#string")
+    o.statusMessage = LibExpat.find(pd, "statusMessage#string")
+    o.instanceCounts = AWS.@parse_vector(AWS.EC2.InstanceCountsSetItemType, LibExpat.find(pd, "instanceCounts/item"))
+    o.priceSchedules = AWS.@parse_vector(AWS.EC2.PriceScheduleSetItemType, LibExpat.find(pd, "priceSchedules/item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
+    o.clientToken = LibExpat.find(pd, "clientToken#string")
     o
 end
 
@@ -6982,8 +6982,8 @@ type DescribeVpcsType
 end
 function DescribeVpcsType(pd::ETree)
     o = DescribeVpcsType()
-    o.vpcSet = AWS.parse_vector_as(ASCIIString, "vpcId", find(pd, "item/vpcId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o.vpcSet = AWS.parse_vector_as(ASCIIString, "vpcId", LibExpat.find(pd, "item/vpcId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
     o
 end
 
@@ -6999,8 +6999,8 @@ type DescribeDhcpOptionsResponseType
 end
 function DescribeDhcpOptionsResponseType(pd::ETree)
     o = DescribeDhcpOptionsResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.dhcpOptionsSet = AWS.@parse_vector(AWS.EC2.DhcpOptionsType, find(pd, "dhcpOptionsSet/item"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.dhcpOptionsSet = AWS.@parse_vector(AWS.EC2.DhcpOptionsType, LibExpat.find(pd, "dhcpOptionsSet/item"))
     o
 end
 
@@ -7015,7 +7015,7 @@ type DescribeTagsType
 end
 function DescribeTagsType(pd::ETree)
     o = DescribeTagsType()
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
     o
 end
 
@@ -7031,8 +7031,8 @@ type MonitorInstancesResponseSetItemType
 end
 function MonitorInstancesResponseSetItemType(pd::ETree)
     o = MonitorInstancesResponseSetItemType()
-    o.instanceId = find(pd, "instanceId#string")
-    o.monitoring = length(pd["monitoring"]) > 0 ?  InstanceMonitoringStateType(find(pd,"monitoring[1]")) : nothing
+    o.instanceId = LibExpat.find(pd, "instanceId#string")
+    o.monitoring = length(pd["monitoring"]) > 0 ?  InstanceMonitoringStateType(LibExpat.find(pd,"monitoring[1]")) : nothing
     o
 end
 
@@ -7048,8 +7048,8 @@ type DescribeRouteTablesResponseType
 end
 function DescribeRouteTablesResponseType(pd::ETree)
     o = DescribeRouteTablesResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.routeTableSet = AWS.@parse_vector(AWS.EC2.RouteTableType, find(pd, "routeTableSet/item"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.routeTableSet = AWS.@parse_vector(AWS.EC2.RouteTableType, LibExpat.find(pd, "routeTableSet/item"))
     o
 end
 
@@ -7065,8 +7065,8 @@ type DescribeAccountAttributesType
 end
 function DescribeAccountAttributesType(pd::ETree)
     o = DescribeAccountAttributesType()
-    o.accountAttributeNameSet = AWS.parse_vector_as(ASCIIString, "attributeName", find(pd, "item/attributeName"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o.accountAttributeNameSet = AWS.parse_vector_as(ASCIIString, "attributeName", LibExpat.find(pd, "item/attributeName"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
     o
 end
 
@@ -7083,9 +7083,9 @@ type DescribeInstanceStatusResponseType
 end
 function DescribeInstanceStatusResponseType(pd::ETree)
     o = DescribeInstanceStatusResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.instanceStatusSet = AWS.@parse_vector(AWS.EC2.InstanceStatusItemType, find(pd, "instanceStatusSet/item"))
-    o.nextToken = find(pd, "nextToken#string")
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.instanceStatusSet = AWS.@parse_vector(AWS.EC2.InstanceStatusItemType, LibExpat.find(pd, "instanceStatusSet/item"))
+    o.nextToken = LibExpat.find(pd, "nextToken#string")
     o
 end
 
@@ -7105,12 +7105,12 @@ type VpnGatewayType
 end
 function VpnGatewayType(pd::ETree)
     o = VpnGatewayType()
-    o.vpnGatewayId = find(pd, "vpnGatewayId#string")
-    o.state = find(pd, "state#string")
-    o._type = find(pd, "type#string")
-    o.availabilityZone = find(pd, "availabilityZone#string")
-    o.attachments = AWS.@parse_vector(AWS.EC2.AttachmentType, find(pd, "attachments/item"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.vpnGatewayId = LibExpat.find(pd, "vpnGatewayId#string")
+    o.state = LibExpat.find(pd, "state#string")
+    o._type = LibExpat.find(pd, "type#string")
+    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
+    o.attachments = AWS.@parse_vector(AWS.EC2.AttachmentType, LibExpat.find(pd, "attachments/item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
     o
 end
 
@@ -7126,8 +7126,8 @@ type DescribeKeyPairsType
 end
 function DescribeKeyPairsType(pd::ETree)
     o = DescribeKeyPairsType()
-    o.keySet = AWS.parse_vector_as(ASCIIString, "keyName", find(pd, "item/keyName"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o.keySet = AWS.parse_vector_as(ASCIIString, "keyName", LibExpat.find(pd, "item/keyName"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
     o
 end
 
@@ -7143,8 +7143,8 @@ type BundleInstanceType
 end
 function BundleInstanceType(pd::ETree)
     o = BundleInstanceType()
-    o.instanceId = find(pd, "instanceId#string")
-    o.storage = length(pd["storage"]) > 0 ?  BundleInstanceTaskStorageType(find(pd,"storage[1]")) : nothing
+    o.instanceId = LibExpat.find(pd, "instanceId#string")
+    o.storage = length(pd["storage"]) > 0 ?  BundleInstanceTaskStorageType(LibExpat.find(pd,"storage[1]")) : nothing
     o
 end
 
@@ -7162,10 +7162,10 @@ type InstancePrivateIpAddressesSetItemType
 end
 function InstancePrivateIpAddressesSetItemType(pd::ETree)
     o = InstancePrivateIpAddressesSetItemType()
-    o.privateIpAddress = find(pd, "privateIpAddress#string")
-    o.privateDnsName = find(pd, "privateDnsName#string")
-    o.primary = AWS.safe_parse_as(Bool, find(pd, "primary#string"))
-    o.association = length(pd["association"]) > 0 ?  InstanceNetworkInterfaceAssociationType(find(pd,"association[1]")) : nothing
+    o.privateIpAddress = LibExpat.find(pd, "privateIpAddress#string")
+    o.privateDnsName = LibExpat.find(pd, "privateDnsName#string")
+    o.primary = AWS.safe_parse_as(Bool, LibExpat.find(pd, "primary#string"))
+    o.association = length(pd["association"]) > 0 ?  InstanceNetworkInterfaceAssociationType(LibExpat.find(pd,"association[1]")) : nothing
     o
 end
 
@@ -7188,15 +7188,15 @@ type ImportInstanceLaunchSpecificationType
 end
 function ImportInstanceLaunchSpecificationType(pd::ETree)
     o = ImportInstanceLaunchSpecificationType()
-    o.architecture = find(pd, "architecture#string")
-    o.groupSet = AWS.@parse_vector(AWS.EC2.ImportInstanceGroupItemType, find(pd, "groupSet/item"))
-    o.userData = length(pd["userData"]) > 0 ?  UserDataType(find(pd,"userData[1]")) : nothing
-    o.instanceType = find(pd, "instanceType#string")
-    o.placement = length(pd["placement"]) > 0 ?  InstancePlacementType(find(pd,"placement[1]")) : nothing
-    o.monitoring = length(pd["monitoring"]) > 0 ?  MonitoringInstanceType(find(pd,"monitoring[1]")) : nothing
-    o.subnetId = find(pd, "subnetId#string")
-    o.instanceInitiatedShutdownBehavior = find(pd, "instanceInitiatedShutdownBehavior#string")
-    o.privateIpAddress = find(pd, "privateIpAddress#string")
+    o.architecture = LibExpat.find(pd, "architecture#string")
+    o.groupSet = AWS.@parse_vector(AWS.EC2.ImportInstanceGroupItemType, LibExpat.find(pd, "groupSet/item"))
+    o.userData = length(pd["userData"]) > 0 ?  UserDataType(LibExpat.find(pd,"userData[1]")) : nothing
+    o.instanceType = LibExpat.find(pd, "instanceType#string")
+    o.placement = length(pd["placement"]) > 0 ?  InstancePlacementType(LibExpat.find(pd,"placement[1]")) : nothing
+    o.monitoring = length(pd["monitoring"]) > 0 ?  MonitoringInstanceType(LibExpat.find(pd,"monitoring[1]")) : nothing
+    o.subnetId = LibExpat.find(pd, "subnetId#string")
+    o.instanceInitiatedShutdownBehavior = LibExpat.find(pd, "instanceInitiatedShutdownBehavior#string")
+    o.privateIpAddress = LibExpat.find(pd, "privateIpAddress#string")
     o
 end
 
@@ -7213,9 +7213,9 @@ type DescribeAddressesType
 end
 function DescribeAddressesType(pd::ETree)
     o = DescribeAddressesType()
-    o.publicIpsSet = AWS.parse_vector_as(ASCIIString, "publicIp", find(pd, "item/publicIp"))
-    o.allocationIdsSet = AWS.parse_vector_as(ASCIIString, "allocationId", find(pd, "item/allocationId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o.publicIpsSet = AWS.parse_vector_as(ASCIIString, "publicIp", LibExpat.find(pd, "item/publicIp"))
+    o.allocationIdsSet = AWS.parse_vector_as(ASCIIString, "allocationId", LibExpat.find(pd, "item/allocationId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
     o
 end
 
@@ -7231,8 +7231,8 @@ type VolumeStatusInfoType
 end
 function VolumeStatusInfoType(pd::ETree)
     o = VolumeStatusInfoType()
-    o.status = find(pd, "status#string")
-    o.details = AWS.@parse_vector(AWS.EC2.VolumeStatusDetailsItemType, find(pd, "details/item"))
+    o.status = LibExpat.find(pd, "status#string")
+    o.details = AWS.@parse_vector(AWS.EC2.VolumeStatusDetailsItemType, LibExpat.find(pd, "details/item"))
     o
 end
 
@@ -7248,8 +7248,8 @@ type StartInstancesResponseType
 end
 function StartInstancesResponseType(pd::ETree)
     o = StartInstancesResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.instancesSet = AWS.@parse_vector(AWS.EC2.InstanceStateChangeType, find(pd, "instancesSet/item"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.instancesSet = AWS.@parse_vector(AWS.EC2.InstanceStateChangeType, LibExpat.find(pd, "instancesSet/item"))
     o
 end
 
@@ -7267,10 +7267,10 @@ type CreateVpnConnectionType
 end
 function CreateVpnConnectionType(pd::ETree)
     o = CreateVpnConnectionType()
-    o._type = find(pd, "type#string")
-    o.customerGatewayId = find(pd, "customerGatewayId#string")
-    o.vpnGatewayId = find(pd, "vpnGatewayId#string")
-    o.options = length(pd["options"]) > 0 ?  VpnConnectionOptionsRequestType(find(pd,"options[1]")) : nothing
+    o._type = LibExpat.find(pd, "type#string")
+    o.customerGatewayId = LibExpat.find(pd, "customerGatewayId#string")
+    o.vpnGatewayId = LibExpat.find(pd, "vpnGatewayId#string")
+    o.options = length(pd["options"]) > 0 ?  VpnConnectionOptionsRequestType(LibExpat.find(pd,"options[1]")) : nothing
     o
 end
 
@@ -7286,8 +7286,8 @@ type AuthorizeSecurityGroupEgressType
 end
 function AuthorizeSecurityGroupEgressType(pd::ETree)
     o = AuthorizeSecurityGroupEgressType()
-    o.groupId = find(pd, "groupId#string")
-    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, find(pd, "ipPermissions/item"))
+    o.groupId = LibExpat.find(pd, "groupId#string")
+    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, LibExpat.find(pd, "ipPermissions/item"))
     o
 end
 
@@ -7303,8 +7303,8 @@ type CreateReservedInstancesListingResponseType
 end
 function CreateReservedInstancesListingResponseType(pd::ETree)
     o = CreateReservedInstancesListingResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.reservedInstancesListingsSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesListingsResponseSetItemType, find(pd, "reservedInstancesListingsSet/item"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.reservedInstancesListingsSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesListingsResponseSetItemType, LibExpat.find(pd, "reservedInstancesListingsSet/item"))
     o
 end
 
@@ -7324,12 +7324,12 @@ type NetworkAclType
 end
 function NetworkAclType(pd::ETree)
     o = NetworkAclType()
-    o.networkAclId = find(pd, "networkAclId#string")
-    o.vpcId = find(pd, "vpcId#string")
-    o.default = AWS.safe_parse_as(Bool, find(pd, "default#string"))
-    o.entrySet = AWS.@parse_vector(AWS.EC2.NetworkAclEntryType, find(pd, "entrySet/item"))
-    o.associationSet = AWS.@parse_vector(AWS.EC2.NetworkAclAssociationType, find(pd, "associationSet/item"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.networkAclId = LibExpat.find(pd, "networkAclId#string")
+    o.vpcId = LibExpat.find(pd, "vpcId#string")
+    o.default = AWS.safe_parse_as(Bool, LibExpat.find(pd, "default#string"))
+    o.entrySet = AWS.@parse_vector(AWS.EC2.NetworkAclEntryType, LibExpat.find(pd, "entrySet/item"))
+    o.associationSet = AWS.@parse_vector(AWS.EC2.NetworkAclAssociationType, LibExpat.find(pd, "associationSet/item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
     o
 end
 
@@ -7345,8 +7345,8 @@ type DescribeAddressesResponseType
 end
 function DescribeAddressesResponseType(pd::ETree)
     o = DescribeAddressesResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.addressesSet = AWS.@parse_vector(AWS.EC2.DescribeAddressesResponseItemType, find(pd, "addressesSet/item"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.addressesSet = AWS.@parse_vector(AWS.EC2.DescribeAddressesResponseItemType, LibExpat.find(pd, "addressesSet/item"))
     o
 end
 
@@ -7362,8 +7362,8 @@ type TerminateInstancesResponseType
 end
 function TerminateInstancesResponseType(pd::ETree)
     o = TerminateInstancesResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.instancesSet = AWS.@parse_vector(AWS.EC2.InstanceStateChangeType, find(pd, "instancesSet/item"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.instancesSet = AWS.@parse_vector(AWS.EC2.InstanceStateChangeType, LibExpat.find(pd, "instancesSet/item"))
     o
 end
 
@@ -7380,9 +7380,9 @@ type DiskImageType
 end
 function DiskImageType(pd::ETree)
     o = DiskImageType()
-    o.image = length(pd["image"]) > 0 ?  DiskImageDetailType(find(pd,"image[1]")) : nothing
-    o.description = find(pd, "description#string")
-    o.volume = length(pd["volume"]) > 0 ?  DiskImageVolumeType(find(pd,"volume[1]")) : nothing
+    o.image = length(pd["image"]) > 0 ?  DiskImageDetailType(LibExpat.find(pd,"image[1]")) : nothing
+    o.description = LibExpat.find(pd, "description#string")
+    o.volume = length(pd["volume"]) > 0 ?  DiskImageVolumeType(LibExpat.find(pd,"volume[1]")) : nothing
     o
 end
 
@@ -7419,29 +7419,29 @@ type RunInstancesType
 end
 function RunInstancesType(pd::ETree)
     o = RunInstancesType()
-    o.imageId = find(pd, "imageId#string")
-    o.minCount = AWS.safe_parse_as(Int64, find(pd, "minCount#string"))
-    o.maxCount = AWS.safe_parse_as(Int64, find(pd, "maxCount#string"))
-    o.keyName = find(pd, "keyName#string")
-    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, find(pd, "groupSet/item"))
-    o.additionalInfo = find(pd, "additionalInfo#string")
-    o.userData = length(pd["userData"]) > 0 ?  UserDataType(find(pd,"userData[1]")) : nothing
-    o.addressingType = find(pd, "addressingType#string")
-    o.instanceType = find(pd, "instanceType#string")
-    o.placement = length(pd["placement"]) > 0 ?  PlacementRequestType(find(pd,"placement[1]")) : nothing
-    o.kernelId = find(pd, "kernelId#string")
-    o.ramdiskId = find(pd, "ramdiskId#string")
-    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, find(pd, "blockDeviceMapping/item"))
-    o.monitoring = length(pd["monitoring"]) > 0 ?  MonitoringInstanceType(find(pd,"monitoring[1]")) : nothing
-    o.subnetId = find(pd, "subnetId#string")
-    o.disableApiTermination = AWS.safe_parse_as(Bool, find(pd, "disableApiTermination#string"))
-    o.instanceInitiatedShutdownBehavior = find(pd, "instanceInitiatedShutdownBehavior#string")
-    o.license = length(pd["license"]) > 0 ?  InstanceLicenseRequestType(find(pd,"license[1]")) : nothing
-    o.privateIpAddress = find(pd, "privateIpAddress#string")
-    o.clientToken = find(pd, "clientToken#string")
-    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.InstanceNetworkInterfaceSetItemRequestType, find(pd, "networkInterfaceSet/item"))
-    o.iamInstanceProfile = length(pd["iamInstanceProfile"]) > 0 ?  IamInstanceProfileRequestType(find(pd,"iamInstanceProfile[1]")) : nothing
-    o.ebsOptimized = AWS.safe_parse_as(Bool, find(pd, "ebsOptimized#string"))
+    o.imageId = LibExpat.find(pd, "imageId#string")
+    o.minCount = AWS.safe_parse_as(Int64, LibExpat.find(pd, "minCount#string"))
+    o.maxCount = AWS.safe_parse_as(Int64, LibExpat.find(pd, "maxCount#string"))
+    o.keyName = LibExpat.find(pd, "keyName#string")
+    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, LibExpat.find(pd, "groupSet/item"))
+    o.additionalInfo = LibExpat.find(pd, "additionalInfo#string")
+    o.userData = length(pd["userData"]) > 0 ?  UserDataType(LibExpat.find(pd,"userData[1]")) : nothing
+    o.addressingType = LibExpat.find(pd, "addressingType#string")
+    o.instanceType = LibExpat.find(pd, "instanceType#string")
+    o.placement = length(pd["placement"]) > 0 ?  PlacementRequestType(LibExpat.find(pd,"placement[1]")) : nothing
+    o.kernelId = LibExpat.find(pd, "kernelId#string")
+    o.ramdiskId = LibExpat.find(pd, "ramdiskId#string")
+    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, LibExpat.find(pd, "blockDeviceMapping/item"))
+    o.monitoring = length(pd["monitoring"]) > 0 ?  MonitoringInstanceType(LibExpat.find(pd,"monitoring[1]")) : nothing
+    o.subnetId = LibExpat.find(pd, "subnetId#string")
+    o.disableApiTermination = AWS.safe_parse_as(Bool, LibExpat.find(pd, "disableApiTermination#string"))
+    o.instanceInitiatedShutdownBehavior = LibExpat.find(pd, "instanceInitiatedShutdownBehavior#string")
+    o.license = length(pd["license"]) > 0 ?  InstanceLicenseRequestType(LibExpat.find(pd,"license[1]")) : nothing
+    o.privateIpAddress = LibExpat.find(pd, "privateIpAddress#string")
+    o.clientToken = LibExpat.find(pd, "clientToken#string")
+    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.InstanceNetworkInterfaceSetItemRequestType, LibExpat.find(pd, "networkInterfaceSet/item"))
+    o.iamInstanceProfile = length(pd["iamInstanceProfile"]) > 0 ?  IamInstanceProfileRequestType(LibExpat.find(pd,"iamInstanceProfile[1]")) : nothing
+    o.ebsOptimized = AWS.safe_parse_as(Bool, LibExpat.find(pd, "ebsOptimized#string"))
     o
 end
 
@@ -7457,8 +7457,8 @@ type DescribeAvailabilityZonesType
 end
 function DescribeAvailabilityZonesType(pd::ETree)
     o = DescribeAvailabilityZonesType()
-    o.availabilityZoneSet = AWS.parse_vector_as(ASCIIString, "zoneName", find(pd, "item/zoneName"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o.availabilityZoneSet = AWS.parse_vector_as(ASCIIString, "zoneName", LibExpat.find(pd, "item/zoneName"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
     o
 end
 
@@ -7474,8 +7474,8 @@ type CreateVolumePermissionOperationType
 end
 function CreateVolumePermissionOperationType(pd::ETree)
     o = CreateVolumePermissionOperationType()
-    o.add = AWS.@parse_vector(AWS.EC2.CreateVolumePermissionItemType, find(pd, "add/item"))
-    o.remove = AWS.@parse_vector(AWS.EC2.CreateVolumePermissionItemType, find(pd, "remove/item"))
+    o.add = AWS.@parse_vector(AWS.EC2.CreateVolumePermissionItemType, LibExpat.find(pd, "add/item"))
+    o.remove = AWS.@parse_vector(AWS.EC2.CreateVolumePermissionItemType, LibExpat.find(pd, "remove/item"))
     o
 end
 
@@ -7503,20 +7503,20 @@ type InstanceNetworkInterfaceSetItemType
 end
 function InstanceNetworkInterfaceSetItemType(pd::ETree)
     o = InstanceNetworkInterfaceSetItemType()
-    o.networkInterfaceId = find(pd, "networkInterfaceId#string")
-    o.subnetId = find(pd, "subnetId#string")
-    o.vpcId = find(pd, "vpcId#string")
-    o.description = find(pd, "description#string")
-    o.ownerId = find(pd, "ownerId#string")
-    o.status = find(pd, "status#string")
-    o.macAddress = find(pd, "macAddress#string")
-    o.privateIpAddress = find(pd, "privateIpAddress#string")
-    o.privateDnsName = find(pd, "privateDnsName#string")
-    o.sourceDestCheck = AWS.safe_parse_as(Bool, find(pd, "sourceDestCheck#string"))
-    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, find(pd, "groupSet/item"))
-    o.attachment = length(pd["attachment"]) > 0 ?  InstanceNetworkInterfaceAttachmentType(find(pd,"attachment[1]")) : nothing
-    o.association = length(pd["association"]) > 0 ?  InstanceNetworkInterfaceAssociationType(find(pd,"association[1]")) : nothing
-    o.privateIpAddressesSet = AWS.@parse_vector(AWS.EC2.InstancePrivateIpAddressesSetItemType, find(pd, "privateIpAddressesSet/item"))
+    o.networkInterfaceId = LibExpat.find(pd, "networkInterfaceId#string")
+    o.subnetId = LibExpat.find(pd, "subnetId#string")
+    o.vpcId = LibExpat.find(pd, "vpcId#string")
+    o.description = LibExpat.find(pd, "description#string")
+    o.ownerId = LibExpat.find(pd, "ownerId#string")
+    o.status = LibExpat.find(pd, "status#string")
+    o.macAddress = LibExpat.find(pd, "macAddress#string")
+    o.privateIpAddress = LibExpat.find(pd, "privateIpAddress#string")
+    o.privateDnsName = LibExpat.find(pd, "privateDnsName#string")
+    o.sourceDestCheck = AWS.safe_parse_as(Bool, LibExpat.find(pd, "sourceDestCheck#string"))
+    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, LibExpat.find(pd, "groupSet/item"))
+    o.attachment = length(pd["attachment"]) > 0 ?  InstanceNetworkInterfaceAttachmentType(LibExpat.find(pd,"attachment[1]")) : nothing
+    o.association = length(pd["association"]) > 0 ?  InstanceNetworkInterfaceAssociationType(LibExpat.find(pd,"association[1]")) : nothing
+    o.privateIpAddressesSet = AWS.@parse_vector(AWS.EC2.InstancePrivateIpAddressesSetItemType, LibExpat.find(pd, "privateIpAddressesSet/item"))
     o
 end
 
@@ -7535,11 +7535,11 @@ type LicenseSetItemType
 end
 function LicenseSetItemType(pd::ETree)
     o = LicenseSetItemType()
-    o.licenseId = find(pd, "licenseId#string")
-    o._type = find(pd, "type#string")
-    o.pool = find(pd, "pool#string")
-    o.capacitySet = AWS.@parse_vector(AWS.EC2.LicenseCapacitySetItemType, find(pd, "capacitySet/item"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.licenseId = LibExpat.find(pd, "licenseId#string")
+    o._type = LibExpat.find(pd, "type#string")
+    o.pool = LibExpat.find(pd, "pool#string")
+    o.capacitySet = AWS.@parse_vector(AWS.EC2.LicenseCapacitySetItemType, LibExpat.find(pd, "capacitySet/item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
     o
 end
 
@@ -7558,11 +7558,11 @@ type ImportVolumeTaskDetailsType
 end
 function ImportVolumeTaskDetailsType(pd::ETree)
     o = ImportVolumeTaskDetailsType()
-    o.bytesConverted = AWS.safe_parse_as(Int64, find(pd, "bytesConverted#string"))
-    o.availabilityZone = find(pd, "availabilityZone#string")
-    o.description = find(pd, "description#string")
-    o.image = length(pd["image"]) > 0 ?  DiskImageDescriptionType(find(pd,"image[1]")) : nothing
-    o.volume = length(pd["volume"]) > 0 ?  DiskImageVolumeDescriptionType(find(pd,"volume[1]")) : nothing
+    o.bytesConverted = AWS.safe_parse_as(Int64, LibExpat.find(pd, "bytesConverted#string"))
+    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
+    o.description = LibExpat.find(pd, "description#string")
+    o.image = length(pd["image"]) > 0 ?  DiskImageDescriptionType(LibExpat.find(pd,"image[1]")) : nothing
+    o.volume = length(pd["volume"]) > 0 ?  DiskImageVolumeDescriptionType(LibExpat.find(pd,"volume[1]")) : nothing
     o
 end
 
@@ -7578,8 +7578,8 @@ type DescribeReservedInstancesListingsResponseType
 end
 function DescribeReservedInstancesListingsResponseType(pd::ETree)
     o = DescribeReservedInstancesListingsResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.reservedInstancesListingsSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesListingsResponseSetItemType, find(pd, "reservedInstancesListingsSet/item"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.reservedInstancesListingsSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesListingsResponseSetItemType, LibExpat.find(pd, "reservedInstancesListingsSet/item"))
     o
 end
 
@@ -7595,8 +7595,8 @@ type RevokeSecurityGroupIngressType
 end
 function RevokeSecurityGroupIngressType(pd::ETree)
     o = RevokeSecurityGroupIngressType()
-    o.userId = find(pd, "userId#string")
-    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, find(pd, "ipPermissions/item"))
+    o.userId = LibExpat.find(pd, "userId#string")
+    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, LibExpat.find(pd, "ipPermissions/item"))
     o
 end
 
@@ -7612,8 +7612,8 @@ type StopInstancesResponseType
 end
 function StopInstancesResponseType(pd::ETree)
     o = StopInstancesResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.instancesSet = AWS.@parse_vector(AWS.EC2.InstanceStateChangeType, find(pd, "instancesSet/item"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.instancesSet = AWS.@parse_vector(AWS.EC2.InstanceStateChangeType, LibExpat.find(pd, "instancesSet/item"))
     o
 end
 
@@ -7631,10 +7631,10 @@ type ImportVolumeType
 end
 function ImportVolumeType(pd::ETree)
     o = ImportVolumeType()
-    o.availabilityZone = find(pd, "availabilityZone#string")
-    o.image = length(pd["image"]) > 0 ?  DiskImageDetailType(find(pd,"image[1]")) : nothing
-    o.description = find(pd, "description#string")
-    o.volume = length(pd["volume"]) > 0 ?  DiskImageVolumeType(find(pd,"volume[1]")) : nothing
+    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
+    o.image = length(pd["image"]) > 0 ?  DiskImageDetailType(LibExpat.find(pd,"image[1]")) : nothing
+    o.description = LibExpat.find(pd, "description#string")
+    o.volume = length(pd["volume"]) > 0 ?  DiskImageVolumeType(LibExpat.find(pd,"volume[1]")) : nothing
     o
 end
 
@@ -7658,16 +7658,16 @@ type VpnConnectionType
 end
 function VpnConnectionType(pd::ETree)
     o = VpnConnectionType()
-    o.vpnConnectionId = find(pd, "vpnConnectionId#string")
-    o.state = find(pd, "state#string")
-    o.customerGatewayConfiguration = find(pd, "customerGatewayConfiguration#string")
-    o._type = find(pd, "type#string")
-    o.customerGatewayId = find(pd, "customerGatewayId#string")
-    o.vpnGatewayId = find(pd, "vpnGatewayId#string")
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
-    o.vgwTelemetry = AWS.@parse_vector(AWS.EC2.VpnTunnelTelemetryType, find(pd, "vgwTelemetry/item"))
-    o.options = length(pd["options"]) > 0 ?  VpnConnectionOptionsResponseType(find(pd,"options[1]")) : nothing
-    o.routes = AWS.@parse_vector(AWS.EC2.VpnStaticRouteType, find(pd, "routes/item"))
+    o.vpnConnectionId = LibExpat.find(pd, "vpnConnectionId#string")
+    o.state = LibExpat.find(pd, "state#string")
+    o.customerGatewayConfiguration = LibExpat.find(pd, "customerGatewayConfiguration#string")
+    o._type = LibExpat.find(pd, "type#string")
+    o.customerGatewayId = LibExpat.find(pd, "customerGatewayId#string")
+    o.vpnGatewayId = LibExpat.find(pd, "vpnGatewayId#string")
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
+    o.vgwTelemetry = AWS.@parse_vector(AWS.EC2.VpnTunnelTelemetryType, LibExpat.find(pd, "vgwTelemetry/item"))
+    o.options = length(pd["options"]) > 0 ?  VpnConnectionOptionsResponseType(LibExpat.find(pd,"options[1]")) : nothing
+    o.routes = AWS.@parse_vector(AWS.EC2.VpnStaticRouteType, LibExpat.find(pd, "routes/item"))
     o
 end
 
@@ -7683,8 +7683,8 @@ type DescribeInstancesType
 end
 function DescribeInstancesType(pd::ETree)
     o = DescribeInstancesType()
-    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", find(pd, "item/instanceId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", LibExpat.find(pd, "item/instanceId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
     o
 end
 
@@ -7700,8 +7700,8 @@ type DescribeImagesResponseType
 end
 function DescribeImagesResponseType(pd::ETree)
     o = DescribeImagesResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.imagesSet = AWS.@parse_vector(AWS.EC2.DescribeImagesResponseItemType, find(pd, "imagesSet/item"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.imagesSet = AWS.@parse_vector(AWS.EC2.DescribeImagesResponseItemType, LibExpat.find(pd, "imagesSet/item"))
     o
 end
 
@@ -7721,12 +7721,12 @@ type CustomerGatewayType
 end
 function CustomerGatewayType(pd::ETree)
     o = CustomerGatewayType()
-    o.customerGatewayId = find(pd, "customerGatewayId#string")
-    o.state = find(pd, "state#string")
-    o._type = find(pd, "type#string")
-    o.ipAddress = find(pd, "ipAddress#string")
-    o.bgpAsn = AWS.safe_parse_as(Int64, find(pd, "bgpAsn#string"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.customerGatewayId = LibExpat.find(pd, "customerGatewayId#string")
+    o.state = LibExpat.find(pd, "state#string")
+    o._type = LibExpat.find(pd, "type#string")
+    o.ipAddress = LibExpat.find(pd, "ipAddress#string")
+    o.bgpAsn = AWS.safe_parse_as(Int64, LibExpat.find(pd, "bgpAsn#string"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
     o
 end
 
@@ -7749,15 +7749,15 @@ type SubnetType
 end
 function SubnetType(pd::ETree)
     o = SubnetType()
-    o.subnetId = find(pd, "subnetId#string")
-    o.state = find(pd, "state#string")
-    o.vpcId = find(pd, "vpcId#string")
-    o.cidrBlock = find(pd, "cidrBlock#string")
-    o.availableIpAddressCount = AWS.safe_parse_as(Int64, find(pd, "availableIpAddressCount#string"))
-    o.availabilityZone = find(pd, "availabilityZone#string")
-    o.defaultForAz = AWS.safe_parse_as(Bool, find(pd, "defaultForAz#string"))
-    o.mapPublicIpOnLaunch = AWS.safe_parse_as(Bool, find(pd, "mapPublicIpOnLaunch#string"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.subnetId = LibExpat.find(pd, "subnetId#string")
+    o.state = LibExpat.find(pd, "state#string")
+    o.vpcId = LibExpat.find(pd, "vpcId#string")
+    o.cidrBlock = LibExpat.find(pd, "cidrBlock#string")
+    o.availableIpAddressCount = AWS.safe_parse_as(Int64, LibExpat.find(pd, "availableIpAddressCount#string"))
+    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
+    o.defaultForAz = AWS.safe_parse_as(Bool, LibExpat.find(pd, "defaultForAz#string"))
+    o.mapPublicIpOnLaunch = AWS.safe_parse_as(Bool, LibExpat.find(pd, "mapPublicIpOnLaunch#string"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
     o
 end
 
@@ -7773,8 +7773,8 @@ type DescribeLicensesResponseType
 end
 function DescribeLicensesResponseType(pd::ETree)
     o = DescribeLicensesResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.licenseSet = AWS.@parse_vector(AWS.EC2.LicenseSetItemType, find(pd, "licenseSet/item"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.licenseSet = AWS.@parse_vector(AWS.EC2.LicenseSetItemType, LibExpat.find(pd, "licenseSet/item"))
     o
 end
 
@@ -7792,10 +7792,10 @@ type NetworkInterfacePrivateIpAddressesSetItemType
 end
 function NetworkInterfacePrivateIpAddressesSetItemType(pd::ETree)
     o = NetworkInterfacePrivateIpAddressesSetItemType()
-    o.privateIpAddress = find(pd, "privateIpAddress#string")
-    o.privateDnsName = find(pd, "privateDnsName#string")
-    o.primary = AWS.safe_parse_as(Bool, find(pd, "primary#string"))
-    o.association = length(pd["association"]) > 0 ?  NetworkInterfaceAssociationType(find(pd,"association[1]")) : nothing
+    o.privateIpAddress = LibExpat.find(pd, "privateIpAddress#string")
+    o.privateDnsName = LibExpat.find(pd, "privateDnsName#string")
+    o.primary = AWS.safe_parse_as(Bool, LibExpat.find(pd, "primary#string"))
+    o.association = length(pd["association"]) > 0 ?  NetworkInterfaceAssociationType(LibExpat.find(pd,"association[1]")) : nothing
     o
 end
 
@@ -7811,8 +7811,8 @@ type CreateVpnConnectionResponseType
 end
 function CreateVpnConnectionResponseType(pd::ETree)
     o = CreateVpnConnectionResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.vpnConnection = length(pd["vpnConnection"]) > 0 ?  VpnConnectionType(find(pd,"vpnConnection[1]")) : nothing
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.vpnConnection = length(pd["vpnConnection"]) > 0 ?  VpnConnectionType(LibExpat.find(pd,"vpnConnection[1]")) : nothing
     o
 end
 
@@ -7828,8 +7828,8 @@ type DescribeTagsResponseType
 end
 function DescribeTagsResponseType(pd::ETree)
     o = DescribeTagsResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.tagSet = AWS.@parse_vector(AWS.EC2.TagSetItemType, find(pd, "tagSet/item"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.tagSet = AWS.@parse_vector(AWS.EC2.TagSetItemType, LibExpat.find(pd, "tagSet/item"))
     o
 end
 
@@ -7845,8 +7845,8 @@ type CreateInternetGatewayResponseType
 end
 function CreateInternetGatewayResponseType(pd::ETree)
     o = CreateInternetGatewayResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.internetGateway = length(pd["internetGateway"]) > 0 ?  InternetGatewayType(find(pd,"internetGateway[1]")) : nothing
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.internetGateway = length(pd["internetGateway"]) > 0 ?  InternetGatewayType(LibExpat.find(pd,"internetGateway[1]")) : nothing
     o
 end
 
@@ -7862,8 +7862,8 @@ type AttachVpnGatewayResponseType
 end
 function AttachVpnGatewayResponseType(pd::ETree)
     o = AttachVpnGatewayResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.attachment = length(pd["attachment"]) > 0 ?  AttachmentType(find(pd,"attachment[1]")) : nothing
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.attachment = length(pd["attachment"]) > 0 ?  AttachmentType(LibExpat.find(pd,"attachment[1]")) : nothing
     o
 end
 
@@ -7879,8 +7879,8 @@ type DescribeLicensesType
 end
 function DescribeLicensesType(pd::ETree)
     o = DescribeLicensesType()
-    o.licenseIdSet = AWS.parse_vector_as(ASCIIString, "licenseId", find(pd, "item/licenseId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, find(pd, "filterSet/item"))
+    o.licenseIdSet = AWS.parse_vector_as(ASCIIString, "licenseId", LibExpat.find(pd, "item/licenseId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
     o
 end
 
@@ -7896,8 +7896,8 @@ type AuthorizeSecurityGroupIngressType
 end
 function AuthorizeSecurityGroupIngressType(pd::ETree)
     o = AuthorizeSecurityGroupIngressType()
-    o.userId = find(pd, "userId#string")
-    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, find(pd, "ipPermissions/item"))
+    o.userId = LibExpat.find(pd, "userId#string")
+    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, LibExpat.find(pd, "ipPermissions/item"))
     o
 end
 
@@ -7913,8 +7913,8 @@ type CreateSubnetResponseType
 end
 function CreateSubnetResponseType(pd::ETree)
     o = CreateSubnetResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.subnet = length(pd["subnet"]) > 0 ?  SubnetType(find(pd,"subnet[1]")) : nothing
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.subnet = length(pd["subnet"]) > 0 ?  SubnetType(LibExpat.find(pd,"subnet[1]")) : nothing
     o
 end
 
@@ -7946,24 +7946,24 @@ type NetworkInterfaceType
 end
 function NetworkInterfaceType(pd::ETree)
     o = NetworkInterfaceType()
-    o.networkInterfaceId = find(pd, "networkInterfaceId#string")
-    o.subnetId = find(pd, "subnetId#string")
-    o.vpcId = find(pd, "vpcId#string")
-    o.availabilityZone = find(pd, "availabilityZone#string")
-    o.description = find(pd, "description#string")
-    o.ownerId = find(pd, "ownerId#string")
-    o.requesterId = find(pd, "requesterId#string")
-    o.requesterManaged = AWS.safe_parse_as(Bool, find(pd, "requesterManaged#string"))
-    o.status = find(pd, "status#string")
-    o.macAddress = find(pd, "macAddress#string")
-    o.privateIpAddress = find(pd, "privateIpAddress#string")
-    o.privateDnsName = find(pd, "privateDnsName#string")
-    o.sourceDestCheck = AWS.safe_parse_as(Bool, find(pd, "sourceDestCheck#string"))
-    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, find(pd, "groupSet/item"))
-    o.attachment = length(pd["attachment"]) > 0 ?  NetworkInterfaceAttachmentType(find(pd,"attachment[1]")) : nothing
-    o.association = length(pd["association"]) > 0 ?  NetworkInterfaceAssociationType(find(pd,"association[1]")) : nothing
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
-    o.privateIpAddressesSet = AWS.@parse_vector(AWS.EC2.NetworkInterfacePrivateIpAddressesSetItemType, find(pd, "privateIpAddressesSet/item"))
+    o.networkInterfaceId = LibExpat.find(pd, "networkInterfaceId#string")
+    o.subnetId = LibExpat.find(pd, "subnetId#string")
+    o.vpcId = LibExpat.find(pd, "vpcId#string")
+    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
+    o.description = LibExpat.find(pd, "description#string")
+    o.ownerId = LibExpat.find(pd, "ownerId#string")
+    o.requesterId = LibExpat.find(pd, "requesterId#string")
+    o.requesterManaged = AWS.safe_parse_as(Bool, LibExpat.find(pd, "requesterManaged#string"))
+    o.status = LibExpat.find(pd, "status#string")
+    o.macAddress = LibExpat.find(pd, "macAddress#string")
+    o.privateIpAddress = LibExpat.find(pd, "privateIpAddress#string")
+    o.privateDnsName = LibExpat.find(pd, "privateDnsName#string")
+    o.sourceDestCheck = AWS.safe_parse_as(Bool, LibExpat.find(pd, "sourceDestCheck#string"))
+    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, LibExpat.find(pd, "groupSet/item"))
+    o.attachment = length(pd["attachment"]) > 0 ?  NetworkInterfaceAttachmentType(LibExpat.find(pd,"attachment[1]")) : nothing
+    o.association = length(pd["association"]) > 0 ?  NetworkInterfaceAssociationType(LibExpat.find(pd,"association[1]")) : nothing
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
+    o.privateIpAddressesSet = AWS.@parse_vector(AWS.EC2.NetworkInterfacePrivateIpAddressesSetItemType, LibExpat.find(pd, "privateIpAddressesSet/item"))
     o
 end
 
@@ -7979,8 +7979,8 @@ type ImportVolumeResponseType
 end
 function ImportVolumeResponseType(pd::ETree)
     o = ImportVolumeResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.conversionTask = length(pd["conversionTask"]) > 0 ?  ConversionTaskType(find(pd,"conversionTask[1]")) : nothing
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.conversionTask = length(pd["conversionTask"]) > 0 ?  ConversionTaskType(LibExpat.find(pd,"conversionTask[1]")) : nothing
     o
 end
 
@@ -7996,8 +7996,8 @@ type ModifySnapshotAttributeType
 end
 function ModifySnapshotAttributeType(pd::ETree)
     o = ModifySnapshotAttributeType()
-    o.snapshotId = find(pd, "snapshotId#string")
-    o.createVolumePermission = length(pd["createVolumePermission"]) > 0 ?  CreateVolumePermissionOperationType(find(pd,"createVolumePermission[1]")) : nothing
+    o.snapshotId = LibExpat.find(pd, "snapshotId#string")
+    o.createVolumePermission = length(pd["createVolumePermission"]) > 0 ?  CreateVolumePermissionOperationType(LibExpat.find(pd,"createVolumePermission[1]")) : nothing
     o
 end
 
@@ -8013,8 +8013,8 @@ type CreateNetworkInterfaceResponseType
 end
 function CreateNetworkInterfaceResponseType(pd::ETree)
     o = CreateNetworkInterfaceResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.networkInterface = length(pd["networkInterface"]) > 0 ?  NetworkInterfaceType(find(pd,"networkInterface[1]")) : nothing
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.networkInterface = length(pd["networkInterface"]) > 0 ?  NetworkInterfaceType(LibExpat.find(pd,"networkInterface[1]")) : nothing
     o
 end
 
@@ -8030,8 +8030,8 @@ type CancelReservedInstancesListingResponseType
 end
 function CancelReservedInstancesListingResponseType(pd::ETree)
     o = CancelReservedInstancesListingResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.reservedInstancesListingsSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesListingsResponseSetItemType, find(pd, "reservedInstancesListingsSet/item"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.reservedInstancesListingsSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesListingsResponseSetItemType, LibExpat.find(pd, "reservedInstancesListingsSet/item"))
     o
 end
 
@@ -8047,8 +8047,8 @@ type MonitorInstancesResponseType
 end
 function MonitorInstancesResponseType(pd::ETree)
     o = MonitorInstancesResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.instancesSet = AWS.@parse_vector(AWS.EC2.MonitorInstancesResponseSetItemType, find(pd, "instancesSet/item"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.instancesSet = AWS.@parse_vector(AWS.EC2.MonitorInstancesResponseSetItemType, LibExpat.find(pd, "instancesSet/item"))
     o
 end
 
@@ -8064,8 +8064,8 @@ type CreateCustomerGatewayResponseType
 end
 function CreateCustomerGatewayResponseType(pd::ETree)
     o = CreateCustomerGatewayResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.customerGateway = length(pd["customerGateway"]) > 0 ?  CustomerGatewayType(find(pd,"customerGateway[1]")) : nothing
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.customerGateway = length(pd["customerGateway"]) > 0 ?  CustomerGatewayType(LibExpat.find(pd,"customerGateway[1]")) : nothing
     o
 end
 
@@ -8081,8 +8081,8 @@ type DescribeVpnConnectionsResponseType
 end
 function DescribeVpnConnectionsResponseType(pd::ETree)
     o = DescribeVpnConnectionsResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.vpnConnectionSet = AWS.@parse_vector(AWS.EC2.VpnConnectionType, find(pd, "vpnConnectionSet/item"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.vpnConnectionSet = AWS.@parse_vector(AWS.EC2.VpnConnectionType, LibExpat.find(pd, "vpnConnectionSet/item"))
     o
 end
 
@@ -8133,43 +8133,43 @@ type RunningInstancesItemType
 end
 function RunningInstancesItemType(pd::ETree)
     o = RunningInstancesItemType()
-    o.instanceId = find(pd, "instanceId#string")
-    o.imageId = find(pd, "imageId#string")
-    o.instanceState = length(pd["instanceState"]) > 0 ?  InstanceStateType(find(pd,"instanceState[1]")) : nothing
-    o.privateDnsName = find(pd, "privateDnsName#string")
-    o.dnsName = find(pd, "dnsName#string")
-    o.reason = find(pd, "reason#string")
-    o.keyName = find(pd, "keyName#string")
-    o.amiLaunchIndex = find(pd, "amiLaunchIndex#string")
-    o.productCodes = AWS.@parse_vector(AWS.EC2.ProductCodesSetItemType, find(pd, "productCodes/item"))
-    o.instanceType = find(pd, "instanceType#string")
-    o.launchTime = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "launchTime#string"))
-    o.placement = length(pd["placement"]) > 0 ?  PlacementResponseType(find(pd,"placement[1]")) : nothing
-    o.kernelId = find(pd, "kernelId#string")
-    o.ramdiskId = find(pd, "ramdiskId#string")
-    o.platform = find(pd, "platform#string")
-    o.monitoring = length(pd["monitoring"]) > 0 ?  InstanceMonitoringStateType(find(pd,"monitoring[1]")) : nothing
-    o.subnetId = find(pd, "subnetId#string")
-    o.vpcId = find(pd, "vpcId#string")
-    o.privateIpAddress = find(pd, "privateIpAddress#string")
-    o.ipAddress = find(pd, "ipAddress#string")
-    o.sourceDestCheck = AWS.safe_parse_as(Bool, find(pd, "sourceDestCheck#string"))
-    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, find(pd, "groupSet/item"))
-    o.stateReason = length(pd["stateReason"]) > 0 ?  StateReasonType(find(pd,"stateReason[1]")) : nothing
-    o.architecture = find(pd, "architecture#string")
-    o.rootDeviceType = find(pd, "rootDeviceType#string")
-    o.rootDeviceName = find(pd, "rootDeviceName#string")
-    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.InstanceBlockDeviceMappingResponseItemType, find(pd, "blockDeviceMapping/item"))
-    o.instanceLifecycle = find(pd, "instanceLifecycle#string")
-    o.spotInstanceRequestId = find(pd, "spotInstanceRequestId#string")
-    o.license = length(pd["license"]) > 0 ?  InstanceLicenseResponseType(find(pd,"license[1]")) : nothing
-    o.virtualizationType = find(pd, "virtualizationType#string")
-    o.clientToken = find(pd, "clientToken#string")
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
-    o.hypervisor = find(pd, "hypervisor#string")
-    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.InstanceNetworkInterfaceSetItemType, find(pd, "networkInterfaceSet/item"))
-    o.iamInstanceProfile = length(pd["iamInstanceProfile"]) > 0 ?  IamInstanceProfileResponseType(find(pd,"iamInstanceProfile[1]")) : nothing
-    o.ebsOptimized = AWS.safe_parse_as(Bool, find(pd, "ebsOptimized#string"))
+    o.instanceId = LibExpat.find(pd, "instanceId#string")
+    o.imageId = LibExpat.find(pd, "imageId#string")
+    o.instanceState = length(pd["instanceState"]) > 0 ?  InstanceStateType(LibExpat.find(pd,"instanceState[1]")) : nothing
+    o.privateDnsName = LibExpat.find(pd, "privateDnsName#string")
+    o.dnsName = LibExpat.find(pd, "dnsName#string")
+    o.reason = LibExpat.find(pd, "reason#string")
+    o.keyName = LibExpat.find(pd, "keyName#string")
+    o.amiLaunchIndex = LibExpat.find(pd, "amiLaunchIndex#string")
+    o.productCodes = AWS.@parse_vector(AWS.EC2.ProductCodesSetItemType, LibExpat.find(pd, "productCodes/item"))
+    o.instanceType = LibExpat.find(pd, "instanceType#string")
+    o.launchTime = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "launchTime#string"))
+    o.placement = length(pd["placement"]) > 0 ?  PlacementResponseType(LibExpat.find(pd,"placement[1]")) : nothing
+    o.kernelId = LibExpat.find(pd, "kernelId#string")
+    o.ramdiskId = LibExpat.find(pd, "ramdiskId#string")
+    o.platform = LibExpat.find(pd, "platform#string")
+    o.monitoring = length(pd["monitoring"]) > 0 ?  InstanceMonitoringStateType(LibExpat.find(pd,"monitoring[1]")) : nothing
+    o.subnetId = LibExpat.find(pd, "subnetId#string")
+    o.vpcId = LibExpat.find(pd, "vpcId#string")
+    o.privateIpAddress = LibExpat.find(pd, "privateIpAddress#string")
+    o.ipAddress = LibExpat.find(pd, "ipAddress#string")
+    o.sourceDestCheck = AWS.safe_parse_as(Bool, LibExpat.find(pd, "sourceDestCheck#string"))
+    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, LibExpat.find(pd, "groupSet/item"))
+    o.stateReason = length(pd["stateReason"]) > 0 ?  StateReasonType(LibExpat.find(pd,"stateReason[1]")) : nothing
+    o.architecture = LibExpat.find(pd, "architecture#string")
+    o.rootDeviceType = LibExpat.find(pd, "rootDeviceType#string")
+    o.rootDeviceName = LibExpat.find(pd, "rootDeviceName#string")
+    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.InstanceBlockDeviceMappingResponseItemType, LibExpat.find(pd, "blockDeviceMapping/item"))
+    o.instanceLifecycle = LibExpat.find(pd, "instanceLifecycle#string")
+    o.spotInstanceRequestId = LibExpat.find(pd, "spotInstanceRequestId#string")
+    o.license = length(pd["license"]) > 0 ?  InstanceLicenseResponseType(LibExpat.find(pd,"license[1]")) : nothing
+    o.virtualizationType = LibExpat.find(pd, "virtualizationType#string")
+    o.clientToken = LibExpat.find(pd, "clientToken#string")
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
+    o.hypervisor = LibExpat.find(pd, "hypervisor#string")
+    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.InstanceNetworkInterfaceSetItemType, LibExpat.find(pd, "networkInterfaceSet/item"))
+    o.iamInstanceProfile = length(pd["iamInstanceProfile"]) > 0 ?  IamInstanceProfileResponseType(LibExpat.find(pd,"iamInstanceProfile[1]")) : nothing
+    o.ebsOptimized = AWS.safe_parse_as(Bool, LibExpat.find(pd, "ebsOptimized#string"))
     o
 end
 
@@ -8185,8 +8185,8 @@ type DescribeSnapshotsResponseType
 end
 function DescribeSnapshotsResponseType(pd::ETree)
     o = DescribeSnapshotsResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.snapshotSet = AWS.@parse_vector(AWS.EC2.DescribeSnapshotsSetItemResponseType, find(pd, "snapshotSet/item"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.snapshotSet = AWS.@parse_vector(AWS.EC2.DescribeSnapshotsSetItemResponseType, LibExpat.find(pd, "snapshotSet/item"))
     o
 end
 
@@ -8202,8 +8202,8 @@ type CreateVpcResponseType
 end
 function CreateVpcResponseType(pd::ETree)
     o = CreateVpcResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.vpc = length(pd["vpc"]) > 0 ?  VpcType(find(pd,"vpc[1]")) : nothing
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.vpc = length(pd["vpc"]) > 0 ?  VpcType(LibExpat.find(pd,"vpc[1]")) : nothing
     o
 end
 
@@ -8222,11 +8222,11 @@ type ImportInstanceType
 end
 function ImportInstanceType(pd::ETree)
     o = ImportInstanceType()
-    o.description = find(pd, "description#string")
-    o.launchSpecification = length(pd["launchSpecification"]) > 0 ?  ImportInstanceLaunchSpecificationType(find(pd,"launchSpecification[1]")) : nothing
-    o.diskImageSet = AWS.@parse_vector(AWS.EC2.DiskImageType, find(pd, "diskImageSet/item"))
-    o.keepPartialImports = AWS.safe_parse_as(Bool, find(pd, "keepPartialImports#string"))
-    o.platform = find(pd, "platform#string")
+    o.description = LibExpat.find(pd, "description#string")
+    o.launchSpecification = length(pd["launchSpecification"]) > 0 ?  ImportInstanceLaunchSpecificationType(LibExpat.find(pd,"launchSpecification[1]")) : nothing
+    o.diskImageSet = AWS.@parse_vector(AWS.EC2.DiskImageType, LibExpat.find(pd, "diskImageSet/item"))
+    o.keepPartialImports = AWS.safe_parse_as(Bool, LibExpat.find(pd, "keepPartialImports#string"))
+    o.platform = LibExpat.find(pd, "platform#string")
     o
 end
 
@@ -8248,14 +8248,14 @@ type BundleInstanceTaskType
 end
 function BundleInstanceTaskType(pd::ETree)
     o = BundleInstanceTaskType()
-    o.instanceId = find(pd, "instanceId#string")
-    o.bundleId = find(pd, "bundleId#string")
-    o.state = find(pd, "state#string")
-    o.startTime = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "startTime#string"))
-    o.updateTime = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "updateTime#string"))
-    o.storage = length(pd["storage"]) > 0 ?  BundleInstanceTaskStorageType(find(pd,"storage[1]")) : nothing
-    o.progress = find(pd, "progress#string")
-    o.error = length(pd["error"]) > 0 ?  BundleInstanceTaskErrorType(find(pd,"error[1]")) : nothing
+    o.instanceId = LibExpat.find(pd, "instanceId#string")
+    o.bundleId = LibExpat.find(pd, "bundleId#string")
+    o.state = LibExpat.find(pd, "state#string")
+    o.startTime = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "startTime#string"))
+    o.updateTime = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "updateTime#string"))
+    o.storage = length(pd["storage"]) > 0 ?  BundleInstanceTaskStorageType(LibExpat.find(pd,"storage[1]")) : nothing
+    o.progress = LibExpat.find(pd, "progress#string")
+    o.error = length(pd["error"]) > 0 ?  BundleInstanceTaskErrorType(LibExpat.find(pd,"error[1]")) : nothing
     o
 end
 
@@ -8271,8 +8271,8 @@ type CancelBundleTaskResponseType
 end
 function CancelBundleTaskResponseType(pd::ETree)
     o = CancelBundleTaskResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.bundleInstanceTask = length(pd["bundleInstanceTask"]) > 0 ?  BundleInstanceTaskType(find(pd,"bundleInstanceTask[1]")) : nothing
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.bundleInstanceTask = length(pd["bundleInstanceTask"]) > 0 ?  BundleInstanceTaskType(LibExpat.find(pd,"bundleInstanceTask[1]")) : nothing
     o
 end
 
@@ -8300,20 +8300,20 @@ type LaunchSpecificationResponseType
 end
 function LaunchSpecificationResponseType(pd::ETree)
     o = LaunchSpecificationResponseType()
-    o.imageId = find(pd, "imageId#string")
-    o.keyName = find(pd, "keyName#string")
-    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, find(pd, "groupSet/item"))
-    o.addressingType = find(pd, "addressingType#string")
-    o.instanceType = find(pd, "instanceType#string")
-    o.placement = length(pd["placement"]) > 0 ?  SpotPlacementRequestType(find(pd,"placement[1]")) : nothing
-    o.kernelId = find(pd, "kernelId#string")
-    o.ramdiskId = find(pd, "ramdiskId#string")
-    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, find(pd, "blockDeviceMapping/item"))
-    o.monitoring = length(pd["monitoring"]) > 0 ?  MonitoringInstanceType(find(pd,"monitoring[1]")) : nothing
-    o.subnetId = find(pd, "subnetId#string")
-    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.InstanceNetworkInterfaceSetItemRequestType, find(pd, "networkInterfaceSet/item"))
-    o.iamInstanceProfile = length(pd["iamInstanceProfile"]) > 0 ?  IamInstanceProfileRequestType(find(pd,"iamInstanceProfile[1]")) : nothing
-    o.ebsOptimized = AWS.safe_parse_as(Bool, find(pd, "ebsOptimized#string"))
+    o.imageId = LibExpat.find(pd, "imageId#string")
+    o.keyName = LibExpat.find(pd, "keyName#string")
+    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, LibExpat.find(pd, "groupSet/item"))
+    o.addressingType = LibExpat.find(pd, "addressingType#string")
+    o.instanceType = LibExpat.find(pd, "instanceType#string")
+    o.placement = length(pd["placement"]) > 0 ?  SpotPlacementRequestType(LibExpat.find(pd,"placement[1]")) : nothing
+    o.kernelId = LibExpat.find(pd, "kernelId#string")
+    o.ramdiskId = LibExpat.find(pd, "ramdiskId#string")
+    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, LibExpat.find(pd, "blockDeviceMapping/item"))
+    o.monitoring = length(pd["monitoring"]) > 0 ?  MonitoringInstanceType(LibExpat.find(pd,"monitoring[1]")) : nothing
+    o.subnetId = LibExpat.find(pd, "subnetId#string")
+    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.InstanceNetworkInterfaceSetItemRequestType, LibExpat.find(pd, "networkInterfaceSet/item"))
+    o.iamInstanceProfile = length(pd["iamInstanceProfile"]) > 0 ?  IamInstanceProfileRequestType(LibExpat.find(pd,"iamInstanceProfile[1]")) : nothing
+    o.ebsOptimized = AWS.safe_parse_as(Bool, LibExpat.find(pd, "ebsOptimized#string"))
     o
 end
 
@@ -8335,14 +8335,14 @@ type SecurityGroupItemType
 end
 function SecurityGroupItemType(pd::ETree)
     o = SecurityGroupItemType()
-    o.ownerId = find(pd, "ownerId#string")
-    o.groupId = find(pd, "groupId#string")
-    o.groupName = find(pd, "groupName#string")
-    o.groupDescription = find(pd, "groupDescription#string")
-    o.vpcId = find(pd, "vpcId#string")
-    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, find(pd, "ipPermissions/item"))
-    o.ipPermissionsEgress = AWS.@parse_vector(AWS.EC2.IpPermissionType, find(pd, "ipPermissionsEgress/item"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
+    o.ownerId = LibExpat.find(pd, "ownerId#string")
+    o.groupId = LibExpat.find(pd, "groupId#string")
+    o.groupName = LibExpat.find(pd, "groupName#string")
+    o.groupDescription = LibExpat.find(pd, "groupDescription#string")
+    o.vpcId = LibExpat.find(pd, "vpcId#string")
+    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, LibExpat.find(pd, "ipPermissions/item"))
+    o.ipPermissionsEgress = AWS.@parse_vector(AWS.EC2.IpPermissionType, LibExpat.find(pd, "ipPermissionsEgress/item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
     o
 end
 
@@ -8358,8 +8358,8 @@ type CreateNetworkAclResponseType
 end
 function CreateNetworkAclResponseType(pd::ETree)
     o = CreateNetworkAclResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.networkAcl = length(pd["networkAcl"]) > 0 ?  NetworkAclType(find(pd,"networkAcl[1]")) : nothing
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.networkAcl = length(pd["networkAcl"]) > 0 ?  NetworkAclType(LibExpat.find(pd,"networkAcl[1]")) : nothing
     o
 end
 
@@ -8375,8 +8375,8 @@ type CreateVpnGatewayResponseType
 end
 function CreateVpnGatewayResponseType(pd::ETree)
     o = CreateVpnGatewayResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.vpnGateway = length(pd["vpnGateway"]) > 0 ?  VpnGatewayType(find(pd,"vpnGateway[1]")) : nothing
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.vpnGateway = length(pd["vpnGateway"]) > 0 ?  VpnGatewayType(LibExpat.find(pd,"vpnGateway[1]")) : nothing
     o
 end
 
@@ -8396,12 +8396,12 @@ type RunInstancesResponseType
 end
 function RunInstancesResponseType(pd::ETree)
     o = RunInstancesResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.reservationId = find(pd, "reservationId#string")
-    o.ownerId = find(pd, "ownerId#string")
-    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, find(pd, "groupSet/item"))
-    o.instancesSet = AWS.@parse_vector(AWS.EC2.RunningInstancesItemType, find(pd, "instancesSet/item"))
-    o.requesterId = find(pd, "requesterId#string")
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.reservationId = LibExpat.find(pd, "reservationId#string")
+    o.ownerId = LibExpat.find(pd, "ownerId#string")
+    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, LibExpat.find(pd, "groupSet/item"))
+    o.instancesSet = AWS.@parse_vector(AWS.EC2.RunningInstancesItemType, LibExpat.find(pd, "instancesSet/item"))
+    o.requesterId = LibExpat.find(pd, "requesterId#string")
     o
 end
 
@@ -8417,8 +8417,8 @@ type RevokeSecurityGroupEgressType
 end
 function RevokeSecurityGroupEgressType(pd::ETree)
     o = RevokeSecurityGroupEgressType()
-    o.groupId = find(pd, "groupId#string")
-    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, find(pd, "ipPermissions/item"))
+    o.groupId = LibExpat.find(pd, "groupId#string")
+    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, LibExpat.find(pd, "ipPermissions/item"))
     o
 end
 
@@ -8434,8 +8434,8 @@ type DescribeNetworkAclsResponseType
 end
 function DescribeNetworkAclsResponseType(pd::ETree)
     o = DescribeNetworkAclsResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.networkAclSet = AWS.@parse_vector(AWS.EC2.NetworkAclType, find(pd, "networkAclSet/item"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.networkAclSet = AWS.@parse_vector(AWS.EC2.NetworkAclType, LibExpat.find(pd, "networkAclSet/item"))
     o
 end
 
@@ -8451,8 +8451,8 @@ type DescribeNetworkInterfacesResponseType
 end
 function DescribeNetworkInterfacesResponseType(pd::ETree)
     o = DescribeNetworkInterfacesResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.NetworkInterfaceType, find(pd, "networkInterfaceSet/item"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.NetworkInterfaceType, LibExpat.find(pd, "networkInterfaceSet/item"))
     o
 end
 
@@ -8469,9 +8469,9 @@ type DescribeReservedInstancesOfferingsResponseType
 end
 function DescribeReservedInstancesOfferingsResponseType(pd::ETree)
     o = DescribeReservedInstancesOfferingsResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.reservedInstancesOfferingsSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesOfferingsResponseSetItemType, find(pd, "reservedInstancesOfferingsSet/item"))
-    o.nextToken = find(pd, "nextToken#string")
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.reservedInstancesOfferingsSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesOfferingsResponseSetItemType, LibExpat.find(pd, "reservedInstancesOfferingsSet/item"))
+    o.nextToken = LibExpat.find(pd, "nextToken#string")
     o
 end
 
@@ -8501,22 +8501,22 @@ type SpotInstanceRequestSetItemType
 end
 function SpotInstanceRequestSetItemType(pd::ETree)
     o = SpotInstanceRequestSetItemType()
-    o.spotInstanceRequestId = find(pd, "spotInstanceRequestId#string")
-    o.spotPrice = find(pd, "spotPrice#string")
-    o._type = find(pd, "type#string")
-    o.state = find(pd, "state#string")
-    o.fault = length(pd["fault"]) > 0 ?  SpotInstanceStateFaultType(find(pd,"fault[1]")) : nothing
-    o.status = length(pd["status"]) > 0 ?  SpotInstanceStatusMessageType(find(pd,"status[1]")) : nothing
-    o.validFrom = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "validFrom#string"))
-    o.validUntil = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "validUntil#string"))
-    o.launchGroup = find(pd, "launchGroup#string")
-    o.availabilityZoneGroup = find(pd, "availabilityZoneGroup#string")
-    o.launchSpecification = length(pd["launchSpecification"]) > 0 ?  LaunchSpecificationResponseType(find(pd,"launchSpecification[1]")) : nothing
-    o.instanceId = find(pd, "instanceId#string")
-    o.createTime = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "createTime#string"))
-    o.productDescription = find(pd, "productDescription#string")
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, find(pd, "tagSet/item"))
-    o.launchedAvailabilityZone = find(pd, "launchedAvailabilityZone#string")
+    o.spotInstanceRequestId = LibExpat.find(pd, "spotInstanceRequestId#string")
+    o.spotPrice = LibExpat.find(pd, "spotPrice#string")
+    o._type = LibExpat.find(pd, "type#string")
+    o.state = LibExpat.find(pd, "state#string")
+    o.fault = length(pd["fault"]) > 0 ?  SpotInstanceStateFaultType(LibExpat.find(pd,"fault[1]")) : nothing
+    o.status = length(pd["status"]) > 0 ?  SpotInstanceStatusMessageType(LibExpat.find(pd,"status[1]")) : nothing
+    o.validFrom = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "validFrom#string"))
+    o.validUntil = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "validUntil#string"))
+    o.launchGroup = LibExpat.find(pd, "launchGroup#string")
+    o.availabilityZoneGroup = LibExpat.find(pd, "availabilityZoneGroup#string")
+    o.launchSpecification = length(pd["launchSpecification"]) > 0 ?  LaunchSpecificationResponseType(LibExpat.find(pd,"launchSpecification[1]")) : nothing
+    o.instanceId = LibExpat.find(pd, "instanceId#string")
+    o.createTime = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "createTime#string"))
+    o.productDescription = LibExpat.find(pd, "productDescription#string")
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
+    o.launchedAvailabilityZone = LibExpat.find(pd, "launchedAvailabilityZone#string")
     o
 end
 
@@ -8532,8 +8532,8 @@ type ImportInstanceResponseType
 end
 function ImportInstanceResponseType(pd::ETree)
     o = ImportInstanceResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.conversionTask = length(pd["conversionTask"]) > 0 ?  ConversionTaskType(find(pd,"conversionTask[1]")) : nothing
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.conversionTask = length(pd["conversionTask"]) > 0 ?  ConversionTaskType(LibExpat.find(pd,"conversionTask[1]")) : nothing
     o
 end
 
@@ -8552,11 +8552,11 @@ type VolumeStatusItemType
 end
 function VolumeStatusItemType(pd::ETree)
     o = VolumeStatusItemType()
-    o.volumeId = find(pd, "volumeId#string")
-    o.availabilityZone = find(pd, "availabilityZone#string")
-    o.volumeStatus = length(pd["volumeStatus"]) > 0 ?  VolumeStatusInfoType(find(pd,"volumeStatus[1]")) : nothing
-    o.eventsSet = AWS.@parse_vector(AWS.EC2.VolumeStatusEventItemType, find(pd, "eventsSet/item"))
-    o.actionsSet = AWS.@parse_vector(AWS.EC2.VolumeStatusActionItemType, find(pd, "actionsSet/item"))
+    o.volumeId = LibExpat.find(pd, "volumeId#string")
+    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
+    o.volumeStatus = length(pd["volumeStatus"]) > 0 ?  VolumeStatusInfoType(LibExpat.find(pd,"volumeStatus[1]")) : nothing
+    o.eventsSet = AWS.@parse_vector(AWS.EC2.VolumeStatusEventItemType, LibExpat.find(pd, "eventsSet/item"))
+    o.actionsSet = AWS.@parse_vector(AWS.EC2.VolumeStatusActionItemType, LibExpat.find(pd, "actionsSet/item"))
     o
 end
 
@@ -8572,8 +8572,8 @@ type DescribeSpotInstanceRequestsResponseType
 end
 function DescribeSpotInstanceRequestsResponseType(pd::ETree)
     o = DescribeSpotInstanceRequestsResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.spotInstanceRequestSet = AWS.@parse_vector(AWS.EC2.SpotInstanceRequestSetItemType, find(pd, "spotInstanceRequestSet/item"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.spotInstanceRequestSet = AWS.@parse_vector(AWS.EC2.SpotInstanceRequestSetItemType, LibExpat.find(pd, "spotInstanceRequestSet/item"))
     o
 end
 
@@ -8589,8 +8589,8 @@ type DescribeCustomerGatewaysResponseType
 end
 function DescribeCustomerGatewaysResponseType(pd::ETree)
     o = DescribeCustomerGatewaysResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.customerGatewaySet = AWS.@parse_vector(AWS.EC2.CustomerGatewayType, find(pd, "customerGatewaySet/item"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.customerGatewaySet = AWS.@parse_vector(AWS.EC2.CustomerGatewayType, LibExpat.find(pd, "customerGatewaySet/item"))
     o
 end
 
@@ -8607,9 +8607,9 @@ type DescribeVolumeStatusResponseType
 end
 function DescribeVolumeStatusResponseType(pd::ETree)
     o = DescribeVolumeStatusResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.volumeStatusSet = AWS.@parse_vector(AWS.EC2.VolumeStatusItemType, find(pd, "volumeStatusSet/item"))
-    o.nextToken = find(pd, "nextToken#string")
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.volumeStatusSet = AWS.@parse_vector(AWS.EC2.VolumeStatusItemType, LibExpat.find(pd, "volumeStatusSet/item"))
+    o.nextToken = LibExpat.find(pd, "nextToken#string")
     o
 end
 
@@ -8625,8 +8625,8 @@ type DescribeVpnGatewaysResponseType
 end
 function DescribeVpnGatewaysResponseType(pd::ETree)
     o = DescribeVpnGatewaysResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.vpnGatewaySet = AWS.@parse_vector(AWS.EC2.VpnGatewayType, find(pd, "vpnGatewaySet/item"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.vpnGatewaySet = AWS.@parse_vector(AWS.EC2.VpnGatewayType, LibExpat.find(pd, "vpnGatewaySet/item"))
     o
 end
 
@@ -8655,21 +8655,21 @@ type LaunchSpecificationRequestType
 end
 function LaunchSpecificationRequestType(pd::ETree)
     o = LaunchSpecificationRequestType()
-    o.imageId = find(pd, "imageId#string")
-    o.keyName = find(pd, "keyName#string")
-    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, find(pd, "groupSet/item"))
-    o.userData = length(pd["userData"]) > 0 ?  UserDataType(find(pd,"userData[1]")) : nothing
-    o.addressingType = find(pd, "addressingType#string")
-    o.instanceType = find(pd, "instanceType#string")
-    o.placement = length(pd["placement"]) > 0 ?  SpotPlacementRequestType(find(pd,"placement[1]")) : nothing
-    o.kernelId = find(pd, "kernelId#string")
-    o.ramdiskId = find(pd, "ramdiskId#string")
-    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, find(pd, "blockDeviceMapping/item"))
-    o.monitoring = length(pd["monitoring"]) > 0 ?  MonitoringInstanceType(find(pd,"monitoring[1]")) : nothing
-    o.subnetId = find(pd, "subnetId#string")
-    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.InstanceNetworkInterfaceSetItemRequestType, find(pd, "networkInterfaceSet/item"))
-    o.iamInstanceProfile = length(pd["iamInstanceProfile"]) > 0 ?  IamInstanceProfileRequestType(find(pd,"iamInstanceProfile[1]")) : nothing
-    o.ebsOptimized = AWS.safe_parse_as(Bool, find(pd, "ebsOptimized#string"))
+    o.imageId = LibExpat.find(pd, "imageId#string")
+    o.keyName = LibExpat.find(pd, "keyName#string")
+    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, LibExpat.find(pd, "groupSet/item"))
+    o.userData = length(pd["userData"]) > 0 ?  UserDataType(LibExpat.find(pd,"userData[1]")) : nothing
+    o.addressingType = LibExpat.find(pd, "addressingType#string")
+    o.instanceType = LibExpat.find(pd, "instanceType#string")
+    o.placement = length(pd["placement"]) > 0 ?  SpotPlacementRequestType(LibExpat.find(pd,"placement[1]")) : nothing
+    o.kernelId = LibExpat.find(pd, "kernelId#string")
+    o.ramdiskId = LibExpat.find(pd, "ramdiskId#string")
+    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, LibExpat.find(pd, "blockDeviceMapping/item"))
+    o.monitoring = length(pd["monitoring"]) > 0 ?  MonitoringInstanceType(LibExpat.find(pd,"monitoring[1]")) : nothing
+    o.subnetId = LibExpat.find(pd, "subnetId#string")
+    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.InstanceNetworkInterfaceSetItemRequestType, LibExpat.find(pd, "networkInterfaceSet/item"))
+    o.iamInstanceProfile = length(pd["iamInstanceProfile"]) > 0 ?  IamInstanceProfileRequestType(LibExpat.find(pd,"iamInstanceProfile[1]")) : nothing
+    o.ebsOptimized = AWS.safe_parse_as(Bool, LibExpat.find(pd, "ebsOptimized#string"))
     o
 end
 
@@ -8688,11 +8688,11 @@ type ReservationInfoType
 end
 function ReservationInfoType(pd::ETree)
     o = ReservationInfoType()
-    o.reservationId = find(pd, "reservationId#string")
-    o.ownerId = find(pd, "ownerId#string")
-    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, find(pd, "groupSet/item"))
-    o.instancesSet = AWS.@parse_vector(AWS.EC2.RunningInstancesItemType, find(pd, "instancesSet/item"))
-    o.requesterId = find(pd, "requesterId#string")
+    o.reservationId = LibExpat.find(pd, "reservationId#string")
+    o.ownerId = LibExpat.find(pd, "ownerId#string")
+    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, LibExpat.find(pd, "groupSet/item"))
+    o.instancesSet = AWS.@parse_vector(AWS.EC2.RunningInstancesItemType, LibExpat.find(pd, "instancesSet/item"))
+    o.requesterId = LibExpat.find(pd, "requesterId#string")
     o
 end
 
@@ -8708,8 +8708,8 @@ type DescribeBundleTasksResponseType
 end
 function DescribeBundleTasksResponseType(pd::ETree)
     o = DescribeBundleTasksResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.bundleInstanceTasksSet = AWS.@parse_vector(AWS.EC2.BundleInstanceTaskType, find(pd, "bundleInstanceTasksSet/item"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.bundleInstanceTasksSet = AWS.@parse_vector(AWS.EC2.BundleInstanceTaskType, LibExpat.find(pd, "bundleInstanceTasksSet/item"))
     o
 end
 
@@ -8725,8 +8725,8 @@ type CreateRouteTableResponseType
 end
 function CreateRouteTableResponseType(pd::ETree)
     o = CreateRouteTableResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.routeTable = length(pd["routeTable"]) > 0 ?  RouteTableType(find(pd,"routeTable[1]")) : nothing
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.routeTable = length(pd["routeTable"]) > 0 ?  RouteTableType(LibExpat.find(pd,"routeTable[1]")) : nothing
     o
 end
 
@@ -8742,8 +8742,8 @@ type RequestSpotInstancesResponseType
 end
 function RequestSpotInstancesResponseType(pd::ETree)
     o = RequestSpotInstancesResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.spotInstanceRequestSet = AWS.@parse_vector(AWS.EC2.SpotInstanceRequestSetItemType, find(pd, "spotInstanceRequestSet/item"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.spotInstanceRequestSet = AWS.@parse_vector(AWS.EC2.SpotInstanceRequestSetItemType, LibExpat.find(pd, "spotInstanceRequestSet/item"))
     o
 end
 
@@ -8759,8 +8759,8 @@ type DescribeSubnetsResponseType
 end
 function DescribeSubnetsResponseType(pd::ETree)
     o = DescribeSubnetsResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.subnetSet = AWS.@parse_vector(AWS.EC2.SubnetType, find(pd, "subnetSet/item"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.subnetSet = AWS.@parse_vector(AWS.EC2.SubnetType, LibExpat.find(pd, "subnetSet/item"))
     o
 end
 
@@ -8782,14 +8782,14 @@ type RequestSpotInstancesType
 end
 function RequestSpotInstancesType(pd::ETree)
     o = RequestSpotInstancesType()
-    o.spotPrice = find(pd, "spotPrice#string")
-    o.instanceCount = AWS.safe_parse_as(Int64, find(pd, "instanceCount#string"))
-    o._type = find(pd, "type#string")
-    o.validFrom = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "validFrom#string"))
-    o.validUntil = AWS.safe_parse_as(Base.Dates.DateTime, find(pd, "validUntil#string"))
-    o.launchGroup = find(pd, "launchGroup#string")
-    o.availabilityZoneGroup = find(pd, "availabilityZoneGroup#string")
-    o.launchSpecification = length(pd["launchSpecification"]) > 0 ?  LaunchSpecificationRequestType(find(pd,"launchSpecification[1]")) : nothing
+    o.spotPrice = LibExpat.find(pd, "spotPrice#string")
+    o.instanceCount = AWS.safe_parse_as(Int64, LibExpat.find(pd, "instanceCount#string"))
+    o._type = LibExpat.find(pd, "type#string")
+    o.validFrom = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "validFrom#string"))
+    o.validUntil = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "validUntil#string"))
+    o.launchGroup = LibExpat.find(pd, "launchGroup#string")
+    o.availabilityZoneGroup = LibExpat.find(pd, "availabilityZoneGroup#string")
+    o.launchSpecification = length(pd["launchSpecification"]) > 0 ?  LaunchSpecificationRequestType(LibExpat.find(pd,"launchSpecification[1]")) : nothing
     o
 end
 
@@ -8805,8 +8805,8 @@ type BundleInstanceResponseType
 end
 function BundleInstanceResponseType(pd::ETree)
     o = BundleInstanceResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.bundleInstanceTask = length(pd["bundleInstanceTask"]) > 0 ?  BundleInstanceTaskType(find(pd,"bundleInstanceTask[1]")) : nothing
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.bundleInstanceTask = length(pd["bundleInstanceTask"]) > 0 ?  BundleInstanceTaskType(LibExpat.find(pd,"bundleInstanceTask[1]")) : nothing
     o
 end
 
@@ -8822,8 +8822,8 @@ type DescribeInstancesResponseType
 end
 function DescribeInstancesResponseType(pd::ETree)
     o = DescribeInstancesResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.reservationSet = AWS.@parse_vector(AWS.EC2.ReservationInfoType, find(pd, "reservationSet/item"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.reservationSet = AWS.@parse_vector(AWS.EC2.ReservationInfoType, LibExpat.find(pd, "reservationSet/item"))
     o
 end
 
@@ -8839,8 +8839,8 @@ type DescribeSecurityGroupsResponseType
 end
 function DescribeSecurityGroupsResponseType(pd::ETree)
     o = DescribeSecurityGroupsResponseType()
-    o.requestId = find(pd, "requestId#string")
-    o.securityGroupInfo = AWS.@parse_vector(AWS.EC2.SecurityGroupItemType, find(pd, "securityGroupInfo/item"))
+    o.requestId = LibExpat.find(pd, "requestId#string")
+    o.securityGroupInfo = AWS.@parse_vector(AWS.EC2.SecurityGroupItemType, LibExpat.find(pd, "securityGroupInfo/item"))
     o
 end
 

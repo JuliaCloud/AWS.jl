@@ -13,7 +13,7 @@ show_indented(io::IO,i,indent) = println(io,i)
 
 function show_indented(io::IO, s::Array, indent)
     println(io,eltype(s)," Array")
-    for x in s 
+    for x in s
         print_indented(io,"",indent)
         show_indented(io,x,indent+4)
     end
@@ -21,7 +21,7 @@ end
 
 function show_indented(io::IO, s::Dict, indent)
     println(io,eltype(s)," Dict")
-    for (k,v) in collect(s) 
+    for (k,v) in collect(s)
         print_indented(io,"",indent)
         show_indented(io,string(k," => ",v),indent+4)
     end
@@ -30,15 +30,14 @@ end
 macro show_func(n, t)
     #n,t,id_sym = eval(n),eval(t),eval(id_sym)
     block = Expr(:block)
-    for i in 1:length(t.names)
-        x = t.names[i]
+    for x in fieldnames(t)
         push!(block.args,quote
             $(esc(:print_indented))(io,$(string(x)*": "),indent)
             $(esc(:show_indented))(io,r.($(quot(x))),indent+4)
         end)
     end
     ret = quote
-        function $(esc(:show_indented))(io::IO,r::$(t),indent) 
+        function $(esc(:show_indented))(io::IO,r::$(t),indent)
             $(esc(:print))(io,$(string(n)))
             println(io)
             $(block)
@@ -48,13 +47,12 @@ macro show_func(n, t)
     ret
 end
 
-# Create default show method for all types 
+# Create default show method for all types
 for m in [AWS, AWS.EC2, AWS.S3]
     for n in names(m)
         t = (m).(n)
         if isa(t,Type)
-            id_sym = t.names[1]
-            @eval @show_func $n $t 
+            @eval @show_func $n $t
         end
     end
 end
