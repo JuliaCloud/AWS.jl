@@ -1,14 +1,14 @@
 
 safe_parseint32(s) = (s != nothing) ? int32(s) : nothing
 safe_parseint64(s) = (s != nothing) ? int64(s) : nothing
-safe_parseint(s) = (s != nothing) ? parseint(s) : nothing
+safe_parseint(s) = (s != nothing) ? Base.parse(Int, s) : nothing
 safe_parsebool(s) = (s != nothing) ? ((lowercase(s) == "true") ? true : false) : nothing
 
 function safe_parse_as(as::Type, s::Union(String, Nothing))
     if (as == String) || (s == nothing)
         return s
     elseif (as == Int)
-        return parseint(s)
+        return Base.parse(Int, s)
     elseif (as == Int32)
         return int32(s)
     elseif (as == Float64)

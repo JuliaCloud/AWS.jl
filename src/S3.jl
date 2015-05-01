@@ -82,7 +82,7 @@ end
 
 function del_bkt_cors(env::AWSEnv, bkt::String)
     ro = RO(:DELETE, bkt, "")
-    ro.sub_res={("cors", "")}
+    ro.sub_res=[("cors", "")]
 
     s3_resp = do_request(env, ro)
     s3_resp
@@ -90,7 +90,7 @@ end
 
 function del_bkt_lifecycle(env::AWSEnv, bkt::String)
     ro = RO(:DELETE, bkt, "")
-    ro.sub_res={("lifecycle", "")}
+    ro.sub_res=[("lifecycle", "")]
 
     s3_resp = do_request(env, ro)
     s3_resp
@@ -99,7 +99,7 @@ end
 
 function del_bkt_policy(env::AWSEnv, bkt::String)
     ro = RO(:DELETE, bkt, "")
-    ro.sub_res={("policy", "")}
+    ro.sub_res=[("policy", "")]
 
     s3_resp = do_request(env, ro)
     s3_resp
@@ -107,7 +107,7 @@ end
 
 function del_bkt_tagging(env::AWSEnv, bkt::String)
     ro = RO(:DELETE, bkt, "")
-    ro.sub_res={("tagging", "")}
+    ro.sub_res=[("tagging", "")]
 
     s3_resp = do_request(env, ro)
     s3_resp
@@ -115,7 +115,7 @@ end
 
 function del_bkt_website(env::AWSEnv, bkt::String)
     ro = RO(:DELETE, bkt, "")
-    ro.sub_res={("website", "")}
+    ro.sub_res=[("website", "")]
 
     s3_resp = do_request(env, ro)
     s3_resp
@@ -131,21 +131,21 @@ end
 
 function get_bkt_acl(env::AWSEnv, bkt::String)
     ro = RO(:GET, bkt, "")
-    ro.sub_res={("acl", "")}
+    ro.sub_res=[("acl", "")]
 
     @req_n_process(AccessControlPolicy)
 end
 
 function get_bkt_cors(env::AWSEnv, bkt::String)
     ro = RO(:GET, bkt, "")
-    ro.sub_res={("cors", "")}
+    ro.sub_res=[("cors", "")]
 
     @req_n_process(CORSConfiguration)
 end
 
 function get_bkt_lifecycle(env::AWSEnv, bkt::String)
     ro = RO(:GET, bkt, "")
-    ro.sub_res={("lifecycle", "")}
+    ro.sub_res=[("lifecycle", "")]
 
     s3_resp = do_request(env, ro)
     s3_resp
@@ -154,7 +154,7 @@ end
 
 function get_bkt_policy(env::AWSEnv, bkt::String)
     ro = RO(:GET, bkt, "")
-    ro.sub_res={("policy", "")}
+    ro.sub_res=[("policy", "")]
 
     s3_resp = do_request(env, ro)
     s3_resp
@@ -163,28 +163,28 @@ end
 
 function get_bkt_location(env::AWSEnv, bkt::String)
     ro = RO(:GET, bkt, "")
-    ro.sub_res={("location", "")}
+    ro.sub_res=[("location", "")]
 
     @req_n_process(LocationConstraint)
 end
 
 function get_bkt_logging(env::AWSEnv, bkt::String)
     ro = RO(:GET, bkt, "")
-    ro.sub_res={("logging", "")}
+    ro.sub_res=[("logging", "")]
 
     @req_n_process(BucketLoggingStatus)
 end
 
 function get_bkt_notification(env::AWSEnv, bkt::String)
     ro = RO(:GET, bkt, "")
-    ro.sub_res={("notification", "")}
+    ro.sub_res=[("notification", "")]
 
     @req_n_process(NotificationConfiguration)
 end
 
 function get_bkt_tagging(env::AWSEnv, bkt::String)
     ro = RO(:GET, bkt, "")
-    ro.sub_res={("tagging", "")}
+    ro.sub_res=[("tagging", "")]
 
     @req_n_process(Tagging)
 
@@ -200,21 +200,21 @@ end
 
 function get_bkt_request_payment(env::AWSEnv, bkt::String)
     ro = RO(:GET, bkt, "")
-    ro.sub_res={("requestPayment", "")}
+    ro.sub_res=[("requestPayment", "")]
 
     @req_n_process(RequestPaymentConfiguration)
 end
 
 function get_bkt_versioning(env::AWSEnv, bkt::String)
     ro = RO(:GET, bkt, "")
-    ro.sub_res={("versioning", "")}
+    ro.sub_res=[("versioning", "")]
 
     @req_n_process(VersioningConfiguration)
 end
 
 function get_bkt_website(env::AWSEnv, bkt::String)
     ro = RO(:GET, bkt, "")
-    ro.sub_res={("website", "")}
+    ro.sub_res=[("website", "")]
 
     s3_resp = do_request(env, ro)
     s3_resp
@@ -255,7 +255,7 @@ end
 
 function set_bkt_acl(env::AWSEnv, bkt::String, acl::Union(AccessControlPolicy, S3_ACL))
     ro = RO(:PUT, bkt, "")
-    ro.sub_res={("acl", "")}
+    ro.sub_res=[("acl", "")]
     if isa(acl, AccessControlPolicy)
         ro.body = xml(acl)
     else
@@ -268,7 +268,7 @@ end
 
 function set_bkt_cors(env::AWSEnv, bkt::String, cors::CORSConfiguration)
     ro = RO(:PUT, bkt, "")
-    ro.sub_res = {("cors", "")}
+    ro.sub_res = [("cors", "")]
     ro.body = xml(cors)
 
     s3_resp = do_request(env, ro)
@@ -278,7 +278,7 @@ end
 #TODO : Create LifecycleCongig type
 function set_bkt_lifecycle(env::AWSEnv, bkt::String, lifecycleconfig::String)
     ro = RO(:PUT, bkt, "")
-    ro.sub_res = {("lifecycle", "")}
+    ro.sub_res = [("lifecycle", "")]
     ro.body = lifecycleconfig
 
     s3_resp = do_request(env, ro)
@@ -288,7 +288,7 @@ end
 
 function set_bkt_policy(env::AWSEnv, bkt::String, policy_json::String)
     ro = RO(:PUT, bkt, "")
-    ro.sub_res = {("policy", "")}
+    ro.sub_res = [("policy", "")]
     ro.body = policy_json
 
     s3_resp = do_request(env, ro)
@@ -297,7 +297,7 @@ end
 
 function set_bkt_logging(env::AWSEnv, bkt::String, logging::BucketLoggingStatus)
     ro = RO(:PUT, bkt, "")
-    ro.sub_res = {("logging", "")}
+    ro.sub_res = [("logging", "")]
     ro.body = xml(logging)
 
     s3_resp = do_request(env, ro)
@@ -308,7 +308,7 @@ end
 
 function set_bkt_notification(env::AWSEnv, bkt::String, notif::NotificationConfiguration)
     ro = RO(:PUT, bkt, "")
-    ro.sub_res = {("notification", "")}
+    ro.sub_res = [("notification", "")]
     ro.body = xml(notif)
 
     s3_resp = do_request(env, ro)
@@ -318,7 +318,7 @@ end
 
 function set_bkt_tagging(env::AWSEnv, bkt::String, tagging::Tagging)
     ro = RO(:PUT, bkt, "")
-    ro.sub_res = {("tagging", "")}
+    ro.sub_res = [("tagging", "")]
     ro.body = xml(tagging)
 
     s3_resp = do_request(env, ro)
@@ -327,7 +327,7 @@ end
 
 function set_bkt_request_payment(env::AWSEnv, bkt::String, pay::RequestPaymentConfiguration)
     ro = RO(:PUT, bkt, "")
-    ro.sub_res = {("requestPayment", "")}
+    ro.sub_res = [("requestPayment", "")]
     ro.body = xml(pay)
 
     s3_resp = do_request(env, ro)
@@ -336,9 +336,9 @@ end
 
 function set_bkt_versioning(env::AWSEnv, bkt::String, config::VersioningConfiguration; mfa::String="")
     ro = RO(:PUT, bkt, "")
-    ro.sub_res = {("versioning", "")}
+    ro.sub_res = [("versioning", "")]
     ro.body = xml(config)
-    if (mfa != "") ro.amz_hdrs = {("mfa", mfa)} end
+    if (mfa != "") ro.amz_hdrs = [("mfa", mfa)] end
 
     s3_resp = do_request(env, ro)
     s3_resp
@@ -347,7 +347,7 @@ end
 #TODO: Define WebsiteConfiguration as a type and use that....
 function set_bkt_website(env::AWSEnv, bkt::String, websiteconfig::String)
     ro = RO(:PUT, bkt, "")
-    ro.sub_res = {("website", "")}
+    ro.sub_res = [("website", "")]
     ro.body = websiteconfig
 
     s3_resp = do_request(env, ro)
@@ -360,8 +360,8 @@ end
 
 function del_object(env::AWSEnv, bkt::String, key::String; version_id::String="", mfa::String="")
     ro = RO(:DELETE, bkt, key)
-    if (version_id != "") ro.sub_res = {("versionId", version_id)} end
-    if (mfa != "") ro.amz_hdrs = {("mfa", mfa)} end
+    if (version_id != "") ro.sub_res = [("versionId", version_id)] end
+    if (mfa != "") ro.amz_hdrs = [("mfa", mfa)] end
 
     s3_resp = do_request(env, ro)
     s3_resp
@@ -369,9 +369,9 @@ end
 
 function del_object_multi(env::AWSEnv, bkt::String, delset::DeleteObjectsType; mfa::String="")
     ro = RO(:POST, bkt, "")
-    ro.sub_res = {("delete", "")}
+    ro.sub_res = [("delete", "")]
     ro.body= xml(delset)
-    if (mfa != "") ro.amz_hdrs = {("mfa", mfa)} end
+    if (mfa != "") ro.amz_hdrs = [("mfa", mfa)] end
 
     @req_n_process(DeleteResult)
 end
@@ -393,7 +393,7 @@ end
 
 function get_object_acl(env::AWSEnv, bkt::String, key::String; version_id::String="")
     ro = RO(:GET, bkt, key)
-    ro.sub_res={("acl", "")}
+    ro.sub_res=[("acl", "")]
     if (version_id != "") push!(ro.sub_res, ("versionId", version_id)) end
 
     @req_n_process(AccessControlPolicy)
@@ -401,7 +401,7 @@ end
 
 function get_object_torrent(env::AWSEnv, bkt::String, key::String, out::Union(IO, String)) # out is either an IOStream or a filename
     ro = RO(:GET, bkt, key)
-    ro.sub_res={("torrent","")}
+    ro.sub_res=[("torrent","")]
     ro.ostream = out
 
     s3_resp = do_request(env, ro, conv_to_string=false)
@@ -411,7 +411,7 @@ end
 function describe_object(env::AWSEnv, bkt::String, key::String; options::GetObjectOptions=GetObjectOptions(), version_id::String="")
     ro = RO(:HEAD, bkt, key)
     ro.http_hdrs = http_headers(options)
-    if (version_id != "") ro.sub_res={("versionId", version_id)} end
+    if (version_id != "") ro.sub_res=[("versionId", version_id)] end
 
     s3_resp = do_request(env, ro)
     s3_resp
@@ -419,7 +419,7 @@ end
 
 function test_object(env::AWSEnv, bkt::String, key::String, origin::String, acc_ctrl_req_method::String; acc_ctrl_req_hdrs::Union(String, Nothing)=nothing)
     ro = RO(:OPTIONS, bkt, key)
-    ro.http_hdrs = {("Origin", origin), ("Access-Control-Request-Method",acc_ctrl_req_method)}
+    ro.http_hdrs = [("Origin", origin), ("Access-Control-Request-Method",acc_ctrl_req_method)]
     if headers != nothing
         push!(ro.http_hdrs, ("Access-Control-Request-Headers", acc_ctrl_req_hdrs))
     end
@@ -436,7 +436,7 @@ function restore_object(env::AWSEnv, bkt::String, key::String, days::Int)
     # convert days to RestoreRequest
     ro = RO(:POST, bkt, key)
 
-    ro.sub_res={("restore", "")}
+    ro.sub_res=[("restore", "")]
     ro.body = "<RestoreRequest xmlns=\"http://s3.amazonaws.com/doc/2006-3-01\"><Days>$(days)</Days></RestoreRequest>"
 
     s3_resp = do_request(env, ro)
@@ -461,7 +461,7 @@ function put_object(env::AWSEnv, bkt::String, key::String, data::Union(IOStream,
         error("Nothing to upload")
     end
 
-    if (version_id != "") ro.sub_res={("versionId", version_id)} end
+    if (version_id != "") ro.sub_res=[("versionId", version_id)] end
 
     s3_resp = do_request(env, ro)
     s3_resp
@@ -469,7 +469,7 @@ end
 
 function put_object_acl(env::AWSEnv, bkt::String, key::String, acl::Union(AccessControlPolicy, S3_ACL))
     ro = RO(:PUT, bkt, key)
-    ro.sub_res={("acl", "")}
+    ro.sub_res=[("acl", "")]
     if isa(acl, AccessControlPolicy)
         ro.body = xml(acl)
     else
@@ -485,7 +485,7 @@ function copy_object(env::AWSEnv, dest_bkt::String, dest_key::String, options::C
     ro = RO(:PUT, dest_bkt, dest_key)
     ro.amz_hdrs = amz_headers(Tuple[], options)
     if (version_id != "")
-        ro.sub_res={("versionId", version_id)}
+        ro.sub_res=[("versionId", version_id)]
     end
 
     @req_n_process(CopyObjectResult)
@@ -496,14 +496,14 @@ function initiate_multipart_upload(env::AWSEnv, bkt::String, key::String; conten
     ro.amz_hdrs = amz_headers(Tuple[], options)
     ro.http_hdrs = http_headers(Array(Tuple, 0), options)
     if (content_type != "") ro.cont_typ = content_type end
-    ro.sub_res={("uploads", "")}
+    ro.sub_res=[("uploads", "")]
 
     @req_n_process(InitiateMultipartUploadResult)
 end
 
 function upload_part(env::AWSEnv, bkt::String, key::String, part_number::String, upload_id::String, data::Union(IOStream, String, Tuple))
     ro = RO(:PUT, bkt, key)
-    ro.sub_res = {("partNumber", "$(part_number)"), ("uploadId", "$(upload_id)")}
+    ro.sub_res = [("partNumber", "$(part_number)"), ("uploadId", "$(upload_id)")]
 
     if isa(data, String)
         ro.body = data
@@ -522,7 +522,7 @@ end
 
 function copy_upload_part(env::AWSEnv, bkt::String, key::String, part_number::String, upload_id::String, options::CopyUploadPartOptions)
     ro = RO(:PUT, bkt, key)
-    ro.sub_res = {("partNumber", "$(part_number)"), ("uploadId", "$(upload_id)")}
+    ro.sub_res = [("partNumber", "$(part_number)"), ("uploadId", "$(upload_id)")]
     ro.amz_hdrs = amz_headers(options)
 
     @req_n_process(CopyPartResult)
@@ -531,7 +531,7 @@ end
 
 function complete_multipart_upload(env::AWSEnv, bkt::String, key::String, upload_id::String, part_ids::Vector{S3PartTag})
     ro = RO(:POST, bkt, key)
-    ro.sub_res = {("uploadId", "$(upload_id)")}
+    ro.sub_res = [("uploadId", "$(upload_id)")]
 
     ro.body = xml("CompleteMultipartUpload", part_ids)
 
@@ -541,7 +541,7 @@ end
 
 function abort_multipart_upload(env::AWSEnv, bkt::String, key::String, upload_id::String)
     ro = RO(:DELETE, bkt, key)
-    ro.sub_res = {("uploadId", "$(upload_id)")}
+    ro.sub_res = [("uploadId", "$(upload_id)")]
 
     s3_resp = do_request(env, ro)
     s3_resp
@@ -553,7 +553,7 @@ function list_upload_parts(env::AWSEnv, bkt::String, key::String,
     part_number_marker::Union(Int, Nothing)=nothing)
 
     ro = RO(:GET, bkt, key)
-    ro.sub_res = {("uploadId", "$(upload_id)"), ("max-parts", "$max_parts"), ("part-number-marker", "$part_number_marker")}
+    ro.sub_res = [("uploadId", "$(upload_id)"), ("max-parts", "$max_parts"), ("part-number-marker", "$part_number_marker")]
 
     @req_n_process(ListPartsResult)
 end
@@ -597,14 +597,14 @@ function do_http(env::AWSEnv, ro::RO)
     if isa(ro.body, String) && (ro.body != "")
 #        digest = zeros(Uint8, 16)
 #        MD5(body, length(body), digest)
-        md5 = base64(Crypto.md5(ro.body))
+        md5 = base64encode(Crypto.md5(ro.body))
     elseif isa(ro.istream, IO)
         # Read the entire istream to get the MD5 of the same.
-        md5 = base64(Crypto.md5(ro.istream))
+        md5 = base64encode(Crypto.md5(ro.istream))
         seekstart(ro.istream)
     elseif isa(ro.istream, String)
         # The file will be read twice (once to get the MD5 and once while sending - no other way?
-        md5 = base64(Crypto.md5_file(ro.istream))
+        md5 = base64encode(Crypto.md5_file(ro.istream))
     else
         md5 = ""
     end
@@ -692,7 +692,7 @@ function canonicalize_and_sign(env::AWSEnv, ro::RO, md5::String)
         println("String to sign:\n$(str2sign)")
     end
 
-    s_b64 = base64(Crypto.hmacsha1_digest(str2sign, env.aws_seckey))
+    s_b64 = base64encode(Crypto.hmacsha1_digest(str2sign, env.aws_seckey))
 
     return new_amz_hdrs, full_path, s_b64
 end

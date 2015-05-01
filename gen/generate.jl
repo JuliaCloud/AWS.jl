@@ -80,7 +80,7 @@ function is_set_type(type_name, is_native, ns_pfx, findpath)
     end
 
     ctype = all_ctypes_map[type_name]
-    elements = find (ctype, "$(ns_pfx)sequence/$(ns_pfx)element")
+    elements = LibExpat.find (ctype, "$(ns_pfx)sequence/$(ns_pfx)element")
     if isa(elements, Array) && (length(elements) == 1)
         ele = elements[1]
         ele_name = ele.attr["name"]
@@ -90,8 +90,8 @@ function is_set_type(type_name, is_native, ns_pfx, findpath)
             startswith(ele_type_name, "tns:") ? ele_type_name = ele_type_name[5:end] : nothing
 
             ele_type = all_ctypes_map[ele_type_name]
-            ele_elements = find (ele_type, "$(ns_pfx)sequence/$(ns_pfx)element")
-            ele_choices = find (ele_type, "$(ns_pfx)sequence/$(ns_pfx)choice")
+            ele_elements = LibExpat.find (ele_type, "$(ns_pfx)sequence/$(ns_pfx)element")
+            ele_choices = LibExpat.find (ele_type, "$(ns_pfx)sequence/$(ns_pfx)choice")
             total_ele = (ele_choices == nothing ? 0 : length(ele_choices)) + (ele_elements == nothing ? 0 : length(ele_elements))
 
             if isa(ele_elements, Array) && (total_ele == 1)
@@ -175,31 +175,31 @@ function get_type_for_elements(tctx, elements, ns_pfx)
         if isarrtype || replacewitharr
             if native
                 last_in_path = split(findpath, "/")[end]
-                tctx.constructor = tctx.constructor * "    o.$(xname) = AWS.parse_vector_as($(new_jltype_str), \"$(last_in_path)\", find(pd, \"$(findpath)\"))\n"
+                tctx.constructor = tctx.constructor * "    o.$(xname) = AWS.parse_vector_as($(new_jltype_str), \"$(last_in_path)\", LibExpat.find(pd, \"$(findpath)\"))\n"
             else
                 if replacewitharr
-                    tctx.constructor = tctx.constructor * "    o.$(xname) = AWS.@parse_vector(AWS.EC2.$(roottype), find(pd, \"$(findpath)\"))\n"
+                    tctx.constructor = tctx.constructor * "    o.$(xname) = AWS.@parse_vector(AWS.EC2.$(roottype), LibExpat.find(pd, \"$(findpath)\"))\n"
                 else
                     # Looks like this can be safely ignored - added it to skip list.
                     # Uncomment the below line if you want them generated again
                     push!(skip, tctx.name)
 
-                    tctx.constructor = tctx.constructor * "    o.$(xname) = AWS.@parse_vector(AWS.EC2.$(new_jltype_str), find(pd, \"$(rawname)\"))\n"
+                    tctx.constructor = tctx.constructor * "    o.$(xname) = AWS.@parse_vector(AWS.EC2.$(new_jltype_str), LibExpat.find(pd, \"$(rawname)\"))\n"
                 end
             end
         else
             if native
                 if jltype == ASCIIString
-                    tctx.constructor = tctx.constructor * "    o.$(xname) = find(pd, \"$(rawname)#string\")\n"
+                    tctx.constructor = tctx.constructor * "    o.$(xname) = LibExpat.find(pd, \"$(rawname)#string\")\n"
                 else
-                    tctx.constructor = tctx.constructor * "    o.$(xname) = AWS.safe_parse_as($(jltype), find(pd, \"$(rawname)#string\"))\n"
+                    tctx.constructor = tctx.constructor * "    o.$(xname) = AWS.safe_parse_as($(jltype), LibExpat.find(pd, \"$(rawname)#string\"))\n"
                 end
             else
 #                 xml_tag_name = new_jltype_str
 #                 if endswith(xml_tag_name, "Type") xml_tag_name = new_jltype_str[1:end-4] end
 #                 xml_tag_name = lowercase(xml_tag_name[1:1]) * xml_tag_name[2:end]
 
-                tctx.constructor = tctx.constructor * "    o.$(xname) = length(pd[\"$(rawname)\"]) > 0 ?  $(jltype)(find(pd,\"$(rawname)[1]\")) : nothing\n"
+                tctx.constructor = tctx.constructor * "    o.$(xname) = length(pd[\"$(rawname)\"]) > 0 ?  $(jltype)(LibExpat.find(pd,\"$(rawname)[1]\")) : nothing\n"
             end
         end
 
@@ -336,7 +336,7 @@ function write_dependent_types(f)
 end
 
 function generate_operations(wsdl, operations, f, ns_pfx)
-    msg_elements = find(wsdl, "types/$(ns_pfx)schema/$(ns_pfx)element")
+    msg_elements = LibExpat.find(wsdl, "types/$(ns_pfx)schema/$(ns_pfx)element")
     msg_type_map = Dict{String, String}()
 
 
@@ -393,7 +393,7 @@ wsdl = xp_parse(open(readall, "./wsdl/ec2_2013_02_01.wsdl"))
 # EC2 types....
 f = open("../src/ec2_types.jl", "w+")
 
-ctypes = find(wsdl, "types/xs:schema/xs:complexType")
+ctypes = LibExpat.find(wsdl, "types/xs:schema/xs:complexType")
 
 generate_all_types(ctypes, f, "xs:")
 write_dependent_types(f)
@@ -401,7 +401,7 @@ close(f)
 
 # EC2 calls....
 f = open("../src/ec2_operations.jl", "w+")
-operations = find(wsdl, "portType/operation")
+operations = LibExpat.find(wsdl, "portType/operation")
 generate_operations(wsdl, operations, f, "xs:")
 
 # generate the list of valid rqst messages

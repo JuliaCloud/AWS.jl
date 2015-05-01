@@ -115,26 +115,11 @@ function ec2_launch(ami::String, seckey::String; env=AWSEnv(), insttype::String=
     instances
 end
 
-function detect_num_cores(hostnames, hidx, sshflags, hostuser)
-    cmdmap = Array(Tuple, 0)
-    for host in hostnames
-        hostname = host[hidx]
-        cmd = `ssh $sshflags $(hostuser)@$(hostname) nproc`
-        io, pobj = open(detach(cmd))
-        push!(cmdmap, (host, io))
-    end
-    ncmap = Array(Tuple, 0)
-    for (h, io) in cmdmap
-        push!(ncmap, (h, parseint(readall(io))))
-    end
-
-    ncmap
-end
 
 function generate_sshnames(hostnames, num_workers, workers_per_instance, use_public_dnsname, sshflags, hostuser="ubuntu")
     num_hosts = length(hostnames)
     idx = use_public_dnsname ? 2 : 3
-    sshnames = Dict{String, Int}()
+    sshnames = Dict{String, Any}()
     if num_workers > 0
         if num_workers < num_hosts
             for i in 1:num_workers
@@ -142,13 +127,11 @@ function generate_sshnames(hostnames, num_workers, workers_per_instance, use_pub
                 sshnames["$(hostuser)@$(host)"] = 1
             end
         else
-            # distribute it weighted on the number of cores on each instance
-            ncmap = detect_num_cores(hostnames, 2, sshflags, hostuser)
-            total_cores = foldl((x,y)->((k,v)=y; x+v), 0, ncmap)
-
+            # distribute it equally across available hosts
             nwmap = Array(Tuple, 0)
-            for (host,nc) in ncmap
-                push!(nwmap, (host, int(floor((nc * num_workers) / total_cores))))
+            for i in 1:length(hostnames)
+                host = hostnames[i][idx]
+                push!(nwmap, (host, round(Int, floor(num_workers/num_hosts))))
             end
 
             # distribute any remaining equally
@@ -160,23 +143,22 @@ function generate_sshnames(hostnames, num_workers, workers_per_instance, use_pub
             end
 
             for (host,nw) in nwmap
-                sshnames["$(hostuser)@$(host[idx])"] = nw
+                sshnames["$(hostuser)@$(host)"] = nw
             end
         end
 
     elseif workers_per_instance > 0
-        for host in hostnames
-            sshnames["$(hostuser)@$(host[idx])"] = workers_per_instance
+        for i in 1:length(hostnames)
+            host = hostnames[i][idx]
+            sshnames["$(hostuser)@$(host)"] = workers_per_instance
         end
     else
-        # Detect the num cores on each first .....
-        ncmap = detect_num_cores(hostnames, 2, sshflags, hostuser)
-
-        for (host,nc) in ncmap
-            sshnames["$(hostuser)@$(host[idx])"] = nc
+        for i in 1:length(hostnames)
+            host = hostnames[i][idx]
+            sshnames["$(hostuser)@$(host)"] = :auto
         end
     end
-    sshnames
+    [(k,v) for (k,v) in sshnames]
 end
 
 
@@ -189,45 +171,14 @@ function ec2_addprocs(instances, ec2_keyfile::String; env=AWSEnv(), hostuser::St
 
     sshnames = generate_sshnames(hostnames, num_workers, workers_per_instance, use_public_dnsname, sshflags, hostuser)
 
-    # The default MaxStartups config for sshd is typically 10:30:100
-    # Hence to an addprocs 10 at a time to a given host
-    npids=Int[]
-    machines=Any[]
-    while true
-        sshnamesset = String[]
-        for (k,v) in sshnames
-            n = v > 10 ? 10 : v
-            append!(sshnamesset, fill(k, n))
-            sshnames[k] = v - n
-        end
-
-        if length(sshnamesset) > 0
-            if machines_only
-                push!(machines, sshnamesset)
-            else
-    #            println(sshnamesset, "\n", sshflags, "\n", dir, "\n", tunnel)
-                lpids = addprocs(sshnamesset, sshflags=sshflags, dir=dir, tunnel=tunnel, exename=exename)
-                println("Added worker set (pids) : ")
-                for p in lpids
-                    print(p, " ")
-                end
-                println()
-                append!(npids, lpids)
-             end
-        else
-            break
-        end
-    end
+    println(sshnames)
 
     if machines_only
-        return machines
+        return sshnames
     else
-        println("All workers added : ")
-        for p in npids
-            print(p, " ")
-        end
-        println()
-        return npids
+        pids = addprocs(sshnames, sshflags=sshflags, dir=dir, tunnel=tunnel, exename=exename)
+        println("Added workers $pids")
+        return pids
     end
 end
 
