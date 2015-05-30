@@ -501,7 +501,7 @@ function initiate_multipart_upload(env::AWSEnv, bkt::String, key::String; conten
     @req_n_process(InitiateMultipartUploadResult)
 end
 
-function upload_part(env::AWSEnv, bkt::String, key::String, part_number::String, upload_id::String, data::Union(IOStream, String, Tuple))
+function upload_part(env::AWSEnv, bkt::String, key::String, part_number::String, upload_id::String, data::Union(IO, String, Tuple))
     ro = RO(:PUT, bkt, key)
     ro.sub_res = [("partNumber", "$(part_number)"), ("uploadId", "$(upload_id)")]
 
