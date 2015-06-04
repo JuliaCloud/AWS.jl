@@ -1,6 +1,6 @@
 
-safe_parseint32(s) = (s != nothing) ? int32(s) : nothing
-safe_parseint64(s) = (s != nothing) ? int64(s) : nothing
+safe_parseint32(s) = (s != nothing) ? Base.parse(Int32, s) : nothing
+safe_parseint64(s) = (s != nothing) ? Base.parse(Int64, s) : nothing
 safe_parseint(s) = (s != nothing) ? Base.parse(Int, s) : nothing
 safe_parsebool(s) = (s != nothing) ? ((lowercase(s) == "true") ? true : false) : nothing
 
