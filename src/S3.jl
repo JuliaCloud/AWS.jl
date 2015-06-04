@@ -566,7 +566,7 @@ function do_request(env::AWSEnv, ro::RO; conv_to_string=true)
     s3_resp.http_code = http_resp.http_code
     cl_s = get(http_resp.headers, "Content-Length", [""])[1]
     if cl_s != ""
-        s3_resp.content_length = int(cl_s)
+        s3_resp.content_length = Base.parse(Int, cl_s)
     end
     s3_resp.date = get(http_resp.headers, "Date", [""])[1]
     s3_resp.eTag = get(http_resp.headers, "ETag", [""])[1]
