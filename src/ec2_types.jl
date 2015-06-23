@@ -661,6 +661,608 @@ end
 export ModifyVpcAttributeResponseType
 
 
+type VpcPeeringConnectionVpcInfoType
+  ownerId::Union(ASCIIString, Nothing)
+  vpcId::Union(ASCIIString, Nothing)
+  cidrBlock::Union(ASCIIString, Nothing)
+
+  VpcPeeringConnectionVpcInfoType(; ownerId=nothing, vpcId=nothing, cidrBlock=nothing) = new(ownerId, vpcId, cidrBlock)
+end
+function VpcPeeringConnectionVpcInfoType(pd::ETree)
+  o = VpcPeeringConnectionVpcInfoType()
+  o.ownerId = LibExpat.find(pd, "ownerId#string")
+  o.vpcId = LibExpat.find(pd, "vpcId#string")
+  o.cidrBlock = LibExpat.find(pd, "cidrBlock#string")
+  o
+end
+
+export VpcPeeringConnectionVpcInfoType
+
+
+type VpcPeeringConnectionStateReasonType
+  code::Union(ASCIIString, Nothing)
+  message::Union(ASCIIString, Nothing)
+
+  VpcPeeringConnectionStateReasonType(; code=nothing, message=nothing) = new(code, message)
+end
+function VpcPeeringConnectionStateReasonType(pd::ETree)
+  o = VpcPeeringConnectionStateReasonType()
+  o.code = LibExpat.find(pd, "code#string")
+  o.message = LibExpat.find(pd, "message#string")
+  o
+end
+
+export VpcPeeringConnectionStateReasonType
+
+
+type ResourceTagSetItemType
+    key::Union(ASCIIString, Nothing)
+    value::Union(ASCIIString, Nothing)
+
+    ResourceTagSetItemType(; key=nothing, value=nothing) = 
+         new(key, value)
+end
+function ResourceTagSetItemType(pd::ETree)
+    o = ResourceTagSetItemType()
+    o.key = LibExpat.find(pd, "key#string")
+    o.value = LibExpat.find(pd, "value#string")
+    o
+end
+
+export ResourceTagSetItemType
+
+
+type VpcPeeringConnectionType
+  vpcPeeringConnectionId::Union(ASCIIString, Nothing)
+  requesterVpcInfo::Union(Vector{VpcPeeringConnectionVpcInfoType}, Nothing)
+  accepterVpcInfo::Union(Vector{VpcPeeringConnectionVpcInfoType}, Nothing)
+  status::Union(Vector{VpcPeeringConnectionStateReasonType}, Nothing)
+  expirationTime::Union(Base.Dates.DateTime, Nothing)
+  tagSet::Union(Vector{ResourceTagSetItemType}, Nothing)
+
+  VpcPeeringConnectionType(; vpcPeeringConnectionId=nothing, requesterVpcInfo=nothing, accepterVpcInfo=nothing, status=nothing,
+                           expirationTime=nothing, tagSet=nothing) = new(vpcPeeringConnectionId, requesterVpcInfo,
+                                                                         accepterVpcInfo, status, expirationTime, tagSet)
+end
+function VpcPeeringConnectionType(pd::ETree)
+  o = VpcPeeringConnectionType()
+  o.vpcPeeringConnectionId = LibExpat.find(pd, "vpcPeeringConnectionId#string")
+  o.requesterVpcInfo = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionVpcInfoType, LibExpat.find(pd, "requesterVpcInfo"))
+  o.accepterVpcInfo = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionVpcInfoType, LibExpat.find(pd, "accepterVpcInfo"))
+  o.status = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionStateReasonType, LibExpat.find(pd, "status"))
+  o.expirationTime = AWS.safe_parse_as(DateTime, LibExpat.find(pd, "expirationTime#string"))
+  o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
+  o
+end
+
+export VpcPeeringConnectionType
+
+
+type AcceptVpcPeeringConnectionType
+  vpcPeeringConnectionId::Union(ASCIIString, Nothing)
+
+  AcceptVpcPeeringConnectionType(; vpcPeeringConnectionId=nothing) = new(vpcPeeringConnectionId)
+end
+function AcceptVpcPeeringConnectionType(pd::ETree)
+  o = AcceptVpcPeeringConnectionType()
+  o.vpcPeeringConnectionId = LibExpat.find(pd, "vpcPeeringConnectionId#string")
+  o
+end
+
+export AcceptVpcPeeringConnectionType
+
+
+type AcceptVpcPeeringConnectionResponseType
+  requestID::Union(ASCIIString, Nothing)
+  vpcPeeringConnection::Union(Vector{VpcPeeringConnectionType}, Nothing)
+
+  AcceptVpcPeeringConnectionResponseType(; requestId=nothing, vpcPeeringConnection=nothing) = new(requestId, vpcPeeringConnection)
+end
+function AcceptVpcPeeringConnectionResponseType(pd::ETree)
+  o = AcceptVPcPeeringConnectionResponseType()
+  o.requestId = LibExpat.find(pd, "requestId#string")
+  o.vpcPeeringConnection = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionType, LibExpat.find(pd, "vpcPeeringConnection"))
+  o
+end
+
+export AcceptVpcPeeringConnectionResponseType
+
+
+type CreateVpcEndpointType
+  clientToken::Union(ASCIIString, Nothing)
+  policyDocument::Union(ASCIIString, Nothing)
+  routeTableIdSet::Union(Vector{ASCIIString}, Nothing)
+  serviceName::Union(ASCIIString, Nothing)
+  vpcId::Union(ASCIIString, Nothing)
+
+  CreateVpcEndpointType(; clientToken=nothing, policyDocument=nothing, routeTableIdSet=nothing, serviceName=nothing,
+                        vpcId=nothing) = new(clientToken, policyDocument, routeTableId, serviceName, vpcId)
+end
+function CreateVpcEndpointType(pd::ETree)
+  o = CreateVpcEndpointType()
+  clientToken = LibExpat.find(pd, "clientToken#string")
+  policyDocument = LibExpat.find(pd, "policyDocument#string")
+  routeTableIdSet = AWS.parse_vector_as(ASCIIString, "routeTableId", LibExpat.find(pd, "item/routeTableId"))
+  serviceName = LibExpat.find(pd, "serviceName#string")
+  vpcId = LibExpat.find(pd, "vpcId#string")
+  o
+end
+
+export CreateVpcEndpointType
+
+
+type VpcEndpointType
+  creationTimestamp::Union(Base.Dates.DateTime, Nothing)
+  policyDocument::Union(ASCIIString, Nothing)
+  routeTableIdSet::Union(Vector{ASCIIString}, Nothing)
+  serviceName::Union(ASCIIString, Nothing)
+  state::Union(ASCIIString, Nothing)
+  vpcEndpointId::Union(ASCIIString, Nothing)
+  vpcId::Union(ASCIIString, Nothing)
+
+  VpcEndpointType(; creationTimestamp=nothing, policyDocument=nothing, routeTableIdSet=nothing, serviceName=nothing,
+              state=nothing, vpcEndpointId=nothing, vpcId=nothing) = new(creationTimestamp, policyDocument,
+                                                                         routeTableIdSet, serviceName, state, vpcEndpointId, vpcId)
+end
+function VpcEndpointType(pd::ETree)
+  o = VpcEndpointType()
+  o.creationTimestamp = AWS.safe_parse_as(DateTime, LibExpat.find(pd, "creationTimestamp#string"))
+  o.policyDocument = LibExpat.find(pd, "policyDocument#string")
+  o.routeTableIdSet = AWS.parse_vector_as(ASCIIString, "routeTableId", LibExpat.find(pd, "item/routeTableId"))
+  o.serviceName = LibExpat.find(pd, "serviceName#string")
+  o.state = LibExpat.find(pd, "state#string")
+  o.vpcEndpointId = LibExpat.find(pd, "vpcEndpointId#string")
+  o.vpcId = LibExpat.find(pd, "vpdId#string")
+  o
+end
+
+export VpcEndpointType
+
+
+type CreateVpcEndpointResponseType
+  clientToken::Union(ASCIIString, Nothing)
+  requestId::Union(ASCIIString, Nothing)
+  vpcEndpoint::Union(Vector{VpcEndpointType}, Nothing)
+
+  CreateVpcEndpointResponseType(; clientToken=nothing, requestId=nothing, vpcEndpoint=nothing) =
+    new(clientToken, requestId, vpcEndpoint)
+end
+function CreateVpcEndpointResponseType(pd::ETree)
+  o = CreateVpcEndpointResponseType()
+  o.clientToken = LibExpat.find(pd, "clientToken#string")
+  o.requestId = LibExpat.find(pd, "requestId#string")
+  o.vpcEndpoint = AWS.@parse_vector(AWS.EC2.VpcEndpointType, LibExpat.find(pd, "vpcEndpoint"))
+  o
+end
+
+export CreateVpcEndpointResponseType
+
+
+type CreateVpcPeeringConnectionType
+  vpcId::Union(ASCIIString, Nothing)
+  peerVpcId::Union(ASCIIString, Nothing)
+  peerOwnerId::Union(ASCIIString, Nothing)
+
+  CreateVpcPeeringConnectionType(; vpcId=nothing, peerVpcId=nothing, peerOwnerId=nothing) =
+    new(vpcId, peerVpcId, peerOwnerId)
+end
+function CreateVpcPeeringConnectionType(pd::ETree)
+  o = CreateVpcPeeringConnectionType()
+  o.vpcId = LibExpat.find(pd, "vpcId#string")
+  o.peerVpcId = LibExpat.find(pd, "peerVpcId#string")
+  o.peerOwnerId = LibExpat.find(pd, "peerOwnerId#string")
+  o
+end
+
+export CreateVpcPeeringConnectionType
+
+
+type CreateVpcPeeringConnectionResponseType
+  requestId::Union(ASCIIString, Nothing)
+  vpcPeeringConnection::Union(Vector{VpcPeeringConnectionType}, Nothing)
+
+  CreateVpcPeeringConnectionResponseType(; requestId=nothing, vpcPeeringConnection=nothing) =
+    new(requestId, vpcPeeringConnection)
+end
+function CreateVpcPeeringConnectionResponseType(pd::ETree)
+  o = CreateVpcPeeringConnectionResponseType()
+  o.requestId = LibExpat.find(pd, "requestId#string")
+  o.vpcPeeringConnection = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionType, LibExpat.find(pd, "vpcPeeringConnection"))
+  o
+end
+
+export CreateVpcPeeringConnectionResponseType
+
+
+type DeleteVpcEndpointsType
+  vpcEndpointIdSet::Union(Vector{ASCIIString}, Nothing)
+
+  DeleteVpcEndpointsType(; vpcEndpointIdSet=nothing) = new(vpcEndpointIdSet)
+end
+function DeleteVpcEndpointsType(pd::ETree)
+  o = DeleteVpcEndpointsType()
+  o.vpcEndpointIdSet = AWS.parse_vector_as(ASCIIString, "vpcEndpointId", LibExpat.find(pd, "item/vpcEndpointId"))
+end
+
+export DeleteVpcEndpointsType
+
+
+type UnsuccessfulItemErrorType
+  code::Union(ASCIIString, Nothing)
+  message::Union(ASCIIString, Nothing)
+
+  UnsuccessfulItemErrorType(; code=nothing, message=nothing) = new(code, message)
+end
+function UnsuccessfulItemErrorType(pd::ETree)
+  o = UnsuccessfulItemErrorType()
+  o.code = LibExpat.find(pd, "code#string")
+  o.message = LibExpat.find(pd, "message#string")
+  o
+end
+
+export UnsuccessfulItemErrorType
+
+
+type UnsuccessfulItemType
+  error::Union(Vector{UnsuccessfulItemErrorType}, Nothing)
+  resourceId::Union(ASCIIString, Nothing)
+
+  UnsuccessfulItemType(; error=nothing, resourceId=nothing) = new(error, resourceId)
+end
+function UnsuccessfulItemType(pd::ETree)
+  o = UnsuccessfulItemType()
+  o.error = AWS.@parse_vector(AWS.EC2.UnsuccessfulItemErrorType, LibExpat.find(pd, "error"))
+  o.resourceId = LibExpat.find(pd, "resourceId#string")
+  o
+end
+
+export UnsuccessfulItemType
+
+
+type DeleteVpcEndpointsResponseType
+  requestId::Union(ASCIIString, Nothing)
+  unsuccessful::Union(Vector{UnsuccessfulItemType}, Nothing)
+
+  DeleteVpcEndpointsResponseType(; requestId=nothing, unsucessful=nothing) = new(requestId, unsuccessful)
+end
+function DeleteVpcEndpointsResponseType(pd::ETree)
+  o = DeleteVpcEndpointsResponseType()
+  o.requestId = LibExpat.find("requestId#string")
+  o.unsuccessful = AWS.@parse_vector(AWS.EC2.UnsuccessfulItemType, LibExpat.find(pd, "unsuccessful"))
+end
+
+export DeleteVpcEndpointsResponseType
+
+
+type VpcEndpointIdSetItemType
+    vpcEndpointId::Union(ASCIIString, Nothing)
+    VpcEndpointIdSetItemType(; vpcEndpointId=nothing) =
+         new(vpcEndpointId)
+end
+function VpcEndpointIdSetItemType(pd::ETree)
+    o = VpcEndpointIdSetItemType()
+    o.vpcEndpointId = LibExpat.find(pd, "vpcEndpointId#string")
+    o
+end
+
+export VpcEndpointIdSetItemType
+
+
+type DeleteVpcPeeringConnectionType
+  vpcPeeringConnectionId::Union(ASCIIString, Nothing)
+
+  DeleteVpcPeeringConnectionType(; vpcPeeringConnectionID=nothing) = new(vpcPeeringConnectionId)
+end
+function DeleteVpcPeeringConnectionType(pd::ETree)
+  o = DeleteVpcPeeringConnectionType()
+  o.vpcPeeringConnectionId = LibExpat.find(pd, "vpcPeeringConnectionId#string")
+  o
+end
+
+export DeleteVpcPeeringConnectionType
+
+
+type DeleteVpcPeeringConnectionResponseType
+  requestId::Union(ASCIIString, Nothing)
+  _return::Union(Bool, Nothing)
+
+  DeleteVpcPeeringConnectionResponseType(; requestId=nothing, _return=nothing) = new(requestId, _return)
+end
+function DeleteVpcPeeringConnectionResponseType(pd::ETree)
+  o = DeleteVpcPeeringConnectionResponseType()
+  o.requestId = LibExpat.find(pd, "requestId#string")
+  o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+  o
+end
+
+export DeleteVpcPeeringConnectionResponseType
+
+
+type FilterType
+    name::Union(ASCIIString, Nothing)
+    valueSet::Union(Vector{ASCIIString}, Nothing)
+
+    FilterType(; name=nothing, valueSet=nothing) = 
+         new(name, valueSet)
+end
+function FilterType(pd::ETree)
+    o = FilterType()
+    o.name = LibExpat.find(pd, "name#string")
+    o.valueSet = AWS.parse_vector_as(ASCIIString, "value", LibExpat.find(pd, "item/value"))
+    o
+end
+
+export FilterType
+
+
+type DescribePrefixListsType
+  filterSet::Union(Vector{FilterType}, Nothing)
+  maxResults::Union(Int64, Nothing)
+  nextToken::Union(ASCIIString, Nothing)
+  prefixListIdSet::Union(Vector{ASCIIString}, Nothing)
+
+  DescribePrefixListsType(; filterSet=nothing, maxResults=nothing, nextToken=nothing, prefixListIdSet=nothing) =
+    new(filterSet, maxResults, nextToken, prefixListIdSet)
+end
+function DescribePrefixListsType(pd::ETree)
+  o = DescribePrefixListsType()
+  o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
+  o.maxResults = AWS.safe_parse_as(Int64, LibExpat.find(pd, "maxResults#string"))
+  o.nextToken = LibExpat.find(pd, "nextToken#string")
+  o.prefixListIdSet = AWS.parse_vector_as(ASCIIString, "prefixListId", LibExpat.find(pd, "item/prefixListId"))
+  o
+end
+
+export DescribePrefixListsType
+
+
+type PrefixListType
+  cidrs::Union(Vector{ASCIIString}, Nothing)
+  prefixListId::Union(ASCIIString, Nothing)
+  prefixListName::Union(ASCIIString, Nothing)
+
+  PrefixListType(; cidrs=nothing, prefixListId=nothing, prefixListName=nothing) = new(cidrs, prefixListId, prefixListName)
+end
+function PrefixListType(pd::ETree)
+  o = PrefixListType()
+  o.cidrs = AWS.parse_vector_as(ASCIIString, "cidr", LibExpat.find(pd, "item/cidr"))
+  o.prefixListId = LibExpat.find(pd, "prefixListId#string")
+  o.prefixListName = LibExpat.find(pd, "prefixListName#string")
+  o
+end
+
+export PrefixListType
+
+
+type DescribePrefixListsResponseType
+  nextToken::Union(ASCIIString, Nothing)
+  prefixListSet::Union(Vector{PrefixListType}, Nothing)
+  requestId::Union(ASCIIString, Nothing)
+
+  DescribePrefixListsResponseType(; nextToken=nothing, prefixListSet=nothing, requestId=nothing) =
+    new(nextToken, prefixListSet, requestId)
+end
+function DescribePrefixListsResponseType(pd::ETree)
+  o = DescribePrefixListsResponseType()
+  o.nextToken = LibExpat.find(pd, "nextToken#string")
+  o.prefixListSet = AWS.parse_vector_as(ASCIIString, "prefixList", LibExpat.find(pd, "item/prefixList"))
+  o
+end
+
+export DescribePrefixListsType
+
+
+type DescribeVpcEndpointServicesType
+  maxResults::Union(Int64, Nothing)
+  nextToken::Union(ASCIIString, Nothing)
+
+  DescribeVpcEndpointServicesType(; maxResults=nothing, nextToken=nothing) = new(maxResults, nextToken)
+end
+function DescribeVpcEndpointServicesType(pd::ETree)
+  o = DescribeVpcEndpointServicesType()
+  o.maxResults = AWS.safe_parse_as(Int64, LibExpat.find(pd, "maxResults#string"))
+  o.nextToken = LibExpat.find(pd, "nextToken#string")
+  o
+end
+
+export DescribeVpcEndpointServicesType
+
+
+type DescribeVpcEndpointServicesResponseType
+  nextToken::Union(ASCIIString, Nothing)
+  requestId::Union(ASCIIString, Nothing)
+  serviceNameSet::Union(Vector{ASCIIString}, Nothing)
+
+  DescribeVpcEndpointServicesResponseType(; nextToken=nothing, requestId=nothing, serviceNameSet=nothing) =
+    new(nextToken, requestId, serviceNameSet)
+end
+function DescribeVpcEndpointServicesResponseType(pd::ETree)
+  o = DescribeVpcEndpointServicesResponseType()
+  o.nextToken = LibExpat.find(pd, "nextToken#string")
+  o.requestId = LibExpat.find(pd, "requestId#string")
+  o.serviceNameSet = AWS.parse_vector_as(ASCIIString, "serviceName", LibExpat.find(pd, "item/serviceName"))
+end
+
+export DescribeVpcEndpointServicesResponseType
+
+
+type DescribeVpcEndpointsType
+  filterSet::Union(Vector{FilterType}, Nothing)
+  maxResults::Union(Int64, Nothing)
+  nextToken::Union(ASCIIString, Nothing)
+  vpcEndpointIdSet::Union(Vector{ASCIIString}, Nothing)
+
+  DescribeVpcEndpointsType(; filterSet=nothing, maxResults=nothing, nextToken=nothing, vpcEndpointIdSet=nothing) =
+    new(filterSet, maxResults, nextToken, vpcEndpointIdSet)
+end
+function DescribeVpcEndpointsType(pd::ETree)
+  o = DescribeVpcEndpointsType()
+  o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
+  o.maxResults = AWS.safe_parse_as(Int64, LibExpat.find(pd, "maxResults#string"))
+  o.nextToken = LibExpat.find(pd, "nextToken#string")
+  o.vpcEndpointIdSet = AWS.@parse_vector(AWS.EC2.VpcEndpointType, LibExpat.find(pd, "vcpEndpointId/item"))
+  o
+end
+
+export DescribeVpcEndpointsType
+
+
+type DescribeVpcEndpointsResponseType
+  nextToken::Union(ASCIIString, Nothing)
+  requestId::Union(ASCIIString, Nothing)
+  vpcEndpointIdSet::Union(Vector{ASCIIString}, Nothing)
+
+  DescribeVpcEndpointsResponseType(; nextToken=nothing, requestId=nothing, vpcEndpointIdSet=nothing) =
+    new(nextToken, requestId, vpcEndpointIdSet)
+end
+function DescribeVpcEndpointsResponseType(pd::ETree)
+  o = DescribeVpcEndpointsResponseType()
+  o.nextToken = LibExpat.find(pd, "nextToken#string")
+  o.requestId = LibExpat.find(pd, "requestId#string")
+  o.vpcEndpointIdSet = AWS.@parse_vector(AWS.EC2.VpcEndpointType, LibExpat.find(pd, "vcpEndpointId/item"))
+  o
+end
+
+export DescribeVpcEndpointsResponseType
+
+
+type DescribeVpcPeeringConnectionsType
+  filterSet::Union(Vector{FilterType}, Nothing)
+  vpcPeeringConnectionIdSet::Union(Vector{ASCIIString}, Nothing)
+
+  DescribeVpcPeeringConnectionsType(; filterSet=nothing, vpcPeeringConnectionIdSet=nothing) =
+    new(filterSet, vpcPeeringConnectionIdSet)
+end
+function DescribeVpcPeeringConnectionsType(pd::ETree)
+  o = DescribeVpcPeeringConnectionsType()
+  o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
+  o.vpcPeeringConnectionIdSet = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionType, LibExpat.find(pd, "vcpPeeringConnectionId/item"))
+  o
+end
+
+export DescribeVpcPeeringConnectionsType
+
+
+type DescribeVpcPeeringConnectionsResponseType
+  requestId::Union(ASCIIString, Nothing)
+  vpcPeeringConnectionSet::Union(Vector{VpcPeeringConnectionType}, Nothing)
+
+  DescribeVpcPeeringConnectionsResponseType(; responseId=nothing, vpcPeeringConnectionSet=nothing) =
+    new(responseId, vpcPeeringConnectionSet)
+end
+function DescribeVpcPeeringConnectionsResponseType(pd::ETree)
+  o = DescribeVpcPeeringConnectionsResponseType()
+  o.requestId = LibExpat.find(pd, "requestId#string")
+  o.vpcPeeringConnectionSet = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionType, LibExpat.find(pd, "vcpPeeringConnection/item"))
+  o
+end
+
+export DescribeVpcPeeringConnectionsResponseType
+
+
+type ModifySubnetAttributeType
+  mapPublicIpOnLaunch::Union(Bool, Nothing)
+  subnetId::Union(ASCIIString, Nothing)
+
+  ModifySubnetAttributeType(; mapPublicIpOnLaunch=nothing, subnetId=nothing) =
+    new(mapPublicIpOnLaunch, subnetId)
+end
+function ModifySubnetAttributeType(pd::ETree)
+  o = ModifySubnetAttributeType()
+  o.mapPublicIpOnLaunch = AWS.safe_parse_as(Bool, LibExpat.find(pd, "mapPublicIpOnLaunch#string"))
+  o.subnetId = LibExpat.find(pd, "subnetId#string")
+  o
+end
+
+export ModifySubnetAttributeType
+
+
+type ModifySubnetAttributeResponseType
+  requestId::Union(ASCIIString, Nothing)
+  _return::Union(Bool, Nothing)
+
+  ModifySubnetAttributeResponseType(; requestId=nothing, _return=nothing) = new(requestId, _return)
+end
+function ModifySubnetAttributeResponseType(pd::ETree)
+  o = ModifySubnetAttributeResponseType()
+  o.requestId = LibExpat.find(pd, "requestId#string")
+  o._return = AWS.safe_parse_as(bool, LibExpat.find(pd, "return#string"))
+  o
+end
+
+export ModifySubnetAttributeResponseType
+
+
+type ModifyVpcEndpointType
+  addRouteTableIdSet::Union(Vector{ASCIIString}, Nothing)
+  policyDocument::Union(ASCIIString, Nothing)
+  removeRouteTableIdSet::Union(Vector{ASCIIString}, Nothing)
+  resetPolicy::Union(Bool, Nothing)
+  vpcEndpointId::Union(ASCIIString, Nothing)
+
+  ModifyVpcEndpointType(; addRouteTableIdSet=nothing, policyDocument=nothing, removeRouteTableIdSet=nothing,
+                        resetPolicy=nothing, vpcEndpointId=nothing) = new(addRouteTableIdSet, policyDocument,
+                                                                          removeRouteTableIdSet, resetPolicy, vpcEndpointId)
+end
+function ModifyVpcEndpointType(pd::ETree)
+  o = ModifyVpcEndpointType()
+  o.addRouteTableIdSet = AWS.parse_vector_as(ASCIIString, "routeTableId", LibExpat.find(pd, "item/routeTableId"))
+  o.policyDocument = LibExpat.find(pd, "policyDocument#string")
+  o.removeRouteTableIdSet = AWS.parse_vector_as(ASCIIString, "routeTableId", LibExpat.find(pd, "item/routeTableId"))
+  o.resetPolicy = AWS.safe_parse_as(Bool, LibExpat.find(pd, "resetPolicy"))
+  o.vpcEndpointId = LibExpat.find(pd, "vpcEndpointId#string")
+  o
+end
+
+export ModifyVpcEndpointType
+
+
+type ModifyVpcEndpointResponseType
+  requestId::Union(ASCIIString, Nothing)
+  _return::Union(Bool, Nothing)
+
+  ModifyVpcEndpointResponseType(; requestId=nothing, _return=nothing) = new(requestId, _return)
+end
+function ModifyVpcEndpointResponseType(pd::ETree)
+  o = ModifyVpcEndpointResponseType()
+  o.requestId = LibExpat.find(pd, "requestId#string")
+  o._return = AWS.safe_parse_as(bool, LibExpat.find(pd, "return#string"))
+  o
+end
+
+export ModifyVpcEndpointResponseType
+
+
+type RejectVpcPeeringConnectionType
+  vpcPeeringConnectionId::Union(ASCIIString, Nothing)
+
+  RejectVpcPeeringConnectionType(; vpcPeeringConnectionId=nothing) = new(vpcPeeringConnectionId)
+end
+function RejectVpcPeeringConnectionType(pd::ETree)
+  o = RejectVpcPeeringConnectionType()
+  o.vpcPeeringConnectionId = LibExpat.find(pd, "vpcPeeringConnectionId#string")
+  o
+end
+
+export RejectVpcPeeringConnectionType
+
+
+type RejectVpcPeeringConnectionResponseType
+  requestId::Union(ASCIIString, Nothing)
+  _return::Union(Bool, Nothing)
+
+  RejectVpcPeeringConnectionResponseType(; requestId=nothing, _return=nothing) = new(requestId, _return)
+end
+function RejectVpcPeeringConnectionResponseType(pd::ETree)
+  o = RejectVpcPeeringConnectionResponseType()
+  o.requestId = LibExpat.find(pd, "requestId#string")
+  o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+  o
+end
+
+export RejectVpcPeeringConnectionResponseType
+
+
 type GetConsoleOutputType
     instanceId::Union(ASCIIString, Nothing)
 
@@ -2815,23 +3417,6 @@ end
 export DhcpValueType
 
 
-type FilterType
-    name::Union(ASCIIString, Nothing)
-    valueSet::Union(Vector{ASCIIString}, Nothing)
-
-    FilterType(; name=nothing, valueSet=nothing) = 
-         new(name, valueSet)
-end
-function FilterType(pd::ETree)
-    o = FilterType()
-    o.name = LibExpat.find(pd, "name#string")
-    o.valueSet = AWS.parse_vector_as(ASCIIString, "value", LibExpat.find(pd, "item/value"))
-    o
-end
-
-export FilterType
-
-
 type ValueType
     value::Union(ASCIIString, Nothing)
 
@@ -3666,23 +4251,6 @@ function ResourceIdSetItemType(pd::ETree)
 end
 
 export ResourceIdSetItemType
-
-
-type ResourceTagSetItemType
-    key::Union(ASCIIString, Nothing)
-    value::Union(ASCIIString, Nothing)
-
-    ResourceTagSetItemType(; key=nothing, value=nothing) = 
-         new(key, value)
-end
-function ResourceTagSetItemType(pd::ETree)
-    o = ResourceTagSetItemType()
-    o.key = LibExpat.find(pd, "key#string")
-    o.value = LibExpat.find(pd, "value#string")
-    o
-end
-
-export ResourceTagSetItemType
 
 
 type CreateTagsResponseType
