@@ -31,7 +31,7 @@ if haskey(ENV, "AWS_ID") && haskey(ENV, "AWS_SECKEY")
     AWS_ID = ENV["AWS_ID"]
     AWS_SECKEY = ENV["AWS_SECKEY"]
 else
-    secret_path = "$(ENV["HOME"])/.awssecret"
+    secret_path = "$(homedir())/.awssecret"
     @windows_only begin
         secret_path = "$(ENV["APPDATA"])/.awssecret"
     end
