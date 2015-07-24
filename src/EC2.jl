@@ -92,6 +92,9 @@ function ec2_execute(env::AWSEnv, action::String, params_in=nothing)
 #    push!(params, ("Expires", get_utc_timestamp(300))) # Request expires after 300 seconds
     push!(params, ("SignatureVersion", "2"))
     push!(params, ("SignatureMethod", "HmacSHA256"))
+    if env.aws_token != ""
+        push!(params, ("SecurityToken", env.aws_token))
+    end
 
 
     sorted = sort(params)

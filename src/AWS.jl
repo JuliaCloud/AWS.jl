@@ -27,6 +27,7 @@ const US_WEST_2 = "us-west-2" # US West (Oregon) Region
 # Search for default AWS_ID and AWS_SECKEY
 AWS_ID = ""
 AWS_SECKEY = ""
+AWS_TOKEN = ""
 if haskey(ENV, "AWS_ID") && haskey(ENV, "AWS_SECKEY")
     AWS_ID = ENV["AWS_ID"]
     AWS_SECKEY = ENV["AWS_SECKEY"]
@@ -44,14 +45,15 @@ end
 type AWSEnv
     aws_id::String      # AWS Access Key id
     aws_seckey::String  # AWS Secret key for signing requests
+    aws_token::String   # AWS Security Token for temporary credentials
     ep_host::String     # region endpoint (host)
-    ep_path::String     # region eddpoint (path)
+    ep_path::String     # region endpoint (path)
     timeout::Float64    # request timeout in seconds, default is no timeout.
     dry_run::Bool       # If true, no actual request will be made - implies dbg flag below
     dbg::Bool           # print request to screen
 
 
-    function AWSEnv(; id=AWS_ID, key=AWS_SECKEY, ep=EP_US_EAST_NORTHERN_VIRGINIA, timeout=0.0, dr=false, dbg=false)
+    function AWSEnv(; id=AWS_ID, key=AWS_SECKEY, token=AWS_TOKEN, ep=EP_US_EAST_NORTHERN_VIRGINIA, timeout=0.0, dr=false, dbg=false)
         if (id == "") || (key == "")
             error("Invalid AWS security credentials provided")
         end
@@ -66,9 +68,9 @@ type AWSEnv
         end
 
         if dr
-            new(id, key, ep_host, ep_path, timeout, dr, true)
+            new(id, key, token, ep_host, ep_path, timeout, dr, true)
         else
-            new(id, key, ep_host, ep_path, timeout, false, dbg)
+            new(id, key, token, ep_host, ep_path, timeout, false, dbg)
         end
     end
 

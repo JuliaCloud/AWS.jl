@@ -20,6 +20,7 @@ Initially, the EC2 and S3 API will be supported.
 type AWSEnv
     aws_id::String      # AWS Access Key id
     aws_seckey::String  # AWS Secret key for signing requests
+    aws_token::String   # AWS Security Token for temporary credentials
     ep_host::String     # region endpoint (host)
     ep_path::String     # region endpoint (path)
     timeout::Float64    # request timeout in seconds, if set to 0.0, request will never time out. Default is 0.0
@@ -31,10 +32,11 @@ end
 Constructors:
 
 ```
-AWSEnv(; id=AWS_ID, key=AWS_SECKEY, ep=EP_US_EAST_NORTHERN_VIRGINIA, timeout=0.0, dr=false, dbg=false)
+AWSEnv(; id=AWS_ID, key=AWS_SECKEY, token=AWS_TOKEN, ep=EP_US_EAST_NORTHERN_VIRGINIA, timeout=0.0, dr=false, dbg=false)
 ```
 
 - The ```AWS_ID``` and ```AWS_SECKEY``` are initialized from env if available. Else a file ~/.awssecret is read (if available) for the same.
+- The ```AWS_TOKEN``` is an empty string by default. Override ```token``` if the ```id``` and ```key``` are temporary security credentials.
 
 
 ### S3 API
