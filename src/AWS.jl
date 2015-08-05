@@ -1,4 +1,6 @@
 module AWS
+using HTTPClient.HTTPC
+using JSON
 using LibExpat
 
 
@@ -53,7 +55,16 @@ type AWSEnv
     dbg::Bool           # print request to screen
 
 
-    function AWSEnv(; id=AWS_ID, key=AWS_SECKEY, token=AWS_TOKEN, ep=EP_US_EAST_NORTHERN_VIRGINIA, timeout=0.0, dr=false, dbg=false)
+    function AWSEnv(; id=AWS_ID, key=AWS_SECKEY, token=AWS_TOKEN, ec2_creds=false, ep=EP_US_EAST_NORTHERN_VIRGINIA, timeout=0.0, dr=false, dbg=false)
+        if ec2_creds
+            creds = get_instance_credentials()
+            if creds != nothing
+                id = creds["AccessKeyId"]
+                key = creds["SecretAccessKey"]
+                token = creds["Token"]
+            end
+        end
+
         if (id == "") || (key == "")
             error("Invalid AWS security credentials provided")
         end
@@ -77,6 +88,34 @@ type AWSEnv
 end
 export AWSEnv
 
+function get_instance_credentials()
+    try
+        if getaddrinfo("instance-data.ec2.internal.") != ip"169.254.169.254"
+            return nothing
+        end
+
+        url = "http://169.254.169.254/2014-11-05/meta-data/iam/security-credentials/"
+        resp = HTTPC.get(url)
+        if resp.http_code != 200
+            return nothing
+        end
+
+        iam = split(bytestring(resp.body.data))
+        if length(iam) == 0
+            return nothing
+        end
+
+        url *= iam[1]
+        resp = HTTPC.get(url)
+        if resp.http_code != 200
+            return nothing
+        end
+
+        return JSON.Parser.parse(bytestring(resp.body.data))
+    catch
+        return nothing
+    end
+end
 
 
 include("aws_utils.jl")
