@@ -168,7 +168,7 @@ end
 function Contents(pd_le::ETree)
     key = LibExpat.find(pd_le, "Key#string")
     datestr = LibExpat.find(pd_le, "LastModified#string")
-    t = DateTime(datestr[1:end-1], "y-m-d'T'H:M:S.s")
+    t = DateTime(datestr[1:end-1], "y-m-dTH:M:S.s")
     etag = LibExpat.find(pd_le, "ETag#string")
     size = AWS.safe_parseint64(LibExpat.find(pd_le, "Size#string"))
     owner=Owner(LibExpat.find(pd_le, "Owner[1]"))
@@ -231,7 +231,7 @@ function Version(pd_v::ETree)
     versionId = LibExpat.find(pd_v, "VersionId#string")
     isLatest = (lowercase(LibExpat.find(pd_v, "IsLatest#string")) == "true") ? true : false
     datestr = LibExpat.find(pd_v, "LastModified#string")
-    t = DateTime(datestr[1:end-1], "y-m-d'T'H:M:S.s")
+    t = DateTime(datestr[1:end-1], "y-m-dTH:M:S.s")
     etag = LibExpat.find(pd_v, "ETag#string")
     size = AWS.safe_parseint64(LibExpat.find(pd_v, "Size#string"))
     owner=Owner(LibExpat.find(pd_v, "Owner[1]"))
@@ -255,7 +255,7 @@ function DeleteMarker(pd_dm::ETree)
     versionId = LibExpat.find(pd_dm, "VersionId#string")
     isLatest = (lowercase(LibExpat.find(pd_dm, "IsLatest#string")) == "true") ? true : false
     datestr = LibExpat.find(pd_dm, "LastModified#string")
-    t = DateTime(datestr[1:end-1], "y-m-d'T'H:M:S.s")
+    t = DateTime(datestr[1:end-1], "y-m-dTH:M:S.s")
     owner=Owner(LibExpat.find(pd_dm, "Owner[1]"))
     DeleteMarker(key, versionId, isLatest, t, owner)
 end
@@ -306,7 +306,7 @@ type Bucket
 end
 function Bucket(pd_b::ETree)
     datestr = LibExpat.find(pd_b, "CreationDate#string")
-    t = DateTime(datestr[1:end-1], "y-m-d'T'H:M:S.s")
+    t = DateTime(datestr[1:end-1], "y-m-dTH:M:S.s")
 
     Bucket(LibExpat.find(pd_b, "Name#string"), t)
 end
@@ -333,7 +333,7 @@ type CopyObjectResult
 end
 function CopyObjectResult(pd_cor::ETree)
     datestr = LibExpat.find(pd_cor, "LastModified#string")
-    t = DateTime(datestr[1:end-1], "y-m-d'T'H:M:S.s")
+    t = DateTime(datestr[1:end-1], "y-m-dTH:M:S.s")
 
     CopyObjectResult(t, LibExpat.find(pd_cor, "ETag#string"))
 end
@@ -428,7 +428,7 @@ type CopyPartResult
 end
 function CopyPartResult(pd::ETree)
     datestr = LibExpat.find(pd, "LastModified#string")
-    t = DateTime(datestr[1:end-1], "y-m-d'T'H:M:S")
+    t = DateTime(datestr[1:end-1], "y-m-dTH:M:S")
     CopyPartResult(t, LibExpat.find(pd, "ETag#string"))
 end
 export CopyPartResult
@@ -446,7 +446,7 @@ end
 xml(o::Part) = xml("Part", [("PartNumber", o.partNumber), ("ETag", o.eTag)])
 function Part(pd::ETree)
     datestr = LibExpat.find(pd, "LastModified#string")
-    t = DateTime(datestr[1:end-1], "y-m-d'T'H:M:S.s")
+    t = DateTime(datestr[1:end-1], "y-m-dTH:M:S.s")
 
     Part(LibExpat.find(pd, "PartNumber#string"), t, LibExpat.find(pd, "ETag#string"), int64(LibExpat.find(pd, "Size#string")))
 end
