@@ -680,6 +680,9 @@ end
 
 
 function canonicalize_and_sign(env::AWSEnv, ro::RO, md5::String)
+    if env.aws_token != ""
+        push!(ro.amz_hdrs, ("x-amz-security-token", env.aws_token))
+    end
     (new_amz_hdrs, amz_hdrs_str) = get_canon_amz_headers(ro.amz_hdrs)
     (full_path, sign_path) = get_canonicalized_resource(ro)
 
