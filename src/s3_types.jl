@@ -505,6 +505,58 @@ function ListPartsResult(pd::ETree)
 end
 export ListPartsResult
 
+type Upload
+    key::Union(String, Nothing)
+    uploadId::Union(String, Nothing)
+    initiator::Union(Initiator, Nothing)
+    owner::Union(Owner, Nothing)
+    storageClass::Union(String, Nothing)
+    initiated::Union(DateTime, Nothing)
+end
+function Upload(pd::ETree)
+    datestr = LibExpat.find(pd, "Initiated#string")
+    t = DateTime(datestr[1:end-1], "y-m-dTH:M:S.s")
+    Upload(
+        LibExpat.find(pd, "Key#string"),
+        LibExpat.find(pd, "UploadId#string"),
+        Initiator(LibExpat.find(pd, "Initiator[1]")),
+        Owner(LibExpat.find(pd, "Owner[1]")),
+        LibExpat.find(pd, "StorageClass#string"),
+        t
+    )
+end
+export Upload
+
+type ListMultipartUploadsResult
+    bucket::Union(String, Nothing)
+    prefix::Union(String, Nothing)
+    keyMarker::Union(String, Nothing)
+    uploadIdMarker::Union(String, Nothing)
+    nextKeyMarker::Union(String, Nothing)
+    nextUploadIdMarker::Union(String, Nothing)
+    maxUploads::Union(Int, Nothing)
+    delimiter::Union(String, Nothing)
+    isTruncated::Union(Bool, Nothing)
+    upload::Union(Vector{Upload}, Nothing)
+    commonPrefixes::Union(Vector{CommonPrefixes}, Nothing)
+end
+function ListMultipartUploadsResult(pd::ETree)
+    ListMultipartUploadsResult(
+        LibExpat.find(pd, "Bucket#string"),
+        LibExpat.find(pd, "Prefix#string"),
+        LibExpat.find(pd, "KeyMarker#string"),
+        LibExpat.find(pd, "UploadIdMarker#string"),
+        LibExpat.find(pd, "NextKeyMarker#string"),
+        LibExpat.find(pd, "NextUploadIdMarker#string"),
+        AWS.safe_parseint(LibExpat.find(pd, "MaxUploads#string")),
+        LibExpat.find(pd, "Delimiter#string"),
+        AWS.safe_parsebool(LibExpat.find(pd, "IsTruncated#string")),
+        AWS.@parse_vector(AWS.S3.Upload, LibExpat.find(pd, "Upload")),
+        AWS.@parse_vector(AWS.S3.CommonPrefixes, LibExpat.find(pd, "CommonPrefixes"))
+    )
+end
+export ListMultipartUploadsResult
+
 type CORSRule
     id::Union(String, Nothing)
     allowedMethod::Union(Vector{String}, Nothing)
