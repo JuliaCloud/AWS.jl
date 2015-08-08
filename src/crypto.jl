@@ -3,7 +3,7 @@ module Crypto
 macro c(ret_type, func, arg_types, lib)
   local args_in = Any[ symbol(string('a',x)) for x in 1:length(arg_types.args) ]
   quote
-    $(esc(func))($(args_in...)) = ccall( ($(string(func)), $(Expr(:quote, lib)) ), $ret_type, $arg_types, $(args_in...) )
+    $(esc(func))($(args_in...)) = ccall( ($(string(func)), $(Expr(:quote, eval(lib))) ), $ret_type, $arg_types, $(args_in...) )
   end
 end
 
@@ -19,6 +19,10 @@ end
 @ctypedef ENGINE Void
 
 typealias size_t Csize_t
+
+# libcrypto isn't available for Windows.
+@unix_only libcrypto = :libcrypto
+@windows_only libcrypto = joinpath(dirname(dirname(@__FILE__)),"bin",string(Sys.ARCH),"libeay32")
 
 @c Ptr{Uint8} HMAC (Ptr{EVP_MD}, Ptr{Void}, Int32, Ptr{Uint8}, size_t, Ptr{Uint8}, Ptr{Uint32}) libcrypto
 @c Ptr{Uint8} MD5 (Ptr{Uint8}, size_t, Ptr{Uint8}) libcrypto
