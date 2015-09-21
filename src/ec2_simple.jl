@@ -2,13 +2,13 @@ export ec2_terminate, ec2_addprocs, ec2_launch, ec2_start, ec2_stop, ec2_show_st
 export ec2_mount_snapshot
 
 
-ec2_basic(env::AWSEnv, action::String, params_in::Dict) = ec2_execute(env, action, flatten_params(params_in))
+ec2_basic(env::AWSEnv, action::AbstractString, params_in::Dict) = ec2_execute(env, action, flatten_params(params_in))
 export ec2_basic
 
 
 
 flatten_params(d::Dict) = flatten_params(Array(Tuple, 0), "", d)
-function flatten_params(ft::Array, pfx::String, d::Dict)
+function flatten_params(ft::Array, pfx::AbstractString, d::Dict)
     for (k, v) in collect(d)
         if isa(v, Array)
             for (i, x) in enumerate(v)
@@ -36,7 +36,7 @@ end
 CHK_ERR(resp::EC2Response) = (typeof(resp.obj) == EC2Error) ? error(ec2_error_str(resp.obj)) : resp.obj
 
 
-function ec2_terminate (instances; env=AWSEnv())
+function ec2_terminate(instances; env=AWSEnv())
     if length(instances) > 0
         req = TerminateInstancesType(instancesSet=instances)
         resp = CHK_ERR(TerminateInstances(env, req))
@@ -72,8 +72,8 @@ end
 
 
 
-function ec2_launch(ami::String, seckey::String; env=AWSEnv(), insttype::String="m1.small", n::Integer=1,
-                    owner::String="julia", clustername::String="julia", launchset::String="")
+function ec2_launch(ami::AbstractString, seckey::AbstractString; env=AWSEnv(), insttype::AbstractString="m1.small", n::Integer=1,
+                    owner::AbstractString="julia", clustername::AbstractString="julia", launchset::AbstractString="")
 # "c1.medium"
 # "m1.small"
 
@@ -119,7 +119,7 @@ end
 function generate_sshnames(hostnames, num_workers, workers_per_instance, use_public_dnsname, sshflags, hostuser="ubuntu")
     num_hosts = length(hostnames)
     idx = use_public_dnsname ? 2 : 3
-    sshnames = Dict{String, Any}()
+    sshnames = Dict{AbstractString, Any}()
     if num_workers > 0
         if num_workers < num_hosts
             for i in 1:num_workers
@@ -162,7 +162,7 @@ function generate_sshnames(hostnames, num_workers, workers_per_instance, use_pub
 end
 
 
-function ec2_addprocs(instances, ec2_keyfile::String; env=AWSEnv(), hostuser::String="ubuntu",
+function ec2_addprocs(instances, ec2_keyfile::AbstractString; env=AWSEnv(), hostuser::AbstractString="ubuntu",
                         dir=JULIA_HOME, tunnel=true, use_public_dnsname=true, exename=joinpath(JULIA_HOME,Base.julia_exename()),
                         workers_per_instance=0, num_workers=0, machines_only=false)
 
@@ -267,7 +267,7 @@ function ec2_show_status(instances; env=AWSEnv())
 end
 
 
-function ec2_instances_by_tag (tag, tagvalue; env=AWSEnv(), running_only=true)
+function ec2_instances_by_tag(tag, tagvalue; env=AWSEnv(), running_only=true)
     tagfilter = FilterType(name="tag:" * tag, valueSet=[tagvalue])
 
     if running_only
@@ -290,8 +290,8 @@ function ec2_instances_by_tag (tag, tagvalue; env=AWSEnv(), running_only=true)
 end
 
 
-function ec2_mount_snapshot (instance::String, snapshot::String, mount::String, ec2_keyfile::String; env=AWSEnv(), dev="/dev/xvdh",
-                                hostuser::String="ubuntu")
+function ec2_mount_snapshot(instance::AbstractString, snapshot::AbstractString, mount::AbstractString, ec2_keyfile::AbstractString; env=AWSEnv(), dev="/dev/xvdh",
+                                hostuser::AbstractString="ubuntu")
     # first get the availability zone....
     resp = CHK_ERR(DescribeInstances(env, instancesSet=[instance]))
     zone = resp.reservationSet[1].instancesSet[1].placement.availabilityZone

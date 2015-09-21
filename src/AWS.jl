@@ -45,11 +45,11 @@ else
 end
 
 type AWSEnv
-    aws_id::String      # AWS Access Key id
-    aws_seckey::String  # AWS Secret key for signing requests
-    aws_token::String   # AWS Security Token for temporary credentials
-    ep_host::String     # region endpoint (host)
-    ep_path::String     # region endpoint (path)
+    aws_id::AbstractString      # AWS Access Key id
+    aws_seckey::AbstractString  # AWS Secret key for signing requests
+    aws_token::AbstractString   # AWS Security Token for temporary credentials
+    ep_host::AbstractString     # region endpoint (host)
+    ep_path::AbstractString     # region endpoint (path)
     timeout::Float64    # request timeout in seconds, default is no timeout.
     dry_run::Bool       # If true, no actual request will be made - implies dbg flag below
     dbg::Bool           # print request to screen

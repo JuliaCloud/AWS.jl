@@ -31,9 +31,9 @@ const VM_MICRO = "t1.micro"     #Micro
 
 
 type EC2Error
-    code::String
-    msg::String
-    request_id::Union(String, Nothing)
+    code::AbstractString
+    msg::AbstractString
+    request_id::Union{AbstractString, Void}
 end
 export EC2Error
 
@@ -44,8 +44,8 @@ export ec2_error_str
 type EC2Response
     http_code::Int
     headers
-    body::Union(String, Nothing)
-    pd::Union(ETree, Nothing)
+    body::Union{AbstractString, Void}
+    pd::Union{ETree, Void}
     obj::Any
 
     EC2Response() = new(0, Dict{Any, Any}(), "", nothing, nothing)
@@ -78,7 +78,7 @@ function get_utc_timestamp(addsecs=0)
 end
 
 
-function ec2_execute(env::AWSEnv, action::String, params_in=nothing)
+function ec2_execute(env::AWSEnv, action::AbstractString, params_in=nothing)
     # Prepare the standard params
     params=Array(Tuple,0)
     if params_in != nothing
