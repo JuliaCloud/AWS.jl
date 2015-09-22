@@ -42,7 +42,7 @@ function parse_vector_as(as_type::Type, typ_str::AbstractString, vect)
     jl_vect = as_type[]
     if (vect == nothing) return jl_vect end
     for pd in vect
-        val = find(pd, "/" * typ_str * "#text")
+        val = LibExpat.find(pd, "/" * typ_str * "#text")
         val = safe_parse_as(as_type, val)
         if (val == nothing) error("Invalid $(typ_str) for pd vector") end
         push!(jl_vect, val)
@@ -53,7 +53,7 @@ end
 export parse_vector_as
 
 function parse_calendar_time(pd::ETree, elem::AbstractString, format::AbstractString)
-    datestr = find(pd, "$(elem)#text")
+    datestr = LibExpat.find(pd, "$(elem)#text")
     DateTime(datestr[1:end-1], format)
 end
 parse_calendar_time(pd::ETree, elem::AbstractString) = parse_calendar_time(pd, elem, "yyyy-MM-DD'T'HH:mm:ss")
