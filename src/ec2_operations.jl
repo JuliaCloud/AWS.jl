@@ -1,3 +1,20 @@
+function AcceptVpcPeeringConnection(env::AWSEnv, msg::AcceptVpcPeeringConnectionType)
+    ec2resp::EC2Response = call_ec2(env, "AcceptVpcPeeringConnection" , msg)
+    if  (ec2resp.pd != nothing) && (ec2resp.obj == nothing)
+        ec2resp.obj = AcceptVpcPeeringConnectionResponseType(ec2resp.pd)
+    end
+    ec2resp
+end
+function AcceptVpcPeeringConnection(env::AWSEnv; kwargs...)
+    msg=AcceptVpcPeeringConnectionType()
+    for p in kwargs
+        setfield!(msg, p[1], p[2])
+    end
+    AcceptVpcPeeringConnection(env, msg)
+end
+export AcceptVpcPeeringConnection
+
+
 function ActivateLicense(env::AWSEnv, msg::ActivateLicenseType)
     ec2resp::EC2Response = call_ec2(env, "ActivateLicense" , msg)
     if  (ec2resp.pd != nothing) && (ec2resp.obj == nothing)
@@ -689,6 +706,40 @@ end
 export CreateVpc
 
 
+function CreateVpcEndpoint(env::AWSEnv, msg::CreateVpcEndpointType)
+    ec2resp::EC2Response = call_ec2(env, "CreateVpcEndpoint" , msg)
+    if  (ec2resp.pd != nothing) && (ec2resp.obj == nothing)
+        ec2resp.obj = CreateVpcEndpointResponseType(ec2resp.pd)
+    end
+    ec2resp
+end
+function CreateVpcEndpoint(env::AWSEnv; kwargs...)
+    msg=CreateVpcEndpointType()
+    for p in kwargs
+        setfield!(msg, p[1], p[2])
+    end
+    CreateVpcEndpoint(env, msg)
+end
+export CreateVpcEndpoint
+
+
+function CreateVpcPeeringConnection(env::AWSEnv, msg::CreateVpcPeeringConnectionType)
+    ec2resp::EC2Response = call_ec2(env, "CreateVpcPeeringConnection" , msg)
+    if  (ec2resp.pd != nothing) && (ec2resp.obj == nothing)
+        ec2resp.obj = CreateVpcPeeringConnectionResponseType(ec2resp.pd)
+    end
+    ec2resp
+end
+function CreateVpcPeeringConnection(env::AWSEnv; kwargs...)
+    msg=CreateVpcPeeringConnectionType()
+    for p in kwargs
+        setfield!(msg, p[1], p[2])
+    end
+    CreateVpcPeeringConnection(env, msg)
+end
+export CreateVpcPeeringConnection
+
+
 function CreateVpnConnection(env::AWSEnv, msg::CreateVpnConnectionType)
     ec2resp::EC2Response = call_ec2(env, "CreateVpnConnection" , msg)
     if  (ec2resp.pd != nothing) && (ec2resp.obj == nothing)
@@ -1038,6 +1089,40 @@ function DeleteVpc(env::AWSEnv; kwargs...)
     DeleteVpc(env, msg)
 end
 export DeleteVpc
+
+
+function DeleteVpcEndpoints(env::AWSEnv, msg::DeleteVpcEndpointsType)
+    ec2resp::EC2Response = call_ec2(env, "DeleteVpcEndpoints" , msg)
+    if  (ec2resp.pd != nothing) && (ec2resp.obj == nothing)
+        ec2resp.obj = DeleteVpcEndpointsResponseType(ec2resp.pd)
+    end
+    ec2resp
+end
+function DeleteVpcEndpoints(env::AWSEnv; kwargs...)
+    msg=DeleteVpcEndpointsType()
+    for p in kwargs
+        setfield!(msg, p[1], p[2])
+    end
+    DeleteVpcEndpoints(env, msg)
+end
+export DeleteVpcEndpoints
+
+
+function DeleteVpcPeeringConnection(env::AWSEnv, msg::DeleteVpcPeeringConnectionType)
+    ec2resp::EC2Response = call_ec2(env, "DeleteVpcPeeringConnection" , msg)
+    if  (ec2resp.pd != nothing) && (ec2resp.obj == nothing)
+        ec2resp.obj = DeleteVpcPeeringConnectionResponseType(ec2resp.pd)
+    end
+    ec2resp
+end
+function DeleteVpcPeeringConnection(env::AWSEnv; kwargs...)
+    msg=DeleteVpcPeeringConnectionType()
+    for p in kwargs
+        setfield!(msg, p[1], p[2])
+    end
+    DeleteVpcPeeringConnection(env, msg)
+end
+export DeleteVpcPeeringConnection
 
 
 function DeleteVpnConnection(env::AWSEnv, msg::DeleteVpnConnectionType)
@@ -1431,6 +1516,23 @@ end
 export DescribeNetworkInterfaces
 
 
+function DescribePrefixLists(env::AWSEnv, msg::DescribePrefixListsType)
+    ec2resp::EC2Response = call_ec2(env, "DescribePrefixLists" , msg)
+    if  (ec2resp.pd != nothing) && (ec2resp.obj == nothing)
+        ec2resp.obj = DescribePrefixListsResponseType(ec2resp.pd)
+    end
+    ec2resp
+end
+function DescribePrefixLists(env::AWSEnv; kwargs...)
+    msg=DescribePrefixListsType()
+    for p in kwargs
+        setfield!(msg, p[1], p[2])
+    end
+    DescribePrefixLists(env, msg)
+end
+export DescribePrefixLists
+
+
 function DescribePlacementGroups(env::AWSEnv, msg::DescribePlacementGroupsType)
     ec2resp::EC2Response = call_ec2(env, "DescribePlacementGroups" , msg)
     if  (ec2resp.pd != nothing) && (ec2resp.obj == nothing)
@@ -1729,6 +1831,57 @@ function DescribeVpcAttribute(env::AWSEnv; kwargs...)
     DescribeVpcAttribute(env, msg)
 end
 export DescribeVpcAttribute
+
+
+function DescribeVpcEndpointServices(env::AWSEnv, msg::DescribeVpcEndpointServicesType)
+    ec2resp::EC2Response = call_ec2(env, "DescribeVpcEndpointServices" , msg)
+    if  (ec2resp.pd != nothing) && (ec2resp.obj == nothing)
+        ec2resp.obj = DescribeVpcEndpointServicesResponseType(ec2resp.pd)
+    end
+    ec2resp
+end
+function DescribeVpcEndpointServices(env::AWSEnv; kwargs...)
+    msg=DescribeVpcEndpointServicesType()
+    for p in kwargs
+        setfield!(msg, p[1], p[2])
+    end
+    DescribeVpcEndpointServices(env, msg)
+end
+export DescribeVpcEndpointServices
+
+
+function DescribeVpcEndpoints(env::AWSEnv, msg::DescribeVpcEndpointsType)
+    ec2resp::EC2Response = call_ec2(env, "DescribeVpcEndpoints" , msg)
+    if  (ec2resp.pd != nothing) && (ec2resp.obj == nothing)
+        ec2resp.obj = DescribeVpcEndpointsResponseType(ec2resp.pd)
+    end
+    ec2resp
+end
+function DescribeVpcEndpoints(env::AWSEnv; kwargs...)
+    msg=DescribeVpcEndpointsType()
+    for p in kwargs
+        setfield!(msg, p[1], p[2])
+    end
+    DescribeVpcEndpoints(env, msg)
+end
+export DescribeVpcEndpoints
+
+
+function DescribeVpcPeeringConnections(env::AWSEnv, msg::DescribeVpcPeeringConnectionsType)
+    ec2resp::EC2Response = call_ec2(env, "DescribeVpcPeeringConnections" , msg)
+    if  (ec2resp.pd != nothing) && (ec2resp.obj == nothing)
+        ec2resp.obj = DescribeVpcPeeringConnectionsResponseType(ec2resp.pd)
+    end
+    ec2resp
+end
+function DescribeVpcPeeringConnections(env::AWSEnv; kwargs...)
+    msg=DescribeVpcPeeringConnectionsType()
+    for p in kwargs
+        setfield!(msg, p[1], p[2])
+    end
+    DescribeVpcPeeringConnections(env, msg)
+end
+export DescribeVpcPeeringConnections
 
 
 function DescribeVpcs(env::AWSEnv, msg::DescribeVpcsType)
@@ -2088,6 +2241,23 @@ end
 export ModifySnapshotAttribute
 
 
+function ModifySubnetAttribute(env::AWSEnv, msg::ModifySubnetAttributeType)
+    ec2resp::EC2Response = call_ec2(env, "ModifySubnetAttribute" , msg)
+    if  (ec2resp.pd != nothing) && (ec2resp.obj == nothing)
+        ec2resp.obj = ModifySubnetAttributeResponseType(ec2resp.pd)
+    end
+    ec2resp
+end
+function ModifySubnetAttribute(env::AWSEnv; kwargs...)
+    msg=ModifySubnetAttributeType()
+    for p in kwargs
+        setfield!(msg, p[1], p[2])
+    end
+    ModifySubnetAttribute(env, msg)
+end
+export ModifySubnetAttribute
+
+
 function ModifyVolumeAttribute(env::AWSEnv, msg::ModifyVolumeAttributeType)
     ec2resp::EC2Response = call_ec2(env, "ModifyVolumeAttribute" , msg)
     if  (ec2resp.pd != nothing) && (ec2resp.obj == nothing)
@@ -2120,6 +2290,23 @@ function ModifyVpcAttribute(env::AWSEnv; kwargs...)
     ModifyVpcAttribute(env, msg)
 end
 export ModifyVpcAttribute
+
+
+function ModifyVpcEndpoint(env::AWSEnv, msg::ModifyVpcEndpointType)
+    ec2resp::EC2Response = call_ec2(env, "ModifyVpcEndpoint" , msg)
+    if  (ec2resp.pd != nothing) && (ec2resp.obj == nothing)
+        ec2resp.obj = ModifyVpcEndpointResponseType(ec2resp.pd)
+    end
+    ec2resp
+end
+function ModifyVpcEndpoint(env::AWSEnv; kwargs...)
+    msg=ModifyVpcEndpointType()
+    for p in kwargs
+        setfield!(msg, p[1], p[2])
+    end
+    ModifyVpcEndpoint(env, msg)
+end
+export ModifyVpcEndpoint
 
 
 function MonitorInstances(env::AWSEnv, msg::MonitorInstancesType)
@@ -2188,6 +2375,23 @@ function RegisterImage(env::AWSEnv; kwargs...)
     RegisterImage(env, msg)
 end
 export RegisterImage
+
+
+function RejectVpcPeeringConnection(env::AWSEnv, msg::RejectVpcPeeringConnectionType)
+    ec2resp::EC2Response = call_ec2(env, "RejectVpcPeeringConnection" , msg)
+    if  (ec2resp.pd != nothing) && (ec2resp.obj == nothing)
+        ec2resp.obj = RejectVpcPeeringConnectionResponseType(ec2resp.pd)
+    end
+    ec2resp
+end
+function RejectVpcPeeringConnection(env::AWSEnv; kwargs...)
+    msg=RejectVpcPeeringConnectionType()
+    for p in kwargs
+        setfield!(msg, p[1], p[2])
+    end
+    RejectVpcPeeringConnection(env, msg)
+end
+export RejectVpcPeeringConnection
 
 
 function ReleaseAddress(env::AWSEnv, msg::ReleaseAddressType)
@@ -2514,6 +2718,7 @@ export UnmonitorInstances
 
 
 ValidRqstMsgs = Dict(
+    "AcceptVpcPeeringConnectionType"=>true,
     "ActivateLicenseType"=>true,
     "AllocateAddressType"=>true,
     "AssignPrivateIpAddressesType"=>true,
@@ -2554,6 +2759,8 @@ ValidRqstMsgs = Dict(
     "CreateSubnetType"=>true,
     "CreateTagsType"=>true,
     "CreateVolumeType"=>true,
+    "CreateVpcEndpointType"=>true,
+    "CreateVpcPeeringConnectionType"=>true,
     "CreateVpcType"=>true,
     "CreateVpnConnectionType"=>true,
     "CreateVpnConnectionRouteType"=>true,
@@ -2575,6 +2782,8 @@ ValidRqstMsgs = Dict(
     "DeleteSubnetType"=>true,
     "DeleteTagsType"=>true,
     "DeleteVolumeType"=>true,
+    "DeleteVpcEndpointsType"=>true,
+    "DeleteVpcPeeringConnectionType"=>true,
     "DeleteVpcType"=>true,
     "DeleteVpnConnectionType"=>true,
     "DeleteVpnConnectionRouteType"=>true,
@@ -2600,6 +2809,7 @@ ValidRqstMsgs = Dict(
     "DescribeNetworkInterfaceAttributeType"=>true,
     "DescribeNetworkInterfacesType"=>true,
     "DescribePlacementGroupsType"=>true,
+    "DescribePrefixListsType"=>true,
     "DescribeRegionsType"=>true,
     "DescribeReservedInstancesType"=>true,
     "DescribeReservedInstancesListingsType"=>true,
@@ -2617,6 +2827,9 @@ ValidRqstMsgs = Dict(
     "DescribeVolumesType"=>true,
     "DescribeVolumeStatusType"=>true,
     "DescribeVpcAttributeType"=>true,
+    "DescriveVpcEndpointServicesType"=>true,
+    "DescribeVpcEndpointsType"=>true,
+    "DescriveVpcPeeringConnectionType"=>true,
     "DescribeVpcsType"=>true,
     "DescribeVpnConnectionsType"=>true,
     "DescribeVpnGatewaysType"=>true,
@@ -2638,12 +2851,15 @@ ValidRqstMsgs = Dict(
     "ModifyInstanceAttributeType"=>true,
     "ModifyNetworkInterfaceAttributeType"=>true,
     "ModifySnapshotAttributeType"=>true,
+    "ModifySubnetAttributeType"=>true,
     "ModifyVolumeAttributeType"=>true,
     "ModifyVpcAttributeType"=>true,
+    "ModifyVpcEndpointType"=>true,
     "MonitorInstancesType"=>true,
     "PurchaseReservedInstancesOfferingType"=>true,
     "RebootInstancesType"=>true,
     "RegisterImageType"=>true,
+    "RejectVpcPeeringConnectionType"=>true,
     "ReleaseAddressType"=>true,
     "ReplaceNetworkAclAssociationType"=>true,
     "ReplaceNetworkAclEntryType"=>true,
