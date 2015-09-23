@@ -7963,7 +7963,8 @@ type RunInstancesType
     minCount::Union{Int64, Void}
     maxCount::Union{Int64, Void}
     keyName::Union{ASCIIString, Void}
-    groupSet::Union{Vector{GroupItemType}, Void}
+    securityGroupIdSet::Union{Vector{ASCIIString}, Void}
+    securityGroupSet::Union{Vector{ASCIIString}, Void}
     additionalInfo::Union{ASCIIString, Void}
     userData::Union{UserDataType, Void}
     addressingType::Union{ASCIIString, Void}
@@ -7983,8 +7984,8 @@ type RunInstancesType
     iamInstanceProfile::Union{IamInstanceProfileRequestType, Void}
     ebsOptimized::Union{Bool, Void}
 
-    RunInstancesType(; imageId=nothing, minCount=nothing, maxCount=nothing, keyName=nothing, groupSet=nothing, additionalInfo=nothing, userData=nothing, addressingType=nothing, instanceType=nothing, placement=nothing, kernelId=nothing, ramdiskId=nothing, blockDeviceMapping=nothing, monitoring=nothing, subnetId=nothing, disableApiTermination=nothing, instanceInitiatedShutdownBehavior=nothing, license=nothing, privateIpAddress=nothing, clientToken=nothing, networkInterfaceSet=nothing, iamInstanceProfile=nothing, ebsOptimized=nothing) =
-         new(imageId, minCount, maxCount, keyName, groupSet, additionalInfo, userData, addressingType, instanceType, placement, kernelId, ramdiskId, blockDeviceMapping, monitoring, subnetId, disableApiTermination, instanceInitiatedShutdownBehavior, license, privateIpAddress, clientToken, networkInterfaceSet, iamInstanceProfile, ebsOptimized)
+    RunInstancesType(; imageId=nothing, minCount=nothing, maxCount=nothing, keyName=nothing, securityGroupIdSet=nothing, securityGroupSet=nothing, additionalInfo=nothing, userData=nothing, addressingType=nothing, instanceType=nothing, placement=nothing, kernelId=nothing, ramdiskId=nothing, blockDeviceMapping=nothing, monitoring=nothing, subnetId=nothing, disableApiTermination=nothing, instanceInitiatedShutdownBehavior=nothing, license=nothing, privateIpAddress=nothing, clientToken=nothing, networkInterfaceSet=nothing, iamInstanceProfile=nothing, ebsOptimized=nothing) =
+         new(imageId, minCount, maxCount, keyName, securityGroupIdSet, securityGroupSet, additionalInfo, userData, addressingType, instanceType, placement, kernelId, ramdiskId, blockDeviceMapping, monitoring, subnetId, disableApiTermination, instanceInitiatedShutdownBehavior, license, privateIpAddress, clientToken, networkInterfaceSet, iamInstanceProfile, ebsOptimized)
 end
 function RunInstancesType(pd::ETree)
     o = RunInstancesType()
@@ -7992,7 +7993,8 @@ function RunInstancesType(pd::ETree)
     o.minCount = AWS.safe_parse_as(Int64, LibExpat.find(pd, "minCount#string"))
     o.maxCount = AWS.safe_parse_as(Int64, LibExpat.find(pd, "maxCount#string"))
     o.keyName = LibExpat.find(pd, "keyName#string")
-    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, LibExpat.find(pd, "groupSet/item"))
+    o.securityGroupIdSet = AWS.parse_vector_as(ASCIIString, "securityGroupId", LibExpat.find(pd, "item/securityGroupId"))
+    o.securityGroupSet = AWS.parse_vector_as(ASCIIString, "securityGroup", LibExpat.find(pd, "item/securityGroup"))
     o.additionalInfo = LibExpat.find(pd, "additionalInfo#string")
     o.userData = length(pd["userData"]) > 0 ?  UserDataType(LibExpat.find(pd,"userData[1]")) : nothing
     o.addressingType = LibExpat.find(pd, "addressingType#string")
@@ -9205,7 +9207,8 @@ export DescribeVpnGatewaysResponseType
 type LaunchSpecificationRequestType
     imageId::Union{ASCIIString, Void}
     keyName::Union{ASCIIString, Void}
-    groupSet::Union{Vector{GroupItemType}, Void}
+    securityGroupIdSet::Union{Vector{ASCIIString}, Void}
+    securityGroupSet::Union{Vector{ASCIIString}, Void}
     userData::Union{UserDataType, Void}
     addressingType::Union{ASCIIString, Void}
     instanceType::Union{ASCIIString, Void}
@@ -9219,14 +9222,15 @@ type LaunchSpecificationRequestType
     iamInstanceProfile::Union{IamInstanceProfileRequestType, Void}
     ebsOptimized::Union{Bool, Void}
 
-    LaunchSpecificationRequestType(; imageId=nothing, keyName=nothing, groupSet=nothing, userData=nothing, addressingType=nothing, instanceType=nothing, placement=nothing, kernelId=nothing, ramdiskId=nothing, blockDeviceMapping=nothing, monitoring=nothing, subnetId=nothing, networkInterfaceSet=nothing, iamInstanceProfile=nothing, ebsOptimized=nothing) =
-         new(imageId, keyName, groupSet, userData, addressingType, instanceType, placement, kernelId, ramdiskId, blockDeviceMapping, monitoring, subnetId, networkInterfaceSet, iamInstanceProfile, ebsOptimized)
+    LaunchSpecificationRequestType(; imageId=nothing, keyName=nothing, securityGroupIdSet=nothing, securityGroupSet=nothing, userData=nothing, addressingType=nothing, instanceType=nothing, placement=nothing, kernelId=nothing, ramdiskId=nothing, blockDeviceMapping=nothing, monitoring=nothing, subnetId=nothing, networkInterfaceSet=nothing, iamInstanceProfile=nothing, ebsOptimized=nothing) =
+         new(imageId, keyName, securityGroupIdSet, securityGroupSet, userData, addressingType, instanceType, placement, kernelId, ramdiskId, blockDeviceMapping, monitoring, subnetId, networkInterfaceSet, iamInstanceProfile, ebsOptimized)
 end
 function LaunchSpecificationRequestType(pd::ETree)
     o = LaunchSpecificationRequestType()
     o.imageId = LibExpat.find(pd, "imageId#string")
     o.keyName = LibExpat.find(pd, "keyName#string")
-    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, LibExpat.find(pd, "groupSet/item"))
+    o.securityGroupIdSet = AWS.parse_vector_as(ASCIIString, "securityGroupId", LibExpat.find(pd, "item/securityGroupId"))
+    o.securityGroupSet = AWS.parse_vector_as(ASCIIString, "securityGroup", LibExpat.find(pd, "item/securityGroup"))
     o.userData = length(pd["userData"]) > 0 ?  UserDataType(LibExpat.find(pd,"userData[1]")) : nothing
     o.addressingType = LibExpat.find(pd, "addressingType#string")
     o.instanceType = LibExpat.find(pd, "instanceType#string")

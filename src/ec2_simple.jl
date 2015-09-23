@@ -200,7 +200,7 @@ function wait_till_running(env, instances, timeout)
 
     # Wait till they are pingable, the network interfaces take some time to come up
     println("Testing TCP connects (on port 22) to all newly started hosts...")
-    hosts = ec2_hostnames(instances)
+    hosts = ec2_hostnames(instances, env=env)
     testhosts = copy(hosts)
     testidx = 1
     while true

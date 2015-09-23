@@ -88,7 +88,7 @@ function ec2_execute(env::AWSEnv, action::AbstractString, params_in=nothing)
     push!(params, ("Action", action))
     push!(params, ("AWSAccessKeyId", env.aws_id))
     push!(params, ("Timestamp", get_utc_timestamp()))
-    push!(params, ("Version", "2013-02-01"))
+    push!(params, ("Version", "2015-04-15"))
 #    push!(params, ("Expires", get_utc_timestamp(300))) # Request expires after 300 seconds
     push!(params, ("SignatureVersion", "2"))
     push!(params, ("SignatureMethod", "HmacSHA256"))
