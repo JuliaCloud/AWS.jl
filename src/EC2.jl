@@ -100,7 +100,9 @@ function ec2_execute(env::AWSEnv, action::AbstractString, params_in=nothing)
     sorted = sort(params)
     querystr = HTTPC.urlencode_query_params(sorted)
 
-    str2sign = "GET\n" * lowercase(env.ep_host) * "\n" * env.ep_path * "\n" * querystr
+    ep_host = env.ep_host=="" ? "ec2.$(env.region).amazonaws.com" : env.ep_host
+
+    str2sign = "GET\n" * lowercase(ep_host) * "\n" * env.ep_path * "\n" * querystr
     sb = Crypto.hmacsha256_digest(str2sign, env.aws_seckey)
 
     signature_b64 = base64encode(sb)
@@ -108,7 +110,7 @@ function ec2_execute(env::AWSEnv, action::AbstractString, params_in=nothing)
     #escape the signature
     signature_querystr = HTTPC.urlencode_query_params([("Signature", bytestring(signature_b64))])
 
-    complete_url = "http://" * env.ep_host * env.ep_path * (env.ep_path[end] == '/' ? "" : "/") * "?" * querystr * "&" * signature_querystr
+    complete_url = "http://" * ep_host * env.ep_path * (env.ep_path[end] == '/' ? "" : "/") * "?" * querystr * "&" * signature_querystr
 
     #make the request
     if (env.dbg) || (env.dry_run)
