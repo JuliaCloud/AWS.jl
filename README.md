@@ -24,6 +24,7 @@ type AWSEnv
     region::AbstractString      # region name
     ep_host::AbstractString     # region endpoint (host)
     ep_path::AbstractString     # region endpoint (path)
+    sig_ver::Int                # AWS signature version (2 or 4)
     timeout::Float64            # request timeout in seconds, if set to 0.0, request will never time out. Default is 0.0
     dry_run::Bool               # If true, no actual request will be made - implies dbg flag below
     dbg::Bool                   # print request and raw response to screen
@@ -33,7 +34,7 @@ end
 Constructors:
 
 ```
-AWSEnv(; id=AWS_ID, key=AWS_SECKEY, token=AWS_TOKEN, ec2_creds=false, region=US_EAST_1, ep="", timeout=0.0, dr=false, dbg=false)
+AWSEnv(; id=AWS_ID, key=AWS_SECKEY, token=AWS_TOKEN, ec2_creds=false, region=US_EAST_1, ep="", sig_ver=2, timeout=0.0, dr=false, dbg=false)
 ```
 
 - The ```AWS_ID``` and ```AWS_SECKEY``` are initialized from env if available. Else a file ~/.awssecret is read (if available) for the same.
@@ -41,6 +42,7 @@ AWSEnv(; id=AWS_ID, key=AWS_SECKEY, token=AWS_TOKEN, ec2_creds=false, region=US_
 - Set ```ec2_creds``` to true to automatically retrieve temporary security credentials if running on an EC2 instance that has such credentials.
 - Set ```region``` to one of the AWS region name strings, e.g., "us-east-1". Not needed if setting ```ep```.
 - ```ep``` can contain both a hostname and a pathname for an AWS endpoint. It is generally not needed when using native AWS services; use ```region``` instead. If using a service that emulates AWS, set ```ep``` to the hostname of the endpoint to be used. If both ```region``` and ```ep``` are set, the host portion of ```ep``` will override region, and the path portion of ```ep``` will be used in conjunction with ```region```.
+- ```sig_ver``` must be set to 2 or 4. Some AWS services require one signature version or the other, in which case this value will be ignored.
 
 
 ### S3 API

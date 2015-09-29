@@ -53,31 +53,6 @@ end
 export EC2Response
 
 
-
-
-function aws_string(dt::DateTime)
-    y,m,d = Dates.yearmonthday(dt)
-    h,mi,s = Dates.hour(dt),Dates.minute(dt),Dates.second(dt)
-    yy = y < 0 ? @sprintf("%05i",y) : lpad(y,4,"0")
-    mm = lpad(m,2,"0")
-    dd = lpad(d,2,"0")
-    hh = lpad(h,2,"0")
-    mii = lpad(mi,2,"0")
-    ss = lpad(s,2,"0")
-    return "$yy-$mm-$(dd)T$hh:$mii:$ss"
-end
-
-aws_string(v::Bool) = v ? "True" : "False"
-aws_string(v::Any) = string(v)
-
-
-#ISO8601
-function get_utc_timestamp(addsecs=0)
-    dt = Dates.unix2datetime(Dates.datetime2unix(now(Dates.UTC)) + addsecs)
-    return string(aws_string(dt), "Z")
-end
-
-
 function ec2_execute(env::AWSEnv, action::AbstractString, params_in=nothing)
     # Prepare the standard params
     params=Array(Tuple,0)
@@ -90,39 +65,19 @@ function ec2_execute(env::AWSEnv, action::AbstractString, params_in=nothing)
     push!(params, ("Timestamp", get_utc_timestamp()))
     push!(params, ("Version", "2015-04-15"))
 #    push!(params, ("Expires", get_utc_timestamp(300))) # Request expires after 300 seconds
-    push!(params, ("SignatureVersion", "2"))
-    push!(params, ("SignatureMethod", "HmacSHA256"))
     if env.aws_token != ""
         push!(params, ("SecurityToken", env.aws_token))
     end
 
-
-    sorted = sort(params)
-    querystr = HTTPC.urlencode_query_params(sorted)
+    signed_querystr = canonicalize_and_sign!(params, env, "ec2", "GET")
 
     ep_host = env.ep_host=="" ? "ec2.$(env.region).amazonaws.com" : env.ep_host
-
-    str2sign = "GET\n" * lowercase(ep_host) * "\n" * env.ep_path * "\n" * querystr
-    sb = Crypto.hmacsha256_digest(str2sign, env.aws_seckey)
-
-    signature_b64 = base64encode(sb)
-
-    #escape the signature
-    signature_querystr = HTTPC.urlencode_query_params([("Signature", bytestring(signature_b64))])
-
-    complete_url = "http://" * ep_host * env.ep_path * (env.ep_path[end] == '/' ? "" : "/") * "?" * querystr * "&" * signature_querystr
-
-    #make the request
+    complete_url = "http://" * ep_host * env.ep_path * (env.ep_path[end] == '/' ? "" : "/") * "?" * signed_querystr
     if (env.dbg) || (env.dry_run)
-        for (k, v) in sorted
-            println("$k => $v")
-        end
-        println("String to sign => " * str2sign)
-        println("Signature => " * bytestring(signature_b64) * "\n")
-
-        println("URL:\n$complete_url \n")
+        println("URL:\n$complete_url\n")
     end
 
+    #make the request
     ec2resp = EC2Response()
     if !(env.dry_run)
         ro = HTTPC.RequestOptions(request_timeout = env.timeout)
