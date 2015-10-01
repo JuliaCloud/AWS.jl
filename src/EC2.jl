@@ -65,14 +65,11 @@ function ec2_execute(env::AWSEnv, action::AbstractString, params_in=nothing)
     push!(params, ("Timestamp", get_utc_timestamp()))
     push!(params, ("Version", "2015-04-15"))
 #    push!(params, ("Expires", get_utc_timestamp(300))) # Request expires after 300 seconds
-    if env.aws_token != ""
-        push!(params, ("SecurityToken", env.aws_token))
-    end
 
-    signed_querystr = canonicalize_and_sign!(params, env, "ec2", "GET")
+    amz_headers, signed_querystr = canonicalize_and_sign(env, "ec2", "GET", params)
 
-    ep_host = env.ep_host=="" ? "ec2.$(env.region).amazonaws.com" : env.ep_host
-    complete_url = "http://" * ep_host * env.ep_path * (env.ep_path[end] == '/' ? "" : "/") * "?" * signed_querystr
+    ep_path = env.ep_path * (env.ep_path[end] == '/' ? "" : "/")
+    complete_url = "https://" * ep_host(env, "ec2") * ep_path * "?" * signed_querystr
     if (env.dbg) || (env.dry_run)
         println("URL:\n$complete_url\n")
     end
@@ -80,7 +77,7 @@ function ec2_execute(env::AWSEnv, action::AbstractString, params_in=nothing)
     #make the request
     ec2resp = EC2Response()
     if !(env.dry_run)
-        ro = HTTPC.RequestOptions(request_timeout = env.timeout)
+        ro = HTTPC.RequestOptions(headers = amz_headers, request_timeout = env.timeout)
         resp = HTTPC.get(complete_url, ro)
 
         ec2resp.http_code = resp.http_code

@@ -57,7 +57,7 @@ type AWSEnv
     dbg::Bool                   # print request to screen
 
 
-    function AWSEnv(; id=AWS_ID, key=AWS_SECKEY, token=AWS_TOKEN, ec2_creds=false, region=US_EAST_1, ep="", sig_ver=2, timeout=0.0, dr=false, dbg=false)
+    function AWSEnv(; id=AWS_ID, key=AWS_SECKEY, token=AWS_TOKEN, ec2_creds=false, region=US_EAST_1, ep="", sig_ver=4, timeout=0.0, dr=false, dbg=false)
         if ec2_creds
             creds = get_instance_credentials()
             if creds != nothing
@@ -107,6 +107,9 @@ type AWSEnv
 
 end
 export AWSEnv
+
+ep_host(env::AWSEnv, service) = lowercase(env.ep_host=="" ? "$service.$(env.region).amazonaws.com" : env.ep_host)
+export ep_host
 
 function get_instance_credentials()
     try

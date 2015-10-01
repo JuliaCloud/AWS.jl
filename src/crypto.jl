@@ -25,6 +25,7 @@ typealias size_t Csize_t
 
 @c Ptr{UInt8} HMAC (Ptr{EVP_MD}, Ptr{Void}, Int32, Ptr{UInt8}, size_t, Ptr{UInt8}, Ptr{UInt32}) libcrypto
 @c Ptr{UInt8} MD5 (Ptr{UInt8}, size_t, Ptr{UInt8}) libcrypto
+@c Ptr{UInt8} SHA256 (Ptr{UInt8}, size_t, Ptr{UInt8}) libcrypto
 
 @c Ptr{EVP_MD} EVP_md5 () libcrypto
 @c Ptr{EVP_MD} EVP_sha1 () libcrypto
@@ -110,7 +111,11 @@ function md5(s::IO)
 end
 export md5
 
+function sha256(s::AbstractString)
+    sha = zeros(UInt8, 32)
+    assert(SHA256(s, length(s), sha) != C_NULL)
+    return sha
+end
+
 
 end # Module end
-
-

@@ -34,7 +34,7 @@ end
 Constructors:
 
 ```
-AWSEnv(; id=AWS_ID, key=AWS_SECKEY, token=AWS_TOKEN, ec2_creds=false, region=US_EAST_1, ep="", sig_ver=2, timeout=0.0, dr=false, dbg=false)
+AWSEnv(; id=AWS_ID, key=AWS_SECKEY, token=AWS_TOKEN, ec2_creds=false, region=US_EAST_1, ep="", sig_ver=4, timeout=0.0, dr=false, dbg=false)
 ```
 
 - The ```AWS_ID``` and ```AWS_SECKEY``` are initialized from env if available. Else a file ~/.awssecret is read (if available) for the same.

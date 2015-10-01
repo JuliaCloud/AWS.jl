@@ -101,8 +101,12 @@ export aws_string
 
 
 #ISO8601
-function get_utc_timestamp(addsecs=0)
+function get_utc_timestamp(addsecs=0;basic=false)
     dt = Dates.unix2datetime(Dates.datetime2unix(now(Dates.UTC)) + addsecs)
-    return string(aws_string(dt), "Z")
+    dstr = aws_string(dt)
+    if basic
+        dstr = replace(dstr, Set(":-"), "")
+    end
+    return string(dstr, "Z")
 end
 export get_utc_timestamp
