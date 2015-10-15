@@ -82,3 +82,31 @@ function xml(tag::AbstractString, children::Array; xmlns="", xsi_type="")
     return open_tag * children_xml * "</$(tag)>"
 end
 
+
+function aws_string(dt::DateTime)
+    y,m,d = Dates.yearmonthday(dt)
+    h,mi,s = Dates.hour(dt),Dates.minute(dt),Dates.second(dt)
+    yy = y < 0 ? @sprintf("%05i",y) : lpad(y,4,"0")
+    mm = lpad(m,2,"0")
+    dd = lpad(d,2,"0")
+    hh = lpad(h,2,"0")
+    mii = lpad(mi,2,"0")
+    ss = lpad(s,2,"0")
+    return "$yy-$mm-$(dd)T$hh:$mii:$ss"
+end
+
+aws_string(v::Bool) = v ? "True" : "False"
+aws_string(v::Any) = string(v)
+export aws_string
+
+
+#ISO8601
+function get_utc_timestamp(addsecs=0;basic=false)
+    dt = Dates.unix2datetime(Dates.datetime2unix(now(Dates.UTC)) + addsecs)
+    dstr = aws_string(dt)
+    if basic
+        dstr = replace(dstr, Set(":-"), "")
+    end
+    return string(dstr, "Z")
+end
+export get_utc_timestamp

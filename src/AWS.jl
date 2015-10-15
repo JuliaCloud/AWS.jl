@@ -51,12 +51,13 @@ type AWSEnv
     region::AbstractString      # region name
     ep_host::AbstractString     # region endpoint (host)
     ep_path::AbstractString     # region endpoint (path)
+    sig_ver::Int                # AWS signature version (2 or 4)
     timeout::Float64            # request timeout in seconds, default is no timeout.
     dry_run::Bool               # If true, no actual request will be made - implies dbg flag below
     dbg::Bool                   # print request to screen
 
 
-    function AWSEnv(; id=AWS_ID, key=AWS_SECKEY, token=AWS_TOKEN, ec2_creds=false, region=US_EAST_1, ep="", timeout=0.0, dr=false, dbg=false)
+    function AWSEnv(; id=AWS_ID, key=AWS_SECKEY, token=AWS_TOKEN, ec2_creds=false, region=US_EAST_1, ep="", sig_ver=4, timeout=0.0, dr=false, dbg=false)
         if ec2_creds
             creds = get_instance_credentials()
             if creds != nothing
@@ -93,15 +94,22 @@ type AWSEnv
             error("No region or endpoint provided")
         end
 
+        if sig_ver != 2 && sig_ver != 4
+          error("Invalid signature version number")
+        end
+
         if dr
-            new(id, key, token, region, ep_host, ep_path, timeout, dr, true)
+            new(id, key, token, region, ep_host, ep_path, sig_ver, timeout, dr, true)
         else
-            new(id, key, token, region, ep_host, ep_path, timeout, false, dbg)
+            new(id, key, token, region, ep_host, ep_path, sig_ver, timeout, false, dbg)
         end
     end
 
 end
 export AWSEnv
+
+ep_host(env::AWSEnv, service) = lowercase(env.ep_host=="" ? "$service.$(env.region).amazonaws.com" : env.ep_host)
+export ep_host
 
 function get_instance_credentials()
     try
@@ -135,6 +143,7 @@ end
 
 include("aws_utils.jl")
 include("crypto.jl")
+include("sign.jl")
 include("EC2.jl")
 include("S3.jl")
 
