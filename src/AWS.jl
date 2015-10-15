@@ -48,14 +48,15 @@ type AWSEnv
     aws_id::ASCIIString         # AWS Access Key id
     aws_seckey::ASCIIString     # AWS Secret key for signing requests
     aws_token::ASCIIString      # AWS Security Token for temporary credentials
+    region::AbstractString      # region name
     ep_host::AbstractString     # region endpoint (host)
     ep_path::AbstractString     # region endpoint (path)
-    timeout::Float64    # request timeout in seconds, default is no timeout.
-    dry_run::Bool       # If true, no actual request will be made - implies dbg flag below
-    dbg::Bool           # print request to screen
+    timeout::Float64            # request timeout in seconds, default is no timeout.
+    dry_run::Bool               # If true, no actual request will be made - implies dbg flag below
+    dbg::Bool                   # print request to screen
 
 
-    function AWSEnv(; id=AWS_ID, key=AWS_SECKEY, token=AWS_TOKEN, ec2_creds=false, ep=EP_US_EAST_NORTHERN_VIRGINIA, timeout=0.0, dr=false, dbg=false)
+    function AWSEnv(; id=AWS_ID, key=AWS_SECKEY, token=AWS_TOKEN, ec2_creds=false, region=US_EAST_1, ep="", timeout=0.0, dr=false, dbg=false)
         if ec2_creds
             creds = get_instance_credentials()
             if creds != nothing
@@ -78,10 +79,24 @@ type AWSEnv
             ep_path = ep[first(s):end]
         end
 
+        # host portion of ep overrides region
+        if length(ep_host) > 19 && ep_host[1:4] == "ec2." && ep_host[(end-13):end] == ".amazonaws.com"
+            println("WARNING: AWSEnv: ep keyword argument has been deprecated for AWS native services.")
+            println("Use region keyword argument instead.")
+            region = ep_host[5:end-14]
+            ep_host = ""
+        end
+        if ep_host != ""
+            region = ""
+        end
+        if (region == "" && ep == "")
+            error("No region or endpoint provided")
+        end
+
         if dr
-            new(id, key, token, ep_host, ep_path, timeout, dr, true)
+            new(id, key, token, region, ep_host, ep_path, timeout, dr, true)
         else
-            new(id, key, token, ep_host, ep_path, timeout, false, dbg)
+            new(id, key, token, region, ep_host, ep_path, timeout, false, dbg)
         end
     end
 
