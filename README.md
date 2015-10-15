@@ -1,32 +1,32 @@
 ## AWS - Julia interface to Amazon Web Services
 
-This package is a WIP for providing a native julia interface to the Amazon Web Services API
+This package is a WIP for providing a native Julia interface to the Amazon Web Services API
 
 Initially, the EC2 and S3 API will be supported.
 
 
 ### Current status
 - Most of the APIs are yet untested. Any testing will be helpful. The REST API does not not match exactly in certain cases
-  with the WSDL. For the EC2 API, the bulk of the code is generated from the WSDL while it has been translated by hand for the 
-  S3 API. In certain cases breakage may occur due to wrong request syntax. 
-  
-  Please file issues on guthub with the output from running the request in debug mode, i.e., with env.dbg = true.
-  
+  with the WSDL. For the EC2 API, the bulk of the code is generated from the WSDL while it has been translated by hand for the
+  S3 API. In certain cases breakage may occur due to wrong request syntax.
+
+  Please file issues on GitHub with the output from running the request in debug mode, i.e., with env.dbg = true.
+
 
 ### Usage
 - Each of the functions takes in an AWSEnv as the first parameter
 
 ```
 type AWSEnv
-    aws_id::String      # AWS Access Key id
-    aws_seckey::String  # AWS Secret key for signing requests
-    aws_token::String   # AWS Security Token for temporary credentials
-    ep_host::String     # region endpoint (host)
-    ep_path::String     # region endpoint (path)
-    timeout::Float64    # request timeout in seconds, if set to 0.0, request will never time out. Default is 0.0
-    dry_run::Bool       # If true, no actual request will be made - implies dbg flag below
-    dbg::Bool           # print request and raw response to screen
-    
+    aws_id::ASCIIString         # AWS Access Key id
+    aws_seckey::ASCIIString     # AWS Secret key for signing requests
+    aws_token::ASCIIString      # AWS Security Token for temporary credentials
+    ep_host::AbstractString     # region endpoint (host)
+    ep_path::AbstractString     # region endpoint (path)
+    timeout::Float64            # request timeout in seconds, if set to 0.0, request will never time out. Default is 0.0
+    dry_run::Bool               # If true, no actual request will be made - implies dbg flag below
+    dbg::Bool                   # print request and raw response to screen
+
 end
 ```
 Constructors:
@@ -43,9 +43,9 @@ AWSEnv(; id=AWS_ID, key=AWS_SECKEY, token=AWS_TOKEN, ec2_creds=false, ep=EP_US_E
 ### S3 API
 - This package uses the REST interface of S3
 
-- The type names, function names, etc follow the names specified in http://docs.aws.amazon.com/AmazonS3/latest/API/APIRest.html as well 
-  as in http://s3.amazonaws.com/doc/2006-03-01/AmazonS3.wsdl‎ 
-  
+- The type names, function names, etc follow the names specified in http://docs.aws.amazon.com/AmazonS3/latest/API/APIRest.html as well
+  as in http://s3.amazonaws.com/doc/2006-03-01/AmazonS3.wsdl
+
 - Sample code
 
 ```
@@ -90,7 +90,7 @@ println("$(resp.http_code), $(resp.obj)")
 
 
 println("Delete file 1")
-resp = S3.del_object(env, bkt, "file1") 
+resp = S3.del_object(env, bkt, "file1")
 println("$(resp.http_code), $(resp.obj)")
 
 println("Delete file 2 using the multi api")
@@ -115,18 +115,18 @@ type S3Response
     eTag::String
     http_code::Int
 
-    # Common amz fields 
-    delete_marker::Bool     
-    id_2::String        
+    # Common amz fields
+    delete_marker::Bool
+    id_2::String
     request_id::String
     version_id::String
 
     headers::Dict           # All header fields
-    
+
     obj::Any                # If the response was an XML representing a Julia S3 response type,
                             # it is parsed and set here.
                             # Else it will contain an IOBuffer object
-                            
+
     pd::Union(ETree, Nothing)
 end
 ```
@@ -140,7 +140,7 @@ EC2 has two sets of APIs
 
 - The other is a simple API that provides limited functionality but with a a higher abstraction.
 
-### EC2 Simple API 
+### EC2 Simple API
 
 - Currently the following are available:
 
@@ -154,17 +154,17 @@ EC2 has two sets of APIs
 - ec2_addprocs
 
 These are described [here](doc/ec2_simple.md)
-The source is in ```src/ec2_simple.jl``` 
+The source is in ```src/ec2_simple.jl```
 
 A generic API is ```ec2_basic```
 
-```ec2_basic(env::AWSEnv, action::String, params_in::Dict{Any, Any})``` just bundles the 
-supplied params_in into an EC2 request. It is meant to be used while bugs, if any, in the 
+```ec2_basic(env::AWSEnv, action::String, params_in::Dict{Any, Any})``` just bundles the
+supplied params_in into an EC2 request. It is meant to be used while bugs, if any, in the
 advanced (generated) code exist for any of the APIs. Values in the params can be basic julia types,
-CalendarTime, Dict or an Array itself. Keys in the Dict MUST be same as those mentioned in 
+CalendarTime, Dict or an Array itself. Keys in the Dict MUST be same as those mentioned in
 the Amazon EC2 documentation for the corresponding action.
 
-### EC2 Advanced API 
+### EC2 Advanced API
 
 
 Much of the boilerplate code is generated from the corresponding WSDL.
@@ -176,12 +176,12 @@ Types are defined in ```ec2_types.jl```
 
 Names and usage are similar to the AWS documentation http://awsdocs.s3.amazonaws.com/EC2/latest/ec2-api.pdf
 
-Each of the EC2 "actions" have a corresponding Julia function which takes in 
+Each of the EC2 "actions" have a corresponding Julia function which takes in
 the appropriate Julia type.
 
-For example : ```RunInstances(env::AWSEnv , msg::RunInstancesType)``` (defined in ec2_operations.jl) where 
+For example : ```RunInstances(env::AWSEnv , msg::RunInstancesType)``` (defined in ec2_operations.jl) where
 
-RunInstancesType (defined in ec2_types.jl) is 
+RunInstancesType (defined in ec2_types.jl) is
 
 ```
 type RunInstancesType
@@ -189,8 +189,8 @@ type RunInstancesType
     minCount::Union(Int32, Nothing)
     maxCount::Union(Int32, Nothing)
     ...
-    
-    RunInstancesType(; imageId=nothing, minCount=nothing, maxCount=nothing, keyName=nothing, groupSet=nothing, additionalInfo=nothing, userData=nothing, addressingType=nothing, instanceType=nothing, placement=nothing, kernelId=nothing, ramdiskId=nothing, blockDeviceMapping=nothing, monitoring=nothing, subnetId=nothing, disableApiTermination=nothing, instanceInitiatedShutdownBehavior=nothing, license=nothing, privateIpAddress=nothing, clientToken=nothing, networkInterfaceSet=nothing, iamInstanceProfile=nothing, ebsOptimized=nothing) = 
+
+    RunInstancesType(; imageId=nothing, minCount=nothing, maxCount=nothing, keyName=nothing, groupSet=nothing, additionalInfo=nothing, userData=nothing, addressingType=nothing, instanceType=nothing, placement=nothing, kernelId=nothing, ramdiskId=nothing, blockDeviceMapping=nothing, monitoring=nothing, subnetId=nothing, disableApiTermination=nothing, instanceInitiatedShutdownBehavior=nothing, license=nothing, privateIpAddress=nothing, clientToken=nothing, networkInterfaceSet=nothing, iamInstanceProfile=nothing, ebsOptimized=nothing) =
          new(imageId, minCount, maxCount, keyName, groupSet, additionalInfo, userData, addressingType, instanceType, placement, kernelId, ramdiskId, blockDeviceMapping, monitoring, subnetId, disableApiTermination, instanceInitiatedShutdownBehavior, license, privateIpAddress, clientToken, networkInterfaceSet, iamInstanceProfile, ebsOptimized)
 end
 ```
@@ -225,7 +225,7 @@ end
 
 For succcessful requests, EC2Response.obj will contain an object of the appropriate type.
 
-For example, for RunInstances, the EC2Response.obj will be of type RunInstancesResponseType 
+For example, for RunInstances, the EC2Response.obj will be of type RunInstancesResponseType
 
 
 
@@ -248,6 +248,5 @@ libexpat must be installed
 ### NOTE
 
 - The crypto functions required for this package are in https://github.com/amitmurthy/AWS.jl/blob/master/src/crypto.jl, since
-  OpenSSL.jl does not yet support the functions this package needs. This will be replaced with calls to OpenSSL.jl when 
+  OpenSSL.jl does not yet support the functions this package needs. This will be replaced with calls to OpenSSL.jl when
   it supports the same.
-

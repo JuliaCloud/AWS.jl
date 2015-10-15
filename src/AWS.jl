@@ -45,9 +45,9 @@ else
 end
 
 type AWSEnv
-    aws_id::AbstractString      # AWS Access Key id
-    aws_seckey::AbstractString  # AWS Secret key for signing requests
-    aws_token::AbstractString   # AWS Security Token for temporary credentials
+    aws_id::ASCIIString         # AWS Access Key id
+    aws_seckey::ASCIIString     # AWS Secret key for signing requests
+    aws_token::ASCIIString      # AWS Security Token for temporary credentials
     ep_host::AbstractString     # region endpoint (host)
     ep_path::AbstractString     # region endpoint (path)
     timeout::Float64    # request timeout in seconds, default is no timeout.
