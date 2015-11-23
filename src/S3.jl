@@ -444,7 +444,7 @@ function restore_object(env::AWSEnv, bkt::AbstractString, key::AbstractString, d
 end
 
 
-function put_object(env::AWSEnv, bkt::AbstractString, key::AbstractString, data:: Union{IOStream, AbstractString, Tuple}; content_type="", options::PutObjectOptions=PutObjectOptions(), version_id::AbstractString="")
+function put_object(env::AWSEnv, bkt::AbstractString, key::AbstractString, data:: Union{IO, AbstractString, Tuple}; content_type="", options::PutObjectOptions=PutObjectOptions(), version_id::AbstractString="")
     ro = RO(:PUT, bkt, key)
 
     ro.amz_hdrs = amz_headers(Tuple[], options)
