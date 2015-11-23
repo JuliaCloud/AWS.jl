@@ -283,19 +283,6 @@ end
 export UserDataType
 
 
-type BlockDeviceMappingItemType
-    deviceName::Union{ASCIIString, Void}
-
-    BlockDeviceMappingItemType(; deviceName=nothing) =
-         new(deviceName)
-end
-function BlockDeviceMappingItemType(pd::ETree)
-    o = BlockDeviceMappingItemType()
-    o.deviceName = LibExpat.find(pd, "deviceName#string")
-    o
-end
-
-export BlockDeviceMappingItemType
 
 
 type EbsBlockDeviceType
@@ -320,6 +307,25 @@ end
 
 export EbsBlockDeviceType
 
+type BlockDeviceMappingItemType
+    deviceName::Union{ASCIIString, Void}
+    virtualName::Union{ASCIIString, Void}
+    noDevice::Union{ASCIIString, Void}
+    ebs::Union{EbsBlockDeviceType, Void}
+
+    BlockDeviceMappingItemType(; deviceName=nothing, virtualName=nothing, noDevice=nothing, ebs=nothing) =
+         new(deviceName, virtualName, noDevice, ebs)
+end
+function BlockDeviceMappingItemType(pd::ETree)
+    o = BlockDeviceMappingItemType()
+    o.deviceName = LibExpat.find(pd, "deviceName#string")
+    o.virtualName = LibExpat.find(pd, "virtualName#string")
+    o.noDevice = LibExpat.find(pd, "noDevice#string")
+    o.ebs = length(pd["ebsBlockDevice"]) > 0 ?  EbsBlockDeviceType(LibExpat.find(pd,"ebsBlockDevice[1]")) : nothing
+    o
+end
+
+export BlockDeviceMappingItemType
 
 type PlacementRequestType
     availabilityZone::Union{ASCIIString, Void}
