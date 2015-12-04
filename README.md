@@ -6,7 +6,7 @@ Initially, the EC2 and S3 API will be supported.
 
 
 ### Current status
-- Most of the APIs are yet untested. Any testing will be helpful. The REST API does not not match exactly in certain cases
+- Most of the APIs are yet untested. Any testing will be helpful. The REST API does not match exactly in certain cases
   with the WSDL. For the EC2 API, the bulk of the code is generated from the WSDL while it has been translated by hand for the
   S3 API. In certain cases breakage may occur due to wrong request syntax.
 
