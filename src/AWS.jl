@@ -1,3 +1,5 @@
+VERSION >= v"0.4.0" && __precompile__(true)
+
 module AWS
 using HTTPClient.HTTPC
 using JSON
