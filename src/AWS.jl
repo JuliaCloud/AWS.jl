@@ -1,4 +1,4 @@
-VERSION >= v"0.4.0" && __precompile__(true)
+isdefined(Base, :__precompile__) && __precompile__()
 
 module AWS
 using HTTPClient.HTTPC
