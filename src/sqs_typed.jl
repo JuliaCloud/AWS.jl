@@ -1,0 +1,76 @@
+
+include("sqs_types.jl")
+include("sqs_operations.jl")
+
+
+function is_basic_type(v)
+    if  isa(v, AbstractString) || isa(v, Int) || isa(v, Int32) ||
+        isa(v, Int64) || isa(v, Float64) || isa(v, Bool) ||
+        isa(v, DateTime) || isa(v, Vector{UInt8})
+
+        return true
+    end
+    return false
+end
+
+corrections_map = Dict()
+
+function add_to_params(params, obj, pfx)
+    for m in fieldnames(typeof(obj))
+        fld_val = getfield(obj, m)
+        if (m != :queueUrl && fld_val != nothing)
+            fld_name = string(m)
+            if haskey(corrections_map, (typebasename(obj), fld_name))
+                arg_name = corrections_map[(typebasename(obj), fld_name)]
+            elseif endswith(fld_name, "Set")
+                arg_name = fld_name[1:end-3]
+            else
+                arg_name = fld_name
+            end
+
+            if startswith(arg_name, "_")
+                # handle field names that match julia reserved types....
+                arg_name = arg_name[2:end]
+            end
+
+            #Captitalize the first letter for the argument.
+            arg_name = uppercase(arg_name[1:1]) * arg_name[2:end]
+
+            if is_basic_type(fld_val)
+                push!(params, (pfx * arg_name, aws_string(fld_val)))
+            elseif isa(fld_val, Array)
+                for (idx, fv) in enumerate(fld_val)
+                    subarg_name = "$(pfx)$(arg_name).$(idx)"
+                    if is_basic_type(fv)
+                        push!(params, (subarg_name, aws_string(fv)))
+                    else
+                        add_to_params(params, fv, subarg_name*".")
+                    end
+                end
+            else
+                # compound type
+                add_to_params(params, fld_val, "$(pfx)$(arg_name).")
+            end
+        end
+    end
+end
+
+function call_sqs(env::AWSEnv, action::AbstractString, msg=nothing, use_post=false)
+    ep = nothing
+    params = Array(Tuple, 0)
+    if (msg != nothing)
+        # make sure it is a valid type
+        msg_name = typebasename(msg)
+        if !haskey(ValidRqstMsgs, msg_name) error("Invalid message for request: $msg_name") end
+
+        add_to_params(params, msg, "")
+
+        # queueUrl becomes the endpoint, not a query parameter
+        if in(:queueUrl, fieldnames(msg))
+            ep = msg.queueUrl
+        end
+    end
+    sqs_execute(env, action, ep, params, use_post)
+end
+
+typebasename(a) = split(string(typeof(a)), ".")[end]

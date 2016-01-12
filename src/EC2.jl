@@ -1,8 +1,8 @@
 module EC2
 
-using LibExpat
+using LightXML
 using AWS.Crypto
-using HTTPClient.HTTPC
+using Requests
 using AWS.AWSEnv
 using AWS
 
@@ -45,7 +45,8 @@ type EC2Response
     http_code::Int
     headers
     body::Union{AbstractString, Void}
-    pd::Union{ETree, Void}
+    ## pd::Union{ETree, Void}
+    pd::Union{LightXML.XMLElement, Void}
     obj::Any
 
     EC2Response() = new(0, Dict{Any, Any}(), "", nothing, nothing)
@@ -66,7 +67,7 @@ function ec2_execute(env::AWSEnv, action::AbstractString, params_in=nothing)
     push!(params, ("Version", "2015-04-15"))
 #    push!(params, ("Expires", get_utc_timestamp(300))) # Request expires after 300 seconds
 
-    amz_headers, signed_querystr = canonicalize_and_sign(env, "ec2", "GET", params)
+    amz_headers, data, signed_querystr = canonicalize_and_sign(env, "ec2", false, params)
 
     ep_path = env.ep_path * (env.ep_path[end] == '/' ? "" : "/")
     complete_url = "https://" * ep_host(env, "ec2") * ep_path * "?" * signed_querystr
@@ -74,37 +75,43 @@ function ec2_execute(env::AWSEnv, action::AbstractString, params_in=nothing)
         println("URL:\n$complete_url\n")
     end
 
+	headers = Dict{ASCIIString, ASCIIString}()
+
+	for (k,v) in amz_headers
+		setindex!(headers, v, k)
+	end
+
     #make the request
     ec2resp = EC2Response()
     if !(env.dry_run)
-        ro = HTTPC.RequestOptions(headers = amz_headers, request_timeout = env.timeout)
-        resp = HTTPC.get(complete_url, ro)
+        resp = Requests.get(complete_url; headers = headers, timeout = env.timeout)
 
-        ec2resp.http_code = resp.http_code
+        ## ec2resp.http_code = resp.http_code
+        ec2resp.http_code = resp.status
         ec2resp.headers = resp.headers
-        ec2resp.body = bytestring(resp.body)
+        ## ec2resp.body = bytestring(resp.body)
+        ec2resp.body = bytestring(resp.data)
 
         if (env.dbg)
             print("HTTPCode: ", ec2resp.http_code, "\nHeaders: ", ec2resp.headers, "\nBody : ", ec2resp.body, "\n")
         end
 
-        if (resp.http_code >= 200) && (resp.http_code <= 299)
-#             println(typeof(resp.headers))
-
-             if (search(Base.get(resp.headers, "Content-Type", [""])[1], "/xml") != 0:-1)
+        if (resp.status >= 200) && (resp.status <= 299)
+             if (search(Base.get(resp.headers, "Content-Type", [""]), "/xml") != 0:-1)
 #            if  haskey(resp.headers, "Content-Type") && (resp.headers["Content-Type"] == "application/xml")
-                ec2resp.pd = xp_parse(ec2resp.body)
+                ec2resp.pd = LightXML.root(LightXML.parse_string(ec2resp.body))
             end
-        elseif (resp.http_code >= 400) && (resp.http_code <= 599)
+        elseif (resp.status >= 400) && (resp.status <= 599)
             if length(ec2resp.body) > 0
-                xom = xp_parse(ec2resp.body)
-                epd = LibExpat.find(xom, "Errors/Error[1]")
-                ec2resp.obj = EC2Error(LibExpat.find(epd, "Code#string"), LibExpat.find(epd, "Message#string"), LibExpat.find(xom, "RequestID#string"))
+                ## xom = xp_parse(ec2resp.body)
+                xom = LightXML.root(LightXML.parse_string(ec2resp.body))
+                epd = LightXML.find_element(LightXML.find_element(xom, "Errors"), "Error")
+                ec2resp.obj = EC2Error(LightXML.content(LightXML.find_element(epd, "Code")), LightXML.content(LightXML.find_element(epd, "Message")), LightXML.content(LightXML.find_element(xom, "RequestID")))
             else
-                error("HTTP error : $(resp.http_code)")
+                error("HTTP error : $(resp.status)")
             end
         else
-            error("HTTP error : $(resp.http_code), $(ec2resp.body)")
+            error("HTTP error : $(resp.status), $(ec2resp.body)")
         end
     end
 

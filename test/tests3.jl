@@ -1,9 +1,13 @@
 using AWS
 using AWS.S3
 
-env = AWSEnv(timeout=60.0)
+include("config.jl")
 
-bkt = "rnam0987"
+env=AWSEnv(; id=id, key=key, dbg=dbg)
+
+## env = AWSEnv(timeout=60.0)
+
+bkt = "1-test-temp-bkt"
 
 println("List all buckets")
 resp=S3.list_all_buckets(env)
@@ -39,6 +43,10 @@ println(resp)
 println("Get file 2")
 resp = S3.get_object(env, bkt, "file2")
 println(resp)
+
+
+println("Sleep for 30 secs ....")
+sleep(30)
 
 
 println("Delete file 1")

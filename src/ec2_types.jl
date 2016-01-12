@@ -5,10 +5,11 @@ type CreateImageResponseType
     CreateImageResponseType(; requestId=nothing, imageId=nothing) =
          new(requestId, imageId)
 end
-function CreateImageResponseType(pd::ETree)
+## function CreateImageResponseType(pd)
+function CreateImageResponseType(pd)
     o = CreateImageResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.imageId = LibExpat.find(pd, "imageId#string")
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.imageId = LightXML.content(LightXML.find_element(pd, "imageId"))
     o
 end
 
@@ -22,10 +23,11 @@ type RegisterImageResponseType
     RegisterImageResponseType(; requestId=nothing, imageId=nothing) =
          new(requestId, imageId)
 end
-function RegisterImageResponseType(pd::ETree)
+## function RegisterImageResponseType(pd)
+function RegisterImageResponseType(pd)
     o = RegisterImageResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.imageId = LibExpat.find(pd, "imageId#string")
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.imageId = LightXML.content(LightXML.find_element(pd, "imageId"))
     o
 end
 
@@ -38,9 +40,10 @@ type DeregisterImageType
     DeregisterImageType(; imageId=nothing) =
          new(imageId)
 end
-function DeregisterImageType(pd::ETree)
+## function DeregisterImageType(pd)
+function DeregisterImageType(pd)
     o = DeregisterImageType()
-    o.imageId = LibExpat.find(pd, "imageId#string")
+    o.imageId = LightXML.content(LightXML.find_element(pd, "imageId"))
     o
 end
 
@@ -54,10 +57,11 @@ type DeregisterImageResponseType
     DeregisterImageResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function DeregisterImageResponseType(pd::ETree)
+## function DeregisterImageResponseType(pd)
+function DeregisterImageResponseType(pd)
     o = DeregisterImageResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -70,9 +74,10 @@ type CreateKeyPairType
     CreateKeyPairType(; keyName=nothing) =
          new(keyName)
 end
-function CreateKeyPairType(pd::ETree)
+## function CreateKeyPairType(pd)
+function CreateKeyPairType(pd)
     o = CreateKeyPairType()
-    o.keyName = LibExpat.find(pd, "keyName#string")
+    o.keyName = LightXML.content(LightXML.find_element(pd, "keyName"))
     o
 end
 
@@ -88,12 +93,13 @@ type CreateKeyPairResponseType
     CreateKeyPairResponseType(; requestId=nothing, keyName=nothing, keyFingerprint=nothing, keyMaterial=nothing) =
          new(requestId, keyName, keyFingerprint, keyMaterial)
 end
-function CreateKeyPairResponseType(pd::ETree)
+## function CreateKeyPairResponseType(pd)
+function CreateKeyPairResponseType(pd)
     o = CreateKeyPairResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.keyName = LibExpat.find(pd, "keyName#string")
-    o.keyFingerprint = LibExpat.find(pd, "keyFingerprint#string")
-    o.keyMaterial = LibExpat.find(pd, "keyMaterial#string")
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.keyName = LightXML.content(LightXML.find_element(pd, "keyName"))
+    o.keyFingerprint = LightXML.content(LightXML.find_element(pd, "keyFingerprint"))
+    o.keyMaterial = LightXML.content(LightXML.find_element(pd, "keyMaterial"))
     o
 end
 
@@ -107,10 +113,11 @@ type ImportKeyPairType
     ImportKeyPairType(; keyName=nothing, publicKeyMaterial=nothing) =
          new(keyName, publicKeyMaterial)
 end
-function ImportKeyPairType(pd::ETree)
+## function ImportKeyPairType(pd)
+function ImportKeyPairType(pd)
     o = ImportKeyPairType()
-    o.keyName = LibExpat.find(pd, "keyName#string")
-    o.publicKeyMaterial = LibExpat.find(pd, "publicKeyMaterial#string")
+    o.keyName = LightXML.content(LightXML.find_element(pd, "keyName"))
+    o.publicKeyMaterial = LightXML.content(LightXML.find_element(pd, "publicKeyMaterial"))
     o
 end
 
@@ -125,11 +132,11 @@ type ImportKeyPairResponseType
     ImportKeyPairResponseType(; requestId=nothing, keyName=nothing, keyFingerprint=nothing) =
          new(requestId, keyName, keyFingerprint)
 end
-function ImportKeyPairResponseType(pd::ETree)
+function ImportKeyPairResponseType(pd)
     o = ImportKeyPairResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.keyName = LibExpat.find(pd, "keyName#string")
-    o.keyFingerprint = LibExpat.find(pd, "keyFingerprint#string")
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.keyName = LightXML.content(LightXML.find_element(pd, "keyName"))
+    o.keyFingerprint = LightXML.content(LightXML.find_element(pd, "keyFingerprint"))
     o
 end
 
@@ -142,9 +149,9 @@ type DeleteKeyPairType
     DeleteKeyPairType(; keyName=nothing) =
          new(keyName)
 end
-function DeleteKeyPairType(pd::ETree)
+function DeleteKeyPairType(pd)
     o = DeleteKeyPairType()
-    o.keyName = LibExpat.find(pd, "keyName#string")
+    o.keyName = LightXML.content(LightXML.find_element(pd, "keyName"))
     o
 end
 
@@ -158,10 +165,10 @@ type DeleteKeyPairResponseType
     DeleteKeyPairResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function DeleteKeyPairResponseType(pd::ETree)
+function DeleteKeyPairResponseType(pd)
     o = DeleteKeyPairResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -174,9 +181,9 @@ type DescribeKeyPairsItemType
     DescribeKeyPairsItemType(; keyName=nothing) =
          new(keyName)
 end
-function DescribeKeyPairsItemType(pd::ETree)
+function DescribeKeyPairsItemType(pd)
     o = DescribeKeyPairsItemType()
-    o.keyName = LibExpat.find(pd, "keyName#string")
+    o.keyName = LightXML.content(LightXML.find_element(pd, "keyName"))
     o
 end
 
@@ -190,10 +197,10 @@ type DescribeKeyPairsResponseItemType
     DescribeKeyPairsResponseItemType(; keyName=nothing, keyFingerprint=nothing) =
          new(keyName, keyFingerprint)
 end
-function DescribeKeyPairsResponseItemType(pd::ETree)
+function DescribeKeyPairsResponseItemType(pd)
     o = DescribeKeyPairsResponseItemType()
-    o.keyName = LibExpat.find(pd, "keyName#string")
-    o.keyFingerprint = LibExpat.find(pd, "keyFingerprint#string")
+    o.keyName = LightXML.content(LightXML.find_element(pd, "keyName"))
+    o.keyFingerprint = LightXML.content(LightXML.find_element(pd, "keyFingerprint"))
     o
 end
 
@@ -207,10 +214,10 @@ type IamInstanceProfileRequestType
     IamInstanceProfileRequestType(; arn=nothing, name=nothing) =
          new(arn, name)
 end
-function IamInstanceProfileRequestType(pd::ETree)
+function IamInstanceProfileRequestType(pd)
     o = IamInstanceProfileRequestType()
-    o.arn = LibExpat.find(pd, "arn#string")
-    o.name = LibExpat.find(pd, "name#string")
+    o.arn = LightXML.content(LightXML.find_element(pd, "arn"))
+    o.name = LightXML.content(LightXML.find_element(pd, "name"))
     o
 end
 
@@ -224,10 +231,10 @@ type PrivateIpAddressesSetItemRequestType
     PrivateIpAddressesSetItemRequestType(; privateIpAddress=nothing, primary=nothing) =
          new(privateIpAddress, primary)
 end
-function PrivateIpAddressesSetItemRequestType(pd::ETree)
+function PrivateIpAddressesSetItemRequestType(pd)
     o = PrivateIpAddressesSetItemRequestType()
-    o.privateIpAddress = LibExpat.find(pd, "privateIpAddress#string")
-    o.primary = AWS.safe_parse_as(Bool, LibExpat.find(pd, "primary#string"))
+    o.privateIpAddress = LightXML.content(LightXML.find_element(pd, "privateIpAddress"))
+    o.primary = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "primary")))
     o
 end
 
@@ -241,10 +248,10 @@ type ImportInstanceGroupItemType
     ImportInstanceGroupItemType(; groupId=nothing, groupName=nothing) =
          new(groupId, groupName)
 end
-function ImportInstanceGroupItemType(pd::ETree)
+function ImportInstanceGroupItemType(pd)
     o = ImportInstanceGroupItemType()
-    o.groupId = LibExpat.find(pd, "groupId#string")
-    o.groupName = LibExpat.find(pd, "groupName#string")
+    o.groupId = LightXML.content(LightXML.find_element(pd, "groupId"))
+    o.groupName = LightXML.content(LightXML.find_element(pd, "groupName"))
     o
 end
 
@@ -258,10 +265,10 @@ type GroupItemType
     GroupItemType(; groupId=nothing, groupName=nothing) =
          new(groupId, groupName)
 end
-function GroupItemType(pd::ETree)
+function GroupItemType(pd)
     o = GroupItemType()
-    o.groupId = LibExpat.find(pd, "groupId#string")
-    o.groupName = LibExpat.find(pd, "groupName#string")
+    o.groupId = LightXML.content(LightXML.find_element(pd, "groupId"))
+    o.groupName = LightXML.content(LightXML.find_element(pd, "groupName"))
     o
 end
 
@@ -274,9 +281,9 @@ type UserDataType
     UserDataType(; data=nothing) =
          new(data)
 end
-function UserDataType(pd::ETree)
+function UserDataType(pd)
     o = UserDataType()
-    o.data = LibExpat.find(pd, "data#string")
+    o.data = LightXML.content(LightXML.find_element(pd, "data"))
     o
 end
 
@@ -295,13 +302,13 @@ type EbsBlockDeviceType
     EbsBlockDeviceType(; snapshotId=nothing, volumeSize=nothing, deleteOnTermination=nothing, volumeType=nothing, iops=nothing) =
          new(snapshotId, volumeSize, deleteOnTermination, volumeType, iops)
 end
-function EbsBlockDeviceType(pd::ETree)
+function EbsBlockDeviceType(pd)
     o = EbsBlockDeviceType()
-    o.snapshotId = LibExpat.find(pd, "snapshotId#string")
-    o.volumeSize = AWS.safe_parse_as(Int64, LibExpat.find(pd, "volumeSize#string"))
-    o.deleteOnTermination = AWS.safe_parse_as(Bool, LibExpat.find(pd, "deleteOnTermination#string"))
-    o.volumeType = LibExpat.find(pd, "volumeType#string")
-    o.iops = AWS.safe_parse_as(Int64, LibExpat.find(pd, "iops#string"))
+    o.snapshotId = LightXML.content(LightXML.find_element(pd, "snapshotId"))
+    o.volumeSize = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "volumeSize")))
+    o.deleteOnTermination = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "deleteOnTermination")))
+    o.volumeType = LightXML.content(LightXML.find_element(pd, "volumeType"))
+    o.iops = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "iops")))
     o
 end
 
@@ -316,12 +323,13 @@ type BlockDeviceMappingItemType
     BlockDeviceMappingItemType(; deviceName=nothing, virtualName=nothing, noDevice=nothing, ebs=nothing) =
          new(deviceName, virtualName, noDevice, ebs)
 end
-function BlockDeviceMappingItemType(pd::ETree)
+function BlockDeviceMappingItemType(pd)
     o = BlockDeviceMappingItemType()
-    o.deviceName = LibExpat.find(pd, "deviceName#string")
-    o.virtualName = LibExpat.find(pd, "virtualName#string")
-    o.noDevice = LibExpat.find(pd, "noDevice#string")
-    o.ebs = length(pd["ebsBlockDevice"]) > 0 ?  EbsBlockDeviceType(LibExpat.find(pd,"ebsBlockDevice[1]")) : nothing
+    o.deviceName = LightXML.content(LightXML.find_element(pd, "deviceName"))
+    o.virtualName = LightXML.content(LightXML.find_element(pd, "virtualName"))
+    o.noDevice = LightXML.content(LightXML.find_element(pd, "noDevice"))
+    ## o.ebs = length(pd["ebsBlockDevice"]) > 0 ?  EbsBlockDeviceType(LightXML.content(LightXML.find_element(pd,"ebsBlockDevice[1]")) : nothing
+    o.ebs = LightXML.find_element(pd,"ebsBlockDevice") != nothing ? EbsBlockDeviceType(LightXML.find_element(pd,"ebsBlockDevice")) : nothing
     o
 end
 
@@ -335,11 +343,11 @@ type PlacementRequestType
     PlacementRequestType(; availabilityZone=nothing, groupName=nothing, tenancy=nothing) =
          new(availabilityZone, groupName, tenancy)
 end
-function PlacementRequestType(pd::ETree)
+function PlacementRequestType(pd)
     o = PlacementRequestType()
-    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
-    o.groupName = LibExpat.find(pd, "groupName#string")
-    o.tenancy = LibExpat.find(pd, "tenancy#string")
+    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
+    o.groupName = LightXML.content(LightXML.find_element(pd, "groupName"))
+    o.tenancy = LightXML.content(LightXML.find_element(pd, "tenancy"))
     o
 end
 
@@ -353,10 +361,10 @@ type SpotPlacementRequestType
     SpotPlacementRequestType(; availabilityZone=nothing, groupName=nothing) =
          new(availabilityZone, groupName)
 end
-function SpotPlacementRequestType(pd::ETree)
+function SpotPlacementRequestType(pd)
     o = SpotPlacementRequestType()
-    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
-    o.groupName = LibExpat.find(pd, "groupName#string")
+    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
+    o.groupName = LightXML.content(LightXML.find_element(pd, "groupName"))
     o
 end
 
@@ -370,10 +378,10 @@ type InstancePlacementType
     InstancePlacementType(; availabilityZone=nothing, groupName=nothing) =
          new(availabilityZone, groupName)
 end
-function InstancePlacementType(pd::ETree)
+function InstancePlacementType(pd)
     o = InstancePlacementType()
-    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
-    o.groupName = LibExpat.find(pd, "groupName#string")
+    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
+    o.groupName = LightXML.content(LightXML.find_element(pd, "groupName"))
     o
 end
 
@@ -386,9 +394,9 @@ type MonitoringInstanceType
     MonitoringInstanceType(; enabled=nothing) =
          new(enabled)
 end
-function MonitoringInstanceType(pd::ETree)
+function MonitoringInstanceType(pd)
     o = MonitoringInstanceType()
-    o.enabled = AWS.safe_parse_as(Bool, LibExpat.find(pd, "enabled#string"))
+    o.enabled = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "enabled")))
     o
 end
 
@@ -401,9 +409,9 @@ type InstanceLicenseRequestType
     InstanceLicenseRequestType(; pool=nothing) =
          new(pool)
 end
-function InstanceLicenseRequestType(pd::ETree)
+function InstanceLicenseRequestType(pd)
     o = InstanceLicenseRequestType()
-    o.pool = LibExpat.find(pd, "pool#string")
+    o.pool = LightXML.content(LightXML.find_element(pd, "pool"))
     o
 end
 
@@ -417,10 +425,10 @@ type IamInstanceProfileResponseType
     IamInstanceProfileResponseType(; arn=nothing, id=nothing) =
          new(arn, id)
 end
-function IamInstanceProfileResponseType(pd::ETree)
+function IamInstanceProfileResponseType(pd)
     o = IamInstanceProfileResponseType()
-    o.arn = LibExpat.find(pd, "arn#string")
-    o.id = LibExpat.find(pd, "id#string")
+    o.arn = LightXML.content(LightXML.find_element(pd, "arn"))
+    o.id = LightXML.content(LightXML.find_element(pd, "id"))
     o
 end
 
@@ -437,13 +445,13 @@ type InstanceNetworkInterfaceAttachmentType
     InstanceNetworkInterfaceAttachmentType(; attachmentId=nothing, deviceIndex=nothing, status=nothing, attachTime=nothing, deleteOnTermination=nothing) =
          new(attachmentId, deviceIndex, status, attachTime, deleteOnTermination)
 end
-function InstanceNetworkInterfaceAttachmentType(pd::ETree)
+function InstanceNetworkInterfaceAttachmentType(pd)
     o = InstanceNetworkInterfaceAttachmentType()
-    o.attachmentId = LibExpat.find(pd, "attachmentId#string")
-    o.deviceIndex = AWS.safe_parse_as(Int64, LibExpat.find(pd, "deviceIndex#string"))
-    o.status = LibExpat.find(pd, "status#string")
-    o.attachTime = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "attachTime#string"))
-    o.deleteOnTermination = AWS.safe_parse_as(Bool, LibExpat.find(pd, "deleteOnTermination#string"))
+    o.attachmentId = LightXML.content(LightXML.find_element(pd, "attachmentId"))
+    o.deviceIndex = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "deviceIndex")))
+    o.status = LightXML.content(LightXML.find_element(pd, "status"))
+    o.attachTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "attachTime")))
+    o.deleteOnTermination = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "deleteOnTermination")))
     o
 end
 
@@ -458,11 +466,11 @@ type InstanceNetworkInterfaceAssociationType
     InstanceNetworkInterfaceAssociationType(; publicIp=nothing, publicDnsName=nothing, ipOwnerId=nothing) =
          new(publicIp, publicDnsName, ipOwnerId)
 end
-function InstanceNetworkInterfaceAssociationType(pd::ETree)
+function InstanceNetworkInterfaceAssociationType(pd)
     o = InstanceNetworkInterfaceAssociationType()
-    o.publicIp = LibExpat.find(pd, "publicIp#string")
-    o.publicDnsName = LibExpat.find(pd, "publicDnsName#string")
-    o.ipOwnerId = LibExpat.find(pd, "ipOwnerId#string")
+    o.publicIp = LightXML.content(LightXML.find_element(pd, "publicIp"))
+    o.publicDnsName = LightXML.content(LightXML.find_element(pd, "publicDnsName"))
+    o.ipOwnerId = LightXML.content(LightXML.find_element(pd, "ipOwnerId"))
     o
 end
 
@@ -477,11 +485,11 @@ type PlacementResponseType
     PlacementResponseType(; availabilityZone=nothing, groupName=nothing, tenancy=nothing) =
          new(availabilityZone, groupName, tenancy)
 end
-function PlacementResponseType(pd::ETree)
+function PlacementResponseType(pd)
     o = PlacementResponseType()
-    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
-    o.groupName = LibExpat.find(pd, "groupName#string")
-    o.tenancy = LibExpat.find(pd, "tenancy#string")
+    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
+    o.groupName = LightXML.content(LightXML.find_element(pd, "groupName"))
+    o.tenancy = LightXML.content(LightXML.find_element(pd, "tenancy"))
     o
 end
 
@@ -495,10 +503,10 @@ type StateReasonType
     StateReasonType(; code=nothing, message=nothing) =
          new(code, message)
 end
-function StateReasonType(pd::ETree)
+function StateReasonType(pd)
     o = StateReasonType()
-    o.code = LibExpat.find(pd, "code#string")
-    o.message = LibExpat.find(pd, "message#string")
+    o.code = LightXML.content(LightXML.find_element(pd, "code"))
+    o.message = LightXML.content(LightXML.find_element(pd, "message"))
     o
 end
 
@@ -511,9 +519,9 @@ type InstanceBlockDeviceMappingResponseItemType
     InstanceBlockDeviceMappingResponseItemType(; deviceName=nothing) =
          new(deviceName)
 end
-function InstanceBlockDeviceMappingResponseItemType(pd::ETree)
+function InstanceBlockDeviceMappingResponseItemType(pd)
     o = InstanceBlockDeviceMappingResponseItemType()
-    o.deviceName = LibExpat.find(pd, "deviceName#string")
+    o.deviceName = LightXML.content(LightXML.find_element(pd, "deviceName"))
     o
 end
 
@@ -529,12 +537,12 @@ type EbsInstanceBlockDeviceMappingResponseType
     EbsInstanceBlockDeviceMappingResponseType(; volumeId=nothing, status=nothing, attachTime=nothing, deleteOnTermination=nothing) =
          new(volumeId, status, attachTime, deleteOnTermination)
 end
-function EbsInstanceBlockDeviceMappingResponseType(pd::ETree)
+function EbsInstanceBlockDeviceMappingResponseType(pd)
     o = EbsInstanceBlockDeviceMappingResponseType()
-    o.volumeId = LibExpat.find(pd, "volumeId#string")
-    o.status = LibExpat.find(pd, "status#string")
-    o.attachTime = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "attachTime#string"))
-    o.deleteOnTermination = AWS.safe_parse_as(Bool, LibExpat.find(pd, "deleteOnTermination#string"))
+    o.volumeId = LightXML.content(LightXML.find_element(pd, "volumeId"))
+    o.status = LightXML.content(LightXML.find_element(pd, "status"))
+    o.attachTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "attachTime")))
+    o.deleteOnTermination = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "deleteOnTermination")))
     o
 end
 
@@ -547,9 +555,9 @@ type InstanceLicenseResponseType
     InstanceLicenseResponseType(; pool=nothing) =
          new(pool)
 end
-function InstanceLicenseResponseType(pd::ETree)
+function InstanceLicenseResponseType(pd)
     o = InstanceLicenseResponseType()
-    o.pool = LibExpat.find(pd, "pool#string")
+    o.pool = LightXML.content(LightXML.find_element(pd, "pool"))
     o
 end
 
@@ -562,9 +570,9 @@ type AccountAttributeNameSetItemType
     AccountAttributeNameSetItemType(; attributeName=nothing) =
          new(attributeName)
 end
-function AccountAttributeNameSetItemType(pd::ETree)
+function AccountAttributeNameSetItemType(pd)
     o = AccountAttributeNameSetItemType()
-    o.attributeName = LibExpat.find(pd, "attributeName#string")
+    o.attributeName = LightXML.content(LightXML.find_element(pd, "attributeName"))
     o
 end
 
@@ -578,10 +586,10 @@ type AccountAttributeSetItemType
     AccountAttributeSetItemType(; attributeName=nothing, attributeValueSet=nothing) =
          new(attributeName, attributeValueSet)
 end
-function AccountAttributeSetItemType(pd::ETree)
+function AccountAttributeSetItemType(pd)
     o = AccountAttributeSetItemType()
-    o.attributeName = LibExpat.find(pd, "attributeName#string")
-    o.attributeValueSet = AWS.parse_vector_as(ASCIIString, "attributeValue", LibExpat.find(pd, "item/attributeValue"))
+    o.attributeName = LightXML.content(LightXML.find_element(pd, "attributeName"))
+    o.attributeValueSet = AWS.parse_vector_as(ASCIIString, "attributeValue", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "attributeValue"))
     o
 end
 
@@ -594,9 +602,9 @@ type AccountAttributeValueSetItemType
     AccountAttributeValueSetItemType(; attributeValue=nothing) =
          new(attributeValue)
 end
-function AccountAttributeValueSetItemType(pd::ETree)
+function AccountAttributeValueSetItemType(pd)
     o = AccountAttributeValueSetItemType()
-    o.attributeValue = LibExpat.find(pd, "attributeValue#string")
+    o.attributeValue = LightXML.content(LightXML.find_element(pd, "attributeValue"))
     o
 end
 
@@ -609,9 +617,9 @@ type DescribeVpcAttributeType
     DescribeVpcAttributeType(; vpcId=nothing) =
          new(vpcId)
 end
-function DescribeVpcAttributeType(pd::ETree)
+function DescribeVpcAttributeType(pd)
     o = DescribeVpcAttributeType()
-    o.vpcId = LibExpat.find(pd, "vpcId#string")
+    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
     o
 end
 
@@ -625,10 +633,10 @@ type DescribeVpcAttributeResponseType
     DescribeVpcAttributeResponseType(; requestId=nothing, vpcId=nothing) =
          new(requestId, vpcId)
 end
-function DescribeVpcAttributeResponseType(pd::ETree)
+function DescribeVpcAttributeResponseType(pd)
     o = DescribeVpcAttributeResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.vpcId = LibExpat.find(pd, "vpcId#string")
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
     o
 end
 
@@ -641,9 +649,9 @@ type ModifyVpcAttributeType
     ModifyVpcAttributeType(; vpcId=nothing) =
          new(vpcId)
 end
-function ModifyVpcAttributeType(pd::ETree)
+function ModifyVpcAttributeType(pd)
     o = ModifyVpcAttributeType()
-    o.vpcId = LibExpat.find(pd, "vpcId#string")
+    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
     o
 end
 
@@ -657,10 +665,10 @@ type ModifyVpcAttributeResponseType
     ModifyVpcAttributeResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function ModifyVpcAttributeResponseType(pd::ETree)
+function ModifyVpcAttributeResponseType(pd)
     o = ModifyVpcAttributeResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -674,11 +682,11 @@ type VpcPeeringConnectionVpcInfoType
 
   VpcPeeringConnectionVpcInfoType(; ownerId=nothing, vpcId=nothing, cidrBlock=nothing) = new(ownerId, vpcId, cidrBlock)
 end
-function VpcPeeringConnectionVpcInfoType(pd::ETree)
+function VpcPeeringConnectionVpcInfoType(pd)
   o = VpcPeeringConnectionVpcInfoType()
-  o.ownerId = LibExpat.find(pd, "ownerId#string")
-  o.vpcId = LibExpat.find(pd, "vpcId#string")
-  o.cidrBlock = LibExpat.find(pd, "cidrBlock#string")
+  o.ownerId = LightXML.content(LightXML.find_element(pd, "ownerId"))
+  o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
+  o.cidrBlock = LightXML.content(LightXML.find_element(pd, "cidrBlock"))
   o
 end
 
@@ -691,10 +699,10 @@ type VpcPeeringConnectionStateReasonType
 
   VpcPeeringConnectionStateReasonType(; code=nothing, message=nothing) = new(code, message)
 end
-function VpcPeeringConnectionStateReasonType(pd::ETree)
+function VpcPeeringConnectionStateReasonType(pd)
   o = VpcPeeringConnectionStateReasonType()
-  o.code = LibExpat.find(pd, "code#string")
-  o.message = LibExpat.find(pd, "message#string")
+  o.code = LightXML.content(LightXML.find_element(pd, "code"))
+  o.message = LightXML.content(LightXML.find_element(pd, "message"))
   o
 end
 
@@ -708,10 +716,10 @@ type ResourceTagSetItemType
     ResourceTagSetItemType(; key=nothing, value=nothing) =
          new(key, value)
 end
-function ResourceTagSetItemType(pd::ETree)
+function ResourceTagSetItemType(pd)
     o = ResourceTagSetItemType()
-    o.key = LibExpat.find(pd, "key#string")
-    o.value = LibExpat.find(pd, "value#string")
+    o.key = LightXML.content(LightXML.find_element(pd, "key"))
+    o.value = LightXML.content(LightXML.find_element(pd, "value"))
     o
 end
 
@@ -730,14 +738,14 @@ type VpcPeeringConnectionType
                            expirationTime=nothing, tagSet=nothing) = new(vpcPeeringConnectionId, requesterVpcInfo,
                                                                          accepterVpcInfo, status, expirationTime, tagSet)
 end
-function VpcPeeringConnectionType(pd::ETree)
+function VpcPeeringConnectionType(pd)
   o = VpcPeeringConnectionType()
-  o.vpcPeeringConnectionId = LibExpat.find(pd, "vpcPeeringConnectionId#string")
-  o.requesterVpcInfo = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionVpcInfoType, LibExpat.find(pd, "requesterVpcInfo"))
-  o.accepterVpcInfo = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionVpcInfoType, LibExpat.find(pd, "accepterVpcInfo"))
-  o.status = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionStateReasonType, LibExpat.find(pd, "status"))
-  o.expirationTime = AWS.safe_parse_as(DateTime, LibExpat.find(pd, "expirationTime#string"))
-  o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
+  o.vpcPeeringConnectionId = LightXML.content(LightXML.find_element(pd, "vpcPeeringConnectionId"))
+  o.requesterVpcInfo = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionVpcInfoType, LightXML.get_elements_by_tagname(pd, "requesterVpcInfo"))
+  o.accepterVpcInfo = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionVpcInfoType, LightXML.get_elements_by_tagname(pd, "accepterVpcInfo"))
+  o.status = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionStateReasonType, LightXML.get_elements_by_tagname(pd, "status"))
+  o.expirationTime = AWS.safe_parse_as(DateTime, LightXML.content(LightXML.find_element(pd, "expirationTime")))
+  o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(LightXML.find_element(pd, "tagSet"), "item")))
   o
 end
 
@@ -749,9 +757,9 @@ type AcceptVpcPeeringConnectionType
 
   AcceptVpcPeeringConnectionType(; vpcPeeringConnectionId=nothing) = new(vpcPeeringConnectionId)
 end
-function AcceptVpcPeeringConnectionType(pd::ETree)
+function AcceptVpcPeeringConnectionType(pd)
   o = AcceptVpcPeeringConnectionType()
-  o.vpcPeeringConnectionId = LibExpat.find(pd, "vpcPeeringConnectionId#string")
+  o.vpcPeeringConnectionId = LightXML.content(LightXML.find_element(pd, "vpcPeeringConnectionId"))
   o
 end
 
@@ -764,10 +772,10 @@ type AcceptVpcPeeringConnectionResponseType
 
   AcceptVpcPeeringConnectionResponseType(; requestId=nothing, vpcPeeringConnection=nothing) = new(requestId, vpcPeeringConnection)
 end
-function AcceptVpcPeeringConnectionResponseType(pd::ETree)
+function AcceptVpcPeeringConnectionResponseType(pd)
   o = AcceptVPcPeeringConnectionResponseType()
-  o.requestId = LibExpat.find(pd, "requestId#string")
-  o.vpcPeeringConnection = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionType, LibExpat.find(pd, "vpcPeeringConnection"))
+  o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+  o.vpcPeeringConnection = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "vpcPeeringConnection")))
   o
 end
 
@@ -784,13 +792,13 @@ type CreateVpcEndpointType
   CreateVpcEndpointType(; clientToken=nothing, policyDocument=nothing, routeTableIdSet=nothing, serviceName=nothing,
                         vpcId=nothing) = new(clientToken, policyDocument, routeTableId, serviceName, vpcId)
 end
-function CreateVpcEndpointType(pd::ETree)
+function CreateVpcEndpointType(pd)
   o = CreateVpcEndpointType()
-  clientToken = LibExpat.find(pd, "clientToken#string")
-  policyDocument = LibExpat.find(pd, "policyDocument#string")
-  routeTableIdSet = AWS.parse_vector_as(ASCIIString, "routeTableId", LibExpat.find(pd, "item/routeTableId"))
-  serviceName = LibExpat.find(pd, "serviceName#string")
-  vpcId = LibExpat.find(pd, "vpcId#string")
+  clientToken = LightXML.content(LightXML.find_element(pd, "clientToken"))
+  policyDocument = LightXML.content(LightXML.find_element(pd, "policyDocument"))
+  routeTableIdSet = AWS.parse_vector_as(ASCIIString, "routeTableId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "routeTableId"))
+  serviceName = LightXML.content(LightXML.find_element(pd, "serviceName"))
+  vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
   o
 end
 
@@ -810,15 +818,15 @@ type VpcEndpointType
               state=nothing, vpcEndpointId=nothing, vpcId=nothing) = new(creationTimestamp, policyDocument,
                                                                          routeTableIdSet, serviceName, state, vpcEndpointId, vpcId)
 end
-function VpcEndpointType(pd::ETree)
+function VpcEndpointType(pd)
   o = VpcEndpointType()
-  o.creationTimestamp = AWS.safe_parse_as(DateTime, LibExpat.find(pd, "creationTimestamp#string"))
-  o.policyDocument = LibExpat.find(pd, "policyDocument#string")
-  o.routeTableIdSet = AWS.parse_vector_as(ASCIIString, "routeTableId", LibExpat.find(pd, "item/routeTableId"))
-  o.serviceName = LibExpat.find(pd, "serviceName#string")
-  o.state = LibExpat.find(pd, "state#string")
-  o.vpcEndpointId = LibExpat.find(pd, "vpcEndpointId#string")
-  o.vpcId = LibExpat.find(pd, "vpdId#string")
+  o.creationTimestamp = AWS.safe_parse_as(DateTime, LightXML.content(LightXML.find_element(pd, "creationTimestamp")))
+  o.policyDocument = LightXML.content(LightXML.find_element(pd, "policyDocument"))
+  o.routeTableIdSet = AWS.parse_vector_as(ASCIIString, "routeTableId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "routeTableId"))
+  o.serviceName = LightXML.content(LightXML.find_element(pd, "serviceName"))
+  o.state = LightXML.content(LightXML.find_element(pd, "state"))
+  o.vpcEndpointId = LightXML.content(LightXML.find_element(pd, "vpcEndpointId"))
+  o.vpcId = LightXML.content(LightXML.find_element(pd, "vpdId"))
   o
 end
 
@@ -833,11 +841,11 @@ type CreateVpcEndpointResponseType
   CreateVpcEndpointResponseType(; clientToken=nothing, requestId=nothing, vpcEndpoint=nothing) =
     new(clientToken, requestId, vpcEndpoint)
 end
-function CreateVpcEndpointResponseType(pd::ETree)
+function CreateVpcEndpointResponseType(pd)
   o = CreateVpcEndpointResponseType()
-  o.clientToken = LibExpat.find(pd, "clientToken#string")
-  o.requestId = LibExpat.find(pd, "requestId#string")
-  o.vpcEndpoint = AWS.@parse_vector(AWS.EC2.VpcEndpointType, LibExpat.find(pd, "vpcEndpoint"))
+  o.clientToken = LightXML.content(LightXML.find_element(pd, "clientToken"))
+  o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+  o.vpcEndpoint = AWS.@parse_vector(AWS.EC2.VpcEndpointType, LightXML.get_elements_by_tagname(pd, "vpcEndpoint"))
   o
 end
 
@@ -852,11 +860,11 @@ type CreateVpcPeeringConnectionType
   CreateVpcPeeringConnectionType(; vpcId=nothing, peerVpcId=nothing, peerOwnerId=nothing) =
     new(vpcId, peerVpcId, peerOwnerId)
 end
-function CreateVpcPeeringConnectionType(pd::ETree)
+function CreateVpcPeeringConnectionType(pd)
   o = CreateVpcPeeringConnectionType()
-  o.vpcId = LibExpat.find(pd, "vpcId#string")
-  o.peerVpcId = LibExpat.find(pd, "peerVpcId#string")
-  o.peerOwnerId = LibExpat.find(pd, "peerOwnerId#string")
+  o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
+  o.peerVpcId = LightXML.content(LightXML.find_element(pd, "peerVpcId"))
+  o.peerOwnerId = LightXML.content(LightXML.find_element(pd, "peerOwnerId"))
   o
 end
 
@@ -870,10 +878,10 @@ type CreateVpcPeeringConnectionResponseType
   CreateVpcPeeringConnectionResponseType(; requestId=nothing, vpcPeeringConnection=nothing) =
     new(requestId, vpcPeeringConnection)
 end
-function CreateVpcPeeringConnectionResponseType(pd::ETree)
+function CreateVpcPeeringConnectionResponseType(pd)
   o = CreateVpcPeeringConnectionResponseType()
-  o.requestId = LibExpat.find(pd, "requestId#string")
-  o.vpcPeeringConnection = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionType, LibExpat.find(pd, "vpcPeeringConnection"))
+  o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+  o.vpcPeeringConnection = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionType, LightXML.get_elements_by_tagname(pd, "vpcPeeringConnection"))
   o
 end
 
@@ -885,9 +893,9 @@ type DeleteVpcEndpointsType
 
   DeleteVpcEndpointsType(; vpcEndpointIdSet=nothing) = new(vpcEndpointIdSet)
 end
-function DeleteVpcEndpointsType(pd::ETree)
+function DeleteVpcEndpointsType(pd)
   o = DeleteVpcEndpointsType()
-  o.vpcEndpointIdSet = AWS.parse_vector_as(ASCIIString, "vpcEndpointId", LibExpat.find(pd, "item/vpcEndpointId"))
+  o.vpcEndpointIdSet = AWS.parse_vector_as(ASCIIString, "vpcEndpointId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "vpcEndpointId"))
 end
 
 export DeleteVpcEndpointsType
@@ -899,10 +907,10 @@ type UnsuccessfulItemErrorType
 
   UnsuccessfulItemErrorType(; code=nothing, message=nothing) = new(code, message)
 end
-function UnsuccessfulItemErrorType(pd::ETree)
+function UnsuccessfulItemErrorType(pd)
   o = UnsuccessfulItemErrorType()
-  o.code = LibExpat.find(pd, "code#string")
-  o.message = LibExpat.find(pd, "message#string")
+  o.code = LightXML.content(LightXML.find_element(pd, "code"))
+  o.message = LightXML.content(LightXML.find_element(pd, "message"))
   o
 end
 
@@ -915,10 +923,10 @@ type UnsuccessfulItemType
 
   UnsuccessfulItemType(; error=nothing, resourceId=nothing) = new(error, resourceId)
 end
-function UnsuccessfulItemType(pd::ETree)
+function UnsuccessfulItemType(pd)
   o = UnsuccessfulItemType()
-  o.error = AWS.@parse_vector(AWS.EC2.UnsuccessfulItemErrorType, LibExpat.find(pd, "error"))
-  o.resourceId = LibExpat.find(pd, "resourceId#string")
+  o.error = AWS.@parse_vector(AWS.EC2.UnsuccessfulItemErrorType, LightXML.get_elements_by_tagname(pd, "error"))
+  o.resourceId = LightXML.content(LightXML.find_element(pd, "resourceId"))
   o
 end
 
@@ -931,10 +939,10 @@ type DeleteVpcEndpointsResponseType
 
   DeleteVpcEndpointsResponseType(; requestId=nothing, unsucessful=nothing) = new(requestId, unsuccessful)
 end
-function DeleteVpcEndpointsResponseType(pd::ETree)
+function DeleteVpcEndpointsResponseType(pd)
   o = DeleteVpcEndpointsResponseType()
-  o.requestId = LibExpat.find("requestId#string")
-  o.unsuccessful = AWS.@parse_vector(AWS.EC2.UnsuccessfulItemType, LibExpat.find(pd, "unsuccessful"))
+  o.requestId = LightXML.content(LightXML.find_element("requestId"))
+  o.unsuccessful = AWS.@parse_vector(AWS.EC2.UnsuccessfulItemType, LightXML.get_elements_by_tagname(pd, "unsuccessful"))
 end
 
 export DeleteVpcEndpointsResponseType
@@ -946,9 +954,9 @@ type VpcEndpointIdSetItemType
     VpcEndpointIdSetItemType(; vpcEndpointId=nothing) =
          new(vpcEndpointId)
 end
-function VpcEndpointIdSetItemType(pd::ETree)
+function VpcEndpointIdSetItemType(pd)
     o = VpcEndpointIdSetItemType()
-    o.vpcEndpointId = LibExpat.find(pd, "vpcEndpointId#string")
+    o.vpcEndpointId = LightXML.content(LightXML.find_element(pd, "vpcEndpointId"))
     o
 end
 
@@ -960,9 +968,9 @@ type DeleteVpcPeeringConnectionType
 
   DeleteVpcPeeringConnectionType(; vpcPeeringConnectionID=nothing) = new(vpcPeeringConnectionId)
 end
-function DeleteVpcPeeringConnectionType(pd::ETree)
+function DeleteVpcPeeringConnectionType(pd)
   o = DeleteVpcPeeringConnectionType()
-  o.vpcPeeringConnectionId = LibExpat.find(pd, "vpcPeeringConnectionId#string")
+  o.vpcPeeringConnectionId = LightXML.content(LightXML.find_element(pd, "vpcPeeringConnectionId"))
   o
 end
 
@@ -975,10 +983,10 @@ type DeleteVpcPeeringConnectionResponseType
 
   DeleteVpcPeeringConnectionResponseType(; requestId=nothing, _return=nothing) = new(requestId, _return)
 end
-function DeleteVpcPeeringConnectionResponseType(pd::ETree)
+function DeleteVpcPeeringConnectionResponseType(pd)
   o = DeleteVpcPeeringConnectionResponseType()
-  o.requestId = LibExpat.find(pd, "requestId#string")
-  o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+  o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+  o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
   o
 end
 
@@ -992,10 +1000,10 @@ type FilterType
     FilterType(; name=nothing, valueSet=nothing) =
          new(name, valueSet)
 end
-function FilterType(pd::ETree)
+function FilterType(pd)
     o = FilterType()
-    o.name = LibExpat.find(pd, "name#string")
-    o.valueSet = AWS.parse_vector_as(ASCIIString, "value", LibExpat.find(pd, "item/value"))
+    o.name = LightXML.content(LightXML.find_element(pd, "name"))
+    o.valueSet = AWS.parse_vector_as(ASCIIString, "value", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "value"))
     o
 end
 
@@ -1011,12 +1019,12 @@ type DescribePrefixListsType
   DescribePrefixListsType(; filterSet=nothing, maxResults=nothing, nextToken=nothing, prefixListIdSet=nothing) =
     new(filterSet, maxResults, nextToken, prefixListIdSet)
 end
-function DescribePrefixListsType(pd::ETree)
+function DescribePrefixListsType(pd)
   o = DescribePrefixListsType()
-  o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
-  o.maxResults = AWS.safe_parse_as(Int64, LibExpat.find(pd, "maxResults#string"))
-  o.nextToken = LibExpat.find(pd, "nextToken#string")
-  o.prefixListIdSet = AWS.parse_vector_as(ASCIIString, "prefixListId", LibExpat.find(pd, "item/prefixListId"))
+  o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+  o.maxResults = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "maxResults")))
+  o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
+  o.prefixListIdSet = AWS.parse_vector_as(ASCIIString, "prefixListId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "prefixListId"))
   o
 end
 
@@ -1030,11 +1038,11 @@ type PrefixListType
 
   PrefixListType(; cidrs=nothing, prefixListId=nothing, prefixListName=nothing) = new(cidrs, prefixListId, prefixListName)
 end
-function PrefixListType(pd::ETree)
+function PrefixListType(pd)
   o = PrefixListType()
-  o.cidrs = AWS.parse_vector_as(ASCIIString, "cidr", LibExpat.find(pd, "item/cidr"))
-  o.prefixListId = LibExpat.find(pd, "prefixListId#string")
-  o.prefixListName = LibExpat.find(pd, "prefixListName#string")
+  o.cidrs = AWS.parse_vector_as(ASCIIString, "cidr", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "cidr"))
+  o.prefixListId = LightXML.content(LightXML.find_element(pd, "prefixListId"))
+  o.prefixListName = LightXML.content(LightXML.find_element(pd, "prefixListName"))
   o
 end
 
@@ -1049,10 +1057,10 @@ type DescribePrefixListsResponseType
   DescribePrefixListsResponseType(; nextToken=nothing, prefixListSet=nothing, requestId=nothing) =
     new(nextToken, prefixListSet, requestId)
 end
-function DescribePrefixListsResponseType(pd::ETree)
+function DescribePrefixListsResponseType(pd)
   o = DescribePrefixListsResponseType()
-  o.nextToken = LibExpat.find(pd, "nextToken#string")
-  o.prefixListSet = AWS.parse_vector_as(ASCIIString, "prefixList", LibExpat.find(pd, "item/prefixList"))
+  o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
+  o.prefixListSet = AWS.parse_vector_as(ASCIIString, "prefixList", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "prefixList"))
   o
 end
 
@@ -1065,10 +1073,10 @@ type DescribeVpcEndpointServicesType
 
   DescribeVpcEndpointServicesType(; maxResults=nothing, nextToken=nothing) = new(maxResults, nextToken)
 end
-function DescribeVpcEndpointServicesType(pd::ETree)
+function DescribeVpcEndpointServicesType(pd)
   o = DescribeVpcEndpointServicesType()
-  o.maxResults = AWS.safe_parse_as(Int64, LibExpat.find(pd, "maxResults#string"))
-  o.nextToken = LibExpat.find(pd, "nextToken#string")
+  o.maxResults = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "maxResults")))
+  o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
   o
 end
 
@@ -1083,11 +1091,11 @@ type DescribeVpcEndpointServicesResponseType
   DescribeVpcEndpointServicesResponseType(; nextToken=nothing, requestId=nothing, serviceNameSet=nothing) =
     new(nextToken, requestId, serviceNameSet)
 end
-function DescribeVpcEndpointServicesResponseType(pd::ETree)
+function DescribeVpcEndpointServicesResponseType(pd)
   o = DescribeVpcEndpointServicesResponseType()
-  o.nextToken = LibExpat.find(pd, "nextToken#string")
-  o.requestId = LibExpat.find(pd, "requestId#string")
-  o.serviceNameSet = AWS.parse_vector_as(ASCIIString, "serviceName", LibExpat.find(pd, "item/serviceName"))
+  o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
+  o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+  o.serviceNameSet = AWS.parse_vector_as(ASCIIString, "serviceName", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "serviceName"))
 end
 
 export DescribeVpcEndpointServicesResponseType
@@ -1102,12 +1110,12 @@ type DescribeVpcEndpointsType
   DescribeVpcEndpointsType(; filterSet=nothing, maxResults=nothing, nextToken=nothing, vpcEndpointIdSet=nothing) =
     new(filterSet, maxResults, nextToken, vpcEndpointIdSet)
 end
-function DescribeVpcEndpointsType(pd::ETree)
+function DescribeVpcEndpointsType(pd)
   o = DescribeVpcEndpointsType()
-  o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
-  o.maxResults = AWS.safe_parse_as(Int64, LibExpat.find(pd, "maxResults#string"))
-  o.nextToken = LibExpat.find(pd, "nextToken#string")
-  o.vpcEndpointIdSet = AWS.@parse_vector(AWS.EC2.VpcEndpointType, LibExpat.find(pd, "vcpEndpointId/item"))
+  o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+  o.maxResults = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "maxResults")))
+  o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
+  o.vpcEndpointIdSet = AWS.@parse_vector(AWS.EC2.VpcEndpointType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "vcpEndpointId"), "item"))
   o
 end
 
@@ -1122,11 +1130,11 @@ type DescribeVpcEndpointsResponseType
   DescribeVpcEndpointsResponseType(; nextToken=nothing, requestId=nothing, vpcEndpointIdSet=nothing) =
     new(nextToken, requestId, vpcEndpointIdSet)
 end
-function DescribeVpcEndpointsResponseType(pd::ETree)
+function DescribeVpcEndpointsResponseType(pd)
   o = DescribeVpcEndpointsResponseType()
-  o.nextToken = LibExpat.find(pd, "nextToken#string")
-  o.requestId = LibExpat.find(pd, "requestId#string")
-  o.vpcEndpointIdSet = AWS.@parse_vector(AWS.EC2.VpcEndpointType, LibExpat.find(pd, "vcpEndpointId/item"))
+  o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
+  o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+  o.vpcEndpointIdSet = AWS.@parse_vector(AWS.EC2.VpcEndpointType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "vcpEndpointId"), "item"))
   o
 end
 
@@ -1140,10 +1148,10 @@ type DescribeVpcPeeringConnectionsType
   DescribeVpcPeeringConnectionsType(; filterSet=nothing, vpcPeeringConnectionIdSet=nothing) =
     new(filterSet, vpcPeeringConnectionIdSet)
 end
-function DescribeVpcPeeringConnectionsType(pd::ETree)
+function DescribeVpcPeeringConnectionsType(pd)
   o = DescribeVpcPeeringConnectionsType()
-  o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
-  o.vpcPeeringConnectionIdSet = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionType, LibExpat.find(pd, "vcpPeeringConnectionId/item"))
+  o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+  o.vpcPeeringConnectionIdSet = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "vcpPeeringConnectionId"), "item"))
   o
 end
 
@@ -1157,10 +1165,10 @@ type DescribeVpcPeeringConnectionsResponseType
   DescribeVpcPeeringConnectionsResponseType(; responseId=nothing, vpcPeeringConnectionSet=nothing) =
     new(responseId, vpcPeeringConnectionSet)
 end
-function DescribeVpcPeeringConnectionsResponseType(pd::ETree)
+function DescribeVpcPeeringConnectionsResponseType(pd)
   o = DescribeVpcPeeringConnectionsResponseType()
-  o.requestId = LibExpat.find(pd, "requestId#string")
-  o.vpcPeeringConnectionSet = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionType, LibExpat.find(pd, "vcpPeeringConnection/item"))
+  o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+  o.vpcPeeringConnectionSet = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "vcpPeeringConnection"), "item"))
   o
 end
 
@@ -1174,10 +1182,10 @@ type ModifySubnetAttributeType
   ModifySubnetAttributeType(; mapPublicIpOnLaunch=nothing, subnetId=nothing) =
     new(mapPublicIpOnLaunch, subnetId)
 end
-function ModifySubnetAttributeType(pd::ETree)
+function ModifySubnetAttributeType(pd)
   o = ModifySubnetAttributeType()
-  o.mapPublicIpOnLaunch = AWS.safe_parse_as(Bool, LibExpat.find(pd, "mapPublicIpOnLaunch#string"))
-  o.subnetId = LibExpat.find(pd, "subnetId#string")
+  o.mapPublicIpOnLaunch = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "mapPublicIpOnLaunch")))
+  o.subnetId = LightXML.content(LightXML.find_element(pd, "subnetId"))
   o
 end
 
@@ -1190,10 +1198,10 @@ type ModifySubnetAttributeResponseType
 
   ModifySubnetAttributeResponseType(; requestId=nothing, _return=nothing) = new(requestId, _return)
 end
-function ModifySubnetAttributeResponseType(pd::ETree)
+function ModifySubnetAttributeResponseType(pd)
   o = ModifySubnetAttributeResponseType()
-  o.requestId = LibExpat.find(pd, "requestId#string")
-  o._return = AWS.safe_parse_as(bool, LibExpat.find(pd, "return#string"))
+  o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+  o._return = AWS.safe_parse_as(bool, LightXML.content(LightXML.find_element(pd, "return")))
   o
 end
 
@@ -1211,13 +1219,13 @@ type ModifyVpcEndpointType
                         resetPolicy=nothing, vpcEndpointId=nothing) = new(addRouteTableIdSet, policyDocument,
                                                                           removeRouteTableIdSet, resetPolicy, vpcEndpointId)
 end
-function ModifyVpcEndpointType(pd::ETree)
+function ModifyVpcEndpointType(pd)
   o = ModifyVpcEndpointType()
-  o.addRouteTableIdSet = AWS.parse_vector_as(ASCIIString, "routeTableId", LibExpat.find(pd, "item/routeTableId"))
-  o.policyDocument = LibExpat.find(pd, "policyDocument#string")
-  o.removeRouteTableIdSet = AWS.parse_vector_as(ASCIIString, "routeTableId", LibExpat.find(pd, "item/routeTableId"))
-  o.resetPolicy = AWS.safe_parse_as(Bool, LibExpat.find(pd, "resetPolicy"))
-  o.vpcEndpointId = LibExpat.find(pd, "vpcEndpointId#string")
+  o.addRouteTableIdSet = AWS.parse_vector_as(ASCIIString, "routeTableId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "routeTableId"))
+  o.policyDocument = LightXML.content(LightXML.find_element(pd, "policyDocument"))
+  o.removeRouteTableIdSet = AWS.parse_vector_as(ASCIIString, "routeTableId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "routeTableId"))
+  o.resetPolicy = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "resetPolicy")))
+  o.vpcEndpointId = LightXML.content(LightXML.find_element(pd, "vpcEndpointId"))
   o
 end
 
@@ -1230,10 +1238,10 @@ type ModifyVpcEndpointResponseType
 
   ModifyVpcEndpointResponseType(; requestId=nothing, _return=nothing) = new(requestId, _return)
 end
-function ModifyVpcEndpointResponseType(pd::ETree)
+function ModifyVpcEndpointResponseType(pd)
   o = ModifyVpcEndpointResponseType()
-  o.requestId = LibExpat.find(pd, "requestId#string")
-  o._return = AWS.safe_parse_as(bool, LibExpat.find(pd, "return#string"))
+  o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+  o._return = AWS.safe_parse_as(bool, LightXML.content(LightXML.find_element(pd, "return")))
   o
 end
 
@@ -1245,9 +1253,9 @@ type RejectVpcPeeringConnectionType
 
   RejectVpcPeeringConnectionType(; vpcPeeringConnectionId=nothing) = new(vpcPeeringConnectionId)
 end
-function RejectVpcPeeringConnectionType(pd::ETree)
+function RejectVpcPeeringConnectionType(pd)
   o = RejectVpcPeeringConnectionType()
-  o.vpcPeeringConnectionId = LibExpat.find(pd, "vpcPeeringConnectionId#string")
+  o.vpcPeeringConnectionId = LightXML.content(LightXML.find_element(pd, "vpcPeeringConnectionId"))
   o
 end
 
@@ -1260,10 +1268,10 @@ type RejectVpcPeeringConnectionResponseType
 
   RejectVpcPeeringConnectionResponseType(; requestId=nothing, _return=nothing) = new(requestId, _return)
 end
-function RejectVpcPeeringConnectionResponseType(pd::ETree)
+function RejectVpcPeeringConnectionResponseType(pd)
   o = RejectVpcPeeringConnectionResponseType()
-  o.requestId = LibExpat.find(pd, "requestId#string")
-  o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+  o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+  o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
   o
 end
 
@@ -1276,9 +1284,9 @@ type GetConsoleOutputType
     GetConsoleOutputType(; instanceId=nothing) =
          new(instanceId)
 end
-function GetConsoleOutputType(pd::ETree)
+function GetConsoleOutputType(pd)
     o = GetConsoleOutputType()
-    o.instanceId = LibExpat.find(pd, "instanceId#string")
+    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
     o
 end
 
@@ -1294,12 +1302,12 @@ type GetConsoleOutputResponseType
     GetConsoleOutputResponseType(; requestId=nothing, instanceId=nothing, timestamp=nothing, output=nothing) =
          new(requestId, instanceId, timestamp, output)
 end
-function GetConsoleOutputResponseType(pd::ETree)
+function GetConsoleOutputResponseType(pd)
     o = GetConsoleOutputResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.instanceId = LibExpat.find(pd, "instanceId#string")
-    o.timestamp = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "timestamp#string"))
-    o.output = LibExpat.find(pd, "output#string")
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
+    o.timestamp = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "timestamp")))
+    o.output = LightXML.content(LightXML.find_element(pd, "output"))
     o
 end
 
@@ -1312,9 +1320,9 @@ type GetPasswordDataType
     GetPasswordDataType(; instanceId=nothing) =
          new(instanceId)
 end
-function GetPasswordDataType(pd::ETree)
+function GetPasswordDataType(pd)
     o = GetPasswordDataType()
-    o.instanceId = LibExpat.find(pd, "instanceId#string")
+    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
     o
 end
 
@@ -1330,12 +1338,12 @@ type GetPasswordDataResponseType
     GetPasswordDataResponseType(; requestId=nothing, instanceId=nothing, timestamp=nothing, passwordData=nothing) =
          new(requestId, instanceId, timestamp, passwordData)
 end
-function GetPasswordDataResponseType(pd::ETree)
+function GetPasswordDataResponseType(pd)
     o = GetPasswordDataResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.instanceId = LibExpat.find(pd, "instanceId#string")
-    o.timestamp = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "timestamp#string"))
-    o.passwordData = LibExpat.find(pd, "passwordData#string")
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
+    o.timestamp = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "timestamp")))
+    o.passwordData = LightXML.content(LightXML.find_element(pd, "passwordData"))
     o
 end
 
@@ -1348,9 +1356,9 @@ type InstanceIdType
     InstanceIdType(; instanceId=nothing) =
          new(instanceId)
 end
-function InstanceIdType(pd::ETree)
+function InstanceIdType(pd)
     o = InstanceIdType()
-    o.instanceId = LibExpat.find(pd, "instanceId#string")
+    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
     o
 end
 
@@ -1363,9 +1371,9 @@ type TerminateInstancesType
     TerminateInstancesType(; instancesSet=nothing) =
          new(instancesSet)
 end
-function TerminateInstancesType(pd::ETree)
+function TerminateInstancesType(pd)
     o = TerminateInstancesType()
-    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", LibExpat.find(pd, "item/instanceId"))
+    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
     o
 end
 
@@ -1378,9 +1386,9 @@ type InstanceBlockDeviceMappingItemType
     InstanceBlockDeviceMappingItemType(; deviceName=nothing) =
          new(deviceName)
 end
-function InstanceBlockDeviceMappingItemType(pd::ETree)
+function InstanceBlockDeviceMappingItemType(pd)
     o = InstanceBlockDeviceMappingItemType()
-    o.deviceName = LibExpat.find(pd, "deviceName#string")
+    o.deviceName = LightXML.content(LightXML.find_element(pd, "deviceName"))
     o
 end
 
@@ -1394,10 +1402,10 @@ type InstanceEbsBlockDeviceType
     InstanceEbsBlockDeviceType(; volumeId=nothing, deleteOnTermination=nothing) =
          new(volumeId, deleteOnTermination)
 end
-function InstanceEbsBlockDeviceType(pd::ETree)
+function InstanceEbsBlockDeviceType(pd)
     o = InstanceEbsBlockDeviceType()
-    o.volumeId = LibExpat.find(pd, "volumeId#string")
-    o.deleteOnTermination = AWS.safe_parse_as(Bool, LibExpat.find(pd, "deleteOnTermination#string"))
+    o.volumeId = LightXML.content(LightXML.find_element(pd, "volumeId"))
+    o.deleteOnTermination = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "deleteOnTermination")))
     o
 end
 
@@ -1411,10 +1419,10 @@ type StopInstancesType
     StopInstancesType(; instancesSet=nothing, force=nothing) =
          new(instancesSet, force)
 end
-function StopInstancesType(pd::ETree)
+function StopInstancesType(pd)
     o = StopInstancesType()
-    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", LibExpat.find(pd, "item/instanceId"))
-    o.force = AWS.safe_parse_as(Bool, LibExpat.find(pd, "force#string"))
+    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
+    o.force = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "force")))
     o
 end
 
@@ -1427,9 +1435,9 @@ type StartInstancesType
     StartInstancesType(; instancesSet=nothing) =
          new(instancesSet)
 end
-function StartInstancesType(pd::ETree)
+function StartInstancesType(pd)
     o = StartInstancesType()
-    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", LibExpat.find(pd, "item/instanceId"))
+    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
     o
 end
 
@@ -1442,9 +1450,9 @@ type RebootInstancesType
     RebootInstancesType(; instancesSet=nothing) =
          new(instancesSet)
 end
-function RebootInstancesType(pd::ETree)
+function RebootInstancesType(pd)
     o = RebootInstancesType()
-    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", LibExpat.find(pd, "item/instanceId"))
+    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
     o
 end
 
@@ -1457,9 +1465,9 @@ type RebootInstancesItemType
     RebootInstancesItemType(; instanceId=nothing) =
          new(instanceId)
 end
-function RebootInstancesItemType(pd::ETree)
+function RebootInstancesItemType(pd)
     o = RebootInstancesItemType()
-    o.instanceId = LibExpat.find(pd, "instanceId#string")
+    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
     o
 end
 
@@ -1473,10 +1481,10 @@ type RebootInstancesResponseType
     RebootInstancesResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function RebootInstancesResponseType(pd::ETree)
+function RebootInstancesResponseType(pd)
     o = RebootInstancesResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -1489,9 +1497,9 @@ type DescribeInstancesItemType
     DescribeInstancesItemType(; instanceId=nothing) =
          new(instanceId)
 end
-function DescribeInstancesItemType(pd::ETree)
+function DescribeInstancesItemType(pd)
     o = DescribeInstancesItemType()
-    o.instanceId = LibExpat.find(pd, "instanceId#string")
+    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
     o
 end
 
@@ -1504,9 +1512,9 @@ type UnavailableResultType
     UnavailableResultType(; availabilityZone=nothing) =
          new(availabilityZone)
 end
-function UnavailableResultType(pd::ETree)
+function UnavailableResultType(pd)
     o = UnavailableResultType()
-    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
+    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
     o
 end
 
@@ -1519,9 +1527,9 @@ type DescribeImagesItemType
     DescribeImagesItemType(; imageId=nothing) =
          new(imageId)
 end
-function DescribeImagesItemType(pd::ETree)
+function DescribeImagesItemType(pd)
     o = DescribeImagesItemType()
-    o.imageId = LibExpat.find(pd, "imageId#string")
+    o.imageId = LightXML.content(LightXML.find_element(pd, "imageId"))
     o
 end
 
@@ -1534,9 +1542,9 @@ type DescribeImagesOwnerType
     DescribeImagesOwnerType(; owner=nothing) =
          new(owner)
 end
-function DescribeImagesOwnerType(pd::ETree)
+function DescribeImagesOwnerType(pd)
     o = DescribeImagesOwnerType()
-    o.owner = LibExpat.find(pd, "owner#string")
+    o.owner = LightXML.content(LightXML.find_element(pd, "owner"))
     o
 end
 
@@ -1549,9 +1557,9 @@ type DescribeImagesExecutableByType
     DescribeImagesExecutableByType(; user=nothing) =
          new(user)
 end
-function DescribeImagesExecutableByType(pd::ETree)
+function DescribeImagesExecutableByType(pd)
     o = DescribeImagesExecutableByType()
-    o.user = LibExpat.find(pd, "user#string")
+    o.user = LightXML.content(LightXML.find_element(pd, "user"))
     o
 end
 
@@ -1566,11 +1574,11 @@ type CreateSecurityGroupType
     CreateSecurityGroupType(; groupName=nothing, groupDescription=nothing, vpcId=nothing) =
          new(groupName, groupDescription, vpcId)
 end
-function CreateSecurityGroupType(pd::ETree)
+function CreateSecurityGroupType(pd)
     o = CreateSecurityGroupType()
-    o.groupName = LibExpat.find(pd, "groupName#string")
-    o.groupDescription = LibExpat.find(pd, "groupDescription#string")
-    o.vpcId = LibExpat.find(pd, "vpcId#string")
+    o.groupName = LightXML.content(LightXML.find_element(pd, "groupName"))
+    o.groupDescription = LightXML.content(LightXML.find_element(pd, "groupDescription"))
+    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
     o
 end
 
@@ -1585,11 +1593,11 @@ type CreateSecurityGroupResponseType
     CreateSecurityGroupResponseType(; requestId=nothing, _return=nothing, groupId=nothing) =
          new(requestId, _return, groupId)
 end
-function CreateSecurityGroupResponseType(pd::ETree)
+function CreateSecurityGroupResponseType(pd)
     o = CreateSecurityGroupResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
-    o.groupId = LibExpat.find(pd, "groupId#string")
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
+    o.groupId = LightXML.content(LightXML.find_element(pd, "groupId"))
     o
 end
 
@@ -1603,10 +1611,10 @@ type DeleteSecurityGroupType
     DeleteSecurityGroupType(; groupId=nothing, groupName=nothing) =
          new(groupId, groupName)
 end
-function DeleteSecurityGroupType(pd::ETree)
+function DeleteSecurityGroupType(pd)
     o = DeleteSecurityGroupType()
-    o.groupId = LibExpat.find(pd, "groupId#string")
-    o.groupName = LibExpat.find(pd, "groupName#string")
+    o.groupId = LightXML.content(LightXML.find_element(pd, "groupId"))
+    o.groupName = LightXML.content(LightXML.find_element(pd, "groupName"))
     o
 end
 
@@ -1620,10 +1628,10 @@ type DeleteSecurityGroupResponseType
     DeleteSecurityGroupResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function DeleteSecurityGroupResponseType(pd::ETree)
+function DeleteSecurityGroupResponseType(pd)
     o = DeleteSecurityGroupResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -1636,9 +1644,9 @@ type DescribeSecurityGroupsSetItemType
     DescribeSecurityGroupsSetItemType(; groupName=nothing) =
          new(groupName)
 end
-function DescribeSecurityGroupsSetItemType(pd::ETree)
+function DescribeSecurityGroupsSetItemType(pd)
     o = DescribeSecurityGroupsSetItemType()
-    o.groupName = LibExpat.find(pd, "groupName#string")
+    o.groupName = LightXML.content(LightXML.find_element(pd, "groupName"))
     o
 end
 
@@ -1651,9 +1659,9 @@ type DescribeSecurityGroupsIdSetItemType
     DescribeSecurityGroupsIdSetItemType(; groupId=nothing) =
          new(groupId)
 end
-function DescribeSecurityGroupsIdSetItemType(pd::ETree)
+function DescribeSecurityGroupsIdSetItemType(pd)
     o = DescribeSecurityGroupsIdSetItemType()
-    o.groupId = LibExpat.find(pd, "groupId#string")
+    o.groupId = LightXML.content(LightXML.find_element(pd, "groupId"))
     o
 end
 
@@ -1666,9 +1674,9 @@ type IpRangeItemType
     IpRangeItemType(; cidrIp=nothing) =
          new(cidrIp)
 end
-function IpRangeItemType(pd::ETree)
+function IpRangeItemType(pd)
     o = IpRangeItemType()
-    o.cidrIp = LibExpat.find(pd, "cidrIp#string")
+    o.cidrIp = LightXML.content(LightXML.find_element(pd, "cidrIp"))
     o
 end
 
@@ -1683,11 +1691,11 @@ type UserIdGroupPairType
     UserIdGroupPairType(; userId=nothing, groupId=nothing, groupName=nothing) =
          new(userId, groupId, groupName)
 end
-function UserIdGroupPairType(pd::ETree)
+function UserIdGroupPairType(pd)
     o = UserIdGroupPairType()
-    o.userId = LibExpat.find(pd, "userId#string")
-    o.groupId = LibExpat.find(pd, "groupId#string")
-    o.groupName = LibExpat.find(pd, "groupName#string")
+    o.userId = LightXML.content(LightXML.find_element(pd, "userId"))
+    o.groupId = LightXML.content(LightXML.find_element(pd, "groupId"))
+    o.groupName = LightXML.content(LightXML.find_element(pd, "groupName"))
     o
 end
 
@@ -1701,10 +1709,10 @@ type AuthorizeSecurityGroupIngressResponseType
     AuthorizeSecurityGroupIngressResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function AuthorizeSecurityGroupIngressResponseType(pd::ETree)
+function AuthorizeSecurityGroupIngressResponseType(pd)
     o = AuthorizeSecurityGroupIngressResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -1718,10 +1726,10 @@ type RevokeSecurityGroupIngressResponseType
     RevokeSecurityGroupIngressResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function RevokeSecurityGroupIngressResponseType(pd::ETree)
+function RevokeSecurityGroupIngressResponseType(pd)
     o = RevokeSecurityGroupIngressResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -1735,10 +1743,10 @@ type AuthorizeSecurityGroupEgressResponseType
     AuthorizeSecurityGroupEgressResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function AuthorizeSecurityGroupEgressResponseType(pd::ETree)
+function AuthorizeSecurityGroupEgressResponseType(pd)
     o = AuthorizeSecurityGroupEgressResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -1752,10 +1760,10 @@ type RevokeSecurityGroupEgressResponseType
     RevokeSecurityGroupEgressResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function RevokeSecurityGroupEgressResponseType(pd::ETree)
+function RevokeSecurityGroupEgressResponseType(pd)
     o = RevokeSecurityGroupEgressResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -1769,10 +1777,10 @@ type InstanceStateType
     InstanceStateType(; code=nothing, name=nothing) =
          new(code, name)
 end
-function InstanceStateType(pd::ETree)
+function InstanceStateType(pd)
     o = InstanceStateType()
-    o.code = AWS.safe_parse_as(Int64, LibExpat.find(pd, "code#string"))
-    o.name = LibExpat.find(pd, "name#string")
+    o.code = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "code")))
+    o.name = LightXML.content(LightXML.find_element(pd, "name"))
     o
 end
 
@@ -1785,9 +1793,9 @@ type ModifyInstanceAttributeType
     ModifyInstanceAttributeType(; instanceId=nothing) =
          new(instanceId)
 end
-function ModifyInstanceAttributeType(pd::ETree)
+function ModifyInstanceAttributeType(pd)
     o = ModifyInstanceAttributeType()
-    o.instanceId = LibExpat.find(pd, "instanceId#string")
+    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
     o
 end
 
@@ -1800,9 +1808,9 @@ type SecurityGroupIdSetItemType
     SecurityGroupIdSetItemType(; groupId=nothing) =
          new(groupId)
 end
-function SecurityGroupIdSetItemType(pd::ETree)
+function SecurityGroupIdSetItemType(pd)
     o = SecurityGroupIdSetItemType()
-    o.groupId = LibExpat.find(pd, "groupId#string")
+    o.groupId = LightXML.content(LightXML.find_element(pd, "groupId"))
     o
 end
 
@@ -1816,10 +1824,10 @@ type ModifyInstanceAttributeResponseType
     ModifyInstanceAttributeResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function ModifyInstanceAttributeResponseType(pd::ETree)
+function ModifyInstanceAttributeResponseType(pd)
     o = ModifyInstanceAttributeResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -1832,9 +1840,9 @@ type ResetInstanceAttributeType
     ResetInstanceAttributeType(; instanceId=nothing) =
          new(instanceId)
 end
-function ResetInstanceAttributeType(pd::ETree)
+function ResetInstanceAttributeType(pd)
     o = ResetInstanceAttributeType()
-    o.instanceId = LibExpat.find(pd, "instanceId#string")
+    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
     o
 end
 
@@ -1848,10 +1856,10 @@ type ResetInstanceAttributeResponseType
     ResetInstanceAttributeResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function ResetInstanceAttributeResponseType(pd::ETree)
+function ResetInstanceAttributeResponseType(pd)
     o = ResetInstanceAttributeResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -1864,9 +1872,9 @@ type DescribeInstanceAttributeType
     DescribeInstanceAttributeType(; instanceId=nothing) =
          new(instanceId)
 end
-function DescribeInstanceAttributeType(pd::ETree)
+function DescribeInstanceAttributeType(pd)
     o = DescribeInstanceAttributeType()
-    o.instanceId = LibExpat.find(pd, "instanceId#string")
+    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
     o
 end
 
@@ -1880,10 +1888,10 @@ type DescribeInstanceAttributeResponseType
     DescribeInstanceAttributeResponseType(; requestId=nothing, instanceId=nothing) =
          new(requestId, instanceId)
 end
-function DescribeInstanceAttributeResponseType(pd::ETree)
+function DescribeInstanceAttributeResponseType(pd)
     o = DescribeInstanceAttributeResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.instanceId = LibExpat.find(pd, "instanceId#string")
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
     o
 end
 
@@ -1896,9 +1904,9 @@ type ModifyImageAttributeType
     ModifyImageAttributeType(; imageId=nothing) =
          new(imageId)
 end
-function ModifyImageAttributeType(pd::ETree)
+function ModifyImageAttributeType(pd)
     o = ModifyImageAttributeType()
-    o.imageId = LibExpat.find(pd, "imageId#string")
+    o.imageId = LightXML.content(LightXML.find_element(pd, "imageId"))
     o
 end
 
@@ -1912,10 +1920,10 @@ type LaunchPermissionItemType
     LaunchPermissionItemType(; userId=nothing, group=nothing) =
          new(userId, group)
 end
-function LaunchPermissionItemType(pd::ETree)
+function LaunchPermissionItemType(pd)
     o = LaunchPermissionItemType()
-    o.userId = LibExpat.find(pd, "userId#string")
-    o.group = LibExpat.find(pd, "group#string")
+    o.userId = LightXML.content(LightXML.find_element(pd, "userId"))
+    o.group = LightXML.content(LightXML.find_element(pd, "group"))
     o
 end
 
@@ -1928,9 +1936,9 @@ type ProductCodeItemType
     ProductCodeItemType(; productCode=nothing) =
          new(productCode)
 end
-function ProductCodeItemType(pd::ETree)
+function ProductCodeItemType(pd)
     o = ProductCodeItemType()
-    o.productCode = LibExpat.find(pd, "productCode#string")
+    o.productCode = LightXML.content(LightXML.find_element(pd, "productCode"))
     o
 end
 
@@ -1944,10 +1952,10 @@ type ModifyImageAttributeResponseType
     ModifyImageAttributeResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function ModifyImageAttributeResponseType(pd::ETree)
+function ModifyImageAttributeResponseType(pd)
     o = ModifyImageAttributeResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -1960,9 +1968,9 @@ type ResetImageAttributeType
     ResetImageAttributeType(; imageId=nothing) =
          new(imageId)
 end
-function ResetImageAttributeType(pd::ETree)
+function ResetImageAttributeType(pd)
     o = ResetImageAttributeType()
-    o.imageId = LibExpat.find(pd, "imageId#string")
+    o.imageId = LightXML.content(LightXML.find_element(pd, "imageId"))
     o
 end
 
@@ -1976,10 +1984,10 @@ type ResetImageAttributeResponseType
     ResetImageAttributeResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function ResetImageAttributeResponseType(pd::ETree)
+function ResetImageAttributeResponseType(pd)
     o = ResetImageAttributeResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -1992,9 +2000,9 @@ type DescribeImageAttributeType
     DescribeImageAttributeType(; imageId=nothing) =
          new(imageId)
 end
-function DescribeImageAttributeType(pd::ETree)
+function DescribeImageAttributeType(pd)
     o = DescribeImageAttributeType()
-    o.imageId = LibExpat.find(pd, "imageId#string")
+    o.imageId = LightXML.content(LightXML.find_element(pd, "imageId"))
     o
 end
 
@@ -2008,10 +2016,10 @@ type DescribeImageAttributeResponseType
     DescribeImageAttributeResponseType(; requestId=nothing, imageId=nothing) =
          new(requestId, imageId)
 end
-function DescribeImageAttributeResponseType(pd::ETree)
+function DescribeImageAttributeResponseType(pd)
     o = DescribeImageAttributeResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.imageId = LibExpat.find(pd, "imageId#string")
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.imageId = LightXML.content(LightXML.find_element(pd, "imageId"))
     o
 end
 
@@ -2024,9 +2032,9 @@ type NullableAttributeValueType
     NullableAttributeValueType(; value=nothing) =
          new(value)
 end
-function NullableAttributeValueType(pd::ETree)
+function NullableAttributeValueType(pd)
     o = NullableAttributeValueType()
-    o.value = LibExpat.find(pd, "value#string")
+    o.value = LightXML.content(LightXML.find_element(pd, "value"))
     o
 end
 
@@ -2039,9 +2047,9 @@ type NullableAttributeBooleanValueType
     NullableAttributeBooleanValueType(; value=nothing) =
          new(value)
 end
-function NullableAttributeBooleanValueType(pd::ETree)
+function NullableAttributeBooleanValueType(pd)
     o = NullableAttributeBooleanValueType()
-    o.value = AWS.safe_parse_as(Bool, LibExpat.find(pd, "value#string"))
+    o.value = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "value")))
     o
 end
 
@@ -2054,9 +2062,9 @@ type AttributeValueType
     AttributeValueType(; value=nothing) =
          new(value)
 end
-function AttributeValueType(pd::ETree)
+function AttributeValueType(pd)
     o = AttributeValueType()
-    o.value = LibExpat.find(pd, "value#string")
+    o.value = LightXML.content(LightXML.find_element(pd, "value"))
     o
 end
 
@@ -2069,9 +2077,9 @@ type AttributeBooleanValueType
     AttributeBooleanValueType(; value=nothing) =
          new(value)
 end
-function AttributeBooleanValueType(pd::ETree)
+function AttributeBooleanValueType(pd)
     o = AttributeBooleanValueType()
-    o.value = AWS.safe_parse_as(Bool, LibExpat.find(pd, "value#string"))
+    o.value = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "value")))
     o
 end
 
@@ -2085,10 +2093,10 @@ type ConfirmProductInstanceType
     ConfirmProductInstanceType(; productCode=nothing, instanceId=nothing) =
          new(productCode, instanceId)
 end
-function ConfirmProductInstanceType(pd::ETree)
+function ConfirmProductInstanceType(pd)
     o = ConfirmProductInstanceType()
-    o.productCode = LibExpat.find(pd, "productCode#string")
-    o.instanceId = LibExpat.find(pd, "instanceId#string")
+    o.productCode = LightXML.content(LightXML.find_element(pd, "productCode"))
+    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
     o
 end
 
@@ -2102,10 +2110,10 @@ type ProductCodesSetItemType
     ProductCodesSetItemType(; productCode=nothing, _type=nothing) =
          new(productCode, _type)
 end
-function ProductCodesSetItemType(pd::ETree)
+function ProductCodesSetItemType(pd)
     o = ProductCodesSetItemType()
-    o.productCode = LibExpat.find(pd, "productCode#string")
-    o._type = LibExpat.find(pd, "type#string")
+    o.productCode = LightXML.content(LightXML.find_element(pd, "productCode"))
+    o._type = LightXML.content(LightXML.find_element(pd, "type"))
     o
 end
 
@@ -2120,11 +2128,11 @@ type ConfirmProductInstanceResponseType
     ConfirmProductInstanceResponseType(; requestId=nothing, _return=nothing, ownerId=nothing) =
          new(requestId, _return, ownerId)
 end
-function ConfirmProductInstanceResponseType(pd::ETree)
+function ConfirmProductInstanceResponseType(pd)
     o = ConfirmProductInstanceResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
-    o.ownerId = LibExpat.find(pd, "ownerId#string")
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
+    o.ownerId = LightXML.content(LightXML.find_element(pd, "ownerId"))
     o
 end
 
@@ -2137,9 +2145,9 @@ type DescribeAvailabilityZonesSetItemType
     DescribeAvailabilityZonesSetItemType(; zoneName=nothing) =
          new(zoneName)
 end
-function DescribeAvailabilityZonesSetItemType(pd::ETree)
+function DescribeAvailabilityZonesSetItemType(pd)
     o = DescribeAvailabilityZonesSetItemType()
-    o.zoneName = LibExpat.find(pd, "zoneName#string")
+    o.zoneName = LightXML.content(LightXML.find_element(pd, "zoneName"))
     o
 end
 
@@ -2152,9 +2160,9 @@ type AvailabilityZoneMessageType
     AvailabilityZoneMessageType(; message=nothing) =
          new(message)
 end
-function AvailabilityZoneMessageType(pd::ETree)
+function AvailabilityZoneMessageType(pd)
     o = AvailabilityZoneMessageType()
-    o.message = LibExpat.find(pd, "message#string")
+    o.message = LightXML.content(LightXML.find_element(pd, "message"))
     o
 end
 
@@ -2170,12 +2178,12 @@ type AvailabilityZoneItemType
     AvailabilityZoneItemType(; zoneName=nothing, zoneState=nothing, regionName=nothing, messageSet=nothing) =
          new(zoneName, zoneState, regionName, messageSet)
 end
-function AvailabilityZoneItemType(pd::ETree)
+function AvailabilityZoneItemType(pd)
     o = AvailabilityZoneItemType()
-    o.zoneName = LibExpat.find(pd, "zoneName#string")
-    o.zoneState = LibExpat.find(pd, "zoneState#string")
-    o.regionName = LibExpat.find(pd, "regionName#string")
-    o.messageSet = AWS.parse_vector_as(ASCIIString, "message", LibExpat.find(pd, "item/message"))
+    o.zoneName = LightXML.content(LightXML.find_element(pd, "zoneName"))
+    o.zoneState = LightXML.content(LightXML.find_element(pd, "zoneState"))
+    o.regionName = LightXML.content(LightXML.find_element(pd, "regionName"))
+    o.messageSet = AWS.parse_vector_as(ASCIIString, "message", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "message"))
     o
 end
 
@@ -2188,9 +2196,9 @@ type AllocateAddressType
     AllocateAddressType(; domain=nothing) =
          new(domain)
 end
-function AllocateAddressType(pd::ETree)
+function AllocateAddressType(pd)
     o = AllocateAddressType()
-    o.domain = LibExpat.find(pd, "domain#string")
+    o.domain = LightXML.content(LightXML.find_element(pd, "domain"))
     o
 end
 
@@ -2206,12 +2214,12 @@ type AllocateAddressResponseType
     AllocateAddressResponseType(; requestId=nothing, publicIp=nothing, domain=nothing, allocationId=nothing) =
          new(requestId, publicIp, domain, allocationId)
 end
-function AllocateAddressResponseType(pd::ETree)
+function AllocateAddressResponseType(pd)
     o = AllocateAddressResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.publicIp = LibExpat.find(pd, "publicIp#string")
-    o.domain = LibExpat.find(pd, "domain#string")
-    o.allocationId = LibExpat.find(pd, "allocationId#string")
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.publicIp = LightXML.content(LightXML.find_element(pd, "publicIp"))
+    o.domain = LightXML.content(LightXML.find_element(pd, "domain"))
+    o.allocationId = LightXML.content(LightXML.find_element(pd, "allocationId"))
     o
 end
 
@@ -2225,10 +2233,10 @@ type ReleaseAddressType
     ReleaseAddressType(; publicIp=nothing, allocationId=nothing) =
          new(publicIp, allocationId)
 end
-function ReleaseAddressType(pd::ETree)
+function ReleaseAddressType(pd)
     o = ReleaseAddressType()
-    o.publicIp = LibExpat.find(pd, "publicIp#string")
-    o.allocationId = LibExpat.find(pd, "allocationId#string")
+    o.publicIp = LightXML.content(LightXML.find_element(pd, "publicIp"))
+    o.allocationId = LightXML.content(LightXML.find_element(pd, "allocationId"))
     o
 end
 
@@ -2242,10 +2250,10 @@ type ReleaseAddressResponseType
     ReleaseAddressResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function ReleaseAddressResponseType(pd::ETree)
+function ReleaseAddressResponseType(pd)
     o = ReleaseAddressResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -2258,9 +2266,9 @@ type AllocationIdSetItemType
     AllocationIdSetItemType(; allocationId=nothing) =
          new(allocationId)
 end
-function AllocationIdSetItemType(pd::ETree)
+function AllocationIdSetItemType(pd)
     o = AllocationIdSetItemType()
-    o.allocationId = LibExpat.find(pd, "allocationId#string")
+    o.allocationId = LightXML.content(LightXML.find_element(pd, "allocationId"))
     o
 end
 
@@ -2273,9 +2281,9 @@ type DescribeAddressesItemType
     DescribeAddressesItemType(; publicIp=nothing) =
          new(publicIp)
 end
-function DescribeAddressesItemType(pd::ETree)
+function DescribeAddressesItemType(pd)
     o = DescribeAddressesItemType()
-    o.publicIp = LibExpat.find(pd, "publicIp#string")
+    o.publicIp = LightXML.content(LightXML.find_element(pd, "publicIp"))
     o
 end
 
@@ -2295,16 +2303,16 @@ type DescribeAddressesResponseItemType
     DescribeAddressesResponseItemType(; publicIp=nothing, allocationId=nothing, domain=nothing, instanceId=nothing, associationId=nothing, networkInterfaceId=nothing, networkInterfaceOwnerId=nothing, privateIpAddress=nothing) =
          new(publicIp, allocationId, domain, instanceId, associationId, networkInterfaceId, networkInterfaceOwnerId, privateIpAddress)
 end
-function DescribeAddressesResponseItemType(pd::ETree)
+function DescribeAddressesResponseItemType(pd)
     o = DescribeAddressesResponseItemType()
-    o.publicIp = LibExpat.find(pd, "publicIp#string")
-    o.allocationId = LibExpat.find(pd, "allocationId#string")
-    o.domain = LibExpat.find(pd, "domain#string")
-    o.instanceId = LibExpat.find(pd, "instanceId#string")
-    o.associationId = LibExpat.find(pd, "associationId#string")
-    o.networkInterfaceId = LibExpat.find(pd, "networkInterfaceId#string")
-    o.networkInterfaceOwnerId = LibExpat.find(pd, "networkInterfaceOwnerId#string")
-    o.privateIpAddress = LibExpat.find(pd, "privateIpAddress#string")
+    o.publicIp = LightXML.content(LightXML.find_element(pd, "publicIp"))
+    o.allocationId = LightXML.content(LightXML.find_element(pd, "allocationId"))
+    o.domain = LightXML.content(LightXML.find_element(pd, "domain"))
+    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
+    o.associationId = LightXML.content(LightXML.find_element(pd, "associationId"))
+    o.networkInterfaceId = LightXML.content(LightXML.find_element(pd, "networkInterfaceId"))
+    o.networkInterfaceOwnerId = LightXML.content(LightXML.find_element(pd, "networkInterfaceOwnerId"))
+    o.privateIpAddress = LightXML.content(LightXML.find_element(pd, "privateIpAddress"))
     o
 end
 
@@ -2318,10 +2326,10 @@ type AssociateAddressType
     AssociateAddressType(; privateIpAddress=nothing, allowReassociation=nothing) =
          new(privateIpAddress, allowReassociation)
 end
-function AssociateAddressType(pd::ETree)
+function AssociateAddressType(pd)
     o = AssociateAddressType()
-    o.privateIpAddress = LibExpat.find(pd, "privateIpAddress#string")
-    o.allowReassociation = AWS.safe_parse_as(Bool, LibExpat.find(pd, "allowReassociation#string"))
+    o.privateIpAddress = LightXML.content(LightXML.find_element(pd, "privateIpAddress"))
+    o.allowReassociation = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "allowReassociation")))
     o
 end
 
@@ -2336,11 +2344,11 @@ type AssociateAddressResponseType
     AssociateAddressResponseType(; requestId=nothing, _return=nothing, associationId=nothing) =
          new(requestId, _return, associationId)
 end
-function AssociateAddressResponseType(pd::ETree)
+function AssociateAddressResponseType(pd)
     o = AssociateAddressResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
-    o.associationId = LibExpat.find(pd, "associationId#string")
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
+    o.associationId = LightXML.content(LightXML.find_element(pd, "associationId"))
     o
 end
 
@@ -2354,10 +2362,10 @@ type DisassociateAddressType
     DisassociateAddressType(; publicIp=nothing, associationId=nothing) =
          new(publicIp, associationId)
 end
-function DisassociateAddressType(pd::ETree)
+function DisassociateAddressType(pd)
     o = DisassociateAddressType()
-    o.publicIp = LibExpat.find(pd, "publicIp#string")
-    o.associationId = LibExpat.find(pd, "associationId#string")
+    o.publicIp = LightXML.content(LightXML.find_element(pd, "publicIp"))
+    o.associationId = LightXML.content(LightXML.find_element(pd, "associationId"))
     o
 end
 
@@ -2371,10 +2379,10 @@ type DisassociateAddressResponseType
     DisassociateAddressResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function DisassociateAddressResponseType(pd::ETree)
+function DisassociateAddressResponseType(pd)
     o = DisassociateAddressResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -2391,13 +2399,13 @@ type CreateVolumeType
     CreateVolumeType(; size=nothing, snapshotId=nothing, availabilityZone=nothing, volumeType=nothing, iops=nothing) =
          new(size, snapshotId, availabilityZone, volumeType, iops)
 end
-function CreateVolumeType(pd::ETree)
+function CreateVolumeType(pd)
     o = CreateVolumeType()
-    o.size = LibExpat.find(pd, "size#string")
-    o.snapshotId = LibExpat.find(pd, "snapshotId#string")
-    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
-    o.volumeType = LibExpat.find(pd, "volumeType#string")
-    o.iops = AWS.safe_parse_as(Int64, LibExpat.find(pd, "iops#string"))
+    o.size = LightXML.content(LightXML.find_element(pd, "size"))
+    o.snapshotId = LightXML.content(LightXML.find_element(pd, "snapshotId"))
+    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
+    o.volumeType = LightXML.content(LightXML.find_element(pd, "volumeType"))
+    o.iops = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "iops")))
     o
 end
 
@@ -2418,17 +2426,17 @@ type CreateVolumeResponseType
     CreateVolumeResponseType(; requestId=nothing, volumeId=nothing, size=nothing, snapshotId=nothing, availabilityZone=nothing, status=nothing, createTime=nothing, volumeType=nothing, iops=nothing) =
          new(requestId, volumeId, size, snapshotId, availabilityZone, status, createTime, volumeType, iops)
 end
-function CreateVolumeResponseType(pd::ETree)
+function CreateVolumeResponseType(pd)
     o = CreateVolumeResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.volumeId = LibExpat.find(pd, "volumeId#string")
-    o.size = LibExpat.find(pd, "size#string")
-    o.snapshotId = LibExpat.find(pd, "snapshotId#string")
-    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
-    o.status = LibExpat.find(pd, "status#string")
-    o.createTime = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "createTime#string"))
-    o.volumeType = LibExpat.find(pd, "volumeType#string")
-    o.iops = AWS.safe_parse_as(Int64, LibExpat.find(pd, "iops#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.volumeId = LightXML.content(LightXML.find_element(pd, "volumeId"))
+    o.size = LightXML.content(LightXML.find_element(pd, "size"))
+    o.snapshotId = LightXML.content(LightXML.find_element(pd, "snapshotId"))
+    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
+    o.status = LightXML.content(LightXML.find_element(pd, "status"))
+    o.createTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "createTime")))
+    o.volumeType = LightXML.content(LightXML.find_element(pd, "volumeType"))
+    o.iops = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "iops")))
     o
 end
 
@@ -2441,9 +2449,9 @@ type DeleteVolumeType
     DeleteVolumeType(; volumeId=nothing) =
          new(volumeId)
 end
-function DeleteVolumeType(pd::ETree)
+function DeleteVolumeType(pd)
     o = DeleteVolumeType()
-    o.volumeId = LibExpat.find(pd, "volumeId#string")
+    o.volumeId = LightXML.content(LightXML.find_element(pd, "volumeId"))
     o
 end
 
@@ -2457,10 +2465,10 @@ type DeleteVolumeResponseType
     DeleteVolumeResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function DeleteVolumeResponseType(pd::ETree)
+function DeleteVolumeResponseType(pd)
     o = DeleteVolumeResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -2473,9 +2481,9 @@ type DescribeVolumesSetItemType
     DescribeVolumesSetItemType(; volumeId=nothing) =
          new(volumeId)
 end
-function DescribeVolumesSetItemType(pd::ETree)
+function DescribeVolumesSetItemType(pd)
     o = DescribeVolumesSetItemType()
-    o.volumeId = LibExpat.find(pd, "volumeId#string")
+    o.volumeId = LightXML.content(LightXML.find_element(pd, "volumeId"))
     o
 end
 
@@ -2493,14 +2501,14 @@ type AttachmentSetItemResponseType
     AttachmentSetItemResponseType(; volumeId=nothing, instanceId=nothing, device=nothing, status=nothing, attachTime=nothing, deleteOnTermination=nothing) =
          new(volumeId, instanceId, device, status, attachTime, deleteOnTermination)
 end
-function AttachmentSetItemResponseType(pd::ETree)
+function AttachmentSetItemResponseType(pd)
     o = AttachmentSetItemResponseType()
-    o.volumeId = LibExpat.find(pd, "volumeId#string")
-    o.instanceId = LibExpat.find(pd, "instanceId#string")
-    o.device = LibExpat.find(pd, "device#string")
-    o.status = LibExpat.find(pd, "status#string")
-    o.attachTime = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "attachTime#string"))
-    o.deleteOnTermination = AWS.safe_parse_as(Bool, LibExpat.find(pd, "deleteOnTermination#string"))
+    o.volumeId = LightXML.content(LightXML.find_element(pd, "volumeId"))
+    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
+    o.device = LightXML.content(LightXML.find_element(pd, "device"))
+    o.status = LightXML.content(LightXML.find_element(pd, "status"))
+    o.attachTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "attachTime")))
+    o.deleteOnTermination = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "deleteOnTermination")))
     o
 end
 
@@ -2515,11 +2523,11 @@ type AttachVolumeType
     AttachVolumeType(; volumeId=nothing, instanceId=nothing, device=nothing) =
          new(volumeId, instanceId, device)
 end
-function AttachVolumeType(pd::ETree)
+function AttachVolumeType(pd)
     o = AttachVolumeType()
-    o.volumeId = LibExpat.find(pd, "volumeId#string")
-    o.instanceId = LibExpat.find(pd, "instanceId#string")
-    o.device = LibExpat.find(pd, "device#string")
+    o.volumeId = LightXML.content(LightXML.find_element(pd, "volumeId"))
+    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
+    o.device = LightXML.content(LightXML.find_element(pd, "device"))
     o
 end
 
@@ -2537,14 +2545,14 @@ type AttachVolumeResponseType
     AttachVolumeResponseType(; requestId=nothing, volumeId=nothing, instanceId=nothing, device=nothing, status=nothing, attachTime=nothing) =
          new(requestId, volumeId, instanceId, device, status, attachTime)
 end
-function AttachVolumeResponseType(pd::ETree)
+function AttachVolumeResponseType(pd)
     o = AttachVolumeResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.volumeId = LibExpat.find(pd, "volumeId#string")
-    o.instanceId = LibExpat.find(pd, "instanceId#string")
-    o.device = LibExpat.find(pd, "device#string")
-    o.status = LibExpat.find(pd, "status#string")
-    o.attachTime = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "attachTime#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.volumeId = LightXML.content(LightXML.find_element(pd, "volumeId"))
+    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
+    o.device = LightXML.content(LightXML.find_element(pd, "device"))
+    o.status = LightXML.content(LightXML.find_element(pd, "status"))
+    o.attachTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "attachTime")))
     o
 end
 
@@ -2560,12 +2568,12 @@ type DetachVolumeType
     DetachVolumeType(; volumeId=nothing, instanceId=nothing, device=nothing, force=nothing) =
          new(volumeId, instanceId, device, force)
 end
-function DetachVolumeType(pd::ETree)
+function DetachVolumeType(pd)
     o = DetachVolumeType()
-    o.volumeId = LibExpat.find(pd, "volumeId#string")
-    o.instanceId = LibExpat.find(pd, "instanceId#string")
-    o.device = LibExpat.find(pd, "device#string")
-    o.force = AWS.safe_parse_as(Bool, LibExpat.find(pd, "force#string"))
+    o.volumeId = LightXML.content(LightXML.find_element(pd, "volumeId"))
+    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
+    o.device = LightXML.content(LightXML.find_element(pd, "device"))
+    o.force = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "force")))
     o
 end
 
@@ -2583,14 +2591,14 @@ type DetachVolumeResponseType
     DetachVolumeResponseType(; requestId=nothing, volumeId=nothing, instanceId=nothing, device=nothing, status=nothing, attachTime=nothing) =
          new(requestId, volumeId, instanceId, device, status, attachTime)
 end
-function DetachVolumeResponseType(pd::ETree)
+function DetachVolumeResponseType(pd)
     o = DetachVolumeResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.volumeId = LibExpat.find(pd, "volumeId#string")
-    o.instanceId = LibExpat.find(pd, "instanceId#string")
-    o.device = LibExpat.find(pd, "device#string")
-    o.status = LibExpat.find(pd, "status#string")
-    o.attachTime = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "attachTime#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.volumeId = LightXML.content(LightXML.find_element(pd, "volumeId"))
+    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
+    o.device = LightXML.content(LightXML.find_element(pd, "device"))
+    o.status = LightXML.content(LightXML.find_element(pd, "status"))
+    o.attachTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "attachTime")))
     o
 end
 
@@ -2604,10 +2612,10 @@ type CreateSnapshotType
     CreateSnapshotType(; volumeId=nothing, description=nothing) =
          new(volumeId, description)
 end
-function CreateSnapshotType(pd::ETree)
+function CreateSnapshotType(pd)
     o = CreateSnapshotType()
-    o.volumeId = LibExpat.find(pd, "volumeId#string")
-    o.description = LibExpat.find(pd, "description#string")
+    o.volumeId = LightXML.content(LightXML.find_element(pd, "volumeId"))
+    o.description = LightXML.content(LightXML.find_element(pd, "description"))
     o
 end
 
@@ -2628,17 +2636,17 @@ type CreateSnapshotResponseType
     CreateSnapshotResponseType(; requestId=nothing, snapshotId=nothing, volumeId=nothing, status=nothing, startTime=nothing, progress=nothing, ownerId=nothing, volumeSize=nothing, description=nothing) =
          new(requestId, snapshotId, volumeId, status, startTime, progress, ownerId, volumeSize, description)
 end
-function CreateSnapshotResponseType(pd::ETree)
+function CreateSnapshotResponseType(pd)
     o = CreateSnapshotResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.snapshotId = LibExpat.find(pd, "snapshotId#string")
-    o.volumeId = LibExpat.find(pd, "volumeId#string")
-    o.status = LibExpat.find(pd, "status#string")
-    o.startTime = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "startTime#string"))
-    o.progress = LibExpat.find(pd, "progress#string")
-    o.ownerId = LibExpat.find(pd, "ownerId#string")
-    o.volumeSize = LibExpat.find(pd, "volumeSize#string")
-    o.description = LibExpat.find(pd, "description#string")
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.snapshotId = LightXML.content(LightXML.find_element(pd, "snapshotId"))
+    o.volumeId = LightXML.content(LightXML.find_element(pd, "volumeId"))
+    o.status = LightXML.content(LightXML.find_element(pd, "status"))
+    o.startTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "startTime")))
+    o.progress = LightXML.content(LightXML.find_element(pd, "progress"))
+    o.ownerId = LightXML.content(LightXML.find_element(pd, "ownerId"))
+    o.volumeSize = LightXML.content(LightXML.find_element(pd, "volumeSize"))
+    o.description = LightXML.content(LightXML.find_element(pd, "description"))
     o
 end
 
@@ -2653,11 +2661,11 @@ type CopySnapshotType
     CopySnapshotType(; sourceRegion=nothing, sourceSnapshotId=nothing, description=nothing) =
          new(sourceRegion, sourceSnapshotId, description)
 end
-function CopySnapshotType(pd::ETree)
+function CopySnapshotType(pd)
     o = CopySnapshotType()
-    o.sourceRegion = LibExpat.find(pd, "sourceRegion#string")
-    o.sourceSnapshotId = LibExpat.find(pd, "sourceSnapshotId#string")
-    o.description = LibExpat.find(pd, "description#string")
+    o.sourceRegion = LightXML.content(LightXML.find_element(pd, "sourceRegion"))
+    o.sourceSnapshotId = LightXML.content(LightXML.find_element(pd, "sourceSnapshotId"))
+    o.description = LightXML.content(LightXML.find_element(pd, "description"))
     o
 end
 
@@ -2671,10 +2679,10 @@ type CopySnapshotResponseType
     CopySnapshotResponseType(; requestId=nothing, snapshotId=nothing) =
          new(requestId, snapshotId)
 end
-function CopySnapshotResponseType(pd::ETree)
+function CopySnapshotResponseType(pd)
     o = CopySnapshotResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.snapshotId = LibExpat.find(pd, "snapshotId#string")
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.snapshotId = LightXML.content(LightXML.find_element(pd, "snapshotId"))
     o
 end
 
@@ -2687,9 +2695,9 @@ type DeleteSnapshotType
     DeleteSnapshotType(; snapshotId=nothing) =
          new(snapshotId)
 end
-function DeleteSnapshotType(pd::ETree)
+function DeleteSnapshotType(pd)
     o = DeleteSnapshotType()
-    o.snapshotId = LibExpat.find(pd, "snapshotId#string")
+    o.snapshotId = LightXML.content(LightXML.find_element(pd, "snapshotId"))
     o
 end
 
@@ -2703,10 +2711,10 @@ type DeleteSnapshotResponseType
     DeleteSnapshotResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function DeleteSnapshotResponseType(pd::ETree)
+function DeleteSnapshotResponseType(pd)
     o = DeleteSnapshotResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -2719,9 +2727,9 @@ type DescribeSnapshotsSetItemType
     DescribeSnapshotsSetItemType(; snapshotId=nothing) =
          new(snapshotId)
 end
-function DescribeSnapshotsSetItemType(pd::ETree)
+function DescribeSnapshotsSetItemType(pd)
     o = DescribeSnapshotsSetItemType()
-    o.snapshotId = LibExpat.find(pd, "snapshotId#string")
+    o.snapshotId = LightXML.content(LightXML.find_element(pd, "snapshotId"))
     o
 end
 
@@ -2734,9 +2742,9 @@ type DescribeSnapshotsOwnerType
     DescribeSnapshotsOwnerType(; owner=nothing) =
          new(owner)
 end
-function DescribeSnapshotsOwnerType(pd::ETree)
+function DescribeSnapshotsOwnerType(pd)
     o = DescribeSnapshotsOwnerType()
-    o.owner = LibExpat.find(pd, "owner#string")
+    o.owner = LightXML.content(LightXML.find_element(pd, "owner"))
     o
 end
 
@@ -2749,9 +2757,9 @@ type DescribeSnapshotsRestorableByType
     DescribeSnapshotsRestorableByType(; user=nothing) =
          new(user)
 end
-function DescribeSnapshotsRestorableByType(pd::ETree)
+function DescribeSnapshotsRestorableByType(pd)
     o = DescribeSnapshotsRestorableByType()
-    o.user = LibExpat.find(pd, "user#string")
+    o.user = LightXML.content(LightXML.find_element(pd, "user"))
     o
 end
 
@@ -2765,10 +2773,10 @@ type CreateVolumePermissionItemType
     CreateVolumePermissionItemType(; userId=nothing, group=nothing) =
          new(userId, group)
 end
-function CreateVolumePermissionItemType(pd::ETree)
+function CreateVolumePermissionItemType(pd)
     o = CreateVolumePermissionItemType()
-    o.userId = LibExpat.find(pd, "userId#string")
-    o.group = LibExpat.find(pd, "group#string")
+    o.userId = LightXML.content(LightXML.find_element(pd, "userId"))
+    o.group = LightXML.content(LightXML.find_element(pd, "group"))
     o
 end
 
@@ -2782,10 +2790,10 @@ type ModifySnapshotAttributeResponseType
     ModifySnapshotAttributeResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function ModifySnapshotAttributeResponseType(pd::ETree)
+function ModifySnapshotAttributeResponseType(pd)
     o = ModifySnapshotAttributeResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -2798,9 +2806,9 @@ type ResetSnapshotAttributeType
     ResetSnapshotAttributeType(; snapshotId=nothing) =
          new(snapshotId)
 end
-function ResetSnapshotAttributeType(pd::ETree)
+function ResetSnapshotAttributeType(pd)
     o = ResetSnapshotAttributeType()
-    o.snapshotId = LibExpat.find(pd, "snapshotId#string")
+    o.snapshotId = LightXML.content(LightXML.find_element(pd, "snapshotId"))
     o
 end
 
@@ -2814,10 +2822,10 @@ type ResetSnapshotAttributeResponseType
     ResetSnapshotAttributeResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function ResetSnapshotAttributeResponseType(pd::ETree)
+function ResetSnapshotAttributeResponseType(pd)
     o = ResetSnapshotAttributeResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -2830,9 +2838,9 @@ type DescribeSnapshotAttributeType
     DescribeSnapshotAttributeType(; snapshotId=nothing) =
          new(snapshotId)
 end
-function DescribeSnapshotAttributeType(pd::ETree)
+function DescribeSnapshotAttributeType(pd)
     o = DescribeSnapshotAttributeType()
-    o.snapshotId = LibExpat.find(pd, "snapshotId#string")
+    o.snapshotId = LightXML.content(LightXML.find_element(pd, "snapshotId"))
     o
 end
 
@@ -2846,10 +2854,10 @@ type DescribeSnapshotAttributeResponseType
     DescribeSnapshotAttributeResponseType(; requestId=nothing, snapshotId=nothing) =
          new(requestId, snapshotId)
 end
-function DescribeSnapshotAttributeResponseType(pd::ETree)
+function DescribeSnapshotAttributeResponseType(pd)
     o = DescribeSnapshotAttributeResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.snapshotId = LibExpat.find(pd, "snapshotId#string")
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.snapshotId = LightXML.content(LightXML.find_element(pd, "snapshotId"))
     o
 end
 
@@ -2866,13 +2874,13 @@ type BundleInstanceS3StorageType
     BundleInstanceS3StorageType(; bucket=nothing, prefix=nothing, awsAccessKeyId=nothing, uploadPolicy=nothing, uploadPolicySignature=nothing) =
          new(bucket, prefix, awsAccessKeyId, uploadPolicy, uploadPolicySignature)
 end
-function BundleInstanceS3StorageType(pd::ETree)
+function BundleInstanceS3StorageType(pd)
     o = BundleInstanceS3StorageType()
-    o.bucket = LibExpat.find(pd, "bucket#string")
-    o.prefix = LibExpat.find(pd, "prefix#string")
-    o.awsAccessKeyId = LibExpat.find(pd, "awsAccessKeyId#string")
-    o.uploadPolicy = LibExpat.find(pd, "uploadPolicy#string")
-    o.uploadPolicySignature = LibExpat.find(pd, "uploadPolicySignature#string")
+    o.bucket = LightXML.content(LightXML.find_element(pd, "bucket"))
+    o.prefix = LightXML.content(LightXML.find_element(pd, "prefix"))
+    o.awsAccessKeyId = LightXML.content(LightXML.find_element(pd, "awsAccessKeyId"))
+    o.uploadPolicy = LightXML.content(LightXML.find_element(pd, "uploadPolicy"))
+    o.uploadPolicySignature = LightXML.content(LightXML.find_element(pd, "uploadPolicySignature"))
     o
 end
 
@@ -2886,10 +2894,10 @@ type BundleInstanceTaskErrorType
     BundleInstanceTaskErrorType(; code=nothing, message=nothing) =
          new(code, message)
 end
-function BundleInstanceTaskErrorType(pd::ETree)
+function BundleInstanceTaskErrorType(pd)
     o = BundleInstanceTaskErrorType()
-    o.code = LibExpat.find(pd, "code#string")
-    o.message = LibExpat.find(pd, "message#string")
+    o.code = LightXML.content(LightXML.find_element(pd, "code"))
+    o.message = LightXML.content(LightXML.find_element(pd, "message"))
     o
 end
 
@@ -2902,9 +2910,9 @@ type DescribeBundleTasksItemType
     DescribeBundleTasksItemType(; bundleId=nothing) =
          new(bundleId)
 end
-function DescribeBundleTasksItemType(pd::ETree)
+function DescribeBundleTasksItemType(pd)
     o = DescribeBundleTasksItemType()
-    o.bundleId = LibExpat.find(pd, "bundleId#string")
+    o.bundleId = LightXML.content(LightXML.find_element(pd, "bundleId"))
     o
 end
 
@@ -2917,9 +2925,9 @@ type CancelBundleTaskType
     CancelBundleTaskType(; bundleId=nothing) =
          new(bundleId)
 end
-function CancelBundleTaskType(pd::ETree)
+function CancelBundleTaskType(pd)
     o = CancelBundleTaskType()
-    o.bundleId = LibExpat.find(pd, "bundleId#string")
+    o.bundleId = LightXML.content(LightXML.find_element(pd, "bundleId"))
     o
 end
 
@@ -2936,13 +2944,13 @@ type CopyImageType
     CopyImageType(; sourceRegion=nothing, sourceImageId=nothing, name=nothing, description=nothing, clientToken=nothing) =
          new(sourceRegion, sourceImageId, name, description, clientToken)
 end
-function CopyImageType(pd::ETree)
+function CopyImageType(pd)
     o = CopyImageType()
-    o.sourceRegion = LibExpat.find(pd, "sourceRegion#string")
-    o.sourceImageId = LibExpat.find(pd, "sourceImageId#string")
-    o.name = LibExpat.find(pd, "name#string")
-    o.description = LibExpat.find(pd, "description#string")
-    o.clientToken = LibExpat.find(pd, "clientToken#string")
+    o.sourceRegion = LightXML.content(LightXML.find_element(pd, "sourceRegion"))
+    o.sourceImageId = LightXML.content(LightXML.find_element(pd, "sourceImageId"))
+    o.name = LightXML.content(LightXML.find_element(pd, "name"))
+    o.description = LightXML.content(LightXML.find_element(pd, "description"))
+    o.clientToken = LightXML.content(LightXML.find_element(pd, "clientToken"))
     o
 end
 
@@ -2956,10 +2964,10 @@ type CopyImageResponseType
     CopyImageResponseType(; requestId=nothing, imageId=nothing) =
          new(requestId, imageId)
 end
-function CopyImageResponseType(pd::ETree)
+function CopyImageResponseType(pd)
     o = CopyImageResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.imageId = LibExpat.find(pd, "imageId#string")
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.imageId = LightXML.content(LightXML.find_element(pd, "imageId"))
     o
 end
 
@@ -2972,9 +2980,9 @@ type DescribeRegionsSetItemType
     DescribeRegionsSetItemType(; regionName=nothing) =
          new(regionName)
 end
-function DescribeRegionsSetItemType(pd::ETree)
+function DescribeRegionsSetItemType(pd)
     o = DescribeRegionsSetItemType()
-    o.regionName = LibExpat.find(pd, "regionName#string")
+    o.regionName = LightXML.content(LightXML.find_element(pd, "regionName"))
     o
 end
 
@@ -2988,10 +2996,10 @@ type RegionItemType
     RegionItemType(; regionName=nothing, regionEndpoint=nothing) =
          new(regionName, regionEndpoint)
 end
-function RegionItemType(pd::ETree)
+function RegionItemType(pd)
     o = RegionItemType()
-    o.regionName = LibExpat.find(pd, "regionName#string")
-    o.regionEndpoint = LibExpat.find(pd, "regionEndpoint#string")
+    o.regionName = LightXML.content(LightXML.find_element(pd, "regionName"))
+    o.regionEndpoint = LightXML.content(LightXML.find_element(pd, "regionEndpoint"))
     o
 end
 
@@ -3004,9 +3012,9 @@ type DescribeReservedInstancesOfferingsSetItemType
     DescribeReservedInstancesOfferingsSetItemType(; reservedInstancesOfferingId=nothing) =
          new(reservedInstancesOfferingId)
 end
-function DescribeReservedInstancesOfferingsSetItemType(pd::ETree)
+function DescribeReservedInstancesOfferingsSetItemType(pd)
     o = DescribeReservedInstancesOfferingsSetItemType()
-    o.reservedInstancesOfferingId = LibExpat.find(pd, "reservedInstancesOfferingId#string")
+    o.reservedInstancesOfferingId = LightXML.content(LightXML.find_element(pd, "reservedInstancesOfferingId"))
     o
 end
 
@@ -3020,10 +3028,10 @@ type RecurringChargesSetItemType
     RecurringChargesSetItemType(; frequency=nothing, amount=nothing) =
          new(frequency, amount)
 end
-function RecurringChargesSetItemType(pd::ETree)
+function RecurringChargesSetItemType(pd)
     o = RecurringChargesSetItemType()
-    o.frequency = LibExpat.find(pd, "frequency#string")
-    o.amount = AWS.safe_parse_as(Float64, LibExpat.find(pd, "amount#string"))
+    o.frequency = LightXML.content(LightXML.find_element(pd, "frequency"))
+    o.amount = AWS.safe_parse_as(Float64, LightXML.content(LightXML.find_element(pd, "amount")))
     o
 end
 
@@ -3037,10 +3045,10 @@ type PricingDetailsSetItemType
     PricingDetailsSetItemType(; price=nothing, count=nothing) =
          new(price, count)
 end
-function PricingDetailsSetItemType(pd::ETree)
+function PricingDetailsSetItemType(pd)
     o = PricingDetailsSetItemType()
-    o.price = AWS.safe_parse_as(Float64, LibExpat.find(pd, "price#string"))
-    o.count = AWS.safe_parse_as(Int64, LibExpat.find(pd, "count#string"))
+    o.price = AWS.safe_parse_as(Float64, LightXML.content(LightXML.find_element(pd, "price")))
+    o.count = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "count")))
     o
 end
 
@@ -3054,10 +3062,10 @@ type ReservedInstanceLimitPriceType
     ReservedInstanceLimitPriceType(; amount=nothing, currencyCode=nothing) =
          new(amount, currencyCode)
 end
-function ReservedInstanceLimitPriceType(pd::ETree)
+function ReservedInstanceLimitPriceType(pd)
     o = ReservedInstanceLimitPriceType()
-    o.amount = AWS.safe_parse_as(Float64, LibExpat.find(pd, "amount#string"))
-    o.currencyCode = LibExpat.find(pd, "currencyCode#string")
+    o.amount = AWS.safe_parse_as(Float64, LightXML.content(LightXML.find_element(pd, "amount")))
+    o.currencyCode = LightXML.content(LightXML.find_element(pd, "currencyCode"))
     o
 end
 
@@ -3071,10 +3079,10 @@ type PurchaseReservedInstancesOfferingResponseType
     PurchaseReservedInstancesOfferingResponseType(; requestId=nothing, reservedInstancesId=nothing) =
          new(requestId, reservedInstancesId)
 end
-function PurchaseReservedInstancesOfferingResponseType(pd::ETree)
+function PurchaseReservedInstancesOfferingResponseType(pd)
     o = PurchaseReservedInstancesOfferingResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.reservedInstancesId = LibExpat.find(pd, "reservedInstancesId#string")
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.reservedInstancesId = LightXML.content(LightXML.find_element(pd, "reservedInstancesId"))
     o
 end
 
@@ -3087,9 +3095,9 @@ type DescribeReservedInstancesSetItemType
     DescribeReservedInstancesSetItemType(; reservedInstancesId=nothing) =
          new(reservedInstancesId)
 end
-function DescribeReservedInstancesSetItemType(pd::ETree)
+function DescribeReservedInstancesSetItemType(pd)
     o = DescribeReservedInstancesSetItemType()
-    o.reservedInstancesId = LibExpat.find(pd, "reservedInstancesId#string")
+    o.reservedInstancesId = LightXML.content(LightXML.find_element(pd, "reservedInstancesId"))
     o
 end
 
@@ -3104,11 +3112,11 @@ type PriceScheduleRequestSetItemType
     PriceScheduleRequestSetItemType(; term=nothing, price=nothing, currencyCode=nothing) =
          new(term, price, currencyCode)
 end
-function PriceScheduleRequestSetItemType(pd::ETree)
+function PriceScheduleRequestSetItemType(pd)
     o = PriceScheduleRequestSetItemType()
-    o.term = AWS.safe_parse_as(Int64, LibExpat.find(pd, "term#string"))
-    o.price = AWS.safe_parse_as(Float64, LibExpat.find(pd, "price#string"))
-    o.currencyCode = LibExpat.find(pd, "currencyCode#string")
+    o.term = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "term")))
+    o.price = AWS.safe_parse_as(Float64, LightXML.content(LightXML.find_element(pd, "price")))
+    o.currencyCode = LightXML.content(LightXML.find_element(pd, "currencyCode"))
     o
 end
 
@@ -3121,9 +3129,9 @@ type CancelReservedInstancesListingType
     CancelReservedInstancesListingType(; reservedInstancesListingId=nothing) =
          new(reservedInstancesListingId)
 end
-function CancelReservedInstancesListingType(pd::ETree)
+function CancelReservedInstancesListingType(pd)
     o = CancelReservedInstancesListingType()
-    o.reservedInstancesListingId = LibExpat.find(pd, "reservedInstancesListingId#string")
+    o.reservedInstancesListingId = LightXML.content(LightXML.find_element(pd, "reservedInstancesListingId"))
     o
 end
 
@@ -3136,9 +3144,9 @@ type DescribeReservedInstancesListingSetItemType
     DescribeReservedInstancesListingSetItemType(; reservedInstancesListingId=nothing) =
          new(reservedInstancesListingId)
 end
-function DescribeReservedInstancesListingSetItemType(pd::ETree)
+function DescribeReservedInstancesListingSetItemType(pd)
     o = DescribeReservedInstancesListingSetItemType()
-    o.reservedInstancesListingId = LibExpat.find(pd, "reservedInstancesListingId#string")
+    o.reservedInstancesListingId = LightXML.content(LightXML.find_element(pd, "reservedInstancesListingId"))
     o
 end
 
@@ -3152,10 +3160,10 @@ type InstanceCountsSetItemType
     InstanceCountsSetItemType(; state=nothing, instanceCount=nothing) =
          new(state, instanceCount)
 end
-function InstanceCountsSetItemType(pd::ETree)
+function InstanceCountsSetItemType(pd)
     o = InstanceCountsSetItemType()
-    o.state = LibExpat.find(pd, "state#string")
-    o.instanceCount = AWS.safe_parse_as(Int64, LibExpat.find(pd, "instanceCount#string"))
+    o.state = LightXML.content(LightXML.find_element(pd, "state"))
+    o.instanceCount = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "instanceCount")))
     o
 end
 
@@ -3171,12 +3179,12 @@ type PriceScheduleSetItemType
     PriceScheduleSetItemType(; term=nothing, price=nothing, currencyCode=nothing, active=nothing) =
          new(term, price, currencyCode, active)
 end
-function PriceScheduleSetItemType(pd::ETree)
+function PriceScheduleSetItemType(pd)
     o = PriceScheduleSetItemType()
-    o.term = AWS.safe_parse_as(Int64, LibExpat.find(pd, "term#string"))
-    o.price = AWS.safe_parse_as(Float64, LibExpat.find(pd, "price#string"))
-    o.currencyCode = LibExpat.find(pd, "currencyCode#string")
-    o.active = AWS.safe_parse_as(Bool, LibExpat.find(pd, "active#string"))
+    o.term = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "term")))
+    o.price = AWS.safe_parse_as(Float64, LightXML.content(LightXML.find_element(pd, "price")))
+    o.currencyCode = LightXML.content(LightXML.find_element(pd, "currencyCode"))
+    o.active = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "active")))
     o
 end
 
@@ -3189,9 +3197,9 @@ type MonitorInstancesType
     MonitorInstancesType(; instancesSet=nothing) =
          new(instancesSet)
 end
-function MonitorInstancesType(pd::ETree)
+function MonitorInstancesType(pd)
     o = MonitorInstancesType()
-    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", LibExpat.find(pd, "item/instanceId"))
+    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
     o
 end
 
@@ -3204,9 +3212,9 @@ type MonitorInstancesSetItemType
     MonitorInstancesSetItemType(; instanceId=nothing) =
          new(instanceId)
 end
-function MonitorInstancesSetItemType(pd::ETree)
+function MonitorInstancesSetItemType(pd)
     o = MonitorInstancesSetItemType()
-    o.instanceId = LibExpat.find(pd, "instanceId#string")
+    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
     o
 end
 
@@ -3219,9 +3227,9 @@ type InstanceMonitoringStateType
     InstanceMonitoringStateType(; state=nothing) =
          new(state)
 end
-function InstanceMonitoringStateType(pd::ETree)
+function InstanceMonitoringStateType(pd)
     o = InstanceMonitoringStateType()
-    o.state = LibExpat.find(pd, "state#string")
+    o.state = LightXML.content(LightXML.find_element(pd, "state"))
     o
 end
 
@@ -3235,10 +3243,10 @@ type AttachmentType
     AttachmentType(; vpcId=nothing, state=nothing) =
          new(vpcId, state)
 end
-function AttachmentType(pd::ETree)
+function AttachmentType(pd)
     o = AttachmentType()
-    o.vpcId = LibExpat.find(pd, "vpcId#string")
-    o.state = LibExpat.find(pd, "state#string")
+    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
+    o.state = LightXML.content(LightXML.find_element(pd, "state"))
     o
 end
 
@@ -3251,9 +3259,9 @@ type VpnConnectionOptionsResponseType
     VpnConnectionOptionsResponseType(; staticRoutesOnly=nothing) =
          new(staticRoutesOnly)
 end
-function VpnConnectionOptionsResponseType(pd::ETree)
+function VpnConnectionOptionsResponseType(pd)
     o = VpnConnectionOptionsResponseType()
-    o.staticRoutesOnly = AWS.safe_parse_as(Bool, LibExpat.find(pd, "staticRoutesOnly#string"))
+    o.staticRoutesOnly = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "staticRoutesOnly")))
     o
 end
 
@@ -3268,11 +3276,11 @@ type VpnStaticRouteType
     VpnStaticRouteType(; destinationCidrBlock=nothing, source=nothing, state=nothing) =
          new(destinationCidrBlock, source, state)
 end
-function VpnStaticRouteType(pd::ETree)
+function VpnStaticRouteType(pd)
     o = VpnStaticRouteType()
-    o.destinationCidrBlock = LibExpat.find(pd, "destinationCidrBlock#string")
-    o.source = LibExpat.find(pd, "source#string")
-    o.state = LibExpat.find(pd, "state#string")
+    o.destinationCidrBlock = LightXML.content(LightXML.find_element(pd, "destinationCidrBlock"))
+    o.source = LightXML.content(LightXML.find_element(pd, "source"))
+    o.state = LightXML.content(LightXML.find_element(pd, "state"))
     o
 end
 
@@ -3289,13 +3297,13 @@ type VpnTunnelTelemetryType
     VpnTunnelTelemetryType(; outsideIpAddress=nothing, status=nothing, lastStatusChange=nothing, statusMessage=nothing, acceptedRouteCount=nothing) =
          new(outsideIpAddress, status, lastStatusChange, statusMessage, acceptedRouteCount)
 end
-function VpnTunnelTelemetryType(pd::ETree)
+function VpnTunnelTelemetryType(pd)
     o = VpnTunnelTelemetryType()
-    o.outsideIpAddress = LibExpat.find(pd, "outsideIpAddress#string")
-    o.status = LibExpat.find(pd, "status#string")
-    o.lastStatusChange = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "lastStatusChange#string"))
-    o.statusMessage = LibExpat.find(pd, "statusMessage#string")
-    o.acceptedRouteCount = AWS.safe_parse_as(Int64, LibExpat.find(pd, "acceptedRouteCount#string"))
+    o.outsideIpAddress = LightXML.content(LightXML.find_element(pd, "outsideIpAddress"))
+    o.status = LightXML.content(LightXML.find_element(pd, "status"))
+    o.lastStatusChange = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "lastStatusChange")))
+    o.statusMessage = LightXML.content(LightXML.find_element(pd, "statusMessage"))
+    o.acceptedRouteCount = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "acceptedRouteCount")))
     o
 end
 
@@ -3308,9 +3316,9 @@ type CustomerGatewayIdSetItemType
     CustomerGatewayIdSetItemType(; customerGatewayId=nothing) =
          new(customerGatewayId)
 end
-function CustomerGatewayIdSetItemType(pd::ETree)
+function CustomerGatewayIdSetItemType(pd)
     o = CustomerGatewayIdSetItemType()
-    o.customerGatewayId = LibExpat.find(pd, "customerGatewayId#string")
+    o.customerGatewayId = LightXML.content(LightXML.find_element(pd, "customerGatewayId"))
     o
 end
 
@@ -3323,9 +3331,9 @@ type VpnGatewayIdSetItemType
     VpnGatewayIdSetItemType(; vpnGatewayId=nothing) =
          new(vpnGatewayId)
 end
-function VpnGatewayIdSetItemType(pd::ETree)
+function VpnGatewayIdSetItemType(pd)
     o = VpnGatewayIdSetItemType()
-    o.vpnGatewayId = LibExpat.find(pd, "vpnGatewayId#string")
+    o.vpnGatewayId = LightXML.content(LightXML.find_element(pd, "vpnGatewayId"))
     o
 end
 
@@ -3338,9 +3346,9 @@ type VpnConnectionIdSetItemType
     VpnConnectionIdSetItemType(; vpnConnectionId=nothing) =
          new(vpnConnectionId)
 end
-function VpnConnectionIdSetItemType(pd::ETree)
+function VpnConnectionIdSetItemType(pd)
     o = VpnConnectionIdSetItemType()
-    o.vpnConnectionId = LibExpat.find(pd, "vpnConnectionId#string")
+    o.vpnConnectionId = LightXML.content(LightXML.find_element(pd, "vpnConnectionId"))
     o
 end
 
@@ -3353,9 +3361,9 @@ type VpcIdSetItemType
     VpcIdSetItemType(; vpcId=nothing) =
          new(vpcId)
 end
-function VpcIdSetItemType(pd::ETree)
+function VpcIdSetItemType(pd)
     o = VpcIdSetItemType()
-    o.vpcId = LibExpat.find(pd, "vpcId#string")
+    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
     o
 end
 
@@ -3368,9 +3376,9 @@ type SubnetIdSetItemType
     SubnetIdSetItemType(; subnetId=nothing) =
          new(subnetId)
 end
-function SubnetIdSetItemType(pd::ETree)
+function SubnetIdSetItemType(pd)
     o = SubnetIdSetItemType()
-    o.subnetId = LibExpat.find(pd, "subnetId#string")
+    o.subnetId = LightXML.content(LightXML.find_element(pd, "subnetId"))
     o
 end
 
@@ -3383,9 +3391,9 @@ type DhcpOptionsIdSetItemType
     DhcpOptionsIdSetItemType(; dhcpOptionsId=nothing) =
          new(dhcpOptionsId)
 end
-function DhcpOptionsIdSetItemType(pd::ETree)
+function DhcpOptionsIdSetItemType(pd)
     o = DhcpOptionsIdSetItemType()
-    o.dhcpOptionsId = LibExpat.find(pd, "dhcpOptionsId#string")
+    o.dhcpOptionsId = LightXML.content(LightXML.find_element(pd, "dhcpOptionsId"))
     o
 end
 
@@ -3399,10 +3407,10 @@ type DhcpConfigurationItemType
     DhcpConfigurationItemType(; key=nothing, valueSet=nothing) =
          new(key, valueSet)
 end
-function DhcpConfigurationItemType(pd::ETree)
+function DhcpConfigurationItemType(pd)
     o = DhcpConfigurationItemType()
-    o.key = LibExpat.find(pd, "key#string")
-    o.valueSet = AWS.parse_vector_as(ASCIIString, "value", LibExpat.find(pd, "item/value"))
+    o.key = LightXML.content(LightXML.find_element(pd, "key"))
+    o.valueSet = AWS.parse_vector_as(ASCIIString, "value", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "value"))
     o
 end
 
@@ -3415,9 +3423,9 @@ type DhcpValueType
     DhcpValueType(; value=nothing) =
          new(value)
 end
-function DhcpValueType(pd::ETree)
+function DhcpValueType(pd)
     o = DhcpValueType()
-    o.value = LibExpat.find(pd, "value#string")
+    o.value = LightXML.content(LightXML.find_element(pd, "value"))
     o
 end
 
@@ -3430,9 +3438,9 @@ type ValueType
     ValueType(; value=nothing) =
          new(value)
 end
-function ValueType(pd::ETree)
+function ValueType(pd)
     o = ValueType()
-    o.value = LibExpat.find(pd, "value#string")
+    o.value = LightXML.content(LightXML.find_element(pd, "value"))
     o
 end
 
@@ -3447,11 +3455,11 @@ type CreateCustomerGatewayType
     CreateCustomerGatewayType(; _type=nothing, ipAddress=nothing, bgpAsn=nothing) =
          new(_type, ipAddress, bgpAsn)
 end
-function CreateCustomerGatewayType(pd::ETree)
+function CreateCustomerGatewayType(pd)
     o = CreateCustomerGatewayType()
-    o._type = LibExpat.find(pd, "type#string")
-    o.ipAddress = LibExpat.find(pd, "ipAddress#string")
-    o.bgpAsn = AWS.safe_parse_as(Int64, LibExpat.find(pd, "bgpAsn#string"))
+    o._type = LightXML.content(LightXML.find_element(pd, "type"))
+    o.ipAddress = LightXML.content(LightXML.find_element(pd, "ipAddress"))
+    o.bgpAsn = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "bgpAsn")))
     o
 end
 
@@ -3464,9 +3472,9 @@ type DeleteCustomerGatewayType
     DeleteCustomerGatewayType(; customerGatewayId=nothing) =
          new(customerGatewayId)
 end
-function DeleteCustomerGatewayType(pd::ETree)
+function DeleteCustomerGatewayType(pd)
     o = DeleteCustomerGatewayType()
-    o.customerGatewayId = LibExpat.find(pd, "customerGatewayId#string")
+    o.customerGatewayId = LightXML.content(LightXML.find_element(pd, "customerGatewayId"))
     o
 end
 
@@ -3480,10 +3488,10 @@ type DeleteCustomerGatewayResponseType
     DeleteCustomerGatewayResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function DeleteCustomerGatewayResponseType(pd::ETree)
+function DeleteCustomerGatewayResponseType(pd)
     o = DeleteCustomerGatewayResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -3497,10 +3505,10 @@ type CreateVpnGatewayType
     CreateVpnGatewayType(; _type=nothing, availabilityZone=nothing) =
          new(_type, availabilityZone)
 end
-function CreateVpnGatewayType(pd::ETree)
+function CreateVpnGatewayType(pd)
     o = CreateVpnGatewayType()
-    o._type = LibExpat.find(pd, "type#string")
-    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
+    o._type = LightXML.content(LightXML.find_element(pd, "type"))
+    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
     o
 end
 
@@ -3513,9 +3521,9 @@ type DeleteVpnGatewayType
     DeleteVpnGatewayType(; vpnGatewayId=nothing) =
          new(vpnGatewayId)
 end
-function DeleteVpnGatewayType(pd::ETree)
+function DeleteVpnGatewayType(pd)
     o = DeleteVpnGatewayType()
-    o.vpnGatewayId = LibExpat.find(pd, "vpnGatewayId#string")
+    o.vpnGatewayId = LightXML.content(LightXML.find_element(pd, "vpnGatewayId"))
     o
 end
 
@@ -3529,10 +3537,10 @@ type DeleteVpnGatewayResponseType
     DeleteVpnGatewayResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function DeleteVpnGatewayResponseType(pd::ETree)
+function DeleteVpnGatewayResponseType(pd)
     o = DeleteVpnGatewayResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -3545,9 +3553,9 @@ type VpnConnectionOptionsRequestType
     VpnConnectionOptionsRequestType(; staticRoutesOnly=nothing) =
          new(staticRoutesOnly)
 end
-function VpnConnectionOptionsRequestType(pd::ETree)
+function VpnConnectionOptionsRequestType(pd)
     o = VpnConnectionOptionsRequestType()
-    o.staticRoutesOnly = AWS.safe_parse_as(Bool, LibExpat.find(pd, "staticRoutesOnly#string"))
+    o.staticRoutesOnly = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "staticRoutesOnly")))
     o
 end
 
@@ -3561,10 +3569,10 @@ type CreateVpnConnectionRouteType
     CreateVpnConnectionRouteType(; vpnConnectionId=nothing, destinationCidrBlock=nothing) =
          new(vpnConnectionId, destinationCidrBlock)
 end
-function CreateVpnConnectionRouteType(pd::ETree)
+function CreateVpnConnectionRouteType(pd)
     o = CreateVpnConnectionRouteType()
-    o.vpnConnectionId = LibExpat.find(pd, "vpnConnectionId#string")
-    o.destinationCidrBlock = LibExpat.find(pd, "destinationCidrBlock#string")
+    o.vpnConnectionId = LightXML.content(LightXML.find_element(pd, "vpnConnectionId"))
+    o.destinationCidrBlock = LightXML.content(LightXML.find_element(pd, "destinationCidrBlock"))
     o
 end
 
@@ -3578,10 +3586,10 @@ type CreateVpnConnectionRouteResponseType
     CreateVpnConnectionRouteResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function CreateVpnConnectionRouteResponseType(pd::ETree)
+function CreateVpnConnectionRouteResponseType(pd)
     o = CreateVpnConnectionRouteResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -3595,10 +3603,10 @@ type DeleteVpnConnectionRouteType
     DeleteVpnConnectionRouteType(; vpnConnectionId=nothing, destinationCidrBlock=nothing) =
          new(vpnConnectionId, destinationCidrBlock)
 end
-function DeleteVpnConnectionRouteType(pd::ETree)
+function DeleteVpnConnectionRouteType(pd)
     o = DeleteVpnConnectionRouteType()
-    o.vpnConnectionId = LibExpat.find(pd, "vpnConnectionId#string")
-    o.destinationCidrBlock = LibExpat.find(pd, "destinationCidrBlock#string")
+    o.vpnConnectionId = LightXML.content(LightXML.find_element(pd, "vpnConnectionId"))
+    o.destinationCidrBlock = LightXML.content(LightXML.find_element(pd, "destinationCidrBlock"))
     o
 end
 
@@ -3612,10 +3620,10 @@ type DeleteVpnConnectionRouteResponseType
     DeleteVpnConnectionRouteResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function DeleteVpnConnectionRouteResponseType(pd::ETree)
+function DeleteVpnConnectionRouteResponseType(pd)
     o = DeleteVpnConnectionRouteResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -3628,9 +3636,9 @@ type DeleteVpnConnectionType
     DeleteVpnConnectionType(; vpnConnectionId=nothing) =
          new(vpnConnectionId)
 end
-function DeleteVpnConnectionType(pd::ETree)
+function DeleteVpnConnectionType(pd)
     o = DeleteVpnConnectionType()
-    o.vpnConnectionId = LibExpat.find(pd, "vpnConnectionId#string")
+    o.vpnConnectionId = LightXML.content(LightXML.find_element(pd, "vpnConnectionId"))
     o
 end
 
@@ -3644,10 +3652,10 @@ type DeleteVpnConnectionResponseType
     DeleteVpnConnectionResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function DeleteVpnConnectionResponseType(pd::ETree)
+function DeleteVpnConnectionResponseType(pd)
     o = DeleteVpnConnectionResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -3661,10 +3669,10 @@ type AttachVpnGatewayType
     AttachVpnGatewayType(; vpnGatewayId=nothing, vpcId=nothing) =
          new(vpnGatewayId, vpcId)
 end
-function AttachVpnGatewayType(pd::ETree)
+function AttachVpnGatewayType(pd)
     o = AttachVpnGatewayType()
-    o.vpnGatewayId = LibExpat.find(pd, "vpnGatewayId#string")
-    o.vpcId = LibExpat.find(pd, "vpcId#string")
+    o.vpnGatewayId = LightXML.content(LightXML.find_element(pd, "vpnGatewayId"))
+    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
     o
 end
 
@@ -3678,10 +3686,10 @@ type DetachVpnGatewayType
     DetachVpnGatewayType(; vpnGatewayId=nothing, vpcId=nothing) =
          new(vpnGatewayId, vpcId)
 end
-function DetachVpnGatewayType(pd::ETree)
+function DetachVpnGatewayType(pd)
     o = DetachVpnGatewayType()
-    o.vpnGatewayId = LibExpat.find(pd, "vpnGatewayId#string")
-    o.vpcId = LibExpat.find(pd, "vpcId#string")
+    o.vpnGatewayId = LightXML.content(LightXML.find_element(pd, "vpnGatewayId"))
+    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
     o
 end
 
@@ -3695,10 +3703,10 @@ type DetachVpnGatewayResponseType
     DetachVpnGatewayResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function DetachVpnGatewayResponseType(pd::ETree)
+function DetachVpnGatewayResponseType(pd)
     o = DetachVpnGatewayResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -3712,10 +3720,10 @@ type CreateVpcType
     CreateVpcType(; cidrBlock=nothing, instanceTenancy=nothing) =
          new(cidrBlock, instanceTenancy)
 end
-function CreateVpcType(pd::ETree)
+function CreateVpcType(pd)
     o = CreateVpcType()
-    o.cidrBlock = LibExpat.find(pd, "cidrBlock#string")
-    o.instanceTenancy = LibExpat.find(pd, "instanceTenancy#string")
+    o.cidrBlock = LightXML.content(LightXML.find_element(pd, "cidrBlock"))
+    o.instanceTenancy = LightXML.content(LightXML.find_element(pd, "instanceTenancy"))
     o
 end
 
@@ -3728,9 +3736,9 @@ type DeleteVpcType
     DeleteVpcType(; vpcId=nothing) =
          new(vpcId)
 end
-function DeleteVpcType(pd::ETree)
+function DeleteVpcType(pd)
     o = DeleteVpcType()
-    o.vpcId = LibExpat.find(pd, "vpcId#string")
+    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
     o
 end
 
@@ -3744,10 +3752,10 @@ type DeleteVpcResponseType
     DeleteVpcResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function DeleteVpcResponseType(pd::ETree)
+function DeleteVpcResponseType(pd)
     o = DeleteVpcResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -3762,11 +3770,11 @@ type CreateSubnetType
     CreateSubnetType(; vpcId=nothing, cidrBlock=nothing, availabilityZone=nothing) =
          new(vpcId, cidrBlock, availabilityZone)
 end
-function CreateSubnetType(pd::ETree)
+function CreateSubnetType(pd)
     o = CreateSubnetType()
-    o.vpcId = LibExpat.find(pd, "vpcId#string")
-    o.cidrBlock = LibExpat.find(pd, "cidrBlock#string")
-    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
+    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
+    o.cidrBlock = LightXML.content(LightXML.find_element(pd, "cidrBlock"))
+    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
     o
 end
 
@@ -3779,9 +3787,9 @@ type DeleteSubnetType
     DeleteSubnetType(; subnetId=nothing) =
          new(subnetId)
 end
-function DeleteSubnetType(pd::ETree)
+function DeleteSubnetType(pd)
     o = DeleteSubnetType()
-    o.subnetId = LibExpat.find(pd, "subnetId#string")
+    o.subnetId = LightXML.content(LightXML.find_element(pd, "subnetId"))
     o
 end
 
@@ -3795,10 +3803,10 @@ type DeleteSubnetResponseType
     DeleteSubnetResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function DeleteSubnetResponseType(pd::ETree)
+function DeleteSubnetResponseType(pd)
     o = DeleteSubnetResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -3811,9 +3819,9 @@ type DeleteDhcpOptionsType
     DeleteDhcpOptionsType(; dhcpOptionsId=nothing) =
          new(dhcpOptionsId)
 end
-function DeleteDhcpOptionsType(pd::ETree)
+function DeleteDhcpOptionsType(pd)
     o = DeleteDhcpOptionsType()
-    o.dhcpOptionsId = LibExpat.find(pd, "dhcpOptionsId#string")
+    o.dhcpOptionsId = LightXML.content(LightXML.find_element(pd, "dhcpOptionsId"))
     o
 end
 
@@ -3827,10 +3835,10 @@ type DeleteDhcpOptionsResponseType
     DeleteDhcpOptionsResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function DeleteDhcpOptionsResponseType(pd::ETree)
+function DeleteDhcpOptionsResponseType(pd)
     o = DeleteDhcpOptionsResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -3844,10 +3852,10 @@ type AssociateDhcpOptionsType
     AssociateDhcpOptionsType(; dhcpOptionsId=nothing, vpcId=nothing) =
          new(dhcpOptionsId, vpcId)
 end
-function AssociateDhcpOptionsType(pd::ETree)
+function AssociateDhcpOptionsType(pd)
     o = AssociateDhcpOptionsType()
-    o.dhcpOptionsId = LibExpat.find(pd, "dhcpOptionsId#string")
-    o.vpcId = LibExpat.find(pd, "vpcId#string")
+    o.dhcpOptionsId = LightXML.content(LightXML.find_element(pd, "dhcpOptionsId"))
+    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
     o
 end
 
@@ -3861,10 +3869,10 @@ type AssociateDhcpOptionsResponseType
     AssociateDhcpOptionsResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function AssociateDhcpOptionsResponseType(pd::ETree)
+function AssociateDhcpOptionsResponseType(pd)
     o = AssociateDhcpOptionsResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -3878,10 +3886,10 @@ type SpotInstanceStateFaultType
     SpotInstanceStateFaultType(; code=nothing, message=nothing) =
          new(code, message)
 end
-function SpotInstanceStateFaultType(pd::ETree)
+function SpotInstanceStateFaultType(pd)
     o = SpotInstanceStateFaultType()
-    o.code = LibExpat.find(pd, "code#string")
-    o.message = LibExpat.find(pd, "message#string")
+    o.code = LightXML.content(LightXML.find_element(pd, "code"))
+    o.message = LightXML.content(LightXML.find_element(pd, "message"))
     o
 end
 
@@ -3896,11 +3904,11 @@ type SpotInstanceStatusMessageType
     SpotInstanceStatusMessageType(; code=nothing, updateTime=nothing, message=nothing) =
          new(code, updateTime, message)
 end
-function SpotInstanceStatusMessageType(pd::ETree)
+function SpotInstanceStatusMessageType(pd)
     o = SpotInstanceStatusMessageType()
-    o.code = LibExpat.find(pd, "code#string")
-    o.updateTime = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "updateTime#string"))
-    o.message = LibExpat.find(pd, "message#string")
+    o.code = LightXML.content(LightXML.find_element(pd, "code"))
+    o.updateTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "updateTime")))
+    o.message = LightXML.content(LightXML.find_element(pd, "message"))
     o
 end
 
@@ -3913,9 +3921,9 @@ type SpotInstanceRequestIdSetItemType
     SpotInstanceRequestIdSetItemType(; spotInstanceRequestId=nothing) =
          new(spotInstanceRequestId)
 end
-function SpotInstanceRequestIdSetItemType(pd::ETree)
+function SpotInstanceRequestIdSetItemType(pd)
     o = SpotInstanceRequestIdSetItemType()
-    o.spotInstanceRequestId = LibExpat.find(pd, "spotInstanceRequestId#string")
+    o.spotInstanceRequestId = LightXML.content(LightXML.find_element(pd, "spotInstanceRequestId"))
     o
 end
 
@@ -3928,9 +3936,9 @@ type CancelSpotInstanceRequestsType
     CancelSpotInstanceRequestsType(; spotInstanceRequestIdSet=nothing) =
          new(spotInstanceRequestIdSet)
 end
-function CancelSpotInstanceRequestsType(pd::ETree)
+function CancelSpotInstanceRequestsType(pd)
     o = CancelSpotInstanceRequestsType()
-    o.spotInstanceRequestIdSet = AWS.parse_vector_as(ASCIIString, "spotInstanceRequestId", LibExpat.find(pd, "item/spotInstanceRequestId"))
+    o.spotInstanceRequestIdSet = AWS.parse_vector_as(ASCIIString, "spotInstanceRequestId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "spotInstanceRequestId"))
     o
 end
 
@@ -3944,10 +3952,10 @@ type CancelSpotInstanceRequestsResponseSetItemType
     CancelSpotInstanceRequestsResponseSetItemType(; spotInstanceRequestId=nothing, state=nothing) =
          new(spotInstanceRequestId, state)
 end
-function CancelSpotInstanceRequestsResponseSetItemType(pd::ETree)
+function CancelSpotInstanceRequestsResponseSetItemType(pd)
     o = CancelSpotInstanceRequestsResponseSetItemType()
-    o.spotInstanceRequestId = LibExpat.find(pd, "spotInstanceRequestId#string")
-    o.state = LibExpat.find(pd, "state#string")
+    o.spotInstanceRequestId = LightXML.content(LightXML.find_element(pd, "spotInstanceRequestId"))
+    o.state = LightXML.content(LightXML.find_element(pd, "state"))
     o
 end
 
@@ -3960,9 +3968,9 @@ type InstanceTypeSetItemType
     InstanceTypeSetItemType(; instanceType=nothing) =
          new(instanceType)
 end
-function InstanceTypeSetItemType(pd::ETree)
+function InstanceTypeSetItemType(pd)
     o = InstanceTypeSetItemType()
-    o.instanceType = LibExpat.find(pd, "instanceType#string")
+    o.instanceType = LightXML.content(LightXML.find_element(pd, "instanceType"))
     o
 end
 
@@ -3975,9 +3983,9 @@ type ProductDescriptionSetItemType
     ProductDescriptionSetItemType(; productDescription=nothing) =
          new(productDescription)
 end
-function ProductDescriptionSetItemType(pd::ETree)
+function ProductDescriptionSetItemType(pd)
     o = ProductDescriptionSetItemType()
-    o.productDescription = LibExpat.find(pd, "productDescription#string")
+    o.productDescription = LightXML.content(LightXML.find_element(pd, "productDescription"))
     o
 end
 
@@ -3994,13 +4002,13 @@ type SpotPriceHistorySetItemType
     SpotPriceHistorySetItemType(; instanceType=nothing, productDescription=nothing, spotPrice=nothing, timestamp=nothing, availabilityZone=nothing) =
          new(instanceType, productDescription, spotPrice, timestamp, availabilityZone)
 end
-function SpotPriceHistorySetItemType(pd::ETree)
+function SpotPriceHistorySetItemType(pd)
     o = SpotPriceHistorySetItemType()
-    o.instanceType = LibExpat.find(pd, "instanceType#string")
-    o.productDescription = LibExpat.find(pd, "productDescription#string")
-    o.spotPrice = LibExpat.find(pd, "spotPrice#string")
-    o.timestamp = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "timestamp#string"))
-    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
+    o.instanceType = LightXML.content(LightXML.find_element(pd, "instanceType"))
+    o.productDescription = LightXML.content(LightXML.find_element(pd, "productDescription"))
+    o.spotPrice = LightXML.content(LightXML.find_element(pd, "spotPrice"))
+    o.timestamp = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "timestamp")))
+    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
     o
 end
 
@@ -4014,10 +4022,10 @@ type CreateSpotDatafeedSubscriptionType
     CreateSpotDatafeedSubscriptionType(; bucket=nothing, prefix=nothing) =
          new(bucket, prefix)
 end
-function CreateSpotDatafeedSubscriptionType(pd::ETree)
+function CreateSpotDatafeedSubscriptionType(pd)
     o = CreateSpotDatafeedSubscriptionType()
-    o.bucket = LibExpat.find(pd, "bucket#string")
-    o.prefix = LibExpat.find(pd, "prefix#string")
+    o.bucket = LightXML.content(LightXML.find_element(pd, "bucket"))
+    o.prefix = LightXML.content(LightXML.find_element(pd, "prefix"))
     o
 end
 
@@ -4031,10 +4039,10 @@ type DeleteSpotDatafeedSubscriptionResponseType
     DeleteSpotDatafeedSubscriptionResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function DeleteSpotDatafeedSubscriptionResponseType(pd::ETree)
+function DeleteSpotDatafeedSubscriptionResponseType(pd)
     o = DeleteSpotDatafeedSubscriptionResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -4047,9 +4055,9 @@ type LicenseIdSetItemType
     LicenseIdSetItemType(; licenseId=nothing) =
          new(licenseId)
 end
-function LicenseIdSetItemType(pd::ETree)
+function LicenseIdSetItemType(pd)
     o = LicenseIdSetItemType()
-    o.licenseId = LibExpat.find(pd, "licenseId#string")
+    o.licenseId = LightXML.content(LightXML.find_element(pd, "licenseId"))
     o
 end
 
@@ -4065,12 +4073,12 @@ type LicenseCapacitySetItemType
     LicenseCapacitySetItemType(; capacity=nothing, instanceCapacity=nothing, state=nothing, earliestAllowedDeactivationTime=nothing) =
          new(capacity, instanceCapacity, state, earliestAllowedDeactivationTime)
 end
-function LicenseCapacitySetItemType(pd::ETree)
+function LicenseCapacitySetItemType(pd)
     o = LicenseCapacitySetItemType()
-    o.capacity = AWS.safe_parse_as(Int64, LibExpat.find(pd, "capacity#string"))
-    o.instanceCapacity = AWS.safe_parse_as(Int64, LibExpat.find(pd, "instanceCapacity#string"))
-    o.state = LibExpat.find(pd, "state#string")
-    o.earliestAllowedDeactivationTime = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "earliestAllowedDeactivationTime#string"))
+    o.capacity = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "capacity")))
+    o.instanceCapacity = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "instanceCapacity")))
+    o.state = LightXML.content(LightXML.find_element(pd, "state"))
+    o.earliestAllowedDeactivationTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "earliestAllowedDeactivationTime")))
     o
 end
 
@@ -4084,10 +4092,10 @@ type ActivateLicenseType
     ActivateLicenseType(; licenseId=nothing, capacity=nothing) =
          new(licenseId, capacity)
 end
-function ActivateLicenseType(pd::ETree)
+function ActivateLicenseType(pd)
     o = ActivateLicenseType()
-    o.licenseId = LibExpat.find(pd, "licenseId#string")
-    o.capacity = AWS.safe_parse_as(Int64, LibExpat.find(pd, "capacity#string"))
+    o.licenseId = LightXML.content(LightXML.find_element(pd, "licenseId"))
+    o.capacity = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "capacity")))
     o
 end
 
@@ -4101,10 +4109,10 @@ type ActivateLicenseResponseType
     ActivateLicenseResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function ActivateLicenseResponseType(pd::ETree)
+function ActivateLicenseResponseType(pd)
     o = ActivateLicenseResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -4118,10 +4126,10 @@ type DeactivateLicenseType
     DeactivateLicenseType(; licenseId=nothing, capacity=nothing) =
          new(licenseId, capacity)
 end
-function DeactivateLicenseType(pd::ETree)
+function DeactivateLicenseType(pd)
     o = DeactivateLicenseType()
-    o.licenseId = LibExpat.find(pd, "licenseId#string")
-    o.capacity = AWS.safe_parse_as(Int64, LibExpat.find(pd, "capacity#string"))
+    o.licenseId = LightXML.content(LightXML.find_element(pd, "licenseId"))
+    o.capacity = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "capacity")))
     o
 end
 
@@ -4135,10 +4143,10 @@ type DeactivateLicenseResponseType
     DeactivateLicenseResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function DeactivateLicenseResponseType(pd::ETree)
+function DeactivateLicenseResponseType(pd)
     o = DeactivateLicenseResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -4152,10 +4160,10 @@ type CreatePlacementGroupType
     CreatePlacementGroupType(; groupName=nothing, strategy=nothing) =
          new(groupName, strategy)
 end
-function CreatePlacementGroupType(pd::ETree)
+function CreatePlacementGroupType(pd)
     o = CreatePlacementGroupType()
-    o.groupName = LibExpat.find(pd, "groupName#string")
-    o.strategy = LibExpat.find(pd, "strategy#string")
+    o.groupName = LightXML.content(LightXML.find_element(pd, "groupName"))
+    o.strategy = LightXML.content(LightXML.find_element(pd, "strategy"))
     o
 end
 
@@ -4169,10 +4177,10 @@ type CreatePlacementGroupResponseType
     CreatePlacementGroupResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function CreatePlacementGroupResponseType(pd::ETree)
+function CreatePlacementGroupResponseType(pd)
     o = CreatePlacementGroupResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -4185,9 +4193,9 @@ type DeletePlacementGroupType
     DeletePlacementGroupType(; groupName=nothing) =
          new(groupName)
 end
-function DeletePlacementGroupType(pd::ETree)
+function DeletePlacementGroupType(pd)
     o = DeletePlacementGroupType()
-    o.groupName = LibExpat.find(pd, "groupName#string")
+    o.groupName = LightXML.content(LightXML.find_element(pd, "groupName"))
     o
 end
 
@@ -4201,10 +4209,10 @@ type DeletePlacementGroupResponseType
     DeletePlacementGroupResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function DeletePlacementGroupResponseType(pd::ETree)
+function DeletePlacementGroupResponseType(pd)
     o = DeletePlacementGroupResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -4217,9 +4225,9 @@ type DescribePlacementGroupItemType
     DescribePlacementGroupItemType(; groupName=nothing) =
          new(groupName)
 end
-function DescribePlacementGroupItemType(pd::ETree)
+function DescribePlacementGroupItemType(pd)
     o = DescribePlacementGroupItemType()
-    o.groupName = LibExpat.find(pd, "groupName#string")
+    o.groupName = LightXML.content(LightXML.find_element(pd, "groupName"))
     o
 end
 
@@ -4234,11 +4242,11 @@ type PlacementGroupInfoType
     PlacementGroupInfoType(; groupName=nothing, strategy=nothing, state=nothing) =
          new(groupName, strategy, state)
 end
-function PlacementGroupInfoType(pd::ETree)
+function PlacementGroupInfoType(pd)
     o = PlacementGroupInfoType()
-    o.groupName = LibExpat.find(pd, "groupName#string")
-    o.strategy = LibExpat.find(pd, "strategy#string")
-    o.state = LibExpat.find(pd, "state#string")
+    o.groupName = LightXML.content(LightXML.find_element(pd, "groupName"))
+    o.strategy = LightXML.content(LightXML.find_element(pd, "strategy"))
+    o.state = LightXML.content(LightXML.find_element(pd, "state"))
     o
 end
 
@@ -4251,9 +4259,9 @@ type ResourceIdSetItemType
     ResourceIdSetItemType(; resourceId=nothing) =
          new(resourceId)
 end
-function ResourceIdSetItemType(pd::ETree)
+function ResourceIdSetItemType(pd)
     o = ResourceIdSetItemType()
-    o.resourceId = LibExpat.find(pd, "resourceId#string")
+    o.resourceId = LightXML.content(LightXML.find_element(pd, "resourceId"))
     o
 end
 
@@ -4267,10 +4275,10 @@ type CreateTagsResponseType
     CreateTagsResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function CreateTagsResponseType(pd::ETree)
+function CreateTagsResponseType(pd)
     o = CreateTagsResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -4286,12 +4294,12 @@ type TagSetItemType
     TagSetItemType(; resourceId=nothing, resourceType=nothing, key=nothing, value=nothing) =
          new(resourceId, resourceType, key, value)
 end
-function TagSetItemType(pd::ETree)
+function TagSetItemType(pd)
     o = TagSetItemType()
-    o.resourceId = LibExpat.find(pd, "resourceId#string")
-    o.resourceType = LibExpat.find(pd, "resourceType#string")
-    o.key = LibExpat.find(pd, "key#string")
-    o.value = LibExpat.find(pd, "value#string")
+    o.resourceId = LightXML.content(LightXML.find_element(pd, "resourceId"))
+    o.resourceType = LightXML.content(LightXML.find_element(pd, "resourceType"))
+    o.key = LightXML.content(LightXML.find_element(pd, "key"))
+    o.value = LightXML.content(LightXML.find_element(pd, "value"))
     o
 end
 
@@ -4305,10 +4313,10 @@ type DeleteTagsSetItemType
     DeleteTagsSetItemType(; key=nothing, value=nothing) =
          new(key, value)
 end
-function DeleteTagsSetItemType(pd::ETree)
+function DeleteTagsSetItemType(pd)
     o = DeleteTagsSetItemType()
-    o.key = LibExpat.find(pd, "key#string")
-    o.value = LibExpat.find(pd, "value#string")
+    o.key = LightXML.content(LightXML.find_element(pd, "key"))
+    o.value = LightXML.content(LightXML.find_element(pd, "value"))
     o
 end
 
@@ -4322,10 +4330,10 @@ type DeleteTagsResponseType
     DeleteTagsResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function DeleteTagsResponseType(pd::ETree)
+function DeleteTagsResponseType(pd)
     o = DeleteTagsResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -4340,11 +4348,11 @@ type DiskImageDetailType
     DiskImageDetailType(; format=nothing, bytes=nothing, importManifestUrl=nothing) =
          new(format, bytes, importManifestUrl)
 end
-function DiskImageDetailType(pd::ETree)
+function DiskImageDetailType(pd)
     o = DiskImageDetailType()
-    o.format = LibExpat.find(pd, "format#string")
-    o.bytes = AWS.safe_parse_as(Int64, LibExpat.find(pd, "bytes#string"))
-    o.importManifestUrl = LibExpat.find(pd, "importManifestUrl#string")
+    o.format = LightXML.content(LightXML.find_element(pd, "format"))
+    o.bytes = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "bytes")))
+    o.importManifestUrl = LightXML.content(LightXML.find_element(pd, "importManifestUrl"))
     o
 end
 
@@ -4357,9 +4365,9 @@ type DiskImageVolumeType
     DiskImageVolumeType(; size=nothing) =
          new(size)
 end
-function DiskImageVolumeType(pd::ETree)
+function DiskImageVolumeType(pd)
     o = DiskImageVolumeType()
-    o.size = AWS.safe_parse_as(Int64, LibExpat.find(pd, "size#string"))
+    o.size = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "size")))
     o
 end
 
@@ -4373,10 +4381,10 @@ type DiskImageVolumeDescriptionType
     DiskImageVolumeDescriptionType(; size=nothing, id=nothing) =
          new(size, id)
 end
-function DiskImageVolumeDescriptionType(pd::ETree)
+function DiskImageVolumeDescriptionType(pd)
     o = DiskImageVolumeDescriptionType()
-    o.size = AWS.safe_parse_as(Int64, LibExpat.find(pd, "size#string"))
-    o.id = LibExpat.find(pd, "id#string")
+    o.size = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "size")))
+    o.id = LightXML.content(LightXML.find_element(pd, "id"))
     o
 end
 
@@ -4392,12 +4400,12 @@ type DiskImageDescriptionType
     DiskImageDescriptionType(; format=nothing, size=nothing, importManifestUrl=nothing, checksum=nothing) =
          new(format, size, importManifestUrl, checksum)
 end
-function DiskImageDescriptionType(pd::ETree)
+function DiskImageDescriptionType(pd)
     o = DiskImageDescriptionType()
-    o.format = LibExpat.find(pd, "format#string")
-    o.size = AWS.safe_parse_as(Int64, LibExpat.find(pd, "size#string"))
-    o.importManifestUrl = LibExpat.find(pd, "importManifestUrl#string")
-    o.checksum = LibExpat.find(pd, "checksum#string")
+    o.format = LightXML.content(LightXML.find_element(pd, "format"))
+    o.size = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "size")))
+    o.importManifestUrl = LightXML.content(LightXML.find_element(pd, "importManifestUrl"))
+    o.checksum = LightXML.content(LightXML.find_element(pd, "checksum"))
     o
 end
 
@@ -4410,9 +4418,9 @@ type DescribeConversionTasksType
     DescribeConversionTasksType(; conversionTaskIdSet=nothing) =
          new(conversionTaskIdSet)
 end
-function DescribeConversionTasksType(pd::ETree)
+function DescribeConversionTasksType(pd)
     o = DescribeConversionTasksType()
-    o.conversionTaskIdSet = AWS.parse_vector_as(ASCIIString, "conversionTaskId", LibExpat.find(pd, "item/conversionTaskId"))
+    o.conversionTaskIdSet = AWS.parse_vector_as(ASCIIString, "conversionTaskId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "conversionTaskId"))
     o
 end
 
@@ -4425,9 +4433,9 @@ type ConversionTaskIdItemType
     ConversionTaskIdItemType(; conversionTaskId=nothing) =
          new(conversionTaskId)
 end
-function ConversionTaskIdItemType(pd::ETree)
+function ConversionTaskIdItemType(pd)
     o = ConversionTaskIdItemType()
-    o.conversionTaskId = LibExpat.find(pd, "conversionTaskId#string")
+    o.conversionTaskId = LightXML.content(LightXML.find_element(pd, "conversionTaskId"))
     o
 end
 
@@ -4440,9 +4448,9 @@ type CancelConversionTaskType
     CancelConversionTaskType(; conversionTaskId=nothing) =
          new(conversionTaskId)
 end
-function CancelConversionTaskType(pd::ETree)
+function CancelConversionTaskType(pd)
     o = CancelConversionTaskType()
-    o.conversionTaskId = LibExpat.find(pd, "conversionTaskId#string")
+    o.conversionTaskId = LightXML.content(LightXML.find_element(pd, "conversionTaskId"))
     o
 end
 
@@ -4456,10 +4464,10 @@ type CancelConversionTaskResponseType
     CancelConversionTaskResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function CancelConversionTaskResponseType(pd::ETree)
+function CancelConversionTaskResponseType(pd)
     o = CancelConversionTaskResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -4474,11 +4482,11 @@ type CreateInstanceExportTaskType
     CreateInstanceExportTaskType(; description=nothing, instanceId=nothing, targetEnvironment=nothing) =
          new(description, instanceId, targetEnvironment)
 end
-function CreateInstanceExportTaskType(pd::ETree)
+function CreateInstanceExportTaskType(pd)
     o = CreateInstanceExportTaskType()
-    o.description = LibExpat.find(pd, "description#string")
-    o.instanceId = LibExpat.find(pd, "instanceId#string")
-    o.targetEnvironment = LibExpat.find(pd, "targetEnvironment#string")
+    o.description = LightXML.content(LightXML.find_element(pd, "description"))
+    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
+    o.targetEnvironment = LightXML.content(LightXML.find_element(pd, "targetEnvironment"))
     o
 end
 
@@ -4494,12 +4502,12 @@ type ExportToS3TaskType
     ExportToS3TaskType(; diskImageFormat=nothing, containerFormat=nothing, s3Bucket=nothing, s3Prefix=nothing) =
          new(diskImageFormat, containerFormat, s3Bucket, s3Prefix)
 end
-function ExportToS3TaskType(pd::ETree)
+function ExportToS3TaskType(pd)
     o = ExportToS3TaskType()
-    o.diskImageFormat = LibExpat.find(pd, "diskImageFormat#string")
-    o.containerFormat = LibExpat.find(pd, "containerFormat#string")
-    o.s3Bucket = LibExpat.find(pd, "s3Bucket#string")
-    o.s3Prefix = LibExpat.find(pd, "s3Prefix#string")
+    o.diskImageFormat = LightXML.content(LightXML.find_element(pd, "diskImageFormat"))
+    o.containerFormat = LightXML.content(LightXML.find_element(pd, "containerFormat"))
+    o.s3Bucket = LightXML.content(LightXML.find_element(pd, "s3Bucket"))
+    o.s3Prefix = LightXML.content(LightXML.find_element(pd, "s3Prefix"))
     o
 end
 
@@ -4512,9 +4520,9 @@ type DescribeExportTasksType
     DescribeExportTasksType(; exportTaskIdSet=nothing) =
          new(exportTaskIdSet)
 end
-function DescribeExportTasksType(pd::ETree)
+function DescribeExportTasksType(pd)
     o = DescribeExportTasksType()
-    o.exportTaskIdSet = AWS.parse_vector_as(ASCIIString, "exportTaskId", LibExpat.find(pd, "item/exportTaskId"))
+    o.exportTaskIdSet = AWS.parse_vector_as(ASCIIString, "exportTaskId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "exportTaskId"))
     o
 end
 
@@ -4527,9 +4535,9 @@ type ExportTaskIdType
     ExportTaskIdType(; exportTaskId=nothing) =
          new(exportTaskId)
 end
-function ExportTaskIdType(pd::ETree)
+function ExportTaskIdType(pd)
     o = ExportTaskIdType()
-    o.exportTaskId = LibExpat.find(pd, "exportTaskId#string")
+    o.exportTaskId = LightXML.content(LightXML.find_element(pd, "exportTaskId"))
     o
 end
 
@@ -4545,12 +4553,12 @@ type ExportTaskResponseType
     ExportTaskResponseType(; exportTaskId=nothing, description=nothing, state=nothing, statusMessage=nothing) =
          new(exportTaskId, description, state, statusMessage)
 end
-function ExportTaskResponseType(pd::ETree)
+function ExportTaskResponseType(pd)
     o = ExportTaskResponseType()
-    o.exportTaskId = LibExpat.find(pd, "exportTaskId#string")
-    o.description = LibExpat.find(pd, "description#string")
-    o.state = LibExpat.find(pd, "state#string")
-    o.statusMessage = LibExpat.find(pd, "statusMessage#string")
+    o.exportTaskId = LightXML.content(LightXML.find_element(pd, "exportTaskId"))
+    o.description = LightXML.content(LightXML.find_element(pd, "description"))
+    o.state = LightXML.content(LightXML.find_element(pd, "state"))
+    o.statusMessage = LightXML.content(LightXML.find_element(pd, "statusMessage"))
     o
 end
 
@@ -4564,10 +4572,10 @@ type InstanceExportTaskResponseType
     InstanceExportTaskResponseType(; instanceId=nothing, targetEnvironment=nothing) =
          new(instanceId, targetEnvironment)
 end
-function InstanceExportTaskResponseType(pd::ETree)
+function InstanceExportTaskResponseType(pd)
     o = InstanceExportTaskResponseType()
-    o.instanceId = LibExpat.find(pd, "instanceId#string")
-    o.targetEnvironment = LibExpat.find(pd, "targetEnvironment#string")
+    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
+    o.targetEnvironment = LightXML.content(LightXML.find_element(pd, "targetEnvironment"))
     o
 end
 
@@ -4583,12 +4591,12 @@ type ExportToS3TaskResponseType
     ExportToS3TaskResponseType(; diskImageFormat=nothing, containerFormat=nothing, s3Bucket=nothing, s3Key=nothing) =
          new(diskImageFormat, containerFormat, s3Bucket, s3Key)
 end
-function ExportToS3TaskResponseType(pd::ETree)
+function ExportToS3TaskResponseType(pd)
     o = ExportToS3TaskResponseType()
-    o.diskImageFormat = LibExpat.find(pd, "diskImageFormat#string")
-    o.containerFormat = LibExpat.find(pd, "containerFormat#string")
-    o.s3Bucket = LibExpat.find(pd, "s3Bucket#string")
-    o.s3Key = LibExpat.find(pd, "s3Key#string")
+    o.diskImageFormat = LightXML.content(LightXML.find_element(pd, "diskImageFormat"))
+    o.containerFormat = LightXML.content(LightXML.find_element(pd, "containerFormat"))
+    o.s3Bucket = LightXML.content(LightXML.find_element(pd, "s3Bucket"))
+    o.s3Key = LightXML.content(LightXML.find_element(pd, "s3Key"))
     o
 end
 
@@ -4601,9 +4609,9 @@ type CancelExportTaskType
     CancelExportTaskType(; exportTaskId=nothing) =
          new(exportTaskId)
 end
-function CancelExportTaskType(pd::ETree)
+function CancelExportTaskType(pd)
     o = CancelExportTaskType()
-    o.exportTaskId = LibExpat.find(pd, "exportTaskId#string")
+    o.exportTaskId = LightXML.content(LightXML.find_element(pd, "exportTaskId"))
     o
 end
 
@@ -4617,10 +4625,10 @@ type CancelExportTaskResponseType
     CancelExportTaskResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function CancelExportTaskResponseType(pd::ETree)
+function CancelExportTaskResponseType(pd)
     o = CancelExportTaskResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -4634,10 +4642,10 @@ type InternetGatewayAttachmentType
     InternetGatewayAttachmentType(; vpcId=nothing, state=nothing) =
          new(vpcId, state)
 end
-function InternetGatewayAttachmentType(pd::ETree)
+function InternetGatewayAttachmentType(pd)
     o = InternetGatewayAttachmentType()
-    o.vpcId = LibExpat.find(pd, "vpcId#string")
-    o.state = LibExpat.find(pd, "state#string")
+    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
+    o.state = LightXML.content(LightXML.find_element(pd, "state"))
     o
 end
 
@@ -4650,9 +4658,9 @@ type InternetGatewayIdSetItemType
     InternetGatewayIdSetItemType(; internetGatewayId=nothing) =
          new(internetGatewayId)
 end
-function InternetGatewayIdSetItemType(pd::ETree)
+function InternetGatewayIdSetItemType(pd)
     o = InternetGatewayIdSetItemType()
-    o.internetGatewayId = LibExpat.find(pd, "internetGatewayId#string")
+    o.internetGatewayId = LightXML.content(LightXML.find_element(pd, "internetGatewayId"))
     o
 end
 
@@ -4665,9 +4673,9 @@ type DeleteInternetGatewayType
     DeleteInternetGatewayType(; internetGatewayId=nothing) =
          new(internetGatewayId)
 end
-function DeleteInternetGatewayType(pd::ETree)
+function DeleteInternetGatewayType(pd)
     o = DeleteInternetGatewayType()
-    o.internetGatewayId = LibExpat.find(pd, "internetGatewayId#string")
+    o.internetGatewayId = LightXML.content(LightXML.find_element(pd, "internetGatewayId"))
     o
 end
 
@@ -4681,10 +4689,10 @@ type DeleteInternetGatewayResponseType
     DeleteInternetGatewayResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function DeleteInternetGatewayResponseType(pd::ETree)
+function DeleteInternetGatewayResponseType(pd)
     o = DeleteInternetGatewayResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -4698,10 +4706,10 @@ type AttachInternetGatewayType
     AttachInternetGatewayType(; internetGatewayId=nothing, vpcId=nothing) =
          new(internetGatewayId, vpcId)
 end
-function AttachInternetGatewayType(pd::ETree)
+function AttachInternetGatewayType(pd)
     o = AttachInternetGatewayType()
-    o.internetGatewayId = LibExpat.find(pd, "internetGatewayId#string")
-    o.vpcId = LibExpat.find(pd, "vpcId#string")
+    o.internetGatewayId = LightXML.content(LightXML.find_element(pd, "internetGatewayId"))
+    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
     o
 end
 
@@ -4715,10 +4723,10 @@ type AttachInternetGatewayResponseType
     AttachInternetGatewayResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function AttachInternetGatewayResponseType(pd::ETree)
+function AttachInternetGatewayResponseType(pd)
     o = AttachInternetGatewayResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -4732,10 +4740,10 @@ type DetachInternetGatewayType
     DetachInternetGatewayType(; internetGatewayId=nothing, vpcId=nothing) =
          new(internetGatewayId, vpcId)
 end
-function DetachInternetGatewayType(pd::ETree)
+function DetachInternetGatewayType(pd)
     o = DetachInternetGatewayType()
-    o.internetGatewayId = LibExpat.find(pd, "internetGatewayId#string")
-    o.vpcId = LibExpat.find(pd, "vpcId#string")
+    o.internetGatewayId = LightXML.content(LightXML.find_element(pd, "internetGatewayId"))
+    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
     o
 end
 
@@ -4749,10 +4757,10 @@ type DetachInternetGatewayResponseType
     DetachInternetGatewayResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function DetachInternetGatewayResponseType(pd::ETree)
+function DetachInternetGatewayResponseType(pd)
     o = DetachInternetGatewayResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -4765,9 +4773,9 @@ type CreateRouteTableType
     CreateRouteTableType(; vpcId=nothing) =
          new(vpcId)
 end
-function CreateRouteTableType(pd::ETree)
+function CreateRouteTableType(pd)
     o = CreateRouteTableType()
-    o.vpcId = LibExpat.find(pd, "vpcId#string")
+    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
     o
 end
 
@@ -4786,15 +4794,15 @@ type RouteType
     RouteType(; destinationCidrBlock=nothing, gatewayId=nothing, instanceId=nothing, instanceOwnerId=nothing, networkInterfaceId=nothing, state=nothing, origin=nothing) =
          new(destinationCidrBlock, gatewayId, instanceId, instanceOwnerId, networkInterfaceId, state, origin)
 end
-function RouteType(pd::ETree)
+function RouteType(pd)
     o = RouteType()
-    o.destinationCidrBlock = LibExpat.find(pd, "destinationCidrBlock#string")
-    o.gatewayId = LibExpat.find(pd, "gatewayId#string")
-    o.instanceId = LibExpat.find(pd, "instanceId#string")
-    o.instanceOwnerId = LibExpat.find(pd, "instanceOwnerId#string")
-    o.networkInterfaceId = LibExpat.find(pd, "networkInterfaceId#string")
-    o.state = LibExpat.find(pd, "state#string")
-    o.origin = LibExpat.find(pd, "origin#string")
+    o.destinationCidrBlock = LightXML.content(LightXML.find_element(pd, "destinationCidrBlock"))
+    o.gatewayId = LightXML.content(LightXML.find_element(pd, "gatewayId"))
+    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
+    o.instanceOwnerId = LightXML.content(LightXML.find_element(pd, "instanceOwnerId"))
+    o.networkInterfaceId = LightXML.content(LightXML.find_element(pd, "networkInterfaceId"))
+    o.state = LightXML.content(LightXML.find_element(pd, "state"))
+    o.origin = LightXML.content(LightXML.find_element(pd, "origin"))
     o
 end
 
@@ -4808,10 +4816,10 @@ type RouteTableAssociationType
     RouteTableAssociationType(; routeTableAssociationId=nothing, routeTableId=nothing) =
          new(routeTableAssociationId, routeTableId)
 end
-function RouteTableAssociationType(pd::ETree)
+function RouteTableAssociationType(pd)
     o = RouteTableAssociationType()
-    o.routeTableAssociationId = LibExpat.find(pd, "routeTableAssociationId#string")
-    o.routeTableId = LibExpat.find(pd, "routeTableId#string")
+    o.routeTableAssociationId = LightXML.content(LightXML.find_element(pd, "routeTableAssociationId"))
+    o.routeTableId = LightXML.content(LightXML.find_element(pd, "routeTableId"))
     o
 end
 
@@ -4824,9 +4832,9 @@ type PropagatingVgwType
     PropagatingVgwType(; gatewayId=nothing) =
          new(gatewayId)
 end
-function PropagatingVgwType(pd::ETree)
+function PropagatingVgwType(pd)
     o = PropagatingVgwType()
-    o.gatewayId = LibExpat.find(pd, "gatewayId#string")
+    o.gatewayId = LightXML.content(LightXML.find_element(pd, "gatewayId"))
     o
 end
 
@@ -4839,9 +4847,9 @@ type RouteTableIdSetItemType
     RouteTableIdSetItemType(; routeTableId=nothing) =
          new(routeTableId)
 end
-function RouteTableIdSetItemType(pd::ETree)
+function RouteTableIdSetItemType(pd)
     o = RouteTableIdSetItemType()
-    o.routeTableId = LibExpat.find(pd, "routeTableId#string")
+    o.routeTableId = LightXML.content(LightXML.find_element(pd, "routeTableId"))
     o
 end
 
@@ -4855,10 +4863,10 @@ type EnableVgwRoutePropagationRequestType
     EnableVgwRoutePropagationRequestType(; routeTableId=nothing, gatewayId=nothing) =
          new(routeTableId, gatewayId)
 end
-function EnableVgwRoutePropagationRequestType(pd::ETree)
+function EnableVgwRoutePropagationRequestType(pd)
     o = EnableVgwRoutePropagationRequestType()
-    o.routeTableId = LibExpat.find(pd, "routeTableId#string")
-    o.gatewayId = LibExpat.find(pd, "gatewayId#string")
+    o.routeTableId = LightXML.content(LightXML.find_element(pd, "routeTableId"))
+    o.gatewayId = LightXML.content(LightXML.find_element(pd, "gatewayId"))
     o
 end
 
@@ -4872,10 +4880,10 @@ type EnableVgwRoutePropagationResponseType
     EnableVgwRoutePropagationResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function EnableVgwRoutePropagationResponseType(pd::ETree)
+function EnableVgwRoutePropagationResponseType(pd)
     o = EnableVgwRoutePropagationResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -4889,10 +4897,10 @@ type DisableVgwRoutePropagationRequestType
     DisableVgwRoutePropagationRequestType(; routeTableId=nothing, gatewayId=nothing) =
          new(routeTableId, gatewayId)
 end
-function DisableVgwRoutePropagationRequestType(pd::ETree)
+function DisableVgwRoutePropagationRequestType(pd)
     o = DisableVgwRoutePropagationRequestType()
-    o.routeTableId = LibExpat.find(pd, "routeTableId#string")
-    o.gatewayId = LibExpat.find(pd, "gatewayId#string")
+    o.routeTableId = LightXML.content(LightXML.find_element(pd, "routeTableId"))
+    o.gatewayId = LightXML.content(LightXML.find_element(pd, "gatewayId"))
     o
 end
 
@@ -4906,10 +4914,10 @@ type DisableVgwRoutePropagationResponseType
     DisableVgwRoutePropagationResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function DisableVgwRoutePropagationResponseType(pd::ETree)
+function DisableVgwRoutePropagationResponseType(pd)
     o = DisableVgwRoutePropagationResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -4922,9 +4930,9 @@ type DeleteRouteTableType
     DeleteRouteTableType(; routeTableId=nothing) =
          new(routeTableId)
 end
-function DeleteRouteTableType(pd::ETree)
+function DeleteRouteTableType(pd)
     o = DeleteRouteTableType()
-    o.routeTableId = LibExpat.find(pd, "routeTableId#string")
+    o.routeTableId = LightXML.content(LightXML.find_element(pd, "routeTableId"))
     o
 end
 
@@ -4938,10 +4946,10 @@ type DeleteRouteTableResponseType
     DeleteRouteTableResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function DeleteRouteTableResponseType(pd::ETree)
+function DeleteRouteTableResponseType(pd)
     o = DeleteRouteTableResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -4955,10 +4963,10 @@ type AssociateRouteTableType
     AssociateRouteTableType(; routeTableId=nothing, subnetId=nothing) =
          new(routeTableId, subnetId)
 end
-function AssociateRouteTableType(pd::ETree)
+function AssociateRouteTableType(pd)
     o = AssociateRouteTableType()
-    o.routeTableId = LibExpat.find(pd, "routeTableId#string")
-    o.subnetId = LibExpat.find(pd, "subnetId#string")
+    o.routeTableId = LightXML.content(LightXML.find_element(pd, "routeTableId"))
+    o.subnetId = LightXML.content(LightXML.find_element(pd, "subnetId"))
     o
 end
 
@@ -4972,10 +4980,10 @@ type AssociateRouteTableResponseType
     AssociateRouteTableResponseType(; requestId=nothing, associationId=nothing) =
          new(requestId, associationId)
 end
-function AssociateRouteTableResponseType(pd::ETree)
+function AssociateRouteTableResponseType(pd)
     o = AssociateRouteTableResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.associationId = LibExpat.find(pd, "associationId#string")
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.associationId = LightXML.content(LightXML.find_element(pd, "associationId"))
     o
 end
 
@@ -4989,10 +4997,10 @@ type ReplaceRouteTableAssociationType
     ReplaceRouteTableAssociationType(; associationId=nothing, routeTableId=nothing) =
          new(associationId, routeTableId)
 end
-function ReplaceRouteTableAssociationType(pd::ETree)
+function ReplaceRouteTableAssociationType(pd)
     o = ReplaceRouteTableAssociationType()
-    o.associationId = LibExpat.find(pd, "associationId#string")
-    o.routeTableId = LibExpat.find(pd, "routeTableId#string")
+    o.associationId = LightXML.content(LightXML.find_element(pd, "associationId"))
+    o.routeTableId = LightXML.content(LightXML.find_element(pd, "routeTableId"))
     o
 end
 
@@ -5006,10 +5014,10 @@ type ReplaceRouteTableAssociationResponseType
     ReplaceRouteTableAssociationResponseType(; requestId=nothing, newAssociationId=nothing) =
          new(requestId, newAssociationId)
 end
-function ReplaceRouteTableAssociationResponseType(pd::ETree)
+function ReplaceRouteTableAssociationResponseType(pd)
     o = ReplaceRouteTableAssociationResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.newAssociationId = LibExpat.find(pd, "newAssociationId#string")
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.newAssociationId = LightXML.content(LightXML.find_element(pd, "newAssociationId"))
     o
 end
 
@@ -5022,9 +5030,9 @@ type DisassociateRouteTableType
     DisassociateRouteTableType(; associationId=nothing) =
          new(associationId)
 end
-function DisassociateRouteTableType(pd::ETree)
+function DisassociateRouteTableType(pd)
     o = DisassociateRouteTableType()
-    o.associationId = LibExpat.find(pd, "associationId#string")
+    o.associationId = LightXML.content(LightXML.find_element(pd, "associationId"))
     o
 end
 
@@ -5038,10 +5046,10 @@ type DisassociateRouteTableResponseType
     DisassociateRouteTableResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function DisassociateRouteTableResponseType(pd::ETree)
+function DisassociateRouteTableResponseType(pd)
     o = DisassociateRouteTableResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -5055,10 +5063,10 @@ type CreateRouteType
     CreateRouteType(; routeTableId=nothing, destinationCidrBlock=nothing) =
          new(routeTableId, destinationCidrBlock)
 end
-function CreateRouteType(pd::ETree)
+function CreateRouteType(pd)
     o = CreateRouteType()
-    o.routeTableId = LibExpat.find(pd, "routeTableId#string")
-    o.destinationCidrBlock = LibExpat.find(pd, "destinationCidrBlock#string")
+    o.routeTableId = LightXML.content(LightXML.find_element(pd, "routeTableId"))
+    o.destinationCidrBlock = LightXML.content(LightXML.find_element(pd, "destinationCidrBlock"))
     o
 end
 
@@ -5072,10 +5080,10 @@ type CreateRouteResponseType
     CreateRouteResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function CreateRouteResponseType(pd::ETree)
+function CreateRouteResponseType(pd)
     o = CreateRouteResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -5089,10 +5097,10 @@ type ReplaceRouteType
     ReplaceRouteType(; routeTableId=nothing, destinationCidrBlock=nothing) =
          new(routeTableId, destinationCidrBlock)
 end
-function ReplaceRouteType(pd::ETree)
+function ReplaceRouteType(pd)
     o = ReplaceRouteType()
-    o.routeTableId = LibExpat.find(pd, "routeTableId#string")
-    o.destinationCidrBlock = LibExpat.find(pd, "destinationCidrBlock#string")
+    o.routeTableId = LightXML.content(LightXML.find_element(pd, "routeTableId"))
+    o.destinationCidrBlock = LightXML.content(LightXML.find_element(pd, "destinationCidrBlock"))
     o
 end
 
@@ -5106,10 +5114,10 @@ type ReplaceRouteResponseType
     ReplaceRouteResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function ReplaceRouteResponseType(pd::ETree)
+function ReplaceRouteResponseType(pd)
     o = ReplaceRouteResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -5123,10 +5131,10 @@ type DeleteRouteType
     DeleteRouteType(; routeTableId=nothing, destinationCidrBlock=nothing) =
          new(routeTableId, destinationCidrBlock)
 end
-function DeleteRouteType(pd::ETree)
+function DeleteRouteType(pd)
     o = DeleteRouteType()
-    o.routeTableId = LibExpat.find(pd, "routeTableId#string")
-    o.destinationCidrBlock = LibExpat.find(pd, "destinationCidrBlock#string")
+    o.routeTableId = LightXML.content(LightXML.find_element(pd, "routeTableId"))
+    o.destinationCidrBlock = LightXML.content(LightXML.find_element(pd, "destinationCidrBlock"))
     o
 end
 
@@ -5140,10 +5148,10 @@ type DeleteRouteResponseType
     DeleteRouteResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function DeleteRouteResponseType(pd::ETree)
+function DeleteRouteResponseType(pd)
     o = DeleteRouteResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -5156,9 +5164,9 @@ type CreateNetworkAclType
     CreateNetworkAclType(; vpcId=nothing) =
          new(vpcId)
 end
-function CreateNetworkAclType(pd::ETree)
+function CreateNetworkAclType(pd)
     o = CreateNetworkAclType()
-    o.vpcId = LibExpat.find(pd, "vpcId#string")
+    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
     o
 end
 
@@ -5172,10 +5180,10 @@ type IcmpTypeCodeType
     IcmpTypeCodeType(; code=nothing, _type=nothing) =
          new(code, _type)
 end
-function IcmpTypeCodeType(pd::ETree)
+function IcmpTypeCodeType(pd)
     o = IcmpTypeCodeType()
-    o.code = AWS.safe_parse_as(Int64, LibExpat.find(pd, "code#string"))
-    o._type = AWS.safe_parse_as(Int64, LibExpat.find(pd, "type#string"))
+    o.code = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "code")))
+    o._type = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "type")))
     o
 end
 
@@ -5189,10 +5197,10 @@ type PortRangeType
     PortRangeType(; from=nothing, to=nothing) =
          new(from, to)
 end
-function PortRangeType(pd::ETree)
+function PortRangeType(pd)
     o = PortRangeType()
-    o.from = AWS.safe_parse_as(Int64, LibExpat.find(pd, "from#string"))
-    o.to = AWS.safe_parse_as(Int64, LibExpat.find(pd, "to#string"))
+    o.from = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "from")))
+    o.to = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "to")))
     o
 end
 
@@ -5207,11 +5215,11 @@ type NetworkAclAssociationType
     NetworkAclAssociationType(; networkAclAssociationId=nothing, networkAclId=nothing, subnetId=nothing) =
          new(networkAclAssociationId, networkAclId, subnetId)
 end
-function NetworkAclAssociationType(pd::ETree)
+function NetworkAclAssociationType(pd)
     o = NetworkAclAssociationType()
-    o.networkAclAssociationId = LibExpat.find(pd, "networkAclAssociationId#string")
-    o.networkAclId = LibExpat.find(pd, "networkAclId#string")
-    o.subnetId = LibExpat.find(pd, "subnetId#string")
+    o.networkAclAssociationId = LightXML.content(LightXML.find_element(pd, "networkAclAssociationId"))
+    o.networkAclId = LightXML.content(LightXML.find_element(pd, "networkAclId"))
+    o.subnetId = LightXML.content(LightXML.find_element(pd, "subnetId"))
     o
 end
 
@@ -5224,9 +5232,9 @@ type NetworkAclIdSetItemType
     NetworkAclIdSetItemType(; networkAclId=nothing) =
          new(networkAclId)
 end
-function NetworkAclIdSetItemType(pd::ETree)
+function NetworkAclIdSetItemType(pd)
     o = NetworkAclIdSetItemType()
-    o.networkAclId = LibExpat.find(pd, "networkAclId#string")
+    o.networkAclId = LightXML.content(LightXML.find_element(pd, "networkAclId"))
     o
 end
 
@@ -5239,9 +5247,9 @@ type DeleteNetworkAclType
     DeleteNetworkAclType(; networkAclId=nothing) =
          new(networkAclId)
 end
-function DeleteNetworkAclType(pd::ETree)
+function DeleteNetworkAclType(pd)
     o = DeleteNetworkAclType()
-    o.networkAclId = LibExpat.find(pd, "networkAclId#string")
+    o.networkAclId = LightXML.content(LightXML.find_element(pd, "networkAclId"))
     o
 end
 
@@ -5255,10 +5263,10 @@ type DeleteNetworkAclResponseType
     DeleteNetworkAclResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function DeleteNetworkAclResponseType(pd::ETree)
+function DeleteNetworkAclResponseType(pd)
     o = DeleteNetworkAclResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -5272,10 +5280,10 @@ type ReplaceNetworkAclAssociationType
     ReplaceNetworkAclAssociationType(; associationId=nothing, networkAclId=nothing) =
          new(associationId, networkAclId)
 end
-function ReplaceNetworkAclAssociationType(pd::ETree)
+function ReplaceNetworkAclAssociationType(pd)
     o = ReplaceNetworkAclAssociationType()
-    o.associationId = LibExpat.find(pd, "associationId#string")
-    o.networkAclId = LibExpat.find(pd, "networkAclId#string")
+    o.associationId = LightXML.content(LightXML.find_element(pd, "associationId"))
+    o.networkAclId = LightXML.content(LightXML.find_element(pd, "networkAclId"))
     o
 end
 
@@ -5289,10 +5297,10 @@ type ReplaceNetworkAclAssociationResponseType
     ReplaceNetworkAclAssociationResponseType(; requestId=nothing, newAssociationId=nothing) =
          new(requestId, newAssociationId)
 end
-function ReplaceNetworkAclAssociationResponseType(pd::ETree)
+function ReplaceNetworkAclAssociationResponseType(pd)
     o = ReplaceNetworkAclAssociationResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.newAssociationId = LibExpat.find(pd, "newAssociationId#string")
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.newAssociationId = LightXML.content(LightXML.find_element(pd, "newAssociationId"))
     o
 end
 
@@ -5306,10 +5314,10 @@ type CreateNetworkAclEntryResponseType
     CreateNetworkAclEntryResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function CreateNetworkAclEntryResponseType(pd::ETree)
+function CreateNetworkAclEntryResponseType(pd)
     o = CreateNetworkAclEntryResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -5323,10 +5331,10 @@ type ReplaceNetworkAclEntryResponseType
     ReplaceNetworkAclEntryResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function ReplaceNetworkAclEntryResponseType(pd::ETree)
+function ReplaceNetworkAclEntryResponseType(pd)
     o = ReplaceNetworkAclEntryResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -5341,11 +5349,11 @@ type DeleteNetworkAclEntryType
     DeleteNetworkAclEntryType(; networkAclId=nothing, ruleNumber=nothing, egress=nothing) =
          new(networkAclId, ruleNumber, egress)
 end
-function DeleteNetworkAclEntryType(pd::ETree)
+function DeleteNetworkAclEntryType(pd)
     o = DeleteNetworkAclEntryType()
-    o.networkAclId = LibExpat.find(pd, "networkAclId#string")
-    o.ruleNumber = AWS.safe_parse_as(Int64, LibExpat.find(pd, "ruleNumber#string"))
-    o.egress = AWS.safe_parse_as(Bool, LibExpat.find(pd, "egress#string"))
+    o.networkAclId = LightXML.content(LightXML.find_element(pd, "networkAclId"))
+    o.ruleNumber = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "ruleNumber")))
+    o.egress = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "egress")))
     o
 end
 
@@ -5359,10 +5367,10 @@ type DeleteNetworkAclEntryResponseType
     DeleteNetworkAclEntryResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function DeleteNetworkAclEntryResponseType(pd::ETree)
+function DeleteNetworkAclEntryResponseType(pd)
     o = DeleteNetworkAclEntryResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -5377,11 +5385,11 @@ type InstanceStatusDetailsSetItemType
     InstanceStatusDetailsSetItemType(; name=nothing, status=nothing, impairedSince=nothing) =
          new(name, status, impairedSince)
 end
-function InstanceStatusDetailsSetItemType(pd::ETree)
+function InstanceStatusDetailsSetItemType(pd)
     o = InstanceStatusDetailsSetItemType()
-    o.name = LibExpat.find(pd, "name#string")
-    o.status = LibExpat.find(pd, "status#string")
-    o.impairedSince = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "impairedSince#string"))
+    o.name = LightXML.content(LightXML.find_element(pd, "name"))
+    o.status = LightXML.content(LightXML.find_element(pd, "status"))
+    o.impairedSince = LightXML.find_element(pd, "impairedSince") != nothing ? AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "impairedSince"))) : nothing
     o
 end
 
@@ -5397,12 +5405,12 @@ type InstanceStatusEventType
     InstanceStatusEventType(; code=nothing, description=nothing, notBefore=nothing, notAfter=nothing) =
          new(code, description, notBefore, notAfter)
 end
-function InstanceStatusEventType(pd::ETree)
+function InstanceStatusEventType(pd)
     o = InstanceStatusEventType()
-    o.code = LibExpat.find(pd, "code#string")
-    o.description = LibExpat.find(pd, "description#string")
-    o.notBefore = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "notBefore#string"))
-    o.notAfter = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "notAfter#string"))
+    o.code = LightXML.content(LightXML.find_element(pd, "code"))
+    o.description = LightXML.content(LightXML.find_element(pd, "description"))
+    o.notBefore = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "notBefore")))
+    o.notAfter = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "notAfter")))
     o
 end
 
@@ -5420,14 +5428,14 @@ type ReportInstanceStatusType
     ReportInstanceStatusType(; instancesSet=nothing, status=nothing, startTime=nothing, endTime=nothing, reasonCodesSet=nothing, description=nothing) =
          new(instancesSet, status, startTime, endTime, reasonCodesSet, description)
 end
-function ReportInstanceStatusType(pd::ETree)
+function ReportInstanceStatusType(pd)
     o = ReportInstanceStatusType()
-    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", LibExpat.find(pd, "item/instanceId"))
-    o.status = LibExpat.find(pd, "status#string")
-    o.startTime = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "startTime#string"))
-    o.endTime = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "endTime#string"))
-    o.reasonCodesSet = AWS.parse_vector_as(ASCIIString, "reasonCode", LibExpat.find(pd, "item/reasonCode"))
-    o.description = LibExpat.find(pd, "description#string")
+    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
+    o.status = LightXML.content(LightXML.find_element(pd, "status"))
+    o.startTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "startTime")))
+    o.endTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "endTime")))
+    o.reasonCodesSet = AWS.parse_vector_as(ASCIIString, "reasonCode", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "reasonCode"))
+    o.description = LightXML.content(LightXML.find_element(pd, "description"))
     o
 end
 
@@ -5440,9 +5448,9 @@ type ReportInstanceStatusReasonCodeSetItemType
     ReportInstanceStatusReasonCodeSetItemType(; reasonCode=nothing) =
          new(reasonCode)
 end
-function ReportInstanceStatusReasonCodeSetItemType(pd::ETree)
+function ReportInstanceStatusReasonCodeSetItemType(pd)
     o = ReportInstanceStatusReasonCodeSetItemType()
-    o.reasonCode = LibExpat.find(pd, "reasonCode#string")
+    o.reasonCode = LightXML.content(LightXML.find_element(pd, "reasonCode"))
     o
 end
 
@@ -5456,10 +5464,10 @@ type ReportInstanceStatusResponseType
     ReportInstanceStatusResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function ReportInstanceStatusResponseType(pd::ETree)
+function ReportInstanceStatusResponseType(pd)
     o = ReportInstanceStatusResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -5472,9 +5480,9 @@ type NetworkInterfaceIdSetItemType
     NetworkInterfaceIdSetItemType(; networkInterfaceId=nothing) =
          new(networkInterfaceId)
 end
-function NetworkInterfaceIdSetItemType(pd::ETree)
+function NetworkInterfaceIdSetItemType(pd)
     o = NetworkInterfaceIdSetItemType()
-    o.networkInterfaceId = LibExpat.find(pd, "networkInterfaceId#string")
+    o.networkInterfaceId = LightXML.content(LightXML.find_element(pd, "networkInterfaceId"))
     o
 end
 
@@ -5493,15 +5501,15 @@ type NetworkInterfaceAttachmentType
     NetworkInterfaceAttachmentType(; attachmentId=nothing, instanceId=nothing, instanceOwnerId=nothing, deviceIndex=nothing, status=nothing, attachTime=nothing, deleteOnTermination=nothing) =
          new(attachmentId, instanceId, instanceOwnerId, deviceIndex, status, attachTime, deleteOnTermination)
 end
-function NetworkInterfaceAttachmentType(pd::ETree)
+function NetworkInterfaceAttachmentType(pd)
     o = NetworkInterfaceAttachmentType()
-    o.attachmentId = LibExpat.find(pd, "attachmentId#string")
-    o.instanceId = LibExpat.find(pd, "instanceId#string")
-    o.instanceOwnerId = LibExpat.find(pd, "instanceOwnerId#string")
-    o.deviceIndex = AWS.safe_parse_as(Int64, LibExpat.find(pd, "deviceIndex#string"))
-    o.status = LibExpat.find(pd, "status#string")
-    o.attachTime = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "attachTime#string"))
-    o.deleteOnTermination = AWS.safe_parse_as(Bool, LibExpat.find(pd, "deleteOnTermination#string"))
+    o.attachmentId = LightXML.content(LightXML.find_element(pd, "attachmentId"))
+    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
+    o.instanceOwnerId = LightXML.content(LightXML.find_element(pd, "instanceOwnerId"))
+    o.deviceIndex = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "deviceIndex")))
+    o.status = LightXML.content(LightXML.find_element(pd, "status"))
+    o.attachTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "attachTime")))
+    o.deleteOnTermination = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "deleteOnTermination")))
     o
 end
 
@@ -5518,13 +5526,13 @@ type NetworkInterfaceAssociationType
     NetworkInterfaceAssociationType(; publicIp=nothing, publicDnsName=nothing, ipOwnerId=nothing, allocationId=nothing, associationId=nothing) =
          new(publicIp, publicDnsName, ipOwnerId, allocationId, associationId)
 end
-function NetworkInterfaceAssociationType(pd::ETree)
+function NetworkInterfaceAssociationType(pd)
     o = NetworkInterfaceAssociationType()
-    o.publicIp = LibExpat.find(pd, "publicIp#string")
-    o.publicDnsName = LibExpat.find(pd, "publicDnsName#string")
-    o.ipOwnerId = LibExpat.find(pd, "ipOwnerId#string")
-    o.allocationId = LibExpat.find(pd, "allocationId#string")
-    o.associationId = LibExpat.find(pd, "associationId#string")
+    o.publicIp = LightXML.content(LightXML.find_element(pd, "publicIp"))
+    o.publicDnsName = LightXML.content(LightXML.find_element(pd, "publicDnsName"))
+    o.ipOwnerId = LightXML.content(LightXML.find_element(pd, "ipOwnerId"))
+    o.allocationId = LightXML.content(LightXML.find_element(pd, "allocationId"))
+    o.associationId = LightXML.content(LightXML.find_element(pd, "associationId"))
     o
 end
 
@@ -5537,9 +5545,9 @@ type DeleteNetworkInterfaceType
     DeleteNetworkInterfaceType(; networkInterfaceId=nothing) =
          new(networkInterfaceId)
 end
-function DeleteNetworkInterfaceType(pd::ETree)
+function DeleteNetworkInterfaceType(pd)
     o = DeleteNetworkInterfaceType()
-    o.networkInterfaceId = LibExpat.find(pd, "networkInterfaceId#string")
+    o.networkInterfaceId = LightXML.content(LightXML.find_element(pd, "networkInterfaceId"))
     o
 end
 
@@ -5553,10 +5561,10 @@ type DeleteNetworkInterfaceResponseType
     DeleteNetworkInterfaceResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function DeleteNetworkInterfaceResponseType(pd::ETree)
+function DeleteNetworkInterfaceResponseType(pd)
     o = DeleteNetworkInterfaceResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -5571,11 +5579,11 @@ type AttachNetworkInterfaceType
     AttachNetworkInterfaceType(; networkInterfaceId=nothing, instanceId=nothing, deviceIndex=nothing) =
          new(networkInterfaceId, instanceId, deviceIndex)
 end
-function AttachNetworkInterfaceType(pd::ETree)
+function AttachNetworkInterfaceType(pd)
     o = AttachNetworkInterfaceType()
-    o.networkInterfaceId = LibExpat.find(pd, "networkInterfaceId#string")
-    o.instanceId = LibExpat.find(pd, "instanceId#string")
-    o.deviceIndex = AWS.safe_parse_as(Int64, LibExpat.find(pd, "deviceIndex#string"))
+    o.networkInterfaceId = LightXML.content(LightXML.find_element(pd, "networkInterfaceId"))
+    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
+    o.deviceIndex = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "deviceIndex")))
     o
 end
 
@@ -5589,10 +5597,10 @@ type AttachNetworkInterfaceResponseType
     AttachNetworkInterfaceResponseType(; requestId=nothing, attachmentId=nothing) =
          new(requestId, attachmentId)
 end
-function AttachNetworkInterfaceResponseType(pd::ETree)
+function AttachNetworkInterfaceResponseType(pd)
     o = AttachNetworkInterfaceResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.attachmentId = LibExpat.find(pd, "attachmentId#string")
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.attachmentId = LightXML.content(LightXML.find_element(pd, "attachmentId"))
     o
 end
 
@@ -5606,10 +5614,10 @@ type DetachNetworkInterfaceType
     DetachNetworkInterfaceType(; attachmentId=nothing, force=nothing) =
          new(attachmentId, force)
 end
-function DetachNetworkInterfaceType(pd::ETree)
+function DetachNetworkInterfaceType(pd)
     o = DetachNetworkInterfaceType()
-    o.attachmentId = LibExpat.find(pd, "attachmentId#string")
-    o.force = AWS.safe_parse_as(Bool, LibExpat.find(pd, "force#string"))
+    o.attachmentId = LightXML.content(LightXML.find_element(pd, "attachmentId"))
+    o.force = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "force")))
     o
 end
 
@@ -5623,10 +5631,10 @@ type DetachNetworkInterfaceResponseType
     DetachNetworkInterfaceResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function DetachNetworkInterfaceResponseType(pd::ETree)
+function DetachNetworkInterfaceResponseType(pd)
     o = DetachNetworkInterfaceResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -5639,9 +5647,9 @@ type DescribeNetworkInterfaceAttributeType
     DescribeNetworkInterfaceAttributeType(; networkInterfaceId=nothing) =
          new(networkInterfaceId)
 end
-function DescribeNetworkInterfaceAttributeType(pd::ETree)
+function DescribeNetworkInterfaceAttributeType(pd)
     o = DescribeNetworkInterfaceAttributeType()
-    o.networkInterfaceId = LibExpat.find(pd, "networkInterfaceId#string")
+    o.networkInterfaceId = LightXML.content(LightXML.find_element(pd, "networkInterfaceId"))
     o
 end
 
@@ -5655,10 +5663,10 @@ type DescribeNetworkInterfaceAttributeResponseType
     DescribeNetworkInterfaceAttributeResponseType(; requestId=nothing, networkInterfaceId=nothing) =
          new(requestId, networkInterfaceId)
 end
-function DescribeNetworkInterfaceAttributeResponseType(pd::ETree)
+function DescribeNetworkInterfaceAttributeResponseType(pd)
     o = DescribeNetworkInterfaceAttributeResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.networkInterfaceId = LibExpat.find(pd, "networkInterfaceId#string")
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.networkInterfaceId = LightXML.content(LightXML.find_element(pd, "networkInterfaceId"))
     o
 end
 
@@ -5671,9 +5679,9 @@ type ModifyNetworkInterfaceAttributeType
     ModifyNetworkInterfaceAttributeType(; networkInterfaceId=nothing) =
          new(networkInterfaceId)
 end
-function ModifyNetworkInterfaceAttributeType(pd::ETree)
+function ModifyNetworkInterfaceAttributeType(pd)
     o = ModifyNetworkInterfaceAttributeType()
-    o.networkInterfaceId = LibExpat.find(pd, "networkInterfaceId#string")
+    o.networkInterfaceId = LightXML.content(LightXML.find_element(pd, "networkInterfaceId"))
     o
 end
 
@@ -5687,10 +5695,10 @@ type ModifyNetworkInterfaceAttachmentType
     ModifyNetworkInterfaceAttachmentType(; attachmentId=nothing, deleteOnTermination=nothing) =
          new(attachmentId, deleteOnTermination)
 end
-function ModifyNetworkInterfaceAttachmentType(pd::ETree)
+function ModifyNetworkInterfaceAttachmentType(pd)
     o = ModifyNetworkInterfaceAttachmentType()
-    o.attachmentId = LibExpat.find(pd, "attachmentId#string")
-    o.deleteOnTermination = AWS.safe_parse_as(Bool, LibExpat.find(pd, "deleteOnTermination#string"))
+    o.attachmentId = LightXML.content(LightXML.find_element(pd, "attachmentId"))
+    o.deleteOnTermination = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "deleteOnTermination")))
     o
 end
 
@@ -5704,10 +5712,10 @@ type ModifyNetworkInterfaceAttributeResponseType
     ModifyNetworkInterfaceAttributeResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function ModifyNetworkInterfaceAttributeResponseType(pd::ETree)
+function ModifyNetworkInterfaceAttributeResponseType(pd)
     o = ModifyNetworkInterfaceAttributeResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -5720,9 +5728,9 @@ type ResetNetworkInterfaceAttributeType
     ResetNetworkInterfaceAttributeType(; networkInterfaceId=nothing) =
          new(networkInterfaceId)
 end
-function ResetNetworkInterfaceAttributeType(pd::ETree)
+function ResetNetworkInterfaceAttributeType(pd)
     o = ResetNetworkInterfaceAttributeType()
-    o.networkInterfaceId = LibExpat.find(pd, "networkInterfaceId#string")
+    o.networkInterfaceId = LightXML.content(LightXML.find_element(pd, "networkInterfaceId"))
     o
 end
 
@@ -5736,10 +5744,10 @@ type ResetNetworkInterfaceAttributeResponseType
     ResetNetworkInterfaceAttributeResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function ResetNetworkInterfaceAttributeResponseType(pd::ETree)
+function ResetNetworkInterfaceAttributeResponseType(pd)
     o = ResetNetworkInterfaceAttributeResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -5755,12 +5763,12 @@ type AssignPrivateIpAddressesType
     AssignPrivateIpAddressesType(; networkInterfaceId=nothing, privateIpAddressesSet=nothing, secondaryPrivateIpAddressCount=nothing, allowReassignment=nothing) =
          new(networkInterfaceId, privateIpAddressesSet, secondaryPrivateIpAddressCount, allowReassignment)
 end
-function AssignPrivateIpAddressesType(pd::ETree)
+function AssignPrivateIpAddressesType(pd)
     o = AssignPrivateIpAddressesType()
-    o.networkInterfaceId = LibExpat.find(pd, "networkInterfaceId#string")
-    o.privateIpAddressesSet = AWS.parse_vector_as(ASCIIString, "privateIpAddress", LibExpat.find(pd, "item/privateIpAddress"))
-    o.secondaryPrivateIpAddressCount = AWS.safe_parse_as(Int64, LibExpat.find(pd, "secondaryPrivateIpAddressCount#string"))
-    o.allowReassignment = AWS.safe_parse_as(Bool, LibExpat.find(pd, "allowReassignment#string"))
+    o.networkInterfaceId = LightXML.content(LightXML.find_element(pd, "networkInterfaceId"))
+    o.privateIpAddressesSet = AWS.parse_vector_as(ASCIIString, "privateIpAddress", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "privateIpAddress"))
+    o.secondaryPrivateIpAddressCount = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "secondaryPrivateIpAddressCount")))
+    o.allowReassignment = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "allowReassignment")))
     o
 end
 
@@ -5774,10 +5782,10 @@ type AssignPrivateIpAddressesResponseType
     AssignPrivateIpAddressesResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function AssignPrivateIpAddressesResponseType(pd::ETree)
+function AssignPrivateIpAddressesResponseType(pd)
     o = AssignPrivateIpAddressesResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -5791,10 +5799,10 @@ type UnassignPrivateIpAddressesType
     UnassignPrivateIpAddressesType(; networkInterfaceId=nothing, privateIpAddressesSet=nothing) =
          new(networkInterfaceId, privateIpAddressesSet)
 end
-function UnassignPrivateIpAddressesType(pd::ETree)
+function UnassignPrivateIpAddressesType(pd)
     o = UnassignPrivateIpAddressesType()
-    o.networkInterfaceId = LibExpat.find(pd, "networkInterfaceId#string")
-    o.privateIpAddressesSet = AWS.parse_vector_as(ASCIIString, "privateIpAddress", LibExpat.find(pd, "item/privateIpAddress"))
+    o.networkInterfaceId = LightXML.content(LightXML.find_element(pd, "networkInterfaceId"))
+    o.privateIpAddressesSet = AWS.parse_vector_as(ASCIIString, "privateIpAddress", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "privateIpAddress"))
     o
 end
 
@@ -5808,10 +5816,10 @@ type UnassignPrivateIpAddressesResponseType
     UnassignPrivateIpAddressesResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function UnassignPrivateIpAddressesResponseType(pd::ETree)
+function UnassignPrivateIpAddressesResponseType(pd)
     o = UnassignPrivateIpAddressesResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -5824,9 +5832,9 @@ type AssignPrivateIpAddressesSetItemRequestType
     AssignPrivateIpAddressesSetItemRequestType(; privateIpAddress=nothing) =
          new(privateIpAddress)
 end
-function AssignPrivateIpAddressesSetItemRequestType(pd::ETree)
+function AssignPrivateIpAddressesSetItemRequestType(pd)
     o = AssignPrivateIpAddressesSetItemRequestType()
-    o.privateIpAddress = LibExpat.find(pd, "privateIpAddress#string")
+    o.privateIpAddress = LightXML.content(LightXML.find_element(pd, "privateIpAddress"))
     o
 end
 
@@ -5840,10 +5848,10 @@ type VolumeStatusDetailsItemType
     VolumeStatusDetailsItemType(; name=nothing, status=nothing) =
          new(name, status)
 end
-function VolumeStatusDetailsItemType(pd::ETree)
+function VolumeStatusDetailsItemType(pd)
     o = VolumeStatusDetailsItemType()
-    o.name = LibExpat.find(pd, "name#string")
-    o.status = LibExpat.find(pd, "status#string")
+    o.name = LightXML.content(LightXML.find_element(pd, "name"))
+    o.status = LightXML.content(LightXML.find_element(pd, "status"))
     o
 end
 
@@ -5860,13 +5868,13 @@ type VolumeStatusEventItemType
     VolumeStatusEventItemType(; description=nothing, notBefore=nothing, notAfter=nothing, eventId=nothing, eventType=nothing) =
          new(description, notBefore, notAfter, eventId, eventType)
 end
-function VolumeStatusEventItemType(pd::ETree)
+function VolumeStatusEventItemType(pd)
     o = VolumeStatusEventItemType()
-    o.description = LibExpat.find(pd, "description#string")
-    o.notBefore = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "notBefore#string"))
-    o.notAfter = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "notAfter#string"))
-    o.eventId = LibExpat.find(pd, "eventId#string")
-    o.eventType = LibExpat.find(pd, "eventType#string")
+    o.description = LightXML.content(LightXML.find_element(pd, "description"))
+    o.notBefore = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "notBefore")))
+    o.notAfter = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "notAfter")))
+    o.eventId = LightXML.content(LightXML.find_element(pd, "eventId"))
+    o.eventType = LightXML.content(LightXML.find_element(pd, "eventType"))
     o
 end
 
@@ -5882,12 +5890,12 @@ type VolumeStatusActionItemType
     VolumeStatusActionItemType(; description=nothing, code=nothing, eventId=nothing, eventType=nothing) =
          new(description, code, eventId, eventType)
 end
-function VolumeStatusActionItemType(pd::ETree)
+function VolumeStatusActionItemType(pd)
     o = VolumeStatusActionItemType()
-    o.description = LibExpat.find(pd, "description#string")
-    o.code = LibExpat.find(pd, "code#string")
-    o.eventId = LibExpat.find(pd, "eventId#string")
-    o.eventType = LibExpat.find(pd, "eventType#string")
+    o.description = LightXML.content(LightXML.find_element(pd, "description"))
+    o.code = LightXML.content(LightXML.find_element(pd, "code"))
+    o.eventId = LightXML.content(LightXML.find_element(pd, "eventId"))
+    o.eventType = LightXML.content(LightXML.find_element(pd, "eventType"))
     o
 end
 
@@ -5900,9 +5908,9 @@ type EnableVolumeIOType
     EnableVolumeIOType(; volumeId=nothing) =
          new(volumeId)
 end
-function EnableVolumeIOType(pd::ETree)
+function EnableVolumeIOType(pd)
     o = EnableVolumeIOType()
-    o.volumeId = LibExpat.find(pd, "volumeId#string")
+    o.volumeId = LightXML.content(LightXML.find_element(pd, "volumeId"))
     o
 end
 
@@ -5916,10 +5924,10 @@ type EnableVolumeIOResponseType
     EnableVolumeIOResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function EnableVolumeIOResponseType(pd::ETree)
+function EnableVolumeIOResponseType(pd)
     o = EnableVolumeIOResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -5932,9 +5940,9 @@ type ModifyVolumeAttributeType
     ModifyVolumeAttributeType(; volumeId=nothing) =
          new(volumeId)
 end
-function ModifyVolumeAttributeType(pd::ETree)
+function ModifyVolumeAttributeType(pd)
     o = ModifyVolumeAttributeType()
-    o.volumeId = LibExpat.find(pd, "volumeId#string")
+    o.volumeId = LightXML.content(LightXML.find_element(pd, "volumeId"))
     o
 end
 
@@ -5948,10 +5956,10 @@ type ModifyVolumeAttributeResponseType
     ModifyVolumeAttributeResponseType(; requestId=nothing, _return=nothing) =
          new(requestId, _return)
 end
-function ModifyVolumeAttributeResponseType(pd::ETree)
+function ModifyVolumeAttributeResponseType(pd)
     o = ModifyVolumeAttributeResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o._return = AWS.safe_parse_as(Bool, LibExpat.find(pd, "return#string"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
     o
 end
 
@@ -5964,9 +5972,9 @@ type DescribeVolumeAttributeType
     DescribeVolumeAttributeType(; volumeId=nothing) =
          new(volumeId)
 end
-function DescribeVolumeAttributeType(pd::ETree)
+function DescribeVolumeAttributeType(pd)
     o = DescribeVolumeAttributeType()
-    o.volumeId = LibExpat.find(pd, "volumeId#string")
+    o.volumeId = LightXML.content(LightXML.find_element(pd, "volumeId"))
     o
 end
 
@@ -5980,10 +5988,10 @@ type DescribeVolumeAttributeResponseType
     DescribeVolumeAttributeResponseType(; requestId=nothing, volumeId=nothing) =
          new(requestId, volumeId)
 end
-function DescribeVolumeAttributeResponseType(pd::ETree)
+function DescribeVolumeAttributeResponseType(pd)
     o = DescribeVolumeAttributeResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.volumeId = LibExpat.find(pd, "volumeId#string")
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.volumeId = LightXML.content(LightXML.find_element(pd, "volumeId"))
     o
 end
 
@@ -5997,10 +6005,10 @@ type LaunchPermissionOperationType
     LaunchPermissionOperationType(; add=nothing, remove=nothing) =
          new(add, remove)
 end
-function LaunchPermissionOperationType(pd::ETree)
+function LaunchPermissionOperationType(pd)
     o = LaunchPermissionOperationType()
-    o.add = AWS.@parse_vector(AWS.EC2.LaunchPermissionItemType, LibExpat.find(pd, "add/item"))
-    o.remove = AWS.@parse_vector(AWS.EC2.LaunchPermissionItemType, LibExpat.find(pd, "remove/item"))
+    o.add = AWS.@parse_vector(AWS.EC2.LaunchPermissionItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "add"), "item"))
+    o.remove = AWS.@parse_vector(AWS.EC2.LaunchPermissionItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "remove"), "item"))
     o
 end
 
@@ -6027,23 +6035,23 @@ type DescribeReservedInstancesResponseSetItemType
     DescribeReservedInstancesResponseSetItemType(; reservedInstancesId=nothing, instanceType=nothing, availabilityZone=nothing, start=nothing, duration=nothing, fixedPrice=nothing, usagePrice=nothing, instanceCount=nothing, productDescription=nothing, state=nothing, tagSet=nothing, instanceTenancy=nothing, currencyCode=nothing, offeringType=nothing, recurringCharges=nothing) =
          new(reservedInstancesId, instanceType, availabilityZone, start, duration, fixedPrice, usagePrice, instanceCount, productDescription, state, tagSet, instanceTenancy, currencyCode, offeringType, recurringCharges)
 end
-function DescribeReservedInstancesResponseSetItemType(pd::ETree)
+function DescribeReservedInstancesResponseSetItemType(pd)
     o = DescribeReservedInstancesResponseSetItemType()
-    o.reservedInstancesId = LibExpat.find(pd, "reservedInstancesId#string")
-    o.instanceType = LibExpat.find(pd, "instanceType#string")
-    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
-    o.start = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "start#string"))
-    o.duration = AWS.safe_parse_as(Int64, LibExpat.find(pd, "duration#string"))
-    o.fixedPrice = AWS.safe_parse_as(Float64, LibExpat.find(pd, "fixedPrice#string"))
-    o.usagePrice = AWS.safe_parse_as(Float64, LibExpat.find(pd, "usagePrice#string"))
-    o.instanceCount = AWS.safe_parse_as(Int64, LibExpat.find(pd, "instanceCount#string"))
-    o.productDescription = LibExpat.find(pd, "productDescription#string")
-    o.state = LibExpat.find(pd, "state#string")
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
-    o.instanceTenancy = LibExpat.find(pd, "instanceTenancy#string")
-    o.currencyCode = LibExpat.find(pd, "currencyCode#string")
-    o.offeringType = LibExpat.find(pd, "offeringType#string")
-    o.recurringCharges = AWS.@parse_vector(AWS.EC2.RecurringChargesSetItemType, LibExpat.find(pd, "recurringCharges/item"))
+    o.reservedInstancesId = LightXML.content(LightXML.find_element(pd, "reservedInstancesId"))
+    o.instanceType = LightXML.content(LightXML.find_element(pd, "instanceType"))
+    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
+    o.start = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "start")))
+    o.duration = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "duration")))
+    o.fixedPrice = AWS.safe_parse_as(Float64, LightXML.content(LightXML.find_element(pd, "fixedPrice")))
+    o.usagePrice = AWS.safe_parse_as(Float64, LightXML.content(LightXML.find_element(pd, "usagePrice")))
+    o.instanceCount = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "instanceCount")))
+    o.productDescription = LightXML.content(LightXML.find_element(pd, "productDescription"))
+    o.state = LightXML.content(LightXML.find_element(pd, "state"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
+    o.instanceTenancy = LightXML.content(LightXML.find_element(pd, "instanceTenancy"))
+    o.currencyCode = LightXML.content(LightXML.find_element(pd, "currencyCode"))
+    o.offeringType = LightXML.content(LightXML.find_element(pd, "offeringType"))
+    o.recurringCharges = AWS.@parse_vector(AWS.EC2.RecurringChargesSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "recurringCharges"), "item"))
     o
 end
 
@@ -6057,10 +6065,10 @@ type CancelSpotInstanceRequestsResponseType
     CancelSpotInstanceRequestsResponseType(; requestId=nothing, spotInstanceRequestSet=nothing) =
          new(requestId, spotInstanceRequestSet)
 end
-function CancelSpotInstanceRequestsResponseType(pd::ETree)
+function CancelSpotInstanceRequestsResponseType(pd)
     o = CancelSpotInstanceRequestsResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.spotInstanceRequestSet = AWS.@parse_vector(AWS.EC2.CancelSpotInstanceRequestsResponseSetItemType, LibExpat.find(pd, "spotInstanceRequestSet/item"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.spotInstanceRequestSet = AWS.@parse_vector(AWS.EC2.CancelSpotInstanceRequestsResponseSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "spotInstanceRequestSet"), "item"))
     o
 end
 
@@ -6073,9 +6081,9 @@ type CreateDhcpOptionsType
     CreateDhcpOptionsType(; dhcpConfigurationSet=nothing) =
          new(dhcpConfigurationSet)
 end
-function CreateDhcpOptionsType(pd::ETree)
+function CreateDhcpOptionsType(pd)
     o = CreateDhcpOptionsType()
-    o.dhcpConfigurationSet = AWS.@parse_vector(AWS.EC2.DhcpConfigurationItemType, LibExpat.find(pd, "dhcpConfigurationSet/item"))
+    o.dhcpConfigurationSet = AWS.@parse_vector(AWS.EC2.DhcpConfigurationItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "dhcpConfigurationSet"), "item"))
     o
 end
 
@@ -6092,13 +6100,13 @@ type DescribeInstanceStatusType
     DescribeInstanceStatusType(; instancesSet=nothing, filterSet=nothing, nextToken=nothing, maxResults=nothing, includeAllInstances=nothing) =
          new(instancesSet, filterSet, nextToken, maxResults, includeAllInstances)
 end
-function DescribeInstanceStatusType(pd::ETree)
+function DescribeInstanceStatusType(pd)
     o = DescribeInstanceStatusType()
-    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", LibExpat.find(pd, "item/instanceId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
-    o.nextToken = LibExpat.find(pd, "nextToken#string")
-    o.maxResults = AWS.safe_parse_as(Int64, LibExpat.find(pd, "maxResults#string"))
-    o.includeAllInstances = AWS.safe_parse_as(Bool, LibExpat.find(pd, "includeAllInstances#string"))
+    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+    o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
+    o.maxResults = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "maxResults")))
+    o.includeAllInstances = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "includeAllInstances")))
     o
 end
 
@@ -6112,10 +6120,10 @@ type DescribePlacementGroupsType
     DescribePlacementGroupsType(; placementGroupSet=nothing, filterSet=nothing) =
          new(placementGroupSet, filterSet)
 end
-function DescribePlacementGroupsType(pd::ETree)
+function DescribePlacementGroupsType(pd)
     o = DescribePlacementGroupsType()
-    o.placementGroupSet = AWS.parse_vector_as(ASCIIString, "groupName", LibExpat.find(pd, "item/groupName"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
+    o.placementGroupSet = AWS.parse_vector_as(ASCIIString, "groupName", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "groupName"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -6135,16 +6143,16 @@ type RegisterImageType
     RegisterImageType(; imageLocation=nothing, name=nothing, description=nothing, architecture=nothing, kernelId=nothing, ramdiskId=nothing, rootDeviceName=nothing, blockDeviceMapping=nothing) =
          new(imageLocation, name, description, architecture, kernelId, ramdiskId, rootDeviceName, blockDeviceMapping)
 end
-function RegisterImageType(pd::ETree)
+function RegisterImageType(pd)
     o = RegisterImageType()
-    o.imageLocation = LibExpat.find(pd, "imageLocation#string")
-    o.name = LibExpat.find(pd, "name#string")
-    o.description = LibExpat.find(pd, "description#string")
-    o.architecture = LibExpat.find(pd, "architecture#string")
-    o.kernelId = LibExpat.find(pd, "kernelId#string")
-    o.ramdiskId = LibExpat.find(pd, "ramdiskId#string")
-    o.rootDeviceName = LibExpat.find(pd, "rootDeviceName#string")
-    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, LibExpat.find(pd, "blockDeviceMapping/item"))
+    o.imageLocation = LightXML.content(LightXML.find_element(pd, "imageLocation"))
+    o.name = LightXML.content(LightXML.find_element(pd, "name"))
+    o.description = LightXML.content(LightXML.find_element(pd, "description"))
+    o.architecture = LightXML.content(LightXML.find_element(pd, "architecture"))
+    o.kernelId = LightXML.content(LightXML.find_element(pd, "kernelId"))
+    o.ramdiskId = LightXML.content(LightXML.find_element(pd, "ramdiskId"))
+    o.rootDeviceName = LightXML.content(LightXML.find_element(pd, "rootDeviceName"))
+    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "blockDeviceMapping"), "item"))
     o
 end
 
@@ -6158,10 +6166,10 @@ type DescribeNetworkInterfacesType
     DescribeNetworkInterfacesType(; networkInterfaceIdSet=nothing, filterSet=nothing) =
          new(networkInterfaceIdSet, filterSet)
 end
-function DescribeNetworkInterfacesType(pd::ETree)
+function DescribeNetworkInterfacesType(pd)
     o = DescribeNetworkInterfacesType()
-    o.networkInterfaceIdSet = AWS.parse_vector_as(ASCIIString, "networkInterfaceId", LibExpat.find(pd, "item/networkInterfaceId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
+    o.networkInterfaceIdSet = AWS.parse_vector_as(ASCIIString, "networkInterfaceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "networkInterfaceId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -6177,12 +6185,12 @@ type CreateReservedInstancesListingType
     CreateReservedInstancesListingType(; reservedInstancesId=nothing, instanceCount=nothing, priceSchedules=nothing, clientToken=nothing) =
          new(reservedInstancesId, instanceCount, priceSchedules, clientToken)
 end
-function CreateReservedInstancesListingType(pd::ETree)
+function CreateReservedInstancesListingType(pd)
     o = CreateReservedInstancesListingType()
-    o.reservedInstancesId = LibExpat.find(pd, "reservedInstancesId#string")
-    o.instanceCount = AWS.safe_parse_as(Int64, LibExpat.find(pd, "instanceCount#string"))
-    o.priceSchedules = AWS.@parse_vector(AWS.EC2.PriceScheduleRequestSetItemType, LibExpat.find(pd, "priceSchedules/item"))
-    o.clientToken = LibExpat.find(pd, "clientToken#string")
+    o.reservedInstancesId = LightXML.content(LightXML.find_element(pd, "reservedInstancesId"))
+    o.instanceCount = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "instanceCount")))
+    o.priceSchedules = AWS.@parse_vector(AWS.EC2.PriceScheduleRequestSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "priceSchedules"), "item"))
+    o.clientToken = LightXML.content(LightXML.find_element(pd, "clientToken"))
     o
 end
 
@@ -6196,10 +6204,10 @@ type DescribeVpnGatewaysType
     DescribeVpnGatewaysType(; vpnGatewaySet=nothing, filterSet=nothing) =
          new(vpnGatewaySet, filterSet)
 end
-function DescribeVpnGatewaysType(pd::ETree)
+function DescribeVpnGatewaysType(pd)
     o = DescribeVpnGatewaysType()
-    o.vpnGatewaySet = AWS.parse_vector_as(ASCIIString, "vpnGatewayId", LibExpat.find(pd, "item/vpnGatewayId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
+    o.vpnGatewaySet = AWS.parse_vector_as(ASCIIString, "vpnGatewayId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "vpnGatewayId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -6215,12 +6223,12 @@ type DescribeVolumeStatusType
     DescribeVolumeStatusType(; volumeSet=nothing, filterSet=nothing, maxResults=nothing, nextToken=nothing) =
          new(volumeSet, filterSet, maxResults, nextToken)
 end
-function DescribeVolumeStatusType(pd::ETree)
+function DescribeVolumeStatusType(pd)
     o = DescribeVolumeStatusType()
-    o.volumeSet = AWS.parse_vector_as(ASCIIString, "volumeId", LibExpat.find(pd, "item/volumeId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
-    o.maxResults = AWS.safe_parse_as(Int64, LibExpat.find(pd, "maxResults#string"))
-    o.nextToken = LibExpat.find(pd, "nextToken#string")
+    o.volumeSet = AWS.parse_vector_as(ASCIIString, "volumeId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "volumeId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+    o.maxResults = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "maxResults")))
+    o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
     o
 end
 
@@ -6235,11 +6243,11 @@ type DhcpOptionsType
     DhcpOptionsType(; dhcpOptionsId=nothing, dhcpConfigurationSet=nothing, tagSet=nothing) =
          new(dhcpOptionsId, dhcpConfigurationSet, tagSet)
 end
-function DhcpOptionsType(pd::ETree)
+function DhcpOptionsType(pd)
     o = DhcpOptionsType()
-    o.dhcpOptionsId = LibExpat.find(pd, "dhcpOptionsId#string")
-    o.dhcpConfigurationSet = AWS.@parse_vector(AWS.EC2.DhcpConfigurationItemType, LibExpat.find(pd, "dhcpConfigurationSet/item"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
+    o.dhcpOptionsId = LightXML.content(LightXML.find_element(pd, "dhcpOptionsId"))
+    o.dhcpConfigurationSet = AWS.@parse_vector(AWS.EC2.DhcpConfigurationItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "dhcpConfigurationSet"), "item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
     o
 end
 
@@ -6258,15 +6266,17 @@ type ImportInstanceVolumeDetailItemType
     ImportInstanceVolumeDetailItemType(; bytesConverted=nothing, availabilityZone=nothing, image=nothing, description=nothing, volume=nothing, status=nothing, statusMessage=nothing) =
          new(bytesConverted, availabilityZone, image, description, volume, status, statusMessage)
 end
-function ImportInstanceVolumeDetailItemType(pd::ETree)
+function ImportInstanceVolumeDetailItemType(pd)
     o = ImportInstanceVolumeDetailItemType()
-    o.bytesConverted = AWS.safe_parse_as(Int64, LibExpat.find(pd, "bytesConverted#string"))
-    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
-    o.image = length(pd["image"]) > 0 ?  DiskImageDescriptionType(LibExpat.find(pd,"image[1]")) : nothing
-    o.description = LibExpat.find(pd, "description#string")
-    o.volume = length(pd["volume"]) > 0 ?  DiskImageVolumeDescriptionType(LibExpat.find(pd,"volume[1]")) : nothing
-    o.status = LibExpat.find(pd, "status#string")
-    o.statusMessage = LibExpat.find(pd, "statusMessage#string")
+    o.bytesConverted = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "bytesConverted")))
+    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
+    ## o.image = length(pd["image"]) > 0 ?  DiskImageDescriptionType(LightXML.content(LightXML.find_element(pd,"image[1]")) : nothing
+    o.image = LightXML.find_element(pd,"image") != nothing ? DiskImageDescriptionType(LightXML.find_element(pd,"image")) : nothing
+    o.description = LightXML.content(LightXML.find_element(pd, "description"))
+    ## o.volume = length(pd["volume"]) > 0 ?  DiskImageVolumeDescriptionType(LightXML.content(LightXML.find_element(pd,"volume[1]")) : nothing
+    o.volume = LightXML.find_element(pd,"volume") != nothing ? DiskImageVolumeDescriptionType(LightXML.find_element(pd,"volume")) : nothing
+    o.status = LightXML.content(LightXML.find_element(pd, "status"))
+    o.statusMessage = LightXML.content(LightXML.find_element(pd, "statusMessage"))
     o
 end
 
@@ -6280,10 +6290,10 @@ type DescribeExportTasksResponseType
     DescribeExportTasksResponseType(; requestId=nothing, exportTaskSet=nothing) =
          new(requestId, exportTaskSet)
 end
-function DescribeExportTasksResponseType(pd::ETree)
+function DescribeExportTasksResponseType(pd)
     o = DescribeExportTasksResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.exportTaskSet = AWS.@parse_vector(AWS.EC2.ExportTaskResponseType, LibExpat.find(pd, "exportTaskSet/item"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.exportTaskSet = AWS.@parse_vector(AWS.EC2.ExportTaskResponseType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "exportTaskSet"), "item"))
     o
 end
 
@@ -6298,11 +6308,11 @@ type DescribeSecurityGroupsType
     DescribeSecurityGroupsType(; securityGroupSet=nothing, securityGroupIdSet=nothing, filterSet=nothing) =
          new(securityGroupSet, securityGroupIdSet, filterSet)
 end
-function DescribeSecurityGroupsType(pd::ETree)
+function DescribeSecurityGroupsType(pd)
     o = DescribeSecurityGroupsType()
-    o.securityGroupSet = AWS.parse_vector_as(ASCIIString, "groupName", LibExpat.find(pd, "item/groupName"))
-    o.securityGroupIdSet = AWS.parse_vector_as(ASCIIString, "groupId", LibExpat.find(pd, "item/groupId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
+    o.securityGroupSet = AWS.parse_vector_as(ASCIIString, "groupName", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "groupName"))
+    o.securityGroupIdSet = AWS.parse_vector_as(ASCIIString, "groupId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "groupId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -6316,10 +6326,10 @@ type InstanceStatusType
     InstanceStatusType(; status=nothing, details=nothing) =
          new(status, details)
 end
-function InstanceStatusType(pd::ETree)
+function InstanceStatusType(pd)
     o = InstanceStatusType()
-    o.status = LibExpat.find(pd, "status#string")
-    o.details = AWS.@parse_vector(AWS.EC2.InstanceStatusDetailsSetItemType, LibExpat.find(pd, "details/item"))
+    o.status = LightXML.find_element(pd, "status") != nothing ? LightXML.content(LightXML.find_element(pd, "status")) : nothing
+    o.details = LightXML.find_element(pd, "details") != nothing ? AWS.@parse_vector(AWS.EC2.InstanceStatusDetailsSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "details"), "item")) : nothing
     o
 end
 
@@ -6352,29 +6362,30 @@ type DescribeImagesResponseItemType
     DescribeImagesResponseItemType(; imageId=nothing, imageLocation=nothing, imageState=nothing, imageOwnerId=nothing, isPublic=nothing, productCodes=nothing, architecture=nothing, imageType=nothing, kernelId=nothing, ramdiskId=nothing, platform=nothing, stateReason=nothing, imageOwnerAlias=nothing, name=nothing, description=nothing, rootDeviceType=nothing, rootDeviceName=nothing, blockDeviceMapping=nothing, virtualizationType=nothing, tagSet=nothing, hypervisor=nothing) =
          new(imageId, imageLocation, imageState, imageOwnerId, isPublic, productCodes, architecture, imageType, kernelId, ramdiskId, platform, stateReason, imageOwnerAlias, name, description, rootDeviceType, rootDeviceName, blockDeviceMapping, virtualizationType, tagSet, hypervisor)
 end
-function DescribeImagesResponseItemType(pd::ETree)
+function DescribeImagesResponseItemType(pd)
     o = DescribeImagesResponseItemType()
-    o.imageId = LibExpat.find(pd, "imageId#string")
-    o.imageLocation = LibExpat.find(pd, "imageLocation#string")
-    o.imageState = LibExpat.find(pd, "imageState#string")
-    o.imageOwnerId = LibExpat.find(pd, "imageOwnerId#string")
-    o.isPublic = AWS.safe_parse_as(Bool, LibExpat.find(pd, "isPublic#string"))
-    o.productCodes = AWS.@parse_vector(AWS.EC2.ProductCodesSetItemType, LibExpat.find(pd, "productCodes/item"))
-    o.architecture = LibExpat.find(pd, "architecture#string")
-    o.imageType = LibExpat.find(pd, "imageType#string")
-    o.kernelId = LibExpat.find(pd, "kernelId#string")
-    o.ramdiskId = LibExpat.find(pd, "ramdiskId#string")
-    o.platform = LibExpat.find(pd, "platform#string")
-    o.stateReason = length(pd["stateReason"]) > 0 ?  StateReasonType(LibExpat.find(pd,"stateReason[1]")) : nothing
-    o.imageOwnerAlias = LibExpat.find(pd, "imageOwnerAlias#string")
-    o.name = LibExpat.find(pd, "name#string")
-    o.description = LibExpat.find(pd, "description#string")
-    o.rootDeviceType = LibExpat.find(pd, "rootDeviceType#string")
-    o.rootDeviceName = LibExpat.find(pd, "rootDeviceName#string")
-    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, LibExpat.find(pd, "blockDeviceMapping/item"))
-    o.virtualizationType = LibExpat.find(pd, "virtualizationType#string")
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
-    o.hypervisor = LibExpat.find(pd, "hypervisor#string")
+    o.imageId = LightXML.content(LightXML.find_element(pd, "imageId"))
+    o.imageLocation = LightXML.content(LightXML.find_element(pd, "imageLocation"))
+    o.imageState = LightXML.content(LightXML.find_element(pd, "imageState"))
+    o.imageOwnerId = LightXML.content(LightXML.find_element(pd, "imageOwnerId"))
+    o.isPublic = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "isPublic")))
+    o.productCodes = AWS.@parse_vector(AWS.EC2.ProductCodesSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "productCodes"), "item"))
+    o.architecture = LightXML.content(LightXML.find_element(pd, "architecture"))
+    o.imageType = LightXML.content(LightXML.find_element(pd, "imageType"))
+    o.kernelId = LightXML.content(LightXML.find_element(pd, "kernelId"))
+    o.ramdiskId = LightXML.content(LightXML.find_element(pd, "ramdiskId"))
+    o.platform = LightXML.content(LightXML.find_element(pd, "platform"))
+    ## o.stateReason = length(pd["stateReason"]) > 0 ?  StateReasonType(LightXML.find_element(pd,"stateReason[1]")) : nothing
+    o.stateReason = LightXML.find_element(pd,"stateReason") != nothing ? StateReasonType(LightXML.find_element(pd,"stateReason")) : nothing
+    o.imageOwnerAlias = LightXML.content(LightXML.find_element(pd, "imageOwnerAlias"))
+    o.name = LightXML.content(LightXML.find_element(pd, "name"))
+    o.description = LightXML.content(LightXML.find_element(pd, "description"))
+    o.rootDeviceType = LightXML.content(LightXML.find_element(pd, "rootDeviceType"))
+    o.rootDeviceName = LightXML.content(LightXML.find_element(pd, "rootDeviceName"))
+    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "blockDeviceMapping"), "item"))
+    o.virtualizationType = LightXML.content(LightXML.find_element(pd, "virtualizationType"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
+    o.hypervisor = LightXML.content(LightXML.find_element(pd, "hypervisor"))
     o
 end
 
@@ -6388,10 +6399,10 @@ type DescribeBundleTasksType
     DescribeBundleTasksType(; bundlesSet=nothing, filterSet=nothing) =
          new(bundlesSet, filterSet)
 end
-function DescribeBundleTasksType(pd::ETree)
+function DescribeBundleTasksType(pd)
     o = DescribeBundleTasksType()
-    o.bundlesSet = AWS.parse_vector_as(ASCIIString, "bundleId", LibExpat.find(pd, "item/bundleId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
+    o.bundlesSet = AWS.parse_vector_as(ASCIIString, "bundleId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "bundleId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -6405,10 +6416,10 @@ type DeleteTagsType
     DeleteTagsType(; resourcesSet=nothing, tagSet=nothing) =
          new(resourcesSet, tagSet)
 end
-function DeleteTagsType(pd::ETree)
+function DeleteTagsType(pd)
     o = DeleteTagsType()
-    o.resourcesSet = AWS.parse_vector_as(ASCIIString, "resourceId", LibExpat.find(pd, "item/resourceId"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.DeleteTagsSetItemType, LibExpat.find(pd, "tagSet/item"))
+    o.resourcesSet = AWS.parse_vector_as(ASCIIString, "resourceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "resourceId"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.DeleteTagsSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
     o
 end
 
@@ -6425,13 +6436,14 @@ type SpotDatafeedSubscriptionType
     SpotDatafeedSubscriptionType(; ownerId=nothing, bucket=nothing, prefix=nothing, state=nothing, fault=nothing) =
          new(ownerId, bucket, prefix, state, fault)
 end
-function SpotDatafeedSubscriptionType(pd::ETree)
+function SpotDatafeedSubscriptionType(pd)
     o = SpotDatafeedSubscriptionType()
-    o.ownerId = LibExpat.find(pd, "ownerId#string")
-    o.bucket = LibExpat.find(pd, "bucket#string")
-    o.prefix = LibExpat.find(pd, "prefix#string")
-    o.state = LibExpat.find(pd, "state#string")
-    o.fault = length(pd["fault"]) > 0 ?  SpotInstanceStateFaultType(LibExpat.find(pd,"fault[1]")) : nothing
+    o.ownerId = LightXML.content(LightXML.find_element(pd, "ownerId"))
+    o.bucket = LightXML.content(LightXML.find_element(pd, "bucket"))
+    o.prefix = LightXML.content(LightXML.find_element(pd, "prefix"))
+    o.state = LightXML.content(LightXML.find_element(pd, "state"))
+    ## o.fault = length(pd["fault"]) > 0 ?  SpotInstanceStateFaultType(LightXML.find_element(pd,"fault[1]")) : nothing
+    o.fault = LightXML.find_element(pd,"fault") != nothing ? SpotInstanceStateFaultType(LightXML.find_element(pd,"fault")) : nothing
     o
 end
 
@@ -6445,10 +6457,10 @@ type DescribeNetworkAclsType
     DescribeNetworkAclsType(; networkAclIdSet=nothing, filterSet=nothing) =
          new(networkAclIdSet, filterSet)
 end
-function DescribeNetworkAclsType(pd::ETree)
+function DescribeNetworkAclsType(pd)
     o = DescribeNetworkAclsType()
-    o.networkAclIdSet = AWS.parse_vector_as(ASCIIString, "networkAclId", LibExpat.find(pd, "item/networkAclId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
+    o.networkAclIdSet = AWS.parse_vector_as(ASCIIString, "networkAclId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "networkAclId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -6470,18 +6482,18 @@ type DescribeVolumesSetItemResponseType
     DescribeVolumesSetItemResponseType(; volumeId=nothing, size=nothing, snapshotId=nothing, availabilityZone=nothing, status=nothing, createTime=nothing, attachmentSet=nothing, tagSet=nothing, volumeType=nothing, iops=nothing) =
          new(volumeId, size, snapshotId, availabilityZone, status, createTime, attachmentSet, tagSet, volumeType, iops)
 end
-function DescribeVolumesSetItemResponseType(pd::ETree)
+function DescribeVolumesSetItemResponseType(pd)
     o = DescribeVolumesSetItemResponseType()
-    o.volumeId = LibExpat.find(pd, "volumeId#string")
-    o.size = LibExpat.find(pd, "size#string")
-    o.snapshotId = LibExpat.find(pd, "snapshotId#string")
-    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
-    o.status = LibExpat.find(pd, "status#string")
-    o.createTime = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "createTime#string"))
-    o.attachmentSet = AWS.@parse_vector(AWS.EC2.AttachmentSetItemResponseType, LibExpat.find(pd, "attachmentSet/item"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
-    o.volumeType = LibExpat.find(pd, "volumeType#string")
-    o.iops = AWS.safe_parse_as(Int64, LibExpat.find(pd, "iops#string"))
+    o.volumeId = LightXML.content(LightXML.find_element(pd, "volumeId"))
+    o.size = LightXML.content(LightXML.find_element(pd, "size"))
+    o.snapshotId = LightXML.content(LightXML.find_element(pd, "snapshotId"))
+    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
+    o.status = LightXML.content(LightXML.find_element(pd, "status"))
+    o.createTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "createTime")))
+    o.attachmentSet = AWS.@parse_vector(AWS.EC2.AttachmentSetItemResponseType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "attachmentSet"), "item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
+    o.volumeType = LightXML.content(LightXML.find_element(pd, "volumeType"))
+    o.iops = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "iops")))
     o
 end
 
@@ -6495,10 +6507,10 @@ type DescribeVolumesType
     DescribeVolumesType(; volumeSet=nothing, filterSet=nothing) =
          new(volumeSet, filterSet)
 end
-function DescribeVolumesType(pd::ETree)
+function DescribeVolumesType(pd)
     o = DescribeVolumesType()
-    o.volumeSet = AWS.parse_vector_as(ASCIIString, "volumeId", LibExpat.find(pd, "item/volumeId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
+    o.volumeSet = AWS.parse_vector_as(ASCIIString, "volumeId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "volumeId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -6512,10 +6524,10 @@ type DescribeDhcpOptionsType
     DescribeDhcpOptionsType(; dhcpOptionsSet=nothing, filterSet=nothing) =
          new(dhcpOptionsSet, filterSet)
 end
-function DescribeDhcpOptionsType(pd::ETree)
+function DescribeDhcpOptionsType(pd)
     o = DescribeDhcpOptionsType()
-    o.dhcpOptionsSet = AWS.parse_vector_as(ASCIIString, "dhcpOptionsId", LibExpat.find(pd, "item/dhcpOptionsId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
+    o.dhcpOptionsSet = AWS.parse_vector_as(ASCIIString, "dhcpOptionsId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "dhcpOptionsId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -6529,10 +6541,10 @@ type CreateTagsType
     CreateTagsType(; resourcesSet=nothing, tagSet=nothing) =
          new(resourcesSet, tagSet)
 end
-function CreateTagsType(pd::ETree)
+function CreateTagsType(pd)
     o = CreateTagsType()
-    o.resourcesSet = AWS.parse_vector_as(ASCIIString, "resourceId", LibExpat.find(pd, "item/resourceId"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
+    o.resourcesSet = AWS.parse_vector_as(ASCIIString, "resourceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "resourceId"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
     o
 end
 
@@ -6548,12 +6560,12 @@ type ImportInstanceTaskDetailsType
     ImportInstanceTaskDetailsType(; volumes=nothing, instanceId=nothing, platform=nothing, description=nothing) =
          new(volumes, instanceId, platform, description)
 end
-function ImportInstanceTaskDetailsType(pd::ETree)
+function ImportInstanceTaskDetailsType(pd)
     o = ImportInstanceTaskDetailsType()
-    o.volumes = AWS.@parse_vector(AWS.EC2.ImportInstanceVolumeDetailItemType, LibExpat.find(pd, "volumes/item"))
-    o.instanceId = LibExpat.find(pd, "instanceId#string")
-    o.platform = LibExpat.find(pd, "platform#string")
-    o.description = LibExpat.find(pd, "description#string")
+    o.volumes = AWS.@parse_vector(AWS.EC2.ImportInstanceVolumeDetailItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "volumes"), "item"))
+    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
+    o.platform = LightXML.content(LightXML.find_element(pd, "platform"))
+    o.description = LightXML.content(LightXML.find_element(pd, "description"))
     o
 end
 
@@ -6570,13 +6582,13 @@ type ConversionTaskType
     ConversionTaskType(; conversionTaskId=nothing, expirationTime=nothing, state=nothing, statusMessage=nothing, tagSet=nothing) =
          new(conversionTaskId, expirationTime, state, statusMessage, tagSet)
 end
-function ConversionTaskType(pd::ETree)
+function ConversionTaskType(pd)
     o = ConversionTaskType()
-    o.conversionTaskId = LibExpat.find(pd, "conversionTaskId#string")
-    o.expirationTime = LibExpat.find(pd, "expirationTime#string")
-    o.state = LibExpat.find(pd, "state#string")
-    o.statusMessage = LibExpat.find(pd, "statusMessage#string")
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
+    o.conversionTaskId = LightXML.content(LightXML.find_element(pd, "conversionTaskId"))
+    o.expirationTime = LightXML.content(LightXML.find_element(pd, "expirationTime"))
+    o.state = LightXML.content(LightXML.find_element(pd, "state"))
+    o.statusMessage = LightXML.content(LightXML.find_element(pd, "statusMessage"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
     o
 end
 
@@ -6590,10 +6602,11 @@ type CreateSpotDatafeedSubscriptionResponseType
     CreateSpotDatafeedSubscriptionResponseType(; requestId=nothing, spotDatafeedSubscription=nothing) =
          new(requestId, spotDatafeedSubscription)
 end
-function CreateSpotDatafeedSubscriptionResponseType(pd::ETree)
+function CreateSpotDatafeedSubscriptionResponseType(pd)
     o = CreateSpotDatafeedSubscriptionResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.spotDatafeedSubscription = length(pd["spotDatafeedSubscription"]) > 0 ?  SpotDatafeedSubscriptionType(LibExpat.find(pd,"spotDatafeedSubscription[1]")) : nothing
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    ## o.spotDatafeedSubscription = length(pd["spotDatafeedSubscription"]) > 0 ?  SpotDatafeedSubscriptionType(LightXML.find_element(pd,"spotDatafeedSubscription[1]")) : nothing
+    o.spotDatafeedSubscription = LightXML.find_element(pd,"spotDatafeedSubscription") != nothing ?  SpotDatafeedSubscriptionType(LightXML.content(LightXML.find_element(pd,"spotDatafeedSubscription"))) : nothing
     o
 end
 
@@ -6607,10 +6620,10 @@ type DescribeCustomerGatewaysType
     DescribeCustomerGatewaysType(; customerGatewaySet=nothing, filterSet=nothing) =
          new(customerGatewaySet, filterSet)
 end
-function DescribeCustomerGatewaysType(pd::ETree)
+function DescribeCustomerGatewaysType(pd)
     o = DescribeCustomerGatewaysType()
-    o.customerGatewaySet = AWS.parse_vector_as(ASCIIString, "customerGatewayId", LibExpat.find(pd, "item/customerGatewayId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
+    o.customerGatewaySet = AWS.parse_vector_as(ASCIIString, "customerGatewayId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "customerGatewayId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -6624,10 +6637,10 @@ type DescribePlacementGroupsResponseType
     DescribePlacementGroupsResponseType(; requestId=nothing, placementGroupSet=nothing) =
          new(requestId, placementGroupSet)
 end
-function DescribePlacementGroupsResponseType(pd::ETree)
+function DescribePlacementGroupsResponseType(pd)
     o = DescribePlacementGroupsResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.placementGroupSet = AWS.@parse_vector(AWS.EC2.PlacementGroupInfoType, LibExpat.find(pd, "placementGroupSet/item"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.placementGroupSet = AWS.@parse_vector(AWS.EC2.PlacementGroupInfoType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "placementGroupSet"), "item"))
     o
 end
 
@@ -6641,10 +6654,10 @@ type DescribeReservedInstancesResponseType
     DescribeReservedInstancesResponseType(; requestId=nothing, reservedInstancesSet=nothing) =
          new(requestId, reservedInstancesSet)
 end
-function DescribeReservedInstancesResponseType(pd::ETree)
+function DescribeReservedInstancesResponseType(pd)
     o = DescribeReservedInstancesResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.reservedInstancesSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesResponseSetItemType, LibExpat.find(pd, "reservedInstancesSet/item"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.reservedInstancesSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesResponseSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "reservedInstancesSet"), "item"))
     o
 end
 
@@ -6664,16 +6677,18 @@ type ReplaceNetworkAclEntryType
     ReplaceNetworkAclEntryType(; networkAclId=nothing, ruleNumber=nothing, protocol=nothing, ruleAction=nothing, egress=nothing, cidrBlock=nothing, icmpTypeCode=nothing, portRange=nothing) =
          new(networkAclId, ruleNumber, protocol, ruleAction, egress, cidrBlock, icmpTypeCode, portRange)
 end
-function ReplaceNetworkAclEntryType(pd::ETree)
+function ReplaceNetworkAclEntryType(pd)
     o = ReplaceNetworkAclEntryType()
-    o.networkAclId = LibExpat.find(pd, "networkAclId#string")
-    o.ruleNumber = AWS.safe_parse_as(Int64, LibExpat.find(pd, "ruleNumber#string"))
-    o.protocol = LibExpat.find(pd, "protocol#string")
-    o.ruleAction = LibExpat.find(pd, "ruleAction#string")
-    o.egress = AWS.safe_parse_as(Bool, LibExpat.find(pd, "egress#string"))
-    o.cidrBlock = LibExpat.find(pd, "cidrBlock#string")
-    o.icmpTypeCode = length(pd["icmpTypeCode"]) > 0 ?  IcmpTypeCodeType(LibExpat.find(pd,"icmpTypeCode[1]")) : nothing
-    o.portRange = length(pd["portRange"]) > 0 ?  PortRangeType(LibExpat.find(pd,"portRange[1]")) : nothing
+    o.networkAclId = LightXML.content(LightXML.find_element(pd, "networkAclId"))
+    o.ruleNumber = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "ruleNumber")))
+    o.protocol = LightXML.content(LightXML.find_element(pd, "protocol"))
+    o.ruleAction = LightXML.content(LightXML.find_element(pd, "ruleAction"))
+    o.egress = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "egress")))
+    o.cidrBlock = LightXML.content(LightXML.find_element(pd, "cidrBlock"))
+    ## o.icmpTypeCode = length(pd["icmpTypeCode"]) > 0 ?  IcmpTypeCodeType(LightXML.find_element(pd,"icmpTypeCode[1]")) : nothing
+    o.icmpTypeCode = LightXML.find_element(pd,"icmpTypeCode") != nothing ? IcmpTypeCodeType(LightXML.find_element(pd,"icmpTypeCode")) : nothing
+    ## o.portRange = length(pd["portRange"]) > 0 ?  PortRangeType(LightXML.find_element(pd,"portRange[1]")) : nothing
+    o.portRange = LightXML.find_element(pd,"portRange") != nothing ? PortRangeType(LightXML.find_element(pd,"portRange")) : nothing
     o
 end
 
@@ -6692,15 +6707,17 @@ type NetworkAclEntryType
     NetworkAclEntryType(; ruleNumber=nothing, protocol=nothing, ruleAction=nothing, egress=nothing, cidrBlock=nothing, icmpTypeCode=nothing, portRange=nothing) =
          new(ruleNumber, protocol, ruleAction, egress, cidrBlock, icmpTypeCode, portRange)
 end
-function NetworkAclEntryType(pd::ETree)
+function NetworkAclEntryType(pd)
     o = NetworkAclEntryType()
-    o.ruleNumber = AWS.safe_parse_as(Int64, LibExpat.find(pd, "ruleNumber#string"))
-    o.protocol = LibExpat.find(pd, "protocol#string")
-    o.ruleAction = LibExpat.find(pd, "ruleAction#string")
-    o.egress = AWS.safe_parse_as(Bool, LibExpat.find(pd, "egress#string"))
-    o.cidrBlock = LibExpat.find(pd, "cidrBlock#string")
-    o.icmpTypeCode = length(pd["icmpTypeCode"]) > 0 ?  IcmpTypeCodeType(LibExpat.find(pd,"icmpTypeCode[1]")) : nothing
-    o.portRange = length(pd["portRange"]) > 0 ?  PortRangeType(LibExpat.find(pd,"portRange[1]")) : nothing
+    o.ruleNumber = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "ruleNumber")))
+    o.protocol = LightXML.content(LightXML.find_element(pd, "protocol"))
+    o.ruleAction = LightXML.content(LightXML.find_element(pd, "ruleAction"))
+    o.egress = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "egress")))
+    o.cidrBlock = LightXML.content(LightXML.find_element(pd, "cidrBlock"))
+    ## o.icmpTypeCode = length(pd["icmpTypeCode"]) > 0 ?  IcmpTypeCodeType(LightXML.find_element(pd,"icmpTypeCode[1]")) : nothing
+    o.icmpTypeCode = LightXML.find_element(pd,"icmpTypeCode") != nothing ? IcmpTypeCodeType(LightXML.find_element(pd,"icmpTypeCode")) : nothing
+    ## o.portRange = length(pd["portRange"]) > 0 ?  PortRangeType(LightXML.find_element(pd,"portRange[1]")) : nothing
+    o.portRange = LightXML.find_element(pd,"portRange") != nothing ? PortRangeType(LightXML.find_element(pd,"portRange")) : nothing
     o
 end
 
@@ -6715,11 +6732,11 @@ type InternetGatewayType
     InternetGatewayType(; internetGatewayId=nothing, attachmentSet=nothing, tagSet=nothing) =
          new(internetGatewayId, attachmentSet, tagSet)
 end
-function InternetGatewayType(pd::ETree)
+function InternetGatewayType(pd)
     o = InternetGatewayType()
-    o.internetGatewayId = LibExpat.find(pd, "internetGatewayId#string")
-    o.attachmentSet = AWS.@parse_vector(AWS.EC2.InternetGatewayAttachmentType, LibExpat.find(pd, "attachmentSet/item"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
+    o.internetGatewayId = LightXML.content(LightXML.find_element(pd, "internetGatewayId"))
+    o.attachmentSet = AWS.@parse_vector(AWS.EC2.InternetGatewayAttachmentType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "attachmentSet"), "item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
     o
 end
 
@@ -6733,10 +6750,10 @@ type DescribeRegionsType
     DescribeRegionsType(; regionSet=nothing, filterSet=nothing) =
          new(regionSet, filterSet)
 end
-function DescribeRegionsType(pd::ETree)
+function DescribeRegionsType(pd)
     o = DescribeRegionsType()
-    o.regionSet = AWS.parse_vector_as(ASCIIString, "regionName", LibExpat.find(pd, "item/regionName"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
+    o.regionSet = AWS.parse_vector_as(ASCIIString, "regionName", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "regionName"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -6752,12 +6769,12 @@ type DescribeSnapshotsType
     DescribeSnapshotsType(; snapshotSet=nothing, ownersSet=nothing, restorableBySet=nothing, filterSet=nothing) =
          new(snapshotSet, ownersSet, restorableBySet, filterSet)
 end
-function DescribeSnapshotsType(pd::ETree)
+function DescribeSnapshotsType(pd)
     o = DescribeSnapshotsType()
-    o.snapshotSet = AWS.parse_vector_as(ASCIIString, "snapshotId", LibExpat.find(pd, "item/snapshotId"))
-    o.ownersSet = AWS.parse_vector_as(ASCIIString, "owner", LibExpat.find(pd, "item/owner"))
-    o.restorableBySet = AWS.parse_vector_as(ASCIIString, "user", LibExpat.find(pd, "item/user"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
+    o.snapshotSet = AWS.parse_vector_as(ASCIIString, "snapshotId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "snapshotId"))
+    o.ownersSet = AWS.parse_vector_as(ASCIIString, "owner", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "owner"))
+    o.restorableBySet = AWS.parse_vector_as(ASCIIString, "user", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "user"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -6771,10 +6788,10 @@ type DescribeKeyPairsResponseType
     DescribeKeyPairsResponseType(; requestId=nothing, keySet=nothing) =
          new(requestId, keySet)
 end
-function DescribeKeyPairsResponseType(pd::ETree)
+function DescribeKeyPairsResponseType(pd)
     o = DescribeKeyPairsResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.keySet = AWS.@parse_vector(AWS.EC2.DescribeKeyPairsResponseItemType, LibExpat.find(pd, "keySet/item"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.keySet = AWS.@parse_vector(AWS.EC2.DescribeKeyPairsResponseItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "keySet"), "item"))
     o
 end
 
@@ -6788,10 +6805,10 @@ type DescribeAvailabilityZonesResponseType
     DescribeAvailabilityZonesResponseType(; requestId=nothing, availabilityZoneInfo=nothing) =
          new(requestId, availabilityZoneInfo)
 end
-function DescribeAvailabilityZonesResponseType(pd::ETree)
+function DescribeAvailabilityZonesResponseType(pd)
     o = DescribeAvailabilityZonesResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.availabilityZoneInfo = AWS.@parse_vector(AWS.EC2.AvailabilityZoneItemType, LibExpat.find(pd, "availabilityZoneInfo/item"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.availabilityZoneInfo = AWS.@parse_vector(AWS.EC2.AvailabilityZoneItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "availabilityZoneInfo"), "item"))
     o
 end
 
@@ -6810,15 +6827,15 @@ type VpcType
     VpcType(; vpcId=nothing, state=nothing, cidrBlock=nothing, dhcpOptionsId=nothing, tagSet=nothing, instanceTenancy=nothing, isDefault=nothing) =
          new(vpcId, state, cidrBlock, dhcpOptionsId, tagSet, instanceTenancy, isDefault)
 end
-function VpcType(pd::ETree)
+function VpcType(pd)
     o = VpcType()
-    o.vpcId = LibExpat.find(pd, "vpcId#string")
-    o.state = LibExpat.find(pd, "state#string")
-    o.cidrBlock = LibExpat.find(pd, "cidrBlock#string")
-    o.dhcpOptionsId = LibExpat.find(pd, "dhcpOptionsId#string")
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
-    o.instanceTenancy = LibExpat.find(pd, "instanceTenancy#string")
-    o.isDefault = AWS.safe_parse_as(Bool, LibExpat.find(pd, "isDefault#string"))
+    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
+    o.state = LightXML.content(LightXML.find_element(pd, "state"))
+    o.cidrBlock = LightXML.content(LightXML.find_element(pd, "cidrBlock"))
+    o.dhcpOptionsId = LightXML.content(LightXML.find_element(pd, "dhcpOptionsId"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
+    o.instanceTenancy = LightXML.content(LightXML.find_element(pd, "instanceTenancy"))
+    o.isDefault = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "isDefault")))
     o
 end
 
@@ -6832,10 +6849,10 @@ type DescribeSubnetsType
     DescribeSubnetsType(; subnetSet=nothing, filterSet=nothing) =
          new(subnetSet, filterSet)
 end
-function DescribeSubnetsType(pd::ETree)
+function DescribeSubnetsType(pd)
     o = DescribeSubnetsType()
-    o.subnetSet = AWS.parse_vector_as(ASCIIString, "subnetId", LibExpat.find(pd, "item/subnetId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
+    o.subnetSet = AWS.parse_vector_as(ASCIIString, "subnetId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "subnetId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -6849,10 +6866,10 @@ type DescribeRegionsResponseType
     DescribeRegionsResponseType(; requestId=nothing, regionInfo=nothing) =
          new(requestId, regionInfo)
 end
-function DescribeRegionsResponseType(pd::ETree)
+function DescribeRegionsResponseType(pd)
     o = DescribeRegionsResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.regionInfo = AWS.@parse_vector(AWS.EC2.RegionItemType, LibExpat.find(pd, "regionInfo/item"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.regionInfo = AWS.@parse_vector(AWS.EC2.RegionItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "regionInfo"), "item"))
     o
 end
 
@@ -6866,10 +6883,11 @@ type DescribeSpotDatafeedSubscriptionResponseType
     DescribeSpotDatafeedSubscriptionResponseType(; requestId=nothing, spotDatafeedSubscription=nothing) =
          new(requestId, spotDatafeedSubscription)
 end
-function DescribeSpotDatafeedSubscriptionResponseType(pd::ETree)
+function DescribeSpotDatafeedSubscriptionResponseType(pd)
     o = DescribeSpotDatafeedSubscriptionResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.spotDatafeedSubscription = length(pd["spotDatafeedSubscription"]) > 0 ?  SpotDatafeedSubscriptionType(LibExpat.find(pd,"spotDatafeedSubscription[1]")) : nothing
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    ## o.spotDatafeedSubscription = length(pd["spotDatafeedSubscription"]) > 0 ?  SpotDatafeedSubscriptionType(LightXML.find_element(pd,"spotDatafeedSubscription[1]")) : nothing
+    o.spotDatafeedSubscription = LightXML.find_element(pd,"spotDatafeedSubscription") != nothing ? SpotDatafeedSubscriptionType(LightXML.find_element(pd,"spotDatafeedSubscription")) : nothing
     o
 end
 
@@ -6884,11 +6902,11 @@ type DescribeReservedInstancesType
     DescribeReservedInstancesType(; reservedInstancesSet=nothing, filterSet=nothing, offeringType=nothing) =
          new(reservedInstancesSet, filterSet, offeringType)
 end
-function DescribeReservedInstancesType(pd::ETree)
+function DescribeReservedInstancesType(pd)
     o = DescribeReservedInstancesType()
-    o.reservedInstancesSet = AWS.parse_vector_as(ASCIIString, "reservedInstancesId", LibExpat.find(pd, "item/reservedInstancesId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
-    o.offeringType = LibExpat.find(pd, "offeringType#string")
+    o.reservedInstancesSet = AWS.parse_vector_as(ASCIIString, "reservedInstancesId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "reservedInstancesId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+    o.offeringType = LightXML.content(LightXML.find_element(pd, "offeringType"))
     o
 end
 
@@ -6913,21 +6931,21 @@ type DescribeReservedInstancesOfferingsType
     DescribeReservedInstancesOfferingsType(; reservedInstancesOfferingsSet=nothing, instanceType=nothing, availabilityZone=nothing, productDescription=nothing, filterSet=nothing, instanceTenancy=nothing, offeringType=nothing, includeMarketplace=nothing, minDuration=nothing, maxDuration=nothing, maxInstanceCount=nothing, nextToken=nothing, maxResults=nothing) =
          new(reservedInstancesOfferingsSet, instanceType, availabilityZone, productDescription, filterSet, instanceTenancy, offeringType, includeMarketplace, minDuration, maxDuration, maxInstanceCount, nextToken, maxResults)
 end
-function DescribeReservedInstancesOfferingsType(pd::ETree)
+function DescribeReservedInstancesOfferingsType(pd)
     o = DescribeReservedInstancesOfferingsType()
-    o.reservedInstancesOfferingsSet = AWS.parse_vector_as(ASCIIString, "reservedInstancesOfferingId", LibExpat.find(pd, "item/reservedInstancesOfferingId"))
-    o.instanceType = LibExpat.find(pd, "instanceType#string")
-    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
-    o.productDescription = LibExpat.find(pd, "productDescription#string")
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
-    o.instanceTenancy = LibExpat.find(pd, "instanceTenancy#string")
-    o.offeringType = LibExpat.find(pd, "offeringType#string")
-    o.includeMarketplace = AWS.safe_parse_as(Bool, LibExpat.find(pd, "includeMarketplace#string"))
-    o.minDuration = AWS.safe_parse_as(Int64, LibExpat.find(pd, "minDuration#string"))
-    o.maxDuration = AWS.safe_parse_as(Int64, LibExpat.find(pd, "maxDuration#string"))
-    o.maxInstanceCount = AWS.safe_parse_as(Int64, LibExpat.find(pd, "maxInstanceCount#string"))
-    o.nextToken = LibExpat.find(pd, "nextToken#string")
-    o.maxResults = AWS.safe_parse_as(Int64, LibExpat.find(pd, "maxResults#string"))
+    o.reservedInstancesOfferingsSet = AWS.parse_vector_as(ASCIIString, "reservedInstancesOfferingId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "reservedInstancesOfferingId"))
+    o.instanceType = LightXML.content(LightXML.find_element(pd, "instanceType"))
+    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
+    o.productDescription = LightXML.content(LightXML.find_element(pd, "productDescription"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+    o.instanceTenancy = LightXML.content(LightXML.find_element(pd, "instanceTenancy"))
+    o.offeringType = LightXML.content(LightXML.find_element(pd, "offeringType"))
+    o.includeMarketplace = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "includeMarketplace")))
+    o.minDuration = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "minDuration")))
+    o.maxDuration = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "maxDuration")))
+    o.maxInstanceCount = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "maxInstanceCount")))
+    o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
+    o.maxResults = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "maxResults")))
     o
 end
 
@@ -6943,12 +6961,12 @@ type DescribeImagesType
     DescribeImagesType(; executableBySet=nothing, imagesSet=nothing, ownersSet=nothing, filterSet=nothing) =
          new(executableBySet, imagesSet, ownersSet, filterSet)
 end
-function DescribeImagesType(pd::ETree)
+function DescribeImagesType(pd)
     o = DescribeImagesType()
-    o.executableBySet = AWS.parse_vector_as(ASCIIString, "user", LibExpat.find(pd, "item/user"))
-    o.imagesSet = AWS.parse_vector_as(ASCIIString, "imageId", LibExpat.find(pd, "item/imageId"))
-    o.ownersSet = AWS.parse_vector_as(ASCIIString, "owner", LibExpat.find(pd, "item/owner"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
+    o.executableBySet = AWS.parse_vector_as(ASCIIString, "user", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "user"))
+    o.imagesSet = AWS.parse_vector_as(ASCIIString, "imageId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "imageId"))
+    o.ownersSet = AWS.parse_vector_as(ASCIIString, "owner", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "owner"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -6962,10 +6980,10 @@ type DescribeConversionTasksResponseType
     DescribeConversionTasksResponseType(; requestId=nothing, conversionTasks=nothing) =
          new(requestId, conversionTasks)
 end
-function DescribeConversionTasksResponseType(pd::ETree)
+function DescribeConversionTasksResponseType(pd)
     o = DescribeConversionTasksResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.conversionTasks = AWS.@parse_vector(AWS.EC2.ConversionTaskType, LibExpat.find(pd, "conversionTasks/item"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.conversionTasks = AWS.@parse_vector(AWS.EC2.ConversionTaskType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "conversionTasks"), "item"))
     o
 end
 
@@ -6979,10 +6997,10 @@ type DescribeAccountAttributesResponseType
     DescribeAccountAttributesResponseType(; requestId=nothing, accountAttributeSet=nothing) =
          new(requestId, accountAttributeSet)
 end
-function DescribeAccountAttributesResponseType(pd::ETree)
+function DescribeAccountAttributesResponseType(pd)
     o = DescribeAccountAttributesResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.accountAttributeSet = AWS.@parse_vector(AWS.EC2.AccountAttributeSetItemType, LibExpat.find(pd, "accountAttributeSet/item"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.accountAttributeSet = AWS.@parse_vector(AWS.EC2.AccountAttributeSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "accountAttributeSet"), "item"))
     o
 end
 
@@ -7002,16 +7020,18 @@ type CreateNetworkAclEntryType
     CreateNetworkAclEntryType(; networkAclId=nothing, ruleNumber=nothing, protocol=nothing, ruleAction=nothing, egress=nothing, cidrBlock=nothing, icmpTypeCode=nothing, portRange=nothing) =
          new(networkAclId, ruleNumber, protocol, ruleAction, egress, cidrBlock, icmpTypeCode, portRange)
 end
-function CreateNetworkAclEntryType(pd::ETree)
+function CreateNetworkAclEntryType(pd)
     o = CreateNetworkAclEntryType()
-    o.networkAclId = LibExpat.find(pd, "networkAclId#string")
-    o.ruleNumber = AWS.safe_parse_as(Int64, LibExpat.find(pd, "ruleNumber#string"))
-    o.protocol = LibExpat.find(pd, "protocol#string")
-    o.ruleAction = LibExpat.find(pd, "ruleAction#string")
-    o.egress = AWS.safe_parse_as(Bool, LibExpat.find(pd, "egress#string"))
-    o.cidrBlock = LibExpat.find(pd, "cidrBlock#string")
-    o.icmpTypeCode = length(pd["icmpTypeCode"]) > 0 ?  IcmpTypeCodeType(LibExpat.find(pd,"icmpTypeCode[1]")) : nothing
-    o.portRange = length(pd["portRange"]) > 0 ?  PortRangeType(LibExpat.find(pd,"portRange[1]")) : nothing
+    o.networkAclId = LightXML.content(LightXML.find_element(pd, "networkAclId"))
+    o.ruleNumber = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "ruleNumber")))
+    o.protocol = LightXML.content(LightXML.find_element(pd, "protocol"))
+    o.ruleAction = LightXML.content(LightXML.find_element(pd, "ruleAction"))
+    o.egress = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "egress")))
+    o.cidrBlock = LightXML.content(LightXML.find_element(pd, "cidrBlock"))
+    ## o.icmpTypeCode = length(pd["icmpTypeCode"]) > 0 ?  IcmpTypeCodeType(LightXML.find_element(pd,"icmpTypeCode[1]")) : nothing
+    o.icmpTypeCode = LightXML.find_element(pd,"icmpTypeCode") != nothing ? IcmpTypeCodeType(LightXML.find_element(pd,"icmpTypeCode")) : nothing
+    ## o.portRange = length(pd["portRange"]) > 0 ?  PortRangeType(LightXML.find_element(pd,"portRange[1]")) : nothing
+    o.portRange = LightXML.find_element(pd,"portRange") != nothing ? PortRangeType(LightXML.find_element(pd,"portRange")) : nothing
     o
 end
 
@@ -7033,18 +7053,18 @@ type DescribeSnapshotsSetItemResponseType
     DescribeSnapshotsSetItemResponseType(; snapshotId=nothing, volumeId=nothing, status=nothing, startTime=nothing, progress=nothing, ownerId=nothing, volumeSize=nothing, description=nothing, ownerAlias=nothing, tagSet=nothing) =
          new(snapshotId, volumeId, status, startTime, progress, ownerId, volumeSize, description, ownerAlias, tagSet)
 end
-function DescribeSnapshotsSetItemResponseType(pd::ETree)
+function DescribeSnapshotsSetItemResponseType(pd)
     o = DescribeSnapshotsSetItemResponseType()
-    o.snapshotId = LibExpat.find(pd, "snapshotId#string")
-    o.volumeId = LibExpat.find(pd, "volumeId#string")
-    o.status = LibExpat.find(pd, "status#string")
-    o.startTime = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "startTime#string"))
-    o.progress = LibExpat.find(pd, "progress#string")
-    o.ownerId = LibExpat.find(pd, "ownerId#string")
-    o.volumeSize = LibExpat.find(pd, "volumeSize#string")
-    o.description = LibExpat.find(pd, "description#string")
-    o.ownerAlias = LibExpat.find(pd, "ownerAlias#string")
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
+    o.snapshotId = LightXML.content(LightXML.find_element(pd, "snapshotId"))
+    o.volumeId = LightXML.content(LightXML.find_element(pd, "volumeId"))
+    o.status = LightXML.content(LightXML.find_element(pd, "status"))
+    o.startTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "startTime")))
+    o.progress = LightXML.content(LightXML.find_element(pd, "progress"))
+    o.ownerId = LightXML.content(LightXML.find_element(pd, "ownerId"))
+    o.volumeSize = LightXML.content(LightXML.find_element(pd, "volumeSize"))
+    o.description = LightXML.content(LightXML.find_element(pd, "description"))
+    o.ownerAlias = LightXML.content(LightXML.find_element(pd, "ownerAlias"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
     o
 end
 
@@ -7057,9 +7077,10 @@ type BundleInstanceTaskStorageType
     BundleInstanceTaskStorageType(; S3=nothing) =
          new(S3)
 end
-function BundleInstanceTaskStorageType(pd::ETree)
+function BundleInstanceTaskStorageType(pd)
     o = BundleInstanceTaskStorageType()
-    o.S3 = length(pd["S3"]) > 0 ?  BundleInstanceS3StorageType(LibExpat.find(pd,"S3[1]")) : nothing
+    ## o.S3 = length(pd["S3"]) > 0 ?  BundleInstanceS3StorageType(LightXML.find_element(pd,"S3[1]")) : nothing
+    o.S3 = LightXML.find_element(pd,"S3") != nothing ? BundleInstanceS3StorageType(LightXML.find_element(pd,"S3")) : nothing
     o
 end
 
@@ -7077,14 +7098,17 @@ type InstanceStatusItemType
     InstanceStatusItemType(; instanceId=nothing, availabilityZone=nothing, eventsSet=nothing, instanceState=nothing, systemStatus=nothing, instanceStatus=nothing) =
          new(instanceId, availabilityZone, eventsSet, instanceState, systemStatus, instanceStatus)
 end
-function InstanceStatusItemType(pd::ETree)
+function InstanceStatusItemType(pd)
     o = InstanceStatusItemType()
-    o.instanceId = LibExpat.find(pd, "instanceId#string")
-    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
-    o.eventsSet = AWS.@parse_vector(AWS.EC2.InstanceStatusEventType, LibExpat.find(pd, "eventsSet/item"))
-    o.instanceState = length(pd["instanceState"]) > 0 ?  InstanceStateType(LibExpat.find(pd,"instanceState[1]")) : nothing
-    o.systemStatus = length(pd["systemStatus"]) > 0 ?  InstanceStatusType(LibExpat.find(pd,"systemStatus[1]")) : nothing
-    o.instanceStatus = length(pd["instanceStatus"]) > 0 ?  InstanceStatusType(LibExpat.find(pd,"instanceStatus[1]")) : nothing
+    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
+    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
+    o.eventsSet = LightXML.find_element(pd, "eventsSet") != nothing ?AWS.@parse_vector(AWS.EC2.InstanceStatusEventType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "eventsSet"), "item")) : nothing
+    ## o.instanceState = length(pd["instanceState"]) > 0 ?  InstanceStateType(LightXML.find_element(pd,"instanceState[1]")) : nothing
+    o.instanceState = LightXML.find_element(pd,"instanceState") != nothing ?  InstanceStateType(LightXML.find_element(pd,"instanceState")) : nothing
+    ## o.systemStatus = length(pd["systemStatus"]) > 0 ?  InstanceStatusType(LightXML.find_element(pd,"systemStatus[1]")) : nothing
+    o.systemStatus = LightXML.find_element(pd,"systemStatus") != nothing ?  InstanceStatusType(LightXML.find_element(pd,"systemStatus")) : nothing
+    ## o.instanceStatus = length(pd["instanceStatus"]) > 0 ?  InstanceStatusType(LightXML.find_element(pd,"instanceStatus[1]")) : nothing
+    o.instanceStatus = LightXML.find_element(pd,"instanceStatus") != nothing ?  InstanceStatusType(LightXML.find_element(pd,"instanceStatus")) : nothing
     o
 end
 
@@ -7105,17 +7129,17 @@ type InstanceNetworkInterfaceSetItemRequestType
     InstanceNetworkInterfaceSetItemRequestType(; networkInterfaceId=nothing, deviceIndex=nothing, subnetId=nothing, description=nothing, privateIpAddress=nothing, groupSet=nothing, deleteOnTermination=nothing, privateIpAddressesSet=nothing, secondaryPrivateIpAddressCount=nothing) =
          new(networkInterfaceId, deviceIndex, subnetId, description, privateIpAddress, groupSet, deleteOnTermination, privateIpAddressesSet, secondaryPrivateIpAddressCount)
 end
-function InstanceNetworkInterfaceSetItemRequestType(pd::ETree)
+function InstanceNetworkInterfaceSetItemRequestType(pd)
     o = InstanceNetworkInterfaceSetItemRequestType()
-    o.networkInterfaceId = LibExpat.find(pd, "networkInterfaceId#string")
-    o.deviceIndex = AWS.safe_parse_as(Int64, LibExpat.find(pd, "deviceIndex#string"))
-    o.subnetId = LibExpat.find(pd, "subnetId#string")
-    o.description = LibExpat.find(pd, "description#string")
-    o.privateIpAddress = LibExpat.find(pd, "privateIpAddress#string")
-    o.groupSet = AWS.parse_vector_as(ASCIIString, "groupId", LibExpat.find(pd, "item/groupId"))
-    o.deleteOnTermination = AWS.safe_parse_as(Bool, LibExpat.find(pd, "deleteOnTermination#string"))
-    o.privateIpAddressesSet = AWS.@parse_vector(AWS.EC2.PrivateIpAddressesSetItemRequestType, LibExpat.find(pd, "privateIpAddressesSet/item"))
-    o.secondaryPrivateIpAddressCount = AWS.safe_parse_as(Int64, LibExpat.find(pd, "secondaryPrivateIpAddressCount#string"))
+    o.networkInterfaceId = LightXML.content(LightXML.find_element(pd, "networkInterfaceId"))
+    o.deviceIndex = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "deviceIndex")))
+    o.subnetId = LightXML.content(LightXML.find_element(pd, "subnetId"))
+    o.description = LightXML.content(LightXML.find_element(pd, "description"))
+    o.privateIpAddress = LightXML.content(LightXML.find_element(pd, "privateIpAddress"))
+    o.groupSet = AWS.parse_vector_as(ASCIIString, "groupId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "groupId"))
+    o.deleteOnTermination = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "deleteOnTermination")))
+    o.privateIpAddressesSet = AWS.@parse_vector(AWS.EC2.PrivateIpAddressesSetItemRequestType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "privateIpAddressesSet"), "item"))
+    o.secondaryPrivateIpAddressCount = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "secondaryPrivateIpAddressCount")))
     o
 end
 
@@ -7130,11 +7154,11 @@ type DescribeReservedInstancesListingsType
     DescribeReservedInstancesListingsType(; reservedInstancesListingSet=nothing, reservedInstancesSet=nothing, filterSet=nothing) =
          new(reservedInstancesListingSet, reservedInstancesSet, filterSet)
 end
-function DescribeReservedInstancesListingsType(pd::ETree)
+function DescribeReservedInstancesListingsType(pd)
     o = DescribeReservedInstancesListingsType()
-    o.reservedInstancesListingSet = AWS.parse_vector_as(ASCIIString, "reservedInstancesListingId", LibExpat.find(pd, "item/reservedInstancesListingId"))
-    o.reservedInstancesSet = AWS.parse_vector_as(ASCIIString, "reservedInstancesId", LibExpat.find(pd, "item/reservedInstancesId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
+    o.reservedInstancesListingSet = AWS.parse_vector_as(ASCIIString, "reservedInstancesListingId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "reservedInstancesListingId"))
+    o.reservedInstancesSet = AWS.parse_vector_as(ASCIIString, "reservedInstancesId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "reservedInstancesId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -7154,16 +7178,16 @@ type DescribeSpotPriceHistoryType
     DescribeSpotPriceHistoryType(; startTime=nothing, endTime=nothing, instanceTypeSet=nothing, productDescriptionSet=nothing, filterSet=nothing, availabilityZone=nothing, maxResults=nothing, nextToken=nothing) =
          new(startTime, endTime, instanceTypeSet, productDescriptionSet, filterSet, availabilityZone, maxResults, nextToken)
 end
-function DescribeSpotPriceHistoryType(pd::ETree)
+function DescribeSpotPriceHistoryType(pd)
     o = DescribeSpotPriceHistoryType()
-    o.startTime = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "startTime#string"))
-    o.endTime = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "endTime#string"))
-    o.instanceTypeSet = AWS.parse_vector_as(ASCIIString, "instanceType", LibExpat.find(pd, "item/instanceType"))
-    o.productDescriptionSet = AWS.parse_vector_as(ASCIIString, "productDescription", LibExpat.find(pd, "item/productDescription"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
-    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
-    o.maxResults = AWS.safe_parse_as(Int64, LibExpat.find(pd, "maxResults#string"))
-    o.nextToken = LibExpat.find(pd, "nextToken#string")
+    o.startTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "startTime")))
+    o.endTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "endTime")))
+    o.instanceTypeSet = AWS.parse_vector_as(ASCIIString, "instanceType", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "instanceType"))
+    o.productDescriptionSet = AWS.parse_vector_as(ASCIIString, "productDescription", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "productDescription"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
+    o.maxResults = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "maxResults")))
+    o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
     o
 end
 
@@ -7188,21 +7212,21 @@ type DescribeReservedInstancesOfferingsResponseSetItemType
     DescribeReservedInstancesOfferingsResponseSetItemType(; reservedInstancesOfferingId=nothing, instanceType=nothing, availabilityZone=nothing, duration=nothing, fixedPrice=nothing, usagePrice=nothing, productDescription=nothing, instanceTenancy=nothing, currencyCode=nothing, offeringType=nothing, recurringCharges=nothing, marketplace=nothing, pricingDetailsSet=nothing) =
          new(reservedInstancesOfferingId, instanceType, availabilityZone, duration, fixedPrice, usagePrice, productDescription, instanceTenancy, currencyCode, offeringType, recurringCharges, marketplace, pricingDetailsSet)
 end
-function DescribeReservedInstancesOfferingsResponseSetItemType(pd::ETree)
+function DescribeReservedInstancesOfferingsResponseSetItemType(pd)
     o = DescribeReservedInstancesOfferingsResponseSetItemType()
-    o.reservedInstancesOfferingId = LibExpat.find(pd, "reservedInstancesOfferingId#string")
-    o.instanceType = LibExpat.find(pd, "instanceType#string")
-    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
-    o.duration = AWS.safe_parse_as(Int64, LibExpat.find(pd, "duration#string"))
-    o.fixedPrice = AWS.safe_parse_as(Float64, LibExpat.find(pd, "fixedPrice#string"))
-    o.usagePrice = AWS.safe_parse_as(Float64, LibExpat.find(pd, "usagePrice#string"))
-    o.productDescription = LibExpat.find(pd, "productDescription#string")
-    o.instanceTenancy = LibExpat.find(pd, "instanceTenancy#string")
-    o.currencyCode = LibExpat.find(pd, "currencyCode#string")
-    o.offeringType = LibExpat.find(pd, "offeringType#string")
-    o.recurringCharges = AWS.@parse_vector(AWS.EC2.RecurringChargesSetItemType, LibExpat.find(pd, "recurringCharges/item"))
-    o.marketplace = AWS.safe_parse_as(Bool, LibExpat.find(pd, "marketplace#string"))
-    o.pricingDetailsSet = AWS.@parse_vector(AWS.EC2.PricingDetailsSetItemType, LibExpat.find(pd, "pricingDetailsSet/item"))
+    o.reservedInstancesOfferingId = LightXML.content(LightXML.find_element(pd, "reservedInstancesOfferingId"))
+    o.instanceType = LightXML.content(LightXML.find_element(pd, "instanceType"))
+    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
+    o.duration = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "duration")))
+    o.fixedPrice = AWS.safe_parse_as(Float64, LightXML.content(LightXML.find_element(pd, "fixedPrice")))
+    o.usagePrice = AWS.safe_parse_as(Float64, LightXML.content(LightXML.find_element(pd, "usagePrice")))
+    o.productDescription = LightXML.content(LightXML.find_element(pd, "productDescription"))
+    o.instanceTenancy = LightXML.content(LightXML.find_element(pd, "instanceTenancy"))
+    o.currencyCode = LightXML.content(LightXML.find_element(pd, "currencyCode"))
+    o.offeringType = LightXML.content(LightXML.find_element(pd, "offeringType"))
+    o.recurringCharges = AWS.@parse_vector(AWS.EC2.RecurringChargesSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "recurringCharges"), "item"))
+    o.marketplace = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "marketplace")))
+    o.pricingDetailsSet = AWS.@parse_vector(AWS.EC2.PricingDetailsSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "pricingDetailsSet"), "item"))
     o
 end
 
@@ -7219,13 +7243,13 @@ type IpPermissionType
     IpPermissionType(; ipProtocol=nothing, fromPort=nothing, toPort=nothing, groups=nothing, ipRanges=nothing) =
          new(ipProtocol, fromPort, toPort, groups, ipRanges)
 end
-function IpPermissionType(pd::ETree)
+function IpPermissionType(pd)
     o = IpPermissionType()
-    o.ipProtocol = LibExpat.find(pd, "ipProtocol#string")
-    o.fromPort = AWS.safe_parse_as(Int64, LibExpat.find(pd, "fromPort#string"))
-    o.toPort = AWS.safe_parse_as(Int64, LibExpat.find(pd, "toPort#string"))
-    o.groups = AWS.@parse_vector(AWS.EC2.UserIdGroupPairType, LibExpat.find(pd, "groups/item"))
-    o.ipRanges = AWS.parse_vector_as(ASCIIString, "cidrIp", LibExpat.find(pd, "item/cidrIp"))
+    o.ipProtocol = LightXML.content(LightXML.find_element(pd, "ipProtocol"))
+    o.fromPort = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "fromPort")))
+    o.toPort = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "toPort")))
+    o.groups = AWS.@parse_vector(AWS.EC2.UserIdGroupPairType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "groups"), "item"))
+    o.ipRanges = AWS.parse_vector_as(ASCIIString, "cidrIp", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "cidrIp"))
     o
 end
 
@@ -7239,10 +7263,10 @@ type DescribeVolumesResponseType
     DescribeVolumesResponseType(; requestId=nothing, volumeSet=nothing) =
          new(requestId, volumeSet)
 end
-function DescribeVolumesResponseType(pd::ETree)
+function DescribeVolumesResponseType(pd)
     o = DescribeVolumesResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.volumeSet = AWS.@parse_vector(AWS.EC2.DescribeVolumesSetItemResponseType, LibExpat.find(pd, "volumeSet/item"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.volumeSet = AWS.@parse_vector(AWS.EC2.DescribeVolumesSetItemResponseType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "volumeSet"), "item"))
     o
 end
 
@@ -7257,11 +7281,11 @@ type DescribeSpotPriceHistoryResponseType
     DescribeSpotPriceHistoryResponseType(; requestId=nothing, spotPriceHistorySet=nothing, nextToken=nothing) =
          new(requestId, spotPriceHistorySet, nextToken)
 end
-function DescribeSpotPriceHistoryResponseType(pd::ETree)
+function DescribeSpotPriceHistoryResponseType(pd)
     o = DescribeSpotPriceHistoryResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.spotPriceHistorySet = AWS.@parse_vector(AWS.EC2.SpotPriceHistorySetItemType, LibExpat.find(pd, "spotPriceHistorySet/item"))
-    o.nextToken = LibExpat.find(pd, "nextToken#string")
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.spotPriceHistorySet = AWS.@parse_vector(AWS.EC2.SpotPriceHistorySetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "spotPriceHistorySet"), "item"))
+    o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
     o
 end
 
@@ -7275,10 +7299,10 @@ type DescribeSpotInstanceRequestsType
     DescribeSpotInstanceRequestsType(; spotInstanceRequestIdSet=nothing, filterSet=nothing) =
          new(spotInstanceRequestIdSet, filterSet)
 end
-function DescribeSpotInstanceRequestsType(pd::ETree)
+function DescribeSpotInstanceRequestsType(pd)
     o = DescribeSpotInstanceRequestsType()
-    o.spotInstanceRequestIdSet = AWS.parse_vector_as(ASCIIString, "spotInstanceRequestId", LibExpat.find(pd, "item/spotInstanceRequestId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
+    o.spotInstanceRequestIdSet = AWS.parse_vector_as(ASCIIString, "spotInstanceRequestId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "spotInstanceRequestId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -7292,10 +7316,11 @@ type CreateDhcpOptionsResponseType
     CreateDhcpOptionsResponseType(; requestId=nothing, dhcpOptions=nothing) =
          new(requestId, dhcpOptions)
 end
-function CreateDhcpOptionsResponseType(pd::ETree)
+function CreateDhcpOptionsResponseType(pd)
     o = CreateDhcpOptionsResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.dhcpOptions = length(pd["dhcpOptions"]) > 0 ?  DhcpOptionsType(LibExpat.find(pd,"dhcpOptions[1]")) : nothing
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    ## o.dhcpOptions = length(pd["dhcpOptions"]) > 0 ?  DhcpOptionsType(LightXML.find_element(pd,"dhcpOptions[1]")) : nothing
+    o.dhcpOptions = LightXML.find_element(pd,"dhcpOptions") != nothing ? DhcpOptionsType(LightXML.find_element(pd,"dhcpOptions")) : nothing
     o
 end
 
@@ -7309,10 +7334,10 @@ type DescribeRouteTablesType
     DescribeRouteTablesType(; routeTableIdSet=nothing, filterSet=nothing) =
          new(routeTableIdSet, filterSet)
 end
-function DescribeRouteTablesType(pd::ETree)
+function DescribeRouteTablesType(pd)
     o = DescribeRouteTablesType()
-    o.routeTableIdSet = AWS.parse_vector_as(ASCIIString, "routeTableId", LibExpat.find(pd, "item/routeTableId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
+    o.routeTableIdSet = AWS.parse_vector_as(ASCIIString, "routeTableId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "routeTableId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -7326,10 +7351,10 @@ type DescribeInternetGatewaysResponseType
     DescribeInternetGatewaysResponseType(; requestId=nothing, internetGatewaySet=nothing) =
          new(requestId, internetGatewaySet)
 end
-function DescribeInternetGatewaysResponseType(pd::ETree)
+function DescribeInternetGatewaysResponseType(pd)
     o = DescribeInternetGatewaysResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.internetGatewaySet = AWS.@parse_vector(AWS.EC2.InternetGatewayType, LibExpat.find(pd, "internetGatewaySet/item"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.internetGatewaySet = AWS.@parse_vector(AWS.EC2.InternetGatewayType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "internetGatewaySet"), "item"))
     o
 end
 
@@ -7343,10 +7368,11 @@ type CreateInstanceExportTaskResponseType
     CreateInstanceExportTaskResponseType(; requestId=nothing, exportTask=nothing) =
          new(requestId, exportTask)
 end
-function CreateInstanceExportTaskResponseType(pd::ETree)
+function CreateInstanceExportTaskResponseType(pd)
     o = CreateInstanceExportTaskResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.exportTask = length(pd["exportTask"]) > 0 ?  ExportTaskResponseType(LibExpat.find(pd,"exportTask[1]")) : nothing
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    ## o.exportTask = length(pd["exportTask"]) > 0 ?  ExportTaskResponseType(LightXML.find_element(pd,"exportTask[1]")) : nothing
+    o.exportTask = LightXML.find_element(pd,"exportTask") != nothing ? ExportTaskResponseType(LightXML.find_element(pd,"exportTask")) : nothing
     o
 end
 
@@ -7363,13 +7389,13 @@ type CreateImageType
     CreateImageType(; instanceId=nothing, name=nothing, description=nothing, noReboot=nothing, blockDeviceMapping=nothing) =
          new(instanceId, name, description, noReboot, blockDeviceMapping)
 end
-function CreateImageType(pd::ETree)
+function CreateImageType(pd)
     o = CreateImageType()
-    o.instanceId = LibExpat.find(pd, "instanceId#string")
-    o.name = LibExpat.find(pd, "name#string")
-    o.description = LibExpat.find(pd, "description#string")
-    o.noReboot = AWS.safe_parse_as(Bool, LibExpat.find(pd, "noReboot#string"))
-    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, LibExpat.find(pd, "blockDeviceMapping/item"))
+    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
+    o.name = LightXML.content(LightXML.find_element(pd, "name"))
+    o.description = LightXML.content(LightXML.find_element(pd, "description"))
+    o.noReboot = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "noReboot")))
+    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "blockDeviceMapping"), "item"))
     o
 end
 
@@ -7383,10 +7409,10 @@ type DescribeInternetGatewaysType
     DescribeInternetGatewaysType(; internetGatewayIdSet=nothing, filterSet=nothing) =
          new(internetGatewayIdSet, filterSet)
 end
-function DescribeInternetGatewaysType(pd::ETree)
+function DescribeInternetGatewaysType(pd)
     o = DescribeInternetGatewaysType()
-    o.internetGatewayIdSet = AWS.parse_vector_as(ASCIIString, "internetGatewayId", LibExpat.find(pd, "item/internetGatewayId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
+    o.internetGatewayIdSet = AWS.parse_vector_as(ASCIIString, "internetGatewayId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "internetGatewayId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -7401,11 +7427,13 @@ type InstanceStateChangeType
     InstanceStateChangeType(; instanceId=nothing, currentState=nothing, previousState=nothing) =
          new(instanceId, currentState, previousState)
 end
-function InstanceStateChangeType(pd::ETree)
+function InstanceStateChangeType(pd)
     o = InstanceStateChangeType()
-    o.instanceId = LibExpat.find(pd, "instanceId#string")
-    o.currentState = length(pd["currentState"]) > 0 ?  InstanceStateType(LibExpat.find(pd,"currentState[1]")) : nothing
-    o.previousState = length(pd["previousState"]) > 0 ?  InstanceStateType(LibExpat.find(pd,"previousState[1]")) : nothing
+    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
+    ## o.currentState = length(pd["currentState"]) > 0 ?  InstanceStateType(LightXML.find_element(pd,"currentState[1]")) : nothing
+    o.currentState = LightXML.find_element(pd,"currentState") != nothing ?  InstanceStateType(LightXML.find_element(pd,"currentState")) : nothing
+    ## o.previousState = length(pd["previousState"]) > 0 ?  InstanceStateType(LightXML.find_element(pd,"previousState[1]")) : nothing
+    o.previousState = LightXML.find_element(pd,"previousState") != nothing ?  InstanceStateType(LightXML.find_element(pd,"previousState")) : nothing
     o
 end
 
@@ -7420,11 +7448,12 @@ type PurchaseReservedInstancesOfferingType
     PurchaseReservedInstancesOfferingType(; reservedInstancesOfferingId=nothing, instanceCount=nothing, limitPrice=nothing) =
          new(reservedInstancesOfferingId, instanceCount, limitPrice)
 end
-function PurchaseReservedInstancesOfferingType(pd::ETree)
+function PurchaseReservedInstancesOfferingType(pd)
     o = PurchaseReservedInstancesOfferingType()
-    o.reservedInstancesOfferingId = LibExpat.find(pd, "reservedInstancesOfferingId#string")
-    o.instanceCount = AWS.safe_parse_as(Int64, LibExpat.find(pd, "instanceCount#string"))
-    o.limitPrice = length(pd["limitPrice"]) > 0 ?  ReservedInstanceLimitPriceType(LibExpat.find(pd,"limitPrice[1]")) : nothing
+    o.reservedInstancesOfferingId = LightXML.content(LightXML.find_element(pd, "reservedInstancesOfferingId"))
+    o.instanceCount = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "instanceCount")))
+    ## o.limitPrice = length(pd["limitPrice"]) > 0 ?  ReservedInstanceLimitPriceType(LightXML.find_element(pd,"limitPrice[1]")) : nothing
+    o.limitPrice = LightXML.find_element(pd,"limitPrice") != nothing ? ReservedInstanceLimitPriceType(LightXML.find_element(pd,"limitPrice")) : nothing
     o
 end
 
@@ -7442,14 +7471,14 @@ type RouteTableType
     RouteTableType(; routeTableId=nothing, vpcId=nothing, routeSet=nothing, associationSet=nothing, propagatingVgwSet=nothing, tagSet=nothing) =
          new(routeTableId, vpcId, routeSet, associationSet, propagatingVgwSet, tagSet)
 end
-function RouteTableType(pd::ETree)
+function RouteTableType(pd)
     o = RouteTableType()
-    o.routeTableId = LibExpat.find(pd, "routeTableId#string")
-    o.vpcId = LibExpat.find(pd, "vpcId#string")
-    o.routeSet = AWS.@parse_vector(AWS.EC2.RouteType, LibExpat.find(pd, "routeSet/item"))
-    o.associationSet = AWS.@parse_vector(AWS.EC2.RouteTableAssociationType, LibExpat.find(pd, "associationSet/item"))
-    o.propagatingVgwSet = AWS.parse_vector_as(ASCIIString, "gatewayId", LibExpat.find(pd, "item/gatewayId"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
+    o.routeTableId = LightXML.content(LightXML.find_element(pd, "routeTableId"))
+    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
+    o.routeSet = AWS.@parse_vector(AWS.EC2.RouteType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "routeSet"), "item"))
+    o.associationSet = AWS.@parse_vector(AWS.EC2.RouteTableAssociationType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "associationSet"), "item"))
+    o.propagatingVgwSet = AWS.parse_vector_as(ASCIIString, "gatewayId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "gatewayId"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
     o
 end
 
@@ -7463,10 +7492,10 @@ type DescribeVpnConnectionsType
     DescribeVpnConnectionsType(; vpnConnectionSet=nothing, filterSet=nothing) =
          new(vpnConnectionSet, filterSet)
 end
-function DescribeVpnConnectionsType(pd::ETree)
+function DescribeVpnConnectionsType(pd)
     o = DescribeVpnConnectionsType()
-    o.vpnConnectionSet = AWS.parse_vector_as(ASCIIString, "vpnConnectionId", LibExpat.find(pd, "item/vpnConnectionId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
+    o.vpnConnectionSet = AWS.parse_vector_as(ASCIIString, "vpnConnectionId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "vpnConnectionId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -7484,14 +7513,14 @@ type CreateNetworkInterfaceType
     CreateNetworkInterfaceType(; subnetId=nothing, description=nothing, privateIpAddress=nothing, groupSet=nothing, privateIpAddressesSet=nothing, secondaryPrivateIpAddressCount=nothing) =
          new(subnetId, description, privateIpAddress, groupSet, privateIpAddressesSet, secondaryPrivateIpAddressCount)
 end
-function CreateNetworkInterfaceType(pd::ETree)
+function CreateNetworkInterfaceType(pd)
     o = CreateNetworkInterfaceType()
-    o.subnetId = LibExpat.find(pd, "subnetId#string")
-    o.description = LibExpat.find(pd, "description#string")
-    o.privateIpAddress = LibExpat.find(pd, "privateIpAddress#string")
-    o.groupSet = AWS.parse_vector_as(ASCIIString, "groupId", LibExpat.find(pd, "item/groupId"))
-    o.privateIpAddressesSet = AWS.@parse_vector(AWS.EC2.PrivateIpAddressesSetItemRequestType, LibExpat.find(pd, "privateIpAddressesSet/item"))
-    o.secondaryPrivateIpAddressCount = AWS.safe_parse_as(Int64, LibExpat.find(pd, "secondaryPrivateIpAddressCount#string"))
+    o.subnetId = LightXML.content(LightXML.find_element(pd, "subnetId"))
+    o.description = LightXML.content(LightXML.find_element(pd, "description"))
+    o.privateIpAddress = LightXML.content(LightXML.find_element(pd, "privateIpAddress"))
+    o.groupSet = AWS.parse_vector_as(ASCIIString, "groupId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "groupId"))
+    o.privateIpAddressesSet = AWS.@parse_vector(AWS.EC2.PrivateIpAddressesSetItemRequestType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "privateIpAddressesSet"), "item"))
+    o.secondaryPrivateIpAddressCount = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "secondaryPrivateIpAddressCount")))
     o
 end
 
@@ -7505,10 +7534,10 @@ type DescribeVpcsResponseType
     DescribeVpcsResponseType(; requestId=nothing, vpcSet=nothing) =
          new(requestId, vpcSet)
 end
-function DescribeVpcsResponseType(pd::ETree)
+function DescribeVpcsResponseType(pd)
     o = DescribeVpcsResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.vpcSet = AWS.@parse_vector(AWS.EC2.VpcType, LibExpat.find(pd, "vpcSet/item"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.vpcSet = AWS.@parse_vector(AWS.EC2.VpcType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "vpcSet"), "item"))
     o
 end
 
@@ -7530,18 +7559,18 @@ type DescribeReservedInstancesListingsResponseSetItemType
     DescribeReservedInstancesListingsResponseSetItemType(; reservedInstancesListingId=nothing, reservedInstancesId=nothing, createDate=nothing, updateDate=nothing, status=nothing, statusMessage=nothing, instanceCounts=nothing, priceSchedules=nothing, tagSet=nothing, clientToken=nothing) =
          new(reservedInstancesListingId, reservedInstancesId, createDate, updateDate, status, statusMessage, instanceCounts, priceSchedules, tagSet, clientToken)
 end
-function DescribeReservedInstancesListingsResponseSetItemType(pd::ETree)
+function DescribeReservedInstancesListingsResponseSetItemType(pd)
     o = DescribeReservedInstancesListingsResponseSetItemType()
-    o.reservedInstancesListingId = LibExpat.find(pd, "reservedInstancesListingId#string")
-    o.reservedInstancesId = LibExpat.find(pd, "reservedInstancesId#string")
-    o.createDate = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "createDate#string"))
-    o.updateDate = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "updateDate#string"))
-    o.status = LibExpat.find(pd, "status#string")
-    o.statusMessage = LibExpat.find(pd, "statusMessage#string")
-    o.instanceCounts = AWS.@parse_vector(AWS.EC2.InstanceCountsSetItemType, LibExpat.find(pd, "instanceCounts/item"))
-    o.priceSchedules = AWS.@parse_vector(AWS.EC2.PriceScheduleSetItemType, LibExpat.find(pd, "priceSchedules/item"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
-    o.clientToken = LibExpat.find(pd, "clientToken#string")
+    o.reservedInstancesListingId = LightXML.content(LightXML.find_element(pd, "reservedInstancesListingId"))
+    o.reservedInstancesId = LightXML.content(LightXML.find_element(pd, "reservedInstancesId"))
+    o.createDate = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "createDate")))
+    o.updateDate = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "updateDate")))
+    o.status = LightXML.content(LightXML.find_element(pd, "status"))
+    o.statusMessage = LightXML.content(LightXML.find_element(pd, "statusMessage"))
+    o.instanceCounts = AWS.@parse_vector(AWS.EC2.InstanceCountsSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "instanceCounts"), "item"))
+    o.priceSchedules = AWS.@parse_vector(AWS.EC2.PriceScheduleSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "priceSchedules"), "item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
+    o.clientToken = LightXML.content(LightXML.find_element(pd, "clientToken"))
     o
 end
 
@@ -7555,10 +7584,10 @@ type DescribeVpcsType
     DescribeVpcsType(; vpcSet=nothing, filterSet=nothing) =
          new(vpcSet, filterSet)
 end
-function DescribeVpcsType(pd::ETree)
+function DescribeVpcsType(pd)
     o = DescribeVpcsType()
-    o.vpcSet = AWS.parse_vector_as(ASCIIString, "vpcId", LibExpat.find(pd, "item/vpcId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
+    o.vpcSet = AWS.parse_vector_as(ASCIIString, "vpcId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "vpcId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -7572,10 +7601,10 @@ type DescribeDhcpOptionsResponseType
     DescribeDhcpOptionsResponseType(; requestId=nothing, dhcpOptionsSet=nothing) =
          new(requestId, dhcpOptionsSet)
 end
-function DescribeDhcpOptionsResponseType(pd::ETree)
+function DescribeDhcpOptionsResponseType(pd)
     o = DescribeDhcpOptionsResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.dhcpOptionsSet = AWS.@parse_vector(AWS.EC2.DhcpOptionsType, LibExpat.find(pd, "dhcpOptionsSet/item"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.dhcpOptionsSet = AWS.@parse_vector(AWS.EC2.DhcpOptionsType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "dhcpOptionsSet"), "item"))
     o
 end
 
@@ -7588,9 +7617,9 @@ type DescribeTagsType
     DescribeTagsType(; filterSet=nothing) =
          new(filterSet)
 end
-function DescribeTagsType(pd::ETree)
+function DescribeTagsType(pd)
     o = DescribeTagsType()
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -7604,10 +7633,11 @@ type MonitorInstancesResponseSetItemType
     MonitorInstancesResponseSetItemType(; instanceId=nothing, monitoring=nothing) =
          new(instanceId, monitoring)
 end
-function MonitorInstancesResponseSetItemType(pd::ETree)
+function MonitorInstancesResponseSetItemType(pd)
     o = MonitorInstancesResponseSetItemType()
-    o.instanceId = LibExpat.find(pd, "instanceId#string")
-    o.monitoring = length(pd["monitoring"]) > 0 ?  InstanceMonitoringStateType(LibExpat.find(pd,"monitoring[1]")) : nothing
+    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
+    ## o.monitoring = length(pd["monitoring"]) > 0 ?  InstanceMonitoringStateType(LightXML.find_element(pd,"monitoring[1]")) : nothing
+    o.monitoring = LightXML.find_element(pd,"monitoring") != nothing ? InstanceMonitoringStateType(LightXML.find_element(pd,"monitoring")) : nothing
     o
 end
 
@@ -7621,10 +7651,10 @@ type DescribeRouteTablesResponseType
     DescribeRouteTablesResponseType(; requestId=nothing, routeTableSet=nothing) =
          new(requestId, routeTableSet)
 end
-function DescribeRouteTablesResponseType(pd::ETree)
+function DescribeRouteTablesResponseType(pd)
     o = DescribeRouteTablesResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.routeTableSet = AWS.@parse_vector(AWS.EC2.RouteTableType, LibExpat.find(pd, "routeTableSet/item"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.routeTableSet = AWS.@parse_vector(AWS.EC2.RouteTableType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "routeTableSet"), "item"))
     o
 end
 
@@ -7638,10 +7668,10 @@ type DescribeAccountAttributesType
     DescribeAccountAttributesType(; accountAttributeNameSet=nothing, filterSet=nothing) =
          new(accountAttributeNameSet, filterSet)
 end
-function DescribeAccountAttributesType(pd::ETree)
+function DescribeAccountAttributesType(pd)
     o = DescribeAccountAttributesType()
-    o.accountAttributeNameSet = AWS.parse_vector_as(ASCIIString, "attributeName", LibExpat.find(pd, "item/attributeName"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
+    o.accountAttributeNameSet = AWS.parse_vector_as(ASCIIString, "attributeName", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "attributeName"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -7656,11 +7686,11 @@ type DescribeInstanceStatusResponseType
     DescribeInstanceStatusResponseType(; requestId=nothing, instanceStatusSet=nothing, nextToken=nothing) =
          new(requestId, instanceStatusSet, nextToken)
 end
-function DescribeInstanceStatusResponseType(pd::ETree)
+function DescribeInstanceStatusResponseType(pd)
     o = DescribeInstanceStatusResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.instanceStatusSet = AWS.@parse_vector(AWS.EC2.InstanceStatusItemType, LibExpat.find(pd, "instanceStatusSet/item"))
-    o.nextToken = LibExpat.find(pd, "nextToken#string")
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.instanceStatusSet = LightXML.find_element(pd, "instanceStatusSet") != nothing ? AWS.@parse_vector(AWS.EC2.InstanceStatusItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "instanceStatusSet"), "item")) : nothing
+    o.nextToken = LightXML.find_element(pd, "nextToken") != nothing ? LightXML.content(LightXML.find_element(pd, "nextToken")) : nothing
     o
 end
 
@@ -7678,14 +7708,14 @@ type VpnGatewayType
     VpnGatewayType(; vpnGatewayId=nothing, state=nothing, _type=nothing, availabilityZone=nothing, attachments=nothing, tagSet=nothing) =
          new(vpnGatewayId, state, _type, availabilityZone, attachments, tagSet)
 end
-function VpnGatewayType(pd::ETree)
+function VpnGatewayType(pd)
     o = VpnGatewayType()
-    o.vpnGatewayId = LibExpat.find(pd, "vpnGatewayId#string")
-    o.state = LibExpat.find(pd, "state#string")
-    o._type = LibExpat.find(pd, "type#string")
-    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
-    o.attachments = AWS.@parse_vector(AWS.EC2.AttachmentType, LibExpat.find(pd, "attachments/item"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
+    o.vpnGatewayId = LightXML.content(LightXML.find_element(pd, "vpnGatewayId"))
+    o.state = LightXML.content(LightXML.find_element(pd, "state"))
+    o._type = LightXML.content(LightXML.find_element(pd, "type"))
+    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
+    o.attachments = AWS.@parse_vector(AWS.EC2.AttachmentType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "attachments"), "item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
     o
 end
 
@@ -7699,10 +7729,10 @@ type DescribeKeyPairsType
     DescribeKeyPairsType(; keySet=nothing, filterSet=nothing) =
          new(keySet, filterSet)
 end
-function DescribeKeyPairsType(pd::ETree)
+function DescribeKeyPairsType(pd)
     o = DescribeKeyPairsType()
-    o.keySet = AWS.parse_vector_as(ASCIIString, "keyName", LibExpat.find(pd, "item/keyName"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
+    o.keySet = AWS.parse_vector_as(ASCIIString, "keyName", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "keyName"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -7716,10 +7746,11 @@ type BundleInstanceType
     BundleInstanceType(; instanceId=nothing, storage=nothing) =
          new(instanceId, storage)
 end
-function BundleInstanceType(pd::ETree)
+function BundleInstanceType(pd)
     o = BundleInstanceType()
-    o.instanceId = LibExpat.find(pd, "instanceId#string")
-    o.storage = length(pd["storage"]) > 0 ?  BundleInstanceTaskStorageType(LibExpat.find(pd,"storage[1]")) : nothing
+    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
+    ## o.storage = length(pd["storage"]) > 0 ?  BundleInstanceTaskStorageType(LightXML.find_element(pd,"storage[1]")) : nothing
+    o.storage = LightXML.find_element(pd,"storage") != nothing ? BundleInstanceTaskStorageType(LightXML.find_element(pd,"storage")) : nothing
     o
 end
 
@@ -7735,12 +7766,13 @@ type InstancePrivateIpAddressesSetItemType
     InstancePrivateIpAddressesSetItemType(; privateIpAddress=nothing, privateDnsName=nothing, primary=nothing, association=nothing) =
          new(privateIpAddress, privateDnsName, primary, association)
 end
-function InstancePrivateIpAddressesSetItemType(pd::ETree)
+function InstancePrivateIpAddressesSetItemType(pd)
     o = InstancePrivateIpAddressesSetItemType()
-    o.privateIpAddress = LibExpat.find(pd, "privateIpAddress#string")
-    o.privateDnsName = LibExpat.find(pd, "privateDnsName#string")
-    o.primary = AWS.safe_parse_as(Bool, LibExpat.find(pd, "primary#string"))
-    o.association = length(pd["association"]) > 0 ?  InstanceNetworkInterfaceAssociationType(LibExpat.find(pd,"association[1]")) : nothing
+    o.privateIpAddress = LightXML.content(LightXML.find_element(pd, "privateIpAddress"))
+    o.privateDnsName = LightXML.content(LightXML.find_element(pd, "privateDnsName"))
+    o.primary = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "primary")))
+    ## o.association = length(pd["association"]) > 0 ?  InstanceNetworkInterfaceAssociationType(LightXML.find_element(pd,"association[1]")) : nothing
+    o.association = LightXML.find_element(pd,"association") != nothing ? InstanceNetworkInterfaceAssociationType(LightXML.find_element(pd,"association")) : nothing
     o
 end
 
@@ -7761,17 +7793,20 @@ type ImportInstanceLaunchSpecificationType
     ImportInstanceLaunchSpecificationType(; architecture=nothing, groupSet=nothing, userData=nothing, instanceType=nothing, placement=nothing, monitoring=nothing, subnetId=nothing, instanceInitiatedShutdownBehavior=nothing, privateIpAddress=nothing) =
          new(architecture, groupSet, userData, instanceType, placement, monitoring, subnetId, instanceInitiatedShutdownBehavior, privateIpAddress)
 end
-function ImportInstanceLaunchSpecificationType(pd::ETree)
+function ImportInstanceLaunchSpecificationType(pd)
     o = ImportInstanceLaunchSpecificationType()
-    o.architecture = LibExpat.find(pd, "architecture#string")
-    o.groupSet = AWS.@parse_vector(AWS.EC2.ImportInstanceGroupItemType, LibExpat.find(pd, "groupSet/item"))
-    o.userData = length(pd["userData"]) > 0 ?  UserDataType(LibExpat.find(pd,"userData[1]")) : nothing
-    o.instanceType = LibExpat.find(pd, "instanceType#string")
-    o.placement = length(pd["placement"]) > 0 ?  InstancePlacementType(LibExpat.find(pd,"placement[1]")) : nothing
-    o.monitoring = length(pd["monitoring"]) > 0 ?  MonitoringInstanceType(LibExpat.find(pd,"monitoring[1]")) : nothing
-    o.subnetId = LibExpat.find(pd, "subnetId#string")
-    o.instanceInitiatedShutdownBehavior = LibExpat.find(pd, "instanceInitiatedShutdownBehavior#string")
-    o.privateIpAddress = LibExpat.find(pd, "privateIpAddress#string")
+    o.architecture = LightXML.content(LightXML.find_element(pd, "architecture"))
+    o.groupSet = AWS.@parse_vector(AWS.EC2.ImportInstanceGroupItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "groupSet"), "item"))
+    ## o.userData = length(pd["userData"]) > 0 ?  UserDataType(LightXML.find_element(pd,"userData[1]")) : nothing
+    o.userData = LightXML.find_element(pd,"userData") != nothing ?  UserDataType(LightXML.find_element(pd,"userData")) : nothing
+    o.instanceType = LightXML.content(LightXML.find_element(pd, "instanceType"))
+    ## o.placement = length(pd["placement"]) > 0 ?  InstancePlacementType(LightXML.find_element(pd,"placement[1]")) : nothing
+    o.placement = LightXML.find_element(pd,"placement") != nothing ?  InstancePlacementType(LightXML.find_element(pd,"placement")) : nothing
+    ## o.monitoring = length(pd["monitoring"]) > 0 ?  MonitoringInstanceType(LightXML.find_element(pd,"monitoring[1]")) : nothing
+    o.monitoring = LightXML.find_element(pd,"monitoring") != nothing ?  MonitoringInstanceType(LightXML.find_element(pd,"monitoring")) : nothing
+    o.subnetId = LightXML.content(LightXML.find_element(pd, "subnetId"))
+    o.instanceInitiatedShutdownBehavior = LightXML.content(LightXML.find_element(pd, "instanceInitiatedShutdownBehavior"))
+    o.privateIpAddress = LightXML.content(LightXML.find_element(pd, "privateIpAddress"))
     o
 end
 
@@ -7786,11 +7821,11 @@ type DescribeAddressesType
     DescribeAddressesType(; publicIpsSet=nothing, allocationIdsSet=nothing, filterSet=nothing) =
          new(publicIpsSet, allocationIdsSet, filterSet)
 end
-function DescribeAddressesType(pd::ETree)
+function DescribeAddressesType(pd)
     o = DescribeAddressesType()
-    o.publicIpsSet = AWS.parse_vector_as(ASCIIString, "publicIp", LibExpat.find(pd, "item/publicIp"))
-    o.allocationIdsSet = AWS.parse_vector_as(ASCIIString, "allocationId", LibExpat.find(pd, "item/allocationId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
+    o.publicIpsSet = AWS.parse_vector_as(ASCIIString, "publicIp", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "publicIp"))
+    o.allocationIdsSet = AWS.parse_vector_as(ASCIIString, "allocationId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "allocationId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -7804,10 +7839,10 @@ type VolumeStatusInfoType
     VolumeStatusInfoType(; status=nothing, details=nothing) =
          new(status, details)
 end
-function VolumeStatusInfoType(pd::ETree)
+function VolumeStatusInfoType(pd)
     o = VolumeStatusInfoType()
-    o.status = LibExpat.find(pd, "status#string")
-    o.details = AWS.@parse_vector(AWS.EC2.VolumeStatusDetailsItemType, LibExpat.find(pd, "details/item"))
+    o.status = LightXML.content(LightXML.find_element(pd, "status"))
+    o.details = AWS.@parse_vector(AWS.EC2.VolumeStatusDetailsItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "details"), "item"))
     o
 end
 
@@ -7821,10 +7856,10 @@ type StartInstancesResponseType
     StartInstancesResponseType(; requestId=nothing, instancesSet=nothing) =
          new(requestId, instancesSet)
 end
-function StartInstancesResponseType(pd::ETree)
+function StartInstancesResponseType(pd)
     o = StartInstancesResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.instancesSet = AWS.@parse_vector(AWS.EC2.InstanceStateChangeType, LibExpat.find(pd, "instancesSet/item"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.instancesSet = AWS.@parse_vector(AWS.EC2.InstanceStateChangeType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "instancesSet"), "item"))
     o
 end
 
@@ -7840,12 +7875,13 @@ type CreateVpnConnectionType
     CreateVpnConnectionType(; _type=nothing, customerGatewayId=nothing, vpnGatewayId=nothing, options=nothing) =
          new(_type, customerGatewayId, vpnGatewayId, options)
 end
-function CreateVpnConnectionType(pd::ETree)
+function CreateVpnConnectionType(pd)
     o = CreateVpnConnectionType()
-    o._type = LibExpat.find(pd, "type#string")
-    o.customerGatewayId = LibExpat.find(pd, "customerGatewayId#string")
-    o.vpnGatewayId = LibExpat.find(pd, "vpnGatewayId#string")
-    o.options = length(pd["options"]) > 0 ?  VpnConnectionOptionsRequestType(LibExpat.find(pd,"options[1]")) : nothing
+    o._type = LightXML.content(LightXML.find_element(pd, "type"))
+    o.customerGatewayId = LightXML.content(LightXML.find_element(pd, "customerGatewayId"))
+    o.vpnGatewayId = LightXML.content(LightXML.find_element(pd, "vpnGatewayId"))
+    ## o.options = length(pd["options"]) > 0 ?  VpnConnectionOptionsRequestType(LightXML.find_element(pd,"options[1]")) : nothing
+    o.options = LightXML.find_element(pd,"options") != nothing ? VpnConnectionOptionsRequestType(LightXML.find_element(pd,"options")) : nothing
     o
 end
 
@@ -7859,10 +7895,10 @@ type AuthorizeSecurityGroupEgressType
     AuthorizeSecurityGroupEgressType(; groupId=nothing, ipPermissions=nothing) =
          new(groupId, ipPermissions)
 end
-function AuthorizeSecurityGroupEgressType(pd::ETree)
+function AuthorizeSecurityGroupEgressType(pd)
     o = AuthorizeSecurityGroupEgressType()
-    o.groupId = LibExpat.find(pd, "groupId#string")
-    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, LibExpat.find(pd, "ipPermissions/item"))
+    o.groupId = LightXML.content(LightXML.find_element(pd, "groupId"))
+    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "ipPermissions"), "item"))
     o
 end
 
@@ -7876,10 +7912,10 @@ type CreateReservedInstancesListingResponseType
     CreateReservedInstancesListingResponseType(; requestId=nothing, reservedInstancesListingsSet=nothing) =
          new(requestId, reservedInstancesListingsSet)
 end
-function CreateReservedInstancesListingResponseType(pd::ETree)
+function CreateReservedInstancesListingResponseType(pd)
     o = CreateReservedInstancesListingResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.reservedInstancesListingsSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesListingsResponseSetItemType, LibExpat.find(pd, "reservedInstancesListingsSet/item"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.reservedInstancesListingsSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesListingsResponseSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "reservedInstancesListingsSet"), "item"))
     o
 end
 
@@ -7897,14 +7933,14 @@ type NetworkAclType
     NetworkAclType(; networkAclId=nothing, vpcId=nothing, default=nothing, entrySet=nothing, associationSet=nothing, tagSet=nothing) =
          new(networkAclId, vpcId, default, entrySet, associationSet, tagSet)
 end
-function NetworkAclType(pd::ETree)
+function NetworkAclType(pd)
     o = NetworkAclType()
-    o.networkAclId = LibExpat.find(pd, "networkAclId#string")
-    o.vpcId = LibExpat.find(pd, "vpcId#string")
-    o.default = AWS.safe_parse_as(Bool, LibExpat.find(pd, "default#string"))
-    o.entrySet = AWS.@parse_vector(AWS.EC2.NetworkAclEntryType, LibExpat.find(pd, "entrySet/item"))
-    o.associationSet = AWS.@parse_vector(AWS.EC2.NetworkAclAssociationType, LibExpat.find(pd, "associationSet/item"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
+    o.networkAclId = LightXML.content(LightXML.find_element(pd, "networkAclId"))
+    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
+    o.default = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "default")))
+    o.entrySet = AWS.@parse_vector(AWS.EC2.NetworkAclEntryType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "entrySet"), "item"))
+    o.associationSet = AWS.@parse_vector(AWS.EC2.NetworkAclAssociationType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "associationSet"), "item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
     o
 end
 
@@ -7918,10 +7954,10 @@ type DescribeAddressesResponseType
     DescribeAddressesResponseType(; requestId=nothing, addressesSet=nothing) =
          new(requestId, addressesSet)
 end
-function DescribeAddressesResponseType(pd::ETree)
+function DescribeAddressesResponseType(pd)
     o = DescribeAddressesResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.addressesSet = AWS.@parse_vector(AWS.EC2.DescribeAddressesResponseItemType, LibExpat.find(pd, "addressesSet/item"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.addressesSet = AWS.@parse_vector(AWS.EC2.DescribeAddressesResponseItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "addressesSet"), "item"))
     o
 end
 
@@ -7935,10 +7971,10 @@ type TerminateInstancesResponseType
     TerminateInstancesResponseType(; requestId=nothing, instancesSet=nothing) =
          new(requestId, instancesSet)
 end
-function TerminateInstancesResponseType(pd::ETree)
+function TerminateInstancesResponseType(pd)
     o = TerminateInstancesResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.instancesSet = AWS.@parse_vector(AWS.EC2.InstanceStateChangeType, LibExpat.find(pd, "instancesSet/item"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.instancesSet = AWS.@parse_vector(AWS.EC2.InstanceStateChangeType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "instancesSet"), "item"))
     o
 end
 
@@ -7953,11 +7989,13 @@ type DiskImageType
     DiskImageType(; image=nothing, description=nothing, volume=nothing) =
          new(image, description, volume)
 end
-function DiskImageType(pd::ETree)
+function DiskImageType(pd)
     o = DiskImageType()
-    o.image = length(pd["image"]) > 0 ?  DiskImageDetailType(LibExpat.find(pd,"image[1]")) : nothing
-    o.description = LibExpat.find(pd, "description#string")
-    o.volume = length(pd["volume"]) > 0 ?  DiskImageVolumeType(LibExpat.find(pd,"volume[1]")) : nothing
+    ## o.image = length(pd["image"]) > 0 ?  DiskImageDetailType(LightXML.find_element(pd,"image[1]")) : nothing
+    o.image = LightXML.find_element(pd,"image") != nothing ? DiskImageDetailType(LightXML.find_element(pd,"image")) : nothing
+    o.description = LightXML.content(LightXML.find_element(pd, "description"))
+    ## o.volume = length(pd["volume"]) > 0 ?  DiskImageVolumeType(LightXML.find_element(pd,"volume[1]")) : nothing
+    o.volume = LightXML.find_element(pd,"volume") != nothing ? DiskImageVolumeType(LightXML.find_element(pd,"volume")) : nothing
     o
 end
 
@@ -7993,32 +8031,37 @@ type RunInstancesType
     RunInstancesType(; imageId=nothing, minCount=nothing, maxCount=nothing, keyName=nothing, securityGroupIdSet=nothing, securityGroupSet=nothing, additionalInfo=nothing, userData=nothing, addressingType=nothing, instanceType=nothing, placement=nothing, kernelId=nothing, ramdiskId=nothing, blockDeviceMapping=nothing, monitoring=nothing, subnetId=nothing, disableApiTermination=nothing, instanceInitiatedShutdownBehavior=nothing, license=nothing, privateIpAddress=nothing, clientToken=nothing, networkInterfaceSet=nothing, iamInstanceProfile=nothing, ebsOptimized=nothing) =
          new(imageId, minCount, maxCount, keyName, securityGroupIdSet, securityGroupSet, additionalInfo, userData, addressingType, instanceType, placement, kernelId, ramdiskId, blockDeviceMapping, monitoring, subnetId, disableApiTermination, instanceInitiatedShutdownBehavior, license, privateIpAddress, clientToken, networkInterfaceSet, iamInstanceProfile, ebsOptimized)
 end
-function RunInstancesType(pd::ETree)
+function RunInstancesType(pd)
     o = RunInstancesType()
-    o.imageId = LibExpat.find(pd, "imageId#string")
-    o.minCount = AWS.safe_parse_as(Int64, LibExpat.find(pd, "minCount#string"))
-    o.maxCount = AWS.safe_parse_as(Int64, LibExpat.find(pd, "maxCount#string"))
-    o.keyName = LibExpat.find(pd, "keyName#string")
-    o.securityGroupIdSet = AWS.parse_vector_as(ASCIIString, "securityGroupId", LibExpat.find(pd, "item/securityGroupId"))
-    o.securityGroupSet = AWS.parse_vector_as(ASCIIString, "securityGroup", LibExpat.find(pd, "item/securityGroup"))
-    o.additionalInfo = LibExpat.find(pd, "additionalInfo#string")
-    o.userData = length(pd["userData"]) > 0 ?  UserDataType(LibExpat.find(pd,"userData[1]")) : nothing
-    o.addressingType = LibExpat.find(pd, "addressingType#string")
-    o.instanceType = LibExpat.find(pd, "instanceType#string")
-    o.placement = length(pd["placement"]) > 0 ?  PlacementRequestType(LibExpat.find(pd,"placement[1]")) : nothing
-    o.kernelId = LibExpat.find(pd, "kernelId#string")
-    o.ramdiskId = LibExpat.find(pd, "ramdiskId#string")
-    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, LibExpat.find(pd, "blockDeviceMapping/item"))
-    o.monitoring = length(pd["monitoring"]) > 0 ?  MonitoringInstanceType(LibExpat.find(pd,"monitoring[1]")) : nothing
-    o.subnetId = LibExpat.find(pd, "subnetId#string")
-    o.disableApiTermination = AWS.safe_parse_as(Bool, LibExpat.find(pd, "disableApiTermination#string"))
-    o.instanceInitiatedShutdownBehavior = LibExpat.find(pd, "instanceInitiatedShutdownBehavior#string")
-    o.license = length(pd["license"]) > 0 ?  InstanceLicenseRequestType(LibExpat.find(pd,"license[1]")) : nothing
-    o.privateIpAddress = LibExpat.find(pd, "privateIpAddress#string")
-    o.clientToken = LibExpat.find(pd, "clientToken#string")
-    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.InstanceNetworkInterfaceSetItemRequestType, LibExpat.find(pd, "networkInterfaceSet/item"))
-    o.iamInstanceProfile = length(pd["iamInstanceProfile"]) > 0 ?  IamInstanceProfileRequestType(LibExpat.find(pd,"iamInstanceProfile[1]")) : nothing
-    o.ebsOptimized = AWS.safe_parse_as(Bool, LibExpat.find(pd, "ebsOptimized#string"))
+    o.imageId = LightXML.content(LightXML.find_element(pd, "imageId"))
+    o.minCount = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "minCount")))
+    o.maxCount = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "maxCount")))
+    o.keyName = LightXML.content(LightXML.find_element(pd, "keyName"))
+    o.securityGroupIdSet = AWS.parse_vector_as(ASCIIString, "securityGroupId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "securityGroupId"))
+    o.securityGroupSet = AWS.parse_vector_as(ASCIIString, "securityGroup", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "securityGroup"))
+    o.additionalInfo = LightXML.content(LightXML.find_element(pd, "additionalInfo"))
+    ## o.userData = length(pd["userData"]) > 0 ?  UserDataType(LightXML.find_element(pd,"userData[1]")) : nothing
+    o.userData = LightXML.find_element(pd,"userData") != nothing ?  UserDataType(LightXML.find_element(pd,"userData")) : nothing
+    o.addressingType = LightXML.content(LightXML.find_element(pd, "addressingType"))
+    o.instanceType = LightXML.content(LightXML.find_element(pd, "instanceType"))
+    ## o.placement = length(pd["placement"]) > 0 ?  PlacementRequestType(LightXML.find_element(pd,"placement[1]")) : nothing
+    o.placement = LightXML.find_element(pd,"placement") != nothing ?  PlacementRequestType(LightXML.find_element(pd,"placement")) : nothing
+    o.kernelId = LightXML.content(LightXML.find_element(pd, "kernelId"))
+    o.ramdiskId = LightXML.content(LightXML.find_element(pd, "ramdiskId"))
+    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "blockDeviceMapping"), "item"))
+    ## o.monitoring = length(pd["monitoring"]) > 0 ?  MonitoringInstanceType(LightXML.find_element(pd,"monitoring[1]")) : nothing
+    o.monitoring = LightXML.find_element(pd,"monitoring") != nothing ?  MonitoringInstanceType(LightXML.find_element(pd,"monitoring")) : nothing
+    o.subnetId = LightXML.content(LightXML.find_element(pd, "subnetId"))
+    o.disableApiTermination = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "disableApiTermination")))
+    o.instanceInitiatedShutdownBehavior = LightXML.content(LightXML.find_element(pd, "instanceInitiatedShutdownBehavior"))
+    ## o.license = length(pd["license"]) > 0 ?  InstanceLicenseRequestType(LightXML.find_element(pd,"license[1]")) : nothing
+    o.license = LightXML.find_element(pd,"license") != nothing ?  InstanceLicenseRequestType(LightXML.find_element(pd,"license")) : nothing
+    o.privateIpAddress = LightXML.content(LightXML.find_element(pd, "privateIpAddress"))
+    o.clientToken = LightXML.content(LightXML.find_element(pd, "clientToken"))
+    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.InstanceNetworkInterfaceSetItemRequestType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "networkInterfaceSet"), "item"))
+    ## o.iamInstanceProfile = length(pd["iamInstanceProfile"]) > 0 ?  IamInstanceProfileRequestType(LightXML.find_element(pd,"iamInstanceProfile[1]")) : nothing
+    o.iamInstanceProfile = LightXML.find_element(pd,"iamInstanceProfile") ?  IamInstanceProfileRequestType(LightXML.find_element(pd,"iamInstanceProfile")) : nothing
+    o.ebsOptimized = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "ebsOptimized")))
     o
 end
 
@@ -8032,10 +8075,10 @@ type DescribeAvailabilityZonesType
     DescribeAvailabilityZonesType(; availabilityZoneSet=nothing, filterSet=nothing) =
          new(availabilityZoneSet, filterSet)
 end
-function DescribeAvailabilityZonesType(pd::ETree)
+function DescribeAvailabilityZonesType(pd)
     o = DescribeAvailabilityZonesType()
-    o.availabilityZoneSet = AWS.parse_vector_as(ASCIIString, "zoneName", LibExpat.find(pd, "item/zoneName"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
+    o.availabilityZoneSet = AWS.parse_vector_as(ASCIIString, "zoneName", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "zoneName"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -8049,10 +8092,10 @@ type CreateVolumePermissionOperationType
     CreateVolumePermissionOperationType(; add=nothing, remove=nothing) =
          new(add, remove)
 end
-function CreateVolumePermissionOperationType(pd::ETree)
+function CreateVolumePermissionOperationType(pd)
     o = CreateVolumePermissionOperationType()
-    o.add = AWS.@parse_vector(AWS.EC2.CreateVolumePermissionItemType, LibExpat.find(pd, "add/item"))
-    o.remove = AWS.@parse_vector(AWS.EC2.CreateVolumePermissionItemType, LibExpat.find(pd, "remove/item"))
+    o.add = AWS.@parse_vector(AWS.EC2.CreateVolumePermissionItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "add"), "item"))
+    o.remove = AWS.@parse_vector(AWS.EC2.CreateVolumePermissionItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "remove"), "item"))
     o
 end
 
@@ -8078,22 +8121,24 @@ type InstanceNetworkInterfaceSetItemType
     InstanceNetworkInterfaceSetItemType(; networkInterfaceId=nothing, subnetId=nothing, vpcId=nothing, description=nothing, ownerId=nothing, status=nothing, macAddress=nothing, privateIpAddress=nothing, privateDnsName=nothing, sourceDestCheck=nothing, groupSet=nothing, attachment=nothing, association=nothing, privateIpAddressesSet=nothing) =
          new(networkInterfaceId, subnetId, vpcId, description, ownerId, status, macAddress, privateIpAddress, privateDnsName, sourceDestCheck, groupSet, attachment, association, privateIpAddressesSet)
 end
-function InstanceNetworkInterfaceSetItemType(pd::ETree)
+function InstanceNetworkInterfaceSetItemType(pd)
     o = InstanceNetworkInterfaceSetItemType()
-    o.networkInterfaceId = LibExpat.find(pd, "networkInterfaceId#string")
-    o.subnetId = LibExpat.find(pd, "subnetId#string")
-    o.vpcId = LibExpat.find(pd, "vpcId#string")
-    o.description = LibExpat.find(pd, "description#string")
-    o.ownerId = LibExpat.find(pd, "ownerId#string")
-    o.status = LibExpat.find(pd, "status#string")
-    o.macAddress = LibExpat.find(pd, "macAddress#string")
-    o.privateIpAddress = LibExpat.find(pd, "privateIpAddress#string")
-    o.privateDnsName = LibExpat.find(pd, "privateDnsName#string")
-    o.sourceDestCheck = AWS.safe_parse_as(Bool, LibExpat.find(pd, "sourceDestCheck#string"))
-    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, LibExpat.find(pd, "groupSet/item"))
-    o.attachment = length(pd["attachment"]) > 0 ?  InstanceNetworkInterfaceAttachmentType(LibExpat.find(pd,"attachment[1]")) : nothing
-    o.association = length(pd["association"]) > 0 ?  InstanceNetworkInterfaceAssociationType(LibExpat.find(pd,"association[1]")) : nothing
-    o.privateIpAddressesSet = AWS.@parse_vector(AWS.EC2.InstancePrivateIpAddressesSetItemType, LibExpat.find(pd, "privateIpAddressesSet/item"))
+    o.networkInterfaceId = LightXML.content(LightXML.find_element(pd, "networkInterfaceId"))
+    o.subnetId = LightXML.content(LightXML.find_element(pd, "subnetId"))
+    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
+    o.description = LightXML.content(LightXML.find_element(pd, "description"))
+    o.ownerId = LightXML.content(LightXML.find_element(pd, "ownerId"))
+    o.status = LightXML.content(LightXML.find_element(pd, "status"))
+    o.macAddress = LightXML.content(LightXML.find_element(pd, "macAddress"))
+    o.privateIpAddress = LightXML.content(LightXML.find_element(pd, "privateIpAddress"))
+    o.privateDnsName = LightXML.content(LightXML.find_element(pd, "privateDnsName"))
+    o.sourceDestCheck = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "sourceDestCheck")))
+    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "groupSet"), "item"))
+    ## o.attachment = length(pd["attachment"]) > 0 ?  InstanceNetworkInterfaceAttachmentType(LightXML.find_element(pd,"attachment[1]")) : nothing
+    o.attachment = LightXML.find_element(pd,"attachment") != nothing ?  InstanceNetworkInterfaceAttachmentType(LightXML.find_element(pd,"attachment")) : nothing
+    ## o.association = length(pd["association"]) > 0 ?  InstanceNetworkInterfaceAssociationType(LightXML.find_element(pd,"association[1]")) : nothing
+    o.association = LightXML.find_element(pd,"association") != nothing ?  InstanceNetworkInterfaceAssociationType(LightXML.find_element(pd,"association")) : nothing
+    o.privateIpAddressesSet = AWS.@parse_vector(AWS.EC2.InstancePrivateIpAddressesSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "privateIpAddressesSet"), "item"))
     o
 end
 
@@ -8110,13 +8155,13 @@ type LicenseSetItemType
     LicenseSetItemType(; licenseId=nothing, _type=nothing, pool=nothing, capacitySet=nothing, tagSet=nothing) =
          new(licenseId, _type, pool, capacitySet, tagSet)
 end
-function LicenseSetItemType(pd::ETree)
+function LicenseSetItemType(pd)
     o = LicenseSetItemType()
-    o.licenseId = LibExpat.find(pd, "licenseId#string")
-    o._type = LibExpat.find(pd, "type#string")
-    o.pool = LibExpat.find(pd, "pool#string")
-    o.capacitySet = AWS.@parse_vector(AWS.EC2.LicenseCapacitySetItemType, LibExpat.find(pd, "capacitySet/item"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
+    o.licenseId = LightXML.content(LightXML.find_element(pd, "licenseId"))
+    o._type = LightXML.content(LightXML.find_element(pd, "type"))
+    o.pool = LightXML.content(LightXML.find_element(pd, "pool"))
+    o.capacitySet = AWS.@parse_vector(AWS.EC2.LicenseCapacitySetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "capacitySet"), "item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
     o
 end
 
@@ -8133,13 +8178,15 @@ type ImportVolumeTaskDetailsType
     ImportVolumeTaskDetailsType(; bytesConverted=nothing, availabilityZone=nothing, description=nothing, image=nothing, volume=nothing) =
          new(bytesConverted, availabilityZone, description, image, volume)
 end
-function ImportVolumeTaskDetailsType(pd::ETree)
+function ImportVolumeTaskDetailsType(pd)
     o = ImportVolumeTaskDetailsType()
-    o.bytesConverted = AWS.safe_parse_as(Int64, LibExpat.find(pd, "bytesConverted#string"))
-    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
-    o.description = LibExpat.find(pd, "description#string")
-    o.image = length(pd["image"]) > 0 ?  DiskImageDescriptionType(LibExpat.find(pd,"image[1]")) : nothing
-    o.volume = length(pd["volume"]) > 0 ?  DiskImageVolumeDescriptionType(LibExpat.find(pd,"volume[1]")) : nothing
+    o.bytesConverted = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "bytesConverted")))
+    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
+    o.description = LightXML.content(LightXML.find_element(pd, "description"))
+    ## o.image = length(pd["image"]) > 0 ?  DiskImageDescriptionType(LightXML.find_element(pd,"image[1]")) : nothing
+    o.image = LightXML.find_element(pd,"image") != nothing ?  DiskImageDescriptionType(LightXML.find_element(pd,"image")) : nothing
+    ## o.volume = length(pd["volume"]) > 0 ?  DiskImageVolumeDescriptionType(LightXML.find_element(pd,"volume[1]")) : nothing
+    o.volume = LightXML.find_element(pd,"volume") != nothing ?  DiskImageVolumeDescriptionType(LightXML.find_element(pd,"volume")) : nothing
     o
 end
 
@@ -8153,10 +8200,10 @@ type DescribeReservedInstancesListingsResponseType
     DescribeReservedInstancesListingsResponseType(; requestId=nothing, reservedInstancesListingsSet=nothing) =
          new(requestId, reservedInstancesListingsSet)
 end
-function DescribeReservedInstancesListingsResponseType(pd::ETree)
+function DescribeReservedInstancesListingsResponseType(pd)
     o = DescribeReservedInstancesListingsResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.reservedInstancesListingsSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesListingsResponseSetItemType, LibExpat.find(pd, "reservedInstancesListingsSet/item"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.reservedInstancesListingsSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesListingsResponseSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "reservedInstancesListingsSet"), "item"))
     o
 end
 
@@ -8170,10 +8217,10 @@ type RevokeSecurityGroupIngressType
     RevokeSecurityGroupIngressType(; userId=nothing, ipPermissions=nothing) =
          new(userId, ipPermissions)
 end
-function RevokeSecurityGroupIngressType(pd::ETree)
+function RevokeSecurityGroupIngressType(pd)
     o = RevokeSecurityGroupIngressType()
-    o.userId = LibExpat.find(pd, "userId#string")
-    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, LibExpat.find(pd, "ipPermissions/item"))
+    o.userId = LightXML.content(LightXML.find_element(pd, "userId"))
+    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "ipPermissions"), "item"))
     o
 end
 
@@ -8187,10 +8234,10 @@ type StopInstancesResponseType
     StopInstancesResponseType(; requestId=nothing, instancesSet=nothing) =
          new(requestId, instancesSet)
 end
-function StopInstancesResponseType(pd::ETree)
+function StopInstancesResponseType(pd)
     o = StopInstancesResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.instancesSet = AWS.@parse_vector(AWS.EC2.InstanceStateChangeType, LibExpat.find(pd, "instancesSet/item"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.instancesSet = AWS.@parse_vector(AWS.EC2.InstanceStateChangeType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "instancesSet"), "item"))
     o
 end
 
@@ -8206,12 +8253,14 @@ type ImportVolumeType
     ImportVolumeType(; availabilityZone=nothing, image=nothing, description=nothing, volume=nothing) =
          new(availabilityZone, image, description, volume)
 end
-function ImportVolumeType(pd::ETree)
+function ImportVolumeType(pd)
     o = ImportVolumeType()
-    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
-    o.image = length(pd["image"]) > 0 ?  DiskImageDetailType(LibExpat.find(pd,"image[1]")) : nothing
-    o.description = LibExpat.find(pd, "description#string")
-    o.volume = length(pd["volume"]) > 0 ?  DiskImageVolumeType(LibExpat.find(pd,"volume[1]")) : nothing
+    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
+    ## o.image = length(pd["image"]) > 0 ?  DiskImageDetailType(LightXML.find_element(pd,"image[1]")) : nothing
+    o.image = LightXML.find_element(pd,"image") != nothing ?  DiskImageDetailType(LightXML.find_element(pd,"image")) : nothing
+    o.description = LightXML.content(LightXML.find_element(pd, "description"))
+    ## o.volume = length(pd["volume"]) > 0 ?  DiskImageVolumeType(LightXML.find_element(pd,"volume[1]")) : nothing
+    o.volume = LightXML.find_element(pd,"volume") != nothing ? DiskImageVolumeType(LightXML.find_element(pd,"volume")) : nothing
     o
 end
 
@@ -8233,18 +8282,19 @@ type VpnConnectionType
     VpnConnectionType(; vpnConnectionId=nothing, state=nothing, customerGatewayConfiguration=nothing, _type=nothing, customerGatewayId=nothing, vpnGatewayId=nothing, tagSet=nothing, vgwTelemetry=nothing, options=nothing, routes=nothing) =
          new(vpnConnectionId, state, customerGatewayConfiguration, _type, customerGatewayId, vpnGatewayId, tagSet, vgwTelemetry, options, routes)
 end
-function VpnConnectionType(pd::ETree)
+function VpnConnectionType(pd)
     o = VpnConnectionType()
-    o.vpnConnectionId = LibExpat.find(pd, "vpnConnectionId#string")
-    o.state = LibExpat.find(pd, "state#string")
-    o.customerGatewayConfiguration = LibExpat.find(pd, "customerGatewayConfiguration#string")
-    o._type = LibExpat.find(pd, "type#string")
-    o.customerGatewayId = LibExpat.find(pd, "customerGatewayId#string")
-    o.vpnGatewayId = LibExpat.find(pd, "vpnGatewayId#string")
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
-    o.vgwTelemetry = AWS.@parse_vector(AWS.EC2.VpnTunnelTelemetryType, LibExpat.find(pd, "vgwTelemetry/item"))
-    o.options = length(pd["options"]) > 0 ?  VpnConnectionOptionsResponseType(LibExpat.find(pd,"options[1]")) : nothing
-    o.routes = AWS.@parse_vector(AWS.EC2.VpnStaticRouteType, LibExpat.find(pd, "routes/item"))
+    o.vpnConnectionId = LightXML.content(LightXML.find_element(pd, "vpnConnectionId"))
+    o.state = LightXML.content(LightXML.find_element(pd, "state"))
+    o.customerGatewayConfiguration = LightXML.content(LightXML.find_element(pd, "customerGatewayConfiguration"))
+    o._type = LightXML.content(LightXML.find_element(pd, "type"))
+    o.customerGatewayId = LightXML.content(LightXML.find_element(pd, "customerGatewayId"))
+    o.vpnGatewayId = LightXML.content(LightXML.find_element(pd, "vpnGatewayId"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
+    o.vgwTelemetry = AWS.@parse_vector(AWS.EC2.VpnTunnelTelemetryType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "vgwTelemetry"), "item"))
+    ## o.options = length(pd["options"]) > 0 ?  VpnConnectionOptionsResponseType(LightXML.find_element(pd,"options[1]")) : nothing
+    o.options = LightXML.find_element(pd,"options") != nothing ? VpnConnectionOptionsResponseType(LightXML.find_element(pd,"options")) : nothing
+    o.routes = AWS.@parse_vector(AWS.EC2.VpnStaticRouteType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "routes"), "item"))
     o
 end
 
@@ -8258,10 +8308,10 @@ type DescribeInstancesType
     DescribeInstancesType(; instancesSet=nothing, filterSet=nothing) =
          new(instancesSet, filterSet)
 end
-function DescribeInstancesType(pd::ETree)
+function DescribeInstancesType(pd)
     o = DescribeInstancesType()
-    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", LibExpat.find(pd, "item/instanceId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
+    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -8275,10 +8325,10 @@ type DescribeImagesResponseType
     DescribeImagesResponseType(; requestId=nothing, imagesSet=nothing) =
          new(requestId, imagesSet)
 end
-function DescribeImagesResponseType(pd::ETree)
+function DescribeImagesResponseType(pd)
     o = DescribeImagesResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.imagesSet = AWS.@parse_vector(AWS.EC2.DescribeImagesResponseItemType, LibExpat.find(pd, "imagesSet/item"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.imagesSet = AWS.@parse_vector(AWS.EC2.DescribeImagesResponseItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "imagesSet"), "item"))
     o
 end
 
@@ -8296,14 +8346,14 @@ type CustomerGatewayType
     CustomerGatewayType(; customerGatewayId=nothing, state=nothing, _type=nothing, ipAddress=nothing, bgpAsn=nothing, tagSet=nothing) =
          new(customerGatewayId, state, _type, ipAddress, bgpAsn, tagSet)
 end
-function CustomerGatewayType(pd::ETree)
+function CustomerGatewayType(pd)
     o = CustomerGatewayType()
-    o.customerGatewayId = LibExpat.find(pd, "customerGatewayId#string")
-    o.state = LibExpat.find(pd, "state#string")
-    o._type = LibExpat.find(pd, "type#string")
-    o.ipAddress = LibExpat.find(pd, "ipAddress#string")
-    o.bgpAsn = AWS.safe_parse_as(Int64, LibExpat.find(pd, "bgpAsn#string"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
+    o.customerGatewayId = LightXML.content(LightXML.find_element(pd, "customerGatewayId"))
+    o.state = LightXML.content(LightXML.find_element(pd, "state"))
+    o._type = LightXML.content(LightXML.find_element(pd, "type"))
+    o.ipAddress = LightXML.content(LightXML.find_element(pd, "ipAddress"))
+    o.bgpAsn = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "bgpAsn")))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
     o
 end
 
@@ -8324,17 +8374,17 @@ type SubnetType
     SubnetType(; subnetId=nothing, state=nothing, vpcId=nothing, cidrBlock=nothing, availableIpAddressCount=nothing, availabilityZone=nothing, defaultForAz=nothing, mapPublicIpOnLaunch=nothing, tagSet=nothing) =
          new(subnetId, state, vpcId, cidrBlock, availableIpAddressCount, availabilityZone, defaultForAz, mapPublicIpOnLaunch, tagSet)
 end
-function SubnetType(pd::ETree)
+function SubnetType(pd)
     o = SubnetType()
-    o.subnetId = LibExpat.find(pd, "subnetId#string")
-    o.state = LibExpat.find(pd, "state#string")
-    o.vpcId = LibExpat.find(pd, "vpcId#string")
-    o.cidrBlock = LibExpat.find(pd, "cidrBlock#string")
-    o.availableIpAddressCount = AWS.safe_parse_as(Int64, LibExpat.find(pd, "availableIpAddressCount#string"))
-    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
-    o.defaultForAz = AWS.safe_parse_as(Bool, LibExpat.find(pd, "defaultForAz#string"))
-    o.mapPublicIpOnLaunch = AWS.safe_parse_as(Bool, LibExpat.find(pd, "mapPublicIpOnLaunch#string"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
+    o.subnetId = LightXML.content(LightXML.find_element(pd, "subnetId"))
+    o.state = LightXML.content(LightXML.find_element(pd, "state"))
+    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
+    o.cidrBlock = LightXML.content(LightXML.find_element(pd, "cidrBlock"))
+    o.availableIpAddressCount = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "availableIpAddressCount")))
+    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
+    o.defaultForAz = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "defaultForAz")))
+    o.mapPublicIpOnLaunch = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "mapPublicIpOnLaunch")))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
     o
 end
 
@@ -8348,10 +8398,10 @@ type DescribeLicensesResponseType
     DescribeLicensesResponseType(; requestId=nothing, licenseSet=nothing) =
          new(requestId, licenseSet)
 end
-function DescribeLicensesResponseType(pd::ETree)
+function DescribeLicensesResponseType(pd)
     o = DescribeLicensesResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.licenseSet = AWS.@parse_vector(AWS.EC2.LicenseSetItemType, LibExpat.find(pd, "licenseSet/item"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.licenseSet = AWS.@parse_vector(AWS.EC2.LicenseSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "licenseSet"), "item"))
     o
 end
 
@@ -8367,12 +8417,13 @@ type NetworkInterfacePrivateIpAddressesSetItemType
     NetworkInterfacePrivateIpAddressesSetItemType(; privateIpAddress=nothing, privateDnsName=nothing, primary=nothing, association=nothing) =
          new(privateIpAddress, privateDnsName, primary, association)
 end
-function NetworkInterfacePrivateIpAddressesSetItemType(pd::ETree)
+function NetworkInterfacePrivateIpAddressesSetItemType(pd)
     o = NetworkInterfacePrivateIpAddressesSetItemType()
-    o.privateIpAddress = LibExpat.find(pd, "privateIpAddress#string")
-    o.privateDnsName = LibExpat.find(pd, "privateDnsName#string")
-    o.primary = AWS.safe_parse_as(Bool, LibExpat.find(pd, "primary#string"))
-    o.association = length(pd["association"]) > 0 ?  NetworkInterfaceAssociationType(LibExpat.find(pd,"association[1]")) : nothing
+    o.privateIpAddress = LightXML.content(LightXML.find_element(pd, "privateIpAddress"))
+    o.privateDnsName = LightXML.content(LightXML.find_element(pd, "privateDnsName"))
+    o.primary = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "primary")))
+    ## o.association = length(pd["association"]) > 0 ?  NetworkInterfaceAssociationType(LightXML.find_element(pd,"association[1]")) : nothing
+    o.association = LightXML.find_element(pd,"association") != nothing ? NetworkInterfaceAssociationType(LightXML.find_element(pd,"association")) : nothing
     o
 end
 
@@ -8386,10 +8437,11 @@ type CreateVpnConnectionResponseType
     CreateVpnConnectionResponseType(; requestId=nothing, vpnConnection=nothing) =
          new(requestId, vpnConnection)
 end
-function CreateVpnConnectionResponseType(pd::ETree)
+function CreateVpnConnectionResponseType(pd)
     o = CreateVpnConnectionResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.vpnConnection = length(pd["vpnConnection"]) > 0 ?  VpnConnectionType(LibExpat.find(pd,"vpnConnection[1]")) : nothing
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    ## o.vpnConnection = length(pd["vpnConnection"]) > 0 ?  VpnConnectionType(LightXML.find_element(pd,"vpnConnection[1]")) : nothing
+    o.vpnConnection = LightXML.find_element(pd,"vpnConnection") != nothing ? VpnConnectionType(LightXML.find_element(pd,"vpnConnection")) : nothing
     o
 end
 
@@ -8403,10 +8455,10 @@ type DescribeTagsResponseType
     DescribeTagsResponseType(; requestId=nothing, tagSet=nothing) =
          new(requestId, tagSet)
 end
-function DescribeTagsResponseType(pd::ETree)
+function DescribeTagsResponseType(pd)
     o = DescribeTagsResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.tagSet = AWS.@parse_vector(AWS.EC2.TagSetItemType, LibExpat.find(pd, "tagSet/item"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.TagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
     o
 end
 
@@ -8420,10 +8472,11 @@ type CreateInternetGatewayResponseType
     CreateInternetGatewayResponseType(; requestId=nothing, internetGateway=nothing) =
          new(requestId, internetGateway)
 end
-function CreateInternetGatewayResponseType(pd::ETree)
+function CreateInternetGatewayResponseType(pd)
     o = CreateInternetGatewayResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.internetGateway = length(pd["internetGateway"]) > 0 ?  InternetGatewayType(LibExpat.find(pd,"internetGateway[1]")) : nothing
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    ## o.internetGateway = length(pd["internetGateway"]) > 0 ?  InternetGatewayType(LightXML.find_element(pd,"internetGateway[1]")) : nothing
+    o.internetGateway = LightXML.find_element(pd,"internetGateway") != nothing ? InternetGatewayType(LightXML.find_element(pd,"internetGateway")) : nothing
     o
 end
 
@@ -8437,10 +8490,11 @@ type AttachVpnGatewayResponseType
     AttachVpnGatewayResponseType(; requestId=nothing, attachment=nothing) =
          new(requestId, attachment)
 end
-function AttachVpnGatewayResponseType(pd::ETree)
+function AttachVpnGatewayResponseType(pd)
     o = AttachVpnGatewayResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.attachment = length(pd["attachment"]) > 0 ?  AttachmentType(LibExpat.find(pd,"attachment[1]")) : nothing
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    ## o.attachment = length(pd["attachment"]) > 0 ?  AttachmentType(LightXML.find_element(pd,"attachment[1]")) : nothing
+    o.attachment = LightXML.find_element(pd,"attachment") != nothing ? AttachmentType(LightXML.find_element(pd,"attachment")) : nothing
     o
 end
 
@@ -8454,10 +8508,10 @@ type DescribeLicensesType
     DescribeLicensesType(; licenseIdSet=nothing, filterSet=nothing) =
          new(licenseIdSet, filterSet)
 end
-function DescribeLicensesType(pd::ETree)
+function DescribeLicensesType(pd)
     o = DescribeLicensesType()
-    o.licenseIdSet = AWS.parse_vector_as(ASCIIString, "licenseId", LibExpat.find(pd, "item/licenseId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LibExpat.find(pd, "filterSet/item"))
+    o.licenseIdSet = AWS.parse_vector_as(ASCIIString, "licenseId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "licenseId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -8471,10 +8525,10 @@ type AuthorizeSecurityGroupIngressType
     AuthorizeSecurityGroupIngressType(; userId=nothing, ipPermissions=nothing) =
          new(userId, ipPermissions)
 end
-function AuthorizeSecurityGroupIngressType(pd::ETree)
+function AuthorizeSecurityGroupIngressType(pd)
     o = AuthorizeSecurityGroupIngressType()
-    o.userId = LibExpat.find(pd, "userId#string")
-    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, LibExpat.find(pd, "ipPermissions/item"))
+    o.userId = LightXML.content(LightXML.find_element(pd, "userId"))
+    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, LightML.get_elements_by_tagname(LightXML.find_element(pd, "ipPermissions"), "item"))
     o
 end
 
@@ -8488,10 +8542,11 @@ type CreateSubnetResponseType
     CreateSubnetResponseType(; requestId=nothing, subnet=nothing) =
          new(requestId, subnet)
 end
-function CreateSubnetResponseType(pd::ETree)
+function CreateSubnetResponseType(pd)
     o = CreateSubnetResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.subnet = length(pd["subnet"]) > 0 ?  SubnetType(LibExpat.find(pd,"subnet[1]")) : nothing
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    ## o.subnet = length(pd["subnet"]) > 0 ?  SubnetType(LightXML.find_element(pd,"subnet[1]")) : nothing
+    o.subnet = LightXML.find_element(pd,"subnet") != nothing ? SubnetType(LightXML.find_element(pd,"subnet")) : nothing
     o
 end
 
@@ -8521,26 +8576,28 @@ type NetworkInterfaceType
     NetworkInterfaceType(; networkInterfaceId=nothing, subnetId=nothing, vpcId=nothing, availabilityZone=nothing, description=nothing, ownerId=nothing, requesterId=nothing, requesterManaged=nothing, status=nothing, macAddress=nothing, privateIpAddress=nothing, privateDnsName=nothing, sourceDestCheck=nothing, groupSet=nothing, attachment=nothing, association=nothing, tagSet=nothing, privateIpAddressesSet=nothing) =
          new(networkInterfaceId, subnetId, vpcId, availabilityZone, description, ownerId, requesterId, requesterManaged, status, macAddress, privateIpAddress, privateDnsName, sourceDestCheck, groupSet, attachment, association, tagSet, privateIpAddressesSet)
 end
-function NetworkInterfaceType(pd::ETree)
+function NetworkInterfaceType(pd)
     o = NetworkInterfaceType()
-    o.networkInterfaceId = LibExpat.find(pd, "networkInterfaceId#string")
-    o.subnetId = LibExpat.find(pd, "subnetId#string")
-    o.vpcId = LibExpat.find(pd, "vpcId#string")
-    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
-    o.description = LibExpat.find(pd, "description#string")
-    o.ownerId = LibExpat.find(pd, "ownerId#string")
-    o.requesterId = LibExpat.find(pd, "requesterId#string")
-    o.requesterManaged = AWS.safe_parse_as(Bool, LibExpat.find(pd, "requesterManaged#string"))
-    o.status = LibExpat.find(pd, "status#string")
-    o.macAddress = LibExpat.find(pd, "macAddress#string")
-    o.privateIpAddress = LibExpat.find(pd, "privateIpAddress#string")
-    o.privateDnsName = LibExpat.find(pd, "privateDnsName#string")
-    o.sourceDestCheck = AWS.safe_parse_as(Bool, LibExpat.find(pd, "sourceDestCheck#string"))
-    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, LibExpat.find(pd, "groupSet/item"))
-    o.attachment = length(pd["attachment"]) > 0 ?  NetworkInterfaceAttachmentType(LibExpat.find(pd,"attachment[1]")) : nothing
-    o.association = length(pd["association"]) > 0 ?  NetworkInterfaceAssociationType(LibExpat.find(pd,"association[1]")) : nothing
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
-    o.privateIpAddressesSet = AWS.@parse_vector(AWS.EC2.NetworkInterfacePrivateIpAddressesSetItemType, LibExpat.find(pd, "privateIpAddressesSet/item"))
+    o.networkInterfaceId = LightXML.content(LightXML.find_element(pd, "networkInterfaceId"))
+    o.subnetId = LightXML.content(LightXML.find_element(pd, "subnetId"))
+    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
+    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
+    o.description = LightXML.content(LightXML.find_element(pd, "description"))
+    o.ownerId = LightXML.content(LightXML.find_element(pd, "ownerId"))
+    o.requesterId = LightXML.content(LightXML.find_element(pd, "requesterId"))
+    o.requesterManaged = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "requesterManaged")))
+    o.status = LightXML.content(LightXML.find_element(pd, "status"))
+    o.macAddress = LightXML.content(LightXML.find_element(pd, "macAddress"))
+    o.privateIpAddress = LightXML.content(LightXML.find_element(pd, "privateIpAddress"))
+    o.privateDnsName = LightXML.content(LightXML.find_element(pd, "privateDnsName"))
+    o.sourceDestCheck = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "sourceDestCheck")))
+    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "groupSet"), "item"))
+    ## o.attachment = length(pd["attachment"]) > 0 ?  NetworkInterfaceAttachmentType(LightXML.find_element(pd,"attachment[1]")) : nothing
+    o.attachment = LightXML.find_element(pd,"attachment") != nothing ?  NetworkInterfaceAttachmentType(LightXML.find_element(pd,"attachment")) : nothing
+    ## o.association = length(pd["association"]) > 0 ?  NetworkInterfaceAssociationType(LightXML.find_element(pd,"association[1]")) : nothing
+    o.association = LightXML.find_element(pd,"association") != nothing ? NetworkInterfaceAssociationType(LightXML.find_element(pd,"association")) : nothing
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
+    o.privateIpAddressesSet = AWS.@parse_vector(AWS.EC2.NetworkInterfacePrivateIpAddressesSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "privateIpAddressesSet"), "item"))
     o
 end
 
@@ -8554,10 +8611,11 @@ type ImportVolumeResponseType
     ImportVolumeResponseType(; requestId=nothing, conversionTask=nothing) =
          new(requestId, conversionTask)
 end
-function ImportVolumeResponseType(pd::ETree)
+function ImportVolumeResponseType(pd)
     o = ImportVolumeResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.conversionTask = length(pd["conversionTask"]) > 0 ?  ConversionTaskType(LibExpat.find(pd,"conversionTask[1]")) : nothing
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    ## o.conversionTask = length(pd["conversionTask"]) > 0 ?  ConversionTaskType(LightXML.find_element(pd,"conversionTask[1]")) : nothing
+    o.conversionTask = LightXML.find_element(pd,"conversionTask") != nothing ? ConversionTaskType(LightXML.find_element(pd,"conversionTask")) : nothing
     o
 end
 
@@ -8571,10 +8629,11 @@ type ModifySnapshotAttributeType
     ModifySnapshotAttributeType(; snapshotId=nothing, createVolumePermission=nothing) =
          new(snapshotId, createVolumePermission)
 end
-function ModifySnapshotAttributeType(pd::ETree)
+function ModifySnapshotAttributeType(pd)
     o = ModifySnapshotAttributeType()
-    o.snapshotId = LibExpat.find(pd, "snapshotId#string")
-    o.createVolumePermission = length(pd["createVolumePermission"]) > 0 ?  CreateVolumePermissionOperationType(LibExpat.find(pd,"createVolumePermission[1]")) : nothing
+    o.snapshotId = LightXML.content(LightXML.find_element(pd, "snapshotId"))
+    ## o.createVolumePermission = length(pd["createVolumePermission"]) > 0 ?  CreateVolumePermissionOperationType(LightXML.find_element(pd,"createVolumePermission[1]")) : nothing
+    o.createVolumePermission = LightXML.find_element(pd,"createVolumePermission") != nothing ? CreateVolumePermissionOperationType(LightXML.find_element(pd,"createVolumePermission")) : nothing
     o
 end
 
@@ -8588,10 +8647,11 @@ type CreateNetworkInterfaceResponseType
     CreateNetworkInterfaceResponseType(; requestId=nothing, networkInterface=nothing) =
          new(requestId, networkInterface)
 end
-function CreateNetworkInterfaceResponseType(pd::ETree)
+function CreateNetworkInterfaceResponseType(pd)
     o = CreateNetworkInterfaceResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.networkInterface = length(pd["networkInterface"]) > 0 ?  NetworkInterfaceType(LibExpat.find(pd,"networkInterface[1]")) : nothing
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    ## o.networkInterface = length(pd["networkInterface"]) > 0 ?  NetworkInterfaceType(LightXML.find_element(pd,"networkInterface[1]")) : nothing
+    o.networkInterface = LightXML.find_element(pd,"networkInterface") != nothing ? NetworkInterfaceType(LightXML.find_element(pd,"networkInterface")) : nothing
     o
 end
 
@@ -8605,10 +8665,10 @@ type CancelReservedInstancesListingResponseType
     CancelReservedInstancesListingResponseType(; requestId=nothing, reservedInstancesListingsSet=nothing) =
          new(requestId, reservedInstancesListingsSet)
 end
-function CancelReservedInstancesListingResponseType(pd::ETree)
+function CancelReservedInstancesListingResponseType(pd)
     o = CancelReservedInstancesListingResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.reservedInstancesListingsSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesListingsResponseSetItemType, LibExpat.find(pd, "reservedInstancesListingsSet/item"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.reservedInstancesListingsSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesListingsResponseSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "reservedInstancesListingsSet"), "item"))
     o
 end
 
@@ -8622,10 +8682,10 @@ type MonitorInstancesResponseType
     MonitorInstancesResponseType(; requestId=nothing, instancesSet=nothing) =
          new(requestId, instancesSet)
 end
-function MonitorInstancesResponseType(pd::ETree)
+function MonitorInstancesResponseType(pd)
     o = MonitorInstancesResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.instancesSet = AWS.@parse_vector(AWS.EC2.MonitorInstancesResponseSetItemType, LibExpat.find(pd, "instancesSet/item"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.instancesSet = AWS.@parse_vector(AWS.EC2.MonitorInstancesResponseSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "instancesSet"), "item"))
     o
 end
 
@@ -8639,10 +8699,11 @@ type CreateCustomerGatewayResponseType
     CreateCustomerGatewayResponseType(; requestId=nothing, customerGateway=nothing) =
          new(requestId, customerGateway)
 end
-function CreateCustomerGatewayResponseType(pd::ETree)
+function CreateCustomerGatewayResponseType(pd)
     o = CreateCustomerGatewayResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.customerGateway = length(pd["customerGateway"]) > 0 ?  CustomerGatewayType(LibExpat.find(pd,"customerGateway[1]")) : nothing
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    ## o.customerGateway = length(pd["customerGateway"]) > 0 ?  CustomerGatewayType(LightXML.find_element(pd,"customerGateway[1]")) : nothing
+    o.customerGateway = LightXML.find_element(pd,"customerGateway") != nothing ?  CustomerGatewayType(LightXML.find_element(pd,"customerGateway")) : nothing
     o
 end
 
@@ -8656,10 +8717,10 @@ type DescribeVpnConnectionsResponseType
     DescribeVpnConnectionsResponseType(; requestId=nothing, vpnConnectionSet=nothing) =
          new(requestId, vpnConnectionSet)
 end
-function DescribeVpnConnectionsResponseType(pd::ETree)
+function DescribeVpnConnectionsResponseType(pd)
     o = DescribeVpnConnectionsResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.vpnConnectionSet = AWS.@parse_vector(AWS.EC2.VpnConnectionType, LibExpat.find(pd, "vpnConnectionSet/item"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.vpnConnectionSet = AWS.@parse_vector(AWS.EC2.VpnConnectionType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "vpnConnectionSet"), "item"))
     o
 end
 
@@ -8708,45 +8769,51 @@ type RunningInstancesItemType
     RunningInstancesItemType(; instanceId=nothing, imageId=nothing, instanceState=nothing, privateDnsName=nothing, dnsName=nothing, reason=nothing, keyName=nothing, amiLaunchIndex=nothing, productCodes=nothing, instanceType=nothing, launchTime=nothing, placement=nothing, kernelId=nothing, ramdiskId=nothing, platform=nothing, monitoring=nothing, subnetId=nothing, vpcId=nothing, privateIpAddress=nothing, ipAddress=nothing, sourceDestCheck=nothing, groupSet=nothing, stateReason=nothing, architecture=nothing, rootDeviceType=nothing, rootDeviceName=nothing, blockDeviceMapping=nothing, instanceLifecycle=nothing, spotInstanceRequestId=nothing, license=nothing, virtualizationType=nothing, clientToken=nothing, tagSet=nothing, hypervisor=nothing, networkInterfaceSet=nothing, iamInstanceProfile=nothing, ebsOptimized=nothing) =
          new(instanceId, imageId, instanceState, privateDnsName, dnsName, reason, keyName, amiLaunchIndex, productCodes, instanceType, launchTime, placement, kernelId, ramdiskId, platform, monitoring, subnetId, vpcId, privateIpAddress, ipAddress, sourceDestCheck, groupSet, stateReason, architecture, rootDeviceType, rootDeviceName, blockDeviceMapping, instanceLifecycle, spotInstanceRequestId, license, virtualizationType, clientToken, tagSet, hypervisor, networkInterfaceSet, iamInstanceProfile, ebsOptimized)
 end
-function RunningInstancesItemType(pd::ETree)
+function RunningInstancesItemType(pd)
     o = RunningInstancesItemType()
-    o.instanceId = LibExpat.find(pd, "instanceId#string")
-    o.imageId = LibExpat.find(pd, "imageId#string")
-    o.instanceState = length(pd["instanceState"]) > 0 ?  InstanceStateType(LibExpat.find(pd,"instanceState[1]")) : nothing
-    o.privateDnsName = LibExpat.find(pd, "privateDnsName#string")
-    o.dnsName = LibExpat.find(pd, "dnsName#string")
-    o.reason = LibExpat.find(pd, "reason#string")
-    o.keyName = LibExpat.find(pd, "keyName#string")
-    o.amiLaunchIndex = LibExpat.find(pd, "amiLaunchIndex#string")
-    o.productCodes = AWS.@parse_vector(AWS.EC2.ProductCodesSetItemType, LibExpat.find(pd, "productCodes/item"))
-    o.instanceType = LibExpat.find(pd, "instanceType#string")
-    o.launchTime = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "launchTime#string"))
-    o.placement = length(pd["placement"]) > 0 ?  PlacementResponseType(LibExpat.find(pd,"placement[1]")) : nothing
-    o.kernelId = LibExpat.find(pd, "kernelId#string")
-    o.ramdiskId = LibExpat.find(pd, "ramdiskId#string")
-    o.platform = LibExpat.find(pd, "platform#string")
-    o.monitoring = length(pd["monitoring"]) > 0 ?  InstanceMonitoringStateType(LibExpat.find(pd,"monitoring[1]")) : nothing
-    o.subnetId = LibExpat.find(pd, "subnetId#string")
-    o.vpcId = LibExpat.find(pd, "vpcId#string")
-    o.privateIpAddress = LibExpat.find(pd, "privateIpAddress#string")
-    o.ipAddress = LibExpat.find(pd, "ipAddress#string")
-    o.sourceDestCheck = AWS.safe_parse_as(Bool, LibExpat.find(pd, "sourceDestCheck#string"))
-    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, LibExpat.find(pd, "groupSet/item"))
-    o.stateReason = length(pd["stateReason"]) > 0 ?  StateReasonType(LibExpat.find(pd,"stateReason[1]")) : nothing
-    o.architecture = LibExpat.find(pd, "architecture#string")
-    o.rootDeviceType = LibExpat.find(pd, "rootDeviceType#string")
-    o.rootDeviceName = LibExpat.find(pd, "rootDeviceName#string")
-    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.InstanceBlockDeviceMappingResponseItemType, LibExpat.find(pd, "blockDeviceMapping/item"))
-    o.instanceLifecycle = LibExpat.find(pd, "instanceLifecycle#string")
-    o.spotInstanceRequestId = LibExpat.find(pd, "spotInstanceRequestId#string")
-    o.license = length(pd["license"]) > 0 ?  InstanceLicenseResponseType(LibExpat.find(pd,"license[1]")) : nothing
-    o.virtualizationType = LibExpat.find(pd, "virtualizationType#string")
-    o.clientToken = LibExpat.find(pd, "clientToken#string")
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
-    o.hypervisor = LibExpat.find(pd, "hypervisor#string")
-    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.InstanceNetworkInterfaceSetItemType, LibExpat.find(pd, "networkInterfaceSet/item"))
-    o.iamInstanceProfile = length(pd["iamInstanceProfile"]) > 0 ?  IamInstanceProfileResponseType(LibExpat.find(pd,"iamInstanceProfile[1]")) : nothing
-    o.ebsOptimized = AWS.safe_parse_as(Bool, LibExpat.find(pd, "ebsOptimized#string"))
+    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
+    o.imageId = LightXML.content(LightXML.find_element(pd, "imageId"))
+    ## o.instanceState = length(pd["instanceState"]) > 0 ?  InstanceStateType(LightXML.find_element(pd,"instanceState[1]")) : nothing
+    o.instanceState = LightXML.find_element(pd,"instanceState") != nothing ?  InstanceStateType(LightXML.find_element(pd,"instanceState")) : nothing
+    o.privateDnsName = LightXML.content(LightXML.find_element(pd, "privateDnsName"))
+    o.dnsName = LightXML.content(LightXML.find_element(pd, "dnsName"))
+    o.reason = LightXML.content(LightXML.find_element(pd, "reason"))
+    o.keyName = LightXML.content(LightXML.find_element(pd, "keyName"))
+    o.amiLaunchIndex = LightXML.content(LightXML.find_element(pd, "amiLaunchIndex"))
+    o.productCodes = LightXML.find_element(pd, "productCodes") != nothing ? AWS.@parse_vector(AWS.EC2.ProductCodesSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "productCodes"), "item")) : nothing
+    o.instanceType = LightXML.content(LightXML.find_element(pd, "instanceType"))
+    o.launchTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "launchTime")))
+    ## o.placement = length(pd["placement"]) > 0 ?  PlacementResponseType(LightXML.find_element(pd,"placement[1]")) : nothing
+    o.placement = LightXML.find_element(pd,"placement") != nothing ?  PlacementResponseType(LightXML.find_element(pd,"placement")) : nothing
+    
+    o.ramdiskId = LightXML.find_element(pd, "ramdiskId") != nothing ?LightXML.content(LightXML.find_element(pd, "ramdiskId")) : nothing
+    o.platform = LightXML.find_element(pd, "platform") != nothing ?LightXML.content(LightXML.find_element(pd, "platform")) : nothing
+    ## o.monitoring = length(pd["monitoring"]) > 0 ?  InstanceMonitoringStateType(LightXML.find_element(pd,"monitoring[1]")) : nothing
+    o.monitoring = LightXML.find_element(pd,"monitoring") != nothing ?  InstanceMonitoringStateType(LightXML.find_element(pd,"monitoring")) : nothing
+    o.subnetId = LightXML.find_element(pd, "subnetId") != nothing ? LightXML.content(LightXML.find_element(pd, "subnetId")) : nothing
+    o.vpcId = LightXML.find_element(pd, "vpcId") != nothing ?LightXML.content(LightXML.find_element(pd, "vpcId")) : nothing
+    o.privateIpAddress = LightXML.find_element(pd, "privateIpAddress") != nothing ?LightXML.content(LightXML.find_element(pd, "privateIpAddress")) : nothing
+    o.ipAddress = LightXML.find_element(pd, "ipAddress") != nothing ? LightXML.content(LightXML.find_element(pd, "ipAddress")) : nothing
+    o.sourceDestCheck = LightXML.find_element(pd, "sourceDestCheck") != nothing ? AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "sourceDestCheck"))) : nothing
+    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "groupSet"), "item"))
+    ## o.stateReason = length(pd["stateReason"]) > 0 ?  StateReasonType(LightXML.find_element(pd,"stateReason[1]")) : nothing
+    o.stateReason = LightXML.find_element(pd,"stateReason") != nothing ?  StateReasonType(LightXML.find_element(pd,"stateReason")) : nothing
+    o.architecture = LightXML.content(LightXML.find_element(pd, "architecture"))
+    o.rootDeviceType = LightXML.content(LightXML.find_element(pd, "rootDeviceType"))
+    
+    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.InstanceBlockDeviceMappingResponseItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "blockDeviceMapping"), "item"))
+    o.instanceLifecycle = LightXML.find_element(pd, "instanceLifecycle") != nothing ? LightXML.content(LightXML.find_element(pd, "instanceLifecycle")) : nothing
+    o.spotInstanceRequestId = LightXML.find_element(pd, "spotInstanceRequestId") != nothing ? LightXML.content(LightXML.find_element(pd, "spotInstanceRequestId")) : nothing
+    ## o.license = length(pd["license"]) > 0 ?  InstanceLicenseResponseType(LightXML.find_element(pd,"license[1]")) : nothing
+    o.license = LightXML.find_element(pd,"license") != nothing ?  InstanceLicenseResponseType(LightXML.find_element(pd,"license")) : nothing
+    o.virtualizationType = LightXML.content(LightXML.find_element(pd, "virtualizationType"))
+    o.clientToken = LightXML.content(LightXML.find_element(pd, "clientToken"))
+    o.tagSet = LightXML.find_element(pd, "tagSet") != nothing ? AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item")) : nothing
+    o.hypervisor = LightXML.content(LightXML.find_element(pd, "hypervisor"))
+    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.InstanceNetworkInterfaceSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "networkInterfaceSet"), "item"))
+    ## o.iamInstanceProfile = length(pd["iamInstanceProfile"]) > 0 ?  IamInstanceProfileResponseType(LightXML.find_element(pd,"iamInstanceProfile[1]")) : nothing
+    o.iamInstanceProfile = LightXML.find_element(pd,"iamInstanceProfile") != nothing ?  IamInstanceProfileResponseType(LightXML.find_element(pd,"iamInstanceProfile")) : nothing
+    o.ebsOptimized = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "ebsOptimized")))
     o
 end
 
@@ -8760,10 +8827,10 @@ type DescribeSnapshotsResponseType
     DescribeSnapshotsResponseType(; requestId=nothing, snapshotSet=nothing) =
          new(requestId, snapshotSet)
 end
-function DescribeSnapshotsResponseType(pd::ETree)
+function DescribeSnapshotsResponseType(pd)
     o = DescribeSnapshotsResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.snapshotSet = AWS.@parse_vector(AWS.EC2.DescribeSnapshotsSetItemResponseType, LibExpat.find(pd, "snapshotSet/item"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.snapshotSet = AWS.@parse_vector(AWS.EC2.DescribeSnapshotsSetItemResponseType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "snapshotSet"), "item"))
     o
 end
 
@@ -8777,10 +8844,11 @@ type CreateVpcResponseType
     CreateVpcResponseType(; requestId=nothing, vpc=nothing) =
          new(requestId, vpc)
 end
-function CreateVpcResponseType(pd::ETree)
+function CreateVpcResponseType(pd)
     o = CreateVpcResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.vpc = length(pd["vpc"]) > 0 ?  VpcType(LibExpat.find(pd,"vpc[1]")) : nothing
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    ## o.vpc = length(pd["vpc"]) > 0 ?  VpcType(LightXML.find_element(pd,"vpc[1]")) : nothing
+    o.vpc = LightXML.find_element(pd,"vpc") != nothing ? VpcType(LightXML.find_element(pd,"vpc")) : nothing
     o
 end
 
@@ -8797,13 +8865,14 @@ type ImportInstanceType
     ImportInstanceType(; description=nothing, launchSpecification=nothing, diskImageSet=nothing, keepPartialImports=nothing, platform=nothing) =
          new(description, launchSpecification, diskImageSet, keepPartialImports, platform)
 end
-function ImportInstanceType(pd::ETree)
+function ImportInstanceType(pd)
     o = ImportInstanceType()
-    o.description = LibExpat.find(pd, "description#string")
-    o.launchSpecification = length(pd["launchSpecification"]) > 0 ?  ImportInstanceLaunchSpecificationType(LibExpat.find(pd,"launchSpecification[1]")) : nothing
-    o.diskImageSet = AWS.@parse_vector(AWS.EC2.DiskImageType, LibExpat.find(pd, "diskImageSet/item"))
-    o.keepPartialImports = AWS.safe_parse_as(Bool, LibExpat.find(pd, "keepPartialImports#string"))
-    o.platform = LibExpat.find(pd, "platform#string")
+    o.description = LightXML.content(LightXML.find_element(pd, "description"))
+    ## o.launchSpecification = length(pd["launchSpecification"]) > 0 ?  ImportInstanceLaunchSpecificationType(LightXML.find_element(pd,"launchSpecification[1]")) : nothing
+    o.launchSpecification = LightXML.find_element(pd,"launchSpecification") ? ImportInstanceLaunchSpecificationType(LightXML.find_element(pd,"launchSpecification")) : nothing
+    o.diskImageSet = AWS.@parse_vector(AWS.EC2.DiskImageType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "diskImageSet"), "item"))
+    o.keepPartialImports = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "keepPartialImports")))
+    o.platform = LightXML.content(LightXML.find_element(pd, "platform"))
     o
 end
 
@@ -8823,16 +8892,18 @@ type BundleInstanceTaskType
     BundleInstanceTaskType(; instanceId=nothing, bundleId=nothing, state=nothing, startTime=nothing, updateTime=nothing, storage=nothing, progress=nothing, error=nothing) =
          new(instanceId, bundleId, state, startTime, updateTime, storage, progress, error)
 end
-function BundleInstanceTaskType(pd::ETree)
+function BundleInstanceTaskType(pd)
     o = BundleInstanceTaskType()
-    o.instanceId = LibExpat.find(pd, "instanceId#string")
-    o.bundleId = LibExpat.find(pd, "bundleId#string")
-    o.state = LibExpat.find(pd, "state#string")
-    o.startTime = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "startTime#string"))
-    o.updateTime = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "updateTime#string"))
-    o.storage = length(pd["storage"]) > 0 ?  BundleInstanceTaskStorageType(LibExpat.find(pd,"storage[1]")) : nothing
-    o.progress = LibExpat.find(pd, "progress#string")
-    o.error = length(pd["error"]) > 0 ?  BundleInstanceTaskErrorType(LibExpat.find(pd,"error[1]")) : nothing
+    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
+    o.bundleId = LightXML.content(LightXML.find_element(pd, "bundleId"))
+    o.state = LightXML.content(LightXML.find_element(pd, "state"))
+    o.startTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "startTime")))
+    o.updateTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "updateTime")))
+    ## o.storage = length(pd["storage"]) > 0 ?  BundleInstanceTaskStorageType(LightXML.find_element(pd,"storage[1]")) : nothing
+    o.storage = LightXML.find_element(pd,"storage") != nothing ? BundleInstanceTaskStorageType(LightXML.find_element(pd,"storage")) : nothing
+    o.progress = LightXML.content(LightXML.find_element(pd, "progress"))
+    ## o.error = length(pd["error"]) > 0 ?  BundleInstanceTaskErrorType(LightXML.find_element(pd,"error[1]")) : nothing
+    o.error = LightXML.find_element(pd,"error") != nothing ?  BundleInstanceTaskErrorType(LightXML.find_element(pd,"error")) : nothing
     o
 end
 
@@ -8846,10 +8917,11 @@ type CancelBundleTaskResponseType
     CancelBundleTaskResponseType(; requestId=nothing, bundleInstanceTask=nothing) =
          new(requestId, bundleInstanceTask)
 end
-function CancelBundleTaskResponseType(pd::ETree)
+function CancelBundleTaskResponseType(pd)
     o = CancelBundleTaskResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.bundleInstanceTask = length(pd["bundleInstanceTask"]) > 0 ?  BundleInstanceTaskType(LibExpat.find(pd,"bundleInstanceTask[1]")) : nothing
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    ## o.bundleInstanceTask = length(pd["bundleInstanceTask"]) > 0 ?  BundleInstanceTaskType(LightXML.find_element(pd,"bundleInstanceTask[1]")) : nothing
+    o.bundleInstanceTask = LightXML.find_element(pd,"bundleInstanceTask") != nothing ? BundleInstanceTaskType(LightXML.find_element(pd,"bundleInstanceTask")) : nothing
     o
 end
 
@@ -8875,22 +8947,25 @@ type LaunchSpecificationResponseType
     LaunchSpecificationResponseType(; imageId=nothing, keyName=nothing, groupSet=nothing, addressingType=nothing, instanceType=nothing, placement=nothing, kernelId=nothing, ramdiskId=nothing, blockDeviceMapping=nothing, monitoring=nothing, subnetId=nothing, networkInterfaceSet=nothing, iamInstanceProfile=nothing, ebsOptimized=nothing) =
          new(imageId, keyName, groupSet, addressingType, instanceType, placement, kernelId, ramdiskId, blockDeviceMapping, monitoring, subnetId, networkInterfaceSet, iamInstanceProfile, ebsOptimized)
 end
-function LaunchSpecificationResponseType(pd::ETree)
+function LaunchSpecificationResponseType(pd)
     o = LaunchSpecificationResponseType()
-    o.imageId = LibExpat.find(pd, "imageId#string")
-    o.keyName = LibExpat.find(pd, "keyName#string")
-    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, LibExpat.find(pd, "groupSet/item"))
-    o.addressingType = LibExpat.find(pd, "addressingType#string")
-    o.instanceType = LibExpat.find(pd, "instanceType#string")
-    o.placement = length(pd["placement"]) > 0 ?  SpotPlacementRequestType(LibExpat.find(pd,"placement[1]")) : nothing
-    o.kernelId = LibExpat.find(pd, "kernelId#string")
-    o.ramdiskId = LibExpat.find(pd, "ramdiskId#string")
-    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, LibExpat.find(pd, "blockDeviceMapping/item"))
-    o.monitoring = length(pd["monitoring"]) > 0 ?  MonitoringInstanceType(LibExpat.find(pd,"monitoring[1]")) : nothing
-    o.subnetId = LibExpat.find(pd, "subnetId#string")
-    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.InstanceNetworkInterfaceSetItemRequestType, LibExpat.find(pd, "networkInterfaceSet/item"))
-    o.iamInstanceProfile = length(pd["iamInstanceProfile"]) > 0 ?  IamInstanceProfileRequestType(LibExpat.find(pd,"iamInstanceProfile[1]")) : nothing
-    o.ebsOptimized = AWS.safe_parse_as(Bool, LibExpat.find(pd, "ebsOptimized#string"))
+    o.imageId = LightXML.content(LightXML.find_element(pd, "imageId"))
+    o.keyName = LightXML.content(LightXML.find_element(pd, "keyName"))
+    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "groupSet"), "item"))
+    o.addressingType = LightXML.content(LightXML.find_element(pd, "addressingType"))
+    o.instanceType = LightXML.content(LightXML.find_element(pd, "instanceType"))
+    ## o.placement = length(pd["placement"]) > 0 ?  SpotPlacementRequestType(LightXML.find_element(pd,"placement[1]")) : nothing
+    o.placement = LightXML.find_element(pd,"placement") != nothing ? SpotPlacementRequestType(LightXML.find_element(pd,"placement")) : nothing
+    o.kernelId = LightXML.content(LightXML.find_element(pd, "kernelId"))
+    o.ramdiskId = LightXML.content(LightXML.find_element(pd, "ramdiskId"))
+    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "blockDeviceMapping"), "item"))
+    ## o.monitoring = length(pd["monitoring"]) > 0 ?  MonitoringInstanceType(LightXML.find_element(pd,"monitoring[1]")) : nothing
+    o.monitoring = LightXML.find_element(pd,"monitoring") != nothing ? MonitoringInstanceType(LightXML.find_element(pd,"monitoring")) : nothing
+    o.subnetId = LightXML.content(LightXML.find_element(pd, "subnetId"))
+    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.InstanceNetworkInterfaceSetItemRequestType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "networkInterfaceSet"), "item"))
+    ## o.iamInstanceProfile = length(pd["iamInstanceProfile"]) > 0 ?  IamInstanceProfileRequestType(LightXML.find_element(pd,"iamInstanceProfile[1]")) : nothing
+    o.iamInstanceProfile = LightXML.find_element(pd,"iamInstanceProfile") != nothing ? IamInstanceProfileRequestType(LightXML.find_element(pd,"iamInstanceProfile")) : nothing
+    o.ebsOptimized = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "ebsOptimized")))
     o
 end
 
@@ -8910,16 +8985,16 @@ type SecurityGroupItemType
     SecurityGroupItemType(; ownerId=nothing, groupId=nothing, groupName=nothing, groupDescription=nothing, vpcId=nothing, ipPermissions=nothing, ipPermissionsEgress=nothing, tagSet=nothing) =
          new(ownerId, groupId, groupName, groupDescription, vpcId, ipPermissions, ipPermissionsEgress, tagSet)
 end
-function SecurityGroupItemType(pd::ETree)
+function SecurityGroupItemType(pd)
     o = SecurityGroupItemType()
-    o.ownerId = LibExpat.find(pd, "ownerId#string")
-    o.groupId = LibExpat.find(pd, "groupId#string")
-    o.groupName = LibExpat.find(pd, "groupName#string")
-    o.groupDescription = LibExpat.find(pd, "groupDescription#string")
-    o.vpcId = LibExpat.find(pd, "vpcId#string")
-    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, LibExpat.find(pd, "ipPermissions/item"))
-    o.ipPermissionsEgress = AWS.@parse_vector(AWS.EC2.IpPermissionType, LibExpat.find(pd, "ipPermissionsEgress/item"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
+    o.ownerId = LightXML.content(LightXML.find_element(pd, "ownerId"))
+    o.groupId = LightXML.content(LightXML.find_element(pd, "groupId"))
+    o.groupName = LightXML.content(LightXML.find_element(pd, "groupName"))
+    o.groupDescription = LightXML.content(LightXML.find_element(pd, "groupDescription"))
+    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
+    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "ipPermissions"), "item"))
+    o.ipPermissionsEgress = AWS.@parse_vector(AWS.EC2.IpPermissionType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "ipPermissionsEgress"), "item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
     o
 end
 
@@ -8933,10 +9008,11 @@ type CreateNetworkAclResponseType
     CreateNetworkAclResponseType(; requestId=nothing, networkAcl=nothing) =
          new(requestId, networkAcl)
 end
-function CreateNetworkAclResponseType(pd::ETree)
+function CreateNetworkAclResponseType(pd)
     o = CreateNetworkAclResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.networkAcl = length(pd["networkAcl"]) > 0 ?  NetworkAclType(LibExpat.find(pd,"networkAcl[1]")) : nothing
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    ## o.networkAcl = length(pd["networkAcl"]) > 0 ?  NetworkAclType(LightXML.find_element(pd,"networkAcl[1]")) : nothing
+    o.networkAcl = LightXML.find_element(pd,"networkAcl") != nothing ? NetworkAclType(LightXML.find_element(pd,"networkAcl")) : nothing
     o
 end
 
@@ -8950,10 +9026,11 @@ type CreateVpnGatewayResponseType
     CreateVpnGatewayResponseType(; requestId=nothing, vpnGateway=nothing) =
          new(requestId, vpnGateway)
 end
-function CreateVpnGatewayResponseType(pd::ETree)
+function CreateVpnGatewayResponseType(pd)
     o = CreateVpnGatewayResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.vpnGateway = length(pd["vpnGateway"]) > 0 ?  VpnGatewayType(LibExpat.find(pd,"vpnGateway[1]")) : nothing
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    ## o.vpnGateway = length(pd["vpnGateway"]) > 0 ?  VpnGatewayType(LightXML.find_element(pd,"vpnGateway[1]")) : nothing
+    o.vpnGateway = LightXML.find_element(pd,"vpnGateway") != nothing ? VpnGatewayType(LightXML.find_element(pd,"vpnGateway")) : nothing
     o
 end
 
@@ -8971,14 +9048,14 @@ type RunInstancesResponseType
     RunInstancesResponseType(; requestId=nothing, reservationId=nothing, ownerId=nothing, groupSet=nothing, instancesSet=nothing, requesterId=nothing) =
          new(requestId, reservationId, ownerId, groupSet, instancesSet, requesterId)
 end
-function RunInstancesResponseType(pd::ETree)
+function RunInstancesResponseType(pd)
     o = RunInstancesResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.reservationId = LibExpat.find(pd, "reservationId#string")
-    o.ownerId = LibExpat.find(pd, "ownerId#string")
-    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, LibExpat.find(pd, "groupSet/item"))
-    o.instancesSet = AWS.@parse_vector(AWS.EC2.RunningInstancesItemType, LibExpat.find(pd, "instancesSet/item"))
-    o.requesterId = LibExpat.find(pd, "requesterId#string")
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.reservationId = LightXML.content(LightXML.find_element(pd, "reservationId"))
+    o.ownerId = LightXML.content(LightXML.find_element(pd, "ownerId"))
+    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "groupSet"), "item"))
+    o.instancesSet = AWS.@parse_vector(AWS.EC2.RunningInstancesItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "instancesSet"), "item"))
+    ## MDP TODO o.requesterId = LightXML.content(LightXML.find_element(pd, "requesterId"))
     o
 end
 
@@ -8992,10 +9069,10 @@ type RevokeSecurityGroupEgressType
     RevokeSecurityGroupEgressType(; groupId=nothing, ipPermissions=nothing) =
          new(groupId, ipPermissions)
 end
-function RevokeSecurityGroupEgressType(pd::ETree)
+function RevokeSecurityGroupEgressType(pd)
     o = RevokeSecurityGroupEgressType()
-    o.groupId = LibExpat.find(pd, "groupId#string")
-    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, LibExpat.find(pd, "ipPermissions/item"))
+    o.groupId = LightXML.content(LightXML.find_element(pd, "groupId"))
+    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "ipPermissions"), "item"))
     o
 end
 
@@ -9009,10 +9086,10 @@ type DescribeNetworkAclsResponseType
     DescribeNetworkAclsResponseType(; requestId=nothing, networkAclSet=nothing) =
          new(requestId, networkAclSet)
 end
-function DescribeNetworkAclsResponseType(pd::ETree)
+function DescribeNetworkAclsResponseType(pd)
     o = DescribeNetworkAclsResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.networkAclSet = AWS.@parse_vector(AWS.EC2.NetworkAclType, LibExpat.find(pd, "networkAclSet/item"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.networkAclSet = AWS.@parse_vector(AWS.EC2.NetworkAclType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "networkAclSet"), "item"))
     o
 end
 
@@ -9026,10 +9103,10 @@ type DescribeNetworkInterfacesResponseType
     DescribeNetworkInterfacesResponseType(; requestId=nothing, networkInterfaceSet=nothing) =
          new(requestId, networkInterfaceSet)
 end
-function DescribeNetworkInterfacesResponseType(pd::ETree)
+function DescribeNetworkInterfacesResponseType(pd)
     o = DescribeNetworkInterfacesResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.NetworkInterfaceType, LibExpat.find(pd, "networkInterfaceSet/item"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.NetworkInterfaceType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "networkInterfaceSet"), "item"))
     o
 end
 
@@ -9044,11 +9121,11 @@ type DescribeReservedInstancesOfferingsResponseType
     DescribeReservedInstancesOfferingsResponseType(; requestId=nothing, reservedInstancesOfferingsSet=nothing, nextToken=nothing) =
          new(requestId, reservedInstancesOfferingsSet, nextToken)
 end
-function DescribeReservedInstancesOfferingsResponseType(pd::ETree)
+function DescribeReservedInstancesOfferingsResponseType(pd)
     o = DescribeReservedInstancesOfferingsResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.reservedInstancesOfferingsSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesOfferingsResponseSetItemType, LibExpat.find(pd, "reservedInstancesOfferingsSet/item"))
-    o.nextToken = LibExpat.find(pd, "nextToken#string")
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.reservedInstancesOfferingsSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesOfferingsResponseSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "reservedInstancesOfferingsSet"), "item"))
+    o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
     o
 end
 
@@ -9076,24 +9153,26 @@ type SpotInstanceRequestSetItemType
     SpotInstanceRequestSetItemType(; spotInstanceRequestId=nothing, spotPrice=nothing, _type=nothing, state=nothing, fault=nothing, status=nothing, validFrom=nothing, validUntil=nothing, launchGroup=nothing, availabilityZoneGroup=nothing, launchSpecification=nothing, instanceId=nothing, createTime=nothing, productDescription=nothing, tagSet=nothing, launchedAvailabilityZone=nothing) =
          new(spotInstanceRequestId, spotPrice, _type, state, fault, status, validFrom, validUntil, launchGroup, availabilityZoneGroup, launchSpecification, instanceId, createTime, productDescription, tagSet, launchedAvailabilityZone)
 end
-function SpotInstanceRequestSetItemType(pd::ETree)
+function SpotInstanceRequestSetItemType(pd)
     o = SpotInstanceRequestSetItemType()
-    o.spotInstanceRequestId = LibExpat.find(pd, "spotInstanceRequestId#string")
-    o.spotPrice = LibExpat.find(pd, "spotPrice#string")
-    o._type = LibExpat.find(pd, "type#string")
-    o.state = LibExpat.find(pd, "state#string")
-    o.fault = length(pd["fault"]) > 0 ?  SpotInstanceStateFaultType(LibExpat.find(pd,"fault[1]")) : nothing
-    o.status = length(pd["status"]) > 0 ?  SpotInstanceStatusMessageType(LibExpat.find(pd,"status[1]")) : nothing
-    o.validFrom = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "validFrom#string"))
-    o.validUntil = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "validUntil#string"))
-    o.launchGroup = LibExpat.find(pd, "launchGroup#string")
-    o.availabilityZoneGroup = LibExpat.find(pd, "availabilityZoneGroup#string")
-    o.launchSpecification = length(pd["launchSpecification"]) > 0 ?  LaunchSpecificationResponseType(LibExpat.find(pd,"launchSpecification[1]")) : nothing
-    o.instanceId = LibExpat.find(pd, "instanceId#string")
-    o.createTime = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "createTime#string"))
-    o.productDescription = LibExpat.find(pd, "productDescription#string")
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LibExpat.find(pd, "tagSet/item"))
-    o.launchedAvailabilityZone = LibExpat.find(pd, "launchedAvailabilityZone#string")
+    o.spotInstanceRequestId = LightXML.content(LightXML.find_element(pd, "spotInstanceRequestId"))
+    o.spotPrice = LightXML.content(LightXML.find_element(pd, "spotPrice"))
+    o._type = LightXML.content(LightXML.find_element(pd, "type"))
+    o.state = LightXML.content(LightXML.find_element(pd, "state"))
+    ## o.fault = length(pd["fault"]) > 0 ?  SpotInstanceStateFaultType(LightXML.find_element(pd,"fault[1]")) : nothing
+    o.fault = LightXML.find_element(pd,"fault") != nothing ? SpotInstanceStateFaultType(LightXML.find_element(pd,"fault")) : nothing
+    o.status = LightXML.find_element(pd,"status") != nothing ? SpotInstanceStatusMessageType(LightXML.find_element(pd,"status")) : nothing
+    o.validFrom = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "validFrom")))
+    o.validUntil = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "validUntil")))
+    o.launchGroup = LightXML.content(LightXML.find_element(pd, "launchGroup"))
+    o.availabilityZoneGroup = LightXML.content(LightXML.find_element(pd, "availabilityZoneGroup"))
+    ## o.launchSpecification = length(pd["launchSpecification"]) > 0 ?  LaunchSpecificationResponseType(LightXML.find_element(pd,"launchSpecification[1]")) : nothing
+    o.launchSpecification = LightXML.find_element(pd,"launchSpecification") != nothing ? LaunchSpecificationResponseType(LightXML.find_element(pd,"launchSpecification")) : nothing
+    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
+    o.createTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "createTime")))
+    o.productDescription = LightXML.content(LightXML.find_element(pd, "productDescription"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
+    o.launchedAvailabilityZone = LightXML.content(LightXML.find_element(pd, "launchedAvailabilityZone"))
     o
 end
 
@@ -9107,10 +9186,11 @@ type ImportInstanceResponseType
     ImportInstanceResponseType(; requestId=nothing, conversionTask=nothing) =
          new(requestId, conversionTask)
 end
-function ImportInstanceResponseType(pd::ETree)
+function ImportInstanceResponseType(pd)
     o = ImportInstanceResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.conversionTask = length(pd["conversionTask"]) > 0 ?  ConversionTaskType(LibExpat.find(pd,"conversionTask[1]")) : nothing
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    ## o.conversionTask = length(pd["conversionTask"]) > 0 ?  ConversionTaskType(LightXML.find_element(pd,"conversionTask[1]")) : nothing
+    o.conversionTask = LightXML.find_element(pd,"conversionTask") != nothing ? ConversionTaskType(LightXML.find_element(pd,"conversionTask")) : nothing
     o
 end
 
@@ -9127,13 +9207,14 @@ type VolumeStatusItemType
     VolumeStatusItemType(; volumeId=nothing, availabilityZone=nothing, volumeStatus=nothing, eventsSet=nothing, actionsSet=nothing) =
          new(volumeId, availabilityZone, volumeStatus, eventsSet, actionsSet)
 end
-function VolumeStatusItemType(pd::ETree)
+function VolumeStatusItemType(pd)
     o = VolumeStatusItemType()
-    o.volumeId = LibExpat.find(pd, "volumeId#string")
-    o.availabilityZone = LibExpat.find(pd, "availabilityZone#string")
-    o.volumeStatus = length(pd["volumeStatus"]) > 0 ?  VolumeStatusInfoType(LibExpat.find(pd,"volumeStatus[1]")) : nothing
-    o.eventsSet = AWS.@parse_vector(AWS.EC2.VolumeStatusEventItemType, LibExpat.find(pd, "eventsSet/item"))
-    o.actionsSet = AWS.@parse_vector(AWS.EC2.VolumeStatusActionItemType, LibExpat.find(pd, "actionsSet/item"))
+    o.volumeId = LightXML.content(LightXML.find_element(pd, "volumeId"))
+    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
+    ## o.volumeStatus = length(pd["volumeStatus"]) > 0 ?  VolumeStatusInfoType(LightXML.find_element(pd,"volumeStatus[1]")) : nothing
+    o.volumeStatus = LightXML.find_element(pd,"volumeStatus") != nothing ? VolumeStatusInfoType(LightXML.find_element(pd,"volumeStatus")) : nothing
+    o.eventsSet = AWS.@parse_vector(AWS.EC2.VolumeStatusEventItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "eventsSet"), "item"))
+    o.actionsSet = AWS.@parse_vector(AWS.EC2.VolumeStatusActionItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "actionsSet"), "item"))
     o
 end
 
@@ -9147,10 +9228,10 @@ type DescribeSpotInstanceRequestsResponseType
     DescribeSpotInstanceRequestsResponseType(; requestId=nothing, spotInstanceRequestSet=nothing) =
          new(requestId, spotInstanceRequestSet)
 end
-function DescribeSpotInstanceRequestsResponseType(pd::ETree)
+function DescribeSpotInstanceRequestsResponseType(pd)
     o = DescribeSpotInstanceRequestsResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.spotInstanceRequestSet = AWS.@parse_vector(AWS.EC2.SpotInstanceRequestSetItemType, LibExpat.find(pd, "spotInstanceRequestSet/item"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.spotInstanceRequestSet = AWS.@parse_vector(AWS.EC2.SpotInstanceRequestSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "spotInstanceRequestSet"), "item"))
     o
 end
 
@@ -9164,10 +9245,10 @@ type DescribeCustomerGatewaysResponseType
     DescribeCustomerGatewaysResponseType(; requestId=nothing, customerGatewaySet=nothing) =
          new(requestId, customerGatewaySet)
 end
-function DescribeCustomerGatewaysResponseType(pd::ETree)
+function DescribeCustomerGatewaysResponseType(pd)
     o = DescribeCustomerGatewaysResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.customerGatewaySet = AWS.@parse_vector(AWS.EC2.CustomerGatewayType, LibExpat.find(pd, "customerGatewaySet/item"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.customerGatewaySet = AWS.@parse_vector(AWS.EC2.CustomerGatewayType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "customerGatewaySet"), "item"))
     o
 end
 
@@ -9182,11 +9263,11 @@ type DescribeVolumeStatusResponseType
     DescribeVolumeStatusResponseType(; requestId=nothing, volumeStatusSet=nothing, nextToken=nothing) =
          new(requestId, volumeStatusSet, nextToken)
 end
-function DescribeVolumeStatusResponseType(pd::ETree)
+function DescribeVolumeStatusResponseType(pd)
     o = DescribeVolumeStatusResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.volumeStatusSet = AWS.@parse_vector(AWS.EC2.VolumeStatusItemType, LibExpat.find(pd, "volumeStatusSet/item"))
-    o.nextToken = LibExpat.find(pd, "nextToken#string")
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.volumeStatusSet = AWS.@parse_vector(AWS.EC2.VolumeStatusItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "volumeStatusSet"), "item"))
+    o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
     o
 end
 
@@ -9200,10 +9281,10 @@ type DescribeVpnGatewaysResponseType
     DescribeVpnGatewaysResponseType(; requestId=nothing, vpnGatewaySet=nothing) =
          new(requestId, vpnGatewaySet)
 end
-function DescribeVpnGatewaysResponseType(pd::ETree)
+function DescribeVpnGatewaysResponseType(pd)
     o = DescribeVpnGatewaysResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.vpnGatewaySet = AWS.@parse_vector(AWS.EC2.VpnGatewayType, LibExpat.find(pd, "vpnGatewaySet/item"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.vpnGatewaySet = AWS.@parse_vector(AWS.EC2.VpnGatewayType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "vpnGatewaySet"), "item"))
     o
 end
 
@@ -9231,24 +9312,28 @@ type LaunchSpecificationRequestType
     LaunchSpecificationRequestType(; imageId=nothing, keyName=nothing, securityGroupIdSet=nothing, securityGroupSet=nothing, userData=nothing, addressingType=nothing, instanceType=nothing, placement=nothing, kernelId=nothing, ramdiskId=nothing, blockDeviceMapping=nothing, monitoring=nothing, subnetId=nothing, networkInterfaceSet=nothing, iamInstanceProfile=nothing, ebsOptimized=nothing) =
          new(imageId, keyName, securityGroupIdSet, securityGroupSet, userData, addressingType, instanceType, placement, kernelId, ramdiskId, blockDeviceMapping, monitoring, subnetId, networkInterfaceSet, iamInstanceProfile, ebsOptimized)
 end
-function LaunchSpecificationRequestType(pd::ETree)
+function LaunchSpecificationRequestType(pd)
     o = LaunchSpecificationRequestType()
-    o.imageId = LibExpat.find(pd, "imageId#string")
-    o.keyName = LibExpat.find(pd, "keyName#string")
-    o.securityGroupIdSet = AWS.parse_vector_as(ASCIIString, "securityGroupId", LibExpat.find(pd, "item/securityGroupId"))
-    o.securityGroupSet = AWS.parse_vector_as(ASCIIString, "securityGroup", LibExpat.find(pd, "item/securityGroup"))
-    o.userData = length(pd["userData"]) > 0 ?  UserDataType(LibExpat.find(pd,"userData[1]")) : nothing
-    o.addressingType = LibExpat.find(pd, "addressingType#string")
-    o.instanceType = LibExpat.find(pd, "instanceType#string")
-    o.placement = length(pd["placement"]) > 0 ?  SpotPlacementRequestType(LibExpat.find(pd,"placement[1]")) : nothing
-    o.kernelId = LibExpat.find(pd, "kernelId#string")
-    o.ramdiskId = LibExpat.find(pd, "ramdiskId#string")
-    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, LibExpat.find(pd, "blockDeviceMapping/item"))
-    o.monitoring = length(pd["monitoring"]) > 0 ?  MonitoringInstanceType(LibExpat.find(pd,"monitoring[1]")) : nothing
-    o.subnetId = LibExpat.find(pd, "subnetId#string")
-    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.InstanceNetworkInterfaceSetItemRequestType, LibExpat.find(pd, "networkInterfaceSet/item"))
-    o.iamInstanceProfile = length(pd["iamInstanceProfile"]) > 0 ?  IamInstanceProfileRequestType(LibExpat.find(pd,"iamInstanceProfile[1]")) : nothing
-    o.ebsOptimized = AWS.safe_parse_as(Bool, LibExpat.find(pd, "ebsOptimized#string"))
+    o.imageId = LightXML.content(LightXML.find_element(pd, "imageId"))
+    o.keyName = LightXML.content(LightXML.find_element(pd, "keyName"))
+    o.securityGroupIdSet = AWS.parse_vector_as(ASCIIString, "securityGroupId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "securityGroupId"))
+    o.securityGroupSet = AWS.parse_vector_as(ASCIIString, "securityGroup", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "securityGroup"))
+    ## o.userData = length(pd["userData"]) > 0 ?  UserDataType(LightXML.find_element(pd,"userData[1]")) : nothing
+    o.userData = LightXML.find_element(pd,"userData") != nothing ? UserDataType(LightXML.find_element(pd,"userData")) : nothing
+    o.addressingType = LightXML.content(LightXML.find_element(pd, "addressingType"))
+    o.instanceType = LightXML.content(LightXML.find_element(pd, "instanceType"))
+    ## o.placement = length(pd["placement"]) > 0 ?  SpotPlacementRequestType(LightXML.find_element(pd,"placement[1]")) : nothing
+    o.placement = LightXML.find_element(pd,"placement") != nothing ? SpotPlacementRequestType(LightXML.find_element(pd,"placement")) : nothing
+    o.kernelId = LightXML.content(LightXML.find_element(pd, "kernelId"))
+    o.ramdiskId = LightXML.content(LightXML.find_element(pd, "ramdiskId"))
+    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "blockDeviceMapping"), "item"))
+    ## o.monitoring = length(pd["monitoring"]) > 0 ?  MonitoringInstanceType(LightXML.find_element(pd,"monitoring[1]")) : nothing
+    o.monitoring = LightXML.find_element(pd,"monitoring") != nothing ? MonitoringInstanceType(LightXML.find_element(pd,"monitoring")) : nothing
+    o.subnetId = LightXML.content(LightXML.find_element(pd, "subnetId"))
+    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.InstanceNetworkInterfaceSetItemRequestType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "networkInterfaceSet"), "item"))
+    ## o.iamInstanceProfile = length(pd["iamInstanceProfile"]) > 0 ?  IamInstanceProfileRequestType(LightXML.find_element(pd,"iamInstanceProfile[1]")) : nothing
+    o.iamInstanceProfile = LightXML.find_element(pd,"iamInstanceProfile") != nothing ? IamInstanceProfileRequestType(LightXML.find_element(pd,"iamInstanceProfile")) : nothing
+    o.ebsOptimized = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "ebsOptimized")))
     o
 end
 
@@ -9265,13 +9350,14 @@ type ReservationInfoType
     ReservationInfoType(; reservationId=nothing, ownerId=nothing, groupSet=nothing, instancesSet=nothing, requesterId=nothing) =
          new(reservationId, ownerId, groupSet, instancesSet, requesterId)
 end
-function ReservationInfoType(pd::ETree)
+function ReservationInfoType(pd)
     o = ReservationInfoType()
-    o.reservationId = LibExpat.find(pd, "reservationId#string")
-    o.ownerId = LibExpat.find(pd, "ownerId#string")
-    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, LibExpat.find(pd, "groupSet/item"))
-    o.instancesSet = AWS.@parse_vector(AWS.EC2.RunningInstancesItemType, LibExpat.find(pd, "instancesSet/item"))
-    o.requesterId = LibExpat.find(pd, "requesterId#string")
+    o.reservationId = LightXML.content(LightXML.find_element(pd, "reservationId"))
+    o.ownerId = LightXML.content(LightXML.find_element(pd, "ownerId"))
+    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "groupSet"), "item"))
+    o.instancesSet = AWS.@parse_vector(AWS.EC2.RunningInstancesItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "instancesSet"), "item"))
+    ## MDP TODO o.requesterId = LightXML.content(LightXML.find_element(pd, "requesterId"))
+    o.requesterId = LightXML.content(LightXML.find_element(pd, "ownerId"))
     o
 end
 
@@ -9285,10 +9371,10 @@ type DescribeBundleTasksResponseType
     DescribeBundleTasksResponseType(; requestId=nothing, bundleInstanceTasksSet=nothing) =
          new(requestId, bundleInstanceTasksSet)
 end
-function DescribeBundleTasksResponseType(pd::ETree)
+function DescribeBundleTasksResponseType(pd)
     o = DescribeBundleTasksResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.bundleInstanceTasksSet = AWS.@parse_vector(AWS.EC2.BundleInstanceTaskType, LibExpat.find(pd, "bundleInstanceTasksSet/item"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.bundleInstanceTasksSet = AWS.@parse_vector(AWS.EC2.BundleInstanceTaskType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "bundleInstanceTasksSet"), "item"))
     o
 end
 
@@ -9302,10 +9388,11 @@ type CreateRouteTableResponseType
     CreateRouteTableResponseType(; requestId=nothing, routeTable=nothing) =
          new(requestId, routeTable)
 end
-function CreateRouteTableResponseType(pd::ETree)
+function CreateRouteTableResponseType(pd)
     o = CreateRouteTableResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.routeTable = length(pd["routeTable"]) > 0 ?  RouteTableType(LibExpat.find(pd,"routeTable[1]")) : nothing
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    ## o.routeTable = length(pd["routeTable"]) > 0 ?  RouteTableType(LightXML.find_element(pd,"routeTable[1]")) : nothing
+    o.routeTable = LightXML.find_element(pd,"routeTable") != nothing ? RouteTableType(LightXML.find_element(pd,"routeTable")) : nothing
     o
 end
 
@@ -9319,10 +9406,10 @@ type RequestSpotInstancesResponseType
     RequestSpotInstancesResponseType(; requestId=nothing, spotInstanceRequestSet=nothing) =
          new(requestId, spotInstanceRequestSet)
 end
-function RequestSpotInstancesResponseType(pd::ETree)
+function RequestSpotInstancesResponseType(pd)
     o = RequestSpotInstancesResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.spotInstanceRequestSet = AWS.@parse_vector(AWS.EC2.SpotInstanceRequestSetItemType, LibExpat.find(pd, "spotInstanceRequestSet/item"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.spotInstanceRequestSet = AWS.@parse_vector(AWS.EC2.SpotInstanceRequestSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "spotInstanceRequestSet"), "item"))
     o
 end
 
@@ -9336,10 +9423,10 @@ type DescribeSubnetsResponseType
     DescribeSubnetsResponseType(; requestId=nothing, subnetSet=nothing) =
          new(requestId, subnetSet)
 end
-function DescribeSubnetsResponseType(pd::ETree)
+function DescribeSubnetsResponseType(pd)
     o = DescribeSubnetsResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.subnetSet = AWS.@parse_vector(AWS.EC2.SubnetType, LibExpat.find(pd, "subnetSet/item"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.subnetSet = AWS.@parse_vector(AWS.EC2.SubnetType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "subnetSet"), "item"))
     o
 end
 
@@ -9359,16 +9446,17 @@ type RequestSpotInstancesType
     RequestSpotInstancesType(; spotPrice=nothing, instanceCount=nothing, _type=nothing, validFrom=nothing, validUntil=nothing, launchGroup=nothing, availabilityZoneGroup=nothing, launchSpecification=nothing) =
          new(spotPrice, instanceCount, _type, validFrom, validUntil, launchGroup, availabilityZoneGroup, launchSpecification)
 end
-function RequestSpotInstancesType(pd::ETree)
+function RequestSpotInstancesType(pd)
     o = RequestSpotInstancesType()
-    o.spotPrice = LibExpat.find(pd, "spotPrice#string")
-    o.instanceCount = AWS.safe_parse_as(Int64, LibExpat.find(pd, "instanceCount#string"))
-    o._type = LibExpat.find(pd, "type#string")
-    o.validFrom = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "validFrom#string"))
-    o.validUntil = AWS.safe_parse_as(Base.Dates.DateTime, LibExpat.find(pd, "validUntil#string"))
-    o.launchGroup = LibExpat.find(pd, "launchGroup#string")
-    o.availabilityZoneGroup = LibExpat.find(pd, "availabilityZoneGroup#string")
-    o.launchSpecification = length(pd["launchSpecification"]) > 0 ?  LaunchSpecificationRequestType(LibExpat.find(pd,"launchSpecification[1]")) : nothing
+    o.spotPrice = LightXML.content(LightXML.find_element(pd, "spotPrice"))
+    o.instanceCount = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "instanceCount")))
+    o._type = LightXML.content(LightXML.find_element(pd, "type"))
+    o.validFrom = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "validFrom")))
+    o.validUntil = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "validUntil")))
+    o.launchGroup = LightXML.content(LightXML.find_element(pd, "launchGroup"))
+    o.availabilityZoneGroup = LightXML.content(LightXML.find_element(pd, "availabilityZoneGroup"))
+    ## o.launchSpecification = length(pd["launchSpecification"]) > 0 ?  LaunchSpecificationRequestType(LightXML.find_element(pd,"launchSpecification[1]")) : nothing
+    o.launchSpecification = LightXML.find_element(pd,"launchSpecification") != nothing ? LaunchSpecificationRequestType(LightXML.find_element(pd,"launchSpecification")) : nothing
     o
 end
 
@@ -9382,10 +9470,11 @@ type BundleInstanceResponseType
     BundleInstanceResponseType(; requestId=nothing, bundleInstanceTask=nothing) =
          new(requestId, bundleInstanceTask)
 end
-function BundleInstanceResponseType(pd::ETree)
+function BundleInstanceResponseType(pd)
     o = BundleInstanceResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.bundleInstanceTask = length(pd["bundleInstanceTask"]) > 0 ?  BundleInstanceTaskType(LibExpat.find(pd,"bundleInstanceTask[1]")) : nothing
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    ## o.bundleInstanceTask = length(pd["bundleInstanceTask"]) > 0 ?  BundleInstanceTaskType(LightXML.find_element(pd,"bundleInstanceTask[1]")) : nothing
+    o.bundleInstanceTask = LightXML.find_element(pd,"bundleInstanceTask") != nothing ? BundleInstanceTaskType(LightXML.find_element(pd,"bundleInstanceTask")) : nothing
     o
 end
 
@@ -9399,10 +9488,10 @@ type DescribeInstancesResponseType
     DescribeInstancesResponseType(; requestId=nothing, reservationSet=nothing) =
          new(requestId, reservationSet)
 end
-function DescribeInstancesResponseType(pd::ETree)
+function DescribeInstancesResponseType(pd)
     o = DescribeInstancesResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.reservationSet = AWS.@parse_vector(AWS.EC2.ReservationInfoType, LibExpat.find(pd, "reservationSet/item"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.reservationSet = LightXML.find_element(pd, "reservationSet") != nothing ? AWS.@parse_vector(AWS.EC2.ReservationInfoType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "reservationSet"), "item")) : nothing
     o
 end
 
@@ -9416,10 +9505,10 @@ type DescribeSecurityGroupsResponseType
     DescribeSecurityGroupsResponseType(; requestId=nothing, securityGroupInfo=nothing) =
          new(requestId, securityGroupInfo)
 end
-function DescribeSecurityGroupsResponseType(pd::ETree)
+function DescribeSecurityGroupsResponseType(pd)
     o = DescribeSecurityGroupsResponseType()
-    o.requestId = LibExpat.find(pd, "requestId#string")
-    o.securityGroupInfo = AWS.@parse_vector(AWS.EC2.SecurityGroupItemType, LibExpat.find(pd, "securityGroupInfo/item"))
+    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
+    o.securityGroupInfo = AWS.@parse_vector(AWS.EC2.SecurityGroupItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "securityGroupInfo"), "item"))
     o
 end
 

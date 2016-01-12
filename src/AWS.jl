@@ -1,9 +1,9 @@
 isdefined(Base, :__precompile__) && __precompile__()
 
 module AWS
-using HTTPClient.HTTPC
+using Requests
 using JSON
-using LibExpat
+using LightXML
 
 
 const EP_US_EAST_NORTHERN_VIRGINIA     = "ec2.us-east-1.amazonaws.com"
@@ -65,6 +65,7 @@ type AWSEnv
     aws_seckey::ASCIIString     # AWS Secret key for signing requests
     aws_token::ASCIIString      # AWS Security Token for temporary credentials
     region::AbstractString      # region name
+	ep_scheme::ASCIIString      # URL scheme: http or https
     ep_host::AbstractString     # region endpoint (host)
     ep_path::AbstractString     # region endpoint (path)
     sig_ver::Int                # AWS signature version (2 or 4)
@@ -73,7 +74,7 @@ type AWSEnv
     dbg::Bool                   # print request to screen
 
 
-    function AWSEnv(; id=AWS_ID, key=AWS_SECKEY, token=AWS_TOKEN, ec2_creds=false, region=AWS_REGION, ep="", sig_ver=4, timeout=0.0, dr=false, dbg=false)
+    function AWSEnv(; id=AWS_ID, key=AWS_SECKEY, token=AWS_TOKEN, ec2_creds=false, scheme="https", region=AWS_REGION, ep="", sig_ver=4, timeout=0.0, dr=false, dbg=false)
         if ec2_creds
             creds = get_instance_credentials()
             if creds != nothing
@@ -87,6 +88,7 @@ type AWSEnv
             error("Invalid AWS security credentials provided")
         end
 
+		#=
         s = search(ep,"/")
         if length(s) == 0
             ep_host = ep
@@ -95,6 +97,8 @@ type AWSEnv
             ep_host = ep[1:(first(s)-1)]
             ep_path = ep[first(s):end]
         end
+		=#
+		ep_scheme, ep_host, ep_path = parse_endpoint(ep, scheme)
 
         # host portion of ep overrides region
         if length(ep_host) > 19 && ep_host[1:4] == "ec2." && ep_host[(end-13):end] == ".amazonaws.com"
@@ -115,14 +119,41 @@ type AWSEnv
         end
 
         if dr
-            new(id, key, token, region, ep_host, ep_path, sig_ver, timeout, dr, true)
+            new(id, key, token, region, ep_scheme, ep_host, ep_path, sig_ver, timeout, dr, true)
         else
-            new(id, key, token, region, ep_host, ep_path, sig_ver, timeout, false, dbg)
+            new(id, key, token, region, ep_scheme, ep_host, ep_path, sig_ver, timeout, false, dbg)
         end
+    end
+
+	function AWSEnv(env::AWSEnv; ep="")
+        ep_scheme, ep_host, ep_path = parse_endpoint(ep, env.ep_scheme)
+
+        new(env.aws_id, env.aws_seckey, env.aws_token, env.region, ep_scheme,
+            ep_host, ep_path, env.sig_ver, env.timeout, env.dry_run, env.dbg)
     end
 
 end
 export AWSEnv
+
+function parse_endpoint(ep, default_scheme)
+    s = search(ep,"://")
+    if length(s) == 0
+        ep_scheme = default_scheme
+        ephp = ep
+    else
+        ep_scheme = ep[1:(first(s)-1)]
+        ephp = ep[first(s)+3:end]
+    end
+    s = search(ephp,"/")
+    if length(s) == 0
+        ep_host = ephp
+        ep_path = "/"
+    else
+        ep_host = ephp[1:(first(s)-1)]
+        ep_path = ephp[first(s):end]
+    end
+    return (ep_scheme, ep_host, ep_path)
+end
 
 ep_host(env::AWSEnv, service) = lowercase(env.ep_host=="" ? "$service.$(env.region).amazonaws.com" : env.ep_host)
 export ep_host
@@ -134,7 +165,7 @@ function get_instance_credentials()
         end
 
         url = "http://169.254.169.254/2014-11-05/meta-data/iam/security-credentials/"
-        resp = HTTPC.get(url)
+        resp = Requests.get(url)
         if resp.http_code != 200
             return nothing
         end
@@ -145,7 +176,7 @@ function get_instance_credentials()
         end
 
         url *= iam[1]
-        resp = HTTPC.get(url)
+        resp = Requests.get(url)
         if resp.http_code != 200
             return nothing
         end
@@ -162,6 +193,7 @@ include("crypto.jl")
 include("sign.jl")
 include("EC2.jl")
 include("S3.jl")
+include("SQS.jl")
 
 include("show.jl")
 

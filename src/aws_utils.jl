@@ -3,6 +3,7 @@ safe_parseint32(s) = (s != nothing) ? Base.parse(Int32, s) : nothing
 safe_parseint64(s) = (s != nothing) ? Base.parse(Int64, s) : nothing
 safe_parseint(s) = (s != nothing) ? Base.parse(Int, s) : nothing
 safe_parsebool(s) = (s != nothing) ? ((lowercase(s) == "true") ? true : false) : nothing
+safe_parseb64(s) = (s != nothing) ? base64decode(s) : nothing
 
 function safe_parse_as(as::Type, s::Union{AbstractString, Void})
     if (as == AbstractString) || (s == nothing)
@@ -29,20 +30,20 @@ macro parse_vector(typ, vect)
         jl_vect = $(esc(typ))[]
         if ($(esc(vect)) != nothing)
             for pd in $(esc(vect))
-                push!(jl_vect, $(typ)(pd))
+            	push!(jl_vect, $(typ)(pd))
             end
         end
         jl_vect
      end
 end
 export @parse_vector
-
+ 
 
 function parse_vector_as(as_type::Type, typ_str::AbstractString, vect)
     jl_vect = as_type[]
     if (vect == nothing) return jl_vect end
     for pd in vect
-        val = LibExpat.find(pd, "/" * typ_str * "#text")
+        val = LightXML.content(LightXML.find_element(pd, typ_str))
         val = safe_parse_as(as_type, val)
         if (val == nothing) error("Invalid $(typ_str) for pd vector") end
         push!(jl_vect, val)
@@ -52,11 +53,11 @@ function parse_vector_as(as_type::Type, typ_str::AbstractString, vect)
 end
 export parse_vector_as
 
-function parse_calendar_time(pd::ETree, elem::AbstractString, format::AbstractString)
-    datestr = LibExpat.find(pd, "$(elem)#text")
+function parse_calendar_time(pd, elem::AbstractString, format::AbstractString)
+    datestr = LightXML.content(LightXML.find_element(pd, elem))
     DateTime(datestr[1:end-1], format)
 end
-parse_calendar_time(pd::ETree, elem::AbstractString) = parse_calendar_time(pd, elem, "yyyy-MM-DD'T'HH:mm:ss")
+parse_calendar_time(pd, elem::AbstractString) = parse_calendar_time(pd, elem, "yyyy-MM-DD'T'HH:mm:ss")
 
 
 xml(o::Any) = string(o)

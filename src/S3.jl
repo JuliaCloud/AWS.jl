@@ -3,21 +3,50 @@ module S3
 # Etag should always be quoted - in XML as well as headers...
 using AWS
 using AWS.Crypto
-using HTTPClient.HTTPC
-using LibExpat
+using Requests
+using LightXML
 using Base.get
+
+using URIParser
 
 import AWS.xml
 
 include("s3_types.jl")
+
+def_rto = 0.0
+null_cb(curl) = return nothing
+
+type RequestOptions
+    blocking::Bool
+    query_params::Vector{Tuple}
+    request_timeout::Float64
+    callback::Union{Function,Bool}
+    content_type::AbstractString
+    headers::Vector{Tuple}
+    ostream::Union{IO, AbstractString, Void}
+    auto_content_type::Bool
+
+    RequestOptions(; blocking=true, query_params=Array(Tuple,0), request_timeout=def_rto, callback=null_cb, content_type="", headers=Array(Tuple,0), ostream=nothing, auto_content_type=true) =
+    new(blocking, query_params, request_timeout, callback, content_type, headers, ostream, auto_content_type)
+end
+
+type Response
+    body
+    headers :: Dict{AbstractString, Vector{AbstractString}}
+    http_code
+    total_time
+    bytes_recd::Integer
+
+    Response() = new(nothing, Dict{AbstractString, Vector{AbstractString}}(), 0, 0.0, 0)
+end
+
 
 
 macro req_n_process(resp_obj_type)
     quote
         s3_resp = do_request(env, ro)
         if (isa(s3_resp.obj, AbstractString) &&  (length(s3_resp.obj) > 0))
-            s3_resp.pd = xp_parse(s3_resp.obj)
-            s3_resp.obj = $(esc(resp_obj_type))(s3_resp.pd)
+			s3_resp.pd = LightXML.root(LightXML.parse_string(s3_resp.obj))
         end
         s3_resp
     end
@@ -44,7 +73,8 @@ type S3Response
 
 # All header fields
     obj::Any
-    pd::Union{ETree, Void}
+    ## pd::Union{ETree, Void}
+    pd::Union{LightXML.XMLElement, Void}
 
     S3Response() = new(0, "", "", "", 0, false, "","","",Dict{AbstractString,AbstractString}(), nothing, nothing)
 end
@@ -241,6 +271,7 @@ end
 
 function create_bkt(env::AWSEnv, bkt::AbstractString; acl::Union{S3_ACL, Void}=nothing, config::Union{CreateBucketConfiguration, Void}=nothing)
     ro = RO(:PUT, bkt, "")
+	ro.cont_typ = "application/octet-stream"
     if isa(acl, AccessControlPolicy)
         ro.amz_hdrs = amz_headers(Tuple[], acl)
     end
@@ -255,6 +286,7 @@ end
 
 function set_bkt_acl(env::AWSEnv, bkt::AbstractString, acl:: Union{AccessControlPolicy, S3_ACL})
     ro = RO(:PUT, bkt, "")
+	ro.cont_typ = "application/octet-stream"
     ro.sub_res=[("acl", "")]
     if isa(acl, AccessControlPolicy)
         ro.body = xml(acl)
@@ -268,6 +300,7 @@ end
 
 function set_bkt_cors(env::AWSEnv, bkt::AbstractString, cors::CORSConfiguration)
     ro = RO(:PUT, bkt, "")
+	ro.cont_typ = "application/octet-stream"
     ro.sub_res = [("cors", "")]
     ro.body = xml(cors)
 
@@ -278,6 +311,7 @@ end
 #TODO : Create LifecycleCongig type
 function set_bkt_lifecycle(env::AWSEnv, bkt::AbstractString, lifecycleconfig::AbstractString)
     ro = RO(:PUT, bkt, "")
+	ro.cont_typ = "application/octet-stream"
     ro.sub_res = [("lifecycle", "")]
     ro.body = lifecycleconfig
 
@@ -288,6 +322,7 @@ end
 
 function set_bkt_policy(env::AWSEnv, bkt::AbstractString, policy_json::AbstractString)
     ro = RO(:PUT, bkt, "")
+	ro.cont_typ = "application/octet-stream"
     ro.sub_res = [("policy", "")]
     ro.body = policy_json
 
@@ -297,6 +332,7 @@ end
 
 function set_bkt_logging(env::AWSEnv, bkt::AbstractString, logging::BucketLoggingStatus)
     ro = RO(:PUT, bkt, "")
+	ro.cont_typ = "application/octet-stream"
     ro.sub_res = [("logging", "")]
     ro.body = xml(logging)
 
@@ -308,6 +344,7 @@ end
 
 function set_bkt_notification(env::AWSEnv, bkt::AbstractString, notif::NotificationConfiguration)
     ro = RO(:PUT, bkt, "")
+	ro.cont_typ = "application/octet-stream"
     ro.sub_res = [("notification", "")]
     ro.body = xml(notif)
 
@@ -318,6 +355,7 @@ end
 
 function set_bkt_tagging(env::AWSEnv, bkt::AbstractString, tagging::Tagging)
     ro = RO(:PUT, bkt, "")
+	ro.cont_typ = "application/octet-stream"
     ro.sub_res = [("tagging", "")]
     ro.body = xml(tagging)
 
@@ -327,6 +365,7 @@ end
 
 function set_bkt_request_payment(env::AWSEnv, bkt::AbstractString, pay::RequestPaymentConfiguration)
     ro = RO(:PUT, bkt, "")
+	ro.cont_typ = "application/octet-stream"
     ro.sub_res = [("requestPayment", "")]
     ro.body = xml(pay)
 
@@ -336,6 +375,7 @@ end
 
 function set_bkt_versioning(env::AWSEnv, bkt::AbstractString, config::VersioningConfiguration; mfa::AbstractString="")
     ro = RO(:PUT, bkt, "")
+	ro.cont_typ = "application/octet-stream"
     ro.sub_res = [("versioning", "")]
     ro.body = xml(config)
     if (mfa != "") ro.amz_hdrs = [("mfa", mfa)] end
@@ -347,6 +387,7 @@ end
 #TODO: Define WebsiteConfiguration as a type and use that....
 function set_bkt_website(env::AWSEnv, bkt::AbstractString, websiteconfig::AbstractString)
     ro = RO(:PUT, bkt, "")
+	ro.cont_typ = "application/octet-stream"
     ro.sub_res = [("website", "")]
     ro.body = websiteconfig
 
@@ -369,6 +410,7 @@ end
 
 function del_object_multi(env::AWSEnv, bkt::AbstractString, delset::DeleteObjectsType; mfa::AbstractString="")
     ro = RO(:POST, bkt, "")
+	ro.cont_typ = "application/octet-stream"
     ro.sub_res = [("delete", "")]
     ro.body= xml(delset)
     if (mfa != "") ro.amz_hdrs = [("mfa", mfa)] end
@@ -435,6 +477,7 @@ function restore_object(env::AWSEnv, bkt::AbstractString, key::AbstractString, d
     # TODO qp = "restore"
     # convert days to RestoreRequest
     ro = RO(:POST, bkt, key)
+	ro.cont_typ = "application/octet-stream"
 
     ro.sub_res=[("restore", "")]
     ro.body = "<RestoreRequest xmlns=\"http://s3-$(env.region).amazonaws.com/doc/2006-3-01\"><Days>$(days)</Days></RestoreRequest>"
@@ -446,6 +489,7 @@ end
 
 function put_object(env::AWSEnv, bkt::AbstractString, key::AbstractString, data:: Union{IO, AbstractString, Tuple}; content_type="", options::PutObjectOptions=PutObjectOptions(), version_id::AbstractString="")
     ro = RO(:PUT, bkt, key)
+	ro.cont_typ = "application/octet-stream"
 
     ro.amz_hdrs = amz_headers(Tuple[], options)
     ro.http_hdrs = http_headers(Array(Tuple, 0), options)
@@ -469,6 +513,7 @@ end
 
 function put_object_acl(env::AWSEnv, bkt::AbstractString, key::AbstractString, acl:: Union{AccessControlPolicy, S3_ACL})
     ro = RO(:PUT, bkt, key)
+	ro.cont_typ = "application/octet-stream"
     ro.sub_res=[("acl", "")]
     if isa(acl, AccessControlPolicy)
         ro.body = xml(acl)
@@ -483,6 +528,7 @@ end
 
 function copy_object(env::AWSEnv, dest_bkt::AbstractString, dest_key::AbstractString, options::CopyObjectOptions, version_id::AbstractString="")
     ro = RO(:PUT, dest_bkt, dest_key)
+	ro.cont_typ = "application/octet-stream"
     ro.amz_hdrs = amz_headers(Tuple[], options)
     if (version_id != "")
         ro.sub_res=[("versionId", version_id)]
@@ -493,6 +539,7 @@ end
 
 function initiate_multipart_upload(env::AWSEnv, bkt::AbstractString, key::AbstractString; content_type="", options::PutObjectOptions=PutObjectOptions())
     ro = RO(:POST, bkt, key)
+	ro.cont_typ = "application/octet-stream"
     ro.amz_hdrs = amz_headers(Tuple[], options)
     ro.http_hdrs = http_headers(Array(Tuple, 0), options)
     if (content_type != "") ro.cont_typ = content_type end
@@ -503,6 +550,7 @@ end
 
 function upload_part(env::AWSEnv, bkt::AbstractString, key::AbstractString, part_number::AbstractString, upload_id::AbstractString, data:: Union{IO, AbstractString, Tuple})
     ro = RO(:PUT, bkt, key)
+	ro.cont_typ = "application/octet-stream"
     ro.sub_res = [("partNumber", "$(part_number)"), ("uploadId", "$(upload_id)")]
 
     if isa(data, AbstractString)
@@ -522,6 +570,7 @@ end
 
 function copy_upload_part(env::AWSEnv, bkt::AbstractString, key::AbstractString, part_number::AbstractString, upload_id::AbstractString, options::CopyUploadPartOptions)
     ro = RO(:PUT, bkt, key)
+	ro.cont_typ = "application/octet-stream"
     ro.sub_res = [("partNumber", "$(part_number)"), ("uploadId", "$(upload_id)")]
     ro.amz_hdrs = amz_headers(options)
 
@@ -531,6 +580,7 @@ end
 
 function complete_multipart_upload(env::AWSEnv, bkt::AbstractString, key::AbstractString, upload_id::AbstractString, part_ids::Vector{S3PartTag})
     ro = RO(:POST, bkt, key)
+	ro.cont_typ = "application/octet-stream"
     ro.sub_res = [("uploadId", "$(upload_id)")]
 
     ro.body = xml("CompleteMultipartUpload", part_ids)
@@ -563,31 +613,34 @@ function do_request(env::AWSEnv, ro::RO; conv_to_string=true)
 
     s3_resp = S3Response()
 
-    s3_resp.http_code = http_resp.http_code
+    s3_resp.http_code = http_resp.status
     cl_s = get(http_resp.headers, "Content-Length", [""])[1]
     if cl_s != ""
         s3_resp.content_length = Base.parse(Int, cl_s)
     end
-    s3_resp.date = get(http_resp.headers, "Date", [""])[1]
-    s3_resp.eTag = get(http_resp.headers, "ETag", [""])[1]
-    s3_resp.server = get(http_resp.headers, "Server", [""])[1]
 
-    s3_resp.delete_marker = lowercase(get(http_resp.headers, "x-amz-delete-marker", ["false"])[1]) == "true" ? true : false
-    s3_resp.id_2 = get(http_resp.headers, "x-amz-id-2", [""])[1]
-    s3_resp.request_id = get(http_resp.headers, "x-amz-request-id", [""])[1]
-    s3_resp.version_id = get(http_resp.headers, "x-amz-version-id", [""])[1]
+    s3_resp.date = get(http_resp.headers, "Date", [""])
+    s3_resp.server = get(http_resp.headers, "Server", [""])
+
+    ## s3_resp.delete_marker = lowercase(get(http_resp.headers, "x-amz-delete-marker", ["false"])[1]) == "true" ? true : false
+    ## s3_resp.id_2 = get(http_resp.headers, "x-amz-id-2", [""])[1]
+    ## s3_resp.request_id = get(http_resp.headers, "x-amz-request-id", [""])[1]
+    ## s3_resp.version_id = get(http_resp.headers, "x-amz-version-id", [""])[1]
+
 
     s3_resp.headers = http_resp.headers
 
-    if (http_resp.http_code > 299)
-        if  (search(Base.get(http_resp.headers, "Content-Type", [""])[1], "/xml") != 0:-1) && isa(http_resp.body, IO) && (position(http_resp.body) > 0)
-            s3_resp.pd = xp_parse(bytestring(http_resp.body))
+    if (http_resp.status > 299)
+        if  (search(Base.get(http_resp.headers, "Content-Type", [""]), "/xml") != 0:-1) && isa(http_resp.data, IO) && (position(http_resp.data) > 0)
+            s3_resp.pd = LightXML.root(LightXML.parse_string(bytestring(http_resp.data)))
             if s3_resp.pd.name == "Error"
                 s3_resp.obj = S3Error(s3_resp.pd)
             end
+		else
+			s3_resp.pd = bytestring(http_resp.data)
         end
     else
-        s3_resp.obj = conv_to_string ? bytestring(http_resp.body) : http_resp.body
+        s3_resp.obj = conv_to_string ? bytestring(http_resp.data) : http_resp.data
     end
 
     s3_resp
@@ -610,6 +663,7 @@ function do_http(env::AWSEnv, ro::RO)
     end
 
     (new_amz_hdrs, full_path, s_b64) = canonicalize_and_sign(env, ro, md5)
+	## @show new_amz_hdrs, full_path, s_b64
 
     all_hdrs = new_amz_hdrs
     (md5 != "") ? push!(all_hdrs, ("Content-MD5", md5)) : nothing
@@ -628,7 +682,12 @@ function do_http(env::AWSEnv, ro::RO)
 
     push!(all_hdrs, ("Authorization",  "AWS " * env.aws_id * ":" * s_b64))
 
-    url = "https://s3-$(env.region).amazonaws.com" * full_path
+	## region specific URL is not required
+	## if( isempty(env.region) )
+    	url = "https://s3.amazonaws.com" * full_path
+	## else
+    	## url = "https://s3-$(env.region).amazonaws.com" * full_path
+	## end
 
     http_options = RequestOptions(headers=all_hdrs, ostream=ro.ostream, request_timeout=env.timeout, auto_content_type=false)
 
@@ -643,11 +702,24 @@ function do_http(env::AWSEnv, ro::RO)
     end
 
     if env.dry_run
-        return HTTPC.Response()
+        return Requests.Response()
     end
 
+	headers = Dict(
+        "User-Agent" => "Requests.jl/0.0.0",
+        "Accept" => "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+    )
+	for (k,v) in all_hdrs
+        ## println("  $k : $v")
+		setindex!(headers, v, k)
+	end
+
+	## @show headers
+	## TODO To include ostream, auto_content_type and timeout values for all VERBS !
+
     if ro.verb == :GET
-        http_resp = HTTPC.get(url, http_options)
+        ## http_resp = HTTPC.get(url, http_options)
+        http_resp = Requests.get(url; headers = headers)
     elseif (ro.verb == :PUT) || (ro.verb == :POST)
         senddata = isa(ro.istream, IO) ? ro.istream :
                    isa(ro.istream, AbstractString) ? (:file, ro.istream) :
@@ -656,16 +728,20 @@ function do_http(env::AWSEnv, ro::RO)
 #                   error("Must specify either a body or istream for PUT/POST")
 
         if (ro.verb == :PUT)
-            http_resp = HTTPC.put(url, senddata, http_options)
+            ## http_resp = HTTPC.put(url, senddata, http_options)
+            http_resp = Requests.put(URIParser.parse_url(url), senddata; headers=headers)
         else
-            http_resp = HTTPC.post(url, senddata, http_options)
+            ## http_resp = HTTPC.post(url, senddata, http_options)
+            http_resp = Requests.post(URIParser.parse_url(url), senddata; headers=headers)
         end
 
     elseif ro.verb == :DELETE
-        http_resp = HTTPC.delete(url, http_options)
+        ## http_resp = HTTPC.delete(url, http_options)
+        http_resp = Requests.delete(URIParser.parse_url(url); headers=headers)
 
     elseif ro.verb == :HEAD
-        http_resp = HTTPC.head(url, http_options)
+        ## http_resp = HTTPC.head(url, http_options)
+        http_resp = Requests.head(URIParser.parse_url(url); headers=headers)
 
     else
         error("Unknown HTTP verb $verb")
@@ -755,7 +831,7 @@ function get_canonicalized_resource(ro::RO)
         end
     end
 
-    canon_res = part1 * "?" * HTTPC.urlencode_query_params(sorted)
+    canon_res = part1 * "?" * Requests.format_query_str(sorted)
 
     canon_sign_res = part1
     if length(signlist) > 0

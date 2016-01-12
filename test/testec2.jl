@@ -4,12 +4,13 @@ using AWS
 include("config.jl")
 
 n=2
-env=AWSEnv()
+env=AWSEnv(; id=id, key=key, dbg=dbg, region=region)
+## env=AWSEnv()
 instances = ec2_launch(ami, keyname; env=env, owner=owner, insttype=insttype, n=n, clustername="ec2test")
 println(instances)
 
-instances=ec2_instances_by_tag("Owner", owner)
-println(instances)
+all_instances=ec2_instances_by_tag("Owner", owner, env=env, running_only=false)
+println(all_instances)
 
 try
     ec2_show_status(instances)
@@ -46,8 +47,25 @@ catch e
     # We anyway need to terminate the instances....
 end
 
+resp = EC2.DescribeInstances(env)
+## @show resp
+
+EC2.check_running(env, instances)
+EC2.MonitorInstances(env)
+
+
+
 rmprocs(workers())
 
-ec2_terminate(instances)
+println("Sleeping for 20 secs !!!")
+sleep(20)
 
-ec2_show_status(instances)
+println("Stopping instances !!!")
+ec2_stop(instances; env=env)
+
+println("Terminating instances !!!")
+@show instances
+ec2_terminate(instances; env=env)
+
+println("Checking instance status !!!")
+ec2_show_status(instances; env=env)
