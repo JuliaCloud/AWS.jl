@@ -31,8 +31,8 @@ macro declare_utype(utype)
         end
 
         xml(o::$(esc(utype))) = xml($(string(utype)), [("ID", o.id), ("DisplayName", o.displayName)])
-        function $(esc(utype))(pd::ETree)
-            o = $(esc(utype))(LibExpat.find(pd, "ID#string"), LibExpat.find(pd, "DisplayName#string"))
+        function $(esc(utype))(pd)
+            o = $(esc(utype))(LightXML.content(LightXML.find_element(pd, "ID")), LightXML.content(LightXML.find_element(pd, "DisplayName")))
         end
         $(esc(utype))(nothing::Void) = nothing
     end
@@ -69,20 +69,21 @@ type Grant
 end
 xml(o::Grant) = xml("Grant", [o.grantee, ("Permission", o.permission)])
 # permission must be one of "READ", "WRITE", "READ_ACP", "WRITE_ACP" or "FULL_CONTROL"
-function Grant(pd_g::ETree)
-    grantee_pd = LibExpat.find(pd_g, "Grantee[1]")
+function Grant(pd_g)
+	## TODO
+    grantee_pd = LightXML.find_element(pd_g, "Grantee[1]")
     grantee_type = grantee_pd.attr["xsi:type"]
     if grantee_type == "AmazonCustomerByEmail"
-        grantee=GranteeEmail(LibExpat.find(grantee_pd, "EmailAddress#string"))
+        grantee=GranteeEmail(LightXML.content(LightXML.find_element(grantee_pd, "EmailAddress")))
     elseif grantee_type == "CanonicalUser"
-        grantee=GranteeID(LibExpat.find(grantee_pd, "ID#string"), LibExpat.find(grantee_pd, "DisplayName#string"))
+        grantee=GranteeID(LightXML.content(LightXML.find_element(grantee_pd, "ID")), LightXML.content(LightXML.find_element(grantee_pd, "DisplayName")))
     elseif grantee_type == "Group"
-        grantee=GranteeURI(LibExpat.find(grantee_pd, "URI#string"))
+        grantee=GranteeURI(LightXML.content(LightXML.find_element(grantee_pd, "URI")))
     else
         error("Unknown grantee type")
     end
 
-    permission = LibExpat.find(pd_g, "Permission#string")
+    permission = LightXML.content(LightXML.find_element(pd_g, "Permission"))
     Grant(grantee, permission)
 end
 export Grant
@@ -97,14 +98,14 @@ type BucketLoggingStatus
 end
 
 BucketLoggingStatus() = BucketLoggingStatus(false, nothing, nothing, nothing)
-function BucketLoggingStatus(pd_bls::ETree)
+function BucketLoggingStatus(pd_bls)
     bls = BucketLoggingStatus()
     if length(pd_bls["LoggingEnabled"]) > 0
-        bls.targetBucket = LibExpat.find(pd_bls, "LoggingEnabled/TargetBucket#string")
-        bls.targetPrefix = LibExpat.find(pd_bls, "LoggingEnabled/TargetPrefix#string")
+        bls.targetBucket = LightXML.content(LightXML.find_element(LightXML.find_element(pd_bls, "LoggingEnabled"), "TargetBucket"))
+        bls.targetPrefix = LightXML.content(LightXML.find_element(LightXML.find_element(pd_bls, "LoggingEnabled"), "TargetPrefix"))
 
-        grants = LibExpat.find(pd_bls, "LoggingEnabled/TargetGrants/Grant")
-        bls.targetGrants = AWS.@parse_vector(AWS.S3.Grant, grants)
+        ## grants = LightXML.find_element(pd_bls, "LoggingEnabled/TargetGrants/Grant")
+        bls.targetGrants = AWS.@parse_vector(AWS.S3.Grant, LightXML.get_elements_by_tagname(LightXML.find_element(LightXML.find_element(pd_bls, "LoggingEnabled"), "TargetGrants"), "Grant"))
     end
     bls
 end
@@ -130,9 +131,9 @@ type AccessControlPolicy
     accessControlList::Vector{Grant}
 end
 
-function AccessControlPolicy(pd_acl::ETree)
-    owner = Owner(LibExpat.find(pd_acl, "Owner[1]"))
-    accessControlList = AWS.@parse_vector(AWS.S3.Grant, LibExpat.find(pd_acl, "AccessControlList/Grant"))
+function AccessControlPolicy(pd_acl)
+    owner = Owner(LightXML.find_element(pd_acl, "Owner"))
+    accessControlList = AWS.@parse_vector(AWS.S3.Grant, LightXML.get_elements_by_tagname(LightXML.find_element(pd_acl, "AccessControlList"), "Grant"))
     return AccessControlPolicy(owner, accessControlList)
 end
 
@@ -149,7 +150,7 @@ export AccessControlPolicy
 type CreateBucketConfiguration
     locationConstraint::Union{AbstractString, Void}
 end
-CreateBucketConfiguration(pd_cbc::ETree) = CreateBucketConfiguration(LibExpat.find(pd_cbc, "LocationConstraint#string"))
+CreateBucketConfiguration(pd_cbc) = CreateBucketConfiguration(LightXML.content(LightXML.find_element(pd_cbc, "LocationConstraint")))
 xml(o::CreateBucketConfiguration) = xml_hdr("CreateBucketConfiguration") *
                                     xml("LocationConstraint", o.locationConstraint) *
                                     xml_ftr("CreateBucketConfiguration")
@@ -165,14 +166,14 @@ type Contents
     owner::Union{Owner, Void}
     storageClass::Union{AbstractString, Void}
 end
-function Contents(pd_le::ETree)
-    key = LibExpat.find(pd_le, "Key#string")
-    datestr = LibExpat.find(pd_le, "LastModified#string")
+function Contents(pd_le)
+    key = LightXML.content(LightXML.find_element(pd_le, "Key"))
+    datestr = LightXML.content(LightXML.find_element(pd_le, "LastModified"))
     t = DateTime(datestr[1:end-1], "y-m-dTH:M:S.s")
-    etag = LibExpat.find(pd_le, "ETag#string")
-    size = AWS.safe_parseint64(LibExpat.find(pd_le, "Size#string"))
-    owner=Owner(LibExpat.find(pd_le, "Owner[1]"))
-    storageClass = LibExpat.find(pd_le, "StorageClass#string")
+    etag = LightXML.content(LightXML.find_element(pd_le, "ETag"))
+    size = AWS.safe_parseint64(LightXML.content(LightXML.find_element(pd_le, "Size")))
+    owner=Owner(LightXML.find_element(pd_le, "Owner"))
+    storageClass = LightXML.content(LightXML.find_element(pd_le, "StorageClass"))
 
     Contents(key, t, etag, size, owner, storageClass)
 end
@@ -183,7 +184,7 @@ export Contents
 type CommonPrefixes
     prefix::Union{AbstractString, Void}
 end
-CommonPrefixes(pd_cp::ETree) = CommonPrefixes(LibExpat.find(pd_cp, "Prefix#string"))
+CommonPrefixes(pd_cp) = CommonPrefixes(LightXML.content(LightXML.find_element(pd_cp, "Prefix")))
 export CommonPrefixes
 
 
@@ -201,15 +202,15 @@ type ListBucketResult
     ListBucketResult() = new(nothing,nothing,nothing,nothing,nothing,nothing,nothing,Contents[], CommonPrefixes[])
 end
 
-function ListBucketResult(pd_lbr::ETree)
+function ListBucketResult(pd_lbr)
     lbr = ListBucketResult()
-    lbr.name = LibExpat.find(pd_lbr, "Name#string")
-    lbr.prefix = LibExpat.find(pd_lbr, "Prefix#string")
-    lbr.marker = LibExpat.find(pd_lbr, "Marker#string")
-    lbr.nextMarker = LibExpat.find(pd_lbr, "NextMarker#string")
-    lbr.maxKeys = AWS.safe_parseint(LibExpat.find(pd_lbr, "MaxKeys#string"))
-    lbr.delimiter = LibExpat.find(pd_lbr, "Delimiter#string")
-    lbr.isTruncated = AWS.safe_parsebool(LibExpat.find(pd_lbr, "IsTruncated#string"))
+    lbr.name = LightXML.content(LightXML.find_element(pd_lbr, "Name"))
+    lbr.prefix = LightXML.content(LightXML.find_element(pd_lbr, "Prefix"))
+    lbr.marker = LightXML.content(LightXML.find_element(pd_lbr, "Marker"))
+    lbr.nextMarker = LightXML.content(LightXML.find_element(pd_lbr, "NextMarker"))
+    lbr.maxKeys = AWS.safe_parseint(LightXML.content(LightXML.find_element(pd_lbr, "MaxKeys")))
+    lbr.delimiter = LightXML.content(LightXML.find_element(pd_lbr, "Delimiter"))
+    lbr.isTruncated = AWS.safe_parsebool(LightXML.content(LightXML.find_element(pd_lbr, "IsTruncated")))
     lbr.contents = AWS.@parse_vector(AWS.S3.Contents, pd_lbr["Contents"])
     lbr.commonPrefixes = AWS.@parse_vector(AWS.S3.CommonPrefixes, pd_lbr["CommonPrefixes"])
     lbr
@@ -226,16 +227,16 @@ type Version
     owner::Union{Owner, Void}
     storageClass::Union{AbstractString, Void}
 end
-function Version(pd_v::ETree)
-    key = LibExpat.find(pd_v, "Key#string")
-    versionId = LibExpat.find(pd_v, "VersionId#string")
-    isLatest = (lowercase(LibExpat.find(pd_v, "IsLatest#string")) == "true") ? true : false
-    datestr = LibExpat.find(pd_v, "LastModified#string")
+function Version(pd_v)
+    key = LightXML.content(LightXML.find_element(pd_v, "Key"))
+    versionId = LightXML.content(LightXML.find_element(pd_v, "VersionId"))
+    isLatest = (lowercase(LightXML.content(LightXML.find_element(pd_v, "IsLatest"))) == "true") ? true : false
+    datestr = LightXML.content(LightXML.find_element(pd_v, "LastModified"))
     t = DateTime(datestr[1:end-1], "y-m-dTH:M:S.s")
-    etag = LibExpat.find(pd_v, "ETag#string")
-    size = AWS.safe_parseint64(LibExpat.find(pd_v, "Size#string"))
-    owner=Owner(LibExpat.find(pd_v, "Owner[1]"))
-    storageClass = LibExpat.find(pd_v, "StorageClass#string")
+    etag = LightXML.content(LightXML.find_element(pd_v, "ETag"))
+    size = AWS.safe_parseint64(LightXML.content(LightXML.find_element(pd_v, "Size")))
+    owner=Owner(LightXML.find_element(pd_v, "Owner"))
+    storageClass = LightXML.content(LightXML.find_element(pd_v, "StorageClass"))
 
     Version(key, versionId, isLatest, t, etag, size, owner, storageClass)
 end
@@ -250,13 +251,13 @@ type DeleteMarker
     lastModified::DateTime
     owner::Union{Owner, Void}
 end
-function DeleteMarker(pd_dm::ETree)
-    key = LibExpat.find(pd_dm, "Key#string")
-    versionId = LibExpat.find(pd_dm, "VersionId#string")
-    isLatest = (lowercase(LibExpat.find(pd_dm, "IsLatest#string")) == "true") ? true : false
-    datestr = LibExpat.find(pd_dm, "LastModified#string")
+function DeleteMarker(pd_dm)
+    key = LightXML.content(LightXML.find_element(pd_dm, "Key"))
+    versionId = LightXML.content(LightXML.find_element(pd_dm, "VersionId"))
+    isLatest = (lowercase(LightXML.content(LightXML.find_element(pd_dm, "IsLatest"))) == "true") ? true : false
+    datestr = LightXML.content(LightXML.find_element(pd_dm, "LastModified"))
     t = DateTime(datestr[1:end-1], "y-m-dTH:M:S.s")
-    owner=Owner(LibExpat.find(pd_dm, "Owner[1]"))
+    owner=Owner(LightXML.find_element(pd_dm, "Owner"))
     DeleteMarker(key, versionId, isLatest, t, owner)
 end
 export DeleteMarker
@@ -280,20 +281,20 @@ type ListVersionsResult
 
     ListVersionsResult() = new()
 end
-function ListVersionsResult(pd_lvr::ETree)
+function ListVersionsResult(pd_lvr)
     lvr = ListVersionsResult()
-    lvr.name = LibExpat.find(pd_lvr, "Name#string")
-    lvr.prefix = LibExpat.find(pd_lvr, "Prefix#string")
-    lvr.keyMarker = LibExpat.find(pd_lvr, "KeyMarker#string")
-    lvr.versionIdMarker = LibExpat.find(pd_lvr, "VersionIdMarker#string")
-    lvr.nextKeyMarker = LibExpat.find(pd_lvr, "NextKeyMarker#string")
-    lvr.nextVersionIdMarker = LibExpat.find(pd_lvr, "NextVersionIdMarker#string")
-    lvr.maxKeys = AWS.safe_parseint(LibExpat.find(pd_lvr, "MaxKeys#string"))
-    lvr.delimiter = LibExpat.find(pd_lvr, "Delimiter#string")
-    lvr.isTruncated = AWS.safe_parsebool(LibExpat.find(pd_lvr, "IsTruncated#string"))
-    lvr.version = AWS.@parse_vector(AWS.S3.Version, LibExpat.find(pd_lvr, "Version"))
-    lvr.deleteMarker = AWS.@parse_vector(AWS.S3.DeleteMarker, LibExpat.find(pd_lvr, "DeleteMarker"))
-    lvr.commonPrefixes = AWS.@parse_vector(AWS.S3.CommonPrefixes, LibExpat.find(pd_lvr, "CommonPrefixes"))
+    lvr.name = LightXML.content(LightXML.find_element(pd_lvr, "Name"))
+    lvr.prefix = LightXML.content(LightXML.find_element(pd_lvr, "Prefix"))
+    lvr.keyMarker = LightXML.content(LightXML.find_element(pd_lvr, "KeyMarker"))
+    lvr.versionIdMarker = LightXML.content(LightXML.find_element(pd_lvr, "VersionIdMarker"))
+    lvr.nextKeyMarker = LightXML.content(LightXML.find_element(pd_lvr, "NextKeyMarker"))
+    lvr.nextVersionIdMarker = LightXML.content(LightXML.find_element(pd_lvr, "NextVersionIdMarker"))
+    lvr.maxKeys = AWS.safe_parseint(LightXML.content(LightXML.find_element(pd_lvr, "MaxKeys")))
+    lvr.delimiter = LightXML.content(LightXML.find_element(pd_lvr, "Delimiter"))
+    lvr.isTruncated = AWS.safe_parsebool(LightXML.content(LightXML.find_element(pd_lvr, "IsTruncated")))
+    lvr.version = AWS.@parse_vector(AWS.S3.Version, LightXML.get_elements_by_tagname(pd_lvr, "Version"))
+    lvr.deleteMarker = AWS.@parse_vector(AWS.S3.DeleteMarker, LightXML.get_elements_by_tagname(pd_lvr, "DeleteMarker"))
+    lvr.commonPrefixes = AWS.@parse_vector(AWS.S3.CommonPrefixes, LightXML.get_elements_by_tagname(pd_lvr, "CommonPrefixes"))
     lvr
 end
 export ListVersionsResult
@@ -304,11 +305,11 @@ type Bucket
     name::Union{AbstractString, Void}
     creationDate::DateTime
 end
-function Bucket(pd_b::ETree)
-    datestr = LibExpat.find(pd_b, "CreationDate#string")
+function Bucket(pd_b)
+    datestr = LightXML.content(LightXML.find_element(pd_b, "CreationDate"))
     t = DateTime(datestr[1:end-1], "y-m-dTH:M:S.s")
 
-    Bucket(LibExpat.find(pd_b, "Name#string"), t)
+    Bucket(LightXML.content(LightXML.find_element(pd_b, "Name")), t)
 end
 export Bucket
 
@@ -319,9 +320,9 @@ type ListAllMyBucketsResult
     owner::Union{Owner, Void}
     buckets::Vector{Bucket}
 end
-function ListAllMyBucketsResult(pd_lab::ETree)
-    owner = Owner(LibExpat.find(pd_lab, "Owner[1]"))
-    buckets = AWS.@parse_vector(AWS.S3.AWS.S3.Bucket, LibExpat.find(pd_lab, "Buckets/Bucket"))
+function ListAllMyBucketsResult(pd_lab)
+    owner = Owner(LightXML.find_element(pd_lab, "Owner"))
+    buckets = AWS.@parse_vector(AWS.S3.AWS.S3.Bucket, LightXML.get_elements_by_tagname(LightXML.find_element(pd_lab, "Buckets"), "Bucket"))
     ListAllMyBucketsResult(owner, buckets)
 end
 export ListAllMyBucketsResult
@@ -331,11 +332,11 @@ type CopyObjectResult
     lastModified::DateTime
     eTag::Union{AbstractString, Void}
 end
-function CopyObjectResult(pd_cor::ETree)
-    datestr = LibExpat.find(pd_cor, "LastModified#string")
+function CopyObjectResult(pd_cor)
+    datestr = LightXML.content(LightXML.find_element(pd_cor, "LastModified"))
     t = DateTime(datestr[1:end-1], "y-m-dTH:M:S.s")
 
-    CopyObjectResult(t, LibExpat.find(pd_cor, "ETag#string"))
+    CopyObjectResult(t, LightXML.content(LightXML.find_element(pd_cor, "ETag")))
 end
 export CopyObjectResult
 
@@ -345,7 +346,7 @@ type RequestPaymentConfiguration
     payer::Union{AbstractString, Void}
 end
 xml(o::RequestPaymentConfiguration) = xml_hdr("RequestPaymentConfiguration") * xml("Payer", o.payer) * xml_ftr("RequestPaymentConfiguration")
-RequestPaymentConfiguration(pd_rpc::ETree) = RequestPaymentConfiguration(LibExpat.find(pd_rpc, "Payer#string"))
+RequestPaymentConfiguration(pd_rpc) = RequestPaymentConfiguration(LightXML.content(LightXML.find_element(pd_rpc, "Payer")))
 export RequestPaymentConfiguration
 
 type VersioningConfiguration
@@ -358,9 +359,9 @@ function xml(o::VersioningConfiguration)
     ((o.mfaDelete != "") ? xml("MfaDelete", o.mfaDelete) : "")  *
     xml_ftr("VersioningConfiguration")
 end
-function VersioningConfiguration(pd_vc::ETree)
-    status = length(pd_vc["Status"]) > 0  ? LibExpat.find(pd_vc, "Status#string") : ""
-    mfaDelete = length(pd_vc["MfaDelete"]) > 0  ? LibExpat.find(pd_vc, "MfaDelete#string") : ""
+function VersioningConfiguration(pd_vc)
+    status = LightXML.find_element(pd_vc, "Status")  != nothing ? LightXML.content(LightXML.find_element(pd_vc, "Status")) : ""
+    mfaDelete = LightXML.find_element(pd_vc, "MfaDelete") != nothing ? LightXML.content(LightXML.find_element(pd_vc, "MfaDelete")) : ""
 
     VersioningConfiguration(status, mfaDelete)
 end
@@ -370,11 +371,12 @@ type TopicConfiguration
     topic::Union{AbstractString, Void}
     event::Vector{AbstractString}
 end
-function TopicConfiguration(pd_tc::ETree)
-    topic = LibExpat.find(pd_tc, "Topic#string")
+function TopicConfiguration(pd_tc)
+    topic = LightXML.content(LightXML.find_element(pd_tc, "Topic"))
     event = AbstractString[]
-    for pde in LibExpat.find(pd_tc, "Event")
-        push!(event, pde.text)
+    for pde in LightXML.find_element(pd_tc, "Event")
+        ## push!(event, pde.text)
+        push!(event, LightXML.content(pde))
     end
     TopicConfiguration(topic, event)
 end
@@ -394,7 +396,7 @@ export TopicConfiguration
 type NotificationConfiguration
     topicConfiguration::Union{Vector{TopicConfiguration}, Void}
 end
-NotificationConfiguration(pd::ETree) = NotificationConfiguration(AWS.@parse_vector(AWS.S3.TopicConfiguration, LibExpat.find(pd, "TopicConfiguration")))
+NotificationConfiguration(pd) = NotificationConfiguration(AWS.@parse_vector(AWS.S3.TopicConfiguration, LightXML.get_elements_by_tagname(pd, "TopicConfiguration")))
 
 function xml(o::NotificationConfiguration)
     if o.topicConfiguration == nothing
@@ -415,8 +417,8 @@ type InitiateMultipartUploadResult
     key::Union{AbstractString, Void}
     uploadId::Union{AbstractString, Void}
 end
-function InitiateMultipartUploadResult(pd::ETree)
-    InitiateMultipartUploadResult(LibExpat.find(pd, "Bucket#string"), LibExpat.find(pd, "Key#string"), LibExpat.find(pd, "UploadId#string"))
+function InitiateMultipartUploadResult(pd)
+    InitiateMultipartUploadResult(LightXML.content(LightXML.find_element(pd, "Bucket")), LightXML.content(LightXML.find_element(pd, "Key")), LightXML.content(LightXML.find_element(pd, "UploadId")))
 end
 export InitiateMultipartUploadResult
 
@@ -426,10 +428,10 @@ type CopyPartResult
    lastModified::DateTime
    eTag::Union{AbstractString, Void}
 end
-function CopyPartResult(pd::ETree)
-    datestr = LibExpat.find(pd, "LastModified#string")
+function CopyPartResult(pd)
+    datestr = LightXML.content(LightXML.find_element(pd, "LastModified"))
     t = DateTime(datestr[1:end-1], "y-m-dTH:M:S")
-    CopyPartResult(t, LibExpat.find(pd, "ETag#string"))
+    CopyPartResult(t, LightXML.content(LightXML.find_element(pd, "ETag")))
 end
 export CopyPartResult
 
@@ -444,11 +446,11 @@ type Part
 end
 # We don't need to xmlify lastModified and Size...
 xml(o::Part) = xml("Part", [("PartNumber", o.partNumber), ("ETag", o.eTag)])
-function Part(pd::ETree)
-    datestr = LibExpat.find(pd, "LastModified#string")
+function Part(pd)
+    datestr = LightXML.content(LightXML.find_element(pd, "LastModified"))
     t = DateTime(datestr[1:end-1], "y-m-dTH:M:S.s")
 
-    Part(LibExpat.find(pd, "PartNumber#string"), t, LibExpat.find(pd, "ETag#string"), int64(LibExpat.find(pd, "Size#string")))
+    Part(LightXML.content(LightXML.find_element(pd, "PartNumber")), t, LightXML.content(LightXML.find_element(pd, "ETag")), int64(LightXML.content(LightXML.find_element(pd, "Size"))))
 end
 export Part
 
@@ -465,12 +467,12 @@ type CompleteMultipartUploadResult
     key::Union{AbstractString, Void}
     eTag::Union{AbstractString, Void}
 end
-CompleteMultipartUploadResult(pd::ETree) =
+CompleteMultipartUploadResult(pd) =
     CompleteMultipartUploadResult(
-        LibExpat.find(pd, "Location#string"),
-        LibExpat.find(pd, "Bucket#string"),
-        LibExpat.find(pd, "Key#string"),
-        LibExpat.find(pd, "ETag#string"),
+        LightXML.content(LightXML.find_element(pd, "Location")),
+        LightXML.content(LightXML.find_element(pd, "Bucket")),
+        LightXML.content(LightXML.find_element(pd, "Key")),
+        LightXML.content(LightXML.find_element(pd, "ETag")),
     )
 export CompleteMultipartUploadResult
 
@@ -488,19 +490,19 @@ type ListPartsResult
     isTruncated::Union{Bool, Void}
     parts::Vector{Part}
 end
-function ListPartsResult(pd::ETree)
+function ListPartsResult(pd)
     ListPartsResult(
-        LibExpat.find(pd, "Bucket#string"),
-        LibExpat.find(pd, "Key#string"),
-        LibExpat.find(pd, "UploadId#string"),
-        Initiator(LibExpat.find(pd, "Initiator[1]")),
-        Owner(LibExpat.find(pd, "Owner[1]")),
-        LibExpat.find(pd, "StorageClass#string"),
-        LibExpat.find(pd, "PartNumberMarker#string"),
-        LibExpat.find(pd, "NextPartNumberMarker#string"),
-        int(LibExpat.find(pd, "MaxParts#string")),
-        (lowercase(LibExpat.find(pd, "IsTruncated#string")) == "true") ? true : false,
-        AWS.@parse_vector(AWS.S3.Part, LibExpat.find(pd, "Part"))
+        LightXML.content(LightXML.find_element(pd, "Bucket")),
+        LightXML.content(LightXML.find_element(pd, "Key")),
+        LightXML.content(LightXML.find_element(pd, "UploadId")),
+        Initiator(LightXML.find_element(pd, "Initiator")),
+        Owner(LightXML.find_element(pd, "Owner")),
+        LightXML.content(LightXML.find_element(pd, "StorageClass")),
+        LightXML.content(LightXML.find_element(pd, "PartNumberMarker")),
+        LightXML.content(LightXML.find_element(pd, "NextPartNumberMarker")),
+        int(LightXML.content(LightXML.find_element(pd, "MaxParts"))),
+        (lowercase(LightXML.content(LightXML.find_element(pd, "IsTruncated"))) == "true") ? true : false,
+        AWS.@parse_vector(AWS.S3.Part, LightXML.get_elements_by_tagname(pd, "Part"))
     )
 end
 export ListPartsResult
@@ -513,15 +515,15 @@ type Upload
     storageClass::Union{AbstractString, Void}
     initiated::Union{DateTime, Void}
 end
-function Upload(pd::ETree)
-    datestr = LibExpat.find(pd, "Initiated#string")
+function Upload(pd)
+    datestr = LightXML.content(LightXML.find_element(pd, "Initiated"))
     t = DateTime(datestr[1:end-1], "y-m-dTH:M:S.s")
     Upload(
-        LibExpat.find(pd, "Key#string"),
-        LibExpat.find(pd, "UploadId#string"),
-        Initiator(LibExpat.find(pd, "Initiator[1]")),
-        Owner(LibExpat.find(pd, "Owner[1]")),
-        LibExpat.find(pd, "StorageClass#string"),
+        LightXML.content(LightXML.find_element(pd, "Key")),
+        LightXML.content(LightXML.find_element(pd, "UploadId")),
+        Initiator(LightXML.find_element(pd, "Initiator")),
+        Owner(LightXML.find_element(pd, "Owner")),
+        LightXML.content(LightXML.find_element(pd, "StorageClass")),
         t
     )
 end
@@ -540,19 +542,19 @@ type ListMultipartUploadsResult
     upload::Union{Vector{Upload}, Void}
     commonPrefixes::Union{Vector{CommonPrefixes}, Void}
 end
-function ListMultipartUploadsResult(pd::ETree)
+function ListMultipartUploadsResult(pd)
     ListMultipartUploadsResult(
-        LibExpat.find(pd, "Bucket#string"),
-        LibExpat.find(pd, "Prefix#string"),
-        LibExpat.find(pd, "KeyMarker#string"),
-        LibExpat.find(pd, "UploadIdMarker#string"),
-        LibExpat.find(pd, "NextKeyMarker#string"),
-        LibExpat.find(pd, "NextUploadIdMarker#string"),
-        AWS.safe_parseint(LibExpat.find(pd, "MaxUploads#string")),
-        LibExpat.find(pd, "Delimiter#string"),
-        AWS.safe_parsebool(LibExpat.find(pd, "IsTruncated#string")),
-        AWS.@parse_vector(AWS.S3.Upload, LibExpat.find(pd, "Upload")),
-        AWS.@parse_vector(AWS.S3.CommonPrefixes, LibExpat.find(pd, "CommonPrefixes"))
+        LightXML.content(LightXML.find_element(pd, "Bucket")),
+        LightXML.content(LightXML.find_element(pd, "Prefix")),
+        LightXML.content(LightXML.find_element(pd, "KeyMarker")),
+        LightXML.content(LightXML.find_element(pd, "UploadIdMarker")),
+        LightXML.content(LightXML.find_element(pd, "NextKeyMarker")),
+        LightXML.content(LightXML.find_element(pd, "NextUploadIdMarker")),
+        AWS.safe_parseint(LightXML.content(LightXML.find_element(pd, "MaxUploads"))),
+        LightXML.content(LightXML.find_element(pd, "Delimiter")),
+        AWS.safe_parsebool(LightXML.content(LightXML.find_element(pd, "IsTruncated"))),
+        AWS.@parse_vector(AWS.S3.Upload, LightXML.get_elements_by_tagname(pd, "Upload")),
+        AWS.@parse_vector(AWS.S3.CommonPrefixes, LightXML.get_elements_by_tagname(pd, "CommonPrefixes"))
     )
 end
 export ListMultipartUploadsResult
@@ -575,14 +577,14 @@ xml(o::CORSRule) = xml("CORSRule", [
         ("ExposeHeader", o.exposeHeader)
     ])
 
-function CORSRule(pd::ETree)
-    id = LibExpat.find(pd, "ID#string")
-    allowedMethod = parse_vector_as(AbstractString, "AllowedMethod", LibExpat.find(pd, "AllowedMethod"))
-    allowedOrigin = parse_vector_as(AbstractString, "AllowedOrigin", LibExpat.find(pd, "AllowedOrigin"))
-    allowedHeader = parse_vector_as(AbstractString, "AllowedHeader", LibExpat.find(pd, "AllowedHeader"))
-    seconds = LibExpat.find(pd, "MaxAgeSeconds#string")
+function CORSRule(pd)
+    id = LightXML.content(LightXML.find_element(pd, "ID"))
+    allowedMethod = parse_vector_as(AbstractString, "AllowedMethod", LightXML.get_elements_by_tagname(pd, "AllowedMethod"))
+    allowedOrigin = parse_vector_as(AbstractString, "AllowedOrigin", LightXML.get_elements_by_tagname(pd, "AllowedOrigin"))
+    allowedHeader = parse_vector_as(AbstractString, "AllowedHeader", LightXML.get_elements_by_tagname(pd, "AllowedHeader"))
+    seconds = LightXML.content(LightXML.find_element(pd, "MaxAgeSeconds"))
     if (seconds != nothing) maxAgeSeconds = int(seconds) end
-    exposeHeader = parse_vector_as(AbstractString, "ExposeHeader", LibExpat.find(pd, "ExposeHeader"))
+    exposeHeader = parse_vector_as(AbstractString, "ExposeHeader", LightXML.get_elements_by_tagname(pd, "ExposeHeader"))
 
     CORSRule(id, allowedMethod, allowedOrigin, allowedHeader, maxAgeSeconds, exposeHeader)
 
@@ -594,7 +596,7 @@ type CORSConfiguration
     corsrules::Vector{CORSRule}
 end
 xml(o::CORSConfiguration) = xml("CORSConfiguration", o.corsrules)
-CORSConfiguration(pd::ETree) = AWS.@parse_vector(AWS.S3.CORSRule, LibExpat.find(pd, "CORSRule"))
+CORSConfiguration(pd) = AWS.@parse_vector(AWS.S3.CORSRule, LightXML.get_elements_by_tagname(pd, "CORSRule"))
 
 
 type S3Error
@@ -604,12 +606,12 @@ type S3Error
     hostId::Union{AbstractString, Void}
     requestId::Union{AbstractString, Void}
 end
-function S3Error(pde::ETree)
-    code = LibExpat.find(pde, "Code#string")
-    message = LibExpat.find(pde, "Message#string")
-    resource = LibExpat.find(pde, "Resource#string")
-    hostId = LibExpat.find(pde, "HostId#string")
-    requestId = LibExpat.find(pde, "RequestId#string")
+function S3Error(pde)
+    code = LightXML.content(LightXML.find_element(pde, "Code"))
+    message = LightXML.content(LightXML.find_element(pde, "Message"))
+    resource = LightXML.content(LightXML.find_element(pde, "Resource"))
+    hostId = LightXML.content(LightXML.find_element(pde, "HostId"))
+    requestId = LightXML.content(LightXML.find_element(pde, "RequestId"))
 
     S3Error(code, message, resource, hostId, requestId)
 end
@@ -948,12 +950,12 @@ type Deleted
     marker_version_id::Union{AbstractString, Void}
 end
 Deleted() = Deleted(nothing,nothing,nothing,nothing)
-function Deleted(pd::ETree)
+function Deleted(pd)
     d = Deleted()
-    d.key = LibExpat.find(pd, "Key#string")
-    d.version_id = LibExpat.find(pd, "VersionId#string")
-    d.marker = AWS.safe_parsebool(LibExpat.find(pd, "DeleteMarker#string"))
-    d.marker_version_id = LibExpat.find(pd, "DeleteMarkerVersionId#string")
+    d.key = LightXML.content(LightXML.find_element(pd, "Key"))
+    d.version_id = LightXML.content(LightXML.find_element(pd, "VersionId"))
+    d.marker = AWS.safe_parsebool(LightXML.content(LightXML.find_element(pd, "DeleteMarker")))
+    d.marker_version_id = LightXML.content(LightXML.find_element(pd, "DeleteMarkerVersionId"))
     d
 end
 export Deleted
@@ -967,12 +969,12 @@ type DeleteError
     message::Union{AbstractString, Void}
 end
 DeleteError() = DeleteError(nothing,nothing,nothing,nothing)
-function DeleteError(pd::ETree)
+function DeleteError(pd)
     de = DeleteError()
-    de.key = LibExpat.find(pd, "Key#string")
-    de.version_id = LibExpat.find(pd, "VersionId#string")
-    de.code = LibExpat.find(pd, "Code#string")
-    de.message = LibExpat.find(pd, "Message#string")
+    de.key = LightXML.content(LightXML.find_element(pd, "Key"))
+    de.version_id = LightXML.content(LightXML.find_element(pd, "VersionId"))
+    de.code = LightXML.content(LightXML.find_element(pd, "Code"))
+    de.message = LightXML.content(LightXML.find_element(pd, "Message"))
     de
 end
 export DeleteError
@@ -983,7 +985,7 @@ type DeleteResult
     delete_errors::Union{Vector{DeleteError}, Void}
 end
 DeleteResult() = DeleteResult(nothing, nothing)
-function DeleteResult(pd::ETree)
+function DeleteResult(pd)
     dr = DeleteResult()
     deleted = pd["Deleted"]
     if length(deleted) > 0
