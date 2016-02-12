@@ -160,28 +160,28 @@ export ep_host
 
 function get_instance_credentials()
     try
-        if getaddrinfo("instance-data.ec2.internal.") != ip"169.254.169.254"
-            return nothing
-        end
+        #if getaddrinfo("instance-data.ec2.internal.") != ip"169.254.169.254"
+        #    return nothing
+        #end
 
         url = "http://169.254.169.254/2014-11-05/meta-data/iam/security-credentials/"
         resp = Requests.get(url)
-        if resp.http_code != 200
+        if resp.status != 200
             return nothing
         end
 
-        iam = split(bytestring(resp.body.data))
+        iam = split(bytestring(resp.data))
         if length(iam) == 0
             return nothing
         end
 
         url *= iam[1]
         resp = Requests.get(url)
-        if resp.http_code != 200
+        if resp.status != 200
             return nothing
         end
 
-        return JSON.Parser.parse(bytestring(resp.body.data))
+        return JSON.Parser.parse(bytestring(resp.data))
     catch
         return nothing
     end
