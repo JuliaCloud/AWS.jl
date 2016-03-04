@@ -47,6 +47,7 @@ macro req_n_process(resp_obj_type)
         s3_resp = do_request(env, ro)
         if (isa(s3_resp.obj, AbstractString) &&  (length(s3_resp.obj) > 0))
 			s3_resp.pd = LightXML.root(LightXML.parse_string(s3_resp.obj))
+            s3_resp.obj = $(esc(resp_obj_type))(s3_resp.pd)
         end
         s3_resp
     end
