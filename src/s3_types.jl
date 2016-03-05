@@ -207,12 +207,12 @@ function ListBucketResult(pd_lbr)
     lbr.name = LightXML.content(LightXML.find_element(pd_lbr, "Name"))
     lbr.prefix = LightXML.content(LightXML.find_element(pd_lbr, "Prefix"))
     lbr.marker = LightXML.content(LightXML.find_element(pd_lbr, "Marker"))
-    lbr.nextMarker = LightXML.content(LightXML.find_element(pd_lbr, "NextMarker"))
+    lbr.nextMarker = LightXML.find_element(pd_lbr, "NextMarker") != nothing ? LightXML.content(LightXML.find_element(pd_lbr, "NextMarker")) : ""
     lbr.maxKeys = AWS.safe_parseint(LightXML.content(LightXML.find_element(pd_lbr, "MaxKeys")))
-    lbr.delimiter = LightXML.content(LightXML.find_element(pd_lbr, "Delimiter"))
+    lbr.delimiter = LightXML.find_element(pd_lbr, "Delimiter") != nothing ?LightXML.content(LightXML.find_element(pd_lbr, "Delimiter")) : ""
     lbr.isTruncated = AWS.safe_parsebool(LightXML.content(LightXML.find_element(pd_lbr, "IsTruncated")))
-    lbr.contents = AWS.@parse_vector(AWS.S3.Contents, pd_lbr["Contents"])
-    lbr.commonPrefixes = AWS.@parse_vector(AWS.S3.CommonPrefixes, pd_lbr["CommonPrefixes"])
+    lbr.contents = AWS.@parse_vector(AWS.S3.Contents, LightXML.get_elements_by_tagname(pd_lbr, "Contents"))
+    lbr.commonPrefixes = AWS.@parse_vector(AWS.S3.CommonPrefixes, LightXML.get_elements_by_tagname(pd_lbr, "CommonPrefixes"))
     lbr
 end
 export ListBucketResult
