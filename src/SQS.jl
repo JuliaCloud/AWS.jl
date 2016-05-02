@@ -7,6 +7,8 @@ using LightXML
 using AWS.AWSEnv
 using AWS
 
+include("sqs_typed.jl")
+
 
 type SQSError
     typ::AbstractString
@@ -111,7 +113,66 @@ function sqs_execute(env_::AWSEnv, action::AbstractString, ep, params_in, use_po
     sqsresp
 end
 
-include("sqs_typed.jl")
+
+"""
+get the url of queue
+"""
+export get_qurl
+function get_qurl(env::AWSEnv, qname::AbstractString="spipe-tasks")
+    return GetQueueUrl(env; queueName=qname).obj.queueUrl
+end
+
+"""
+fetch SQS message from queue url
+`Inputs:`
+env: AWS enviroment
+qurl: String, url of queue or queue name
+"""
+export fetchSQSmessage
+function fetchSQSmessage(env::AWSEnv, qurl::AbstractString)
+    if !contains(qurl, "https://sqs.")
+        # this is not a url, should be a queue name
+        qurl = get_qurl(env, qurl)
+    end
+    resp = ReceiveMessage(env, queueUrl = qurl)
+    msg = resp.obj.messageSet[1]
+    return msg
+end
+
+"""
+take SQS message from queue
+will delete mssage after fetching
+"""
+export takeSQSmessage!
+function takeSQSmessage!(env::AWSEnv, qurl::AbstractString="")
+    if !contains(qurl, "https://sqs.")
+        # this is not a url, should be a queue name
+        qurl = get_qurl(env, qurl)
+    end
+
+    msg = fetchSQSmessage(env, qurl)
+    # delete the message in queue
+    resp = DeleteMessage(env, queueUrl=qurl, receiptHandle=msg.receiptHandle)
+    # resp = DeleteMessage(env, msg)
+    if resp.http_code < 299
+        println("message deleted")
+    else
+        println("message taking failed!")
+    end
+    return msg
+end
+
+
+"""
+put a task to SQS queue
+"""
+export sendSQSmessage
+function sendSQSmessage(env::AWSEnv, qurl::AbstractString, msg::AbstractString)
+    if !contains(qurl, "https://sqs.")
+        qurl = get_qurl(env, qurl)
+    end
+    resp = SendMessage(env; queueUrl=qurl, delaySeconds=0, messageBody=msg)
+end
 
 
 end
