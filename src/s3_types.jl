@@ -602,19 +602,18 @@ CORSConfiguration(pd) = AWS.@parse_vector(AWS.S3.CORSRule, LightXML.get_elements
 type S3Error
     code::Union{AbstractString, Void}
     message::Union{AbstractString, Void}
-    resource::Union{AbstractString, Void}
     hostId::Union{AbstractString, Void}
     requestId::Union{AbstractString, Void}
 end
 function S3Error(pde)
     code = LightXML.content(LightXML.find_element(pde, "Code"))
     message = LightXML.content(LightXML.find_element(pde, "Message"))
-    resource = LightXML.content(LightXML.find_element(pde, "Resource"))
     hostId = LightXML.content(LightXML.find_element(pde, "HostId"))
     requestId = LightXML.content(LightXML.find_element(pde, "RequestId"))
 
-    S3Error(code, message, resource, hostId, requestId)
+    S3Error(code, message, hostId, requestId)
 end
+
 export CORSConfiguration
 
 
