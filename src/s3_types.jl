@@ -608,6 +608,16 @@ end
 function S3Error(pde)
     code = LightXML.content(LightXML.find_element(pde, "Code"))
     message = LightXML.content(LightXML.find_element(pde, "Message"))
+    
+    # this might be redundant as it often returns empty, AWS docs 
+    # at http://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html
+    # are incomplete
+    _resrce = LightXML.find_element(pde, "Resource")
+    resource =  _resrce != Void() ? LightXML.content(_resrce) : Void()
+
+    _sig = LightXML.find_element(pde, "SignatureProvided")
+    signature =  _sig != Void() ? LightXML.content(_sig) : Void()
+
     hostId = LightXML.content(LightXML.find_element(pde, "HostId"))
     requestId = LightXML.content(LightXML.find_element(pde, "RequestId"))
 
