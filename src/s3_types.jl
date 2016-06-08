@@ -602,19 +602,28 @@ CORSConfiguration(pd) = AWS.@parse_vector(AWS.S3.CORSRule, LightXML.get_elements
 type S3Error
     code::Union{AbstractString, Void}
     message::Union{AbstractString, Void}
-    resource::Union{AbstractString, Void}
     hostId::Union{AbstractString, Void}
     requestId::Union{AbstractString, Void}
 end
 function S3Error(pde)
     code = LightXML.content(LightXML.find_element(pde, "Code"))
     message = LightXML.content(LightXML.find_element(pde, "Message"))
-    resource = LightXML.content(LightXML.find_element(pde, "Resource"))
+    
+    # this might be redundant as it often returns empty, AWS docs 
+    # at http://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html
+    # are incomplete
+    _resrce = LightXML.find_element(pde, "Resource")
+    resource =  _resrce != Void() ? LightXML.content(_resrce) : Void()
+
+    _sig = LightXML.find_element(pde, "SignatureProvided")
+    signature =  _sig != Void() ? LightXML.content(_sig) : Void()
+
     hostId = LightXML.content(LightXML.find_element(pde, "HostId"))
     requestId = LightXML.content(LightXML.find_element(pde, "RequestId"))
 
-    S3Error(code, message, resource, hostId, requestId)
+    S3Error(code, message, hostId, requestId)
 end
+
 export CORSConfiguration
 
 

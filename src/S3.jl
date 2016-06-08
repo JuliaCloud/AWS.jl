@@ -632,13 +632,10 @@ function do_request(env::AWSEnv, ro::RO; conv_to_string=true)
     s3_resp.headers = http_resp.headers
 
     if (http_resp.status > 299)
-        if  (search(Base.get(http_resp.headers, "Content-Type", [""]), "/xml") != 0:-1) && isa(http_resp.data, IO) && (position(http_resp.data) > 0)
-            s3_resp.pd = LightXML.root(LightXML.parse_string(bytestring(http_resp.data)))
-            if s3_resp.pd.name == "Error"
-                s3_resp.obj = S3Error(s3_resp.pd)
-            end
-		else
-			s3_resp.pd = bytestring(http_resp.data)
+        if  (search(Base.get(http_resp.headers, "Content-Type", [""]), "/xml") != 0:-1)
+            s3_resp.obj = S3Error(LightXML.root(LightXML.parse_string(bytestring(http_resp.data))))
+        else
+            s3_resp.pd = bytestring(http_resp.data)
         end
     else
         s3_resp.obj = conv_to_string ? bytestring(http_resp.data) : http_resp.data
@@ -895,9 +892,3 @@ rfc1123_date(d::Void) = nothing
 
 
 end
-
-
-
-
-
-
