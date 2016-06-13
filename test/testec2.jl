@@ -4,8 +4,8 @@ using AWS
 include("config.jl")
 
 n=2
-env=AWSEnv(; id=id, key=key, dbg=dbg, region=region)
-## env=AWSEnv()
+## env=AWSEnv(; id=id, key=key, dbg=dbg, region=region)
+env=AWSEnv()
 instances = ec2_launch(ami, keyname; env=env, owner=owner, insttype=insttype, n=n, clustername="ec2test")
 println(instances)
 

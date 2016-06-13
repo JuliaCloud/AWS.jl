@@ -28,35 +28,38 @@ const US_EAST_1 = "us-east-1" # US East (Northern Virginia) Region
 const US_WEST_1 = "us-west-1" # US West (Northern California) Region
 const US_WEST_2 = "us-west-2" # US West (Oregon) Region
 
-config_file_base = OS_NAME == :Windows ? ENV["APPDATA"] : homedir()
 
-# Search for default AWS_ID and AWS_SECKEY
-AWS_ID = ""
-AWS_SECKEY = ""
-AWS_TOKEN = ""
-if haskey(ENV, "AWS_ID") && haskey(ENV, "AWS_SECKEY")
-    AWS_ID = ENV["AWS_ID"]
-    AWS_SECKEY = ENV["AWS_SECKEY"]
-elseif haskey(ENV, "AWS_ACCESS_KEY_ID") && haskey(ENV, "AWS_SECRET_ACCESS_KEY")
-    AWS_ID = ENV["AWS_ACCESS_KEY_ID"]
-    AWS_SECKEY = ENV["AWS_SECRET_ACCESS_KEY"]
-else
-    secret_path = joinpath(config_file_base, ".awssecret")
-    if isfile(secret_path)
-        AWS_ID, AWS_SECKEY = split(readchomp(secret_path))
+function __init__()
+    config_file_base = OS_NAME == :Windows ? ENV["APPDATA"] : homedir()
+
+    # Search for default AWS_ID and AWS_SECKEY
+    global const AWS_ID = ""
+    global const AWS_SECKEY = ""
+    global const AWS_TOKEN = ""
+    if haskey(ENV, "AWS_ID") && haskey(ENV, "AWS_SECKEY")
+        AWS_ID = ENV["AWS_ID"]
+        AWS_SECKEY = ENV["AWS_SECKEY"]
+    elseif haskey(ENV, "AWS_ACCESS_KEY_ID") && haskey(ENV, "AWS_SECRET_ACCESS_KEY")
+        AWS_ID = ENV["AWS_ACCESS_KEY_ID"]
+        AWS_SECKEY = ENV["AWS_SECRET_ACCESS_KEY"]
+    else
+        secret_path = joinpath(config_file_base, ".awssecret")
+        if isfile(secret_path)
+            AWS_ID, AWS_SECKEY = split(readchomp(secret_path))
+        end
     end
-end
 
-# Search for default AWS_REGION
-AWS_REGION = US_EAST_1
-if haskey(ENV, "AWS_REGION")
-    AWS_REGION = ENV["AWS_REGION"]
-elseif haskey(ENV, "AWS_DEFAULT_REGION")
-    AWS_REGION = ENV["AWS_DEFAULT_REGION"]
-else
-    region_path = joinpath(config_file_base, ".awsregion")
-    if isfile(region_path)
-        AWS_REGION = readchomp(region_path)
+    # Search for default AWS_REGION
+    global const AWS_REGION = US_EAST_1
+    if haskey(ENV, "AWS_REGION")
+        AWS_REGION = ENV["AWS_REGION"]
+    elseif haskey(ENV, "AWS_DEFAULT_REGION")
+        AWS_REGION = ENV["AWS_DEFAULT_REGION"]
+    else
+        region_path = joinpath(config_file_base, ".awsregion")
+        if isfile(region_path)
+            AWS_REGION = readchomp(region_path)
+        end
     end
 end
 
