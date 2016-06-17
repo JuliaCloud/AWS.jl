@@ -31,6 +31,11 @@ println("Add another file")
 resp = S3.put_object(env, bkt, "file2", "World ")
 println(resp)
 
+println("Add another file (POST)")
+file = open("test_file.txt", "w+")
+write(file, "BEGIN_1234_END")
+resp = S3.post_object(env, bkt, "file3", file)
+close(file)
 
 println("List bucket")
 resp = S3.get_bkt(env, bkt)
@@ -44,6 +49,9 @@ println("Get file 2")
 resp = S3.get_object(env, bkt, "file2")
 println(resp)
 
+println("Get file 3")
+resp = S3.get_object(env, bkt, "file3")
+println(resp)
 
 println("Sleep for 30 secs ....")
 sleep(30)
@@ -57,6 +65,9 @@ println("Delete file 2 using the multi api")
 resp = S3.del_object_multi(env, bkt, S3.DeleteObjectsType([S3.ObjectType("file2")]))
 println(resp)
 
+println("Delete file 1")
+resp = S3.del_object(env, bkt, "file3") 
+println(resp)
 
 println("Delete Bucket")
 resp = S3.del_bkt(env, bkt)
