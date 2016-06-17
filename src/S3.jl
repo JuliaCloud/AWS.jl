@@ -471,8 +471,6 @@ function test_object(env::AWSEnv, bkt::AbstractString, key::AbstractString, orig
     s3_resp
 end
 
-#post_object, a different version of put_object is not supported
-
 
 function restore_object(env::AWSEnv, bkt::AbstractString, key::AbstractString, days::Int)
     # TODO qp = "restore"
@@ -487,10 +485,19 @@ function restore_object(env::AWSEnv, bkt::AbstractString, key::AbstractString, d
     s3_resp
 end
 
+function is_stream(istream::Union{IO, AbstractString})
+    isa(istream, IO) || length(istream)
+end
 
-function put_object(env::AWSEnv, bkt::AbstractString, key::AbstractString, data:: Union{IO, AbstractString, Tuple}; content_type="", options::PutObjectOptions=PutObjectOptions(), version_id::AbstractString="")
-    ro = RO(:PUT, bkt, key)
-	ro.cont_typ = "application/octet-stream"
+put_object(env::AWSEnv, bkt::AbstractString, key::AbstractString, data::AbstractString; kwargs...) =
+    upload_object(env, bkt, key, data, :PUT; kwargs...)
+
+post_object(env::AWSEnv, bkt::AbstractString, key::AbstractString, data:: Union{IO, AbstractString}; kwargs...) =
+    upload_object(env, bkt, key, data, :POST; kwargs...)
+
+function upload_object(env::AWSEnv, bkt::AbstractString, key::AbstractString,
+    data:: Union{IO, AbstractString}, verb::Symbol; content_type="", options::PutObjectOptions=PutObjectOptions(), version_id::AbstractString="")
+    ro = RO(verb, bkt, key)
 
     ro.amz_hdrs = amz_headers(Tuple[], options)
     ro.http_hdrs = http_headers(Array(Tuple, 0), options)
@@ -498,10 +505,14 @@ function put_object(env::AWSEnv, bkt::AbstractString, key::AbstractString, data:
 
     if isa(data, AbstractString)
         ro.body = data
+        ro.cont_typ = "application/octet-stream"
     elseif isa(data, IO)
         ro.istream = data
+        #TODO WILL double check length of dashes!
+        ro.cont_typ = Requests.multipart_mime * "--------------------" * Requests.choose_boundary()
     elseif (isa(data, Tuple) && data[1] == :file)
         ro.istream = data[2]
+        ro.cont_typ = Requests.multipart_mime * "--------------------" * Requests.choose_boundary()
     else
         error("Void to upload")
     end
@@ -719,20 +730,28 @@ function do_http(env::AWSEnv, ro::RO)
         ## http_resp = HTTPC.get(url, http_options)
         http_resp = Requests.get(url; headers = headers)
     elseif (ro.verb == :PUT) || (ro.verb == :POST)
-        senddata = isa(ro.istream, IO) ? ro.istream :
-                   isa(ro.istream, AbstractString) ? (:file, ro.istream) :
-                   (isa(ro.body, AbstractString) && (ro.body != "")) ? ro.body :
-                   ""
-#                   error("Must specify either a body or istream for PUT/POST")
-
-        if (ro.verb == :PUT)
-            ## http_resp = HTTPC.put(url, senddata, http_options)
-            http_resp = Requests.put(URIParser.parse_url(url), senddata; headers=headers)
+        if is_stream(ro.istream)
+            # currently istream only supported with post
+            if ro.verb == :POST
+                senddata = isa(ro.istream, AbstractString) ? fopen(ro.istream, "r") : ro.istream
+                http_resp = Requests.post(URIParser.parse_url(url); headers = headers, files = [
+                    Requests.FileParam(ro.key, "", "key"),
+                    Requests.FileParam(ro.istream, "", "file")])
+            else
+                error("File upload currently only supported with POST")
+            end
         else
-            ## http_resp = HTTPC.post(url, senddata, http_options)
-            http_resp = Requests.post(URIParser.parse_url(url), senddata; headers=headers)
-        end
+            senddata = (isa(ro.body, AbstractString) && (ro.body != "")) ? ro.body : ""
+    #                   error("Must specify either a body or istream for PUT/POST")
 
+            if (ro.verb == :PUT)
+                ## http_resp = HTTPC.put(url, senddata, http_options)
+                http_resp = Requests.put(URIParser.parse_url(url), senddata; headers=headers)
+            else
+                ## http_resp = HTTPC.post(url, senddata, http_options)
+                http_resp = Requests.post(URIParser.parse_url(url), senddata; headers=headers)
+            end
+        end
     elseif ro.verb == :DELETE
         ## http_resp = HTTPC.delete(url, http_options)
         http_resp = Requests.delete(URIParser.parse_url(url); headers=headers)
@@ -802,7 +821,8 @@ const qstr_sign_list = Set([
 function get_canonicalized_resource(ro::RO)
     if length(ro.bkt) > 0
         part1 = (startswith(ro.bkt, "/") ? "" : "/") * ro.bkt
-        if length(ro.key) > 0
+        # do not add a key to the full path if we are posting a file
+        if !(ro.verb == :POST && is_stream(ro.istream)) && length(ro.key) > 0
             part1 = part1 * (startswith(ro.key, "/") ? "" : "/") * ro.key
         else
             part1 = part1 * "/"
