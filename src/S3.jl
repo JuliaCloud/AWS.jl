@@ -487,8 +487,8 @@ function restore_object(env::AWSEnv, bkt::AbstractString, key::AbstractString, d
     s3_resp
 end
 
-function is_stream(istream::Union{IO, AbstractString})
-    isa(istream, IO) || length(istream) > 0
+function is_stream(istream::Union{IO, AbstractString, Void})
+    istream != nothing && (isa(istream, IO) || length(istream) > 0)
 end
 
 put_object(env::AWSEnv, bkt::AbstractString, key::AbstractString, data::AbstractString; kwargs...) =
