@@ -259,6 +259,44 @@ function test_bkt(env::AWSEnv, bkt::AbstractString)
 end
 
 
+"""
+transfer s3 file to local and return local file name
+`Inputs:`
+awsEnv: AWS awsEnviroment
+s3name: String, s3 file path
+lcname: String, local temporal folder path or local file name
+`Outputs:`
+lcname: String, local file name
+"""
+function Base.download(awsEnv::AWSEnv, s3fname::AbstractString, lcfname::AbstractString)
+    # directly return if not s3 file
+    if !iss3(s3fname)
+        return s3fname
+    end
+
+    if isdir(lcfname)
+        lcfname = joinpath(lcfname, basename(s3fname))
+    end
+    # remove existing file
+    if isfile(lcfname)
+        rm(lcfname)
+    elseif !isdir(dirname(lcfname))
+        # create local directory
+        mkdir(dirname(lcfname))
+    end
+    # get bucket name and key
+    bkt,key = splits3(s3fname)
+    # download s3 file using awscli
+    f = open(lcfname, "w")
+    resp = S3.get_object(awsEnv, bkt, key)
+    # check that the file exist
+    @assert resp.http_code == 200
+    write( f, resp.obj )
+    close(f)
+    # run(`aws s3 cp $(s3name) $(lcfname)`)
+    return lcfname
+end
+
 function get_bkt_multipart_uploads(env::AWSEnv, bkt::AbstractString; options::GetBucketUploadsOptions=GetBucketUploadsOptions())
     ro = RO(:GET, bkt, "")
     ro.sub_res=get_subres([("uploads", "")], options)
