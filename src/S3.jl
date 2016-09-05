@@ -894,6 +894,46 @@ end
 rfc1123_date(d::Void) = nothing
 
 
+"""
+list objects of s3. no directory/folder in the list
+`Inputs`:
+awsEnv: AWS awsEnvironment
+bkt: bucket name
+path: path
+`Outputs`:
+ret: list of objects
+"""
+function s3_list_objects(awsEnv::AWSEnv, path::AbstractString; re::Regex = r"^\s*")
+    bkt, prefix = splits3(path)
+    return s3_list_objects(awsEnv, bkt, prefix; re=re)
+end
+function s3_list_objects(path::AbstractString; re::Regex = r"^\s*")
+    bkt, prefix = splits3(path)
+    return s3_list_objects(bkt, prefix; re=re)
+end
+function s3_list_objects(bkt::AbstractString, prefix::AbstractString; re::Regex = r"^\s*")
+    return s3_list_objects(awsEnv, bkt, prefix; re=re)
+end
+function s3_list_objects(awsEnv::AWSEnv, bkt::AbstractString, prefix::AbstractString; re::Regex = r"^\s*")
+    prefix = lstrip(prefix, '/')
+    # prefix = path=="" ? path : rstrip(path, '/')*"/"
+    bucket_options = AWS.S3.GetBucketOptions(delimiter="/", prefix=prefix)
+    resp = AWS.S3.get_bkt(awsEnv, bkt; options=bucket_options)
+
+    keylst = Vector{ASCIIString}()
+    for content in resp.obj.contents
+        fname = replace(content.key, prefix, "")
+        if fname!="" && ismatch(re, fname)
+            push!(keylst, content.key)
+        end
+    end
+    # the prefix is alread a single file
+    if keylst == []
+        push!(keylst, prefix)
+    end
+    return bkt, keylst
+end
+
 end
 
 
