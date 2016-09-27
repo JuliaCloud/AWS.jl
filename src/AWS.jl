@@ -52,15 +52,16 @@ function __init__()
     # Search for default AWS_REGION
     AWS_REGION_ = US_EAST_1
     if haskey(ENV, "AWS_REGION")
-       const global AWS_REGION = ENV["AWS_REGION"]
+       AWS_REGION_ = ENV["AWS_REGION"]
     elseif haskey(ENV, "AWS_DEFAULT_REGION")
-       const global AWS_REGION = ENV["AWS_DEFAULT_REGION"]
+       AWS_REGION_ = ENV["AWS_DEFAULT_REGION"]
     else
         region_path = joinpath(config_file_base, ".awsregion")
         if isfile(region_path)
-            const global AWS_REGION = readchomp(region_path)
+            AWS_REGION_ = readchomp(region_path)
         end
     end
+    const global AWS_REGION = AWS_REGION_
 end
 
 type AWSEnv
