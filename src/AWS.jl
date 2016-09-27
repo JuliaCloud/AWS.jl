@@ -33,34 +33,35 @@ function __init__()
     config_file_base = OS_NAME == :Windows ? ENV["APPDATA"] : homedir()
 
     # Search for default AWS_ID and AWS_SECKEY
-    global const AWS_ID = ""
-    global const AWS_SECKEY = ""
     global const AWS_TOKEN = ""
     if haskey(ENV, "AWS_ID") && haskey(ENV, "AWS_SECKEY")
-        AWS_ID = ENV["AWS_ID"]
-        AWS_SECKEY = ENV["AWS_SECKEY"]
+        global const AWS_ID = ENV["AWS_ID"]
+        global const AWS_SECKEY = ENV["AWS_SECKEY"]
     elseif haskey(ENV, "AWS_ACCESS_KEY_ID") && haskey(ENV, "AWS_SECRET_ACCESS_KEY")
-        AWS_ID = ENV["AWS_ACCESS_KEY_ID"]
-        AWS_SECKEY = ENV["AWS_SECRET_ACCESS_KEY"]
+        global const AWS_ID = ENV["AWS_ACCESS_KEY_ID"]
+        global const AWS_SECKEY = ENV["AWS_SECRET_ACCESS_KEY"]
     else
         secret_path = joinpath(config_file_base, ".awssecret")
         if isfile(secret_path)
-            AWS_ID, AWS_SECKEY = split(readchomp(secret_path))
+            AWS_ID_, AWS_SECKEY_ = split(readchomp(secret_path))
+            global const AWS_ID = AWS_ID_
+            global const AWS_SECKEY = AWS_SECKEY_
         end
     end
 
     # Search for default AWS_REGION
-    global const AWS_REGION = US_EAST_1
+    AWS_REGION_ = US_EAST_1
     if haskey(ENV, "AWS_REGION")
-        AWS_REGION = ENV["AWS_REGION"]
+       AWS_REGION_ = ENV["AWS_REGION"]
     elseif haskey(ENV, "AWS_DEFAULT_REGION")
-        AWS_REGION = ENV["AWS_DEFAULT_REGION"]
+       AWS_REGION_ = ENV["AWS_DEFAULT_REGION"]
     else
         region_path = joinpath(config_file_base, ".awsregion")
         if isfile(region_path)
-            AWS_REGION = readchomp(region_path)
+            AWS_REGION_ = readchomp(region_path)
         end
     end
+    const global AWS_REGION = AWS_REGION_
 end
 
 type AWSEnv
