@@ -50,7 +50,7 @@ end
 # Create default show method for all types
 for m in [AWS, AWS.EC2, AWS.S3]
     for n in names(m)
-        t = (m).(n)
+        t = getfield(m, n)
         if isa(t,Type)
             @eval @show_func $n $t
         end
