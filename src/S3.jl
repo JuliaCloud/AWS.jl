@@ -973,9 +973,3 @@ function s3_list_objects(awsEnv::AWSEnv, bkt::AbstractString, prefix::AbstractSt
 end
 
 end
-
-
-
-
-
-

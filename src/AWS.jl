@@ -40,6 +40,19 @@ if haskey(ENV, "AWS_ID") && haskey(ENV, "AWS_SECKEY")
 elseif haskey(ENV, "AWS_ACCESS_KEY_ID") && haskey(ENV, "AWS_SECRET_ACCESS_KEY")
     AWS_ID = ENV["AWS_ACCESS_KEY_ID"]
     AWS_SECKEY = ENV["AWS_SECRET_ACCESS_KEY"]
+elseif isfile(joinpath(homedir(), ".aws/config"))
+    for line in readlines( joinpath(homedir(), ".aws/config") )
+        line = replace(line, " ", "")
+        line = replace(line, "\n", "")
+        segs = split(line, "=")
+        if ismatch(r"^aws_secret_access_key", segs[1])
+            AWS_SECKEY = segs[2]
+        elseif ismatch(r"^aws_access_key_id", segs[1])
+            AWS_ID = segs[2]
+        elseif ismatch(r"^region", segs[1])
+            AWS_REGION = segs[2]
+        end
+    end
 else
     secret_path = joinpath(config_file_base, ".awssecret")
     if isfile(secret_path)

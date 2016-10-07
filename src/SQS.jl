@@ -117,10 +117,10 @@ end
 """
 get the url of queue
 """
-export get_qurl
 function get_qurl(env::AWSEnv, qname::AbstractString="spipe-tasks")
     return GetQueueUrl(env; queueName=qname).obj.queueUrl
 end
+export get_qurl
 
 """
 fetch SQS message from queue url
@@ -128,7 +128,6 @@ fetch SQS message from queue url
 env: AWS enviroment
 qurl: String, url of queue or queue name
 """
-export fetchSQSmessage
 function fetchSQSmessage(env::AWSEnv, qurl::AbstractString)
     if !contains(qurl, "https://sqs.")
         # this is not a url, should be a queue name
@@ -138,12 +137,12 @@ function fetchSQSmessage(env::AWSEnv, qurl::AbstractString)
     msg = resp.obj.messageSet[1]
     return msg
 end
+export fetchSQSmessage
 
 """
 take SQS message from queue
 will delete mssage after fetching
 """
-export takeSQSmessage!
 function takeSQSmessage!(env::AWSEnv, qurl::AbstractString="")
     if !contains(qurl, "https://sqs.")
         # this is not a url, should be a queue name
@@ -161,18 +160,19 @@ function takeSQSmessage!(env::AWSEnv, qurl::AbstractString="")
     end
     return msg
 end
+export takeSQSmessage!
 
 
 """
 put a task to SQS queue
 """
-export sendSQSmessage
 function sendSQSmessage(env::AWSEnv, qurl::AbstractString, msg::AbstractString)
     if !contains(qurl, "https://sqs.")
         qurl = get_qurl(env, qurl)
     end
     resp = SendMessage(env; queueUrl=qurl, delaySeconds=0, messageBody=msg)
 end
+export sendSQSmessage
 
 
 end
