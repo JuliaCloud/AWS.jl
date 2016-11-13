@@ -1,6 +1,6 @@
 type AttributeType
-    name::Union{ASCIIString, Void}
-    value::Union{ASCIIString, Void}
+    name::Union{String, Void}
+    value::Union{String, Void}
 
     AttributeType(; name=nothing, value=nothing) =
          new(name, value)
@@ -37,7 +37,7 @@ export MessageAttributeValueType
 
 
 type MessageAttributeType
-    name::Union{ASCIIString, Void}
+    name::Union{String, Void}
     value::Union{MessageAttributeValueType, Void}
 
     MessageAttributeType(; name=nothing, value=nothing) =
@@ -54,7 +54,7 @@ export MessageAttributeType
 
 
 type CreateQueueType
-    queueName::Union{ASCIIString, Void}
+    queueName::Union{String, Void}
     attributeSet::Union{Vector{AttributeType}, Void}
 
     CreateQueueType(; queueName=nothing, attributeSet=nothing) =
@@ -71,8 +71,8 @@ export CreateQueueType
 
 
 type CreateQueueResponseType
-    queueUrl::Union{ASCIIString, Void}
-    requestId::Union{ASCIIString, Void}
+    queueUrl::Union{String, Void}
+    requestId::Union{String, Void}
 
     CreateQueueResponseType(; queueUrl=nothing, requestId=nothing) =
          new(queueUrl, requestId)
@@ -88,8 +88,8 @@ export CreateQueueResponseType
 
 
 type GetQueueUrlType
-    queueName::Union{ASCIIString, Void}
-    queueOwnerAWSAccountId::Union{ASCIIString, Void}
+    queueName::Union{String, Void}
+    queueOwnerAWSAccountId::Union{String, Void}
 
     GetQueueUrlType(; queueName=nothing, queueOwnerAWSAccountId=nothing) =
          new(queueName, queueOwnerAWSAccountId)
@@ -105,8 +105,8 @@ export GetQueueUrlType
 
 
 type GetQueueUrlResponseType
-    queueUrl::Union{ASCIIString, Void}
-    requestId::Union{ASCIIString, Void}
+    queueUrl::Union{String, Void}
+    requestId::Union{String, Void}
 
     GetQueueUrlResponseType(; queueUrl=nothing, requestId=nothing) =
          new(queueUrl, requestId)
@@ -122,7 +122,7 @@ export GetQueueUrlResponseType
 
 
 type ListQueuesType
-    queueNamePrefix::Union{ASCIIString, Void}
+    queueNamePrefix::Union{String, Void}
 
     ListQueuesType(; queueNamePrefix=nothing) =
          new(queueNamePrefix)
@@ -137,15 +137,15 @@ export ListQueuesType
 
 
 type ListQueuesResponseType
-    queueUrlSet::Union{Vector{ASCIIString}, Void}
-    requestId::Union{ASCIIString, Void}
+    queueUrlSet::Union{Vector{String}, Void}
+    requestId::Union{String, Void}
 
     ListQueuesResponseType(; queueUrlSet=nothing, requestId=nothing) =
          new(queueUrlSet, requestId)
 end
 function ListQueuesResponseType(pd::LightXML.XMLElement)
     o = ListQueuesResponseType()
-    o.queueUrlSet = ASCIIString[LightXML.content(url) for url in LightXML.get_elements_by_tagname(LightXML.find_element(pd, "ListQueuesResult"), "QueueUrl")]
+    o.queueUrlSet = String[LightXML.content(url) for url in LightXML.get_elements_by_tagname(LightXML.find_element(pd, "ListQueuesResult"), "QueueUrl")]
     o.requestId = LightXML.content(LightXML.find_element(LightXML.find_element(pd, "ResponseMetadata"), "RequestId"))
     o
 end
@@ -157,8 +157,8 @@ export ListQueuesResponseType
 # ChangeMessageVisibilityResponseType
 
 type DeleteMessageType
-    queueUrl::Union{ASCIIString, Void}
-    receiptHandle::Union{ASCIIString, Void}
+    queueUrl::Union{String, Void}
+    receiptHandle::Union{String, Void}
 
     DeleteMessageType(; queueUrl=nothing, receiptHandle=nothing) =
          new(queueUrl, receiptHandle)
@@ -174,7 +174,7 @@ export DeleteMessageType
 
 
 type DeleteMessageResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
 
     DeleteMessageResponseType(; requestId=nothing) =
          new(requestId)
@@ -188,7 +188,7 @@ end
 export DeleteMessageResponseType
 
 type DeleteQueueType
-    queueUrl::Union{ASCIIString, Void}
+    queueUrl::Union{String, Void}
 
     DeleteQueueType(; queueUrl=nothing) =
          new(queueUrl)
@@ -203,7 +203,7 @@ export DeleteQueueType
 
 
 type DeleteQueueResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
 
     DeleteQueueResponseType(; requestId=nothing) =
          new(requestId)
@@ -218,15 +218,15 @@ export DeleteQueueResponseType
 
 
 type GetQueueAttributesType
-    attributeNameSet::Union{Vector{ASCIIString}, Void}
-    queueUrl::Union{ASCIIString, Void}
+    attributeNameSet::Union{Vector{String}, Void}
+    queueUrl::Union{String, Void}
 
     GetQueueAttributesType(; attributeNameSet=nothing, queueUrl=nothing) =
          new(attributeNameSet, queueUrl)
 end
 function GetQueueAttributesType(pd::LightXML.XMLElement)
     o = GetQueueAttributesType()
-    o.attributeNameSet = AWS.@parse_vector(ASCIIString, LightXML.get_elements_by_tagname(pd, "AttributeName"))
+    o.attributeNameSet = AWS.@parse_vector(String, LightXML.get_elements_by_tagname(pd, "AttributeName"))
     o.queueUrl = LightXML.content(LightXML.find_element(pd, "QueueUrl"))
     o
 end
@@ -236,7 +236,7 @@ export GetQueueAttributesType
 
 type GetQueueAttributesResponseType
     attributeSet::Union{Vector{AttributeType}, Void}
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
 
     GetQueueAttributesResponseType(; attributeSet=nothing, requestId=nothing) =
          new(attributeSet, requestId)
@@ -255,9 +255,9 @@ type ReceiveMessageType
     maxNumberOfMessages::Union{Int, Void}
     visibilityTimeout::Union{Int, Void}
     waitTimeSeconds::Union{Int, Void}
-    attributeNameSet::Union{Vector{ASCIIString}, Void}
-    messageAttributeNameSet::Union{Vector{ASCIIString}, Void}
-    queueUrl::Union{ASCIIString, Void}
+    attributeNameSet::Union{Vector{String}, Void}
+    messageAttributeNameSet::Union{Vector{String}, Void}
+    queueUrl::Union{String, Void}
 
     ReceiveMessageType(; maxNumberOfMessages=nothing, visibilityTimeout=nothing, waitTimeSeconds=nothing, attributeNameSet=nothing, messageAttributeNameSet=nothing, queueUrl=nothing) =
          new(maxNumberOfMessages, visibilityTimeout, waitTimeSeconds, attributeNameSet, messageAttributeNameSet, queueUrl)
@@ -267,8 +267,8 @@ function ReceiveMessageType(pd::LightXML.XMLElement)
     o.maxNumberOfMessages = AWS.safe_parseint(LightXML.content(LightXML.find_element(pd, "MaxNumberOfMessages")))
     o.visibilityTimeout = AWS.safe_parseint(LightXML.content(LightXML.find_element(pd, "VisibilityTimeout")))
     o.waitTimeSeconds = AWS.safe_parseint(LightXML.content(LightXML.find_element(pd, "WaitTimeSeconds")))
-    o.attributeNameSet = AWS.@parse_vector(ASCIIString, LightXML.content(LightXML.get_elements_by_tagname(pd, "AttributeName")))
-    o.messageAttributeNameSet = AWS.@parse_vector(ASCIIString, LightXML.content(LightXML.get_elements_by_tagname(pd, "MessageAttributeName")))
+    o.attributeNameSet = AWS.@parse_vector(String, LightXML.content(LightXML.get_elements_by_tagname(pd, "AttributeName")))
+    o.messageAttributeNameSet = AWS.@parse_vector(String, LightXML.content(LightXML.get_elements_by_tagname(pd, "MessageAttributeName")))
     o.queueUrl = LightXML.content(LightXML.find_element(pd, "QueueUrl"))
     o
 end
@@ -277,10 +277,10 @@ export ReceiveMessageType
 
 
 type MessageType
-    messageId::Union{ASCIIString, Void}
-    receiptHandle::Union{ASCIIString, Void}
-    MD5OfBody::Union{ASCIIString, Void}
-    MD5OfMessageAttributes::Union{ASCIIString, Void}
+    messageId::Union{String, Void}
+    receiptHandle::Union{String, Void}
+    MD5OfBody::Union{String, Void}
+    MD5OfMessageAttributes::Union{String, Void}
     body::Union{AbstractString, Void}
     attributeSet::Union{Vector{AttributeType}, Void}
     messageAttributeSet::Union{Vector{MessageAttributeType}, Void}
@@ -305,7 +305,7 @@ export MessageType
 
 type ReceiveMessageResponseType
     messageSet::Union{Vector{MessageType}, Void}
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
 
     ReceiveMessageResponseType(; messageSet=nothing, requestId=nothing) =
          new(messageSet, requestId)
@@ -324,7 +324,7 @@ type SendMessageType
     delaySeconds::Union{Int, Void}
     messageAttributeSet::Union{Vector{MessageAttributeType}, Void}
     messageBody::Union{AbstractString, Void}
-    queueUrl::Union{ASCIIString, Void}
+    queueUrl::Union{String, Void}
 
     SendMessageType(; delaySeconds=nothing, messageBody=nothing, queueUrl=nothing) =
          new(delaySeconds, messageBody, queueUrl)
@@ -342,10 +342,10 @@ export SendMessageType
 
 
 type SendMessageResponseType
-    MD5OfMessageBody::Union{ASCIIString, Void}
-    MD5OfMessageAttributes::Union{ASCIIString, Void}
-    messageId::Union{ASCIIString, Void}
-    requestId::Union{ASCIIString, Void}
+    MD5OfMessageBody::Union{String, Void}
+    MD5OfMessageAttributes::Union{String, Void}
+    messageId::Union{String, Void}
+    requestId::Union{String, Void}
 
     SendMessageResponseType(; MD5OfMessageBody=nothing, MD5OfMessageAttributes=nothing, messageId=nothing, requestId=nothing) =
          new(MD5OfMessageBody, MD5OfMessageAttributes, messageId, requestId)
@@ -364,7 +364,7 @@ export SendMessageResponseType
 
 type SetQueueAttributesType
     attributeSet::Union{Vector{AttributeType}, Void}
-    queueUrl::Union{ASCIIString, Void}
+    queueUrl::Union{String, Void}
 
     SetQueueAttributesType(; attributeSet=nothing, queueUrl=nothing) =
          new(attributeSet, queueUrl)
@@ -380,7 +380,7 @@ export SetQueueAttributesType
 
 
 type SetQueueAttributesResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
 
     SetQueueAttributesResponseType(; requestId=nothing) =
          new(requestId)
@@ -395,7 +395,7 @@ export SetQueueAttributesResponseType
 
 type SendMessageBatchRequestEntryType
     delaySeconds::Union{Int, Void}
-    id::Union{ASCIIString, Void}
+    id::Union{String, Void}
     messageAttributeSet::Union{Vector{MessageAttributeType}, Void}
     messageBody::Union{AbstractString, Void}
 
@@ -414,7 +414,7 @@ export SendMessageBatchRequestEntryType
 
 type SendMessageBatchType
     sendMessageBatchRequestEntrySet::Union{Vector{SendMessageBatchRequestEntryType}, Void}
-    queueUrl::Union{ASCIIString, Void}
+    queueUrl::Union{String, Void}
 
     SendMessageBatchType(; sendMessageBatchRequestEntrySet=nothing, queueUrl=nothing) =
          new(sendMessageBatchRequestEntrySet, queueUrl)
@@ -429,10 +429,10 @@ end
 export SendMessageBatchType
 
 type SendMessageBatchResultEntryType 
-    id::Union{ASCIIString, Void}
-    MD5OfMessageAttributes::Union{ASCIIString, Void}
-    MD5OfBody::Union{ASCIIString, Void}
-    messageId::Union{ASCIIString, Void}
+    id::Union{String, Void}
+    MD5OfMessageAttributes::Union{String, Void}
+    MD5OfBody::Union{String, Void}
+    messageId::Union{String, Void}
 
 	SendMessageBatchResultEntryType(; id=nothing, MD5OfMessageAttributes=nothing, MD5OfBody=nothing, messageId=nothing) = 
 		new(id, MD5OfMessageAttributes, MD5OfBody, messageId)
@@ -449,9 +449,9 @@ end
 export SendMessageBatchResultEntryType
 
 type SendMessageBatchResultErrorEntryType
-    code::Union{ASCIIString, Void}
-    id::Union{ASCIIString, Void}
-    message::Union{ASCIIString, Void}
+    code::Union{String, Void}
+    id::Union{String, Void}
+    message::Union{String, Void}
     senderFault::Union{Bool, Void}
 
 	SendMessageBatchResultErrorEntryType(; code=nothing, id=nothing, message=nothing, senderFault=nothing) = 
@@ -485,8 +485,8 @@ end
 export SendMessageBatchResponseType
 
 type DeleteMessageBatchRequestEntryType
-    id::Union{ASCIIString, Void}
-    receiptHandle::Union{ASCIIString, Void}
+    id::Union{String, Void}
+    receiptHandle::Union{String, Void}
 
 	DeleteMessageBatchRequestEntryType(; id=nothing, receiptHandle=nothing) =
 		new(id, receiptHandle)
@@ -502,7 +502,7 @@ export DeleteMessageBatchRequestEntryType
 
 type DeleteMessageBatchType
     deleteMessageBatchRequestEntrySet::Union{Vector{DeleteMessageBatchRequestEntryType}, Void}
-    queueUrl::Union{ASCIIString, Void}
+    queueUrl::Union{String, Void}
 
     DeleteMessageBatchType(; deleteMessageBatchRequestEntrySet=nothing, queueUrl=nothing) =
          new(deleteMessageBatchRequestEntrySet, queueUrl)
@@ -517,9 +517,9 @@ end
 export DeleteMessageBatchType
 
 type DeleteMessageBatchResultErrorEntryType
-    code::Union{ASCIIString, Void}
-    id::Union{ASCIIString, Void}
-    message::Union{ASCIIString, Void}
+    code::Union{String, Void}
+    id::Union{String, Void}
+    message::Union{String, Void}
     senderFault::Union{Bool, Void}
 
     DeleteMessageBatchResultErrorEntryType(; code=nothing, id=nothing, message=nothing, senderFault=nothing) =
@@ -538,7 +538,7 @@ export DeleteMessageBatchResultErrorEntryType
 
 type DeleteMessageBatchResultEntryType
     deleteMessageBatchResultEntrySet::Union{Vector{DeleteMessageBatchResultEntryType}, Void}
-    queueUrl::Union{ASCIIString, Void}
+    queueUrl::Union{String, Void}
 
     DeleteMessageBatchResultEntryType(; deleteMessageBatchResultEntrySet=nothing, queueUrl=nothing) =
          new(deleteMessageBatchResultEntrySet, queueUrl)
@@ -569,8 +569,8 @@ end
 export DeleteMessageBatchResponseType
 
 type ChangeMessageVisibilityType
-    queueUrl::Union{ASCIIString, Void}
-    receiptHandle::Union{ASCIIString, Void}
+    queueUrl::Union{String, Void}
+    receiptHandle::Union{String, Void}
     visibilityTimeout::Union{Int64, Void}
 
     ChangeMessageVisibilityType(; queueUrl=nothing, receiptHandle=nothing, visibilityTimeout=nothing) =
@@ -580,7 +580,7 @@ end
 export ChangeMessageVisibilityType
 
 type ChangeMessageVisibilityResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
 
     ChangeMessageVisibilityResponseType(; requestId=nothing) =
          new(requestId)
@@ -594,8 +594,8 @@ end
 export ChangeMessageVisibilityResponseType
 
 type ChangeMessageVisibilityBatchRequestEntryType
-    id::Union{ASCIIString, Void}
-    receiptHandle::Union{ASCIIString, Void}
+    id::Union{String, Void}
+    receiptHandle::Union{String, Void}
     visibilityTimeout::Union{Int64, Void}
 
     ChangeMessageVisibilityBatchRequestEntryType(; id=nothing, receiptHandle=nothing, visibilityTimeout=nothing) =
@@ -606,7 +606,7 @@ export ChangeMessageVisibilityBatchRequestEntryType
 
 
 type ChangeMessageVisibilityBatchType
-    queueUrl::Union{ASCIIString, Void}
+    queueUrl::Union{String, Void}
 	changeMessageVisibilityBatchRequestEntrySet::Union{Vector{ChangeMessageVisibilityBatchRequestEntryType}, Void}
 
     ChangeMessageVisibilityBatchType(; queueUrl=nothing, changeMessageVisibilityBatchRequestEntrySet=nothing) =
@@ -631,9 +631,9 @@ end
 export ChangeMessageVisibilityBatchResultEntryType
 
 type ChangeMessageVisibilityBatchResultErrorEntryType
-    code::Union{ASCIIString, Void}
-    id::Union{ASCIIString, Void}
-    message::Union{ASCIIString, Void}
+    code::Union{String, Void}
+    id::Union{String, Void}
+    message::Union{String, Void}
     senderFault::Union{Bool, Void}
 
     ChangeMessageVisibilityBatchResultErrorEntryType(; code=nothing, id=nothing, message=nothing, senderFault=nothing) =
@@ -669,7 +669,7 @@ end
 export ChangeMessageVisibilityResponseBatchType
 
 type ListDeadLetterSourceQueuesType
-	queueUrl::Union{ASCIIString, Void}
+	queueUrl::Union{String, Void}
 
 	ListDeadLetterSourceQueuesType(; queueUrl=nothing) = 
 		new(queueUrl)
@@ -678,7 +678,7 @@ end
 export ListDeadLetterSourceQueuesType
 
 type ListDeadLetterSourceQueuesResultType
-	queueUrls::Union{Vector{ASCIIString}, Void}
+	queueUrls::Union{Vector{String}, Void}
 
 	ListDeadLetterSourceQueuesResultType(; queueUrls=nothing) = 
 		new(queueUrls)
@@ -686,13 +686,13 @@ end
 
 function ListDeadLetterSourceQueuesResultType(pd::LightXML.XMLElement)
     o = ListDeadLetterSourceQueuesResultType()
-    o.queueUrlSet = ASCIIString[LightXML.content(url) for url in LightXML.get_elements_by_tagname(LightXML.find_element(pd, "ListDeadLetterSourceQueuesResult"), "QueueUrl")]
+    o.queueUrlSet = String[LightXML.content(url) for url in LightXML.get_elements_by_tagname(LightXML.find_element(pd, "ListDeadLetterSourceQueuesResult"), "QueueUrl")]
 end
 
 export ListDeadLetterSourceQueuesResultType
 
 type ListDeadLetterSourceQueuesResponseType
-	requestId::Union{ASCIIString, Void}
+	requestId::Union{String, Void}
 	listDeadLetterSourceQueuesResultType::Union{ListDeadLetterSourceQueuesResultType, Void}
 
 	ListDeadLetterSourceQueuesResponseType(; requestId=nothing, listDeadLetterSourceQueuesResultType=nothing) = 
@@ -709,7 +709,7 @@ export ListDeadLetterSourceQueuesResponseType
 
 
 type PurgeQueueType
-	queueUrl::Union{ASCIIString, Void}
+	queueUrl::Union{String, Void}
 
 	PurgeQueueType(; queueUrl=nothing) =
 		new(queueUrl)
@@ -718,7 +718,7 @@ end
 export PurgeQueueType
 
 type PurgeQueueResponseType
-	requestId::Union{ASCIIString, Void}
+	requestId::Union{String, Void}
 
 	PurgeQueueResponseType(; requestId=nothing) = 
 		new(requestId)
@@ -734,8 +734,8 @@ export PurgeQueueResponseType
 
 #=
 type ActionAccountType
-	aWSAccountId::Union{ASCIIString, Void}
-	actionName::Union{ASCIIString, Void}
+	aWSAccountId::Union{String, Void}
+	actionName::Union{String, Void}
 
 	ActionAccountType(; aWSAccountId=nothing, actionName=nothing) = 
 		new(aWSAccountId, actionName)
@@ -745,10 +745,10 @@ export ActionAccountType
 =#
 
 type AddPermissionType
-	queueUrl::Union{ASCIIString, Void}
-	label::Union{ASCIIString, Void}
-	aWSAccountIdSet::Union{Vector{ASCIIString}, Void}
-	actionNameSet::Union{Vector{ASCIIString}, Void}
+	queueUrl::Union{String, Void}
+	label::Union{String, Void}
+	aWSAccountIdSet::Union{Vector{String}, Void}
+	actionNameSet::Union{Vector{String}, Void}
 	## actionAccountSet::Union{Vector{ActionAccountType}, Void}
 
 	AddPermissionType(; queueUrl=nothing, label=nothing, aWSAccountIdSet=nothing, actionNameSet=nothing) = 
@@ -758,7 +758,7 @@ end
 export AddPermissionType
 
 type AddPermissionResponseType
-	requestId::Union{ASCIIString, Void}
+	requestId::Union{String, Void}
 
 	AddPermissionResponseType(; requestId=nothing) = 
 		new(requestId)
@@ -773,8 +773,8 @@ end
 export AddPermissionResponseType
 
 type RemovePermissionType
-	queueUrl::Union{ASCIIString, Void}
-	label::Union{ASCIIString, Void}
+	queueUrl::Union{String, Void}
+	label::Union{String, Void}
 
 	RemovePermissionType(; queueUrl=nothing, label=nothing) = 
 		new(queueUrl, label)
@@ -783,7 +783,7 @@ end
 export RemovePermissionType
 
 type RemovePermissionResponseType
-	requestId::Union{ASCIIString, Void}
+	requestId::Union{String, Void}
 
 	RemovePermissionResponseType(; requestId=nothing) = 
 		new(requestId)

@@ -33,7 +33,7 @@ end
 
 
 function get_running_instances_by_owner (owner::String)
-    instances = ASCIIString[]
+    instances = String[]
     req = DescribeInstancesType(filterSet=[FilterType(name="tag:Owner", valueSet=[owner])])
     resp = CHK_ERR(DescribeInstances(env, req))
     reservs = resp.reservationSet
@@ -49,7 +49,7 @@ function get_running_instances_by_owner (owner::String)
 end
 
 function check_running(chk_instances)
-    new_chk_instances = ASCIIString[]
+    new_chk_instances = String[]
     req = DescribeInstanceStatusType(instancesSet=chk_instances, includeAllInstances=true)
     resp = CHK_ERR(DescribeInstanceStatus(env, req))
     statuses = resp.instanceStatusSet
@@ -83,7 +83,7 @@ function launch_n_ec2(n::Int)
 # "m1.small"
 
     resp = CHK_ERR(RunInstances(env, RunInstancesType(imageId=ami_ubuntu_13_04_32bit_USeast_dev, instanceType="m1.small", minCount=n, maxCount=n, keyName="jublr")))
-    instances = ASCIIString[]
+    instances = String[]
     for inst in resp.instancesSet
         push!(instances, inst.instanceId)
     end

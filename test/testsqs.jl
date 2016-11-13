@@ -220,8 +220,8 @@ println("Add  Permission")
 ## Test case for AddPermission
 qurl=GetQueueUrl(env; queueName=queueName).obj.queueUrl
 
-aWSAccountIdSet = Vector{ASCIIString}()
-actionNameSet = Vector{ASCIIString}()
+aWSAccountIdSet = Vector{String}()
+actionNameSet = Vector{String}()
 
 push!(aWSAccountIdSet, awsAccountID)
 push!(actionNameSet, "SendMessage")

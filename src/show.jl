@@ -7,7 +7,7 @@ using AWS.S3
 import Base.show, Base.Meta.quot
 
 print_indented(io::IO,s,indent) = print(io," "^indent,s)
-show_indented(io::IO,s::ASCIIString,indent) = print(io,s*"\n")
+show_indented(io::IO,s::String,indent) = print(io,s*"\n")
 show_indented(io::IO,::Void,indent) = print(io,"Not set\n")
 show_indented(io::IO,i,indent) = println(io,i)
 

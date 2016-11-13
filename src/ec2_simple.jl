@@ -45,7 +45,7 @@ function ec2_terminate(instances; env=AWSEnv())
 end
 
 function check_running(env, chk_instances)
-    new_chk_instances = ASCIIString[]
+    new_chk_instances = String[]
     resp = CHK_ERR(DescribeInstanceStatus(env, instancesSet=chk_instances, includeAllInstances=true))
     statuses = resp.instanceStatusSet
     for status in statuses
@@ -78,7 +78,7 @@ function ec2_launch(ami::AbstractString, seckey::AbstractString; env=AWSEnv(), i
 # "m1.small"
 
     resp = CHK_ERR(RunInstances(env, RunInstancesType(imageId=ami, instanceType=insttype, minCount=n, maxCount=n, keyName=seckey)))
-    instances = ASCIIString[]
+    instances = String[]
     for inst in resp.instancesSet
         push!(instances, inst.instanceId)
     end
@@ -275,7 +275,7 @@ function ec2_instances_by_tag(tag, tagvalue; env=AWSEnv(), running_only=true)
     else
         filterset = [tagfilter]
     end
-    instances = ASCIIString[]
+    instances = String[]
 
     req = DescribeInstancesType(filterSet=filterset)
     resp = CHK_ERR(DescribeInstances(env, req))

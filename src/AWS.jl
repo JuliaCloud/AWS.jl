@@ -30,7 +30,7 @@ const US_WEST_2 = "us-west-2" # US West (Oregon) Region
 
 
 function __init__()
-    config_file_base = OS_NAME == :Windows ? ENV["APPDATA"] : homedir()
+    config_file_base = Sys.KERNEL == :Windows ? ENV["APPDATA"] : homedir()
 
     # Search for default AWS_ID and AWS_SECKEY
     global const AWS_ID = ""
@@ -64,11 +64,11 @@ function __init__()
 end
 
 type AWSEnv
-    aws_id::ASCIIString         # AWS Access Key id
-    aws_seckey::ASCIIString     # AWS Secret key for signing requests
-    aws_token::ASCIIString      # AWS Security Token for temporary credentials
+    aws_id::String         # AWS Access Key id
+    aws_seckey::String     # AWS Secret key for signing requests
+    aws_token::String      # AWS Security Token for temporary credentials
     region::AbstractString      # region name
-	ep_scheme::ASCIIString      # URL scheme: http or https
+	ep_scheme::String      # URL scheme: http or https
     ep_host::AbstractString     # region endpoint (host)
     ep_path::AbstractString     # region endpoint (path)
     sig_ver::Int                # AWS signature version (2 or 4)
