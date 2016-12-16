@@ -28,7 +28,7 @@ const US_EAST_1 = "us-east-1" # US East (Northern Virginia) Region
 const US_WEST_1 = "us-west-1" # US West (Northern California) Region
 const US_WEST_2 = "us-west-2" # US West (Oregon) Region
 
-config_file_base = OS_NAME == :Windows ? ENV["APPDATA"] : homedir()
+config_file_base = Sys.KERNEL == :Windows ? ENV["APPDATA"] : homedir()
 
 # Search for default AWS_ID and AWS_SECKEY
 AWS_ID = ""
@@ -40,8 +40,8 @@ if haskey(ENV, "AWS_ID") && haskey(ENV, "AWS_SECKEY")
 elseif haskey(ENV, "AWS_ACCESS_KEY_ID") && haskey(ENV, "AWS_SECRET_ACCESS_KEY")
     AWS_ID = ENV["AWS_ACCESS_KEY_ID"]
     AWS_SECKEY = ENV["AWS_SECRET_ACCESS_KEY"]
-elseif isfile(joinpath(homedir(), ".aws/config"))
-    for line in readlines( joinpath(homedir(), ".aws/config") )
+elseif isfile(joinpath(homedir(), ".aws/credentials"))
+    for line in readlines( joinpath(homedir(), ".aws/credentials") )
         line = replace(line, " ", "")
         line = replace(line, "\n", "")
         segs = split(line, "=")
@@ -74,11 +74,11 @@ else
 end
 
 type AWSEnv
-    aws_id::ASCIIString         # AWS Access Key id
-    aws_seckey::ASCIIString     # AWS Secret key for signing requests
-    aws_token::ASCIIString      # AWS Security Token for temporary credentials
+    aws_id::String         # AWS Access Key id
+    aws_seckey::String     # AWS Secret key for signing requests
+    aws_token::String      # AWS Security Token for temporary credentials
     region::AbstractString      # region name
-	ep_scheme::ASCIIString      # URL scheme: http or https
+	ep_scheme::String      # URL scheme: http or https
     ep_host::AbstractString     # region endpoint (host)
     ep_path::AbstractString     # region endpoint (path)
     sig_ver::Int                # AWS signature version (2 or 4)
@@ -146,6 +146,14 @@ type AWSEnv
     end
 
 end
+
+# function Base.show(io::IO, awsEnv::AWSEnv)
+#     e = copy(awsEnv)
+#     e.aws_id = "XXXXXXXXXX"
+#     e.aws_seckey = "XXXXXXXXXXXXXXX"
+#     @show e
+# end
+
 export AWSEnv
 
 function parse_endpoint(ep, default_scheme)
@@ -183,7 +191,7 @@ function get_instance_credentials()
             return nothing
         end
 
-        iam = split(bytestring(resp.data))
+        iam = split(String(copy(resp.data)))
         if length(iam) == 0
             return nothing
         end

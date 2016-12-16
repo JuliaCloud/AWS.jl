@@ -7,7 +7,7 @@ using AWS.S3
 import Base.show, Base.Meta.quot
 
 print_indented(io::IO,s,indent) = print(io," "^indent,s)
-show_indented(io::IO,s::ASCIIString,indent) = print(io,s*"\n")
+show_indented(io::IO,s::String,indent) = print(io,s*"\n")
 show_indented(io::IO,::Void,indent) = print(io,"Not set\n")
 show_indented(io::IO,i,indent) = println(io,i)
 
@@ -33,7 +33,7 @@ macro show_func(n, t)
     for x in fieldnames(t)
         push!(block.args,quote
             $(esc(:print_indented))(io,$(string(x)*": "),indent)
-            $(esc(:show_indented))(io,r.($(quot(x))),indent+4)
+            $(esc(:show_indented))(io, getfield(r, $(quot(x))),indent+4)
         end)
     end
     ret = quote
@@ -50,7 +50,7 @@ end
 # Create default show method for all types
 for m in [AWS, AWS.EC2, AWS.S3]
     for n in names(m)
-        t = (m).(n)
+        t = getfield(m, n)
         if isa(t,Type)
             @eval @show_func $n $t
         end

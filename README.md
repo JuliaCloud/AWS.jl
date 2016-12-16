@@ -24,11 +24,11 @@ The following services are supported as of now:
 
 ```
 type AWSEnv
-    aws_id::ASCIIString         # AWS Access Key id
-    aws_seckey::ASCIIString     # AWS Secret key for signing requests
-    aws_token::ASCIIString      # AWS Security Token for temporary credentials
+    aws_id::String         # AWS Access Key id
+    aws_seckey::String     # AWS Secret key for signing requests
+    aws_token::String      # AWS Security Token for temporary credentials
     region::AbstractString      # region name
-    ep_scheme::ASCIIString      # URL scheme: http or https
+    ep_scheme::String      # URL scheme: http or https
     ep_host::AbstractString     # region endpoint (host)
     ep_path::AbstractString     # region endpoint (path)
     sig_ver::Int                # AWS signature version (2 or 4)
@@ -197,7 +197,7 @@ RunInstancesType (defined in ec2_types.jl) is
 
 ```
 type RunInstancesType
-    imageId::Union(ASCIIString, Nothing)
+    imageId::Union(String, Nothing)
     minCount::Union(Int32, Nothing)
     maxCount::Union(Int32, Nothing)
     ...
@@ -471,8 +471,8 @@ println("Add  Permission")
 ## Test case for AddPermission
 qurl=GetQueueUrl(env; queueName=queueName).obj.queueUrl
 
-aWSAccountIdSet = Vector{ASCIIString}()
-actionNameSet = Vector{ASCIIString}()
+aWSAccountIdSet = Vector{String}()
+actionNameSet = Vector{String}()
 
 push!(aWSAccountIdSet, awsAccountID)
 push!(actionNameSet, "SendMessage")

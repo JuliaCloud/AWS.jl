@@ -258,6 +258,14 @@ function test_bkt(env::AWSEnv, bkt::AbstractString)
     s3_resp
 end
 
+"""
+split a s3 path to bucket name and key
+"""
+function splits3(path::AbstractString)
+    path = replace(path, "s3://", "")
+    bkt, key = split(path, "/", limit = 2)
+    return string(bkt), string(key)
+end
 
 """
 transfer s3 file to local and return local file name
@@ -676,10 +684,10 @@ function do_request(env::AWSEnv, ro::RO; conv_to_string=true)
                 s3_resp.obj = S3Error(s3_resp.pd)
             end
 		else
-			s3_resp.pd = bytestring(http_resp.data)
+			s3_resp.pd = String(copy(http_resp.data))
         end
     else
-        s3_resp.obj = conv_to_string ? bytestring(http_resp.data) : http_resp.data
+        s3_resp.obj = conv_to_string ? String(copy(http_resp.data)) : http_resp.data
     end
 
     s3_resp
@@ -950,6 +958,7 @@ function s3_list_objects(path::AbstractString; re::Regex = r"^\s*")
     return s3_list_objects(bkt, prefix; re=re)
 end
 function s3_list_objects(bkt::AbstractString, prefix::AbstractString; re::Regex = r"^\s*")
+    awsEnv = AWS.AWSEnv()
     return s3_list_objects(awsEnv, bkt, prefix; re=re)
 end
 function s3_list_objects(awsEnv::AWSEnv, bkt::AbstractString, prefix::AbstractString; re::Regex = r"^\s*")
@@ -958,7 +967,7 @@ function s3_list_objects(awsEnv::AWSEnv, bkt::AbstractString, prefix::AbstractSt
     bucket_options = AWS.S3.GetBucketOptions(delimiter="/", prefix=prefix)
     resp = AWS.S3.get_bkt(awsEnv, bkt; options=bucket_options)
 
-    keylst = Vector{ASCIIString}()
+    keylst = Vector{String}()
     for content in resp.obj.contents
         fname = replace(content.key, prefix, "")
         if fname!="" && ismatch(re, fname)
@@ -966,9 +975,9 @@ function s3_list_objects(awsEnv::AWSEnv, bkt::AbstractString, prefix::AbstractSt
         end
     end
     # the prefix is alread a single file
-    if keylst == []
-        push!(keylst, prefix)
-    end
+    # if keylst == []
+    #     push!(keylst, prefix)
+    # end
     return bkt, keylst
 end
 

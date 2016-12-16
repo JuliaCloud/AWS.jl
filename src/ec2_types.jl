@@ -1,6 +1,6 @@
 type CreateImageResponseType
-    requestId::Union{ASCIIString, Void}
-    imageId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
+    imageId::Union{String, Void}
 
     CreateImageResponseType(; requestId=nothing, imageId=nothing) =
          new(requestId, imageId)
@@ -17,8 +17,8 @@ export CreateImageResponseType
 
 
 type RegisterImageResponseType
-    requestId::Union{ASCIIString, Void}
-    imageId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
+    imageId::Union{String, Void}
 
     RegisterImageResponseType(; requestId=nothing, imageId=nothing) =
          new(requestId, imageId)
@@ -35,7 +35,7 @@ export RegisterImageResponseType
 
 
 type DeregisterImageType
-    imageId::Union{ASCIIString, Void}
+    imageId::Union{String, Void}
 
     DeregisterImageType(; imageId=nothing) =
          new(imageId)
@@ -51,7 +51,7 @@ export DeregisterImageType
 
 
 type DeregisterImageResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     DeregisterImageResponseType(; requestId=nothing, _return=nothing) =
@@ -69,7 +69,7 @@ export DeregisterImageResponseType
 
 
 type CreateKeyPairType
-    keyName::Union{ASCIIString, Void}
+    keyName::Union{String, Void}
 
     CreateKeyPairType(; keyName=nothing) =
          new(keyName)
@@ -85,10 +85,10 @@ export CreateKeyPairType
 
 
 type CreateKeyPairResponseType
-    requestId::Union{ASCIIString, Void}
-    keyName::Union{ASCIIString, Void}
-    keyFingerprint::Union{ASCIIString, Void}
-    keyMaterial::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
+    keyName::Union{String, Void}
+    keyFingerprint::Union{String, Void}
+    keyMaterial::Union{String, Void}
 
     CreateKeyPairResponseType(; requestId=nothing, keyName=nothing, keyFingerprint=nothing, keyMaterial=nothing) =
          new(requestId, keyName, keyFingerprint, keyMaterial)
@@ -107,8 +107,8 @@ export CreateKeyPairResponseType
 
 
 type ImportKeyPairType
-    keyName::Union{ASCIIString, Void}
-    publicKeyMaterial::Union{ASCIIString, Void}
+    keyName::Union{String, Void}
+    publicKeyMaterial::Union{String, Void}
 
     ImportKeyPairType(; keyName=nothing, publicKeyMaterial=nothing) =
          new(keyName, publicKeyMaterial)
@@ -125,9 +125,9 @@ export ImportKeyPairType
 
 
 type ImportKeyPairResponseType
-    requestId::Union{ASCIIString, Void}
-    keyName::Union{ASCIIString, Void}
-    keyFingerprint::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
+    keyName::Union{String, Void}
+    keyFingerprint::Union{String, Void}
 
     ImportKeyPairResponseType(; requestId=nothing, keyName=nothing, keyFingerprint=nothing) =
          new(requestId, keyName, keyFingerprint)
@@ -144,7 +144,7 @@ export ImportKeyPairResponseType
 
 
 type DeleteKeyPairType
-    keyName::Union{ASCIIString, Void}
+    keyName::Union{String, Void}
 
     DeleteKeyPairType(; keyName=nothing) =
          new(keyName)
@@ -159,7 +159,7 @@ export DeleteKeyPairType
 
 
 type DeleteKeyPairResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     DeleteKeyPairResponseType(; requestId=nothing, _return=nothing) =
@@ -176,7 +176,7 @@ export DeleteKeyPairResponseType
 
 
 type DescribeKeyPairsItemType
-    keyName::Union{ASCIIString, Void}
+    keyName::Union{String, Void}
 
     DescribeKeyPairsItemType(; keyName=nothing) =
          new(keyName)
@@ -191,8 +191,8 @@ export DescribeKeyPairsItemType
 
 
 type DescribeKeyPairsResponseItemType
-    keyName::Union{ASCIIString, Void}
-    keyFingerprint::Union{ASCIIString, Void}
+    keyName::Union{String, Void}
+    keyFingerprint::Union{String, Void}
 
     DescribeKeyPairsResponseItemType(; keyName=nothing, keyFingerprint=nothing) =
          new(keyName, keyFingerprint)
@@ -208,8 +208,8 @@ export DescribeKeyPairsResponseItemType
 
 
 type IamInstanceProfileRequestType
-    arn::Union{ASCIIString, Void}
-    name::Union{ASCIIString, Void}
+    arn::Union{String, Void}
+    name::Union{String, Void}
 
     IamInstanceProfileRequestType(; arn=nothing, name=nothing) =
          new(arn, name)
@@ -225,7 +225,7 @@ export IamInstanceProfileRequestType
 
 
 type PrivateIpAddressesSetItemRequestType
-    privateIpAddress::Union{ASCIIString, Void}
+    privateIpAddress::Union{String, Void}
     primary::Union{Bool, Void}
 
     PrivateIpAddressesSetItemRequestType(; privateIpAddress=nothing, primary=nothing) =
@@ -242,8 +242,8 @@ export PrivateIpAddressesSetItemRequestType
 
 
 type ImportInstanceGroupItemType
-    groupId::Union{ASCIIString, Void}
-    groupName::Union{ASCIIString, Void}
+    groupId::Union{String, Void}
+    groupName::Union{String, Void}
 
     ImportInstanceGroupItemType(; groupId=nothing, groupName=nothing) =
          new(groupId, groupName)
@@ -259,8 +259,8 @@ export ImportInstanceGroupItemType
 
 
 type GroupItemType
-    groupId::Union{ASCIIString, Void}
-    groupName::Union{ASCIIString, Void}
+    groupId::Union{String, Void}
+    groupName::Union{String, Void}
 
     GroupItemType(; groupId=nothing, groupName=nothing) =
          new(groupId, groupName)
@@ -276,7 +276,7 @@ export GroupItemType
 
 
 type UserDataType
-    data::Union{ASCIIString, Void}
+    data::Union{String, Void}
 
     UserDataType(; data=nothing) =
          new(data)
@@ -293,10 +293,10 @@ export UserDataType
 
 
 type EbsBlockDeviceType
-    snapshotId::Union{ASCIIString, Void}
+    snapshotId::Union{String, Void}
     volumeSize::Union{Int64, Void}
     deleteOnTermination::Union{Bool, Void}
-    volumeType::Union{ASCIIString, Void}
+    volumeType::Union{String, Void}
     iops::Union{Int64, Void}
 
     EbsBlockDeviceType(; snapshotId=nothing, volumeSize=nothing, deleteOnTermination=nothing, volumeType=nothing, iops=nothing) =
@@ -315,9 +315,9 @@ end
 export EbsBlockDeviceType
 
 type BlockDeviceMappingItemType
-    deviceName::Union{ASCIIString, Void}
-    virtualName::Union{ASCIIString, Void}
-    noDevice::Union{ASCIIString, Void}
+    deviceName::Union{String, Void}
+    virtualName::Union{String, Void}
+    noDevice::Union{String, Void}
     ebs::Union{EbsBlockDeviceType, Void}
 
     BlockDeviceMappingItemType(; deviceName=nothing, virtualName=nothing, noDevice=nothing, ebs=nothing) =
@@ -336,9 +336,9 @@ end
 export BlockDeviceMappingItemType
 
 type PlacementRequestType
-    availabilityZone::Union{ASCIIString, Void}
-    groupName::Union{ASCIIString, Void}
-    tenancy::Union{ASCIIString, Void}
+    availabilityZone::Union{String, Void}
+    groupName::Union{String, Void}
+    tenancy::Union{String, Void}
 
     PlacementRequestType(; availabilityZone=nothing, groupName=nothing, tenancy=nothing) =
          new(availabilityZone, groupName, tenancy)
@@ -355,8 +355,8 @@ export PlacementRequestType
 
 
 type SpotPlacementRequestType
-    availabilityZone::Union{ASCIIString, Void}
-    groupName::Union{ASCIIString, Void}
+    availabilityZone::Union{String, Void}
+    groupName::Union{String, Void}
 
     SpotPlacementRequestType(; availabilityZone=nothing, groupName=nothing) =
          new(availabilityZone, groupName)
@@ -372,8 +372,8 @@ export SpotPlacementRequestType
 
 
 type InstancePlacementType
-    availabilityZone::Union{ASCIIString, Void}
-    groupName::Union{ASCIIString, Void}
+    availabilityZone::Union{String, Void}
+    groupName::Union{String, Void}
 
     InstancePlacementType(; availabilityZone=nothing, groupName=nothing) =
          new(availabilityZone, groupName)
@@ -404,7 +404,7 @@ export MonitoringInstanceType
 
 
 type InstanceLicenseRequestType
-    pool::Union{ASCIIString, Void}
+    pool::Union{String, Void}
 
     InstanceLicenseRequestType(; pool=nothing) =
          new(pool)
@@ -419,8 +419,8 @@ export InstanceLicenseRequestType
 
 
 type IamInstanceProfileResponseType
-    arn::Union{ASCIIString, Void}
-    id::Union{ASCIIString, Void}
+    arn::Union{String, Void}
+    id::Union{String, Void}
 
     IamInstanceProfileResponseType(; arn=nothing, id=nothing) =
          new(arn, id)
@@ -436,9 +436,9 @@ export IamInstanceProfileResponseType
 
 
 type InstanceNetworkInterfaceAttachmentType
-    attachmentId::Union{ASCIIString, Void}
+    attachmentId::Union{String, Void}
     deviceIndex::Union{Int64, Void}
-    status::Union{ASCIIString, Void}
+    status::Union{String, Void}
     attachTime::Union{Base.Dates.DateTime, Void}
     deleteOnTermination::Union{Bool, Void}
 
@@ -459,9 +459,9 @@ export InstanceNetworkInterfaceAttachmentType
 
 
 type InstanceNetworkInterfaceAssociationType
-    publicIp::Union{ASCIIString, Void}
-    publicDnsName::Union{ASCIIString, Void}
-    ipOwnerId::Union{ASCIIString, Void}
+    publicIp::Union{String, Void}
+    publicDnsName::Union{String, Void}
+    ipOwnerId::Union{String, Void}
 
     InstanceNetworkInterfaceAssociationType(; publicIp=nothing, publicDnsName=nothing, ipOwnerId=nothing) =
          new(publicIp, publicDnsName, ipOwnerId)
@@ -478,9 +478,9 @@ export InstanceNetworkInterfaceAssociationType
 
 
 type PlacementResponseType
-    availabilityZone::Union{ASCIIString, Void}
-    groupName::Union{ASCIIString, Void}
-    tenancy::Union{ASCIIString, Void}
+    availabilityZone::Union{String, Void}
+    groupName::Union{String, Void}
+    tenancy::Union{String, Void}
 
     PlacementResponseType(; availabilityZone=nothing, groupName=nothing, tenancy=nothing) =
          new(availabilityZone, groupName, tenancy)
@@ -497,8 +497,8 @@ export PlacementResponseType
 
 
 type StateReasonType
-    code::Union{ASCIIString, Void}
-    message::Union{ASCIIString, Void}
+    code::Union{String, Void}
+    message::Union{String, Void}
 
     StateReasonType(; code=nothing, message=nothing) =
          new(code, message)
@@ -514,7 +514,7 @@ export StateReasonType
 
 
 type InstanceBlockDeviceMappingResponseItemType
-    deviceName::Union{ASCIIString, Void}
+    deviceName::Union{String, Void}
 
     InstanceBlockDeviceMappingResponseItemType(; deviceName=nothing) =
          new(deviceName)
@@ -529,8 +529,8 @@ export InstanceBlockDeviceMappingResponseItemType
 
 
 type EbsInstanceBlockDeviceMappingResponseType
-    volumeId::Union{ASCIIString, Void}
-    status::Union{ASCIIString, Void}
+    volumeId::Union{String, Void}
+    status::Union{String, Void}
     attachTime::Union{Base.Dates.DateTime, Void}
     deleteOnTermination::Union{Bool, Void}
 
@@ -550,7 +550,7 @@ export EbsInstanceBlockDeviceMappingResponseType
 
 
 type InstanceLicenseResponseType
-    pool::Union{ASCIIString, Void}
+    pool::Union{String, Void}
 
     InstanceLicenseResponseType(; pool=nothing) =
          new(pool)
@@ -565,7 +565,7 @@ export InstanceLicenseResponseType
 
 
 type AccountAttributeNameSetItemType
-    attributeName::Union{ASCIIString, Void}
+    attributeName::Union{String, Void}
 
     AccountAttributeNameSetItemType(; attributeName=nothing) =
          new(attributeName)
@@ -580,8 +580,8 @@ export AccountAttributeNameSetItemType
 
 
 type AccountAttributeSetItemType
-    attributeName::Union{ASCIIString, Void}
-    attributeValueSet::Union{Vector{ASCIIString}, Void}
+    attributeName::Union{String, Void}
+    attributeValueSet::Union{Vector{String}, Void}
 
     AccountAttributeSetItemType(; attributeName=nothing, attributeValueSet=nothing) =
          new(attributeName, attributeValueSet)
@@ -589,7 +589,7 @@ end
 function AccountAttributeSetItemType(pd)
     o = AccountAttributeSetItemType()
     o.attributeName = LightXML.content(LightXML.find_element(pd, "attributeName"))
-    o.attributeValueSet = AWS.parse_vector_as(ASCIIString, "attributeValue", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "attributeValue"))
+    o.attributeValueSet = AWS.parse_vector_as(String, "attributeValue", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "attributeValue"))
     o
 end
 
@@ -597,7 +597,7 @@ export AccountAttributeSetItemType
 
 
 type AccountAttributeValueSetItemType
-    attributeValue::Union{ASCIIString, Void}
+    attributeValue::Union{String, Void}
 
     AccountAttributeValueSetItemType(; attributeValue=nothing) =
          new(attributeValue)
@@ -612,7 +612,7 @@ export AccountAttributeValueSetItemType
 
 
 type DescribeVpcAttributeType
-    vpcId::Union{ASCIIString, Void}
+    vpcId::Union{String, Void}
 
     DescribeVpcAttributeType(; vpcId=nothing) =
          new(vpcId)
@@ -627,8 +627,8 @@ export DescribeVpcAttributeType
 
 
 type DescribeVpcAttributeResponseType
-    requestId::Union{ASCIIString, Void}
-    vpcId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
+    vpcId::Union{String, Void}
 
     DescribeVpcAttributeResponseType(; requestId=nothing, vpcId=nothing) =
          new(requestId, vpcId)
@@ -644,7 +644,7 @@ export DescribeVpcAttributeResponseType
 
 
 type ModifyVpcAttributeType
-    vpcId::Union{ASCIIString, Void}
+    vpcId::Union{String, Void}
 
     ModifyVpcAttributeType(; vpcId=nothing) =
          new(vpcId)
@@ -659,7 +659,7 @@ export ModifyVpcAttributeType
 
 
 type ModifyVpcAttributeResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     ModifyVpcAttributeResponseType(; requestId=nothing, _return=nothing) =
@@ -676,9 +676,9 @@ export ModifyVpcAttributeResponseType
 
 
 type VpcPeeringConnectionVpcInfoType
-  ownerId::Union{ASCIIString, Void}
-  vpcId::Union{ASCIIString, Void}
-  cidrBlock::Union{ASCIIString, Void}
+  ownerId::Union{String, Void}
+  vpcId::Union{String, Void}
+  cidrBlock::Union{String, Void}
 
   VpcPeeringConnectionVpcInfoType(; ownerId=nothing, vpcId=nothing, cidrBlock=nothing) = new(ownerId, vpcId, cidrBlock)
 end
@@ -694,8 +694,8 @@ export VpcPeeringConnectionVpcInfoType
 
 
 type VpcPeeringConnectionStateReasonType
-  code::Union{ASCIIString, Void}
-  message::Union{ASCIIString, Void}
+  code::Union{String, Void}
+  message::Union{String, Void}
 
   VpcPeeringConnectionStateReasonType(; code=nothing, message=nothing) = new(code, message)
 end
@@ -710,8 +710,8 @@ export VpcPeeringConnectionStateReasonType
 
 
 type ResourceTagSetItemType
-    key::Union{ASCIIString, Void}
-    value::Union{ASCIIString, Void}
+    key::Union{String, Void}
+    value::Union{String, Void}
 
     ResourceTagSetItemType(; key=nothing, value=nothing) =
          new(key, value)
@@ -727,7 +727,7 @@ export ResourceTagSetItemType
 
 
 type VpcPeeringConnectionType
-  vpcPeeringConnectionId::Union{ASCIIString, Void}
+  vpcPeeringConnectionId::Union{String, Void}
   requesterVpcInfo::Union{Vector{VpcPeeringConnectionVpcInfoType}, Void}
   accepterVpcInfo::Union{Vector{VpcPeeringConnectionVpcInfoType}, Void}
   status::Union{Vector{VpcPeeringConnectionStateReasonType}, Void}
@@ -753,7 +753,7 @@ export VpcPeeringConnectionType
 
 
 type AcceptVpcPeeringConnectionType
-  vpcPeeringConnectionId::Union{ASCIIString, Void}
+  vpcPeeringConnectionId::Union{String, Void}
 
   AcceptVpcPeeringConnectionType(; vpcPeeringConnectionId=nothing) = new(vpcPeeringConnectionId)
 end
@@ -767,7 +767,7 @@ export AcceptVpcPeeringConnectionType
 
 
 type AcceptVpcPeeringConnectionResponseType
-  requestID::Union{ASCIIString, Void}
+  requestID::Union{String, Void}
   vpcPeeringConnection::Union{Vector{VpcPeeringConnectionType}, Void}
 
   AcceptVpcPeeringConnectionResponseType(; requestId=nothing, vpcPeeringConnection=nothing) = new(requestId, vpcPeeringConnection)
@@ -783,11 +783,11 @@ export AcceptVpcPeeringConnectionResponseType
 
 
 type CreateVpcEndpointType
-  clientToken::Union{ASCIIString, Void}
-  policyDocument::Union{ASCIIString, Void}
-  routeTableIdSet::Union{Vector{ASCIIString}, Void}
-  serviceName::Union{ASCIIString, Void}
-  vpcId::Union{ASCIIString, Void}
+  clientToken::Union{String, Void}
+  policyDocument::Union{String, Void}
+  routeTableIdSet::Union{Vector{String}, Void}
+  serviceName::Union{String, Void}
+  vpcId::Union{String, Void}
 
   CreateVpcEndpointType(; clientToken=nothing, policyDocument=nothing, routeTableIdSet=nothing, serviceName=nothing,
                         vpcId=nothing) = new(clientToken, policyDocument, routeTableId, serviceName, vpcId)
@@ -796,7 +796,7 @@ function CreateVpcEndpointType(pd)
   o = CreateVpcEndpointType()
   clientToken = LightXML.content(LightXML.find_element(pd, "clientToken"))
   policyDocument = LightXML.content(LightXML.find_element(pd, "policyDocument"))
-  routeTableIdSet = AWS.parse_vector_as(ASCIIString, "routeTableId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "routeTableId"))
+  routeTableIdSet = AWS.parse_vector_as(String, "routeTableId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "routeTableId"))
   serviceName = LightXML.content(LightXML.find_element(pd, "serviceName"))
   vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
   o
@@ -807,12 +807,12 @@ export CreateVpcEndpointType
 
 type VpcEndpointType
   creationTimestamp::Union{Base.Dates.DateTime, Void}
-  policyDocument::Union{ASCIIString, Void}
-  routeTableIdSet::Union{Vector{ASCIIString}, Void}
-  serviceName::Union{ASCIIString, Void}
-  state::Union{ASCIIString, Void}
-  vpcEndpointId::Union{ASCIIString, Void}
-  vpcId::Union{ASCIIString, Void}
+  policyDocument::Union{String, Void}
+  routeTableIdSet::Union{Vector{String}, Void}
+  serviceName::Union{String, Void}
+  state::Union{String, Void}
+  vpcEndpointId::Union{String, Void}
+  vpcId::Union{String, Void}
 
   VpcEndpointType(; creationTimestamp=nothing, policyDocument=nothing, routeTableIdSet=nothing, serviceName=nothing,
               state=nothing, vpcEndpointId=nothing, vpcId=nothing) = new(creationTimestamp, policyDocument,
@@ -822,7 +822,7 @@ function VpcEndpointType(pd)
   o = VpcEndpointType()
   o.creationTimestamp = AWS.safe_parse_as(DateTime, LightXML.content(LightXML.find_element(pd, "creationTimestamp")))
   o.policyDocument = LightXML.content(LightXML.find_element(pd, "policyDocument"))
-  o.routeTableIdSet = AWS.parse_vector_as(ASCIIString, "routeTableId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "routeTableId"))
+  o.routeTableIdSet = AWS.parse_vector_as(String, "routeTableId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "routeTableId"))
   o.serviceName = LightXML.content(LightXML.find_element(pd, "serviceName"))
   o.state = LightXML.content(LightXML.find_element(pd, "state"))
   o.vpcEndpointId = LightXML.content(LightXML.find_element(pd, "vpcEndpointId"))
@@ -834,8 +834,8 @@ export VpcEndpointType
 
 
 type CreateVpcEndpointResponseType
-  clientToken::Union{ASCIIString, Void}
-  requestId::Union{ASCIIString, Void}
+  clientToken::Union{String, Void}
+  requestId::Union{String, Void}
   vpcEndpoint::Union{Vector{VpcEndpointType}, Void}
 
   CreateVpcEndpointResponseType(; clientToken=nothing, requestId=nothing, vpcEndpoint=nothing) =
@@ -853,9 +853,9 @@ export CreateVpcEndpointResponseType
 
 
 type CreateVpcPeeringConnectionType
-  vpcId::Union{ASCIIString, Void}
-  peerVpcId::Union{ASCIIString, Void}
-  peerOwnerId::Union{ASCIIString, Void}
+  vpcId::Union{String, Void}
+  peerVpcId::Union{String, Void}
+  peerOwnerId::Union{String, Void}
 
   CreateVpcPeeringConnectionType(; vpcId=nothing, peerVpcId=nothing, peerOwnerId=nothing) =
     new(vpcId, peerVpcId, peerOwnerId)
@@ -872,7 +872,7 @@ export CreateVpcPeeringConnectionType
 
 
 type CreateVpcPeeringConnectionResponseType
-  requestId::Union{ASCIIString, Void}
+  requestId::Union{String, Void}
   vpcPeeringConnection::Union{Vector{VpcPeeringConnectionType}, Void}
 
   CreateVpcPeeringConnectionResponseType(; requestId=nothing, vpcPeeringConnection=nothing) =
@@ -889,21 +889,21 @@ export CreateVpcPeeringConnectionResponseType
 
 
 type DeleteVpcEndpointsType
-  vpcEndpointIdSet::Union{Vector{ASCIIString}, Void}
+  vpcEndpointIdSet::Union{Vector{String}, Void}
 
   DeleteVpcEndpointsType(; vpcEndpointIdSet=nothing) = new(vpcEndpointIdSet)
 end
 function DeleteVpcEndpointsType(pd)
   o = DeleteVpcEndpointsType()
-  o.vpcEndpointIdSet = AWS.parse_vector_as(ASCIIString, "vpcEndpointId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "vpcEndpointId"))
+  o.vpcEndpointIdSet = AWS.parse_vector_as(String, "vpcEndpointId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "vpcEndpointId"))
 end
 
 export DeleteVpcEndpointsType
 
 
 type UnsuccessfulItemErrorType
-  code::Union{ASCIIString, Void}
-  message::Union{ASCIIString, Void}
+  code::Union{String, Void}
+  message::Union{String, Void}
 
   UnsuccessfulItemErrorType(; code=nothing, message=nothing) = new(code, message)
 end
@@ -919,7 +919,7 @@ export UnsuccessfulItemErrorType
 
 type UnsuccessfulItemType
   error::Union{Vector{UnsuccessfulItemErrorType}, Void}
-  resourceId::Union{ASCIIString, Void}
+  resourceId::Union{String, Void}
 
   UnsuccessfulItemType(; error=nothing, resourceId=nothing) = new(error, resourceId)
 end
@@ -934,7 +934,7 @@ export UnsuccessfulItemType
 
 
 type DeleteVpcEndpointsResponseType
-  requestId::Union{ASCIIString, Void}
+  requestId::Union{String, Void}
   unsuccessful::Union{Vector{UnsuccessfulItemType}, Void}
 
   DeleteVpcEndpointsResponseType(; requestId=nothing, unsucessful=nothing) = new(requestId, unsuccessful)
@@ -949,7 +949,7 @@ export DeleteVpcEndpointsResponseType
 
 
 type VpcEndpointIdSetItemType
-    vpcEndpointId::Union{ASCIIString, Void}
+    vpcEndpointId::Union{String, Void}
 
     VpcEndpointIdSetItemType(; vpcEndpointId=nothing) =
          new(vpcEndpointId)
@@ -964,7 +964,7 @@ export VpcEndpointIdSetItemType
 
 
 type DeleteVpcPeeringConnectionType
-  vpcPeeringConnectionId::Union{ASCIIString, Void}
+  vpcPeeringConnectionId::Union{String, Void}
 
   DeleteVpcPeeringConnectionType(; vpcPeeringConnectionID=nothing) = new(vpcPeeringConnectionId)
 end
@@ -978,7 +978,7 @@ export DeleteVpcPeeringConnectionType
 
 
 type DeleteVpcPeeringConnectionResponseType
-  requestId::Union{ASCIIString, Void}
+  requestId::Union{String, Void}
   _return::Union{Bool, Void}
 
   DeleteVpcPeeringConnectionResponseType(; requestId=nothing, _return=nothing) = new(requestId, _return)
@@ -994,8 +994,8 @@ export DeleteVpcPeeringConnectionResponseType
 
 
 type FilterType
-    name::Union{ASCIIString, Void}
-    valueSet::Union{Vector{ASCIIString}, Void}
+    name::Union{String, Void}
+    valueSet::Union{Vector{String}, Void}
 
     FilterType(; name=nothing, valueSet=nothing) =
          new(name, valueSet)
@@ -1003,7 +1003,7 @@ end
 function FilterType(pd)
     o = FilterType()
     o.name = LightXML.content(LightXML.find_element(pd, "name"))
-    o.valueSet = AWS.parse_vector_as(ASCIIString, "value", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "value"))
+    o.valueSet = AWS.parse_vector_as(String, "value", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "value"))
     o
 end
 
@@ -1013,8 +1013,8 @@ export FilterType
 type DescribePrefixListsType
   filterSet::Union{Vector{FilterType}, Void}
   maxResults::Union{Int64, Void}
-  nextToken::Union{ASCIIString, Void}
-  prefixListIdSet::Union{Vector{ASCIIString}, Void}
+  nextToken::Union{String, Void}
+  prefixListIdSet::Union{Vector{String}, Void}
 
   DescribePrefixListsType(; filterSet=nothing, maxResults=nothing, nextToken=nothing, prefixListIdSet=nothing) =
     new(filterSet, maxResults, nextToken, prefixListIdSet)
@@ -1024,7 +1024,7 @@ function DescribePrefixListsType(pd)
   o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
   o.maxResults = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "maxResults")))
   o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
-  o.prefixListIdSet = AWS.parse_vector_as(ASCIIString, "prefixListId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "prefixListId"))
+  o.prefixListIdSet = AWS.parse_vector_as(String, "prefixListId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "prefixListId"))
   o
 end
 
@@ -1032,15 +1032,15 @@ export DescribePrefixListsType
 
 
 type PrefixListType
-  cidrs::Union{Vector{ASCIIString}, Void}
-  prefixListId::Union{ASCIIString, Void}
-  prefixListName::Union{ASCIIString, Void}
+  cidrs::Union{Vector{String}, Void}
+  prefixListId::Union{String, Void}
+  prefixListName::Union{String, Void}
 
   PrefixListType(; cidrs=nothing, prefixListId=nothing, prefixListName=nothing) = new(cidrs, prefixListId, prefixListName)
 end
 function PrefixListType(pd)
   o = PrefixListType()
-  o.cidrs = AWS.parse_vector_as(ASCIIString, "cidr", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "cidr"))
+  o.cidrs = AWS.parse_vector_as(String, "cidr", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "cidr"))
   o.prefixListId = LightXML.content(LightXML.find_element(pd, "prefixListId"))
   o.prefixListName = LightXML.content(LightXML.find_element(pd, "prefixListName"))
   o
@@ -1050,9 +1050,9 @@ export PrefixListType
 
 
 type DescribePrefixListsResponseType
-  nextToken::Union{ASCIIString, Void}
+  nextToken::Union{String, Void}
   prefixListSet::Union{Vector{PrefixListType}, Void}
-  requestId::Union{ASCIIString, Void}
+  requestId::Union{String, Void}
 
   DescribePrefixListsResponseType(; nextToken=nothing, prefixListSet=nothing, requestId=nothing) =
     new(nextToken, prefixListSet, requestId)
@@ -1060,7 +1060,7 @@ end
 function DescribePrefixListsResponseType(pd)
   o = DescribePrefixListsResponseType()
   o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
-  o.prefixListSet = AWS.parse_vector_as(ASCIIString, "prefixList", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "prefixList"))
+  o.prefixListSet = AWS.parse_vector_as(String, "prefixList", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "prefixList"))
   o
 end
 
@@ -1069,7 +1069,7 @@ export DescribePrefixListsType
 
 type DescribeVpcEndpointServicesType
   maxResults::Union{Int64, Void}
-  nextToken::Union{ASCIIString, Void}
+  nextToken::Union{String, Void}
 
   DescribeVpcEndpointServicesType(; maxResults=nothing, nextToken=nothing) = new(maxResults, nextToken)
 end
@@ -1084,9 +1084,9 @@ export DescribeVpcEndpointServicesType
 
 
 type DescribeVpcEndpointServicesResponseType
-  nextToken::Union{ASCIIString, Void}
-  requestId::Union{ASCIIString, Void}
-  serviceNameSet::Union{Vector{ASCIIString}, Void}
+  nextToken::Union{String, Void}
+  requestId::Union{String, Void}
+  serviceNameSet::Union{Vector{String}, Void}
 
   DescribeVpcEndpointServicesResponseType(; nextToken=nothing, requestId=nothing, serviceNameSet=nothing) =
     new(nextToken, requestId, serviceNameSet)
@@ -1095,7 +1095,7 @@ function DescribeVpcEndpointServicesResponseType(pd)
   o = DescribeVpcEndpointServicesResponseType()
   o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
   o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-  o.serviceNameSet = AWS.parse_vector_as(ASCIIString, "serviceName", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "serviceName"))
+  o.serviceNameSet = AWS.parse_vector_as(String, "serviceName", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "serviceName"))
 end
 
 export DescribeVpcEndpointServicesResponseType
@@ -1104,8 +1104,8 @@ export DescribeVpcEndpointServicesResponseType
 type DescribeVpcEndpointsType
   filterSet::Union{Vector{FilterType}, Void}
   maxResults::Union{Int64, Void}
-  nextToken::Union{ASCIIString, Void}
-  vpcEndpointIdSet::Union{Vector{ASCIIString}, Void}
+  nextToken::Union{String, Void}
+  vpcEndpointIdSet::Union{Vector{String}, Void}
 
   DescribeVpcEndpointsType(; filterSet=nothing, maxResults=nothing, nextToken=nothing, vpcEndpointIdSet=nothing) =
     new(filterSet, maxResults, nextToken, vpcEndpointIdSet)
@@ -1123,9 +1123,9 @@ export DescribeVpcEndpointsType
 
 
 type DescribeVpcEndpointsResponseType
-  nextToken::Union{ASCIIString, Void}
-  requestId::Union{ASCIIString, Void}
-  vpcEndpointIdSet::Union{Vector{ASCIIString}, Void}
+  nextToken::Union{String, Void}
+  requestId::Union{String, Void}
+  vpcEndpointIdSet::Union{Vector{String}, Void}
 
   DescribeVpcEndpointsResponseType(; nextToken=nothing, requestId=nothing, vpcEndpointIdSet=nothing) =
     new(nextToken, requestId, vpcEndpointIdSet)
@@ -1143,7 +1143,7 @@ export DescribeVpcEndpointsResponseType
 
 type DescribeVpcPeeringConnectionsType
   filterSet::Union{Vector{FilterType}, Void}
-  vpcPeeringConnectionIdSet::Union{Vector{ASCIIString}, Void}
+  vpcPeeringConnectionIdSet::Union{Vector{String}, Void}
 
   DescribeVpcPeeringConnectionsType(; filterSet=nothing, vpcPeeringConnectionIdSet=nothing) =
     new(filterSet, vpcPeeringConnectionIdSet)
@@ -1159,7 +1159,7 @@ export DescribeVpcPeeringConnectionsType
 
 
 type DescribeVpcPeeringConnectionsResponseType
-  requestId::Union{ASCIIString, Void}
+  requestId::Union{String, Void}
   vpcPeeringConnectionSet::Union{Vector{VpcPeeringConnectionType}, Void}
 
   DescribeVpcPeeringConnectionsResponseType(; responseId=nothing, vpcPeeringConnectionSet=nothing) =
@@ -1177,7 +1177,7 @@ export DescribeVpcPeeringConnectionsResponseType
 
 type ModifySubnetAttributeType
   mapPublicIpOnLaunch::Union{Bool, Void}
-  subnetId::Union{ASCIIString, Void}
+  subnetId::Union{String, Void}
 
   ModifySubnetAttributeType(; mapPublicIpOnLaunch=nothing, subnetId=nothing) =
     new(mapPublicIpOnLaunch, subnetId)
@@ -1193,7 +1193,7 @@ export ModifySubnetAttributeType
 
 
 type ModifySubnetAttributeResponseType
-  requestId::Union{ASCIIString, Void}
+  requestId::Union{String, Void}
   _return::Union{Bool, Void}
 
   ModifySubnetAttributeResponseType(; requestId=nothing, _return=nothing) = new(requestId, _return)
@@ -1209,11 +1209,11 @@ export ModifySubnetAttributeResponseType
 
 
 type ModifyVpcEndpointType
-  addRouteTableIdSet::Union{Vector{ASCIIString}, Void}
-  policyDocument::Union{ASCIIString, Void}
-  removeRouteTableIdSet::Union{Vector{ASCIIString}, Void}
+  addRouteTableIdSet::Union{Vector{String}, Void}
+  policyDocument::Union{String, Void}
+  removeRouteTableIdSet::Union{Vector{String}, Void}
   resetPolicy::Union{Bool, Void}
-  vpcEndpointId::Union{ASCIIString, Void}
+  vpcEndpointId::Union{String, Void}
 
   ModifyVpcEndpointType(; addRouteTableIdSet=nothing, policyDocument=nothing, removeRouteTableIdSet=nothing,
                         resetPolicy=nothing, vpcEndpointId=nothing) = new(addRouteTableIdSet, policyDocument,
@@ -1221,9 +1221,9 @@ type ModifyVpcEndpointType
 end
 function ModifyVpcEndpointType(pd)
   o = ModifyVpcEndpointType()
-  o.addRouteTableIdSet = AWS.parse_vector_as(ASCIIString, "routeTableId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "routeTableId"))
+  o.addRouteTableIdSet = AWS.parse_vector_as(String, "routeTableId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "routeTableId"))
   o.policyDocument = LightXML.content(LightXML.find_element(pd, "policyDocument"))
-  o.removeRouteTableIdSet = AWS.parse_vector_as(ASCIIString, "routeTableId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "routeTableId"))
+  o.removeRouteTableIdSet = AWS.parse_vector_as(String, "routeTableId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "routeTableId"))
   o.resetPolicy = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "resetPolicy")))
   o.vpcEndpointId = LightXML.content(LightXML.find_element(pd, "vpcEndpointId"))
   o
@@ -1233,7 +1233,7 @@ export ModifyVpcEndpointType
 
 
 type ModifyVpcEndpointResponseType
-  requestId::Union{ASCIIString, Void}
+  requestId::Union{String, Void}
   _return::Union{Bool, Void}
 
   ModifyVpcEndpointResponseType(; requestId=nothing, _return=nothing) = new(requestId, _return)
@@ -1249,7 +1249,7 @@ export ModifyVpcEndpointResponseType
 
 
 type RejectVpcPeeringConnectionType
-  vpcPeeringConnectionId::Union{ASCIIString, Void}
+  vpcPeeringConnectionId::Union{String, Void}
 
   RejectVpcPeeringConnectionType(; vpcPeeringConnectionId=nothing) = new(vpcPeeringConnectionId)
 end
@@ -1263,7 +1263,7 @@ export RejectVpcPeeringConnectionType
 
 
 type RejectVpcPeeringConnectionResponseType
-  requestId::Union{ASCIIString, Void}
+  requestId::Union{String, Void}
   _return::Union{Bool, Void}
 
   RejectVpcPeeringConnectionResponseType(; requestId=nothing, _return=nothing) = new(requestId, _return)
@@ -1279,7 +1279,7 @@ export RejectVpcPeeringConnectionResponseType
 
 
 type GetConsoleOutputType
-    instanceId::Union{ASCIIString, Void}
+    instanceId::Union{String, Void}
 
     GetConsoleOutputType(; instanceId=nothing) =
          new(instanceId)
@@ -1294,10 +1294,10 @@ export GetConsoleOutputType
 
 
 type GetConsoleOutputResponseType
-    requestId::Union{ASCIIString, Void}
-    instanceId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
+    instanceId::Union{String, Void}
     timestamp::Union{Base.Dates.DateTime, Void}
-    output::Union{ASCIIString, Void}
+    output::Union{String, Void}
 
     GetConsoleOutputResponseType(; requestId=nothing, instanceId=nothing, timestamp=nothing, output=nothing) =
          new(requestId, instanceId, timestamp, output)
@@ -1315,7 +1315,7 @@ export GetConsoleOutputResponseType
 
 
 type GetPasswordDataType
-    instanceId::Union{ASCIIString, Void}
+    instanceId::Union{String, Void}
 
     GetPasswordDataType(; instanceId=nothing) =
          new(instanceId)
@@ -1330,10 +1330,10 @@ export GetPasswordDataType
 
 
 type GetPasswordDataResponseType
-    requestId::Union{ASCIIString, Void}
-    instanceId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
+    instanceId::Union{String, Void}
     timestamp::Union{Base.Dates.DateTime, Void}
-    passwordData::Union{ASCIIString, Void}
+    passwordData::Union{String, Void}
 
     GetPasswordDataResponseType(; requestId=nothing, instanceId=nothing, timestamp=nothing, passwordData=nothing) =
          new(requestId, instanceId, timestamp, passwordData)
@@ -1351,7 +1351,7 @@ export GetPasswordDataResponseType
 
 
 type InstanceIdType
-    instanceId::Union{ASCIIString, Void}
+    instanceId::Union{String, Void}
 
     InstanceIdType(; instanceId=nothing) =
          new(instanceId)
@@ -1366,14 +1366,14 @@ export InstanceIdType
 
 
 type TerminateInstancesType
-    instancesSet::Union{Vector{ASCIIString}, Void}
+    instancesSet::Union{Vector{String}, Void}
 
     TerminateInstancesType(; instancesSet=nothing) =
          new(instancesSet)
 end
 function TerminateInstancesType(pd)
     o = TerminateInstancesType()
-    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
+    o.instancesSet = AWS.parse_vector_as(String, "instanceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
     o
 end
 
@@ -1381,7 +1381,7 @@ export TerminateInstancesType
 
 
 type InstanceBlockDeviceMappingItemType
-    deviceName::Union{ASCIIString, Void}
+    deviceName::Union{String, Void}
 
     InstanceBlockDeviceMappingItemType(; deviceName=nothing) =
          new(deviceName)
@@ -1396,7 +1396,7 @@ export InstanceBlockDeviceMappingItemType
 
 
 type InstanceEbsBlockDeviceType
-    volumeId::Union{ASCIIString, Void}
+    volumeId::Union{String, Void}
     deleteOnTermination::Union{Bool, Void}
 
     InstanceEbsBlockDeviceType(; volumeId=nothing, deleteOnTermination=nothing) =
@@ -1413,7 +1413,7 @@ export InstanceEbsBlockDeviceType
 
 
 type StopInstancesType
-    instancesSet::Union{Vector{ASCIIString}, Void}
+    instancesSet::Union{Vector{String}, Void}
     force::Union{Bool, Void}
 
     StopInstancesType(; instancesSet=nothing, force=nothing) =
@@ -1421,7 +1421,7 @@ type StopInstancesType
 end
 function StopInstancesType(pd)
     o = StopInstancesType()
-    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
+    o.instancesSet = AWS.parse_vector_as(String, "instanceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
     o.force = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "force")))
     o
 end
@@ -1430,14 +1430,14 @@ export StopInstancesType
 
 
 type StartInstancesType
-    instancesSet::Union{Vector{ASCIIString}, Void}
+    instancesSet::Union{Vector{String}, Void}
 
     StartInstancesType(; instancesSet=nothing) =
          new(instancesSet)
 end
 function StartInstancesType(pd)
     o = StartInstancesType()
-    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
+    o.instancesSet = AWS.parse_vector_as(String, "instanceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
     o
 end
 
@@ -1445,14 +1445,14 @@ export StartInstancesType
 
 
 type RebootInstancesType
-    instancesSet::Union{Vector{ASCIIString}, Void}
+    instancesSet::Union{Vector{String}, Void}
 
     RebootInstancesType(; instancesSet=nothing) =
          new(instancesSet)
 end
 function RebootInstancesType(pd)
     o = RebootInstancesType()
-    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
+    o.instancesSet = AWS.parse_vector_as(String, "instanceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
     o
 end
 
@@ -1460,7 +1460,7 @@ export RebootInstancesType
 
 
 type RebootInstancesItemType
-    instanceId::Union{ASCIIString, Void}
+    instanceId::Union{String, Void}
 
     RebootInstancesItemType(; instanceId=nothing) =
          new(instanceId)
@@ -1475,7 +1475,7 @@ export RebootInstancesItemType
 
 
 type RebootInstancesResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     RebootInstancesResponseType(; requestId=nothing, _return=nothing) =
@@ -1492,7 +1492,7 @@ export RebootInstancesResponseType
 
 
 type DescribeInstancesItemType
-    instanceId::Union{ASCIIString, Void}
+    instanceId::Union{String, Void}
 
     DescribeInstancesItemType(; instanceId=nothing) =
          new(instanceId)
@@ -1507,7 +1507,7 @@ export DescribeInstancesItemType
 
 
 type UnavailableResultType
-    availabilityZone::Union{ASCIIString, Void}
+    availabilityZone::Union{String, Void}
 
     UnavailableResultType(; availabilityZone=nothing) =
          new(availabilityZone)
@@ -1522,7 +1522,7 @@ export UnavailableResultType
 
 
 type DescribeImagesItemType
-    imageId::Union{ASCIIString, Void}
+    imageId::Union{String, Void}
 
     DescribeImagesItemType(; imageId=nothing) =
          new(imageId)
@@ -1537,7 +1537,7 @@ export DescribeImagesItemType
 
 
 type DescribeImagesOwnerType
-    owner::Union{ASCIIString, Void}
+    owner::Union{String, Void}
 
     DescribeImagesOwnerType(; owner=nothing) =
          new(owner)
@@ -1552,7 +1552,7 @@ export DescribeImagesOwnerType
 
 
 type DescribeImagesExecutableByType
-    user::Union{ASCIIString, Void}
+    user::Union{String, Void}
 
     DescribeImagesExecutableByType(; user=nothing) =
          new(user)
@@ -1567,9 +1567,9 @@ export DescribeImagesExecutableByType
 
 
 type CreateSecurityGroupType
-    groupName::Union{ASCIIString, Void}
-    groupDescription::Union{ASCIIString, Void}
-    vpcId::Union{ASCIIString, Void}
+    groupName::Union{String, Void}
+    groupDescription::Union{String, Void}
+    vpcId::Union{String, Void}
 
     CreateSecurityGroupType(; groupName=nothing, groupDescription=nothing, vpcId=nothing) =
          new(groupName, groupDescription, vpcId)
@@ -1586,9 +1586,9 @@ export CreateSecurityGroupType
 
 
 type CreateSecurityGroupResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
-    groupId::Union{ASCIIString, Void}
+    groupId::Union{String, Void}
 
     CreateSecurityGroupResponseType(; requestId=nothing, _return=nothing, groupId=nothing) =
          new(requestId, _return, groupId)
@@ -1605,8 +1605,8 @@ export CreateSecurityGroupResponseType
 
 
 type DeleteSecurityGroupType
-    groupId::Union{ASCIIString, Void}
-    groupName::Union{ASCIIString, Void}
+    groupId::Union{String, Void}
+    groupName::Union{String, Void}
 
     DeleteSecurityGroupType(; groupId=nothing, groupName=nothing) =
          new(groupId, groupName)
@@ -1622,7 +1622,7 @@ export DeleteSecurityGroupType
 
 
 type DeleteSecurityGroupResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     DeleteSecurityGroupResponseType(; requestId=nothing, _return=nothing) =
@@ -1639,7 +1639,7 @@ export DeleteSecurityGroupResponseType
 
 
 type DescribeSecurityGroupsSetItemType
-    groupName::Union{ASCIIString, Void}
+    groupName::Union{String, Void}
 
     DescribeSecurityGroupsSetItemType(; groupName=nothing) =
          new(groupName)
@@ -1654,7 +1654,7 @@ export DescribeSecurityGroupsSetItemType
 
 
 type DescribeSecurityGroupsIdSetItemType
-    groupId::Union{ASCIIString, Void}
+    groupId::Union{String, Void}
 
     DescribeSecurityGroupsIdSetItemType(; groupId=nothing) =
          new(groupId)
@@ -1669,7 +1669,7 @@ export DescribeSecurityGroupsIdSetItemType
 
 
 type IpRangeItemType
-    cidrIp::Union{ASCIIString, Void}
+    cidrIp::Union{String, Void}
 
     IpRangeItemType(; cidrIp=nothing) =
          new(cidrIp)
@@ -1684,9 +1684,9 @@ export IpRangeItemType
 
 
 type UserIdGroupPairType
-    userId::Union{ASCIIString, Void}
-    groupId::Union{ASCIIString, Void}
-    groupName::Union{ASCIIString, Void}
+    userId::Union{String, Void}
+    groupId::Union{String, Void}
+    groupName::Union{String, Void}
 
     UserIdGroupPairType(; userId=nothing, groupId=nothing, groupName=nothing) =
          new(userId, groupId, groupName)
@@ -1703,7 +1703,7 @@ export UserIdGroupPairType
 
 
 type AuthorizeSecurityGroupIngressResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     AuthorizeSecurityGroupIngressResponseType(; requestId=nothing, _return=nothing) =
@@ -1720,7 +1720,7 @@ export AuthorizeSecurityGroupIngressResponseType
 
 
 type RevokeSecurityGroupIngressResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     RevokeSecurityGroupIngressResponseType(; requestId=nothing, _return=nothing) =
@@ -1737,7 +1737,7 @@ export RevokeSecurityGroupIngressResponseType
 
 
 type AuthorizeSecurityGroupEgressResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     AuthorizeSecurityGroupEgressResponseType(; requestId=nothing, _return=nothing) =
@@ -1754,7 +1754,7 @@ export AuthorizeSecurityGroupEgressResponseType
 
 
 type RevokeSecurityGroupEgressResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     RevokeSecurityGroupEgressResponseType(; requestId=nothing, _return=nothing) =
@@ -1772,7 +1772,7 @@ export RevokeSecurityGroupEgressResponseType
 
 type InstanceStateType
     code::Union{Int64, Void}
-    name::Union{ASCIIString, Void}
+    name::Union{String, Void}
 
     InstanceStateType(; code=nothing, name=nothing) =
          new(code, name)
@@ -1788,7 +1788,7 @@ export InstanceStateType
 
 
 type ModifyInstanceAttributeType
-    instanceId::Union{ASCIIString, Void}
+    instanceId::Union{String, Void}
 
     ModifyInstanceAttributeType(; instanceId=nothing) =
          new(instanceId)
@@ -1803,7 +1803,7 @@ export ModifyInstanceAttributeType
 
 
 type SecurityGroupIdSetItemType
-    groupId::Union{ASCIIString, Void}
+    groupId::Union{String, Void}
 
     SecurityGroupIdSetItemType(; groupId=nothing) =
          new(groupId)
@@ -1818,7 +1818,7 @@ export SecurityGroupIdSetItemType
 
 
 type ModifyInstanceAttributeResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     ModifyInstanceAttributeResponseType(; requestId=nothing, _return=nothing) =
@@ -1835,7 +1835,7 @@ export ModifyInstanceAttributeResponseType
 
 
 type ResetInstanceAttributeType
-    instanceId::Union{ASCIIString, Void}
+    instanceId::Union{String, Void}
 
     ResetInstanceAttributeType(; instanceId=nothing) =
          new(instanceId)
@@ -1850,7 +1850,7 @@ export ResetInstanceAttributeType
 
 
 type ResetInstanceAttributeResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     ResetInstanceAttributeResponseType(; requestId=nothing, _return=nothing) =
@@ -1867,7 +1867,7 @@ export ResetInstanceAttributeResponseType
 
 
 type DescribeInstanceAttributeType
-    instanceId::Union{ASCIIString, Void}
+    instanceId::Union{String, Void}
 
     DescribeInstanceAttributeType(; instanceId=nothing) =
          new(instanceId)
@@ -1882,8 +1882,8 @@ export DescribeInstanceAttributeType
 
 
 type DescribeInstanceAttributeResponseType
-    requestId::Union{ASCIIString, Void}
-    instanceId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
+    instanceId::Union{String, Void}
 
     DescribeInstanceAttributeResponseType(; requestId=nothing, instanceId=nothing) =
          new(requestId, instanceId)
@@ -1899,7 +1899,7 @@ export DescribeInstanceAttributeResponseType
 
 
 type ModifyImageAttributeType
-    imageId::Union{ASCIIString, Void}
+    imageId::Union{String, Void}
 
     ModifyImageAttributeType(; imageId=nothing) =
          new(imageId)
@@ -1914,8 +1914,8 @@ export ModifyImageAttributeType
 
 
 type LaunchPermissionItemType
-    userId::Union{ASCIIString, Void}
-    group::Union{ASCIIString, Void}
+    userId::Union{String, Void}
+    group::Union{String, Void}
 
     LaunchPermissionItemType(; userId=nothing, group=nothing) =
          new(userId, group)
@@ -1931,7 +1931,7 @@ export LaunchPermissionItemType
 
 
 type ProductCodeItemType
-    productCode::Union{ASCIIString, Void}
+    productCode::Union{String, Void}
 
     ProductCodeItemType(; productCode=nothing) =
          new(productCode)
@@ -1946,7 +1946,7 @@ export ProductCodeItemType
 
 
 type ModifyImageAttributeResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     ModifyImageAttributeResponseType(; requestId=nothing, _return=nothing) =
@@ -1963,7 +1963,7 @@ export ModifyImageAttributeResponseType
 
 
 type ResetImageAttributeType
-    imageId::Union{ASCIIString, Void}
+    imageId::Union{String, Void}
 
     ResetImageAttributeType(; imageId=nothing) =
          new(imageId)
@@ -1978,7 +1978,7 @@ export ResetImageAttributeType
 
 
 type ResetImageAttributeResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     ResetImageAttributeResponseType(; requestId=nothing, _return=nothing) =
@@ -1995,7 +1995,7 @@ export ResetImageAttributeResponseType
 
 
 type DescribeImageAttributeType
-    imageId::Union{ASCIIString, Void}
+    imageId::Union{String, Void}
 
     DescribeImageAttributeType(; imageId=nothing) =
          new(imageId)
@@ -2010,8 +2010,8 @@ export DescribeImageAttributeType
 
 
 type DescribeImageAttributeResponseType
-    requestId::Union{ASCIIString, Void}
-    imageId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
+    imageId::Union{String, Void}
 
     DescribeImageAttributeResponseType(; requestId=nothing, imageId=nothing) =
          new(requestId, imageId)
@@ -2027,7 +2027,7 @@ export DescribeImageAttributeResponseType
 
 
 type NullableAttributeValueType
-    value::Union{ASCIIString, Void}
+    value::Union{String, Void}
 
     NullableAttributeValueType(; value=nothing) =
          new(value)
@@ -2057,7 +2057,7 @@ export NullableAttributeBooleanValueType
 
 
 type AttributeValueType
-    value::Union{ASCIIString, Void}
+    value::Union{String, Void}
 
     AttributeValueType(; value=nothing) =
          new(value)
@@ -2087,8 +2087,8 @@ export AttributeBooleanValueType
 
 
 type ConfirmProductInstanceType
-    productCode::Union{ASCIIString, Void}
-    instanceId::Union{ASCIIString, Void}
+    productCode::Union{String, Void}
+    instanceId::Union{String, Void}
 
     ConfirmProductInstanceType(; productCode=nothing, instanceId=nothing) =
          new(productCode, instanceId)
@@ -2104,8 +2104,8 @@ export ConfirmProductInstanceType
 
 
 type ProductCodesSetItemType
-    productCode::Union{ASCIIString, Void}
-    _type::Union{ASCIIString, Void}
+    productCode::Union{String, Void}
+    _type::Union{String, Void}
 
     ProductCodesSetItemType(; productCode=nothing, _type=nothing) =
          new(productCode, _type)
@@ -2121,9 +2121,9 @@ export ProductCodesSetItemType
 
 
 type ConfirmProductInstanceResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
-    ownerId::Union{ASCIIString, Void}
+    ownerId::Union{String, Void}
 
     ConfirmProductInstanceResponseType(; requestId=nothing, _return=nothing, ownerId=nothing) =
          new(requestId, _return, ownerId)
@@ -2140,7 +2140,7 @@ export ConfirmProductInstanceResponseType
 
 
 type DescribeAvailabilityZonesSetItemType
-    zoneName::Union{ASCIIString, Void}
+    zoneName::Union{String, Void}
 
     DescribeAvailabilityZonesSetItemType(; zoneName=nothing) =
          new(zoneName)
@@ -2155,7 +2155,7 @@ export DescribeAvailabilityZonesSetItemType
 
 
 type AvailabilityZoneMessageType
-    message::Union{ASCIIString, Void}
+    message::Union{String, Void}
 
     AvailabilityZoneMessageType(; message=nothing) =
          new(message)
@@ -2170,10 +2170,10 @@ export AvailabilityZoneMessageType
 
 
 type AvailabilityZoneItemType
-    zoneName::Union{ASCIIString, Void}
-    zoneState::Union{ASCIIString, Void}
-    regionName::Union{ASCIIString, Void}
-    messageSet::Union{Vector{ASCIIString}, Void}
+    zoneName::Union{String, Void}
+    zoneState::Union{String, Void}
+    regionName::Union{String, Void}
+    messageSet::Union{Vector{String}, Void}
 
     AvailabilityZoneItemType(; zoneName=nothing, zoneState=nothing, regionName=nothing, messageSet=nothing) =
          new(zoneName, zoneState, regionName, messageSet)
@@ -2183,7 +2183,7 @@ function AvailabilityZoneItemType(pd)
     o.zoneName = LightXML.content(LightXML.find_element(pd, "zoneName"))
     o.zoneState = LightXML.content(LightXML.find_element(pd, "zoneState"))
     o.regionName = LightXML.content(LightXML.find_element(pd, "regionName"))
-    o.messageSet = AWS.parse_vector_as(ASCIIString, "message", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "message"))
+    o.messageSet = AWS.parse_vector_as(String, "message", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "message"))
     o
 end
 
@@ -2191,7 +2191,7 @@ export AvailabilityZoneItemType
 
 
 type AllocateAddressType
-    domain::Union{ASCIIString, Void}
+    domain::Union{String, Void}
 
     AllocateAddressType(; domain=nothing) =
          new(domain)
@@ -2206,10 +2206,10 @@ export AllocateAddressType
 
 
 type AllocateAddressResponseType
-    requestId::Union{ASCIIString, Void}
-    publicIp::Union{ASCIIString, Void}
-    domain::Union{ASCIIString, Void}
-    allocationId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
+    publicIp::Union{String, Void}
+    domain::Union{String, Void}
+    allocationId::Union{String, Void}
 
     AllocateAddressResponseType(; requestId=nothing, publicIp=nothing, domain=nothing, allocationId=nothing) =
          new(requestId, publicIp, domain, allocationId)
@@ -2227,8 +2227,8 @@ export AllocateAddressResponseType
 
 
 type ReleaseAddressType
-    publicIp::Union{ASCIIString, Void}
-    allocationId::Union{ASCIIString, Void}
+    publicIp::Union{String, Void}
+    allocationId::Union{String, Void}
 
     ReleaseAddressType(; publicIp=nothing, allocationId=nothing) =
          new(publicIp, allocationId)
@@ -2244,7 +2244,7 @@ export ReleaseAddressType
 
 
 type ReleaseAddressResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     ReleaseAddressResponseType(; requestId=nothing, _return=nothing) =
@@ -2261,7 +2261,7 @@ export ReleaseAddressResponseType
 
 
 type AllocationIdSetItemType
-    allocationId::Union{ASCIIString, Void}
+    allocationId::Union{String, Void}
 
     AllocationIdSetItemType(; allocationId=nothing) =
          new(allocationId)
@@ -2276,7 +2276,7 @@ export AllocationIdSetItemType
 
 
 type DescribeAddressesItemType
-    publicIp::Union{ASCIIString, Void}
+    publicIp::Union{String, Void}
 
     DescribeAddressesItemType(; publicIp=nothing) =
          new(publicIp)
@@ -2291,14 +2291,14 @@ export DescribeAddressesItemType
 
 
 type DescribeAddressesResponseItemType
-    publicIp::Union{ASCIIString, Void}
-    allocationId::Union{ASCIIString, Void}
-    domain::Union{ASCIIString, Void}
-    instanceId::Union{ASCIIString, Void}
-    associationId::Union{ASCIIString, Void}
-    networkInterfaceId::Union{ASCIIString, Void}
-    networkInterfaceOwnerId::Union{ASCIIString, Void}
-    privateIpAddress::Union{ASCIIString, Void}
+    publicIp::Union{String, Void}
+    allocationId::Union{String, Void}
+    domain::Union{String, Void}
+    instanceId::Union{String, Void}
+    associationId::Union{String, Void}
+    networkInterfaceId::Union{String, Void}
+    networkInterfaceOwnerId::Union{String, Void}
+    privateIpAddress::Union{String, Void}
 
     DescribeAddressesResponseItemType(; publicIp=nothing, allocationId=nothing, domain=nothing, instanceId=nothing, associationId=nothing, networkInterfaceId=nothing, networkInterfaceOwnerId=nothing, privateIpAddress=nothing) =
          new(publicIp, allocationId, domain, instanceId, associationId, networkInterfaceId, networkInterfaceOwnerId, privateIpAddress)
@@ -2320,7 +2320,7 @@ export DescribeAddressesResponseItemType
 
 
 type AssociateAddressType
-    privateIpAddress::Union{ASCIIString, Void}
+    privateIpAddress::Union{String, Void}
     allowReassociation::Union{Bool, Void}
 
     AssociateAddressType(; privateIpAddress=nothing, allowReassociation=nothing) =
@@ -2337,9 +2337,9 @@ export AssociateAddressType
 
 
 type AssociateAddressResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
-    associationId::Union{ASCIIString, Void}
+    associationId::Union{String, Void}
 
     AssociateAddressResponseType(; requestId=nothing, _return=nothing, associationId=nothing) =
          new(requestId, _return, associationId)
@@ -2356,8 +2356,8 @@ export AssociateAddressResponseType
 
 
 type DisassociateAddressType
-    publicIp::Union{ASCIIString, Void}
-    associationId::Union{ASCIIString, Void}
+    publicIp::Union{String, Void}
+    associationId::Union{String, Void}
 
     DisassociateAddressType(; publicIp=nothing, associationId=nothing) =
          new(publicIp, associationId)
@@ -2373,7 +2373,7 @@ export DisassociateAddressType
 
 
 type DisassociateAddressResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     DisassociateAddressResponseType(; requestId=nothing, _return=nothing) =
@@ -2390,10 +2390,10 @@ export DisassociateAddressResponseType
 
 
 type CreateVolumeType
-    size::Union{ASCIIString, Void}
-    snapshotId::Union{ASCIIString, Void}
-    availabilityZone::Union{ASCIIString, Void}
-    volumeType::Union{ASCIIString, Void}
+    size::Union{String, Void}
+    snapshotId::Union{String, Void}
+    availabilityZone::Union{String, Void}
+    volumeType::Union{String, Void}
     iops::Union{Int64, Void}
 
     CreateVolumeType(; size=nothing, snapshotId=nothing, availabilityZone=nothing, volumeType=nothing, iops=nothing) =
@@ -2413,14 +2413,14 @@ export CreateVolumeType
 
 
 type CreateVolumeResponseType
-    requestId::Union{ASCIIString, Void}
-    volumeId::Union{ASCIIString, Void}
-    size::Union{ASCIIString, Void}
-    snapshotId::Union{ASCIIString, Void}
-    availabilityZone::Union{ASCIIString, Void}
-    status::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
+    volumeId::Union{String, Void}
+    size::Union{String, Void}
+    snapshotId::Union{String, Void}
+    availabilityZone::Union{String, Void}
+    status::Union{String, Void}
     createTime::Union{Base.Dates.DateTime, Void}
-    volumeType::Union{ASCIIString, Void}
+    volumeType::Union{String, Void}
     iops::Union{Int64, Void}
 
     CreateVolumeResponseType(; requestId=nothing, volumeId=nothing, size=nothing, snapshotId=nothing, availabilityZone=nothing, status=nothing, createTime=nothing, volumeType=nothing, iops=nothing) =
@@ -2444,7 +2444,7 @@ export CreateVolumeResponseType
 
 
 type DeleteVolumeType
-    volumeId::Union{ASCIIString, Void}
+    volumeId::Union{String, Void}
 
     DeleteVolumeType(; volumeId=nothing) =
          new(volumeId)
@@ -2459,7 +2459,7 @@ export DeleteVolumeType
 
 
 type DeleteVolumeResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     DeleteVolumeResponseType(; requestId=nothing, _return=nothing) =
@@ -2476,7 +2476,7 @@ export DeleteVolumeResponseType
 
 
 type DescribeVolumesSetItemType
-    volumeId::Union{ASCIIString, Void}
+    volumeId::Union{String, Void}
 
     DescribeVolumesSetItemType(; volumeId=nothing) =
          new(volumeId)
@@ -2491,10 +2491,10 @@ export DescribeVolumesSetItemType
 
 
 type AttachmentSetItemResponseType
-    volumeId::Union{ASCIIString, Void}
-    instanceId::Union{ASCIIString, Void}
-    device::Union{ASCIIString, Void}
-    status::Union{ASCIIString, Void}
+    volumeId::Union{String, Void}
+    instanceId::Union{String, Void}
+    device::Union{String, Void}
+    status::Union{String, Void}
     attachTime::Union{Base.Dates.DateTime, Void}
     deleteOnTermination::Union{Bool, Void}
 
@@ -2516,9 +2516,9 @@ export AttachmentSetItemResponseType
 
 
 type AttachVolumeType
-    volumeId::Union{ASCIIString, Void}
-    instanceId::Union{ASCIIString, Void}
-    device::Union{ASCIIString, Void}
+    volumeId::Union{String, Void}
+    instanceId::Union{String, Void}
+    device::Union{String, Void}
 
     AttachVolumeType(; volumeId=nothing, instanceId=nothing, device=nothing) =
          new(volumeId, instanceId, device)
@@ -2535,11 +2535,11 @@ export AttachVolumeType
 
 
 type AttachVolumeResponseType
-    requestId::Union{ASCIIString, Void}
-    volumeId::Union{ASCIIString, Void}
-    instanceId::Union{ASCIIString, Void}
-    device::Union{ASCIIString, Void}
-    status::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
+    volumeId::Union{String, Void}
+    instanceId::Union{String, Void}
+    device::Union{String, Void}
+    status::Union{String, Void}
     attachTime::Union{Base.Dates.DateTime, Void}
 
     AttachVolumeResponseType(; requestId=nothing, volumeId=nothing, instanceId=nothing, device=nothing, status=nothing, attachTime=nothing) =
@@ -2560,9 +2560,9 @@ export AttachVolumeResponseType
 
 
 type DetachVolumeType
-    volumeId::Union{ASCIIString, Void}
-    instanceId::Union{ASCIIString, Void}
-    device::Union{ASCIIString, Void}
+    volumeId::Union{String, Void}
+    instanceId::Union{String, Void}
+    device::Union{String, Void}
     force::Union{Bool, Void}
 
     DetachVolumeType(; volumeId=nothing, instanceId=nothing, device=nothing, force=nothing) =
@@ -2581,11 +2581,11 @@ export DetachVolumeType
 
 
 type DetachVolumeResponseType
-    requestId::Union{ASCIIString, Void}
-    volumeId::Union{ASCIIString, Void}
-    instanceId::Union{ASCIIString, Void}
-    device::Union{ASCIIString, Void}
-    status::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
+    volumeId::Union{String, Void}
+    instanceId::Union{String, Void}
+    device::Union{String, Void}
+    status::Union{String, Void}
     attachTime::Union{Base.Dates.DateTime, Void}
 
     DetachVolumeResponseType(; requestId=nothing, volumeId=nothing, instanceId=nothing, device=nothing, status=nothing, attachTime=nothing) =
@@ -2606,8 +2606,8 @@ export DetachVolumeResponseType
 
 
 type CreateSnapshotType
-    volumeId::Union{ASCIIString, Void}
-    description::Union{ASCIIString, Void}
+    volumeId::Union{String, Void}
+    description::Union{String, Void}
 
     CreateSnapshotType(; volumeId=nothing, description=nothing) =
          new(volumeId, description)
@@ -2623,15 +2623,15 @@ export CreateSnapshotType
 
 
 type CreateSnapshotResponseType
-    requestId::Union{ASCIIString, Void}
-    snapshotId::Union{ASCIIString, Void}
-    volumeId::Union{ASCIIString, Void}
-    status::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
+    snapshotId::Union{String, Void}
+    volumeId::Union{String, Void}
+    status::Union{String, Void}
     startTime::Union{Base.Dates.DateTime, Void}
-    progress::Union{ASCIIString, Void}
-    ownerId::Union{ASCIIString, Void}
-    volumeSize::Union{ASCIIString, Void}
-    description::Union{ASCIIString, Void}
+    progress::Union{String, Void}
+    ownerId::Union{String, Void}
+    volumeSize::Union{String, Void}
+    description::Union{String, Void}
 
     CreateSnapshotResponseType(; requestId=nothing, snapshotId=nothing, volumeId=nothing, status=nothing, startTime=nothing, progress=nothing, ownerId=nothing, volumeSize=nothing, description=nothing) =
          new(requestId, snapshotId, volumeId, status, startTime, progress, ownerId, volumeSize, description)
@@ -2654,9 +2654,9 @@ export CreateSnapshotResponseType
 
 
 type CopySnapshotType
-    sourceRegion::Union{ASCIIString, Void}
-    sourceSnapshotId::Union{ASCIIString, Void}
-    description::Union{ASCIIString, Void}
+    sourceRegion::Union{String, Void}
+    sourceSnapshotId::Union{String, Void}
+    description::Union{String, Void}
 
     CopySnapshotType(; sourceRegion=nothing, sourceSnapshotId=nothing, description=nothing) =
          new(sourceRegion, sourceSnapshotId, description)
@@ -2673,8 +2673,8 @@ export CopySnapshotType
 
 
 type CopySnapshotResponseType
-    requestId::Union{ASCIIString, Void}
-    snapshotId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
+    snapshotId::Union{String, Void}
 
     CopySnapshotResponseType(; requestId=nothing, snapshotId=nothing) =
          new(requestId, snapshotId)
@@ -2690,7 +2690,7 @@ export CopySnapshotResponseType
 
 
 type DeleteSnapshotType
-    snapshotId::Union{ASCIIString, Void}
+    snapshotId::Union{String, Void}
 
     DeleteSnapshotType(; snapshotId=nothing) =
          new(snapshotId)
@@ -2705,7 +2705,7 @@ export DeleteSnapshotType
 
 
 type DeleteSnapshotResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     DeleteSnapshotResponseType(; requestId=nothing, _return=nothing) =
@@ -2722,7 +2722,7 @@ export DeleteSnapshotResponseType
 
 
 type DescribeSnapshotsSetItemType
-    snapshotId::Union{ASCIIString, Void}
+    snapshotId::Union{String, Void}
 
     DescribeSnapshotsSetItemType(; snapshotId=nothing) =
          new(snapshotId)
@@ -2737,7 +2737,7 @@ export DescribeSnapshotsSetItemType
 
 
 type DescribeSnapshotsOwnerType
-    owner::Union{ASCIIString, Void}
+    owner::Union{String, Void}
 
     DescribeSnapshotsOwnerType(; owner=nothing) =
          new(owner)
@@ -2752,7 +2752,7 @@ export DescribeSnapshotsOwnerType
 
 
 type DescribeSnapshotsRestorableByType
-    user::Union{ASCIIString, Void}
+    user::Union{String, Void}
 
     DescribeSnapshotsRestorableByType(; user=nothing) =
          new(user)
@@ -2767,8 +2767,8 @@ export DescribeSnapshotsRestorableByType
 
 
 type CreateVolumePermissionItemType
-    userId::Union{ASCIIString, Void}
-    group::Union{ASCIIString, Void}
+    userId::Union{String, Void}
+    group::Union{String, Void}
 
     CreateVolumePermissionItemType(; userId=nothing, group=nothing) =
          new(userId, group)
@@ -2784,7 +2784,7 @@ export CreateVolumePermissionItemType
 
 
 type ModifySnapshotAttributeResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     ModifySnapshotAttributeResponseType(; requestId=nothing, _return=nothing) =
@@ -2801,7 +2801,7 @@ export ModifySnapshotAttributeResponseType
 
 
 type ResetSnapshotAttributeType
-    snapshotId::Union{ASCIIString, Void}
+    snapshotId::Union{String, Void}
 
     ResetSnapshotAttributeType(; snapshotId=nothing) =
          new(snapshotId)
@@ -2816,7 +2816,7 @@ export ResetSnapshotAttributeType
 
 
 type ResetSnapshotAttributeResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     ResetSnapshotAttributeResponseType(; requestId=nothing, _return=nothing) =
@@ -2833,7 +2833,7 @@ export ResetSnapshotAttributeResponseType
 
 
 type DescribeSnapshotAttributeType
-    snapshotId::Union{ASCIIString, Void}
+    snapshotId::Union{String, Void}
 
     DescribeSnapshotAttributeType(; snapshotId=nothing) =
          new(snapshotId)
@@ -2848,8 +2848,8 @@ export DescribeSnapshotAttributeType
 
 
 type DescribeSnapshotAttributeResponseType
-    requestId::Union{ASCIIString, Void}
-    snapshotId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
+    snapshotId::Union{String, Void}
 
     DescribeSnapshotAttributeResponseType(; requestId=nothing, snapshotId=nothing) =
          new(requestId, snapshotId)
@@ -2865,11 +2865,11 @@ export DescribeSnapshotAttributeResponseType
 
 
 type BundleInstanceS3StorageType
-    bucket::Union{ASCIIString, Void}
-    prefix::Union{ASCIIString, Void}
-    awsAccessKeyId::Union{ASCIIString, Void}
-    uploadPolicy::Union{ASCIIString, Void}
-    uploadPolicySignature::Union{ASCIIString, Void}
+    bucket::Union{String, Void}
+    prefix::Union{String, Void}
+    awsAccessKeyId::Union{String, Void}
+    uploadPolicy::Union{String, Void}
+    uploadPolicySignature::Union{String, Void}
 
     BundleInstanceS3StorageType(; bucket=nothing, prefix=nothing, awsAccessKeyId=nothing, uploadPolicy=nothing, uploadPolicySignature=nothing) =
          new(bucket, prefix, awsAccessKeyId, uploadPolicy, uploadPolicySignature)
@@ -2888,8 +2888,8 @@ export BundleInstanceS3StorageType
 
 
 type BundleInstanceTaskErrorType
-    code::Union{ASCIIString, Void}
-    message::Union{ASCIIString, Void}
+    code::Union{String, Void}
+    message::Union{String, Void}
 
     BundleInstanceTaskErrorType(; code=nothing, message=nothing) =
          new(code, message)
@@ -2905,7 +2905,7 @@ export BundleInstanceTaskErrorType
 
 
 type DescribeBundleTasksItemType
-    bundleId::Union{ASCIIString, Void}
+    bundleId::Union{String, Void}
 
     DescribeBundleTasksItemType(; bundleId=nothing) =
          new(bundleId)
@@ -2920,7 +2920,7 @@ export DescribeBundleTasksItemType
 
 
 type CancelBundleTaskType
-    bundleId::Union{ASCIIString, Void}
+    bundleId::Union{String, Void}
 
     CancelBundleTaskType(; bundleId=nothing) =
          new(bundleId)
@@ -2935,11 +2935,11 @@ export CancelBundleTaskType
 
 
 type CopyImageType
-    sourceRegion::Union{ASCIIString, Void}
-    sourceImageId::Union{ASCIIString, Void}
-    name::Union{ASCIIString, Void}
-    description::Union{ASCIIString, Void}
-    clientToken::Union{ASCIIString, Void}
+    sourceRegion::Union{String, Void}
+    sourceImageId::Union{String, Void}
+    name::Union{String, Void}
+    description::Union{String, Void}
+    clientToken::Union{String, Void}
 
     CopyImageType(; sourceRegion=nothing, sourceImageId=nothing, name=nothing, description=nothing, clientToken=nothing) =
          new(sourceRegion, sourceImageId, name, description, clientToken)
@@ -2958,8 +2958,8 @@ export CopyImageType
 
 
 type CopyImageResponseType
-    requestId::Union{ASCIIString, Void}
-    imageId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
+    imageId::Union{String, Void}
 
     CopyImageResponseType(; requestId=nothing, imageId=nothing) =
          new(requestId, imageId)
@@ -2975,7 +2975,7 @@ export CopyImageResponseType
 
 
 type DescribeRegionsSetItemType
-    regionName::Union{ASCIIString, Void}
+    regionName::Union{String, Void}
 
     DescribeRegionsSetItemType(; regionName=nothing) =
          new(regionName)
@@ -2990,8 +2990,8 @@ export DescribeRegionsSetItemType
 
 
 type RegionItemType
-    regionName::Union{ASCIIString, Void}
-    regionEndpoint::Union{ASCIIString, Void}
+    regionName::Union{String, Void}
+    regionEndpoint::Union{String, Void}
 
     RegionItemType(; regionName=nothing, regionEndpoint=nothing) =
          new(regionName, regionEndpoint)
@@ -3007,7 +3007,7 @@ export RegionItemType
 
 
 type DescribeReservedInstancesOfferingsSetItemType
-    reservedInstancesOfferingId::Union{ASCIIString, Void}
+    reservedInstancesOfferingId::Union{String, Void}
 
     DescribeReservedInstancesOfferingsSetItemType(; reservedInstancesOfferingId=nothing) =
          new(reservedInstancesOfferingId)
@@ -3022,7 +3022,7 @@ export DescribeReservedInstancesOfferingsSetItemType
 
 
 type RecurringChargesSetItemType
-    frequency::Union{ASCIIString, Void}
+    frequency::Union{String, Void}
     amount::Union{Float64, Void}
 
     RecurringChargesSetItemType(; frequency=nothing, amount=nothing) =
@@ -3057,7 +3057,7 @@ export PricingDetailsSetItemType
 
 type ReservedInstanceLimitPriceType
     amount::Union{Float64, Void}
-    currencyCode::Union{ASCIIString, Void}
+    currencyCode::Union{String, Void}
 
     ReservedInstanceLimitPriceType(; amount=nothing, currencyCode=nothing) =
          new(amount, currencyCode)
@@ -3073,8 +3073,8 @@ export ReservedInstanceLimitPriceType
 
 
 type PurchaseReservedInstancesOfferingResponseType
-    requestId::Union{ASCIIString, Void}
-    reservedInstancesId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
+    reservedInstancesId::Union{String, Void}
 
     PurchaseReservedInstancesOfferingResponseType(; requestId=nothing, reservedInstancesId=nothing) =
          new(requestId, reservedInstancesId)
@@ -3090,7 +3090,7 @@ export PurchaseReservedInstancesOfferingResponseType
 
 
 type DescribeReservedInstancesSetItemType
-    reservedInstancesId::Union{ASCIIString, Void}
+    reservedInstancesId::Union{String, Void}
 
     DescribeReservedInstancesSetItemType(; reservedInstancesId=nothing) =
          new(reservedInstancesId)
@@ -3107,7 +3107,7 @@ export DescribeReservedInstancesSetItemType
 type PriceScheduleRequestSetItemType
     term::Union{Int64, Void}
     price::Union{Float64, Void}
-    currencyCode::Union{ASCIIString, Void}
+    currencyCode::Union{String, Void}
 
     PriceScheduleRequestSetItemType(; term=nothing, price=nothing, currencyCode=nothing) =
          new(term, price, currencyCode)
@@ -3124,7 +3124,7 @@ export PriceScheduleRequestSetItemType
 
 
 type CancelReservedInstancesListingType
-    reservedInstancesListingId::Union{ASCIIString, Void}
+    reservedInstancesListingId::Union{String, Void}
 
     CancelReservedInstancesListingType(; reservedInstancesListingId=nothing) =
          new(reservedInstancesListingId)
@@ -3139,7 +3139,7 @@ export CancelReservedInstancesListingType
 
 
 type DescribeReservedInstancesListingSetItemType
-    reservedInstancesListingId::Union{ASCIIString, Void}
+    reservedInstancesListingId::Union{String, Void}
 
     DescribeReservedInstancesListingSetItemType(; reservedInstancesListingId=nothing) =
          new(reservedInstancesListingId)
@@ -3154,7 +3154,7 @@ export DescribeReservedInstancesListingSetItemType
 
 
 type InstanceCountsSetItemType
-    state::Union{ASCIIString, Void}
+    state::Union{String, Void}
     instanceCount::Union{Int64, Void}
 
     InstanceCountsSetItemType(; state=nothing, instanceCount=nothing) =
@@ -3173,7 +3173,7 @@ export InstanceCountsSetItemType
 type PriceScheduleSetItemType
     term::Union{Int64, Void}
     price::Union{Float64, Void}
-    currencyCode::Union{ASCIIString, Void}
+    currencyCode::Union{String, Void}
     active::Union{Bool, Void}
 
     PriceScheduleSetItemType(; term=nothing, price=nothing, currencyCode=nothing, active=nothing) =
@@ -3192,14 +3192,14 @@ export PriceScheduleSetItemType
 
 
 type MonitorInstancesType
-    instancesSet::Union{Vector{ASCIIString}, Void}
+    instancesSet::Union{Vector{String}, Void}
 
     MonitorInstancesType(; instancesSet=nothing) =
          new(instancesSet)
 end
 function MonitorInstancesType(pd)
     o = MonitorInstancesType()
-    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
+    o.instancesSet = AWS.parse_vector_as(String, "instanceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
     o
 end
 
@@ -3207,7 +3207,7 @@ export MonitorInstancesType
 
 
 type MonitorInstancesSetItemType
-    instanceId::Union{ASCIIString, Void}
+    instanceId::Union{String, Void}
 
     MonitorInstancesSetItemType(; instanceId=nothing) =
          new(instanceId)
@@ -3222,7 +3222,7 @@ export MonitorInstancesSetItemType
 
 
 type InstanceMonitoringStateType
-    state::Union{ASCIIString, Void}
+    state::Union{String, Void}
 
     InstanceMonitoringStateType(; state=nothing) =
          new(state)
@@ -3237,8 +3237,8 @@ export InstanceMonitoringStateType
 
 
 type AttachmentType
-    vpcId::Union{ASCIIString, Void}
-    state::Union{ASCIIString, Void}
+    vpcId::Union{String, Void}
+    state::Union{String, Void}
 
     AttachmentType(; vpcId=nothing, state=nothing) =
          new(vpcId, state)
@@ -3269,9 +3269,9 @@ export VpnConnectionOptionsResponseType
 
 
 type VpnStaticRouteType
-    destinationCidrBlock::Union{ASCIIString, Void}
-    source::Union{ASCIIString, Void}
-    state::Union{ASCIIString, Void}
+    destinationCidrBlock::Union{String, Void}
+    source::Union{String, Void}
+    state::Union{String, Void}
 
     VpnStaticRouteType(; destinationCidrBlock=nothing, source=nothing, state=nothing) =
          new(destinationCidrBlock, source, state)
@@ -3288,10 +3288,10 @@ export VpnStaticRouteType
 
 
 type VpnTunnelTelemetryType
-    outsideIpAddress::Union{ASCIIString, Void}
-    status::Union{ASCIIString, Void}
+    outsideIpAddress::Union{String, Void}
+    status::Union{String, Void}
     lastStatusChange::Union{Base.Dates.DateTime, Void}
-    statusMessage::Union{ASCIIString, Void}
+    statusMessage::Union{String, Void}
     acceptedRouteCount::Union{Int64, Void}
 
     VpnTunnelTelemetryType(; outsideIpAddress=nothing, status=nothing, lastStatusChange=nothing, statusMessage=nothing, acceptedRouteCount=nothing) =
@@ -3311,7 +3311,7 @@ export VpnTunnelTelemetryType
 
 
 type CustomerGatewayIdSetItemType
-    customerGatewayId::Union{ASCIIString, Void}
+    customerGatewayId::Union{String, Void}
 
     CustomerGatewayIdSetItemType(; customerGatewayId=nothing) =
          new(customerGatewayId)
@@ -3326,7 +3326,7 @@ export CustomerGatewayIdSetItemType
 
 
 type VpnGatewayIdSetItemType
-    vpnGatewayId::Union{ASCIIString, Void}
+    vpnGatewayId::Union{String, Void}
 
     VpnGatewayIdSetItemType(; vpnGatewayId=nothing) =
          new(vpnGatewayId)
@@ -3341,7 +3341,7 @@ export VpnGatewayIdSetItemType
 
 
 type VpnConnectionIdSetItemType
-    vpnConnectionId::Union{ASCIIString, Void}
+    vpnConnectionId::Union{String, Void}
 
     VpnConnectionIdSetItemType(; vpnConnectionId=nothing) =
          new(vpnConnectionId)
@@ -3356,7 +3356,7 @@ export VpnConnectionIdSetItemType
 
 
 type VpcIdSetItemType
-    vpcId::Union{ASCIIString, Void}
+    vpcId::Union{String, Void}
 
     VpcIdSetItemType(; vpcId=nothing) =
          new(vpcId)
@@ -3371,7 +3371,7 @@ export VpcIdSetItemType
 
 
 type SubnetIdSetItemType
-    subnetId::Union{ASCIIString, Void}
+    subnetId::Union{String, Void}
 
     SubnetIdSetItemType(; subnetId=nothing) =
          new(subnetId)
@@ -3386,7 +3386,7 @@ export SubnetIdSetItemType
 
 
 type DhcpOptionsIdSetItemType
-    dhcpOptionsId::Union{ASCIIString, Void}
+    dhcpOptionsId::Union{String, Void}
 
     DhcpOptionsIdSetItemType(; dhcpOptionsId=nothing) =
          new(dhcpOptionsId)
@@ -3401,8 +3401,8 @@ export DhcpOptionsIdSetItemType
 
 
 type DhcpConfigurationItemType
-    key::Union{ASCIIString, Void}
-    valueSet::Union{Vector{ASCIIString}, Void}
+    key::Union{String, Void}
+    valueSet::Union{Vector{String}, Void}
 
     DhcpConfigurationItemType(; key=nothing, valueSet=nothing) =
          new(key, valueSet)
@@ -3410,7 +3410,7 @@ end
 function DhcpConfigurationItemType(pd)
     o = DhcpConfigurationItemType()
     o.key = LightXML.content(LightXML.find_element(pd, "key"))
-    o.valueSet = AWS.parse_vector_as(ASCIIString, "value", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "value"))
+    o.valueSet = AWS.parse_vector_as(String, "value", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "value"))
     o
 end
 
@@ -3418,7 +3418,7 @@ export DhcpConfigurationItemType
 
 
 type DhcpValueType
-    value::Union{ASCIIString, Void}
+    value::Union{String, Void}
 
     DhcpValueType(; value=nothing) =
          new(value)
@@ -3433,7 +3433,7 @@ export DhcpValueType
 
 
 type ValueType
-    value::Union{ASCIIString, Void}
+    value::Union{String, Void}
 
     ValueType(; value=nothing) =
          new(value)
@@ -3448,8 +3448,8 @@ export ValueType
 
 
 type CreateCustomerGatewayType
-    _type::Union{ASCIIString, Void}
-    ipAddress::Union{ASCIIString, Void}
+    _type::Union{String, Void}
+    ipAddress::Union{String, Void}
     bgpAsn::Union{Int64, Void}
 
     CreateCustomerGatewayType(; _type=nothing, ipAddress=nothing, bgpAsn=nothing) =
@@ -3467,7 +3467,7 @@ export CreateCustomerGatewayType
 
 
 type DeleteCustomerGatewayType
-    customerGatewayId::Union{ASCIIString, Void}
+    customerGatewayId::Union{String, Void}
 
     DeleteCustomerGatewayType(; customerGatewayId=nothing) =
          new(customerGatewayId)
@@ -3482,7 +3482,7 @@ export DeleteCustomerGatewayType
 
 
 type DeleteCustomerGatewayResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     DeleteCustomerGatewayResponseType(; requestId=nothing, _return=nothing) =
@@ -3499,8 +3499,8 @@ export DeleteCustomerGatewayResponseType
 
 
 type CreateVpnGatewayType
-    _type::Union{ASCIIString, Void}
-    availabilityZone::Union{ASCIIString, Void}
+    _type::Union{String, Void}
+    availabilityZone::Union{String, Void}
 
     CreateVpnGatewayType(; _type=nothing, availabilityZone=nothing) =
          new(_type, availabilityZone)
@@ -3516,7 +3516,7 @@ export CreateVpnGatewayType
 
 
 type DeleteVpnGatewayType
-    vpnGatewayId::Union{ASCIIString, Void}
+    vpnGatewayId::Union{String, Void}
 
     DeleteVpnGatewayType(; vpnGatewayId=nothing) =
          new(vpnGatewayId)
@@ -3531,7 +3531,7 @@ export DeleteVpnGatewayType
 
 
 type DeleteVpnGatewayResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     DeleteVpnGatewayResponseType(; requestId=nothing, _return=nothing) =
@@ -3563,8 +3563,8 @@ export VpnConnectionOptionsRequestType
 
 
 type CreateVpnConnectionRouteType
-    vpnConnectionId::Union{ASCIIString, Void}
-    destinationCidrBlock::Union{ASCIIString, Void}
+    vpnConnectionId::Union{String, Void}
+    destinationCidrBlock::Union{String, Void}
 
     CreateVpnConnectionRouteType(; vpnConnectionId=nothing, destinationCidrBlock=nothing) =
          new(vpnConnectionId, destinationCidrBlock)
@@ -3580,7 +3580,7 @@ export CreateVpnConnectionRouteType
 
 
 type CreateVpnConnectionRouteResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     CreateVpnConnectionRouteResponseType(; requestId=nothing, _return=nothing) =
@@ -3597,8 +3597,8 @@ export CreateVpnConnectionRouteResponseType
 
 
 type DeleteVpnConnectionRouteType
-    vpnConnectionId::Union{ASCIIString, Void}
-    destinationCidrBlock::Union{ASCIIString, Void}
+    vpnConnectionId::Union{String, Void}
+    destinationCidrBlock::Union{String, Void}
 
     DeleteVpnConnectionRouteType(; vpnConnectionId=nothing, destinationCidrBlock=nothing) =
          new(vpnConnectionId, destinationCidrBlock)
@@ -3614,7 +3614,7 @@ export DeleteVpnConnectionRouteType
 
 
 type DeleteVpnConnectionRouteResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     DeleteVpnConnectionRouteResponseType(; requestId=nothing, _return=nothing) =
@@ -3631,7 +3631,7 @@ export DeleteVpnConnectionRouteResponseType
 
 
 type DeleteVpnConnectionType
-    vpnConnectionId::Union{ASCIIString, Void}
+    vpnConnectionId::Union{String, Void}
 
     DeleteVpnConnectionType(; vpnConnectionId=nothing) =
          new(vpnConnectionId)
@@ -3646,7 +3646,7 @@ export DeleteVpnConnectionType
 
 
 type DeleteVpnConnectionResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     DeleteVpnConnectionResponseType(; requestId=nothing, _return=nothing) =
@@ -3663,8 +3663,8 @@ export DeleteVpnConnectionResponseType
 
 
 type AttachVpnGatewayType
-    vpnGatewayId::Union{ASCIIString, Void}
-    vpcId::Union{ASCIIString, Void}
+    vpnGatewayId::Union{String, Void}
+    vpcId::Union{String, Void}
 
     AttachVpnGatewayType(; vpnGatewayId=nothing, vpcId=nothing) =
          new(vpnGatewayId, vpcId)
@@ -3680,8 +3680,8 @@ export AttachVpnGatewayType
 
 
 type DetachVpnGatewayType
-    vpnGatewayId::Union{ASCIIString, Void}
-    vpcId::Union{ASCIIString, Void}
+    vpnGatewayId::Union{String, Void}
+    vpcId::Union{String, Void}
 
     DetachVpnGatewayType(; vpnGatewayId=nothing, vpcId=nothing) =
          new(vpnGatewayId, vpcId)
@@ -3697,7 +3697,7 @@ export DetachVpnGatewayType
 
 
 type DetachVpnGatewayResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     DetachVpnGatewayResponseType(; requestId=nothing, _return=nothing) =
@@ -3714,8 +3714,8 @@ export DetachVpnGatewayResponseType
 
 
 type CreateVpcType
-    cidrBlock::Union{ASCIIString, Void}
-    instanceTenancy::Union{ASCIIString, Void}
+    cidrBlock::Union{String, Void}
+    instanceTenancy::Union{String, Void}
 
     CreateVpcType(; cidrBlock=nothing, instanceTenancy=nothing) =
          new(cidrBlock, instanceTenancy)
@@ -3731,7 +3731,7 @@ export CreateVpcType
 
 
 type DeleteVpcType
-    vpcId::Union{ASCIIString, Void}
+    vpcId::Union{String, Void}
 
     DeleteVpcType(; vpcId=nothing) =
          new(vpcId)
@@ -3746,7 +3746,7 @@ export DeleteVpcType
 
 
 type DeleteVpcResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     DeleteVpcResponseType(; requestId=nothing, _return=nothing) =
@@ -3763,9 +3763,9 @@ export DeleteVpcResponseType
 
 
 type CreateSubnetType
-    vpcId::Union{ASCIIString, Void}
-    cidrBlock::Union{ASCIIString, Void}
-    availabilityZone::Union{ASCIIString, Void}
+    vpcId::Union{String, Void}
+    cidrBlock::Union{String, Void}
+    availabilityZone::Union{String, Void}
 
     CreateSubnetType(; vpcId=nothing, cidrBlock=nothing, availabilityZone=nothing) =
          new(vpcId, cidrBlock, availabilityZone)
@@ -3782,7 +3782,7 @@ export CreateSubnetType
 
 
 type DeleteSubnetType
-    subnetId::Union{ASCIIString, Void}
+    subnetId::Union{String, Void}
 
     DeleteSubnetType(; subnetId=nothing) =
          new(subnetId)
@@ -3797,7 +3797,7 @@ export DeleteSubnetType
 
 
 type DeleteSubnetResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     DeleteSubnetResponseType(; requestId=nothing, _return=nothing) =
@@ -3814,7 +3814,7 @@ export DeleteSubnetResponseType
 
 
 type DeleteDhcpOptionsType
-    dhcpOptionsId::Union{ASCIIString, Void}
+    dhcpOptionsId::Union{String, Void}
 
     DeleteDhcpOptionsType(; dhcpOptionsId=nothing) =
          new(dhcpOptionsId)
@@ -3829,7 +3829,7 @@ export DeleteDhcpOptionsType
 
 
 type DeleteDhcpOptionsResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     DeleteDhcpOptionsResponseType(; requestId=nothing, _return=nothing) =
@@ -3846,8 +3846,8 @@ export DeleteDhcpOptionsResponseType
 
 
 type AssociateDhcpOptionsType
-    dhcpOptionsId::Union{ASCIIString, Void}
-    vpcId::Union{ASCIIString, Void}
+    dhcpOptionsId::Union{String, Void}
+    vpcId::Union{String, Void}
 
     AssociateDhcpOptionsType(; dhcpOptionsId=nothing, vpcId=nothing) =
          new(dhcpOptionsId, vpcId)
@@ -3863,7 +3863,7 @@ export AssociateDhcpOptionsType
 
 
 type AssociateDhcpOptionsResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     AssociateDhcpOptionsResponseType(; requestId=nothing, _return=nothing) =
@@ -3880,8 +3880,8 @@ export AssociateDhcpOptionsResponseType
 
 
 type SpotInstanceStateFaultType
-    code::Union{ASCIIString, Void}
-    message::Union{ASCIIString, Void}
+    code::Union{String, Void}
+    message::Union{String, Void}
 
     SpotInstanceStateFaultType(; code=nothing, message=nothing) =
          new(code, message)
@@ -3897,9 +3897,9 @@ export SpotInstanceStateFaultType
 
 
 type SpotInstanceStatusMessageType
-    code::Union{ASCIIString, Void}
+    code::Union{String, Void}
     updateTime::Union{Base.Dates.DateTime, Void}
-    message::Union{ASCIIString, Void}
+    message::Union{String, Void}
 
     SpotInstanceStatusMessageType(; code=nothing, updateTime=nothing, message=nothing) =
          new(code, updateTime, message)
@@ -3916,7 +3916,7 @@ export SpotInstanceStatusMessageType
 
 
 type SpotInstanceRequestIdSetItemType
-    spotInstanceRequestId::Union{ASCIIString, Void}
+    spotInstanceRequestId::Union{String, Void}
 
     SpotInstanceRequestIdSetItemType(; spotInstanceRequestId=nothing) =
          new(spotInstanceRequestId)
@@ -3931,14 +3931,14 @@ export SpotInstanceRequestIdSetItemType
 
 
 type CancelSpotInstanceRequestsType
-    spotInstanceRequestIdSet::Union{Vector{ASCIIString}, Void}
+    spotInstanceRequestIdSet::Union{Vector{String}, Void}
 
     CancelSpotInstanceRequestsType(; spotInstanceRequestIdSet=nothing) =
          new(spotInstanceRequestIdSet)
 end
 function CancelSpotInstanceRequestsType(pd)
     o = CancelSpotInstanceRequestsType()
-    o.spotInstanceRequestIdSet = AWS.parse_vector_as(ASCIIString, "spotInstanceRequestId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "spotInstanceRequestId"))
+    o.spotInstanceRequestIdSet = AWS.parse_vector_as(String, "spotInstanceRequestId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "spotInstanceRequestId"))
     o
 end
 
@@ -3946,8 +3946,8 @@ export CancelSpotInstanceRequestsType
 
 
 type CancelSpotInstanceRequestsResponseSetItemType
-    spotInstanceRequestId::Union{ASCIIString, Void}
-    state::Union{ASCIIString, Void}
+    spotInstanceRequestId::Union{String, Void}
+    state::Union{String, Void}
 
     CancelSpotInstanceRequestsResponseSetItemType(; spotInstanceRequestId=nothing, state=nothing) =
          new(spotInstanceRequestId, state)
@@ -3963,7 +3963,7 @@ export CancelSpotInstanceRequestsResponseSetItemType
 
 
 type InstanceTypeSetItemType
-    instanceType::Union{ASCIIString, Void}
+    instanceType::Union{String, Void}
 
     InstanceTypeSetItemType(; instanceType=nothing) =
          new(instanceType)
@@ -3978,7 +3978,7 @@ export InstanceTypeSetItemType
 
 
 type ProductDescriptionSetItemType
-    productDescription::Union{ASCIIString, Void}
+    productDescription::Union{String, Void}
 
     ProductDescriptionSetItemType(; productDescription=nothing) =
          new(productDescription)
@@ -3993,11 +3993,11 @@ export ProductDescriptionSetItemType
 
 
 type SpotPriceHistorySetItemType
-    instanceType::Union{ASCIIString, Void}
-    productDescription::Union{ASCIIString, Void}
-    spotPrice::Union{ASCIIString, Void}
+    instanceType::Union{String, Void}
+    productDescription::Union{String, Void}
+    spotPrice::Union{String, Void}
     timestamp::Union{Base.Dates.DateTime, Void}
-    availabilityZone::Union{ASCIIString, Void}
+    availabilityZone::Union{String, Void}
 
     SpotPriceHistorySetItemType(; instanceType=nothing, productDescription=nothing, spotPrice=nothing, timestamp=nothing, availabilityZone=nothing) =
          new(instanceType, productDescription, spotPrice, timestamp, availabilityZone)
@@ -4016,8 +4016,8 @@ export SpotPriceHistorySetItemType
 
 
 type CreateSpotDatafeedSubscriptionType
-    bucket::Union{ASCIIString, Void}
-    prefix::Union{ASCIIString, Void}
+    bucket::Union{String, Void}
+    prefix::Union{String, Void}
 
     CreateSpotDatafeedSubscriptionType(; bucket=nothing, prefix=nothing) =
          new(bucket, prefix)
@@ -4033,7 +4033,7 @@ export CreateSpotDatafeedSubscriptionType
 
 
 type DeleteSpotDatafeedSubscriptionResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     DeleteSpotDatafeedSubscriptionResponseType(; requestId=nothing, _return=nothing) =
@@ -4050,7 +4050,7 @@ export DeleteSpotDatafeedSubscriptionResponseType
 
 
 type LicenseIdSetItemType
-    licenseId::Union{ASCIIString, Void}
+    licenseId::Union{String, Void}
 
     LicenseIdSetItemType(; licenseId=nothing) =
          new(licenseId)
@@ -4067,7 +4067,7 @@ export LicenseIdSetItemType
 type LicenseCapacitySetItemType
     capacity::Union{Int64, Void}
     instanceCapacity::Union{Int64, Void}
-    state::Union{ASCIIString, Void}
+    state::Union{String, Void}
     earliestAllowedDeactivationTime::Union{Base.Dates.DateTime, Void}
 
     LicenseCapacitySetItemType(; capacity=nothing, instanceCapacity=nothing, state=nothing, earliestAllowedDeactivationTime=nothing) =
@@ -4086,7 +4086,7 @@ export LicenseCapacitySetItemType
 
 
 type ActivateLicenseType
-    licenseId::Union{ASCIIString, Void}
+    licenseId::Union{String, Void}
     capacity::Union{Int64, Void}
 
     ActivateLicenseType(; licenseId=nothing, capacity=nothing) =
@@ -4103,7 +4103,7 @@ export ActivateLicenseType
 
 
 type ActivateLicenseResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     ActivateLicenseResponseType(; requestId=nothing, _return=nothing) =
@@ -4120,7 +4120,7 @@ export ActivateLicenseResponseType
 
 
 type DeactivateLicenseType
-    licenseId::Union{ASCIIString, Void}
+    licenseId::Union{String, Void}
     capacity::Union{Int64, Void}
 
     DeactivateLicenseType(; licenseId=nothing, capacity=nothing) =
@@ -4137,7 +4137,7 @@ export DeactivateLicenseType
 
 
 type DeactivateLicenseResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     DeactivateLicenseResponseType(; requestId=nothing, _return=nothing) =
@@ -4154,8 +4154,8 @@ export DeactivateLicenseResponseType
 
 
 type CreatePlacementGroupType
-    groupName::Union{ASCIIString, Void}
-    strategy::Union{ASCIIString, Void}
+    groupName::Union{String, Void}
+    strategy::Union{String, Void}
 
     CreatePlacementGroupType(; groupName=nothing, strategy=nothing) =
          new(groupName, strategy)
@@ -4171,7 +4171,7 @@ export CreatePlacementGroupType
 
 
 type CreatePlacementGroupResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     CreatePlacementGroupResponseType(; requestId=nothing, _return=nothing) =
@@ -4188,7 +4188,7 @@ export CreatePlacementGroupResponseType
 
 
 type DeletePlacementGroupType
-    groupName::Union{ASCIIString, Void}
+    groupName::Union{String, Void}
 
     DeletePlacementGroupType(; groupName=nothing) =
          new(groupName)
@@ -4203,7 +4203,7 @@ export DeletePlacementGroupType
 
 
 type DeletePlacementGroupResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     DeletePlacementGroupResponseType(; requestId=nothing, _return=nothing) =
@@ -4220,7 +4220,7 @@ export DeletePlacementGroupResponseType
 
 
 type DescribePlacementGroupItemType
-    groupName::Union{ASCIIString, Void}
+    groupName::Union{String, Void}
 
     DescribePlacementGroupItemType(; groupName=nothing) =
          new(groupName)
@@ -4235,9 +4235,9 @@ export DescribePlacementGroupItemType
 
 
 type PlacementGroupInfoType
-    groupName::Union{ASCIIString, Void}
-    strategy::Union{ASCIIString, Void}
-    state::Union{ASCIIString, Void}
+    groupName::Union{String, Void}
+    strategy::Union{String, Void}
+    state::Union{String, Void}
 
     PlacementGroupInfoType(; groupName=nothing, strategy=nothing, state=nothing) =
          new(groupName, strategy, state)
@@ -4254,7 +4254,7 @@ export PlacementGroupInfoType
 
 
 type ResourceIdSetItemType
-    resourceId::Union{ASCIIString, Void}
+    resourceId::Union{String, Void}
 
     ResourceIdSetItemType(; resourceId=nothing) =
          new(resourceId)
@@ -4269,7 +4269,7 @@ export ResourceIdSetItemType
 
 
 type CreateTagsResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     CreateTagsResponseType(; requestId=nothing, _return=nothing) =
@@ -4286,10 +4286,10 @@ export CreateTagsResponseType
 
 
 type TagSetItemType
-    resourceId::Union{ASCIIString, Void}
-    resourceType::Union{ASCIIString, Void}
-    key::Union{ASCIIString, Void}
-    value::Union{ASCIIString, Void}
+    resourceId::Union{String, Void}
+    resourceType::Union{String, Void}
+    key::Union{String, Void}
+    value::Union{String, Void}
 
     TagSetItemType(; resourceId=nothing, resourceType=nothing, key=nothing, value=nothing) =
          new(resourceId, resourceType, key, value)
@@ -4307,8 +4307,8 @@ export TagSetItemType
 
 
 type DeleteTagsSetItemType
-    key::Union{ASCIIString, Void}
-    value::Union{ASCIIString, Void}
+    key::Union{String, Void}
+    value::Union{String, Void}
 
     DeleteTagsSetItemType(; key=nothing, value=nothing) =
          new(key, value)
@@ -4324,7 +4324,7 @@ export DeleteTagsSetItemType
 
 
 type DeleteTagsResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     DeleteTagsResponseType(; requestId=nothing, _return=nothing) =
@@ -4341,9 +4341,9 @@ export DeleteTagsResponseType
 
 
 type DiskImageDetailType
-    format::Union{ASCIIString, Void}
+    format::Union{String, Void}
     bytes::Union{Int64, Void}
-    importManifestUrl::Union{ASCIIString, Void}
+    importManifestUrl::Union{String, Void}
 
     DiskImageDetailType(; format=nothing, bytes=nothing, importManifestUrl=nothing) =
          new(format, bytes, importManifestUrl)
@@ -4376,7 +4376,7 @@ export DiskImageVolumeType
 
 type DiskImageVolumeDescriptionType
     size::Union{Int64, Void}
-    id::Union{ASCIIString, Void}
+    id::Union{String, Void}
 
     DiskImageVolumeDescriptionType(; size=nothing, id=nothing) =
          new(size, id)
@@ -4392,10 +4392,10 @@ export DiskImageVolumeDescriptionType
 
 
 type DiskImageDescriptionType
-    format::Union{ASCIIString, Void}
+    format::Union{String, Void}
     size::Union{Int64, Void}
-    importManifestUrl::Union{ASCIIString, Void}
-    checksum::Union{ASCIIString, Void}
+    importManifestUrl::Union{String, Void}
+    checksum::Union{String, Void}
 
     DiskImageDescriptionType(; format=nothing, size=nothing, importManifestUrl=nothing, checksum=nothing) =
          new(format, size, importManifestUrl, checksum)
@@ -4413,14 +4413,14 @@ export DiskImageDescriptionType
 
 
 type DescribeConversionTasksType
-    conversionTaskIdSet::Union{Vector{ASCIIString}, Void}
+    conversionTaskIdSet::Union{Vector{String}, Void}
 
     DescribeConversionTasksType(; conversionTaskIdSet=nothing) =
          new(conversionTaskIdSet)
 end
 function DescribeConversionTasksType(pd)
     o = DescribeConversionTasksType()
-    o.conversionTaskIdSet = AWS.parse_vector_as(ASCIIString, "conversionTaskId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "conversionTaskId"))
+    o.conversionTaskIdSet = AWS.parse_vector_as(String, "conversionTaskId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "conversionTaskId"))
     o
 end
 
@@ -4428,7 +4428,7 @@ export DescribeConversionTasksType
 
 
 type ConversionTaskIdItemType
-    conversionTaskId::Union{ASCIIString, Void}
+    conversionTaskId::Union{String, Void}
 
     ConversionTaskIdItemType(; conversionTaskId=nothing) =
          new(conversionTaskId)
@@ -4443,7 +4443,7 @@ export ConversionTaskIdItemType
 
 
 type CancelConversionTaskType
-    conversionTaskId::Union{ASCIIString, Void}
+    conversionTaskId::Union{String, Void}
 
     CancelConversionTaskType(; conversionTaskId=nothing) =
          new(conversionTaskId)
@@ -4458,7 +4458,7 @@ export CancelConversionTaskType
 
 
 type CancelConversionTaskResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     CancelConversionTaskResponseType(; requestId=nothing, _return=nothing) =
@@ -4475,9 +4475,9 @@ export CancelConversionTaskResponseType
 
 
 type CreateInstanceExportTaskType
-    description::Union{ASCIIString, Void}
-    instanceId::Union{ASCIIString, Void}
-    targetEnvironment::Union{ASCIIString, Void}
+    description::Union{String, Void}
+    instanceId::Union{String, Void}
+    targetEnvironment::Union{String, Void}
 
     CreateInstanceExportTaskType(; description=nothing, instanceId=nothing, targetEnvironment=nothing) =
          new(description, instanceId, targetEnvironment)
@@ -4494,10 +4494,10 @@ export CreateInstanceExportTaskType
 
 
 type ExportToS3TaskType
-    diskImageFormat::Union{ASCIIString, Void}
-    containerFormat::Union{ASCIIString, Void}
-    s3Bucket::Union{ASCIIString, Void}
-    s3Prefix::Union{ASCIIString, Void}
+    diskImageFormat::Union{String, Void}
+    containerFormat::Union{String, Void}
+    s3Bucket::Union{String, Void}
+    s3Prefix::Union{String, Void}
 
     ExportToS3TaskType(; diskImageFormat=nothing, containerFormat=nothing, s3Bucket=nothing, s3Prefix=nothing) =
          new(diskImageFormat, containerFormat, s3Bucket, s3Prefix)
@@ -4515,14 +4515,14 @@ export ExportToS3TaskType
 
 
 type DescribeExportTasksType
-    exportTaskIdSet::Union{Vector{ASCIIString}, Void}
+    exportTaskIdSet::Union{Vector{String}, Void}
 
     DescribeExportTasksType(; exportTaskIdSet=nothing) =
          new(exportTaskIdSet)
 end
 function DescribeExportTasksType(pd)
     o = DescribeExportTasksType()
-    o.exportTaskIdSet = AWS.parse_vector_as(ASCIIString, "exportTaskId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "exportTaskId"))
+    o.exportTaskIdSet = AWS.parse_vector_as(String, "exportTaskId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "exportTaskId"))
     o
 end
 
@@ -4530,7 +4530,7 @@ export DescribeExportTasksType
 
 
 type ExportTaskIdType
-    exportTaskId::Union{ASCIIString, Void}
+    exportTaskId::Union{String, Void}
 
     ExportTaskIdType(; exportTaskId=nothing) =
          new(exportTaskId)
@@ -4545,10 +4545,10 @@ export ExportTaskIdType
 
 
 type ExportTaskResponseType
-    exportTaskId::Union{ASCIIString, Void}
-    description::Union{ASCIIString, Void}
-    state::Union{ASCIIString, Void}
-    statusMessage::Union{ASCIIString, Void}
+    exportTaskId::Union{String, Void}
+    description::Union{String, Void}
+    state::Union{String, Void}
+    statusMessage::Union{String, Void}
 
     ExportTaskResponseType(; exportTaskId=nothing, description=nothing, state=nothing, statusMessage=nothing) =
          new(exportTaskId, description, state, statusMessage)
@@ -4566,8 +4566,8 @@ export ExportTaskResponseType
 
 
 type InstanceExportTaskResponseType
-    instanceId::Union{ASCIIString, Void}
-    targetEnvironment::Union{ASCIIString, Void}
+    instanceId::Union{String, Void}
+    targetEnvironment::Union{String, Void}
 
     InstanceExportTaskResponseType(; instanceId=nothing, targetEnvironment=nothing) =
          new(instanceId, targetEnvironment)
@@ -4583,10 +4583,10 @@ export InstanceExportTaskResponseType
 
 
 type ExportToS3TaskResponseType
-    diskImageFormat::Union{ASCIIString, Void}
-    containerFormat::Union{ASCIIString, Void}
-    s3Bucket::Union{ASCIIString, Void}
-    s3Key::Union{ASCIIString, Void}
+    diskImageFormat::Union{String, Void}
+    containerFormat::Union{String, Void}
+    s3Bucket::Union{String, Void}
+    s3Key::Union{String, Void}
 
     ExportToS3TaskResponseType(; diskImageFormat=nothing, containerFormat=nothing, s3Bucket=nothing, s3Key=nothing) =
          new(diskImageFormat, containerFormat, s3Bucket, s3Key)
@@ -4604,7 +4604,7 @@ export ExportToS3TaskResponseType
 
 
 type CancelExportTaskType
-    exportTaskId::Union{ASCIIString, Void}
+    exportTaskId::Union{String, Void}
 
     CancelExportTaskType(; exportTaskId=nothing) =
          new(exportTaskId)
@@ -4619,7 +4619,7 @@ export CancelExportTaskType
 
 
 type CancelExportTaskResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     CancelExportTaskResponseType(; requestId=nothing, _return=nothing) =
@@ -4636,8 +4636,8 @@ export CancelExportTaskResponseType
 
 
 type InternetGatewayAttachmentType
-    vpcId::Union{ASCIIString, Void}
-    state::Union{ASCIIString, Void}
+    vpcId::Union{String, Void}
+    state::Union{String, Void}
 
     InternetGatewayAttachmentType(; vpcId=nothing, state=nothing) =
          new(vpcId, state)
@@ -4653,7 +4653,7 @@ export InternetGatewayAttachmentType
 
 
 type InternetGatewayIdSetItemType
-    internetGatewayId::Union{ASCIIString, Void}
+    internetGatewayId::Union{String, Void}
 
     InternetGatewayIdSetItemType(; internetGatewayId=nothing) =
          new(internetGatewayId)
@@ -4668,7 +4668,7 @@ export InternetGatewayIdSetItemType
 
 
 type DeleteInternetGatewayType
-    internetGatewayId::Union{ASCIIString, Void}
+    internetGatewayId::Union{String, Void}
 
     DeleteInternetGatewayType(; internetGatewayId=nothing) =
          new(internetGatewayId)
@@ -4683,7 +4683,7 @@ export DeleteInternetGatewayType
 
 
 type DeleteInternetGatewayResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     DeleteInternetGatewayResponseType(; requestId=nothing, _return=nothing) =
@@ -4700,8 +4700,8 @@ export DeleteInternetGatewayResponseType
 
 
 type AttachInternetGatewayType
-    internetGatewayId::Union{ASCIIString, Void}
-    vpcId::Union{ASCIIString, Void}
+    internetGatewayId::Union{String, Void}
+    vpcId::Union{String, Void}
 
     AttachInternetGatewayType(; internetGatewayId=nothing, vpcId=nothing) =
          new(internetGatewayId, vpcId)
@@ -4717,7 +4717,7 @@ export AttachInternetGatewayType
 
 
 type AttachInternetGatewayResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     AttachInternetGatewayResponseType(; requestId=nothing, _return=nothing) =
@@ -4734,8 +4734,8 @@ export AttachInternetGatewayResponseType
 
 
 type DetachInternetGatewayType
-    internetGatewayId::Union{ASCIIString, Void}
-    vpcId::Union{ASCIIString, Void}
+    internetGatewayId::Union{String, Void}
+    vpcId::Union{String, Void}
 
     DetachInternetGatewayType(; internetGatewayId=nothing, vpcId=nothing) =
          new(internetGatewayId, vpcId)
@@ -4751,7 +4751,7 @@ export DetachInternetGatewayType
 
 
 type DetachInternetGatewayResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     DetachInternetGatewayResponseType(; requestId=nothing, _return=nothing) =
@@ -4768,7 +4768,7 @@ export DetachInternetGatewayResponseType
 
 
 type CreateRouteTableType
-    vpcId::Union{ASCIIString, Void}
+    vpcId::Union{String, Void}
 
     CreateRouteTableType(; vpcId=nothing) =
          new(vpcId)
@@ -4783,13 +4783,13 @@ export CreateRouteTableType
 
 
 type RouteType
-    destinationCidrBlock::Union{ASCIIString, Void}
-    gatewayId::Union{ASCIIString, Void}
-    instanceId::Union{ASCIIString, Void}
-    instanceOwnerId::Union{ASCIIString, Void}
-    networkInterfaceId::Union{ASCIIString, Void}
-    state::Union{ASCIIString, Void}
-    origin::Union{ASCIIString, Void}
+    destinationCidrBlock::Union{String, Void}
+    gatewayId::Union{String, Void}
+    instanceId::Union{String, Void}
+    instanceOwnerId::Union{String, Void}
+    networkInterfaceId::Union{String, Void}
+    state::Union{String, Void}
+    origin::Union{String, Void}
 
     RouteType(; destinationCidrBlock=nothing, gatewayId=nothing, instanceId=nothing, instanceOwnerId=nothing, networkInterfaceId=nothing, state=nothing, origin=nothing) =
          new(destinationCidrBlock, gatewayId, instanceId, instanceOwnerId, networkInterfaceId, state, origin)
@@ -4810,8 +4810,8 @@ export RouteType
 
 
 type RouteTableAssociationType
-    routeTableAssociationId::Union{ASCIIString, Void}
-    routeTableId::Union{ASCIIString, Void}
+    routeTableAssociationId::Union{String, Void}
+    routeTableId::Union{String, Void}
 
     RouteTableAssociationType(; routeTableAssociationId=nothing, routeTableId=nothing) =
          new(routeTableAssociationId, routeTableId)
@@ -4827,7 +4827,7 @@ export RouteTableAssociationType
 
 
 type PropagatingVgwType
-    gatewayId::Union{ASCIIString, Void}
+    gatewayId::Union{String, Void}
 
     PropagatingVgwType(; gatewayId=nothing) =
          new(gatewayId)
@@ -4842,7 +4842,7 @@ export PropagatingVgwType
 
 
 type RouteTableIdSetItemType
-    routeTableId::Union{ASCIIString, Void}
+    routeTableId::Union{String, Void}
 
     RouteTableIdSetItemType(; routeTableId=nothing) =
          new(routeTableId)
@@ -4857,8 +4857,8 @@ export RouteTableIdSetItemType
 
 
 type EnableVgwRoutePropagationRequestType
-    routeTableId::Union{ASCIIString, Void}
-    gatewayId::Union{ASCIIString, Void}
+    routeTableId::Union{String, Void}
+    gatewayId::Union{String, Void}
 
     EnableVgwRoutePropagationRequestType(; routeTableId=nothing, gatewayId=nothing) =
          new(routeTableId, gatewayId)
@@ -4874,7 +4874,7 @@ export EnableVgwRoutePropagationRequestType
 
 
 type EnableVgwRoutePropagationResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     EnableVgwRoutePropagationResponseType(; requestId=nothing, _return=nothing) =
@@ -4891,8 +4891,8 @@ export EnableVgwRoutePropagationResponseType
 
 
 type DisableVgwRoutePropagationRequestType
-    routeTableId::Union{ASCIIString, Void}
-    gatewayId::Union{ASCIIString, Void}
+    routeTableId::Union{String, Void}
+    gatewayId::Union{String, Void}
 
     DisableVgwRoutePropagationRequestType(; routeTableId=nothing, gatewayId=nothing) =
          new(routeTableId, gatewayId)
@@ -4908,7 +4908,7 @@ export DisableVgwRoutePropagationRequestType
 
 
 type DisableVgwRoutePropagationResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     DisableVgwRoutePropagationResponseType(; requestId=nothing, _return=nothing) =
@@ -4925,7 +4925,7 @@ export DisableVgwRoutePropagationResponseType
 
 
 type DeleteRouteTableType
-    routeTableId::Union{ASCIIString, Void}
+    routeTableId::Union{String, Void}
 
     DeleteRouteTableType(; routeTableId=nothing) =
          new(routeTableId)
@@ -4940,7 +4940,7 @@ export DeleteRouteTableType
 
 
 type DeleteRouteTableResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     DeleteRouteTableResponseType(; requestId=nothing, _return=nothing) =
@@ -4957,8 +4957,8 @@ export DeleteRouteTableResponseType
 
 
 type AssociateRouteTableType
-    routeTableId::Union{ASCIIString, Void}
-    subnetId::Union{ASCIIString, Void}
+    routeTableId::Union{String, Void}
+    subnetId::Union{String, Void}
 
     AssociateRouteTableType(; routeTableId=nothing, subnetId=nothing) =
          new(routeTableId, subnetId)
@@ -4974,8 +4974,8 @@ export AssociateRouteTableType
 
 
 type AssociateRouteTableResponseType
-    requestId::Union{ASCIIString, Void}
-    associationId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
+    associationId::Union{String, Void}
 
     AssociateRouteTableResponseType(; requestId=nothing, associationId=nothing) =
          new(requestId, associationId)
@@ -4991,8 +4991,8 @@ export AssociateRouteTableResponseType
 
 
 type ReplaceRouteTableAssociationType
-    associationId::Union{ASCIIString, Void}
-    routeTableId::Union{ASCIIString, Void}
+    associationId::Union{String, Void}
+    routeTableId::Union{String, Void}
 
     ReplaceRouteTableAssociationType(; associationId=nothing, routeTableId=nothing) =
          new(associationId, routeTableId)
@@ -5008,8 +5008,8 @@ export ReplaceRouteTableAssociationType
 
 
 type ReplaceRouteTableAssociationResponseType
-    requestId::Union{ASCIIString, Void}
-    newAssociationId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
+    newAssociationId::Union{String, Void}
 
     ReplaceRouteTableAssociationResponseType(; requestId=nothing, newAssociationId=nothing) =
          new(requestId, newAssociationId)
@@ -5025,7 +5025,7 @@ export ReplaceRouteTableAssociationResponseType
 
 
 type DisassociateRouteTableType
-    associationId::Union{ASCIIString, Void}
+    associationId::Union{String, Void}
 
     DisassociateRouteTableType(; associationId=nothing) =
          new(associationId)
@@ -5040,7 +5040,7 @@ export DisassociateRouteTableType
 
 
 type DisassociateRouteTableResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     DisassociateRouteTableResponseType(; requestId=nothing, _return=nothing) =
@@ -5057,8 +5057,8 @@ export DisassociateRouteTableResponseType
 
 
 type CreateRouteType
-    routeTableId::Union{ASCIIString, Void}
-    destinationCidrBlock::Union{ASCIIString, Void}
+    routeTableId::Union{String, Void}
+    destinationCidrBlock::Union{String, Void}
 
     CreateRouteType(; routeTableId=nothing, destinationCidrBlock=nothing) =
          new(routeTableId, destinationCidrBlock)
@@ -5074,7 +5074,7 @@ export CreateRouteType
 
 
 type CreateRouteResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     CreateRouteResponseType(; requestId=nothing, _return=nothing) =
@@ -5091,8 +5091,8 @@ export CreateRouteResponseType
 
 
 type ReplaceRouteType
-    routeTableId::Union{ASCIIString, Void}
-    destinationCidrBlock::Union{ASCIIString, Void}
+    routeTableId::Union{String, Void}
+    destinationCidrBlock::Union{String, Void}
 
     ReplaceRouteType(; routeTableId=nothing, destinationCidrBlock=nothing) =
          new(routeTableId, destinationCidrBlock)
@@ -5108,7 +5108,7 @@ export ReplaceRouteType
 
 
 type ReplaceRouteResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     ReplaceRouteResponseType(; requestId=nothing, _return=nothing) =
@@ -5125,8 +5125,8 @@ export ReplaceRouteResponseType
 
 
 type DeleteRouteType
-    routeTableId::Union{ASCIIString, Void}
-    destinationCidrBlock::Union{ASCIIString, Void}
+    routeTableId::Union{String, Void}
+    destinationCidrBlock::Union{String, Void}
 
     DeleteRouteType(; routeTableId=nothing, destinationCidrBlock=nothing) =
          new(routeTableId, destinationCidrBlock)
@@ -5142,7 +5142,7 @@ export DeleteRouteType
 
 
 type DeleteRouteResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     DeleteRouteResponseType(; requestId=nothing, _return=nothing) =
@@ -5159,7 +5159,7 @@ export DeleteRouteResponseType
 
 
 type CreateNetworkAclType
-    vpcId::Union{ASCIIString, Void}
+    vpcId::Union{String, Void}
 
     CreateNetworkAclType(; vpcId=nothing) =
          new(vpcId)
@@ -5208,9 +5208,9 @@ export PortRangeType
 
 
 type NetworkAclAssociationType
-    networkAclAssociationId::Union{ASCIIString, Void}
-    networkAclId::Union{ASCIIString, Void}
-    subnetId::Union{ASCIIString, Void}
+    networkAclAssociationId::Union{String, Void}
+    networkAclId::Union{String, Void}
+    subnetId::Union{String, Void}
 
     NetworkAclAssociationType(; networkAclAssociationId=nothing, networkAclId=nothing, subnetId=nothing) =
          new(networkAclAssociationId, networkAclId, subnetId)
@@ -5227,7 +5227,7 @@ export NetworkAclAssociationType
 
 
 type NetworkAclIdSetItemType
-    networkAclId::Union{ASCIIString, Void}
+    networkAclId::Union{String, Void}
 
     NetworkAclIdSetItemType(; networkAclId=nothing) =
          new(networkAclId)
@@ -5242,7 +5242,7 @@ export NetworkAclIdSetItemType
 
 
 type DeleteNetworkAclType
-    networkAclId::Union{ASCIIString, Void}
+    networkAclId::Union{String, Void}
 
     DeleteNetworkAclType(; networkAclId=nothing) =
          new(networkAclId)
@@ -5257,7 +5257,7 @@ export DeleteNetworkAclType
 
 
 type DeleteNetworkAclResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     DeleteNetworkAclResponseType(; requestId=nothing, _return=nothing) =
@@ -5274,8 +5274,8 @@ export DeleteNetworkAclResponseType
 
 
 type ReplaceNetworkAclAssociationType
-    associationId::Union{ASCIIString, Void}
-    networkAclId::Union{ASCIIString, Void}
+    associationId::Union{String, Void}
+    networkAclId::Union{String, Void}
 
     ReplaceNetworkAclAssociationType(; associationId=nothing, networkAclId=nothing) =
          new(associationId, networkAclId)
@@ -5291,8 +5291,8 @@ export ReplaceNetworkAclAssociationType
 
 
 type ReplaceNetworkAclAssociationResponseType
-    requestId::Union{ASCIIString, Void}
-    newAssociationId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
+    newAssociationId::Union{String, Void}
 
     ReplaceNetworkAclAssociationResponseType(; requestId=nothing, newAssociationId=nothing) =
          new(requestId, newAssociationId)
@@ -5308,7 +5308,7 @@ export ReplaceNetworkAclAssociationResponseType
 
 
 type CreateNetworkAclEntryResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     CreateNetworkAclEntryResponseType(; requestId=nothing, _return=nothing) =
@@ -5325,7 +5325,7 @@ export CreateNetworkAclEntryResponseType
 
 
 type ReplaceNetworkAclEntryResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     ReplaceNetworkAclEntryResponseType(; requestId=nothing, _return=nothing) =
@@ -5342,7 +5342,7 @@ export ReplaceNetworkAclEntryResponseType
 
 
 type DeleteNetworkAclEntryType
-    networkAclId::Union{ASCIIString, Void}
+    networkAclId::Union{String, Void}
     ruleNumber::Union{Int64, Void}
     egress::Union{Bool, Void}
 
@@ -5361,7 +5361,7 @@ export DeleteNetworkAclEntryType
 
 
 type DeleteNetworkAclEntryResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     DeleteNetworkAclEntryResponseType(; requestId=nothing, _return=nothing) =
@@ -5378,8 +5378,8 @@ export DeleteNetworkAclEntryResponseType
 
 
 type InstanceStatusDetailsSetItemType
-    name::Union{ASCIIString, Void}
-    status::Union{ASCIIString, Void}
+    name::Union{String, Void}
+    status::Union{String, Void}
     impairedSince::Union{Base.Dates.DateTime, Void}
 
     InstanceStatusDetailsSetItemType(; name=nothing, status=nothing, impairedSince=nothing) =
@@ -5397,8 +5397,8 @@ export InstanceStatusDetailsSetItemType
 
 
 type InstanceStatusEventType
-    code::Union{ASCIIString, Void}
-    description::Union{ASCIIString, Void}
+    code::Union{String, Void}
+    description::Union{String, Void}
     notBefore::Union{Base.Dates.DateTime, Void}
     notAfter::Union{Base.Dates.DateTime, Void}
 
@@ -5418,23 +5418,23 @@ export InstanceStatusEventType
 
 
 type ReportInstanceStatusType
-    instancesSet::Union{Vector{ASCIIString}, Void}
-    status::Union{ASCIIString, Void}
+    instancesSet::Union{Vector{String}, Void}
+    status::Union{String, Void}
     startTime::Union{Base.Dates.DateTime, Void}
     endTime::Union{Base.Dates.DateTime, Void}
-    reasonCodesSet::Union{Vector{ASCIIString}, Void}
-    description::Union{ASCIIString, Void}
+    reasonCodesSet::Union{Vector{String}, Void}
+    description::Union{String, Void}
 
     ReportInstanceStatusType(; instancesSet=nothing, status=nothing, startTime=nothing, endTime=nothing, reasonCodesSet=nothing, description=nothing) =
          new(instancesSet, status, startTime, endTime, reasonCodesSet, description)
 end
 function ReportInstanceStatusType(pd)
     o = ReportInstanceStatusType()
-    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
+    o.instancesSet = AWS.parse_vector_as(String, "instanceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
     o.status = LightXML.content(LightXML.find_element(pd, "status"))
     o.startTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "startTime")))
     o.endTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "endTime")))
-    o.reasonCodesSet = AWS.parse_vector_as(ASCIIString, "reasonCode", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "reasonCode"))
+    o.reasonCodesSet = AWS.parse_vector_as(String, "reasonCode", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "reasonCode"))
     o.description = LightXML.content(LightXML.find_element(pd, "description"))
     o
 end
@@ -5443,7 +5443,7 @@ export ReportInstanceStatusType
 
 
 type ReportInstanceStatusReasonCodeSetItemType
-    reasonCode::Union{ASCIIString, Void}
+    reasonCode::Union{String, Void}
 
     ReportInstanceStatusReasonCodeSetItemType(; reasonCode=nothing) =
          new(reasonCode)
@@ -5458,7 +5458,7 @@ export ReportInstanceStatusReasonCodeSetItemType
 
 
 type ReportInstanceStatusResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     ReportInstanceStatusResponseType(; requestId=nothing, _return=nothing) =
@@ -5475,7 +5475,7 @@ export ReportInstanceStatusResponseType
 
 
 type NetworkInterfaceIdSetItemType
-    networkInterfaceId::Union{ASCIIString, Void}
+    networkInterfaceId::Union{String, Void}
 
     NetworkInterfaceIdSetItemType(; networkInterfaceId=nothing) =
          new(networkInterfaceId)
@@ -5490,11 +5490,11 @@ export NetworkInterfaceIdSetItemType
 
 
 type NetworkInterfaceAttachmentType
-    attachmentId::Union{ASCIIString, Void}
-    instanceId::Union{ASCIIString, Void}
-    instanceOwnerId::Union{ASCIIString, Void}
+    attachmentId::Union{String, Void}
+    instanceId::Union{String, Void}
+    instanceOwnerId::Union{String, Void}
     deviceIndex::Union{Int64, Void}
-    status::Union{ASCIIString, Void}
+    status::Union{String, Void}
     attachTime::Union{Base.Dates.DateTime, Void}
     deleteOnTermination::Union{Bool, Void}
 
@@ -5517,11 +5517,11 @@ export NetworkInterfaceAttachmentType
 
 
 type NetworkInterfaceAssociationType
-    publicIp::Union{ASCIIString, Void}
-    publicDnsName::Union{ASCIIString, Void}
-    ipOwnerId::Union{ASCIIString, Void}
-    allocationId::Union{ASCIIString, Void}
-    associationId::Union{ASCIIString, Void}
+    publicIp::Union{String, Void}
+    publicDnsName::Union{String, Void}
+    ipOwnerId::Union{String, Void}
+    allocationId::Union{String, Void}
+    associationId::Union{String, Void}
 
     NetworkInterfaceAssociationType(; publicIp=nothing, publicDnsName=nothing, ipOwnerId=nothing, allocationId=nothing, associationId=nothing) =
          new(publicIp, publicDnsName, ipOwnerId, allocationId, associationId)
@@ -5540,7 +5540,7 @@ export NetworkInterfaceAssociationType
 
 
 type DeleteNetworkInterfaceType
-    networkInterfaceId::Union{ASCIIString, Void}
+    networkInterfaceId::Union{String, Void}
 
     DeleteNetworkInterfaceType(; networkInterfaceId=nothing) =
          new(networkInterfaceId)
@@ -5555,7 +5555,7 @@ export DeleteNetworkInterfaceType
 
 
 type DeleteNetworkInterfaceResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     DeleteNetworkInterfaceResponseType(; requestId=nothing, _return=nothing) =
@@ -5572,8 +5572,8 @@ export DeleteNetworkInterfaceResponseType
 
 
 type AttachNetworkInterfaceType
-    networkInterfaceId::Union{ASCIIString, Void}
-    instanceId::Union{ASCIIString, Void}
+    networkInterfaceId::Union{String, Void}
+    instanceId::Union{String, Void}
     deviceIndex::Union{Int64, Void}
 
     AttachNetworkInterfaceType(; networkInterfaceId=nothing, instanceId=nothing, deviceIndex=nothing) =
@@ -5591,8 +5591,8 @@ export AttachNetworkInterfaceType
 
 
 type AttachNetworkInterfaceResponseType
-    requestId::Union{ASCIIString, Void}
-    attachmentId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
+    attachmentId::Union{String, Void}
 
     AttachNetworkInterfaceResponseType(; requestId=nothing, attachmentId=nothing) =
          new(requestId, attachmentId)
@@ -5608,7 +5608,7 @@ export AttachNetworkInterfaceResponseType
 
 
 type DetachNetworkInterfaceType
-    attachmentId::Union{ASCIIString, Void}
+    attachmentId::Union{String, Void}
     force::Union{Bool, Void}
 
     DetachNetworkInterfaceType(; attachmentId=nothing, force=nothing) =
@@ -5625,7 +5625,7 @@ export DetachNetworkInterfaceType
 
 
 type DetachNetworkInterfaceResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     DetachNetworkInterfaceResponseType(; requestId=nothing, _return=nothing) =
@@ -5642,7 +5642,7 @@ export DetachNetworkInterfaceResponseType
 
 
 type DescribeNetworkInterfaceAttributeType
-    networkInterfaceId::Union{ASCIIString, Void}
+    networkInterfaceId::Union{String, Void}
 
     DescribeNetworkInterfaceAttributeType(; networkInterfaceId=nothing) =
          new(networkInterfaceId)
@@ -5657,8 +5657,8 @@ export DescribeNetworkInterfaceAttributeType
 
 
 type DescribeNetworkInterfaceAttributeResponseType
-    requestId::Union{ASCIIString, Void}
-    networkInterfaceId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
+    networkInterfaceId::Union{String, Void}
 
     DescribeNetworkInterfaceAttributeResponseType(; requestId=nothing, networkInterfaceId=nothing) =
          new(requestId, networkInterfaceId)
@@ -5674,7 +5674,7 @@ export DescribeNetworkInterfaceAttributeResponseType
 
 
 type ModifyNetworkInterfaceAttributeType
-    networkInterfaceId::Union{ASCIIString, Void}
+    networkInterfaceId::Union{String, Void}
 
     ModifyNetworkInterfaceAttributeType(; networkInterfaceId=nothing) =
          new(networkInterfaceId)
@@ -5689,7 +5689,7 @@ export ModifyNetworkInterfaceAttributeType
 
 
 type ModifyNetworkInterfaceAttachmentType
-    attachmentId::Union{ASCIIString, Void}
+    attachmentId::Union{String, Void}
     deleteOnTermination::Union{Bool, Void}
 
     ModifyNetworkInterfaceAttachmentType(; attachmentId=nothing, deleteOnTermination=nothing) =
@@ -5706,7 +5706,7 @@ export ModifyNetworkInterfaceAttachmentType
 
 
 type ModifyNetworkInterfaceAttributeResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     ModifyNetworkInterfaceAttributeResponseType(; requestId=nothing, _return=nothing) =
@@ -5723,7 +5723,7 @@ export ModifyNetworkInterfaceAttributeResponseType
 
 
 type ResetNetworkInterfaceAttributeType
-    networkInterfaceId::Union{ASCIIString, Void}
+    networkInterfaceId::Union{String, Void}
 
     ResetNetworkInterfaceAttributeType(; networkInterfaceId=nothing) =
          new(networkInterfaceId)
@@ -5738,7 +5738,7 @@ export ResetNetworkInterfaceAttributeType
 
 
 type ResetNetworkInterfaceAttributeResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     ResetNetworkInterfaceAttributeResponseType(; requestId=nothing, _return=nothing) =
@@ -5755,8 +5755,8 @@ export ResetNetworkInterfaceAttributeResponseType
 
 
 type AssignPrivateIpAddressesType
-    networkInterfaceId::Union{ASCIIString, Void}
-    privateIpAddressesSet::Union{Vector{ASCIIString}, Void}
+    networkInterfaceId::Union{String, Void}
+    privateIpAddressesSet::Union{Vector{String}, Void}
     secondaryPrivateIpAddressCount::Union{Int64, Void}
     allowReassignment::Union{Bool, Void}
 
@@ -5766,7 +5766,7 @@ end
 function AssignPrivateIpAddressesType(pd)
     o = AssignPrivateIpAddressesType()
     o.networkInterfaceId = LightXML.content(LightXML.find_element(pd, "networkInterfaceId"))
-    o.privateIpAddressesSet = AWS.parse_vector_as(ASCIIString, "privateIpAddress", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "privateIpAddress"))
+    o.privateIpAddressesSet = AWS.parse_vector_as(String, "privateIpAddress", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "privateIpAddress"))
     o.secondaryPrivateIpAddressCount = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "secondaryPrivateIpAddressCount")))
     o.allowReassignment = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "allowReassignment")))
     o
@@ -5776,7 +5776,7 @@ export AssignPrivateIpAddressesType
 
 
 type AssignPrivateIpAddressesResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     AssignPrivateIpAddressesResponseType(; requestId=nothing, _return=nothing) =
@@ -5793,8 +5793,8 @@ export AssignPrivateIpAddressesResponseType
 
 
 type UnassignPrivateIpAddressesType
-    networkInterfaceId::Union{ASCIIString, Void}
-    privateIpAddressesSet::Union{Vector{ASCIIString}, Void}
+    networkInterfaceId::Union{String, Void}
+    privateIpAddressesSet::Union{Vector{String}, Void}
 
     UnassignPrivateIpAddressesType(; networkInterfaceId=nothing, privateIpAddressesSet=nothing) =
          new(networkInterfaceId, privateIpAddressesSet)
@@ -5802,7 +5802,7 @@ end
 function UnassignPrivateIpAddressesType(pd)
     o = UnassignPrivateIpAddressesType()
     o.networkInterfaceId = LightXML.content(LightXML.find_element(pd, "networkInterfaceId"))
-    o.privateIpAddressesSet = AWS.parse_vector_as(ASCIIString, "privateIpAddress", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "privateIpAddress"))
+    o.privateIpAddressesSet = AWS.parse_vector_as(String, "privateIpAddress", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "privateIpAddress"))
     o
 end
 
@@ -5810,7 +5810,7 @@ export UnassignPrivateIpAddressesType
 
 
 type UnassignPrivateIpAddressesResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     UnassignPrivateIpAddressesResponseType(; requestId=nothing, _return=nothing) =
@@ -5827,7 +5827,7 @@ export UnassignPrivateIpAddressesResponseType
 
 
 type AssignPrivateIpAddressesSetItemRequestType
-    privateIpAddress::Union{ASCIIString, Void}
+    privateIpAddress::Union{String, Void}
 
     AssignPrivateIpAddressesSetItemRequestType(; privateIpAddress=nothing) =
          new(privateIpAddress)
@@ -5842,8 +5842,8 @@ export AssignPrivateIpAddressesSetItemRequestType
 
 
 type VolumeStatusDetailsItemType
-    name::Union{ASCIIString, Void}
-    status::Union{ASCIIString, Void}
+    name::Union{String, Void}
+    status::Union{String, Void}
 
     VolumeStatusDetailsItemType(; name=nothing, status=nothing) =
          new(name, status)
@@ -5859,11 +5859,11 @@ export VolumeStatusDetailsItemType
 
 
 type VolumeStatusEventItemType
-    description::Union{ASCIIString, Void}
+    description::Union{String, Void}
     notBefore::Union{Base.Dates.DateTime, Void}
     notAfter::Union{Base.Dates.DateTime, Void}
-    eventId::Union{ASCIIString, Void}
-    eventType::Union{ASCIIString, Void}
+    eventId::Union{String, Void}
+    eventType::Union{String, Void}
 
     VolumeStatusEventItemType(; description=nothing, notBefore=nothing, notAfter=nothing, eventId=nothing, eventType=nothing) =
          new(description, notBefore, notAfter, eventId, eventType)
@@ -5882,10 +5882,10 @@ export VolumeStatusEventItemType
 
 
 type VolumeStatusActionItemType
-    description::Union{ASCIIString, Void}
-    code::Union{ASCIIString, Void}
-    eventId::Union{ASCIIString, Void}
-    eventType::Union{ASCIIString, Void}
+    description::Union{String, Void}
+    code::Union{String, Void}
+    eventId::Union{String, Void}
+    eventType::Union{String, Void}
 
     VolumeStatusActionItemType(; description=nothing, code=nothing, eventId=nothing, eventType=nothing) =
          new(description, code, eventId, eventType)
@@ -5903,7 +5903,7 @@ export VolumeStatusActionItemType
 
 
 type EnableVolumeIOType
-    volumeId::Union{ASCIIString, Void}
+    volumeId::Union{String, Void}
 
     EnableVolumeIOType(; volumeId=nothing) =
          new(volumeId)
@@ -5918,7 +5918,7 @@ export EnableVolumeIOType
 
 
 type EnableVolumeIOResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     EnableVolumeIOResponseType(; requestId=nothing, _return=nothing) =
@@ -5935,7 +5935,7 @@ export EnableVolumeIOResponseType
 
 
 type ModifyVolumeAttributeType
-    volumeId::Union{ASCIIString, Void}
+    volumeId::Union{String, Void}
 
     ModifyVolumeAttributeType(; volumeId=nothing) =
          new(volumeId)
@@ -5950,7 +5950,7 @@ export ModifyVolumeAttributeType
 
 
 type ModifyVolumeAttributeResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     _return::Union{Bool, Void}
 
     ModifyVolumeAttributeResponseType(; requestId=nothing, _return=nothing) =
@@ -5967,7 +5967,7 @@ export ModifyVolumeAttributeResponseType
 
 
 type DescribeVolumeAttributeType
-    volumeId::Union{ASCIIString, Void}
+    volumeId::Union{String, Void}
 
     DescribeVolumeAttributeType(; volumeId=nothing) =
          new(volumeId)
@@ -5982,8 +5982,8 @@ export DescribeVolumeAttributeType
 
 
 type DescribeVolumeAttributeResponseType
-    requestId::Union{ASCIIString, Void}
-    volumeId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
+    volumeId::Union{String, Void}
 
     DescribeVolumeAttributeResponseType(; requestId=nothing, volumeId=nothing) =
          new(requestId, volumeId)
@@ -6016,20 +6016,20 @@ export LaunchPermissionOperationType
 
 
 type DescribeReservedInstancesResponseSetItemType
-    reservedInstancesId::Union{ASCIIString, Void}
-    instanceType::Union{ASCIIString, Void}
-    availabilityZone::Union{ASCIIString, Void}
+    reservedInstancesId::Union{String, Void}
+    instanceType::Union{String, Void}
+    availabilityZone::Union{String, Void}
     start::Union{Base.Dates.DateTime, Void}
     duration::Union{Int64, Void}
     fixedPrice::Union{Float64, Void}
     usagePrice::Union{Float64, Void}
     instanceCount::Union{Int64, Void}
-    productDescription::Union{ASCIIString, Void}
-    state::Union{ASCIIString, Void}
+    productDescription::Union{String, Void}
+    state::Union{String, Void}
     tagSet::Union{Vector{ResourceTagSetItemType}, Void}
-    instanceTenancy::Union{ASCIIString, Void}
-    currencyCode::Union{ASCIIString, Void}
-    offeringType::Union{ASCIIString, Void}
+    instanceTenancy::Union{String, Void}
+    currencyCode::Union{String, Void}
+    offeringType::Union{String, Void}
     recurringCharges::Union{Vector{RecurringChargesSetItemType}, Void}
 
     DescribeReservedInstancesResponseSetItemType(; reservedInstancesId=nothing, instanceType=nothing, availabilityZone=nothing, start=nothing, duration=nothing, fixedPrice=nothing, usagePrice=nothing, instanceCount=nothing, productDescription=nothing, state=nothing, tagSet=nothing, instanceTenancy=nothing, currencyCode=nothing, offeringType=nothing, recurringCharges=nothing) =
@@ -6059,7 +6059,7 @@ export DescribeReservedInstancesResponseSetItemType
 
 
 type CancelSpotInstanceRequestsResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     spotInstanceRequestSet::Union{Vector{CancelSpotInstanceRequestsResponseSetItemType}, Void}
 
     CancelSpotInstanceRequestsResponseType(; requestId=nothing, spotInstanceRequestSet=nothing) =
@@ -6091,9 +6091,9 @@ export CreateDhcpOptionsType
 
 
 type DescribeInstanceStatusType
-    instancesSet::Union{Vector{ASCIIString}, Void}
+    instancesSet::Union{Vector{String}, Void}
     filterSet::Union{Vector{FilterType}, Void}
-    nextToken::Union{ASCIIString, Void}
+    nextToken::Union{String, Void}
     maxResults::Union{Int64, Void}
     includeAllInstances::Union{Bool, Void}
 
@@ -6102,7 +6102,7 @@ type DescribeInstanceStatusType
 end
 function DescribeInstanceStatusType(pd)
     o = DescribeInstanceStatusType()
-    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
+    o.instancesSet = AWS.parse_vector_as(String, "instanceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
     o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
     o.maxResults = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "maxResults")))
@@ -6114,7 +6114,7 @@ export DescribeInstanceStatusType
 
 
 type DescribePlacementGroupsType
-    placementGroupSet::Union{Vector{ASCIIString}, Void}
+    placementGroupSet::Union{Vector{String}, Void}
     filterSet::Union{Vector{FilterType}, Void}
 
     DescribePlacementGroupsType(; placementGroupSet=nothing, filterSet=nothing) =
@@ -6122,7 +6122,7 @@ type DescribePlacementGroupsType
 end
 function DescribePlacementGroupsType(pd)
     o = DescribePlacementGroupsType()
-    o.placementGroupSet = AWS.parse_vector_as(ASCIIString, "groupName", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "groupName"))
+    o.placementGroupSet = AWS.parse_vector_as(String, "groupName", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "groupName"))
     o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
@@ -6131,13 +6131,13 @@ export DescribePlacementGroupsType
 
 
 type RegisterImageType
-    imageLocation::Union{ASCIIString, Void}
-    name::Union{ASCIIString, Void}
-    description::Union{ASCIIString, Void}
-    architecture::Union{ASCIIString, Void}
-    kernelId::Union{ASCIIString, Void}
-    ramdiskId::Union{ASCIIString, Void}
-    rootDeviceName::Union{ASCIIString, Void}
+    imageLocation::Union{String, Void}
+    name::Union{String, Void}
+    description::Union{String, Void}
+    architecture::Union{String, Void}
+    kernelId::Union{String, Void}
+    ramdiskId::Union{String, Void}
+    rootDeviceName::Union{String, Void}
     blockDeviceMapping::Union{Vector{BlockDeviceMappingItemType}, Void}
 
     RegisterImageType(; imageLocation=nothing, name=nothing, description=nothing, architecture=nothing, kernelId=nothing, ramdiskId=nothing, rootDeviceName=nothing, blockDeviceMapping=nothing) =
@@ -6160,7 +6160,7 @@ export RegisterImageType
 
 
 type DescribeNetworkInterfacesType
-    networkInterfaceIdSet::Union{Vector{ASCIIString}, Void}
+    networkInterfaceIdSet::Union{Vector{String}, Void}
     filterSet::Union{Vector{FilterType}, Void}
 
     DescribeNetworkInterfacesType(; networkInterfaceIdSet=nothing, filterSet=nothing) =
@@ -6168,7 +6168,7 @@ type DescribeNetworkInterfacesType
 end
 function DescribeNetworkInterfacesType(pd)
     o = DescribeNetworkInterfacesType()
-    o.networkInterfaceIdSet = AWS.parse_vector_as(ASCIIString, "networkInterfaceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "networkInterfaceId"))
+    o.networkInterfaceIdSet = AWS.parse_vector_as(String, "networkInterfaceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "networkInterfaceId"))
     o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
@@ -6177,10 +6177,10 @@ export DescribeNetworkInterfacesType
 
 
 type CreateReservedInstancesListingType
-    reservedInstancesId::Union{ASCIIString, Void}
+    reservedInstancesId::Union{String, Void}
     instanceCount::Union{Int64, Void}
     priceSchedules::Union{Vector{PriceScheduleRequestSetItemType}, Void}
-    clientToken::Union{ASCIIString, Void}
+    clientToken::Union{String, Void}
 
     CreateReservedInstancesListingType(; reservedInstancesId=nothing, instanceCount=nothing, priceSchedules=nothing, clientToken=nothing) =
          new(reservedInstancesId, instanceCount, priceSchedules, clientToken)
@@ -6198,7 +6198,7 @@ export CreateReservedInstancesListingType
 
 
 type DescribeVpnGatewaysType
-    vpnGatewaySet::Union{Vector{ASCIIString}, Void}
+    vpnGatewaySet::Union{Vector{String}, Void}
     filterSet::Union{Vector{FilterType}, Void}
 
     DescribeVpnGatewaysType(; vpnGatewaySet=nothing, filterSet=nothing) =
@@ -6206,7 +6206,7 @@ type DescribeVpnGatewaysType
 end
 function DescribeVpnGatewaysType(pd)
     o = DescribeVpnGatewaysType()
-    o.vpnGatewaySet = AWS.parse_vector_as(ASCIIString, "vpnGatewayId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "vpnGatewayId"))
+    o.vpnGatewaySet = AWS.parse_vector_as(String, "vpnGatewayId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "vpnGatewayId"))
     o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
@@ -6215,17 +6215,17 @@ export DescribeVpnGatewaysType
 
 
 type DescribeVolumeStatusType
-    volumeSet::Union{Vector{ASCIIString}, Void}
+    volumeSet::Union{Vector{String}, Void}
     filterSet::Union{Vector{FilterType}, Void}
     maxResults::Union{Int64, Void}
-    nextToken::Union{ASCIIString, Void}
+    nextToken::Union{String, Void}
 
     DescribeVolumeStatusType(; volumeSet=nothing, filterSet=nothing, maxResults=nothing, nextToken=nothing) =
          new(volumeSet, filterSet, maxResults, nextToken)
 end
 function DescribeVolumeStatusType(pd)
     o = DescribeVolumeStatusType()
-    o.volumeSet = AWS.parse_vector_as(ASCIIString, "volumeId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "volumeId"))
+    o.volumeSet = AWS.parse_vector_as(String, "volumeId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "volumeId"))
     o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o.maxResults = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "maxResults")))
     o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
@@ -6236,7 +6236,7 @@ export DescribeVolumeStatusType
 
 
 type DhcpOptionsType
-    dhcpOptionsId::Union{ASCIIString, Void}
+    dhcpOptionsId::Union{String, Void}
     dhcpConfigurationSet::Union{Vector{DhcpConfigurationItemType}, Void}
     tagSet::Union{Vector{ResourceTagSetItemType}, Void}
 
@@ -6256,12 +6256,12 @@ export DhcpOptionsType
 
 type ImportInstanceVolumeDetailItemType
     bytesConverted::Union{Int64, Void}
-    availabilityZone::Union{ASCIIString, Void}
+    availabilityZone::Union{String, Void}
     image::Union{DiskImageDescriptionType, Void}
-    description::Union{ASCIIString, Void}
+    description::Union{String, Void}
     volume::Union{DiskImageVolumeDescriptionType, Void}
-    status::Union{ASCIIString, Void}
-    statusMessage::Union{ASCIIString, Void}
+    status::Union{String, Void}
+    statusMessage::Union{String, Void}
 
     ImportInstanceVolumeDetailItemType(; bytesConverted=nothing, availabilityZone=nothing, image=nothing, description=nothing, volume=nothing, status=nothing, statusMessage=nothing) =
          new(bytesConverted, availabilityZone, image, description, volume, status, statusMessage)
@@ -6284,7 +6284,7 @@ export ImportInstanceVolumeDetailItemType
 
 
 type DescribeExportTasksResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     exportTaskSet::Union{Vector{ExportTaskResponseType}, Void}
 
     DescribeExportTasksResponseType(; requestId=nothing, exportTaskSet=nothing) =
@@ -6301,8 +6301,8 @@ export DescribeExportTasksResponseType
 
 
 type DescribeSecurityGroupsType
-    securityGroupSet::Union{Vector{ASCIIString}, Void}
-    securityGroupIdSet::Union{Vector{ASCIIString}, Void}
+    securityGroupSet::Union{Vector{String}, Void}
+    securityGroupIdSet::Union{Vector{String}, Void}
     filterSet::Union{Vector{FilterType}, Void}
 
     DescribeSecurityGroupsType(; securityGroupSet=nothing, securityGroupIdSet=nothing, filterSet=nothing) =
@@ -6310,8 +6310,8 @@ type DescribeSecurityGroupsType
 end
 function DescribeSecurityGroupsType(pd)
     o = DescribeSecurityGroupsType()
-    o.securityGroupSet = AWS.parse_vector_as(ASCIIString, "groupName", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "groupName"))
-    o.securityGroupIdSet = AWS.parse_vector_as(ASCIIString, "groupId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "groupId"))
+    o.securityGroupSet = AWS.parse_vector_as(String, "groupName", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "groupName"))
+    o.securityGroupIdSet = AWS.parse_vector_as(String, "groupId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "groupId"))
     o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
@@ -6320,7 +6320,7 @@ export DescribeSecurityGroupsType
 
 
 type InstanceStatusType
-    status::Union{ASCIIString, Void}
+    status::Union{String, Void}
     details::Union{Vector{InstanceStatusDetailsSetItemType}, Void}
 
     InstanceStatusType(; status=nothing, details=nothing) =
@@ -6337,27 +6337,27 @@ export InstanceStatusType
 
 
 type DescribeImagesResponseItemType
-    imageId::Union{ASCIIString, Void}
-    imageLocation::Union{ASCIIString, Void}
-    imageState::Union{ASCIIString, Void}
-    imageOwnerId::Union{ASCIIString, Void}
+    imageId::Union{String, Void}
+    imageLocation::Union{String, Void}
+    imageState::Union{String, Void}
+    imageOwnerId::Union{String, Void}
     isPublic::Union{Bool, Void}
     productCodes::Union{Vector{ProductCodesSetItemType}, Void}
-    architecture::Union{ASCIIString, Void}
-    imageType::Union{ASCIIString, Void}
-    kernelId::Union{ASCIIString, Void}
-    ramdiskId::Union{ASCIIString, Void}
-    platform::Union{ASCIIString, Void}
+    architecture::Union{String, Void}
+    imageType::Union{String, Void}
+    kernelId::Union{String, Void}
+    ramdiskId::Union{String, Void}
+    platform::Union{String, Void}
     stateReason::Union{StateReasonType, Void}
-    imageOwnerAlias::Union{ASCIIString, Void}
-    name::Union{ASCIIString, Void}
-    description::Union{ASCIIString, Void}
-    rootDeviceType::Union{ASCIIString, Void}
-    rootDeviceName::Union{ASCIIString, Void}
+    imageOwnerAlias::Union{String, Void}
+    name::Union{String, Void}
+    description::Union{String, Void}
+    rootDeviceType::Union{String, Void}
+    rootDeviceName::Union{String, Void}
     blockDeviceMapping::Union{Vector{BlockDeviceMappingItemType}, Void}
-    virtualizationType::Union{ASCIIString, Void}
+    virtualizationType::Union{String, Void}
     tagSet::Union{Vector{ResourceTagSetItemType}, Void}
-    hypervisor::Union{ASCIIString, Void}
+    hypervisor::Union{String, Void}
 
     DescribeImagesResponseItemType(; imageId=nothing, imageLocation=nothing, imageState=nothing, imageOwnerId=nothing, isPublic=nothing, productCodes=nothing, architecture=nothing, imageType=nothing, kernelId=nothing, ramdiskId=nothing, platform=nothing, stateReason=nothing, imageOwnerAlias=nothing, name=nothing, description=nothing, rootDeviceType=nothing, rootDeviceName=nothing, blockDeviceMapping=nothing, virtualizationType=nothing, tagSet=nothing, hypervisor=nothing) =
          new(imageId, imageLocation, imageState, imageOwnerId, isPublic, productCodes, architecture, imageType, kernelId, ramdiskId, platform, stateReason, imageOwnerAlias, name, description, rootDeviceType, rootDeviceName, blockDeviceMapping, virtualizationType, tagSet, hypervisor)
@@ -6393,7 +6393,7 @@ export DescribeImagesResponseItemType
 
 
 type DescribeBundleTasksType
-    bundlesSet::Union{Vector{ASCIIString}, Void}
+    bundlesSet::Union{Vector{String}, Void}
     filterSet::Union{Vector{FilterType}, Void}
 
     DescribeBundleTasksType(; bundlesSet=nothing, filterSet=nothing) =
@@ -6401,7 +6401,7 @@ type DescribeBundleTasksType
 end
 function DescribeBundleTasksType(pd)
     o = DescribeBundleTasksType()
-    o.bundlesSet = AWS.parse_vector_as(ASCIIString, "bundleId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "bundleId"))
+    o.bundlesSet = AWS.parse_vector_as(String, "bundleId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "bundleId"))
     o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
@@ -6410,7 +6410,7 @@ export DescribeBundleTasksType
 
 
 type DeleteTagsType
-    resourcesSet::Union{Vector{ASCIIString}, Void}
+    resourcesSet::Union{Vector{String}, Void}
     tagSet::Union{Vector{DeleteTagsSetItemType}, Void}
 
     DeleteTagsType(; resourcesSet=nothing, tagSet=nothing) =
@@ -6418,7 +6418,7 @@ type DeleteTagsType
 end
 function DeleteTagsType(pd)
     o = DeleteTagsType()
-    o.resourcesSet = AWS.parse_vector_as(ASCIIString, "resourceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "resourceId"))
+    o.resourcesSet = AWS.parse_vector_as(String, "resourceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "resourceId"))
     o.tagSet = AWS.@parse_vector(AWS.EC2.DeleteTagsSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
     o
 end
@@ -6427,10 +6427,10 @@ export DeleteTagsType
 
 
 type SpotDatafeedSubscriptionType
-    ownerId::Union{ASCIIString, Void}
-    bucket::Union{ASCIIString, Void}
-    prefix::Union{ASCIIString, Void}
-    state::Union{ASCIIString, Void}
+    ownerId::Union{String, Void}
+    bucket::Union{String, Void}
+    prefix::Union{String, Void}
+    state::Union{String, Void}
     fault::Union{SpotInstanceStateFaultType, Void}
 
     SpotDatafeedSubscriptionType(; ownerId=nothing, bucket=nothing, prefix=nothing, state=nothing, fault=nothing) =
@@ -6451,7 +6451,7 @@ export SpotDatafeedSubscriptionType
 
 
 type DescribeNetworkAclsType
-    networkAclIdSet::Union{Vector{ASCIIString}, Void}
+    networkAclIdSet::Union{Vector{String}, Void}
     filterSet::Union{Vector{FilterType}, Void}
 
     DescribeNetworkAclsType(; networkAclIdSet=nothing, filterSet=nothing) =
@@ -6459,7 +6459,7 @@ type DescribeNetworkAclsType
 end
 function DescribeNetworkAclsType(pd)
     o = DescribeNetworkAclsType()
-    o.networkAclIdSet = AWS.parse_vector_as(ASCIIString, "networkAclId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "networkAclId"))
+    o.networkAclIdSet = AWS.parse_vector_as(String, "networkAclId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "networkAclId"))
     o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
@@ -6468,15 +6468,15 @@ export DescribeNetworkAclsType
 
 
 type DescribeVolumesSetItemResponseType
-    volumeId::Union{ASCIIString, Void}
-    size::Union{ASCIIString, Void}
-    snapshotId::Union{ASCIIString, Void}
-    availabilityZone::Union{ASCIIString, Void}
-    status::Union{ASCIIString, Void}
+    volumeId::Union{String, Void}
+    size::Union{String, Void}
+    snapshotId::Union{String, Void}
+    availabilityZone::Union{String, Void}
+    status::Union{String, Void}
     createTime::Union{Base.Dates.DateTime, Void}
     attachmentSet::Union{Vector{AttachmentSetItemResponseType}, Void}
     tagSet::Union{Vector{ResourceTagSetItemType}, Void}
-    volumeType::Union{ASCIIString, Void}
+    volumeType::Union{String, Void}
     iops::Union{Int64, Void}
 
     DescribeVolumesSetItemResponseType(; volumeId=nothing, size=nothing, snapshotId=nothing, availabilityZone=nothing, status=nothing, createTime=nothing, attachmentSet=nothing, tagSet=nothing, volumeType=nothing, iops=nothing) =
@@ -6501,7 +6501,7 @@ export DescribeVolumesSetItemResponseType
 
 
 type DescribeVolumesType
-    volumeSet::Union{Vector{ASCIIString}, Void}
+    volumeSet::Union{Vector{String}, Void}
     filterSet::Union{Vector{FilterType}, Void}
 
     DescribeVolumesType(; volumeSet=nothing, filterSet=nothing) =
@@ -6509,7 +6509,7 @@ type DescribeVolumesType
 end
 function DescribeVolumesType(pd)
     o = DescribeVolumesType()
-    o.volumeSet = AWS.parse_vector_as(ASCIIString, "volumeId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "volumeId"))
+    o.volumeSet = AWS.parse_vector_as(String, "volumeId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "volumeId"))
     o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
@@ -6518,7 +6518,7 @@ export DescribeVolumesType
 
 
 type DescribeDhcpOptionsType
-    dhcpOptionsSet::Union{Vector{ASCIIString}, Void}
+    dhcpOptionsSet::Union{Vector{String}, Void}
     filterSet::Union{Vector{FilterType}, Void}
 
     DescribeDhcpOptionsType(; dhcpOptionsSet=nothing, filterSet=nothing) =
@@ -6526,7 +6526,7 @@ type DescribeDhcpOptionsType
 end
 function DescribeDhcpOptionsType(pd)
     o = DescribeDhcpOptionsType()
-    o.dhcpOptionsSet = AWS.parse_vector_as(ASCIIString, "dhcpOptionsId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "dhcpOptionsId"))
+    o.dhcpOptionsSet = AWS.parse_vector_as(String, "dhcpOptionsId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "dhcpOptionsId"))
     o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
@@ -6535,7 +6535,7 @@ export DescribeDhcpOptionsType
 
 
 type CreateTagsType
-    resourcesSet::Union{Vector{ASCIIString}, Void}
+    resourcesSet::Union{Vector{String}, Void}
     tagSet::Union{Vector{ResourceTagSetItemType}, Void}
 
     CreateTagsType(; resourcesSet=nothing, tagSet=nothing) =
@@ -6543,7 +6543,7 @@ type CreateTagsType
 end
 function CreateTagsType(pd)
     o = CreateTagsType()
-    o.resourcesSet = AWS.parse_vector_as(ASCIIString, "resourceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "resourceId"))
+    o.resourcesSet = AWS.parse_vector_as(String, "resourceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "resourceId"))
     o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
     o
 end
@@ -6553,9 +6553,9 @@ export CreateTagsType
 
 type ImportInstanceTaskDetailsType
     volumes::Union{Vector{ImportInstanceVolumeDetailItemType}, Void}
-    instanceId::Union{ASCIIString, Void}
-    platform::Union{ASCIIString, Void}
-    description::Union{ASCIIString, Void}
+    instanceId::Union{String, Void}
+    platform::Union{String, Void}
+    description::Union{String, Void}
 
     ImportInstanceTaskDetailsType(; volumes=nothing, instanceId=nothing, platform=nothing, description=nothing) =
          new(volumes, instanceId, platform, description)
@@ -6573,10 +6573,10 @@ export ImportInstanceTaskDetailsType
 
 
 type ConversionTaskType
-    conversionTaskId::Union{ASCIIString, Void}
-    expirationTime::Union{ASCIIString, Void}
-    state::Union{ASCIIString, Void}
-    statusMessage::Union{ASCIIString, Void}
+    conversionTaskId::Union{String, Void}
+    expirationTime::Union{String, Void}
+    state::Union{String, Void}
+    statusMessage::Union{String, Void}
     tagSet::Union{Vector{ResourceTagSetItemType}, Void}
 
     ConversionTaskType(; conversionTaskId=nothing, expirationTime=nothing, state=nothing, statusMessage=nothing, tagSet=nothing) =
@@ -6596,7 +6596,7 @@ export ConversionTaskType
 
 
 type CreateSpotDatafeedSubscriptionResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     spotDatafeedSubscription::Union{SpotDatafeedSubscriptionType, Void}
 
     CreateSpotDatafeedSubscriptionResponseType(; requestId=nothing, spotDatafeedSubscription=nothing) =
@@ -6614,7 +6614,7 @@ export CreateSpotDatafeedSubscriptionResponseType
 
 
 type DescribeCustomerGatewaysType
-    customerGatewaySet::Union{Vector{ASCIIString}, Void}
+    customerGatewaySet::Union{Vector{String}, Void}
     filterSet::Union{Vector{FilterType}, Void}
 
     DescribeCustomerGatewaysType(; customerGatewaySet=nothing, filterSet=nothing) =
@@ -6622,7 +6622,7 @@ type DescribeCustomerGatewaysType
 end
 function DescribeCustomerGatewaysType(pd)
     o = DescribeCustomerGatewaysType()
-    o.customerGatewaySet = AWS.parse_vector_as(ASCIIString, "customerGatewayId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "customerGatewayId"))
+    o.customerGatewaySet = AWS.parse_vector_as(String, "customerGatewayId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "customerGatewayId"))
     o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
@@ -6631,7 +6631,7 @@ export DescribeCustomerGatewaysType
 
 
 type DescribePlacementGroupsResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     placementGroupSet::Union{Vector{PlacementGroupInfoType}, Void}
 
     DescribePlacementGroupsResponseType(; requestId=nothing, placementGroupSet=nothing) =
@@ -6648,7 +6648,7 @@ export DescribePlacementGroupsResponseType
 
 
 type DescribeReservedInstancesResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     reservedInstancesSet::Union{Vector{DescribeReservedInstancesResponseSetItemType}, Void}
 
     DescribeReservedInstancesResponseType(; requestId=nothing, reservedInstancesSet=nothing) =
@@ -6665,12 +6665,12 @@ export DescribeReservedInstancesResponseType
 
 
 type ReplaceNetworkAclEntryType
-    networkAclId::Union{ASCIIString, Void}
+    networkAclId::Union{String, Void}
     ruleNumber::Union{Int64, Void}
-    protocol::Union{ASCIIString, Void}
-    ruleAction::Union{ASCIIString, Void}
+    protocol::Union{String, Void}
+    ruleAction::Union{String, Void}
     egress::Union{Bool, Void}
-    cidrBlock::Union{ASCIIString, Void}
+    cidrBlock::Union{String, Void}
     icmpTypeCode::Union{IcmpTypeCodeType, Void}
     portRange::Union{PortRangeType, Void}
 
@@ -6697,10 +6697,10 @@ export ReplaceNetworkAclEntryType
 
 type NetworkAclEntryType
     ruleNumber::Union{Int64, Void}
-    protocol::Union{ASCIIString, Void}
-    ruleAction::Union{ASCIIString, Void}
+    protocol::Union{String, Void}
+    ruleAction::Union{String, Void}
     egress::Union{Bool, Void}
-    cidrBlock::Union{ASCIIString, Void}
+    cidrBlock::Union{String, Void}
     icmpTypeCode::Union{IcmpTypeCodeType, Void}
     portRange::Union{PortRangeType, Void}
 
@@ -6725,7 +6725,7 @@ export NetworkAclEntryType
 
 
 type InternetGatewayType
-    internetGatewayId::Union{ASCIIString, Void}
+    internetGatewayId::Union{String, Void}
     attachmentSet::Union{Vector{InternetGatewayAttachmentType}, Void}
     tagSet::Union{Vector{ResourceTagSetItemType}, Void}
 
@@ -6744,7 +6744,7 @@ export InternetGatewayType
 
 
 type DescribeRegionsType
-    regionSet::Union{Vector{ASCIIString}, Void}
+    regionSet::Union{Vector{String}, Void}
     filterSet::Union{Vector{FilterType}, Void}
 
     DescribeRegionsType(; regionSet=nothing, filterSet=nothing) =
@@ -6752,7 +6752,7 @@ type DescribeRegionsType
 end
 function DescribeRegionsType(pd)
     o = DescribeRegionsType()
-    o.regionSet = AWS.parse_vector_as(ASCIIString, "regionName", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "regionName"))
+    o.regionSet = AWS.parse_vector_as(String, "regionName", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "regionName"))
     o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
@@ -6761,9 +6761,9 @@ export DescribeRegionsType
 
 
 type DescribeSnapshotsType
-    snapshotSet::Union{Vector{ASCIIString}, Void}
-    ownersSet::Union{Vector{ASCIIString}, Void}
-    restorableBySet::Union{Vector{ASCIIString}, Void}
+    snapshotSet::Union{Vector{String}, Void}
+    ownersSet::Union{Vector{String}, Void}
+    restorableBySet::Union{Vector{String}, Void}
     filterSet::Union{Vector{FilterType}, Void}
 
     DescribeSnapshotsType(; snapshotSet=nothing, ownersSet=nothing, restorableBySet=nothing, filterSet=nothing) =
@@ -6771,9 +6771,9 @@ type DescribeSnapshotsType
 end
 function DescribeSnapshotsType(pd)
     o = DescribeSnapshotsType()
-    o.snapshotSet = AWS.parse_vector_as(ASCIIString, "snapshotId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "snapshotId"))
-    o.ownersSet = AWS.parse_vector_as(ASCIIString, "owner", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "owner"))
-    o.restorableBySet = AWS.parse_vector_as(ASCIIString, "user", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "user"))
+    o.snapshotSet = AWS.parse_vector_as(String, "snapshotId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "snapshotId"))
+    o.ownersSet = AWS.parse_vector_as(String, "owner", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "owner"))
+    o.restorableBySet = AWS.parse_vector_as(String, "user", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "user"))
     o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
@@ -6782,7 +6782,7 @@ export DescribeSnapshotsType
 
 
 type DescribeKeyPairsResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     keySet::Union{Vector{DescribeKeyPairsResponseItemType}, Void}
 
     DescribeKeyPairsResponseType(; requestId=nothing, keySet=nothing) =
@@ -6799,7 +6799,7 @@ export DescribeKeyPairsResponseType
 
 
 type DescribeAvailabilityZonesResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     availabilityZoneInfo::Union{Vector{AvailabilityZoneItemType}, Void}
 
     DescribeAvailabilityZonesResponseType(; requestId=nothing, availabilityZoneInfo=nothing) =
@@ -6816,12 +6816,12 @@ export DescribeAvailabilityZonesResponseType
 
 
 type VpcType
-    vpcId::Union{ASCIIString, Void}
-    state::Union{ASCIIString, Void}
-    cidrBlock::Union{ASCIIString, Void}
-    dhcpOptionsId::Union{ASCIIString, Void}
+    vpcId::Union{String, Void}
+    state::Union{String, Void}
+    cidrBlock::Union{String, Void}
+    dhcpOptionsId::Union{String, Void}
     tagSet::Union{Vector{ResourceTagSetItemType}, Void}
-    instanceTenancy::Union{ASCIIString, Void}
+    instanceTenancy::Union{String, Void}
     isDefault::Union{Bool, Void}
 
     VpcType(; vpcId=nothing, state=nothing, cidrBlock=nothing, dhcpOptionsId=nothing, tagSet=nothing, instanceTenancy=nothing, isDefault=nothing) =
@@ -6843,7 +6843,7 @@ export VpcType
 
 
 type DescribeSubnetsType
-    subnetSet::Union{Vector{ASCIIString}, Void}
+    subnetSet::Union{Vector{String}, Void}
     filterSet::Union{Vector{FilterType}, Void}
 
     DescribeSubnetsType(; subnetSet=nothing, filterSet=nothing) =
@@ -6851,7 +6851,7 @@ type DescribeSubnetsType
 end
 function DescribeSubnetsType(pd)
     o = DescribeSubnetsType()
-    o.subnetSet = AWS.parse_vector_as(ASCIIString, "subnetId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "subnetId"))
+    o.subnetSet = AWS.parse_vector_as(String, "subnetId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "subnetId"))
     o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
@@ -6860,7 +6860,7 @@ export DescribeSubnetsType
 
 
 type DescribeRegionsResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     regionInfo::Union{Vector{RegionItemType}, Void}
 
     DescribeRegionsResponseType(; requestId=nothing, regionInfo=nothing) =
@@ -6877,7 +6877,7 @@ export DescribeRegionsResponseType
 
 
 type DescribeSpotDatafeedSubscriptionResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     spotDatafeedSubscription::Union{SpotDatafeedSubscriptionType, Void}
 
     DescribeSpotDatafeedSubscriptionResponseType(; requestId=nothing, spotDatafeedSubscription=nothing) =
@@ -6895,16 +6895,16 @@ export DescribeSpotDatafeedSubscriptionResponseType
 
 
 type DescribeReservedInstancesType
-    reservedInstancesSet::Union{Vector{ASCIIString}, Void}
+    reservedInstancesSet::Union{Vector{String}, Void}
     filterSet::Union{Vector{FilterType}, Void}
-    offeringType::Union{ASCIIString, Void}
+    offeringType::Union{String, Void}
 
     DescribeReservedInstancesType(; reservedInstancesSet=nothing, filterSet=nothing, offeringType=nothing) =
          new(reservedInstancesSet, filterSet, offeringType)
 end
 function DescribeReservedInstancesType(pd)
     o = DescribeReservedInstancesType()
-    o.reservedInstancesSet = AWS.parse_vector_as(ASCIIString, "reservedInstancesId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "reservedInstancesId"))
+    o.reservedInstancesSet = AWS.parse_vector_as(String, "reservedInstancesId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "reservedInstancesId"))
     o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o.offeringType = LightXML.content(LightXML.find_element(pd, "offeringType"))
     o
@@ -6914,18 +6914,18 @@ export DescribeReservedInstancesType
 
 
 type DescribeReservedInstancesOfferingsType
-    reservedInstancesOfferingsSet::Union{Vector{ASCIIString}, Void}
-    instanceType::Union{ASCIIString, Void}
-    availabilityZone::Union{ASCIIString, Void}
-    productDescription::Union{ASCIIString, Void}
+    reservedInstancesOfferingsSet::Union{Vector{String}, Void}
+    instanceType::Union{String, Void}
+    availabilityZone::Union{String, Void}
+    productDescription::Union{String, Void}
     filterSet::Union{Vector{FilterType}, Void}
-    instanceTenancy::Union{ASCIIString, Void}
-    offeringType::Union{ASCIIString, Void}
+    instanceTenancy::Union{String, Void}
+    offeringType::Union{String, Void}
     includeMarketplace::Union{Bool, Void}
     minDuration::Union{Int64, Void}
     maxDuration::Union{Int64, Void}
     maxInstanceCount::Union{Int64, Void}
-    nextToken::Union{ASCIIString, Void}
+    nextToken::Union{String, Void}
     maxResults::Union{Int64, Void}
 
     DescribeReservedInstancesOfferingsType(; reservedInstancesOfferingsSet=nothing, instanceType=nothing, availabilityZone=nothing, productDescription=nothing, filterSet=nothing, instanceTenancy=nothing, offeringType=nothing, includeMarketplace=nothing, minDuration=nothing, maxDuration=nothing, maxInstanceCount=nothing, nextToken=nothing, maxResults=nothing) =
@@ -6933,7 +6933,7 @@ type DescribeReservedInstancesOfferingsType
 end
 function DescribeReservedInstancesOfferingsType(pd)
     o = DescribeReservedInstancesOfferingsType()
-    o.reservedInstancesOfferingsSet = AWS.parse_vector_as(ASCIIString, "reservedInstancesOfferingId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "reservedInstancesOfferingId"))
+    o.reservedInstancesOfferingsSet = AWS.parse_vector_as(String, "reservedInstancesOfferingId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "reservedInstancesOfferingId"))
     o.instanceType = LightXML.content(LightXML.find_element(pd, "instanceType"))
     o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
     o.productDescription = LightXML.content(LightXML.find_element(pd, "productDescription"))
@@ -6953,9 +6953,9 @@ export DescribeReservedInstancesOfferingsType
 
 
 type DescribeImagesType
-    executableBySet::Union{Vector{ASCIIString}, Void}
-    imagesSet::Union{Vector{ASCIIString}, Void}
-    ownersSet::Union{Vector{ASCIIString}, Void}
+    executableBySet::Union{Vector{String}, Void}
+    imagesSet::Union{Vector{String}, Void}
+    ownersSet::Union{Vector{String}, Void}
     filterSet::Union{Vector{FilterType}, Void}
 
     DescribeImagesType(; executableBySet=nothing, imagesSet=nothing, ownersSet=nothing, filterSet=nothing) =
@@ -6963,9 +6963,9 @@ type DescribeImagesType
 end
 function DescribeImagesType(pd)
     o = DescribeImagesType()
-    o.executableBySet = AWS.parse_vector_as(ASCIIString, "user", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "user"))
-    o.imagesSet = AWS.parse_vector_as(ASCIIString, "imageId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "imageId"))
-    o.ownersSet = AWS.parse_vector_as(ASCIIString, "owner", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "owner"))
+    o.executableBySet = AWS.parse_vector_as(String, "user", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "user"))
+    o.imagesSet = AWS.parse_vector_as(String, "imageId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "imageId"))
+    o.ownersSet = AWS.parse_vector_as(String, "owner", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "owner"))
     o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
@@ -6974,7 +6974,7 @@ export DescribeImagesType
 
 
 type DescribeConversionTasksResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     conversionTasks::Union{Vector{ConversionTaskType}, Void}
 
     DescribeConversionTasksResponseType(; requestId=nothing, conversionTasks=nothing) =
@@ -6991,7 +6991,7 @@ export DescribeConversionTasksResponseType
 
 
 type DescribeAccountAttributesResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     accountAttributeSet::Union{Vector{AccountAttributeSetItemType}, Void}
 
     DescribeAccountAttributesResponseType(; requestId=nothing, accountAttributeSet=nothing) =
@@ -7008,12 +7008,12 @@ export DescribeAccountAttributesResponseType
 
 
 type CreateNetworkAclEntryType
-    networkAclId::Union{ASCIIString, Void}
+    networkAclId::Union{String, Void}
     ruleNumber::Union{Int64, Void}
-    protocol::Union{ASCIIString, Void}
-    ruleAction::Union{ASCIIString, Void}
+    protocol::Union{String, Void}
+    ruleAction::Union{String, Void}
     egress::Union{Bool, Void}
-    cidrBlock::Union{ASCIIString, Void}
+    cidrBlock::Union{String, Void}
     icmpTypeCode::Union{IcmpTypeCodeType, Void}
     portRange::Union{PortRangeType, Void}
 
@@ -7039,15 +7039,15 @@ export CreateNetworkAclEntryType
 
 
 type DescribeSnapshotsSetItemResponseType
-    snapshotId::Union{ASCIIString, Void}
-    volumeId::Union{ASCIIString, Void}
-    status::Union{ASCIIString, Void}
+    snapshotId::Union{String, Void}
+    volumeId::Union{String, Void}
+    status::Union{String, Void}
     startTime::Union{Base.Dates.DateTime, Void}
-    progress::Union{ASCIIString, Void}
-    ownerId::Union{ASCIIString, Void}
-    volumeSize::Union{ASCIIString, Void}
-    description::Union{ASCIIString, Void}
-    ownerAlias::Union{ASCIIString, Void}
+    progress::Union{String, Void}
+    ownerId::Union{String, Void}
+    volumeSize::Union{String, Void}
+    description::Union{String, Void}
+    ownerAlias::Union{String, Void}
     tagSet::Union{Vector{ResourceTagSetItemType}, Void}
 
     DescribeSnapshotsSetItemResponseType(; snapshotId=nothing, volumeId=nothing, status=nothing, startTime=nothing, progress=nothing, ownerId=nothing, volumeSize=nothing, description=nothing, ownerAlias=nothing, tagSet=nothing) =
@@ -7088,8 +7088,8 @@ export BundleInstanceTaskStorageType
 
 
 type InstanceStatusItemType
-    instanceId::Union{ASCIIString, Void}
-    availabilityZone::Union{ASCIIString, Void}
+    instanceId::Union{String, Void}
+    availabilityZone::Union{String, Void}
     eventsSet::Union{Vector{InstanceStatusEventType}, Void}
     instanceState::Union{InstanceStateType, Void}
     systemStatus::Union{InstanceStatusType, Void}
@@ -7116,12 +7116,12 @@ export InstanceStatusItemType
 
 
 type InstanceNetworkInterfaceSetItemRequestType
-    networkInterfaceId::Union{ASCIIString, Void}
+    networkInterfaceId::Union{String, Void}
     deviceIndex::Union{Int64, Void}
-    subnetId::Union{ASCIIString, Void}
-    description::Union{ASCIIString, Void}
-    privateIpAddress::Union{ASCIIString, Void}
-    groupSet::Union{Vector{ASCIIString}, Void}
+    subnetId::Union{String, Void}
+    description::Union{String, Void}
+    privateIpAddress::Union{String, Void}
+    groupSet::Union{Vector{String}, Void}
     deleteOnTermination::Union{Bool, Void}
     privateIpAddressesSet::Union{Vector{PrivateIpAddressesSetItemRequestType}, Void}
     secondaryPrivateIpAddressCount::Union{Int64, Void}
@@ -7136,7 +7136,7 @@ function InstanceNetworkInterfaceSetItemRequestType(pd)
     o.subnetId = LightXML.content(LightXML.find_element(pd, "subnetId"))
     o.description = LightXML.content(LightXML.find_element(pd, "description"))
     o.privateIpAddress = LightXML.content(LightXML.find_element(pd, "privateIpAddress"))
-    o.groupSet = AWS.parse_vector_as(ASCIIString, "groupId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "groupId"))
+    o.groupSet = AWS.parse_vector_as(String, "groupId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "groupId"))
     o.deleteOnTermination = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "deleteOnTermination")))
     o.privateIpAddressesSet = AWS.@parse_vector(AWS.EC2.PrivateIpAddressesSetItemRequestType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "privateIpAddressesSet"), "item"))
     o.secondaryPrivateIpAddressCount = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "secondaryPrivateIpAddressCount")))
@@ -7147,8 +7147,8 @@ export InstanceNetworkInterfaceSetItemRequestType
 
 
 type DescribeReservedInstancesListingsType
-    reservedInstancesListingSet::Union{Vector{ASCIIString}, Void}
-    reservedInstancesSet::Union{Vector{ASCIIString}, Void}
+    reservedInstancesListingSet::Union{Vector{String}, Void}
+    reservedInstancesSet::Union{Vector{String}, Void}
     filterSet::Union{Vector{FilterType}, Void}
 
     DescribeReservedInstancesListingsType(; reservedInstancesListingSet=nothing, reservedInstancesSet=nothing, filterSet=nothing) =
@@ -7156,8 +7156,8 @@ type DescribeReservedInstancesListingsType
 end
 function DescribeReservedInstancesListingsType(pd)
     o = DescribeReservedInstancesListingsType()
-    o.reservedInstancesListingSet = AWS.parse_vector_as(ASCIIString, "reservedInstancesListingId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "reservedInstancesListingId"))
-    o.reservedInstancesSet = AWS.parse_vector_as(ASCIIString, "reservedInstancesId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "reservedInstancesId"))
+    o.reservedInstancesListingSet = AWS.parse_vector_as(String, "reservedInstancesListingId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "reservedInstancesListingId"))
+    o.reservedInstancesSet = AWS.parse_vector_as(String, "reservedInstancesId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "reservedInstancesId"))
     o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
@@ -7168,12 +7168,12 @@ export DescribeReservedInstancesListingsType
 type DescribeSpotPriceHistoryType
     startTime::Union{Base.Dates.DateTime, Void}
     endTime::Union{Base.Dates.DateTime, Void}
-    instanceTypeSet::Union{Vector{ASCIIString}, Void}
-    productDescriptionSet::Union{Vector{ASCIIString}, Void}
+    instanceTypeSet::Union{Vector{String}, Void}
+    productDescriptionSet::Union{Vector{String}, Void}
     filterSet::Union{Vector{FilterType}, Void}
-    availabilityZone::Union{ASCIIString, Void}
+    availabilityZone::Union{String, Void}
     maxResults::Union{Int64, Void}
-    nextToken::Union{ASCIIString, Void}
+    nextToken::Union{String, Void}
 
     DescribeSpotPriceHistoryType(; startTime=nothing, endTime=nothing, instanceTypeSet=nothing, productDescriptionSet=nothing, filterSet=nothing, availabilityZone=nothing, maxResults=nothing, nextToken=nothing) =
          new(startTime, endTime, instanceTypeSet, productDescriptionSet, filterSet, availabilityZone, maxResults, nextToken)
@@ -7182,8 +7182,8 @@ function DescribeSpotPriceHistoryType(pd)
     o = DescribeSpotPriceHistoryType()
     o.startTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "startTime")))
     o.endTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "endTime")))
-    o.instanceTypeSet = AWS.parse_vector_as(ASCIIString, "instanceType", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "instanceType"))
-    o.productDescriptionSet = AWS.parse_vector_as(ASCIIString, "productDescription", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "productDescription"))
+    o.instanceTypeSet = AWS.parse_vector_as(String, "instanceType", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "instanceType"))
+    o.productDescriptionSet = AWS.parse_vector_as(String, "productDescription", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "productDescription"))
     o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
     o.maxResults = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "maxResults")))
@@ -7195,16 +7195,16 @@ export DescribeSpotPriceHistoryType
 
 
 type DescribeReservedInstancesOfferingsResponseSetItemType
-    reservedInstancesOfferingId::Union{ASCIIString, Void}
-    instanceType::Union{ASCIIString, Void}
-    availabilityZone::Union{ASCIIString, Void}
+    reservedInstancesOfferingId::Union{String, Void}
+    instanceType::Union{String, Void}
+    availabilityZone::Union{String, Void}
     duration::Union{Int64, Void}
     fixedPrice::Union{Float64, Void}
     usagePrice::Union{Float64, Void}
-    productDescription::Union{ASCIIString, Void}
-    instanceTenancy::Union{ASCIIString, Void}
-    currencyCode::Union{ASCIIString, Void}
-    offeringType::Union{ASCIIString, Void}
+    productDescription::Union{String, Void}
+    instanceTenancy::Union{String, Void}
+    currencyCode::Union{String, Void}
+    offeringType::Union{String, Void}
     recurringCharges::Union{Vector{RecurringChargesSetItemType}, Void}
     marketplace::Union{Bool, Void}
     pricingDetailsSet::Union{Vector{PricingDetailsSetItemType}, Void}
@@ -7234,11 +7234,11 @@ export DescribeReservedInstancesOfferingsResponseSetItemType
 
 
 type IpPermissionType
-    ipProtocol::Union{ASCIIString, Void}
+    ipProtocol::Union{String, Void}
     fromPort::Union{Int64, Void}
     toPort::Union{Int64, Void}
     groups::Union{Vector{UserIdGroupPairType}, Void}
-    ipRanges::Union{Vector{ASCIIString}, Void}
+    ipRanges::Union{Vector{String}, Void}
 
     IpPermissionType(; ipProtocol=nothing, fromPort=nothing, toPort=nothing, groups=nothing, ipRanges=nothing) =
          new(ipProtocol, fromPort, toPort, groups, ipRanges)
@@ -7249,7 +7249,7 @@ function IpPermissionType(pd)
     o.fromPort = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "fromPort")))
     o.toPort = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "toPort")))
     o.groups = AWS.@parse_vector(AWS.EC2.UserIdGroupPairType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "groups"), "item"))
-    o.ipRanges = AWS.parse_vector_as(ASCIIString, "cidrIp", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "cidrIp"))
+    o.ipRanges = AWS.parse_vector_as(String, "cidrIp", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "cidrIp"))
     o
 end
 
@@ -7257,7 +7257,7 @@ export IpPermissionType
 
 
 type DescribeVolumesResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     volumeSet::Union{Vector{DescribeVolumesSetItemResponseType}, Void}
 
     DescribeVolumesResponseType(; requestId=nothing, volumeSet=nothing) =
@@ -7274,9 +7274,9 @@ export DescribeVolumesResponseType
 
 
 type DescribeSpotPriceHistoryResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     spotPriceHistorySet::Union{Vector{SpotPriceHistorySetItemType}, Void}
-    nextToken::Union{ASCIIString, Void}
+    nextToken::Union{String, Void}
 
     DescribeSpotPriceHistoryResponseType(; requestId=nothing, spotPriceHistorySet=nothing, nextToken=nothing) =
          new(requestId, spotPriceHistorySet, nextToken)
@@ -7293,7 +7293,7 @@ export DescribeSpotPriceHistoryResponseType
 
 
 type DescribeSpotInstanceRequestsType
-    spotInstanceRequestIdSet::Union{Vector{ASCIIString}, Void}
+    spotInstanceRequestIdSet::Union{Vector{String}, Void}
     filterSet::Union{Vector{FilterType}, Void}
 
     DescribeSpotInstanceRequestsType(; spotInstanceRequestIdSet=nothing, filterSet=nothing) =
@@ -7301,7 +7301,7 @@ type DescribeSpotInstanceRequestsType
 end
 function DescribeSpotInstanceRequestsType(pd)
     o = DescribeSpotInstanceRequestsType()
-    o.spotInstanceRequestIdSet = AWS.parse_vector_as(ASCIIString, "spotInstanceRequestId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "spotInstanceRequestId"))
+    o.spotInstanceRequestIdSet = AWS.parse_vector_as(String, "spotInstanceRequestId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "spotInstanceRequestId"))
     o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
@@ -7310,7 +7310,7 @@ export DescribeSpotInstanceRequestsType
 
 
 type CreateDhcpOptionsResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     dhcpOptions::Union{DhcpOptionsType, Void}
 
     CreateDhcpOptionsResponseType(; requestId=nothing, dhcpOptions=nothing) =
@@ -7328,7 +7328,7 @@ export CreateDhcpOptionsResponseType
 
 
 type DescribeRouteTablesType
-    routeTableIdSet::Union{Vector{ASCIIString}, Void}
+    routeTableIdSet::Union{Vector{String}, Void}
     filterSet::Union{Vector{FilterType}, Void}
 
     DescribeRouteTablesType(; routeTableIdSet=nothing, filterSet=nothing) =
@@ -7336,7 +7336,7 @@ type DescribeRouteTablesType
 end
 function DescribeRouteTablesType(pd)
     o = DescribeRouteTablesType()
-    o.routeTableIdSet = AWS.parse_vector_as(ASCIIString, "routeTableId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "routeTableId"))
+    o.routeTableIdSet = AWS.parse_vector_as(String, "routeTableId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "routeTableId"))
     o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
@@ -7345,7 +7345,7 @@ export DescribeRouteTablesType
 
 
 type DescribeInternetGatewaysResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     internetGatewaySet::Union{Vector{InternetGatewayType}, Void}
 
     DescribeInternetGatewaysResponseType(; requestId=nothing, internetGatewaySet=nothing) =
@@ -7362,7 +7362,7 @@ export DescribeInternetGatewaysResponseType
 
 
 type CreateInstanceExportTaskResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     exportTask::Union{ExportTaskResponseType, Void}
 
     CreateInstanceExportTaskResponseType(; requestId=nothing, exportTask=nothing) =
@@ -7380,9 +7380,9 @@ export CreateInstanceExportTaskResponseType
 
 
 type CreateImageType
-    instanceId::Union{ASCIIString, Void}
-    name::Union{ASCIIString, Void}
-    description::Union{ASCIIString, Void}
+    instanceId::Union{String, Void}
+    name::Union{String, Void}
+    description::Union{String, Void}
     noReboot::Union{Bool, Void}
     blockDeviceMapping::Union{Vector{BlockDeviceMappingItemType}, Void}
 
@@ -7403,7 +7403,7 @@ export CreateImageType
 
 
 type DescribeInternetGatewaysType
-    internetGatewayIdSet::Union{Vector{ASCIIString}, Void}
+    internetGatewayIdSet::Union{Vector{String}, Void}
     filterSet::Union{Vector{FilterType}, Void}
 
     DescribeInternetGatewaysType(; internetGatewayIdSet=nothing, filterSet=nothing) =
@@ -7411,7 +7411,7 @@ type DescribeInternetGatewaysType
 end
 function DescribeInternetGatewaysType(pd)
     o = DescribeInternetGatewaysType()
-    o.internetGatewayIdSet = AWS.parse_vector_as(ASCIIString, "internetGatewayId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "internetGatewayId"))
+    o.internetGatewayIdSet = AWS.parse_vector_as(String, "internetGatewayId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "internetGatewayId"))
     o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
@@ -7420,7 +7420,7 @@ export DescribeInternetGatewaysType
 
 
 type InstanceStateChangeType
-    instanceId::Union{ASCIIString, Void}
+    instanceId::Union{String, Void}
     currentState::Union{InstanceStateType, Void}
     previousState::Union{InstanceStateType, Void}
 
@@ -7441,7 +7441,7 @@ export InstanceStateChangeType
 
 
 type PurchaseReservedInstancesOfferingType
-    reservedInstancesOfferingId::Union{ASCIIString, Void}
+    reservedInstancesOfferingId::Union{String, Void}
     instanceCount::Union{Int64, Void}
     limitPrice::Union{ReservedInstanceLimitPriceType, Void}
 
@@ -7461,11 +7461,11 @@ export PurchaseReservedInstancesOfferingType
 
 
 type RouteTableType
-    routeTableId::Union{ASCIIString, Void}
-    vpcId::Union{ASCIIString, Void}
+    routeTableId::Union{String, Void}
+    vpcId::Union{String, Void}
     routeSet::Union{Vector{RouteType}, Void}
     associationSet::Union{Vector{RouteTableAssociationType}, Void}
-    propagatingVgwSet::Union{Vector{ASCIIString}, Void}
+    propagatingVgwSet::Union{Vector{String}, Void}
     tagSet::Union{Vector{ResourceTagSetItemType}, Void}
 
     RouteTableType(; routeTableId=nothing, vpcId=nothing, routeSet=nothing, associationSet=nothing, propagatingVgwSet=nothing, tagSet=nothing) =
@@ -7477,7 +7477,7 @@ function RouteTableType(pd)
     o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
     o.routeSet = AWS.@parse_vector(AWS.EC2.RouteType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "routeSet"), "item"))
     o.associationSet = AWS.@parse_vector(AWS.EC2.RouteTableAssociationType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "associationSet"), "item"))
-    o.propagatingVgwSet = AWS.parse_vector_as(ASCIIString, "gatewayId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "gatewayId"))
+    o.propagatingVgwSet = AWS.parse_vector_as(String, "gatewayId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "gatewayId"))
     o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
     o
 end
@@ -7486,7 +7486,7 @@ export RouteTableType
 
 
 type DescribeVpnConnectionsType
-    vpnConnectionSet::Union{Vector{ASCIIString}, Void}
+    vpnConnectionSet::Union{Vector{String}, Void}
     filterSet::Union{Vector{FilterType}, Void}
 
     DescribeVpnConnectionsType(; vpnConnectionSet=nothing, filterSet=nothing) =
@@ -7494,7 +7494,7 @@ type DescribeVpnConnectionsType
 end
 function DescribeVpnConnectionsType(pd)
     o = DescribeVpnConnectionsType()
-    o.vpnConnectionSet = AWS.parse_vector_as(ASCIIString, "vpnConnectionId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "vpnConnectionId"))
+    o.vpnConnectionSet = AWS.parse_vector_as(String, "vpnConnectionId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "vpnConnectionId"))
     o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
@@ -7503,10 +7503,10 @@ export DescribeVpnConnectionsType
 
 
 type CreateNetworkInterfaceType
-    subnetId::Union{ASCIIString, Void}
-    description::Union{ASCIIString, Void}
-    privateIpAddress::Union{ASCIIString, Void}
-    groupSet::Union{Vector{ASCIIString}, Void}
+    subnetId::Union{String, Void}
+    description::Union{String, Void}
+    privateIpAddress::Union{String, Void}
+    groupSet::Union{Vector{String}, Void}
     privateIpAddressesSet::Union{Vector{PrivateIpAddressesSetItemRequestType}, Void}
     secondaryPrivateIpAddressCount::Union{Int64, Void}
 
@@ -7518,7 +7518,7 @@ function CreateNetworkInterfaceType(pd)
     o.subnetId = LightXML.content(LightXML.find_element(pd, "subnetId"))
     o.description = LightXML.content(LightXML.find_element(pd, "description"))
     o.privateIpAddress = LightXML.content(LightXML.find_element(pd, "privateIpAddress"))
-    o.groupSet = AWS.parse_vector_as(ASCIIString, "groupId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "groupId"))
+    o.groupSet = AWS.parse_vector_as(String, "groupId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "groupId"))
     o.privateIpAddressesSet = AWS.@parse_vector(AWS.EC2.PrivateIpAddressesSetItemRequestType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "privateIpAddressesSet"), "item"))
     o.secondaryPrivateIpAddressCount = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "secondaryPrivateIpAddressCount")))
     o
@@ -7528,7 +7528,7 @@ export CreateNetworkInterfaceType
 
 
 type DescribeVpcsResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     vpcSet::Union{Vector{VpcType}, Void}
 
     DescribeVpcsResponseType(; requestId=nothing, vpcSet=nothing) =
@@ -7545,16 +7545,16 @@ export DescribeVpcsResponseType
 
 
 type DescribeReservedInstancesListingsResponseSetItemType
-    reservedInstancesListingId::Union{ASCIIString, Void}
-    reservedInstancesId::Union{ASCIIString, Void}
+    reservedInstancesListingId::Union{String, Void}
+    reservedInstancesId::Union{String, Void}
     createDate::Union{Base.Dates.DateTime, Void}
     updateDate::Union{Base.Dates.DateTime, Void}
-    status::Union{ASCIIString, Void}
-    statusMessage::Union{ASCIIString, Void}
+    status::Union{String, Void}
+    statusMessage::Union{String, Void}
     instanceCounts::Union{Vector{InstanceCountsSetItemType}, Void}
     priceSchedules::Union{Vector{PriceScheduleSetItemType}, Void}
     tagSet::Union{Vector{ResourceTagSetItemType}, Void}
-    clientToken::Union{ASCIIString, Void}
+    clientToken::Union{String, Void}
 
     DescribeReservedInstancesListingsResponseSetItemType(; reservedInstancesListingId=nothing, reservedInstancesId=nothing, createDate=nothing, updateDate=nothing, status=nothing, statusMessage=nothing, instanceCounts=nothing, priceSchedules=nothing, tagSet=nothing, clientToken=nothing) =
          new(reservedInstancesListingId, reservedInstancesId, createDate, updateDate, status, statusMessage, instanceCounts, priceSchedules, tagSet, clientToken)
@@ -7578,7 +7578,7 @@ export DescribeReservedInstancesListingsResponseSetItemType
 
 
 type DescribeVpcsType
-    vpcSet::Union{Vector{ASCIIString}, Void}
+    vpcSet::Union{Vector{String}, Void}
     filterSet::Union{Vector{FilterType}, Void}
 
     DescribeVpcsType(; vpcSet=nothing, filterSet=nothing) =
@@ -7586,7 +7586,7 @@ type DescribeVpcsType
 end
 function DescribeVpcsType(pd)
     o = DescribeVpcsType()
-    o.vpcSet = AWS.parse_vector_as(ASCIIString, "vpcId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "vpcId"))
+    o.vpcSet = AWS.parse_vector_as(String, "vpcId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "vpcId"))
     o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
@@ -7595,7 +7595,7 @@ export DescribeVpcsType
 
 
 type DescribeDhcpOptionsResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     dhcpOptionsSet::Union{Vector{DhcpOptionsType}, Void}
 
     DescribeDhcpOptionsResponseType(; requestId=nothing, dhcpOptionsSet=nothing) =
@@ -7627,7 +7627,7 @@ export DescribeTagsType
 
 
 type MonitorInstancesResponseSetItemType
-    instanceId::Union{ASCIIString, Void}
+    instanceId::Union{String, Void}
     monitoring::Union{InstanceMonitoringStateType, Void}
 
     MonitorInstancesResponseSetItemType(; instanceId=nothing, monitoring=nothing) =
@@ -7645,7 +7645,7 @@ export MonitorInstancesResponseSetItemType
 
 
 type DescribeRouteTablesResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     routeTableSet::Union{Vector{RouteTableType}, Void}
 
     DescribeRouteTablesResponseType(; requestId=nothing, routeTableSet=nothing) =
@@ -7662,7 +7662,7 @@ export DescribeRouteTablesResponseType
 
 
 type DescribeAccountAttributesType
-    accountAttributeNameSet::Union{Vector{ASCIIString}, Void}
+    accountAttributeNameSet::Union{Vector{String}, Void}
     filterSet::Union{Vector{FilterType}, Void}
 
     DescribeAccountAttributesType(; accountAttributeNameSet=nothing, filterSet=nothing) =
@@ -7670,7 +7670,7 @@ type DescribeAccountAttributesType
 end
 function DescribeAccountAttributesType(pd)
     o = DescribeAccountAttributesType()
-    o.accountAttributeNameSet = AWS.parse_vector_as(ASCIIString, "attributeName", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "attributeName"))
+    o.accountAttributeNameSet = AWS.parse_vector_as(String, "attributeName", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "attributeName"))
     o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
@@ -7679,9 +7679,9 @@ export DescribeAccountAttributesType
 
 
 type DescribeInstanceStatusResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     instanceStatusSet::Union{Vector{InstanceStatusItemType}, Void}
-    nextToken::Union{ASCIIString, Void}
+    nextToken::Union{String, Void}
 
     DescribeInstanceStatusResponseType(; requestId=nothing, instanceStatusSet=nothing, nextToken=nothing) =
          new(requestId, instanceStatusSet, nextToken)
@@ -7698,10 +7698,10 @@ export DescribeInstanceStatusResponseType
 
 
 type VpnGatewayType
-    vpnGatewayId::Union{ASCIIString, Void}
-    state::Union{ASCIIString, Void}
-    _type::Union{ASCIIString, Void}
-    availabilityZone::Union{ASCIIString, Void}
+    vpnGatewayId::Union{String, Void}
+    state::Union{String, Void}
+    _type::Union{String, Void}
+    availabilityZone::Union{String, Void}
     attachments::Union{Vector{AttachmentType}, Void}
     tagSet::Union{Vector{ResourceTagSetItemType}, Void}
 
@@ -7723,7 +7723,7 @@ export VpnGatewayType
 
 
 type DescribeKeyPairsType
-    keySet::Union{Vector{ASCIIString}, Void}
+    keySet::Union{Vector{String}, Void}
     filterSet::Union{Vector{FilterType}, Void}
 
     DescribeKeyPairsType(; keySet=nothing, filterSet=nothing) =
@@ -7731,7 +7731,7 @@ type DescribeKeyPairsType
 end
 function DescribeKeyPairsType(pd)
     o = DescribeKeyPairsType()
-    o.keySet = AWS.parse_vector_as(ASCIIString, "keyName", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "keyName"))
+    o.keySet = AWS.parse_vector_as(String, "keyName", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "keyName"))
     o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
@@ -7740,7 +7740,7 @@ export DescribeKeyPairsType
 
 
 type BundleInstanceType
-    instanceId::Union{ASCIIString, Void}
+    instanceId::Union{String, Void}
     storage::Union{BundleInstanceTaskStorageType, Void}
 
     BundleInstanceType(; instanceId=nothing, storage=nothing) =
@@ -7758,8 +7758,8 @@ export BundleInstanceType
 
 
 type InstancePrivateIpAddressesSetItemType
-    privateIpAddress::Union{ASCIIString, Void}
-    privateDnsName::Union{ASCIIString, Void}
+    privateIpAddress::Union{String, Void}
+    privateDnsName::Union{String, Void}
     primary::Union{Bool, Void}
     association::Union{InstanceNetworkInterfaceAssociationType, Void}
 
@@ -7780,15 +7780,15 @@ export InstancePrivateIpAddressesSetItemType
 
 
 type ImportInstanceLaunchSpecificationType
-    architecture::Union{ASCIIString, Void}
+    architecture::Union{String, Void}
     groupSet::Union{Vector{ImportInstanceGroupItemType}, Void}
     userData::Union{UserDataType, Void}
-    instanceType::Union{ASCIIString, Void}
+    instanceType::Union{String, Void}
     placement::Union{InstancePlacementType, Void}
     monitoring::Union{MonitoringInstanceType, Void}
-    subnetId::Union{ASCIIString, Void}
-    instanceInitiatedShutdownBehavior::Union{ASCIIString, Void}
-    privateIpAddress::Union{ASCIIString, Void}
+    subnetId::Union{String, Void}
+    instanceInitiatedShutdownBehavior::Union{String, Void}
+    privateIpAddress::Union{String, Void}
 
     ImportInstanceLaunchSpecificationType(; architecture=nothing, groupSet=nothing, userData=nothing, instanceType=nothing, placement=nothing, monitoring=nothing, subnetId=nothing, instanceInitiatedShutdownBehavior=nothing, privateIpAddress=nothing) =
          new(architecture, groupSet, userData, instanceType, placement, monitoring, subnetId, instanceInitiatedShutdownBehavior, privateIpAddress)
@@ -7814,8 +7814,8 @@ export ImportInstanceLaunchSpecificationType
 
 
 type DescribeAddressesType
-    publicIpsSet::Union{Vector{ASCIIString}, Void}
-    allocationIdsSet::Union{Vector{ASCIIString}, Void}
+    publicIpsSet::Union{Vector{String}, Void}
+    allocationIdsSet::Union{Vector{String}, Void}
     filterSet::Union{Vector{FilterType}, Void}
 
     DescribeAddressesType(; publicIpsSet=nothing, allocationIdsSet=nothing, filterSet=nothing) =
@@ -7823,8 +7823,8 @@ type DescribeAddressesType
 end
 function DescribeAddressesType(pd)
     o = DescribeAddressesType()
-    o.publicIpsSet = AWS.parse_vector_as(ASCIIString, "publicIp", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "publicIp"))
-    o.allocationIdsSet = AWS.parse_vector_as(ASCIIString, "allocationId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "allocationId"))
+    o.publicIpsSet = AWS.parse_vector_as(String, "publicIp", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "publicIp"))
+    o.allocationIdsSet = AWS.parse_vector_as(String, "allocationId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "allocationId"))
     o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
@@ -7833,7 +7833,7 @@ export DescribeAddressesType
 
 
 type VolumeStatusInfoType
-    status::Union{ASCIIString, Void}
+    status::Union{String, Void}
     details::Union{Vector{VolumeStatusDetailsItemType}, Void}
 
     VolumeStatusInfoType(; status=nothing, details=nothing) =
@@ -7850,7 +7850,7 @@ export VolumeStatusInfoType
 
 
 type StartInstancesResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     instancesSet::Union{Vector{InstanceStateChangeType}, Void}
 
     StartInstancesResponseType(; requestId=nothing, instancesSet=nothing) =
@@ -7867,9 +7867,9 @@ export StartInstancesResponseType
 
 
 type CreateVpnConnectionType
-    _type::Union{ASCIIString, Void}
-    customerGatewayId::Union{ASCIIString, Void}
-    vpnGatewayId::Union{ASCIIString, Void}
+    _type::Union{String, Void}
+    customerGatewayId::Union{String, Void}
+    vpnGatewayId::Union{String, Void}
     options::Union{VpnConnectionOptionsRequestType, Void}
 
     CreateVpnConnectionType(; _type=nothing, customerGatewayId=nothing, vpnGatewayId=nothing, options=nothing) =
@@ -7889,7 +7889,7 @@ export CreateVpnConnectionType
 
 
 type AuthorizeSecurityGroupEgressType
-    groupId::Union{ASCIIString, Void}
+    groupId::Union{String, Void}
     ipPermissions::Union{Vector{IpPermissionType}, Void}
 
     AuthorizeSecurityGroupEgressType(; groupId=nothing, ipPermissions=nothing) =
@@ -7906,7 +7906,7 @@ export AuthorizeSecurityGroupEgressType
 
 
 type CreateReservedInstancesListingResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     reservedInstancesListingsSet::Union{Vector{DescribeReservedInstancesListingsResponseSetItemType}, Void}
 
     CreateReservedInstancesListingResponseType(; requestId=nothing, reservedInstancesListingsSet=nothing) =
@@ -7923,8 +7923,8 @@ export CreateReservedInstancesListingResponseType
 
 
 type NetworkAclType
-    networkAclId::Union{ASCIIString, Void}
-    vpcId::Union{ASCIIString, Void}
+    networkAclId::Union{String, Void}
+    vpcId::Union{String, Void}
     default::Union{Bool, Void}
     entrySet::Union{Vector{NetworkAclEntryType}, Void}
     associationSet::Union{Vector{NetworkAclAssociationType}, Void}
@@ -7948,7 +7948,7 @@ export NetworkAclType
 
 
 type DescribeAddressesResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     addressesSet::Union{Vector{DescribeAddressesResponseItemType}, Void}
 
     DescribeAddressesResponseType(; requestId=nothing, addressesSet=nothing) =
@@ -7965,7 +7965,7 @@ export DescribeAddressesResponseType
 
 
 type TerminateInstancesResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     instancesSet::Union{Vector{InstanceStateChangeType}, Void}
 
     TerminateInstancesResponseType(; requestId=nothing, instancesSet=nothing) =
@@ -7983,7 +7983,7 @@ export TerminateInstancesResponseType
 
 type DiskImageType
     image::Union{DiskImageDetailType, Void}
-    description::Union{ASCIIString, Void}
+    description::Union{String, Void}
     volume::Union{DiskImageVolumeType, Void}
 
     DiskImageType(; image=nothing, description=nothing, volume=nothing) =
@@ -8003,27 +8003,27 @@ export DiskImageType
 
 
 type RunInstancesType
-    imageId::Union{ASCIIString, Void}
+    imageId::Union{String, Void}
     minCount::Union{Int64, Void}
     maxCount::Union{Int64, Void}
-    keyName::Union{ASCIIString, Void}
-    securityGroupIdSet::Union{Vector{ASCIIString}, Void}
-    securityGroupSet::Union{Vector{ASCIIString}, Void}
-    additionalInfo::Union{ASCIIString, Void}
+    keyName::Union{String, Void}
+    securityGroupIdSet::Union{Vector{String}, Void}
+    securityGroupSet::Union{Vector{String}, Void}
+    additionalInfo::Union{String, Void}
     userData::Union{UserDataType, Void}
-    addressingType::Union{ASCIIString, Void}
-    instanceType::Union{ASCIIString, Void}
+    addressingType::Union{String, Void}
+    instanceType::Union{String, Void}
     placement::Union{PlacementRequestType, Void}
-    kernelId::Union{ASCIIString, Void}
-    ramdiskId::Union{ASCIIString, Void}
+    kernelId::Union{String, Void}
+    ramdiskId::Union{String, Void}
     blockDeviceMapping::Union{Vector{BlockDeviceMappingItemType}, Void}
     monitoring::Union{MonitoringInstanceType, Void}
-    subnetId::Union{ASCIIString, Void}
+    subnetId::Union{String, Void}
     disableApiTermination::Union{Bool, Void}
-    instanceInitiatedShutdownBehavior::Union{ASCIIString, Void}
+    instanceInitiatedShutdownBehavior::Union{String, Void}
     license::Union{InstanceLicenseRequestType, Void}
-    privateIpAddress::Union{ASCIIString, Void}
-    clientToken::Union{ASCIIString, Void}
+    privateIpAddress::Union{String, Void}
+    clientToken::Union{String, Void}
     networkInterfaceSet::Union{Vector{InstanceNetworkInterfaceSetItemRequestType}, Void}
     iamInstanceProfile::Union{IamInstanceProfileRequestType, Void}
     ebsOptimized::Union{Bool, Void}
@@ -8037,8 +8037,8 @@ function RunInstancesType(pd)
     o.minCount = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "minCount")))
     o.maxCount = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "maxCount")))
     o.keyName = LightXML.content(LightXML.find_element(pd, "keyName"))
-    o.securityGroupIdSet = AWS.parse_vector_as(ASCIIString, "securityGroupId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "securityGroupId"))
-    o.securityGroupSet = AWS.parse_vector_as(ASCIIString, "securityGroup", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "securityGroup"))
+    o.securityGroupIdSet = AWS.parse_vector_as(String, "securityGroupId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "securityGroupId"))
+    o.securityGroupSet = AWS.parse_vector_as(String, "securityGroup", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "securityGroup"))
     o.additionalInfo = LightXML.content(LightXML.find_element(pd, "additionalInfo"))
     ## o.userData = length(pd["userData"]) > 0 ?  UserDataType(LightXML.find_element(pd,"userData[1]")) : nothing
     o.userData = LightXML.find_element(pd,"userData") != nothing ?  UserDataType(LightXML.find_element(pd,"userData")) : nothing
@@ -8069,7 +8069,7 @@ export RunInstancesType
 
 
 type DescribeAvailabilityZonesType
-    availabilityZoneSet::Union{Vector{ASCIIString}, Void}
+    availabilityZoneSet::Union{Vector{String}, Void}
     filterSet::Union{Vector{FilterType}, Void}
 
     DescribeAvailabilityZonesType(; availabilityZoneSet=nothing, filterSet=nothing) =
@@ -8077,7 +8077,7 @@ type DescribeAvailabilityZonesType
 end
 function DescribeAvailabilityZonesType(pd)
     o = DescribeAvailabilityZonesType()
-    o.availabilityZoneSet = AWS.parse_vector_as(ASCIIString, "zoneName", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "zoneName"))
+    o.availabilityZoneSet = AWS.parse_vector_as(String, "zoneName", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "zoneName"))
     o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
@@ -8103,15 +8103,15 @@ export CreateVolumePermissionOperationType
 
 
 type InstanceNetworkInterfaceSetItemType
-    networkInterfaceId::Union{ASCIIString, Void}
-    subnetId::Union{ASCIIString, Void}
-    vpcId::Union{ASCIIString, Void}
-    description::Union{ASCIIString, Void}
-    ownerId::Union{ASCIIString, Void}
-    status::Union{ASCIIString, Void}
-    macAddress::Union{ASCIIString, Void}
-    privateIpAddress::Union{ASCIIString, Void}
-    privateDnsName::Union{ASCIIString, Void}
+    networkInterfaceId::Union{String, Void}
+    subnetId::Union{String, Void}
+    vpcId::Union{String, Void}
+    description::Union{String, Void}
+    ownerId::Union{String, Void}
+    status::Union{String, Void}
+    macAddress::Union{String, Void}
+    privateIpAddress::Union{String, Void}
+    privateDnsName::Union{String, Void}
     sourceDestCheck::Union{Bool, Void}
     groupSet::Union{Vector{GroupItemType}, Void}
     attachment::Union{InstanceNetworkInterfaceAttachmentType, Void}
@@ -8146,9 +8146,9 @@ export InstanceNetworkInterfaceSetItemType
 
 
 type LicenseSetItemType
-    licenseId::Union{ASCIIString, Void}
-    _type::Union{ASCIIString, Void}
-    pool::Union{ASCIIString, Void}
+    licenseId::Union{String, Void}
+    _type::Union{String, Void}
+    pool::Union{String, Void}
     capacitySet::Union{Vector{LicenseCapacitySetItemType}, Void}
     tagSet::Union{Vector{ResourceTagSetItemType}, Void}
 
@@ -8170,8 +8170,8 @@ export LicenseSetItemType
 
 type ImportVolumeTaskDetailsType
     bytesConverted::Union{Int64, Void}
-    availabilityZone::Union{ASCIIString, Void}
-    description::Union{ASCIIString, Void}
+    availabilityZone::Union{String, Void}
+    description::Union{String, Void}
     image::Union{DiskImageDescriptionType, Void}
     volume::Union{DiskImageVolumeDescriptionType, Void}
 
@@ -8194,7 +8194,7 @@ export ImportVolumeTaskDetailsType
 
 
 type DescribeReservedInstancesListingsResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     reservedInstancesListingsSet::Union{Vector{DescribeReservedInstancesListingsResponseSetItemType}, Void}
 
     DescribeReservedInstancesListingsResponseType(; requestId=nothing, reservedInstancesListingsSet=nothing) =
@@ -8211,7 +8211,7 @@ export DescribeReservedInstancesListingsResponseType
 
 
 type RevokeSecurityGroupIngressType
-    userId::Union{ASCIIString, Void}
+    userId::Union{String, Void}
     ipPermissions::Union{Vector{IpPermissionType}, Void}
 
     RevokeSecurityGroupIngressType(; userId=nothing, ipPermissions=nothing) =
@@ -8228,7 +8228,7 @@ export RevokeSecurityGroupIngressType
 
 
 type StopInstancesResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     instancesSet::Union{Vector{InstanceStateChangeType}, Void}
 
     StopInstancesResponseType(; requestId=nothing, instancesSet=nothing) =
@@ -8245,9 +8245,9 @@ export StopInstancesResponseType
 
 
 type ImportVolumeType
-    availabilityZone::Union{ASCIIString, Void}
+    availabilityZone::Union{String, Void}
     image::Union{DiskImageDetailType, Void}
-    description::Union{ASCIIString, Void}
+    description::Union{String, Void}
     volume::Union{DiskImageVolumeType, Void}
 
     ImportVolumeType(; availabilityZone=nothing, image=nothing, description=nothing, volume=nothing) =
@@ -8268,12 +8268,12 @@ export ImportVolumeType
 
 
 type VpnConnectionType
-    vpnConnectionId::Union{ASCIIString, Void}
-    state::Union{ASCIIString, Void}
-    customerGatewayConfiguration::Union{ASCIIString, Void}
-    _type::Union{ASCIIString, Void}
-    customerGatewayId::Union{ASCIIString, Void}
-    vpnGatewayId::Union{ASCIIString, Void}
+    vpnConnectionId::Union{String, Void}
+    state::Union{String, Void}
+    customerGatewayConfiguration::Union{String, Void}
+    _type::Union{String, Void}
+    customerGatewayId::Union{String, Void}
+    vpnGatewayId::Union{String, Void}
     tagSet::Union{Vector{ResourceTagSetItemType}, Void}
     vgwTelemetry::Union{Vector{VpnTunnelTelemetryType}, Void}
     options::Union{VpnConnectionOptionsResponseType, Void}
@@ -8302,7 +8302,7 @@ export VpnConnectionType
 
 
 type DescribeInstancesType
-    instancesSet::Union{Vector{ASCIIString}, Void}
+    instancesSet::Union{Vector{String}, Void}
     filterSet::Union{Vector{FilterType}, Void}
 
     DescribeInstancesType(; instancesSet=nothing, filterSet=nothing) =
@@ -8310,7 +8310,7 @@ type DescribeInstancesType
 end
 function DescribeInstancesType(pd)
     o = DescribeInstancesType()
-    o.instancesSet = AWS.parse_vector_as(ASCIIString, "instanceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
+    o.instancesSet = AWS.parse_vector_as(String, "instanceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
     o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
@@ -8319,7 +8319,7 @@ export DescribeInstancesType
 
 
 type DescribeImagesResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     imagesSet::Union{Vector{DescribeImagesResponseItemType}, Void}
 
     DescribeImagesResponseType(; requestId=nothing, imagesSet=nothing) =
@@ -8336,10 +8336,10 @@ export DescribeImagesResponseType
 
 
 type CustomerGatewayType
-    customerGatewayId::Union{ASCIIString, Void}
-    state::Union{ASCIIString, Void}
-    _type::Union{ASCIIString, Void}
-    ipAddress::Union{ASCIIString, Void}
+    customerGatewayId::Union{String, Void}
+    state::Union{String, Void}
+    _type::Union{String, Void}
+    ipAddress::Union{String, Void}
     bgpAsn::Union{Int64, Void}
     tagSet::Union{Vector{ResourceTagSetItemType}, Void}
 
@@ -8361,12 +8361,12 @@ export CustomerGatewayType
 
 
 type SubnetType
-    subnetId::Union{ASCIIString, Void}
-    state::Union{ASCIIString, Void}
-    vpcId::Union{ASCIIString, Void}
-    cidrBlock::Union{ASCIIString, Void}
+    subnetId::Union{String, Void}
+    state::Union{String, Void}
+    vpcId::Union{String, Void}
+    cidrBlock::Union{String, Void}
     availableIpAddressCount::Union{Int64, Void}
-    availabilityZone::Union{ASCIIString, Void}
+    availabilityZone::Union{String, Void}
     defaultForAz::Union{Bool, Void}
     mapPublicIpOnLaunch::Union{Bool, Void}
     tagSet::Union{Vector{ResourceTagSetItemType}, Void}
@@ -8392,7 +8392,7 @@ export SubnetType
 
 
 type DescribeLicensesResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     licenseSet::Union{Vector{LicenseSetItemType}, Void}
 
     DescribeLicensesResponseType(; requestId=nothing, licenseSet=nothing) =
@@ -8409,8 +8409,8 @@ export DescribeLicensesResponseType
 
 
 type NetworkInterfacePrivateIpAddressesSetItemType
-    privateIpAddress::Union{ASCIIString, Void}
-    privateDnsName::Union{ASCIIString, Void}
+    privateIpAddress::Union{String, Void}
+    privateDnsName::Union{String, Void}
     primary::Union{Bool, Void}
     association::Union{NetworkInterfaceAssociationType, Void}
 
@@ -8431,7 +8431,7 @@ export NetworkInterfacePrivateIpAddressesSetItemType
 
 
 type CreateVpnConnectionResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     vpnConnection::Union{VpnConnectionType, Void}
 
     CreateVpnConnectionResponseType(; requestId=nothing, vpnConnection=nothing) =
@@ -8449,7 +8449,7 @@ export CreateVpnConnectionResponseType
 
 
 type DescribeTagsResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     tagSet::Union{Vector{TagSetItemType}, Void}
 
     DescribeTagsResponseType(; requestId=nothing, tagSet=nothing) =
@@ -8466,7 +8466,7 @@ export DescribeTagsResponseType
 
 
 type CreateInternetGatewayResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     internetGateway::Union{InternetGatewayType, Void}
 
     CreateInternetGatewayResponseType(; requestId=nothing, internetGateway=nothing) =
@@ -8484,7 +8484,7 @@ export CreateInternetGatewayResponseType
 
 
 type AttachVpnGatewayResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     attachment::Union{AttachmentType, Void}
 
     AttachVpnGatewayResponseType(; requestId=nothing, attachment=nothing) =
@@ -8502,7 +8502,7 @@ export AttachVpnGatewayResponseType
 
 
 type DescribeLicensesType
-    licenseIdSet::Union{Vector{ASCIIString}, Void}
+    licenseIdSet::Union{Vector{String}, Void}
     filterSet::Union{Vector{FilterType}, Void}
 
     DescribeLicensesType(; licenseIdSet=nothing, filterSet=nothing) =
@@ -8510,7 +8510,7 @@ type DescribeLicensesType
 end
 function DescribeLicensesType(pd)
     o = DescribeLicensesType()
-    o.licenseIdSet = AWS.parse_vector_as(ASCIIString, "licenseId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "licenseId"))
+    o.licenseIdSet = AWS.parse_vector_as(String, "licenseId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "licenseId"))
     o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
@@ -8519,7 +8519,7 @@ export DescribeLicensesType
 
 
 type AuthorizeSecurityGroupIngressType
-    userId::Union{ASCIIString, Void}
+    userId::Union{String, Void}
     ipPermissions::Union{Vector{IpPermissionType}, Void}
 
     AuthorizeSecurityGroupIngressType(; userId=nothing, ipPermissions=nothing) =
@@ -8536,7 +8536,7 @@ export AuthorizeSecurityGroupIngressType
 
 
 type CreateSubnetResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     subnet::Union{SubnetType, Void}
 
     CreateSubnetResponseType(; requestId=nothing, subnet=nothing) =
@@ -8554,18 +8554,18 @@ export CreateSubnetResponseType
 
 
 type NetworkInterfaceType
-    networkInterfaceId::Union{ASCIIString, Void}
-    subnetId::Union{ASCIIString, Void}
-    vpcId::Union{ASCIIString, Void}
-    availabilityZone::Union{ASCIIString, Void}
-    description::Union{ASCIIString, Void}
-    ownerId::Union{ASCIIString, Void}
-    requesterId::Union{ASCIIString, Void}
+    networkInterfaceId::Union{String, Void}
+    subnetId::Union{String, Void}
+    vpcId::Union{String, Void}
+    availabilityZone::Union{String, Void}
+    description::Union{String, Void}
+    ownerId::Union{String, Void}
+    requesterId::Union{String, Void}
     requesterManaged::Union{Bool, Void}
-    status::Union{ASCIIString, Void}
-    macAddress::Union{ASCIIString, Void}
-    privateIpAddress::Union{ASCIIString, Void}
-    privateDnsName::Union{ASCIIString, Void}
+    status::Union{String, Void}
+    macAddress::Union{String, Void}
+    privateIpAddress::Union{String, Void}
+    privateDnsName::Union{String, Void}
     sourceDestCheck::Union{Bool, Void}
     groupSet::Union{Vector{GroupItemType}, Void}
     attachment::Union{NetworkInterfaceAttachmentType, Void}
@@ -8605,7 +8605,7 @@ export NetworkInterfaceType
 
 
 type ImportVolumeResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     conversionTask::Union{ConversionTaskType, Void}
 
     ImportVolumeResponseType(; requestId=nothing, conversionTask=nothing) =
@@ -8623,7 +8623,7 @@ export ImportVolumeResponseType
 
 
 type ModifySnapshotAttributeType
-    snapshotId::Union{ASCIIString, Void}
+    snapshotId::Union{String, Void}
     createVolumePermission::Union{CreateVolumePermissionOperationType, Void}
 
     ModifySnapshotAttributeType(; snapshotId=nothing, createVolumePermission=nothing) =
@@ -8641,7 +8641,7 @@ export ModifySnapshotAttributeType
 
 
 type CreateNetworkInterfaceResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     networkInterface::Union{NetworkInterfaceType, Void}
 
     CreateNetworkInterfaceResponseType(; requestId=nothing, networkInterface=nothing) =
@@ -8659,7 +8659,7 @@ export CreateNetworkInterfaceResponseType
 
 
 type CancelReservedInstancesListingResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     reservedInstancesListingsSet::Union{Vector{DescribeReservedInstancesListingsResponseSetItemType}, Void}
 
     CancelReservedInstancesListingResponseType(; requestId=nothing, reservedInstancesListingsSet=nothing) =
@@ -8676,7 +8676,7 @@ export CancelReservedInstancesListingResponseType
 
 
 type MonitorInstancesResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     instancesSet::Union{Vector{MonitorInstancesResponseSetItemType}, Void}
 
     MonitorInstancesResponseType(; requestId=nothing, instancesSet=nothing) =
@@ -8693,7 +8693,7 @@ export MonitorInstancesResponseType
 
 
 type CreateCustomerGatewayResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     customerGateway::Union{CustomerGatewayType, Void}
 
     CreateCustomerGatewayResponseType(; requestId=nothing, customerGateway=nothing) =
@@ -8711,7 +8711,7 @@ export CreateCustomerGatewayResponseType
 
 
 type DescribeVpnConnectionsResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     vpnConnectionSet::Union{Vector{VpnConnectionType}, Void}
 
     DescribeVpnConnectionsResponseType(; requestId=nothing, vpnConnectionSet=nothing) =
@@ -8728,40 +8728,40 @@ export DescribeVpnConnectionsResponseType
 
 
 type RunningInstancesItemType
-    instanceId::Union{ASCIIString, Void}
-    imageId::Union{ASCIIString, Void}
+    instanceId::Union{String, Void}
+    imageId::Union{String, Void}
     instanceState::Union{InstanceStateType, Void}
-    privateDnsName::Union{ASCIIString, Void}
-    dnsName::Union{ASCIIString, Void}
-    reason::Union{ASCIIString, Void}
-    keyName::Union{ASCIIString, Void}
-    amiLaunchIndex::Union{ASCIIString, Void}
+    privateDnsName::Union{String, Void}
+    dnsName::Union{String, Void}
+    reason::Union{String, Void}
+    keyName::Union{String, Void}
+    amiLaunchIndex::Union{String, Void}
     productCodes::Union{Vector{ProductCodesSetItemType}, Void}
-    instanceType::Union{ASCIIString, Void}
+    instanceType::Union{String, Void}
     launchTime::Union{Base.Dates.DateTime, Void}
     placement::Union{PlacementResponseType, Void}
-    kernelId::Union{ASCIIString, Void}
-    ramdiskId::Union{ASCIIString, Void}
-    platform::Union{ASCIIString, Void}
+    kernelId::Union{String, Void}
+    ramdiskId::Union{String, Void}
+    platform::Union{String, Void}
     monitoring::Union{InstanceMonitoringStateType, Void}
-    subnetId::Union{ASCIIString, Void}
-    vpcId::Union{ASCIIString, Void}
-    privateIpAddress::Union{ASCIIString, Void}
-    ipAddress::Union{ASCIIString, Void}
+    subnetId::Union{String, Void}
+    vpcId::Union{String, Void}
+    privateIpAddress::Union{String, Void}
+    ipAddress::Union{String, Void}
     sourceDestCheck::Union{Bool, Void}
     groupSet::Union{Vector{GroupItemType}, Void}
     stateReason::Union{StateReasonType, Void}
-    architecture::Union{ASCIIString, Void}
-    rootDeviceType::Union{ASCIIString, Void}
-    rootDeviceName::Union{ASCIIString, Void}
+    architecture::Union{String, Void}
+    rootDeviceType::Union{String, Void}
+    rootDeviceName::Union{String, Void}
     blockDeviceMapping::Union{Vector{InstanceBlockDeviceMappingResponseItemType}, Void}
-    instanceLifecycle::Union{ASCIIString, Void}
-    spotInstanceRequestId::Union{ASCIIString, Void}
+    instanceLifecycle::Union{String, Void}
+    spotInstanceRequestId::Union{String, Void}
     license::Union{InstanceLicenseResponseType, Void}
-    virtualizationType::Union{ASCIIString, Void}
-    clientToken::Union{ASCIIString, Void}
+    virtualizationType::Union{String, Void}
+    clientToken::Union{String, Void}
     tagSet::Union{Vector{ResourceTagSetItemType}, Void}
-    hypervisor::Union{ASCIIString, Void}
+    hypervisor::Union{String, Void}
     networkInterfaceSet::Union{Vector{InstanceNetworkInterfaceSetItemType}, Void}
     iamInstanceProfile::Union{IamInstanceProfileResponseType, Void}
     ebsOptimized::Union{Bool, Void}
@@ -8821,7 +8821,7 @@ export RunningInstancesItemType
 
 
 type DescribeSnapshotsResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     snapshotSet::Union{Vector{DescribeSnapshotsSetItemResponseType}, Void}
 
     DescribeSnapshotsResponseType(; requestId=nothing, snapshotSet=nothing) =
@@ -8838,7 +8838,7 @@ export DescribeSnapshotsResponseType
 
 
 type CreateVpcResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     vpc::Union{VpcType, Void}
 
     CreateVpcResponseType(; requestId=nothing, vpc=nothing) =
@@ -8856,11 +8856,11 @@ export CreateVpcResponseType
 
 
 type ImportInstanceType
-    description::Union{ASCIIString, Void}
+    description::Union{String, Void}
     launchSpecification::Union{ImportInstanceLaunchSpecificationType, Void}
     diskImageSet::Union{Vector{DiskImageType}, Void}
     keepPartialImports::Union{Bool, Void}
-    platform::Union{ASCIIString, Void}
+    platform::Union{String, Void}
 
     ImportInstanceType(; description=nothing, launchSpecification=nothing, diskImageSet=nothing, keepPartialImports=nothing, platform=nothing) =
          new(description, launchSpecification, diskImageSet, keepPartialImports, platform)
@@ -8880,13 +8880,13 @@ export ImportInstanceType
 
 
 type BundleInstanceTaskType
-    instanceId::Union{ASCIIString, Void}
-    bundleId::Union{ASCIIString, Void}
-    state::Union{ASCIIString, Void}
+    instanceId::Union{String, Void}
+    bundleId::Union{String, Void}
+    state::Union{String, Void}
     startTime::Union{Base.Dates.DateTime, Void}
     updateTime::Union{Base.Dates.DateTime, Void}
     storage::Union{BundleInstanceTaskStorageType, Void}
-    progress::Union{ASCIIString, Void}
+    progress::Union{String, Void}
     error::Union{BundleInstanceTaskErrorType, Void}
 
     BundleInstanceTaskType(; instanceId=nothing, bundleId=nothing, state=nothing, startTime=nothing, updateTime=nothing, storage=nothing, progress=nothing, error=nothing) =
@@ -8911,7 +8911,7 @@ export BundleInstanceTaskType
 
 
 type CancelBundleTaskResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     bundleInstanceTask::Union{BundleInstanceTaskType, Void}
 
     CancelBundleTaskResponseType(; requestId=nothing, bundleInstanceTask=nothing) =
@@ -8929,17 +8929,17 @@ export CancelBundleTaskResponseType
 
 
 type LaunchSpecificationResponseType
-    imageId::Union{ASCIIString, Void}
-    keyName::Union{ASCIIString, Void}
+    imageId::Union{String, Void}
+    keyName::Union{String, Void}
     groupSet::Union{Vector{GroupItemType}, Void}
-    addressingType::Union{ASCIIString, Void}
-    instanceType::Union{ASCIIString, Void}
+    addressingType::Union{String, Void}
+    instanceType::Union{String, Void}
     placement::Union{SpotPlacementRequestType, Void}
-    kernelId::Union{ASCIIString, Void}
-    ramdiskId::Union{ASCIIString, Void}
+    kernelId::Union{String, Void}
+    ramdiskId::Union{String, Void}
     blockDeviceMapping::Union{Vector{BlockDeviceMappingItemType}, Void}
     monitoring::Union{MonitoringInstanceType, Void}
-    subnetId::Union{ASCIIString, Void}
+    subnetId::Union{String, Void}
     networkInterfaceSet::Union{Vector{InstanceNetworkInterfaceSetItemRequestType}, Void}
     iamInstanceProfile::Union{IamInstanceProfileRequestType, Void}
     ebsOptimized::Union{Bool, Void}
@@ -8973,11 +8973,11 @@ export LaunchSpecificationResponseType
 
 
 type SecurityGroupItemType
-    ownerId::Union{ASCIIString, Void}
-    groupId::Union{ASCIIString, Void}
-    groupName::Union{ASCIIString, Void}
-    groupDescription::Union{ASCIIString, Void}
-    vpcId::Union{ASCIIString, Void}
+    ownerId::Union{String, Void}
+    groupId::Union{String, Void}
+    groupName::Union{String, Void}
+    groupDescription::Union{String, Void}
+    vpcId::Union{String, Void}
     ipPermissions::Union{Vector{IpPermissionType}, Void}
     ipPermissionsEgress::Union{Vector{IpPermissionType}, Void}
     tagSet::Union{Vector{ResourceTagSetItemType}, Void}
@@ -9002,7 +9002,7 @@ export SecurityGroupItemType
 
 
 type CreateNetworkAclResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     networkAcl::Union{NetworkAclType, Void}
 
     CreateNetworkAclResponseType(; requestId=nothing, networkAcl=nothing) =
@@ -9020,7 +9020,7 @@ export CreateNetworkAclResponseType
 
 
 type CreateVpnGatewayResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     vpnGateway::Union{VpnGatewayType, Void}
 
     CreateVpnGatewayResponseType(; requestId=nothing, vpnGateway=nothing) =
@@ -9038,12 +9038,12 @@ export CreateVpnGatewayResponseType
 
 
 type RunInstancesResponseType
-    requestId::Union{ASCIIString, Void}
-    reservationId::Union{ASCIIString, Void}
-    ownerId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
+    reservationId::Union{String, Void}
+    ownerId::Union{String, Void}
     groupSet::Union{Vector{GroupItemType}, Void}
     instancesSet::Union{Vector{RunningInstancesItemType}, Void}
-    requesterId::Union{ASCIIString, Void}
+    requesterId::Union{String, Void}
 
     RunInstancesResponseType(; requestId=nothing, reservationId=nothing, ownerId=nothing, groupSet=nothing, instancesSet=nothing, requesterId=nothing) =
          new(requestId, reservationId, ownerId, groupSet, instancesSet, requesterId)
@@ -9063,7 +9063,7 @@ export RunInstancesResponseType
 
 
 type RevokeSecurityGroupEgressType
-    groupId::Union{ASCIIString, Void}
+    groupId::Union{String, Void}
     ipPermissions::Union{Vector{IpPermissionType}, Void}
 
     RevokeSecurityGroupEgressType(; groupId=nothing, ipPermissions=nothing) =
@@ -9080,7 +9080,7 @@ export RevokeSecurityGroupEgressType
 
 
 type DescribeNetworkAclsResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     networkAclSet::Union{Vector{NetworkAclType}, Void}
 
     DescribeNetworkAclsResponseType(; requestId=nothing, networkAclSet=nothing) =
@@ -9097,7 +9097,7 @@ export DescribeNetworkAclsResponseType
 
 
 type DescribeNetworkInterfacesResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     networkInterfaceSet::Union{Vector{NetworkInterfaceType}, Void}
 
     DescribeNetworkInterfacesResponseType(; requestId=nothing, networkInterfaceSet=nothing) =
@@ -9114,9 +9114,9 @@ export DescribeNetworkInterfacesResponseType
 
 
 type DescribeReservedInstancesOfferingsResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     reservedInstancesOfferingsSet::Union{Vector{DescribeReservedInstancesOfferingsResponseSetItemType}, Void}
-    nextToken::Union{ASCIIString, Void}
+    nextToken::Union{String, Void}
 
     DescribeReservedInstancesOfferingsResponseType(; requestId=nothing, reservedInstancesOfferingsSet=nothing, nextToken=nothing) =
          new(requestId, reservedInstancesOfferingsSet, nextToken)
@@ -9133,22 +9133,22 @@ export DescribeReservedInstancesOfferingsResponseType
 
 
 type SpotInstanceRequestSetItemType
-    spotInstanceRequestId::Union{ASCIIString, Void}
-    spotPrice::Union{ASCIIString, Void}
-    _type::Union{ASCIIString, Void}
-    state::Union{ASCIIString, Void}
+    spotInstanceRequestId::Union{String, Void}
+    spotPrice::Union{String, Void}
+    _type::Union{String, Void}
+    state::Union{String, Void}
     fault::Union{SpotInstanceStateFaultType, Void}
     status::Union{SpotInstanceStatusMessageType, Void}
     validFrom::Union{Base.Dates.DateTime, Void}
     validUntil::Union{Base.Dates.DateTime, Void}
-    launchGroup::Union{ASCIIString, Void}
-    availabilityZoneGroup::Union{ASCIIString, Void}
+    launchGroup::Union{String, Void}
+    availabilityZoneGroup::Union{String, Void}
     launchSpecification::Union{LaunchSpecificationResponseType, Void}
-    instanceId::Union{ASCIIString, Void}
+    instanceId::Union{String, Void}
     createTime::Union{Base.Dates.DateTime, Void}
-    productDescription::Union{ASCIIString, Void}
+    productDescription::Union{String, Void}
     tagSet::Union{Vector{ResourceTagSetItemType}, Void}
-    launchedAvailabilityZone::Union{ASCIIString, Void}
+    launchedAvailabilityZone::Union{String, Void}
 
     SpotInstanceRequestSetItemType(; spotInstanceRequestId=nothing, spotPrice=nothing, _type=nothing, state=nothing, fault=nothing, status=nothing, validFrom=nothing, validUntil=nothing, launchGroup=nothing, availabilityZoneGroup=nothing, launchSpecification=nothing, instanceId=nothing, createTime=nothing, productDescription=nothing, tagSet=nothing, launchedAvailabilityZone=nothing) =
          new(spotInstanceRequestId, spotPrice, _type, state, fault, status, validFrom, validUntil, launchGroup, availabilityZoneGroup, launchSpecification, instanceId, createTime, productDescription, tagSet, launchedAvailabilityZone)
@@ -9180,7 +9180,7 @@ export SpotInstanceRequestSetItemType
 
 
 type ImportInstanceResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     conversionTask::Union{ConversionTaskType, Void}
 
     ImportInstanceResponseType(; requestId=nothing, conversionTask=nothing) =
@@ -9198,8 +9198,8 @@ export ImportInstanceResponseType
 
 
 type VolumeStatusItemType
-    volumeId::Union{ASCIIString, Void}
-    availabilityZone::Union{ASCIIString, Void}
+    volumeId::Union{String, Void}
+    availabilityZone::Union{String, Void}
     volumeStatus::Union{VolumeStatusInfoType, Void}
     eventsSet::Union{Vector{VolumeStatusEventItemType}, Void}
     actionsSet::Union{Vector{VolumeStatusActionItemType}, Void}
@@ -9222,7 +9222,7 @@ export VolumeStatusItemType
 
 
 type DescribeSpotInstanceRequestsResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     spotInstanceRequestSet::Union{Vector{SpotInstanceRequestSetItemType}, Void}
 
     DescribeSpotInstanceRequestsResponseType(; requestId=nothing, spotInstanceRequestSet=nothing) =
@@ -9239,7 +9239,7 @@ export DescribeSpotInstanceRequestsResponseType
 
 
 type DescribeCustomerGatewaysResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     customerGatewaySet::Union{Vector{CustomerGatewayType}, Void}
 
     DescribeCustomerGatewaysResponseType(; requestId=nothing, customerGatewaySet=nothing) =
@@ -9256,9 +9256,9 @@ export DescribeCustomerGatewaysResponseType
 
 
 type DescribeVolumeStatusResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     volumeStatusSet::Union{Vector{VolumeStatusItemType}, Void}
-    nextToken::Union{ASCIIString, Void}
+    nextToken::Union{String, Void}
 
     DescribeVolumeStatusResponseType(; requestId=nothing, volumeStatusSet=nothing, nextToken=nothing) =
          new(requestId, volumeStatusSet, nextToken)
@@ -9275,7 +9275,7 @@ export DescribeVolumeStatusResponseType
 
 
 type DescribeVpnGatewaysResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     vpnGatewaySet::Union{Vector{VpnGatewayType}, Void}
 
     DescribeVpnGatewaysResponseType(; requestId=nothing, vpnGatewaySet=nothing) =
@@ -9292,19 +9292,19 @@ export DescribeVpnGatewaysResponseType
 
 
 type LaunchSpecificationRequestType
-    imageId::Union{ASCIIString, Void}
-    keyName::Union{ASCIIString, Void}
-    securityGroupIdSet::Union{Vector{ASCIIString}, Void}
-    securityGroupSet::Union{Vector{ASCIIString}, Void}
+    imageId::Union{String, Void}
+    keyName::Union{String, Void}
+    securityGroupIdSet::Union{Vector{String}, Void}
+    securityGroupSet::Union{Vector{String}, Void}
     userData::Union{UserDataType, Void}
-    addressingType::Union{ASCIIString, Void}
-    instanceType::Union{ASCIIString, Void}
+    addressingType::Union{String, Void}
+    instanceType::Union{String, Void}
     placement::Union{SpotPlacementRequestType, Void}
-    kernelId::Union{ASCIIString, Void}
-    ramdiskId::Union{ASCIIString, Void}
+    kernelId::Union{String, Void}
+    ramdiskId::Union{String, Void}
     blockDeviceMapping::Union{Vector{BlockDeviceMappingItemType}, Void}
     monitoring::Union{MonitoringInstanceType, Void}
-    subnetId::Union{ASCIIString, Void}
+    subnetId::Union{String, Void}
     networkInterfaceSet::Union{Vector{InstanceNetworkInterfaceSetItemRequestType}, Void}
     iamInstanceProfile::Union{IamInstanceProfileRequestType, Void}
     ebsOptimized::Union{Bool, Void}
@@ -9316,8 +9316,8 @@ function LaunchSpecificationRequestType(pd)
     o = LaunchSpecificationRequestType()
     o.imageId = LightXML.content(LightXML.find_element(pd, "imageId"))
     o.keyName = LightXML.content(LightXML.find_element(pd, "keyName"))
-    o.securityGroupIdSet = AWS.parse_vector_as(ASCIIString, "securityGroupId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "securityGroupId"))
-    o.securityGroupSet = AWS.parse_vector_as(ASCIIString, "securityGroup", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "securityGroup"))
+    o.securityGroupIdSet = AWS.parse_vector_as(String, "securityGroupId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "securityGroupId"))
+    o.securityGroupSet = AWS.parse_vector_as(String, "securityGroup", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "securityGroup"))
     ## o.userData = length(pd["userData"]) > 0 ?  UserDataType(LightXML.find_element(pd,"userData[1]")) : nothing
     o.userData = LightXML.find_element(pd,"userData") != nothing ? UserDataType(LightXML.find_element(pd,"userData")) : nothing
     o.addressingType = LightXML.content(LightXML.find_element(pd, "addressingType"))
@@ -9341,11 +9341,11 @@ export LaunchSpecificationRequestType
 
 
 type ReservationInfoType
-    reservationId::Union{ASCIIString, Void}
-    ownerId::Union{ASCIIString, Void}
+    reservationId::Union{String, Void}
+    ownerId::Union{String, Void}
     groupSet::Union{Vector{GroupItemType}, Void}
     instancesSet::Union{Vector{RunningInstancesItemType}, Void}
-    requesterId::Union{ASCIIString, Void}
+    requesterId::Union{String, Void}
 
     ReservationInfoType(; reservationId=nothing, ownerId=nothing, groupSet=nothing, instancesSet=nothing, requesterId=nothing) =
          new(reservationId, ownerId, groupSet, instancesSet, requesterId)
@@ -9365,7 +9365,7 @@ export ReservationInfoType
 
 
 type DescribeBundleTasksResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     bundleInstanceTasksSet::Union{Vector{BundleInstanceTaskType}, Void}
 
     DescribeBundleTasksResponseType(; requestId=nothing, bundleInstanceTasksSet=nothing) =
@@ -9382,7 +9382,7 @@ export DescribeBundleTasksResponseType
 
 
 type CreateRouteTableResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     routeTable::Union{RouteTableType, Void}
 
     CreateRouteTableResponseType(; requestId=nothing, routeTable=nothing) =
@@ -9400,7 +9400,7 @@ export CreateRouteTableResponseType
 
 
 type RequestSpotInstancesResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     spotInstanceRequestSet::Union{Vector{SpotInstanceRequestSetItemType}, Void}
 
     RequestSpotInstancesResponseType(; requestId=nothing, spotInstanceRequestSet=nothing) =
@@ -9417,7 +9417,7 @@ export RequestSpotInstancesResponseType
 
 
 type DescribeSubnetsResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     subnetSet::Union{Vector{SubnetType}, Void}
 
     DescribeSubnetsResponseType(; requestId=nothing, subnetSet=nothing) =
@@ -9434,13 +9434,13 @@ export DescribeSubnetsResponseType
 
 
 type RequestSpotInstancesType
-    spotPrice::Union{ASCIIString, Void}
+    spotPrice::Union{String, Void}
     instanceCount::Union{Int64, Void}
-    _type::Union{ASCIIString, Void}
+    _type::Union{String, Void}
     validFrom::Union{Base.Dates.DateTime, Void}
     validUntil::Union{Base.Dates.DateTime, Void}
-    launchGroup::Union{ASCIIString, Void}
-    availabilityZoneGroup::Union{ASCIIString, Void}
+    launchGroup::Union{String, Void}
+    availabilityZoneGroup::Union{String, Void}
     launchSpecification::Union{LaunchSpecificationRequestType, Void}
 
     RequestSpotInstancesType(; spotPrice=nothing, instanceCount=nothing, _type=nothing, validFrom=nothing, validUntil=nothing, launchGroup=nothing, availabilityZoneGroup=nothing, launchSpecification=nothing) =
@@ -9464,7 +9464,7 @@ export RequestSpotInstancesType
 
 
 type BundleInstanceResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     bundleInstanceTask::Union{BundleInstanceTaskType, Void}
 
     BundleInstanceResponseType(; requestId=nothing, bundleInstanceTask=nothing) =
@@ -9482,7 +9482,7 @@ export BundleInstanceResponseType
 
 
 type DescribeInstancesResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     reservationSet::Union{Vector{ReservationInfoType}, Void}
 
     DescribeInstancesResponseType(; requestId=nothing, reservationSet=nothing) =
@@ -9499,7 +9499,7 @@ export DescribeInstancesResponseType
 
 
 type DescribeSecurityGroupsResponseType
-    requestId::Union{ASCIIString, Void}
+    requestId::Union{String, Void}
     securityGroupInfo::Union{Vector{SecurityGroupItemType}, Void}
 
     DescribeSecurityGroupsResponseType(; requestId=nothing, securityGroupInfo=nothing) =
