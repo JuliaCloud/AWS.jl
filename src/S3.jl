@@ -684,7 +684,7 @@ function do_request(env::AWSEnv, ro::RO; conv_to_string=true)
                 s3_resp.obj = S3Error(s3_resp.pd)
             end
 		else
-			s3_resp.pd = String(copy(http_resp.data))
+			s3_resp.pd = bytestring(http_resp.data)
         end
     else
         s3_resp.obj = conv_to_string ? String(copy(http_resp.data)) : http_resp.data

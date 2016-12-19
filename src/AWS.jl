@@ -147,12 +147,12 @@ type AWSEnv
 
 end
 
-# function Base.show(io::IO, awsEnv::AWSEnv)
-#     e = copy(awsEnv)
-#     e.aws_id = "XXXXXXXXXX"
-#     e.aws_seckey = "XXXXXXXXXXXXXXX"
-#     @show e
-# end
+function Base.display(awsEnv::AWSEnv)
+    e = deepcopy(awsEnv)
+    e.aws_id = "XXXXXX$(awsEnv.aws_id[end-2:end])"
+    e.aws_seckey = "XXXXXXXXXX$(awsEnv.aws_seckey[end-2:end])"
+    println(e)
+end
 
 export AWSEnv
 
