@@ -1,15 +1,14 @@
 using AWS, AWS.SQS
 
-include("config.jl")
+env=AWSEnv()
 
-
-env=AWSEnv(; id=id, key=key, dbg=dbg, region=region)
-## env=AWSEnv(; id=id, key=key, dbg=dbg)
+const awsAccountID = ENV["AWS_ACCOUNT_ID"]
 
 queueName="MyTest1"
 
 println("List all queues !!!")
 queues = SQS.ListQueues(env)
+@show queues
 
 println("Create queue")
 attributes = AttributeType[]
@@ -258,4 +257,3 @@ if resp.http_code < 299
 else
 	println("Test for Delete Queue Failed")
 end
-

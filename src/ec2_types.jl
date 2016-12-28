@@ -7769,7 +7769,7 @@ end
 function InstancePrivateIpAddressesSetItemType(pd)
     o = InstancePrivateIpAddressesSetItemType()
     o.privateIpAddress = LightXML.content(LightXML.find_element(pd, "privateIpAddress"))
-    o.privateDnsName = LightXML.content(LightXML.find_element(pd, "privateDnsName"))
+    o.privateDnsName = LightXML.find_element(pd, "privateDnsName") != nothing ? LightXML.content(LightXML.find_element(pd, "privateDnsName")) : nothing
     o.primary = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "primary")))
     ## o.association = length(pd["association"]) > 0 ?  InstanceNetworkInterfaceAssociationType(LightXML.find_element(pd,"association[1]")) : nothing
     o.association = LightXML.find_element(pd,"association") != nothing ? InstanceNetworkInterfaceAssociationType(LightXML.find_element(pd,"association")) : nothing
@@ -8131,7 +8131,7 @@ function InstanceNetworkInterfaceSetItemType(pd)
     o.status = LightXML.content(LightXML.find_element(pd, "status"))
     o.macAddress = LightXML.content(LightXML.find_element(pd, "macAddress"))
     o.privateIpAddress = LightXML.content(LightXML.find_element(pd, "privateIpAddress"))
-    o.privateDnsName = LightXML.content(LightXML.find_element(pd, "privateDnsName"))
+    o.privateDnsName = LightXML.find_element(pd, "privateDnsName") != nothing ? LightXML.content(LightXML.find_element(pd, "privateDnsName")) : nothing
     o.sourceDestCheck = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "sourceDestCheck")))
     o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "groupSet"), "item"))
     ## o.attachment = length(pd["attachment"]) > 0 ?  InstanceNetworkInterfaceAttachmentType(LightXML.find_element(pd,"attachment[1]")) : nothing

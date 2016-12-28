@@ -602,19 +602,28 @@ CORSConfiguration(pd) = AWS.@parse_vector(AWS.S3.CORSRule, LightXML.get_elements
 type S3Error
     code::Union{AbstractString, Void}
     message::Union{AbstractString, Void}
-    resource::Union{AbstractString, Void}
     hostId::Union{AbstractString, Void}
     requestId::Union{AbstractString, Void}
 end
 function S3Error(pde)
     code = LightXML.content(LightXML.find_element(pde, "Code"))
     message = LightXML.content(LightXML.find_element(pde, "Message"))
-    resource = LightXML.content(LightXML.find_element(pde, "Resource"))
+    
+    # this might be redundant as it often returns empty, AWS docs 
+    # at http://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html
+    # are incomplete
+    _resrce = LightXML.find_element(pde, "Resource")
+    resource =  _resrce != Void() ? LightXML.content(_resrce) : Void()
+
+    _sig = LightXML.find_element(pde, "SignatureProvided")
+    signature =  _sig != Void() ? LightXML.content(_sig) : Void()
+
     hostId = LightXML.content(LightXML.find_element(pde, "HostId"))
     requestId = LightXML.content(LightXML.find_element(pde, "RequestId"))
 
-    S3Error(code, message, resource, hostId, requestId)
+    S3Error(code, message, hostId, requestId)
 end
+
 export CORSConfiguration
 
 
@@ -862,7 +871,7 @@ type DeleteObjectsType
     DeleteObjectsType(objects, quiet) = new(quiet, objects)
 end
 function xml(o::DeleteObjectsType)
-    xml("Delete", [("Quiet", o.quiet), o.objects])
+    xml("Delete", [("Quiet", o.quiet); o.objects])
 end
 export DeleteObjectsType
 
@@ -953,9 +962,9 @@ Deleted() = Deleted(nothing,nothing,nothing,nothing)
 function Deleted(pd)
     d = Deleted()
     d.key = LightXML.content(LightXML.find_element(pd, "Key"))
-    d.version_id = LightXML.content(LightXML.find_element(pd, "VersionId"))
-    d.marker = AWS.safe_parsebool(LightXML.content(LightXML.find_element(pd, "DeleteMarker")))
-    d.marker_version_id = LightXML.content(LightXML.find_element(pd, "DeleteMarkerVersionId"))
+    d.version_id = LightXML.find_element(pd, "VersionId") != nothing ? LightXML.content(LightXML.find_element(pd, "VersionId")) : nothing
+    d.marker = LightXML.find_element(pd, "DeleteMarker") != nothing ? AWS.safe_parsebool(LightXML.content(LightXML.find_element(pd, "DeleteMarker"))) : nothing
+    d.marker_version_id = LightXML.find_element(pd, "DeleteMarkerVersionId") != nothing ? LightXML.content(LightXML.find_element(pd, "DeleteMarkerVersionId")) : nothing
     d
 end
 export Deleted
@@ -972,9 +981,9 @@ DeleteError() = DeleteError(nothing,nothing,nothing,nothing)
 function DeleteError(pd)
     de = DeleteError()
     de.key = LightXML.content(LightXML.find_element(pd, "Key"))
-    de.version_id = LightXML.content(LightXML.find_element(pd, "VersionId"))
-    de.code = LightXML.content(LightXML.find_element(pd, "Code"))
-    de.message = LightXML.content(LightXML.find_element(pd, "Message"))
+    de.version_id = LightXML.find_element(pd, "VersionId") != nothing ? LightXML.content(LightXML.find_element(pd, "VersionId")) : nothing
+    de.code = LightXML.find_element(pd, "Code") != nothing ? LightXML.content(LightXML.find_element(pd, "Code")) : nothing
+    de.message = LightXML.find_element(pd, "Message") != noting ?LightXML.content(LightXML.find_element(pd, "Message")) : nothing
     de
 end
 export DeleteError
@@ -987,14 +996,8 @@ end
 DeleteResult() = DeleteResult(nothing, nothing)
 function DeleteResult(pd)
     dr = DeleteResult()
-    deleted = pd["Deleted"]
-    if length(deleted) > 0
-        dr.deleted = AWS.@parse_vector(AWS.S3.Deleted, deleted)
-    end
-    delete_errors = pd["Error"]
-    if length(delete_errors) > 0
-        dr.delete_errors = AWS.@parse_vector(AWS.S3.DeleteError, delete_errors)
-    end
+    dr.deleted = LightXML.get_elements_by_tagname(pd, "Deleted") != nothing ? AWS.@parse_vector(AWS.S3.Deleted, LightXML.get_elements_by_tagname(pd, "Deleted")) : nothing
+    dr.delete_errors = LightXML.find_element(pd, "Errors") != nothing ? AWS.@parse_vector(AWS.S3.DeleteError, LightXML.find_element(pd, "Errors")) : nothing
     dr
 end
 export DeleteResult

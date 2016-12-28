@@ -1,10 +1,9 @@
 using AWS.EC2
 using AWS
 
-    
+
 const ami_ubuntu_13_04_64_bit_US_east = "ami-64a4de0d" # Julia nightly 25th july
 const ami_ubuntu_13_04_32_bit_US_east = "ami-5b8be132" # With Julia
-
 const ami_ubuntu_13_04_32bit_USeast_dev = "ami-8bdda8e2"
 
 env = AWSEnv()
@@ -88,10 +87,10 @@ function launch_n_ec2(n::Int)
         push!(instances, inst.instanceId)
     end
     println("Launched instances : $instances" )
-    
+
     # Tag the instances..also test ec2_basic API..
     resp = ec2_basic(env, "CreateTags", {"ResourceId"=>instances, "Tag"=>[{"Key"=>"Name","Value"=>"AWSTest"}, {"Key"=>"Owner","Value"=>"amitm"}]})
-    if (typeof(resp.obj) == EC2Error) 
+    if (typeof(resp.obj) == EC2Error)
         error(ec2_error_str(resp.obj))
     else
         resp.obj = CreateTagsResponseType(resp.pd)
@@ -109,14 +108,12 @@ function launch_n_ec2(n::Int)
     while (((time() - start) < 60.0) && (length(chk_instances) > 0))
         println("All instances not yet in a running state. Waiting and trying again....")
         sleep(5.0)
-        
+
         chk_instances = check_running(chk_instances)
     end
-    
+
     if (length(chk_instances) > 0)
         println("All instances not yet in a running state. Please check after some time.")
     end
     instances
 end
-
-
