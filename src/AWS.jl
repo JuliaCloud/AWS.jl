@@ -33,9 +33,9 @@ function __init__()
     config_file_base = Sys.KERNEL == :Windows ? ENV["APPDATA"] : homedir()
 
     # Search for default AWS_ID and AWS_SECKEY
-    global const AWS_ID = ""
-    global const AWS_SECKEY = ""
-    global const AWS_TOKEN = ""
+    global AWS_ID = ""
+    global AWS_SECKEY = ""
+    global AWS_TOKEN = ""
     if haskey(ENV, "AWS_ID") && haskey(ENV, "AWS_SECKEY")
         AWS_ID = ENV["AWS_ID"]
         AWS_SECKEY = ENV["AWS_SECKEY"]
@@ -50,7 +50,7 @@ function __init__()
     end
 
     # Search for default AWS_REGION
-    global const AWS_REGION = US_EAST_1
+    global AWS_REGION = US_EAST_1
     if haskey(ENV, "AWS_REGION")
         AWS_REGION = ENV["AWS_REGION"]
     elseif haskey(ENV, "AWS_DEFAULT_REGION")
@@ -67,10 +67,10 @@ type AWSEnv
     aws_id::String         # AWS Access Key id
     aws_seckey::String     # AWS Secret key for signing requests
     aws_token::String      # AWS Security Token for temporary credentials
-    region::AbstractString      # region name
+    region::String      # region name
 	ep_scheme::String      # URL scheme: http or https
-    ep_host::AbstractString     # region endpoint (host)
-    ep_path::AbstractString     # region endpoint (path)
+    ep_host::String     # region endpoint (host)
+    ep_path::String     # region endpoint (path)
     sig_ver::Int                # AWS signature version (2 or 4)
     timeout::Float64            # request timeout in seconds, default is no timeout.
     dry_run::Bool               # If true, no actual request will be made - implies dbg flag below
@@ -173,7 +173,7 @@ function get_instance_credentials()
             return nothing
         end
 
-        iam = split(bytestring(resp.data))
+        iam = split(String(copy(resp.data)))
         if length(iam) == 0
             return nothing
         end
@@ -184,7 +184,7 @@ function get_instance_credentials()
             return nothing
         end
 
-        return JSON.Parser.parse(bytestring(resp.data))
+        return JSON.Parser.parse(String(copy(resp.data)))
     catch
         return nothing
     end

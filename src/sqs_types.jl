@@ -18,9 +18,9 @@ export AttributeType
 # Note: dataType="Binary" is not supported because HTTPC.urlencode_query_params is not presently capable of encoding binary data into a URL.
 # Need to either enhance HTTPClient package, or place binary data into POST message instead of GET.
 type MessageAttributeValueType
-    dataType::Union{AbstractString, Void}
+    dataType::Union{String, Void}
     binaryValue::Union{Vector{UInt8}, Void}
-    stringValue::Union{AbstractString, Void}
+    stringValue::Union{String, Void}
 
     MessageAttributeValueType(; dataType=nothing, binaryValue=nothing, stringValue=nothing) =
          new(dataType, binaryValue, stringValue)
@@ -281,7 +281,7 @@ type MessageType
     receiptHandle::Union{String, Void}
     MD5OfBody::Union{String, Void}
     MD5OfMessageAttributes::Union{String, Void}
-    body::Union{AbstractString, Void}
+    body::Union{String, Void}
     attributeSet::Union{Vector{AttributeType}, Void}
     messageAttributeSet::Union{Vector{MessageAttributeType}, Void}
 
@@ -323,7 +323,7 @@ export ReceiveMessageResponseType
 type SendMessageType
     delaySeconds::Union{Int, Void}
     messageAttributeSet::Union{Vector{MessageAttributeType}, Void}
-    messageBody::Union{AbstractString, Void}
+    messageBody::Union{String, Void}
     queueUrl::Union{String, Void}
 
     SendMessageType(; delaySeconds=nothing, messageBody=nothing, queueUrl=nothing) =
@@ -397,7 +397,7 @@ type SendMessageBatchRequestEntryType
     delaySeconds::Union{Int, Void}
     id::Union{String, Void}
     messageAttributeSet::Union{Vector{MessageAttributeType}, Void}
-    messageBody::Union{AbstractString, Void}
+    messageBody::Union{String, Void}
 
 	SendMessageBatchRequestEntryType(; delaySeconds=nothing, id=nothing, messageAttributeSet=nothing, messageBody=nothing) = 
 		new(delaySeconds, id, messageAttributeSet, messageBody)

@@ -56,7 +56,7 @@ function signature_version_2(env::AWSEnv, service, use_post, request_parameters)
 
     string_to_sign = method * "\n" * ep_host(env, service) * "\n" * env.ep_path * "\n" * canonical_querystring
 
-    signature = bytestring(base64encode(sign(env.aws_seckey, string_to_sign)))
+    signature = String(copy(base64encode(sign(env.aws_seckey, string_to_sign))))
 
     push!(request_parameters, ("Signature", signature))
 

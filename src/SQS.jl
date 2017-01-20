@@ -9,11 +9,11 @@ using AWS
 
 
 type SQSError
-    typ::AbstractString
-    code::AbstractString
-    msg::AbstractString
-    detail::AbstractString
-    request_id::Union{AbstractString, Void}
+    typ::String
+    code::String
+    msg::String
+    detail::String
+    request_id::Union{String, Void}
 end
 export SQSError
 
@@ -24,7 +24,7 @@ export sqs_error_str
 type SQSResponse
     http_code::Int
     headers
-    body::Union{AbstractString, Void}
+    body::Union{String, Void}
     pd::Union{LightXML.XMLElement, Void}
     obj::Any
 
@@ -33,7 +33,7 @@ end
 export SQSResponse
 
 
-function sqs_execute(env_::AWSEnv, action::AbstractString, ep, params_in, use_post)
+function sqs_execute(env_::AWSEnv, action::String, ep, params_in, use_post)
     # Adjust endpoint.
     env = env_
     if ep != nothing
@@ -81,7 +81,7 @@ function sqs_execute(env_::AWSEnv, action::AbstractString, ep, params_in, use_po
 
         sqsresp.http_code = resp.status
         sqsresp.headers = resp.headers
-        sqsresp.body = bytestring(resp.data)
+        sqsresp.body = String(copy(resp.data))
 
         if (env.dbg)
             print("HTTPCode: ", sqsresp.http_code, "\nHeaders: ", sqsresp.headers, "\nBody : ", sqsresp.body, "\n")
@@ -90,11 +90,11 @@ function sqs_execute(env_::AWSEnv, action::AbstractString, ep, params_in, use_po
         if (sqsresp.http_code >= 200) && (sqsresp.http_code <= 299)
              if (search(Base.get(resp.headers, "Content-Type", [""]), "/xml") != 0:-1)
 #            if  haskey(resp.headers, "Content-Type") && (resp.headers["Content-Type"] == "application/xml")
-                sqsresp.pd = LightXML.root(LightXML.parse_string(bytestring(sqsresp.body)))
+                sqsresp.pd = LightXML.root(LightXML.parse_string(String(copy(sqsresp.body))))
             end
         elseif (sqsresp.http_code >= 400) && (sqsresp.http_code <= 599)
             if length(sqsresp.body) > 0
-                xom = LightXML.root(LightXML.parse_string(bytestring(sqsresp.body)))
+                xom = LightXML.root(LightXML.parse_string(String(copy(sqsresp.body))))
                 epd = LightXML.find_element(xom, "Error")
                 if epd == nothing
                     error("HTTP error : $(resp.status), $(sqsresp.body)")

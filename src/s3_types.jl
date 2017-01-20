@@ -1,8 +1,8 @@
 
 # Seems like Metadata is not returned via XML in case of the REST API.
 # type MetadataEntry
-#     name::AbstractString
-#     value::AbstractString
+#     name::String
+#     value::String
 # end
 
 const XMLNS_ATTR = "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\""
@@ -26,8 +26,8 @@ end
 macro declare_utype(utype)
     quote
         type $(esc(utype))
-            id::AbstractString
-            displayName::Union{AbstractString, Void}
+            id::String
+            displayName::Union{String, Void}
         end
 
         xml(o::$(esc(utype))) = xml($(string(utype)), [("ID", o.id), ("DisplayName", o.displayName)])
@@ -44,20 +44,20 @@ export Owner, Initiator
 
 
 type GranteeEmail
-    email::AbstractString
+    email::String
 end
 xml(o::GranteeEmail) = xml("Grantee", [("EmailAddress", o.email)], xmlns=$XMLNS_ATTR, xsi_type="AmazonCustomerByEmail")
 export GranteeEmail
 
 type GranteeURI
-    uri::AbstractString
+    uri::String
 end
 xml(o::GranteeURI) = xml("Grantee", [("URI", o.uri)], xmlns=$XMLNS_ATTR, xsi_type="Group")
 export GranteeURI
 
 type GranteeID
-    id::AbstractString
-    displayName::AbstractString
+    id::String
+    displayName::String
 end
 xml(o::GranteeID) = xml("Grantee", [("ID", o.id), ("DisplayName", o.displayName)], xmlns=$XMLNS_ATTR, xsi_type="CanonicalUser")
 export GranteeID
@@ -65,7 +65,7 @@ export GranteeID
 
 type Grant
     grantee::Union{GranteeEmail, GranteeURI, GranteeID}
-    permission::AbstractString
+    permission::String
 end
 xml(o::Grant) = xml("Grant", [o.grantee, ("Permission", o.permission)])
 # permission must be one of "READ", "WRITE", "READ_ACP", "WRITE_ACP" or "FULL_CONTROL"
@@ -92,8 +92,8 @@ export Grant
 
 type BucketLoggingStatus
     loggingEnabled::Union{Bool, Void}
-    targetBucket::Union{AbstractString, Void}
-    targetPrefix::Union{AbstractString, Void}
+    targetBucket::Union{String, Void}
+    targetPrefix::Union{String, Void}
     targetGrants::Union{Vector{Grant}, Void}
 end
 
@@ -147,8 +147,8 @@ export AccessControlPolicy
 # Storage class must be one of "STANDARD", "REDUCED_REDUNDANCY", "GLACIER" or "UNKNOWN"
 
 
-type CreateBucketConfiguration
-    locationConstraint::Union{AbstractString, Void}
+type CreateBucketConfiguration{T<:Union{String, Void}}
+    locationConstraint::T
 end
 CreateBucketConfiguration(pd_cbc) = CreateBucketConfiguration(LightXML.content(LightXML.find_element(pd_cbc, "LocationConstraint")))
 xml(o::CreateBucketConfiguration) = xml_hdr("CreateBucketConfiguration") *
@@ -159,12 +159,12 @@ export CreateBucketConfiguration
 
 
 type Contents
-    key::Union{AbstractString, Void}
+    key::Union{String, Void}
     lastModified::DateTime
-    eTag::Union{AbstractString, Void}
+    eTag::Union{String, Void}
     size::Union{Int64, Void}
     owner::Union{Owner, Void}
-    storageClass::Union{AbstractString, Void}
+    storageClass::Union{String, Void}
 end
 function Contents(pd_le)
     key = LightXML.content(LightXML.find_element(pd_le, "Key"))
@@ -181,20 +181,20 @@ export Contents
 
 
 
-type CommonPrefixes
-    prefix::Union{AbstractString, Void}
+type CommonPrefixes{T<:Union{String, Void}}
+    prefix::T
 end
 CommonPrefixes(pd_cp) = CommonPrefixes(LightXML.content(LightXML.find_element(pd_cp, "Prefix")))
 export CommonPrefixes
 
 
 type ListBucketResult
-    name::Union{AbstractString, Void}
-    prefix::Union{AbstractString, Void}
-    marker::Union{AbstractString, Void}
-    nextMarker::Union{AbstractString, Void}
+    name::Union{String, Void}
+    prefix::Union{String, Void}
+    marker::Union{String, Void}
+    nextMarker::Union{String, Void}
     maxKeys::Union{Int, Void}
-    delimiter::Union{AbstractString, Void}
+    delimiter::Union{String, Void}
     isTruncated::Union{Bool, Void}
     contents::Vector{Contents}
     commonPrefixes::Vector{CommonPrefixes}
@@ -218,14 +218,14 @@ end
 export ListBucketResult
 
 type Version
-    key::Union{AbstractString, Void}
-    versionId::Union{AbstractString, Void}
+    key::Union{String, Void}
+    versionId::Union{String, Void}
     isLatest::Union{Bool, Void}
     lastModified::DateTime
-    eTag::Union{AbstractString, Void}
+    eTag::Union{String, Void}
     size::Union{Int64, Void}
     owner::Union{Owner, Void}
-    storageClass::Union{AbstractString, Void}
+    storageClass::Union{String, Void}
 end
 function Version(pd_v)
     key = LightXML.content(LightXML.find_element(pd_v, "Key"))
@@ -245,8 +245,8 @@ export Version
 
 
 type DeleteMarker
-    key::Union{AbstractString, Void}
-    versionId::Union{AbstractString, Void}
+    key::Union{String, Void}
+    versionId::Union{String, Void}
     isLatest::Union{Bool, Void}
     lastModified::DateTime
     owner::Union{Owner, Void}
@@ -266,14 +266,14 @@ export DeleteMarker
 
 
 type ListVersionsResult
-    name::Union{AbstractString, Void}
-    prefix::Union{AbstractString, Void}
-    keyMarker::Union{AbstractString, Void}
-    versionIdMarker::Union{AbstractString, Void}
-    nextKeyMarker::Union{AbstractString, Void}
-    nextVersionIdMarker::Union{AbstractString, Void}
+    name::Union{String, Void}
+    prefix::Union{String, Void}
+    keyMarker::Union{String, Void}
+    versionIdMarker::Union{String, Void}
+    nextKeyMarker::Union{String, Void}
+    nextVersionIdMarker::Union{String, Void}
     maxKeys::Union{Int, Void}
-    delimiter::Union{AbstractString, Void}
+    delimiter::Union{String, Void}
     isTruncated::Union{Bool, Void}
     version::Union{Vector{Version}, Void}
     deleteMarker::Union{Vector{DeleteMarker}, Void}
@@ -302,7 +302,7 @@ export ListVersionsResult
 
 
 type Bucket
-    name::Union{AbstractString, Void}
+    name::Union{String, Void}
     creationDate::DateTime
 end
 function Bucket(pd_b)
@@ -330,7 +330,7 @@ export ListAllMyBucketsResult
 
 type CopyObjectResult
     lastModified::DateTime
-    eTag::Union{AbstractString, Void}
+    eTag::Union{String, Void}
 end
 function CopyObjectResult(pd_cor)
     datestr = LightXML.content(LightXML.find_element(pd_cor, "LastModified"))
@@ -342,16 +342,16 @@ export CopyObjectResult
 
 
 
-type RequestPaymentConfiguration
-    payer::Union{AbstractString, Void}
+type RequestPaymentConfiguration{T<:Union{String, Void}}
+    payer::T
 end
 xml(o::RequestPaymentConfiguration) = xml_hdr("RequestPaymentConfiguration") * xml("Payer", o.payer) * xml_ftr("RequestPaymentConfiguration")
 RequestPaymentConfiguration(pd_rpc) = RequestPaymentConfiguration(LightXML.content(LightXML.find_element(pd_rpc, "Payer")))
 export RequestPaymentConfiguration
 
 type VersioningConfiguration
-    status::Union{AbstractString, Void}
-    mfaDelete::Union{AbstractString, Void}
+    status::Union{String, Void}
+    mfaDelete::Union{String, Void}
 end
 function xml(o::VersioningConfiguration)
     xml_hdr("VersioningConfiguration") *
@@ -368,12 +368,12 @@ end
 export VersioningConfiguration
 
 type TopicConfiguration
-    topic::Union{AbstractString, Void}
-    event::Vector{AbstractString}
+    topic::Union{String, Void}
+    event::Vector{String}
 end
 function TopicConfiguration(pd_tc)
     topic = LightXML.content(LightXML.find_element(pd_tc, "Topic"))
-    event = AbstractString[]
+    event = String[]
     for pde in LightXML.find_element(pd_tc, "Event")
         ## push!(event, pde.text)
         push!(event, LightXML.content(pde))
@@ -393,8 +393,8 @@ export TopicConfiguration
 
 
 
-type NotificationConfiguration
-    topicConfiguration::Union{Vector{TopicConfiguration}, Void}
+type NotificationConfiguration{T<:Union{Vector{TopicConfiguration}, Void}}
+    topicConfiguration::T
 end
 NotificationConfiguration(pd) = NotificationConfiguration(AWS.@parse_vector(AWS.S3.TopicConfiguration, LightXML.get_elements_by_tagname(pd, "TopicConfiguration")))
 
@@ -413,9 +413,9 @@ export NotificationConfiguration
 
 
 type InitiateMultipartUploadResult
-    bucket::Union{AbstractString, Void}
-    key::Union{AbstractString, Void}
-    uploadId::Union{AbstractString, Void}
+    bucket::Union{String, Void}
+    key::Union{String, Void}
+    uploadId::Union{String, Void}
 end
 function InitiateMultipartUploadResult(pd)
     InitiateMultipartUploadResult(LightXML.content(LightXML.find_element(pd, "Bucket")), LightXML.content(LightXML.find_element(pd, "Key")), LightXML.content(LightXML.find_element(pd, "UploadId")))
@@ -426,7 +426,7 @@ export InitiateMultipartUploadResult
 
 type CopyPartResult
    lastModified::DateTime
-   eTag::Union{AbstractString, Void}
+   eTag::Union{String, Void}
 end
 function CopyPartResult(pd)
     datestr = LightXML.content(LightXML.find_element(pd, "LastModified"))
@@ -436,9 +436,9 @@ end
 export CopyPartResult
 
 type Part
-    partNumber::Union{AbstractString, Void}
+    partNumber::Union{String, Void}
     lastModified::Union{DateTime, Void}
-    eTag::Union{AbstractString, Void}
+    eTag::Union{String, Void}
     size::Union{Int64, Void}
 
     Part(partNumber, eTag) = new(partNumber, nothing, eTag, nothing)
@@ -462,10 +462,10 @@ export CompleteMultipartUpload
 
 
 type CompleteMultipartUploadResult
-    location::Union{AbstractString, Void}
-    bucket::Union{AbstractString, Void}
-    key::Union{AbstractString, Void}
-    eTag::Union{AbstractString, Void}
+    location::Union{String, Void}
+    bucket::Union{String, Void}
+    key::Union{String, Void}
+    eTag::Union{String, Void}
 end
 CompleteMultipartUploadResult(pd) =
     CompleteMultipartUploadResult(
@@ -478,14 +478,14 @@ export CompleteMultipartUploadResult
 
 
 type ListPartsResult
-    bucket::Union{AbstractString, Void}
-    key::Union{AbstractString, Void}
-    uploadId::Union{AbstractString, Void}
+    bucket::Union{String, Void}
+    key::Union{String, Void}
+    uploadId::Union{String, Void}
     initiator::Initiator
     owner::Union{Owner, Void}
-    storageClass::Union{AbstractString, Void}
-    partNumberMarker::Union{AbstractString, Void}
-    nextPartNumberMarker::Union{AbstractString, Void}
+    storageClass::Union{String, Void}
+    partNumberMarker::Union{String, Void}
+    nextPartNumberMarker::Union{String, Void}
     maxParts::Union{Int, Void}
     isTruncated::Union{Bool, Void}
     parts::Vector{Part}
@@ -508,11 +508,11 @@ end
 export ListPartsResult
 
 type Upload
-    key::Union{AbstractString, Void}
-    uploadId::Union{AbstractString, Void}
+    key::Union{String, Void}
+    uploadId::Union{String, Void}
     initiator::Union{Initiator, Void}
     owner::Union{Owner, Void}
-    storageClass::Union{AbstractString, Void}
+    storageClass::Union{String, Void}
     initiated::Union{DateTime, Void}
 end
 function Upload(pd)
@@ -530,14 +530,14 @@ end
 export Upload
 
 type ListMultipartUploadsResult
-    bucket::Union{AbstractString, Void}
-    prefix::Union{AbstractString, Void}
-    keyMarker::Union{AbstractString, Void}
-    uploadIdMarker::Union{AbstractString, Void}
-    nextKeyMarker::Union{AbstractString, Void}
-    nextUploadIdMarker::Union{AbstractString, Void}
+    bucket::Union{String, Void}
+    prefix::Union{String, Void}
+    keyMarker::Union{String, Void}
+    uploadIdMarker::Union{String, Void}
+    nextKeyMarker::Union{String, Void}
+    nextUploadIdMarker::Union{String, Void}
     maxUploads::Union{Int, Void}
-    delimiter::Union{AbstractString, Void}
+    delimiter::Union{String, Void}
     isTruncated::Union{Bool, Void}
     upload::Union{Vector{Upload}, Void}
     commonPrefixes::Union{Vector{CommonPrefixes}, Void}
@@ -560,12 +560,12 @@ end
 export ListMultipartUploadsResult
 
 type CORSRule
-    id::Union{AbstractString, Void}
-    allowedMethod::Union{Vector{AbstractString}, Void}
-    allowedOrigin::Union{Vector{AbstractString}, Void}
-    allowedHeader::Union{Vector{AbstractString}, Void}
-    maxAgeSeconds::Union{AbstractString, Int}
-    exposeHeader::Union{Vector{AbstractString}, Void}
+    id::Union{String, Void}
+    allowedMethod::Union{Vector{String}, Void}
+    allowedOrigin::Union{Vector{String}, Void}
+    allowedHeader::Union{Vector{String}, Void}
+    maxAgeSeconds::Union{String, Int}
+    exposeHeader::Union{Vector{String}, Void}
 end
 
 xml(o::CORSRule) = xml("CORSRule", [
@@ -579,12 +579,12 @@ xml(o::CORSRule) = xml("CORSRule", [
 
 function CORSRule(pd)
     id = LightXML.content(LightXML.find_element(pd, "ID"))
-    allowedMethod = parse_vector_as(AbstractString, "AllowedMethod", LightXML.get_elements_by_tagname(pd, "AllowedMethod"))
-    allowedOrigin = parse_vector_as(AbstractString, "AllowedOrigin", LightXML.get_elements_by_tagname(pd, "AllowedOrigin"))
-    allowedHeader = parse_vector_as(AbstractString, "AllowedHeader", LightXML.get_elements_by_tagname(pd, "AllowedHeader"))
+    allowedMethod = parse_vector_as(String, "AllowedMethod", LightXML.get_elements_by_tagname(pd, "AllowedMethod"))
+    allowedOrigin = parse_vector_as(String, "AllowedOrigin", LightXML.get_elements_by_tagname(pd, "AllowedOrigin"))
+    allowedHeader = parse_vector_as(String, "AllowedHeader", LightXML.get_elements_by_tagname(pd, "AllowedHeader"))
     seconds = LightXML.content(LightXML.find_element(pd, "MaxAgeSeconds"))
     if (seconds != nothing) maxAgeSeconds = int(seconds) end
-    exposeHeader = parse_vector_as(AbstractString, "ExposeHeader", LightXML.get_elements_by_tagname(pd, "ExposeHeader"))
+    exposeHeader = parse_vector_as(String, "ExposeHeader", LightXML.get_elements_by_tagname(pd, "ExposeHeader"))
 
     CORSRule(id, allowedMethod, allowedOrigin, allowedHeader, maxAgeSeconds, exposeHeader)
 
@@ -592,18 +592,18 @@ end
 export CORSRule
 
 
-type CORSConfiguration
-    corsrules::Vector{CORSRule}
+type CORSConfiguration{T<:Vector{CORSRule}}
+    corsrules::T
 end
 xml(o::CORSConfiguration) = xml("CORSConfiguration", o.corsrules)
 CORSConfiguration(pd) = AWS.@parse_vector(AWS.S3.CORSRule, LightXML.get_elements_by_tagname(pd, "CORSRule"))
 
 
 type S3Error
-    code::Union{AbstractString, Void}
-    message::Union{AbstractString, Void}
-    hostId::Union{AbstractString, Void}
-    requestId::Union{AbstractString, Void}
+    code::Union{String, Void}
+    message::Union{String, Void}
+    hostId::Union{String, Void}
+    requestId::Union{String, Void}
 end
 function S3Error(pde)
     code = LightXML.content(LightXML.find_element(pde, "Code"))
@@ -628,16 +628,16 @@ export CORSConfiguration
 
 
 type S3PartTag
-    part_number::AbstractString
-    etag::AbstractString
+    part_number::String
+    etag::String
 end
 xml(o::S3PartTag) = xml("Part", [("PartNumber", o.part_number), ("ETag", o.etag)])
 
 type CopyMatchOptions
-    if_match::Union{AbstractString, Void}
-    if_none_match::Union{AbstractString, Void}
-    if_unmodified_since::Union{AbstractString, Void}
-    if_modified_since::Union{AbstractString, Void}
+    if_match::Union{String, Void}
+    if_none_match::Union{String, Void}
+    if_unmodified_since::Union{String, Void}
+    if_modified_since::Union{String, Void}
     CopyMatchOptions(;if_match=nothing, if_none_match=nothing, if_unmodified_since=nothing, if_modified_since=nothing) = begin
         new(if_match, if_none_match, if_unmodified_since, if_modified_since)
     end
@@ -653,9 +653,9 @@ export S3PartTag
 
 
 type S3_ACL_Grantee
-    email_address::Union{AbstractString, Void}
-    id::Union{AbstractString, Void}
-    uri::Union{AbstractString, Void}
+    email_address::Union{String, Void}
+    id::Union{String, Void}
+    uri::Union{String, Void}
     S3_ACL_Grantee() = new(nothing, nothing, nothing)
 end
 function hdr_str(g::S3_ACL_Grantee)
@@ -673,7 +673,7 @@ export S3_ACL_Grantee
 
 
 type S3_ACL
-    acl::Union{AbstractString, Void}
+    acl::Union{String, Void}
     grant_read::Vector{S3_ACL_Grantee}
     grant_write::Vector{S3_ACL_Grantee}
     grant_read_acp::Vector{S3_ACL_Grantee}
@@ -696,7 +696,7 @@ function amz_headers(hdrs, o::S3_ACL)
     hdrs
 end
 
-function add_acl_grantee(hdrs, xamz_name::AbstractString, arr::Vector{S3_ACL_Grantee})
+function add_acl_grantee(hdrs, xamz_name::String, arr::Vector{S3_ACL_Grantee})
     for a in arr
         @add_amz_hdr(xamz_name, hdr_str(a))
     end
@@ -707,14 +707,14 @@ export S3_ACL
 
 type CopyObjectOptions
 # All are x-amz options
-    copy_source::AbstractString
-    metadata_directive::Union{AbstractString, Void}
+    copy_source::String
+    metadata_directive::Union{String, Void}
     match_options::Union{CopyMatchOptions, Void}
 
 # x-amz only header fields
-    server_side_encryption::Union{AbstractString, Void}
-    storage_class::Union{AbstractString, Void}
-    website_redirect_location::Union{AbstractString, Void}
+    server_side_encryption::Union{String, Void}
+    storage_class::Union{String, Void}
+    website_redirect_location::Union{String, Void}
     acl::Union{S3_ACL, Void}
 
     CopyObjectOptions(copy_source; metadata_directive=nothing, match_options=nothing,
@@ -744,8 +744,8 @@ export CopyObjectOptions
 
 
 type CopyUploadPartOptions
-    copy_source::AbstractString
-    source_range::Union{AbstractString, Void}
+    copy_source::String
+    source_range::Union{String, Void}
     match_options::Union{CopyMatchOptions, Void}
 
     CopyUploadPartOptions(copy_source; source_range=nothing, match_options=nothing) = new(copy_source, source_range, match_options)
@@ -761,18 +761,18 @@ export CopyUploadPartOptions
 
 type PutObjectOptions
 # Standard HTTP headers
-    cache_control::Union{AbstractString, Void}
-    content_disposition::Union{AbstractString, Void}
-    content_encoding::Union{AbstractString, Void}
-    cont_typ::Union{AbstractString, Void}
+    cache_control::Union{String, Void}
+    content_disposition::Union{String, Void}
+    content_encoding::Union{String, Void}
+    cont_typ::Union{String, Void}
 #Expect  not supported...
     expires::Union{DateTime, Void}
 
 # x-amz header fields
-    meta::Union{Dict{AbstractString, AbstractString}, Void}
-    server_side_encryption::Union{AbstractString, Void}
-    storage_class::Union{AbstractString, Void}
-    website_redirect_location::Union{AbstractString, Void}
+    meta::Union{Dict{String, String}, Void}
+    server_side_encryption::Union{String, Void}
+    storage_class::Union{String, Void}
+    website_redirect_location::Union{String, Void}
     acl::Union{S3_ACL, Void}
 
     PutObjectOptions(;cache_control=nothing,content_disposition=nothing,content_encoding=nothing,
@@ -811,19 +811,19 @@ export PutObjectOptions
 
 type GetObjectOptions
     # These go into the query string
-    response_cont_typ::Union{AbstractString, Void}
-    response_content_language::Union{AbstractString, Void}
-    response_expires::Union{AbstractString, Void}
-    response_cache_control::Union{AbstractString, Void}
-    response_content_disposition::Union{AbstractString, Void}
-    response_content_encoding::Union{AbstractString, Void}
+    response_cont_typ::Union{String, Void}
+    response_content_language::Union{String, Void}
+    response_expires::Union{String, Void}
+    response_cache_control::Union{String, Void}
+    response_content_disposition::Union{String, Void}
+    response_content_encoding::Union{String, Void}
 
     # These go into the header
-    range::Union{AbstractString, Void}
+    range::Union{String, Void}
     if_modified_since::Union{DateTime, Void}
     if_unmodified_since::Union{DateTime, Void}
-    if_match::Union{AbstractString, Void}
-    if_none_match::Union{AbstractString, Void}
+    if_match::Union{String, Void}
+    if_none_match::Union{String, Void}
 
     GetObjectOptions(;response_cont_typ=nothing, response_content_language=nothing, response_expires=nothing, response_cache_control=nothing, response_content_disposition=nothing,
         response_content_encoding=nothing, range=nothing, if_modified_since=nothing, if_unmodified_since=nothing, if_match=nothing, if_none_match=nothing) = begin
@@ -852,8 +852,8 @@ export GetObjectOptions
 
 
 type ObjectType
-    key::AbstractString
-    versionId::Union{AbstractString, Void}
+    key::String
+    versionId::Union{String, Void}
     ObjectType(key) = ObjectType(key, nothing)
     ObjectType(key, version) = new(key, version)
 end
@@ -877,8 +877,8 @@ export DeleteObjectsType
 
 
 type Tag
-    key::AbstractString
-    value::AbstractString
+    key::String
+    value::String
 end
 xml(o::Tag) = xml("Tag", [("Key", o.key), ("Value", o.value)])
 export Tag
@@ -892,11 +892,11 @@ xml(o::Tagging) = xml("Tagging", [("TagSet", o.tagSet)])
 export Tagging
 
 type GetBucketUploadsOptions
-    delimiter::Union{AbstractString, Void}
-    key_marker::Union{AbstractString, Void}
+    delimiter::Union{String, Void}
+    key_marker::Union{String, Void}
     max_uploads::Union{Int, Void}
-    prefix::Union{AbstractString, Void}
-    upload_id_marker::Union{AbstractString, Void}
+    prefix::Union{String, Void}
+    upload_id_marker::Union{String, Void}
 
     GetBucketUploadsOptions(; delimiter=nothing, key_marker=nothing, max_uploads=nothing, prefix=nothing, upload_id_marker=nothing) = begin
         new(delimiter, key_marker, max_uploads, prefix, upload_id_marker)
@@ -915,11 +915,11 @@ export GetBucketUploadsOptions
 
 
 type GetBucketObjectVersionsOptions
-    delimiter::Union{AbstractString, Void}
-    key_marker::Union{AbstractString, Void}
+    delimiter::Union{String, Void}
+    key_marker::Union{String, Void}
     max_keys::Union{Int, Void}
-    prefix::Union{AbstractString, Void}
-    version_id_marker::Union{AbstractString, Void}
+    prefix::Union{String, Void}
+    version_id_marker::Union{String, Void}
     GetBucketObjectVersionsOptions(; delimiter=nothing, key_marker=nothing, max_keys=nothing, prefix=nothing, version_id_marker=nothing) = begin
         new(delimiter, key_marker, max_keys, prefix, version_id_marker)
     end
@@ -936,10 +936,10 @@ export GetBucketObjectVersionsOptions
 
 
 type GetBucketOptions
-    delimiter::Union{AbstractString, Void}
-    marker::Union{AbstractString, Void}
+    delimiter::Union{String, Void}
+    marker::Union{String, Void}
     max_keys::Union{Int, Void}
-    prefix::Union{AbstractString, Void}
+    prefix::Union{String, Void}
     GetBucketOptions(;delimiter=nothing, marker=nothing, max_keys=nothing, prefix=nothing) = new(delimiter, marker, max_keys, prefix)
 end
 function get_subres(arr, o::GetBucketOptions)
@@ -953,10 +953,10 @@ export GetBucketOptions
 
 
 type Deleted
-    key::Union{AbstractString, Void}
-    version_id::Union{AbstractString, Void}
+    key::Union{String, Void}
+    version_id::Union{String, Void}
     marker::Union{Bool, Void}
-    marker_version_id::Union{AbstractString, Void}
+    marker_version_id::Union{String, Void}
 end
 Deleted() = Deleted(nothing,nothing,nothing,nothing)
 function Deleted(pd)
@@ -972,10 +972,10 @@ export Deleted
 
 
 type DeleteError
-    key::Union{AbstractString, Void}
-    version_id::Union{AbstractString, Void}
-    code::Union{AbstractString, Void}
-    message::Union{AbstractString, Void}
+    key::Union{String, Void}
+    version_id::Union{String, Void}
+    code::Union{String, Void}
+    message::Union{String, Void}
 end
 DeleteError() = DeleteError(nothing,nothing,nothing,nothing)
 function DeleteError(pd)
