@@ -946,19 +946,19 @@ path: path
 `Outputs`:
 ret: list of objects
 """
-function s3_list_objects(awsEnv::AWSEnv, path::AbstractString; re::Regex = r"^\s*")
+function list_objects(awsEnv::AWSEnv, path::AbstractString; re::Regex = r"^\s*")
     bkt, prefix = splits3(path)
-    return s3_list_objects(awsEnv, bkt, prefix; re=re)
+    return list_objects(awsEnv, bkt, prefix; re=re)
 end
-function s3_list_objects(path::AbstractString; re::Regex = r"^\s*")
+function list_objects(path::AbstractString; re::Regex = r"^\s*")
     bkt, prefix = splits3(path)
-    return s3_list_objects(bkt, prefix; re=re)
+    return list_objects(bkt, prefix; re=re)
 end
-function s3_list_objects(bkt::AbstractString, prefix::AbstractString; re::Regex = r"^\s*")
+function list_objects(bkt::AbstractString, prefix::AbstractString; re::Regex = r"^\s*")
     awsEnv = AWS.AWSEnv()
-    return s3_list_objects(awsEnv, bkt, prefix; re=re)
+    return list_objects(awsEnv, bkt, prefix; re=re)
 end
-function s3_list_objects(awsEnv::AWSEnv, bkt::AbstractString, prefix::AbstractString; re::Regex = r"^\s*")
+function list_objects(awsEnv::AWSEnv, bkt::AbstractString, prefix::AbstractString; re::Regex = r"^\s*")
     prefix = lstrip(prefix, '/')
     # prefix = path=="" ? path : rstrip(path, '/')*"/"
     bucket_options = AWS.S3.GetBucketOptions(delimiter="/", prefix=prefix)
