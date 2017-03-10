@@ -681,11 +681,11 @@ function do_http(env::AWSEnv, ro::RO)
     push!(all_hdrs, ("Authorization",  "AWS " * env.aws_id * ":" * s_b64))
 
 	## region specific URL is not required
-	## if( isempty(env.region) )
+	if( isempty(env.region) )
     	url = "https://s3.amazonaws.com" * full_path
-	## else
-    	## url = "https://s3-$(env.region).amazonaws.com" * full_path
-	## end
+	else
+    	url = "https://s3-$(env.region).amazonaws.com" * full_path
+	end
 
     http_options = RequestOptions(headers=all_hdrs, ostream=ro.ostream, request_timeout=env.timeout, auto_content_type=false)
 
