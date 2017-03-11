@@ -5,8 +5,8 @@ safe_parseint(s) = (s != nothing) ? Base.parse(Int, s) : nothing
 safe_parsebool(s) = (s != nothing) ? ((lowercase(s) == "true") ? true : false) : nothing
 safe_parseb64(s) = (s != nothing) ? base64decode(s) : nothing
 
-function safe_parse_as(as::Type, s::Union{AbstractString, Void})
-    if (as == AbstractString) || (s == nothing)
+function safe_parse_as(as::Type, s::Union{String, Void})
+    if (as == String) || (s == nothing)
         return s
     elseif (as == Int)
         return Base.parse(Int, s)
@@ -39,7 +39,7 @@ end
 export @parse_vector
  
 
-function parse_vector_as(as_type::Type, typ_str::AbstractString, vect)
+function parse_vector_as(as_type::Type, typ_str::String, vect)
     jl_vect = as_type[]
     if (vect == nothing) return jl_vect end
     for pd in vect
@@ -53,17 +53,17 @@ function parse_vector_as(as_type::Type, typ_str::AbstractString, vect)
 end
 export parse_vector_as
 
-function parse_calendar_time(pd, elem::AbstractString, format::AbstractString)
+function parse_calendar_time(pd, elem::String, format::String)
     datestr = LightXML.content(LightXML.find_element(pd, elem))
     DateTime(datestr[1:end-1], format)
 end
-parse_calendar_time(pd, elem::AbstractString) = parse_calendar_time(pd, elem, "yyyy-MM-DD'T'HH:mm:ss")
+parse_calendar_time(pd, elem::String) = parse_calendar_time(pd, elem, "yyyy-MM-DD'T'HH:mm:ss")
 
 
 xml(o::Any) = string(o)
-xml(tag::AbstractString, value::Any) = (value != nothing) ? "<$(tag)>" * xml(value) * "</$(tag)>" : ""
+xml(tag::String, value::Any) = (value != nothing) ? "<$(tag)>" * xml(value) * "</$(tag)>" : ""
 
-function xml(tag::AbstractString, children::Array; xmlns="", xsi_type="")
+function xml(tag::String, children::Array; xmlns="", xsi_type="")
     if (xsi_type != "")
         open_tag = "<$(tag)$(xmlns) xsi:type=\"$(xsi_type)\">"
     else

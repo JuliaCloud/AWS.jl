@@ -24,13 +24,13 @@ The following services are supported as of now:
 
 ```
 type AWSEnv
-    aws_id::ASCIIString         # AWS Access Key id
-    aws_seckey::ASCIIString     # AWS Secret key for signing requests
-    aws_token::ASCIIString      # AWS Security Token for temporary credentials
-    region::AbstractString      # region name
-    ep_scheme::ASCIIString      # URL scheme: http or https
-    ep_host::AbstractString     # region endpoint (host)
-    ep_path::AbstractString     # region endpoint (path)
+    aws_id::String         # AWS Access Key id
+    aws_seckey::String     # AWS Secret key for signing requests
+    aws_token::String      # AWS Security Token for temporary credentials
+    region::String      # region name
+    ep_scheme::String      # URL scheme: http or https
+    ep_host::String     # region endpoint (host)
+    ep_path::String     # region endpoint (path)
     sig_ver::Int                # AWS signature version (2 or 4)
     timeout::Float64            # request timeout in seconds, if set to 0.0, request will never time out. Default is 0.0
     dry_run::Bool               # If true, no actual request will be made - implies dbg flag below
@@ -197,7 +197,7 @@ RunInstancesType (defined in ec2_types.jl) is
 
 ```
 type RunInstancesType
-    imageId::Union(ASCIIString, Nothing)
+    imageId::Union(String, Nothing)
     minCount::Union(Int32, Nothing)
     maxCount::Union(Int32, Nothing)
     ...
@@ -471,8 +471,8 @@ println("Add  Permission")
 ## Test case for AddPermission
 qurl=GetQueueUrl(env; queueName=queueName).obj.queueUrl
 
-aWSAccountIdSet = Vector{ASCIIString}()
-actionNameSet = Vector{ASCIIString}()
+aWSAccountIdSet = Vector{String}()
+actionNameSet = Vector{String}()
 
 push!(aWSAccountIdSet, awsAccountID)
 push!(actionNameSet, "SendMessage")
@@ -519,7 +519,7 @@ The response object is as below:
 type SQSResponse
     http_code::Int
     headers
-    body::Union{AbstractString, Void}
+    body::Union{String, Void}
     pd::Union{LightXML.XMLElement, Void}
     obj::Any
 end
@@ -530,11 +530,11 @@ The error object is as below:
 
 ```
 type SQSError
-    typ::AbstractString
-    code::AbstractString
-    msg::AbstractString
-    detail::AbstractString
-    request_id::Union{AbstractString, Void}
+    typ::String
+    code::String
+    msg::String
+    detail::String
+    request_id::Union{String, Void}
 end
 ```
 
