@@ -69,10 +69,6 @@ function __init__()
     end
 
     # Search for default AWS_REGION
-<<<<<<< HEAD
-=======
-    global AWS_REGION = US_EAST_1
->>>>>>> 6c777caf999f34fa868252016a9741fc6400756e
     if haskey(ENV, "AWS_REGION")
         AWS_REGION = ENV["AWS_REGION"]
     elseif haskey(ENV, "AWS_DEFAULT_REGION")
@@ -86,15 +82,6 @@ function __init__()
 end
 
 type AWSEnv
-<<<<<<< HEAD
-    aws_id::String              # AWS Access Key id
-    aws_seckey::String          # AWS Secret key for signing requests
-    aws_token::String           # AWS Security Token for temporary credentials
-    region::AbstractString      # region name
-    ep_scheme::String           # URL scheme: http or https
-    ep_host::AbstractString     # region endpoint (host)
-    ep_path::AbstractString     # region endpoint (path)
-=======
     aws_id::String         # AWS Access Key id
     aws_seckey::String     # AWS Secret key for signing requests
     aws_token::String      # AWS Security Token for temporary credentials
@@ -102,7 +89,6 @@ type AWSEnv
 	ep_scheme::String      # URL scheme: http or https
     ep_host::String     # region endpoint (host)
     ep_path::String     # region endpoint (path)
->>>>>>> 6c777caf999f34fa868252016a9741fc6400756e
     sig_ver::Int                # AWS signature version (2 or 4)
     timeout::Float64            # request timeout in seconds, default is no timeout.
     dry_run::Bool               # If true, no actual request will be made - implies dbg flag below
