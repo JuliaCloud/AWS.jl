@@ -33,7 +33,7 @@ macro show_func(n, t)
     for x in fieldnames(t)
         push!(block.args,quote
             $(esc(:print_indented))(io,$(string(x)*": "),indent)
-            $(esc(:show_indented))(io, getfield(r, $(quot(x))),indent+4)
+            $(esc(:show_indented))(io,getfield(r, ($(quot(x)))),indent+4)
         end)
     end
     ret = quote
@@ -50,7 +50,7 @@ end
 # Create default show method for all types
 for m in [AWS, AWS.EC2, AWS.S3]
     for n in names(m)
-        t = getfield(m, n)
+        t = getfield((m), (n))
         if isa(t,Type)
             @eval @show_func $n $t
         end

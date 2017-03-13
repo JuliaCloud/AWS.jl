@@ -31,9 +31,9 @@ const VM_MICRO = "t1.micro"     #Micro
 
 
 type EC2Error
-    code::AbstractString
-    msg::AbstractString
-    request_id::Union{AbstractString, Void}
+    code::String
+    msg::String
+    request_id::Union{String, Void}
 end
 export EC2Error
 
@@ -44,7 +44,7 @@ export ec2_error_str
 type EC2Response
     http_code::Int
     headers
-    body::Union{AbstractString, Void}
+    body::Union{String, Void}
     ## pd::Union{ETree, Void}
     pd::Union{LightXML.XMLElement, Void}
     obj::Any
@@ -54,7 +54,7 @@ end
 export EC2Response
 
 
-function ec2_execute(env::AWSEnv, action::AbstractString, params_in=nothing)
+function ec2_execute(env::AWSEnv, action::String, params_in=nothing)
     # Prepare the standard params
     params=Array(Tuple,0)
     if params_in != nothing
@@ -86,11 +86,9 @@ function ec2_execute(env::AWSEnv, action::AbstractString, params_in=nothing)
     if !(env.dry_run)
         resp = Requests.get(complete_url; headers = headers, timeout = env.timeout)
 
-        ## ec2resp.http_code = resp.http_code
         ec2resp.http_code = resp.status
         ec2resp.headers = resp.headers
-        ## ec2resp.body = bytestring(resp.body)
-        ec2resp.body = bytestring(resp.data)
+        ec2resp.body = String(copy(resp.data))
 
         if (env.dbg)
             print("HTTPCode: ", ec2resp.http_code, "\nHeaders: ", ec2resp.headers, "\nBody : ", ec2resp.body, "\n")
@@ -98,12 +96,10 @@ function ec2_execute(env::AWSEnv, action::AbstractString, params_in=nothing)
 
         if (resp.status >= 200) && (resp.status <= 299)
              if (search(Base.get(resp.headers, "Content-Type", [""]), "/xml") != 0:-1)
-#            if  haskey(resp.headers, "Content-Type") && (resp.headers["Content-Type"] == "application/xml")
                 ec2resp.pd = LightXML.root(LightXML.parse_string(ec2resp.body))
             end
         elseif (resp.status >= 400) && (resp.status <= 599)
             if length(ec2resp.body) > 0
-                ## xom = xp_parse(ec2resp.body)
                 xom = LightXML.root(LightXML.parse_string(ec2resp.body))
                 epd = LightXML.find_element(LightXML.find_element(xom, "Errors"), "Error")
                 ec2resp.obj = EC2Error(LightXML.content(LightXML.find_element(epd, "Code")), LightXML.content(LightXML.find_element(epd, "Message")), LightXML.content(LightXML.find_element(xom, "RequestID")))

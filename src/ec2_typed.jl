@@ -6,7 +6,7 @@ include("ec2_operations.jl")
 
 
 function is_basic_type(v)
-    if  isa(v, AbstractString) || isa(v, Int) || isa(v, Int32) ||
+    if  isa(v, String) || isa(v, Int) || isa(v, Int32) ||
         isa(v, Int64) || isa(v, Float64) || isa(v, Bool) ||
         isa(v, DateTime)
 
@@ -70,7 +70,7 @@ function add_to_params(params, obj, pfx)
     end
 end
 
-function call_ec2(env::AWSEnv, action::AbstractString, msg=nothing)
+function call_ec2(env::AWSEnv, action::String, msg=nothing)
     params = Array(Tuple, 0)
     if (msg != nothing)
         # make sure it is a valid type

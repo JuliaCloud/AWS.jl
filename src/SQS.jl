@@ -11,11 +11,11 @@ include("sqs_typed.jl")
 
 
 type SQSError
-    typ::AbstractString
-    code::AbstractString
-    msg::AbstractString
-    detail::AbstractString
-    request_id::Union{AbstractString, Void}
+    typ::String
+    code::String
+    msg::String
+    detail::String
+    request_id::Union{String, Void}
 end
 export SQSError
 
@@ -26,7 +26,7 @@ export sqs_error_str
 type SQSResponse
     http_code::Int
     headers
-    body::Union{AbstractString, Void}
+    body::Union{String, Void}
     pd::Union{LightXML.XMLElement, Void}
     obj::Any
 
@@ -35,7 +35,7 @@ end
 export SQSResponse
 
 
-function sqs_execute(env_::AWSEnv, action::AbstractString, ep, params_in, use_post)
+function sqs_execute(env_::AWSEnv, action::String, ep, params_in, use_post)
     # Adjust endpoint.
     env = env_
     if ep != nothing

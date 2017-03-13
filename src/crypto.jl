@@ -20,8 +20,12 @@ end
 
 typealias size_t Csize_t
 
-@static if is_unix() const libcrypto = "libcrypto" end
-@static if is_windows() const libcrypto = Pkg.dir("WinRPM","deps","usr","$(Sys.ARCH)-w64-mingw32","sys-root","mingw","bin","libcrypto-10") end
+#incomplete?
+@static if is_unix() 
+    const libcrypto = "libcrypto"
+elseif is_windows()    
+    const libcrypto = Pkg.dir("WinRPM","deps","usr","$(Sys.ARCH)-w64-mingw32","sys-root","mingw","bin","libcrypto-10")
+end
 
 @c Ptr{UInt8} HMAC (Ptr{EVP_MD}, Ptr{Void}, Int32, Ptr{UInt8}, size_t, Ptr{UInt8}, Ptr{UInt32}) libcrypto
 @c Ptr{UInt8} MD5 (Ptr{UInt8}, size_t, Ptr{UInt8}) libcrypto
@@ -38,19 +42,19 @@ typealias size_t Csize_t
 @c Union{} EVP_MD_CTX_destroy (Ptr{EVP_MD_CTX},) libcrypto
 
 
-hmacsha256_digest(s::AbstractString, k::Union{String, Vector{UInt8}}) =  hmacsha_digest(s, k, EVP_sha256(), 32)
+hmacsha256_digest(s::String, k::Union{String, Vector{UInt8}}) =  hmacsha_digest(s, k, EVP_sha256(), 32)
 export hmacsha256_digest
 
-hmacsha1_digest(s::AbstractString, k::Union{String, Vector{UInt8}}) = hmacsha_digest(s, k, EVP_sha1(), 20)
+hmacsha1_digest(s::String, k::Union{String, Vector{UInt8}}) = hmacsha_digest(s, k, EVP_sha1(), 20)
 export hmacsha1_digest
 
-function hmacsha_digest(s::AbstractString, k::Union{String, Vector{UInt8}}, evp, dgst_len)
+function hmacsha_digest(s::String, k::Union{String, Vector{UInt8}}, evp, dgst_len)
     if evp == C_NULL error("EVP_sha1() failed!") end
 
     sig = zeros(UInt8, dgst_len)
     sig_len = zeros(UInt32, 1)
 
-    if isa(k, AbstractString)
+    if isa(k, String)
         k = convert(Array{UInt8}, k)
     end
 
@@ -61,7 +65,7 @@ function hmacsha_digest(s::AbstractString, k::Union{String, Vector{UInt8}}, evp,
 end
 
 
-function md5_file(s::AbstractString)
+function md5_file(s::String)
     f = open(s)
     md = nothing
     try
@@ -75,7 +79,7 @@ function md5_file(s::AbstractString)
 end
 export md5_file
 
-function md5(s::AbstractString)
+function md5(s::String)
     md = zeros(UInt8, 16)
     assert(MD5(s, length(s), md) != C_NULL)
     return md
@@ -96,7 +100,7 @@ function md5(s::IO)
         while (!eof(s))
             b = read(s, UInt8, min(nb_available(s), 65536))    # Read in 64 K chunks....
 
-            rc = EVP_DigestUpdate(evp_md_ctx, b, length(b));
+            rc = EVP_DigestUpdate(evp_md_ctx, b, length(b))
             assert(rc == 1)
         end
 
@@ -111,7 +115,7 @@ function md5(s::IO)
 end
 export md5
 
-function sha256(s::AbstractString)
+function sha256(s::String)
     sha = zeros(UInt8, 32)
     assert(SHA256(s, length(s), sha) != C_NULL)
     return sha

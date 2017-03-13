@@ -4,7 +4,7 @@ include("sqs_operations.jl")
 
 
 function is_basic_type(v)
-    if  isa(v, AbstractString) || isa(v, Int) || isa(v, Int32) ||
+    if  isa(v, String) || isa(v, Int) || isa(v, Int32) ||
         isa(v, Int64) || isa(v, Float64) || isa(v, Bool) ||
         isa(v, DateTime) || isa(v, Vector{UInt8})
 
@@ -55,7 +55,7 @@ function add_to_params(params, obj, pfx)
     end
 end
 
-function call_sqs(env::AWSEnv, action::AbstractString, msg=nothing, use_post=false)
+function call_sqs(env::AWSEnv, action::String, msg=nothing, use_post=false)
     ep = nothing
     params = Array(Tuple, 0)
     if (msg != nothing)
