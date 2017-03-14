@@ -1,9 +1,7 @@
 using AWS
 using AWS.S3
 
-include("config.jl")
-
-## env=AWSEnv(; id=id, key=key, dbg=dbg)
+# include("config.jl")
 
 env = AWSEnv(timeout=60.0)
 
@@ -35,7 +33,6 @@ println("Add another file")
 resp = S3.put_object(env, bkt, "file3", "Hello World ")
 println(resp)
 
-
 println("List bucket")
 resp = S3.get_bkt(env, bkt)
 println(resp)
@@ -54,16 +51,13 @@ sleep(10)
 
 
 println("Delete file 1")
-resp = S3.del_object(env, bkt, "file1") 
+resp = S3.del_object(env, bkt, "file1")
 println(resp)
 
 println("Delete file 2 using the multi api")
 resp = S3.del_object_multi(env, bkt, S3.DeleteObjectsType([S3.ObjectType("file2"), S3.ObjectType("file3")]))
 println(resp)
 
-
 println("Delete Bucket")
 resp = S3.del_bkt(env, bkt)
 println(resp)
-
-

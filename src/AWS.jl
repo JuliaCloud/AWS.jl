@@ -5,7 +5,6 @@ using Requests
 using JSON
 using LightXML
 
-
 const EP_US_EAST_NORTHERN_VIRGINIA     = "ec2.us-east-1.amazonaws.com"
 const EP_US_WEST_OREGON                = "ec2.us-west-2.amazonaws.com"
 const EP_US_WEST_NORTHERN_CALIFORNIA   = "ec2.us-west-1.amazonaws.com"
@@ -18,6 +17,7 @@ const EP_SA_SAO_PAULO                  = "ec2.sa-east-1.amazonaws.com"
 export EP_US_EAST_NORTHERN_VIRGINIA, EP_US_WEST_OREGON, EP_US_WEST_NORTHERN_CALIFORNIA
 export EP_EU_IRELAND, EP_AP_SINGAPORE, EP_AP_SYDNEY, EP_AP_TOKYO, EP_SA_SAO_PAULO
 
+export AWSEnv
 
 const AP_NORTHEAST_1 = "ap-northeast-1" # Asia Pacific (Tokyo) Region
 const AP_SOUTHEAST_1 = "ap-southeast-1" # Asia Pacific (Singapore) Region
@@ -28,13 +28,14 @@ const US_EAST_1 = "us-east-1" # US East (Northern Virginia) Region
 const US_WEST_1 = "us-west-1" # US West (Northern California) Region
 const US_WEST_2 = "us-west-2" # US West (Oregon) Region
 
-
 function __init__()
     config_file_base = Sys.KERNEL == :Windows ? ENV["APPDATA"] : homedir()
 
     # Search for default AWS_ID and AWS_SECKEY
     global AWS_ID = ""
     global AWS_SECKEY = ""
+    global AWS_REGION = US_EAST_1
+    global const AWS_TOKEN = ""
     global AWS_TOKEN = ""
     if haskey(ENV, "AWS_ID") && haskey(ENV, "AWS_SECKEY")
         AWS_ID = ENV["AWS_ID"]
@@ -42,6 +43,24 @@ function __init__()
     elseif haskey(ENV, "AWS_ACCESS_KEY_ID") && haskey(ENV, "AWS_SECRET_ACCESS_KEY")
         AWS_ID = ENV["AWS_ACCESS_KEY_ID"]
         AWS_SECKEY = ENV["AWS_SECRET_ACCESS_KEY"]
+    elseif isfile(joinpath(homedir(), ".aws/config")) || isfile(joinpath(homedir(), ".aws/credentials"))
+        if isfile(joinpath(homedir(), ".aws/config"))
+            credentialFileName = joinpath(homedir(), ".aws/config")
+        else
+            credentialFileName = joinpath(homedir(), ".aws/credentials")
+        end
+        for line in readlines( credentialFileName )
+            line = replace(line, " ", "")
+            line = replace(line, "\n", "")
+            segs = split(line, "=")
+            if ismatch(r"^aws_secret_access_key", segs[1])
+                AWS_SECKEY = segs[2]
+            elseif ismatch(r"^aws_access_key_id", segs[1])
+                AWS_ID = segs[2]
+            elseif ismatch(r"^region", segs[1])
+                AWS_REGION = segs[2]
+            end
+        end
     else
         secret_path = joinpath(config_file_base, ".awssecret")
         if isfile(secret_path)
@@ -50,16 +69,15 @@ function __init__()
     end
 
     # Search for default AWS_REGION
-    global AWS_REGION = US_EAST_1
     if haskey(ENV, "AWS_REGION")
         AWS_REGION = ENV["AWS_REGION"]
     elseif haskey(ENV, "AWS_DEFAULT_REGION")
         AWS_REGION = ENV["AWS_DEFAULT_REGION"]
-    else
+    elseif isfile( joinpath(config_file_base, ".awsregion") )
         region_path = joinpath(config_file_base, ".awsregion")
-        if isfile(region_path)
-            AWS_REGION = readchomp(region_path)
-        end
+        AWS_REGION = readchomp(region_path)
+    else
+        println("use default region: $(AWS_REGION)")
     end
 end
 
@@ -134,9 +152,14 @@ type AWSEnv
         new(env.aws_id, env.aws_seckey, env.aws_token, env.region, ep_scheme,
             ep_host, ep_path, env.sig_ver, env.timeout, env.dry_run, env.dbg)
     end
-
 end
-export AWSEnv
+
+function Base.display(awsEnv::AWSEnv)
+    e = deepcopy(awsEnv)
+    e.aws_id = "*******$(awsEnv.aws_id[end-2:end])"
+    e.aws_seckey = "*********$(awsEnv.aws_seckey[end-2:end])"
+    println(e)
+end
 
 function parse_endpoint(ep, default_scheme)
     s = search(ep,"://")

@@ -1,7 +1,15 @@
 using AWS.EC2
 using AWS
 
-include("config.jl")
+env = AWSEnv()
+
+### Config related to EC2 only
+const ami = "ami-0d848f64" # This is the Julia installed version of 13_04
+const dir_on_ami = "/home/ubuntu/julia/usr/bin"
+const insttype = "m1.large"
+const keyname = "<put ec2keyname here>"
+const owner = "awstest"
+const keyfile = "<put full path to ec2keyfile here>"
 
 n=2
 ## env=AWSEnv(; id=id, key=key, dbg=dbg, region=region)

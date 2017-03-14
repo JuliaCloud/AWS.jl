@@ -258,6 +258,52 @@ function test_bkt(env::AWSEnv, bkt::String)
     s3_resp
 end
 
+"""
+split a s3 path to bucket name and key
+"""
+function splits3(path::AbstractString)
+    path = replace(path, "s3://", "")
+    bkt, key = split(path, "/", limit = 2)
+    return string(bkt), string(key)
+end
+
+"""
+transfer s3 file to local and return local file name
+`Inputs:`
+awsEnv: AWS awsEnviroment
+s3name: String, s3 file path
+lcname: String, local temporal folder path or local file name
+`Outputs:`
+lcname: String, local file name
+"""
+function Base.download(awsEnv::AWSEnv, s3fname::AbstractString, lcfname::AbstractString)
+    # directly return if not s3 file
+    if !iss3(s3fname)
+        return s3fname
+    end
+
+    if isdir(lcfname)
+        lcfname = joinpath(lcfname, basename(s3fname))
+    end
+    # remove existing file
+    if isfile(lcfname)
+        rm(lcfname)
+    elseif !isdir(dirname(lcfname))
+        # create local directory
+        mkdir(dirname(lcfname))
+    end
+    # get bucket name and key
+    bkt,key = splits3(s3fname)
+    # download s3 file using awscli
+    f = open(lcfname, "w")
+    resp = S3.get_object(awsEnv, bkt, key)
+    # check that the file exist
+    @assert resp.http_code == 200
+    write( f, resp.obj )
+    close(f)
+    # run(`aws s3 cp $(s3name) $(lcfname)`)
+    return lcfname
+end
 
 function get_bkt_multipart_uploads(env::AWSEnv, bkt::String; options::GetBucketUploadsOptions=GetBucketUploadsOptions())
     ro = RO(:GET, bkt, "")
@@ -885,5 +931,46 @@ function rfc1123_date(dt)
 end
 rfc1123_date(d::Void) = nothing
 
+
+"""
+list objects of s3. no directory/folder in the list
+`Inputs`:
+awsEnv: AWS awsEnvironment
+bkt: bucket name
+path: path
+`Outputs`:
+ret: list of objects
+"""
+function list_objects(awsEnv::AWSEnv, path::AbstractString; re::Regex = r"^\s*")
+    bkt, prefix = splits3(path)
+    return list_objects(awsEnv, bkt, prefix; re=re)
+end
+function list_objects(path::AbstractString; re::Regex = r"^\s*")
+    bkt, prefix = splits3(path)
+    return list_objects(bkt, prefix; re=re)
+end
+function list_objects(bkt::AbstractString, prefix::AbstractString; re::Regex = r"^\s*")
+    awsEnv = AWS.AWSEnv()
+    return list_objects(awsEnv, bkt, prefix; re=re)
+end
+function list_objects(awsEnv::AWSEnv, bkt::AbstractString, prefix::AbstractString; re::Regex = r"^\s*")
+    prefix = lstrip(prefix, '/')
+    # prefix = path=="" ? path : rstrip(path, '/')*"/"
+    bucket_options = AWS.S3.GetBucketOptions(delimiter="/", prefix=prefix)
+    resp = AWS.S3.get_bkt(awsEnv, bkt; options=bucket_options)
+
+    keylst = Vector{String}()
+    for content in resp.obj.contents
+        fname = replace(content.key, prefix, "")
+        if fname!="" && ismatch(re, fname)
+            push!(keylst, content.key)
+        end
+    end
+    # the prefix is alread a single file
+    # if keylst == []
+    #     push!(keylst, prefix)
+    # end
+    return bkt, keylst
+end
 
 end
