@@ -28,6 +28,26 @@ const US_EAST_1 = "us-east-1" # US East (Northern Virginia) Region
 const US_WEST_1 = "us-west-1" # US West (Northern California) Region
 const US_WEST_2 = "us-west-2" # US West (Oregon) Region
 
+function read_aws_config(configFileName::String = joinpath(homedir(), ".aws/config"))
+    global AWS_ID
+    global AWS_SECKEY
+    global AWS_REGION
+
+    isfile(configFileName) || return
+    for line in readlines(configFileName)
+        line = replace(line, " ", "")
+        line = replace(line, "\n", "")
+        segs = split(line, "=")
+        if ismatch(r"^aws_secret_access_key", segs[1])
+            AWS_SECKEY = segs[2]
+        elseif ismatch(r"^aws_access_key_id", segs[1])
+            AWS_ID = segs[2]
+        elseif ismatch(r"^region", segs[1])
+            AWS_REGION = segs[2]
+        end
+    end
+end
+
 function __init__()
     config_file_base = Sys.KERNEL == :Windows ? ENV["APPDATA"] : homedir()
 
@@ -36,30 +56,21 @@ function __init__()
     global AWS_SECKEY = ""
     global AWS_REGION = US_EAST_1
     global AWS_TOKEN = ""
+
+    # read the default configuration file first
+    read_aws_config()
+
+    # override specific options in the same precedence as specified in
+    # http://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html#config-settings-and-precedence
+    credentials_path = joinpath(homedir(), ".aws/credentials")
     if haskey(ENV, "AWS_ID") && haskey(ENV, "AWS_SECKEY")
         AWS_ID = ENV["AWS_ID"]
         AWS_SECKEY = ENV["AWS_SECKEY"]
     elseif haskey(ENV, "AWS_ACCESS_KEY_ID") && haskey(ENV, "AWS_SECRET_ACCESS_KEY")
         AWS_ID = ENV["AWS_ACCESS_KEY_ID"]
         AWS_SECKEY = ENV["AWS_SECRET_ACCESS_KEY"]
-    elseif isfile(joinpath(homedir(), ".aws/config")) || isfile(joinpath(homedir(), ".aws/credentials"))
-        if isfile(joinpath(homedir(), ".aws/config"))
-            credentialFileName = joinpath(homedir(), ".aws/config")
-        else
-            credentialFileName = joinpath(homedir(), ".aws/credentials")
-        end
-        for line in readlines( credentialFileName )
-            line = replace(line, " ", "")
-            line = replace(line, "\n", "")
-            segs = split(line, "=")
-            if ismatch(r"^aws_secret_access_key", segs[1])
-                AWS_SECKEY = segs[2]
-            elseif ismatch(r"^aws_access_key_id", segs[1])
-                AWS_ID = segs[2]
-            elseif ismatch(r"^region", segs[1])
-                AWS_REGION = segs[2]
-            end
-        end
+    elseif isfile(credentials_path)
+        read_aws_config(credentials_path)
     else
         secret_path = joinpath(config_file_base, ".awssecret")
         if isfile(secret_path)
