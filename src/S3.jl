@@ -527,7 +527,7 @@ function restore_object(env::AWSEnv, bkt::String, key::String, days::Int)
 	ro.cont_typ = "application/octet-stream"
 
     ro.sub_res=[("restore", "")]
-    ro.body = "<RestoreRequest xmlns=\"http://s3-$(env.region).amazonaws.com/doc/2006-3-01\"><Days>$(days)</Days></RestoreRequest>"
+    ro.body = "<RestoreRequest xmlns=\"http://$(env.region).s3.amazonaws.com/doc/2006-3-01\"><Days>$(days)</Days></RestoreRequest>"
 
     s3_resp = do_request(env, ro)
     s3_resp
@@ -730,7 +730,7 @@ function do_http(env::AWSEnv, ro::RO)
 	if( isempty(env.region) )
     	url = "https://s3.amazonaws.com" * full_path
 	else
-    	url = "https://s3-$(env.region).amazonaws.com" * full_path
+    	url = "https://$(env.region).s3.amazonaws.com" * full_path
 	end
 
     http_options = RequestOptions(headers=all_hdrs, ostream=ro.ostream, request_timeout=env.timeout, auto_content_type=false)
