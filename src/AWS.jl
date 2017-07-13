@@ -35,7 +35,6 @@ function __init__()
     global AWS_ID = ""
     global AWS_SECKEY = ""
     global AWS_REGION = US_EAST_1
-    global const AWS_TOKEN = ""
     global AWS_TOKEN = ""
     if haskey(ENV, "AWS_ID") && haskey(ENV, "AWS_SECKEY")
         AWS_ID = ENV["AWS_ID"]
