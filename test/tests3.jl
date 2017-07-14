@@ -14,7 +14,7 @@ println(resp.obj)
 println("Create a bucket")
 acl=S3.S3_ACL()
 acl.acl="public-read"
-resp=S3.create_bkt(env, bkt, acl=acl)
+resp=S3.create_bkt(env, bkt, acl=acl, config=CreateBucketConfiguration(env.region))
 println(resp)
 
 po = S3.PutObjectOptions()
