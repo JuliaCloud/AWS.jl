@@ -553,9 +553,3 @@ LightXML
 libz must be installed
 
 libxml2 must be installed
-
-### NOTE
-
-- The crypto functions required for this package are in https://github.com/amitmurthy/AWS.jl/blob/master/src/crypto.jl, since
-  OpenSSL.jl does not yet support the functions this package needs. This will be replaced with calls to OpenSSL.jl when
-  it supports the same.
