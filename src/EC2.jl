@@ -8,6 +8,10 @@ using AWS
 
 import AWS.xml
 import Base.show
+import LightXML: get_elements_by_tagname
+
+# trying to get elements from nothing should result in nothing
+get_elements_by_tagname(::Void, s) = nothing
 
 
 const VM_CC_OXL = "cc2.8xlarge" ##Cluster Compute Eight Extra Large
