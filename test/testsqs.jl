@@ -1,259 +1,185 @@
-using AWS, AWS.SQS
+module TestSQS
+using AWS
+using AWS.SQS
+using Base.Test
 
-env=AWSEnv()
-
-const awsAccountID = ENV["AWS_ACCOUNT_ID"]
-
-queueName="MyTest1"
-
-println("List all queues !!!")
-queues = SQS.ListQueues(env)
-@show queues
-
-println("Create queue")
-attributes = AttributeType[]
-push!(attributes, AttributeType(name="DelaySeconds",value="300"))
-push!(attributes, AttributeType(name="VisibilityTimeout",value="120"))
-resp = CreateQueue(env; queueName=queueName, attributeSet=attributes)
-if resp.http_code < 299
-	println("Test for Create Queue Passed")
-else
-	println("Test for Create Queue Failed")
+function check_resp(resp, resp_obj_type=Any)
+    info("response: ", resp.obj)
+    @test 200 <= resp.http_code <= 206
+    @test isa(resp, AWS.SQS.SQSResponse)
+    @test isa(resp.obj, resp_obj_type)
 end
 
-qurl = resp.obj.queueUrl
-@show qurl
+function runtests(env, config)
+    awsAccountID = get(config, "awsAccountID", "")
 
-println("Get queue attributes")
-resp = GetQueueAttributes(env; queueUrl=qurl, attributeNameSet=["All"])
-if resp.http_code < 299
-	println("Test for Get Queue Attributes Passed")
-else
-	println("Test for Get Queue Attributes Failed")
+    if isempty(awsAccountID)
+        warn("skipping SQS tests, awsAccountID not set")
+        return
+    end
+
+    queueName = "MyTest1"
+
+    println("list all queues")
+    resp = SQS.ListQueues(env)
+    check_resp(resp, AWS.SQS.ListQueuesResponseType)
+    @test isa(resp.obj.queueUrlSet, Vector{String})
+
+    println("create queue")
+    attributes = [
+        AttributeType(name="DelaySeconds", value="300"),
+        AttributeType(name="VisibilityTimeout", value="120")
+    ]
+    resp = CreateQueue(env; queueName=queueName, attributeSet=attributes)
+    check_resp(resp, AWS.SQS.CreateQueueResponseType)
+    @test endswith(resp.obj.queueUrl, queueName)
+
+    qurl = resp.obj.queueUrl
+    @show qurl
+    @test qurl == GetQueueUrl(env; queueName=queueName).obj.queueUrl
+
+    println("get queue attributes")
+    resp = GetQueueAttributes(env; queueUrl=qurl, attributeNameSet=["All"])
+    check_resp(resp, AWS.SQS.GetQueueAttributesResponseType)
+    @test isa(resp.obj.attributeSet, Vector{AWS.SQS.AttributeType})
+    @test !isempty(resp.obj.attributeSet)
+
+    println("send message")
+    msgAttributes = [
+        MessageAttributeType(name="some-attribute", value=MessageAttributeValueType(dataType="Number.integer-ish", stringValue="0")),
+        MessageAttributeType(name="other-attribute", value=MessageAttributeValueType(dataType="String.yyy", stringValue="My yyy string")),
+        MessageAttributeType(name="bin-attribute", value=MessageAttributeValueType(dataType="Binary.jpg", binaryValue=[0x0,0x1,0x2,0x3,0x4,0x5,0x6]))
+    ]
+    resp = SendMessage(env; queueUrl=qurl, delaySeconds=0, messageBody="test", messageAttributeSet=msgAttributes)
+    check_resp(resp, AWS.SQS.SendMessageResponseType)
+    msgid = resp.obj.messageId
+
+    println("receive messages")
+    resp = ReceiveMessage(env; queueUrl=qurl, attributeNameSet=["All"], messageAttributeNameSet=["All"])
+    check_resp(resp, AWS.SQS.ReceiveMessageResponseType)
+    @test isa(resp.obj.messageSet, Vector{AWS.SQS.MessageType})
+    info("received ", length(resp.obj.messageSet), " messages")
+
+    msgids = [x.messageId for x in resp.obj.messageSet]
+    @test msgid in msgids
+    msgbodies = [x.body for x in resp.obj.messageSet]
+    @test "test" in msgbodies
+
+    println("delete messages")
+    for hndl in [x.receiptHandle for x in resp.obj.messageSet]
+        resp = DeleteMessage(env; queueUrl=qurl, receiptHandle=hndl)
+        check_resp(resp, AWS.SQS.DeleteMessageResponseType)
+        info("deleted ", resp.obj.requestId)
+    end
+
+    println("send message batch")
+    id1 = "SendMessageBatchMessage1"
+    delaySeconds1 = 10
+    msgAttributes1 = [
+        MessageAttributeType(name="some-attribute", value=MessageAttributeValueType(dataType="Number.integer-ish", stringValue="111")),
+        MessageAttributeType(name="other-attribute", value=MessageAttributeValueType(dataType="String.yyy", stringValue="My 111 string")),
+        MessageAttributeType(name="bin-attribute", value=MessageAttributeValueType(dataType="Binary.jpg", binaryValue=[0x0,0x1,0x2,0x3,0x4,0x5,0x6]))
+    ]
+    messageBody1 = "Message Body 1"
+    sendMessageBatchRequestEntryType1 = SendMessageBatchRequestEntryType(; delaySeconds=delaySeconds1, id=id1, messageAttributeSet=msgAttributes1, messageBody=messageBody1)
+
+    id2 = "SendMessageBatchMessage2"
+    delaySeconds2 = 10
+    msgAttributes2 = [
+        MessageAttributeType(name="some-attribute", value=MessageAttributeValueType(dataType="Number.integer-ish", stringValue="222")),
+        MessageAttributeType(name="other-attribute", value=MessageAttributeValueType(dataType="String.yyy", stringValue="My 222 string")),
+        MessageAttributeType(name="bin-attribute", value=MessageAttributeValueType(dataType="Binary.jpg", binaryValue=[0x0,0x1,0x2,0x3,0x4,0x5,0x6]))
+    ]
+    messageBody2 = "Message Body 2"
+    sendMessageBatchRequestEntryType2 = SendMessageBatchRequestEntryType(; delaySeconds=delaySeconds2, id=id2, messageAttributeSet=msgAttributes2, messageBody=messageBody2)
+
+    id3 = "SendMessageBatchMessage3"
+    delaySeconds3 = 10
+    messageBody3 = "Message Body 3"
+    sendMessageBatchRequestEntryType3 = SendMessageBatchRequestEntryType(; delaySeconds=delaySeconds3, id=id3, messageBody=messageBody3)
+
+    id4 = "SendMessageBatchMessage4"
+    delaySeconds4 = 10
+    messageBody4 = "Message Body 4"
+    sendMessageBatchRequestEntryType4 = SendMessageBatchRequestEntryType(; delaySeconds=delaySeconds4, id=id4, messageBody=messageBody4)
+
+    sendMessageBatchRequestEntrySet = [
+        sendMessageBatchRequestEntryType1,
+        sendMessageBatchRequestEntryType2,
+        sendMessageBatchRequestEntryType3,
+        sendMessageBatchRequestEntryType4
+    ]
+
+    sendMessageBatchType = SendMessageBatchType(; sendMessageBatchRequestEntrySet=sendMessageBatchRequestEntrySet, queueUrl=qurl)
+    resp = SendMessageBatch(env, sendMessageBatchType)
+    check_resp(resp, Vector{AWS.SQS.SendMessageBatchResultErrorEntryType})
+
+    println("Sleeping for 20 secs !!!")
+    sleep(20)
+
+    println("change message visibility")
+    resp = ReceiveMessage(env; queueUrl=qurl)
+    check_resp(resp, AWS.SQS.ReceiveMessageResponseType)
+    msg = resp.obj.messageSet[1]
+
+    changeMessageVisibilityType = ChangeMessageVisibilityType(; queueUrl=qurl, receiptHandle=msg.receiptHandle, visibilityTimeout=30)
+    resp = ChangeMessageVisibility(env, changeMessageVisibilityType)
+    check_resp(resp, AWS.SQS.ChangeMessageVisibilityResponseType)
+
+    println("change message visibility batch")
+    resp1 = ReceiveMessage(env; queueUrl=qurl)
+    msg1 = resp1.obj.messageSet[1]
+    id1 = resp1.obj.messageSet[1].messageId
+
+    resp2 = ReceiveMessage(env; queueUrl=qurl)
+    msg2 = resp2.obj.messageSet[1]
+    id2 = resp2.obj.messageSet[1].messageId
+
+    changeMessageVisibilityBatchRequestEntryType1 = ChangeMessageVisibilityBatchRequestEntryType(; id=id1, receiptHandle=msg1.receiptHandle, visibilityTimeout=60)
+    changeMessageVisibilityBatchRequestEntryType2 = ChangeMessageVisibilityBatchRequestEntryType(; id=id2, receiptHandle=msg2.receiptHandle, visibilityTimeout=90)
+    changeMessageVisibilityBatchRequestEntrySet = [
+        changeMessageVisibilityBatchRequestEntryType1,
+        changeMessageVisibilityBatchRequestEntryType2
+    ]
+
+    changeMessageVisibilityBatchType = ChangeMessageVisibilityBatchType(; queueUrl=qurl, changeMessageVisibilityBatchRequestEntrySet=changeMessageVisibilityBatchRequestEntrySet)
+    resp = ChangeMessageVisibilityBatch(env, changeMessageVisibilityBatchType)
+    check_resp(resp, AWS.SQS.ChangeMessageVisibilityResponseBatchType)
+
+    println("delete message batch")
+    deleteMessageBatchRequestEntryType1 = DeleteMessageBatchRequestEntryType(; id=id1, receiptHandle=msg1.receiptHandle)
+    deleteMessageBatchRequestEntryType2 = DeleteMessageBatchRequestEntryType(; id=id2, receiptHandle=msg2.receiptHandle)
+    deleteMessageBatchRequestEntrySet = [
+        deleteMessageBatchRequestEntryType1,
+        deleteMessageBatchRequestEntryType2
+    ]
+
+    deleteMessageBatchType = DeleteMessageBatchType(; deleteMessageBatchRequestEntrySet=deleteMessageBatchRequestEntrySet, queueUrl=qurl)
+    resp = DeleteMessageBatch(env, deleteMessageBatchType)
+    check_resp(resp, Vector{AWS.SQS.DeleteMessageBatchResultErrorEntryType})
+
+    println("list dead letter source queues")
+    resp = ListDeadLetterSourceQueues(env; queueUrl=qurl)
+    check_resp(resp, Void)
+
+    println("purge queue")
+    resp = PurgeQueue(env; queueUrl=qurl)
+    check_resp(resp, String)
+
+    println("add permission")
+    aWSAccountIdSet = [awsAccountID, awsAccountID]
+    actionNameSet = ["SendMessage", "ReceiveMessage"]
+
+    resp = AddPermission(env; queueUrl=qurl, label="My Permission 1", aWSAccountIdSet=aWSAccountIdSet, actionNameSet=actionNameSet)
+    check_resp(resp, String)
+
+    println("remove  permission")
+    resp = RemovePermission(env; queueUrl=qurl, label="My Permission 1")
+    check_resp(resp, String)
+
+    println("testing delete queue")
+    resp = DeleteQueue(env; queueUrl=qurl)
+    check_resp(resp, AWS.SQS.DeleteQueueResponseType)
 end
 
-println("Send Message")
-msgAttributes = MessageAttributeType[]
-push!(msgAttributes, MessageAttributeType(name="some-attribute",
-  value=MessageAttributeValueType(dataType="Number.integer-ish", stringValue="0")))
-push!(msgAttributes, MessageAttributeType(name="other-attribute",
-  value=MessageAttributeValueType(dataType="String.yyy", stringValue="My yyy string")))
-push!(msgAttributes, MessageAttributeType(name="bin-attribute",
-  value=MessageAttributeValueType(dataType="Binary.jpg", binaryValue=[0x0,0x1,0x2,0x3,0x4,0x5,0x6])))
-resp = SendMessage(env; queueUrl=qurl, delaySeconds=0, messageBody="test", messageAttributeSet=msgAttributes)
-if resp.http_code < 299
-	println("Test for Send Message Passed")
-else
-	println("Test for Send Message Failed")
-end
-
-
-println("Receive Message")
-resp=ReceiveMessage(env; queueUrl=qurl, attributeNameSet=["All"], messageAttributeNameSet=["All"])
-if resp.http_code < 299
-	println("Test for Receive Message Passed")
-else
-	println("Test for Receive Message Failed")
-end
-
-msg = resp.obj.messageSet[1]
-msg_body = msg.body
-  # msg_body == "test"
-
-println("Delete Message")
-resp = DeleteMessage(env; queueUrl=qurl, receiptHandle=msg.receiptHandle)
-if resp.http_code < 299
-	println("Test for Delete Message Passed")
-else
-	println("Test for Delete Message Failed")
-end
-
-
-println("Send Message Batch")
-qurl=GetQueueUrl(env; queueName=queueName).obj.queueUrl
-## Test for SendMessageBatch
-id1 = "SendMessageBatchMessage1"
-delaySeconds1 = 10
-msgAttributes1 = MessageAttributeType[]
-push!(msgAttributes1, MessageAttributeType(name="some-attribute",
-  value=MessageAttributeValueType(dataType="Number.integer-ish", stringValue="111")))
-push!(msgAttributes1, MessageAttributeType(name="other-attribute",
-  value=MessageAttributeValueType(dataType="String.yyy", stringValue="My 111 string")))
-push!(msgAttributes1, MessageAttributeType(name="bin-attribute",
-  value=MessageAttributeValueType(dataType="Binary.jpg", binaryValue=[0x0,0x1,0x2,0x3,0x4,0x5,0x6])))
-messageBody1 = "Message Body 1"
-sendMessageBatchRequestEntryType1 = SendMessageBatchRequestEntryType(; delaySeconds=delaySeconds1, id=id1, messageAttributeSet=msgAttributes1, messageBody=messageBody1)
-
-id2 = "SendMessageBatchMessage2"
-delaySeconds2 = 10
-msgAttributes2 = MessageAttributeType[]
-push!(msgAttributes2, MessageAttributeType(name="some-attribute",
-  value=MessageAttributeValueType(dataType="Number.integer-ish", stringValue="222")))
-push!(msgAttributes2, MessageAttributeType(name="other-attribute",
-  value=MessageAttributeValueType(dataType="String.yyy", stringValue="My 222 string")))
-push!(msgAttributes2, MessageAttributeType(name="bin-attribute",
-  value=MessageAttributeValueType(dataType="Binary.jpg", binaryValue=[0x0,0x1,0x2,0x3,0x4,0x5,0x6])))
-messageBody2 = "Message Body 2"
-sendMessageBatchRequestEntryType2 = SendMessageBatchRequestEntryType(; delaySeconds=delaySeconds2, id=id2, messageAttributeSet=msgAttributes2, messageBody=messageBody2)
-
-
-id3 = "SendMessageBatchMessage3"
-delaySeconds3 = 10
-messageBody3 = "Message Body 3"
-sendMessageBatchRequestEntryType3 = SendMessageBatchRequestEntryType(; delaySeconds=delaySeconds3, id=id3, messageBody=messageBody3)
-
-id4 = "SendMessageBatchMessage4"
-delaySeconds4 = 10
-messageBody4 = "Message Body 4"
-sendMessageBatchRequestEntryType4 = SendMessageBatchRequestEntryType(; delaySeconds=delaySeconds4, id=id4, messageBody=messageBody4)
-
-sendMessageBatchRequestEntrySet = Vector{SendMessageBatchRequestEntryType}()
-push!(sendMessageBatchRequestEntrySet, sendMessageBatchRequestEntryType1)
-push!(sendMessageBatchRequestEntrySet, sendMessageBatchRequestEntryType2)
-push!(sendMessageBatchRequestEntrySet, sendMessageBatchRequestEntryType3)
-push!(sendMessageBatchRequestEntrySet, sendMessageBatchRequestEntryType4)
-
-sendMessageBatchType = SendMessageBatchType(; sendMessageBatchRequestEntrySet=sendMessageBatchRequestEntrySet, queueUrl=qurl)
-resp = SendMessageBatch(env, sendMessageBatchType)
-if resp.http_code < 299
-	println("Test for Send Message Batch Passed")
-else
-	println("Test for Send Message Batch Failed")
-end
-
-println("Sleeping for 20 secs !!!")
-sleep(20)
-
-println("Delete Message Batch")
-## Test case for DeleteMessageBatch
-qurl=GetQueueUrl(env; queueName=queueName).obj.queueUrl
-## resp1=ReceiveMessage(env; queueUrl=qurl, attributeNameSet=["All"], messageAttributeNameSet=["All"])
-resp1=ReceiveMessage(env; queueUrl=qurl)
-msg1 = resp1.obj.messageSet[1]
-## resp2=ReceiveMessage(env; queueUrl=qurl, attributeNameSet=["All"], messageAttributeNameSet=["All"])
-resp2=ReceiveMessage(env; queueUrl=qurl)
-msg2 = resp2.obj.messageSet[1]
-
-deleteMessageBatchRequestEntryType1 = DeleteMessageBatchRequestEntryType(; id=id1, receiptHandle=msg1.receiptHandle)
-deleteMessageBatchRequestEntryType2 = DeleteMessageBatchRequestEntryType(; id=id2, receiptHandle=msg2.receiptHandle)
-deleteMessageBatchRequestEntrySet = Vector{DeleteMessageBatchRequestEntryType}()
-push!(deleteMessageBatchRequestEntrySet, deleteMessageBatchRequestEntryType1)
-push!(deleteMessageBatchRequestEntrySet, deleteMessageBatchRequestEntryType2)
-
-deleteMessageBatchType = DeleteMessageBatchType(; deleteMessageBatchRequestEntrySet=deleteMessageBatchRequestEntrySet, queueUrl=qurl)
-resp = DeleteMessageBatch(env, deleteMessageBatchType)
-if resp.http_code < 299
-	println("Test for Delete Message Batch Passed")
-else
-	println("Test for Delete Message Batch Failed")
-end
-
-
-
-println("Change Message Visibility")
-## Test case for ChangeMessageVisibility
-qurl=GetQueueUrl(env; queueName=queueName).obj.queueUrl
-resp=ReceiveMessage(env; queueUrl=qurl)
-msg = resp.obj.messageSet[1]
-
-changeMessageVisibilityType = ChangeMessageVisibilityType(; queueUrl=qurl, receiptHandle=msg.receiptHandle, visibilityTimeout=30)
-resp = ChangeMessageVisibility(env, changeMessageVisibilityType)
-if resp.http_code < 299
-	println("Test for Change Message Visibility Passed")
-else
-	println("Test for Change Message Visibility Failed")
-end
-
-
-
-println("Change Message Visibility Batch")
-## Test case for ChangeMessageVisibilityBatch
-qurl=GetQueueUrl(env; queueName=queueName).obj.queueUrl
-resp1=ReceiveMessage(env; queueUrl=qurl)
-msg1 = resp1.obj.messageSet[1]
-id1=resp1.obj.messageSet[1].messageId
-
-resp2=ReceiveMessage(env; queueUrl=qurl)
-msg2 = resp2.obj.messageSet[1]
-id2=resp2.obj.messageSet[1].messageId
-
-changeMessageVisibilityBatchRequestEntryType1 = ChangeMessageVisibilityBatchRequestEntryType(; id=id1, receiptHandle=msg1.receiptHandle, visibilityTimeout=60)
-changeMessageVisibilityBatchRequestEntryType2 = ChangeMessageVisibilityBatchRequestEntryType(; id=id2, receiptHandle=msg2.receiptHandle, visibilityTimeout=90)
-changeMessageVisibilityBatchRequestEntrySet = Vector{ChangeMessageVisibilityBatchRequestEntryType}()
-push!(changeMessageVisibilityBatchRequestEntrySet, changeMessageVisibilityBatchRequestEntryType1)
-push!(changeMessageVisibilityBatchRequestEntrySet, changeMessageVisibilityBatchRequestEntryType2)
-
-changeMessageVisibilityBatchType = ChangeMessageVisibilityBatchType(; queueUrl=qurl, changeMessageVisibilityBatchRequestEntrySet=changeMessageVisibilityBatchRequestEntrySet)
-resp = ChangeMessageVisibilityBatch(env, changeMessageVisibilityBatchType)
-if resp.http_code < 299
-	println("Test for Change Message Visibility Batch Passed")
-else
-	println("Test for Change Message Visibility Batch Failed")
-end
-
-
-
-println("List Dead Letter Source Queues")
-## Test case for ListDeadLetterSourceQueues
-qurl=GetQueueUrl(env; queueName=queueName).obj.queueUrl
-resp = ListDeadLetterSourceQueues(env; queueUrl=qurl)
-if resp.http_code < 299
-	println("Test for List Dead Letter Source Queues Passed")
-else
-	println("Test for List Dead Letter Source Queues Failed")
-end
-
-
-println("Purge Queue")
-## Test case for PurgeQueue
-qurl=GetQueueUrl(env; queueName=queueName).obj.queueUrl
-resp = PurgeQueue(env; queueUrl=qurl)
-if resp.http_code < 299
-	println("Test for Purge Queue Passed")
-else
-	println("Test for Purge Queue Failed")
-end
-
-
-println("Add  Permission")
-## Test case for AddPermission
-qurl=GetQueueUrl(env; queueName=queueName).obj.queueUrl
-
-aWSAccountIdSet = Vector{String}()
-actionNameSet = Vector{String}()
-
-push!(aWSAccountIdSet, awsAccountID)
-push!(actionNameSet, "SendMessage")
-
-push!(aWSAccountIdSet, awsAccountID)
-push!(actionNameSet, "ReceiveMessage")
-
-resp = AddPermission(env; queueUrl=qurl, label="My Permission 1", aWSAccountIdSet=aWSAccountIdSet, actionNameSet=actionNameSet)
-if resp.http_code < 299
-	println("Test for Add Permission Passed")
-else
-	println("Test for Add Permission Failed")
-	println("Check if the AWS Account ID exists !!")
-end
-
-
-println("Remove  Permission")
-## Test case for RemovePermission
-qurl=GetQueueUrl(env; queueName=queueName).obj.queueUrl
-resp = RemovePermission(env; queueUrl=qurl, label="My Permission 1")
-if resp.http_code < 299
-	println("Test for Remove Permission Passed")
-else
-	println("Test for Remove Permission Failed")
-end
-
-
-
-println("Testing DeleteQueue")
-qurl=GetQueueUrl(env; queueName=queueName).obj.queueUrl
-DeleteQueue(env; queueUrl=qurl)
-if resp.http_code < 299
-	println("Test for Delete Queue Passed")
-else
-	println("Test for Delete Queue Failed")
-end
+end # module TestSQS
