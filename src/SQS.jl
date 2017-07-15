@@ -57,7 +57,7 @@ function sqs_execute(env_::AWSEnv, action::String, ep, params_in, use_post)
         complete_url *= "?" * signed_querystr
     end
     if (env.dbg) || (env.dry_run)
-        println("URL:\n$complete_url\n")
+        info("URL:\n$complete_url\n")
     end
 
 	 headers = Dict(
@@ -154,9 +154,9 @@ function takeSQSmessage!(env::AWSEnv, qurl::AbstractString="")
     resp = DeleteMessage(env, queueUrl=qurl, receiptHandle=msg.receiptHandle)
     # resp = DeleteMessage(env, msg)
     if resp.http_code < 299
-        println("message deleted")
+        info("message deleted")
     else
-        println("message taking failed!")
+        info("message taking failed!")
     end
     return msg
 end

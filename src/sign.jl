@@ -61,11 +61,11 @@ function signature_version_2(env::AWSEnv, service, use_post, request_parameters)
     push!(request_parameters, ("Signature", signature))
 
     if (env.dbg) || (env.dry_run)
-        println("Parameters:")
+        info("Parameters:")
         for (k, v) in request_parameters
-            println("  $k => $v")
+            info("  $k => $v")
         end
-        println("--------\nString to sign:\n" * string_to_sign * "\n--------")
+        info("--------\nString to sign:\n" * string_to_sign * "\n--------")
     end
 
     return (Tuple[], Requests.format_query_str(request_parameters))
@@ -121,16 +121,16 @@ function signature_version_4(env::AWSEnv, service, use_post, request_parameters)
     end
 
     if (env.dbg) || (env.dry_run)
-        println("Parameters:")
+        info("Parameters:")
         for (k, v) in request_parameters
-            println("  $k => $v")
+            info("  $k => $v")
         end
-        println("--------\nCanonical request:\n" * canonical_request)
-        println("--------\nString to sign:\n" * string_to_sign * "\n--------")
-        println("Headers:")
-        println("  Host: " * ep_host(env, service))
+        info("--------\nCanonical request:\n" * canonical_request)
+        info("--------\nString to sign:\n" * string_to_sign * "\n--------")
+        info("Headers:")
+        info("  Host: " * ep_host(env, service))
         for (k, v) in headers
-            println("  $k: $v")
+            info("  $k: $v")
         end
     end
 

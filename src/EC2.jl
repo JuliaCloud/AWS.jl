@@ -76,7 +76,7 @@ function ec2_execute(env::AWSEnv, action::String, params_in=nothing)
     ep_path = env.ep_path * (env.ep_path[end] == '/' ? "" : "/")
     complete_url = "https://" * ep_host(env, "ec2") * ep_path * "?" * signed_querystr
     if (env.dbg) || (env.dry_run)
-        println("URL:\n$complete_url\n")
+        info("URL:\n$complete_url\n")
     end
 
 	headers = Dict{String, String}()

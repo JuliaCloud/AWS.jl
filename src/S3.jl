@@ -731,13 +731,13 @@ function do_http(env::AWSEnv, ro::RO)
     http_options = RequestOptions(headers=all_hdrs, ostream=ro.ostream, request_timeout=env.timeout, auto_content_type=false)
 
     if env.dbg
-        println("Verb : " * string(ro.verb))
-        println("URL : " * url)
-        println("Headers : ")
+        info("Verb : " * string(ro.verb))
+        info("URL : " * url)
+        info("Headers : ")
         for (k,v) in http_options.headers
-            println("  $k : $v")
+            info("  $k : $v")
         end
-        println("Body : " * string(ro.body))
+        info("Body : " * string(ro.body))
     end
 
     if env.dry_run
@@ -749,7 +749,7 @@ function do_http(env::AWSEnv, ro::RO)
         "Accept" => "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
     )
 	for (k,v) in all_hdrs
-        ## println("  $k : $v")
+        ## info("  $k : $v")
 		setindex!(headers, v, k)
 	end
 
@@ -782,7 +782,7 @@ function do_http(env::AWSEnv, ro::RO)
     end
 
      if env.dbg
-         println("Response : ", http_resp)
+         info("Response : ", http_resp)
      end
 
     return http_resp
@@ -802,7 +802,7 @@ function canonicalize_and_sign(env::AWSEnv, ro::RO, md5::String)
     amz_hdrs_str * sign_path
 
     if (env.dbg)
-        println("String to sign:\n$(str2sign)")
+        info("String to sign:\n$(str2sign)")
     end
 
     s_b64 = base64encode(Crypto.hmacsha1_digest(str2sign, env.aws_seckey))
