@@ -87,7 +87,7 @@ function __init__()
         region_path = joinpath(config_file_base, ".awsregion")
         AWS_REGION = readchomp(region_path)
     else
-        println("use default region: $(AWS_REGION)")
+        info("using default region: ", AWS_REGION)
     end
 end
 
@@ -133,8 +133,7 @@ type AWSEnv
 
         # host portion of ep overrides region
         if length(ep_host) > 19 && ep_host[1:4] == "ec2." && ep_host[(end-13):end] == ".amazonaws.com"
-            println("WARNING: AWSEnv: ep keyword argument has been deprecated for AWS native services.")
-            println("Use region keyword argument instead.")
+            warn("AWSEnv: ep keyword argument has been deprecated for AWS native services. Use region keyword argument instead.")
             region = ep_host[5:end-14]
             ep_host = ""
         end

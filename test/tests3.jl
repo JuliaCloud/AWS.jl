@@ -1,63 +1,82 @@
+module TestS3
 using AWS
 using AWS.S3
+using Base.Test
 
-# include("config.jl")
+function check_resp(resp, resp_obj_type=Any)
+    info("response: ", resp.obj)
+    @test 200 <= resp.http_code <= 206
+    @test isa(resp, AWS.S3.S3Response)
+    @test isa(resp.obj, resp_obj_type)
+end
 
-env = AWSEnv(timeout=60.0)
+function test_bucket_ops(env)
+    bkt = "1-test-temp-bkt"
 
-bkt = "1-test-temp-bkt"
+    info("list all buckets")
+    resp = S3.list_all_buckets(env)
+    check_resp(resp, AWS.S3.ListAllMyBucketsResult)
+    @test isa(resp.obj.buckets, Vector{AWS.S3.Bucket})
 
-println("List all buckets")
-resp=S3.list_all_buckets(env)
-println(resp.obj)
+    info("create a bucket")
+    acl = S3.S3_ACL()
+    acl.acl = "public-read"
+    resp = S3.create_bkt(env, bkt, acl=acl, config=AWS.S3.CreateBucketConfiguration(env.region))
+    check_resp(resp, String)
 
-println("Create a bucket")
-acl=S3.S3_ACL()
-acl.acl="public-read"
-resp=S3.create_bkt(env, bkt, acl=acl)
-println(resp)
+    po = S3.PutObjectOptions()
+    po.acl = acl
 
-po = S3.PutObjectOptions()
-po.acl = acl
+    info("add a file")
+    resp = S3.put_object(env, bkt, "file1", "Hello ", options=po)
+    check_resp(resp, String)
 
-println("Add a file")
-resp = S3.put_object(env, bkt, "file1", "Hello ", options=po)
-println(resp)
+    info("add another file")
+    resp = S3.put_object(env, bkt, "file2", "World ")
+    check_resp(resp, String)
 
+    info("add another file")
+    resp = S3.put_object(env, bkt, "file3", "Hello World ")
+    check_resp(resp, String)
 
-println("Add another file")
-resp = S3.put_object(env, bkt, "file2", "World ")
-println(resp)
+    info("list bucket")
+    resp = S3.get_bkt(env, bkt)
+    check_resp(resp, AWS.S3.ListBucketResult)
+    @test isa(resp.obj.contents, Vector{AWS.S3.Contents})
+    @test length(resp.obj.contents) == 3
 
-println("Add another file")
-resp = S3.put_object(env, bkt, "file3", "Hello World ")
-println(resp)
+    info("get file 1")
+    resp = S3.get_object(env, bkt, "file1")
+    check_resp(resp, Vector{UInt8})
+    @test String(resp.obj) == "Hello "
 
-println("List bucket")
-resp = S3.get_bkt(env, bkt)
-println(resp)
+    info("get file 2")
+    resp = S3.get_object(env, bkt, "file2")
+    check_resp(resp, Vector{UInt8})
+    @test String(resp.obj) == "World "
 
-println("Get file 1")
-resp = S3.get_object(env, bkt, "file1")
-println(resp)
+    # sleep to allow some window to run manual debug commands
+    #info("Sleep for 10 secs ....")
+    #sleep(10)
 
-println("Get file 2")
-resp = S3.get_object(env, bkt, "file2")
-println(resp)
+    info("delete file 1")
+    resp = S3.del_object(env, bkt, "file1")
+    check_resp(resp, String)
 
+    info("delete file 2 using the multi api")
+    resp = S3.del_object_multi(env, bkt, S3.DeleteObjectsType([S3.ObjectType("file2"), S3.ObjectType("file3")]))
+    check_resp(resp, AWS.S3.DeleteResult)
+    @test isa(resp.obj.deleted, Vector{AWS.S3.Deleted})
+    @test length(resp.obj.deleted) == 2
 
-println("Sleep for 10 secs ....")
-sleep(10)
+    info("delete bucket")
+    resp = S3.del_bkt(env, bkt)
+    check_resp(resp, String)
+end
 
+function runtests(env, config)
+    info("testing s3 bucket ops...")
+    test_bucket_ops(env)
+end
 
-println("Delete file 1")
-resp = S3.del_object(env, bkt, "file1")
-println(resp)
-
-println("Delete file 2 using the multi api")
-resp = S3.del_object_multi(env, bkt, S3.DeleteObjectsType([S3.ObjectType("file2"), S3.ObjectType("file3")]))
-println(resp)
-
-println("Delete Bucket")
-resp = S3.del_bkt(env, bkt)
-println(resp)
+end # module TestS3

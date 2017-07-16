@@ -49,7 +49,7 @@ function check_running(env, chk_instances)
     resp = CHK_ERR(DescribeInstanceStatus(env, instancesSet=chk_instances, includeAllInstances=true))
     statuses = resp.instanceStatusSet
     for status in statuses
-        println("Status of $(status.instanceId) is $(status.instanceState.code):$(status.instanceState.name)")
+        info("Status of $(status.instanceId) is $(status.instanceState.code):$(status.instanceState.name)")
         if status.instanceState.code != 16
             push!(new_chk_instances, status.instanceId)
         end
@@ -82,8 +82,8 @@ function ec2_launch(ami::String, seckey::String; env=AWSEnv(), insttype::String=
     for inst in resp.instancesSet
         push!(instances, inst.instanceId)
     end
-    println("Launched instances : " )
-    println(instances)
+    info("Launched instances : " )
+    info(instances)
 
     if launchset == ""
        launchset =  aws_string(now(Dates.UTC))
@@ -105,12 +105,12 @@ function ec2_launch(ami::String, seckey::String; env=AWSEnv(), insttype::String=
             error("error adding tags!")
         end
     end
-    println("Tagged instances")
+    info("Tagged instances")
 
     # Wait for the instances to come to a running state....
     wait_till_running(env, instances, 600.0)
 
-    println("Lanched LaunchSet $launchset, ClusterName $clustername, Owner $owner" )
+    info("Lanched LaunchSet $launchset, ClusterName $clustername, Owner $owner" )
 
     instances
 end
@@ -171,13 +171,13 @@ function ec2_addprocs(instances, ec2_keyfile::String; env=AWSEnv(), hostuser::St
 
     sshnames = generate_sshnames(hostnames, num_workers, workers_per_instance, use_public_dnsname, sshflags, hostuser)
 
-    println(sshnames)
+    info(sshnames)
 
     if machines_only
         return sshnames
     else
         pids = addprocs(sshnames, sshflags=sshflags, dir=dir, tunnel=tunnel, exename=exename)
-        println("Added workers $pids")
+        info("Added workers $pids")
         return pids
     end
 end
@@ -188,38 +188,38 @@ function wait_till_running(env, instances, timeout)
     chk_instances = check_running(env, instances)
     wait_time = 5.0
     while (((time() - start) < timeout) && (length(chk_instances) > 0))
-        println("All instances not yet in a running state. Trying again in $wait_time seconds....")
+        info("All instances not yet in a running state. Trying again in $wait_time seconds....")
         sleep(wait_time)
 
         chk_instances = check_running(env, chk_instances)
     end
 
     if (length(chk_instances) > 0)
-        println("All instances not yet in a running state. Please check after some time.")
+        info("All instances not yet in a running state. Please check after some time.")
     end
 
     # Wait till they are pingable, the network interfaces take some time to come up
-    println("Testing TCP connects (on port 22) to all newly started hosts...")
+    info("Testing TCP connects (on port 22) to all newly started hosts...")
     hosts = ec2_hostnames(instances, env=env)
     testhosts = copy(hosts)
     testidx = 1
     while true
         try
             for (i,h) in enumerate(testhosts)
-                println("Testing connection to ", h[2])
+                info("Testing connection to ", h[2])
                 s=connect(h[2], 22)
                 close(s)
                 testidx = i
             end
             break;
         catch
-            println("Some newly started hosts are still unreachable. Trying again in 2.0 seconds.")
+            info("Some newly started hosts are still unreachable. Trying again in 2.0 seconds.")
             sleep(2.0)
             testhosts=testhosts[testidx:end]
         end
     end
 
-    println(hosts)
+    info(hosts)
     :ok
 end
 
@@ -260,7 +260,7 @@ function ec2_show_status(instances; env=AWSEnv())
 
     statuses = resp.obj.instanceStatusSet
     for status in statuses
-        println("Status of $(status.instanceId) is $(status.instanceState.code):$(status.instanceState.name)")
+        info("Status of $(status.instanceId) is $(status.instanceState.code):$(status.instanceState.name)")
     end
 
     [(status.instanceId, status.instanceState.code, status.instanceState.name) for status in statuses]
@@ -301,7 +301,7 @@ function ec2_mount_snapshot(instance::String, snapshot::String, mount::String, e
     volumeId = resp.volumeId
     status = resp.status
 
-    println("Created volume $volumeId")
+    info("Created volume $volumeId")
 
     while (status == "creating")
         resp = CHK_ERR(DescribeVolumes(env, volumeSet=[volumeId]))
@@ -323,13 +323,13 @@ function ec2_mount_snapshot(instance::String, snapshot::String, mount::String, e
         error("Unable to attach volume. Status $status")
     end
 
-    println("Attached $volumeId to $instance")
+    info("Attached $volumeId to $instance")
 
 
     run(`ssh -i $(ec2_keyfile) -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  -o LogLevel=ERROR $(hostuser)@$(hostname) "mkdir -p $(mount); sudo mount $dev $mount"`)
 
-    println("Mounted volume $volumeId at $mount")
-    println("To login use 'ssh -i $(ec2_keyfile) $(hostuser)@$(hostname)'")
+    info("Mounted volume $volumeId at $mount")
+    info("To login use 'ssh -i $(ec2_keyfile) $(hostuser)@$(hostname)'")
 
     volumeId
 end
