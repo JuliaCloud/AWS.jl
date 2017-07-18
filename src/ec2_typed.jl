@@ -4,18 +4,11 @@ include("ec2_operations.jl")
 #include("api.jl")
 
 
+const BASIC_TYPES = Union{String, Integer, AbstractFloat, DateTime}
+is_basic_type{T<:BASIC_TYPES}(v::T) = true
+is_basic_type(v) = false
 
-function is_basic_type(v)
-    if  isa(v, String) || isa(v, Int) || isa(v, Int32) ||
-        isa(v, Int64) || isa(v, Float64) || isa(v, Bool) ||
-        isa(v, DateTime)
-
-        return true
-    end
-    return false
-end
-
-corrections_map = Dict(
+const corrections_map = Dict(
     ("CreateTagsType", "resourcesSet") => "resourceId",
     ("DeleteTagsType", "resourcesSet") => "resourceId",
 
@@ -75,7 +68,7 @@ function call_ec2(env::AWSEnv, action::String, msg=nothing)
     if (msg != nothing)
         # make sure it is a valid type
         msg_name = typebasename(msg)
-        if !haskey(ValidRqstMsgs, msg_name) error("Invalid message for request: $msg_name") end
+        (msg_name in ValidRqstMsgs) || error("Invalid message for request: $msg_name")
 
         add_to_params(params, msg, "")
     end

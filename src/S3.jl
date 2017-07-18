@@ -14,7 +14,7 @@ import AWS.xml
 include("s3_types.jl")
 
 def_rto = 0.0
-null_cb(curl) = return nothing
+null_cb(curl) = nothing
 
 type RequestOptions
     blocking::Bool
@@ -69,10 +69,9 @@ type S3Response
     request_id::String
     version_id::String
 
-# all header fields
+    # all header fields
     headers::Dict
 
-# All header fields
     obj::Any
     ## pd::Union{ETree, Void}
     pd::Union{LightXML.XMLElement, Void}

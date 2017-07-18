@@ -290,22 +290,22 @@ end
 export RemovePermission
 
 
-ValidRqstMsgs = Dict(
-    "CreateQueueType"=>true,
-    "GetQueueUrlType"=>true,
-    "ListQueuesType"=>true,
-    "DeleteQueueType"=>true,
-    "DeleteMessageType"=>true,
-    "GetQueueAttributesType"=>true,
-    "ReceiveMessageType"=>true,
-    "SendMessageType"=>true,
-    "SetQueueAttributesType"=>true,
-    "SendMessageBatchType"=>true,
-    "DeleteMessageBatchType"=>true,
-    "ChangeMessageVisibilityType"=>true,
-    "ChangeMessageVisibilityBatchType"=>true,
-    "ListDeadLetterSourceQueuesType"=>true,
-    "PurgeQueueType"=>true,
-    "AddPermissionType"=>true,
-    "RemovePermissionType"=>true
-)
+const ValidRqstMsgs = Set([
+    "CreateQueueType",
+    "GetQueueUrlType",
+    "ListQueuesType",
+    "DeleteQueueType",
+    "DeleteMessageType",
+    "GetQueueAttributesType",
+    "ReceiveMessageType",
+    "SendMessageType",
+    "SetQueueAttributesType",
+    "SendMessageBatchType",
+    "DeleteMessageBatchType",
+    "ChangeMessageVisibilityType",
+    "ChangeMessageVisibilityBatchType",
+    "ListDeadLetterSourceQueuesType",
+    "PurgeQueueType",
+    "AddPermissionType",
+    "RemovePermissionType"
+])

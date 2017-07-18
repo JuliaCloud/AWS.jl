@@ -13,7 +13,7 @@ function is_basic_type(v)
     return false
 end
 
-corrections_map = Dict()
+const corrections_map = Dict()
 
 function add_to_params(params, obj, pfx)
     for m in fieldnames(typeof(obj))
@@ -61,7 +61,7 @@ function call_sqs(env::AWSEnv, action::String, msg=nothing, use_post=false)
     if (msg != nothing)
         # make sure it is a valid type
         msg_name = typebasename(msg)
-        if !haskey(ValidRqstMsgs, msg_name) error("Invalid message for request: $msg_name") end
+        (msg_name in ValidRqstMsgs) || error("Invalid message for request: $msg_name")
 
         add_to_params(params, msg, "")
 
