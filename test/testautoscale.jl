@@ -13,7 +13,7 @@ end
 
 function runtests(env, config)
     println("getting autoscale limits")
-    resp = AWS.Autoscale.DescribeAccountLimits(env)
+    resp = DescribeAccountLimits(env)
     check_resp(resp, DescribeAccountLimitsResult)
     @test resp.obj.numberOfLaunchConfigurations >= 0
     @test resp.obj.maxNumberOfLaunchConfigurations >= 0
