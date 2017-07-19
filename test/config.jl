@@ -7,6 +7,7 @@ const config = Dict{String, Any}(
     #"id" => "",
     #"key" => "",
     #"region" => AWS.US_WEST_2,
+    #"availability-zones" => ["us-west-2a", "us-west-2b"],
 
     # AMI and instance specifications to use for EC2 tests
     # a generic AMI to use to test ec2 operations
