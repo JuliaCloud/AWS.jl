@@ -21,7 +21,7 @@ function safe_parse_as(as::Type, s::Union{String, Void})
     elseif (as == DateTime)
         return DateTime(s[1:end-1])
     end
-    error("Unsupported parse type")
+    error("Unsupported parse type $as")
 end
 export safe_parse_as
 
@@ -96,7 +96,7 @@ function aws_string(dt::DateTime)
     return "$yy-$mm-$(dd)T$hh:$mii:$ss"
 end
 
-aws_string(v::Bool) = v ? "True" : "False"
+aws_string(v::Bool) = v ? "true" : "false"
 aws_string(v::Any) = string(v)
 export aws_string
 

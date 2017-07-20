@@ -7,10 +7,11 @@ The following services are supported as of now:
 - EC2
 - S3
 - SQS
+- Auto Scaling
 
 
 ### Current status
-- The basic APIs of EC2, S3 and SQS are tested
+- The basic APIs of EC2, S3, SQS and Auto Scaling are tested
 - The advanced APIs (e.g. VPC related APIs, etc) of EC2 are yet untested. Any testing will be helpful. 
 - The REST API does not match exactly in certain cases
   with the WSDL. For the EC2 API, the bulk of the code is generated from the WSDL while it has been translated by hand for the
@@ -57,15 +58,7 @@ APIs:
 - [EC2 API](EC2.md)
 - [S3 API](S3.md)
 - [SQS API](SQS.md)
-
-
-### Julia Dependencies
-
-Calendar
-
-Requests
-
-LightXML
+- [Auto Scale API](AutoScale.md)
 
 
 ### Binary dependencies

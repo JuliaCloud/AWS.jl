@@ -1,9 +1,14 @@
-isdefined(Base, :__precompile__) && __precompile__()
+__precompile__()
 
 module AWS
 using Requests
 using JSON
 using LightXML
+using Compat
+import LightXML: get_elements_by_tagname
+
+# trying to get elements from nothing should result in nothing
+get_elements_by_tagname(::Void, s) = nothing
 
 const EP_US_EAST_NORTHERN_VIRGINIA     = "ec2.us-east-1.amazonaws.com"
 const EP_US_WEST_OREGON                = "ec2.us-west-2.amazonaws.com"
@@ -222,13 +227,14 @@ function get_instance_credentials()
     end
 end
 
-
+include("codegen.jl")
 include("aws_utils.jl")
 include("crypto.jl")
 include("sign.jl")
 include("EC2.jl")
 include("S3.jl")
 include("SQS.jl")
+include("autoscaling.jl")
 
 include("show.jl")
 
