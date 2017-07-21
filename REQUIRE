@@ -4,4 +4,4 @@ Requests
 JSON
 URIParser
 MbedTLS
-Compat
+Compat 0.17.0
