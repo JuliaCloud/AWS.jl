@@ -63,7 +63,7 @@ end
 function CreateQueueType(pd::LightXML.XMLElement)
     o = CreateQueueType()
     o.queueName = LightXML.content(LightXML.find_element(pd, "QueueName"))
-    o.attributeSet = AWS.@parse_vector(AWS.SQS.AttributeType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "Attribute")))
+    o.attributeSet = AWS.@parse_vector(AWS.SQS.AttributeType, elements_by_tagname(LightXML.find_element(pd, "Attribute")))
     o
 end
 
@@ -145,7 +145,7 @@ type ListQueuesResponseType
 end
 function ListQueuesResponseType(pd::LightXML.XMLElement)
     o = ListQueuesResponseType()
-    o.queueUrlSet = String[LightXML.content(url) for url in LightXML.get_elements_by_tagname(LightXML.find_element(pd, "ListQueuesResult"), "QueueUrl")]
+    o.queueUrlSet = String[LightXML.content(url) for url in elements_by_tagname(LightXML.find_element(pd, "ListQueuesResult"), "QueueUrl")]
     o.requestId = LightXML.content(LightXML.find_element(LightXML.find_element(pd, "ResponseMetadata"), "RequestId"))
     o
 end
@@ -226,7 +226,7 @@ type GetQueueAttributesType
 end
 function GetQueueAttributesType(pd::LightXML.XMLElement)
     o = GetQueueAttributesType()
-    o.attributeNameSet = AWS.@parse_vector(String, LightXML.get_elements_by_tagname(pd, "AttributeName"))
+    o.attributeNameSet = AWS.@parse_vector(String, elements_by_tagname(pd, "AttributeName"))
     o.queueUrl = LightXML.content(LightXML.find_element(pd, "QueueUrl"))
     o
 end
@@ -243,7 +243,7 @@ type GetQueueAttributesResponseType
 end
 function GetQueueAttributesResponseType(pd::LightXML.XMLElement)
     o = GetQueueAttributesResponseType()
-    o.attributeSet = AWS.@parse_vector(AWS.SQS.AttributeType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "GetQueueAttributesResult"), "Attribute"))
+    o.attributeSet = AWS.@parse_vector(AWS.SQS.AttributeType, elements_by_tagname(LightXML.find_element(pd, "GetQueueAttributesResult"), "Attribute"))
     o.requestId = LightXML.content(LightXML.find_element(LightXML.find_element(pd, "ResponseMetadata"), "RequestId"))
     o
 end
@@ -267,8 +267,8 @@ function ReceiveMessageType(pd::LightXML.XMLElement)
     o.maxNumberOfMessages = AWS.safe_parseint(LightXML.content(LightXML.find_element(pd, "MaxNumberOfMessages")))
     o.visibilityTimeout = AWS.safe_parseint(LightXML.content(LightXML.find_element(pd, "VisibilityTimeout")))
     o.waitTimeSeconds = AWS.safe_parseint(LightXML.content(LightXML.find_element(pd, "WaitTimeSeconds")))
-    o.attributeNameSet = AWS.@parse_vector(String, LightXML.content(LightXML.get_elements_by_tagname(pd, "AttributeName")))
-    o.messageAttributeNameSet = AWS.@parse_vector(String, LightXML.content(LightXML.get_elements_by_tagname(pd, "MessageAttributeName")))
+    o.attributeNameSet = AWS.@parse_vector(String, LightXML.content(elements_by_tagname(pd, "AttributeName")))
+    o.messageAttributeNameSet = AWS.@parse_vector(String, LightXML.content(elements_by_tagname(pd, "MessageAttributeName")))
     o.queueUrl = LightXML.content(LightXML.find_element(pd, "QueueUrl"))
     o
 end
@@ -295,8 +295,8 @@ function MessageType(pd::LightXML.XMLElement)
     o.MD5OfBody = LightXML.content(LightXML.find_element(pd, "MD5OfBody"))
     ## MDP o.MD5OfMessageAttributes = LightXML.content(LightXML.find_element(pd, "MD5OfMessageAttributes"))
     o.body = LightXML.content(LightXML.find_element(pd, "Body"))
-    o.attributeSet = AWS.@parse_vector(AWS.SQS.AttributeType, LightXML.get_elements_by_tagname(pd, "Attribute"))
-    o.messageAttributeSet = AWS.@parse_vector(AWS.SQS.MessageAttributeType, LightXML.get_elements_by_tagname(pd, "MessageAttribute"))
+    o.attributeSet = AWS.@parse_vector(AWS.SQS.AttributeType, elements_by_tagname(pd, "Attribute"))
+    o.messageAttributeSet = AWS.@parse_vector(AWS.SQS.MessageAttributeType, elements_by_tagname(pd, "MessageAttribute"))
     o
 end
 
@@ -312,7 +312,7 @@ type ReceiveMessageResponseType
 end
 function ReceiveMessageResponseType(pd::LightXML.XMLElement)
     o = ReceiveMessageResponseType()
-    o.messageSet = AWS.@parse_vector(AWS.SQS.MessageType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "ReceiveMessageResult"), "Message"))
+    o.messageSet = AWS.@parse_vector(AWS.SQS.MessageType, elements_by_tagname(LightXML.find_element(pd, "ReceiveMessageResult"), "Message"))
     o.requestId = LightXML.content(LightXML.find_element(LightXML.find_element(pd, "ResponseMetadata"), "RequestId"))
     o
 end
@@ -332,7 +332,7 @@ end
 function SendMessageType(pd::LightXML.XMLElement)
     o = SendMessageType()
     o.delaySeconds = AWS.safe_parseint(LightXML.content(LightXML.find_element(pd, "DelaySeconds")))
-    o.messageAttributeSet = AWS.@parse_vector(AWS.SQS.MessageAttributeType, LightXML.get_elements_by_tagname(pd, "MessageAttribute"))
+    o.messageAttributeSet = AWS.@parse_vector(AWS.SQS.MessageAttributeType, elements_by_tagname(pd, "MessageAttribute"))
     o.messageBody = LightXML.content(LightXML.find_element(pd, "MessageBody"))
     o.queueUrl = LightXML.content(LightXML.find_element(pd, "QueueUrl"))
     o
@@ -371,7 +371,7 @@ type SetQueueAttributesType
 end
 function SetQueueAttributesType(pd::LightXML.XMLElement)
     o = SetQueueAttributesType()
-    o.attributeSet = AWS.@parse_vector(AWS.SQS.AttributeType, LightXML.get_elements_by_tagname(pd, "Attribute"))
+    o.attributeSet = AWS.@parse_vector(AWS.SQS.AttributeType, elements_by_tagname(pd, "Attribute"))
     o.queueUrl = LightXML.content(LightXML.find_element(pd, "QueueUrl"))
     o
 end
@@ -406,7 +406,7 @@ end
 function SendMessageBatchRequestEntryType(pd::LightXML.XMLElement)
 	o = SendMessageBatchRequestEntryType()
     o.delaySeconds = AWS.safe_parseint(LightXML.content(LightXML.find_element(pd, "DelaySeconds")))
-    o.messageAttributeSet = AWS.@parse_vector(AWS.SQS.MessageAttributeType, LightXML.get_elements_by_tagname(pd, "MessageAttribute"))
+    o.messageAttributeSet = AWS.@parse_vector(AWS.SQS.MessageAttributeType, elements_by_tagname(pd, "MessageAttribute"))
     o.messageBody = LightXML.content(LightXML.find_element(pd, "MessageBody"))
 end
 
@@ -422,7 +422,7 @@ end
 
 function SendMessageBatchType(pd::LightXML.XMLElement)
 	o = SendMessageBatchType()
-	o.sendMessageBatchRequestSet = AWS.@parse_vector(AWS.SQS.SendMessageBatchRequestEntryType, LightXML.get_elements_by_tagname(pd, "SendMessageBatchRequestEntry"))
+	o.sendMessageBatchRequestSet = AWS.@parse_vector(AWS.SQS.SendMessageBatchRequestEntryType, elements_by_tagname(pd, "SendMessageBatchRequestEntry"))
     o.queueUrl = LightXML.content(LightXML.find_element(pd, "QueueUrl"))
 end
 
@@ -478,8 +478,8 @@ end
 
 function SendMessageBatchResponseType(pd::LightXML.XMLElement)
 	o = SendMessageBatchResponseType()
-    o.sendMessageBatchResultSet = AWS.@parse_vector(AWS.SQS.SendMessageBatchResultEntryType, LightXML.get_elements_by_tagname(pd, "SendMessageBatchResultEntry"))
-    o.sendMessageBatchErrorSet = AWS.@parse_vector(AWS.SQS.SendMessageBatchResultErrorEntryType, LightXML.get_elements_by_tagname(pd, "SendMessageBatchResultErrorEntry"))
+    o.sendMessageBatchResultSet = AWS.@parse_vector(AWS.SQS.SendMessageBatchResultEntryType, elements_by_tagname(pd, "SendMessageBatchResultEntry"))
+    o.sendMessageBatchErrorSet = AWS.@parse_vector(AWS.SQS.SendMessageBatchResultErrorEntryType, elements_by_tagname(pd, "SendMessageBatchResultErrorEntry"))
 end
 
 export SendMessageBatchResponseType
@@ -510,7 +510,7 @@ end
 
 function DeleteMessageBatchType(pd::LightXML.XMLElement)
 	o = DeleteMessageBatchType()
-	o.deleteMessageBatchRequestSet = AWS.@parse_vector(AWS.SQS.DeleteMessageBatchRequestEntryType, LightXML.get_elements_by_tagname(pd, "DeleteMessageBatchRequestEntry"))
+	o.deleteMessageBatchRequestSet = AWS.@parse_vector(AWS.SQS.DeleteMessageBatchRequestEntryType, elements_by_tagname(pd, "DeleteMessageBatchRequestEntry"))
     o.queueUrl = LightXML.content(LightXML.find_element(pd, "QueueUrl"))
 end
 
@@ -546,7 +546,7 @@ end
 
 function DeleteMessageBatchResultEntryType(pd::LightXML.XMLElement)
 	o = DeleteMessageBatchResultEntryType()
-	o.deleteMessageBatchResultSet = AWS.@parse_vector(AWS.SQS.DeleteMessageBatchResultEntryType, LightXML.get_elements_by_tagname(pd, "DeleteMessageBatchResultEntry"))
+	o.deleteMessageBatchResultSet = AWS.@parse_vector(AWS.SQS.DeleteMessageBatchResultEntryType, elements_by_tagname(pd, "DeleteMessageBatchResultEntry"))
     o.queueUrl = LightXML.content(LightXML.find_element(pd, "QueueUrl"))
 end
 
@@ -562,8 +562,8 @@ end
 
 function DeleteMessageBatchResponseType(pd::LightXML.XMLElement)
 	o = DeleteMessageBatchResponseType()
-    o.deleteMessageBatchResultSet = AWS.@parse_vector(AWS.SQS.DeleteMessageBatchResultEntryType, LightXML.get_elements_by_tagname(pd, "DeleteMessageBatchResultEntry"))
-    o.deleteMessageBatchErrorSet = AWS.@parse_vector(AWS.SQS.DeleteMessageBatchResultErrorEntryType, LightXML.get_elements_by_tagname(pd, "DeleteMessageBatchResultErrorEntry"))
+    o.deleteMessageBatchResultSet = AWS.@parse_vector(AWS.SQS.DeleteMessageBatchResultEntryType, elements_by_tagname(pd, "DeleteMessageBatchResultEntry"))
+    o.deleteMessageBatchErrorSet = AWS.@parse_vector(AWS.SQS.DeleteMessageBatchResultErrorEntryType, elements_by_tagname(pd, "DeleteMessageBatchResultErrorEntry"))
 end
 
 export DeleteMessageBatchResponseType
@@ -661,8 +661,8 @@ end
 
 function ChangeMessageVisibilityResponseBatchType(pd::LightXML.XMLElement)
     o = ChangeMessageVisibilityResponseBatchType()
-    o.changeMessageVisibilityBatchResultEntrySet = AWS.@parse_vector(AWS.SQS.ChangeMessageVisibilityBatchResultEntryType, LightXML.get_elements_by_tagname(pd, "ChangeMessageVisibilityBatchResultEntry"))
-    o.changeMessageVisibilityBatchResultErrorEntrySet = AWS.@parse_vector(AWS.SQS.ChangeMessageVisibilityBatchResultErrorEntryType, LightXML.get_elements_by_tagname(pd, "ChangeMessageVisibilityBatchResultErrorEntry"))
+    o.changeMessageVisibilityBatchResultEntrySet = AWS.@parse_vector(AWS.SQS.ChangeMessageVisibilityBatchResultEntryType, elements_by_tagname(pd, "ChangeMessageVisibilityBatchResultEntry"))
+    o.changeMessageVisibilityBatchResultErrorEntrySet = AWS.@parse_vector(AWS.SQS.ChangeMessageVisibilityBatchResultErrorEntryType, elements_by_tagname(pd, "ChangeMessageVisibilityBatchResultErrorEntry"))
     o
 end
 
@@ -686,7 +686,7 @@ end
 
 function ListDeadLetterSourceQueuesResultType(pd::LightXML.XMLElement)
     o = ListDeadLetterSourceQueuesResultType()
-    o.queueUrlSet = String[LightXML.content(url) for url in LightXML.get_elements_by_tagname(LightXML.find_element(pd, "ListDeadLetterSourceQueuesResult"), "QueueUrl")]
+    o.queueUrlSet = String[LightXML.content(url) for url in elements_by_tagname(LightXML.find_element(pd, "ListDeadLetterSourceQueuesResult"), "QueueUrl")]
 end
 
 export ListDeadLetterSourceQueuesResultType

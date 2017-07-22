@@ -7,6 +7,8 @@ using LightXML
 using AWS.AWSEnv
 using AWS
 
+import AWS: elements_by_tagname
+
 include("sqs_typed.jl")
 
 

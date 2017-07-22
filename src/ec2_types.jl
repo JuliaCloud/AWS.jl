@@ -589,7 +589,7 @@ end
 function AccountAttributeSetItemType(pd)
     o = AccountAttributeSetItemType()
     o.attributeName = LightXML.content(LightXML.find_element(pd, "attributeName"))
-    o.attributeValueSet = AWS.parse_vector_as(String, "attributeValue", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "attributeValue"))
+    o.attributeValueSet = AWS.parse_vector_as(String, "attributeValue", elements_by_tagname(LightXML.find_element(pd, "item"), "attributeValue"))
     o
 end
 
@@ -741,11 +741,11 @@ end
 function VpcPeeringConnectionType(pd)
   o = VpcPeeringConnectionType()
   o.vpcPeeringConnectionId = LightXML.content(LightXML.find_element(pd, "vpcPeeringConnectionId"))
-  o.requesterVpcInfo = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionVpcInfoType, LightXML.get_elements_by_tagname(pd, "requesterVpcInfo"))
-  o.accepterVpcInfo = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionVpcInfoType, LightXML.get_elements_by_tagname(pd, "accepterVpcInfo"))
-  o.status = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionStateReasonType, LightXML.get_elements_by_tagname(pd, "status"))
+  o.requesterVpcInfo = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionVpcInfoType, elements_by_tagname(pd, "requesterVpcInfo"))
+  o.accepterVpcInfo = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionVpcInfoType, elements_by_tagname(pd, "accepterVpcInfo"))
+  o.status = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionStateReasonType, elements_by_tagname(pd, "status"))
   o.expirationTime = AWS.safe_parse_as(DateTime, LightXML.content(LightXML.find_element(pd, "expirationTime")))
-  o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(LightXML.find_element(pd, "tagSet"), "item")))
+  o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(LightXML.find_element(pd, "tagSet"), "item")))
   o
 end
 
@@ -775,7 +775,7 @@ end
 function AcceptVpcPeeringConnectionResponseType(pd)
   o = AcceptVPcPeeringConnectionResponseType()
   o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-  o.vpcPeeringConnection = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "vpcPeeringConnection")))
+  o.vpcPeeringConnection = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionType, elements_by_tagname(LightXML.find_element(pd, "vpcPeeringConnection")))
   o
 end
 
@@ -796,7 +796,7 @@ function CreateVpcEndpointType(pd)
   o = CreateVpcEndpointType()
   clientToken = LightXML.content(LightXML.find_element(pd, "clientToken"))
   policyDocument = LightXML.content(LightXML.find_element(pd, "policyDocument"))
-  routeTableIdSet = AWS.parse_vector_as(String, "routeTableId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "routeTableId"))
+  routeTableIdSet = AWS.parse_vector_as(String, "routeTableId", elements_by_tagname(LightXML.find_element(pd, "item"), "routeTableId"))
   serviceName = LightXML.content(LightXML.find_element(pd, "serviceName"))
   vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
   o
@@ -822,7 +822,7 @@ function VpcEndpointType(pd)
   o = VpcEndpointType()
   o.creationTimestamp = AWS.safe_parse_as(DateTime, LightXML.content(LightXML.find_element(pd, "creationTimestamp")))
   o.policyDocument = LightXML.content(LightXML.find_element(pd, "policyDocument"))
-  o.routeTableIdSet = AWS.parse_vector_as(String, "routeTableId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "routeTableId"))
+  o.routeTableIdSet = AWS.parse_vector_as(String, "routeTableId", elements_by_tagname(LightXML.find_element(pd, "item"), "routeTableId"))
   o.serviceName = LightXML.content(LightXML.find_element(pd, "serviceName"))
   o.state = LightXML.content(LightXML.find_element(pd, "state"))
   o.vpcEndpointId = LightXML.content(LightXML.find_element(pd, "vpcEndpointId"))
@@ -845,7 +845,7 @@ function CreateVpcEndpointResponseType(pd)
   o = CreateVpcEndpointResponseType()
   o.clientToken = LightXML.content(LightXML.find_element(pd, "clientToken"))
   o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-  o.vpcEndpoint = AWS.@parse_vector(AWS.EC2.VpcEndpointType, LightXML.get_elements_by_tagname(pd, "vpcEndpoint"))
+  o.vpcEndpoint = AWS.@parse_vector(AWS.EC2.VpcEndpointType, elements_by_tagname(pd, "vpcEndpoint"))
   o
 end
 
@@ -881,7 +881,7 @@ end
 function CreateVpcPeeringConnectionResponseType(pd)
   o = CreateVpcPeeringConnectionResponseType()
   o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-  o.vpcPeeringConnection = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionType, LightXML.get_elements_by_tagname(pd, "vpcPeeringConnection"))
+  o.vpcPeeringConnection = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionType, elements_by_tagname(pd, "vpcPeeringConnection"))
   o
 end
 
@@ -895,7 +895,7 @@ type DeleteVpcEndpointsType
 end
 function DeleteVpcEndpointsType(pd)
   o = DeleteVpcEndpointsType()
-  o.vpcEndpointIdSet = AWS.parse_vector_as(String, "vpcEndpointId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "vpcEndpointId"))
+  o.vpcEndpointIdSet = AWS.parse_vector_as(String, "vpcEndpointId", elements_by_tagname(LightXML.find_element(pd, "item"), "vpcEndpointId"))
 end
 
 export DeleteVpcEndpointsType
@@ -925,7 +925,7 @@ type UnsuccessfulItemType
 end
 function UnsuccessfulItemType(pd)
   o = UnsuccessfulItemType()
-  o.error = AWS.@parse_vector(AWS.EC2.UnsuccessfulItemErrorType, LightXML.get_elements_by_tagname(pd, "error"))
+  o.error = AWS.@parse_vector(AWS.EC2.UnsuccessfulItemErrorType, elements_by_tagname(pd, "error"))
   o.resourceId = LightXML.content(LightXML.find_element(pd, "resourceId"))
   o
 end
@@ -942,7 +942,7 @@ end
 function DeleteVpcEndpointsResponseType(pd)
   o = DeleteVpcEndpointsResponseType()
   o.requestId = LightXML.content(LightXML.find_element("requestId"))
-  o.unsuccessful = AWS.@parse_vector(AWS.EC2.UnsuccessfulItemType, LightXML.get_elements_by_tagname(pd, "unsuccessful"))
+  o.unsuccessful = AWS.@parse_vector(AWS.EC2.UnsuccessfulItemType, elements_by_tagname(pd, "unsuccessful"))
 end
 
 export DeleteVpcEndpointsResponseType
@@ -1003,7 +1003,7 @@ end
 function FilterType(pd)
     o = FilterType()
     o.name = LightXML.content(LightXML.find_element(pd, "name"))
-    o.valueSet = AWS.parse_vector_as(String, "value", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "value"))
+    o.valueSet = AWS.parse_vector_as(String, "value", elements_by_tagname(LightXML.find_element(pd, "item"), "value"))
     o
 end
 
@@ -1021,10 +1021,10 @@ type DescribePrefixListsType
 end
 function DescribePrefixListsType(pd)
   o = DescribePrefixListsType()
-  o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+  o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
   o.maxResults = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "maxResults")))
   o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
-  o.prefixListIdSet = AWS.parse_vector_as(String, "prefixListId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "prefixListId"))
+  o.prefixListIdSet = AWS.parse_vector_as(String, "prefixListId", elements_by_tagname(LightXML.find_element(pd, "item"), "prefixListId"))
   o
 end
 
@@ -1040,7 +1040,7 @@ type PrefixListType
 end
 function PrefixListType(pd)
   o = PrefixListType()
-  o.cidrs = AWS.parse_vector_as(String, "cidr", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "cidr"))
+  o.cidrs = AWS.parse_vector_as(String, "cidr", elements_by_tagname(LightXML.find_element(pd, "item"), "cidr"))
   o.prefixListId = LightXML.content(LightXML.find_element(pd, "prefixListId"))
   o.prefixListName = LightXML.content(LightXML.find_element(pd, "prefixListName"))
   o
@@ -1060,7 +1060,7 @@ end
 function DescribePrefixListsResponseType(pd)
   o = DescribePrefixListsResponseType()
   o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
-  o.prefixListSet = AWS.parse_vector_as(String, "prefixList", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "prefixList"))
+  o.prefixListSet = AWS.parse_vector_as(String, "prefixList", elements_by_tagname(LightXML.find_element(pd, "item"), "prefixList"))
   o
 end
 
@@ -1095,7 +1095,7 @@ function DescribeVpcEndpointServicesResponseType(pd)
   o = DescribeVpcEndpointServicesResponseType()
   o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
   o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-  o.serviceNameSet = AWS.parse_vector_as(String, "serviceName", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "serviceName"))
+  o.serviceNameSet = AWS.parse_vector_as(String, "serviceName", elements_by_tagname(LightXML.find_element(pd, "item"), "serviceName"))
 end
 
 export DescribeVpcEndpointServicesResponseType
@@ -1112,10 +1112,10 @@ type DescribeVpcEndpointsType
 end
 function DescribeVpcEndpointsType(pd)
   o = DescribeVpcEndpointsType()
-  o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+  o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
   o.maxResults = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "maxResults")))
   o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
-  o.vpcEndpointIdSet = AWS.@parse_vector(AWS.EC2.VpcEndpointType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "vcpEndpointId"), "item"))
+  o.vpcEndpointIdSet = AWS.@parse_vector(AWS.EC2.VpcEndpointType, elements_by_tagname(LightXML.find_element(pd, "vcpEndpointId"), "item"))
   o
 end
 
@@ -1134,7 +1134,7 @@ function DescribeVpcEndpointsResponseType(pd)
   o = DescribeVpcEndpointsResponseType()
   o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
   o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-  o.vpcEndpointIdSet = AWS.@parse_vector(AWS.EC2.VpcEndpointType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "vcpEndpointId"), "item"))
+  o.vpcEndpointIdSet = AWS.@parse_vector(AWS.EC2.VpcEndpointType, elements_by_tagname(LightXML.find_element(pd, "vcpEndpointId"), "item"))
   o
 end
 
@@ -1150,8 +1150,8 @@ type DescribeVpcPeeringConnectionsType
 end
 function DescribeVpcPeeringConnectionsType(pd)
   o = DescribeVpcPeeringConnectionsType()
-  o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
-  o.vpcPeeringConnectionIdSet = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "vcpPeeringConnectionId"), "item"))
+  o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+  o.vpcPeeringConnectionIdSet = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionType, elements_by_tagname(LightXML.find_element(pd, "vcpPeeringConnectionId"), "item"))
   o
 end
 
@@ -1168,7 +1168,7 @@ end
 function DescribeVpcPeeringConnectionsResponseType(pd)
   o = DescribeVpcPeeringConnectionsResponseType()
   o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-  o.vpcPeeringConnectionSet = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "vcpPeeringConnection"), "item"))
+  o.vpcPeeringConnectionSet = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionType, elements_by_tagname(LightXML.find_element(pd, "vcpPeeringConnection"), "item"))
   o
 end
 
@@ -1221,9 +1221,9 @@ type ModifyVpcEndpointType
 end
 function ModifyVpcEndpointType(pd)
   o = ModifyVpcEndpointType()
-  o.addRouteTableIdSet = AWS.parse_vector_as(String, "routeTableId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "routeTableId"))
+  o.addRouteTableIdSet = AWS.parse_vector_as(String, "routeTableId", elements_by_tagname(LightXML.find_element(pd, "item"), "routeTableId"))
   o.policyDocument = LightXML.content(LightXML.find_element(pd, "policyDocument"))
-  o.removeRouteTableIdSet = AWS.parse_vector_as(String, "routeTableId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "routeTableId"))
+  o.removeRouteTableIdSet = AWS.parse_vector_as(String, "routeTableId", elements_by_tagname(LightXML.find_element(pd, "item"), "routeTableId"))
   o.resetPolicy = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "resetPolicy")))
   o.vpcEndpointId = LightXML.content(LightXML.find_element(pd, "vpcEndpointId"))
   o
@@ -1373,7 +1373,7 @@ type TerminateInstancesType
 end
 function TerminateInstancesType(pd)
     o = TerminateInstancesType()
-    o.instancesSet = AWS.parse_vector_as(String, "instanceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
+    o.instancesSet = AWS.parse_vector_as(String, "instanceId", elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
     o
 end
 
@@ -1421,7 +1421,7 @@ type StopInstancesType
 end
 function StopInstancesType(pd)
     o = StopInstancesType()
-    o.instancesSet = AWS.parse_vector_as(String, "instanceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
+    o.instancesSet = AWS.parse_vector_as(String, "instanceId", elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
     o.force = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "force")))
     o
 end
@@ -1437,7 +1437,7 @@ type StartInstancesType
 end
 function StartInstancesType(pd)
     o = StartInstancesType()
-    o.instancesSet = AWS.parse_vector_as(String, "instanceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
+    o.instancesSet = AWS.parse_vector_as(String, "instanceId", elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
     o
 end
 
@@ -1452,7 +1452,7 @@ type RebootInstancesType
 end
 function RebootInstancesType(pd)
     o = RebootInstancesType()
-    o.instancesSet = AWS.parse_vector_as(String, "instanceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
+    o.instancesSet = AWS.parse_vector_as(String, "instanceId", elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
     o
 end
 
@@ -2183,7 +2183,7 @@ function AvailabilityZoneItemType(pd)
     o.zoneName = LightXML.content(LightXML.find_element(pd, "zoneName"))
     o.zoneState = LightXML.content(LightXML.find_element(pd, "zoneState"))
     o.regionName = LightXML.content(LightXML.find_element(pd, "regionName"))
-    o.messageSet = AWS.parse_vector_as(String, "message", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "message"))
+    o.messageSet = AWS.parse_vector_as(String, "message", elements_by_tagname(LightXML.find_element(pd, "item"), "message"))
     o
 end
 
@@ -3199,7 +3199,7 @@ type MonitorInstancesType
 end
 function MonitorInstancesType(pd)
     o = MonitorInstancesType()
-    o.instancesSet = AWS.parse_vector_as(String, "instanceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
+    o.instancesSet = AWS.parse_vector_as(String, "instanceId", elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
     o
 end
 
@@ -3410,7 +3410,7 @@ end
 function DhcpConfigurationItemType(pd)
     o = DhcpConfigurationItemType()
     o.key = LightXML.content(LightXML.find_element(pd, "key"))
-    o.valueSet = AWS.parse_vector_as(String, "value", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "value"))
+    o.valueSet = AWS.parse_vector_as(String, "value", elements_by_tagname(LightXML.find_element(pd, "item"), "value"))
     o
 end
 
@@ -3938,7 +3938,7 @@ type CancelSpotInstanceRequestsType
 end
 function CancelSpotInstanceRequestsType(pd)
     o = CancelSpotInstanceRequestsType()
-    o.spotInstanceRequestIdSet = AWS.parse_vector_as(String, "spotInstanceRequestId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "spotInstanceRequestId"))
+    o.spotInstanceRequestIdSet = AWS.parse_vector_as(String, "spotInstanceRequestId", elements_by_tagname(LightXML.find_element(pd, "item"), "spotInstanceRequestId"))
     o
 end
 
@@ -4420,7 +4420,7 @@ type DescribeConversionTasksType
 end
 function DescribeConversionTasksType(pd)
     o = DescribeConversionTasksType()
-    o.conversionTaskIdSet = AWS.parse_vector_as(String, "conversionTaskId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "conversionTaskId"))
+    o.conversionTaskIdSet = AWS.parse_vector_as(String, "conversionTaskId", elements_by_tagname(LightXML.find_element(pd, "item"), "conversionTaskId"))
     o
 end
 
@@ -4522,7 +4522,7 @@ type DescribeExportTasksType
 end
 function DescribeExportTasksType(pd)
     o = DescribeExportTasksType()
-    o.exportTaskIdSet = AWS.parse_vector_as(String, "exportTaskId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "exportTaskId"))
+    o.exportTaskIdSet = AWS.parse_vector_as(String, "exportTaskId", elements_by_tagname(LightXML.find_element(pd, "item"), "exportTaskId"))
     o
 end
 
@@ -5430,11 +5430,11 @@ type ReportInstanceStatusType
 end
 function ReportInstanceStatusType(pd)
     o = ReportInstanceStatusType()
-    o.instancesSet = AWS.parse_vector_as(String, "instanceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
+    o.instancesSet = AWS.parse_vector_as(String, "instanceId", elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
     o.status = LightXML.content(LightXML.find_element(pd, "status"))
     o.startTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "startTime")))
     o.endTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "endTime")))
-    o.reasonCodesSet = AWS.parse_vector_as(String, "reasonCode", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "reasonCode"))
+    o.reasonCodesSet = AWS.parse_vector_as(String, "reasonCode", elements_by_tagname(LightXML.find_element(pd, "item"), "reasonCode"))
     o.description = LightXML.content(LightXML.find_element(pd, "description"))
     o
 end
@@ -5766,7 +5766,7 @@ end
 function AssignPrivateIpAddressesType(pd)
     o = AssignPrivateIpAddressesType()
     o.networkInterfaceId = LightXML.content(LightXML.find_element(pd, "networkInterfaceId"))
-    o.privateIpAddressesSet = AWS.parse_vector_as(String, "privateIpAddress", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "privateIpAddress"))
+    o.privateIpAddressesSet = AWS.parse_vector_as(String, "privateIpAddress", elements_by_tagname(LightXML.find_element(pd, "item"), "privateIpAddress"))
     o.secondaryPrivateIpAddressCount = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "secondaryPrivateIpAddressCount")))
     o.allowReassignment = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "allowReassignment")))
     o
@@ -5802,7 +5802,7 @@ end
 function UnassignPrivateIpAddressesType(pd)
     o = UnassignPrivateIpAddressesType()
     o.networkInterfaceId = LightXML.content(LightXML.find_element(pd, "networkInterfaceId"))
-    o.privateIpAddressesSet = AWS.parse_vector_as(String, "privateIpAddress", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "privateIpAddress"))
+    o.privateIpAddressesSet = AWS.parse_vector_as(String, "privateIpAddress", elements_by_tagname(LightXML.find_element(pd, "item"), "privateIpAddress"))
     o
 end
 
@@ -6007,8 +6007,8 @@ type LaunchPermissionOperationType
 end
 function LaunchPermissionOperationType(pd)
     o = LaunchPermissionOperationType()
-    o.add = AWS.@parse_vector(AWS.EC2.LaunchPermissionItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "add"), "item"))
-    o.remove = AWS.@parse_vector(AWS.EC2.LaunchPermissionItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "remove"), "item"))
+    o.add = AWS.@parse_vector(AWS.EC2.LaunchPermissionItemType, elements_by_tagname(LightXML.find_element(pd, "add"), "item"))
+    o.remove = AWS.@parse_vector(AWS.EC2.LaunchPermissionItemType, elements_by_tagname(LightXML.find_element(pd, "remove"), "item"))
     o
 end
 
@@ -6047,11 +6047,11 @@ function DescribeReservedInstancesResponseSetItemType(pd)
     o.instanceCount = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "instanceCount")))
     o.productDescription = LightXML.content(LightXML.find_element(pd, "productDescription"))
     o.state = LightXML.content(LightXML.find_element(pd, "state"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
     o.instanceTenancy = LightXML.content(LightXML.find_element(pd, "instanceTenancy"))
     o.currencyCode = LightXML.content(LightXML.find_element(pd, "currencyCode"))
     o.offeringType = LightXML.content(LightXML.find_element(pd, "offeringType"))
-    o.recurringCharges = AWS.@parse_vector(AWS.EC2.RecurringChargesSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "recurringCharges"), "item"))
+    o.recurringCharges = AWS.@parse_vector(AWS.EC2.RecurringChargesSetItemType, elements_by_tagname(LightXML.find_element(pd, "recurringCharges"), "item"))
     o
 end
 
@@ -6068,7 +6068,7 @@ end
 function CancelSpotInstanceRequestsResponseType(pd)
     o = CancelSpotInstanceRequestsResponseType()
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.spotInstanceRequestSet = AWS.@parse_vector(AWS.EC2.CancelSpotInstanceRequestsResponseSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "spotInstanceRequestSet"), "item"))
+    o.spotInstanceRequestSet = AWS.@parse_vector(AWS.EC2.CancelSpotInstanceRequestsResponseSetItemType, elements_by_tagname(LightXML.find_element(pd, "spotInstanceRequestSet"), "item"))
     o
 end
 
@@ -6083,7 +6083,7 @@ type CreateDhcpOptionsType
 end
 function CreateDhcpOptionsType(pd)
     o = CreateDhcpOptionsType()
-    o.dhcpConfigurationSet = AWS.@parse_vector(AWS.EC2.DhcpConfigurationItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "dhcpConfigurationSet"), "item"))
+    o.dhcpConfigurationSet = AWS.@parse_vector(AWS.EC2.DhcpConfigurationItemType, elements_by_tagname(LightXML.find_element(pd, "dhcpConfigurationSet"), "item"))
     o
 end
 
@@ -6102,8 +6102,8 @@ type DescribeInstanceStatusType
 end
 function DescribeInstanceStatusType(pd)
     o = DescribeInstanceStatusType()
-    o.instancesSet = AWS.parse_vector_as(String, "instanceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+    o.instancesSet = AWS.parse_vector_as(String, "instanceId", elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
     o.maxResults = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "maxResults")))
     o.includeAllInstances = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "includeAllInstances")))
@@ -6122,8 +6122,8 @@ type DescribePlacementGroupsType
 end
 function DescribePlacementGroupsType(pd)
     o = DescribePlacementGroupsType()
-    o.placementGroupSet = AWS.parse_vector_as(String, "groupName", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "groupName"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+    o.placementGroupSet = AWS.parse_vector_as(String, "groupName", elements_by_tagname(LightXML.find_element(pd, "item"), "groupName"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -6152,7 +6152,7 @@ function RegisterImageType(pd)
     o.kernelId = LightXML.content(LightXML.find_element(pd, "kernelId"))
     o.ramdiskId = LightXML.content(LightXML.find_element(pd, "ramdiskId"))
     o.rootDeviceName = LightXML.content(LightXML.find_element(pd, "rootDeviceName"))
-    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "blockDeviceMapping"), "item"))
+    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, elements_by_tagname(LightXML.find_element(pd, "blockDeviceMapping"), "item"))
     o
 end
 
@@ -6168,8 +6168,8 @@ type DescribeNetworkInterfacesType
 end
 function DescribeNetworkInterfacesType(pd)
     o = DescribeNetworkInterfacesType()
-    o.networkInterfaceIdSet = AWS.parse_vector_as(String, "networkInterfaceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "networkInterfaceId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+    o.networkInterfaceIdSet = AWS.parse_vector_as(String, "networkInterfaceId", elements_by_tagname(LightXML.find_element(pd, "item"), "networkInterfaceId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -6189,7 +6189,7 @@ function CreateReservedInstancesListingType(pd)
     o = CreateReservedInstancesListingType()
     o.reservedInstancesId = LightXML.content(LightXML.find_element(pd, "reservedInstancesId"))
     o.instanceCount = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "instanceCount")))
-    o.priceSchedules = AWS.@parse_vector(AWS.EC2.PriceScheduleRequestSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "priceSchedules"), "item"))
+    o.priceSchedules = AWS.@parse_vector(AWS.EC2.PriceScheduleRequestSetItemType, elements_by_tagname(LightXML.find_element(pd, "priceSchedules"), "item"))
     o.clientToken = LightXML.content(LightXML.find_element(pd, "clientToken"))
     o
 end
@@ -6206,8 +6206,8 @@ type DescribeVpnGatewaysType
 end
 function DescribeVpnGatewaysType(pd)
     o = DescribeVpnGatewaysType()
-    o.vpnGatewaySet = AWS.parse_vector_as(String, "vpnGatewayId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "vpnGatewayId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+    o.vpnGatewaySet = AWS.parse_vector_as(String, "vpnGatewayId", elements_by_tagname(LightXML.find_element(pd, "item"), "vpnGatewayId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -6225,8 +6225,8 @@ type DescribeVolumeStatusType
 end
 function DescribeVolumeStatusType(pd)
     o = DescribeVolumeStatusType()
-    o.volumeSet = AWS.parse_vector_as(String, "volumeId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "volumeId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+    o.volumeSet = AWS.parse_vector_as(String, "volumeId", elements_by_tagname(LightXML.find_element(pd, "item"), "volumeId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o.maxResults = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "maxResults")))
     o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
     o
@@ -6246,8 +6246,8 @@ end
 function DhcpOptionsType(pd)
     o = DhcpOptionsType()
     o.dhcpOptionsId = LightXML.content(LightXML.find_element(pd, "dhcpOptionsId"))
-    o.dhcpConfigurationSet = AWS.@parse_vector(AWS.EC2.DhcpConfigurationItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "dhcpConfigurationSet"), "item"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
+    o.dhcpConfigurationSet = AWS.@parse_vector(AWS.EC2.DhcpConfigurationItemType, elements_by_tagname(LightXML.find_element(pd, "dhcpConfigurationSet"), "item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
     o
 end
 
@@ -6293,7 +6293,7 @@ end
 function DescribeExportTasksResponseType(pd)
     o = DescribeExportTasksResponseType()
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.exportTaskSet = AWS.@parse_vector(AWS.EC2.ExportTaskResponseType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "exportTaskSet"), "item"))
+    o.exportTaskSet = AWS.@parse_vector(AWS.EC2.ExportTaskResponseType, elements_by_tagname(LightXML.find_element(pd, "exportTaskSet"), "item"))
     o
 end
 
@@ -6310,9 +6310,9 @@ type DescribeSecurityGroupsType
 end
 function DescribeSecurityGroupsType(pd)
     o = DescribeSecurityGroupsType()
-    o.securityGroupSet = AWS.parse_vector_as(String, "groupName", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "groupName"))
-    o.securityGroupIdSet = AWS.parse_vector_as(String, "groupId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "groupId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+    o.securityGroupSet = AWS.parse_vector_as(String, "groupName", elements_by_tagname(LightXML.find_element(pd, "item"), "groupName"))
+    o.securityGroupIdSet = AWS.parse_vector_as(String, "groupId", elements_by_tagname(LightXML.find_element(pd, "item"), "groupId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -6329,7 +6329,7 @@ end
 function InstanceStatusType(pd)
     o = InstanceStatusType()
     o.status = LightXML.find_element(pd, "status") != nothing ? LightXML.content(LightXML.find_element(pd, "status")) : nothing
-    o.details = LightXML.find_element(pd, "details") != nothing ? AWS.@parse_vector(AWS.EC2.InstanceStatusDetailsSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "details"), "item")) : nothing
+    o.details = LightXML.find_element(pd, "details") != nothing ? AWS.@parse_vector(AWS.EC2.InstanceStatusDetailsSetItemType, elements_by_tagname(LightXML.find_element(pd, "details"), "item")) : nothing
     o
 end
 
@@ -6369,7 +6369,7 @@ function DescribeImagesResponseItemType(pd)
     o.imageState = LightXML.content(LightXML.find_element(pd, "imageState"))
     o.imageOwnerId = LightXML.content(LightXML.find_element(pd, "imageOwnerId"))
     o.isPublic = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "isPublic")))
-    o.productCodes = AWS.@parse_vector(AWS.EC2.ProductCodesSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "productCodes"), "item"))
+    o.productCodes = AWS.@parse_vector(AWS.EC2.ProductCodesSetItemType, elements_by_tagname(LightXML.find_element(pd, "productCodes"), "item"))
     o.architecture = LightXML.content(LightXML.find_element(pd, "architecture"))
     o.imageType = LightXML.content(LightXML.find_element(pd, "imageType"))
     o.kernelId = LightXML.content(LightXML.find_element(pd, "kernelId"))
@@ -6382,9 +6382,9 @@ function DescribeImagesResponseItemType(pd)
     o.description = LightXML.content(LightXML.find_element(pd, "description"))
     o.rootDeviceType = LightXML.content(LightXML.find_element(pd, "rootDeviceType"))
     o.rootDeviceName = LightXML.content(LightXML.find_element(pd, "rootDeviceName"))
-    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "blockDeviceMapping"), "item"))
+    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, elements_by_tagname(LightXML.find_element(pd, "blockDeviceMapping"), "item"))
     o.virtualizationType = LightXML.content(LightXML.find_element(pd, "virtualizationType"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
     o.hypervisor = LightXML.content(LightXML.find_element(pd, "hypervisor"))
     o
 end
@@ -6401,8 +6401,8 @@ type DescribeBundleTasksType
 end
 function DescribeBundleTasksType(pd)
     o = DescribeBundleTasksType()
-    o.bundlesSet = AWS.parse_vector_as(String, "bundleId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "bundleId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+    o.bundlesSet = AWS.parse_vector_as(String, "bundleId", elements_by_tagname(LightXML.find_element(pd, "item"), "bundleId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -6418,8 +6418,8 @@ type DeleteTagsType
 end
 function DeleteTagsType(pd)
     o = DeleteTagsType()
-    o.resourcesSet = AWS.parse_vector_as(String, "resourceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "resourceId"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.DeleteTagsSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
+    o.resourcesSet = AWS.parse_vector_as(String, "resourceId", elements_by_tagname(LightXML.find_element(pd, "item"), "resourceId"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.DeleteTagsSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
     o
 end
 
@@ -6459,8 +6459,8 @@ type DescribeNetworkAclsType
 end
 function DescribeNetworkAclsType(pd)
     o = DescribeNetworkAclsType()
-    o.networkAclIdSet = AWS.parse_vector_as(String, "networkAclId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "networkAclId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+    o.networkAclIdSet = AWS.parse_vector_as(String, "networkAclId", elements_by_tagname(LightXML.find_element(pd, "item"), "networkAclId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -6490,8 +6490,8 @@ function DescribeVolumesSetItemResponseType(pd)
     o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
     o.status = LightXML.content(LightXML.find_element(pd, "status"))
     o.createTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "createTime")))
-    o.attachmentSet = AWS.@parse_vector(AWS.EC2.AttachmentSetItemResponseType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "attachmentSet"), "item"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
+    o.attachmentSet = AWS.@parse_vector(AWS.EC2.AttachmentSetItemResponseType, elements_by_tagname(LightXML.find_element(pd, "attachmentSet"), "item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
     o.volumeType = LightXML.content(LightXML.find_element(pd, "volumeType"))
     o.iops = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "iops")))
     o
@@ -6509,8 +6509,8 @@ type DescribeVolumesType
 end
 function DescribeVolumesType(pd)
     o = DescribeVolumesType()
-    o.volumeSet = AWS.parse_vector_as(String, "volumeId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "volumeId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+    o.volumeSet = AWS.parse_vector_as(String, "volumeId", elements_by_tagname(LightXML.find_element(pd, "item"), "volumeId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -6526,8 +6526,8 @@ type DescribeDhcpOptionsType
 end
 function DescribeDhcpOptionsType(pd)
     o = DescribeDhcpOptionsType()
-    o.dhcpOptionsSet = AWS.parse_vector_as(String, "dhcpOptionsId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "dhcpOptionsId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+    o.dhcpOptionsSet = AWS.parse_vector_as(String, "dhcpOptionsId", elements_by_tagname(LightXML.find_element(pd, "item"), "dhcpOptionsId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -6543,8 +6543,8 @@ type CreateTagsType
 end
 function CreateTagsType(pd)
     o = CreateTagsType()
-    o.resourcesSet = AWS.parse_vector_as(String, "resourceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "resourceId"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
+    o.resourcesSet = AWS.parse_vector_as(String, "resourceId", elements_by_tagname(LightXML.find_element(pd, "item"), "resourceId"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
     o
 end
 
@@ -6562,7 +6562,7 @@ type ImportInstanceTaskDetailsType
 end
 function ImportInstanceTaskDetailsType(pd)
     o = ImportInstanceTaskDetailsType()
-    o.volumes = AWS.@parse_vector(AWS.EC2.ImportInstanceVolumeDetailItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "volumes"), "item"))
+    o.volumes = AWS.@parse_vector(AWS.EC2.ImportInstanceVolumeDetailItemType, elements_by_tagname(LightXML.find_element(pd, "volumes"), "item"))
     o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
     o.platform = LightXML.content(LightXML.find_element(pd, "platform"))
     o.description = LightXML.content(LightXML.find_element(pd, "description"))
@@ -6588,7 +6588,7 @@ function ConversionTaskType(pd)
     o.expirationTime = LightXML.content(LightXML.find_element(pd, "expirationTime"))
     o.state = LightXML.content(LightXML.find_element(pd, "state"))
     o.statusMessage = LightXML.content(LightXML.find_element(pd, "statusMessage"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
     o
 end
 
@@ -6622,8 +6622,8 @@ type DescribeCustomerGatewaysType
 end
 function DescribeCustomerGatewaysType(pd)
     o = DescribeCustomerGatewaysType()
-    o.customerGatewaySet = AWS.parse_vector_as(String, "customerGatewayId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "customerGatewayId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+    o.customerGatewaySet = AWS.parse_vector_as(String, "customerGatewayId", elements_by_tagname(LightXML.find_element(pd, "item"), "customerGatewayId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -6640,7 +6640,7 @@ end
 function DescribePlacementGroupsResponseType(pd)
     o = DescribePlacementGroupsResponseType()
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.placementGroupSet = AWS.@parse_vector(AWS.EC2.PlacementGroupInfoType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "placementGroupSet"), "item"))
+    o.placementGroupSet = AWS.@parse_vector(AWS.EC2.PlacementGroupInfoType, elements_by_tagname(LightXML.find_element(pd, "placementGroupSet"), "item"))
     o
 end
 
@@ -6657,7 +6657,7 @@ end
 function DescribeReservedInstancesResponseType(pd)
     o = DescribeReservedInstancesResponseType()
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.reservedInstancesSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesResponseSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "reservedInstancesSet"), "item"))
+    o.reservedInstancesSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesResponseSetItemType, elements_by_tagname(LightXML.find_element(pd, "reservedInstancesSet"), "item"))
     o
 end
 
@@ -6735,8 +6735,8 @@ end
 function InternetGatewayType(pd)
     o = InternetGatewayType()
     o.internetGatewayId = LightXML.content(LightXML.find_element(pd, "internetGatewayId"))
-    o.attachmentSet = AWS.@parse_vector(AWS.EC2.InternetGatewayAttachmentType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "attachmentSet"), "item"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
+    o.attachmentSet = AWS.@parse_vector(AWS.EC2.InternetGatewayAttachmentType, elements_by_tagname(LightXML.find_element(pd, "attachmentSet"), "item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
     o
 end
 
@@ -6752,8 +6752,8 @@ type DescribeRegionsType
 end
 function DescribeRegionsType(pd)
     o = DescribeRegionsType()
-    o.regionSet = AWS.parse_vector_as(String, "regionName", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "regionName"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+    o.regionSet = AWS.parse_vector_as(String, "regionName", elements_by_tagname(LightXML.find_element(pd, "item"), "regionName"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -6771,10 +6771,10 @@ type DescribeSnapshotsType
 end
 function DescribeSnapshotsType(pd)
     o = DescribeSnapshotsType()
-    o.snapshotSet = AWS.parse_vector_as(String, "snapshotId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "snapshotId"))
-    o.ownersSet = AWS.parse_vector_as(String, "owner", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "owner"))
-    o.restorableBySet = AWS.parse_vector_as(String, "user", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "user"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+    o.snapshotSet = AWS.parse_vector_as(String, "snapshotId", elements_by_tagname(LightXML.find_element(pd, "item"), "snapshotId"))
+    o.ownersSet = AWS.parse_vector_as(String, "owner", elements_by_tagname(LightXML.find_element(pd, "item"), "owner"))
+    o.restorableBySet = AWS.parse_vector_as(String, "user", elements_by_tagname(LightXML.find_element(pd, "item"), "user"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -6791,7 +6791,7 @@ end
 function DescribeKeyPairsResponseType(pd)
     o = DescribeKeyPairsResponseType()
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.keySet = AWS.@parse_vector(AWS.EC2.DescribeKeyPairsResponseItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "keySet"), "item"))
+    o.keySet = AWS.@parse_vector(AWS.EC2.DescribeKeyPairsResponseItemType, elements_by_tagname(LightXML.find_element(pd, "keySet"), "item"))
     o
 end
 
@@ -6808,7 +6808,7 @@ end
 function DescribeAvailabilityZonesResponseType(pd)
     o = DescribeAvailabilityZonesResponseType()
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.availabilityZoneInfo = AWS.@parse_vector(AWS.EC2.AvailabilityZoneItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "availabilityZoneInfo"), "item"))
+    o.availabilityZoneInfo = AWS.@parse_vector(AWS.EC2.AvailabilityZoneItemType, elements_by_tagname(LightXML.find_element(pd, "availabilityZoneInfo"), "item"))
     o
 end
 
@@ -6833,7 +6833,7 @@ function VpcType(pd)
     o.state = LightXML.content(LightXML.find_element(pd, "state"))
     o.cidrBlock = LightXML.content(LightXML.find_element(pd, "cidrBlock"))
     o.dhcpOptionsId = LightXML.content(LightXML.find_element(pd, "dhcpOptionsId"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
     o.instanceTenancy = LightXML.content(LightXML.find_element(pd, "instanceTenancy"))
     o.isDefault = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "isDefault")))
     o
@@ -6851,8 +6851,8 @@ type DescribeSubnetsType
 end
 function DescribeSubnetsType(pd)
     o = DescribeSubnetsType()
-    o.subnetSet = AWS.parse_vector_as(String, "subnetId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "subnetId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+    o.subnetSet = AWS.parse_vector_as(String, "subnetId", elements_by_tagname(LightXML.find_element(pd, "item"), "subnetId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -6869,7 +6869,7 @@ end
 function DescribeRegionsResponseType(pd)
     o = DescribeRegionsResponseType()
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.regionInfo = AWS.@parse_vector(AWS.EC2.RegionItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "regionInfo"), "item"))
+    o.regionInfo = AWS.@parse_vector(AWS.EC2.RegionItemType, elements_by_tagname(LightXML.find_element(pd, "regionInfo"), "item"))
     o
 end
 
@@ -6904,8 +6904,8 @@ type DescribeReservedInstancesType
 end
 function DescribeReservedInstancesType(pd)
     o = DescribeReservedInstancesType()
-    o.reservedInstancesSet = AWS.parse_vector_as(String, "reservedInstancesId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "reservedInstancesId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+    o.reservedInstancesSet = AWS.parse_vector_as(String, "reservedInstancesId", elements_by_tagname(LightXML.find_element(pd, "item"), "reservedInstancesId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o.offeringType = LightXML.content(LightXML.find_element(pd, "offeringType"))
     o
 end
@@ -6933,11 +6933,11 @@ type DescribeReservedInstancesOfferingsType
 end
 function DescribeReservedInstancesOfferingsType(pd)
     o = DescribeReservedInstancesOfferingsType()
-    o.reservedInstancesOfferingsSet = AWS.parse_vector_as(String, "reservedInstancesOfferingId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "reservedInstancesOfferingId"))
+    o.reservedInstancesOfferingsSet = AWS.parse_vector_as(String, "reservedInstancesOfferingId", elements_by_tagname(LightXML.find_element(pd, "item"), "reservedInstancesOfferingId"))
     o.instanceType = LightXML.content(LightXML.find_element(pd, "instanceType"))
     o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
     o.productDescription = LightXML.content(LightXML.find_element(pd, "productDescription"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o.instanceTenancy = LightXML.content(LightXML.find_element(pd, "instanceTenancy"))
     o.offeringType = LightXML.content(LightXML.find_element(pd, "offeringType"))
     o.includeMarketplace = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "includeMarketplace")))
@@ -6963,10 +6963,10 @@ type DescribeImagesType
 end
 function DescribeImagesType(pd)
     o = DescribeImagesType()
-    o.executableBySet = AWS.parse_vector_as(String, "user", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "user"))
-    o.imagesSet = AWS.parse_vector_as(String, "imageId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "imageId"))
-    o.ownersSet = AWS.parse_vector_as(String, "owner", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "owner"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+    o.executableBySet = AWS.parse_vector_as(String, "user", elements_by_tagname(LightXML.find_element(pd, "item"), "user"))
+    o.imagesSet = AWS.parse_vector_as(String, "imageId", elements_by_tagname(LightXML.find_element(pd, "item"), "imageId"))
+    o.ownersSet = AWS.parse_vector_as(String, "owner", elements_by_tagname(LightXML.find_element(pd, "item"), "owner"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -6983,7 +6983,7 @@ end
 function DescribeConversionTasksResponseType(pd)
     o = DescribeConversionTasksResponseType()
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.conversionTasks = AWS.@parse_vector(AWS.EC2.ConversionTaskType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "conversionTasks"), "item"))
+    o.conversionTasks = AWS.@parse_vector(AWS.EC2.ConversionTaskType, elements_by_tagname(LightXML.find_element(pd, "conversionTasks"), "item"))
     o
 end
 
@@ -7000,7 +7000,7 @@ end
 function DescribeAccountAttributesResponseType(pd)
     o = DescribeAccountAttributesResponseType()
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.accountAttributeSet = AWS.@parse_vector(AWS.EC2.AccountAttributeSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "accountAttributeSet"), "item"))
+    o.accountAttributeSet = AWS.@parse_vector(AWS.EC2.AccountAttributeSetItemType, elements_by_tagname(LightXML.find_element(pd, "accountAttributeSet"), "item"))
     o
 end
 
@@ -7064,7 +7064,7 @@ function DescribeSnapshotsSetItemResponseType(pd)
     o.volumeSize = LightXML.content(LightXML.find_element(pd, "volumeSize"))
     o.description = LightXML.content(LightXML.find_element(pd, "description"))
     o.ownerAlias = LightXML.content(LightXML.find_element(pd, "ownerAlias"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
     o
 end
 
@@ -7102,7 +7102,7 @@ function InstanceStatusItemType(pd)
     o = InstanceStatusItemType()
     o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
     o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
-    o.eventsSet = LightXML.find_element(pd, "eventsSet") != nothing ?AWS.@parse_vector(AWS.EC2.InstanceStatusEventType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "eventsSet"), "item")) : nothing
+    o.eventsSet = LightXML.find_element(pd, "eventsSet") != nothing ?AWS.@parse_vector(AWS.EC2.InstanceStatusEventType, elements_by_tagname(LightXML.find_element(pd, "eventsSet"), "item")) : nothing
     ## o.instanceState = length(pd["instanceState"]) > 0 ?  InstanceStateType(LightXML.find_element(pd,"instanceState[1]")) : nothing
     o.instanceState = LightXML.find_element(pd,"instanceState") != nothing ?  InstanceStateType(LightXML.find_element(pd,"instanceState")) : nothing
     ## o.systemStatus = length(pd["systemStatus"]) > 0 ?  InstanceStatusType(LightXML.find_element(pd,"systemStatus[1]")) : nothing
@@ -7136,9 +7136,9 @@ function InstanceNetworkInterfaceSetItemRequestType(pd)
     o.subnetId = LightXML.content(LightXML.find_element(pd, "subnetId"))
     o.description = LightXML.content(LightXML.find_element(pd, "description"))
     o.privateIpAddress = LightXML.content(LightXML.find_element(pd, "privateIpAddress"))
-    o.groupSet = AWS.parse_vector_as(String, "groupId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "groupId"))
+    o.groupSet = AWS.parse_vector_as(String, "groupId", elements_by_tagname(LightXML.find_element(pd, "item"), "groupId"))
     o.deleteOnTermination = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "deleteOnTermination")))
-    o.privateIpAddressesSet = AWS.@parse_vector(AWS.EC2.PrivateIpAddressesSetItemRequestType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "privateIpAddressesSet"), "item"))
+    o.privateIpAddressesSet = AWS.@parse_vector(AWS.EC2.PrivateIpAddressesSetItemRequestType, elements_by_tagname(LightXML.find_element(pd, "privateIpAddressesSet"), "item"))
     o.secondaryPrivateIpAddressCount = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "secondaryPrivateIpAddressCount")))
     o
 end
@@ -7156,9 +7156,9 @@ type DescribeReservedInstancesListingsType
 end
 function DescribeReservedInstancesListingsType(pd)
     o = DescribeReservedInstancesListingsType()
-    o.reservedInstancesListingSet = AWS.parse_vector_as(String, "reservedInstancesListingId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "reservedInstancesListingId"))
-    o.reservedInstancesSet = AWS.parse_vector_as(String, "reservedInstancesId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "reservedInstancesId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+    o.reservedInstancesListingSet = AWS.parse_vector_as(String, "reservedInstancesListingId", elements_by_tagname(LightXML.find_element(pd, "item"), "reservedInstancesListingId"))
+    o.reservedInstancesSet = AWS.parse_vector_as(String, "reservedInstancesId", elements_by_tagname(LightXML.find_element(pd, "item"), "reservedInstancesId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -7182,9 +7182,9 @@ function DescribeSpotPriceHistoryType(pd)
     o = DescribeSpotPriceHistoryType()
     o.startTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "startTime")))
     o.endTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "endTime")))
-    o.instanceTypeSet = AWS.parse_vector_as(String, "instanceType", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "instanceType"))
-    o.productDescriptionSet = AWS.parse_vector_as(String, "productDescription", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "productDescription"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+    o.instanceTypeSet = AWS.parse_vector_as(String, "instanceType", elements_by_tagname(LightXML.find_element(pd, "item"), "instanceType"))
+    o.productDescriptionSet = AWS.parse_vector_as(String, "productDescription", elements_by_tagname(LightXML.find_element(pd, "item"), "productDescription"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
     o.maxResults = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "maxResults")))
     o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
@@ -7224,9 +7224,9 @@ function DescribeReservedInstancesOfferingsResponseSetItemType(pd)
     o.instanceTenancy = LightXML.content(LightXML.find_element(pd, "instanceTenancy"))
     o.currencyCode = LightXML.content(LightXML.find_element(pd, "currencyCode"))
     o.offeringType = LightXML.content(LightXML.find_element(pd, "offeringType"))
-    o.recurringCharges = AWS.@parse_vector(AWS.EC2.RecurringChargesSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "recurringCharges"), "item"))
+    o.recurringCharges = AWS.@parse_vector(AWS.EC2.RecurringChargesSetItemType, elements_by_tagname(LightXML.find_element(pd, "recurringCharges"), "item"))
     o.marketplace = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "marketplace")))
-    o.pricingDetailsSet = AWS.@parse_vector(AWS.EC2.PricingDetailsSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "pricingDetailsSet"), "item"))
+    o.pricingDetailsSet = AWS.@parse_vector(AWS.EC2.PricingDetailsSetItemType, elements_by_tagname(LightXML.find_element(pd, "pricingDetailsSet"), "item"))
     o
 end
 
@@ -7248,8 +7248,8 @@ function IpPermissionType(pd)
     o.ipProtocol = LightXML.content(LightXML.find_element(pd, "ipProtocol"))
     o.fromPort = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "fromPort")))
     o.toPort = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "toPort")))
-    o.groups = AWS.@parse_vector(AWS.EC2.UserIdGroupPairType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "groups"), "item"))
-    o.ipRanges = AWS.parse_vector_as(String, "cidrIp", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "cidrIp"))
+    o.groups = AWS.@parse_vector(AWS.EC2.UserIdGroupPairType, elements_by_tagname(LightXML.find_element(pd, "groups"), "item"))
+    o.ipRanges = AWS.parse_vector_as(String, "cidrIp", elements_by_tagname(LightXML.find_element(pd, "item"), "cidrIp"))
     o
 end
 
@@ -7266,7 +7266,7 @@ end
 function DescribeVolumesResponseType(pd)
     o = DescribeVolumesResponseType()
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.volumeSet = AWS.@parse_vector(AWS.EC2.DescribeVolumesSetItemResponseType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "volumeSet"), "item"))
+    o.volumeSet = AWS.@parse_vector(AWS.EC2.DescribeVolumesSetItemResponseType, elements_by_tagname(LightXML.find_element(pd, "volumeSet"), "item"))
     o
 end
 
@@ -7284,7 +7284,7 @@ end
 function DescribeSpotPriceHistoryResponseType(pd)
     o = DescribeSpotPriceHistoryResponseType()
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.spotPriceHistorySet = AWS.@parse_vector(AWS.EC2.SpotPriceHistorySetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "spotPriceHistorySet"), "item"))
+    o.spotPriceHistorySet = AWS.@parse_vector(AWS.EC2.SpotPriceHistorySetItemType, elements_by_tagname(LightXML.find_element(pd, "spotPriceHistorySet"), "item"))
     o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
     o
 end
@@ -7301,8 +7301,8 @@ type DescribeSpotInstanceRequestsType
 end
 function DescribeSpotInstanceRequestsType(pd)
     o = DescribeSpotInstanceRequestsType()
-    o.spotInstanceRequestIdSet = AWS.parse_vector_as(String, "spotInstanceRequestId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "spotInstanceRequestId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+    o.spotInstanceRequestIdSet = AWS.parse_vector_as(String, "spotInstanceRequestId", elements_by_tagname(LightXML.find_element(pd, "item"), "spotInstanceRequestId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -7336,8 +7336,8 @@ type DescribeRouteTablesType
 end
 function DescribeRouteTablesType(pd)
     o = DescribeRouteTablesType()
-    o.routeTableIdSet = AWS.parse_vector_as(String, "routeTableId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "routeTableId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+    o.routeTableIdSet = AWS.parse_vector_as(String, "routeTableId", elements_by_tagname(LightXML.find_element(pd, "item"), "routeTableId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -7354,7 +7354,7 @@ end
 function DescribeInternetGatewaysResponseType(pd)
     o = DescribeInternetGatewaysResponseType()
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.internetGatewaySet = AWS.@parse_vector(AWS.EC2.InternetGatewayType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "internetGatewaySet"), "item"))
+    o.internetGatewaySet = AWS.@parse_vector(AWS.EC2.InternetGatewayType, elements_by_tagname(LightXML.find_element(pd, "internetGatewaySet"), "item"))
     o
 end
 
@@ -7395,7 +7395,7 @@ function CreateImageType(pd)
     o.name = LightXML.content(LightXML.find_element(pd, "name"))
     o.description = LightXML.content(LightXML.find_element(pd, "description"))
     o.noReboot = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "noReboot")))
-    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "blockDeviceMapping"), "item"))
+    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, elements_by_tagname(LightXML.find_element(pd, "blockDeviceMapping"), "item"))
     o
 end
 
@@ -7411,8 +7411,8 @@ type DescribeInternetGatewaysType
 end
 function DescribeInternetGatewaysType(pd)
     o = DescribeInternetGatewaysType()
-    o.internetGatewayIdSet = AWS.parse_vector_as(String, "internetGatewayId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "internetGatewayId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+    o.internetGatewayIdSet = AWS.parse_vector_as(String, "internetGatewayId", elements_by_tagname(LightXML.find_element(pd, "item"), "internetGatewayId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -7475,10 +7475,10 @@ function RouteTableType(pd)
     o = RouteTableType()
     o.routeTableId = LightXML.content(LightXML.find_element(pd, "routeTableId"))
     o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
-    o.routeSet = AWS.@parse_vector(AWS.EC2.RouteType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "routeSet"), "item"))
-    o.associationSet = AWS.@parse_vector(AWS.EC2.RouteTableAssociationType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "associationSet"), "item"))
-    o.propagatingVgwSet = AWS.parse_vector_as(String, "gatewayId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "gatewayId"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
+    o.routeSet = AWS.@parse_vector(AWS.EC2.RouteType, elements_by_tagname(LightXML.find_element(pd, "routeSet"), "item"))
+    o.associationSet = AWS.@parse_vector(AWS.EC2.RouteTableAssociationType, elements_by_tagname(LightXML.find_element(pd, "associationSet"), "item"))
+    o.propagatingVgwSet = AWS.parse_vector_as(String, "gatewayId", elements_by_tagname(LightXML.find_element(pd, "item"), "gatewayId"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
     o
 end
 
@@ -7494,8 +7494,8 @@ type DescribeVpnConnectionsType
 end
 function DescribeVpnConnectionsType(pd)
     o = DescribeVpnConnectionsType()
-    o.vpnConnectionSet = AWS.parse_vector_as(String, "vpnConnectionId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "vpnConnectionId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+    o.vpnConnectionSet = AWS.parse_vector_as(String, "vpnConnectionId", elements_by_tagname(LightXML.find_element(pd, "item"), "vpnConnectionId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -7518,8 +7518,8 @@ function CreateNetworkInterfaceType(pd)
     o.subnetId = LightXML.content(LightXML.find_element(pd, "subnetId"))
     o.description = LightXML.content(LightXML.find_element(pd, "description"))
     o.privateIpAddress = LightXML.content(LightXML.find_element(pd, "privateIpAddress"))
-    o.groupSet = AWS.parse_vector_as(String, "groupId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "groupId"))
-    o.privateIpAddressesSet = AWS.@parse_vector(AWS.EC2.PrivateIpAddressesSetItemRequestType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "privateIpAddressesSet"), "item"))
+    o.groupSet = AWS.parse_vector_as(String, "groupId", elements_by_tagname(LightXML.find_element(pd, "item"), "groupId"))
+    o.privateIpAddressesSet = AWS.@parse_vector(AWS.EC2.PrivateIpAddressesSetItemRequestType, elements_by_tagname(LightXML.find_element(pd, "privateIpAddressesSet"), "item"))
     o.secondaryPrivateIpAddressCount = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "secondaryPrivateIpAddressCount")))
     o
 end
@@ -7537,7 +7537,7 @@ end
 function DescribeVpcsResponseType(pd)
     o = DescribeVpcsResponseType()
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.vpcSet = AWS.@parse_vector(AWS.EC2.VpcType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "vpcSet"), "item"))
+    o.vpcSet = AWS.@parse_vector(AWS.EC2.VpcType, elements_by_tagname(LightXML.find_element(pd, "vpcSet"), "item"))
     o
 end
 
@@ -7567,9 +7567,9 @@ function DescribeReservedInstancesListingsResponseSetItemType(pd)
     o.updateDate = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "updateDate")))
     o.status = LightXML.content(LightXML.find_element(pd, "status"))
     o.statusMessage = LightXML.content(LightXML.find_element(pd, "statusMessage"))
-    o.instanceCounts = AWS.@parse_vector(AWS.EC2.InstanceCountsSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "instanceCounts"), "item"))
-    o.priceSchedules = AWS.@parse_vector(AWS.EC2.PriceScheduleSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "priceSchedules"), "item"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
+    o.instanceCounts = AWS.@parse_vector(AWS.EC2.InstanceCountsSetItemType, elements_by_tagname(LightXML.find_element(pd, "instanceCounts"), "item"))
+    o.priceSchedules = AWS.@parse_vector(AWS.EC2.PriceScheduleSetItemType, elements_by_tagname(LightXML.find_element(pd, "priceSchedules"), "item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
     o.clientToken = LightXML.content(LightXML.find_element(pd, "clientToken"))
     o
 end
@@ -7586,8 +7586,8 @@ type DescribeVpcsType
 end
 function DescribeVpcsType(pd)
     o = DescribeVpcsType()
-    o.vpcSet = AWS.parse_vector_as(String, "vpcId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "vpcId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+    o.vpcSet = AWS.parse_vector_as(String, "vpcId", elements_by_tagname(LightXML.find_element(pd, "item"), "vpcId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -7604,7 +7604,7 @@ end
 function DescribeDhcpOptionsResponseType(pd)
     o = DescribeDhcpOptionsResponseType()
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.dhcpOptionsSet = AWS.@parse_vector(AWS.EC2.DhcpOptionsType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "dhcpOptionsSet"), "item"))
+    o.dhcpOptionsSet = AWS.@parse_vector(AWS.EC2.DhcpOptionsType, elements_by_tagname(LightXML.find_element(pd, "dhcpOptionsSet"), "item"))
     o
 end
 
@@ -7619,7 +7619,7 @@ type DescribeTagsType
 end
 function DescribeTagsType(pd)
     o = DescribeTagsType()
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -7654,7 +7654,7 @@ end
 function DescribeRouteTablesResponseType(pd)
     o = DescribeRouteTablesResponseType()
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.routeTableSet = AWS.@parse_vector(AWS.EC2.RouteTableType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "routeTableSet"), "item"))
+    o.routeTableSet = AWS.@parse_vector(AWS.EC2.RouteTableType, elements_by_tagname(LightXML.find_element(pd, "routeTableSet"), "item"))
     o
 end
 
@@ -7670,8 +7670,8 @@ type DescribeAccountAttributesType
 end
 function DescribeAccountAttributesType(pd)
     o = DescribeAccountAttributesType()
-    o.accountAttributeNameSet = AWS.parse_vector_as(String, "attributeName", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "attributeName"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+    o.accountAttributeNameSet = AWS.parse_vector_as(String, "attributeName", elements_by_tagname(LightXML.find_element(pd, "item"), "attributeName"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -7689,7 +7689,7 @@ end
 function DescribeInstanceStatusResponseType(pd)
     o = DescribeInstanceStatusResponseType()
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.instanceStatusSet = LightXML.find_element(pd, "instanceStatusSet") != nothing ? AWS.@parse_vector(AWS.EC2.InstanceStatusItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "instanceStatusSet"), "item")) : nothing
+    o.instanceStatusSet = LightXML.find_element(pd, "instanceStatusSet") != nothing ? AWS.@parse_vector(AWS.EC2.InstanceStatusItemType, elements_by_tagname(LightXML.find_element(pd, "instanceStatusSet"), "item")) : nothing
     o.nextToken = LightXML.find_element(pd, "nextToken") != nothing ? LightXML.content(LightXML.find_element(pd, "nextToken")) : nothing
     o
 end
@@ -7714,8 +7714,8 @@ function VpnGatewayType(pd)
     o.state = LightXML.content(LightXML.find_element(pd, "state"))
     o._type = LightXML.content(LightXML.find_element(pd, "type"))
     o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
-    o.attachments = AWS.@parse_vector(AWS.EC2.AttachmentType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "attachments"), "item"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
+    o.attachments = AWS.@parse_vector(AWS.EC2.AttachmentType, elements_by_tagname(LightXML.find_element(pd, "attachments"), "item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
     o
 end
 
@@ -7731,8 +7731,8 @@ type DescribeKeyPairsType
 end
 function DescribeKeyPairsType(pd)
     o = DescribeKeyPairsType()
-    o.keySet = AWS.parse_vector_as(String, "keyName", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "keyName"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+    o.keySet = AWS.parse_vector_as(String, "keyName", elements_by_tagname(LightXML.find_element(pd, "item"), "keyName"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -7796,7 +7796,7 @@ end
 function ImportInstanceLaunchSpecificationType(pd)
     o = ImportInstanceLaunchSpecificationType()
     o.architecture = LightXML.content(LightXML.find_element(pd, "architecture"))
-    o.groupSet = AWS.@parse_vector(AWS.EC2.ImportInstanceGroupItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "groupSet"), "item"))
+    o.groupSet = AWS.@parse_vector(AWS.EC2.ImportInstanceGroupItemType, elements_by_tagname(LightXML.find_element(pd, "groupSet"), "item"))
     ## o.userData = length(pd["userData"]) > 0 ?  UserDataType(LightXML.find_element(pd,"userData[1]")) : nothing
     o.userData = LightXML.find_element(pd,"userData") != nothing ?  UserDataType(LightXML.find_element(pd,"userData")) : nothing
     o.instanceType = LightXML.content(LightXML.find_element(pd, "instanceType"))
@@ -7823,9 +7823,9 @@ type DescribeAddressesType
 end
 function DescribeAddressesType(pd)
     o = DescribeAddressesType()
-    o.publicIpsSet = AWS.parse_vector_as(String, "publicIp", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "publicIp"))
-    o.allocationIdsSet = AWS.parse_vector_as(String, "allocationId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "allocationId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+    o.publicIpsSet = AWS.parse_vector_as(String, "publicIp", elements_by_tagname(LightXML.find_element(pd, "item"), "publicIp"))
+    o.allocationIdsSet = AWS.parse_vector_as(String, "allocationId", elements_by_tagname(LightXML.find_element(pd, "item"), "allocationId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -7842,7 +7842,7 @@ end
 function VolumeStatusInfoType(pd)
     o = VolumeStatusInfoType()
     o.status = LightXML.content(LightXML.find_element(pd, "status"))
-    o.details = AWS.@parse_vector(AWS.EC2.VolumeStatusDetailsItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "details"), "item"))
+    o.details = AWS.@parse_vector(AWS.EC2.VolumeStatusDetailsItemType, elements_by_tagname(LightXML.find_element(pd, "details"), "item"))
     o
 end
 
@@ -7859,7 +7859,7 @@ end
 function StartInstancesResponseType(pd)
     o = StartInstancesResponseType()
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.instancesSet = AWS.@parse_vector(AWS.EC2.InstanceStateChangeType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "instancesSet"), "item"))
+    o.instancesSet = AWS.@parse_vector(AWS.EC2.InstanceStateChangeType, elements_by_tagname(LightXML.find_element(pd, "instancesSet"), "item"))
     o
 end
 
@@ -7898,7 +7898,7 @@ end
 function AuthorizeSecurityGroupEgressType(pd)
     o = AuthorizeSecurityGroupEgressType()
     o.groupId = LightXML.content(LightXML.find_element(pd, "groupId"))
-    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "ipPermissions"), "item"))
+    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, elements_by_tagname(LightXML.find_element(pd, "ipPermissions"), "item"))
     o
 end
 
@@ -7915,7 +7915,7 @@ end
 function CreateReservedInstancesListingResponseType(pd)
     o = CreateReservedInstancesListingResponseType()
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.reservedInstancesListingsSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesListingsResponseSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "reservedInstancesListingsSet"), "item"))
+    o.reservedInstancesListingsSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesListingsResponseSetItemType, elements_by_tagname(LightXML.find_element(pd, "reservedInstancesListingsSet"), "item"))
     o
 end
 
@@ -7938,9 +7938,9 @@ function NetworkAclType(pd)
     o.networkAclId = LightXML.content(LightXML.find_element(pd, "networkAclId"))
     o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
     o.default = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "default")))
-    o.entrySet = AWS.@parse_vector(AWS.EC2.NetworkAclEntryType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "entrySet"), "item"))
-    o.associationSet = AWS.@parse_vector(AWS.EC2.NetworkAclAssociationType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "associationSet"), "item"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
+    o.entrySet = AWS.@parse_vector(AWS.EC2.NetworkAclEntryType, elements_by_tagname(LightXML.find_element(pd, "entrySet"), "item"))
+    o.associationSet = AWS.@parse_vector(AWS.EC2.NetworkAclAssociationType, elements_by_tagname(LightXML.find_element(pd, "associationSet"), "item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
     o
 end
 
@@ -7957,7 +7957,7 @@ end
 function DescribeAddressesResponseType(pd)
     o = DescribeAddressesResponseType()
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.addressesSet = AWS.@parse_vector(AWS.EC2.DescribeAddressesResponseItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "addressesSet"), "item"))
+    o.addressesSet = AWS.@parse_vector(AWS.EC2.DescribeAddressesResponseItemType, elements_by_tagname(LightXML.find_element(pd, "addressesSet"), "item"))
     o
 end
 
@@ -7974,7 +7974,7 @@ end
 function TerminateInstancesResponseType(pd)
     o = TerminateInstancesResponseType()
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.instancesSet = AWS.@parse_vector(AWS.EC2.InstanceStateChangeType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "instancesSet"), "item"))
+    o.instancesSet = AWS.@parse_vector(AWS.EC2.InstanceStateChangeType, elements_by_tagname(LightXML.find_element(pd, "instancesSet"), "item"))
     o
 end
 
@@ -8037,8 +8037,8 @@ function RunInstancesType(pd)
     o.minCount = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "minCount")))
     o.maxCount = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "maxCount")))
     o.keyName = LightXML.content(LightXML.find_element(pd, "keyName"))
-    o.securityGroupIdSet = AWS.parse_vector_as(String, "securityGroupId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "securityGroupId"))
-    o.securityGroupSet = AWS.parse_vector_as(String, "securityGroup", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "securityGroup"))
+    o.securityGroupIdSet = AWS.parse_vector_as(String, "securityGroupId", elements_by_tagname(LightXML.find_element(pd, "item"), "securityGroupId"))
+    o.securityGroupSet = AWS.parse_vector_as(String, "securityGroup", elements_by_tagname(LightXML.find_element(pd, "item"), "securityGroup"))
     o.additionalInfo = LightXML.content(LightXML.find_element(pd, "additionalInfo"))
     ## o.userData = length(pd["userData"]) > 0 ?  UserDataType(LightXML.find_element(pd,"userData[1]")) : nothing
     o.userData = LightXML.find_element(pd,"userData") != nothing ?  UserDataType(LightXML.find_element(pd,"userData")) : nothing
@@ -8048,7 +8048,7 @@ function RunInstancesType(pd)
     o.placement = LightXML.find_element(pd,"placement") != nothing ?  PlacementRequestType(LightXML.find_element(pd,"placement")) : nothing
     o.kernelId = LightXML.content(LightXML.find_element(pd, "kernelId"))
     o.ramdiskId = LightXML.content(LightXML.find_element(pd, "ramdiskId"))
-    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "blockDeviceMapping"), "item"))
+    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, elements_by_tagname(LightXML.find_element(pd, "blockDeviceMapping"), "item"))
     ## o.monitoring = length(pd["monitoring"]) > 0 ?  MonitoringInstanceType(LightXML.find_element(pd,"monitoring[1]")) : nothing
     o.monitoring = LightXML.find_element(pd,"monitoring") != nothing ?  MonitoringInstanceType(LightXML.find_element(pd,"monitoring")) : nothing
     o.subnetId = LightXML.content(LightXML.find_element(pd, "subnetId"))
@@ -8058,7 +8058,7 @@ function RunInstancesType(pd)
     o.license = LightXML.find_element(pd,"license") != nothing ?  InstanceLicenseRequestType(LightXML.find_element(pd,"license")) : nothing
     o.privateIpAddress = LightXML.content(LightXML.find_element(pd, "privateIpAddress"))
     o.clientToken = LightXML.content(LightXML.find_element(pd, "clientToken"))
-    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.InstanceNetworkInterfaceSetItemRequestType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "networkInterfaceSet"), "item"))
+    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.InstanceNetworkInterfaceSetItemRequestType, elements_by_tagname(LightXML.find_element(pd, "networkInterfaceSet"), "item"))
     ## o.iamInstanceProfile = length(pd["iamInstanceProfile"]) > 0 ?  IamInstanceProfileRequestType(LightXML.find_element(pd,"iamInstanceProfile[1]")) : nothing
     o.iamInstanceProfile = LightXML.find_element(pd,"iamInstanceProfile") ?  IamInstanceProfileRequestType(LightXML.find_element(pd,"iamInstanceProfile")) : nothing
     o.ebsOptimized = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "ebsOptimized")))
@@ -8077,8 +8077,8 @@ type DescribeAvailabilityZonesType
 end
 function DescribeAvailabilityZonesType(pd)
     o = DescribeAvailabilityZonesType()
-    o.availabilityZoneSet = AWS.parse_vector_as(String, "zoneName", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "zoneName"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+    o.availabilityZoneSet = AWS.parse_vector_as(String, "zoneName", elements_by_tagname(LightXML.find_element(pd, "item"), "zoneName"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -8094,8 +8094,8 @@ type CreateVolumePermissionOperationType
 end
 function CreateVolumePermissionOperationType(pd)
     o = CreateVolumePermissionOperationType()
-    o.add = AWS.@parse_vector(AWS.EC2.CreateVolumePermissionItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "add"), "item"))
-    o.remove = AWS.@parse_vector(AWS.EC2.CreateVolumePermissionItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "remove"), "item"))
+    o.add = AWS.@parse_vector(AWS.EC2.CreateVolumePermissionItemType, elements_by_tagname(LightXML.find_element(pd, "add"), "item"))
+    o.remove = AWS.@parse_vector(AWS.EC2.CreateVolumePermissionItemType, elements_by_tagname(LightXML.find_element(pd, "remove"), "item"))
     o
 end
 
@@ -8133,12 +8133,12 @@ function InstanceNetworkInterfaceSetItemType(pd)
     o.privateIpAddress = LightXML.content(LightXML.find_element(pd, "privateIpAddress"))
     o.privateDnsName = LightXML.find_element(pd, "privateDnsName") != nothing ? LightXML.content(LightXML.find_element(pd, "privateDnsName")) : nothing
     o.sourceDestCheck = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "sourceDestCheck")))
-    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "groupSet"), "item"))
+    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, elements_by_tagname(LightXML.find_element(pd, "groupSet"), "item"))
     ## o.attachment = length(pd["attachment"]) > 0 ?  InstanceNetworkInterfaceAttachmentType(LightXML.find_element(pd,"attachment[1]")) : nothing
     o.attachment = LightXML.find_element(pd,"attachment") != nothing ?  InstanceNetworkInterfaceAttachmentType(LightXML.find_element(pd,"attachment")) : nothing
     ## o.association = length(pd["association"]) > 0 ?  InstanceNetworkInterfaceAssociationType(LightXML.find_element(pd,"association[1]")) : nothing
     o.association = LightXML.find_element(pd,"association") != nothing ?  InstanceNetworkInterfaceAssociationType(LightXML.find_element(pd,"association")) : nothing
-    o.privateIpAddressesSet = AWS.@parse_vector(AWS.EC2.InstancePrivateIpAddressesSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "privateIpAddressesSet"), "item"))
+    o.privateIpAddressesSet = AWS.@parse_vector(AWS.EC2.InstancePrivateIpAddressesSetItemType, elements_by_tagname(LightXML.find_element(pd, "privateIpAddressesSet"), "item"))
     o
 end
 
@@ -8160,8 +8160,8 @@ function LicenseSetItemType(pd)
     o.licenseId = LightXML.content(LightXML.find_element(pd, "licenseId"))
     o._type = LightXML.content(LightXML.find_element(pd, "type"))
     o.pool = LightXML.content(LightXML.find_element(pd, "pool"))
-    o.capacitySet = AWS.@parse_vector(AWS.EC2.LicenseCapacitySetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "capacitySet"), "item"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
+    o.capacitySet = AWS.@parse_vector(AWS.EC2.LicenseCapacitySetItemType, elements_by_tagname(LightXML.find_element(pd, "capacitySet"), "item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
     o
 end
 
@@ -8203,7 +8203,7 @@ end
 function DescribeReservedInstancesListingsResponseType(pd)
     o = DescribeReservedInstancesListingsResponseType()
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.reservedInstancesListingsSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesListingsResponseSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "reservedInstancesListingsSet"), "item"))
+    o.reservedInstancesListingsSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesListingsResponseSetItemType, elements_by_tagname(LightXML.find_element(pd, "reservedInstancesListingsSet"), "item"))
     o
 end
 
@@ -8220,7 +8220,7 @@ end
 function RevokeSecurityGroupIngressType(pd)
     o = RevokeSecurityGroupIngressType()
     o.userId = LightXML.content(LightXML.find_element(pd, "userId"))
-    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "ipPermissions"), "item"))
+    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, elements_by_tagname(LightXML.find_element(pd, "ipPermissions"), "item"))
     o
 end
 
@@ -8237,7 +8237,7 @@ end
 function StopInstancesResponseType(pd)
     o = StopInstancesResponseType()
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.instancesSet = AWS.@parse_vector(AWS.EC2.InstanceStateChangeType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "instancesSet"), "item"))
+    o.instancesSet = AWS.@parse_vector(AWS.EC2.InstanceStateChangeType, elements_by_tagname(LightXML.find_element(pd, "instancesSet"), "item"))
     o
 end
 
@@ -8290,11 +8290,11 @@ function VpnConnectionType(pd)
     o._type = LightXML.content(LightXML.find_element(pd, "type"))
     o.customerGatewayId = LightXML.content(LightXML.find_element(pd, "customerGatewayId"))
     o.vpnGatewayId = LightXML.content(LightXML.find_element(pd, "vpnGatewayId"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
-    o.vgwTelemetry = AWS.@parse_vector(AWS.EC2.VpnTunnelTelemetryType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "vgwTelemetry"), "item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
+    o.vgwTelemetry = AWS.@parse_vector(AWS.EC2.VpnTunnelTelemetryType, elements_by_tagname(LightXML.find_element(pd, "vgwTelemetry"), "item"))
     ## o.options = length(pd["options"]) > 0 ?  VpnConnectionOptionsResponseType(LightXML.find_element(pd,"options[1]")) : nothing
     o.options = LightXML.find_element(pd,"options") != nothing ? VpnConnectionOptionsResponseType(LightXML.find_element(pd,"options")) : nothing
-    o.routes = AWS.@parse_vector(AWS.EC2.VpnStaticRouteType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "routes"), "item"))
+    o.routes = AWS.@parse_vector(AWS.EC2.VpnStaticRouteType, elements_by_tagname(LightXML.find_element(pd, "routes"), "item"))
     o
 end
 
@@ -8310,8 +8310,8 @@ type DescribeInstancesType
 end
 function DescribeInstancesType(pd)
     o = DescribeInstancesType()
-    o.instancesSet = AWS.parse_vector_as(String, "instanceId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+    o.instancesSet = AWS.parse_vector_as(String, "instanceId", elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -8328,7 +8328,7 @@ end
 function DescribeImagesResponseType(pd)
     o = DescribeImagesResponseType()
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.imagesSet = AWS.@parse_vector(AWS.EC2.DescribeImagesResponseItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "imagesSet"), "item"))
+    o.imagesSet = AWS.@parse_vector(AWS.EC2.DescribeImagesResponseItemType, elements_by_tagname(LightXML.find_element(pd, "imagesSet"), "item"))
     o
 end
 
@@ -8353,7 +8353,7 @@ function CustomerGatewayType(pd)
     o._type = LightXML.content(LightXML.find_element(pd, "type"))
     o.ipAddress = LightXML.content(LightXML.find_element(pd, "ipAddress"))
     o.bgpAsn = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "bgpAsn")))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
     o
 end
 
@@ -8384,7 +8384,7 @@ function SubnetType(pd)
     o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
     o.defaultForAz = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "defaultForAz")))
     o.mapPublicIpOnLaunch = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "mapPublicIpOnLaunch")))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
     o
 end
 
@@ -8401,7 +8401,7 @@ end
 function DescribeLicensesResponseType(pd)
     o = DescribeLicensesResponseType()
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.licenseSet = AWS.@parse_vector(AWS.EC2.LicenseSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "licenseSet"), "item"))
+    o.licenseSet = AWS.@parse_vector(AWS.EC2.LicenseSetItemType, elements_by_tagname(LightXML.find_element(pd, "licenseSet"), "item"))
     o
 end
 
@@ -8458,7 +8458,7 @@ end
 function DescribeTagsResponseType(pd)
     o = DescribeTagsResponseType()
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.TagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.TagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
     o
 end
 
@@ -8510,8 +8510,8 @@ type DescribeLicensesType
 end
 function DescribeLicensesType(pd)
     o = DescribeLicensesType()
-    o.licenseIdSet = AWS.parse_vector_as(String, "licenseId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "licenseId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
+    o.licenseIdSet = AWS.parse_vector_as(String, "licenseId", elements_by_tagname(LightXML.find_element(pd, "item"), "licenseId"))
+    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
     o
 end
 
@@ -8528,7 +8528,7 @@ end
 function AuthorizeSecurityGroupIngressType(pd)
     o = AuthorizeSecurityGroupIngressType()
     o.userId = LightXML.content(LightXML.find_element(pd, "userId"))
-    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, LightML.get_elements_by_tagname(LightXML.find_element(pd, "ipPermissions"), "item"))
+    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, elements_by_tagname(LightXML.find_element(pd, "ipPermissions"), "item"))
     o
 end
 
@@ -8591,13 +8591,13 @@ function NetworkInterfaceType(pd)
     o.privateIpAddress = LightXML.content(LightXML.find_element(pd, "privateIpAddress"))
     o.privateDnsName = LightXML.content(LightXML.find_element(pd, "privateDnsName"))
     o.sourceDestCheck = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "sourceDestCheck")))
-    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "groupSet"), "item"))
+    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, elements_by_tagname(LightXML.find_element(pd, "groupSet"), "item"))
     ## o.attachment = length(pd["attachment"]) > 0 ?  NetworkInterfaceAttachmentType(LightXML.find_element(pd,"attachment[1]")) : nothing
     o.attachment = LightXML.find_element(pd,"attachment") != nothing ?  NetworkInterfaceAttachmentType(LightXML.find_element(pd,"attachment")) : nothing
     ## o.association = length(pd["association"]) > 0 ?  NetworkInterfaceAssociationType(LightXML.find_element(pd,"association[1]")) : nothing
     o.association = LightXML.find_element(pd,"association") != nothing ? NetworkInterfaceAssociationType(LightXML.find_element(pd,"association")) : nothing
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
-    o.privateIpAddressesSet = AWS.@parse_vector(AWS.EC2.NetworkInterfacePrivateIpAddressesSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "privateIpAddressesSet"), "item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
+    o.privateIpAddressesSet = AWS.@parse_vector(AWS.EC2.NetworkInterfacePrivateIpAddressesSetItemType, elements_by_tagname(LightXML.find_element(pd, "privateIpAddressesSet"), "item"))
     o
 end
 
@@ -8668,7 +8668,7 @@ end
 function CancelReservedInstancesListingResponseType(pd)
     o = CancelReservedInstancesListingResponseType()
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.reservedInstancesListingsSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesListingsResponseSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "reservedInstancesListingsSet"), "item"))
+    o.reservedInstancesListingsSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesListingsResponseSetItemType, elements_by_tagname(LightXML.find_element(pd, "reservedInstancesListingsSet"), "item"))
     o
 end
 
@@ -8685,7 +8685,7 @@ end
 function MonitorInstancesResponseType(pd)
     o = MonitorInstancesResponseType()
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.instancesSet = AWS.@parse_vector(AWS.EC2.MonitorInstancesResponseSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "instancesSet"), "item"))
+    o.instancesSet = AWS.@parse_vector(AWS.EC2.MonitorInstancesResponseSetItemType, elements_by_tagname(LightXML.find_element(pd, "instancesSet"), "item"))
     o
 end
 
@@ -8720,7 +8720,7 @@ end
 function DescribeVpnConnectionsResponseType(pd)
     o = DescribeVpnConnectionsResponseType()
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.vpnConnectionSet = AWS.@parse_vector(AWS.EC2.VpnConnectionType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "vpnConnectionSet"), "item"))
+    o.vpnConnectionSet = AWS.@parse_vector(AWS.EC2.VpnConnectionType, elements_by_tagname(LightXML.find_element(pd, "vpnConnectionSet"), "item"))
     o
 end
 
@@ -8780,7 +8780,7 @@ function RunningInstancesItemType(pd)
     o.reason = LightXML.content(LightXML.find_element(pd, "reason"))
     o.keyName = LightXML.content(LightXML.find_element(pd, "keyName"))
     o.amiLaunchIndex = LightXML.content(LightXML.find_element(pd, "amiLaunchIndex"))
-    o.productCodes = LightXML.find_element(pd, "productCodes") != nothing ? AWS.@parse_vector(AWS.EC2.ProductCodesSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "productCodes"), "item")) : nothing
+    o.productCodes = LightXML.find_element(pd, "productCodes") != nothing ? AWS.@parse_vector(AWS.EC2.ProductCodesSetItemType, elements_by_tagname(LightXML.find_element(pd, "productCodes"), "item")) : nothing
     o.instanceType = LightXML.content(LightXML.find_element(pd, "instanceType"))
     o.launchTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "launchTime")))
     ## o.placement = length(pd["placement"]) > 0 ?  PlacementResponseType(LightXML.find_element(pd,"placement[1]")) : nothing
@@ -8795,22 +8795,22 @@ function RunningInstancesItemType(pd)
     o.privateIpAddress = LightXML.find_element(pd, "privateIpAddress") != nothing ?LightXML.content(LightXML.find_element(pd, "privateIpAddress")) : nothing
     o.ipAddress = LightXML.find_element(pd, "ipAddress") != nothing ? LightXML.content(LightXML.find_element(pd, "ipAddress")) : nothing
     o.sourceDestCheck = LightXML.find_element(pd, "sourceDestCheck") != nothing ? AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "sourceDestCheck"))) : nothing
-    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "groupSet"), "item"))
+    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, elements_by_tagname(LightXML.find_element(pd, "groupSet"), "item"))
     ## o.stateReason = length(pd["stateReason"]) > 0 ?  StateReasonType(LightXML.find_element(pd,"stateReason[1]")) : nothing
     o.stateReason = LightXML.find_element(pd,"stateReason") != nothing ?  StateReasonType(LightXML.find_element(pd,"stateReason")) : nothing
     o.architecture = LightXML.content(LightXML.find_element(pd, "architecture"))
     o.rootDeviceType = LightXML.content(LightXML.find_element(pd, "rootDeviceType"))
     
-    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.InstanceBlockDeviceMappingResponseItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "blockDeviceMapping"), "item"))
+    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.InstanceBlockDeviceMappingResponseItemType, elements_by_tagname(LightXML.find_element(pd, "blockDeviceMapping"), "item"))
     o.instanceLifecycle = LightXML.find_element(pd, "instanceLifecycle") != nothing ? LightXML.content(LightXML.find_element(pd, "instanceLifecycle")) : nothing
     o.spotInstanceRequestId = LightXML.find_element(pd, "spotInstanceRequestId") != nothing ? LightXML.content(LightXML.find_element(pd, "spotInstanceRequestId")) : nothing
     ## o.license = length(pd["license"]) > 0 ?  InstanceLicenseResponseType(LightXML.find_element(pd,"license[1]")) : nothing
     o.license = LightXML.find_element(pd,"license") != nothing ?  InstanceLicenseResponseType(LightXML.find_element(pd,"license")) : nothing
     o.virtualizationType = LightXML.content(LightXML.find_element(pd, "virtualizationType"))
     o.clientToken = LightXML.content(LightXML.find_element(pd, "clientToken"))
-    o.tagSet = LightXML.find_element(pd, "tagSet") != nothing ? AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item")) : nothing
+    o.tagSet = LightXML.find_element(pd, "tagSet") != nothing ? AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item")) : nothing
     o.hypervisor = LightXML.content(LightXML.find_element(pd, "hypervisor"))
-    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.InstanceNetworkInterfaceSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "networkInterfaceSet"), "item"))
+    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.InstanceNetworkInterfaceSetItemType, elements_by_tagname(LightXML.find_element(pd, "networkInterfaceSet"), "item"))
     ## o.iamInstanceProfile = length(pd["iamInstanceProfile"]) > 0 ?  IamInstanceProfileResponseType(LightXML.find_element(pd,"iamInstanceProfile[1]")) : nothing
     o.iamInstanceProfile = LightXML.find_element(pd,"iamInstanceProfile") != nothing ?  IamInstanceProfileResponseType(LightXML.find_element(pd,"iamInstanceProfile")) : nothing
     o.ebsOptimized = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "ebsOptimized")))
@@ -8830,7 +8830,7 @@ end
 function DescribeSnapshotsResponseType(pd)
     o = DescribeSnapshotsResponseType()
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.snapshotSet = AWS.@parse_vector(AWS.EC2.DescribeSnapshotsSetItemResponseType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "snapshotSet"), "item"))
+    o.snapshotSet = AWS.@parse_vector(AWS.EC2.DescribeSnapshotsSetItemResponseType, elements_by_tagname(LightXML.find_element(pd, "snapshotSet"), "item"))
     o
 end
 
@@ -8870,7 +8870,7 @@ function ImportInstanceType(pd)
     o.description = LightXML.content(LightXML.find_element(pd, "description"))
     ## o.launchSpecification = length(pd["launchSpecification"]) > 0 ?  ImportInstanceLaunchSpecificationType(LightXML.find_element(pd,"launchSpecification[1]")) : nothing
     o.launchSpecification = LightXML.find_element(pd,"launchSpecification") ? ImportInstanceLaunchSpecificationType(LightXML.find_element(pd,"launchSpecification")) : nothing
-    o.diskImageSet = AWS.@parse_vector(AWS.EC2.DiskImageType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "diskImageSet"), "item"))
+    o.diskImageSet = AWS.@parse_vector(AWS.EC2.DiskImageType, elements_by_tagname(LightXML.find_element(pd, "diskImageSet"), "item"))
     o.keepPartialImports = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "keepPartialImports")))
     o.platform = LightXML.content(LightXML.find_element(pd, "platform"))
     o
@@ -8951,18 +8951,18 @@ function LaunchSpecificationResponseType(pd)
     o = LaunchSpecificationResponseType()
     o.imageId = LightXML.content(LightXML.find_element(pd, "imageId"))
     o.keyName = LightXML.content(LightXML.find_element(pd, "keyName"))
-    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "groupSet"), "item"))
+    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, elements_by_tagname(LightXML.find_element(pd, "groupSet"), "item"))
     o.addressingType = LightXML.content(LightXML.find_element(pd, "addressingType"))
     o.instanceType = LightXML.content(LightXML.find_element(pd, "instanceType"))
     ## o.placement = length(pd["placement"]) > 0 ?  SpotPlacementRequestType(LightXML.find_element(pd,"placement[1]")) : nothing
     o.placement = LightXML.find_element(pd,"placement") != nothing ? SpotPlacementRequestType(LightXML.find_element(pd,"placement")) : nothing
     o.kernelId = LightXML.content(LightXML.find_element(pd, "kernelId"))
     o.ramdiskId = LightXML.content(LightXML.find_element(pd, "ramdiskId"))
-    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "blockDeviceMapping"), "item"))
+    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, elements_by_tagname(LightXML.find_element(pd, "blockDeviceMapping"), "item"))
     ## o.monitoring = length(pd["monitoring"]) > 0 ?  MonitoringInstanceType(LightXML.find_element(pd,"monitoring[1]")) : nothing
     o.monitoring = LightXML.find_element(pd,"monitoring") != nothing ? MonitoringInstanceType(LightXML.find_element(pd,"monitoring")) : nothing
     o.subnetId = LightXML.content(LightXML.find_element(pd, "subnetId"))
-    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.InstanceNetworkInterfaceSetItemRequestType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "networkInterfaceSet"), "item"))
+    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.InstanceNetworkInterfaceSetItemRequestType, elements_by_tagname(LightXML.find_element(pd, "networkInterfaceSet"), "item"))
     ## o.iamInstanceProfile = length(pd["iamInstanceProfile"]) > 0 ?  IamInstanceProfileRequestType(LightXML.find_element(pd,"iamInstanceProfile[1]")) : nothing
     o.iamInstanceProfile = LightXML.find_element(pd,"iamInstanceProfile") != nothing ? IamInstanceProfileRequestType(LightXML.find_element(pd,"iamInstanceProfile")) : nothing
     o.ebsOptimized = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "ebsOptimized")))
@@ -8992,9 +8992,9 @@ function SecurityGroupItemType(pd)
     o.groupName = LightXML.content(LightXML.find_element(pd, "groupName"))
     o.groupDescription = LightXML.content(LightXML.find_element(pd, "groupDescription"))
     o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
-    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "ipPermissions"), "item"))
-    o.ipPermissionsEgress = AWS.@parse_vector(AWS.EC2.IpPermissionType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "ipPermissionsEgress"), "item"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
+    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, elements_by_tagname(LightXML.find_element(pd, "ipPermissions"), "item"))
+    o.ipPermissionsEgress = AWS.@parse_vector(AWS.EC2.IpPermissionType, elements_by_tagname(LightXML.find_element(pd, "ipPermissionsEgress"), "item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
     o
 end
 
@@ -9053,8 +9053,8 @@ function RunInstancesResponseType(pd)
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
     o.reservationId = LightXML.content(LightXML.find_element(pd, "reservationId"))
     o.ownerId = LightXML.content(LightXML.find_element(pd, "ownerId"))
-    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "groupSet"), "item"))
-    o.instancesSet = AWS.@parse_vector(AWS.EC2.RunningInstancesItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "instancesSet"), "item"))
+    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, elements_by_tagname(LightXML.find_element(pd, "groupSet"), "item"))
+    o.instancesSet = AWS.@parse_vector(AWS.EC2.RunningInstancesItemType, elements_by_tagname(LightXML.find_element(pd, "instancesSet"), "item"))
     ## MDP TODO o.requesterId = LightXML.content(LightXML.find_element(pd, "requesterId"))
     o
 end
@@ -9072,7 +9072,7 @@ end
 function RevokeSecurityGroupEgressType(pd)
     o = RevokeSecurityGroupEgressType()
     o.groupId = LightXML.content(LightXML.find_element(pd, "groupId"))
-    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "ipPermissions"), "item"))
+    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, elements_by_tagname(LightXML.find_element(pd, "ipPermissions"), "item"))
     o
 end
 
@@ -9089,7 +9089,7 @@ end
 function DescribeNetworkAclsResponseType(pd)
     o = DescribeNetworkAclsResponseType()
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.networkAclSet = AWS.@parse_vector(AWS.EC2.NetworkAclType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "networkAclSet"), "item"))
+    o.networkAclSet = AWS.@parse_vector(AWS.EC2.NetworkAclType, elements_by_tagname(LightXML.find_element(pd, "networkAclSet"), "item"))
     o
 end
 
@@ -9106,7 +9106,7 @@ end
 function DescribeNetworkInterfacesResponseType(pd)
     o = DescribeNetworkInterfacesResponseType()
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.NetworkInterfaceType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "networkInterfaceSet"), "item"))
+    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.NetworkInterfaceType, elements_by_tagname(LightXML.find_element(pd, "networkInterfaceSet"), "item"))
     o
 end
 
@@ -9124,7 +9124,7 @@ end
 function DescribeReservedInstancesOfferingsResponseType(pd)
     o = DescribeReservedInstancesOfferingsResponseType()
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.reservedInstancesOfferingsSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesOfferingsResponseSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "reservedInstancesOfferingsSet"), "item"))
+    o.reservedInstancesOfferingsSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesOfferingsResponseSetItemType, elements_by_tagname(LightXML.find_element(pd, "reservedInstancesOfferingsSet"), "item"))
     o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
     o
 end
@@ -9171,7 +9171,7 @@ function SpotInstanceRequestSetItemType(pd)
     o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
     o.createTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "createTime")))
     o.productDescription = LightXML.content(LightXML.find_element(pd, "productDescription"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
+    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
     o.launchedAvailabilityZone = LightXML.content(LightXML.find_element(pd, "launchedAvailabilityZone"))
     o
 end
@@ -9213,8 +9213,8 @@ function VolumeStatusItemType(pd)
     o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
     ## o.volumeStatus = length(pd["volumeStatus"]) > 0 ?  VolumeStatusInfoType(LightXML.find_element(pd,"volumeStatus[1]")) : nothing
     o.volumeStatus = LightXML.find_element(pd,"volumeStatus") != nothing ? VolumeStatusInfoType(LightXML.find_element(pd,"volumeStatus")) : nothing
-    o.eventsSet = AWS.@parse_vector(AWS.EC2.VolumeStatusEventItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "eventsSet"), "item"))
-    o.actionsSet = AWS.@parse_vector(AWS.EC2.VolumeStatusActionItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "actionsSet"), "item"))
+    o.eventsSet = AWS.@parse_vector(AWS.EC2.VolumeStatusEventItemType, elements_by_tagname(LightXML.find_element(pd, "eventsSet"), "item"))
+    o.actionsSet = AWS.@parse_vector(AWS.EC2.VolumeStatusActionItemType, elements_by_tagname(LightXML.find_element(pd, "actionsSet"), "item"))
     o
 end
 
@@ -9231,7 +9231,7 @@ end
 function DescribeSpotInstanceRequestsResponseType(pd)
     o = DescribeSpotInstanceRequestsResponseType()
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.spotInstanceRequestSet = AWS.@parse_vector(AWS.EC2.SpotInstanceRequestSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "spotInstanceRequestSet"), "item"))
+    o.spotInstanceRequestSet = AWS.@parse_vector(AWS.EC2.SpotInstanceRequestSetItemType, elements_by_tagname(LightXML.find_element(pd, "spotInstanceRequestSet"), "item"))
     o
 end
 
@@ -9248,7 +9248,7 @@ end
 function DescribeCustomerGatewaysResponseType(pd)
     o = DescribeCustomerGatewaysResponseType()
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.customerGatewaySet = AWS.@parse_vector(AWS.EC2.CustomerGatewayType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "customerGatewaySet"), "item"))
+    o.customerGatewaySet = AWS.@parse_vector(AWS.EC2.CustomerGatewayType, elements_by_tagname(LightXML.find_element(pd, "customerGatewaySet"), "item"))
     o
 end
 
@@ -9266,7 +9266,7 @@ end
 function DescribeVolumeStatusResponseType(pd)
     o = DescribeVolumeStatusResponseType()
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.volumeStatusSet = AWS.@parse_vector(AWS.EC2.VolumeStatusItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "volumeStatusSet"), "item"))
+    o.volumeStatusSet = AWS.@parse_vector(AWS.EC2.VolumeStatusItemType, elements_by_tagname(LightXML.find_element(pd, "volumeStatusSet"), "item"))
     o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
     o
 end
@@ -9284,7 +9284,7 @@ end
 function DescribeVpnGatewaysResponseType(pd)
     o = DescribeVpnGatewaysResponseType()
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.vpnGatewaySet = AWS.@parse_vector(AWS.EC2.VpnGatewayType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "vpnGatewaySet"), "item"))
+    o.vpnGatewaySet = AWS.@parse_vector(AWS.EC2.VpnGatewayType, elements_by_tagname(LightXML.find_element(pd, "vpnGatewaySet"), "item"))
     o
 end
 
@@ -9316,8 +9316,8 @@ function LaunchSpecificationRequestType(pd)
     o = LaunchSpecificationRequestType()
     o.imageId = LightXML.content(LightXML.find_element(pd, "imageId"))
     o.keyName = LightXML.content(LightXML.find_element(pd, "keyName"))
-    o.securityGroupIdSet = AWS.parse_vector_as(String, "securityGroupId", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "securityGroupId"))
-    o.securityGroupSet = AWS.parse_vector_as(String, "securityGroup", LightXML.get_elements_by_tagname(LightXML.find_element(pd, "item"), "securityGroup"))
+    o.securityGroupIdSet = AWS.parse_vector_as(String, "securityGroupId", elements_by_tagname(LightXML.find_element(pd, "item"), "securityGroupId"))
+    o.securityGroupSet = AWS.parse_vector_as(String, "securityGroup", elements_by_tagname(LightXML.find_element(pd, "item"), "securityGroup"))
     ## o.userData = length(pd["userData"]) > 0 ?  UserDataType(LightXML.find_element(pd,"userData[1]")) : nothing
     o.userData = LightXML.find_element(pd,"userData") != nothing ? UserDataType(LightXML.find_element(pd,"userData")) : nothing
     o.addressingType = LightXML.content(LightXML.find_element(pd, "addressingType"))
@@ -9326,11 +9326,11 @@ function LaunchSpecificationRequestType(pd)
     o.placement = LightXML.find_element(pd,"placement") != nothing ? SpotPlacementRequestType(LightXML.find_element(pd,"placement")) : nothing
     o.kernelId = LightXML.content(LightXML.find_element(pd, "kernelId"))
     o.ramdiskId = LightXML.content(LightXML.find_element(pd, "ramdiskId"))
-    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "blockDeviceMapping"), "item"))
+    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, elements_by_tagname(LightXML.find_element(pd, "blockDeviceMapping"), "item"))
     ## o.monitoring = length(pd["monitoring"]) > 0 ?  MonitoringInstanceType(LightXML.find_element(pd,"monitoring[1]")) : nothing
     o.monitoring = LightXML.find_element(pd,"monitoring") != nothing ? MonitoringInstanceType(LightXML.find_element(pd,"monitoring")) : nothing
     o.subnetId = LightXML.content(LightXML.find_element(pd, "subnetId"))
-    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.InstanceNetworkInterfaceSetItemRequestType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "networkInterfaceSet"), "item"))
+    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.InstanceNetworkInterfaceSetItemRequestType, elements_by_tagname(LightXML.find_element(pd, "networkInterfaceSet"), "item"))
     ## o.iamInstanceProfile = length(pd["iamInstanceProfile"]) > 0 ?  IamInstanceProfileRequestType(LightXML.find_element(pd,"iamInstanceProfile[1]")) : nothing
     o.iamInstanceProfile = LightXML.find_element(pd,"iamInstanceProfile") != nothing ? IamInstanceProfileRequestType(LightXML.find_element(pd,"iamInstanceProfile")) : nothing
     o.ebsOptimized = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "ebsOptimized")))
@@ -9354,8 +9354,8 @@ function ReservationInfoType(pd)
     o = ReservationInfoType()
     o.reservationId = LightXML.content(LightXML.find_element(pd, "reservationId"))
     o.ownerId = LightXML.content(LightXML.find_element(pd, "ownerId"))
-    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "groupSet"), "item"))
-    o.instancesSet = AWS.@parse_vector(AWS.EC2.RunningInstancesItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "instancesSet"), "item"))
+    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, elements_by_tagname(LightXML.find_element(pd, "groupSet"), "item"))
+    o.instancesSet = AWS.@parse_vector(AWS.EC2.RunningInstancesItemType, elements_by_tagname(LightXML.find_element(pd, "instancesSet"), "item"))
     ## MDP TODO o.requesterId = LightXML.content(LightXML.find_element(pd, "requesterId"))
     o.requesterId = LightXML.content(LightXML.find_element(pd, "ownerId"))
     o
@@ -9374,7 +9374,7 @@ end
 function DescribeBundleTasksResponseType(pd)
     o = DescribeBundleTasksResponseType()
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.bundleInstanceTasksSet = AWS.@parse_vector(AWS.EC2.BundleInstanceTaskType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "bundleInstanceTasksSet"), "item"))
+    o.bundleInstanceTasksSet = AWS.@parse_vector(AWS.EC2.BundleInstanceTaskType, elements_by_tagname(LightXML.find_element(pd, "bundleInstanceTasksSet"), "item"))
     o
 end
 
@@ -9409,7 +9409,7 @@ end
 function RequestSpotInstancesResponseType(pd)
     o = RequestSpotInstancesResponseType()
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.spotInstanceRequestSet = AWS.@parse_vector(AWS.EC2.SpotInstanceRequestSetItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "spotInstanceRequestSet"), "item"))
+    o.spotInstanceRequestSet = AWS.@parse_vector(AWS.EC2.SpotInstanceRequestSetItemType, elements_by_tagname(LightXML.find_element(pd, "spotInstanceRequestSet"), "item"))
     o
 end
 
@@ -9426,7 +9426,7 @@ end
 function DescribeSubnetsResponseType(pd)
     o = DescribeSubnetsResponseType()
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.subnetSet = AWS.@parse_vector(AWS.EC2.SubnetType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "subnetSet"), "item"))
+    o.subnetSet = AWS.@parse_vector(AWS.EC2.SubnetType, elements_by_tagname(LightXML.find_element(pd, "subnetSet"), "item"))
     o
 end
 
@@ -9491,7 +9491,7 @@ end
 function DescribeInstancesResponseType(pd)
     o = DescribeInstancesResponseType()
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.reservationSet = LightXML.find_element(pd, "reservationSet") != nothing ? AWS.@parse_vector(AWS.EC2.ReservationInfoType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "reservationSet"), "item")) : nothing
+    o.reservationSet = LightXML.find_element(pd, "reservationSet") != nothing ? AWS.@parse_vector(AWS.EC2.ReservationInfoType, elements_by_tagname(LightXML.find_element(pd, "reservationSet"), "item")) : nothing
     o
 end
 
@@ -9508,7 +9508,7 @@ end
 function DescribeSecurityGroupsResponseType(pd)
     o = DescribeSecurityGroupsResponseType()
     o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.securityGroupInfo = AWS.@parse_vector(AWS.EC2.SecurityGroupItemType, LightXML.get_elements_by_tagname(LightXML.find_element(pd, "securityGroupInfo"), "item"))
+    o.securityGroupInfo = AWS.@parse_vector(AWS.EC2.SecurityGroupItemType, elements_by_tagname(LightXML.find_element(pd, "securityGroupInfo"), "item"))
     o
 end
 

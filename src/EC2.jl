@@ -6,9 +6,8 @@ using Requests
 using AWS.AWSEnv
 using AWS
 
-import AWS.xml
+import AWS: xml, elements_by_tagname
 import Base.show
-import LightXML: get_elements_by_tagname
 
 type EC2Error
     code::String
