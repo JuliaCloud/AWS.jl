@@ -105,7 +105,7 @@ function BucketLoggingStatus(pd_bls)
         bls.targetPrefix = LightXML.content(LightXML.find_element(LightXML.find_element(pd_bls, "LoggingEnabled"), "TargetPrefix"))
 
         ## grants = LightXML.find_element(pd_bls, "LoggingEnabled/TargetGrants/Grant")
-        bls.targetGrants = AWS.@parse_vector(AWS.S3.Grant, LightXML.get_elements_by_tagname(LightXML.find_element(LightXML.find_element(pd_bls, "LoggingEnabled"), "TargetGrants"), "Grant"))
+        bls.targetGrants = AWS.@parse_vector(AWS.S3.Grant, elements_by_tagname(LightXML.find_element(LightXML.find_element(pd_bls, "LoggingEnabled"), "TargetGrants"), "Grant"))
     end
     bls
 end
@@ -133,7 +133,7 @@ end
 
 function AccessControlPolicy(pd_acl)
     owner = Owner(LightXML.find_element(pd_acl, "Owner"))
-    accessControlList = AWS.@parse_vector(AWS.S3.Grant, LightXML.get_elements_by_tagname(LightXML.find_element(pd_acl, "AccessControlList"), "Grant"))
+    accessControlList = AWS.@parse_vector(AWS.S3.Grant, elements_by_tagname(LightXML.find_element(pd_acl, "AccessControlList"), "Grant"))
     return AccessControlPolicy(owner, accessControlList)
 end
 
@@ -211,8 +211,8 @@ function ListBucketResult(pd_lbr)
     lbr.maxKeys = AWS.safe_parseint(LightXML.content(LightXML.find_element(pd_lbr, "MaxKeys")))
     lbr.delimiter = LightXML.find_element(pd_lbr, "Delimiter") != nothing ?LightXML.content(LightXML.find_element(pd_lbr, "Delimiter")) : ""
     lbr.isTruncated = AWS.safe_parsebool(LightXML.content(LightXML.find_element(pd_lbr, "IsTruncated")))
-    lbr.contents = AWS.@parse_vector(AWS.S3.Contents, LightXML.get_elements_by_tagname(pd_lbr, "Contents"))
-    lbr.commonPrefixes = AWS.@parse_vector(AWS.S3.CommonPrefixes, LightXML.get_elements_by_tagname(pd_lbr, "CommonPrefixes"))
+    lbr.contents = AWS.@parse_vector(AWS.S3.Contents, elements_by_tagname(pd_lbr, "Contents"))
+    lbr.commonPrefixes = AWS.@parse_vector(AWS.S3.CommonPrefixes, elements_by_tagname(pd_lbr, "CommonPrefixes"))
     lbr
 end
 export ListBucketResult
@@ -292,9 +292,9 @@ function ListVersionsResult(pd_lvr)
     lvr.maxKeys = AWS.safe_parseint(LightXML.content(LightXML.find_element(pd_lvr, "MaxKeys")))
     lvr.delimiter = LightXML.content(LightXML.find_element(pd_lvr, "Delimiter"))
     lvr.isTruncated = AWS.safe_parsebool(LightXML.content(LightXML.find_element(pd_lvr, "IsTruncated")))
-    lvr.version = AWS.@parse_vector(AWS.S3.Version, LightXML.get_elements_by_tagname(pd_lvr, "Version"))
-    lvr.deleteMarker = AWS.@parse_vector(AWS.S3.DeleteMarker, LightXML.get_elements_by_tagname(pd_lvr, "DeleteMarker"))
-    lvr.commonPrefixes = AWS.@parse_vector(AWS.S3.CommonPrefixes, LightXML.get_elements_by_tagname(pd_lvr, "CommonPrefixes"))
+    lvr.version = AWS.@parse_vector(AWS.S3.Version, elements_by_tagname(pd_lvr, "Version"))
+    lvr.deleteMarker = AWS.@parse_vector(AWS.S3.DeleteMarker, elements_by_tagname(pd_lvr, "DeleteMarker"))
+    lvr.commonPrefixes = AWS.@parse_vector(AWS.S3.CommonPrefixes, elements_by_tagname(pd_lvr, "CommonPrefixes"))
     lvr
 end
 export ListVersionsResult
@@ -322,7 +322,7 @@ type ListAllMyBucketsResult
 end
 function ListAllMyBucketsResult(pd_lab)
     owner = Owner(LightXML.find_element(pd_lab, "Owner"))
-    buckets = AWS.@parse_vector(AWS.S3.AWS.S3.Bucket, LightXML.get_elements_by_tagname(LightXML.find_element(pd_lab, "Buckets"), "Bucket"))
+    buckets = AWS.@parse_vector(AWS.S3.AWS.S3.Bucket, elements_by_tagname(LightXML.find_element(pd_lab, "Buckets"), "Bucket"))
     ListAllMyBucketsResult(owner, buckets)
 end
 export ListAllMyBucketsResult
@@ -396,7 +396,7 @@ export TopicConfiguration
 type NotificationConfiguration{T<:Union{Vector{TopicConfiguration}, Void}}
     topicConfiguration::T
 end
-NotificationConfiguration(pd) = NotificationConfiguration(AWS.@parse_vector(AWS.S3.TopicConfiguration, LightXML.get_elements_by_tagname(pd, "TopicConfiguration")))
+NotificationConfiguration(pd) = NotificationConfiguration(AWS.@parse_vector(AWS.S3.TopicConfiguration, elements_by_tagname(pd, "TopicConfiguration")))
 
 function xml(o::NotificationConfiguration)
     if o.topicConfiguration == nothing
@@ -502,7 +502,7 @@ function ListPartsResult(pd)
         LightXML.content(LightXML.find_element(pd, "NextPartNumberMarker")),
         int(LightXML.content(LightXML.find_element(pd, "MaxParts"))),
         (lowercase(LightXML.content(LightXML.find_element(pd, "IsTruncated"))) == "true") ? true : false,
-        AWS.@parse_vector(AWS.S3.Part, LightXML.get_elements_by_tagname(pd, "Part"))
+        AWS.@parse_vector(AWS.S3.Part, elements_by_tagname(pd, "Part"))
     )
 end
 export ListPartsResult
@@ -553,8 +553,8 @@ function ListMultipartUploadsResult(pd)
         AWS.safe_parseint(LightXML.content(LightXML.find_element(pd, "MaxUploads"))),
         LightXML.content(LightXML.find_element(pd, "Delimiter")),
         AWS.safe_parsebool(LightXML.content(LightXML.find_element(pd, "IsTruncated"))),
-        AWS.@parse_vector(AWS.S3.Upload, LightXML.get_elements_by_tagname(pd, "Upload")),
-        AWS.@parse_vector(AWS.S3.CommonPrefixes, LightXML.get_elements_by_tagname(pd, "CommonPrefixes"))
+        AWS.@parse_vector(AWS.S3.Upload, elements_by_tagname(pd, "Upload")),
+        AWS.@parse_vector(AWS.S3.CommonPrefixes, elements_by_tagname(pd, "CommonPrefixes"))
     )
 end
 export ListMultipartUploadsResult
@@ -579,12 +579,12 @@ xml(o::CORSRule) = xml("CORSRule", [
 
 function CORSRule(pd)
     id = LightXML.content(LightXML.find_element(pd, "ID"))
-    allowedMethod = parse_vector_as(String, "AllowedMethod", LightXML.get_elements_by_tagname(pd, "AllowedMethod"))
-    allowedOrigin = parse_vector_as(String, "AllowedOrigin", LightXML.get_elements_by_tagname(pd, "AllowedOrigin"))
-    allowedHeader = parse_vector_as(String, "AllowedHeader", LightXML.get_elements_by_tagname(pd, "AllowedHeader"))
+    allowedMethod = parse_vector_as(String, "AllowedMethod", elements_by_tagname(pd, "AllowedMethod"))
+    allowedOrigin = parse_vector_as(String, "AllowedOrigin", elements_by_tagname(pd, "AllowedOrigin"))
+    allowedHeader = parse_vector_as(String, "AllowedHeader", elements_by_tagname(pd, "AllowedHeader"))
     seconds = LightXML.content(LightXML.find_element(pd, "MaxAgeSeconds"))
     if (seconds != nothing) maxAgeSeconds = int(seconds) end
-    exposeHeader = parse_vector_as(String, "ExposeHeader", LightXML.get_elements_by_tagname(pd, "ExposeHeader"))
+    exposeHeader = parse_vector_as(String, "ExposeHeader", elements_by_tagname(pd, "ExposeHeader"))
 
     CORSRule(id, allowedMethod, allowedOrigin, allowedHeader, maxAgeSeconds, exposeHeader)
 
@@ -596,7 +596,7 @@ type CORSConfiguration{T<:Vector{CORSRule}}
     corsrules::T
 end
 xml(o::CORSConfiguration) = xml("CORSConfiguration", o.corsrules)
-CORSConfiguration(pd) = AWS.@parse_vector(AWS.S3.CORSRule, LightXML.get_elements_by_tagname(pd, "CORSRule"))
+CORSConfiguration(pd) = AWS.@parse_vector(AWS.S3.CORSRule, elements_by_tagname(pd, "CORSRule"))
 
 
 type S3Error
@@ -996,7 +996,7 @@ end
 DeleteResult() = DeleteResult(nothing, nothing)
 function DeleteResult(pd)
     dr = DeleteResult()
-    dr.deleted = LightXML.get_elements_by_tagname(pd, "Deleted") != nothing ? AWS.@parse_vector(AWS.S3.Deleted, LightXML.get_elements_by_tagname(pd, "Deleted")) : nothing
+    dr.deleted = elements_by_tagname(pd, "Deleted") != nothing ? AWS.@parse_vector(AWS.S3.Deleted, elements_by_tagname(pd, "Deleted")) : nothing
     dr.delete_errors = LightXML.find_element(pd, "Errors") != nothing ? AWS.@parse_vector(AWS.S3.DeleteError, LightXML.find_element(pd, "Errors")) : nothing
     dr
 end

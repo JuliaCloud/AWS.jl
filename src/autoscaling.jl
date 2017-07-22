@@ -9,7 +9,6 @@ using Compat
 
 import AWS: xml, AbstractAWSType, _ename, parse_from_xml, prep_params
 import Base.show
-import LightXML: get_elements_by_tagname
 
 type AutoScalingError
     code::String

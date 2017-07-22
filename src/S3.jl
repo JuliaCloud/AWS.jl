@@ -9,7 +9,7 @@ using Base.get
 
 using URIParser
 
-import AWS.xml
+import AWS: xml, elements_by_tagname
 
 include("s3_types.jl")
 
