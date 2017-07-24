@@ -686,3 +686,4 @@ function _autoscaling_type_map()
 end
 
 const AutoScalingTypeDict = _autoscaling_type_map()
+const AutoScalingApiVer = "2011-01-01"

@@ -1,799 +1,108 @@
-type AttributeType
-    name::Union{String, Void}
-    value::Union{String, Void}
-
-    AttributeType(; name=nothing, value=nothing) =
-         new(name, value)
-end
-function AttributeType(pd::LightXML.XMLElement)
-    o = AttributeType()
-    o.name = LightXML.content(LightXML.find_element(pd, "Name"))
-    o.value = LightXML.content(LightXML.find_element(pd, "Value"))
-    o
-end
-
-export AttributeType
-
-
-# Note: dataType="Binary" is not supported because HTTPC.urlencode_query_params is not presently capable of encoding binary data into a URL.
-# Need to either enhance HTTPClient package, or place binary data into POST message instead of GET.
-type MessageAttributeValueType
-    dataType::Union{String, Void}
-    binaryValue::Union{Vector{UInt8}, Void}
-    stringValue::Union{String, Void}
-
-    MessageAttributeValueType(; dataType=nothing, binaryValue=nothing, stringValue=nothing) =
-         new(dataType, binaryValue, stringValue)
-end
-function MessageAttributeValueType(pd::LightXML.XMLElement)
-    o = MessageAttributeValueType()
-    o.dataType = LightXML.find_element(pd, "DataType") != nothing ? LightXML.content(LightXML.find_element(pd, "DataType")) : nothing
-    o.binaryValue = LightXML.find_element(pd, "BinaryValue") != nothing ? AWS.safe_parseb64(LightXML.content(LightXML.find_element(pd, "BinaryValue"))) : nothing
-    o.stringValue = LightXML.find_element(pd, "StringValue") != nothing ? LightXML.content(LightXML.find_element(pd, "StringValue")) : nothing
-    o
-end
-
-export MessageAttributeValueType
-
-
-type MessageAttributeType
-    name::Union{String, Void}
-    value::Union{MessageAttributeValueType, Void}
-
-    MessageAttributeType(; name=nothing, value=nothing) =
-         new(name, value)
-end
-function MessageAttributeType(pd::LightXML.XMLElement)
-    o = MessageAttributeType()
-    o.name = LightXML.content(LightXML.find_element(pd, "Name"))
-    o.value = MessageAttributeValueType(LightXML.find_element(pd, "Value"))
-    o
-end
-
-export MessageAttributeType
-
-
-type CreateQueueType
-    queueName::Union{String, Void}
-    attributeSet::Union{Vector{AttributeType}, Void}
-
-    CreateQueueType(; queueName=nothing, attributeSet=nothing) =
-         new(queueName, attributeSet)
-end
-function CreateQueueType(pd::LightXML.XMLElement)
-    o = CreateQueueType()
-    o.queueName = LightXML.content(LightXML.find_element(pd, "QueueName"))
-    o.attributeSet = AWS.@parse_vector(AWS.SQS.AttributeType, elements_by_tagname(LightXML.find_element(pd, "Attribute")))
-    o
-end
-
-export CreateQueueType
-
-
-type CreateQueueResponseType
-    queueUrl::Union{String, Void}
-    requestId::Union{String, Void}
-
-    CreateQueueResponseType(; queueUrl=nothing, requestId=nothing) =
-         new(queueUrl, requestId)
-end
-function CreateQueueResponseType(pd::LightXML.XMLElement)
-    o = CreateQueueResponseType()
-    o.queueUrl = LightXML.content(LightXML.find_element(LightXML.find_element(pd, "CreateQueueResult"), "QueueUrl"))
-    o.requestId = LightXML.content(LightXML.find_element(LightXML.find_element(pd, "ResponseMetadata"), "RequestId"))
-    o
-end
-
-export CreateQueueResponseType
-
-
-type GetQueueUrlType
-    queueName::Union{String, Void}
-    queueOwnerAWSAccountId::Union{String, Void}
-
-    GetQueueUrlType(; queueName=nothing, queueOwnerAWSAccountId=nothing) =
-         new(queueName, queueOwnerAWSAccountId)
-end
-function GetQueueUrlType(pd::LightXML.XMLElement)
-    o = GetQueueUrlType()
-    o.queueName = LightXML.content(LightXML.find_element(pd, "QueueName"))
-    o.queueOwnerAWSAccountId = LightXML.content(LightXML.find_element(pd, "QueueOwnerAWSAccountId"))
-    o
-end
-
-export GetQueueUrlType
-
-
-type GetQueueUrlResponseType
-    queueUrl::Union{String, Void}
-    requestId::Union{String, Void}
-
-    GetQueueUrlResponseType(; queueUrl=nothing, requestId=nothing) =
-         new(queueUrl, requestId)
-end
-function GetQueueUrlResponseType(pd::LightXML.XMLElement)
-    o = GetQueueUrlResponseType()
-    o.queueUrl = LightXML.content(LightXML.find_element(LightXML.find_element(pd, "GetQueueUrlResult"), "QueueUrl"))
-    o.requestId = LightXML.content(LightXML.find_element(LightXML.find_element(pd, "ResponseMetadata"), "RequestId"))
-    o
-end
-
-export GetQueueUrlResponseType
-
-
-type ListQueuesType
-    queueNamePrefix::Union{String, Void}
-
-    ListQueuesType(; queueNamePrefix=nothing) =
-         new(queueNamePrefix)
-end
-function ListQueuesType(pd::LightXML.XMLElement)
-    o = ListQueuesType()
-    o.queueName = LightXML.content(LightXML.find_element(pd, "QueueNamePrefix"))
-    o
-end
-
-export ListQueuesType
-
-
-type ListQueuesResponseType
-    queueUrlSet::Union{Vector{String}, Void}
-    requestId::Union{String, Void}
-
-    ListQueuesResponseType(; queueUrlSet=nothing, requestId=nothing) =
-         new(queueUrlSet, requestId)
-end
-function ListQueuesResponseType(pd::LightXML.XMLElement)
-    o = ListQueuesResponseType()
-    o.queueUrlSet = String[LightXML.content(url) for url in elements_by_tagname(LightXML.find_element(pd, "ListQueuesResult"), "QueueUrl")]
-    o.requestId = LightXML.content(LightXML.find_element(LightXML.find_element(pd, "ResponseMetadata"), "RequestId"))
-    o
-end
-
-export ListQueuesResponseType
-
-
-# ChangeMessageVisibilityType
-# ChangeMessageVisibilityResponseType
-
-type DeleteMessageType
-    queueUrl::Union{String, Void}
-    receiptHandle::Union{String, Void}
-
-    DeleteMessageType(; queueUrl=nothing, receiptHandle=nothing) =
-         new(queueUrl, receiptHandle)
-end
-function DeleteMessageType(pd::LightXML.XMLElement)
-    o = DeleteMessageType()
-    o.queueUrl = LightXML.content(LightXML.find_element(pd, "QueueUrl"))
-    o.receiptHandle = LightXML.content(LightXML.find_element(pd, "ReceiptHandle"))
-    o
-end
-
-export DeleteMessageType
-
-
-type DeleteMessageResponseType
-    requestId::Union{String, Void}
-
-    DeleteMessageResponseType(; requestId=nothing) =
-         new(requestId)
-end
-function DeleteMessageResponseType(pd::LightXML.XMLElement)
-    o = DeleteMessageResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(LightXML.find_element(pd, "ResponseMetadata"), "RequestId"))
-    o
-end
-
-export DeleteMessageResponseType
-
-type DeleteQueueType
-    queueUrl::Union{String, Void}
-
-    DeleteQueueType(; queueUrl=nothing) =
-         new(queueUrl)
-end
-function DeleteQueueType(pd::LightXML.XMLElement)
-    o = DeleteQueueType()
-    o.queueUrl = LightXML.content(LightXML.find_element(pd, "QueueUrl"))
-    o
-end
-
-export DeleteQueueType
-
-
-type DeleteQueueResponseType
-    requestId::Union{String, Void}
-
-    DeleteQueueResponseType(; requestId=nothing) =
-         new(requestId)
-end
-function DeleteQueueResponseType(pd::LightXML.XMLElement)
-    o = DeleteQueueResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(LightXML.find_element(pd, "ResponseMetadata"), "RequestId"))
-    o
-end
-
-export DeleteQueueResponseType
-
-
-type GetQueueAttributesType
-    attributeNameSet::Union{Vector{String}, Void}
-    queueUrl::Union{String, Void}
-
-    GetQueueAttributesType(; attributeNameSet=nothing, queueUrl=nothing) =
-         new(attributeNameSet, queueUrl)
-end
-function GetQueueAttributesType(pd::LightXML.XMLElement)
-    o = GetQueueAttributesType()
-    o.attributeNameSet = AWS.@parse_vector(String, elements_by_tagname(pd, "AttributeName"))
-    o.queueUrl = LightXML.content(LightXML.find_element(pd, "QueueUrl"))
-    o
-end
-
-export GetQueueAttributesType
-
-
-type GetQueueAttributesResponseType
-    attributeSet::Union{Vector{AttributeType}, Void}
-    requestId::Union{String, Void}
-
-    GetQueueAttributesResponseType(; attributeSet=nothing, requestId=nothing) =
-         new(attributeSet, requestId)
-end
-function GetQueueAttributesResponseType(pd::LightXML.XMLElement)
-    o = GetQueueAttributesResponseType()
-    o.attributeSet = AWS.@parse_vector(AWS.SQS.AttributeType, elements_by_tagname(LightXML.find_element(pd, "GetQueueAttributesResult"), "Attribute"))
-    o.requestId = LightXML.content(LightXML.find_element(LightXML.find_element(pd, "ResponseMetadata"), "RequestId"))
-    o
-end
-
-export GetQueueAttributesResponseType
-
-
-type ReceiveMessageType
-    maxNumberOfMessages::Union{Int, Void}
-    visibilityTimeout::Union{Int, Void}
-    waitTimeSeconds::Union{Int, Void}
-    attributeNameSet::Union{Vector{String}, Void}
-    messageAttributeNameSet::Union{Vector{String}, Void}
-    queueUrl::Union{String, Void}
-
-    ReceiveMessageType(; maxNumberOfMessages=nothing, visibilityTimeout=nothing, waitTimeSeconds=nothing, attributeNameSet=nothing, messageAttributeNameSet=nothing, queueUrl=nothing) =
-         new(maxNumberOfMessages, visibilityTimeout, waitTimeSeconds, attributeNameSet, messageAttributeNameSet, queueUrl)
-end
-function ReceiveMessageType(pd::LightXML.XMLElement)
-    o = ReceiveMessageType()
-    o.maxNumberOfMessages = AWS.safe_parseint(LightXML.content(LightXML.find_element(pd, "MaxNumberOfMessages")))
-    o.visibilityTimeout = AWS.safe_parseint(LightXML.content(LightXML.find_element(pd, "VisibilityTimeout")))
-    o.waitTimeSeconds = AWS.safe_parseint(LightXML.content(LightXML.find_element(pd, "WaitTimeSeconds")))
-    o.attributeNameSet = AWS.@parse_vector(String, LightXML.content(elements_by_tagname(pd, "AttributeName")))
-    o.messageAttributeNameSet = AWS.@parse_vector(String, LightXML.content(elements_by_tagname(pd, "MessageAttributeName")))
-    o.queueUrl = LightXML.content(LightXML.find_element(pd, "QueueUrl"))
-    o
-end
-
-export ReceiveMessageType
-
-
-type MessageType
-    messageId::Union{String, Void}
-    receiptHandle::Union{String, Void}
-    MD5OfBody::Union{String, Void}
-    MD5OfMessageAttributes::Union{String, Void}
-    body::Union{String, Void}
-    attributeSet::Union{Vector{AttributeType}, Void}
-    messageAttributeSet::Union{Vector{MessageAttributeType}, Void}
-
-    MessageType(; messageId=nothing, receiptHandle=nothing, MD5OfBody=nothing, MD5OfMessageAttributes=nothing, body=nothing, attributeSet=nothing, messageAttributeSet=nothing) =
-        new(messageId, receiptHandle, MD5OfBody, MD5OfMessageAttributes, body, attributeSet, messageAttributeSet)
-end
-function MessageType(pd::LightXML.XMLElement)
-    o = MessageType()
-    o.messageId = LightXML.content(LightXML.find_element(pd, "MessageId"))
-    o.receiptHandle = LightXML.content(LightXML.find_element(pd, "ReceiptHandle"))
-    o.MD5OfBody = LightXML.content(LightXML.find_element(pd, "MD5OfBody"))
-    ## MDP o.MD5OfMessageAttributes = LightXML.content(LightXML.find_element(pd, "MD5OfMessageAttributes"))
-    o.body = LightXML.content(LightXML.find_element(pd, "Body"))
-    o.attributeSet = AWS.@parse_vector(AWS.SQS.AttributeType, elements_by_tagname(pd, "Attribute"))
-    o.messageAttributeSet = AWS.@parse_vector(AWS.SQS.MessageAttributeType, elements_by_tagname(pd, "MessageAttribute"))
-    o
-end
-
-export MessageType
-
-
-type ReceiveMessageResponseType
-    messageSet::Union{Vector{MessageType}, Void}
-    requestId::Union{String, Void}
-
-    ReceiveMessageResponseType(; messageSet=nothing, requestId=nothing) =
-         new(messageSet, requestId)
-end
-function ReceiveMessageResponseType(pd::LightXML.XMLElement)
-    o = ReceiveMessageResponseType()
-    o.messageSet = AWS.@parse_vector(AWS.SQS.MessageType, elements_by_tagname(LightXML.find_element(pd, "ReceiveMessageResult"), "Message"))
-    o.requestId = LightXML.content(LightXML.find_element(LightXML.find_element(pd, "ResponseMetadata"), "RequestId"))
-    o
-end
-
-export ReceiveMessageResponseType
-
-
-type SendMessageType
-    delaySeconds::Union{Int, Void}
-    messageAttributeSet::Union{Vector{MessageAttributeType}, Void}
-    messageBody::Union{String, Void}
-    queueUrl::Union{String, Void}
-
-    SendMessageType(; delaySeconds=nothing, messageBody=nothing, queueUrl=nothing) =
-         new(delaySeconds, messageBody, queueUrl)
-end
-function SendMessageType(pd::LightXML.XMLElement)
-    o = SendMessageType()
-    o.delaySeconds = AWS.safe_parseint(LightXML.content(LightXML.find_element(pd, "DelaySeconds")))
-    o.messageAttributeSet = AWS.@parse_vector(AWS.SQS.MessageAttributeType, elements_by_tagname(pd, "MessageAttribute"))
-    o.messageBody = LightXML.content(LightXML.find_element(pd, "MessageBody"))
-    o.queueUrl = LightXML.content(LightXML.find_element(pd, "QueueUrl"))
-    o
-end
-
-export SendMessageType
-
-
-type SendMessageResponseType
-    MD5OfMessageBody::Union{String, Void}
-    MD5OfMessageAttributes::Union{String, Void}
-    messageId::Union{String, Void}
-    requestId::Union{String, Void}
-
-    SendMessageResponseType(; MD5OfMessageBody=nothing, MD5OfMessageAttributes=nothing, messageId=nothing, requestId=nothing) =
-         new(MD5OfMessageBody, MD5OfMessageAttributes, messageId, requestId)
-end
-function SendMessageResponseType(pd::LightXML.XMLElement)
-    o = SendMessageResponseType()
-    o.MD5OfMessageBody = LightXML.content(LightXML.find_element(LightXML.find_element(pd, "SendMessageResult"), "MD5OfMessageBody"))
-    ## MDP TODO o.MD5OfMessageAttributes = LightXML.content(LightXML.find_element(LightXML.find_element(pd, "SendMessageResult"), "MD5OfMessageAttributes"))
-    o.messageId = LightXML.content(LightXML.find_element(LightXML.find_element(pd, "SendMessageResult"), "MessageId"))
-    o.requestId = LightXML.content(LightXML.find_element(LightXML.find_element(pd, "ResponseMetadata"), "RequestId"))
-    o
-end
-
-export SendMessageResponseType
-
-
-type SetQueueAttributesType
-    attributeSet::Union{Vector{AttributeType}, Void}
-    queueUrl::Union{String, Void}
-
-    SetQueueAttributesType(; attributeSet=nothing, queueUrl=nothing) =
-         new(attributeSet, queueUrl)
-end
-function SetQueueAttributesType(pd::LightXML.XMLElement)
-    o = SetQueueAttributesType()
-    o.attributeSet = AWS.@parse_vector(AWS.SQS.AttributeType, elements_by_tagname(pd, "Attribute"))
-    o.queueUrl = LightXML.content(LightXML.find_element(pd, "QueueUrl"))
-    o
-end
-
-export SetQueueAttributesType
-
-
-type SetQueueAttributesResponseType
-    requestId::Union{String, Void}
-
-    SetQueueAttributesResponseType(; requestId=nothing) =
-         new(requestId)
-end
-function SetQueueAttributesResponseType(pd::LightXML.XMLElement)
-    o = SetQueueAttributesResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(LightXML.find_element(pd, "ResponseMetadata"), "RequestId"))
-    o
-end
-
-export SetQueueAttributesResponseType
-
-type SendMessageBatchRequestEntryType
-    delaySeconds::Union{Int, Void}
-    id::Union{String, Void}
-    messageAttributeSet::Union{Vector{MessageAttributeType}, Void}
-    messageBody::Union{String, Void}
-
-	SendMessageBatchRequestEntryType(; delaySeconds=nothing, id=nothing, messageAttributeSet=nothing, messageBody=nothing) = 
-		new(delaySeconds, id, messageAttributeSet, messageBody)
-end
-
-function SendMessageBatchRequestEntryType(pd::LightXML.XMLElement)
-	o = SendMessageBatchRequestEntryType()
-    o.delaySeconds = AWS.safe_parseint(LightXML.content(LightXML.find_element(pd, "DelaySeconds")))
-    o.messageAttributeSet = AWS.@parse_vector(AWS.SQS.MessageAttributeType, elements_by_tagname(pd, "MessageAttribute"))
-    o.messageBody = LightXML.content(LightXML.find_element(pd, "MessageBody"))
-end
-
-export SendMessageBatchRequestEntryType
-
-type SendMessageBatchType
-    sendMessageBatchRequestEntrySet::Union{Vector{SendMessageBatchRequestEntryType}, Void}
-    queueUrl::Union{String, Void}
-
-    SendMessageBatchType(; sendMessageBatchRequestEntrySet=nothing, queueUrl=nothing) =
-         new(sendMessageBatchRequestEntrySet, queueUrl)
-end
-
-function SendMessageBatchType(pd::LightXML.XMLElement)
-	o = SendMessageBatchType()
-	o.sendMessageBatchRequestSet = AWS.@parse_vector(AWS.SQS.SendMessageBatchRequestEntryType, elements_by_tagname(pd, "SendMessageBatchRequestEntry"))
-    o.queueUrl = LightXML.content(LightXML.find_element(pd, "QueueUrl"))
-end
-
-export SendMessageBatchType
-
-type SendMessageBatchResultEntryType 
-    id::Union{String, Void}
-    MD5OfMessageAttributes::Union{String, Void}
-    MD5OfBody::Union{String, Void}
-    messageId::Union{String, Void}
-
-	SendMessageBatchResultEntryType(; id=nothing, MD5OfMessageAttributes=nothing, MD5OfBody=nothing, messageId=nothing) = 
-		new(id, MD5OfMessageAttributes, MD5OfBody, messageId)
-end
-
-function SendMessageBatchResultEntryType(pd::LightXML.XMLElement)
-	o = SendMessageBatchResultEntryType()
-    o.id = LightXML.content(LightXML.find_element(LightXML.find_element(pd, "ResponseMetadata"), "Id"))
-    ## MDP TODO o.MD5OfMessageAttributes = LightXML.content(LightXML.find_element(LightXML.find_element(pd, "SendMessageResult"), "MD5OfMessageAttributes"))
-    o.MD5OfBody = LightXML.content(LightXML.find_element(LightXML.find_element(pd, "SendMessageResult"), "MD5OfBody"))
-    o.messageId = LightXML.content(LightXML.find_element(LightXML.find_element(pd, "SendMessageResult"), "MessageId"))
-end
-
-export SendMessageBatchResultEntryType
-
-type SendMessageBatchResultErrorEntryType
-    code::Union{String, Void}
-    id::Union{String, Void}
-    message::Union{String, Void}
-    senderFault::Union{Bool, Void}
-
-	SendMessageBatchResultErrorEntryType(; code=nothing, id=nothing, message=nothing, senderFault=nothing) = 
-		new(code, id, message, senderFault)
-end
-
-function SendMessageBatchResultErrorEntryType(pd::LightXML.XMLElement)
-    o = SendMessageBatchResultErrorEntryType()
-    o.code = LightXML.content(LightXML.find_element(pd, "Code"))
-    o.id = LightXML.content(LightXML.find_element(pd, "Id"))
-    o.message = LightXML.content(LightXML.find_element(pd, "Message"))
-    o.senderFault = LightXML.content(LightXML.find_element(pd, "SenderFault"))
-end
-
-export SendMessageBatchResultErrorEntryType
-
-type SendMessageBatchResponseType
-    sendMessageBatchResultSet::Union{Vector{SendMessageBatchResultEntryType}, Void}
-    sendMessageBatchErrorSet::Union{Vector{SendMessageBatchResultErrorEntryType}, Void}
-
-	SendMessageBatchResponseType(; sendMessageBatchResultSet=nothing, sendMessageBatchErrorSet=nothing) = 
-		new(sendMessageBatchResultSet, sendMessageBatchErrorSet)
-end
-
-function SendMessageBatchResponseType(pd::LightXML.XMLElement)
-	o = SendMessageBatchResponseType()
-    o.sendMessageBatchResultSet = AWS.@parse_vector(AWS.SQS.SendMessageBatchResultEntryType, elements_by_tagname(pd, "SendMessageBatchResultEntry"))
-    o.sendMessageBatchErrorSet = AWS.@parse_vector(AWS.SQS.SendMessageBatchResultErrorEntryType, elements_by_tagname(pd, "SendMessageBatchResultErrorEntry"))
-end
-
-export SendMessageBatchResponseType
-
-type DeleteMessageBatchRequestEntryType
-    id::Union{String, Void}
-    receiptHandle::Union{String, Void}
-
-	DeleteMessageBatchRequestEntryType(; id=nothing, receiptHandle=nothing) =
-		new(id, receiptHandle)
-end
-
-function DeleteMessageBatchRequestEntryType(pd::LightXML.XMLElement)
-	o = DeleteMessageBatchRequestEntryType()
-    o.id = LightXML.content(LightXML.find_element(pd, "Id"))
-    o.receiptHandle = LightXML.content(LightXML.find_element(pd, "ReceiptHandle"))
-end
-
-export DeleteMessageBatchRequestEntryType
-
-type DeleteMessageBatchType
-    deleteMessageBatchRequestEntrySet::Union{Vector{DeleteMessageBatchRequestEntryType}, Void}
-    queueUrl::Union{String, Void}
-
-    DeleteMessageBatchType(; deleteMessageBatchRequestEntrySet=nothing, queueUrl=nothing) =
-         new(deleteMessageBatchRequestEntrySet, queueUrl)
-end
-
-function DeleteMessageBatchType(pd::LightXML.XMLElement)
-	o = DeleteMessageBatchType()
-	o.deleteMessageBatchRequestSet = AWS.@parse_vector(AWS.SQS.DeleteMessageBatchRequestEntryType, elements_by_tagname(pd, "DeleteMessageBatchRequestEntry"))
-    o.queueUrl = LightXML.content(LightXML.find_element(pd, "QueueUrl"))
-end
-
-export DeleteMessageBatchType
-
-type DeleteMessageBatchResultErrorEntryType
-    code::Union{String, Void}
-    id::Union{String, Void}
-    message::Union{String, Void}
-    senderFault::Union{Bool, Void}
-
-    DeleteMessageBatchResultErrorEntryType(; code=nothing, id=nothing, message=nothing, senderFault=nothing) =
+# generated from SQSTypeDict via AWS/src/codegen.jl
+# do not edit, edit specification file and regenerate instead
+
+type BatchResultErrorEntry <: AbstractAWSType
+    code::Union{Void,String}
+    id::Union{Void,String}
+    message::Union{Void,String}
+    senderFault::Union{Void,Bool}
+    function BatchResultErrorEntry(;code=nothing, id=nothing, message=nothing, senderFault=nothing)
         new(code, id, message, senderFault)
-end
-
-function DeleteMessageBatchResultErrorEntryType(pd::LightXML.XMLElement)
-    o = DeleteMessageBatchResultErrorEntryType()
-    o.code = LightXML.content(LightXML.find_element(pd, "Code"))
-    o.id = LightXML.content(LightXML.find_element(pd, "Id"))
-    o.message = LightXML.content(LightXML.find_element(pd, "Message"))
-    o.senderFault = LightXML.content(LightXML.find_element(pd, "SenderFault"))
-end
-
-export DeleteMessageBatchResultErrorEntryType
-
-type DeleteMessageBatchResultEntryType
-    deleteMessageBatchResultEntrySet::Union{Vector{DeleteMessageBatchResultEntryType}, Void}
-    queueUrl::Union{String, Void}
-
-    DeleteMessageBatchResultEntryType(; deleteMessageBatchResultEntrySet=nothing, queueUrl=nothing) =
-         new(deleteMessageBatchResultEntrySet, queueUrl)
-end
-
-function DeleteMessageBatchResultEntryType(pd::LightXML.XMLElement)
-	o = DeleteMessageBatchResultEntryType()
-	o.deleteMessageBatchResultSet = AWS.@parse_vector(AWS.SQS.DeleteMessageBatchResultEntryType, elements_by_tagname(pd, "DeleteMessageBatchResultEntry"))
-    o.queueUrl = LightXML.content(LightXML.find_element(pd, "QueueUrl"))
-end
-
-export DeleteMessageBatchResultEntryType
-
-type DeleteMessageBatchResponseType
-    deleteMessageBatchResultSet::Union{Vector{DeleteMessageBatchResultEntryType}, Void}
-    deleteMessageBatchErrorSet::Union{Vector{DeleteMessageBatchResultErrorEntryType}, Void}
-
-	DeleteMessageBatchResponseType(; deleteMessageBatchResultSet=nothing, deleteMessageBatchErrorSet=nothing) = 
-		new(deleteMessageBatchResultSet, deleteMessageBatchErrorSet)
-end
-
-function DeleteMessageBatchResponseType(pd::LightXML.XMLElement)
-	o = DeleteMessageBatchResponseType()
-    o.deleteMessageBatchResultSet = AWS.@parse_vector(AWS.SQS.DeleteMessageBatchResultEntryType, elements_by_tagname(pd, "DeleteMessageBatchResultEntry"))
-    o.deleteMessageBatchErrorSet = AWS.@parse_vector(AWS.SQS.DeleteMessageBatchResultErrorEntryType, elements_by_tagname(pd, "DeleteMessageBatchResultErrorEntry"))
-end
-
-export DeleteMessageBatchResponseType
-
-type ChangeMessageVisibilityType
-    queueUrl::Union{String, Void}
-    receiptHandle::Union{String, Void}
-    visibilityTimeout::Union{Int64, Void}
-
-    ChangeMessageVisibilityType(; queueUrl=nothing, receiptHandle=nothing, visibilityTimeout=nothing) =
-         new(queueUrl, receiptHandle, visibilityTimeout)
-end
-
-export ChangeMessageVisibilityType
-
-type ChangeMessageVisibilityResponseType
-    requestId::Union{String, Void}
-
-    ChangeMessageVisibilityResponseType(; requestId=nothing) =
-         new(requestId)
-end
-function ChangeMessageVisibilityResponseType(pd::LightXML.XMLElement)
-    o = ChangeMessageVisibilityResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(LightXML.find_element(pd, "ResponseMetadata"), "RequestId"))
-    o
-end
-
-export ChangeMessageVisibilityResponseType
-
-type ChangeMessageVisibilityBatchRequestEntryType
-    id::Union{String, Void}
-    receiptHandle::Union{String, Void}
-    visibilityTimeout::Union{Int64, Void}
-
-    ChangeMessageVisibilityBatchRequestEntryType(; id=nothing, receiptHandle=nothing, visibilityTimeout=nothing) =
-         new(id, receiptHandle, visibilityTimeout)
-end
-
-export ChangeMessageVisibilityBatchRequestEntryType
-
-
-type ChangeMessageVisibilityBatchType
-    queueUrl::Union{String, Void}
-	changeMessageVisibilityBatchRequestEntrySet::Union{Vector{ChangeMessageVisibilityBatchRequestEntryType}, Void}
-
-    ChangeMessageVisibilityBatchType(; queueUrl=nothing, changeMessageVisibilityBatchRequestEntrySet=nothing) =
-         new(queueUrl, changeMessageVisibilityBatchRequestEntrySet)
-end
-
-export ChangeMessageVisibilityBatchType
-
-type ChangeMessageVisibilityBatchResultEntryType
-	id::Union{Int64, Void}
-
-	ChangeMessageVisibilityBatchResultEntryType(; id=nothing) = 
-		new(id)
-end
-
-function ChangeMessageVisibilityBatchResultEntryType(pd::LightXML.XMLElement)
-    o = ChangeMessageVisibilityBatchResultEntryType()
-    o.id = AWS.safe_parseint(LightXML.content(LightXML.find_element(pd, "Id")))
-    o
-end
-
-export ChangeMessageVisibilityBatchResultEntryType
-
-type ChangeMessageVisibilityBatchResultErrorEntryType
-    code::Union{String, Void}
-    id::Union{String, Void}
-    message::Union{String, Void}
-    senderFault::Union{Bool, Void}
-
-    ChangeMessageVisibilityBatchResultErrorEntryType(; code=nothing, id=nothing, message=nothing, senderFault=nothing) =
-        new(code, id, message, senderFault)
-end
-
-function ChangeMessageVisibilityBatchResultErrorEntryType(pd::LightXML.XMLElement)
-    o = ChangeMessageVisibilityBatchResultErrorEntryType()
-    o.code = LightXML.content(LightXML.find_element(pd, "Code"))
-    o.id = LightXML.content(LightXML.find_element(pd, "Id"))
-    o.message = LightXML.content(LightXML.find_element(pd, "Message"))
-    o.senderFault = LightXML.content(LightXML.find_element(pd, "SenderFault"))
-end
-
-export ChangeMessageVisibilityBatchResultErrorEntryType
-
-
-type ChangeMessageVisibilityResponseBatchType
-	changeMessageVisibilityBatchResultEntrySet::Union{Vector{ChangeMessageVisibilityBatchResultEntryType}, Void}
-	changeMessageVisibilityBatchResultErrorEntrySet::Union{Vector{ChangeMessageVisibilityBatchResultErrorEntryType}, Void}
-
-    ChangeMessageVisibilityResponseBatchType(; changeMessageVisibilityBatchResultEntrySet=nothing, changeMessageVisibilityBatchResultErrorEntrySet=nothing) =
-         new(changeMessageVisibilityBatchResultEntrySet, changeMessageVisibilityBatchResultErrorEntrySet)
-end
-
-function ChangeMessageVisibilityResponseBatchType(pd::LightXML.XMLElement)
-    o = ChangeMessageVisibilityResponseBatchType()
-    o.changeMessageVisibilityBatchResultEntrySet = AWS.@parse_vector(AWS.SQS.ChangeMessageVisibilityBatchResultEntryType, elements_by_tagname(pd, "ChangeMessageVisibilityBatchResultEntry"))
-    o.changeMessageVisibilityBatchResultErrorEntrySet = AWS.@parse_vector(AWS.SQS.ChangeMessageVisibilityBatchResultErrorEntryType, elements_by_tagname(pd, "ChangeMessageVisibilityBatchResultErrorEntry"))
-    o
-end
-
-export ChangeMessageVisibilityResponseBatchType
-
-type ListDeadLetterSourceQueuesType
-	queueUrl::Union{String, Void}
-
-	ListDeadLetterSourceQueuesType(; queueUrl=nothing) = 
-		new(queueUrl)
-end
-
-export ListDeadLetterSourceQueuesType
-
-type ListDeadLetterSourceQueuesResultType
-	queueUrls::Union{Vector{String}, Void}
-
-	ListDeadLetterSourceQueuesResultType(; queueUrls=nothing) = 
-		new(queueUrls)
-end
-
-function ListDeadLetterSourceQueuesResultType(pd::LightXML.XMLElement)
-    o = ListDeadLetterSourceQueuesResultType()
-    o.queueUrlSet = String[LightXML.content(url) for url in elements_by_tagname(LightXML.find_element(pd, "ListDeadLetterSourceQueuesResult"), "QueueUrl")]
-end
-
-export ListDeadLetterSourceQueuesResultType
-
-type ListDeadLetterSourceQueuesResponseType
-	requestId::Union{String, Void}
-	listDeadLetterSourceQueuesResultType::Union{ListDeadLetterSourceQueuesResultType, Void}
-
-	ListDeadLetterSourceQueuesResponseType(; requestId=nothing, listDeadLetterSourceQueuesResultType=nothing) = 
-		new(requestId, listDeadLetterSourceQueuesResultType)
-end
-
-function ListDeadLetterSourceQueuesResponseType(pd::LightXML.XMLElement)
-    o = ListDeadLetterSourceQueuesResponseType()
-	o.requestId = LightXML.content(LightXML.find_element(LightXML.find_element(pd, "ResponseMetadata"), "RequestId"))
-    o.listDeadLetterSourceQueuesResultType = LightXML.find_element(LightXML.find_element(pd, "ListDeadLetterSourceQueuesResult"), "QueueUrl") != nothing ? ListDeadLetterSourceQueuesResultType(LightXML.find_element(LightXML.find_element(pd, "ListDeadLetterSourceQueuesResult"), "QueueUrl")) : nothing
-end
-
-export ListDeadLetterSourceQueuesResponseType
-
-
-type PurgeQueueType
-	queueUrl::Union{String, Void}
-
-	PurgeQueueType(; queueUrl=nothing) =
-		new(queueUrl)
-end
-
-export PurgeQueueType
-
-type PurgeQueueResponseType
-	requestId::Union{String, Void}
-
-	PurgeQueueResponseType(; requestId=nothing) = 
-		new(requestId)
-end
-
-function PurgeQueueResponseType(pd::LightXML.XMLElement)
-    o = PurgeQueueResponseType()
-	o.requestId = LightXML.content(LightXML.find_element(LightXML.find_element(pd, "ResponseMetadata"), "RequestId"))
-end
-
-export PurgeQueueResponseType
-
-
-#=
-type ActionAccountType
-	aWSAccountId::Union{String, Void}
-	actionName::Union{String, Void}
-
-	ActionAccountType(; aWSAccountId=nothing, actionName=nothing) = 
-		new(aWSAccountId, actionName)
-end
-
-export ActionAccountType
-=#
-
-type AddPermissionType
-	queueUrl::Union{String, Void}
-	label::Union{String, Void}
-	aWSAccountIdSet::Union{Vector{String}, Void}
-	actionNameSet::Union{Vector{String}, Void}
-	## actionAccountSet::Union{Vector{ActionAccountType}, Void}
-
-	AddPermissionType(; queueUrl=nothing, label=nothing, aWSAccountIdSet=nothing, actionNameSet=nothing) = 
-		new(queueUrl, label, aWSAccountIdSet, actionNameSet)
-end
-
-export AddPermissionType
-
-type AddPermissionResponseType
-	requestId::Union{String, Void}
-
-	AddPermissionResponseType(; requestId=nothing) = 
-		new(requestId)
-end
-
-function AddPermissionResponseType(pd::LightXML.XMLElement)
-    o = AddPermissionResponseType()
-
-	o.requestId = LightXML.content(LightXML.find_element(LightXML.find_element(pd, "ResponseMetadata"), "RequestId"))
-end
-
-export AddPermissionResponseType
-
-type RemovePermissionType
-	queueUrl::Union{String, Void}
-	label::Union{String, Void}
-
-	RemovePermissionType(; queueUrl=nothing, label=nothing) = 
-		new(queueUrl, label)
-end
-
-export RemovePermissionType
-
-type RemovePermissionResponseType
-	requestId::Union{String, Void}
-
-	RemovePermissionResponseType(; requestId=nothing) = 
-		new(requestId)
-end
-
-function RemovePermissionResponseType(pd::LightXML.XMLElement)
-    o = RemovePermissionResponseType()
-
-	o.requestId = LightXML.content(LightXML.find_element(LightXML.find_element(pd, "ResponseMetadata"), "RequestId"))
-end
-
-export RemovePermissionResponseType
-
+    end
+    BatchResultErrorEntry(pd) = parse_from_xml(BatchResultErrorEntry, SQSTypeDict, pd)
+end # BatchResultErrorEntry
+export BatchResultErrorEntry
+
+type ChangeMessageVisibilityBatchRequestEntry <: AbstractAWSType
+    id::Union{Void,String}
+    receiptHandle::Union{Void,String}
+    visibilityTimeout::Union{Void,Int64}
+    function ChangeMessageVisibilityBatchRequestEntry(;id=nothing, receiptHandle=nothing, visibilityTimeout=nothing)
+        new(id, receiptHandle, visibilityTimeout)
+    end
+    ChangeMessageVisibilityBatchRequestEntry(pd) = parse_from_xml(ChangeMessageVisibilityBatchRequestEntry, SQSTypeDict, pd)
+end # ChangeMessageVisibilityBatchRequestEntry
+export ChangeMessageVisibilityBatchRequestEntry
+
+type ChangeMessageVisibilityBatchResultEntry <: AbstractAWSType
+    id::Union{Void,String}
+    function ChangeMessageVisibilityBatchResultEntry(;id=nothing)
+        new(id)
+    end
+    ChangeMessageVisibilityBatchResultEntry(pd) = parse_from_xml(ChangeMessageVisibilityBatchResultEntry, SQSTypeDict, pd)
+end # ChangeMessageVisibilityBatchResultEntry
+export ChangeMessageVisibilityBatchResultEntry
+
+type DeleteMessageBatchRequestEntry <: AbstractAWSType
+    id::Union{Void,String}
+    receiptHandle::Union{Void,String}
+    function DeleteMessageBatchRequestEntry(;id=nothing, receiptHandle=nothing)
+        new(id, receiptHandle)
+    end
+    DeleteMessageBatchRequestEntry(pd) = parse_from_xml(DeleteMessageBatchRequestEntry, SQSTypeDict, pd)
+end # DeleteMessageBatchRequestEntry
+export DeleteMessageBatchRequestEntry
+
+type DeleteMessageBatchResultEntry <: AbstractAWSType
+    id::Union{Void,String}
+    function DeleteMessageBatchResultEntry(;id=nothing)
+        new(id)
+    end
+    DeleteMessageBatchResultEntry(pd) = parse_from_xml(DeleteMessageBatchResultEntry, SQSTypeDict, pd)
+end # DeleteMessageBatchResultEntry
+export DeleteMessageBatchResultEntry
+
+type Message <: AbstractAWSType
+    attribute::Union{Void,Dict{String,String}}
+    body::Union{Void,String}
+    mD5OfBody::Union{Void,String}
+    mD5OfMessageAttributes::Union{Void,String}
+    messageAttribute::Union{Void,Dict{String,String}}
+    messageId::Union{Void,String}
+    receiptHandle::Union{Void,String}
+    function Message(;attribute=nothing, body=nothing, mD5OfBody=nothing, mD5OfMessageAttributes=nothing, messageAttribute=nothing, messageId=nothing, receiptHandle=nothing)
+        new(attribute, body, mD5OfBody, mD5OfMessageAttributes, messageAttribute, messageId, receiptHandle)
+    end
+    Message(pd) = parse_from_xml(Message, SQSTypeDict, pd)
+end # Message
+export Message
+
+type MessageAttributeValue <: AbstractAWSType
+    binaryListValue::Union{Void,Array{Array{UInt8,1},1}}
+    binaryValue::Union{Void,Array{UInt8,1}}
+    dataType::Union{Void,String}
+    stringListValue::Union{Void,Array{String,1}}
+    stringValue::Union{Void,String}
+    function MessageAttributeValue(;binaryListValue=nothing, binaryValue=nothing, dataType=nothing, stringListValue=nothing, stringValue=nothing)
+        new(binaryListValue, binaryValue, dataType, stringListValue, stringValue)
+    end
+    MessageAttributeValue(pd) = parse_from_xml(MessageAttributeValue, SQSTypeDict, pd)
+end # MessageAttributeValue
+export MessageAttributeValue
+
+type SendMessageBatchRequestEntry <: AbstractAWSType
+    delaySeconds::Union{Void,Int64}
+    id::Union{Void,String}
+    messageAttribute::Union{Void,Dict{String,MessageAttributeValue}}
+    messageBody::Union{Void,String}
+    messageDeduplicationId::Union{Void,String}
+    messageGroupId::Union{Void,String}
+    function SendMessageBatchRequestEntry(;delaySeconds=nothing, id=nothing, messageAttribute=nothing, messageBody=nothing, messageDeduplicationId=nothing, messageGroupId=nothing)
+        new(delaySeconds, id, messageAttribute, messageBody, messageDeduplicationId, messageGroupId)
+    end
+    SendMessageBatchRequestEntry(pd) = parse_from_xml(SendMessageBatchRequestEntry, SQSTypeDict, pd)
+end # SendMessageBatchRequestEntry
+export SendMessageBatchRequestEntry
+
+type SendMessageBatchResultEntry <: AbstractAWSType
+    id::Union{Void,String}
+    mD5OfMessageAttributes::Union{Void,String}
+    mD5OfMessageBody::Union{Void,String}
+    messageId::Union{Void,String}
+    sequenceNumber::Union{Void,String}
+    function SendMessageBatchResultEntry(;id=nothing, mD5OfMessageAttributes=nothing, mD5OfMessageBody=nothing, messageId=nothing, sequenceNumber=nothing)
+        new(id, mD5OfMessageAttributes, mD5OfMessageBody, messageId, sequenceNumber)
+    end
+    SendMessageBatchResultEntry(pd) = parse_from_xml(SendMessageBatchResultEntry, SQSTypeDict, pd)
+end # SendMessageBatchResultEntry
+export SendMessageBatchResultEntry

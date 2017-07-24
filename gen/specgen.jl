@@ -170,7 +170,7 @@ function write_spec(apiname, typesurl, apisurl)
                 println(outfile, isfirst ? "    :" : "    ,:", api_name, " => Dict(")
                 isfirstparam = true
                 for (param_name,param_spec) in api_spec
-                    println(outfile, isfirst ? "        :" : "        ,:", param_name, " => [")
+                    println(outfile, isfirstparam ? "        :" : "        ,:", param_name, " => [")
                     isfirstattr = true
                     for (attr_name,attr_type) in param_spec
                         println(outfile, isfirstattr ? "            :" : "            ,:", attr_name, " => ", attr_type)
@@ -184,7 +184,16 @@ function write_spec(apiname, typesurl, apisurl)
             end
         println(outfile, ")")
     end
+
+    typefile = lowercase(apiname)*"_gen_types.jl"
+    open(typefile, "w") do outfile
+        for (type_name,type_spec) in all_types
+            println(outfile, "type $type_name end")
+        end
+    end
 end
 
 # generate and write out specification for each API class
 write_spec("AutoScaling", "http://docs.aws.amazon.com/AutoScaling/latest/APIReference/API_Types.html", "http://docs.aws.amazon.com/AutoScaling/latest/APIReference/API_Operations.html")
+write_spec("SQS", "http://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_Types.html", "http://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_Operations.html")
+write_spec("EC2", "http://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_Types.html", "http://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_Operations.html")

@@ -233,7 +233,7 @@ include("crypto.jl")
 include("sign.jl")
 include("EC2.jl")
 include("S3.jl")
-include("SQS.jl")
+include("sqs.jl")
 include("autoscaling.jl")
 
 include("show.jl")
