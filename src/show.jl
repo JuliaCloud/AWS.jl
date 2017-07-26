@@ -1,7 +1,6 @@
 module Showing
 
 using AWS
-using AWS.EC2
 using AWS.S3
 
 import Base.show, Base.Meta.quot
@@ -48,7 +47,7 @@ macro show_func(n, t)
 end
 
 # Create default show method for all types
-for m in [AWS, AWS.EC2, AWS.S3]
+for m in [AWS, AWS.S3]
     for n in names(m)
         t = getfield((m), (n))
         if isa(t,Type)

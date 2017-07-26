@@ -1,6 +1,9 @@
 using Compat
 using LightXML
 
+# define placeholder types
+type AWSEnv end
+
 include("../src/codegen.jl")
 
 const DIR = dirname(@__FILE__)
@@ -8,7 +11,8 @@ const SRCDIR = joinpath(DIR, "..", "src")
 
 const SPEC_NAMES = [
     "AutoScaling",
-    "SQS"
+    "SQS",
+    "EC2"
 ]
 
 function do_gen(spec_name::String, includes::Vector{String}, out_types_file::String, out_operations_file::String)

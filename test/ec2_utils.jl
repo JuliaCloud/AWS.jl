@@ -38,21 +38,20 @@ end
 function check_resp(resp, resp_obj_type=Any)
     info("response: ", resp.obj)
     @test 200 <= resp.http_code <= 206
-    @test isa(resp, AWS.EC2.EC2Response)
-    @test !isa(resp.obj, AWS.EC2.EC2Error)
+    @test isa(resp, EC2Response)
     @test isa(resp.obj, resp_obj_type)
+    @test !isa(resp.obj, EC2Error)
 end
 
 function desc_avail_zones(env)
     resp = DescribeAvailabilityZones(env)
-    check_resp(resp)
+    check_resp(resp, DescribeAvailabilityZonesResult)
     resp.obj
 end
 
 function terminate_instances(env, instances)
-    req = TerminateInstancesType(instancesSet=instances)
-    resp = TerminateInstances(env, req)
-    check_resp(resp)
+    resp = TerminateInstances(env; instanceId=instances)
+    check_resp(resp, TerminateInstancesResult)
     instances
 end
 
@@ -66,9 +65,8 @@ get_running_instances_by_owner(env, owner::String) = get_instances_by_owner(env,
 
 function get_instances_by_owner(env, owner::String; running_only::Bool=false)
     instances = String[]
-    req = DescribeInstancesType(filterSet=[FilterType(name="tag:Owner", valueSet=[owner])])
-    resp = DescribeInstances(env, req)
-    check_resp(resp)
+    resp = DescribeInstances(env; filter=[AWS.EC2.Filter(; name="tag:Owner", value=[owner])])
+    check_resp(resp, DescribeInstancesResult)
     reservs = resp.obj.reservationSet
     for reserv in reservs
         instancesSet = reserv.instancesSet
@@ -83,9 +81,8 @@ end
 
 function check_running(env, chk_instances)
     new_chk_instances = String[]
-    req = DescribeInstanceStatusType(instancesSet=chk_instances, includeAllInstances=true)
-    resp = DescribeInstanceStatus(env, req)
-    check_resp(resp)
+    resp = DescribeInstanceStatus(env; instanceId=chk_instances, includeAllInstances=true)
+    check_resp(resp, DescribeInstanceStatusResult)
     statuses = resp.obj.instanceStatusSet
     for status in statuses
         println("Status of $(status.instanceId) is $(status.instanceState.code):$(status.instanceState.name)")
@@ -97,10 +94,9 @@ function check_running(env, chk_instances)
 end
 
 function get_hostnames(env, instances)
-    names = NTuple[]
-    req = DescribeInstancesType(instancesSet=instances)
-    resp = DescribeInstances(env, req)
-    check_resp(resp)
+    names = Vector{Tuple{String,String}}()
+    resp = DescribeInstances(env; instanceId=instances)
+    check_resp(resp, DescribeInstancesResult)
     reservs = resp.obj.reservationSet
     for reserv in reservs
         instancesSet = reserv.instancesSet
@@ -113,8 +109,8 @@ end
 
 function launch_n_ec2(env, n::Int, ami::String, insttype::String, keyname::String, ownertag::String, nametag::String)
     # use "c1.medium" or "m1.small"
-    resp = RunInstances(env, RunInstancesType(imageId=ami, instanceType=insttype, minCount=n, maxCount=n, keyName=keyname))
-    check_resp(resp)
+    resp = RunInstances(env; imageId=ami, instanceType=insttype, minCount=n, maxCount=n, keyName=keyname)
+    check_resp(resp, RunInstancesResult)
     instances = String[]
     for inst in resp.obj.instancesSet
         push!(instances, inst.instanceId)
@@ -122,17 +118,9 @@ function launch_n_ec2(env, n::Int, ami::String, insttype::String, keyname::Strin
     println("Launched instances : $instances")
 
     # Tag the instances..also test ec2_basic API..
-    resp = ec2_basic(env, "CreateTags", Dict("ResourceId"=>instances, "Tag"=>[Dict("Key"=>"Name","Value"=>nametag), Dict("Key"=>"Owner","Value"=>ownertag)]))
-    if (typeof(resp.obj) == EC2Error)
-        error(ec2_error_str(resp.obj))
-    else
-        resp.obj = CreateTagsResponseType(resp.pd)
-        if resp.obj._return == true
-            println("Successfully added tags!")
-        else
-            error("error adding tags!")
-        end
-    end
+    resp = CreateTags(env; resourceId=instances, tag=[Tag(;key="Name",value=nametag), Tag(;key="Owner",value=ownertag)])
+    check_resp(resp, CreateTagsResult)
+    @test resp.obj._return
     println("Tagged instances : $instances")
 
     # Wait for the instances to come to a running state....

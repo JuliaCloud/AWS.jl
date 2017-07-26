@@ -38,7 +38,13 @@ is_basic_type{T<:BASIC_TYPES}(v::T) = true
 is_basic_type(v) = false
 
 _ename(name::Symbol) = _ename(string(name))
-_ename(name::String) = lcfirst(name)
+function _ename(name::String)
+    name = lcfirst(name)
+    if name in ("type", "return", "end")
+        name = "_" * name
+    end
+    name
+end
 tbasename{T<:AbstractAWSType}(obj::T) = tbasename(T)
 tbasename{T}(::Type{T}) = rsplit(string(T), "."; limit=2)[end]
 
@@ -105,6 +111,8 @@ function _parse_from_xml{T<:AbstractAWSType}(::Type{T}, types::Dict{Symbol,Vecto
         (pd_type === nothing) && (pd_type = pd)
         for (elemname,elemtype) in typeprops
             ename = string(elemname)
+            # handle field names that match julia reserved types
+            startswith(ename, "_") && (ename = ename[2:end])
             if ((elemtype <: Dict) || ((elemtype <: Vector) && !(elemtype <: Vector{UInt8}))) && isempty(member_pfx)
                 elem = LightXML.get_elements_by_tagname(pd_type, ename)
             else
