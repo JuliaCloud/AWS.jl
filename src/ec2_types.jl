@@ -1,9517 +1,2818 @@
-type CreateImageResponseType
-    requestId::Union{String, Void}
-    imageId::Union{String, Void}
-
-    CreateImageResponseType(; requestId=nothing, imageId=nothing) =
-         new(requestId, imageId)
-end
-## function CreateImageResponseType(pd)
-function CreateImageResponseType(pd)
-    o = CreateImageResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.imageId = LightXML.content(LightXML.find_element(pd, "imageId"))
-    o
-end
-
-export CreateImageResponseType
-
-
-type RegisterImageResponseType
-    requestId::Union{String, Void}
-    imageId::Union{String, Void}
-
-    RegisterImageResponseType(; requestId=nothing, imageId=nothing) =
-         new(requestId, imageId)
-end
-## function RegisterImageResponseType(pd)
-function RegisterImageResponseType(pd)
-    o = RegisterImageResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.imageId = LightXML.content(LightXML.find_element(pd, "imageId"))
-    o
-end
-
-export RegisterImageResponseType
-
-
-type DeregisterImageType
-    imageId::Union{String, Void}
-
-    DeregisterImageType(; imageId=nothing) =
-         new(imageId)
-end
-## function DeregisterImageType(pd)
-function DeregisterImageType(pd)
-    o = DeregisterImageType()
-    o.imageId = LightXML.content(LightXML.find_element(pd, "imageId"))
-    o
-end
-
-export DeregisterImageType
-
-
-type DeregisterImageResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    DeregisterImageResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-## function DeregisterImageResponseType(pd)
-function DeregisterImageResponseType(pd)
-    o = DeregisterImageResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export DeregisterImageResponseType
-
-
-type CreateKeyPairType
-    keyName::Union{String, Void}
-
-    CreateKeyPairType(; keyName=nothing) =
-         new(keyName)
-end
-## function CreateKeyPairType(pd)
-function CreateKeyPairType(pd)
-    o = CreateKeyPairType()
-    o.keyName = LightXML.content(LightXML.find_element(pd, "keyName"))
-    o
-end
-
-export CreateKeyPairType
-
-
-type CreateKeyPairResponseType
-    requestId::Union{String, Void}
-    keyName::Union{String, Void}
-    keyFingerprint::Union{String, Void}
-    keyMaterial::Union{String, Void}
-
-    CreateKeyPairResponseType(; requestId=nothing, keyName=nothing, keyFingerprint=nothing, keyMaterial=nothing) =
-         new(requestId, keyName, keyFingerprint, keyMaterial)
-end
-## function CreateKeyPairResponseType(pd)
-function CreateKeyPairResponseType(pd)
-    o = CreateKeyPairResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.keyName = LightXML.content(LightXML.find_element(pd, "keyName"))
-    o.keyFingerprint = LightXML.content(LightXML.find_element(pd, "keyFingerprint"))
-    o.keyMaterial = LightXML.content(LightXML.find_element(pd, "keyMaterial"))
-    o
-end
-
-export CreateKeyPairResponseType
-
-
-type ImportKeyPairType
-    keyName::Union{String, Void}
-    publicKeyMaterial::Union{String, Void}
-
-    ImportKeyPairType(; keyName=nothing, publicKeyMaterial=nothing) =
-         new(keyName, publicKeyMaterial)
-end
-## function ImportKeyPairType(pd)
-function ImportKeyPairType(pd)
-    o = ImportKeyPairType()
-    o.keyName = LightXML.content(LightXML.find_element(pd, "keyName"))
-    o.publicKeyMaterial = LightXML.content(LightXML.find_element(pd, "publicKeyMaterial"))
-    o
-end
-
-export ImportKeyPairType
-
-
-type ImportKeyPairResponseType
-    requestId::Union{String, Void}
-    keyName::Union{String, Void}
-    keyFingerprint::Union{String, Void}
-
-    ImportKeyPairResponseType(; requestId=nothing, keyName=nothing, keyFingerprint=nothing) =
-         new(requestId, keyName, keyFingerprint)
-end
-function ImportKeyPairResponseType(pd)
-    o = ImportKeyPairResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.keyName = LightXML.content(LightXML.find_element(pd, "keyName"))
-    o.keyFingerprint = LightXML.content(LightXML.find_element(pd, "keyFingerprint"))
-    o
-end
-
-export ImportKeyPairResponseType
-
-
-type DeleteKeyPairType
-    keyName::Union{String, Void}
-
-    DeleteKeyPairType(; keyName=nothing) =
-         new(keyName)
-end
-function DeleteKeyPairType(pd)
-    o = DeleteKeyPairType()
-    o.keyName = LightXML.content(LightXML.find_element(pd, "keyName"))
-    o
-end
-
-export DeleteKeyPairType
-
-
-type DeleteKeyPairResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    DeleteKeyPairResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function DeleteKeyPairResponseType(pd)
-    o = DeleteKeyPairResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export DeleteKeyPairResponseType
-
-
-type DescribeKeyPairsItemType
-    keyName::Union{String, Void}
-
-    DescribeKeyPairsItemType(; keyName=nothing) =
-         new(keyName)
-end
-function DescribeKeyPairsItemType(pd)
-    o = DescribeKeyPairsItemType()
-    o.keyName = LightXML.content(LightXML.find_element(pd, "keyName"))
-    o
-end
-
-export DescribeKeyPairsItemType
-
-
-type DescribeKeyPairsResponseItemType
-    keyName::Union{String, Void}
-    keyFingerprint::Union{String, Void}
-
-    DescribeKeyPairsResponseItemType(; keyName=nothing, keyFingerprint=nothing) =
-         new(keyName, keyFingerprint)
-end
-function DescribeKeyPairsResponseItemType(pd)
-    o = DescribeKeyPairsResponseItemType()
-    o.keyName = LightXML.content(LightXML.find_element(pd, "keyName"))
-    o.keyFingerprint = LightXML.content(LightXML.find_element(pd, "keyFingerprint"))
-    o
-end
-
-export DescribeKeyPairsResponseItemType
-
-
-type IamInstanceProfileRequestType
-    arn::Union{String, Void}
-    name::Union{String, Void}
-
-    IamInstanceProfileRequestType(; arn=nothing, name=nothing) =
-         new(arn, name)
-end
-function IamInstanceProfileRequestType(pd)
-    o = IamInstanceProfileRequestType()
-    o.arn = LightXML.content(LightXML.find_element(pd, "arn"))
-    o.name = LightXML.content(LightXML.find_element(pd, "name"))
-    o
-end
-
-export IamInstanceProfileRequestType
-
-
-type PrivateIpAddressesSetItemRequestType
-    privateIpAddress::Union{String, Void}
-    primary::Union{Bool, Void}
-
-    PrivateIpAddressesSetItemRequestType(; privateIpAddress=nothing, primary=nothing) =
-         new(privateIpAddress, primary)
-end
-function PrivateIpAddressesSetItemRequestType(pd)
-    o = PrivateIpAddressesSetItemRequestType()
-    o.privateIpAddress = LightXML.content(LightXML.find_element(pd, "privateIpAddress"))
-    o.primary = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "primary")))
-    o
-end
-
-export PrivateIpAddressesSetItemRequestType
-
-
-type ImportInstanceGroupItemType
-    groupId::Union{String, Void}
-    groupName::Union{String, Void}
-
-    ImportInstanceGroupItemType(; groupId=nothing, groupName=nothing) =
-         new(groupId, groupName)
-end
-function ImportInstanceGroupItemType(pd)
-    o = ImportInstanceGroupItemType()
-    o.groupId = LightXML.content(LightXML.find_element(pd, "groupId"))
-    o.groupName = LightXML.content(LightXML.find_element(pd, "groupName"))
-    o
-end
-
-export ImportInstanceGroupItemType
-
-
-type GroupItemType
-    groupId::Union{String, Void}
-    groupName::Union{String, Void}
-
-    GroupItemType(; groupId=nothing, groupName=nothing) =
-         new(groupId, groupName)
-end
-function GroupItemType(pd)
-    o = GroupItemType()
-    o.groupId = LightXML.content(LightXML.find_element(pd, "groupId"))
-    o.groupName = LightXML.content(LightXML.find_element(pd, "groupName"))
-    o
-end
-
-export GroupItemType
-
-
-type UserDataType
-    data::Union{String, Void}
-
-    UserDataType(; data=nothing) =
-         new(data)
-end
-function UserDataType(pd)
-    o = UserDataType()
-    o.data = LightXML.content(LightXML.find_element(pd, "data"))
-    o
-end
-
-export UserDataType
-
-
-
-
-type EbsBlockDeviceType
-    snapshotId::Union{String, Void}
-    volumeSize::Union{Int64, Void}
-    deleteOnTermination::Union{Bool, Void}
-    volumeType::Union{String, Void}
-    iops::Union{Int64, Void}
-
-    EbsBlockDeviceType(; snapshotId=nothing, volumeSize=nothing, deleteOnTermination=nothing, volumeType=nothing, iops=nothing) =
-         new(snapshotId, volumeSize, deleteOnTermination, volumeType, iops)
-end
-function EbsBlockDeviceType(pd)
-    o = EbsBlockDeviceType()
-    o.snapshotId = LightXML.content(LightXML.find_element(pd, "snapshotId"))
-    o.volumeSize = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "volumeSize")))
-    o.deleteOnTermination = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "deleteOnTermination")))
-    o.volumeType = LightXML.content(LightXML.find_element(pd, "volumeType"))
-    o.iops = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "iops")))
-    o
-end
-
-export EbsBlockDeviceType
-
-type BlockDeviceMappingItemType
-    deviceName::Union{String, Void}
-    virtualName::Union{String, Void}
-    noDevice::Union{String, Void}
-    ebs::Union{EbsBlockDeviceType, Void}
-
-    BlockDeviceMappingItemType(; deviceName=nothing, virtualName=nothing, noDevice=nothing, ebs=nothing) =
-         new(deviceName, virtualName, noDevice, ebs)
-end
-function BlockDeviceMappingItemType(pd)
-    o = BlockDeviceMappingItemType()
-    o.deviceName = LightXML.content(LightXML.find_element(pd, "deviceName"))
-    o.virtualName = LightXML.content(LightXML.find_element(pd, "virtualName"))
-    o.noDevice = LightXML.content(LightXML.find_element(pd, "noDevice"))
-    ## o.ebs = length(pd["ebsBlockDevice"]) > 0 ?  EbsBlockDeviceType(LightXML.content(LightXML.find_element(pd,"ebsBlockDevice[1]")) : nothing
-    o.ebs = LightXML.find_element(pd,"ebsBlockDevice") != nothing ? EbsBlockDeviceType(LightXML.find_element(pd,"ebsBlockDevice")) : nothing
-    o
-end
-
-export BlockDeviceMappingItemType
-
-type PlacementRequestType
-    availabilityZone::Union{String, Void}
-    groupName::Union{String, Void}
-    tenancy::Union{String, Void}
-
-    PlacementRequestType(; availabilityZone=nothing, groupName=nothing, tenancy=nothing) =
-         new(availabilityZone, groupName, tenancy)
-end
-function PlacementRequestType(pd)
-    o = PlacementRequestType()
-    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
-    o.groupName = LightXML.content(LightXML.find_element(pd, "groupName"))
-    o.tenancy = LightXML.content(LightXML.find_element(pd, "tenancy"))
-    o
-end
-
-export PlacementRequestType
-
-
-type SpotPlacementRequestType
-    availabilityZone::Union{String, Void}
-    groupName::Union{String, Void}
-
-    SpotPlacementRequestType(; availabilityZone=nothing, groupName=nothing) =
-         new(availabilityZone, groupName)
-end
-function SpotPlacementRequestType(pd)
-    o = SpotPlacementRequestType()
-    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
-    o.groupName = LightXML.content(LightXML.find_element(pd, "groupName"))
-    o
-end
-
-export SpotPlacementRequestType
-
-
-type InstancePlacementType
-    availabilityZone::Union{String, Void}
-    groupName::Union{String, Void}
-
-    InstancePlacementType(; availabilityZone=nothing, groupName=nothing) =
-         new(availabilityZone, groupName)
-end
-function InstancePlacementType(pd)
-    o = InstancePlacementType()
-    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
-    o.groupName = LightXML.content(LightXML.find_element(pd, "groupName"))
-    o
-end
-
-export InstancePlacementType
-
-
-type MonitoringInstanceType
-    enabled::Union{Bool, Void}
-
-    MonitoringInstanceType(; enabled=nothing) =
-         new(enabled)
-end
-function MonitoringInstanceType(pd)
-    o = MonitoringInstanceType()
-    o.enabled = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "enabled")))
-    o
-end
-
-export MonitoringInstanceType
-
-
-type InstanceLicenseRequestType
-    pool::Union{String, Void}
-
-    InstanceLicenseRequestType(; pool=nothing) =
-         new(pool)
-end
-function InstanceLicenseRequestType(pd)
-    o = InstanceLicenseRequestType()
-    o.pool = LightXML.content(LightXML.find_element(pd, "pool"))
-    o
-end
-
-export InstanceLicenseRequestType
-
-
-type IamInstanceProfileResponseType
-    arn::Union{String, Void}
-    id::Union{String, Void}
-
-    IamInstanceProfileResponseType(; arn=nothing, id=nothing) =
-         new(arn, id)
-end
-function IamInstanceProfileResponseType(pd)
-    o = IamInstanceProfileResponseType()
-    o.arn = LightXML.content(LightXML.find_element(pd, "arn"))
-    o.id = LightXML.content(LightXML.find_element(pd, "id"))
-    o
-end
-
-export IamInstanceProfileResponseType
-
-
-type InstanceNetworkInterfaceAttachmentType
-    attachmentId::Union{String, Void}
-    deviceIndex::Union{Int64, Void}
-    status::Union{String, Void}
-    attachTime::Union{Base.Dates.DateTime, Void}
-    deleteOnTermination::Union{Bool, Void}
-
-    InstanceNetworkInterfaceAttachmentType(; attachmentId=nothing, deviceIndex=nothing, status=nothing, attachTime=nothing, deleteOnTermination=nothing) =
-         new(attachmentId, deviceIndex, status, attachTime, deleteOnTermination)
-end
-function InstanceNetworkInterfaceAttachmentType(pd)
-    o = InstanceNetworkInterfaceAttachmentType()
-    o.attachmentId = LightXML.content(LightXML.find_element(pd, "attachmentId"))
-    o.deviceIndex = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "deviceIndex")))
-    o.status = LightXML.content(LightXML.find_element(pd, "status"))
-    o.attachTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "attachTime")))
-    o.deleteOnTermination = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "deleteOnTermination")))
-    o
-end
-
-export InstanceNetworkInterfaceAttachmentType
-
-
-type InstanceNetworkInterfaceAssociationType
-    publicIp::Union{String, Void}
-    publicDnsName::Union{String, Void}
-    ipOwnerId::Union{String, Void}
-
-    InstanceNetworkInterfaceAssociationType(; publicIp=nothing, publicDnsName=nothing, ipOwnerId=nothing) =
-         new(publicIp, publicDnsName, ipOwnerId)
-end
-function InstanceNetworkInterfaceAssociationType(pd)
-    o = InstanceNetworkInterfaceAssociationType()
-    o.publicIp = LightXML.content(LightXML.find_element(pd, "publicIp"))
-    o.publicDnsName = LightXML.content(LightXML.find_element(pd, "publicDnsName"))
-    o.ipOwnerId = LightXML.content(LightXML.find_element(pd, "ipOwnerId"))
-    o
-end
-
-export InstanceNetworkInterfaceAssociationType
-
-
-type PlacementResponseType
-    availabilityZone::Union{String, Void}
-    groupName::Union{String, Void}
-    tenancy::Union{String, Void}
-
-    PlacementResponseType(; availabilityZone=nothing, groupName=nothing, tenancy=nothing) =
-         new(availabilityZone, groupName, tenancy)
-end
-function PlacementResponseType(pd)
-    o = PlacementResponseType()
-    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
-    o.groupName = LightXML.content(LightXML.find_element(pd, "groupName"))
-    o.tenancy = LightXML.content(LightXML.find_element(pd, "tenancy"))
-    o
-end
-
-export PlacementResponseType
-
-
-type StateReasonType
-    code::Union{String, Void}
-    message::Union{String, Void}
-
-    StateReasonType(; code=nothing, message=nothing) =
-         new(code, message)
-end
-function StateReasonType(pd)
-    o = StateReasonType()
-    o.code = LightXML.content(LightXML.find_element(pd, "code"))
-    o.message = LightXML.content(LightXML.find_element(pd, "message"))
-    o
-end
-
-export StateReasonType
-
-
-type InstanceBlockDeviceMappingResponseItemType
-    deviceName::Union{String, Void}
-
-    InstanceBlockDeviceMappingResponseItemType(; deviceName=nothing) =
-         new(deviceName)
-end
-function InstanceBlockDeviceMappingResponseItemType(pd)
-    o = InstanceBlockDeviceMappingResponseItemType()
-    o.deviceName = LightXML.content(LightXML.find_element(pd, "deviceName"))
-    o
-end
-
-export InstanceBlockDeviceMappingResponseItemType
-
-
-type EbsInstanceBlockDeviceMappingResponseType
-    volumeId::Union{String, Void}
-    status::Union{String, Void}
-    attachTime::Union{Base.Dates.DateTime, Void}
-    deleteOnTermination::Union{Bool, Void}
-
-    EbsInstanceBlockDeviceMappingResponseType(; volumeId=nothing, status=nothing, attachTime=nothing, deleteOnTermination=nothing) =
-         new(volumeId, status, attachTime, deleteOnTermination)
-end
-function EbsInstanceBlockDeviceMappingResponseType(pd)
-    o = EbsInstanceBlockDeviceMappingResponseType()
-    o.volumeId = LightXML.content(LightXML.find_element(pd, "volumeId"))
-    o.status = LightXML.content(LightXML.find_element(pd, "status"))
-    o.attachTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "attachTime")))
-    o.deleteOnTermination = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "deleteOnTermination")))
-    o
-end
-
-export EbsInstanceBlockDeviceMappingResponseType
-
-
-type InstanceLicenseResponseType
-    pool::Union{String, Void}
-
-    InstanceLicenseResponseType(; pool=nothing) =
-         new(pool)
-end
-function InstanceLicenseResponseType(pd)
-    o = InstanceLicenseResponseType()
-    o.pool = LightXML.content(LightXML.find_element(pd, "pool"))
-    o
-end
-
-export InstanceLicenseResponseType
-
-
-type AccountAttributeNameSetItemType
-    attributeName::Union{String, Void}
-
-    AccountAttributeNameSetItemType(; attributeName=nothing) =
-         new(attributeName)
-end
-function AccountAttributeNameSetItemType(pd)
-    o = AccountAttributeNameSetItemType()
-    o.attributeName = LightXML.content(LightXML.find_element(pd, "attributeName"))
-    o
-end
-
-export AccountAttributeNameSetItemType
-
-
-type AccountAttributeSetItemType
-    attributeName::Union{String, Void}
-    attributeValueSet::Union{Vector{String}, Void}
-
-    AccountAttributeSetItemType(; attributeName=nothing, attributeValueSet=nothing) =
-         new(attributeName, attributeValueSet)
-end
-function AccountAttributeSetItemType(pd)
-    o = AccountAttributeSetItemType()
-    o.attributeName = LightXML.content(LightXML.find_element(pd, "attributeName"))
-    o.attributeValueSet = AWS.parse_vector_as(String, "attributeValue", elements_by_tagname(LightXML.find_element(pd, "item"), "attributeValue"))
-    o
-end
-
-export AccountAttributeSetItemType
-
-
-type AccountAttributeValueSetItemType
-    attributeValue::Union{String, Void}
-
-    AccountAttributeValueSetItemType(; attributeValue=nothing) =
-         new(attributeValue)
-end
-function AccountAttributeValueSetItemType(pd)
-    o = AccountAttributeValueSetItemType()
-    o.attributeValue = LightXML.content(LightXML.find_element(pd, "attributeValue"))
-    o
-end
-
-export AccountAttributeValueSetItemType
-
-
-type DescribeVpcAttributeType
-    vpcId::Union{String, Void}
-
-    DescribeVpcAttributeType(; vpcId=nothing) =
-         new(vpcId)
-end
-function DescribeVpcAttributeType(pd)
-    o = DescribeVpcAttributeType()
-    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
-    o
-end
-
-export DescribeVpcAttributeType
-
-
-type DescribeVpcAttributeResponseType
-    requestId::Union{String, Void}
-    vpcId::Union{String, Void}
-
-    DescribeVpcAttributeResponseType(; requestId=nothing, vpcId=nothing) =
-         new(requestId, vpcId)
-end
-function DescribeVpcAttributeResponseType(pd)
-    o = DescribeVpcAttributeResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
-    o
-end
-
-export DescribeVpcAttributeResponseType
-
-
-type ModifyVpcAttributeType
-    vpcId::Union{String, Void}
-
-    ModifyVpcAttributeType(; vpcId=nothing) =
-         new(vpcId)
-end
-function ModifyVpcAttributeType(pd)
-    o = ModifyVpcAttributeType()
-    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
-    o
-end
-
-export ModifyVpcAttributeType
-
-
-type ModifyVpcAttributeResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    ModifyVpcAttributeResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function ModifyVpcAttributeResponseType(pd)
-    o = ModifyVpcAttributeResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export ModifyVpcAttributeResponseType
-
-
-type VpcPeeringConnectionVpcInfoType
-  ownerId::Union{String, Void}
-  vpcId::Union{String, Void}
-  cidrBlock::Union{String, Void}
-
-  VpcPeeringConnectionVpcInfoType(; ownerId=nothing, vpcId=nothing, cidrBlock=nothing) = new(ownerId, vpcId, cidrBlock)
-end
-function VpcPeeringConnectionVpcInfoType(pd)
-  o = VpcPeeringConnectionVpcInfoType()
-  o.ownerId = LightXML.content(LightXML.find_element(pd, "ownerId"))
-  o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
-  o.cidrBlock = LightXML.content(LightXML.find_element(pd, "cidrBlock"))
-  o
-end
-
-export VpcPeeringConnectionVpcInfoType
-
-
-type VpcPeeringConnectionStateReasonType
-  code::Union{String, Void}
-  message::Union{String, Void}
-
-  VpcPeeringConnectionStateReasonType(; code=nothing, message=nothing) = new(code, message)
-end
-function VpcPeeringConnectionStateReasonType(pd)
-  o = VpcPeeringConnectionStateReasonType()
-  o.code = LightXML.content(LightXML.find_element(pd, "code"))
-  o.message = LightXML.content(LightXML.find_element(pd, "message"))
-  o
-end
-
-export VpcPeeringConnectionStateReasonType
-
-
-type ResourceTagSetItemType
-    key::Union{String, Void}
-    value::Union{String, Void}
-
-    ResourceTagSetItemType(; key=nothing, value=nothing) =
-         new(key, value)
-end
-function ResourceTagSetItemType(pd)
-    o = ResourceTagSetItemType()
-    o.key = LightXML.content(LightXML.find_element(pd, "key"))
-    o.value = LightXML.content(LightXML.find_element(pd, "value"))
-    o
-end
-
-export ResourceTagSetItemType
-
-
-type VpcPeeringConnectionType
-  vpcPeeringConnectionId::Union{String, Void}
-  requesterVpcInfo::Union{Vector{VpcPeeringConnectionVpcInfoType}, Void}
-  accepterVpcInfo::Union{Vector{VpcPeeringConnectionVpcInfoType}, Void}
-  status::Union{Vector{VpcPeeringConnectionStateReasonType}, Void}
-  expirationTime::Union{Base.Dates.DateTime, Void}
-  tagSet::Union{Vector{ResourceTagSetItemType}, Void}
-
-  VpcPeeringConnectionType(; vpcPeeringConnectionId=nothing, requesterVpcInfo=nothing, accepterVpcInfo=nothing, status=nothing,
-                           expirationTime=nothing, tagSet=nothing) = new(vpcPeeringConnectionId, requesterVpcInfo,
-                                                                         accepterVpcInfo, status, expirationTime, tagSet)
-end
-function VpcPeeringConnectionType(pd)
-  o = VpcPeeringConnectionType()
-  o.vpcPeeringConnectionId = LightXML.content(LightXML.find_element(pd, "vpcPeeringConnectionId"))
-  o.requesterVpcInfo = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionVpcInfoType, elements_by_tagname(pd, "requesterVpcInfo"))
-  o.accepterVpcInfo = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionVpcInfoType, elements_by_tagname(pd, "accepterVpcInfo"))
-  o.status = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionStateReasonType, elements_by_tagname(pd, "status"))
-  o.expirationTime = AWS.safe_parse_as(DateTime, LightXML.content(LightXML.find_element(pd, "expirationTime")))
-  o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(LightXML.find_element(pd, "tagSet"), "item")))
-  o
-end
-
-export VpcPeeringConnectionType
-
-
-type AcceptVpcPeeringConnectionType
-  vpcPeeringConnectionId::Union{String, Void}
-
-  AcceptVpcPeeringConnectionType(; vpcPeeringConnectionId=nothing) = new(vpcPeeringConnectionId)
-end
-function AcceptVpcPeeringConnectionType(pd)
-  o = AcceptVpcPeeringConnectionType()
-  o.vpcPeeringConnectionId = LightXML.content(LightXML.find_element(pd, "vpcPeeringConnectionId"))
-  o
-end
-
-export AcceptVpcPeeringConnectionType
-
-
-type AcceptVpcPeeringConnectionResponseType
-  requestID::Union{String, Void}
-  vpcPeeringConnection::Union{Vector{VpcPeeringConnectionType}, Void}
-
-  AcceptVpcPeeringConnectionResponseType(; requestId=nothing, vpcPeeringConnection=nothing) = new(requestId, vpcPeeringConnection)
-end
-function AcceptVpcPeeringConnectionResponseType(pd)
-  o = AcceptVPcPeeringConnectionResponseType()
-  o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-  o.vpcPeeringConnection = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionType, elements_by_tagname(LightXML.find_element(pd, "vpcPeeringConnection")))
-  o
-end
-
-export AcceptVpcPeeringConnectionResponseType
-
-
-type CreateVpcEndpointType
-  clientToken::Union{String, Void}
-  policyDocument::Union{String, Void}
-  routeTableIdSet::Union{Vector{String}, Void}
-  serviceName::Union{String, Void}
-  vpcId::Union{String, Void}
-
-  CreateVpcEndpointType(; clientToken=nothing, policyDocument=nothing, routeTableIdSet=nothing, serviceName=nothing,
-                        vpcId=nothing) = new(clientToken, policyDocument, routeTableId, serviceName, vpcId)
-end
-function CreateVpcEndpointType(pd)
-  o = CreateVpcEndpointType()
-  clientToken = LightXML.content(LightXML.find_element(pd, "clientToken"))
-  policyDocument = LightXML.content(LightXML.find_element(pd, "policyDocument"))
-  routeTableIdSet = AWS.parse_vector_as(String, "routeTableId", elements_by_tagname(LightXML.find_element(pd, "item"), "routeTableId"))
-  serviceName = LightXML.content(LightXML.find_element(pd, "serviceName"))
-  vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
-  o
-end
-
-export CreateVpcEndpointType
-
-
-type VpcEndpointType
-  creationTimestamp::Union{Base.Dates.DateTime, Void}
-  policyDocument::Union{String, Void}
-  routeTableIdSet::Union{Vector{String}, Void}
-  serviceName::Union{String, Void}
-  state::Union{String, Void}
-  vpcEndpointId::Union{String, Void}
-  vpcId::Union{String, Void}
-
-  VpcEndpointType(; creationTimestamp=nothing, policyDocument=nothing, routeTableIdSet=nothing, serviceName=nothing,
-              state=nothing, vpcEndpointId=nothing, vpcId=nothing) = new(creationTimestamp, policyDocument,
-                                                                         routeTableIdSet, serviceName, state, vpcEndpointId, vpcId)
-end
-function VpcEndpointType(pd)
-  o = VpcEndpointType()
-  o.creationTimestamp = AWS.safe_parse_as(DateTime, LightXML.content(LightXML.find_element(pd, "creationTimestamp")))
-  o.policyDocument = LightXML.content(LightXML.find_element(pd, "policyDocument"))
-  o.routeTableIdSet = AWS.parse_vector_as(String, "routeTableId", elements_by_tagname(LightXML.find_element(pd, "item"), "routeTableId"))
-  o.serviceName = LightXML.content(LightXML.find_element(pd, "serviceName"))
-  o.state = LightXML.content(LightXML.find_element(pd, "state"))
-  o.vpcEndpointId = LightXML.content(LightXML.find_element(pd, "vpcEndpointId"))
-  o.vpcId = LightXML.content(LightXML.find_element(pd, "vpdId"))
-  o
-end
-
-export VpcEndpointType
-
-
-type CreateVpcEndpointResponseType
-  clientToken::Union{String, Void}
-  requestId::Union{String, Void}
-  vpcEndpoint::Union{Vector{VpcEndpointType}, Void}
-
-  CreateVpcEndpointResponseType(; clientToken=nothing, requestId=nothing, vpcEndpoint=nothing) =
-    new(clientToken, requestId, vpcEndpoint)
-end
-function CreateVpcEndpointResponseType(pd)
-  o = CreateVpcEndpointResponseType()
-  o.clientToken = LightXML.content(LightXML.find_element(pd, "clientToken"))
-  o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-  o.vpcEndpoint = AWS.@parse_vector(AWS.EC2.VpcEndpointType, elements_by_tagname(pd, "vpcEndpoint"))
-  o
-end
-
-export CreateVpcEndpointResponseType
-
-
-type CreateVpcPeeringConnectionType
-  vpcId::Union{String, Void}
-  peerVpcId::Union{String, Void}
-  peerOwnerId::Union{String, Void}
-
-  CreateVpcPeeringConnectionType(; vpcId=nothing, peerVpcId=nothing, peerOwnerId=nothing) =
-    new(vpcId, peerVpcId, peerOwnerId)
-end
-function CreateVpcPeeringConnectionType(pd)
-  o = CreateVpcPeeringConnectionType()
-  o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
-  o.peerVpcId = LightXML.content(LightXML.find_element(pd, "peerVpcId"))
-  o.peerOwnerId = LightXML.content(LightXML.find_element(pd, "peerOwnerId"))
-  o
-end
-
-export CreateVpcPeeringConnectionType
-
-
-type CreateVpcPeeringConnectionResponseType
-  requestId::Union{String, Void}
-  vpcPeeringConnection::Union{Vector{VpcPeeringConnectionType}, Void}
-
-  CreateVpcPeeringConnectionResponseType(; requestId=nothing, vpcPeeringConnection=nothing) =
-    new(requestId, vpcPeeringConnection)
-end
-function CreateVpcPeeringConnectionResponseType(pd)
-  o = CreateVpcPeeringConnectionResponseType()
-  o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-  o.vpcPeeringConnection = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionType, elements_by_tagname(pd, "vpcPeeringConnection"))
-  o
-end
-
-export CreateVpcPeeringConnectionResponseType
-
-
-type DeleteVpcEndpointsType
-  vpcEndpointIdSet::Union{Vector{String}, Void}
-
-  DeleteVpcEndpointsType(; vpcEndpointIdSet=nothing) = new(vpcEndpointIdSet)
-end
-function DeleteVpcEndpointsType(pd)
-  o = DeleteVpcEndpointsType()
-  o.vpcEndpointIdSet = AWS.parse_vector_as(String, "vpcEndpointId", elements_by_tagname(LightXML.find_element(pd, "item"), "vpcEndpointId"))
-end
-
-export DeleteVpcEndpointsType
-
-
-type UnsuccessfulItemErrorType
-  code::Union{String, Void}
-  message::Union{String, Void}
-
-  UnsuccessfulItemErrorType(; code=nothing, message=nothing) = new(code, message)
-end
-function UnsuccessfulItemErrorType(pd)
-  o = UnsuccessfulItemErrorType()
-  o.code = LightXML.content(LightXML.find_element(pd, "code"))
-  o.message = LightXML.content(LightXML.find_element(pd, "message"))
-  o
-end
-
-export UnsuccessfulItemErrorType
-
-
-type UnsuccessfulItemType
-  error::Union{Vector{UnsuccessfulItemErrorType}, Void}
-  resourceId::Union{String, Void}
-
-  UnsuccessfulItemType(; error=nothing, resourceId=nothing) = new(error, resourceId)
-end
-function UnsuccessfulItemType(pd)
-  o = UnsuccessfulItemType()
-  o.error = AWS.@parse_vector(AWS.EC2.UnsuccessfulItemErrorType, elements_by_tagname(pd, "error"))
-  o.resourceId = LightXML.content(LightXML.find_element(pd, "resourceId"))
-  o
-end
-
-export UnsuccessfulItemType
-
-
-type DeleteVpcEndpointsResponseType
-  requestId::Union{String, Void}
-  unsuccessful::Union{Vector{UnsuccessfulItemType}, Void}
-
-  DeleteVpcEndpointsResponseType(; requestId=nothing, unsucessful=nothing) = new(requestId, unsuccessful)
-end
-function DeleteVpcEndpointsResponseType(pd)
-  o = DeleteVpcEndpointsResponseType()
-  o.requestId = LightXML.content(LightXML.find_element("requestId"))
-  o.unsuccessful = AWS.@parse_vector(AWS.EC2.UnsuccessfulItemType, elements_by_tagname(pd, "unsuccessful"))
-end
-
-export DeleteVpcEndpointsResponseType
-
-
-type VpcEndpointIdSetItemType
-    vpcEndpointId::Union{String, Void}
-
-    VpcEndpointIdSetItemType(; vpcEndpointId=nothing) =
-         new(vpcEndpointId)
-end
-function VpcEndpointIdSetItemType(pd)
-    o = VpcEndpointIdSetItemType()
-    o.vpcEndpointId = LightXML.content(LightXML.find_element(pd, "vpcEndpointId"))
-    o
-end
-
-export VpcEndpointIdSetItemType
-
-
-type DeleteVpcPeeringConnectionType
-  vpcPeeringConnectionId::Union{String, Void}
-
-  DeleteVpcPeeringConnectionType(; vpcPeeringConnectionID=nothing) = new(vpcPeeringConnectionId)
-end
-function DeleteVpcPeeringConnectionType(pd)
-  o = DeleteVpcPeeringConnectionType()
-  o.vpcPeeringConnectionId = LightXML.content(LightXML.find_element(pd, "vpcPeeringConnectionId"))
-  o
-end
-
-export DeleteVpcPeeringConnectionType
-
-
-type DeleteVpcPeeringConnectionResponseType
-  requestId::Union{String, Void}
-  _return::Union{Bool, Void}
-
-  DeleteVpcPeeringConnectionResponseType(; requestId=nothing, _return=nothing) = new(requestId, _return)
-end
-function DeleteVpcPeeringConnectionResponseType(pd)
-  o = DeleteVpcPeeringConnectionResponseType()
-  o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-  o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-  o
-end
-
-export DeleteVpcPeeringConnectionResponseType
-
-
-type FilterType
-    name::Union{String, Void}
-    valueSet::Union{Vector{String}, Void}
-
-    FilterType(; name=nothing, valueSet=nothing) =
-         new(name, valueSet)
-end
-function FilterType(pd)
-    o = FilterType()
-    o.name = LightXML.content(LightXML.find_element(pd, "name"))
-    o.valueSet = AWS.parse_vector_as(String, "value", elements_by_tagname(LightXML.find_element(pd, "item"), "value"))
-    o
-end
-
-export FilterType
-
-
-type DescribePrefixListsType
-  filterSet::Union{Vector{FilterType}, Void}
-  maxResults::Union{Int64, Void}
-  nextToken::Union{String, Void}
-  prefixListIdSet::Union{Vector{String}, Void}
-
-  DescribePrefixListsType(; filterSet=nothing, maxResults=nothing, nextToken=nothing, prefixListIdSet=nothing) =
-    new(filterSet, maxResults, nextToken, prefixListIdSet)
-end
-function DescribePrefixListsType(pd)
-  o = DescribePrefixListsType()
-  o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
-  o.maxResults = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "maxResults")))
-  o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
-  o.prefixListIdSet = AWS.parse_vector_as(String, "prefixListId", elements_by_tagname(LightXML.find_element(pd, "item"), "prefixListId"))
-  o
-end
-
-export DescribePrefixListsType
-
-
-type PrefixListType
-  cidrs::Union{Vector{String}, Void}
-  prefixListId::Union{String, Void}
-  prefixListName::Union{String, Void}
-
-  PrefixListType(; cidrs=nothing, prefixListId=nothing, prefixListName=nothing) = new(cidrs, prefixListId, prefixListName)
-end
-function PrefixListType(pd)
-  o = PrefixListType()
-  o.cidrs = AWS.parse_vector_as(String, "cidr", elements_by_tagname(LightXML.find_element(pd, "item"), "cidr"))
-  o.prefixListId = LightXML.content(LightXML.find_element(pd, "prefixListId"))
-  o.prefixListName = LightXML.content(LightXML.find_element(pd, "prefixListName"))
-  o
-end
-
-export PrefixListType
-
-
-type DescribePrefixListsResponseType
-  nextToken::Union{String, Void}
-  prefixListSet::Union{Vector{PrefixListType}, Void}
-  requestId::Union{String, Void}
-
-  DescribePrefixListsResponseType(; nextToken=nothing, prefixListSet=nothing, requestId=nothing) =
-    new(nextToken, prefixListSet, requestId)
-end
-function DescribePrefixListsResponseType(pd)
-  o = DescribePrefixListsResponseType()
-  o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
-  o.prefixListSet = AWS.parse_vector_as(String, "prefixList", elements_by_tagname(LightXML.find_element(pd, "item"), "prefixList"))
-  o
-end
-
-export DescribePrefixListsType
-
-
-type DescribeVpcEndpointServicesType
-  maxResults::Union{Int64, Void}
-  nextToken::Union{String, Void}
-
-  DescribeVpcEndpointServicesType(; maxResults=nothing, nextToken=nothing) = new(maxResults, nextToken)
-end
-function DescribeVpcEndpointServicesType(pd)
-  o = DescribeVpcEndpointServicesType()
-  o.maxResults = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "maxResults")))
-  o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
-  o
-end
-
-export DescribeVpcEndpointServicesType
-
-
-type DescribeVpcEndpointServicesResponseType
-  nextToken::Union{String, Void}
-  requestId::Union{String, Void}
-  serviceNameSet::Union{Vector{String}, Void}
-
-  DescribeVpcEndpointServicesResponseType(; nextToken=nothing, requestId=nothing, serviceNameSet=nothing) =
-    new(nextToken, requestId, serviceNameSet)
-end
-function DescribeVpcEndpointServicesResponseType(pd)
-  o = DescribeVpcEndpointServicesResponseType()
-  o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
-  o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-  o.serviceNameSet = AWS.parse_vector_as(String, "serviceName", elements_by_tagname(LightXML.find_element(pd, "item"), "serviceName"))
-end
-
-export DescribeVpcEndpointServicesResponseType
-
-
-type DescribeVpcEndpointsType
-  filterSet::Union{Vector{FilterType}, Void}
-  maxResults::Union{Int64, Void}
-  nextToken::Union{String, Void}
-  vpcEndpointIdSet::Union{Vector{String}, Void}
-
-  DescribeVpcEndpointsType(; filterSet=nothing, maxResults=nothing, nextToken=nothing, vpcEndpointIdSet=nothing) =
-    new(filterSet, maxResults, nextToken, vpcEndpointIdSet)
-end
-function DescribeVpcEndpointsType(pd)
-  o = DescribeVpcEndpointsType()
-  o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
-  o.maxResults = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "maxResults")))
-  o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
-  o.vpcEndpointIdSet = AWS.@parse_vector(AWS.EC2.VpcEndpointType, elements_by_tagname(LightXML.find_element(pd, "vcpEndpointId"), "item"))
-  o
-end
-
-export DescribeVpcEndpointsType
-
-
-type DescribeVpcEndpointsResponseType
-  nextToken::Union{String, Void}
-  requestId::Union{String, Void}
-  vpcEndpointIdSet::Union{Vector{String}, Void}
-
-  DescribeVpcEndpointsResponseType(; nextToken=nothing, requestId=nothing, vpcEndpointIdSet=nothing) =
-    new(nextToken, requestId, vpcEndpointIdSet)
-end
-function DescribeVpcEndpointsResponseType(pd)
-  o = DescribeVpcEndpointsResponseType()
-  o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
-  o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-  o.vpcEndpointIdSet = AWS.@parse_vector(AWS.EC2.VpcEndpointType, elements_by_tagname(LightXML.find_element(pd, "vcpEndpointId"), "item"))
-  o
-end
-
-export DescribeVpcEndpointsResponseType
-
-
-type DescribeVpcPeeringConnectionsType
-  filterSet::Union{Vector{FilterType}, Void}
-  vpcPeeringConnectionIdSet::Union{Vector{String}, Void}
-
-  DescribeVpcPeeringConnectionsType(; filterSet=nothing, vpcPeeringConnectionIdSet=nothing) =
-    new(filterSet, vpcPeeringConnectionIdSet)
-end
-function DescribeVpcPeeringConnectionsType(pd)
-  o = DescribeVpcPeeringConnectionsType()
-  o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
-  o.vpcPeeringConnectionIdSet = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionType, elements_by_tagname(LightXML.find_element(pd, "vcpPeeringConnectionId"), "item"))
-  o
-end
-
-export DescribeVpcPeeringConnectionsType
-
-
-type DescribeVpcPeeringConnectionsResponseType
-  requestId::Union{String, Void}
-  vpcPeeringConnectionSet::Union{Vector{VpcPeeringConnectionType}, Void}
-
-  DescribeVpcPeeringConnectionsResponseType(; responseId=nothing, vpcPeeringConnectionSet=nothing) =
-    new(responseId, vpcPeeringConnectionSet)
-end
-function DescribeVpcPeeringConnectionsResponseType(pd)
-  o = DescribeVpcPeeringConnectionsResponseType()
-  o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-  o.vpcPeeringConnectionSet = AWS.@parse_vector(AWS.EC2.VpcPeeringConnectionType, elements_by_tagname(LightXML.find_element(pd, "vcpPeeringConnection"), "item"))
-  o
-end
-
-export DescribeVpcPeeringConnectionsResponseType
-
-
-type ModifySubnetAttributeType
-  mapPublicIpOnLaunch::Union{Bool, Void}
-  subnetId::Union{String, Void}
-
-  ModifySubnetAttributeType(; mapPublicIpOnLaunch=nothing, subnetId=nothing) =
-    new(mapPublicIpOnLaunch, subnetId)
-end
-function ModifySubnetAttributeType(pd)
-  o = ModifySubnetAttributeType()
-  o.mapPublicIpOnLaunch = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "mapPublicIpOnLaunch")))
-  o.subnetId = LightXML.content(LightXML.find_element(pd, "subnetId"))
-  o
-end
-
-export ModifySubnetAttributeType
-
-
-type ModifySubnetAttributeResponseType
-  requestId::Union{String, Void}
-  _return::Union{Bool, Void}
-
-  ModifySubnetAttributeResponseType(; requestId=nothing, _return=nothing) = new(requestId, _return)
-end
-function ModifySubnetAttributeResponseType(pd)
-  o = ModifySubnetAttributeResponseType()
-  o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-  o._return = AWS.safe_parse_as(bool, LightXML.content(LightXML.find_element(pd, "return")))
-  o
-end
-
-export ModifySubnetAttributeResponseType
-
-
-type ModifyVpcEndpointType
-  addRouteTableIdSet::Union{Vector{String}, Void}
-  policyDocument::Union{String, Void}
-  removeRouteTableIdSet::Union{Vector{String}, Void}
-  resetPolicy::Union{Bool, Void}
-  vpcEndpointId::Union{String, Void}
-
-  ModifyVpcEndpointType(; addRouteTableIdSet=nothing, policyDocument=nothing, removeRouteTableIdSet=nothing,
-                        resetPolicy=nothing, vpcEndpointId=nothing) = new(addRouteTableIdSet, policyDocument,
-                                                                          removeRouteTableIdSet, resetPolicy, vpcEndpointId)
-end
-function ModifyVpcEndpointType(pd)
-  o = ModifyVpcEndpointType()
-  o.addRouteTableIdSet = AWS.parse_vector_as(String, "routeTableId", elements_by_tagname(LightXML.find_element(pd, "item"), "routeTableId"))
-  o.policyDocument = LightXML.content(LightXML.find_element(pd, "policyDocument"))
-  o.removeRouteTableIdSet = AWS.parse_vector_as(String, "routeTableId", elements_by_tagname(LightXML.find_element(pd, "item"), "routeTableId"))
-  o.resetPolicy = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "resetPolicy")))
-  o.vpcEndpointId = LightXML.content(LightXML.find_element(pd, "vpcEndpointId"))
-  o
-end
-
-export ModifyVpcEndpointType
-
-
-type ModifyVpcEndpointResponseType
-  requestId::Union{String, Void}
-  _return::Union{Bool, Void}
-
-  ModifyVpcEndpointResponseType(; requestId=nothing, _return=nothing) = new(requestId, _return)
-end
-function ModifyVpcEndpointResponseType(pd)
-  o = ModifyVpcEndpointResponseType()
-  o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-  o._return = AWS.safe_parse_as(bool, LightXML.content(LightXML.find_element(pd, "return")))
-  o
-end
-
-export ModifyVpcEndpointResponseType
-
-
-type RejectVpcPeeringConnectionType
-  vpcPeeringConnectionId::Union{String, Void}
-
-  RejectVpcPeeringConnectionType(; vpcPeeringConnectionId=nothing) = new(vpcPeeringConnectionId)
-end
-function RejectVpcPeeringConnectionType(pd)
-  o = RejectVpcPeeringConnectionType()
-  o.vpcPeeringConnectionId = LightXML.content(LightXML.find_element(pd, "vpcPeeringConnectionId"))
-  o
-end
-
-export RejectVpcPeeringConnectionType
-
-
-type RejectVpcPeeringConnectionResponseType
-  requestId::Union{String, Void}
-  _return::Union{Bool, Void}
-
-  RejectVpcPeeringConnectionResponseType(; requestId=nothing, _return=nothing) = new(requestId, _return)
-end
-function RejectVpcPeeringConnectionResponseType(pd)
-  o = RejectVpcPeeringConnectionResponseType()
-  o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-  o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-  o
-end
-
-export RejectVpcPeeringConnectionResponseType
-
-
-type GetConsoleOutputType
-    instanceId::Union{String, Void}
-
-    GetConsoleOutputType(; instanceId=nothing) =
-         new(instanceId)
-end
-function GetConsoleOutputType(pd)
-    o = GetConsoleOutputType()
-    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
-    o
-end
-
-export GetConsoleOutputType
-
-
-type GetConsoleOutputResponseType
-    requestId::Union{String, Void}
-    instanceId::Union{String, Void}
-    timestamp::Union{Base.Dates.DateTime, Void}
-    output::Union{String, Void}
-
-    GetConsoleOutputResponseType(; requestId=nothing, instanceId=nothing, timestamp=nothing, output=nothing) =
-         new(requestId, instanceId, timestamp, output)
-end
-function GetConsoleOutputResponseType(pd)
-    o = GetConsoleOutputResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
-    o.timestamp = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "timestamp")))
-    o.output = LightXML.content(LightXML.find_element(pd, "output"))
-    o
-end
-
-export GetConsoleOutputResponseType
-
-
-type GetPasswordDataType
-    instanceId::Union{String, Void}
-
-    GetPasswordDataType(; instanceId=nothing) =
-         new(instanceId)
-end
-function GetPasswordDataType(pd)
-    o = GetPasswordDataType()
-    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
-    o
-end
-
-export GetPasswordDataType
-
-
-type GetPasswordDataResponseType
-    requestId::Union{String, Void}
-    instanceId::Union{String, Void}
-    timestamp::Union{Base.Dates.DateTime, Void}
-    passwordData::Union{String, Void}
-
-    GetPasswordDataResponseType(; requestId=nothing, instanceId=nothing, timestamp=nothing, passwordData=nothing) =
-         new(requestId, instanceId, timestamp, passwordData)
-end
-function GetPasswordDataResponseType(pd)
-    o = GetPasswordDataResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
-    o.timestamp = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "timestamp")))
-    o.passwordData = LightXML.content(LightXML.find_element(pd, "passwordData"))
-    o
-end
-
-export GetPasswordDataResponseType
-
-
-type InstanceIdType
-    instanceId::Union{String, Void}
-
-    InstanceIdType(; instanceId=nothing) =
-         new(instanceId)
-end
-function InstanceIdType(pd)
-    o = InstanceIdType()
-    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
-    o
-end
-
-export InstanceIdType
-
-
-type TerminateInstancesType
-    instancesSet::Union{Vector{String}, Void}
-
-    TerminateInstancesType(; instancesSet=nothing) =
-         new(instancesSet)
-end
-function TerminateInstancesType(pd)
-    o = TerminateInstancesType()
-    o.instancesSet = AWS.parse_vector_as(String, "instanceId", elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
-    o
-end
-
-export TerminateInstancesType
-
-
-type InstanceBlockDeviceMappingItemType
-    deviceName::Union{String, Void}
-
-    InstanceBlockDeviceMappingItemType(; deviceName=nothing) =
-         new(deviceName)
-end
-function InstanceBlockDeviceMappingItemType(pd)
-    o = InstanceBlockDeviceMappingItemType()
-    o.deviceName = LightXML.content(LightXML.find_element(pd, "deviceName"))
-    o
-end
-
-export InstanceBlockDeviceMappingItemType
-
-
-type InstanceEbsBlockDeviceType
-    volumeId::Union{String, Void}
-    deleteOnTermination::Union{Bool, Void}
-
-    InstanceEbsBlockDeviceType(; volumeId=nothing, deleteOnTermination=nothing) =
-         new(volumeId, deleteOnTermination)
-end
-function InstanceEbsBlockDeviceType(pd)
-    o = InstanceEbsBlockDeviceType()
-    o.volumeId = LightXML.content(LightXML.find_element(pd, "volumeId"))
-    o.deleteOnTermination = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "deleteOnTermination")))
-    o
-end
-
-export InstanceEbsBlockDeviceType
-
-
-type StopInstancesType
-    instancesSet::Union{Vector{String}, Void}
-    force::Union{Bool, Void}
-
-    StopInstancesType(; instancesSet=nothing, force=nothing) =
-         new(instancesSet, force)
-end
-function StopInstancesType(pd)
-    o = StopInstancesType()
-    o.instancesSet = AWS.parse_vector_as(String, "instanceId", elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
-    o.force = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "force")))
-    o
-end
-
-export StopInstancesType
-
-
-type StartInstancesType
-    instancesSet::Union{Vector{String}, Void}
-
-    StartInstancesType(; instancesSet=nothing) =
-         new(instancesSet)
-end
-function StartInstancesType(pd)
-    o = StartInstancesType()
-    o.instancesSet = AWS.parse_vector_as(String, "instanceId", elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
-    o
-end
-
-export StartInstancesType
-
-
-type RebootInstancesType
-    instancesSet::Union{Vector{String}, Void}
-
-    RebootInstancesType(; instancesSet=nothing) =
-         new(instancesSet)
-end
-function RebootInstancesType(pd)
-    o = RebootInstancesType()
-    o.instancesSet = AWS.parse_vector_as(String, "instanceId", elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
-    o
-end
-
-export RebootInstancesType
-
-
-type RebootInstancesItemType
-    instanceId::Union{String, Void}
-
-    RebootInstancesItemType(; instanceId=nothing) =
-         new(instanceId)
-end
-function RebootInstancesItemType(pd)
-    o = RebootInstancesItemType()
-    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
-    o
-end
-
-export RebootInstancesItemType
-
-
-type RebootInstancesResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    RebootInstancesResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function RebootInstancesResponseType(pd)
-    o = RebootInstancesResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export RebootInstancesResponseType
-
-
-type DescribeInstancesItemType
-    instanceId::Union{String, Void}
-
-    DescribeInstancesItemType(; instanceId=nothing) =
-         new(instanceId)
-end
-function DescribeInstancesItemType(pd)
-    o = DescribeInstancesItemType()
-    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
-    o
-end
-
-export DescribeInstancesItemType
-
-
-type UnavailableResultType
-    availabilityZone::Union{String, Void}
-
-    UnavailableResultType(; availabilityZone=nothing) =
-         new(availabilityZone)
-end
-function UnavailableResultType(pd)
-    o = UnavailableResultType()
-    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
-    o
-end
-
-export UnavailableResultType
-
-
-type DescribeImagesItemType
-    imageId::Union{String, Void}
-
-    DescribeImagesItemType(; imageId=nothing) =
-         new(imageId)
-end
-function DescribeImagesItemType(pd)
-    o = DescribeImagesItemType()
-    o.imageId = LightXML.content(LightXML.find_element(pd, "imageId"))
-    o
-end
-
-export DescribeImagesItemType
-
-
-type DescribeImagesOwnerType
-    owner::Union{String, Void}
-
-    DescribeImagesOwnerType(; owner=nothing) =
-         new(owner)
-end
-function DescribeImagesOwnerType(pd)
-    o = DescribeImagesOwnerType()
-    o.owner = LightXML.content(LightXML.find_element(pd, "owner"))
-    o
-end
-
-export DescribeImagesOwnerType
-
-
-type DescribeImagesExecutableByType
-    user::Union{String, Void}
-
-    DescribeImagesExecutableByType(; user=nothing) =
-         new(user)
-end
-function DescribeImagesExecutableByType(pd)
-    o = DescribeImagesExecutableByType()
-    o.user = LightXML.content(LightXML.find_element(pd, "user"))
-    o
-end
-
-export DescribeImagesExecutableByType
-
-
-type CreateSecurityGroupType
-    groupName::Union{String, Void}
-    groupDescription::Union{String, Void}
-    vpcId::Union{String, Void}
-
-    CreateSecurityGroupType(; groupName=nothing, groupDescription=nothing, vpcId=nothing) =
-         new(groupName, groupDescription, vpcId)
-end
-function CreateSecurityGroupType(pd)
-    o = CreateSecurityGroupType()
-    o.groupName = LightXML.content(LightXML.find_element(pd, "groupName"))
-    o.groupDescription = LightXML.content(LightXML.find_element(pd, "groupDescription"))
-    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
-    o
-end
-
-export CreateSecurityGroupType
-
-
-type CreateSecurityGroupResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-    groupId::Union{String, Void}
-
-    CreateSecurityGroupResponseType(; requestId=nothing, _return=nothing, groupId=nothing) =
-         new(requestId, _return, groupId)
-end
-function CreateSecurityGroupResponseType(pd)
-    o = CreateSecurityGroupResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o.groupId = LightXML.content(LightXML.find_element(pd, "groupId"))
-    o
-end
-
-export CreateSecurityGroupResponseType
-
-
-type DeleteSecurityGroupType
-    groupId::Union{String, Void}
-    groupName::Union{String, Void}
-
-    DeleteSecurityGroupType(; groupId=nothing, groupName=nothing) =
-         new(groupId, groupName)
-end
-function DeleteSecurityGroupType(pd)
-    o = DeleteSecurityGroupType()
-    o.groupId = LightXML.content(LightXML.find_element(pd, "groupId"))
-    o.groupName = LightXML.content(LightXML.find_element(pd, "groupName"))
-    o
-end
-
-export DeleteSecurityGroupType
-
-
-type DeleteSecurityGroupResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    DeleteSecurityGroupResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function DeleteSecurityGroupResponseType(pd)
-    o = DeleteSecurityGroupResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export DeleteSecurityGroupResponseType
-
-
-type DescribeSecurityGroupsSetItemType
-    groupName::Union{String, Void}
-
-    DescribeSecurityGroupsSetItemType(; groupName=nothing) =
-         new(groupName)
-end
-function DescribeSecurityGroupsSetItemType(pd)
-    o = DescribeSecurityGroupsSetItemType()
-    o.groupName = LightXML.content(LightXML.find_element(pd, "groupName"))
-    o
-end
-
-export DescribeSecurityGroupsSetItemType
-
-
-type DescribeSecurityGroupsIdSetItemType
-    groupId::Union{String, Void}
-
-    DescribeSecurityGroupsIdSetItemType(; groupId=nothing) =
-         new(groupId)
-end
-function DescribeSecurityGroupsIdSetItemType(pd)
-    o = DescribeSecurityGroupsIdSetItemType()
-    o.groupId = LightXML.content(LightXML.find_element(pd, "groupId"))
-    o
-end
-
-export DescribeSecurityGroupsIdSetItemType
-
-
-type IpRangeItemType
-    cidrIp::Union{String, Void}
-
-    IpRangeItemType(; cidrIp=nothing) =
-         new(cidrIp)
-end
-function IpRangeItemType(pd)
-    o = IpRangeItemType()
-    o.cidrIp = LightXML.content(LightXML.find_element(pd, "cidrIp"))
-    o
-end
-
-export IpRangeItemType
-
-
-type UserIdGroupPairType
-    userId::Union{String, Void}
-    groupId::Union{String, Void}
-    groupName::Union{String, Void}
-
-    UserIdGroupPairType(; userId=nothing, groupId=nothing, groupName=nothing) =
-         new(userId, groupId, groupName)
-end
-function UserIdGroupPairType(pd)
-    o = UserIdGroupPairType()
-    o.userId = LightXML.content(LightXML.find_element(pd, "userId"))
-    o.groupId = LightXML.content(LightXML.find_element(pd, "groupId"))
-    o.groupName = LightXML.content(LightXML.find_element(pd, "groupName"))
-    o
-end
-
-export UserIdGroupPairType
-
-
-type AuthorizeSecurityGroupIngressResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    AuthorizeSecurityGroupIngressResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function AuthorizeSecurityGroupIngressResponseType(pd)
-    o = AuthorizeSecurityGroupIngressResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export AuthorizeSecurityGroupIngressResponseType
-
-
-type RevokeSecurityGroupIngressResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    RevokeSecurityGroupIngressResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function RevokeSecurityGroupIngressResponseType(pd)
-    o = RevokeSecurityGroupIngressResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export RevokeSecurityGroupIngressResponseType
-
-
-type AuthorizeSecurityGroupEgressResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    AuthorizeSecurityGroupEgressResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function AuthorizeSecurityGroupEgressResponseType(pd)
-    o = AuthorizeSecurityGroupEgressResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export AuthorizeSecurityGroupEgressResponseType
-
-
-type RevokeSecurityGroupEgressResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    RevokeSecurityGroupEgressResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function RevokeSecurityGroupEgressResponseType(pd)
-    o = RevokeSecurityGroupEgressResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export RevokeSecurityGroupEgressResponseType
-
-
-type InstanceStateType
-    code::Union{Int64, Void}
-    name::Union{String, Void}
-
-    InstanceStateType(; code=nothing, name=nothing) =
-         new(code, name)
-end
-function InstanceStateType(pd)
-    o = InstanceStateType()
-    o.code = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "code")))
-    o.name = LightXML.content(LightXML.find_element(pd, "name"))
-    o
-end
-
-export InstanceStateType
-
-
-type ModifyInstanceAttributeType
-    instanceId::Union{String, Void}
-
-    ModifyInstanceAttributeType(; instanceId=nothing) =
-         new(instanceId)
-end
-function ModifyInstanceAttributeType(pd)
-    o = ModifyInstanceAttributeType()
-    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
-    o
-end
-
-export ModifyInstanceAttributeType
-
-
-type SecurityGroupIdSetItemType
-    groupId::Union{String, Void}
-
-    SecurityGroupIdSetItemType(; groupId=nothing) =
-         new(groupId)
-end
-function SecurityGroupIdSetItemType(pd)
-    o = SecurityGroupIdSetItemType()
-    o.groupId = LightXML.content(LightXML.find_element(pd, "groupId"))
-    o
-end
-
-export SecurityGroupIdSetItemType
-
-
-type ModifyInstanceAttributeResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    ModifyInstanceAttributeResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function ModifyInstanceAttributeResponseType(pd)
-    o = ModifyInstanceAttributeResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export ModifyInstanceAttributeResponseType
-
-
-type ResetInstanceAttributeType
-    instanceId::Union{String, Void}
-
-    ResetInstanceAttributeType(; instanceId=nothing) =
-         new(instanceId)
-end
-function ResetInstanceAttributeType(pd)
-    o = ResetInstanceAttributeType()
-    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
-    o
-end
-
-export ResetInstanceAttributeType
-
-
-type ResetInstanceAttributeResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    ResetInstanceAttributeResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function ResetInstanceAttributeResponseType(pd)
-    o = ResetInstanceAttributeResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export ResetInstanceAttributeResponseType
-
-
-type DescribeInstanceAttributeType
-    instanceId::Union{String, Void}
-
-    DescribeInstanceAttributeType(; instanceId=nothing) =
-         new(instanceId)
-end
-function DescribeInstanceAttributeType(pd)
-    o = DescribeInstanceAttributeType()
-    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
-    o
-end
-
-export DescribeInstanceAttributeType
-
-
-type DescribeInstanceAttributeResponseType
-    requestId::Union{String, Void}
-    instanceId::Union{String, Void}
-
-    DescribeInstanceAttributeResponseType(; requestId=nothing, instanceId=nothing) =
-         new(requestId, instanceId)
-end
-function DescribeInstanceAttributeResponseType(pd)
-    o = DescribeInstanceAttributeResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
-    o
-end
-
-export DescribeInstanceAttributeResponseType
-
-
-type ModifyImageAttributeType
-    imageId::Union{String, Void}
-
-    ModifyImageAttributeType(; imageId=nothing) =
-         new(imageId)
-end
-function ModifyImageAttributeType(pd)
-    o = ModifyImageAttributeType()
-    o.imageId = LightXML.content(LightXML.find_element(pd, "imageId"))
-    o
-end
-
-export ModifyImageAttributeType
-
-
-type LaunchPermissionItemType
-    userId::Union{String, Void}
-    group::Union{String, Void}
-
-    LaunchPermissionItemType(; userId=nothing, group=nothing) =
-         new(userId, group)
-end
-function LaunchPermissionItemType(pd)
-    o = LaunchPermissionItemType()
-    o.userId = LightXML.content(LightXML.find_element(pd, "userId"))
-    o.group = LightXML.content(LightXML.find_element(pd, "group"))
-    o
-end
-
-export LaunchPermissionItemType
-
-
-type ProductCodeItemType
-    productCode::Union{String, Void}
-
-    ProductCodeItemType(; productCode=nothing) =
-         new(productCode)
-end
-function ProductCodeItemType(pd)
-    o = ProductCodeItemType()
-    o.productCode = LightXML.content(LightXML.find_element(pd, "productCode"))
-    o
-end
-
-export ProductCodeItemType
-
-
-type ModifyImageAttributeResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    ModifyImageAttributeResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function ModifyImageAttributeResponseType(pd)
-    o = ModifyImageAttributeResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export ModifyImageAttributeResponseType
-
-
-type ResetImageAttributeType
-    imageId::Union{String, Void}
-
-    ResetImageAttributeType(; imageId=nothing) =
-         new(imageId)
-end
-function ResetImageAttributeType(pd)
-    o = ResetImageAttributeType()
-    o.imageId = LightXML.content(LightXML.find_element(pd, "imageId"))
-    o
-end
-
-export ResetImageAttributeType
-
-
-type ResetImageAttributeResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    ResetImageAttributeResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function ResetImageAttributeResponseType(pd)
-    o = ResetImageAttributeResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export ResetImageAttributeResponseType
-
-
-type DescribeImageAttributeType
-    imageId::Union{String, Void}
-
-    DescribeImageAttributeType(; imageId=nothing) =
-         new(imageId)
-end
-function DescribeImageAttributeType(pd)
-    o = DescribeImageAttributeType()
-    o.imageId = LightXML.content(LightXML.find_element(pd, "imageId"))
-    o
-end
-
-export DescribeImageAttributeType
-
-
-type DescribeImageAttributeResponseType
-    requestId::Union{String, Void}
-    imageId::Union{String, Void}
-
-    DescribeImageAttributeResponseType(; requestId=nothing, imageId=nothing) =
-         new(requestId, imageId)
-end
-function DescribeImageAttributeResponseType(pd)
-    o = DescribeImageAttributeResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.imageId = LightXML.content(LightXML.find_element(pd, "imageId"))
-    o
-end
-
-export DescribeImageAttributeResponseType
-
-
-type NullableAttributeValueType
-    value::Union{String, Void}
-
-    NullableAttributeValueType(; value=nothing) =
-         new(value)
-end
-function NullableAttributeValueType(pd)
-    o = NullableAttributeValueType()
-    o.value = LightXML.content(LightXML.find_element(pd, "value"))
-    o
-end
-
-export NullableAttributeValueType
-
-
-type NullableAttributeBooleanValueType
-    value::Union{Bool, Void}
-
-    NullableAttributeBooleanValueType(; value=nothing) =
-         new(value)
-end
-function NullableAttributeBooleanValueType(pd)
-    o = NullableAttributeBooleanValueType()
-    o.value = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "value")))
-    o
-end
-
-export NullableAttributeBooleanValueType
-
-
-type AttributeValueType
-    value::Union{String, Void}
-
-    AttributeValueType(; value=nothing) =
-         new(value)
-end
-function AttributeValueType(pd)
-    o = AttributeValueType()
-    o.value = LightXML.content(LightXML.find_element(pd, "value"))
-    o
-end
-
-export AttributeValueType
-
-
-type AttributeBooleanValueType
-    value::Union{Bool, Void}
-
-    AttributeBooleanValueType(; value=nothing) =
-         new(value)
-end
-function AttributeBooleanValueType(pd)
-    o = AttributeBooleanValueType()
-    o.value = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "value")))
-    o
-end
-
-export AttributeBooleanValueType
-
-
-type ConfirmProductInstanceType
-    productCode::Union{String, Void}
-    instanceId::Union{String, Void}
-
-    ConfirmProductInstanceType(; productCode=nothing, instanceId=nothing) =
-         new(productCode, instanceId)
-end
-function ConfirmProductInstanceType(pd)
-    o = ConfirmProductInstanceType()
-    o.productCode = LightXML.content(LightXML.find_element(pd, "productCode"))
-    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
-    o
-end
-
-export ConfirmProductInstanceType
-
-
-type ProductCodesSetItemType
-    productCode::Union{String, Void}
-    _type::Union{String, Void}
-
-    ProductCodesSetItemType(; productCode=nothing, _type=nothing) =
-         new(productCode, _type)
-end
-function ProductCodesSetItemType(pd)
-    o = ProductCodesSetItemType()
-    o.productCode = LightXML.content(LightXML.find_element(pd, "productCode"))
-    o._type = LightXML.content(LightXML.find_element(pd, "type"))
-    o
-end
-
-export ProductCodesSetItemType
-
-
-type ConfirmProductInstanceResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-    ownerId::Union{String, Void}
-
-    ConfirmProductInstanceResponseType(; requestId=nothing, _return=nothing, ownerId=nothing) =
-         new(requestId, _return, ownerId)
-end
-function ConfirmProductInstanceResponseType(pd)
-    o = ConfirmProductInstanceResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o.ownerId = LightXML.content(LightXML.find_element(pd, "ownerId"))
-    o
-end
-
-export ConfirmProductInstanceResponseType
-
-
-type DescribeAvailabilityZonesSetItemType
-    zoneName::Union{String, Void}
-
-    DescribeAvailabilityZonesSetItemType(; zoneName=nothing) =
-         new(zoneName)
-end
-function DescribeAvailabilityZonesSetItemType(pd)
-    o = DescribeAvailabilityZonesSetItemType()
-    o.zoneName = LightXML.content(LightXML.find_element(pd, "zoneName"))
-    o
-end
-
-export DescribeAvailabilityZonesSetItemType
-
-
-type AvailabilityZoneMessageType
-    message::Union{String, Void}
-
-    AvailabilityZoneMessageType(; message=nothing) =
-         new(message)
-end
-function AvailabilityZoneMessageType(pd)
-    o = AvailabilityZoneMessageType()
-    o.message = LightXML.content(LightXML.find_element(pd, "message"))
-    o
-end
-
-export AvailabilityZoneMessageType
-
-
-type AvailabilityZoneItemType
-    zoneName::Union{String, Void}
-    zoneState::Union{String, Void}
-    regionName::Union{String, Void}
-    messageSet::Union{Vector{String}, Void}
-
-    AvailabilityZoneItemType(; zoneName=nothing, zoneState=nothing, regionName=nothing, messageSet=nothing) =
-         new(zoneName, zoneState, regionName, messageSet)
-end
-function AvailabilityZoneItemType(pd)
-    o = AvailabilityZoneItemType()
-    o.zoneName = LightXML.content(LightXML.find_element(pd, "zoneName"))
-    o.zoneState = LightXML.content(LightXML.find_element(pd, "zoneState"))
-    o.regionName = LightXML.content(LightXML.find_element(pd, "regionName"))
-    o.messageSet = AWS.parse_vector_as(String, "message", elements_by_tagname(LightXML.find_element(pd, "item"), "message"))
-    o
-end
-
-export AvailabilityZoneItemType
-
-
-type AllocateAddressType
-    domain::Union{String, Void}
-
-    AllocateAddressType(; domain=nothing) =
-         new(domain)
-end
-function AllocateAddressType(pd)
-    o = AllocateAddressType()
-    o.domain = LightXML.content(LightXML.find_element(pd, "domain"))
-    o
-end
-
-export AllocateAddressType
-
-
-type AllocateAddressResponseType
-    requestId::Union{String, Void}
-    publicIp::Union{String, Void}
-    domain::Union{String, Void}
-    allocationId::Union{String, Void}
-
-    AllocateAddressResponseType(; requestId=nothing, publicIp=nothing, domain=nothing, allocationId=nothing) =
-         new(requestId, publicIp, domain, allocationId)
-end
-function AllocateAddressResponseType(pd)
-    o = AllocateAddressResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.publicIp = LightXML.content(LightXML.find_element(pd, "publicIp"))
-    o.domain = LightXML.content(LightXML.find_element(pd, "domain"))
-    o.allocationId = LightXML.content(LightXML.find_element(pd, "allocationId"))
-    o
-end
-
-export AllocateAddressResponseType
-
-
-type ReleaseAddressType
-    publicIp::Union{String, Void}
-    allocationId::Union{String, Void}
-
-    ReleaseAddressType(; publicIp=nothing, allocationId=nothing) =
-         new(publicIp, allocationId)
-end
-function ReleaseAddressType(pd)
-    o = ReleaseAddressType()
-    o.publicIp = LightXML.content(LightXML.find_element(pd, "publicIp"))
-    o.allocationId = LightXML.content(LightXML.find_element(pd, "allocationId"))
-    o
-end
-
-export ReleaseAddressType
-
-
-type ReleaseAddressResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    ReleaseAddressResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function ReleaseAddressResponseType(pd)
-    o = ReleaseAddressResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export ReleaseAddressResponseType
-
-
-type AllocationIdSetItemType
-    allocationId::Union{String, Void}
-
-    AllocationIdSetItemType(; allocationId=nothing) =
-         new(allocationId)
-end
-function AllocationIdSetItemType(pd)
-    o = AllocationIdSetItemType()
-    o.allocationId = LightXML.content(LightXML.find_element(pd, "allocationId"))
-    o
-end
-
-export AllocationIdSetItemType
-
-
-type DescribeAddressesItemType
-    publicIp::Union{String, Void}
-
-    DescribeAddressesItemType(; publicIp=nothing) =
-         new(publicIp)
-end
-function DescribeAddressesItemType(pd)
-    o = DescribeAddressesItemType()
-    o.publicIp = LightXML.content(LightXML.find_element(pd, "publicIp"))
-    o
-end
-
-export DescribeAddressesItemType
-
-
-type DescribeAddressesResponseItemType
-    publicIp::Union{String, Void}
-    allocationId::Union{String, Void}
-    domain::Union{String, Void}
-    instanceId::Union{String, Void}
-    associationId::Union{String, Void}
-    networkInterfaceId::Union{String, Void}
-    networkInterfaceOwnerId::Union{String, Void}
-    privateIpAddress::Union{String, Void}
-
-    DescribeAddressesResponseItemType(; publicIp=nothing, allocationId=nothing, domain=nothing, instanceId=nothing, associationId=nothing, networkInterfaceId=nothing, networkInterfaceOwnerId=nothing, privateIpAddress=nothing) =
-         new(publicIp, allocationId, domain, instanceId, associationId, networkInterfaceId, networkInterfaceOwnerId, privateIpAddress)
-end
-function DescribeAddressesResponseItemType(pd)
-    o = DescribeAddressesResponseItemType()
-    o.publicIp = LightXML.content(LightXML.find_element(pd, "publicIp"))
-    o.allocationId = LightXML.content(LightXML.find_element(pd, "allocationId"))
-    o.domain = LightXML.content(LightXML.find_element(pd, "domain"))
-    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
-    o.associationId = LightXML.content(LightXML.find_element(pd, "associationId"))
-    o.networkInterfaceId = LightXML.content(LightXML.find_element(pd, "networkInterfaceId"))
-    o.networkInterfaceOwnerId = LightXML.content(LightXML.find_element(pd, "networkInterfaceOwnerId"))
-    o.privateIpAddress = LightXML.content(LightXML.find_element(pd, "privateIpAddress"))
-    o
-end
-
-export DescribeAddressesResponseItemType
-
-
-type AssociateAddressType
-    privateIpAddress::Union{String, Void}
-    allowReassociation::Union{Bool, Void}
-
-    AssociateAddressType(; privateIpAddress=nothing, allowReassociation=nothing) =
-         new(privateIpAddress, allowReassociation)
-end
-function AssociateAddressType(pd)
-    o = AssociateAddressType()
-    o.privateIpAddress = LightXML.content(LightXML.find_element(pd, "privateIpAddress"))
-    o.allowReassociation = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "allowReassociation")))
-    o
-end
-
-export AssociateAddressType
-
-
-type AssociateAddressResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-    associationId::Union{String, Void}
-
-    AssociateAddressResponseType(; requestId=nothing, _return=nothing, associationId=nothing) =
-         new(requestId, _return, associationId)
-end
-function AssociateAddressResponseType(pd)
-    o = AssociateAddressResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o.associationId = LightXML.content(LightXML.find_element(pd, "associationId"))
-    o
-end
-
-export AssociateAddressResponseType
-
-
-type DisassociateAddressType
-    publicIp::Union{String, Void}
-    associationId::Union{String, Void}
-
-    DisassociateAddressType(; publicIp=nothing, associationId=nothing) =
-         new(publicIp, associationId)
-end
-function DisassociateAddressType(pd)
-    o = DisassociateAddressType()
-    o.publicIp = LightXML.content(LightXML.find_element(pd, "publicIp"))
-    o.associationId = LightXML.content(LightXML.find_element(pd, "associationId"))
-    o
-end
-
-export DisassociateAddressType
-
-
-type DisassociateAddressResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    DisassociateAddressResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function DisassociateAddressResponseType(pd)
-    o = DisassociateAddressResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export DisassociateAddressResponseType
-
-
-type CreateVolumeType
-    size::Union{String, Void}
-    snapshotId::Union{String, Void}
-    availabilityZone::Union{String, Void}
-    volumeType::Union{String, Void}
-    iops::Union{Int64, Void}
-
-    CreateVolumeType(; size=nothing, snapshotId=nothing, availabilityZone=nothing, volumeType=nothing, iops=nothing) =
-         new(size, snapshotId, availabilityZone, volumeType, iops)
-end
-function CreateVolumeType(pd)
-    o = CreateVolumeType()
-    o.size = LightXML.content(LightXML.find_element(pd, "size"))
-    o.snapshotId = LightXML.content(LightXML.find_element(pd, "snapshotId"))
-    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
-    o.volumeType = LightXML.content(LightXML.find_element(pd, "volumeType"))
-    o.iops = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "iops")))
-    o
-end
-
-export CreateVolumeType
-
-
-type CreateVolumeResponseType
-    requestId::Union{String, Void}
-    volumeId::Union{String, Void}
-    size::Union{String, Void}
-    snapshotId::Union{String, Void}
-    availabilityZone::Union{String, Void}
-    status::Union{String, Void}
-    createTime::Union{Base.Dates.DateTime, Void}
-    volumeType::Union{String, Void}
-    iops::Union{Int64, Void}
-
-    CreateVolumeResponseType(; requestId=nothing, volumeId=nothing, size=nothing, snapshotId=nothing, availabilityZone=nothing, status=nothing, createTime=nothing, volumeType=nothing, iops=nothing) =
-         new(requestId, volumeId, size, snapshotId, availabilityZone, status, createTime, volumeType, iops)
-end
-function CreateVolumeResponseType(pd)
-    o = CreateVolumeResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.volumeId = LightXML.content(LightXML.find_element(pd, "volumeId"))
-    o.size = LightXML.content(LightXML.find_element(pd, "size"))
-    o.snapshotId = LightXML.content(LightXML.find_element(pd, "snapshotId"))
-    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
-    o.status = LightXML.content(LightXML.find_element(pd, "status"))
-    o.createTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "createTime")))
-    o.volumeType = LightXML.content(LightXML.find_element(pd, "volumeType"))
-    o.iops = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "iops")))
-    o
-end
-
-export CreateVolumeResponseType
-
-
-type DeleteVolumeType
-    volumeId::Union{String, Void}
-
-    DeleteVolumeType(; volumeId=nothing) =
-         new(volumeId)
-end
-function DeleteVolumeType(pd)
-    o = DeleteVolumeType()
-    o.volumeId = LightXML.content(LightXML.find_element(pd, "volumeId"))
-    o
-end
-
-export DeleteVolumeType
-
-
-type DeleteVolumeResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    DeleteVolumeResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function DeleteVolumeResponseType(pd)
-    o = DeleteVolumeResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export DeleteVolumeResponseType
-
-
-type DescribeVolumesSetItemType
-    volumeId::Union{String, Void}
-
-    DescribeVolumesSetItemType(; volumeId=nothing) =
-         new(volumeId)
-end
-function DescribeVolumesSetItemType(pd)
-    o = DescribeVolumesSetItemType()
-    o.volumeId = LightXML.content(LightXML.find_element(pd, "volumeId"))
-    o
-end
-
-export DescribeVolumesSetItemType
-
-
-type AttachmentSetItemResponseType
-    volumeId::Union{String, Void}
-    instanceId::Union{String, Void}
-    device::Union{String, Void}
-    status::Union{String, Void}
-    attachTime::Union{Base.Dates.DateTime, Void}
-    deleteOnTermination::Union{Bool, Void}
-
-    AttachmentSetItemResponseType(; volumeId=nothing, instanceId=nothing, device=nothing, status=nothing, attachTime=nothing, deleteOnTermination=nothing) =
-         new(volumeId, instanceId, device, status, attachTime, deleteOnTermination)
-end
-function AttachmentSetItemResponseType(pd)
-    o = AttachmentSetItemResponseType()
-    o.volumeId = LightXML.content(LightXML.find_element(pd, "volumeId"))
-    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
-    o.device = LightXML.content(LightXML.find_element(pd, "device"))
-    o.status = LightXML.content(LightXML.find_element(pd, "status"))
-    o.attachTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "attachTime")))
-    o.deleteOnTermination = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "deleteOnTermination")))
-    o
-end
-
-export AttachmentSetItemResponseType
-
-
-type AttachVolumeType
-    volumeId::Union{String, Void}
-    instanceId::Union{String, Void}
-    device::Union{String, Void}
-
-    AttachVolumeType(; volumeId=nothing, instanceId=nothing, device=nothing) =
-         new(volumeId, instanceId, device)
-end
-function AttachVolumeType(pd)
-    o = AttachVolumeType()
-    o.volumeId = LightXML.content(LightXML.find_element(pd, "volumeId"))
-    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
-    o.device = LightXML.content(LightXML.find_element(pd, "device"))
-    o
-end
-
-export AttachVolumeType
-
-
-type AttachVolumeResponseType
-    requestId::Union{String, Void}
-    volumeId::Union{String, Void}
-    instanceId::Union{String, Void}
-    device::Union{String, Void}
-    status::Union{String, Void}
-    attachTime::Union{Base.Dates.DateTime, Void}
-
-    AttachVolumeResponseType(; requestId=nothing, volumeId=nothing, instanceId=nothing, device=nothing, status=nothing, attachTime=nothing) =
-         new(requestId, volumeId, instanceId, device, status, attachTime)
-end
-function AttachVolumeResponseType(pd)
-    o = AttachVolumeResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.volumeId = LightXML.content(LightXML.find_element(pd, "volumeId"))
-    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
-    o.device = LightXML.content(LightXML.find_element(pd, "device"))
-    o.status = LightXML.content(LightXML.find_element(pd, "status"))
-    o.attachTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "attachTime")))
-    o
-end
-
-export AttachVolumeResponseType
-
-
-type DetachVolumeType
-    volumeId::Union{String, Void}
-    instanceId::Union{String, Void}
-    device::Union{String, Void}
-    force::Union{Bool, Void}
-
-    DetachVolumeType(; volumeId=nothing, instanceId=nothing, device=nothing, force=nothing) =
-         new(volumeId, instanceId, device, force)
-end
-function DetachVolumeType(pd)
-    o = DetachVolumeType()
-    o.volumeId = LightXML.content(LightXML.find_element(pd, "volumeId"))
-    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
-    o.device = LightXML.content(LightXML.find_element(pd, "device"))
-    o.force = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "force")))
-    o
-end
-
-export DetachVolumeType
-
-
-type DetachVolumeResponseType
-    requestId::Union{String, Void}
-    volumeId::Union{String, Void}
-    instanceId::Union{String, Void}
-    device::Union{String, Void}
-    status::Union{String, Void}
-    attachTime::Union{Base.Dates.DateTime, Void}
-
-    DetachVolumeResponseType(; requestId=nothing, volumeId=nothing, instanceId=nothing, device=nothing, status=nothing, attachTime=nothing) =
-         new(requestId, volumeId, instanceId, device, status, attachTime)
-end
-function DetachVolumeResponseType(pd)
-    o = DetachVolumeResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.volumeId = LightXML.content(LightXML.find_element(pd, "volumeId"))
-    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
-    o.device = LightXML.content(LightXML.find_element(pd, "device"))
-    o.status = LightXML.content(LightXML.find_element(pd, "status"))
-    o.attachTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "attachTime")))
-    o
-end
-
-export DetachVolumeResponseType
-
-
-type CreateSnapshotType
-    volumeId::Union{String, Void}
-    description::Union{String, Void}
-
-    CreateSnapshotType(; volumeId=nothing, description=nothing) =
-         new(volumeId, description)
-end
-function CreateSnapshotType(pd)
-    o = CreateSnapshotType()
-    o.volumeId = LightXML.content(LightXML.find_element(pd, "volumeId"))
-    o.description = LightXML.content(LightXML.find_element(pd, "description"))
-    o
-end
-
-export CreateSnapshotType
-
-
-type CreateSnapshotResponseType
-    requestId::Union{String, Void}
-    snapshotId::Union{String, Void}
-    volumeId::Union{String, Void}
-    status::Union{String, Void}
-    startTime::Union{Base.Dates.DateTime, Void}
-    progress::Union{String, Void}
-    ownerId::Union{String, Void}
-    volumeSize::Union{String, Void}
-    description::Union{String, Void}
-
-    CreateSnapshotResponseType(; requestId=nothing, snapshotId=nothing, volumeId=nothing, status=nothing, startTime=nothing, progress=nothing, ownerId=nothing, volumeSize=nothing, description=nothing) =
-         new(requestId, snapshotId, volumeId, status, startTime, progress, ownerId, volumeSize, description)
-end
-function CreateSnapshotResponseType(pd)
-    o = CreateSnapshotResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.snapshotId = LightXML.content(LightXML.find_element(pd, "snapshotId"))
-    o.volumeId = LightXML.content(LightXML.find_element(pd, "volumeId"))
-    o.status = LightXML.content(LightXML.find_element(pd, "status"))
-    o.startTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "startTime")))
-    o.progress = LightXML.content(LightXML.find_element(pd, "progress"))
-    o.ownerId = LightXML.content(LightXML.find_element(pd, "ownerId"))
-    o.volumeSize = LightXML.content(LightXML.find_element(pd, "volumeSize"))
-    o.description = LightXML.content(LightXML.find_element(pd, "description"))
-    o
-end
-
-export CreateSnapshotResponseType
-
-
-type CopySnapshotType
-    sourceRegion::Union{String, Void}
-    sourceSnapshotId::Union{String, Void}
-    description::Union{String, Void}
-
-    CopySnapshotType(; sourceRegion=nothing, sourceSnapshotId=nothing, description=nothing) =
-         new(sourceRegion, sourceSnapshotId, description)
-end
-function CopySnapshotType(pd)
-    o = CopySnapshotType()
-    o.sourceRegion = LightXML.content(LightXML.find_element(pd, "sourceRegion"))
-    o.sourceSnapshotId = LightXML.content(LightXML.find_element(pd, "sourceSnapshotId"))
-    o.description = LightXML.content(LightXML.find_element(pd, "description"))
-    o
-end
-
-export CopySnapshotType
-
-
-type CopySnapshotResponseType
-    requestId::Union{String, Void}
-    snapshotId::Union{String, Void}
-
-    CopySnapshotResponseType(; requestId=nothing, snapshotId=nothing) =
-         new(requestId, snapshotId)
-end
-function CopySnapshotResponseType(pd)
-    o = CopySnapshotResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.snapshotId = LightXML.content(LightXML.find_element(pd, "snapshotId"))
-    o
-end
-
-export CopySnapshotResponseType
-
-
-type DeleteSnapshotType
-    snapshotId::Union{String, Void}
-
-    DeleteSnapshotType(; snapshotId=nothing) =
-         new(snapshotId)
-end
-function DeleteSnapshotType(pd)
-    o = DeleteSnapshotType()
-    o.snapshotId = LightXML.content(LightXML.find_element(pd, "snapshotId"))
-    o
-end
-
-export DeleteSnapshotType
-
-
-type DeleteSnapshotResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    DeleteSnapshotResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function DeleteSnapshotResponseType(pd)
-    o = DeleteSnapshotResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export DeleteSnapshotResponseType
-
-
-type DescribeSnapshotsSetItemType
-    snapshotId::Union{String, Void}
-
-    DescribeSnapshotsSetItemType(; snapshotId=nothing) =
-         new(snapshotId)
-end
-function DescribeSnapshotsSetItemType(pd)
-    o = DescribeSnapshotsSetItemType()
-    o.snapshotId = LightXML.content(LightXML.find_element(pd, "snapshotId"))
-    o
-end
-
-export DescribeSnapshotsSetItemType
-
-
-type DescribeSnapshotsOwnerType
-    owner::Union{String, Void}
-
-    DescribeSnapshotsOwnerType(; owner=nothing) =
-         new(owner)
-end
-function DescribeSnapshotsOwnerType(pd)
-    o = DescribeSnapshotsOwnerType()
-    o.owner = LightXML.content(LightXML.find_element(pd, "owner"))
-    o
-end
-
-export DescribeSnapshotsOwnerType
-
-
-type DescribeSnapshotsRestorableByType
-    user::Union{String, Void}
-
-    DescribeSnapshotsRestorableByType(; user=nothing) =
-         new(user)
-end
-function DescribeSnapshotsRestorableByType(pd)
-    o = DescribeSnapshotsRestorableByType()
-    o.user = LightXML.content(LightXML.find_element(pd, "user"))
-    o
-end
-
-export DescribeSnapshotsRestorableByType
-
-
-type CreateVolumePermissionItemType
-    userId::Union{String, Void}
-    group::Union{String, Void}
-
-    CreateVolumePermissionItemType(; userId=nothing, group=nothing) =
-         new(userId, group)
-end
-function CreateVolumePermissionItemType(pd)
-    o = CreateVolumePermissionItemType()
-    o.userId = LightXML.content(LightXML.find_element(pd, "userId"))
-    o.group = LightXML.content(LightXML.find_element(pd, "group"))
-    o
-end
-
-export CreateVolumePermissionItemType
-
-
-type ModifySnapshotAttributeResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    ModifySnapshotAttributeResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function ModifySnapshotAttributeResponseType(pd)
-    o = ModifySnapshotAttributeResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export ModifySnapshotAttributeResponseType
-
-
-type ResetSnapshotAttributeType
-    snapshotId::Union{String, Void}
-
-    ResetSnapshotAttributeType(; snapshotId=nothing) =
-         new(snapshotId)
-end
-function ResetSnapshotAttributeType(pd)
-    o = ResetSnapshotAttributeType()
-    o.snapshotId = LightXML.content(LightXML.find_element(pd, "snapshotId"))
-    o
-end
-
-export ResetSnapshotAttributeType
-
-
-type ResetSnapshotAttributeResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    ResetSnapshotAttributeResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function ResetSnapshotAttributeResponseType(pd)
-    o = ResetSnapshotAttributeResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export ResetSnapshotAttributeResponseType
-
-
-type DescribeSnapshotAttributeType
-    snapshotId::Union{String, Void}
-
-    DescribeSnapshotAttributeType(; snapshotId=nothing) =
-         new(snapshotId)
-end
-function DescribeSnapshotAttributeType(pd)
-    o = DescribeSnapshotAttributeType()
-    o.snapshotId = LightXML.content(LightXML.find_element(pd, "snapshotId"))
-    o
-end
-
-export DescribeSnapshotAttributeType
-
-
-type DescribeSnapshotAttributeResponseType
-    requestId::Union{String, Void}
-    snapshotId::Union{String, Void}
-
-    DescribeSnapshotAttributeResponseType(; requestId=nothing, snapshotId=nothing) =
-         new(requestId, snapshotId)
-end
-function DescribeSnapshotAttributeResponseType(pd)
-    o = DescribeSnapshotAttributeResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.snapshotId = LightXML.content(LightXML.find_element(pd, "snapshotId"))
-    o
-end
-
-export DescribeSnapshotAttributeResponseType
-
-
-type BundleInstanceS3StorageType
-    bucket::Union{String, Void}
-    prefix::Union{String, Void}
-    awsAccessKeyId::Union{String, Void}
-    uploadPolicy::Union{String, Void}
-    uploadPolicySignature::Union{String, Void}
-
-    BundleInstanceS3StorageType(; bucket=nothing, prefix=nothing, awsAccessKeyId=nothing, uploadPolicy=nothing, uploadPolicySignature=nothing) =
-         new(bucket, prefix, awsAccessKeyId, uploadPolicy, uploadPolicySignature)
-end
-function BundleInstanceS3StorageType(pd)
-    o = BundleInstanceS3StorageType()
-    o.bucket = LightXML.content(LightXML.find_element(pd, "bucket"))
-    o.prefix = LightXML.content(LightXML.find_element(pd, "prefix"))
-    o.awsAccessKeyId = LightXML.content(LightXML.find_element(pd, "awsAccessKeyId"))
-    o.uploadPolicy = LightXML.content(LightXML.find_element(pd, "uploadPolicy"))
-    o.uploadPolicySignature = LightXML.content(LightXML.find_element(pd, "uploadPolicySignature"))
-    o
-end
-
-export BundleInstanceS3StorageType
-
-
-type BundleInstanceTaskErrorType
-    code::Union{String, Void}
-    message::Union{String, Void}
-
-    BundleInstanceTaskErrorType(; code=nothing, message=nothing) =
-         new(code, message)
-end
-function BundleInstanceTaskErrorType(pd)
-    o = BundleInstanceTaskErrorType()
-    o.code = LightXML.content(LightXML.find_element(pd, "code"))
-    o.message = LightXML.content(LightXML.find_element(pd, "message"))
-    o
-end
-
-export BundleInstanceTaskErrorType
-
-
-type DescribeBundleTasksItemType
-    bundleId::Union{String, Void}
-
-    DescribeBundleTasksItemType(; bundleId=nothing) =
-         new(bundleId)
-end
-function DescribeBundleTasksItemType(pd)
-    o = DescribeBundleTasksItemType()
-    o.bundleId = LightXML.content(LightXML.find_element(pd, "bundleId"))
-    o
-end
-
-export DescribeBundleTasksItemType
-
-
-type CancelBundleTaskType
-    bundleId::Union{String, Void}
-
-    CancelBundleTaskType(; bundleId=nothing) =
-         new(bundleId)
-end
-function CancelBundleTaskType(pd)
-    o = CancelBundleTaskType()
-    o.bundleId = LightXML.content(LightXML.find_element(pd, "bundleId"))
-    o
-end
-
-export CancelBundleTaskType
-
-
-type CopyImageType
-    sourceRegion::Union{String, Void}
-    sourceImageId::Union{String, Void}
-    name::Union{String, Void}
-    description::Union{String, Void}
-    clientToken::Union{String, Void}
-
-    CopyImageType(; sourceRegion=nothing, sourceImageId=nothing, name=nothing, description=nothing, clientToken=nothing) =
-         new(sourceRegion, sourceImageId, name, description, clientToken)
-end
-function CopyImageType(pd)
-    o = CopyImageType()
-    o.sourceRegion = LightXML.content(LightXML.find_element(pd, "sourceRegion"))
-    o.sourceImageId = LightXML.content(LightXML.find_element(pd, "sourceImageId"))
-    o.name = LightXML.content(LightXML.find_element(pd, "name"))
-    o.description = LightXML.content(LightXML.find_element(pd, "description"))
-    o.clientToken = LightXML.content(LightXML.find_element(pd, "clientToken"))
-    o
-end
-
-export CopyImageType
-
-
-type CopyImageResponseType
-    requestId::Union{String, Void}
-    imageId::Union{String, Void}
-
-    CopyImageResponseType(; requestId=nothing, imageId=nothing) =
-         new(requestId, imageId)
-end
-function CopyImageResponseType(pd)
-    o = CopyImageResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.imageId = LightXML.content(LightXML.find_element(pd, "imageId"))
-    o
-end
-
-export CopyImageResponseType
-
-
-type DescribeRegionsSetItemType
-    regionName::Union{String, Void}
-
-    DescribeRegionsSetItemType(; regionName=nothing) =
-         new(regionName)
-end
-function DescribeRegionsSetItemType(pd)
-    o = DescribeRegionsSetItemType()
-    o.regionName = LightXML.content(LightXML.find_element(pd, "regionName"))
-    o
-end
-
-export DescribeRegionsSetItemType
-
-
-type RegionItemType
-    regionName::Union{String, Void}
-    regionEndpoint::Union{String, Void}
-
-    RegionItemType(; regionName=nothing, regionEndpoint=nothing) =
-         new(regionName, regionEndpoint)
-end
-function RegionItemType(pd)
-    o = RegionItemType()
-    o.regionName = LightXML.content(LightXML.find_element(pd, "regionName"))
-    o.regionEndpoint = LightXML.content(LightXML.find_element(pd, "regionEndpoint"))
-    o
-end
-
-export RegionItemType
-
-
-type DescribeReservedInstancesOfferingsSetItemType
-    reservedInstancesOfferingId::Union{String, Void}
-
-    DescribeReservedInstancesOfferingsSetItemType(; reservedInstancesOfferingId=nothing) =
-         new(reservedInstancesOfferingId)
-end
-function DescribeReservedInstancesOfferingsSetItemType(pd)
-    o = DescribeReservedInstancesOfferingsSetItemType()
-    o.reservedInstancesOfferingId = LightXML.content(LightXML.find_element(pd, "reservedInstancesOfferingId"))
-    o
-end
-
-export DescribeReservedInstancesOfferingsSetItemType
-
-
-type RecurringChargesSetItemType
-    frequency::Union{String, Void}
-    amount::Union{Float64, Void}
-
-    RecurringChargesSetItemType(; frequency=nothing, amount=nothing) =
-         new(frequency, amount)
-end
-function RecurringChargesSetItemType(pd)
-    o = RecurringChargesSetItemType()
-    o.frequency = LightXML.content(LightXML.find_element(pd, "frequency"))
-    o.amount = AWS.safe_parse_as(Float64, LightXML.content(LightXML.find_element(pd, "amount")))
-    o
-end
-
-export RecurringChargesSetItemType
-
-
-type PricingDetailsSetItemType
-    price::Union{Float64, Void}
-    count::Union{Int64, Void}
-
-    PricingDetailsSetItemType(; price=nothing, count=nothing) =
-         new(price, count)
-end
-function PricingDetailsSetItemType(pd)
-    o = PricingDetailsSetItemType()
-    o.price = AWS.safe_parse_as(Float64, LightXML.content(LightXML.find_element(pd, "price")))
-    o.count = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "count")))
-    o
-end
-
-export PricingDetailsSetItemType
-
-
-type ReservedInstanceLimitPriceType
-    amount::Union{Float64, Void}
-    currencyCode::Union{String, Void}
-
-    ReservedInstanceLimitPriceType(; amount=nothing, currencyCode=nothing) =
-         new(amount, currencyCode)
-end
-function ReservedInstanceLimitPriceType(pd)
-    o = ReservedInstanceLimitPriceType()
-    o.amount = AWS.safe_parse_as(Float64, LightXML.content(LightXML.find_element(pd, "amount")))
-    o.currencyCode = LightXML.content(LightXML.find_element(pd, "currencyCode"))
-    o
-end
-
-export ReservedInstanceLimitPriceType
-
-
-type PurchaseReservedInstancesOfferingResponseType
-    requestId::Union{String, Void}
-    reservedInstancesId::Union{String, Void}
-
-    PurchaseReservedInstancesOfferingResponseType(; requestId=nothing, reservedInstancesId=nothing) =
-         new(requestId, reservedInstancesId)
-end
-function PurchaseReservedInstancesOfferingResponseType(pd)
-    o = PurchaseReservedInstancesOfferingResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.reservedInstancesId = LightXML.content(LightXML.find_element(pd, "reservedInstancesId"))
-    o
-end
-
-export PurchaseReservedInstancesOfferingResponseType
-
-
-type DescribeReservedInstancesSetItemType
-    reservedInstancesId::Union{String, Void}
-
-    DescribeReservedInstancesSetItemType(; reservedInstancesId=nothing) =
-         new(reservedInstancesId)
-end
-function DescribeReservedInstancesSetItemType(pd)
-    o = DescribeReservedInstancesSetItemType()
-    o.reservedInstancesId = LightXML.content(LightXML.find_element(pd, "reservedInstancesId"))
-    o
-end
-
-export DescribeReservedInstancesSetItemType
-
-
-type PriceScheduleRequestSetItemType
-    term::Union{Int64, Void}
-    price::Union{Float64, Void}
-    currencyCode::Union{String, Void}
-
-    PriceScheduleRequestSetItemType(; term=nothing, price=nothing, currencyCode=nothing) =
-         new(term, price, currencyCode)
-end
-function PriceScheduleRequestSetItemType(pd)
-    o = PriceScheduleRequestSetItemType()
-    o.term = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "term")))
-    o.price = AWS.safe_parse_as(Float64, LightXML.content(LightXML.find_element(pd, "price")))
-    o.currencyCode = LightXML.content(LightXML.find_element(pd, "currencyCode"))
-    o
-end
-
-export PriceScheduleRequestSetItemType
-
-
-type CancelReservedInstancesListingType
-    reservedInstancesListingId::Union{String, Void}
-
-    CancelReservedInstancesListingType(; reservedInstancesListingId=nothing) =
-         new(reservedInstancesListingId)
-end
-function CancelReservedInstancesListingType(pd)
-    o = CancelReservedInstancesListingType()
-    o.reservedInstancesListingId = LightXML.content(LightXML.find_element(pd, "reservedInstancesListingId"))
-    o
-end
-
-export CancelReservedInstancesListingType
-
-
-type DescribeReservedInstancesListingSetItemType
-    reservedInstancesListingId::Union{String, Void}
-
-    DescribeReservedInstancesListingSetItemType(; reservedInstancesListingId=nothing) =
-         new(reservedInstancesListingId)
-end
-function DescribeReservedInstancesListingSetItemType(pd)
-    o = DescribeReservedInstancesListingSetItemType()
-    o.reservedInstancesListingId = LightXML.content(LightXML.find_element(pd, "reservedInstancesListingId"))
-    o
-end
-
-export DescribeReservedInstancesListingSetItemType
-
-
-type InstanceCountsSetItemType
-    state::Union{String, Void}
-    instanceCount::Union{Int64, Void}
-
-    InstanceCountsSetItemType(; state=nothing, instanceCount=nothing) =
-         new(state, instanceCount)
-end
-function InstanceCountsSetItemType(pd)
-    o = InstanceCountsSetItemType()
-    o.state = LightXML.content(LightXML.find_element(pd, "state"))
-    o.instanceCount = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "instanceCount")))
-    o
-end
-
-export InstanceCountsSetItemType
-
-
-type PriceScheduleSetItemType
-    term::Union{Int64, Void}
-    price::Union{Float64, Void}
-    currencyCode::Union{String, Void}
-    active::Union{Bool, Void}
-
-    PriceScheduleSetItemType(; term=nothing, price=nothing, currencyCode=nothing, active=nothing) =
-         new(term, price, currencyCode, active)
-end
-function PriceScheduleSetItemType(pd)
-    o = PriceScheduleSetItemType()
-    o.term = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "term")))
-    o.price = AWS.safe_parse_as(Float64, LightXML.content(LightXML.find_element(pd, "price")))
-    o.currencyCode = LightXML.content(LightXML.find_element(pd, "currencyCode"))
-    o.active = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "active")))
-    o
-end
-
-export PriceScheduleSetItemType
-
-
-type MonitorInstancesType
-    instancesSet::Union{Vector{String}, Void}
-
-    MonitorInstancesType(; instancesSet=nothing) =
-         new(instancesSet)
-end
-function MonitorInstancesType(pd)
-    o = MonitorInstancesType()
-    o.instancesSet = AWS.parse_vector_as(String, "instanceId", elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
-    o
-end
-
-export MonitorInstancesType
-
-
-type MonitorInstancesSetItemType
-    instanceId::Union{String, Void}
-
-    MonitorInstancesSetItemType(; instanceId=nothing) =
-         new(instanceId)
-end
-function MonitorInstancesSetItemType(pd)
-    o = MonitorInstancesSetItemType()
-    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
-    o
-end
-
-export MonitorInstancesSetItemType
-
-
-type InstanceMonitoringStateType
-    state::Union{String, Void}
-
-    InstanceMonitoringStateType(; state=nothing) =
-         new(state)
-end
-function InstanceMonitoringStateType(pd)
-    o = InstanceMonitoringStateType()
-    o.state = LightXML.content(LightXML.find_element(pd, "state"))
-    o
-end
-
-export InstanceMonitoringStateType
-
-
-type AttachmentType
-    vpcId::Union{String, Void}
-    state::Union{String, Void}
-
-    AttachmentType(; vpcId=nothing, state=nothing) =
-         new(vpcId, state)
-end
-function AttachmentType(pd)
-    o = AttachmentType()
-    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
-    o.state = LightXML.content(LightXML.find_element(pd, "state"))
-    o
-end
-
-export AttachmentType
-
-
-type VpnConnectionOptionsResponseType
-    staticRoutesOnly::Union{Bool, Void}
-
-    VpnConnectionOptionsResponseType(; staticRoutesOnly=nothing) =
-         new(staticRoutesOnly)
-end
-function VpnConnectionOptionsResponseType(pd)
-    o = VpnConnectionOptionsResponseType()
-    o.staticRoutesOnly = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "staticRoutesOnly")))
-    o
-end
-
-export VpnConnectionOptionsResponseType
-
-
-type VpnStaticRouteType
-    destinationCidrBlock::Union{String, Void}
-    source::Union{String, Void}
-    state::Union{String, Void}
-
-    VpnStaticRouteType(; destinationCidrBlock=nothing, source=nothing, state=nothing) =
-         new(destinationCidrBlock, source, state)
-end
-function VpnStaticRouteType(pd)
-    o = VpnStaticRouteType()
-    o.destinationCidrBlock = LightXML.content(LightXML.find_element(pd, "destinationCidrBlock"))
-    o.source = LightXML.content(LightXML.find_element(pd, "source"))
-    o.state = LightXML.content(LightXML.find_element(pd, "state"))
-    o
-end
-
-export VpnStaticRouteType
-
-
-type VpnTunnelTelemetryType
-    outsideIpAddress::Union{String, Void}
-    status::Union{String, Void}
-    lastStatusChange::Union{Base.Dates.DateTime, Void}
-    statusMessage::Union{String, Void}
-    acceptedRouteCount::Union{Int64, Void}
-
-    VpnTunnelTelemetryType(; outsideIpAddress=nothing, status=nothing, lastStatusChange=nothing, statusMessage=nothing, acceptedRouteCount=nothing) =
-         new(outsideIpAddress, status, lastStatusChange, statusMessage, acceptedRouteCount)
-end
-function VpnTunnelTelemetryType(pd)
-    o = VpnTunnelTelemetryType()
-    o.outsideIpAddress = LightXML.content(LightXML.find_element(pd, "outsideIpAddress"))
-    o.status = LightXML.content(LightXML.find_element(pd, "status"))
-    o.lastStatusChange = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "lastStatusChange")))
-    o.statusMessage = LightXML.content(LightXML.find_element(pd, "statusMessage"))
-    o.acceptedRouteCount = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "acceptedRouteCount")))
-    o
-end
-
-export VpnTunnelTelemetryType
-
-
-type CustomerGatewayIdSetItemType
-    customerGatewayId::Union{String, Void}
-
-    CustomerGatewayIdSetItemType(; customerGatewayId=nothing) =
-         new(customerGatewayId)
-end
-function CustomerGatewayIdSetItemType(pd)
-    o = CustomerGatewayIdSetItemType()
-    o.customerGatewayId = LightXML.content(LightXML.find_element(pd, "customerGatewayId"))
-    o
-end
-
-export CustomerGatewayIdSetItemType
-
-
-type VpnGatewayIdSetItemType
-    vpnGatewayId::Union{String, Void}
-
-    VpnGatewayIdSetItemType(; vpnGatewayId=nothing) =
-         new(vpnGatewayId)
-end
-function VpnGatewayIdSetItemType(pd)
-    o = VpnGatewayIdSetItemType()
-    o.vpnGatewayId = LightXML.content(LightXML.find_element(pd, "vpnGatewayId"))
-    o
-end
-
-export VpnGatewayIdSetItemType
-
-
-type VpnConnectionIdSetItemType
-    vpnConnectionId::Union{String, Void}
-
-    VpnConnectionIdSetItemType(; vpnConnectionId=nothing) =
-         new(vpnConnectionId)
-end
-function VpnConnectionIdSetItemType(pd)
-    o = VpnConnectionIdSetItemType()
-    o.vpnConnectionId = LightXML.content(LightXML.find_element(pd, "vpnConnectionId"))
-    o
-end
-
-export VpnConnectionIdSetItemType
-
-
-type VpcIdSetItemType
-    vpcId::Union{String, Void}
-
-    VpcIdSetItemType(; vpcId=nothing) =
-         new(vpcId)
-end
-function VpcIdSetItemType(pd)
-    o = VpcIdSetItemType()
-    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
-    o
-end
-
-export VpcIdSetItemType
-
-
-type SubnetIdSetItemType
-    subnetId::Union{String, Void}
-
-    SubnetIdSetItemType(; subnetId=nothing) =
-         new(subnetId)
-end
-function SubnetIdSetItemType(pd)
-    o = SubnetIdSetItemType()
-    o.subnetId = LightXML.content(LightXML.find_element(pd, "subnetId"))
-    o
-end
-
-export SubnetIdSetItemType
-
-
-type DhcpOptionsIdSetItemType
-    dhcpOptionsId::Union{String, Void}
-
-    DhcpOptionsIdSetItemType(; dhcpOptionsId=nothing) =
-         new(dhcpOptionsId)
-end
-function DhcpOptionsIdSetItemType(pd)
-    o = DhcpOptionsIdSetItemType()
-    o.dhcpOptionsId = LightXML.content(LightXML.find_element(pd, "dhcpOptionsId"))
-    o
-end
-
-export DhcpOptionsIdSetItemType
-
-
-type DhcpConfigurationItemType
-    key::Union{String, Void}
-    valueSet::Union{Vector{String}, Void}
-
-    DhcpConfigurationItemType(; key=nothing, valueSet=nothing) =
-         new(key, valueSet)
-end
-function DhcpConfigurationItemType(pd)
-    o = DhcpConfigurationItemType()
-    o.key = LightXML.content(LightXML.find_element(pd, "key"))
-    o.valueSet = AWS.parse_vector_as(String, "value", elements_by_tagname(LightXML.find_element(pd, "item"), "value"))
-    o
-end
-
-export DhcpConfigurationItemType
-
-
-type DhcpValueType
-    value::Union{String, Void}
-
-    DhcpValueType(; value=nothing) =
-         new(value)
-end
-function DhcpValueType(pd)
-    o = DhcpValueType()
-    o.value = LightXML.content(LightXML.find_element(pd, "value"))
-    o
-end
-
-export DhcpValueType
-
-
-type ValueType
-    value::Union{String, Void}
-
-    ValueType(; value=nothing) =
-         new(value)
-end
-function ValueType(pd)
-    o = ValueType()
-    o.value = LightXML.content(LightXML.find_element(pd, "value"))
-    o
-end
-
-export ValueType
-
-
-type CreateCustomerGatewayType
-    _type::Union{String, Void}
-    ipAddress::Union{String, Void}
-    bgpAsn::Union{Int64, Void}
-
-    CreateCustomerGatewayType(; _type=nothing, ipAddress=nothing, bgpAsn=nothing) =
-         new(_type, ipAddress, bgpAsn)
-end
-function CreateCustomerGatewayType(pd)
-    o = CreateCustomerGatewayType()
-    o._type = LightXML.content(LightXML.find_element(pd, "type"))
-    o.ipAddress = LightXML.content(LightXML.find_element(pd, "ipAddress"))
-    o.bgpAsn = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "bgpAsn")))
-    o
-end
-
-export CreateCustomerGatewayType
-
-
-type DeleteCustomerGatewayType
-    customerGatewayId::Union{String, Void}
-
-    DeleteCustomerGatewayType(; customerGatewayId=nothing) =
-         new(customerGatewayId)
-end
-function DeleteCustomerGatewayType(pd)
-    o = DeleteCustomerGatewayType()
-    o.customerGatewayId = LightXML.content(LightXML.find_element(pd, "customerGatewayId"))
-    o
-end
-
-export DeleteCustomerGatewayType
-
-
-type DeleteCustomerGatewayResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    DeleteCustomerGatewayResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function DeleteCustomerGatewayResponseType(pd)
-    o = DeleteCustomerGatewayResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export DeleteCustomerGatewayResponseType
-
-
-type CreateVpnGatewayType
-    _type::Union{String, Void}
-    availabilityZone::Union{String, Void}
-
-    CreateVpnGatewayType(; _type=nothing, availabilityZone=nothing) =
-         new(_type, availabilityZone)
-end
-function CreateVpnGatewayType(pd)
-    o = CreateVpnGatewayType()
-    o._type = LightXML.content(LightXML.find_element(pd, "type"))
-    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
-    o
-end
-
-export CreateVpnGatewayType
-
-
-type DeleteVpnGatewayType
-    vpnGatewayId::Union{String, Void}
-
-    DeleteVpnGatewayType(; vpnGatewayId=nothing) =
-         new(vpnGatewayId)
-end
-function DeleteVpnGatewayType(pd)
-    o = DeleteVpnGatewayType()
-    o.vpnGatewayId = LightXML.content(LightXML.find_element(pd, "vpnGatewayId"))
-    o
-end
-
-export DeleteVpnGatewayType
-
-
-type DeleteVpnGatewayResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    DeleteVpnGatewayResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function DeleteVpnGatewayResponseType(pd)
-    o = DeleteVpnGatewayResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export DeleteVpnGatewayResponseType
-
-
-type VpnConnectionOptionsRequestType
-    staticRoutesOnly::Union{Bool, Void}
-
-    VpnConnectionOptionsRequestType(; staticRoutesOnly=nothing) =
-         new(staticRoutesOnly)
-end
-function VpnConnectionOptionsRequestType(pd)
-    o = VpnConnectionOptionsRequestType()
-    o.staticRoutesOnly = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "staticRoutesOnly")))
-    o
-end
-
-export VpnConnectionOptionsRequestType
-
-
-type CreateVpnConnectionRouteType
-    vpnConnectionId::Union{String, Void}
-    destinationCidrBlock::Union{String, Void}
-
-    CreateVpnConnectionRouteType(; vpnConnectionId=nothing, destinationCidrBlock=nothing) =
-         new(vpnConnectionId, destinationCidrBlock)
-end
-function CreateVpnConnectionRouteType(pd)
-    o = CreateVpnConnectionRouteType()
-    o.vpnConnectionId = LightXML.content(LightXML.find_element(pd, "vpnConnectionId"))
-    o.destinationCidrBlock = LightXML.content(LightXML.find_element(pd, "destinationCidrBlock"))
-    o
-end
-
-export CreateVpnConnectionRouteType
-
-
-type CreateVpnConnectionRouteResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    CreateVpnConnectionRouteResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function CreateVpnConnectionRouteResponseType(pd)
-    o = CreateVpnConnectionRouteResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export CreateVpnConnectionRouteResponseType
-
-
-type DeleteVpnConnectionRouteType
-    vpnConnectionId::Union{String, Void}
-    destinationCidrBlock::Union{String, Void}
-
-    DeleteVpnConnectionRouteType(; vpnConnectionId=nothing, destinationCidrBlock=nothing) =
-         new(vpnConnectionId, destinationCidrBlock)
-end
-function DeleteVpnConnectionRouteType(pd)
-    o = DeleteVpnConnectionRouteType()
-    o.vpnConnectionId = LightXML.content(LightXML.find_element(pd, "vpnConnectionId"))
-    o.destinationCidrBlock = LightXML.content(LightXML.find_element(pd, "destinationCidrBlock"))
-    o
-end
-
-export DeleteVpnConnectionRouteType
-
-
-type DeleteVpnConnectionRouteResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    DeleteVpnConnectionRouteResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function DeleteVpnConnectionRouteResponseType(pd)
-    o = DeleteVpnConnectionRouteResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export DeleteVpnConnectionRouteResponseType
-
-
-type DeleteVpnConnectionType
-    vpnConnectionId::Union{String, Void}
-
-    DeleteVpnConnectionType(; vpnConnectionId=nothing) =
-         new(vpnConnectionId)
-end
-function DeleteVpnConnectionType(pd)
-    o = DeleteVpnConnectionType()
-    o.vpnConnectionId = LightXML.content(LightXML.find_element(pd, "vpnConnectionId"))
-    o
-end
-
-export DeleteVpnConnectionType
-
-
-type DeleteVpnConnectionResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    DeleteVpnConnectionResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function DeleteVpnConnectionResponseType(pd)
-    o = DeleteVpnConnectionResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export DeleteVpnConnectionResponseType
-
-
-type AttachVpnGatewayType
-    vpnGatewayId::Union{String, Void}
-    vpcId::Union{String, Void}
-
-    AttachVpnGatewayType(; vpnGatewayId=nothing, vpcId=nothing) =
-         new(vpnGatewayId, vpcId)
-end
-function AttachVpnGatewayType(pd)
-    o = AttachVpnGatewayType()
-    o.vpnGatewayId = LightXML.content(LightXML.find_element(pd, "vpnGatewayId"))
-    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
-    o
-end
-
-export AttachVpnGatewayType
-
-
-type DetachVpnGatewayType
-    vpnGatewayId::Union{String, Void}
-    vpcId::Union{String, Void}
-
-    DetachVpnGatewayType(; vpnGatewayId=nothing, vpcId=nothing) =
-         new(vpnGatewayId, vpcId)
-end
-function DetachVpnGatewayType(pd)
-    o = DetachVpnGatewayType()
-    o.vpnGatewayId = LightXML.content(LightXML.find_element(pd, "vpnGatewayId"))
-    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
-    o
-end
-
-export DetachVpnGatewayType
-
-
-type DetachVpnGatewayResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    DetachVpnGatewayResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function DetachVpnGatewayResponseType(pd)
-    o = DetachVpnGatewayResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export DetachVpnGatewayResponseType
-
-
-type CreateVpcType
-    cidrBlock::Union{String, Void}
-    instanceTenancy::Union{String, Void}
-
-    CreateVpcType(; cidrBlock=nothing, instanceTenancy=nothing) =
-         new(cidrBlock, instanceTenancy)
-end
-function CreateVpcType(pd)
-    o = CreateVpcType()
-    o.cidrBlock = LightXML.content(LightXML.find_element(pd, "cidrBlock"))
-    o.instanceTenancy = LightXML.content(LightXML.find_element(pd, "instanceTenancy"))
-    o
-end
-
-export CreateVpcType
-
-
-type DeleteVpcType
-    vpcId::Union{String, Void}
-
-    DeleteVpcType(; vpcId=nothing) =
-         new(vpcId)
-end
-function DeleteVpcType(pd)
-    o = DeleteVpcType()
-    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
-    o
-end
-
-export DeleteVpcType
-
-
-type DeleteVpcResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    DeleteVpcResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function DeleteVpcResponseType(pd)
-    o = DeleteVpcResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export DeleteVpcResponseType
-
-
-type CreateSubnetType
-    vpcId::Union{String, Void}
-    cidrBlock::Union{String, Void}
-    availabilityZone::Union{String, Void}
-
-    CreateSubnetType(; vpcId=nothing, cidrBlock=nothing, availabilityZone=nothing) =
-         new(vpcId, cidrBlock, availabilityZone)
-end
-function CreateSubnetType(pd)
-    o = CreateSubnetType()
-    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
-    o.cidrBlock = LightXML.content(LightXML.find_element(pd, "cidrBlock"))
-    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
-    o
-end
-
-export CreateSubnetType
-
-
-type DeleteSubnetType
-    subnetId::Union{String, Void}
-
-    DeleteSubnetType(; subnetId=nothing) =
-         new(subnetId)
-end
-function DeleteSubnetType(pd)
-    o = DeleteSubnetType()
-    o.subnetId = LightXML.content(LightXML.find_element(pd, "subnetId"))
-    o
-end
-
-export DeleteSubnetType
-
-
-type DeleteSubnetResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    DeleteSubnetResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function DeleteSubnetResponseType(pd)
-    o = DeleteSubnetResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export DeleteSubnetResponseType
-
-
-type DeleteDhcpOptionsType
-    dhcpOptionsId::Union{String, Void}
-
-    DeleteDhcpOptionsType(; dhcpOptionsId=nothing) =
-         new(dhcpOptionsId)
-end
-function DeleteDhcpOptionsType(pd)
-    o = DeleteDhcpOptionsType()
-    o.dhcpOptionsId = LightXML.content(LightXML.find_element(pd, "dhcpOptionsId"))
-    o
-end
-
-export DeleteDhcpOptionsType
-
-
-type DeleteDhcpOptionsResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    DeleteDhcpOptionsResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function DeleteDhcpOptionsResponseType(pd)
-    o = DeleteDhcpOptionsResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export DeleteDhcpOptionsResponseType
-
-
-type AssociateDhcpOptionsType
-    dhcpOptionsId::Union{String, Void}
-    vpcId::Union{String, Void}
-
-    AssociateDhcpOptionsType(; dhcpOptionsId=nothing, vpcId=nothing) =
-         new(dhcpOptionsId, vpcId)
-end
-function AssociateDhcpOptionsType(pd)
-    o = AssociateDhcpOptionsType()
-    o.dhcpOptionsId = LightXML.content(LightXML.find_element(pd, "dhcpOptionsId"))
-    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
-    o
-end
-
-export AssociateDhcpOptionsType
-
-
-type AssociateDhcpOptionsResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    AssociateDhcpOptionsResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function AssociateDhcpOptionsResponseType(pd)
-    o = AssociateDhcpOptionsResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export AssociateDhcpOptionsResponseType
-
-
-type SpotInstanceStateFaultType
-    code::Union{String, Void}
-    message::Union{String, Void}
-
-    SpotInstanceStateFaultType(; code=nothing, message=nothing) =
-         new(code, message)
-end
-function SpotInstanceStateFaultType(pd)
-    o = SpotInstanceStateFaultType()
-    o.code = LightXML.content(LightXML.find_element(pd, "code"))
-    o.message = LightXML.content(LightXML.find_element(pd, "message"))
-    o
-end
-
-export SpotInstanceStateFaultType
-
-
-type SpotInstanceStatusMessageType
-    code::Union{String, Void}
-    updateTime::Union{Base.Dates.DateTime, Void}
-    message::Union{String, Void}
-
-    SpotInstanceStatusMessageType(; code=nothing, updateTime=nothing, message=nothing) =
-         new(code, updateTime, message)
-end
-function SpotInstanceStatusMessageType(pd)
-    o = SpotInstanceStatusMessageType()
-    o.code = LightXML.content(LightXML.find_element(pd, "code"))
-    o.updateTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "updateTime")))
-    o.message = LightXML.content(LightXML.find_element(pd, "message"))
-    o
-end
-
-export SpotInstanceStatusMessageType
-
-
-type SpotInstanceRequestIdSetItemType
-    spotInstanceRequestId::Union{String, Void}
-
-    SpotInstanceRequestIdSetItemType(; spotInstanceRequestId=nothing) =
-         new(spotInstanceRequestId)
-end
-function SpotInstanceRequestIdSetItemType(pd)
-    o = SpotInstanceRequestIdSetItemType()
-    o.spotInstanceRequestId = LightXML.content(LightXML.find_element(pd, "spotInstanceRequestId"))
-    o
-end
-
-export SpotInstanceRequestIdSetItemType
-
-
-type CancelSpotInstanceRequestsType
-    spotInstanceRequestIdSet::Union{Vector{String}, Void}
-
-    CancelSpotInstanceRequestsType(; spotInstanceRequestIdSet=nothing) =
-         new(spotInstanceRequestIdSet)
-end
-function CancelSpotInstanceRequestsType(pd)
-    o = CancelSpotInstanceRequestsType()
-    o.spotInstanceRequestIdSet = AWS.parse_vector_as(String, "spotInstanceRequestId", elements_by_tagname(LightXML.find_element(pd, "item"), "spotInstanceRequestId"))
-    o
-end
-
-export CancelSpotInstanceRequestsType
-
-
-type CancelSpotInstanceRequestsResponseSetItemType
-    spotInstanceRequestId::Union{String, Void}
-    state::Union{String, Void}
-
-    CancelSpotInstanceRequestsResponseSetItemType(; spotInstanceRequestId=nothing, state=nothing) =
-         new(spotInstanceRequestId, state)
-end
-function CancelSpotInstanceRequestsResponseSetItemType(pd)
-    o = CancelSpotInstanceRequestsResponseSetItemType()
-    o.spotInstanceRequestId = LightXML.content(LightXML.find_element(pd, "spotInstanceRequestId"))
-    o.state = LightXML.content(LightXML.find_element(pd, "state"))
-    o
-end
-
-export CancelSpotInstanceRequestsResponseSetItemType
-
-
-type InstanceTypeSetItemType
-    instanceType::Union{String, Void}
-
-    InstanceTypeSetItemType(; instanceType=nothing) =
-         new(instanceType)
-end
-function InstanceTypeSetItemType(pd)
-    o = InstanceTypeSetItemType()
-    o.instanceType = LightXML.content(LightXML.find_element(pd, "instanceType"))
-    o
-end
-
-export InstanceTypeSetItemType
-
-
-type ProductDescriptionSetItemType
-    productDescription::Union{String, Void}
-
-    ProductDescriptionSetItemType(; productDescription=nothing) =
-         new(productDescription)
-end
-function ProductDescriptionSetItemType(pd)
-    o = ProductDescriptionSetItemType()
-    o.productDescription = LightXML.content(LightXML.find_element(pd, "productDescription"))
-    o
-end
-
-export ProductDescriptionSetItemType
-
-
-type SpotPriceHistorySetItemType
-    instanceType::Union{String, Void}
-    productDescription::Union{String, Void}
-    spotPrice::Union{String, Void}
-    timestamp::Union{Base.Dates.DateTime, Void}
-    availabilityZone::Union{String, Void}
-
-    SpotPriceHistorySetItemType(; instanceType=nothing, productDescription=nothing, spotPrice=nothing, timestamp=nothing, availabilityZone=nothing) =
-         new(instanceType, productDescription, spotPrice, timestamp, availabilityZone)
-end
-function SpotPriceHistorySetItemType(pd)
-    o = SpotPriceHistorySetItemType()
-    o.instanceType = LightXML.content(LightXML.find_element(pd, "instanceType"))
-    o.productDescription = LightXML.content(LightXML.find_element(pd, "productDescription"))
-    o.spotPrice = LightXML.content(LightXML.find_element(pd, "spotPrice"))
-    o.timestamp = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "timestamp")))
-    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
-    o
-end
-
-export SpotPriceHistorySetItemType
-
-
-type CreateSpotDatafeedSubscriptionType
-    bucket::Union{String, Void}
-    prefix::Union{String, Void}
-
-    CreateSpotDatafeedSubscriptionType(; bucket=nothing, prefix=nothing) =
-         new(bucket, prefix)
-end
-function CreateSpotDatafeedSubscriptionType(pd)
-    o = CreateSpotDatafeedSubscriptionType()
-    o.bucket = LightXML.content(LightXML.find_element(pd, "bucket"))
-    o.prefix = LightXML.content(LightXML.find_element(pd, "prefix"))
-    o
-end
-
-export CreateSpotDatafeedSubscriptionType
-
-
-type DeleteSpotDatafeedSubscriptionResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    DeleteSpotDatafeedSubscriptionResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function DeleteSpotDatafeedSubscriptionResponseType(pd)
-    o = DeleteSpotDatafeedSubscriptionResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export DeleteSpotDatafeedSubscriptionResponseType
-
-
-type LicenseIdSetItemType
-    licenseId::Union{String, Void}
-
-    LicenseIdSetItemType(; licenseId=nothing) =
-         new(licenseId)
-end
-function LicenseIdSetItemType(pd)
-    o = LicenseIdSetItemType()
-    o.licenseId = LightXML.content(LightXML.find_element(pd, "licenseId"))
-    o
-end
-
-export LicenseIdSetItemType
-
-
-type LicenseCapacitySetItemType
-    capacity::Union{Int64, Void}
-    instanceCapacity::Union{Int64, Void}
-    state::Union{String, Void}
-    earliestAllowedDeactivationTime::Union{Base.Dates.DateTime, Void}
-
-    LicenseCapacitySetItemType(; capacity=nothing, instanceCapacity=nothing, state=nothing, earliestAllowedDeactivationTime=nothing) =
-         new(capacity, instanceCapacity, state, earliestAllowedDeactivationTime)
-end
-function LicenseCapacitySetItemType(pd)
-    o = LicenseCapacitySetItemType()
-    o.capacity = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "capacity")))
-    o.instanceCapacity = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "instanceCapacity")))
-    o.state = LightXML.content(LightXML.find_element(pd, "state"))
-    o.earliestAllowedDeactivationTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "earliestAllowedDeactivationTime")))
-    o
-end
-
-export LicenseCapacitySetItemType
-
-
-type ActivateLicenseType
-    licenseId::Union{String, Void}
-    capacity::Union{Int64, Void}
-
-    ActivateLicenseType(; licenseId=nothing, capacity=nothing) =
-         new(licenseId, capacity)
-end
-function ActivateLicenseType(pd)
-    o = ActivateLicenseType()
-    o.licenseId = LightXML.content(LightXML.find_element(pd, "licenseId"))
-    o.capacity = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "capacity")))
-    o
-end
-
-export ActivateLicenseType
-
-
-type ActivateLicenseResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    ActivateLicenseResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function ActivateLicenseResponseType(pd)
-    o = ActivateLicenseResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export ActivateLicenseResponseType
-
-
-type DeactivateLicenseType
-    licenseId::Union{String, Void}
-    capacity::Union{Int64, Void}
-
-    DeactivateLicenseType(; licenseId=nothing, capacity=nothing) =
-         new(licenseId, capacity)
-end
-function DeactivateLicenseType(pd)
-    o = DeactivateLicenseType()
-    o.licenseId = LightXML.content(LightXML.find_element(pd, "licenseId"))
-    o.capacity = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "capacity")))
-    o
-end
-
-export DeactivateLicenseType
-
-
-type DeactivateLicenseResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    DeactivateLicenseResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function DeactivateLicenseResponseType(pd)
-    o = DeactivateLicenseResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export DeactivateLicenseResponseType
-
-
-type CreatePlacementGroupType
-    groupName::Union{String, Void}
-    strategy::Union{String, Void}
-
-    CreatePlacementGroupType(; groupName=nothing, strategy=nothing) =
-         new(groupName, strategy)
-end
-function CreatePlacementGroupType(pd)
-    o = CreatePlacementGroupType()
-    o.groupName = LightXML.content(LightXML.find_element(pd, "groupName"))
-    o.strategy = LightXML.content(LightXML.find_element(pd, "strategy"))
-    o
-end
-
-export CreatePlacementGroupType
-
-
-type CreatePlacementGroupResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    CreatePlacementGroupResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function CreatePlacementGroupResponseType(pd)
-    o = CreatePlacementGroupResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export CreatePlacementGroupResponseType
-
-
-type DeletePlacementGroupType
-    groupName::Union{String, Void}
-
-    DeletePlacementGroupType(; groupName=nothing) =
-         new(groupName)
-end
-function DeletePlacementGroupType(pd)
-    o = DeletePlacementGroupType()
-    o.groupName = LightXML.content(LightXML.find_element(pd, "groupName"))
-    o
-end
-
-export DeletePlacementGroupType
-
-
-type DeletePlacementGroupResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    DeletePlacementGroupResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function DeletePlacementGroupResponseType(pd)
-    o = DeletePlacementGroupResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export DeletePlacementGroupResponseType
-
-
-type DescribePlacementGroupItemType
-    groupName::Union{String, Void}
-
-    DescribePlacementGroupItemType(; groupName=nothing) =
-         new(groupName)
-end
-function DescribePlacementGroupItemType(pd)
-    o = DescribePlacementGroupItemType()
-    o.groupName = LightXML.content(LightXML.find_element(pd, "groupName"))
-    o
-end
-
-export DescribePlacementGroupItemType
-
-
-type PlacementGroupInfoType
-    groupName::Union{String, Void}
-    strategy::Union{String, Void}
-    state::Union{String, Void}
-
-    PlacementGroupInfoType(; groupName=nothing, strategy=nothing, state=nothing) =
-         new(groupName, strategy, state)
-end
-function PlacementGroupInfoType(pd)
-    o = PlacementGroupInfoType()
-    o.groupName = LightXML.content(LightXML.find_element(pd, "groupName"))
-    o.strategy = LightXML.content(LightXML.find_element(pd, "strategy"))
-    o.state = LightXML.content(LightXML.find_element(pd, "state"))
-    o
-end
-
-export PlacementGroupInfoType
-
-
-type ResourceIdSetItemType
-    resourceId::Union{String, Void}
-
-    ResourceIdSetItemType(; resourceId=nothing) =
-         new(resourceId)
-end
-function ResourceIdSetItemType(pd)
-    o = ResourceIdSetItemType()
-    o.resourceId = LightXML.content(LightXML.find_element(pd, "resourceId"))
-    o
-end
-
-export ResourceIdSetItemType
-
-
-type CreateTagsResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    CreateTagsResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function CreateTagsResponseType(pd)
-    o = CreateTagsResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export CreateTagsResponseType
-
-
-type TagSetItemType
-    resourceId::Union{String, Void}
-    resourceType::Union{String, Void}
-    key::Union{String, Void}
-    value::Union{String, Void}
-
-    TagSetItemType(; resourceId=nothing, resourceType=nothing, key=nothing, value=nothing) =
-         new(resourceId, resourceType, key, value)
-end
-function TagSetItemType(pd)
-    o = TagSetItemType()
-    o.resourceId = LightXML.content(LightXML.find_element(pd, "resourceId"))
-    o.resourceType = LightXML.content(LightXML.find_element(pd, "resourceType"))
-    o.key = LightXML.content(LightXML.find_element(pd, "key"))
-    o.value = LightXML.content(LightXML.find_element(pd, "value"))
-    o
-end
-
-export TagSetItemType
-
-
-type DeleteTagsSetItemType
-    key::Union{String, Void}
-    value::Union{String, Void}
-
-    DeleteTagsSetItemType(; key=nothing, value=nothing) =
-         new(key, value)
-end
-function DeleteTagsSetItemType(pd)
-    o = DeleteTagsSetItemType()
-    o.key = LightXML.content(LightXML.find_element(pd, "key"))
-    o.value = LightXML.content(LightXML.find_element(pd, "value"))
-    o
-end
-
-export DeleteTagsSetItemType
-
-
-type DeleteTagsResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    DeleteTagsResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function DeleteTagsResponseType(pd)
-    o = DeleteTagsResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export DeleteTagsResponseType
-
-
-type DiskImageDetailType
-    format::Union{String, Void}
-    bytes::Union{Int64, Void}
-    importManifestUrl::Union{String, Void}
-
-    DiskImageDetailType(; format=nothing, bytes=nothing, importManifestUrl=nothing) =
-         new(format, bytes, importManifestUrl)
-end
-function DiskImageDetailType(pd)
-    o = DiskImageDetailType()
-    o.format = LightXML.content(LightXML.find_element(pd, "format"))
-    o.bytes = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "bytes")))
-    o.importManifestUrl = LightXML.content(LightXML.find_element(pd, "importManifestUrl"))
-    o
-end
-
-export DiskImageDetailType
-
-
-type DiskImageVolumeType
-    size::Union{Int64, Void}
-
-    DiskImageVolumeType(; size=nothing) =
-         new(size)
-end
-function DiskImageVolumeType(pd)
-    o = DiskImageVolumeType()
-    o.size = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "size")))
-    o
-end
-
-export DiskImageVolumeType
-
-
-type DiskImageVolumeDescriptionType
-    size::Union{Int64, Void}
-    id::Union{String, Void}
-
-    DiskImageVolumeDescriptionType(; size=nothing, id=nothing) =
-         new(size, id)
-end
-function DiskImageVolumeDescriptionType(pd)
-    o = DiskImageVolumeDescriptionType()
-    o.size = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "size")))
-    o.id = LightXML.content(LightXML.find_element(pd, "id"))
-    o
-end
-
-export DiskImageVolumeDescriptionType
-
-
-type DiskImageDescriptionType
-    format::Union{String, Void}
-    size::Union{Int64, Void}
-    importManifestUrl::Union{String, Void}
-    checksum::Union{String, Void}
-
-    DiskImageDescriptionType(; format=nothing, size=nothing, importManifestUrl=nothing, checksum=nothing) =
-         new(format, size, importManifestUrl, checksum)
-end
-function DiskImageDescriptionType(pd)
-    o = DiskImageDescriptionType()
-    o.format = LightXML.content(LightXML.find_element(pd, "format"))
-    o.size = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "size")))
-    o.importManifestUrl = LightXML.content(LightXML.find_element(pd, "importManifestUrl"))
-    o.checksum = LightXML.content(LightXML.find_element(pd, "checksum"))
-    o
-end
-
-export DiskImageDescriptionType
-
-
-type DescribeConversionTasksType
-    conversionTaskIdSet::Union{Vector{String}, Void}
-
-    DescribeConversionTasksType(; conversionTaskIdSet=nothing) =
-         new(conversionTaskIdSet)
-end
-function DescribeConversionTasksType(pd)
-    o = DescribeConversionTasksType()
-    o.conversionTaskIdSet = AWS.parse_vector_as(String, "conversionTaskId", elements_by_tagname(LightXML.find_element(pd, "item"), "conversionTaskId"))
-    o
-end
-
-export DescribeConversionTasksType
-
-
-type ConversionTaskIdItemType
-    conversionTaskId::Union{String, Void}
-
-    ConversionTaskIdItemType(; conversionTaskId=nothing) =
-         new(conversionTaskId)
-end
-function ConversionTaskIdItemType(pd)
-    o = ConversionTaskIdItemType()
-    o.conversionTaskId = LightXML.content(LightXML.find_element(pd, "conversionTaskId"))
-    o
-end
-
-export ConversionTaskIdItemType
-
-
-type CancelConversionTaskType
-    conversionTaskId::Union{String, Void}
-
-    CancelConversionTaskType(; conversionTaskId=nothing) =
-         new(conversionTaskId)
-end
-function CancelConversionTaskType(pd)
-    o = CancelConversionTaskType()
-    o.conversionTaskId = LightXML.content(LightXML.find_element(pd, "conversionTaskId"))
-    o
-end
-
-export CancelConversionTaskType
-
-
-type CancelConversionTaskResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    CancelConversionTaskResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function CancelConversionTaskResponseType(pd)
-    o = CancelConversionTaskResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export CancelConversionTaskResponseType
-
-
-type CreateInstanceExportTaskType
-    description::Union{String, Void}
-    instanceId::Union{String, Void}
-    targetEnvironment::Union{String, Void}
-
-    CreateInstanceExportTaskType(; description=nothing, instanceId=nothing, targetEnvironment=nothing) =
-         new(description, instanceId, targetEnvironment)
-end
-function CreateInstanceExportTaskType(pd)
-    o = CreateInstanceExportTaskType()
-    o.description = LightXML.content(LightXML.find_element(pd, "description"))
-    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
-    o.targetEnvironment = LightXML.content(LightXML.find_element(pd, "targetEnvironment"))
-    o
-end
-
-export CreateInstanceExportTaskType
-
-
-type ExportToS3TaskType
-    diskImageFormat::Union{String, Void}
-    containerFormat::Union{String, Void}
-    s3Bucket::Union{String, Void}
-    s3Prefix::Union{String, Void}
-
-    ExportToS3TaskType(; diskImageFormat=nothing, containerFormat=nothing, s3Bucket=nothing, s3Prefix=nothing) =
-         new(diskImageFormat, containerFormat, s3Bucket, s3Prefix)
-end
-function ExportToS3TaskType(pd)
-    o = ExportToS3TaskType()
-    o.diskImageFormat = LightXML.content(LightXML.find_element(pd, "diskImageFormat"))
-    o.containerFormat = LightXML.content(LightXML.find_element(pd, "containerFormat"))
-    o.s3Bucket = LightXML.content(LightXML.find_element(pd, "s3Bucket"))
-    o.s3Prefix = LightXML.content(LightXML.find_element(pd, "s3Prefix"))
-    o
-end
-
-export ExportToS3TaskType
-
-
-type DescribeExportTasksType
-    exportTaskIdSet::Union{Vector{String}, Void}
-
-    DescribeExportTasksType(; exportTaskIdSet=nothing) =
-         new(exportTaskIdSet)
-end
-function DescribeExportTasksType(pd)
-    o = DescribeExportTasksType()
-    o.exportTaskIdSet = AWS.parse_vector_as(String, "exportTaskId", elements_by_tagname(LightXML.find_element(pd, "item"), "exportTaskId"))
-    o
-end
-
-export DescribeExportTasksType
-
-
-type ExportTaskIdType
-    exportTaskId::Union{String, Void}
-
-    ExportTaskIdType(; exportTaskId=nothing) =
-         new(exportTaskId)
-end
-function ExportTaskIdType(pd)
-    o = ExportTaskIdType()
-    o.exportTaskId = LightXML.content(LightXML.find_element(pd, "exportTaskId"))
-    o
-end
-
-export ExportTaskIdType
-
-
-type ExportTaskResponseType
-    exportTaskId::Union{String, Void}
-    description::Union{String, Void}
-    state::Union{String, Void}
-    statusMessage::Union{String, Void}
-
-    ExportTaskResponseType(; exportTaskId=nothing, description=nothing, state=nothing, statusMessage=nothing) =
-         new(exportTaskId, description, state, statusMessage)
-end
-function ExportTaskResponseType(pd)
-    o = ExportTaskResponseType()
-    o.exportTaskId = LightXML.content(LightXML.find_element(pd, "exportTaskId"))
-    o.description = LightXML.content(LightXML.find_element(pd, "description"))
-    o.state = LightXML.content(LightXML.find_element(pd, "state"))
-    o.statusMessage = LightXML.content(LightXML.find_element(pd, "statusMessage"))
-    o
-end
-
-export ExportTaskResponseType
-
-
-type InstanceExportTaskResponseType
-    instanceId::Union{String, Void}
-    targetEnvironment::Union{String, Void}
-
-    InstanceExportTaskResponseType(; instanceId=nothing, targetEnvironment=nothing) =
-         new(instanceId, targetEnvironment)
-end
-function InstanceExportTaskResponseType(pd)
-    o = InstanceExportTaskResponseType()
-    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
-    o.targetEnvironment = LightXML.content(LightXML.find_element(pd, "targetEnvironment"))
-    o
-end
-
-export InstanceExportTaskResponseType
-
-
-type ExportToS3TaskResponseType
-    diskImageFormat::Union{String, Void}
-    containerFormat::Union{String, Void}
-    s3Bucket::Union{String, Void}
-    s3Key::Union{String, Void}
-
-    ExportToS3TaskResponseType(; diskImageFormat=nothing, containerFormat=nothing, s3Bucket=nothing, s3Key=nothing) =
-         new(diskImageFormat, containerFormat, s3Bucket, s3Key)
-end
-function ExportToS3TaskResponseType(pd)
-    o = ExportToS3TaskResponseType()
-    o.diskImageFormat = LightXML.content(LightXML.find_element(pd, "diskImageFormat"))
-    o.containerFormat = LightXML.content(LightXML.find_element(pd, "containerFormat"))
-    o.s3Bucket = LightXML.content(LightXML.find_element(pd, "s3Bucket"))
-    o.s3Key = LightXML.content(LightXML.find_element(pd, "s3Key"))
-    o
-end
-
-export ExportToS3TaskResponseType
-
-
-type CancelExportTaskType
-    exportTaskId::Union{String, Void}
-
-    CancelExportTaskType(; exportTaskId=nothing) =
-         new(exportTaskId)
-end
-function CancelExportTaskType(pd)
-    o = CancelExportTaskType()
-    o.exportTaskId = LightXML.content(LightXML.find_element(pd, "exportTaskId"))
-    o
-end
-
-export CancelExportTaskType
-
-
-type CancelExportTaskResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    CancelExportTaskResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function CancelExportTaskResponseType(pd)
-    o = CancelExportTaskResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export CancelExportTaskResponseType
-
-
-type InternetGatewayAttachmentType
-    vpcId::Union{String, Void}
-    state::Union{String, Void}
-
-    InternetGatewayAttachmentType(; vpcId=nothing, state=nothing) =
-         new(vpcId, state)
-end
-function InternetGatewayAttachmentType(pd)
-    o = InternetGatewayAttachmentType()
-    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
-    o.state = LightXML.content(LightXML.find_element(pd, "state"))
-    o
-end
-
-export InternetGatewayAttachmentType
-
-
-type InternetGatewayIdSetItemType
-    internetGatewayId::Union{String, Void}
-
-    InternetGatewayIdSetItemType(; internetGatewayId=nothing) =
-         new(internetGatewayId)
-end
-function InternetGatewayIdSetItemType(pd)
-    o = InternetGatewayIdSetItemType()
-    o.internetGatewayId = LightXML.content(LightXML.find_element(pd, "internetGatewayId"))
-    o
-end
-
-export InternetGatewayIdSetItemType
-
-
-type DeleteInternetGatewayType
-    internetGatewayId::Union{String, Void}
-
-    DeleteInternetGatewayType(; internetGatewayId=nothing) =
-         new(internetGatewayId)
-end
-function DeleteInternetGatewayType(pd)
-    o = DeleteInternetGatewayType()
-    o.internetGatewayId = LightXML.content(LightXML.find_element(pd, "internetGatewayId"))
-    o
-end
-
-export DeleteInternetGatewayType
-
-
-type DeleteInternetGatewayResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    DeleteInternetGatewayResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function DeleteInternetGatewayResponseType(pd)
-    o = DeleteInternetGatewayResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export DeleteInternetGatewayResponseType
-
-
-type AttachInternetGatewayType
-    internetGatewayId::Union{String, Void}
-    vpcId::Union{String, Void}
-
-    AttachInternetGatewayType(; internetGatewayId=nothing, vpcId=nothing) =
-         new(internetGatewayId, vpcId)
-end
-function AttachInternetGatewayType(pd)
-    o = AttachInternetGatewayType()
-    o.internetGatewayId = LightXML.content(LightXML.find_element(pd, "internetGatewayId"))
-    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
-    o
-end
-
-export AttachInternetGatewayType
-
-
-type AttachInternetGatewayResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    AttachInternetGatewayResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function AttachInternetGatewayResponseType(pd)
-    o = AttachInternetGatewayResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export AttachInternetGatewayResponseType
-
-
-type DetachInternetGatewayType
-    internetGatewayId::Union{String, Void}
-    vpcId::Union{String, Void}
-
-    DetachInternetGatewayType(; internetGatewayId=nothing, vpcId=nothing) =
-         new(internetGatewayId, vpcId)
-end
-function DetachInternetGatewayType(pd)
-    o = DetachInternetGatewayType()
-    o.internetGatewayId = LightXML.content(LightXML.find_element(pd, "internetGatewayId"))
-    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
-    o
-end
-
-export DetachInternetGatewayType
-
-
-type DetachInternetGatewayResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    DetachInternetGatewayResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function DetachInternetGatewayResponseType(pd)
-    o = DetachInternetGatewayResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export DetachInternetGatewayResponseType
-
-
-type CreateRouteTableType
-    vpcId::Union{String, Void}
-
-    CreateRouteTableType(; vpcId=nothing) =
-         new(vpcId)
-end
-function CreateRouteTableType(pd)
-    o = CreateRouteTableType()
-    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
-    o
-end
-
-export CreateRouteTableType
-
-
-type RouteType
-    destinationCidrBlock::Union{String, Void}
-    gatewayId::Union{String, Void}
-    instanceId::Union{String, Void}
-    instanceOwnerId::Union{String, Void}
-    networkInterfaceId::Union{String, Void}
-    state::Union{String, Void}
-    origin::Union{String, Void}
-
-    RouteType(; destinationCidrBlock=nothing, gatewayId=nothing, instanceId=nothing, instanceOwnerId=nothing, networkInterfaceId=nothing, state=nothing, origin=nothing) =
-         new(destinationCidrBlock, gatewayId, instanceId, instanceOwnerId, networkInterfaceId, state, origin)
-end
-function RouteType(pd)
-    o = RouteType()
-    o.destinationCidrBlock = LightXML.content(LightXML.find_element(pd, "destinationCidrBlock"))
-    o.gatewayId = LightXML.content(LightXML.find_element(pd, "gatewayId"))
-    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
-    o.instanceOwnerId = LightXML.content(LightXML.find_element(pd, "instanceOwnerId"))
-    o.networkInterfaceId = LightXML.content(LightXML.find_element(pd, "networkInterfaceId"))
-    o.state = LightXML.content(LightXML.find_element(pd, "state"))
-    o.origin = LightXML.content(LightXML.find_element(pd, "origin"))
-    o
-end
-
-export RouteType
-
-
-type RouteTableAssociationType
-    routeTableAssociationId::Union{String, Void}
-    routeTableId::Union{String, Void}
-
-    RouteTableAssociationType(; routeTableAssociationId=nothing, routeTableId=nothing) =
-         new(routeTableAssociationId, routeTableId)
-end
-function RouteTableAssociationType(pd)
-    o = RouteTableAssociationType()
-    o.routeTableAssociationId = LightXML.content(LightXML.find_element(pd, "routeTableAssociationId"))
-    o.routeTableId = LightXML.content(LightXML.find_element(pd, "routeTableId"))
-    o
-end
-
-export RouteTableAssociationType
-
-
-type PropagatingVgwType
-    gatewayId::Union{String, Void}
-
-    PropagatingVgwType(; gatewayId=nothing) =
-         new(gatewayId)
-end
-function PropagatingVgwType(pd)
-    o = PropagatingVgwType()
-    o.gatewayId = LightXML.content(LightXML.find_element(pd, "gatewayId"))
-    o
-end
-
-export PropagatingVgwType
-
-
-type RouteTableIdSetItemType
-    routeTableId::Union{String, Void}
-
-    RouteTableIdSetItemType(; routeTableId=nothing) =
-         new(routeTableId)
-end
-function RouteTableIdSetItemType(pd)
-    o = RouteTableIdSetItemType()
-    o.routeTableId = LightXML.content(LightXML.find_element(pd, "routeTableId"))
-    o
-end
-
-export RouteTableIdSetItemType
-
-
-type EnableVgwRoutePropagationRequestType
-    routeTableId::Union{String, Void}
-    gatewayId::Union{String, Void}
-
-    EnableVgwRoutePropagationRequestType(; routeTableId=nothing, gatewayId=nothing) =
-         new(routeTableId, gatewayId)
-end
-function EnableVgwRoutePropagationRequestType(pd)
-    o = EnableVgwRoutePropagationRequestType()
-    o.routeTableId = LightXML.content(LightXML.find_element(pd, "routeTableId"))
-    o.gatewayId = LightXML.content(LightXML.find_element(pd, "gatewayId"))
-    o
-end
-
-export EnableVgwRoutePropagationRequestType
-
-
-type EnableVgwRoutePropagationResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    EnableVgwRoutePropagationResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function EnableVgwRoutePropagationResponseType(pd)
-    o = EnableVgwRoutePropagationResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export EnableVgwRoutePropagationResponseType
-
-
-type DisableVgwRoutePropagationRequestType
-    routeTableId::Union{String, Void}
-    gatewayId::Union{String, Void}
-
-    DisableVgwRoutePropagationRequestType(; routeTableId=nothing, gatewayId=nothing) =
-         new(routeTableId, gatewayId)
-end
-function DisableVgwRoutePropagationRequestType(pd)
-    o = DisableVgwRoutePropagationRequestType()
-    o.routeTableId = LightXML.content(LightXML.find_element(pd, "routeTableId"))
-    o.gatewayId = LightXML.content(LightXML.find_element(pd, "gatewayId"))
-    o
-end
-
-export DisableVgwRoutePropagationRequestType
-
-
-type DisableVgwRoutePropagationResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    DisableVgwRoutePropagationResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function DisableVgwRoutePropagationResponseType(pd)
-    o = DisableVgwRoutePropagationResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export DisableVgwRoutePropagationResponseType
-
-
-type DeleteRouteTableType
-    routeTableId::Union{String, Void}
-
-    DeleteRouteTableType(; routeTableId=nothing) =
-         new(routeTableId)
-end
-function DeleteRouteTableType(pd)
-    o = DeleteRouteTableType()
-    o.routeTableId = LightXML.content(LightXML.find_element(pd, "routeTableId"))
-    o
-end
-
-export DeleteRouteTableType
-
-
-type DeleteRouteTableResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    DeleteRouteTableResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function DeleteRouteTableResponseType(pd)
-    o = DeleteRouteTableResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export DeleteRouteTableResponseType
-
-
-type AssociateRouteTableType
-    routeTableId::Union{String, Void}
-    subnetId::Union{String, Void}
-
-    AssociateRouteTableType(; routeTableId=nothing, subnetId=nothing) =
-         new(routeTableId, subnetId)
-end
-function AssociateRouteTableType(pd)
-    o = AssociateRouteTableType()
-    o.routeTableId = LightXML.content(LightXML.find_element(pd, "routeTableId"))
-    o.subnetId = LightXML.content(LightXML.find_element(pd, "subnetId"))
-    o
-end
-
-export AssociateRouteTableType
-
-
-type AssociateRouteTableResponseType
-    requestId::Union{String, Void}
-    associationId::Union{String, Void}
-
-    AssociateRouteTableResponseType(; requestId=nothing, associationId=nothing) =
-         new(requestId, associationId)
-end
-function AssociateRouteTableResponseType(pd)
-    o = AssociateRouteTableResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.associationId = LightXML.content(LightXML.find_element(pd, "associationId"))
-    o
-end
-
-export AssociateRouteTableResponseType
-
-
-type ReplaceRouteTableAssociationType
-    associationId::Union{String, Void}
-    routeTableId::Union{String, Void}
-
-    ReplaceRouteTableAssociationType(; associationId=nothing, routeTableId=nothing) =
-         new(associationId, routeTableId)
-end
-function ReplaceRouteTableAssociationType(pd)
-    o = ReplaceRouteTableAssociationType()
-    o.associationId = LightXML.content(LightXML.find_element(pd, "associationId"))
-    o.routeTableId = LightXML.content(LightXML.find_element(pd, "routeTableId"))
-    o
-end
-
-export ReplaceRouteTableAssociationType
-
-
-type ReplaceRouteTableAssociationResponseType
-    requestId::Union{String, Void}
-    newAssociationId::Union{String, Void}
-
-    ReplaceRouteTableAssociationResponseType(; requestId=nothing, newAssociationId=nothing) =
-         new(requestId, newAssociationId)
-end
-function ReplaceRouteTableAssociationResponseType(pd)
-    o = ReplaceRouteTableAssociationResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.newAssociationId = LightXML.content(LightXML.find_element(pd, "newAssociationId"))
-    o
-end
-
-export ReplaceRouteTableAssociationResponseType
-
-
-type DisassociateRouteTableType
-    associationId::Union{String, Void}
-
-    DisassociateRouteTableType(; associationId=nothing) =
-         new(associationId)
-end
-function DisassociateRouteTableType(pd)
-    o = DisassociateRouteTableType()
-    o.associationId = LightXML.content(LightXML.find_element(pd, "associationId"))
-    o
-end
-
-export DisassociateRouteTableType
-
-
-type DisassociateRouteTableResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    DisassociateRouteTableResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function DisassociateRouteTableResponseType(pd)
-    o = DisassociateRouteTableResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export DisassociateRouteTableResponseType
-
-
-type CreateRouteType
-    routeTableId::Union{String, Void}
-    destinationCidrBlock::Union{String, Void}
-
-    CreateRouteType(; routeTableId=nothing, destinationCidrBlock=nothing) =
-         new(routeTableId, destinationCidrBlock)
-end
-function CreateRouteType(pd)
-    o = CreateRouteType()
-    o.routeTableId = LightXML.content(LightXML.find_element(pd, "routeTableId"))
-    o.destinationCidrBlock = LightXML.content(LightXML.find_element(pd, "destinationCidrBlock"))
-    o
-end
-
-export CreateRouteType
-
-
-type CreateRouteResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    CreateRouteResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function CreateRouteResponseType(pd)
-    o = CreateRouteResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export CreateRouteResponseType
-
-
-type ReplaceRouteType
-    routeTableId::Union{String, Void}
-    destinationCidrBlock::Union{String, Void}
-
-    ReplaceRouteType(; routeTableId=nothing, destinationCidrBlock=nothing) =
-         new(routeTableId, destinationCidrBlock)
-end
-function ReplaceRouteType(pd)
-    o = ReplaceRouteType()
-    o.routeTableId = LightXML.content(LightXML.find_element(pd, "routeTableId"))
-    o.destinationCidrBlock = LightXML.content(LightXML.find_element(pd, "destinationCidrBlock"))
-    o
-end
-
-export ReplaceRouteType
-
-
-type ReplaceRouteResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    ReplaceRouteResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function ReplaceRouteResponseType(pd)
-    o = ReplaceRouteResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export ReplaceRouteResponseType
-
-
-type DeleteRouteType
-    routeTableId::Union{String, Void}
-    destinationCidrBlock::Union{String, Void}
-
-    DeleteRouteType(; routeTableId=nothing, destinationCidrBlock=nothing) =
-         new(routeTableId, destinationCidrBlock)
-end
-function DeleteRouteType(pd)
-    o = DeleteRouteType()
-    o.routeTableId = LightXML.content(LightXML.find_element(pd, "routeTableId"))
-    o.destinationCidrBlock = LightXML.content(LightXML.find_element(pd, "destinationCidrBlock"))
-    o
-end
-
-export DeleteRouteType
-
-
-type DeleteRouteResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    DeleteRouteResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function DeleteRouteResponseType(pd)
-    o = DeleteRouteResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export DeleteRouteResponseType
-
-
-type CreateNetworkAclType
-    vpcId::Union{String, Void}
-
-    CreateNetworkAclType(; vpcId=nothing) =
-         new(vpcId)
-end
-function CreateNetworkAclType(pd)
-    o = CreateNetworkAclType()
-    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
-    o
-end
-
-export CreateNetworkAclType
-
-
-type IcmpTypeCodeType
-    code::Union{Int64, Void}
-    _type::Union{Int64, Void}
-
-    IcmpTypeCodeType(; code=nothing, _type=nothing) =
-         new(code, _type)
-end
-function IcmpTypeCodeType(pd)
-    o = IcmpTypeCodeType()
-    o.code = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "code")))
-    o._type = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "type")))
-    o
-end
-
-export IcmpTypeCodeType
-
-
-type PortRangeType
-    from::Union{Int64, Void}
-    to::Union{Int64, Void}
-
-    PortRangeType(; from=nothing, to=nothing) =
-         new(from, to)
-end
-function PortRangeType(pd)
-    o = PortRangeType()
-    o.from = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "from")))
-    o.to = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "to")))
-    o
-end
-
-export PortRangeType
-
-
-type NetworkAclAssociationType
-    networkAclAssociationId::Union{String, Void}
-    networkAclId::Union{String, Void}
-    subnetId::Union{String, Void}
-
-    NetworkAclAssociationType(; networkAclAssociationId=nothing, networkAclId=nothing, subnetId=nothing) =
-         new(networkAclAssociationId, networkAclId, subnetId)
-end
-function NetworkAclAssociationType(pd)
-    o = NetworkAclAssociationType()
-    o.networkAclAssociationId = LightXML.content(LightXML.find_element(pd, "networkAclAssociationId"))
-    o.networkAclId = LightXML.content(LightXML.find_element(pd, "networkAclId"))
-    o.subnetId = LightXML.content(LightXML.find_element(pd, "subnetId"))
-    o
-end
-
-export NetworkAclAssociationType
-
-
-type NetworkAclIdSetItemType
-    networkAclId::Union{String, Void}
-
-    NetworkAclIdSetItemType(; networkAclId=nothing) =
-         new(networkAclId)
-end
-function NetworkAclIdSetItemType(pd)
-    o = NetworkAclIdSetItemType()
-    o.networkAclId = LightXML.content(LightXML.find_element(pd, "networkAclId"))
-    o
-end
-
-export NetworkAclIdSetItemType
-
-
-type DeleteNetworkAclType
-    networkAclId::Union{String, Void}
-
-    DeleteNetworkAclType(; networkAclId=nothing) =
-         new(networkAclId)
-end
-function DeleteNetworkAclType(pd)
-    o = DeleteNetworkAclType()
-    o.networkAclId = LightXML.content(LightXML.find_element(pd, "networkAclId"))
-    o
-end
-
-export DeleteNetworkAclType
-
-
-type DeleteNetworkAclResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    DeleteNetworkAclResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function DeleteNetworkAclResponseType(pd)
-    o = DeleteNetworkAclResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export DeleteNetworkAclResponseType
-
-
-type ReplaceNetworkAclAssociationType
-    associationId::Union{String, Void}
-    networkAclId::Union{String, Void}
-
-    ReplaceNetworkAclAssociationType(; associationId=nothing, networkAclId=nothing) =
-         new(associationId, networkAclId)
-end
-function ReplaceNetworkAclAssociationType(pd)
-    o = ReplaceNetworkAclAssociationType()
-    o.associationId = LightXML.content(LightXML.find_element(pd, "associationId"))
-    o.networkAclId = LightXML.content(LightXML.find_element(pd, "networkAclId"))
-    o
-end
-
-export ReplaceNetworkAclAssociationType
-
-
-type ReplaceNetworkAclAssociationResponseType
-    requestId::Union{String, Void}
-    newAssociationId::Union{String, Void}
-
-    ReplaceNetworkAclAssociationResponseType(; requestId=nothing, newAssociationId=nothing) =
-         new(requestId, newAssociationId)
-end
-function ReplaceNetworkAclAssociationResponseType(pd)
-    o = ReplaceNetworkAclAssociationResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.newAssociationId = LightXML.content(LightXML.find_element(pd, "newAssociationId"))
-    o
-end
-
-export ReplaceNetworkAclAssociationResponseType
-
-
-type CreateNetworkAclEntryResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    CreateNetworkAclEntryResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function CreateNetworkAclEntryResponseType(pd)
-    o = CreateNetworkAclEntryResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export CreateNetworkAclEntryResponseType
-
-
-type ReplaceNetworkAclEntryResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    ReplaceNetworkAclEntryResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function ReplaceNetworkAclEntryResponseType(pd)
-    o = ReplaceNetworkAclEntryResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export ReplaceNetworkAclEntryResponseType
-
-
-type DeleteNetworkAclEntryType
-    networkAclId::Union{String, Void}
-    ruleNumber::Union{Int64, Void}
-    egress::Union{Bool, Void}
-
-    DeleteNetworkAclEntryType(; networkAclId=nothing, ruleNumber=nothing, egress=nothing) =
-         new(networkAclId, ruleNumber, egress)
-end
-function DeleteNetworkAclEntryType(pd)
-    o = DeleteNetworkAclEntryType()
-    o.networkAclId = LightXML.content(LightXML.find_element(pd, "networkAclId"))
-    o.ruleNumber = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "ruleNumber")))
-    o.egress = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "egress")))
-    o
-end
-
-export DeleteNetworkAclEntryType
-
-
-type DeleteNetworkAclEntryResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    DeleteNetworkAclEntryResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function DeleteNetworkAclEntryResponseType(pd)
-    o = DeleteNetworkAclEntryResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export DeleteNetworkAclEntryResponseType
-
-
-type InstanceStatusDetailsSetItemType
-    name::Union{String, Void}
-    status::Union{String, Void}
-    impairedSince::Union{Base.Dates.DateTime, Void}
-
-    InstanceStatusDetailsSetItemType(; name=nothing, status=nothing, impairedSince=nothing) =
-         new(name, status, impairedSince)
-end
-function InstanceStatusDetailsSetItemType(pd)
-    o = InstanceStatusDetailsSetItemType()
-    o.name = LightXML.content(LightXML.find_element(pd, "name"))
-    o.status = LightXML.content(LightXML.find_element(pd, "status"))
-    o.impairedSince = LightXML.find_element(pd, "impairedSince") != nothing ? AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "impairedSince"))) : nothing
-    o
-end
-
-export InstanceStatusDetailsSetItemType
-
-
-type InstanceStatusEventType
-    code::Union{String, Void}
-    description::Union{String, Void}
-    notBefore::Union{Base.Dates.DateTime, Void}
-    notAfter::Union{Base.Dates.DateTime, Void}
-
-    InstanceStatusEventType(; code=nothing, description=nothing, notBefore=nothing, notAfter=nothing) =
-         new(code, description, notBefore, notAfter)
-end
-function InstanceStatusEventType(pd)
-    o = InstanceStatusEventType()
-    o.code = LightXML.content(LightXML.find_element(pd, "code"))
-    o.description = LightXML.content(LightXML.find_element(pd, "description"))
-    o.notBefore = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "notBefore")))
-    o.notAfter = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "notAfter")))
-    o
-end
-
-export InstanceStatusEventType
-
-
-type ReportInstanceStatusType
-    instancesSet::Union{Vector{String}, Void}
-    status::Union{String, Void}
-    startTime::Union{Base.Dates.DateTime, Void}
-    endTime::Union{Base.Dates.DateTime, Void}
-    reasonCodesSet::Union{Vector{String}, Void}
-    description::Union{String, Void}
-
-    ReportInstanceStatusType(; instancesSet=nothing, status=nothing, startTime=nothing, endTime=nothing, reasonCodesSet=nothing, description=nothing) =
-         new(instancesSet, status, startTime, endTime, reasonCodesSet, description)
-end
-function ReportInstanceStatusType(pd)
-    o = ReportInstanceStatusType()
-    o.instancesSet = AWS.parse_vector_as(String, "instanceId", elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
-    o.status = LightXML.content(LightXML.find_element(pd, "status"))
-    o.startTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "startTime")))
-    o.endTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "endTime")))
-    o.reasonCodesSet = AWS.parse_vector_as(String, "reasonCode", elements_by_tagname(LightXML.find_element(pd, "item"), "reasonCode"))
-    o.description = LightXML.content(LightXML.find_element(pd, "description"))
-    o
-end
-
-export ReportInstanceStatusType
-
-
-type ReportInstanceStatusReasonCodeSetItemType
-    reasonCode::Union{String, Void}
-
-    ReportInstanceStatusReasonCodeSetItemType(; reasonCode=nothing) =
-         new(reasonCode)
-end
-function ReportInstanceStatusReasonCodeSetItemType(pd)
-    o = ReportInstanceStatusReasonCodeSetItemType()
-    o.reasonCode = LightXML.content(LightXML.find_element(pd, "reasonCode"))
-    o
-end
-
-export ReportInstanceStatusReasonCodeSetItemType
-
-
-type ReportInstanceStatusResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    ReportInstanceStatusResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function ReportInstanceStatusResponseType(pd)
-    o = ReportInstanceStatusResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export ReportInstanceStatusResponseType
-
-
-type NetworkInterfaceIdSetItemType
-    networkInterfaceId::Union{String, Void}
-
-    NetworkInterfaceIdSetItemType(; networkInterfaceId=nothing) =
-         new(networkInterfaceId)
-end
-function NetworkInterfaceIdSetItemType(pd)
-    o = NetworkInterfaceIdSetItemType()
-    o.networkInterfaceId = LightXML.content(LightXML.find_element(pd, "networkInterfaceId"))
-    o
-end
-
-export NetworkInterfaceIdSetItemType
-
-
-type NetworkInterfaceAttachmentType
-    attachmentId::Union{String, Void}
-    instanceId::Union{String, Void}
-    instanceOwnerId::Union{String, Void}
-    deviceIndex::Union{Int64, Void}
-    status::Union{String, Void}
-    attachTime::Union{Base.Dates.DateTime, Void}
-    deleteOnTermination::Union{Bool, Void}
-
-    NetworkInterfaceAttachmentType(; attachmentId=nothing, instanceId=nothing, instanceOwnerId=nothing, deviceIndex=nothing, status=nothing, attachTime=nothing, deleteOnTermination=nothing) =
-         new(attachmentId, instanceId, instanceOwnerId, deviceIndex, status, attachTime, deleteOnTermination)
-end
-function NetworkInterfaceAttachmentType(pd)
-    o = NetworkInterfaceAttachmentType()
-    o.attachmentId = LightXML.content(LightXML.find_element(pd, "attachmentId"))
-    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
-    o.instanceOwnerId = LightXML.content(LightXML.find_element(pd, "instanceOwnerId"))
-    o.deviceIndex = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "deviceIndex")))
-    o.status = LightXML.content(LightXML.find_element(pd, "status"))
-    o.attachTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "attachTime")))
-    o.deleteOnTermination = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "deleteOnTermination")))
-    o
-end
-
-export NetworkInterfaceAttachmentType
-
-
-type NetworkInterfaceAssociationType
-    publicIp::Union{String, Void}
-    publicDnsName::Union{String, Void}
-    ipOwnerId::Union{String, Void}
-    allocationId::Union{String, Void}
-    associationId::Union{String, Void}
-
-    NetworkInterfaceAssociationType(; publicIp=nothing, publicDnsName=nothing, ipOwnerId=nothing, allocationId=nothing, associationId=nothing) =
-         new(publicIp, publicDnsName, ipOwnerId, allocationId, associationId)
-end
-function NetworkInterfaceAssociationType(pd)
-    o = NetworkInterfaceAssociationType()
-    o.publicIp = LightXML.content(LightXML.find_element(pd, "publicIp"))
-    o.publicDnsName = LightXML.content(LightXML.find_element(pd, "publicDnsName"))
-    o.ipOwnerId = LightXML.content(LightXML.find_element(pd, "ipOwnerId"))
-    o.allocationId = LightXML.content(LightXML.find_element(pd, "allocationId"))
-    o.associationId = LightXML.content(LightXML.find_element(pd, "associationId"))
-    o
-end
-
-export NetworkInterfaceAssociationType
-
-
-type DeleteNetworkInterfaceType
-    networkInterfaceId::Union{String, Void}
-
-    DeleteNetworkInterfaceType(; networkInterfaceId=nothing) =
-         new(networkInterfaceId)
-end
-function DeleteNetworkInterfaceType(pd)
-    o = DeleteNetworkInterfaceType()
-    o.networkInterfaceId = LightXML.content(LightXML.find_element(pd, "networkInterfaceId"))
-    o
-end
-
-export DeleteNetworkInterfaceType
-
-
-type DeleteNetworkInterfaceResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    DeleteNetworkInterfaceResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function DeleteNetworkInterfaceResponseType(pd)
-    o = DeleteNetworkInterfaceResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export DeleteNetworkInterfaceResponseType
-
-
-type AttachNetworkInterfaceType
-    networkInterfaceId::Union{String, Void}
-    instanceId::Union{String, Void}
-    deviceIndex::Union{Int64, Void}
-
-    AttachNetworkInterfaceType(; networkInterfaceId=nothing, instanceId=nothing, deviceIndex=nothing) =
-         new(networkInterfaceId, instanceId, deviceIndex)
-end
-function AttachNetworkInterfaceType(pd)
-    o = AttachNetworkInterfaceType()
-    o.networkInterfaceId = LightXML.content(LightXML.find_element(pd, "networkInterfaceId"))
-    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
-    o.deviceIndex = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "deviceIndex")))
-    o
-end
-
-export AttachNetworkInterfaceType
-
-
-type AttachNetworkInterfaceResponseType
-    requestId::Union{String, Void}
-    attachmentId::Union{String, Void}
-
-    AttachNetworkInterfaceResponseType(; requestId=nothing, attachmentId=nothing) =
-         new(requestId, attachmentId)
-end
-function AttachNetworkInterfaceResponseType(pd)
-    o = AttachNetworkInterfaceResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.attachmentId = LightXML.content(LightXML.find_element(pd, "attachmentId"))
-    o
-end
-
-export AttachNetworkInterfaceResponseType
-
-
-type DetachNetworkInterfaceType
-    attachmentId::Union{String, Void}
-    force::Union{Bool, Void}
-
-    DetachNetworkInterfaceType(; attachmentId=nothing, force=nothing) =
-         new(attachmentId, force)
-end
-function DetachNetworkInterfaceType(pd)
-    o = DetachNetworkInterfaceType()
-    o.attachmentId = LightXML.content(LightXML.find_element(pd, "attachmentId"))
-    o.force = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "force")))
-    o
-end
-
-export DetachNetworkInterfaceType
-
-
-type DetachNetworkInterfaceResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    DetachNetworkInterfaceResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function DetachNetworkInterfaceResponseType(pd)
-    o = DetachNetworkInterfaceResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export DetachNetworkInterfaceResponseType
-
-
-type DescribeNetworkInterfaceAttributeType
-    networkInterfaceId::Union{String, Void}
-
-    DescribeNetworkInterfaceAttributeType(; networkInterfaceId=nothing) =
-         new(networkInterfaceId)
-end
-function DescribeNetworkInterfaceAttributeType(pd)
-    o = DescribeNetworkInterfaceAttributeType()
-    o.networkInterfaceId = LightXML.content(LightXML.find_element(pd, "networkInterfaceId"))
-    o
-end
-
-export DescribeNetworkInterfaceAttributeType
-
-
-type DescribeNetworkInterfaceAttributeResponseType
-    requestId::Union{String, Void}
-    networkInterfaceId::Union{String, Void}
-
-    DescribeNetworkInterfaceAttributeResponseType(; requestId=nothing, networkInterfaceId=nothing) =
-         new(requestId, networkInterfaceId)
-end
-function DescribeNetworkInterfaceAttributeResponseType(pd)
-    o = DescribeNetworkInterfaceAttributeResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.networkInterfaceId = LightXML.content(LightXML.find_element(pd, "networkInterfaceId"))
-    o
-end
-
-export DescribeNetworkInterfaceAttributeResponseType
-
-
-type ModifyNetworkInterfaceAttributeType
-    networkInterfaceId::Union{String, Void}
-
-    ModifyNetworkInterfaceAttributeType(; networkInterfaceId=nothing) =
-         new(networkInterfaceId)
-end
-function ModifyNetworkInterfaceAttributeType(pd)
-    o = ModifyNetworkInterfaceAttributeType()
-    o.networkInterfaceId = LightXML.content(LightXML.find_element(pd, "networkInterfaceId"))
-    o
-end
-
-export ModifyNetworkInterfaceAttributeType
-
-
-type ModifyNetworkInterfaceAttachmentType
-    attachmentId::Union{String, Void}
-    deleteOnTermination::Union{Bool, Void}
-
-    ModifyNetworkInterfaceAttachmentType(; attachmentId=nothing, deleteOnTermination=nothing) =
-         new(attachmentId, deleteOnTermination)
-end
-function ModifyNetworkInterfaceAttachmentType(pd)
-    o = ModifyNetworkInterfaceAttachmentType()
-    o.attachmentId = LightXML.content(LightXML.find_element(pd, "attachmentId"))
-    o.deleteOnTermination = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "deleteOnTermination")))
-    o
-end
-
-export ModifyNetworkInterfaceAttachmentType
-
-
-type ModifyNetworkInterfaceAttributeResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    ModifyNetworkInterfaceAttributeResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function ModifyNetworkInterfaceAttributeResponseType(pd)
-    o = ModifyNetworkInterfaceAttributeResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export ModifyNetworkInterfaceAttributeResponseType
-
-
-type ResetNetworkInterfaceAttributeType
-    networkInterfaceId::Union{String, Void}
-
-    ResetNetworkInterfaceAttributeType(; networkInterfaceId=nothing) =
-         new(networkInterfaceId)
-end
-function ResetNetworkInterfaceAttributeType(pd)
-    o = ResetNetworkInterfaceAttributeType()
-    o.networkInterfaceId = LightXML.content(LightXML.find_element(pd, "networkInterfaceId"))
-    o
-end
-
-export ResetNetworkInterfaceAttributeType
-
-
-type ResetNetworkInterfaceAttributeResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    ResetNetworkInterfaceAttributeResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function ResetNetworkInterfaceAttributeResponseType(pd)
-    o = ResetNetworkInterfaceAttributeResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export ResetNetworkInterfaceAttributeResponseType
-
-
-type AssignPrivateIpAddressesType
-    networkInterfaceId::Union{String, Void}
-    privateIpAddressesSet::Union{Vector{String}, Void}
-    secondaryPrivateIpAddressCount::Union{Int64, Void}
-    allowReassignment::Union{Bool, Void}
-
-    AssignPrivateIpAddressesType(; networkInterfaceId=nothing, privateIpAddressesSet=nothing, secondaryPrivateIpAddressCount=nothing, allowReassignment=nothing) =
-         new(networkInterfaceId, privateIpAddressesSet, secondaryPrivateIpAddressCount, allowReassignment)
-end
-function AssignPrivateIpAddressesType(pd)
-    o = AssignPrivateIpAddressesType()
-    o.networkInterfaceId = LightXML.content(LightXML.find_element(pd, "networkInterfaceId"))
-    o.privateIpAddressesSet = AWS.parse_vector_as(String, "privateIpAddress", elements_by_tagname(LightXML.find_element(pd, "item"), "privateIpAddress"))
-    o.secondaryPrivateIpAddressCount = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "secondaryPrivateIpAddressCount")))
-    o.allowReassignment = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "allowReassignment")))
-    o
-end
-
-export AssignPrivateIpAddressesType
-
-
-type AssignPrivateIpAddressesResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    AssignPrivateIpAddressesResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function AssignPrivateIpAddressesResponseType(pd)
-    o = AssignPrivateIpAddressesResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export AssignPrivateIpAddressesResponseType
-
-
-type UnassignPrivateIpAddressesType
-    networkInterfaceId::Union{String, Void}
-    privateIpAddressesSet::Union{Vector{String}, Void}
-
-    UnassignPrivateIpAddressesType(; networkInterfaceId=nothing, privateIpAddressesSet=nothing) =
-         new(networkInterfaceId, privateIpAddressesSet)
-end
-function UnassignPrivateIpAddressesType(pd)
-    o = UnassignPrivateIpAddressesType()
-    o.networkInterfaceId = LightXML.content(LightXML.find_element(pd, "networkInterfaceId"))
-    o.privateIpAddressesSet = AWS.parse_vector_as(String, "privateIpAddress", elements_by_tagname(LightXML.find_element(pd, "item"), "privateIpAddress"))
-    o
-end
-
-export UnassignPrivateIpAddressesType
-
-
-type UnassignPrivateIpAddressesResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    UnassignPrivateIpAddressesResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function UnassignPrivateIpAddressesResponseType(pd)
-    o = UnassignPrivateIpAddressesResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export UnassignPrivateIpAddressesResponseType
-
-
-type AssignPrivateIpAddressesSetItemRequestType
-    privateIpAddress::Union{String, Void}
-
-    AssignPrivateIpAddressesSetItemRequestType(; privateIpAddress=nothing) =
-         new(privateIpAddress)
-end
-function AssignPrivateIpAddressesSetItemRequestType(pd)
-    o = AssignPrivateIpAddressesSetItemRequestType()
-    o.privateIpAddress = LightXML.content(LightXML.find_element(pd, "privateIpAddress"))
-    o
-end
-
-export AssignPrivateIpAddressesSetItemRequestType
-
-
-type VolumeStatusDetailsItemType
-    name::Union{String, Void}
-    status::Union{String, Void}
-
-    VolumeStatusDetailsItemType(; name=nothing, status=nothing) =
-         new(name, status)
-end
-function VolumeStatusDetailsItemType(pd)
-    o = VolumeStatusDetailsItemType()
-    o.name = LightXML.content(LightXML.find_element(pd, "name"))
-    o.status = LightXML.content(LightXML.find_element(pd, "status"))
-    o
-end
-
-export VolumeStatusDetailsItemType
-
-
-type VolumeStatusEventItemType
-    description::Union{String, Void}
-    notBefore::Union{Base.Dates.DateTime, Void}
-    notAfter::Union{Base.Dates.DateTime, Void}
-    eventId::Union{String, Void}
-    eventType::Union{String, Void}
-
-    VolumeStatusEventItemType(; description=nothing, notBefore=nothing, notAfter=nothing, eventId=nothing, eventType=nothing) =
-         new(description, notBefore, notAfter, eventId, eventType)
-end
-function VolumeStatusEventItemType(pd)
-    o = VolumeStatusEventItemType()
-    o.description = LightXML.content(LightXML.find_element(pd, "description"))
-    o.notBefore = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "notBefore")))
-    o.notAfter = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "notAfter")))
-    o.eventId = LightXML.content(LightXML.find_element(pd, "eventId"))
-    o.eventType = LightXML.content(LightXML.find_element(pd, "eventType"))
-    o
-end
-
-export VolumeStatusEventItemType
-
-
-type VolumeStatusActionItemType
-    description::Union{String, Void}
-    code::Union{String, Void}
-    eventId::Union{String, Void}
-    eventType::Union{String, Void}
-
-    VolumeStatusActionItemType(; description=nothing, code=nothing, eventId=nothing, eventType=nothing) =
-         new(description, code, eventId, eventType)
-end
-function VolumeStatusActionItemType(pd)
-    o = VolumeStatusActionItemType()
-    o.description = LightXML.content(LightXML.find_element(pd, "description"))
-    o.code = LightXML.content(LightXML.find_element(pd, "code"))
-    o.eventId = LightXML.content(LightXML.find_element(pd, "eventId"))
-    o.eventType = LightXML.content(LightXML.find_element(pd, "eventType"))
-    o
-end
-
-export VolumeStatusActionItemType
-
-
-type EnableVolumeIOType
-    volumeId::Union{String, Void}
-
-    EnableVolumeIOType(; volumeId=nothing) =
-         new(volumeId)
-end
-function EnableVolumeIOType(pd)
-    o = EnableVolumeIOType()
-    o.volumeId = LightXML.content(LightXML.find_element(pd, "volumeId"))
-    o
-end
-
-export EnableVolumeIOType
-
-
-type EnableVolumeIOResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    EnableVolumeIOResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function EnableVolumeIOResponseType(pd)
-    o = EnableVolumeIOResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export EnableVolumeIOResponseType
-
-
-type ModifyVolumeAttributeType
-    volumeId::Union{String, Void}
-
-    ModifyVolumeAttributeType(; volumeId=nothing) =
-         new(volumeId)
-end
-function ModifyVolumeAttributeType(pd)
-    o = ModifyVolumeAttributeType()
-    o.volumeId = LightXML.content(LightXML.find_element(pd, "volumeId"))
-    o
-end
-
-export ModifyVolumeAttributeType
-
-
-type ModifyVolumeAttributeResponseType
-    requestId::Union{String, Void}
-    _return::Union{Bool, Void}
-
-    ModifyVolumeAttributeResponseType(; requestId=nothing, _return=nothing) =
-         new(requestId, _return)
-end
-function ModifyVolumeAttributeResponseType(pd)
-    o = ModifyVolumeAttributeResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o._return = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "return")))
-    o
-end
-
-export ModifyVolumeAttributeResponseType
-
-
-type DescribeVolumeAttributeType
-    volumeId::Union{String, Void}
-
-    DescribeVolumeAttributeType(; volumeId=nothing) =
-         new(volumeId)
-end
-function DescribeVolumeAttributeType(pd)
-    o = DescribeVolumeAttributeType()
-    o.volumeId = LightXML.content(LightXML.find_element(pd, "volumeId"))
-    o
-end
-
-export DescribeVolumeAttributeType
-
-
-type DescribeVolumeAttributeResponseType
-    requestId::Union{String, Void}
-    volumeId::Union{String, Void}
-
-    DescribeVolumeAttributeResponseType(; requestId=nothing, volumeId=nothing) =
-         new(requestId, volumeId)
-end
-function DescribeVolumeAttributeResponseType(pd)
-    o = DescribeVolumeAttributeResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.volumeId = LightXML.content(LightXML.find_element(pd, "volumeId"))
-    o
-end
-
-export DescribeVolumeAttributeResponseType
-
-
-type LaunchPermissionOperationType
-    add::Union{Vector{LaunchPermissionItemType}, Void}
-    remove::Union{Vector{LaunchPermissionItemType}, Void}
-
-    LaunchPermissionOperationType(; add=nothing, remove=nothing) =
-         new(add, remove)
-end
-function LaunchPermissionOperationType(pd)
-    o = LaunchPermissionOperationType()
-    o.add = AWS.@parse_vector(AWS.EC2.LaunchPermissionItemType, elements_by_tagname(LightXML.find_element(pd, "add"), "item"))
-    o.remove = AWS.@parse_vector(AWS.EC2.LaunchPermissionItemType, elements_by_tagname(LightXML.find_element(pd, "remove"), "item"))
-    o
-end
-
-export LaunchPermissionOperationType
-
-
-type DescribeReservedInstancesResponseSetItemType
-    reservedInstancesId::Union{String, Void}
-    instanceType::Union{String, Void}
-    availabilityZone::Union{String, Void}
-    start::Union{Base.Dates.DateTime, Void}
-    duration::Union{Int64, Void}
-    fixedPrice::Union{Float64, Void}
-    usagePrice::Union{Float64, Void}
-    instanceCount::Union{Int64, Void}
-    productDescription::Union{String, Void}
-    state::Union{String, Void}
-    tagSet::Union{Vector{ResourceTagSetItemType}, Void}
-    instanceTenancy::Union{String, Void}
-    currencyCode::Union{String, Void}
-    offeringType::Union{String, Void}
-    recurringCharges::Union{Vector{RecurringChargesSetItemType}, Void}
-
-    DescribeReservedInstancesResponseSetItemType(; reservedInstancesId=nothing, instanceType=nothing, availabilityZone=nothing, start=nothing, duration=nothing, fixedPrice=nothing, usagePrice=nothing, instanceCount=nothing, productDescription=nothing, state=nothing, tagSet=nothing, instanceTenancy=nothing, currencyCode=nothing, offeringType=nothing, recurringCharges=nothing) =
-         new(reservedInstancesId, instanceType, availabilityZone, start, duration, fixedPrice, usagePrice, instanceCount, productDescription, state, tagSet, instanceTenancy, currencyCode, offeringType, recurringCharges)
-end
-function DescribeReservedInstancesResponseSetItemType(pd)
-    o = DescribeReservedInstancesResponseSetItemType()
-    o.reservedInstancesId = LightXML.content(LightXML.find_element(pd, "reservedInstancesId"))
-    o.instanceType = LightXML.content(LightXML.find_element(pd, "instanceType"))
-    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
-    o.start = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "start")))
-    o.duration = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "duration")))
-    o.fixedPrice = AWS.safe_parse_as(Float64, LightXML.content(LightXML.find_element(pd, "fixedPrice")))
-    o.usagePrice = AWS.safe_parse_as(Float64, LightXML.content(LightXML.find_element(pd, "usagePrice")))
-    o.instanceCount = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "instanceCount")))
-    o.productDescription = LightXML.content(LightXML.find_element(pd, "productDescription"))
-    o.state = LightXML.content(LightXML.find_element(pd, "state"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
-    o.instanceTenancy = LightXML.content(LightXML.find_element(pd, "instanceTenancy"))
-    o.currencyCode = LightXML.content(LightXML.find_element(pd, "currencyCode"))
-    o.offeringType = LightXML.content(LightXML.find_element(pd, "offeringType"))
-    o.recurringCharges = AWS.@parse_vector(AWS.EC2.RecurringChargesSetItemType, elements_by_tagname(LightXML.find_element(pd, "recurringCharges"), "item"))
-    o
-end
-
-export DescribeReservedInstancesResponseSetItemType
-
-
-type CancelSpotInstanceRequestsResponseType
-    requestId::Union{String, Void}
-    spotInstanceRequestSet::Union{Vector{CancelSpotInstanceRequestsResponseSetItemType}, Void}
-
-    CancelSpotInstanceRequestsResponseType(; requestId=nothing, spotInstanceRequestSet=nothing) =
-         new(requestId, spotInstanceRequestSet)
-end
-function CancelSpotInstanceRequestsResponseType(pd)
-    o = CancelSpotInstanceRequestsResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.spotInstanceRequestSet = AWS.@parse_vector(AWS.EC2.CancelSpotInstanceRequestsResponseSetItemType, elements_by_tagname(LightXML.find_element(pd, "spotInstanceRequestSet"), "item"))
-    o
-end
-
-export CancelSpotInstanceRequestsResponseType
-
-
-type CreateDhcpOptionsType
-    dhcpConfigurationSet::Union{Vector{DhcpConfigurationItemType}, Void}
-
-    CreateDhcpOptionsType(; dhcpConfigurationSet=nothing) =
-         new(dhcpConfigurationSet)
-end
-function CreateDhcpOptionsType(pd)
-    o = CreateDhcpOptionsType()
-    o.dhcpConfigurationSet = AWS.@parse_vector(AWS.EC2.DhcpConfigurationItemType, elements_by_tagname(LightXML.find_element(pd, "dhcpConfigurationSet"), "item"))
-    o
-end
-
-export CreateDhcpOptionsType
-
-
-type DescribeInstanceStatusType
-    instancesSet::Union{Vector{String}, Void}
-    filterSet::Union{Vector{FilterType}, Void}
-    nextToken::Union{String, Void}
-    maxResults::Union{Int64, Void}
-    includeAllInstances::Union{Bool, Void}
-
-    DescribeInstanceStatusType(; instancesSet=nothing, filterSet=nothing, nextToken=nothing, maxResults=nothing, includeAllInstances=nothing) =
-         new(instancesSet, filterSet, nextToken, maxResults, includeAllInstances)
-end
-function DescribeInstanceStatusType(pd)
-    o = DescribeInstanceStatusType()
-    o.instancesSet = AWS.parse_vector_as(String, "instanceId", elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
-    o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
-    o.maxResults = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "maxResults")))
-    o.includeAllInstances = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "includeAllInstances")))
-    o
-end
-
-export DescribeInstanceStatusType
-
-
-type DescribePlacementGroupsType
-    placementGroupSet::Union{Vector{String}, Void}
-    filterSet::Union{Vector{FilterType}, Void}
-
-    DescribePlacementGroupsType(; placementGroupSet=nothing, filterSet=nothing) =
-         new(placementGroupSet, filterSet)
-end
-function DescribePlacementGroupsType(pd)
-    o = DescribePlacementGroupsType()
-    o.placementGroupSet = AWS.parse_vector_as(String, "groupName", elements_by_tagname(LightXML.find_element(pd, "item"), "groupName"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
-    o
-end
-
-export DescribePlacementGroupsType
-
-
-type RegisterImageType
-    imageLocation::Union{String, Void}
-    name::Union{String, Void}
-    description::Union{String, Void}
-    architecture::Union{String, Void}
-    kernelId::Union{String, Void}
-    ramdiskId::Union{String, Void}
-    rootDeviceName::Union{String, Void}
-    blockDeviceMapping::Union{Vector{BlockDeviceMappingItemType}, Void}
-
-    RegisterImageType(; imageLocation=nothing, name=nothing, description=nothing, architecture=nothing, kernelId=nothing, ramdiskId=nothing, rootDeviceName=nothing, blockDeviceMapping=nothing) =
-         new(imageLocation, name, description, architecture, kernelId, ramdiskId, rootDeviceName, blockDeviceMapping)
-end
-function RegisterImageType(pd)
-    o = RegisterImageType()
-    o.imageLocation = LightXML.content(LightXML.find_element(pd, "imageLocation"))
-    o.name = LightXML.content(LightXML.find_element(pd, "name"))
-    o.description = LightXML.content(LightXML.find_element(pd, "description"))
-    o.architecture = LightXML.content(LightXML.find_element(pd, "architecture"))
-    o.kernelId = LightXML.content(LightXML.find_element(pd, "kernelId"))
-    o.ramdiskId = LightXML.content(LightXML.find_element(pd, "ramdiskId"))
-    o.rootDeviceName = LightXML.content(LightXML.find_element(pd, "rootDeviceName"))
-    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, elements_by_tagname(LightXML.find_element(pd, "blockDeviceMapping"), "item"))
-    o
-end
-
-export RegisterImageType
-
-
-type DescribeNetworkInterfacesType
-    networkInterfaceIdSet::Union{Vector{String}, Void}
-    filterSet::Union{Vector{FilterType}, Void}
-
-    DescribeNetworkInterfacesType(; networkInterfaceIdSet=nothing, filterSet=nothing) =
-         new(networkInterfaceIdSet, filterSet)
-end
-function DescribeNetworkInterfacesType(pd)
-    o = DescribeNetworkInterfacesType()
-    o.networkInterfaceIdSet = AWS.parse_vector_as(String, "networkInterfaceId", elements_by_tagname(LightXML.find_element(pd, "item"), "networkInterfaceId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
-    o
-end
-
-export DescribeNetworkInterfacesType
-
-
-type CreateReservedInstancesListingType
-    reservedInstancesId::Union{String, Void}
-    instanceCount::Union{Int64, Void}
-    priceSchedules::Union{Vector{PriceScheduleRequestSetItemType}, Void}
-    clientToken::Union{String, Void}
-
-    CreateReservedInstancesListingType(; reservedInstancesId=nothing, instanceCount=nothing, priceSchedules=nothing, clientToken=nothing) =
-         new(reservedInstancesId, instanceCount, priceSchedules, clientToken)
-end
-function CreateReservedInstancesListingType(pd)
-    o = CreateReservedInstancesListingType()
-    o.reservedInstancesId = LightXML.content(LightXML.find_element(pd, "reservedInstancesId"))
-    o.instanceCount = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "instanceCount")))
-    o.priceSchedules = AWS.@parse_vector(AWS.EC2.PriceScheduleRequestSetItemType, elements_by_tagname(LightXML.find_element(pd, "priceSchedules"), "item"))
-    o.clientToken = LightXML.content(LightXML.find_element(pd, "clientToken"))
-    o
-end
-
-export CreateReservedInstancesListingType
-
-
-type DescribeVpnGatewaysType
-    vpnGatewaySet::Union{Vector{String}, Void}
-    filterSet::Union{Vector{FilterType}, Void}
-
-    DescribeVpnGatewaysType(; vpnGatewaySet=nothing, filterSet=nothing) =
-         new(vpnGatewaySet, filterSet)
-end
-function DescribeVpnGatewaysType(pd)
-    o = DescribeVpnGatewaysType()
-    o.vpnGatewaySet = AWS.parse_vector_as(String, "vpnGatewayId", elements_by_tagname(LightXML.find_element(pd, "item"), "vpnGatewayId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
-    o
-end
-
-export DescribeVpnGatewaysType
-
-
-type DescribeVolumeStatusType
-    volumeSet::Union{Vector{String}, Void}
-    filterSet::Union{Vector{FilterType}, Void}
-    maxResults::Union{Int64, Void}
-    nextToken::Union{String, Void}
-
-    DescribeVolumeStatusType(; volumeSet=nothing, filterSet=nothing, maxResults=nothing, nextToken=nothing) =
-         new(volumeSet, filterSet, maxResults, nextToken)
-end
-function DescribeVolumeStatusType(pd)
-    o = DescribeVolumeStatusType()
-    o.volumeSet = AWS.parse_vector_as(String, "volumeId", elements_by_tagname(LightXML.find_element(pd, "item"), "volumeId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
-    o.maxResults = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "maxResults")))
-    o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
-    o
-end
-
-export DescribeVolumeStatusType
-
-
-type DhcpOptionsType
-    dhcpOptionsId::Union{String, Void}
-    dhcpConfigurationSet::Union{Vector{DhcpConfigurationItemType}, Void}
-    tagSet::Union{Vector{ResourceTagSetItemType}, Void}
-
-    DhcpOptionsType(; dhcpOptionsId=nothing, dhcpConfigurationSet=nothing, tagSet=nothing) =
-         new(dhcpOptionsId, dhcpConfigurationSet, tagSet)
-end
-function DhcpOptionsType(pd)
-    o = DhcpOptionsType()
-    o.dhcpOptionsId = LightXML.content(LightXML.find_element(pd, "dhcpOptionsId"))
-    o.dhcpConfigurationSet = AWS.@parse_vector(AWS.EC2.DhcpConfigurationItemType, elements_by_tagname(LightXML.find_element(pd, "dhcpConfigurationSet"), "item"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
-    o
-end
-
-export DhcpOptionsType
-
-
-type ImportInstanceVolumeDetailItemType
-    bytesConverted::Union{Int64, Void}
-    availabilityZone::Union{String, Void}
-    image::Union{DiskImageDescriptionType, Void}
-    description::Union{String, Void}
-    volume::Union{DiskImageVolumeDescriptionType, Void}
-    status::Union{String, Void}
-    statusMessage::Union{String, Void}
-
-    ImportInstanceVolumeDetailItemType(; bytesConverted=nothing, availabilityZone=nothing, image=nothing, description=nothing, volume=nothing, status=nothing, statusMessage=nothing) =
-         new(bytesConverted, availabilityZone, image, description, volume, status, statusMessage)
-end
-function ImportInstanceVolumeDetailItemType(pd)
-    o = ImportInstanceVolumeDetailItemType()
-    o.bytesConverted = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "bytesConverted")))
-    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
-    ## o.image = length(pd["image"]) > 0 ?  DiskImageDescriptionType(LightXML.content(LightXML.find_element(pd,"image[1]")) : nothing
-    o.image = LightXML.find_element(pd,"image") != nothing ? DiskImageDescriptionType(LightXML.find_element(pd,"image")) : nothing
-    o.description = LightXML.content(LightXML.find_element(pd, "description"))
-    ## o.volume = length(pd["volume"]) > 0 ?  DiskImageVolumeDescriptionType(LightXML.content(LightXML.find_element(pd,"volume[1]")) : nothing
-    o.volume = LightXML.find_element(pd,"volume") != nothing ? DiskImageVolumeDescriptionType(LightXML.find_element(pd,"volume")) : nothing
-    o.status = LightXML.content(LightXML.find_element(pd, "status"))
-    o.statusMessage = LightXML.content(LightXML.find_element(pd, "statusMessage"))
-    o
-end
-
-export ImportInstanceVolumeDetailItemType
-
-
-type DescribeExportTasksResponseType
-    requestId::Union{String, Void}
-    exportTaskSet::Union{Vector{ExportTaskResponseType}, Void}
-
-    DescribeExportTasksResponseType(; requestId=nothing, exportTaskSet=nothing) =
-         new(requestId, exportTaskSet)
-end
-function DescribeExportTasksResponseType(pd)
-    o = DescribeExportTasksResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.exportTaskSet = AWS.@parse_vector(AWS.EC2.ExportTaskResponseType, elements_by_tagname(LightXML.find_element(pd, "exportTaskSet"), "item"))
-    o
-end
-
-export DescribeExportTasksResponseType
-
-
-type DescribeSecurityGroupsType
-    securityGroupSet::Union{Vector{String}, Void}
-    securityGroupIdSet::Union{Vector{String}, Void}
-    filterSet::Union{Vector{FilterType}, Void}
-
-    DescribeSecurityGroupsType(; securityGroupSet=nothing, securityGroupIdSet=nothing, filterSet=nothing) =
-         new(securityGroupSet, securityGroupIdSet, filterSet)
-end
-function DescribeSecurityGroupsType(pd)
-    o = DescribeSecurityGroupsType()
-    o.securityGroupSet = AWS.parse_vector_as(String, "groupName", elements_by_tagname(LightXML.find_element(pd, "item"), "groupName"))
-    o.securityGroupIdSet = AWS.parse_vector_as(String, "groupId", elements_by_tagname(LightXML.find_element(pd, "item"), "groupId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
-    o
-end
-
-export DescribeSecurityGroupsType
-
-
-type InstanceStatusType
-    status::Union{String, Void}
-    details::Union{Vector{InstanceStatusDetailsSetItemType}, Void}
-
-    InstanceStatusType(; status=nothing, details=nothing) =
-         new(status, details)
-end
-function InstanceStatusType(pd)
-    o = InstanceStatusType()
-    o.status = LightXML.find_element(pd, "status") != nothing ? LightXML.content(LightXML.find_element(pd, "status")) : nothing
-    o.details = LightXML.find_element(pd, "details") != nothing ? AWS.@parse_vector(AWS.EC2.InstanceStatusDetailsSetItemType, elements_by_tagname(LightXML.find_element(pd, "details"), "item")) : nothing
-    o
-end
-
-export InstanceStatusType
-
-
-type DescribeImagesResponseItemType
-    imageId::Union{String, Void}
-    imageLocation::Union{String, Void}
-    imageState::Union{String, Void}
-    imageOwnerId::Union{String, Void}
-    isPublic::Union{Bool, Void}
-    productCodes::Union{Vector{ProductCodesSetItemType}, Void}
-    architecture::Union{String, Void}
-    imageType::Union{String, Void}
-    kernelId::Union{String, Void}
-    ramdiskId::Union{String, Void}
-    platform::Union{String, Void}
-    stateReason::Union{StateReasonType, Void}
-    imageOwnerAlias::Union{String, Void}
-    name::Union{String, Void}
-    description::Union{String, Void}
-    rootDeviceType::Union{String, Void}
-    rootDeviceName::Union{String, Void}
-    blockDeviceMapping::Union{Vector{BlockDeviceMappingItemType}, Void}
-    virtualizationType::Union{String, Void}
-    tagSet::Union{Vector{ResourceTagSetItemType}, Void}
-    hypervisor::Union{String, Void}
-
-    DescribeImagesResponseItemType(; imageId=nothing, imageLocation=nothing, imageState=nothing, imageOwnerId=nothing, isPublic=nothing, productCodes=nothing, architecture=nothing, imageType=nothing, kernelId=nothing, ramdiskId=nothing, platform=nothing, stateReason=nothing, imageOwnerAlias=nothing, name=nothing, description=nothing, rootDeviceType=nothing, rootDeviceName=nothing, blockDeviceMapping=nothing, virtualizationType=nothing, tagSet=nothing, hypervisor=nothing) =
-         new(imageId, imageLocation, imageState, imageOwnerId, isPublic, productCodes, architecture, imageType, kernelId, ramdiskId, platform, stateReason, imageOwnerAlias, name, description, rootDeviceType, rootDeviceName, blockDeviceMapping, virtualizationType, tagSet, hypervisor)
-end
-function DescribeImagesResponseItemType(pd)
-    o = DescribeImagesResponseItemType()
-    o.imageId = LightXML.content(LightXML.find_element(pd, "imageId"))
-    o.imageLocation = LightXML.content(LightXML.find_element(pd, "imageLocation"))
-    o.imageState = LightXML.content(LightXML.find_element(pd, "imageState"))
-    o.imageOwnerId = LightXML.content(LightXML.find_element(pd, "imageOwnerId"))
-    o.isPublic = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "isPublic")))
-    o.productCodes = AWS.@parse_vector(AWS.EC2.ProductCodesSetItemType, elements_by_tagname(LightXML.find_element(pd, "productCodes"), "item"))
-    o.architecture = LightXML.content(LightXML.find_element(pd, "architecture"))
-    o.imageType = LightXML.content(LightXML.find_element(pd, "imageType"))
-    o.kernelId = LightXML.content(LightXML.find_element(pd, "kernelId"))
-    o.ramdiskId = LightXML.content(LightXML.find_element(pd, "ramdiskId"))
-    o.platform = LightXML.content(LightXML.find_element(pd, "platform"))
-    ## o.stateReason = length(pd["stateReason"]) > 0 ?  StateReasonType(LightXML.find_element(pd,"stateReason[1]")) : nothing
-    o.stateReason = LightXML.find_element(pd,"stateReason") != nothing ? StateReasonType(LightXML.find_element(pd,"stateReason")) : nothing
-    o.imageOwnerAlias = LightXML.content(LightXML.find_element(pd, "imageOwnerAlias"))
-    o.name = LightXML.content(LightXML.find_element(pd, "name"))
-    o.description = LightXML.content(LightXML.find_element(pd, "description"))
-    o.rootDeviceType = LightXML.content(LightXML.find_element(pd, "rootDeviceType"))
-    o.rootDeviceName = LightXML.content(LightXML.find_element(pd, "rootDeviceName"))
-    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, elements_by_tagname(LightXML.find_element(pd, "blockDeviceMapping"), "item"))
-    o.virtualizationType = LightXML.content(LightXML.find_element(pd, "virtualizationType"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
-    o.hypervisor = LightXML.content(LightXML.find_element(pd, "hypervisor"))
-    o
-end
-
-export DescribeImagesResponseItemType
-
-
-type DescribeBundleTasksType
-    bundlesSet::Union{Vector{String}, Void}
-    filterSet::Union{Vector{FilterType}, Void}
-
-    DescribeBundleTasksType(; bundlesSet=nothing, filterSet=nothing) =
-         new(bundlesSet, filterSet)
-end
-function DescribeBundleTasksType(pd)
-    o = DescribeBundleTasksType()
-    o.bundlesSet = AWS.parse_vector_as(String, "bundleId", elements_by_tagname(LightXML.find_element(pd, "item"), "bundleId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
-    o
-end
-
-export DescribeBundleTasksType
-
-
-type DeleteTagsType
-    resourcesSet::Union{Vector{String}, Void}
-    tagSet::Union{Vector{DeleteTagsSetItemType}, Void}
-
-    DeleteTagsType(; resourcesSet=nothing, tagSet=nothing) =
-         new(resourcesSet, tagSet)
-end
-function DeleteTagsType(pd)
-    o = DeleteTagsType()
-    o.resourcesSet = AWS.parse_vector_as(String, "resourceId", elements_by_tagname(LightXML.find_element(pd, "item"), "resourceId"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.DeleteTagsSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
-    o
-end
-
-export DeleteTagsType
-
-
-type SpotDatafeedSubscriptionType
-    ownerId::Union{String, Void}
-    bucket::Union{String, Void}
-    prefix::Union{String, Void}
-    state::Union{String, Void}
-    fault::Union{SpotInstanceStateFaultType, Void}
-
-    SpotDatafeedSubscriptionType(; ownerId=nothing, bucket=nothing, prefix=nothing, state=nothing, fault=nothing) =
-         new(ownerId, bucket, prefix, state, fault)
-end
-function SpotDatafeedSubscriptionType(pd)
-    o = SpotDatafeedSubscriptionType()
-    o.ownerId = LightXML.content(LightXML.find_element(pd, "ownerId"))
-    o.bucket = LightXML.content(LightXML.find_element(pd, "bucket"))
-    o.prefix = LightXML.content(LightXML.find_element(pd, "prefix"))
-    o.state = LightXML.content(LightXML.find_element(pd, "state"))
-    ## o.fault = length(pd["fault"]) > 0 ?  SpotInstanceStateFaultType(LightXML.find_element(pd,"fault[1]")) : nothing
-    o.fault = LightXML.find_element(pd,"fault") != nothing ? SpotInstanceStateFaultType(LightXML.find_element(pd,"fault")) : nothing
-    o
-end
-
-export SpotDatafeedSubscriptionType
-
-
-type DescribeNetworkAclsType
-    networkAclIdSet::Union{Vector{String}, Void}
-    filterSet::Union{Vector{FilterType}, Void}
-
-    DescribeNetworkAclsType(; networkAclIdSet=nothing, filterSet=nothing) =
-         new(networkAclIdSet, filterSet)
-end
-function DescribeNetworkAclsType(pd)
-    o = DescribeNetworkAclsType()
-    o.networkAclIdSet = AWS.parse_vector_as(String, "networkAclId", elements_by_tagname(LightXML.find_element(pd, "item"), "networkAclId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
-    o
-end
-
-export DescribeNetworkAclsType
-
-
-type DescribeVolumesSetItemResponseType
-    volumeId::Union{String, Void}
-    size::Union{String, Void}
-    snapshotId::Union{String, Void}
-    availabilityZone::Union{String, Void}
-    status::Union{String, Void}
-    createTime::Union{Base.Dates.DateTime, Void}
-    attachmentSet::Union{Vector{AttachmentSetItemResponseType}, Void}
-    tagSet::Union{Vector{ResourceTagSetItemType}, Void}
-    volumeType::Union{String, Void}
-    iops::Union{Int64, Void}
-
-    DescribeVolumesSetItemResponseType(; volumeId=nothing, size=nothing, snapshotId=nothing, availabilityZone=nothing, status=nothing, createTime=nothing, attachmentSet=nothing, tagSet=nothing, volumeType=nothing, iops=nothing) =
-         new(volumeId, size, snapshotId, availabilityZone, status, createTime, attachmentSet, tagSet, volumeType, iops)
-end
-function DescribeVolumesSetItemResponseType(pd)
-    o = DescribeVolumesSetItemResponseType()
-    o.volumeId = LightXML.content(LightXML.find_element(pd, "volumeId"))
-    o.size = LightXML.content(LightXML.find_element(pd, "size"))
-    o.snapshotId = LightXML.content(LightXML.find_element(pd, "snapshotId"))
-    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
-    o.status = LightXML.content(LightXML.find_element(pd, "status"))
-    o.createTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "createTime")))
-    o.attachmentSet = AWS.@parse_vector(AWS.EC2.AttachmentSetItemResponseType, elements_by_tagname(LightXML.find_element(pd, "attachmentSet"), "item"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
-    o.volumeType = LightXML.content(LightXML.find_element(pd, "volumeType"))
-    o.iops = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "iops")))
-    o
-end
-
-export DescribeVolumesSetItemResponseType
-
-
-type DescribeVolumesType
-    volumeSet::Union{Vector{String}, Void}
-    filterSet::Union{Vector{FilterType}, Void}
-
-    DescribeVolumesType(; volumeSet=nothing, filterSet=nothing) =
-         new(volumeSet, filterSet)
-end
-function DescribeVolumesType(pd)
-    o = DescribeVolumesType()
-    o.volumeSet = AWS.parse_vector_as(String, "volumeId", elements_by_tagname(LightXML.find_element(pd, "item"), "volumeId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
-    o
-end
-
-export DescribeVolumesType
-
-
-type DescribeDhcpOptionsType
-    dhcpOptionsSet::Union{Vector{String}, Void}
-    filterSet::Union{Vector{FilterType}, Void}
-
-    DescribeDhcpOptionsType(; dhcpOptionsSet=nothing, filterSet=nothing) =
-         new(dhcpOptionsSet, filterSet)
-end
-function DescribeDhcpOptionsType(pd)
-    o = DescribeDhcpOptionsType()
-    o.dhcpOptionsSet = AWS.parse_vector_as(String, "dhcpOptionsId", elements_by_tagname(LightXML.find_element(pd, "item"), "dhcpOptionsId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
-    o
-end
-
-export DescribeDhcpOptionsType
-
-
-type CreateTagsType
-    resourcesSet::Union{Vector{String}, Void}
-    tagSet::Union{Vector{ResourceTagSetItemType}, Void}
-
-    CreateTagsType(; resourcesSet=nothing, tagSet=nothing) =
-         new(resourcesSet, tagSet)
-end
-function CreateTagsType(pd)
-    o = CreateTagsType()
-    o.resourcesSet = AWS.parse_vector_as(String, "resourceId", elements_by_tagname(LightXML.find_element(pd, "item"), "resourceId"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
-    o
-end
-
-export CreateTagsType
-
-
-type ImportInstanceTaskDetailsType
-    volumes::Union{Vector{ImportInstanceVolumeDetailItemType}, Void}
-    instanceId::Union{String, Void}
-    platform::Union{String, Void}
-    description::Union{String, Void}
-
-    ImportInstanceTaskDetailsType(; volumes=nothing, instanceId=nothing, platform=nothing, description=nothing) =
-         new(volumes, instanceId, platform, description)
-end
-function ImportInstanceTaskDetailsType(pd)
-    o = ImportInstanceTaskDetailsType()
-    o.volumes = AWS.@parse_vector(AWS.EC2.ImportInstanceVolumeDetailItemType, elements_by_tagname(LightXML.find_element(pd, "volumes"), "item"))
-    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
-    o.platform = LightXML.content(LightXML.find_element(pd, "platform"))
-    o.description = LightXML.content(LightXML.find_element(pd, "description"))
-    o
-end
-
-export ImportInstanceTaskDetailsType
-
-
-type ConversionTaskType
-    conversionTaskId::Union{String, Void}
-    expirationTime::Union{String, Void}
-    state::Union{String, Void}
-    statusMessage::Union{String, Void}
-    tagSet::Union{Vector{ResourceTagSetItemType}, Void}
-
-    ConversionTaskType(; conversionTaskId=nothing, expirationTime=nothing, state=nothing, statusMessage=nothing, tagSet=nothing) =
-         new(conversionTaskId, expirationTime, state, statusMessage, tagSet)
-end
-function ConversionTaskType(pd)
-    o = ConversionTaskType()
-    o.conversionTaskId = LightXML.content(LightXML.find_element(pd, "conversionTaskId"))
-    o.expirationTime = LightXML.content(LightXML.find_element(pd, "expirationTime"))
-    o.state = LightXML.content(LightXML.find_element(pd, "state"))
-    o.statusMessage = LightXML.content(LightXML.find_element(pd, "statusMessage"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
-    o
-end
-
-export ConversionTaskType
-
-
-type CreateSpotDatafeedSubscriptionResponseType
-    requestId::Union{String, Void}
-    spotDatafeedSubscription::Union{SpotDatafeedSubscriptionType, Void}
-
-    CreateSpotDatafeedSubscriptionResponseType(; requestId=nothing, spotDatafeedSubscription=nothing) =
-         new(requestId, spotDatafeedSubscription)
-end
-function CreateSpotDatafeedSubscriptionResponseType(pd)
-    o = CreateSpotDatafeedSubscriptionResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    ## o.spotDatafeedSubscription = length(pd["spotDatafeedSubscription"]) > 0 ?  SpotDatafeedSubscriptionType(LightXML.find_element(pd,"spotDatafeedSubscription[1]")) : nothing
-    o.spotDatafeedSubscription = LightXML.find_element(pd,"spotDatafeedSubscription") != nothing ?  SpotDatafeedSubscriptionType(LightXML.content(LightXML.find_element(pd,"spotDatafeedSubscription"))) : nothing
-    o
-end
-
-export CreateSpotDatafeedSubscriptionResponseType
-
-
-type DescribeCustomerGatewaysType
-    customerGatewaySet::Union{Vector{String}, Void}
-    filterSet::Union{Vector{FilterType}, Void}
-
-    DescribeCustomerGatewaysType(; customerGatewaySet=nothing, filterSet=nothing) =
-         new(customerGatewaySet, filterSet)
-end
-function DescribeCustomerGatewaysType(pd)
-    o = DescribeCustomerGatewaysType()
-    o.customerGatewaySet = AWS.parse_vector_as(String, "customerGatewayId", elements_by_tagname(LightXML.find_element(pd, "item"), "customerGatewayId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
-    o
-end
-
-export DescribeCustomerGatewaysType
-
-
-type DescribePlacementGroupsResponseType
-    requestId::Union{String, Void}
-    placementGroupSet::Union{Vector{PlacementGroupInfoType}, Void}
-
-    DescribePlacementGroupsResponseType(; requestId=nothing, placementGroupSet=nothing) =
-         new(requestId, placementGroupSet)
-end
-function DescribePlacementGroupsResponseType(pd)
-    o = DescribePlacementGroupsResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.placementGroupSet = AWS.@parse_vector(AWS.EC2.PlacementGroupInfoType, elements_by_tagname(LightXML.find_element(pd, "placementGroupSet"), "item"))
-    o
-end
-
-export DescribePlacementGroupsResponseType
-
-
-type DescribeReservedInstancesResponseType
-    requestId::Union{String, Void}
-    reservedInstancesSet::Union{Vector{DescribeReservedInstancesResponseSetItemType}, Void}
-
-    DescribeReservedInstancesResponseType(; requestId=nothing, reservedInstancesSet=nothing) =
-         new(requestId, reservedInstancesSet)
-end
-function DescribeReservedInstancesResponseType(pd)
-    o = DescribeReservedInstancesResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.reservedInstancesSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesResponseSetItemType, elements_by_tagname(LightXML.find_element(pd, "reservedInstancesSet"), "item"))
-    o
-end
-
-export DescribeReservedInstancesResponseType
-
-
-type ReplaceNetworkAclEntryType
-    networkAclId::Union{String, Void}
-    ruleNumber::Union{Int64, Void}
-    protocol::Union{String, Void}
-    ruleAction::Union{String, Void}
-    egress::Union{Bool, Void}
-    cidrBlock::Union{String, Void}
-    icmpTypeCode::Union{IcmpTypeCodeType, Void}
-    portRange::Union{PortRangeType, Void}
-
-    ReplaceNetworkAclEntryType(; networkAclId=nothing, ruleNumber=nothing, protocol=nothing, ruleAction=nothing, egress=nothing, cidrBlock=nothing, icmpTypeCode=nothing, portRange=nothing) =
-         new(networkAclId, ruleNumber, protocol, ruleAction, egress, cidrBlock, icmpTypeCode, portRange)
-end
-function ReplaceNetworkAclEntryType(pd)
-    o = ReplaceNetworkAclEntryType()
-    o.networkAclId = LightXML.content(LightXML.find_element(pd, "networkAclId"))
-    o.ruleNumber = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "ruleNumber")))
-    o.protocol = LightXML.content(LightXML.find_element(pd, "protocol"))
-    o.ruleAction = LightXML.content(LightXML.find_element(pd, "ruleAction"))
-    o.egress = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "egress")))
-    o.cidrBlock = LightXML.content(LightXML.find_element(pd, "cidrBlock"))
-    ## o.icmpTypeCode = length(pd["icmpTypeCode"]) > 0 ?  IcmpTypeCodeType(LightXML.find_element(pd,"icmpTypeCode[1]")) : nothing
-    o.icmpTypeCode = LightXML.find_element(pd,"icmpTypeCode") != nothing ? IcmpTypeCodeType(LightXML.find_element(pd,"icmpTypeCode")) : nothing
-    ## o.portRange = length(pd["portRange"]) > 0 ?  PortRangeType(LightXML.find_element(pd,"portRange[1]")) : nothing
-    o.portRange = LightXML.find_element(pd,"portRange") != nothing ? PortRangeType(LightXML.find_element(pd,"portRange")) : nothing
-    o
-end
-
-export ReplaceNetworkAclEntryType
-
-
-type NetworkAclEntryType
-    ruleNumber::Union{Int64, Void}
-    protocol::Union{String, Void}
-    ruleAction::Union{String, Void}
-    egress::Union{Bool, Void}
-    cidrBlock::Union{String, Void}
-    icmpTypeCode::Union{IcmpTypeCodeType, Void}
-    portRange::Union{PortRangeType, Void}
-
-    NetworkAclEntryType(; ruleNumber=nothing, protocol=nothing, ruleAction=nothing, egress=nothing, cidrBlock=nothing, icmpTypeCode=nothing, portRange=nothing) =
-         new(ruleNumber, protocol, ruleAction, egress, cidrBlock, icmpTypeCode, portRange)
-end
-function NetworkAclEntryType(pd)
-    o = NetworkAclEntryType()
-    o.ruleNumber = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "ruleNumber")))
-    o.protocol = LightXML.content(LightXML.find_element(pd, "protocol"))
-    o.ruleAction = LightXML.content(LightXML.find_element(pd, "ruleAction"))
-    o.egress = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "egress")))
-    o.cidrBlock = LightXML.content(LightXML.find_element(pd, "cidrBlock"))
-    ## o.icmpTypeCode = length(pd["icmpTypeCode"]) > 0 ?  IcmpTypeCodeType(LightXML.find_element(pd,"icmpTypeCode[1]")) : nothing
-    o.icmpTypeCode = LightXML.find_element(pd,"icmpTypeCode") != nothing ? IcmpTypeCodeType(LightXML.find_element(pd,"icmpTypeCode")) : nothing
-    ## o.portRange = length(pd["portRange"]) > 0 ?  PortRangeType(LightXML.find_element(pd,"portRange[1]")) : nothing
-    o.portRange = LightXML.find_element(pd,"portRange") != nothing ? PortRangeType(LightXML.find_element(pd,"portRange")) : nothing
-    o
-end
-
-export NetworkAclEntryType
-
-
-type InternetGatewayType
-    internetGatewayId::Union{String, Void}
-    attachmentSet::Union{Vector{InternetGatewayAttachmentType}, Void}
-    tagSet::Union{Vector{ResourceTagSetItemType}, Void}
-
-    InternetGatewayType(; internetGatewayId=nothing, attachmentSet=nothing, tagSet=nothing) =
-         new(internetGatewayId, attachmentSet, tagSet)
-end
-function InternetGatewayType(pd)
-    o = InternetGatewayType()
-    o.internetGatewayId = LightXML.content(LightXML.find_element(pd, "internetGatewayId"))
-    o.attachmentSet = AWS.@parse_vector(AWS.EC2.InternetGatewayAttachmentType, elements_by_tagname(LightXML.find_element(pd, "attachmentSet"), "item"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
-    o
-end
-
-export InternetGatewayType
-
-
-type DescribeRegionsType
-    regionSet::Union{Vector{String}, Void}
-    filterSet::Union{Vector{FilterType}, Void}
-
-    DescribeRegionsType(; regionSet=nothing, filterSet=nothing) =
-         new(regionSet, filterSet)
-end
-function DescribeRegionsType(pd)
-    o = DescribeRegionsType()
-    o.regionSet = AWS.parse_vector_as(String, "regionName", elements_by_tagname(LightXML.find_element(pd, "item"), "regionName"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
-    o
-end
-
-export DescribeRegionsType
-
-
-type DescribeSnapshotsType
-    snapshotSet::Union{Vector{String}, Void}
-    ownersSet::Union{Vector{String}, Void}
-    restorableBySet::Union{Vector{String}, Void}
-    filterSet::Union{Vector{FilterType}, Void}
-
-    DescribeSnapshotsType(; snapshotSet=nothing, ownersSet=nothing, restorableBySet=nothing, filterSet=nothing) =
-         new(snapshotSet, ownersSet, restorableBySet, filterSet)
-end
-function DescribeSnapshotsType(pd)
-    o = DescribeSnapshotsType()
-    o.snapshotSet = AWS.parse_vector_as(String, "snapshotId", elements_by_tagname(LightXML.find_element(pd, "item"), "snapshotId"))
-    o.ownersSet = AWS.parse_vector_as(String, "owner", elements_by_tagname(LightXML.find_element(pd, "item"), "owner"))
-    o.restorableBySet = AWS.parse_vector_as(String, "user", elements_by_tagname(LightXML.find_element(pd, "item"), "user"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
-    o
-end
-
-export DescribeSnapshotsType
-
-
-type DescribeKeyPairsResponseType
-    requestId::Union{String, Void}
-    keySet::Union{Vector{DescribeKeyPairsResponseItemType}, Void}
-
-    DescribeKeyPairsResponseType(; requestId=nothing, keySet=nothing) =
-         new(requestId, keySet)
-end
-function DescribeKeyPairsResponseType(pd)
-    o = DescribeKeyPairsResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.keySet = AWS.@parse_vector(AWS.EC2.DescribeKeyPairsResponseItemType, elements_by_tagname(LightXML.find_element(pd, "keySet"), "item"))
-    o
-end
-
-export DescribeKeyPairsResponseType
-
-
-type DescribeAvailabilityZonesResponseType
-    requestId::Union{String, Void}
-    availabilityZoneInfo::Union{Vector{AvailabilityZoneItemType}, Void}
-
-    DescribeAvailabilityZonesResponseType(; requestId=nothing, availabilityZoneInfo=nothing) =
-         new(requestId, availabilityZoneInfo)
-end
-function DescribeAvailabilityZonesResponseType(pd)
-    o = DescribeAvailabilityZonesResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.availabilityZoneInfo = AWS.@parse_vector(AWS.EC2.AvailabilityZoneItemType, elements_by_tagname(LightXML.find_element(pd, "availabilityZoneInfo"), "item"))
-    o
-end
-
-export DescribeAvailabilityZonesResponseType
-
-
-type VpcType
-    vpcId::Union{String, Void}
-    state::Union{String, Void}
-    cidrBlock::Union{String, Void}
-    dhcpOptionsId::Union{String, Void}
-    tagSet::Union{Vector{ResourceTagSetItemType}, Void}
-    instanceTenancy::Union{String, Void}
-    isDefault::Union{Bool, Void}
-
-    VpcType(; vpcId=nothing, state=nothing, cidrBlock=nothing, dhcpOptionsId=nothing, tagSet=nothing, instanceTenancy=nothing, isDefault=nothing) =
-         new(vpcId, state, cidrBlock, dhcpOptionsId, tagSet, instanceTenancy, isDefault)
-end
-function VpcType(pd)
-    o = VpcType()
-    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
-    o.state = LightXML.content(LightXML.find_element(pd, "state"))
-    o.cidrBlock = LightXML.content(LightXML.find_element(pd, "cidrBlock"))
-    o.dhcpOptionsId = LightXML.content(LightXML.find_element(pd, "dhcpOptionsId"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
-    o.instanceTenancy = LightXML.content(LightXML.find_element(pd, "instanceTenancy"))
-    o.isDefault = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "isDefault")))
-    o
-end
-
-export VpcType
-
-
-type DescribeSubnetsType
-    subnetSet::Union{Vector{String}, Void}
-    filterSet::Union{Vector{FilterType}, Void}
-
-    DescribeSubnetsType(; subnetSet=nothing, filterSet=nothing) =
-         new(subnetSet, filterSet)
-end
-function DescribeSubnetsType(pd)
-    o = DescribeSubnetsType()
-    o.subnetSet = AWS.parse_vector_as(String, "subnetId", elements_by_tagname(LightXML.find_element(pd, "item"), "subnetId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
-    o
-end
-
-export DescribeSubnetsType
-
-
-type DescribeRegionsResponseType
-    requestId::Union{String, Void}
-    regionInfo::Union{Vector{RegionItemType}, Void}
-
-    DescribeRegionsResponseType(; requestId=nothing, regionInfo=nothing) =
-         new(requestId, regionInfo)
-end
-function DescribeRegionsResponseType(pd)
-    o = DescribeRegionsResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.regionInfo = AWS.@parse_vector(AWS.EC2.RegionItemType, elements_by_tagname(LightXML.find_element(pd, "regionInfo"), "item"))
-    o
-end
-
-export DescribeRegionsResponseType
-
-
-type DescribeSpotDatafeedSubscriptionResponseType
-    requestId::Union{String, Void}
-    spotDatafeedSubscription::Union{SpotDatafeedSubscriptionType, Void}
-
-    DescribeSpotDatafeedSubscriptionResponseType(; requestId=nothing, spotDatafeedSubscription=nothing) =
-         new(requestId, spotDatafeedSubscription)
-end
-function DescribeSpotDatafeedSubscriptionResponseType(pd)
-    o = DescribeSpotDatafeedSubscriptionResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    ## o.spotDatafeedSubscription = length(pd["spotDatafeedSubscription"]) > 0 ?  SpotDatafeedSubscriptionType(LightXML.find_element(pd,"spotDatafeedSubscription[1]")) : nothing
-    o.spotDatafeedSubscription = LightXML.find_element(pd,"spotDatafeedSubscription") != nothing ? SpotDatafeedSubscriptionType(LightXML.find_element(pd,"spotDatafeedSubscription")) : nothing
-    o
-end
-
-export DescribeSpotDatafeedSubscriptionResponseType
-
-
-type DescribeReservedInstancesType
-    reservedInstancesSet::Union{Vector{String}, Void}
-    filterSet::Union{Vector{FilterType}, Void}
-    offeringType::Union{String, Void}
-
-    DescribeReservedInstancesType(; reservedInstancesSet=nothing, filterSet=nothing, offeringType=nothing) =
-         new(reservedInstancesSet, filterSet, offeringType)
-end
-function DescribeReservedInstancesType(pd)
-    o = DescribeReservedInstancesType()
-    o.reservedInstancesSet = AWS.parse_vector_as(String, "reservedInstancesId", elements_by_tagname(LightXML.find_element(pd, "item"), "reservedInstancesId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
-    o.offeringType = LightXML.content(LightXML.find_element(pd, "offeringType"))
-    o
-end
-
-export DescribeReservedInstancesType
-
-
-type DescribeReservedInstancesOfferingsType
-    reservedInstancesOfferingsSet::Union{Vector{String}, Void}
-    instanceType::Union{String, Void}
-    availabilityZone::Union{String, Void}
-    productDescription::Union{String, Void}
-    filterSet::Union{Vector{FilterType}, Void}
-    instanceTenancy::Union{String, Void}
-    offeringType::Union{String, Void}
-    includeMarketplace::Union{Bool, Void}
-    minDuration::Union{Int64, Void}
-    maxDuration::Union{Int64, Void}
-    maxInstanceCount::Union{Int64, Void}
-    nextToken::Union{String, Void}
-    maxResults::Union{Int64, Void}
-
-    DescribeReservedInstancesOfferingsType(; reservedInstancesOfferingsSet=nothing, instanceType=nothing, availabilityZone=nothing, productDescription=nothing, filterSet=nothing, instanceTenancy=nothing, offeringType=nothing, includeMarketplace=nothing, minDuration=nothing, maxDuration=nothing, maxInstanceCount=nothing, nextToken=nothing, maxResults=nothing) =
-         new(reservedInstancesOfferingsSet, instanceType, availabilityZone, productDescription, filterSet, instanceTenancy, offeringType, includeMarketplace, minDuration, maxDuration, maxInstanceCount, nextToken, maxResults)
-end
-function DescribeReservedInstancesOfferingsType(pd)
-    o = DescribeReservedInstancesOfferingsType()
-    o.reservedInstancesOfferingsSet = AWS.parse_vector_as(String, "reservedInstancesOfferingId", elements_by_tagname(LightXML.find_element(pd, "item"), "reservedInstancesOfferingId"))
-    o.instanceType = LightXML.content(LightXML.find_element(pd, "instanceType"))
-    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
-    o.productDescription = LightXML.content(LightXML.find_element(pd, "productDescription"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
-    o.instanceTenancy = LightXML.content(LightXML.find_element(pd, "instanceTenancy"))
-    o.offeringType = LightXML.content(LightXML.find_element(pd, "offeringType"))
-    o.includeMarketplace = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "includeMarketplace")))
-    o.minDuration = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "minDuration")))
-    o.maxDuration = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "maxDuration")))
-    o.maxInstanceCount = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "maxInstanceCount")))
-    o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
-    o.maxResults = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "maxResults")))
-    o
-end
-
-export DescribeReservedInstancesOfferingsType
-
-
-type DescribeImagesType
-    executableBySet::Union{Vector{String}, Void}
-    imagesSet::Union{Vector{String}, Void}
-    ownersSet::Union{Vector{String}, Void}
-    filterSet::Union{Vector{FilterType}, Void}
-
-    DescribeImagesType(; executableBySet=nothing, imagesSet=nothing, ownersSet=nothing, filterSet=nothing) =
-         new(executableBySet, imagesSet, ownersSet, filterSet)
-end
-function DescribeImagesType(pd)
-    o = DescribeImagesType()
-    o.executableBySet = AWS.parse_vector_as(String, "user", elements_by_tagname(LightXML.find_element(pd, "item"), "user"))
-    o.imagesSet = AWS.parse_vector_as(String, "imageId", elements_by_tagname(LightXML.find_element(pd, "item"), "imageId"))
-    o.ownersSet = AWS.parse_vector_as(String, "owner", elements_by_tagname(LightXML.find_element(pd, "item"), "owner"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
-    o
-end
-
-export DescribeImagesType
-
-
-type DescribeConversionTasksResponseType
-    requestId::Union{String, Void}
-    conversionTasks::Union{Vector{ConversionTaskType}, Void}
-
-    DescribeConversionTasksResponseType(; requestId=nothing, conversionTasks=nothing) =
-         new(requestId, conversionTasks)
-end
-function DescribeConversionTasksResponseType(pd)
-    o = DescribeConversionTasksResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.conversionTasks = AWS.@parse_vector(AWS.EC2.ConversionTaskType, elements_by_tagname(LightXML.find_element(pd, "conversionTasks"), "item"))
-    o
-end
-
-export DescribeConversionTasksResponseType
-
-
-type DescribeAccountAttributesResponseType
-    requestId::Union{String, Void}
-    accountAttributeSet::Union{Vector{AccountAttributeSetItemType}, Void}
-
-    DescribeAccountAttributesResponseType(; requestId=nothing, accountAttributeSet=nothing) =
-         new(requestId, accountAttributeSet)
-end
-function DescribeAccountAttributesResponseType(pd)
-    o = DescribeAccountAttributesResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.accountAttributeSet = AWS.@parse_vector(AWS.EC2.AccountAttributeSetItemType, elements_by_tagname(LightXML.find_element(pd, "accountAttributeSet"), "item"))
-    o
-end
-
-export DescribeAccountAttributesResponseType
-
-
-type CreateNetworkAclEntryType
-    networkAclId::Union{String, Void}
-    ruleNumber::Union{Int64, Void}
-    protocol::Union{String, Void}
-    ruleAction::Union{String, Void}
-    egress::Union{Bool, Void}
-    cidrBlock::Union{String, Void}
-    icmpTypeCode::Union{IcmpTypeCodeType, Void}
-    portRange::Union{PortRangeType, Void}
-
-    CreateNetworkAclEntryType(; networkAclId=nothing, ruleNumber=nothing, protocol=nothing, ruleAction=nothing, egress=nothing, cidrBlock=nothing, icmpTypeCode=nothing, portRange=nothing) =
-         new(networkAclId, ruleNumber, protocol, ruleAction, egress, cidrBlock, icmpTypeCode, portRange)
-end
-function CreateNetworkAclEntryType(pd)
-    o = CreateNetworkAclEntryType()
-    o.networkAclId = LightXML.content(LightXML.find_element(pd, "networkAclId"))
-    o.ruleNumber = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "ruleNumber")))
-    o.protocol = LightXML.content(LightXML.find_element(pd, "protocol"))
-    o.ruleAction = LightXML.content(LightXML.find_element(pd, "ruleAction"))
-    o.egress = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "egress")))
-    o.cidrBlock = LightXML.content(LightXML.find_element(pd, "cidrBlock"))
-    ## o.icmpTypeCode = length(pd["icmpTypeCode"]) > 0 ?  IcmpTypeCodeType(LightXML.find_element(pd,"icmpTypeCode[1]")) : nothing
-    o.icmpTypeCode = LightXML.find_element(pd,"icmpTypeCode") != nothing ? IcmpTypeCodeType(LightXML.find_element(pd,"icmpTypeCode")) : nothing
-    ## o.portRange = length(pd["portRange"]) > 0 ?  PortRangeType(LightXML.find_element(pd,"portRange[1]")) : nothing
-    o.portRange = LightXML.find_element(pd,"portRange") != nothing ? PortRangeType(LightXML.find_element(pd,"portRange")) : nothing
-    o
-end
-
-export CreateNetworkAclEntryType
-
-
-type DescribeSnapshotsSetItemResponseType
-    snapshotId::Union{String, Void}
-    volumeId::Union{String, Void}
-    status::Union{String, Void}
-    startTime::Union{Base.Dates.DateTime, Void}
-    progress::Union{String, Void}
-    ownerId::Union{String, Void}
-    volumeSize::Union{String, Void}
-    description::Union{String, Void}
-    ownerAlias::Union{String, Void}
-    tagSet::Union{Vector{ResourceTagSetItemType}, Void}
-
-    DescribeSnapshotsSetItemResponseType(; snapshotId=nothing, volumeId=nothing, status=nothing, startTime=nothing, progress=nothing, ownerId=nothing, volumeSize=nothing, description=nothing, ownerAlias=nothing, tagSet=nothing) =
-         new(snapshotId, volumeId, status, startTime, progress, ownerId, volumeSize, description, ownerAlias, tagSet)
-end
-function DescribeSnapshotsSetItemResponseType(pd)
-    o = DescribeSnapshotsSetItemResponseType()
-    o.snapshotId = LightXML.content(LightXML.find_element(pd, "snapshotId"))
-    o.volumeId = LightXML.content(LightXML.find_element(pd, "volumeId"))
-    o.status = LightXML.content(LightXML.find_element(pd, "status"))
-    o.startTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "startTime")))
-    o.progress = LightXML.content(LightXML.find_element(pd, "progress"))
-    o.ownerId = LightXML.content(LightXML.find_element(pd, "ownerId"))
-    o.volumeSize = LightXML.content(LightXML.find_element(pd, "volumeSize"))
-    o.description = LightXML.content(LightXML.find_element(pd, "description"))
-    o.ownerAlias = LightXML.content(LightXML.find_element(pd, "ownerAlias"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
-    o
-end
-
-export DescribeSnapshotsSetItemResponseType
-
-
-type BundleInstanceTaskStorageType
-    S3::Union{BundleInstanceS3StorageType, Void}
-
-    BundleInstanceTaskStorageType(; S3=nothing) =
-         new(S3)
-end
-function BundleInstanceTaskStorageType(pd)
-    o = BundleInstanceTaskStorageType()
-    ## o.S3 = length(pd["S3"]) > 0 ?  BundleInstanceS3StorageType(LightXML.find_element(pd,"S3[1]")) : nothing
-    o.S3 = LightXML.find_element(pd,"S3") != nothing ? BundleInstanceS3StorageType(LightXML.find_element(pd,"S3")) : nothing
-    o
-end
-
-export BundleInstanceTaskStorageType
-
-
-type InstanceStatusItemType
-    instanceId::Union{String, Void}
-    availabilityZone::Union{String, Void}
-    eventsSet::Union{Vector{InstanceStatusEventType}, Void}
-    instanceState::Union{InstanceStateType, Void}
-    systemStatus::Union{InstanceStatusType, Void}
-    instanceStatus::Union{InstanceStatusType, Void}
-
-    InstanceStatusItemType(; instanceId=nothing, availabilityZone=nothing, eventsSet=nothing, instanceState=nothing, systemStatus=nothing, instanceStatus=nothing) =
-         new(instanceId, availabilityZone, eventsSet, instanceState, systemStatus, instanceStatus)
-end
-function InstanceStatusItemType(pd)
-    o = InstanceStatusItemType()
-    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
-    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
-    o.eventsSet = LightXML.find_element(pd, "eventsSet") != nothing ?AWS.@parse_vector(AWS.EC2.InstanceStatusEventType, elements_by_tagname(LightXML.find_element(pd, "eventsSet"), "item")) : nothing
-    ## o.instanceState = length(pd["instanceState"]) > 0 ?  InstanceStateType(LightXML.find_element(pd,"instanceState[1]")) : nothing
-    o.instanceState = LightXML.find_element(pd,"instanceState") != nothing ?  InstanceStateType(LightXML.find_element(pd,"instanceState")) : nothing
-    ## o.systemStatus = length(pd["systemStatus"]) > 0 ?  InstanceStatusType(LightXML.find_element(pd,"systemStatus[1]")) : nothing
-    o.systemStatus = LightXML.find_element(pd,"systemStatus") != nothing ?  InstanceStatusType(LightXML.find_element(pd,"systemStatus")) : nothing
-    ## o.instanceStatus = length(pd["instanceStatus"]) > 0 ?  InstanceStatusType(LightXML.find_element(pd,"instanceStatus[1]")) : nothing
-    o.instanceStatus = LightXML.find_element(pd,"instanceStatus") != nothing ?  InstanceStatusType(LightXML.find_element(pd,"instanceStatus")) : nothing
-    o
-end
-
-export InstanceStatusItemType
-
-
-type InstanceNetworkInterfaceSetItemRequestType
-    networkInterfaceId::Union{String, Void}
-    deviceIndex::Union{Int64, Void}
-    subnetId::Union{String, Void}
-    description::Union{String, Void}
-    privateIpAddress::Union{String, Void}
-    groupSet::Union{Vector{String}, Void}
-    deleteOnTermination::Union{Bool, Void}
-    privateIpAddressesSet::Union{Vector{PrivateIpAddressesSetItemRequestType}, Void}
-    secondaryPrivateIpAddressCount::Union{Int64, Void}
-
-    InstanceNetworkInterfaceSetItemRequestType(; networkInterfaceId=nothing, deviceIndex=nothing, subnetId=nothing, description=nothing, privateIpAddress=nothing, groupSet=nothing, deleteOnTermination=nothing, privateIpAddressesSet=nothing, secondaryPrivateIpAddressCount=nothing) =
-         new(networkInterfaceId, deviceIndex, subnetId, description, privateIpAddress, groupSet, deleteOnTermination, privateIpAddressesSet, secondaryPrivateIpAddressCount)
-end
-function InstanceNetworkInterfaceSetItemRequestType(pd)
-    o = InstanceNetworkInterfaceSetItemRequestType()
-    o.networkInterfaceId = LightXML.content(LightXML.find_element(pd, "networkInterfaceId"))
-    o.deviceIndex = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "deviceIndex")))
-    o.subnetId = LightXML.content(LightXML.find_element(pd, "subnetId"))
-    o.description = LightXML.content(LightXML.find_element(pd, "description"))
-    o.privateIpAddress = LightXML.content(LightXML.find_element(pd, "privateIpAddress"))
-    o.groupSet = AWS.parse_vector_as(String, "groupId", elements_by_tagname(LightXML.find_element(pd, "item"), "groupId"))
-    o.deleteOnTermination = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "deleteOnTermination")))
-    o.privateIpAddressesSet = AWS.@parse_vector(AWS.EC2.PrivateIpAddressesSetItemRequestType, elements_by_tagname(LightXML.find_element(pd, "privateIpAddressesSet"), "item"))
-    o.secondaryPrivateIpAddressCount = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "secondaryPrivateIpAddressCount")))
-    o
-end
-
-export InstanceNetworkInterfaceSetItemRequestType
-
-
-type DescribeReservedInstancesListingsType
-    reservedInstancesListingSet::Union{Vector{String}, Void}
-    reservedInstancesSet::Union{Vector{String}, Void}
-    filterSet::Union{Vector{FilterType}, Void}
-
-    DescribeReservedInstancesListingsType(; reservedInstancesListingSet=nothing, reservedInstancesSet=nothing, filterSet=nothing) =
-         new(reservedInstancesListingSet, reservedInstancesSet, filterSet)
-end
-function DescribeReservedInstancesListingsType(pd)
-    o = DescribeReservedInstancesListingsType()
-    o.reservedInstancesListingSet = AWS.parse_vector_as(String, "reservedInstancesListingId", elements_by_tagname(LightXML.find_element(pd, "item"), "reservedInstancesListingId"))
-    o.reservedInstancesSet = AWS.parse_vector_as(String, "reservedInstancesId", elements_by_tagname(LightXML.find_element(pd, "item"), "reservedInstancesId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
-    o
-end
-
-export DescribeReservedInstancesListingsType
-
-
-type DescribeSpotPriceHistoryType
-    startTime::Union{Base.Dates.DateTime, Void}
-    endTime::Union{Base.Dates.DateTime, Void}
-    instanceTypeSet::Union{Vector{String}, Void}
-    productDescriptionSet::Union{Vector{String}, Void}
-    filterSet::Union{Vector{FilterType}, Void}
-    availabilityZone::Union{String, Void}
-    maxResults::Union{Int64, Void}
-    nextToken::Union{String, Void}
-
-    DescribeSpotPriceHistoryType(; startTime=nothing, endTime=nothing, instanceTypeSet=nothing, productDescriptionSet=nothing, filterSet=nothing, availabilityZone=nothing, maxResults=nothing, nextToken=nothing) =
-         new(startTime, endTime, instanceTypeSet, productDescriptionSet, filterSet, availabilityZone, maxResults, nextToken)
-end
-function DescribeSpotPriceHistoryType(pd)
-    o = DescribeSpotPriceHistoryType()
-    o.startTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "startTime")))
-    o.endTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "endTime")))
-    o.instanceTypeSet = AWS.parse_vector_as(String, "instanceType", elements_by_tagname(LightXML.find_element(pd, "item"), "instanceType"))
-    o.productDescriptionSet = AWS.parse_vector_as(String, "productDescription", elements_by_tagname(LightXML.find_element(pd, "item"), "productDescription"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
-    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
-    o.maxResults = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "maxResults")))
-    o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
-    o
-end
-
-export DescribeSpotPriceHistoryType
-
-
-type DescribeReservedInstancesOfferingsResponseSetItemType
-    reservedInstancesOfferingId::Union{String, Void}
-    instanceType::Union{String, Void}
-    availabilityZone::Union{String, Void}
-    duration::Union{Int64, Void}
-    fixedPrice::Union{Float64, Void}
-    usagePrice::Union{Float64, Void}
-    productDescription::Union{String, Void}
-    instanceTenancy::Union{String, Void}
-    currencyCode::Union{String, Void}
-    offeringType::Union{String, Void}
-    recurringCharges::Union{Vector{RecurringChargesSetItemType}, Void}
-    marketplace::Union{Bool, Void}
-    pricingDetailsSet::Union{Vector{PricingDetailsSetItemType}, Void}
-
-    DescribeReservedInstancesOfferingsResponseSetItemType(; reservedInstancesOfferingId=nothing, instanceType=nothing, availabilityZone=nothing, duration=nothing, fixedPrice=nothing, usagePrice=nothing, productDescription=nothing, instanceTenancy=nothing, currencyCode=nothing, offeringType=nothing, recurringCharges=nothing, marketplace=nothing, pricingDetailsSet=nothing) =
-         new(reservedInstancesOfferingId, instanceType, availabilityZone, duration, fixedPrice, usagePrice, productDescription, instanceTenancy, currencyCode, offeringType, recurringCharges, marketplace, pricingDetailsSet)
-end
-function DescribeReservedInstancesOfferingsResponseSetItemType(pd)
-    o = DescribeReservedInstancesOfferingsResponseSetItemType()
-    o.reservedInstancesOfferingId = LightXML.content(LightXML.find_element(pd, "reservedInstancesOfferingId"))
-    o.instanceType = LightXML.content(LightXML.find_element(pd, "instanceType"))
-    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
-    o.duration = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "duration")))
-    o.fixedPrice = AWS.safe_parse_as(Float64, LightXML.content(LightXML.find_element(pd, "fixedPrice")))
-    o.usagePrice = AWS.safe_parse_as(Float64, LightXML.content(LightXML.find_element(pd, "usagePrice")))
-    o.productDescription = LightXML.content(LightXML.find_element(pd, "productDescription"))
-    o.instanceTenancy = LightXML.content(LightXML.find_element(pd, "instanceTenancy"))
-    o.currencyCode = LightXML.content(LightXML.find_element(pd, "currencyCode"))
-    o.offeringType = LightXML.content(LightXML.find_element(pd, "offeringType"))
-    o.recurringCharges = AWS.@parse_vector(AWS.EC2.RecurringChargesSetItemType, elements_by_tagname(LightXML.find_element(pd, "recurringCharges"), "item"))
-    o.marketplace = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "marketplace")))
-    o.pricingDetailsSet = AWS.@parse_vector(AWS.EC2.PricingDetailsSetItemType, elements_by_tagname(LightXML.find_element(pd, "pricingDetailsSet"), "item"))
-    o
-end
-
-export DescribeReservedInstancesOfferingsResponseSetItemType
-
-
-type IpPermissionType
-    ipProtocol::Union{String, Void}
-    fromPort::Union{Int64, Void}
-    toPort::Union{Int64, Void}
-    groups::Union{Vector{UserIdGroupPairType}, Void}
-    ipRanges::Union{Vector{String}, Void}
-
-    IpPermissionType(; ipProtocol=nothing, fromPort=nothing, toPort=nothing, groups=nothing, ipRanges=nothing) =
-         new(ipProtocol, fromPort, toPort, groups, ipRanges)
-end
-function IpPermissionType(pd)
-    o = IpPermissionType()
-    o.ipProtocol = LightXML.content(LightXML.find_element(pd, "ipProtocol"))
-    o.fromPort = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "fromPort")))
-    o.toPort = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "toPort")))
-    o.groups = AWS.@parse_vector(AWS.EC2.UserIdGroupPairType, elements_by_tagname(LightXML.find_element(pd, "groups"), "item"))
-    o.ipRanges = AWS.parse_vector_as(String, "cidrIp", elements_by_tagname(LightXML.find_element(pd, "item"), "cidrIp"))
-    o
-end
-
-export IpPermissionType
-
-
-type DescribeVolumesResponseType
-    requestId::Union{String, Void}
-    volumeSet::Union{Vector{DescribeVolumesSetItemResponseType}, Void}
-
-    DescribeVolumesResponseType(; requestId=nothing, volumeSet=nothing) =
-         new(requestId, volumeSet)
-end
-function DescribeVolumesResponseType(pd)
-    o = DescribeVolumesResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.volumeSet = AWS.@parse_vector(AWS.EC2.DescribeVolumesSetItemResponseType, elements_by_tagname(LightXML.find_element(pd, "volumeSet"), "item"))
-    o
-end
-
-export DescribeVolumesResponseType
-
-
-type DescribeSpotPriceHistoryResponseType
-    requestId::Union{String, Void}
-    spotPriceHistorySet::Union{Vector{SpotPriceHistorySetItemType}, Void}
-    nextToken::Union{String, Void}
-
-    DescribeSpotPriceHistoryResponseType(; requestId=nothing, spotPriceHistorySet=nothing, nextToken=nothing) =
-         new(requestId, spotPriceHistorySet, nextToken)
-end
-function DescribeSpotPriceHistoryResponseType(pd)
-    o = DescribeSpotPriceHistoryResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.spotPriceHistorySet = AWS.@parse_vector(AWS.EC2.SpotPriceHistorySetItemType, elements_by_tagname(LightXML.find_element(pd, "spotPriceHistorySet"), "item"))
-    o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
-    o
-end
-
-export DescribeSpotPriceHistoryResponseType
-
-
-type DescribeSpotInstanceRequestsType
-    spotInstanceRequestIdSet::Union{Vector{String}, Void}
-    filterSet::Union{Vector{FilterType}, Void}
-
-    DescribeSpotInstanceRequestsType(; spotInstanceRequestIdSet=nothing, filterSet=nothing) =
-         new(spotInstanceRequestIdSet, filterSet)
-end
-function DescribeSpotInstanceRequestsType(pd)
-    o = DescribeSpotInstanceRequestsType()
-    o.spotInstanceRequestIdSet = AWS.parse_vector_as(String, "spotInstanceRequestId", elements_by_tagname(LightXML.find_element(pd, "item"), "spotInstanceRequestId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
-    o
-end
-
-export DescribeSpotInstanceRequestsType
-
-
-type CreateDhcpOptionsResponseType
-    requestId::Union{String, Void}
-    dhcpOptions::Union{DhcpOptionsType, Void}
-
-    CreateDhcpOptionsResponseType(; requestId=nothing, dhcpOptions=nothing) =
-         new(requestId, dhcpOptions)
-end
-function CreateDhcpOptionsResponseType(pd)
-    o = CreateDhcpOptionsResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    ## o.dhcpOptions = length(pd["dhcpOptions"]) > 0 ?  DhcpOptionsType(LightXML.find_element(pd,"dhcpOptions[1]")) : nothing
-    o.dhcpOptions = LightXML.find_element(pd,"dhcpOptions") != nothing ? DhcpOptionsType(LightXML.find_element(pd,"dhcpOptions")) : nothing
-    o
-end
-
-export CreateDhcpOptionsResponseType
-
-
-type DescribeRouteTablesType
-    routeTableIdSet::Union{Vector{String}, Void}
-    filterSet::Union{Vector{FilterType}, Void}
-
-    DescribeRouteTablesType(; routeTableIdSet=nothing, filterSet=nothing) =
-         new(routeTableIdSet, filterSet)
-end
-function DescribeRouteTablesType(pd)
-    o = DescribeRouteTablesType()
-    o.routeTableIdSet = AWS.parse_vector_as(String, "routeTableId", elements_by_tagname(LightXML.find_element(pd, "item"), "routeTableId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
-    o
-end
-
-export DescribeRouteTablesType
-
-
-type DescribeInternetGatewaysResponseType
-    requestId::Union{String, Void}
-    internetGatewaySet::Union{Vector{InternetGatewayType}, Void}
-
-    DescribeInternetGatewaysResponseType(; requestId=nothing, internetGatewaySet=nothing) =
-         new(requestId, internetGatewaySet)
-end
-function DescribeInternetGatewaysResponseType(pd)
-    o = DescribeInternetGatewaysResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.internetGatewaySet = AWS.@parse_vector(AWS.EC2.InternetGatewayType, elements_by_tagname(LightXML.find_element(pd, "internetGatewaySet"), "item"))
-    o
-end
-
-export DescribeInternetGatewaysResponseType
-
-
-type CreateInstanceExportTaskResponseType
-    requestId::Union{String, Void}
-    exportTask::Union{ExportTaskResponseType, Void}
-
-    CreateInstanceExportTaskResponseType(; requestId=nothing, exportTask=nothing) =
-         new(requestId, exportTask)
-end
-function CreateInstanceExportTaskResponseType(pd)
-    o = CreateInstanceExportTaskResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    ## o.exportTask = length(pd["exportTask"]) > 0 ?  ExportTaskResponseType(LightXML.find_element(pd,"exportTask[1]")) : nothing
-    o.exportTask = LightXML.find_element(pd,"exportTask") != nothing ? ExportTaskResponseType(LightXML.find_element(pd,"exportTask")) : nothing
-    o
-end
-
-export CreateInstanceExportTaskResponseType
-
-
-type CreateImageType
-    instanceId::Union{String, Void}
-    name::Union{String, Void}
-    description::Union{String, Void}
-    noReboot::Union{Bool, Void}
-    blockDeviceMapping::Union{Vector{BlockDeviceMappingItemType}, Void}
-
-    CreateImageType(; instanceId=nothing, name=nothing, description=nothing, noReboot=nothing, blockDeviceMapping=nothing) =
-         new(instanceId, name, description, noReboot, blockDeviceMapping)
-end
-function CreateImageType(pd)
-    o = CreateImageType()
-    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
-    o.name = LightXML.content(LightXML.find_element(pd, "name"))
-    o.description = LightXML.content(LightXML.find_element(pd, "description"))
-    o.noReboot = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "noReboot")))
-    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, elements_by_tagname(LightXML.find_element(pd, "blockDeviceMapping"), "item"))
-    o
-end
-
-export CreateImageType
-
-
-type DescribeInternetGatewaysType
-    internetGatewayIdSet::Union{Vector{String}, Void}
-    filterSet::Union{Vector{FilterType}, Void}
-
-    DescribeInternetGatewaysType(; internetGatewayIdSet=nothing, filterSet=nothing) =
-         new(internetGatewayIdSet, filterSet)
-end
-function DescribeInternetGatewaysType(pd)
-    o = DescribeInternetGatewaysType()
-    o.internetGatewayIdSet = AWS.parse_vector_as(String, "internetGatewayId", elements_by_tagname(LightXML.find_element(pd, "item"), "internetGatewayId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
-    o
-end
-
-export DescribeInternetGatewaysType
-
-
-type InstanceStateChangeType
-    instanceId::Union{String, Void}
-    currentState::Union{InstanceStateType, Void}
-    previousState::Union{InstanceStateType, Void}
-
-    InstanceStateChangeType(; instanceId=nothing, currentState=nothing, previousState=nothing) =
-         new(instanceId, currentState, previousState)
-end
-function InstanceStateChangeType(pd)
-    o = InstanceStateChangeType()
-    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
-    ## o.currentState = length(pd["currentState"]) > 0 ?  InstanceStateType(LightXML.find_element(pd,"currentState[1]")) : nothing
-    o.currentState = LightXML.find_element(pd,"currentState") != nothing ?  InstanceStateType(LightXML.find_element(pd,"currentState")) : nothing
-    ## o.previousState = length(pd["previousState"]) > 0 ?  InstanceStateType(LightXML.find_element(pd,"previousState[1]")) : nothing
-    o.previousState = LightXML.find_element(pd,"previousState") != nothing ?  InstanceStateType(LightXML.find_element(pd,"previousState")) : nothing
-    o
-end
-
-export InstanceStateChangeType
-
-
-type PurchaseReservedInstancesOfferingType
-    reservedInstancesOfferingId::Union{String, Void}
-    instanceCount::Union{Int64, Void}
-    limitPrice::Union{ReservedInstanceLimitPriceType, Void}
-
-    PurchaseReservedInstancesOfferingType(; reservedInstancesOfferingId=nothing, instanceCount=nothing, limitPrice=nothing) =
-         new(reservedInstancesOfferingId, instanceCount, limitPrice)
-end
-function PurchaseReservedInstancesOfferingType(pd)
-    o = PurchaseReservedInstancesOfferingType()
-    o.reservedInstancesOfferingId = LightXML.content(LightXML.find_element(pd, "reservedInstancesOfferingId"))
-    o.instanceCount = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "instanceCount")))
-    ## o.limitPrice = length(pd["limitPrice"]) > 0 ?  ReservedInstanceLimitPriceType(LightXML.find_element(pd,"limitPrice[1]")) : nothing
-    o.limitPrice = LightXML.find_element(pd,"limitPrice") != nothing ? ReservedInstanceLimitPriceType(LightXML.find_element(pd,"limitPrice")) : nothing
-    o
-end
-
-export PurchaseReservedInstancesOfferingType
-
-
-type RouteTableType
-    routeTableId::Union{String, Void}
-    vpcId::Union{String, Void}
-    routeSet::Union{Vector{RouteType}, Void}
-    associationSet::Union{Vector{RouteTableAssociationType}, Void}
-    propagatingVgwSet::Union{Vector{String}, Void}
-    tagSet::Union{Vector{ResourceTagSetItemType}, Void}
-
-    RouteTableType(; routeTableId=nothing, vpcId=nothing, routeSet=nothing, associationSet=nothing, propagatingVgwSet=nothing, tagSet=nothing) =
-         new(routeTableId, vpcId, routeSet, associationSet, propagatingVgwSet, tagSet)
-end
-function RouteTableType(pd)
-    o = RouteTableType()
-    o.routeTableId = LightXML.content(LightXML.find_element(pd, "routeTableId"))
-    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
-    o.routeSet = AWS.@parse_vector(AWS.EC2.RouteType, elements_by_tagname(LightXML.find_element(pd, "routeSet"), "item"))
-    o.associationSet = AWS.@parse_vector(AWS.EC2.RouteTableAssociationType, elements_by_tagname(LightXML.find_element(pd, "associationSet"), "item"))
-    o.propagatingVgwSet = AWS.parse_vector_as(String, "gatewayId", elements_by_tagname(LightXML.find_element(pd, "item"), "gatewayId"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
-    o
-end
-
-export RouteTableType
-
-
-type DescribeVpnConnectionsType
-    vpnConnectionSet::Union{Vector{String}, Void}
-    filterSet::Union{Vector{FilterType}, Void}
-
-    DescribeVpnConnectionsType(; vpnConnectionSet=nothing, filterSet=nothing) =
-         new(vpnConnectionSet, filterSet)
-end
-function DescribeVpnConnectionsType(pd)
-    o = DescribeVpnConnectionsType()
-    o.vpnConnectionSet = AWS.parse_vector_as(String, "vpnConnectionId", elements_by_tagname(LightXML.find_element(pd, "item"), "vpnConnectionId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
-    o
-end
-
-export DescribeVpnConnectionsType
-
-
-type CreateNetworkInterfaceType
-    subnetId::Union{String, Void}
-    description::Union{String, Void}
-    privateIpAddress::Union{String, Void}
-    groupSet::Union{Vector{String}, Void}
-    privateIpAddressesSet::Union{Vector{PrivateIpAddressesSetItemRequestType}, Void}
-    secondaryPrivateIpAddressCount::Union{Int64, Void}
-
-    CreateNetworkInterfaceType(; subnetId=nothing, description=nothing, privateIpAddress=nothing, groupSet=nothing, privateIpAddressesSet=nothing, secondaryPrivateIpAddressCount=nothing) =
-         new(subnetId, description, privateIpAddress, groupSet, privateIpAddressesSet, secondaryPrivateIpAddressCount)
-end
-function CreateNetworkInterfaceType(pd)
-    o = CreateNetworkInterfaceType()
-    o.subnetId = LightXML.content(LightXML.find_element(pd, "subnetId"))
-    o.description = LightXML.content(LightXML.find_element(pd, "description"))
-    o.privateIpAddress = LightXML.content(LightXML.find_element(pd, "privateIpAddress"))
-    o.groupSet = AWS.parse_vector_as(String, "groupId", elements_by_tagname(LightXML.find_element(pd, "item"), "groupId"))
-    o.privateIpAddressesSet = AWS.@parse_vector(AWS.EC2.PrivateIpAddressesSetItemRequestType, elements_by_tagname(LightXML.find_element(pd, "privateIpAddressesSet"), "item"))
-    o.secondaryPrivateIpAddressCount = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "secondaryPrivateIpAddressCount")))
-    o
-end
-
-export CreateNetworkInterfaceType
-
-
-type DescribeVpcsResponseType
-    requestId::Union{String, Void}
-    vpcSet::Union{Vector{VpcType}, Void}
-
-    DescribeVpcsResponseType(; requestId=nothing, vpcSet=nothing) =
-         new(requestId, vpcSet)
-end
-function DescribeVpcsResponseType(pd)
-    o = DescribeVpcsResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.vpcSet = AWS.@parse_vector(AWS.EC2.VpcType, elements_by_tagname(LightXML.find_element(pd, "vpcSet"), "item"))
-    o
-end
-
-export DescribeVpcsResponseType
-
-
-type DescribeReservedInstancesListingsResponseSetItemType
-    reservedInstancesListingId::Union{String, Void}
-    reservedInstancesId::Union{String, Void}
-    createDate::Union{Base.Dates.DateTime, Void}
-    updateDate::Union{Base.Dates.DateTime, Void}
-    status::Union{String, Void}
-    statusMessage::Union{String, Void}
-    instanceCounts::Union{Vector{InstanceCountsSetItemType}, Void}
-    priceSchedules::Union{Vector{PriceScheduleSetItemType}, Void}
-    tagSet::Union{Vector{ResourceTagSetItemType}, Void}
-    clientToken::Union{String, Void}
-
-    DescribeReservedInstancesListingsResponseSetItemType(; reservedInstancesListingId=nothing, reservedInstancesId=nothing, createDate=nothing, updateDate=nothing, status=nothing, statusMessage=nothing, instanceCounts=nothing, priceSchedules=nothing, tagSet=nothing, clientToken=nothing) =
-         new(reservedInstancesListingId, reservedInstancesId, createDate, updateDate, status, statusMessage, instanceCounts, priceSchedules, tagSet, clientToken)
-end
-function DescribeReservedInstancesListingsResponseSetItemType(pd)
-    o = DescribeReservedInstancesListingsResponseSetItemType()
-    o.reservedInstancesListingId = LightXML.content(LightXML.find_element(pd, "reservedInstancesListingId"))
-    o.reservedInstancesId = LightXML.content(LightXML.find_element(pd, "reservedInstancesId"))
-    o.createDate = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "createDate")))
-    o.updateDate = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "updateDate")))
-    o.status = LightXML.content(LightXML.find_element(pd, "status"))
-    o.statusMessage = LightXML.content(LightXML.find_element(pd, "statusMessage"))
-    o.instanceCounts = AWS.@parse_vector(AWS.EC2.InstanceCountsSetItemType, elements_by_tagname(LightXML.find_element(pd, "instanceCounts"), "item"))
-    o.priceSchedules = AWS.@parse_vector(AWS.EC2.PriceScheduleSetItemType, elements_by_tagname(LightXML.find_element(pd, "priceSchedules"), "item"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
-    o.clientToken = LightXML.content(LightXML.find_element(pd, "clientToken"))
-    o
-end
-
-export DescribeReservedInstancesListingsResponseSetItemType
-
-
-type DescribeVpcsType
-    vpcSet::Union{Vector{String}, Void}
-    filterSet::Union{Vector{FilterType}, Void}
-
-    DescribeVpcsType(; vpcSet=nothing, filterSet=nothing) =
-         new(vpcSet, filterSet)
-end
-function DescribeVpcsType(pd)
-    o = DescribeVpcsType()
-    o.vpcSet = AWS.parse_vector_as(String, "vpcId", elements_by_tagname(LightXML.find_element(pd, "item"), "vpcId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
-    o
-end
-
-export DescribeVpcsType
-
-
-type DescribeDhcpOptionsResponseType
-    requestId::Union{String, Void}
-    dhcpOptionsSet::Union{Vector{DhcpOptionsType}, Void}
-
-    DescribeDhcpOptionsResponseType(; requestId=nothing, dhcpOptionsSet=nothing) =
-         new(requestId, dhcpOptionsSet)
-end
-function DescribeDhcpOptionsResponseType(pd)
-    o = DescribeDhcpOptionsResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.dhcpOptionsSet = AWS.@parse_vector(AWS.EC2.DhcpOptionsType, elements_by_tagname(LightXML.find_element(pd, "dhcpOptionsSet"), "item"))
-    o
-end
-
-export DescribeDhcpOptionsResponseType
-
-
-type DescribeTagsType
-    filterSet::Union{Vector{FilterType}, Void}
-
-    DescribeTagsType(; filterSet=nothing) =
-         new(filterSet)
-end
-function DescribeTagsType(pd)
-    o = DescribeTagsType()
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
-    o
-end
-
-export DescribeTagsType
-
-
-type MonitorInstancesResponseSetItemType
-    instanceId::Union{String, Void}
-    monitoring::Union{InstanceMonitoringStateType, Void}
-
-    MonitorInstancesResponseSetItemType(; instanceId=nothing, monitoring=nothing) =
-         new(instanceId, monitoring)
-end
-function MonitorInstancesResponseSetItemType(pd)
-    o = MonitorInstancesResponseSetItemType()
-    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
-    ## o.monitoring = length(pd["monitoring"]) > 0 ?  InstanceMonitoringStateType(LightXML.find_element(pd,"monitoring[1]")) : nothing
-    o.monitoring = LightXML.find_element(pd,"monitoring") != nothing ? InstanceMonitoringStateType(LightXML.find_element(pd,"monitoring")) : nothing
-    o
-end
-
-export MonitorInstancesResponseSetItemType
-
-
-type DescribeRouteTablesResponseType
-    requestId::Union{String, Void}
-    routeTableSet::Union{Vector{RouteTableType}, Void}
-
-    DescribeRouteTablesResponseType(; requestId=nothing, routeTableSet=nothing) =
-         new(requestId, routeTableSet)
-end
-function DescribeRouteTablesResponseType(pd)
-    o = DescribeRouteTablesResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.routeTableSet = AWS.@parse_vector(AWS.EC2.RouteTableType, elements_by_tagname(LightXML.find_element(pd, "routeTableSet"), "item"))
-    o
-end
-
-export DescribeRouteTablesResponseType
-
-
-type DescribeAccountAttributesType
-    accountAttributeNameSet::Union{Vector{String}, Void}
-    filterSet::Union{Vector{FilterType}, Void}
-
-    DescribeAccountAttributesType(; accountAttributeNameSet=nothing, filterSet=nothing) =
-         new(accountAttributeNameSet, filterSet)
-end
-function DescribeAccountAttributesType(pd)
-    o = DescribeAccountAttributesType()
-    o.accountAttributeNameSet = AWS.parse_vector_as(String, "attributeName", elements_by_tagname(LightXML.find_element(pd, "item"), "attributeName"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
-    o
-end
-
-export DescribeAccountAttributesType
-
-
-type DescribeInstanceStatusResponseType
-    requestId::Union{String, Void}
-    instanceStatusSet::Union{Vector{InstanceStatusItemType}, Void}
-    nextToken::Union{String, Void}
-
-    DescribeInstanceStatusResponseType(; requestId=nothing, instanceStatusSet=nothing, nextToken=nothing) =
-         new(requestId, instanceStatusSet, nextToken)
-end
-function DescribeInstanceStatusResponseType(pd)
-    o = DescribeInstanceStatusResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.instanceStatusSet = LightXML.find_element(pd, "instanceStatusSet") != nothing ? AWS.@parse_vector(AWS.EC2.InstanceStatusItemType, elements_by_tagname(LightXML.find_element(pd, "instanceStatusSet"), "item")) : nothing
-    o.nextToken = LightXML.find_element(pd, "nextToken") != nothing ? LightXML.content(LightXML.find_element(pd, "nextToken")) : nothing
-    o
-end
-
-export DescribeInstanceStatusResponseType
-
-
-type VpnGatewayType
-    vpnGatewayId::Union{String, Void}
-    state::Union{String, Void}
-    _type::Union{String, Void}
-    availabilityZone::Union{String, Void}
-    attachments::Union{Vector{AttachmentType}, Void}
-    tagSet::Union{Vector{ResourceTagSetItemType}, Void}
-
-    VpnGatewayType(; vpnGatewayId=nothing, state=nothing, _type=nothing, availabilityZone=nothing, attachments=nothing, tagSet=nothing) =
-         new(vpnGatewayId, state, _type, availabilityZone, attachments, tagSet)
-end
-function VpnGatewayType(pd)
-    o = VpnGatewayType()
-    o.vpnGatewayId = LightXML.content(LightXML.find_element(pd, "vpnGatewayId"))
-    o.state = LightXML.content(LightXML.find_element(pd, "state"))
-    o._type = LightXML.content(LightXML.find_element(pd, "type"))
-    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
-    o.attachments = AWS.@parse_vector(AWS.EC2.AttachmentType, elements_by_tagname(LightXML.find_element(pd, "attachments"), "item"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
-    o
-end
-
-export VpnGatewayType
-
-
-type DescribeKeyPairsType
-    keySet::Union{Vector{String}, Void}
-    filterSet::Union{Vector{FilterType}, Void}
-
-    DescribeKeyPairsType(; keySet=nothing, filterSet=nothing) =
-         new(keySet, filterSet)
-end
-function DescribeKeyPairsType(pd)
-    o = DescribeKeyPairsType()
-    o.keySet = AWS.parse_vector_as(String, "keyName", elements_by_tagname(LightXML.find_element(pd, "item"), "keyName"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
-    o
-end
-
-export DescribeKeyPairsType
-
-
-type BundleInstanceType
-    instanceId::Union{String, Void}
-    storage::Union{BundleInstanceTaskStorageType, Void}
-
-    BundleInstanceType(; instanceId=nothing, storage=nothing) =
-         new(instanceId, storage)
-end
-function BundleInstanceType(pd)
-    o = BundleInstanceType()
-    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
-    ## o.storage = length(pd["storage"]) > 0 ?  BundleInstanceTaskStorageType(LightXML.find_element(pd,"storage[1]")) : nothing
-    o.storage = LightXML.find_element(pd,"storage") != nothing ? BundleInstanceTaskStorageType(LightXML.find_element(pd,"storage")) : nothing
-    o
-end
-
-export BundleInstanceType
-
-
-type InstancePrivateIpAddressesSetItemType
-    privateIpAddress::Union{String, Void}
-    privateDnsName::Union{String, Void}
-    primary::Union{Bool, Void}
-    association::Union{InstanceNetworkInterfaceAssociationType, Void}
-
-    InstancePrivateIpAddressesSetItemType(; privateIpAddress=nothing, privateDnsName=nothing, primary=nothing, association=nothing) =
-         new(privateIpAddress, privateDnsName, primary, association)
-end
-function InstancePrivateIpAddressesSetItemType(pd)
-    o = InstancePrivateIpAddressesSetItemType()
-    o.privateIpAddress = LightXML.content(LightXML.find_element(pd, "privateIpAddress"))
-    o.privateDnsName = LightXML.find_element(pd, "privateDnsName") != nothing ? LightXML.content(LightXML.find_element(pd, "privateDnsName")) : nothing
-    o.primary = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "primary")))
-    ## o.association = length(pd["association"]) > 0 ?  InstanceNetworkInterfaceAssociationType(LightXML.find_element(pd,"association[1]")) : nothing
-    o.association = LightXML.find_element(pd,"association") != nothing ? InstanceNetworkInterfaceAssociationType(LightXML.find_element(pd,"association")) : nothing
-    o
-end
-
-export InstancePrivateIpAddressesSetItemType
-
-
-type ImportInstanceLaunchSpecificationType
-    architecture::Union{String, Void}
-    groupSet::Union{Vector{ImportInstanceGroupItemType}, Void}
-    userData::Union{UserDataType, Void}
-    instanceType::Union{String, Void}
-    placement::Union{InstancePlacementType, Void}
-    monitoring::Union{MonitoringInstanceType, Void}
-    subnetId::Union{String, Void}
-    instanceInitiatedShutdownBehavior::Union{String, Void}
-    privateIpAddress::Union{String, Void}
-
-    ImportInstanceLaunchSpecificationType(; architecture=nothing, groupSet=nothing, userData=nothing, instanceType=nothing, placement=nothing, monitoring=nothing, subnetId=nothing, instanceInitiatedShutdownBehavior=nothing, privateIpAddress=nothing) =
-         new(architecture, groupSet, userData, instanceType, placement, monitoring, subnetId, instanceInitiatedShutdownBehavior, privateIpAddress)
-end
-function ImportInstanceLaunchSpecificationType(pd)
-    o = ImportInstanceLaunchSpecificationType()
-    o.architecture = LightXML.content(LightXML.find_element(pd, "architecture"))
-    o.groupSet = AWS.@parse_vector(AWS.EC2.ImportInstanceGroupItemType, elements_by_tagname(LightXML.find_element(pd, "groupSet"), "item"))
-    ## o.userData = length(pd["userData"]) > 0 ?  UserDataType(LightXML.find_element(pd,"userData[1]")) : nothing
-    o.userData = LightXML.find_element(pd,"userData") != nothing ?  UserDataType(LightXML.find_element(pd,"userData")) : nothing
-    o.instanceType = LightXML.content(LightXML.find_element(pd, "instanceType"))
-    ## o.placement = length(pd["placement"]) > 0 ?  InstancePlacementType(LightXML.find_element(pd,"placement[1]")) : nothing
-    o.placement = LightXML.find_element(pd,"placement") != nothing ?  InstancePlacementType(LightXML.find_element(pd,"placement")) : nothing
-    ## o.monitoring = length(pd["monitoring"]) > 0 ?  MonitoringInstanceType(LightXML.find_element(pd,"monitoring[1]")) : nothing
-    o.monitoring = LightXML.find_element(pd,"monitoring") != nothing ?  MonitoringInstanceType(LightXML.find_element(pd,"monitoring")) : nothing
-    o.subnetId = LightXML.content(LightXML.find_element(pd, "subnetId"))
-    o.instanceInitiatedShutdownBehavior = LightXML.content(LightXML.find_element(pd, "instanceInitiatedShutdownBehavior"))
-    o.privateIpAddress = LightXML.content(LightXML.find_element(pd, "privateIpAddress"))
-    o
-end
-
-export ImportInstanceLaunchSpecificationType
-
-
-type DescribeAddressesType
-    publicIpsSet::Union{Vector{String}, Void}
-    allocationIdsSet::Union{Vector{String}, Void}
-    filterSet::Union{Vector{FilterType}, Void}
-
-    DescribeAddressesType(; publicIpsSet=nothing, allocationIdsSet=nothing, filterSet=nothing) =
-         new(publicIpsSet, allocationIdsSet, filterSet)
-end
-function DescribeAddressesType(pd)
-    o = DescribeAddressesType()
-    o.publicIpsSet = AWS.parse_vector_as(String, "publicIp", elements_by_tagname(LightXML.find_element(pd, "item"), "publicIp"))
-    o.allocationIdsSet = AWS.parse_vector_as(String, "allocationId", elements_by_tagname(LightXML.find_element(pd, "item"), "allocationId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
-    o
-end
-
-export DescribeAddressesType
-
-
-type VolumeStatusInfoType
-    status::Union{String, Void}
-    details::Union{Vector{VolumeStatusDetailsItemType}, Void}
-
-    VolumeStatusInfoType(; status=nothing, details=nothing) =
-         new(status, details)
-end
-function VolumeStatusInfoType(pd)
-    o = VolumeStatusInfoType()
-    o.status = LightXML.content(LightXML.find_element(pd, "status"))
-    o.details = AWS.@parse_vector(AWS.EC2.VolumeStatusDetailsItemType, elements_by_tagname(LightXML.find_element(pd, "details"), "item"))
-    o
-end
-
-export VolumeStatusInfoType
-
-
-type StartInstancesResponseType
-    requestId::Union{String, Void}
-    instancesSet::Union{Vector{InstanceStateChangeType}, Void}
-
-    StartInstancesResponseType(; requestId=nothing, instancesSet=nothing) =
-         new(requestId, instancesSet)
-end
-function StartInstancesResponseType(pd)
-    o = StartInstancesResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.instancesSet = AWS.@parse_vector(AWS.EC2.InstanceStateChangeType, elements_by_tagname(LightXML.find_element(pd, "instancesSet"), "item"))
-    o
-end
-
-export StartInstancesResponseType
-
-
-type CreateVpnConnectionType
-    _type::Union{String, Void}
-    customerGatewayId::Union{String, Void}
-    vpnGatewayId::Union{String, Void}
-    options::Union{VpnConnectionOptionsRequestType, Void}
-
-    CreateVpnConnectionType(; _type=nothing, customerGatewayId=nothing, vpnGatewayId=nothing, options=nothing) =
-         new(_type, customerGatewayId, vpnGatewayId, options)
-end
-function CreateVpnConnectionType(pd)
-    o = CreateVpnConnectionType()
-    o._type = LightXML.content(LightXML.find_element(pd, "type"))
-    o.customerGatewayId = LightXML.content(LightXML.find_element(pd, "customerGatewayId"))
-    o.vpnGatewayId = LightXML.content(LightXML.find_element(pd, "vpnGatewayId"))
-    ## o.options = length(pd["options"]) > 0 ?  VpnConnectionOptionsRequestType(LightXML.find_element(pd,"options[1]")) : nothing
-    o.options = LightXML.find_element(pd,"options") != nothing ? VpnConnectionOptionsRequestType(LightXML.find_element(pd,"options")) : nothing
-    o
-end
-
-export CreateVpnConnectionType
-
-
-type AuthorizeSecurityGroupEgressType
-    groupId::Union{String, Void}
-    ipPermissions::Union{Vector{IpPermissionType}, Void}
-
-    AuthorizeSecurityGroupEgressType(; groupId=nothing, ipPermissions=nothing) =
-         new(groupId, ipPermissions)
-end
-function AuthorizeSecurityGroupEgressType(pd)
-    o = AuthorizeSecurityGroupEgressType()
-    o.groupId = LightXML.content(LightXML.find_element(pd, "groupId"))
-    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, elements_by_tagname(LightXML.find_element(pd, "ipPermissions"), "item"))
-    o
-end
-
-export AuthorizeSecurityGroupEgressType
-
-
-type CreateReservedInstancesListingResponseType
-    requestId::Union{String, Void}
-    reservedInstancesListingsSet::Union{Vector{DescribeReservedInstancesListingsResponseSetItemType}, Void}
-
-    CreateReservedInstancesListingResponseType(; requestId=nothing, reservedInstancesListingsSet=nothing) =
-         new(requestId, reservedInstancesListingsSet)
-end
-function CreateReservedInstancesListingResponseType(pd)
-    o = CreateReservedInstancesListingResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.reservedInstancesListingsSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesListingsResponseSetItemType, elements_by_tagname(LightXML.find_element(pd, "reservedInstancesListingsSet"), "item"))
-    o
-end
-
-export CreateReservedInstancesListingResponseType
-
-
-type NetworkAclType
-    networkAclId::Union{String, Void}
-    vpcId::Union{String, Void}
-    default::Union{Bool, Void}
-    entrySet::Union{Vector{NetworkAclEntryType}, Void}
-    associationSet::Union{Vector{NetworkAclAssociationType}, Void}
-    tagSet::Union{Vector{ResourceTagSetItemType}, Void}
-
-    NetworkAclType(; networkAclId=nothing, vpcId=nothing, default=nothing, entrySet=nothing, associationSet=nothing, tagSet=nothing) =
-         new(networkAclId, vpcId, default, entrySet, associationSet, tagSet)
-end
-function NetworkAclType(pd)
-    o = NetworkAclType()
-    o.networkAclId = LightXML.content(LightXML.find_element(pd, "networkAclId"))
-    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
-    o.default = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "default")))
-    o.entrySet = AWS.@parse_vector(AWS.EC2.NetworkAclEntryType, elements_by_tagname(LightXML.find_element(pd, "entrySet"), "item"))
-    o.associationSet = AWS.@parse_vector(AWS.EC2.NetworkAclAssociationType, elements_by_tagname(LightXML.find_element(pd, "associationSet"), "item"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
-    o
-end
-
-export NetworkAclType
-
-
-type DescribeAddressesResponseType
-    requestId::Union{String, Void}
-    addressesSet::Union{Vector{DescribeAddressesResponseItemType}, Void}
-
-    DescribeAddressesResponseType(; requestId=nothing, addressesSet=nothing) =
-         new(requestId, addressesSet)
-end
-function DescribeAddressesResponseType(pd)
-    o = DescribeAddressesResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.addressesSet = AWS.@parse_vector(AWS.EC2.DescribeAddressesResponseItemType, elements_by_tagname(LightXML.find_element(pd, "addressesSet"), "item"))
-    o
-end
-
-export DescribeAddressesResponseType
-
-
-type TerminateInstancesResponseType
-    requestId::Union{String, Void}
-    instancesSet::Union{Vector{InstanceStateChangeType}, Void}
-
-    TerminateInstancesResponseType(; requestId=nothing, instancesSet=nothing) =
-         new(requestId, instancesSet)
-end
-function TerminateInstancesResponseType(pd)
-    o = TerminateInstancesResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.instancesSet = AWS.@parse_vector(AWS.EC2.InstanceStateChangeType, elements_by_tagname(LightXML.find_element(pd, "instancesSet"), "item"))
-    o
-end
-
-export TerminateInstancesResponseType
-
-
-type DiskImageType
-    image::Union{DiskImageDetailType, Void}
-    description::Union{String, Void}
-    volume::Union{DiskImageVolumeType, Void}
-
-    DiskImageType(; image=nothing, description=nothing, volume=nothing) =
-         new(image, description, volume)
-end
-function DiskImageType(pd)
-    o = DiskImageType()
-    ## o.image = length(pd["image"]) > 0 ?  DiskImageDetailType(LightXML.find_element(pd,"image[1]")) : nothing
-    o.image = LightXML.find_element(pd,"image") != nothing ? DiskImageDetailType(LightXML.find_element(pd,"image")) : nothing
-    o.description = LightXML.content(LightXML.find_element(pd, "description"))
-    ## o.volume = length(pd["volume"]) > 0 ?  DiskImageVolumeType(LightXML.find_element(pd,"volume[1]")) : nothing
-    o.volume = LightXML.find_element(pd,"volume") != nothing ? DiskImageVolumeType(LightXML.find_element(pd,"volume")) : nothing
-    o
-end
-
-export DiskImageType
-
-
-type RunInstancesType
-    imageId::Union{String, Void}
-    minCount::Union{Int64, Void}
-    maxCount::Union{Int64, Void}
-    keyName::Union{String, Void}
-    securityGroupIdSet::Union{Vector{String}, Void}
-    securityGroupSet::Union{Vector{String}, Void}
-    additionalInfo::Union{String, Void}
-    userData::Union{UserDataType, Void}
-    addressingType::Union{String, Void}
-    instanceType::Union{String, Void}
-    placement::Union{PlacementRequestType, Void}
-    kernelId::Union{String, Void}
-    ramdiskId::Union{String, Void}
-    blockDeviceMapping::Union{Vector{BlockDeviceMappingItemType}, Void}
-    monitoring::Union{MonitoringInstanceType, Void}
-    subnetId::Union{String, Void}
-    disableApiTermination::Union{Bool, Void}
-    instanceInitiatedShutdownBehavior::Union{String, Void}
-    license::Union{InstanceLicenseRequestType, Void}
-    privateIpAddress::Union{String, Void}
-    clientToken::Union{String, Void}
-    networkInterfaceSet::Union{Vector{InstanceNetworkInterfaceSetItemRequestType}, Void}
-    iamInstanceProfile::Union{IamInstanceProfileRequestType, Void}
-    ebsOptimized::Union{Bool, Void}
-
-    RunInstancesType(; imageId=nothing, minCount=nothing, maxCount=nothing, keyName=nothing, securityGroupIdSet=nothing, securityGroupSet=nothing, additionalInfo=nothing, userData=nothing, addressingType=nothing, instanceType=nothing, placement=nothing, kernelId=nothing, ramdiskId=nothing, blockDeviceMapping=nothing, monitoring=nothing, subnetId=nothing, disableApiTermination=nothing, instanceInitiatedShutdownBehavior=nothing, license=nothing, privateIpAddress=nothing, clientToken=nothing, networkInterfaceSet=nothing, iamInstanceProfile=nothing, ebsOptimized=nothing) =
-         new(imageId, minCount, maxCount, keyName, securityGroupIdSet, securityGroupSet, additionalInfo, userData, addressingType, instanceType, placement, kernelId, ramdiskId, blockDeviceMapping, monitoring, subnetId, disableApiTermination, instanceInitiatedShutdownBehavior, license, privateIpAddress, clientToken, networkInterfaceSet, iamInstanceProfile, ebsOptimized)
-end
-function RunInstancesType(pd)
-    o = RunInstancesType()
-    o.imageId = LightXML.content(LightXML.find_element(pd, "imageId"))
-    o.minCount = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "minCount")))
-    o.maxCount = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "maxCount")))
-    o.keyName = LightXML.content(LightXML.find_element(pd, "keyName"))
-    o.securityGroupIdSet = AWS.parse_vector_as(String, "securityGroupId", elements_by_tagname(LightXML.find_element(pd, "item"), "securityGroupId"))
-    o.securityGroupSet = AWS.parse_vector_as(String, "securityGroup", elements_by_tagname(LightXML.find_element(pd, "item"), "securityGroup"))
-    o.additionalInfo = LightXML.content(LightXML.find_element(pd, "additionalInfo"))
-    ## o.userData = length(pd["userData"]) > 0 ?  UserDataType(LightXML.find_element(pd,"userData[1]")) : nothing
-    o.userData = LightXML.find_element(pd,"userData") != nothing ?  UserDataType(LightXML.find_element(pd,"userData")) : nothing
-    o.addressingType = LightXML.content(LightXML.find_element(pd, "addressingType"))
-    o.instanceType = LightXML.content(LightXML.find_element(pd, "instanceType"))
-    ## o.placement = length(pd["placement"]) > 0 ?  PlacementRequestType(LightXML.find_element(pd,"placement[1]")) : nothing
-    o.placement = LightXML.find_element(pd,"placement") != nothing ?  PlacementRequestType(LightXML.find_element(pd,"placement")) : nothing
-    o.kernelId = LightXML.content(LightXML.find_element(pd, "kernelId"))
-    o.ramdiskId = LightXML.content(LightXML.find_element(pd, "ramdiskId"))
-    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, elements_by_tagname(LightXML.find_element(pd, "blockDeviceMapping"), "item"))
-    ## o.monitoring = length(pd["monitoring"]) > 0 ?  MonitoringInstanceType(LightXML.find_element(pd,"monitoring[1]")) : nothing
-    o.monitoring = LightXML.find_element(pd,"monitoring") != nothing ?  MonitoringInstanceType(LightXML.find_element(pd,"monitoring")) : nothing
-    o.subnetId = LightXML.content(LightXML.find_element(pd, "subnetId"))
-    o.disableApiTermination = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "disableApiTermination")))
-    o.instanceInitiatedShutdownBehavior = LightXML.content(LightXML.find_element(pd, "instanceInitiatedShutdownBehavior"))
-    ## o.license = length(pd["license"]) > 0 ?  InstanceLicenseRequestType(LightXML.find_element(pd,"license[1]")) : nothing
-    o.license = LightXML.find_element(pd,"license") != nothing ?  InstanceLicenseRequestType(LightXML.find_element(pd,"license")) : nothing
-    o.privateIpAddress = LightXML.content(LightXML.find_element(pd, "privateIpAddress"))
-    o.clientToken = LightXML.content(LightXML.find_element(pd, "clientToken"))
-    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.InstanceNetworkInterfaceSetItemRequestType, elements_by_tagname(LightXML.find_element(pd, "networkInterfaceSet"), "item"))
-    ## o.iamInstanceProfile = length(pd["iamInstanceProfile"]) > 0 ?  IamInstanceProfileRequestType(LightXML.find_element(pd,"iamInstanceProfile[1]")) : nothing
-    o.iamInstanceProfile = LightXML.find_element(pd,"iamInstanceProfile") ?  IamInstanceProfileRequestType(LightXML.find_element(pd,"iamInstanceProfile")) : nothing
-    o.ebsOptimized = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "ebsOptimized")))
-    o
-end
-
-export RunInstancesType
-
-
-type DescribeAvailabilityZonesType
-    availabilityZoneSet::Union{Vector{String}, Void}
-    filterSet::Union{Vector{FilterType}, Void}
-
-    DescribeAvailabilityZonesType(; availabilityZoneSet=nothing, filterSet=nothing) =
-         new(availabilityZoneSet, filterSet)
-end
-function DescribeAvailabilityZonesType(pd)
-    o = DescribeAvailabilityZonesType()
-    o.availabilityZoneSet = AWS.parse_vector_as(String, "zoneName", elements_by_tagname(LightXML.find_element(pd, "item"), "zoneName"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
-    o
-end
-
-export DescribeAvailabilityZonesType
-
-
-type CreateVolumePermissionOperationType
-    add::Union{Vector{CreateVolumePermissionItemType}, Void}
-    remove::Union{Vector{CreateVolumePermissionItemType}, Void}
-
-    CreateVolumePermissionOperationType(; add=nothing, remove=nothing) =
-         new(add, remove)
-end
-function CreateVolumePermissionOperationType(pd)
-    o = CreateVolumePermissionOperationType()
-    o.add = AWS.@parse_vector(AWS.EC2.CreateVolumePermissionItemType, elements_by_tagname(LightXML.find_element(pd, "add"), "item"))
-    o.remove = AWS.@parse_vector(AWS.EC2.CreateVolumePermissionItemType, elements_by_tagname(LightXML.find_element(pd, "remove"), "item"))
-    o
-end
-
-export CreateVolumePermissionOperationType
-
-
-type InstanceNetworkInterfaceSetItemType
-    networkInterfaceId::Union{String, Void}
-    subnetId::Union{String, Void}
-    vpcId::Union{String, Void}
-    description::Union{String, Void}
-    ownerId::Union{String, Void}
-    status::Union{String, Void}
-    macAddress::Union{String, Void}
-    privateIpAddress::Union{String, Void}
-    privateDnsName::Union{String, Void}
-    sourceDestCheck::Union{Bool, Void}
-    groupSet::Union{Vector{GroupItemType}, Void}
-    attachment::Union{InstanceNetworkInterfaceAttachmentType, Void}
-    association::Union{InstanceNetworkInterfaceAssociationType, Void}
-    privateIpAddressesSet::Union{Vector{InstancePrivateIpAddressesSetItemType}, Void}
-
-    InstanceNetworkInterfaceSetItemType(; networkInterfaceId=nothing, subnetId=nothing, vpcId=nothing, description=nothing, ownerId=nothing, status=nothing, macAddress=nothing, privateIpAddress=nothing, privateDnsName=nothing, sourceDestCheck=nothing, groupSet=nothing, attachment=nothing, association=nothing, privateIpAddressesSet=nothing) =
-         new(networkInterfaceId, subnetId, vpcId, description, ownerId, status, macAddress, privateIpAddress, privateDnsName, sourceDestCheck, groupSet, attachment, association, privateIpAddressesSet)
-end
-function InstanceNetworkInterfaceSetItemType(pd)
-    o = InstanceNetworkInterfaceSetItemType()
-    o.networkInterfaceId = LightXML.content(LightXML.find_element(pd, "networkInterfaceId"))
-    o.subnetId = LightXML.content(LightXML.find_element(pd, "subnetId"))
-    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
-    o.description = LightXML.content(LightXML.find_element(pd, "description"))
-    o.ownerId = LightXML.content(LightXML.find_element(pd, "ownerId"))
-    o.status = LightXML.content(LightXML.find_element(pd, "status"))
-    o.macAddress = LightXML.content(LightXML.find_element(pd, "macAddress"))
-    o.privateIpAddress = LightXML.content(LightXML.find_element(pd, "privateIpAddress"))
-    o.privateDnsName = LightXML.find_element(pd, "privateDnsName") != nothing ? LightXML.content(LightXML.find_element(pd, "privateDnsName")) : nothing
-    o.sourceDestCheck = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "sourceDestCheck")))
-    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, elements_by_tagname(LightXML.find_element(pd, "groupSet"), "item"))
-    ## o.attachment = length(pd["attachment"]) > 0 ?  InstanceNetworkInterfaceAttachmentType(LightXML.find_element(pd,"attachment[1]")) : nothing
-    o.attachment = LightXML.find_element(pd,"attachment") != nothing ?  InstanceNetworkInterfaceAttachmentType(LightXML.find_element(pd,"attachment")) : nothing
-    ## o.association = length(pd["association"]) > 0 ?  InstanceNetworkInterfaceAssociationType(LightXML.find_element(pd,"association[1]")) : nothing
-    o.association = LightXML.find_element(pd,"association") != nothing ?  InstanceNetworkInterfaceAssociationType(LightXML.find_element(pd,"association")) : nothing
-    o.privateIpAddressesSet = AWS.@parse_vector(AWS.EC2.InstancePrivateIpAddressesSetItemType, elements_by_tagname(LightXML.find_element(pd, "privateIpAddressesSet"), "item"))
-    o
-end
-
-export InstanceNetworkInterfaceSetItemType
-
-
-type LicenseSetItemType
-    licenseId::Union{String, Void}
-    _type::Union{String, Void}
-    pool::Union{String, Void}
-    capacitySet::Union{Vector{LicenseCapacitySetItemType}, Void}
-    tagSet::Union{Vector{ResourceTagSetItemType}, Void}
-
-    LicenseSetItemType(; licenseId=nothing, _type=nothing, pool=nothing, capacitySet=nothing, tagSet=nothing) =
-         new(licenseId, _type, pool, capacitySet, tagSet)
-end
-function LicenseSetItemType(pd)
-    o = LicenseSetItemType()
-    o.licenseId = LightXML.content(LightXML.find_element(pd, "licenseId"))
-    o._type = LightXML.content(LightXML.find_element(pd, "type"))
-    o.pool = LightXML.content(LightXML.find_element(pd, "pool"))
-    o.capacitySet = AWS.@parse_vector(AWS.EC2.LicenseCapacitySetItemType, elements_by_tagname(LightXML.find_element(pd, "capacitySet"), "item"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
-    o
-end
-
-export LicenseSetItemType
-
-
-type ImportVolumeTaskDetailsType
-    bytesConverted::Union{Int64, Void}
-    availabilityZone::Union{String, Void}
-    description::Union{String, Void}
-    image::Union{DiskImageDescriptionType, Void}
-    volume::Union{DiskImageVolumeDescriptionType, Void}
-
-    ImportVolumeTaskDetailsType(; bytesConverted=nothing, availabilityZone=nothing, description=nothing, image=nothing, volume=nothing) =
-         new(bytesConverted, availabilityZone, description, image, volume)
-end
-function ImportVolumeTaskDetailsType(pd)
-    o = ImportVolumeTaskDetailsType()
-    o.bytesConverted = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "bytesConverted")))
-    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
-    o.description = LightXML.content(LightXML.find_element(pd, "description"))
-    ## o.image = length(pd["image"]) > 0 ?  DiskImageDescriptionType(LightXML.find_element(pd,"image[1]")) : nothing
-    o.image = LightXML.find_element(pd,"image") != nothing ?  DiskImageDescriptionType(LightXML.find_element(pd,"image")) : nothing
-    ## o.volume = length(pd["volume"]) > 0 ?  DiskImageVolumeDescriptionType(LightXML.find_element(pd,"volume[1]")) : nothing
-    o.volume = LightXML.find_element(pd,"volume") != nothing ?  DiskImageVolumeDescriptionType(LightXML.find_element(pd,"volume")) : nothing
-    o
-end
-
-export ImportVolumeTaskDetailsType
-
-
-type DescribeReservedInstancesListingsResponseType
-    requestId::Union{String, Void}
-    reservedInstancesListingsSet::Union{Vector{DescribeReservedInstancesListingsResponseSetItemType}, Void}
-
-    DescribeReservedInstancesListingsResponseType(; requestId=nothing, reservedInstancesListingsSet=nothing) =
-         new(requestId, reservedInstancesListingsSet)
-end
-function DescribeReservedInstancesListingsResponseType(pd)
-    o = DescribeReservedInstancesListingsResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.reservedInstancesListingsSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesListingsResponseSetItemType, elements_by_tagname(LightXML.find_element(pd, "reservedInstancesListingsSet"), "item"))
-    o
-end
-
-export DescribeReservedInstancesListingsResponseType
-
-
-type RevokeSecurityGroupIngressType
-    userId::Union{String, Void}
-    ipPermissions::Union{Vector{IpPermissionType}, Void}
-
-    RevokeSecurityGroupIngressType(; userId=nothing, ipPermissions=nothing) =
-         new(userId, ipPermissions)
-end
-function RevokeSecurityGroupIngressType(pd)
-    o = RevokeSecurityGroupIngressType()
-    o.userId = LightXML.content(LightXML.find_element(pd, "userId"))
-    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, elements_by_tagname(LightXML.find_element(pd, "ipPermissions"), "item"))
-    o
-end
-
-export RevokeSecurityGroupIngressType
-
-
-type StopInstancesResponseType
-    requestId::Union{String, Void}
-    instancesSet::Union{Vector{InstanceStateChangeType}, Void}
-
-    StopInstancesResponseType(; requestId=nothing, instancesSet=nothing) =
-         new(requestId, instancesSet)
-end
-function StopInstancesResponseType(pd)
-    o = StopInstancesResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.instancesSet = AWS.@parse_vector(AWS.EC2.InstanceStateChangeType, elements_by_tagname(LightXML.find_element(pd, "instancesSet"), "item"))
-    o
-end
-
-export StopInstancesResponseType
-
-
-type ImportVolumeType
-    availabilityZone::Union{String, Void}
-    image::Union{DiskImageDetailType, Void}
-    description::Union{String, Void}
-    volume::Union{DiskImageVolumeType, Void}
-
-    ImportVolumeType(; availabilityZone=nothing, image=nothing, description=nothing, volume=nothing) =
-         new(availabilityZone, image, description, volume)
-end
-function ImportVolumeType(pd)
-    o = ImportVolumeType()
-    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
-    ## o.image = length(pd["image"]) > 0 ?  DiskImageDetailType(LightXML.find_element(pd,"image[1]")) : nothing
-    o.image = LightXML.find_element(pd,"image") != nothing ?  DiskImageDetailType(LightXML.find_element(pd,"image")) : nothing
-    o.description = LightXML.content(LightXML.find_element(pd, "description"))
-    ## o.volume = length(pd["volume"]) > 0 ?  DiskImageVolumeType(LightXML.find_element(pd,"volume[1]")) : nothing
-    o.volume = LightXML.find_element(pd,"volume") != nothing ? DiskImageVolumeType(LightXML.find_element(pd,"volume")) : nothing
-    o
-end
-
-export ImportVolumeType
-
-
-type VpnConnectionType
-    vpnConnectionId::Union{String, Void}
-    state::Union{String, Void}
-    customerGatewayConfiguration::Union{String, Void}
-    _type::Union{String, Void}
-    customerGatewayId::Union{String, Void}
-    vpnGatewayId::Union{String, Void}
-    tagSet::Union{Vector{ResourceTagSetItemType}, Void}
-    vgwTelemetry::Union{Vector{VpnTunnelTelemetryType}, Void}
-    options::Union{VpnConnectionOptionsResponseType, Void}
-    routes::Union{Vector{VpnStaticRouteType}, Void}
-
-    VpnConnectionType(; vpnConnectionId=nothing, state=nothing, customerGatewayConfiguration=nothing, _type=nothing, customerGatewayId=nothing, vpnGatewayId=nothing, tagSet=nothing, vgwTelemetry=nothing, options=nothing, routes=nothing) =
-         new(vpnConnectionId, state, customerGatewayConfiguration, _type, customerGatewayId, vpnGatewayId, tagSet, vgwTelemetry, options, routes)
-end
-function VpnConnectionType(pd)
-    o = VpnConnectionType()
-    o.vpnConnectionId = LightXML.content(LightXML.find_element(pd, "vpnConnectionId"))
-    o.state = LightXML.content(LightXML.find_element(pd, "state"))
-    o.customerGatewayConfiguration = LightXML.content(LightXML.find_element(pd, "customerGatewayConfiguration"))
-    o._type = LightXML.content(LightXML.find_element(pd, "type"))
-    o.customerGatewayId = LightXML.content(LightXML.find_element(pd, "customerGatewayId"))
-    o.vpnGatewayId = LightXML.content(LightXML.find_element(pd, "vpnGatewayId"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
-    o.vgwTelemetry = AWS.@parse_vector(AWS.EC2.VpnTunnelTelemetryType, elements_by_tagname(LightXML.find_element(pd, "vgwTelemetry"), "item"))
-    ## o.options = length(pd["options"]) > 0 ?  VpnConnectionOptionsResponseType(LightXML.find_element(pd,"options[1]")) : nothing
-    o.options = LightXML.find_element(pd,"options") != nothing ? VpnConnectionOptionsResponseType(LightXML.find_element(pd,"options")) : nothing
-    o.routes = AWS.@parse_vector(AWS.EC2.VpnStaticRouteType, elements_by_tagname(LightXML.find_element(pd, "routes"), "item"))
-    o
-end
-
-export VpnConnectionType
-
-
-type DescribeInstancesType
-    instancesSet::Union{Vector{String}, Void}
-    filterSet::Union{Vector{FilterType}, Void}
-
-    DescribeInstancesType(; instancesSet=nothing, filterSet=nothing) =
-         new(instancesSet, filterSet)
-end
-function DescribeInstancesType(pd)
-    o = DescribeInstancesType()
-    o.instancesSet = AWS.parse_vector_as(String, "instanceId", elements_by_tagname(LightXML.find_element(pd, "item"), "instanceId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
-    o
-end
-
-export DescribeInstancesType
-
-
-type DescribeImagesResponseType
-    requestId::Union{String, Void}
-    imagesSet::Union{Vector{DescribeImagesResponseItemType}, Void}
-
-    DescribeImagesResponseType(; requestId=nothing, imagesSet=nothing) =
-         new(requestId, imagesSet)
-end
-function DescribeImagesResponseType(pd)
-    o = DescribeImagesResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.imagesSet = AWS.@parse_vector(AWS.EC2.DescribeImagesResponseItemType, elements_by_tagname(LightXML.find_element(pd, "imagesSet"), "item"))
-    o
-end
-
-export DescribeImagesResponseType
-
-
-type CustomerGatewayType
-    customerGatewayId::Union{String, Void}
-    state::Union{String, Void}
-    _type::Union{String, Void}
-    ipAddress::Union{String, Void}
-    bgpAsn::Union{Int64, Void}
-    tagSet::Union{Vector{ResourceTagSetItemType}, Void}
-
-    CustomerGatewayType(; customerGatewayId=nothing, state=nothing, _type=nothing, ipAddress=nothing, bgpAsn=nothing, tagSet=nothing) =
-         new(customerGatewayId, state, _type, ipAddress, bgpAsn, tagSet)
-end
-function CustomerGatewayType(pd)
-    o = CustomerGatewayType()
-    o.customerGatewayId = LightXML.content(LightXML.find_element(pd, "customerGatewayId"))
-    o.state = LightXML.content(LightXML.find_element(pd, "state"))
-    o._type = LightXML.content(LightXML.find_element(pd, "type"))
-    o.ipAddress = LightXML.content(LightXML.find_element(pd, "ipAddress"))
-    o.bgpAsn = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "bgpAsn")))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
-    o
-end
-
-export CustomerGatewayType
-
-
-type SubnetType
-    subnetId::Union{String, Void}
-    state::Union{String, Void}
-    vpcId::Union{String, Void}
-    cidrBlock::Union{String, Void}
-    availableIpAddressCount::Union{Int64, Void}
-    availabilityZone::Union{String, Void}
-    defaultForAz::Union{Bool, Void}
-    mapPublicIpOnLaunch::Union{Bool, Void}
-    tagSet::Union{Vector{ResourceTagSetItemType}, Void}
-
-    SubnetType(; subnetId=nothing, state=nothing, vpcId=nothing, cidrBlock=nothing, availableIpAddressCount=nothing, availabilityZone=nothing, defaultForAz=nothing, mapPublicIpOnLaunch=nothing, tagSet=nothing) =
-         new(subnetId, state, vpcId, cidrBlock, availableIpAddressCount, availabilityZone, defaultForAz, mapPublicIpOnLaunch, tagSet)
-end
-function SubnetType(pd)
-    o = SubnetType()
-    o.subnetId = LightXML.content(LightXML.find_element(pd, "subnetId"))
-    o.state = LightXML.content(LightXML.find_element(pd, "state"))
-    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
-    o.cidrBlock = LightXML.content(LightXML.find_element(pd, "cidrBlock"))
-    o.availableIpAddressCount = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "availableIpAddressCount")))
-    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
-    o.defaultForAz = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "defaultForAz")))
-    o.mapPublicIpOnLaunch = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "mapPublicIpOnLaunch")))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
-    o
-end
-
-export SubnetType
-
-
-type DescribeLicensesResponseType
-    requestId::Union{String, Void}
-    licenseSet::Union{Vector{LicenseSetItemType}, Void}
-
-    DescribeLicensesResponseType(; requestId=nothing, licenseSet=nothing) =
-         new(requestId, licenseSet)
-end
-function DescribeLicensesResponseType(pd)
-    o = DescribeLicensesResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.licenseSet = AWS.@parse_vector(AWS.EC2.LicenseSetItemType, elements_by_tagname(LightXML.find_element(pd, "licenseSet"), "item"))
-    o
-end
-
-export DescribeLicensesResponseType
-
-
-type NetworkInterfacePrivateIpAddressesSetItemType
-    privateIpAddress::Union{String, Void}
-    privateDnsName::Union{String, Void}
-    primary::Union{Bool, Void}
-    association::Union{NetworkInterfaceAssociationType, Void}
-
-    NetworkInterfacePrivateIpAddressesSetItemType(; privateIpAddress=nothing, privateDnsName=nothing, primary=nothing, association=nothing) =
-         new(privateIpAddress, privateDnsName, primary, association)
-end
-function NetworkInterfacePrivateIpAddressesSetItemType(pd)
-    o = NetworkInterfacePrivateIpAddressesSetItemType()
-    o.privateIpAddress = LightXML.content(LightXML.find_element(pd, "privateIpAddress"))
-    o.privateDnsName = LightXML.content(LightXML.find_element(pd, "privateDnsName"))
-    o.primary = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "primary")))
-    ## o.association = length(pd["association"]) > 0 ?  NetworkInterfaceAssociationType(LightXML.find_element(pd,"association[1]")) : nothing
-    o.association = LightXML.find_element(pd,"association") != nothing ? NetworkInterfaceAssociationType(LightXML.find_element(pd,"association")) : nothing
-    o
-end
-
-export NetworkInterfacePrivateIpAddressesSetItemType
-
-
-type CreateVpnConnectionResponseType
-    requestId::Union{String, Void}
-    vpnConnection::Union{VpnConnectionType, Void}
-
-    CreateVpnConnectionResponseType(; requestId=nothing, vpnConnection=nothing) =
-         new(requestId, vpnConnection)
-end
-function CreateVpnConnectionResponseType(pd)
-    o = CreateVpnConnectionResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    ## o.vpnConnection = length(pd["vpnConnection"]) > 0 ?  VpnConnectionType(LightXML.find_element(pd,"vpnConnection[1]")) : nothing
-    o.vpnConnection = LightXML.find_element(pd,"vpnConnection") != nothing ? VpnConnectionType(LightXML.find_element(pd,"vpnConnection")) : nothing
-    o
-end
-
-export CreateVpnConnectionResponseType
-
-
-type DescribeTagsResponseType
-    requestId::Union{String, Void}
-    tagSet::Union{Vector{TagSetItemType}, Void}
-
-    DescribeTagsResponseType(; requestId=nothing, tagSet=nothing) =
-         new(requestId, tagSet)
-end
-function DescribeTagsResponseType(pd)
-    o = DescribeTagsResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.TagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
-    o
-end
-
-export DescribeTagsResponseType
-
-
-type CreateInternetGatewayResponseType
-    requestId::Union{String, Void}
-    internetGateway::Union{InternetGatewayType, Void}
-
-    CreateInternetGatewayResponseType(; requestId=nothing, internetGateway=nothing) =
-         new(requestId, internetGateway)
-end
-function CreateInternetGatewayResponseType(pd)
-    o = CreateInternetGatewayResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    ## o.internetGateway = length(pd["internetGateway"]) > 0 ?  InternetGatewayType(LightXML.find_element(pd,"internetGateway[1]")) : nothing
-    o.internetGateway = LightXML.find_element(pd,"internetGateway") != nothing ? InternetGatewayType(LightXML.find_element(pd,"internetGateway")) : nothing
-    o
-end
-
-export CreateInternetGatewayResponseType
-
-
-type AttachVpnGatewayResponseType
-    requestId::Union{String, Void}
-    attachment::Union{AttachmentType, Void}
-
-    AttachVpnGatewayResponseType(; requestId=nothing, attachment=nothing) =
-         new(requestId, attachment)
-end
-function AttachVpnGatewayResponseType(pd)
-    o = AttachVpnGatewayResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    ## o.attachment = length(pd["attachment"]) > 0 ?  AttachmentType(LightXML.find_element(pd,"attachment[1]")) : nothing
-    o.attachment = LightXML.find_element(pd,"attachment") != nothing ? AttachmentType(LightXML.find_element(pd,"attachment")) : nothing
-    o
-end
-
-export AttachVpnGatewayResponseType
-
-
-type DescribeLicensesType
-    licenseIdSet::Union{Vector{String}, Void}
-    filterSet::Union{Vector{FilterType}, Void}
-
-    DescribeLicensesType(; licenseIdSet=nothing, filterSet=nothing) =
-         new(licenseIdSet, filterSet)
-end
-function DescribeLicensesType(pd)
-    o = DescribeLicensesType()
-    o.licenseIdSet = AWS.parse_vector_as(String, "licenseId", elements_by_tagname(LightXML.find_element(pd, "item"), "licenseId"))
-    o.filterSet = AWS.@parse_vector(AWS.EC2.FilterType, elements_by_tagname(LightXML.find_element(pd, "filterSet"), "item"))
-    o
-end
-
-export DescribeLicensesType
-
-
-type AuthorizeSecurityGroupIngressType
-    userId::Union{String, Void}
-    ipPermissions::Union{Vector{IpPermissionType}, Void}
-
-    AuthorizeSecurityGroupIngressType(; userId=nothing, ipPermissions=nothing) =
-         new(userId, ipPermissions)
-end
-function AuthorizeSecurityGroupIngressType(pd)
-    o = AuthorizeSecurityGroupIngressType()
-    o.userId = LightXML.content(LightXML.find_element(pd, "userId"))
-    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, elements_by_tagname(LightXML.find_element(pd, "ipPermissions"), "item"))
-    o
-end
-
-export AuthorizeSecurityGroupIngressType
-
-
-type CreateSubnetResponseType
-    requestId::Union{String, Void}
-    subnet::Union{SubnetType, Void}
-
-    CreateSubnetResponseType(; requestId=nothing, subnet=nothing) =
-         new(requestId, subnet)
-end
-function CreateSubnetResponseType(pd)
-    o = CreateSubnetResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    ## o.subnet = length(pd["subnet"]) > 0 ?  SubnetType(LightXML.find_element(pd,"subnet[1]")) : nothing
-    o.subnet = LightXML.find_element(pd,"subnet") != nothing ? SubnetType(LightXML.find_element(pd,"subnet")) : nothing
-    o
-end
-
-export CreateSubnetResponseType
-
-
-type NetworkInterfaceType
-    networkInterfaceId::Union{String, Void}
-    subnetId::Union{String, Void}
-    vpcId::Union{String, Void}
-    availabilityZone::Union{String, Void}
-    description::Union{String, Void}
-    ownerId::Union{String, Void}
-    requesterId::Union{String, Void}
-    requesterManaged::Union{Bool, Void}
-    status::Union{String, Void}
-    macAddress::Union{String, Void}
-    privateIpAddress::Union{String, Void}
-    privateDnsName::Union{String, Void}
-    sourceDestCheck::Union{Bool, Void}
-    groupSet::Union{Vector{GroupItemType}, Void}
-    attachment::Union{NetworkInterfaceAttachmentType, Void}
-    association::Union{NetworkInterfaceAssociationType, Void}
-    tagSet::Union{Vector{ResourceTagSetItemType}, Void}
-    privateIpAddressesSet::Union{Vector{NetworkInterfacePrivateIpAddressesSetItemType}, Void}
-
-    NetworkInterfaceType(; networkInterfaceId=nothing, subnetId=nothing, vpcId=nothing, availabilityZone=nothing, description=nothing, ownerId=nothing, requesterId=nothing, requesterManaged=nothing, status=nothing, macAddress=nothing, privateIpAddress=nothing, privateDnsName=nothing, sourceDestCheck=nothing, groupSet=nothing, attachment=nothing, association=nothing, tagSet=nothing, privateIpAddressesSet=nothing) =
-         new(networkInterfaceId, subnetId, vpcId, availabilityZone, description, ownerId, requesterId, requesterManaged, status, macAddress, privateIpAddress, privateDnsName, sourceDestCheck, groupSet, attachment, association, tagSet, privateIpAddressesSet)
-end
-function NetworkInterfaceType(pd)
-    o = NetworkInterfaceType()
-    o.networkInterfaceId = LightXML.content(LightXML.find_element(pd, "networkInterfaceId"))
-    o.subnetId = LightXML.content(LightXML.find_element(pd, "subnetId"))
-    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
-    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
-    o.description = LightXML.content(LightXML.find_element(pd, "description"))
-    o.ownerId = LightXML.content(LightXML.find_element(pd, "ownerId"))
-    o.requesterId = LightXML.content(LightXML.find_element(pd, "requesterId"))
-    o.requesterManaged = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "requesterManaged")))
-    o.status = LightXML.content(LightXML.find_element(pd, "status"))
-    o.macAddress = LightXML.content(LightXML.find_element(pd, "macAddress"))
-    o.privateIpAddress = LightXML.content(LightXML.find_element(pd, "privateIpAddress"))
-    o.privateDnsName = LightXML.content(LightXML.find_element(pd, "privateDnsName"))
-    o.sourceDestCheck = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "sourceDestCheck")))
-    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, elements_by_tagname(LightXML.find_element(pd, "groupSet"), "item"))
-    ## o.attachment = length(pd["attachment"]) > 0 ?  NetworkInterfaceAttachmentType(LightXML.find_element(pd,"attachment[1]")) : nothing
-    o.attachment = LightXML.find_element(pd,"attachment") != nothing ?  NetworkInterfaceAttachmentType(LightXML.find_element(pd,"attachment")) : nothing
-    ## o.association = length(pd["association"]) > 0 ?  NetworkInterfaceAssociationType(LightXML.find_element(pd,"association[1]")) : nothing
-    o.association = LightXML.find_element(pd,"association") != nothing ? NetworkInterfaceAssociationType(LightXML.find_element(pd,"association")) : nothing
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
-    o.privateIpAddressesSet = AWS.@parse_vector(AWS.EC2.NetworkInterfacePrivateIpAddressesSetItemType, elements_by_tagname(LightXML.find_element(pd, "privateIpAddressesSet"), "item"))
-    o
-end
-
-export NetworkInterfaceType
-
-
-type ImportVolumeResponseType
-    requestId::Union{String, Void}
-    conversionTask::Union{ConversionTaskType, Void}
-
-    ImportVolumeResponseType(; requestId=nothing, conversionTask=nothing) =
-         new(requestId, conversionTask)
-end
-function ImportVolumeResponseType(pd)
-    o = ImportVolumeResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    ## o.conversionTask = length(pd["conversionTask"]) > 0 ?  ConversionTaskType(LightXML.find_element(pd,"conversionTask[1]")) : nothing
-    o.conversionTask = LightXML.find_element(pd,"conversionTask") != nothing ? ConversionTaskType(LightXML.find_element(pd,"conversionTask")) : nothing
-    o
-end
-
-export ImportVolumeResponseType
-
-
-type ModifySnapshotAttributeType
-    snapshotId::Union{String, Void}
-    createVolumePermission::Union{CreateVolumePermissionOperationType, Void}
-
-    ModifySnapshotAttributeType(; snapshotId=nothing, createVolumePermission=nothing) =
-         new(snapshotId, createVolumePermission)
-end
-function ModifySnapshotAttributeType(pd)
-    o = ModifySnapshotAttributeType()
-    o.snapshotId = LightXML.content(LightXML.find_element(pd, "snapshotId"))
-    ## o.createVolumePermission = length(pd["createVolumePermission"]) > 0 ?  CreateVolumePermissionOperationType(LightXML.find_element(pd,"createVolumePermission[1]")) : nothing
-    o.createVolumePermission = LightXML.find_element(pd,"createVolumePermission") != nothing ? CreateVolumePermissionOperationType(LightXML.find_element(pd,"createVolumePermission")) : nothing
-    o
-end
-
-export ModifySnapshotAttributeType
-
-
-type CreateNetworkInterfaceResponseType
-    requestId::Union{String, Void}
-    networkInterface::Union{NetworkInterfaceType, Void}
-
-    CreateNetworkInterfaceResponseType(; requestId=nothing, networkInterface=nothing) =
-         new(requestId, networkInterface)
-end
-function CreateNetworkInterfaceResponseType(pd)
-    o = CreateNetworkInterfaceResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    ## o.networkInterface = length(pd["networkInterface"]) > 0 ?  NetworkInterfaceType(LightXML.find_element(pd,"networkInterface[1]")) : nothing
-    o.networkInterface = LightXML.find_element(pd,"networkInterface") != nothing ? NetworkInterfaceType(LightXML.find_element(pd,"networkInterface")) : nothing
-    o
-end
-
-export CreateNetworkInterfaceResponseType
-
-
-type CancelReservedInstancesListingResponseType
-    requestId::Union{String, Void}
-    reservedInstancesListingsSet::Union{Vector{DescribeReservedInstancesListingsResponseSetItemType}, Void}
-
-    CancelReservedInstancesListingResponseType(; requestId=nothing, reservedInstancesListingsSet=nothing) =
-         new(requestId, reservedInstancesListingsSet)
-end
-function CancelReservedInstancesListingResponseType(pd)
-    o = CancelReservedInstancesListingResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.reservedInstancesListingsSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesListingsResponseSetItemType, elements_by_tagname(LightXML.find_element(pd, "reservedInstancesListingsSet"), "item"))
-    o
-end
-
-export CancelReservedInstancesListingResponseType
-
-
-type MonitorInstancesResponseType
-    requestId::Union{String, Void}
-    instancesSet::Union{Vector{MonitorInstancesResponseSetItemType}, Void}
-
-    MonitorInstancesResponseType(; requestId=nothing, instancesSet=nothing) =
-         new(requestId, instancesSet)
-end
-function MonitorInstancesResponseType(pd)
-    o = MonitorInstancesResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.instancesSet = AWS.@parse_vector(AWS.EC2.MonitorInstancesResponseSetItemType, elements_by_tagname(LightXML.find_element(pd, "instancesSet"), "item"))
-    o
-end
-
-export MonitorInstancesResponseType
-
-
-type CreateCustomerGatewayResponseType
-    requestId::Union{String, Void}
-    customerGateway::Union{CustomerGatewayType, Void}
-
-    CreateCustomerGatewayResponseType(; requestId=nothing, customerGateway=nothing) =
-         new(requestId, customerGateway)
-end
-function CreateCustomerGatewayResponseType(pd)
-    o = CreateCustomerGatewayResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    ## o.customerGateway = length(pd["customerGateway"]) > 0 ?  CustomerGatewayType(LightXML.find_element(pd,"customerGateway[1]")) : nothing
-    o.customerGateway = LightXML.find_element(pd,"customerGateway") != nothing ?  CustomerGatewayType(LightXML.find_element(pd,"customerGateway")) : nothing
-    o
-end
-
-export CreateCustomerGatewayResponseType
-
-
-type DescribeVpnConnectionsResponseType
-    requestId::Union{String, Void}
-    vpnConnectionSet::Union{Vector{VpnConnectionType}, Void}
-
-    DescribeVpnConnectionsResponseType(; requestId=nothing, vpnConnectionSet=nothing) =
-         new(requestId, vpnConnectionSet)
-end
-function DescribeVpnConnectionsResponseType(pd)
-    o = DescribeVpnConnectionsResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.vpnConnectionSet = AWS.@parse_vector(AWS.EC2.VpnConnectionType, elements_by_tagname(LightXML.find_element(pd, "vpnConnectionSet"), "item"))
-    o
-end
-
-export DescribeVpnConnectionsResponseType
-
-
-type RunningInstancesItemType
-    instanceId::Union{String, Void}
-    imageId::Union{String, Void}
-    instanceState::Union{InstanceStateType, Void}
-    privateDnsName::Union{String, Void}
-    dnsName::Union{String, Void}
-    reason::Union{String, Void}
-    keyName::Union{String, Void}
-    amiLaunchIndex::Union{String, Void}
-    productCodes::Union{Vector{ProductCodesSetItemType}, Void}
-    instanceType::Union{String, Void}
-    launchTime::Union{Base.Dates.DateTime, Void}
-    placement::Union{PlacementResponseType, Void}
-    kernelId::Union{String, Void}
-    ramdiskId::Union{String, Void}
-    platform::Union{String, Void}
-    monitoring::Union{InstanceMonitoringStateType, Void}
-    subnetId::Union{String, Void}
-    vpcId::Union{String, Void}
-    privateIpAddress::Union{String, Void}
-    ipAddress::Union{String, Void}
-    sourceDestCheck::Union{Bool, Void}
-    groupSet::Union{Vector{GroupItemType}, Void}
-    stateReason::Union{StateReasonType, Void}
-    architecture::Union{String, Void}
-    rootDeviceType::Union{String, Void}
-    rootDeviceName::Union{String, Void}
-    blockDeviceMapping::Union{Vector{InstanceBlockDeviceMappingResponseItemType}, Void}
-    instanceLifecycle::Union{String, Void}
-    spotInstanceRequestId::Union{String, Void}
-    license::Union{InstanceLicenseResponseType, Void}
-    virtualizationType::Union{String, Void}
-    clientToken::Union{String, Void}
-    tagSet::Union{Vector{ResourceTagSetItemType}, Void}
-    hypervisor::Union{String, Void}
-    networkInterfaceSet::Union{Vector{InstanceNetworkInterfaceSetItemType}, Void}
-    iamInstanceProfile::Union{IamInstanceProfileResponseType, Void}
-    ebsOptimized::Union{Bool, Void}
-
-    RunningInstancesItemType(; instanceId=nothing, imageId=nothing, instanceState=nothing, privateDnsName=nothing, dnsName=nothing, reason=nothing, keyName=nothing, amiLaunchIndex=nothing, productCodes=nothing, instanceType=nothing, launchTime=nothing, placement=nothing, kernelId=nothing, ramdiskId=nothing, platform=nothing, monitoring=nothing, subnetId=nothing, vpcId=nothing, privateIpAddress=nothing, ipAddress=nothing, sourceDestCheck=nothing, groupSet=nothing, stateReason=nothing, architecture=nothing, rootDeviceType=nothing, rootDeviceName=nothing, blockDeviceMapping=nothing, instanceLifecycle=nothing, spotInstanceRequestId=nothing, license=nothing, virtualizationType=nothing, clientToken=nothing, tagSet=nothing, hypervisor=nothing, networkInterfaceSet=nothing, iamInstanceProfile=nothing, ebsOptimized=nothing) =
-         new(instanceId, imageId, instanceState, privateDnsName, dnsName, reason, keyName, amiLaunchIndex, productCodes, instanceType, launchTime, placement, kernelId, ramdiskId, platform, monitoring, subnetId, vpcId, privateIpAddress, ipAddress, sourceDestCheck, groupSet, stateReason, architecture, rootDeviceType, rootDeviceName, blockDeviceMapping, instanceLifecycle, spotInstanceRequestId, license, virtualizationType, clientToken, tagSet, hypervisor, networkInterfaceSet, iamInstanceProfile, ebsOptimized)
-end
-function RunningInstancesItemType(pd)
-    o = RunningInstancesItemType()
-    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
-    o.imageId = LightXML.content(LightXML.find_element(pd, "imageId"))
-    ## o.instanceState = length(pd["instanceState"]) > 0 ?  InstanceStateType(LightXML.find_element(pd,"instanceState[1]")) : nothing
-    o.instanceState = LightXML.find_element(pd,"instanceState") != nothing ?  InstanceStateType(LightXML.find_element(pd,"instanceState")) : nothing
-    o.privateDnsName = LightXML.content(LightXML.find_element(pd, "privateDnsName"))
-    o.dnsName = LightXML.content(LightXML.find_element(pd, "dnsName"))
-    o.reason = LightXML.content(LightXML.find_element(pd, "reason"))
-    o.keyName = LightXML.content(LightXML.find_element(pd, "keyName"))
-    o.amiLaunchIndex = LightXML.content(LightXML.find_element(pd, "amiLaunchIndex"))
-    o.productCodes = LightXML.find_element(pd, "productCodes") != nothing ? AWS.@parse_vector(AWS.EC2.ProductCodesSetItemType, elements_by_tagname(LightXML.find_element(pd, "productCodes"), "item")) : nothing
-    o.instanceType = LightXML.content(LightXML.find_element(pd, "instanceType"))
-    o.launchTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "launchTime")))
-    ## o.placement = length(pd["placement"]) > 0 ?  PlacementResponseType(LightXML.find_element(pd,"placement[1]")) : nothing
-    o.placement = LightXML.find_element(pd,"placement") != nothing ?  PlacementResponseType(LightXML.find_element(pd,"placement")) : nothing
-    
-    o.ramdiskId = LightXML.find_element(pd, "ramdiskId") != nothing ?LightXML.content(LightXML.find_element(pd, "ramdiskId")) : nothing
-    o.platform = LightXML.find_element(pd, "platform") != nothing ?LightXML.content(LightXML.find_element(pd, "platform")) : nothing
-    ## o.monitoring = length(pd["monitoring"]) > 0 ?  InstanceMonitoringStateType(LightXML.find_element(pd,"monitoring[1]")) : nothing
-    o.monitoring = LightXML.find_element(pd,"monitoring") != nothing ?  InstanceMonitoringStateType(LightXML.find_element(pd,"monitoring")) : nothing
-    o.subnetId = LightXML.find_element(pd, "subnetId") != nothing ? LightXML.content(LightXML.find_element(pd, "subnetId")) : nothing
-    o.vpcId = LightXML.find_element(pd, "vpcId") != nothing ?LightXML.content(LightXML.find_element(pd, "vpcId")) : nothing
-    o.privateIpAddress = LightXML.find_element(pd, "privateIpAddress") != nothing ?LightXML.content(LightXML.find_element(pd, "privateIpAddress")) : nothing
-    o.ipAddress = LightXML.find_element(pd, "ipAddress") != nothing ? LightXML.content(LightXML.find_element(pd, "ipAddress")) : nothing
-    o.sourceDestCheck = LightXML.find_element(pd, "sourceDestCheck") != nothing ? AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "sourceDestCheck"))) : nothing
-    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, elements_by_tagname(LightXML.find_element(pd, "groupSet"), "item"))
-    ## o.stateReason = length(pd["stateReason"]) > 0 ?  StateReasonType(LightXML.find_element(pd,"stateReason[1]")) : nothing
-    o.stateReason = LightXML.find_element(pd,"stateReason") != nothing ?  StateReasonType(LightXML.find_element(pd,"stateReason")) : nothing
-    o.architecture = LightXML.content(LightXML.find_element(pd, "architecture"))
-    o.rootDeviceType = LightXML.content(LightXML.find_element(pd, "rootDeviceType"))
-    
-    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.InstanceBlockDeviceMappingResponseItemType, elements_by_tagname(LightXML.find_element(pd, "blockDeviceMapping"), "item"))
-    o.instanceLifecycle = LightXML.find_element(pd, "instanceLifecycle") != nothing ? LightXML.content(LightXML.find_element(pd, "instanceLifecycle")) : nothing
-    o.spotInstanceRequestId = LightXML.find_element(pd, "spotInstanceRequestId") != nothing ? LightXML.content(LightXML.find_element(pd, "spotInstanceRequestId")) : nothing
-    ## o.license = length(pd["license"]) > 0 ?  InstanceLicenseResponseType(LightXML.find_element(pd,"license[1]")) : nothing
-    o.license = LightXML.find_element(pd,"license") != nothing ?  InstanceLicenseResponseType(LightXML.find_element(pd,"license")) : nothing
-    o.virtualizationType = LightXML.content(LightXML.find_element(pd, "virtualizationType"))
-    o.clientToken = LightXML.content(LightXML.find_element(pd, "clientToken"))
-    o.tagSet = LightXML.find_element(pd, "tagSet") != nothing ? AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item")) : nothing
-    o.hypervisor = LightXML.content(LightXML.find_element(pd, "hypervisor"))
-    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.InstanceNetworkInterfaceSetItemType, elements_by_tagname(LightXML.find_element(pd, "networkInterfaceSet"), "item"))
-    ## o.iamInstanceProfile = length(pd["iamInstanceProfile"]) > 0 ?  IamInstanceProfileResponseType(LightXML.find_element(pd,"iamInstanceProfile[1]")) : nothing
-    o.iamInstanceProfile = LightXML.find_element(pd,"iamInstanceProfile") != nothing ?  IamInstanceProfileResponseType(LightXML.find_element(pd,"iamInstanceProfile")) : nothing
-    o.ebsOptimized = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "ebsOptimized")))
-    o
-end
-
-export RunningInstancesItemType
-
-
-type DescribeSnapshotsResponseType
-    requestId::Union{String, Void}
-    snapshotSet::Union{Vector{DescribeSnapshotsSetItemResponseType}, Void}
-
-    DescribeSnapshotsResponseType(; requestId=nothing, snapshotSet=nothing) =
-         new(requestId, snapshotSet)
-end
-function DescribeSnapshotsResponseType(pd)
-    o = DescribeSnapshotsResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.snapshotSet = AWS.@parse_vector(AWS.EC2.DescribeSnapshotsSetItemResponseType, elements_by_tagname(LightXML.find_element(pd, "snapshotSet"), "item"))
-    o
-end
-
-export DescribeSnapshotsResponseType
-
-
-type CreateVpcResponseType
-    requestId::Union{String, Void}
-    vpc::Union{VpcType, Void}
-
-    CreateVpcResponseType(; requestId=nothing, vpc=nothing) =
-         new(requestId, vpc)
-end
-function CreateVpcResponseType(pd)
-    o = CreateVpcResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    ## o.vpc = length(pd["vpc"]) > 0 ?  VpcType(LightXML.find_element(pd,"vpc[1]")) : nothing
-    o.vpc = LightXML.find_element(pd,"vpc") != nothing ? VpcType(LightXML.find_element(pd,"vpc")) : nothing
-    o
-end
-
-export CreateVpcResponseType
-
-
-type ImportInstanceType
-    description::Union{String, Void}
-    launchSpecification::Union{ImportInstanceLaunchSpecificationType, Void}
-    diskImageSet::Union{Vector{DiskImageType}, Void}
-    keepPartialImports::Union{Bool, Void}
-    platform::Union{String, Void}
-
-    ImportInstanceType(; description=nothing, launchSpecification=nothing, diskImageSet=nothing, keepPartialImports=nothing, platform=nothing) =
-         new(description, launchSpecification, diskImageSet, keepPartialImports, platform)
-end
-function ImportInstanceType(pd)
-    o = ImportInstanceType()
-    o.description = LightXML.content(LightXML.find_element(pd, "description"))
-    ## o.launchSpecification = length(pd["launchSpecification"]) > 0 ?  ImportInstanceLaunchSpecificationType(LightXML.find_element(pd,"launchSpecification[1]")) : nothing
-    o.launchSpecification = LightXML.find_element(pd,"launchSpecification") ? ImportInstanceLaunchSpecificationType(LightXML.find_element(pd,"launchSpecification")) : nothing
-    o.diskImageSet = AWS.@parse_vector(AWS.EC2.DiskImageType, elements_by_tagname(LightXML.find_element(pd, "diskImageSet"), "item"))
-    o.keepPartialImports = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "keepPartialImports")))
-    o.platform = LightXML.content(LightXML.find_element(pd, "platform"))
-    o
-end
-
-export ImportInstanceType
-
-
-type BundleInstanceTaskType
-    instanceId::Union{String, Void}
-    bundleId::Union{String, Void}
-    state::Union{String, Void}
-    startTime::Union{Base.Dates.DateTime, Void}
-    updateTime::Union{Base.Dates.DateTime, Void}
-    storage::Union{BundleInstanceTaskStorageType, Void}
-    progress::Union{String, Void}
-    error::Union{BundleInstanceTaskErrorType, Void}
-
-    BundleInstanceTaskType(; instanceId=nothing, bundleId=nothing, state=nothing, startTime=nothing, updateTime=nothing, storage=nothing, progress=nothing, error=nothing) =
-         new(instanceId, bundleId, state, startTime, updateTime, storage, progress, error)
-end
-function BundleInstanceTaskType(pd)
-    o = BundleInstanceTaskType()
-    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
-    o.bundleId = LightXML.content(LightXML.find_element(pd, "bundleId"))
-    o.state = LightXML.content(LightXML.find_element(pd, "state"))
-    o.startTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "startTime")))
-    o.updateTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "updateTime")))
-    ## o.storage = length(pd["storage"]) > 0 ?  BundleInstanceTaskStorageType(LightXML.find_element(pd,"storage[1]")) : nothing
-    o.storage = LightXML.find_element(pd,"storage") != nothing ? BundleInstanceTaskStorageType(LightXML.find_element(pd,"storage")) : nothing
-    o.progress = LightXML.content(LightXML.find_element(pd, "progress"))
-    ## o.error = length(pd["error"]) > 0 ?  BundleInstanceTaskErrorType(LightXML.find_element(pd,"error[1]")) : nothing
-    o.error = LightXML.find_element(pd,"error") != nothing ?  BundleInstanceTaskErrorType(LightXML.find_element(pd,"error")) : nothing
-    o
-end
-
-export BundleInstanceTaskType
-
-
-type CancelBundleTaskResponseType
-    requestId::Union{String, Void}
-    bundleInstanceTask::Union{BundleInstanceTaskType, Void}
-
-    CancelBundleTaskResponseType(; requestId=nothing, bundleInstanceTask=nothing) =
-         new(requestId, bundleInstanceTask)
-end
-function CancelBundleTaskResponseType(pd)
-    o = CancelBundleTaskResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    ## o.bundleInstanceTask = length(pd["bundleInstanceTask"]) > 0 ?  BundleInstanceTaskType(LightXML.find_element(pd,"bundleInstanceTask[1]")) : nothing
-    o.bundleInstanceTask = LightXML.find_element(pd,"bundleInstanceTask") != nothing ? BundleInstanceTaskType(LightXML.find_element(pd,"bundleInstanceTask")) : nothing
-    o
-end
-
-export CancelBundleTaskResponseType
-
-
-type LaunchSpecificationResponseType
-    imageId::Union{String, Void}
-    keyName::Union{String, Void}
-    groupSet::Union{Vector{GroupItemType}, Void}
-    addressingType::Union{String, Void}
-    instanceType::Union{String, Void}
-    placement::Union{SpotPlacementRequestType, Void}
-    kernelId::Union{String, Void}
-    ramdiskId::Union{String, Void}
-    blockDeviceMapping::Union{Vector{BlockDeviceMappingItemType}, Void}
-    monitoring::Union{MonitoringInstanceType, Void}
-    subnetId::Union{String, Void}
-    networkInterfaceSet::Union{Vector{InstanceNetworkInterfaceSetItemRequestType}, Void}
-    iamInstanceProfile::Union{IamInstanceProfileRequestType, Void}
-    ebsOptimized::Union{Bool, Void}
-
-    LaunchSpecificationResponseType(; imageId=nothing, keyName=nothing, groupSet=nothing, addressingType=nothing, instanceType=nothing, placement=nothing, kernelId=nothing, ramdiskId=nothing, blockDeviceMapping=nothing, monitoring=nothing, subnetId=nothing, networkInterfaceSet=nothing, iamInstanceProfile=nothing, ebsOptimized=nothing) =
-         new(imageId, keyName, groupSet, addressingType, instanceType, placement, kernelId, ramdiskId, blockDeviceMapping, monitoring, subnetId, networkInterfaceSet, iamInstanceProfile, ebsOptimized)
-end
-function LaunchSpecificationResponseType(pd)
-    o = LaunchSpecificationResponseType()
-    o.imageId = LightXML.content(LightXML.find_element(pd, "imageId"))
-    o.keyName = LightXML.content(LightXML.find_element(pd, "keyName"))
-    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, elements_by_tagname(LightXML.find_element(pd, "groupSet"), "item"))
-    o.addressingType = LightXML.content(LightXML.find_element(pd, "addressingType"))
-    o.instanceType = LightXML.content(LightXML.find_element(pd, "instanceType"))
-    ## o.placement = length(pd["placement"]) > 0 ?  SpotPlacementRequestType(LightXML.find_element(pd,"placement[1]")) : nothing
-    o.placement = LightXML.find_element(pd,"placement") != nothing ? SpotPlacementRequestType(LightXML.find_element(pd,"placement")) : nothing
-    o.kernelId = LightXML.content(LightXML.find_element(pd, "kernelId"))
-    o.ramdiskId = LightXML.content(LightXML.find_element(pd, "ramdiskId"))
-    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, elements_by_tagname(LightXML.find_element(pd, "blockDeviceMapping"), "item"))
-    ## o.monitoring = length(pd["monitoring"]) > 0 ?  MonitoringInstanceType(LightXML.find_element(pd,"monitoring[1]")) : nothing
-    o.monitoring = LightXML.find_element(pd,"monitoring") != nothing ? MonitoringInstanceType(LightXML.find_element(pd,"monitoring")) : nothing
-    o.subnetId = LightXML.content(LightXML.find_element(pd, "subnetId"))
-    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.InstanceNetworkInterfaceSetItemRequestType, elements_by_tagname(LightXML.find_element(pd, "networkInterfaceSet"), "item"))
-    ## o.iamInstanceProfile = length(pd["iamInstanceProfile"]) > 0 ?  IamInstanceProfileRequestType(LightXML.find_element(pd,"iamInstanceProfile[1]")) : nothing
-    o.iamInstanceProfile = LightXML.find_element(pd,"iamInstanceProfile") != nothing ? IamInstanceProfileRequestType(LightXML.find_element(pd,"iamInstanceProfile")) : nothing
-    o.ebsOptimized = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "ebsOptimized")))
-    o
-end
-
-export LaunchSpecificationResponseType
-
-
-type SecurityGroupItemType
-    ownerId::Union{String, Void}
-    groupId::Union{String, Void}
-    groupName::Union{String, Void}
-    groupDescription::Union{String, Void}
-    vpcId::Union{String, Void}
-    ipPermissions::Union{Vector{IpPermissionType}, Void}
-    ipPermissionsEgress::Union{Vector{IpPermissionType}, Void}
-    tagSet::Union{Vector{ResourceTagSetItemType}, Void}
-
-    SecurityGroupItemType(; ownerId=nothing, groupId=nothing, groupName=nothing, groupDescription=nothing, vpcId=nothing, ipPermissions=nothing, ipPermissionsEgress=nothing, tagSet=nothing) =
-         new(ownerId, groupId, groupName, groupDescription, vpcId, ipPermissions, ipPermissionsEgress, tagSet)
-end
-function SecurityGroupItemType(pd)
-    o = SecurityGroupItemType()
-    o.ownerId = LightXML.content(LightXML.find_element(pd, "ownerId"))
-    o.groupId = LightXML.content(LightXML.find_element(pd, "groupId"))
-    o.groupName = LightXML.content(LightXML.find_element(pd, "groupName"))
-    o.groupDescription = LightXML.content(LightXML.find_element(pd, "groupDescription"))
-    o.vpcId = LightXML.content(LightXML.find_element(pd, "vpcId"))
-    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, elements_by_tagname(LightXML.find_element(pd, "ipPermissions"), "item"))
-    o.ipPermissionsEgress = AWS.@parse_vector(AWS.EC2.IpPermissionType, elements_by_tagname(LightXML.find_element(pd, "ipPermissionsEgress"), "item"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
-    o
-end
-
-export SecurityGroupItemType
-
-
-type CreateNetworkAclResponseType
-    requestId::Union{String, Void}
-    networkAcl::Union{NetworkAclType, Void}
-
-    CreateNetworkAclResponseType(; requestId=nothing, networkAcl=nothing) =
-         new(requestId, networkAcl)
-end
-function CreateNetworkAclResponseType(pd)
-    o = CreateNetworkAclResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    ## o.networkAcl = length(pd["networkAcl"]) > 0 ?  NetworkAclType(LightXML.find_element(pd,"networkAcl[1]")) : nothing
-    o.networkAcl = LightXML.find_element(pd,"networkAcl") != nothing ? NetworkAclType(LightXML.find_element(pd,"networkAcl")) : nothing
-    o
-end
-
-export CreateNetworkAclResponseType
-
-
-type CreateVpnGatewayResponseType
-    requestId::Union{String, Void}
-    vpnGateway::Union{VpnGatewayType, Void}
-
-    CreateVpnGatewayResponseType(; requestId=nothing, vpnGateway=nothing) =
-         new(requestId, vpnGateway)
-end
-function CreateVpnGatewayResponseType(pd)
-    o = CreateVpnGatewayResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    ## o.vpnGateway = length(pd["vpnGateway"]) > 0 ?  VpnGatewayType(LightXML.find_element(pd,"vpnGateway[1]")) : nothing
-    o.vpnGateway = LightXML.find_element(pd,"vpnGateway") != nothing ? VpnGatewayType(LightXML.find_element(pd,"vpnGateway")) : nothing
-    o
-end
-
-export CreateVpnGatewayResponseType
-
-
-type RunInstancesResponseType
-    requestId::Union{String, Void}
-    reservationId::Union{String, Void}
-    ownerId::Union{String, Void}
-    groupSet::Union{Vector{GroupItemType}, Void}
-    instancesSet::Union{Vector{RunningInstancesItemType}, Void}
-    requesterId::Union{String, Void}
-
-    RunInstancesResponseType(; requestId=nothing, reservationId=nothing, ownerId=nothing, groupSet=nothing, instancesSet=nothing, requesterId=nothing) =
-         new(requestId, reservationId, ownerId, groupSet, instancesSet, requesterId)
-end
-function RunInstancesResponseType(pd)
-    o = RunInstancesResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.reservationId = LightXML.content(LightXML.find_element(pd, "reservationId"))
-    o.ownerId = LightXML.content(LightXML.find_element(pd, "ownerId"))
-    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, elements_by_tagname(LightXML.find_element(pd, "groupSet"), "item"))
-    o.instancesSet = AWS.@parse_vector(AWS.EC2.RunningInstancesItemType, elements_by_tagname(LightXML.find_element(pd, "instancesSet"), "item"))
-    ## MDP TODO o.requesterId = LightXML.content(LightXML.find_element(pd, "requesterId"))
-    o
-end
-
-export RunInstancesResponseType
-
-
-type RevokeSecurityGroupEgressType
-    groupId::Union{String, Void}
-    ipPermissions::Union{Vector{IpPermissionType}, Void}
-
-    RevokeSecurityGroupEgressType(; groupId=nothing, ipPermissions=nothing) =
-         new(groupId, ipPermissions)
-end
-function RevokeSecurityGroupEgressType(pd)
-    o = RevokeSecurityGroupEgressType()
-    o.groupId = LightXML.content(LightXML.find_element(pd, "groupId"))
-    o.ipPermissions = AWS.@parse_vector(AWS.EC2.IpPermissionType, elements_by_tagname(LightXML.find_element(pd, "ipPermissions"), "item"))
-    o
-end
-
-export RevokeSecurityGroupEgressType
-
-
-type DescribeNetworkAclsResponseType
-    requestId::Union{String, Void}
-    networkAclSet::Union{Vector{NetworkAclType}, Void}
-
-    DescribeNetworkAclsResponseType(; requestId=nothing, networkAclSet=nothing) =
-         new(requestId, networkAclSet)
-end
-function DescribeNetworkAclsResponseType(pd)
-    o = DescribeNetworkAclsResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.networkAclSet = AWS.@parse_vector(AWS.EC2.NetworkAclType, elements_by_tagname(LightXML.find_element(pd, "networkAclSet"), "item"))
-    o
-end
-
-export DescribeNetworkAclsResponseType
-
-
-type DescribeNetworkInterfacesResponseType
-    requestId::Union{String, Void}
-    networkInterfaceSet::Union{Vector{NetworkInterfaceType}, Void}
-
-    DescribeNetworkInterfacesResponseType(; requestId=nothing, networkInterfaceSet=nothing) =
-         new(requestId, networkInterfaceSet)
-end
-function DescribeNetworkInterfacesResponseType(pd)
-    o = DescribeNetworkInterfacesResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.NetworkInterfaceType, elements_by_tagname(LightXML.find_element(pd, "networkInterfaceSet"), "item"))
-    o
-end
-
-export DescribeNetworkInterfacesResponseType
-
-
-type DescribeReservedInstancesOfferingsResponseType
-    requestId::Union{String, Void}
-    reservedInstancesOfferingsSet::Union{Vector{DescribeReservedInstancesOfferingsResponseSetItemType}, Void}
-    nextToken::Union{String, Void}
-
-    DescribeReservedInstancesOfferingsResponseType(; requestId=nothing, reservedInstancesOfferingsSet=nothing, nextToken=nothing) =
-         new(requestId, reservedInstancesOfferingsSet, nextToken)
-end
-function DescribeReservedInstancesOfferingsResponseType(pd)
-    o = DescribeReservedInstancesOfferingsResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.reservedInstancesOfferingsSet = AWS.@parse_vector(AWS.EC2.DescribeReservedInstancesOfferingsResponseSetItemType, elements_by_tagname(LightXML.find_element(pd, "reservedInstancesOfferingsSet"), "item"))
-    o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
-    o
-end
-
-export DescribeReservedInstancesOfferingsResponseType
-
-
-type SpotInstanceRequestSetItemType
-    spotInstanceRequestId::Union{String, Void}
-    spotPrice::Union{String, Void}
-    _type::Union{String, Void}
-    state::Union{String, Void}
-    fault::Union{SpotInstanceStateFaultType, Void}
-    status::Union{SpotInstanceStatusMessageType, Void}
-    validFrom::Union{Base.Dates.DateTime, Void}
-    validUntil::Union{Base.Dates.DateTime, Void}
-    launchGroup::Union{String, Void}
-    availabilityZoneGroup::Union{String, Void}
-    launchSpecification::Union{LaunchSpecificationResponseType, Void}
-    instanceId::Union{String, Void}
-    createTime::Union{Base.Dates.DateTime, Void}
-    productDescription::Union{String, Void}
-    tagSet::Union{Vector{ResourceTagSetItemType}, Void}
-    launchedAvailabilityZone::Union{String, Void}
-
-    SpotInstanceRequestSetItemType(; spotInstanceRequestId=nothing, spotPrice=nothing, _type=nothing, state=nothing, fault=nothing, status=nothing, validFrom=nothing, validUntil=nothing, launchGroup=nothing, availabilityZoneGroup=nothing, launchSpecification=nothing, instanceId=nothing, createTime=nothing, productDescription=nothing, tagSet=nothing, launchedAvailabilityZone=nothing) =
-         new(spotInstanceRequestId, spotPrice, _type, state, fault, status, validFrom, validUntil, launchGroup, availabilityZoneGroup, launchSpecification, instanceId, createTime, productDescription, tagSet, launchedAvailabilityZone)
-end
-function SpotInstanceRequestSetItemType(pd)
-    o = SpotInstanceRequestSetItemType()
-    o.spotInstanceRequestId = LightXML.content(LightXML.find_element(pd, "spotInstanceRequestId"))
-    o.spotPrice = LightXML.content(LightXML.find_element(pd, "spotPrice"))
-    o._type = LightXML.content(LightXML.find_element(pd, "type"))
-    o.state = LightXML.content(LightXML.find_element(pd, "state"))
-    ## o.fault = length(pd["fault"]) > 0 ?  SpotInstanceStateFaultType(LightXML.find_element(pd,"fault[1]")) : nothing
-    o.fault = LightXML.find_element(pd,"fault") != nothing ? SpotInstanceStateFaultType(LightXML.find_element(pd,"fault")) : nothing
-    o.status = LightXML.find_element(pd,"status") != nothing ? SpotInstanceStatusMessageType(LightXML.find_element(pd,"status")) : nothing
-    o.validFrom = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "validFrom")))
-    o.validUntil = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "validUntil")))
-    o.launchGroup = LightXML.content(LightXML.find_element(pd, "launchGroup"))
-    o.availabilityZoneGroup = LightXML.content(LightXML.find_element(pd, "availabilityZoneGroup"))
-    ## o.launchSpecification = length(pd["launchSpecification"]) > 0 ?  LaunchSpecificationResponseType(LightXML.find_element(pd,"launchSpecification[1]")) : nothing
-    o.launchSpecification = LightXML.find_element(pd,"launchSpecification") != nothing ? LaunchSpecificationResponseType(LightXML.find_element(pd,"launchSpecification")) : nothing
-    o.instanceId = LightXML.content(LightXML.find_element(pd, "instanceId"))
-    o.createTime = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "createTime")))
-    o.productDescription = LightXML.content(LightXML.find_element(pd, "productDescription"))
-    o.tagSet = AWS.@parse_vector(AWS.EC2.ResourceTagSetItemType, elements_by_tagname(LightXML.find_element(pd, "tagSet"), "item"))
-    o.launchedAvailabilityZone = LightXML.content(LightXML.find_element(pd, "launchedAvailabilityZone"))
-    o
-end
-
-export SpotInstanceRequestSetItemType
-
-
-type ImportInstanceResponseType
-    requestId::Union{String, Void}
-    conversionTask::Union{ConversionTaskType, Void}
-
-    ImportInstanceResponseType(; requestId=nothing, conversionTask=nothing) =
-         new(requestId, conversionTask)
-end
-function ImportInstanceResponseType(pd)
-    o = ImportInstanceResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    ## o.conversionTask = length(pd["conversionTask"]) > 0 ?  ConversionTaskType(LightXML.find_element(pd,"conversionTask[1]")) : nothing
-    o.conversionTask = LightXML.find_element(pd,"conversionTask") != nothing ? ConversionTaskType(LightXML.find_element(pd,"conversionTask")) : nothing
-    o
-end
-
-export ImportInstanceResponseType
-
-
-type VolumeStatusItemType
-    volumeId::Union{String, Void}
-    availabilityZone::Union{String, Void}
-    volumeStatus::Union{VolumeStatusInfoType, Void}
-    eventsSet::Union{Vector{VolumeStatusEventItemType}, Void}
-    actionsSet::Union{Vector{VolumeStatusActionItemType}, Void}
-
-    VolumeStatusItemType(; volumeId=nothing, availabilityZone=nothing, volumeStatus=nothing, eventsSet=nothing, actionsSet=nothing) =
-         new(volumeId, availabilityZone, volumeStatus, eventsSet, actionsSet)
-end
-function VolumeStatusItemType(pd)
-    o = VolumeStatusItemType()
-    o.volumeId = LightXML.content(LightXML.find_element(pd, "volumeId"))
-    o.availabilityZone = LightXML.content(LightXML.find_element(pd, "availabilityZone"))
-    ## o.volumeStatus = length(pd["volumeStatus"]) > 0 ?  VolumeStatusInfoType(LightXML.find_element(pd,"volumeStatus[1]")) : nothing
-    o.volumeStatus = LightXML.find_element(pd,"volumeStatus") != nothing ? VolumeStatusInfoType(LightXML.find_element(pd,"volumeStatus")) : nothing
-    o.eventsSet = AWS.@parse_vector(AWS.EC2.VolumeStatusEventItemType, elements_by_tagname(LightXML.find_element(pd, "eventsSet"), "item"))
-    o.actionsSet = AWS.@parse_vector(AWS.EC2.VolumeStatusActionItemType, elements_by_tagname(LightXML.find_element(pd, "actionsSet"), "item"))
-    o
-end
-
-export VolumeStatusItemType
-
-
-type DescribeSpotInstanceRequestsResponseType
-    requestId::Union{String, Void}
-    spotInstanceRequestSet::Union{Vector{SpotInstanceRequestSetItemType}, Void}
-
-    DescribeSpotInstanceRequestsResponseType(; requestId=nothing, spotInstanceRequestSet=nothing) =
-         new(requestId, spotInstanceRequestSet)
-end
-function DescribeSpotInstanceRequestsResponseType(pd)
-    o = DescribeSpotInstanceRequestsResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.spotInstanceRequestSet = AWS.@parse_vector(AWS.EC2.SpotInstanceRequestSetItemType, elements_by_tagname(LightXML.find_element(pd, "spotInstanceRequestSet"), "item"))
-    o
-end
-
-export DescribeSpotInstanceRequestsResponseType
-
-
-type DescribeCustomerGatewaysResponseType
-    requestId::Union{String, Void}
-    customerGatewaySet::Union{Vector{CustomerGatewayType}, Void}
-
-    DescribeCustomerGatewaysResponseType(; requestId=nothing, customerGatewaySet=nothing) =
-         new(requestId, customerGatewaySet)
-end
-function DescribeCustomerGatewaysResponseType(pd)
-    o = DescribeCustomerGatewaysResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.customerGatewaySet = AWS.@parse_vector(AWS.EC2.CustomerGatewayType, elements_by_tagname(LightXML.find_element(pd, "customerGatewaySet"), "item"))
-    o
-end
-
-export DescribeCustomerGatewaysResponseType
-
-
-type DescribeVolumeStatusResponseType
-    requestId::Union{String, Void}
-    volumeStatusSet::Union{Vector{VolumeStatusItemType}, Void}
-    nextToken::Union{String, Void}
-
-    DescribeVolumeStatusResponseType(; requestId=nothing, volumeStatusSet=nothing, nextToken=nothing) =
-         new(requestId, volumeStatusSet, nextToken)
-end
-function DescribeVolumeStatusResponseType(pd)
-    o = DescribeVolumeStatusResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.volumeStatusSet = AWS.@parse_vector(AWS.EC2.VolumeStatusItemType, elements_by_tagname(LightXML.find_element(pd, "volumeStatusSet"), "item"))
-    o.nextToken = LightXML.content(LightXML.find_element(pd, "nextToken"))
-    o
-end
-
-export DescribeVolumeStatusResponseType
-
-
-type DescribeVpnGatewaysResponseType
-    requestId::Union{String, Void}
-    vpnGatewaySet::Union{Vector{VpnGatewayType}, Void}
-
-    DescribeVpnGatewaysResponseType(; requestId=nothing, vpnGatewaySet=nothing) =
-         new(requestId, vpnGatewaySet)
-end
-function DescribeVpnGatewaysResponseType(pd)
-    o = DescribeVpnGatewaysResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.vpnGatewaySet = AWS.@parse_vector(AWS.EC2.VpnGatewayType, elements_by_tagname(LightXML.find_element(pd, "vpnGatewaySet"), "item"))
-    o
-end
-
-export DescribeVpnGatewaysResponseType
-
-
-type LaunchSpecificationRequestType
-    imageId::Union{String, Void}
-    keyName::Union{String, Void}
-    securityGroupIdSet::Union{Vector{String}, Void}
-    securityGroupSet::Union{Vector{String}, Void}
-    userData::Union{UserDataType, Void}
-    addressingType::Union{String, Void}
-    instanceType::Union{String, Void}
-    placement::Union{SpotPlacementRequestType, Void}
-    kernelId::Union{String, Void}
-    ramdiskId::Union{String, Void}
-    blockDeviceMapping::Union{Vector{BlockDeviceMappingItemType}, Void}
-    monitoring::Union{MonitoringInstanceType, Void}
-    subnetId::Union{String, Void}
-    networkInterfaceSet::Union{Vector{InstanceNetworkInterfaceSetItemRequestType}, Void}
-    iamInstanceProfile::Union{IamInstanceProfileRequestType, Void}
-    ebsOptimized::Union{Bool, Void}
-
-    LaunchSpecificationRequestType(; imageId=nothing, keyName=nothing, securityGroupIdSet=nothing, securityGroupSet=nothing, userData=nothing, addressingType=nothing, instanceType=nothing, placement=nothing, kernelId=nothing, ramdiskId=nothing, blockDeviceMapping=nothing, monitoring=nothing, subnetId=nothing, networkInterfaceSet=nothing, iamInstanceProfile=nothing, ebsOptimized=nothing) =
-         new(imageId, keyName, securityGroupIdSet, securityGroupSet, userData, addressingType, instanceType, placement, kernelId, ramdiskId, blockDeviceMapping, monitoring, subnetId, networkInterfaceSet, iamInstanceProfile, ebsOptimized)
-end
-function LaunchSpecificationRequestType(pd)
-    o = LaunchSpecificationRequestType()
-    o.imageId = LightXML.content(LightXML.find_element(pd, "imageId"))
-    o.keyName = LightXML.content(LightXML.find_element(pd, "keyName"))
-    o.securityGroupIdSet = AWS.parse_vector_as(String, "securityGroupId", elements_by_tagname(LightXML.find_element(pd, "item"), "securityGroupId"))
-    o.securityGroupSet = AWS.parse_vector_as(String, "securityGroup", elements_by_tagname(LightXML.find_element(pd, "item"), "securityGroup"))
-    ## o.userData = length(pd["userData"]) > 0 ?  UserDataType(LightXML.find_element(pd,"userData[1]")) : nothing
-    o.userData = LightXML.find_element(pd,"userData") != nothing ? UserDataType(LightXML.find_element(pd,"userData")) : nothing
-    o.addressingType = LightXML.content(LightXML.find_element(pd, "addressingType"))
-    o.instanceType = LightXML.content(LightXML.find_element(pd, "instanceType"))
-    ## o.placement = length(pd["placement"]) > 0 ?  SpotPlacementRequestType(LightXML.find_element(pd,"placement[1]")) : nothing
-    o.placement = LightXML.find_element(pd,"placement") != nothing ? SpotPlacementRequestType(LightXML.find_element(pd,"placement")) : nothing
-    o.kernelId = LightXML.content(LightXML.find_element(pd, "kernelId"))
-    o.ramdiskId = LightXML.content(LightXML.find_element(pd, "ramdiskId"))
-    o.blockDeviceMapping = AWS.@parse_vector(AWS.EC2.BlockDeviceMappingItemType, elements_by_tagname(LightXML.find_element(pd, "blockDeviceMapping"), "item"))
-    ## o.monitoring = length(pd["monitoring"]) > 0 ?  MonitoringInstanceType(LightXML.find_element(pd,"monitoring[1]")) : nothing
-    o.monitoring = LightXML.find_element(pd,"monitoring") != nothing ? MonitoringInstanceType(LightXML.find_element(pd,"monitoring")) : nothing
-    o.subnetId = LightXML.content(LightXML.find_element(pd, "subnetId"))
-    o.networkInterfaceSet = AWS.@parse_vector(AWS.EC2.InstanceNetworkInterfaceSetItemRequestType, elements_by_tagname(LightXML.find_element(pd, "networkInterfaceSet"), "item"))
-    ## o.iamInstanceProfile = length(pd["iamInstanceProfile"]) > 0 ?  IamInstanceProfileRequestType(LightXML.find_element(pd,"iamInstanceProfile[1]")) : nothing
-    o.iamInstanceProfile = LightXML.find_element(pd,"iamInstanceProfile") != nothing ? IamInstanceProfileRequestType(LightXML.find_element(pd,"iamInstanceProfile")) : nothing
-    o.ebsOptimized = AWS.safe_parse_as(Bool, LightXML.content(LightXML.find_element(pd, "ebsOptimized")))
-    o
-end
-
-export LaunchSpecificationRequestType
-
-
-type ReservationInfoType
-    reservationId::Union{String, Void}
-    ownerId::Union{String, Void}
-    groupSet::Union{Vector{GroupItemType}, Void}
-    instancesSet::Union{Vector{RunningInstancesItemType}, Void}
-    requesterId::Union{String, Void}
-
-    ReservationInfoType(; reservationId=nothing, ownerId=nothing, groupSet=nothing, instancesSet=nothing, requesterId=nothing) =
-         new(reservationId, ownerId, groupSet, instancesSet, requesterId)
-end
-function ReservationInfoType(pd)
-    o = ReservationInfoType()
-    o.reservationId = LightXML.content(LightXML.find_element(pd, "reservationId"))
-    o.ownerId = LightXML.content(LightXML.find_element(pd, "ownerId"))
-    o.groupSet = AWS.@parse_vector(AWS.EC2.GroupItemType, elements_by_tagname(LightXML.find_element(pd, "groupSet"), "item"))
-    o.instancesSet = AWS.@parse_vector(AWS.EC2.RunningInstancesItemType, elements_by_tagname(LightXML.find_element(pd, "instancesSet"), "item"))
-    ## MDP TODO o.requesterId = LightXML.content(LightXML.find_element(pd, "requesterId"))
-    o.requesterId = LightXML.content(LightXML.find_element(pd, "ownerId"))
-    o
-end
-
-export ReservationInfoType
-
-
-type DescribeBundleTasksResponseType
-    requestId::Union{String, Void}
-    bundleInstanceTasksSet::Union{Vector{BundleInstanceTaskType}, Void}
-
-    DescribeBundleTasksResponseType(; requestId=nothing, bundleInstanceTasksSet=nothing) =
-         new(requestId, bundleInstanceTasksSet)
-end
-function DescribeBundleTasksResponseType(pd)
-    o = DescribeBundleTasksResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.bundleInstanceTasksSet = AWS.@parse_vector(AWS.EC2.BundleInstanceTaskType, elements_by_tagname(LightXML.find_element(pd, "bundleInstanceTasksSet"), "item"))
-    o
-end
-
-export DescribeBundleTasksResponseType
-
-
-type CreateRouteTableResponseType
-    requestId::Union{String, Void}
-    routeTable::Union{RouteTableType, Void}
-
-    CreateRouteTableResponseType(; requestId=nothing, routeTable=nothing) =
-         new(requestId, routeTable)
-end
-function CreateRouteTableResponseType(pd)
-    o = CreateRouteTableResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    ## o.routeTable = length(pd["routeTable"]) > 0 ?  RouteTableType(LightXML.find_element(pd,"routeTable[1]")) : nothing
-    o.routeTable = LightXML.find_element(pd,"routeTable") != nothing ? RouteTableType(LightXML.find_element(pd,"routeTable")) : nothing
-    o
-end
-
-export CreateRouteTableResponseType
-
-
-type RequestSpotInstancesResponseType
-    requestId::Union{String, Void}
-    spotInstanceRequestSet::Union{Vector{SpotInstanceRequestSetItemType}, Void}
-
-    RequestSpotInstancesResponseType(; requestId=nothing, spotInstanceRequestSet=nothing) =
-         new(requestId, spotInstanceRequestSet)
-end
-function RequestSpotInstancesResponseType(pd)
-    o = RequestSpotInstancesResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.spotInstanceRequestSet = AWS.@parse_vector(AWS.EC2.SpotInstanceRequestSetItemType, elements_by_tagname(LightXML.find_element(pd, "spotInstanceRequestSet"), "item"))
-    o
-end
-
-export RequestSpotInstancesResponseType
-
-
-type DescribeSubnetsResponseType
-    requestId::Union{String, Void}
-    subnetSet::Union{Vector{SubnetType}, Void}
-
-    DescribeSubnetsResponseType(; requestId=nothing, subnetSet=nothing) =
-         new(requestId, subnetSet)
-end
-function DescribeSubnetsResponseType(pd)
-    o = DescribeSubnetsResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.subnetSet = AWS.@parse_vector(AWS.EC2.SubnetType, elements_by_tagname(LightXML.find_element(pd, "subnetSet"), "item"))
-    o
-end
-
-export DescribeSubnetsResponseType
-
-
-type RequestSpotInstancesType
-    spotPrice::Union{String, Void}
-    instanceCount::Union{Int64, Void}
-    _type::Union{String, Void}
-    validFrom::Union{Base.Dates.DateTime, Void}
-    validUntil::Union{Base.Dates.DateTime, Void}
-    launchGroup::Union{String, Void}
-    availabilityZoneGroup::Union{String, Void}
-    launchSpecification::Union{LaunchSpecificationRequestType, Void}
-
-    RequestSpotInstancesType(; spotPrice=nothing, instanceCount=nothing, _type=nothing, validFrom=nothing, validUntil=nothing, launchGroup=nothing, availabilityZoneGroup=nothing, launchSpecification=nothing) =
-         new(spotPrice, instanceCount, _type, validFrom, validUntil, launchGroup, availabilityZoneGroup, launchSpecification)
-end
-function RequestSpotInstancesType(pd)
-    o = RequestSpotInstancesType()
-    o.spotPrice = LightXML.content(LightXML.find_element(pd, "spotPrice"))
-    o.instanceCount = AWS.safe_parse_as(Int64, LightXML.content(LightXML.find_element(pd, "instanceCount")))
-    o._type = LightXML.content(LightXML.find_element(pd, "type"))
-    o.validFrom = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "validFrom")))
-    o.validUntil = AWS.safe_parse_as(Base.Dates.DateTime, LightXML.content(LightXML.find_element(pd, "validUntil")))
-    o.launchGroup = LightXML.content(LightXML.find_element(pd, "launchGroup"))
-    o.availabilityZoneGroup = LightXML.content(LightXML.find_element(pd, "availabilityZoneGroup"))
-    ## o.launchSpecification = length(pd["launchSpecification"]) > 0 ?  LaunchSpecificationRequestType(LightXML.find_element(pd,"launchSpecification[1]")) : nothing
-    o.launchSpecification = LightXML.find_element(pd,"launchSpecification") != nothing ? LaunchSpecificationRequestType(LightXML.find_element(pd,"launchSpecification")) : nothing
-    o
-end
-
-export RequestSpotInstancesType
-
-
-type BundleInstanceResponseType
-    requestId::Union{String, Void}
-    bundleInstanceTask::Union{BundleInstanceTaskType, Void}
-
-    BundleInstanceResponseType(; requestId=nothing, bundleInstanceTask=nothing) =
-         new(requestId, bundleInstanceTask)
-end
-function BundleInstanceResponseType(pd)
-    o = BundleInstanceResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    ## o.bundleInstanceTask = length(pd["bundleInstanceTask"]) > 0 ?  BundleInstanceTaskType(LightXML.find_element(pd,"bundleInstanceTask[1]")) : nothing
-    o.bundleInstanceTask = LightXML.find_element(pd,"bundleInstanceTask") != nothing ? BundleInstanceTaskType(LightXML.find_element(pd,"bundleInstanceTask")) : nothing
-    o
-end
-
-export BundleInstanceResponseType
-
-
-type DescribeInstancesResponseType
-    requestId::Union{String, Void}
-    reservationSet::Union{Vector{ReservationInfoType}, Void}
-
-    DescribeInstancesResponseType(; requestId=nothing, reservationSet=nothing) =
-         new(requestId, reservationSet)
-end
-function DescribeInstancesResponseType(pd)
-    o = DescribeInstancesResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.reservationSet = LightXML.find_element(pd, "reservationSet") != nothing ? AWS.@parse_vector(AWS.EC2.ReservationInfoType, elements_by_tagname(LightXML.find_element(pd, "reservationSet"), "item")) : nothing
-    o
-end
-
-export DescribeInstancesResponseType
-
-
-type DescribeSecurityGroupsResponseType
-    requestId::Union{String, Void}
-    securityGroupInfo::Union{Vector{SecurityGroupItemType}, Void}
-
-    DescribeSecurityGroupsResponseType(; requestId=nothing, securityGroupInfo=nothing) =
-         new(requestId, securityGroupInfo)
-end
-function DescribeSecurityGroupsResponseType(pd)
-    o = DescribeSecurityGroupsResponseType()
-    o.requestId = LightXML.content(LightXML.find_element(pd, "requestId"))
-    o.securityGroupInfo = AWS.@parse_vector(AWS.EC2.SecurityGroupItemType, elements_by_tagname(LightXML.find_element(pd, "securityGroupInfo"), "item"))
-    o
-end
-
-export DescribeSecurityGroupsResponseType
-
-
+# generated from EC2TypeDict via AWS/src/codegen.jl
+# do not edit, edit specification file and regenerate instead
+
+type AccountAttributeValue <: AbstractAWSType
+    attributeValue::Union{Void,String}
+    function AccountAttributeValue(;attributeValue=nothing)
+        new(attributeValue)
+    end
+    AccountAttributeValue(pd) = parse_from_xml(AccountAttributeValue, EC2TypeDict, pd)
+end # AccountAttributeValue
+export AccountAttributeValue
+
+type AccountAttribute <: AbstractAWSType
+    attributeName::Union{Void,String}
+    attributeValueSet::Union{Void,Array{AccountAttributeValue,1}}
+    function AccountAttribute(;attributeName=nothing, attributeValueSet=nothing)
+        new(attributeName, attributeValueSet)
+    end
+    AccountAttribute(pd) = parse_from_xml(AccountAttribute, EC2TypeDict, pd)
+end # AccountAttribute
+export AccountAttribute
+
+type ActiveInstance <: AbstractAWSType
+    instanceHealth::Union{Void,String}
+    instanceId::Union{Void,String}
+    instanceType::Union{Void,String}
+    spotInstanceRequestId::Union{Void,String}
+    function ActiveInstance(;instanceHealth=nothing, instanceId=nothing, instanceType=nothing, spotInstanceRequestId=nothing)
+        new(instanceHealth, instanceId, instanceType, spotInstanceRequestId)
+    end
+    ActiveInstance(pd) = parse_from_xml(ActiveInstance, EC2TypeDict, pd)
+end # ActiveInstance
+export ActiveInstance
+
+type Address <: AbstractAWSType
+    allocationId::Union{Void,String}
+    associationId::Union{Void,String}
+    domain::Union{Void,String}
+    instanceId::Union{Void,String}
+    networkInterfaceId::Union{Void,String}
+    networkInterfaceOwnerId::Union{Void,String}
+    privateIpAddress::Union{Void,String}
+    publicIp::Union{Void,String}
+    function Address(;allocationId=nothing, associationId=nothing, domain=nothing, instanceId=nothing, networkInterfaceId=nothing, networkInterfaceOwnerId=nothing, privateIpAddress=nothing, publicIp=nothing)
+        new(allocationId, associationId, domain, instanceId, networkInterfaceId, networkInterfaceOwnerId, privateIpAddress, publicIp)
+    end
+    Address(pd) = parse_from_xml(Address, EC2TypeDict, pd)
+end # Address
+export Address
+
+type AttributeBooleanValue <: AbstractAWSType
+    value::Union{Void,Bool}
+    function AttributeBooleanValue(;value=nothing)
+        new(value)
+    end
+    AttributeBooleanValue(pd) = parse_from_xml(AttributeBooleanValue, EC2TypeDict, pd)
+end # AttributeBooleanValue
+export AttributeBooleanValue
+
+type AttributeValue <: AbstractAWSType
+    value::Union{Void,String}
+    function AttributeValue(;value=nothing)
+        new(value)
+    end
+    AttributeValue(pd) = parse_from_xml(AttributeValue, EC2TypeDict, pd)
+end # AttributeValue
+export AttributeValue
+
+type AvailabilityZoneMessage <: AbstractAWSType
+    message::Union{Void,String}
+    function AvailabilityZoneMessage(;message=nothing)
+        new(message)
+    end
+    AvailabilityZoneMessage(pd) = parse_from_xml(AvailabilityZoneMessage, EC2TypeDict, pd)
+end # AvailabilityZoneMessage
+export AvailabilityZoneMessage
+
+type AvailabilityZone <: AbstractAWSType
+    messageSet::Union{Void,Array{AvailabilityZoneMessage,1}}
+    regionName::Union{Void,String}
+    zoneName::Union{Void,String}
+    zoneState::Union{Void,String}
+    function AvailabilityZone(;messageSet=nothing, regionName=nothing, zoneName=nothing, zoneState=nothing)
+        new(messageSet, regionName, zoneName, zoneState)
+    end
+    AvailabilityZone(pd) = parse_from_xml(AvailabilityZone, EC2TypeDict, pd)
+end # AvailabilityZone
+export AvailabilityZone
+
+type InstanceCapacity <: AbstractAWSType
+    availableCapacity::Union{Void,Int64}
+    instanceType::Union{Void,String}
+    totalCapacity::Union{Void,Int64}
+    function InstanceCapacity(;availableCapacity=nothing, instanceType=nothing, totalCapacity=nothing)
+        new(availableCapacity, instanceType, totalCapacity)
+    end
+    InstanceCapacity(pd) = parse_from_xml(InstanceCapacity, EC2TypeDict, pd)
+end # InstanceCapacity
+export InstanceCapacity
+
+type AvailableCapacity <: AbstractAWSType
+    availableInstanceCapacity::Union{Void,Array{InstanceCapacity,1}}
+    availableVCpus::Union{Void,Int64}
+    function AvailableCapacity(;availableInstanceCapacity=nothing, availableVCpus=nothing)
+        new(availableInstanceCapacity, availableVCpus)
+    end
+    AvailableCapacity(pd) = parse_from_xml(AvailableCapacity, EC2TypeDict, pd)
+end # AvailableCapacity
+export AvailableCapacity
+
+type BlobAttributeValue <: AbstractAWSType
+    value::Union{Void,Array{UInt8,1}}
+    function BlobAttributeValue(;value=nothing)
+        new(value)
+    end
+    BlobAttributeValue(pd) = parse_from_xml(BlobAttributeValue, EC2TypeDict, pd)
+end # BlobAttributeValue
+export BlobAttributeValue
+
+type Tag <: AbstractAWSType
+    key::Union{Void,String}
+    value::Union{Void,String}
+    function Tag(;key=nothing, value=nothing)
+        new(key, value)
+    end
+    Tag(pd) = parse_from_xml(Tag, EC2TypeDict, pd)
+end # Tag
+export Tag
+
+type TagDescription <: AbstractAWSType
+    key::Union{Void,String}
+    resourceId::Union{Void,String}
+    resourceType::Union{Void,String}
+    value::Union{Void,String}
+    function TagDescription(;key=nothing, resourceId=nothing, resourceType=nothing, value=nothing)
+        new(key, resourceId, resourceType, value)
+    end
+    TagDescription(pd) = parse_from_xml(TagDescription, EC2TypeDict, pd)
+end # TagDescription
+export TagDescription
+
+type TagSpecification <: AbstractAWSType
+    resourceType::Union{Void,String}
+    tags::Union{Void,Array{Tag,1}}
+    function TagSpecification(;resourceType=nothing, tags=nothing)
+        new(resourceType, tags)
+    end
+    TagSpecification(pd) = parse_from_xml(TagSpecification, EC2TypeDict, pd)
+end # TagSpecification
+export TagSpecification
+
+type UnsuccessfulItemError <: AbstractAWSType
+    code::Union{Void,String}
+    message::Union{Void,String}
+    function UnsuccessfulItemError(;code=nothing, message=nothing)
+        new(code, message)
+    end
+    UnsuccessfulItemError(pd) = parse_from_xml(UnsuccessfulItemError, EC2TypeDict, pd)
+end # UnsuccessfulItemError
+export UnsuccessfulItemError
+
+type UnsuccessfulItem <: AbstractAWSType
+    error::Union{Void,UnsuccessfulItemError}
+    resourceId::Union{Void,String}
+    function UnsuccessfulItem(;error=nothing, resourceId=nothing)
+        new(error, resourceId)
+    end
+    UnsuccessfulItem(pd) = parse_from_xml(UnsuccessfulItem, EC2TypeDict, pd)
+end # UnsuccessfulItem
+export UnsuccessfulItem
+
+type UserBucket <: AbstractAWSType
+    s3Bucket::Union{Void,String}
+    s3Key::Union{Void,String}
+    function UserBucket(;s3Bucket=nothing, s3Key=nothing)
+        new(s3Bucket, s3Key)
+    end
+    UserBucket(pd) = parse_from_xml(UserBucket, EC2TypeDict, pd)
+end # UserBucket
+export UserBucket
+
+type UserBucketDetails <: AbstractAWSType
+    s3Bucket::Union{Void,String}
+    s3Key::Union{Void,String}
+    function UserBucketDetails(;s3Bucket=nothing, s3Key=nothing)
+        new(s3Bucket, s3Key)
+    end
+    UserBucketDetails(pd) = parse_from_xml(UserBucketDetails, EC2TypeDict, pd)
+end # UserBucketDetails
+export UserBucketDetails
+
+type UserData <: AbstractAWSType
+    data::Union{Void,String}
+    function UserData(;data=nothing)
+        new(data)
+    end
+    UserData(pd) = parse_from_xml(UserData, EC2TypeDict, pd)
+end # UserData
+export UserData
+
+type UserIdGroupPair <: AbstractAWSType
+    groupId::Union{Void,String}
+    groupName::Union{Void,String}
+    peeringStatus::Union{Void,String}
+    userId::Union{Void,String}
+    vpcId::Union{Void,String}
+    vpcPeeringConnectionId::Union{Void,String}
+    function UserIdGroupPair(;groupId=nothing, groupName=nothing, peeringStatus=nothing, userId=nothing, vpcId=nothing, vpcPeeringConnectionId=nothing)
+        new(groupId, groupName, peeringStatus, userId, vpcId, vpcPeeringConnectionId)
+    end
+    UserIdGroupPair(pd) = parse_from_xml(UserIdGroupPair, EC2TypeDict, pd)
+end # UserIdGroupPair
+export UserIdGroupPair
+
+type VgwTelemetry <: AbstractAWSType
+    acceptedRouteCount::Union{Void,Int64}
+    lastStatusChange::Union{Void,DateTime}
+    outsideIpAddress::Union{Void,String}
+    status::Union{Void,String}
+    statusMessage::Union{Void,String}
+    function VgwTelemetry(;acceptedRouteCount=nothing, lastStatusChange=nothing, outsideIpAddress=nothing, status=nothing, statusMessage=nothing)
+        new(acceptedRouteCount, lastStatusChange, outsideIpAddress, status, statusMessage)
+    end
+    VgwTelemetry(pd) = parse_from_xml(VgwTelemetry, EC2TypeDict, pd)
+end # VgwTelemetry
+export VgwTelemetry
+
+type VolumeAttachment <: AbstractAWSType
+    attachTime::Union{Void,DateTime}
+    deleteOnTermination::Union{Void,Bool}
+    device::Union{Void,String}
+    instanceId::Union{Void,String}
+    status::Union{Void,String}
+    volumeId::Union{Void,String}
+    function VolumeAttachment(;attachTime=nothing, deleteOnTermination=nothing, device=nothing, instanceId=nothing, status=nothing, volumeId=nothing)
+        new(attachTime, deleteOnTermination, device, instanceId, status, volumeId)
+    end
+    VolumeAttachment(pd) = parse_from_xml(VolumeAttachment, EC2TypeDict, pd)
+end # VolumeAttachment
+export VolumeAttachment
+
+type VolumeDetail <: AbstractAWSType
+    size::Union{Void,Int64}
+    function VolumeDetail(;size=nothing)
+        new(size)
+    end
+    VolumeDetail(pd) = parse_from_xml(VolumeDetail, EC2TypeDict, pd)
+end # VolumeDetail
+export VolumeDetail
+
+type VolumeModification <: AbstractAWSType
+    endTime::Union{Void,DateTime}
+    modificationState::Union{Void,String}
+    originalIops::Union{Void,Int64}
+    originalSize::Union{Void,Int64}
+    originalVolumeType::Union{Void,String}
+    progress::Union{Void,Int64}
+    startTime::Union{Void,DateTime}
+    statusMessage::Union{Void,String}
+    targetIops::Union{Void,Int64}
+    targetSize::Union{Void,Int64}
+    targetVolumeType::Union{Void,String}
+    volumeId::Union{Void,String}
+    function VolumeModification(;endTime=nothing, modificationState=nothing, originalIops=nothing, originalSize=nothing, originalVolumeType=nothing, progress=nothing, startTime=nothing, statusMessage=nothing, targetIops=nothing, targetSize=nothing, targetVolumeType=nothing, volumeId=nothing)
+        new(endTime, modificationState, originalIops, originalSize, originalVolumeType, progress, startTime, statusMessage, targetIops, targetSize, targetVolumeType, volumeId)
+    end
+    VolumeModification(pd) = parse_from_xml(VolumeModification, EC2TypeDict, pd)
+end # VolumeModification
+export VolumeModification
+
+type VolumeStatusAction <: AbstractAWSType
+    code::Union{Void,String}
+    description::Union{Void,String}
+    eventId::Union{Void,String}
+    eventType::Union{Void,String}
+    function VolumeStatusAction(;code=nothing, description=nothing, eventId=nothing, eventType=nothing)
+        new(code, description, eventId, eventType)
+    end
+    VolumeStatusAction(pd) = parse_from_xml(VolumeStatusAction, EC2TypeDict, pd)
+end # VolumeStatusAction
+export VolumeStatusAction
+
+type VolumeStatusDetails <: AbstractAWSType
+    name::Union{Void,String}
+    status::Union{Void,String}
+    function VolumeStatusDetails(;name=nothing, status=nothing)
+        new(name, status)
+    end
+    VolumeStatusDetails(pd) = parse_from_xml(VolumeStatusDetails, EC2TypeDict, pd)
+end # VolumeStatusDetails
+export VolumeStatusDetails
+
+type VolumeStatusEvent <: AbstractAWSType
+    description::Union{Void,String}
+    eventId::Union{Void,String}
+    eventType::Union{Void,String}
+    notAfter::Union{Void,DateTime}
+    notBefore::Union{Void,DateTime}
+    function VolumeStatusEvent(;description=nothing, eventId=nothing, eventType=nothing, notAfter=nothing, notBefore=nothing)
+        new(description, eventId, eventType, notAfter, notBefore)
+    end
+    VolumeStatusEvent(pd) = parse_from_xml(VolumeStatusEvent, EC2TypeDict, pd)
+end # VolumeStatusEvent
+export VolumeStatusEvent
+
+type VolumeStatusInfo <: AbstractAWSType
+    details::Union{Void,Array{VolumeStatusDetails,1}}
+    status::Union{Void,String}
+    function VolumeStatusInfo(;details=nothing, status=nothing)
+        new(details, status)
+    end
+    VolumeStatusInfo(pd) = parse_from_xml(VolumeStatusInfo, EC2TypeDict, pd)
+end # VolumeStatusInfo
+export VolumeStatusInfo
+
+type VolumeStatusItem <: AbstractAWSType
+    actionsSet::Union{Void,Array{VolumeStatusAction,1}}
+    availabilityZone::Union{Void,String}
+    eventsSet::Union{Void,Array{VolumeStatusEvent,1}}
+    volumeId::Union{Void,String}
+    volumeStatus::Union{Void,VolumeStatusInfo}
+    function VolumeStatusItem(;actionsSet=nothing, availabilityZone=nothing, eventsSet=nothing, volumeId=nothing, volumeStatus=nothing)
+        new(actionsSet, availabilityZone, eventsSet, volumeId, volumeStatus)
+    end
+    VolumeStatusItem(pd) = parse_from_xml(VolumeStatusItem, EC2TypeDict, pd)
+end # VolumeStatusItem
+export VolumeStatusItem
+
+type Volume <: AbstractAWSType
+    attachmentSet::Union{Void,Array{VolumeAttachment,1}}
+    availabilityZone::Union{Void,String}
+    createTime::Union{Void,DateTime}
+    encrypted::Union{Void,Bool}
+    iops::Union{Void,Int64}
+    kmsKeyId::Union{Void,String}
+    size::Union{Void,Int64}
+    snapshotId::Union{Void,String}
+    status::Union{Void,String}
+    tagSet::Union{Void,Array{Tag,1}}
+    volumeId::Union{Void,String}
+    volumeType::Union{Void,String}
+    function Volume(;attachmentSet=nothing, availabilityZone=nothing, createTime=nothing, encrypted=nothing, iops=nothing, kmsKeyId=nothing, size=nothing, snapshotId=nothing, status=nothing, tagSet=nothing, volumeId=nothing, volumeType=nothing)
+        new(attachmentSet, availabilityZone, createTime, encrypted, iops, kmsKeyId, size, snapshotId, status, tagSet, volumeId, volumeType)
+    end
+    Volume(pd) = parse_from_xml(Volume, EC2TypeDict, pd)
+end # Volume
+export Volume
+
+type EbsBlockDevice <: AbstractAWSType
+    deleteOnTermination::Union{Void,Bool}
+    encrypted::Union{Void,Bool}
+    iops::Union{Void,Int64}
+    snapshotId::Union{Void,String}
+    volumeSize::Union{Void,Int64}
+    volumeType::Union{Void,Volume}
+    function EbsBlockDevice(;deleteOnTermination=nothing, encrypted=nothing, iops=nothing, snapshotId=nothing, volumeSize=nothing, volumeType=nothing)
+        new(deleteOnTermination, encrypted, iops, snapshotId, volumeSize, volumeType)
+    end
+    EbsBlockDevice(pd) = parse_from_xml(EbsBlockDevice, EC2TypeDict, pd)
+end # EbsBlockDevice
+export EbsBlockDevice
+
+type BlockDeviceMapping <: AbstractAWSType
+    deviceName::Union{Void,String}
+    ebs::Union{Void,EbsBlockDevice}
+    noDevice::Union{Void,String}
+    virtualName::Union{Void,String}
+    function BlockDeviceMapping(;deviceName=nothing, ebs=nothing, noDevice=nothing, virtualName=nothing)
+        new(deviceName, ebs, noDevice, virtualName)
+    end
+    BlockDeviceMapping(pd) = parse_from_xml(BlockDeviceMapping, EC2TypeDict, pd)
+end # BlockDeviceMapping
+export BlockDeviceMapping
+
+type BundleTaskError <: AbstractAWSType
+    code::Union{Void,String}
+    message::Union{Void,String}
+    function BundleTaskError(;code=nothing, message=nothing)
+        new(code, message)
+    end
+    BundleTaskError(pd) = parse_from_xml(BundleTaskError, EC2TypeDict, pd)
+end # BundleTaskError
+export BundleTaskError
+
+type RunInstancesMonitoringEnabled <: AbstractAWSType
+    enabled::Union{Void,Bool}
+    function RunInstancesMonitoringEnabled(;enabled=nothing)
+        new(enabled)
+    end
+    RunInstancesMonitoringEnabled(pd) = parse_from_xml(RunInstancesMonitoringEnabled, EC2TypeDict, pd)
+end # RunInstancesMonitoringEnabled
+export RunInstancesMonitoringEnabled
+
+type S3Storage <: AbstractAWSType
+    aWSAccessKeyId::Union{Void,String}
+    bucket::Union{Void,String}
+    prefix::Union{Void,String}
+    uploadPolicy::Union{Void,Array{UInt8,1}}
+    uploadPolicySignature::Union{Void,String}
+    function S3Storage(;aWSAccessKeyId=nothing, bucket=nothing, prefix=nothing, uploadPolicy=nothing, uploadPolicySignature=nothing)
+        new(aWSAccessKeyId, bucket, prefix, uploadPolicy, uploadPolicySignature)
+    end
+    S3Storage(pd) = parse_from_xml(S3Storage, EC2TypeDict, pd)
+end # S3Storage
+export S3Storage
+
+type SpotInstanceStateFault <: AbstractAWSType
+    code::Union{Void,String}
+    message::Union{Void,String}
+    function SpotInstanceStateFault(;code=nothing, message=nothing)
+        new(code, message)
+    end
+    SpotInstanceStateFault(pd) = parse_from_xml(SpotInstanceStateFault, EC2TypeDict, pd)
+end # SpotInstanceStateFault
+export SpotInstanceStateFault
+
+type SpotInstanceStatus <: AbstractAWSType
+    code::Union{Void,String}
+    message::Union{Void,String}
+    updateTime::Union{Void,DateTime}
+    function SpotInstanceStatus(;code=nothing, message=nothing, updateTime=nothing)
+        new(code, message, updateTime)
+    end
+    SpotInstanceStatus(pd) = parse_from_xml(SpotInstanceStatus, EC2TypeDict, pd)
+end # SpotInstanceStatus
+export SpotInstanceStatus
+
+type SpotPlacement <: AbstractAWSType
+    availabilityZone::Union{Void,String}
+    groupName::Union{Void,String}
+    tenancy::Union{Void,String}
+    function SpotPlacement(;availabilityZone=nothing, groupName=nothing, tenancy=nothing)
+        new(availabilityZone, groupName, tenancy)
+    end
+    SpotPlacement(pd) = parse_from_xml(SpotPlacement, EC2TypeDict, pd)
+end # SpotPlacement
+export SpotPlacement
+
+type SpotPrice <: AbstractAWSType
+    availabilityZone::Union{Void,String}
+    instanceType::Union{Void,String}
+    productDescription::Union{Void,String}
+    spotPrice::Union{Void,String}
+    timestamp::Union{Void,DateTime}
+    function SpotPrice(;availabilityZone=nothing, instanceType=nothing, productDescription=nothing, spotPrice=nothing, timestamp=nothing)
+        new(availabilityZone, instanceType, productDescription, spotPrice, timestamp)
+    end
+    SpotPrice(pd) = parse_from_xml(SpotPrice, EC2TypeDict, pd)
+end # SpotPrice
+export SpotPrice
+
+type Storage <: AbstractAWSType
+    s3::Union{Void,S3Storage}
+    function Storage(;s3=nothing)
+        new(s3)
+    end
+    Storage(pd) = parse_from_xml(Storage, EC2TypeDict, pd)
+end # Storage
+export Storage
+
+type StorageLocation <: AbstractAWSType
+    bucket::Union{Void,String}
+    key::Union{Void,String}
+    function StorageLocation(;bucket=nothing, key=nothing)
+        new(bucket, key)
+    end
+    StorageLocation(pd) = parse_from_xml(StorageLocation, EC2TypeDict, pd)
+end # StorageLocation
+export StorageLocation
+
+type BundleTask <: AbstractAWSType
+    bundleId::Union{Void,String}
+    error::Union{Void,BundleTaskError}
+    instanceId::Union{Void,String}
+    progress::Union{Void,String}
+    startTime::Union{Void,DateTime}
+    state::Union{Void,String}
+    storage::Union{Void,Storage}
+    updateTime::Union{Void,DateTime}
+    function BundleTask(;bundleId=nothing, error=nothing, instanceId=nothing, progress=nothing, startTime=nothing, state=nothing, storage=nothing, updateTime=nothing)
+        new(bundleId, error, instanceId, progress, startTime, state, storage, updateTime)
+    end
+    BundleTask(pd) = parse_from_xml(BundleTask, EC2TypeDict, pd)
+end # BundleTask
+export BundleTask
+
+type CancelledSpotInstanceRequest <: AbstractAWSType
+    spotInstanceRequestId::Union{Void,String}
+    state::Union{Void,String}
+    function CancelledSpotInstanceRequest(;spotInstanceRequestId=nothing, state=nothing)
+        new(spotInstanceRequestId, state)
+    end
+    CancelledSpotInstanceRequest(pd) = parse_from_xml(CancelledSpotInstanceRequest, EC2TypeDict, pd)
+end # CancelledSpotInstanceRequest
+export CancelledSpotInstanceRequest
+
+type CancelSpotFleetRequestsError <: AbstractAWSType
+    code::Union{Void,String}
+    message::Union{Void,String}
+    function CancelSpotFleetRequestsError(;code=nothing, message=nothing)
+        new(code, message)
+    end
+    CancelSpotFleetRequestsError(pd) = parse_from_xml(CancelSpotFleetRequestsError, EC2TypeDict, pd)
+end # CancelSpotFleetRequestsError
+export CancelSpotFleetRequestsError
+
+type CancelSpotFleetRequestsErrorItem <: AbstractAWSType
+    error::Union{Void,CancelSpotFleetRequestsError}
+    spotFleetRequestId::Union{Void,String}
+    function CancelSpotFleetRequestsErrorItem(;error=nothing, spotFleetRequestId=nothing)
+        new(error, spotFleetRequestId)
+    end
+    CancelSpotFleetRequestsErrorItem(pd) = parse_from_xml(CancelSpotFleetRequestsErrorItem, EC2TypeDict, pd)
+end # CancelSpotFleetRequestsErrorItem
+export CancelSpotFleetRequestsErrorItem
+
+type CancelSpotFleetRequestsSuccessItem <: AbstractAWSType
+    currentSpotFleetRequestState::Union{Void,String}
+    previousSpotFleetRequestState::Union{Void,String}
+    spotFleetRequestId::Union{Void,String}
+    function CancelSpotFleetRequestsSuccessItem(;currentSpotFleetRequestState=nothing, previousSpotFleetRequestState=nothing, spotFleetRequestId=nothing)
+        new(currentSpotFleetRequestState, previousSpotFleetRequestState, spotFleetRequestId)
+    end
+    CancelSpotFleetRequestsSuccessItem(pd) = parse_from_xml(CancelSpotFleetRequestsSuccessItem, EC2TypeDict, pd)
+end # CancelSpotFleetRequestsSuccessItem
+export CancelSpotFleetRequestsSuccessItem
+
+type GroupIdentifier <: AbstractAWSType
+    groupId::Union{Void,String}
+    groupName::Union{Void,String}
+    function GroupIdentifier(;groupId=nothing, groupName=nothing)
+        new(groupId, groupName)
+    end
+    GroupIdentifier(pd) = parse_from_xml(GroupIdentifier, EC2TypeDict, pd)
+end # GroupIdentifier
+export GroupIdentifier
+
+type ClassicLinkDnsSupport <: AbstractAWSType
+    classicLinkDnsSupported::Union{Void,Bool}
+    vpcId::Union{Void,String}
+    function ClassicLinkDnsSupport(;classicLinkDnsSupported=nothing, vpcId=nothing)
+        new(classicLinkDnsSupported, vpcId)
+    end
+    ClassicLinkDnsSupport(pd) = parse_from_xml(ClassicLinkDnsSupport, EC2TypeDict, pd)
+end # ClassicLinkDnsSupport
+export ClassicLinkDnsSupport
+
+type ClassicLinkInstance <: AbstractAWSType
+    groupSet::Union{Void,Array{GroupIdentifier,1}}
+    instanceId::Union{Void,String}
+    tagSet::Union{Void,Array{Tag,1}}
+    vpcId::Union{Void,String}
+    function ClassicLinkInstance(;groupSet=nothing, instanceId=nothing, tagSet=nothing, vpcId=nothing)
+        new(groupSet, instanceId, tagSet, vpcId)
+    end
+    ClassicLinkInstance(pd) = parse_from_xml(ClassicLinkInstance, EC2TypeDict, pd)
+end # ClassicLinkInstance
+export ClassicLinkInstance
+
+type ClientData <: AbstractAWSType
+    comment::Union{Void,String}
+    uploadEnd::Union{Void,DateTime}
+    uploadSize::Union{Void,Float64}
+    uploadStart::Union{Void,DateTime}
+    function ClientData(;comment=nothing, uploadEnd=nothing, uploadSize=nothing, uploadStart=nothing)
+        new(comment, uploadEnd, uploadSize, uploadStart)
+    end
+    ClientData(pd) = parse_from_xml(ClientData, EC2TypeDict, pd)
+end # ClientData
+export ClientData
+
+type DiskImageDetail <: AbstractAWSType
+    bytes::Union{Void,Int64}
+    format::Union{Void,String}
+    importManifestUrl::Union{Void,String}
+    function DiskImageDetail(;bytes=nothing, format=nothing, importManifestUrl=nothing)
+        new(bytes, format, importManifestUrl)
+    end
+    DiskImageDetail(pd) = parse_from_xml(DiskImageDetail, EC2TypeDict, pd)
+end # DiskImageDetail
+export DiskImageDetail
+
+type DiskImage <: AbstractAWSType
+    description::Union{Void,String}
+    image::Union{Void,DiskImageDetail}
+    volume::Union{Void,VolumeDetail}
+    function DiskImage(;description=nothing, image=nothing, volume=nothing)
+        new(description, image, volume)
+    end
+    DiskImage(pd) = parse_from_xml(DiskImage, EC2TypeDict, pd)
+end # DiskImage
+export DiskImage
+
+type DiskImageDescription <: AbstractAWSType
+    checksum::Union{Void,String}
+    format::Union{Void,String}
+    importManifestUrl::Union{Void,String}
+    size::Union{Void,Int64}
+    function DiskImageDescription(;checksum=nothing, format=nothing, importManifestUrl=nothing, size=nothing)
+        new(checksum, format, importManifestUrl, size)
+    end
+    DiskImageDescription(pd) = parse_from_xml(DiskImageDescription, EC2TypeDict, pd)
+end # DiskImageDescription
+export DiskImageDescription
+
+type DiskImageVolumeDescription <: AbstractAWSType
+    id::Union{Void,String}
+    size::Union{Void,Int64}
+    function DiskImageVolumeDescription(;id=nothing, size=nothing)
+        new(id, size)
+    end
+    DiskImageVolumeDescription(pd) = parse_from_xml(DiskImageVolumeDescription, EC2TypeDict, pd)
+end # DiskImageVolumeDescription
+export DiskImageVolumeDescription
+
+type ImportVolumeTaskDetails <: AbstractAWSType
+    availabilityZone::Union{Void,String}
+    bytesConverted::Union{Void,Int64}
+    description::Union{Void,String}
+    image::Union{Void,DiskImageDescription}
+    volume::Union{Void,DiskImageVolumeDescription}
+    function ImportVolumeTaskDetails(;availabilityZone=nothing, bytesConverted=nothing, description=nothing, image=nothing, volume=nothing)
+        new(availabilityZone, bytesConverted, description, image, volume)
+    end
+    ImportVolumeTaskDetails(pd) = parse_from_xml(ImportVolumeTaskDetails, EC2TypeDict, pd)
+end # ImportVolumeTaskDetails
+export ImportVolumeTaskDetails
+
+type ImportInstanceVolumeDetailItem <: AbstractAWSType
+    availabilityZone::Union{Void,String}
+    bytesConverted::Union{Void,Int64}
+    description::Union{Void,String}
+    image::Union{Void,DiskImageDescription}
+    status::Union{Void,String}
+    statusMessage::Union{Void,String}
+    volume::Union{Void,DiskImageVolumeDescription}
+    function ImportInstanceVolumeDetailItem(;availabilityZone=nothing, bytesConverted=nothing, description=nothing, image=nothing, status=nothing, statusMessage=nothing, volume=nothing)
+        new(availabilityZone, bytesConverted, description, image, status, statusMessage, volume)
+    end
+    ImportInstanceVolumeDetailItem(pd) = parse_from_xml(ImportInstanceVolumeDetailItem, EC2TypeDict, pd)
+end # ImportInstanceVolumeDetailItem
+export ImportInstanceVolumeDetailItem
+
+type ImportInstanceTaskDetails <: AbstractAWSType
+    description::Union{Void,String}
+    instanceId::Union{Void,String}
+    platform::Union{Void,String}
+    volumes::Union{Void,Array{ImportInstanceVolumeDetailItem,1}}
+    function ImportInstanceTaskDetails(;description=nothing, instanceId=nothing, platform=nothing, volumes=nothing)
+        new(description, instanceId, platform, volumes)
+    end
+    ImportInstanceTaskDetails(pd) = parse_from_xml(ImportInstanceTaskDetails, EC2TypeDict, pd)
+end # ImportInstanceTaskDetails
+export ImportInstanceTaskDetails
+
+type ConversionTask <: AbstractAWSType
+    conversionTaskId::Union{Void,String}
+    expirationTime::Union{Void,String}
+    importInstance::Union{Void,ImportInstanceTaskDetails}
+    importVolume::Union{Void,ImportVolumeTaskDetails}
+    state::Union{Void,String}
+    statusMessage::Union{Void,String}
+    tagSet::Union{Void,Array{Tag,1}}
+    function ConversionTask(;conversionTaskId=nothing, expirationTime=nothing, importInstance=nothing, importVolume=nothing, state=nothing, statusMessage=nothing, tagSet=nothing)
+        new(conversionTaskId, expirationTime, importInstance, importVolume, state, statusMessage, tagSet)
+    end
+    ConversionTask(pd) = parse_from_xml(ConversionTask, EC2TypeDict, pd)
+end # ConversionTask
+export ConversionTask
+
+type CreateVolumePermission <: AbstractAWSType
+    group::Union{Void,String}
+    userId::Union{Void,String}
+    function CreateVolumePermission(;group=nothing, userId=nothing)
+        new(group, userId)
+    end
+    CreateVolumePermission(pd) = parse_from_xml(CreateVolumePermission, EC2TypeDict, pd)
+end # CreateVolumePermission
+export CreateVolumePermission
+
+type CreateVolumePermissionModifications <: AbstractAWSType
+    add::Union{Void,Array{CreateVolumePermission,1}}
+    remove::Union{Void,Array{CreateVolumePermission,1}}
+    function CreateVolumePermissionModifications(;add=nothing, remove=nothing)
+        new(add, remove)
+    end
+    CreateVolumePermissionModifications(pd) = parse_from_xml(CreateVolumePermissionModifications, EC2TypeDict, pd)
+end # CreateVolumePermissionModifications
+export CreateVolumePermissionModifications
+
+type CustomerGateway <: AbstractAWSType
+    bgpAsn::Union{Void,String}
+    customerGatewayId::Union{Void,String}
+    ipAddress::Union{Void,String}
+    state::Union{Void,String}
+    tagSet::Union{Void,Array{Tag,1}}
+    _type::Union{Void,String}
+    function CustomerGateway(;bgpAsn=nothing, customerGatewayId=nothing, ipAddress=nothing, state=nothing, tagSet=nothing, _type=nothing)
+        new(bgpAsn, customerGatewayId, ipAddress, state, tagSet, _type)
+    end
+    CustomerGateway(pd) = parse_from_xml(CustomerGateway, EC2TypeDict, pd)
+end # CustomerGateway
+export CustomerGateway
+
+type DhcpConfiguration <: AbstractAWSType
+    key::Union{Void,String}
+    valueSet::Union{Void,Array{AttributeValue,1}}
+    function DhcpConfiguration(;key=nothing, valueSet=nothing)
+        new(key, valueSet)
+    end
+    DhcpConfiguration(pd) = parse_from_xml(DhcpConfiguration, EC2TypeDict, pd)
+end # DhcpConfiguration
+export DhcpConfiguration
+
+type DhcpOptions <: AbstractAWSType
+    dhcpConfigurationSet::Union{Void,Array{DhcpConfiguration,1}}
+    dhcpOptionsId::Union{Void,String}
+    tagSet::Union{Void,Array{Tag,1}}
+    function DhcpOptions(;dhcpConfigurationSet=nothing, dhcpOptionsId=nothing, tagSet=nothing)
+        new(dhcpConfigurationSet, dhcpOptionsId, tagSet)
+    end
+    DhcpOptions(pd) = parse_from_xml(DhcpOptions, EC2TypeDict, pd)
+end # DhcpOptions
+export DhcpOptions
+
+type EbsInstanceBlockDevice <: AbstractAWSType
+    attachTime::Union{Void,DateTime}
+    deleteOnTermination::Union{Void,Bool}
+    status::Union{Void,String}
+    volumeId::Union{Void,String}
+    function EbsInstanceBlockDevice(;attachTime=nothing, deleteOnTermination=nothing, status=nothing, volumeId=nothing)
+        new(attachTime, deleteOnTermination, status, volumeId)
+    end
+    EbsInstanceBlockDevice(pd) = parse_from_xml(EbsInstanceBlockDevice, EC2TypeDict, pd)
+end # EbsInstanceBlockDevice
+export EbsInstanceBlockDevice
+
+type EbsInstanceBlockDeviceSpecification <: AbstractAWSType
+    deleteOnTermination::Union{Void,Bool}
+    volumeId::Union{Void,String}
+    function EbsInstanceBlockDeviceSpecification(;deleteOnTermination=nothing, volumeId=nothing)
+        new(deleteOnTermination, volumeId)
+    end
+    EbsInstanceBlockDeviceSpecification(pd) = parse_from_xml(EbsInstanceBlockDeviceSpecification, EC2TypeDict, pd)
+end # EbsInstanceBlockDeviceSpecification
+export EbsInstanceBlockDeviceSpecification
+
+type InternetGatewayAttachment <: AbstractAWSType
+    state::Union{Void,String}
+    vpcId::Union{Void,String}
+    function InternetGatewayAttachment(;state=nothing, vpcId=nothing)
+        new(state, vpcId)
+    end
+    InternetGatewayAttachment(pd) = parse_from_xml(InternetGatewayAttachment, EC2TypeDict, pd)
+end # InternetGatewayAttachment
+export InternetGatewayAttachment
+
+type InternetGateway <: AbstractAWSType
+    attachmentSet::Union{Void,Array{InternetGatewayAttachment,1}}
+    internetGatewayId::Union{Void,String}
+    tagSet::Union{Void,Array{Tag,1}}
+    function InternetGateway(;attachmentSet=nothing, internetGatewayId=nothing, tagSet=nothing)
+        new(attachmentSet, internetGatewayId, tagSet)
+    end
+    InternetGateway(pd) = parse_from_xml(InternetGateway, EC2TypeDict, pd)
+end # InternetGateway
+export InternetGateway
+
+type EgressOnlyInternetGateway <: AbstractAWSType
+    attachmentSet::Union{Void,Array{InternetGatewayAttachment,1}}
+    egressOnlyInternetGatewayId::Union{Void,String}
+    function EgressOnlyInternetGateway(;attachmentSet=nothing, egressOnlyInternetGatewayId=nothing)
+        new(attachmentSet, egressOnlyInternetGatewayId)
+    end
+    EgressOnlyInternetGateway(pd) = parse_from_xml(EgressOnlyInternetGateway, EC2TypeDict, pd)
+end # EgressOnlyInternetGateway
+export EgressOnlyInternetGateway
+
+type EventInformation <: AbstractAWSType
+    eventDescription::Union{Void,String}
+    eventSubType::Union{Void,String}
+    instanceId::Union{Void,String}
+    function EventInformation(;eventDescription=nothing, eventSubType=nothing, instanceId=nothing)
+        new(eventDescription, eventSubType, instanceId)
+    end
+    EventInformation(pd) = parse_from_xml(EventInformation, EC2TypeDict, pd)
+end # EventInformation
+export EventInformation
+
+type ExportToS3Task <: AbstractAWSType
+    containerFormat::Union{Void,String}
+    diskImageFormat::Union{Void,String}
+    s3Bucket::Union{Void,String}
+    s3Key::Union{Void,String}
+    function ExportToS3Task(;containerFormat=nothing, diskImageFormat=nothing, s3Bucket=nothing, s3Key=nothing)
+        new(containerFormat, diskImageFormat, s3Bucket, s3Key)
+    end
+    ExportToS3Task(pd) = parse_from_xml(ExportToS3Task, EC2TypeDict, pd)
+end # ExportToS3Task
+export ExportToS3Task
+
+type InstanceCount <: AbstractAWSType
+    instanceCount::Union{Void,Int64}
+    state::Union{Void,String}
+    function InstanceCount(;instanceCount=nothing, state=nothing)
+        new(instanceCount, state)
+    end
+    InstanceCount(pd) = parse_from_xml(InstanceCount, EC2TypeDict, pd)
+end # InstanceCount
+export InstanceCount
+
+type InstanceExportDetails <: AbstractAWSType
+    instanceId::Union{Void,String}
+    targetEnvironment::Union{Void,String}
+    function InstanceExportDetails(;instanceId=nothing, targetEnvironment=nothing)
+        new(instanceId, targetEnvironment)
+    end
+    InstanceExportDetails(pd) = parse_from_xml(InstanceExportDetails, EC2TypeDict, pd)
+end # InstanceExportDetails
+export InstanceExportDetails
+
+type InstanceIpv6Address <: AbstractAWSType
+    ipv6Address::Union{Void,String}
+    function InstanceIpv6Address(;ipv6Address=nothing)
+        new(ipv6Address)
+    end
+    InstanceIpv6Address(pd) = parse_from_xml(InstanceIpv6Address, EC2TypeDict, pd)
+end # InstanceIpv6Address
+export InstanceIpv6Address
+
+type ExportTask <: AbstractAWSType
+    description::Union{Void,String}
+    exportTaskId::Union{Void,String}
+    exportToS3::Union{Void,ExportToS3Task}
+    instanceExport::Union{Void,InstanceExportDetails}
+    state::Union{Void,String}
+    statusMessage::Union{Void,String}
+    function ExportTask(;description=nothing, exportTaskId=nothing, exportToS3=nothing, instanceExport=nothing, state=nothing, statusMessage=nothing)
+        new(description, exportTaskId, exportToS3, instanceExport, state, statusMessage)
+    end
+    ExportTask(pd) = parse_from_xml(ExportTask, EC2TypeDict, pd)
+end # ExportTask
+export ExportTask
+
+type ExportToS3TaskSpecification <: AbstractAWSType
+    containerFormat::Union{Void,String}
+    diskImageFormat::Union{Void,String}
+    s3Bucket::Union{Void,String}
+    s3Prefix::Union{Void,String}
+    function ExportToS3TaskSpecification(;containerFormat=nothing, diskImageFormat=nothing, s3Bucket=nothing, s3Prefix=nothing)
+        new(containerFormat, diskImageFormat, s3Bucket, s3Prefix)
+    end
+    ExportToS3TaskSpecification(pd) = parse_from_xml(ExportToS3TaskSpecification, EC2TypeDict, pd)
+end # ExportToS3TaskSpecification
+export ExportToS3TaskSpecification
+
+type Filter <: AbstractAWSType
+    name::Union{Void,String}
+    value::Union{Void,Array{String,1}}
+    function Filter(;name=nothing, value=nothing)
+        new(name, value)
+    end
+    Filter(pd) = parse_from_xml(Filter, EC2TypeDict, pd)
+end # Filter
+export Filter
+
+type FlowLog <: AbstractAWSType
+    creationTime::Union{Void,DateTime}
+    deliverLogsErrorMessage::Union{Void,String}
+    deliverLogsPermissionArn::Union{Void,String}
+    deliverLogsStatus::Union{Void,String}
+    flowLogId::Union{Void,String}
+    flowLogStatus::Union{Void,String}
+    logGroupName::Union{Void,String}
+    resourceId::Union{Void,String}
+    trafficType::Union{Void,String}
+    function FlowLog(;creationTime=nothing, deliverLogsErrorMessage=nothing, deliverLogsPermissionArn=nothing, deliverLogsStatus=nothing, flowLogId=nothing, flowLogStatus=nothing, logGroupName=nothing, resourceId=nothing, trafficType=nothing)
+        new(creationTime, deliverLogsErrorMessage, deliverLogsPermissionArn, deliverLogsStatus, flowLogId, flowLogStatus, logGroupName, resourceId, trafficType)
+    end
+    FlowLog(pd) = parse_from_xml(FlowLog, EC2TypeDict, pd)
+end # FlowLog
+export FlowLog
+
+type FpgaImageState <: AbstractAWSType
+    code::Union{Void,String}
+    message::Union{Void,String}
+    function FpgaImageState(;code=nothing, message=nothing)
+        new(code, message)
+    end
+    FpgaImageState(pd) = parse_from_xml(FpgaImageState, EC2TypeDict, pd)
+end # FpgaImageState
+export FpgaImageState
+
+type PciId <: AbstractAWSType
+    deviceId::Union{Void,String}
+    subsystemId::Union{Void,String}
+    subsystemVendorId::Union{Void,String}
+    vendorId::Union{Void,String}
+    function PciId(;deviceId=nothing, subsystemId=nothing, subsystemVendorId=nothing, vendorId=nothing)
+        new(deviceId, subsystemId, subsystemVendorId, vendorId)
+    end
+    PciId(pd) = parse_from_xml(PciId, EC2TypeDict, pd)
+end # PciId
+export PciId
+
+type NewDhcpConfiguration <: AbstractAWSType
+    key::Union{Void,String}
+    values::Union{Void,Array{String,1}}
+    function NewDhcpConfiguration(;key=nothing, values=nothing)
+        new(key, values)
+    end
+    NewDhcpConfiguration(pd) = parse_from_xml(NewDhcpConfiguration, EC2TypeDict, pd)
+end # NewDhcpConfiguration
+export NewDhcpConfiguration
+
+type PeeringConnectionOptions <: AbstractAWSType
+    allowDnsResolutionFromRemoteVpc::Union{Void,Bool}
+    allowEgressFromLocalClassicLinkToRemoteVpc::Union{Void,Bool}
+    allowEgressFromLocalVpcToRemoteClassicLink::Union{Void,Bool}
+    function PeeringConnectionOptions(;allowDnsResolutionFromRemoteVpc=nothing, allowEgressFromLocalClassicLinkToRemoteVpc=nothing, allowEgressFromLocalVpcToRemoteClassicLink=nothing)
+        new(allowDnsResolutionFromRemoteVpc, allowEgressFromLocalClassicLinkToRemoteVpc, allowEgressFromLocalVpcToRemoteClassicLink)
+    end
+    PeeringConnectionOptions(pd) = parse_from_xml(PeeringConnectionOptions, EC2TypeDict, pd)
+end # PeeringConnectionOptions
+export PeeringConnectionOptions
+
+type PeeringConnectionOptionsRequest <: AbstractAWSType
+    allowDnsResolutionFromRemoteVpc::Union{Void,Bool}
+    allowEgressFromLocalClassicLinkToRemoteVpc::Union{Void,Bool}
+    allowEgressFromLocalVpcToRemoteClassicLink::Union{Void,Bool}
+    function PeeringConnectionOptionsRequest(;allowDnsResolutionFromRemoteVpc=nothing, allowEgressFromLocalClassicLinkToRemoteVpc=nothing, allowEgressFromLocalVpcToRemoteClassicLink=nothing)
+        new(allowDnsResolutionFromRemoteVpc, allowEgressFromLocalClassicLinkToRemoteVpc, allowEgressFromLocalVpcToRemoteClassicLink)
+    end
+    PeeringConnectionOptionsRequest(pd) = parse_from_xml(PeeringConnectionOptionsRequest, EC2TypeDict, pd)
+end # PeeringConnectionOptionsRequest
+export PeeringConnectionOptionsRequest
+
+type Placement <: AbstractAWSType
+    affinity::Union{Void,String}
+    availabilityZone::Union{Void,String}
+    groupName::Union{Void,String}
+    hostId::Union{Void,String}
+    spreadDomain::Union{Void,String}
+    tenancy::Union{Void,String}
+    function Placement(;affinity=nothing, availabilityZone=nothing, groupName=nothing, hostId=nothing, spreadDomain=nothing, tenancy=nothing)
+        new(affinity, availabilityZone, groupName, hostId, spreadDomain, tenancy)
+    end
+    Placement(pd) = parse_from_xml(Placement, EC2TypeDict, pd)
+end # Placement
+export Placement
+
+type PlacementGroup <: AbstractAWSType
+    groupName::Union{Void,String}
+    state::Union{Void,String}
+    strategy::Union{Void,String}
+    function PlacementGroup(;groupName=nothing, state=nothing, strategy=nothing)
+        new(groupName, state, strategy)
+    end
+    PlacementGroup(pd) = parse_from_xml(PlacementGroup, EC2TypeDict, pd)
+end # PlacementGroup
+export PlacementGroup
+
+type PortRange <: AbstractAWSType
+    from::Union{Void,Int64}
+    to::Union{Void,Int64}
+    function PortRange(;from=nothing, to=nothing)
+        new(from, to)
+    end
+    PortRange(pd) = parse_from_xml(PortRange, EC2TypeDict, pd)
+end # PortRange
+export PortRange
+
+type PrefixList <: AbstractAWSType
+    cidrSet::Union{Void,Array{String,1}}
+    prefixListId::Union{Void,String}
+    prefixListName::Union{Void,String}
+    function PrefixList(;cidrSet=nothing, prefixListId=nothing, prefixListName=nothing)
+        new(cidrSet, prefixListId, prefixListName)
+    end
+    PrefixList(pd) = parse_from_xml(PrefixList, EC2TypeDict, pd)
+end # PrefixList
+export PrefixList
+
+type PrefixListId <: AbstractAWSType
+    prefixListId::Union{Void,String}
+    function PrefixListId(;prefixListId=nothing)
+        new(prefixListId)
+    end
+    PrefixListId(pd) = parse_from_xml(PrefixListId, EC2TypeDict, pd)
+end # PrefixListId
+export PrefixListId
+
+type PriceSchedule <: AbstractAWSType
+    active::Union{Void,Bool}
+    currencyCode::Union{Void,String}
+    price::Union{Void,Float64}
+    term::Union{Void,Int64}
+    function PriceSchedule(;active=nothing, currencyCode=nothing, price=nothing, term=nothing)
+        new(active, currencyCode, price, term)
+    end
+    PriceSchedule(pd) = parse_from_xml(PriceSchedule, EC2TypeDict, pd)
+end # PriceSchedule
+export PriceSchedule
+
+type PriceScheduleSpecification <: AbstractAWSType
+    currencyCode::Union{Void,String}
+    price::Union{Void,Float64}
+    term::Union{Void,Int64}
+    function PriceScheduleSpecification(;currencyCode=nothing, price=nothing, term=nothing)
+        new(currencyCode, price, term)
+    end
+    PriceScheduleSpecification(pd) = parse_from_xml(PriceScheduleSpecification, EC2TypeDict, pd)
+end # PriceScheduleSpecification
+export PriceScheduleSpecification
+
+type PricingDetail <: AbstractAWSType
+    count::Union{Void,Int64}
+    price::Union{Void,Float64}
+    function PricingDetail(;count=nothing, price=nothing)
+        new(count, price)
+    end
+    PricingDetail(pd) = parse_from_xml(PricingDetail, EC2TypeDict, pd)
+end # PricingDetail
+export PricingDetail
+
+type PrivateIpAddressSpecification <: AbstractAWSType
+    primary::Union{Void,Bool}
+    privateIpAddress::Union{Void,String}
+    function PrivateIpAddressSpecification(;primary=nothing, privateIpAddress=nothing)
+        new(primary, privateIpAddress)
+    end
+    PrivateIpAddressSpecification(pd) = parse_from_xml(PrivateIpAddressSpecification, EC2TypeDict, pd)
+end # PrivateIpAddressSpecification
+export PrivateIpAddressSpecification
+
+type ProductCode <: AbstractAWSType
+    productCode::Union{Void,String}
+    _type::Union{Void,String}
+    function ProductCode(;productCode=nothing, _type=nothing)
+        new(productCode, _type)
+    end
+    ProductCode(pd) = parse_from_xml(ProductCode, EC2TypeDict, pd)
+end # ProductCode
+export ProductCode
+
+type PropagatingVgw <: AbstractAWSType
+    gatewayId::Union{Void,String}
+    function PropagatingVgw(;gatewayId=nothing)
+        new(gatewayId)
+    end
+    PropagatingVgw(pd) = parse_from_xml(PropagatingVgw, EC2TypeDict, pd)
+end # PropagatingVgw
+export PropagatingVgw
+
+type ProvisionedBandwidth <: AbstractAWSType
+    provisioned::Union{Void,String}
+    provisionTime::Union{Void,DateTime}
+    requested::Union{Void,String}
+    requestTime::Union{Void,DateTime}
+    status::Union{Void,String}
+    function ProvisionedBandwidth(;provisioned=nothing, provisionTime=nothing, requested=nothing, requestTime=nothing, status=nothing)
+        new(provisioned, provisionTime, requested, requestTime, status)
+    end
+    ProvisionedBandwidth(pd) = parse_from_xml(ProvisionedBandwidth, EC2TypeDict, pd)
+end # ProvisionedBandwidth
+export ProvisionedBandwidth
+
+type Purchase <: AbstractAWSType
+    currencyCode::Union{Void,String}
+    duration::Union{Void,Int64}
+    hostIdSet::Union{Void,Array{String,1}}
+    hostReservationId::Union{Void,String}
+    hourlyPrice::Union{Void,String}
+    instanceFamily::Union{Void,String}
+    paymentOption::Union{Void,String}
+    upfrontPrice::Union{Void,String}
+    function Purchase(;currencyCode=nothing, duration=nothing, hostIdSet=nothing, hostReservationId=nothing, hourlyPrice=nothing, instanceFamily=nothing, paymentOption=nothing, upfrontPrice=nothing)
+        new(currencyCode, duration, hostIdSet, hostReservationId, hourlyPrice, instanceFamily, paymentOption, upfrontPrice)
+    end
+    Purchase(pd) = parse_from_xml(Purchase, EC2TypeDict, pd)
+end # Purchase
+export Purchase
+
+type PurchaseRequest <: AbstractAWSType
+    instanceCount::Union{Void,Int64}
+    purchaseToken::Union{Void,String}
+    function PurchaseRequest(;instanceCount=nothing, purchaseToken=nothing)
+        new(instanceCount, purchaseToken)
+    end
+    PurchaseRequest(pd) = parse_from_xml(PurchaseRequest, EC2TypeDict, pd)
+end # PurchaseRequest
+export PurchaseRequest
+
+type RecurringCharge <: AbstractAWSType
+    amount::Union{Void,Float64}
+    frequency::Union{Void,String}
+    function RecurringCharge(;amount=nothing, frequency=nothing)
+        new(amount, frequency)
+    end
+    RecurringCharge(pd) = parse_from_xml(RecurringCharge, EC2TypeDict, pd)
+end # RecurringCharge
+export RecurringCharge
+
+type Region <: AbstractAWSType
+    regionEndpoint::Union{Void,String}
+    regionName::Union{Void,String}
+    function Region(;regionEndpoint=nothing, regionName=nothing)
+        new(regionEndpoint, regionName)
+    end
+    Region(pd) = parse_from_xml(Region, EC2TypeDict, pd)
+end # Region
+export Region
+
+type FpgaImage <: AbstractAWSType
+    createTime::Union{Void,DateTime}
+    description::Union{Void,String}
+    fpgaImageGlobalId::Union{Void,String}
+    fpgaImageId::Union{Void,String}
+    name::Union{Void,String}
+    ownerAlias::Union{Void,String}
+    ownerId::Union{Void,String}
+    pciId::Union{Void,PciId}
+    productCodes::Union{Void,Array{ProductCode,1}}
+    shellVersion::Union{Void,String}
+    state::Union{Void,FpgaImageState}
+    tags::Union{Void,Array{Tag,1}}
+    updateTime::Union{Void,DateTime}
+    function FpgaImage(;createTime=nothing, description=nothing, fpgaImageGlobalId=nothing, fpgaImageId=nothing, name=nothing, ownerAlias=nothing, ownerId=nothing, pciId=nothing, productCodes=nothing, shellVersion=nothing, state=nothing, tags=nothing, updateTime=nothing)
+        new(createTime, description, fpgaImageGlobalId, fpgaImageId, name, ownerAlias, ownerId, pciId, productCodes, shellVersion, state, tags, updateTime)
+    end
+    FpgaImage(pd) = parse_from_xml(FpgaImage, EC2TypeDict, pd)
+end # FpgaImage
+export FpgaImage
+
+type HistoryRecord <: AbstractAWSType
+    eventInformation::Union{Void,EventInformation}
+    eventType::Union{Void,String}
+    timestamp::Union{Void,DateTime}
+    function HistoryRecord(;eventInformation=nothing, eventType=nothing, timestamp=nothing)
+        new(eventInformation, eventType, timestamp)
+    end
+    HistoryRecord(pd) = parse_from_xml(HistoryRecord, EC2TypeDict, pd)
+end # HistoryRecord
+export HistoryRecord
+
+type HostInstance <: AbstractAWSType
+    instanceId::Union{Void,String}
+    instanceType::Union{Void,String}
+    function HostInstance(;instanceId=nothing, instanceType=nothing)
+        new(instanceId, instanceType)
+    end
+    HostInstance(pd) = parse_from_xml(HostInstance, EC2TypeDict, pd)
+end # HostInstance
+export HostInstance
+
+type HostOffering <: AbstractAWSType
+    currencyCode::Union{Void,String}
+    duration::Union{Void,Int64}
+    hourlyPrice::Union{Void,String}
+    instanceFamily::Union{Void,String}
+    offeringId::Union{Void,String}
+    paymentOption::Union{Void,String}
+    upfrontPrice::Union{Void,String}
+    function HostOffering(;currencyCode=nothing, duration=nothing, hourlyPrice=nothing, instanceFamily=nothing, offeringId=nothing, paymentOption=nothing, upfrontPrice=nothing)
+        new(currencyCode, duration, hourlyPrice, instanceFamily, offeringId, paymentOption, upfrontPrice)
+    end
+    HostOffering(pd) = parse_from_xml(HostOffering, EC2TypeDict, pd)
+end # HostOffering
+export HostOffering
+
+type HostProperties <: AbstractAWSType
+    cores::Union{Void,Int64}
+    instanceType::Union{Void,String}
+    sockets::Union{Void,Int64}
+    totalVCpus::Union{Void,Int64}
+    function HostProperties(;cores=nothing, instanceType=nothing, sockets=nothing, totalVCpus=nothing)
+        new(cores, instanceType, sockets, totalVCpus)
+    end
+    HostProperties(pd) = parse_from_xml(HostProperties, EC2TypeDict, pd)
+end # HostProperties
+export HostProperties
+
+type HostReservation <: AbstractAWSType
+    count::Union{Void,Int64}
+    currencyCode::Union{Void,String}
+    duration::Union{Void,Int64}
+    _end::Union{Void,DateTime}
+    hostIdSet::Union{Void,Array{String,1}}
+    hostReservationId::Union{Void,String}
+    hourlyPrice::Union{Void,String}
+    instanceFamily::Union{Void,String}
+    offeringId::Union{Void,String}
+    paymentOption::Union{Void,String}
+    start::Union{Void,DateTime}
+    state::Union{Void,String}
+    upfrontPrice::Union{Void,String}
+    function HostReservation(;count=nothing, currencyCode=nothing, duration=nothing, _end=nothing, hostIdSet=nothing, hostReservationId=nothing, hourlyPrice=nothing, instanceFamily=nothing, offeringId=nothing, paymentOption=nothing, start=nothing, state=nothing, upfrontPrice=nothing)
+        new(count, currencyCode, duration, _end, hostIdSet, hostReservationId, hourlyPrice, instanceFamily, offeringId, paymentOption, start, state, upfrontPrice)
+    end
+    HostReservation(pd) = parse_from_xml(HostReservation, EC2TypeDict, pd)
+end # HostReservation
+export HostReservation
+
+type Host <: AbstractAWSType
+    autoPlacement::Union{Void,String}
+    availabilityZone::Union{Void,String}
+    availableCapacity::Union{Void,AvailableCapacity}
+    clientToken::Union{Void,String}
+    hostId::Union{Void,String}
+    hostProperties::Union{Void,HostProperties}
+    hostReservationId::Union{Void,String}
+    instances::Union{Void,Array{HostInstance,1}}
+    state::Union{Void,String}
+    function Host(;autoPlacement=nothing, availabilityZone=nothing, availableCapacity=nothing, clientToken=nothing, hostId=nothing, hostProperties=nothing, hostReservationId=nothing, instances=nothing, state=nothing)
+        new(autoPlacement, availabilityZone, availableCapacity, clientToken, hostId, hostProperties, hostReservationId, instances, state)
+    end
+    Host(pd) = parse_from_xml(Host, EC2TypeDict, pd)
+end # Host
+export Host
+
+type IamInstanceProfile <: AbstractAWSType
+    arn::Union{Void,String}
+    id::Union{Void,String}
+    function IamInstanceProfile(;arn=nothing, id=nothing)
+        new(arn, id)
+    end
+    IamInstanceProfile(pd) = parse_from_xml(IamInstanceProfile, EC2TypeDict, pd)
+end # IamInstanceProfile
+export IamInstanceProfile
+
+type IamInstanceProfileAssociation <: AbstractAWSType
+    associationId::Union{Void,String}
+    iamInstanceProfile::Union{Void,IamInstanceProfile}
+    instanceId::Union{Void,String}
+    state::Union{Void,String}
+    timestamp::Union{Void,DateTime}
+    function IamInstanceProfileAssociation(;associationId=nothing, iamInstanceProfile=nothing, instanceId=nothing, state=nothing, timestamp=nothing)
+        new(associationId, iamInstanceProfile, instanceId, state, timestamp)
+    end
+    IamInstanceProfileAssociation(pd) = parse_from_xml(IamInstanceProfileAssociation, EC2TypeDict, pd)
+end # IamInstanceProfileAssociation
+export IamInstanceProfileAssociation
+
+type IamInstanceProfileSpecification <: AbstractAWSType
+    arn::Union{Void,String}
+    name::Union{Void,String}
+    function IamInstanceProfileSpecification(;arn=nothing, name=nothing)
+        new(arn, name)
+    end
+    IamInstanceProfileSpecification(pd) = parse_from_xml(IamInstanceProfileSpecification, EC2TypeDict, pd)
+end # IamInstanceProfileSpecification
+export IamInstanceProfileSpecification
+
+type IcmpTypeCode <: AbstractAWSType
+    code::Union{Void,Int64}
+    _Type::Union{Void,Int64}
+    function IcmpTypeCode(;code=nothing, _Type=nothing)
+        new(code, _Type)
+    end
+    IcmpTypeCode(pd) = parse_from_xml(IcmpTypeCode, EC2TypeDict, pd)
+end # IcmpTypeCode
+export IcmpTypeCode
+
+type IdFormat <: AbstractAWSType
+    deadline::Union{Void,DateTime}
+    resource::Union{Void,String}
+    useLongIds::Union{Void,Bool}
+    function IdFormat(;deadline=nothing, resource=nothing, useLongIds=nothing)
+        new(deadline, resource, useLongIds)
+    end
+    IdFormat(pd) = parse_from_xml(IdFormat, EC2TypeDict, pd)
+end # IdFormat
+export IdFormat
+
+type StateReason <: AbstractAWSType
+    code::Union{Void,String}
+    message::Union{Void,String}
+    function StateReason(;code=nothing, message=nothing)
+        new(code, message)
+    end
+    StateReason(pd) = parse_from_xml(StateReason, EC2TypeDict, pd)
+end # StateReason
+export StateReason
+
+type Image <: AbstractAWSType
+    architecture::Union{Void,String}
+    blockDeviceMapping::Union{Void,Array{BlockDeviceMapping,1}}
+    creationDate::Union{Void,String}
+    description::Union{Void,String}
+    enaSupport::Union{Void,Bool}
+    hypervisor::Union{Void,String}
+    imageId::Union{Void,String}
+    imageLocation::Union{Void,String}
+    imageOwnerAlias::Union{Void,String}
+    imageOwnerId::Union{Void,String}
+    imageState::Union{Void,String}
+    imageType::Union{Void,String}
+    isPublic::Union{Void,Bool}
+    kernelId::Union{Void,String}
+    name::Union{Void,String}
+    platform::Union{Void,String}
+    productCodes::Union{Void,Array{ProductCode,1}}
+    ramdiskId::Union{Void,String}
+    rootDeviceName::Union{Void,String}
+    rootDeviceType::Union{Void,String}
+    sriovNetSupport::Union{Void,String}
+    stateReason::Union{Void,StateReason}
+    tagSet::Union{Void,Array{Tag,1}}
+    virtualizationType::Union{Void,String}
+    function Image(;architecture=nothing, blockDeviceMapping=nothing, creationDate=nothing, description=nothing, enaSupport=nothing, hypervisor=nothing, imageId=nothing, imageLocation=nothing, imageOwnerAlias=nothing, imageOwnerId=nothing, imageState=nothing, imageType=nothing, isPublic=nothing, kernelId=nothing, name=nothing, platform=nothing, productCodes=nothing, ramdiskId=nothing, rootDeviceName=nothing, rootDeviceType=nothing, sriovNetSupport=nothing, stateReason=nothing, tagSet=nothing, virtualizationType=nothing)
+        new(architecture, blockDeviceMapping, creationDate, description, enaSupport, hypervisor, imageId, imageLocation, imageOwnerAlias, imageOwnerId, imageState, imageType, isPublic, kernelId, name, platform, productCodes, ramdiskId, rootDeviceName, rootDeviceType, sriovNetSupport, stateReason, tagSet, virtualizationType)
+    end
+    Image(pd) = parse_from_xml(Image, EC2TypeDict, pd)
+end # Image
+export Image
+
+type ImageDiskContainer <: AbstractAWSType
+    description::Union{Void,String}
+    deviceName::Union{Void,String}
+    format::Union{Void,String}
+    snapshotId::Union{Void,String}
+    url::Union{Void,String}
+    userBucket::Union{Void,UserBucket}
+    function ImageDiskContainer(;description=nothing, deviceName=nothing, format=nothing, snapshotId=nothing, url=nothing, userBucket=nothing)
+        new(description, deviceName, format, snapshotId, url, userBucket)
+    end
+    ImageDiskContainer(pd) = parse_from_xml(ImageDiskContainer, EC2TypeDict, pd)
+end # ImageDiskContainer
+export ImageDiskContainer
+
+type SecurityGroupReference <: AbstractAWSType
+    groupId::Union{Void,String}
+    referencingVpcId::Union{Void,String}
+    vpcPeeringConnectionId::Union{Void,String}
+    function SecurityGroupReference(;groupId=nothing, referencingVpcId=nothing, vpcPeeringConnectionId=nothing)
+        new(groupId, referencingVpcId, vpcPeeringConnectionId)
+    end
+    SecurityGroupReference(pd) = parse_from_xml(SecurityGroupReference, EC2TypeDict, pd)
+end # SecurityGroupReference
+export SecurityGroupReference
+
+type SlotDateTimeRangeRequest <: AbstractAWSType
+    earliestTime::Union{Void,DateTime}
+    latestTime::Union{Void,DateTime}
+    function SlotDateTimeRangeRequest(;earliestTime=nothing, latestTime=nothing)
+        new(earliestTime, latestTime)
+    end
+    SlotDateTimeRangeRequest(pd) = parse_from_xml(SlotDateTimeRangeRequest, EC2TypeDict, pd)
+end # SlotDateTimeRangeRequest
+export SlotDateTimeRangeRequest
+
+type SlotStartTimeRangeRequest <: AbstractAWSType
+    earliestTime::Union{Void,DateTime}
+    latestTime::Union{Void,DateTime}
+    function SlotStartTimeRangeRequest(;earliestTime=nothing, latestTime=nothing)
+        new(earliestTime, latestTime)
+    end
+    SlotStartTimeRangeRequest(pd) = parse_from_xml(SlotStartTimeRangeRequest, EC2TypeDict, pd)
+end # SlotStartTimeRangeRequest
+export SlotStartTimeRangeRequest
+
+type Snapshot <: AbstractAWSType
+    dataEncryptionKeyId::Union{Void,String}
+    description::Union{Void,String}
+    encrypted::Union{Void,Bool}
+    kmsKeyId::Union{Void,String}
+    ownerAlias::Union{Void,String}
+    ownerId::Union{Void,String}
+    progress::Union{Void,String}
+    snapshotId::Union{Void,String}
+    startTime::Union{Void,DateTime}
+    status::Union{Void,String}
+    statusMessage::Union{Void,String}
+    tagSet::Union{Void,Array{Tag,1}}
+    volumeId::Union{Void,String}
+    volumeSize::Union{Void,Int64}
+    function Snapshot(;dataEncryptionKeyId=nothing, description=nothing, encrypted=nothing, kmsKeyId=nothing, ownerAlias=nothing, ownerId=nothing, progress=nothing, snapshotId=nothing, startTime=nothing, status=nothing, statusMessage=nothing, tagSet=nothing, volumeId=nothing, volumeSize=nothing)
+        new(dataEncryptionKeyId, description, encrypted, kmsKeyId, ownerAlias, ownerId, progress, snapshotId, startTime, status, statusMessage, tagSet, volumeId, volumeSize)
+    end
+    Snapshot(pd) = parse_from_xml(Snapshot, EC2TypeDict, pd)
+end # Snapshot
+export Snapshot
+
+type SnapshotDetail <: AbstractAWSType
+    description::Union{Void,String}
+    deviceName::Union{Void,String}
+    diskImageSize::Union{Void,Float64}
+    format::Union{Void,String}
+    progress::Union{Void,String}
+    snapshotId::Union{Void,String}
+    status::Union{Void,String}
+    statusMessage::Union{Void,String}
+    url::Union{Void,String}
+    userBucket::Union{Void,UserBucketDetails}
+    function SnapshotDetail(;description=nothing, deviceName=nothing, diskImageSize=nothing, format=nothing, progress=nothing, snapshotId=nothing, status=nothing, statusMessage=nothing, url=nothing, userBucket=nothing)
+        new(description, deviceName, diskImageSize, format, progress, snapshotId, status, statusMessage, url, userBucket)
+    end
+    SnapshotDetail(pd) = parse_from_xml(SnapshotDetail, EC2TypeDict, pd)
+end # SnapshotDetail
+export SnapshotDetail
+
+type SnapshotDiskContainer <: AbstractAWSType
+    description::Union{Void,String}
+    format::Union{Void,String}
+    url::Union{Void,String}
+    userBucket::Union{Void,UserBucket}
+    function SnapshotDiskContainer(;description=nothing, format=nothing, url=nothing, userBucket=nothing)
+        new(description, format, url, userBucket)
+    end
+    SnapshotDiskContainer(pd) = parse_from_xml(SnapshotDiskContainer, EC2TypeDict, pd)
+end # SnapshotDiskContainer
+export SnapshotDiskContainer
+
+type SnapshotTaskDetail <: AbstractAWSType
+    description::Union{Void,String}
+    diskImageSize::Union{Void,Float64}
+    format::Union{Void,String}
+    progress::Union{Void,String}
+    snapshotId::Union{Void,String}
+    status::Union{Void,String}
+    statusMessage::Union{Void,String}
+    url::Union{Void,String}
+    userBucket::Union{Void,UserBucketDetails}
+    function SnapshotTaskDetail(;description=nothing, diskImageSize=nothing, format=nothing, progress=nothing, snapshotId=nothing, status=nothing, statusMessage=nothing, url=nothing, userBucket=nothing)
+        new(description, diskImageSize, format, progress, snapshotId, status, statusMessage, url, userBucket)
+    end
+    SnapshotTaskDetail(pd) = parse_from_xml(SnapshotTaskDetail, EC2TypeDict, pd)
+end # SnapshotTaskDetail
+export SnapshotTaskDetail
+
+type ImportImageTask <: AbstractAWSType
+    architecture::Union{Void,String}
+    description::Union{Void,String}
+    hypervisor::Union{Void,String}
+    imageId::Union{Void,String}
+    importTaskId::Union{Void,String}
+    licenseType::Union{Void,String}
+    platform::Union{Void,String}
+    progress::Union{Void,String}
+    snapshotDetailSet::Union{Void,Array{SnapshotDetail,1}}
+    status::Union{Void,String}
+    statusMessage::Union{Void,String}
+    function ImportImageTask(;architecture=nothing, description=nothing, hypervisor=nothing, imageId=nothing, importTaskId=nothing, licenseType=nothing, platform=nothing, progress=nothing, snapshotDetailSet=nothing, status=nothing, statusMessage=nothing)
+        new(architecture, description, hypervisor, imageId, importTaskId, licenseType, platform, progress, snapshotDetailSet, status, statusMessage)
+    end
+    ImportImageTask(pd) = parse_from_xml(ImportImageTask, EC2TypeDict, pd)
+end # ImportImageTask
+export ImportImageTask
+
+type ImportInstanceLaunchSpecification <: AbstractAWSType
+    additionalInfo::Union{Void,String}
+    architecture::Union{Void,String}
+    groupIds::Union{Void,Array{String,1}}
+    groupNames::Union{Void,Array{String,1}}
+    instanceInitiatedShutdownBehavior::Union{Void,String}
+    instanceType::Union{Void,String}
+    monitoring::Union{Void,Bool}
+    placement::Union{Void,Placement}
+    privateIpAddress::Union{Void,String}
+    subnetId::Union{Void,String}
+    userData::Union{Void,UserData}
+    function ImportInstanceLaunchSpecification(;additionalInfo=nothing, architecture=nothing, groupIds=nothing, groupNames=nothing, instanceInitiatedShutdownBehavior=nothing, instanceType=nothing, monitoring=nothing, placement=nothing, privateIpAddress=nothing, subnetId=nothing, userData=nothing)
+        new(additionalInfo, architecture, groupIds, groupNames, instanceInitiatedShutdownBehavior, instanceType, monitoring, placement, privateIpAddress, subnetId, userData)
+    end
+    ImportInstanceLaunchSpecification(pd) = parse_from_xml(ImportInstanceLaunchSpecification, EC2TypeDict, pd)
+end # ImportInstanceLaunchSpecification
+export ImportInstanceLaunchSpecification
+
+type ImportSnapshotTask <: AbstractAWSType
+    description::Union{Void,String}
+    importTaskId::Union{Void,String}
+    snapshotTaskDetail::Union{Void,SnapshotTaskDetail}
+    function ImportSnapshotTask(;description=nothing, importTaskId=nothing, snapshotTaskDetail=nothing)
+        new(description, importTaskId, snapshotTaskDetail)
+    end
+    ImportSnapshotTask(pd) = parse_from_xml(ImportSnapshotTask, EC2TypeDict, pd)
+end # ImportSnapshotTask
+export ImportSnapshotTask
+
+type InstanceBlockDeviceMapping <: AbstractAWSType
+    deviceName::Union{Void,String}
+    ebs::Union{Void,EbsInstanceBlockDevice}
+    function InstanceBlockDeviceMapping(;deviceName=nothing, ebs=nothing)
+        new(deviceName, ebs)
+    end
+    InstanceBlockDeviceMapping(pd) = parse_from_xml(InstanceBlockDeviceMapping, EC2TypeDict, pd)
+end # InstanceBlockDeviceMapping
+export InstanceBlockDeviceMapping
+
+type InstanceState <: AbstractAWSType
+    code::Union{Void,Int64}
+    name::Union{Void,String}
+    function InstanceState(;code=nothing, name=nothing)
+        new(code, name)
+    end
+    InstanceState(pd) = parse_from_xml(InstanceState, EC2TypeDict, pd)
+end # InstanceState
+export InstanceState
+
+type InstanceStateChange <: AbstractAWSType
+    currentState::Union{Void,InstanceState}
+    instanceId::Union{Void,String}
+    previousState::Union{Void,InstanceState}
+    function InstanceStateChange(;currentState=nothing, instanceId=nothing, previousState=nothing)
+        new(currentState, instanceId, previousState)
+    end
+    InstanceStateChange(pd) = parse_from_xml(InstanceStateChange, EC2TypeDict, pd)
+end # InstanceStateChange
+export InstanceStateChange
+
+type IpRange <: AbstractAWSType
+    cidrIp::Union{Void,String}
+    function IpRange(;cidrIp=nothing)
+        new(cidrIp)
+    end
+    IpRange(pd) = parse_from_xml(IpRange, EC2TypeDict, pd)
+end # IpRange
+export IpRange
+
+type Ipv6CidrBlock <: AbstractAWSType
+    ipv6CidrBlock::Union{Void,String}
+    function Ipv6CidrBlock(;ipv6CidrBlock=nothing)
+        new(ipv6CidrBlock)
+    end
+    Ipv6CidrBlock(pd) = parse_from_xml(Ipv6CidrBlock, EC2TypeDict, pd)
+end # Ipv6CidrBlock
+export Ipv6CidrBlock
+
+type Ipv6Range <: AbstractAWSType
+    cidrIpv6::Union{Void,String}
+    function Ipv6Range(;cidrIpv6=nothing)
+        new(cidrIpv6)
+    end
+    Ipv6Range(pd) = parse_from_xml(Ipv6Range, EC2TypeDict, pd)
+end # Ipv6Range
+export Ipv6Range
+
+type KeyPairInfo <: AbstractAWSType
+    keyFingerprint::Union{Void,String}
+    keyName::Union{Void,String}
+    function KeyPairInfo(;keyFingerprint=nothing, keyName=nothing)
+        new(keyFingerprint, keyName)
+    end
+    KeyPairInfo(pd) = parse_from_xml(KeyPairInfo, EC2TypeDict, pd)
+end # KeyPairInfo
+export KeyPairInfo
+
+type LaunchPermission <: AbstractAWSType
+    group::Union{Void,String}
+    userId::Union{Void,String}
+    function LaunchPermission(;group=nothing, userId=nothing)
+        new(group, userId)
+    end
+    LaunchPermission(pd) = parse_from_xml(LaunchPermission, EC2TypeDict, pd)
+end # LaunchPermission
+export LaunchPermission
+
+type Monitoring <: AbstractAWSType
+    state::Union{Void,String}
+    function Monitoring(;state=nothing)
+        new(state)
+    end
+    Monitoring(pd) = parse_from_xml(Monitoring, EC2TypeDict, pd)
+end # Monitoring
+export Monitoring
+
+type MovingAddressStatus <: AbstractAWSType
+    moveStatus::Union{Void,String}
+    publicIp::Union{Void,String}
+    function MovingAddressStatus(;moveStatus=nothing, publicIp=nothing)
+        new(moveStatus, publicIp)
+    end
+    MovingAddressStatus(pd) = parse_from_xml(MovingAddressStatus, EC2TypeDict, pd)
+end # MovingAddressStatus
+export MovingAddressStatus
+
+type InstanceNetworkInterfaceAssociation <: AbstractAWSType
+    ipOwnerId::Union{Void,String}
+    publicDnsName::Union{Void,String}
+    publicIp::Union{Void,String}
+    function InstanceNetworkInterfaceAssociation(;ipOwnerId=nothing, publicDnsName=nothing, publicIp=nothing)
+        new(ipOwnerId, publicDnsName, publicIp)
+    end
+    InstanceNetworkInterfaceAssociation(pd) = parse_from_xml(InstanceNetworkInterfaceAssociation, EC2TypeDict, pd)
+end # InstanceNetworkInterfaceAssociation
+export InstanceNetworkInterfaceAssociation
+
+type InstanceNetworkInterfaceAttachment <: AbstractAWSType
+    attachmentId::Union{Void,String}
+    attachTime::Union{Void,DateTime}
+    deleteOnTermination::Union{Void,Bool}
+    deviceIndex::Union{Void,Int64}
+    status::Union{Void,String}
+    function InstanceNetworkInterfaceAttachment(;attachmentId=nothing, attachTime=nothing, deleteOnTermination=nothing, deviceIndex=nothing, status=nothing)
+        new(attachmentId, attachTime, deleteOnTermination, deviceIndex, status)
+    end
+    InstanceNetworkInterfaceAttachment(pd) = parse_from_xml(InstanceNetworkInterfaceAttachment, EC2TypeDict, pd)
+end # InstanceNetworkInterfaceAttachment
+export InstanceNetworkInterfaceAttachment
+
+type InstancePrivateIpAddress <: AbstractAWSType
+    association::Union{Void,InstanceNetworkInterfaceAssociation}
+    primary::Union{Void,Bool}
+    privateDnsName::Union{Void,String}
+    privateIpAddress::Union{Void,String}
+    function InstancePrivateIpAddress(;association=nothing, primary=nothing, privateDnsName=nothing, privateIpAddress=nothing)
+        new(association, primary, privateDnsName, privateIpAddress)
+    end
+    InstancePrivateIpAddress(pd) = parse_from_xml(InstancePrivateIpAddress, EC2TypeDict, pd)
+end # InstancePrivateIpAddress
+export InstancePrivateIpAddress
+
+type InstanceNetworkInterface <: AbstractAWSType
+    association::Union{Void,InstanceNetworkInterfaceAssociation}
+    attachment::Union{Void,InstanceNetworkInterfaceAttachment}
+    description::Union{Void,String}
+    groupSet::Union{Void,Array{GroupIdentifier,1}}
+    ipv6AddressesSet::Union{Void,Array{InstanceIpv6Address,1}}
+    macAddress::Union{Void,String}
+    networkInterfaceId::Union{Void,String}
+    ownerId::Union{Void,String}
+    privateDnsName::Union{Void,String}
+    privateIpAddress::Union{Void,String}
+    privateIpAddressesSet::Union{Void,Array{InstancePrivateIpAddress,1}}
+    sourceDestCheck::Union{Void,Bool}
+    status::Union{Void,String}
+    subnetId::Union{Void,String}
+    vpcId::Union{Void,String}
+    function InstanceNetworkInterface(;association=nothing, attachment=nothing, description=nothing, groupSet=nothing, ipv6AddressesSet=nothing, macAddress=nothing, networkInterfaceId=nothing, ownerId=nothing, privateDnsName=nothing, privateIpAddress=nothing, privateIpAddressesSet=nothing, sourceDestCheck=nothing, status=nothing, subnetId=nothing, vpcId=nothing)
+        new(association, attachment, description, groupSet, ipv6AddressesSet, macAddress, networkInterfaceId, ownerId, privateDnsName, privateIpAddress, privateIpAddressesSet, sourceDestCheck, status, subnetId, vpcId)
+    end
+    InstanceNetworkInterface(pd) = parse_from_xml(InstanceNetworkInterface, EC2TypeDict, pd)
+end # InstanceNetworkInterface
+export InstanceNetworkInterface
+
+type Instance <: AbstractAWSType
+    amiLaunchIndex::Union{Void,Int64}
+    architecture::Union{Void,String}
+    blockDeviceMapping::Union{Void,Array{InstanceBlockDeviceMapping,1}}
+    clientToken::Union{Void,String}
+    dnsName::Union{Void,String}
+    ebsOptimized::Union{Void,Bool}
+    enaSupport::Union{Void,Bool}
+    groupSet::Union{Void,Array{GroupIdentifier,1}}
+    hypervisor::Union{Void,String}
+    iamInstanceProfile::Union{Void,IamInstanceProfile}
+    imageId::Union{Void,String}
+    instanceId::Union{Void,String}
+    instanceLifecycle::Union{Void,String}
+    instanceState::Union{Void,InstanceState}
+    instanceType::Union{Void,String}
+    ipAddress::Union{Void,String}
+    kernelId::Union{Void,String}
+    keyName::Union{Void,String}
+    launchTime::Union{Void,DateTime}
+    monitoring::Union{Void,Monitoring}
+    networkInterfaceSet::Union{Void,Array{InstanceNetworkInterface,1}}
+    placement::Union{Void,Placement}
+    platform::Union{Void,String}
+    privateDnsName::Union{Void,String}
+    privateIpAddress::Union{Void,String}
+    productCodes::Union{Void,Array{ProductCode,1}}
+    ramdiskId::Union{Void,String}
+    reason::Union{Void,String}
+    rootDeviceName::Union{Void,String}
+    rootDeviceType::Union{Void,String}
+    sourceDestCheck::Union{Void,Bool}
+    spotInstanceRequestId::Union{Void,String}
+    sriovNetSupport::Union{Void,String}
+    stateReason::Union{Void,StateReason}
+    subnetId::Union{Void,String}
+    tagSet::Union{Void,Array{Tag,1}}
+    virtualizationType::Union{Void,String}
+    vpcId::Union{Void,String}
+    function Instance(;amiLaunchIndex=nothing, architecture=nothing, blockDeviceMapping=nothing, clientToken=nothing, dnsName=nothing, ebsOptimized=nothing, enaSupport=nothing, groupSet=nothing, hypervisor=nothing, iamInstanceProfile=nothing, imageId=nothing, instanceId=nothing, instanceLifecycle=nothing, instanceState=nothing, instanceType=nothing, ipAddress=nothing, kernelId=nothing, keyName=nothing, launchTime=nothing, monitoring=nothing, networkInterfaceSet=nothing, placement=nothing, platform=nothing, privateDnsName=nothing, privateIpAddress=nothing, productCodes=nothing, ramdiskId=nothing, reason=nothing, rootDeviceName=nothing, rootDeviceType=nothing, sourceDestCheck=nothing, spotInstanceRequestId=nothing, sriovNetSupport=nothing, stateReason=nothing, subnetId=nothing, tagSet=nothing, virtualizationType=nothing, vpcId=nothing)
+        new(amiLaunchIndex, architecture, blockDeviceMapping, clientToken, dnsName, ebsOptimized, enaSupport, groupSet, hypervisor, iamInstanceProfile, imageId, instanceId, instanceLifecycle, instanceState, instanceType, ipAddress, kernelId, keyName, launchTime, monitoring, networkInterfaceSet, placement, platform, privateDnsName, privateIpAddress, productCodes, ramdiskId, reason, rootDeviceName, rootDeviceType, sourceDestCheck, spotInstanceRequestId, sriovNetSupport, stateReason, subnetId, tagSet, virtualizationType, vpcId)
+    end
+    Instance(pd) = parse_from_xml(Instance, EC2TypeDict, pd)
+end # Instance
+export Instance
+
+type InstanceBlockDeviceMappingSpecification <: AbstractAWSType
+    deviceName::Union{Void,String}
+    ebs::Union{Void,EbsInstanceBlockDeviceSpecification}
+    noDevice::Union{Void,String}
+    virtualName::Union{Void,String}
+    function InstanceBlockDeviceMappingSpecification(;deviceName=nothing, ebs=nothing, noDevice=nothing, virtualName=nothing)
+        new(deviceName, ebs, noDevice, virtualName)
+    end
+    InstanceBlockDeviceMappingSpecification(pd) = parse_from_xml(InstanceBlockDeviceMappingSpecification, EC2TypeDict, pd)
+end # InstanceBlockDeviceMappingSpecification
+export InstanceBlockDeviceMappingSpecification
+
+type InstanceMonitoring <: AbstractAWSType
+    instanceId::Union{Void,String}
+    monitoring::Union{Void,Monitoring}
+    function InstanceMonitoring(;instanceId=nothing, monitoring=nothing)
+        new(instanceId, monitoring)
+    end
+    InstanceMonitoring(pd) = parse_from_xml(InstanceMonitoring, EC2TypeDict, pd)
+end # InstanceMonitoring
+export InstanceMonitoring
+
+type InstanceNetworkInterfaceSpecification <: AbstractAWSType
+    associatePublicIpAddress::Union{Void,Bool}
+    deleteOnTermination::Union{Void,Bool}
+    description::Union{Void,String}
+    deviceIndex::Union{Void,Int64}
+    ipv6AddressCount::Union{Void,Int64}
+    ipv6Addresses::Union{Void,Array{InstanceIpv6Address,1}}
+    networkInterfaceId::Union{Void,String}
+    privateIpAddress::Union{Void,String}
+    privateIpAddresses::Union{Void,Array{PrivateIpAddressSpecification,1}}
+    secondaryPrivateIpAddressCount::Union{Void,Int64}
+    groups::Union{Void,Array{String,1}}
+    subnetId::Union{Void,String}
+    function InstanceNetworkInterfaceSpecification(;associatePublicIpAddress=nothing, deleteOnTermination=nothing, description=nothing, deviceIndex=nothing, ipv6AddressCount=nothing, ipv6Addresses=nothing, networkInterfaceId=nothing, privateIpAddress=nothing, privateIpAddresses=nothing, secondaryPrivateIpAddressCount=nothing, groups=nothing, subnetId=nothing)
+        new(associatePublicIpAddress, deleteOnTermination, description, deviceIndex, ipv6AddressCount, ipv6Addresses, networkInterfaceId, privateIpAddress, privateIpAddresses, secondaryPrivateIpAddressCount, groups, subnetId)
+    end
+    InstanceNetworkInterfaceSpecification(pd) = parse_from_xml(InstanceNetworkInterfaceSpecification, EC2TypeDict, pd)
+end # InstanceNetworkInterfaceSpecification
+export InstanceNetworkInterfaceSpecification
+
+type InstanceStatusDetails <: AbstractAWSType
+    impairedSince::Union{Void,DateTime}
+    name::Union{Void,String}
+    status::Union{Void,String}
+    function InstanceStatusDetails(;impairedSince=nothing, name=nothing, status=nothing)
+        new(impairedSince, name, status)
+    end
+    InstanceStatusDetails(pd) = parse_from_xml(InstanceStatusDetails, EC2TypeDict, pd)
+end # InstanceStatusDetails
+export InstanceStatusDetails
+
+type InstanceStatusEvent <: AbstractAWSType
+    code::Union{Void,String}
+    description::Union{Void,String}
+    notAfter::Union{Void,DateTime}
+    notBefore::Union{Void,DateTime}
+    function InstanceStatusEvent(;code=nothing, description=nothing, notAfter=nothing, notBefore=nothing)
+        new(code, description, notAfter, notBefore)
+    end
+    InstanceStatusEvent(pd) = parse_from_xml(InstanceStatusEvent, EC2TypeDict, pd)
+end # InstanceStatusEvent
+export InstanceStatusEvent
+
+type InstanceStatusSummary <: AbstractAWSType
+    details::Union{Void,Array{InstanceStatusDetails,1}}
+    status::Union{Void,String}
+    function InstanceStatusSummary(;details=nothing, status=nothing)
+        new(details, status)
+    end
+    InstanceStatusSummary(pd) = parse_from_xml(InstanceStatusSummary, EC2TypeDict, pd)
+end # InstanceStatusSummary
+export InstanceStatusSummary
+
+type InstanceStatus <: AbstractAWSType
+    availabilityZone::Union{Void,String}
+    eventsSet::Union{Void,Array{InstanceStatusEvent,1}}
+    instanceId::Union{Void,String}
+    instanceState::Union{Void,InstanceState}
+    instanceStatus::Union{Void,InstanceStatusSummary}
+    systemStatus::Union{Void,InstanceStatusSummary}
+    function InstanceStatus(;availabilityZone=nothing, eventsSet=nothing, instanceId=nothing, instanceState=nothing, instanceStatus=nothing, systemStatus=nothing)
+        new(availabilityZone, eventsSet, instanceId, instanceState, instanceStatus, systemStatus)
+    end
+    InstanceStatus(pd) = parse_from_xml(InstanceStatus, EC2TypeDict, pd)
+end # InstanceStatus
+export InstanceStatus
+
+type IpPermission <: AbstractAWSType
+    fromPort::Union{Void,Int64}
+    userIdGroupPairs::Union{Void,Array{UserIdGroupPair,1}}
+    ipProtocol::Union{Void,String}
+    ipRanges::Union{Void,Array{IpRange,1}}
+    ipv6Ranges::Union{Void,Array{Ipv6Range,1}}
+    prefixListIds::Union{Void,Array{PrefixListId,1}}
+    toPort::Union{Void,Int64}
+    function IpPermission(;fromPort=nothing, userIdGroupPairs=nothing, ipProtocol=nothing, ipRanges=nothing, ipv6Ranges=nothing, prefixListIds=nothing, toPort=nothing)
+        new(fromPort, userIdGroupPairs, ipProtocol, ipRanges, ipv6Ranges, prefixListIds, toPort)
+    end
+    IpPermission(pd) = parse_from_xml(IpPermission, EC2TypeDict, pd)
+end # IpPermission
+export IpPermission
+
+type LaunchPermissionModifications <: AbstractAWSType
+    add::Union{Void,Array{LaunchPermission,1}}
+    remove::Union{Void,Array{LaunchPermission,1}}
+    function LaunchPermissionModifications(;add=nothing, remove=nothing)
+        new(add, remove)
+    end
+    LaunchPermissionModifications(pd) = parse_from_xml(LaunchPermissionModifications, EC2TypeDict, pd)
+end # LaunchPermissionModifications
+export LaunchPermissionModifications
+
+type Route <: AbstractAWSType
+    destinationCidrBlock::Union{Void,String}
+    destinationIpv6CidrBlock::Union{Void,String}
+    destinationPrefixListId::Union{Void,String}
+    egressOnlyInternetGatewayId::Union{Void,String}
+    gatewayId::Union{Void,String}
+    instanceId::Union{Void,String}
+    instanceOwnerId::Union{Void,String}
+    natGatewayId::Union{Void,String}
+    networkInterfaceId::Union{Void,String}
+    origin::Union{Void,String}
+    state::Union{Void,String}
+    vpcPeeringConnectionId::Union{Void,String}
+    function Route(;destinationCidrBlock=nothing, destinationIpv6CidrBlock=nothing, destinationPrefixListId=nothing, egressOnlyInternetGatewayId=nothing, gatewayId=nothing, instanceId=nothing, instanceOwnerId=nothing, natGatewayId=nothing, networkInterfaceId=nothing, origin=nothing, state=nothing, vpcPeeringConnectionId=nothing)
+        new(destinationCidrBlock, destinationIpv6CidrBlock, destinationPrefixListId, egressOnlyInternetGatewayId, gatewayId, instanceId, instanceOwnerId, natGatewayId, networkInterfaceId, origin, state, vpcPeeringConnectionId)
+    end
+    Route(pd) = parse_from_xml(Route, EC2TypeDict, pd)
+end # Route
+export Route
+
+type RouteTableAssociation <: AbstractAWSType
+    main::Union{Void,Bool}
+    routeTableAssociationId::Union{Void,String}
+    routeTableId::Union{Void,String}
+    subnetId::Union{Void,String}
+    function RouteTableAssociation(;main=nothing, routeTableAssociationId=nothing, routeTableId=nothing, subnetId=nothing)
+        new(main, routeTableAssociationId, routeTableId, subnetId)
+    end
+    RouteTableAssociation(pd) = parse_from_xml(RouteTableAssociation, EC2TypeDict, pd)
+end # RouteTableAssociation
+export RouteTableAssociation
+
+type RouteTable <: AbstractAWSType
+    associationSet::Union{Void,Array{RouteTableAssociation,1}}
+    propagatingVgwSet::Union{Void,Array{PropagatingVgw,1}}
+    routeSet::Union{Void,Array{Route,1}}
+    routeTableId::Union{Void,String}
+    tagSet::Union{Void,Array{Tag,1}}
+    vpcId::Union{Void,String}
+    function RouteTable(;associationSet=nothing, propagatingVgwSet=nothing, routeSet=nothing, routeTableId=nothing, tagSet=nothing, vpcId=nothing)
+        new(associationSet, propagatingVgwSet, routeSet, routeTableId, tagSet, vpcId)
+    end
+    RouteTable(pd) = parse_from_xml(RouteTable, EC2TypeDict, pd)
+end # RouteTable
+export RouteTable
+
+type LaunchSpecification <: AbstractAWSType
+    addressingType::Union{Void,String}
+    blockDeviceMapping::Union{Void,Array{BlockDeviceMapping,1}}
+    ebsOptimized::Union{Void,Bool}
+    groupSet::Union{Void,Array{GroupIdentifier,1}}
+    iamInstanceProfile::Union{Void,IamInstanceProfileSpecification}
+    imageId::Union{Void,String}
+    instanceType::Union{Void,String}
+    kernelId::Union{Void,String}
+    keyName::Union{Void,String}
+    monitoring::Union{Void,RunInstancesMonitoringEnabled}
+    networkInterfaceSet::Union{Void,Array{InstanceNetworkInterfaceSpecification,1}}
+    placement::Union{Void,SpotPlacement}
+    ramdiskId::Union{Void,String}
+    subnetId::Union{Void,String}
+    userData::Union{Void,String}
+    function LaunchSpecification(;addressingType=nothing, blockDeviceMapping=nothing, ebsOptimized=nothing, groupSet=nothing, iamInstanceProfile=nothing, imageId=nothing, instanceType=nothing, kernelId=nothing, keyName=nothing, monitoring=nothing, networkInterfaceSet=nothing, placement=nothing, ramdiskId=nothing, subnetId=nothing, userData=nothing)
+        new(addressingType, blockDeviceMapping, ebsOptimized, groupSet, iamInstanceProfile, imageId, instanceType, kernelId, keyName, monitoring, networkInterfaceSet, placement, ramdiskId, subnetId, userData)
+    end
+    LaunchSpecification(pd) = parse_from_xml(LaunchSpecification, EC2TypeDict, pd)
+end # LaunchSpecification
+export LaunchSpecification
+
+type NatGatewayAddress <: AbstractAWSType
+    allocationId::Union{Void,String}
+    networkInterfaceId::Union{Void,String}
+    privateIp::Union{Void,String}
+    publicIp::Union{Void,String}
+    function NatGatewayAddress(;allocationId=nothing, networkInterfaceId=nothing, privateIp=nothing, publicIp=nothing)
+        new(allocationId, networkInterfaceId, privateIp, publicIp)
+    end
+    NatGatewayAddress(pd) = parse_from_xml(NatGatewayAddress, EC2TypeDict, pd)
+end # NatGatewayAddress
+export NatGatewayAddress
+
+type NatGateway <: AbstractAWSType
+    createTime::Union{Void,DateTime}
+    deleteTime::Union{Void,DateTime}
+    failureCode::Union{Void,String}
+    failureMessage::Union{Void,String}
+    natGatewayAddressSet::Union{Void,Array{NatGatewayAddress,1}}
+    natGatewayId::Union{Void,String}
+    provisionedBandwidth::Union{Void,ProvisionedBandwidth}
+    state::Union{Void,String}
+    subnetId::Union{Void,String}
+    vpcId::Union{Void,String}
+    function NatGateway(;createTime=nothing, deleteTime=nothing, failureCode=nothing, failureMessage=nothing, natGatewayAddressSet=nothing, natGatewayId=nothing, provisionedBandwidth=nothing, state=nothing, subnetId=nothing, vpcId=nothing)
+        new(createTime, deleteTime, failureCode, failureMessage, natGatewayAddressSet, natGatewayId, provisionedBandwidth, state, subnetId, vpcId)
+    end
+    NatGateway(pd) = parse_from_xml(NatGateway, EC2TypeDict, pd)
+end # NatGateway
+export NatGateway
+
+type NetworkAclAssociation <: AbstractAWSType
+    networkAclAssociationId::Union{Void,String}
+    networkAclId::Union{Void,String}
+    subnetId::Union{Void,String}
+    function NetworkAclAssociation(;networkAclAssociationId=nothing, networkAclId=nothing, subnetId=nothing)
+        new(networkAclAssociationId, networkAclId, subnetId)
+    end
+    NetworkAclAssociation(pd) = parse_from_xml(NetworkAclAssociation, EC2TypeDict, pd)
+end # NetworkAclAssociation
+export NetworkAclAssociation
+
+type NetworkAclEntry <: AbstractAWSType
+    cidrBlock::Union{Void,String}
+    egress::Union{Void,Bool}
+    icmpTypeCode::Union{Void,IcmpTypeCode}
+    ipv6CidrBlock::Union{Void,String}
+    portRange::Union{Void,PortRange}
+    protocol::Union{Void,String}
+    ruleAction::Union{Void,String}
+    ruleNumber::Union{Void,Int64}
+    function NetworkAclEntry(;cidrBlock=nothing, egress=nothing, icmpTypeCode=nothing, ipv6CidrBlock=nothing, portRange=nothing, protocol=nothing, ruleAction=nothing, ruleNumber=nothing)
+        new(cidrBlock, egress, icmpTypeCode, ipv6CidrBlock, portRange, protocol, ruleAction, ruleNumber)
+    end
+    NetworkAclEntry(pd) = parse_from_xml(NetworkAclEntry, EC2TypeDict, pd)
+end # NetworkAclEntry
+export NetworkAclEntry
+
+type NetworkAcl <: AbstractAWSType
+    associationSet::Union{Void,Array{NetworkAclAssociation,1}}
+    default::Union{Void,Bool}
+    entrySet::Union{Void,Array{NetworkAclEntry,1}}
+    networkAclId::Union{Void,String}
+    tagSet::Union{Void,Array{Tag,1}}
+    vpcId::Union{Void,String}
+    function NetworkAcl(;associationSet=nothing, default=nothing, entrySet=nothing, networkAclId=nothing, tagSet=nothing, vpcId=nothing)
+        new(associationSet, default, entrySet, networkAclId, tagSet, vpcId)
+    end
+    NetworkAcl(pd) = parse_from_xml(NetworkAcl, EC2TypeDict, pd)
+end # NetworkAcl
+export NetworkAcl
+
+type NetworkInterfaceAssociation <: AbstractAWSType
+    allocationId::Union{Void,String}
+    associationId::Union{Void,String}
+    ipOwnerId::Union{Void,String}
+    publicDnsName::Union{Void,String}
+    publicIp::Union{Void,String}
+    function NetworkInterfaceAssociation(;allocationId=nothing, associationId=nothing, ipOwnerId=nothing, publicDnsName=nothing, publicIp=nothing)
+        new(allocationId, associationId, ipOwnerId, publicDnsName, publicIp)
+    end
+    NetworkInterfaceAssociation(pd) = parse_from_xml(NetworkInterfaceAssociation, EC2TypeDict, pd)
+end # NetworkInterfaceAssociation
+export NetworkInterfaceAssociation
+
+type NetworkInterfaceAttachment <: AbstractAWSType
+    attachmentId::Union{Void,String}
+    attachTime::Union{Void,DateTime}
+    deleteOnTermination::Union{Void,Bool}
+    deviceIndex::Union{Void,Int64}
+    instanceId::Union{Void,String}
+    instanceOwnerId::Union{Void,String}
+    status::Union{Void,String}
+    function NetworkInterfaceAttachment(;attachmentId=nothing, attachTime=nothing, deleteOnTermination=nothing, deviceIndex=nothing, instanceId=nothing, instanceOwnerId=nothing, status=nothing)
+        new(attachmentId, attachTime, deleteOnTermination, deviceIndex, instanceId, instanceOwnerId, status)
+    end
+    NetworkInterfaceAttachment(pd) = parse_from_xml(NetworkInterfaceAttachment, EC2TypeDict, pd)
+end # NetworkInterfaceAttachment
+export NetworkInterfaceAttachment
+
+type NetworkInterfaceAttachmentChanges <: AbstractAWSType
+    attachmentId::Union{Void,String}
+    deleteOnTermination::Union{Void,Bool}
+    function NetworkInterfaceAttachmentChanges(;attachmentId=nothing, deleteOnTermination=nothing)
+        new(attachmentId, deleteOnTermination)
+    end
+    NetworkInterfaceAttachmentChanges(pd) = parse_from_xml(NetworkInterfaceAttachmentChanges, EC2TypeDict, pd)
+end # NetworkInterfaceAttachmentChanges
+export NetworkInterfaceAttachmentChanges
+
+type NetworkInterfaceIpv6Address <: AbstractAWSType
+    ipv6Address::Union{Void,String}
+    function NetworkInterfaceIpv6Address(;ipv6Address=nothing)
+        new(ipv6Address)
+    end
+    NetworkInterfaceIpv6Address(pd) = parse_from_xml(NetworkInterfaceIpv6Address, EC2TypeDict, pd)
+end # NetworkInterfaceIpv6Address
+export NetworkInterfaceIpv6Address
+
+type NetworkInterfacePermissionState <: AbstractAWSType
+    state::Union{Void,String}
+    statusMessage::Union{Void,String}
+    function NetworkInterfacePermissionState(;state=nothing, statusMessage=nothing)
+        new(state, statusMessage)
+    end
+    NetworkInterfacePermissionState(pd) = parse_from_xml(NetworkInterfacePermissionState, EC2TypeDict, pd)
+end # NetworkInterfacePermissionState
+export NetworkInterfacePermissionState
+
+type NetworkInterfacePermission <: AbstractAWSType
+    awsAccountId::Union{Void,String}
+    awsService::Union{Void,String}
+    networkInterfaceId::Union{Void,String}
+    networkInterfacePermissionId::Union{Void,String}
+    permission::Union{Void,String}
+    permissionState::Union{Void,NetworkInterfacePermissionState}
+    function NetworkInterfacePermission(;awsAccountId=nothing, awsService=nothing, networkInterfaceId=nothing, networkInterfacePermissionId=nothing, permission=nothing, permissionState=nothing)
+        new(awsAccountId, awsService, networkInterfaceId, networkInterfacePermissionId, permission, permissionState)
+    end
+    NetworkInterfacePermission(pd) = parse_from_xml(NetworkInterfacePermission, EC2TypeDict, pd)
+end # NetworkInterfacePermission
+export NetworkInterfacePermission
+
+type NetworkInterfacePrivateIpAddress <: AbstractAWSType
+    association::Union{Void,NetworkInterfaceAssociation}
+    primary::Union{Void,Bool}
+    privateDnsName::Union{Void,String}
+    privateIpAddress::Union{Void,String}
+    function NetworkInterfacePrivateIpAddress(;association=nothing, primary=nothing, privateDnsName=nothing, privateIpAddress=nothing)
+        new(association, primary, privateDnsName, privateIpAddress)
+    end
+    NetworkInterfacePrivateIpAddress(pd) = parse_from_xml(NetworkInterfacePrivateIpAddress, EC2TypeDict, pd)
+end # NetworkInterfacePrivateIpAddress
+export NetworkInterfacePrivateIpAddress
+
+type NetworkInterface <: AbstractAWSType
+    association::Union{Void,NetworkInterfaceAssociation}
+    attachment::Union{Void,NetworkInterfaceAttachment}
+    availabilityZone::Union{Void,String}
+    description::Union{Void,String}
+    groupSet::Union{Void,Array{GroupIdentifier,1}}
+    interfaceType::Union{Void,String}
+    ipv6AddressesSet::Union{Void,Array{NetworkInterfaceIpv6Address,1}}
+    macAddress::Union{Void,String}
+    networkInterfaceId::Union{Void,String}
+    ownerId::Union{Void,String}
+    privateDnsName::Union{Void,String}
+    privateIpAddress::Union{Void,String}
+    privateIpAddressesSet::Union{Void,Array{NetworkInterfacePrivateIpAddress,1}}
+    requesterId::Union{Void,String}
+    requesterManaged::Union{Void,Bool}
+    sourceDestCheck::Union{Void,Bool}
+    status::Union{Void,String}
+    subnetId::Union{Void,String}
+    tagSet::Union{Void,Array{Tag,1}}
+    vpcId::Union{Void,String}
+    function NetworkInterface(;association=nothing, attachment=nothing, availabilityZone=nothing, description=nothing, groupSet=nothing, interfaceType=nothing, ipv6AddressesSet=nothing, macAddress=nothing, networkInterfaceId=nothing, ownerId=nothing, privateDnsName=nothing, privateIpAddress=nothing, privateIpAddressesSet=nothing, requesterId=nothing, requesterManaged=nothing, sourceDestCheck=nothing, status=nothing, subnetId=nothing, tagSet=nothing, vpcId=nothing)
+        new(association, attachment, availabilityZone, description, groupSet, interfaceType, ipv6AddressesSet, macAddress, networkInterfaceId, ownerId, privateDnsName, privateIpAddress, privateIpAddressesSet, requesterId, requesterManaged, sourceDestCheck, status, subnetId, tagSet, vpcId)
+    end
+    NetworkInterface(pd) = parse_from_xml(NetworkInterface, EC2TypeDict, pd)
+end # NetworkInterface
+export NetworkInterface
+
+type RequestSpotLaunchSpecification <: AbstractAWSType
+    addressingType::Union{Void,String}
+    blockDeviceMappings::Union{Void,Array{BlockDeviceMapping,1}}
+    ebsOptimized::Union{Void,Bool}
+    iamInstanceProfile::Union{Void,IamInstanceProfileSpecification}
+    imageId::Union{Void,String}
+    instanceType::Union{Void,String}
+    kernelId::Union{Void,String}
+    keyName::Union{Void,String}
+    monitoring::Union{Void,RunInstancesMonitoringEnabled}
+    networkInterfaces::Union{Void,Array{InstanceNetworkInterfaceSpecification,1}}
+    placement::Union{Void,SpotPlacement}
+    ramdiskId::Union{Void,String}
+    securityGroups::Union{Void,Array{String,1}}
+    securityGroupIds::Union{Void,Array{String,1}}
+    subnetId::Union{Void,String}
+    userData::Union{Void,String}
+    function RequestSpotLaunchSpecification(;addressingType=nothing, blockDeviceMappings=nothing, ebsOptimized=nothing, iamInstanceProfile=nothing, imageId=nothing, instanceType=nothing, kernelId=nothing, keyName=nothing, monitoring=nothing, networkInterfaces=nothing, placement=nothing, ramdiskId=nothing, securityGroups=nothing, securityGroupIds=nothing, subnetId=nothing, userData=nothing)
+        new(addressingType, blockDeviceMappings, ebsOptimized, iamInstanceProfile, imageId, instanceType, kernelId, keyName, monitoring, networkInterfaces, placement, ramdiskId, securityGroups, securityGroupIds, subnetId, userData)
+    end
+    RequestSpotLaunchSpecification(pd) = parse_from_xml(RequestSpotLaunchSpecification, EC2TypeDict, pd)
+end # RequestSpotLaunchSpecification
+export RequestSpotLaunchSpecification
+
+type Reservation <: AbstractAWSType
+    groupSet::Union{Void,Array{GroupIdentifier,1}}
+    instancesSet::Union{Void,Array{Instance,1}}
+    ownerId::Union{Void,String}
+    requesterId::Union{Void,String}
+    reservationId::Union{Void,String}
+    function Reservation(;groupSet=nothing, instancesSet=nothing, ownerId=nothing, requesterId=nothing, reservationId=nothing)
+        new(groupSet, instancesSet, ownerId, requesterId, reservationId)
+    end
+    Reservation(pd) = parse_from_xml(Reservation, EC2TypeDict, pd)
+end # Reservation
+export Reservation
+
+type ReservationValue <: AbstractAWSType
+    hourlyPrice::Union{Void,String}
+    remainingTotalValue::Union{Void,String}
+    remainingUpfrontValue::Union{Void,String}
+    function ReservationValue(;hourlyPrice=nothing, remainingTotalValue=nothing, remainingUpfrontValue=nothing)
+        new(hourlyPrice, remainingTotalValue, remainingUpfrontValue)
+    end
+    ReservationValue(pd) = parse_from_xml(ReservationValue, EC2TypeDict, pd)
+end # ReservationValue
+export ReservationValue
+
+type ReservedInstanceLimitPrice <: AbstractAWSType
+    amount::Union{Void,Float64}
+    currencyCode::Union{Void,String}
+    function ReservedInstanceLimitPrice(;amount=nothing, currencyCode=nothing)
+        new(amount, currencyCode)
+    end
+    ReservedInstanceLimitPrice(pd) = parse_from_xml(ReservedInstanceLimitPrice, EC2TypeDict, pd)
+end # ReservedInstanceLimitPrice
+export ReservedInstanceLimitPrice
+
+type ReservedInstanceReservationValue <: AbstractAWSType
+    reservationValue::Union{Void,ReservationValue}
+    reservedInstanceId::Union{Void,String}
+    function ReservedInstanceReservationValue(;reservationValue=nothing, reservedInstanceId=nothing)
+        new(reservationValue, reservedInstanceId)
+    end
+    ReservedInstanceReservationValue(pd) = parse_from_xml(ReservedInstanceReservationValue, EC2TypeDict, pd)
+end # ReservedInstanceReservationValue
+export ReservedInstanceReservationValue
+
+type ReservedInstances <: AbstractAWSType
+    availabilityZone::Union{Void,String}
+    currencyCode::Union{Void,String}
+    duration::Union{Void,Int64}
+    _end::Union{Void,DateTime}
+    fixedPrice::Union{Void,Float64}
+    instanceCount::Union{Void,Int64}
+    instanceTenancy::Union{Void,String}
+    instanceType::Union{Void,String}
+    offeringClass::Union{Void,String}
+    offeringType::Union{Void,String}
+    productDescription::Union{Void,String}
+    recurringCharges::Union{Void,Array{RecurringCharge,1}}
+    reservedInstancesId::Union{Void,String}
+    scope::Union{Void,String}
+    start::Union{Void,DateTime}
+    state::Union{Void,String}
+    tagSet::Union{Void,Array{Tag,1}}
+    usagePrice::Union{Void,Float64}
+    function ReservedInstances(;availabilityZone=nothing, currencyCode=nothing, duration=nothing, _end=nothing, fixedPrice=nothing, instanceCount=nothing, instanceTenancy=nothing, instanceType=nothing, offeringClass=nothing, offeringType=nothing, productDescription=nothing, recurringCharges=nothing, reservedInstancesId=nothing, scope=nothing, start=nothing, state=nothing, tagSet=nothing, usagePrice=nothing)
+        new(availabilityZone, currencyCode, duration, _end, fixedPrice, instanceCount, instanceTenancy, instanceType, offeringClass, offeringType, productDescription, recurringCharges, reservedInstancesId, scope, start, state, tagSet, usagePrice)
+    end
+    ReservedInstances(pd) = parse_from_xml(ReservedInstances, EC2TypeDict, pd)
+end # ReservedInstances
+export ReservedInstances
+
+type ReservedInstancesConfiguration <: AbstractAWSType
+    availabilityZone::Union{Void,String}
+    instanceCount::Union{Void,Int64}
+    instanceType::Union{Void,String}
+    platform::Union{Void,String}
+    scope::Union{Void,String}
+    function ReservedInstancesConfiguration(;availabilityZone=nothing, instanceCount=nothing, instanceType=nothing, platform=nothing, scope=nothing)
+        new(availabilityZone, instanceCount, instanceType, platform, scope)
+    end
+    ReservedInstancesConfiguration(pd) = parse_from_xml(ReservedInstancesConfiguration, EC2TypeDict, pd)
+end # ReservedInstancesConfiguration
+export ReservedInstancesConfiguration
+
+type ReservedInstancesId <: AbstractAWSType
+    reservedInstancesId::Union{Void,String}
+    function ReservedInstancesId(;reservedInstancesId=nothing)
+        new(reservedInstancesId)
+    end
+    ReservedInstancesId(pd) = parse_from_xml(ReservedInstancesId, EC2TypeDict, pd)
+end # ReservedInstancesId
+export ReservedInstancesId
+
+type ReservedInstancesListing <: AbstractAWSType
+    clientToken::Union{Void,String}
+    createDate::Union{Void,DateTime}
+    instanceCounts::Union{Void,Array{InstanceCount,1}}
+    priceSchedules::Union{Void,Array{PriceSchedule,1}}
+    reservedInstancesId::Union{Void,String}
+    reservedInstancesListingId::Union{Void,String}
+    status::Union{Void,String}
+    statusMessage::Union{Void,String}
+    tagSet::Union{Void,Array{Tag,1}}
+    updateDate::Union{Void,DateTime}
+    function ReservedInstancesListing(;clientToken=nothing, createDate=nothing, instanceCounts=nothing, priceSchedules=nothing, reservedInstancesId=nothing, reservedInstancesListingId=nothing, status=nothing, statusMessage=nothing, tagSet=nothing, updateDate=nothing)
+        new(clientToken, createDate, instanceCounts, priceSchedules, reservedInstancesId, reservedInstancesListingId, status, statusMessage, tagSet, updateDate)
+    end
+    ReservedInstancesListing(pd) = parse_from_xml(ReservedInstancesListing, EC2TypeDict, pd)
+end # ReservedInstancesListing
+export ReservedInstancesListing
+
+type ReservedInstancesModificationResult <: AbstractAWSType
+    reservedInstancesId::Union{Void,String}
+    targetConfiguration::Union{Void,ReservedInstancesConfiguration}
+    function ReservedInstancesModificationResult(;reservedInstancesId=nothing, targetConfiguration=nothing)
+        new(reservedInstancesId, targetConfiguration)
+    end
+    ReservedInstancesModificationResult(pd) = parse_from_xml(ReservedInstancesModificationResult, EC2TypeDict, pd)
+end # ReservedInstancesModificationResult
+export ReservedInstancesModificationResult
+
+type ReservedInstancesModification <: AbstractAWSType
+    clientToken::Union{Void,String}
+    createDate::Union{Void,DateTime}
+    effectiveDate::Union{Void,DateTime}
+    modificationResultSet::Union{Void,Array{ReservedInstancesModificationResult,1}}
+    reservedInstancesModificationId::Union{Void,String}
+    reservedInstancesSet::Union{Void,Array{ReservedInstancesId,1}}
+    status::Union{Void,String}
+    statusMessage::Union{Void,String}
+    updateDate::Union{Void,DateTime}
+    function ReservedInstancesModification(;clientToken=nothing, createDate=nothing, effectiveDate=nothing, modificationResultSet=nothing, reservedInstancesModificationId=nothing, reservedInstancesSet=nothing, status=nothing, statusMessage=nothing, updateDate=nothing)
+        new(clientToken, createDate, effectiveDate, modificationResultSet, reservedInstancesModificationId, reservedInstancesSet, status, statusMessage, updateDate)
+    end
+    ReservedInstancesModification(pd) = parse_from_xml(ReservedInstancesModification, EC2TypeDict, pd)
+end # ReservedInstancesModification
+export ReservedInstancesModification
+
+type ReservedInstancesOffering <: AbstractAWSType
+    availabilityZone::Union{Void,String}
+    currencyCode::Union{Void,String}
+    duration::Union{Void,Int64}
+    fixedPrice::Union{Void,Float64}
+    instanceTenancy::Union{Void,String}
+    instanceType::Union{Void,String}
+    marketplace::Union{Void,Bool}
+    offeringClass::Union{Void,String}
+    offeringType::Union{Void,String}
+    pricingDetailsSet::Union{Void,Array{PricingDetail,1}}
+    productDescription::Union{Void,String}
+    recurringCharges::Union{Void,Array{RecurringCharge,1}}
+    reservedInstancesOfferingId::Union{Void,String}
+    scope::Union{Void,String}
+    usagePrice::Union{Void,Float64}
+    function ReservedInstancesOffering(;availabilityZone=nothing, currencyCode=nothing, duration=nothing, fixedPrice=nothing, instanceTenancy=nothing, instanceType=nothing, marketplace=nothing, offeringClass=nothing, offeringType=nothing, pricingDetailsSet=nothing, productDescription=nothing, recurringCharges=nothing, reservedInstancesOfferingId=nothing, scope=nothing, usagePrice=nothing)
+        new(availabilityZone, currencyCode, duration, fixedPrice, instanceTenancy, instanceType, marketplace, offeringClass, offeringType, pricingDetailsSet, productDescription, recurringCharges, reservedInstancesOfferingId, scope, usagePrice)
+    end
+    ReservedInstancesOffering(pd) = parse_from_xml(ReservedInstancesOffering, EC2TypeDict, pd)
+end # ReservedInstancesOffering
+export ReservedInstancesOffering
+
+type ScheduledInstanceRecurrence <: AbstractAWSType
+    frequency::Union{Void,String}
+    interval::Union{Void,Int64}
+    occurrenceDaySet::Union{Void,Array{Int64,1}}
+    occurrenceRelativeToEnd::Union{Void,Bool}
+    occurrenceUnit::Union{Void,String}
+    function ScheduledInstanceRecurrence(;frequency=nothing, interval=nothing, occurrenceDaySet=nothing, occurrenceRelativeToEnd=nothing, occurrenceUnit=nothing)
+        new(frequency, interval, occurrenceDaySet, occurrenceRelativeToEnd, occurrenceUnit)
+    end
+    ScheduledInstanceRecurrence(pd) = parse_from_xml(ScheduledInstanceRecurrence, EC2TypeDict, pd)
+end # ScheduledInstanceRecurrence
+export ScheduledInstanceRecurrence
+
+type ScheduledInstanceRecurrenceRequest <: AbstractAWSType
+    frequency::Union{Void,String}
+    interval::Union{Void,Int64}
+    occurrenceDays::Union{Void,Array{Int64,1}}
+    occurrenceRelativeToEnd::Union{Void,Bool}
+    occurrenceUnit::Union{Void,String}
+    function ScheduledInstanceRecurrenceRequest(;frequency=nothing, interval=nothing, occurrenceDays=nothing, occurrenceRelativeToEnd=nothing, occurrenceUnit=nothing)
+        new(frequency, interval, occurrenceDays, occurrenceRelativeToEnd, occurrenceUnit)
+    end
+    ScheduledInstanceRecurrenceRequest(pd) = parse_from_xml(ScheduledInstanceRecurrenceRequest, EC2TypeDict, pd)
+end # ScheduledInstanceRecurrenceRequest
+export ScheduledInstanceRecurrenceRequest
+
+type ScheduledInstance <: AbstractAWSType
+    availabilityZone::Union{Void,String}
+    createDate::Union{Void,DateTime}
+    hourlyPrice::Union{Void,String}
+    instanceCount::Union{Void,Int64}
+    instanceType::Union{Void,String}
+    networkPlatform::Union{Void,String}
+    nextSlotStartTime::Union{Void,DateTime}
+    platform::Union{Void,String}
+    previousSlotEndTime::Union{Void,DateTime}
+    recurrence::Union{Void,ScheduledInstanceRecurrence}
+    scheduledInstanceId::Union{Void,String}
+    slotDurationInHours::Union{Void,Int64}
+    termEndDate::Union{Void,DateTime}
+    termStartDate::Union{Void,DateTime}
+    totalScheduledInstanceHours::Union{Void,Int64}
+    function ScheduledInstance(;availabilityZone=nothing, createDate=nothing, hourlyPrice=nothing, instanceCount=nothing, instanceType=nothing, networkPlatform=nothing, nextSlotStartTime=nothing, platform=nothing, previousSlotEndTime=nothing, recurrence=nothing, scheduledInstanceId=nothing, slotDurationInHours=nothing, termEndDate=nothing, termStartDate=nothing, totalScheduledInstanceHours=nothing)
+        new(availabilityZone, createDate, hourlyPrice, instanceCount, instanceType, networkPlatform, nextSlotStartTime, platform, previousSlotEndTime, recurrence, scheduledInstanceId, slotDurationInHours, termEndDate, termStartDate, totalScheduledInstanceHours)
+    end
+    ScheduledInstance(pd) = parse_from_xml(ScheduledInstance, EC2TypeDict, pd)
+end # ScheduledInstance
+export ScheduledInstance
+
+type ScheduledInstanceAvailability <: AbstractAWSType
+    availabilityZone::Union{Void,String}
+    availableInstanceCount::Union{Void,Int64}
+    firstSlotStartTime::Union{Void,DateTime}
+    hourlyPrice::Union{Void,String}
+    instanceType::Union{Void,String}
+    maxTermDurationInDays::Union{Void,Int64}
+    minTermDurationInDays::Union{Void,Int64}
+    networkPlatform::Union{Void,String}
+    platform::Union{Void,String}
+    purchaseToken::Union{Void,String}
+    recurrence::Union{Void,ScheduledInstanceRecurrence}
+    slotDurationInHours::Union{Void,Int64}
+    totalScheduledInstanceHours::Union{Void,Int64}
+    function ScheduledInstanceAvailability(;availabilityZone=nothing, availableInstanceCount=nothing, firstSlotStartTime=nothing, hourlyPrice=nothing, instanceType=nothing, maxTermDurationInDays=nothing, minTermDurationInDays=nothing, networkPlatform=nothing, platform=nothing, purchaseToken=nothing, recurrence=nothing, slotDurationInHours=nothing, totalScheduledInstanceHours=nothing)
+        new(availabilityZone, availableInstanceCount, firstSlotStartTime, hourlyPrice, instanceType, maxTermDurationInDays, minTermDurationInDays, networkPlatform, platform, purchaseToken, recurrence, slotDurationInHours, totalScheduledInstanceHours)
+    end
+    ScheduledInstanceAvailability(pd) = parse_from_xml(ScheduledInstanceAvailability, EC2TypeDict, pd)
+end # ScheduledInstanceAvailability
+export ScheduledInstanceAvailability
+
+type ScheduledInstancesEbs <: AbstractAWSType
+    deleteOnTermination::Union{Void,Bool}
+    encrypted::Union{Void,Bool}
+    iops::Union{Void,Int64}
+    snapshotId::Union{Void,String}
+    volumeSize::Union{Void,Int64}
+    volumeType::Union{Void,String}
+    function ScheduledInstancesEbs(;deleteOnTermination=nothing, encrypted=nothing, iops=nothing, snapshotId=nothing, volumeSize=nothing, volumeType=nothing)
+        new(deleteOnTermination, encrypted, iops, snapshotId, volumeSize, volumeType)
+    end
+    ScheduledInstancesEbs(pd) = parse_from_xml(ScheduledInstancesEbs, EC2TypeDict, pd)
+end # ScheduledInstancesEbs
+export ScheduledInstancesEbs
+
+type ScheduledInstancesBlockDeviceMapping <: AbstractAWSType
+    deviceName::Union{Void,String}
+    ebs::Union{Void,ScheduledInstancesEbs}
+    noDevice::Union{Void,String}
+    virtualName::Union{Void,String}
+    function ScheduledInstancesBlockDeviceMapping(;deviceName=nothing, ebs=nothing, noDevice=nothing, virtualName=nothing)
+        new(deviceName, ebs, noDevice, virtualName)
+    end
+    ScheduledInstancesBlockDeviceMapping(pd) = parse_from_xml(ScheduledInstancesBlockDeviceMapping, EC2TypeDict, pd)
+end # ScheduledInstancesBlockDeviceMapping
+export ScheduledInstancesBlockDeviceMapping
+
+type ScheduledInstancesIamInstanceProfile <: AbstractAWSType
+    arn::Union{Void,String}
+    name::Union{Void,String}
+    function ScheduledInstancesIamInstanceProfile(;arn=nothing, name=nothing)
+        new(arn, name)
+    end
+    ScheduledInstancesIamInstanceProfile(pd) = parse_from_xml(ScheduledInstancesIamInstanceProfile, EC2TypeDict, pd)
+end # ScheduledInstancesIamInstanceProfile
+export ScheduledInstancesIamInstanceProfile
+
+type ScheduledInstancesIpv6Address <: AbstractAWSType
+    ipv6Address::Union{Void,String}
+    function ScheduledInstancesIpv6Address(;ipv6Address=nothing)
+        new(ipv6Address)
+    end
+    ScheduledInstancesIpv6Address(pd) = parse_from_xml(ScheduledInstancesIpv6Address, EC2TypeDict, pd)
+end # ScheduledInstancesIpv6Address
+export ScheduledInstancesIpv6Address
+
+type ScheduledInstancesPlacement <: AbstractAWSType
+    availabilityZone::Union{Void,String}
+    groupName::Union{Void,String}
+    function ScheduledInstancesPlacement(;availabilityZone=nothing, groupName=nothing)
+        new(availabilityZone, groupName)
+    end
+    ScheduledInstancesPlacement(pd) = parse_from_xml(ScheduledInstancesPlacement, EC2TypeDict, pd)
+end # ScheduledInstancesPlacement
+export ScheduledInstancesPlacement
+
+type ScheduledInstancesPrivateIpAddressConfig <: AbstractAWSType
+    primary::Union{Void,Bool}
+    privateIpAddress::Union{Void,String}
+    function ScheduledInstancesPrivateIpAddressConfig(;primary=nothing, privateIpAddress=nothing)
+        new(primary, privateIpAddress)
+    end
+    ScheduledInstancesPrivateIpAddressConfig(pd) = parse_from_xml(ScheduledInstancesPrivateIpAddressConfig, EC2TypeDict, pd)
+end # ScheduledInstancesPrivateIpAddressConfig
+export ScheduledInstancesPrivateIpAddressConfig
+
+type ScheduledInstancesMonitoring <: AbstractAWSType
+    enabled::Union{Void,Bool}
+    function ScheduledInstancesMonitoring(;enabled=nothing)
+        new(enabled)
+    end
+    ScheduledInstancesMonitoring(pd) = parse_from_xml(ScheduledInstancesMonitoring, EC2TypeDict, pd)
+end # ScheduledInstancesMonitoring
+export ScheduledInstancesMonitoring
+
+type ScheduledInstancesNetworkInterface <: AbstractAWSType
+    associatePublicIpAddress::Union{Void,Bool}
+    deleteOnTermination::Union{Void,Bool}
+    description::Union{Void,String}
+    deviceIndex::Union{Void,Int64}
+    groups::Union{Void,Array{String,1}}
+    ipv6Addresses::Union{Void,Array{ScheduledInstancesIpv6Address,1}}
+    ipv6AddressCount::Union{Void,Int64}
+    networkInterfaceId::Union{Void,String}
+    privateIpAddress::Union{Void,String}
+    privateIpAddressConfigs::Union{Void,Array{ScheduledInstancesPrivateIpAddressConfig,1}}
+    secondaryPrivateIpAddressCount::Union{Void,Int64}
+    subnetId::Union{Void,String}
+    function ScheduledInstancesNetworkInterface(;associatePublicIpAddress=nothing, deleteOnTermination=nothing, description=nothing, deviceIndex=nothing, groups=nothing, ipv6Addresses=nothing, ipv6AddressCount=nothing, networkInterfaceId=nothing, privateIpAddress=nothing, privateIpAddressConfigs=nothing, secondaryPrivateIpAddressCount=nothing, subnetId=nothing)
+        new(associatePublicIpAddress, deleteOnTermination, description, deviceIndex, groups, ipv6Addresses, ipv6AddressCount, networkInterfaceId, privateIpAddress, privateIpAddressConfigs, secondaryPrivateIpAddressCount, subnetId)
+    end
+    ScheduledInstancesNetworkInterface(pd) = parse_from_xml(ScheduledInstancesNetworkInterface, EC2TypeDict, pd)
+end # ScheduledInstancesNetworkInterface
+export ScheduledInstancesNetworkInterface
+
+type ScheduledInstancesLaunchSpecification <: AbstractAWSType
+    blockDeviceMappings::Union{Void,Array{ScheduledInstancesBlockDeviceMapping,1}}
+    ebsOptimized::Union{Void,Bool}
+    iamInstanceProfile::Union{Void,ScheduledInstancesIamInstanceProfile}
+    imageId::Union{Void,String}
+    instanceType::Union{Void,String}
+    kernelId::Union{Void,String}
+    keyName::Union{Void,String}
+    monitoring::Union{Void,ScheduledInstancesMonitoring}
+    networkInterfaces::Union{Void,Array{ScheduledInstancesNetworkInterface,1}}
+    placement::Union{Void,ScheduledInstancesPlacement}
+    ramdiskId::Union{Void,String}
+    securityGroupIds::Union{Void,Array{String,1}}
+    subnetId::Union{Void,String}
+    userData::Union{Void,String}
+    function ScheduledInstancesLaunchSpecification(;blockDeviceMappings=nothing, ebsOptimized=nothing, iamInstanceProfile=nothing, imageId=nothing, instanceType=nothing, kernelId=nothing, keyName=nothing, monitoring=nothing, networkInterfaces=nothing, placement=nothing, ramdiskId=nothing, securityGroupIds=nothing, subnetId=nothing, userData=nothing)
+        new(blockDeviceMappings, ebsOptimized, iamInstanceProfile, imageId, instanceType, kernelId, keyName, monitoring, networkInterfaces, placement, ramdiskId, securityGroupIds, subnetId, userData)
+    end
+    ScheduledInstancesLaunchSpecification(pd) = parse_from_xml(ScheduledInstancesLaunchSpecification, EC2TypeDict, pd)
+end # ScheduledInstancesLaunchSpecification
+export ScheduledInstancesLaunchSpecification
+
+type SecurityGroup <: AbstractAWSType
+    groupDescription::Union{Void,String}
+    groupId::Union{Void,String}
+    groupName::Union{Void,String}
+    ipPermissions::Union{Void,Array{IpPermission,1}}
+    ipPermissionsEgress::Union{Void,Array{IpPermission,1}}
+    ownerId::Union{Void,String}
+    tagSet::Union{Void,Array{Tag,1}}
+    vpcId::Union{Void,String}
+    function SecurityGroup(;groupDescription=nothing, groupId=nothing, groupName=nothing, ipPermissions=nothing, ipPermissionsEgress=nothing, ownerId=nothing, tagSet=nothing, vpcId=nothing)
+        new(groupDescription, groupId, groupName, ipPermissions, ipPermissionsEgress, ownerId, tagSet, vpcId)
+    end
+    SecurityGroup(pd) = parse_from_xml(SecurityGroup, EC2TypeDict, pd)
+end # SecurityGroup
+export SecurityGroup
+
+type SpotFleetMonitoring <: AbstractAWSType
+    enabled::Union{Void,Bool}
+    function SpotFleetMonitoring(;enabled=nothing)
+        new(enabled)
+    end
+    SpotFleetMonitoring(pd) = parse_from_xml(SpotFleetMonitoring, EC2TypeDict, pd)
+end # SpotFleetMonitoring
+export SpotFleetMonitoring
+
+type SpotDatafeedSubscription <: AbstractAWSType
+    bucket::Union{Void,String}
+    fault::Union{Void,SpotInstanceStateFault}
+    ownerId::Union{Void,String}
+    prefix::Union{Void,String}
+    state::Union{Void,String}
+    function SpotDatafeedSubscription(;bucket=nothing, fault=nothing, ownerId=nothing, prefix=nothing, state=nothing)
+        new(bucket, fault, ownerId, prefix, state)
+    end
+    SpotDatafeedSubscription(pd) = parse_from_xml(SpotDatafeedSubscription, EC2TypeDict, pd)
+end # SpotDatafeedSubscription
+export SpotDatafeedSubscription
+
+type SpotFleetLaunchSpecification <: AbstractAWSType
+    addressingType::Union{Void,String}
+    blockDeviceMappings::Union{Void,Array{BlockDeviceMapping,1}}
+    ebsOptimized::Union{Void,Bool}
+    securityGroups::Union{Void,Array{GroupIdentifier,1}}
+    iamInstanceProfile::Union{Void,IamInstanceProfileSpecification}
+    imageId::Union{Void,String}
+    instanceType::Union{Void,String}
+    kernelId::Union{Void,String}
+    keyName::Union{Void,String}
+    monitoring::Union{Void,SpotFleetMonitoring}
+    networkInterfaces::Union{Void,Array{InstanceNetworkInterfaceSpecification,1}}
+    placement::Union{Void,SpotPlacement}
+    ramdiskId::Union{Void,String}
+    spotPrice::Union{Void,String}
+    subnetId::Union{Void,String}
+    userData::Union{Void,String}
+    weightedCapacity::Union{Void,Float64}
+    function SpotFleetLaunchSpecification(;addressingType=nothing, blockDeviceMappings=nothing, ebsOptimized=nothing, securityGroups=nothing, iamInstanceProfile=nothing, imageId=nothing, instanceType=nothing, kernelId=nothing, keyName=nothing, monitoring=nothing, networkInterfaces=nothing, placement=nothing, ramdiskId=nothing, spotPrice=nothing, subnetId=nothing, userData=nothing, weightedCapacity=nothing)
+        new(addressingType, blockDeviceMappings, ebsOptimized, securityGroups, iamInstanceProfile, imageId, instanceType, kernelId, keyName, monitoring, networkInterfaces, placement, ramdiskId, spotPrice, subnetId, userData, weightedCapacity)
+    end
+    SpotFleetLaunchSpecification(pd) = parse_from_xml(SpotFleetLaunchSpecification, EC2TypeDict, pd)
+end # SpotFleetLaunchSpecification
+export SpotFleetLaunchSpecification
+
+type SpotFleetRequestConfigData <: AbstractAWSType
+    allocationStrategy::Union{Void,String}
+    clientToken::Union{Void,String}
+    excessCapacityTerminationPolicy::Union{Void,String}
+    fulfilledCapacity::Union{Void,Float64}
+    iamFleetRole::Union{Void,String}
+    launchSpecifications::Union{Void,Array{SpotFleetLaunchSpecification,1}}
+    replaceUnhealthyInstances::Union{Void,Bool}
+    spotPrice::Union{Void,String}
+    targetCapacity::Union{Void,Int64}
+    terminateInstancesWithExpiration::Union{Void,Bool}
+    _Type::Union{Void,String}
+    validFrom::Union{Void,DateTime}
+    validUntil::Union{Void,DateTime}
+    function SpotFleetRequestConfigData(;allocationStrategy=nothing, clientToken=nothing, excessCapacityTerminationPolicy=nothing, fulfilledCapacity=nothing, iamFleetRole=nothing, launchSpecifications=nothing, replaceUnhealthyInstances=nothing, spotPrice=nothing, targetCapacity=nothing, terminateInstancesWithExpiration=nothing, _Type=nothing, validFrom=nothing, validUntil=nothing)
+        new(allocationStrategy, clientToken, excessCapacityTerminationPolicy, fulfilledCapacity, iamFleetRole, launchSpecifications, replaceUnhealthyInstances, spotPrice, targetCapacity, terminateInstancesWithExpiration, _Type, validFrom, validUntil)
+    end
+    SpotFleetRequestConfigData(pd) = parse_from_xml(SpotFleetRequestConfigData, EC2TypeDict, pd)
+end # SpotFleetRequestConfigData
+export SpotFleetRequestConfigData
+
+type SpotFleetRequestConfig <: AbstractAWSType
+    activityStatus::Union{Void,String}
+    createTime::Union{Void,DateTime}
+    spotFleetRequestConfig::Union{Void,SpotFleetRequestConfigData}
+    spotFleetRequestId::Union{Void,String}
+    spotFleetRequestState::Union{Void,String}
+    function SpotFleetRequestConfig(;activityStatus=nothing, createTime=nothing, spotFleetRequestConfig=nothing, spotFleetRequestId=nothing, spotFleetRequestState=nothing)
+        new(activityStatus, createTime, spotFleetRequestConfig, spotFleetRequestId, spotFleetRequestState)
+    end
+    SpotFleetRequestConfig(pd) = parse_from_xml(SpotFleetRequestConfig, EC2TypeDict, pd)
+end # SpotFleetRequestConfig
+export SpotFleetRequestConfig
+
+type SpotInstanceRequest <: AbstractAWSType
+    actualBlockHourlyPrice::Union{Void,String}
+    availabilityZoneGroup::Union{Void,String}
+    blockDurationMinutes::Union{Void,Int64}
+    createTime::Union{Void,DateTime}
+    fault::Union{Void,SpotInstanceStateFault}
+    instanceId::Union{Void,String}
+    launchedAvailabilityZone::Union{Void,String}
+    launchGroup::Union{Void,String}
+    launchSpecification::Union{Void,LaunchSpecification}
+    productDescription::Union{Void,String}
+    spotInstanceRequestId::Union{Void,String}
+    spotPrice::Union{Void,String}
+    state::Union{Void,String}
+    status::Union{Void,SpotInstanceStatus}
+    tagSet::Union{Void,Array{Tag,1}}
+    _type::Union{Void,String}
+    validFrom::Union{Void,DateTime}
+    validUntil::Union{Void,DateTime}
+    function SpotInstanceRequest(;actualBlockHourlyPrice=nothing, availabilityZoneGroup=nothing, blockDurationMinutes=nothing, createTime=nothing, fault=nothing, instanceId=nothing, launchedAvailabilityZone=nothing, launchGroup=nothing, launchSpecification=nothing, productDescription=nothing, spotInstanceRequestId=nothing, spotPrice=nothing, state=nothing, status=nothing, tagSet=nothing, _type=nothing, validFrom=nothing, validUntil=nothing)
+        new(actualBlockHourlyPrice, availabilityZoneGroup, blockDurationMinutes, createTime, fault, instanceId, launchedAvailabilityZone, launchGroup, launchSpecification, productDescription, spotInstanceRequestId, spotPrice, state, status, tagSet, _type, validFrom, validUntil)
+    end
+    SpotInstanceRequest(pd) = parse_from_xml(SpotInstanceRequest, EC2TypeDict, pd)
+end # SpotInstanceRequest
+export SpotInstanceRequest
+
+type StaleIpPermission <: AbstractAWSType
+    fromPort::Union{Void,Int64}
+    groups::Union{Void,Array{UserIdGroupPair,1}}
+    ipProtocol::Union{Void,String}
+    ipRanges::Union{Void,Array{String,1}}
+    prefixListIds::Union{Void,Array{String,1}}
+    toPort::Union{Void,Int64}
+    function StaleIpPermission(;fromPort=nothing, groups=nothing, ipProtocol=nothing, ipRanges=nothing, prefixListIds=nothing, toPort=nothing)
+        new(fromPort, groups, ipProtocol, ipRanges, prefixListIds, toPort)
+    end
+    StaleIpPermission(pd) = parse_from_xml(StaleIpPermission, EC2TypeDict, pd)
+end # StaleIpPermission
+export StaleIpPermission
+
+type StaleSecurityGroup <: AbstractAWSType
+    description::Union{Void,String}
+    groupId::Union{Void,String}
+    groupName::Union{Void,String}
+    staleIpPermissions::Union{Void,Array{StaleIpPermission,1}}
+    staleIpPermissionsEgress::Union{Void,Array{StaleIpPermission,1}}
+    vpcId::Union{Void,String}
+    function StaleSecurityGroup(;description=nothing, groupId=nothing, groupName=nothing, staleIpPermissions=nothing, staleIpPermissionsEgress=nothing, vpcId=nothing)
+        new(description, groupId, groupName, staleIpPermissions, staleIpPermissionsEgress, vpcId)
+    end
+    StaleSecurityGroup(pd) = parse_from_xml(StaleSecurityGroup, EC2TypeDict, pd)
+end # StaleSecurityGroup
+export StaleSecurityGroup
+
+type SubnetCidrBlockState <: AbstractAWSType
+    state::Union{Void,String}
+    statusMessage::Union{Void,String}
+    function SubnetCidrBlockState(;state=nothing, statusMessage=nothing)
+        new(state, statusMessage)
+    end
+    SubnetCidrBlockState(pd) = parse_from_xml(SubnetCidrBlockState, EC2TypeDict, pd)
+end # SubnetCidrBlockState
+export SubnetCidrBlockState
+
+type SubnetIpv6CidrBlockAssociation <: AbstractAWSType
+    associationId::Union{Void,String}
+    ipv6CidrBlock::Union{Void,String}
+    ipv6CidrBlockState::Union{Void,SubnetCidrBlockState}
+    function SubnetIpv6CidrBlockAssociation(;associationId=nothing, ipv6CidrBlock=nothing, ipv6CidrBlockState=nothing)
+        new(associationId, ipv6CidrBlock, ipv6CidrBlockState)
+    end
+    SubnetIpv6CidrBlockAssociation(pd) = parse_from_xml(SubnetIpv6CidrBlockAssociation, EC2TypeDict, pd)
+end # SubnetIpv6CidrBlockAssociation
+export SubnetIpv6CidrBlockAssociation
+
+type TargetConfiguration <: AbstractAWSType
+    instanceCount::Union{Void,Int64}
+    offeringId::Union{Void,String}
+    function TargetConfiguration(;instanceCount=nothing, offeringId=nothing)
+        new(instanceCount, offeringId)
+    end
+    TargetConfiguration(pd) = parse_from_xml(TargetConfiguration, EC2TypeDict, pd)
+end # TargetConfiguration
+export TargetConfiguration
+
+type TargetConfigurationRequest <: AbstractAWSType
+    instanceCount::Union{Void,Int64}
+    offeringId::Union{Void,String}
+    function TargetConfigurationRequest(;instanceCount=nothing, offeringId=nothing)
+        new(instanceCount, offeringId)
+    end
+    TargetConfigurationRequest(pd) = parse_from_xml(TargetConfigurationRequest, EC2TypeDict, pd)
+end # TargetConfigurationRequest
+export TargetConfigurationRequest
+
+type Subnet <: AbstractAWSType
+    assignIpv6AddressOnCreation::Union{Void,Bool}
+    availabilityZone::Union{Void,String}
+    availableIpAddressCount::Union{Void,Int64}
+    cidrBlock::Union{Void,String}
+    defaultForAz::Union{Void,Bool}
+    ipv6CidrBlockAssociationSet::Union{Void,Array{SubnetIpv6CidrBlockAssociation,1}}
+    mapPublicIpOnLaunch::Union{Void,Bool}
+    state::Union{Void,String}
+    subnetId::Union{Void,String}
+    tagSet::Union{Void,Array{Tag,1}}
+    vpcId::Union{Void,String}
+    function Subnet(;assignIpv6AddressOnCreation=nothing, availabilityZone=nothing, availableIpAddressCount=nothing, cidrBlock=nothing, defaultForAz=nothing, ipv6CidrBlockAssociationSet=nothing, mapPublicIpOnLaunch=nothing, state=nothing, subnetId=nothing, tagSet=nothing, vpcId=nothing)
+        new(assignIpv6AddressOnCreation, availabilityZone, availableIpAddressCount, cidrBlock, defaultForAz, ipv6CidrBlockAssociationSet, mapPublicIpOnLaunch, state, subnetId, tagSet, vpcId)
+    end
+    Subnet(pd) = parse_from_xml(Subnet, EC2TypeDict, pd)
+end # Subnet
+export Subnet
+
+type TargetReservationValue <: AbstractAWSType
+    reservationValue::Union{Void,ReservationValue}
+    targetConfiguration::Union{Void,TargetConfiguration}
+    function TargetReservationValue(;reservationValue=nothing, targetConfiguration=nothing)
+        new(reservationValue, targetConfiguration)
+    end
+    TargetReservationValue(pd) = parse_from_xml(TargetReservationValue, EC2TypeDict, pd)
+end # TargetReservationValue
+export TargetReservationValue
+
+type VpcAttachment <: AbstractAWSType
+    state::Union{Void,String}
+    vpcId::Union{Void,String}
+    function VpcAttachment(;state=nothing, vpcId=nothing)
+        new(state, vpcId)
+    end
+    VpcAttachment(pd) = parse_from_xml(VpcAttachment, EC2TypeDict, pd)
+end # VpcAttachment
+export VpcAttachment
+
+type VpcCidrBlockState <: AbstractAWSType
+    state::Union{Void,String}
+    statusMessage::Union{Void,String}
+    function VpcCidrBlockState(;state=nothing, statusMessage=nothing)
+        new(state, statusMessage)
+    end
+    VpcCidrBlockState(pd) = parse_from_xml(VpcCidrBlockState, EC2TypeDict, pd)
+end # VpcCidrBlockState
+export VpcCidrBlockState
+
+type VpcClassicLink <: AbstractAWSType
+    classicLinkEnabled::Union{Void,Bool}
+    tagSet::Union{Void,Array{Tag,1}}
+    vpcId::Union{Void,String}
+    function VpcClassicLink(;classicLinkEnabled=nothing, tagSet=nothing, vpcId=nothing)
+        new(classicLinkEnabled, tagSet, vpcId)
+    end
+    VpcClassicLink(pd) = parse_from_xml(VpcClassicLink, EC2TypeDict, pd)
+end # VpcClassicLink
+export VpcClassicLink
+
+type VpcEndpoint <: AbstractAWSType
+    creationTimestamp::Union{Void,DateTime}
+    policyDocument::Union{Void,String}
+    routeTableIdSet::Union{Void,Array{String,1}}
+    serviceName::Union{Void,String}
+    state::Union{Void,String}
+    vpcEndpointId::Union{Void,String}
+    vpcId::Union{Void,String}
+    function VpcEndpoint(;creationTimestamp=nothing, policyDocument=nothing, routeTableIdSet=nothing, serviceName=nothing, state=nothing, vpcEndpointId=nothing, vpcId=nothing)
+        new(creationTimestamp, policyDocument, routeTableIdSet, serviceName, state, vpcEndpointId, vpcId)
+    end
+    VpcEndpoint(pd) = parse_from_xml(VpcEndpoint, EC2TypeDict, pd)
+end # VpcEndpoint
+export VpcEndpoint
+
+type VpcPeeringConnectionStateReason <: AbstractAWSType
+    code::Union{Void,String}
+    message::Union{Void,String}
+    function VpcPeeringConnectionStateReason(;code=nothing, message=nothing)
+        new(code, message)
+    end
+    VpcPeeringConnectionStateReason(pd) = parse_from_xml(VpcPeeringConnectionStateReason, EC2TypeDict, pd)
+end # VpcPeeringConnectionStateReason
+export VpcPeeringConnectionStateReason
+
+type VpnConnectionOptions <: AbstractAWSType
+    staticRoutesOnly::Union{Void,Bool}
+    function VpnConnectionOptions(;staticRoutesOnly=nothing)
+        new(staticRoutesOnly)
+    end
+    VpnConnectionOptions(pd) = parse_from_xml(VpnConnectionOptions, EC2TypeDict, pd)
+end # VpnConnectionOptions
+export VpnConnectionOptions
+
+type VpnConnectionOptionsSpecification <: AbstractAWSType
+    staticRoutesOnly::Union{Void,Bool}
+    function VpnConnectionOptionsSpecification(;staticRoutesOnly=nothing)
+        new(staticRoutesOnly)
+    end
+    VpnConnectionOptionsSpecification(pd) = parse_from_xml(VpnConnectionOptionsSpecification, EC2TypeDict, pd)
+end # VpnConnectionOptionsSpecification
+export VpnConnectionOptionsSpecification
+
+type VpnStaticRoute <: AbstractAWSType
+    destinationCidrBlock::Union{Void,String}
+    source::Union{Void,String}
+    state::Union{Void,String}
+    function VpnStaticRoute(;destinationCidrBlock=nothing, source=nothing, state=nothing)
+        new(destinationCidrBlock, source, state)
+    end
+    VpnStaticRoute(pd) = parse_from_xml(VpnStaticRoute, EC2TypeDict, pd)
+end # VpnStaticRoute
+export VpnStaticRoute
+
+type VpcIpv6CidrBlockAssociation <: AbstractAWSType
+    associationId::Union{Void,String}
+    ipv6CidrBlock::Union{Void,String}
+    ipv6CidrBlockState::Union{Void,VpcCidrBlockState}
+    function VpcIpv6CidrBlockAssociation(;associationId=nothing, ipv6CidrBlock=nothing, ipv6CidrBlockState=nothing)
+        new(associationId, ipv6CidrBlock, ipv6CidrBlockState)
+    end
+    VpcIpv6CidrBlockAssociation(pd) = parse_from_xml(VpcIpv6CidrBlockAssociation, EC2TypeDict, pd)
+end # VpcIpv6CidrBlockAssociation
+export VpcIpv6CidrBlockAssociation
+
+type Vpc <: AbstractAWSType
+    cidrBlock::Union{Void,String}
+    dhcpOptionsId::Union{Void,String}
+    instanceTenancy::Union{Void,String}
+    ipv6CidrBlockAssociationSet::Union{Void,Array{VpcIpv6CidrBlockAssociation,1}}
+    isDefault::Union{Void,Bool}
+    state::Union{Void,String}
+    tagSet::Union{Void,Array{Tag,1}}
+    vpcId::Union{Void,String}
+    function Vpc(;cidrBlock=nothing, dhcpOptionsId=nothing, instanceTenancy=nothing, ipv6CidrBlockAssociationSet=nothing, isDefault=nothing, state=nothing, tagSet=nothing, vpcId=nothing)
+        new(cidrBlock, dhcpOptionsId, instanceTenancy, ipv6CidrBlockAssociationSet, isDefault, state, tagSet, vpcId)
+    end
+    Vpc(pd) = parse_from_xml(Vpc, EC2TypeDict, pd)
+end # Vpc
+export Vpc
+
+type VpcPeeringConnectionOptionsDescription <: AbstractAWSType
+    allowDnsResolutionFromRemoteVpc::Union{Void,Bool}
+    allowEgressFromLocalClassicLinkToRemoteVpc::Union{Void,Bool}
+    allowEgressFromLocalVpcToRemoteClassicLink::Union{Void,Bool}
+    function VpcPeeringConnectionOptionsDescription(;allowDnsResolutionFromRemoteVpc=nothing, allowEgressFromLocalClassicLinkToRemoteVpc=nothing, allowEgressFromLocalVpcToRemoteClassicLink=nothing)
+        new(allowDnsResolutionFromRemoteVpc, allowEgressFromLocalClassicLinkToRemoteVpc, allowEgressFromLocalVpcToRemoteClassicLink)
+    end
+    VpcPeeringConnectionOptionsDescription(pd) = parse_from_xml(VpcPeeringConnectionOptionsDescription, EC2TypeDict, pd)
+end # VpcPeeringConnectionOptionsDescription
+export VpcPeeringConnectionOptionsDescription
+
+type VpcPeeringConnectionVpcInfo <: AbstractAWSType
+    cidrBlock::Union{Void,String}
+    ipv6CidrBlockSet::Union{Void,Array{Ipv6CidrBlock,1}}
+    ownerId::Union{Void,String}
+    peeringOptions::Union{Void,VpcPeeringConnectionOptionsDescription}
+    vpcId::Union{Void,String}
+    function VpcPeeringConnectionVpcInfo(;cidrBlock=nothing, ipv6CidrBlockSet=nothing, ownerId=nothing, peeringOptions=nothing, vpcId=nothing)
+        new(cidrBlock, ipv6CidrBlockSet, ownerId, peeringOptions, vpcId)
+    end
+    VpcPeeringConnectionVpcInfo(pd) = parse_from_xml(VpcPeeringConnectionVpcInfo, EC2TypeDict, pd)
+end # VpcPeeringConnectionVpcInfo
+export VpcPeeringConnectionVpcInfo
+
+type VpcPeeringConnection <: AbstractAWSType
+    accepterVpcInfo::Union{Void,VpcPeeringConnectionVpcInfo}
+    expirationTime::Union{Void,DateTime}
+    requesterVpcInfo::Union{Void,VpcPeeringConnectionVpcInfo}
+    status::Union{Void,VpcPeeringConnectionStateReason}
+    tagSet::Union{Void,Array{Tag,1}}
+    vpcPeeringConnectionId::Union{Void,String}
+    function VpcPeeringConnection(;accepterVpcInfo=nothing, expirationTime=nothing, requesterVpcInfo=nothing, status=nothing, tagSet=nothing, vpcPeeringConnectionId=nothing)
+        new(accepterVpcInfo, expirationTime, requesterVpcInfo, status, tagSet, vpcPeeringConnectionId)
+    end
+    VpcPeeringConnection(pd) = parse_from_xml(VpcPeeringConnection, EC2TypeDict, pd)
+end # VpcPeeringConnection
+export VpcPeeringConnection
+
+type VpnConnection <: AbstractAWSType
+    customerGatewayConfiguration::Union{Void,String}
+    customerGatewayId::Union{Void,String}
+    options::Union{Void,VpnConnectionOptions}
+    routes::Union{Void,Array{VpnStaticRoute,1}}
+    state::Union{Void,String}
+    tagSet::Union{Void,Array{Tag,1}}
+    _type::Union{Void,String}
+    vgwTelemetry::Union{Void,Array{VgwTelemetry,1}}
+    vpnConnectionId::Union{Void,String}
+    vpnGatewayId::Union{Void,String}
+    function VpnConnection(;customerGatewayConfiguration=nothing, customerGatewayId=nothing, options=nothing, routes=nothing, state=nothing, tagSet=nothing, _type=nothing, vgwTelemetry=nothing, vpnConnectionId=nothing, vpnGatewayId=nothing)
+        new(customerGatewayConfiguration, customerGatewayId, options, routes, state, tagSet, _type, vgwTelemetry, vpnConnectionId, vpnGatewayId)
+    end
+    VpnConnection(pd) = parse_from_xml(VpnConnection, EC2TypeDict, pd)
+end # VpnConnection
+export VpnConnection
+
+type VpnGateway <: AbstractAWSType
+    attachments::Union{Void,Array{VpcAttachment,1}}
+    availabilityZone::Union{Void,String}
+    state::Union{Void,String}
+    tagSet::Union{Void,Array{Tag,1}}
+    _type::Union{Void,String}
+    vpnGatewayId::Union{Void,String}
+    function VpnGateway(;attachments=nothing, availabilityZone=nothing, state=nothing, tagSet=nothing, _type=nothing, vpnGatewayId=nothing)
+        new(attachments, availabilityZone, state, tagSet, _type, vpnGatewayId)
+    end
+    VpnGateway(pd) = parse_from_xml(VpnGateway, EC2TypeDict, pd)
+end # VpnGateway
+export VpnGateway

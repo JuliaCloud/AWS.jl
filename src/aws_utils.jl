@@ -97,6 +97,7 @@ function aws_string(dt::DateTime)
 end
 
 aws_string(v::Bool) = v ? "true" : "false"
+aws_string(v::Vector{UInt8}) = join(map(x->@sprintf("%%%02d", x), v), "")
 aws_string(v::Any) = string(v)
 export aws_string
 

@@ -16,15 +16,45 @@ using Requests
 
 function attr_type(elem)
     txt = nodeText(elem)
-    is_array = contains(txt, "Array")
+    is_array = contains(txt, "Array") || contains(txt, "array")
     parts = split(txt)
-    !is_array && (return String(parts[2]))
-    return "Vector{$(parts[4])}"
+    elem_type = is_array ? parts[4] : parts[2]
+    if lowercase(elem_type) == "boolean"
+        elem_type = "Bool"
+    elseif lowercase(elem_type) in ("string", "strings")
+        elem_type = "String"
+    elseif lowercase(elem_type) in ("integer", "long", "integers", "longs")
+        elem_type = "Int"
+    elseif lowercase(elem_type) in ("float", "floats", "double", "doubles")
+        elem_type = "Float64"
+    elseif lowercase(elem_type) == "base64-encoded"
+        elem_type = "Vector{UInt8}"
+    elseif lowercase(elem_type) == "timestamp"
+        elem_type = "Base.Dates.DateTime"
+    else
+        elem_type = String(elem_type)
+    end
+    is_array ? "Vector{$(elem_type)}" : elem_type
+end
+
+function attr_name(elem)
+    elem_name = nodeText(elem)
+    if endswith(elem_name, ".N")
+        elem_name = rsplit(elem_name, '.'; limit=2)[1]
+    elseif contains(elem_name, "(request)") && contains(elem_name, "(response)") && contains(elem_name, ",")
+        for name in split(elem_name, ','; limit=2)
+            if contains(name, "(request)")
+                elem_name = split(name)[1]
+                break
+            end
+        end
+    end
+    String(elem_name)
 end
 
 function parse_type_attrs(elem)
     qs = matchall(Selector(".term"), elem)
-    attr_names = map(nodeText, qs)
+    attr_names = map(attr_name, qs)
 
     qs = matchall(Selector("p:contains(\"Type:\")"), elem)
     attr_types = map(attr_type, qs)
@@ -47,11 +77,22 @@ function parse_type_id(elem)
     qs[1].attributes["id"]
 end
 
+function retry_get(url)
+    while true
+        try
+            return get(url)
+        catch ex
+            warn("will retry ", url, " - error: ", ex)
+            sleep(5)
+        end
+    end
+end
+
 """
 Generate type specification for an individual type.
 """
 function gen_type(url)
-    r = get(url)
+    r = retry_get(url)
     h = parsehtml(bytestring(r.data))
 
     typename = parse_type_name(h.root)
@@ -69,7 +110,7 @@ function gen_types(url)
     all_types = Vector{Pair{String,Vector{Pair{String,String}}}}()
 
     info("type list: ", url)
-    r = get(url)
+    r = retry_get(url)
     h = parsehtml(bytestring(r.data))
 
     qs = matchall(Selector(".listitem > p > a"), h.root)
@@ -89,7 +130,7 @@ end
 Generate API specification for an individual operation.
 """
 function gen_api(url)
-    r = get(url)
+    r = retry_get(url)
     h = parsehtml(bytestring(r.data))
 
     apiname = parse_type_name(h.root)
@@ -122,7 +163,7 @@ function gen_apis(url)
     all_apis = Dict()
 
     info("api list: ", url)
-    r = get(url) 
+    r = retry_get(url)
     h = parsehtml(bytestring(r.data))
 
     qs = matchall(Selector(".listitem > p > a"), h.root)
@@ -170,7 +211,7 @@ function write_spec(apiname, typesurl, apisurl)
                 println(outfile, isfirst ? "    :" : "    ,:", api_name, " => Dict(")
                 isfirstparam = true
                 for (param_name,param_spec) in api_spec
-                    println(outfile, isfirst ? "        :" : "        ,:", param_name, " => [")
+                    println(outfile, isfirstparam ? "        :" : "        ,:", param_name, " => [")
                     isfirstattr = true
                     for (attr_name,attr_type) in param_spec
                         println(outfile, isfirstattr ? "            :" : "            ,:", attr_name, " => ", attr_type)
@@ -184,7 +225,16 @@ function write_spec(apiname, typesurl, apisurl)
             end
         println(outfile, ")")
     end
+
+    typefile = lowercase(apiname)*"_gen_types.jl"
+    open(typefile, "w") do outfile
+        for (type_name,type_spec) in all_types
+            println(outfile, "type $type_name end")
+        end
+    end
 end
 
 # generate and write out specification for each API class
 write_spec("AutoScaling", "http://docs.aws.amazon.com/AutoScaling/latest/APIReference/API_Types.html", "http://docs.aws.amazon.com/AutoScaling/latest/APIReference/API_Operations.html")
+write_spec("SQS", "http://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_Types.html", "http://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_Operations.html")
+write_spec("EC2", "http://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_Types.html", "http://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_Operations.html")
