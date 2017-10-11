@@ -26,7 +26,7 @@ type RequestOptions
     ostream::Union{IO, String, Void}
     auto_content_type::Bool
 
-    RequestOptions(; blocking=true, query_params=Array(Tuple,0), request_timeout=def_rto, callback=null_cb, content_type="", headers=Array(Tuple,0), ostream=nothing, auto_content_type=true) =
+    RequestOptions(; blocking=true, query_params=Array{Tuple}(0), request_timeout=def_rto, callback=null_cb, content_type="", headers=Array{Tuple}(0), ostream=nothing, auto_content_type=true) =
     new(blocking, query_params, request_timeout, callback, content_type, headers, ostream, auto_content_type)
 end
 
@@ -538,7 +538,7 @@ function put_object(env::AWSEnv, bkt::String, key::String, data:: Union{IO, Stri
 	ro.cont_typ = "application/octet-stream"
 
     ro.amz_hdrs = amz_headers(Tuple[], options)
-    ro.http_hdrs = http_headers(Array(Tuple, 0), options)
+    ro.http_hdrs = http_headers(Array{Tuple}(0), options)
     if (content_type != "") ro.cont_typ = content_type end
 
     if isa(data, String)
@@ -587,7 +587,7 @@ function initiate_multipart_upload(env::AWSEnv, bkt::String, key::String; conten
     ro = RO(:POST, bkt, key)
 	ro.cont_typ = "application/octet-stream"
     ro.amz_hdrs = amz_headers(Tuple[], options)
-    ro.http_hdrs = http_headers(Array(Tuple, 0), options)
+    ro.http_hdrs = http_headers(Array{Tuple}(0), options)
     if (content_type != "") ro.cont_typ = content_type end
     ro.sub_res=[("uploads", "")]
 

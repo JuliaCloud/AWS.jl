@@ -7,7 +7,7 @@ export ec2_basic
 
 
 
-flatten_params(d::Dict) = flatten_params(Array(Tuple, 0), "", d)
+flatten_params(d::Dict) = flatten_params(Array{Tuple}(0), "", d)
 function flatten_params(ft::Array, pfx::String, d::Dict)
     for (k, v) in collect(d)
         if isa(v, Array)
@@ -128,7 +128,7 @@ function generate_sshnames(hostnames, num_workers, workers_per_instance, use_pub
             end
         else
             # distribute it equally across available hosts
-            nwmap = Array(Tuple, 0)
+            nwmap = Array{Tuple}(0)
             for i in 1:length(hostnames)
                 host = hostnames[i][idx]
                 push!(nwmap, (host, round(Int, floor(num_workers/num_hosts))))
