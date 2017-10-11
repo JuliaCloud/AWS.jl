@@ -10,9 +10,9 @@ xml_hdr(name) = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><$(name) xmlns=\"http
 xml_ftr(name) = "</$(name)>"
 
 
-macro add_amz_hdr(name, value)
+macro add_amz_hdr(hdrs, name, value)
     quote
-        if ($(esc(value)) != nothing) push!(hdrs, ("x-amz-" * $(esc(name)), string($(esc(value)))  )) end
+        if ($(esc(value)) != nothing) push!($(esc(hdrs)), ("x-amz-" * $(esc(name)), string($(esc(value)))  )) end
     end
 end
 
@@ -643,10 +643,10 @@ type CopyMatchOptions
     end
 end
 function amz_headers(hdrs, o::CopyMatchOptions)
-    @add_amz_hdr("copy-source-if-match", o.if_match)
-    @add_amz_hdr("copy-source-if-none-match", o.if_none_match)
-    @add_amz_hdr("copy-source-if-unmodified-since", o.if_unmodified_since)
-    @add_amz_hdr("copy-source-if-modified-since", o.if_modified_since)
+    @add_amz_hdr(hdrs, "copy-source-if-match", o.if_match)
+    @add_amz_hdr(hdrs, "copy-source-if-none-match", o.if_none_match)
+    @add_amz_hdr(hdrs, "copy-source-if-unmodified-since", o.if_unmodified_since)
+    @add_amz_hdr(hdrs, "copy-source-if-modified-since", o.if_modified_since)
     hdrs
 end
 export S3PartTag
@@ -685,7 +685,7 @@ end
 function amz_headers(hdrs, o::S3_ACL)
     # Either a canned acl or specific acls (but not both) are supported
     if o.acl != nothing
-        @add_amz_hdr("acl", o.acl)
+        @add_amz_hdr(hdrs, "acl", o.acl)
     else
         add_acl_grantee(hdrs, "grant-read", o.grant_read)
         add_acl_grantee(hdrs, "grant-write", o.grant_write)
@@ -698,7 +698,7 @@ end
 
 function add_acl_grantee(hdrs, xamz_name::String, arr::Vector{S3_ACL_Grantee})
     for a in arr
-        @add_amz_hdr(xamz_name, hdr_str(a))
+        @add_amz_hdr(hdrs, xamz_name, hdr_str(a))
     end
     hdrs
 end
@@ -724,16 +724,16 @@ type CopyObjectOptions
 
 end
 function amz_headers(hdrs, o::CopyObjectOptions)
-    @add_amz_hdr("copy-source", o.copy_source)
-    @add_amz_hdr("metadata-directive", o.metadata_directive)
+    @add_amz_hdr(hdrs, "copy-source", o.copy_source)
+    @add_amz_hdr(hdrs, "metadata-directive", o.metadata_directive)
 
     if (o.match_options != nothing)
         hdrs = amz_headers(hdrs, o.match_options)
     end
 
-    @add_amz_hdr("server-side-encryption", o.server_side_encryption)
-    @add_amz_hdr("storage-class", o.storage_class)
-    @add_amz_hdr("website-redirect-location", o.website_redirect_location)
+    @add_amz_hdr(hdrs, "server-side-encryption", o.server_side_encryption)
+    @add_amz_hdr(hdrs, "storage-class", o.storage_class)
+    @add_amz_hdr(hdrs, "website-redirect-location", o.website_redirect_location)
 
     if o.acl != nothing
         hdrs = amz_headers(hdrs, o.acl)
@@ -752,7 +752,7 @@ type CopyUploadPartOptions
 end
 function amz_headers(o::CopyUploadPartOptions)
     hdrs = [("x-amz-copy-source", o.copy_source)]
-    @add_amz_hdr("source-range", o.source_range)
+    @add_amz_hdr(hdrs, "source-range", o.source_range)
     hdrs = (o.match_options != nothing) ? amz_headers(hdrs, o.match_options) : hdrs
     hdrs
 end
@@ -784,13 +784,13 @@ end
 function amz_headers(hdrs, o::PutObjectOptions)
     if (o.meta != nothing)
         for t in collect(o.meta)
-            @add_amz_hdr("meta-" * t[1], t[2])
+            @add_amz_hdr(hdrs, "meta-" * t[1], t[2])
         end
     end
 
-    @add_amz_hdr("server-side-encryption", o.server_side_encryption)
-    @add_amz_hdr("storage-class", o.storage_class)
-    @add_amz_hdr("website-redirect-location", o.website_redirect_location)
+    @add_amz_hdr(hdrs, "server-side-encryption", o.server_side_encryption)
+    @add_amz_hdr(hdrs, "storage-class", o.storage_class)
+    @add_amz_hdr(hdrs, "website-redirect-location", o.website_redirect_location)
 
     if o.acl != nothing
         hdrs = amz_headers(hdrs, o.acl)

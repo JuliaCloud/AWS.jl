@@ -26,7 +26,7 @@ type RequestOptions
     ostream::Union{IO, String, Void}
     auto_content_type::Bool
 
-    RequestOptions(; blocking=true, query_params=Array(Tuple,0), request_timeout=def_rto, callback=null_cb, content_type="", headers=Array(Tuple,0), ostream=nothing, auto_content_type=true) =
+    RequestOptions(; blocking=true, query_params=Array{Tuple}(0), request_timeout=def_rto, callback=null_cb, content_type="", headers=Array{Tuple}(0), ostream=nothing, auto_content_type=true) =
     new(blocking, query_params, request_timeout, callback, content_type, headers, ostream, auto_content_type)
 end
 
@@ -42,9 +42,9 @@ end
 
 
 
-macro req_n_process(resp_obj_type)
+macro req_n_process(env, ro, resp_obj_type)
     quote
-        s3_resp = do_request(env, ro)
+        s3_resp = do_request($(esc(env)), $(esc(ro)))
         if (isa(s3_resp.obj, String) &&  (length(s3_resp.obj) > 0))
 			s3_resp.pd = LightXML.root(LightXML.parse_string(s3_resp.obj))
             s3_resp.obj = $(esc(resp_obj_type))(s3_resp.pd)
@@ -99,7 +99,7 @@ export RO
 
 function list_all_buckets(env::AWSEnv)
     ro = RO(:GET, "", "")
-    @req_n_process(ListAllMyBucketsResult)
+    @req_n_process(env, ro, ListAllMyBucketsResult)
 end
 
 
@@ -156,21 +156,21 @@ function get_bkt(env::AWSEnv, bkt::String; options::GetBucketOptions=GetBucketOp
     ro = RO(:GET, bkt, "")
     ro.sub_res=get_subres(Tuple[], options)
 
-    @req_n_process(ListBucketResult)
+    @req_n_process(env, ro, ListBucketResult)
 end
 
 function get_bkt_acl(env::AWSEnv, bkt::String)
     ro = RO(:GET, bkt, "")
     ro.sub_res=[("acl", "")]
 
-    @req_n_process(AccessControlPolicy)
+    @req_n_process(env, ro, AccessControlPolicy)
 end
 
 function get_bkt_cors(env::AWSEnv, bkt::String)
     ro = RO(:GET, bkt, "")
     ro.sub_res=[("cors", "")]
 
-    @req_n_process(CORSConfiguration)
+    @req_n_process(env, ro, CORSConfiguration)
 end
 
 function get_bkt_lifecycle(env::AWSEnv, bkt::String)
@@ -195,28 +195,28 @@ function get_bkt_location(env::AWSEnv, bkt::String)
     ro = RO(:GET, bkt, "")
     ro.sub_res=[("location", "")]
 
-    @req_n_process(LocationConstraint)
+    @req_n_process(env, ro, LocationConstraint)
 end
 
 function get_bkt_logging(env::AWSEnv, bkt::String)
     ro = RO(:GET, bkt, "")
     ro.sub_res=[("logging", "")]
 
-    @req_n_process(BucketLoggingStatus)
+    @req_n_process(env, ro, BucketLoggingStatus)
 end
 
 function get_bkt_notification(env::AWSEnv, bkt::String)
     ro = RO(:GET, bkt, "")
     ro.sub_res=[("notification", "")]
 
-    @req_n_process(NotificationConfiguration)
+    @req_n_process(env, ro, NotificationConfiguration)
 end
 
 function get_bkt_tagging(env::AWSEnv, bkt::String)
     ro = RO(:GET, bkt, "")
     ro.sub_res=[("tagging", "")]
 
-    @req_n_process(Tagging)
+    @req_n_process(env, ro, Tagging)
 
 end
 
@@ -225,21 +225,21 @@ function get_bkt_object_versions(env::AWSEnv, bkt::String; options::GetBucketObj
     ro = RO(:GET, bkt, "")
     ro.sub_res=get_subres([("versions", "")], options)
 
-    @req_n_process(ListVersionsResult)
+    @req_n_process(env, ro, ListVersionsResult)
 end
 
 function get_bkt_request_payment(env::AWSEnv, bkt::String)
     ro = RO(:GET, bkt, "")
     ro.sub_res=[("requestPayment", "")]
 
-    @req_n_process(RequestPaymentConfiguration)
+    @req_n_process(env, ro, RequestPaymentConfiguration)
 end
 
 function get_bkt_versioning(env::AWSEnv, bkt::String)
     ro = RO(:GET, bkt, "")
     ro.sub_res=[("versioning", "")]
 
-    @req_n_process(VersioningConfiguration)
+    @req_n_process(env, ro, VersioningConfiguration)
 end
 
 function get_bkt_website(env::AWSEnv, bkt::String)
@@ -308,7 +308,7 @@ function get_bkt_multipart_uploads(env::AWSEnv, bkt::String; options::GetBucketU
     ro = RO(:GET, bkt, "")
     ro.sub_res=get_subres([("uploads", "")], options)
 
-    @req_n_process(ListMultipartUploadsResult)
+    @req_n_process(env, ro, ListMultipartUploadsResult)
 end
 
 
@@ -461,7 +461,7 @@ function del_object_multi(env::AWSEnv, bkt::String, delset::DeleteObjectsType; m
     ro.body= xml(delset)
     if (mfa != "") ro.amz_hdrs = [("mfa", mfa)] end
 
-    @req_n_process(DeleteResult)
+    @req_n_process(env, ro, DeleteResult)
 end
 
 
@@ -484,7 +484,7 @@ function get_object_acl(env::AWSEnv, bkt::String, key::String; version_id::Strin
     ro.sub_res=[("acl", "")]
     if (version_id != "") push!(ro.sub_res, ("versionId", version_id)) end
 
-    @req_n_process(AccessControlPolicy)
+    @req_n_process(env, ro, AccessControlPolicy)
 end
 
 function get_object_torrent(env::AWSEnv, bkt::String, key::String, out::Union{IO, String}) # out is either an IOStream or a filename
@@ -538,7 +538,7 @@ function put_object(env::AWSEnv, bkt::String, key::String, data:: Union{IO, Stri
 	ro.cont_typ = "application/octet-stream"
 
     ro.amz_hdrs = amz_headers(Tuple[], options)
-    ro.http_hdrs = http_headers(Array(Tuple, 0), options)
+    ro.http_hdrs = http_headers(Array{Tuple}(0), options)
     if (content_type != "") ro.cont_typ = content_type end
 
     if isa(data, String)
@@ -580,18 +580,18 @@ function copy_object(env::AWSEnv, dest_bkt::String, dest_key::String, options::C
         ro.sub_res=[("versionId", version_id)]
     end
 
-    @req_n_process(CopyObjectResult)
+    @req_n_process(env, ro, CopyObjectResult)
 end
 
 function initiate_multipart_upload(env::AWSEnv, bkt::String, key::String; content_type="", options::PutObjectOptions=PutObjectOptions())
     ro = RO(:POST, bkt, key)
 	ro.cont_typ = "application/octet-stream"
     ro.amz_hdrs = amz_headers(Tuple[], options)
-    ro.http_hdrs = http_headers(Array(Tuple, 0), options)
+    ro.http_hdrs = http_headers(Array{Tuple}(0), options)
     if (content_type != "") ro.cont_typ = content_type end
     ro.sub_res=[("uploads", "")]
 
-    @req_n_process(InitiateMultipartUploadResult)
+    @req_n_process(env, ro, InitiateMultipartUploadResult)
 end
 
 function upload_part(env::AWSEnv, bkt::String, key::String, part_number::String, upload_id::String, data:: Union{IO, String, Tuple})
@@ -620,7 +620,7 @@ function copy_upload_part(env::AWSEnv, bkt::String, key::String, part_number::St
     ro.sub_res = [("partNumber", "$(part_number)"), ("uploadId", "$(upload_id)")]
     ro.amz_hdrs = amz_headers(options)
 
-    @req_n_process(CopyPartResult)
+    @req_n_process(env, ro, CopyPartResult)
 end
 
 
@@ -631,7 +631,7 @@ function complete_multipart_upload(env::AWSEnv, bkt::String, key::String, upload
 
     ro.body = xml("CompleteMultipartUpload", part_ids)
 
-    @req_n_process(CompleteMultipartUploadResult)
+    @req_n_process(env, ro, CompleteMultipartUploadResult)
 end
 
 
@@ -651,7 +651,7 @@ function list_upload_parts(env::AWSEnv, bkt::String, key::String,
     ro = RO(:GET, bkt, key)
     ro.sub_res = [("uploadId", "$(upload_id)"), ("max-parts", "$max_parts"), ("part-number-marker", "$part_number_marker")]
 
-    @req_n_process(ListPartsResult)
+    @req_n_process(env, ro, ListPartsResult)
 end
 
 function do_request(env::AWSEnv, ro::RO; conv_to_string=true)

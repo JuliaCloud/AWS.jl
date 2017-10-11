@@ -81,7 +81,7 @@ function signature_version_4(env::AWSEnv, service, use_post, request_parameters)
 	if use_post
         ## payload = urlencode_form(request_parameters)
         payload = Requests.format_query_str(request_parameters)
-        request_parameters = Array(Tuple, 0)
+        request_parameters = Array{Tuple}(0)
     end
 
 	method = use_post ? "POST" : "GET"
