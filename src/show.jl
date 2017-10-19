@@ -27,7 +27,7 @@ function show_indented(io::IO, s::Dict, indent)
 end
 
 function Base.show(io::IO, awsEnv::AWS.AWSEnv)
-    print("""AWSEnv:
+    print(io, """AWSEnv:
     aws_id: $("*******$(awsEnv.aws_id[end-2:end])")
     aws_seckey: "*********$(awsEnv.aws_seckey[end-2:end])"
     region: $(awsEnv.region)
