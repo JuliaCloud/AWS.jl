@@ -26,6 +26,21 @@ function show_indented(io::IO, s::Dict, indent)
     end
 end
 
+function Base.show(io::IO, awsEnv::AWS.AWSEnv)
+    print("""AWSEnv:
+    aws_id: $("*******$(awsEnv.aws_id[end-2:end])")
+    aws_seckey: "*********$(awsEnv.aws_seckey[end-2:end])"
+    region: $(awsEnv.region)
+    scheme: $(awsEnv.ep_scheme)
+    host: $(awsEnv.ep_host)
+    path: $(awsEnv.ep_path)
+    ver: $(awsEnv.sig_ver)
+    timeout: $(awsEnv.timeout)
+    dry_run: $(awsEnv.dry_run)
+    debug: $(awsEnv.dbg)
+""")
+end
+
 macro show_func(n, t)
     #n,t,id_sym = eval(n),eval(t),eval(id_sym)
     block = Expr(:block)
@@ -50,7 +65,7 @@ end
 for m in [AWS, AWS.S3]
     for n in names(m)
         t = getfield((m), (n))
-        if isa(t,Type)
+        if isa(t,Type) && (t !== AWS.AWSEnv)
             @eval @show_func $n $t
         end
     end

@@ -164,13 +164,6 @@ type AWSEnv
     end
 end
 
-function Base.display(awsEnv::AWSEnv)
-    e = deepcopy(awsEnv)
-    e.aws_id = "*******$(awsEnv.aws_id[end-2:end])"
-    e.aws_seckey = "*********$(awsEnv.aws_seckey[end-2:end])"
-    println(e)
-end
-
 function parse_endpoint(ep, default_scheme)
     s = search(ep,"://")
     if length(s) == 0
