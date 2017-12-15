@@ -498,7 +498,7 @@ end
 
 function describe_object(env::AWSEnv, bkt::String, key::String; options::GetObjectOptions=GetObjectOptions(), version_id::String="")
     ro = RO(:HEAD, bkt, key)
-    ro.http_hdrs = http_headers(options)
+    ro.http_hdrs = http_headers(Tuple[], options)
     if (version_id != "") ro.sub_res=[("versionId", version_id)] end
 
     s3_resp = do_request(env, ro)

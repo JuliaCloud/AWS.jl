@@ -23,18 +23,18 @@ export md5_file
 md5(s::String) = digest(MD_MD5, s)
 
 function md5(s::IO)
-    md = MD(MD_MD5)
+    md = MbedTLS.MD(MD_MD5)
     success = false
     try
         while !eof(s)
             b = read(s, UInt8, min(nb_available(s), 65536))    # Read in 64 K chunks....
-            write(md, b)
+            MbedTLS.write(md, b)
         end
-        d = finish!(md)
+        d = MbedTLS.finish!(md)
         success = true
         return d
     finally
-        success || finish!(md)
+        success || MbedTLS.finish!(md)
     end
 end
 export md5
