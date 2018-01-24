@@ -965,7 +965,11 @@ function list_objects(awsEnv::AWSEnv, bkt::AbstractString, prefix::AbstractStrin
             marker = resp.obj.nextMarker
 
             for content in resp.obj.contents
-                fname = replace(content.key, prefix, "")
+                if startswith(content.key, prefix)
+                    fname = content.key[length(prefix)+1:end]
+                else
+                    fname = content.key
+                end
 
                 if ismatch(re, fname)
                     if details
