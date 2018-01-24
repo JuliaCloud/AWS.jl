@@ -261,9 +261,9 @@ end
 split a s3 path to bucket name and key
 """
 function splits3(path::AbstractString)
-    path = replace(path, "s3://", "")
+    path = replace(path, r"^s3://", s"")
     bkt, key = split(path, "/", limit = 2)
-    return string(bkt), string(key)
+    return String(bkt), String(key)
 end
 
 """
