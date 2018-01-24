@@ -64,7 +64,7 @@ function test_bucket_ops(env)
     @test collect(objs) == ["file1", "file2", "file3"]
 
     info("list objects with details")
-    (bkt,objs) = S3.list_objects(env, bkt, "fi", details=true)
+    (bkt,objs) = S3.list_objects_details(env, bkt, "fi")
     @test [o.key for o in objs] == ["file1", "file2", "file3"]
 
     info("delete file 1")

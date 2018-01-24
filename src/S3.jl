@@ -935,7 +935,7 @@ awsEnv: AWS awsEnvironment
 bkt: bucket name
 path: path
 `Outputs`:
-ret: list of objects
+ret: channel that produces object keys (String)
 """
 function list_objects(awsEnv::AWSEnv, path::AbstractString; re::Regex = r"^\s*")
     bkt, prefix = splits3(path)
@@ -949,9 +949,38 @@ function list_objects(bkt::AbstractString, prefix::AbstractString; re::Regex = r
     awsEnv = AWS.AWSEnv()
     return list_objects(awsEnv, bkt, prefix; re=re)
 end
-function list_objects(awsEnv::AWSEnv, bkt::AbstractString, prefix::AbstractString; re::Regex = r"^\s*", details=false)
+function list_objects(awsEnv::AWSEnv, bkt::AbstractString, prefix::AbstractString; re::Regex = r"^\s*")
+    (bkt, in_c) = list_objects_details(awsEnv, bkt, prefix)
+
+    function filter(out_c::Channel)
+        for content in in_c
+            if startswith(content.key, prefix)
+                fname = content.key[length(prefix)+1:end]
+            else
+                fname = content.key
+            end
+
+            if ismatch(re, fname)
+                put!(out_c, content.key)
+            end
+        end
+    end
+
+    bkt, Channel(filter, ctype=String)
+end
+
+
+"""
+list objects of s3. no directory/folder in the list
+`Inputs`:
+awsEnv: AWS awsEnvironment
+bkt: bucket name
+path: path
+`Outputs`:
+ret: channel with object metadata (AWS.S3.Contents)
+"""
+function list_objects_details(awsEnv::AWSEnv, bkt::AbstractString, prefix::AbstractString; max_keys = 1000)
     prefix = lstrip(prefix, '/')
-    max_keys = 1000
 
     function producer(c::Channel)
         marker = nothing
@@ -965,26 +994,14 @@ function list_objects(awsEnv::AWSEnv, bkt::AbstractString, prefix::AbstractStrin
             marker = resp.obj.nextMarker
 
             for content in resp.obj.contents
-                if startswith(content.key, prefix)
-                    fname = content.key[length(prefix)+1:end]
-                else
-                    fname = content.key
-                end
-
-                if ismatch(re, fname)
-                    if details
-                        put!(c, content)
-                    else
-                        put!(c, content.key)
-                    end
-                end
+                put!(c, content)
             end
         end
     end
 
-    ctype = details ? AWS.S3.Contents : String
-    
-    return bkt, Channel(producer, ctype=ctype, csize=max_keys)
+    # csize=max_keys-1: start the next listing as soon as the caller starts
+    # processing the previous listing
+    return bkt, Channel(producer, ctype=AWS.S3.Contents, csize=max(0, max_keys-1))
 end
 
 end
