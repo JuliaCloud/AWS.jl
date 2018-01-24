@@ -949,24 +949,38 @@ function list_objects(bkt::AbstractString, prefix::AbstractString; re::Regex = r
     awsEnv = AWS.AWSEnv()
     return list_objects(awsEnv, bkt, prefix; re=re)
 end
-function list_objects(awsEnv::AWSEnv, bkt::AbstractString, prefix::AbstractString; re::Regex = r"^\s*")
+function list_objects(awsEnv::AWSEnv, bkt::AbstractString, prefix::AbstractString; re::Regex = r"^\s*", details=false)
     prefix = lstrip(prefix, '/')
-    # prefix = path=="" ? path : rstrip(path, '/')*"/"
-    bucket_options = AWS.S3.GetBucketOptions(delimiter="/", prefix=prefix)
-    resp = AWS.S3.get_bkt(awsEnv, bkt; options=bucket_options)
+    max_keys = 1000
 
-    keylst = Vector{String}()
-    for content in resp.obj.contents
-        fname = replace(content.key, prefix, "")
-        if fname!="" && ismatch(re, fname)
-            push!(keylst, content.key)
+    function producer(c::Channel)
+        marker = nothing
+        more = true
+
+        while more
+            bucket_options = AWS.S3.GetBucketOptions(delimiter="/", prefix=prefix, marker=marker, max_keys=max_keys);
+            resp = AWS.S3.get_bkt(awsEnv, bkt; options=bucket_options)
+
+            more = resp.obj.isTruncated
+            marker = resp.obj.nextMarker
+
+            for content in resp.obj.contents
+                fname = replace(content.key, prefix, "")
+
+                if ismatch(re, fname)
+                    if details
+                        put!(c, content)
+                    else
+                        put!(c, content.key)
+                    end
+                end
+            end
         end
     end
-    # the prefix is alread a single file
-    # if keylst == []
-    #     push!(keylst, prefix)
-    # end
-    return bkt, keylst
+
+    ctype = details ? AWS.S3.Contents : String
+    
+    return bkt, Channel(producer, ctype=ctype, csize=max_keys)
 end
 
 end
