@@ -16,9 +16,9 @@ macro add_amz_hdr(hdrs, name, value)
     end
 end
 
-macro chk_n_add(name, value)
+macro chk_n_add(arr, name, value)
     quote
-        if ($(esc(value)) != nothing) push!(arr, ($(esc(name)), string($(esc(value)))  )) end
+        if ($(esc(value)) != nothing) push!($(esc(arr)), ($(esc(name)), string($(esc(value)))  )) end
     end
 end
 
@@ -799,10 +799,10 @@ function amz_headers(hdrs, o::PutObjectOptions)
 end
 
 function http_headers(arr, o::PutObjectOptions)
-    @chk_n_add("Cache-Control", o.cache_control)
-    @chk_n_add("Content-Disposition", o.content_disposition)
-    @chk_n_add("Content-Encoding", o.content_encoding)
-    @chk_n_add("Expires", rfc1123_date(o.expires))
+    @chk_n_add(arr, "Cache-Control", o.cache_control)
+    @chk_n_add(arr, "Content-Disposition", o.content_disposition)
+    @chk_n_add(arr, "Content-Encoding", o.content_encoding)
+    @chk_n_add(arr, "Expires", rfc1123_date(o.expires))
     arr
 end
 export PutObjectOptions
@@ -831,21 +831,21 @@ type GetObjectOptions
         end
 end
 function http_headers(arr, o::GetObjectOptions)
-    @chk_n_add("Range", o.range)
-    @chk_n_add("If-Modified-Since", rfc1123_date(o.if_modified_since))
-    @chk_n_add("If-Unmodified-Since", rfc1123_date(o.if_unmodified_since))
-    @chk_n_add("If-Match", o.if_match)
-    @chk_n_add("If-None-Match", o.if_none_match)
+    @chk_n_add(arr, "Range", o.range)
+    @chk_n_add(arr, "If-Modified-Since", rfc1123_date(o.if_modified_since))
+    @chk_n_add(arr, "If-Unmodified-Since", rfc1123_date(o.if_unmodified_since))
+    @chk_n_add(arr, "If-Match", o.if_match)
+    @chk_n_add(arr, "If-None-Match", o.if_none_match)
     arr
 end
 
 function query_params(arr, o::GetObjectOptions)
-    @chk_n_add("response-cont-typ", o.response_cont_typ)
-    @chk_n_add("response-content-language", o.response_content_language)
-    @chk_n_add("response-expires", o.response_expires)
-    @chk_n_add("response-cache-control", o.response_cache_control)
-    @chk_n_add("response-content-disposition", o.response_content_disposition)
-    @chk_n_add("response-content-encoding", o.response_content_encoding)
+    @chk_n_add(arr, "response-cont-typ", o.response_cont_typ)
+    @chk_n_add(arr, "response-content-language", o.response_content_language)
+    @chk_n_add(arr, "response-expires", o.response_expires)
+    @chk_n_add(arr, "response-cache-control", o.response_cache_control)
+    @chk_n_add(arr, "response-content-disposition", o.response_content_disposition)
+    @chk_n_add(arr, "response-content-encoding", o.response_content_encoding)
     arr
 end
 export GetObjectOptions
@@ -903,11 +903,11 @@ type GetBucketUploadsOptions
     end
 end
 function get_subres(arr, o::GetBucketUploadsOptions)
-    @chk_n_add("delimiter", o.delimiter)
-    @chk_n_add("key-marker", o.key_marker)
-    @chk_n_add("max-uploads", o.max_uploads)
-    @chk_n_add("prefix", o.prefix)
-    @chk_n_add("upload-id-marker", o.upload_id_marker)
+    @chk_n_add(arr, "delimiter", o.delimiter)
+    @chk_n_add(arr, "key-marker", o.key_marker)
+    @chk_n_add(arr, "max-uploads", o.max_uploads)
+    @chk_n_add(arr, "prefix", o.prefix)
+    @chk_n_add(arr, "upload-id-marker", o.upload_id_marker)
     arr
 end
 export GetBucketUploadsOptions
@@ -925,11 +925,11 @@ type GetBucketObjectVersionsOptions
     end
 end
 function get_subres(arr, o::GetBucketObjectVersionsOptions)
-    @chk_n_add("delimiter", o.delimiter)
-    @chk_n_add("key-marker", o.key_marker)
-    @chk_n_add("max-keys", o.max_keys)
-    @chk_n_add("prefix", o.prefix)
-    @chk_n_add("version-id-marker", o.version_id_marker)
+    @chk_n_add(arr, "delimiter", o.delimiter)
+    @chk_n_add(arr, "key-marker", o.key_marker)
+    @chk_n_add(arr, "max-keys", o.max_keys)
+    @chk_n_add(arr, "prefix", o.prefix)
+    @chk_n_add(arr, "version-id-marker", o.version_id_marker)
     arr
 end
 export GetBucketObjectVersionsOptions
@@ -943,10 +943,10 @@ type GetBucketOptions
     GetBucketOptions(;delimiter=nothing, marker=nothing, max_keys=nothing, prefix=nothing) = new(delimiter, marker, max_keys, prefix)
 end
 function get_subres(arr, o::GetBucketOptions)
-    @chk_n_add("delimiter", o.delimiter)
-    @chk_n_add("marker", o.marker)
-    @chk_n_add("max-keys", o.max_keys)
-    @chk_n_add("prefix", o.prefix)
+    @chk_n_add(arr, "delimiter", o.delimiter)
+    @chk_n_add(arr, "marker", o.marker)
+    @chk_n_add(arr, "max-keys", o.max_keys)
+    @chk_n_add(arr, "prefix", o.prefix)
     arr
 end
 export GetBucketOptions
