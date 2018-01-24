@@ -987,15 +987,13 @@ function list_objects_details(awsEnv::AWSEnv, bkt::AbstractString, prefix::Abstr
         more = true
 
         while more
-            bucket_options = AWS.S3.GetBucketOptions(delimiter="/", prefix=prefix, marker=marker, max_keys=max_keys);
+            bucket_options = AWS.S3.GetBucketOptions(delimiter="/", prefix=prefix, marker=marker, max_keys=max_keys)
             resp = AWS.S3.get_bkt(awsEnv, bkt; options=bucket_options)
 
             more = resp.obj.isTruncated
             marker = resp.obj.nextMarker
 
-            for content in resp.obj.contents
-                put!(c, content)
-            end
+            put!.(c, resp.obj.contents)
         end
     end
 
