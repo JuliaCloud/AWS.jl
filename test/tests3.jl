@@ -59,6 +59,14 @@ function test_bucket_ops(env)
     #info("Sleep for 10 secs ....")
     #sleep(10)
 
+    info("list objects")
+    (bkt,objs) = S3.list_objects(env, bkt, "fi")
+    @test collect(objs) == ["file1", "file2", "file3"]
+
+    info("list objects with details")
+    (bkt,objs) = S3.list_objects_details(env, bkt, "fi")
+    @test [o.key for o in objs] == ["file1", "file2", "file3"]
+
     info("delete file 1")
     resp = S3.del_object(env, bkt, "file1")
     check_resp(resp, String)

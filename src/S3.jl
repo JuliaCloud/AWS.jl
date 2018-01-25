@@ -935,7 +935,7 @@ awsEnv: AWS awsEnvironment
 bkt: bucket name
 path: path
 `Outputs`:
-ret: list of objects
+ret: channel that produces object keys (String)
 """
 function list_objects(awsEnv::AWSEnv, path::AbstractString; re::Regex = r"^\s*")
     bkt, prefix = splits3(path)
@@ -950,23 +950,56 @@ function list_objects(bkt::AbstractString, prefix::AbstractString; re::Regex = r
     return list_objects(awsEnv, bkt, prefix; re=re)
 end
 function list_objects(awsEnv::AWSEnv, bkt::AbstractString, prefix::AbstractString; re::Regex = r"^\s*")
-    prefix = lstrip(prefix, '/')
-    # prefix = path=="" ? path : rstrip(path, '/')*"/"
-    bucket_options = AWS.S3.GetBucketOptions(delimiter="/", prefix=prefix)
-    resp = AWS.S3.get_bkt(awsEnv, bkt; options=bucket_options)
+    (bkt, in_c) = list_objects_details(awsEnv, bkt, prefix)
 
-    keylst = Vector{String}()
-    for content in resp.obj.contents
-        fname = replace(content.key, prefix, "")
-        if fname!="" && ismatch(re, fname)
-            push!(keylst, content.key)
+    function filter(out_c::Channel)
+        for content in in_c
+            if startswith(content.key, prefix)
+                fname = content.key[length(prefix)+1:end]
+            else
+                fname = content.key
+            end
+
+            if ismatch(re, fname)
+                put!(out_c, content.key)
+            end
         end
     end
-    # the prefix is alread a single file
-    # if keylst == []
-    #     push!(keylst, prefix)
-    # end
-    return bkt, keylst
+
+    bkt, Channel(filter, ctype=String)
+end
+
+
+"""
+list objects of s3. no directory/folder in the list
+`Inputs`:
+awsEnv: AWS awsEnvironment
+bkt: bucket name
+path: path
+`Outputs`:
+ret: channel with object metadata (AWS.S3.Contents)
+"""
+function list_objects_details(awsEnv::AWSEnv, bkt::AbstractString, prefix::AbstractString; max_keys = 1000)
+    prefix = lstrip(prefix, '/')
+
+    function producer(c::Channel)
+        marker = nothing
+        more = true
+
+        while more
+            bucket_options = AWS.S3.GetBucketOptions(delimiter="/", prefix=prefix, marker=marker, max_keys=max_keys)
+            resp = AWS.S3.get_bkt(awsEnv, bkt; options=bucket_options)
+
+            more = resp.obj.isTruncated
+            marker = resp.obj.nextMarker
+
+            put!.(c, resp.obj.contents)
+        end
+    end
+
+    # csize=max_keys-1: start the next listing as soon as the caller starts
+    # processing the previous listing
+    return bkt, Channel(producer, ctype=AWS.S3.Contents, csize=max(0, max_keys-1))
 end
 
 end
