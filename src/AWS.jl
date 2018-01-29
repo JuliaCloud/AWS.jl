@@ -49,6 +49,18 @@ function read_aws_config(configFileName::String = joinpath(homedir(), ".aws/conf
     end
 end
 
+"""Only works from within an EC2 node, blocks until Base.connect times out otherwise"""
+function read_iam_credentials()
+    # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html
+    SECURITY_CREDENTIALS_PATH="http://169.254.169.254/latest/meta-data/iam/security-credentials/"
+    r = get(SECURITY_CREDENTIALS_PATH)
+    profile = String(r)
+    c = get(string(SECURITY_CREDENTIALS_PATH, profile))
+    j = JSON.parse(String(c))
+
+    return (j["AccessKeyId"], j["SecretAccessKey"], j["Token"])
+end
+
 function __init__()
     config_file_base = Sys.KERNEL == :Windows ? ENV["APPDATA"] : homedir()
 
@@ -117,7 +129,14 @@ type AWSEnv
         end
 
         if (id == "") || (key == "")
-            error("Invalid AWS security credentials provided")
+            try
+                (id, key, token) = read_iam_credentials()
+            catch
+            end
+
+            if (id == "") || (key == "")
+                error("Invalid AWS security credentials provided")
+            end
         end
 
 		#=
