@@ -526,7 +526,7 @@ function restore_object(env::AWSEnv, bkt::String, key::String, days::Int)
 	ro.cont_typ = "application/octet-stream"
 
     ro.sub_res=[("restore", "")]
-    ro.body = "<RestoreRequest xmlns=\"http://$(amz_s3_endpoint(env.region))/doc/2006-3-01\"><Days>$(days)</Days></RestoreRequest>"
+    ro.body = "<RestoreRequest xmlns=\"http://$(amz_s3_endpoint(env))/doc/2006-3-01\"><Days>$(days)</Days></RestoreRequest>"
 
     s3_resp = do_request(env, ro)
     s3_resp
@@ -725,7 +725,7 @@ function do_http(env::AWSEnv, ro::RO)
 
     push!(all_hdrs, ("Authorization",  "AWS " * env.aws_id * ":" * s_b64))
 
-    url = "https://$(amz_s3_endpoint(env.region))" * full_path
+    url = "https://$(amz_s3_endpoint(env))" * full_path
 
     http_options = RequestOptions(headers=all_hdrs, ostream=ro.ostream, request_timeout=env.timeout, auto_content_type=false)
 
@@ -906,7 +906,8 @@ function get_canon_amz_headers(headers::Vector{Tuple})
     return sorted, canon_hdr_str
 end
 
-amz_s3_endpoint(region) = ((isempty(region) || (region == "us-east-1")) ? "s3" : ("s3-"*region)) * ".amazonaws.com"
+amz_s3_endpoint(region::String) = ((isempty(region) || (region == "us-east-1")) ? "s3" : ("s3-"*region)) * ".amazonaws.com"
+amz_s3_endpoint(env::AWSEnv) = isempty(env.ep_host) ? amz_s3_endpoint(env.region) : env.ep_host
 
 rfc1123_date() = rfc1123_date(now(Dates.UTC))
 function rfc1123_date(dt)

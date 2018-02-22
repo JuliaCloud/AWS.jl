@@ -82,8 +82,21 @@ function test_bucket_ops(env)
     check_resp(resp, String)
 end
 
+function test_endpoint(env)
+    info("custom s3 endpoint")
+    env2 = AWSEnv(env, ep="http://localhost/")
+    try
+        S3.list_all_buckets(env2)
+        error("expected connect failure")
+    catch ex
+        @test isa(ex, Base.UVError)
+        @test ex.prefix == "connect"
+    end
+end
+
 function runtests(env, config)
     info("testing s3 bucket ops...")
+    test_endpoint(env)
     test_bucket_ops(env)
 end
 
