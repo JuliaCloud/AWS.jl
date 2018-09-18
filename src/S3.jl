@@ -16,7 +16,7 @@ include("s3_types.jl")
 def_rto = 0.0
 null_cb(curl) = nothing
 
-type RequestOptions
+mutable struct RequestOptions
     blocking::Bool
     query_params::Vector{Tuple}
     request_timeout::Float64
@@ -30,7 +30,7 @@ type RequestOptions
     new(blocking, query_params, request_timeout, callback, content_type, headers, ostream, auto_content_type)
 end
 
-type Response
+mutable struct Response
     body
     headers :: Dict{String, Vector{String}}
     http_code
@@ -55,7 +55,7 @@ end
 
 
 
-type S3Response
+mutable struct S3Response
     content_length::Int
     #Connection (open or closed) - we will not use this
     date::String    #The date and time Amazon S3 responded, for example, Wed, 01 Mar 2009 12:00:00 GMT.
@@ -80,7 +80,7 @@ type S3Response
 end
 export S3Response
 
-type RO # RequestOptions
+mutable struct RO # RequestOptions
     verb::Symbol                  # HTTP verb
     bkt::String                   # bucket
     key::String                   # object id typically

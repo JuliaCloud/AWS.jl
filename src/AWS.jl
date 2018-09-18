@@ -92,7 +92,7 @@ function __init__()
     end
 end
 
-type AWSEnv
+mutable struct AWSEnv
     aws_id::String         # AWS Access Key id
     aws_seckey::String     # AWS Secret key for signing requests
     aws_token::String      # AWS Security Token for temporary credentials

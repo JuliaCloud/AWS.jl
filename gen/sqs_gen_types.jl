@@ -1,9 +1,9 @@
-type BatchResultErrorEntry end
-type ChangeMessageVisibilityBatchRequestEntry end
-type ChangeMessageVisibilityBatchResultEntry end
-type DeleteMessageBatchRequestEntry end
-type DeleteMessageBatchResultEntry end
-type Message end
-type MessageAttributeValue end
-type SendMessageBatchRequestEntry end
-type SendMessageBatchResultEntry end
+mutable struct BatchResultErrorEntry end
+mutable struct ChangeMessageVisibilityBatchRequestEntry end
+mutable struct ChangeMessageVisibilityBatchResultEntry end
+mutable struct DeleteMessageBatchRequestEntry end
+mutable struct DeleteMessageBatchResultEntry end
+mutable struct Message end
+mutable struct MessageAttributeValue end
+mutable struct SendMessageBatchRequestEntry end
+mutable struct SendMessageBatchResultEntry end

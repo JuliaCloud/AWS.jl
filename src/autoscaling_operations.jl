@@ -1,7 +1,7 @@
 # generated from AutoScalingTypeDict via AWS/src/codegen.jl
 # do not edit, edit specification file and regenerate instead
 
-type DeleteNotificationConfigurationRequest <: AbstractAWSType
+mutable struct DeleteNotificationConfigurationRequest <: AbstractAWSType
     autoScalingGroupName::Union{Void,String}
     topicARN::Union{Void,Array{String,1}}
     function DeleteNotificationConfigurationRequest(;autoScalingGroupName=nothing, topicARN=nothing)
@@ -18,7 +18,7 @@ end
 DeleteNotificationConfiguration(env::AWSEnv; kwargs...) = DeleteNotificationConfiguration(env, DeleteNotificationConfigurationRequest(; kwargs...))
 export DeleteNotificationConfiguration
 
-type DetachInstancesResult <: AbstractAWSType
+mutable struct DetachInstancesResult <: AbstractAWSType
     activities::Union{Void,Array{Activity,1}}
     function DetachInstancesResult(;activities=nothing)
         new(activities)
@@ -27,7 +27,7 @@ type DetachInstancesResult <: AbstractAWSType
 end # DetachInstancesResult
 export DetachInstancesResult
 
-type DetachInstancesRequest <: AbstractAWSType
+mutable struct DetachInstancesRequest <: AbstractAWSType
     autoScalingGroupName::Union{Void,String}
     instanceIds::Union{Void,Array{String,1}}
     shouldDecrementDesiredCapacity::Union{Void,Bool}
@@ -48,7 +48,7 @@ end
 DetachInstances(env::AWSEnv; kwargs...) = DetachInstances(env, DetachInstancesRequest(; kwargs...))
 export DetachInstances
 
-type DescribeMetricCollectionTypesResult <: AbstractAWSType
+mutable struct DescribeMetricCollectionTypesResult <: AbstractAWSType
     granularities::Union{Void,Array{MetricGranularityType,1}}
     metrics::Union{Void,Array{MetricCollectionType,1}}
     function DescribeMetricCollectionTypesResult(;granularities=nothing, metrics=nothing)
@@ -67,7 +67,7 @@ function DescribeMetricCollectionTypes(env::AWSEnv)
 end
 export DescribeMetricCollectionTypes
 
-type SetInstanceHealthRequest <: AbstractAWSType
+mutable struct SetInstanceHealthRequest <: AbstractAWSType
     healthStatus::Union{Void,String}
     instanceId::Union{Void,String}
     shouldRespectGracePeriod::Union{Void,Bool}
@@ -85,7 +85,7 @@ end
 SetInstanceHealth(env::AWSEnv; kwargs...) = SetInstanceHealth(env, SetInstanceHealthRequest(; kwargs...))
 export SetInstanceHealth
 
-type DeleteLaunchConfigurationRequest <: AbstractAWSType
+mutable struct DeleteLaunchConfigurationRequest <: AbstractAWSType
     launchConfigurationName::Union{Void,String}
     function DeleteLaunchConfigurationRequest(;launchConfigurationName=nothing)
         new(launchConfigurationName)
@@ -101,7 +101,7 @@ end
 DeleteLaunchConfiguration(env::AWSEnv; kwargs...) = DeleteLaunchConfiguration(env, DeleteLaunchConfigurationRequest(; kwargs...))
 export DeleteLaunchConfiguration
 
-type DescribeAutoScalingInstancesResult <: AbstractAWSType
+mutable struct DescribeAutoScalingInstancesResult <: AbstractAWSType
     autoScalingInstances::Union{Void,Array{AutoScalingInstanceDetails,1}}
     nextToken::Union{Void,String}
     function DescribeAutoScalingInstancesResult(;autoScalingInstances=nothing, nextToken=nothing)
@@ -111,7 +111,7 @@ type DescribeAutoScalingInstancesResult <: AbstractAWSType
 end # DescribeAutoScalingInstancesResult
 export DescribeAutoScalingInstancesResult
 
-type DescribeAutoScalingInstancesRequest <: AbstractAWSType
+mutable struct DescribeAutoScalingInstancesRequest <: AbstractAWSType
     instanceIds::Union{Void,Array{String,1}}
     maxRecords::Union{Void,Int64}
     nextToken::Union{Void,String}
@@ -132,7 +132,7 @@ end
 DescribeAutoScalingInstances(env::AWSEnv; kwargs...) = DescribeAutoScalingInstances(env, DescribeAutoScalingInstancesRequest(; kwargs...))
 export DescribeAutoScalingInstances
 
-type CreateLaunchConfigurationRequest <: AbstractAWSType
+mutable struct CreateLaunchConfigurationRequest <: AbstractAWSType
     associatePublicIpAddress::Union{Void,Bool}
     blockDeviceMappings::Union{Void,Array{BlockDeviceMapping,1}}
     classicLinkVPCId::Union{Void,String}
@@ -165,7 +165,7 @@ end
 CreateLaunchConfiguration(env::AWSEnv; kwargs...) = CreateLaunchConfiguration(env, CreateLaunchConfigurationRequest(; kwargs...))
 export CreateLaunchConfiguration
 
-type DescribeLifecycleHookTypesResult <: AbstractAWSType
+mutable struct DescribeLifecycleHookTypesResult <: AbstractAWSType
     lifecycleHookTypes::Union{Void,Array{String,1}}
     function DescribeLifecycleHookTypesResult(;lifecycleHookTypes=nothing)
         new(lifecycleHookTypes)
@@ -183,7 +183,7 @@ function DescribeLifecycleHookTypes(env::AWSEnv)
 end
 export DescribeLifecycleHookTypes
 
-type PutNotificationConfigurationRequest <: AbstractAWSType
+mutable struct PutNotificationConfigurationRequest <: AbstractAWSType
     autoScalingGroupName::Union{Void,String}
     notificationTypes::Union{Void,Array{String,1}}
     topicARN::Union{Void,String}
@@ -201,7 +201,7 @@ end
 PutNotificationConfiguration(env::AWSEnv; kwargs...) = PutNotificationConfiguration(env, PutNotificationConfigurationRequest(; kwargs...))
 export PutNotificationConfiguration
 
-type DeleteAutoScalingGroupRequest <: AbstractAWSType
+mutable struct DeleteAutoScalingGroupRequest <: AbstractAWSType
     autoScalingGroupName::Union{Void,String}
     forceDelete::Union{Void,Bool}
     function DeleteAutoScalingGroupRequest(;autoScalingGroupName=nothing, forceDelete=nothing)
@@ -218,7 +218,7 @@ end
 DeleteAutoScalingGroup(env::AWSEnv; kwargs...) = DeleteAutoScalingGroup(env, DeleteAutoScalingGroupRequest(; kwargs...))
 export DeleteAutoScalingGroup
 
-type SetDesiredCapacityRequest <: AbstractAWSType
+mutable struct SetDesiredCapacityRequest <: AbstractAWSType
     autoScalingGroupName::Union{Void,String}
     desiredCapacity::Union{Void,Int64}
     honorCooldown::Union{Void,Bool}
@@ -236,7 +236,7 @@ end
 SetDesiredCapacity(env::AWSEnv; kwargs...) = SetDesiredCapacity(env, SetDesiredCapacityRequest(; kwargs...))
 export SetDesiredCapacity
 
-type CreateOrUpdateTagsRequest <: AbstractAWSType
+mutable struct CreateOrUpdateTagsRequest <: AbstractAWSType
     tags::Union{Void,Array{Tag,1}}
     function CreateOrUpdateTagsRequest(;tags=nothing)
         new(tags)
@@ -252,7 +252,7 @@ end
 CreateOrUpdateTags(env::AWSEnv; kwargs...) = CreateOrUpdateTags(env, CreateOrUpdateTagsRequest(; kwargs...))
 export CreateOrUpdateTags
 
-type DescribeLoadBalancerTargetGroupsResult <: AbstractAWSType
+mutable struct DescribeLoadBalancerTargetGroupsResult <: AbstractAWSType
     loadBalancerTargetGroups::Union{Void,Array{LoadBalancerTargetGroupState,1}}
     nextToken::Union{Void,String}
     function DescribeLoadBalancerTargetGroupsResult(;loadBalancerTargetGroups=nothing, nextToken=nothing)
@@ -262,7 +262,7 @@ type DescribeLoadBalancerTargetGroupsResult <: AbstractAWSType
 end # DescribeLoadBalancerTargetGroupsResult
 export DescribeLoadBalancerTargetGroupsResult
 
-type DescribeLoadBalancerTargetGroupsRequest <: AbstractAWSType
+mutable struct DescribeLoadBalancerTargetGroupsRequest <: AbstractAWSType
     autoScalingGroupName::Union{Void,String}
     maxRecords::Union{Void,Int64}
     nextToken::Union{Void,String}
@@ -283,7 +283,7 @@ end
 DescribeLoadBalancerTargetGroups(env::AWSEnv; kwargs...) = DescribeLoadBalancerTargetGroups(env, DescribeLoadBalancerTargetGroupsRequest(; kwargs...))
 export DescribeLoadBalancerTargetGroups
 
-type DescribeAutoScalingNotificationTypesResult <: AbstractAWSType
+mutable struct DescribeAutoScalingNotificationTypesResult <: AbstractAWSType
     autoScalingNotificationTypes::Union{Void,Array{String,1}}
     function DescribeAutoScalingNotificationTypesResult(;autoScalingNotificationTypes=nothing)
         new(autoScalingNotificationTypes)
@@ -301,7 +301,7 @@ function DescribeAutoScalingNotificationTypes(env::AWSEnv)
 end
 export DescribeAutoScalingNotificationTypes
 
-type PutLifecycleHookRequest <: AbstractAWSType
+mutable struct PutLifecycleHookRequest <: AbstractAWSType
     autoScalingGroupName::Union{Void,String}
     defaultResult::Union{Void,String}
     heartbeatTimeout::Union{Void,Int64}
@@ -324,7 +324,7 @@ end
 PutLifecycleHook(env::AWSEnv; kwargs...) = PutLifecycleHook(env, PutLifecycleHookRequest(; kwargs...))
 export PutLifecycleHook
 
-type DescribeTagsResult <: AbstractAWSType
+mutable struct DescribeTagsResult <: AbstractAWSType
     nextToken::Union{Void,String}
     tags::Union{Void,Array{TagDescription,1}}
     function DescribeTagsResult(;nextToken=nothing, tags=nothing)
@@ -334,7 +334,7 @@ type DescribeTagsResult <: AbstractAWSType
 end # DescribeTagsResult
 export DescribeTagsResult
 
-type DescribeTagsRequest <: AbstractAWSType
+mutable struct DescribeTagsRequest <: AbstractAWSType
     filters::Union{Void,Array{Filter,1}}
     maxRecords::Union{Void,Int64}
     nextToken::Union{Void,String}
@@ -355,7 +355,7 @@ end
 DescribeTags(env::AWSEnv; kwargs...) = DescribeTags(env, DescribeTagsRequest(; kwargs...))
 export DescribeTags
 
-type DetachLoadBalancersRequest <: AbstractAWSType
+mutable struct DetachLoadBalancersRequest <: AbstractAWSType
     autoScalingGroupName::Union{Void,String}
     loadBalancerNames::Union{Void,Array{String,1}}
     function DetachLoadBalancersRequest(;autoScalingGroupName=nothing, loadBalancerNames=nothing)
@@ -372,7 +372,7 @@ end
 DetachLoadBalancers(env::AWSEnv; kwargs...) = DetachLoadBalancers(env, DetachLoadBalancersRequest(; kwargs...))
 export DetachLoadBalancers
 
-type DescribeLifecycleHooksResult <: AbstractAWSType
+mutable struct DescribeLifecycleHooksResult <: AbstractAWSType
     lifecycleHooks::Union{Void,Array{LifecycleHook,1}}
     function DescribeLifecycleHooksResult(;lifecycleHooks=nothing)
         new(lifecycleHooks)
@@ -381,7 +381,7 @@ type DescribeLifecycleHooksResult <: AbstractAWSType
 end # DescribeLifecycleHooksResult
 export DescribeLifecycleHooksResult
 
-type DescribeLifecycleHooksRequest <: AbstractAWSType
+mutable struct DescribeLifecycleHooksRequest <: AbstractAWSType
     autoScalingGroupName::Union{Void,String}
     lifecycleHookNames::Union{Void,Array{String,1}}
     function DescribeLifecycleHooksRequest(;autoScalingGroupName=nothing, lifecycleHookNames=nothing)
@@ -401,7 +401,7 @@ end
 DescribeLifecycleHooks(env::AWSEnv; kwargs...) = DescribeLifecycleHooks(env, DescribeLifecycleHooksRequest(; kwargs...))
 export DescribeLifecycleHooks
 
-type DeleteScheduledActionRequest <: AbstractAWSType
+mutable struct DeleteScheduledActionRequest <: AbstractAWSType
     autoScalingGroupName::Union{Void,String}
     scheduledActionName::Union{Void,String}
     function DeleteScheduledActionRequest(;autoScalingGroupName=nothing, scheduledActionName=nothing)
@@ -418,7 +418,7 @@ end
 DeleteScheduledAction(env::AWSEnv; kwargs...) = DeleteScheduledAction(env, DeleteScheduledActionRequest(; kwargs...))
 export DeleteScheduledAction
 
-type SuspendProcessesRequest <: AbstractAWSType
+mutable struct SuspendProcessesRequest <: AbstractAWSType
     autoScalingGroupName::Union{Void,String}
     scalingProcesses::Union{Void,Array{String,1}}
     function SuspendProcessesRequest(;autoScalingGroupName=nothing, scalingProcesses=nothing)
@@ -435,7 +435,7 @@ end
 SuspendProcesses(env::AWSEnv; kwargs...) = SuspendProcesses(env, SuspendProcessesRequest(; kwargs...))
 export SuspendProcesses
 
-type ResumeProcessesRequest <: AbstractAWSType
+mutable struct ResumeProcessesRequest <: AbstractAWSType
     autoScalingGroupName::Union{Void,String}
     scalingProcesses::Union{Void,Array{String,1}}
     function ResumeProcessesRequest(;autoScalingGroupName=nothing, scalingProcesses=nothing)
@@ -452,7 +452,7 @@ end
 ResumeProcesses(env::AWSEnv; kwargs...) = ResumeProcesses(env, ResumeProcessesRequest(; kwargs...))
 export ResumeProcesses
 
-type DisableMetricsCollectionRequest <: AbstractAWSType
+mutable struct DisableMetricsCollectionRequest <: AbstractAWSType
     autoScalingGroupName::Union{Void,String}
     metrics::Union{Void,Array{String,1}}
     function DisableMetricsCollectionRequest(;autoScalingGroupName=nothing, metrics=nothing)
@@ -469,7 +469,7 @@ end
 DisableMetricsCollection(env::AWSEnv; kwargs...) = DisableMetricsCollection(env, DisableMetricsCollectionRequest(; kwargs...))
 export DisableMetricsCollection
 
-type DescribeLoadBalancersResult <: AbstractAWSType
+mutable struct DescribeLoadBalancersResult <: AbstractAWSType
     loadBalancers::Union{Void,Array{LoadBalancerState,1}}
     nextToken::Union{Void,String}
     function DescribeLoadBalancersResult(;loadBalancers=nothing, nextToken=nothing)
@@ -479,7 +479,7 @@ type DescribeLoadBalancersResult <: AbstractAWSType
 end # DescribeLoadBalancersResult
 export DescribeLoadBalancersResult
 
-type DescribeLoadBalancersRequest <: AbstractAWSType
+mutable struct DescribeLoadBalancersRequest <: AbstractAWSType
     autoScalingGroupName::Union{Void,String}
     maxRecords::Union{Void,Int64}
     nextToken::Union{Void,String}
@@ -500,7 +500,7 @@ end
 DescribeLoadBalancers(env::AWSEnv; kwargs...) = DescribeLoadBalancers(env, DescribeLoadBalancersRequest(; kwargs...))
 export DescribeLoadBalancers
 
-type PutScheduledUpdateGroupActionRequest <: AbstractAWSType
+mutable struct PutScheduledUpdateGroupActionRequest <: AbstractAWSType
     autoScalingGroupName::Union{Void,String}
     desiredCapacity::Union{Void,Int64}
     endTime::Union{Void,DateTime}
@@ -524,7 +524,7 @@ end
 PutScheduledUpdateGroupAction(env::AWSEnv; kwargs...) = PutScheduledUpdateGroupAction(env, PutScheduledUpdateGroupActionRequest(; kwargs...))
 export PutScheduledUpdateGroupAction
 
-type AttachLoadBalancersRequest <: AbstractAWSType
+mutable struct AttachLoadBalancersRequest <: AbstractAWSType
     autoScalingGroupName::Union{Void,String}
     loadBalancerNames::Union{Void,Array{String,1}}
     function AttachLoadBalancersRequest(;autoScalingGroupName=nothing, loadBalancerNames=nothing)
@@ -541,7 +541,7 @@ end
 AttachLoadBalancers(env::AWSEnv; kwargs...) = AttachLoadBalancers(env, AttachLoadBalancersRequest(; kwargs...))
 export AttachLoadBalancers
 
-type AttachInstancesRequest <: AbstractAWSType
+mutable struct AttachInstancesRequest <: AbstractAWSType
     autoScalingGroupName::Union{Void,String}
     instanceIds::Union{Void,Array{String,1}}
     function AttachInstancesRequest(;autoScalingGroupName=nothing, instanceIds=nothing)
@@ -558,7 +558,7 @@ end
 AttachInstances(env::AWSEnv; kwargs...) = AttachInstances(env, AttachInstancesRequest(; kwargs...))
 export AttachInstances
 
-type DescribeScheduledActionsResult <: AbstractAWSType
+mutable struct DescribeScheduledActionsResult <: AbstractAWSType
     nextToken::Union{Void,String}
     scheduledUpdateGroupActions::Union{Void,Array{ScheduledUpdateGroupAction,1}}
     function DescribeScheduledActionsResult(;nextToken=nothing, scheduledUpdateGroupActions=nothing)
@@ -568,7 +568,7 @@ type DescribeScheduledActionsResult <: AbstractAWSType
 end # DescribeScheduledActionsResult
 export DescribeScheduledActionsResult
 
-type DescribeScheduledActionsRequest <: AbstractAWSType
+mutable struct DescribeScheduledActionsRequest <: AbstractAWSType
     autoScalingGroupName::Union{Void,String}
     endTime::Union{Void,DateTime}
     maxRecords::Union{Void,Int64}
@@ -592,7 +592,7 @@ end
 DescribeScheduledActions(env::AWSEnv; kwargs...) = DescribeScheduledActions(env, DescribeScheduledActionsRequest(; kwargs...))
 export DescribeScheduledActions
 
-type EnterStandbyResult <: AbstractAWSType
+mutable struct EnterStandbyResult <: AbstractAWSType
     activities::Union{Void,Array{Activity,1}}
     function EnterStandbyResult(;activities=nothing)
         new(activities)
@@ -601,7 +601,7 @@ type EnterStandbyResult <: AbstractAWSType
 end # EnterStandbyResult
 export EnterStandbyResult
 
-type EnterStandbyRequest <: AbstractAWSType
+mutable struct EnterStandbyRequest <: AbstractAWSType
     autoScalingGroupName::Union{Void,String}
     instanceIds::Union{Void,Array{String,1}}
     shouldDecrementDesiredCapacity::Union{Void,Bool}
@@ -622,7 +622,7 @@ end
 EnterStandby(env::AWSEnv; kwargs...) = EnterStandby(env, EnterStandbyRequest(; kwargs...))
 export EnterStandby
 
-type DescribeAccountLimitsResult <: AbstractAWSType
+mutable struct DescribeAccountLimitsResult <: AbstractAWSType
     maxNumberOfAutoScalingGroups::Union{Void,Int64}
     maxNumberOfLaunchConfigurations::Union{Void,Int64}
     numberOfAutoScalingGroups::Union{Void,Int64}
@@ -643,7 +643,7 @@ function DescribeAccountLimits(env::AWSEnv)
 end
 export DescribeAccountLimits
 
-type CompleteLifecycleActionRequest <: AbstractAWSType
+mutable struct CompleteLifecycleActionRequest <: AbstractAWSType
     autoScalingGroupName::Union{Void,String}
     instanceId::Union{Void,String}
     lifecycleActionResult::Union{Void,String}
@@ -663,7 +663,7 @@ end
 CompleteLifecycleAction(env::AWSEnv; kwargs...) = CompleteLifecycleAction(env, CompleteLifecycleActionRequest(; kwargs...))
 export CompleteLifecycleAction
 
-type ExecutePolicyRequest <: AbstractAWSType
+mutable struct ExecutePolicyRequest <: AbstractAWSType
     autoScalingGroupName::Union{Void,String}
     breachThreshold::Union{Void,Float64}
     honorCooldown::Union{Void,Bool}
@@ -683,7 +683,7 @@ end
 ExecutePolicy(env::AWSEnv; kwargs...) = ExecutePolicy(env, ExecutePolicyRequest(; kwargs...))
 export ExecutePolicy
 
-type DescribeLaunchConfigurationsResult <: AbstractAWSType
+mutable struct DescribeLaunchConfigurationsResult <: AbstractAWSType
     launchConfigurations::Union{Void,Array{LaunchConfiguration,1}}
     nextToken::Union{Void,String}
     function DescribeLaunchConfigurationsResult(;launchConfigurations=nothing, nextToken=nothing)
@@ -693,7 +693,7 @@ type DescribeLaunchConfigurationsResult <: AbstractAWSType
 end # DescribeLaunchConfigurationsResult
 export DescribeLaunchConfigurationsResult
 
-type DescribeLaunchConfigurationsRequest <: AbstractAWSType
+mutable struct DescribeLaunchConfigurationsRequest <: AbstractAWSType
     launchConfigurationNames::Union{Void,Array{String,1}}
     maxRecords::Union{Void,Int64}
     nextToken::Union{Void,String}
@@ -714,7 +714,7 @@ end
 DescribeLaunchConfigurations(env::AWSEnv; kwargs...) = DescribeLaunchConfigurations(env, DescribeLaunchConfigurationsRequest(; kwargs...))
 export DescribeLaunchConfigurations
 
-type UpdateAutoScalingGroupRequest <: AbstractAWSType
+mutable struct UpdateAutoScalingGroupRequest <: AbstractAWSType
     autoScalingGroupName::Union{Void,String}
     availabilityZones::Union{Void,Array{String,1}}
     defaultCooldown::Union{Void,Int64}
@@ -742,7 +742,7 @@ end
 UpdateAutoScalingGroup(env::AWSEnv; kwargs...) = UpdateAutoScalingGroup(env, UpdateAutoScalingGroupRequest(; kwargs...))
 export UpdateAutoScalingGroup
 
-type DescribeTerminationPolicyTypesResult <: AbstractAWSType
+mutable struct DescribeTerminationPolicyTypesResult <: AbstractAWSType
     terminationPolicyTypes::Union{Void,Array{String,1}}
     function DescribeTerminationPolicyTypesResult(;terminationPolicyTypes=nothing)
         new(terminationPolicyTypes)
@@ -760,7 +760,7 @@ function DescribeTerminationPolicyTypes(env::AWSEnv)
 end
 export DescribeTerminationPolicyTypes
 
-type DescribeAutoScalingGroupsResult <: AbstractAWSType
+mutable struct DescribeAutoScalingGroupsResult <: AbstractAWSType
     autoScalingGroups::Union{Void,Array{AutoScalingGroup,1}}
     nextToken::Union{Void,String}
     function DescribeAutoScalingGroupsResult(;autoScalingGroups=nothing, nextToken=nothing)
@@ -770,7 +770,7 @@ type DescribeAutoScalingGroupsResult <: AbstractAWSType
 end # DescribeAutoScalingGroupsResult
 export DescribeAutoScalingGroupsResult
 
-type DescribeAutoScalingGroupsRequest <: AbstractAWSType
+mutable struct DescribeAutoScalingGroupsRequest <: AbstractAWSType
     autoScalingGroupNames::Union{Void,Array{String,1}}
     maxRecords::Union{Void,Int64}
     nextToken::Union{Void,String}
@@ -791,7 +791,7 @@ end
 DescribeAutoScalingGroups(env::AWSEnv; kwargs...) = DescribeAutoScalingGroups(env, DescribeAutoScalingGroupsRequest(; kwargs...))
 export DescribeAutoScalingGroups
 
-type SetInstanceProtectionRequest <: AbstractAWSType
+mutable struct SetInstanceProtectionRequest <: AbstractAWSType
     autoScalingGroupName::Union{Void,String}
     instanceIds::Union{Void,Array{String,1}}
     protectedFromScaleIn::Union{Void,Bool}
@@ -809,7 +809,7 @@ end
 SetInstanceProtection(env::AWSEnv; kwargs...) = SetInstanceProtection(env, SetInstanceProtectionRequest(; kwargs...))
 export SetInstanceProtection
 
-type DescribePoliciesResult <: AbstractAWSType
+mutable struct DescribePoliciesResult <: AbstractAWSType
     nextToken::Union{Void,String}
     scalingPolicies::Union{Void,Array{ScalingPolicy,1}}
     function DescribePoliciesResult(;nextToken=nothing, scalingPolicies=nothing)
@@ -819,7 +819,7 @@ type DescribePoliciesResult <: AbstractAWSType
 end # DescribePoliciesResult
 export DescribePoliciesResult
 
-type DescribePoliciesRequest <: AbstractAWSType
+mutable struct DescribePoliciesRequest <: AbstractAWSType
     autoScalingGroupName::Union{Void,String}
     maxRecords::Union{Void,Int64}
     nextToken::Union{Void,String}
@@ -842,7 +842,7 @@ end
 DescribePolicies(env::AWSEnv; kwargs...) = DescribePolicies(env, DescribePoliciesRequest(; kwargs...))
 export DescribePolicies
 
-type EnableMetricsCollectionRequest <: AbstractAWSType
+mutable struct EnableMetricsCollectionRequest <: AbstractAWSType
     autoScalingGroupName::Union{Void,String}
     granularity::Union{Void,String}
     metrics::Union{Void,Array{String,1}}
@@ -860,7 +860,7 @@ end
 EnableMetricsCollection(env::AWSEnv; kwargs...) = EnableMetricsCollection(env, EnableMetricsCollectionRequest(; kwargs...))
 export EnableMetricsCollection
 
-type ExitStandbyResult <: AbstractAWSType
+mutable struct ExitStandbyResult <: AbstractAWSType
     activities::Union{Void,Array{Activity,1}}
     function ExitStandbyResult(;activities=nothing)
         new(activities)
@@ -869,7 +869,7 @@ type ExitStandbyResult <: AbstractAWSType
 end # ExitStandbyResult
 export ExitStandbyResult
 
-type ExitStandbyRequest <: AbstractAWSType
+mutable struct ExitStandbyRequest <: AbstractAWSType
     autoScalingGroupName::Union{Void,String}
     instanceIds::Union{Void,Array{String,1}}
     function ExitStandbyRequest(;autoScalingGroupName=nothing, instanceIds=nothing)
@@ -889,7 +889,7 @@ end
 ExitStandby(env::AWSEnv; kwargs...) = ExitStandby(env, ExitStandbyRequest(; kwargs...))
 export ExitStandby
 
-type DescribeNotificationConfigurationsResult <: AbstractAWSType
+mutable struct DescribeNotificationConfigurationsResult <: AbstractAWSType
     nextToken::Union{Void,String}
     notificationConfigurations::Union{Void,Array{NotificationConfiguration,1}}
     function DescribeNotificationConfigurationsResult(;nextToken=nothing, notificationConfigurations=nothing)
@@ -899,7 +899,7 @@ type DescribeNotificationConfigurationsResult <: AbstractAWSType
 end # DescribeNotificationConfigurationsResult
 export DescribeNotificationConfigurationsResult
 
-type DescribeNotificationConfigurationsRequest <: AbstractAWSType
+mutable struct DescribeNotificationConfigurationsRequest <: AbstractAWSType
     autoScalingGroupNames::Union{Void,Array{String,1}}
     maxRecords::Union{Void,Int64}
     nextToken::Union{Void,String}
@@ -920,7 +920,7 @@ end
 DescribeNotificationConfigurations(env::AWSEnv; kwargs...) = DescribeNotificationConfigurations(env, DescribeNotificationConfigurationsRequest(; kwargs...))
 export DescribeNotificationConfigurations
 
-type CreateAutoScalingGroupRequest <: AbstractAWSType
+mutable struct CreateAutoScalingGroupRequest <: AbstractAWSType
     autoScalingGroupName::Union{Void,String}
     availabilityZones::Union{Void,Array{String,1}}
     defaultCooldown::Union{Void,Int64}
@@ -952,7 +952,7 @@ end
 CreateAutoScalingGroup(env::AWSEnv; kwargs...) = CreateAutoScalingGroup(env, CreateAutoScalingGroupRequest(; kwargs...))
 export CreateAutoScalingGroup
 
-type DescribeScalingProcessTypesResult <: AbstractAWSType
+mutable struct DescribeScalingProcessTypesResult <: AbstractAWSType
     processes::Union{Void,Array{ProcessType,1}}
     function DescribeScalingProcessTypesResult(;processes=nothing)
         new(processes)
@@ -970,7 +970,7 @@ function DescribeScalingProcessTypes(env::AWSEnv)
 end
 export DescribeScalingProcessTypes
 
-type DetachLoadBalancerTargetGroupsRequest <: AbstractAWSType
+mutable struct DetachLoadBalancerTargetGroupsRequest <: AbstractAWSType
     autoScalingGroupName::Union{Void,String}
     targetGroupARNs::Union{Void,Array{String,1}}
     function DetachLoadBalancerTargetGroupsRequest(;autoScalingGroupName=nothing, targetGroupARNs=nothing)
@@ -987,7 +987,7 @@ end
 DetachLoadBalancerTargetGroups(env::AWSEnv; kwargs...) = DetachLoadBalancerTargetGroups(env, DetachLoadBalancerTargetGroupsRequest(; kwargs...))
 export DetachLoadBalancerTargetGroups
 
-type PutScalingPolicyResult <: AbstractAWSType
+mutable struct PutScalingPolicyResult <: AbstractAWSType
     alarms::Union{Void,Array{Alarm,1}}
     policyARN::Union{Void,String}
     function PutScalingPolicyResult(;alarms=nothing, policyARN=nothing)
@@ -997,7 +997,7 @@ type PutScalingPolicyResult <: AbstractAWSType
 end # PutScalingPolicyResult
 export PutScalingPolicyResult
 
-type PutScalingPolicyRequest <: AbstractAWSType
+mutable struct PutScalingPolicyRequest <: AbstractAWSType
     adjustmentType::Union{Void,String}
     autoScalingGroupName::Union{Void,String}
     cooldown::Union{Void,Int64}
@@ -1027,7 +1027,7 @@ end
 PutScalingPolicy(env::AWSEnv; kwargs...) = PutScalingPolicy(env, PutScalingPolicyRequest(; kwargs...))
 export PutScalingPolicy
 
-type DescribeScalingActivitiesResult <: AbstractAWSType
+mutable struct DescribeScalingActivitiesResult <: AbstractAWSType
     activities::Union{Void,Array{Activity,1}}
     nextToken::Union{Void,String}
     function DescribeScalingActivitiesResult(;activities=nothing, nextToken=nothing)
@@ -1037,7 +1037,7 @@ type DescribeScalingActivitiesResult <: AbstractAWSType
 end # DescribeScalingActivitiesResult
 export DescribeScalingActivitiesResult
 
-type DescribeScalingActivitiesRequest <: AbstractAWSType
+mutable struct DescribeScalingActivitiesRequest <: AbstractAWSType
     activityIds::Union{Void,Array{String,1}}
     autoScalingGroupName::Union{Void,String}
     maxRecords::Union{Void,Int64}
@@ -1059,7 +1059,7 @@ end
 DescribeScalingActivities(env::AWSEnv; kwargs...) = DescribeScalingActivities(env, DescribeScalingActivitiesRequest(; kwargs...))
 export DescribeScalingActivities
 
-type DeleteLifecycleHookRequest <: AbstractAWSType
+mutable struct DeleteLifecycleHookRequest <: AbstractAWSType
     autoScalingGroupName::Union{Void,String}
     lifecycleHookName::Union{Void,String}
     function DeleteLifecycleHookRequest(;autoScalingGroupName=nothing, lifecycleHookName=nothing)
@@ -1076,7 +1076,7 @@ end
 DeleteLifecycleHook(env::AWSEnv; kwargs...) = DeleteLifecycleHook(env, DeleteLifecycleHookRequest(; kwargs...))
 export DeleteLifecycleHook
 
-type DeletePolicyRequest <: AbstractAWSType
+mutable struct DeletePolicyRequest <: AbstractAWSType
     autoScalingGroupName::Union{Void,String}
     policyName::Union{Void,String}
     function DeletePolicyRequest(;autoScalingGroupName=nothing, policyName=nothing)
@@ -1093,7 +1093,7 @@ end
 DeletePolicy(env::AWSEnv; kwargs...) = DeletePolicy(env, DeletePolicyRequest(; kwargs...))
 export DeletePolicy
 
-type DescribeAdjustmentTypesResult <: AbstractAWSType
+mutable struct DescribeAdjustmentTypesResult <: AbstractAWSType
     adjustmentTypes::Union{Void,Array{AdjustmentType,1}}
     function DescribeAdjustmentTypesResult(;adjustmentTypes=nothing)
         new(adjustmentTypes)
@@ -1111,7 +1111,7 @@ function DescribeAdjustmentTypes(env::AWSEnv)
 end
 export DescribeAdjustmentTypes
 
-type TerminateInstanceInAutoScalingGroupResult <: AbstractAWSType
+mutable struct TerminateInstanceInAutoScalingGroupResult <: AbstractAWSType
     activity::Union{Void,Activity}
     function TerminateInstanceInAutoScalingGroupResult(;activity=nothing)
         new(activity)
@@ -1120,7 +1120,7 @@ type TerminateInstanceInAutoScalingGroupResult <: AbstractAWSType
 end # TerminateInstanceInAutoScalingGroupResult
 export TerminateInstanceInAutoScalingGroupResult
 
-type TerminateInstanceInAutoScalingGroupRequest <: AbstractAWSType
+mutable struct TerminateInstanceInAutoScalingGroupRequest <: AbstractAWSType
     instanceId::Union{Void,String}
     shouldDecrementDesiredCapacity::Union{Void,Bool}
     function TerminateInstanceInAutoScalingGroupRequest(;instanceId=nothing, shouldDecrementDesiredCapacity=nothing)
@@ -1140,7 +1140,7 @@ end
 TerminateInstanceInAutoScalingGroup(env::AWSEnv; kwargs...) = TerminateInstanceInAutoScalingGroup(env, TerminateInstanceInAutoScalingGroupRequest(; kwargs...))
 export TerminateInstanceInAutoScalingGroup
 
-type RecordLifecycleActionHeartbeatRequest <: AbstractAWSType
+mutable struct RecordLifecycleActionHeartbeatRequest <: AbstractAWSType
     autoScalingGroupName::Union{Void,String}
     instanceId::Union{Void,String}
     lifecycleActionToken::Union{Void,String}
@@ -1159,7 +1159,7 @@ end
 RecordLifecycleActionHeartbeat(env::AWSEnv; kwargs...) = RecordLifecycleActionHeartbeat(env, RecordLifecycleActionHeartbeatRequest(; kwargs...))
 export RecordLifecycleActionHeartbeat
 
-type DeleteTagsRequest <: AbstractAWSType
+mutable struct DeleteTagsRequest <: AbstractAWSType
     tags::Union{Void,Array{Tag,1}}
     function DeleteTagsRequest(;tags=nothing)
         new(tags)
@@ -1175,7 +1175,7 @@ end
 DeleteTags(env::AWSEnv; kwargs...) = DeleteTags(env, DeleteTagsRequest(; kwargs...))
 export DeleteTags
 
-type AttachLoadBalancerTargetGroupsRequest <: AbstractAWSType
+mutable struct AttachLoadBalancerTargetGroupsRequest <: AbstractAWSType
     autoScalingGroupName::Union{Void,String}
     targetGroupARNs::Union{Void,Array{String,1}}
     function AttachLoadBalancerTargetGroupsRequest(;autoScalingGroupName=nothing, targetGroupARNs=nothing)

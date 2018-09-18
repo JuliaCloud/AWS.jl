@@ -1,8 +1,8 @@
-@compat abstract type AbstractAWSType end
+abstract type AbstractAWSType end
 
 import Base: show
 
-type AWSError
+mutable struct AWSError
     code::String
     msg::String
 end
@@ -22,7 +22,7 @@ export AWSError
 
 #show(io::IO, o::AWSError) = print("code: $(o.code), msg : $(o.msg), $(o.request_id)")
 
-type AWSResponse
+mutable struct AWSResponse
     http_code::Int
     headers::Dict{AbstractString,AbstractString}
     body::Union{String, Void}
@@ -34,7 +34,7 @@ end
 export AWSResponse
 
 const BASIC_TYPES = Union{String, Integer, AbstractFloat, DateTime}
-is_basic_type{T<:BASIC_TYPES}(v::T) = true
+is_basic_type(v::T) where {T<:BASIC_TYPES} = true
 is_basic_type(v) = false
 
 _ename(name::Symbol) = _ename(string(name))
@@ -45,8 +45,8 @@ function _ename(name::String)
     end
     name
 end
-tbasename{T<:AbstractAWSType}(obj::T) = tbasename(T)
-tbasename{T}(::Type{T}) = rsplit(string(T), "."; limit=2)[end]
+tbasename(obj::T) where {T<:AbstractAWSType} = tbasename(T)
+tbasename(::Type{T}) where {T} = rsplit(string(T), "."; limit=2)[end]
 
 function aws_execute(env::AWSEnv, action::String, api_name::String, api_ver::String, params::Vector{Tuple}=Vector{Tuple}())
     # prepare the standard params
@@ -98,13 +98,13 @@ function aws_execute(env::AWSEnv, action::String, api_name::String, api_ver::Str
     apiresp
 end
 
-function _parse_from_xml{T<:AbstractAWSType}(::Type{T}, types::Dict{Symbol,Vector{Pair{Symbol,DataType}}}, pd::Union{LightXML.XMLElement,Void}; member_pfx="")
+function _parse_from_xml(::Type{T}, types::Dict{Symbol,Vector{Pair{Symbol,DataType}}}, pd::Union{LightXML.XMLElement,Void}; member_pfx="") where T<:AbstractAWSType
     typename = Symbol(tbasename(T))
     typeprops = types[typename]
     _parse_from_xml(T, types, typeprops, pd; member_pfx=member_pfx)
 end
 
-function _parse_from_xml{T<:AbstractAWSType}(::Type{T}, types::Dict{Symbol,Vector{Pair{Symbol,DataType}}}, typeprops::Vector{Pair{Symbol,DataType}}, pd::Union{LightXML.XMLElement,Void}; member_pfx="")
+function _parse_from_xml(::Type{T}, types::Dict{Symbol,Vector{Pair{Symbol,DataType}}}, typeprops::Vector{Pair{Symbol,DataType}}, pd::Union{LightXML.XMLElement,Void}; member_pfx="") where T<:AbstractAWSType
     kwargs = Dict{Symbol,Any}()
     if pd !== nothing
         pd_type = LightXML.find_element(pd, tbasename(T))
@@ -125,9 +125,9 @@ function _parse_from_xml{T<:AbstractAWSType}(::Type{T}, types::Dict{Symbol,Vecto
     T(; kwargs...)
 end
 
-_parse_from_xml{T<:BASIC_TYPES}(::Type{T}, types::Dict{Symbol,Vector{Pair{Symbol,DataType}}}, pd::LightXML.XMLElement; member_pfx="") = AWS.safe_parse_as(T, LightXML.content(pd))
+_parse_from_xml(::Type{T}, types::Dict{Symbol,Vector{Pair{Symbol,DataType}}}, pd::LightXML.XMLElement; member_pfx="") where {T<:BASIC_TYPES} = AWS.safe_parse_as(T, LightXML.content(pd))
 
-function _parse_from_xml{T}(::Type{Vector{T}}, types::Dict{Symbol,Vector{Pair{Symbol,DataType}}}, pd_list::Union{LightXML.XMLElement,Void}; member_pfx="")
+function _parse_from_xml(::Type{Vector{T}}, types::Dict{Symbol,Vector{Pair{Symbol,DataType}}}, pd_list::Union{LightXML.XMLElement,Void}; member_pfx="") where T
     result = Vector{T}()
     if pd_list !== nothing
         for pd in LightXML.child_elements(pd_list)
@@ -137,7 +137,7 @@ function _parse_from_xml{T}(::Type{Vector{T}}, types::Dict{Symbol,Vector{Pair{Sy
     result
 end
 
-function _parse_from_xml{T}(::Type{Vector{T}}, types::Dict{Symbol,Vector{Pair{Symbol,DataType}}}, pd_list::Union{Vector{LightXML.XMLElement},Void}; member_pfx="")
+function _parse_from_xml(::Type{Vector{T}}, types::Dict{Symbol,Vector{Pair{Symbol,DataType}}}, pd_list::Union{Vector{LightXML.XMLElement},Void}; member_pfx="") where T
     result = Vector{T}()
     if pd_list !== nothing
         for pd in pd_list
@@ -147,7 +147,7 @@ function _parse_from_xml{T}(::Type{Vector{T}}, types::Dict{Symbol,Vector{Pair{Sy
     result
 end
 
-function _parse_from_xml{Tn,Tv}(::Type{Dict{Tn,Tv}}, types::Dict{Symbol,Vector{Pair{Symbol,DataType}}}, pd_list::Union{Vector{LightXML.XMLElement},Void}; member_pfx="")
+function _parse_from_xml(::Type{Dict{Tn,Tv}}, types::Dict{Symbol,Vector{Pair{Symbol,DataType}}}, pd_list::Union{Vector{LightXML.XMLElement},Void}; member_pfx="") where {Tn,Tv}
     result = Dict{Tn,Tv}()
     for elem in pd_list
         name = _parse_from_xml(Tn, types, LightXML.find_element(elem, "Name"); member_pfx=member_pfx)
@@ -157,7 +157,7 @@ function _parse_from_xml{Tn,Tv}(::Type{Dict{Tn,Tv}}, types::Dict{Symbol,Vector{P
     result
 end
 
-function _prep_params{T<:AbstractAWSType}(obj::T, params::Vector{Tuple}=Vector{Tuple}(), pfx::String=""; member_pfx="")
+function _prep_params(obj::T, params::Vector{Tuple}=Vector{Tuple}(), pfx::String=""; member_pfx="") where T<:AbstractAWSType
     for m in fieldnames(T)
         fld_val = getfield(obj, m)
         (fld_val == nothing) && continue

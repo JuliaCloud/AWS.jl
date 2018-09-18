@@ -1,7 +1,7 @@
 # generated from SQSTypeDict via AWS/src/codegen.jl
 # do not edit, edit specification file and regenerate instead
 
-type BatchResultErrorEntry <: AbstractAWSType
+mutable struct BatchResultErrorEntry <: AbstractAWSType
     code::Union{Void,String}
     id::Union{Void,String}
     message::Union{Void,String}
@@ -13,7 +13,7 @@ type BatchResultErrorEntry <: AbstractAWSType
 end # BatchResultErrorEntry
 export BatchResultErrorEntry
 
-type ChangeMessageVisibilityBatchRequestEntry <: AbstractAWSType
+mutable struct ChangeMessageVisibilityBatchRequestEntry <: AbstractAWSType
     id::Union{Void,String}
     receiptHandle::Union{Void,String}
     visibilityTimeout::Union{Void,Int64}
@@ -24,7 +24,7 @@ type ChangeMessageVisibilityBatchRequestEntry <: AbstractAWSType
 end # ChangeMessageVisibilityBatchRequestEntry
 export ChangeMessageVisibilityBatchRequestEntry
 
-type ChangeMessageVisibilityBatchResultEntry <: AbstractAWSType
+mutable struct ChangeMessageVisibilityBatchResultEntry <: AbstractAWSType
     id::Union{Void,String}
     function ChangeMessageVisibilityBatchResultEntry(;id=nothing)
         new(id)
@@ -33,7 +33,7 @@ type ChangeMessageVisibilityBatchResultEntry <: AbstractAWSType
 end # ChangeMessageVisibilityBatchResultEntry
 export ChangeMessageVisibilityBatchResultEntry
 
-type DeleteMessageBatchRequestEntry <: AbstractAWSType
+mutable struct DeleteMessageBatchRequestEntry <: AbstractAWSType
     id::Union{Void,String}
     receiptHandle::Union{Void,String}
     function DeleteMessageBatchRequestEntry(;id=nothing, receiptHandle=nothing)
@@ -43,7 +43,7 @@ type DeleteMessageBatchRequestEntry <: AbstractAWSType
 end # DeleteMessageBatchRequestEntry
 export DeleteMessageBatchRequestEntry
 
-type DeleteMessageBatchResultEntry <: AbstractAWSType
+mutable struct DeleteMessageBatchResultEntry <: AbstractAWSType
     id::Union{Void,String}
     function DeleteMessageBatchResultEntry(;id=nothing)
         new(id)
@@ -52,7 +52,7 @@ type DeleteMessageBatchResultEntry <: AbstractAWSType
 end # DeleteMessageBatchResultEntry
 export DeleteMessageBatchResultEntry
 
-type Message <: AbstractAWSType
+mutable struct Message <: AbstractAWSType
     attribute::Union{Void,Dict{String,String}}
     body::Union{Void,String}
     mD5OfBody::Union{Void,String}
@@ -67,7 +67,7 @@ type Message <: AbstractAWSType
 end # Message
 export Message
 
-type MessageAttributeValue <: AbstractAWSType
+mutable struct MessageAttributeValue <: AbstractAWSType
     binaryListValue::Union{Void,Array{Array{UInt8,1},1}}
     binaryValue::Union{Void,Array{UInt8,1}}
     dataType::Union{Void,String}
@@ -80,7 +80,7 @@ type MessageAttributeValue <: AbstractAWSType
 end # MessageAttributeValue
 export MessageAttributeValue
 
-type SendMessageBatchRequestEntry <: AbstractAWSType
+mutable struct SendMessageBatchRequestEntry <: AbstractAWSType
     delaySeconds::Union{Void,Int64}
     id::Union{Void,String}
     messageAttribute::Union{Void,Dict{String,MessageAttributeValue}}
@@ -94,7 +94,7 @@ type SendMessageBatchRequestEntry <: AbstractAWSType
 end # SendMessageBatchRequestEntry
 export SendMessageBatchRequestEntry
 
-type SendMessageBatchResultEntry <: AbstractAWSType
+mutable struct SendMessageBatchResultEntry <: AbstractAWSType
     id::Union{Void,String}
     mD5OfMessageAttributes::Union{Void,String}
     mD5OfMessageBody::Union{Void,String}

@@ -25,7 +25,7 @@ end
 
 macro declare_utype(utype)
     quote
-        type $(esc(utype))
+        mutable struct $(esc(utype))
             id::String
             displayName::Union{String, Void}
         end
@@ -43,19 +43,19 @@ end
 export Owner, Initiator
 
 
-type GranteeEmail
+mutable struct GranteeEmail
     email::String
 end
 xml(o::GranteeEmail) = xml("Grantee", [("EmailAddress", o.email)], xmlns=$XMLNS_ATTR, xsi_type="AmazonCustomerByEmail")
 export GranteeEmail
 
-type GranteeURI
+mutable struct GranteeURI
     uri::String
 end
 xml(o::GranteeURI) = xml("Grantee", [("URI", o.uri)], xmlns=$XMLNS_ATTR, xsi_type="Group")
 export GranteeURI
 
-type GranteeID
+mutable struct GranteeID
     id::String
     displayName::String
 end
@@ -63,7 +63,7 @@ xml(o::GranteeID) = xml("Grantee", [("ID", o.id), ("DisplayName", o.displayName)
 export GranteeID
 
 
-type Grant
+mutable struct Grant
     grantee::Union{GranteeEmail, GranteeURI, GranteeID}
     permission::String
 end
@@ -90,7 +90,7 @@ export Grant
 
 
 
-type BucketLoggingStatus
+mutable struct BucketLoggingStatus
     loggingEnabled::Union{Bool, Void}
     targetBucket::Union{String, Void}
     targetPrefix::Union{String, Void}
@@ -126,7 +126,7 @@ export BucketLoggingStatus
 
 
 
-type AccessControlPolicy
+mutable struct AccessControlPolicy
     owner::Owner
     accessControlList::Vector{Grant}
 end
@@ -147,7 +147,7 @@ export AccessControlPolicy
 # Storage class must be one of "STANDARD", "REDUCED_REDUNDANCY", "GLACIER" or "UNKNOWN"
 
 
-type CreateBucketConfiguration{T<:Union{String, Void}}
+mutable struct CreateBucketConfiguration{T<:Union{String, Void}}
     locationConstraint::T
 end
 CreateBucketConfiguration(pd_cbc) = CreateBucketConfiguration(LightXML.content(LightXML.find_element(pd_cbc, "LocationConstraint")))
@@ -158,7 +158,7 @@ export CreateBucketConfiguration
 
 
 
-type Contents
+mutable struct Contents
     key::Union{String, Void}
     lastModified::DateTime
     eTag::Union{String, Void}
@@ -181,14 +181,14 @@ export Contents
 
 
 
-type CommonPrefixes{T<:Union{String, Void}}
+mutable struct CommonPrefixes{T<:Union{String, Void}}
     prefix::T
 end
 CommonPrefixes(pd_cp) = CommonPrefixes(LightXML.content(LightXML.find_element(pd_cp, "Prefix")))
 export CommonPrefixes
 
 
-type ListBucketResult
+mutable struct ListBucketResult
     name::Union{String, Void}
     prefix::Union{String, Void}
     marker::Union{String, Void}
@@ -209,7 +209,7 @@ function ListBucketResult(pd_lbr)
     lbr.marker = LightXML.content(LightXML.find_element(pd_lbr, "Marker"))
     lbr.nextMarker = LightXML.find_element(pd_lbr, "NextMarker") != nothing ? LightXML.content(LightXML.find_element(pd_lbr, "NextMarker")) : ""
     lbr.maxKeys = AWS.safe_parseint(LightXML.content(LightXML.find_element(pd_lbr, "MaxKeys")))
-    lbr.delimiter = LightXML.find_element(pd_lbr, "Delimiter") != nothing ?LightXML.content(LightXML.find_element(pd_lbr, "Delimiter")) : ""
+    lbr.delimiter = LightXML.find_element(pd_lbr, "Delimiter") != nothing ? LightXML.content(LightXML.find_element(pd_lbr, "Delimiter")) : ""
     lbr.isTruncated = AWS.safe_parsebool(LightXML.content(LightXML.find_element(pd_lbr, "IsTruncated")))
     lbr.contents = AWS.@parse_vector(AWS.S3.Contents, elements_by_tagname(pd_lbr, "Contents"))
     lbr.commonPrefixes = AWS.@parse_vector(AWS.S3.CommonPrefixes, elements_by_tagname(pd_lbr, "CommonPrefixes"))
@@ -217,7 +217,7 @@ function ListBucketResult(pd_lbr)
 end
 export ListBucketResult
 
-type Version
+mutable struct Version
     key::Union{String, Void}
     versionId::Union{String, Void}
     isLatest::Union{Bool, Void}
@@ -244,7 +244,7 @@ export Version
 
 
 
-type DeleteMarker
+mutable struct DeleteMarker
     key::Union{String, Void}
     versionId::Union{String, Void}
     isLatest::Union{Bool, Void}
@@ -265,7 +265,7 @@ export DeleteMarker
 
 
 
-type ListVersionsResult
+mutable struct ListVersionsResult
     name::Union{String, Void}
     prefix::Union{String, Void}
     keyMarker::Union{String, Void}
@@ -301,7 +301,7 @@ export ListVersionsResult
 
 
 
-type Bucket
+mutable struct Bucket
     name::Union{String, Void}
     creationDate::DateTime
 end
@@ -316,7 +316,7 @@ export Bucket
 
 
 
-type ListAllMyBucketsResult
+mutable struct ListAllMyBucketsResult
     owner::Union{Owner, Void}
     buckets::Vector{Bucket}
 end
@@ -328,7 +328,7 @@ end
 export ListAllMyBucketsResult
 
 
-type CopyObjectResult
+mutable struct CopyObjectResult
     lastModified::DateTime
     eTag::Union{String, Void}
 end
@@ -342,14 +342,14 @@ export CopyObjectResult
 
 
 
-type RequestPaymentConfiguration{T<:Union{String, Void}}
+mutable struct RequestPaymentConfiguration{T<:Union{String, Void}}
     payer::T
 end
 xml(o::RequestPaymentConfiguration) = xml_hdr("RequestPaymentConfiguration") * xml("Payer", o.payer) * xml_ftr("RequestPaymentConfiguration")
 RequestPaymentConfiguration(pd_rpc) = RequestPaymentConfiguration(LightXML.content(LightXML.find_element(pd_rpc, "Payer")))
 export RequestPaymentConfiguration
 
-type VersioningConfiguration
+mutable struct VersioningConfiguration
     status::Union{String, Void}
     mfaDelete::Union{String, Void}
 end
@@ -367,7 +367,7 @@ function VersioningConfiguration(pd_vc)
 end
 export VersioningConfiguration
 
-type TopicConfiguration
+mutable struct TopicConfiguration
     topic::Union{String, Void}
     event::Vector{String}
 end
@@ -393,7 +393,7 @@ export TopicConfiguration
 
 
 
-type NotificationConfiguration{T<:Union{Vector{TopicConfiguration}, Void}}
+mutable struct NotificationConfiguration{T<:Union{Vector{TopicConfiguration}, Void}}
     topicConfiguration::T
 end
 NotificationConfiguration(pd) = NotificationConfiguration(AWS.@parse_vector(AWS.S3.TopicConfiguration, elements_by_tagname(pd, "TopicConfiguration")))
@@ -412,7 +412,7 @@ end
 export NotificationConfiguration
 
 
-type InitiateMultipartUploadResult
+mutable struct InitiateMultipartUploadResult
     bucket::Union{String, Void}
     key::Union{String, Void}
     uploadId::Union{String, Void}
@@ -424,7 +424,7 @@ export InitiateMultipartUploadResult
 
 
 
-type CopyPartResult
+mutable struct CopyPartResult
    lastModified::DateTime
    eTag::Union{String, Void}
 end
@@ -435,7 +435,7 @@ function CopyPartResult(pd)
 end
 export CopyPartResult
 
-type Part
+mutable struct Part
     partNumber::Union{String, Void}
     lastModified::Union{DateTime, Void}
     eTag::Union{String, Void}
@@ -454,14 +454,14 @@ function Part(pd)
 end
 export Part
 
-type CompleteMultipartUpload
+mutable struct CompleteMultipartUpload
     parts::Vector{Part}
 end
 xml(o::CompleteMultipartUpload) = xml("CompleteMultipartUpload", o.parts)
 export CompleteMultipartUpload
 
 
-type CompleteMultipartUploadResult
+mutable struct CompleteMultipartUploadResult
     location::Union{String, Void}
     bucket::Union{String, Void}
     key::Union{String, Void}
@@ -477,7 +477,7 @@ CompleteMultipartUploadResult(pd) =
 export CompleteMultipartUploadResult
 
 
-type ListPartsResult
+mutable struct ListPartsResult
     bucket::Union{String, Void}
     key::Union{String, Void}
     uploadId::Union{String, Void}
@@ -507,7 +507,7 @@ function ListPartsResult(pd)
 end
 export ListPartsResult
 
-type Upload
+mutable struct Upload
     key::Union{String, Void}
     uploadId::Union{String, Void}
     initiator::Union{Initiator, Void}
@@ -529,7 +529,7 @@ function Upload(pd)
 end
 export Upload
 
-type ListMultipartUploadsResult
+mutable struct ListMultipartUploadsResult
     bucket::Union{String, Void}
     prefix::Union{String, Void}
     keyMarker::Union{String, Void}
@@ -559,7 +559,7 @@ function ListMultipartUploadsResult(pd)
 end
 export ListMultipartUploadsResult
 
-type CORSRule
+mutable struct CORSRule
     id::Union{String, Void}
     allowedMethod::Union{Vector{String}, Void}
     allowedOrigin::Union{Vector{String}, Void}
@@ -592,14 +592,14 @@ end
 export CORSRule
 
 
-type CORSConfiguration{T<:Vector{CORSRule}}
+mutable struct CORSConfiguration{T<:Vector{CORSRule}}
     corsrules::T
 end
 xml(o::CORSConfiguration) = xml("CORSConfiguration", o.corsrules)
 CORSConfiguration(pd) = AWS.@parse_vector(AWS.S3.CORSRule, elements_by_tagname(pd, "CORSRule"))
 
 
-type S3Error
+mutable struct S3Error
     code::Union{String, Void}
     message::Union{String, Void}
     hostId::Union{String, Void}
@@ -627,13 +627,13 @@ end
 export CORSConfiguration
 
 
-type S3PartTag
+mutable struct S3PartTag
     part_number::String
     etag::String
 end
 xml(o::S3PartTag) = xml("Part", [("PartNumber", o.part_number), ("ETag", o.etag)])
 
-type CopyMatchOptions
+mutable struct CopyMatchOptions
     if_match::Union{String, Void}
     if_none_match::Union{String, Void}
     if_unmodified_since::Union{String, Void}
@@ -652,7 +652,7 @@ end
 export S3PartTag
 
 
-type S3_ACL_Grantee
+mutable struct S3_ACL_Grantee
     email_address::Union{String, Void}
     id::Union{String, Void}
     uri::Union{String, Void}
@@ -672,7 +672,7 @@ end
 export S3_ACL_Grantee
 
 
-type S3_ACL
+mutable struct S3_ACL
     acl::Union{String, Void}
     grant_read::Vector{S3_ACL_Grantee}
     grant_write::Vector{S3_ACL_Grantee}
@@ -705,7 +705,7 @@ end
 export S3_ACL
 
 
-type CopyObjectOptions
+mutable struct CopyObjectOptions
 # All are x-amz options
     copy_source::String
     metadata_directive::Union{String, Void}
@@ -743,7 +743,7 @@ end
 export CopyObjectOptions
 
 
-type CopyUploadPartOptions
+mutable struct CopyUploadPartOptions
     copy_source::String
     source_range::Union{String, Void}
     match_options::Union{CopyMatchOptions, Void}
@@ -759,7 +759,7 @@ end
 export CopyUploadPartOptions
 
 
-type PutObjectOptions
+mutable struct PutObjectOptions
 # Standard HTTP headers
     cache_control::Union{String, Void}
     content_disposition::Union{String, Void}
@@ -809,7 +809,7 @@ export PutObjectOptions
 
 
 
-type GetObjectOptions
+mutable struct GetObjectOptions
     # These go into the query string
     response_cont_typ::Union{String, Void}
     response_content_language::Union{String, Void}
@@ -851,7 +851,7 @@ end
 export GetObjectOptions
 
 
-type ObjectType
+mutable struct ObjectType
     key::String
     versionId::Union{String, Void}
     ObjectType(key) = ObjectType(key, nothing)
@@ -863,7 +863,7 @@ end
 export ObjectType
 
 
-type DeleteObjectsType
+mutable struct DeleteObjectsType
     quiet::Bool
     objects::Vector{ObjectType}
     DeleteObjectsType() = DeleteObjectsType(false, ObjectType[])
@@ -876,7 +876,7 @@ end
 export DeleteObjectsType
 
 
-type Tag
+mutable struct Tag
     key::String
     value::String
 end
@@ -885,13 +885,13 @@ export Tag
 
 
 # Not a xmlns type
-type Tagging
+mutable struct Tagging
     tagSet::Vector{Tag}
 end
 xml(o::Tagging) = xml("Tagging", [("TagSet", o.tagSet)])
 export Tagging
 
-type GetBucketUploadsOptions
+mutable struct GetBucketUploadsOptions
     delimiter::Union{String, Void}
     key_marker::Union{String, Void}
     max_uploads::Union{Int, Void}
@@ -914,7 +914,7 @@ export GetBucketUploadsOptions
 
 
 
-type GetBucketObjectVersionsOptions
+mutable struct GetBucketObjectVersionsOptions
     delimiter::Union{String, Void}
     key_marker::Union{String, Void}
     max_keys::Union{Int, Void}
@@ -935,7 +935,7 @@ end
 export GetBucketObjectVersionsOptions
 
 
-type GetBucketOptions
+mutable struct GetBucketOptions
     delimiter::Union{String, Void}
     marker::Union{String, Void}
     max_keys::Union{Int, Void}
@@ -952,7 +952,7 @@ end
 export GetBucketOptions
 
 
-type Deleted
+mutable struct Deleted
     key::Union{String, Void}
     version_id::Union{String, Void}
     marker::Union{Bool, Void}
@@ -971,7 +971,7 @@ export Deleted
 
 
 
-type DeleteError
+mutable struct DeleteError
     key::Union{String, Void}
     version_id::Union{String, Void}
     code::Union{String, Void}
@@ -983,13 +983,13 @@ function DeleteError(pd)
     de.key = LightXML.content(LightXML.find_element(pd, "Key"))
     de.version_id = LightXML.find_element(pd, "VersionId") != nothing ? LightXML.content(LightXML.find_element(pd, "VersionId")) : nothing
     de.code = LightXML.find_element(pd, "Code") != nothing ? LightXML.content(LightXML.find_element(pd, "Code")) : nothing
-    de.message = LightXML.find_element(pd, "Message") != noting ?LightXML.content(LightXML.find_element(pd, "Message")) : nothing
+    de.message = LightXML.find_element(pd, "Message") != noting ? LightXML.content(LightXML.find_element(pd, "Message")) : nothing
     de
 end
 export DeleteError
 
 
-type DeleteResult
+mutable struct DeleteResult
     deleted::Union{Vector{Deleted}, Void}
     delete_errors::Union{Vector{DeleteError}, Void}
 end

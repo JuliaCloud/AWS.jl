@@ -1,29 +1,29 @@
-type Activity end
-type AdjustmentType end
-type Alarm end
-type AutoScalingGroup end
-type AutoScalingInstanceDetails end
-type BlockDeviceMapping end
-type CustomizedMetricSpecification end
-type Ebs end
-type EnabledMetric end
-type Filter end
-type Instance end
-type InstanceMonitoring end
-type LaunchConfiguration end
-type LifecycleHook end
-type LoadBalancerState end
-type LoadBalancerTargetGroupState end
-type MetricCollectionType end
-type MetricDimension end
-type MetricGranularityType end
-type NotificationConfiguration end
-type PredefinedMetricSpecification end
-type ProcessType end
-type ScalingPolicy end
-type ScheduledUpdateGroupAction end
-type StepAdjustment end
-type SuspendedProcess end
-type Tag end
-type TagDescription end
-type TargetTrackingConfiguration end
+mutable struct Activity end
+mutable struct AdjustmentType end
+mutable struct Alarm end
+mutable struct AutoScalingGroup end
+mutable struct AutoScalingInstanceDetails end
+mutable struct BlockDeviceMapping end
+mutable struct CustomizedMetricSpecification end
+mutable struct Ebs end
+mutable struct EnabledMetric end
+mutable struct Filter end
+mutable struct Instance end
+mutable struct InstanceMonitoring end
+mutable struct LaunchConfiguration end
+mutable struct LifecycleHook end
+mutable struct LoadBalancerState end
+mutable struct LoadBalancerTargetGroupState end
+mutable struct MetricCollectionType end
+mutable struct MetricDimension end
+mutable struct MetricGranularityType end
+mutable struct NotificationConfiguration end
+mutable struct PredefinedMetricSpecification end
+mutable struct ProcessType end
+mutable struct ScalingPolicy end
+mutable struct ScheduledUpdateGroupAction end
+mutable struct StepAdjustment end
+mutable struct SuspendedProcess end
+mutable struct Tag end
+mutable struct TagDescription end
+mutable struct TargetTrackingConfiguration end

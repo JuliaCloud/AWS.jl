@@ -1,7 +1,7 @@
 # generated from SQSTypeDict via AWS/src/codegen.jl
 # do not edit, edit specification file and regenerate instead
 
-type GetQueueUrlResult <: AbstractAWSType
+mutable struct GetQueueUrlResult <: AbstractAWSType
     queueUrl::Union{Void,String}
     function GetQueueUrlResult(;queueUrl=nothing)
         new(queueUrl)
@@ -10,7 +10,7 @@ type GetQueueUrlResult <: AbstractAWSType
 end # GetQueueUrlResult
 export GetQueueUrlResult
 
-type GetQueueUrlRequest <: AbstractAWSType
+mutable struct GetQueueUrlRequest <: AbstractAWSType
     queueName::Union{Void,String}
     queueOwnerAWSAccountId::Union{Void,String}
     function GetQueueUrlRequest(;queueName=nothing, queueOwnerAWSAccountId=nothing)
@@ -30,7 +30,7 @@ end
 GetQueueUrl(env::AWSEnv; kwargs...) = GetQueueUrl(env, GetQueueUrlRequest(; kwargs...))
 export GetQueueUrl
 
-type GetQueueAttributesResult <: AbstractAWSType
+mutable struct GetQueueAttributesResult <: AbstractAWSType
     attribute::Union{Void,Dict{String,String}}
     function GetQueueAttributesResult(;attribute=nothing)
         new(attribute)
@@ -39,7 +39,7 @@ type GetQueueAttributesResult <: AbstractAWSType
 end # GetQueueAttributesResult
 export GetQueueAttributesResult
 
-type GetQueueAttributesRequest <: AbstractAWSType
+mutable struct GetQueueAttributesRequest <: AbstractAWSType
     attributeName::Union{Void,Array{String,1}}
     queueUrl::Union{Void,String}
     function GetQueueAttributesRequest(;attributeName=nothing, queueUrl=nothing)
@@ -59,7 +59,7 @@ end
 GetQueueAttributes(env::AWSEnv; kwargs...) = GetQueueAttributes(env, GetQueueAttributesRequest(; kwargs...))
 export GetQueueAttributes
 
-type DeleteMessageRequest <: AbstractAWSType
+mutable struct DeleteMessageRequest <: AbstractAWSType
     queueUrl::Union{Void,String}
     receiptHandle::Union{Void,String}
     function DeleteMessageRequest(;queueUrl=nothing, receiptHandle=nothing)
@@ -76,7 +76,7 @@ end
 DeleteMessage(env::AWSEnv; kwargs...) = DeleteMessage(env, DeleteMessageRequest(; kwargs...))
 export DeleteMessage
 
-type SetQueueAttributesRequest <: AbstractAWSType
+mutable struct SetQueueAttributesRequest <: AbstractAWSType
     attribute::Union{Void,Dict{String,String}}
     queueUrl::Union{Void,String}
     function SetQueueAttributesRequest(;attribute=nothing, queueUrl=nothing)
@@ -93,7 +93,7 @@ end
 SetQueueAttributes(env::AWSEnv; kwargs...) = SetQueueAttributes(env, SetQueueAttributesRequest(; kwargs...))
 export SetQueueAttributes
 
-type ChangeMessageVisibilityBatchResult <: AbstractAWSType
+mutable struct ChangeMessageVisibilityBatchResult <: AbstractAWSType
     batchResultErrorEntry::Union{Void,Array{BatchResultErrorEntry,1}}
     changeMessageVisibilityBatchResultEntry::Union{Void,Array{ChangeMessageVisibilityBatchResultEntry,1}}
     function ChangeMessageVisibilityBatchResult(;batchResultErrorEntry=nothing, changeMessageVisibilityBatchResultEntry=nothing)
@@ -103,7 +103,7 @@ type ChangeMessageVisibilityBatchResult <: AbstractAWSType
 end # ChangeMessageVisibilityBatchResult
 export ChangeMessageVisibilityBatchResult
 
-type ChangeMessageVisibilityBatchRequest <: AbstractAWSType
+mutable struct ChangeMessageVisibilityBatchRequest <: AbstractAWSType
     changeMessageVisibilityBatchRequestEntry::Union{Void,Array{ChangeMessageVisibilityBatchRequestEntry,1}}
     queueUrl::Union{Void,String}
     function ChangeMessageVisibilityBatchRequest(;changeMessageVisibilityBatchRequestEntry=nothing, queueUrl=nothing)
@@ -123,7 +123,7 @@ end
 ChangeMessageVisibilityBatch(env::AWSEnv; kwargs...) = ChangeMessageVisibilityBatch(env, ChangeMessageVisibilityBatchRequest(; kwargs...))
 export ChangeMessageVisibilityBatch
 
-type ReceiveMessageResult <: AbstractAWSType
+mutable struct ReceiveMessageResult <: AbstractAWSType
     message::Union{Void,Array{Message,1}}
     function ReceiveMessageResult(;message=nothing)
         new(message)
@@ -132,7 +132,7 @@ type ReceiveMessageResult <: AbstractAWSType
 end # ReceiveMessageResult
 export ReceiveMessageResult
 
-type ReceiveMessageRequest <: AbstractAWSType
+mutable struct ReceiveMessageRequest <: AbstractAWSType
     attributeName::Union{Void,Array{String,1}}
     maxNumberOfMessages::Union{Void,Int64}
     messageAttributeName::Union{Void,Array{String,1}}
@@ -157,7 +157,7 @@ end
 ReceiveMessage(env::AWSEnv; kwargs...) = ReceiveMessage(env, ReceiveMessageRequest(; kwargs...))
 export ReceiveMessage
 
-type ChangeMessageVisibilityRequest <: AbstractAWSType
+mutable struct ChangeMessageVisibilityRequest <: AbstractAWSType
     queueUrl::Union{Void,String}
     receiptHandle::Union{Void,String}
     visibilityTimeout::Union{Void,Int}
@@ -175,7 +175,7 @@ end
 ChangeMessageVisibility(env::AWSEnv; kwargs...) = ChangeMessageVisibility(env, ChangeMessageVisibilityRequest(; kwargs...))
 export ChangeMessageVisibility
 
-type DeleteQueueRequest <: AbstractAWSType
+mutable struct DeleteQueueRequest <: AbstractAWSType
     queueUrl::Union{Void,String}
     function DeleteQueueRequest(;queueUrl=nothing)
         new(queueUrl)
@@ -191,7 +191,7 @@ end
 DeleteQueue(env::AWSEnv; kwargs...) = DeleteQueue(env, DeleteQueueRequest(; kwargs...))
 export DeleteQueue
 
-type RemovePermissionRequest <: AbstractAWSType
+mutable struct RemovePermissionRequest <: AbstractAWSType
     label::Union{Void,String}
     queueUrl::Union{Void,String}
     function RemovePermissionRequest(;label=nothing, queueUrl=nothing)
@@ -208,7 +208,7 @@ end
 RemovePermission(env::AWSEnv; kwargs...) = RemovePermission(env, RemovePermissionRequest(; kwargs...))
 export RemovePermission
 
-type AddPermissionRequest <: AbstractAWSType
+mutable struct AddPermissionRequest <: AbstractAWSType
     actionName::Union{Void,Array{String,1}}
     aWSAccountId::Union{Void,Array{String,1}}
     label::Union{Void,String}
@@ -227,7 +227,7 @@ end
 AddPermission(env::AWSEnv; kwargs...) = AddPermission(env, AddPermissionRequest(; kwargs...))
 export AddPermission
 
-type ListQueuesResult <: AbstractAWSType
+mutable struct ListQueuesResult <: AbstractAWSType
     queueUrl::Union{Void,Array{String,1}}
     function ListQueuesResult(;queueUrl=nothing)
         new(queueUrl)
@@ -236,7 +236,7 @@ type ListQueuesResult <: AbstractAWSType
 end # ListQueuesResult
 export ListQueuesResult
 
-type ListQueuesRequest <: AbstractAWSType
+mutable struct ListQueuesRequest <: AbstractAWSType
     queueNamePrefix::Union{Void,String}
     function ListQueuesRequest(;queueNamePrefix=nothing)
         new(queueNamePrefix)
@@ -255,7 +255,7 @@ end
 ListQueues(env::AWSEnv; kwargs...) = ListQueues(env, ListQueuesRequest(; kwargs...))
 export ListQueues
 
-type CreateQueueResult <: AbstractAWSType
+mutable struct CreateQueueResult <: AbstractAWSType
     queueUrl::Union{Void,String}
     function CreateQueueResult(;queueUrl=nothing)
         new(queueUrl)
@@ -264,7 +264,7 @@ type CreateQueueResult <: AbstractAWSType
 end # CreateQueueResult
 export CreateQueueResult
 
-type CreateQueueRequest <: AbstractAWSType
+mutable struct CreateQueueRequest <: AbstractAWSType
     attribute::Union{Void,Dict{String,String}}
     queueName::Union{Void,String}
     function CreateQueueRequest(;attribute=nothing, queueName=nothing)
@@ -284,7 +284,7 @@ end
 CreateQueue(env::AWSEnv; kwargs...) = CreateQueue(env, CreateQueueRequest(; kwargs...))
 export CreateQueue
 
-type SendMessageBatchResult <: AbstractAWSType
+mutable struct SendMessageBatchResult <: AbstractAWSType
     batchResultErrorEntry::Union{Void,Array{BatchResultErrorEntry,1}}
     sendMessageBatchResultEntry::Union{Void,Array{SendMessageBatchResultEntry,1}}
     function SendMessageBatchResult(;batchResultErrorEntry=nothing, sendMessageBatchResultEntry=nothing)
@@ -294,7 +294,7 @@ type SendMessageBatchResult <: AbstractAWSType
 end # SendMessageBatchResult
 export SendMessageBatchResult
 
-type SendMessageBatchRequest <: AbstractAWSType
+mutable struct SendMessageBatchRequest <: AbstractAWSType
     queueUrl::Union{Void,String}
     sendMessageBatchRequestEntry::Union{Void,Array{SendMessageBatchRequestEntry,1}}
     function SendMessageBatchRequest(;queueUrl=nothing, sendMessageBatchRequestEntry=nothing)
@@ -314,7 +314,7 @@ end
 SendMessageBatch(env::AWSEnv; kwargs...) = SendMessageBatch(env, SendMessageBatchRequest(; kwargs...))
 export SendMessageBatch
 
-type SendMessageResult <: AbstractAWSType
+mutable struct SendMessageResult <: AbstractAWSType
     mD5OfMessageAttributes::Union{Void,String}
     mD5OfMessageBody::Union{Void,String}
     messageId::Union{Void,String}
@@ -326,7 +326,7 @@ type SendMessageResult <: AbstractAWSType
 end # SendMessageResult
 export SendMessageResult
 
-type SendMessageRequest <: AbstractAWSType
+mutable struct SendMessageRequest <: AbstractAWSType
     delaySeconds::Union{Void,Int}
     messageAttribute::Union{Void,Dict{String,MessageAttributeValue}}
     messageBody::Union{Void,String}
@@ -350,7 +350,7 @@ end
 SendMessage(env::AWSEnv; kwargs...) = SendMessage(env, SendMessageRequest(; kwargs...))
 export SendMessage
 
-type DeleteMessageBatchResult <: AbstractAWSType
+mutable struct DeleteMessageBatchResult <: AbstractAWSType
     batchResultErrorEntry::Union{Void,Array{BatchResultErrorEntry,1}}
     deleteMessageBatchResultEntry::Union{Void,Array{DeleteMessageBatchResultEntry,1}}
     function DeleteMessageBatchResult(;batchResultErrorEntry=nothing, deleteMessageBatchResultEntry=nothing)
@@ -360,7 +360,7 @@ type DeleteMessageBatchResult <: AbstractAWSType
 end # DeleteMessageBatchResult
 export DeleteMessageBatchResult
 
-type DeleteMessageBatchRequest <: AbstractAWSType
+mutable struct DeleteMessageBatchRequest <: AbstractAWSType
     deleteMessageBatchRequestEntry::Union{Void,Array{DeleteMessageBatchRequestEntry,1}}
     queueUrl::Union{Void,String}
     function DeleteMessageBatchRequest(;deleteMessageBatchRequestEntry=nothing, queueUrl=nothing)
@@ -380,7 +380,7 @@ end
 DeleteMessageBatch(env::AWSEnv; kwargs...) = DeleteMessageBatch(env, DeleteMessageBatchRequest(; kwargs...))
 export DeleteMessageBatch
 
-type PurgeQueueRequest <: AbstractAWSType
+mutable struct PurgeQueueRequest <: AbstractAWSType
     queueUrl::Union{Void,String}
     function PurgeQueueRequest(;queueUrl=nothing)
         new(queueUrl)
@@ -396,7 +396,7 @@ end
 PurgeQueue(env::AWSEnv; kwargs...) = PurgeQueue(env, PurgeQueueRequest(; kwargs...))
 export PurgeQueue
 
-type ListDeadLetterSourceQueuesResult <: AbstractAWSType
+mutable struct ListDeadLetterSourceQueuesResult <: AbstractAWSType
     queueUrl::Union{Void,Array{String,1}}
     function ListDeadLetterSourceQueuesResult(;queueUrl=nothing)
         new(queueUrl)
@@ -405,7 +405,7 @@ type ListDeadLetterSourceQueuesResult <: AbstractAWSType
 end # ListDeadLetterSourceQueuesResult
 export ListDeadLetterSourceQueuesResult
 
-type ListDeadLetterSourceQueuesRequest <: AbstractAWSType
+mutable struct ListDeadLetterSourceQueuesRequest <: AbstractAWSType
     queueUrl::Union{Void,String}
     function ListDeadLetterSourceQueuesRequest(;queueUrl=nothing)
         new(queueUrl)

@@ -2,7 +2,7 @@ using Compat
 using LightXML
 
 # define placeholder types
-type AWSEnv end
+mutable struct AWSEnv end
 
 include("../src/codegen.jl")
 

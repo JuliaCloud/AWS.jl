@@ -1,7 +1,7 @@
 # generated from AutoScalingTypeDict via AWS/src/codegen.jl
 # do not edit, edit specification file and regenerate instead
 
-type Activity <: AbstractAWSType
+mutable struct Activity <: AbstractAWSType
     activityId::Union{Void,String}
     autoScalingGroupName::Union{Void,String}
     cause::Union{Void,String}
@@ -19,7 +19,7 @@ type Activity <: AbstractAWSType
 end # Activity
 export Activity
 
-type AdjustmentType <: AbstractAWSType
+mutable struct AdjustmentType <: AbstractAWSType
     adjustmentType::Union{Void,String}
     function AdjustmentType(;adjustmentType=nothing)
         new(adjustmentType)
@@ -28,7 +28,7 @@ type AdjustmentType <: AbstractAWSType
 end # AdjustmentType
 export AdjustmentType
 
-type Alarm <: AbstractAWSType
+mutable struct Alarm <: AbstractAWSType
     alarmARN::Union{Void,String}
     alarmName::Union{Void,String}
     function Alarm(;alarmARN=nothing, alarmName=nothing)
@@ -38,7 +38,7 @@ type Alarm <: AbstractAWSType
 end # Alarm
 export Alarm
 
-type EnabledMetric <: AbstractAWSType
+mutable struct EnabledMetric <: AbstractAWSType
     granularity::Union{Void,String}
     metric::Union{Void,String}
     function EnabledMetric(;granularity=nothing, metric=nothing)
@@ -48,7 +48,7 @@ type EnabledMetric <: AbstractAWSType
 end # EnabledMetric
 export EnabledMetric
 
-type Instance <: AbstractAWSType
+mutable struct Instance <: AbstractAWSType
     availabilityZone::Union{Void,String}
     healthStatus::Union{Void,String}
     instanceId::Union{Void,String}
@@ -62,7 +62,7 @@ type Instance <: AbstractAWSType
 end # Instance
 export Instance
 
-type SuspendedProcess <: AbstractAWSType
+mutable struct SuspendedProcess <: AbstractAWSType
     processName::Union{Void,String}
     suspensionReason::Union{Void,String}
     function SuspendedProcess(;processName=nothing, suspensionReason=nothing)
@@ -72,7 +72,7 @@ type SuspendedProcess <: AbstractAWSType
 end # SuspendedProcess
 export SuspendedProcess
 
-type TagDescription <: AbstractAWSType
+mutable struct TagDescription <: AbstractAWSType
     key::Union{Void,String}
     propagateAtLaunch::Union{Void,Bool}
     resourceId::Union{Void,String}
@@ -85,7 +85,7 @@ type TagDescription <: AbstractAWSType
 end # TagDescription
 export TagDescription
 
-type AutoScalingGroup <: AbstractAWSType
+mutable struct AutoScalingGroup <: AbstractAWSType
     autoScalingGroupARN::Union{Void,String}
     autoScalingGroupName::Union{Void,String}
     availabilityZones::Union{Void,Array{String,1}}
@@ -115,7 +115,7 @@ type AutoScalingGroup <: AbstractAWSType
 end # AutoScalingGroup
 export AutoScalingGroup
 
-type AutoScalingInstanceDetails <: AbstractAWSType
+mutable struct AutoScalingInstanceDetails <: AbstractAWSType
     autoScalingGroupName::Union{Void,String}
     availabilityZone::Union{Void,String}
     healthStatus::Union{Void,String}
@@ -130,7 +130,7 @@ type AutoScalingInstanceDetails <: AbstractAWSType
 end # AutoScalingInstanceDetails
 export AutoScalingInstanceDetails
 
-type Ebs <: AbstractAWSType
+mutable struct Ebs <: AbstractAWSType
     deleteOnTermination::Union{Void,Bool}
     encrypted::Union{Void,Bool}
     iops::Union{Void,Int64}
@@ -144,7 +144,7 @@ type Ebs <: AbstractAWSType
 end # Ebs
 export Ebs
 
-type BlockDeviceMapping <: AbstractAWSType
+mutable struct BlockDeviceMapping <: AbstractAWSType
     deviceName::Union{Void,String}
     ebs::Union{Void,Ebs}
     noDevice::Union{Void,Bool}
@@ -156,7 +156,7 @@ type BlockDeviceMapping <: AbstractAWSType
 end # BlockDeviceMapping
 export BlockDeviceMapping
 
-type MetricDimension <: AbstractAWSType
+mutable struct MetricDimension <: AbstractAWSType
     name::Union{Void,String}
     value::Union{Void,String}
     function MetricDimension(;name=nothing, value=nothing)
@@ -166,7 +166,7 @@ type MetricDimension <: AbstractAWSType
 end # MetricDimension
 export MetricDimension
 
-type CustomizedMetricSpecification <: AbstractAWSType
+mutable struct CustomizedMetricSpecification <: AbstractAWSType
     dimensions::Union{Void,Array{MetricDimension,1}}
     metricName::Union{Void,String}
     namespace::Union{Void,String}
@@ -179,7 +179,7 @@ type CustomizedMetricSpecification <: AbstractAWSType
 end # CustomizedMetricSpecification
 export CustomizedMetricSpecification
 
-type Filter <: AbstractAWSType
+mutable struct Filter <: AbstractAWSType
     name::Union{Void,String}
     values::Union{Void,Array{String,1}}
     function Filter(;name=nothing, values=nothing)
@@ -189,7 +189,7 @@ type Filter <: AbstractAWSType
 end # Filter
 export Filter
 
-type InstanceMonitoring <: AbstractAWSType
+mutable struct InstanceMonitoring <: AbstractAWSType
     enabled::Union{Void,Bool}
     function InstanceMonitoring(;enabled=nothing)
         new(enabled)
@@ -198,7 +198,7 @@ type InstanceMonitoring <: AbstractAWSType
 end # InstanceMonitoring
 export InstanceMonitoring
 
-type LaunchConfiguration <: AbstractAWSType
+mutable struct LaunchConfiguration <: AbstractAWSType
     associatePublicIpAddress::Union{Void,Bool}
     blockDeviceMappings::Union{Void,Array{BlockDeviceMapping,1}}
     classicLinkVPCId::Union{Void,String}
@@ -225,7 +225,7 @@ type LaunchConfiguration <: AbstractAWSType
 end # LaunchConfiguration
 export LaunchConfiguration
 
-type LifecycleHook <: AbstractAWSType
+mutable struct LifecycleHook <: AbstractAWSType
     autoScalingGroupName::Union{Void,String}
     defaultResult::Union{Void,String}
     globalTimeout::Union{Void,Int64}
@@ -242,7 +242,7 @@ type LifecycleHook <: AbstractAWSType
 end # LifecycleHook
 export LifecycleHook
 
-type LoadBalancerState <: AbstractAWSType
+mutable struct LoadBalancerState <: AbstractAWSType
     loadBalancerName::Union{Void,String}
     state::Union{Void,String}
     function LoadBalancerState(;loadBalancerName=nothing, state=nothing)
@@ -252,7 +252,7 @@ type LoadBalancerState <: AbstractAWSType
 end # LoadBalancerState
 export LoadBalancerState
 
-type LoadBalancerTargetGroupState <: AbstractAWSType
+mutable struct LoadBalancerTargetGroupState <: AbstractAWSType
     loadBalancerTargetGroupARN::Union{Void,String}
     state::Union{Void,String}
     function LoadBalancerTargetGroupState(;loadBalancerTargetGroupARN=nothing, state=nothing)
@@ -262,7 +262,7 @@ type LoadBalancerTargetGroupState <: AbstractAWSType
 end # LoadBalancerTargetGroupState
 export LoadBalancerTargetGroupState
 
-type MetricCollectionType <: AbstractAWSType
+mutable struct MetricCollectionType <: AbstractAWSType
     metric::Union{Void,String}
     function MetricCollectionType(;metric=nothing)
         new(metric)
@@ -271,7 +271,7 @@ type MetricCollectionType <: AbstractAWSType
 end # MetricCollectionType
 export MetricCollectionType
 
-type MetricGranularityType <: AbstractAWSType
+mutable struct MetricGranularityType <: AbstractAWSType
     granularity::Union{Void,String}
     function MetricGranularityType(;granularity=nothing)
         new(granularity)
@@ -280,7 +280,7 @@ type MetricGranularityType <: AbstractAWSType
 end # MetricGranularityType
 export MetricGranularityType
 
-type NotificationConfiguration <: AbstractAWSType
+mutable struct NotificationConfiguration <: AbstractAWSType
     autoScalingGroupName::Union{Void,String}
     notificationType::Union{Void,String}
     topicARN::Union{Void,String}
@@ -291,7 +291,7 @@ type NotificationConfiguration <: AbstractAWSType
 end # NotificationConfiguration
 export NotificationConfiguration
 
-type PredefinedMetricSpecification <: AbstractAWSType
+mutable struct PredefinedMetricSpecification <: AbstractAWSType
     predefinedMetricType::Union{Void,String}
     resourceLabel::Union{Void,String}
     function PredefinedMetricSpecification(;predefinedMetricType=nothing, resourceLabel=nothing)
@@ -301,7 +301,7 @@ type PredefinedMetricSpecification <: AbstractAWSType
 end # PredefinedMetricSpecification
 export PredefinedMetricSpecification
 
-type ProcessType <: AbstractAWSType
+mutable struct ProcessType <: AbstractAWSType
     processName::Union{Void,String}
     function ProcessType(;processName=nothing)
         new(processName)
@@ -310,7 +310,7 @@ type ProcessType <: AbstractAWSType
 end # ProcessType
 export ProcessType
 
-type StepAdjustment <: AbstractAWSType
+mutable struct StepAdjustment <: AbstractAWSType
     metricIntervalLowerBound::Union{Void,Float64}
     metricIntervalUpperBound::Union{Void,Float64}
     scalingAdjustment::Union{Void,Int64}
@@ -321,7 +321,7 @@ type StepAdjustment <: AbstractAWSType
 end # StepAdjustment
 export StepAdjustment
 
-type TargetTrackingConfiguration <: AbstractAWSType
+mutable struct TargetTrackingConfiguration <: AbstractAWSType
     customizedMetricSpecification::Union{Void,CustomizedMetricSpecification}
     disableScaleIn::Union{Void,Bool}
     predefinedMetricSpecification::Union{Void,PredefinedMetricSpecification}
@@ -333,7 +333,7 @@ type TargetTrackingConfiguration <: AbstractAWSType
 end # TargetTrackingConfiguration
 export TargetTrackingConfiguration
 
-type ScalingPolicy <: AbstractAWSType
+mutable struct ScalingPolicy <: AbstractAWSType
     adjustmentType::Union{Void,String}
     alarms::Union{Void,Array{Alarm,1}}
     autoScalingGroupName::Union{Void,String}
@@ -354,7 +354,7 @@ type ScalingPolicy <: AbstractAWSType
 end # ScalingPolicy
 export ScalingPolicy
 
-type ScheduledUpdateGroupAction <: AbstractAWSType
+mutable struct ScheduledUpdateGroupAction <: AbstractAWSType
     autoScalingGroupName::Union{Void,String}
     desiredCapacity::Union{Void,Int64}
     endTime::Union{Void,DateTime}
@@ -372,7 +372,7 @@ type ScheduledUpdateGroupAction <: AbstractAWSType
 end # ScheduledUpdateGroupAction
 export ScheduledUpdateGroupAction
 
-type Tag <: AbstractAWSType
+mutable struct Tag <: AbstractAWSType
     key::Union{Void,String}
     propagateAtLaunch::Union{Void,Bool}
     resourceId::Union{Void,String}

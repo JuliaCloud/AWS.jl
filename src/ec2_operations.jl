@@ -1,7 +1,7 @@
 # generated from EC2TypeDict via AWS/src/codegen.jl
 # do not edit, edit specification file and regenerate instead
 
-type ModifyVolumeAttributeResult <: AbstractAWSType
+mutable struct ModifyVolumeAttributeResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function ModifyVolumeAttributeResult(;requestId=nothing, _return=nothing)
@@ -11,7 +11,7 @@ type ModifyVolumeAttributeResult <: AbstractAWSType
 end # ModifyVolumeAttributeResult
 export ModifyVolumeAttributeResult
 
-type ModifyVolumeAttributeRequest <: AbstractAWSType
+mutable struct ModifyVolumeAttributeRequest <: AbstractAWSType
     autoEnableIO::Union{Void,AttributeBooleanValue}
     dryRun::Union{Void,Bool}
     volumeId::Union{Void,String}
@@ -32,7 +32,7 @@ end
 ModifyVolumeAttribute(env::AWSEnv; kwargs...) = ModifyVolumeAttribute(env, ModifyVolumeAttributeRequest(; kwargs...))
 export ModifyVolumeAttribute
 
-type DeregisterImageResult <: AbstractAWSType
+mutable struct DeregisterImageResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function DeregisterImageResult(;requestId=nothing, _return=nothing)
@@ -42,7 +42,7 @@ type DeregisterImageResult <: AbstractAWSType
 end # DeregisterImageResult
 export DeregisterImageResult
 
-type DeregisterImageRequest <: AbstractAWSType
+mutable struct DeregisterImageRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     imageId::Union{Void,String}
     function DeregisterImageRequest(;dryRun=nothing, imageId=nothing)
@@ -62,7 +62,7 @@ end
 DeregisterImage(env::AWSEnv; kwargs...) = DeregisterImage(env, DeregisterImageRequest(; kwargs...))
 export DeregisterImage
 
-type CreateSecurityGroupResult <: AbstractAWSType
+mutable struct CreateSecurityGroupResult <: AbstractAWSType
     groupId::Union{Void,String}
     requestId::Union{Void,String}
     function CreateSecurityGroupResult(;groupId=nothing, requestId=nothing)
@@ -72,7 +72,7 @@ type CreateSecurityGroupResult <: AbstractAWSType
 end # CreateSecurityGroupResult
 export CreateSecurityGroupResult
 
-type CreateSecurityGroupRequest <: AbstractAWSType
+mutable struct CreateSecurityGroupRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     groupDescription::Union{Void,String}
     groupName::Union{Void,String}
@@ -94,7 +94,7 @@ end
 CreateSecurityGroup(env::AWSEnv; kwargs...) = CreateSecurityGroup(env, CreateSecurityGroupRequest(; kwargs...))
 export CreateSecurityGroup
 
-type DescribeVpcAttributeResult <: AbstractAWSType
+mutable struct DescribeVpcAttributeResult <: AbstractAWSType
     enableDnsHostnames::Union{Void,AttributeBooleanValue}
     enableDnsSupport::Union{Void,AttributeBooleanValue}
     requestId::Union{Void,String}
@@ -106,7 +106,7 @@ type DescribeVpcAttributeResult <: AbstractAWSType
 end # DescribeVpcAttributeResult
 export DescribeVpcAttributeResult
 
-type DescribeVpcAttributeRequest <: AbstractAWSType
+mutable struct DescribeVpcAttributeRequest <: AbstractAWSType
     attribute::Union{Void,String}
     dryRun::Union{Void,Bool}
     vpcId::Union{Void,String}
@@ -127,7 +127,7 @@ end
 DescribeVpcAttribute(env::AWSEnv; kwargs...) = DescribeVpcAttribute(env, DescribeVpcAttributeRequest(; kwargs...))
 export DescribeVpcAttribute
 
-type DescribeVpcClassicLinkDnsSupportResult <: AbstractAWSType
+mutable struct DescribeVpcClassicLinkDnsSupportResult <: AbstractAWSType
     nextToken::Union{Void,String}
     requestId::Union{Void,String}
     vpcs::Union{Void,Array{ClassicLinkDnsSupport,1}}
@@ -138,7 +138,7 @@ type DescribeVpcClassicLinkDnsSupportResult <: AbstractAWSType
 end # DescribeVpcClassicLinkDnsSupportResult
 export DescribeVpcClassicLinkDnsSupportResult
 
-type DescribeVpcClassicLinkDnsSupportRequest <: AbstractAWSType
+mutable struct DescribeVpcClassicLinkDnsSupportRequest <: AbstractAWSType
     maxResults::Union{Void,Int64}
     nextToken::Union{Void,String}
     vpcIds::Union{Void,Array{String,1}}
@@ -159,7 +159,7 @@ end
 DescribeVpcClassicLinkDnsSupport(env::AWSEnv; kwargs...) = DescribeVpcClassicLinkDnsSupport(env, DescribeVpcClassicLinkDnsSupportRequest(; kwargs...))
 export DescribeVpcClassicLinkDnsSupport
 
-type DisableVpcClassicLinkResult <: AbstractAWSType
+mutable struct DisableVpcClassicLinkResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function DisableVpcClassicLinkResult(;requestId=nothing, _return=nothing)
@@ -169,7 +169,7 @@ type DisableVpcClassicLinkResult <: AbstractAWSType
 end # DisableVpcClassicLinkResult
 export DisableVpcClassicLinkResult
 
-type DisableVpcClassicLinkRequest <: AbstractAWSType
+mutable struct DisableVpcClassicLinkRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     vpcId::Union{Void,String}
     function DisableVpcClassicLinkRequest(;dryRun=nothing, vpcId=nothing)
@@ -189,7 +189,7 @@ end
 DisableVpcClassicLink(env::AWSEnv; kwargs...) = DisableVpcClassicLink(env, DisableVpcClassicLinkRequest(; kwargs...))
 export DisableVpcClassicLink
 
-type AssociateVpcCidrBlockResult <: AbstractAWSType
+mutable struct AssociateVpcCidrBlockResult <: AbstractAWSType
     ipv6CidrBlockAssociation::Union{Void,VpcIpv6CidrBlockAssociation}
     requestId::Union{Void,String}
     vpcId::Union{Void,String}
@@ -200,7 +200,7 @@ type AssociateVpcCidrBlockResult <: AbstractAWSType
 end # AssociateVpcCidrBlockResult
 export AssociateVpcCidrBlockResult
 
-type AssociateVpcCidrBlockRequest <: AbstractAWSType
+mutable struct AssociateVpcCidrBlockRequest <: AbstractAWSType
     amazonProvidedIpv6CidrBlock::Union{Void,Bool}
     vpcId::Union{Void,String}
     function AssociateVpcCidrBlockRequest(;amazonProvidedIpv6CidrBlock=nothing, vpcId=nothing)
@@ -220,7 +220,7 @@ end
 AssociateVpcCidrBlock(env::AWSEnv; kwargs...) = AssociateVpcCidrBlock(env, AssociateVpcCidrBlockRequest(; kwargs...))
 export AssociateVpcCidrBlock
 
-type DescribeScheduledInstancesResult <: AbstractAWSType
+mutable struct DescribeScheduledInstancesResult <: AbstractAWSType
     nextToken::Union{Void,String}
     requestId::Union{Void,String}
     scheduledInstanceSet::Union{Void,Array{ScheduledInstance,1}}
@@ -231,7 +231,7 @@ type DescribeScheduledInstancesResult <: AbstractAWSType
 end # DescribeScheduledInstancesResult
 export DescribeScheduledInstancesResult
 
-type DescribeScheduledInstancesRequest <: AbstractAWSType
+mutable struct DescribeScheduledInstancesRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     filter::Union{Void,Array{Filter,1}}
     maxResults::Union{Void,Int64}
@@ -255,7 +255,7 @@ end
 DescribeScheduledInstances(env::AWSEnv; kwargs...) = DescribeScheduledInstances(env, DescribeScheduledInstancesRequest(; kwargs...))
 export DescribeScheduledInstances
 
-type RevokeSecurityGroupIngressResult <: AbstractAWSType
+mutable struct RevokeSecurityGroupIngressResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function RevokeSecurityGroupIngressResult(;requestId=nothing, _return=nothing)
@@ -265,7 +265,7 @@ type RevokeSecurityGroupIngressResult <: AbstractAWSType
 end # RevokeSecurityGroupIngressResult
 export RevokeSecurityGroupIngressResult
 
-type RevokeSecurityGroupIngressRequest <: AbstractAWSType
+mutable struct RevokeSecurityGroupIngressRequest <: AbstractAWSType
     cidrIp::Union{Void,String}
     dryRun::Union{Void,Bool}
     fromPort::Union{Void,Int64}
@@ -293,7 +293,7 @@ end
 RevokeSecurityGroupIngress(env::AWSEnv; kwargs...) = RevokeSecurityGroupIngress(env, RevokeSecurityGroupIngressRequest(; kwargs...))
 export RevokeSecurityGroupIngress
 
-type DescribeSpotInstanceRequestsResult <: AbstractAWSType
+mutable struct DescribeSpotInstanceRequestsResult <: AbstractAWSType
     requestId::Union{Void,String}
     spotInstanceRequestSet::Union{Void,Array{SpotInstanceRequest,1}}
     function DescribeSpotInstanceRequestsResult(;requestId=nothing, spotInstanceRequestSet=nothing)
@@ -303,7 +303,7 @@ type DescribeSpotInstanceRequestsResult <: AbstractAWSType
 end # DescribeSpotInstanceRequestsResult
 export DescribeSpotInstanceRequestsResult
 
-type DescribeSpotInstanceRequestsRequest <: AbstractAWSType
+mutable struct DescribeSpotInstanceRequestsRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     filter::Union{Void,Array{Filter,1}}
     spotInstanceRequestId::Union{Void,Array{String,1}}
@@ -324,7 +324,7 @@ end
 DescribeSpotInstanceRequests(env::AWSEnv; kwargs...) = DescribeSpotInstanceRequests(env, DescribeSpotInstanceRequestsRequest(; kwargs...))
 export DescribeSpotInstanceRequests
 
-type DescribeExportTasksResult <: AbstractAWSType
+mutable struct DescribeExportTasksResult <: AbstractAWSType
     exportTaskSet::Union{Void,Array{ExportTask,1}}
     requestId::Union{Void,String}
     function DescribeExportTasksResult(;exportTaskSet=nothing, requestId=nothing)
@@ -334,7 +334,7 @@ type DescribeExportTasksResult <: AbstractAWSType
 end # DescribeExportTasksResult
 export DescribeExportTasksResult
 
-type DescribeExportTasksRequest <: AbstractAWSType
+mutable struct DescribeExportTasksRequest <: AbstractAWSType
     exportTaskId::Union{Void,Array{String,1}}
     function DescribeExportTasksRequest(;exportTaskId=nothing)
         new(exportTaskId)
@@ -353,7 +353,7 @@ end
 DescribeExportTasks(env::AWSEnv; kwargs...) = DescribeExportTasks(env, DescribeExportTasksRequest(; kwargs...))
 export DescribeExportTasks
 
-type DescribeAvailabilityZonesResult <: AbstractAWSType
+mutable struct DescribeAvailabilityZonesResult <: AbstractAWSType
     availabilityZoneInfo::Union{Void,Array{AvailabilityZone,1}}
     requestId::Union{Void,String}
     function DescribeAvailabilityZonesResult(;availabilityZoneInfo=nothing, requestId=nothing)
@@ -363,7 +363,7 @@ type DescribeAvailabilityZonesResult <: AbstractAWSType
 end # DescribeAvailabilityZonesResult
 export DescribeAvailabilityZonesResult
 
-type DescribeAvailabilityZonesRequest <: AbstractAWSType
+mutable struct DescribeAvailabilityZonesRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     filter::Union{Void,Array{Filter,1}}
     zoneName::Union{Void,Array{String,1}}
@@ -384,7 +384,7 @@ end
 DescribeAvailabilityZones(env::AWSEnv; kwargs...) = DescribeAvailabilityZones(env, DescribeAvailabilityZonesRequest(; kwargs...))
 export DescribeAvailabilityZones
 
-type TerminateInstancesResult <: AbstractAWSType
+mutable struct TerminateInstancesResult <: AbstractAWSType
     instancesSet::Union{Void,Array{InstanceStateChange,1}}
     requestId::Union{Void,String}
     function TerminateInstancesResult(;instancesSet=nothing, requestId=nothing)
@@ -394,7 +394,7 @@ type TerminateInstancesResult <: AbstractAWSType
 end # TerminateInstancesResult
 export TerminateInstancesResult
 
-type TerminateInstancesRequest <: AbstractAWSType
+mutable struct TerminateInstancesRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     instanceId::Union{Void,Array{String,1}}
     function TerminateInstancesRequest(;dryRun=nothing, instanceId=nothing)
@@ -414,7 +414,7 @@ end
 TerminateInstances(env::AWSEnv; kwargs...) = TerminateInstances(env, TerminateInstancesRequest(; kwargs...))
 export TerminateInstances
 
-type DeleteSnapshotResult <: AbstractAWSType
+mutable struct DeleteSnapshotResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function DeleteSnapshotResult(;requestId=nothing, _return=nothing)
@@ -424,7 +424,7 @@ type DeleteSnapshotResult <: AbstractAWSType
 end # DeleteSnapshotResult
 export DeleteSnapshotResult
 
-type DeleteSnapshotRequest <: AbstractAWSType
+mutable struct DeleteSnapshotRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     snapshotId::Union{Void,String}
     function DeleteSnapshotRequest(;dryRun=nothing, snapshotId=nothing)
@@ -444,7 +444,7 @@ end
 DeleteSnapshot(env::AWSEnv; kwargs...) = DeleteSnapshot(env, DeleteSnapshotRequest(; kwargs...))
 export DeleteSnapshot
 
-type DescribeImportSnapshotTasksResult <: AbstractAWSType
+mutable struct DescribeImportSnapshotTasksResult <: AbstractAWSType
     importSnapshotTaskSet::Union{Void,Array{ImportSnapshotTask,1}}
     nextToken::Union{Void,String}
     requestId::Union{Void,String}
@@ -455,7 +455,7 @@ type DescribeImportSnapshotTasksResult <: AbstractAWSType
 end # DescribeImportSnapshotTasksResult
 export DescribeImportSnapshotTasksResult
 
-type DescribeImportSnapshotTasksRequest <: AbstractAWSType
+mutable struct DescribeImportSnapshotTasksRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     filters::Union{Void,Array{Filter,1}}
     importTaskId::Union{Void,Array{String,1}}
@@ -478,7 +478,7 @@ end
 DescribeImportSnapshotTasks(env::AWSEnv; kwargs...) = DescribeImportSnapshotTasks(env, DescribeImportSnapshotTasksRequest(; kwargs...))
 export DescribeImportSnapshotTasks
 
-type ImportVolumeResult <: AbstractAWSType
+mutable struct ImportVolumeResult <: AbstractAWSType
     conversionTask::Union{Void,ConversionTask}
     requestId::Union{Void,String}
     function ImportVolumeResult(;conversionTask=nothing, requestId=nothing)
@@ -488,7 +488,7 @@ type ImportVolumeResult <: AbstractAWSType
 end # ImportVolumeResult
 export ImportVolumeResult
 
-type ImportVolumeRequest <: AbstractAWSType
+mutable struct ImportVolumeRequest <: AbstractAWSType
     availabilityZone::Union{Void,String}
     description::Union{Void,String}
     dryRun::Union{Void,Bool}
@@ -511,7 +511,7 @@ end
 ImportVolume(env::AWSEnv; kwargs...) = ImportVolume(env, ImportVolumeRequest(; kwargs...))
 export ImportVolume
 
-type CreateVpcResult <: AbstractAWSType
+mutable struct CreateVpcResult <: AbstractAWSType
     requestId::Union{Void,String}
     vpc::Union{Void,Vpc}
     function CreateVpcResult(;requestId=nothing, vpc=nothing)
@@ -521,7 +521,7 @@ type CreateVpcResult <: AbstractAWSType
 end # CreateVpcResult
 export CreateVpcResult
 
-type CreateVpcRequest <: AbstractAWSType
+mutable struct CreateVpcRequest <: AbstractAWSType
     amazonProvidedIpv6CidrBlock::Union{Void,Bool}
     cidrBlock::Union{Void,String}
     dryRun::Union{Void,Bool}
@@ -543,7 +543,7 @@ end
 CreateVpc(env::AWSEnv; kwargs...) = CreateVpc(env, CreateVpcRequest(; kwargs...))
 export CreateVpc
 
-type RejectVpcPeeringConnectionResult <: AbstractAWSType
+mutable struct RejectVpcPeeringConnectionResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function RejectVpcPeeringConnectionResult(;requestId=nothing, _return=nothing)
@@ -553,7 +553,7 @@ type RejectVpcPeeringConnectionResult <: AbstractAWSType
 end # RejectVpcPeeringConnectionResult
 export RejectVpcPeeringConnectionResult
 
-type RejectVpcPeeringConnectionRequest <: AbstractAWSType
+mutable struct RejectVpcPeeringConnectionRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     vpcPeeringConnectionId::Union{Void,String}
     function RejectVpcPeeringConnectionRequest(;dryRun=nothing, vpcPeeringConnectionId=nothing)
@@ -573,7 +573,7 @@ end
 RejectVpcPeeringConnection(env::AWSEnv; kwargs...) = RejectVpcPeeringConnection(env, RejectVpcPeeringConnectionRequest(; kwargs...))
 export RejectVpcPeeringConnection
 
-type CopySnapshotResult <: AbstractAWSType
+mutable struct CopySnapshotResult <: AbstractAWSType
     requestId::Union{Void,String}
     snapshotId::Union{Void,String}
     function CopySnapshotResult(;requestId=nothing, snapshotId=nothing)
@@ -583,7 +583,7 @@ type CopySnapshotResult <: AbstractAWSType
 end # CopySnapshotResult
 export CopySnapshotResult
 
-type CopySnapshotRequest <: AbstractAWSType
+mutable struct CopySnapshotRequest <: AbstractAWSType
     description::Union{Void,String}
     destinationRegion::Union{Void,String}
     dryRun::Union{Void,Bool}
@@ -609,7 +609,7 @@ end
 CopySnapshot(env::AWSEnv; kwargs...) = CopySnapshot(env, CopySnapshotRequest(; kwargs...))
 export CopySnapshot
 
-type CreateInternetGatewayResult <: AbstractAWSType
+mutable struct CreateInternetGatewayResult <: AbstractAWSType
     internetGateway::Union{Void,InternetGateway}
     requestId::Union{Void,String}
     function CreateInternetGatewayResult(;internetGateway=nothing, requestId=nothing)
@@ -619,7 +619,7 @@ type CreateInternetGatewayResult <: AbstractAWSType
 end # CreateInternetGatewayResult
 export CreateInternetGatewayResult
 
-type CreateInternetGatewayRequest <: AbstractAWSType
+mutable struct CreateInternetGatewayRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     function CreateInternetGatewayRequest(;dryRun=nothing)
         new(dryRun)
@@ -638,7 +638,7 @@ end
 CreateInternetGateway(env::AWSEnv; kwargs...) = CreateInternetGateway(env, CreateInternetGatewayRequest(; kwargs...))
 export CreateInternetGateway
 
-type DeleteNetworkInterfaceResult <: AbstractAWSType
+mutable struct DeleteNetworkInterfaceResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function DeleteNetworkInterfaceResult(;requestId=nothing, _return=nothing)
@@ -648,7 +648,7 @@ type DeleteNetworkInterfaceResult <: AbstractAWSType
 end # DeleteNetworkInterfaceResult
 export DeleteNetworkInterfaceResult
 
-type DeleteNetworkInterfaceRequest <: AbstractAWSType
+mutable struct DeleteNetworkInterfaceRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     networkInterfaceId::Union{Void,String}
     function DeleteNetworkInterfaceRequest(;dryRun=nothing, networkInterfaceId=nothing)
@@ -668,7 +668,7 @@ end
 DeleteNetworkInterface(env::AWSEnv; kwargs...) = DeleteNetworkInterface(env, DeleteNetworkInterfaceRequest(; kwargs...))
 export DeleteNetworkInterface
 
-type DescribeKeyPairsResult <: AbstractAWSType
+mutable struct DescribeKeyPairsResult <: AbstractAWSType
     keySet::Union{Void,Array{KeyPairInfo,1}}
     requestId::Union{Void,String}
     function DescribeKeyPairsResult(;keySet=nothing, requestId=nothing)
@@ -678,7 +678,7 @@ type DescribeKeyPairsResult <: AbstractAWSType
 end # DescribeKeyPairsResult
 export DescribeKeyPairsResult
 
-type DescribeKeyPairsRequest <: AbstractAWSType
+mutable struct DescribeKeyPairsRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     filter::Union{Void,Array{Filter,1}}
     keyName::Union{Void,Array{String,1}}
@@ -699,7 +699,7 @@ end
 DescribeKeyPairs(env::AWSEnv; kwargs...) = DescribeKeyPairs(env, DescribeKeyPairsRequest(; kwargs...))
 export DescribeKeyPairs
 
-type DescribeNetworkInterfaceAttributeResult <: AbstractAWSType
+mutable struct DescribeNetworkInterfaceAttributeResult <: AbstractAWSType
     attachment::Union{Void,NetworkInterfaceAttachment}
     description::Union{Void,AttributeValue}
     groupSet::Union{Void,Array{GroupIdentifier,1}}
@@ -713,7 +713,7 @@ type DescribeNetworkInterfaceAttributeResult <: AbstractAWSType
 end # DescribeNetworkInterfaceAttributeResult
 export DescribeNetworkInterfaceAttributeResult
 
-type DescribeNetworkInterfaceAttributeRequest <: AbstractAWSType
+mutable struct DescribeNetworkInterfaceAttributeRequest <: AbstractAWSType
     attribute::Union{Void,String}
     dryRun::Union{Void,Bool}
     networkInterfaceId::Union{Void,String}
@@ -734,7 +734,7 @@ end
 DescribeNetworkInterfaceAttribute(env::AWSEnv; kwargs...) = DescribeNetworkInterfaceAttribute(env, DescribeNetworkInterfaceAttributeRequest(; kwargs...))
 export DescribeNetworkInterfaceAttribute
 
-type EnableVpcClassicLinkResult <: AbstractAWSType
+mutable struct EnableVpcClassicLinkResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function EnableVpcClassicLinkResult(;requestId=nothing, _return=nothing)
@@ -744,7 +744,7 @@ type EnableVpcClassicLinkResult <: AbstractAWSType
 end # EnableVpcClassicLinkResult
 export EnableVpcClassicLinkResult
 
-type EnableVpcClassicLinkRequest <: AbstractAWSType
+mutable struct EnableVpcClassicLinkRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     vpcId::Union{Void,String}
     function EnableVpcClassicLinkRequest(;dryRun=nothing, vpcId=nothing)
@@ -764,7 +764,7 @@ end
 EnableVpcClassicLink(env::AWSEnv; kwargs...) = EnableVpcClassicLink(env, EnableVpcClassicLinkRequest(; kwargs...))
 export EnableVpcClassicLink
 
-type DeleteVolumeResult <: AbstractAWSType
+mutable struct DeleteVolumeResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function DeleteVolumeResult(;requestId=nothing, _return=nothing)
@@ -774,7 +774,7 @@ type DeleteVolumeResult <: AbstractAWSType
 end # DeleteVolumeResult
 export DeleteVolumeResult
 
-type DeleteVolumeRequest <: AbstractAWSType
+mutable struct DeleteVolumeRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     volumeId::Union{Void,String}
     function DeleteVolumeRequest(;dryRun=nothing, volumeId=nothing)
@@ -794,7 +794,7 @@ end
 DeleteVolume(env::AWSEnv; kwargs...) = DeleteVolume(env, DeleteVolumeRequest(; kwargs...))
 export DeleteVolume
 
-type ModifyVpcEndpointResult <: AbstractAWSType
+mutable struct ModifyVpcEndpointResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function ModifyVpcEndpointResult(;requestId=nothing, _return=nothing)
@@ -804,7 +804,7 @@ type ModifyVpcEndpointResult <: AbstractAWSType
 end # ModifyVpcEndpointResult
 export ModifyVpcEndpointResult
 
-type ModifyVpcEndpointRequest <: AbstractAWSType
+mutable struct ModifyVpcEndpointRequest <: AbstractAWSType
     addRouteTableId::Union{Void,Array{String,1}}
     dryRun::Union{Void,Bool}
     policyDocument::Union{Void,String}
@@ -828,7 +828,7 @@ end
 ModifyVpcEndpoint(env::AWSEnv; kwargs...) = ModifyVpcEndpoint(env, ModifyVpcEndpointRequest(; kwargs...))
 export ModifyVpcEndpoint
 
-type DisassociateSubnetCidrBlockResult <: AbstractAWSType
+mutable struct DisassociateSubnetCidrBlockResult <: AbstractAWSType
     ipv6CidrBlockAssociation::Union{Void,SubnetIpv6CidrBlockAssociation}
     requestId::Union{Void,String}
     subnetId::Union{Void,String}
@@ -839,7 +839,7 @@ type DisassociateSubnetCidrBlockResult <: AbstractAWSType
 end # DisassociateSubnetCidrBlockResult
 export DisassociateSubnetCidrBlockResult
 
-type DisassociateSubnetCidrBlockRequest <: AbstractAWSType
+mutable struct DisassociateSubnetCidrBlockRequest <: AbstractAWSType
     associationId::Union{Void,String}
     function DisassociateSubnetCidrBlockRequest(;associationId=nothing)
         new(associationId)
@@ -858,7 +858,7 @@ end
 DisassociateSubnetCidrBlock(env::AWSEnv; kwargs...) = DisassociateSubnetCidrBlock(env, DisassociateSubnetCidrBlockRequest(; kwargs...))
 export DisassociateSubnetCidrBlock
 
-type ModifyIdFormatResult <: AbstractAWSType
+mutable struct ModifyIdFormatResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function ModifyIdFormatResult(;requestId=nothing, _return=nothing)
@@ -868,7 +868,7 @@ type ModifyIdFormatResult <: AbstractAWSType
 end # ModifyIdFormatResult
 export ModifyIdFormatResult
 
-type ModifyIdFormatRequest <: AbstractAWSType
+mutable struct ModifyIdFormatRequest <: AbstractAWSType
     resource::Union{Void,String}
     useLongIds::Union{Void,Bool}
     function ModifyIdFormatRequest(;resource=nothing, useLongIds=nothing)
@@ -888,7 +888,7 @@ end
 ModifyIdFormat(env::AWSEnv; kwargs...) = ModifyIdFormat(env, ModifyIdFormatRequest(; kwargs...))
 export ModifyIdFormat
 
-type DescribeSecurityGroupReferencesResult <: AbstractAWSType
+mutable struct DescribeSecurityGroupReferencesResult <: AbstractAWSType
     requestId::Union{Void,String}
     securityGroupReferenceSet::Union{Void,Array{SecurityGroupReference,1}}
     function DescribeSecurityGroupReferencesResult(;requestId=nothing, securityGroupReferenceSet=nothing)
@@ -898,7 +898,7 @@ type DescribeSecurityGroupReferencesResult <: AbstractAWSType
 end # DescribeSecurityGroupReferencesResult
 export DescribeSecurityGroupReferencesResult
 
-type DescribeSecurityGroupReferencesRequest <: AbstractAWSType
+mutable struct DescribeSecurityGroupReferencesRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     groupId::Union{Void,Array{String,1}}
     function DescribeSecurityGroupReferencesRequest(;dryRun=nothing, groupId=nothing)
@@ -918,7 +918,7 @@ end
 DescribeSecurityGroupReferences(env::AWSEnv; kwargs...) = DescribeSecurityGroupReferences(env, DescribeSecurityGroupReferencesRequest(; kwargs...))
 export DescribeSecurityGroupReferences
 
-type GetPasswordDataResult <: AbstractAWSType
+mutable struct GetPasswordDataResult <: AbstractAWSType
     instanceId::Union{Void,String}
     passwordData::Union{Void,String}
     requestId::Union{Void,String}
@@ -930,7 +930,7 @@ type GetPasswordDataResult <: AbstractAWSType
 end # GetPasswordDataResult
 export GetPasswordDataResult
 
-type GetPasswordDataRequest <: AbstractAWSType
+mutable struct GetPasswordDataRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     instanceId::Union{Void,String}
     function GetPasswordDataRequest(;dryRun=nothing, instanceId=nothing)
@@ -950,7 +950,7 @@ end
 GetPasswordData(env::AWSEnv; kwargs...) = GetPasswordData(env, GetPasswordDataRequest(; kwargs...))
 export GetPasswordData
 
-type AcceptVpcPeeringConnectionResult <: AbstractAWSType
+mutable struct AcceptVpcPeeringConnectionResult <: AbstractAWSType
     requestId::Union{Void,String}
     vpcPeeringConnection::Union{Void,VpcPeeringConnection}
     function AcceptVpcPeeringConnectionResult(;requestId=nothing, vpcPeeringConnection=nothing)
@@ -960,7 +960,7 @@ type AcceptVpcPeeringConnectionResult <: AbstractAWSType
 end # AcceptVpcPeeringConnectionResult
 export AcceptVpcPeeringConnectionResult
 
-type AcceptVpcPeeringConnectionRequest <: AbstractAWSType
+mutable struct AcceptVpcPeeringConnectionRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     vpcPeeringConnectionId::Union{Void,String}
     function AcceptVpcPeeringConnectionRequest(;dryRun=nothing, vpcPeeringConnectionId=nothing)
@@ -980,7 +980,7 @@ end
 AcceptVpcPeeringConnection(env::AWSEnv; kwargs...) = AcceptVpcPeeringConnection(env, AcceptVpcPeeringConnectionRequest(; kwargs...))
 export AcceptVpcPeeringConnection
 
-type DescribeInstanceStatusResult <: AbstractAWSType
+mutable struct DescribeInstanceStatusResult <: AbstractAWSType
     instanceStatusSet::Union{Void,Array{InstanceStatus,1}}
     nextToken::Union{Void,String}
     requestId::Union{Void,String}
@@ -991,7 +991,7 @@ type DescribeInstanceStatusResult <: AbstractAWSType
 end # DescribeInstanceStatusResult
 export DescribeInstanceStatusResult
 
-type DescribeInstanceStatusRequest <: AbstractAWSType
+mutable struct DescribeInstanceStatusRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     filter::Union{Void,Array{Filter,1}}
     includeAllInstances::Union{Void,Bool}
@@ -1015,7 +1015,7 @@ end
 DescribeInstanceStatus(env::AWSEnv; kwargs...) = DescribeInstanceStatus(env, DescribeInstanceStatusRequest(; kwargs...))
 export DescribeInstanceStatus
 
-type GetHostReservationPurchasePreviewResult <: AbstractAWSType
+mutable struct GetHostReservationPurchasePreviewResult <: AbstractAWSType
     currencyCode::Union{Void,String}
     purchase::Union{Void,Array{Purchase,1}}
     requestId::Union{Void,String}
@@ -1028,7 +1028,7 @@ type GetHostReservationPurchasePreviewResult <: AbstractAWSType
 end # GetHostReservationPurchasePreviewResult
 export GetHostReservationPurchasePreviewResult
 
-type GetHostReservationPurchasePreviewRequest <: AbstractAWSType
+mutable struct GetHostReservationPurchasePreviewRequest <: AbstractAWSType
     hostIdSet::Union{Void,Array{String,1}}
     offeringId::Union{Void,String}
     function GetHostReservationPurchasePreviewRequest(;hostIdSet=nothing, offeringId=nothing)
@@ -1048,7 +1048,7 @@ end
 GetHostReservationPurchasePreview(env::AWSEnv; kwargs...) = GetHostReservationPurchasePreview(env, GetHostReservationPurchasePreviewRequest(; kwargs...))
 export GetHostReservationPurchasePreview
 
-type CreateVolumeResult <: AbstractAWSType
+mutable struct CreateVolumeResult <: AbstractAWSType
     attachmentSet::Union{Void,Array{VolumeAttachment,1}}
     availabilityZone::Union{Void,String}
     createTime::Union{Void,DateTime}
@@ -1069,7 +1069,7 @@ type CreateVolumeResult <: AbstractAWSType
 end # CreateVolumeResult
 export CreateVolumeResult
 
-type CreateVolumeRequest <: AbstractAWSType
+mutable struct CreateVolumeRequest <: AbstractAWSType
     availabilityZone::Union{Void,String}
     dryRun::Union{Void,Bool}
     encrypted::Union{Void,Bool}
@@ -1096,7 +1096,7 @@ end
 CreateVolume(env::AWSEnv; kwargs...) = CreateVolume(env, CreateVolumeRequest(; kwargs...))
 export CreateVolume
 
-type UnassignPrivateIpAddressesResult <: AbstractAWSType
+mutable struct UnassignPrivateIpAddressesResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function UnassignPrivateIpAddressesResult(;requestId=nothing, _return=nothing)
@@ -1106,7 +1106,7 @@ type UnassignPrivateIpAddressesResult <: AbstractAWSType
 end # UnassignPrivateIpAddressesResult
 export UnassignPrivateIpAddressesResult
 
-type UnassignPrivateIpAddressesRequest <: AbstractAWSType
+mutable struct UnassignPrivateIpAddressesRequest <: AbstractAWSType
     networkInterfaceId::Union{Void,String}
     privateIpAddress::Union{Void,Array{String,1}}
     function UnassignPrivateIpAddressesRequest(;networkInterfaceId=nothing, privateIpAddress=nothing)
@@ -1126,7 +1126,7 @@ end
 UnassignPrivateIpAddresses(env::AWSEnv; kwargs...) = UnassignPrivateIpAddresses(env, UnassignPrivateIpAddressesRequest(; kwargs...))
 export UnassignPrivateIpAddresses
 
-type ModifyNetworkInterfaceAttributeResult <: AbstractAWSType
+mutable struct ModifyNetworkInterfaceAttributeResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function ModifyNetworkInterfaceAttributeResult(;requestId=nothing, _return=nothing)
@@ -1136,7 +1136,7 @@ type ModifyNetworkInterfaceAttributeResult <: AbstractAWSType
 end # ModifyNetworkInterfaceAttributeResult
 export ModifyNetworkInterfaceAttributeResult
 
-type ModifyNetworkInterfaceAttributeRequest <: AbstractAWSType
+mutable struct ModifyNetworkInterfaceAttributeRequest <: AbstractAWSType
     attachment::Union{Void,NetworkInterfaceAttachmentChanges}
     description::Union{Void,AttributeValue}
     dryRun::Union{Void,Bool}
@@ -1160,7 +1160,7 @@ end
 ModifyNetworkInterfaceAttribute(env::AWSEnv; kwargs...) = ModifyNetworkInterfaceAttribute(env, ModifyNetworkInterfaceAttributeRequest(; kwargs...))
 export ModifyNetworkInterfaceAttribute
 
-type DeleteVpnGatewayResult <: AbstractAWSType
+mutable struct DeleteVpnGatewayResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function DeleteVpnGatewayResult(;requestId=nothing, _return=nothing)
@@ -1170,7 +1170,7 @@ type DeleteVpnGatewayResult <: AbstractAWSType
 end # DeleteVpnGatewayResult
 export DeleteVpnGatewayResult
 
-type DeleteVpnGatewayRequest <: AbstractAWSType
+mutable struct DeleteVpnGatewayRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     vpnGatewayId::Union{Void,String}
     function DeleteVpnGatewayRequest(;dryRun=nothing, vpnGatewayId=nothing)
@@ -1190,7 +1190,7 @@ end
 DeleteVpnGateway(env::AWSEnv; kwargs...) = DeleteVpnGateway(env, DeleteVpnGatewayRequest(; kwargs...))
 export DeleteVpnGateway
 
-type DetachClassicLinkVpcResult <: AbstractAWSType
+mutable struct DetachClassicLinkVpcResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function DetachClassicLinkVpcResult(;requestId=nothing, _return=nothing)
@@ -1200,7 +1200,7 @@ type DetachClassicLinkVpcResult <: AbstractAWSType
 end # DetachClassicLinkVpcResult
 export DetachClassicLinkVpcResult
 
-type DetachClassicLinkVpcRequest <: AbstractAWSType
+mutable struct DetachClassicLinkVpcRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     instanceId::Union{Void,String}
     vpcId::Union{Void,String}
@@ -1221,7 +1221,7 @@ end
 DetachClassicLinkVpc(env::AWSEnv; kwargs...) = DetachClassicLinkVpc(env, DetachClassicLinkVpcRequest(; kwargs...))
 export DetachClassicLinkVpc
 
-type UnmonitorInstancesResult <: AbstractAWSType
+mutable struct UnmonitorInstancesResult <: AbstractAWSType
     instancesSet::Union{Void,Array{InstanceMonitoring,1}}
     requestId::Union{Void,String}
     function UnmonitorInstancesResult(;instancesSet=nothing, requestId=nothing)
@@ -1231,7 +1231,7 @@ type UnmonitorInstancesResult <: AbstractAWSType
 end # UnmonitorInstancesResult
 export UnmonitorInstancesResult
 
-type UnmonitorInstancesRequest <: AbstractAWSType
+mutable struct UnmonitorInstancesRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     instanceId::Union{Void,Array{String,1}}
     function UnmonitorInstancesRequest(;dryRun=nothing, instanceId=nothing)
@@ -1251,7 +1251,7 @@ end
 UnmonitorInstances(env::AWSEnv; kwargs...) = UnmonitorInstances(env, UnmonitorInstancesRequest(; kwargs...))
 export UnmonitorInstances
 
-type CreateNetworkInterfacePermissionResult <: AbstractAWSType
+mutable struct CreateNetworkInterfacePermissionResult <: AbstractAWSType
     interfacePermission::Union{Void,NetworkInterfacePermission}
     requestId::Union{Void,String}
     function CreateNetworkInterfacePermissionResult(;interfacePermission=nothing, requestId=nothing)
@@ -1261,7 +1261,7 @@ type CreateNetworkInterfacePermissionResult <: AbstractAWSType
 end # CreateNetworkInterfacePermissionResult
 export CreateNetworkInterfacePermissionResult
 
-type CreateNetworkInterfacePermissionRequest <: AbstractAWSType
+mutable struct CreateNetworkInterfacePermissionRequest <: AbstractAWSType
     awsAccountId::Union{Void,String}
     awsService::Union{Void,String}
     dryRun::Union{Void,Bool}
@@ -1284,7 +1284,7 @@ end
 CreateNetworkInterfacePermission(env::AWSEnv; kwargs...) = CreateNetworkInterfacePermission(env, CreateNetworkInterfacePermissionRequest(; kwargs...))
 export CreateNetworkInterfacePermission
 
-type DescribeVpcClassicLinkResult <: AbstractAWSType
+mutable struct DescribeVpcClassicLinkResult <: AbstractAWSType
     requestId::Union{Void,String}
     vpcSet::Union{Void,Array{VpcClassicLink,1}}
     function DescribeVpcClassicLinkResult(;requestId=nothing, vpcSet=nothing)
@@ -1294,7 +1294,7 @@ type DescribeVpcClassicLinkResult <: AbstractAWSType
 end # DescribeVpcClassicLinkResult
 export DescribeVpcClassicLinkResult
 
-type DescribeVpcClassicLinkRequest <: AbstractAWSType
+mutable struct DescribeVpcClassicLinkRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     filter::Union{Void,Array{Filter,1}}
     vpcId::Union{Void,Array{String,1}}
@@ -1315,7 +1315,7 @@ end
 DescribeVpcClassicLink(env::AWSEnv; kwargs...) = DescribeVpcClassicLink(env, DescribeVpcClassicLinkRequest(; kwargs...))
 export DescribeVpcClassicLink
 
-type DescribeSpotFleetRequestsResult <: AbstractAWSType
+mutable struct DescribeSpotFleetRequestsResult <: AbstractAWSType
     nextToken::Union{Void,String}
     requestId::Union{Void,String}
     spotFleetRequestConfigSet::Union{Void,Array{SpotFleetRequestConfig,1}}
@@ -1326,7 +1326,7 @@ type DescribeSpotFleetRequestsResult <: AbstractAWSType
 end # DescribeSpotFleetRequestsResult
 export DescribeSpotFleetRequestsResult
 
-type DescribeSpotFleetRequestsRequest <: AbstractAWSType
+mutable struct DescribeSpotFleetRequestsRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     maxResults::Union{Void,Int64}
     nextToken::Union{Void,String}
@@ -1348,7 +1348,7 @@ end
 DescribeSpotFleetRequests(env::AWSEnv; kwargs...) = DescribeSpotFleetRequests(env, DescribeSpotFleetRequestsRequest(; kwargs...))
 export DescribeSpotFleetRequests
 
-type ImportKeyPairResult <: AbstractAWSType
+mutable struct ImportKeyPairResult <: AbstractAWSType
     keyFingerprint::Union{Void,String}
     keyName::Union{Void,String}
     requestId::Union{Void,String}
@@ -1359,7 +1359,7 @@ type ImportKeyPairResult <: AbstractAWSType
 end # ImportKeyPairResult
 export ImportKeyPairResult
 
-type ImportKeyPairRequest <: AbstractAWSType
+mutable struct ImportKeyPairRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     keyName::Union{Void,String}
     publicKeyMaterial::Union{Void,Array{UInt8,1}}
@@ -1380,7 +1380,7 @@ end
 ImportKeyPair(env::AWSEnv; kwargs...) = ImportKeyPair(env, ImportKeyPairRequest(; kwargs...))
 export ImportKeyPair
 
-type CreateEgressOnlyInternetGatewayResult <: AbstractAWSType
+mutable struct CreateEgressOnlyInternetGatewayResult <: AbstractAWSType
     clientToken::Union{Void,String}
     egressOnlyInternetGateway::Union{Void,EgressOnlyInternetGateway}
     requestId::Union{Void,String}
@@ -1391,7 +1391,7 @@ type CreateEgressOnlyInternetGatewayResult <: AbstractAWSType
 end # CreateEgressOnlyInternetGatewayResult
 export CreateEgressOnlyInternetGatewayResult
 
-type CreateEgressOnlyInternetGatewayRequest <: AbstractAWSType
+mutable struct CreateEgressOnlyInternetGatewayRequest <: AbstractAWSType
     clientToken::Union{Void,String}
     dryRun::Union{Void,Bool}
     vpcId::Union{Void,String}
@@ -1412,7 +1412,7 @@ end
 CreateEgressOnlyInternetGateway(env::AWSEnv; kwargs...) = CreateEgressOnlyInternetGateway(env, CreateEgressOnlyInternetGatewayRequest(; kwargs...))
 export CreateEgressOnlyInternetGateway
 
-type AssignIpv6AddressesResult <: AbstractAWSType
+mutable struct AssignIpv6AddressesResult <: AbstractAWSType
     assignedIpv6Addresses::Union{Void,Array{String,1}}
     networkInterfaceId::Union{Void,String}
     requestId::Union{Void,String}
@@ -1423,7 +1423,7 @@ type AssignIpv6AddressesResult <: AbstractAWSType
 end # AssignIpv6AddressesResult
 export AssignIpv6AddressesResult
 
-type AssignIpv6AddressesRequest <: AbstractAWSType
+mutable struct AssignIpv6AddressesRequest <: AbstractAWSType
     ipv6AddressCount::Union{Void,Int64}
     ipv6Addresses::Union{Void,Array{String,1}}
     networkInterfaceId::Union{Void,String}
@@ -1444,7 +1444,7 @@ end
 AssignIpv6Addresses(env::AWSEnv; kwargs...) = AssignIpv6Addresses(env, AssignIpv6AddressesRequest(; kwargs...))
 export AssignIpv6Addresses
 
-type CreateImageResult <: AbstractAWSType
+mutable struct CreateImageResult <: AbstractAWSType
     imageId::Union{Void,String}
     requestId::Union{Void,String}
     function CreateImageResult(;imageId=nothing, requestId=nothing)
@@ -1454,7 +1454,7 @@ type CreateImageResult <: AbstractAWSType
 end # CreateImageResult
 export CreateImageResult
 
-type CreateImageRequest <: AbstractAWSType
+mutable struct CreateImageRequest <: AbstractAWSType
     blockDeviceMapping::Union{Void,Array{BlockDeviceMapping,1}}
     description::Union{Void,String}
     dryRun::Union{Void,Bool}
@@ -1478,7 +1478,7 @@ end
 CreateImage(env::AWSEnv; kwargs...) = CreateImage(env, CreateImageRequest(; kwargs...))
 export CreateImage
 
-type DescribeStaleSecurityGroupsResult <: AbstractAWSType
+mutable struct DescribeStaleSecurityGroupsResult <: AbstractAWSType
     nextToken::Union{Void,String}
     requestId::Union{Void,String}
     staleSecurityGroupSet::Union{Void,Array{StaleSecurityGroup,1}}
@@ -1489,7 +1489,7 @@ type DescribeStaleSecurityGroupsResult <: AbstractAWSType
 end # DescribeStaleSecurityGroupsResult
 export DescribeStaleSecurityGroupsResult
 
-type DescribeStaleSecurityGroupsRequest <: AbstractAWSType
+mutable struct DescribeStaleSecurityGroupsRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     maxResults::Union{Void,Int64}
     nextToken::Union{Void,String}
@@ -1511,7 +1511,7 @@ end
 DescribeStaleSecurityGroups(env::AWSEnv; kwargs...) = DescribeStaleSecurityGroups(env, DescribeStaleSecurityGroupsRequest(; kwargs...))
 export DescribeStaleSecurityGroups
 
-type CreateCustomerGatewayResult <: AbstractAWSType
+mutable struct CreateCustomerGatewayResult <: AbstractAWSType
     customerGateway::Union{Void,CustomerGateway}
     requestId::Union{Void,String}
     function CreateCustomerGatewayResult(;customerGateway=nothing, requestId=nothing)
@@ -1521,7 +1521,7 @@ type CreateCustomerGatewayResult <: AbstractAWSType
 end # CreateCustomerGatewayResult
 export CreateCustomerGatewayResult
 
-type CreateCustomerGatewayRequest <: AbstractAWSType
+mutable struct CreateCustomerGatewayRequest <: AbstractAWSType
     bgpAsn::Union{Void,Int64}
     dryRun::Union{Void,Bool}
     ipAddress::Union{Void,String}
@@ -1543,7 +1543,7 @@ end
 CreateCustomerGateway(env::AWSEnv; kwargs...) = CreateCustomerGateway(env, CreateCustomerGatewayRequest(; kwargs...))
 export CreateCustomerGateway
 
-type CreateVpnConnectionResult <: AbstractAWSType
+mutable struct CreateVpnConnectionResult <: AbstractAWSType
     requestId::Union{Void,String}
     vpnConnection::Union{Void,VpnConnection}
     function CreateVpnConnectionResult(;requestId=nothing, vpnConnection=nothing)
@@ -1553,7 +1553,7 @@ type CreateVpnConnectionResult <: AbstractAWSType
 end # CreateVpnConnectionResult
 export CreateVpnConnectionResult
 
-type CreateVpnConnectionRequest <: AbstractAWSType
+mutable struct CreateVpnConnectionRequest <: AbstractAWSType
     customerGatewayId::Union{Void,String}
     dryRun::Union{Void,Bool}
     options::Union{Void,VpnConnectionOptionsSpecification}
@@ -1576,7 +1576,7 @@ end
 CreateVpnConnection(env::AWSEnv; kwargs...) = CreateVpnConnection(env, CreateVpnConnectionRequest(; kwargs...))
 export CreateVpnConnection
 
-type DescribeSpotFleetInstancesResult <: AbstractAWSType
+mutable struct DescribeSpotFleetInstancesResult <: AbstractAWSType
     activeInstanceSet::Union{Void,Array{ActiveInstance,1}}
     nextToken::Union{Void,String}
     requestId::Union{Void,String}
@@ -1588,7 +1588,7 @@ type DescribeSpotFleetInstancesResult <: AbstractAWSType
 end # DescribeSpotFleetInstancesResult
 export DescribeSpotFleetInstancesResult
 
-type DescribeSpotFleetInstancesRequest <: AbstractAWSType
+mutable struct DescribeSpotFleetInstancesRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     maxResults::Union{Void,Int64}
     nextToken::Union{Void,String}
@@ -1610,7 +1610,7 @@ end
 DescribeSpotFleetInstances(env::AWSEnv; kwargs...) = DescribeSpotFleetInstances(env, DescribeSpotFleetInstancesRequest(; kwargs...))
 export DescribeSpotFleetInstances
 
-type AssociateDhcpOptionsResult <: AbstractAWSType
+mutable struct AssociateDhcpOptionsResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function AssociateDhcpOptionsResult(;requestId=nothing, _return=nothing)
@@ -1620,7 +1620,7 @@ type AssociateDhcpOptionsResult <: AbstractAWSType
 end # AssociateDhcpOptionsResult
 export AssociateDhcpOptionsResult
 
-type AssociateDhcpOptionsRequest <: AbstractAWSType
+mutable struct AssociateDhcpOptionsRequest <: AbstractAWSType
     dhcpOptionsId::Union{Void,String}
     dryRun::Union{Void,Bool}
     vpcId::Union{Void,String}
@@ -1641,7 +1641,7 @@ end
 AssociateDhcpOptions(env::AWSEnv; kwargs...) = AssociateDhcpOptions(env, AssociateDhcpOptionsRequest(; kwargs...))
 export AssociateDhcpOptions
 
-type AssociateAddressResult <: AbstractAWSType
+mutable struct AssociateAddressResult <: AbstractAWSType
     associationId::Union{Void,String}
     requestId::Union{Void,String}
     function AssociateAddressResult(;associationId=nothing, requestId=nothing)
@@ -1651,7 +1651,7 @@ type AssociateAddressResult <: AbstractAWSType
 end # AssociateAddressResult
 export AssociateAddressResult
 
-type AssociateAddressRequest <: AbstractAWSType
+mutable struct AssociateAddressRequest <: AbstractAWSType
     allocationId::Union{Void,String}
     allowReassociation::Union{Void,Bool}
     dryRun::Union{Void,Bool}
@@ -1676,7 +1676,7 @@ end
 AssociateAddress(env::AWSEnv; kwargs...) = AssociateAddress(env, AssociateAddressRequest(; kwargs...))
 export AssociateAddress
 
-type DescribeRegionsResult <: AbstractAWSType
+mutable struct DescribeRegionsResult <: AbstractAWSType
     regionInfo::Union{Void,Array{Region,1}}
     requestId::Union{Void,String}
     function DescribeRegionsResult(;regionInfo=nothing, requestId=nothing)
@@ -1686,7 +1686,7 @@ type DescribeRegionsResult <: AbstractAWSType
 end # DescribeRegionsResult
 export DescribeRegionsResult
 
-type DescribeRegionsRequest <: AbstractAWSType
+mutable struct DescribeRegionsRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     filter::Union{Void,Array{Filter,1}}
     regionName::Union{Void,Array{String,1}}
@@ -1707,7 +1707,7 @@ end
 DescribeRegions(env::AWSEnv; kwargs...) = DescribeRegions(env, DescribeRegionsRequest(; kwargs...))
 export DescribeRegions
 
-type ResetImageAttributeResult <: AbstractAWSType
+mutable struct ResetImageAttributeResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function ResetImageAttributeResult(;requestId=nothing, _return=nothing)
@@ -1717,7 +1717,7 @@ type ResetImageAttributeResult <: AbstractAWSType
 end # ResetImageAttributeResult
 export ResetImageAttributeResult
 
-type ResetImageAttributeRequest <: AbstractAWSType
+mutable struct ResetImageAttributeRequest <: AbstractAWSType
     attribute::Union{Void,String}
     dryRun::Union{Void,Bool}
     imageId::Union{Void,String}
@@ -1738,7 +1738,7 @@ end
 ResetImageAttribute(env::AWSEnv; kwargs...) = ResetImageAttribute(env, ResetImageAttributeRequest(; kwargs...))
 export ResetImageAttribute
 
-type DescribeSnapshotAttributeResult <: AbstractAWSType
+mutable struct DescribeSnapshotAttributeResult <: AbstractAWSType
     createVolumePermission::Union{Void,Array{CreateVolumePermission,1}}
     productCodes::Union{Void,Array{ProductCode,1}}
     requestId::Union{Void,String}
@@ -1750,7 +1750,7 @@ type DescribeSnapshotAttributeResult <: AbstractAWSType
 end # DescribeSnapshotAttributeResult
 export DescribeSnapshotAttributeResult
 
-type DescribeSnapshotAttributeRequest <: AbstractAWSType
+mutable struct DescribeSnapshotAttributeRequest <: AbstractAWSType
     attribute::Union{Void,String}
     dryRun::Union{Void,Bool}
     snapshotId::Union{Void,String}
@@ -1771,7 +1771,7 @@ end
 DescribeSnapshotAttribute(env::AWSEnv; kwargs...) = DescribeSnapshotAttribute(env, DescribeSnapshotAttributeRequest(; kwargs...))
 export DescribeSnapshotAttribute
 
-type DisassociateIamInstanceProfileResult <: AbstractAWSType
+mutable struct DisassociateIamInstanceProfileResult <: AbstractAWSType
     iamInstanceProfileAssociation::Union{Void,IamInstanceProfileAssociation}
     requestId::Union{Void,String}
     function DisassociateIamInstanceProfileResult(;iamInstanceProfileAssociation=nothing, requestId=nothing)
@@ -1781,7 +1781,7 @@ type DisassociateIamInstanceProfileResult <: AbstractAWSType
 end # DisassociateIamInstanceProfileResult
 export DisassociateIamInstanceProfileResult
 
-type DisassociateIamInstanceProfileRequest <: AbstractAWSType
+mutable struct DisassociateIamInstanceProfileRequest <: AbstractAWSType
     associationId::Union{Void,String}
     function DisassociateIamInstanceProfileRequest(;associationId=nothing)
         new(associationId)
@@ -1800,7 +1800,7 @@ end
 DisassociateIamInstanceProfile(env::AWSEnv; kwargs...) = DisassociateIamInstanceProfile(env, DisassociateIamInstanceProfileRequest(; kwargs...))
 export DisassociateIamInstanceProfile
 
-type DescribeReservedInstancesListingsResult <: AbstractAWSType
+mutable struct DescribeReservedInstancesListingsResult <: AbstractAWSType
     requestId::Union{Void,String}
     reservedInstancesListingsSet::Union{Void,Array{ReservedInstancesListing,1}}
     function DescribeReservedInstancesListingsResult(;requestId=nothing, reservedInstancesListingsSet=nothing)
@@ -1810,7 +1810,7 @@ type DescribeReservedInstancesListingsResult <: AbstractAWSType
 end # DescribeReservedInstancesListingsResult
 export DescribeReservedInstancesListingsResult
 
-type DescribeReservedInstancesListingsRequest <: AbstractAWSType
+mutable struct DescribeReservedInstancesListingsRequest <: AbstractAWSType
     filter::Union{Void,Array{Filter,1}}
     reservedInstancesId::Union{Void,String}
     reservedInstancesListingId::Union{Void,String}
@@ -1831,7 +1831,7 @@ end
 DescribeReservedInstancesListings(env::AWSEnv; kwargs...) = DescribeReservedInstancesListings(env, DescribeReservedInstancesListingsRequest(; kwargs...))
 export DescribeReservedInstancesListings
 
-type DeleteRouteTableResult <: AbstractAWSType
+mutable struct DeleteRouteTableResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function DeleteRouteTableResult(;requestId=nothing, _return=nothing)
@@ -1841,7 +1841,7 @@ type DeleteRouteTableResult <: AbstractAWSType
 end # DeleteRouteTableResult
 export DeleteRouteTableResult
 
-type DeleteRouteTableRequest <: AbstractAWSType
+mutable struct DeleteRouteTableRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     routeTableId::Union{Void,String}
     function DeleteRouteTableRequest(;dryRun=nothing, routeTableId=nothing)
@@ -1861,7 +1861,7 @@ end
 DeleteRouteTable(env::AWSEnv; kwargs...) = DeleteRouteTable(env, DeleteRouteTableRequest(; kwargs...))
 export DeleteRouteTable
 
-type StopInstancesResult <: AbstractAWSType
+mutable struct StopInstancesResult <: AbstractAWSType
     instancesSet::Union{Void,Array{InstanceStateChange,1}}
     requestId::Union{Void,String}
     function StopInstancesResult(;instancesSet=nothing, requestId=nothing)
@@ -1871,7 +1871,7 @@ type StopInstancesResult <: AbstractAWSType
 end # StopInstancesResult
 export StopInstancesResult
 
-type StopInstancesRequest <: AbstractAWSType
+mutable struct StopInstancesRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     force::Union{Void,Bool}
     instanceId::Union{Void,Array{String,1}}
@@ -1892,7 +1892,7 @@ end
 StopInstances(env::AWSEnv; kwargs...) = StopInstances(env, StopInstancesRequest(; kwargs...))
 export StopInstances
 
-type PurchaseScheduledInstancesResult <: AbstractAWSType
+mutable struct PurchaseScheduledInstancesResult <: AbstractAWSType
     requestId::Union{Void,String}
     scheduledInstanceSet::Union{Void,Array{ScheduledInstance,1}}
     function PurchaseScheduledInstancesResult(;requestId=nothing, scheduledInstanceSet=nothing)
@@ -1902,7 +1902,7 @@ type PurchaseScheduledInstancesResult <: AbstractAWSType
 end # PurchaseScheduledInstancesResult
 export PurchaseScheduledInstancesResult
 
-type PurchaseScheduledInstancesRequest <: AbstractAWSType
+mutable struct PurchaseScheduledInstancesRequest <: AbstractAWSType
     clientToken::Union{Void,String}
     dryRun::Union{Void,Bool}
     purchaseRequest::Union{Void,Array{PurchaseRequest,1}}
@@ -1923,7 +1923,7 @@ end
 PurchaseScheduledInstances(env::AWSEnv; kwargs...) = PurchaseScheduledInstances(env, PurchaseScheduledInstancesRequest(; kwargs...))
 export PurchaseScheduledInstances
 
-type GetConsoleScreenshotResult <: AbstractAWSType
+mutable struct GetConsoleScreenshotResult <: AbstractAWSType
     imageData::Union{Void,String}
     instanceId::Union{Void,String}
     requestId::Union{Void,String}
@@ -1934,7 +1934,7 @@ type GetConsoleScreenshotResult <: AbstractAWSType
 end # GetConsoleScreenshotResult
 export GetConsoleScreenshotResult
 
-type GetConsoleScreenshotRequest <: AbstractAWSType
+mutable struct GetConsoleScreenshotRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     instanceId::Union{Void,String}
     wakeUp::Union{Void,Bool}
@@ -1955,7 +1955,7 @@ end
 GetConsoleScreenshot(env::AWSEnv; kwargs...) = GetConsoleScreenshot(env, GetConsoleScreenshotRequest(; kwargs...))
 export GetConsoleScreenshot
 
-type ModifyReservedInstancesResult <: AbstractAWSType
+mutable struct ModifyReservedInstancesResult <: AbstractAWSType
     requestId::Union{Void,String}
     reservedInstancesModificationId::Union{Void,String}
     function ModifyReservedInstancesResult(;requestId=nothing, reservedInstancesModificationId=nothing)
@@ -1965,7 +1965,7 @@ type ModifyReservedInstancesResult <: AbstractAWSType
 end # ModifyReservedInstancesResult
 export ModifyReservedInstancesResult
 
-type ModifyReservedInstancesRequest <: AbstractAWSType
+mutable struct ModifyReservedInstancesRequest <: AbstractAWSType
     clientToken::Union{Void,String}
     reservedInstancesConfigurationSetItemType::Union{Void,Array{ReservedInstancesConfiguration,1}}
     reservedInstancesId::Union{Void,Array{String,1}}
@@ -1986,7 +1986,7 @@ end
 ModifyReservedInstances(env::AWSEnv; kwargs...) = ModifyReservedInstances(env, ModifyReservedInstancesRequest(; kwargs...))
 export ModifyReservedInstances
 
-type DescribeAccountAttributesResult <: AbstractAWSType
+mutable struct DescribeAccountAttributesResult <: AbstractAWSType
     accountAttributeSet::Union{Void,Array{AccountAttribute,1}}
     requestId::Union{Void,String}
     function DescribeAccountAttributesResult(;accountAttributeSet=nothing, requestId=nothing)
@@ -1996,7 +1996,7 @@ type DescribeAccountAttributesResult <: AbstractAWSType
 end # DescribeAccountAttributesResult
 export DescribeAccountAttributesResult
 
-type DescribeAccountAttributesRequest <: AbstractAWSType
+mutable struct DescribeAccountAttributesRequest <: AbstractAWSType
     attributeName::Union{Void,Array{String,1}}
     dryRun::Union{Void,Bool}
     function DescribeAccountAttributesRequest(;attributeName=nothing, dryRun=nothing)
@@ -2016,7 +2016,7 @@ end
 DescribeAccountAttributes(env::AWSEnv; kwargs...) = DescribeAccountAttributes(env, DescribeAccountAttributesRequest(; kwargs...))
 export DescribeAccountAttributes
 
-type DescribeInstancesResult <: AbstractAWSType
+mutable struct DescribeInstancesResult <: AbstractAWSType
     nextToken::Union{Void,String}
     requestId::Union{Void,String}
     reservationSet::Union{Void,Array{Reservation,1}}
@@ -2027,7 +2027,7 @@ type DescribeInstancesResult <: AbstractAWSType
 end # DescribeInstancesResult
 export DescribeInstancesResult
 
-type DescribeInstancesRequest <: AbstractAWSType
+mutable struct DescribeInstancesRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     filter::Union{Void,Array{Filter,1}}
     instanceId::Union{Void,Array{String,1}}
@@ -2050,7 +2050,7 @@ end
 DescribeInstances(env::AWSEnv; kwargs...) = DescribeInstances(env, DescribeInstancesRequest(; kwargs...))
 export DescribeInstances
 
-type DeleteEgressOnlyInternetGatewayResult <: AbstractAWSType
+mutable struct DeleteEgressOnlyInternetGatewayResult <: AbstractAWSType
     requestId::Union{Void,String}
     returnCode::Union{Void,Bool}
     function DeleteEgressOnlyInternetGatewayResult(;requestId=nothing, returnCode=nothing)
@@ -2060,7 +2060,7 @@ type DeleteEgressOnlyInternetGatewayResult <: AbstractAWSType
 end # DeleteEgressOnlyInternetGatewayResult
 export DeleteEgressOnlyInternetGatewayResult
 
-type DeleteEgressOnlyInternetGatewayRequest <: AbstractAWSType
+mutable struct DeleteEgressOnlyInternetGatewayRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     egressOnlyInternetGatewayId::Union{Void,String}
     function DeleteEgressOnlyInternetGatewayRequest(;dryRun=nothing, egressOnlyInternetGatewayId=nothing)
@@ -2080,7 +2080,7 @@ end
 DeleteEgressOnlyInternetGateway(env::AWSEnv; kwargs...) = DeleteEgressOnlyInternetGateway(env, DeleteEgressOnlyInternetGatewayRequest(; kwargs...))
 export DeleteEgressOnlyInternetGateway
 
-type DescribeSpotPriceHistoryResult <: AbstractAWSType
+mutable struct DescribeSpotPriceHistoryResult <: AbstractAWSType
     nextToken::Union{Void,String}
     requestId::Union{Void,String}
     spotPriceHistorySet::Union{Void,Array{SpotPrice,1}}
@@ -2091,7 +2091,7 @@ type DescribeSpotPriceHistoryResult <: AbstractAWSType
 end # DescribeSpotPriceHistoryResult
 export DescribeSpotPriceHistoryResult
 
-type DescribeSpotPriceHistoryRequest <: AbstractAWSType
+mutable struct DescribeSpotPriceHistoryRequest <: AbstractAWSType
     availabilityZone::Union{Void,String}
     dryRun::Union{Void,Bool}
     endTime::Union{Void,DateTime}
@@ -2118,7 +2118,7 @@ end
 DescribeSpotPriceHistory(env::AWSEnv; kwargs...) = DescribeSpotPriceHistory(env, DescribeSpotPriceHistoryRequest(; kwargs...))
 export DescribeSpotPriceHistory
 
-type AssociateSubnetCidrBlockResult <: AbstractAWSType
+mutable struct AssociateSubnetCidrBlockResult <: AbstractAWSType
     ipv6CidrBlockAssociation::Union{Void,SubnetIpv6CidrBlockAssociation}
     requestId::Union{Void,String}
     subnetId::Union{Void,String}
@@ -2129,7 +2129,7 @@ type AssociateSubnetCidrBlockResult <: AbstractAWSType
 end # AssociateSubnetCidrBlockResult
 export AssociateSubnetCidrBlockResult
 
-type AssociateSubnetCidrBlockRequest <: AbstractAWSType
+mutable struct AssociateSubnetCidrBlockRequest <: AbstractAWSType
     ipv6CidrBlock::Union{Void,String}
     subnetId::Union{Void,String}
     function AssociateSubnetCidrBlockRequest(;ipv6CidrBlock=nothing, subnetId=nothing)
@@ -2149,7 +2149,7 @@ end
 AssociateSubnetCidrBlock(env::AWSEnv; kwargs...) = AssociateSubnetCidrBlock(env, AssociateSubnetCidrBlockRequest(; kwargs...))
 export AssociateSubnetCidrBlock
 
-type RequestSpotFleetResult <: AbstractAWSType
+mutable struct RequestSpotFleetResult <: AbstractAWSType
     requestId::Union{Void,String}
     spotFleetRequestId::Union{Void,String}
     function RequestSpotFleetResult(;requestId=nothing, spotFleetRequestId=nothing)
@@ -2159,7 +2159,7 @@ type RequestSpotFleetResult <: AbstractAWSType
 end # RequestSpotFleetResult
 export RequestSpotFleetResult
 
-type RequestSpotFleetRequest <: AbstractAWSType
+mutable struct RequestSpotFleetRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     spotFleetRequestConfig::Union{Void,SpotFleetRequestConfigData}
     function RequestSpotFleetRequest(;dryRun=nothing, spotFleetRequestConfig=nothing)
@@ -2179,7 +2179,7 @@ end
 RequestSpotFleet(env::AWSEnv; kwargs...) = RequestSpotFleet(env, RequestSpotFleetRequest(; kwargs...))
 export RequestSpotFleet
 
-type DescribeReservedInstancesModificationsResult <: AbstractAWSType
+mutable struct DescribeReservedInstancesModificationsResult <: AbstractAWSType
     nextToken::Union{Void,String}
     requestId::Union{Void,String}
     reservedInstancesModificationsSet::Union{Void,Array{ReservedInstancesModification,1}}
@@ -2190,7 +2190,7 @@ type DescribeReservedInstancesModificationsResult <: AbstractAWSType
 end # DescribeReservedInstancesModificationsResult
 export DescribeReservedInstancesModificationsResult
 
-type DescribeReservedInstancesModificationsRequest <: AbstractAWSType
+mutable struct DescribeReservedInstancesModificationsRequest <: AbstractAWSType
     filter::Union{Void,Array{Filter,1}}
     nextToken::Union{Void,String}
     reservedInstancesModificationId::Union{Void,Array{String,1}}
@@ -2211,7 +2211,7 @@ end
 DescribeReservedInstancesModifications(env::AWSEnv; kwargs...) = DescribeReservedInstancesModifications(env, DescribeReservedInstancesModificationsRequest(; kwargs...))
 export DescribeReservedInstancesModifications
 
-type CancelSpotInstanceRequestsResult <: AbstractAWSType
+mutable struct CancelSpotInstanceRequestsResult <: AbstractAWSType
     requestId::Union{Void,String}
     spotInstanceRequestSet::Union{Void,Array{CancelledSpotInstanceRequest,1}}
     function CancelSpotInstanceRequestsResult(;requestId=nothing, spotInstanceRequestSet=nothing)
@@ -2221,7 +2221,7 @@ type CancelSpotInstanceRequestsResult <: AbstractAWSType
 end # CancelSpotInstanceRequestsResult
 export CancelSpotInstanceRequestsResult
 
-type CancelSpotInstanceRequestsRequest <: AbstractAWSType
+mutable struct CancelSpotInstanceRequestsRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     spotInstanceRequestId::Union{Void,Array{String,1}}
     function CancelSpotInstanceRequestsRequest(;dryRun=nothing, spotInstanceRequestId=nothing)
@@ -2241,7 +2241,7 @@ end
 CancelSpotInstanceRequests(env::AWSEnv; kwargs...) = CancelSpotInstanceRequests(env, CancelSpotInstanceRequestsRequest(; kwargs...))
 export CancelSpotInstanceRequests
 
-type DeletePlacementGroupResult <: AbstractAWSType
+mutable struct DeletePlacementGroupResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function DeletePlacementGroupResult(;requestId=nothing, _return=nothing)
@@ -2251,7 +2251,7 @@ type DeletePlacementGroupResult <: AbstractAWSType
 end # DeletePlacementGroupResult
 export DeletePlacementGroupResult
 
-type DeletePlacementGroupRequest <: AbstractAWSType
+mutable struct DeletePlacementGroupRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     groupName::Union{Void,String}
     function DeletePlacementGroupRequest(;dryRun=nothing, groupName=nothing)
@@ -2271,7 +2271,7 @@ end
 DeletePlacementGroup(env::AWSEnv; kwargs...) = DeletePlacementGroup(env, DeletePlacementGroupRequest(; kwargs...))
 export DeletePlacementGroup
 
-type DescribeDhcpOptionsResult <: AbstractAWSType
+mutable struct DescribeDhcpOptionsResult <: AbstractAWSType
     dhcpOptionsSet::Union{Void,Array{DhcpOptions,1}}
     requestId::Union{Void,String}
     function DescribeDhcpOptionsResult(;dhcpOptionsSet=nothing, requestId=nothing)
@@ -2281,7 +2281,7 @@ type DescribeDhcpOptionsResult <: AbstractAWSType
 end # DescribeDhcpOptionsResult
 export DescribeDhcpOptionsResult
 
-type DescribeDhcpOptionsRequest <: AbstractAWSType
+mutable struct DescribeDhcpOptionsRequest <: AbstractAWSType
     dhcpOptionsId::Union{Void,Array{String,1}}
     dryRun::Union{Void,Bool}
     filter::Union{Void,Array{Filter,1}}
@@ -2302,7 +2302,7 @@ end
 DescribeDhcpOptions(env::AWSEnv; kwargs...) = DescribeDhcpOptions(env, DescribeDhcpOptionsRequest(; kwargs...))
 export DescribeDhcpOptions
 
-type AllocateHostsResult <: AbstractAWSType
+mutable struct AllocateHostsResult <: AbstractAWSType
     hostIdSet::Union{Void,Array{String,1}}
     requestId::Union{Void,String}
     function AllocateHostsResult(;hostIdSet=nothing, requestId=nothing)
@@ -2312,7 +2312,7 @@ type AllocateHostsResult <: AbstractAWSType
 end # AllocateHostsResult
 export AllocateHostsResult
 
-type AllocateHostsRequest <: AbstractAWSType
+mutable struct AllocateHostsRequest <: AbstractAWSType
     autoPlacement::Union{Void,String}
     availabilityZone::Union{Void,String}
     clientToken::Union{Void,String}
@@ -2335,7 +2335,7 @@ end
 AllocateHosts(env::AWSEnv; kwargs...) = AllocateHosts(env, AllocateHostsRequest(; kwargs...))
 export AllocateHosts
 
-type DescribeIdFormatResult <: AbstractAWSType
+mutable struct DescribeIdFormatResult <: AbstractAWSType
     requestId::Union{Void,String}
     statusSet::Union{Void,Array{IdFormat,1}}
     function DescribeIdFormatResult(;requestId=nothing, statusSet=nothing)
@@ -2345,7 +2345,7 @@ type DescribeIdFormatResult <: AbstractAWSType
 end # DescribeIdFormatResult
 export DescribeIdFormatResult
 
-type DescribeIdFormatRequest <: AbstractAWSType
+mutable struct DescribeIdFormatRequest <: AbstractAWSType
     resource::Union{Void,String}
     function DescribeIdFormatRequest(;resource=nothing)
         new(resource)
@@ -2364,7 +2364,7 @@ end
 DescribeIdFormat(env::AWSEnv; kwargs...) = DescribeIdFormat(env, DescribeIdFormatRequest(; kwargs...))
 export DescribeIdFormat
 
-type ModifyVpcPeeringConnectionOptionsResult <: AbstractAWSType
+mutable struct ModifyVpcPeeringConnectionOptionsResult <: AbstractAWSType
     accepterPeeringConnectionOptions::Union{Void,PeeringConnectionOptions}
     requesterPeeringConnectionOptions::Union{Void,PeeringConnectionOptions}
     requestId::Union{Void,String}
@@ -2375,7 +2375,7 @@ type ModifyVpcPeeringConnectionOptionsResult <: AbstractAWSType
 end # ModifyVpcPeeringConnectionOptionsResult
 export ModifyVpcPeeringConnectionOptionsResult
 
-type ModifyVpcPeeringConnectionOptionsRequest <: AbstractAWSType
+mutable struct ModifyVpcPeeringConnectionOptionsRequest <: AbstractAWSType
     accepterPeeringConnectionOptions::Union{Void,PeeringConnectionOptionsRequest}
     dryRun::Union{Void,Bool}
     requesterPeeringConnectionOptions::Union{Void,PeeringConnectionOptionsRequest}
@@ -2397,7 +2397,7 @@ end
 ModifyVpcPeeringConnectionOptions(env::AWSEnv; kwargs...) = ModifyVpcPeeringConnectionOptions(env, ModifyVpcPeeringConnectionOptionsRequest(; kwargs...))
 export ModifyVpcPeeringConnectionOptions
 
-type DescribeHostsResult <: AbstractAWSType
+mutable struct DescribeHostsResult <: AbstractAWSType
     hostSet::Union{Void,Array{Host,1}}
     nextToken::Union{Void,String}
     requestId::Union{Void,String}
@@ -2408,7 +2408,7 @@ type DescribeHostsResult <: AbstractAWSType
 end # DescribeHostsResult
 export DescribeHostsResult
 
-type DescribeHostsRequest <: AbstractAWSType
+mutable struct DescribeHostsRequest <: AbstractAWSType
     filter::Union{Void,Array{Filter,1}}
     hostId::Union{Void,Array{String,1}}
     maxResults::Union{Void,Int64}
@@ -2430,7 +2430,7 @@ end
 DescribeHosts(env::AWSEnv; kwargs...) = DescribeHosts(env, DescribeHostsRequest(; kwargs...))
 export DescribeHosts
 
-type DescribeVolumeAttributeResult <: AbstractAWSType
+mutable struct DescribeVolumeAttributeResult <: AbstractAWSType
     autoEnableIO::Union{Void,AttributeBooleanValue}
     productCodes::Union{Void,Array{ProductCode,1}}
     requestId::Union{Void,String}
@@ -2442,7 +2442,7 @@ type DescribeVolumeAttributeResult <: AbstractAWSType
 end # DescribeVolumeAttributeResult
 export DescribeVolumeAttributeResult
 
-type DescribeVolumeAttributeRequest <: AbstractAWSType
+mutable struct DescribeVolumeAttributeRequest <: AbstractAWSType
     attribute::Union{Void,String}
     dryRun::Union{Void,Bool}
     volumeId::Union{Void,String}
@@ -2463,7 +2463,7 @@ end
 DescribeVolumeAttribute(env::AWSEnv; kwargs...) = DescribeVolumeAttribute(env, DescribeVolumeAttributeRequest(; kwargs...))
 export DescribeVolumeAttribute
 
-type DisassociateRouteTableResult <: AbstractAWSType
+mutable struct DisassociateRouteTableResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function DisassociateRouteTableResult(;requestId=nothing, _return=nothing)
@@ -2473,7 +2473,7 @@ type DisassociateRouteTableResult <: AbstractAWSType
 end # DisassociateRouteTableResult
 export DisassociateRouteTableResult
 
-type DisassociateRouteTableRequest <: AbstractAWSType
+mutable struct DisassociateRouteTableRequest <: AbstractAWSType
     associationId::Union{Void,String}
     dryRun::Union{Void,Bool}
     function DisassociateRouteTableRequest(;associationId=nothing, dryRun=nothing)
@@ -2493,7 +2493,7 @@ end
 DisassociateRouteTable(env::AWSEnv; kwargs...) = DisassociateRouteTable(env, DisassociateRouteTableRequest(; kwargs...))
 export DisassociateRouteTable
 
-type CancelImportTaskResult <: AbstractAWSType
+mutable struct CancelImportTaskResult <: AbstractAWSType
     importTaskId::Union{Void,String}
     previousState::Union{Void,String}
     requestId::Union{Void,String}
@@ -2505,7 +2505,7 @@ type CancelImportTaskResult <: AbstractAWSType
 end # CancelImportTaskResult
 export CancelImportTaskResult
 
-type CancelImportTaskRequest <: AbstractAWSType
+mutable struct CancelImportTaskRequest <: AbstractAWSType
     cancelReason::Union{Void,String}
     dryRun::Union{Void,Bool}
     importTaskId::Union{Void,String}
@@ -2526,7 +2526,7 @@ end
 CancelImportTask(env::AWSEnv; kwargs...) = CancelImportTask(env, CancelImportTaskRequest(; kwargs...))
 export CancelImportTask
 
-type AuthorizeSecurityGroupIngressResult <: AbstractAWSType
+mutable struct AuthorizeSecurityGroupIngressResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function AuthorizeSecurityGroupIngressResult(;requestId=nothing, _return=nothing)
@@ -2536,7 +2536,7 @@ type AuthorizeSecurityGroupIngressResult <: AbstractAWSType
 end # AuthorizeSecurityGroupIngressResult
 export AuthorizeSecurityGroupIngressResult
 
-type AuthorizeSecurityGroupIngressRequest <: AbstractAWSType
+mutable struct AuthorizeSecurityGroupIngressRequest <: AbstractAWSType
     cidrIp::Union{Void,String}
     dryRun::Union{Void,Bool}
     fromPort::Union{Void,Int64}
@@ -2564,7 +2564,7 @@ end
 AuthorizeSecurityGroupIngress(env::AWSEnv; kwargs...) = AuthorizeSecurityGroupIngress(env, AuthorizeSecurityGroupIngressRequest(; kwargs...))
 export AuthorizeSecurityGroupIngress
 
-type ImportSnapshotResult <: AbstractAWSType
+mutable struct ImportSnapshotResult <: AbstractAWSType
     description::Union{Void,String}
     importTaskId::Union{Void,String}
     requestId::Union{Void,String}
@@ -2576,7 +2576,7 @@ type ImportSnapshotResult <: AbstractAWSType
 end # ImportSnapshotResult
 export ImportSnapshotResult
 
-type ImportSnapshotRequest <: AbstractAWSType
+mutable struct ImportSnapshotRequest <: AbstractAWSType
     clientData::Union{Void,ClientData}
     clientToken::Union{Void,String}
     description::Union{Void,String}
@@ -2600,7 +2600,7 @@ end
 ImportSnapshot(env::AWSEnv; kwargs...) = ImportSnapshot(env, ImportSnapshotRequest(; kwargs...))
 export ImportSnapshot
 
-type ReportInstanceStatusResult <: AbstractAWSType
+mutable struct ReportInstanceStatusResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function ReportInstanceStatusResult(;requestId=nothing, _return=nothing)
@@ -2610,7 +2610,7 @@ type ReportInstanceStatusResult <: AbstractAWSType
 end # ReportInstanceStatusResult
 export ReportInstanceStatusResult
 
-type ReportInstanceStatusRequest <: AbstractAWSType
+mutable struct ReportInstanceStatusRequest <: AbstractAWSType
     description::Union{Void,String}
     dryRun::Union{Void,Bool}
     endTime::Union{Void,DateTime}
@@ -2635,7 +2635,7 @@ end
 ReportInstanceStatus(env::AWSEnv; kwargs...) = ReportInstanceStatus(env, ReportInstanceStatusRequest(; kwargs...))
 export ReportInstanceStatus
 
-type ModifyHostsResult <: AbstractAWSType
+mutable struct ModifyHostsResult <: AbstractAWSType
     requestId::Union{Void,String}
     successful::Union{Void,Array{String,1}}
     unsuccessful::Union{Void,Array{UnsuccessfulItem,1}}
@@ -2646,7 +2646,7 @@ type ModifyHostsResult <: AbstractAWSType
 end # ModifyHostsResult
 export ModifyHostsResult
 
-type ModifyHostsRequest <: AbstractAWSType
+mutable struct ModifyHostsRequest <: AbstractAWSType
     autoPlacement::Union{Void,String}
     hostId::Union{Void,Array{String,1}}
     function ModifyHostsRequest(;autoPlacement=nothing, hostId=nothing)
@@ -2666,7 +2666,7 @@ end
 ModifyHosts(env::AWSEnv; kwargs...) = ModifyHosts(env, ModifyHostsRequest(; kwargs...))
 export ModifyHosts
 
-type ModifyVpcAttributeResult <: AbstractAWSType
+mutable struct ModifyVpcAttributeResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function ModifyVpcAttributeResult(;requestId=nothing, _return=nothing)
@@ -2676,7 +2676,7 @@ type ModifyVpcAttributeResult <: AbstractAWSType
 end # ModifyVpcAttributeResult
 export ModifyVpcAttributeResult
 
-type ModifyVpcAttributeRequest <: AbstractAWSType
+mutable struct ModifyVpcAttributeRequest <: AbstractAWSType
     enableDnsHostnames::Union{Void,AttributeBooleanValue}
     enableDnsSupport::Union{Void,AttributeBooleanValue}
     vpcId::Union{Void,String}
@@ -2697,7 +2697,7 @@ end
 ModifyVpcAttribute(env::AWSEnv; kwargs...) = ModifyVpcAttribute(env, ModifyVpcAttributeRequest(; kwargs...))
 export ModifyVpcAttribute
 
-type ModifyInstanceAttributeResult <: AbstractAWSType
+mutable struct ModifyInstanceAttributeResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function ModifyInstanceAttributeResult(;requestId=nothing, _return=nothing)
@@ -2707,7 +2707,7 @@ type ModifyInstanceAttributeResult <: AbstractAWSType
 end # ModifyInstanceAttributeResult
 export ModifyInstanceAttributeResult
 
-type ModifyInstanceAttributeRequest <: AbstractAWSType
+mutable struct ModifyInstanceAttributeRequest <: AbstractAWSType
     attribute::Union{Void,String}
     blockDeviceMapping::Union{Void,Array{InstanceBlockDeviceMappingSpecification,1}}
     disableApiTermination::Union{Void,AttributeBooleanValue}
@@ -2741,7 +2741,7 @@ end
 ModifyInstanceAttribute(env::AWSEnv; kwargs...) = ModifyInstanceAttribute(env, ModifyInstanceAttributeRequest(; kwargs...))
 export ModifyInstanceAttribute
 
-type CreateSpotDatafeedSubscriptionResult <: AbstractAWSType
+mutable struct CreateSpotDatafeedSubscriptionResult <: AbstractAWSType
     requestId::Union{Void,String}
     spotDatafeedSubscription::Union{Void,SpotDatafeedSubscription}
     function CreateSpotDatafeedSubscriptionResult(;requestId=nothing, spotDatafeedSubscription=nothing)
@@ -2751,7 +2751,7 @@ type CreateSpotDatafeedSubscriptionResult <: AbstractAWSType
 end # CreateSpotDatafeedSubscriptionResult
 export CreateSpotDatafeedSubscriptionResult
 
-type CreateSpotDatafeedSubscriptionRequest <: AbstractAWSType
+mutable struct CreateSpotDatafeedSubscriptionRequest <: AbstractAWSType
     bucket::Union{Void,String}
     dryRun::Union{Void,Bool}
     prefix::Union{Void,String}
@@ -2772,7 +2772,7 @@ end
 CreateSpotDatafeedSubscription(env::AWSEnv; kwargs...) = CreateSpotDatafeedSubscription(env, CreateSpotDatafeedSubscriptionRequest(; kwargs...))
 export CreateSpotDatafeedSubscription
 
-type DeleteNatGatewayResult <: AbstractAWSType
+mutable struct DeleteNatGatewayResult <: AbstractAWSType
     natGatewayId::Union{Void,String}
     requestId::Union{Void,String}
     function DeleteNatGatewayResult(;natGatewayId=nothing, requestId=nothing)
@@ -2782,7 +2782,7 @@ type DeleteNatGatewayResult <: AbstractAWSType
 end # DeleteNatGatewayResult
 export DeleteNatGatewayResult
 
-type DeleteNatGatewayRequest <: AbstractAWSType
+mutable struct DeleteNatGatewayRequest <: AbstractAWSType
     natGatewayId::Union{Void,String}
     function DeleteNatGatewayRequest(;natGatewayId=nothing)
         new(natGatewayId)
@@ -2801,7 +2801,7 @@ end
 DeleteNatGateway(env::AWSEnv; kwargs...) = DeleteNatGateway(env, DeleteNatGatewayRequest(; kwargs...))
 export DeleteNatGateway
 
-type GetConsoleOutputResult <: AbstractAWSType
+mutable struct GetConsoleOutputResult <: AbstractAWSType
     instanceId::Union{Void,String}
     output::Union{Void,String}
     requestId::Union{Void,String}
@@ -2813,7 +2813,7 @@ type GetConsoleOutputResult <: AbstractAWSType
 end # GetConsoleOutputResult
 export GetConsoleOutputResult
 
-type GetConsoleOutputRequest <: AbstractAWSType
+mutable struct GetConsoleOutputRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     instanceId::Union{Void,String}
     function GetConsoleOutputRequest(;dryRun=nothing, instanceId=nothing)
@@ -2833,7 +2833,7 @@ end
 GetConsoleOutput(env::AWSEnv; kwargs...) = GetConsoleOutput(env, GetConsoleOutputRequest(; kwargs...))
 export GetConsoleOutput
 
-type CreateRouteTableResult <: AbstractAWSType
+mutable struct CreateRouteTableResult <: AbstractAWSType
     requestId::Union{Void,String}
     routeTable::Union{Void,RouteTable}
     function CreateRouteTableResult(;requestId=nothing, routeTable=nothing)
@@ -2843,7 +2843,7 @@ type CreateRouteTableResult <: AbstractAWSType
 end # CreateRouteTableResult
 export CreateRouteTableResult
 
-type CreateRouteTableRequest <: AbstractAWSType
+mutable struct CreateRouteTableRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     vpcId::Union{Void,String}
     function CreateRouteTableRequest(;dryRun=nothing, vpcId=nothing)
@@ -2863,7 +2863,7 @@ end
 CreateRouteTable(env::AWSEnv; kwargs...) = CreateRouteTable(env, CreateRouteTableRequest(; kwargs...))
 export CreateRouteTable
 
-type DescribeBundleTasksResult <: AbstractAWSType
+mutable struct DescribeBundleTasksResult <: AbstractAWSType
     bundleInstanceTasksSet::Union{Void,Array{BundleTask,1}}
     requestId::Union{Void,String}
     function DescribeBundleTasksResult(;bundleInstanceTasksSet=nothing, requestId=nothing)
@@ -2873,7 +2873,7 @@ type DescribeBundleTasksResult <: AbstractAWSType
 end # DescribeBundleTasksResult
 export DescribeBundleTasksResult
 
-type DescribeBundleTasksRequest <: AbstractAWSType
+mutable struct DescribeBundleTasksRequest <: AbstractAWSType
     bundleId::Union{Void,Array{String,1}}
     dryRun::Union{Void,Bool}
     filter::Union{Void,Array{Filter,1}}
@@ -2894,7 +2894,7 @@ end
 DescribeBundleTasks(env::AWSEnv; kwargs...) = DescribeBundleTasks(env, DescribeBundleTasksRequest(; kwargs...))
 export DescribeBundleTasks
 
-type DeleteVpcPeeringConnectionResult <: AbstractAWSType
+mutable struct DeleteVpcPeeringConnectionResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function DeleteVpcPeeringConnectionResult(;requestId=nothing, _return=nothing)
@@ -2904,7 +2904,7 @@ type DeleteVpcPeeringConnectionResult <: AbstractAWSType
 end # DeleteVpcPeeringConnectionResult
 export DeleteVpcPeeringConnectionResult
 
-type DeleteVpcPeeringConnectionRequest <: AbstractAWSType
+mutable struct DeleteVpcPeeringConnectionRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     vpcPeeringConnectionId::Union{Void,String}
     function DeleteVpcPeeringConnectionRequest(;dryRun=nothing, vpcPeeringConnectionId=nothing)
@@ -2924,7 +2924,7 @@ end
 DeleteVpcPeeringConnection(env::AWSEnv; kwargs...) = DeleteVpcPeeringConnection(env, DeleteVpcPeeringConnectionRequest(; kwargs...))
 export DeleteVpcPeeringConnection
 
-type ModifyIdentityIdFormatResult <: AbstractAWSType
+mutable struct ModifyIdentityIdFormatResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function ModifyIdentityIdFormatResult(;requestId=nothing, _return=nothing)
@@ -2934,7 +2934,7 @@ type ModifyIdentityIdFormatResult <: AbstractAWSType
 end # ModifyIdentityIdFormatResult
 export ModifyIdentityIdFormatResult
 
-type ModifyIdentityIdFormatRequest <: AbstractAWSType
+mutable struct ModifyIdentityIdFormatRequest <: AbstractAWSType
     principalArn::Union{Void,String}
     resource::Union{Void,String}
     useLongIds::Union{Void,Bool}
@@ -2955,7 +2955,7 @@ end
 ModifyIdentityIdFormat(env::AWSEnv; kwargs...) = ModifyIdentityIdFormat(env, ModifyIdentityIdFormatRequest(; kwargs...))
 export ModifyIdentityIdFormat
 
-type ReplaceRouteResult <: AbstractAWSType
+mutable struct ReplaceRouteResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function ReplaceRouteResult(;requestId=nothing, _return=nothing)
@@ -2965,7 +2965,7 @@ type ReplaceRouteResult <: AbstractAWSType
 end # ReplaceRouteResult
 export ReplaceRouteResult
 
-type ReplaceRouteRequest <: AbstractAWSType
+mutable struct ReplaceRouteRequest <: AbstractAWSType
     destinationCidrBlock::Union{Void,String}
     destinationIpv6CidrBlock::Union{Void,String}
     dryRun::Union{Void,Bool}
@@ -2993,7 +2993,7 @@ end
 ReplaceRoute(env::AWSEnv; kwargs...) = ReplaceRoute(env, ReplaceRouteRequest(; kwargs...))
 export ReplaceRoute
 
-type AssociateIamInstanceProfileResult <: AbstractAWSType
+mutable struct AssociateIamInstanceProfileResult <: AbstractAWSType
     iamInstanceProfileAssociation::Union{Void,IamInstanceProfileAssociation}
     requestId::Union{Void,String}
     function AssociateIamInstanceProfileResult(;iamInstanceProfileAssociation=nothing, requestId=nothing)
@@ -3003,7 +3003,7 @@ type AssociateIamInstanceProfileResult <: AbstractAWSType
 end # AssociateIamInstanceProfileResult
 export AssociateIamInstanceProfileResult
 
-type AssociateIamInstanceProfileRequest <: AbstractAWSType
+mutable struct AssociateIamInstanceProfileRequest <: AbstractAWSType
     iamInstanceProfile::Union{Void,IamInstanceProfileSpecification}
     instanceId::Union{Void,String}
     function AssociateIamInstanceProfileRequest(;iamInstanceProfile=nothing, instanceId=nothing)
@@ -3023,7 +3023,7 @@ end
 AssociateIamInstanceProfile(env::AWSEnv; kwargs...) = AssociateIamInstanceProfile(env, AssociateIamInstanceProfileRequest(; kwargs...))
 export AssociateIamInstanceProfile
 
-type DeleteKeyPairResult <: AbstractAWSType
+mutable struct DeleteKeyPairResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function DeleteKeyPairResult(;requestId=nothing, _return=nothing)
@@ -3033,7 +3033,7 @@ type DeleteKeyPairResult <: AbstractAWSType
 end # DeleteKeyPairResult
 export DeleteKeyPairResult
 
-type DeleteKeyPairRequest <: AbstractAWSType
+mutable struct DeleteKeyPairRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     keyName::Union{Void,String}
     function DeleteKeyPairRequest(;dryRun=nothing, keyName=nothing)
@@ -3053,7 +3053,7 @@ end
 DeleteKeyPair(env::AWSEnv; kwargs...) = DeleteKeyPair(env, DeleteKeyPairRequest(; kwargs...))
 export DeleteKeyPair
 
-type ModifyImageAttributeResult <: AbstractAWSType
+mutable struct ModifyImageAttributeResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function ModifyImageAttributeResult(;requestId=nothing, _return=nothing)
@@ -3063,7 +3063,7 @@ type ModifyImageAttributeResult <: AbstractAWSType
 end # ModifyImageAttributeResult
 export ModifyImageAttributeResult
 
-type ModifyImageAttributeRequest <: AbstractAWSType
+mutable struct ModifyImageAttributeRequest <: AbstractAWSType
     attribute::Union{Void,String}
     description::Union{Void,AttributeValue}
     dryRun::Union{Void,Bool}
@@ -3091,7 +3091,7 @@ end
 ModifyImageAttribute(env::AWSEnv; kwargs...) = ModifyImageAttribute(env, ModifyImageAttributeRequest(; kwargs...))
 export ModifyImageAttribute
 
-type DescribeHostReservationOfferingsResult <: AbstractAWSType
+mutable struct DescribeHostReservationOfferingsResult <: AbstractAWSType
     nextToken::Union{Void,String}
     offeringSet::Union{Void,Array{HostOffering,1}}
     requestId::Union{Void,String}
@@ -3102,7 +3102,7 @@ type DescribeHostReservationOfferingsResult <: AbstractAWSType
 end # DescribeHostReservationOfferingsResult
 export DescribeHostReservationOfferingsResult
 
-type DescribeHostReservationOfferingsRequest <: AbstractAWSType
+mutable struct DescribeHostReservationOfferingsRequest <: AbstractAWSType
     filter::Union{Void,Array{Filter,1}}
     maxDuration::Union{Void,Int64}
     maxResults::Union{Void,Int64}
@@ -3126,7 +3126,7 @@ end
 DescribeHostReservationOfferings(env::AWSEnv; kwargs...) = DescribeHostReservationOfferings(env, DescribeHostReservationOfferingsRequest(; kwargs...))
 export DescribeHostReservationOfferings
 
-type ReleaseAddressResult <: AbstractAWSType
+mutable struct ReleaseAddressResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function ReleaseAddressResult(;requestId=nothing, _return=nothing)
@@ -3136,7 +3136,7 @@ type ReleaseAddressResult <: AbstractAWSType
 end # ReleaseAddressResult
 export ReleaseAddressResult
 
-type ReleaseAddressRequest <: AbstractAWSType
+mutable struct ReleaseAddressRequest <: AbstractAWSType
     allocationId::Union{Void,String}
     dryRun::Union{Void,Bool}
     publicIp::Union{Void,String}
@@ -3157,7 +3157,7 @@ end
 ReleaseAddress(env::AWSEnv; kwargs...) = ReleaseAddress(env, ReleaseAddressRequest(; kwargs...))
 export ReleaseAddress
 
-type MonitorInstancesResult <: AbstractAWSType
+mutable struct MonitorInstancesResult <: AbstractAWSType
     instancesSet::Union{Void,Array{InstanceMonitoring,1}}
     requestId::Union{Void,String}
     function MonitorInstancesResult(;instancesSet=nothing, requestId=nothing)
@@ -3167,7 +3167,7 @@ type MonitorInstancesResult <: AbstractAWSType
 end # MonitorInstancesResult
 export MonitorInstancesResult
 
-type MonitorInstancesRequest <: AbstractAWSType
+mutable struct MonitorInstancesRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     instanceId::Union{Void,Array{String,1}}
     function MonitorInstancesRequest(;dryRun=nothing, instanceId=nothing)
@@ -3187,7 +3187,7 @@ end
 MonitorInstances(env::AWSEnv; kwargs...) = MonitorInstances(env, MonitorInstancesRequest(; kwargs...))
 export MonitorInstances
 
-type DeleteInternetGatewayResult <: AbstractAWSType
+mutable struct DeleteInternetGatewayResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function DeleteInternetGatewayResult(;requestId=nothing, _return=nothing)
@@ -3197,7 +3197,7 @@ type DeleteInternetGatewayResult <: AbstractAWSType
 end # DeleteInternetGatewayResult
 export DeleteInternetGatewayResult
 
-type DeleteInternetGatewayRequest <: AbstractAWSType
+mutable struct DeleteInternetGatewayRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     internetGatewayId::Union{Void,String}
     function DeleteInternetGatewayRequest(;dryRun=nothing, internetGatewayId=nothing)
@@ -3217,7 +3217,7 @@ end
 DeleteInternetGateway(env::AWSEnv; kwargs...) = DeleteInternetGateway(env, DeleteInternetGatewayRequest(; kwargs...))
 export DeleteInternetGateway
 
-type CreateNetworkAclEntryResult <: AbstractAWSType
+mutable struct CreateNetworkAclEntryResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function CreateNetworkAclEntryResult(;requestId=nothing, _return=nothing)
@@ -3227,7 +3227,7 @@ type CreateNetworkAclEntryResult <: AbstractAWSType
 end # CreateNetworkAclEntryResult
 export CreateNetworkAclEntryResult
 
-type CreateNetworkAclEntryRequest <: AbstractAWSType
+mutable struct CreateNetworkAclEntryRequest <: AbstractAWSType
     cidrBlock::Union{Void,String}
     dryRun::Union{Void,Bool}
     egress::Union{Void,Bool}
@@ -3255,7 +3255,7 @@ end
 CreateNetworkAclEntry(env::AWSEnv; kwargs...) = CreateNetworkAclEntry(env, CreateNetworkAclEntryRequest(; kwargs...))
 export CreateNetworkAclEntry
 
-type DescribeClassicLinkInstancesResult <: AbstractAWSType
+mutable struct DescribeClassicLinkInstancesResult <: AbstractAWSType
     instancesSet::Union{Void,Array{ClassicLinkInstance,1}}
     nextToken::Union{Void,String}
     requestId::Union{Void,String}
@@ -3266,7 +3266,7 @@ type DescribeClassicLinkInstancesResult <: AbstractAWSType
 end # DescribeClassicLinkInstancesResult
 export DescribeClassicLinkInstancesResult
 
-type DescribeClassicLinkInstancesRequest <: AbstractAWSType
+mutable struct DescribeClassicLinkInstancesRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     filter::Union{Void,Array{Filter,1}}
     instanceId::Union{Void,Array{String,1}}
@@ -3289,7 +3289,7 @@ end
 DescribeClassicLinkInstances(env::AWSEnv; kwargs...) = DescribeClassicLinkInstances(env, DescribeClassicLinkInstancesRequest(; kwargs...))
 export DescribeClassicLinkInstances
 
-type CancelConversionTaskResult <: AbstractAWSType
+mutable struct CancelConversionTaskResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function CancelConversionTaskResult(;requestId=nothing, _return=nothing)
@@ -3299,7 +3299,7 @@ type CancelConversionTaskResult <: AbstractAWSType
 end # CancelConversionTaskResult
 export CancelConversionTaskResult
 
-type CancelConversionTaskRequest <: AbstractAWSType
+mutable struct CancelConversionTaskRequest <: AbstractAWSType
     conversionTaskId::Union{Void,String}
     dryRun::Union{Void,Bool}
     reasonMessage::Union{Void,String}
@@ -3320,7 +3320,7 @@ end
 CancelConversionTask(env::AWSEnv; kwargs...) = CancelConversionTask(env, CancelConversionTaskRequest(; kwargs...))
 export CancelConversionTask
 
-type DeleteSubnetResult <: AbstractAWSType
+mutable struct DeleteSubnetResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function DeleteSubnetResult(;requestId=nothing, _return=nothing)
@@ -3330,7 +3330,7 @@ type DeleteSubnetResult <: AbstractAWSType
 end # DeleteSubnetResult
 export DeleteSubnetResult
 
-type DeleteSubnetRequest <: AbstractAWSType
+mutable struct DeleteSubnetRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     subnetId::Union{Void,String}
     function DeleteSubnetRequest(;dryRun=nothing, subnetId=nothing)
@@ -3350,7 +3350,7 @@ end
 DeleteSubnet(env::AWSEnv; kwargs...) = DeleteSubnet(env, DeleteSubnetRequest(; kwargs...))
 export DeleteSubnet
 
-type CreateNatGatewayResult <: AbstractAWSType
+mutable struct CreateNatGatewayResult <: AbstractAWSType
     clientToken::Union{Void,String}
     natGateway::Union{Void,NatGateway}
     requestId::Union{Void,String}
@@ -3361,7 +3361,7 @@ type CreateNatGatewayResult <: AbstractAWSType
 end # CreateNatGatewayResult
 export CreateNatGatewayResult
 
-type CreateNatGatewayRequest <: AbstractAWSType
+mutable struct CreateNatGatewayRequest <: AbstractAWSType
     allocationId::Union{Void,String}
     clientToken::Union{Void,String}
     subnetId::Union{Void,String}
@@ -3382,7 +3382,7 @@ end
 CreateNatGateway(env::AWSEnv; kwargs...) = CreateNatGateway(env, CreateNatGatewayRequest(; kwargs...))
 export CreateNatGateway
 
-type DescribeVolumesModificationsResult <: AbstractAWSType
+mutable struct DescribeVolumesModificationsResult <: AbstractAWSType
     nextToken::Union{Void,String}
     requestId::Union{Void,String}
     volumeModificationSet::Union{Void,Array{VolumeModification,1}}
@@ -3393,7 +3393,7 @@ type DescribeVolumesModificationsResult <: AbstractAWSType
 end # DescribeVolumesModificationsResult
 export DescribeVolumesModificationsResult
 
-type DescribeVolumesModificationsRequest <: AbstractAWSType
+mutable struct DescribeVolumesModificationsRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     filter::Union{Void,Array{Filter,1}}
     maxResults::Union{Void,Int64}
@@ -3416,7 +3416,7 @@ end
 DescribeVolumesModifications(env::AWSEnv; kwargs...) = DescribeVolumesModifications(env, DescribeVolumesModificationsRequest(; kwargs...))
 export DescribeVolumesModifications
 
-type DeleteVpcEndpointsResult <: AbstractAWSType
+mutable struct DeleteVpcEndpointsResult <: AbstractAWSType
     requestId::Union{Void,String}
     unsuccessful::Union{Void,Array{UnsuccessfulItem,1}}
     function DeleteVpcEndpointsResult(;requestId=nothing, unsuccessful=nothing)
@@ -3426,7 +3426,7 @@ type DeleteVpcEndpointsResult <: AbstractAWSType
 end # DeleteVpcEndpointsResult
 export DeleteVpcEndpointsResult
 
-type DeleteVpcEndpointsRequest <: AbstractAWSType
+mutable struct DeleteVpcEndpointsRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     vpcEndpointId::Union{Void,Array{String,1}}
     function DeleteVpcEndpointsRequest(;dryRun=nothing, vpcEndpointId=nothing)
@@ -3446,7 +3446,7 @@ end
 DeleteVpcEndpoints(env::AWSEnv; kwargs...) = DeleteVpcEndpoints(env, DeleteVpcEndpointsRequest(; kwargs...))
 export DeleteVpcEndpoints
 
-type ImportImageResult <: AbstractAWSType
+mutable struct ImportImageResult <: AbstractAWSType
     architecture::Union{Void,String}
     description::Union{Void,String}
     hypervisor::Union{Void,String}
@@ -3466,7 +3466,7 @@ type ImportImageResult <: AbstractAWSType
 end # ImportImageResult
 export ImportImageResult
 
-type ImportImageRequest <: AbstractAWSType
+mutable struct ImportImageRequest <: AbstractAWSType
     architecture::Union{Void,String}
     clientData::Union{Void,ClientData}
     clientToken::Union{Void,String}
@@ -3494,7 +3494,7 @@ end
 ImportImage(env::AWSEnv; kwargs...) = ImportImage(env, ImportImageRequest(; kwargs...))
 export ImportImage
 
-type DetachVpnGatewayResult <: AbstractAWSType
+mutable struct DetachVpnGatewayResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function DetachVpnGatewayResult(;requestId=nothing, _return=nothing)
@@ -3504,7 +3504,7 @@ type DetachVpnGatewayResult <: AbstractAWSType
 end # DetachVpnGatewayResult
 export DetachVpnGatewayResult
 
-type DetachVpnGatewayRequest <: AbstractAWSType
+mutable struct DetachVpnGatewayRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     vpcId::Union{Void,String}
     vpnGatewayId::Union{Void,String}
@@ -3525,7 +3525,7 @@ end
 DetachVpnGateway(env::AWSEnv; kwargs...) = DetachVpnGateway(env, DetachVpnGatewayRequest(; kwargs...))
 export DetachVpnGateway
 
-type MoveAddressToVpcResult <: AbstractAWSType
+mutable struct MoveAddressToVpcResult <: AbstractAWSType
     allocationId::Union{Void,String}
     requestId::Union{Void,String}
     status::Union{Void,String}
@@ -3536,7 +3536,7 @@ type MoveAddressToVpcResult <: AbstractAWSType
 end # MoveAddressToVpcResult
 export MoveAddressToVpcResult
 
-type MoveAddressToVpcRequest <: AbstractAWSType
+mutable struct MoveAddressToVpcRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     publicIp::Union{Void,String}
     function MoveAddressToVpcRequest(;dryRun=nothing, publicIp=nothing)
@@ -3556,7 +3556,7 @@ end
 MoveAddressToVpc(env::AWSEnv; kwargs...) = MoveAddressToVpc(env, MoveAddressToVpcRequest(; kwargs...))
 export MoveAddressToVpc
 
-type DescribeEgressOnlyInternetGatewaysResult <: AbstractAWSType
+mutable struct DescribeEgressOnlyInternetGatewaysResult <: AbstractAWSType
     egressOnlyInternetGatewaySet::Union{Void,Array{EgressOnlyInternetGateway,1}}
     nextToken::Union{Void,String}
     requestId::Union{Void,String}
@@ -3567,7 +3567,7 @@ type DescribeEgressOnlyInternetGatewaysResult <: AbstractAWSType
 end # DescribeEgressOnlyInternetGatewaysResult
 export DescribeEgressOnlyInternetGatewaysResult
 
-type DescribeEgressOnlyInternetGatewaysRequest <: AbstractAWSType
+mutable struct DescribeEgressOnlyInternetGatewaysRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     egressOnlyInternetGatewayId::Union{Void,Array{String,1}}
     maxResults::Union{Void,Int64}
@@ -3589,7 +3589,7 @@ end
 DescribeEgressOnlyInternetGateways(env::AWSEnv; kwargs...) = DescribeEgressOnlyInternetGateways(env, DescribeEgressOnlyInternetGatewaysRequest(; kwargs...))
 export DescribeEgressOnlyInternetGateways
 
-type CreateNetworkInterfaceResult <: AbstractAWSType
+mutable struct CreateNetworkInterfaceResult <: AbstractAWSType
     networkInterface::Union{Void,NetworkInterface}
     requestId::Union{Void,String}
     function CreateNetworkInterfaceResult(;networkInterface=nothing, requestId=nothing)
@@ -3599,7 +3599,7 @@ type CreateNetworkInterfaceResult <: AbstractAWSType
 end # CreateNetworkInterfaceResult
 export CreateNetworkInterfaceResult
 
-type CreateNetworkInterfaceRequest <: AbstractAWSType
+mutable struct CreateNetworkInterfaceRequest <: AbstractAWSType
     description::Union{Void,String}
     dryRun::Union{Void,Bool}
     ipv6AddressCount::Union{Void,Int64}
@@ -3626,7 +3626,7 @@ end
 CreateNetworkInterface(env::AWSEnv; kwargs...) = CreateNetworkInterface(env, CreateNetworkInterfaceRequest(; kwargs...))
 export CreateNetworkInterface
 
-type DescribeVpnConnectionsResult <: AbstractAWSType
+mutable struct DescribeVpnConnectionsResult <: AbstractAWSType
     requestId::Union{Void,String}
     vpnConnectionSet::Union{Void,Array{VpnConnection,1}}
     function DescribeVpnConnectionsResult(;requestId=nothing, vpnConnectionSet=nothing)
@@ -3636,7 +3636,7 @@ type DescribeVpnConnectionsResult <: AbstractAWSType
 end # DescribeVpnConnectionsResult
 export DescribeVpnConnectionsResult
 
-type DescribeVpnConnectionsRequest <: AbstractAWSType
+mutable struct DescribeVpnConnectionsRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     filter::Union{Void,Array{Filter,1}}
     vpnConnectionId::Union{Void,Array{String,1}}
@@ -3657,7 +3657,7 @@ end
 DescribeVpnConnections(env::AWSEnv; kwargs...) = DescribeVpnConnections(env, DescribeVpnConnectionsRequest(; kwargs...))
 export DescribeVpnConnections
 
-type DescribeSecurityGroupsResult <: AbstractAWSType
+mutable struct DescribeSecurityGroupsResult <: AbstractAWSType
     requestId::Union{Void,String}
     securityGroupInfo::Union{Void,Array{SecurityGroup,1}}
     function DescribeSecurityGroupsResult(;requestId=nothing, securityGroupInfo=nothing)
@@ -3667,7 +3667,7 @@ type DescribeSecurityGroupsResult <: AbstractAWSType
 end # DescribeSecurityGroupsResult
 export DescribeSecurityGroupsResult
 
-type DescribeSecurityGroupsRequest <: AbstractAWSType
+mutable struct DescribeSecurityGroupsRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     filter::Union{Void,Array{Filter,1}}
     groupId::Union{Void,Array{String,1}}
@@ -3689,7 +3689,7 @@ end
 DescribeSecurityGroups(env::AWSEnv; kwargs...) = DescribeSecurityGroups(env, DescribeSecurityGroupsRequest(; kwargs...))
 export DescribeSecurityGroups
 
-type DeleteCustomerGatewayResult <: AbstractAWSType
+mutable struct DeleteCustomerGatewayResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function DeleteCustomerGatewayResult(;requestId=nothing, _return=nothing)
@@ -3699,7 +3699,7 @@ type DeleteCustomerGatewayResult <: AbstractAWSType
 end # DeleteCustomerGatewayResult
 export DeleteCustomerGatewayResult
 
-type DeleteCustomerGatewayRequest <: AbstractAWSType
+mutable struct DeleteCustomerGatewayRequest <: AbstractAWSType
     customerGatewayId::Union{Void,String}
     dryRun::Union{Void,Bool}
     function DeleteCustomerGatewayRequest(;customerGatewayId=nothing, dryRun=nothing)
@@ -3719,7 +3719,7 @@ end
 DeleteCustomerGateway(env::AWSEnv; kwargs...) = DeleteCustomerGateway(env, DeleteCustomerGatewayRequest(; kwargs...))
 export DeleteCustomerGateway
 
-type AllocateAddressResult <: AbstractAWSType
+mutable struct AllocateAddressResult <: AbstractAWSType
     allocationId::Union{Void,String}
     domain::Union{Void,String}
     publicIp::Union{Void,String}
@@ -3731,7 +3731,7 @@ type AllocateAddressResult <: AbstractAWSType
 end # AllocateAddressResult
 export AllocateAddressResult
 
-type AllocateAddressRequest <: AbstractAWSType
+mutable struct AllocateAddressRequest <: AbstractAWSType
     domain::Union{Void,String}
     dryRun::Union{Void,Bool}
     function AllocateAddressRequest(;domain=nothing, dryRun=nothing)
@@ -3751,7 +3751,7 @@ end
 AllocateAddress(env::AWSEnv; kwargs...) = AllocateAddress(env, AllocateAddressRequest(; kwargs...))
 export AllocateAddress
 
-type DescribeIdentityIdFormatResult <: AbstractAWSType
+mutable struct DescribeIdentityIdFormatResult <: AbstractAWSType
     requestId::Union{Void,String}
     statusSet::Union{Void,Array{IdFormat,1}}
     function DescribeIdentityIdFormatResult(;requestId=nothing, statusSet=nothing)
@@ -3761,7 +3761,7 @@ type DescribeIdentityIdFormatResult <: AbstractAWSType
 end # DescribeIdentityIdFormatResult
 export DescribeIdentityIdFormatResult
 
-type DescribeIdentityIdFormatRequest <: AbstractAWSType
+mutable struct DescribeIdentityIdFormatRequest <: AbstractAWSType
     principalArn::Union{Void,String}
     resource::Union{Void,String}
     function DescribeIdentityIdFormatRequest(;principalArn=nothing, resource=nothing)
@@ -3781,7 +3781,7 @@ end
 DescribeIdentityIdFormat(env::AWSEnv; kwargs...) = DescribeIdentityIdFormat(env, DescribeIdentityIdFormatRequest(; kwargs...))
 export DescribeIdentityIdFormat
 
-type DescribePrefixListsResult <: AbstractAWSType
+mutable struct DescribePrefixListsResult <: AbstractAWSType
     nextToken::Union{Void,String}
     prefixListSet::Union{Void,Array{PrefixList,1}}
     requestId::Union{Void,String}
@@ -3792,7 +3792,7 @@ type DescribePrefixListsResult <: AbstractAWSType
 end # DescribePrefixListsResult
 export DescribePrefixListsResult
 
-type DescribePrefixListsRequest <: AbstractAWSType
+mutable struct DescribePrefixListsRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     filter::Union{Void,Array{Filter,1}}
     maxResults::Union{Void,Int64}
@@ -3815,7 +3815,7 @@ end
 DescribePrefixLists(env::AWSEnv; kwargs...) = DescribePrefixLists(env, DescribePrefixListsRequest(; kwargs...))
 export DescribePrefixLists
 
-type DescribeVpcPeeringConnectionsResult <: AbstractAWSType
+mutable struct DescribeVpcPeeringConnectionsResult <: AbstractAWSType
     requestId::Union{Void,String}
     vpcPeeringConnectionSet::Union{Void,Array{VpcPeeringConnection,1}}
     function DescribeVpcPeeringConnectionsResult(;requestId=nothing, vpcPeeringConnectionSet=nothing)
@@ -3825,7 +3825,7 @@ type DescribeVpcPeeringConnectionsResult <: AbstractAWSType
 end # DescribeVpcPeeringConnectionsResult
 export DescribeVpcPeeringConnectionsResult
 
-type DescribeVpcPeeringConnectionsRequest <: AbstractAWSType
+mutable struct DescribeVpcPeeringConnectionsRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     filter::Union{Void,Array{Filter,1}}
     vpcPeeringConnectionId::Union{Void,Array{String,1}}
@@ -3846,7 +3846,7 @@ end
 DescribeVpcPeeringConnections(env::AWSEnv; kwargs...) = DescribeVpcPeeringConnections(env, DescribeVpcPeeringConnectionsRequest(; kwargs...))
 export DescribeVpcPeeringConnections
 
-type DeleteNetworkAclResult <: AbstractAWSType
+mutable struct DeleteNetworkAclResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function DeleteNetworkAclResult(;requestId=nothing, _return=nothing)
@@ -3856,7 +3856,7 @@ type DeleteNetworkAclResult <: AbstractAWSType
 end # DeleteNetworkAclResult
 export DeleteNetworkAclResult
 
-type DeleteNetworkAclRequest <: AbstractAWSType
+mutable struct DeleteNetworkAclRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     networkAclId::Union{Void,String}
     function DeleteNetworkAclRequest(;dryRun=nothing, networkAclId=nothing)
@@ -3876,7 +3876,7 @@ end
 DeleteNetworkAcl(env::AWSEnv; kwargs...) = DeleteNetworkAcl(env, DeleteNetworkAclRequest(; kwargs...))
 export DeleteNetworkAcl
 
-type RebootInstancesResult <: AbstractAWSType
+mutable struct RebootInstancesResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function RebootInstancesResult(;requestId=nothing, _return=nothing)
@@ -3886,7 +3886,7 @@ type RebootInstancesResult <: AbstractAWSType
 end # RebootInstancesResult
 export RebootInstancesResult
 
-type RebootInstancesRequest <: AbstractAWSType
+mutable struct RebootInstancesRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     instanceId::Union{Void,Array{String,1}}
     function RebootInstancesRequest(;dryRun=nothing, instanceId=nothing)
@@ -3906,7 +3906,7 @@ end
 RebootInstances(env::AWSEnv; kwargs...) = RebootInstances(env, RebootInstancesRequest(; kwargs...))
 export RebootInstances
 
-type DescribeVpcEndpointsResult <: AbstractAWSType
+mutable struct DescribeVpcEndpointsResult <: AbstractAWSType
     nextToken::Union{Void,String}
     requestId::Union{Void,String}
     vpcEndpointSet::Union{Void,Array{VpcEndpoint,1}}
@@ -3917,7 +3917,7 @@ type DescribeVpcEndpointsResult <: AbstractAWSType
 end # DescribeVpcEndpointsResult
 export DescribeVpcEndpointsResult
 
-type DescribeVpcEndpointsRequest <: AbstractAWSType
+mutable struct DescribeVpcEndpointsRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     filter::Union{Void,Array{Filter,1}}
     maxResults::Union{Void,Int64}
@@ -3940,7 +3940,7 @@ end
 DescribeVpcEndpoints(env::AWSEnv; kwargs...) = DescribeVpcEndpoints(env, DescribeVpcEndpointsRequest(; kwargs...))
 export DescribeVpcEndpoints
 
-type CancelBundleTaskResult <: AbstractAWSType
+mutable struct CancelBundleTaskResult <: AbstractAWSType
     bundleInstanceTask::Union{Void,BundleTask}
     requestId::Union{Void,String}
     function CancelBundleTaskResult(;bundleInstanceTask=nothing, requestId=nothing)
@@ -3950,7 +3950,7 @@ type CancelBundleTaskResult <: AbstractAWSType
 end # CancelBundleTaskResult
 export CancelBundleTaskResult
 
-type CancelBundleTaskRequest <: AbstractAWSType
+mutable struct CancelBundleTaskRequest <: AbstractAWSType
     bundleId::Union{Void,String}
     dryRun::Union{Void,Bool}
     function CancelBundleTaskRequest(;bundleId=nothing, dryRun=nothing)
@@ -3970,7 +3970,7 @@ end
 CancelBundleTask(env::AWSEnv; kwargs...) = CancelBundleTask(env, CancelBundleTaskRequest(; kwargs...))
 export CancelBundleTask
 
-type ModifySpotFleetRequestResult <: AbstractAWSType
+mutable struct ModifySpotFleetRequestResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function ModifySpotFleetRequestResult(;requestId=nothing, _return=nothing)
@@ -3980,7 +3980,7 @@ type ModifySpotFleetRequestResult <: AbstractAWSType
 end # ModifySpotFleetRequestResult
 export ModifySpotFleetRequestResult
 
-type ModifySpotFleetRequestRequest <: AbstractAWSType
+mutable struct ModifySpotFleetRequestRequest <: AbstractAWSType
     excessCapacityTerminationPolicy::Union{Void,String}
     spotFleetRequestId::Union{Void,String}
     targetCapacity::Union{Void,Int64}
@@ -4001,7 +4001,7 @@ end
 ModifySpotFleetRequest(env::AWSEnv; kwargs...) = ModifySpotFleetRequest(env, ModifySpotFleetRequestRequest(; kwargs...))
 export ModifySpotFleetRequest
 
-type DescribeScheduledInstanceAvailabilityResult <: AbstractAWSType
+mutable struct DescribeScheduledInstanceAvailabilityResult <: AbstractAWSType
     nextToken::Union{Void,String}
     requestId::Union{Void,String}
     scheduledInstanceAvailabilitySet::Union{Void,Array{ScheduledInstanceAvailability,1}}
@@ -4012,7 +4012,7 @@ type DescribeScheduledInstanceAvailabilityResult <: AbstractAWSType
 end # DescribeScheduledInstanceAvailabilityResult
 export DescribeScheduledInstanceAvailabilityResult
 
-type DescribeScheduledInstanceAvailabilityRequest <: AbstractAWSType
+mutable struct DescribeScheduledInstanceAvailabilityRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     filter::Union{Void,Array{Filter,1}}
     firstSlotStartTimeRange::Union{Void,SlotDateTimeRangeRequest}
@@ -4038,7 +4038,7 @@ end
 DescribeScheduledInstanceAvailability(env::AWSEnv; kwargs...) = DescribeScheduledInstanceAvailability(env, DescribeScheduledInstanceAvailabilityRequest(; kwargs...))
 export DescribeScheduledInstanceAvailability
 
-type ResetInstanceAttributeResult <: AbstractAWSType
+mutable struct ResetInstanceAttributeResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function ResetInstanceAttributeResult(;requestId=nothing, _return=nothing)
@@ -4048,7 +4048,7 @@ type ResetInstanceAttributeResult <: AbstractAWSType
 end # ResetInstanceAttributeResult
 export ResetInstanceAttributeResult
 
-type ResetInstanceAttributeRequest <: AbstractAWSType
+mutable struct ResetInstanceAttributeRequest <: AbstractAWSType
     attribute::Union{Void,String}
     dryRun::Union{Void,Bool}
     instanceId::Union{Void,String}
@@ -4069,7 +4069,7 @@ end
 ResetInstanceAttribute(env::AWSEnv; kwargs...) = ResetInstanceAttribute(env, ResetInstanceAttributeRequest(; kwargs...))
 export ResetInstanceAttribute
 
-type AttachClassicLinkVpcResult <: AbstractAWSType
+mutable struct AttachClassicLinkVpcResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function AttachClassicLinkVpcResult(;requestId=nothing, _return=nothing)
@@ -4079,7 +4079,7 @@ type AttachClassicLinkVpcResult <: AbstractAWSType
 end # AttachClassicLinkVpcResult
 export AttachClassicLinkVpcResult
 
-type AttachClassicLinkVpcRequest <: AbstractAWSType
+mutable struct AttachClassicLinkVpcRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     instanceId::Union{Void,String}
     securityGroupId::Union{Void,Array{String,1}}
@@ -4101,7 +4101,7 @@ end
 AttachClassicLinkVpc(env::AWSEnv; kwargs...) = AttachClassicLinkVpc(env, AttachClassicLinkVpcRequest(; kwargs...))
 export AttachClassicLinkVpc
 
-type EnableVpcClassicLinkDnsSupportResult <: AbstractAWSType
+mutable struct EnableVpcClassicLinkDnsSupportResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function EnableVpcClassicLinkDnsSupportResult(;requestId=nothing, _return=nothing)
@@ -4111,7 +4111,7 @@ type EnableVpcClassicLinkDnsSupportResult <: AbstractAWSType
 end # EnableVpcClassicLinkDnsSupportResult
 export EnableVpcClassicLinkDnsSupportResult
 
-type EnableVpcClassicLinkDnsSupportRequest <: AbstractAWSType
+mutable struct EnableVpcClassicLinkDnsSupportRequest <: AbstractAWSType
     vpcId::Union{Void,String}
     function EnableVpcClassicLinkDnsSupportRequest(;vpcId=nothing)
         new(vpcId)
@@ -4130,7 +4130,7 @@ end
 EnableVpcClassicLinkDnsSupport(env::AWSEnv; kwargs...) = EnableVpcClassicLinkDnsSupport(env, EnableVpcClassicLinkDnsSupportRequest(; kwargs...))
 export EnableVpcClassicLinkDnsSupport
 
-type CreateRouteResult <: AbstractAWSType
+mutable struct CreateRouteResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function CreateRouteResult(;requestId=nothing, _return=nothing)
@@ -4140,7 +4140,7 @@ type CreateRouteResult <: AbstractAWSType
 end # CreateRouteResult
 export CreateRouteResult
 
-type CreateRouteRequest <: AbstractAWSType
+mutable struct CreateRouteRequest <: AbstractAWSType
     destinationCidrBlock::Union{Void,String}
     destinationIpv6CidrBlock::Union{Void,String}
     dryRun::Union{Void,Bool}
@@ -4168,7 +4168,7 @@ end
 CreateRoute(env::AWSEnv; kwargs...) = CreateRoute(env, CreateRouteRequest(; kwargs...))
 export CreateRoute
 
-type DescribeNetworkInterfacePermissionsResult <: AbstractAWSType
+mutable struct DescribeNetworkInterfacePermissionsResult <: AbstractAWSType
     networkInterfacePermissions::Union{Void,Array{NetworkInterfacePermission,1}}
     nextToken::Union{Void,String}
     requestId::Union{Void,String}
@@ -4179,7 +4179,7 @@ type DescribeNetworkInterfacePermissionsResult <: AbstractAWSType
 end # DescribeNetworkInterfacePermissionsResult
 export DescribeNetworkInterfacePermissionsResult
 
-type DescribeNetworkInterfacePermissionsRequest <: AbstractAWSType
+mutable struct DescribeNetworkInterfacePermissionsRequest <: AbstractAWSType
     filter::Union{Void,Array{Filter,1}}
     maxResults::Union{Void,Int64}
     networkInterfacePermissionId::Union{Void,Array{String,1}}
@@ -4201,7 +4201,7 @@ end
 DescribeNetworkInterfacePermissions(env::AWSEnv; kwargs...) = DescribeNetworkInterfacePermissions(env, DescribeNetworkInterfacePermissionsRequest(; kwargs...))
 export DescribeNetworkInterfacePermissions
 
-type AssociateRouteTableResult <: AbstractAWSType
+mutable struct AssociateRouteTableResult <: AbstractAWSType
     associationId::Union{Void,String}
     requestId::Union{Void,String}
     function AssociateRouteTableResult(;associationId=nothing, requestId=nothing)
@@ -4211,7 +4211,7 @@ type AssociateRouteTableResult <: AbstractAWSType
 end # AssociateRouteTableResult
 export AssociateRouteTableResult
 
-type AssociateRouteTableRequest <: AbstractAWSType
+mutable struct AssociateRouteTableRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     routeTableId::Union{Void,String}
     subnetId::Union{Void,String}
@@ -4232,7 +4232,7 @@ end
 AssociateRouteTable(env::AWSEnv; kwargs...) = AssociateRouteTable(env, AssociateRouteTableRequest(; kwargs...))
 export AssociateRouteTable
 
-type CreateReservedInstancesListingResult <: AbstractAWSType
+mutable struct CreateReservedInstancesListingResult <: AbstractAWSType
     requestId::Union{Void,String}
     reservedInstancesListingsSet::Union{Void,Array{ReservedInstancesListing,1}}
     function CreateReservedInstancesListingResult(;requestId=nothing, reservedInstancesListingsSet=nothing)
@@ -4242,7 +4242,7 @@ type CreateReservedInstancesListingResult <: AbstractAWSType
 end # CreateReservedInstancesListingResult
 export CreateReservedInstancesListingResult
 
-type CreateReservedInstancesListingRequest <: AbstractAWSType
+mutable struct CreateReservedInstancesListingRequest <: AbstractAWSType
     clientToken::Union{Void,String}
     instanceCount::Union{Void,Int64}
     priceSchedules::Union{Void,Array{PriceScheduleSpecification,1}}
@@ -4264,7 +4264,7 @@ end
 CreateReservedInstancesListing(env::AWSEnv; kwargs...) = CreateReservedInstancesListing(env, CreateReservedInstancesListingRequest(; kwargs...))
 export CreateReservedInstancesListing
 
-type ResetNetworkInterfaceAttributeResult <: AbstractAWSType
+mutable struct ResetNetworkInterfaceAttributeResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function ResetNetworkInterfaceAttributeResult(;requestId=nothing, _return=nothing)
@@ -4274,7 +4274,7 @@ type ResetNetworkInterfaceAttributeResult <: AbstractAWSType
 end # ResetNetworkInterfaceAttributeResult
 export ResetNetworkInterfaceAttributeResult
 
-type ResetNetworkInterfaceAttributeRequest <: AbstractAWSType
+mutable struct ResetNetworkInterfaceAttributeRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     networkInterfaceId::Union{Void,String}
     sourceDestCheck::Union{Void,String}
@@ -4295,7 +4295,7 @@ end
 ResetNetworkInterfaceAttribute(env::AWSEnv; kwargs...) = ResetNetworkInterfaceAttribute(env, ResetNetworkInterfaceAttributeRequest(; kwargs...))
 export ResetNetworkInterfaceAttribute
 
-type DescribeVpcEndpointServicesResult <: AbstractAWSType
+mutable struct DescribeVpcEndpointServicesResult <: AbstractAWSType
     nextToken::Union{Void,String}
     requestId::Union{Void,String}
     serviceNameSet::Union{Void,Array{String,1}}
@@ -4306,7 +4306,7 @@ type DescribeVpcEndpointServicesResult <: AbstractAWSType
 end # DescribeVpcEndpointServicesResult
 export DescribeVpcEndpointServicesResult
 
-type DescribeVpcEndpointServicesRequest <: AbstractAWSType
+mutable struct DescribeVpcEndpointServicesRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     maxResults::Union{Void,Int64}
     nextToken::Union{Void,String}
@@ -4327,7 +4327,7 @@ end
 DescribeVpcEndpointServices(env::AWSEnv; kwargs...) = DescribeVpcEndpointServices(env, DescribeVpcEndpointServicesRequest(; kwargs...))
 export DescribeVpcEndpointServices
 
-type RegisterImageResult <: AbstractAWSType
+mutable struct RegisterImageResult <: AbstractAWSType
     imageId::Union{Void,String}
     requestId::Union{Void,String}
     function RegisterImageResult(;imageId=nothing, requestId=nothing)
@@ -4337,7 +4337,7 @@ type RegisterImageResult <: AbstractAWSType
 end # RegisterImageResult
 export RegisterImageResult
 
-type RegisterImageRequest <: AbstractAWSType
+mutable struct RegisterImageRequest <: AbstractAWSType
     architecture::Union{Void,String}
     billingProduct::Union{Void,Array{String,1}}
     blockDeviceMapping::Union{Void,Array{BlockDeviceMapping,1}}
@@ -4368,7 +4368,7 @@ end
 RegisterImage(env::AWSEnv; kwargs...) = RegisterImage(env, RegisterImageRequest(; kwargs...))
 export RegisterImage
 
-type RunInstancesResult <: AbstractAWSType
+mutable struct RunInstancesResult <: AbstractAWSType
     groupSet::Union{Void,Array{GroupIdentifier,1}}
     instancesSet::Union{Void,Array{Instance,1}}
     ownerId::Union{Void,String}
@@ -4382,7 +4382,7 @@ type RunInstancesResult <: AbstractAWSType
 end # RunInstancesResult
 export RunInstancesResult
 
-type RunInstancesRequest <: AbstractAWSType
+mutable struct RunInstancesRequest <: AbstractAWSType
     additionalInfo::Union{Void,String}
     blockDeviceMapping::Union{Void,Array{BlockDeviceMapping,1}}
     clientToken::Union{Void,String}
@@ -4426,7 +4426,7 @@ end
 RunInstances(env::AWSEnv; kwargs...) = RunInstances(env, RunInstancesRequest(; kwargs...))
 export RunInstances
 
-type DescribeConversionTasksResult <: AbstractAWSType
+mutable struct DescribeConversionTasksResult <: AbstractAWSType
     conversionTasks::Union{Void,Array{ConversionTask,1}}
     requestId::Union{Void,String}
     function DescribeConversionTasksResult(;conversionTasks=nothing, requestId=nothing)
@@ -4436,7 +4436,7 @@ type DescribeConversionTasksResult <: AbstractAWSType
 end # DescribeConversionTasksResult
 export DescribeConversionTasksResult
 
-type DescribeConversionTasksRequest <: AbstractAWSType
+mutable struct DescribeConversionTasksRequest <: AbstractAWSType
     conversionTaskId::Union{Void,Array{String,1}}
     dryRun::Union{Void,Bool}
     function DescribeConversionTasksRequest(;conversionTaskId=nothing, dryRun=nothing)
@@ -4456,7 +4456,7 @@ end
 DescribeConversionTasks(env::AWSEnv; kwargs...) = DescribeConversionTasks(env, DescribeConversionTasksRequest(; kwargs...))
 export DescribeConversionTasks
 
-type GetReservedInstancesExchangeQuoteResult <: AbstractAWSType
+mutable struct GetReservedInstancesExchangeQuoteResult <: AbstractAWSType
     currencyCode::Union{Void,String}
     isValidExchange::Union{Void,Bool}
     outputReservedInstancesWillExpireAt::Union{Void,DateTime}
@@ -4474,7 +4474,7 @@ type GetReservedInstancesExchangeQuoteResult <: AbstractAWSType
 end # GetReservedInstancesExchangeQuoteResult
 export GetReservedInstancesExchangeQuoteResult
 
-type GetReservedInstancesExchangeQuoteRequest <: AbstractAWSType
+mutable struct GetReservedInstancesExchangeQuoteRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     reservedInstanceId::Union{Void,Array{String,1}}
     targetConfiguration::Union{Void,Array{TargetConfigurationRequest,1}}
@@ -4495,7 +4495,7 @@ end
 GetReservedInstancesExchangeQuote(env::AWSEnv; kwargs...) = GetReservedInstancesExchangeQuote(env, GetReservedInstancesExchangeQuoteRequest(; kwargs...))
 export GetReservedInstancesExchangeQuote
 
-type DescribeNetworkInterfacesResult <: AbstractAWSType
+mutable struct DescribeNetworkInterfacesResult <: AbstractAWSType
     networkInterfaceSet::Union{Void,Array{NetworkInterface,1}}
     requestId::Union{Void,String}
     function DescribeNetworkInterfacesResult(;networkInterfaceSet=nothing, requestId=nothing)
@@ -4505,7 +4505,7 @@ type DescribeNetworkInterfacesResult <: AbstractAWSType
 end # DescribeNetworkInterfacesResult
 export DescribeNetworkInterfacesResult
 
-type DescribeNetworkInterfacesRequest <: AbstractAWSType
+mutable struct DescribeNetworkInterfacesRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     filter::Union{Void,Array{Filter,1}}
     networkInterfaceId::Union{Void,Array{String,1}}
@@ -4526,7 +4526,7 @@ end
 DescribeNetworkInterfaces(env::AWSEnv; kwargs...) = DescribeNetworkInterfaces(env, DescribeNetworkInterfacesRequest(; kwargs...))
 export DescribeNetworkInterfaces
 
-type DisableVpcClassicLinkDnsSupportResult <: AbstractAWSType
+mutable struct DisableVpcClassicLinkDnsSupportResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function DisableVpcClassicLinkDnsSupportResult(;requestId=nothing, _return=nothing)
@@ -4536,7 +4536,7 @@ type DisableVpcClassicLinkDnsSupportResult <: AbstractAWSType
 end # DisableVpcClassicLinkDnsSupportResult
 export DisableVpcClassicLinkDnsSupportResult
 
-type DisableVpcClassicLinkDnsSupportRequest <: AbstractAWSType
+mutable struct DisableVpcClassicLinkDnsSupportRequest <: AbstractAWSType
     vpcId::Union{Void,String}
     function DisableVpcClassicLinkDnsSupportRequest(;vpcId=nothing)
         new(vpcId)
@@ -4555,7 +4555,7 @@ end
 DisableVpcClassicLinkDnsSupport(env::AWSEnv; kwargs...) = DisableVpcClassicLinkDnsSupport(env, DisableVpcClassicLinkDnsSupportRequest(; kwargs...))
 export DisableVpcClassicLinkDnsSupport
 
-type DescribePlacementGroupsResult <: AbstractAWSType
+mutable struct DescribePlacementGroupsResult <: AbstractAWSType
     placementGroupSet::Union{Void,Array{PlacementGroup,1}}
     requestId::Union{Void,String}
     function DescribePlacementGroupsResult(;placementGroupSet=nothing, requestId=nothing)
@@ -4565,7 +4565,7 @@ type DescribePlacementGroupsResult <: AbstractAWSType
 end # DescribePlacementGroupsResult
 export DescribePlacementGroupsResult
 
-type DescribePlacementGroupsRequest <: AbstractAWSType
+mutable struct DescribePlacementGroupsRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     filter::Union{Void,Array{Filter,1}}
     groupName::Union{Void,Array{String,1}}
@@ -4586,7 +4586,7 @@ end
 DescribePlacementGroups(env::AWSEnv; kwargs...) = DescribePlacementGroups(env, DescribePlacementGroupsRequest(; kwargs...))
 export DescribePlacementGroups
 
-type CreatePlacementGroupResult <: AbstractAWSType
+mutable struct CreatePlacementGroupResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function CreatePlacementGroupResult(;requestId=nothing, _return=nothing)
@@ -4596,7 +4596,7 @@ type CreatePlacementGroupResult <: AbstractAWSType
 end # CreatePlacementGroupResult
 export CreatePlacementGroupResult
 
-type CreatePlacementGroupRequest <: AbstractAWSType
+mutable struct CreatePlacementGroupRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     groupName::Union{Void,String}
     strategy::Union{Void,String}
@@ -4617,7 +4617,7 @@ end
 CreatePlacementGroup(env::AWSEnv; kwargs...) = CreatePlacementGroup(env, CreatePlacementGroupRequest(; kwargs...))
 export CreatePlacementGroup
 
-type DeleteSecurityGroupResult <: AbstractAWSType
+mutable struct DeleteSecurityGroupResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function DeleteSecurityGroupResult(;requestId=nothing, _return=nothing)
@@ -4627,7 +4627,7 @@ type DeleteSecurityGroupResult <: AbstractAWSType
 end # DeleteSecurityGroupResult
 export DeleteSecurityGroupResult
 
-type DeleteSecurityGroupRequest <: AbstractAWSType
+mutable struct DeleteSecurityGroupRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     groupId::Union{Void,String}
     groupName::Union{Void,String}
@@ -4648,7 +4648,7 @@ end
 DeleteSecurityGroup(env::AWSEnv; kwargs...) = DeleteSecurityGroup(env, DeleteSecurityGroupRequest(; kwargs...))
 export DeleteSecurityGroup
 
-type DescribeVpnGatewaysResult <: AbstractAWSType
+mutable struct DescribeVpnGatewaysResult <: AbstractAWSType
     requestId::Union{Void,String}
     vpnGatewaySet::Union{Void,Array{VpnGateway,1}}
     function DescribeVpnGatewaysResult(;requestId=nothing, vpnGatewaySet=nothing)
@@ -4658,7 +4658,7 @@ type DescribeVpnGatewaysResult <: AbstractAWSType
 end # DescribeVpnGatewaysResult
 export DescribeVpnGatewaysResult
 
-type DescribeVpnGatewaysRequest <: AbstractAWSType
+mutable struct DescribeVpnGatewaysRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     filter::Union{Void,Array{Filter,1}}
     vpnGatewayId::Union{Void,Array{String,1}}
@@ -4679,7 +4679,7 @@ end
 DescribeVpnGateways(env::AWSEnv; kwargs...) = DescribeVpnGateways(env, DescribeVpnGatewaysRequest(; kwargs...))
 export DescribeVpnGateways
 
-type CreateInstanceExportTaskResult <: AbstractAWSType
+mutable struct CreateInstanceExportTaskResult <: AbstractAWSType
     exportTask::Union{Void,ExportTask}
     requestId::Union{Void,String}
     function CreateInstanceExportTaskResult(;exportTask=nothing, requestId=nothing)
@@ -4689,7 +4689,7 @@ type CreateInstanceExportTaskResult <: AbstractAWSType
 end # CreateInstanceExportTaskResult
 export CreateInstanceExportTaskResult
 
-type CreateInstanceExportTaskRequest <: AbstractAWSType
+mutable struct CreateInstanceExportTaskRequest <: AbstractAWSType
     description::Union{Void,String}
     exportToS3::Union{Void,ExportToS3TaskSpecification}
     instanceId::Union{Void,String}
@@ -4711,7 +4711,7 @@ end
 CreateInstanceExportTask(env::AWSEnv; kwargs...) = CreateInstanceExportTask(env, CreateInstanceExportTaskRequest(; kwargs...))
 export CreateInstanceExportTask
 
-type ModifyVolumeResult <: AbstractAWSType
+mutable struct ModifyVolumeResult <: AbstractAWSType
     requestId::Union{Void,String}
     volumeModification::Union{Void,VolumeModification}
     function ModifyVolumeResult(;requestId=nothing, volumeModification=nothing)
@@ -4721,7 +4721,7 @@ type ModifyVolumeResult <: AbstractAWSType
 end # ModifyVolumeResult
 export ModifyVolumeResult
 
-type ModifyVolumeRequest <: AbstractAWSType
+mutable struct ModifyVolumeRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     iops::Union{Void,Int64}
     size::Union{Void,Int64}
@@ -4744,7 +4744,7 @@ end
 ModifyVolume(env::AWSEnv; kwargs...) = ModifyVolume(env, ModifyVolumeRequest(; kwargs...))
 export ModifyVolume
 
-type DeleteFlowLogsResult <: AbstractAWSType
+mutable struct DeleteFlowLogsResult <: AbstractAWSType
     requestId::Union{Void,String}
     unsuccessful::Union{Void,Array{UnsuccessfulItem,1}}
     function DeleteFlowLogsResult(;requestId=nothing, unsuccessful=nothing)
@@ -4754,7 +4754,7 @@ type DeleteFlowLogsResult <: AbstractAWSType
 end # DeleteFlowLogsResult
 export DeleteFlowLogsResult
 
-type DeleteFlowLogsRequest <: AbstractAWSType
+mutable struct DeleteFlowLogsRequest <: AbstractAWSType
     flowLogId::Union{Void,Array{String,1}}
     function DeleteFlowLogsRequest(;flowLogId=nothing)
         new(flowLogId)
@@ -4773,7 +4773,7 @@ end
 DeleteFlowLogs(env::AWSEnv; kwargs...) = DeleteFlowLogs(env, DeleteFlowLogsRequest(; kwargs...))
 export DeleteFlowLogs
 
-type BundleInstanceResult <: AbstractAWSType
+mutable struct BundleInstanceResult <: AbstractAWSType
     bundleInstanceTask::Union{Void,BundleTask}
     requestId::Union{Void,String}
     function BundleInstanceResult(;bundleInstanceTask=nothing, requestId=nothing)
@@ -4783,7 +4783,7 @@ type BundleInstanceResult <: AbstractAWSType
 end # BundleInstanceResult
 export BundleInstanceResult
 
-type BundleInstanceRequest <: AbstractAWSType
+mutable struct BundleInstanceRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     instanceId::Union{Void,String}
     storage::Union{Void,String}
@@ -4804,7 +4804,7 @@ end
 BundleInstance(env::AWSEnv; kwargs...) = BundleInstance(env, BundleInstanceRequest(; kwargs...))
 export BundleInstance
 
-type DisableVgwRoutePropagationResult <: AbstractAWSType
+mutable struct DisableVgwRoutePropagationResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function DisableVgwRoutePropagationResult(;requestId=nothing, _return=nothing)
@@ -4814,7 +4814,7 @@ type DisableVgwRoutePropagationResult <: AbstractAWSType
 end # DisableVgwRoutePropagationResult
 export DisableVgwRoutePropagationResult
 
-type DisableVgwRoutePropagationRequest <: AbstractAWSType
+mutable struct DisableVgwRoutePropagationRequest <: AbstractAWSType
     gatewayId::Union{Void,String}
     routeTableId::Union{Void,String}
     function DisableVgwRoutePropagationRequest(;gatewayId=nothing, routeTableId=nothing)
@@ -4834,7 +4834,7 @@ end
 DisableVgwRoutePropagation(env::AWSEnv; kwargs...) = DisableVgwRoutePropagation(env, DisableVgwRoutePropagationRequest(; kwargs...))
 export DisableVgwRoutePropagation
 
-type DescribeFpgaImagesResult <: AbstractAWSType
+mutable struct DescribeFpgaImagesResult <: AbstractAWSType
     fpgaImageSet::Union{Void,Array{FpgaImage,1}}
     nextToken::Union{Void,String}
     requestId::Union{Void,String}
@@ -4845,7 +4845,7 @@ type DescribeFpgaImagesResult <: AbstractAWSType
 end # DescribeFpgaImagesResult
 export DescribeFpgaImagesResult
 
-type DescribeFpgaImagesRequest <: AbstractAWSType
+mutable struct DescribeFpgaImagesRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     filter::Union{Void,Array{Filter,1}}
     fpgaImageId::Union{Void,Array{String,1}}
@@ -4869,7 +4869,7 @@ end
 DescribeFpgaImages(env::AWSEnv; kwargs...) = DescribeFpgaImages(env, DescribeFpgaImagesRequest(; kwargs...))
 export DescribeFpgaImages
 
-type DeleteVpnConnectionRouteResult <: AbstractAWSType
+mutable struct DeleteVpnConnectionRouteResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function DeleteVpnConnectionRouteResult(;requestId=nothing, _return=nothing)
@@ -4879,7 +4879,7 @@ type DeleteVpnConnectionRouteResult <: AbstractAWSType
 end # DeleteVpnConnectionRouteResult
 export DeleteVpnConnectionRouteResult
 
-type DeleteVpnConnectionRouteRequest <: AbstractAWSType
+mutable struct DeleteVpnConnectionRouteRequest <: AbstractAWSType
     destinationCidrBlock::Union{Void,String}
     vpnConnectionId::Union{Void,String}
     function DeleteVpnConnectionRouteRequest(;destinationCidrBlock=nothing, vpnConnectionId=nothing)
@@ -4899,7 +4899,7 @@ end
 DeleteVpnConnectionRoute(env::AWSEnv; kwargs...) = DeleteVpnConnectionRoute(env, DeleteVpnConnectionRouteRequest(; kwargs...))
 export DeleteVpnConnectionRoute
 
-type ModifyInstancePlacementResult <: AbstractAWSType
+mutable struct ModifyInstancePlacementResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function ModifyInstancePlacementResult(;requestId=nothing, _return=nothing)
@@ -4909,7 +4909,7 @@ type ModifyInstancePlacementResult <: AbstractAWSType
 end # ModifyInstancePlacementResult
 export ModifyInstancePlacementResult
 
-type ModifyInstancePlacementRequest <: AbstractAWSType
+mutable struct ModifyInstancePlacementRequest <: AbstractAWSType
     affinity::Union{Void,String}
     hostId::Union{Void,String}
     instanceId::Union{Void,String}
@@ -4931,7 +4931,7 @@ end
 ModifyInstancePlacement(env::AWSEnv; kwargs...) = ModifyInstancePlacement(env, ModifyInstancePlacementRequest(; kwargs...))
 export ModifyInstancePlacement
 
-type DescribeAddressesResult <: AbstractAWSType
+mutable struct DescribeAddressesResult <: AbstractAWSType
     addressesSet::Union{Void,Array{Address,1}}
     requestId::Union{Void,String}
     function DescribeAddressesResult(;addressesSet=nothing, requestId=nothing)
@@ -4941,7 +4941,7 @@ type DescribeAddressesResult <: AbstractAWSType
 end # DescribeAddressesResult
 export DescribeAddressesResult
 
-type DescribeAddressesRequest <: AbstractAWSType
+mutable struct DescribeAddressesRequest <: AbstractAWSType
     allocationId::Union{Void,Array{String,1}}
     dryRun::Union{Void,Bool}
     filter::Union{Void,Array{Filter,1}}
@@ -4963,7 +4963,7 @@ end
 DescribeAddresses(env::AWSEnv; kwargs...) = DescribeAddresses(env, DescribeAddressesRequest(; kwargs...))
 export DescribeAddresses
 
-type CreateKeyPairResult <: AbstractAWSType
+mutable struct CreateKeyPairResult <: AbstractAWSType
     keyFingerprint::Union{Void,String}
     keyMaterial::Union{Void,String}
     keyName::Union{Void,String}
@@ -4975,7 +4975,7 @@ type CreateKeyPairResult <: AbstractAWSType
 end # CreateKeyPairResult
 export CreateKeyPairResult
 
-type CreateKeyPairRequest <: AbstractAWSType
+mutable struct CreateKeyPairRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     keyName::Union{Void,String}
     function CreateKeyPairRequest(;dryRun=nothing, keyName=nothing)
@@ -4995,7 +4995,7 @@ end
 CreateKeyPair(env::AWSEnv; kwargs...) = CreateKeyPair(env, CreateKeyPairRequest(; kwargs...))
 export CreateKeyPair
 
-type DescribeIamInstanceProfileAssociationsResult <: AbstractAWSType
+mutable struct DescribeIamInstanceProfileAssociationsResult <: AbstractAWSType
     iamInstanceProfileAssociationSet::Union{Void,Array{IamInstanceProfileAssociation,1}}
     nextToken::Union{Void,String}
     requestId::Union{Void,String}
@@ -5006,7 +5006,7 @@ type DescribeIamInstanceProfileAssociationsResult <: AbstractAWSType
 end # DescribeIamInstanceProfileAssociationsResult
 export DescribeIamInstanceProfileAssociationsResult
 
-type DescribeIamInstanceProfileAssociationsRequest <: AbstractAWSType
+mutable struct DescribeIamInstanceProfileAssociationsRequest <: AbstractAWSType
     associationId::Union{Void,Array{String,1}}
     filter::Union{Void,Array{Filter,1}}
     maxResults::Union{Void,Int64}
@@ -5028,7 +5028,7 @@ end
 DescribeIamInstanceProfileAssociations(env::AWSEnv; kwargs...) = DescribeIamInstanceProfileAssociations(env, DescribeIamInstanceProfileAssociationsRequest(; kwargs...))
 export DescribeIamInstanceProfileAssociations
 
-type DescribeVolumesResult <: AbstractAWSType
+mutable struct DescribeVolumesResult <: AbstractAWSType
     nextToken::Union{Void,String}
     requestId::Union{Void,String}
     volumeSet::Union{Void,Array{Volume,1}}
@@ -5039,7 +5039,7 @@ type DescribeVolumesResult <: AbstractAWSType
 end # DescribeVolumesResult
 export DescribeVolumesResult
 
-type DescribeVolumesRequest <: AbstractAWSType
+mutable struct DescribeVolumesRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     filter::Union{Void,Array{Filter,1}}
     maxResults::Union{Void,Int64}
@@ -5062,7 +5062,7 @@ end
 DescribeVolumes(env::AWSEnv; kwargs...) = DescribeVolumes(env, DescribeVolumesRequest(; kwargs...))
 export DescribeVolumes
 
-type DescribeSpotDatafeedSubscriptionResult <: AbstractAWSType
+mutable struct DescribeSpotDatafeedSubscriptionResult <: AbstractAWSType
     requestId::Union{Void,String}
     spotDatafeedSubscription::Union{Void,SpotDatafeedSubscription}
     function DescribeSpotDatafeedSubscriptionResult(;requestId=nothing, spotDatafeedSubscription=nothing)
@@ -5072,7 +5072,7 @@ type DescribeSpotDatafeedSubscriptionResult <: AbstractAWSType
 end # DescribeSpotDatafeedSubscriptionResult
 export DescribeSpotDatafeedSubscriptionResult
 
-type DescribeSpotDatafeedSubscriptionRequest <: AbstractAWSType
+mutable struct DescribeSpotDatafeedSubscriptionRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     function DescribeSpotDatafeedSubscriptionRequest(;dryRun=nothing)
         new(dryRun)
@@ -5091,7 +5091,7 @@ end
 DescribeSpotDatafeedSubscription(env::AWSEnv; kwargs...) = DescribeSpotDatafeedSubscription(env, DescribeSpotDatafeedSubscriptionRequest(; kwargs...))
 export DescribeSpotDatafeedSubscription
 
-type AuthorizeSecurityGroupEgressResult <: AbstractAWSType
+mutable struct AuthorizeSecurityGroupEgressResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function AuthorizeSecurityGroupEgressResult(;requestId=nothing, _return=nothing)
@@ -5101,7 +5101,7 @@ type AuthorizeSecurityGroupEgressResult <: AbstractAWSType
 end # AuthorizeSecurityGroupEgressResult
 export AuthorizeSecurityGroupEgressResult
 
-type AuthorizeSecurityGroupEgressRequest <: AbstractAWSType
+mutable struct AuthorizeSecurityGroupEgressRequest <: AbstractAWSType
     cidrIp::Union{Void,String}
     dryRun::Union{Void,Bool}
     fromPort::Union{Void,Int64}
@@ -5128,7 +5128,7 @@ end
 AuthorizeSecurityGroupEgress(env::AWSEnv; kwargs...) = AuthorizeSecurityGroupEgress(env, AuthorizeSecurityGroupEgressRequest(; kwargs...))
 export AuthorizeSecurityGroupEgress
 
-type DescribeInstanceAttributeResult <: AbstractAWSType
+mutable struct DescribeInstanceAttributeResult <: AbstractAWSType
     blockDeviceMapping::Union{Void,Array{InstanceBlockDeviceMapping,1}}
     disableApiTermination::Union{Void,AttributeBooleanValue}
     ebsOptimized::Union{Void,AttributeBooleanValue}
@@ -5152,7 +5152,7 @@ type DescribeInstanceAttributeResult <: AbstractAWSType
 end # DescribeInstanceAttributeResult
 export DescribeInstanceAttributeResult
 
-type DescribeInstanceAttributeRequest <: AbstractAWSType
+mutable struct DescribeInstanceAttributeRequest <: AbstractAWSType
     attribute::Union{Void,String}
     dryRun::Union{Void,Bool}
     instanceId::Union{Void,String}
@@ -5173,7 +5173,7 @@ end
 DescribeInstanceAttribute(env::AWSEnv; kwargs...) = DescribeInstanceAttribute(env, DescribeInstanceAttributeRequest(; kwargs...))
 export DescribeInstanceAttribute
 
-type PurchaseHostReservationResult <: AbstractAWSType
+mutable struct PurchaseHostReservationResult <: AbstractAWSType
     clientToken::Union{Void,String}
     currencyCode::Union{Void,String}
     purchase::Union{Void,Array{Purchase,1}}
@@ -5187,7 +5187,7 @@ type PurchaseHostReservationResult <: AbstractAWSType
 end # PurchaseHostReservationResult
 export PurchaseHostReservationResult
 
-type PurchaseHostReservationRequest <: AbstractAWSType
+mutable struct PurchaseHostReservationRequest <: AbstractAWSType
     clientToken::Union{Void,String}
     currencyCode::Union{Void,String}
     hostIdSet::Union{Void,Array{String,1}}
@@ -5210,7 +5210,7 @@ end
 PurchaseHostReservation(env::AWSEnv; kwargs...) = PurchaseHostReservation(env, PurchaseHostReservationRequest(; kwargs...))
 export PurchaseHostReservation
 
-type DescribeSnapshotsResult <: AbstractAWSType
+mutable struct DescribeSnapshotsResult <: AbstractAWSType
     nextToken::Union{Void,String}
     requestId::Union{Void,String}
     snapshotSet::Union{Void,Array{Snapshot,1}}
@@ -5221,7 +5221,7 @@ type DescribeSnapshotsResult <: AbstractAWSType
 end # DescribeSnapshotsResult
 export DescribeSnapshotsResult
 
-type DescribeSnapshotsRequest <: AbstractAWSType
+mutable struct DescribeSnapshotsRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     filter::Union{Void,Array{Filter,1}}
     maxResults::Union{Void,Int64}
@@ -5246,7 +5246,7 @@ end
 DescribeSnapshots(env::AWSEnv; kwargs...) = DescribeSnapshots(env, DescribeSnapshotsRequest(; kwargs...))
 export DescribeSnapshots
 
-type AttachVolumeResult <: AbstractAWSType
+mutable struct AttachVolumeResult <: AbstractAWSType
     attachTime::Union{Void,DateTime}
     deleteOnTermination::Union{Void,Bool}
     device::Union{Void,String}
@@ -5261,7 +5261,7 @@ type AttachVolumeResult <: AbstractAWSType
 end # AttachVolumeResult
 export AttachVolumeResult
 
-type AttachVolumeRequest <: AbstractAWSType
+mutable struct AttachVolumeRequest <: AbstractAWSType
     device::Union{Void,String}
     dryRun::Union{Void,Bool}
     instanceId::Union{Void,String}
@@ -5283,7 +5283,7 @@ end
 AttachVolume(env::AWSEnv; kwargs...) = AttachVolume(env, AttachVolumeRequest(; kwargs...))
 export AttachVolume
 
-type DescribeReservedInstancesOfferingsResult <: AbstractAWSType
+mutable struct DescribeReservedInstancesOfferingsResult <: AbstractAWSType
     nextToken::Union{Void,String}
     requestId::Union{Void,String}
     reservedInstancesOfferingsSet::Union{Void,Array{ReservedInstancesOffering,1}}
@@ -5294,7 +5294,7 @@ type DescribeReservedInstancesOfferingsResult <: AbstractAWSType
 end # DescribeReservedInstancesOfferingsResult
 export DescribeReservedInstancesOfferingsResult
 
-type DescribeReservedInstancesOfferingsRequest <: AbstractAWSType
+mutable struct DescribeReservedInstancesOfferingsRequest <: AbstractAWSType
     availabilityZone::Union{Void,String}
     dryRun::Union{Void,Bool}
     filter::Union{Void,Array{Filter,1}}
@@ -5327,7 +5327,7 @@ end
 DescribeReservedInstancesOfferings(env::AWSEnv; kwargs...) = DescribeReservedInstancesOfferings(env, DescribeReservedInstancesOfferingsRequest(; kwargs...))
 export DescribeReservedInstancesOfferings
 
-type CopyImageResult <: AbstractAWSType
+mutable struct CopyImageResult <: AbstractAWSType
     imageId::Union{Void,String}
     requestId::Union{Void,String}
     function CopyImageResult(;imageId=nothing, requestId=nothing)
@@ -5337,7 +5337,7 @@ type CopyImageResult <: AbstractAWSType
 end # CopyImageResult
 export CopyImageResult
 
-type CopyImageRequest <: AbstractAWSType
+mutable struct CopyImageRequest <: AbstractAWSType
     clientToken::Union{Void,String}
     description::Union{Void,String}
     dryRun::Union{Void,Bool}
@@ -5363,7 +5363,7 @@ end
 CopyImage(env::AWSEnv; kwargs...) = CopyImage(env, CopyImageRequest(; kwargs...))
 export CopyImage
 
-type ResetSnapshotAttributeResult <: AbstractAWSType
+mutable struct ResetSnapshotAttributeResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function ResetSnapshotAttributeResult(;requestId=nothing, _return=nothing)
@@ -5373,7 +5373,7 @@ type ResetSnapshotAttributeResult <: AbstractAWSType
 end # ResetSnapshotAttributeResult
 export ResetSnapshotAttributeResult
 
-type ResetSnapshotAttributeRequest <: AbstractAWSType
+mutable struct ResetSnapshotAttributeRequest <: AbstractAWSType
     attribute::Union{Void,String}
     dryRun::Union{Void,Bool}
     snapshotId::Union{Void,String}
@@ -5394,7 +5394,7 @@ end
 ResetSnapshotAttribute(env::AWSEnv; kwargs...) = ResetSnapshotAttribute(env, ResetSnapshotAttributeRequest(; kwargs...))
 export ResetSnapshotAttribute
 
-type ReplaceIamInstanceProfileAssociationResult <: AbstractAWSType
+mutable struct ReplaceIamInstanceProfileAssociationResult <: AbstractAWSType
     iamInstanceProfileAssociation::Union{Void,IamInstanceProfileAssociation}
     requestId::Union{Void,String}
     function ReplaceIamInstanceProfileAssociationResult(;iamInstanceProfileAssociation=nothing, requestId=nothing)
@@ -5404,7 +5404,7 @@ type ReplaceIamInstanceProfileAssociationResult <: AbstractAWSType
 end # ReplaceIamInstanceProfileAssociationResult
 export ReplaceIamInstanceProfileAssociationResult
 
-type ReplaceIamInstanceProfileAssociationRequest <: AbstractAWSType
+mutable struct ReplaceIamInstanceProfileAssociationRequest <: AbstractAWSType
     associationId::Union{Void,String}
     iamInstanceProfile::Union{Void,IamInstanceProfileSpecification}
     function ReplaceIamInstanceProfileAssociationRequest(;associationId=nothing, iamInstanceProfile=nothing)
@@ -5424,7 +5424,7 @@ end
 ReplaceIamInstanceProfileAssociation(env::AWSEnv; kwargs...) = ReplaceIamInstanceProfileAssociation(env, ReplaceIamInstanceProfileAssociationRequest(; kwargs...))
 export ReplaceIamInstanceProfileAssociation
 
-type AssignPrivateIpAddressesResult <: AbstractAWSType
+mutable struct AssignPrivateIpAddressesResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function AssignPrivateIpAddressesResult(;requestId=nothing, _return=nothing)
@@ -5434,7 +5434,7 @@ type AssignPrivateIpAddressesResult <: AbstractAWSType
 end # AssignPrivateIpAddressesResult
 export AssignPrivateIpAddressesResult
 
-type AssignPrivateIpAddressesRequest <: AbstractAWSType
+mutable struct AssignPrivateIpAddressesRequest <: AbstractAWSType
     allowReassignment::Union{Void,Bool}
     networkInterfaceId::Union{Void,String}
     privateIpAddress::Union{Void,Array{String,1}}
@@ -5456,7 +5456,7 @@ end
 AssignPrivateIpAddresses(env::AWSEnv; kwargs...) = AssignPrivateIpAddresses(env, AssignPrivateIpAddressesRequest(; kwargs...))
 export AssignPrivateIpAddresses
 
-type CreateSubnetResult <: AbstractAWSType
+mutable struct CreateSubnetResult <: AbstractAWSType
     requestId::Union{Void,String}
     subnet::Union{Void,Subnet}
     function CreateSubnetResult(;requestId=nothing, subnet=nothing)
@@ -5466,7 +5466,7 @@ type CreateSubnetResult <: AbstractAWSType
 end # CreateSubnetResult
 export CreateSubnetResult
 
-type CreateSubnetRequest <: AbstractAWSType
+mutable struct CreateSubnetRequest <: AbstractAWSType
     availabilityZone::Union{Void,String}
     cidrBlock::Union{Void,String}
     dryRun::Union{Void,Bool}
@@ -5489,7 +5489,7 @@ end
 CreateSubnet(env::AWSEnv; kwargs...) = CreateSubnet(env, CreateSubnetRequest(; kwargs...))
 export CreateSubnet
 
-type AcceptReservedInstancesExchangeQuoteResult <: AbstractAWSType
+mutable struct AcceptReservedInstancesExchangeQuoteResult <: AbstractAWSType
     exchangeId::Union{Void,String}
     requestId::Union{Void,String}
     function AcceptReservedInstancesExchangeQuoteResult(;exchangeId=nothing, requestId=nothing)
@@ -5499,7 +5499,7 @@ type AcceptReservedInstancesExchangeQuoteResult <: AbstractAWSType
 end # AcceptReservedInstancesExchangeQuoteResult
 export AcceptReservedInstancesExchangeQuoteResult
 
-type AcceptReservedInstancesExchangeQuoteRequest <: AbstractAWSType
+mutable struct AcceptReservedInstancesExchangeQuoteRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     reservedInstanceId::Union{Void,Array{String,1}}
     targetConfiguration::Union{Void,Array{TargetConfigurationRequest,1}}
@@ -5520,7 +5520,7 @@ end
 AcceptReservedInstancesExchangeQuote(env::AWSEnv; kwargs...) = AcceptReservedInstancesExchangeQuote(env, AcceptReservedInstancesExchangeQuoteRequest(; kwargs...))
 export AcceptReservedInstancesExchangeQuote
 
-type RunScheduledInstancesResult <: AbstractAWSType
+mutable struct RunScheduledInstancesResult <: AbstractAWSType
     instanceIdSet::Union{Void,Array{String,1}}
     requestId::Union{Void,String}
     function RunScheduledInstancesResult(;instanceIdSet=nothing, requestId=nothing)
@@ -5530,7 +5530,7 @@ type RunScheduledInstancesResult <: AbstractAWSType
 end # RunScheduledInstancesResult
 export RunScheduledInstancesResult
 
-type RunScheduledInstancesRequest <: AbstractAWSType
+mutable struct RunScheduledInstancesRequest <: AbstractAWSType
     clientToken::Union{Void,String}
     dryRun::Union{Void,Bool}
     instanceCount::Union{Void,Int64}
@@ -5553,7 +5553,7 @@ end
 RunScheduledInstances(env::AWSEnv; kwargs...) = RunScheduledInstances(env, RunScheduledInstancesRequest(; kwargs...))
 export RunScheduledInstances
 
-type DeleteTagsResult <: AbstractAWSType
+mutable struct DeleteTagsResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function DeleteTagsResult(;requestId=nothing, _return=nothing)
@@ -5563,7 +5563,7 @@ type DeleteTagsResult <: AbstractAWSType
 end # DeleteTagsResult
 export DeleteTagsResult
 
-type DeleteTagsRequest <: AbstractAWSType
+mutable struct DeleteTagsRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     resourceId::Union{Void,Array{String,1}}
     tag::Union{Void,Array{Tag,1}}
@@ -5584,7 +5584,7 @@ end
 DeleteTags(env::AWSEnv; kwargs...) = DeleteTags(env, DeleteTagsRequest(; kwargs...))
 export DeleteTags
 
-type RequestSpotInstancesResult <: AbstractAWSType
+mutable struct RequestSpotInstancesResult <: AbstractAWSType
     requestId::Union{Void,String}
     spotInstanceRequestSet::Union{Void,Array{SpotInstanceRequest,1}}
     function RequestSpotInstancesResult(;requestId=nothing, spotInstanceRequestSet=nothing)
@@ -5594,7 +5594,7 @@ type RequestSpotInstancesResult <: AbstractAWSType
 end # RequestSpotInstancesResult
 export RequestSpotInstancesResult
 
-type RequestSpotInstancesRequest <: AbstractAWSType
+mutable struct RequestSpotInstancesRequest <: AbstractAWSType
     availabilityZoneGroup::Union{Void,String}
     blockDurationMinutes::Union{Void,Int64}
     clientToken::Union{Void,String}
@@ -5623,7 +5623,7 @@ end
 RequestSpotInstances(env::AWSEnv; kwargs...) = RequestSpotInstances(env, RequestSpotInstancesRequest(; kwargs...))
 export RequestSpotInstances
 
-type UnassignIpv6AddressesResult <: AbstractAWSType
+mutable struct UnassignIpv6AddressesResult <: AbstractAWSType
     networkInterfaceId::Union{Void,String}
     requestId::Union{Void,String}
     unassignedIpv6Addresses::Union{Void,Array{String,1}}
@@ -5634,7 +5634,7 @@ type UnassignIpv6AddressesResult <: AbstractAWSType
 end # UnassignIpv6AddressesResult
 export UnassignIpv6AddressesResult
 
-type UnassignIpv6AddressesRequest <: AbstractAWSType
+mutable struct UnassignIpv6AddressesRequest <: AbstractAWSType
     ipv6Addresses::Union{Void,Array{String,1}}
     networkInterfaceId::Union{Void,String}
     function UnassignIpv6AddressesRequest(;ipv6Addresses=nothing, networkInterfaceId=nothing)
@@ -5654,7 +5654,7 @@ end
 UnassignIpv6Addresses(env::AWSEnv; kwargs...) = UnassignIpv6Addresses(env, UnassignIpv6AddressesRequest(; kwargs...))
 export UnassignIpv6Addresses
 
-type DeleteVpcResult <: AbstractAWSType
+mutable struct DeleteVpcResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function DeleteVpcResult(;requestId=nothing, _return=nothing)
@@ -5664,7 +5664,7 @@ type DeleteVpcResult <: AbstractAWSType
 end # DeleteVpcResult
 export DeleteVpcResult
 
-type DeleteVpcRequest <: AbstractAWSType
+mutable struct DeleteVpcRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     vpcId::Union{Void,String}
     function DeleteVpcRequest(;dryRun=nothing, vpcId=nothing)
@@ -5684,7 +5684,7 @@ end
 DeleteVpc(env::AWSEnv; kwargs...) = DeleteVpc(env, DeleteVpcRequest(; kwargs...))
 export DeleteVpc
 
-type ReleaseHostsResult <: AbstractAWSType
+mutable struct ReleaseHostsResult <: AbstractAWSType
     requestId::Union{Void,String}
     successful::Union{Void,Array{String,1}}
     unsuccessful::Union{Void,Array{UnsuccessfulItem,1}}
@@ -5695,7 +5695,7 @@ type ReleaseHostsResult <: AbstractAWSType
 end # ReleaseHostsResult
 export ReleaseHostsResult
 
-type ReleaseHostsRequest <: AbstractAWSType
+mutable struct ReleaseHostsRequest <: AbstractAWSType
     hostId::Union{Void,Array{String,1}}
     function ReleaseHostsRequest(;hostId=nothing)
         new(hostId)
@@ -5714,7 +5714,7 @@ end
 ReleaseHosts(env::AWSEnv; kwargs...) = ReleaseHosts(env, ReleaseHostsRequest(; kwargs...))
 export ReleaseHosts
 
-type DeleteNetworkInterfacePermissionResult <: AbstractAWSType
+mutable struct DeleteNetworkInterfacePermissionResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function DeleteNetworkInterfacePermissionResult(;requestId=nothing, _return=nothing)
@@ -5724,7 +5724,7 @@ type DeleteNetworkInterfacePermissionResult <: AbstractAWSType
 end # DeleteNetworkInterfacePermissionResult
 export DeleteNetworkInterfacePermissionResult
 
-type DeleteNetworkInterfacePermissionRequest <: AbstractAWSType
+mutable struct DeleteNetworkInterfacePermissionRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     force::Union{Void,Bool}
     networkInterfacePermissionId::Union{Void,String}
@@ -5745,7 +5745,7 @@ end
 DeleteNetworkInterfacePermission(env::AWSEnv; kwargs...) = DeleteNetworkInterfacePermission(env, DeleteNetworkInterfacePermissionRequest(; kwargs...))
 export DeleteNetworkInterfacePermission
 
-type CreateVpcPeeringConnectionResult <: AbstractAWSType
+mutable struct CreateVpcPeeringConnectionResult <: AbstractAWSType
     requestId::Union{Void,String}
     vpcPeeringConnection::Union{Void,VpcPeeringConnection}
     function CreateVpcPeeringConnectionResult(;requestId=nothing, vpcPeeringConnection=nothing)
@@ -5755,7 +5755,7 @@ type CreateVpcPeeringConnectionResult <: AbstractAWSType
 end # CreateVpcPeeringConnectionResult
 export CreateVpcPeeringConnectionResult
 
-type CreateVpcPeeringConnectionRequest <: AbstractAWSType
+mutable struct CreateVpcPeeringConnectionRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     peerOwnerId::Union{Void,String}
     peerVpcId::Union{Void,String}
@@ -5777,7 +5777,7 @@ end
 CreateVpcPeeringConnection(env::AWSEnv; kwargs...) = CreateVpcPeeringConnection(env, CreateVpcPeeringConnectionRequest(; kwargs...))
 export CreateVpcPeeringConnection
 
-type CreateNetworkAclResult <: AbstractAWSType
+mutable struct CreateNetworkAclResult <: AbstractAWSType
     networkAcl::Union{Void,NetworkAcl}
     requestId::Union{Void,String}
     function CreateNetworkAclResult(;networkAcl=nothing, requestId=nothing)
@@ -5787,7 +5787,7 @@ type CreateNetworkAclResult <: AbstractAWSType
 end # CreateNetworkAclResult
 export CreateNetworkAclResult
 
-type CreateNetworkAclRequest <: AbstractAWSType
+mutable struct CreateNetworkAclRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     vpcId::Union{Void,String}
     function CreateNetworkAclRequest(;dryRun=nothing, vpcId=nothing)
@@ -5807,7 +5807,7 @@ end
 CreateNetworkAcl(env::AWSEnv; kwargs...) = CreateNetworkAcl(env, CreateNetworkAclRequest(; kwargs...))
 export CreateNetworkAcl
 
-type DetachInternetGatewayResult <: AbstractAWSType
+mutable struct DetachInternetGatewayResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function DetachInternetGatewayResult(;requestId=nothing, _return=nothing)
@@ -5817,7 +5817,7 @@ type DetachInternetGatewayResult <: AbstractAWSType
 end # DetachInternetGatewayResult
 export DetachInternetGatewayResult
 
-type DetachInternetGatewayRequest <: AbstractAWSType
+mutable struct DetachInternetGatewayRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     internetGatewayId::Union{Void,String}
     vpcId::Union{Void,String}
@@ -5838,7 +5838,7 @@ end
 DetachInternetGateway(env::AWSEnv; kwargs...) = DetachInternetGateway(env, DetachInternetGatewayRequest(; kwargs...))
 export DetachInternetGateway
 
-type DescribeInternetGatewaysResult <: AbstractAWSType
+mutable struct DescribeInternetGatewaysResult <: AbstractAWSType
     internetGatewaySet::Union{Void,Array{InternetGateway,1}}
     requestId::Union{Void,String}
     function DescribeInternetGatewaysResult(;internetGatewaySet=nothing, requestId=nothing)
@@ -5848,7 +5848,7 @@ type DescribeInternetGatewaysResult <: AbstractAWSType
 end # DescribeInternetGatewaysResult
 export DescribeInternetGatewaysResult
 
-type DescribeInternetGatewaysRequest <: AbstractAWSType
+mutable struct DescribeInternetGatewaysRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     filter::Union{Void,Array{Filter,1}}
     internetGatewayId::Union{Void,Array{String,1}}
@@ -5869,7 +5869,7 @@ end
 DescribeInternetGateways(env::AWSEnv; kwargs...) = DescribeInternetGateways(env, DescribeInternetGatewaysRequest(; kwargs...))
 export DescribeInternetGateways
 
-type AttachVpnGatewayResult <: AbstractAWSType
+mutable struct AttachVpnGatewayResult <: AbstractAWSType
     attachment::Union{Void,VpcAttachment}
     requestId::Union{Void,String}
     function AttachVpnGatewayResult(;attachment=nothing, requestId=nothing)
@@ -5879,7 +5879,7 @@ type AttachVpnGatewayResult <: AbstractAWSType
 end # AttachVpnGatewayResult
 export AttachVpnGatewayResult
 
-type AttachVpnGatewayRequest <: AbstractAWSType
+mutable struct AttachVpnGatewayRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     vpcId::Union{Void,String}
     vpnGatewayId::Union{Void,String}
@@ -5900,7 +5900,7 @@ end
 AttachVpnGateway(env::AWSEnv; kwargs...) = AttachVpnGateway(env, AttachVpnGatewayRequest(; kwargs...))
 export AttachVpnGateway
 
-type CancelSpotFleetRequestsResult <: AbstractAWSType
+mutable struct CancelSpotFleetRequestsResult <: AbstractAWSType
     requestId::Union{Void,String}
     successfulFleetRequestSet::Union{Void,Array{CancelSpotFleetRequestsSuccessItem,1}}
     unsuccessfulFleetRequestSet::Union{Void,Array{CancelSpotFleetRequestsErrorItem,1}}
@@ -5911,7 +5911,7 @@ type CancelSpotFleetRequestsResult <: AbstractAWSType
 end # CancelSpotFleetRequestsResult
 export CancelSpotFleetRequestsResult
 
-type CancelSpotFleetRequestsRequest <: AbstractAWSType
+mutable struct CancelSpotFleetRequestsRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     spotFleetRequestId::Union{Void,Array{String,1}}
     terminateInstances::Union{Void,Bool}
@@ -5932,7 +5932,7 @@ end
 CancelSpotFleetRequests(env::AWSEnv; kwargs...) = CancelSpotFleetRequests(env, CancelSpotFleetRequestsRequest(; kwargs...))
 export CancelSpotFleetRequests
 
-type AttachInternetGatewayResult <: AbstractAWSType
+mutable struct AttachInternetGatewayResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function AttachInternetGatewayResult(;requestId=nothing, _return=nothing)
@@ -5942,7 +5942,7 @@ type AttachInternetGatewayResult <: AbstractAWSType
 end # AttachInternetGatewayResult
 export AttachInternetGatewayResult
 
-type AttachInternetGatewayRequest <: AbstractAWSType
+mutable struct AttachInternetGatewayRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     internetGatewayId::Union{Void,String}
     vpcId::Union{Void,String}
@@ -5963,7 +5963,7 @@ end
 AttachInternetGateway(env::AWSEnv; kwargs...) = AttachInternetGateway(env, AttachInternetGatewayRequest(; kwargs...))
 export AttachInternetGateway
 
-type CreateDhcpOptionsResult <: AbstractAWSType
+mutable struct CreateDhcpOptionsResult <: AbstractAWSType
     dhcpOptions::Union{Void,DhcpOptions}
     requestId::Union{Void,String}
     function CreateDhcpOptionsResult(;dhcpOptions=nothing, requestId=nothing)
@@ -5973,7 +5973,7 @@ type CreateDhcpOptionsResult <: AbstractAWSType
 end # CreateDhcpOptionsResult
 export CreateDhcpOptionsResult
 
-type CreateDhcpOptionsRequest <: AbstractAWSType
+mutable struct CreateDhcpOptionsRequest <: AbstractAWSType
     dhcpConfiguration::Union{Void,Array{NewDhcpConfiguration,1}}
     dryRun::Union{Void,Bool}
     function CreateDhcpOptionsRequest(;dhcpConfiguration=nothing, dryRun=nothing)
@@ -5993,7 +5993,7 @@ end
 CreateDhcpOptions(env::AWSEnv; kwargs...) = CreateDhcpOptions(env, CreateDhcpOptionsRequest(; kwargs...))
 export CreateDhcpOptions
 
-type DescribeRouteTablesResult <: AbstractAWSType
+mutable struct DescribeRouteTablesResult <: AbstractAWSType
     requestId::Union{Void,String}
     routeTableSet::Union{Void,Array{RouteTable,1}}
     function DescribeRouteTablesResult(;requestId=nothing, routeTableSet=nothing)
@@ -6003,7 +6003,7 @@ type DescribeRouteTablesResult <: AbstractAWSType
 end # DescribeRouteTablesResult
 export DescribeRouteTablesResult
 
-type DescribeRouteTablesRequest <: AbstractAWSType
+mutable struct DescribeRouteTablesRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     filter::Union{Void,Array{Filter,1}}
     routeTableId::Union{Void,Array{String,1}}
@@ -6024,7 +6024,7 @@ end
 DescribeRouteTables(env::AWSEnv; kwargs...) = DescribeRouteTables(env, DescribeRouteTablesRequest(; kwargs...))
 export DescribeRouteTables
 
-type EnableVgwRoutePropagationResult <: AbstractAWSType
+mutable struct EnableVgwRoutePropagationResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function EnableVgwRoutePropagationResult(;requestId=nothing, _return=nothing)
@@ -6034,7 +6034,7 @@ type EnableVgwRoutePropagationResult <: AbstractAWSType
 end # EnableVgwRoutePropagationResult
 export EnableVgwRoutePropagationResult
 
-type EnableVgwRoutePropagationRequest <: AbstractAWSType
+mutable struct EnableVgwRoutePropagationRequest <: AbstractAWSType
     gatewayId::Union{Void,String}
     routeTableId::Union{Void,String}
     function EnableVgwRoutePropagationRequest(;gatewayId=nothing, routeTableId=nothing)
@@ -6054,7 +6054,7 @@ end
 EnableVgwRoutePropagation(env::AWSEnv; kwargs...) = EnableVgwRoutePropagation(env, EnableVgwRoutePropagationRequest(; kwargs...))
 export EnableVgwRoutePropagation
 
-type DescribeTagsResult <: AbstractAWSType
+mutable struct DescribeTagsResult <: AbstractAWSType
     nextToken::Union{Void,String}
     requestId::Union{Void,String}
     tagSet::Union{Void,Array{TagDescription,1}}
@@ -6065,7 +6065,7 @@ type DescribeTagsResult <: AbstractAWSType
 end # DescribeTagsResult
 export DescribeTagsResult
 
-type DescribeTagsRequest <: AbstractAWSType
+mutable struct DescribeTagsRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     filter::Union{Void,Array{Filter,1}}
     maxResults::Union{Void,Int64}
@@ -6087,7 +6087,7 @@ end
 DescribeTags(env::AWSEnv; kwargs...) = DescribeTags(env, DescribeTagsRequest(; kwargs...))
 export DescribeTags
 
-type CreateFpgaImageResult <: AbstractAWSType
+mutable struct CreateFpgaImageResult <: AbstractAWSType
     fpgaImageGlobalId::Union{Void,String}
     fpgaImageId::Union{Void,String}
     requestId::Union{Void,String}
@@ -6098,7 +6098,7 @@ type CreateFpgaImageResult <: AbstractAWSType
 end # CreateFpgaImageResult
 export CreateFpgaImageResult
 
-type CreateFpgaImageRequest <: AbstractAWSType
+mutable struct CreateFpgaImageRequest <: AbstractAWSType
     clientToken::Union{Void,String}
     description::Union{Void,String}
     dryRun::Union{Void,Bool}
@@ -6122,7 +6122,7 @@ end
 CreateFpgaImage(env::AWSEnv; kwargs...) = CreateFpgaImage(env, CreateFpgaImageRequest(; kwargs...))
 export CreateFpgaImage
 
-type ConfirmProductInstanceResult <: AbstractAWSType
+mutable struct ConfirmProductInstanceResult <: AbstractAWSType
     ownerId::Union{Void,String}
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
@@ -6133,7 +6133,7 @@ type ConfirmProductInstanceResult <: AbstractAWSType
 end # ConfirmProductInstanceResult
 export ConfirmProductInstanceResult
 
-type ConfirmProductInstanceRequest <: AbstractAWSType
+mutable struct ConfirmProductInstanceRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     instanceId::Union{Void,String}
     productCode::Union{Void,String}
@@ -6154,7 +6154,7 @@ end
 ConfirmProductInstance(env::AWSEnv; kwargs...) = ConfirmProductInstance(env, ConfirmProductInstanceRequest(; kwargs...))
 export ConfirmProductInstance
 
-type DescribeImportImageTasksResult <: AbstractAWSType
+mutable struct DescribeImportImageTasksResult <: AbstractAWSType
     importImageTaskSet::Union{Void,Array{ImportImageTask,1}}
     nextToken::Union{Void,String}
     requestId::Union{Void,String}
@@ -6165,7 +6165,7 @@ type DescribeImportImageTasksResult <: AbstractAWSType
 end # DescribeImportImageTasksResult
 export DescribeImportImageTasksResult
 
-type DescribeImportImageTasksRequest <: AbstractAWSType
+mutable struct DescribeImportImageTasksRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     filters::Union{Void,Array{Filter,1}}
     importTaskId::Union{Void,Array{String,1}}
@@ -6188,7 +6188,7 @@ end
 DescribeImportImageTasks(env::AWSEnv; kwargs...) = DescribeImportImageTasks(env, DescribeImportImageTasksRequest(; kwargs...))
 export DescribeImportImageTasks
 
-type CreateSnapshotResult <: AbstractAWSType
+mutable struct CreateSnapshotResult <: AbstractAWSType
     dataEncryptionKeyId::Union{Void,String}
     description::Union{Void,String}
     encrypted::Union{Void,Bool}
@@ -6211,7 +6211,7 @@ type CreateSnapshotResult <: AbstractAWSType
 end # CreateSnapshotResult
 export CreateSnapshotResult
 
-type CreateSnapshotRequest <: AbstractAWSType
+mutable struct CreateSnapshotRequest <: AbstractAWSType
     description::Union{Void,String}
     dryRun::Union{Void,Bool}
     volumeId::Union{Void,String}
@@ -6232,7 +6232,7 @@ end
 CreateSnapshot(env::AWSEnv; kwargs...) = CreateSnapshot(env, CreateSnapshotRequest(; kwargs...))
 export CreateSnapshot
 
-type DescribeMovingAddressesResult <: AbstractAWSType
+mutable struct DescribeMovingAddressesResult <: AbstractAWSType
     movingAddressStatusSet::Union{Void,Array{MovingAddressStatus,1}}
     nextToken::Union{Void,String}
     requestId::Union{Void,String}
@@ -6243,7 +6243,7 @@ type DescribeMovingAddressesResult <: AbstractAWSType
 end # DescribeMovingAddressesResult
 export DescribeMovingAddressesResult
 
-type DescribeMovingAddressesRequest <: AbstractAWSType
+mutable struct DescribeMovingAddressesRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     filter::Union{Void,Array{Filter,1}}
     maxResults::Union{Void,Int64}
@@ -6266,7 +6266,7 @@ end
 DescribeMovingAddresses(env::AWSEnv; kwargs...) = DescribeMovingAddresses(env, DescribeMovingAddressesRequest(; kwargs...))
 export DescribeMovingAddresses
 
-type DetachVolumeResult <: AbstractAWSType
+mutable struct DetachVolumeResult <: AbstractAWSType
     attachTime::Union{Void,DateTime}
     deleteOnTermination::Union{Void,Bool}
     device::Union{Void,String}
@@ -6281,7 +6281,7 @@ type DetachVolumeResult <: AbstractAWSType
 end # DetachVolumeResult
 export DetachVolumeResult
 
-type DetachVolumeRequest <: AbstractAWSType
+mutable struct DetachVolumeRequest <: AbstractAWSType
     device::Union{Void,String}
     dryRun::Union{Void,Bool}
     force::Union{Void,Bool}
@@ -6304,7 +6304,7 @@ end
 DetachVolume(env::AWSEnv; kwargs...) = DetachVolume(env, DetachVolumeRequest(; kwargs...))
 export DetachVolume
 
-type DescribeSubnetsResult <: AbstractAWSType
+mutable struct DescribeSubnetsResult <: AbstractAWSType
     requestId::Union{Void,String}
     subnetSet::Union{Void,Array{Subnet,1}}
     function DescribeSubnetsResult(;requestId=nothing, subnetSet=nothing)
@@ -6314,7 +6314,7 @@ type DescribeSubnetsResult <: AbstractAWSType
 end # DescribeSubnetsResult
 export DescribeSubnetsResult
 
-type DescribeSubnetsRequest <: AbstractAWSType
+mutable struct DescribeSubnetsRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     filter::Union{Void,Array{Filter,1}}
     subnetId::Union{Void,Array{String,1}}
@@ -6335,7 +6335,7 @@ end
 DescribeSubnets(env::AWSEnv; kwargs...) = DescribeSubnets(env, DescribeSubnetsRequest(; kwargs...))
 export DescribeSubnets
 
-type ReplaceRouteTableAssociationResult <: AbstractAWSType
+mutable struct ReplaceRouteTableAssociationResult <: AbstractAWSType
     newAssociationId::Union{Void,String}
     requestId::Union{Void,String}
     function ReplaceRouteTableAssociationResult(;newAssociationId=nothing, requestId=nothing)
@@ -6345,7 +6345,7 @@ type ReplaceRouteTableAssociationResult <: AbstractAWSType
 end # ReplaceRouteTableAssociationResult
 export ReplaceRouteTableAssociationResult
 
-type ReplaceRouteTableAssociationRequest <: AbstractAWSType
+mutable struct ReplaceRouteTableAssociationRequest <: AbstractAWSType
     associationId::Union{Void,String}
     dryRun::Union{Void,Bool}
     routeTableId::Union{Void,String}
@@ -6366,7 +6366,7 @@ end
 ReplaceRouteTableAssociation(env::AWSEnv; kwargs...) = ReplaceRouteTableAssociation(env, ReplaceRouteTableAssociationRequest(; kwargs...))
 export ReplaceRouteTableAssociation
 
-type EnableVolumeIOResult <: AbstractAWSType
+mutable struct EnableVolumeIOResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function EnableVolumeIOResult(;requestId=nothing, _return=nothing)
@@ -6376,7 +6376,7 @@ type EnableVolumeIOResult <: AbstractAWSType
 end # EnableVolumeIOResult
 export EnableVolumeIOResult
 
-type EnableVolumeIORequest <: AbstractAWSType
+mutable struct EnableVolumeIORequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     volumeId::Union{Void,String}
     function EnableVolumeIORequest(;dryRun=nothing, volumeId=nothing)
@@ -6396,7 +6396,7 @@ end
 EnableVolumeIO(env::AWSEnv; kwargs...) = EnableVolumeIO(env, EnableVolumeIORequest(; kwargs...))
 export EnableVolumeIO
 
-type CreateVpnConnectionRouteResult <: AbstractAWSType
+mutable struct CreateVpnConnectionRouteResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function CreateVpnConnectionRouteResult(;requestId=nothing, _return=nothing)
@@ -6406,7 +6406,7 @@ type CreateVpnConnectionRouteResult <: AbstractAWSType
 end # CreateVpnConnectionRouteResult
 export CreateVpnConnectionRouteResult
 
-type CreateVpnConnectionRouteRequest <: AbstractAWSType
+mutable struct CreateVpnConnectionRouteRequest <: AbstractAWSType
     destinationCidrBlock::Union{Void,String}
     vpnConnectionId::Union{Void,String}
     function CreateVpnConnectionRouteRequest(;destinationCidrBlock=nothing, vpnConnectionId=nothing)
@@ -6426,7 +6426,7 @@ end
 CreateVpnConnectionRoute(env::AWSEnv; kwargs...) = CreateVpnConnectionRoute(env, CreateVpnConnectionRouteRequest(; kwargs...))
 export CreateVpnConnectionRoute
 
-type CreateFlowLogsResult <: AbstractAWSType
+mutable struct CreateFlowLogsResult <: AbstractAWSType
     clientToken::Union{Void,String}
     flowLogIdSet::Union{Void,Array{String,1}}
     requestId::Union{Void,String}
@@ -6438,7 +6438,7 @@ type CreateFlowLogsResult <: AbstractAWSType
 end # CreateFlowLogsResult
 export CreateFlowLogsResult
 
-type CreateFlowLogsRequest <: AbstractAWSType
+mutable struct CreateFlowLogsRequest <: AbstractAWSType
     clientToken::Union{Void,String}
     deliverLogsPermissionArn::Union{Void,String}
     logGroupName::Union{Void,String}
@@ -6462,7 +6462,7 @@ end
 CreateFlowLogs(env::AWSEnv; kwargs...) = CreateFlowLogs(env, CreateFlowLogsRequest(; kwargs...))
 export CreateFlowLogs
 
-type CreateVpcEndpointResult <: AbstractAWSType
+mutable struct CreateVpcEndpointResult <: AbstractAWSType
     clientToken::Union{Void,String}
     requestId::Union{Void,String}
     vpcEndpoint::Union{Void,VpcEndpoint}
@@ -6473,7 +6473,7 @@ type CreateVpcEndpointResult <: AbstractAWSType
 end # CreateVpcEndpointResult
 export CreateVpcEndpointResult
 
-type CreateVpcEndpointRequest <: AbstractAWSType
+mutable struct CreateVpcEndpointRequest <: AbstractAWSType
     clientToken::Union{Void,String}
     dryRun::Union{Void,Bool}
     policyDocument::Union{Void,String}
@@ -6497,7 +6497,7 @@ end
 CreateVpcEndpoint(env::AWSEnv; kwargs...) = CreateVpcEndpoint(env, CreateVpcEndpointRequest(; kwargs...))
 export CreateVpcEndpoint
 
-type ReplaceNetworkAclEntryResult <: AbstractAWSType
+mutable struct ReplaceNetworkAclEntryResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function ReplaceNetworkAclEntryResult(;requestId=nothing, _return=nothing)
@@ -6507,7 +6507,7 @@ type ReplaceNetworkAclEntryResult <: AbstractAWSType
 end # ReplaceNetworkAclEntryResult
 export ReplaceNetworkAclEntryResult
 
-type ReplaceNetworkAclEntryRequest <: AbstractAWSType
+mutable struct ReplaceNetworkAclEntryRequest <: AbstractAWSType
     cidrBlock::Union{Void,String}
     dryRun::Union{Void,Bool}
     egress::Union{Void,Bool}
@@ -6535,7 +6535,7 @@ end
 ReplaceNetworkAclEntry(env::AWSEnv; kwargs...) = ReplaceNetworkAclEntry(env, ReplaceNetworkAclEntryRequest(; kwargs...))
 export ReplaceNetworkAclEntry
 
-type ModifySnapshotAttributeResult <: AbstractAWSType
+mutable struct ModifySnapshotAttributeResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function ModifySnapshotAttributeResult(;requestId=nothing, _return=nothing)
@@ -6545,7 +6545,7 @@ type ModifySnapshotAttributeResult <: AbstractAWSType
 end # ModifySnapshotAttributeResult
 export ModifySnapshotAttributeResult
 
-type ModifySnapshotAttributeRequest <: AbstractAWSType
+mutable struct ModifySnapshotAttributeRequest <: AbstractAWSType
     attribute::Union{Void,String}
     createVolumePermission::Union{Void,CreateVolumePermissionModifications}
     dryRun::Union{Void,Bool}
@@ -6570,7 +6570,7 @@ end
 ModifySnapshotAttribute(env::AWSEnv; kwargs...) = ModifySnapshotAttribute(env, ModifySnapshotAttributeRequest(; kwargs...))
 export ModifySnapshotAttribute
 
-type DisassociateVpcCidrBlockResult <: AbstractAWSType
+mutable struct DisassociateVpcCidrBlockResult <: AbstractAWSType
     ipv6CidrBlockAssociation::Union{Void,VpcIpv6CidrBlockAssociation}
     requestId::Union{Void,String}
     vpcId::Union{Void,String}
@@ -6581,7 +6581,7 @@ type DisassociateVpcCidrBlockResult <: AbstractAWSType
 end # DisassociateVpcCidrBlockResult
 export DisassociateVpcCidrBlockResult
 
-type DisassociateVpcCidrBlockRequest <: AbstractAWSType
+mutable struct DisassociateVpcCidrBlockRequest <: AbstractAWSType
     associationId::Union{Void,String}
     function DisassociateVpcCidrBlockRequest(;associationId=nothing)
         new(associationId)
@@ -6600,7 +6600,7 @@ end
 DisassociateVpcCidrBlock(env::AWSEnv; kwargs...) = DisassociateVpcCidrBlock(env, DisassociateVpcCidrBlockRequest(; kwargs...))
 export DisassociateVpcCidrBlock
 
-type CreateTagsResult <: AbstractAWSType
+mutable struct CreateTagsResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function CreateTagsResult(;requestId=nothing, _return=nothing)
@@ -6610,7 +6610,7 @@ type CreateTagsResult <: AbstractAWSType
 end # CreateTagsResult
 export CreateTagsResult
 
-type CreateTagsRequest <: AbstractAWSType
+mutable struct CreateTagsRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     resourceId::Union{Void,Array{String,1}}
     tag::Union{Void,Array{Tag,1}}
@@ -6631,7 +6631,7 @@ end
 CreateTags(env::AWSEnv; kwargs...) = CreateTags(env, CreateTagsRequest(; kwargs...))
 export CreateTags
 
-type DescribeReservedInstancesResult <: AbstractAWSType
+mutable struct DescribeReservedInstancesResult <: AbstractAWSType
     requestId::Union{Void,String}
     reservedInstancesSet::Union{Void,Array{ReservedInstances,1}}
     function DescribeReservedInstancesResult(;requestId=nothing, reservedInstancesSet=nothing)
@@ -6641,7 +6641,7 @@ type DescribeReservedInstancesResult <: AbstractAWSType
 end # DescribeReservedInstancesResult
 export DescribeReservedInstancesResult
 
-type DescribeReservedInstancesRequest <: AbstractAWSType
+mutable struct DescribeReservedInstancesRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     filter::Union{Void,Array{Filter,1}}
     offeringClass::Union{Void,String}
@@ -6664,7 +6664,7 @@ end
 DescribeReservedInstances(env::AWSEnv; kwargs...) = DescribeReservedInstances(env, DescribeReservedInstancesRequest(; kwargs...))
 export DescribeReservedInstances
 
-type AttachNetworkInterfaceResult <: AbstractAWSType
+mutable struct AttachNetworkInterfaceResult <: AbstractAWSType
     attachmentId::Union{Void,String}
     requestId::Union{Void,String}
     function AttachNetworkInterfaceResult(;attachmentId=nothing, requestId=nothing)
@@ -6674,7 +6674,7 @@ type AttachNetworkInterfaceResult <: AbstractAWSType
 end # AttachNetworkInterfaceResult
 export AttachNetworkInterfaceResult
 
-type AttachNetworkInterfaceRequest <: AbstractAWSType
+mutable struct AttachNetworkInterfaceRequest <: AbstractAWSType
     deviceIndex::Union{Void,Int64}
     dryRun::Union{Void,Bool}
     instanceId::Union{Void,String}
@@ -6696,7 +6696,7 @@ end
 AttachNetworkInterface(env::AWSEnv; kwargs...) = AttachNetworkInterface(env, AttachNetworkInterfaceRequest(; kwargs...))
 export AttachNetworkInterface
 
-type DeleteDhcpOptionsResult <: AbstractAWSType
+mutable struct DeleteDhcpOptionsResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function DeleteDhcpOptionsResult(;requestId=nothing, _return=nothing)
@@ -6706,7 +6706,7 @@ type DeleteDhcpOptionsResult <: AbstractAWSType
 end # DeleteDhcpOptionsResult
 export DeleteDhcpOptionsResult
 
-type DeleteDhcpOptionsRequest <: AbstractAWSType
+mutable struct DeleteDhcpOptionsRequest <: AbstractAWSType
     dhcpOptionsId::Union{Void,String}
     dryRun::Union{Void,Bool}
     function DeleteDhcpOptionsRequest(;dhcpOptionsId=nothing, dryRun=nothing)
@@ -6726,7 +6726,7 @@ end
 DeleteDhcpOptions(env::AWSEnv; kwargs...) = DeleteDhcpOptions(env, DeleteDhcpOptionsRequest(; kwargs...))
 export DeleteDhcpOptions
 
-type DescribeNetworkAclsResult <: AbstractAWSType
+mutable struct DescribeNetworkAclsResult <: AbstractAWSType
     networkAclSet::Union{Void,Array{NetworkAcl,1}}
     requestId::Union{Void,String}
     function DescribeNetworkAclsResult(;networkAclSet=nothing, requestId=nothing)
@@ -6736,7 +6736,7 @@ type DescribeNetworkAclsResult <: AbstractAWSType
 end # DescribeNetworkAclsResult
 export DescribeNetworkAclsResult
 
-type DescribeNetworkAclsRequest <: AbstractAWSType
+mutable struct DescribeNetworkAclsRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     filter::Union{Void,Array{Filter,1}}
     networkAclId::Union{Void,Array{String,1}}
@@ -6757,7 +6757,7 @@ end
 DescribeNetworkAcls(env::AWSEnv; kwargs...) = DescribeNetworkAcls(env, DescribeNetworkAclsRequest(; kwargs...))
 export DescribeNetworkAcls
 
-type DeleteVpnConnectionResult <: AbstractAWSType
+mutable struct DeleteVpnConnectionResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function DeleteVpnConnectionResult(;requestId=nothing, _return=nothing)
@@ -6767,7 +6767,7 @@ type DeleteVpnConnectionResult <: AbstractAWSType
 end # DeleteVpnConnectionResult
 export DeleteVpnConnectionResult
 
-type DeleteVpnConnectionRequest <: AbstractAWSType
+mutable struct DeleteVpnConnectionRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     vpnConnectionId::Union{Void,String}
     function DeleteVpnConnectionRequest(;dryRun=nothing, vpnConnectionId=nothing)
@@ -6787,7 +6787,7 @@ end
 DeleteVpnConnection(env::AWSEnv; kwargs...) = DeleteVpnConnection(env, DeleteVpnConnectionRequest(; kwargs...))
 export DeleteVpnConnection
 
-type RestoreAddressToClassicResult <: AbstractAWSType
+mutable struct RestoreAddressToClassicResult <: AbstractAWSType
     publicIp::Union{Void,String}
     requestId::Union{Void,String}
     status::Union{Void,String}
@@ -6798,7 +6798,7 @@ type RestoreAddressToClassicResult <: AbstractAWSType
 end # RestoreAddressToClassicResult
 export RestoreAddressToClassicResult
 
-type RestoreAddressToClassicRequest <: AbstractAWSType
+mutable struct RestoreAddressToClassicRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     publicIp::Union{Void,String}
     function RestoreAddressToClassicRequest(;dryRun=nothing, publicIp=nothing)
@@ -6818,7 +6818,7 @@ end
 RestoreAddressToClassic(env::AWSEnv; kwargs...) = RestoreAddressToClassic(env, RestoreAddressToClassicRequest(; kwargs...))
 export RestoreAddressToClassic
 
-type CancelReservedInstancesListingResult <: AbstractAWSType
+mutable struct CancelReservedInstancesListingResult <: AbstractAWSType
     requestId::Union{Void,String}
     reservedInstancesListingsSet::Union{Void,Array{ReservedInstancesListing,1}}
     function CancelReservedInstancesListingResult(;requestId=nothing, reservedInstancesListingsSet=nothing)
@@ -6828,7 +6828,7 @@ type CancelReservedInstancesListingResult <: AbstractAWSType
 end # CancelReservedInstancesListingResult
 export CancelReservedInstancesListingResult
 
-type CancelReservedInstancesListingRequest <: AbstractAWSType
+mutable struct CancelReservedInstancesListingRequest <: AbstractAWSType
     reservedInstancesListingId::Union{Void,String}
     function CancelReservedInstancesListingRequest(;reservedInstancesListingId=nothing)
         new(reservedInstancesListingId)
@@ -6847,7 +6847,7 @@ end
 CancelReservedInstancesListing(env::AWSEnv; kwargs...) = CancelReservedInstancesListing(env, CancelReservedInstancesListingRequest(; kwargs...))
 export CancelReservedInstancesListing
 
-type DeleteRouteResult <: AbstractAWSType
+mutable struct DeleteRouteResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function DeleteRouteResult(;requestId=nothing, _return=nothing)
@@ -6857,7 +6857,7 @@ type DeleteRouteResult <: AbstractAWSType
 end # DeleteRouteResult
 export DeleteRouteResult
 
-type DeleteRouteRequest <: AbstractAWSType
+mutable struct DeleteRouteRequest <: AbstractAWSType
     destinationCidrBlock::Union{Void,String}
     destinationIpv6CidrBlock::Union{Void,String}
     dryRun::Union{Void,Bool}
@@ -6879,7 +6879,7 @@ end
 DeleteRoute(env::AWSEnv; kwargs...) = DeleteRoute(env, DeleteRouteRequest(; kwargs...))
 export DeleteRoute
 
-type ImportInstanceResult <: AbstractAWSType
+mutable struct ImportInstanceResult <: AbstractAWSType
     conversionTask::Union{Void,ConversionTask}
     requestId::Union{Void,String}
     function ImportInstanceResult(;conversionTask=nothing, requestId=nothing)
@@ -6889,7 +6889,7 @@ type ImportInstanceResult <: AbstractAWSType
 end # ImportInstanceResult
 export ImportInstanceResult
 
-type ImportInstanceRequest <: AbstractAWSType
+mutable struct ImportInstanceRequest <: AbstractAWSType
     description::Union{Void,String}
     diskImage::Union{Void,Array{DiskImage,1}}
     dryRun::Union{Void,Bool}
@@ -6912,7 +6912,7 @@ end
 ImportInstance(env::AWSEnv; kwargs...) = ImportInstance(env, ImportInstanceRequest(; kwargs...))
 export ImportInstance
 
-type DescribeVolumeStatusResult <: AbstractAWSType
+mutable struct DescribeVolumeStatusResult <: AbstractAWSType
     nextToken::Union{Void,String}
     requestId::Union{Void,String}
     volumeStatusSet::Union{Void,Array{VolumeStatusItem,1}}
@@ -6923,7 +6923,7 @@ type DescribeVolumeStatusResult <: AbstractAWSType
 end # DescribeVolumeStatusResult
 export DescribeVolumeStatusResult
 
-type DescribeVolumeStatusRequest <: AbstractAWSType
+mutable struct DescribeVolumeStatusRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     filter::Union{Void,Array{Filter,1}}
     maxResults::Union{Void,Int64}
@@ -6946,7 +6946,7 @@ end
 DescribeVolumeStatus(env::AWSEnv; kwargs...) = DescribeVolumeStatus(env, DescribeVolumeStatusRequest(; kwargs...))
 export DescribeVolumeStatus
 
-type CreateVpnGatewayResult <: AbstractAWSType
+mutable struct CreateVpnGatewayResult <: AbstractAWSType
     requestId::Union{Void,String}
     vpnGateway::Union{Void,VpnGateway}
     function CreateVpnGatewayResult(;requestId=nothing, vpnGateway=nothing)
@@ -6956,7 +6956,7 @@ type CreateVpnGatewayResult <: AbstractAWSType
 end # CreateVpnGatewayResult
 export CreateVpnGatewayResult
 
-type CreateVpnGatewayRequest <: AbstractAWSType
+mutable struct CreateVpnGatewayRequest <: AbstractAWSType
     availabilityZone::Union{Void,String}
     dryRun::Union{Void,Bool}
     _Type::Union{Void,String}
@@ -6977,7 +6977,7 @@ end
 CreateVpnGateway(env::AWSEnv; kwargs...) = CreateVpnGateway(env, CreateVpnGatewayRequest(; kwargs...))
 export CreateVpnGateway
 
-type ModifySubnetAttributeResult <: AbstractAWSType
+mutable struct ModifySubnetAttributeResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function ModifySubnetAttributeResult(;requestId=nothing, _return=nothing)
@@ -6987,7 +6987,7 @@ type ModifySubnetAttributeResult <: AbstractAWSType
 end # ModifySubnetAttributeResult
 export ModifySubnetAttributeResult
 
-type ModifySubnetAttributeRequest <: AbstractAWSType
+mutable struct ModifySubnetAttributeRequest <: AbstractAWSType
     assignIpv6AddressOnCreation::Union{Void,AttributeBooleanValue}
     mapPublicIpOnLaunch::Union{Void,AttributeBooleanValue}
     subnetId::Union{Void,String}
@@ -7008,7 +7008,7 @@ end
 ModifySubnetAttribute(env::AWSEnv; kwargs...) = ModifySubnetAttribute(env, ModifySubnetAttributeRequest(; kwargs...))
 export ModifySubnetAttribute
 
-type DescribeImageAttributeResult <: AbstractAWSType
+mutable struct DescribeImageAttributeResult <: AbstractAWSType
     blockDeviceMapping::Union{Void,Array{BlockDeviceMapping,1}}
     description::Union{Void,AttributeValue}
     imageId::Union{Void,String}
@@ -7025,7 +7025,7 @@ type DescribeImageAttributeResult <: AbstractAWSType
 end # DescribeImageAttributeResult
 export DescribeImageAttributeResult
 
-type DescribeImageAttributeRequest <: AbstractAWSType
+mutable struct DescribeImageAttributeRequest <: AbstractAWSType
     attribute::Union{Void,String}
     dryRun::Union{Void,Bool}
     imageId::Union{Void,String}
@@ -7046,7 +7046,7 @@ end
 DescribeImageAttribute(env::AWSEnv; kwargs...) = DescribeImageAttribute(env, DescribeImageAttributeRequest(; kwargs...))
 export DescribeImageAttribute
 
-type DescribeImagesResult <: AbstractAWSType
+mutable struct DescribeImagesResult <: AbstractAWSType
     imagesSet::Union{Void,Array{Image,1}}
     requestId::Union{Void,String}
     function DescribeImagesResult(;imagesSet=nothing, requestId=nothing)
@@ -7056,7 +7056,7 @@ type DescribeImagesResult <: AbstractAWSType
 end # DescribeImagesResult
 export DescribeImagesResult
 
-type DescribeImagesRequest <: AbstractAWSType
+mutable struct DescribeImagesRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     executableBy::Union{Void,Array{String,1}}
     filter::Union{Void,Array{Filter,1}}
@@ -7079,7 +7079,7 @@ end
 DescribeImages(env::AWSEnv; kwargs...) = DescribeImages(env, DescribeImagesRequest(; kwargs...))
 export DescribeImages
 
-type ReplaceNetworkAclAssociationResult <: AbstractAWSType
+mutable struct ReplaceNetworkAclAssociationResult <: AbstractAWSType
     newAssociationId::Union{Void,String}
     requestId::Union{Void,String}
     function ReplaceNetworkAclAssociationResult(;newAssociationId=nothing, requestId=nothing)
@@ -7089,7 +7089,7 @@ type ReplaceNetworkAclAssociationResult <: AbstractAWSType
 end # ReplaceNetworkAclAssociationResult
 export ReplaceNetworkAclAssociationResult
 
-type ReplaceNetworkAclAssociationRequest <: AbstractAWSType
+mutable struct ReplaceNetworkAclAssociationRequest <: AbstractAWSType
     associationId::Union{Void,String}
     dryRun::Union{Void,Bool}
     networkAclId::Union{Void,String}
@@ -7110,7 +7110,7 @@ end
 ReplaceNetworkAclAssociation(env::AWSEnv; kwargs...) = ReplaceNetworkAclAssociation(env, ReplaceNetworkAclAssociationRequest(; kwargs...))
 export ReplaceNetworkAclAssociation
 
-type DescribeFlowLogsResult <: AbstractAWSType
+mutable struct DescribeFlowLogsResult <: AbstractAWSType
     flowLogSet::Union{Void,Array{FlowLog,1}}
     nextToken::Union{Void,String}
     requestId::Union{Void,String}
@@ -7121,7 +7121,7 @@ type DescribeFlowLogsResult <: AbstractAWSType
 end # DescribeFlowLogsResult
 export DescribeFlowLogsResult
 
-type DescribeFlowLogsRequest <: AbstractAWSType
+mutable struct DescribeFlowLogsRequest <: AbstractAWSType
     filter::Union{Void,Array{Filter,1}}
     flowLogId::Union{Void,Array{String,1}}
     maxResults::Union{Void,Int64}
@@ -7143,7 +7143,7 @@ end
 DescribeFlowLogs(env::AWSEnv; kwargs...) = DescribeFlowLogs(env, DescribeFlowLogsRequest(; kwargs...))
 export DescribeFlowLogs
 
-type DescribeCustomerGatewaysResult <: AbstractAWSType
+mutable struct DescribeCustomerGatewaysResult <: AbstractAWSType
     customerGatewaySet::Union{Void,Array{CustomerGateway,1}}
     requestId::Union{Void,String}
     function DescribeCustomerGatewaysResult(;customerGatewaySet=nothing, requestId=nothing)
@@ -7153,7 +7153,7 @@ type DescribeCustomerGatewaysResult <: AbstractAWSType
 end # DescribeCustomerGatewaysResult
 export DescribeCustomerGatewaysResult
 
-type DescribeCustomerGatewaysRequest <: AbstractAWSType
+mutable struct DescribeCustomerGatewaysRequest <: AbstractAWSType
     customerGatewayId::Union{Void,Array{String,1}}
     dryRun::Union{Void,Bool}
     filter::Union{Void,Array{Filter,1}}
@@ -7174,7 +7174,7 @@ end
 DescribeCustomerGateways(env::AWSEnv; kwargs...) = DescribeCustomerGateways(env, DescribeCustomerGatewaysRequest(; kwargs...))
 export DescribeCustomerGateways
 
-type RevokeSecurityGroupEgressResult <: AbstractAWSType
+mutable struct RevokeSecurityGroupEgressResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function RevokeSecurityGroupEgressResult(;requestId=nothing, _return=nothing)
@@ -7184,7 +7184,7 @@ type RevokeSecurityGroupEgressResult <: AbstractAWSType
 end # RevokeSecurityGroupEgressResult
 export RevokeSecurityGroupEgressResult
 
-type RevokeSecurityGroupEgressRequest <: AbstractAWSType
+mutable struct RevokeSecurityGroupEgressRequest <: AbstractAWSType
     cidrIp::Union{Void,String}
     dryRun::Union{Void,Bool}
     fromPort::Union{Void,Int64}
@@ -7211,7 +7211,7 @@ end
 RevokeSecurityGroupEgress(env::AWSEnv; kwargs...) = RevokeSecurityGroupEgress(env, RevokeSecurityGroupEgressRequest(; kwargs...))
 export RevokeSecurityGroupEgress
 
-type DescribeSpotFleetRequestHistoryResult <: AbstractAWSType
+mutable struct DescribeSpotFleetRequestHistoryResult <: AbstractAWSType
     historyRecordSet::Union{Void,Array{HistoryRecord,1}}
     lastEvaluatedTime::Union{Void,DateTime}
     nextToken::Union{Void,String}
@@ -7225,7 +7225,7 @@ type DescribeSpotFleetRequestHistoryResult <: AbstractAWSType
 end # DescribeSpotFleetRequestHistoryResult
 export DescribeSpotFleetRequestHistoryResult
 
-type DescribeSpotFleetRequestHistoryRequest <: AbstractAWSType
+mutable struct DescribeSpotFleetRequestHistoryRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     eventType::Union{Void,String}
     maxResults::Union{Void,Int64}
@@ -7249,7 +7249,7 @@ end
 DescribeSpotFleetRequestHistory(env::AWSEnv; kwargs...) = DescribeSpotFleetRequestHistory(env, DescribeSpotFleetRequestHistoryRequest(; kwargs...))
 export DescribeSpotFleetRequestHistory
 
-type DescribeNatGatewaysResult <: AbstractAWSType
+mutable struct DescribeNatGatewaysResult <: AbstractAWSType
     natGatewaySet::Union{Void,Array{NatGateway,1}}
     nextToken::Union{Void,String}
     requestId::Union{Void,String}
@@ -7260,7 +7260,7 @@ type DescribeNatGatewaysResult <: AbstractAWSType
 end # DescribeNatGatewaysResult
 export DescribeNatGatewaysResult
 
-type DescribeNatGatewaysRequest <: AbstractAWSType
+mutable struct DescribeNatGatewaysRequest <: AbstractAWSType
     filter::Union{Void,Array{Filter,1}}
     maxResults::Union{Void,Int64}
     natGatewayId::Union{Void,Array{String,1}}
@@ -7282,7 +7282,7 @@ end
 DescribeNatGateways(env::AWSEnv; kwargs...) = DescribeNatGateways(env, DescribeNatGatewaysRequest(; kwargs...))
 export DescribeNatGateways
 
-type PurchaseReservedInstancesOfferingResult <: AbstractAWSType
+mutable struct PurchaseReservedInstancesOfferingResult <: AbstractAWSType
     requestId::Union{Void,String}
     reservedInstancesId::Union{Void,String}
     function PurchaseReservedInstancesOfferingResult(;requestId=nothing, reservedInstancesId=nothing)
@@ -7292,7 +7292,7 @@ type PurchaseReservedInstancesOfferingResult <: AbstractAWSType
 end # PurchaseReservedInstancesOfferingResult
 export PurchaseReservedInstancesOfferingResult
 
-type PurchaseReservedInstancesOfferingRequest <: AbstractAWSType
+mutable struct PurchaseReservedInstancesOfferingRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     instanceCount::Union{Void,Int64}
     limitPrice::Union{Void,ReservedInstanceLimitPrice}
@@ -7314,7 +7314,7 @@ end
 PurchaseReservedInstancesOffering(env::AWSEnv; kwargs...) = PurchaseReservedInstancesOffering(env, PurchaseReservedInstancesOfferingRequest(; kwargs...))
 export PurchaseReservedInstancesOffering
 
-type CancelExportTaskResult <: AbstractAWSType
+mutable struct CancelExportTaskResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function CancelExportTaskResult(;requestId=nothing, _return=nothing)
@@ -7324,7 +7324,7 @@ type CancelExportTaskResult <: AbstractAWSType
 end # CancelExportTaskResult
 export CancelExportTaskResult
 
-type CancelExportTaskRequest <: AbstractAWSType
+mutable struct CancelExportTaskRequest <: AbstractAWSType
     exportTaskId::Union{Void,String}
     function CancelExportTaskRequest(;exportTaskId=nothing)
         new(exportTaskId)
@@ -7343,7 +7343,7 @@ end
 CancelExportTask(env::AWSEnv; kwargs...) = CancelExportTask(env, CancelExportTaskRequest(; kwargs...))
 export CancelExportTask
 
-type StartInstancesResult <: AbstractAWSType
+mutable struct StartInstancesResult <: AbstractAWSType
     instancesSet::Union{Void,Array{InstanceStateChange,1}}
     requestId::Union{Void,String}
     function StartInstancesResult(;instancesSet=nothing, requestId=nothing)
@@ -7353,7 +7353,7 @@ type StartInstancesResult <: AbstractAWSType
 end # StartInstancesResult
 export StartInstancesResult
 
-type StartInstancesRequest <: AbstractAWSType
+mutable struct StartInstancesRequest <: AbstractAWSType
     additionalInfo::Union{Void,String}
     dryRun::Union{Void,Bool}
     instanceId::Union{Void,Array{String,1}}
@@ -7374,7 +7374,7 @@ end
 StartInstances(env::AWSEnv; kwargs...) = StartInstances(env, StartInstancesRequest(; kwargs...))
 export StartInstances
 
-type DeleteSpotDatafeedSubscriptionResult <: AbstractAWSType
+mutable struct DeleteSpotDatafeedSubscriptionResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function DeleteSpotDatafeedSubscriptionResult(;requestId=nothing, _return=nothing)
@@ -7384,7 +7384,7 @@ type DeleteSpotDatafeedSubscriptionResult <: AbstractAWSType
 end # DeleteSpotDatafeedSubscriptionResult
 export DeleteSpotDatafeedSubscriptionResult
 
-type DeleteSpotDatafeedSubscriptionRequest <: AbstractAWSType
+mutable struct DeleteSpotDatafeedSubscriptionRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     function DeleteSpotDatafeedSubscriptionRequest(;dryRun=nothing)
         new(dryRun)
@@ -7403,7 +7403,7 @@ end
 DeleteSpotDatafeedSubscription(env::AWSEnv; kwargs...) = DeleteSpotDatafeedSubscription(env, DeleteSpotDatafeedSubscriptionRequest(; kwargs...))
 export DeleteSpotDatafeedSubscription
 
-type DescribeHostReservationsResult <: AbstractAWSType
+mutable struct DescribeHostReservationsResult <: AbstractAWSType
     hostReservationSet::Union{Void,Array{HostReservation,1}}
     nextToken::Union{Void,String}
     requestId::Union{Void,String}
@@ -7414,7 +7414,7 @@ type DescribeHostReservationsResult <: AbstractAWSType
 end # DescribeHostReservationsResult
 export DescribeHostReservationsResult
 
-type DescribeHostReservationsRequest <: AbstractAWSType
+mutable struct DescribeHostReservationsRequest <: AbstractAWSType
     filter::Union{Void,Array{Filter,1}}
     hostReservationIdSet::Union{Void,Array{String,1}}
     maxResults::Union{Void,Int64}
@@ -7436,7 +7436,7 @@ end
 DescribeHostReservations(env::AWSEnv; kwargs...) = DescribeHostReservations(env, DescribeHostReservationsRequest(; kwargs...))
 export DescribeHostReservations
 
-type DisassociateAddressResult <: AbstractAWSType
+mutable struct DisassociateAddressResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function DisassociateAddressResult(;requestId=nothing, _return=nothing)
@@ -7446,7 +7446,7 @@ type DisassociateAddressResult <: AbstractAWSType
 end # DisassociateAddressResult
 export DisassociateAddressResult
 
-type DisassociateAddressRequest <: AbstractAWSType
+mutable struct DisassociateAddressRequest <: AbstractAWSType
     associationId::Union{Void,String}
     dryRun::Union{Void,Bool}
     publicIp::Union{Void,String}
@@ -7467,7 +7467,7 @@ end
 DisassociateAddress(env::AWSEnv; kwargs...) = DisassociateAddress(env, DisassociateAddressRequest(; kwargs...))
 export DisassociateAddress
 
-type DetachNetworkInterfaceResult <: AbstractAWSType
+mutable struct DetachNetworkInterfaceResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function DetachNetworkInterfaceResult(;requestId=nothing, _return=nothing)
@@ -7477,7 +7477,7 @@ type DetachNetworkInterfaceResult <: AbstractAWSType
 end # DetachNetworkInterfaceResult
 export DetachNetworkInterfaceResult
 
-type DetachNetworkInterfaceRequest <: AbstractAWSType
+mutable struct DetachNetworkInterfaceRequest <: AbstractAWSType
     attachmentId::Union{Void,String}
     dryRun::Union{Void,Bool}
     force::Union{Void,Bool}
@@ -7498,7 +7498,7 @@ end
 DetachNetworkInterface(env::AWSEnv; kwargs...) = DetachNetworkInterface(env, DetachNetworkInterfaceRequest(; kwargs...))
 export DetachNetworkInterface
 
-type DescribeVpcsResult <: AbstractAWSType
+mutable struct DescribeVpcsResult <: AbstractAWSType
     requestId::Union{Void,String}
     vpcSet::Union{Void,Array{Vpc,1}}
     function DescribeVpcsResult(;requestId=nothing, vpcSet=nothing)
@@ -7508,7 +7508,7 @@ type DescribeVpcsResult <: AbstractAWSType
 end # DescribeVpcsResult
 export DescribeVpcsResult
 
-type DescribeVpcsRequest <: AbstractAWSType
+mutable struct DescribeVpcsRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     filter::Union{Void,Array{Filter,1}}
     vpcId::Union{Void,Array{String,1}}
@@ -7529,7 +7529,7 @@ end
 DescribeVpcs(env::AWSEnv; kwargs...) = DescribeVpcs(env, DescribeVpcsRequest(; kwargs...))
 export DescribeVpcs
 
-type DeleteNetworkAclEntryResult <: AbstractAWSType
+mutable struct DeleteNetworkAclEntryResult <: AbstractAWSType
     requestId::Union{Void,String}
     _return::Union{Void,Bool}
     function DeleteNetworkAclEntryResult(;requestId=nothing, _return=nothing)
@@ -7539,7 +7539,7 @@ type DeleteNetworkAclEntryResult <: AbstractAWSType
 end # DeleteNetworkAclEntryResult
 export DeleteNetworkAclEntryResult
 
-type DeleteNetworkAclEntryRequest <: AbstractAWSType
+mutable struct DeleteNetworkAclEntryRequest <: AbstractAWSType
     dryRun::Union{Void,Bool}
     egress::Union{Void,Bool}
     networkAclId::Union{Void,String}

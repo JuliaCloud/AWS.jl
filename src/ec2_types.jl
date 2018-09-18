@@ -1,7 +1,7 @@
 # generated from EC2TypeDict via AWS/src/codegen.jl
 # do not edit, edit specification file and regenerate instead
 
-type AccountAttributeValue <: AbstractAWSType
+mutable struct AccountAttributeValue <: AbstractAWSType
     attributeValue::Union{Void,String}
     function AccountAttributeValue(;attributeValue=nothing)
         new(attributeValue)
@@ -10,7 +10,7 @@ type AccountAttributeValue <: AbstractAWSType
 end # AccountAttributeValue
 export AccountAttributeValue
 
-type AccountAttribute <: AbstractAWSType
+mutable struct AccountAttribute <: AbstractAWSType
     attributeName::Union{Void,String}
     attributeValueSet::Union{Void,Array{AccountAttributeValue,1}}
     function AccountAttribute(;attributeName=nothing, attributeValueSet=nothing)
@@ -20,7 +20,7 @@ type AccountAttribute <: AbstractAWSType
 end # AccountAttribute
 export AccountAttribute
 
-type ActiveInstance <: AbstractAWSType
+mutable struct ActiveInstance <: AbstractAWSType
     instanceHealth::Union{Void,String}
     instanceId::Union{Void,String}
     instanceType::Union{Void,String}
@@ -32,7 +32,7 @@ type ActiveInstance <: AbstractAWSType
 end # ActiveInstance
 export ActiveInstance
 
-type Address <: AbstractAWSType
+mutable struct Address <: AbstractAWSType
     allocationId::Union{Void,String}
     associationId::Union{Void,String}
     domain::Union{Void,String}
@@ -48,7 +48,7 @@ type Address <: AbstractAWSType
 end # Address
 export Address
 
-type AttributeBooleanValue <: AbstractAWSType
+mutable struct AttributeBooleanValue <: AbstractAWSType
     value::Union{Void,Bool}
     function AttributeBooleanValue(;value=nothing)
         new(value)
@@ -57,7 +57,7 @@ type AttributeBooleanValue <: AbstractAWSType
 end # AttributeBooleanValue
 export AttributeBooleanValue
 
-type AttributeValue <: AbstractAWSType
+mutable struct AttributeValue <: AbstractAWSType
     value::Union{Void,String}
     function AttributeValue(;value=nothing)
         new(value)
@@ -66,7 +66,7 @@ type AttributeValue <: AbstractAWSType
 end # AttributeValue
 export AttributeValue
 
-type AvailabilityZoneMessage <: AbstractAWSType
+mutable struct AvailabilityZoneMessage <: AbstractAWSType
     message::Union{Void,String}
     function AvailabilityZoneMessage(;message=nothing)
         new(message)
@@ -75,7 +75,7 @@ type AvailabilityZoneMessage <: AbstractAWSType
 end # AvailabilityZoneMessage
 export AvailabilityZoneMessage
 
-type AvailabilityZone <: AbstractAWSType
+mutable struct AvailabilityZone <: AbstractAWSType
     messageSet::Union{Void,Array{AvailabilityZoneMessage,1}}
     regionName::Union{Void,String}
     zoneName::Union{Void,String}
@@ -87,7 +87,7 @@ type AvailabilityZone <: AbstractAWSType
 end # AvailabilityZone
 export AvailabilityZone
 
-type InstanceCapacity <: AbstractAWSType
+mutable struct InstanceCapacity <: AbstractAWSType
     availableCapacity::Union{Void,Int64}
     instanceType::Union{Void,String}
     totalCapacity::Union{Void,Int64}
@@ -98,7 +98,7 @@ type InstanceCapacity <: AbstractAWSType
 end # InstanceCapacity
 export InstanceCapacity
 
-type AvailableCapacity <: AbstractAWSType
+mutable struct AvailableCapacity <: AbstractAWSType
     availableInstanceCapacity::Union{Void,Array{InstanceCapacity,1}}
     availableVCpus::Union{Void,Int64}
     function AvailableCapacity(;availableInstanceCapacity=nothing, availableVCpus=nothing)
@@ -108,7 +108,7 @@ type AvailableCapacity <: AbstractAWSType
 end # AvailableCapacity
 export AvailableCapacity
 
-type BlobAttributeValue <: AbstractAWSType
+mutable struct BlobAttributeValue <: AbstractAWSType
     value::Union{Void,Array{UInt8,1}}
     function BlobAttributeValue(;value=nothing)
         new(value)
@@ -117,7 +117,7 @@ type BlobAttributeValue <: AbstractAWSType
 end # BlobAttributeValue
 export BlobAttributeValue
 
-type Tag <: AbstractAWSType
+mutable struct Tag <: AbstractAWSType
     key::Union{Void,String}
     value::Union{Void,String}
     function Tag(;key=nothing, value=nothing)
@@ -127,7 +127,7 @@ type Tag <: AbstractAWSType
 end # Tag
 export Tag
 
-type TagDescription <: AbstractAWSType
+mutable struct TagDescription <: AbstractAWSType
     key::Union{Void,String}
     resourceId::Union{Void,String}
     resourceType::Union{Void,String}
@@ -139,7 +139,7 @@ type TagDescription <: AbstractAWSType
 end # TagDescription
 export TagDescription
 
-type TagSpecification <: AbstractAWSType
+mutable struct TagSpecification <: AbstractAWSType
     resourceType::Union{Void,String}
     tags::Union{Void,Array{Tag,1}}
     function TagSpecification(;resourceType=nothing, tags=nothing)
@@ -149,7 +149,7 @@ type TagSpecification <: AbstractAWSType
 end # TagSpecification
 export TagSpecification
 
-type UnsuccessfulItemError <: AbstractAWSType
+mutable struct UnsuccessfulItemError <: AbstractAWSType
     code::Union{Void,String}
     message::Union{Void,String}
     function UnsuccessfulItemError(;code=nothing, message=nothing)
@@ -159,7 +159,7 @@ type UnsuccessfulItemError <: AbstractAWSType
 end # UnsuccessfulItemError
 export UnsuccessfulItemError
 
-type UnsuccessfulItem <: AbstractAWSType
+mutable struct UnsuccessfulItem <: AbstractAWSType
     error::Union{Void,UnsuccessfulItemError}
     resourceId::Union{Void,String}
     function UnsuccessfulItem(;error=nothing, resourceId=nothing)
@@ -169,7 +169,7 @@ type UnsuccessfulItem <: AbstractAWSType
 end # UnsuccessfulItem
 export UnsuccessfulItem
 
-type UserBucket <: AbstractAWSType
+mutable struct UserBucket <: AbstractAWSType
     s3Bucket::Union{Void,String}
     s3Key::Union{Void,String}
     function UserBucket(;s3Bucket=nothing, s3Key=nothing)
@@ -179,7 +179,7 @@ type UserBucket <: AbstractAWSType
 end # UserBucket
 export UserBucket
 
-type UserBucketDetails <: AbstractAWSType
+mutable struct UserBucketDetails <: AbstractAWSType
     s3Bucket::Union{Void,String}
     s3Key::Union{Void,String}
     function UserBucketDetails(;s3Bucket=nothing, s3Key=nothing)
@@ -189,7 +189,7 @@ type UserBucketDetails <: AbstractAWSType
 end # UserBucketDetails
 export UserBucketDetails
 
-type UserData <: AbstractAWSType
+mutable struct UserData <: AbstractAWSType
     data::Union{Void,String}
     function UserData(;data=nothing)
         new(data)
@@ -198,7 +198,7 @@ type UserData <: AbstractAWSType
 end # UserData
 export UserData
 
-type UserIdGroupPair <: AbstractAWSType
+mutable struct UserIdGroupPair <: AbstractAWSType
     groupId::Union{Void,String}
     groupName::Union{Void,String}
     peeringStatus::Union{Void,String}
@@ -212,7 +212,7 @@ type UserIdGroupPair <: AbstractAWSType
 end # UserIdGroupPair
 export UserIdGroupPair
 
-type VgwTelemetry <: AbstractAWSType
+mutable struct VgwTelemetry <: AbstractAWSType
     acceptedRouteCount::Union{Void,Int64}
     lastStatusChange::Union{Void,DateTime}
     outsideIpAddress::Union{Void,String}
@@ -225,7 +225,7 @@ type VgwTelemetry <: AbstractAWSType
 end # VgwTelemetry
 export VgwTelemetry
 
-type VolumeAttachment <: AbstractAWSType
+mutable struct VolumeAttachment <: AbstractAWSType
     attachTime::Union{Void,DateTime}
     deleteOnTermination::Union{Void,Bool}
     device::Union{Void,String}
@@ -239,7 +239,7 @@ type VolumeAttachment <: AbstractAWSType
 end # VolumeAttachment
 export VolumeAttachment
 
-type VolumeDetail <: AbstractAWSType
+mutable struct VolumeDetail <: AbstractAWSType
     size::Union{Void,Int64}
     function VolumeDetail(;size=nothing)
         new(size)
@@ -248,7 +248,7 @@ type VolumeDetail <: AbstractAWSType
 end # VolumeDetail
 export VolumeDetail
 
-type VolumeModification <: AbstractAWSType
+mutable struct VolumeModification <: AbstractAWSType
     endTime::Union{Void,DateTime}
     modificationState::Union{Void,String}
     originalIops::Union{Void,Int64}
@@ -268,7 +268,7 @@ type VolumeModification <: AbstractAWSType
 end # VolumeModification
 export VolumeModification
 
-type VolumeStatusAction <: AbstractAWSType
+mutable struct VolumeStatusAction <: AbstractAWSType
     code::Union{Void,String}
     description::Union{Void,String}
     eventId::Union{Void,String}
@@ -280,7 +280,7 @@ type VolumeStatusAction <: AbstractAWSType
 end # VolumeStatusAction
 export VolumeStatusAction
 
-type VolumeStatusDetails <: AbstractAWSType
+mutable struct VolumeStatusDetails <: AbstractAWSType
     name::Union{Void,String}
     status::Union{Void,String}
     function VolumeStatusDetails(;name=nothing, status=nothing)
@@ -290,7 +290,7 @@ type VolumeStatusDetails <: AbstractAWSType
 end # VolumeStatusDetails
 export VolumeStatusDetails
 
-type VolumeStatusEvent <: AbstractAWSType
+mutable struct VolumeStatusEvent <: AbstractAWSType
     description::Union{Void,String}
     eventId::Union{Void,String}
     eventType::Union{Void,String}
@@ -303,7 +303,7 @@ type VolumeStatusEvent <: AbstractAWSType
 end # VolumeStatusEvent
 export VolumeStatusEvent
 
-type VolumeStatusInfo <: AbstractAWSType
+mutable struct VolumeStatusInfo <: AbstractAWSType
     details::Union{Void,Array{VolumeStatusDetails,1}}
     status::Union{Void,String}
     function VolumeStatusInfo(;details=nothing, status=nothing)
@@ -313,7 +313,7 @@ type VolumeStatusInfo <: AbstractAWSType
 end # VolumeStatusInfo
 export VolumeStatusInfo
 
-type VolumeStatusItem <: AbstractAWSType
+mutable struct VolumeStatusItem <: AbstractAWSType
     actionsSet::Union{Void,Array{VolumeStatusAction,1}}
     availabilityZone::Union{Void,String}
     eventsSet::Union{Void,Array{VolumeStatusEvent,1}}
@@ -326,7 +326,7 @@ type VolumeStatusItem <: AbstractAWSType
 end # VolumeStatusItem
 export VolumeStatusItem
 
-type Volume <: AbstractAWSType
+mutable struct Volume <: AbstractAWSType
     attachmentSet::Union{Void,Array{VolumeAttachment,1}}
     availabilityZone::Union{Void,String}
     createTime::Union{Void,DateTime}
@@ -346,7 +346,7 @@ type Volume <: AbstractAWSType
 end # Volume
 export Volume
 
-type EbsBlockDevice <: AbstractAWSType
+mutable struct EbsBlockDevice <: AbstractAWSType
     deleteOnTermination::Union{Void,Bool}
     encrypted::Union{Void,Bool}
     iops::Union{Void,Int64}
@@ -360,7 +360,7 @@ type EbsBlockDevice <: AbstractAWSType
 end # EbsBlockDevice
 export EbsBlockDevice
 
-type BlockDeviceMapping <: AbstractAWSType
+mutable struct BlockDeviceMapping <: AbstractAWSType
     deviceName::Union{Void,String}
     ebs::Union{Void,EbsBlockDevice}
     noDevice::Union{Void,String}
@@ -372,7 +372,7 @@ type BlockDeviceMapping <: AbstractAWSType
 end # BlockDeviceMapping
 export BlockDeviceMapping
 
-type BundleTaskError <: AbstractAWSType
+mutable struct BundleTaskError <: AbstractAWSType
     code::Union{Void,String}
     message::Union{Void,String}
     function BundleTaskError(;code=nothing, message=nothing)
@@ -382,7 +382,7 @@ type BundleTaskError <: AbstractAWSType
 end # BundleTaskError
 export BundleTaskError
 
-type RunInstancesMonitoringEnabled <: AbstractAWSType
+mutable struct RunInstancesMonitoringEnabled <: AbstractAWSType
     enabled::Union{Void,Bool}
     function RunInstancesMonitoringEnabled(;enabled=nothing)
         new(enabled)
@@ -391,7 +391,7 @@ type RunInstancesMonitoringEnabled <: AbstractAWSType
 end # RunInstancesMonitoringEnabled
 export RunInstancesMonitoringEnabled
 
-type S3Storage <: AbstractAWSType
+mutable struct S3Storage <: AbstractAWSType
     aWSAccessKeyId::Union{Void,String}
     bucket::Union{Void,String}
     prefix::Union{Void,String}
@@ -404,7 +404,7 @@ type S3Storage <: AbstractAWSType
 end # S3Storage
 export S3Storage
 
-type SpotInstanceStateFault <: AbstractAWSType
+mutable struct SpotInstanceStateFault <: AbstractAWSType
     code::Union{Void,String}
     message::Union{Void,String}
     function SpotInstanceStateFault(;code=nothing, message=nothing)
@@ -414,7 +414,7 @@ type SpotInstanceStateFault <: AbstractAWSType
 end # SpotInstanceStateFault
 export SpotInstanceStateFault
 
-type SpotInstanceStatus <: AbstractAWSType
+mutable struct SpotInstanceStatus <: AbstractAWSType
     code::Union{Void,String}
     message::Union{Void,String}
     updateTime::Union{Void,DateTime}
@@ -425,7 +425,7 @@ type SpotInstanceStatus <: AbstractAWSType
 end # SpotInstanceStatus
 export SpotInstanceStatus
 
-type SpotPlacement <: AbstractAWSType
+mutable struct SpotPlacement <: AbstractAWSType
     availabilityZone::Union{Void,String}
     groupName::Union{Void,String}
     tenancy::Union{Void,String}
@@ -436,7 +436,7 @@ type SpotPlacement <: AbstractAWSType
 end # SpotPlacement
 export SpotPlacement
 
-type SpotPrice <: AbstractAWSType
+mutable struct SpotPrice <: AbstractAWSType
     availabilityZone::Union{Void,String}
     instanceType::Union{Void,String}
     productDescription::Union{Void,String}
@@ -449,7 +449,7 @@ type SpotPrice <: AbstractAWSType
 end # SpotPrice
 export SpotPrice
 
-type Storage <: AbstractAWSType
+mutable struct Storage <: AbstractAWSType
     s3::Union{Void,S3Storage}
     function Storage(;s3=nothing)
         new(s3)
@@ -458,7 +458,7 @@ type Storage <: AbstractAWSType
 end # Storage
 export Storage
 
-type StorageLocation <: AbstractAWSType
+mutable struct StorageLocation <: AbstractAWSType
     bucket::Union{Void,String}
     key::Union{Void,String}
     function StorageLocation(;bucket=nothing, key=nothing)
@@ -468,7 +468,7 @@ type StorageLocation <: AbstractAWSType
 end # StorageLocation
 export StorageLocation
 
-type BundleTask <: AbstractAWSType
+mutable struct BundleTask <: AbstractAWSType
     bundleId::Union{Void,String}
     error::Union{Void,BundleTaskError}
     instanceId::Union{Void,String}
@@ -484,7 +484,7 @@ type BundleTask <: AbstractAWSType
 end # BundleTask
 export BundleTask
 
-type CancelledSpotInstanceRequest <: AbstractAWSType
+mutable struct CancelledSpotInstanceRequest <: AbstractAWSType
     spotInstanceRequestId::Union{Void,String}
     state::Union{Void,String}
     function CancelledSpotInstanceRequest(;spotInstanceRequestId=nothing, state=nothing)
@@ -494,7 +494,7 @@ type CancelledSpotInstanceRequest <: AbstractAWSType
 end # CancelledSpotInstanceRequest
 export CancelledSpotInstanceRequest
 
-type CancelSpotFleetRequestsError <: AbstractAWSType
+mutable struct CancelSpotFleetRequestsError <: AbstractAWSType
     code::Union{Void,String}
     message::Union{Void,String}
     function CancelSpotFleetRequestsError(;code=nothing, message=nothing)
@@ -504,7 +504,7 @@ type CancelSpotFleetRequestsError <: AbstractAWSType
 end # CancelSpotFleetRequestsError
 export CancelSpotFleetRequestsError
 
-type CancelSpotFleetRequestsErrorItem <: AbstractAWSType
+mutable struct CancelSpotFleetRequestsErrorItem <: AbstractAWSType
     error::Union{Void,CancelSpotFleetRequestsError}
     spotFleetRequestId::Union{Void,String}
     function CancelSpotFleetRequestsErrorItem(;error=nothing, spotFleetRequestId=nothing)
@@ -514,7 +514,7 @@ type CancelSpotFleetRequestsErrorItem <: AbstractAWSType
 end # CancelSpotFleetRequestsErrorItem
 export CancelSpotFleetRequestsErrorItem
 
-type CancelSpotFleetRequestsSuccessItem <: AbstractAWSType
+mutable struct CancelSpotFleetRequestsSuccessItem <: AbstractAWSType
     currentSpotFleetRequestState::Union{Void,String}
     previousSpotFleetRequestState::Union{Void,String}
     spotFleetRequestId::Union{Void,String}
@@ -525,7 +525,7 @@ type CancelSpotFleetRequestsSuccessItem <: AbstractAWSType
 end # CancelSpotFleetRequestsSuccessItem
 export CancelSpotFleetRequestsSuccessItem
 
-type GroupIdentifier <: AbstractAWSType
+mutable struct GroupIdentifier <: AbstractAWSType
     groupId::Union{Void,String}
     groupName::Union{Void,String}
     function GroupIdentifier(;groupId=nothing, groupName=nothing)
@@ -535,7 +535,7 @@ type GroupIdentifier <: AbstractAWSType
 end # GroupIdentifier
 export GroupIdentifier
 
-type ClassicLinkDnsSupport <: AbstractAWSType
+mutable struct ClassicLinkDnsSupport <: AbstractAWSType
     classicLinkDnsSupported::Union{Void,Bool}
     vpcId::Union{Void,String}
     function ClassicLinkDnsSupport(;classicLinkDnsSupported=nothing, vpcId=nothing)
@@ -545,7 +545,7 @@ type ClassicLinkDnsSupport <: AbstractAWSType
 end # ClassicLinkDnsSupport
 export ClassicLinkDnsSupport
 
-type ClassicLinkInstance <: AbstractAWSType
+mutable struct ClassicLinkInstance <: AbstractAWSType
     groupSet::Union{Void,Array{GroupIdentifier,1}}
     instanceId::Union{Void,String}
     tagSet::Union{Void,Array{Tag,1}}
@@ -557,7 +557,7 @@ type ClassicLinkInstance <: AbstractAWSType
 end # ClassicLinkInstance
 export ClassicLinkInstance
 
-type ClientData <: AbstractAWSType
+mutable struct ClientData <: AbstractAWSType
     comment::Union{Void,String}
     uploadEnd::Union{Void,DateTime}
     uploadSize::Union{Void,Float64}
@@ -569,7 +569,7 @@ type ClientData <: AbstractAWSType
 end # ClientData
 export ClientData
 
-type DiskImageDetail <: AbstractAWSType
+mutable struct DiskImageDetail <: AbstractAWSType
     bytes::Union{Void,Int64}
     format::Union{Void,String}
     importManifestUrl::Union{Void,String}
@@ -580,7 +580,7 @@ type DiskImageDetail <: AbstractAWSType
 end # DiskImageDetail
 export DiskImageDetail
 
-type DiskImage <: AbstractAWSType
+mutable struct DiskImage <: AbstractAWSType
     description::Union{Void,String}
     image::Union{Void,DiskImageDetail}
     volume::Union{Void,VolumeDetail}
@@ -591,7 +591,7 @@ type DiskImage <: AbstractAWSType
 end # DiskImage
 export DiskImage
 
-type DiskImageDescription <: AbstractAWSType
+mutable struct DiskImageDescription <: AbstractAWSType
     checksum::Union{Void,String}
     format::Union{Void,String}
     importManifestUrl::Union{Void,String}
@@ -603,7 +603,7 @@ type DiskImageDescription <: AbstractAWSType
 end # DiskImageDescription
 export DiskImageDescription
 
-type DiskImageVolumeDescription <: AbstractAWSType
+mutable struct DiskImageVolumeDescription <: AbstractAWSType
     id::Union{Void,String}
     size::Union{Void,Int64}
     function DiskImageVolumeDescription(;id=nothing, size=nothing)
@@ -613,7 +613,7 @@ type DiskImageVolumeDescription <: AbstractAWSType
 end # DiskImageVolumeDescription
 export DiskImageVolumeDescription
 
-type ImportVolumeTaskDetails <: AbstractAWSType
+mutable struct ImportVolumeTaskDetails <: AbstractAWSType
     availabilityZone::Union{Void,String}
     bytesConverted::Union{Void,Int64}
     description::Union{Void,String}
@@ -626,7 +626,7 @@ type ImportVolumeTaskDetails <: AbstractAWSType
 end # ImportVolumeTaskDetails
 export ImportVolumeTaskDetails
 
-type ImportInstanceVolumeDetailItem <: AbstractAWSType
+mutable struct ImportInstanceVolumeDetailItem <: AbstractAWSType
     availabilityZone::Union{Void,String}
     bytesConverted::Union{Void,Int64}
     description::Union{Void,String}
@@ -641,7 +641,7 @@ type ImportInstanceVolumeDetailItem <: AbstractAWSType
 end # ImportInstanceVolumeDetailItem
 export ImportInstanceVolumeDetailItem
 
-type ImportInstanceTaskDetails <: AbstractAWSType
+mutable struct ImportInstanceTaskDetails <: AbstractAWSType
     description::Union{Void,String}
     instanceId::Union{Void,String}
     platform::Union{Void,String}
@@ -653,7 +653,7 @@ type ImportInstanceTaskDetails <: AbstractAWSType
 end # ImportInstanceTaskDetails
 export ImportInstanceTaskDetails
 
-type ConversionTask <: AbstractAWSType
+mutable struct ConversionTask <: AbstractAWSType
     conversionTaskId::Union{Void,String}
     expirationTime::Union{Void,String}
     importInstance::Union{Void,ImportInstanceTaskDetails}
@@ -668,7 +668,7 @@ type ConversionTask <: AbstractAWSType
 end # ConversionTask
 export ConversionTask
 
-type CreateVolumePermission <: AbstractAWSType
+mutable struct CreateVolumePermission <: AbstractAWSType
     group::Union{Void,String}
     userId::Union{Void,String}
     function CreateVolumePermission(;group=nothing, userId=nothing)
@@ -678,7 +678,7 @@ type CreateVolumePermission <: AbstractAWSType
 end # CreateVolumePermission
 export CreateVolumePermission
 
-type CreateVolumePermissionModifications <: AbstractAWSType
+mutable struct CreateVolumePermissionModifications <: AbstractAWSType
     add::Union{Void,Array{CreateVolumePermission,1}}
     remove::Union{Void,Array{CreateVolumePermission,1}}
     function CreateVolumePermissionModifications(;add=nothing, remove=nothing)
@@ -688,7 +688,7 @@ type CreateVolumePermissionModifications <: AbstractAWSType
 end # CreateVolumePermissionModifications
 export CreateVolumePermissionModifications
 
-type CustomerGateway <: AbstractAWSType
+mutable struct CustomerGateway <: AbstractAWSType
     bgpAsn::Union{Void,String}
     customerGatewayId::Union{Void,String}
     ipAddress::Union{Void,String}
@@ -702,7 +702,7 @@ type CustomerGateway <: AbstractAWSType
 end # CustomerGateway
 export CustomerGateway
 
-type DhcpConfiguration <: AbstractAWSType
+mutable struct DhcpConfiguration <: AbstractAWSType
     key::Union{Void,String}
     valueSet::Union{Void,Array{AttributeValue,1}}
     function DhcpConfiguration(;key=nothing, valueSet=nothing)
@@ -712,7 +712,7 @@ type DhcpConfiguration <: AbstractAWSType
 end # DhcpConfiguration
 export DhcpConfiguration
 
-type DhcpOptions <: AbstractAWSType
+mutable struct DhcpOptions <: AbstractAWSType
     dhcpConfigurationSet::Union{Void,Array{DhcpConfiguration,1}}
     dhcpOptionsId::Union{Void,String}
     tagSet::Union{Void,Array{Tag,1}}
@@ -723,7 +723,7 @@ type DhcpOptions <: AbstractAWSType
 end # DhcpOptions
 export DhcpOptions
 
-type EbsInstanceBlockDevice <: AbstractAWSType
+mutable struct EbsInstanceBlockDevice <: AbstractAWSType
     attachTime::Union{Void,DateTime}
     deleteOnTermination::Union{Void,Bool}
     status::Union{Void,String}
@@ -735,7 +735,7 @@ type EbsInstanceBlockDevice <: AbstractAWSType
 end # EbsInstanceBlockDevice
 export EbsInstanceBlockDevice
 
-type EbsInstanceBlockDeviceSpecification <: AbstractAWSType
+mutable struct EbsInstanceBlockDeviceSpecification <: AbstractAWSType
     deleteOnTermination::Union{Void,Bool}
     volumeId::Union{Void,String}
     function EbsInstanceBlockDeviceSpecification(;deleteOnTermination=nothing, volumeId=nothing)
@@ -745,7 +745,7 @@ type EbsInstanceBlockDeviceSpecification <: AbstractAWSType
 end # EbsInstanceBlockDeviceSpecification
 export EbsInstanceBlockDeviceSpecification
 
-type InternetGatewayAttachment <: AbstractAWSType
+mutable struct InternetGatewayAttachment <: AbstractAWSType
     state::Union{Void,String}
     vpcId::Union{Void,String}
     function InternetGatewayAttachment(;state=nothing, vpcId=nothing)
@@ -755,7 +755,7 @@ type InternetGatewayAttachment <: AbstractAWSType
 end # InternetGatewayAttachment
 export InternetGatewayAttachment
 
-type InternetGateway <: AbstractAWSType
+mutable struct InternetGateway <: AbstractAWSType
     attachmentSet::Union{Void,Array{InternetGatewayAttachment,1}}
     internetGatewayId::Union{Void,String}
     tagSet::Union{Void,Array{Tag,1}}
@@ -766,7 +766,7 @@ type InternetGateway <: AbstractAWSType
 end # InternetGateway
 export InternetGateway
 
-type EgressOnlyInternetGateway <: AbstractAWSType
+mutable struct EgressOnlyInternetGateway <: AbstractAWSType
     attachmentSet::Union{Void,Array{InternetGatewayAttachment,1}}
     egressOnlyInternetGatewayId::Union{Void,String}
     function EgressOnlyInternetGateway(;attachmentSet=nothing, egressOnlyInternetGatewayId=nothing)
@@ -776,7 +776,7 @@ type EgressOnlyInternetGateway <: AbstractAWSType
 end # EgressOnlyInternetGateway
 export EgressOnlyInternetGateway
 
-type EventInformation <: AbstractAWSType
+mutable struct EventInformation <: AbstractAWSType
     eventDescription::Union{Void,String}
     eventSubType::Union{Void,String}
     instanceId::Union{Void,String}
@@ -787,7 +787,7 @@ type EventInformation <: AbstractAWSType
 end # EventInformation
 export EventInformation
 
-type ExportToS3Task <: AbstractAWSType
+mutable struct ExportToS3Task <: AbstractAWSType
     containerFormat::Union{Void,String}
     diskImageFormat::Union{Void,String}
     s3Bucket::Union{Void,String}
@@ -799,7 +799,7 @@ type ExportToS3Task <: AbstractAWSType
 end # ExportToS3Task
 export ExportToS3Task
 
-type InstanceCount <: AbstractAWSType
+mutable struct InstanceCount <: AbstractAWSType
     instanceCount::Union{Void,Int64}
     state::Union{Void,String}
     function InstanceCount(;instanceCount=nothing, state=nothing)
@@ -809,7 +809,7 @@ type InstanceCount <: AbstractAWSType
 end # InstanceCount
 export InstanceCount
 
-type InstanceExportDetails <: AbstractAWSType
+mutable struct InstanceExportDetails <: AbstractAWSType
     instanceId::Union{Void,String}
     targetEnvironment::Union{Void,String}
     function InstanceExportDetails(;instanceId=nothing, targetEnvironment=nothing)
@@ -819,7 +819,7 @@ type InstanceExportDetails <: AbstractAWSType
 end # InstanceExportDetails
 export InstanceExportDetails
 
-type InstanceIpv6Address <: AbstractAWSType
+mutable struct InstanceIpv6Address <: AbstractAWSType
     ipv6Address::Union{Void,String}
     function InstanceIpv6Address(;ipv6Address=nothing)
         new(ipv6Address)
@@ -828,7 +828,7 @@ type InstanceIpv6Address <: AbstractAWSType
 end # InstanceIpv6Address
 export InstanceIpv6Address
 
-type ExportTask <: AbstractAWSType
+mutable struct ExportTask <: AbstractAWSType
     description::Union{Void,String}
     exportTaskId::Union{Void,String}
     exportToS3::Union{Void,ExportToS3Task}
@@ -842,7 +842,7 @@ type ExportTask <: AbstractAWSType
 end # ExportTask
 export ExportTask
 
-type ExportToS3TaskSpecification <: AbstractAWSType
+mutable struct ExportToS3TaskSpecification <: AbstractAWSType
     containerFormat::Union{Void,String}
     diskImageFormat::Union{Void,String}
     s3Bucket::Union{Void,String}
@@ -854,7 +854,7 @@ type ExportToS3TaskSpecification <: AbstractAWSType
 end # ExportToS3TaskSpecification
 export ExportToS3TaskSpecification
 
-type Filter <: AbstractAWSType
+mutable struct Filter <: AbstractAWSType
     name::Union{Void,String}
     value::Union{Void,Array{String,1}}
     function Filter(;name=nothing, value=nothing)
@@ -864,7 +864,7 @@ type Filter <: AbstractAWSType
 end # Filter
 export Filter
 
-type FlowLog <: AbstractAWSType
+mutable struct FlowLog <: AbstractAWSType
     creationTime::Union{Void,DateTime}
     deliverLogsErrorMessage::Union{Void,String}
     deliverLogsPermissionArn::Union{Void,String}
@@ -881,7 +881,7 @@ type FlowLog <: AbstractAWSType
 end # FlowLog
 export FlowLog
 
-type FpgaImageState <: AbstractAWSType
+mutable struct FpgaImageState <: AbstractAWSType
     code::Union{Void,String}
     message::Union{Void,String}
     function FpgaImageState(;code=nothing, message=nothing)
@@ -891,7 +891,7 @@ type FpgaImageState <: AbstractAWSType
 end # FpgaImageState
 export FpgaImageState
 
-type PciId <: AbstractAWSType
+mutable struct PciId <: AbstractAWSType
     deviceId::Union{Void,String}
     subsystemId::Union{Void,String}
     subsystemVendorId::Union{Void,String}
@@ -903,7 +903,7 @@ type PciId <: AbstractAWSType
 end # PciId
 export PciId
 
-type NewDhcpConfiguration <: AbstractAWSType
+mutable struct NewDhcpConfiguration <: AbstractAWSType
     key::Union{Void,String}
     values::Union{Void,Array{String,1}}
     function NewDhcpConfiguration(;key=nothing, values=nothing)
@@ -913,7 +913,7 @@ type NewDhcpConfiguration <: AbstractAWSType
 end # NewDhcpConfiguration
 export NewDhcpConfiguration
 
-type PeeringConnectionOptions <: AbstractAWSType
+mutable struct PeeringConnectionOptions <: AbstractAWSType
     allowDnsResolutionFromRemoteVpc::Union{Void,Bool}
     allowEgressFromLocalClassicLinkToRemoteVpc::Union{Void,Bool}
     allowEgressFromLocalVpcToRemoteClassicLink::Union{Void,Bool}
@@ -924,7 +924,7 @@ type PeeringConnectionOptions <: AbstractAWSType
 end # PeeringConnectionOptions
 export PeeringConnectionOptions
 
-type PeeringConnectionOptionsRequest <: AbstractAWSType
+mutable struct PeeringConnectionOptionsRequest <: AbstractAWSType
     allowDnsResolutionFromRemoteVpc::Union{Void,Bool}
     allowEgressFromLocalClassicLinkToRemoteVpc::Union{Void,Bool}
     allowEgressFromLocalVpcToRemoteClassicLink::Union{Void,Bool}
@@ -935,7 +935,7 @@ type PeeringConnectionOptionsRequest <: AbstractAWSType
 end # PeeringConnectionOptionsRequest
 export PeeringConnectionOptionsRequest
 
-type Placement <: AbstractAWSType
+mutable struct Placement <: AbstractAWSType
     affinity::Union{Void,String}
     availabilityZone::Union{Void,String}
     groupName::Union{Void,String}
@@ -949,7 +949,7 @@ type Placement <: AbstractAWSType
 end # Placement
 export Placement
 
-type PlacementGroup <: AbstractAWSType
+mutable struct PlacementGroup <: AbstractAWSType
     groupName::Union{Void,String}
     state::Union{Void,String}
     strategy::Union{Void,String}
@@ -960,7 +960,7 @@ type PlacementGroup <: AbstractAWSType
 end # PlacementGroup
 export PlacementGroup
 
-type PortRange <: AbstractAWSType
+mutable struct PortRange <: AbstractAWSType
     from::Union{Void,Int64}
     to::Union{Void,Int64}
     function PortRange(;from=nothing, to=nothing)
@@ -970,7 +970,7 @@ type PortRange <: AbstractAWSType
 end # PortRange
 export PortRange
 
-type PrefixList <: AbstractAWSType
+mutable struct PrefixList <: AbstractAWSType
     cidrSet::Union{Void,Array{String,1}}
     prefixListId::Union{Void,String}
     prefixListName::Union{Void,String}
@@ -981,7 +981,7 @@ type PrefixList <: AbstractAWSType
 end # PrefixList
 export PrefixList
 
-type PrefixListId <: AbstractAWSType
+mutable struct PrefixListId <: AbstractAWSType
     prefixListId::Union{Void,String}
     function PrefixListId(;prefixListId=nothing)
         new(prefixListId)
@@ -990,7 +990,7 @@ type PrefixListId <: AbstractAWSType
 end # PrefixListId
 export PrefixListId
 
-type PriceSchedule <: AbstractAWSType
+mutable struct PriceSchedule <: AbstractAWSType
     active::Union{Void,Bool}
     currencyCode::Union{Void,String}
     price::Union{Void,Float64}
@@ -1002,7 +1002,7 @@ type PriceSchedule <: AbstractAWSType
 end # PriceSchedule
 export PriceSchedule
 
-type PriceScheduleSpecification <: AbstractAWSType
+mutable struct PriceScheduleSpecification <: AbstractAWSType
     currencyCode::Union{Void,String}
     price::Union{Void,Float64}
     term::Union{Void,Int64}
@@ -1013,7 +1013,7 @@ type PriceScheduleSpecification <: AbstractAWSType
 end # PriceScheduleSpecification
 export PriceScheduleSpecification
 
-type PricingDetail <: AbstractAWSType
+mutable struct PricingDetail <: AbstractAWSType
     count::Union{Void,Int64}
     price::Union{Void,Float64}
     function PricingDetail(;count=nothing, price=nothing)
@@ -1023,7 +1023,7 @@ type PricingDetail <: AbstractAWSType
 end # PricingDetail
 export PricingDetail
 
-type PrivateIpAddressSpecification <: AbstractAWSType
+mutable struct PrivateIpAddressSpecification <: AbstractAWSType
     primary::Union{Void,Bool}
     privateIpAddress::Union{Void,String}
     function PrivateIpAddressSpecification(;primary=nothing, privateIpAddress=nothing)
@@ -1033,7 +1033,7 @@ type PrivateIpAddressSpecification <: AbstractAWSType
 end # PrivateIpAddressSpecification
 export PrivateIpAddressSpecification
 
-type ProductCode <: AbstractAWSType
+mutable struct ProductCode <: AbstractAWSType
     productCode::Union{Void,String}
     _type::Union{Void,String}
     function ProductCode(;productCode=nothing, _type=nothing)
@@ -1043,7 +1043,7 @@ type ProductCode <: AbstractAWSType
 end # ProductCode
 export ProductCode
 
-type PropagatingVgw <: AbstractAWSType
+mutable struct PropagatingVgw <: AbstractAWSType
     gatewayId::Union{Void,String}
     function PropagatingVgw(;gatewayId=nothing)
         new(gatewayId)
@@ -1052,7 +1052,7 @@ type PropagatingVgw <: AbstractAWSType
 end # PropagatingVgw
 export PropagatingVgw
 
-type ProvisionedBandwidth <: AbstractAWSType
+mutable struct ProvisionedBandwidth <: AbstractAWSType
     provisioned::Union{Void,String}
     provisionTime::Union{Void,DateTime}
     requested::Union{Void,String}
@@ -1065,7 +1065,7 @@ type ProvisionedBandwidth <: AbstractAWSType
 end # ProvisionedBandwidth
 export ProvisionedBandwidth
 
-type Purchase <: AbstractAWSType
+mutable struct Purchase <: AbstractAWSType
     currencyCode::Union{Void,String}
     duration::Union{Void,Int64}
     hostIdSet::Union{Void,Array{String,1}}
@@ -1081,7 +1081,7 @@ type Purchase <: AbstractAWSType
 end # Purchase
 export Purchase
 
-type PurchaseRequest <: AbstractAWSType
+mutable struct PurchaseRequest <: AbstractAWSType
     instanceCount::Union{Void,Int64}
     purchaseToken::Union{Void,String}
     function PurchaseRequest(;instanceCount=nothing, purchaseToken=nothing)
@@ -1091,7 +1091,7 @@ type PurchaseRequest <: AbstractAWSType
 end # PurchaseRequest
 export PurchaseRequest
 
-type RecurringCharge <: AbstractAWSType
+mutable struct RecurringCharge <: AbstractAWSType
     amount::Union{Void,Float64}
     frequency::Union{Void,String}
     function RecurringCharge(;amount=nothing, frequency=nothing)
@@ -1101,7 +1101,7 @@ type RecurringCharge <: AbstractAWSType
 end # RecurringCharge
 export RecurringCharge
 
-type Region <: AbstractAWSType
+mutable struct Region <: AbstractAWSType
     regionEndpoint::Union{Void,String}
     regionName::Union{Void,String}
     function Region(;regionEndpoint=nothing, regionName=nothing)
@@ -1111,7 +1111,7 @@ type Region <: AbstractAWSType
 end # Region
 export Region
 
-type FpgaImage <: AbstractAWSType
+mutable struct FpgaImage <: AbstractAWSType
     createTime::Union{Void,DateTime}
     description::Union{Void,String}
     fpgaImageGlobalId::Union{Void,String}
@@ -1132,7 +1132,7 @@ type FpgaImage <: AbstractAWSType
 end # FpgaImage
 export FpgaImage
 
-type HistoryRecord <: AbstractAWSType
+mutable struct HistoryRecord <: AbstractAWSType
     eventInformation::Union{Void,EventInformation}
     eventType::Union{Void,String}
     timestamp::Union{Void,DateTime}
@@ -1143,7 +1143,7 @@ type HistoryRecord <: AbstractAWSType
 end # HistoryRecord
 export HistoryRecord
 
-type HostInstance <: AbstractAWSType
+mutable struct HostInstance <: AbstractAWSType
     instanceId::Union{Void,String}
     instanceType::Union{Void,String}
     function HostInstance(;instanceId=nothing, instanceType=nothing)
@@ -1153,7 +1153,7 @@ type HostInstance <: AbstractAWSType
 end # HostInstance
 export HostInstance
 
-type HostOffering <: AbstractAWSType
+mutable struct HostOffering <: AbstractAWSType
     currencyCode::Union{Void,String}
     duration::Union{Void,Int64}
     hourlyPrice::Union{Void,String}
@@ -1168,7 +1168,7 @@ type HostOffering <: AbstractAWSType
 end # HostOffering
 export HostOffering
 
-type HostProperties <: AbstractAWSType
+mutable struct HostProperties <: AbstractAWSType
     cores::Union{Void,Int64}
     instanceType::Union{Void,String}
     sockets::Union{Void,Int64}
@@ -1180,7 +1180,7 @@ type HostProperties <: AbstractAWSType
 end # HostProperties
 export HostProperties
 
-type HostReservation <: AbstractAWSType
+mutable struct HostReservation <: AbstractAWSType
     count::Union{Void,Int64}
     currencyCode::Union{Void,String}
     duration::Union{Void,Int64}
@@ -1201,7 +1201,7 @@ type HostReservation <: AbstractAWSType
 end # HostReservation
 export HostReservation
 
-type Host <: AbstractAWSType
+mutable struct Host <: AbstractAWSType
     autoPlacement::Union{Void,String}
     availabilityZone::Union{Void,String}
     availableCapacity::Union{Void,AvailableCapacity}
@@ -1218,7 +1218,7 @@ type Host <: AbstractAWSType
 end # Host
 export Host
 
-type IamInstanceProfile <: AbstractAWSType
+mutable struct IamInstanceProfile <: AbstractAWSType
     arn::Union{Void,String}
     id::Union{Void,String}
     function IamInstanceProfile(;arn=nothing, id=nothing)
@@ -1228,7 +1228,7 @@ type IamInstanceProfile <: AbstractAWSType
 end # IamInstanceProfile
 export IamInstanceProfile
 
-type IamInstanceProfileAssociation <: AbstractAWSType
+mutable struct IamInstanceProfileAssociation <: AbstractAWSType
     associationId::Union{Void,String}
     iamInstanceProfile::Union{Void,IamInstanceProfile}
     instanceId::Union{Void,String}
@@ -1241,7 +1241,7 @@ type IamInstanceProfileAssociation <: AbstractAWSType
 end # IamInstanceProfileAssociation
 export IamInstanceProfileAssociation
 
-type IamInstanceProfileSpecification <: AbstractAWSType
+mutable struct IamInstanceProfileSpecification <: AbstractAWSType
     arn::Union{Void,String}
     name::Union{Void,String}
     function IamInstanceProfileSpecification(;arn=nothing, name=nothing)
@@ -1251,7 +1251,7 @@ type IamInstanceProfileSpecification <: AbstractAWSType
 end # IamInstanceProfileSpecification
 export IamInstanceProfileSpecification
 
-type IcmpTypeCode <: AbstractAWSType
+mutable struct IcmpTypeCode <: AbstractAWSType
     code::Union{Void,Int64}
     _Type::Union{Void,Int64}
     function IcmpTypeCode(;code=nothing, _Type=nothing)
@@ -1261,7 +1261,7 @@ type IcmpTypeCode <: AbstractAWSType
 end # IcmpTypeCode
 export IcmpTypeCode
 
-type IdFormat <: AbstractAWSType
+mutable struct IdFormat <: AbstractAWSType
     deadline::Union{Void,DateTime}
     resource::Union{Void,String}
     useLongIds::Union{Void,Bool}
@@ -1272,7 +1272,7 @@ type IdFormat <: AbstractAWSType
 end # IdFormat
 export IdFormat
 
-type StateReason <: AbstractAWSType
+mutable struct StateReason <: AbstractAWSType
     code::Union{Void,String}
     message::Union{Void,String}
     function StateReason(;code=nothing, message=nothing)
@@ -1282,7 +1282,7 @@ type StateReason <: AbstractAWSType
 end # StateReason
 export StateReason
 
-type Image <: AbstractAWSType
+mutable struct Image <: AbstractAWSType
     architecture::Union{Void,String}
     blockDeviceMapping::Union{Void,Array{BlockDeviceMapping,1}}
     creationDate::Union{Void,String}
@@ -1314,7 +1314,7 @@ type Image <: AbstractAWSType
 end # Image
 export Image
 
-type ImageDiskContainer <: AbstractAWSType
+mutable struct ImageDiskContainer <: AbstractAWSType
     description::Union{Void,String}
     deviceName::Union{Void,String}
     format::Union{Void,String}
@@ -1328,7 +1328,7 @@ type ImageDiskContainer <: AbstractAWSType
 end # ImageDiskContainer
 export ImageDiskContainer
 
-type SecurityGroupReference <: AbstractAWSType
+mutable struct SecurityGroupReference <: AbstractAWSType
     groupId::Union{Void,String}
     referencingVpcId::Union{Void,String}
     vpcPeeringConnectionId::Union{Void,String}
@@ -1339,7 +1339,7 @@ type SecurityGroupReference <: AbstractAWSType
 end # SecurityGroupReference
 export SecurityGroupReference
 
-type SlotDateTimeRangeRequest <: AbstractAWSType
+mutable struct SlotDateTimeRangeRequest <: AbstractAWSType
     earliestTime::Union{Void,DateTime}
     latestTime::Union{Void,DateTime}
     function SlotDateTimeRangeRequest(;earliestTime=nothing, latestTime=nothing)
@@ -1349,7 +1349,7 @@ type SlotDateTimeRangeRequest <: AbstractAWSType
 end # SlotDateTimeRangeRequest
 export SlotDateTimeRangeRequest
 
-type SlotStartTimeRangeRequest <: AbstractAWSType
+mutable struct SlotStartTimeRangeRequest <: AbstractAWSType
     earliestTime::Union{Void,DateTime}
     latestTime::Union{Void,DateTime}
     function SlotStartTimeRangeRequest(;earliestTime=nothing, latestTime=nothing)
@@ -1359,7 +1359,7 @@ type SlotStartTimeRangeRequest <: AbstractAWSType
 end # SlotStartTimeRangeRequest
 export SlotStartTimeRangeRequest
 
-type Snapshot <: AbstractAWSType
+mutable struct Snapshot <: AbstractAWSType
     dataEncryptionKeyId::Union{Void,String}
     description::Union{Void,String}
     encrypted::Union{Void,Bool}
@@ -1381,7 +1381,7 @@ type Snapshot <: AbstractAWSType
 end # Snapshot
 export Snapshot
 
-type SnapshotDetail <: AbstractAWSType
+mutable struct SnapshotDetail <: AbstractAWSType
     description::Union{Void,String}
     deviceName::Union{Void,String}
     diskImageSize::Union{Void,Float64}
@@ -1399,7 +1399,7 @@ type SnapshotDetail <: AbstractAWSType
 end # SnapshotDetail
 export SnapshotDetail
 
-type SnapshotDiskContainer <: AbstractAWSType
+mutable struct SnapshotDiskContainer <: AbstractAWSType
     description::Union{Void,String}
     format::Union{Void,String}
     url::Union{Void,String}
@@ -1411,7 +1411,7 @@ type SnapshotDiskContainer <: AbstractAWSType
 end # SnapshotDiskContainer
 export SnapshotDiskContainer
 
-type SnapshotTaskDetail <: AbstractAWSType
+mutable struct SnapshotTaskDetail <: AbstractAWSType
     description::Union{Void,String}
     diskImageSize::Union{Void,Float64}
     format::Union{Void,String}
@@ -1428,7 +1428,7 @@ type SnapshotTaskDetail <: AbstractAWSType
 end # SnapshotTaskDetail
 export SnapshotTaskDetail
 
-type ImportImageTask <: AbstractAWSType
+mutable struct ImportImageTask <: AbstractAWSType
     architecture::Union{Void,String}
     description::Union{Void,String}
     hypervisor::Union{Void,String}
@@ -1447,7 +1447,7 @@ type ImportImageTask <: AbstractAWSType
 end # ImportImageTask
 export ImportImageTask
 
-type ImportInstanceLaunchSpecification <: AbstractAWSType
+mutable struct ImportInstanceLaunchSpecification <: AbstractAWSType
     additionalInfo::Union{Void,String}
     architecture::Union{Void,String}
     groupIds::Union{Void,Array{String,1}}
@@ -1466,7 +1466,7 @@ type ImportInstanceLaunchSpecification <: AbstractAWSType
 end # ImportInstanceLaunchSpecification
 export ImportInstanceLaunchSpecification
 
-type ImportSnapshotTask <: AbstractAWSType
+mutable struct ImportSnapshotTask <: AbstractAWSType
     description::Union{Void,String}
     importTaskId::Union{Void,String}
     snapshotTaskDetail::Union{Void,SnapshotTaskDetail}
@@ -1477,7 +1477,7 @@ type ImportSnapshotTask <: AbstractAWSType
 end # ImportSnapshotTask
 export ImportSnapshotTask
 
-type InstanceBlockDeviceMapping <: AbstractAWSType
+mutable struct InstanceBlockDeviceMapping <: AbstractAWSType
     deviceName::Union{Void,String}
     ebs::Union{Void,EbsInstanceBlockDevice}
     function InstanceBlockDeviceMapping(;deviceName=nothing, ebs=nothing)
@@ -1487,7 +1487,7 @@ type InstanceBlockDeviceMapping <: AbstractAWSType
 end # InstanceBlockDeviceMapping
 export InstanceBlockDeviceMapping
 
-type InstanceState <: AbstractAWSType
+mutable struct InstanceState <: AbstractAWSType
     code::Union{Void,Int64}
     name::Union{Void,String}
     function InstanceState(;code=nothing, name=nothing)
@@ -1497,7 +1497,7 @@ type InstanceState <: AbstractAWSType
 end # InstanceState
 export InstanceState
 
-type InstanceStateChange <: AbstractAWSType
+mutable struct InstanceStateChange <: AbstractAWSType
     currentState::Union{Void,InstanceState}
     instanceId::Union{Void,String}
     previousState::Union{Void,InstanceState}
@@ -1508,7 +1508,7 @@ type InstanceStateChange <: AbstractAWSType
 end # InstanceStateChange
 export InstanceStateChange
 
-type IpRange <: AbstractAWSType
+mutable struct IpRange <: AbstractAWSType
     cidrIp::Union{Void,String}
     function IpRange(;cidrIp=nothing)
         new(cidrIp)
@@ -1517,7 +1517,7 @@ type IpRange <: AbstractAWSType
 end # IpRange
 export IpRange
 
-type Ipv6CidrBlock <: AbstractAWSType
+mutable struct Ipv6CidrBlock <: AbstractAWSType
     ipv6CidrBlock::Union{Void,String}
     function Ipv6CidrBlock(;ipv6CidrBlock=nothing)
         new(ipv6CidrBlock)
@@ -1526,7 +1526,7 @@ type Ipv6CidrBlock <: AbstractAWSType
 end # Ipv6CidrBlock
 export Ipv6CidrBlock
 
-type Ipv6Range <: AbstractAWSType
+mutable struct Ipv6Range <: AbstractAWSType
     cidrIpv6::Union{Void,String}
     function Ipv6Range(;cidrIpv6=nothing)
         new(cidrIpv6)
@@ -1535,7 +1535,7 @@ type Ipv6Range <: AbstractAWSType
 end # Ipv6Range
 export Ipv6Range
 
-type KeyPairInfo <: AbstractAWSType
+mutable struct KeyPairInfo <: AbstractAWSType
     keyFingerprint::Union{Void,String}
     keyName::Union{Void,String}
     function KeyPairInfo(;keyFingerprint=nothing, keyName=nothing)
@@ -1545,7 +1545,7 @@ type KeyPairInfo <: AbstractAWSType
 end # KeyPairInfo
 export KeyPairInfo
 
-type LaunchPermission <: AbstractAWSType
+mutable struct LaunchPermission <: AbstractAWSType
     group::Union{Void,String}
     userId::Union{Void,String}
     function LaunchPermission(;group=nothing, userId=nothing)
@@ -1555,7 +1555,7 @@ type LaunchPermission <: AbstractAWSType
 end # LaunchPermission
 export LaunchPermission
 
-type Monitoring <: AbstractAWSType
+mutable struct Monitoring <: AbstractAWSType
     state::Union{Void,String}
     function Monitoring(;state=nothing)
         new(state)
@@ -1564,7 +1564,7 @@ type Monitoring <: AbstractAWSType
 end # Monitoring
 export Monitoring
 
-type MovingAddressStatus <: AbstractAWSType
+mutable struct MovingAddressStatus <: AbstractAWSType
     moveStatus::Union{Void,String}
     publicIp::Union{Void,String}
     function MovingAddressStatus(;moveStatus=nothing, publicIp=nothing)
@@ -1574,7 +1574,7 @@ type MovingAddressStatus <: AbstractAWSType
 end # MovingAddressStatus
 export MovingAddressStatus
 
-type InstanceNetworkInterfaceAssociation <: AbstractAWSType
+mutable struct InstanceNetworkInterfaceAssociation <: AbstractAWSType
     ipOwnerId::Union{Void,String}
     publicDnsName::Union{Void,String}
     publicIp::Union{Void,String}
@@ -1585,7 +1585,7 @@ type InstanceNetworkInterfaceAssociation <: AbstractAWSType
 end # InstanceNetworkInterfaceAssociation
 export InstanceNetworkInterfaceAssociation
 
-type InstanceNetworkInterfaceAttachment <: AbstractAWSType
+mutable struct InstanceNetworkInterfaceAttachment <: AbstractAWSType
     attachmentId::Union{Void,String}
     attachTime::Union{Void,DateTime}
     deleteOnTermination::Union{Void,Bool}
@@ -1598,7 +1598,7 @@ type InstanceNetworkInterfaceAttachment <: AbstractAWSType
 end # InstanceNetworkInterfaceAttachment
 export InstanceNetworkInterfaceAttachment
 
-type InstancePrivateIpAddress <: AbstractAWSType
+mutable struct InstancePrivateIpAddress <: AbstractAWSType
     association::Union{Void,InstanceNetworkInterfaceAssociation}
     primary::Union{Void,Bool}
     privateDnsName::Union{Void,String}
@@ -1610,7 +1610,7 @@ type InstancePrivateIpAddress <: AbstractAWSType
 end # InstancePrivateIpAddress
 export InstancePrivateIpAddress
 
-type InstanceNetworkInterface <: AbstractAWSType
+mutable struct InstanceNetworkInterface <: AbstractAWSType
     association::Union{Void,InstanceNetworkInterfaceAssociation}
     attachment::Union{Void,InstanceNetworkInterfaceAttachment}
     description::Union{Void,String}
@@ -1633,7 +1633,7 @@ type InstanceNetworkInterface <: AbstractAWSType
 end # InstanceNetworkInterface
 export InstanceNetworkInterface
 
-type Instance <: AbstractAWSType
+mutable struct Instance <: AbstractAWSType
     amiLaunchIndex::Union{Void,Int64}
     architecture::Union{Void,String}
     blockDeviceMapping::Union{Void,Array{InstanceBlockDeviceMapping,1}}
@@ -1679,7 +1679,7 @@ type Instance <: AbstractAWSType
 end # Instance
 export Instance
 
-type InstanceBlockDeviceMappingSpecification <: AbstractAWSType
+mutable struct InstanceBlockDeviceMappingSpecification <: AbstractAWSType
     deviceName::Union{Void,String}
     ebs::Union{Void,EbsInstanceBlockDeviceSpecification}
     noDevice::Union{Void,String}
@@ -1691,7 +1691,7 @@ type InstanceBlockDeviceMappingSpecification <: AbstractAWSType
 end # InstanceBlockDeviceMappingSpecification
 export InstanceBlockDeviceMappingSpecification
 
-type InstanceMonitoring <: AbstractAWSType
+mutable struct InstanceMonitoring <: AbstractAWSType
     instanceId::Union{Void,String}
     monitoring::Union{Void,Monitoring}
     function InstanceMonitoring(;instanceId=nothing, monitoring=nothing)
@@ -1701,7 +1701,7 @@ type InstanceMonitoring <: AbstractAWSType
 end # InstanceMonitoring
 export InstanceMonitoring
 
-type InstanceNetworkInterfaceSpecification <: AbstractAWSType
+mutable struct InstanceNetworkInterfaceSpecification <: AbstractAWSType
     associatePublicIpAddress::Union{Void,Bool}
     deleteOnTermination::Union{Void,Bool}
     description::Union{Void,String}
@@ -1721,7 +1721,7 @@ type InstanceNetworkInterfaceSpecification <: AbstractAWSType
 end # InstanceNetworkInterfaceSpecification
 export InstanceNetworkInterfaceSpecification
 
-type InstanceStatusDetails <: AbstractAWSType
+mutable struct InstanceStatusDetails <: AbstractAWSType
     impairedSince::Union{Void,DateTime}
     name::Union{Void,String}
     status::Union{Void,String}
@@ -1732,7 +1732,7 @@ type InstanceStatusDetails <: AbstractAWSType
 end # InstanceStatusDetails
 export InstanceStatusDetails
 
-type InstanceStatusEvent <: AbstractAWSType
+mutable struct InstanceStatusEvent <: AbstractAWSType
     code::Union{Void,String}
     description::Union{Void,String}
     notAfter::Union{Void,DateTime}
@@ -1744,7 +1744,7 @@ type InstanceStatusEvent <: AbstractAWSType
 end # InstanceStatusEvent
 export InstanceStatusEvent
 
-type InstanceStatusSummary <: AbstractAWSType
+mutable struct InstanceStatusSummary <: AbstractAWSType
     details::Union{Void,Array{InstanceStatusDetails,1}}
     status::Union{Void,String}
     function InstanceStatusSummary(;details=nothing, status=nothing)
@@ -1754,7 +1754,7 @@ type InstanceStatusSummary <: AbstractAWSType
 end # InstanceStatusSummary
 export InstanceStatusSummary
 
-type InstanceStatus <: AbstractAWSType
+mutable struct InstanceStatus <: AbstractAWSType
     availabilityZone::Union{Void,String}
     eventsSet::Union{Void,Array{InstanceStatusEvent,1}}
     instanceId::Union{Void,String}
@@ -1768,7 +1768,7 @@ type InstanceStatus <: AbstractAWSType
 end # InstanceStatus
 export InstanceStatus
 
-type IpPermission <: AbstractAWSType
+mutable struct IpPermission <: AbstractAWSType
     fromPort::Union{Void,Int64}
     userIdGroupPairs::Union{Void,Array{UserIdGroupPair,1}}
     ipProtocol::Union{Void,String}
@@ -1783,7 +1783,7 @@ type IpPermission <: AbstractAWSType
 end # IpPermission
 export IpPermission
 
-type LaunchPermissionModifications <: AbstractAWSType
+mutable struct LaunchPermissionModifications <: AbstractAWSType
     add::Union{Void,Array{LaunchPermission,1}}
     remove::Union{Void,Array{LaunchPermission,1}}
     function LaunchPermissionModifications(;add=nothing, remove=nothing)
@@ -1793,7 +1793,7 @@ type LaunchPermissionModifications <: AbstractAWSType
 end # LaunchPermissionModifications
 export LaunchPermissionModifications
 
-type Route <: AbstractAWSType
+mutable struct Route <: AbstractAWSType
     destinationCidrBlock::Union{Void,String}
     destinationIpv6CidrBlock::Union{Void,String}
     destinationPrefixListId::Union{Void,String}
@@ -1813,7 +1813,7 @@ type Route <: AbstractAWSType
 end # Route
 export Route
 
-type RouteTableAssociation <: AbstractAWSType
+mutable struct RouteTableAssociation <: AbstractAWSType
     main::Union{Void,Bool}
     routeTableAssociationId::Union{Void,String}
     routeTableId::Union{Void,String}
@@ -1825,7 +1825,7 @@ type RouteTableAssociation <: AbstractAWSType
 end # RouteTableAssociation
 export RouteTableAssociation
 
-type RouteTable <: AbstractAWSType
+mutable struct RouteTable <: AbstractAWSType
     associationSet::Union{Void,Array{RouteTableAssociation,1}}
     propagatingVgwSet::Union{Void,Array{PropagatingVgw,1}}
     routeSet::Union{Void,Array{Route,1}}
@@ -1839,7 +1839,7 @@ type RouteTable <: AbstractAWSType
 end # RouteTable
 export RouteTable
 
-type LaunchSpecification <: AbstractAWSType
+mutable struct LaunchSpecification <: AbstractAWSType
     addressingType::Union{Void,String}
     blockDeviceMapping::Union{Void,Array{BlockDeviceMapping,1}}
     ebsOptimized::Union{Void,Bool}
@@ -1862,7 +1862,7 @@ type LaunchSpecification <: AbstractAWSType
 end # LaunchSpecification
 export LaunchSpecification
 
-type NatGatewayAddress <: AbstractAWSType
+mutable struct NatGatewayAddress <: AbstractAWSType
     allocationId::Union{Void,String}
     networkInterfaceId::Union{Void,String}
     privateIp::Union{Void,String}
@@ -1874,7 +1874,7 @@ type NatGatewayAddress <: AbstractAWSType
 end # NatGatewayAddress
 export NatGatewayAddress
 
-type NatGateway <: AbstractAWSType
+mutable struct NatGateway <: AbstractAWSType
     createTime::Union{Void,DateTime}
     deleteTime::Union{Void,DateTime}
     failureCode::Union{Void,String}
@@ -1892,7 +1892,7 @@ type NatGateway <: AbstractAWSType
 end # NatGateway
 export NatGateway
 
-type NetworkAclAssociation <: AbstractAWSType
+mutable struct NetworkAclAssociation <: AbstractAWSType
     networkAclAssociationId::Union{Void,String}
     networkAclId::Union{Void,String}
     subnetId::Union{Void,String}
@@ -1903,7 +1903,7 @@ type NetworkAclAssociation <: AbstractAWSType
 end # NetworkAclAssociation
 export NetworkAclAssociation
 
-type NetworkAclEntry <: AbstractAWSType
+mutable struct NetworkAclEntry <: AbstractAWSType
     cidrBlock::Union{Void,String}
     egress::Union{Void,Bool}
     icmpTypeCode::Union{Void,IcmpTypeCode}
@@ -1919,7 +1919,7 @@ type NetworkAclEntry <: AbstractAWSType
 end # NetworkAclEntry
 export NetworkAclEntry
 
-type NetworkAcl <: AbstractAWSType
+mutable struct NetworkAcl <: AbstractAWSType
     associationSet::Union{Void,Array{NetworkAclAssociation,1}}
     default::Union{Void,Bool}
     entrySet::Union{Void,Array{NetworkAclEntry,1}}
@@ -1933,7 +1933,7 @@ type NetworkAcl <: AbstractAWSType
 end # NetworkAcl
 export NetworkAcl
 
-type NetworkInterfaceAssociation <: AbstractAWSType
+mutable struct NetworkInterfaceAssociation <: AbstractAWSType
     allocationId::Union{Void,String}
     associationId::Union{Void,String}
     ipOwnerId::Union{Void,String}
@@ -1946,7 +1946,7 @@ type NetworkInterfaceAssociation <: AbstractAWSType
 end # NetworkInterfaceAssociation
 export NetworkInterfaceAssociation
 
-type NetworkInterfaceAttachment <: AbstractAWSType
+mutable struct NetworkInterfaceAttachment <: AbstractAWSType
     attachmentId::Union{Void,String}
     attachTime::Union{Void,DateTime}
     deleteOnTermination::Union{Void,Bool}
@@ -1961,7 +1961,7 @@ type NetworkInterfaceAttachment <: AbstractAWSType
 end # NetworkInterfaceAttachment
 export NetworkInterfaceAttachment
 
-type NetworkInterfaceAttachmentChanges <: AbstractAWSType
+mutable struct NetworkInterfaceAttachmentChanges <: AbstractAWSType
     attachmentId::Union{Void,String}
     deleteOnTermination::Union{Void,Bool}
     function NetworkInterfaceAttachmentChanges(;attachmentId=nothing, deleteOnTermination=nothing)
@@ -1971,7 +1971,7 @@ type NetworkInterfaceAttachmentChanges <: AbstractAWSType
 end # NetworkInterfaceAttachmentChanges
 export NetworkInterfaceAttachmentChanges
 
-type NetworkInterfaceIpv6Address <: AbstractAWSType
+mutable struct NetworkInterfaceIpv6Address <: AbstractAWSType
     ipv6Address::Union{Void,String}
     function NetworkInterfaceIpv6Address(;ipv6Address=nothing)
         new(ipv6Address)
@@ -1980,7 +1980,7 @@ type NetworkInterfaceIpv6Address <: AbstractAWSType
 end # NetworkInterfaceIpv6Address
 export NetworkInterfaceIpv6Address
 
-type NetworkInterfacePermissionState <: AbstractAWSType
+mutable struct NetworkInterfacePermissionState <: AbstractAWSType
     state::Union{Void,String}
     statusMessage::Union{Void,String}
     function NetworkInterfacePermissionState(;state=nothing, statusMessage=nothing)
@@ -1990,7 +1990,7 @@ type NetworkInterfacePermissionState <: AbstractAWSType
 end # NetworkInterfacePermissionState
 export NetworkInterfacePermissionState
 
-type NetworkInterfacePermission <: AbstractAWSType
+mutable struct NetworkInterfacePermission <: AbstractAWSType
     awsAccountId::Union{Void,String}
     awsService::Union{Void,String}
     networkInterfaceId::Union{Void,String}
@@ -2004,7 +2004,7 @@ type NetworkInterfacePermission <: AbstractAWSType
 end # NetworkInterfacePermission
 export NetworkInterfacePermission
 
-type NetworkInterfacePrivateIpAddress <: AbstractAWSType
+mutable struct NetworkInterfacePrivateIpAddress <: AbstractAWSType
     association::Union{Void,NetworkInterfaceAssociation}
     primary::Union{Void,Bool}
     privateDnsName::Union{Void,String}
@@ -2016,7 +2016,7 @@ type NetworkInterfacePrivateIpAddress <: AbstractAWSType
 end # NetworkInterfacePrivateIpAddress
 export NetworkInterfacePrivateIpAddress
 
-type NetworkInterface <: AbstractAWSType
+mutable struct NetworkInterface <: AbstractAWSType
     association::Union{Void,NetworkInterfaceAssociation}
     attachment::Union{Void,NetworkInterfaceAttachment}
     availabilityZone::Union{Void,String}
@@ -2044,7 +2044,7 @@ type NetworkInterface <: AbstractAWSType
 end # NetworkInterface
 export NetworkInterface
 
-type RequestSpotLaunchSpecification <: AbstractAWSType
+mutable struct RequestSpotLaunchSpecification <: AbstractAWSType
     addressingType::Union{Void,String}
     blockDeviceMappings::Union{Void,Array{BlockDeviceMapping,1}}
     ebsOptimized::Union{Void,Bool}
@@ -2068,7 +2068,7 @@ type RequestSpotLaunchSpecification <: AbstractAWSType
 end # RequestSpotLaunchSpecification
 export RequestSpotLaunchSpecification
 
-type Reservation <: AbstractAWSType
+mutable struct Reservation <: AbstractAWSType
     groupSet::Union{Void,Array{GroupIdentifier,1}}
     instancesSet::Union{Void,Array{Instance,1}}
     ownerId::Union{Void,String}
@@ -2081,7 +2081,7 @@ type Reservation <: AbstractAWSType
 end # Reservation
 export Reservation
 
-type ReservationValue <: AbstractAWSType
+mutable struct ReservationValue <: AbstractAWSType
     hourlyPrice::Union{Void,String}
     remainingTotalValue::Union{Void,String}
     remainingUpfrontValue::Union{Void,String}
@@ -2092,7 +2092,7 @@ type ReservationValue <: AbstractAWSType
 end # ReservationValue
 export ReservationValue
 
-type ReservedInstanceLimitPrice <: AbstractAWSType
+mutable struct ReservedInstanceLimitPrice <: AbstractAWSType
     amount::Union{Void,Float64}
     currencyCode::Union{Void,String}
     function ReservedInstanceLimitPrice(;amount=nothing, currencyCode=nothing)
@@ -2102,7 +2102,7 @@ type ReservedInstanceLimitPrice <: AbstractAWSType
 end # ReservedInstanceLimitPrice
 export ReservedInstanceLimitPrice
 
-type ReservedInstanceReservationValue <: AbstractAWSType
+mutable struct ReservedInstanceReservationValue <: AbstractAWSType
     reservationValue::Union{Void,ReservationValue}
     reservedInstanceId::Union{Void,String}
     function ReservedInstanceReservationValue(;reservationValue=nothing, reservedInstanceId=nothing)
@@ -2112,7 +2112,7 @@ type ReservedInstanceReservationValue <: AbstractAWSType
 end # ReservedInstanceReservationValue
 export ReservedInstanceReservationValue
 
-type ReservedInstances <: AbstractAWSType
+mutable struct ReservedInstances <: AbstractAWSType
     availabilityZone::Union{Void,String}
     currencyCode::Union{Void,String}
     duration::Union{Void,Int64}
@@ -2138,7 +2138,7 @@ type ReservedInstances <: AbstractAWSType
 end # ReservedInstances
 export ReservedInstances
 
-type ReservedInstancesConfiguration <: AbstractAWSType
+mutable struct ReservedInstancesConfiguration <: AbstractAWSType
     availabilityZone::Union{Void,String}
     instanceCount::Union{Void,Int64}
     instanceType::Union{Void,String}
@@ -2151,7 +2151,7 @@ type ReservedInstancesConfiguration <: AbstractAWSType
 end # ReservedInstancesConfiguration
 export ReservedInstancesConfiguration
 
-type ReservedInstancesId <: AbstractAWSType
+mutable struct ReservedInstancesId <: AbstractAWSType
     reservedInstancesId::Union{Void,String}
     function ReservedInstancesId(;reservedInstancesId=nothing)
         new(reservedInstancesId)
@@ -2160,7 +2160,7 @@ type ReservedInstancesId <: AbstractAWSType
 end # ReservedInstancesId
 export ReservedInstancesId
 
-type ReservedInstancesListing <: AbstractAWSType
+mutable struct ReservedInstancesListing <: AbstractAWSType
     clientToken::Union{Void,String}
     createDate::Union{Void,DateTime}
     instanceCounts::Union{Void,Array{InstanceCount,1}}
@@ -2178,7 +2178,7 @@ type ReservedInstancesListing <: AbstractAWSType
 end # ReservedInstancesListing
 export ReservedInstancesListing
 
-type ReservedInstancesModificationResult <: AbstractAWSType
+mutable struct ReservedInstancesModificationResult <: AbstractAWSType
     reservedInstancesId::Union{Void,String}
     targetConfiguration::Union{Void,ReservedInstancesConfiguration}
     function ReservedInstancesModificationResult(;reservedInstancesId=nothing, targetConfiguration=nothing)
@@ -2188,7 +2188,7 @@ type ReservedInstancesModificationResult <: AbstractAWSType
 end # ReservedInstancesModificationResult
 export ReservedInstancesModificationResult
 
-type ReservedInstancesModification <: AbstractAWSType
+mutable struct ReservedInstancesModification <: AbstractAWSType
     clientToken::Union{Void,String}
     createDate::Union{Void,DateTime}
     effectiveDate::Union{Void,DateTime}
@@ -2205,7 +2205,7 @@ type ReservedInstancesModification <: AbstractAWSType
 end # ReservedInstancesModification
 export ReservedInstancesModification
 
-type ReservedInstancesOffering <: AbstractAWSType
+mutable struct ReservedInstancesOffering <: AbstractAWSType
     availabilityZone::Union{Void,String}
     currencyCode::Union{Void,String}
     duration::Union{Void,Int64}
@@ -2228,7 +2228,7 @@ type ReservedInstancesOffering <: AbstractAWSType
 end # ReservedInstancesOffering
 export ReservedInstancesOffering
 
-type ScheduledInstanceRecurrence <: AbstractAWSType
+mutable struct ScheduledInstanceRecurrence <: AbstractAWSType
     frequency::Union{Void,String}
     interval::Union{Void,Int64}
     occurrenceDaySet::Union{Void,Array{Int64,1}}
@@ -2241,7 +2241,7 @@ type ScheduledInstanceRecurrence <: AbstractAWSType
 end # ScheduledInstanceRecurrence
 export ScheduledInstanceRecurrence
 
-type ScheduledInstanceRecurrenceRequest <: AbstractAWSType
+mutable struct ScheduledInstanceRecurrenceRequest <: AbstractAWSType
     frequency::Union{Void,String}
     interval::Union{Void,Int64}
     occurrenceDays::Union{Void,Array{Int64,1}}
@@ -2254,7 +2254,7 @@ type ScheduledInstanceRecurrenceRequest <: AbstractAWSType
 end # ScheduledInstanceRecurrenceRequest
 export ScheduledInstanceRecurrenceRequest
 
-type ScheduledInstance <: AbstractAWSType
+mutable struct ScheduledInstance <: AbstractAWSType
     availabilityZone::Union{Void,String}
     createDate::Union{Void,DateTime}
     hourlyPrice::Union{Void,String}
@@ -2277,7 +2277,7 @@ type ScheduledInstance <: AbstractAWSType
 end # ScheduledInstance
 export ScheduledInstance
 
-type ScheduledInstanceAvailability <: AbstractAWSType
+mutable struct ScheduledInstanceAvailability <: AbstractAWSType
     availabilityZone::Union{Void,String}
     availableInstanceCount::Union{Void,Int64}
     firstSlotStartTime::Union{Void,DateTime}
@@ -2298,7 +2298,7 @@ type ScheduledInstanceAvailability <: AbstractAWSType
 end # ScheduledInstanceAvailability
 export ScheduledInstanceAvailability
 
-type ScheduledInstancesEbs <: AbstractAWSType
+mutable struct ScheduledInstancesEbs <: AbstractAWSType
     deleteOnTermination::Union{Void,Bool}
     encrypted::Union{Void,Bool}
     iops::Union{Void,Int64}
@@ -2312,7 +2312,7 @@ type ScheduledInstancesEbs <: AbstractAWSType
 end # ScheduledInstancesEbs
 export ScheduledInstancesEbs
 
-type ScheduledInstancesBlockDeviceMapping <: AbstractAWSType
+mutable struct ScheduledInstancesBlockDeviceMapping <: AbstractAWSType
     deviceName::Union{Void,String}
     ebs::Union{Void,ScheduledInstancesEbs}
     noDevice::Union{Void,String}
@@ -2324,7 +2324,7 @@ type ScheduledInstancesBlockDeviceMapping <: AbstractAWSType
 end # ScheduledInstancesBlockDeviceMapping
 export ScheduledInstancesBlockDeviceMapping
 
-type ScheduledInstancesIamInstanceProfile <: AbstractAWSType
+mutable struct ScheduledInstancesIamInstanceProfile <: AbstractAWSType
     arn::Union{Void,String}
     name::Union{Void,String}
     function ScheduledInstancesIamInstanceProfile(;arn=nothing, name=nothing)
@@ -2334,7 +2334,7 @@ type ScheduledInstancesIamInstanceProfile <: AbstractAWSType
 end # ScheduledInstancesIamInstanceProfile
 export ScheduledInstancesIamInstanceProfile
 
-type ScheduledInstancesIpv6Address <: AbstractAWSType
+mutable struct ScheduledInstancesIpv6Address <: AbstractAWSType
     ipv6Address::Union{Void,String}
     function ScheduledInstancesIpv6Address(;ipv6Address=nothing)
         new(ipv6Address)
@@ -2343,7 +2343,7 @@ type ScheduledInstancesIpv6Address <: AbstractAWSType
 end # ScheduledInstancesIpv6Address
 export ScheduledInstancesIpv6Address
 
-type ScheduledInstancesPlacement <: AbstractAWSType
+mutable struct ScheduledInstancesPlacement <: AbstractAWSType
     availabilityZone::Union{Void,String}
     groupName::Union{Void,String}
     function ScheduledInstancesPlacement(;availabilityZone=nothing, groupName=nothing)
@@ -2353,7 +2353,7 @@ type ScheduledInstancesPlacement <: AbstractAWSType
 end # ScheduledInstancesPlacement
 export ScheduledInstancesPlacement
 
-type ScheduledInstancesPrivateIpAddressConfig <: AbstractAWSType
+mutable struct ScheduledInstancesPrivateIpAddressConfig <: AbstractAWSType
     primary::Union{Void,Bool}
     privateIpAddress::Union{Void,String}
     function ScheduledInstancesPrivateIpAddressConfig(;primary=nothing, privateIpAddress=nothing)
@@ -2363,7 +2363,7 @@ type ScheduledInstancesPrivateIpAddressConfig <: AbstractAWSType
 end # ScheduledInstancesPrivateIpAddressConfig
 export ScheduledInstancesPrivateIpAddressConfig
 
-type ScheduledInstancesMonitoring <: AbstractAWSType
+mutable struct ScheduledInstancesMonitoring <: AbstractAWSType
     enabled::Union{Void,Bool}
     function ScheduledInstancesMonitoring(;enabled=nothing)
         new(enabled)
@@ -2372,7 +2372,7 @@ type ScheduledInstancesMonitoring <: AbstractAWSType
 end # ScheduledInstancesMonitoring
 export ScheduledInstancesMonitoring
 
-type ScheduledInstancesNetworkInterface <: AbstractAWSType
+mutable struct ScheduledInstancesNetworkInterface <: AbstractAWSType
     associatePublicIpAddress::Union{Void,Bool}
     deleteOnTermination::Union{Void,Bool}
     description::Union{Void,String}
@@ -2392,7 +2392,7 @@ type ScheduledInstancesNetworkInterface <: AbstractAWSType
 end # ScheduledInstancesNetworkInterface
 export ScheduledInstancesNetworkInterface
 
-type ScheduledInstancesLaunchSpecification <: AbstractAWSType
+mutable struct ScheduledInstancesLaunchSpecification <: AbstractAWSType
     blockDeviceMappings::Union{Void,Array{ScheduledInstancesBlockDeviceMapping,1}}
     ebsOptimized::Union{Void,Bool}
     iamInstanceProfile::Union{Void,ScheduledInstancesIamInstanceProfile}
@@ -2414,7 +2414,7 @@ type ScheduledInstancesLaunchSpecification <: AbstractAWSType
 end # ScheduledInstancesLaunchSpecification
 export ScheduledInstancesLaunchSpecification
 
-type SecurityGroup <: AbstractAWSType
+mutable struct SecurityGroup <: AbstractAWSType
     groupDescription::Union{Void,String}
     groupId::Union{Void,String}
     groupName::Union{Void,String}
@@ -2430,7 +2430,7 @@ type SecurityGroup <: AbstractAWSType
 end # SecurityGroup
 export SecurityGroup
 
-type SpotFleetMonitoring <: AbstractAWSType
+mutable struct SpotFleetMonitoring <: AbstractAWSType
     enabled::Union{Void,Bool}
     function SpotFleetMonitoring(;enabled=nothing)
         new(enabled)
@@ -2439,7 +2439,7 @@ type SpotFleetMonitoring <: AbstractAWSType
 end # SpotFleetMonitoring
 export SpotFleetMonitoring
 
-type SpotDatafeedSubscription <: AbstractAWSType
+mutable struct SpotDatafeedSubscription <: AbstractAWSType
     bucket::Union{Void,String}
     fault::Union{Void,SpotInstanceStateFault}
     ownerId::Union{Void,String}
@@ -2452,7 +2452,7 @@ type SpotDatafeedSubscription <: AbstractAWSType
 end # SpotDatafeedSubscription
 export SpotDatafeedSubscription
 
-type SpotFleetLaunchSpecification <: AbstractAWSType
+mutable struct SpotFleetLaunchSpecification <: AbstractAWSType
     addressingType::Union{Void,String}
     blockDeviceMappings::Union{Void,Array{BlockDeviceMapping,1}}
     ebsOptimized::Union{Void,Bool}
@@ -2477,7 +2477,7 @@ type SpotFleetLaunchSpecification <: AbstractAWSType
 end # SpotFleetLaunchSpecification
 export SpotFleetLaunchSpecification
 
-type SpotFleetRequestConfigData <: AbstractAWSType
+mutable struct SpotFleetRequestConfigData <: AbstractAWSType
     allocationStrategy::Union{Void,String}
     clientToken::Union{Void,String}
     excessCapacityTerminationPolicy::Union{Void,String}
@@ -2498,7 +2498,7 @@ type SpotFleetRequestConfigData <: AbstractAWSType
 end # SpotFleetRequestConfigData
 export SpotFleetRequestConfigData
 
-type SpotFleetRequestConfig <: AbstractAWSType
+mutable struct SpotFleetRequestConfig <: AbstractAWSType
     activityStatus::Union{Void,String}
     createTime::Union{Void,DateTime}
     spotFleetRequestConfig::Union{Void,SpotFleetRequestConfigData}
@@ -2511,7 +2511,7 @@ type SpotFleetRequestConfig <: AbstractAWSType
 end # SpotFleetRequestConfig
 export SpotFleetRequestConfig
 
-type SpotInstanceRequest <: AbstractAWSType
+mutable struct SpotInstanceRequest <: AbstractAWSType
     actualBlockHourlyPrice::Union{Void,String}
     availabilityZoneGroup::Union{Void,String}
     blockDurationMinutes::Union{Void,Int64}
@@ -2537,7 +2537,7 @@ type SpotInstanceRequest <: AbstractAWSType
 end # SpotInstanceRequest
 export SpotInstanceRequest
 
-type StaleIpPermission <: AbstractAWSType
+mutable struct StaleIpPermission <: AbstractAWSType
     fromPort::Union{Void,Int64}
     groups::Union{Void,Array{UserIdGroupPair,1}}
     ipProtocol::Union{Void,String}
@@ -2551,7 +2551,7 @@ type StaleIpPermission <: AbstractAWSType
 end # StaleIpPermission
 export StaleIpPermission
 
-type StaleSecurityGroup <: AbstractAWSType
+mutable struct StaleSecurityGroup <: AbstractAWSType
     description::Union{Void,String}
     groupId::Union{Void,String}
     groupName::Union{Void,String}
@@ -2565,7 +2565,7 @@ type StaleSecurityGroup <: AbstractAWSType
 end # StaleSecurityGroup
 export StaleSecurityGroup
 
-type SubnetCidrBlockState <: AbstractAWSType
+mutable struct SubnetCidrBlockState <: AbstractAWSType
     state::Union{Void,String}
     statusMessage::Union{Void,String}
     function SubnetCidrBlockState(;state=nothing, statusMessage=nothing)
@@ -2575,7 +2575,7 @@ type SubnetCidrBlockState <: AbstractAWSType
 end # SubnetCidrBlockState
 export SubnetCidrBlockState
 
-type SubnetIpv6CidrBlockAssociation <: AbstractAWSType
+mutable struct SubnetIpv6CidrBlockAssociation <: AbstractAWSType
     associationId::Union{Void,String}
     ipv6CidrBlock::Union{Void,String}
     ipv6CidrBlockState::Union{Void,SubnetCidrBlockState}
@@ -2586,7 +2586,7 @@ type SubnetIpv6CidrBlockAssociation <: AbstractAWSType
 end # SubnetIpv6CidrBlockAssociation
 export SubnetIpv6CidrBlockAssociation
 
-type TargetConfiguration <: AbstractAWSType
+mutable struct TargetConfiguration <: AbstractAWSType
     instanceCount::Union{Void,Int64}
     offeringId::Union{Void,String}
     function TargetConfiguration(;instanceCount=nothing, offeringId=nothing)
@@ -2596,7 +2596,7 @@ type TargetConfiguration <: AbstractAWSType
 end # TargetConfiguration
 export TargetConfiguration
 
-type TargetConfigurationRequest <: AbstractAWSType
+mutable struct TargetConfigurationRequest <: AbstractAWSType
     instanceCount::Union{Void,Int64}
     offeringId::Union{Void,String}
     function TargetConfigurationRequest(;instanceCount=nothing, offeringId=nothing)
@@ -2606,7 +2606,7 @@ type TargetConfigurationRequest <: AbstractAWSType
 end # TargetConfigurationRequest
 export TargetConfigurationRequest
 
-type Subnet <: AbstractAWSType
+mutable struct Subnet <: AbstractAWSType
     assignIpv6AddressOnCreation::Union{Void,Bool}
     availabilityZone::Union{Void,String}
     availableIpAddressCount::Union{Void,Int64}
@@ -2625,7 +2625,7 @@ type Subnet <: AbstractAWSType
 end # Subnet
 export Subnet
 
-type TargetReservationValue <: AbstractAWSType
+mutable struct TargetReservationValue <: AbstractAWSType
     reservationValue::Union{Void,ReservationValue}
     targetConfiguration::Union{Void,TargetConfiguration}
     function TargetReservationValue(;reservationValue=nothing, targetConfiguration=nothing)
@@ -2635,7 +2635,7 @@ type TargetReservationValue <: AbstractAWSType
 end # TargetReservationValue
 export TargetReservationValue
 
-type VpcAttachment <: AbstractAWSType
+mutable struct VpcAttachment <: AbstractAWSType
     state::Union{Void,String}
     vpcId::Union{Void,String}
     function VpcAttachment(;state=nothing, vpcId=nothing)
@@ -2645,7 +2645,7 @@ type VpcAttachment <: AbstractAWSType
 end # VpcAttachment
 export VpcAttachment
 
-type VpcCidrBlockState <: AbstractAWSType
+mutable struct VpcCidrBlockState <: AbstractAWSType
     state::Union{Void,String}
     statusMessage::Union{Void,String}
     function VpcCidrBlockState(;state=nothing, statusMessage=nothing)
@@ -2655,7 +2655,7 @@ type VpcCidrBlockState <: AbstractAWSType
 end # VpcCidrBlockState
 export VpcCidrBlockState
 
-type VpcClassicLink <: AbstractAWSType
+mutable struct VpcClassicLink <: AbstractAWSType
     classicLinkEnabled::Union{Void,Bool}
     tagSet::Union{Void,Array{Tag,1}}
     vpcId::Union{Void,String}
@@ -2666,7 +2666,7 @@ type VpcClassicLink <: AbstractAWSType
 end # VpcClassicLink
 export VpcClassicLink
 
-type VpcEndpoint <: AbstractAWSType
+mutable struct VpcEndpoint <: AbstractAWSType
     creationTimestamp::Union{Void,DateTime}
     policyDocument::Union{Void,String}
     routeTableIdSet::Union{Void,Array{String,1}}
@@ -2681,7 +2681,7 @@ type VpcEndpoint <: AbstractAWSType
 end # VpcEndpoint
 export VpcEndpoint
 
-type VpcPeeringConnectionStateReason <: AbstractAWSType
+mutable struct VpcPeeringConnectionStateReason <: AbstractAWSType
     code::Union{Void,String}
     message::Union{Void,String}
     function VpcPeeringConnectionStateReason(;code=nothing, message=nothing)
@@ -2691,7 +2691,7 @@ type VpcPeeringConnectionStateReason <: AbstractAWSType
 end # VpcPeeringConnectionStateReason
 export VpcPeeringConnectionStateReason
 
-type VpnConnectionOptions <: AbstractAWSType
+mutable struct VpnConnectionOptions <: AbstractAWSType
     staticRoutesOnly::Union{Void,Bool}
     function VpnConnectionOptions(;staticRoutesOnly=nothing)
         new(staticRoutesOnly)
@@ -2700,7 +2700,7 @@ type VpnConnectionOptions <: AbstractAWSType
 end # VpnConnectionOptions
 export VpnConnectionOptions
 
-type VpnConnectionOptionsSpecification <: AbstractAWSType
+mutable struct VpnConnectionOptionsSpecification <: AbstractAWSType
     staticRoutesOnly::Union{Void,Bool}
     function VpnConnectionOptionsSpecification(;staticRoutesOnly=nothing)
         new(staticRoutesOnly)
@@ -2709,7 +2709,7 @@ type VpnConnectionOptionsSpecification <: AbstractAWSType
 end # VpnConnectionOptionsSpecification
 export VpnConnectionOptionsSpecification
 
-type VpnStaticRoute <: AbstractAWSType
+mutable struct VpnStaticRoute <: AbstractAWSType
     destinationCidrBlock::Union{Void,String}
     source::Union{Void,String}
     state::Union{Void,String}
@@ -2720,7 +2720,7 @@ type VpnStaticRoute <: AbstractAWSType
 end # VpnStaticRoute
 export VpnStaticRoute
 
-type VpcIpv6CidrBlockAssociation <: AbstractAWSType
+mutable struct VpcIpv6CidrBlockAssociation <: AbstractAWSType
     associationId::Union{Void,String}
     ipv6CidrBlock::Union{Void,String}
     ipv6CidrBlockState::Union{Void,VpcCidrBlockState}
@@ -2731,7 +2731,7 @@ type VpcIpv6CidrBlockAssociation <: AbstractAWSType
 end # VpcIpv6CidrBlockAssociation
 export VpcIpv6CidrBlockAssociation
 
-type Vpc <: AbstractAWSType
+mutable struct Vpc <: AbstractAWSType
     cidrBlock::Union{Void,String}
     dhcpOptionsId::Union{Void,String}
     instanceTenancy::Union{Void,String}
@@ -2747,7 +2747,7 @@ type Vpc <: AbstractAWSType
 end # Vpc
 export Vpc
 
-type VpcPeeringConnectionOptionsDescription <: AbstractAWSType
+mutable struct VpcPeeringConnectionOptionsDescription <: AbstractAWSType
     allowDnsResolutionFromRemoteVpc::Union{Void,Bool}
     allowEgressFromLocalClassicLinkToRemoteVpc::Union{Void,Bool}
     allowEgressFromLocalVpcToRemoteClassicLink::Union{Void,Bool}
@@ -2758,7 +2758,7 @@ type VpcPeeringConnectionOptionsDescription <: AbstractAWSType
 end # VpcPeeringConnectionOptionsDescription
 export VpcPeeringConnectionOptionsDescription
 
-type VpcPeeringConnectionVpcInfo <: AbstractAWSType
+mutable struct VpcPeeringConnectionVpcInfo <: AbstractAWSType
     cidrBlock::Union{Void,String}
     ipv6CidrBlockSet::Union{Void,Array{Ipv6CidrBlock,1}}
     ownerId::Union{Void,String}
@@ -2771,7 +2771,7 @@ type VpcPeeringConnectionVpcInfo <: AbstractAWSType
 end # VpcPeeringConnectionVpcInfo
 export VpcPeeringConnectionVpcInfo
 
-type VpcPeeringConnection <: AbstractAWSType
+mutable struct VpcPeeringConnection <: AbstractAWSType
     accepterVpcInfo::Union{Void,VpcPeeringConnectionVpcInfo}
     expirationTime::Union{Void,DateTime}
     requesterVpcInfo::Union{Void,VpcPeeringConnectionVpcInfo}
@@ -2785,7 +2785,7 @@ type VpcPeeringConnection <: AbstractAWSType
 end # VpcPeeringConnection
 export VpcPeeringConnection
 
-type VpnConnection <: AbstractAWSType
+mutable struct VpnConnection <: AbstractAWSType
     customerGatewayConfiguration::Union{Void,String}
     customerGatewayId::Union{Void,String}
     options::Union{Void,VpnConnectionOptions}
@@ -2803,7 +2803,7 @@ type VpnConnection <: AbstractAWSType
 end # VpnConnection
 export VpnConnection
 
-type VpnGateway <: AbstractAWSType
+mutable struct VpnGateway <: AbstractAWSType
     attachments::Union{Void,Array{VpcAttachment,1}}
     availabilityZone::Union{Void,String}
     state::Union{Void,String}

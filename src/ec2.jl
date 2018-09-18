@@ -12,8 +12,8 @@ import AWS: AbstractAWSType, AWSError, AWSResponse, _ename, _parse_from_xml, _pr
 const EC2Error = AWSError
 const EC2Response = AWSResponse
 
-parse_from_xml{T<:AbstractAWSType}(::Type{T}, types::Dict{Symbol,Vector{Pair{Symbol,DataType}}}, pd::Union{LightXML.XMLElement,Void}) = _parse_from_xml(T, types, pd; member_pfx="item")
-prep_params{T<:AbstractAWSType}(obj::T) = _prep_params(obj; member_pfx="")
+parse_from_xml(::Type{T}, types::Dict{Symbol,Vector{Pair{Symbol,DataType}}}, pd::Union{LightXML.XMLElement,Void}) where {T<:AbstractAWSType} = _parse_from_xml(T, types, pd; member_pfx="item")
+prep_params(obj::T) where {T<:AbstractAWSType} = _prep_params(obj; member_pfx="")
 
 ec2_execute(env::AWSEnv, action::String, params::Vector{Tuple}=Vector{Tuple}()) = aws_execute(env, action, "ec2", EC2ApiVer, params)
 ec2_execute(env::AWSEnv, action::String, req::AbstractAWSType) = ec2_execute(env, action, prep_params(req))
