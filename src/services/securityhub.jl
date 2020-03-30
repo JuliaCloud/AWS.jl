@@ -1,0 +1,547 @@
+include("../AWSServices.jl")
+using .AWSServices: securityhub
+
+"""
+    DescribeStandardsControls()
+
+Returns a list of security standards controls. For each control, the results include information about whether it is currently enabled, the severity, and a link to remediation information.
+
+Required Parameters
+{
+  "StandardsSubscriptionArn": "The ARN of a resource that represents your subscription to a supported standard."
+}
+
+Optional Parameters
+{
+  "MaxResults": "The maximum number of security standard controls to return.",
+  "NextToken": "The token that is required for pagination. On your first call to the DescribeStandardsControls operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response."
+}
+"""
+DescribeStandardsControls(args) = securityhub("GET", "/standards/controls/{StandardsSubscriptionArn+}", args)
+
+"""
+    GetEnabledStandards()
+
+Returns a list of the standards that are currently enabled.
+
+Optional Parameters
+{
+  "MaxResults": "The maximum number of results to return in the response.",
+  "NextToken": "The token that is required for pagination. On your first call to the GetEnabledStandards operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.",
+  "StandardsSubscriptionArns": "The list of the standards subscription ARNs for the standards to retrieve."
+}
+"""
+GetEnabledStandards() = securityhub("POST", "/standards/get")
+GetEnabledStandards(args) = securityhub("POST", "/standards/get", args)
+
+"""
+    ListTagsForResource()
+
+Returns a list of tags associated with a resource.
+
+Required Parameters
+{
+  "ResourceArn": "The ARN of the resource to retrieve tags for."
+}
+"""
+ListTagsForResource(args) = securityhub("GET", "/tags/{ResourceArn}", args)
+
+"""
+    UpdateFindings()
+
+Updates the Note and RecordState of the Security Hub-aggregated findings that the filter attributes specify. Any member account that can view the finding also sees the update to the finding.
+
+Required Parameters
+{
+  "Filters": "A collection of attributes that specify which findings you want to update."
+}
+
+Optional Parameters
+{
+  "Note": "The updated note for the finding.",
+  "RecordState": "The updated record state for the finding."
+}
+"""
+UpdateFindings(args) = securityhub("PATCH", "/findings", args)
+
+"""
+    UpdateActionTarget()
+
+Updates the name and description of a custom action target in Security Hub.
+
+Required Parameters
+{
+  "ActionTargetArn": "The ARN of the custom action target to update."
+}
+
+Optional Parameters
+{
+  "Description": "The updated description for the custom action target.",
+  "Name": "The updated name of the custom action target."
+}
+"""
+UpdateActionTarget(args) = securityhub("PATCH", "/actionTargets/{ActionTargetArn+}", args)
+
+"""
+    ListInvitations()
+
+Lists all Security Hub membership invitations that were sent to the current AWS account. 
+
+Optional Parameters
+{
+  "MaxResults": "The maximum number of items to return in the response. ",
+  "NextToken": "The token that is required for pagination. On your first call to the ListInvitations operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response."
+}
+"""
+ListInvitations() = securityhub("GET", "/invitations")
+ListInvitations(args) = securityhub("GET", "/invitations", args)
+
+"""
+    CreateMembers()
+
+Creates a member association in Security Hub between the specified accounts and the account used to make the request, which is the master account. To successfully create a member, you must use this action from an account that already has Security Hub enabled. To enable Security Hub, you can use the  EnableSecurityHub  operation. After you use CreateMembers to create member account associations in Security Hub, you must use the  InviteMembers  operation to invite the accounts to enable Security Hub and become member accounts in Security Hub. If the account owner accepts the invitation, the account becomes a member account in Security Hub, and a permission policy is added that permits the master account to view the findings generated in the member account. When Security Hub is enabled in the invited account, findings start to be sent to both the member and master accounts. To remove the association between the master and member accounts, use the  DisassociateFromMasterAccount  or  DisassociateMembers  operation.
+
+Optional Parameters
+{
+  "AccountDetails": "The list of accounts to associate with the Security Hub master account. For each account, the list includes the account ID and the email address."
+}
+"""
+CreateMembers() = securityhub("POST", "/members")
+CreateMembers(args) = securityhub("POST", "/members", args)
+
+"""
+    UpdateInsight()
+
+Updates the Security Hub insight identified by the specified insight ARN.
+
+Required Parameters
+{
+  "InsightArn": "The ARN of the insight that you want to update."
+}
+
+Optional Parameters
+{
+  "GroupByAttribute": "The updated GroupBy attribute that defines this insight.",
+  "Filters": "The updated filters that define this insight.",
+  "Name": "The updated name for the insight."
+}
+"""
+UpdateInsight(args) = securityhub("PATCH", "/insights/{InsightArn+}", args)
+
+"""
+    CreateActionTarget()
+
+Creates a custom action target in Security Hub. You can use custom actions on findings and insights in Security Hub to trigger target actions in Amazon CloudWatch Events.
+
+Required Parameters
+{
+  "Id": "The ID for the custom action target.",
+  "Description": "The description for the custom action target.",
+  "Name": "The name of the custom action target."
+}
+"""
+CreateActionTarget(args) = securityhub("POST", "/actionTargets", args)
+
+"""
+    ListEnabledProductsForImport()
+
+Lists all findings-generating solutions (products) that you are subscribed to receive findings from in Security Hub.
+
+Optional Parameters
+{
+  "MaxResults": "The maximum number of items to return in the response.",
+  "NextToken": "The token that is required for pagination. On your first call to the ListEnabledProductsForImport operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response."
+}
+"""
+ListEnabledProductsForImport() = securityhub("GET", "/productSubscriptions")
+ListEnabledProductsForImport(args) = securityhub("GET", "/productSubscriptions", args)
+
+"""
+    DeclineInvitations()
+
+Declines invitations to become a member account.
+
+Required Parameters
+{
+  "AccountIds": "The list of account IDs for the accounts from which to decline the invitations to Security Hub."
+}
+"""
+DeclineInvitations(args) = securityhub("POST", "/invitations/decline", args)
+
+"""
+    UpdateStandardsControl()
+
+Used to control whether an individual security standard control is enabled or disabled.
+
+Required Parameters
+{
+  "StandardsControlArn": "The ARN of the security standard control to enable or disable."
+}
+
+Optional Parameters
+{
+  "ControlStatus": "The updated status of the security standard control.",
+  "DisabledReason": "A description of the reason why you are disabling a security standard control."
+}
+"""
+UpdateStandardsControl(args) = securityhub("PATCH", "/standards/control/{StandardsControlArn+}", args)
+
+"""
+    InviteMembers()
+
+Invites other AWS accounts to become member accounts for the Security Hub master account that the invitation is sent from. Before you can use this action to invite a member, you must first use the  CreateMembers  action to create the member account in Security Hub. When the account owner accepts the invitation to become a member account and enables Security Hub, the master account can view the findings generated from the member account.
+
+Optional Parameters
+{
+  "AccountIds": "The list of account IDs of the AWS accounts to invite to Security Hub as members. "
+}
+"""
+InviteMembers() = securityhub("POST", "/members/invite")
+InviteMembers(args) = securityhub("POST", "/members/invite", args)
+
+"""
+    DescribeActionTargets()
+
+Returns a list of the custom action targets in Security Hub in your account.
+
+Optional Parameters
+{
+  "MaxResults": "The maximum number of results to return.",
+  "NextToken": "The token that is required for pagination. On your first call to the DescribeActionTargets operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.",
+  "ActionTargetArns": "A list of custom action target ARNs for the custom action targets to retrieve."
+}
+"""
+DescribeActionTargets() = securityhub("POST", "/actionTargets/get")
+DescribeActionTargets(args) = securityhub("POST", "/actionTargets/get", args)
+
+"""
+    BatchEnableStandards()
+
+Enables the standards specified by the provided StandardsArn. To obtain the ARN for a standard, use the  DescribeStandards  operation. For more information, see the Security Standards section of the AWS Security Hub User Guide.
+
+Required Parameters
+{
+  "StandardsSubscriptionRequests": "The list of standards checks to enable."
+}
+"""
+BatchEnableStandards(args) = securityhub("POST", "/standards/register", args)
+
+"""
+    GetInsights()
+
+Lists and describes insights for the specified insight ARNs.
+
+Optional Parameters
+{
+  "MaxResults": "The maximum number of items to return in the response.",
+  "NextToken": "The token that is required for pagination. On your first call to the GetInsights operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.",
+  "InsightArns": "The ARNs of the insights to describe. If you do not provide any insight ARNs, then GetInsights returns all of your custom insights. It does not return any managed insights."
+}
+"""
+GetInsights() = securityhub("POST", "/insights/get")
+GetInsights(args) = securityhub("POST", "/insights/get", args)
+
+"""
+    DeleteActionTarget()
+
+Deletes a custom action target from Security Hub. Deleting a custom action target does not affect any findings or insights that were already sent to Amazon CloudWatch Events using the custom action.
+
+Required Parameters
+{
+  "ActionTargetArn": "The ARN of the custom action target to delete."
+}
+"""
+DeleteActionTarget(args) = securityhub("DELETE", "/actionTargets/{ActionTargetArn+}", args)
+
+"""
+    DisableSecurityHub()
+
+Disables Security Hub in your account only in the current Region. To disable Security Hub in all Regions, you must submit one request per Region where you have enabled Security Hub. When you disable Security Hub for a master account, it doesn't disable Security Hub for any associated member accounts. When you disable Security Hub, your existing findings and insights and any Security Hub configuration settings are deleted after 90 days and cannot be recovered. Any standards that were enabled are disabled, and your master and member account associations are removed. If you want to save your existing findings, you must export them before you disable Security Hub.
+"""
+DisableSecurityHub() = securityhub("DELETE", "/accounts")
+DisableSecurityHub(args) = securityhub("DELETE", "/accounts", args)
+
+"""
+    GetInvitationsCount()
+
+Returns the count of all Security Hub membership invitations that were sent to the current member account, not including the currently accepted invitation. 
+"""
+GetInvitationsCount() = securityhub("GET", "/invitations/count")
+GetInvitationsCount(args) = securityhub("GET", "/invitations/count", args)
+
+"""
+    ListMembers()
+
+Lists details about all member accounts for the current Security Hub master account.
+
+Optional Parameters
+{
+  "MaxResults": "The maximum number of items to return in the response. ",
+  "NextToken": "The token that is required for pagination. On your first call to the ListMembers operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.",
+  "OnlyAssociated": "Specifies which member accounts to include in the response based on their relationship status with the master account. The default value is TRUE. If OnlyAssociated is set to TRUE, the response includes member accounts whose relationship status with the master is set to ENABLED or DISABLED. If OnlyAssociated is set to FALSE, the response includes all existing member accounts. "
+}
+"""
+ListMembers() = securityhub("GET", "/members")
+ListMembers(args) = securityhub("GET", "/members", args)
+
+"""
+    CreateInsight()
+
+Creates a custom insight in Security Hub. An insight is a consolidation of findings that relate to a security issue that requires attention or remediation. To group the related findings in the insight, use the GroupByAttribute.
+
+Required Parameters
+{
+  "GroupByAttribute": "The attribute used to group the findings for the insight. The grouping attribute identifies the type of item that the insight applies to. For example, if an insight is grouped by resource identifier, then the insight produces a list of resource identifiers.",
+  "Filters": "One or more attributes used to filter the findings included in the insight. The insight only includes findings that match the criteria defined in the filters.",
+  "Name": "The name of the custom insight to create."
+}
+"""
+CreateInsight(args) = securityhub("POST", "/insights", args)
+
+"""
+    TagResource()
+
+Adds one or more tags to a resource.
+
+Required Parameters
+{
+  "ResourceArn": "The ARN of the resource to apply the tags to.",
+  "Tags": "The tags to add to the resource."
+}
+"""
+TagResource(args) = securityhub("POST", "/tags/{ResourceArn}", args)
+
+"""
+    DescribeHub()
+
+Returns details about the Hub resource in your account, including the HubArn and the time when you enabled Security Hub.
+
+Optional Parameters
+{
+  "HubArn": "The ARN of the Hub resource to retrieve."
+}
+"""
+DescribeHub() = securityhub("GET", "/accounts")
+DescribeHub(args) = securityhub("GET", "/accounts", args)
+
+"""
+    UntagResource()
+
+Removes one or more tags from a resource.
+
+Required Parameters
+{
+  "ResourceArn": "The ARN of the resource to remove the tags from.",
+  "TagKeys": "The tag keys associated with the tags to remove from the resource."
+}
+"""
+UntagResource(args) = securityhub("DELETE", "/tags/{ResourceArn}", args)
+
+"""
+    DeleteInvitations()
+
+Deletes invitations received by the AWS account to become a member account.
+
+Required Parameters
+{
+  "AccountIds": "The list of the account IDs that sent the invitations to delete."
+}
+"""
+DeleteInvitations(args) = securityhub("POST", "/invitations/delete", args)
+
+"""
+    DeleteMembers()
+
+Deletes the specified member accounts from Security Hub.
+
+Optional Parameters
+{
+  "AccountIds": "The list of account IDs for the member accounts to delete."
+}
+"""
+DeleteMembers() = securityhub("POST", "/members/delete")
+DeleteMembers(args) = securityhub("POST", "/members/delete", args)
+
+"""
+    AcceptInvitation()
+
+Accepts the invitation to be a member account and be monitored by the Security Hub master account that the invitation was sent from. When the member account accepts the invitation, permission is granted to the master account to view findings generated in the member account.
+
+Required Parameters
+{
+  "InvitationId": "The ID of the invitation sent from the Security Hub master account.",
+  "MasterId": "The account ID of the Security Hub master account that sent the invitation."
+}
+"""
+AcceptInvitation(args) = securityhub("POST", "/master", args)
+
+"""
+    DescribeStandards()
+
+Returns a list of the available standards in Security Hub. For each standard, the results include the standard ARN, the name, and a description. 
+
+Optional Parameters
+{
+  "MaxResults": "The maximum number of standards to return.",
+  "NextToken": "The token that is required for pagination. On your first call to the DescribeStandards operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response."
+}
+"""
+DescribeStandards() = securityhub("GET", "/standards")
+DescribeStandards(args) = securityhub("GET", "/standards", args)
+
+"""
+    DisassociateFromMasterAccount()
+
+Disassociates the current Security Hub member account from the associated master account.
+"""
+DisassociateFromMasterAccount() = securityhub("POST", "/master/disassociate")
+DisassociateFromMasterAccount(args) = securityhub("POST", "/master/disassociate", args)
+
+"""
+    DescribeProducts()
+
+Returns information about the available products that you can subscribe to and integrate with Security Hub in order to consolidate findings.
+
+Optional Parameters
+{
+  "MaxResults": "The maximum number of results to return.",
+  "NextToken": "The token that is required for pagination. On your first call to the DescribeProducts operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response."
+}
+"""
+DescribeProducts() = securityhub("GET", "/products")
+DescribeProducts(args) = securityhub("GET", "/products", args)
+
+"""
+    DeleteInsight()
+
+Deletes the insight specified by the InsightArn.
+
+Required Parameters
+{
+  "InsightArn": "The ARN of the insight to delete."
+}
+"""
+DeleteInsight(args) = securityhub("DELETE", "/insights/{InsightArn+}", args)
+
+"""
+    GetMasterAccount()
+
+Provides the details for the Security Hub master account for the current member account. 
+"""
+GetMasterAccount() = securityhub("GET", "/master")
+GetMasterAccount(args) = securityhub("GET", "/master", args)
+
+"""
+    GetFindings()
+
+Returns a list of findings that match the specified criteria.
+
+Optional Parameters
+{
+  "MaxResults": "The maximum number of findings to return.",
+  "NextToken": "The token that is required for pagination. On your first call to the GetFindings operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.",
+  "SortCriteria": "The finding attributes used to sort the list of returned findings.",
+  "Filters": "The finding attributes used to define a condition to filter the returned findings."
+}
+"""
+GetFindings() = securityhub("POST", "/findings")
+GetFindings(args) = securityhub("POST", "/findings", args)
+
+"""
+    EnableImportFindingsForProduct()
+
+Enables the integration of a partner product with Security Hub. Integrated products send findings to Security Hub. When you enable a product integration, a permission policy that grants permission for the product to send findings to Security Hub is applied.
+
+Required Parameters
+{
+  "ProductArn": "The ARN of the product to enable the integration for."
+}
+"""
+EnableImportFindingsForProduct(args) = securityhub("POST", "/productSubscriptions", args)
+
+"""
+    EnableSecurityHub()
+
+Enables Security Hub for your account in the current Region or the Region you specify in the request. When you enable Security Hub, you grant to Security Hub the permissions necessary to gather findings from other services that are integrated with Security Hub. When you use the EnableSecurityHub operation to enable Security Hub, you also automatically enable the CIS AWS Foundations standard. You do not enable the Payment Card Industry Data Security Standard (PCI DSS) standard. To not enable the CIS AWS Foundations standard, set EnableDefaultStandards to false. After you enable Security Hub, to enable a standard, use the  BatchEnableStandards  operation. To disable a standard, use the  BatchDisableStandards  operation. To learn more, see Setting Up AWS Security Hub in the AWS Security Hub User Guide.
+
+Optional Parameters
+{
+  "Tags": "The tags to add to the Hub resource when you enable Security Hub.",
+  "EnableDefaultStandards": "Whether to enable the security standards that Security Hub has designated as automatically enabled. If you do not provide a value for EnableDefaultStandards, it is set to true. To not enable the automatically enabled standards, set EnableDefaultStandards to false."
+}
+"""
+EnableSecurityHub() = securityhub("POST", "/accounts")
+EnableSecurityHub(args) = securityhub("POST", "/accounts", args)
+
+"""
+    BatchDisableStandards()
+
+Disables the standards specified by the provided StandardsSubscriptionArns. For more information, see Security Standards section of the AWS Security Hub User Guide.
+
+Required Parameters
+{
+  "StandardsSubscriptionArns": "The ARNs of the standards subscriptions to disable."
+}
+"""
+BatchDisableStandards(args) = securityhub("POST", "/standards/deregister", args)
+
+"""
+    DisassociateMembers()
+
+Disassociates the specified member accounts from the associated master account.
+
+Optional Parameters
+{
+  "AccountIds": "The account IDs of the member accounts to disassociate from the master account."
+}
+"""
+DisassociateMembers() = securityhub("POST", "/members/disassociate")
+DisassociateMembers(args) = securityhub("POST", "/members/disassociate", args)
+
+"""
+    DisableImportFindingsForProduct()
+
+Disables the integration of the specified product with Security Hub. After the integration is disabled, findings from that product are no longer sent to Security Hub.
+
+Required Parameters
+{
+  "ProductSubscriptionArn": "The ARN of the integrated product to disable the integration for."
+}
+"""
+DisableImportFindingsForProduct(args) = securityhub("DELETE", "/productSubscriptions/{ProductSubscriptionArn+}", args)
+
+"""
+    GetInsightResults()
+
+Lists the results of the Security Hub insight specified by the insight ARN.
+
+Required Parameters
+{
+  "InsightArn": "The ARN of the insight for which to return results."
+}
+"""
+GetInsightResults(args) = securityhub("GET", "/insights/results/{InsightArn+}", args)
+
+"""
+    GetMembers()
+
+Returns the details for the Security Hub member accounts for the specified account IDs.
+
+Required Parameters
+{
+  "AccountIds": "The list of account IDs for the Security Hub member accounts to return the details for. "
+}
+"""
+GetMembers(args) = securityhub("POST", "/members/get", args)
+
+"""
+    BatchImportFindings()
+
+Imports security findings generated from an integrated third-party product into Security Hub. This action is requested by the integrated product to import its findings into Security Hub. The maximum allowed size for a finding is 240 Kb. An error is returned for any finding larger than 240 Kb.
+
+Required Parameters
+{
+  "Findings": "A list of findings to import. To successfully import a finding, it must follow the AWS Security Finding Format. Maximum of 100 findings per request."
+}
+"""
+BatchImportFindings(args) = securityhub("POST", "/findings/import", args)
