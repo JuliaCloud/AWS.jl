@@ -2,3 +2,11 @@ name = "AWS"
 uuid = "fbe9abb3-538b-5e4e-ba9e-bc94f4f92ebc"
 license = "MIT"
 version = "1.0.0"
+
+[deps]
+AWSCore = "4f1ea46c-232b-54a6-9b17-cc2d0f3e6598"
+DataStructures = "864edb3b-99cc-5e75-8d2d-829cb0a9cfe8"
+HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
+JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
+SymDict = "2da68c74-98d7-5633-99d6-8493888d7b1e"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
