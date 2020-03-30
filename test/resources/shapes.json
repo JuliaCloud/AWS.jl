@@ -1,0 +1,37 @@
+{
+  "RequiredParams": {
+    "required": ["RequiredParam"],
+    "members": {
+      "RequiredParam": {
+        "documentation": "Required param"
+      }
+    }
+  },
+  "OptionalParams": {
+    "members": {
+      "OptionalParam1": {
+        "documentation": "Optional param 1"
+      },
+      "OptionalParam2": {
+        "documentation": "Optional param 2"
+      }
+    }
+  },
+  "RequiredAndOptionalParams": {
+    "required": ["RequiredParam1", "RequiredParam2"],
+    "members": {
+      "RequiredParam1": {
+        "documentation": "Required param 1"
+      },
+      "RequiredParam2": {
+        "documentation": "Required param 2"
+      },
+      "OptionalParam": {
+        "documentation": "Optional param"
+      }
+    }
+  },
+  "NoParams": {
+    "members": {}
+  }
+}
