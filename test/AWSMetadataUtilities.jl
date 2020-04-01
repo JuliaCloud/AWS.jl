@@ -1,5 +1,5 @@
 @testset "_get_aws_sdk_js_files" begin
-    files = AWSMetadataUtilities._get_aws_sdk_js_files()
+    files = _get_aws_sdk_js_files()
     @test files != nothing
 end
 

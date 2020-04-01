@@ -7,18 +7,13 @@ using DataStructures: OrderedDict
 using HTTP
 using JSON
 
-export _get_aws_sdk_js_files, _get_service_and_version, _filter_latest_service_version,
-    _generate_low_level_definition, _documentation_cleaning, _get_function_parameters,
-    _generate_high_level_definition, _generate_high_level_definitions,
-    InvalidFileName, ProtocolNotDefined
-
 """
-    _get_aws_api_definitions()
+    _get_aws_sdk_js_files()
 
 Get a list of all AWS service API definition files from the `awsk-sdk-js` GitHub repository.
 
 # Returns
-- ``: List of AWS service API definition files
+- `Array{OrderedDict}`: Array of Dictionaries which contains information about each AWS Service
 """
 function _get_aws_sdk_js_files()
     headers = ["User-Agent" => "JuliaCloud/AWS.jl"]
@@ -38,10 +33,10 @@ end
 Return a list of all AWS Services and their latest version.
 
 # Arguments
-- `services::Array)`: List of all AWS APIs and their versions
+- `services::Array`: Array of all AWS APIs and their versions
 
 # Returns
-- `latest_versions::Dict[]`: List of the latest AWS Service definitions
+- `Array{Dict}`: Array of the latest AWS Service definitions
 """
 function _filter_latest_service_version(services::Array)
     seen_services = String[]
@@ -70,7 +65,7 @@ Get the `service` and `version` from a filename.
 - `filename`: Name of the file, ex. `{Service}-{Version}.normal.json`
 
 # Returns
-- `Tuple`: (`service`, `version`)
+- `Tuple{String, String}`: `service` and `version` for an AWS service
 """
 function _get_service_and_version(filename::String)
     try
@@ -91,10 +86,10 @@ end
 Get the low-level definitions for all AWS Services.
 
 # Arguments
-- `services::Array{OrderedDict{String, Any}}`: List of AWS Services to generate low-level definitions
+- `services::Array{OrderedDict}`: List of AWS Services to generate low-level definitions
 
 # Returns
-- `String[]`: List of low-level service code to be written into `AWSServices.jl`
+- `String[]`: Array of low-level service code to be written into `AWSServices.jl`
 """
 function _generate_low_level_definitions(services::Array{OrderedDict})
     service_definitions = String[]
@@ -226,7 +221,7 @@ Generate high-level definitions for the `service`.
 - `shapes::Dict{String, Any}`: All input shapes for this service
 
 # Return
-- `List`: List of all high-level definitions and documentation to be written into `services/{Service}.jl`
+- `Array`: Array of all high-level definitions and documentation to be written into `services/{Service}.jl`
 """
 function _generate_high_level_definitions(
     service_name::String,
@@ -268,6 +263,8 @@ function _generate_high_level_definitions(
 
         push!(operation_definitions, operation_definition)
     end
+
+    println(typeof(operation_definitions))
 
     return operation_definitions
 end
