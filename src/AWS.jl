@@ -12,22 +12,22 @@ macro service(module_name::Symbol)
     service_name = joinpath(@__DIR__, service_name)
 
     return Expr(:toplevel,
-    :(module ($(esc(module_name)))
+    :(module($(esc(module_name)))
         Base.include($(esc(module_name)), $(esc(service_name)))
      end))
 end
 
-mutable struct RestXMLService
+struct RestXMLService
     name::String
     api_version::String
 end
 
-mutable struct QueryService
+struct QueryService
     name::String
     api_version::String
 end
 
-mutable struct JSONService
+struct JSONService
     name::String
     api_version::String
 
@@ -35,7 +35,7 @@ mutable struct JSONService
     target::String
 end
 
-mutable struct RestJSONService
+struct RestJSONService
     name::String
     api_version::String
 end
