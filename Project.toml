@@ -9,4 +9,17 @@ DataStructures = "864edb3b-99cc-5e75-8d2d-829cb0a9cfe8"
 HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
 JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
 SymDict = "2da68c74-98d7-5633-99d6-8493888d7b1e"
+
+[compat]
+AWSCore = "0.6"
+DataStructures = "0.15, 0.16, 0.17"
+HTTP = "0.8"
+JSON = "0.18, 0.19, 0.20, 0.21"
+SymDict = "0.3"
+julia = "1"
+
+[extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
