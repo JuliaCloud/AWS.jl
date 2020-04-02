@@ -1,11 +1,11 @@
 module AWSMetadataUtilities
 
-include("AWSExceptions.jl")
-
 using .AWSExceptions
 using OrderedCollections: OrderedDict
 using HTTP
 using JSON
+
+include("AWSExceptions.jl")
 
 """
     _get_aws_sdk_js_files()

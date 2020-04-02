@@ -1,11 +1,11 @@
 module AWS
 
-include("AWSMetadataUtilities.jl")
+using AWSCore
+using SymDict
 
 export @service, AWSServices, RestJSONService, JSONService, RestXMLService, QueryService
 
-using AWSCore
-using SymDict
+include("AWSMetadataUtilities.jl")
 
 macro service(module_name::Symbol)
     service_name = "services/" * lowercase(string(module_name)) * ".jl"

@@ -1,13 +1,12 @@
 module AWSMetadata
 
-include("AWSMetadataUtilities.jl")
-
 using .AWSMetadataUtilities: _get_aws_sdk_js_files, _get_service_and_version,
     _generate_low_level_definitions, _generate_high_level_definitions
-using OrderedCollections: OrderedDict
 using HTTP
 using JSON
+using OrderedCollections: OrderedDict
 
+include("AWSMetadataUtilities.jl")
 
 """
     parse_aws_metadata()
