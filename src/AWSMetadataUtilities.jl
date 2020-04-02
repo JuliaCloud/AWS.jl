@@ -3,7 +3,7 @@ module AWSMetadataUtilities
 include("AWSExceptions.jl")
 
 using .AWSExceptions
-using DataStructures: OrderedDict
+using OrderedCollections: OrderedDict
 using HTTP
 using JSON
 
@@ -162,7 +162,7 @@ Clean up the documentation to make it Julia compiler and human-readable.
 function _documentation_cleaning(documentation::String)
     documentation = replace(documentation, r"\<.*?\>" => "")
     documentation = replace(documentation, '$' => ' ')
-    documentation = replace(documentation, "\\" => ' ')
+    documentation = replace(documentation, '\\' => ' ')
 
     return documentation
 end
@@ -180,8 +180,8 @@ Get the required and optional parameters for a given operation.
 - `Tuple(Dict, Dict)`: (required_parameters, optional_parameters)
 """
 function _get_function_parameters(input::String, shapes::Dict)
-    required_parameters = Dict()
-    optional_parameters = Dict()
+    required_parameters = Dict{String, Any}()
+    optional_parameters = Dict{String, Any}()
 
     input_shape = shapes[input]
 
@@ -243,8 +243,8 @@ function _generate_high_level_definitions(
             documentation = _documentation_cleaning(operation["documentation"])
         end
 
-        required_parameters = Dict()
-        optional_parameters = Dict()
+        required_parameters = Dict{String, Any}()
+        optional_parameters = Dict{String, Any}()
 
         if haskey(operation, "input")
             required_parameters, optional_parameters = _get_function_parameters(operation["input"]["shape"], shapes)
@@ -263,8 +263,6 @@ function _generate_high_level_definitions(
 
         push!(operation_definitions, operation_definition)
     end
-
-    println(typeof(operation_definitions))
 
     return operation_definitions
 end
@@ -317,7 +315,7 @@ function _generate_high_level_definition(
 
     # Add in the required parameters if applicable
     if !isempty(required_parameters)
-        operation_definition = operation_definition * """
+        operation_definition *= """
 
         Required Parameters
         $(json(required_parameters, 2))"""
@@ -325,42 +323,42 @@ function _generate_high_level_definition(
 
     # Add in the optional parameters if applicable
     if !isempty(optional_parameters)
-        operation_definition = operation_definition * """
+        operation_definition *= """
 
         Optional Parameters
         $(json(optional_parameters, 2))"""
     end
 
-    operation_definition = operation_definition * "\"\"\""
+    operation_definition *= repeat('"', 3)
 
     # Depending on the protocol type of the operation we need to generate a different definition
     if protocol in ["json", "query", "ec2"]
         if !isempty(required_parameters)
-            operation_definition = operation_definition * "\n$name(args) = $service_name(\"$name\", args)\n"
+            operation_definition *= "\n$name(args) = $service_name(\"$name\", args)\n"
         else
-            operation_definition = operation_definition * """\n
+            operation_definition *= """\n
                 $name() = $service_name(\"$name\")
                 $name(args) = $service_name(\"$name\", args)
                 """
         end
     elseif protocol == "rest-json"
         if !isempty(required_parameters)
-            operation_definition = operation_definition * "\n$name(args) = $service_name(\"$method\", \"$request_uri\", args)\n"
+            operation_definition *= "\n$name(args) = $service_name(\"$method\", \"$request_uri\", args)\n"
         else
-            operation_definition = operation_definition * """\n
+            operation_definition *= """\n
             $name() = $service_name(\"$method\", \"$request_uri\")
             $name(args) = $service_name(\"$method\", \"$request_uri\", args)
             """
         end
     elseif protocol == "rest-xml"
         if !isempty(required_parameters)
-            operation_definition = operation_definition * """\n
+            operation_definition *= """\n
             $name($(join(required_param_keys, ", "))) = $service_name(\"$method\", \"$request_uri\")
             $name($(join(required_param_keys, ", ")), args) = $service_name(\"$method\", \"$request_uri\", args)
             $name(a...; b...) = $name(a..., b)
             """
         else
-            operation_definition = operation_definition * """\n
+            operation_definition *= """\n
             $name() = $service_name(\"$method\", \"$request_uri\")
             $name(args) = $service_name(\"$method\", \"$request_uri\", args)
             $name(a...; b...) = $name(a..., b)

@@ -24,7 +24,7 @@
     "version": "2016-05-01"
   },
   "wafv2-2019-07-29.normal.json": {
-    "sha": "45b7dc1aa731fe842f25b7c54c1b658d27b46c06",
+    "sha": "17a57531db37857f7ef4c6884bbf864be830808a",
     "version": "2019-07-29"
   },
   "waf-regional-2016-11-28.normal.json": {
@@ -68,7 +68,7 @@
     "version": "2012-08-10"
   },
   "storagegateway-2013-06-30.normal.json": {
-    "sha": "c0a9d68f721967f024051e29dd62f00060d3c17b",
+    "sha": "533eaa2a18b165781719deaa3592d7183da6ef3b",
     "version": "2013-06-30"
   },
   "states-2016-11-23.normal.json": {
@@ -204,7 +204,7 @@
     "version": "2017-11-27"
   },
   "rekognition-2016-06-27.normal.json": {
-    "sha": "728bba13c27316f23e10409e63771bef6749d094",
+    "sha": "a14e4f3e29f1e3e642eb0676392195cd1f4bd5b0",
     "version": "2016-06-27"
   },
   "redshift-2012-12-01.normal.json": {
@@ -248,7 +248,7 @@
     "version": "2018-07-26"
   },
   "pinpoint-2016-12-01.normal.json": {
-    "sha": "b0c5571e43c923f1258cabd8cd512839ce1a690e",
+    "sha": "5e459fc11f59b97b727e3274c2ac815ed173df14",
     "version": "2016-12-01"
   },
   "pi-2018-02-27.normal.json": {
@@ -272,11 +272,11 @@
     "version": "2019-12-03"
   },
   "organizations-2016-11-28.normal.json": {
-    "sha": "5f4a5d2ef910e7a4fa7181ab00838a2b0bab5726",
+    "sha": "603a900448db4407ee2d88989057f6143e4f506d",
     "version": "2016-11-28"
   },
   "opsworkscm-2016-11-01.normal.json": {
-    "sha": "8e65c1759e83b684911404ca26cb799156a935e2",
+    "sha": "2e50e9499c5327093f63b80319d6c49828256777",
     "version": "2016-11-01"
   },
   "opsworks-2013-02-18.normal.json": {
@@ -328,7 +328,7 @@
     "version": "2017-09-01"
   },
   "mediastore-2017-09-01.normal.json": {
-    "sha": "c65cd9558ef1f2fe0a161ae5e7fd972368db4d1e",
+    "sha": "b74cc203b9054464fa06322ee27c5e79e4d624fb",
     "version": "2017-09-01"
   },
   "mediapackage-vod-2018-11-07.normal.json": {
@@ -348,7 +348,7 @@
     "version": "2017-08-29"
   },
   "mediaconnect-2018-11-14.normal.json": {
-    "sha": "d5730aa653843384c80d93c3882d5f9f8f7b0e75",
+    "sha": "b96b62920dba78763d0f76aae2f940fcbf2d93d6",
     "version": "2018-11-14"
   },
   "marketplacecommerceanalytics-2015-07-01.normal.json": {
@@ -388,7 +388,7 @@
     "version": "2017-04-19"
   },
   "lambda-2015-03-31.normal.json": {
-    "sha": "9a922f4eb8f38dd796b347c1e85bcf3d37875c0d",
+    "sha": "5ce1db761972b59ab391a9979737f584d1e8eb55",
     "version": "2015-03-31"
   },
   "lakeformation-2017-03-31.normal.json": {
@@ -472,7 +472,7 @@
     "version": "2015-05-28"
   },
   "iot-2015-05-28.normal.json": {
-    "sha": "47205564738169f736648004a9c53c26e91042fe",
+    "sha": "5f6f6b6f0bdbd3397b43065433203ed9044ad22c",
     "version": "2015-05-28"
   },
   "inspector-2016-02-16.normal.json": {
@@ -508,7 +508,7 @@
     "version": "2017-06-07"
   },
   "glue-2017-03-31.normal.json": {
-    "sha": "f8439e869b645c79655e7d23440d5ef06c4256af",
+    "sha": "337ecd5fc74e8e9498c2095425d15b29a54c56d0",
     "version": "2017-03-31"
   },
   "globalaccelerator-2018-08-08.normal.json": {
@@ -540,7 +540,7 @@
     "version": "2018-06-26"
   },
   "fms-2018-01-01.normal.json": {
-    "sha": "cf41158a08253f5f3a9b6804c3545bc52dc258f3",
+    "sha": "8304af571cebb43f4a37fcca570e1affdc5ec2cd",
     "version": "2018-01-01"
   },
   "firehose-2015-08-04.normal.json": {
@@ -596,7 +596,7 @@
     "version": "2015-02-02"
   },
   "elastic-inference-2017-07-25.normal.json": {
-    "sha": "a42819e0136a61bb4a31b4323274c2aeb0f200a6",
+    "sha": "8faf3a217e3da0dbb83948e247510a45d3b7618a",
     "version": "2017-07-25"
   },
   "eks-2017-11-01.normal.json": {
@@ -656,7 +656,7 @@
     "version": "2015-06-23"
   },
   "detective-2018-10-26.normal.json": {
-    "sha": "f46832f40965afd0d75e6af81c830f6475610ca7",
+    "sha": "bf7b8d79d0c43b5cb6b2b29a8c3ef730bd94d65a",
     "version": "2018-10-26"
   },
   "dax-2017-04-19.normal.json": {
@@ -840,7 +840,7 @@
     "version": "2016-02-06"
   },
   "appconfig-2019-10-09.normal.json": {
-    "sha": "e8411f839b3f78ad5cdaa2cad91f4c127b1f8b22",
+    "sha": "01a7017e60cf996482215165076eaab0cda704fc",
     "version": "2019-10-09"
   },
   "apigatewayv2-2018-11-29.normal.json": {
@@ -872,7 +872,7 @@
     "version": "2015-12-08"
   },
   "accessanalyzer-2019-11-01.normal.json": {
-    "sha": "b6ebd1d99059bf23f094439dde54648f495f589f",
+    "sha": "a5631402cd3e12e9531ed3e67521a149949083cc",
     "version": "2019-11-01"
   },
   "AWSMigrationHub-2017-05-31.normal.json": {
