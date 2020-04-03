@@ -8,8 +8,7 @@ export @service, AWSServices, RestJSONService, JSONService, RestXMLService, Quer
 include("AWSMetadataUtilities.jl")
 
 macro service(module_name::Symbol)
-    service_name = "services/" * lowercase(string(module_name)) * ".jl"
-    service_name = joinpath(@__DIR__, service_name)
+    service_name = joinpath(@__DIR__, "services", lowercase(string(module_name)) * ".jl")
 
     return Expr(:toplevel,
     :(module($(esc(module_name)))

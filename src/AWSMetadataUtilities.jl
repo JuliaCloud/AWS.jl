@@ -1,11 +1,12 @@
 module AWSMetadataUtilities
 
+include("AWSExceptions.jl")
+
 using .AWSExceptions
 using OrderedCollections: OrderedDict
 using HTTP
 using JSON
 
-include("AWSExceptions.jl")
 
 """
     _get_aws_sdk_js_files()
@@ -21,7 +22,7 @@ function _get_aws_sdk_js_files()
 
     req = HTTP.get(url, headers)
     files = JSON.parse(String(req.body), dicttype=OrderedDict)
-    filter!(f -> occursin(r".normal.json$", f["name"]), files)  # Only get ${Service}.normal.json files
+    filter!(f -> endswith(f["name"], ".normal.json"), files)  # Only get ${Service}.normal.json files
     files = _filter_latest_service_version(files)
 
     return files
@@ -75,8 +76,12 @@ function _get_service_and_version(filename::String)
         version = join(service_and_version[end-2:end], '-')
 
         return (service, version)
-    catch BoundsError
-        throw(InvalidFileName("$filename is an invalid AWS JSON filename."))
+    catch e
+        if e isa BoundsError
+            throw(InvalidFileName("$filename is an invalid AWS JSON filename."))
+        else
+            rethrow()
+        end
     end
 end
 
@@ -96,7 +101,7 @@ function _generate_low_level_definitions(services::Array{OrderedDict})
 
     for service in services
         service_name = service["name"]
-        println("Generating low level wrapper for $service_name")
+        @info "Generating low level wrapper for $service_name"
 
         # Get the contents of the ${Service}.normal.json file
         request = HTTP.get(service["download_url"])
@@ -229,7 +234,7 @@ function _generate_high_level_definitions(
     operations::Dict,
     shapes::Dict
 )
-    operation_definitions = []
+    operation_definitions = String[]
 
     for operation in operations
         operation = operation[2]
