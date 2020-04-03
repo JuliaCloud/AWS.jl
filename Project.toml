@@ -14,7 +14,7 @@ SymDict = "2da68c74-98d7-5633-99d6-8493888d7b1e"
 AWSCore = "0.6"
 HTTP = "0.8"
 JSON = "0.18, 0.19, 0.20, 0.21"
-OrderedCollections = "1.0, 1.1"
+OrderedCollections = "1"
 SymDict = "0.3"
 julia = "1"
 
