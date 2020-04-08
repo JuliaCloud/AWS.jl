@@ -2,3 +2,24 @@ name = "AWS"
 uuid = "fbe9abb3-538b-5e4e-ba9e-bc94f4f92ebc"
 license = "MIT"
 version = "1.0.0"
+
+[deps]
+AWSCore = "4f1ea46c-232b-54a6-9b17-cc2d0f3e6598"
+HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
+JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
+OrderedCollections = "bac558e1-5e72-5ebc-8fee-abe8a469f55d"
+SymDict = "2da68c74-98d7-5633-99d6-8493888d7b1e"
+
+[compat]
+AWSCore = "0.6"
+HTTP = "0.8"
+JSON = "0.18, 0.19, 0.20, 0.21"
+OrderedCollections = "1"
+SymDict = "0.3"
+julia = "1"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
