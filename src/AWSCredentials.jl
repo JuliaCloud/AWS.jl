@@ -1,5 +1,4 @@
 using AWSCore: Services
-using Base
 using IniFile
 using HTTP
 using Dates
@@ -33,7 +32,7 @@ The fields `access_key_id` and `secret_key` hold the access keys used to authent
 [Temporary Security Credentials](http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp.html) require the extra session `token` field.
 The `user_arn` and `account_number` fields are used to cache the result of the [`aws_user_arn`](@ref) and [`aws_account_number`](@ref) functions.
 
-AWSCore searches for credentials in a series of possible locations and stop as soon as it finds credentials.
+AWSCore searches for credentials in a series of possible locations and stops as soon as it finds credentials.
 The order of precedence for this search is as follows:
 
 1. Passing credentials directly to the `AWSCredentials` constructor
@@ -41,7 +40,7 @@ The order of precedence for this search is as follows:
 3. Shared credential file [(~/.aws/credentials)](http://docs.aws.amazon.com/cli/latest/userguide/cli-config-files.html)
 4. AWS config file [(~/.aws/config)](http://docs.aws.amazon.com/cli/latest/userguide/cli-config-files.html)
 5. Assume Role provider via the aws config file
-6. Instance metadata service on an Amazon EC2 instance that has an IAM role configured.
+6. Instance metadata service on an Amazon EC2 instance that has an IAM role configured
 
 Once the credentials are found, the method by which they were accessed is stored in the `renew` field
 and the DateTime at which they will expire is stored in the `expiry` field.
@@ -106,7 +105,7 @@ _aws_get_profile() = get(ENV, "AWS_DEFAULT_PROFILE", get(ENV, "AWS_PROFILE", "de
 
 
 """
-    AWSCredentials(;profile=nothing) -> Union{AWSCredentials, Nothing}
+    AWSCredentials(; profile=nothing) -> Union{AWSCredentials, Nothing}
 
 Create an AWSCredentials object, given a provided profile (if not provided "default" will be
 used).
@@ -123,7 +122,7 @@ Checks credential locations in the order:
 # Throws
 - `error("Can't find AWS Credentials")`: AWSCredentials could not be found
 """
-function AWSCredentials(;profile=nothing)
+function AWSCredentials(; profile=nothing)
     creds = nothing
     credential_function = () -> nothing
 
@@ -297,10 +296,10 @@ end
 Parse the EC2 metadata to retrieve AWSCredentials.
 """
 function ec2_instance_credentials()
-    info  = _ec2_metadata("iam/info")
-    info  = JSON.parse(info)
+    info = _ec2_metadata("iam/info")
+    info = JSON.parse(info)
 
-    name  = _ec2_metadata("iam/security-credentials/")
+    name = _ec2_metadata("iam/security-credentials/")
     creds = _ec2_metadata("iam/security-credentials/$name")
     new_creds = JSON.parse(creds)
 
