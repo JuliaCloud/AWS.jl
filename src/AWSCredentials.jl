@@ -547,7 +547,7 @@ function _aws_get_role(role::AbstractString, ini::Inifile)
     end
 
     credentials === nothing && return nothing
-    config = AWSConfig(:creds=>credentials, :region=>aws_get_region(source_profile, ini))
+    config = AWSConfig(:creds => credentials, :region => aws_get_region(source_profile, ini))
 
     role = Services.sts(
         config,

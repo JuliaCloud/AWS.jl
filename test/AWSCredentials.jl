@@ -5,7 +5,9 @@ macro test_ecode(error_codes, expr)
             @test false
         catch e
             if e isa AWSException
-                ecode(e) in [$error_codes;]
+                @test ecode(e) in [$error_codes;]
+            else
+                rethrow(e)
             end
         end
     end
@@ -82,7 +84,7 @@ end
 
 @testset "AWSCredentials" begin
     @testset "Defaults" begin
-        creds = AWSCredentials("access_key_id" ,"secret_key")
+        creds = AWS.AWSCredentials("access_key_id" ,"secret_key")
         @test creds.token == ""
         @test creds.user_arn == ""
         @test creds.account_number == ""
@@ -92,7 +94,7 @@ end
 
     @testset "Renewal" begin
         # Credentials shouldn't throw an error if no renew function is supplied
-        creds = AWSCredentials("access_key_id", "secret_key", renew=nothing)
+        creds = AWS.AWSCredentials("access_key_id", "secret_key", renew=nothing)
         # TODO: Remove qualification when dep on AWSCore is removed
         newcreds = AWS.check_credentials(creds, force_refresh = true)
 
@@ -103,7 +105,7 @@ end
         @test creds.renew == nothing
 
         # Creds should error if the renew function returns nothing
-        creds = AWSCredentials("access_key_id", "secret_key", renew = () -> nothing)
+        creds = AWS.AWSCredentials("access_key_id", "secret_key", renew = () -> nothing)
         # TODO: Remove qualification when dep on AWSCore is removed
         @test_throws ErrorException AWS.check_credentials(creds, force_refresh=true)
 
@@ -117,7 +119,7 @@ end
             () -> (i += 1; AWSCredentials("NEW_ID_$i", "NEW_KEY_$i"))
         end
 
-        creds = AWSCredentials(
+        creds = AWS.AWSCredentials(
             "access_key_id",
             "secret_key",
             renew=gen_credentials(),
@@ -304,7 +306,7 @@ end
             @testset "Profile" begin
                 # Check profile kwarg
                 ENV["AWS_DEFAULT_PROFILE"] = "test"
-                creds = AWSCredentials(profile="test2")
+                creds = AWS.AWSCredentials(profile="test2")
                 @test creds.access_key_id == "RIGHT_ACCESS_ID2"
                 @test creds.secret_key == "RIGHT_ACCESS_KEY2"
 
@@ -529,7 +531,7 @@ end
                 "AWS_ACCESS_KEY_ID" => test_values["AccessKeyId"],
                 "AWS_SECRET_ACCESS_KEY" => test_values["SecretAccessKey"]
             ) do
-                testAWSCredentials = AWSCredentials(
+                testAWSCredentials = AWS.AWSCredentials(
                     test_values["AccessKeyId"],
                     test_values["SecretAccessKey"],
                     expiry=Dates.now() - Minute(10),

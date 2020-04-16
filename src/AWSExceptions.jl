@@ -21,14 +21,16 @@ struct AWSException <: Exception
     info::Union{String, Nothing}
     cause::HTTP.StatusError
 end
-show(io::IO, e::AWSException) = println(io, string(e.code,
-                       isempty(e.message) ? "" : (" -- " * e.message), "\n", e.cause))
+show(io::IO, e::AWSException) = println(
+    io,
+    string(e.code, isempty(e.message) ? "" : (" -- " * e.message), "\n", e.cause)
+)
 
 
 function AWSException(e::HTTP.StatusError)
     code = string(http_status(e))
     message = "AWSException"
-    info = Dict()
+    info = Dict(String, Dict)
 
     # Extract API error code from Lambda-style JSON error message...
     if occursin(r"json$", content_type(e))

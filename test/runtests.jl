@@ -17,6 +17,9 @@ using Test
 Mocking.activate()
 aws = aws_config()
 
-include("AWS.jl")
-include("AWSCredentials.jl")
-include("AWSMetadataUtilities.jl")
+@testset "AWS.jl" begin
+    include("AWS.jl")
+    include("AWSCredentials.jl")
+    include("AWSExceptions.jl")
+    include("AWSMetadataUtilities.jl")
+end
