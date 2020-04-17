@@ -218,7 +218,7 @@ end
 
 _can_read_file(file_name::String) = return isfile(file_name) && try isreadable(open(file_name, "r")) catch e; false; end
 _begins_with_ec2(file_name::String) = return uppercase(String(read(file_name, 3))) == "EC2"
-_ends_with_ec2(file_name::String) = return endswith(strip(uppercase(String(read(file_name, String)))), "EC2")
+_ends_with_ec2(file_name::String) = return endswith(strip(uppercase(read(file_name, String))), "EC2")
 
 
 """
