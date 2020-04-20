@@ -47,7 +47,7 @@ function AWSException(e::HTTP.StatusError)
 
     # Extract API error code from XML error message...
     error_content_types = ["", "application/xml", "text/xml"]
-    if (content_type(e) in error_content_types && length(http_message(e)) > 0)
+    if content_type(e) in error_content_types && length(http_message(e)) > 0
         info = parse_xml(http_message(e))
     end
 
