@@ -344,7 +344,7 @@ function ecs_instance_credentials()
     new_creds = String(response.body)
     new_creds = JSON.parse(new_creds)
 
-    expiry = DateTime(strip(new_creds["Expiration"], 'Z'))
+    expiry = DateTime(rstrip(new_creds["Expiration"], 'Z'))
 
     return AWSCredentials(
         new_creds["AccessKeyId"],
