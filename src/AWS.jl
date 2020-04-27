@@ -5,6 +5,7 @@ using SymDict
 
 export @service, AWSServices, RestJSONService, JSONService, RestXMLService, QueryService
 
+include("AWSCredentials.jl")
 include("AWSMetadataUtilities.jl")
 
 macro service(module_name::Symbol)
