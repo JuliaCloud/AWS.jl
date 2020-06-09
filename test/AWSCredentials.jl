@@ -235,7 +235,7 @@ end
 
             @testset "Loading" begin
                 # Check credentials load
-                config = aws_config()
+                config = AWSCore.aws_config()
                 creds = config[:creds]
 
                 # TODO: Resolve test after AWSConfig is rewritten
@@ -247,7 +247,7 @@ end
 
                 # Check credential file takes precedence over config
                 ENV["AWS_DEFAULT_PROFILE"] = "test2"
-                config = aws_config()
+                config = AWSCore.aws_config()
                 creds = config[:creds]
 
                 @test creds.access_key_id == "RIGHT_ACCESS_ID2"
@@ -255,14 +255,14 @@ end
 
                 # Check credentials take precedence over role
                 ENV["AWS_DEFAULT_PROFILE"] = "test3"
-                config = aws_config()
+                config = AWSCore.aws_config()
                 creds = config[:creds]
 
                 @test creds.access_key_id == "RIGHT_ACCESS_ID3"
                 @test creds.secret_key == "RIGHT_ACCESS_KEY3"
 
                 ENV["AWS_DEFAULT_PROFILE"] = "test4"
-                config = aws_config()
+                config = AWSCore.aws_config()
                 creds = config[:creds]
 
                 @test creds.access_key_id == "RIGHT_ACCESS_ID4"
@@ -273,7 +273,7 @@ end
             @testset "Refresh" begin
                 ENV["AWS_DEFAULT_PROFILE"] = "test"
                 # Check credentials refresh on timeout
-                config = aws_config()
+                config = AWSCore.aws_config()
                 creds = config[:creds]
                 creds.access_key_id = "EXPIRED_ACCESS_ID"
                 creds.secret_key = "EXPIRED_ACCESS_KEY"
@@ -310,7 +310,7 @@ end
                 @test creds.access_key_id == "RIGHT_ACCESS_ID2"
                 @test creds.secret_key == "RIGHT_ACCESS_KEY2"
 
-                config = aws_config(profile="test2")
+                config = AWSCore.aws_config(profile="test2")
                 creds = config[:creds]
                 @test creds.access_key_id == "RIGHT_ACCESS_ID2"
                 @test creds.secret_key == "RIGHT_ACCESS_KEY2"
@@ -325,13 +325,13 @@ end
                 @test creds.secret_key == "RIGHT_ACCESS_KEY2"
             end
 
-            @testset "Assume Role" begin
+            @test_broken @testset "Assume Role" begin
                 # Check we try to assume a role
                 ENV["AWS_DEFAULT_PROFILE"] = "test:dev"
 
                 @test_ecode(
                     "InvalidClientTokenId",
-                    aws_config()
+                    AWSCore.aws_config()
                 )
 
                 # Check we try to assume a role
@@ -341,7 +341,7 @@ end
 
                     @test_ecode(
                         "InvalidClientTokenId",
-                        aws_config()
+                        AWSCore.aws_config()
                     )
                     redirect_stdout(oldout)
                     close(w)
