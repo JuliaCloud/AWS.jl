@@ -14,9 +14,9 @@ Required Parameters
 
 Optional Parameters
 {
+  "Filter": "Filter is used to return entitlements for a specific customer or for a specific dimension. Filters are described as keys mapped to a lists of values. Filtered requests are unioned for each value in the value list, and then intersected for each filter key.",
   "MaxResults": "The maximum number of items to retrieve from the GetEntitlements operation. For pagination, use the NextToken field in subsequent calls to GetEntitlements.",
-  "NextToken": "For paginated calls to GetEntitlements, pass the NextToken from the previous GetEntitlementsResult.",
-  "Filter": "Filter is used to return entitlements for a specific customer or for a specific dimension. Filters are described as keys mapped to a lists of values. Filtered requests are unioned for each value in the value list, and then intersected for each filter key."
+  "NextToken": "For paginated calls to GetEntitlements, pass the NextToken from the previous GetEntitlementsResult."
 }
 """
 GetEntitlements(args) = marketplace_entitlement_service("GetEntitlements", args)

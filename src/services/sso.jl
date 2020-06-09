@@ -3,30 +3,37 @@ include("../AWSServices.jl")
 using .AWSServices: sso
 
 """
-    Logout()
-
-Removes the client- and server-side session that is associated with the user.
-
-Required Parameters
-{
-  "accessToken": "The token issued by the CreateToken API call. For more information, see CreateToken in the AWS SSO OIDC API Reference Guide."
-}
-"""
-Logout(args) = sso("POST", "/logout", args)
-
-"""
     GetRoleCredentials()
 
 Returns the STS short-term credentials for a given role name that is assigned to the user.
 
 Required Parameters
 {
-  "roleName": "The friendly name of the role that is assigned to the user.",
   "accessToken": "The token issued by the CreateToken API call. For more information, see CreateToken in the AWS SSO OIDC API Reference Guide.",
-  "accountId": "The identifier for the AWS account that is assigned to the user."
+  "accountId": "The identifier for the AWS account that is assigned to the user.",
+  "roleName": "The friendly name of the role that is assigned to the user."
 }
 """
 GetRoleCredentials(args) = sso("GET", "/federation/credentials", args)
+
+"""
+    ListAccountRoles()
+
+Lists all roles that are assigned to the user for a given AWS account.
+
+Required Parameters
+{
+  "accessToken": "The token issued by the CreateToken API call. For more information, see CreateToken in the AWS SSO OIDC API Reference Guide.",
+  "accountId": "The identifier for the AWS account that is assigned to the user."
+}
+
+Optional Parameters
+{
+  "maxResults": "The number of items that clients can request per page.",
+  "nextToken": "The page token from the previous response output when you request subsequent pages."
+}
+"""
+ListAccountRoles(args) = sso("GET", "/assignment/roles", args)
 
 """
     ListAccounts()
@@ -47,20 +54,13 @@ Optional Parameters
 ListAccounts(args) = sso("GET", "/assignment/accounts", args)
 
 """
-    ListAccountRoles()
+    Logout()
 
-Lists all roles that are assigned to the user for a given AWS account.
+Removes the client- and server-side session that is associated with the user.
 
 Required Parameters
 {
-  "accessToken": "The token issued by the CreateToken API call. For more information, see CreateToken in the AWS SSO OIDC API Reference Guide.",
-  "accountId": "The identifier for the AWS account that is assigned to the user."
-}
-
-Optional Parameters
-{
-  "maxResults": "The number of items that clients can request per page.",
-  "nextToken": "The page token from the previous response output when you request subsequent pages."
+  "accessToken": "The token issued by the CreateToken API call. For more information, see CreateToken in the AWS SSO OIDC API Reference Guide."
 }
 """
-ListAccountRoles(args) = sso("GET", "/assignment/roles", args)
+Logout(args) = sso("POST", "/logout", args)

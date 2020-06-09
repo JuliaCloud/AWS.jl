@@ -3,83 +3,6 @@ include("../AWSServices.jl")
 using .AWSServices: codeguruprofiler
 
 """
-    UpdateProfilingGroup()
-
-Updates a profiling group.
-
-Required Parameters
-{
-  "profilingGroupName": "The name of the profiling group to update.",
-  "agentOrchestrationConfig": ""
-}
-"""
-UpdateProfilingGroup(args) = codeguruprofiler("PUT", "/profilingGroups/{profilingGroupName}", args)
-
-"""
-    PostAgentProfile()
-
-
-
-Required Parameters
-{
-  "profilingGroupName": "",
-  "agentProfile": "",
-  "contentType": ""
-}
-
-Optional Parameters
-{
-  "profileToken": ""
-}
-"""
-PostAgentProfile(args) = codeguruprofiler("POST", "/profilingGroups/{profilingGroupName}/agentProfile", args)
-
-"""
-    ListProfilingGroups()
-
-Lists profiling groups.
-
-Optional Parameters
-{
-  "maxResults": "The maximum number of profiling groups results returned by ListProfilingGroups in paginated output. When this parameter is used, ListProfilingGroups only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListProfilingGroups request with the returned nextToken value. ",
-  "nextToken": "The nextToken value returned from a previous paginated ListProfilingGroups request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. ",
-  "includeDescription": "A Boolean value indicating whether to include a description."
-}
-"""
-ListProfilingGroups() = codeguruprofiler("GET", "/profilingGroups")
-ListProfilingGroups(args) = codeguruprofiler("GET", "/profilingGroups", args)
-
-"""
-    DeleteProfilingGroup()
-
-Deletes a profiling group.
-
-Required Parameters
-{
-  "profilingGroupName": "The profiling group name to delete."
-}
-"""
-DeleteProfilingGroup(args) = codeguruprofiler("DELETE", "/profilingGroups/{profilingGroupName}", args)
-
-"""
-    CreateProfilingGroup()
-
-Creates a profiling group.
-
-Required Parameters
-{
-  "profilingGroupName": "The name of the profiling group.",
-  "clientToken": "Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This parameter specifies a unique identifier for the new profiling group that helps ensure idempotency."
-}
-
-Optional Parameters
-{
-  "agentOrchestrationConfig": "The agent orchestration configuration."
-}
-"""
-CreateProfilingGroup(args) = codeguruprofiler("POST", "/profilingGroups", args)
-
-"""
     ConfigureAgent()
 
 
@@ -97,26 +20,58 @@ Optional Parameters
 ConfigureAgent(args) = codeguruprofiler("POST", "/profilingGroups/{profilingGroupName}/configureAgent", args)
 
 """
-    ListProfileTimes()
+    CreateProfilingGroup()
 
-List the start times of the available aggregated profiles of a profiling group for an aggregation period within the specified time range.
+Creates a profiling group.
 
 Required Parameters
 {
-  "profilingGroupName": "The name of the profiling group.",
-  "startTime": "The start time of the time range from which to list the profiles.",
-  "period": "The aggregation period.",
-  "endTime": "The end time of the time range from which to list the profiles."
+  "clientToken": "Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This parameter specifies a unique identifier for the new profiling group that helps ensure idempotency.",
+  "profilingGroupName": "The name of the profiling group."
 }
 
 Optional Parameters
 {
-  "maxResults": "The maximum number of profile time results returned by ListProfileTimes in paginated output. When this parameter is used, ListProfileTimes only returns maxResults results in a single page with a nextToken response element. The remaining results of the initial request can be seen by sending another ListProfileTimes request with the returned nextToken value. ",
-  "nextToken": "The nextToken value returned from a previous paginated ListProfileTimes request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. ",
-  "orderBy": "The order (ascending or descending by start time of the profile) to use when listing profiles. Defaults to TIMESTAMP_DESCENDING. "
+  "agentOrchestrationConfig": "The agent orchestration configuration."
 }
 """
-ListProfileTimes(args) = codeguruprofiler("GET", "/profilingGroups/{profilingGroupName}/profileTimes", args)
+CreateProfilingGroup(args) = codeguruprofiler("POST", "/profilingGroups", args)
+
+"""
+    DeleteProfilingGroup()
+
+Deletes a profiling group.
+
+Required Parameters
+{
+  "profilingGroupName": "The profiling group name to delete."
+}
+"""
+DeleteProfilingGroup(args) = codeguruprofiler("DELETE", "/profilingGroups/{profilingGroupName}", args)
+
+"""
+    DescribeProfilingGroup()
+
+Describes a profiling group.
+
+Required Parameters
+{
+  "profilingGroupName": "The profiling group name."
+}
+"""
+DescribeProfilingGroup(args) = codeguruprofiler("GET", "/profilingGroups/{profilingGroupName}", args)
+
+"""
+    GetPolicy()
+
+Gets the profiling group policy.
+
+Required Parameters
+{
+  "profilingGroupName": "The name of the profiling group."
+}
+"""
+GetPolicy(args) = codeguruprofiler("GET", "/profilingGroups/{profilingGroupName}/policy", args)
 
 """
     GetProfile()
@@ -131,22 +86,112 @@ Required Parameters
 Optional Parameters
 {
   "accept": "The format of the profile to return. You can choose application/json or the default application/x-amzn-ion. ",
-  "startTime": "The start time of the profile to get. You must specify exactly two of the following parameters: startTime, period, and endTime. ",
-  "period": "The period of the profile to get. The time range must be in the past and not longer than one week.  You must specify exactly two of the following parameters: startTime, period, and endTime. ",
+  "endTime": " You must specify exactly two of the following parameters: startTime, period, and endTime. ",
   "maxDepth": "The maximum depth of the graph.",
-  "endTime": " You must specify exactly two of the following parameters: startTime, period, and endTime. "
+  "period": "The period of the profile to get. The time range must be in the past and not longer than one week.  You must specify exactly two of the following parameters: startTime, period, and endTime. ",
+  "startTime": "The start time of the profile to get. You must specify exactly two of the following parameters: startTime, period, and endTime. "
 }
 """
 GetProfile(args) = codeguruprofiler("GET", "/profilingGroups/{profilingGroupName}/profile", args)
 
 """
-    DescribeProfilingGroup()
+    ListProfileTimes()
 
-Describes a profiling group.
+List the start times of the available aggregated profiles of a profiling group for an aggregation period within the specified time range.
 
 Required Parameters
 {
-  "profilingGroupName": "The profiling group name."
+  "endTime": "The end time of the time range from which to list the profiles.",
+  "period": "The aggregation period.",
+  "profilingGroupName": "The name of the profiling group.",
+  "startTime": "The start time of the time range from which to list the profiles."
+}
+
+Optional Parameters
+{
+  "maxResults": "The maximum number of profile time results returned by ListProfileTimes in paginated output. When this parameter is used, ListProfileTimes only returns maxResults results in a single page with a nextToken response element. The remaining results of the initial request can be seen by sending another ListProfileTimes request with the returned nextToken value. ",
+  "nextToken": "The nextToken value returned from a previous paginated ListProfileTimes request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. ",
+  "orderBy": "The order (ascending or descending by start time of the profile) to use when listing profiles. Defaults to TIMESTAMP_DESCENDING. "
 }
 """
-DescribeProfilingGroup(args) = codeguruprofiler("GET", "/profilingGroups/{profilingGroupName}", args)
+ListProfileTimes(args) = codeguruprofiler("GET", "/profilingGroups/{profilingGroupName}/profileTimes", args)
+
+"""
+    ListProfilingGroups()
+
+Lists profiling groups.
+
+Optional Parameters
+{
+  "includeDescription": "A Boolean value indicating whether to include a description.",
+  "maxResults": "The maximum number of profiling groups results returned by ListProfilingGroups in paginated output. When this parameter is used, ListProfilingGroups only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListProfilingGroups request with the returned nextToken value. ",
+  "nextToken": "The nextToken value returned from a previous paginated ListProfilingGroups request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. "
+}
+"""
+ListProfilingGroups() = codeguruprofiler("GET", "/profilingGroups")
+ListProfilingGroups(args) = codeguruprofiler("GET", "/profilingGroups", args)
+
+"""
+    PostAgentProfile()
+
+
+
+Required Parameters
+{
+  "agentProfile": "",
+  "contentType": "",
+  "profilingGroupName": ""
+}
+
+Optional Parameters
+{
+  "profileToken": ""
+}
+"""
+PostAgentProfile(args) = codeguruprofiler("POST", "/profilingGroups/{profilingGroupName}/agentProfile", args)
+
+"""
+    PutPermission()
+
+Provides permission to the principals. This overwrites the existing permissions, and is not additive.
+
+Required Parameters
+{
+  "actionGroup": "The list of actions that the users and roles can perform on the profiling group.",
+  "principals": "The list of role and user ARNs or the accountId that needs access (wildcards are not allowed).",
+  "profilingGroupName": "The name of the profiling group."
+}
+
+Optional Parameters
+{
+  "revisionId": "A unique identifier for the current revision of the policy. This is required, if a policy exists for the profiling group. This is not required when creating the policy for the first time."
+}
+"""
+PutPermission(args) = codeguruprofiler("PUT", "/profilingGroups/{profilingGroupName}/policy/{actionGroup}", args)
+
+"""
+    RemovePermission()
+
+Removes statement for the provided action group from the policy.
+
+Required Parameters
+{
+  "actionGroup": "The list of actions that the users and roles can perform on the profiling group.",
+  "profilingGroupName": "The name of the profiling group.",
+  "revisionId": "A unique identifier for the current revision of the policy."
+}
+"""
+RemovePermission(args) = codeguruprofiler("DELETE", "/profilingGroups/{profilingGroupName}/policy/{actionGroup}", args)
+
+"""
+    UpdateProfilingGroup()
+
+Updates a profiling group.
+
+Required Parameters
+{
+  "agentOrchestrationConfig": "",
+  "profilingGroupName": "The name of the profiling group to update."
+}
+"""
+UpdateProfilingGroup(args) = codeguruprofiler("PUT", "/profilingGroups/{profilingGroupName}", args)

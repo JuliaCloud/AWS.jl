@@ -3,49 +3,209 @@ include("../AWSServices.jl")
 using .AWSServices: application_insights
 
 """
+    CreateApplication()
+
+Adds an application that is created from a resource group.
+
+Required Parameters
+{
+  "ResourceGroupName": "The name of the resource group."
+}
+
+Optional Parameters
+{
+  "CWEMonitorEnabled": " Indicates whether Application Insights can listen to CloudWatch events for the application resources, such as instance terminated, failed deployment, and others. ",
+  "OpsCenterEnabled": " When set to true, creates opsItems for any problems detected on an application. ",
+  "OpsItemSNSTopicArn": " The SNS topic provided to Application Insights that is associated to the created opsItem. Allows you to receive notifications for updates to the opsItem. ",
+  "Tags": "List of tags to add to the application. tag key (Key) and an associated tag value (Value). The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters."
+}
+"""
+CreateApplication(args) = application_insights("CreateApplication", args)
+
+"""
+    CreateComponent()
+
+Creates a custom component by grouping similar standalone instances to monitor.
+
+Required Parameters
+{
+  "ComponentName": "The name of the component.",
+  "ResourceGroupName": "The name of the resource group.",
+  "ResourceList": "The list of resource ARNs that belong to the component."
+}
+"""
+CreateComponent(args) = application_insights("CreateComponent", args)
+
+"""
+    CreateLogPattern()
+
+Adds an log pattern to a LogPatternSet.
+
+Required Parameters
+{
+  "Pattern": "The log pattern.",
+  "PatternName": "The name of the log pattern.",
+  "PatternSetName": "The name of the log pattern set.",
+  "Rank": "Rank of the log pattern.",
+  "ResourceGroupName": "The name of the resource group."
+}
+"""
+CreateLogPattern(args) = application_insights("CreateLogPattern", args)
+
+"""
+    DeleteApplication()
+
+Removes the specified application from monitoring. Does not delete the application.
+
+Required Parameters
+{
+  "ResourceGroupName": "The name of the resource group."
+}
+"""
+DeleteApplication(args) = application_insights("DeleteApplication", args)
+
+"""
+    DeleteComponent()
+
+Ungroups a custom component. When you ungroup custom components, all applicable monitors that are set up for the component are removed and the instances revert to their standalone status.
+
+Required Parameters
+{
+  "ComponentName": "The name of the component.",
+  "ResourceGroupName": "The name of the resource group."
+}
+"""
+DeleteComponent(args) = application_insights("DeleteComponent", args)
+
+"""
     DeleteLogPattern()
 
 Removes the specified log pattern from a LogPatternSet.
 
 Required Parameters
 {
-  "ResourceGroupName": "The name of the resource group.",
+  "PatternName": "The name of the log pattern.",
   "PatternSetName": "The name of the log pattern set.",
-  "PatternName": "The name of the log pattern."
+  "ResourceGroupName": "The name of the resource group."
 }
 """
 DeleteLogPattern(args) = application_insights("DeleteLogPattern", args)
 
 """
-    ListTagsForResource()
+    DescribeApplication()
 
-Retrieve a list of the tags (keys and values) that are associated with a specified application. A tag is a label that you optionally define and associate with an application. Each tag consists of a required tag key and an optional associated tag value. A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a tag key.
+Describes the application.
 
 Required Parameters
 {
-  "ResourceARN": "The Amazon Resource Name (ARN) of the application that you want to retrieve tag information for."
+  "ResourceGroupName": "The name of the resource group."
 }
 """
-ListTagsForResource(args) = application_insights("ListTagsForResource", args)
+DescribeApplication(args) = application_insights("DescribeApplication", args)
 
 """
-    UpdateComponent()
+    DescribeComponent()
 
-Updates the custom component name and/or the list of resources that make up the component.
+Describes a component and lists the resources that are grouped together in a component.
 
 Required Parameters
 {
+  "ComponentName": "The name of the component.",
+  "ResourceGroupName": "The name of the resource group."
+}
+"""
+DescribeComponent(args) = application_insights("DescribeComponent", args)
+
+"""
+    DescribeComponentConfiguration()
+
+Describes the monitoring configuration of the component.
+
+Required Parameters
+{
+  "ComponentName": "The name of the component.",
+  "ResourceGroupName": "The name of the resource group."
+}
+"""
+DescribeComponentConfiguration(args) = application_insights("DescribeComponentConfiguration", args)
+
+"""
+    DescribeComponentConfigurationRecommendation()
+
+Describes the recommended monitoring configuration of the component.
+
+Required Parameters
+{
+  "ComponentName": "The name of the component.",
   "ResourceGroupName": "The name of the resource group.",
-  "ComponentName": "The name of the component."
+  "Tier": "The tier of the application component. Supported tiers include DOT_NET_CORE, DOT_NET_WORKER, DOT_NET_WEB, SQL_SERVER, and DEFAULT."
 }
+"""
+DescribeComponentConfigurationRecommendation(args) = application_insights("DescribeComponentConfigurationRecommendation", args)
+
+"""
+    DescribeLogPattern()
+
+Describe a specific log pattern from a LogPatternSet.
+
+Required Parameters
+{
+  "PatternName": "The name of the log pattern.",
+  "PatternSetName": "The name of the log pattern set.",
+  "ResourceGroupName": "The name of the resource group."
+}
+"""
+DescribeLogPattern(args) = application_insights("DescribeLogPattern", args)
+
+"""
+    DescribeObservation()
+
+Describes an anomaly or error with the application.
+
+Required Parameters
+{
+  "ObservationId": "The ID of the observation."
+}
+"""
+DescribeObservation(args) = application_insights("DescribeObservation", args)
+
+"""
+    DescribeProblem()
+
+Describes an application problem.
+
+Required Parameters
+{
+  "ProblemId": "The ID of the problem."
+}
+"""
+DescribeProblem(args) = application_insights("DescribeProblem", args)
+
+"""
+    DescribeProblemObservations()
+
+Describes the anomalies or errors associated with the problem.
+
+Required Parameters
+{
+  "ProblemId": "The ID of the problem."
+}
+"""
+DescribeProblemObservations(args) = application_insights("DescribeProblemObservations", args)
+
+"""
+    ListApplications()
+
+Lists the IDs of the applications that you are monitoring. 
 
 Optional Parameters
 {
-  "NewComponentName": "The new name of the component.",
-  "ResourceList": "The list of resource ARNs that belong to the component."
+  "MaxResults": "The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.",
+  "NextToken": "The token to request the next page of results."
 }
 """
-UpdateComponent(args) = application_insights("UpdateComponent", args)
+ListApplications() = application_insights("ListApplications")
+ListApplications(args) = application_insights("ListApplications", args)
 
 """
     ListComponents()
@@ -66,78 +226,27 @@ Optional Parameters
 ListComponents(args) = application_insights("ListComponents", args)
 
 """
-    UpdateLogPattern()
+    ListConfigurationHistory()
 
-Adds a log pattern to a LogPatternSet.
-
-Required Parameters
-{
-  "ResourceGroupName": "The name of the resource group.",
-  "PatternSetName": "The name of the log pattern set.",
-  "PatternName": "The name of the log pattern."
-}
+ Lists the INFO, WARN, and ERROR events for periodic configuration updates performed by Application Insights. Examples of events represented are:    INFO: creating a new alarm or updating an alarm threshold.   WARN: alarm not created due to insufficient data points used to predict thresholds.   ERROR: alarm not created due to permission errors or exceeding quotas.   
 
 Optional Parameters
 {
-  "Pattern": "The log pattern.",
-  "Rank": "Rank of the log pattern."
+  "EndTime": "The end time of the event.",
+  "EventStatus": "The status of the configuration update event. Possible values include INFO, WARN, and ERROR.",
+  "MaxResults": " The maximum number of results returned by ListConfigurationHistory in paginated output. When this parameter is used, ListConfigurationHistory returns only MaxResults in a single page along with a NextToken response element. The remaining results of the initial request can be seen by sending another ListConfigurationHistory request with the returned NextToken value. If this parameter is not used, then ListConfigurationHistory returns all results. ",
+  "NextToken": "The NextToken value returned from a previous paginated ListConfigurationHistory request where MaxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the NextToken value. This value is null when there are no more results to return.",
+  "ResourceGroupName": "Resource group to which the application belongs. ",
+  "StartTime": "The start time of the event. "
 }
 """
-UpdateLogPattern(args) = application_insights("UpdateLogPattern", args)
+ListConfigurationHistory() = application_insights("ListConfigurationHistory")
+ListConfigurationHistory(args) = application_insights("ListConfigurationHistory", args)
 
 """
-    DescribeComponent()
+    ListLogPatternSets()
 
-Describes a component and lists the resources that are grouped together in a component.
-
-Required Parameters
-{
-  "ResourceGroupName": "The name of the resource group.",
-  "ComponentName": "The name of the component."
-}
-"""
-DescribeComponent(args) = application_insights("DescribeComponent", args)
-
-"""
-    DescribeObservation()
-
-Describes an anomaly or error with the application.
-
-Required Parameters
-{
-  "ObservationId": "The ID of the observation."
-}
-"""
-DescribeObservation(args) = application_insights("DescribeObservation", args)
-
-"""
-    DeleteApplication()
-
-Removes the specified application from monitoring. Does not delete the application.
-
-Required Parameters
-{
-  "ResourceGroupName": "The name of the resource group."
-}
-"""
-DeleteApplication(args) = application_insights("DeleteApplication", args)
-
-"""
-    DescribeProblemObservations()
-
-Describes the anomalies or errors associated with the problem.
-
-Required Parameters
-{
-  "ProblemId": "The ID of the problem."
-}
-"""
-DescribeProblemObservations(args) = application_insights("DescribeProblemObservations", args)
-
-"""
-    CreateApplication()
-
-Adds an application that is created from a resource group.
+Lists the log pattern sets in the specific application.
 
 Required Parameters
 {
@@ -146,47 +255,11 @@ Required Parameters
 
 Optional Parameters
 {
-  "Tags": "List of tags to add to the application. tag key (Key) and an associated tag value (Value). The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.",
-  "OpsItemSNSTopicArn": " The SNS topic provided to Application Insights that is associated to the created opsItem. Allows you to receive notifications for updates to the opsItem. ",
-  "OpsCenterEnabled": " When set to true, creates opsItems for any problems detected on an application. ",
-  "CWEMonitorEnabled": " Indicates whether Application Insights can listen to CloudWatch events for the application resources, such as instance terminated, failed deployment, and others. "
+  "MaxResults": "The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.",
+  "NextToken": "The token to request the next page of results."
 }
 """
-CreateApplication(args) = application_insights("CreateApplication", args)
-
-"""
-    UpdateApplication()
-
-Updates the application.
-
-Required Parameters
-{
-  "ResourceGroupName": "The name of the resource group."
-}
-
-Optional Parameters
-{
-  "RemoveSNSTopic": " Disassociates the SNS topic from the opsItem created for detected problems.",
-  "OpsItemSNSTopicArn": " The SNS topic provided to Application Insights that is associated to the created opsItem. Allows you to receive notifications for updates to the opsItem.",
-  "OpsCenterEnabled": " When set to true, creates opsItems for any problems detected on an application. ",
-  "CWEMonitorEnabled": " Indicates whether Application Insights can listen to CloudWatch events for the application resources, such as instance terminated, failed deployment, and others. "
-}
-"""
-UpdateApplication(args) = application_insights("UpdateApplication", args)
-
-"""
-    DescribeLogPattern()
-
-Describe a specific log pattern from a LogPatternSet.
-
-Required Parameters
-{
-  "ResourceGroupName": "The name of the resource group.",
-  "PatternSetName": "The name of the log pattern set.",
-  "PatternName": "The name of the log pattern."
-}
-"""
-DescribeLogPattern(args) = application_insights("DescribeLogPattern", args)
+ListLogPatternSets(args) = application_insights("ListLogPatternSets", args)
 
 """
     ListLogPatterns()
@@ -200,9 +273,9 @@ Required Parameters
 
 Optional Parameters
 {
-  "PatternSetName": "The name of the log pattern set.",
   "MaxResults": "The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.",
-  "NextToken": "The token to request the next page of results."
+  "NextToken": "The token to request the next page of results.",
+  "PatternSetName": "The name of the log pattern set."
 }
 """
 ListLogPatterns(args) = application_insights("ListLogPatterns", args)
@@ -214,15 +287,27 @@ Lists the problems with your application.
 
 Optional Parameters
 {
-  "ResourceGroupName": "The name of the resource group.",
-  "StartTime": "The time when the problem was detected, in epoch seconds. If you don't specify a time frame for the request, problems within the past seven days are returned.",
+  "EndTime": "The time when the problem ended, in epoch seconds. If not specified, problems within the past seven days are returned.",
   "MaxResults": "The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.",
   "NextToken": "The token to request the next page of results.",
-  "EndTime": "The time when the problem ended, in epoch seconds. If not specified, problems within the past seven days are returned."
+  "ResourceGroupName": "The name of the resource group.",
+  "StartTime": "The time when the problem was detected, in epoch seconds. If you don't specify a time frame for the request, problems within the past seven days are returned."
 }
 """
 ListProblems() = application_insights("ListProblems")
 ListProblems(args) = application_insights("ListProblems", args)
+
+"""
+    ListTagsForResource()
+
+Retrieve a list of the tags (keys and values) that are associated with a specified application. A tag is a label that you optionally define and associate with an application. Each tag consists of a required tag key and an optional associated tag value. A tag key is a general label that acts as a category for more specific tag values. A tag value acts as a descriptor within a tag key.
+
+Required Parameters
+{
+  "ResourceARN": "The Amazon Resource Name (ARN) of the application that you want to retrieve tag information for."
+}
+"""
+ListTagsForResource(args) = application_insights("ListTagsForResource", args)
 
 """
     TagResource()
@@ -251,35 +336,9 @@ Required Parameters
 UntagResource(args) = application_insights("UntagResource", args)
 
 """
-    ListApplications()
+    UpdateApplication()
 
-Lists the IDs of the applications that you are monitoring. 
-
-Optional Parameters
-{
-  "MaxResults": "The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.",
-  "NextToken": "The token to request the next page of results."
-}
-"""
-ListApplications() = application_insights("ListApplications")
-ListApplications(args) = application_insights("ListApplications", args)
-
-"""
-    DescribeProblem()
-
-Describes an application problem.
-
-Required Parameters
-{
-  "ProblemId": "The ID of the problem."
-}
-"""
-DescribeProblem(args) = application_insights("DescribeProblem", args)
-
-"""
-    ListLogPatternSets()
-
-Lists the log pattern sets in the specific application.
+Updates the application.
 
 Required Parameters
 {
@@ -288,111 +347,32 @@ Required Parameters
 
 Optional Parameters
 {
-  "MaxResults": "The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value.",
-  "NextToken": "The token to request the next page of results."
+  "CWEMonitorEnabled": " Indicates whether Application Insights can listen to CloudWatch events for the application resources, such as instance terminated, failed deployment, and others. ",
+  "OpsCenterEnabled": " When set to true, creates opsItems for any problems detected on an application. ",
+  "OpsItemSNSTopicArn": " The SNS topic provided to Application Insights that is associated to the created opsItem. Allows you to receive notifications for updates to the opsItem.",
+  "RemoveSNSTopic": " Disassociates the SNS topic from the opsItem created for detected problems."
 }
 """
-ListLogPatternSets(args) = application_insights("ListLogPatternSets", args)
+UpdateApplication(args) = application_insights("UpdateApplication", args)
 
 """
-    CreateLogPattern()
+    UpdateComponent()
 
-Adds an log pattern to a LogPatternSet.
+Updates the custom component name and/or the list of resources that make up the component.
 
 Required Parameters
 {
-  "ResourceGroupName": "The name of the resource group.",
-  "PatternSetName": "The name of the log pattern set.",
-  "PatternName": "The name of the log pattern.",
-  "Pattern": "The log pattern.",
-  "Rank": "Rank of the log pattern."
-}
-"""
-CreateLogPattern(args) = application_insights("CreateLogPattern", args)
-
-"""
-    DeleteComponent()
-
-Ungroups a custom component. When you ungroup custom components, all applicable monitors that are set up for the component are removed and the instances revert to their standalone status.
-
-Required Parameters
-{
-  "ResourceGroupName": "The name of the resource group.",
-  "ComponentName": "The name of the component."
-}
-"""
-DeleteComponent(args) = application_insights("DeleteComponent", args)
-
-"""
-    DescribeComponentConfiguration()
-
-Describes the monitoring configuration of the component.
-
-Required Parameters
-{
-  "ResourceGroupName": "The name of the resource group.",
-  "ComponentName": "The name of the component."
-}
-"""
-DescribeComponentConfiguration(args) = application_insights("DescribeComponentConfiguration", args)
-
-"""
-    DescribeComponentConfigurationRecommendation()
-
-Describes the recommended monitoring configuration of the component.
-
-Required Parameters
-{
-  "ResourceGroupName": "The name of the resource group.",
-  "Tier": "The tier of the application component. Supported tiers include DOT_NET_CORE, DOT_NET_WORKER, DOT_NET_WEB, SQL_SERVER, and DEFAULT.",
-  "ComponentName": "The name of the component."
-}
-"""
-DescribeComponentConfigurationRecommendation(args) = application_insights("DescribeComponentConfigurationRecommendation", args)
-
-"""
-    DescribeApplication()
-
-Describes the application.
-
-Required Parameters
-{
+  "ComponentName": "The name of the component.",
   "ResourceGroupName": "The name of the resource group."
 }
-"""
-DescribeApplication(args) = application_insights("DescribeApplication", args)
-
-"""
-    CreateComponent()
-
-Creates a custom component by grouping similar standalone instances to monitor.
-
-Required Parameters
-{
-  "ResourceGroupName": "The name of the resource group.",
-  "ResourceList": "The list of resource ARNs that belong to the component.",
-  "ComponentName": "The name of the component."
-}
-"""
-CreateComponent(args) = application_insights("CreateComponent", args)
-
-"""
-    ListConfigurationHistory()
-
- Lists the INFO, WARN, and ERROR events for periodic configuration updates performed by Application Insights. Examples of events represented are:    INFO: creating a new alarm or updating an alarm threshold.   WARN: alarm not created due to insufficient data points used to predict thresholds.   ERROR: alarm not created due to permission errors or exceeding quotas.   
 
 Optional Parameters
 {
-  "ResourceGroupName": "Resource group to which the application belongs. ",
-  "StartTime": "The start time of the event. ",
-  "MaxResults": " The maximum number of results returned by ListConfigurationHistory in paginated output. When this parameter is used, ListConfigurationHistory returns only MaxResults in a single page along with a NextToken response element. The remaining results of the initial request can be seen by sending another ListConfigurationHistory request with the returned NextToken value. If this parameter is not used, then ListConfigurationHistory returns all results. ",
-  "NextToken": "The NextToken value returned from a previous paginated ListConfigurationHistory request where MaxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the NextToken value. This value is null when there are no more results to return.",
-  "EndTime": "The end time of the event.",
-  "EventStatus": "The status of the configuration update event. Possible values include INFO, WARN, and ERROR."
+  "NewComponentName": "The new name of the component.",
+  "ResourceList": "The list of resource ARNs that belong to the component."
 }
 """
-ListConfigurationHistory() = application_insights("ListConfigurationHistory")
-ListConfigurationHistory(args) = application_insights("ListConfigurationHistory", args)
+UpdateComponent(args) = application_insights("UpdateComponent", args)
 
 """
     UpdateComponentConfiguration()
@@ -401,15 +381,35 @@ Updates the monitoring configurations for the component. The configuration input
 
 Required Parameters
 {
-  "ResourceGroupName": "The name of the resource group.",
-  "ComponentName": "The name of the component."
+  "ComponentName": "The name of the component.",
+  "ResourceGroupName": "The name of the resource group."
 }
 
 Optional Parameters
 {
-  "Tier": "The tier of the application component. Supported tiers include DOT_NET_WORKER, DOT_NET_WEB, DOT_NET_CORE, SQL_SERVER, and DEFAULT.",
+  "ComponentConfiguration": "The configuration settings of the component. The value is the escaped JSON of the configuration. For more information about the JSON format, see Working with JSON. You can send a request to DescribeComponentConfigurationRecommendation to see the recommended configuration for a component. For the complete format of the component configuration file, see Component Configuration.",
   "Monitor": "Indicates whether the application component is monitored.",
-  "ComponentConfiguration": "The configuration settings of the component. The value is the escaped JSON of the configuration. For more information about the JSON format, see Working with JSON. You can send a request to DescribeComponentConfigurationRecommendation to see the recommended configuration for a component. For the complete format of the component configuration file, see Component Configuration."
+  "Tier": "The tier of the application component. Supported tiers include DOT_NET_WORKER, DOT_NET_WEB, DOT_NET_CORE, SQL_SERVER, and DEFAULT."
 }
 """
 UpdateComponentConfiguration(args) = application_insights("UpdateComponentConfiguration", args)
+
+"""
+    UpdateLogPattern()
+
+Adds a log pattern to a LogPatternSet.
+
+Required Parameters
+{
+  "PatternName": "The name of the log pattern.",
+  "PatternSetName": "The name of the log pattern set.",
+  "ResourceGroupName": "The name of the resource group."
+}
+
+Optional Parameters
+{
+  "Pattern": "The log pattern.",
+  "Rank": "Rank of the log pattern."
+}
+"""
+UpdateLogPattern(args) = application_insights("UpdateLogPattern", args)

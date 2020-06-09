@@ -9,9 +9,9 @@ Creates a scaling plan.
 
 Required Parameters
 {
-  "ScalingPlanName": "The name of the scaling plan. Names cannot contain vertical bars, colons, or forward slashes.",
   "ApplicationSource": "A CloudFormation stack or set of tags. You can create one scaling plan per application source.",
-  "ScalingInstructions": "The scaling instructions."
+  "ScalingInstructions": "The scaling instructions.",
+  "ScalingPlanName": "The name of the scaling plan. Names cannot contain vertical bars, colons, or forward slashes."
 }
 """
 CreateScalingPlan(args) = auto_scaling_plans("CreateScalingPlan", args)
@@ -55,11 +55,11 @@ Describes one or more of your scaling plans.
 
 Optional Parameters
 {
-  "MaxResults": "The maximum number of scalable resources to return. This value can be between 1 and 50. The default value is 50.",
-  "ScalingPlanNames": "The names of the scaling plans (up to 10). If you specify application sources, you cannot specify scaling plan names.",
-  "ScalingPlanVersion": "The version number of the scaling plan. If you specify a scaling plan version, you must also specify a scaling plan name.",
   "ApplicationSources": "The sources for the applications (up to 10). If you specify scaling plan names, you cannot specify application sources.",
-  "NextToken": "The token for the next set of results."
+  "MaxResults": "The maximum number of scalable resources to return. This value can be between 1 and 50. The default value is 50.",
+  "NextToken": "The token for the next set of results.",
+  "ScalingPlanNames": "The names of the scaling plans (up to 10). If you specify application sources, you cannot specify scaling plan names.",
+  "ScalingPlanVersion": "The version number of the scaling plan. If you specify a scaling plan version, you must also specify a scaling plan name."
 }
 """
 DescribeScalingPlans() = auto_scaling_plans("DescribeScalingPlans")
@@ -72,14 +72,14 @@ Retrieves the forecast data for a scalable resource. Capacity forecasts are repr
 
 Required Parameters
 {
-  "ScalingPlanName": "The name of the scaling plan.",
-  "StartTime": "The inclusive start time of the time range for the forecast data to get. The date and time can be at most 56 days before the current date and time. ",
-  "ScalingPlanVersion": "The version number of the scaling plan.",
   "EndTime": "The exclusive end time of the time range for the forecast data to get. The maximum time duration between the start and end time is seven days.  Although this parameter can accept a date and time that is more than two days in the future, the availability of forecast data has limits. AWS Auto Scaling only issues forecasts for periods of two days in advance.",
-  "ResourceId": "The ID of the resource. This string consists of the resource type and unique identifier.    Auto Scaling group - The resource type is autoScalingGroup and the unique identifier is the name of the Auto Scaling group. Example: autoScalingGroup/my-asg.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot Fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.  ",
   "ForecastDataType": "The type of forecast data to get.    LoadForecast: The load metric forecast.     CapacityForecast: The capacity forecast.     ScheduledActionMinCapacity: The minimum capacity for each scheduled scaling action. This data is calculated as the larger of two values: the capacity forecast or the minimum capacity in the scaling instruction.    ScheduledActionMaxCapacity: The maximum capacity for each scheduled scaling action. The calculation used is determined by the predictive scaling maximum capacity behavior setting in the scaling instruction.  ",
+  "ResourceId": "The ID of the resource. This string consists of the resource type and unique identifier.    Auto Scaling group - The resource type is autoScalingGroup and the unique identifier is the name of the Auto Scaling group. Example: autoScalingGroup/my-asg.   ECS service - The resource type is service and the unique identifier is the cluster name and service name. Example: service/default/sample-webapp.   Spot Fleet request - The resource type is spot-fleet-request and the unique identifier is the Spot Fleet request ID. Example: spot-fleet-request/sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE.   DynamoDB table - The resource type is table and the unique identifier is the resource ID. Example: table/my-table.   DynamoDB global secondary index - The resource type is index and the unique identifier is the resource ID. Example: table/my-table/index/my-table-index.   Aurora DB cluster - The resource type is cluster and the unique identifier is the cluster name. Example: cluster:my-db-cluster.  ",
+  "ScalableDimension": "The scalable dimension for the resource.",
+  "ScalingPlanName": "The name of the scaling plan.",
+  "ScalingPlanVersion": "The version number of the scaling plan.",
   "ServiceNamespace": "The namespace of the AWS service.",
-  "ScalableDimension": "The scalable dimension for the resource."
+  "StartTime": "The inclusive start time of the time range for the forecast data to get. The date and time can be at most 56 days before the current date and time. "
 }
 """
 GetScalingPlanResourceForecastData(args) = auto_scaling_plans("GetScalingPlanResourceForecastData", args)

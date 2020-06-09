@@ -3,27 +3,9 @@ include("../AWSServices.jl")
 using .AWSServices: codeguru_reviewer
 
 """
-    ListRepositoryAssociations()
-
-Lists repository associations. You can optionally filter on one or more of the following recommendation properties: provider types, states, names, and owners.
-
-Optional Parameters
-{
-  "MaxResults": "The maximum number of repository association results returned by ListRepositoryAssociations in paginated output. When this parameter is used, ListRepositoryAssociations only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListRepositoryAssociations request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListRepositoryAssociations returns up to 100 results and a nextToken value if applicable. ",
-  "Names": "List of names to use as a filter.",
-  "NextToken": "The nextToken value returned from a previous paginated ListRepositoryAssociations request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. ",
-  "States": "List of states to use as a filter.",
-  "ProviderTypes": "List of provider types to use as a filter.",
-  "Owners": "List of owners to use as a filter. For AWS CodeCommit, the owner is the AWS account id. For GitHub, it is the GitHub account name."
-}
-"""
-ListRepositoryAssociations() = codeguru_reviewer("GET", "/associations")
-ListRepositoryAssociations(args) = codeguru_reviewer("GET", "/associations", args)
-
-"""
     AssociateRepository()
 
-Associates an AWS CodeCommit repository with Amazon CodeGuru Reviewer. When you associate an AWS CodeCommit repository with Amazon CodeGuru Reviewer, Amazon CodeGuru Reviewer will provide recommendations for each pull request. You can view recommendations in the AWS CodeCommit repository. You can associate a GitHub repository using the Amazon CodeGuru Reviewer console.
+Associates an AWS CodeCommit repository with Amazon CodeGuru Reviewer. When you associate an AWS CodeCommit repository with Amazon CodeGuru Reviewer, Amazon CodeGuru Reviewer will provide recommendations for each pull request raised within the repository. You can view recommendations in the AWS CodeCommit repository. You can associate a GitHub repository using the Amazon CodeGuru Reviewer console.
 
 Required Parameters
 {
@@ -32,10 +14,52 @@ Required Parameters
 
 Optional Parameters
 {
-  "ClientRequestToken": "Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you want to add a new repository association, this parameter specifies a unique identifier for the new repository association that helps ensure idempotency. If you use the AWS CLI or one of the AWS SDK to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes that in the request. If you don't use the SDK and instead generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken yourself for new versions and include that value in the request. You typically only need to interact with this value if you implement your own retry logic and want to ensure that a given repository association is not created twice. We recommend that you generate a UUID-type value to ensure uniqueness within the specified repository association. Amazon CodeGuru Reviewer uses this value to prevent the accidental creation of duplicate repository associations if there are failures and retries. "
+  "ClientRequestToken": "Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. To add a new repository association, this parameter specifies a unique identifier for the new repository association that helps ensure idempotency. If you use the AWS CLI or one of the AWS SDKs to call this operation, you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes that in the request. If you don't use the SDK and instead generate a raw HTTP request to the Secrets Manager service endpoint, you must generate a ClientRequestToken yourself for new versions and include that value in the request. You typically interact with this value if you implement your own retry logic and want to ensure that a given repository association is not created twice. We recommend that you generate a UUID-type value to ensure uniqueness within the specified repository association. Amazon CodeGuru Reviewer uses this value to prevent the accidental creation of duplicate repository associations if there are failures and retries. "
 }
 """
 AssociateRepository(args) = codeguru_reviewer("POST", "/associations", args)
+
+"""
+    DescribeCodeReview()
+
+ Returns the metadaata associated with the code review along with its status.
+
+Required Parameters
+{
+  "CodeReviewArn": " The Amazon Resource Name (ARN) of the code review to describe. "
+}
+"""
+DescribeCodeReview(args) = codeguru_reviewer("GET", "/codereviews/{CodeReviewArn}", args)
+
+"""
+    DescribeRecommendationFeedback()
+
+ Describes the customer feedback for a CodeGuru Reviewer recommendation. 
+
+Required Parameters
+{
+  "CodeReviewArn": " The Amazon Resource Name (ARN) that identifies the code review. ",
+  "RecommendationId": " The recommendation ID that can be used to track the provided recommendations and then to collect the feedback. "
+}
+
+Optional Parameters
+{
+  "UserId": " Optional parameter to describe the feedback for a given user. If this is not supplied, it defaults to the user making the request. "
+}
+"""
+DescribeRecommendationFeedback(args) = codeguru_reviewer("GET", "/feedback/{CodeReviewArn}", args)
+
+"""
+    DescribeRepositoryAssociation()
+
+Describes a repository association.
+
+Required Parameters
+{
+  "AssociationArn": "The Amazon Resource Name (ARN) identifying the association. You can retrieve this ARN by calling ListRepositories."
+}
+"""
+DescribeRepositoryAssociation(args) = codeguru_reviewer("GET", "/associations/{AssociationArn}", args)
 
 """
     DisassociateRepository()
@@ -50,13 +74,92 @@ Required Parameters
 DisassociateRepository(args) = codeguru_reviewer("DELETE", "/associations/{AssociationArn}", args)
 
 """
-    DescribeRepositoryAssociation()
+    ListCodeReviews()
 
-Describes a repository association.
+ Lists all the code reviews that the customer has created in the past 90 days. 
 
 Required Parameters
 {
-  "AssociationArn": "The Amazon Resource Name (ARN) identifying the association."
+  "Type": " The type of code reviews to list in the response. "
+}
+
+Optional Parameters
+{
+  "MaxResults": " The maximum number of results that are returned per call. The default is 100. ",
+  "NextToken": " If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. ",
+  "ProviderTypes": " List of provider types for filtering that needs to be applied before displaying the result. For example, \"providerTypes=[GitHub]\" will list code reviews from GitHub. ",
+  "RepositoryNames": " List of repository names for filtering that needs to be applied before displaying the result. ",
+  "States": " List of states for filtering that needs to be applied before displaying the result. For example, \"states=[Pending]\" will list code reviews in the Pending state. "
 }
 """
-DescribeRepositoryAssociation(args) = codeguru_reviewer("GET", "/associations/{AssociationArn}", args)
+ListCodeReviews(args) = codeguru_reviewer("GET", "/codereviews", args)
+
+"""
+    ListRecommendationFeedback()
+
+ Lists the customer feedback for a CodeGuru Reviewer recommendation for all users. This API will be used from the console to extract the previously given feedback by the user to pre-populate the feedback emojis for all recommendations. 
+
+Required Parameters
+{
+  "CodeReviewArn": " The Amazon Resource Name (ARN) that identifies the code review. "
+}
+
+Optional Parameters
+{
+  "MaxResults": " The maximum number of results that are returned per call. The default is 100. ",
+  "NextToken": " If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. ",
+  "RecommendationIds": " Filter on recommendationIds that need to be applied before displaying the result. This can be used to query all the recommendation feedback for a given recommendation. ",
+  "UserIds": " Filter on userIds that need to be applied before displaying the result. This can be used to query all the recommendation feedback for a code review from a given user. "
+}
+"""
+ListRecommendationFeedback(args) = codeguru_reviewer("GET", "/feedback/{CodeReviewArn}/RecommendationFeedback", args)
+
+"""
+    ListRecommendations()
+
+ Returns the list of all recommendations for a completed code review. 
+
+Required Parameters
+{
+  "CodeReviewArn": " The Amazon Resource Name (ARN) of the code review to describe. "
+}
+
+Optional Parameters
+{
+  "MaxResults": " The maximum number of results that are returned per call. The default is 100. ",
+  "NextToken": " Pagination token. "
+}
+"""
+ListRecommendations(args) = codeguru_reviewer("GET", "/codereviews/{CodeReviewArn}/Recommendations", args)
+
+"""
+    ListRepositoryAssociations()
+
+Lists repository associations. You can optionally filter on one or more of the following recommendation properties: provider types, states, names, and owners.
+
+Optional Parameters
+{
+  "MaxResults": "The maximum number of repository association results returned by ListRepositoryAssociations in paginated output. When this parameter is used, ListRepositoryAssociations only returns maxResults results in a single page with a nextToken response element. The remaining results of the initial request can be seen by sending another ListRepositoryAssociations request with the returned nextToken value. This value can be between 1 and 25. If this parameter is not used, ListRepositoryAssociations returns up to 25 results and a nextToken value if applicable. ",
+  "Names": "List of repository names to use as a filter.",
+  "NextToken": "The nextToken value returned from a previous paginated ListRepositoryAssociations request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   Treat this token as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. ",
+  "Owners": "List of owners to use as a filter. For GitHub, this is name of the GitHub account that was used to associate the repository. For AWS CodeCommit, it is the name of the CodeCommit account that was used to associate the repository.",
+  "ProviderTypes": "List of provider types to use as a filter.",
+  "States": "List of states to use as a filter."
+}
+"""
+ListRepositoryAssociations() = codeguru_reviewer("GET", "/associations")
+ListRepositoryAssociations(args) = codeguru_reviewer("GET", "/associations", args)
+
+"""
+    PutRecommendationFeedback()
+
+ Stores customer feedback for a CodeGuru-Reviewer recommendation. When this API is called again with different reactions the previous feedback is overwritten. 
+
+Required Parameters
+{
+  "CodeReviewArn": " The Amazon Resource Name (ARN) that identifies the code review. ",
+  "Reactions": " List for storing reactions. Reactions are utf-8 text code for emojis. If you send an empty list it clears all your feedback. ",
+  "RecommendationId": " The recommendation ID that can be used to track the provided recommendations and then to collect the feedback. "
+}
+"""
+PutRecommendationFeedback(args) = codeguru_reviewer("PUT", "/feedback", args)

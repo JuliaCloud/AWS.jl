@@ -3,41 +3,131 @@ include("../AWSServices.jl")
 using .AWSServices: support
 
 """
-    ResolveCase()
+    AddAttachmentsToSet()
 
-Takes a caseId and returns the initial state of the case along with the state of the case after the call to ResolveCase completed.
+Adds one or more attachments to an attachment set.  An attachment set is a temporary container for attachments that you add to a case or case communication. The set is available for 1 hour after it's created. The expiryTime returned in the response is when the set expires. 
+
+Required Parameters
+{
+  "attachments": "One or more attachments to add to the set. You can add up to three attachments per set. The size limit is 5 MB per attachment. In the Attachment object, use the data parameter to specify the contents of the attachment file. In the previous request syntax, the value for data appear as blob, which is represented as a base64-encoded string. The value for fileName is the name of the attachment, such as troubleshoot-screenshot.png."
+}
 
 Optional Parameters
 {
-  "caseId": "The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 "
+  "attachmentSetId": "The ID of the attachment set. If an attachmentSetId is not specified, a new attachment set is created, and the ID of the set is returned in the response. If an attachmentSetId is specified, the attachments are added to the specified set, if it exists."
 }
 """
-ResolveCase() = support("ResolveCase")
-ResolveCase(args) = support("ResolveCase", args)
+AddAttachmentsToSet(args) = support("AddAttachmentsToSet", args)
+
+"""
+    AddCommunicationToCase()
+
+Adds additional customer communication to an AWS Support case. You use the caseId value to identify the case to add communication to. You can list a set of email addresses to copy on the communication using the ccEmailAddresses value. The communicationBody value contains the text of the communication. The response indicates the success or failure of the request. This operation implements a subset of the features of the AWS Support Center.
+
+Required Parameters
+{
+  "communicationBody": "The body of an email communication to add to the support case."
+}
+
+Optional Parameters
+{
+  "attachmentSetId": "The ID of a set of one or more attachments for the communication to add to the case. Create the set by calling AddAttachmentsToSet ",
+  "caseId": "The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 ",
+  "ccEmailAddresses": "The email addresses in the CC line of an email to be added to the support case."
+}
+"""
+AddCommunicationToCase(args) = support("AddCommunicationToCase", args)
 
 """
     CreateCase()
 
-Creates a new case in the AWS Support Center. This operation is modeled on the behavior of the AWS Support Center Create Case page. Its parameters require you to specify the following information:    issueType. The type of issue for the case. You can specify either "customer-service" or "technical." If you do not indicate a value, the default is "technical."  Service limit increases are not supported by the Support API; you must submit service limit increase requests in Support Center. The caseId is not the displayId that appears in Support Center. You can use the DescribeCases API to get the displayId.     serviceCode. The code for an AWS service. You can get the possible serviceCode values by calling DescribeServices.    categoryCode. The category for the service defined for the serviceCode value. You also get the category code for a service by calling DescribeServices. Each AWS service defines its own set of category codes.    severityCode. A value that indicates the urgency of the case, which in turn determines the response time according to your service level agreement with AWS Support. You can get the possible severityCode values by calling DescribeSeverityLevels. For more information about the meaning of the codes, see SeverityLevel and Choosing a Severity.    subject. The Subject field on the AWS Support Center Create Case page.    communicationBody. The Description field on the AWS Support Center Create Case page.    attachmentSetId. The ID of a set of attachments that has been created by using AddAttachmentsToSet.    language. The human language in which AWS Support handles the case. English and Japanese are currently supported.    ccEmailAddresses. The AWS Support Center CC field on the Create Case page. You can list email addresses to be copied on any correspondence about the case. The account that opens the case is already identified by passing the AWS Credentials in the HTTP POST method or in a method or function call from one of the programming languages supported by an AWS SDK.     To add additional communication or attachments to an existing case, use AddCommunicationToCase.  A successful CreateCase request returns an AWS Support case number. Case numbers are used by the DescribeCases operation to retrieve existing AWS Support cases.
+Creates a case in the AWS Support Center. This operation is similar to how you create a case in the AWS Support Center Create Case page. The AWS Support API doesn't support requesting service limit increases. You can submit a service limit increase in the following ways:    Submit a request from the AWS Support Center Create Case page.   Use the Service Quotas RequestServiceQuotaIncrease operation.   A successful CreateCase request returns an AWS Support case number. You can use the DescribeCases operation and specify the case number to get existing AWS Support cases. After you create a case, you can use the AddCommunicationToCase operation to add additional communication or attachments to an existing case.    The caseId is separate from the displayId that appears in the Support Center. You can use the DescribeCases operation to get the displayId.   
 
 Required Parameters
 {
-  "communicationBody": "The communication body text when you create an AWS Support case by calling CreateCase.",
-  "subject": "The title of the AWS Support case."
+  "communicationBody": "The communication body text that describes the issue. This text appears in the Description field on the AWS Support Center Create Case page.",
+  "subject": "The title of the AWS Support case. The title appears in the Subject field on the AWS Support Center Create Case page."
 }
 
 Optional Parameters
 {
-  "serviceCode": "The code for the AWS service returned by the call to DescribeServices.",
-  "categoryCode": "The category of problem for the AWS Support case.",
-  "ccEmailAddresses": "A list of email addresses that AWS Support copies on case correspondence.",
-  "attachmentSetId": "The ID of a set of one or more attachments for the case. Create the set by using AddAttachmentsToSet.",
-  "severityCode": "The code for the severity level returned by the call to DescribeSeverityLevels.  The availability of severity levels depends on the support plan for the account. ",
-  "language": "The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English (\"en\") and Japanese (\"ja\"). Language parameters must be passed explicitly for operations that take them.",
-  "issueType": "The type of issue for the case. You can specify either \"customer-service\" or \"technical.\" If you do not indicate a value, the default is \"technical.\"  Service limit increases are not supported by the Support API; you must submit service limit increase requests in Support Center. "
+  "attachmentSetId": "The ID of a set of one or more attachments for the case. Create the set by using the AddAttachmentsToSet operation.",
+  "categoryCode": "The category of problem for the AWS Support case. You also use the DescribeServices operation to get the category code for a service. Each AWS service defines its own set of category codes.",
+  "ccEmailAddresses": "A list of email addresses that AWS Support copies on case correspondence. AWS Support identifies the account that creates the case when you specify your AWS credentials in an HTTP POST method or use the AWS SDKs. ",
+  "issueType": "The type of issue for the case. You can specify customer-service or technical. If you don't specify a value, the default is technical.",
+  "language": "The language in which AWS Support handles the case. You must specify the ISO 639-1 code for the language parameter if you want support in that language. Currently, English (\"en\") and Japanese (\"ja\") are supported.",
+  "serviceCode": "The code for the AWS service. You can use the DescribeServices operation to get the possible serviceCode values.",
+  "severityCode": "A value that indicates the urgency of the case. This value determines the response time according to your service level agreement with AWS Support. You can use the DescribeSeverityLevels operation to get the possible values for severityCode.  For more information, see SeverityLevel and Choosing a Severity in the AWS Support User Guide.  The availability of severity levels depends on the support plan for the AWS account. "
 }
 """
 CreateCase(args) = support("CreateCase", args)
+
+"""
+    DescribeAttachment()
+
+Returns the attachment that has the specified ID. Attachments can include screenshots, error logs, or other files that describe your issue. Attachment IDs are generated by the case management system when you add an attachment to a case or case communication. Attachment IDs are returned in the AttachmentDetails objects that are returned by the DescribeCommunications operation.
+
+Required Parameters
+{
+  "attachmentId": "The ID of the attachment to return. Attachment IDs are returned by the DescribeCommunications operation."
+}
+"""
+DescribeAttachment(args) = support("DescribeAttachment", args)
+
+"""
+    DescribeCases()
+
+Returns a list of cases that you specify by passing one or more case IDs. In addition, you can filter the cases by date by setting values for the afterTime and beforeTime request parameters. You can set values for the includeResolvedCases and includeCommunications request parameters to control how much information is returned. Case data is available for 12 months after creation. If a case was created more than 12 months ago, a request for data might cause an error. The response returns the following in JSON format:   One or more CaseDetails data types.   One or more nextToken values, which specify where to paginate the returned records represented by the CaseDetails objects.  
+
+Optional Parameters
+{
+  "afterTime": "The start date for a filtered date search on support case communications. Case communications are available for 12 months after creation.",
+  "beforeTime": "The end date for a filtered date search on support case communications. Case communications are available for 12 months after creation.",
+  "caseIdList": "A list of ID numbers of the support cases you want returned. The maximum number of cases is 100.",
+  "displayId": "The ID displayed for a case in the AWS Support Center user interface.",
+  "includeCommunications": "Specifies whether communications should be included in the DescribeCases results. The default is true.",
+  "includeResolvedCases": "Specifies whether resolved support cases should be included in the DescribeCases results. The default is false.",
+  "language": "The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English (\"en\") and Japanese (\"ja\"). Language parameters must be passed explicitly for operations that take them.",
+  "maxResults": "The maximum number of results to return before paginating.",
+  "nextToken": "A resumption point for pagination."
+}
+"""
+DescribeCases() = support("DescribeCases")
+DescribeCases(args) = support("DescribeCases", args)
+
+"""
+    DescribeCommunications()
+
+Returns communications (and attachments) for one or more support cases. You can use the afterTime and beforeTime parameters to filter by date. You can use the caseId parameter to restrict the results to a particular case. Case data is available for 12 months after creation. If a case was created more than 12 months ago, a request for data might cause an error. You can use the maxResults and nextToken parameters to control the pagination of the result set. Set maxResults to the number of cases you want displayed on each page, and use nextToken to specify the resumption of pagination.
+
+Required Parameters
+{
+  "caseId": "The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 "
+}
+
+Optional Parameters
+{
+  "afterTime": "The start date for a filtered date search on support case communications. Case communications are available for 12 months after creation.",
+  "beforeTime": "The end date for a filtered date search on support case communications. Case communications are available for 12 months after creation.",
+  "maxResults": "The maximum number of results to return before paginating.",
+  "nextToken": "A resumption point for pagination."
+}
+"""
+DescribeCommunications(args) = support("DescribeCommunications", args)
+
+"""
+    DescribeServices()
+
+Returns the current list of AWS services and a list of service categories that applies to each one. You then use service names and categories in your CreateCase requests. Each AWS service has its own set of categories. The service codes and category codes correspond to the values that are displayed in the Service and Category drop-down lists on the AWS Support Center Create Case page. The values in those fields, however, do not necessarily match the service codes and categories returned by the DescribeServices request. Always use the service codes and categories obtained programmatically. This practice ensures that you always have the most recent set of service and category codes.
+
+Optional Parameters
+{
+  "language": "The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English (\"en\") and Japanese (\"ja\"). Language parameters must be passed explicitly for operations that take them.",
+  "serviceCodeList": "A JSON-formatted list of service codes available for AWS services."
+}
+"""
+DescribeServices() = support("DescribeServices")
+DescribeServices(args) = support("DescribeServices", args)
 
 """
     DescribeSeverityLevels()
@@ -51,6 +141,18 @@ Optional Parameters
 """
 DescribeSeverityLevels() = support("DescribeSeverityLevels")
 DescribeSeverityLevels(args) = support("DescribeSeverityLevels", args)
+
+"""
+    DescribeTrustedAdvisorCheckRefreshStatuses()
+
+Returns the refresh status of the Trusted Advisor checks that have the specified check IDs. Check IDs can be obtained by calling DescribeTrustedAdvisorChecks.  Some checks are refreshed automatically, and their refresh statuses cannot be retrieved by using this operation. Use of the DescribeTrustedAdvisorCheckRefreshStatuses operation for these checks causes an InvalidParameterValue error. 
+
+Required Parameters
+{
+  "checkIds": "The IDs of the Trusted Advisor checks to get the status of. Note: Specifying the check ID of a check that is automatically refreshed causes an InvalidParameterValue error."
+}
+"""
+DescribeTrustedAdvisorCheckRefreshStatuses(args) = support("DescribeTrustedAdvisorCheckRefreshStatuses", args)
 
 """
     DescribeTrustedAdvisorCheckResult()
@@ -70,44 +172,6 @@ Optional Parameters
 DescribeTrustedAdvisorCheckResult(args) = support("DescribeTrustedAdvisorCheckResult", args)
 
 """
-    AddAttachmentsToSet()
-
-Adds one or more attachments to an attachment set. If an attachmentSetId is not specified, a new attachment set is created, and the ID of the set is returned in the response. If an attachmentSetId is specified, the attachments are added to the specified set, if it exists. An attachment set is a temporary container for attachments that are to be added to a case or case communication. The set is available for one hour after it is created; the expiryTime returned in the response indicates when the set expires. The maximum number of attachments in a set is 3, and the maximum size of any attachment in the set is 5 MB.
-
-Required Parameters
-{
-  "attachments": "One or more attachments to add to the set. The limit is 3 attachments per set, and the size limit is 5 MB per attachment."
-}
-
-Optional Parameters
-{
-  "attachmentSetId": "The ID of the attachment set. If an attachmentSetId is not specified, a new attachment set is created, and the ID of the set is returned in the response. If an attachmentSetId is specified, the attachments are added to the specified set, if it exists."
-}
-"""
-AddAttachmentsToSet(args) = support("AddAttachmentsToSet", args)
-
-"""
-    DescribeCases()
-
-Returns a list of cases that you specify by passing one or more case IDs. In addition, you can filter the cases by date by setting values for the afterTime and beforeTime request parameters. You can set values for the includeResolvedCases and includeCommunications request parameters to control how much information is returned. Case data is available for 12 months after creation. If a case was created more than 12 months ago, a request for data might cause an error. The response returns the following in JSON format:   One or more CaseDetails data types.   One or more nextToken values, which specify where to paginate the returned records represented by the CaseDetails objects.  
-
-Optional Parameters
-{
-  "caseIdList": "A list of ID numbers of the support cases you want returned. The maximum number of cases is 100.",
-  "beforeTime": "The end date for a filtered date search on support case communications. Case communications are available for 12 months after creation.",
-  "afterTime": "The start date for a filtered date search on support case communications. Case communications are available for 12 months after creation.",
-  "includeCommunications": "Specifies whether communications should be included in the DescribeCases results. The default is true.",
-  "maxResults": "The maximum number of results to return before paginating.",
-  "includeResolvedCases": "Specifies whether resolved support cases should be included in the DescribeCases results. The default is false.",
-  "displayId": "The ID displayed for a case in the AWS Support Center user interface.",
-  "nextToken": "A resumption point for pagination.",
-  "language": "The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English (\"en\") and Japanese (\"ja\"). Language parameters must be passed explicitly for operations that take them."
-}
-"""
-DescribeCases() = support("DescribeCases")
-DescribeCases(args) = support("DescribeCases", args)
-
-"""
     DescribeTrustedAdvisorCheckSummaries()
 
 Returns the summaries of the results of the Trusted Advisor checks that have the specified check IDs. Check IDs can be obtained by calling DescribeTrustedAdvisorChecks. The response contains an array of TrustedAdvisorCheckSummary objects.
@@ -118,26 +182,6 @@ Required Parameters
 }
 """
 DescribeTrustedAdvisorCheckSummaries(args) = support("DescribeTrustedAdvisorCheckSummaries", args)
-
-"""
-    DescribeCommunications()
-
-Returns communications (and attachments) for one or more support cases. You can use the afterTime and beforeTime parameters to filter by date. You can use the caseId parameter to restrict the results to a particular case. Case data is available for 12 months after creation. If a case was created more than 12 months ago, a request for data might cause an error. You can use the maxResults and nextToken parameters to control the pagination of the result set. Set maxResults to the number of cases you want displayed on each page, and use nextToken to specify the resumption of pagination.
-
-Required Parameters
-{
-  "caseId": "The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 "
-}
-
-Optional Parameters
-{
-  "beforeTime": "The end date for a filtered date search on support case communications. Case communications are available for 12 months after creation.",
-  "afterTime": "The start date for a filtered date search on support case communications. Case communications are available for 12 months after creation.",
-  "maxResults": "The maximum number of results to return before paginating.",
-  "nextToken": "A resumption point for pagination."
-}
-"""
-DescribeCommunications(args) = support("DescribeCommunications", args)
 
 """
     DescribeTrustedAdvisorChecks()
@@ -164,58 +208,14 @@ Required Parameters
 RefreshTrustedAdvisorCheck(args) = support("RefreshTrustedAdvisorCheck", args)
 
 """
-    DescribeServices()
+    ResolveCase()
 
-Returns the current list of AWS services and a list of service categories that applies to each one. You then use service names and categories in your CreateCase requests. Each AWS service has its own set of categories. The service codes and category codes correspond to the values that are displayed in the Service and Category drop-down lists on the AWS Support Center Create Case page. The values in those fields, however, do not necessarily match the service codes and categories returned by the DescribeServices request. Always use the service codes and categories obtained programmatically. This practice ensures that you always have the most recent set of service and category codes.
-
-Optional Parameters
-{
-  "serviceCodeList": "A JSON-formatted list of service codes available for AWS services.",
-  "language": "The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English (\"en\") and Japanese (\"ja\"). Language parameters must be passed explicitly for operations that take them."
-}
-"""
-DescribeServices() = support("DescribeServices")
-DescribeServices(args) = support("DescribeServices", args)
-
-"""
-    AddCommunicationToCase()
-
-Adds additional customer communication to an AWS Support case. You use the caseId value to identify the case to add communication to. You can list a set of email addresses to copy on the communication using the ccEmailAddresses value. The communicationBody value contains the text of the communication. The response indicates the success or failure of the request. This operation implements a subset of the features of the AWS Support Center.
-
-Required Parameters
-{
-  "communicationBody": "The body of an email communication to add to the support case."
-}
+Takes a caseId and returns the initial state of the case along with the state of the case after the call to ResolveCase completed.
 
 Optional Parameters
 {
-  "caseId": "The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 ",
-  "ccEmailAddresses": "The email addresses in the CC line of an email to be added to the support case.",
-  "attachmentSetId": "The ID of a set of one or more attachments for the communication to add to the case. Create the set by calling AddAttachmentsToSet "
+  "caseId": "The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 "
 }
 """
-AddCommunicationToCase(args) = support("AddCommunicationToCase", args)
-
-"""
-    DescribeAttachment()
-
-Returns the attachment that has the specified ID. Attachment IDs are generated by the case management system when you add an attachment to a case or case communication. Attachment IDs are returned in the AttachmentDetails objects that are returned by the DescribeCommunications operation.
-
-Required Parameters
-{
-  "attachmentId": "The ID of the attachment to return. Attachment IDs are returned by the DescribeCommunications operation."
-}
-"""
-DescribeAttachment(args) = support("DescribeAttachment", args)
-
-"""
-    DescribeTrustedAdvisorCheckRefreshStatuses()
-
-Returns the refresh status of the Trusted Advisor checks that have the specified check IDs. Check IDs can be obtained by calling DescribeTrustedAdvisorChecks.  Some checks are refreshed automatically, and their refresh statuses cannot be retrieved by using this operation. Use of the DescribeTrustedAdvisorCheckRefreshStatuses operation for these checks causes an InvalidParameterValue error. 
-
-Required Parameters
-{
-  "checkIds": "The IDs of the Trusted Advisor checks to get the status of. Note: Specifying the check ID of a check that is automatically refreshed causes an InvalidParameterValue error."
-}
-"""
-DescribeTrustedAdvisorCheckRefreshStatuses(args) = support("DescribeTrustedAdvisorCheckRefreshStatuses", args)
+ResolveCase() = support("ResolveCase")
+ResolveCase(args) = support("ResolveCase", args)

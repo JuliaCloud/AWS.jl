@@ -3,91 +3,16 @@ include("../AWSServices.jl")
 using .AWSServices: athena
 
 """
-    ListTagsForResource()
+    BatchGetNamedQuery()
 
-Lists the tags associated with this workgroup.
-
-Required Parameters
-{
-  "ResourceARN": "Lists the tags for the workgroup resource with the specified ARN."
-}
-
-Optional Parameters
-{
-  "MaxResults": "The maximum number of results to be returned per request that lists the tags for the workgroup resource.",
-  "NextToken": "The token for the next set of results, or null if there are no additional results for this request, where the request lists the tags for the workgroup resource with the specified ARN."
-}
-"""
-ListTagsForResource(args) = athena("ListTagsForResource", args)
-
-"""
-    GetQueryResults()
-
-Streams the results of a single query execution specified by QueryExecutionId from the Athena query results location in Amazon S3. For more information, see Query Results in the Amazon Athena User Guide. This request does not execute the query but returns results. Use StartQueryExecution to run a query. To stream query results successfully, the IAM principal with permission to call GetQueryResults also must have permissions to the Amazon S3 GetObject action for the Athena query results location.  IAM principals with permission to the Amazon S3 GetObject action for the query results location are able to retrieve query results from Amazon S3 even if permission to the GetQueryResults action is denied. To restrict user or role access, ensure that Amazon S3 permissions to the Athena query location are denied. 
+Returns the details of a single named query or a list of up to 50 queries, which you provide as an array of query ID strings. Requires you to have access to the workgroup in which the queries were saved. Use ListNamedQueriesInput to get the list of named query IDs in the specified workgroup. If information could not be retrieved for a submitted query ID, information about the query ID submitted is listed under UnprocessedNamedQueryId. Named queries differ from executed queries. Use BatchGetQueryExecutionInput to get details about each unique query execution, and ListQueryExecutionsInput to get a list of query execution IDs.
 
 Required Parameters
 {
-  "QueryExecutionId": "The unique ID of the query execution."
-}
-
-Optional Parameters
-{
-  "MaxResults": "The maximum number of results (rows) to return in this request.",
-  "NextToken": "The token that specifies where to start pagination if a previous request was truncated."
+  "NamedQueryIds": "An array of query IDs."
 }
 """
-GetQueryResults(args) = athena("GetQueryResults", args)
-
-"""
-    StartQueryExecution()
-
-Runs the SQL query statements contained in the Query. Requires you to have access to the workgroup in which the query ran. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
-
-Required Parameters
-{
-  "QueryString": "The SQL query statements to be executed."
-}
-
-Optional Parameters
-{
-  "ResultConfiguration": "Specifies information about where and how to save the results of the query execution. If the query runs in a workgroup, then workgroup's settings may override query settings. This affects the query results location. The workgroup settings override is specified in EnforceWorkGroupConfiguration (true/false) in the WorkGroupConfiguration. See WorkGroupConfiguration EnforceWorkGroupConfiguration.",
-  "ClientRequestToken": "A unique case-sensitive string used to ensure the request to create the query is idempotent (executes only once). If another StartQueryExecution request is received, the same response is returned and another query is not created. If a parameter has changed, for example, the QueryString, an error is returned.  This token is listed as not required because AWS SDKs (for example the AWS SDK for Java) auto-generate the token for users. If you are not using the AWS SDK or the AWS CLI, you must provide this token or the action will fail. ",
-  "QueryExecutionContext": "The database within which the query executes.",
-  "WorkGroup": "The name of the workgroup in which the query is being started."
-}
-"""
-StartQueryExecution(args) = athena("StartQueryExecution", args)
-
-"""
-    StopQueryExecution()
-
-Stops a query execution. Requires you to have access to the workgroup in which the query ran. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
-
-Required Parameters
-{
-  "QueryExecutionId": "The unique ID of the query execution to stop."
-}
-"""
-StopQueryExecution(args) = athena("StopQueryExecution", args)
-
-"""
-    UpdateWorkGroup()
-
-Updates the workgroup with the specified name. The workgroup's name cannot be changed.
-
-Required Parameters
-{
-  "WorkGroup": "The specified workgroup that will be updated."
-}
-
-Optional Parameters
-{
-  "Description": "The workgroup description.",
-  "ConfigurationUpdates": "The workgroup configuration that will be updated for the given workgroup.",
-  "State": "The workgroup state that will be updated for the given workgroup."
-}
-"""
-UpdateWorkGroup(args) = athena("UpdateWorkGroup", args)
+BatchGetNamedQuery(args) = athena("BatchGetNamedQuery", args)
 
 """
     BatchGetQueryExecution()
@@ -102,50 +27,24 @@ Required Parameters
 BatchGetQueryExecution(args) = athena("BatchGetQueryExecution", args)
 
 """
-    DeleteNamedQuery()
+    CreateDataCatalog()
 
-Deletes the named query if you have access to the workgroup in which the query was saved. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
-
-Required Parameters
-{
-  "NamedQueryId": "The unique ID of the query to delete."
-}
-"""
-DeleteNamedQuery(args) = athena("DeleteNamedQuery", args)
-
-"""
-    ListQueryExecutions()
-
-Provides a list of available query execution IDs for the queries in the specified workgroup. If a workgroup is not specified, returns a list of query execution IDs for the primary workgroup. Requires you to have access to the workgroup in which the queries ran. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
-
-Optional Parameters
-{
-  "MaxResults": "The maximum number of query executions to return in this request.",
-  "NextToken": "The token that specifies where to start pagination if a previous request was truncated.",
-  "WorkGroup": "The name of the workgroup from which queries are returned. If a workgroup is not specified, a list of available query execution IDs for the queries in the primary workgroup is returned."
-}
-"""
-ListQueryExecutions() = athena("ListQueryExecutions")
-ListQueryExecutions(args) = athena("ListQueryExecutions", args)
-
-"""
-    CreateWorkGroup()
-
-Creates a workgroup with the specified name.
+Creates (registers) a data catalog with the specified name and properties. Catalogs created are visible to all users of the same AWS account.
 
 Required Parameters
 {
-  "Name": "The workgroup name."
+  "Name": "The name of the data catalog to create. The catalog name must be unique for the AWS account and can use a maximum of 128 alphanumeric, underscore, at sign, or hyphen characters.",
+  "Type": "The type of data catalog to create: LAMBDA for a federated catalog, GLUE for AWS Glue Catalog, or HIVE for an external hive metastore."
 }
 
 Optional Parameters
 {
-  "Configuration": "The configuration for the workgroup, which includes the location in Amazon S3 where query results are stored, the encryption configuration, if any, used for encrypting query results, whether the Amazon CloudWatch Metrics are enabled for the workgroup, the limit for the amount of bytes scanned (cutoff) per query, if it is specified, and whether workgroup's settings (specified with EnforceWorkGroupConfiguration) in the WorkGroupConfiguration override client-side settings. See WorkGroupConfiguration EnforceWorkGroupConfiguration.",
-  "Description": "The workgroup description.",
-  "Tags": "One or more tags, separated by commas, that you want to attach to the workgroup as you create it."
+  "Description": "A description of the data catalog to be created.",
+  "Parameters": "Specifies the Lambda function or functions to use for creating the data catalog. This is a mapping whose values depend on the catalog type.    For the HIVE data catalog type, use the following syntax. The metadata-function parameter is required. The sdk-version parameter is optional and defaults to the currently supported version.  metadata-function=lambda_arn, sdk-version=version_number     For the LAMBDA data catalog type, use one of the following sets of required parameters, but not both.   If you have one Lambda function that processes metadata and another for reading the actual data, use the following syntax. Both parameters are required.  metadata-function=lambda_arn, record-function=lambda_arn      If you have a composite Lambda function that processes both metadata and data, use the following syntax to specify your Lambda function.  function=lambda_arn       The GLUE type has no parameters.  ",
+  "Tags": "A list of comma separated tags to add to the data catalog that is created."
 }
 """
-CreateWorkGroup(args) = athena("CreateWorkGroup", args)
+CreateDataCatalog(args) = athena("CreateDataCatalog", args)
 
 """
     CreateNamedQuery()
@@ -161,64 +60,55 @@ Required Parameters
 
 Optional Parameters
 {
-  "Description": "The query description.",
   "ClientRequestToken": "A unique case-sensitive string used to ensure the request to create the query is idempotent (executes only once). If another CreateNamedQuery request is received, the same response is returned and another query is not created. If a parameter has changed, for example, the QueryString, an error is returned.  This token is listed as not required because AWS SDKs (for example the AWS SDK for Java) auto-generate the token for users. If you are not using the AWS SDK or the AWS CLI, you must provide this token or the action will fail. ",
+  "Description": "The query description.",
   "WorkGroup": "The name of the workgroup in which the named query is being created."
 }
 """
 CreateNamedQuery(args) = athena("CreateNamedQuery", args)
 
 """
-    TagResource()
+    CreateWorkGroup()
 
-Adds one or more tags to the resource, such as a workgroup. A tag is a label that you assign to an AWS Athena resource (a workgroup). Each tag consists of a key and an optional value, both of which you define. Tags enable you to categorize resources (workgroups) in Athena, for example, by purpose, owner, or environment. Use a consistent set of tag keys to make it easier to search and filter workgroups in your account. For best practices, see AWS Tagging Strategies. The key length is from 1 (minimum) to 128 (maximum) Unicode characters in UTF-8. The tag value length is from 0 (minimum) to 256 (maximum) Unicode characters in UTF-8. You can use letters and numbers representable in UTF-8, and the following characters: + - = . _ : / @. Tag keys and values are case-sensitive. Tag keys must be unique per resource. If you specify more than one, separate them by commas.
-
-Required Parameters
-{
-  "ResourceARN": "Requests that one or more tags are added to the resource (such as a workgroup) for the specified ARN.",
-  "Tags": "One or more tags, separated by commas, to be added to the resource, such as a workgroup."
-}
-"""
-TagResource(args) = athena("TagResource", args)
-
-"""
-    UntagResource()
-
-Removes one or more tags from the workgroup resource. Takes as an input a list of TagKey Strings separated by commas, and removes their tags at the same time.
+Creates a workgroup with the specified name.
 
 Required Parameters
 {
-  "ResourceARN": "Removes one or more tags from the workgroup resource for the specified ARN.",
-  "TagKeys": "Removes the tags associated with one or more tag keys from the workgroup resource."
+  "Name": "The workgroup name."
 }
-"""
-UntagResource(args) = athena("UntagResource", args)
-
-"""
-    ListWorkGroups()
-
-Lists available workgroups for the account.
 
 Optional Parameters
 {
-  "MaxResults": "The maximum number of workgroups to return in this request.",
-  "NextToken": "A token to be used by the next request if this request is truncated."
+  "Configuration": "The configuration for the workgroup, which includes the location in Amazon S3 where query results are stored, the encryption configuration, if any, used for encrypting query results, whether the Amazon CloudWatch Metrics are enabled for the workgroup, the limit for the amount of bytes scanned (cutoff) per query, if it is specified, and whether workgroup's settings (specified with EnforceWorkGroupConfiguration) in the WorkGroupConfiguration override client-side settings. See WorkGroupConfiguration EnforceWorkGroupConfiguration.",
+  "Description": "The workgroup description.",
+  "Tags": "A list of comma separated tags to add to the workgroup that is created."
 }
 """
-ListWorkGroups() = athena("ListWorkGroups")
-ListWorkGroups(args) = athena("ListWorkGroups", args)
+CreateWorkGroup(args) = athena("CreateWorkGroup", args)
 
 """
-    GetQueryExecution()
+    DeleteDataCatalog()
 
-Returns information about a single execution of a query if you have access to the workgroup in which the query ran. Each time a query executes, information about the query execution is saved with a unique ID.
+Deletes a data catalog.
 
 Required Parameters
 {
-  "QueryExecutionId": "The unique ID of the query execution."
+  "Name": "The name of the data catalog to delete."
 }
 """
-GetQueryExecution(args) = athena("GetQueryExecution", args)
+DeleteDataCatalog(args) = athena("DeleteDataCatalog", args)
+
+"""
+    DeleteNamedQuery()
+
+Deletes the named query if you have access to the workgroup in which the query was saved. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
+
+Required Parameters
+{
+  "NamedQueryId": "The unique ID of the query to delete."
+}
+"""
+DeleteNamedQuery(args) = athena("DeleteNamedQuery", args)
 
 """
     DeleteWorkGroup()
@@ -238,43 +128,29 @@ Optional Parameters
 DeleteWorkGroup(args) = athena("DeleteWorkGroup", args)
 
 """
-    GetWorkGroup()
+    GetDataCatalog()
 
-Returns information about the workgroup with the specified name.
-
-Required Parameters
-{
-  "WorkGroup": "The name of the workgroup."
-}
-"""
-GetWorkGroup(args) = athena("GetWorkGroup", args)
-
-"""
-    BatchGetNamedQuery()
-
-Returns the details of a single named query or a list of up to 50 queries, which you provide as an array of query ID strings. Requires you to have access to the workgroup in which the queries were saved. Use ListNamedQueriesInput to get the list of named query IDs in the specified workgroup. If information could not be retrieved for a submitted query ID, information about the query ID submitted is listed under UnprocessedNamedQueryId. Named queries differ from executed queries. Use BatchGetQueryExecutionInput to get details about each unique query execution, and ListQueryExecutionsInput to get a list of query execution IDs.
+Returns the specified data catalog.
 
 Required Parameters
 {
-  "NamedQueryIds": "An array of query IDs."
+  "Name": "The name of the data catalog to return."
 }
 """
-BatchGetNamedQuery(args) = athena("BatchGetNamedQuery", args)
+GetDataCatalog(args) = athena("GetDataCatalog", args)
 
 """
-    ListNamedQueries()
+    GetDatabase()
 
-Provides a list of available query IDs only for queries saved in the specified workgroup. Requires that you have access to the workgroup. If a workgroup is not specified, lists the saved queries for the primary workgroup. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
+Returns a database object for the specfied database and data catalog.
 
-Optional Parameters
+Required Parameters
 {
-  "MaxResults": "The maximum number of queries to return in this request.",
-  "NextToken": "The token that specifies where to start pagination if a previous request was truncated.",
-  "WorkGroup": "The name of the workgroup from which the named queries are returned. If a workgroup is not specified, the saved queries for the primary workgroup are returned."
+  "CatalogName": "The name of the data catalog that contains the database to return.",
+  "DatabaseName": "The name of the database to return."
 }
 """
-ListNamedQueries() = athena("ListNamedQueries")
-ListNamedQueries(args) = athena("ListNamedQueries", args)
+GetDatabase(args) = athena("GetDatabase", args)
 
 """
     GetNamedQuery()
@@ -287,3 +163,269 @@ Required Parameters
 }
 """
 GetNamedQuery(args) = athena("GetNamedQuery", args)
+
+"""
+    GetQueryExecution()
+
+Returns information about a single execution of a query if you have access to the workgroup in which the query ran. Each time a query executes, information about the query execution is saved with a unique ID.
+
+Required Parameters
+{
+  "QueryExecutionId": "The unique ID of the query execution."
+}
+"""
+GetQueryExecution(args) = athena("GetQueryExecution", args)
+
+"""
+    GetQueryResults()
+
+Streams the results of a single query execution specified by QueryExecutionId from the Athena query results location in Amazon S3. For more information, see Query Results in the Amazon Athena User Guide. This request does not execute the query but returns results. Use StartQueryExecution to run a query. To stream query results successfully, the IAM principal with permission to call GetQueryResults also must have permissions to the Amazon S3 GetObject action for the Athena query results location.  IAM principals with permission to the Amazon S3 GetObject action for the query results location are able to retrieve query results from Amazon S3 even if permission to the GetQueryResults action is denied. To restrict user or role access, ensure that Amazon S3 permissions to the Athena query location are denied. 
+
+Required Parameters
+{
+  "QueryExecutionId": "The unique ID of the query execution."
+}
+
+Optional Parameters
+{
+  "MaxResults": "The maximum number of results (rows) to return in this request.",
+  "NextToken": "A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call."
+}
+"""
+GetQueryResults(args) = athena("GetQueryResults", args)
+
+"""
+    GetTableMetadata()
+
+Returns table metadata for the specified catalog, database, and table.
+
+Required Parameters
+{
+  "CatalogName": "The name of the data catalog that contains the database and table metadata to return.",
+  "DatabaseName": "The name of the database that contains the table metadata to return.",
+  "TableName": "The name of the table for which metadata is returned."
+}
+"""
+GetTableMetadata(args) = athena("GetTableMetadata", args)
+
+"""
+    GetWorkGroup()
+
+Returns information about the workgroup with the specified name.
+
+Required Parameters
+{
+  "WorkGroup": "The name of the workgroup."
+}
+"""
+GetWorkGroup(args) = athena("GetWorkGroup", args)
+
+"""
+    ListDataCatalogs()
+
+Lists the data catalogs in the current AWS account.
+
+Optional Parameters
+{
+  "MaxResults": "Specifies the maximum number of data catalogs to return.",
+  "NextToken": "A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call."
+}
+"""
+ListDataCatalogs() = athena("ListDataCatalogs")
+ListDataCatalogs(args) = athena("ListDataCatalogs", args)
+
+"""
+    ListDatabases()
+
+Lists the databases in the specified data catalog.
+
+Required Parameters
+{
+  "CatalogName": "The name of the data catalog that contains the databases to return."
+}
+
+Optional Parameters
+{
+  "MaxResults": "Specifies the maximum number of results to return.",
+  "NextToken": "A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call."
+}
+"""
+ListDatabases(args) = athena("ListDatabases", args)
+
+"""
+    ListNamedQueries()
+
+Provides a list of available query IDs only for queries saved in the specified workgroup. Requires that you have access to the specified workgroup. If a workgroup is not specified, lists the saved queries for the primary workgroup. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
+
+Optional Parameters
+{
+  "MaxResults": "The maximum number of queries to return in this request.",
+  "NextToken": "A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.",
+  "WorkGroup": "The name of the workgroup from which the named queries are being returned. If a workgroup is not specified, the saved queries for the primary workgroup are returned."
+}
+"""
+ListNamedQueries() = athena("ListNamedQueries")
+ListNamedQueries(args) = athena("ListNamedQueries", args)
+
+"""
+    ListQueryExecutions()
+
+Provides a list of available query execution IDs for the queries in the specified workgroup. If a workgroup is not specified, returns a list of query execution IDs for the primary workgroup. Requires you to have access to the workgroup in which the queries ran. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
+
+Optional Parameters
+{
+  "MaxResults": "The maximum number of query executions to return in this request.",
+  "NextToken": "A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.",
+  "WorkGroup": "The name of the workgroup from which queries are being returned. If a workgroup is not specified, a list of available query execution IDs for the queries in the primary workgroup is returned."
+}
+"""
+ListQueryExecutions() = athena("ListQueryExecutions")
+ListQueryExecutions(args) = athena("ListQueryExecutions", args)
+
+"""
+    ListTableMetadata()
+
+Lists the metadata for the tables in the specified data catalog database.
+
+Required Parameters
+{
+  "CatalogName": "The name of the data catalog for which table metadata should be returned.",
+  "DatabaseName": "The name of the database for which table metadata should be returned."
+}
+
+Optional Parameters
+{
+  "Expression": "A regex filter that pattern-matches table names. If no expression is supplied, metadata for all tables are listed.",
+  "MaxResults": "Specifies the maximum number of results to return.",
+  "NextToken": "A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call."
+}
+"""
+ListTableMetadata(args) = athena("ListTableMetadata", args)
+
+"""
+    ListTagsForResource()
+
+Lists the tags associated with an Athena workgroup or data catalog resource.
+
+Required Parameters
+{
+  "ResourceARN": "Lists the tags for the resource with the specified ARN."
+}
+
+Optional Parameters
+{
+  "MaxResults": "The maximum number of results to be returned per request that lists the tags for the resource.",
+  "NextToken": "The token for the next set of results, or null if there are no additional results for this request, where the request lists the tags for the resource with the specified ARN."
+}
+"""
+ListTagsForResource(args) = athena("ListTagsForResource", args)
+
+"""
+    ListWorkGroups()
+
+Lists available workgroups for the account.
+
+Optional Parameters
+{
+  "MaxResults": "The maximum number of workgroups to return in this request.",
+  "NextToken": "A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call."
+}
+"""
+ListWorkGroups() = athena("ListWorkGroups")
+ListWorkGroups(args) = athena("ListWorkGroups", args)
+
+"""
+    StartQueryExecution()
+
+Runs the SQL query statements contained in the Query. Requires you to have access to the workgroup in which the query ran. Running queries against an external catalog requires GetDataCatalog permission to the catalog. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
+
+Required Parameters
+{
+  "QueryString": "The SQL query statements to be executed."
+}
+
+Optional Parameters
+{
+  "ClientRequestToken": "A unique case-sensitive string used to ensure the request to create the query is idempotent (executes only once). If another StartQueryExecution request is received, the same response is returned and another query is not created. If a parameter has changed, for example, the QueryString, an error is returned.  This token is listed as not required because AWS SDKs (for example the AWS SDK for Java) auto-generate the token for users. If you are not using the AWS SDK or the AWS CLI, you must provide this token or the action will fail. ",
+  "QueryExecutionContext": "The database within which the query executes.",
+  "ResultConfiguration": "Specifies information about where and how to save the results of the query execution. If the query runs in a workgroup, then workgroup's settings may override query settings. This affects the query results location. The workgroup settings override is specified in EnforceWorkGroupConfiguration (true/false) in the WorkGroupConfiguration. See WorkGroupConfiguration EnforceWorkGroupConfiguration.",
+  "WorkGroup": "The name of the workgroup in which the query is being started."
+}
+"""
+StartQueryExecution(args) = athena("StartQueryExecution", args)
+
+"""
+    StopQueryExecution()
+
+Stops a query execution. Requires you to have access to the workgroup in which the query ran. For code samples using the AWS SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
+
+Required Parameters
+{
+  "QueryExecutionId": "The unique ID of the query execution to stop."
+}
+"""
+StopQueryExecution(args) = athena("StopQueryExecution", args)
+
+"""
+    TagResource()
+
+Adds one or more tags to an Athena resource. A tag is a label that you assign to a resource. In Athena, a resource can be a workgroup or data catalog. Each tag consists of a key and an optional value, both of which you define. For example, you can use tags to categorize Athena workgroups or data catalogs by purpose, owner, or environment. Use a consistent set of tag keys to make it easier to search and filter workgroups or data catalogs in your account. For best practices, see Tagging Best Practices. Tag keys can be from 1 to 128 UTF-8 Unicode characters, and tag values can be from 0 to 256 UTF-8 Unicode characters. Tags can use letters and numbers representable in UTF-8, and the following characters: + - = . _ : / @. Tag keys and values are case-sensitive. Tag keys must be unique per resource. If you specify more than one tag, separate them by commas.
+
+Required Parameters
+{
+  "ResourceARN": "Specifies the ARN of the Athena resource (workgroup or data catalog) to which tags are to be added.",
+  "Tags": "A collection of one or more tags, separated by commas, to be added to an Athena workgroup or data catalog resource."
+}
+"""
+TagResource(args) = athena("TagResource", args)
+
+"""
+    UntagResource()
+
+Removes one or more tags from a data catalog or workgroup resource.
+
+Required Parameters
+{
+  "ResourceARN": "Specifies the ARN of the resource from which tags are to be removed.",
+  "TagKeys": "A comma-separated list of one or more tag keys whose tags are to be removed from the specified resource."
+}
+"""
+UntagResource(args) = athena("UntagResource", args)
+
+"""
+    UpdateDataCatalog()
+
+Updates the data catalog that has the specified name.
+
+Required Parameters
+{
+  "Name": "The name of the data catalog to update. The catalog name must be unique for the AWS account and can use a maximum of 128 alphanumeric, underscore, at sign, or hyphen characters.",
+  "Type": "Specifies the type of data catalog to update. Specify LAMBDA for a federated catalog, GLUE for AWS Glue Catalog, or HIVE for an external hive metastore."
+}
+
+Optional Parameters
+{
+  "Description": "New or modified text that describes the data catalog.",
+  "Parameters": "Specifies the Lambda function or functions to use for updating the data catalog. This is a mapping whose values depend on the catalog type.    For the HIVE data catalog type, use the following syntax. The metadata-function parameter is required. The sdk-version parameter is optional and defaults to the currently supported version.  metadata-function=lambda_arn, sdk-version=version_number     For the LAMBDA data catalog type, use one of the following sets of required parameters, but not both.   If you have one Lambda function that processes metadata and another for reading the actual data, use the following syntax. Both parameters are required.  metadata-function=lambda_arn, record-function=lambda_arn      If you have a composite Lambda function that processes both metadata and data, use the following syntax to specify your Lambda function.  function=lambda_arn       The GLUE type has no parameters.  "
+}
+"""
+UpdateDataCatalog(args) = athena("UpdateDataCatalog", args)
+
+"""
+    UpdateWorkGroup()
+
+Updates the workgroup with the specified name. The workgroup's name cannot be changed.
+
+Required Parameters
+{
+  "WorkGroup": "The specified workgroup that will be updated."
+}
+
+Optional Parameters
+{
+  "ConfigurationUpdates": "The workgroup configuration that will be updated for the given workgroup.",
+  "Description": "The workgroup description.",
+  "State": "The workgroup state that will be updated for the given workgroup."
+}
+"""
+UpdateWorkGroup(args) = athena("UpdateWorkGroup", args)

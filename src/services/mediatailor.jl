@@ -3,16 +3,28 @@ include("../AWSServices.jl")
 using .AWSServices: mediatailor
 
 """
-    ListTagsForResource()
+    DeletePlaybackConfiguration()
 
-Returns a list of the tags assigned to the specified playback configuration resource. 
+Deletes the playback configuration for the specified name. 
 
 Required Parameters
 {
-  "ResourceArn": "The Amazon Resource Name (ARN) for the playback configuration. You can get this from the response to any playback configuration request. "
+  "Name": "The identifier for the playback configuration."
 }
 """
-ListTagsForResource(args) = mediatailor("GET", "/tags/{ResourceArn}", args)
+DeletePlaybackConfiguration(args) = mediatailor("DELETE", "/playbackConfiguration/{Name}", args)
+
+"""
+    GetPlaybackConfiguration()
+
+Returns the playback configuration for the specified name. 
+
+Required Parameters
+{
+  "Name": "The identifier for the playback configuration."
+}
+"""
+GetPlaybackConfiguration(args) = mediatailor("GET", "/playbackConfiguration/{Name}", args)
 
 """
     ListPlaybackConfigurations()
@@ -29,16 +41,16 @@ ListPlaybackConfigurations() = mediatailor("GET", "/playbackConfigurations")
 ListPlaybackConfigurations(args) = mediatailor("GET", "/playbackConfigurations", args)
 
 """
-    DeletePlaybackConfiguration()
+    ListTagsForResource()
 
-Deletes the playback configuration for the specified name. 
+Returns a list of the tags assigned to the specified playback configuration resource. 
 
 Required Parameters
 {
-  "Name": "The identifier for the playback configuration."
+  "ResourceArn": "The Amazon Resource Name (ARN) for the playback configuration. You can get this from the response to any playback configuration request. "
 }
 """
-DeletePlaybackConfiguration(args) = mediatailor("DELETE", "/playbackConfiguration/{Name}", args)
+ListTagsForResource(args) = mediatailor("GET", "/tags/{ResourceArn}", args)
 
 """
     PutPlaybackConfiguration()
@@ -47,32 +59,21 @@ Adds a new playback configuration to AWS Elemental MediaTailor.
 
 Optional Parameters
 {
-  "Tags": "The tags to assign to the playback configuration. ",
   "AdDecisionServerUrl": "The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.",
+  "AvailSuppression": "The configuration for Avail Suppression. Ad suppression can be used to turn off ad personalization in a long manifest, or if a viewer joins mid-break.",
   "CdnConfiguration": "The configuration for using a content delivery network (CDN), like Amazon CloudFront, for content and ad segment management. ",
   "DashConfiguration": "The configuration for DASH content. ",
-  "SlateAdUrl": "The URL for a high-quality video asset to transcode and use to fill in time that's not used by ads. AWS Elemental MediaTailor shows the slate to fill in gaps in media content. Configuring the slate is optional for non-VPAID configurations. For VPAID, the slate is required because MediaTailor provides it in the slots that are designated for dynamic ad content. The slate must be a high-quality asset that contains both audio and video. ",
-  "TranscodeProfileName": "The name that is used to associate this playback configuration with a custom transcode profile. This overrides the dynamic transcoding defaults of MediaTailor. Use this only if you have already set up custom profiles with the help of AWS Support.",
   "LivePreRollConfiguration": "The configuration for pre-roll ad insertion.",
-  "VideoContentSourceUrl": "The URL prefix for the master playlist for the stream, minus the asset ID. The maximum length is 512 characters.",
   "Name": "The identifier for the playback configuration.",
-  "PersonalizationThresholdSeconds": "The maximum duration of underfilled ad time (in seconds) allowed in an ad break."
+  "PersonalizationThresholdSeconds": "The maximum duration of underfilled ad time (in seconds) allowed in an ad break.",
+  "SlateAdUrl": "The URL for a high-quality video asset to transcode and use to fill in time that's not used by ads. AWS Elemental MediaTailor shows the slate to fill in gaps in media content. Configuring the slate is optional for non-VPAID configurations. For VPAID, the slate is required because MediaTailor provides it in the slots that are designated for dynamic ad content. The slate must be a high-quality asset that contains both audio and video. ",
+  "Tags": "The tags to assign to the playback configuration. ",
+  "TranscodeProfileName": "The name that is used to associate this playback configuration with a custom transcode profile. This overrides the dynamic transcoding defaults of MediaTailor. Use this only if you have already set up custom profiles with the help of AWS Support.",
+  "VideoContentSourceUrl": "The URL prefix for the master playlist for the stream, minus the asset ID. The maximum length is 512 characters."
 }
 """
 PutPlaybackConfiguration() = mediatailor("PUT", "/playbackConfiguration")
 PutPlaybackConfiguration(args) = mediatailor("PUT", "/playbackConfiguration", args)
-
-"""
-    GetPlaybackConfiguration()
-
-Returns the playback configuration for the specified name. 
-
-Required Parameters
-{
-  "Name": "The identifier for the playback configuration."
-}
-"""
-GetPlaybackConfiguration(args) = mediatailor("GET", "/playbackConfiguration/{Name}", args)
 
 """
     TagResource()
