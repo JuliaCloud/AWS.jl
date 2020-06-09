@@ -1,6 +1,8 @@
 module AWSExceptions
 
 using HTTP
+using JSON
+using XMLDict
 
 export AWSException, ProtocolNotDefined, InvalidFileName
 
@@ -18,7 +20,7 @@ show(io::IO, e::InvalidFileName) = println(io, e.message)
 struct AWSException <: Exception
     code::String
     message::String
-    info::Union{String, Nothing}
+    info
     cause::HTTP.StatusError
 end
 show(io::IO, e::AWSException) = println(
@@ -26,11 +28,14 @@ show(io::IO, e::AWSException) = println(
     string(e.code, isempty(e.message) ? "" : (" -- " * e.message), "\n", e.cause)
 )
 
+http_message(e::HTTP.StatusError) = String(copy(e.response.body))
+http_status(e::HTTP.StatusError) = e.status
+content_type(e::HTTP.StatusError) = HTTP.header(e.response, "Content-Type")
 
 function AWSException(e::HTTP.StatusError)
     code = string(http_status(e))
     message = "AWSException"
-    info = Dict(String, Dict)
+    info = Dict{String, Dict}()
 
     # Extract API error code from Lambda-style JSON error message...
     if occursin(r"json$", content_type(e))
