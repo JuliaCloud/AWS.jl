@@ -76,7 +76,7 @@ function _sign_aws2!(aws::AWSConfig, request::LittleDict, time::DateTime)
     # Create AWS Signature Version 2 Authentication query parameters.
     # http://docs.aws.amazon.com/general/latest/gr/signature-version-2.html
 
-    query = Dict{AbstractString,AbstractString}()
+    query = Dict{String, String}()
     for elem in split(request[:content], '&', keepempty=false)
         (n, v) = split(elem, "=")
         query[n] = HTTP.unescapeuri(v)
@@ -189,13 +189,15 @@ function _http_request(aws::AWSConfig, request::LittleDict)
     @repeat 4 try
         http_stack = HTTP.stack(redirect=false, retry=false, aws_authorization=false)
 
-        return HTTP.request(http_stack,
-                            request[:request_method],
-                            HTTP.URI(request[:url]),
-                            HTTP.mkheaders(request[:headers]),
-                            request[:content];
-                            require_ssl_verification=false,
-                            options...)
+        return HTTP.request(
+            http_stack,
+            request[:request_method],
+            HTTP.URI(request[:url]),
+            HTTP.mkheaders(request[:headers]),
+            request[:content];
+            require_ssl_verification=false,
+            options...
+        )
     catch e
         # Base.IOError is needed because HTTP.jl can often have errors that aren't
         # caught and wrapped in an HTTP.IOError
@@ -204,18 +206,26 @@ function _http_request(aws::AWSConfig, request::LittleDict)
                         isa(e, HTTP.ParseError) ||
                         isa(e, HTTP.IOError) ||
                         isa(e, Base.IOError) ||
-                       (isa(e, HTTP.StatusError) && http_status(e) >= 500)
+                        (isa(e, HTTP.StatusError) && http_status(e) >= 500)
         end
     end
 end
 
-"""
-
-"""
 function do_request(aws::AWSConfig, request::LittleDict; return_headers=false)
-    TOO_MANY_REQUESTS = 429
-    redirect_codes = [301, 302, 303, 304, 305, 307, 308]
     response = nothing
+    TOO_MANY_REQUESTS = 429
+    REDIRECT_CODES = [301, 302, 303, 304, 305, 307, 308]
+    THROTTLING_ERROR_CODES = [
+        "Throttling",
+        "ThrottlingException",
+        "ThrottledException",
+        "RequestThrottledException",
+        "TooManyRequestsException",
+        "ProvisionedThroughputExceededException",
+        "LimitExceededException",
+        "RequestThrottled",
+        "PriorRequestNotComplete"
+    ]
 
     if !haskey(request, :headers)
         request[:headers] = Dict{String, String}()
@@ -228,7 +238,7 @@ function do_request(aws::AWSConfig, request::LittleDict; return_headers=false)
         aws.credentials === nothing || _sign!(aws, request)
         response = _http_request(aws, request)
 
-        if response.status in redirect_codes && HTTP.header(response, "Location") != ""
+        if response.status in REDIRECT_CODES && HTTP.header(response, "Location") != ""
             request[:url] = HTTP.header(response, "Location")
             continue
         end
@@ -249,19 +259,8 @@ function do_request(aws::AWSConfig, request::LittleDict; return_headers=false)
         # Throttle handling
         # https://github.com/boto/botocore/blob/1.16.17/botocore/data/_retry.json
         # https://docs.aws.amazon.com/general/latest/gr/api-retries.html
-        throttling_error_codes = [
-           "Throttling",
-           "ThrottlingException",
-           "ThrottledException",
-           "RequestThrottledException",
-           "TooManyRequestsException",
-           "ProvisionedThroughputExceededException",
-           "LimitExceededException",
-           "RequestThrottled",
-           "PriorRequestNotComplete"
-        ]
         @delay_retry if e isa AWSException &&
-            (http_status(e.cause) == TOO_MANY_REQUESTS || ecode(e) in throttling_error_codes)
+            (http_status(e.cause) == TOO_MANY_REQUESTS || ecode(e) in THROTTLING_ERROR_CODES)
         end
 
         # Handle BadDigest error and CRC32 check sum failure
@@ -367,18 +366,33 @@ function _generate_service_url(aws::AWSConfig, request::LittleDict)
         region = ""
     end
 
-    if !isempty(region)
-        return string("https://", endpoint, ".", region, ".", service_host, request[:resource])
-    else
-        return string("https://", endpoint, ".", service_host, request[:resource])
-    end
+    return string("https://", endpoint, ".", isempty(region) ? "" : "$region.", service_host, request[:resource])
 end
 
+"""
+    (service::RestXMLService)(
+        aws::AWSConfig, request_method::String, request_uri::String, args=[];
+        return_headers=false,
+    )
 
+Perform a RestXML request to AWS
+
+# Arguments
+- aws::AWSConfig: AWSConfig containing credentials and other information for fulfilling the request
+- request_method::String: RESTful request type, e.g.: `GET`, `HEAD`, `PUT`, etc.
+- request_uri::String: AWS URI for the endpoint
+- args::Array: Additional arguments to be included in the request
+
+# Keywords
+- return_headers::Bool=False: Return the AWS response headers or not
+
+# Returns
+- The response from AWS
 """
-    (service::RestXMLService)(aws::AWSConfig, request_method::String, request_uri::String, args=[])
-"""
-function (service::RestXMLService)(aws::AWSConfig, request_method::String, request_uri::String, args=[])
+function (service::RestXMLService)(
+    aws::AWSConfig, request_method::String, request_uri::String, args=[];
+    return_headers=false,
+)
     request = LittleDict()
     args = stringdict(args)
     request[:service] = service.name
@@ -406,9 +420,16 @@ function (service::RestXMLService)(aws::AWSConfig, request_method::String, reque
 
     request[:url] = _generate_service_url(aws, request)
 
-    do_request(aws, request)
+    return do_request(aws, request; return_headers=return_headers)
 end
-(service::RestXMLService)(request_method::String, request_uri::String, args=[]) = service(AWSConfig(), request_method, request_uri, args)
+
+function (service::RestXMLService)(
+    request_method::String, request_uri::String, args=[];
+    return_headers=False,
+)
+    return service(AWSConfig(), request_method, request_uri, args; return_headers=return_headers)
+end
+
 (service::RestXMLService)(a...; b...) = service(a..., b)
 
 function (service::QueryService)(aws, operation, args=[])
@@ -420,10 +441,10 @@ function (service::QueryService)(aws, operation, args=[])
         args=args
     )
 end
-# (service::QueryService)(operation, args=[]) = service(aws_config(), operation, args)
-# (service::QueryService)(a...; b...) = service(a..., b)
-#
-function (service::JSONService)(aws, operation, args=[])
+(service::QueryService)(operation, args=[]) = service(aws_config(), operation, args)
+(service::QueryService)(a...; b...) = service(a..., b)
+
+function (service::JSONService)(aws::AWS.AWSConfig, operation, args=[])
     return AWSCore.service_json(
         aws;
         service=service.name,
@@ -434,10 +455,10 @@ function (service::JSONService)(aws, operation, args=[])
         args=args
     )
 end
-# (service::JSONService)(operation, args=[]) = service(aws_config(), operation, args)
-# (service::JSONService)(a...; b...) = service(a..., b)
-#
-function (service::RestJSONService)(aws, request_method::String, request_uri::String, args=[])
+(service::JSONService)(operation, args=[]) = service(aws_config(), operation, args)
+(service::JSONService)(a...; b...) = service(a..., b)
+
+function (service::RestJSONService)(aws::AWS.AWSConfig, request_method::String, request_uri::String, args=[])
     return AWSCore.service_rest_json(
         aws;
         service=service.name,
@@ -447,7 +468,7 @@ function (service::RestJSONService)(aws, request_method::String, request_uri::St
         args=args
     )
 end
-# (service::RestJSONService)(request_method::String, request_uri::String, args=[]) = service(aws_config(), request_method, request_uri, args)
-# (service::RestJSONService)(a...; b...) = service(a..., b)
+(service::RestJSONService)(request_method::String, request_uri::String, args=[]) = service(aws_config(), request_method, request_uri, args)
+(service::RestJSONService)(a...; b...) = service(a..., b)
 
 end  # module AWS

@@ -4,11 +4,13 @@ mutable struct AWSConfig
     output::String
 end
 
-function AWSConfig(; profile=nothing,
-                     creds=AWSCredentials(profile=profile),
-                     region=get(ENV, "AWS_DEFAULT_REGION", "us-east-1"),
-                     output="json")
-    AWSConfig(creds, region, output)
+function AWSConfig(;
+    profile=nothing,
+    creds=AWSCredentials(profile=profile),
+    region=get(ENV, "AWS_DEFAULT_REGION", "us-east-1"),
+    output="json",
+)
+    return AWSConfig(creds, region, output)
 end
 
 """
@@ -24,7 +26,7 @@ function aws_user_arn(aws::AWSConfig)
     creds = aws.credentials
 
     if isempty(creds.user_arn)
-        _update_creds(aws)
+        _update_creds!(aws)
     end
 
     return creds.user_arn
@@ -43,20 +45,13 @@ function aws_account_number(aws::AWSConfig)
     creds = aws.credentials
 
     if isempty(creds.account_number)
-        _update_creds(aws)
+        _update_creds!(aws)
     end
 
     return creds.account_number
 end
 
-
-"""
-    _update_creds(aws::AWSConfig) -> AWSConfig
-
-
-Update the `user_arn` and `account_number` from Security Token Services.
-"""
-function _update_creds(aws::AWSConfig)
+function _update_creds!(aws::AWSConfig)
     r = AWSServices.sts(aws, "GetCallerIdentity", [])
     creds = aws.credentials
 

@@ -3,6 +3,7 @@ module AWSExceptions
 using HTTP
 using JSON
 using XMLDict
+using XMLDict: XMLDictElement
 
 export AWSException, ProtocolNotDefined, InvalidFileName
 
@@ -20,7 +21,7 @@ show(io::IO, e::InvalidFileName) = println(io, e.message)
 struct AWSException <: Exception
     code::String
     message::String
-    info
+    info::Union{XMLDictElement, Dict, String, Nothing}
     cause::HTTP.StatusError
 end
 show(io::IO, e::AWSException) = println(
