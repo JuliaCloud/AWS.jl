@@ -23,10 +23,12 @@ AWSCore = "0.6"
 HTTP = "0.8"
 IniFile = "0.5"
 JSON = "0.18, 0.19, 0.20, 0.21"
+MbedTLS = "0.6, 0.7, 1"
 Mocking = "0.7"
 OrderedCollections = "1"
 Retry = "0.3, 0.4"
 SymDict = "0.3"
+XMLDict = "0.3, 0.4"
 julia = "1"
 
 [extras]

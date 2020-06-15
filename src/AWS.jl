@@ -384,7 +384,7 @@ Perform a RestXML request to AWS
 - args::Array: Additional arguments to be included in the request
 
 # Keywords
-- return_headers::Bool=False: Return the AWS response headers or not
+- return_headers::Bool=false: Return the AWS response headers or not
 
 # Returns
 - The response from AWS
@@ -425,7 +425,7 @@ end
 
 function (service::RestXMLService)(
     request_method::String, request_uri::String, args=[];
-    return_headers=False,
+    return_headers=false,
 )
     return service(AWSConfig(), request_method, request_uri, args; return_headers=return_headers)
 end
