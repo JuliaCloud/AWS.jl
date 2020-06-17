@@ -4,6 +4,7 @@ using AWSCore
 using Base64
 using HTTP
 using MbedTLS
+using Mocking
 using OrderedCollections: LittleDict, OrderedDict
 using Retry
 using Sockets
@@ -97,10 +98,11 @@ function _sign_aws2!(aws::AWSConfig, request::LittleDict, time::DateTime)
     query = Pair[k => query[k] for k in sort(collect(keys(query)))]
     uri = HTTP.URI(request[:url])
     to_sign = "POST\n$(uri.host)\n$(uri.path)\n$(HTTP.escapeuri(query))"
-    secret = creds.secret_key
-    push!(query, "Signature" => digest(MD_SHA256, to_sign, secret) |> base64encode |> strip)
+    push!(query, "Signature" => digest(MD_SHA256, to_sign, creds.secret_key) |> base64encode |> strip)
 
     request[:content] = HTTP.escapeuri(query)
+
+    return request
 end
 
 function _sign_aws4!(aws::AWSConfig, request::LittleDict, time::DateTime)
@@ -114,7 +116,7 @@ function _sign_aws4!(aws::AWSConfig, request::LittleDict, time::DateTime)
     authentication_scope = [date, aws.region, request[:service], "aws4_request"]
 
     creds = check_credentials(aws.credentials)
-    signing_key = string("AWS4", creds.secret_key)
+    signing_key = "AWS4$(creds.secret_key)"
 
     for scope in authentication_scope
         signing_key = digest(MD_SHA256, scope, signing_key)
@@ -130,11 +132,11 @@ function _sign_aws4!(aws::AWSConfig, request::LittleDict, time::DateTime)
     delete!(request[:headers], "Authorization")
     merge!(request[:headers], Dict(
         "x-amz-content-sha256" => content_hash,
-        "x-amz-date"           => datetime,
-        "Content-MD5"          => base64encode(digest(MD_MD5, request[:content]))
+        "x-amz-date" => datetime,
+        "Content-MD5" => base64encode(digest(MD_MD5, request[:content]))
     ))
 
-    if creds.token != ""
+    if !isempty(creds.token)
         request[:headers]["x-amz-security-token"] = creds.token
     end
 
@@ -148,12 +150,13 @@ function _sign_aws4!(aws::AWSConfig, request::LittleDict, time::DateTime)
     query = Pair[k => query[k] for k in sort(collect(keys(query)))]
 
     # Create hash of canonical request...
-    canonical_form = string(request[:request_method], "\n",
-                            request[:service] == "s3" ? uri.path : HTTP.escapepath(uri.path), "\n",
-                            HTTP.escapeuri(query), "\n",
-                            join(sort(canonical_headers), "\n"), "\n\n",
-                            signed_headers, "\n",
-                            content_hash
+    canonical_form = string(
+        request[:request_method], "\n",
+        request[:service] == "s3" ? uri.path : HTTP.escapepath(uri.path), "\n",
+        HTTP.escapeuri(query), "\n",
+        join(sort(canonical_headers), "\n"), "\n\n",
+        signed_headers, "\n",
+        content_hash
     )
 
     canonical_hash = bytes2hex(digest(MD_SHA256, canonical_form))
@@ -169,6 +172,8 @@ function _sign_aws4!(aws::AWSConfig, request::LittleDict, time::DateTime)
         "SignedHeaders=$signed_headers, ",
         "Signature=$signature"
     )
+
+    return request
 end
 
 function _http_request(aws::AWSConfig, request::LittleDict)
@@ -211,10 +216,11 @@ function _http_request(aws::AWSConfig, request::LittleDict)
     end
 end
 
-function do_request(aws::AWSConfig, request::LittleDict; return_headers=false)
+function do_request(aws::AWSConfig, request::AbstractDict; return_headers::Bool=false)
     response = nothing
     TOO_MANY_REQUESTS = 429
-    REDIRECT_CODES = [301, 302, 303, 304, 305, 307, 308]
+    EXPIRED_ERROR_CODES = ["ExpiredToken", "ExpiredTokenException", "RequestExpired"]
+    REDIRECT_ERROR_CODES = [301, 302, 303, 304, 305, 307, 308]
     THROTTLING_ERROR_CODES = [
         "Throttling",
         "ThrottlingException",
@@ -236,9 +242,9 @@ function do_request(aws::AWSConfig, request::LittleDict; return_headers=false)
 
     @repeat 3 try
         aws.credentials === nothing || _sign!(aws, request)
-        response = _http_request(aws, request)
+        response = @mock _http_request(aws, request)
 
-        if response.status in REDIRECT_CODES && HTTP.header(response, "Location") != ""
+        if response.status in REDIRECT_ERROR_CODES && HTTP.header(response, "Location") != ""
             request[:url] = HTTP.header(response, "Location")
             continue
         end
@@ -251,8 +257,7 @@ function do_request(aws::AWSConfig, request::LittleDict; return_headers=false)
 
         # Handle ExpiredToken...
         # https://github.com/aws/aws-sdk-go/blob/v1.31.5/aws/request/retryer.go#L98
-        expired_error_codes = ["ExpiredToken", "ExpiredTokenException", "RequestExpired"]
-        @retry if ecode(e) in expired_error_codes
+        @retry if ecode(e) in EXPIRED_ERROR_CODES
             check_credentials(aws.credentials, force_refresh=true)
         end
 
@@ -302,44 +307,6 @@ function do_request(aws::AWSConfig, request::LittleDict; return_headers=false)
         return (return_headers ? (xml_dict(body, xml_dict_type), Dict(response.headers)) : xml_dict(body, xml_dict_type))
     end
 
-    if occursin(r"/x-amz-json-1.[01]$", mime)
-        if isempty(response.body)
-            return nothing
-        end
-
-        if get(r, :ordered_json_dict, true)
-            return (return_headers ? (JSON.parse(body, dicttype=OrderedDict), Dict(response.headers)) : JSON.parse(body, dicttype=OrderedDict))
-        else
-            return (return_headers ? (JSON.parse(body), Dict(response.headers)) : JSON.parse(body))
-        end
-    end
-
-    if occursin(r"json$", mime)
-        if isempty(response.body)
-            return nothing
-        end
-
-        if get(request, :ordered_json_dict, true)
-            info = JSON.parse(body, dicttype=OrderedDict)
-        else
-            info = JSON.parse(body)
-        end
-
-        @protected try
-            action = request[:query]["Action"]
-            info = info[action * "Response"]
-            info = info[action * "Result"]
-        catch e
-            @ignore if typeof(e) == KeyError end
-        end
-
-        return (return_headers ? (info, Dict(response.headers)) : info)
-    end
-
-    if occursin(r"^text/", mime)
-        return (return_headers ? (body, Dict(response.headers)) : body)
-    end
-
     # Return raw data by default...
     return (return_headers ? (response.body, response.headers) : response.body)
 end
@@ -356,17 +323,26 @@ function _generate_rest_resource(request_uri::String, args::Dict{String, Any})
     return request_uri
 end
 
-function _generate_service_url(aws::AWSConfig, request::LittleDict)
+function _generate_service_url(region::String, request::AbstractDict)
+    SERVICE_HOST = "amazonaws.com"
     endpoint = get(request, :endpoint, request[:service])
-    region = aws.region
     regionless_endpoints = ("iam", "route53")
-    service_host = "amazonaws.com"
 
     if endpoint in regionless_endpoints || (endpoint == "sdb" && region == "us-east-1")
         region = ""
     end
 
-    return string("https://", endpoint, ".", isempty(region) ? "" : "$region.", service_host, request[:resource])
+    return string("https://", endpoint, ".", isempty(region) ? "" : "$region.", SERVICE_HOST, request[:resource])
+end
+
+function _return_headers(args::Dict{String, Any})
+    return_headers = get(args, "return_headers", false)
+
+    if return_headers
+        delete!(args, "return_headers")
+    end
+
+    return return_headers
 end
 
 """
@@ -389,10 +365,7 @@ Perform a RestXML request to AWS
 # Returns
 - The response from AWS
 """
-function (service::RestXMLService)(
-    aws::AWSConfig, request_method::String, request_uri::String, args=[];
-    return_headers=false,
-)
+function (service::RestXMLService)(aws::AWSConfig, request_method::String, request_uri::String, args=[])
     request = LittleDict()
     args = stringdict(args)
     request[:service] = service.name
@@ -404,6 +377,8 @@ function (service::RestXMLService)(
 
     delete!(args, "headers")
     delete!(args, "Body")
+
+    return_headers = _return_headers(args)
 
     request[:resource] = _generate_rest_resource(request_uri, args)
 
@@ -418,21 +393,14 @@ function (service::RestXMLService)(
         end
     end
 
-    request[:url] = _generate_service_url(aws, request)
+    request[:url] = _generate_service_url(aws.region, request)
 
     return do_request(aws, request; return_headers=return_headers)
 end
-
-function (service::RestXMLService)(
-    request_method::String, request_uri::String, args=[];
-    return_headers=false,
-)
-    return service(AWSConfig(), request_method, request_uri, args; return_headers=return_headers)
-end
-
+(service::RestXMLService)(request_method::String, request_uri::String, args=[]) = service(AWSConfig(), request_method, request_uri, args)
 (service::RestXMLService)(a...; b...) = service(a..., b)
 
-function (service::QueryService)(aws, operation, args=[])
+function (service::QueryService)(aws::AWS.AWSConfig, operation, args=[])
     return AWSCore.service_query(
         aws;
         service=service.name,
