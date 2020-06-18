@@ -9,11 +9,11 @@ Returns Auto Scaling group recommendations. AWS Compute Optimizer currently gene
 
 Optional Parameters
 {
-  "filters": "An array of objects that describe a filter that returns a more specific list of Auto Scaling group recommendations.",
+  "accountIds": "The AWS account IDs for which to return Auto Scaling group recommendations. Only one account ID can be specified per request.",
   "autoScalingGroupArns": "The Amazon Resource Name (ARN) of the Auto Scaling groups for which to return recommendations.",
+  "filters": "An array of objects that describe a filter that returns a more specific list of Auto Scaling group recommendations.",
   "maxResults": "The maximum number of Auto Scaling group recommendations to return with a single call. To retrieve the remaining results, make another call with the returned NextToken value.",
-  "nextToken": "The token to advance to the next page of Auto Scaling group recommendations.",
-  "accountIds": "The AWS account IDs for which to return Auto Scaling group recommendations. Only one account ID can be specified per request."
+  "nextToken": "The token to advance to the next page of Auto Scaling group recommendations."
 }
 """
 GetAutoScalingGroupRecommendations() = compute_optimizer("GetAutoScalingGroupRecommendations")
@@ -26,11 +26,11 @@ Returns Amazon EC2 instance recommendations. AWS Compute Optimizer currently gen
 
 Optional Parameters
 {
+  "accountIds": "The AWS account IDs for which to return instance recommendations. Only one account ID can be specified per request.",
   "filters": "An array of objects that describe a filter that returns a more specific list of instance recommendations.",
-  "maxResults": "The maximum number of instance recommendations to return with a single call. To retrieve the remaining results, make another call with the returned NextToken value.",
   "instanceArns": "The Amazon Resource Name (ARN) of the instances for which to return recommendations.",
-  "nextToken": "The token to advance to the next page of instance recommendations.",
-  "accountIds": "The AWS account IDs for which to return instance recommendations. Only one account ID can be specified per request."
+  "maxResults": "The maximum number of instance recommendations to return with a single call. To retrieve the remaining results, make another call with the returned NextToken value.",
+  "nextToken": "The token to advance to the next page of instance recommendations."
 }
 """
 GetEC2InstanceRecommendations() = compute_optimizer("GetEC2InstanceRecommendations")
@@ -43,29 +43,14 @@ Returns the projected utilization metrics of Amazon EC2 instance recommendations
 
 Required Parameters
 {
-  "stat": "The statistic of the projected metrics.",
-  "startTime": "The time stamp of the first projected metrics data point to return.",
-  "period": "The granularity, in seconds, of the projected metrics data points.",
+  "endTime": "The time stamp of the last projected metrics data point to return.",
   "instanceArn": "The Amazon Resource Name (ARN) of the instances for which to return recommendation projected metrics.",
-  "endTime": "The time stamp of the last projected metrics data point to return."
+  "period": "The granularity, in seconds, of the projected metrics data points.",
+  "startTime": "The time stamp of the first projected metrics data point to return.",
+  "stat": "The statistic of the projected metrics."
 }
 """
 GetEC2RecommendationProjectedMetrics(args) = compute_optimizer("GetEC2RecommendationProjectedMetrics", args)
-
-"""
-    GetRecommendationSummaries()
-
-Returns the optimization findings for an account. For example, it returns the number of Amazon EC2 instances in an account that are under-provisioned, over-provisioned, or optimized. It also returns the number of Auto Scaling groups in an account that are not optimized, or optimized.
-
-Optional Parameters
-{
-  "maxResults": "The maximum number of recommendation summaries to return with a single call. To retrieve the remaining results, make another call with the returned NextToken value.",
-  "nextToken": "The token to advance to the next page of recommendation summaries.",
-  "accountIds": "The AWS account IDs for which to return recommendation summaries. Only one account ID can be specified per request."
-}
-"""
-GetRecommendationSummaries() = compute_optimizer("GetRecommendationSummaries")
-GetRecommendationSummaries(args) = compute_optimizer("GetRecommendationSummaries", args)
 
 """
     GetEnrollmentStatus()
@@ -74,6 +59,21 @@ Returns the enrollment (opt in) status of an account to the AWS Compute Optimize
 """
 GetEnrollmentStatus() = compute_optimizer("GetEnrollmentStatus")
 GetEnrollmentStatus(args) = compute_optimizer("GetEnrollmentStatus", args)
+
+"""
+    GetRecommendationSummaries()
+
+Returns the optimization findings for an account. For example, it returns the number of Amazon EC2 instances in an account that are under-provisioned, over-provisioned, or optimized. It also returns the number of Auto Scaling groups in an account that are not optimized, or optimized.
+
+Optional Parameters
+{
+  "accountIds": "The AWS account IDs for which to return recommendation summaries. Only one account ID can be specified per request.",
+  "maxResults": "The maximum number of recommendation summaries to return with a single call. To retrieve the remaining results, make another call with the returned NextToken value.",
+  "nextToken": "The token to advance to the next page of recommendation summaries."
+}
+"""
+GetRecommendationSummaries() = compute_optimizer("GetRecommendationSummaries")
+GetRecommendationSummaries(args) = compute_optimizer("GetRecommendationSummaries", args)
 
 """
     UpdateEnrollmentStatus()

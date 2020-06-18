@@ -3,19 +3,6 @@ include("../AWSServices.jl")
 using .AWSServices: cost_and_usage_report_service
 
 """
-    ModifyReportDefinition()
-
-Allows you to programatically update your report preferences.
-
-Required Parameters
-{
-  "ReportName": "",
-  "ReportDefinition": ""
-}
-"""
-ModifyReportDefinition(args) = cost_and_usage_report_service("ModifyReportDefinition", args)
-
-"""
     DeleteReportDefinition()
 
 Deletes the specified report.
@@ -27,18 +14,6 @@ Optional Parameters
 """
 DeleteReportDefinition() = cost_and_usage_report_service("DeleteReportDefinition")
 DeleteReportDefinition(args) = cost_and_usage_report_service("DeleteReportDefinition", args)
-
-"""
-    PutReportDefinition()
-
-Creates a new report using the description that you provide.
-
-Required Parameters
-{
-  "ReportDefinition": "Represents the output of the PutReportDefinition operation. The content consists of the detailed metadata and data file information. "
-}
-"""
-PutReportDefinition(args) = cost_and_usage_report_service("PutReportDefinition", args)
 
 """
     DescribeReportDefinitions()
@@ -53,3 +28,28 @@ Optional Parameters
 """
 DescribeReportDefinitions() = cost_and_usage_report_service("DescribeReportDefinitions")
 DescribeReportDefinitions(args) = cost_and_usage_report_service("DescribeReportDefinitions", args)
+
+"""
+    ModifyReportDefinition()
+
+Allows you to programatically update your report preferences.
+
+Required Parameters
+{
+  "ReportDefinition": "",
+  "ReportName": ""
+}
+"""
+ModifyReportDefinition(args) = cost_and_usage_report_service("ModifyReportDefinition", args)
+
+"""
+    PutReportDefinition()
+
+Creates a new report using the description that you provide.
+
+Required Parameters
+{
+  "ReportDefinition": "Represents the output of the PutReportDefinition operation. The content consists of the detailed metadata and data file information. "
+}
+"""
+PutReportDefinition(args) = cost_and_usage_report_service("PutReportDefinition", args)

@@ -3,16 +3,17 @@ include("../AWSServices.jl")
 using .AWSServices: marketplace_metering
 
 """
-    ResolveCustomer()
+    BatchMeterUsage()
 
-ResolveCustomer is called by a SaaS application during the registration process. When a buyer visits your website during the registration process, the buyer submits a registration token through their browser. The registration token is resolved through this API to obtain a CustomerIdentifier and product code.
+BatchMeterUsage is called from a SaaS application listed on the AWS Marketplace to post metering records for a set of customers. For identical requests, the API is idempotent; requests can be retried with the same records or a subset of the input records. Every request to BatchMeterUsage is for one product. If you need to meter usage for multiple products, you must make multiple calls to BatchMeterUsage. BatchMeterUsage can process up to 25 UsageRecords at a time.
 
 Required Parameters
 {
-  "RegistrationToken": "When a buyer visits your website during the registration process, the buyer submits a registration token through the browser. The registration token is resolved to obtain a CustomerIdentifier and product code."
+  "ProductCode": "Product code is used to uniquely identify a product in AWS Marketplace. The product code should be the same as the one used during the publishing of a new product.",
+  "UsageRecords": "The set of UsageRecords to submit. BatchMeterUsage accepts up to 25 UsageRecords at a time."
 }
 """
-ResolveCustomer(args) = marketplace_metering("ResolveCustomer", args)
+BatchMeterUsage(args) = marketplace_metering("BatchMeterUsage", args)
 
 """
     MeterUsage()
@@ -21,15 +22,15 @@ API to emit metering records. For identical requests, the API is idempotent. It 
 
 Required Parameters
 {
-  "UsageDimension": "It will be one of the fcp dimension name provided during the publishing of the product.",
   "ProductCode": "Product code is used to uniquely identify a product in AWS Marketplace. The product code should be the same as the one used during the publishing of a new product.",
-  "Timestamp": "Timestamp, in UTC, for which the usage is being reported. Your application can meter usage for up to one hour in the past. Make sure the timestamp value is not before the start of the software usage."
+  "Timestamp": "Timestamp, in UTC, for which the usage is being reported. Your application can meter usage for up to one hour in the past. Make sure the timestamp value is not before the start of the software usage.",
+  "UsageDimension": "It will be one of the fcp dimension name provided during the publishing of the product."
 }
 
 Optional Parameters
 {
-  "UsageQuantity": "Consumption value for the hour. Defaults to 0 if not specified.",
-  "DryRun": "Checks whether you have the permissions required for the action, but does not make the request. If you have the permissions, the request returns DryRunOperation; otherwise, it returns UnauthorizedException. Defaults to false if not specified."
+  "DryRun": "Checks whether you have the permissions required for the action, but does not make the request. If you have the permissions, the request returns DryRunOperation; otherwise, it returns UnauthorizedException. Defaults to false if not specified.",
+  "UsageQuantity": "Consumption value for the hour. Defaults to 0 if not specified."
 }
 """
 MeterUsage(args) = marketplace_metering("MeterUsage", args)
@@ -53,14 +54,13 @@ Optional Parameters
 RegisterUsage(args) = marketplace_metering("RegisterUsage", args)
 
 """
-    BatchMeterUsage()
+    ResolveCustomer()
 
-BatchMeterUsage is called from a SaaS application listed on the AWS Marketplace to post metering records for a set of customers. For identical requests, the API is idempotent; requests can be retried with the same records or a subset of the input records. Every request to BatchMeterUsage is for one product. If you need to meter usage for multiple products, you must make multiple calls to BatchMeterUsage. BatchMeterUsage can process up to 25 UsageRecords at a time.
+ResolveCustomer is called by a SaaS application during the registration process. When a buyer visits your website during the registration process, the buyer submits a registration token through their browser. The registration token is resolved through this API to obtain a CustomerIdentifier and product code.
 
 Required Parameters
 {
-  "UsageRecords": "The set of UsageRecords to submit. BatchMeterUsage accepts up to 25 UsageRecords at a time.",
-  "ProductCode": "Product code is used to uniquely identify a product in AWS Marketplace. The product code should be the same as the one used during the publishing of a new product."
+  "RegistrationToken": "When a buyer visits your website during the registration process, the buyer submits a registration token through the browser. The registration token is resolved to obtain a CustomerIdentifier and product code."
 }
 """
-BatchMeterUsage(args) = marketplace_metering("BatchMeterUsage", args)
+ResolveCustomer(args) = marketplace_metering("ResolveCustomer", args)

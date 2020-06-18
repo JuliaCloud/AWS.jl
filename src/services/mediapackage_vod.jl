@@ -3,32 +3,6 @@ include("../AWSServices.jl")
 using .AWSServices: mediapackage_vod
 
 """
-    ListPackagingGroups()
-
-Returns a collection of MediaPackage VOD PackagingGroup resources.
-
-Optional Parameters
-{
-  "MaxResults": "Upper bound on number of records to return.",
-  "NextToken": "A token used to resume pagination from the end of a previous request."
-}
-"""
-ListPackagingGroups() = mediapackage_vod("GET", "/packaging_groups")
-ListPackagingGroups(args) = mediapackage_vod("GET", "/packaging_groups", args)
-
-"""
-    DescribePackagingGroup()
-
-Returns a description of a MediaPackage VOD PackagingGroup resource.
-
-Required Parameters
-{
-  "Id": "The ID of a MediaPackage VOD PackagingGroup resource."
-}
-"""
-DescribePackagingGroup(args) = mediapackage_vod("GET", "/packaging_groups/{id}", args)
-
-"""
     CreateAsset()
 
 Creates a new MediaPackage VOD Asset resource.
@@ -36,14 +10,15 @@ Creates a new MediaPackage VOD Asset resource.
 Required Parameters
 {
   "Id": "The unique identifier for the Asset.",
-  "SourceArn": "ARN of the source object in S3.",
   "PackagingGroupId": "The ID of the PackagingGroup for the Asset.",
+  "SourceArn": "ARN of the source object in S3.",
   "SourceRoleArn": "The IAM role ARN used to access the source S3 bucket."
 }
 
 Optional Parameters
 {
-  "ResourceId": "The resource ID to include in SPEKE key requests."
+  "ResourceId": "The resource ID to include in SPEKE key requests.",
+  "Tags": ""
 }
 """
 CreateAsset(args) = mediapackage_vod("POST", "/assets", args)
@@ -61,13 +36,31 @@ Required Parameters
 
 Optional Parameters
 {
-  "DashPackage": "",
   "CmafPackage": "",
+  "DashPackage": "",
   "HlsPackage": "",
-  "MssPackage": ""
+  "MssPackage": "",
+  "Tags": ""
 }
 """
 CreatePackagingConfiguration(args) = mediapackage_vod("POST", "/packaging_configurations", args)
+
+"""
+    CreatePackagingGroup()
+
+Creates a new MediaPackage VOD PackagingGroup resource.
+
+Required Parameters
+{
+  "Id": "The ID of the PackagingGroup."
+}
+
+Optional Parameters
+{
+  "Tags": ""
+}
+"""
+CreatePackagingGroup(args) = mediapackage_vod("POST", "/packaging_groups", args)
 
 """
     DeleteAsset()
@@ -82,18 +75,6 @@ Required Parameters
 DeleteAsset(args) = mediapackage_vod("DELETE", "/assets/{id}", args)
 
 """
-    DeletePackagingGroup()
-
-Deletes a MediaPackage VOD PackagingGroup resource.
-
-Required Parameters
-{
-  "Id": "The ID of the MediaPackage VOD PackagingGroup resource to delete."
-}
-"""
-DeletePackagingGroup(args) = mediapackage_vod("DELETE", "/packaging_groups/{id}", args)
-
-"""
     DeletePackagingConfiguration()
 
 Deletes a MediaPackage VOD PackagingConfiguration resource.
@@ -104,6 +85,18 @@ Required Parameters
 }
 """
 DeletePackagingConfiguration(args) = mediapackage_vod("DELETE", "/packaging_configurations/{id}", args)
+
+"""
+    DeletePackagingGroup()
+
+Deletes a MediaPackage VOD PackagingGroup resource.
+
+Required Parameters
+{
+  "Id": "The ID of the MediaPackage VOD PackagingGroup resource to delete."
+}
+"""
+DeletePackagingGroup(args) = mediapackage_vod("DELETE", "/packaging_groups/{id}", args)
 
 """
     DescribeAsset()
@@ -130,6 +123,18 @@ Required Parameters
 DescribePackagingConfiguration(args) = mediapackage_vod("GET", "/packaging_configurations/{id}", args)
 
 """
+    DescribePackagingGroup()
+
+Returns a description of a MediaPackage VOD PackagingGroup resource.
+
+Required Parameters
+{
+  "Id": "The ID of a MediaPackage VOD PackagingGroup resource."
+}
+"""
+DescribePackagingGroup(args) = mediapackage_vod("GET", "/packaging_groups/{id}", args)
+
+"""
     ListAssets()
 
 Returns a collection of MediaPackage VOD Asset resources.
@@ -145,18 +150,6 @@ ListAssets() = mediapackage_vod("GET", "/assets")
 ListAssets(args) = mediapackage_vod("GET", "/assets", args)
 
 """
-    CreatePackagingGroup()
-
-Creates a new MediaPackage VOD PackagingGroup resource.
-
-Required Parameters
-{
-  "Id": "The ID of the PackagingGroup."
-}
-"""
-CreatePackagingGroup(args) = mediapackage_vod("POST", "/packaging_groups", args)
-
-"""
     ListPackagingConfigurations()
 
 Returns a collection of MediaPackage VOD PackagingConfiguration resources.
@@ -170,3 +163,55 @@ Optional Parameters
 """
 ListPackagingConfigurations() = mediapackage_vod("GET", "/packaging_configurations")
 ListPackagingConfigurations(args) = mediapackage_vod("GET", "/packaging_configurations", args)
+
+"""
+    ListPackagingGroups()
+
+Returns a collection of MediaPackage VOD PackagingGroup resources.
+
+Optional Parameters
+{
+  "MaxResults": "Upper bound on number of records to return.",
+  "NextToken": "A token used to resume pagination from the end of a previous request."
+}
+"""
+ListPackagingGroups() = mediapackage_vod("GET", "/packaging_groups")
+ListPackagingGroups(args) = mediapackage_vod("GET", "/packaging_groups", args)
+
+"""
+    ListTagsForResource()
+
+List tags for a given MediaPackage VOD resource
+
+Required Parameters
+{
+  "ResourceArn": ""
+}
+"""
+ListTagsForResource(args) = mediapackage_vod("GET", "/tags/{resource-arn}", args)
+
+"""
+    TagResource()
+
+Set tags for a given MediaPackage VOD resource
+
+Required Parameters
+{
+  "ResourceArn": "",
+  "Tags": ""
+}
+"""
+TagResource(args) = mediapackage_vod("POST", "/tags/{resource-arn}", args)
+
+"""
+    UntagResource()
+
+Delete tags for a given MediaPackage VOD resource
+
+Required Parameters
+{
+  "ResourceArn": "",
+  "TagKeys": "The key(s) of tag to be deleted"
+}
+"""
+UntagResource(args) = mediapackage_vod("DELETE", "/tags/{resource-arn}", args)

@@ -20,59 +20,33 @@ Optional Parameters
 BatchGrantPermissions(args) = lakeformation("BatchGrantPermissions", args)
 
 """
-    GetEffectivePermissionsForPath()
+    BatchRevokePermissions()
 
-Returns the permissions for a specified table or database resource located at a path in Amazon S3.
-
-Required Parameters
-{
-  "ResourceArn": "The Amazon Resource Name (ARN) of the resource for which you want to get permissions."
-}
-
-Optional Parameters
-{
-  "MaxResults": "The maximum number of results to return.",
-  "NextToken": "A continuation token, if this is not the first call to retrieve this list.",
-  "CatalogId": "The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment. "
-}
-"""
-GetEffectivePermissionsForPath(args) = lakeformation("GetEffectivePermissionsForPath", args)
-
-"""
-    ListPermissions()
-
-Returns a list of the principal permissions on the resource, filtered by the permissions of the caller. For example, if you are granted an ALTER permission, you are able to see only the principal permissions for ALTER. This operation returns only those permissions that have been explicitly granted. For information about permissions, see Security and Access Control to Metadata and Data.
-
-Optional Parameters
-{
-  "MaxResults": "The maximum number of results to return.",
-  "NextToken": "A continuation token, if this is not the first call to retrieve this list.",
-  "ResourceType": "Specifies a resource type to filter the permissions returned.",
-  "Resource": "A resource where you will get a list of the principal permissions. This operation does not support getting privileges on a table with columns. Instead, call this operation on the table, and the operation returns the table and the table w columns.",
-  "Principal": "Specifies a principal to filter the permissions returned.",
-  "CatalogId": "The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment. "
-}
-"""
-ListPermissions() = lakeformation("ListPermissions")
-ListPermissions(args) = lakeformation("ListPermissions", args)
-
-"""
-    RegisterResource()
-
-Registers the resource as managed by the Data Catalog. To add or update data, Lake Formation needs read/write access to the chosen Amazon S3 path. Choose a role that you know has permission to do this, or choose the AWSServiceRoleForLakeFormationDataAccess service-linked role. When you register the first Amazon S3 path, the service-linked role and a new inline policy are created on your behalf. Lake Formation adds the first path to the inline policy and attaches it to the service-linked role. When you register subsequent paths, Lake Formation adds the path to the existing policy.
+Batch operation to revoke permissions from the principal.
 
 Required Parameters
 {
-  "ResourceArn": "The Amazon Resource Name (ARN) of the resource that you want to register."
+  "Entries": "A list of up to 20 entries for resource permissions to be revoked by batch operation to the principal."
 }
 
 Optional Parameters
 {
-  "UseServiceLinkedRole": "Designates a trusted caller, an IAM principal, by registering this caller with the Data Catalog. ",
-  "RoleArn": "The identifier for the role."
+  "CatalogId": "The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment. "
 }
 """
-RegisterResource(args) = lakeformation("RegisterResource", args)
+BatchRevokePermissions(args) = lakeformation("BatchRevokePermissions", args)
+
+"""
+    DeregisterResource()
+
+Deregisters the resource as managed by the Data Catalog. When you deregister a path, Lake Formation removes the path from the inline policy attached to your service-linked role.
+
+Required Parameters
+{
+  "ResourceArn": "The Amazon Resource Name (ARN) of the resource that you want to deregister."
+}
+"""
+DeregisterResource(args) = lakeformation("DeregisterResource", args)
 
 """
     DescribeResource()
@@ -87,6 +61,38 @@ Required Parameters
 DescribeResource(args) = lakeformation("DescribeResource", args)
 
 """
+    GetDataLakeSettings()
+
+The AWS Lake Formation principal.
+
+Optional Parameters
+{
+  "CatalogId": "The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment. "
+}
+"""
+GetDataLakeSettings() = lakeformation("GetDataLakeSettings")
+GetDataLakeSettings(args) = lakeformation("GetDataLakeSettings", args)
+
+"""
+    GetEffectivePermissionsForPath()
+
+Returns the permissions for a specified table or database resource located at a path in Amazon S3.
+
+Required Parameters
+{
+  "ResourceArn": "The Amazon Resource Name (ARN) of the resource for which you want to get permissions."
+}
+
+Optional Parameters
+{
+  "CatalogId": "The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment. ",
+  "MaxResults": "The maximum number of results to return.",
+  "NextToken": "A continuation token, if this is not the first call to retrieve this list."
+}
+"""
+GetEffectivePermissionsForPath(args) = lakeformation("GetEffectivePermissionsForPath", args)
+
+"""
     GrantPermissions()
 
 Grants permissions to the principal to access metadata in the Data Catalog and data organized in underlying data storage such as Amazon S3. For information about permissions, see Security and Access Control to Metadata and Data.
@@ -94,37 +100,50 @@ Grants permissions to the principal to access metadata in the Data Catalog and d
 Required Parameters
 {
   "Permissions": "The permissions granted to the principal on the resource. AWS Lake Formation defines privileges to grant and revoke access to metadata in the Data Catalog and data organized in underlying data storage such as Amazon S3. AWS Lake Formation requires that each principal be authorized to perform a specific task on AWS Lake Formation resources. ",
-  "Resource": "The resource to which permissions are to be granted. Resources in AWS Lake Formation are the Data Catalog, databases, and tables.",
-  "Principal": "The principal to be granted the permissions on the resource. Supported principals are IAM users or IAM roles, and they are defined by their principal type and their ARN. Note that if you define a resource with a particular ARN, then later delete, and recreate a resource with that same ARN, the resource maintains the permissions already granted. "
+  "Principal": "The principal to be granted the permissions on the resource. Supported principals are IAM users or IAM roles, and they are defined by their principal type and their ARN. Note that if you define a resource with a particular ARN, then later delete, and recreate a resource with that same ARN, the resource maintains the permissions already granted. ",
+  "Resource": "The resource to which permissions are to be granted. Resources in AWS Lake Formation are the Data Catalog, databases, and tables."
 }
 
 Optional Parameters
 {
-  "PermissionsWithGrantOption": "Indicates a list of the granted permissions that the principal may pass to other users. These permissions may only be a subset of the permissions granted in the Privileges.",
-  "CatalogId": "The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment. "
+  "CatalogId": "The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment. ",
+  "PermissionsWithGrantOption": "Indicates a list of the granted permissions that the principal may pass to other users. These permissions may only be a subset of the permissions granted in the Privileges."
 }
 """
 GrantPermissions(args) = lakeformation("GrantPermissions", args)
 
 """
-    RevokePermissions()
+    ListPermissions()
 
-Revokes permissions to the principal to access metadata in the Data Catalog and data organized in underlying data storage such as Amazon S3.
-
-Required Parameters
-{
-  "Permissions": "The permissions revoked to the principal on the resource. For information about permissions, see Security and Access Control to Metadata and Data.",
-  "Resource": "The resource to which permissions are to be revoked.",
-  "Principal": "The principal to be revoked permissions on the resource."
-}
+Returns a list of the principal permissions on the resource, filtered by the permissions of the caller. For example, if you are granted an ALTER permission, you are able to see only the principal permissions for ALTER. This operation returns only those permissions that have been explicitly granted. For information about permissions, see Security and Access Control to Metadata and Data.
 
 Optional Parameters
 {
-  "PermissionsWithGrantOption": "Indicates a list of permissions for which to revoke the grant option allowing the principal to pass permissions to other principals.",
-  "CatalogId": "The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment. "
+  "CatalogId": "The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment. ",
+  "MaxResults": "The maximum number of results to return.",
+  "NextToken": "A continuation token, if this is not the first call to retrieve this list.",
+  "Principal": "Specifies a principal to filter the permissions returned.",
+  "Resource": "A resource where you will get a list of the principal permissions. This operation does not support getting privileges on a table with columns. Instead, call this operation on the table, and the operation returns the table and the table w columns.",
+  "ResourceType": "Specifies a resource type to filter the permissions returned."
 }
 """
-RevokePermissions(args) = lakeformation("RevokePermissions", args)
+ListPermissions() = lakeformation("ListPermissions")
+ListPermissions(args) = lakeformation("ListPermissions", args)
+
+"""
+    ListResources()
+
+Lists the resources registered to be managed by the Data Catalog.
+
+Optional Parameters
+{
+  "FilterConditionList": "Any applicable row-level and/or column-level filtering conditions for the resources.",
+  "MaxResults": "The maximum number of resource results.",
+  "NextToken": "A continuation token, if this is not the first call to retrieve these resources."
+}
+"""
+ListResources() = lakeformation("ListResources")
+ListResources(args) = lakeformation("ListResources", args)
 
 """
     PutDataLakeSettings()
@@ -144,29 +163,42 @@ Optional Parameters
 PutDataLakeSettings(args) = lakeformation("PutDataLakeSettings", args)
 
 """
-    GetDataLakeSettings()
+    RegisterResource()
 
-The AWS Lake Formation principal.
-
-Optional Parameters
-{
-  "CatalogId": "The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment. "
-}
-"""
-GetDataLakeSettings() = lakeformation("GetDataLakeSettings")
-GetDataLakeSettings(args) = lakeformation("GetDataLakeSettings", args)
-
-"""
-    DeregisterResource()
-
-Deregisters the resource as managed by the Data Catalog. When you deregister a path, Lake Formation removes the path from the inline policy attached to your service-linked role.
+Registers the resource as managed by the Data Catalog. To add or update data, Lake Formation needs read/write access to the chosen Amazon S3 path. Choose a role that you know has permission to do this, or choose the AWSServiceRoleForLakeFormationDataAccess service-linked role. When you register the first Amazon S3 path, the service-linked role and a new inline policy are created on your behalf. Lake Formation adds the first path to the inline policy and attaches it to the service-linked role. When you register subsequent paths, Lake Formation adds the path to the existing policy.
 
 Required Parameters
 {
-  "ResourceArn": "The Amazon Resource Name (ARN) of the resource that you want to deregister."
+  "ResourceArn": "The Amazon Resource Name (ARN) of the resource that you want to register."
+}
+
+Optional Parameters
+{
+  "RoleArn": "The identifier for the role.",
+  "UseServiceLinkedRole": "Designates a trusted caller, an IAM principal, by registering this caller with the Data Catalog. "
 }
 """
-DeregisterResource(args) = lakeformation("DeregisterResource", args)
+RegisterResource(args) = lakeformation("RegisterResource", args)
+
+"""
+    RevokePermissions()
+
+Revokes permissions to the principal to access metadata in the Data Catalog and data organized in underlying data storage such as Amazon S3.
+
+Required Parameters
+{
+  "Permissions": "The permissions revoked to the principal on the resource. For information about permissions, see Security and Access Control to Metadata and Data.",
+  "Principal": "The principal to be revoked permissions on the resource.",
+  "Resource": "The resource to which permissions are to be revoked."
+}
+
+Optional Parameters
+{
+  "CatalogId": "The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment. ",
+  "PermissionsWithGrantOption": "Indicates a list of permissions for which to revoke the grant option allowing the principal to pass permissions to other principals."
+}
+"""
+RevokePermissions(args) = lakeformation("RevokePermissions", args)
 
 """
     UpdateResource()
@@ -180,35 +212,3 @@ Required Parameters
 }
 """
 UpdateResource(args) = lakeformation("UpdateResource", args)
-
-"""
-    ListResources()
-
-Lists the resources registered to be managed by the Data Catalog.
-
-Optional Parameters
-{
-  "MaxResults": "The maximum number of resource results.",
-  "NextToken": "A continuation token, if this is not the first call to retrieve these resources.",
-  "FilterConditionList": "Any applicable row-level and/or column-level filtering conditions for the resources."
-}
-"""
-ListResources() = lakeformation("ListResources")
-ListResources(args) = lakeformation("ListResources", args)
-
-"""
-    BatchRevokePermissions()
-
-Batch operation to revoke permissions from the principal.
-
-Required Parameters
-{
-  "Entries": "A list of up to 20 entries for resource permissions to be revoked by batch operation to the principal."
-}
-
-Optional Parameters
-{
-  "CatalogId": "The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment. "
-}
-"""
-BatchRevokePermissions(args) = lakeformation("BatchRevokePermissions", args)

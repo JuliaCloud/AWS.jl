@@ -3,21 +3,20 @@ include("../AWSServices.jl")
 using .AWSServices: pricing
 
 """
-    GetProducts()
+    DescribeServices()
 
-Returns a list of all products that match the filter criteria.
+Returns the metadata for one service or a list of the metadata for all services. Use this without a service code to get the service codes for all services. Use it with a service code, such as AmazonEC2, to get information specific to that service, such as the attribute names available for that service. For example, some of the attribute names available for EC2 are volumeType, maxIopsVolume, operation, locationType, and instanceCapacity10xlarge.
 
 Optional Parameters
 {
-  "MaxResults": "The maximum number of results to return in the response.",
-  "NextToken": "The pagination token that indicates the next set of results that you want to retrieve.",
-  "Filters": "The list of filters that limit the returned products. only products that match all filters are returned.",
   "FormatVersion": "The format version that you want the response to be in. Valid values are: aws_v1 ",
-  "ServiceCode": "The code for the service whose products you want to retrieve. "
+  "MaxResults": "The maximum number of results that you want returned in the response.",
+  "NextToken": "The pagination token that indicates the next set of results that you want to retrieve.",
+  "ServiceCode": "The code for the service whose information you want to retrieve, such as AmazonEC2. You can use the ServiceCode to filter the results in a GetProducts call. To retrieve a list of all services, leave this blank."
 }
 """
-GetProducts() = pricing("GetProducts")
-GetProducts(args) = pricing("GetProducts", args)
+DescribeServices() = pricing("DescribeServices")
+DescribeServices(args) = pricing("DescribeServices", args)
 
 """
     GetAttributeValues()
@@ -39,17 +38,18 @@ Optional Parameters
 GetAttributeValues(args) = pricing("GetAttributeValues", args)
 
 """
-    DescribeServices()
+    GetProducts()
 
-Returns the metadata for one service or a list of the metadata for all services. Use this without a service code to get the service codes for all services. Use it with a service code, such as AmazonEC2, to get information specific to that service, such as the attribute names available for that service. For example, some of the attribute names available for EC2 are volumeType, maxIopsVolume, operation, locationType, and instanceCapacity10xlarge.
+Returns a list of all products that match the filter criteria.
 
 Optional Parameters
 {
-  "MaxResults": "The maximum number of results that you want returned in the response.",
-  "NextToken": "The pagination token that indicates the next set of results that you want to retrieve.",
+  "Filters": "The list of filters that limit the returned products. only products that match all filters are returned.",
   "FormatVersion": "The format version that you want the response to be in. Valid values are: aws_v1 ",
-  "ServiceCode": "The code for the service whose information you want to retrieve, such as AmazonEC2. You can use the ServiceCode to filter the results in a GetProducts call. To retrieve a list of all services, leave this blank."
+  "MaxResults": "The maximum number of results to return in the response.",
+  "NextToken": "The pagination token that indicates the next set of results that you want to retrieve.",
+  "ServiceCode": "The code for the service whose products you want to retrieve. "
 }
 """
-DescribeServices() = pricing("DescribeServices")
-DescribeServices(args) = pricing("DescribeServices", args)
+GetProducts() = pricing("GetProducts")
+GetProducts(args) = pricing("GetProducts", args)

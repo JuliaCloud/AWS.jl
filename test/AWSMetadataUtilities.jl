@@ -185,8 +185,8 @@ end
 
     Required Parameters
     {
-      "RequiredParam2": "Required param 2",
-      "RequiredParam1": "Required param 1"
+      "RequiredParam1": "Required param 1",
+      "RequiredParam2": "Required param 2"
     }
 
     Optional Parameters
@@ -194,8 +194,8 @@ end
       "OptionalParam": "Optional param"
     }
     \"\"\"
-    SampleOperation(RequiredParam2, RequiredParam1) = sample_service("POST", "/")
-    SampleOperation(RequiredParam2, RequiredParam1, args) = sample_service("POST", "/", args)
+    SampleOperation(RequiredParam1, RequiredParam2) = sample_service("POST", "/")
+    SampleOperation(RequiredParam1, RequiredParam2, args) = sample_service("POST", "/", args)
     SampleOperation(a...; b...) = SampleOperation(a..., b)
     """
 

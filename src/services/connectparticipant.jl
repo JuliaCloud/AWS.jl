@@ -9,11 +9,28 @@ Creates the participant's connection. Note that ParticipantToken is used for inv
 
 Required Parameters
 {
-  "Type": "Type of connection information required.",
-  "ParticipantToken": "Participant Token as obtained from StartChatContact API response."
+  "ParticipantToken": "Participant Token as obtained from StartChatContact API response.",
+  "Type": "Type of connection information required."
 }
 """
 CreateParticipantConnection(args) = connectparticipant("POST", "/participant/connection", args)
+
+"""
+    DisconnectParticipant()
+
+Disconnects a participant. Note that ConnectionToken is used for invoking this API instead of ParticipantToken.
+
+Required Parameters
+{
+  "ConnectionToken": "The authentication token associated with the participant's connection."
+}
+
+Optional Parameters
+{
+  "ClientToken": "A unique, case-sensitive identifier that you provide to ensure the idempotency of the request."
+}
+"""
+DisconnectParticipant(args) = connectparticipant("POST", "/participant/disconnect", args)
 
 """
     GetTranscript()
@@ -27,12 +44,12 @@ Required Parameters
 
 Optional Parameters
 {
+  "ContactId": "The contactId from the current contact chain for which transcript is needed.",
   "MaxResults": "The maximum number of results to return in the page. Default: 10. ",
   "NextToken": "The pagination token. Use the value returned previously in the next subsequent request to retrieve the next set of results.",
-  "ContactId": "The contactId from the current contact chain for which transcript is needed.",
   "ScanDirection": "The direction from StartPosition from which to retrieve message. Default: BACKWARD when no StartPosition is provided, FORWARD with StartPosition. ",
-  "StartPosition": "A filtering option for where to start.",
-  "SortOrder": "The sort order for the records. Default: DESCENDING."
+  "SortOrder": "The sort order for the records. Default: DESCENDING.",
+  "StartPosition": "A filtering option for where to start."
 }
 """
 GetTranscript(args) = connectparticipant("POST", "/participant/transcript", args)
@@ -50,8 +67,8 @@ Required Parameters
 
 Optional Parameters
 {
-  "Content": "The content of the event to be sent (for example, message text). This is not yet supported.",
-  "ClientToken": "A unique, case-sensitive identifier that you provide to ensure the idempotency of the request."
+  "ClientToken": "A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.",
+  "Content": "The content of the event to be sent (for example, message text). This is not yet supported."
 }
 """
 SendEvent(args) = connectparticipant("POST", "/participant/event", args)
@@ -74,20 +91,3 @@ Optional Parameters
 }
 """
 SendMessage(args) = connectparticipant("POST", "/participant/message", args)
-
-"""
-    DisconnectParticipant()
-
-Disconnects a participant. Note that ConnectionToken is used for invoking this API instead of ParticipantToken.
-
-Required Parameters
-{
-  "ConnectionToken": "The authentication token associated with the participant's connection."
-}
-
-Optional Parameters
-{
-  "ClientToken": "A unique, case-sensitive identifier that you provide to ensure the idempotency of the request."
-}
-"""
-DisconnectParticipant(args) = connectparticipant("POST", "/participant/disconnect", args)

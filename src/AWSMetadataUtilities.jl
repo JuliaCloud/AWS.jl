@@ -196,6 +196,8 @@ function _get_function_parameters(input::String, shapes::Dict)
         end
     end
 
+    # TODO: Use the LocationName instead of the parameter name
+    # https://github.com/aws/aws-sdk-js/blob/master/apis/s3-2006-03-01.normal.json#L5750
     if haskey(input_shape, "members")
         for parameter in input_shape["members"]
             parameter_name = parameter[1]
@@ -206,7 +208,7 @@ function _get_function_parameters(input::String, shapes::Dict)
         end
     end
 
-    return (required_parameters, optional_parameters)
+    return (sort(required_parameters), sort(optional_parameters))
 end
 
 """
@@ -305,8 +307,8 @@ function _generate_high_level_definition(
     name::String,
     method::String,
     request_uri::String,
-    required_parameters::Dict,
-    optional_parameters::Dict,
+    required_parameters::AbstractDict,
+    optional_parameters::AbstractDict,
     documentation::String
 )
     required_param_keys = collect(keys(required_parameters))

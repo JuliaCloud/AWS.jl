@@ -56,8 +56,8 @@ Required Parameters
 Optional Parameters
 {
   "maxResults": "The maximum number of results to return at one time.",
-  "stateName": "A filter that limits results to those detectors (instances) in the given state.",
-  "nextToken": "The token for the next set of results."
+  "nextToken": "The token for the next set of results.",
+  "stateName": "A filter that limits results to those detectors (instances) in the given state."
 }
 """
 ListDetectors(args) = iot_events_data("GET", "/detectors/{detectorModelName}", args)

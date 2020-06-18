@@ -9,8 +9,8 @@ The PutEvents operation records one or more events. You can have up to 1,500 uni
 
 Required Parameters
 {
-  "events": "An array of Event JSON objects",
-  "clientContext": "The client context including the client ID, app title, app version and package name."
+  "clientContext": "The client context including the client ID, app title, app version and package name.",
+  "events": "An array of Event JSON objects"
 }
 
 Optional Parameters

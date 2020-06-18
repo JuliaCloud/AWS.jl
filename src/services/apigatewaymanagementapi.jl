@@ -3,6 +3,18 @@ include("../AWSServices.jl")
 using .AWSServices: apigatewaymanagementapi
 
 """
+    DeleteConnection()
+
+Delete the connection with the provided id.
+
+Required Parameters
+{
+  "ConnectionId": ""
+}
+"""
+DeleteConnection(args) = apigatewaymanagementapi("DELETE", "/@connections/{connectionId}", args)
+
+"""
     GetConnection()
 
 Get information about the connection with the provided id.
@@ -26,15 +38,3 @@ Required Parameters
 }
 """
 PostToConnection(args) = apigatewaymanagementapi("POST", "/@connections/{connectionId}", args)
-
-"""
-    DeleteConnection()
-
-Delete the connection with the provided id.
-
-Required Parameters
-{
-  "ConnectionId": ""
-}
-"""
-DeleteConnection(args) = apigatewaymanagementapi("DELETE", "/@connections/{connectionId}", args)

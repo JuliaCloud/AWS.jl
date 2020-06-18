@@ -3,30 +3,6 @@ include("../AWSServices.jl")
 using .AWSServices: outposts
 
 """
-    DeleteOutpost()
-
-Deletes the Outpost.
-
-Required Parameters
-{
-  "OutpostId": ""
-}
-"""
-DeleteOutpost(args) = outposts("DELETE", "/outposts/{OutpostId}", args)
-
-"""
-    GetOutpost()
-
-Gets information about the specified Outpost.
-
-Required Parameters
-{
-  "OutpostId": ""
-}
-"""
-GetOutpost(args) = outposts("GET", "/outposts/{OutpostId}", args)
-
-"""
     CreateOutpost()
 
 Creates an Outpost.
@@ -38,13 +14,25 @@ Required Parameters
 
 Optional Parameters
 {
-  "Description": "",
   "AvailabilityZone": "",
   "AvailabilityZoneId": "",
+  "Description": "",
   "Name": ""
 }
 """
 CreateOutpost(args) = outposts("POST", "/outposts", args)
+
+"""
+    DeleteOutpost()
+
+Deletes the Outpost.
+
+Required Parameters
+{
+  "OutpostId": ""
+}
+"""
+DeleteOutpost(args) = outposts("DELETE", "/outposts/{OutpostId}", args)
 
 """
     DeleteSite()
@@ -59,18 +47,16 @@ Required Parameters
 DeleteSite(args) = outposts("DELETE", "/sites/{SiteId}", args)
 
 """
-    ListSites()
+    GetOutpost()
 
-Lists the sites for the specified AWS account.
+Gets information about the specified Outpost.
 
-Optional Parameters
+Required Parameters
 {
-  "MaxResults": "",
-  "NextToken": ""
+  "OutpostId": ""
 }
 """
-ListSites() = outposts("GET", "/sites")
-ListSites(args) = outposts("GET", "/sites", args)
+GetOutpost(args) = outposts("GET", "/outposts/{OutpostId}", args)
 
 """
     GetOutpostInstanceTypes()
@@ -103,3 +89,17 @@ Optional Parameters
 """
 ListOutposts() = outposts("GET", "/outposts")
 ListOutposts(args) = outposts("GET", "/outposts", args)
+
+"""
+    ListSites()
+
+Lists the sites for the specified AWS account.
+
+Optional Parameters
+{
+  "MaxResults": "",
+  "NextToken": ""
+}
+"""
+ListSites() = outposts("GET", "/sites")
+ListSites(args) = outposts("GET", "/sites", args)

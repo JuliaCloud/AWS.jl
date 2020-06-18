@@ -3,18 +3,6 @@ include("../AWSServices.jl")
 using .AWSServices: iot_data_plane
 
 """
-    GetThingShadow()
-
-Gets the thing shadow for the specified thing. For more information, see GetThingShadow in the AWS IoT Developer Guide.
-
-Required Parameters
-{
-  "thingName": "The name of the thing."
-}
-"""
-GetThingShadow(args) = iot_data_plane("GET", "/things/{thingName}/shadow", args)
-
-"""
     DeleteThingShadow()
 
 Deletes the thing shadow for the specified thing. For more information, see DeleteThingShadow in the AWS IoT Developer Guide.
@@ -25,6 +13,18 @@ Required Parameters
 }
 """
 DeleteThingShadow(args) = iot_data_plane("DELETE", "/things/{thingName}/shadow", args)
+
+"""
+    GetThingShadow()
+
+Gets the thing shadow for the specified thing. For more information, see GetThingShadow in the AWS IoT Developer Guide.
+
+Required Parameters
+{
+  "thingName": "The name of the thing."
+}
+"""
+GetThingShadow(args) = iot_data_plane("GET", "/things/{thingName}/shadow", args)
 
 """
     Publish()
@@ -38,8 +38,8 @@ Required Parameters
 
 Optional Parameters
 {
-  "qos": "The Quality of Service (QoS) level.",
-  "payload": "The state information, in JSON format."
+  "payload": "The state information, in JSON format.",
+  "qos": "The Quality of Service (QoS) level."
 }
 """
 Publish(args) = iot_data_plane("POST", "/topics/{topic}", args)
@@ -51,8 +51,8 @@ Updates the thing shadow for the specified thing. For more information, see Upda
 
 Required Parameters
 {
-  "thingName": "The name of the thing.",
-  "payload": "The state information, in JSON format."
+  "payload": "The state information, in JSON format.",
+  "thingName": "The name of the thing."
 }
 """
 UpdateThingShadow(args) = iot_data_plane("POST", "/things/{thingName}/shadow", args)

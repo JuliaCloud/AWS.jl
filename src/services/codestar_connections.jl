@@ -3,6 +3,36 @@ include("../AWSServices.jl")
 using .AWSServices: codestar_connections
 
 """
+    CreateConnection()
+
+Creates a connection that can then be given to other AWS services like CodePipeline so that it can access third-party code repositories. The connection is in pending status until the third-party connection handshake is completed from the console.
+
+Required Parameters
+{
+  "ConnectionName": "The name of the connection to be created. The name must be unique in the calling AWS account.",
+  "ProviderType": "The name of the external provider where your third-party code repository is configured. Currently, the valid provider type is Bitbucket."
+}
+
+Optional Parameters
+{
+  "Tags": "The key-value pair to use when tagging the resource."
+}
+"""
+CreateConnection(args) = codestar_connections("CreateConnection", args)
+
+"""
+    DeleteConnection()
+
+The connection to be deleted.
+
+Required Parameters
+{
+  "ConnectionArn": "The Amazon Resource Name (ARN) of the connection to be deleted.  The ARN is never reused if the connection is deleted. "
+}
+"""
+DeleteConnection(args) = codestar_connections("DeleteConnection", args)
+
+"""
     GetConnection()
 
 Returns the connection ARN and details such as status, owner, and provider type.
@@ -22,34 +52,47 @@ Lists the connections associated with your account.
 Optional Parameters
 {
   "MaxResults": "The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value.",
-  "ProviderTypeFilter": "Filters the list of connections to those associated with a specified provider, such as Bitbucket.",
-  "NextToken": "The token that was returned from the previous ListConnections call, which can be used to return the next set of connections in the list."
+  "NextToken": "The token that was returned from the previous ListConnections call, which can be used to return the next set of connections in the list.",
+  "ProviderTypeFilter": "Filters the list of connections to those associated with a specified provider, such as Bitbucket."
 }
 """
 ListConnections() = codestar_connections("ListConnections")
 ListConnections(args) = codestar_connections("ListConnections", args)
 
 """
-    CreateConnection()
+    ListTagsForResource()
 
-Creates a connection that can then be given to other AWS services like CodePipeline so that it can access third-party code repositories. The connection is in pending status until the third-party connection handshake is completed from the console.
-
-Required Parameters
-{
-  "ConnectionName": "The name of the connection to be created. The name must be unique in the calling AWS account.",
-  "ProviderType": "The name of the external provider where your third-party code repository is configured. Currently, the valid provider type is Bitbucket."
-}
-"""
-CreateConnection(args) = codestar_connections("CreateConnection", args)
-
-"""
-    DeleteConnection()
-
-The connection to be deleted.
+Gets the set of key-value pairs (metadata) that are used to manage the resource.
 
 Required Parameters
 {
-  "ConnectionArn": "The Amazon Resource Name (ARN) of the connection to be deleted.  The ARN is never reused if the connection is deleted. "
+  "ResourceArn": "The Amazon Resource Name (ARN) of the resource for which you want to get information about tags, if any."
 }
 """
-DeleteConnection(args) = codestar_connections("DeleteConnection", args)
+ListTagsForResource(args) = codestar_connections("ListTagsForResource", args)
+
+"""
+    TagResource()
+
+Adds to or modifies the tags of the given resource. Tags are metadata that can be used to manage a resource.
+
+Required Parameters
+{
+  "ResourceArn": "The Amazon Resource Name (ARN) of the resource to which you want to add or update tags.",
+  "Tags": "The tags you want to modify or add to the resource."
+}
+"""
+TagResource(args) = codestar_connections("TagResource", args)
+
+"""
+    UntagResource()
+
+Removes tags from an AWS resource.
+
+Required Parameters
+{
+  "ResourceArn": "The Amazon Resource Name (ARN) of the resource to remove tags from.",
+  "TagKeys": "The list of keys for the tags to be removed from the resource."
+}
+"""
+UntagResource(args) = codestar_connections("UntagResource", args)

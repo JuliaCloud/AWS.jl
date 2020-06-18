@@ -3,18 +3,6 @@ include("../AWSServices.jl")
 using .AWSServices: savingsplans
 
 """
-    ListTagsForResource()
-
-Lists the tags for the specified resource.
-
-Required Parameters
-{
-  "resourceArn": "The Amazon Resource Name (ARN) of the resource."
-}
-"""
-ListTagsForResource(args) = savingsplans("POST", "/ListTagsForResource", args)
-
-"""
     CreateSavingsPlan()
 
 Creates a Savings Plan.
@@ -27,37 +15,12 @@ Required Parameters
 
 Optional Parameters
 {
-  "upfrontPaymentAmount": "The up-front payment amount. This is a whole number between 50 and 99 percent of the total value of the Savings Plan. This parameter is supported only if the payment option is Partial Upfront.",
   "clientToken": "Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.",
-  "tags": "One or more tags."
+  "tags": "One or more tags.",
+  "upfrontPaymentAmount": "The up-front payment amount. This is a whole number between 50 and 99 percent of the total value of the Savings Plan. This parameter is supported only if the payment option is Partial Upfront."
 }
 """
 CreateSavingsPlan(args) = savingsplans("POST", "/CreateSavingsPlan", args)
-
-"""
-    DescribeSavingsPlansOfferings()
-
-Describes the specified Savings Plans offerings.
-
-Optional Parameters
-{
-  "descriptions": "The descriptions.",
-  "nextToken": "The token for the next page of results.",
-  "operations": "The specific AWS operation for the line item in the billing report.",
-  "usageTypes": "The usage details of the line item in the billing report.",
-  "durations": "The durations, in seconds.",
-  "paymentOptions": "The payment options.",
-  "serviceCodes": "The services.",
-  "currencies": "The currencies.",
-  "offeringIds": "The IDs of the offerings.",
-  "productType": "The product type.",
-  "filters": "The filters.",
-  "planTypes": "The plan type.",
-  "maxResults": "The maximum number of results to return with a single call. To retrieve additional results, make another call with the returned token value."
-}
-"""
-DescribeSavingsPlansOfferings() = savingsplans("POST", "/DescribeSavingsPlansOfferings")
-DescribeSavingsPlansOfferings(args) = savingsplans("POST", "/DescribeSavingsPlansOfferings", args)
 
 """
     DescribeSavingsPlanRates()
@@ -79,28 +42,6 @@ Optional Parameters
 DescribeSavingsPlanRates(args) = savingsplans("POST", "/DescribeSavingsPlanRates", args)
 
 """
-    DescribeSavingsPlansOfferingRates()
-
-Describes the specified Savings Plans offering rates.
-
-Optional Parameters
-{
-  "operations": "The specific AWS operation for the line item in the billing report.",
-  "filters": "The filters.",
-  "savingsPlanOfferingIds": "The IDs of the offerings.",
-  "usageTypes": "The usage details of the line item in the billing report.",
-  "products": "The AWS products.",
-  "savingsPlanTypes": "The plan types.",
-  "maxResults": "The maximum number of results to return with a single call. To retrieve additional results, make another call with the returned token value.",
-  "savingsPlanPaymentOptions": "The payment options.",
-  "nextToken": "The token for the next page of results.",
-  "serviceCodes": "The services."
-}
-"""
-DescribeSavingsPlansOfferingRates() = savingsplans("POST", "/DescribeSavingsPlansOfferingRates")
-DescribeSavingsPlansOfferingRates(args) = savingsplans("POST", "/DescribeSavingsPlansOfferingRates", args)
-
-"""
     DescribeSavingsPlans()
 
 Describes the specified Savings Plans.
@@ -108,15 +49,74 @@ Describes the specified Savings Plans.
 Optional Parameters
 {
   "filters": "The filters.",
-  "savingsPlanArns": "The Amazon Resource Names (ARN) of the Savings Plans.",
   "maxResults": "The maximum number of results to return with a single call. To retrieve additional results, make another call with the returned token value.",
   "nextToken": "The token for the next page of results.",
-  "states": "The states.",
-  "savingsPlanIds": "The IDs of the Savings Plans."
+  "savingsPlanArns": "The Amazon Resource Names (ARN) of the Savings Plans.",
+  "savingsPlanIds": "The IDs of the Savings Plans.",
+  "states": "The states."
 }
 """
 DescribeSavingsPlans() = savingsplans("POST", "/DescribeSavingsPlans")
 DescribeSavingsPlans(args) = savingsplans("POST", "/DescribeSavingsPlans", args)
+
+"""
+    DescribeSavingsPlansOfferingRates()
+
+Describes the specified Savings Plans offering rates.
+
+Optional Parameters
+{
+  "filters": "The filters.",
+  "maxResults": "The maximum number of results to return with a single call. To retrieve additional results, make another call with the returned token value.",
+  "nextToken": "The token for the next page of results.",
+  "operations": "The specific AWS operation for the line item in the billing report.",
+  "products": "The AWS products.",
+  "savingsPlanOfferingIds": "The IDs of the offerings.",
+  "savingsPlanPaymentOptions": "The payment options.",
+  "savingsPlanTypes": "The plan types.",
+  "serviceCodes": "The services.",
+  "usageTypes": "The usage details of the line item in the billing report."
+}
+"""
+DescribeSavingsPlansOfferingRates() = savingsplans("POST", "/DescribeSavingsPlansOfferingRates")
+DescribeSavingsPlansOfferingRates(args) = savingsplans("POST", "/DescribeSavingsPlansOfferingRates", args)
+
+"""
+    DescribeSavingsPlansOfferings()
+
+Describes the specified Savings Plans offerings.
+
+Optional Parameters
+{
+  "currencies": "The currencies.",
+  "descriptions": "The descriptions.",
+  "durations": "The durations, in seconds.",
+  "filters": "The filters.",
+  "maxResults": "The maximum number of results to return with a single call. To retrieve additional results, make another call with the returned token value.",
+  "nextToken": "The token for the next page of results.",
+  "offeringIds": "The IDs of the offerings.",
+  "operations": "The specific AWS operation for the line item in the billing report.",
+  "paymentOptions": "The payment options.",
+  "planTypes": "The plan type.",
+  "productType": "The product type.",
+  "serviceCodes": "The services.",
+  "usageTypes": "The usage details of the line item in the billing report."
+}
+"""
+DescribeSavingsPlansOfferings() = savingsplans("POST", "/DescribeSavingsPlansOfferings")
+DescribeSavingsPlansOfferings(args) = savingsplans("POST", "/DescribeSavingsPlansOfferings", args)
+
+"""
+    ListTagsForResource()
+
+Lists the tags for the specified resource.
+
+Required Parameters
+{
+  "resourceArn": "The Amazon Resource Name (ARN) of the resource."
+}
+"""
+ListTagsForResource(args) = savingsplans("POST", "/ListTagsForResource", args)
 
 """
     TagResource()

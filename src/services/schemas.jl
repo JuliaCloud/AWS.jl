@@ -3,183 +3,6 @@ include("../AWSServices.jl")
 using .AWSServices: schemas
 
 """
-    ListTagsForResource()
-
-Get tags for resource.
-
-Required Parameters
-{
-  "ResourceArn": ""
-}
-"""
-ListTagsForResource(args) = schemas("GET", "/tags/{resource-arn}", args)
-
-"""
-    DeleteSchema()
-
-Delete a schema definition.
-
-Required Parameters
-{
-  "SchemaName": "",
-  "RegistryName": ""
-}
-"""
-DeleteSchema(args) = schemas("DELETE", "/v1/registries/name/{registryName}/schemas/name/{schemaName}", args)
-
-"""
-    DeleteRegistry()
-
-Deletes a Registry.
-
-Required Parameters
-{
-  "RegistryName": ""
-}
-"""
-DeleteRegistry(args) = schemas("DELETE", "/v1/registries/name/{registryName}", args)
-
-"""
-    GetDiscoveredSchema()
-
-Get the discovered schema that was generated based on sampled events.
-
-Required Parameters
-{
-  "Type": "The type of event.",
-  "Events": "An array of strings that"
-}
-"""
-GetDiscoveredSchema(args) = schemas("POST", "/v1/discover", args)
-
-"""
-    SearchSchemas()
-
-Search the schemas
-
-Required Parameters
-{
-  "RegistryName": "",
-  "Keywords": ""
-}
-
-Optional Parameters
-{
-  "NextToken": "",
-  "Limit": ""
-}
-"""
-SearchSchemas(args) = schemas("GET", "/v1/registries/name/{registryName}/schemas/search", args)
-
-"""
-    UnlockServiceLinkedRole()
-
-
-
-Required Parameters
-{
-  "RoleArn": ""
-}
-"""
-UnlockServiceLinkedRole(args) = schemas("POST", "/slr-deletion/unlock", args)
-
-"""
-    ListDiscoverers()
-
-List the discoverers.
-
-Optional Parameters
-{
-  "NextToken": "",
-  "SourceArnPrefix": "",
-  "DiscovererIdPrefix": "",
-  "Limit": ""
-}
-"""
-ListDiscoverers() = schemas("GET", "/v1/discoverers")
-ListDiscoverers(args) = schemas("GET", "/v1/discoverers", args)
-
-"""
-    CreateRegistry()
-
-Creates a registry.
-
-Required Parameters
-{
-  "RegistryName": ""
-}
-
-Optional Parameters
-{
-  "Description": "A description of the registry to be created.",
-  "Tags": "Tags to associate with the registry."
-}
-"""
-CreateRegistry(args) = schemas("POST", "/v1/registries/name/{registryName}", args)
-
-"""
-    ListRegistries()
-
-List the registries.
-
-Optional Parameters
-{
-  "NextToken": "",
-  "RegistryNamePrefix": "",
-  "Scope": "",
-  "Limit": ""
-}
-"""
-ListRegistries() = schemas("GET", "/v1/registries")
-ListRegistries(args) = schemas("GET", "/v1/registries", args)
-
-"""
-    DescribeCodeBinding()
-
-Describe the code binding URI.
-
-Required Parameters
-{
-  "SchemaName": "",
-  "RegistryName": "",
-  "Language": ""
-}
-
-Optional Parameters
-{
-  "SchemaVersion": ""
-}
-"""
-DescribeCodeBinding(args) = schemas("GET", "/v1/registries/name/{registryName}/schemas/name/{schemaName}/language/{language}", args)
-
-"""
-    DeleteSchemaVersion()
-
-Delete the schema version definition
-
-Required Parameters
-{
-  "SchemaName": "",
-  "RegistryName": "",
-  "SchemaVersion": ""
-}
-"""
-DeleteSchemaVersion(args) = schemas("DELETE", "/v1/registries/name/{registryName}/schemas/name/{schemaName}/version/{schemaVersion}", args)
-
-"""
-    LockServiceLinkedRole()
-
-
-
-Required Parameters
-{
-  "Timeout": "",
-  "RoleArn": ""
-}
-"""
-LockServiceLinkedRole(args) = schemas("POST", "/slr-deletion/lock", args)
-
-"""
     CreateDiscoverer()
 
 Creates a discoverer.
@@ -198,167 +21,34 @@ Optional Parameters
 CreateDiscoverer(args) = schemas("POST", "/v1/discoverers", args)
 
 """
-    DescribeRegistry()
+    CreateRegistry()
 
-Describes the registry.
-
-Required Parameters
-{
-  "RegistryName": ""
-}
-"""
-DescribeRegistry(args) = schemas("GET", "/v1/registries/name/{registryName}", args)
-
-"""
-    UpdateDiscoverer()
-
-Updates the discoverer
+Creates a registry.
 
 Required Parameters
 {
-  "DiscovererId": ""
+  "RegistryName": "The name of the registry."
 }
 
 Optional Parameters
 {
-  "Description": "The description of the discoverer to update."
+  "Description": "A description of the registry to be created.",
+  "Tags": "Tags to associate with the registry."
 }
 """
-UpdateDiscoverer(args) = schemas("PUT", "/v1/discoverers/id/{discovererId}", args)
-
-"""
-    ListSchemaVersions()
-
-Provides a list of the schema versions and related information.
-
-Required Parameters
-{
-  "SchemaName": "",
-  "RegistryName": ""
-}
-
-Optional Parameters
-{
-  "NextToken": "",
-  "Limit": ""
-}
-"""
-ListSchemaVersions(args) = schemas("GET", "/v1/registries/name/{registryName}/schemas/name/{schemaName}/versions", args)
-
-"""
-    GetCodeBindingSource()
-
-Get the code binding source URI.
-
-Required Parameters
-{
-  "SchemaName": "",
-  "RegistryName": "",
-  "Language": ""
-}
-
-Optional Parameters
-{
-  "SchemaVersion": ""
-}
-"""
-GetCodeBindingSource(args) = schemas("GET", "/v1/registries/name/{registryName}/schemas/name/{schemaName}/language/{language}/source", args)
-
-"""
-    DescribeSchema()
-
-Retrieve the schema definition.
-
-Required Parameters
-{
-  "SchemaName": "",
-  "RegistryName": ""
-}
-
-Optional Parameters
-{
-  "SchemaVersion": ""
-}
-"""
-DescribeSchema(args) = schemas("GET", "/v1/registries/name/{registryName}/schemas/name/{schemaName}", args)
-
-"""
-    TagResource()
-
-Add tags to a resource.
-
-Required Parameters
-{
-  "ResourceArn": "",
-  "Tags": ""
-}
-"""
-TagResource(args) = schemas("POST", "/tags/{resource-arn}", args)
-
-"""
-    UntagResource()
-
-Removes tags from a resource.
-
-Required Parameters
-{
-  "ResourceArn": "",
-  "TagKeys": ""
-}
-"""
-UntagResource(args) = schemas("DELETE", "/tags/{resource-arn}", args)
-
-"""
-    UpdateSchema()
-
-Updates the schema definition
-
-Required Parameters
-{
-  "SchemaName": "",
-  "RegistryName": ""
-}
-
-Optional Parameters
-{
-  "Description": "The description of the schema.",
-  "Content": "The source of the schema definition.",
-  "Type": "The schema type for the events schema.",
-  "ClientTokenId": "The ID of the client token."
-}
-"""
-UpdateSchema(args) = schemas("PUT", "/v1/registries/name/{registryName}/schemas/name/{schemaName}", args)
-
-"""
-    PutCodeBinding()
-
-Put code binding URI
-
-Required Parameters
-{
-  "SchemaName": "",
-  "RegistryName": "",
-  "Language": ""
-}
-
-Optional Parameters
-{
-  "SchemaVersion": ""
-}
-"""
-PutCodeBinding(args) = schemas("POST", "/v1/registries/name/{registryName}/schemas/name/{schemaName}/language/{language}", args)
+CreateRegistry(args) = schemas("POST", "/v1/registries/name/{registryName}", args)
 
 """
     CreateSchema()
 
-Creates a schema definition.
+Creates a schema definition. Inactive schemas will be deleted after two years.
 
 Required Parameters
 {
-  "Content": "",
-  "SchemaName": "",
-  "RegistryName": "",
-  "Type": ""
+  "Content": "The source of the schema definition.",
+  "RegistryName": "The name of the registry.",
+  "SchemaName": "The name of the schema.",
+  "Type": "The type of schema."
 }
 
 Optional Parameters
@@ -376,10 +66,81 @@ Deletes a discoverer.
 
 Required Parameters
 {
-  "DiscovererId": ""
+  "DiscovererId": "The ID of the discoverer."
 }
 """
 DeleteDiscoverer(args) = schemas("DELETE", "/v1/discoverers/id/{discovererId}", args)
+
+"""
+    DeleteRegistry()
+
+Deletes a Registry.
+
+Required Parameters
+{
+  "RegistryName": "The name of the registry."
+}
+"""
+DeleteRegistry(args) = schemas("DELETE", "/v1/registries/name/{registryName}", args)
+
+"""
+    DeleteResourcePolicy()
+
+Delete the resource-based policy attached to the specified registry.
+
+Optional Parameters
+{
+  "RegistryName": "The name of the registry."
+}
+"""
+DeleteResourcePolicy() = schemas("DELETE", "/v1/policy")
+DeleteResourcePolicy(args) = schemas("DELETE", "/v1/policy", args)
+
+"""
+    DeleteSchema()
+
+Delete a schema definition.
+
+Required Parameters
+{
+  "RegistryName": "The name of the registry.",
+  "SchemaName": "The name of the schema."
+}
+"""
+DeleteSchema(args) = schemas("DELETE", "/v1/registries/name/{registryName}/schemas/name/{schemaName}", args)
+
+"""
+    DeleteSchemaVersion()
+
+Delete the schema version definition
+
+Required Parameters
+{
+  "RegistryName": "The name of the registry.",
+  "SchemaName": "The name of the schema.",
+  "SchemaVersion": "The version number of the schema"
+}
+"""
+DeleteSchemaVersion(args) = schemas("DELETE", "/v1/registries/name/{registryName}/schemas/name/{schemaName}/version/{schemaVersion}", args)
+
+"""
+    DescribeCodeBinding()
+
+Describe the code binding URI.
+
+Required Parameters
+{
+  "Language": "The language of the code binding.",
+  "RegistryName": "The name of the registry.",
+  "SchemaName": "The name of the schema."
+}
+
+Optional Parameters
+{
+  "SchemaVersion": "Specifying this limits the results to only this schema version."
+}
+"""
+DescribeCodeBinding(args) = schemas("GET", "/v1/registries/name/{registryName}/schemas/name/{schemaName}/language/{language}", args)
 
 """
     DescribeDiscoverer()
@@ -388,10 +149,136 @@ Describes the discoverer.
 
 Required Parameters
 {
-  "DiscovererId": ""
+  "DiscovererId": "The ID of the discoverer."
 }
 """
 DescribeDiscoverer(args) = schemas("GET", "/v1/discoverers/id/{discovererId}", args)
+
+"""
+    DescribeRegistry()
+
+Describes the registry.
+
+Required Parameters
+{
+  "RegistryName": "The name of the registry."
+}
+"""
+DescribeRegistry(args) = schemas("GET", "/v1/registries/name/{registryName}", args)
+
+"""
+    DescribeSchema()
+
+Retrieve the schema definition.
+
+Required Parameters
+{
+  "RegistryName": "The name of the registry.",
+  "SchemaName": "The name of the schema."
+}
+
+Optional Parameters
+{
+  "SchemaVersion": "Specifying this limits the results to only this schema version."
+}
+"""
+DescribeSchema(args) = schemas("GET", "/v1/registries/name/{registryName}/schemas/name/{schemaName}", args)
+
+"""
+    GetCodeBindingSource()
+
+Get the code binding source URI.
+
+Required Parameters
+{
+  "Language": "The language of the code binding.",
+  "RegistryName": "The name of the registry.",
+  "SchemaName": "The name of the schema."
+}
+
+Optional Parameters
+{
+  "SchemaVersion": "Specifying this limits the results to only this schema version."
+}
+"""
+GetCodeBindingSource(args) = schemas("GET", "/v1/registries/name/{registryName}/schemas/name/{schemaName}/language/{language}/source", args)
+
+"""
+    GetDiscoveredSchema()
+
+Get the discovered schema that was generated based on sampled events.
+
+Required Parameters
+{
+  "Events": "An array of strings where each string is a JSON event. These are the events that were used to generate the schema. The array includes a single type of event and has a maximum size of 10 events.",
+  "Type": "The type of event."
+}
+"""
+GetDiscoveredSchema(args) = schemas("POST", "/v1/discover", args)
+
+"""
+    GetResourcePolicy()
+
+Retrieves the resource-based policy attached to a given registry.
+
+Optional Parameters
+{
+  "RegistryName": "The name of the registry."
+}
+"""
+GetResourcePolicy() = schemas("GET", "/v1/policy")
+GetResourcePolicy(args) = schemas("GET", "/v1/policy", args)
+
+"""
+    ListDiscoverers()
+
+List the discoverers.
+
+Optional Parameters
+{
+  "DiscovererIdPrefix": "Specifying this limits the results to only those discoverer IDs that start with the specified prefix.",
+  "Limit": "",
+  "NextToken": "The token that specifies the next page of results to return. To request the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared with other accounts.",
+  "SourceArnPrefix": "Specifying this limits the results to only those ARNs that start with the specified prefix."
+}
+"""
+ListDiscoverers() = schemas("GET", "/v1/discoverers")
+ListDiscoverers(args) = schemas("GET", "/v1/discoverers", args)
+
+"""
+    ListRegistries()
+
+List the registries.
+
+Optional Parameters
+{
+  "Limit": "",
+  "NextToken": "The token that specifies the next page of results to return. To request the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared with other accounts.",
+  "RegistryNamePrefix": "Specifying this limits the results to only those registry names that start with the specified prefix.",
+  "Scope": "Can be set to Local or AWS to limit responses to your custom registries, or the ones provided by AWS."
+}
+"""
+ListRegistries() = schemas("GET", "/v1/registries")
+ListRegistries(args) = schemas("GET", "/v1/registries", args)
+
+"""
+    ListSchemaVersions()
+
+Provides a list of the schema versions and related information.
+
+Required Parameters
+{
+  "RegistryName": "The name of the registry.",
+  "SchemaName": "The name of the schema."
+}
+
+Optional Parameters
+{
+  "Limit": "",
+  "NextToken": "The token that specifies the next page of results to return. To request the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared with other accounts."
+}
+"""
+ListSchemaVersions(args) = schemas("GET", "/v1/registries/name/{registryName}/schemas/name/{schemaName}/versions", args)
 
 """
     ListSchemas()
@@ -400,17 +287,85 @@ List the schemas.
 
 Required Parameters
 {
-  "RegistryName": ""
+  "RegistryName": "The name of the registry."
 }
 
 Optional Parameters
 {
-  "NextToken": "",
-  "SchemaNamePrefix": "",
-  "Limit": ""
+  "Limit": "",
+  "NextToken": "The token that specifies the next page of results to return. To request the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared with other accounts.",
+  "SchemaNamePrefix": "Specifying this limits the results to only those schema names that start with the specified prefix."
 }
 """
 ListSchemas(args) = schemas("GET", "/v1/registries/name/{registryName}/schemas", args)
+
+"""
+    ListTagsForResource()
+
+Get tags for resource.
+
+Required Parameters
+{
+  "ResourceArn": "The ARN of the resource."
+}
+"""
+ListTagsForResource(args) = schemas("GET", "/tags/{resource-arn}", args)
+
+"""
+    PutCodeBinding()
+
+Put code binding URI
+
+Required Parameters
+{
+  "Language": "The language of the code binding.",
+  "RegistryName": "The name of the registry.",
+  "SchemaName": "The name of the schema."
+}
+
+Optional Parameters
+{
+  "SchemaVersion": "Specifying this limits the results to only this schema version."
+}
+"""
+PutCodeBinding(args) = schemas("POST", "/v1/registries/name/{registryName}/schemas/name/{schemaName}/language/{language}", args)
+
+"""
+    PutResourcePolicy()
+
+The name of the policy.
+
+Required Parameters
+{
+  "Policy": "The resource-based policy."
+}
+
+Optional Parameters
+{
+  "RegistryName": "The name of the registry.",
+  "RevisionId": "The revision ID of the policy."
+}
+"""
+PutResourcePolicy(args) = schemas("PUT", "/v1/policy", args)
+
+"""
+    SearchSchemas()
+
+Search the schemas
+
+Required Parameters
+{
+  "Keywords": "Specifying this limits the results to only schemas that include the provided keywords.",
+  "RegistryName": "The name of the registry."
+}
+
+Optional Parameters
+{
+  "Limit": "",
+  "NextToken": "The token that specifies the next page of results to return. To request the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared with other accounts."
+}
+"""
+SearchSchemas(args) = schemas("GET", "/v1/registries/name/{registryName}/schemas/search", args)
 
 """
     StartDiscoverer()
@@ -419,10 +374,65 @@ Starts the discoverer
 
 Required Parameters
 {
-  "DiscovererId": ""
+  "DiscovererId": "The ID of the discoverer."
 }
 """
 StartDiscoverer(args) = schemas("POST", "/v1/discoverers/id/{discovererId}/start", args)
+
+"""
+    StopDiscoverer()
+
+Stops the discoverer
+
+Required Parameters
+{
+  "DiscovererId": "The ID of the discoverer."
+}
+"""
+StopDiscoverer(args) = schemas("POST", "/v1/discoverers/id/{discovererId}/stop", args)
+
+"""
+    TagResource()
+
+Add tags to a resource.
+
+Required Parameters
+{
+  "ResourceArn": "The ARN of the resource.",
+  "Tags": "Tags associated with the resource."
+}
+"""
+TagResource(args) = schemas("POST", "/tags/{resource-arn}", args)
+
+"""
+    UntagResource()
+
+Removes tags from a resource.
+
+Required Parameters
+{
+  "ResourceArn": "The ARN of the resource.",
+  "TagKeys": "Keys of key-value pairs."
+}
+"""
+UntagResource(args) = schemas("DELETE", "/tags/{resource-arn}", args)
+
+"""
+    UpdateDiscoverer()
+
+Updates the discoverer
+
+Required Parameters
+{
+  "DiscovererId": "The ID of the discoverer."
+}
+
+Optional Parameters
+{
+  "Description": "The description of the discoverer to update."
+}
+"""
+UpdateDiscoverer(args) = schemas("PUT", "/v1/discoverers/id/{discovererId}", args)
 
 """
     UpdateRegistry()
@@ -431,7 +441,7 @@ Updates a registry.
 
 Required Parameters
 {
-  "RegistryName": ""
+  "RegistryName": "The name of the registry."
 }
 
 Optional Parameters
@@ -442,13 +452,22 @@ Optional Parameters
 UpdateRegistry(args) = schemas("PUT", "/v1/registries/name/{registryName}", args)
 
 """
-    StopDiscoverer()
+    UpdateSchema()
 
-Stops the discoverer
+Updates the schema definition Inactive schemas will be deleted after two years.
 
 Required Parameters
 {
-  "DiscovererId": ""
+  "RegistryName": "The name of the registry.",
+  "SchemaName": "The name of the schema."
+}
+
+Optional Parameters
+{
+  "ClientTokenId": "The ID of the client token.",
+  "Content": "The source of the schema definition.",
+  "Description": "The description of the schema.",
+  "Type": "The schema type for the events schema."
 }
 """
-StopDiscoverer(args) = schemas("POST", "/v1/discoverers/id/{discovererId}/stop", args)
+UpdateSchema(args) = schemas("PUT", "/v1/registries/name/{registryName}/schemas/name/{schemaName}", args)

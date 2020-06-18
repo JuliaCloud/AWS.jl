@@ -3,6 +3,19 @@ include("../AWSServices.jl")
 using .AWSServices: pinpoint_sms_voice
 
 """
+    CreateConfigurationSet()
+
+Create a new configuration set. After you create the configuration set, you can add one or more event destinations to it.
+
+Optional Parameters
+{
+  "ConfigurationSetName": "The name that you want to give the configuration set."
+}
+"""
+CreateConfigurationSet() = pinpoint_sms_voice("POST", "/v1/sms-voice/configuration-sets")
+CreateConfigurationSet(args) = pinpoint_sms_voice("POST", "/v1/sms-voice/configuration-sets", args)
+
+"""
     CreateConfigurationSetEventDestination()
 
 Create a new event destination in a configuration set.
@@ -21,31 +34,6 @@ Optional Parameters
 CreateConfigurationSetEventDestination(args) = pinpoint_sms_voice("POST", "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations", args)
 
 """
-    GetConfigurationSetEventDestinations()
-
-Obtain information about an event destination, including the types of events it reports, the Amazon Resource Name (ARN) of the destination, and the name of the event destination.
-
-Required Parameters
-{
-  "ConfigurationSetName": "ConfigurationSetName"
-}
-"""
-GetConfigurationSetEventDestinations(args) = pinpoint_sms_voice("GET", "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations", args)
-
-"""
-    CreateConfigurationSet()
-
-Create a new configuration set. After you create the configuration set, you can add one or more event destinations to it.
-
-Optional Parameters
-{
-  "ConfigurationSetName": "The name that you want to give the configuration set."
-}
-"""
-CreateConfigurationSet() = pinpoint_sms_voice("POST", "/v1/sms-voice/configuration-sets")
-CreateConfigurationSet(args) = pinpoint_sms_voice("POST", "/v1/sms-voice/configuration-sets", args)
-
-"""
     DeleteConfigurationSet()
 
 Deletes an existing configuration set.
@@ -56,6 +44,31 @@ Required Parameters
 }
 """
 DeleteConfigurationSet(args) = pinpoint_sms_voice("DELETE", "/v1/sms-voice/configuration-sets/{ConfigurationSetName}", args)
+
+"""
+    DeleteConfigurationSetEventDestination()
+
+Deletes an event destination in a configuration set.
+
+Required Parameters
+{
+  "ConfigurationSetName": "ConfigurationSetName",
+  "EventDestinationName": "EventDestinationName"
+}
+"""
+DeleteConfigurationSetEventDestination(args) = pinpoint_sms_voice("DELETE", "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations/{EventDestinationName}", args)
+
+"""
+    GetConfigurationSetEventDestinations()
+
+Obtain information about an event destination, including the types of events it reports, the Amazon Resource Name (ARN) of the destination, and the name of the event destination.
+
+Required Parameters
+{
+  "ConfigurationSetName": "ConfigurationSetName"
+}
+"""
+GetConfigurationSetEventDestinations(args) = pinpoint_sms_voice("GET", "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations", args)
 
 """
     ListConfigurationSets()
@@ -78,28 +91,15 @@ Create a new voice message and send it to a recipient's phone number.
 
 Optional Parameters
 {
+  "CallerId": "The phone number that appears on recipients' devices when they receive the message.",
   "ConfigurationSetName": "The name of the configuration set that you want to use to send the message.",
   "Content": "",
   "DestinationPhoneNumber": "The phone number that you want to send the voice message to.",
-  "OriginationPhoneNumber": "The phone number that Amazon Pinpoint should use to send the voice message. This isn't necessarily the phone number that appears on recipients' devices when they receive the message, because you can specify a CallerId parameter in the request.",
-  "CallerId": "The phone number that appears on recipients' devices when they receive the message."
+  "OriginationPhoneNumber": "The phone number that Amazon Pinpoint should use to send the voice message. This isn't necessarily the phone number that appears on recipients' devices when they receive the message, because you can specify a CallerId parameter in the request."
 }
 """
 SendVoiceMessage() = pinpoint_sms_voice("POST", "/v1/sms-voice/voice/message")
 SendVoiceMessage(args) = pinpoint_sms_voice("POST", "/v1/sms-voice/voice/message", args)
-
-"""
-    DeleteConfigurationSetEventDestination()
-
-Deletes an event destination in a configuration set.
-
-Required Parameters
-{
-  "ConfigurationSetName": "ConfigurationSetName",
-  "EventDestinationName": "EventDestinationName"
-}
-"""
-DeleteConfigurationSetEventDestination(args) = pinpoint_sms_voice("DELETE", "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations/{EventDestinationName}", args)
 
 """
     UpdateConfigurationSetEventDestination()

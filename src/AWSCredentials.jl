@@ -1,4 +1,3 @@
-using AWSCore: Services
 using IniFile
 using HTTP
 using Dates
@@ -470,61 +469,7 @@ function aws_get_region(profile::AbstractString, ini::Inifile)
 end
 
 
-"""
-    aws_user_arn(aws::AWSConfig) -> String
 
-Retrieve the `User ARN` from the `AWSConfig`, if not present query STS to update the
-`user_arn`.
-
-# Arguments
-- `aws::AWSConfig`: SymbolDict used to retrieve the user arn
-"""
-function aws_user_arn(aws::AWSConfig)
-    creds = aws[:creds]
-
-    if isempty(creds.user_arn)
-        _update_creds(aws)
-    end
-
-    return creds.user_arn
-end
-
-
-"""
-    aws_account_number(aws::AWSConfig) -> String
-
-Retrieve the `AWS account number` from the `AWSConfig`, if not present query STS to update
-the `AWS account number`.
-
-# Arguments
-- `aws::AWSConfig`: SymbolDict used to retrieve the AWS account number
-"""
-function aws_account_number(aws::AWSConfig)
-    creds = aws[:creds]
-
-    if isempty(creds.account_number)
-        _update_creds(aws)
-    end
-
-    return creds.account_number
-end
-
-
-"""
-    _update_creds(aws::AWSConfig) -> AWSConfig
-
-
-Update the `user_arn` and `account_number` from Security Token Services.
-"""
-function _update_creds(aws::AWSConfig)
-    r = Services.sts(aws, "GetCallerIdentity", [])
-    creds = aws[:creds]
-
-    creds.user_arn = r["Arn"]
-    creds.account_number = r["Account"]
-
-    return creds
-end
 
 
 """
@@ -549,7 +494,7 @@ function _aws_get_role(role::AbstractString, ini::Inifile)
     credentials === nothing && return nothing
     config = AWSConfig(:creds => credentials, :region => aws_get_region(source_profile, ini))
 
-    role = Services.sts(
+    role = AWSServices.sts(
         config,
         "AssumeRole",
         RoleArn=role_arn,
