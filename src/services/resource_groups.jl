@@ -19,7 +19,9 @@ Optional Parameters
   "Tags": "The tags to add to the group. A tag is a string-to-string map of key-value pairs. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters."
 }
 """
-CreateGroup(args) = resource_groups("POST", "/groups", args)
+CreateGroup(Name, ResourceQuery) = resource_groups("POST", "/groups")
+CreateGroup(Name, ResourceQuery, args) = resource_groups("POST", "/groups", args)
+CreateGroup(a...; b...) = CreateGroup(a..., b)
 
 """
     DeleteGroup()
@@ -31,7 +33,9 @@ Required Parameters
   "GroupName": "The name of the resource group to delete."
 }
 """
-DeleteGroup(args) = resource_groups("DELETE", "/groups/{GroupName}", args)
+DeleteGroup(GroupName) = resource_groups("DELETE", "/groups/$(GroupName)")
+DeleteGroup(GroupName, args) = resource_groups("DELETE", "/groups/$(GroupName)", args)
+DeleteGroup(a...; b...) = DeleteGroup(a..., b)
 
 """
     GetGroup()
@@ -43,7 +47,9 @@ Required Parameters
   "GroupName": "The name of the resource group."
 }
 """
-GetGroup(args) = resource_groups("GET", "/groups/{GroupName}", args)
+GetGroup(GroupName) = resource_groups("GET", "/groups/$(GroupName)")
+GetGroup(GroupName, args) = resource_groups("GET", "/groups/$(GroupName)", args)
+GetGroup(a...; b...) = GetGroup(a..., b)
 
 """
     GetGroupQuery()
@@ -55,7 +61,9 @@ Required Parameters
   "GroupName": "The name of the resource group."
 }
 """
-GetGroupQuery(args) = resource_groups("GET", "/groups/{GroupName}/query", args)
+GetGroupQuery(GroupName) = resource_groups("GET", "/groups/$(GroupName)/query")
+GetGroupQuery(GroupName, args) = resource_groups("GET", "/groups/$(GroupName)/query", args)
+GetGroupQuery(a...; b...) = GetGroupQuery(a..., b)
 
 """
     GetTags()
@@ -67,7 +75,9 @@ Required Parameters
   "Arn": "The ARN of the resource group for which you want a list of tags. The resource must exist within the account you are using."
 }
 """
-GetTags(args) = resource_groups("GET", "/resources/{Arn}/tags", args)
+GetTags(Arn) = resource_groups("GET", "/resources/$(Arn)/tags")
+GetTags(Arn, args) = resource_groups("GET", "/resources/$(Arn)/tags", args)
+GetTags(a...; b...) = GetTags(a..., b)
 
 """
     ListGroupResources()
@@ -86,7 +96,9 @@ Optional Parameters
   "NextToken": "The NextToken value that is returned in a paginated ListGroupResources request. To get the next page of results, run the call again, add the NextToken parameter, and specify the NextToken value."
 }
 """
-ListGroupResources(args) = resource_groups("POST", "/groups/{GroupName}/resource-identifiers-list", args)
+ListGroupResources(GroupName) = resource_groups("POST", "/groups/$(GroupName)/resource-identifiers-list")
+ListGroupResources(GroupName, args) = resource_groups("POST", "/groups/$(GroupName)/resource-identifiers-list", args)
+ListGroupResources(a...; b...) = ListGroupResources(a..., b)
 
 """
     ListGroups()
@@ -102,6 +114,7 @@ Optional Parameters
 """
 ListGroups() = resource_groups("POST", "/groups-list")
 ListGroups(args) = resource_groups("POST", "/groups-list", args)
+ListGroups(a...; b...) = ListGroups(a..., b)
 
 """
     SearchResources()
@@ -119,7 +132,9 @@ Optional Parameters
   "NextToken": "The NextToken value that is returned in a paginated SearchResources request. To get the next page of results, run the call again, add the NextToken parameter, and specify the NextToken value."
 }
 """
-SearchResources(args) = resource_groups("POST", "/resources/search", args)
+SearchResources(ResourceQuery) = resource_groups("POST", "/resources/search")
+SearchResources(ResourceQuery, args) = resource_groups("POST", "/resources/search", args)
+SearchResources(a...; b...) = SearchResources(a..., b)
 
 """
     Tag()
@@ -132,7 +147,9 @@ Required Parameters
   "Tags": "The tags to add to the specified resource. A tag is a string-to-string map of key-value pairs. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters."
 }
 """
-Tag(args) = resource_groups("PUT", "/resources/{Arn}/tags", args)
+Tag(Arn, Tags) = resource_groups("PUT", "/resources/$(Arn)/tags")
+Tag(Arn, Tags, args) = resource_groups("PUT", "/resources/$(Arn)/tags", args)
+Tag(a...; b...) = Tag(a..., b)
 
 """
     Untag()
@@ -145,7 +162,9 @@ Required Parameters
   "Keys": "The keys of the tags to be removed."
 }
 """
-Untag(args) = resource_groups("PATCH", "/resources/{Arn}/tags", args)
+Untag(Arn, Keys) = resource_groups("PATCH", "/resources/$(Arn)/tags")
+Untag(Arn, Keys, args) = resource_groups("PATCH", "/resources/$(Arn)/tags", args)
+Untag(a...; b...) = Untag(a..., b)
 
 """
     UpdateGroup()
@@ -162,7 +181,9 @@ Optional Parameters
   "Description": "The description of the resource group. Descriptions can have a maximum of 511 characters, including letters, numbers, hyphens, underscores, punctuation, and spaces."
 }
 """
-UpdateGroup(args) = resource_groups("PUT", "/groups/{GroupName}", args)
+UpdateGroup(GroupName) = resource_groups("PUT", "/groups/$(GroupName)")
+UpdateGroup(GroupName, args) = resource_groups("PUT", "/groups/$(GroupName)", args)
+UpdateGroup(a...; b...) = UpdateGroup(a..., b)
 
 """
     UpdateGroupQuery()
@@ -175,4 +196,6 @@ Required Parameters
   "ResourceQuery": "The resource query that determines which AWS resources are members of the resource group."
 }
 """
-UpdateGroupQuery(args) = resource_groups("PUT", "/groups/{GroupName}/query", args)
+UpdateGroupQuery(GroupName, ResourceQuery) = resource_groups("PUT", "/groups/$(GroupName)/query")
+UpdateGroupQuery(GroupName, ResourceQuery, args) = resource_groups("PUT", "/groups/$(GroupName)/query", args)
+UpdateGroupQuery(a...; b...) = UpdateGroupQuery(a..., b)

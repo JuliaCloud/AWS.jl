@@ -19,7 +19,9 @@ Optional Parameters
   "Username": "An optional user ID to be associated with the credentials."
 }
 """
-GetIceServerConfig(args) = kinesis_video_signaling("POST", "/v1/get-ice-server-config", args)
+GetIceServerConfig(ChannelARN) = kinesis_video_signaling("POST", "/v1/get-ice-server-config")
+GetIceServerConfig(ChannelARN, args) = kinesis_video_signaling("POST", "/v1/get-ice-server-config", args)
+GetIceServerConfig(a...; b...) = GetIceServerConfig(a..., b)
 
 """
     SendAlexaOfferToMaster()
@@ -33,4 +35,6 @@ Required Parameters
   "SenderClientId": "The unique identifier for the sender client."
 }
 """
-SendAlexaOfferToMaster(args) = kinesis_video_signaling("POST", "/v1/send-alexa-offer-to-master", args)
+SendAlexaOfferToMaster(ChannelARN, MessagePayload, SenderClientId) = kinesis_video_signaling("POST", "/v1/send-alexa-offer-to-master")
+SendAlexaOfferToMaster(ChannelARN, MessagePayload, SenderClientId, args) = kinesis_video_signaling("POST", "/v1/send-alexa-offer-to-master", args)
+SendAlexaOfferToMaster(a...; b...) = SendAlexaOfferToMaster(a..., b)

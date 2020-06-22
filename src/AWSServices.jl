@@ -38,6 +38,7 @@ const cloudtrail = AWS.JSONService("cloudtrail", "2013-11-01", "1.1", "com.amazo
 const cloudwatch = AWS.QueryService("monitoring", "2010-08-01")
 const cloudwatch_events = AWS.JSONService("events", "2015-10-07", "1.1", "AWSEvents")
 const cloudwatch_logs = AWS.JSONService("logs", "2014-03-28", "1.1", "Logs_20140328")
+const codeartifact = AWS.RestJSONService("codeartifact", "2018-09-22")
 const codebuild = AWS.JSONService("codebuild", "2016-10-06", "1.1", "CodeBuild_20161006")
 const codecommit = AWS.JSONService("codecommit", "2015-04-13", "1.1", "CodeCommit_20150413")
 const codedeploy = AWS.JSONService("codedeploy", "2014-10-06", "1.1", "CodeDeploy_20141006")

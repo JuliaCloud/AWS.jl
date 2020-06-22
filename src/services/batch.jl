@@ -13,7 +13,9 @@ Required Parameters
   "reason": "A message to attach to the job that explains the reason for canceling it. This message is returned by future DescribeJobs operations on the job. This message is also recorded in the AWS Batch activity logs."
 }
 """
-CancelJob(args) = batch("POST", "/v1/canceljob", args)
+CancelJob(jobId, reason) = batch("POST", "/v1/canceljob")
+CancelJob(jobId, reason, args) = batch("POST", "/v1/canceljob", args)
+CancelJob(a...; b...) = CancelJob(a..., b)
 
 """
     CreateComputeEnvironment()
@@ -33,7 +35,9 @@ Optional Parameters
   "state": "The state of the compute environment. If the state is ENABLED, then the compute environment accepts jobs from a queue and can scale out automatically based on queues."
 }
 """
-CreateComputeEnvironment(args) = batch("POST", "/v1/createcomputeenvironment", args)
+CreateComputeEnvironment(computeEnvironmentName, serviceRole, type) = batch("POST", "/v1/createcomputeenvironment")
+CreateComputeEnvironment(computeEnvironmentName, serviceRole, type, args) = batch("POST", "/v1/createcomputeenvironment", args)
+CreateComputeEnvironment(a...; b...) = CreateComputeEnvironment(a..., b)
 
 """
     CreateJobQueue()
@@ -52,7 +56,9 @@ Optional Parameters
   "state": "The state of the job queue. If the job queue state is ENABLED, it is able to accept jobs."
 }
 """
-CreateJobQueue(args) = batch("POST", "/v1/createjobqueue", args)
+CreateJobQueue(computeEnvironmentOrder, jobQueueName, priority) = batch("POST", "/v1/createjobqueue")
+CreateJobQueue(computeEnvironmentOrder, jobQueueName, priority, args) = batch("POST", "/v1/createjobqueue", args)
+CreateJobQueue(a...; b...) = CreateJobQueue(a..., b)
 
 """
     DeleteComputeEnvironment()
@@ -64,7 +70,9 @@ Required Parameters
   "computeEnvironment": "The name or Amazon Resource Name (ARN) of the compute environment to delete."
 }
 """
-DeleteComputeEnvironment(args) = batch("POST", "/v1/deletecomputeenvironment", args)
+DeleteComputeEnvironment(computeEnvironment) = batch("POST", "/v1/deletecomputeenvironment")
+DeleteComputeEnvironment(computeEnvironment, args) = batch("POST", "/v1/deletecomputeenvironment", args)
+DeleteComputeEnvironment(a...; b...) = DeleteComputeEnvironment(a..., b)
 
 """
     DeleteJobQueue()
@@ -76,7 +84,9 @@ Required Parameters
   "jobQueue": "The short name or full Amazon Resource Name (ARN) of the queue to delete."
 }
 """
-DeleteJobQueue(args) = batch("POST", "/v1/deletejobqueue", args)
+DeleteJobQueue(jobQueue) = batch("POST", "/v1/deletejobqueue")
+DeleteJobQueue(jobQueue, args) = batch("POST", "/v1/deletejobqueue", args)
+DeleteJobQueue(a...; b...) = DeleteJobQueue(a..., b)
 
 """
     DeregisterJobDefinition()
@@ -88,7 +98,9 @@ Required Parameters
   "jobDefinition": "The name and revision (name:revision) or full Amazon Resource Name (ARN) of the job definition to deregister."
 }
 """
-DeregisterJobDefinition(args) = batch("POST", "/v1/deregisterjobdefinition", args)
+DeregisterJobDefinition(jobDefinition) = batch("POST", "/v1/deregisterjobdefinition")
+DeregisterJobDefinition(jobDefinition, args) = batch("POST", "/v1/deregisterjobdefinition", args)
+DeregisterJobDefinition(a...; b...) = DeregisterJobDefinition(a..., b)
 
 """
     DescribeComputeEnvironments()
@@ -104,6 +116,7 @@ Optional Parameters
 """
 DescribeComputeEnvironments() = batch("POST", "/v1/describecomputeenvironments")
 DescribeComputeEnvironments(args) = batch("POST", "/v1/describecomputeenvironments", args)
+DescribeComputeEnvironments(a...; b...) = DescribeComputeEnvironments(a..., b)
 
 """
     DescribeJobDefinitions()
@@ -121,6 +134,7 @@ Optional Parameters
 """
 DescribeJobDefinitions() = batch("POST", "/v1/describejobdefinitions")
 DescribeJobDefinitions(args) = batch("POST", "/v1/describejobdefinitions", args)
+DescribeJobDefinitions(a...; b...) = DescribeJobDefinitions(a..., b)
 
 """
     DescribeJobQueues()
@@ -136,6 +150,7 @@ Optional Parameters
 """
 DescribeJobQueues() = batch("POST", "/v1/describejobqueues")
 DescribeJobQueues(args) = batch("POST", "/v1/describejobqueues", args)
+DescribeJobQueues(a...; b...) = DescribeJobQueues(a..., b)
 
 """
     DescribeJobs()
@@ -147,7 +162,9 @@ Required Parameters
   "jobs": "A list of up to 100 job IDs."
 }
 """
-DescribeJobs(args) = batch("POST", "/v1/describejobs", args)
+DescribeJobs(jobs) = batch("POST", "/v1/describejobs")
+DescribeJobs(jobs, args) = batch("POST", "/v1/describejobs", args)
+DescribeJobs(a...; b...) = DescribeJobs(a..., b)
 
 """
     ListJobs()
@@ -166,6 +183,7 @@ Optional Parameters
 """
 ListJobs() = batch("POST", "/v1/listjobs")
 ListJobs(args) = batch("POST", "/v1/listjobs", args)
+ListJobs(a...; b...) = ListJobs(a..., b)
 
 """
     RegisterJobDefinition()
@@ -187,7 +205,9 @@ Optional Parameters
   "timeout": "The timeout configuration for jobs that are submitted with this job definition, after which AWS Batch terminates your jobs if they have not finished. If a job is terminated due to a timeout, it is not retried. The minimum value for the timeout is 60 seconds. Any timeout configuration that is specified during a SubmitJob operation overrides the timeout configuration defined here. For more information, see Job Timeouts in the Amazon Elastic Container Service Developer Guide."
 }
 """
-RegisterJobDefinition(args) = batch("POST", "/v1/registerjobdefinition", args)
+RegisterJobDefinition(jobDefinitionName, type) = batch("POST", "/v1/registerjobdefinition")
+RegisterJobDefinition(jobDefinitionName, type, args) = batch("POST", "/v1/registerjobdefinition", args)
+RegisterJobDefinition(a...; b...) = RegisterJobDefinition(a..., b)
 
 """
     SubmitJob()
@@ -212,7 +232,9 @@ Optional Parameters
   "timeout": "The timeout configuration for this SubmitJob operation. You can specify a timeout duration after which AWS Batch terminates your jobs if they have not finished. If a job is terminated due to a timeout, it is not retried. The minimum value for the timeout is 60 seconds. This configuration overrides any timeout configuration specified in the job definition. For array jobs, child jobs have the same timeout configuration as the parent job. For more information, see Job Timeouts in the Amazon Elastic Container Service Developer Guide."
 }
 """
-SubmitJob(args) = batch("POST", "/v1/submitjob", args)
+SubmitJob(jobDefinition, jobName, jobQueue) = batch("POST", "/v1/submitjob")
+SubmitJob(jobDefinition, jobName, jobQueue, args) = batch("POST", "/v1/submitjob", args)
+SubmitJob(a...; b...) = SubmitJob(a..., b)
 
 """
     TerminateJob()
@@ -225,7 +247,9 @@ Required Parameters
   "reason": "A message to attach to the job that explains the reason for canceling it. This message is returned by future DescribeJobs operations on the job. This message is also recorded in the AWS Batch activity logs."
 }
 """
-TerminateJob(args) = batch("POST", "/v1/terminatejob", args)
+TerminateJob(jobId, reason) = batch("POST", "/v1/terminatejob")
+TerminateJob(jobId, reason, args) = batch("POST", "/v1/terminatejob", args)
+TerminateJob(a...; b...) = TerminateJob(a..., b)
 
 """
     UpdateComputeEnvironment()
@@ -244,7 +268,9 @@ Optional Parameters
   "state": "The state of the compute environment. Compute environments in the ENABLED state can accept jobs from a queue and scale in or out automatically based on the workload demand of its associated queues."
 }
 """
-UpdateComputeEnvironment(args) = batch("POST", "/v1/updatecomputeenvironment", args)
+UpdateComputeEnvironment(computeEnvironment) = batch("POST", "/v1/updatecomputeenvironment")
+UpdateComputeEnvironment(computeEnvironment, args) = batch("POST", "/v1/updatecomputeenvironment", args)
+UpdateComputeEnvironment(a...; b...) = UpdateComputeEnvironment(a..., b)
 
 """
     UpdateJobQueue()
@@ -263,4 +289,6 @@ Optional Parameters
   "state": "Describes the queue's ability to accept new jobs."
 }
 """
-UpdateJobQueue(args) = batch("POST", "/v1/updatejobqueue", args)
+UpdateJobQueue(jobQueue) = batch("POST", "/v1/updatejobqueue")
+UpdateJobQueue(jobQueue, args) = batch("POST", "/v1/updatejobqueue", args)
+UpdateJobQueue(a...; b...) = UpdateJobQueue(a..., b)

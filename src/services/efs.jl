@@ -20,7 +20,9 @@ Optional Parameters
   "Tags": "Creates tags associated with the access point. Each tag is a key-value pair."
 }
 """
-CreateAccessPoint(args) = efs("POST", "/2015-02-01/access-points", args)
+CreateAccessPoint(ClientToken, FileSystemId) = efs("POST", "/2015-02-01/access-points")
+CreateAccessPoint(ClientToken, FileSystemId, args) = efs("POST", "/2015-02-01/access-points", args)
+CreateAccessPoint(a...; b...) = CreateAccessPoint(a..., b)
 
 """
     CreateFileSystem()
@@ -42,7 +44,9 @@ Optional Parameters
   "ThroughputMode": "The throughput mode for the file system to be created. There are two throughput modes to choose from for your file system: bursting and provisioned. If you set ThroughputMode to provisioned, you must also set a value for ProvisionedThroughPutInMibps. You can decrease your file system's throughput in Provisioned Throughput mode or change between the throughput modes as long as it’s been more than 24 hours since the last decrease or throughput mode change. For more, see Specifying Throughput with Provisioned Mode in the Amazon EFS User Guide. "
 }
 """
-CreateFileSystem(args) = efs("POST", "/2015-02-01/file-systems", args)
+CreateFileSystem(CreationToken) = efs("POST", "/2015-02-01/file-systems")
+CreateFileSystem(CreationToken, args) = efs("POST", "/2015-02-01/file-systems", args)
+CreateFileSystem(a...; b...) = CreateFileSystem(a..., b)
 
 """
     CreateMountTarget()
@@ -61,7 +65,9 @@ Optional Parameters
   "SecurityGroups": "Up to five VPC security group IDs, of the form sg-xxxxxxxx. These must be for the same VPC as subnet specified."
 }
 """
-CreateMountTarget(args) = efs("POST", "/2015-02-01/mount-targets", args)
+CreateMountTarget(FileSystemId, SubnetId) = efs("POST", "/2015-02-01/mount-targets")
+CreateMountTarget(FileSystemId, SubnetId, args) = efs("POST", "/2015-02-01/mount-targets", args)
+CreateMountTarget(a...; b...) = CreateMountTarget(a..., b)
 
 """
     CreateTags()
@@ -74,7 +80,9 @@ Required Parameters
   "Tags": "An array of Tag objects to add. Each Tag object is a key-value pair. "
 }
 """
-CreateTags(args) = efs("POST", "/2015-02-01/create-tags/{FileSystemId}", args)
+CreateTags(FileSystemId, Tags) = efs("POST", "/2015-02-01/create-tags/$(FileSystemId)")
+CreateTags(FileSystemId, Tags, args) = efs("POST", "/2015-02-01/create-tags/$(FileSystemId)", args)
+CreateTags(a...; b...) = CreateTags(a..., b)
 
 """
     DeleteAccessPoint()
@@ -86,7 +94,9 @@ Required Parameters
   "AccessPointId": "The ID of the access point that you want to delete."
 }
 """
-DeleteAccessPoint(args) = efs("DELETE", "/2015-02-01/access-points/{AccessPointId}", args)
+DeleteAccessPoint(AccessPointId) = efs("DELETE", "/2015-02-01/access-points/$(AccessPointId)")
+DeleteAccessPoint(AccessPointId, args) = efs("DELETE", "/2015-02-01/access-points/$(AccessPointId)", args)
+DeleteAccessPoint(a...; b...) = DeleteAccessPoint(a..., b)
 
 """
     DeleteFileSystem()
@@ -98,7 +108,9 @@ Required Parameters
   "FileSystemId": "The ID of the file system you want to delete."
 }
 """
-DeleteFileSystem(args) = efs("DELETE", "/2015-02-01/file-systems/{FileSystemId}", args)
+DeleteFileSystem(FileSystemId) = efs("DELETE", "/2015-02-01/file-systems/$(FileSystemId)")
+DeleteFileSystem(FileSystemId, args) = efs("DELETE", "/2015-02-01/file-systems/$(FileSystemId)", args)
+DeleteFileSystem(a...; b...) = DeleteFileSystem(a..., b)
 
 """
     DeleteFileSystemPolicy()
@@ -110,7 +122,9 @@ Required Parameters
   "FileSystemId": "Specifies the EFS file system for which to delete the FileSystemPolicy."
 }
 """
-DeleteFileSystemPolicy(args) = efs("DELETE", "/2015-02-01/file-systems/{FileSystemId}/policy", args)
+DeleteFileSystemPolicy(FileSystemId) = efs("DELETE", "/2015-02-01/file-systems/$(FileSystemId)/policy")
+DeleteFileSystemPolicy(FileSystemId, args) = efs("DELETE", "/2015-02-01/file-systems/$(FileSystemId)/policy", args)
+DeleteFileSystemPolicy(a...; b...) = DeleteFileSystemPolicy(a..., b)
 
 """
     DeleteMountTarget()
@@ -122,7 +136,9 @@ Required Parameters
   "MountTargetId": "The ID of the mount target to delete (String)."
 }
 """
-DeleteMountTarget(args) = efs("DELETE", "/2015-02-01/mount-targets/{MountTargetId}", args)
+DeleteMountTarget(MountTargetId) = efs("DELETE", "/2015-02-01/mount-targets/$(MountTargetId)")
+DeleteMountTarget(MountTargetId, args) = efs("DELETE", "/2015-02-01/mount-targets/$(MountTargetId)", args)
+DeleteMountTarget(a...; b...) = DeleteMountTarget(a..., b)
 
 """
     DeleteTags()
@@ -135,7 +151,9 @@ Required Parameters
   "TagKeys": "A list of tag keys to delete."
 }
 """
-DeleteTags(args) = efs("POST", "/2015-02-01/delete-tags/{FileSystemId}", args)
+DeleteTags(FileSystemId, TagKeys) = efs("POST", "/2015-02-01/delete-tags/$(FileSystemId)")
+DeleteTags(FileSystemId, TagKeys, args) = efs("POST", "/2015-02-01/delete-tags/$(FileSystemId)", args)
+DeleteTags(a...; b...) = DeleteTags(a..., b)
 
 """
     DescribeAccessPoints()
@@ -152,6 +170,7 @@ Optional Parameters
 """
 DescribeAccessPoints() = efs("GET", "/2015-02-01/access-points")
 DescribeAccessPoints(args) = efs("GET", "/2015-02-01/access-points", args)
+DescribeAccessPoints(a...; b...) = DescribeAccessPoints(a..., b)
 
 """
     DescribeFileSystemPolicy()
@@ -163,7 +182,9 @@ Required Parameters
   "FileSystemId": "Specifies which EFS file system to retrieve the FileSystemPolicy for."
 }
 """
-DescribeFileSystemPolicy(args) = efs("GET", "/2015-02-01/file-systems/{FileSystemId}/policy", args)
+DescribeFileSystemPolicy(FileSystemId) = efs("GET", "/2015-02-01/file-systems/$(FileSystemId)/policy")
+DescribeFileSystemPolicy(FileSystemId, args) = efs("GET", "/2015-02-01/file-systems/$(FileSystemId)/policy", args)
+DescribeFileSystemPolicy(a...; b...) = DescribeFileSystemPolicy(a..., b)
 
 """
     DescribeFileSystems()
@@ -180,6 +201,7 @@ Optional Parameters
 """
 DescribeFileSystems() = efs("GET", "/2015-02-01/file-systems")
 DescribeFileSystems(args) = efs("GET", "/2015-02-01/file-systems", args)
+DescribeFileSystems(a...; b...) = DescribeFileSystems(a..., b)
 
 """
     DescribeLifecycleConfiguration()
@@ -191,7 +213,9 @@ Required Parameters
   "FileSystemId": "The ID of the file system whose LifecycleConfiguration object you want to retrieve (String)."
 }
 """
-DescribeLifecycleConfiguration(args) = efs("GET", "/2015-02-01/file-systems/{FileSystemId}/lifecycle-configuration", args)
+DescribeLifecycleConfiguration(FileSystemId) = efs("GET", "/2015-02-01/file-systems/$(FileSystemId)/lifecycle-configuration")
+DescribeLifecycleConfiguration(FileSystemId, args) = efs("GET", "/2015-02-01/file-systems/$(FileSystemId)/lifecycle-configuration", args)
+DescribeLifecycleConfiguration(a...; b...) = DescribeLifecycleConfiguration(a..., b)
 
 """
     DescribeMountTargetSecurityGroups()
@@ -203,7 +227,9 @@ Required Parameters
   "MountTargetId": "The ID of the mount target whose security groups you want to retrieve."
 }
 """
-DescribeMountTargetSecurityGroups(args) = efs("GET", "/2015-02-01/mount-targets/{MountTargetId}/security-groups", args)
+DescribeMountTargetSecurityGroups(MountTargetId) = efs("GET", "/2015-02-01/mount-targets/$(MountTargetId)/security-groups")
+DescribeMountTargetSecurityGroups(MountTargetId, args) = efs("GET", "/2015-02-01/mount-targets/$(MountTargetId)/security-groups", args)
+DescribeMountTargetSecurityGroups(a...; b...) = DescribeMountTargetSecurityGroups(a..., b)
 
 """
     DescribeMountTargets()
@@ -221,6 +247,7 @@ Optional Parameters
 """
 DescribeMountTargets() = efs("GET", "/2015-02-01/mount-targets")
 DescribeMountTargets(args) = efs("GET", "/2015-02-01/mount-targets", args)
+DescribeMountTargets(a...; b...) = DescribeMountTargets(a..., b)
 
 """
     DescribeTags()
@@ -238,7 +265,9 @@ Optional Parameters
   "MaxItems": "(Optional) The maximum number of file system tags to return in the response. Currently, this number is automatically set to 100, and other values are ignored. The response is paginated at 100 per page if you have more than 100 tags."
 }
 """
-DescribeTags(args) = efs("GET", "/2015-02-01/tags/{FileSystemId}/", args)
+DescribeTags(FileSystemId) = efs("GET", "/2015-02-01/tags/$(FileSystemId)/")
+DescribeTags(FileSystemId, args) = efs("GET", "/2015-02-01/tags/$(FileSystemId)/", args)
+DescribeTags(a...; b...) = DescribeTags(a..., b)
 
 """
     ListTagsForResource()
@@ -256,7 +285,9 @@ Optional Parameters
   "NextToken": "You can use NextToken in a subsequent request to fetch the next page of access point descriptions if the response payload was paginated."
 }
 """
-ListTagsForResource(args) = efs("GET", "/2015-02-01/resource-tags/{ResourceId}", args)
+ListTagsForResource(ResourceId) = efs("GET", "/2015-02-01/resource-tags/$(ResourceId)")
+ListTagsForResource(ResourceId, args) = efs("GET", "/2015-02-01/resource-tags/$(ResourceId)", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     ModifyMountTargetSecurityGroups()
@@ -273,7 +304,9 @@ Optional Parameters
   "SecurityGroups": "An array of up to five VPC security group IDs."
 }
 """
-ModifyMountTargetSecurityGroups(args) = efs("PUT", "/2015-02-01/mount-targets/{MountTargetId}/security-groups", args)
+ModifyMountTargetSecurityGroups(MountTargetId) = efs("PUT", "/2015-02-01/mount-targets/$(MountTargetId)/security-groups")
+ModifyMountTargetSecurityGroups(MountTargetId, args) = efs("PUT", "/2015-02-01/mount-targets/$(MountTargetId)/security-groups", args)
+ModifyMountTargetSecurityGroups(a...; b...) = ModifyMountTargetSecurityGroups(a..., b)
 
 """
     PutFileSystemPolicy()
@@ -291,7 +324,9 @@ Optional Parameters
   "BypassPolicyLockoutSafetyCheck": "(Optional) A flag to indicate whether to bypass the FileSystemPolicy lockout safety check. The policy lockout safety check determines whether the policy in the request will prevent the principal making the request will be locked out from making future PutFileSystemPolicy requests on the file system. Set BypassPolicyLockoutSafetyCheck to True only when you intend to prevent the principal that is making the request from making a subsequent PutFileSystemPolicy request on the file system. The default value is False. "
 }
 """
-PutFileSystemPolicy(args) = efs("PUT", "/2015-02-01/file-systems/{FileSystemId}/policy", args)
+PutFileSystemPolicy(FileSystemId, Policy) = efs("PUT", "/2015-02-01/file-systems/$(FileSystemId)/policy")
+PutFileSystemPolicy(FileSystemId, Policy, args) = efs("PUT", "/2015-02-01/file-systems/$(FileSystemId)/policy", args)
+PutFileSystemPolicy(a...; b...) = PutFileSystemPolicy(a..., b)
 
 """
     PutLifecycleConfiguration()
@@ -304,7 +339,9 @@ Required Parameters
   "LifecyclePolicies": "An array of LifecyclePolicy objects that define the file system's LifecycleConfiguration object. A LifecycleConfiguration object tells lifecycle management when to transition files from the Standard storage class to the Infrequent Access storage class."
 }
 """
-PutLifecycleConfiguration(args) = efs("PUT", "/2015-02-01/file-systems/{FileSystemId}/lifecycle-configuration", args)
+PutLifecycleConfiguration(FileSystemId, LifecyclePolicies) = efs("PUT", "/2015-02-01/file-systems/$(FileSystemId)/lifecycle-configuration")
+PutLifecycleConfiguration(FileSystemId, LifecyclePolicies, args) = efs("PUT", "/2015-02-01/file-systems/$(FileSystemId)/lifecycle-configuration", args)
+PutLifecycleConfiguration(a...; b...) = PutLifecycleConfiguration(a..., b)
 
 """
     TagResource()
@@ -317,7 +354,9 @@ Required Parameters
   "Tags": ""
 }
 """
-TagResource(args) = efs("POST", "/2015-02-01/resource-tags/{ResourceId}", args)
+TagResource(ResourceId, Tags) = efs("POST", "/2015-02-01/resource-tags/$(ResourceId)")
+TagResource(ResourceId, Tags, args) = efs("POST", "/2015-02-01/resource-tags/$(ResourceId)", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
@@ -330,7 +369,9 @@ Required Parameters
   "TagKeys": "The keys of the key:value tag pairs that you want to remove from the specified EFS resource."
 }
 """
-UntagResource(args) = efs("DELETE", "/2015-02-01/resource-tags/{ResourceId}", args)
+UntagResource(ResourceId, TagKeys) = efs("DELETE", "/2015-02-01/resource-tags/$(ResourceId)")
+UntagResource(ResourceId, TagKeys, args) = efs("DELETE", "/2015-02-01/resource-tags/$(ResourceId)", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateFileSystem()
@@ -348,4 +389,6 @@ Optional Parameters
   "ThroughputMode": "(Optional) The throughput mode that you want your file system to use. If you're not updating your throughput mode, you don't need to provide this value in your request. If you are changing the ThroughputMode to provisioned, you must also set a value for ProvisionedThroughputInMibps."
 }
 """
-UpdateFileSystem(args) = efs("PUT", "/2015-02-01/file-systems/{FileSystemId}", args)
+UpdateFileSystem(FileSystemId) = efs("PUT", "/2015-02-01/file-systems/$(FileSystemId)")
+UpdateFileSystem(FileSystemId, args) = efs("PUT", "/2015-02-01/file-systems/$(FileSystemId)", args)
+UpdateFileSystem(a...; b...) = UpdateFileSystem(a..., b)

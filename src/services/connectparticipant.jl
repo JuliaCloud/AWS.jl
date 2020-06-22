@@ -13,7 +13,9 @@ Required Parameters
   "Type": "Type of connection information required."
 }
 """
-CreateParticipantConnection(args) = connectparticipant("POST", "/participant/connection", args)
+CreateParticipantConnection(ParticipantToken, Type) = connectparticipant("POST", "/participant/connection")
+CreateParticipantConnection(ParticipantToken, Type, args) = connectparticipant("POST", "/participant/connection", args)
+CreateParticipantConnection(a...; b...) = CreateParticipantConnection(a..., b)
 
 """
     DisconnectParticipant()
@@ -30,7 +32,9 @@ Optional Parameters
   "ClientToken": "A unique, case-sensitive identifier that you provide to ensure the idempotency of the request."
 }
 """
-DisconnectParticipant(args) = connectparticipant("POST", "/participant/disconnect", args)
+DisconnectParticipant(ConnectionToken) = connectparticipant("POST", "/participant/disconnect")
+DisconnectParticipant(ConnectionToken, args) = connectparticipant("POST", "/participant/disconnect", args)
+DisconnectParticipant(a...; b...) = DisconnectParticipant(a..., b)
 
 """
     GetTranscript()
@@ -52,7 +56,9 @@ Optional Parameters
   "StartPosition": "A filtering option for where to start."
 }
 """
-GetTranscript(args) = connectparticipant("POST", "/participant/transcript", args)
+GetTranscript(ConnectionToken) = connectparticipant("POST", "/participant/transcript")
+GetTranscript(ConnectionToken, args) = connectparticipant("POST", "/participant/transcript", args)
+GetTranscript(a...; b...) = GetTranscript(a..., b)
 
 """
     SendEvent()
@@ -71,7 +77,9 @@ Optional Parameters
   "Content": "The content of the event to be sent (for example, message text). This is not yet supported."
 }
 """
-SendEvent(args) = connectparticipant("POST", "/participant/event", args)
+SendEvent(ConnectionToken, ContentType) = connectparticipant("POST", "/participant/event")
+SendEvent(ConnectionToken, ContentType, args) = connectparticipant("POST", "/participant/event", args)
+SendEvent(a...; b...) = SendEvent(a..., b)
 
 """
     SendMessage()
@@ -90,4 +98,6 @@ Optional Parameters
   "ClientToken": "A unique, case-sensitive identifier that you provide to ensure the idempotency of the request."
 }
 """
-SendMessage(args) = connectparticipant("POST", "/participant/message", args)
+SendMessage(ConnectionToken, Content, ContentType) = connectparticipant("POST", "/participant/message")
+SendMessage(ConnectionToken, Content, ContentType, args) = connectparticipant("POST", "/participant/message", args)
+SendMessage(a...; b...) = SendMessage(a..., b)

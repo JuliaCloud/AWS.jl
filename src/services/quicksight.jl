@@ -14,7 +14,9 @@ Required Parameters
   "IngestionId": "An ID for the ingestion."
 }
 """
-CancelIngestion(args) = quicksight("DELETE", "/accounts/{AwsAccountId}/data-sets/{DataSetId}/ingestions/{IngestionId}", args)
+CancelIngestion(AwsAccountId, DataSetId, IngestionId) = quicksight("DELETE", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/ingestions/$(IngestionId)")
+CancelIngestion(AwsAccountId, DataSetId, IngestionId, args) = quicksight("DELETE", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/ingestions/$(IngestionId)", args)
+CancelIngestion(a...; b...) = CancelIngestion(a..., b)
 
 """
     CreateDashboard()
@@ -38,7 +40,9 @@ Optional Parameters
   "VersionDescription": "A description for the first version of the dashboard being created."
 }
 """
-CreateDashboard(args) = quicksight("POST", "/accounts/{AwsAccountId}/dashboards/{DashboardId}", args)
+CreateDashboard(AwsAccountId, DashboardId, Name, SourceEntity) = quicksight("POST", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)")
+CreateDashboard(AwsAccountId, DashboardId, Name, SourceEntity, args) = quicksight("POST", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)", args)
+CreateDashboard(a...; b...) = CreateDashboard(a..., b)
 
 """
     CreateDataSet()
@@ -63,7 +67,9 @@ Optional Parameters
   "Tags": "Contains a map of the key-value pairs for the resource tag or tags assigned to the dataset."
 }
 """
-CreateDataSet(args) = quicksight("POST", "/accounts/{AwsAccountId}/data-sets", args)
+CreateDataSet(AwsAccountId, DataSetId, ImportMode, Name, PhysicalTableMap) = quicksight("POST", "/accounts/$(AwsAccountId)/data-sets")
+CreateDataSet(AwsAccountId, DataSetId, ImportMode, Name, PhysicalTableMap, args) = quicksight("POST", "/accounts/$(AwsAccountId)/data-sets", args)
+CreateDataSet(a...; b...) = CreateDataSet(a..., b)
 
 """
     CreateDataSource()
@@ -88,7 +94,9 @@ Optional Parameters
   "VpcConnectionProperties": "Use this parameter only when you want QuickSight to use a VPC connection when connecting to your underlying source."
 }
 """
-CreateDataSource(args) = quicksight("POST", "/accounts/{AwsAccountId}/data-sources", args)
+CreateDataSource(AwsAccountId, DataSourceId, Name, Type) = quicksight("POST", "/accounts/$(AwsAccountId)/data-sources")
+CreateDataSource(AwsAccountId, DataSourceId, Name, Type, args) = quicksight("POST", "/accounts/$(AwsAccountId)/data-sources", args)
+CreateDataSource(a...; b...) = CreateDataSource(a..., b)
 
 """
     CreateGroup()
@@ -107,7 +115,9 @@ Optional Parameters
   "Description": "A description for the group that you want to create."
 }
 """
-CreateGroup(args) = quicksight("POST", "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups", args)
+CreateGroup(AwsAccountId, GroupName, Namespace) = quicksight("POST", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups")
+CreateGroup(AwsAccountId, GroupName, Namespace, args) = quicksight("POST", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups", args)
+CreateGroup(a...; b...) = CreateGroup(a..., b)
 
 """
     CreateGroupMembership()
@@ -122,7 +132,9 @@ Required Parameters
   "Namespace": "The namespace. Currently, you should set this to default."
 }
 """
-CreateGroupMembership(args) = quicksight("PUT", "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}/members/{MemberName}", args)
+CreateGroupMembership(AwsAccountId, GroupName, MemberName, Namespace) = quicksight("PUT", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)/members/$(MemberName)")
+CreateGroupMembership(AwsAccountId, GroupName, MemberName, Namespace, args) = quicksight("PUT", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)/members/$(MemberName)", args)
+CreateGroupMembership(a...; b...) = CreateGroupMembership(a..., b)
 
 """
     CreateIAMPolicyAssignment()
@@ -143,7 +155,9 @@ Optional Parameters
   "PolicyArn": "The ARN for the IAM policy to apply to the QuickSight users and groups specified in this assignment."
 }
 """
-CreateIAMPolicyAssignment(args) = quicksight("POST", "/accounts/{AwsAccountId}/namespaces/{Namespace}/iam-policy-assignments/", args)
+CreateIAMPolicyAssignment(AssignmentName, AssignmentStatus, AwsAccountId, Namespace) = quicksight("POST", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments/")
+CreateIAMPolicyAssignment(AssignmentName, AssignmentStatus, AwsAccountId, Namespace, args) = quicksight("POST", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments/", args)
+CreateIAMPolicyAssignment(a...; b...) = CreateIAMPolicyAssignment(a..., b)
 
 """
     CreateIngestion()
@@ -157,7 +171,9 @@ Required Parameters
   "IngestionId": "An ID for the ingestion."
 }
 """
-CreateIngestion(args) = quicksight("PUT", "/accounts/{AwsAccountId}/data-sets/{DataSetId}/ingestions/{IngestionId}", args)
+CreateIngestion(AwsAccountId, DataSetId, IngestionId) = quicksight("PUT", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/ingestions/$(IngestionId)")
+CreateIngestion(AwsAccountId, DataSetId, IngestionId, args) = quicksight("PUT", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/ingestions/$(IngestionId)", args)
+CreateIngestion(a...; b...) = CreateIngestion(a..., b)
 
 """
     CreateTemplate()
@@ -179,7 +195,9 @@ Optional Parameters
   "VersionDescription": "A description of the current template version being created. This API operation creates the first version of the template. Every time UpdateTemplate is called, a new version is created. Each version of the template maintains a description of the version in the VersionDescription field."
 }
 """
-CreateTemplate(args) = quicksight("POST", "/accounts/{AwsAccountId}/templates/{TemplateId}", args)
+CreateTemplate(AwsAccountId, SourceEntity, TemplateId) = quicksight("POST", "/accounts/$(AwsAccountId)/templates/$(TemplateId)")
+CreateTemplate(AwsAccountId, SourceEntity, TemplateId, args) = quicksight("POST", "/accounts/$(AwsAccountId)/templates/$(TemplateId)", args)
+CreateTemplate(a...; b...) = CreateTemplate(a..., b)
 
 """
     CreateTemplateAlias()
@@ -194,7 +212,9 @@ Required Parameters
   "TemplateVersionNumber": "The version number of the template."
 }
 """
-CreateTemplateAlias(args) = quicksight("POST", "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases/{AliasName}", args)
+CreateTemplateAlias(AliasName, AwsAccountId, TemplateId, TemplateVersionNumber) = quicksight("POST", "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases/$(AliasName)")
+CreateTemplateAlias(AliasName, AwsAccountId, TemplateId, TemplateVersionNumber, args) = quicksight("POST", "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases/$(AliasName)", args)
+CreateTemplateAlias(a...; b...) = CreateTemplateAlias(a..., b)
 
 """
     DeleteDashboard()
@@ -212,7 +232,9 @@ Optional Parameters
   "VersionNumber": "The version number of the dashboard. If the version number property is provided, only the specified version of the dashboard is deleted."
 }
 """
-DeleteDashboard(args) = quicksight("DELETE", "/accounts/{AwsAccountId}/dashboards/{DashboardId}", args)
+DeleteDashboard(AwsAccountId, DashboardId) = quicksight("DELETE", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)")
+DeleteDashboard(AwsAccountId, DashboardId, args) = quicksight("DELETE", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)", args)
+DeleteDashboard(a...; b...) = DeleteDashboard(a..., b)
 
 """
     DeleteDataSet()
@@ -225,7 +247,9 @@ Required Parameters
   "DataSetId": "The ID for the dataset that you want to create. This ID is unique per AWS Region for each AWS account."
 }
 """
-DeleteDataSet(args) = quicksight("DELETE", "/accounts/{AwsAccountId}/data-sets/{DataSetId}", args)
+DeleteDataSet(AwsAccountId, DataSetId) = quicksight("DELETE", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)")
+DeleteDataSet(AwsAccountId, DataSetId, args) = quicksight("DELETE", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)", args)
+DeleteDataSet(a...; b...) = DeleteDataSet(a..., b)
 
 """
     DeleteDataSource()
@@ -238,7 +262,9 @@ Required Parameters
   "DataSourceId": "The ID of the data source. This ID is unique per AWS Region for each AWS account."
 }
 """
-DeleteDataSource(args) = quicksight("DELETE", "/accounts/{AwsAccountId}/data-sources/{DataSourceId}", args)
+DeleteDataSource(AwsAccountId, DataSourceId) = quicksight("DELETE", "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)")
+DeleteDataSource(AwsAccountId, DataSourceId, args) = quicksight("DELETE", "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)", args)
+DeleteDataSource(a...; b...) = DeleteDataSource(a..., b)
 
 """
     DeleteGroup()
@@ -252,7 +278,9 @@ Required Parameters
   "Namespace": "The namespace. Currently, you should set this to default."
 }
 """
-DeleteGroup(args) = quicksight("DELETE", "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}", args)
+DeleteGroup(AwsAccountId, GroupName, Namespace) = quicksight("DELETE", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)")
+DeleteGroup(AwsAccountId, GroupName, Namespace, args) = quicksight("DELETE", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)", args)
+DeleteGroup(a...; b...) = DeleteGroup(a..., b)
 
 """
     DeleteGroupMembership()
@@ -267,7 +295,9 @@ Required Parameters
   "Namespace": "The namespace. Currently, you should set this to default."
 }
 """
-DeleteGroupMembership(args) = quicksight("DELETE", "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}/members/{MemberName}", args)
+DeleteGroupMembership(AwsAccountId, GroupName, MemberName, Namespace) = quicksight("DELETE", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)/members/$(MemberName)")
+DeleteGroupMembership(AwsAccountId, GroupName, MemberName, Namespace, args) = quicksight("DELETE", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)/members/$(MemberName)", args)
+DeleteGroupMembership(a...; b...) = DeleteGroupMembership(a..., b)
 
 """
     DeleteIAMPolicyAssignment()
@@ -281,7 +311,9 @@ Required Parameters
   "Namespace": "The namespace that contains the assignment."
 }
 """
-DeleteIAMPolicyAssignment(args) = quicksight("DELETE", "/accounts/{AwsAccountId}/namespace/{Namespace}/iam-policy-assignments/{AssignmentName}", args)
+DeleteIAMPolicyAssignment(AssignmentName, AwsAccountId, Namespace) = quicksight("DELETE", "/accounts/$(AwsAccountId)/namespace/$(Namespace)/iam-policy-assignments/$(AssignmentName)")
+DeleteIAMPolicyAssignment(AssignmentName, AwsAccountId, Namespace, args) = quicksight("DELETE", "/accounts/$(AwsAccountId)/namespace/$(Namespace)/iam-policy-assignments/$(AssignmentName)", args)
+DeleteIAMPolicyAssignment(a...; b...) = DeleteIAMPolicyAssignment(a..., b)
 
 """
     DeleteTemplate()
@@ -299,7 +331,9 @@ Optional Parameters
   "VersionNumber": "Specifies the version of the template that you want to delete. If you don't provide a version number, DeleteTemplate deletes all versions of the template. "
 }
 """
-DeleteTemplate(args) = quicksight("DELETE", "/accounts/{AwsAccountId}/templates/{TemplateId}", args)
+DeleteTemplate(AwsAccountId, TemplateId) = quicksight("DELETE", "/accounts/$(AwsAccountId)/templates/$(TemplateId)")
+DeleteTemplate(AwsAccountId, TemplateId, args) = quicksight("DELETE", "/accounts/$(AwsAccountId)/templates/$(TemplateId)", args)
+DeleteTemplate(a...; b...) = DeleteTemplate(a..., b)
 
 """
     DeleteTemplateAlias()
@@ -313,7 +347,9 @@ Required Parameters
   "TemplateId": "The ID for the template that the specified alias is for."
 }
 """
-DeleteTemplateAlias(args) = quicksight("DELETE", "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases/{AliasName}", args)
+DeleteTemplateAlias(AliasName, AwsAccountId, TemplateId) = quicksight("DELETE", "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases/$(AliasName)")
+DeleteTemplateAlias(AliasName, AwsAccountId, TemplateId, args) = quicksight("DELETE", "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases/$(AliasName)", args)
+DeleteTemplateAlias(a...; b...) = DeleteTemplateAlias(a..., b)
 
 """
     DeleteUser()
@@ -327,7 +363,9 @@ Required Parameters
   "UserName": "The name of the user that you want to delete."
 }
 """
-DeleteUser(args) = quicksight("DELETE", "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}", args)
+DeleteUser(AwsAccountId, Namespace, UserName) = quicksight("DELETE", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)")
+DeleteUser(AwsAccountId, Namespace, UserName, args) = quicksight("DELETE", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)", args)
+DeleteUser(a...; b...) = DeleteUser(a..., b)
 
 """
     DeleteUserByPrincipalId()
@@ -341,7 +379,9 @@ Required Parameters
   "PrincipalId": "The principal ID of the user."
 }
 """
-DeleteUserByPrincipalId(args) = quicksight("DELETE", "/accounts/{AwsAccountId}/namespaces/{Namespace}/user-principals/{PrincipalId}", args)
+DeleteUserByPrincipalId(AwsAccountId, Namespace, PrincipalId) = quicksight("DELETE", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/user-principals/$(PrincipalId)")
+DeleteUserByPrincipalId(AwsAccountId, Namespace, PrincipalId, args) = quicksight("DELETE", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/user-principals/$(PrincipalId)", args)
+DeleteUserByPrincipalId(a...; b...) = DeleteUserByPrincipalId(a..., b)
 
 """
     DescribeDashboard()
@@ -360,7 +400,9 @@ Optional Parameters
   "VersionNumber": "The version number for the dashboard. If a version number isn't passed, the latest published dashboard version is described. "
 }
 """
-DescribeDashboard(args) = quicksight("GET", "/accounts/{AwsAccountId}/dashboards/{DashboardId}", args)
+DescribeDashboard(AwsAccountId, DashboardId) = quicksight("GET", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)")
+DescribeDashboard(AwsAccountId, DashboardId, args) = quicksight("GET", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)", args)
+DescribeDashboard(a...; b...) = DescribeDashboard(a..., b)
 
 """
     DescribeDashboardPermissions()
@@ -373,7 +415,9 @@ Required Parameters
   "DashboardId": "The ID for the dashboard, also added to the IAM policy."
 }
 """
-DescribeDashboardPermissions(args) = quicksight("GET", "/accounts/{AwsAccountId}/dashboards/{DashboardId}/permissions", args)
+DescribeDashboardPermissions(AwsAccountId, DashboardId) = quicksight("GET", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/permissions")
+DescribeDashboardPermissions(AwsAccountId, DashboardId, args) = quicksight("GET", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/permissions", args)
+DescribeDashboardPermissions(a...; b...) = DescribeDashboardPermissions(a..., b)
 
 """
     DescribeDataSet()
@@ -386,7 +430,9 @@ Required Parameters
   "DataSetId": "The ID for the dataset that you want to create. This ID is unique per AWS Region for each AWS account."
 }
 """
-DescribeDataSet(args) = quicksight("GET", "/accounts/{AwsAccountId}/data-sets/{DataSetId}", args)
+DescribeDataSet(AwsAccountId, DataSetId) = quicksight("GET", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)")
+DescribeDataSet(AwsAccountId, DataSetId, args) = quicksight("GET", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)", args)
+DescribeDataSet(a...; b...) = DescribeDataSet(a..., b)
 
 """
     DescribeDataSetPermissions()
@@ -399,7 +445,9 @@ Required Parameters
   "DataSetId": "The ID for the dataset that you want to create. This ID is unique per AWS Region for each AWS account."
 }
 """
-DescribeDataSetPermissions(args) = quicksight("GET", "/accounts/{AwsAccountId}/data-sets/{DataSetId}/permissions", args)
+DescribeDataSetPermissions(AwsAccountId, DataSetId) = quicksight("GET", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/permissions")
+DescribeDataSetPermissions(AwsAccountId, DataSetId, args) = quicksight("GET", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/permissions", args)
+DescribeDataSetPermissions(a...; b...) = DescribeDataSetPermissions(a..., b)
 
 """
     DescribeDataSource()
@@ -412,7 +460,9 @@ Required Parameters
   "DataSourceId": "The ID of the data source. This ID is unique per AWS Region for each AWS account."
 }
 """
-DescribeDataSource(args) = quicksight("GET", "/accounts/{AwsAccountId}/data-sources/{DataSourceId}", args)
+DescribeDataSource(AwsAccountId, DataSourceId) = quicksight("GET", "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)")
+DescribeDataSource(AwsAccountId, DataSourceId, args) = quicksight("GET", "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)", args)
+DescribeDataSource(a...; b...) = DescribeDataSource(a..., b)
 
 """
     DescribeDataSourcePermissions()
@@ -425,7 +475,9 @@ Required Parameters
   "DataSourceId": "The ID of the data source. This ID is unique per AWS Region for each AWS account."
 }
 """
-DescribeDataSourcePermissions(args) = quicksight("GET", "/accounts/{AwsAccountId}/data-sources/{DataSourceId}/permissions", args)
+DescribeDataSourcePermissions(AwsAccountId, DataSourceId) = quicksight("GET", "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)/permissions")
+DescribeDataSourcePermissions(AwsAccountId, DataSourceId, args) = quicksight("GET", "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)/permissions", args)
+DescribeDataSourcePermissions(a...; b...) = DescribeDataSourcePermissions(a..., b)
 
 """
     DescribeGroup()
@@ -439,7 +491,9 @@ Required Parameters
   "Namespace": "The namespace. Currently, you should set this to default."
 }
 """
-DescribeGroup(args) = quicksight("GET", "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}", args)
+DescribeGroup(AwsAccountId, GroupName, Namespace) = quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)")
+DescribeGroup(AwsAccountId, GroupName, Namespace, args) = quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)", args)
+DescribeGroup(a...; b...) = DescribeGroup(a..., b)
 
 """
     DescribeIAMPolicyAssignment()
@@ -453,7 +507,9 @@ Required Parameters
   "Namespace": "The namespace that contains the assignment."
 }
 """
-DescribeIAMPolicyAssignment(args) = quicksight("GET", "/accounts/{AwsAccountId}/namespaces/{Namespace}/iam-policy-assignments/{AssignmentName}", args)
+DescribeIAMPolicyAssignment(AssignmentName, AwsAccountId, Namespace) = quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments/$(AssignmentName)")
+DescribeIAMPolicyAssignment(AssignmentName, AwsAccountId, Namespace, args) = quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments/$(AssignmentName)", args)
+DescribeIAMPolicyAssignment(a...; b...) = DescribeIAMPolicyAssignment(a..., b)
 
 """
     DescribeIngestion()
@@ -467,7 +523,9 @@ Required Parameters
   "IngestionId": "An ID for the ingestion."
 }
 """
-DescribeIngestion(args) = quicksight("GET", "/accounts/{AwsAccountId}/data-sets/{DataSetId}/ingestions/{IngestionId}", args)
+DescribeIngestion(AwsAccountId, DataSetId, IngestionId) = quicksight("GET", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/ingestions/$(IngestionId)")
+DescribeIngestion(AwsAccountId, DataSetId, IngestionId, args) = quicksight("GET", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/ingestions/$(IngestionId)", args)
+DescribeIngestion(a...; b...) = DescribeIngestion(a..., b)
 
 """
     DescribeTemplate()
@@ -486,7 +544,9 @@ Optional Parameters
   "VersionNumber": "(Optional) The number for the version to describe. If a VersionNumber parameter value isn't provided, the latest version of the template is described."
 }
 """
-DescribeTemplate(args) = quicksight("GET", "/accounts/{AwsAccountId}/templates/{TemplateId}", args)
+DescribeTemplate(AwsAccountId, TemplateId) = quicksight("GET", "/accounts/$(AwsAccountId)/templates/$(TemplateId)")
+DescribeTemplate(AwsAccountId, TemplateId, args) = quicksight("GET", "/accounts/$(AwsAccountId)/templates/$(TemplateId)", args)
+DescribeTemplate(a...; b...) = DescribeTemplate(a..., b)
 
 """
     DescribeTemplateAlias()
@@ -500,7 +560,9 @@ Required Parameters
   "TemplateId": "The ID for the template."
 }
 """
-DescribeTemplateAlias(args) = quicksight("GET", "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases/{AliasName}", args)
+DescribeTemplateAlias(AliasName, AwsAccountId, TemplateId) = quicksight("GET", "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases/$(AliasName)")
+DescribeTemplateAlias(AliasName, AwsAccountId, TemplateId, args) = quicksight("GET", "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases/$(AliasName)", args)
+DescribeTemplateAlias(a...; b...) = DescribeTemplateAlias(a..., b)
 
 """
     DescribeTemplatePermissions()
@@ -513,7 +575,9 @@ Required Parameters
   "TemplateId": "The ID for the template."
 }
 """
-DescribeTemplatePermissions(args) = quicksight("GET", "/accounts/{AwsAccountId}/templates/{TemplateId}/permissions", args)
+DescribeTemplatePermissions(AwsAccountId, TemplateId) = quicksight("GET", "/accounts/$(AwsAccountId)/templates/$(TemplateId)/permissions")
+DescribeTemplatePermissions(AwsAccountId, TemplateId, args) = quicksight("GET", "/accounts/$(AwsAccountId)/templates/$(TemplateId)/permissions", args)
+DescribeTemplatePermissions(a...; b...) = DescribeTemplatePermissions(a..., b)
 
 """
     DescribeUser()
@@ -527,7 +591,9 @@ Required Parameters
   "UserName": "The name of the user that you want to describe."
 }
 """
-DescribeUser(args) = quicksight("GET", "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}", args)
+DescribeUser(AwsAccountId, Namespace, UserName) = quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)")
+DescribeUser(AwsAccountId, Namespace, UserName, args) = quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)", args)
+DescribeUser(a...; b...) = DescribeUser(a..., b)
 
 """
     GetDashboardEmbedUrl()
@@ -549,7 +615,9 @@ Optional Parameters
   "UserArn": "The Amazon QuickSight user's Amazon Resource Name (ARN), for use with QUICKSIGHT identity type. You can use this for any Amazon QuickSight users in your account (readers, authors, or admins) authenticated as one of the following:   Active Directory (AD) users or group members   Invited nonfederated users   IAM users and IAM role-based sessions authenticated through Federated Single Sign-On using SAML, OpenID Connect, or IAM federation.  "
 }
 """
-GetDashboardEmbedUrl(args) = quicksight("GET", "/accounts/{AwsAccountId}/dashboards/{DashboardId}/embed-url", args)
+GetDashboardEmbedUrl(AwsAccountId, DashboardId, IdentityType) = quicksight("GET", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/embed-url")
+GetDashboardEmbedUrl(AwsAccountId, DashboardId, IdentityType, args) = quicksight("GET", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/embed-url", args)
+GetDashboardEmbedUrl(a...; b...) = GetDashboardEmbedUrl(a..., b)
 
 """
     ListDashboardVersions()
@@ -568,7 +636,9 @@ Optional Parameters
   "NextToken": "The token for the next set of results, or null if there are no more results."
 }
 """
-ListDashboardVersions(args) = quicksight("GET", "/accounts/{AwsAccountId}/dashboards/{DashboardId}/versions", args)
+ListDashboardVersions(AwsAccountId, DashboardId) = quicksight("GET", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/versions")
+ListDashboardVersions(AwsAccountId, DashboardId, args) = quicksight("GET", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/versions", args)
+ListDashboardVersions(a...; b...) = ListDashboardVersions(a..., b)
 
 """
     ListDashboards()
@@ -586,7 +656,9 @@ Optional Parameters
   "NextToken": "The token for the next set of results, or null if there are no more results."
 }
 """
-ListDashboards(args) = quicksight("GET", "/accounts/{AwsAccountId}/dashboards", args)
+ListDashboards(AwsAccountId) = quicksight("GET", "/accounts/$(AwsAccountId)/dashboards")
+ListDashboards(AwsAccountId, args) = quicksight("GET", "/accounts/$(AwsAccountId)/dashboards", args)
+ListDashboards(a...; b...) = ListDashboards(a..., b)
 
 """
     ListDataSets()
@@ -604,7 +676,9 @@ Optional Parameters
   "NextToken": "The token for the next set of results, or null if there are no more results."
 }
 """
-ListDataSets(args) = quicksight("GET", "/accounts/{AwsAccountId}/data-sets", args)
+ListDataSets(AwsAccountId) = quicksight("GET", "/accounts/$(AwsAccountId)/data-sets")
+ListDataSets(AwsAccountId, args) = quicksight("GET", "/accounts/$(AwsAccountId)/data-sets", args)
+ListDataSets(a...; b...) = ListDataSets(a..., b)
 
 """
     ListDataSources()
@@ -622,7 +696,9 @@ Optional Parameters
   "NextToken": "The token for the next set of results, or null if there are no more results."
 }
 """
-ListDataSources(args) = quicksight("GET", "/accounts/{AwsAccountId}/data-sources", args)
+ListDataSources(AwsAccountId) = quicksight("GET", "/accounts/$(AwsAccountId)/data-sources")
+ListDataSources(AwsAccountId, args) = quicksight("GET", "/accounts/$(AwsAccountId)/data-sources", args)
+ListDataSources(a...; b...) = ListDataSources(a..., b)
 
 """
     ListGroupMemberships()
@@ -642,7 +718,9 @@ Optional Parameters
   "NextToken": "A pagination token that can be used in a subsequent request."
 }
 """
-ListGroupMemberships(args) = quicksight("GET", "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}/members", args)
+ListGroupMemberships(AwsAccountId, GroupName, Namespace) = quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)/members")
+ListGroupMemberships(AwsAccountId, GroupName, Namespace, args) = quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)/members", args)
+ListGroupMemberships(a...; b...) = ListGroupMemberships(a..., b)
 
 """
     ListGroups()
@@ -661,7 +739,9 @@ Optional Parameters
   "NextToken": "A pagination token that can be used in a subsequent request."
 }
 """
-ListGroups(args) = quicksight("GET", "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups", args)
+ListGroups(AwsAccountId, Namespace) = quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups")
+ListGroups(AwsAccountId, Namespace, args) = quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups", args)
+ListGroups(a...; b...) = ListGroups(a..., b)
 
 """
     ListIAMPolicyAssignments()
@@ -681,7 +761,9 @@ Optional Parameters
   "NextToken": "The token for the next set of results, or null if there are no more results."
 }
 """
-ListIAMPolicyAssignments(args) = quicksight("GET", "/accounts/{AwsAccountId}/namespaces/{Namespace}/iam-policy-assignments", args)
+ListIAMPolicyAssignments(AwsAccountId, Namespace) = quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments")
+ListIAMPolicyAssignments(AwsAccountId, Namespace, args) = quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments", args)
+ListIAMPolicyAssignments(a...; b...) = ListIAMPolicyAssignments(a..., b)
 
 """
     ListIAMPolicyAssignmentsForUser()
@@ -701,7 +783,9 @@ Optional Parameters
   "NextToken": "The token for the next set of results, or null if there are no more results."
 }
 """
-ListIAMPolicyAssignmentsForUser(args) = quicksight("GET", "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}/iam-policy-assignments", args)
+ListIAMPolicyAssignmentsForUser(AwsAccountId, Namespace, UserName) = quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)/iam-policy-assignments")
+ListIAMPolicyAssignmentsForUser(AwsAccountId, Namespace, UserName, args) = quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)/iam-policy-assignments", args)
+ListIAMPolicyAssignmentsForUser(a...; b...) = ListIAMPolicyAssignmentsForUser(a..., b)
 
 """
     ListIngestions()
@@ -720,7 +804,9 @@ Optional Parameters
   "NextToken": "The token for the next set of results, or null if there are no more results."
 }
 """
-ListIngestions(args) = quicksight("GET", "/accounts/{AwsAccountId}/data-sets/{DataSetId}/ingestions", args)
+ListIngestions(AwsAccountId, DataSetId) = quicksight("GET", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/ingestions")
+ListIngestions(AwsAccountId, DataSetId, args) = quicksight("GET", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/ingestions", args)
+ListIngestions(a...; b...) = ListIngestions(a..., b)
 
 """
     ListTagsForResource()
@@ -732,7 +818,9 @@ Required Parameters
   "ResourceArn": "The Amazon Resource Name (ARN) of the resource that you want a list of tags for."
 }
 """
-ListTagsForResource(args) = quicksight("GET", "/resources/{ResourceArn}/tags", args)
+ListTagsForResource(ResourceArn) = quicksight("GET", "/resources/$(ResourceArn)/tags")
+ListTagsForResource(ResourceArn, args) = quicksight("GET", "/resources/$(ResourceArn)/tags", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     ListTemplateAliases()
@@ -751,7 +839,9 @@ Optional Parameters
   "NextToken": "The token for the next set of results, or null if there are no more results."
 }
 """
-ListTemplateAliases(args) = quicksight("GET", "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases", args)
+ListTemplateAliases(AwsAccountId, TemplateId) = quicksight("GET", "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases")
+ListTemplateAliases(AwsAccountId, TemplateId, args) = quicksight("GET", "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases", args)
+ListTemplateAliases(a...; b...) = ListTemplateAliases(a..., b)
 
 """
     ListTemplateVersions()
@@ -770,7 +860,9 @@ Optional Parameters
   "NextToken": "The token for the next set of results, or null if there are no more results."
 }
 """
-ListTemplateVersions(args) = quicksight("GET", "/accounts/{AwsAccountId}/templates/{TemplateId}/versions", args)
+ListTemplateVersions(AwsAccountId, TemplateId) = quicksight("GET", "/accounts/$(AwsAccountId)/templates/$(TemplateId)/versions")
+ListTemplateVersions(AwsAccountId, TemplateId, args) = quicksight("GET", "/accounts/$(AwsAccountId)/templates/$(TemplateId)/versions", args)
+ListTemplateVersions(a...; b...) = ListTemplateVersions(a..., b)
 
 """
     ListTemplates()
@@ -788,7 +880,9 @@ Optional Parameters
   "NextToken": "The token for the next set of results, or null if there are no more results."
 }
 """
-ListTemplates(args) = quicksight("GET", "/accounts/{AwsAccountId}/templates", args)
+ListTemplates(AwsAccountId) = quicksight("GET", "/accounts/$(AwsAccountId)/templates")
+ListTemplates(AwsAccountId, args) = quicksight("GET", "/accounts/$(AwsAccountId)/templates", args)
+ListTemplates(a...; b...) = ListTemplates(a..., b)
 
 """
     ListUserGroups()
@@ -808,7 +902,9 @@ Optional Parameters
   "NextToken": "A pagination token that can be used in a subsequent request."
 }
 """
-ListUserGroups(args) = quicksight("GET", "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}/groups", args)
+ListUserGroups(AwsAccountId, Namespace, UserName) = quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)/groups")
+ListUserGroups(AwsAccountId, Namespace, UserName, args) = quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)/groups", args)
+ListUserGroups(a...; b...) = ListUserGroups(a..., b)
 
 """
     ListUsers()
@@ -827,7 +923,9 @@ Optional Parameters
   "NextToken": "A pagination token that can be used in a subsequent request."
 }
 """
-ListUsers(args) = quicksight("GET", "/accounts/{AwsAccountId}/namespaces/{Namespace}/users", args)
+ListUsers(AwsAccountId, Namespace) = quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users")
+ListUsers(AwsAccountId, Namespace, args) = quicksight("GET", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users", args)
+ListUsers(a...; b...) = ListUsers(a..., b)
 
 """
     RegisterUser()
@@ -850,7 +948,9 @@ Optional Parameters
   "UserName": "The Amazon QuickSight user name that you want to create for the user you are registering."
 }
 """
-RegisterUser(args) = quicksight("POST", "/accounts/{AwsAccountId}/namespaces/{Namespace}/users", args)
+RegisterUser(AwsAccountId, Email, IdentityType, Namespace, UserRole) = quicksight("POST", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users")
+RegisterUser(AwsAccountId, Email, IdentityType, Namespace, UserRole, args) = quicksight("POST", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users", args)
+RegisterUser(a...; b...) = RegisterUser(a..., b)
 
 """
     SearchDashboards()
@@ -869,7 +969,9 @@ Optional Parameters
   "NextToken": "The token for the next set of results, or null if there are no more results."
 }
 """
-SearchDashboards(args) = quicksight("POST", "/accounts/{AwsAccountId}/search/dashboards", args)
+SearchDashboards(AwsAccountId, Filters) = quicksight("POST", "/accounts/$(AwsAccountId)/search/dashboards")
+SearchDashboards(AwsAccountId, Filters, args) = quicksight("POST", "/accounts/$(AwsAccountId)/search/dashboards", args)
+SearchDashboards(a...; b...) = SearchDashboards(a..., b)
 
 """
     TagResource()
@@ -882,7 +984,9 @@ Required Parameters
   "Tags": "Contains a map of the key-value pairs for the resource tag or tags assigned to the resource."
 }
 """
-TagResource(args) = quicksight("POST", "/resources/{ResourceArn}/tags", args)
+TagResource(ResourceArn, Tags) = quicksight("POST", "/resources/$(ResourceArn)/tags")
+TagResource(ResourceArn, Tags, args) = quicksight("POST", "/resources/$(ResourceArn)/tags", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
@@ -895,7 +999,9 @@ Required Parameters
   "TagKeys": "The keys of the key-value pairs for the resource tag or tags assigned to the resource."
 }
 """
-UntagResource(args) = quicksight("DELETE", "/resources/{ResourceArn}/tags", args)
+UntagResource(ResourceArn, TagKeys) = quicksight("DELETE", "/resources/$(ResourceArn)/tags")
+UntagResource(ResourceArn, TagKeys, args) = quicksight("DELETE", "/resources/$(ResourceArn)/tags", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateDashboard()
@@ -917,7 +1023,9 @@ Optional Parameters
   "VersionDescription": "A description for the first version of the dashboard being created."
 }
 """
-UpdateDashboard(args) = quicksight("PUT", "/accounts/{AwsAccountId}/dashboards/{DashboardId}", args)
+UpdateDashboard(AwsAccountId, DashboardId, Name, SourceEntity) = quicksight("PUT", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)")
+UpdateDashboard(AwsAccountId, DashboardId, Name, SourceEntity, args) = quicksight("PUT", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)", args)
+UpdateDashboard(a...; b...) = UpdateDashboard(a..., b)
 
 """
     UpdateDashboardPermissions()
@@ -936,7 +1044,9 @@ Optional Parameters
   "RevokePermissions": "The permissions that you want to revoke from this resource."
 }
 """
-UpdateDashboardPermissions(args) = quicksight("PUT", "/accounts/{AwsAccountId}/dashboards/{DashboardId}/permissions", args)
+UpdateDashboardPermissions(AwsAccountId, DashboardId) = quicksight("PUT", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/permissions")
+UpdateDashboardPermissions(AwsAccountId, DashboardId, args) = quicksight("PUT", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/permissions", args)
+UpdateDashboardPermissions(a...; b...) = UpdateDashboardPermissions(a..., b)
 
 """
     UpdateDashboardPublishedVersion()
@@ -950,7 +1060,9 @@ Required Parameters
   "VersionNumber": "The version number of the dashboard."
 }
 """
-UpdateDashboardPublishedVersion(args) = quicksight("PUT", "/accounts/{AwsAccountId}/dashboards/{DashboardId}/versions/{VersionNumber}", args)
+UpdateDashboardPublishedVersion(AwsAccountId, DashboardId, VersionNumber) = quicksight("PUT", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/versions/$(VersionNumber)")
+UpdateDashboardPublishedVersion(AwsAccountId, DashboardId, VersionNumber, args) = quicksight("PUT", "/accounts/$(AwsAccountId)/dashboards/$(DashboardId)/versions/$(VersionNumber)", args)
+UpdateDashboardPublishedVersion(a...; b...) = UpdateDashboardPublishedVersion(a..., b)
 
 """
     UpdateDataSet()
@@ -973,7 +1085,9 @@ Optional Parameters
   "RowLevelPermissionDataSet": "The row-level security configuration for the data you want to create."
 }
 """
-UpdateDataSet(args) = quicksight("PUT", "/accounts/{AwsAccountId}/data-sets/{DataSetId}", args)
+UpdateDataSet(AwsAccountId, DataSetId, ImportMode, Name, PhysicalTableMap) = quicksight("PUT", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)")
+UpdateDataSet(AwsAccountId, DataSetId, ImportMode, Name, PhysicalTableMap, args) = quicksight("PUT", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)", args)
+UpdateDataSet(a...; b...) = UpdateDataSet(a..., b)
 
 """
     UpdateDataSetPermissions()
@@ -992,7 +1106,9 @@ Optional Parameters
   "RevokePermissions": "The resource permissions that you want to revoke from the dataset."
 }
 """
-UpdateDataSetPermissions(args) = quicksight("POST", "/accounts/{AwsAccountId}/data-sets/{DataSetId}/permissions", args)
+UpdateDataSetPermissions(AwsAccountId, DataSetId) = quicksight("POST", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/permissions")
+UpdateDataSetPermissions(AwsAccountId, DataSetId, args) = quicksight("POST", "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/permissions", args)
+UpdateDataSetPermissions(a...; b...) = UpdateDataSetPermissions(a..., b)
 
 """
     UpdateDataSource()
@@ -1014,7 +1130,9 @@ Optional Parameters
   "VpcConnectionProperties": "Use this parameter only when you want QuickSight to use a VPC connection when connecting to your underlying source."
 }
 """
-UpdateDataSource(args) = quicksight("PUT", "/accounts/{AwsAccountId}/data-sources/{DataSourceId}", args)
+UpdateDataSource(AwsAccountId, DataSourceId, Name) = quicksight("PUT", "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)")
+UpdateDataSource(AwsAccountId, DataSourceId, Name, args) = quicksight("PUT", "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)", args)
+UpdateDataSource(a...; b...) = UpdateDataSource(a..., b)
 
 """
     UpdateDataSourcePermissions()
@@ -1033,7 +1151,9 @@ Optional Parameters
   "RevokePermissions": "A list of resource permissions that you want to revoke on the data source."
 }
 """
-UpdateDataSourcePermissions(args) = quicksight("POST", "/accounts/{AwsAccountId}/data-sources/{DataSourceId}/permissions", args)
+UpdateDataSourcePermissions(AwsAccountId, DataSourceId) = quicksight("POST", "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)/permissions")
+UpdateDataSourcePermissions(AwsAccountId, DataSourceId, args) = quicksight("POST", "/accounts/$(AwsAccountId)/data-sources/$(DataSourceId)/permissions", args)
+UpdateDataSourcePermissions(a...; b...) = UpdateDataSourcePermissions(a..., b)
 
 """
     UpdateGroup()
@@ -1052,7 +1172,9 @@ Optional Parameters
   "Description": "The description for the group that you want to update."
 }
 """
-UpdateGroup(args) = quicksight("PUT", "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}", args)
+UpdateGroup(AwsAccountId, GroupName, Namespace) = quicksight("PUT", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)")
+UpdateGroup(AwsAccountId, GroupName, Namespace, args) = quicksight("PUT", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/groups/$(GroupName)", args)
+UpdateGroup(a...; b...) = UpdateGroup(a..., b)
 
 """
     UpdateIAMPolicyAssignment()
@@ -1073,7 +1195,9 @@ Optional Parameters
   "PolicyArn": "The ARN for the IAM policy to apply to the QuickSight users and groups specified in this assignment."
 }
 """
-UpdateIAMPolicyAssignment(args) = quicksight("PUT", "/accounts/{AwsAccountId}/namespaces/{Namespace}/iam-policy-assignments/{AssignmentName}", args)
+UpdateIAMPolicyAssignment(AssignmentName, AwsAccountId, Namespace) = quicksight("PUT", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments/$(AssignmentName)")
+UpdateIAMPolicyAssignment(AssignmentName, AwsAccountId, Namespace, args) = quicksight("PUT", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments/$(AssignmentName)", args)
+UpdateIAMPolicyAssignment(a...; b...) = UpdateIAMPolicyAssignment(a..., b)
 
 """
     UpdateTemplate()
@@ -1093,7 +1217,9 @@ Optional Parameters
   "VersionDescription": "A description of the current template version that is being updated. Every time you call UpdateTemplate, you create a new version of the template. Each version of the template maintains a description of the version in the VersionDescription field."
 }
 """
-UpdateTemplate(args) = quicksight("PUT", "/accounts/{AwsAccountId}/templates/{TemplateId}", args)
+UpdateTemplate(AwsAccountId, SourceEntity, TemplateId) = quicksight("PUT", "/accounts/$(AwsAccountId)/templates/$(TemplateId)")
+UpdateTemplate(AwsAccountId, SourceEntity, TemplateId, args) = quicksight("PUT", "/accounts/$(AwsAccountId)/templates/$(TemplateId)", args)
+UpdateTemplate(a...; b...) = UpdateTemplate(a..., b)
 
 """
     UpdateTemplateAlias()
@@ -1108,7 +1234,9 @@ Required Parameters
   "TemplateVersionNumber": "The version number of the template."
 }
 """
-UpdateTemplateAlias(args) = quicksight("PUT", "/accounts/{AwsAccountId}/templates/{TemplateId}/aliases/{AliasName}", args)
+UpdateTemplateAlias(AliasName, AwsAccountId, TemplateId, TemplateVersionNumber) = quicksight("PUT", "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases/$(AliasName)")
+UpdateTemplateAlias(AliasName, AwsAccountId, TemplateId, TemplateVersionNumber, args) = quicksight("PUT", "/accounts/$(AwsAccountId)/templates/$(TemplateId)/aliases/$(AliasName)", args)
+UpdateTemplateAlias(a...; b...) = UpdateTemplateAlias(a..., b)
 
 """
     UpdateTemplatePermissions()
@@ -1127,7 +1255,9 @@ Optional Parameters
   "RevokePermissions": "A list of resource permissions to be revoked from the template. "
 }
 """
-UpdateTemplatePermissions(args) = quicksight("PUT", "/accounts/{AwsAccountId}/templates/{TemplateId}/permissions", args)
+UpdateTemplatePermissions(AwsAccountId, TemplateId) = quicksight("PUT", "/accounts/$(AwsAccountId)/templates/$(TemplateId)/permissions")
+UpdateTemplatePermissions(AwsAccountId, TemplateId, args) = quicksight("PUT", "/accounts/$(AwsAccountId)/templates/$(TemplateId)/permissions", args)
+UpdateTemplatePermissions(a...; b...) = UpdateTemplatePermissions(a..., b)
 
 """
     UpdateUser()
@@ -1143,4 +1273,6 @@ Required Parameters
   "UserName": "The Amazon QuickSight user name that you want to update."
 }
 """
-UpdateUser(args) = quicksight("PUT", "/accounts/{AwsAccountId}/namespaces/{Namespace}/users/{UserName}", args)
+UpdateUser(AwsAccountId, Email, Namespace, Role, UserName) = quicksight("PUT", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)")
+UpdateUser(AwsAccountId, Email, Namespace, Role, UserName, args) = quicksight("PUT", "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)", args)
+UpdateUser(a...; b...) = UpdateUser(a..., b)

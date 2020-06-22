@@ -132,7 +132,8 @@ Optional Parameters
   "Recurrence": "The recurrence of the reports. If this isn't specified, the report will only be delivered one time when the API is called. ",
   "S3BucketName": "The S3 bucket name of the output reports. If this isn't specified, the report can be retrieved from a download link by calling ListBusinessReportSchedule. ",
   "S3KeyPrefix": "The S3 key where the report is delivered.",
-  "ScheduleName": "The name identifier of the schedule."
+  "ScheduleName": "The name identifier of the schedule.",
+  "Tags": "The tags for the business report schedule."
 }
 """
 CreateBusinessReportSchedule(args) = alexa_for_business("CreateBusinessReportSchedule", args)
@@ -245,7 +246,8 @@ Optional Parameters
   "MaxVolumeLimit": "The maximum volume limit for a room profile.",
   "MeetingRoomConfiguration": "The meeting room settings of a room profile.",
   "PSTNEnabled": "Whether PSTN calling is enabled.",
-  "SetupModeDisabled": "Whether room profile setup is enabled."
+  "SetupModeDisabled": "Whether room profile setup is enabled.",
+  "Tags": "The tags for the profile."
 }
 """
 CreateProfile(args) = alexa_for_business("CreateProfile", args)
@@ -264,7 +266,7 @@ Optional Parameters
 {
   "ClientRequestToken": "A unique, user-specified identifier for this request that ensures idempotency. ",
   "Description": "The description for the room.",
-  "ProfileArn": "The profile ARN for the room.",
+  "ProfileArn": "The profile ARN for the room. This is required.",
   "ProviderCalendarId": "The calendar ARN for the room.",
   "Tags": "The tags for the room."
 }
@@ -284,7 +286,8 @@ Required Parameters
 Optional Parameters
 {
   "ClientRequestToken": "A unique, user-specified identifier for this request that ensures idempotency. ",
-  "Description": "The description for the skill group."
+  "Description": "The description for the skill group.",
+  "Tags": "The tags for the skill group."
 }
 """
 CreateSkillGroup(args) = alexa_for_business("CreateSkillGroup", args)

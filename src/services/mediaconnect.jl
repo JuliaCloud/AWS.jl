@@ -13,7 +13,9 @@ Required Parameters
   "Outputs": "A list of outputs that you want to add."
 }
 """
-AddFlowOutputs(args) = mediaconnect("POST", "/v1/flows/{flowArn}/outputs", args)
+AddFlowOutputs(FlowArn, Outputs) = mediaconnect("POST", "/v1/flows/$(flowArn)/outputs")
+AddFlowOutputs(FlowArn, Outputs, args) = mediaconnect("POST", "/v1/flows/$(flowArn)/outputs", args)
+AddFlowOutputs(a...; b...) = AddFlowOutputs(a..., b)
 
 """
     AddFlowSources()
@@ -26,7 +28,9 @@ Required Parameters
   "Sources": "A list of sources that you want to add."
 }
 """
-AddFlowSources(args) = mediaconnect("POST", "/v1/flows/{flowArn}/source", args)
+AddFlowSources(FlowArn, Sources) = mediaconnect("POST", "/v1/flows/$(flowArn)/source")
+AddFlowSources(FlowArn, Sources, args) = mediaconnect("POST", "/v1/flows/$(flowArn)/source", args)
+AddFlowSources(a...; b...) = AddFlowSources(a..., b)
 
 """
     AddFlowVpcInterfaces()
@@ -39,7 +43,9 @@ Required Parameters
   "VpcInterfaces": "A list of VPC interfaces that you want to add."
 }
 """
-AddFlowVpcInterfaces(args) = mediaconnect("POST", "/v1/flows/{flowArn}/vpcInterfaces", args)
+AddFlowVpcInterfaces(FlowArn, VpcInterfaces) = mediaconnect("POST", "/v1/flows/$(flowArn)/vpcInterfaces")
+AddFlowVpcInterfaces(FlowArn, VpcInterfaces, args) = mediaconnect("POST", "/v1/flows/$(flowArn)/vpcInterfaces", args)
+AddFlowVpcInterfaces(a...; b...) = AddFlowVpcInterfaces(a..., b)
 
 """
     CreateFlow()
@@ -62,7 +68,9 @@ Optional Parameters
   "VpcInterfaces": "The VPC interfaces you want on the flow."
 }
 """
-CreateFlow(args) = mediaconnect("POST", "/v1/flows", args)
+CreateFlow(Name) = mediaconnect("POST", "/v1/flows")
+CreateFlow(Name, args) = mediaconnect("POST", "/v1/flows", args)
+CreateFlow(a...; b...) = CreateFlow(a..., b)
 
 """
     DeleteFlow()
@@ -74,7 +82,9 @@ Required Parameters
   "FlowArn": "The ARN of the flow that you want to delete."
 }
 """
-DeleteFlow(args) = mediaconnect("DELETE", "/v1/flows/{flowArn}", args)
+DeleteFlow(FlowArn) = mediaconnect("DELETE", "/v1/flows/$(flowArn)")
+DeleteFlow(FlowArn, args) = mediaconnect("DELETE", "/v1/flows/$(flowArn)", args)
+DeleteFlow(a...; b...) = DeleteFlow(a..., b)
 
 """
     DescribeFlow()
@@ -86,7 +96,9 @@ Required Parameters
   "FlowArn": "The ARN of the flow that you want to describe."
 }
 """
-DescribeFlow(args) = mediaconnect("GET", "/v1/flows/{flowArn}", args)
+DescribeFlow(FlowArn) = mediaconnect("GET", "/v1/flows/$(flowArn)")
+DescribeFlow(FlowArn, args) = mediaconnect("GET", "/v1/flows/$(flowArn)", args)
+DescribeFlow(a...; b...) = DescribeFlow(a..., b)
 
 """
     GrantFlowEntitlements()
@@ -99,7 +111,9 @@ Required Parameters
   "FlowArn": "The flow that you want to grant entitlements on."
 }
 """
-GrantFlowEntitlements(args) = mediaconnect("POST", "/v1/flows/{flowArn}/entitlements", args)
+GrantFlowEntitlements(Entitlements, FlowArn) = mediaconnect("POST", "/v1/flows/$(flowArn)/entitlements")
+GrantFlowEntitlements(Entitlements, FlowArn, args) = mediaconnect("POST", "/v1/flows/$(flowArn)/entitlements", args)
+GrantFlowEntitlements(a...; b...) = GrantFlowEntitlements(a..., b)
 
 """
     ListEntitlements()
@@ -114,6 +128,7 @@ Optional Parameters
 """
 ListEntitlements() = mediaconnect("GET", "/v1/entitlements")
 ListEntitlements(args) = mediaconnect("GET", "/v1/entitlements", args)
+ListEntitlements(a...; b...) = ListEntitlements(a..., b)
 
 """
     ListFlows()
@@ -128,6 +143,7 @@ Optional Parameters
 """
 ListFlows() = mediaconnect("GET", "/v1/flows")
 ListFlows(args) = mediaconnect("GET", "/v1/flows", args)
+ListFlows(a...; b...) = ListFlows(a..., b)
 
 """
     ListTagsForResource()
@@ -139,7 +155,9 @@ Required Parameters
   "ResourceArn": "The Amazon Resource Name (ARN) that identifies the AWS Elemental MediaConnect resource for which to list the tags."
 }
 """
-ListTagsForResource(args) = mediaconnect("GET", "/tags/{resourceArn}", args)
+ListTagsForResource(ResourceArn) = mediaconnect("GET", "/tags/$(resourceArn)")
+ListTagsForResource(ResourceArn, args) = mediaconnect("GET", "/tags/$(resourceArn)", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     RemoveFlowOutput()
@@ -152,7 +170,9 @@ Required Parameters
   "OutputArn": "The ARN of the output that you want to remove."
 }
 """
-RemoveFlowOutput(args) = mediaconnect("DELETE", "/v1/flows/{flowArn}/outputs/{outputArn}", args)
+RemoveFlowOutput(FlowArn, OutputArn) = mediaconnect("DELETE", "/v1/flows/$(flowArn)/outputs/$(outputArn)")
+RemoveFlowOutput(FlowArn, OutputArn, args) = mediaconnect("DELETE", "/v1/flows/$(flowArn)/outputs/$(outputArn)", args)
+RemoveFlowOutput(a...; b...) = RemoveFlowOutput(a..., b)
 
 """
     RemoveFlowSource()
@@ -165,7 +185,9 @@ Required Parameters
   "SourceArn": "The ARN of the source that you want to remove."
 }
 """
-RemoveFlowSource(args) = mediaconnect("DELETE", "/v1/flows/{flowArn}/source/{sourceArn}", args)
+RemoveFlowSource(FlowArn, SourceArn) = mediaconnect("DELETE", "/v1/flows/$(flowArn)/source/$(sourceArn)")
+RemoveFlowSource(FlowArn, SourceArn, args) = mediaconnect("DELETE", "/v1/flows/$(flowArn)/source/$(sourceArn)", args)
+RemoveFlowSource(a...; b...) = RemoveFlowSource(a..., b)
 
 """
     RemoveFlowVpcInterface()
@@ -178,7 +200,9 @@ Required Parameters
   "VpcInterfaceName": "The name of the VPC interface that you want to remove."
 }
 """
-RemoveFlowVpcInterface(args) = mediaconnect("DELETE", "/v1/flows/{flowArn}/vpcInterfaces/{vpcInterfaceName}", args)
+RemoveFlowVpcInterface(FlowArn, VpcInterfaceName) = mediaconnect("DELETE", "/v1/flows/$(flowArn)/vpcInterfaces/$(vpcInterfaceName)")
+RemoveFlowVpcInterface(FlowArn, VpcInterfaceName, args) = mediaconnect("DELETE", "/v1/flows/$(flowArn)/vpcInterfaces/$(vpcInterfaceName)", args)
+RemoveFlowVpcInterface(a...; b...) = RemoveFlowVpcInterface(a..., b)
 
 """
     RevokeFlowEntitlement()
@@ -191,7 +215,9 @@ Required Parameters
   "FlowArn": "The flow that you want to revoke an entitlement from."
 }
 """
-RevokeFlowEntitlement(args) = mediaconnect("DELETE", "/v1/flows/{flowArn}/entitlements/{entitlementArn}", args)
+RevokeFlowEntitlement(EntitlementArn, FlowArn) = mediaconnect("DELETE", "/v1/flows/$(flowArn)/entitlements/$(entitlementArn)")
+RevokeFlowEntitlement(EntitlementArn, FlowArn, args) = mediaconnect("DELETE", "/v1/flows/$(flowArn)/entitlements/$(entitlementArn)", args)
+RevokeFlowEntitlement(a...; b...) = RevokeFlowEntitlement(a..., b)
 
 """
     StartFlow()
@@ -203,7 +229,9 @@ Required Parameters
   "FlowArn": "The ARN of the flow that you want to start."
 }
 """
-StartFlow(args) = mediaconnect("POST", "/v1/flows/start/{flowArn}", args)
+StartFlow(FlowArn) = mediaconnect("POST", "/v1/flows/start/$(flowArn)")
+StartFlow(FlowArn, args) = mediaconnect("POST", "/v1/flows/start/$(flowArn)", args)
+StartFlow(a...; b...) = StartFlow(a..., b)
 
 """
     StopFlow()
@@ -215,7 +243,9 @@ Required Parameters
   "FlowArn": "The ARN of the flow that you want to stop."
 }
 """
-StopFlow(args) = mediaconnect("POST", "/v1/flows/stop/{flowArn}", args)
+StopFlow(FlowArn) = mediaconnect("POST", "/v1/flows/stop/$(flowArn)")
+StopFlow(FlowArn, args) = mediaconnect("POST", "/v1/flows/stop/$(flowArn)", args)
+StopFlow(a...; b...) = StopFlow(a..., b)
 
 """
     TagResource()
@@ -228,7 +258,9 @@ Required Parameters
   "Tags": "A map from tag keys to values. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters."
 }
 """
-TagResource(args) = mediaconnect("POST", "/tags/{resourceArn}", args)
+TagResource(ResourceArn, Tags) = mediaconnect("POST", "/tags/$(resourceArn)")
+TagResource(ResourceArn, Tags, args) = mediaconnect("POST", "/tags/$(resourceArn)", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
@@ -241,7 +273,9 @@ Required Parameters
   "TagKeys": "The keys of the tags to be removed."
 }
 """
-UntagResource(args) = mediaconnect("DELETE", "/tags/{resourceArn}", args)
+UntagResource(ResourceArn, TagKeys) = mediaconnect("DELETE", "/tags/$(resourceArn)")
+UntagResource(ResourceArn, TagKeys, args) = mediaconnect("DELETE", "/tags/$(resourceArn)", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateFlow()
@@ -258,7 +292,9 @@ Optional Parameters
   "SourceFailoverConfig": ""
 }
 """
-UpdateFlow(args) = mediaconnect("PUT", "/v1/flows/{flowArn}", args)
+UpdateFlow(FlowArn) = mediaconnect("PUT", "/v1/flows/$(flowArn)")
+UpdateFlow(FlowArn, args) = mediaconnect("PUT", "/v1/flows/$(flowArn)", args)
+UpdateFlow(a...; b...) = UpdateFlow(a..., b)
 
 """
     UpdateFlowEntitlement()
@@ -278,7 +314,9 @@ Optional Parameters
   "Subscribers": "The AWS account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flow using your content as the source."
 }
 """
-UpdateFlowEntitlement(args) = mediaconnect("PUT", "/v1/flows/{flowArn}/entitlements/{entitlementArn}", args)
+UpdateFlowEntitlement(EntitlementArn, FlowArn) = mediaconnect("PUT", "/v1/flows/$(flowArn)/entitlements/$(entitlementArn)")
+UpdateFlowEntitlement(EntitlementArn, FlowArn, args) = mediaconnect("PUT", "/v1/flows/$(flowArn)/entitlements/$(entitlementArn)", args)
+UpdateFlowEntitlement(a...; b...) = UpdateFlowEntitlement(a..., b)
 
 """
     UpdateFlowOutput()
@@ -306,7 +344,9 @@ Optional Parameters
   "VpcInterfaceAttachment": "The name of the VPC interface attachment to use for this output."
 }
 """
-UpdateFlowOutput(args) = mediaconnect("PUT", "/v1/flows/{flowArn}/outputs/{outputArn}", args)
+UpdateFlowOutput(FlowArn, OutputArn) = mediaconnect("PUT", "/v1/flows/$(flowArn)/outputs/$(outputArn)")
+UpdateFlowOutput(FlowArn, OutputArn, args) = mediaconnect("PUT", "/v1/flows/$(flowArn)/outputs/$(outputArn)", args)
+UpdateFlowOutput(a...; b...) = UpdateFlowOutput(a..., b)
 
 """
     UpdateFlowSource()
@@ -333,4 +373,6 @@ Optional Parameters
   "WhitelistCidr": "The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16."
 }
 """
-UpdateFlowSource(args) = mediaconnect("PUT", "/v1/flows/{flowArn}/source/{sourceArn}", args)
+UpdateFlowSource(FlowArn, SourceArn) = mediaconnect("PUT", "/v1/flows/$(flowArn)/source/$(sourceArn)")
+UpdateFlowSource(FlowArn, SourceArn, args) = mediaconnect("PUT", "/v1/flows/$(flowArn)/source/$(sourceArn)", args)
+UpdateFlowSource(a...; b...) = UpdateFlowSource(a..., b)

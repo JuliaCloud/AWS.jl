@@ -20,7 +20,9 @@ Optional Parameters
   "Tags": "The tags to apply to the lifecycle policy during creation."
 }
 """
-CreateLifecyclePolicy(args) = dlm("POST", "/policies", args)
+CreateLifecyclePolicy(Description, ExecutionRoleArn, PolicyDetails, State) = dlm("POST", "/policies")
+CreateLifecyclePolicy(Description, ExecutionRoleArn, PolicyDetails, State, args) = dlm("POST", "/policies", args)
+CreateLifecyclePolicy(a...; b...) = CreateLifecyclePolicy(a..., b)
 
 """
     DeleteLifecyclePolicy()
@@ -32,7 +34,9 @@ Required Parameters
   "PolicyId": "The identifier of the lifecycle policy."
 }
 """
-DeleteLifecyclePolicy(args) = dlm("DELETE", "/policies/{policyId}/", args)
+DeleteLifecyclePolicy(PolicyId) = dlm("DELETE", "/policies/$(policyId)/")
+DeleteLifecyclePolicy(PolicyId, args) = dlm("DELETE", "/policies/$(policyId)/", args)
+DeleteLifecyclePolicy(a...; b...) = DeleteLifecyclePolicy(a..., b)
 
 """
     GetLifecyclePolicies()
@@ -50,6 +54,7 @@ Optional Parameters
 """
 GetLifecyclePolicies() = dlm("GET", "/policies")
 GetLifecyclePolicies(args) = dlm("GET", "/policies", args)
+GetLifecyclePolicies(a...; b...) = GetLifecyclePolicies(a..., b)
 
 """
     GetLifecyclePolicy()
@@ -61,7 +66,9 @@ Required Parameters
   "PolicyId": "The identifier of the lifecycle policy."
 }
 """
-GetLifecyclePolicy(args) = dlm("GET", "/policies/{policyId}/", args)
+GetLifecyclePolicy(PolicyId) = dlm("GET", "/policies/$(policyId)/")
+GetLifecyclePolicy(PolicyId, args) = dlm("GET", "/policies/$(policyId)/", args)
+GetLifecyclePolicy(a...; b...) = GetLifecyclePolicy(a..., b)
 
 """
     ListTagsForResource()
@@ -73,7 +80,9 @@ Required Parameters
   "ResourceArn": "The Amazon Resource Name (ARN) of the resource."
 }
 """
-ListTagsForResource(args) = dlm("GET", "/tags/{resourceArn}", args)
+ListTagsForResource(ResourceArn) = dlm("GET", "/tags/$(resourceArn)")
+ListTagsForResource(ResourceArn, args) = dlm("GET", "/tags/$(resourceArn)", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     TagResource()
@@ -86,7 +95,9 @@ Required Parameters
   "Tags": "One or more tags."
 }
 """
-TagResource(args) = dlm("POST", "/tags/{resourceArn}", args)
+TagResource(ResourceArn, Tags) = dlm("POST", "/tags/$(resourceArn)")
+TagResource(ResourceArn, Tags, args) = dlm("POST", "/tags/$(resourceArn)", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
@@ -99,7 +110,9 @@ Required Parameters
   "TagKeys": "The tag keys."
 }
 """
-UntagResource(args) = dlm("DELETE", "/tags/{resourceArn}", args)
+UntagResource(ResourceArn, TagKeys) = dlm("DELETE", "/tags/$(resourceArn)")
+UntagResource(ResourceArn, TagKeys, args) = dlm("DELETE", "/tags/$(resourceArn)", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateLifecyclePolicy()
@@ -119,4 +132,6 @@ Optional Parameters
   "State": "The desired activation state of the lifecycle policy after creation."
 }
 """
-UpdateLifecyclePolicy(args) = dlm("PATCH", "/policies/{policyId}", args)
+UpdateLifecyclePolicy(PolicyId) = dlm("PATCH", "/policies/$(policyId)")
+UpdateLifecyclePolicy(PolicyId, args) = dlm("PATCH", "/policies/$(policyId)", args)
+UpdateLifecyclePolicy(a...; b...) = UpdateLifecyclePolicy(a..., b)

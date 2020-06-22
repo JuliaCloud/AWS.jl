@@ -21,7 +21,9 @@ Optional Parameters
   "transitEncryptionEnabled": "Transit encryption flag when connecting to cache. This setting cannot be updated after creation."
 }
 """
-CreateApiCache(args) = appsync("POST", "/v1/apis/{apiId}/ApiCaches", args)
+CreateApiCache(apiCachingBehavior, apiId, ttl, type) = appsync("POST", "/v1/apis/$(apiId)/ApiCaches")
+CreateApiCache(apiCachingBehavior, apiId, ttl, type, args) = appsync("POST", "/v1/apis/$(apiId)/ApiCaches", args)
+CreateApiCache(a...; b...) = CreateApiCache(a..., b)
 
 """
     CreateApiKey()
@@ -39,7 +41,9 @@ Optional Parameters
   "expires": "The time from creation time after which the API key expires. The date is represented as seconds since the epoch, rounded down to the nearest hour. The default value for this parameter is 7 days from creation time. For more information, see ."
 }
 """
-CreateApiKey(args) = appsync("POST", "/v1/apis/{apiId}/apikeys", args)
+CreateApiKey(apiId) = appsync("POST", "/v1/apis/$(apiId)/apikeys")
+CreateApiKey(apiId, args) = appsync("POST", "/v1/apis/$(apiId)/apikeys", args)
+CreateApiKey(a...; b...) = CreateApiKey(a..., b)
 
 """
     CreateDataSource()
@@ -64,7 +68,9 @@ Optional Parameters
   "serviceRoleArn": "The AWS IAM service role ARN for the data source. The system assumes this role when accessing the data source."
 }
 """
-CreateDataSource(args) = appsync("POST", "/v1/apis/{apiId}/datasources", args)
+CreateDataSource(apiId, name, type) = appsync("POST", "/v1/apis/$(apiId)/datasources")
+CreateDataSource(apiId, name, type, args) = appsync("POST", "/v1/apis/$(apiId)/datasources", args)
+CreateDataSource(a...; b...) = CreateDataSource(a..., b)
 
 """
     CreateFunction()
@@ -86,7 +92,9 @@ Optional Parameters
   "responseMappingTemplate": "The Function response mapping template. "
 }
 """
-CreateFunction(args) = appsync("POST", "/v1/apis/{apiId}/functions", args)
+CreateFunction(apiId, dataSourceName, functionVersion, name, requestMappingTemplate) = appsync("POST", "/v1/apis/$(apiId)/functions")
+CreateFunction(apiId, dataSourceName, functionVersion, name, requestMappingTemplate, args) = appsync("POST", "/v1/apis/$(apiId)/functions", args)
+CreateFunction(a...; b...) = CreateFunction(a..., b)
 
 """
     CreateGraphqlApi()
@@ -109,7 +117,9 @@ Optional Parameters
   "xrayEnabled": "A flag indicating whether to enable X-Ray tracing for the GraphqlApi."
 }
 """
-CreateGraphqlApi(args) = appsync("POST", "/v1/apis", args)
+CreateGraphqlApi(authenticationType, name) = appsync("POST", "/v1/apis")
+CreateGraphqlApi(authenticationType, name, args) = appsync("POST", "/v1/apis", args)
+CreateGraphqlApi(a...; b...) = CreateGraphqlApi(a..., b)
 
 """
     CreateResolver()
@@ -134,7 +144,9 @@ Optional Parameters
   "syncConfig": "The SyncConfig for a resolver attached to a versioned datasource."
 }
 """
-CreateResolver(args) = appsync("POST", "/v1/apis/{apiId}/types/{typeName}/resolvers", args)
+CreateResolver(apiId, fieldName, requestMappingTemplate, typeName) = appsync("POST", "/v1/apis/$(apiId)/types/$(typeName)/resolvers")
+CreateResolver(apiId, fieldName, requestMappingTemplate, typeName, args) = appsync("POST", "/v1/apis/$(apiId)/types/$(typeName)/resolvers", args)
+CreateResolver(a...; b...) = CreateResolver(a..., b)
 
 """
     CreateType()
@@ -148,7 +160,9 @@ Required Parameters
   "format": "The type format: SDL or JSON."
 }
 """
-CreateType(args) = appsync("POST", "/v1/apis/{apiId}/types", args)
+CreateType(apiId, definition, format) = appsync("POST", "/v1/apis/$(apiId)/types")
+CreateType(apiId, definition, format, args) = appsync("POST", "/v1/apis/$(apiId)/types", args)
+CreateType(a...; b...) = CreateType(a..., b)
 
 """
     DeleteApiCache()
@@ -160,7 +174,9 @@ Required Parameters
   "apiId": "The API ID."
 }
 """
-DeleteApiCache(args) = appsync("DELETE", "/v1/apis/{apiId}/ApiCaches", args)
+DeleteApiCache(apiId) = appsync("DELETE", "/v1/apis/$(apiId)/ApiCaches")
+DeleteApiCache(apiId, args) = appsync("DELETE", "/v1/apis/$(apiId)/ApiCaches", args)
+DeleteApiCache(a...; b...) = DeleteApiCache(a..., b)
 
 """
     DeleteApiKey()
@@ -173,7 +189,9 @@ Required Parameters
   "id": "The ID for the API key."
 }
 """
-DeleteApiKey(args) = appsync("DELETE", "/v1/apis/{apiId}/apikeys/{id}", args)
+DeleteApiKey(apiId, id) = appsync("DELETE", "/v1/apis/$(apiId)/apikeys/$(id)")
+DeleteApiKey(apiId, id, args) = appsync("DELETE", "/v1/apis/$(apiId)/apikeys/$(id)", args)
+DeleteApiKey(a...; b...) = DeleteApiKey(a..., b)
 
 """
     DeleteDataSource()
@@ -186,7 +204,9 @@ Required Parameters
   "name": "The name of the data source."
 }
 """
-DeleteDataSource(args) = appsync("DELETE", "/v1/apis/{apiId}/datasources/{name}", args)
+DeleteDataSource(apiId, name) = appsync("DELETE", "/v1/apis/$(apiId)/datasources/$(name)")
+DeleteDataSource(apiId, name, args) = appsync("DELETE", "/v1/apis/$(apiId)/datasources/$(name)", args)
+DeleteDataSource(a...; b...) = DeleteDataSource(a..., b)
 
 """
     DeleteFunction()
@@ -199,7 +219,9 @@ Required Parameters
   "functionId": "The Function ID."
 }
 """
-DeleteFunction(args) = appsync("DELETE", "/v1/apis/{apiId}/functions/{functionId}", args)
+DeleteFunction(apiId, functionId) = appsync("DELETE", "/v1/apis/$(apiId)/functions/$(functionId)")
+DeleteFunction(apiId, functionId, args) = appsync("DELETE", "/v1/apis/$(apiId)/functions/$(functionId)", args)
+DeleteFunction(a...; b...) = DeleteFunction(a..., b)
 
 """
     DeleteGraphqlApi()
@@ -211,7 +233,9 @@ Required Parameters
   "apiId": "The API ID."
 }
 """
-DeleteGraphqlApi(args) = appsync("DELETE", "/v1/apis/{apiId}", args)
+DeleteGraphqlApi(apiId) = appsync("DELETE", "/v1/apis/$(apiId)")
+DeleteGraphqlApi(apiId, args) = appsync("DELETE", "/v1/apis/$(apiId)", args)
+DeleteGraphqlApi(a...; b...) = DeleteGraphqlApi(a..., b)
 
 """
     DeleteResolver()
@@ -225,7 +249,9 @@ Required Parameters
   "typeName": "The name of the resolver type."
 }
 """
-DeleteResolver(args) = appsync("DELETE", "/v1/apis/{apiId}/types/{typeName}/resolvers/{fieldName}", args)
+DeleteResolver(apiId, fieldName, typeName) = appsync("DELETE", "/v1/apis/$(apiId)/types/$(typeName)/resolvers/$(fieldName)")
+DeleteResolver(apiId, fieldName, typeName, args) = appsync("DELETE", "/v1/apis/$(apiId)/types/$(typeName)/resolvers/$(fieldName)", args)
+DeleteResolver(a...; b...) = DeleteResolver(a..., b)
 
 """
     DeleteType()
@@ -238,7 +264,9 @@ Required Parameters
   "typeName": "The type name."
 }
 """
-DeleteType(args) = appsync("DELETE", "/v1/apis/{apiId}/types/{typeName}", args)
+DeleteType(apiId, typeName) = appsync("DELETE", "/v1/apis/$(apiId)/types/$(typeName)")
+DeleteType(apiId, typeName, args) = appsync("DELETE", "/v1/apis/$(apiId)/types/$(typeName)", args)
+DeleteType(a...; b...) = DeleteType(a..., b)
 
 """
     FlushApiCache()
@@ -250,7 +278,9 @@ Required Parameters
   "apiId": "The API ID."
 }
 """
-FlushApiCache(args) = appsync("DELETE", "/v1/apis/{apiId}/FlushCache", args)
+FlushApiCache(apiId) = appsync("DELETE", "/v1/apis/$(apiId)/FlushCache")
+FlushApiCache(apiId, args) = appsync("DELETE", "/v1/apis/$(apiId)/FlushCache", args)
+FlushApiCache(a...; b...) = FlushApiCache(a..., b)
 
 """
     GetApiCache()
@@ -262,7 +292,9 @@ Required Parameters
   "apiId": "The API ID."
 }
 """
-GetApiCache(args) = appsync("GET", "/v1/apis/{apiId}/ApiCaches", args)
+GetApiCache(apiId) = appsync("GET", "/v1/apis/$(apiId)/ApiCaches")
+GetApiCache(apiId, args) = appsync("GET", "/v1/apis/$(apiId)/ApiCaches", args)
+GetApiCache(a...; b...) = GetApiCache(a..., b)
 
 """
     GetDataSource()
@@ -275,7 +307,9 @@ Required Parameters
   "name": "The name of the data source."
 }
 """
-GetDataSource(args) = appsync("GET", "/v1/apis/{apiId}/datasources/{name}", args)
+GetDataSource(apiId, name) = appsync("GET", "/v1/apis/$(apiId)/datasources/$(name)")
+GetDataSource(apiId, name, args) = appsync("GET", "/v1/apis/$(apiId)/datasources/$(name)", args)
+GetDataSource(a...; b...) = GetDataSource(a..., b)
 
 """
     GetFunction()
@@ -288,7 +322,9 @@ Required Parameters
   "functionId": "The Function ID."
 }
 """
-GetFunction(args) = appsync("GET", "/v1/apis/{apiId}/functions/{functionId}", args)
+GetFunction(apiId, functionId) = appsync("GET", "/v1/apis/$(apiId)/functions/$(functionId)")
+GetFunction(apiId, functionId, args) = appsync("GET", "/v1/apis/$(apiId)/functions/$(functionId)", args)
+GetFunction(a...; b...) = GetFunction(a..., b)
 
 """
     GetGraphqlApi()
@@ -300,7 +336,9 @@ Required Parameters
   "apiId": "The API ID for the GraphQL API."
 }
 """
-GetGraphqlApi(args) = appsync("GET", "/v1/apis/{apiId}", args)
+GetGraphqlApi(apiId) = appsync("GET", "/v1/apis/$(apiId)")
+GetGraphqlApi(apiId, args) = appsync("GET", "/v1/apis/$(apiId)", args)
+GetGraphqlApi(a...; b...) = GetGraphqlApi(a..., b)
 
 """
     GetIntrospectionSchema()
@@ -318,7 +356,9 @@ Optional Parameters
   "includeDirectives": "A flag that specifies whether the schema introspection should contain directives."
 }
 """
-GetIntrospectionSchema(args) = appsync("GET", "/v1/apis/{apiId}/schema", args)
+GetIntrospectionSchema(apiId, format) = appsync("GET", "/v1/apis/$(apiId)/schema")
+GetIntrospectionSchema(apiId, format, args) = appsync("GET", "/v1/apis/$(apiId)/schema", args)
+GetIntrospectionSchema(a...; b...) = GetIntrospectionSchema(a..., b)
 
 """
     GetResolver()
@@ -332,7 +372,9 @@ Required Parameters
   "typeName": "The resolver type name."
 }
 """
-GetResolver(args) = appsync("GET", "/v1/apis/{apiId}/types/{typeName}/resolvers/{fieldName}", args)
+GetResolver(apiId, fieldName, typeName) = appsync("GET", "/v1/apis/$(apiId)/types/$(typeName)/resolvers/$(fieldName)")
+GetResolver(apiId, fieldName, typeName, args) = appsync("GET", "/v1/apis/$(apiId)/types/$(typeName)/resolvers/$(fieldName)", args)
+GetResolver(a...; b...) = GetResolver(a..., b)
 
 """
     GetSchemaCreationStatus()
@@ -344,7 +386,9 @@ Required Parameters
   "apiId": "The API ID."
 }
 """
-GetSchemaCreationStatus(args) = appsync("GET", "/v1/apis/{apiId}/schemacreation", args)
+GetSchemaCreationStatus(apiId) = appsync("GET", "/v1/apis/$(apiId)/schemacreation")
+GetSchemaCreationStatus(apiId, args) = appsync("GET", "/v1/apis/$(apiId)/schemacreation", args)
+GetSchemaCreationStatus(a...; b...) = GetSchemaCreationStatus(a..., b)
 
 """
     GetType()
@@ -358,7 +402,9 @@ Required Parameters
   "typeName": "The type name."
 }
 """
-GetType(args) = appsync("GET", "/v1/apis/{apiId}/types/{typeName}", args)
+GetType(apiId, format, typeName) = appsync("GET", "/v1/apis/$(apiId)/types/$(typeName)")
+GetType(apiId, format, typeName, args) = appsync("GET", "/v1/apis/$(apiId)/types/$(typeName)", args)
+GetType(a...; b...) = GetType(a..., b)
 
 """
     ListApiKeys()
@@ -376,7 +422,9 @@ Optional Parameters
   "nextToken": "An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list."
 }
 """
-ListApiKeys(args) = appsync("GET", "/v1/apis/{apiId}/apikeys", args)
+ListApiKeys(apiId) = appsync("GET", "/v1/apis/$(apiId)/apikeys")
+ListApiKeys(apiId, args) = appsync("GET", "/v1/apis/$(apiId)/apikeys", args)
+ListApiKeys(a...; b...) = ListApiKeys(a..., b)
 
 """
     ListDataSources()
@@ -394,7 +442,9 @@ Optional Parameters
   "nextToken": "An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list. "
 }
 """
-ListDataSources(args) = appsync("GET", "/v1/apis/{apiId}/datasources", args)
+ListDataSources(apiId) = appsync("GET", "/v1/apis/$(apiId)/datasources")
+ListDataSources(apiId, args) = appsync("GET", "/v1/apis/$(apiId)/datasources", args)
+ListDataSources(a...; b...) = ListDataSources(a..., b)
 
 """
     ListFunctions()
@@ -412,7 +462,9 @@ Optional Parameters
   "nextToken": "An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list."
 }
 """
-ListFunctions(args) = appsync("GET", "/v1/apis/{apiId}/functions", args)
+ListFunctions(apiId) = appsync("GET", "/v1/apis/$(apiId)/functions")
+ListFunctions(apiId, args) = appsync("GET", "/v1/apis/$(apiId)/functions", args)
+ListFunctions(a...; b...) = ListFunctions(a..., b)
 
 """
     ListGraphqlApis()
@@ -427,6 +479,7 @@ Optional Parameters
 """
 ListGraphqlApis() = appsync("GET", "/v1/apis")
 ListGraphqlApis(args) = appsync("GET", "/v1/apis", args)
+ListGraphqlApis(a...; b...) = ListGraphqlApis(a..., b)
 
 """
     ListResolvers()
@@ -445,7 +498,9 @@ Optional Parameters
   "nextToken": "An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list. "
 }
 """
-ListResolvers(args) = appsync("GET", "/v1/apis/{apiId}/types/{typeName}/resolvers", args)
+ListResolvers(apiId, typeName) = appsync("GET", "/v1/apis/$(apiId)/types/$(typeName)/resolvers")
+ListResolvers(apiId, typeName, args) = appsync("GET", "/v1/apis/$(apiId)/types/$(typeName)/resolvers", args)
+ListResolvers(a...; b...) = ListResolvers(a..., b)
 
 """
     ListResolversByFunction()
@@ -464,7 +519,9 @@ Optional Parameters
   "nextToken": "An identifier that was returned from the previous call to this operation, which you can use to return the next set of items in the list."
 }
 """
-ListResolversByFunction(args) = appsync("GET", "/v1/apis/{apiId}/functions/{functionId}/resolvers", args)
+ListResolversByFunction(apiId, functionId) = appsync("GET", "/v1/apis/$(apiId)/functions/$(functionId)/resolvers")
+ListResolversByFunction(apiId, functionId, args) = appsync("GET", "/v1/apis/$(apiId)/functions/$(functionId)/resolvers", args)
+ListResolversByFunction(a...; b...) = ListResolversByFunction(a..., b)
 
 """
     ListTagsForResource()
@@ -476,7 +533,9 @@ Required Parameters
   "resourceArn": "The GraphqlApi ARN."
 }
 """
-ListTagsForResource(args) = appsync("GET", "/v1/tags/{resourceArn}", args)
+ListTagsForResource(resourceArn) = appsync("GET", "/v1/tags/$(resourceArn)")
+ListTagsForResource(resourceArn, args) = appsync("GET", "/v1/tags/$(resourceArn)", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     ListTypes()
@@ -495,7 +554,9 @@ Optional Parameters
   "nextToken": "An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list. "
 }
 """
-ListTypes(args) = appsync("GET", "/v1/apis/{apiId}/types", args)
+ListTypes(apiId, format) = appsync("GET", "/v1/apis/$(apiId)/types")
+ListTypes(apiId, format, args) = appsync("GET", "/v1/apis/$(apiId)/types", args)
+ListTypes(a...; b...) = ListTypes(a..., b)
 
 """
     StartSchemaCreation()
@@ -508,7 +569,9 @@ Required Parameters
   "definition": "The schema definition, in GraphQL schema language format."
 }
 """
-StartSchemaCreation(args) = appsync("POST", "/v1/apis/{apiId}/schemacreation", args)
+StartSchemaCreation(apiId, definition) = appsync("POST", "/v1/apis/$(apiId)/schemacreation")
+StartSchemaCreation(apiId, definition, args) = appsync("POST", "/v1/apis/$(apiId)/schemacreation", args)
+StartSchemaCreation(a...; b...) = StartSchemaCreation(a..., b)
 
 """
     TagResource()
@@ -521,7 +584,9 @@ Required Parameters
   "tags": "A TagMap object."
 }
 """
-TagResource(args) = appsync("POST", "/v1/tags/{resourceArn}", args)
+TagResource(resourceArn, tags) = appsync("POST", "/v1/tags/$(resourceArn)")
+TagResource(resourceArn, tags, args) = appsync("POST", "/v1/tags/$(resourceArn)", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
@@ -534,7 +599,9 @@ Required Parameters
   "tagKeys": "A list of TagKey objects."
 }
 """
-UntagResource(args) = appsync("DELETE", "/v1/tags/{resourceArn}", args)
+UntagResource(resourceArn, tagKeys) = appsync("DELETE", "/v1/tags/$(resourceArn)")
+UntagResource(resourceArn, tagKeys, args) = appsync("DELETE", "/v1/tags/$(resourceArn)", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateApiCache()
@@ -549,7 +616,9 @@ Required Parameters
   "type": "The cache instance type.    T2_SMALL: A t2.small instance type.    T2_MEDIUM: A t2.medium instance type.    R4_LARGE: A r4.large instance type.    R4_XLARGE: A r4.xlarge instance type.    R4_2XLARGE: A r4.2xlarge instance type.    R4_4XLARGE: A r4.4xlarge instance type.    R4_8XLARGE: A r4.8xlarge instance type.  "
 }
 """
-UpdateApiCache(args) = appsync("POST", "/v1/apis/{apiId}/ApiCaches/update", args)
+UpdateApiCache(apiCachingBehavior, apiId, ttl, type) = appsync("POST", "/v1/apis/$(apiId)/ApiCaches/update")
+UpdateApiCache(apiCachingBehavior, apiId, ttl, type, args) = appsync("POST", "/v1/apis/$(apiId)/ApiCaches/update", args)
+UpdateApiCache(a...; b...) = UpdateApiCache(a..., b)
 
 """
     UpdateApiKey()
@@ -568,7 +637,9 @@ Optional Parameters
   "expires": "The time from update time after which the API key expires. The date is represented as seconds since the epoch. For more information, see ."
 }
 """
-UpdateApiKey(args) = appsync("POST", "/v1/apis/{apiId}/apikeys/{id}", args)
+UpdateApiKey(apiId, id) = appsync("POST", "/v1/apis/$(apiId)/apikeys/$(id)")
+UpdateApiKey(apiId, id, args) = appsync("POST", "/v1/apis/$(apiId)/apikeys/$(id)", args)
+UpdateApiKey(a...; b...) = UpdateApiKey(a..., b)
 
 """
     UpdateDataSource()
@@ -593,7 +664,9 @@ Optional Parameters
   "serviceRoleArn": "The new service role ARN for the data source."
 }
 """
-UpdateDataSource(args) = appsync("POST", "/v1/apis/{apiId}/datasources/{name}", args)
+UpdateDataSource(apiId, name, type) = appsync("POST", "/v1/apis/$(apiId)/datasources/$(name)")
+UpdateDataSource(apiId, name, type, args) = appsync("POST", "/v1/apis/$(apiId)/datasources/$(name)", args)
+UpdateDataSource(a...; b...) = UpdateDataSource(a..., b)
 
 """
     UpdateFunction()
@@ -616,7 +689,9 @@ Optional Parameters
   "responseMappingTemplate": "The Function request mapping template. "
 }
 """
-UpdateFunction(args) = appsync("POST", "/v1/apis/{apiId}/functions/{functionId}", args)
+UpdateFunction(apiId, dataSourceName, functionId, functionVersion, name, requestMappingTemplate) = appsync("POST", "/v1/apis/$(apiId)/functions/$(functionId)")
+UpdateFunction(apiId, dataSourceName, functionId, functionVersion, name, requestMappingTemplate, args) = appsync("POST", "/v1/apis/$(apiId)/functions/$(functionId)", args)
+UpdateFunction(a...; b...) = UpdateFunction(a..., b)
 
 """
     UpdateGraphqlApi()
@@ -639,7 +714,9 @@ Optional Parameters
   "xrayEnabled": "A flag indicating whether to enable X-Ray tracing for the GraphqlApi."
 }
 """
-UpdateGraphqlApi(args) = appsync("POST", "/v1/apis/{apiId}", args)
+UpdateGraphqlApi(apiId, name) = appsync("POST", "/v1/apis/$(apiId)")
+UpdateGraphqlApi(apiId, name, args) = appsync("POST", "/v1/apis/$(apiId)", args)
+UpdateGraphqlApi(a...; b...) = UpdateGraphqlApi(a..., b)
 
 """
     UpdateResolver()
@@ -664,7 +741,9 @@ Optional Parameters
   "syncConfig": "The SyncConfig for a resolver attached to a versioned datasource."
 }
 """
-UpdateResolver(args) = appsync("POST", "/v1/apis/{apiId}/types/{typeName}/resolvers/{fieldName}", args)
+UpdateResolver(apiId, fieldName, requestMappingTemplate, typeName) = appsync("POST", "/v1/apis/$(apiId)/types/$(typeName)/resolvers/$(fieldName)")
+UpdateResolver(apiId, fieldName, requestMappingTemplate, typeName, args) = appsync("POST", "/v1/apis/$(apiId)/types/$(typeName)/resolvers/$(fieldName)", args)
+UpdateResolver(a...; b...) = UpdateResolver(a..., b)
 
 """
     UpdateType()
@@ -683,4 +762,6 @@ Optional Parameters
   "definition": "The new definition."
 }
 """
-UpdateType(args) = appsync("POST", "/v1/apis/{apiId}/types/{typeName}", args)
+UpdateType(apiId, format, typeName) = appsync("POST", "/v1/apis/$(apiId)/types/$(typeName)")
+UpdateType(apiId, format, typeName, args) = appsync("POST", "/v1/apis/$(apiId)/types/$(typeName)", args)
+UpdateType(a...; b...) = UpdateType(a..., b)

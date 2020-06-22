@@ -12,7 +12,9 @@ Required Parameters
   "contactId": "UUID of a contact."
 }
 """
-CancelContact(args) = groundstation("DELETE", "/contact/{contactId}", args)
+CancelContact(contactId) = groundstation("DELETE", "/contact/$(contactId)")
+CancelContact(contactId, args) = groundstation("DELETE", "/contact/$(contactId)", args)
+CancelContact(a...; b...) = CancelContact(a..., b)
 
 """
     CreateConfig()
@@ -30,7 +32,9 @@ Optional Parameters
   "tags": "Tags assigned to a Config."
 }
 """
-CreateConfig(args) = groundstation("POST", "/config", args)
+CreateConfig(configData, name) = groundstation("POST", "/config")
+CreateConfig(configData, name, args) = groundstation("POST", "/config", args)
+CreateConfig(a...; b...) = CreateConfig(a..., b)
 
 """
     CreateDataflowEndpointGroup()
@@ -47,7 +51,9 @@ Optional Parameters
   "tags": "Tags of a dataflow endpoint group."
 }
 """
-CreateDataflowEndpointGroup(args) = groundstation("POST", "/dataflowEndpointGroup", args)
+CreateDataflowEndpointGroup(endpointDetails) = groundstation("POST", "/dataflowEndpointGroup")
+CreateDataflowEndpointGroup(endpointDetails, args) = groundstation("POST", "/dataflowEndpointGroup", args)
+CreateDataflowEndpointGroup(a...; b...) = CreateDataflowEndpointGroup(a..., b)
 
 """
     CreateMissionProfile()
@@ -69,7 +75,9 @@ Optional Parameters
   "tags": "Tags assigned to a mission profile."
 }
 """
-CreateMissionProfile(args) = groundstation("POST", "/missionprofile", args)
+CreateMissionProfile(dataflowEdges, minimumViableContactDurationSeconds, name, trackingConfigArn) = groundstation("POST", "/missionprofile")
+CreateMissionProfile(dataflowEdges, minimumViableContactDurationSeconds, name, trackingConfigArn, args) = groundstation("POST", "/missionprofile", args)
+CreateMissionProfile(a...; b...) = CreateMissionProfile(a..., b)
 
 """
     DeleteConfig()
@@ -82,7 +90,9 @@ Required Parameters
   "configType": "Type of a Config."
 }
 """
-DeleteConfig(args) = groundstation("DELETE", "/config/{configType}/{configId}", args)
+DeleteConfig(configId, configType) = groundstation("DELETE", "/config/$(configType)/$(configId)")
+DeleteConfig(configId, configType, args) = groundstation("DELETE", "/config/$(configType)/$(configId)", args)
+DeleteConfig(a...; b...) = DeleteConfig(a..., b)
 
 """
     DeleteDataflowEndpointGroup()
@@ -94,7 +104,9 @@ Required Parameters
   "dataflowEndpointGroupId": "UUID of a dataflow endpoint group."
 }
 """
-DeleteDataflowEndpointGroup(args) = groundstation("DELETE", "/dataflowEndpointGroup/{dataflowEndpointGroupId}", args)
+DeleteDataflowEndpointGroup(dataflowEndpointGroupId) = groundstation("DELETE", "/dataflowEndpointGroup/$(dataflowEndpointGroupId)")
+DeleteDataflowEndpointGroup(dataflowEndpointGroupId, args) = groundstation("DELETE", "/dataflowEndpointGroup/$(dataflowEndpointGroupId)", args)
+DeleteDataflowEndpointGroup(a...; b...) = DeleteDataflowEndpointGroup(a..., b)
 
 """
     DeleteMissionProfile()
@@ -106,7 +118,9 @@ Required Parameters
   "missionProfileId": "UUID of a mission profile."
 }
 """
-DeleteMissionProfile(args) = groundstation("DELETE", "/missionprofile/{missionProfileId}", args)
+DeleteMissionProfile(missionProfileId) = groundstation("DELETE", "/missionprofile/$(missionProfileId)")
+DeleteMissionProfile(missionProfileId, args) = groundstation("DELETE", "/missionprofile/$(missionProfileId)", args)
+DeleteMissionProfile(a...; b...) = DeleteMissionProfile(a..., b)
 
 """
     DescribeContact()
@@ -118,7 +132,9 @@ Required Parameters
   "contactId": "UUID of a contact."
 }
 """
-DescribeContact(args) = groundstation("GET", "/contact/{contactId}", args)
+DescribeContact(contactId) = groundstation("GET", "/contact/$(contactId)")
+DescribeContact(contactId, args) = groundstation("GET", "/contact/$(contactId)", args)
+DescribeContact(a...; b...) = DescribeContact(a..., b)
 
 """
     GetConfig()
@@ -131,7 +147,9 @@ Required Parameters
   "configType": "Type of a Config."
 }
 """
-GetConfig(args) = groundstation("GET", "/config/{configType}/{configId}", args)
+GetConfig(configId, configType) = groundstation("GET", "/config/$(configType)/$(configId)")
+GetConfig(configId, configType, args) = groundstation("GET", "/config/$(configType)/$(configId)", args)
+GetConfig(a...; b...) = GetConfig(a..., b)
 
 """
     GetDataflowEndpointGroup()
@@ -143,7 +161,9 @@ Required Parameters
   "dataflowEndpointGroupId": "UUID of a dataflow endpoint group."
 }
 """
-GetDataflowEndpointGroup(args) = groundstation("GET", "/dataflowEndpointGroup/{dataflowEndpointGroupId}", args)
+GetDataflowEndpointGroup(dataflowEndpointGroupId) = groundstation("GET", "/dataflowEndpointGroup/$(dataflowEndpointGroupId)")
+GetDataflowEndpointGroup(dataflowEndpointGroupId, args) = groundstation("GET", "/dataflowEndpointGroup/$(dataflowEndpointGroupId)", args)
+GetDataflowEndpointGroup(a...; b...) = GetDataflowEndpointGroup(a..., b)
 
 """
     GetMinuteUsage()
@@ -156,7 +176,9 @@ Required Parameters
   "year": "The year being requested, in the format of YYYY."
 }
 """
-GetMinuteUsage(args) = groundstation("POST", "/minute-usage", args)
+GetMinuteUsage(month, year) = groundstation("POST", "/minute-usage")
+GetMinuteUsage(month, year, args) = groundstation("POST", "/minute-usage", args)
+GetMinuteUsage(a...; b...) = GetMinuteUsage(a..., b)
 
 """
     GetMissionProfile()
@@ -168,7 +190,9 @@ Required Parameters
   "missionProfileId": "UUID of a mission profile."
 }
 """
-GetMissionProfile(args) = groundstation("GET", "/missionprofile/{missionProfileId}", args)
+GetMissionProfile(missionProfileId) = groundstation("GET", "/missionprofile/$(missionProfileId)")
+GetMissionProfile(missionProfileId, args) = groundstation("GET", "/missionprofile/$(missionProfileId)", args)
+GetMissionProfile(a...; b...) = GetMissionProfile(a..., b)
 
 """
     GetSatellite()
@@ -180,7 +204,9 @@ Required Parameters
   "satelliteId": "UUID of a satellite."
 }
 """
-GetSatellite(args) = groundstation("GET", "/satellite/{satelliteId}", args)
+GetSatellite(satelliteId) = groundstation("GET", "/satellite/$(satelliteId)")
+GetSatellite(satelliteId, args) = groundstation("GET", "/satellite/$(satelliteId)", args)
+GetSatellite(a...; b...) = GetSatellite(a..., b)
 
 """
     ListConfigs()
@@ -195,6 +221,7 @@ Optional Parameters
 """
 ListConfigs() = groundstation("GET", "/config")
 ListConfigs(args) = groundstation("GET", "/config", args)
+ListConfigs(a...; b...) = ListConfigs(a..., b)
 
 """
     ListContacts()
@@ -217,7 +244,9 @@ Optional Parameters
   "satelliteArn": "ARN of a satellite."
 }
 """
-ListContacts(args) = groundstation("POST", "/contacts", args)
+ListContacts(endTime, startTime, statusList) = groundstation("POST", "/contacts")
+ListContacts(endTime, startTime, statusList, args) = groundstation("POST", "/contacts", args)
+ListContacts(a...; b...) = ListContacts(a..., b)
 
 """
     ListDataflowEndpointGroups()
@@ -232,6 +261,7 @@ Optional Parameters
 """
 ListDataflowEndpointGroups() = groundstation("GET", "/dataflowEndpointGroup")
 ListDataflowEndpointGroups(args) = groundstation("GET", "/dataflowEndpointGroup", args)
+ListDataflowEndpointGroups(a...; b...) = ListDataflowEndpointGroups(a..., b)
 
 """
     ListGroundStations()
@@ -247,6 +277,7 @@ Optional Parameters
 """
 ListGroundStations() = groundstation("GET", "/groundstation")
 ListGroundStations(args) = groundstation("GET", "/groundstation", args)
+ListGroundStations(a...; b...) = ListGroundStations(a..., b)
 
 """
     ListMissionProfiles()
@@ -261,6 +292,7 @@ Optional Parameters
 """
 ListMissionProfiles() = groundstation("GET", "/missionprofile")
 ListMissionProfiles(args) = groundstation("GET", "/missionprofile", args)
+ListMissionProfiles(a...; b...) = ListMissionProfiles(a..., b)
 
 """
     ListSatellites()
@@ -275,6 +307,7 @@ Optional Parameters
 """
 ListSatellites() = groundstation("GET", "/satellite")
 ListSatellites(args) = groundstation("GET", "/satellite", args)
+ListSatellites(a...; b...) = ListSatellites(a..., b)
 
 """
     ListTagsForResource()
@@ -286,7 +319,9 @@ Required Parameters
   "resourceArn": "ARN of a resource."
 }
 """
-ListTagsForResource(args) = groundstation("GET", "/tags/{resourceArn}", args)
+ListTagsForResource(resourceArn) = groundstation("GET", "/tags/$(resourceArn)")
+ListTagsForResource(resourceArn, args) = groundstation("GET", "/tags/$(resourceArn)", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     ReserveContact()
@@ -307,7 +342,9 @@ Optional Parameters
   "tags": "Tags assigned to a contact."
 }
 """
-ReserveContact(args) = groundstation("POST", "/contact", args)
+ReserveContact(endTime, groundStation, missionProfileArn, satelliteArn, startTime) = groundstation("POST", "/contact")
+ReserveContact(endTime, groundStation, missionProfileArn, satelliteArn, startTime, args) = groundstation("POST", "/contact", args)
+ReserveContact(a...; b...) = ReserveContact(a..., b)
 
 """
     TagResource()
@@ -320,7 +357,9 @@ Required Parameters
   "tags": "Tags assigned to a resource."
 }
 """
-TagResource(args) = groundstation("POST", "/tags/{resourceArn}", args)
+TagResource(resourceArn, tags) = groundstation("POST", "/tags/$(resourceArn)")
+TagResource(resourceArn, tags, args) = groundstation("POST", "/tags/$(resourceArn)", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
@@ -333,7 +372,9 @@ Required Parameters
   "tagKeys": "Keys of a resource tag."
 }
 """
-UntagResource(args) = groundstation("DELETE", "/tags/{resourceArn}", args)
+UntagResource(resourceArn, tagKeys) = groundstation("DELETE", "/tags/$(resourceArn)")
+UntagResource(resourceArn, tagKeys, args) = groundstation("DELETE", "/tags/$(resourceArn)", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateConfig()
@@ -348,7 +389,9 @@ Required Parameters
   "name": "Name of a Config."
 }
 """
-UpdateConfig(args) = groundstation("PUT", "/config/{configType}/{configId}", args)
+UpdateConfig(configData, configId, configType, name) = groundstation("PUT", "/config/$(configType)/$(configId)")
+UpdateConfig(configData, configId, configType, name, args) = groundstation("PUT", "/config/$(configType)/$(configId)", args)
+UpdateConfig(a...; b...) = UpdateConfig(a..., b)
 
 """
     UpdateMissionProfile()
@@ -370,4 +413,6 @@ Optional Parameters
   "trackingConfigArn": "ARN of a tracking Config."
 }
 """
-UpdateMissionProfile(args) = groundstation("PUT", "/missionprofile/{missionProfileId}", args)
+UpdateMissionProfile(missionProfileId) = groundstation("PUT", "/missionprofile/$(missionProfileId)")
+UpdateMissionProfile(missionProfileId, args) = groundstation("PUT", "/missionprofile/$(missionProfileId)", args)
+UpdateMissionProfile(a...; b...) = UpdateMissionProfile(a..., b)

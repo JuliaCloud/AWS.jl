@@ -18,7 +18,9 @@ Optional Parameters
   "StreamName": "The name of the stream for which to retrieve the media clip.  You must specify either the StreamName or the StreamARN. "
 }
 """
-GetClip(args) = kinesis_video_archived_media("POST", "/getClip", args)
+GetClip(ClipFragmentSelector) = kinesis_video_archived_media("POST", "/getClip")
+GetClip(ClipFragmentSelector, args) = kinesis_video_archived_media("POST", "/getClip", args)
+GetClip(a...; b...) = GetClip(a..., b)
 
 """
     GetDASHStreamingSessionURL()
@@ -39,6 +41,7 @@ Optional Parameters
 """
 GetDASHStreamingSessionURL() = kinesis_video_archived_media("POST", "/getDASHStreamingSessionURL")
 GetDASHStreamingSessionURL(args) = kinesis_video_archived_media("POST", "/getDASHStreamingSessionURL", args)
+GetDASHStreamingSessionURL(a...; b...) = GetDASHStreamingSessionURL(a..., b)
 
 """
     GetHLSStreamingSessionURL()
@@ -60,6 +63,7 @@ Optional Parameters
 """
 GetHLSStreamingSessionURL() = kinesis_video_archived_media("POST", "/getHLSStreamingSessionURL")
 GetHLSStreamingSessionURL(args) = kinesis_video_archived_media("POST", "/getHLSStreamingSessionURL", args)
+GetHLSStreamingSessionURL(a...; b...) = GetHLSStreamingSessionURL(a..., b)
 
 """
     GetMediaForFragmentList()
@@ -72,7 +76,9 @@ Required Parameters
   "StreamName": "The name of the stream from which to retrieve fragment media."
 }
 """
-GetMediaForFragmentList(args) = kinesis_video_archived_media("POST", "/getMediaForFragmentList", args)
+GetMediaForFragmentList(Fragments, StreamName) = kinesis_video_archived_media("POST", "/getMediaForFragmentList")
+GetMediaForFragmentList(Fragments, StreamName, args) = kinesis_video_archived_media("POST", "/getMediaForFragmentList", args)
+GetMediaForFragmentList(a...; b...) = GetMediaForFragmentList(a..., b)
 
 """
     ListFragments()
@@ -91,4 +97,6 @@ Optional Parameters
   "NextToken": "A token to specify where to start paginating. This is the ListFragmentsOutput NextToken from a previously truncated response."
 }
 """
-ListFragments(args) = kinesis_video_archived_media("POST", "/listFragments", args)
+ListFragments(StreamName) = kinesis_video_archived_media("POST", "/listFragments")
+ListFragments(StreamName, args) = kinesis_video_archived_media("POST", "/listFragments", args)
+ListFragments(a...; b...) = ListFragments(a..., b)

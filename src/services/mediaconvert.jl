@@ -12,7 +12,9 @@ Required Parameters
   "Arn": "The ARN of the ACM certificate that you want to associate with your MediaConvert resource."
 }
 """
-AssociateCertificate(args) = mediaconvert("POST", "/2017-08-29/certificates", args)
+AssociateCertificate(Arn) = mediaconvert("POST", "/2017-08-29/certificates")
+AssociateCertificate(Arn, args) = mediaconvert("POST", "/2017-08-29/certificates", args)
+AssociateCertificate(a...; b...) = AssociateCertificate(a..., b)
 
 """
     CancelJob()
@@ -24,7 +26,9 @@ Required Parameters
   "Id": "The Job ID of the job to be cancelled."
 }
 """
-CancelJob(args) = mediaconvert("DELETE", "/2017-08-29/jobs/{id}", args)
+CancelJob(Id) = mediaconvert("DELETE", "/2017-08-29/jobs/$(id)")
+CancelJob(Id, args) = mediaconvert("DELETE", "/2017-08-29/jobs/$(id)", args)
+CancelJob(a...; b...) = CancelJob(a..., b)
 
 """
     CreateJob()
@@ -52,7 +56,9 @@ Optional Parameters
   "UserMetadata": "Optional. User-defined metadata that you want to associate with an MediaConvert job. You specify metadata in key/value pairs."
 }
 """
-CreateJob(args) = mediaconvert("POST", "/2017-08-29/jobs", args)
+CreateJob(Role, Settings) = mediaconvert("POST", "/2017-08-29/jobs")
+CreateJob(Role, Settings, args) = mediaconvert("POST", "/2017-08-29/jobs", args)
+CreateJob(a...; b...) = CreateJob(a..., b)
 
 """
     CreateJobTemplate()
@@ -77,7 +83,9 @@ Optional Parameters
   "Tags": "The tags that you want to add to the resource. You can tag resources with a key-value pair or with only a key."
 }
 """
-CreateJobTemplate(args) = mediaconvert("POST", "/2017-08-29/jobTemplates", args)
+CreateJobTemplate(Name, Settings) = mediaconvert("POST", "/2017-08-29/jobTemplates")
+CreateJobTemplate(Name, Settings, args) = mediaconvert("POST", "/2017-08-29/jobTemplates", args)
+CreateJobTemplate(a...; b...) = CreateJobTemplate(a..., b)
 
 """
     CreatePreset()
@@ -97,7 +105,9 @@ Optional Parameters
   "Tags": "The tags that you want to add to the resource. You can tag resources with a key-value pair or with only a key."
 }
 """
-CreatePreset(args) = mediaconvert("POST", "/2017-08-29/presets", args)
+CreatePreset(Name, Settings) = mediaconvert("POST", "/2017-08-29/presets")
+CreatePreset(Name, Settings, args) = mediaconvert("POST", "/2017-08-29/presets", args)
+CreatePreset(a...; b...) = CreatePreset(a..., b)
 
 """
     CreateQueue()
@@ -118,7 +128,9 @@ Optional Parameters
   "Tags": "The tags that you want to add to the resource. You can tag resources with a key-value pair or with only a key."
 }
 """
-CreateQueue(args) = mediaconvert("POST", "/2017-08-29/queues", args)
+CreateQueue(Name) = mediaconvert("POST", "/2017-08-29/queues")
+CreateQueue(Name, args) = mediaconvert("POST", "/2017-08-29/queues", args)
+CreateQueue(a...; b...) = CreateQueue(a..., b)
 
 """
     DeleteJobTemplate()
@@ -130,7 +142,9 @@ Required Parameters
   "Name": "The name of the job template to be deleted."
 }
 """
-DeleteJobTemplate(args) = mediaconvert("DELETE", "/2017-08-29/jobTemplates/{name}", args)
+DeleteJobTemplate(Name) = mediaconvert("DELETE", "/2017-08-29/jobTemplates/$(name)")
+DeleteJobTemplate(Name, args) = mediaconvert("DELETE", "/2017-08-29/jobTemplates/$(name)", args)
+DeleteJobTemplate(a...; b...) = DeleteJobTemplate(a..., b)
 
 """
     DeletePreset()
@@ -142,7 +156,9 @@ Required Parameters
   "Name": "The name of the preset to be deleted."
 }
 """
-DeletePreset(args) = mediaconvert("DELETE", "/2017-08-29/presets/{name}", args)
+DeletePreset(Name) = mediaconvert("DELETE", "/2017-08-29/presets/$(name)")
+DeletePreset(Name, args) = mediaconvert("DELETE", "/2017-08-29/presets/$(name)", args)
+DeletePreset(a...; b...) = DeletePreset(a..., b)
 
 """
     DeleteQueue()
@@ -154,7 +170,9 @@ Required Parameters
   "Name": "The name of the queue that you want to delete."
 }
 """
-DeleteQueue(args) = mediaconvert("DELETE", "/2017-08-29/queues/{name}", args)
+DeleteQueue(Name) = mediaconvert("DELETE", "/2017-08-29/queues/$(name)")
+DeleteQueue(Name, args) = mediaconvert("DELETE", "/2017-08-29/queues/$(name)", args)
+DeleteQueue(a...; b...) = DeleteQueue(a..., b)
 
 """
     DescribeEndpoints()
@@ -170,6 +188,7 @@ Optional Parameters
 """
 DescribeEndpoints() = mediaconvert("POST", "/2017-08-29/endpoints")
 DescribeEndpoints(args) = mediaconvert("POST", "/2017-08-29/endpoints", args)
+DescribeEndpoints(a...; b...) = DescribeEndpoints(a..., b)
 
 """
     DisassociateCertificate()
@@ -181,7 +200,9 @@ Required Parameters
   "Arn": "The ARN of the ACM certificate that you want to disassociate from your MediaConvert resource."
 }
 """
-DisassociateCertificate(args) = mediaconvert("DELETE", "/2017-08-29/certificates/{arn}", args)
+DisassociateCertificate(Arn) = mediaconvert("DELETE", "/2017-08-29/certificates/$(arn)")
+DisassociateCertificate(Arn, args) = mediaconvert("DELETE", "/2017-08-29/certificates/$(arn)", args)
+DisassociateCertificate(a...; b...) = DisassociateCertificate(a..., b)
 
 """
     GetJob()
@@ -193,7 +214,9 @@ Required Parameters
   "Id": "the job ID of the job."
 }
 """
-GetJob(args) = mediaconvert("GET", "/2017-08-29/jobs/{id}", args)
+GetJob(Id) = mediaconvert("GET", "/2017-08-29/jobs/$(id)")
+GetJob(Id, args) = mediaconvert("GET", "/2017-08-29/jobs/$(id)", args)
+GetJob(a...; b...) = GetJob(a..., b)
 
 """
     GetJobTemplate()
@@ -205,7 +228,9 @@ Required Parameters
   "Name": "The name of the job template."
 }
 """
-GetJobTemplate(args) = mediaconvert("GET", "/2017-08-29/jobTemplates/{name}", args)
+GetJobTemplate(Name) = mediaconvert("GET", "/2017-08-29/jobTemplates/$(name)")
+GetJobTemplate(Name, args) = mediaconvert("GET", "/2017-08-29/jobTemplates/$(name)", args)
+GetJobTemplate(a...; b...) = GetJobTemplate(a..., b)
 
 """
     GetPreset()
@@ -217,7 +242,9 @@ Required Parameters
   "Name": "The name of the preset."
 }
 """
-GetPreset(args) = mediaconvert("GET", "/2017-08-29/presets/{name}", args)
+GetPreset(Name) = mediaconvert("GET", "/2017-08-29/presets/$(name)")
+GetPreset(Name, args) = mediaconvert("GET", "/2017-08-29/presets/$(name)", args)
+GetPreset(a...; b...) = GetPreset(a..., b)
 
 """
     GetQueue()
@@ -229,7 +256,9 @@ Required Parameters
   "Name": "The name of the queue that you want information about."
 }
 """
-GetQueue(args) = mediaconvert("GET", "/2017-08-29/queues/{name}", args)
+GetQueue(Name) = mediaconvert("GET", "/2017-08-29/queues/$(name)")
+GetQueue(Name, args) = mediaconvert("GET", "/2017-08-29/queues/$(name)", args)
+GetQueue(a...; b...) = GetQueue(a..., b)
 
 """
     ListJobTemplates()
@@ -247,6 +276,7 @@ Optional Parameters
 """
 ListJobTemplates() = mediaconvert("GET", "/2017-08-29/jobTemplates")
 ListJobTemplates(args) = mediaconvert("GET", "/2017-08-29/jobTemplates", args)
+ListJobTemplates(a...; b...) = ListJobTemplates(a..., b)
 
 """
     ListJobs()
@@ -264,6 +294,7 @@ Optional Parameters
 """
 ListJobs() = mediaconvert("GET", "/2017-08-29/jobs")
 ListJobs(args) = mediaconvert("GET", "/2017-08-29/jobs", args)
+ListJobs(a...; b...) = ListJobs(a..., b)
 
 """
     ListPresets()
@@ -281,6 +312,7 @@ Optional Parameters
 """
 ListPresets() = mediaconvert("GET", "/2017-08-29/presets")
 ListPresets(args) = mediaconvert("GET", "/2017-08-29/presets", args)
+ListPresets(a...; b...) = ListPresets(a..., b)
 
 """
     ListQueues()
@@ -297,6 +329,7 @@ Optional Parameters
 """
 ListQueues() = mediaconvert("GET", "/2017-08-29/queues")
 ListQueues(args) = mediaconvert("GET", "/2017-08-29/queues", args)
+ListQueues(a...; b...) = ListQueues(a..., b)
 
 """
     ListTagsForResource()
@@ -308,7 +341,9 @@ Required Parameters
   "Arn": "The Amazon Resource Name (ARN) of the resource that you want to list tags for. To get the ARN, send a GET request with the resource name."
 }
 """
-ListTagsForResource(args) = mediaconvert("GET", "/2017-08-29/tags/{arn}", args)
+ListTagsForResource(Arn) = mediaconvert("GET", "/2017-08-29/tags/$(arn)")
+ListTagsForResource(Arn, args) = mediaconvert("GET", "/2017-08-29/tags/$(arn)", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     TagResource()
@@ -321,7 +356,9 @@ Required Parameters
   "Tags": "The tags that you want to add to the resource. You can tag resources with a key-value pair or with only a key."
 }
 """
-TagResource(args) = mediaconvert("POST", "/2017-08-29/tags", args)
+TagResource(Arn, Tags) = mediaconvert("POST", "/2017-08-29/tags")
+TagResource(Arn, Tags, args) = mediaconvert("POST", "/2017-08-29/tags", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
@@ -338,7 +375,9 @@ Optional Parameters
   "TagKeys": "The keys of the tags that you want to remove from the resource."
 }
 """
-UntagResource(args) = mediaconvert("PUT", "/2017-08-29/tags/{arn}", args)
+UntagResource(Arn) = mediaconvert("PUT", "/2017-08-29/tags/$(arn)")
+UntagResource(Arn, args) = mediaconvert("PUT", "/2017-08-29/tags/$(arn)", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateJobTemplate()
@@ -362,7 +401,9 @@ Optional Parameters
   "StatusUpdateInterval": "Specify how often MediaConvert sends STATUS_UPDATE events to Amazon CloudWatch Events. Set the interval, in seconds, between status updates. MediaConvert sends an update at this interval from the time the service begins processing your job to the time it completes the transcode or encounters an error."
 }
 """
-UpdateJobTemplate(args) = mediaconvert("PUT", "/2017-08-29/jobTemplates/{name}", args)
+UpdateJobTemplate(Name) = mediaconvert("PUT", "/2017-08-29/jobTemplates/$(name)")
+UpdateJobTemplate(Name, args) = mediaconvert("PUT", "/2017-08-29/jobTemplates/$(name)", args)
+UpdateJobTemplate(a...; b...) = UpdateJobTemplate(a..., b)
 
 """
     UpdatePreset()
@@ -381,7 +422,9 @@ Optional Parameters
   "Settings": "Settings for preset"
 }
 """
-UpdatePreset(args) = mediaconvert("PUT", "/2017-08-29/presets/{name}", args)
+UpdatePreset(Name) = mediaconvert("PUT", "/2017-08-29/presets/$(name)")
+UpdatePreset(Name, args) = mediaconvert("PUT", "/2017-08-29/presets/$(name)", args)
+UpdatePreset(a...; b...) = UpdatePreset(a..., b)
 
 """
     UpdateQueue()
@@ -400,4 +443,6 @@ Optional Parameters
   "Status": "Pause or activate a queue by changing its status between ACTIVE and PAUSED. If you pause a queue, jobs in that queue won't begin. Jobs that are running when you pause the queue continue to run until they finish or result in an error."
 }
 """
-UpdateQueue(args) = mediaconvert("PUT", "/2017-08-29/queues/{name}", args)
+UpdateQueue(Name) = mediaconvert("PUT", "/2017-08-29/queues/$(name)")
+UpdateQueue(Name, args) = mediaconvert("PUT", "/2017-08-29/queues/$(name)", args)
+UpdateQueue(a...; b...) = UpdateQueue(a..., b)

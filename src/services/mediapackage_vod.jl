@@ -21,7 +21,9 @@ Optional Parameters
   "Tags": ""
 }
 """
-CreateAsset(args) = mediapackage_vod("POST", "/assets", args)
+CreateAsset(Id, PackagingGroupId, SourceArn, SourceRoleArn) = mediapackage_vod("POST", "/assets")
+CreateAsset(Id, PackagingGroupId, SourceArn, SourceRoleArn, args) = mediapackage_vod("POST", "/assets", args)
+CreateAsset(a...; b...) = CreateAsset(a..., b)
 
 """
     CreatePackagingConfiguration()
@@ -43,7 +45,9 @@ Optional Parameters
   "Tags": ""
 }
 """
-CreatePackagingConfiguration(args) = mediapackage_vod("POST", "/packaging_configurations", args)
+CreatePackagingConfiguration(Id, PackagingGroupId) = mediapackage_vod("POST", "/packaging_configurations")
+CreatePackagingConfiguration(Id, PackagingGroupId, args) = mediapackage_vod("POST", "/packaging_configurations", args)
+CreatePackagingConfiguration(a...; b...) = CreatePackagingConfiguration(a..., b)
 
 """
     CreatePackagingGroup()
@@ -57,10 +61,13 @@ Required Parameters
 
 Optional Parameters
 {
+  "Authorization": "",
   "Tags": ""
 }
 """
-CreatePackagingGroup(args) = mediapackage_vod("POST", "/packaging_groups", args)
+CreatePackagingGroup(Id) = mediapackage_vod("POST", "/packaging_groups")
+CreatePackagingGroup(Id, args) = mediapackage_vod("POST", "/packaging_groups", args)
+CreatePackagingGroup(a...; b...) = CreatePackagingGroup(a..., b)
 
 """
     DeleteAsset()
@@ -72,7 +79,9 @@ Required Parameters
   "Id": "The ID of the MediaPackage VOD Asset resource to delete."
 }
 """
-DeleteAsset(args) = mediapackage_vod("DELETE", "/assets/{id}", args)
+DeleteAsset(Id) = mediapackage_vod("DELETE", "/assets/$(id)")
+DeleteAsset(Id, args) = mediapackage_vod("DELETE", "/assets/$(id)", args)
+DeleteAsset(a...; b...) = DeleteAsset(a..., b)
 
 """
     DeletePackagingConfiguration()
@@ -84,7 +93,9 @@ Required Parameters
   "Id": "The ID of the MediaPackage VOD PackagingConfiguration resource to delete."
 }
 """
-DeletePackagingConfiguration(args) = mediapackage_vod("DELETE", "/packaging_configurations/{id}", args)
+DeletePackagingConfiguration(Id) = mediapackage_vod("DELETE", "/packaging_configurations/$(id)")
+DeletePackagingConfiguration(Id, args) = mediapackage_vod("DELETE", "/packaging_configurations/$(id)", args)
+DeletePackagingConfiguration(a...; b...) = DeletePackagingConfiguration(a..., b)
 
 """
     DeletePackagingGroup()
@@ -96,7 +107,9 @@ Required Parameters
   "Id": "The ID of the MediaPackage VOD PackagingGroup resource to delete."
 }
 """
-DeletePackagingGroup(args) = mediapackage_vod("DELETE", "/packaging_groups/{id}", args)
+DeletePackagingGroup(Id) = mediapackage_vod("DELETE", "/packaging_groups/$(id)")
+DeletePackagingGroup(Id, args) = mediapackage_vod("DELETE", "/packaging_groups/$(id)", args)
+DeletePackagingGroup(a...; b...) = DeletePackagingGroup(a..., b)
 
 """
     DescribeAsset()
@@ -108,7 +121,9 @@ Required Parameters
   "Id": "The ID of an MediaPackage VOD Asset resource."
 }
 """
-DescribeAsset(args) = mediapackage_vod("GET", "/assets/{id}", args)
+DescribeAsset(Id) = mediapackage_vod("GET", "/assets/$(id)")
+DescribeAsset(Id, args) = mediapackage_vod("GET", "/assets/$(id)", args)
+DescribeAsset(a...; b...) = DescribeAsset(a..., b)
 
 """
     DescribePackagingConfiguration()
@@ -120,7 +135,9 @@ Required Parameters
   "Id": "The ID of a MediaPackage VOD PackagingConfiguration resource."
 }
 """
-DescribePackagingConfiguration(args) = mediapackage_vod("GET", "/packaging_configurations/{id}", args)
+DescribePackagingConfiguration(Id) = mediapackage_vod("GET", "/packaging_configurations/$(id)")
+DescribePackagingConfiguration(Id, args) = mediapackage_vod("GET", "/packaging_configurations/$(id)", args)
+DescribePackagingConfiguration(a...; b...) = DescribePackagingConfiguration(a..., b)
 
 """
     DescribePackagingGroup()
@@ -132,7 +149,9 @@ Required Parameters
   "Id": "The ID of a MediaPackage VOD PackagingGroup resource."
 }
 """
-DescribePackagingGroup(args) = mediapackage_vod("GET", "/packaging_groups/{id}", args)
+DescribePackagingGroup(Id) = mediapackage_vod("GET", "/packaging_groups/$(id)")
+DescribePackagingGroup(Id, args) = mediapackage_vod("GET", "/packaging_groups/$(id)", args)
+DescribePackagingGroup(a...; b...) = DescribePackagingGroup(a..., b)
 
 """
     ListAssets()
@@ -148,6 +167,7 @@ Optional Parameters
 """
 ListAssets() = mediapackage_vod("GET", "/assets")
 ListAssets(args) = mediapackage_vod("GET", "/assets", args)
+ListAssets(a...; b...) = ListAssets(a..., b)
 
 """
     ListPackagingConfigurations()
@@ -163,6 +183,7 @@ Optional Parameters
 """
 ListPackagingConfigurations() = mediapackage_vod("GET", "/packaging_configurations")
 ListPackagingConfigurations(args) = mediapackage_vod("GET", "/packaging_configurations", args)
+ListPackagingConfigurations(a...; b...) = ListPackagingConfigurations(a..., b)
 
 """
     ListPackagingGroups()
@@ -177,41 +198,67 @@ Optional Parameters
 """
 ListPackagingGroups() = mediapackage_vod("GET", "/packaging_groups")
 ListPackagingGroups(args) = mediapackage_vod("GET", "/packaging_groups", args)
+ListPackagingGroups(a...; b...) = ListPackagingGroups(a..., b)
 
 """
     ListTagsForResource()
 
-List tags for a given MediaPackage VOD resource
+Returns a list of the tags assigned to the specified resource.
 
 Required Parameters
 {
-  "ResourceArn": ""
+  "ResourceArn": "The Amazon Resource Name (ARN) for the resource. You can get this from the response to any request to the resource."
 }
 """
-ListTagsForResource(args) = mediapackage_vod("GET", "/tags/{resource-arn}", args)
+ListTagsForResource(ResourceArn) = mediapackage_vod("GET", "/tags/$(resource-arn)")
+ListTagsForResource(ResourceArn, args) = mediapackage_vod("GET", "/tags/$(resource-arn)", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     TagResource()
 
-Set tags for a given MediaPackage VOD resource
+Adds tags to the specified resource. You can specify one or more tags to add.
 
 Required Parameters
 {
-  "ResourceArn": "",
-  "Tags": ""
+  "ResourceArn": "The Amazon Resource Name (ARN) for the resource. You can get this from the response to any request to the resource.",
+  "Tags": "A collection of tags associated with a resource"
 }
 """
-TagResource(args) = mediapackage_vod("POST", "/tags/{resource-arn}", args)
+TagResource(ResourceArn, Tags) = mediapackage_vod("POST", "/tags/$(resource-arn)")
+TagResource(ResourceArn, Tags, args) = mediapackage_vod("POST", "/tags/$(resource-arn)", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
 
-Delete tags for a given MediaPackage VOD resource
+Removes tags from the specified resource. You can specify one or more tags to remove.
 
 Required Parameters
 {
-  "ResourceArn": "",
-  "TagKeys": "The key(s) of tag to be deleted"
+  "ResourceArn": "The Amazon Resource Name (ARN) for the resource. You can get this from the response to any request to the resource.",
+  "TagKeys": "A comma-separated list of the tag keys to remove from the resource."
 }
 """
-UntagResource(args) = mediapackage_vod("DELETE", "/tags/{resource-arn}", args)
+UntagResource(ResourceArn, TagKeys) = mediapackage_vod("DELETE", "/tags/$(resource-arn)")
+UntagResource(ResourceArn, TagKeys, args) = mediapackage_vod("DELETE", "/tags/$(resource-arn)", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
+
+"""
+    UpdatePackagingGroup()
+
+Updates a specific packaging group. You can't change the id attribute or any other system-generated attributes.
+
+Required Parameters
+{
+  "Id": "The ID of a MediaPackage VOD PackagingGroup resource."
+}
+
+Optional Parameters
+{
+  "Authorization": ""
+}
+"""
+UpdatePackagingGroup(Id) = mediapackage_vod("PUT", "/packaging_groups/$(id)")
+UpdatePackagingGroup(Id, args) = mediapackage_vod("PUT", "/packaging_groups/$(id)", args)
+UpdatePackagingGroup(a...; b...) = UpdatePackagingGroup(a..., b)

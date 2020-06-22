@@ -18,8 +18,8 @@ Optional Parameters
   "Comment": " Optional: A comment about the association request."
 }
 """
-AssociateVPCWithHostedZone(HostedZoneId, VPC) = route_53("POST", "/2013-04-01/hostedzone/{Id}/associatevpc")
-AssociateVPCWithHostedZone(HostedZoneId, VPC, args) = route_53("POST", "/2013-04-01/hostedzone/{Id}/associatevpc", args)
+AssociateVPCWithHostedZone(HostedZoneId, VPC) = route_53("POST", "/2013-04-01/hostedzone/$(Id)/associatevpc")
+AssociateVPCWithHostedZone(HostedZoneId, VPC, args) = route_53("POST", "/2013-04-01/hostedzone/$(Id)/associatevpc", args)
 AssociateVPCWithHostedZone(a...; b...) = AssociateVPCWithHostedZone(a..., b)
 
 """
@@ -33,8 +33,8 @@ Required Parameters
   "HostedZoneId": "The ID of the hosted zone that contains the resource record sets that you want to change."
 }
 """
-ChangeResourceRecordSets(ChangeBatch, HostedZoneId) = route_53("POST", "/2013-04-01/hostedzone/{Id}/rrset/")
-ChangeResourceRecordSets(ChangeBatch, HostedZoneId, args) = route_53("POST", "/2013-04-01/hostedzone/{Id}/rrset/", args)
+ChangeResourceRecordSets(ChangeBatch, HostedZoneId) = route_53("POST", "/2013-04-01/hostedzone/$(Id)/rrset/")
+ChangeResourceRecordSets(ChangeBatch, HostedZoneId, args) = route_53("POST", "/2013-04-01/hostedzone/$(Id)/rrset/", args)
 ChangeResourceRecordSets(a...; b...) = ChangeResourceRecordSets(a..., b)
 
 """
@@ -54,8 +54,8 @@ Optional Parameters
   "RemoveTagKeys": "A complex type that contains a list of the tags that you want to delete from the specified health check or hosted zone. You can specify up to 10 keys."
 }
 """
-ChangeTagsForResource(ResourceId, ResourceType) = route_53("POST", "/2013-04-01/tags/{ResourceType}/{ResourceId}")
-ChangeTagsForResource(ResourceId, ResourceType, args) = route_53("POST", "/2013-04-01/tags/{ResourceType}/{ResourceId}", args)
+ChangeTagsForResource(ResourceId, ResourceType) = route_53("POST", "/2013-04-01/tags/$(ResourceType)/$(ResourceId)")
+ChangeTagsForResource(ResourceId, ResourceType, args) = route_53("POST", "/2013-04-01/tags/$(ResourceType)/$(ResourceId)", args)
 ChangeTagsForResource(a...; b...) = ChangeTagsForResource(a..., b)
 
 """
@@ -183,8 +183,8 @@ Optional Parameters
   "Comment": "The comment that you specified in the CreateTrafficPolicyVersion request, if any."
 }
 """
-CreateTrafficPolicyVersion(Document, Id) = route_53("POST", "/2013-04-01/trafficpolicy/{Id}")
-CreateTrafficPolicyVersion(Document, Id, args) = route_53("POST", "/2013-04-01/trafficpolicy/{Id}", args)
+CreateTrafficPolicyVersion(Document, Id) = route_53("POST", "/2013-04-01/trafficpolicy/$(Id)")
+CreateTrafficPolicyVersion(Document, Id, args) = route_53("POST", "/2013-04-01/trafficpolicy/$(Id)", args)
 CreateTrafficPolicyVersion(a...; b...) = CreateTrafficPolicyVersion(a..., b)
 
 """
@@ -198,8 +198,8 @@ Required Parameters
   "VPC": "A complex type that contains the VPC ID and region for the VPC that you want to authorize associating with your hosted zone."
 }
 """
-CreateVPCAssociationAuthorization(HostedZoneId, VPC) = route_53("POST", "/2013-04-01/hostedzone/{Id}/authorizevpcassociation")
-CreateVPCAssociationAuthorization(HostedZoneId, VPC, args) = route_53("POST", "/2013-04-01/hostedzone/{Id}/authorizevpcassociation", args)
+CreateVPCAssociationAuthorization(HostedZoneId, VPC) = route_53("POST", "/2013-04-01/hostedzone/$(Id)/authorizevpcassociation")
+CreateVPCAssociationAuthorization(HostedZoneId, VPC, args) = route_53("POST", "/2013-04-01/hostedzone/$(Id)/authorizevpcassociation", args)
 CreateVPCAssociationAuthorization(a...; b...) = CreateVPCAssociationAuthorization(a..., b)
 
 """
@@ -212,8 +212,8 @@ Required Parameters
   "HealthCheckId": "The ID of the health check that you want to delete."
 }
 """
-DeleteHealthCheck(HealthCheckId) = route_53("DELETE", "/2013-04-01/healthcheck/{HealthCheckId}")
-DeleteHealthCheck(HealthCheckId, args) = route_53("DELETE", "/2013-04-01/healthcheck/{HealthCheckId}", args)
+DeleteHealthCheck(HealthCheckId) = route_53("DELETE", "/2013-04-01/healthcheck/$(HealthCheckId)")
+DeleteHealthCheck(HealthCheckId, args) = route_53("DELETE", "/2013-04-01/healthcheck/$(HealthCheckId)", args)
 DeleteHealthCheck(a...; b...) = DeleteHealthCheck(a..., b)
 
 """
@@ -226,8 +226,8 @@ Required Parameters
   "Id": "The ID of the hosted zone you want to delete."
 }
 """
-DeleteHostedZone(Id) = route_53("DELETE", "/2013-04-01/hostedzone/{Id}")
-DeleteHostedZone(Id, args) = route_53("DELETE", "/2013-04-01/hostedzone/{Id}", args)
+DeleteHostedZone(Id) = route_53("DELETE", "/2013-04-01/hostedzone/$(Id)")
+DeleteHostedZone(Id, args) = route_53("DELETE", "/2013-04-01/hostedzone/$(Id)", args)
 DeleteHostedZone(a...; b...) = DeleteHostedZone(a..., b)
 
 """
@@ -240,8 +240,8 @@ Required Parameters
   "Id": "The ID of the configuration that you want to delete. "
 }
 """
-DeleteQueryLoggingConfig(Id) = route_53("DELETE", "/2013-04-01/queryloggingconfig/{Id}")
-DeleteQueryLoggingConfig(Id, args) = route_53("DELETE", "/2013-04-01/queryloggingconfig/{Id}", args)
+DeleteQueryLoggingConfig(Id) = route_53("DELETE", "/2013-04-01/queryloggingconfig/$(Id)")
+DeleteQueryLoggingConfig(Id, args) = route_53("DELETE", "/2013-04-01/queryloggingconfig/$(Id)", args)
 DeleteQueryLoggingConfig(a...; b...) = DeleteQueryLoggingConfig(a..., b)
 
 """
@@ -254,8 +254,8 @@ Required Parameters
   "Id": "The ID of the reusable delegation set that you want to delete."
 }
 """
-DeleteReusableDelegationSet(Id) = route_53("DELETE", "/2013-04-01/delegationset/{Id}")
-DeleteReusableDelegationSet(Id, args) = route_53("DELETE", "/2013-04-01/delegationset/{Id}", args)
+DeleteReusableDelegationSet(Id) = route_53("DELETE", "/2013-04-01/delegationset/$(Id)")
+DeleteReusableDelegationSet(Id, args) = route_53("DELETE", "/2013-04-01/delegationset/$(Id)", args)
 DeleteReusableDelegationSet(a...; b...) = DeleteReusableDelegationSet(a..., b)
 
 """
@@ -269,8 +269,8 @@ Required Parameters
   "Version": "The version number of the traffic policy that you want to delete."
 }
 """
-DeleteTrafficPolicy(Id, Version) = route_53("DELETE", "/2013-04-01/trafficpolicy/{Id}/{Version}")
-DeleteTrafficPolicy(Id, Version, args) = route_53("DELETE", "/2013-04-01/trafficpolicy/{Id}/{Version}", args)
+DeleteTrafficPolicy(Id, Version) = route_53("DELETE", "/2013-04-01/trafficpolicy/$(Id)/$(Version)")
+DeleteTrafficPolicy(Id, Version, args) = route_53("DELETE", "/2013-04-01/trafficpolicy/$(Id)/$(Version)", args)
 DeleteTrafficPolicy(a...; b...) = DeleteTrafficPolicy(a..., b)
 
 """
@@ -283,8 +283,8 @@ Required Parameters
   "Id": "The ID of the traffic policy instance that you want to delete.   When you delete a traffic policy instance, Amazon Route 53 also deletes all of the resource record sets that were created when you created the traffic policy instance. "
 }
 """
-DeleteTrafficPolicyInstance(Id) = route_53("DELETE", "/2013-04-01/trafficpolicyinstance/{Id}")
-DeleteTrafficPolicyInstance(Id, args) = route_53("DELETE", "/2013-04-01/trafficpolicyinstance/{Id}", args)
+DeleteTrafficPolicyInstance(Id) = route_53("DELETE", "/2013-04-01/trafficpolicyinstance/$(Id)")
+DeleteTrafficPolicyInstance(Id, args) = route_53("DELETE", "/2013-04-01/trafficpolicyinstance/$(Id)", args)
 DeleteTrafficPolicyInstance(a...; b...) = DeleteTrafficPolicyInstance(a..., b)
 
 """
@@ -298,14 +298,14 @@ Required Parameters
   "VPC": "When removing authorization to associate a VPC that was created by one AWS account with a hosted zone that was created with a different AWS account, a complex type that includes the ID and region of the VPC."
 }
 """
-DeleteVPCAssociationAuthorization(HostedZoneId, VPC) = route_53("POST", "/2013-04-01/hostedzone/{Id}/deauthorizevpcassociation")
-DeleteVPCAssociationAuthorization(HostedZoneId, VPC, args) = route_53("POST", "/2013-04-01/hostedzone/{Id}/deauthorizevpcassociation", args)
+DeleteVPCAssociationAuthorization(HostedZoneId, VPC) = route_53("POST", "/2013-04-01/hostedzone/$(Id)/deauthorizevpcassociation")
+DeleteVPCAssociationAuthorization(HostedZoneId, VPC, args) = route_53("POST", "/2013-04-01/hostedzone/$(Id)/deauthorizevpcassociation", args)
 DeleteVPCAssociationAuthorization(a...; b...) = DeleteVPCAssociationAuthorization(a..., b)
 
 """
     DisassociateVPCFromHostedZone()
 
-Disassociates a VPC from a Amazon Route 53 private hosted zone. Note the following:   You can't disassociate the last VPC from a private hosted zone.   You can't convert a private hosted zone into a public hosted zone.   You can submit a DisassociateVPCFromHostedZone request using either the account that created the hosted zone or the account that created the VPC.  
+Disassociates an Amazon Virtual Private Cloud (Amazon VPC) from an Amazon Route 53 private hosted zone. Note the following:   You can't disassociate the last Amazon VPC from a private hosted zone.   You can't convert a private hosted zone into a public hosted zone.   You can submit a DisassociateVPCFromHostedZone request using either the account that created the hosted zone or the account that created the Amazon VPC.   Some services, such as AWS Cloud Map and Amazon Elastic File System (Amazon EFS) automatically create hosted zones and associate VPCs with the hosted zones. A service can create a hosted zone using your account or using its own account. You can disassociate a VPC from a hosted zone only if the service created the hosted zone using your account. When you run DisassociateVPCFromHostedZone, if the hosted zone has a value for OwningAccount, you can use DisassociateVPCFromHostedZone. If the hosted zone has a value for OwningService, you can't use DisassociateVPCFromHostedZone.  
 
 Required Parameters
 {
@@ -318,8 +318,8 @@ Optional Parameters
   "Comment": " Optional: A comment about the disassociation request."
 }
 """
-DisassociateVPCFromHostedZone(HostedZoneId, VPC) = route_53("POST", "/2013-04-01/hostedzone/{Id}/disassociatevpc")
-DisassociateVPCFromHostedZone(HostedZoneId, VPC, args) = route_53("POST", "/2013-04-01/hostedzone/{Id}/disassociatevpc", args)
+DisassociateVPCFromHostedZone(HostedZoneId, VPC) = route_53("POST", "/2013-04-01/hostedzone/$(Id)/disassociatevpc")
+DisassociateVPCFromHostedZone(HostedZoneId, VPC, args) = route_53("POST", "/2013-04-01/hostedzone/$(Id)/disassociatevpc", args)
 DisassociateVPCFromHostedZone(a...; b...) = DisassociateVPCFromHostedZone(a..., b)
 
 """
@@ -332,8 +332,8 @@ Required Parameters
   "Type": "The limit that you want to get. Valid values include the following:    MAX_HEALTH_CHECKS_BY_OWNER: The maximum number of health checks that you can create using the current account.    MAX_HOSTED_ZONES_BY_OWNER: The maximum number of hosted zones that you can create using the current account.    MAX_REUSABLE_DELEGATION_SETS_BY_OWNER: The maximum number of reusable delegation sets that you can create using the current account.    MAX_TRAFFIC_POLICIES_BY_OWNER: The maximum number of traffic policies that you can create using the current account.    MAX_TRAFFIC_POLICY_INSTANCES_BY_OWNER: The maximum number of traffic policy instances that you can create using the current account. (Traffic policy instances are referred to as traffic flow policy records in the Amazon Route 53 console.)  "
 }
 """
-GetAccountLimit(Type) = route_53("GET", "/2013-04-01/accountlimit/{Type}")
-GetAccountLimit(Type, args) = route_53("GET", "/2013-04-01/accountlimit/{Type}", args)
+GetAccountLimit(Type) = route_53("GET", "/2013-04-01/accountlimit/$(Type)")
+GetAccountLimit(Type, args) = route_53("GET", "/2013-04-01/accountlimit/$(Type)", args)
 GetAccountLimit(a...; b...) = GetAccountLimit(a..., b)
 
 """
@@ -346,8 +346,8 @@ Required Parameters
   "Id": "The ID of the change batch request. The value that you specify here is the value that ChangeResourceRecordSets returned in the Id element when you submitted the request."
 }
 """
-GetChange(Id) = route_53("GET", "/2013-04-01/change/{Id}")
-GetChange(Id, args) = route_53("GET", "/2013-04-01/change/{Id}", args)
+GetChange(Id) = route_53("GET", "/2013-04-01/change/$(Id)")
+GetChange(Id, args) = route_53("GET", "/2013-04-01/change/$(Id)", args)
 GetChange(a...; b...) = GetChange(a..., b)
 
 """
@@ -385,8 +385,8 @@ Required Parameters
   "HealthCheckId": "The identifier that Amazon Route 53 assigned to the health check when you created it. When you add or update a resource record set, you use this value to specify which health check to use. The value can be up to 64 characters long."
 }
 """
-GetHealthCheck(HealthCheckId) = route_53("GET", "/2013-04-01/healthcheck/{HealthCheckId}")
-GetHealthCheck(HealthCheckId, args) = route_53("GET", "/2013-04-01/healthcheck/{HealthCheckId}", args)
+GetHealthCheck(HealthCheckId) = route_53("GET", "/2013-04-01/healthcheck/$(HealthCheckId)")
+GetHealthCheck(HealthCheckId, args) = route_53("GET", "/2013-04-01/healthcheck/$(HealthCheckId)", args)
 GetHealthCheck(a...; b...) = GetHealthCheck(a..., b)
 
 """
@@ -408,8 +408,8 @@ Required Parameters
   "HealthCheckId": "The ID for the health check for which you want the last failure reason. When you created the health check, CreateHealthCheck returned the ID in the response, in the HealthCheckId element.  If you want to get the last failure reason for a calculated health check, you must use the Amazon Route 53 console or the CloudWatch console. You can't use GetHealthCheckLastFailureReason for a calculated health check. "
 }
 """
-GetHealthCheckLastFailureReason(HealthCheckId) = route_53("GET", "/2013-04-01/healthcheck/{HealthCheckId}/lastfailurereason")
-GetHealthCheckLastFailureReason(HealthCheckId, args) = route_53("GET", "/2013-04-01/healthcheck/{HealthCheckId}/lastfailurereason", args)
+GetHealthCheckLastFailureReason(HealthCheckId) = route_53("GET", "/2013-04-01/healthcheck/$(HealthCheckId)/lastfailurereason")
+GetHealthCheckLastFailureReason(HealthCheckId, args) = route_53("GET", "/2013-04-01/healthcheck/$(HealthCheckId)/lastfailurereason", args)
 GetHealthCheckLastFailureReason(a...; b...) = GetHealthCheckLastFailureReason(a..., b)
 
 """
@@ -422,8 +422,8 @@ Required Parameters
   "HealthCheckId": "The ID for the health check that you want the current status for. When you created the health check, CreateHealthCheck returned the ID in the response, in the HealthCheckId element.  If you want to check the status of a calculated health check, you must use the Amazon Route 53 console or the CloudWatch console. You can't use GetHealthCheckStatus to get the status of a calculated health check. "
 }
 """
-GetHealthCheckStatus(HealthCheckId) = route_53("GET", "/2013-04-01/healthcheck/{HealthCheckId}/status")
-GetHealthCheckStatus(HealthCheckId, args) = route_53("GET", "/2013-04-01/healthcheck/{HealthCheckId}/status", args)
+GetHealthCheckStatus(HealthCheckId) = route_53("GET", "/2013-04-01/healthcheck/$(HealthCheckId)/status")
+GetHealthCheckStatus(HealthCheckId, args) = route_53("GET", "/2013-04-01/healthcheck/$(HealthCheckId)/status", args)
 GetHealthCheckStatus(a...; b...) = GetHealthCheckStatus(a..., b)
 
 """
@@ -436,8 +436,8 @@ Required Parameters
   "Id": "The ID of the hosted zone that you want to get information about."
 }
 """
-GetHostedZone(Id) = route_53("GET", "/2013-04-01/hostedzone/{Id}")
-GetHostedZone(Id, args) = route_53("GET", "/2013-04-01/hostedzone/{Id}", args)
+GetHostedZone(Id) = route_53("GET", "/2013-04-01/hostedzone/$(Id)")
+GetHostedZone(Id, args) = route_53("GET", "/2013-04-01/hostedzone/$(Id)", args)
 GetHostedZone(a...; b...) = GetHostedZone(a..., b)
 
 """
@@ -460,8 +460,8 @@ Required Parameters
   "Type": "The limit that you want to get. Valid values include the following:    MAX_RRSETS_BY_ZONE: The maximum number of records that you can create in the specified hosted zone.    MAX_VPCS_ASSOCIATED_BY_ZONE: The maximum number of Amazon VPCs that you can associate with the specified private hosted zone.  "
 }
 """
-GetHostedZoneLimit(HostedZoneId, Type) = route_53("GET", "/2013-04-01/hostedzonelimit/{Id}/{Type}")
-GetHostedZoneLimit(HostedZoneId, Type, args) = route_53("GET", "/2013-04-01/hostedzonelimit/{Id}/{Type}", args)
+GetHostedZoneLimit(HostedZoneId, Type) = route_53("GET", "/2013-04-01/hostedzonelimit/$(Id)/$(Type)")
+GetHostedZoneLimit(HostedZoneId, Type, args) = route_53("GET", "/2013-04-01/hostedzonelimit/$(Id)/$(Type)", args)
 GetHostedZoneLimit(a...; b...) = GetHostedZoneLimit(a..., b)
 
 """
@@ -474,8 +474,8 @@ Required Parameters
   "Id": "The ID of the configuration for DNS query logging that you want to get information about."
 }
 """
-GetQueryLoggingConfig(Id) = route_53("GET", "/2013-04-01/queryloggingconfig/{Id}")
-GetQueryLoggingConfig(Id, args) = route_53("GET", "/2013-04-01/queryloggingconfig/{Id}", args)
+GetQueryLoggingConfig(Id) = route_53("GET", "/2013-04-01/queryloggingconfig/$(Id)")
+GetQueryLoggingConfig(Id, args) = route_53("GET", "/2013-04-01/queryloggingconfig/$(Id)", args)
 GetQueryLoggingConfig(a...; b...) = GetQueryLoggingConfig(a..., b)
 
 """
@@ -488,8 +488,8 @@ Required Parameters
   "Id": "The ID of the reusable delegation set that you want to get a list of name servers for."
 }
 """
-GetReusableDelegationSet(Id) = route_53("GET", "/2013-04-01/delegationset/{Id}")
-GetReusableDelegationSet(Id, args) = route_53("GET", "/2013-04-01/delegationset/{Id}", args)
+GetReusableDelegationSet(Id) = route_53("GET", "/2013-04-01/delegationset/$(Id)")
+GetReusableDelegationSet(Id, args) = route_53("GET", "/2013-04-01/delegationset/$(Id)", args)
 GetReusableDelegationSet(a...; b...) = GetReusableDelegationSet(a..., b)
 
 """
@@ -503,8 +503,8 @@ Required Parameters
   "Type": "Specify MAX_ZONES_BY_REUSABLE_DELEGATION_SET to get the maximum number of hosted zones that you can associate with the specified reusable delegation set."
 }
 """
-GetReusableDelegationSetLimit(DelegationSetId, Type) = route_53("GET", "/2013-04-01/reusabledelegationsetlimit/{Id}/{Type}")
-GetReusableDelegationSetLimit(DelegationSetId, Type, args) = route_53("GET", "/2013-04-01/reusabledelegationsetlimit/{Id}/{Type}", args)
+GetReusableDelegationSetLimit(DelegationSetId, Type) = route_53("GET", "/2013-04-01/reusabledelegationsetlimit/$(Id)/$(Type)")
+GetReusableDelegationSetLimit(DelegationSetId, Type, args) = route_53("GET", "/2013-04-01/reusabledelegationsetlimit/$(Id)/$(Type)", args)
 GetReusableDelegationSetLimit(a...; b...) = GetReusableDelegationSetLimit(a..., b)
 
 """
@@ -518,8 +518,8 @@ Required Parameters
   "Version": "The version number of the traffic policy that you want to get information about."
 }
 """
-GetTrafficPolicy(Id, Version) = route_53("GET", "/2013-04-01/trafficpolicy/{Id}/{Version}")
-GetTrafficPolicy(Id, Version, args) = route_53("GET", "/2013-04-01/trafficpolicy/{Id}/{Version}", args)
+GetTrafficPolicy(Id, Version) = route_53("GET", "/2013-04-01/trafficpolicy/$(Id)/$(Version)")
+GetTrafficPolicy(Id, Version, args) = route_53("GET", "/2013-04-01/trafficpolicy/$(Id)/$(Version)", args)
 GetTrafficPolicy(a...; b...) = GetTrafficPolicy(a..., b)
 
 """
@@ -532,8 +532,8 @@ Required Parameters
   "Id": "The ID of the traffic policy instance that you want to get information about."
 }
 """
-GetTrafficPolicyInstance(Id) = route_53("GET", "/2013-04-01/trafficpolicyinstance/{Id}")
-GetTrafficPolicyInstance(Id, args) = route_53("GET", "/2013-04-01/trafficpolicyinstance/{Id}", args)
+GetTrafficPolicyInstance(Id) = route_53("GET", "/2013-04-01/trafficpolicyinstance/$(Id)")
+GetTrafficPolicyInstance(Id, args) = route_53("GET", "/2013-04-01/trafficpolicyinstance/$(Id)", args)
 GetTrafficPolicyInstance(a...; b...) = GetTrafficPolicyInstance(a..., b)
 
 """
@@ -610,6 +610,27 @@ ListHostedZonesByName(args) = route_53("GET", "/2013-04-01/hostedzonesbyname", a
 ListHostedZonesByName(a...; b...) = ListHostedZonesByName(a..., b)
 
 """
+    ListHostedZonesByVPC()
+
+Lists all the private hosted zones that a specified VPC is associated with, regardless of which AWS account or AWS service owns the hosted zones. The HostedZoneOwner structure in the response contains one of the following values:   An OwningAccount element, which contains the account number of either the current AWS account or another AWS account. Some services, such as AWS Cloud Map, create hosted zones using the current account.    An OwningService element, which identifies the AWS service that created and owns the hosted zone. For example, if a hosted zone was created by Amazon Elastic File System (Amazon EFS), the value of Owner is efs.amazonaws.com.   
+
+Required Parameters
+{
+  "VPCId": "The ID of the Amazon VPC that you want to list hosted zones for.",
+  "VPCRegion": "For the Amazon VPC that you specified for VPCId, the AWS Region that you created the VPC in. "
+}
+
+Optional Parameters
+{
+  "MaxItems": "(Optional) The maximum number of hosted zones that you want Amazon Route 53 to return. If the specified VPC is associated with more than MaxItems hosted zones, the response includes a NextToken element. NextToken contains the hosted zone ID of the first hosted zone that Route 53 will return if you submit another request.",
+  "NextToken": "If the previous response included a NextToken element, the specified VPC is associated with more hosted zones. To get more hosted zones, submit another ListHostedZonesByVPC request.  For the value of NextToken, specify the value of NextToken from the previous response. If the previous response didn't include a NextToken element, there are no more hosted zones to get."
+}
+"""
+ListHostedZonesByVPC(VPCId, VPCRegion) = route_53("GET", "/2013-04-01/hostedzonesbyvpc")
+ListHostedZonesByVPC(VPCId, VPCRegion, args) = route_53("GET", "/2013-04-01/hostedzonesbyvpc", args)
+ListHostedZonesByVPC(a...; b...) = ListHostedZonesByVPC(a..., b)
+
+"""
     ListQueryLoggingConfigs()
 
 Lists the configurations for DNS query logging that are associated with the current AWS account or the configuration that is associated with a specified hosted zone. For more information about DNS query logs, see CreateQueryLoggingConfig. Additional information, including the format of DNS query logs, appears in Logging DNS Queries in the Amazon Route 53 Developer Guide.
@@ -643,8 +664,8 @@ Optional Parameters
   "StartRecordType": "The type of resource record set to begin the record listing from. Valid values for basic resource record sets: A | AAAA | CAA | CNAME | MX | NAPTR | NS | PTR | SOA | SPF | SRV | TXT  Values for weighted, latency, geolocation, and failover resource record sets: A | AAAA | CAA | CNAME | MX | NAPTR | PTR | SPF | SRV | TXT  Values for alias resource record sets:     API Gateway custom regional API or edge-optimized API: A    CloudFront distribution: A or AAAA    Elastic Beanstalk environment that has a regionalized subdomain: A    Elastic Load Balancing load balancer: A | AAAA    S3 bucket: A    VPC interface VPC endpoint: A    Another resource record set in this hosted zone: The type of the resource record set that the alias references.   Constraint: Specifying type without specifying name returns an InvalidInput error."
 }
 """
-ListResourceRecordSets(HostedZoneId) = route_53("GET", "/2013-04-01/hostedzone/{Id}/rrset")
-ListResourceRecordSets(HostedZoneId, args) = route_53("GET", "/2013-04-01/hostedzone/{Id}/rrset", args)
+ListResourceRecordSets(HostedZoneId) = route_53("GET", "/2013-04-01/hostedzone/$(Id)/rrset")
+ListResourceRecordSets(HostedZoneId, args) = route_53("GET", "/2013-04-01/hostedzone/$(Id)/rrset", args)
 ListResourceRecordSets(a...; b...) = ListResourceRecordSets(a..., b)
 
 """
@@ -673,8 +694,8 @@ Required Parameters
   "ResourceType": "The type of the resource.   The resource type for health checks is healthcheck.   The resource type for hosted zones is hostedzone.  "
 }
 """
-ListTagsForResource(ResourceId, ResourceType) = route_53("GET", "/2013-04-01/tags/{ResourceType}/{ResourceId}")
-ListTagsForResource(ResourceId, ResourceType, args) = route_53("GET", "/2013-04-01/tags/{ResourceType}/{ResourceId}", args)
+ListTagsForResource(ResourceId, ResourceType) = route_53("GET", "/2013-04-01/tags/$(ResourceType)/$(ResourceId)")
+ListTagsForResource(ResourceId, ResourceType, args) = route_53("GET", "/2013-04-01/tags/$(ResourceType)/$(ResourceId)", args)
 ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
@@ -688,8 +709,8 @@ Required Parameters
   "ResourceType": "The type of the resources.   The resource type for health checks is healthcheck.   The resource type for hosted zones is hostedzone.  "
 }
 """
-ListTagsForResources(ResourceIds, ResourceType) = route_53("POST", "/2013-04-01/tags/{ResourceType}")
-ListTagsForResources(ResourceIds, ResourceType, args) = route_53("POST", "/2013-04-01/tags/{ResourceType}", args)
+ListTagsForResources(ResourceIds, ResourceType) = route_53("POST", "/2013-04-01/tags/$(ResourceType)")
+ListTagsForResources(ResourceIds, ResourceType, args) = route_53("POST", "/2013-04-01/tags/$(ResourceType)", args)
 ListTagsForResources(a...; b...) = ListTagsForResources(a..., b)
 
 """
@@ -784,8 +805,8 @@ Optional Parameters
   "TrafficPolicyVersionMarker": "For your first request to ListTrafficPolicyVersions, don't include the TrafficPolicyVersionMarker parameter. If you have more traffic policy versions than the value of MaxItems, ListTrafficPolicyVersions returns only the first group of MaxItems versions. To get more traffic policy versions, submit another ListTrafficPolicyVersions request. For the value of TrafficPolicyVersionMarker, specify the value of TrafficPolicyVersionMarker in the previous response."
 }
 """
-ListTrafficPolicyVersions(Id) = route_53("GET", "/2013-04-01/trafficpolicies/{Id}/versions")
-ListTrafficPolicyVersions(Id, args) = route_53("GET", "/2013-04-01/trafficpolicies/{Id}/versions", args)
+ListTrafficPolicyVersions(Id) = route_53("GET", "/2013-04-01/trafficpolicies/$(Id)/versions")
+ListTrafficPolicyVersions(Id, args) = route_53("GET", "/2013-04-01/trafficpolicies/$(Id)/versions", args)
 ListTrafficPolicyVersions(a...; b...) = ListTrafficPolicyVersions(a..., b)
 
 """
@@ -804,8 +825,8 @@ Optional Parameters
   "NextToken": " Optional: If a response includes a NextToken element, there are more VPCs that can be associated with the specified hosted zone. To get the next page of results, submit another request, and include the value of NextToken from the response in the nexttoken parameter in another ListVPCAssociationAuthorizations request."
 }
 """
-ListVPCAssociationAuthorizations(HostedZoneId) = route_53("GET", "/2013-04-01/hostedzone/{Id}/authorizevpcassociation")
-ListVPCAssociationAuthorizations(HostedZoneId, args) = route_53("GET", "/2013-04-01/hostedzone/{Id}/authorizevpcassociation", args)
+ListVPCAssociationAuthorizations(HostedZoneId) = route_53("GET", "/2013-04-01/hostedzone/$(Id)/authorizevpcassociation")
+ListVPCAssociationAuthorizations(HostedZoneId, args) = route_53("GET", "/2013-04-01/hostedzone/$(Id)/authorizevpcassociation", args)
 ListVPCAssociationAuthorizations(a...; b...) = ListVPCAssociationAuthorizations(a..., b)
 
 """
@@ -861,8 +882,8 @@ Optional Parameters
   "SearchString": "If the value of Type is HTTP_STR_MATCH or HTTPS_STR_MATCH, the string that you want Amazon Route 53 to search for in the response body from the specified resource. If the string appears in the response body, Route 53 considers the resource healthy. (You can't change the value of Type when you update a health check.)"
 }
 """
-UpdateHealthCheck(HealthCheckId) = route_53("POST", "/2013-04-01/healthcheck/{HealthCheckId}")
-UpdateHealthCheck(HealthCheckId, args) = route_53("POST", "/2013-04-01/healthcheck/{HealthCheckId}", args)
+UpdateHealthCheck(HealthCheckId) = route_53("POST", "/2013-04-01/healthcheck/$(HealthCheckId)")
+UpdateHealthCheck(HealthCheckId, args) = route_53("POST", "/2013-04-01/healthcheck/$(HealthCheckId)", args)
 UpdateHealthCheck(a...; b...) = UpdateHealthCheck(a..., b)
 
 """
@@ -880,8 +901,8 @@ Optional Parameters
   "Comment": "The new comment for the hosted zone. If you don't specify a value for Comment, Amazon Route 53 deletes the existing value of the Comment element, if any."
 }
 """
-UpdateHostedZoneComment(Id) = route_53("POST", "/2013-04-01/hostedzone/{Id}")
-UpdateHostedZoneComment(Id, args) = route_53("POST", "/2013-04-01/hostedzone/{Id}", args)
+UpdateHostedZoneComment(Id) = route_53("POST", "/2013-04-01/hostedzone/$(Id)")
+UpdateHostedZoneComment(Id, args) = route_53("POST", "/2013-04-01/hostedzone/$(Id)", args)
 UpdateHostedZoneComment(a...; b...) = UpdateHostedZoneComment(a..., b)
 
 """
@@ -896,8 +917,8 @@ Required Parameters
   "Version": "The value of Version for the traffic policy that you want to update the comment for."
 }
 """
-UpdateTrafficPolicyComment(Comment, Id, Version) = route_53("POST", "/2013-04-01/trafficpolicy/{Id}/{Version}")
-UpdateTrafficPolicyComment(Comment, Id, Version, args) = route_53("POST", "/2013-04-01/trafficpolicy/{Id}/{Version}", args)
+UpdateTrafficPolicyComment(Comment, Id, Version) = route_53("POST", "/2013-04-01/trafficpolicy/$(Id)/$(Version)")
+UpdateTrafficPolicyComment(Comment, Id, Version, args) = route_53("POST", "/2013-04-01/trafficpolicy/$(Id)/$(Version)", args)
 UpdateTrafficPolicyComment(a...; b...) = UpdateTrafficPolicyComment(a..., b)
 
 """
@@ -913,6 +934,6 @@ Required Parameters
   "TrafficPolicyVersion": "The version of the traffic policy that you want Amazon Route 53 to use to update resource record sets for the specified traffic policy instance."
 }
 """
-UpdateTrafficPolicyInstance(Id, TTL, TrafficPolicyId, TrafficPolicyVersion) = route_53("POST", "/2013-04-01/trafficpolicyinstance/{Id}")
-UpdateTrafficPolicyInstance(Id, TTL, TrafficPolicyId, TrafficPolicyVersion, args) = route_53("POST", "/2013-04-01/trafficpolicyinstance/{Id}", args)
+UpdateTrafficPolicyInstance(Id, TTL, TrafficPolicyId, TrafficPolicyVersion) = route_53("POST", "/2013-04-01/trafficpolicyinstance/$(Id)")
+UpdateTrafficPolicyInstance(Id, TTL, TrafficPolicyId, TrafficPolicyVersion, args) = route_53("POST", "/2013-04-01/trafficpolicyinstance/$(Id)", args)
 UpdateTrafficPolicyInstance(a...; b...) = UpdateTrafficPolicyInstance(a..., b)

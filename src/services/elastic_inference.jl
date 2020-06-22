@@ -17,7 +17,9 @@ Optional Parameters
   "acceleratorTypes": " The list of accelerator types to describe. "
 }
 """
-DescribeAcceleratorOfferings(args) = elastic_inference("POST", "/describe-accelerator-offerings", args)
+DescribeAcceleratorOfferings(locationType) = elastic_inference("POST", "/describe-accelerator-offerings")
+DescribeAcceleratorOfferings(locationType, args) = elastic_inference("POST", "/describe-accelerator-offerings", args)
+DescribeAcceleratorOfferings(a...; b...) = DescribeAcceleratorOfferings(a..., b)
 
 """
     DescribeAcceleratorTypes()
@@ -26,6 +28,7 @@ DescribeAcceleratorOfferings(args) = elastic_inference("POST", "/describe-accele
 """
 DescribeAcceleratorTypes() = elastic_inference("GET", "/describe-accelerator-types")
 DescribeAcceleratorTypes(args) = elastic_inference("GET", "/describe-accelerator-types", args)
+DescribeAcceleratorTypes(a...; b...) = DescribeAcceleratorTypes(a..., b)
 
 """
     DescribeAccelerators()
@@ -42,6 +45,7 @@ Optional Parameters
 """
 DescribeAccelerators() = elastic_inference("POST", "/describe-accelerators")
 DescribeAccelerators(args) = elastic_inference("POST", "/describe-accelerators", args)
+DescribeAccelerators(a...; b...) = DescribeAccelerators(a..., b)
 
 """
     ListTagsForResource()
@@ -53,7 +57,9 @@ Required Parameters
   "resourceArn": " The ARN of the Elastic Inference Accelerator to list the tags for. "
 }
 """
-ListTagsForResource(args) = elastic_inference("GET", "/tags/{resourceArn}", args)
+ListTagsForResource(resourceArn) = elastic_inference("GET", "/tags/$(resourceArn)")
+ListTagsForResource(resourceArn, args) = elastic_inference("GET", "/tags/$(resourceArn)", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     TagResource()
@@ -66,7 +72,9 @@ Required Parameters
   "tags": " The tags to add to the Elastic Inference Accelerator. "
 }
 """
-TagResource(args) = elastic_inference("POST", "/tags/{resourceArn}", args)
+TagResource(resourceArn, tags) = elastic_inference("POST", "/tags/$(resourceArn)")
+TagResource(resourceArn, tags, args) = elastic_inference("POST", "/tags/$(resourceArn)", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
@@ -79,4 +87,6 @@ Required Parameters
   "tagKeys": " The list of tags to remove from the Elastic Inference Accelerator. "
 }
 """
-UntagResource(args) = elastic_inference("DELETE", "/tags/{resourceArn}", args)
+UntagResource(resourceArn, tagKeys) = elastic_inference("DELETE", "/tags/$(resourceArn)")
+UntagResource(resourceArn, tagKeys, args) = elastic_inference("DELETE", "/tags/$(resourceArn)", args)
+UntagResource(a...; b...) = UntagResource(a..., b)

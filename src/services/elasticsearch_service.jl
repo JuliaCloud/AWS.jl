@@ -3,6 +3,20 @@ include("../AWSServices.jl")
 using .AWSServices: elasticsearch_service
 
 """
+    AcceptInboundCrossClusterSearchConnection()
+
+Allows the destination domain owner to accept an inbound cross-cluster search connection request.
+
+Required Parameters
+{
+  "CrossClusterSearchConnectionId": "The id of the inbound connection that you want to accept."
+}
+"""
+AcceptInboundCrossClusterSearchConnection(CrossClusterSearchConnectionId) = elasticsearch_service("PUT", "/2015-01-01/es/ccs/inboundConnection/$(ConnectionId)/accept")
+AcceptInboundCrossClusterSearchConnection(CrossClusterSearchConnectionId, args) = elasticsearch_service("PUT", "/2015-01-01/es/ccs/inboundConnection/$(ConnectionId)/accept", args)
+AcceptInboundCrossClusterSearchConnection(a...; b...) = AcceptInboundCrossClusterSearchConnection(a..., b)
+
+"""
     AddTags()
 
 Attaches tags to an existing Elasticsearch domain. Tags are a set of case-sensitive key value pairs. An Elasticsearch domain may have up to 10 tags. See  Tagging Amazon Elasticsearch Service Domains for more information.
@@ -13,7 +27,9 @@ Required Parameters
   "TagList": " List of Tag that need to be added for the Elasticsearch domain. "
 }
 """
-AddTags(args) = elasticsearch_service("POST", "/2015-01-01/tags", args)
+AddTags(ARN, TagList) = elasticsearch_service("POST", "/2015-01-01/tags")
+AddTags(ARN, TagList, args) = elasticsearch_service("POST", "/2015-01-01/tags", args)
+AddTags(a...; b...) = AddTags(a..., b)
 
 """
     AssociatePackage()
@@ -26,7 +42,9 @@ Required Parameters
   "PackageID": "Internal ID of the package that you want to associate with a domain. Use DescribePackages to find this value."
 }
 """
-AssociatePackage(args) = elasticsearch_service("POST", "/2015-01-01/packages/associate/{PackageID}/{DomainName}", args)
+AssociatePackage(DomainName, PackageID) = elasticsearch_service("POST", "/2015-01-01/packages/associate/$(PackageID)/$(DomainName)")
+AssociatePackage(DomainName, PackageID, args) = elasticsearch_service("POST", "/2015-01-01/packages/associate/$(PackageID)/$(DomainName)", args)
+AssociatePackage(a...; b...) = AssociatePackage(a..., b)
 
 """
     CancelElasticsearchServiceSoftwareUpdate()
@@ -38,7 +56,9 @@ Required Parameters
   "DomainName": "The name of the domain that you want to stop the latest service software update on."
 }
 """
-CancelElasticsearchServiceSoftwareUpdate(args) = elasticsearch_service("POST", "/2015-01-01/es/serviceSoftwareUpdate/cancel", args)
+CancelElasticsearchServiceSoftwareUpdate(DomainName) = elasticsearch_service("POST", "/2015-01-01/es/serviceSoftwareUpdate/cancel")
+CancelElasticsearchServiceSoftwareUpdate(DomainName, args) = elasticsearch_service("POST", "/2015-01-01/es/serviceSoftwareUpdate/cancel", args)
+CancelElasticsearchServiceSoftwareUpdate(a...; b...) = CancelElasticsearchServiceSoftwareUpdate(a..., b)
 
 """
     CreateElasticsearchDomain()
@@ -67,7 +87,25 @@ Optional Parameters
   "VPCOptions": "Options to specify the subnets and security groups for VPC endpoint. For more information, see Creating a VPC in VPC Endpoints for Amazon Elasticsearch Service Domains"
 }
 """
-CreateElasticsearchDomain(args) = elasticsearch_service("POST", "/2015-01-01/es/domain", args)
+CreateElasticsearchDomain(DomainName) = elasticsearch_service("POST", "/2015-01-01/es/domain")
+CreateElasticsearchDomain(DomainName, args) = elasticsearch_service("POST", "/2015-01-01/es/domain", args)
+CreateElasticsearchDomain(a...; b...) = CreateElasticsearchDomain(a..., b)
+
+"""
+    CreateOutboundCrossClusterSearchConnection()
+
+Creates a new cross-cluster search connection from a source domain to a destination domain.
+
+Required Parameters
+{
+  "ConnectionAlias": "Specifies the connection alias that will be used by the customer for this connection.",
+  "DestinationDomainInfo": "Specifies the DomainInformation for the destination Elasticsearch domain.",
+  "SourceDomainInfo": "Specifies the DomainInformation for the source Elasticsearch domain."
+}
+"""
+CreateOutboundCrossClusterSearchConnection(ConnectionAlias, DestinationDomainInfo, SourceDomainInfo) = elasticsearch_service("POST", "/2015-01-01/es/ccs/outboundConnection")
+CreateOutboundCrossClusterSearchConnection(ConnectionAlias, DestinationDomainInfo, SourceDomainInfo, args) = elasticsearch_service("POST", "/2015-01-01/es/ccs/outboundConnection", args)
+CreateOutboundCrossClusterSearchConnection(a...; b...) = CreateOutboundCrossClusterSearchConnection(a..., b)
 
 """
     CreatePackage()
@@ -86,7 +124,9 @@ Optional Parameters
   "PackageDescription": "Description of the package."
 }
 """
-CreatePackage(args) = elasticsearch_service("POST", "/2015-01-01/packages", args)
+CreatePackage(PackageName, PackageSource, PackageType) = elasticsearch_service("POST", "/2015-01-01/packages")
+CreatePackage(PackageName, PackageSource, PackageType, args) = elasticsearch_service("POST", "/2015-01-01/packages", args)
+CreatePackage(a...; b...) = CreatePackage(a..., b)
 
 """
     DeleteElasticsearchDomain()
@@ -98,7 +138,9 @@ Required Parameters
   "DomainName": "The name of the Elasticsearch domain that you want to permanently delete."
 }
 """
-DeleteElasticsearchDomain(args) = elasticsearch_service("DELETE", "/2015-01-01/es/domain/{DomainName}", args)
+DeleteElasticsearchDomain(DomainName) = elasticsearch_service("DELETE", "/2015-01-01/es/domain/$(DomainName)")
+DeleteElasticsearchDomain(DomainName, args) = elasticsearch_service("DELETE", "/2015-01-01/es/domain/$(DomainName)", args)
+DeleteElasticsearchDomain(a...; b...) = DeleteElasticsearchDomain(a..., b)
 
 """
     DeleteElasticsearchServiceRole()
@@ -107,6 +149,35 @@ Deletes the service-linked role that Elasticsearch Service uses to manage and ma
 """
 DeleteElasticsearchServiceRole() = elasticsearch_service("DELETE", "/2015-01-01/es/role")
 DeleteElasticsearchServiceRole(args) = elasticsearch_service("DELETE", "/2015-01-01/es/role", args)
+DeleteElasticsearchServiceRole(a...; b...) = DeleteElasticsearchServiceRole(a..., b)
+
+"""
+    DeleteInboundCrossClusterSearchConnection()
+
+Allows the destination domain owner to delete an existing inbound cross-cluster search connection.
+
+Required Parameters
+{
+  "CrossClusterSearchConnectionId": "The id of the inbound connection that you want to permanently delete."
+}
+"""
+DeleteInboundCrossClusterSearchConnection(CrossClusterSearchConnectionId) = elasticsearch_service("DELETE", "/2015-01-01/es/ccs/inboundConnection/$(ConnectionId)")
+DeleteInboundCrossClusterSearchConnection(CrossClusterSearchConnectionId, args) = elasticsearch_service("DELETE", "/2015-01-01/es/ccs/inboundConnection/$(ConnectionId)", args)
+DeleteInboundCrossClusterSearchConnection(a...; b...) = DeleteInboundCrossClusterSearchConnection(a..., b)
+
+"""
+    DeleteOutboundCrossClusterSearchConnection()
+
+Allows the source domain owner to delete an existing outbound cross-cluster search connection.
+
+Required Parameters
+{
+  "CrossClusterSearchConnectionId": "The id of the outbound connection that you want to permanently delete."
+}
+"""
+DeleteOutboundCrossClusterSearchConnection(CrossClusterSearchConnectionId) = elasticsearch_service("DELETE", "/2015-01-01/es/ccs/outboundConnection/$(ConnectionId)")
+DeleteOutboundCrossClusterSearchConnection(CrossClusterSearchConnectionId, args) = elasticsearch_service("DELETE", "/2015-01-01/es/ccs/outboundConnection/$(ConnectionId)", args)
+DeleteOutboundCrossClusterSearchConnection(a...; b...) = DeleteOutboundCrossClusterSearchConnection(a..., b)
 
 """
     DeletePackage()
@@ -118,7 +189,9 @@ Required Parameters
   "PackageID": "Internal ID of the package that you want to delete. Use DescribePackages to find this value."
 }
 """
-DeletePackage(args) = elasticsearch_service("DELETE", "/2015-01-01/packages/{PackageID}", args)
+DeletePackage(PackageID) = elasticsearch_service("DELETE", "/2015-01-01/packages/$(PackageID)")
+DeletePackage(PackageID, args) = elasticsearch_service("DELETE", "/2015-01-01/packages/$(PackageID)", args)
+DeletePackage(a...; b...) = DeletePackage(a..., b)
 
 """
     DescribeElasticsearchDomain()
@@ -130,7 +203,9 @@ Required Parameters
   "DomainName": "The name of the Elasticsearch domain for which you want information."
 }
 """
-DescribeElasticsearchDomain(args) = elasticsearch_service("GET", "/2015-01-01/es/domain/{DomainName}", args)
+DescribeElasticsearchDomain(DomainName) = elasticsearch_service("GET", "/2015-01-01/es/domain/$(DomainName)")
+DescribeElasticsearchDomain(DomainName, args) = elasticsearch_service("GET", "/2015-01-01/es/domain/$(DomainName)", args)
+DescribeElasticsearchDomain(a...; b...) = DescribeElasticsearchDomain(a..., b)
 
 """
     DescribeElasticsearchDomainConfig()
@@ -142,7 +217,9 @@ Required Parameters
   "DomainName": "The Elasticsearch domain that you want to get information about."
 }
 """
-DescribeElasticsearchDomainConfig(args) = elasticsearch_service("GET", "/2015-01-01/es/domain/{DomainName}/config", args)
+DescribeElasticsearchDomainConfig(DomainName) = elasticsearch_service("GET", "/2015-01-01/es/domain/$(DomainName)/config")
+DescribeElasticsearchDomainConfig(DomainName, args) = elasticsearch_service("GET", "/2015-01-01/es/domain/$(DomainName)/config", args)
+DescribeElasticsearchDomainConfig(a...; b...) = DescribeElasticsearchDomainConfig(a..., b)
 
 """
     DescribeElasticsearchDomains()
@@ -154,7 +231,9 @@ Required Parameters
   "DomainNames": "The Elasticsearch domains for which you want information."
 }
 """
-DescribeElasticsearchDomains(args) = elasticsearch_service("POST", "/2015-01-01/es/domain-info", args)
+DescribeElasticsearchDomains(DomainNames) = elasticsearch_service("POST", "/2015-01-01/es/domain-info")
+DescribeElasticsearchDomains(DomainNames, args) = elasticsearch_service("POST", "/2015-01-01/es/domain-info", args)
+DescribeElasticsearchDomains(a...; b...) = DescribeElasticsearchDomains(a..., b)
 
 """
     DescribeElasticsearchInstanceTypeLimits()
@@ -172,7 +251,41 @@ Optional Parameters
   "DomainName": " DomainName represents the name of the Domain that we are trying to modify. This should be present only if we are querying for Elasticsearch  Limits  for existing domain. "
 }
 """
-DescribeElasticsearchInstanceTypeLimits(args) = elasticsearch_service("GET", "/2015-01-01/es/instanceTypeLimits/{ElasticsearchVersion}/{InstanceType}", args)
+DescribeElasticsearchInstanceTypeLimits(ElasticsearchVersion, InstanceType) = elasticsearch_service("GET", "/2015-01-01/es/instanceTypeLimits/$(ElasticsearchVersion)/$(InstanceType)")
+DescribeElasticsearchInstanceTypeLimits(ElasticsearchVersion, InstanceType, args) = elasticsearch_service("GET", "/2015-01-01/es/instanceTypeLimits/$(ElasticsearchVersion)/$(InstanceType)", args)
+DescribeElasticsearchInstanceTypeLimits(a...; b...) = DescribeElasticsearchInstanceTypeLimits(a..., b)
+
+"""
+    DescribeInboundCrossClusterSearchConnections()
+
+Lists all the inbound cross-cluster search connections for a destination domain.
+
+Optional Parameters
+{
+  "Filters": " A list of filters used to match properties for inbound cross-cluster search connection. Available Filter names for this operation are:  cross-cluster-search-connection-id source-domain-info.domain-name source-domain-info.owner-id source-domain-info.region destination-domain-info.domain-name  ",
+  "MaxResults": "Set this value to limit the number of results returned. If not specified, defaults to 100.",
+  "NextToken": " NextToken is sent in case the earlier API call results contain the NextToken. It is used for pagination."
+}
+"""
+DescribeInboundCrossClusterSearchConnections() = elasticsearch_service("POST", "/2015-01-01/es/ccs/inboundConnection/search")
+DescribeInboundCrossClusterSearchConnections(args) = elasticsearch_service("POST", "/2015-01-01/es/ccs/inboundConnection/search", args)
+DescribeInboundCrossClusterSearchConnections(a...; b...) = DescribeInboundCrossClusterSearchConnections(a..., b)
+
+"""
+    DescribeOutboundCrossClusterSearchConnections()
+
+Lists all the outbound cross-cluster search connections for a source domain.
+
+Optional Parameters
+{
+  "Filters": " A list of filters used to match properties for outbound cross-cluster search connection. Available Filter names for this operation are:  cross-cluster-search-connection-id destination-domain-info.domain-name destination-domain-info.owner-id destination-domain-info.region source-domain-info.domain-name  ",
+  "MaxResults": "Set this value to limit the number of results returned. If not specified, defaults to 100.",
+  "NextToken": " NextToken is sent in case the earlier API call results contain the NextToken. It is used for pagination."
+}
+"""
+DescribeOutboundCrossClusterSearchConnections() = elasticsearch_service("POST", "/2015-01-01/es/ccs/outboundConnection/search")
+DescribeOutboundCrossClusterSearchConnections(args) = elasticsearch_service("POST", "/2015-01-01/es/ccs/outboundConnection/search", args)
+DescribeOutboundCrossClusterSearchConnections(a...; b...) = DescribeOutboundCrossClusterSearchConnections(a..., b)
 
 """
     DescribePackages()
@@ -188,6 +301,7 @@ Optional Parameters
 """
 DescribePackages() = elasticsearch_service("POST", "/2015-01-01/packages/describe")
 DescribePackages(args) = elasticsearch_service("POST", "/2015-01-01/packages/describe", args)
+DescribePackages(a...; b...) = DescribePackages(a..., b)
 
 """
     DescribeReservedElasticsearchInstanceOfferings()
@@ -203,6 +317,7 @@ Optional Parameters
 """
 DescribeReservedElasticsearchInstanceOfferings() = elasticsearch_service("GET", "/2015-01-01/es/reservedInstanceOfferings")
 DescribeReservedElasticsearchInstanceOfferings(args) = elasticsearch_service("GET", "/2015-01-01/es/reservedInstanceOfferings", args)
+DescribeReservedElasticsearchInstanceOfferings(a...; b...) = DescribeReservedElasticsearchInstanceOfferings(a..., b)
 
 """
     DescribeReservedElasticsearchInstances()
@@ -218,6 +333,7 @@ Optional Parameters
 """
 DescribeReservedElasticsearchInstances() = elasticsearch_service("GET", "/2015-01-01/es/reservedInstances")
 DescribeReservedElasticsearchInstances(args) = elasticsearch_service("GET", "/2015-01-01/es/reservedInstances", args)
+DescribeReservedElasticsearchInstances(a...; b...) = DescribeReservedElasticsearchInstances(a..., b)
 
 """
     DissociatePackage()
@@ -230,7 +346,9 @@ Required Parameters
   "PackageID": "Internal ID of the package that you want to associate with a domain. Use DescribePackages to find this value."
 }
 """
-DissociatePackage(args) = elasticsearch_service("POST", "/2015-01-01/packages/dissociate/{PackageID}/{DomainName}", args)
+DissociatePackage(DomainName, PackageID) = elasticsearch_service("POST", "/2015-01-01/packages/dissociate/$(PackageID)/$(DomainName)")
+DissociatePackage(DomainName, PackageID, args) = elasticsearch_service("POST", "/2015-01-01/packages/dissociate/$(PackageID)/$(DomainName)", args)
+DissociatePackage(a...; b...) = DissociatePackage(a..., b)
 
 """
     GetCompatibleElasticsearchVersions()
@@ -244,6 +362,7 @@ Optional Parameters
 """
 GetCompatibleElasticsearchVersions() = elasticsearch_service("GET", "/2015-01-01/es/compatibleVersions")
 GetCompatibleElasticsearchVersions(args) = elasticsearch_service("GET", "/2015-01-01/es/compatibleVersions", args)
+GetCompatibleElasticsearchVersions(a...; b...) = GetCompatibleElasticsearchVersions(a..., b)
 
 """
     GetUpgradeHistory()
@@ -261,7 +380,9 @@ Optional Parameters
   "NextToken": ""
 }
 """
-GetUpgradeHistory(args) = elasticsearch_service("GET", "/2015-01-01/es/upgradeDomain/{DomainName}/history", args)
+GetUpgradeHistory(DomainName) = elasticsearch_service("GET", "/2015-01-01/es/upgradeDomain/$(DomainName)/history")
+GetUpgradeHistory(DomainName, args) = elasticsearch_service("GET", "/2015-01-01/es/upgradeDomain/$(DomainName)/history", args)
+GetUpgradeHistory(a...; b...) = GetUpgradeHistory(a..., b)
 
 """
     GetUpgradeStatus()
@@ -273,7 +394,9 @@ Required Parameters
   "DomainName": ""
 }
 """
-GetUpgradeStatus(args) = elasticsearch_service("GET", "/2015-01-01/es/upgradeDomain/{DomainName}/status", args)
+GetUpgradeStatus(DomainName) = elasticsearch_service("GET", "/2015-01-01/es/upgradeDomain/$(DomainName)/status")
+GetUpgradeStatus(DomainName, args) = elasticsearch_service("GET", "/2015-01-01/es/upgradeDomain/$(DomainName)/status", args)
+GetUpgradeStatus(a...; b...) = GetUpgradeStatus(a..., b)
 
 """
     ListDomainNames()
@@ -282,6 +405,7 @@ Returns the name of all Elasticsearch domains owned by the current user's accoun
 """
 ListDomainNames() = elasticsearch_service("GET", "/2015-01-01/domain")
 ListDomainNames(args) = elasticsearch_service("GET", "/2015-01-01/domain", args)
+ListDomainNames(a...; b...) = ListDomainNames(a..., b)
 
 """
     ListDomainsForPackage()
@@ -299,7 +423,9 @@ Optional Parameters
   "NextToken": "Used for pagination. Only necessary if a previous API call includes a non-null NextToken value. If provided, returns results for the next page."
 }
 """
-ListDomainsForPackage(args) = elasticsearch_service("GET", "/2015-01-01/packages/{PackageID}/domains", args)
+ListDomainsForPackage(PackageID) = elasticsearch_service("GET", "/2015-01-01/packages/$(PackageID)/domains")
+ListDomainsForPackage(PackageID, args) = elasticsearch_service("GET", "/2015-01-01/packages/$(PackageID)/domains", args)
+ListDomainsForPackage(a...; b...) = ListDomainsForPackage(a..., b)
 
 """
     ListElasticsearchInstanceTypes()
@@ -318,7 +444,9 @@ Optional Parameters
   "NextToken": "NextToken should be sent in case if earlier API call produced result containing NextToken. It is used for pagination. "
 }
 """
-ListElasticsearchInstanceTypes(args) = elasticsearch_service("GET", "/2015-01-01/es/instanceTypes/{ElasticsearchVersion}", args)
+ListElasticsearchInstanceTypes(ElasticsearchVersion) = elasticsearch_service("GET", "/2015-01-01/es/instanceTypes/$(ElasticsearchVersion)")
+ListElasticsearchInstanceTypes(ElasticsearchVersion, args) = elasticsearch_service("GET", "/2015-01-01/es/instanceTypes/$(ElasticsearchVersion)", args)
+ListElasticsearchInstanceTypes(a...; b...) = ListElasticsearchInstanceTypes(a..., b)
 
 """
     ListElasticsearchVersions()
@@ -333,6 +461,7 @@ Optional Parameters
 """
 ListElasticsearchVersions() = elasticsearch_service("GET", "/2015-01-01/es/versions")
 ListElasticsearchVersions(args) = elasticsearch_service("GET", "/2015-01-01/es/versions", args)
+ListElasticsearchVersions(a...; b...) = ListElasticsearchVersions(a..., b)
 
 """
     ListPackagesForDomain()
@@ -350,7 +479,9 @@ Optional Parameters
   "NextToken": "Used for pagination. Only necessary if a previous API call includes a non-null NextToken value. If provided, returns results for the next page."
 }
 """
-ListPackagesForDomain(args) = elasticsearch_service("GET", "/2015-01-01/domain/{DomainName}/packages", args)
+ListPackagesForDomain(DomainName) = elasticsearch_service("GET", "/2015-01-01/domain/$(DomainName)/packages")
+ListPackagesForDomain(DomainName, args) = elasticsearch_service("GET", "/2015-01-01/domain/$(DomainName)/packages", args)
+ListPackagesForDomain(a...; b...) = ListPackagesForDomain(a..., b)
 
 """
     ListTags()
@@ -362,7 +493,9 @@ Required Parameters
   "ARN": " Specify the ARN for the Elasticsearch domain to which the tags are attached that you want to view."
 }
 """
-ListTags(args) = elasticsearch_service("GET", "/2015-01-01/tags/", args)
+ListTags(ARN) = elasticsearch_service("GET", "/2015-01-01/tags/")
+ListTags(ARN, args) = elasticsearch_service("GET", "/2015-01-01/tags/", args)
+ListTags(a...; b...) = ListTags(a..., b)
 
 """
     PurchaseReservedElasticsearchInstanceOffering()
@@ -380,7 +513,23 @@ Optional Parameters
   "InstanceCount": "The number of Elasticsearch instances to reserve."
 }
 """
-PurchaseReservedElasticsearchInstanceOffering(args) = elasticsearch_service("POST", "/2015-01-01/es/purchaseReservedInstanceOffering", args)
+PurchaseReservedElasticsearchInstanceOffering(ReservationName, ReservedElasticsearchInstanceOfferingId) = elasticsearch_service("POST", "/2015-01-01/es/purchaseReservedInstanceOffering")
+PurchaseReservedElasticsearchInstanceOffering(ReservationName, ReservedElasticsearchInstanceOfferingId, args) = elasticsearch_service("POST", "/2015-01-01/es/purchaseReservedInstanceOffering", args)
+PurchaseReservedElasticsearchInstanceOffering(a...; b...) = PurchaseReservedElasticsearchInstanceOffering(a..., b)
+
+"""
+    RejectInboundCrossClusterSearchConnection()
+
+Allows the destination domain owner to reject an inbound cross-cluster search connection request.
+
+Required Parameters
+{
+  "CrossClusterSearchConnectionId": "The id of the inbound connection that you want to reject."
+}
+"""
+RejectInboundCrossClusterSearchConnection(CrossClusterSearchConnectionId) = elasticsearch_service("PUT", "/2015-01-01/es/ccs/inboundConnection/$(ConnectionId)/reject")
+RejectInboundCrossClusterSearchConnection(CrossClusterSearchConnectionId, args) = elasticsearch_service("PUT", "/2015-01-01/es/ccs/inboundConnection/$(ConnectionId)/reject", args)
+RejectInboundCrossClusterSearchConnection(a...; b...) = RejectInboundCrossClusterSearchConnection(a..., b)
 
 """
     RemoveTags()
@@ -393,7 +542,9 @@ Required Parameters
   "TagKeys": "Specifies the TagKey list which you want to remove from the Elasticsearch domain."
 }
 """
-RemoveTags(args) = elasticsearch_service("POST", "/2015-01-01/tags-removal", args)
+RemoveTags(ARN, TagKeys) = elasticsearch_service("POST", "/2015-01-01/tags-removal")
+RemoveTags(ARN, TagKeys, args) = elasticsearch_service("POST", "/2015-01-01/tags-removal", args)
+RemoveTags(a...; b...) = RemoveTags(a..., b)
 
 """
     StartElasticsearchServiceSoftwareUpdate()
@@ -405,7 +556,9 @@ Required Parameters
   "DomainName": "The name of the domain that you want to update to the latest service software."
 }
 """
-StartElasticsearchServiceSoftwareUpdate(args) = elasticsearch_service("POST", "/2015-01-01/es/serviceSoftwareUpdate/start", args)
+StartElasticsearchServiceSoftwareUpdate(DomainName) = elasticsearch_service("POST", "/2015-01-01/es/serviceSoftwareUpdate/start")
+StartElasticsearchServiceSoftwareUpdate(DomainName, args) = elasticsearch_service("POST", "/2015-01-01/es/serviceSoftwareUpdate/start", args)
+StartElasticsearchServiceSoftwareUpdate(a...; b...) = StartElasticsearchServiceSoftwareUpdate(a..., b)
 
 """
     UpdateElasticsearchDomainConfig()
@@ -431,7 +584,9 @@ Optional Parameters
   "VPCOptions": "Options to specify the subnets and security groups for VPC endpoint. For more information, see Creating a VPC in VPC Endpoints for Amazon Elasticsearch Service Domains"
 }
 """
-UpdateElasticsearchDomainConfig(args) = elasticsearch_service("POST", "/2015-01-01/es/domain/{DomainName}/config", args)
+UpdateElasticsearchDomainConfig(DomainName) = elasticsearch_service("POST", "/2015-01-01/es/domain/$(DomainName)/config")
+UpdateElasticsearchDomainConfig(DomainName, args) = elasticsearch_service("POST", "/2015-01-01/es/domain/$(DomainName)/config", args)
+UpdateElasticsearchDomainConfig(a...; b...) = UpdateElasticsearchDomainConfig(a..., b)
 
 """
     UpgradeElasticsearchDomain()
@@ -449,4 +604,6 @@ Optional Parameters
   "PerformCheckOnly": " This flag, when set to True, indicates that an Upgrade Eligibility Check needs to be performed. This will not actually perform the Upgrade. "
 }
 """
-UpgradeElasticsearchDomain(args) = elasticsearch_service("POST", "/2015-01-01/es/upgradeDomain", args)
+UpgradeElasticsearchDomain(DomainName, TargetVersion) = elasticsearch_service("POST", "/2015-01-01/es/upgradeDomain")
+UpgradeElasticsearchDomain(DomainName, TargetVersion, args) = elasticsearch_service("POST", "/2015-01-01/es/upgradeDomain", args)
+UpgradeElasticsearchDomain(a...; b...) = UpgradeElasticsearchDomain(a..., b)

@@ -12,7 +12,9 @@ Required Parameters
   "GraphArn": "The ARN of the behavior graph that the member account is accepting the invitation for. The member account status in the behavior graph must be INVITED."
 }
 """
-AcceptInvitation(args) = detective("PUT", "/invitation", args)
+AcceptInvitation(GraphArn) = detective("PUT", "/invitation")
+AcceptInvitation(GraphArn, args) = detective("PUT", "/invitation", args)
+AcceptInvitation(a...; b...) = AcceptInvitation(a..., b)
 
 """
     CreateGraph()
@@ -21,6 +23,7 @@ Creates a new behavior graph for the calling account, and sets that account as t
 """
 CreateGraph() = detective("POST", "/graph")
 CreateGraph(args) = detective("POST", "/graph", args)
+CreateGraph(a...; b...) = CreateGraph(a..., b)
 
 """
     CreateMembers()
@@ -38,7 +41,9 @@ Optional Parameters
   "Message": "Customized message text to include in the invitation email message to the invited member accounts."
 }
 """
-CreateMembers(args) = detective("POST", "/graph/members", args)
+CreateMembers(Accounts, GraphArn) = detective("POST", "/graph/members")
+CreateMembers(Accounts, GraphArn, args) = detective("POST", "/graph/members", args)
+CreateMembers(a...; b...) = CreateMembers(a..., b)
 
 """
     DeleteGraph()
@@ -50,7 +55,9 @@ Required Parameters
   "GraphArn": "The ARN of the behavior graph to disable."
 }
 """
-DeleteGraph(args) = detective("POST", "/graph/removal", args)
+DeleteGraph(GraphArn) = detective("POST", "/graph/removal")
+DeleteGraph(GraphArn, args) = detective("POST", "/graph/removal", args)
+DeleteGraph(a...; b...) = DeleteGraph(a..., b)
 
 """
     DeleteMembers()
@@ -63,7 +70,9 @@ Required Parameters
   "GraphArn": "The ARN of the behavior graph to delete members from."
 }
 """
-DeleteMembers(args) = detective("POST", "/graph/members/removal", args)
+DeleteMembers(AccountIds, GraphArn) = detective("POST", "/graph/members/removal")
+DeleteMembers(AccountIds, GraphArn, args) = detective("POST", "/graph/members/removal", args)
+DeleteMembers(a...; b...) = DeleteMembers(a..., b)
 
 """
     DisassociateMembership()
@@ -75,7 +84,9 @@ Required Parameters
   "GraphArn": "The ARN of the behavior graph to remove the member account from. The member account's member status in the behavior graph must be ENABLED."
 }
 """
-DisassociateMembership(args) = detective("POST", "/membership/removal", args)
+DisassociateMembership(GraphArn) = detective("POST", "/membership/removal")
+DisassociateMembership(GraphArn, args) = detective("POST", "/membership/removal", args)
+DisassociateMembership(a...; b...) = DisassociateMembership(a..., b)
 
 """
     GetMembers()
@@ -88,7 +99,9 @@ Required Parameters
   "GraphArn": "The ARN of the behavior graph for which to request the member details."
 }
 """
-GetMembers(args) = detective("POST", "/graph/members/get", args)
+GetMembers(AccountIds, GraphArn) = detective("POST", "/graph/members/get")
+GetMembers(AccountIds, GraphArn, args) = detective("POST", "/graph/members/get", args)
+GetMembers(a...; b...) = GetMembers(a..., b)
 
 """
     ListGraphs()
@@ -103,6 +116,7 @@ Optional Parameters
 """
 ListGraphs() = detective("POST", "/graphs/list")
 ListGraphs(args) = detective("POST", "/graphs/list", args)
+ListGraphs(a...; b...) = ListGraphs(a..., b)
 
 """
     ListInvitations()
@@ -117,6 +131,7 @@ Optional Parameters
 """
 ListInvitations() = detective("POST", "/invitations/list")
 ListInvitations(args) = detective("POST", "/invitations/list", args)
+ListInvitations(a...; b...) = ListInvitations(a..., b)
 
 """
     ListMembers()
@@ -134,7 +149,9 @@ Optional Parameters
   "NextToken": "For requests to retrieve the next page of member account results, the pagination token that was returned with the previous page of results. The initial request does not include a pagination token."
 }
 """
-ListMembers(args) = detective("POST", "/graph/members/list", args)
+ListMembers(GraphArn) = detective("POST", "/graph/members/list")
+ListMembers(GraphArn, args) = detective("POST", "/graph/members/list", args)
+ListMembers(a...; b...) = ListMembers(a..., b)
 
 """
     RejectInvitation()
@@ -146,7 +163,9 @@ Required Parameters
   "GraphArn": "The ARN of the behavior graph to reject the invitation to. The member account's current member status in the behavior graph must be INVITED."
 }
 """
-RejectInvitation(args) = detective("POST", "/invitation/removal", args)
+RejectInvitation(GraphArn) = detective("POST", "/invitation/removal")
+RejectInvitation(GraphArn, args) = detective("POST", "/invitation/removal", args)
+RejectInvitation(a...; b...) = RejectInvitation(a..., b)
 
 """
     StartMonitoringMember()
@@ -159,4 +178,6 @@ Required Parameters
   "GraphArn": "The ARN of the behavior graph."
 }
 """
-StartMonitoringMember(args) = detective("POST", "/graph/member/monitoringstate", args)
+StartMonitoringMember(AccountId, GraphArn) = detective("POST", "/graph/member/monitoringstate")
+StartMonitoringMember(AccountId, GraphArn, args) = detective("POST", "/graph/member/monitoringstate", args)
+StartMonitoringMember(a...; b...) = StartMonitoringMember(a..., b)

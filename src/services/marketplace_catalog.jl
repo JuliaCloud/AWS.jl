@@ -13,7 +13,9 @@ Required Parameters
   "ChangeSetId": "Required. The unique identifier of the StartChangeSet request that you want to cancel."
 }
 """
-CancelChangeSet(args) = marketplace_catalog("PATCH", "/CancelChangeSet", args)
+CancelChangeSet(Catalog, ChangeSetId) = marketplace_catalog("PATCH", "/CancelChangeSet")
+CancelChangeSet(Catalog, ChangeSetId, args) = marketplace_catalog("PATCH", "/CancelChangeSet", args)
+CancelChangeSet(a...; b...) = CancelChangeSet(a..., b)
 
 """
     DescribeChangeSet()
@@ -26,7 +28,9 @@ Required Parameters
   "ChangeSetId": "Required. The unique identifier for the StartChangeSet request that you want to describe the details for."
 }
 """
-DescribeChangeSet(args) = marketplace_catalog("GET", "/DescribeChangeSet", args)
+DescribeChangeSet(Catalog, ChangeSetId) = marketplace_catalog("GET", "/DescribeChangeSet")
+DescribeChangeSet(Catalog, ChangeSetId, args) = marketplace_catalog("GET", "/DescribeChangeSet", args)
+DescribeChangeSet(a...; b...) = DescribeChangeSet(a..., b)
 
 """
     DescribeEntity()
@@ -39,7 +43,9 @@ Required Parameters
   "EntityId": "Required. The unique ID of the entity to describe."
 }
 """
-DescribeEntity(args) = marketplace_catalog("GET", "/DescribeEntity", args)
+DescribeEntity(Catalog, EntityId) = marketplace_catalog("GET", "/DescribeEntity")
+DescribeEntity(Catalog, EntityId, args) = marketplace_catalog("GET", "/DescribeEntity", args)
+DescribeEntity(a...; b...) = DescribeEntity(a..., b)
 
 """
     ListChangeSets()
@@ -59,7 +65,9 @@ Optional Parameters
   "Sort": "An object that contains two attributes, SortBy and SortOrder."
 }
 """
-ListChangeSets(args) = marketplace_catalog("POST", "/ListChangeSets", args)
+ListChangeSets(Catalog) = marketplace_catalog("POST", "/ListChangeSets")
+ListChangeSets(Catalog, args) = marketplace_catalog("POST", "/ListChangeSets", args)
+ListChangeSets(a...; b...) = ListChangeSets(a..., b)
 
 """
     ListEntities()
@@ -80,7 +88,9 @@ Optional Parameters
   "Sort": "An object that contains two attributes, SortBy and SortOrder."
 }
 """
-ListEntities(args) = marketplace_catalog("POST", "/ListEntities", args)
+ListEntities(Catalog, EntityType) = marketplace_catalog("POST", "/ListEntities")
+ListEntities(Catalog, EntityType, args) = marketplace_catalog("POST", "/ListEntities", args)
+ListEntities(a...; b...) = ListEntities(a..., b)
 
 """
     StartChangeSet()
@@ -99,4 +109,6 @@ Optional Parameters
   "ClientRequestToken": "A unique token to identify the request to ensure idempotency."
 }
 """
-StartChangeSet(args) = marketplace_catalog("POST", "/StartChangeSet", args)
+StartChangeSet(Catalog, ChangeSet) = marketplace_catalog("POST", "/StartChangeSet")
+StartChangeSet(Catalog, ChangeSet, args) = marketplace_catalog("POST", "/StartChangeSet", args)
+StartChangeSet(a...; b...) = StartChangeSet(a..., b)

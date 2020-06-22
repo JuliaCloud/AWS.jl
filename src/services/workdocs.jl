@@ -18,7 +18,9 @@ Optional Parameters
   "AuthenticationToken": "Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API."
 }
 """
-AbortDocumentVersionUpload(args) = workdocs("DELETE", "/api/v1/documents/{DocumentId}/versions/{VersionId}", args)
+AbortDocumentVersionUpload(DocumentId, VersionId) = workdocs("DELETE", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)")
+AbortDocumentVersionUpload(DocumentId, VersionId, args) = workdocs("DELETE", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)", args)
+AbortDocumentVersionUpload(a...; b...) = AbortDocumentVersionUpload(a..., b)
 
 """
     ActivateUser()
@@ -35,7 +37,9 @@ Optional Parameters
   "AuthenticationToken": "Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API."
 }
 """
-ActivateUser(args) = workdocs("POST", "/api/v1/users/{UserId}/activation", args)
+ActivateUser(UserId) = workdocs("POST", "/api/v1/users/$(UserId)/activation")
+ActivateUser(UserId, args) = workdocs("POST", "/api/v1/users/$(UserId)/activation", args)
+ActivateUser(a...; b...) = ActivateUser(a..., b)
 
 """
     AddResourcePermissions()
@@ -54,7 +58,9 @@ Optional Parameters
   "NotificationOptions": "The notification options."
 }
 """
-AddResourcePermissions(args) = workdocs("POST", "/api/v1/resources/{ResourceId}/permissions", args)
+AddResourcePermissions(Principals, ResourceId) = workdocs("POST", "/api/v1/resources/$(ResourceId)/permissions")
+AddResourcePermissions(Principals, ResourceId, args) = workdocs("POST", "/api/v1/resources/$(ResourceId)/permissions", args)
+AddResourcePermissions(a...; b...) = AddResourcePermissions(a..., b)
 
 """
     CreateComment()
@@ -77,7 +83,9 @@ Optional Parameters
   "Visibility": "The visibility of the comment. Options are either PRIVATE, where the comment is visible only to the comment author and document owner and co-owners, or PUBLIC, where the comment is visible to document owners, co-owners, and contributors."
 }
 """
-CreateComment(args) = workdocs("POST", "/api/v1/documents/{DocumentId}/versions/{VersionId}/comment", args)
+CreateComment(DocumentId, Text, VersionId) = workdocs("POST", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comment")
+CreateComment(DocumentId, Text, VersionId, args) = workdocs("POST", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comment", args)
+CreateComment(a...; b...) = CreateComment(a..., b)
 
 """
     CreateCustomMetadata()
@@ -96,7 +104,9 @@ Optional Parameters
   "VersionId": "The ID of the version, if the custom metadata is being added to a document version."
 }
 """
-CreateCustomMetadata(args) = workdocs("PUT", "/api/v1/resources/{ResourceId}/customMetadata", args)
+CreateCustomMetadata(CustomMetadata, ResourceId) = workdocs("PUT", "/api/v1/resources/$(ResourceId)/customMetadata")
+CreateCustomMetadata(CustomMetadata, ResourceId, args) = workdocs("PUT", "/api/v1/resources/$(ResourceId)/customMetadata", args)
+CreateCustomMetadata(a...; b...) = CreateCustomMetadata(a..., b)
 
 """
     CreateFolder()
@@ -114,7 +124,9 @@ Optional Parameters
   "Name": "The name of the new folder."
 }
 """
-CreateFolder(args) = workdocs("POST", "/api/v1/folders", args)
+CreateFolder(ParentFolderId) = workdocs("POST", "/api/v1/folders")
+CreateFolder(ParentFolderId, args) = workdocs("POST", "/api/v1/folders", args)
+CreateFolder(a...; b...) = CreateFolder(a..., b)
 
 """
     CreateLabels()
@@ -132,7 +144,9 @@ Optional Parameters
   "AuthenticationToken": "Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API."
 }
 """
-CreateLabels(args) = workdocs("PUT", "/api/v1/resources/{ResourceId}/labels", args)
+CreateLabels(Labels, ResourceId) = workdocs("PUT", "/api/v1/resources/$(ResourceId)/labels")
+CreateLabels(Labels, ResourceId, args) = workdocs("PUT", "/api/v1/resources/$(ResourceId)/labels", args)
+CreateLabels(a...; b...) = CreateLabels(a..., b)
 
 """
     CreateNotificationSubscription()
@@ -147,7 +161,9 @@ Required Parameters
   "SubscriptionType": "The notification type."
 }
 """
-CreateNotificationSubscription(args) = workdocs("POST", "/api/v1/organizations/{OrganizationId}/subscriptions", args)
+CreateNotificationSubscription(Endpoint, OrganizationId, Protocol, SubscriptionType) = workdocs("POST", "/api/v1/organizations/$(OrganizationId)/subscriptions")
+CreateNotificationSubscription(Endpoint, OrganizationId, Protocol, SubscriptionType, args) = workdocs("POST", "/api/v1/organizations/$(OrganizationId)/subscriptions", args)
+CreateNotificationSubscription(a...; b...) = CreateNotificationSubscription(a..., b)
 
 """
     CreateUser()
@@ -171,7 +187,9 @@ Optional Parameters
   "TimeZoneId": "The time zone ID of the user."
 }
 """
-CreateUser(args) = workdocs("POST", "/api/v1/users", args)
+CreateUser(GivenName, Password, Surname, Username) = workdocs("POST", "/api/v1/users")
+CreateUser(GivenName, Password, Surname, Username, args) = workdocs("POST", "/api/v1/users", args)
+CreateUser(a...; b...) = CreateUser(a..., b)
 
 """
     DeactivateUser()
@@ -188,7 +206,9 @@ Optional Parameters
   "AuthenticationToken": "Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API."
 }
 """
-DeactivateUser(args) = workdocs("DELETE", "/api/v1/users/{UserId}/activation", args)
+DeactivateUser(UserId) = workdocs("DELETE", "/api/v1/users/$(UserId)/activation")
+DeactivateUser(UserId, args) = workdocs("DELETE", "/api/v1/users/$(UserId)/activation", args)
+DeactivateUser(a...; b...) = DeactivateUser(a..., b)
 
 """
     DeleteComment()
@@ -207,7 +227,9 @@ Optional Parameters
   "AuthenticationToken": "Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API."
 }
 """
-DeleteComment(args) = workdocs("DELETE", "/api/v1/documents/{DocumentId}/versions/{VersionId}/comment/{CommentId}", args)
+DeleteComment(CommentId, DocumentId, VersionId) = workdocs("DELETE", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comment/$(CommentId)")
+DeleteComment(CommentId, DocumentId, VersionId, args) = workdocs("DELETE", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comment/$(CommentId)", args)
+DeleteComment(a...; b...) = DeleteComment(a..., b)
 
 """
     DeleteCustomMetadata()
@@ -227,7 +249,9 @@ Optional Parameters
   "VersionId": "The ID of the version, if the custom metadata is being deleted from a document version."
 }
 """
-DeleteCustomMetadata(args) = workdocs("DELETE", "/api/v1/resources/{ResourceId}/customMetadata", args)
+DeleteCustomMetadata(ResourceId) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/customMetadata")
+DeleteCustomMetadata(ResourceId, args) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/customMetadata", args)
+DeleteCustomMetadata(a...; b...) = DeleteCustomMetadata(a..., b)
 
 """
     DeleteDocument()
@@ -244,7 +268,9 @@ Optional Parameters
   "AuthenticationToken": "Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API."
 }
 """
-DeleteDocument(args) = workdocs("DELETE", "/api/v1/documents/{DocumentId}", args)
+DeleteDocument(DocumentId) = workdocs("DELETE", "/api/v1/documents/$(DocumentId)")
+DeleteDocument(DocumentId, args) = workdocs("DELETE", "/api/v1/documents/$(DocumentId)", args)
+DeleteDocument(a...; b...) = DeleteDocument(a..., b)
 
 """
     DeleteFolder()
@@ -261,7 +287,9 @@ Optional Parameters
   "AuthenticationToken": "Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API."
 }
 """
-DeleteFolder(args) = workdocs("DELETE", "/api/v1/folders/{FolderId}", args)
+DeleteFolder(FolderId) = workdocs("DELETE", "/api/v1/folders/$(FolderId)")
+DeleteFolder(FolderId, args) = workdocs("DELETE", "/api/v1/folders/$(FolderId)", args)
+DeleteFolder(a...; b...) = DeleteFolder(a..., b)
 
 """
     DeleteFolderContents()
@@ -278,7 +306,9 @@ Optional Parameters
   "AuthenticationToken": "Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API."
 }
 """
-DeleteFolderContents(args) = workdocs("DELETE", "/api/v1/folders/{FolderId}/contents", args)
+DeleteFolderContents(FolderId) = workdocs("DELETE", "/api/v1/folders/$(FolderId)/contents")
+DeleteFolderContents(FolderId, args) = workdocs("DELETE", "/api/v1/folders/$(FolderId)/contents", args)
+DeleteFolderContents(a...; b...) = DeleteFolderContents(a..., b)
 
 """
     DeleteLabels()
@@ -297,7 +327,9 @@ Optional Parameters
   "Labels": "List of labels to delete from the resource."
 }
 """
-DeleteLabels(args) = workdocs("DELETE", "/api/v1/resources/{ResourceId}/labels", args)
+DeleteLabels(ResourceId) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/labels")
+DeleteLabels(ResourceId, args) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/labels", args)
+DeleteLabels(a...; b...) = DeleteLabels(a..., b)
 
 """
     DeleteNotificationSubscription()
@@ -310,7 +342,9 @@ Required Parameters
   "SubscriptionId": "The ID of the subscription."
 }
 """
-DeleteNotificationSubscription(args) = workdocs("DELETE", "/api/v1/organizations/{OrganizationId}/subscriptions/{SubscriptionId}", args)
+DeleteNotificationSubscription(OrganizationId, SubscriptionId) = workdocs("DELETE", "/api/v1/organizations/$(OrganizationId)/subscriptions/$(SubscriptionId)")
+DeleteNotificationSubscription(OrganizationId, SubscriptionId, args) = workdocs("DELETE", "/api/v1/organizations/$(OrganizationId)/subscriptions/$(SubscriptionId)", args)
+DeleteNotificationSubscription(a...; b...) = DeleteNotificationSubscription(a..., b)
 
 """
     DeleteUser()
@@ -327,7 +361,9 @@ Optional Parameters
   "AuthenticationToken": "Amazon WorkDocs authentication token. Do not set this field when using administrative API actions, as in accessing the API using AWS credentials."
 }
 """
-DeleteUser(args) = workdocs("DELETE", "/api/v1/users/{UserId}", args)
+DeleteUser(UserId) = workdocs("DELETE", "/api/v1/users/$(UserId)")
+DeleteUser(UserId, args) = workdocs("DELETE", "/api/v1/users/$(UserId)", args)
+DeleteUser(a...; b...) = DeleteUser(a..., b)
 
 """
     DescribeActivities()
@@ -350,6 +386,7 @@ Optional Parameters
 """
 DescribeActivities() = workdocs("GET", "/api/v1/activities")
 DescribeActivities(args) = workdocs("GET", "/api/v1/activities", args)
+DescribeActivities(a...; b...) = DescribeActivities(a..., b)
 
 """
     DescribeComments()
@@ -369,7 +406,9 @@ Optional Parameters
   "Marker": "The marker for the next set of results. This marker was received from a previous call."
 }
 """
-DescribeComments(args) = workdocs("GET", "/api/v1/documents/{DocumentId}/versions/{VersionId}/comments", args)
+DescribeComments(DocumentId, VersionId) = workdocs("GET", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comments")
+DescribeComments(DocumentId, VersionId, args) = workdocs("GET", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)/comments", args)
+DescribeComments(a...; b...) = DescribeComments(a..., b)
 
 """
     DescribeDocumentVersions()
@@ -390,7 +429,9 @@ Optional Parameters
   "Marker": "The marker for the next set of results. (You received this marker from a previous call.)"
 }
 """
-DescribeDocumentVersions(args) = workdocs("GET", "/api/v1/documents/{DocumentId}/versions", args)
+DescribeDocumentVersions(DocumentId) = workdocs("GET", "/api/v1/documents/$(DocumentId)/versions")
+DescribeDocumentVersions(DocumentId, args) = workdocs("GET", "/api/v1/documents/$(DocumentId)/versions", args)
+DescribeDocumentVersions(a...; b...) = DescribeDocumentVersions(a..., b)
 
 """
     DescribeFolderContents()
@@ -413,7 +454,9 @@ Optional Parameters
   "Type": "The type of items."
 }
 """
-DescribeFolderContents(args) = workdocs("GET", "/api/v1/folders/{FolderId}/contents", args)
+DescribeFolderContents(FolderId) = workdocs("GET", "/api/v1/folders/$(FolderId)/contents")
+DescribeFolderContents(FolderId, args) = workdocs("GET", "/api/v1/folders/$(FolderId)/contents", args)
+DescribeFolderContents(a...; b...) = DescribeFolderContents(a..., b)
 
 """
     DescribeGroups()
@@ -433,7 +476,9 @@ Optional Parameters
   "OrganizationId": "The ID of the organization."
 }
 """
-DescribeGroups(args) = workdocs("GET", "/api/v1/groups", args)
+DescribeGroups(SearchQuery) = workdocs("GET", "/api/v1/groups")
+DescribeGroups(SearchQuery, args) = workdocs("GET", "/api/v1/groups", args)
+DescribeGroups(a...; b...) = DescribeGroups(a..., b)
 
 """
     DescribeNotificationSubscriptions()
@@ -451,7 +496,9 @@ Optional Parameters
   "Marker": "The marker for the next set of results. (You received this marker from a previous call.)"
 }
 """
-DescribeNotificationSubscriptions(args) = workdocs("GET", "/api/v1/organizations/{OrganizationId}/subscriptions", args)
+DescribeNotificationSubscriptions(OrganizationId) = workdocs("GET", "/api/v1/organizations/$(OrganizationId)/subscriptions")
+DescribeNotificationSubscriptions(OrganizationId, args) = workdocs("GET", "/api/v1/organizations/$(OrganizationId)/subscriptions", args)
+DescribeNotificationSubscriptions(a...; b...) = DescribeNotificationSubscriptions(a..., b)
 
 """
     DescribeResourcePermissions()
@@ -471,7 +518,9 @@ Optional Parameters
   "PrincipalId": "The ID of the principal to filter permissions by."
 }
 """
-DescribeResourcePermissions(args) = workdocs("GET", "/api/v1/resources/{ResourceId}/permissions", args)
+DescribeResourcePermissions(ResourceId) = workdocs("GET", "/api/v1/resources/$(ResourceId)/permissions")
+DescribeResourcePermissions(ResourceId, args) = workdocs("GET", "/api/v1/resources/$(ResourceId)/permissions", args)
+DescribeResourcePermissions(a...; b...) = DescribeResourcePermissions(a..., b)
 
 """
     DescribeRootFolders()
@@ -489,7 +538,9 @@ Optional Parameters
   "Marker": "The marker for the next set of results. (You received this marker from a previous call.)"
 }
 """
-DescribeRootFolders(args) = workdocs("GET", "/api/v1/me/root", args)
+DescribeRootFolders(AuthenticationToken) = workdocs("GET", "/api/v1/me/root")
+DescribeRootFolders(AuthenticationToken, args) = workdocs("GET", "/api/v1/me/root", args)
+DescribeRootFolders(a...; b...) = DescribeRootFolders(a..., b)
 
 """
     DescribeUsers()
@@ -512,6 +563,7 @@ Optional Parameters
 """
 DescribeUsers() = workdocs("GET", "/api/v1/users")
 DescribeUsers(args) = workdocs("GET", "/api/v1/users", args)
+DescribeUsers(a...; b...) = DescribeUsers(a..., b)
 
 """
     GetCurrentUser()
@@ -523,7 +575,9 @@ Required Parameters
   "AuthenticationToken": "Amazon WorkDocs authentication token."
 }
 """
-GetCurrentUser(args) = workdocs("GET", "/api/v1/me", args)
+GetCurrentUser(AuthenticationToken) = workdocs("GET", "/api/v1/me")
+GetCurrentUser(AuthenticationToken, args) = workdocs("GET", "/api/v1/me", args)
+GetCurrentUser(a...; b...) = GetCurrentUser(a..., b)
 
 """
     GetDocument()
@@ -541,7 +595,9 @@ Optional Parameters
   "IncludeCustomMetadata": "Set this to TRUE to include custom metadata in the response."
 }
 """
-GetDocument(args) = workdocs("GET", "/api/v1/documents/{DocumentId}", args)
+GetDocument(DocumentId) = workdocs("GET", "/api/v1/documents/$(DocumentId)")
+GetDocument(DocumentId, args) = workdocs("GET", "/api/v1/documents/$(DocumentId)", args)
+GetDocument(a...; b...) = GetDocument(a..., b)
 
 """
     GetDocumentPath()
@@ -561,7 +617,9 @@ Optional Parameters
   "Marker": "This value is not supported."
 }
 """
-GetDocumentPath(args) = workdocs("GET", "/api/v1/documents/{DocumentId}/path", args)
+GetDocumentPath(DocumentId) = workdocs("GET", "/api/v1/documents/$(DocumentId)/path")
+GetDocumentPath(DocumentId, args) = workdocs("GET", "/api/v1/documents/$(DocumentId)/path", args)
+GetDocumentPath(a...; b...) = GetDocumentPath(a..., b)
 
 """
     GetDocumentVersion()
@@ -581,7 +639,9 @@ Optional Parameters
   "IncludeCustomMetadata": "Set this to TRUE to include custom metadata in the response."
 }
 """
-GetDocumentVersion(args) = workdocs("GET", "/api/v1/documents/{DocumentId}/versions/{VersionId}", args)
+GetDocumentVersion(DocumentId, VersionId) = workdocs("GET", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)")
+GetDocumentVersion(DocumentId, VersionId, args) = workdocs("GET", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)", args)
+GetDocumentVersion(a...; b...) = GetDocumentVersion(a..., b)
 
 """
     GetFolder()
@@ -599,7 +659,9 @@ Optional Parameters
   "IncludeCustomMetadata": "Set to TRUE to include custom metadata in the response."
 }
 """
-GetFolder(args) = workdocs("GET", "/api/v1/folders/{FolderId}", args)
+GetFolder(FolderId) = workdocs("GET", "/api/v1/folders/$(FolderId)")
+GetFolder(FolderId, args) = workdocs("GET", "/api/v1/folders/$(FolderId)", args)
+GetFolder(a...; b...) = GetFolder(a..., b)
 
 """
     GetFolderPath()
@@ -619,7 +681,9 @@ Optional Parameters
   "Marker": "This value is not supported."
 }
 """
-GetFolderPath(args) = workdocs("GET", "/api/v1/folders/{FolderId}/path", args)
+GetFolderPath(FolderId) = workdocs("GET", "/api/v1/folders/$(FolderId)/path")
+GetFolderPath(FolderId, args) = workdocs("GET", "/api/v1/folders/$(FolderId)/path", args)
+GetFolderPath(a...; b...) = GetFolderPath(a..., b)
 
 """
     GetResources()
@@ -637,6 +701,7 @@ Optional Parameters
 """
 GetResources() = workdocs("GET", "/api/v1/resources")
 GetResources(args) = workdocs("GET", "/api/v1/resources", args)
+GetResources(a...; b...) = GetResources(a..., b)
 
 """
     InitiateDocumentVersionUpload()
@@ -659,7 +724,9 @@ Optional Parameters
   "Name": "The name of the document."
 }
 """
-InitiateDocumentVersionUpload(args) = workdocs("POST", "/api/v1/documents", args)
+InitiateDocumentVersionUpload(ParentFolderId) = workdocs("POST", "/api/v1/documents")
+InitiateDocumentVersionUpload(ParentFolderId, args) = workdocs("POST", "/api/v1/documents", args)
+InitiateDocumentVersionUpload(a...; b...) = InitiateDocumentVersionUpload(a..., b)
 
 """
     RemoveAllResourcePermissions()
@@ -676,7 +743,9 @@ Optional Parameters
   "AuthenticationToken": "Amazon WorkDocs authentication token. Not required when using AWS administrator credentials to access the API."
 }
 """
-RemoveAllResourcePermissions(args) = workdocs("DELETE", "/api/v1/resources/{ResourceId}/permissions", args)
+RemoveAllResourcePermissions(ResourceId) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/permissions")
+RemoveAllResourcePermissions(ResourceId, args) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/permissions", args)
+RemoveAllResourcePermissions(a...; b...) = RemoveAllResourcePermissions(a..., b)
 
 """
     RemoveResourcePermission()
@@ -695,7 +764,9 @@ Optional Parameters
   "PrincipalType": "The principal type of the resource."
 }
 """
-RemoveResourcePermission(args) = workdocs("DELETE", "/api/v1/resources/{ResourceId}/permissions/{PrincipalId}", args)
+RemoveResourcePermission(PrincipalId, ResourceId) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/permissions/$(PrincipalId)")
+RemoveResourcePermission(PrincipalId, ResourceId, args) = workdocs("DELETE", "/api/v1/resources/$(ResourceId)/permissions/$(PrincipalId)", args)
+RemoveResourcePermission(a...; b...) = RemoveResourcePermission(a..., b)
 
 """
     UpdateDocument()
@@ -715,7 +786,9 @@ Optional Parameters
   "ResourceState": "The resource state of the document. Only ACTIVE and RECYCLED are supported."
 }
 """
-UpdateDocument(args) = workdocs("PATCH", "/api/v1/documents/{DocumentId}", args)
+UpdateDocument(DocumentId) = workdocs("PATCH", "/api/v1/documents/$(DocumentId)")
+UpdateDocument(DocumentId, args) = workdocs("PATCH", "/api/v1/documents/$(DocumentId)", args)
+UpdateDocument(a...; b...) = UpdateDocument(a..., b)
 
 """
     UpdateDocumentVersion()
@@ -734,7 +807,9 @@ Optional Parameters
   "VersionStatus": "The status of the version."
 }
 """
-UpdateDocumentVersion(args) = workdocs("PATCH", "/api/v1/documents/{DocumentId}/versions/{VersionId}", args)
+UpdateDocumentVersion(DocumentId, VersionId) = workdocs("PATCH", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)")
+UpdateDocumentVersion(DocumentId, VersionId, args) = workdocs("PATCH", "/api/v1/documents/$(DocumentId)/versions/$(VersionId)", args)
+UpdateDocumentVersion(a...; b...) = UpdateDocumentVersion(a..., b)
 
 """
     UpdateFolder()
@@ -754,7 +829,9 @@ Optional Parameters
   "ResourceState": "The resource state of the folder. Only ACTIVE and RECYCLED are accepted values from the API."
 }
 """
-UpdateFolder(args) = workdocs("PATCH", "/api/v1/folders/{FolderId}", args)
+UpdateFolder(FolderId) = workdocs("PATCH", "/api/v1/folders/$(FolderId)")
+UpdateFolder(FolderId, args) = workdocs("PATCH", "/api/v1/folders/$(FolderId)", args)
+UpdateFolder(a...; b...) = UpdateFolder(a..., b)
 
 """
     UpdateUser()
@@ -778,4 +855,6 @@ Optional Parameters
   "Type": "The type of the user."
 }
 """
-UpdateUser(args) = workdocs("PATCH", "/api/v1/users/{UserId}", args)
+UpdateUser(UserId) = workdocs("PATCH", "/api/v1/users/$(UserId)")
+UpdateUser(UserId, args) = workdocs("PATCH", "/api/v1/users/$(UserId)", args)
+UpdateUser(a...; b...) = UpdateUser(a..., b)

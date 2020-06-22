@@ -14,7 +14,9 @@ Required Parameters
   "roleName": "The friendly name of the role that is assigned to the user."
 }
 """
-GetRoleCredentials(args) = sso("GET", "/federation/credentials", args)
+GetRoleCredentials(accessToken, accountId, roleName) = sso("GET", "/federation/credentials")
+GetRoleCredentials(accessToken, accountId, roleName, args) = sso("GET", "/federation/credentials", args)
+GetRoleCredentials(a...; b...) = GetRoleCredentials(a..., b)
 
 """
     ListAccountRoles()
@@ -33,7 +35,9 @@ Optional Parameters
   "nextToken": "The page token from the previous response output when you request subsequent pages."
 }
 """
-ListAccountRoles(args) = sso("GET", "/assignment/roles", args)
+ListAccountRoles(accessToken, accountId) = sso("GET", "/assignment/roles")
+ListAccountRoles(accessToken, accountId, args) = sso("GET", "/assignment/roles", args)
+ListAccountRoles(a...; b...) = ListAccountRoles(a..., b)
 
 """
     ListAccounts()
@@ -51,7 +55,9 @@ Optional Parameters
   "nextToken": "(Optional) When requesting subsequent pages, this is the page token from the previous response output."
 }
 """
-ListAccounts(args) = sso("GET", "/assignment/accounts", args)
+ListAccounts(accessToken) = sso("GET", "/assignment/accounts")
+ListAccounts(accessToken, args) = sso("GET", "/assignment/accounts", args)
+ListAccounts(a...; b...) = ListAccounts(a..., b)
 
 """
     Logout()
@@ -63,4 +69,6 @@ Required Parameters
   "accessToken": "The token issued by the CreateToken API call. For more information, see CreateToken in the AWS SSO OIDC API Reference Guide."
 }
 """
-Logout(args) = sso("POST", "/logout", args)
+Logout(accessToken) = sso("POST", "/logout")
+Logout(accessToken, args) = sso("POST", "/logout", args)
+Logout(a...; b...) = Logout(a..., b)

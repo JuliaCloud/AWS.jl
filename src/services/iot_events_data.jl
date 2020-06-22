@@ -12,7 +12,9 @@ Required Parameters
   "messages": "The list of messages to send. Each message has the following format: '{ \"messageId\": \"string\", \"inputName\": \"string\", \"payload\": \"string\"}' "
 }
 """
-BatchPutMessage(args) = iot_events_data("POST", "/inputs/messages", args)
+BatchPutMessage(messages) = iot_events_data("POST", "/inputs/messages")
+BatchPutMessage(messages, args) = iot_events_data("POST", "/inputs/messages", args)
+BatchPutMessage(a...; b...) = BatchPutMessage(a..., b)
 
 """
     BatchUpdateDetector()
@@ -24,7 +26,9 @@ Required Parameters
   "detectors": "The list of detectors (instances) to update, along with the values to update."
 }
 """
-BatchUpdateDetector(args) = iot_events_data("POST", "/detectors", args)
+BatchUpdateDetector(detectors) = iot_events_data("POST", "/detectors")
+BatchUpdateDetector(detectors, args) = iot_events_data("POST", "/detectors", args)
+BatchUpdateDetector(a...; b...) = BatchUpdateDetector(a..., b)
 
 """
     DescribeDetector()
@@ -41,7 +45,9 @@ Optional Parameters
   "keyValue": "A filter used to limit results to detectors (instances) created because of the given key ID."
 }
 """
-DescribeDetector(args) = iot_events_data("GET", "/detectors/{detectorModelName}/keyValues/", args)
+DescribeDetector(detectorModelName) = iot_events_data("GET", "/detectors/$(detectorModelName)/keyValues/")
+DescribeDetector(detectorModelName, args) = iot_events_data("GET", "/detectors/$(detectorModelName)/keyValues/", args)
+DescribeDetector(a...; b...) = DescribeDetector(a..., b)
 
 """
     ListDetectors()
@@ -60,4 +66,6 @@ Optional Parameters
   "stateName": "A filter that limits results to those detectors (instances) in the given state."
 }
 """
-ListDetectors(args) = iot_events_data("GET", "/detectors/{detectorModelName}", args)
+ListDetectors(detectorModelName) = iot_events_data("GET", "/detectors/$(detectorModelName)")
+ListDetectors(detectorModelName, args) = iot_events_data("GET", "/detectors/$(detectorModelName)", args)
+ListDetectors(a...; b...) = ListDetectors(a..., b)

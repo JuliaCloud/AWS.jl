@@ -23,7 +23,9 @@ Optional Parameters
   "version": "The desired Kubernetes version for your cluster. If you don't specify a value here, the latest version available in Amazon EKS is used."
 }
 """
-CreateCluster(args) = eks("POST", "/clusters", args)
+CreateCluster(name, resourcesVpcConfig, roleArn) = eks("POST", "/clusters")
+CreateCluster(name, resourcesVpcConfig, roleArn, args) = eks("POST", "/clusters", args)
+CreateCluster(a...; b...) = CreateCluster(a..., b)
 
 """
     CreateFargateProfile()
@@ -45,7 +47,9 @@ Optional Parameters
   "tags": "The metadata to apply to the Fargate profile to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Fargate profile tags do not propagate to any other resources associated with the Fargate profile, such as the pods that are scheduled with it."
 }
 """
-CreateFargateProfile(args) = eks("POST", "/clusters/{name}/fargate-profiles", args)
+CreateFargateProfile(clusterName, fargateProfileName, podExecutionRoleArn) = eks("POST", "/clusters/$(name)/fargate-profiles")
+CreateFargateProfile(clusterName, fargateProfileName, podExecutionRoleArn, args) = eks("POST", "/clusters/$(name)/fargate-profiles", args)
+CreateFargateProfile(a...; b...) = CreateFargateProfile(a..., b)
 
 """
     CreateNodegroup()
@@ -74,7 +78,9 @@ Optional Parameters
   "version": "The Kubernetes version to use for your managed nodes. By default, the Kubernetes version of the cluster is used, and this is the only accepted specified value."
 }
 """
-CreateNodegroup(args) = eks("POST", "/clusters/{name}/node-groups", args)
+CreateNodegroup(clusterName, nodeRole, nodegroupName, subnets) = eks("POST", "/clusters/$(name)/node-groups")
+CreateNodegroup(clusterName, nodeRole, nodegroupName, subnets, args) = eks("POST", "/clusters/$(name)/node-groups", args)
+CreateNodegroup(a...; b...) = CreateNodegroup(a..., b)
 
 """
     DeleteCluster()
@@ -86,7 +92,9 @@ Required Parameters
   "name": "The name of the cluster to delete."
 }
 """
-DeleteCluster(args) = eks("DELETE", "/clusters/{name}", args)
+DeleteCluster(name) = eks("DELETE", "/clusters/$(name)")
+DeleteCluster(name, args) = eks("DELETE", "/clusters/$(name)", args)
+DeleteCluster(a...; b...) = DeleteCluster(a..., b)
 
 """
     DeleteFargateProfile()
@@ -99,7 +107,9 @@ Required Parameters
   "fargateProfileName": "The name of the Fargate profile to delete."
 }
 """
-DeleteFargateProfile(args) = eks("DELETE", "/clusters/{name}/fargate-profiles/{fargateProfileName}", args)
+DeleteFargateProfile(clusterName, fargateProfileName) = eks("DELETE", "/clusters/$(name)/fargate-profiles/$(fargateProfileName)")
+DeleteFargateProfile(clusterName, fargateProfileName, args) = eks("DELETE", "/clusters/$(name)/fargate-profiles/$(fargateProfileName)", args)
+DeleteFargateProfile(a...; b...) = DeleteFargateProfile(a..., b)
 
 """
     DeleteNodegroup()
@@ -112,7 +122,9 @@ Required Parameters
   "nodegroupName": "The name of the node group to delete."
 }
 """
-DeleteNodegroup(args) = eks("DELETE", "/clusters/{name}/node-groups/{nodegroupName}", args)
+DeleteNodegroup(clusterName, nodegroupName) = eks("DELETE", "/clusters/$(name)/node-groups/$(nodegroupName)")
+DeleteNodegroup(clusterName, nodegroupName, args) = eks("DELETE", "/clusters/$(name)/node-groups/$(nodegroupName)", args)
+DeleteNodegroup(a...; b...) = DeleteNodegroup(a..., b)
 
 """
     DescribeCluster()
@@ -124,7 +136,9 @@ Required Parameters
   "name": "The name of the cluster to describe."
 }
 """
-DescribeCluster(args) = eks("GET", "/clusters/{name}", args)
+DescribeCluster(name) = eks("GET", "/clusters/$(name)")
+DescribeCluster(name, args) = eks("GET", "/clusters/$(name)", args)
+DescribeCluster(a...; b...) = DescribeCluster(a..., b)
 
 """
     DescribeFargateProfile()
@@ -137,7 +151,9 @@ Required Parameters
   "fargateProfileName": "The name of the Fargate profile to describe."
 }
 """
-DescribeFargateProfile(args) = eks("GET", "/clusters/{name}/fargate-profiles/{fargateProfileName}", args)
+DescribeFargateProfile(clusterName, fargateProfileName) = eks("GET", "/clusters/$(name)/fargate-profiles/$(fargateProfileName)")
+DescribeFargateProfile(clusterName, fargateProfileName, args) = eks("GET", "/clusters/$(name)/fargate-profiles/$(fargateProfileName)", args)
+DescribeFargateProfile(a...; b...) = DescribeFargateProfile(a..., b)
 
 """
     DescribeNodegroup()
@@ -150,7 +166,9 @@ Required Parameters
   "nodegroupName": "The name of the node group to describe."
 }
 """
-DescribeNodegroup(args) = eks("GET", "/clusters/{name}/node-groups/{nodegroupName}", args)
+DescribeNodegroup(clusterName, nodegroupName) = eks("GET", "/clusters/$(name)/node-groups/$(nodegroupName)")
+DescribeNodegroup(clusterName, nodegroupName, args) = eks("GET", "/clusters/$(name)/node-groups/$(nodegroupName)", args)
+DescribeNodegroup(a...; b...) = DescribeNodegroup(a..., b)
 
 """
     DescribeUpdate()
@@ -168,7 +186,9 @@ Optional Parameters
   "nodegroupName": "The name of the Amazon EKS node group associated with the update."
 }
 """
-DescribeUpdate(args) = eks("GET", "/clusters/{name}/updates/{updateId}", args)
+DescribeUpdate(name, updateId) = eks("GET", "/clusters/$(name)/updates/$(updateId)")
+DescribeUpdate(name, updateId, args) = eks("GET", "/clusters/$(name)/updates/$(updateId)", args)
+DescribeUpdate(a...; b...) = DescribeUpdate(a..., b)
 
 """
     ListClusters()
@@ -183,6 +203,7 @@ Optional Parameters
 """
 ListClusters() = eks("GET", "/clusters")
 ListClusters(args) = eks("GET", "/clusters", args)
+ListClusters(a...; b...) = ListClusters(a..., b)
 
 """
     ListFargateProfiles()
@@ -200,7 +221,9 @@ Optional Parameters
   "nextToken": "The nextToken value returned from a previous paginated ListFargateProfiles request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value."
 }
 """
-ListFargateProfiles(args) = eks("GET", "/clusters/{name}/fargate-profiles", args)
+ListFargateProfiles(clusterName) = eks("GET", "/clusters/$(name)/fargate-profiles")
+ListFargateProfiles(clusterName, args) = eks("GET", "/clusters/$(name)/fargate-profiles", args)
+ListFargateProfiles(a...; b...) = ListFargateProfiles(a..., b)
 
 """
     ListNodegroups()
@@ -218,7 +241,9 @@ Optional Parameters
   "nextToken": "The nextToken value returned from a previous paginated ListNodegroups request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value."
 }
 """
-ListNodegroups(args) = eks("GET", "/clusters/{name}/node-groups", args)
+ListNodegroups(clusterName) = eks("GET", "/clusters/$(name)/node-groups")
+ListNodegroups(clusterName, args) = eks("GET", "/clusters/$(name)/node-groups", args)
+ListNodegroups(a...; b...) = ListNodegroups(a..., b)
 
 """
     ListTagsForResource()
@@ -230,7 +255,9 @@ Required Parameters
   "resourceArn": "The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are Amazon EKS clusters and managed node groups."
 }
 """
-ListTagsForResource(args) = eks("GET", "/tags/{resourceArn}", args)
+ListTagsForResource(resourceArn) = eks("GET", "/tags/$(resourceArn)")
+ListTagsForResource(resourceArn, args) = eks("GET", "/tags/$(resourceArn)", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     ListUpdates()
@@ -249,7 +276,9 @@ Optional Parameters
   "nodegroupName": "The name of the Amazon EKS managed node group to list updates for."
 }
 """
-ListUpdates(args) = eks("GET", "/clusters/{name}/updates", args)
+ListUpdates(name) = eks("GET", "/clusters/$(name)/updates")
+ListUpdates(name, args) = eks("GET", "/clusters/$(name)/updates", args)
+ListUpdates(a...; b...) = ListUpdates(a..., b)
 
 """
     TagResource()
@@ -262,7 +291,9 @@ Required Parameters
   "tags": "The tags to add to the resource. A tag is an array of key-value pairs."
 }
 """
-TagResource(args) = eks("POST", "/tags/{resourceArn}", args)
+TagResource(resourceArn, tags) = eks("POST", "/tags/$(resourceArn)")
+TagResource(resourceArn, tags, args) = eks("POST", "/tags/$(resourceArn)", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
@@ -275,7 +306,9 @@ Required Parameters
   "tagKeys": "The keys of the tags to be removed."
 }
 """
-UntagResource(args) = eks("DELETE", "/tags/{resourceArn}", args)
+UntagResource(resourceArn, tagKeys) = eks("DELETE", "/tags/$(resourceArn)")
+UntagResource(resourceArn, tagKeys, args) = eks("DELETE", "/tags/$(resourceArn)", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateClusterConfig()
@@ -294,7 +327,9 @@ Optional Parameters
   "resourcesVpcConfig": ""
 }
 """
-UpdateClusterConfig(args) = eks("POST", "/clusters/{name}/update-config", args)
+UpdateClusterConfig(name) = eks("POST", "/clusters/$(name)/update-config")
+UpdateClusterConfig(name, args) = eks("POST", "/clusters/$(name)/update-config", args)
+UpdateClusterConfig(a...; b...) = UpdateClusterConfig(a..., b)
 
 """
     UpdateClusterVersion()
@@ -312,7 +347,9 @@ Optional Parameters
   "clientRequestToken": "Unique, case-sensitive identifier that you provide to ensure the idempotency of the request."
 }
 """
-UpdateClusterVersion(args) = eks("POST", "/clusters/{name}/updates", args)
+UpdateClusterVersion(name, version) = eks("POST", "/clusters/$(name)/updates")
+UpdateClusterVersion(name, version, args) = eks("POST", "/clusters/$(name)/updates", args)
+UpdateClusterVersion(a...; b...) = UpdateClusterVersion(a..., b)
 
 """
     UpdateNodegroupConfig()
@@ -332,7 +369,9 @@ Optional Parameters
   "scalingConfig": "The scaling configuration details for the Auto Scaling group after the update."
 }
 """
-UpdateNodegroupConfig(args) = eks("POST", "/clusters/{name}/node-groups/{nodegroupName}/update-config", args)
+UpdateNodegroupConfig(clusterName, nodegroupName) = eks("POST", "/clusters/$(name)/node-groups/$(nodegroupName)/update-config")
+UpdateNodegroupConfig(clusterName, nodegroupName, args) = eks("POST", "/clusters/$(name)/node-groups/$(nodegroupName)/update-config", args)
+UpdateNodegroupConfig(a...; b...) = UpdateNodegroupConfig(a..., b)
 
 """
     UpdateNodegroupVersion()
@@ -353,4 +392,6 @@ Optional Parameters
   "version": "The Kubernetes version to update to. If no version is specified, then the Kubernetes version of the node group does not change. You can specify the Kubernetes version of the cluster to update the node group to the latest AMI version of the cluster's Kubernetes version."
 }
 """
-UpdateNodegroupVersion(args) = eks("POST", "/clusters/{name}/node-groups/{nodegroupName}/update-version", args)
+UpdateNodegroupVersion(clusterName, nodegroupName) = eks("POST", "/clusters/$(name)/node-groups/$(nodegroupName)/update-version")
+UpdateNodegroupVersion(clusterName, nodegroupName, args) = eks("POST", "/clusters/$(name)/node-groups/$(nodegroupName)/update-version", args)
+UpdateNodegroupVersion(a...; b...) = UpdateNodegroupVersion(a..., b)

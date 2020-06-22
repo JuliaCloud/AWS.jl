@@ -25,7 +25,9 @@ Optional Parameters
   "Tags": "One or more tags."
 }
 """
-CreateUser(args) = connect("PUT", "/users/{InstanceId}", args)
+CreateUser(InstanceId, PhoneConfig, RoutingProfileId, SecurityProfileIds, Username) = connect("PUT", "/users/$(InstanceId)")
+CreateUser(InstanceId, PhoneConfig, RoutingProfileId, SecurityProfileIds, Username, args) = connect("PUT", "/users/$(InstanceId)", args)
+CreateUser(a...; b...) = CreateUser(a..., b)
 
 """
     DeleteUser()
@@ -38,7 +40,9 @@ Required Parameters
   "UserId": "The identifier of the user."
 }
 """
-DeleteUser(args) = connect("DELETE", "/users/{InstanceId}/{UserId}", args)
+DeleteUser(InstanceId, UserId) = connect("DELETE", "/users/$(InstanceId)/$(UserId)")
+DeleteUser(InstanceId, UserId, args) = connect("DELETE", "/users/$(InstanceId)/$(UserId)", args)
+DeleteUser(a...; b...) = DeleteUser(a..., b)
 
 """
     DescribeUser()
@@ -51,7 +55,9 @@ Required Parameters
   "UserId": "The identifier of the user account."
 }
 """
-DescribeUser(args) = connect("GET", "/users/{InstanceId}/{UserId}", args)
+DescribeUser(InstanceId, UserId) = connect("GET", "/users/$(InstanceId)/$(UserId)")
+DescribeUser(InstanceId, UserId, args) = connect("GET", "/users/$(InstanceId)/$(UserId)", args)
+DescribeUser(a...; b...) = DescribeUser(a..., b)
 
 """
     DescribeUserHierarchyGroup()
@@ -64,7 +70,9 @@ Required Parameters
   "InstanceId": "The identifier of the Amazon Connect instance."
 }
 """
-DescribeUserHierarchyGroup(args) = connect("GET", "/user-hierarchy-groups/{InstanceId}/{HierarchyGroupId}", args)
+DescribeUserHierarchyGroup(HierarchyGroupId, InstanceId) = connect("GET", "/user-hierarchy-groups/$(InstanceId)/$(HierarchyGroupId)")
+DescribeUserHierarchyGroup(HierarchyGroupId, InstanceId, args) = connect("GET", "/user-hierarchy-groups/$(InstanceId)/$(HierarchyGroupId)", args)
+DescribeUserHierarchyGroup(a...; b...) = DescribeUserHierarchyGroup(a..., b)
 
 """
     DescribeUserHierarchyStructure()
@@ -76,7 +84,9 @@ Required Parameters
   "InstanceId": "The identifier of the Amazon Connect instance."
 }
 """
-DescribeUserHierarchyStructure(args) = connect("GET", "/user-hierarchy-structure/{InstanceId}", args)
+DescribeUserHierarchyStructure(InstanceId) = connect("GET", "/user-hierarchy-structure/$(InstanceId)")
+DescribeUserHierarchyStructure(InstanceId, args) = connect("GET", "/user-hierarchy-structure/$(InstanceId)", args)
+DescribeUserHierarchyStructure(a...; b...) = DescribeUserHierarchyStructure(a..., b)
 
 """
     GetContactAttributes()
@@ -89,7 +99,9 @@ Required Parameters
   "InstanceId": "The identifier of the Amazon Connect instance."
 }
 """
-GetContactAttributes(args) = connect("GET", "/contact/attributes/{InstanceId}/{InitialContactId}", args)
+GetContactAttributes(InitialContactId, InstanceId) = connect("GET", "/contact/attributes/$(InstanceId)/$(InitialContactId)")
+GetContactAttributes(InitialContactId, InstanceId, args) = connect("GET", "/contact/attributes/$(InstanceId)/$(InitialContactId)", args)
+GetContactAttributes(a...; b...) = GetContactAttributes(a..., b)
 
 """
     GetCurrentMetricData()
@@ -110,7 +122,9 @@ Optional Parameters
   "NextToken": "The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. The token expires after 5 minutes from the time it is created. Subsequent requests that use the token must use the same request parameters as the request that generated the token."
 }
 """
-GetCurrentMetricData(args) = connect("POST", "/metrics/current/{InstanceId}", args)
+GetCurrentMetricData(CurrentMetrics, Filters, InstanceId) = connect("POST", "/metrics/current/$(InstanceId)")
+GetCurrentMetricData(CurrentMetrics, Filters, InstanceId, args) = connect("POST", "/metrics/current/$(InstanceId)", args)
+GetCurrentMetricData(a...; b...) = GetCurrentMetricData(a..., b)
 
 """
     GetFederationToken()
@@ -122,7 +136,9 @@ Required Parameters
   "InstanceId": "The identifier of the Amazon Connect instance."
 }
 """
-GetFederationToken(args) = connect("GET", "/user/federate/{InstanceId}", args)
+GetFederationToken(InstanceId) = connect("GET", "/user/federate/$(InstanceId)")
+GetFederationToken(InstanceId, args) = connect("GET", "/user/federate/$(InstanceId)", args)
+GetFederationToken(a...; b...) = GetFederationToken(a..., b)
 
 """
     GetMetricData()
@@ -145,7 +161,9 @@ Optional Parameters
   "NextToken": "The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results."
 }
 """
-GetMetricData(args) = connect("POST", "/metrics/historical/{InstanceId}", args)
+GetMetricData(EndTime, Filters, HistoricalMetrics, InstanceId, StartTime) = connect("POST", "/metrics/historical/$(InstanceId)")
+GetMetricData(EndTime, Filters, HistoricalMetrics, InstanceId, StartTime, args) = connect("POST", "/metrics/historical/$(InstanceId)", args)
+GetMetricData(a...; b...) = GetMetricData(a..., b)
 
 """
     ListContactFlows()
@@ -164,7 +182,9 @@ Optional Parameters
   "NextToken": "The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results."
 }
 """
-ListContactFlows(args) = connect("GET", "/contact-flows-summary/{InstanceId}", args)
+ListContactFlows(InstanceId) = connect("GET", "/contact-flows-summary/$(InstanceId)")
+ListContactFlows(InstanceId, args) = connect("GET", "/contact-flows-summary/$(InstanceId)", args)
+ListContactFlows(a...; b...) = ListContactFlows(a..., b)
 
 """
     ListHoursOfOperations()
@@ -182,7 +202,9 @@ Optional Parameters
   "NextToken": "The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results."
 }
 """
-ListHoursOfOperations(args) = connect("GET", "/hours-of-operations-summary/{InstanceId}", args)
+ListHoursOfOperations(InstanceId) = connect("GET", "/hours-of-operations-summary/$(InstanceId)")
+ListHoursOfOperations(InstanceId, args) = connect("GET", "/hours-of-operations-summary/$(InstanceId)", args)
+ListHoursOfOperations(a...; b...) = ListHoursOfOperations(a..., b)
 
 """
     ListPhoneNumbers()
@@ -202,7 +224,9 @@ Optional Parameters
   "PhoneNumberTypes": "The type of phone number."
 }
 """
-ListPhoneNumbers(args) = connect("GET", "/phone-numbers-summary/{InstanceId}", args)
+ListPhoneNumbers(InstanceId) = connect("GET", "/phone-numbers-summary/$(InstanceId)")
+ListPhoneNumbers(InstanceId, args) = connect("GET", "/phone-numbers-summary/$(InstanceId)", args)
+ListPhoneNumbers(a...; b...) = ListPhoneNumbers(a..., b)
 
 """
     ListQueues()
@@ -221,7 +245,9 @@ Optional Parameters
   "QueueTypes": "The type of queue."
 }
 """
-ListQueues(args) = connect("GET", "/queues-summary/{InstanceId}", args)
+ListQueues(InstanceId) = connect("GET", "/queues-summary/$(InstanceId)")
+ListQueues(InstanceId, args) = connect("GET", "/queues-summary/$(InstanceId)", args)
+ListQueues(a...; b...) = ListQueues(a..., b)
 
 """
     ListRoutingProfiles()
@@ -239,7 +265,9 @@ Optional Parameters
   "NextToken": "The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results."
 }
 """
-ListRoutingProfiles(args) = connect("GET", "/routing-profiles-summary/{InstanceId}", args)
+ListRoutingProfiles(InstanceId) = connect("GET", "/routing-profiles-summary/$(InstanceId)")
+ListRoutingProfiles(InstanceId, args) = connect("GET", "/routing-profiles-summary/$(InstanceId)", args)
+ListRoutingProfiles(a...; b...) = ListRoutingProfiles(a..., b)
 
 """
     ListSecurityProfiles()
@@ -257,7 +285,9 @@ Optional Parameters
   "NextToken": "The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results."
 }
 """
-ListSecurityProfiles(args) = connect("GET", "/security-profiles-summary/{InstanceId}", args)
+ListSecurityProfiles(InstanceId) = connect("GET", "/security-profiles-summary/$(InstanceId)")
+ListSecurityProfiles(InstanceId, args) = connect("GET", "/security-profiles-summary/$(InstanceId)", args)
+ListSecurityProfiles(a...; b...) = ListSecurityProfiles(a..., b)
 
 """
     ListTagsForResource()
@@ -269,7 +299,9 @@ Required Parameters
   "resourceArn": "The Amazon Resource Name (ARN) of the resource."
 }
 """
-ListTagsForResource(args) = connect("GET", "/tags/{resourceArn}", args)
+ListTagsForResource(resourceArn) = connect("GET", "/tags/$(resourceArn)")
+ListTagsForResource(resourceArn, args) = connect("GET", "/tags/$(resourceArn)", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     ListUserHierarchyGroups()
@@ -287,7 +319,9 @@ Optional Parameters
   "NextToken": "The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results."
 }
 """
-ListUserHierarchyGroups(args) = connect("GET", "/user-hierarchy-groups-summary/{InstanceId}", args)
+ListUserHierarchyGroups(InstanceId) = connect("GET", "/user-hierarchy-groups-summary/$(InstanceId)")
+ListUserHierarchyGroups(InstanceId, args) = connect("GET", "/user-hierarchy-groups-summary/$(InstanceId)", args)
+ListUserHierarchyGroups(a...; b...) = ListUserHierarchyGroups(a..., b)
 
 """
     ListUsers()
@@ -305,7 +339,9 @@ Optional Parameters
   "NextToken": "The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results."
 }
 """
-ListUsers(args) = connect("GET", "/users-summary/{InstanceId}", args)
+ListUsers(InstanceId) = connect("GET", "/users-summary/$(InstanceId)")
+ListUsers(InstanceId, args) = connect("GET", "/users-summary/$(InstanceId)", args)
+ListUsers(a...; b...) = ListUsers(a..., b)
 
 """
     StartChatContact()
@@ -326,7 +362,9 @@ Optional Parameters
   "InitialMessage": "The initial message to be sent to the newly created chat."
 }
 """
-StartChatContact(args) = connect("PUT", "/contact/chat", args)
+StartChatContact(ContactFlowId, InstanceId, ParticipantDetails) = connect("PUT", "/contact/chat")
+StartChatContact(ContactFlowId, InstanceId, ParticipantDetails, args) = connect("PUT", "/contact/chat", args)
+StartChatContact(a...; b...) = StartChatContact(a..., b)
 
 """
     StartOutboundVoiceContact()
@@ -348,7 +386,9 @@ Optional Parameters
   "SourcePhoneNumber": "The phone number associated with the Amazon Connect instance, in E.164 format. If you do not specify a source phone number, you must specify a queue."
 }
 """
-StartOutboundVoiceContact(args) = connect("PUT", "/contact/outbound-voice", args)
+StartOutboundVoiceContact(ContactFlowId, DestinationPhoneNumber, InstanceId) = connect("PUT", "/contact/outbound-voice")
+StartOutboundVoiceContact(ContactFlowId, DestinationPhoneNumber, InstanceId, args) = connect("PUT", "/contact/outbound-voice", args)
+StartOutboundVoiceContact(a...; b...) = StartOutboundVoiceContact(a..., b)
 
 """
     StopContact()
@@ -361,7 +401,9 @@ Required Parameters
   "InstanceId": "The identifier of the Amazon Connect instance."
 }
 """
-StopContact(args) = connect("POST", "/contact/stop", args)
+StopContact(ContactId, InstanceId) = connect("POST", "/contact/stop")
+StopContact(ContactId, InstanceId, args) = connect("POST", "/contact/stop", args)
+StopContact(a...; b...) = StopContact(a..., b)
 
 """
     TagResource()
@@ -374,7 +416,9 @@ Required Parameters
   "tags": "One or more tags. For example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }."
 }
 """
-TagResource(args) = connect("POST", "/tags/{resourceArn}", args)
+TagResource(resourceArn, tags) = connect("POST", "/tags/$(resourceArn)")
+TagResource(resourceArn, tags, args) = connect("POST", "/tags/$(resourceArn)", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
@@ -387,7 +431,9 @@ Required Parameters
   "tagKeys": "The tag keys."
 }
 """
-UntagResource(args) = connect("DELETE", "/tags/{resourceArn}", args)
+UntagResource(resourceArn, tagKeys) = connect("DELETE", "/tags/$(resourceArn)")
+UntagResource(resourceArn, tagKeys, args) = connect("DELETE", "/tags/$(resourceArn)", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateContactAttributes()
@@ -401,7 +447,9 @@ Required Parameters
   "InstanceId": "The identifier of the Amazon Connect instance."
 }
 """
-UpdateContactAttributes(args) = connect("POST", "/contact/attributes", args)
+UpdateContactAttributes(Attributes, InitialContactId, InstanceId) = connect("POST", "/contact/attributes")
+UpdateContactAttributes(Attributes, InitialContactId, InstanceId, args) = connect("POST", "/contact/attributes", args)
+UpdateContactAttributes(a...; b...) = UpdateContactAttributes(a..., b)
 
 """
     UpdateUserHierarchy()
@@ -419,7 +467,9 @@ Optional Parameters
   "HierarchyGroupId": "The identifier of the hierarchy group."
 }
 """
-UpdateUserHierarchy(args) = connect("POST", "/users/{InstanceId}/{UserId}/hierarchy", args)
+UpdateUserHierarchy(InstanceId, UserId) = connect("POST", "/users/$(InstanceId)/$(UserId)/hierarchy")
+UpdateUserHierarchy(InstanceId, UserId, args) = connect("POST", "/users/$(InstanceId)/$(UserId)/hierarchy", args)
+UpdateUserHierarchy(a...; b...) = UpdateUserHierarchy(a..., b)
 
 """
     UpdateUserIdentityInfo()
@@ -433,7 +483,9 @@ Required Parameters
   "UserId": "The identifier of the user account."
 }
 """
-UpdateUserIdentityInfo(args) = connect("POST", "/users/{InstanceId}/{UserId}/identity-info", args)
+UpdateUserIdentityInfo(IdentityInfo, InstanceId, UserId) = connect("POST", "/users/$(InstanceId)/$(UserId)/identity-info")
+UpdateUserIdentityInfo(IdentityInfo, InstanceId, UserId, args) = connect("POST", "/users/$(InstanceId)/$(UserId)/identity-info", args)
+UpdateUserIdentityInfo(a...; b...) = UpdateUserIdentityInfo(a..., b)
 
 """
     UpdateUserPhoneConfig()
@@ -447,7 +499,9 @@ Required Parameters
   "UserId": "The identifier of the user account."
 }
 """
-UpdateUserPhoneConfig(args) = connect("POST", "/users/{InstanceId}/{UserId}/phone-config", args)
+UpdateUserPhoneConfig(InstanceId, PhoneConfig, UserId) = connect("POST", "/users/$(InstanceId)/$(UserId)/phone-config")
+UpdateUserPhoneConfig(InstanceId, PhoneConfig, UserId, args) = connect("POST", "/users/$(InstanceId)/$(UserId)/phone-config", args)
+UpdateUserPhoneConfig(a...; b...) = UpdateUserPhoneConfig(a..., b)
 
 """
     UpdateUserRoutingProfile()
@@ -461,7 +515,9 @@ Required Parameters
   "UserId": "The identifier of the user account."
 }
 """
-UpdateUserRoutingProfile(args) = connect("POST", "/users/{InstanceId}/{UserId}/routing-profile", args)
+UpdateUserRoutingProfile(InstanceId, RoutingProfileId, UserId) = connect("POST", "/users/$(InstanceId)/$(UserId)/routing-profile")
+UpdateUserRoutingProfile(InstanceId, RoutingProfileId, UserId, args) = connect("POST", "/users/$(InstanceId)/$(UserId)/routing-profile", args)
+UpdateUserRoutingProfile(a...; b...) = UpdateUserRoutingProfile(a..., b)
 
 """
     UpdateUserSecurityProfiles()
@@ -475,4 +531,6 @@ Required Parameters
   "UserId": "The identifier of the user account."
 }
 """
-UpdateUserSecurityProfiles(args) = connect("POST", "/users/{InstanceId}/{UserId}/security-profiles", args)
+UpdateUserSecurityProfiles(InstanceId, SecurityProfileIds, UserId) = connect("POST", "/users/$(InstanceId)/$(UserId)/security-profiles")
+UpdateUserSecurityProfiles(InstanceId, SecurityProfileIds, UserId, args) = connect("POST", "/users/$(InstanceId)/$(UserId)/security-profiles", args)
+UpdateUserSecurityProfiles(a...; b...) = UpdateUserSecurityProfiles(a..., b)

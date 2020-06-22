@@ -20,7 +20,9 @@ Optional Parameters
   "upfrontPaymentAmount": "The up-front payment amount. This is a whole number between 50 and 99 percent of the total value of the Savings Plan. This parameter is supported only if the payment option is Partial Upfront."
 }
 """
-CreateSavingsPlan(args) = savingsplans("POST", "/CreateSavingsPlan", args)
+CreateSavingsPlan(commitment, savingsPlanOfferingId) = savingsplans("POST", "/CreateSavingsPlan")
+CreateSavingsPlan(commitment, savingsPlanOfferingId, args) = savingsplans("POST", "/CreateSavingsPlan", args)
+CreateSavingsPlan(a...; b...) = CreateSavingsPlan(a..., b)
 
 """
     DescribeSavingsPlanRates()
@@ -39,7 +41,9 @@ Optional Parameters
   "nextToken": "The token for the next page of results."
 }
 """
-DescribeSavingsPlanRates(args) = savingsplans("POST", "/DescribeSavingsPlanRates", args)
+DescribeSavingsPlanRates(savingsPlanId) = savingsplans("POST", "/DescribeSavingsPlanRates")
+DescribeSavingsPlanRates(savingsPlanId, args) = savingsplans("POST", "/DescribeSavingsPlanRates", args)
+DescribeSavingsPlanRates(a...; b...) = DescribeSavingsPlanRates(a..., b)
 
 """
     DescribeSavingsPlans()
@@ -58,6 +62,7 @@ Optional Parameters
 """
 DescribeSavingsPlans() = savingsplans("POST", "/DescribeSavingsPlans")
 DescribeSavingsPlans(args) = savingsplans("POST", "/DescribeSavingsPlans", args)
+DescribeSavingsPlans(a...; b...) = DescribeSavingsPlans(a..., b)
 
 """
     DescribeSavingsPlansOfferingRates()
@@ -80,6 +85,7 @@ Optional Parameters
 """
 DescribeSavingsPlansOfferingRates() = savingsplans("POST", "/DescribeSavingsPlansOfferingRates")
 DescribeSavingsPlansOfferingRates(args) = savingsplans("POST", "/DescribeSavingsPlansOfferingRates", args)
+DescribeSavingsPlansOfferingRates(a...; b...) = DescribeSavingsPlansOfferingRates(a..., b)
 
 """
     DescribeSavingsPlansOfferings()
@@ -105,6 +111,7 @@ Optional Parameters
 """
 DescribeSavingsPlansOfferings() = savingsplans("POST", "/DescribeSavingsPlansOfferings")
 DescribeSavingsPlansOfferings(args) = savingsplans("POST", "/DescribeSavingsPlansOfferings", args)
+DescribeSavingsPlansOfferings(a...; b...) = DescribeSavingsPlansOfferings(a..., b)
 
 """
     ListTagsForResource()
@@ -116,7 +123,9 @@ Required Parameters
   "resourceArn": "The Amazon Resource Name (ARN) of the resource."
 }
 """
-ListTagsForResource(args) = savingsplans("POST", "/ListTagsForResource", args)
+ListTagsForResource(resourceArn) = savingsplans("POST", "/ListTagsForResource")
+ListTagsForResource(resourceArn, args) = savingsplans("POST", "/ListTagsForResource", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     TagResource()
@@ -129,7 +138,9 @@ Required Parameters
   "tags": "One or more tags. For example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }."
 }
 """
-TagResource(args) = savingsplans("POST", "/TagResource", args)
+TagResource(resourceArn, tags) = savingsplans("POST", "/TagResource")
+TagResource(resourceArn, tags, args) = savingsplans("POST", "/TagResource", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
@@ -142,4 +153,6 @@ Required Parameters
   "tagKeys": "The tag keys."
 }
 """
-UntagResource(args) = savingsplans("POST", "/UntagResource", args)
+UntagResource(resourceArn, tagKeys) = savingsplans("POST", "/UntagResource")
+UntagResource(resourceArn, tagKeys, args) = savingsplans("POST", "/UntagResource", args)
+UntagResource(a...; b...) = UntagResource(a..., b)

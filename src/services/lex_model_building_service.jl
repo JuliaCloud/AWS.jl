@@ -17,7 +17,9 @@ Optional Parameters
   "checksum": "Identifies a specific revision of the  LATEST version of the bot. If you specify a checksum and the  LATEST version of the bot has a different checksum, a PreconditionFailedException exception is returned and Amazon Lex doesn't publish a new version. If you don't specify a checksum, Amazon Lex publishes the  LATEST version."
 }
 """
-CreateBotVersion(args) = lex_model_building_service("POST", "/bots/{name}/versions", args)
+CreateBotVersion(name) = lex_model_building_service("POST", "/bots/$(name)/versions")
+CreateBotVersion(name, args) = lex_model_building_service("POST", "/bots/$(name)/versions", args)
+CreateBotVersion(a...; b...) = CreateBotVersion(a..., b)
 
 """
     CreateIntentVersion()
@@ -34,7 +36,9 @@ Optional Parameters
   "checksum": "Checksum of the  LATEST version of the intent that should be used to create the new version. If you specify a checksum and the  LATEST version of the intent has a different checksum, Amazon Lex returns a PreconditionFailedException exception and doesn't publish a new version. If you don't specify a checksum, Amazon Lex publishes the  LATEST version."
 }
 """
-CreateIntentVersion(args) = lex_model_building_service("POST", "/intents/{name}/versions", args)
+CreateIntentVersion(name) = lex_model_building_service("POST", "/intents/$(name)/versions")
+CreateIntentVersion(name, args) = lex_model_building_service("POST", "/intents/$(name)/versions", args)
+CreateIntentVersion(a...; b...) = CreateIntentVersion(a..., b)
 
 """
     CreateSlotTypeVersion()
@@ -51,7 +55,9 @@ Optional Parameters
   "checksum": "Checksum for the  LATEST version of the slot type that you want to publish. If you specify a checksum and the  LATEST version of the slot type has a different checksum, Amazon Lex returns a PreconditionFailedException exception and doesn't publish the new version. If you don't specify a checksum, Amazon Lex publishes the  LATEST version."
 }
 """
-CreateSlotTypeVersion(args) = lex_model_building_service("POST", "/slottypes/{name}/versions", args)
+CreateSlotTypeVersion(name) = lex_model_building_service("POST", "/slottypes/$(name)/versions")
+CreateSlotTypeVersion(name, args) = lex_model_building_service("POST", "/slottypes/$(name)/versions", args)
+CreateSlotTypeVersion(a...; b...) = CreateSlotTypeVersion(a..., b)
 
 """
     DeleteBot()
@@ -63,7 +69,9 @@ Required Parameters
   "name": "The name of the bot. The name is case sensitive. "
 }
 """
-DeleteBot(args) = lex_model_building_service("DELETE", "/bots/{name}", args)
+DeleteBot(name) = lex_model_building_service("DELETE", "/bots/$(name)")
+DeleteBot(name, args) = lex_model_building_service("DELETE", "/bots/$(name)", args)
+DeleteBot(a...; b...) = DeleteBot(a..., b)
 
 """
     DeleteBotAlias()
@@ -76,7 +84,9 @@ Required Parameters
   "name": "The name of the alias to delete. The name is case sensitive. "
 }
 """
-DeleteBotAlias(args) = lex_model_building_service("DELETE", "/bots/{botName}/aliases/{name}", args)
+DeleteBotAlias(botName, name) = lex_model_building_service("DELETE", "/bots/$(botName)/aliases/$(name)")
+DeleteBotAlias(botName, name, args) = lex_model_building_service("DELETE", "/bots/$(botName)/aliases/$(name)", args)
+DeleteBotAlias(a...; b...) = DeleteBotAlias(a..., b)
 
 """
     DeleteBotChannelAssociation()
@@ -90,7 +100,9 @@ Required Parameters
   "name": "The name of the association. The name is case sensitive. "
 }
 """
-DeleteBotChannelAssociation(args) = lex_model_building_service("DELETE", "/bots/{botName}/aliases/{aliasName}/channels/{name}", args)
+DeleteBotChannelAssociation(botAlias, botName, name) = lex_model_building_service("DELETE", "/bots/$(botName)/aliases/$(aliasName)/channels/$(name)")
+DeleteBotChannelAssociation(botAlias, botName, name, args) = lex_model_building_service("DELETE", "/bots/$(botName)/aliases/$(aliasName)/channels/$(name)", args)
+DeleteBotChannelAssociation(a...; b...) = DeleteBotChannelAssociation(a..., b)
 
 """
     DeleteBotVersion()
@@ -103,7 +115,9 @@ Required Parameters
   "version": "The version of the bot to delete. You cannot delete the  LATEST version of the bot. To delete the  LATEST version, use the DeleteBot operation."
 }
 """
-DeleteBotVersion(args) = lex_model_building_service("DELETE", "/bots/{name}/versions/{version}", args)
+DeleteBotVersion(name, version) = lex_model_building_service("DELETE", "/bots/$(name)/versions/$(version)")
+DeleteBotVersion(name, version, args) = lex_model_building_service("DELETE", "/bots/$(name)/versions/$(version)", args)
+DeleteBotVersion(a...; b...) = DeleteBotVersion(a..., b)
 
 """
     DeleteIntent()
@@ -115,7 +129,9 @@ Required Parameters
   "name": "The name of the intent. The name is case sensitive. "
 }
 """
-DeleteIntent(args) = lex_model_building_service("DELETE", "/intents/{name}", args)
+DeleteIntent(name) = lex_model_building_service("DELETE", "/intents/$(name)")
+DeleteIntent(name, args) = lex_model_building_service("DELETE", "/intents/$(name)", args)
+DeleteIntent(a...; b...) = DeleteIntent(a..., b)
 
 """
     DeleteIntentVersion()
@@ -128,7 +144,9 @@ Required Parameters
   "version": "The version of the intent to delete. You cannot delete the  LATEST version of the intent. To delete the  LATEST version, use the DeleteIntent operation."
 }
 """
-DeleteIntentVersion(args) = lex_model_building_service("DELETE", "/intents/{name}/versions/{version}", args)
+DeleteIntentVersion(name, version) = lex_model_building_service("DELETE", "/intents/$(name)/versions/$(version)")
+DeleteIntentVersion(name, version, args) = lex_model_building_service("DELETE", "/intents/$(name)/versions/$(version)", args)
+DeleteIntentVersion(a...; b...) = DeleteIntentVersion(a..., b)
 
 """
     DeleteSlotType()
@@ -140,7 +158,9 @@ Required Parameters
   "name": "The name of the slot type. The name is case sensitive. "
 }
 """
-DeleteSlotType(args) = lex_model_building_service("DELETE", "/slottypes/{name}", args)
+DeleteSlotType(name) = lex_model_building_service("DELETE", "/slottypes/$(name)")
+DeleteSlotType(name, args) = lex_model_building_service("DELETE", "/slottypes/$(name)", args)
+DeleteSlotType(a...; b...) = DeleteSlotType(a..., b)
 
 """
     DeleteSlotTypeVersion()
@@ -153,7 +173,9 @@ Required Parameters
   "version": "The version of the slot type to delete. You cannot delete the  LATEST version of the slot type. To delete the  LATEST version, use the DeleteSlotType operation."
 }
 """
-DeleteSlotTypeVersion(args) = lex_model_building_service("DELETE", "/slottypes/{name}/version/{version}", args)
+DeleteSlotTypeVersion(name, version) = lex_model_building_service("DELETE", "/slottypes/$(name)/version/$(version)")
+DeleteSlotTypeVersion(name, version, args) = lex_model_building_service("DELETE", "/slottypes/$(name)/version/$(version)", args)
+DeleteSlotTypeVersion(a...; b...) = DeleteSlotTypeVersion(a..., b)
 
 """
     DeleteUtterances()
@@ -166,7 +188,9 @@ Required Parameters
   "userId": " The unique identifier for the user that made the utterances. This is the user ID that was sent in the PostContent or PostText operation request that contained the utterance."
 }
 """
-DeleteUtterances(args) = lex_model_building_service("DELETE", "/bots/{botName}/utterances/{userId}", args)
+DeleteUtterances(botName, userId) = lex_model_building_service("DELETE", "/bots/$(botName)/utterances/$(userId)")
+DeleteUtterances(botName, userId, args) = lex_model_building_service("DELETE", "/bots/$(botName)/utterances/$(userId)", args)
+DeleteUtterances(a...; b...) = DeleteUtterances(a..., b)
 
 """
     GetBot()
@@ -179,7 +203,9 @@ Required Parameters
   "versionOrAlias": "The version or alias of the bot."
 }
 """
-GetBot(args) = lex_model_building_service("GET", "/bots/{name}/versions/{versionoralias}", args)
+GetBot(name, versionOrAlias) = lex_model_building_service("GET", "/bots/$(name)/versions/$(versionoralias)")
+GetBot(name, versionOrAlias, args) = lex_model_building_service("GET", "/bots/$(name)/versions/$(versionoralias)", args)
+GetBot(a...; b...) = GetBot(a..., b)
 
 """
     GetBotAlias()
@@ -192,7 +218,9 @@ Required Parameters
   "name": "The name of the bot alias. The name is case sensitive."
 }
 """
-GetBotAlias(args) = lex_model_building_service("GET", "/bots/{botName}/aliases/{name}", args)
+GetBotAlias(botName, name) = lex_model_building_service("GET", "/bots/$(botName)/aliases/$(name)")
+GetBotAlias(botName, name, args) = lex_model_building_service("GET", "/bots/$(botName)/aliases/$(name)", args)
+GetBotAlias(a...; b...) = GetBotAlias(a..., b)
 
 """
     GetBotAliases()
@@ -211,7 +239,9 @@ Optional Parameters
   "nextToken": "A pagination token for fetching the next page of aliases. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of aliases, specify the pagination token in the next request. "
 }
 """
-GetBotAliases(args) = lex_model_building_service("GET", "/bots/{botName}/aliases/", args)
+GetBotAliases(botName) = lex_model_building_service("GET", "/bots/$(botName)/aliases/")
+GetBotAliases(botName, args) = lex_model_building_service("GET", "/bots/$(botName)/aliases/", args)
+GetBotAliases(a...; b...) = GetBotAliases(a..., b)
 
 """
     GetBotChannelAssociation()
@@ -225,7 +255,9 @@ Required Parameters
   "name": "The name of the association between the bot and the channel. The name is case sensitive. "
 }
 """
-GetBotChannelAssociation(args) = lex_model_building_service("GET", "/bots/{botName}/aliases/{aliasName}/channels/{name}", args)
+GetBotChannelAssociation(botAlias, botName, name) = lex_model_building_service("GET", "/bots/$(botName)/aliases/$(aliasName)/channels/$(name)")
+GetBotChannelAssociation(botAlias, botName, name, args) = lex_model_building_service("GET", "/bots/$(botName)/aliases/$(aliasName)/channels/$(name)", args)
+GetBotChannelAssociation(a...; b...) = GetBotChannelAssociation(a..., b)
 
 """
     GetBotChannelAssociations()
@@ -245,7 +277,9 @@ Optional Parameters
   "nextToken": "A pagination token for fetching the next page of associations. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of associations, specify the pagination token in the next request. "
 }
 """
-GetBotChannelAssociations(args) = lex_model_building_service("GET", "/bots/{botName}/aliases/{aliasName}/channels/", args)
+GetBotChannelAssociations(botAlias, botName) = lex_model_building_service("GET", "/bots/$(botName)/aliases/$(aliasName)/channels/")
+GetBotChannelAssociations(botAlias, botName, args) = lex_model_building_service("GET", "/bots/$(botName)/aliases/$(aliasName)/channels/", args)
+GetBotChannelAssociations(a...; b...) = GetBotChannelAssociations(a..., b)
 
 """
     GetBotVersions()
@@ -263,7 +297,9 @@ Optional Parameters
   "nextToken": "A pagination token for fetching the next page of bot versions. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of versions, specify the pagination token in the next request. "
 }
 """
-GetBotVersions(args) = lex_model_building_service("GET", "/bots/{name}/versions/", args)
+GetBotVersions(name) = lex_model_building_service("GET", "/bots/$(name)/versions/")
+GetBotVersions(name, args) = lex_model_building_service("GET", "/bots/$(name)/versions/", args)
+GetBotVersions(a...; b...) = GetBotVersions(a..., b)
 
 """
     GetBots()
@@ -279,6 +315,7 @@ Optional Parameters
 """
 GetBots() = lex_model_building_service("GET", "/bots/")
 GetBots(args) = lex_model_building_service("GET", "/bots/", args)
+GetBots(a...; b...) = GetBots(a..., b)
 
 """
     GetBuiltinIntent()
@@ -290,7 +327,9 @@ Required Parameters
   "signature": "The unique identifier for a built-in intent. To find the signature for an intent, see Standard Built-in Intents in the Alexa Skills Kit."
 }
 """
-GetBuiltinIntent(args) = lex_model_building_service("GET", "/builtins/intents/{signature}", args)
+GetBuiltinIntent(signature) = lex_model_building_service("GET", "/builtins/intents/$(signature)")
+GetBuiltinIntent(signature, args) = lex_model_building_service("GET", "/builtins/intents/$(signature)", args)
+GetBuiltinIntent(a...; b...) = GetBuiltinIntent(a..., b)
 
 """
     GetBuiltinIntents()
@@ -307,6 +346,7 @@ Optional Parameters
 """
 GetBuiltinIntents() = lex_model_building_service("GET", "/builtins/intents/")
 GetBuiltinIntents(args) = lex_model_building_service("GET", "/builtins/intents/", args)
+GetBuiltinIntents(a...; b...) = GetBuiltinIntents(a..., b)
 
 """
     GetBuiltinSlotTypes()
@@ -323,6 +363,7 @@ Optional Parameters
 """
 GetBuiltinSlotTypes() = lex_model_building_service("GET", "/builtins/slottypes/")
 GetBuiltinSlotTypes(args) = lex_model_building_service("GET", "/builtins/slottypes/", args)
+GetBuiltinSlotTypes(a...; b...) = GetBuiltinSlotTypes(a..., b)
 
 """
     GetExport()
@@ -337,7 +378,9 @@ Required Parameters
   "version": "The version of the bot to export."
 }
 """
-GetExport(args) = lex_model_building_service("GET", "/exports/", args)
+GetExport(exportType, name, resourceType, version) = lex_model_building_service("GET", "/exports/")
+GetExport(exportType, name, resourceType, version, args) = lex_model_building_service("GET", "/exports/", args)
+GetExport(a...; b...) = GetExport(a..., b)
 
 """
     GetImport()
@@ -349,7 +392,9 @@ Required Parameters
   "importId": "The identifier of the import job information to return."
 }
 """
-GetImport(args) = lex_model_building_service("GET", "/imports/{importId}", args)
+GetImport(importId) = lex_model_building_service("GET", "/imports/$(importId)")
+GetImport(importId, args) = lex_model_building_service("GET", "/imports/$(importId)", args)
+GetImport(a...; b...) = GetImport(a..., b)
 
 """
     GetIntent()
@@ -362,7 +407,9 @@ Required Parameters
   "version": "The version of the intent."
 }
 """
-GetIntent(args) = lex_model_building_service("GET", "/intents/{name}/versions/{version}", args)
+GetIntent(name, version) = lex_model_building_service("GET", "/intents/$(name)/versions/$(version)")
+GetIntent(name, version, args) = lex_model_building_service("GET", "/intents/$(name)/versions/$(version)", args)
+GetIntent(a...; b...) = GetIntent(a..., b)
 
 """
     GetIntentVersions()
@@ -380,7 +427,9 @@ Optional Parameters
   "nextToken": "A pagination token for fetching the next page of intent versions. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of versions, specify the pagination token in the next request. "
 }
 """
-GetIntentVersions(args) = lex_model_building_service("GET", "/intents/{name}/versions/", args)
+GetIntentVersions(name) = lex_model_building_service("GET", "/intents/$(name)/versions/")
+GetIntentVersions(name, args) = lex_model_building_service("GET", "/intents/$(name)/versions/", args)
+GetIntentVersions(a...; b...) = GetIntentVersions(a..., b)
 
 """
     GetIntents()
@@ -396,6 +445,7 @@ Optional Parameters
 """
 GetIntents() = lex_model_building_service("GET", "/intents/")
 GetIntents(args) = lex_model_building_service("GET", "/intents/", args)
+GetIntents(a...; b...) = GetIntents(a..., b)
 
 """
     GetSlotType()
@@ -408,7 +458,9 @@ Required Parameters
   "version": "The version of the slot type. "
 }
 """
-GetSlotType(args) = lex_model_building_service("GET", "/slottypes/{name}/versions/{version}", args)
+GetSlotType(name, version) = lex_model_building_service("GET", "/slottypes/$(name)/versions/$(version)")
+GetSlotType(name, version, args) = lex_model_building_service("GET", "/slottypes/$(name)/versions/$(version)", args)
+GetSlotType(a...; b...) = GetSlotType(a..., b)
 
 """
     GetSlotTypeVersions()
@@ -426,7 +478,9 @@ Optional Parameters
   "nextToken": "A pagination token for fetching the next page of slot type versions. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of versions, specify the pagination token in the next request. "
 }
 """
-GetSlotTypeVersions(args) = lex_model_building_service("GET", "/slottypes/{name}/versions/", args)
+GetSlotTypeVersions(name) = lex_model_building_service("GET", "/slottypes/$(name)/versions/")
+GetSlotTypeVersions(name, args) = lex_model_building_service("GET", "/slottypes/$(name)/versions/", args)
+GetSlotTypeVersions(a...; b...) = GetSlotTypeVersions(a..., b)
 
 """
     GetSlotTypes()
@@ -442,6 +496,7 @@ Optional Parameters
 """
 GetSlotTypes() = lex_model_building_service("GET", "/slottypes/")
 GetSlotTypes(args) = lex_model_building_service("GET", "/slottypes/", args)
+GetSlotTypes(a...; b...) = GetSlotTypes(a..., b)
 
 """
     GetUtterancesView()
@@ -455,7 +510,9 @@ Required Parameters
   "statusType": "To return utterances that were recognized and handled, use Detected. To return utterances that were not recognized, use Missed."
 }
 """
-GetUtterancesView(args) = lex_model_building_service("GET", "/bots/{botname}/utterances?view=aggregation", args)
+GetUtterancesView(botName, botVersions, statusType) = lex_model_building_service("GET", "/bots/$(botname)/utterances?view=aggregation")
+GetUtterancesView(botName, botVersions, statusType, args) = lex_model_building_service("GET", "/bots/$(botname)/utterances?view=aggregation", args)
+GetUtterancesView(a...; b...) = GetUtterancesView(a..., b)
 
 """
     ListTagsForResource()
@@ -467,7 +524,9 @@ Required Parameters
   "resourceArn": "The Amazon Resource Name (ARN) of the resource to get a list of tags for."
 }
 """
-ListTagsForResource(args) = lex_model_building_service("GET", "/tags/{resourceArn}", args)
+ListTagsForResource(resourceArn) = lex_model_building_service("GET", "/tags/$(resourceArn)")
+ListTagsForResource(resourceArn, args) = lex_model_building_service("GET", "/tags/$(resourceArn)", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     PutBot()
@@ -496,7 +555,9 @@ Optional Parameters
   "voiceId": "The Amazon Polly voice ID that you want Amazon Lex to use for voice interactions with the user. The locale configured for the voice must match the locale of the bot. For more information, see Voices in Amazon Polly in the Amazon Polly Developer Guide."
 }
 """
-PutBot(args) = lex_model_building_service("PUT", "/bots/{name}/versions/$LATEST", args)
+PutBot(childDirected, locale, name) = lex_model_building_service("PUT", "/bots/$(name)/versions/$LATEST")
+PutBot(childDirected, locale, name, args) = lex_model_building_service("PUT", "/bots/$(name)/versions/$LATEST", args)
+PutBot(a...; b...) = PutBot(a..., b)
 
 """
     PutBotAlias()
@@ -518,7 +579,9 @@ Optional Parameters
   "tags": "A list of tags to add to the bot alias. You can only add tags when you create an alias, you can't use the PutBotAlias operation to update the tags on a bot alias. To update tags, use the TagResource operation."
 }
 """
-PutBotAlias(args) = lex_model_building_service("PUT", "/bots/{botName}/aliases/{name}", args)
+PutBotAlias(botName, botVersion, name) = lex_model_building_service("PUT", "/bots/$(botName)/aliases/$(name)")
+PutBotAlias(botName, botVersion, name, args) = lex_model_building_service("PUT", "/bots/$(botName)/aliases/$(name)", args)
+PutBotAlias(a...; b...) = PutBotAlias(a..., b)
 
 """
     PutIntent()
@@ -540,13 +603,16 @@ Optional Parameters
   "dialogCodeHook": " Specifies a Lambda function to invoke for each user input. You can invoke this Lambda function to personalize user interaction.  For example, suppose your bot determines that the user is John. Your Lambda function might retrieve John's information from a backend database and prepopulate some of the values. For example, if you find that John is gluten intolerant, you might set the corresponding intent slot, GlutenIntolerant, to true. You might find John's phone number and set the corresponding session attribute. ",
   "followUpPrompt": "Amazon Lex uses this prompt to solicit additional activity after fulfilling an intent. For example, after the OrderPizza intent is fulfilled, you might prompt the user to order a drink. The action that Amazon Lex takes depends on the user's response, as follows:   If the user says \"Yes\" it responds with the clarification prompt that is configured for the bot.   if the user says \"Yes\" and continues with an utterance that triggers an intent it starts a conversation for the intent.   If the user says \"No\" it responds with the rejection statement configured for the the follow-up prompt.   If it doesn't recognize the utterance it repeats the follow-up prompt again.   The followUpPrompt field and the conclusionStatement field are mutually exclusive. You can specify only one. ",
   "fulfillmentActivity": "Required. Describes how the intent is fulfilled. For example, after a user provides all of the information for a pizza order, fulfillmentActivity defines how the bot places an order with a local pizza store.   You might configure Amazon Lex to return all of the intent information to the client application, or direct it to invoke a Lambda function that can process the intent (for example, place an order with a pizzeria). ",
+  "kendraConfiguration": "Configuration information required to use the AMAZON.KendraSearchIntent intent to connect to an Amazon Kendra index. For more information, see  AMAZON.KendraSearchIntent.",
   "parentIntentSignature": "A unique identifier for the built-in intent to base this intent on. To find the signature for an intent, see Standard Built-in Intents in the Alexa Skills Kit.",
   "rejectionStatement": "When the user answers \"no\" to the question defined in confirmationPrompt, Amazon Lex responds with this statement to acknowledge that the intent was canceled.   You must provide both the rejectionStatement and the confirmationPrompt, or neither. ",
   "sampleUtterances": "An array of utterances (strings) that a user might say to signal the intent. For example, \"I want {PizzaSize} pizza\", \"Order {Quantity} {PizzaSize} pizzas\".  In each utterance, a slot name is enclosed in curly braces. ",
   "slots": "An array of intent slots. At runtime, Amazon Lex elicits required slot values from the user using prompts defined in the slots. For more information, see how-it-works. "
 }
 """
-PutIntent(args) = lex_model_building_service("PUT", "/intents/{name}/versions/$LATEST", args)
+PutIntent(name) = lex_model_building_service("PUT", "/intents/$(name)/versions/$LATEST")
+PutIntent(name, args) = lex_model_building_service("PUT", "/intents/$(name)/versions/$LATEST", args)
+PutIntent(a...; b...) = PutIntent(a..., b)
 
 """
     PutSlotType()
@@ -569,7 +635,9 @@ Optional Parameters
   "valueSelectionStrategy": "Determines the slot resolution strategy that Amazon Lex uses to return slot type values. The field can be set to one of the following values:    ORIGINAL_VALUE - Returns the value entered by the user, if the user value is similar to the slot value.    TOP_RESOLUTION - If there is a resolution list for the slot, return the first value in the resolution list as the slot type value. If there is no resolution list, null is returned.   If you don't specify the valueSelectionStrategy, the default is ORIGINAL_VALUE."
 }
 """
-PutSlotType(args) = lex_model_building_service("PUT", "/slottypes/{name}/versions/$LATEST", args)
+PutSlotType(name) = lex_model_building_service("PUT", "/slottypes/$(name)/versions/$LATEST")
+PutSlotType(name, args) = lex_model_building_service("PUT", "/slottypes/$(name)/versions/$LATEST", args)
+PutSlotType(a...; b...) = PutSlotType(a..., b)
 
 """
     StartImport()
@@ -588,7 +656,9 @@ Optional Parameters
   "tags": "A list of tags to add to the imported bot. You can only add tags when you import a bot, you can't add tags to an intent or slot type."
 }
 """
-StartImport(args) = lex_model_building_service("POST", "/imports/", args)
+StartImport(mergeStrategy, payload, resourceType) = lex_model_building_service("POST", "/imports/")
+StartImport(mergeStrategy, payload, resourceType, args) = lex_model_building_service("POST", "/imports/", args)
+StartImport(a...; b...) = StartImport(a..., b)
 
 """
     TagResource()
@@ -601,7 +671,9 @@ Required Parameters
   "tags": "A list of tag keys to add to the resource. If a tag key already exists, the existing value is replaced with the new value."
 }
 """
-TagResource(args) = lex_model_building_service("POST", "/tags/{resourceArn}", args)
+TagResource(resourceArn, tags) = lex_model_building_service("POST", "/tags/$(resourceArn)")
+TagResource(resourceArn, tags, args) = lex_model_building_service("POST", "/tags/$(resourceArn)", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
@@ -614,4 +686,6 @@ Required Parameters
   "tagKeys": "A list of tag keys to remove from the resource. If a tag key does not exist on the resource, it is ignored."
 }
 """
-UntagResource(args) = lex_model_building_service("DELETE", "/tags/{resourceArn}", args)
+UntagResource(resourceArn, tagKeys) = lex_model_building_service("DELETE", "/tags/$(resourceArn)")
+UntagResource(resourceArn, tagKeys, args) = lex_model_building_service("DELETE", "/tags/$(resourceArn)", args)
+UntagResource(a...; b...) = UntagResource(a..., b)

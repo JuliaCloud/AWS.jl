@@ -18,7 +18,9 @@ Optional Parameters
   "CreatorRequestId": "Identifies the request and allows failed requests to be retried without the risk of executing the operation twice. If the request includes a CreatorRequestId that matches an existing backup plan, that plan is returned. This parameter is optional."
 }
 """
-CreateBackupPlan(args) = backup("PUT", "/backup/plans/", args)
+CreateBackupPlan(BackupPlan) = backup("PUT", "/backup/plans/")
+CreateBackupPlan(BackupPlan, args) = backup("PUT", "/backup/plans/", args)
+CreateBackupPlan(a...; b...) = CreateBackupPlan(a..., b)
 
 """
     CreateBackupSelection()
@@ -36,7 +38,9 @@ Optional Parameters
   "CreatorRequestId": "A unique string that identifies the request and allows failed requests to be retried without the risk of executing the operation twice."
 }
 """
-CreateBackupSelection(args) = backup("PUT", "/backup/plans/{backupPlanId}/selections/", args)
+CreateBackupSelection(BackupPlanId, BackupSelection) = backup("PUT", "/backup/plans/$(backupPlanId)/selections/")
+CreateBackupSelection(BackupPlanId, BackupSelection, args) = backup("PUT", "/backup/plans/$(backupPlanId)/selections/", args)
+CreateBackupSelection(a...; b...) = CreateBackupSelection(a..., b)
 
 """
     CreateBackupVault()
@@ -55,7 +59,9 @@ Optional Parameters
   "EncryptionKeyArn": "The server-side encryption key that is used to protect your backups; for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab."
 }
 """
-CreateBackupVault(args) = backup("PUT", "/backup-vaults/{backupVaultName}", args)
+CreateBackupVault(BackupVaultName) = backup("PUT", "/backup-vaults/$(backupVaultName)")
+CreateBackupVault(BackupVaultName, args) = backup("PUT", "/backup-vaults/$(backupVaultName)", args)
+CreateBackupVault(a...; b...) = CreateBackupVault(a..., b)
 
 """
     DeleteBackupPlan()
@@ -67,7 +73,9 @@ Required Parameters
   "BackupPlanId": "Uniquely identifies a backup plan."
 }
 """
-DeleteBackupPlan(args) = backup("DELETE", "/backup/plans/{backupPlanId}", args)
+DeleteBackupPlan(BackupPlanId) = backup("DELETE", "/backup/plans/$(backupPlanId)")
+DeleteBackupPlan(BackupPlanId, args) = backup("DELETE", "/backup/plans/$(backupPlanId)", args)
+DeleteBackupPlan(a...; b...) = DeleteBackupPlan(a..., b)
 
 """
     DeleteBackupSelection()
@@ -80,7 +88,9 @@ Required Parameters
   "SelectionId": "Uniquely identifies the body of a request to assign a set of resources to a backup plan."
 }
 """
-DeleteBackupSelection(args) = backup("DELETE", "/backup/plans/{backupPlanId}/selections/{selectionId}", args)
+DeleteBackupSelection(BackupPlanId, SelectionId) = backup("DELETE", "/backup/plans/$(backupPlanId)/selections/$(selectionId)")
+DeleteBackupSelection(BackupPlanId, SelectionId, args) = backup("DELETE", "/backup/plans/$(backupPlanId)/selections/$(selectionId)", args)
+DeleteBackupSelection(a...; b...) = DeleteBackupSelection(a..., b)
 
 """
     DeleteBackupVault()
@@ -92,7 +102,9 @@ Required Parameters
   "BackupVaultName": "The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens."
 }
 """
-DeleteBackupVault(args) = backup("DELETE", "/backup-vaults/{backupVaultName}", args)
+DeleteBackupVault(BackupVaultName) = backup("DELETE", "/backup-vaults/$(backupVaultName)")
+DeleteBackupVault(BackupVaultName, args) = backup("DELETE", "/backup-vaults/$(backupVaultName)", args)
+DeleteBackupVault(a...; b...) = DeleteBackupVault(a..., b)
 
 """
     DeleteBackupVaultAccessPolicy()
@@ -104,7 +116,9 @@ Required Parameters
   "BackupVaultName": "The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens."
 }
 """
-DeleteBackupVaultAccessPolicy(args) = backup("DELETE", "/backup-vaults/{backupVaultName}/access-policy", args)
+DeleteBackupVaultAccessPolicy(BackupVaultName) = backup("DELETE", "/backup-vaults/$(backupVaultName)/access-policy")
+DeleteBackupVaultAccessPolicy(BackupVaultName, args) = backup("DELETE", "/backup-vaults/$(backupVaultName)/access-policy", args)
+DeleteBackupVaultAccessPolicy(a...; b...) = DeleteBackupVaultAccessPolicy(a..., b)
 
 """
     DeleteBackupVaultNotifications()
@@ -116,7 +130,9 @@ Required Parameters
   "BackupVaultName": "The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Region where they are created. They consist of lowercase letters, numbers, and hyphens."
 }
 """
-DeleteBackupVaultNotifications(args) = backup("DELETE", "/backup-vaults/{backupVaultName}/notification-configuration", args)
+DeleteBackupVaultNotifications(BackupVaultName) = backup("DELETE", "/backup-vaults/$(backupVaultName)/notification-configuration")
+DeleteBackupVaultNotifications(BackupVaultName, args) = backup("DELETE", "/backup-vaults/$(backupVaultName)/notification-configuration", args)
+DeleteBackupVaultNotifications(a...; b...) = DeleteBackupVaultNotifications(a..., b)
 
 """
     DeleteRecoveryPoint()
@@ -129,7 +145,9 @@ Required Parameters
   "RecoveryPointArn": "An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45."
 }
 """
-DeleteRecoveryPoint(args) = backup("DELETE", "/backup-vaults/{backupVaultName}/recovery-points/{recoveryPointArn}", args)
+DeleteRecoveryPoint(BackupVaultName, RecoveryPointArn) = backup("DELETE", "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)")
+DeleteRecoveryPoint(BackupVaultName, RecoveryPointArn, args) = backup("DELETE", "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)", args)
+DeleteRecoveryPoint(a...; b...) = DeleteRecoveryPoint(a..., b)
 
 """
     DescribeBackupJob()
@@ -141,7 +159,9 @@ Required Parameters
   "BackupJobId": "Uniquely identifies a request to AWS Backup to back up a resource."
 }
 """
-DescribeBackupJob(args) = backup("GET", "/backup-jobs/{backupJobId}", args)
+DescribeBackupJob(BackupJobId) = backup("GET", "/backup-jobs/$(backupJobId)")
+DescribeBackupJob(BackupJobId, args) = backup("GET", "/backup-jobs/$(backupJobId)", args)
+DescribeBackupJob(a...; b...) = DescribeBackupJob(a..., b)
 
 """
     DescribeBackupVault()
@@ -153,7 +173,9 @@ Required Parameters
   "BackupVaultName": "The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens."
 }
 """
-DescribeBackupVault(args) = backup("GET", "/backup-vaults/{backupVaultName}", args)
+DescribeBackupVault(BackupVaultName) = backup("GET", "/backup-vaults/$(backupVaultName)")
+DescribeBackupVault(BackupVaultName, args) = backup("GET", "/backup-vaults/$(backupVaultName)", args)
+DescribeBackupVault(a...; b...) = DescribeBackupVault(a..., b)
 
 """
     DescribeCopyJob()
@@ -165,7 +187,9 @@ Required Parameters
   "CopyJobId": "Uniquely identifies a copy job."
 }
 """
-DescribeCopyJob(args) = backup("GET", "/copy-jobs/{copyJobId}", args)
+DescribeCopyJob(CopyJobId) = backup("GET", "/copy-jobs/$(copyJobId)")
+DescribeCopyJob(CopyJobId, args) = backup("GET", "/copy-jobs/$(copyJobId)", args)
+DescribeCopyJob(a...; b...) = DescribeCopyJob(a..., b)
 
 """
     DescribeProtectedResource()
@@ -177,7 +201,9 @@ Required Parameters
   "ResourceArn": "An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type."
 }
 """
-DescribeProtectedResource(args) = backup("GET", "/resources/{resourceArn}", args)
+DescribeProtectedResource(ResourceArn) = backup("GET", "/resources/$(resourceArn)")
+DescribeProtectedResource(ResourceArn, args) = backup("GET", "/resources/$(resourceArn)", args)
+DescribeProtectedResource(a...; b...) = DescribeProtectedResource(a..., b)
 
 """
     DescribeRecoveryPoint()
@@ -190,7 +216,9 @@ Required Parameters
   "RecoveryPointArn": "An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45."
 }
 """
-DescribeRecoveryPoint(args) = backup("GET", "/backup-vaults/{backupVaultName}/recovery-points/{recoveryPointArn}", args)
+DescribeRecoveryPoint(BackupVaultName, RecoveryPointArn) = backup("GET", "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)")
+DescribeRecoveryPoint(BackupVaultName, RecoveryPointArn, args) = backup("GET", "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)", args)
+DescribeRecoveryPoint(a...; b...) = DescribeRecoveryPoint(a..., b)
 
 """
     DescribeRegionSettings()
@@ -199,6 +227,7 @@ Returns the current service opt-in settings for the region. If the service has a
 """
 DescribeRegionSettings() = backup("GET", "/account-settings")
 DescribeRegionSettings(args) = backup("GET", "/account-settings", args)
+DescribeRegionSettings(a...; b...) = DescribeRegionSettings(a..., b)
 
 """
     DescribeRestoreJob()
@@ -210,7 +239,9 @@ Required Parameters
   "RestoreJobId": "Uniquely identifies the job that restores a recovery point."
 }
 """
-DescribeRestoreJob(args) = backup("GET", "/restore-jobs/{restoreJobId}", args)
+DescribeRestoreJob(RestoreJobId) = backup("GET", "/restore-jobs/$(restoreJobId)")
+DescribeRestoreJob(RestoreJobId, args) = backup("GET", "/restore-jobs/$(restoreJobId)", args)
+DescribeRestoreJob(a...; b...) = DescribeRestoreJob(a..., b)
 
 """
     ExportBackupPlanTemplate()
@@ -222,7 +253,9 @@ Required Parameters
   "BackupPlanId": "Uniquely identifies a backup plan."
 }
 """
-ExportBackupPlanTemplate(args) = backup("GET", "/backup/plans/{backupPlanId}/toTemplate/", args)
+ExportBackupPlanTemplate(BackupPlanId) = backup("GET", "/backup/plans/$(backupPlanId)/toTemplate/")
+ExportBackupPlanTemplate(BackupPlanId, args) = backup("GET", "/backup/plans/$(backupPlanId)/toTemplate/", args)
+ExportBackupPlanTemplate(a...; b...) = ExportBackupPlanTemplate(a..., b)
 
 """
     GetBackupPlan()
@@ -239,7 +272,9 @@ Optional Parameters
   "VersionId": "Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1,024 bytes long. Version IDs cannot be edited."
 }
 """
-GetBackupPlan(args) = backup("GET", "/backup/plans/{backupPlanId}/", args)
+GetBackupPlan(BackupPlanId) = backup("GET", "/backup/plans/$(backupPlanId)/")
+GetBackupPlan(BackupPlanId, args) = backup("GET", "/backup/plans/$(backupPlanId)/", args)
+GetBackupPlan(a...; b...) = GetBackupPlan(a..., b)
 
 """
     GetBackupPlanFromJSON()
@@ -251,7 +286,9 @@ Required Parameters
   "BackupPlanTemplateJson": "A customer-supplied backup plan document in JSON format."
 }
 """
-GetBackupPlanFromJSON(args) = backup("POST", "/backup/template/json/toPlan", args)
+GetBackupPlanFromJSON(BackupPlanTemplateJson) = backup("POST", "/backup/template/json/toPlan")
+GetBackupPlanFromJSON(BackupPlanTemplateJson, args) = backup("POST", "/backup/template/json/toPlan", args)
+GetBackupPlanFromJSON(a...; b...) = GetBackupPlanFromJSON(a..., b)
 
 """
     GetBackupPlanFromTemplate()
@@ -263,7 +300,9 @@ Required Parameters
   "BackupPlanTemplateId": "Uniquely identifies a stored backup plan template."
 }
 """
-GetBackupPlanFromTemplate(args) = backup("GET", "/backup/template/plans/{templateId}/toPlan", args)
+GetBackupPlanFromTemplate(BackupPlanTemplateId) = backup("GET", "/backup/template/plans/$(templateId)/toPlan")
+GetBackupPlanFromTemplate(BackupPlanTemplateId, args) = backup("GET", "/backup/template/plans/$(templateId)/toPlan", args)
+GetBackupPlanFromTemplate(a...; b...) = GetBackupPlanFromTemplate(a..., b)
 
 """
     GetBackupSelection()
@@ -276,7 +315,9 @@ Required Parameters
   "SelectionId": "Uniquely identifies the body of a request to assign a set of resources to a backup plan."
 }
 """
-GetBackupSelection(args) = backup("GET", "/backup/plans/{backupPlanId}/selections/{selectionId}", args)
+GetBackupSelection(BackupPlanId, SelectionId) = backup("GET", "/backup/plans/$(backupPlanId)/selections/$(selectionId)")
+GetBackupSelection(BackupPlanId, SelectionId, args) = backup("GET", "/backup/plans/$(backupPlanId)/selections/$(selectionId)", args)
+GetBackupSelection(a...; b...) = GetBackupSelection(a..., b)
 
 """
     GetBackupVaultAccessPolicy()
@@ -288,7 +329,9 @@ Required Parameters
   "BackupVaultName": "The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens."
 }
 """
-GetBackupVaultAccessPolicy(args) = backup("GET", "/backup-vaults/{backupVaultName}/access-policy", args)
+GetBackupVaultAccessPolicy(BackupVaultName) = backup("GET", "/backup-vaults/$(backupVaultName)/access-policy")
+GetBackupVaultAccessPolicy(BackupVaultName, args) = backup("GET", "/backup-vaults/$(backupVaultName)/access-policy", args)
+GetBackupVaultAccessPolicy(a...; b...) = GetBackupVaultAccessPolicy(a..., b)
 
 """
     GetBackupVaultNotifications()
@@ -300,7 +343,9 @@ Required Parameters
   "BackupVaultName": "The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens."
 }
 """
-GetBackupVaultNotifications(args) = backup("GET", "/backup-vaults/{backupVaultName}/notification-configuration", args)
+GetBackupVaultNotifications(BackupVaultName) = backup("GET", "/backup-vaults/$(backupVaultName)/notification-configuration")
+GetBackupVaultNotifications(BackupVaultName, args) = backup("GET", "/backup-vaults/$(backupVaultName)/notification-configuration", args)
+GetBackupVaultNotifications(a...; b...) = GetBackupVaultNotifications(a..., b)
 
 """
     GetRecoveryPointRestoreMetadata()
@@ -313,7 +358,9 @@ Required Parameters
   "RecoveryPointArn": "An Amazon Resource Name (ARN) that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45."
 }
 """
-GetRecoveryPointRestoreMetadata(args) = backup("GET", "/backup-vaults/{backupVaultName}/recovery-points/{recoveryPointArn}/restore-metadata", args)
+GetRecoveryPointRestoreMetadata(BackupVaultName, RecoveryPointArn) = backup("GET", "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)/restore-metadata")
+GetRecoveryPointRestoreMetadata(BackupVaultName, RecoveryPointArn, args) = backup("GET", "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)/restore-metadata", args)
+GetRecoveryPointRestoreMetadata(a...; b...) = GetRecoveryPointRestoreMetadata(a..., b)
 
 """
     GetSupportedResourceTypes()
@@ -322,6 +369,7 @@ Returns the AWS resource types supported by AWS Backup.
 """
 GetSupportedResourceTypes() = backup("GET", "/supported-resource-types")
 GetSupportedResourceTypes(args) = backup("GET", "/supported-resource-types", args)
+GetSupportedResourceTypes(a...; b...) = GetSupportedResourceTypes(a..., b)
 
 """
     ListBackupJobs()
@@ -342,6 +390,7 @@ Optional Parameters
 """
 ListBackupJobs() = backup("GET", "/backup-jobs/")
 ListBackupJobs(args) = backup("GET", "/backup-jobs/", args)
+ListBackupJobs(a...; b...) = ListBackupJobs(a..., b)
 
 """
     ListBackupPlanTemplates()
@@ -356,6 +405,7 @@ Optional Parameters
 """
 ListBackupPlanTemplates() = backup("GET", "/backup/template/plans")
 ListBackupPlanTemplates(args) = backup("GET", "/backup/template/plans", args)
+ListBackupPlanTemplates(a...; b...) = ListBackupPlanTemplates(a..., b)
 
 """
     ListBackupPlanVersions()
@@ -373,7 +423,9 @@ Optional Parameters
   "NextToken": "The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token."
 }
 """
-ListBackupPlanVersions(args) = backup("GET", "/backup/plans/{backupPlanId}/versions/", args)
+ListBackupPlanVersions(BackupPlanId) = backup("GET", "/backup/plans/$(backupPlanId)/versions/")
+ListBackupPlanVersions(BackupPlanId, args) = backup("GET", "/backup/plans/$(backupPlanId)/versions/", args)
+ListBackupPlanVersions(a...; b...) = ListBackupPlanVersions(a..., b)
 
 """
     ListBackupPlans()
@@ -389,6 +441,7 @@ Optional Parameters
 """
 ListBackupPlans() = backup("GET", "/backup/plans/")
 ListBackupPlans(args) = backup("GET", "/backup/plans/", args)
+ListBackupPlans(a...; b...) = ListBackupPlans(a..., b)
 
 """
     ListBackupSelections()
@@ -406,7 +459,9 @@ Optional Parameters
   "NextToken": "The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token."
 }
 """
-ListBackupSelections(args) = backup("GET", "/backup/plans/{backupPlanId}/selections/", args)
+ListBackupSelections(BackupPlanId) = backup("GET", "/backup/plans/$(backupPlanId)/selections/")
+ListBackupSelections(BackupPlanId, args) = backup("GET", "/backup/plans/$(backupPlanId)/selections/", args)
+ListBackupSelections(a...; b...) = ListBackupSelections(a..., b)
 
 """
     ListBackupVaults()
@@ -421,6 +476,7 @@ Optional Parameters
 """
 ListBackupVaults() = backup("GET", "/backup-vaults/")
 ListBackupVaults(args) = backup("GET", "/backup-vaults/", args)
+ListBackupVaults(a...; b...) = ListBackupVaults(a..., b)
 
 """
     ListCopyJobs()
@@ -441,6 +497,7 @@ Optional Parameters
 """
 ListCopyJobs() = backup("GET", "/copy-jobs/")
 ListCopyJobs(args) = backup("GET", "/copy-jobs/", args)
+ListCopyJobs(a...; b...) = ListCopyJobs(a..., b)
 
 """
     ListProtectedResources()
@@ -455,6 +512,7 @@ Optional Parameters
 """
 ListProtectedResources() = backup("GET", "/resources/")
 ListProtectedResources(args) = backup("GET", "/resources/", args)
+ListProtectedResources(a...; b...) = ListProtectedResources(a..., b)
 
 """
     ListRecoveryPointsByBackupVault()
@@ -477,7 +535,9 @@ Optional Parameters
   "NextToken": "The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token."
 }
 """
-ListRecoveryPointsByBackupVault(args) = backup("GET", "/backup-vaults/{backupVaultName}/recovery-points/", args)
+ListRecoveryPointsByBackupVault(BackupVaultName) = backup("GET", "/backup-vaults/$(backupVaultName)/recovery-points/")
+ListRecoveryPointsByBackupVault(BackupVaultName, args) = backup("GET", "/backup-vaults/$(backupVaultName)/recovery-points/", args)
+ListRecoveryPointsByBackupVault(a...; b...) = ListRecoveryPointsByBackupVault(a..., b)
 
 """
     ListRecoveryPointsByResource()
@@ -495,7 +555,9 @@ Optional Parameters
   "NextToken": "The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token."
 }
 """
-ListRecoveryPointsByResource(args) = backup("GET", "/resources/{resourceArn}/recovery-points/", args)
+ListRecoveryPointsByResource(ResourceArn) = backup("GET", "/resources/$(resourceArn)/recovery-points/")
+ListRecoveryPointsByResource(ResourceArn, args) = backup("GET", "/resources/$(resourceArn)/recovery-points/", args)
+ListRecoveryPointsByResource(a...; b...) = ListRecoveryPointsByResource(a..., b)
 
 """
     ListRestoreJobs()
@@ -510,6 +572,7 @@ Optional Parameters
 """
 ListRestoreJobs() = backup("GET", "/restore-jobs/")
 ListRestoreJobs(args) = backup("GET", "/restore-jobs/", args)
+ListRestoreJobs(a...; b...) = ListRestoreJobs(a..., b)
 
 """
     ListTags()
@@ -527,7 +590,9 @@ Optional Parameters
   "NextToken": "The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token."
 }
 """
-ListTags(args) = backup("GET", "/tags/{resourceArn}/", args)
+ListTags(ResourceArn) = backup("GET", "/tags/$(resourceArn)/")
+ListTags(ResourceArn, args) = backup("GET", "/tags/$(resourceArn)/", args)
+ListTags(a...; b...) = ListTags(a..., b)
 
 """
     PutBackupVaultAccessPolicy()
@@ -544,7 +609,9 @@ Optional Parameters
   "Policy": "The backup vault access policy document in JSON format."
 }
 """
-PutBackupVaultAccessPolicy(args) = backup("PUT", "/backup-vaults/{backupVaultName}/access-policy", args)
+PutBackupVaultAccessPolicy(BackupVaultName) = backup("PUT", "/backup-vaults/$(backupVaultName)/access-policy")
+PutBackupVaultAccessPolicy(BackupVaultName, args) = backup("PUT", "/backup-vaults/$(backupVaultName)/access-policy", args)
+PutBackupVaultAccessPolicy(a...; b...) = PutBackupVaultAccessPolicy(a..., b)
 
 """
     PutBackupVaultNotifications()
@@ -558,7 +625,9 @@ Required Parameters
   "SNSTopicArn": "The Amazon Resource Name (ARN) that specifies the topic for a backup vault’s events; for example, arn:aws:sns:us-west-2:111122223333:MyVaultTopic."
 }
 """
-PutBackupVaultNotifications(args) = backup("PUT", "/backup-vaults/{backupVaultName}/notification-configuration", args)
+PutBackupVaultNotifications(BackupVaultEvents, BackupVaultName, SNSTopicArn) = backup("PUT", "/backup-vaults/$(backupVaultName)/notification-configuration")
+PutBackupVaultNotifications(BackupVaultEvents, BackupVaultName, SNSTopicArn, args) = backup("PUT", "/backup-vaults/$(backupVaultName)/notification-configuration", args)
+PutBackupVaultNotifications(a...; b...) = PutBackupVaultNotifications(a..., b)
 
 """
     StartBackupJob()
@@ -581,7 +650,9 @@ Optional Parameters
   "StartWindowMinutes": "A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional."
 }
 """
-StartBackupJob(args) = backup("PUT", "/backup-jobs", args)
+StartBackupJob(BackupVaultName, IamRoleArn, ResourceArn) = backup("PUT", "/backup-jobs")
+StartBackupJob(BackupVaultName, IamRoleArn, ResourceArn, args) = backup("PUT", "/backup-jobs", args)
+StartBackupJob(a...; b...) = StartBackupJob(a..., b)
 
 """
     StartCopyJob()
@@ -602,7 +673,9 @@ Optional Parameters
   "Lifecycle": ""
 }
 """
-StartCopyJob(args) = backup("PUT", "/copy-jobs", args)
+StartCopyJob(DestinationBackupVaultArn, IamRoleArn, RecoveryPointArn, SourceBackupVaultName) = backup("PUT", "/copy-jobs")
+StartCopyJob(DestinationBackupVaultArn, IamRoleArn, RecoveryPointArn, SourceBackupVaultName, args) = backup("PUT", "/copy-jobs", args)
+StartCopyJob(a...; b...) = StartCopyJob(a..., b)
 
 """
     StartRestoreJob()
@@ -622,7 +695,9 @@ Optional Parameters
   "ResourceType": "Starts a job to restore a recovery point for one of the following resources:    EBS for Amazon Elastic Block Store    Storage Gateway for AWS Storage Gateway    RDS for Amazon Relational Database Service    DDB for Amazon DynamoDB    EFS for Amazon Elastic File System  "
 }
 """
-StartRestoreJob(args) = backup("PUT", "/restore-jobs", args)
+StartRestoreJob(IamRoleArn, Metadata, RecoveryPointArn) = backup("PUT", "/restore-jobs")
+StartRestoreJob(IamRoleArn, Metadata, RecoveryPointArn, args) = backup("PUT", "/restore-jobs", args)
+StartRestoreJob(a...; b...) = StartRestoreJob(a..., b)
 
 """
     StopBackupJob()
@@ -634,7 +709,9 @@ Required Parameters
   "BackupJobId": "Uniquely identifies a request to AWS Backup to back up a resource."
 }
 """
-StopBackupJob(args) = backup("POST", "/backup-jobs/{backupJobId}", args)
+StopBackupJob(BackupJobId) = backup("POST", "/backup-jobs/$(backupJobId)")
+StopBackupJob(BackupJobId, args) = backup("POST", "/backup-jobs/$(backupJobId)", args)
+StopBackupJob(a...; b...) = StopBackupJob(a..., b)
 
 """
     TagResource()
@@ -647,7 +724,9 @@ Required Parameters
   "Tags": "Key-value pairs that are used to help organize your resources. You can assign your own metadata to the resources you create. "
 }
 """
-TagResource(args) = backup("POST", "/tags/{resourceArn}", args)
+TagResource(ResourceArn, Tags) = backup("POST", "/tags/$(resourceArn)")
+TagResource(ResourceArn, Tags, args) = backup("POST", "/tags/$(resourceArn)", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
@@ -660,7 +739,9 @@ Required Parameters
   "TagKeyList": "A list of keys to identify which key-value tags to remove from a resource."
 }
 """
-UntagResource(args) = backup("POST", "/untag/{resourceArn}", args)
+UntagResource(ResourceArn, TagKeyList) = backup("POST", "/untag/$(resourceArn)")
+UntagResource(ResourceArn, TagKeyList, args) = backup("POST", "/untag/$(resourceArn)", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateBackupPlan()
@@ -673,7 +754,9 @@ Required Parameters
   "BackupPlanId": "Uniquely identifies a backup plan."
 }
 """
-UpdateBackupPlan(args) = backup("POST", "/backup/plans/{backupPlanId}", args)
+UpdateBackupPlan(BackupPlan, BackupPlanId) = backup("POST", "/backup/plans/$(backupPlanId)")
+UpdateBackupPlan(BackupPlan, BackupPlanId, args) = backup("POST", "/backup/plans/$(backupPlanId)", args)
+UpdateBackupPlan(a...; b...) = UpdateBackupPlan(a..., b)
 
 """
     UpdateRecoveryPointLifecycle()
@@ -691,7 +774,9 @@ Optional Parameters
   "Lifecycle": "The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. AWS Backup transitions and expires backups automatically according to the lifecycle that you define.  Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “expire after days” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold. "
 }
 """
-UpdateRecoveryPointLifecycle(args) = backup("POST", "/backup-vaults/{backupVaultName}/recovery-points/{recoveryPointArn}", args)
+UpdateRecoveryPointLifecycle(BackupVaultName, RecoveryPointArn) = backup("POST", "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)")
+UpdateRecoveryPointLifecycle(BackupVaultName, RecoveryPointArn, args) = backup("POST", "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)", args)
+UpdateRecoveryPointLifecycle(a...; b...) = UpdateRecoveryPointLifecycle(a..., b)
 
 """
     UpdateRegionSettings()
@@ -705,3 +790,4 @@ Optional Parameters
 """
 UpdateRegionSettings() = backup("PUT", "/account-settings")
 UpdateRegionSettings(args) = backup("PUT", "/account-settings", args)
+UpdateRegionSettings(a...; b...) = UpdateRegionSettings(a..., b)

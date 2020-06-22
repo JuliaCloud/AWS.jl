@@ -12,7 +12,9 @@ Required Parameters
   "jobs": "A list of Amazon Resource Names (ARNs) of simulation jobs to describe."
 }
 """
-BatchDescribeSimulationJob(args) = robomaker("POST", "/batchDescribeSimulationJob", args)
+BatchDescribeSimulationJob(jobs) = robomaker("POST", "/batchDescribeSimulationJob")
+BatchDescribeSimulationJob(jobs, args) = robomaker("POST", "/batchDescribeSimulationJob", args)
+BatchDescribeSimulationJob(a...; b...) = BatchDescribeSimulationJob(a..., b)
 
 """
     CancelDeploymentJob()
@@ -24,7 +26,9 @@ Required Parameters
   "job": "The deployment job ARN to cancel."
 }
 """
-CancelDeploymentJob(args) = robomaker("POST", "/cancelDeploymentJob", args)
+CancelDeploymentJob(job) = robomaker("POST", "/cancelDeploymentJob")
+CancelDeploymentJob(job, args) = robomaker("POST", "/cancelDeploymentJob", args)
+CancelDeploymentJob(a...; b...) = CancelDeploymentJob(a..., b)
 
 """
     CancelSimulationJob()
@@ -36,7 +40,9 @@ Required Parameters
   "job": "The simulation job ARN to cancel."
 }
 """
-CancelSimulationJob(args) = robomaker("POST", "/cancelSimulationJob", args)
+CancelSimulationJob(job) = robomaker("POST", "/cancelSimulationJob")
+CancelSimulationJob(job, args) = robomaker("POST", "/cancelSimulationJob", args)
+CancelSimulationJob(a...; b...) = CancelSimulationJob(a..., b)
 
 """
     CancelSimulationJobBatch()
@@ -48,7 +54,9 @@ Required Parameters
   "batch": "The id of the batch to cancel."
 }
 """
-CancelSimulationJobBatch(args) = robomaker("POST", "/cancelSimulationJobBatch", args)
+CancelSimulationJobBatch(batch) = robomaker("POST", "/cancelSimulationJobBatch")
+CancelSimulationJobBatch(batch, args) = robomaker("POST", "/cancelSimulationJobBatch", args)
+CancelSimulationJobBatch(a...; b...) = CancelSimulationJobBatch(a..., b)
 
 """
     CreateDeploymentJob()
@@ -68,7 +76,9 @@ Optional Parameters
   "tags": "A map that contains tag keys and tag values that are attached to the deployment job."
 }
 """
-CreateDeploymentJob(args) = robomaker("POST", "/createDeploymentJob", args)
+CreateDeploymentJob(clientRequestToken, deploymentApplicationConfigs, fleet) = robomaker("POST", "/createDeploymentJob")
+CreateDeploymentJob(clientRequestToken, deploymentApplicationConfigs, fleet, args) = robomaker("POST", "/createDeploymentJob", args)
+CreateDeploymentJob(a...; b...) = CreateDeploymentJob(a..., b)
 
 """
     CreateFleet()
@@ -85,7 +95,9 @@ Optional Parameters
   "tags": "A map that contains tag keys and tag values that are attached to the fleet."
 }
 """
-CreateFleet(args) = robomaker("POST", "/createFleet", args)
+CreateFleet(name) = robomaker("POST", "/createFleet")
+CreateFleet(name, args) = robomaker("POST", "/createFleet", args)
+CreateFleet(a...; b...) = CreateFleet(a..., b)
 
 """
     CreateRobot()
@@ -104,7 +116,9 @@ Optional Parameters
   "tags": "A map that contains tag keys and tag values that are attached to the robot."
 }
 """
-CreateRobot(args) = robomaker("POST", "/createRobot", args)
+CreateRobot(architecture, greengrassGroupId, name) = robomaker("POST", "/createRobot")
+CreateRobot(architecture, greengrassGroupId, name, args) = robomaker("POST", "/createRobot", args)
+CreateRobot(a...; b...) = CreateRobot(a..., b)
 
 """
     CreateRobotApplication()
@@ -123,7 +137,9 @@ Optional Parameters
   "tags": "A map that contains tag keys and tag values that are attached to the robot application."
 }
 """
-CreateRobotApplication(args) = robomaker("POST", "/createRobotApplication", args)
+CreateRobotApplication(name, robotSoftwareSuite, sources) = robomaker("POST", "/createRobotApplication")
+CreateRobotApplication(name, robotSoftwareSuite, sources, args) = robomaker("POST", "/createRobotApplication", args)
+CreateRobotApplication(a...; b...) = CreateRobotApplication(a..., b)
 
 """
     CreateRobotApplicationVersion()
@@ -140,7 +156,9 @@ Optional Parameters
   "currentRevisionId": "The current revision id for the robot application. If you provide a value and it matches the latest revision ID, a new version will be created."
 }
 """
-CreateRobotApplicationVersion(args) = robomaker("POST", "/createRobotApplicationVersion", args)
+CreateRobotApplicationVersion(application) = robomaker("POST", "/createRobotApplicationVersion")
+CreateRobotApplicationVersion(application, args) = robomaker("POST", "/createRobotApplicationVersion", args)
+CreateRobotApplicationVersion(a...; b...) = CreateRobotApplicationVersion(a..., b)
 
 """
     CreateSimulationApplication()
@@ -161,7 +179,9 @@ Optional Parameters
   "tags": "A map that contains tag keys and tag values that are attached to the simulation application."
 }
 """
-CreateSimulationApplication(args) = robomaker("POST", "/createSimulationApplication", args)
+CreateSimulationApplication(name, robotSoftwareSuite, simulationSoftwareSuite, sources) = robomaker("POST", "/createSimulationApplication")
+CreateSimulationApplication(name, robotSoftwareSuite, simulationSoftwareSuite, sources, args) = robomaker("POST", "/createSimulationApplication", args)
+CreateSimulationApplication(a...; b...) = CreateSimulationApplication(a..., b)
 
 """
     CreateSimulationApplicationVersion()
@@ -178,7 +198,9 @@ Optional Parameters
   "currentRevisionId": "The current revision id for the simulation application. If you provide a value and it matches the latest revision ID, a new version will be created."
 }
 """
-CreateSimulationApplicationVersion(args) = robomaker("POST", "/createSimulationApplicationVersion", args)
+CreateSimulationApplicationVersion(application) = robomaker("POST", "/createSimulationApplicationVersion")
+CreateSimulationApplicationVersion(application, args) = robomaker("POST", "/createSimulationApplicationVersion", args)
+CreateSimulationApplicationVersion(a...; b...) = CreateSimulationApplicationVersion(a..., b)
 
 """
     CreateSimulationJob()
@@ -205,7 +227,9 @@ Optional Parameters
   "vpcConfig": "If your simulation job accesses resources in a VPC, you provide this parameter identifying the list of security group IDs and subnet IDs. These must belong to the same VPC. You must provide at least one security group and one subnet ID. "
 }
 """
-CreateSimulationJob(args) = robomaker("POST", "/createSimulationJob", args)
+CreateSimulationJob(iamRole, maxJobDurationInSeconds) = robomaker("POST", "/createSimulationJob")
+CreateSimulationJob(iamRole, maxJobDurationInSeconds, args) = robomaker("POST", "/createSimulationJob", args)
+CreateSimulationJob(a...; b...) = CreateSimulationJob(a..., b)
 
 """
     DeleteFleet()
@@ -217,7 +241,9 @@ Required Parameters
   "fleet": "The Amazon Resource Name (ARN) of the fleet."
 }
 """
-DeleteFleet(args) = robomaker("POST", "/deleteFleet", args)
+DeleteFleet(fleet) = robomaker("POST", "/deleteFleet")
+DeleteFleet(fleet, args) = robomaker("POST", "/deleteFleet", args)
+DeleteFleet(a...; b...) = DeleteFleet(a..., b)
 
 """
     DeleteRobot()
@@ -229,7 +255,9 @@ Required Parameters
   "robot": "The Amazon Resource Name (ARN) of the robot."
 }
 """
-DeleteRobot(args) = robomaker("POST", "/deleteRobot", args)
+DeleteRobot(robot) = robomaker("POST", "/deleteRobot")
+DeleteRobot(robot, args) = robomaker("POST", "/deleteRobot", args)
+DeleteRobot(a...; b...) = DeleteRobot(a..., b)
 
 """
     DeleteRobotApplication()
@@ -246,7 +274,9 @@ Optional Parameters
   "applicationVersion": "The version of the robot application to delete."
 }
 """
-DeleteRobotApplication(args) = robomaker("POST", "/deleteRobotApplication", args)
+DeleteRobotApplication(application) = robomaker("POST", "/deleteRobotApplication")
+DeleteRobotApplication(application, args) = robomaker("POST", "/deleteRobotApplication", args)
+DeleteRobotApplication(a...; b...) = DeleteRobotApplication(a..., b)
 
 """
     DeleteSimulationApplication()
@@ -263,7 +293,9 @@ Optional Parameters
   "applicationVersion": "The version of the simulation application to delete."
 }
 """
-DeleteSimulationApplication(args) = robomaker("POST", "/deleteSimulationApplication", args)
+DeleteSimulationApplication(application) = robomaker("POST", "/deleteSimulationApplication")
+DeleteSimulationApplication(application, args) = robomaker("POST", "/deleteSimulationApplication", args)
+DeleteSimulationApplication(a...; b...) = DeleteSimulationApplication(a..., b)
 
 """
     DeregisterRobot()
@@ -276,7 +308,9 @@ Required Parameters
   "robot": "The Amazon Resource Name (ARN) of the robot."
 }
 """
-DeregisterRobot(args) = robomaker("POST", "/deregisterRobot", args)
+DeregisterRobot(fleet, robot) = robomaker("POST", "/deregisterRobot")
+DeregisterRobot(fleet, robot, args) = robomaker("POST", "/deregisterRobot", args)
+DeregisterRobot(a...; b...) = DeregisterRobot(a..., b)
 
 """
     DescribeDeploymentJob()
@@ -288,7 +322,9 @@ Required Parameters
   "job": "The Amazon Resource Name (ARN) of the deployment job."
 }
 """
-DescribeDeploymentJob(args) = robomaker("POST", "/describeDeploymentJob", args)
+DescribeDeploymentJob(job) = robomaker("POST", "/describeDeploymentJob")
+DescribeDeploymentJob(job, args) = robomaker("POST", "/describeDeploymentJob", args)
+DescribeDeploymentJob(a...; b...) = DescribeDeploymentJob(a..., b)
 
 """
     DescribeFleet()
@@ -300,7 +336,9 @@ Required Parameters
   "fleet": "The Amazon Resource Name (ARN) of the fleet."
 }
 """
-DescribeFleet(args) = robomaker("POST", "/describeFleet", args)
+DescribeFleet(fleet) = robomaker("POST", "/describeFleet")
+DescribeFleet(fleet, args) = robomaker("POST", "/describeFleet", args)
+DescribeFleet(a...; b...) = DescribeFleet(a..., b)
 
 """
     DescribeRobot()
@@ -312,7 +350,9 @@ Required Parameters
   "robot": "The Amazon Resource Name (ARN) of the robot to be described."
 }
 """
-DescribeRobot(args) = robomaker("POST", "/describeRobot", args)
+DescribeRobot(robot) = robomaker("POST", "/describeRobot")
+DescribeRobot(robot, args) = robomaker("POST", "/describeRobot", args)
+DescribeRobot(a...; b...) = DescribeRobot(a..., b)
 
 """
     DescribeRobotApplication()
@@ -329,7 +369,9 @@ Optional Parameters
   "applicationVersion": "The version of the robot application to describe."
 }
 """
-DescribeRobotApplication(args) = robomaker("POST", "/describeRobotApplication", args)
+DescribeRobotApplication(application) = robomaker("POST", "/describeRobotApplication")
+DescribeRobotApplication(application, args) = robomaker("POST", "/describeRobotApplication", args)
+DescribeRobotApplication(a...; b...) = DescribeRobotApplication(a..., b)
 
 """
     DescribeSimulationApplication()
@@ -346,7 +388,9 @@ Optional Parameters
   "applicationVersion": "The version of the simulation application to describe."
 }
 """
-DescribeSimulationApplication(args) = robomaker("POST", "/describeSimulationApplication", args)
+DescribeSimulationApplication(application) = robomaker("POST", "/describeSimulationApplication")
+DescribeSimulationApplication(application, args) = robomaker("POST", "/describeSimulationApplication", args)
+DescribeSimulationApplication(a...; b...) = DescribeSimulationApplication(a..., b)
 
 """
     DescribeSimulationJob()
@@ -358,7 +402,9 @@ Required Parameters
   "job": "The Amazon Resource Name (ARN) of the simulation job to be described."
 }
 """
-DescribeSimulationJob(args) = robomaker("POST", "/describeSimulationJob", args)
+DescribeSimulationJob(job) = robomaker("POST", "/describeSimulationJob")
+DescribeSimulationJob(job, args) = robomaker("POST", "/describeSimulationJob", args)
+DescribeSimulationJob(a...; b...) = DescribeSimulationJob(a..., b)
 
 """
     DescribeSimulationJobBatch()
@@ -370,7 +416,9 @@ Required Parameters
   "batch": "The id of the batch to describe."
 }
 """
-DescribeSimulationJobBatch(args) = robomaker("POST", "/describeSimulationJobBatch", args)
+DescribeSimulationJobBatch(batch) = robomaker("POST", "/describeSimulationJobBatch")
+DescribeSimulationJobBatch(batch, args) = robomaker("POST", "/describeSimulationJobBatch", args)
+DescribeSimulationJobBatch(a...; b...) = DescribeSimulationJobBatch(a..., b)
 
 """
     ListDeploymentJobs()
@@ -386,6 +434,7 @@ Optional Parameters
 """
 ListDeploymentJobs() = robomaker("POST", "/listDeploymentJobs")
 ListDeploymentJobs(args) = robomaker("POST", "/listDeploymentJobs", args)
+ListDeploymentJobs(a...; b...) = ListDeploymentJobs(a..., b)
 
 """
     ListFleets()
@@ -401,6 +450,7 @@ Optional Parameters
 """
 ListFleets() = robomaker("POST", "/listFleets")
 ListFleets(args) = robomaker("POST", "/listFleets", args)
+ListFleets(a...; b...) = ListFleets(a..., b)
 
 """
     ListRobotApplications()
@@ -417,6 +467,7 @@ Optional Parameters
 """
 ListRobotApplications() = robomaker("POST", "/listRobotApplications")
 ListRobotApplications(args) = robomaker("POST", "/listRobotApplications", args)
+ListRobotApplications(a...; b...) = ListRobotApplications(a..., b)
 
 """
     ListRobots()
@@ -432,6 +483,7 @@ Optional Parameters
 """
 ListRobots() = robomaker("POST", "/listRobots")
 ListRobots(args) = robomaker("POST", "/listRobots", args)
+ListRobots(a...; b...) = ListRobots(a..., b)
 
 """
     ListSimulationApplications()
@@ -448,6 +500,7 @@ Optional Parameters
 """
 ListSimulationApplications() = robomaker("POST", "/listSimulationApplications")
 ListSimulationApplications(args) = robomaker("POST", "/listSimulationApplications", args)
+ListSimulationApplications(a...; b...) = ListSimulationApplications(a..., b)
 
 """
     ListSimulationJobBatches()
@@ -463,6 +516,7 @@ Optional Parameters
 """
 ListSimulationJobBatches() = robomaker("POST", "/listSimulationJobBatches")
 ListSimulationJobBatches(args) = robomaker("POST", "/listSimulationJobBatches", args)
+ListSimulationJobBatches(a...; b...) = ListSimulationJobBatches(a..., b)
 
 """
     ListSimulationJobs()
@@ -478,6 +532,7 @@ Optional Parameters
 """
 ListSimulationJobs() = robomaker("POST", "/listSimulationJobs")
 ListSimulationJobs(args) = robomaker("POST", "/listSimulationJobs", args)
+ListSimulationJobs(a...; b...) = ListSimulationJobs(a..., b)
 
 """
     ListTagsForResource()
@@ -489,7 +544,9 @@ Required Parameters
   "resourceArn": "The AWS RoboMaker Amazon Resource Name (ARN) with tags to be listed."
 }
 """
-ListTagsForResource(args) = robomaker("GET", "/tags/{resourceArn}", args)
+ListTagsForResource(resourceArn) = robomaker("GET", "/tags/$(resourceArn)")
+ListTagsForResource(resourceArn, args) = robomaker("GET", "/tags/$(resourceArn)", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     RegisterRobot()
@@ -502,7 +559,9 @@ Required Parameters
   "robot": "The Amazon Resource Name (ARN) of the robot."
 }
 """
-RegisterRobot(args) = robomaker("POST", "/registerRobot", args)
+RegisterRobot(fleet, robot) = robomaker("POST", "/registerRobot")
+RegisterRobot(fleet, robot, args) = robomaker("POST", "/registerRobot", args)
+RegisterRobot(a...; b...) = RegisterRobot(a..., b)
 
 """
     RestartSimulationJob()
@@ -514,7 +573,9 @@ Required Parameters
   "job": "The Amazon Resource Name (ARN) of the simulation job."
 }
 """
-RestartSimulationJob(args) = robomaker("POST", "/restartSimulationJob", args)
+RestartSimulationJob(job) = robomaker("POST", "/restartSimulationJob")
+RestartSimulationJob(job, args) = robomaker("POST", "/restartSimulationJob", args)
+RestartSimulationJob(a...; b...) = RestartSimulationJob(a..., b)
 
 """
     StartSimulationJobBatch()
@@ -533,7 +594,9 @@ Optional Parameters
   "tags": "A map that contains tag keys and tag values that are attached to the deployment job batch."
 }
 """
-StartSimulationJobBatch(args) = robomaker("POST", "/startSimulationJobBatch", args)
+StartSimulationJobBatch(createSimulationJobRequests) = robomaker("POST", "/startSimulationJobBatch")
+StartSimulationJobBatch(createSimulationJobRequests, args) = robomaker("POST", "/startSimulationJobBatch", args)
+StartSimulationJobBatch(a...; b...) = StartSimulationJobBatch(a..., b)
 
 """
     SyncDeploymentJob()
@@ -546,7 +609,9 @@ Required Parameters
   "fleet": "The target fleet for the synchronization."
 }
 """
-SyncDeploymentJob(args) = robomaker("POST", "/syncDeploymentJob", args)
+SyncDeploymentJob(clientRequestToken, fleet) = robomaker("POST", "/syncDeploymentJob")
+SyncDeploymentJob(clientRequestToken, fleet, args) = robomaker("POST", "/syncDeploymentJob", args)
+SyncDeploymentJob(a...; b...) = SyncDeploymentJob(a..., b)
 
 """
     TagResource()
@@ -559,7 +624,9 @@ Required Parameters
   "tags": "A map that contains tag keys and tag values that are attached to the resource."
 }
 """
-TagResource(args) = robomaker("POST", "/tags/{resourceArn}", args)
+TagResource(resourceArn, tags) = robomaker("POST", "/tags/$(resourceArn)")
+TagResource(resourceArn, tags, args) = robomaker("POST", "/tags/$(resourceArn)", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
@@ -572,7 +639,9 @@ Required Parameters
   "tagKeys": "A map that contains tag keys and tag values that will be unattached from the resource."
 }
 """
-UntagResource(args) = robomaker("DELETE", "/tags/{resourceArn}", args)
+UntagResource(resourceArn, tagKeys) = robomaker("DELETE", "/tags/$(resourceArn)")
+UntagResource(resourceArn, tagKeys, args) = robomaker("DELETE", "/tags/$(resourceArn)", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateRobotApplication()
@@ -591,7 +660,9 @@ Optional Parameters
   "currentRevisionId": "The revision id for the robot application."
 }
 """
-UpdateRobotApplication(args) = robomaker("POST", "/updateRobotApplication", args)
+UpdateRobotApplication(application, robotSoftwareSuite, sources) = robomaker("POST", "/updateRobotApplication")
+UpdateRobotApplication(application, robotSoftwareSuite, sources, args) = robomaker("POST", "/updateRobotApplication", args)
+UpdateRobotApplication(a...; b...) = UpdateRobotApplication(a..., b)
 
 """
     UpdateSimulationApplication()
@@ -612,4 +683,6 @@ Optional Parameters
   "renderingEngine": "The rendering engine for the simulation application."
 }
 """
-UpdateSimulationApplication(args) = robomaker("POST", "/updateSimulationApplication", args)
+UpdateSimulationApplication(application, robotSoftwareSuite, simulationSoftwareSuite, sources) = robomaker("POST", "/updateSimulationApplication")
+UpdateSimulationApplication(application, robotSoftwareSuite, simulationSoftwareSuite, sources, args) = robomaker("POST", "/updateSimulationApplication", args)
+UpdateSimulationApplication(a...; b...) = UpdateSimulationApplication(a..., b)

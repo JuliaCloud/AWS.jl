@@ -18,6 +18,7 @@ Required Parameters
 
 Optional Parameters
 {
+  "filterArn": "The ARN of the filter to apply to the batch inference job. For more information on using filters, see Using Filters with Amazon Personalize.",
   "numResults": "The number of recommendations to retreive."
 }
 """
@@ -97,6 +98,20 @@ Required Parameters
 }
 """
 CreateEventTracker(args) = personalize("CreateEventTracker", args)
+
+"""
+    CreateFilter()
+
+Creates a recommendation filter. For more information, see Using Filters with Amazon Personalize.
+
+Required Parameters
+{
+  "datasetGroupArn": "The ARN of the dataset group that the filter will belong to.",
+  "filterExpression": "The filter expression that designates the interaction types that the filter will filter out. A filter expression must follow the following format:  EXCLUDE itemId WHERE INTERACTIONS.event_type in (\"EVENT_TYPE\")  Where \"EVENT_TYPE\" is the type of event to filter out. To filter out all items with any interactions history, set \"*\" as the EVENT_TYPE. For more information, see Using Filters with Amazon Personalize.",
+  "name": "The name of the filter to create."
+}
+"""
+CreateFilter(args) = personalize("CreateFilter", args)
 
 """
     CreateSchema()
@@ -197,6 +212,18 @@ Required Parameters
 }
 """
 DeleteEventTracker(args) = personalize("DeleteEventTracker", args)
+
+"""
+    DeleteFilter()
+
+Deletes a filter.
+
+Required Parameters
+{
+  "filterArn": "The ARN of the filter to delete."
+}
+"""
+DeleteFilter(args) = personalize("DeleteFilter", args)
 
 """
     DeleteSchema()
@@ -317,6 +344,18 @@ Required Parameters
 }
 """
 DescribeFeatureTransformation(args) = personalize("DescribeFeatureTransformation", args)
+
+"""
+    DescribeFilter()
+
+Describes a filter's properties.
+
+Required Parameters
+{
+  "filterArn": "The ARN of the filter to describe."
+}
+"""
+DescribeFilter(args) = personalize("DescribeFilter", args)
 
 """
     DescribeRecipe()
@@ -466,6 +505,21 @@ Optional Parameters
 """
 ListEventTrackers() = personalize("ListEventTrackers")
 ListEventTrackers(args) = personalize("ListEventTrackers", args)
+
+"""
+    ListFilters()
+
+Lists all filters that belong to a given dataset group.
+
+Optional Parameters
+{
+  "datasetGroupArn": "The ARN of the dataset group that contains the filters.",
+  "maxResults": "The maximum number of filters to return.",
+  "nextToken": "A token returned from the previous call to ListFilters for getting the next set of filters (if they exist)."
+}
+"""
+ListFilters() = personalize("ListFilters")
+ListFilters(args) = personalize("ListFilters", args)
 
 """
     ListRecipes()

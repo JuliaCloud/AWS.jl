@@ -19,7 +19,9 @@ Optional Parameters
   "context": "The contextual metadata to use when getting recommendations. Contextual metadata includes any interaction information that might be relevant when getting a user's recommendations, such as the user's current location or device type."
 }
 """
-GetPersonalizedRanking(args) = personalize_runtime("POST", "/personalize-ranking", args)
+GetPersonalizedRanking(campaignArn, inputList, userId) = personalize_runtime("POST", "/personalize-ranking")
+GetPersonalizedRanking(campaignArn, inputList, userId, args) = personalize_runtime("POST", "/personalize-ranking", args)
+GetPersonalizedRanking(a...; b...) = GetPersonalizedRanking(a..., b)
 
 """
     GetRecommendations()
@@ -34,9 +36,12 @@ Required Parameters
 Optional Parameters
 {
   "context": "The contextual metadata to use when getting recommendations. Contextual metadata includes any interaction information that might be relevant when getting a user's recommendations, such as the user's current location or device type.",
+  "filterArn": "The ARN of the filter to apply to the returned recommendations. For more information, see Using Filters with Amazon Personalize.",
   "itemId": "The item ID to provide recommendations for. Required for RELATED_ITEMS recipe type.",
   "numResults": "The number of results to return. The default is 25. The maximum is 500.",
   "userId": "The user ID to provide recommendations for. Required for USER_PERSONALIZATION recipe type."
 }
 """
-GetRecommendations(args) = personalize_runtime("POST", "/recommendations", args)
+GetRecommendations(campaignArn) = personalize_runtime("POST", "/recommendations")
+GetRecommendations(campaignArn, args) = personalize_runtime("POST", "/recommendations", args)
+GetRecommendations(a...; b...) = GetRecommendations(a..., b)

@@ -13,7 +13,9 @@ Required Parameters
   "MasterId": "The account ID of the Security Hub master account that sent the invitation."
 }
 """
-AcceptInvitation(args) = securityhub("POST", "/master", args)
+AcceptInvitation(InvitationId, MasterId) = securityhub("POST", "/master")
+AcceptInvitation(InvitationId, MasterId, args) = securityhub("POST", "/master", args)
+AcceptInvitation(a...; b...) = AcceptInvitation(a..., b)
 
 """
     BatchDisableStandards()
@@ -25,7 +27,9 @@ Required Parameters
   "StandardsSubscriptionArns": "The ARNs of the standards subscriptions to disable."
 }
 """
-BatchDisableStandards(args) = securityhub("POST", "/standards/deregister", args)
+BatchDisableStandards(StandardsSubscriptionArns) = securityhub("POST", "/standards/deregister")
+BatchDisableStandards(StandardsSubscriptionArns, args) = securityhub("POST", "/standards/deregister", args)
+BatchDisableStandards(a...; b...) = BatchDisableStandards(a..., b)
 
 """
     BatchEnableStandards()
@@ -37,7 +41,9 @@ Required Parameters
   "StandardsSubscriptionRequests": "The list of standards checks to enable."
 }
 """
-BatchEnableStandards(args) = securityhub("POST", "/standards/register", args)
+BatchEnableStandards(StandardsSubscriptionRequests) = securityhub("POST", "/standards/register")
+BatchEnableStandards(StandardsSubscriptionRequests, args) = securityhub("POST", "/standards/register", args)
+BatchEnableStandards(a...; b...) = BatchEnableStandards(a..., b)
 
 """
     BatchImportFindings()
@@ -49,7 +55,9 @@ Required Parameters
   "Findings": "A list of findings to import. To successfully import a finding, it must follow the AWS Security Finding Format. Maximum of 100 findings per request."
 }
 """
-BatchImportFindings(args) = securityhub("POST", "/findings/import", args)
+BatchImportFindings(Findings) = securityhub("POST", "/findings/import")
+BatchImportFindings(Findings, args) = securityhub("POST", "/findings/import", args)
+BatchImportFindings(a...; b...) = BatchImportFindings(a..., b)
 
 """
     BatchUpdateFindings()
@@ -74,7 +82,9 @@ Optional Parameters
   "Workflow": "Used to update the workflow status of a finding. The workflow status indicates the progress of the investigation into the finding. "
 }
 """
-BatchUpdateFindings(args) = securityhub("PATCH", "/findings/batchupdate", args)
+BatchUpdateFindings(FindingIdentifiers) = securityhub("PATCH", "/findings/batchupdate")
+BatchUpdateFindings(FindingIdentifiers, args) = securityhub("PATCH", "/findings/batchupdate", args)
+BatchUpdateFindings(a...; b...) = BatchUpdateFindings(a..., b)
 
 """
     CreateActionTarget()
@@ -88,7 +98,9 @@ Required Parameters
   "Name": "The name of the custom action target."
 }
 """
-CreateActionTarget(args) = securityhub("POST", "/actionTargets", args)
+CreateActionTarget(Description, Id, Name) = securityhub("POST", "/actionTargets")
+CreateActionTarget(Description, Id, Name, args) = securityhub("POST", "/actionTargets", args)
+CreateActionTarget(a...; b...) = CreateActionTarget(a..., b)
 
 """
     CreateInsight()
@@ -102,7 +114,9 @@ Required Parameters
   "Name": "The name of the custom insight to create."
 }
 """
-CreateInsight(args) = securityhub("POST", "/insights", args)
+CreateInsight(Filters, GroupByAttribute, Name) = securityhub("POST", "/insights")
+CreateInsight(Filters, GroupByAttribute, Name, args) = securityhub("POST", "/insights", args)
+CreateInsight(a...; b...) = CreateInsight(a..., b)
 
 """
     CreateMembers()
@@ -116,6 +130,7 @@ Optional Parameters
 """
 CreateMembers() = securityhub("POST", "/members")
 CreateMembers(args) = securityhub("POST", "/members", args)
+CreateMembers(a...; b...) = CreateMembers(a..., b)
 
 """
     DeclineInvitations()
@@ -127,7 +142,9 @@ Required Parameters
   "AccountIds": "The list of account IDs for the accounts from which to decline the invitations to Security Hub."
 }
 """
-DeclineInvitations(args) = securityhub("POST", "/invitations/decline", args)
+DeclineInvitations(AccountIds) = securityhub("POST", "/invitations/decline")
+DeclineInvitations(AccountIds, args) = securityhub("POST", "/invitations/decline", args)
+DeclineInvitations(a...; b...) = DeclineInvitations(a..., b)
 
 """
     DeleteActionTarget()
@@ -139,7 +156,9 @@ Required Parameters
   "ActionTargetArn": "The ARN of the custom action target to delete."
 }
 """
-DeleteActionTarget(args) = securityhub("DELETE", "/actionTargets/{ActionTargetArn+}", args)
+DeleteActionTarget(ActionTargetArn) = securityhub("DELETE", "/actionTargets/$(ActionTargetArn)")
+DeleteActionTarget(ActionTargetArn, args) = securityhub("DELETE", "/actionTargets/$(ActionTargetArn)", args)
+DeleteActionTarget(a...; b...) = DeleteActionTarget(a..., b)
 
 """
     DeleteInsight()
@@ -151,7 +170,9 @@ Required Parameters
   "InsightArn": "The ARN of the insight to delete."
 }
 """
-DeleteInsight(args) = securityhub("DELETE", "/insights/{InsightArn+}", args)
+DeleteInsight(InsightArn) = securityhub("DELETE", "/insights/$(InsightArn)")
+DeleteInsight(InsightArn, args) = securityhub("DELETE", "/insights/$(InsightArn)", args)
+DeleteInsight(a...; b...) = DeleteInsight(a..., b)
 
 """
     DeleteInvitations()
@@ -163,7 +184,9 @@ Required Parameters
   "AccountIds": "The list of the account IDs that sent the invitations to delete."
 }
 """
-DeleteInvitations(args) = securityhub("POST", "/invitations/delete", args)
+DeleteInvitations(AccountIds) = securityhub("POST", "/invitations/delete")
+DeleteInvitations(AccountIds, args) = securityhub("POST", "/invitations/delete", args)
+DeleteInvitations(a...; b...) = DeleteInvitations(a..., b)
 
 """
     DeleteMembers()
@@ -177,6 +200,7 @@ Optional Parameters
 """
 DeleteMembers() = securityhub("POST", "/members/delete")
 DeleteMembers(args) = securityhub("POST", "/members/delete", args)
+DeleteMembers(a...; b...) = DeleteMembers(a..., b)
 
 """
     DescribeActionTargets()
@@ -192,6 +216,7 @@ Optional Parameters
 """
 DescribeActionTargets() = securityhub("POST", "/actionTargets/get")
 DescribeActionTargets(args) = securityhub("POST", "/actionTargets/get", args)
+DescribeActionTargets(a...; b...) = DescribeActionTargets(a..., b)
 
 """
     DescribeHub()
@@ -205,6 +230,7 @@ Optional Parameters
 """
 DescribeHub() = securityhub("GET", "/accounts")
 DescribeHub(args) = securityhub("GET", "/accounts", args)
+DescribeHub(a...; b...) = DescribeHub(a..., b)
 
 """
     DescribeProducts()
@@ -219,6 +245,7 @@ Optional Parameters
 """
 DescribeProducts() = securityhub("GET", "/products")
 DescribeProducts(args) = securityhub("GET", "/products", args)
+DescribeProducts(a...; b...) = DescribeProducts(a..., b)
 
 """
     DescribeStandards()
@@ -233,6 +260,7 @@ Optional Parameters
 """
 DescribeStandards() = securityhub("GET", "/standards")
 DescribeStandards(args) = securityhub("GET", "/standards", args)
+DescribeStandards(a...; b...) = DescribeStandards(a..., b)
 
 """
     DescribeStandardsControls()
@@ -250,7 +278,9 @@ Optional Parameters
   "NextToken": "The token that is required for pagination. On your first call to the DescribeStandardsControls operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response."
 }
 """
-DescribeStandardsControls(args) = securityhub("GET", "/standards/controls/{StandardsSubscriptionArn+}", args)
+DescribeStandardsControls(StandardsSubscriptionArn) = securityhub("GET", "/standards/controls/$(StandardsSubscriptionArn)")
+DescribeStandardsControls(StandardsSubscriptionArn, args) = securityhub("GET", "/standards/controls/$(StandardsSubscriptionArn)", args)
+DescribeStandardsControls(a...; b...) = DescribeStandardsControls(a..., b)
 
 """
     DisableImportFindingsForProduct()
@@ -262,7 +292,9 @@ Required Parameters
   "ProductSubscriptionArn": "The ARN of the integrated product to disable the integration for."
 }
 """
-DisableImportFindingsForProduct(args) = securityhub("DELETE", "/productSubscriptions/{ProductSubscriptionArn+}", args)
+DisableImportFindingsForProduct(ProductSubscriptionArn) = securityhub("DELETE", "/productSubscriptions/$(ProductSubscriptionArn)")
+DisableImportFindingsForProduct(ProductSubscriptionArn, args) = securityhub("DELETE", "/productSubscriptions/$(ProductSubscriptionArn)", args)
+DisableImportFindingsForProduct(a...; b...) = DisableImportFindingsForProduct(a..., b)
 
 """
     DisableSecurityHub()
@@ -271,6 +303,7 @@ Disables Security Hub in your account only in the current Region. To disable Sec
 """
 DisableSecurityHub() = securityhub("DELETE", "/accounts")
 DisableSecurityHub(args) = securityhub("DELETE", "/accounts", args)
+DisableSecurityHub(a...; b...) = DisableSecurityHub(a..., b)
 
 """
     DisassociateFromMasterAccount()
@@ -279,6 +312,7 @@ Disassociates the current Security Hub member account from the associated master
 """
 DisassociateFromMasterAccount() = securityhub("POST", "/master/disassociate")
 DisassociateFromMasterAccount(args) = securityhub("POST", "/master/disassociate", args)
+DisassociateFromMasterAccount(a...; b...) = DisassociateFromMasterAccount(a..., b)
 
 """
     DisassociateMembers()
@@ -292,6 +326,7 @@ Optional Parameters
 """
 DisassociateMembers() = securityhub("POST", "/members/disassociate")
 DisassociateMembers(args) = securityhub("POST", "/members/disassociate", args)
+DisassociateMembers(a...; b...) = DisassociateMembers(a..., b)
 
 """
     EnableImportFindingsForProduct()
@@ -303,7 +338,9 @@ Required Parameters
   "ProductArn": "The ARN of the product to enable the integration for."
 }
 """
-EnableImportFindingsForProduct(args) = securityhub("POST", "/productSubscriptions", args)
+EnableImportFindingsForProduct(ProductArn) = securityhub("POST", "/productSubscriptions")
+EnableImportFindingsForProduct(ProductArn, args) = securityhub("POST", "/productSubscriptions", args)
+EnableImportFindingsForProduct(a...; b...) = EnableImportFindingsForProduct(a..., b)
 
 """
     EnableSecurityHub()
@@ -318,6 +355,7 @@ Optional Parameters
 """
 EnableSecurityHub() = securityhub("POST", "/accounts")
 EnableSecurityHub(args) = securityhub("POST", "/accounts", args)
+EnableSecurityHub(a...; b...) = EnableSecurityHub(a..., b)
 
 """
     GetEnabledStandards()
@@ -333,6 +371,7 @@ Optional Parameters
 """
 GetEnabledStandards() = securityhub("POST", "/standards/get")
 GetEnabledStandards(args) = securityhub("POST", "/standards/get", args)
+GetEnabledStandards(a...; b...) = GetEnabledStandards(a..., b)
 
 """
     GetFindings()
@@ -349,6 +388,7 @@ Optional Parameters
 """
 GetFindings() = securityhub("POST", "/findings")
 GetFindings(args) = securityhub("POST", "/findings", args)
+GetFindings(a...; b...) = GetFindings(a..., b)
 
 """
     GetInsightResults()
@@ -360,7 +400,9 @@ Required Parameters
   "InsightArn": "The ARN of the insight for which to return results."
 }
 """
-GetInsightResults(args) = securityhub("GET", "/insights/results/{InsightArn+}", args)
+GetInsightResults(InsightArn) = securityhub("GET", "/insights/results/$(InsightArn)")
+GetInsightResults(InsightArn, args) = securityhub("GET", "/insights/results/$(InsightArn)", args)
+GetInsightResults(a...; b...) = GetInsightResults(a..., b)
 
 """
     GetInsights()
@@ -376,6 +418,7 @@ Optional Parameters
 """
 GetInsights() = securityhub("POST", "/insights/get")
 GetInsights(args) = securityhub("POST", "/insights/get", args)
+GetInsights(a...; b...) = GetInsights(a..., b)
 
 """
     GetInvitationsCount()
@@ -384,6 +427,7 @@ Returns the count of all Security Hub membership invitations that were sent to t
 """
 GetInvitationsCount() = securityhub("GET", "/invitations/count")
 GetInvitationsCount(args) = securityhub("GET", "/invitations/count", args)
+GetInvitationsCount(a...; b...) = GetInvitationsCount(a..., b)
 
 """
     GetMasterAccount()
@@ -392,6 +436,7 @@ Provides the details for the Security Hub master account for the current member 
 """
 GetMasterAccount() = securityhub("GET", "/master")
 GetMasterAccount(args) = securityhub("GET", "/master", args)
+GetMasterAccount(a...; b...) = GetMasterAccount(a..., b)
 
 """
     GetMembers()
@@ -403,7 +448,9 @@ Required Parameters
   "AccountIds": "The list of account IDs for the Security Hub member accounts to return the details for. "
 }
 """
-GetMembers(args) = securityhub("POST", "/members/get", args)
+GetMembers(AccountIds) = securityhub("POST", "/members/get")
+GetMembers(AccountIds, args) = securityhub("POST", "/members/get", args)
+GetMembers(a...; b...) = GetMembers(a..., b)
 
 """
     InviteMembers()
@@ -417,6 +464,7 @@ Optional Parameters
 """
 InviteMembers() = securityhub("POST", "/members/invite")
 InviteMembers(args) = securityhub("POST", "/members/invite", args)
+InviteMembers(a...; b...) = InviteMembers(a..., b)
 
 """
     ListEnabledProductsForImport()
@@ -431,6 +479,7 @@ Optional Parameters
 """
 ListEnabledProductsForImport() = securityhub("GET", "/productSubscriptions")
 ListEnabledProductsForImport(args) = securityhub("GET", "/productSubscriptions", args)
+ListEnabledProductsForImport(a...; b...) = ListEnabledProductsForImport(a..., b)
 
 """
     ListInvitations()
@@ -445,6 +494,7 @@ Optional Parameters
 """
 ListInvitations() = securityhub("GET", "/invitations")
 ListInvitations(args) = securityhub("GET", "/invitations", args)
+ListInvitations(a...; b...) = ListInvitations(a..., b)
 
 """
     ListMembers()
@@ -460,6 +510,7 @@ Optional Parameters
 """
 ListMembers() = securityhub("GET", "/members")
 ListMembers(args) = securityhub("GET", "/members", args)
+ListMembers(a...; b...) = ListMembers(a..., b)
 
 """
     ListTagsForResource()
@@ -471,7 +522,9 @@ Required Parameters
   "ResourceArn": "The ARN of the resource to retrieve tags for."
 }
 """
-ListTagsForResource(args) = securityhub("GET", "/tags/{ResourceArn}", args)
+ListTagsForResource(ResourceArn) = securityhub("GET", "/tags/$(ResourceArn)")
+ListTagsForResource(ResourceArn, args) = securityhub("GET", "/tags/$(ResourceArn)", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     TagResource()
@@ -484,7 +537,9 @@ Required Parameters
   "Tags": "The tags to add to the resource."
 }
 """
-TagResource(args) = securityhub("POST", "/tags/{ResourceArn}", args)
+TagResource(ResourceArn, Tags) = securityhub("POST", "/tags/$(ResourceArn)")
+TagResource(ResourceArn, Tags, args) = securityhub("POST", "/tags/$(ResourceArn)", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
@@ -497,7 +552,9 @@ Required Parameters
   "TagKeys": "The tag keys associated with the tags to remove from the resource."
 }
 """
-UntagResource(args) = securityhub("DELETE", "/tags/{ResourceArn}", args)
+UntagResource(ResourceArn, TagKeys) = securityhub("DELETE", "/tags/$(ResourceArn)")
+UntagResource(ResourceArn, TagKeys, args) = securityhub("DELETE", "/tags/$(ResourceArn)", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateActionTarget()
@@ -515,7 +572,9 @@ Optional Parameters
   "Name": "The updated name of the custom action target."
 }
 """
-UpdateActionTarget(args) = securityhub("PATCH", "/actionTargets/{ActionTargetArn+}", args)
+UpdateActionTarget(ActionTargetArn) = securityhub("PATCH", "/actionTargets/$(ActionTargetArn)")
+UpdateActionTarget(ActionTargetArn, args) = securityhub("PATCH", "/actionTargets/$(ActionTargetArn)", args)
+UpdateActionTarget(a...; b...) = UpdateActionTarget(a..., b)
 
 """
     UpdateFindings()
@@ -533,7 +592,9 @@ Optional Parameters
   "RecordState": "The updated record state for the finding."
 }
 """
-UpdateFindings(args) = securityhub("PATCH", "/findings", args)
+UpdateFindings(Filters) = securityhub("PATCH", "/findings")
+UpdateFindings(Filters, args) = securityhub("PATCH", "/findings", args)
+UpdateFindings(a...; b...) = UpdateFindings(a..., b)
 
 """
     UpdateInsight()
@@ -552,7 +613,9 @@ Optional Parameters
   "Name": "The updated name for the insight."
 }
 """
-UpdateInsight(args) = securityhub("PATCH", "/insights/{InsightArn+}", args)
+UpdateInsight(InsightArn) = securityhub("PATCH", "/insights/$(InsightArn)")
+UpdateInsight(InsightArn, args) = securityhub("PATCH", "/insights/$(InsightArn)", args)
+UpdateInsight(a...; b...) = UpdateInsight(a..., b)
 
 """
     UpdateStandardsControl()
@@ -570,4 +633,6 @@ Optional Parameters
   "DisabledReason": "A description of the reason why you are disabling a security standard control."
 }
 """
-UpdateStandardsControl(args) = securityhub("PATCH", "/standards/control/{StandardsControlArn+}", args)
+UpdateStandardsControl(StandardsControlArn) = securityhub("PATCH", "/standards/control/$(StandardsControlArn)")
+UpdateStandardsControl(StandardsControlArn, args) = securityhub("PATCH", "/standards/control/$(StandardsControlArn)", args)
+UpdateStandardsControl(a...; b...) = UpdateStandardsControl(a..., b)

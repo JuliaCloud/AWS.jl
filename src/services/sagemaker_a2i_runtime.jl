@@ -12,7 +12,9 @@ Required Parameters
   "HumanLoopName": "The name of the human loop that you want to delete."
 }
 """
-DeleteHumanLoop(args) = sagemaker_a2i_runtime("DELETE", "/human-loops/{HumanLoopName}", args)
+DeleteHumanLoop(HumanLoopName) = sagemaker_a2i_runtime("DELETE", "/human-loops/$(HumanLoopName)")
+DeleteHumanLoop(HumanLoopName, args) = sagemaker_a2i_runtime("DELETE", "/human-loops/$(HumanLoopName)", args)
+DeleteHumanLoop(a...; b...) = DeleteHumanLoop(a..., b)
 
 """
     DescribeHumanLoop()
@@ -24,7 +26,9 @@ Required Parameters
   "HumanLoopName": "The name of the human loop that you want information about."
 }
 """
-DescribeHumanLoop(args) = sagemaker_a2i_runtime("GET", "/human-loops/{HumanLoopName}", args)
+DescribeHumanLoop(HumanLoopName) = sagemaker_a2i_runtime("GET", "/human-loops/$(HumanLoopName)")
+DescribeHumanLoop(HumanLoopName, args) = sagemaker_a2i_runtime("GET", "/human-loops/$(HumanLoopName)", args)
+DescribeHumanLoop(a...; b...) = DescribeHumanLoop(a..., b)
 
 """
     ListHumanLoops()
@@ -45,7 +49,9 @@ Optional Parameters
   "SortOrder": "Optional. The order for displaying results. Valid values: Ascending and Descending."
 }
 """
-ListHumanLoops(args) = sagemaker_a2i_runtime("GET", "/human-loops", args)
+ListHumanLoops(FlowDefinitionArn) = sagemaker_a2i_runtime("GET", "/human-loops")
+ListHumanLoops(FlowDefinitionArn, args) = sagemaker_a2i_runtime("GET", "/human-loops", args)
+ListHumanLoops(a...; b...) = ListHumanLoops(a..., b)
 
 """
     StartHumanLoop()
@@ -64,7 +70,9 @@ Optional Parameters
   "DataAttributes": "Attributes of the specified data. Use DataAttributes to specify if your data is free of personally identifiable information and/or free of adult content."
 }
 """
-StartHumanLoop(args) = sagemaker_a2i_runtime("POST", "/human-loops", args)
+StartHumanLoop(FlowDefinitionArn, HumanLoopInput, HumanLoopName) = sagemaker_a2i_runtime("POST", "/human-loops")
+StartHumanLoop(FlowDefinitionArn, HumanLoopInput, HumanLoopName, args) = sagemaker_a2i_runtime("POST", "/human-loops", args)
+StartHumanLoop(a...; b...) = StartHumanLoop(a..., b)
 
 """
     StopHumanLoop()
@@ -76,4 +84,6 @@ Required Parameters
   "HumanLoopName": "The name of the human loop that you want to stop."
 }
 """
-StopHumanLoop(args) = sagemaker_a2i_runtime("POST", "/human-loops/stop", args)
+StopHumanLoop(HumanLoopName) = sagemaker_a2i_runtime("POST", "/human-loops/stop")
+StopHumanLoop(HumanLoopName, args) = sagemaker_a2i_runtime("POST", "/human-loops/stop", args)
+StopHumanLoop(a...; b...) = StopHumanLoop(a..., b)

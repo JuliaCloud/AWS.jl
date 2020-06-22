@@ -12,7 +12,9 @@ Required Parameters
   "Name": "The identifier for the playback configuration."
 }
 """
-DeletePlaybackConfiguration(args) = mediatailor("DELETE", "/playbackConfiguration/{Name}", args)
+DeletePlaybackConfiguration(Name) = mediatailor("DELETE", "/playbackConfiguration/$(Name)")
+DeletePlaybackConfiguration(Name, args) = mediatailor("DELETE", "/playbackConfiguration/$(Name)", args)
+DeletePlaybackConfiguration(a...; b...) = DeletePlaybackConfiguration(a..., b)
 
 """
     GetPlaybackConfiguration()
@@ -24,7 +26,9 @@ Required Parameters
   "Name": "The identifier for the playback configuration."
 }
 """
-GetPlaybackConfiguration(args) = mediatailor("GET", "/playbackConfiguration/{Name}", args)
+GetPlaybackConfiguration(Name) = mediatailor("GET", "/playbackConfiguration/$(Name)")
+GetPlaybackConfiguration(Name, args) = mediatailor("GET", "/playbackConfiguration/$(Name)", args)
+GetPlaybackConfiguration(a...; b...) = GetPlaybackConfiguration(a..., b)
 
 """
     ListPlaybackConfigurations()
@@ -39,6 +43,7 @@ Optional Parameters
 """
 ListPlaybackConfigurations() = mediatailor("GET", "/playbackConfigurations")
 ListPlaybackConfigurations(args) = mediatailor("GET", "/playbackConfigurations", args)
+ListPlaybackConfigurations(a...; b...) = ListPlaybackConfigurations(a..., b)
 
 """
     ListTagsForResource()
@@ -50,7 +55,9 @@ Required Parameters
   "ResourceArn": "The Amazon Resource Name (ARN) for the playback configuration. You can get this from the response to any playback configuration request. "
 }
 """
-ListTagsForResource(args) = mediatailor("GET", "/tags/{ResourceArn}", args)
+ListTagsForResource(ResourceArn) = mediatailor("GET", "/tags/$(ResourceArn)")
+ListTagsForResource(ResourceArn, args) = mediatailor("GET", "/tags/$(ResourceArn)", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     PutPlaybackConfiguration()
@@ -74,6 +81,7 @@ Optional Parameters
 """
 PutPlaybackConfiguration() = mediatailor("PUT", "/playbackConfiguration")
 PutPlaybackConfiguration(args) = mediatailor("PUT", "/playbackConfiguration", args)
+PutPlaybackConfiguration(a...; b...) = PutPlaybackConfiguration(a..., b)
 
 """
     TagResource()
@@ -86,7 +94,9 @@ Required Parameters
   "Tags": "A comma-separated list of tag key:value pairs. For example: \n {\n \"Key1\": \"Value1\",\n \"Key2\": \"Value2\"\n }\n "
 }
 """
-TagResource(args) = mediatailor("POST", "/tags/{ResourceArn}", args)
+TagResource(ResourceArn, Tags) = mediatailor("POST", "/tags/$(ResourceArn)")
+TagResource(ResourceArn, Tags, args) = mediatailor("POST", "/tags/$(ResourceArn)", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
@@ -99,4 +109,6 @@ Required Parameters
   "TagKeys": "A comma-separated list of the tag keys to remove from the playback configuration. "
 }
 """
-UntagResource(args) = mediatailor("DELETE", "/tags/{ResourceArn}", args)
+UntagResource(ResourceArn, TagKeys) = mediatailor("DELETE", "/tags/$(ResourceArn)")
+UntagResource(ResourceArn, TagKeys, args) = mediatailor("DELETE", "/tags/$(ResourceArn)", args)
+UntagResource(a...; b...) = UntagResource(a..., b)

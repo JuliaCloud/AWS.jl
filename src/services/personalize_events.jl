@@ -19,4 +19,6 @@ Optional Parameters
   "userId": "The user associated with the event."
 }
 """
-PutEvents(args) = personalize_events("POST", "/events", args)
+PutEvents(eventList, sessionId, trackingId) = personalize_events("POST", "/events")
+PutEvents(eventList, sessionId, trackingId, args) = personalize_events("POST", "/events", args)
+PutEvents(a...; b...) = PutEvents(a..., b)

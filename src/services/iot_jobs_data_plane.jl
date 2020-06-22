@@ -19,7 +19,9 @@ Optional Parameters
   "includeJobDocument": "Optional. When set to true, the response contains the job document. The default is false."
 }
 """
-DescribeJobExecution(args) = iot_jobs_data_plane("GET", "/things/{thingName}/jobs/{jobId}", args)
+DescribeJobExecution(jobId, thingName) = iot_jobs_data_plane("GET", "/things/$(thingName)/jobs/$(jobId)")
+DescribeJobExecution(jobId, thingName, args) = iot_jobs_data_plane("GET", "/things/$(thingName)/jobs/$(jobId)", args)
+DescribeJobExecution(a...; b...) = DescribeJobExecution(a..., b)
 
 """
     GetPendingJobExecutions()
@@ -31,7 +33,9 @@ Required Parameters
   "thingName": "The name of the thing that is executing the job."
 }
 """
-GetPendingJobExecutions(args) = iot_jobs_data_plane("GET", "/things/{thingName}/jobs", args)
+GetPendingJobExecutions(thingName) = iot_jobs_data_plane("GET", "/things/$(thingName)/jobs")
+GetPendingJobExecutions(thingName, args) = iot_jobs_data_plane("GET", "/things/$(thingName)/jobs", args)
+GetPendingJobExecutions(a...; b...) = GetPendingJobExecutions(a..., b)
 
 """
     StartNextPendingJobExecution()
@@ -49,7 +53,9 @@ Optional Parameters
   "stepTimeoutInMinutes": "Specifies the amount of time this device has to finish execution of this job. If the job execution status is not set to a terminal state before this timer expires, or before the timer is reset (by calling UpdateJobExecution, setting the status to IN_PROGRESS and specifying a new timeout value in field stepTimeoutInMinutes) the job execution status will be automatically set to TIMED_OUT. Note that setting this timeout has no effect on that job execution timeout which may have been specified when the job was created (CreateJob using field timeoutConfig)."
 }
 """
-StartNextPendingJobExecution(args) = iot_jobs_data_plane("PUT", "/things/{thingName}/jobs/$next", args)
+StartNextPendingJobExecution(thingName) = iot_jobs_data_plane("PUT", "/things/$(thingName)/jobs/$next")
+StartNextPendingJobExecution(thingName, args) = iot_jobs_data_plane("PUT", "/things/$(thingName)/jobs/$next", args)
+StartNextPendingJobExecution(a...; b...) = StartNextPendingJobExecution(a..., b)
 
 """
     UpdateJobExecution()
@@ -73,4 +79,6 @@ Optional Parameters
   "stepTimeoutInMinutes": "Specifies the amount of time this device has to finish execution of this job. If the job execution status is not set to a terminal state before this timer expires, or before the timer is reset (by again calling UpdateJobExecution, setting the status to IN_PROGRESS and specifying a new timeout value in this field) the job execution status will be automatically set to TIMED_OUT. Note that setting or resetting this timeout has no effect on that job execution timeout which may have been specified when the job was created (CreateJob using field timeoutConfig)."
 }
 """
-UpdateJobExecution(args) = iot_jobs_data_plane("POST", "/things/{thingName}/jobs/{jobId}", args)
+UpdateJobExecution(jobId, status, thingName) = iot_jobs_data_plane("POST", "/things/$(thingName)/jobs/$(jobId)")
+UpdateJobExecution(jobId, status, thingName, args) = iot_jobs_data_plane("POST", "/things/$(thingName)/jobs/$(jobId)", args)
+UpdateJobExecution(a...; b...) = UpdateJobExecution(a..., b)

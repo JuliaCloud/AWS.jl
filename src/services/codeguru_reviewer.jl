@@ -17,7 +17,9 @@ Optional Parameters
   "ClientRequestToken": "Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. To add a new repository association, this parameter specifies a unique identifier for the new repository association that helps ensure idempotency. If you use the AWS CLI or one of the AWS SDKs to call this operation, you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes that in the request. If you don't use the SDK and instead generate a raw HTTP request to the Secrets Manager service endpoint, you must generate a ClientRequestToken yourself for new versions and include that value in the request. You typically interact with this value if you implement your own retry logic and want to ensure that a given repository association is not created twice. We recommend that you generate a UUID-type value to ensure uniqueness within the specified repository association. Amazon CodeGuru Reviewer uses this value to prevent the accidental creation of duplicate repository associations if there are failures and retries. "
 }
 """
-AssociateRepository(args) = codeguru_reviewer("POST", "/associations", args)
+AssociateRepository(Repository) = codeguru_reviewer("POST", "/associations")
+AssociateRepository(Repository, args) = codeguru_reviewer("POST", "/associations", args)
+AssociateRepository(a...; b...) = AssociateRepository(a..., b)
 
 """
     DescribeCodeReview()
@@ -29,7 +31,9 @@ Required Parameters
   "CodeReviewArn": " The Amazon Resource Name (ARN) of the code review to describe. "
 }
 """
-DescribeCodeReview(args) = codeguru_reviewer("GET", "/codereviews/{CodeReviewArn}", args)
+DescribeCodeReview(CodeReviewArn) = codeguru_reviewer("GET", "/codereviews/$(CodeReviewArn)")
+DescribeCodeReview(CodeReviewArn, args) = codeguru_reviewer("GET", "/codereviews/$(CodeReviewArn)", args)
+DescribeCodeReview(a...; b...) = DescribeCodeReview(a..., b)
 
 """
     DescribeRecommendationFeedback()
@@ -47,7 +51,9 @@ Optional Parameters
   "UserId": " Optional parameter to describe the feedback for a given user. If this is not supplied, it defaults to the user making the request. "
 }
 """
-DescribeRecommendationFeedback(args) = codeguru_reviewer("GET", "/feedback/{CodeReviewArn}", args)
+DescribeRecommendationFeedback(CodeReviewArn, RecommendationId) = codeguru_reviewer("GET", "/feedback/$(CodeReviewArn)")
+DescribeRecommendationFeedback(CodeReviewArn, RecommendationId, args) = codeguru_reviewer("GET", "/feedback/$(CodeReviewArn)", args)
+DescribeRecommendationFeedback(a...; b...) = DescribeRecommendationFeedback(a..., b)
 
 """
     DescribeRepositoryAssociation()
@@ -59,7 +65,9 @@ Required Parameters
   "AssociationArn": "The Amazon Resource Name (ARN) identifying the association. You can retrieve this ARN by calling ListRepositories."
 }
 """
-DescribeRepositoryAssociation(args) = codeguru_reviewer("GET", "/associations/{AssociationArn}", args)
+DescribeRepositoryAssociation(AssociationArn) = codeguru_reviewer("GET", "/associations/$(AssociationArn)")
+DescribeRepositoryAssociation(AssociationArn, args) = codeguru_reviewer("GET", "/associations/$(AssociationArn)", args)
+DescribeRepositoryAssociation(a...; b...) = DescribeRepositoryAssociation(a..., b)
 
 """
     DisassociateRepository()
@@ -71,7 +79,9 @@ Required Parameters
   "AssociationArn": "The Amazon Resource Name (ARN) identifying the association."
 }
 """
-DisassociateRepository(args) = codeguru_reviewer("DELETE", "/associations/{AssociationArn}", args)
+DisassociateRepository(AssociationArn) = codeguru_reviewer("DELETE", "/associations/$(AssociationArn)")
+DisassociateRepository(AssociationArn, args) = codeguru_reviewer("DELETE", "/associations/$(AssociationArn)", args)
+DisassociateRepository(a...; b...) = DisassociateRepository(a..., b)
 
 """
     ListCodeReviews()
@@ -92,7 +102,9 @@ Optional Parameters
   "States": " List of states for filtering that needs to be applied before displaying the result. For example, \"states=[Pending]\" will list code reviews in the Pending state. "
 }
 """
-ListCodeReviews(args) = codeguru_reviewer("GET", "/codereviews", args)
+ListCodeReviews(Type) = codeguru_reviewer("GET", "/codereviews")
+ListCodeReviews(Type, args) = codeguru_reviewer("GET", "/codereviews", args)
+ListCodeReviews(a...; b...) = ListCodeReviews(a..., b)
 
 """
     ListRecommendationFeedback()
@@ -112,7 +124,9 @@ Optional Parameters
   "UserIds": " Filter on userIds that need to be applied before displaying the result. This can be used to query all the recommendation feedback for a code review from a given user. "
 }
 """
-ListRecommendationFeedback(args) = codeguru_reviewer("GET", "/feedback/{CodeReviewArn}/RecommendationFeedback", args)
+ListRecommendationFeedback(CodeReviewArn) = codeguru_reviewer("GET", "/feedback/$(CodeReviewArn)/RecommendationFeedback")
+ListRecommendationFeedback(CodeReviewArn, args) = codeguru_reviewer("GET", "/feedback/$(CodeReviewArn)/RecommendationFeedback", args)
+ListRecommendationFeedback(a...; b...) = ListRecommendationFeedback(a..., b)
 
 """
     ListRecommendations()
@@ -130,7 +144,9 @@ Optional Parameters
   "NextToken": " Pagination token. "
 }
 """
-ListRecommendations(args) = codeguru_reviewer("GET", "/codereviews/{CodeReviewArn}/Recommendations", args)
+ListRecommendations(CodeReviewArn) = codeguru_reviewer("GET", "/codereviews/$(CodeReviewArn)/Recommendations")
+ListRecommendations(CodeReviewArn, args) = codeguru_reviewer("GET", "/codereviews/$(CodeReviewArn)/Recommendations", args)
+ListRecommendations(a...; b...) = ListRecommendations(a..., b)
 
 """
     ListRepositoryAssociations()
@@ -149,6 +165,7 @@ Optional Parameters
 """
 ListRepositoryAssociations() = codeguru_reviewer("GET", "/associations")
 ListRepositoryAssociations(args) = codeguru_reviewer("GET", "/associations", args)
+ListRepositoryAssociations(a...; b...) = ListRepositoryAssociations(a..., b)
 
 """
     PutRecommendationFeedback()
@@ -162,4 +179,6 @@ Required Parameters
   "RecommendationId": " The recommendation ID that can be used to track the provided recommendations and then to collect the feedback. "
 }
 """
-PutRecommendationFeedback(args) = codeguru_reviewer("PUT", "/feedback", args)
+PutRecommendationFeedback(CodeReviewArn, Reactions, RecommendationId) = codeguru_reviewer("PUT", "/feedback")
+PutRecommendationFeedback(CodeReviewArn, Reactions, RecommendationId, args) = codeguru_reviewer("PUT", "/feedback", args)
+PutRecommendationFeedback(a...; b...) = PutRecommendationFeedback(a..., b)

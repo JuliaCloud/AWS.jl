@@ -252,14 +252,14 @@ Required Parameters
 Optional Parameters
 {
   "Classifiers": "A list of custom classifiers that the user has registered. By default, all built-in classifiers are included in a crawl, but these custom classifiers always override the default classifiers for a given classification.",
-  "Configuration": "The crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see Configuring a Crawler.",
+  "Configuration": "Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see Configuring a Crawler.",
   "CrawlerSecurityConfiguration": "The name of the SecurityConfiguration structure to be used by this crawler.",
   "DatabaseName": "The AWS Glue database where results are written, such as: arn:aws:daylight:us-east-1::database/sometable/*.",
   "Description": "A description of the new crawler.",
-  "Schedule": "A cron expression used to specify the schedule. For more information, see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, specify cron(15 12 * * ? *).",
+  "Schedule": "A cron expression used to specify the schedule (see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, you would specify: cron(15 12 * * ? *).",
   "SchemaChangePolicy": "The policy for the crawler's update and deletion behavior.",
   "TablePrefix": "The table prefix used for catalog tables that are created.",
-  "Tags": "The tags to use with this crawler request. You can use tags to limit access to the crawler. For more information, see AWS Tags in AWS Glue."
+  "Tags": "The tags to use with this crawler request. You may use tags to limit access to the crawler. For more information about tags in AWS Glue, see AWS Tags in AWS Glue in the developer guide."
 }
 """
 CreateCrawler(args) = glue("CreateCrawler", args)
@@ -1314,7 +1314,7 @@ Required Parameters
 Optional Parameters
 {
   "CatalogId": "The ID of the Data Catalog where the functions to be retrieved are located. If none is provided, the AWS account ID is used by default.",
-  "DatabaseName": "The name of the catalog database where the functions are located.",
+  "DatabaseName": "The name of the catalog database where the functions are located. If none is provided, functions from all the databases across the catalog will be returned.",
   "MaxResults": "The maximum number of functions to return in one response.",
   "NextToken": "A continuation token, if this is a continuation call."
 }
@@ -1828,12 +1828,12 @@ Required Parameters
 Optional Parameters
 {
   "Classifiers": "A list of custom classifiers that the user has registered. By default, all built-in classifiers are included in a crawl, but these custom classifiers always override the default classifiers for a given classification.",
-  "Configuration": "The crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see Configuring a Crawler.",
+  "Configuration": "Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see Configuring a Crawler.",
   "CrawlerSecurityConfiguration": "The name of the SecurityConfiguration structure to be used by this crawler.",
   "DatabaseName": "The AWS Glue database where results are stored, such as: arn:aws:daylight:us-east-1::database/sometable/*.",
   "Description": "A description of the new crawler.",
   "Role": "The IAM role or Amazon Resource Name (ARN) of an IAM role that is used by the new crawler to access customer resources.",
-  "Schedule": "A cron expression used to specify the schedule. For more information, see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, specify cron(15 12 * * ? *).",
+  "Schedule": "A cron expression used to specify the schedule (see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, you would specify: cron(15 12 * * ? *).",
   "SchemaChangePolicy": "The policy for the crawler's update and deletion behavior.",
   "TablePrefix": "The table prefix used for catalog tables that are created.",
   "Targets": "A list of targets to crawl."
@@ -1853,7 +1853,7 @@ Required Parameters
 
 Optional Parameters
 {
-  "Schedule": "The updated cron expression used to specify the schedule. For more information, see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, specify cron(15 12 * * ? *)."
+  "Schedule": "The updated cron expression used to specify the schedule (see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, you would specify: cron(15 12 * * ? *)."
 }
 """
 UpdateCrawlerSchedule(args) = glue("UpdateCrawlerSchedule", args)

@@ -23,7 +23,9 @@ Optional Parameters
   "Tags": "A list of tags to apply to this notification rule. Key names cannot start with \"aws\". "
 }
 """
-CreateNotificationRule(args) = codestar_notifications("POST", "/createNotificationRule", args)
+CreateNotificationRule(DetailType, EventTypeIds, Name, Resource, Targets) = codestar_notifications("POST", "/createNotificationRule")
+CreateNotificationRule(DetailType, EventTypeIds, Name, Resource, Targets, args) = codestar_notifications("POST", "/createNotificationRule", args)
+CreateNotificationRule(a...; b...) = CreateNotificationRule(a..., b)
 
 """
     DeleteNotificationRule()
@@ -35,7 +37,9 @@ Required Parameters
   "Arn": "The Amazon Resource Name (ARN) of the notification rule you want to delete."
 }
 """
-DeleteNotificationRule(args) = codestar_notifications("POST", "/deleteNotificationRule", args)
+DeleteNotificationRule(Arn) = codestar_notifications("POST", "/deleteNotificationRule")
+DeleteNotificationRule(Arn, args) = codestar_notifications("POST", "/deleteNotificationRule", args)
+DeleteNotificationRule(a...; b...) = DeleteNotificationRule(a..., b)
 
 """
     DeleteTarget()
@@ -52,7 +56,9 @@ Optional Parameters
   "ForceUnsubscribeAll": "A Boolean value that can be used to delete all associations with this SNS topic. The default value is FALSE. If set to TRUE, all associations between that target and every notification rule in your AWS account are deleted."
 }
 """
-DeleteTarget(args) = codestar_notifications("POST", "/deleteTarget", args)
+DeleteTarget(TargetAddress) = codestar_notifications("POST", "/deleteTarget")
+DeleteTarget(TargetAddress, args) = codestar_notifications("POST", "/deleteTarget", args)
+DeleteTarget(a...; b...) = DeleteTarget(a..., b)
 
 """
     DescribeNotificationRule()
@@ -64,7 +70,9 @@ Required Parameters
   "Arn": "The Amazon Resource Name (ARN) of the notification rule."
 }
 """
-DescribeNotificationRule(args) = codestar_notifications("POST", "/describeNotificationRule", args)
+DescribeNotificationRule(Arn) = codestar_notifications("POST", "/describeNotificationRule")
+DescribeNotificationRule(Arn, args) = codestar_notifications("POST", "/describeNotificationRule", args)
+DescribeNotificationRule(a...; b...) = DescribeNotificationRule(a..., b)
 
 """
     ListEventTypes()
@@ -80,6 +88,7 @@ Optional Parameters
 """
 ListEventTypes() = codestar_notifications("POST", "/listEventTypes")
 ListEventTypes(args) = codestar_notifications("POST", "/listEventTypes", args)
+ListEventTypes(a...; b...) = ListEventTypes(a..., b)
 
 """
     ListNotificationRules()
@@ -95,6 +104,7 @@ Optional Parameters
 """
 ListNotificationRules() = codestar_notifications("POST", "/listNotificationRules")
 ListNotificationRules(args) = codestar_notifications("POST", "/listNotificationRules", args)
+ListNotificationRules(a...; b...) = ListNotificationRules(a..., b)
 
 """
     ListTagsForResource()
@@ -106,7 +116,9 @@ Required Parameters
   "Arn": "The Amazon Resource Name (ARN) for the notification rule."
 }
 """
-ListTagsForResource(args) = codestar_notifications("POST", "/listTagsForResource", args)
+ListTagsForResource(Arn) = codestar_notifications("POST", "/listTagsForResource")
+ListTagsForResource(Arn, args) = codestar_notifications("POST", "/listTagsForResource", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     ListTargets()
@@ -122,6 +134,7 @@ Optional Parameters
 """
 ListTargets() = codestar_notifications("POST", "/listTargets")
 ListTargets(args) = codestar_notifications("POST", "/listTargets", args)
+ListTargets(a...; b...) = ListTargets(a..., b)
 
 """
     Subscribe()
@@ -139,7 +152,9 @@ Optional Parameters
   "ClientRequestToken": "An enumeration token that, when provided in a request, returns the next batch of the results."
 }
 """
-Subscribe(args) = codestar_notifications("POST", "/subscribe", args)
+Subscribe(Arn, Target) = codestar_notifications("POST", "/subscribe")
+Subscribe(Arn, Target, args) = codestar_notifications("POST", "/subscribe", args)
+Subscribe(a...; b...) = Subscribe(a..., b)
 
 """
     TagResource()
@@ -152,7 +167,9 @@ Required Parameters
   "Tags": "The list of tags to associate with the resource. Tag key names cannot start with \"aws\"."
 }
 """
-TagResource(args) = codestar_notifications("POST", "/tagResource", args)
+TagResource(Arn, Tags) = codestar_notifications("POST", "/tagResource")
+TagResource(Arn, Tags, args) = codestar_notifications("POST", "/tagResource", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     Unsubscribe()
@@ -165,7 +182,9 @@ Required Parameters
   "TargetAddress": "The ARN of the SNS topic to unsubscribe from the notification rule."
 }
 """
-Unsubscribe(args) = codestar_notifications("POST", "/unsubscribe", args)
+Unsubscribe(Arn, TargetAddress) = codestar_notifications("POST", "/unsubscribe")
+Unsubscribe(Arn, TargetAddress, args) = codestar_notifications("POST", "/unsubscribe", args)
+Unsubscribe(a...; b...) = Unsubscribe(a..., b)
 
 """
     UntagResource()
@@ -178,7 +197,9 @@ Required Parameters
   "TagKeys": "The key names of the tags to remove."
 }
 """
-UntagResource(args) = codestar_notifications("POST", "/untagResource", args)
+UntagResource(Arn, TagKeys) = codestar_notifications("POST", "/untagResource")
+UntagResource(Arn, TagKeys, args) = codestar_notifications("POST", "/untagResource", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateNotificationRule()
@@ -199,4 +220,6 @@ Optional Parameters
   "Targets": "The address and type of the targets to receive notifications from this notification rule."
 }
 """
-UpdateNotificationRule(args) = codestar_notifications("POST", "/updateNotificationRule", args)
+UpdateNotificationRule(Arn) = codestar_notifications("POST", "/updateNotificationRule")
+UpdateNotificationRule(Arn, args) = codestar_notifications("POST", "/updateNotificationRule", args)
+UpdateNotificationRule(a...; b...) = UpdateNotificationRule(a..., b)

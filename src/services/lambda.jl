@@ -22,7 +22,9 @@ Optional Parameters
   "RevisionId": "Only update the policy if the revision ID matches the ID specified. Use this option to avoid modifying a policy that has changed since you last read it."
 }
 """
-AddLayerVersionPermission(args) = lambda("POST", "/2018-10-31/layers/{LayerName}/versions/{VersionNumber}/policy", args)
+AddLayerVersionPermission(Action, LayerName, Principal, StatementId, VersionNumber) = lambda("POST", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy")
+AddLayerVersionPermission(Action, LayerName, Principal, StatementId, VersionNumber, args) = lambda("POST", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy", args)
+AddLayerVersionPermission(a...; b...) = AddLayerVersionPermission(a..., b)
 
 """
     AddPermission()
@@ -46,7 +48,9 @@ Optional Parameters
   "SourceArn": "For AWS services, the ARN of the AWS resource that invokes the function. For example, an Amazon S3 bucket or Amazon SNS topic."
 }
 """
-AddPermission(args) = lambda("POST", "/2015-03-31/functions/{FunctionName}/policy", args)
+AddPermission(Action, FunctionName, Principal, StatementId) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/policy")
+AddPermission(Action, FunctionName, Principal, StatementId, args) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/policy", args)
+AddPermission(a...; b...) = AddPermission(a..., b)
 
 """
     CreateAlias()
@@ -66,7 +70,9 @@ Optional Parameters
   "RoutingConfig": "The routing configuration of the alias."
 }
 """
-CreateAlias(args) = lambda("POST", "/2015-03-31/functions/{FunctionName}/aliases", args)
+CreateAlias(FunctionName, FunctionVersion, Name) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/aliases")
+CreateAlias(FunctionName, FunctionVersion, Name, args) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/aliases", args)
+CreateAlias(a...; b...) = CreateAlias(a..., b)
 
 """
     CreateEventSourceMapping()
@@ -93,7 +99,9 @@ Optional Parameters
   "StartingPositionTimestamp": "With StartingPosition set to AT_TIMESTAMP, the time from which to start reading."
 }
 """
-CreateEventSourceMapping(args) = lambda("POST", "/2015-03-31/event-source-mappings/", args)
+CreateEventSourceMapping(EventSourceArn, FunctionName) = lambda("POST", "/2015-03-31/event-source-mappings/")
+CreateEventSourceMapping(EventSourceArn, FunctionName, args) = lambda("POST", "/2015-03-31/event-source-mappings/", args)
+CreateEventSourceMapping(a...; b...) = CreateEventSourceMapping(a..., b)
 
 """
     CreateFunction()
@@ -114,6 +122,7 @@ Optional Parameters
   "DeadLetterConfig": "A dead letter queue configuration that specifies the queue or topic where Lambda sends asynchronous events when they fail processing. For more information, see Dead Letter Queues.",
   "Description": "A description of the function.",
   "Environment": "Environment variables that are accessible from function code during execution.",
+  "FileSystemConfigs": "Connection settings for an Amazon EFS file system.",
   "KMSKeyArn": "The ARN of the AWS Key Management Service (AWS KMS) key that's used to encrypt your function's environment variables. If it's not provided, AWS Lambda uses a default service key.",
   "Layers": "A list of function layers to add to the function's execution environment. Specify each layer by its ARN, including the version.",
   "MemorySize": "The amount of memory that your function has access to. Increasing the function's memory also increases its CPU allocation. The default value is 128 MB. The value must be a multiple of 64 MB.",
@@ -124,7 +133,9 @@ Optional Parameters
   "VpcConfig": "For network connectivity to AWS resources in a VPC, specify a list of security groups and subnets in the VPC. When you connect a function to a VPC, it can only access resources and the internet through that VPC. For more information, see VPC Settings."
 }
 """
-CreateFunction(args) = lambda("POST", "/2015-03-31/functions", args)
+CreateFunction(Code, FunctionName, Handler, Role, Runtime) = lambda("POST", "/2015-03-31/functions")
+CreateFunction(Code, FunctionName, Handler, Role, Runtime, args) = lambda("POST", "/2015-03-31/functions", args)
+CreateFunction(a...; b...) = CreateFunction(a..., b)
 
 """
     DeleteAlias()
@@ -137,7 +148,9 @@ Required Parameters
   "Name": "The name of the alias."
 }
 """
-DeleteAlias(args) = lambda("DELETE", "/2015-03-31/functions/{FunctionName}/aliases/{Name}", args)
+DeleteAlias(FunctionName, Name) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)")
+DeleteAlias(FunctionName, Name, args) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)", args)
+DeleteAlias(a...; b...) = DeleteAlias(a..., b)
 
 """
     DeleteEventSourceMapping()
@@ -149,7 +162,9 @@ Required Parameters
   "UUID": "The identifier of the event source mapping."
 }
 """
-DeleteEventSourceMapping(args) = lambda("DELETE", "/2015-03-31/event-source-mappings/{UUID}", args)
+DeleteEventSourceMapping(UUID) = lambda("DELETE", "/2015-03-31/event-source-mappings/$(UUID)")
+DeleteEventSourceMapping(UUID, args) = lambda("DELETE", "/2015-03-31/event-source-mappings/$(UUID)", args)
+DeleteEventSourceMapping(a...; b...) = DeleteEventSourceMapping(a..., b)
 
 """
     DeleteFunction()
@@ -166,7 +181,9 @@ Optional Parameters
   "Qualifier": "Specify a version to delete. You can't delete a version that's referenced by an alias."
 }
 """
-DeleteFunction(args) = lambda("DELETE", "/2015-03-31/functions/{FunctionName}", args)
+DeleteFunction(FunctionName) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)")
+DeleteFunction(FunctionName, args) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)", args)
+DeleteFunction(a...; b...) = DeleteFunction(a..., b)
 
 """
     DeleteFunctionConcurrency()
@@ -178,7 +195,9 @@ Required Parameters
   "FunctionName": "The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length."
 }
 """
-DeleteFunctionConcurrency(args) = lambda("DELETE", "/2017-10-31/functions/{FunctionName}/concurrency", args)
+DeleteFunctionConcurrency(FunctionName) = lambda("DELETE", "/2017-10-31/functions/$(FunctionName)/concurrency")
+DeleteFunctionConcurrency(FunctionName, args) = lambda("DELETE", "/2017-10-31/functions/$(FunctionName)/concurrency", args)
+DeleteFunctionConcurrency(a...; b...) = DeleteFunctionConcurrency(a..., b)
 
 """
     DeleteFunctionEventInvokeConfig()
@@ -195,7 +214,9 @@ Optional Parameters
   "Qualifier": "A version number or alias name."
 }
 """
-DeleteFunctionEventInvokeConfig(args) = lambda("DELETE", "/2019-09-25/functions/{FunctionName}/event-invoke-config", args)
+DeleteFunctionEventInvokeConfig(FunctionName) = lambda("DELETE", "/2019-09-25/functions/$(FunctionName)/event-invoke-config")
+DeleteFunctionEventInvokeConfig(FunctionName, args) = lambda("DELETE", "/2019-09-25/functions/$(FunctionName)/event-invoke-config", args)
+DeleteFunctionEventInvokeConfig(a...; b...) = DeleteFunctionEventInvokeConfig(a..., b)
 
 """
     DeleteLayerVersion()
@@ -208,7 +229,9 @@ Required Parameters
   "VersionNumber": "The version number."
 }
 """
-DeleteLayerVersion(args) = lambda("DELETE", "/2018-10-31/layers/{LayerName}/versions/{VersionNumber}", args)
+DeleteLayerVersion(LayerName, VersionNumber) = lambda("DELETE", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)")
+DeleteLayerVersion(LayerName, VersionNumber, args) = lambda("DELETE", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)", args)
+DeleteLayerVersion(a...; b...) = DeleteLayerVersion(a..., b)
 
 """
     DeleteProvisionedConcurrencyConfig()
@@ -221,7 +244,9 @@ Required Parameters
   "Qualifier": "The version number or alias name."
 }
 """
-DeleteProvisionedConcurrencyConfig(args) = lambda("DELETE", "/2019-09-30/functions/{FunctionName}/provisioned-concurrency", args)
+DeleteProvisionedConcurrencyConfig(FunctionName, Qualifier) = lambda("DELETE", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency")
+DeleteProvisionedConcurrencyConfig(FunctionName, Qualifier, args) = lambda("DELETE", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", args)
+DeleteProvisionedConcurrencyConfig(a...; b...) = DeleteProvisionedConcurrencyConfig(a..., b)
 
 """
     GetAccountSettings()
@@ -230,6 +255,7 @@ Retrieves details about your account's limits and usage in an AWS Region.
 """
 GetAccountSettings() = lambda("GET", "/2016-08-19/account-settings/")
 GetAccountSettings(args) = lambda("GET", "/2016-08-19/account-settings/", args)
+GetAccountSettings(a...; b...) = GetAccountSettings(a..., b)
 
 """
     GetAlias()
@@ -242,7 +268,9 @@ Required Parameters
   "Name": "The name of the alias."
 }
 """
-GetAlias(args) = lambda("GET", "/2015-03-31/functions/{FunctionName}/aliases/{Name}", args)
+GetAlias(FunctionName, Name) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)")
+GetAlias(FunctionName, Name, args) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)", args)
+GetAlias(a...; b...) = GetAlias(a..., b)
 
 """
     GetEventSourceMapping()
@@ -254,7 +282,9 @@ Required Parameters
   "UUID": "The identifier of the event source mapping."
 }
 """
-GetEventSourceMapping(args) = lambda("GET", "/2015-03-31/event-source-mappings/{UUID}", args)
+GetEventSourceMapping(UUID) = lambda("GET", "/2015-03-31/event-source-mappings/$(UUID)")
+GetEventSourceMapping(UUID, args) = lambda("GET", "/2015-03-31/event-source-mappings/$(UUID)", args)
+GetEventSourceMapping(a...; b...) = GetEventSourceMapping(a..., b)
 
 """
     GetFunction()
@@ -271,7 +301,9 @@ Optional Parameters
   "Qualifier": "Specify a version or alias to get details about a published version of the function."
 }
 """
-GetFunction(args) = lambda("GET", "/2015-03-31/functions/{FunctionName}", args)
+GetFunction(FunctionName) = lambda("GET", "/2015-03-31/functions/$(FunctionName)")
+GetFunction(FunctionName, args) = lambda("GET", "/2015-03-31/functions/$(FunctionName)", args)
+GetFunction(a...; b...) = GetFunction(a..., b)
 
 """
     GetFunctionConcurrency()
@@ -283,7 +315,9 @@ Required Parameters
   "FunctionName": "The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length."
 }
 """
-GetFunctionConcurrency(args) = lambda("GET", "/2019-09-30/functions/{FunctionName}/concurrency", args)
+GetFunctionConcurrency(FunctionName) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/concurrency")
+GetFunctionConcurrency(FunctionName, args) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/concurrency", args)
+GetFunctionConcurrency(a...; b...) = GetFunctionConcurrency(a..., b)
 
 """
     GetFunctionConfiguration()
@@ -300,7 +334,9 @@ Optional Parameters
   "Qualifier": "Specify a version or alias to get details about a published version of the function."
 }
 """
-GetFunctionConfiguration(args) = lambda("GET", "/2015-03-31/functions/{FunctionName}/configuration", args)
+GetFunctionConfiguration(FunctionName) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/configuration")
+GetFunctionConfiguration(FunctionName, args) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/configuration", args)
+GetFunctionConfiguration(a...; b...) = GetFunctionConfiguration(a..., b)
 
 """
     GetFunctionEventInvokeConfig()
@@ -317,7 +353,9 @@ Optional Parameters
   "Qualifier": "A version number or alias name."
 }
 """
-GetFunctionEventInvokeConfig(args) = lambda("GET", "/2019-09-25/functions/{FunctionName}/event-invoke-config", args)
+GetFunctionEventInvokeConfig(FunctionName) = lambda("GET", "/2019-09-25/functions/$(FunctionName)/event-invoke-config")
+GetFunctionEventInvokeConfig(FunctionName, args) = lambda("GET", "/2019-09-25/functions/$(FunctionName)/event-invoke-config", args)
+GetFunctionEventInvokeConfig(a...; b...) = GetFunctionEventInvokeConfig(a..., b)
 
 """
     GetLayerVersion()
@@ -330,7 +368,9 @@ Required Parameters
   "VersionNumber": "The version number."
 }
 """
-GetLayerVersion(args) = lambda("GET", "/2018-10-31/layers/{LayerName}/versions/{VersionNumber}", args)
+GetLayerVersion(LayerName, VersionNumber) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)")
+GetLayerVersion(LayerName, VersionNumber, args) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)", args)
+GetLayerVersion(a...; b...) = GetLayerVersion(a..., b)
 
 """
     GetLayerVersionByArn()
@@ -342,7 +382,9 @@ Required Parameters
   "Arn": "The ARN of the layer version."
 }
 """
-GetLayerVersionByArn(args) = lambda("GET", "/2018-10-31/layers?find=LayerVersion", args)
+GetLayerVersionByArn(Arn) = lambda("GET", "/2018-10-31/layers?find=LayerVersion")
+GetLayerVersionByArn(Arn, args) = lambda("GET", "/2018-10-31/layers?find=LayerVersion", args)
+GetLayerVersionByArn(a...; b...) = GetLayerVersionByArn(a..., b)
 
 """
     GetLayerVersionPolicy()
@@ -355,7 +397,9 @@ Required Parameters
   "VersionNumber": "The version number."
 }
 """
-GetLayerVersionPolicy(args) = lambda("GET", "/2018-10-31/layers/{LayerName}/versions/{VersionNumber}/policy", args)
+GetLayerVersionPolicy(LayerName, VersionNumber) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy")
+GetLayerVersionPolicy(LayerName, VersionNumber, args) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy", args)
+GetLayerVersionPolicy(a...; b...) = GetLayerVersionPolicy(a..., b)
 
 """
     GetPolicy()
@@ -372,7 +416,9 @@ Optional Parameters
   "Qualifier": "Specify a version or alias to get the policy for that resource."
 }
 """
-GetPolicy(args) = lambda("GET", "/2015-03-31/functions/{FunctionName}/policy", args)
+GetPolicy(FunctionName) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/policy")
+GetPolicy(FunctionName, args) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/policy", args)
+GetPolicy(a...; b...) = GetPolicy(a..., b)
 
 """
     GetProvisionedConcurrencyConfig()
@@ -385,7 +431,9 @@ Required Parameters
   "Qualifier": "The version number or alias name."
 }
 """
-GetProvisionedConcurrencyConfig(args) = lambda("GET", "/2019-09-30/functions/{FunctionName}/provisioned-concurrency", args)
+GetProvisionedConcurrencyConfig(FunctionName, Qualifier) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency")
+GetProvisionedConcurrencyConfig(FunctionName, Qualifier, args) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", args)
+GetProvisionedConcurrencyConfig(a...; b...) = GetProvisionedConcurrencyConfig(a..., b)
 
 """
     Invoke()
@@ -406,7 +454,9 @@ Optional Parameters
   "Qualifier": "Specify a version or alias to invoke a published version of the function."
 }
 """
-Invoke(args) = lambda("POST", "/2015-03-31/functions/{FunctionName}/invocations", args)
+Invoke(FunctionName) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/invocations")
+Invoke(FunctionName, args) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/invocations", args)
+Invoke(a...; b...) = Invoke(a..., b)
 
 """
     InvokeAsync()
@@ -419,7 +469,9 @@ Required Parameters
   "InvokeArgs": "The JSON that you want to provide to your Lambda function as input."
 }
 """
-InvokeAsync(args) = lambda("POST", "/2014-11-13/functions/{FunctionName}/invoke-async/", args)
+InvokeAsync(FunctionName, InvokeArgs) = lambda("POST", "/2014-11-13/functions/$(FunctionName)/invoke-async/")
+InvokeAsync(FunctionName, InvokeArgs, args) = lambda("POST", "/2014-11-13/functions/$(FunctionName)/invoke-async/", args)
+InvokeAsync(a...; b...) = InvokeAsync(a..., b)
 
 """
     ListAliases()
@@ -438,7 +490,9 @@ Optional Parameters
   "MaxItems": "Limit the number of aliases returned."
 }
 """
-ListAliases(args) = lambda("GET", "/2015-03-31/functions/{FunctionName}/aliases", args)
+ListAliases(FunctionName) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/aliases")
+ListAliases(FunctionName, args) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/aliases", args)
+ListAliases(a...; b...) = ListAliases(a..., b)
 
 """
     ListEventSourceMappings()
@@ -455,6 +509,7 @@ Optional Parameters
 """
 ListEventSourceMappings() = lambda("GET", "/2015-03-31/event-source-mappings/")
 ListEventSourceMappings(args) = lambda("GET", "/2015-03-31/event-source-mappings/", args)
+ListEventSourceMappings(a...; b...) = ListEventSourceMappings(a..., b)
 
 """
     ListFunctionEventInvokeConfigs()
@@ -472,7 +527,9 @@ Optional Parameters
   "MaxItems": "The maximum number of configurations to return."
 }
 """
-ListFunctionEventInvokeConfigs(args) = lambda("GET", "/2019-09-25/functions/{FunctionName}/event-invoke-config/list", args)
+ListFunctionEventInvokeConfigs(FunctionName) = lambda("GET", "/2019-09-25/functions/$(FunctionName)/event-invoke-config/list")
+ListFunctionEventInvokeConfigs(FunctionName, args) = lambda("GET", "/2019-09-25/functions/$(FunctionName)/event-invoke-config/list", args)
+ListFunctionEventInvokeConfigs(a...; b...) = ListFunctionEventInvokeConfigs(a..., b)
 
 """
     ListFunctions()
@@ -489,6 +546,7 @@ Optional Parameters
 """
 ListFunctions() = lambda("GET", "/2015-03-31/functions/")
 ListFunctions(args) = lambda("GET", "/2015-03-31/functions/", args)
+ListFunctions(a...; b...) = ListFunctions(a..., b)
 
 """
     ListLayerVersions()
@@ -507,7 +565,9 @@ Optional Parameters
   "MaxItems": "The maximum number of versions to return."
 }
 """
-ListLayerVersions(args) = lambda("GET", "/2018-10-31/layers/{LayerName}/versions", args)
+ListLayerVersions(LayerName) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions")
+ListLayerVersions(LayerName, args) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions", args)
+ListLayerVersions(a...; b...) = ListLayerVersions(a..., b)
 
 """
     ListLayers()
@@ -523,6 +583,7 @@ Optional Parameters
 """
 ListLayers() = lambda("GET", "/2018-10-31/layers")
 ListLayers(args) = lambda("GET", "/2018-10-31/layers", args)
+ListLayers(a...; b...) = ListLayers(a..., b)
 
 """
     ListProvisionedConcurrencyConfigs()
@@ -540,7 +601,9 @@ Optional Parameters
   "MaxItems": "Specify a number to limit the number of configurations returned."
 }
 """
-ListProvisionedConcurrencyConfigs(args) = lambda("GET", "/2019-09-30/functions/{FunctionName}/provisioned-concurrency?List=ALL", args)
+ListProvisionedConcurrencyConfigs(FunctionName) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency?List=ALL")
+ListProvisionedConcurrencyConfigs(FunctionName, args) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency?List=ALL", args)
+ListProvisionedConcurrencyConfigs(a...; b...) = ListProvisionedConcurrencyConfigs(a..., b)
 
 """
     ListTags()
@@ -552,7 +615,9 @@ Required Parameters
   "Resource": "The function's Amazon Resource Name (ARN)."
 }
 """
-ListTags(args) = lambda("GET", "/2017-03-31/tags/{ARN}", args)
+ListTags(Resource) = lambda("GET", "/2017-03-31/tags/$(ARN)")
+ListTags(Resource, args) = lambda("GET", "/2017-03-31/tags/$(ARN)", args)
+ListTags(a...; b...) = ListTags(a..., b)
 
 """
     ListVersionsByFunction()
@@ -570,7 +635,9 @@ Optional Parameters
   "MaxItems": "The maximum number of versions to return."
 }
 """
-ListVersionsByFunction(args) = lambda("GET", "/2015-03-31/functions/{FunctionName}/versions", args)
+ListVersionsByFunction(FunctionName) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/versions")
+ListVersionsByFunction(FunctionName, args) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/versions", args)
+ListVersionsByFunction(a...; b...) = ListVersionsByFunction(a..., b)
 
 """
     PublishLayerVersion()
@@ -590,7 +657,9 @@ Optional Parameters
   "LicenseInfo": "The layer's software license. It can be any of the following:   An SPDX license identifier. For example, MIT.   The URL of a license hosted on the internet. For example, https://opensource.org/licenses/MIT.   The full text of the license.  "
 }
 """
-PublishLayerVersion(args) = lambda("POST", "/2018-10-31/layers/{LayerName}/versions", args)
+PublishLayerVersion(Content, LayerName) = lambda("POST", "/2018-10-31/layers/$(LayerName)/versions")
+PublishLayerVersion(Content, LayerName, args) = lambda("POST", "/2018-10-31/layers/$(LayerName)/versions", args)
+PublishLayerVersion(a...; b...) = PublishLayerVersion(a..., b)
 
 """
     PublishVersion()
@@ -609,7 +678,9 @@ Optional Parameters
   "RevisionId": "Only update the function if the revision ID matches the ID that's specified. Use this option to avoid publishing a version if the function configuration has changed since you last updated it."
 }
 """
-PublishVersion(args) = lambda("POST", "/2015-03-31/functions/{FunctionName}/versions", args)
+PublishVersion(FunctionName) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/versions")
+PublishVersion(FunctionName, args) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/versions", args)
+PublishVersion(a...; b...) = PublishVersion(a..., b)
 
 """
     PutFunctionConcurrency()
@@ -622,12 +693,14 @@ Required Parameters
   "ReservedConcurrentExecutions": "The number of simultaneous executions to reserve for the function."
 }
 """
-PutFunctionConcurrency(args) = lambda("PUT", "/2017-10-31/functions/{FunctionName}/concurrency", args)
+PutFunctionConcurrency(FunctionName, ReservedConcurrentExecutions) = lambda("PUT", "/2017-10-31/functions/$(FunctionName)/concurrency")
+PutFunctionConcurrency(FunctionName, ReservedConcurrentExecutions, args) = lambda("PUT", "/2017-10-31/functions/$(FunctionName)/concurrency", args)
+PutFunctionConcurrency(a...; b...) = PutFunctionConcurrency(a..., b)
 
 """
     PutFunctionEventInvokeConfig()
 
-Configures options for asynchronous invocation on a function, version, or alias. If a configuration already exists for a function, version, or alias, this operation overwrites it. If you exclude any settings, they are removed. To set one option without affecting existing settings for other options, use PutFunctionEventInvokeConfig. By default, Lambda retries an asynchronous invocation twice if the function returns an error. It retains events in a queue for up to six hours. When an event fails all processing attempts or stays in the asynchronous invocation queue for too long, Lambda discards it. To retain discarded events, configure a dead-letter queue with UpdateFunctionConfiguration. To send an invocation record to a queue, topic, function, or event bus, specify a destination. You can configure separate destinations for successful invocations (on-success) and events that fail all processing attempts (on-failure). You can configure destinations in addition to or instead of a dead-letter queue.
+Configures options for asynchronous invocation on a function, version, or alias. If a configuration already exists for a function, version, or alias, this operation overwrites it. If you exclude any settings, they are removed. To set one option without affecting existing settings for other options, use UpdateFunctionEventInvokeConfig. By default, Lambda retries an asynchronous invocation twice if the function returns an error. It retains events in a queue for up to six hours. When an event fails all processing attempts or stays in the asynchronous invocation queue for too long, Lambda discards it. To retain discarded events, configure a dead-letter queue with UpdateFunctionConfiguration. To send an invocation record to a queue, topic, function, or event bus, specify a destination. You can configure separate destinations for successful invocations (on-success) and events that fail all processing attempts (on-failure). You can configure destinations in addition to or instead of a dead-letter queue.
 
 Required Parameters
 {
@@ -642,7 +715,9 @@ Optional Parameters
   "Qualifier": "A version number or alias name."
 }
 """
-PutFunctionEventInvokeConfig(args) = lambda("PUT", "/2019-09-25/functions/{FunctionName}/event-invoke-config", args)
+PutFunctionEventInvokeConfig(FunctionName) = lambda("PUT", "/2019-09-25/functions/$(FunctionName)/event-invoke-config")
+PutFunctionEventInvokeConfig(FunctionName, args) = lambda("PUT", "/2019-09-25/functions/$(FunctionName)/event-invoke-config", args)
+PutFunctionEventInvokeConfig(a...; b...) = PutFunctionEventInvokeConfig(a..., b)
 
 """
     PutProvisionedConcurrencyConfig()
@@ -656,7 +731,9 @@ Required Parameters
   "Qualifier": "The version number or alias name."
 }
 """
-PutProvisionedConcurrencyConfig(args) = lambda("PUT", "/2019-09-30/functions/{FunctionName}/provisioned-concurrency", args)
+PutProvisionedConcurrencyConfig(FunctionName, ProvisionedConcurrentExecutions, Qualifier) = lambda("PUT", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency")
+PutProvisionedConcurrencyConfig(FunctionName, ProvisionedConcurrentExecutions, Qualifier, args) = lambda("PUT", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", args)
+PutProvisionedConcurrencyConfig(a...; b...) = PutProvisionedConcurrencyConfig(a..., b)
 
 """
     RemoveLayerVersionPermission()
@@ -675,7 +752,9 @@ Optional Parameters
   "RevisionId": "Only update the policy if the revision ID matches the ID specified. Use this option to avoid modifying a policy that has changed since you last read it."
 }
 """
-RemoveLayerVersionPermission(args) = lambda("DELETE", "/2018-10-31/layers/{LayerName}/versions/{VersionNumber}/policy/{StatementId}", args)
+RemoveLayerVersionPermission(LayerName, StatementId, VersionNumber) = lambda("DELETE", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy/$(StatementId)")
+RemoveLayerVersionPermission(LayerName, StatementId, VersionNumber, args) = lambda("DELETE", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy/$(StatementId)", args)
+RemoveLayerVersionPermission(a...; b...) = RemoveLayerVersionPermission(a..., b)
 
 """
     RemovePermission()
@@ -694,7 +773,9 @@ Optional Parameters
   "RevisionId": "Only update the policy if the revision ID matches the ID that's specified. Use this option to avoid modifying a policy that has changed since you last read it."
 }
 """
-RemovePermission(args) = lambda("DELETE", "/2015-03-31/functions/{FunctionName}/policy/{StatementId}", args)
+RemovePermission(FunctionName, StatementId) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)/policy/$(StatementId)")
+RemovePermission(FunctionName, StatementId, args) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)/policy/$(StatementId)", args)
+RemovePermission(a...; b...) = RemovePermission(a..., b)
 
 """
     TagResource()
@@ -707,7 +788,9 @@ Required Parameters
   "Tags": "A list of tags to apply to the function."
 }
 """
-TagResource(args) = lambda("POST", "/2017-03-31/tags/{ARN}", args)
+TagResource(Resource, Tags) = lambda("POST", "/2017-03-31/tags/$(ARN)")
+TagResource(Resource, Tags, args) = lambda("POST", "/2017-03-31/tags/$(ARN)", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
@@ -720,7 +803,9 @@ Required Parameters
   "TagKeys": "A list of tag keys to remove from the function."
 }
 """
-UntagResource(args) = lambda("DELETE", "/2017-03-31/tags/{ARN}", args)
+UntagResource(Resource, TagKeys) = lambda("DELETE", "/2017-03-31/tags/$(ARN)")
+UntagResource(Resource, TagKeys, args) = lambda("DELETE", "/2017-03-31/tags/$(ARN)", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateAlias()
@@ -741,7 +826,9 @@ Optional Parameters
   "RoutingConfig": "The routing configuration of the alias."
 }
 """
-UpdateAlias(args) = lambda("PUT", "/2015-03-31/functions/{FunctionName}/aliases/{Name}", args)
+UpdateAlias(FunctionName, Name) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)")
+UpdateAlias(FunctionName, Name, args) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)", args)
+UpdateAlias(a...; b...) = UpdateAlias(a..., b)
 
 """
     UpdateEventSourceMapping()
@@ -766,7 +853,9 @@ Optional Parameters
   "ParallelizationFactor": "(Streams) The number of batches to process from each shard concurrently."
 }
 """
-UpdateEventSourceMapping(args) = lambda("PUT", "/2015-03-31/event-source-mappings/{UUID}", args)
+UpdateEventSourceMapping(UUID) = lambda("PUT", "/2015-03-31/event-source-mappings/$(UUID)")
+UpdateEventSourceMapping(UUID, args) = lambda("PUT", "/2015-03-31/event-source-mappings/$(UUID)", args)
+UpdateEventSourceMapping(a...; b...) = UpdateEventSourceMapping(a..., b)
 
 """
     UpdateFunctionCode()
@@ -789,7 +878,9 @@ Optional Parameters
   "ZipFile": "The base64-encoded contents of the deployment package. AWS SDK and AWS CLI clients handle the encoding for you."
 }
 """
-UpdateFunctionCode(args) = lambda("PUT", "/2015-03-31/functions/{FunctionName}/code", args)
+UpdateFunctionCode(FunctionName) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/code")
+UpdateFunctionCode(FunctionName, args) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/code", args)
+UpdateFunctionCode(a...; b...) = UpdateFunctionCode(a..., b)
 
 """
     UpdateFunctionConfiguration()
@@ -806,6 +897,7 @@ Optional Parameters
   "DeadLetterConfig": "A dead letter queue configuration that specifies the queue or topic where Lambda sends asynchronous events when they fail processing. For more information, see Dead Letter Queues.",
   "Description": "A description of the function.",
   "Environment": "Environment variables that are accessible from function code during execution.",
+  "FileSystemConfigs": "Connection settings for an Amazon EFS file system.",
   "Handler": "The name of the method within your code that Lambda calls to execute your function. The format includes the file name. It can also include namespaces and other qualifiers, depending on the runtime. For more information, see Programming Model.",
   "KMSKeyArn": "The ARN of the AWS Key Management Service (AWS KMS) key that's used to encrypt your function's environment variables. If it's not provided, AWS Lambda uses a default service key.",
   "Layers": "A list of function layers to add to the function's execution environment. Specify each layer by its ARN, including the version.",
@@ -818,7 +910,9 @@ Optional Parameters
   "VpcConfig": "For network connectivity to AWS resources in a VPC, specify a list of security groups and subnets in the VPC. When you connect a function to a VPC, it can only access resources and the internet through that VPC. For more information, see VPC Settings."
 }
 """
-UpdateFunctionConfiguration(args) = lambda("PUT", "/2015-03-31/functions/{FunctionName}/configuration", args)
+UpdateFunctionConfiguration(FunctionName) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/configuration")
+UpdateFunctionConfiguration(FunctionName, args) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/configuration", args)
+UpdateFunctionConfiguration(a...; b...) = UpdateFunctionConfiguration(a..., b)
 
 """
     UpdateFunctionEventInvokeConfig()
@@ -838,4 +932,6 @@ Optional Parameters
   "Qualifier": "A version number or alias name."
 }
 """
-UpdateFunctionEventInvokeConfig(args) = lambda("POST", "/2019-09-25/functions/{FunctionName}/event-invoke-config", args)
+UpdateFunctionEventInvokeConfig(FunctionName) = lambda("POST", "/2019-09-25/functions/$(FunctionName)/event-invoke-config")
+UpdateFunctionEventInvokeConfig(FunctionName, args) = lambda("POST", "/2019-09-25/functions/$(FunctionName)/event-invoke-config", args)
+UpdateFunctionEventInvokeConfig(a...; b...) = UpdateFunctionEventInvokeConfig(a..., b)

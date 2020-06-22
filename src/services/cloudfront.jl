@@ -83,8 +83,8 @@ Required Parameters
   "InvalidationBatch": "The batch information for the invalidation."
 }
 """
-CreateInvalidation2019_03_26(DistributionId, InvalidationBatch) = cloudfront("POST", "/2019-03-26/distribution/{DistributionId}/invalidation")
-CreateInvalidation2019_03_26(DistributionId, InvalidationBatch, args) = cloudfront("POST", "/2019-03-26/distribution/{DistributionId}/invalidation", args)
+CreateInvalidation2019_03_26(DistributionId, InvalidationBatch) = cloudfront("POST", "/2019-03-26/distribution/$(DistributionId)/invalidation")
+CreateInvalidation2019_03_26(DistributionId, InvalidationBatch, args) = cloudfront("POST", "/2019-03-26/distribution/$(DistributionId)/invalidation", args)
 CreateInvalidation2019_03_26(a...; b...) = CreateInvalidation2019_03_26(a..., b)
 
 """
@@ -144,8 +144,8 @@ Optional Parameters
   "IfMatch": "The value of the ETag header you received from a previous GET or PUT request. For example: E2QWRUHAPOMQZL."
 }
 """
-DeleteCloudFrontOriginAccessIdentity2019_03_26(Id) = cloudfront("DELETE", "/2019-03-26/origin-access-identity/cloudfront/{Id}")
-DeleteCloudFrontOriginAccessIdentity2019_03_26(Id, args) = cloudfront("DELETE", "/2019-03-26/origin-access-identity/cloudfront/{Id}", args)
+DeleteCloudFrontOriginAccessIdentity2019_03_26(Id) = cloudfront("DELETE", "/2019-03-26/origin-access-identity/cloudfront/$(Id)")
+DeleteCloudFrontOriginAccessIdentity2019_03_26(Id, args) = cloudfront("DELETE", "/2019-03-26/origin-access-identity/cloudfront/$(Id)", args)
 DeleteCloudFrontOriginAccessIdentity2019_03_26(a...; b...) = DeleteCloudFrontOriginAccessIdentity2019_03_26(a..., b)
 
 """
@@ -163,8 +163,8 @@ Optional Parameters
   "IfMatch": "The value of the ETag header that you received when you disabled the distribution. For example: E2QWRUHAPOMQZL. "
 }
 """
-DeleteDistribution2019_03_26(Id) = cloudfront("DELETE", "/2019-03-26/distribution/{Id}")
-DeleteDistribution2019_03_26(Id, args) = cloudfront("DELETE", "/2019-03-26/distribution/{Id}", args)
+DeleteDistribution2019_03_26(Id) = cloudfront("DELETE", "/2019-03-26/distribution/$(Id)")
+DeleteDistribution2019_03_26(Id, args) = cloudfront("DELETE", "/2019-03-26/distribution/$(Id)", args)
 DeleteDistribution2019_03_26(a...; b...) = DeleteDistribution2019_03_26(a..., b)
 
 """
@@ -182,8 +182,8 @@ Optional Parameters
   "IfMatch": "The value of the ETag header that you received when retrieving the configuration identity to delete. For example: E2QWRUHAPOMQZL."
 }
 """
-DeleteFieldLevelEncryptionConfig2019_03_26(Id) = cloudfront("DELETE", "/2019-03-26/field-level-encryption/{Id}")
-DeleteFieldLevelEncryptionConfig2019_03_26(Id, args) = cloudfront("DELETE", "/2019-03-26/field-level-encryption/{Id}", args)
+DeleteFieldLevelEncryptionConfig2019_03_26(Id) = cloudfront("DELETE", "/2019-03-26/field-level-encryption/$(Id)")
+DeleteFieldLevelEncryptionConfig2019_03_26(Id, args) = cloudfront("DELETE", "/2019-03-26/field-level-encryption/$(Id)", args)
 DeleteFieldLevelEncryptionConfig2019_03_26(a...; b...) = DeleteFieldLevelEncryptionConfig2019_03_26(a..., b)
 
 """
@@ -201,8 +201,8 @@ Optional Parameters
   "IfMatch": "The value of the ETag header that you received when retrieving the profile to delete. For example: E2QWRUHAPOMQZL."
 }
 """
-DeleteFieldLevelEncryptionProfile2019_03_26(Id) = cloudfront("DELETE", "/2019-03-26/field-level-encryption-profile/{Id}")
-DeleteFieldLevelEncryptionProfile2019_03_26(Id, args) = cloudfront("DELETE", "/2019-03-26/field-level-encryption-profile/{Id}", args)
+DeleteFieldLevelEncryptionProfile2019_03_26(Id) = cloudfront("DELETE", "/2019-03-26/field-level-encryption-profile/$(Id)")
+DeleteFieldLevelEncryptionProfile2019_03_26(Id, args) = cloudfront("DELETE", "/2019-03-26/field-level-encryption-profile/$(Id)", args)
 DeleteFieldLevelEncryptionProfile2019_03_26(a...; b...) = DeleteFieldLevelEncryptionProfile2019_03_26(a..., b)
 
 """
@@ -220,8 +220,8 @@ Optional Parameters
   "IfMatch": "The value of the ETag header that you received when retrieving the public key identity to delete. For example: E2QWRUHAPOMQZL."
 }
 """
-DeletePublicKey2019_03_26(Id) = cloudfront("DELETE", "/2019-03-26/public-key/{Id}")
-DeletePublicKey2019_03_26(Id, args) = cloudfront("DELETE", "/2019-03-26/public-key/{Id}", args)
+DeletePublicKey2019_03_26(Id) = cloudfront("DELETE", "/2019-03-26/public-key/$(Id)")
+DeletePublicKey2019_03_26(Id, args) = cloudfront("DELETE", "/2019-03-26/public-key/$(Id)", args)
 DeletePublicKey2019_03_26(a...; b...) = DeletePublicKey2019_03_26(a..., b)
 
 """
@@ -239,8 +239,8 @@ Optional Parameters
   "IfMatch": "The value of the ETag header that you received when you disabled the streaming distribution. For example: E2QWRUHAPOMQZL."
 }
 """
-DeleteStreamingDistribution2019_03_26(Id) = cloudfront("DELETE", "/2019-03-26/streaming-distribution/{Id}")
-DeleteStreamingDistribution2019_03_26(Id, args) = cloudfront("DELETE", "/2019-03-26/streaming-distribution/{Id}", args)
+DeleteStreamingDistribution2019_03_26(Id) = cloudfront("DELETE", "/2019-03-26/streaming-distribution/$(Id)")
+DeleteStreamingDistribution2019_03_26(Id, args) = cloudfront("DELETE", "/2019-03-26/streaming-distribution/$(Id)", args)
 DeleteStreamingDistribution2019_03_26(a...; b...) = DeleteStreamingDistribution2019_03_26(a..., b)
 
 """
@@ -253,8 +253,8 @@ Required Parameters
   "Id": "The identity's ID."
 }
 """
-GetCloudFrontOriginAccessIdentity2019_03_26(Id) = cloudfront("GET", "/2019-03-26/origin-access-identity/cloudfront/{Id}")
-GetCloudFrontOriginAccessIdentity2019_03_26(Id, args) = cloudfront("GET", "/2019-03-26/origin-access-identity/cloudfront/{Id}", args)
+GetCloudFrontOriginAccessIdentity2019_03_26(Id) = cloudfront("GET", "/2019-03-26/origin-access-identity/cloudfront/$(Id)")
+GetCloudFrontOriginAccessIdentity2019_03_26(Id, args) = cloudfront("GET", "/2019-03-26/origin-access-identity/cloudfront/$(Id)", args)
 GetCloudFrontOriginAccessIdentity2019_03_26(a...; b...) = GetCloudFrontOriginAccessIdentity2019_03_26(a..., b)
 
 """
@@ -267,8 +267,8 @@ Required Parameters
   "Id": "The identity's ID. "
 }
 """
-GetCloudFrontOriginAccessIdentityConfig2019_03_26(Id) = cloudfront("GET", "/2019-03-26/origin-access-identity/cloudfront/{Id}/config")
-GetCloudFrontOriginAccessIdentityConfig2019_03_26(Id, args) = cloudfront("GET", "/2019-03-26/origin-access-identity/cloudfront/{Id}/config", args)
+GetCloudFrontOriginAccessIdentityConfig2019_03_26(Id) = cloudfront("GET", "/2019-03-26/origin-access-identity/cloudfront/$(Id)/config")
+GetCloudFrontOriginAccessIdentityConfig2019_03_26(Id, args) = cloudfront("GET", "/2019-03-26/origin-access-identity/cloudfront/$(Id)/config", args)
 GetCloudFrontOriginAccessIdentityConfig2019_03_26(a...; b...) = GetCloudFrontOriginAccessIdentityConfig2019_03_26(a..., b)
 
 """
@@ -281,8 +281,8 @@ Required Parameters
   "Id": "The distribution's ID. If the ID is empty, an empty distribution configuration is returned."
 }
 """
-GetDistribution2019_03_26(Id) = cloudfront("GET", "/2019-03-26/distribution/{Id}")
-GetDistribution2019_03_26(Id, args) = cloudfront("GET", "/2019-03-26/distribution/{Id}", args)
+GetDistribution2019_03_26(Id) = cloudfront("GET", "/2019-03-26/distribution/$(Id)")
+GetDistribution2019_03_26(Id, args) = cloudfront("GET", "/2019-03-26/distribution/$(Id)", args)
 GetDistribution2019_03_26(a...; b...) = GetDistribution2019_03_26(a..., b)
 
 """
@@ -295,8 +295,8 @@ Required Parameters
   "Id": "The distribution's ID. If the ID is empty, an empty distribution configuration is returned."
 }
 """
-GetDistributionConfig2019_03_26(Id) = cloudfront("GET", "/2019-03-26/distribution/{Id}/config")
-GetDistributionConfig2019_03_26(Id, args) = cloudfront("GET", "/2019-03-26/distribution/{Id}/config", args)
+GetDistributionConfig2019_03_26(Id) = cloudfront("GET", "/2019-03-26/distribution/$(Id)/config")
+GetDistributionConfig2019_03_26(Id, args) = cloudfront("GET", "/2019-03-26/distribution/$(Id)/config", args)
 GetDistributionConfig2019_03_26(a...; b...) = GetDistributionConfig2019_03_26(a..., b)
 
 """
@@ -309,8 +309,8 @@ Required Parameters
   "Id": "Request the ID for the field-level encryption configuration information."
 }
 """
-GetFieldLevelEncryption2019_03_26(Id) = cloudfront("GET", "/2019-03-26/field-level-encryption/{Id}")
-GetFieldLevelEncryption2019_03_26(Id, args) = cloudfront("GET", "/2019-03-26/field-level-encryption/{Id}", args)
+GetFieldLevelEncryption2019_03_26(Id) = cloudfront("GET", "/2019-03-26/field-level-encryption/$(Id)")
+GetFieldLevelEncryption2019_03_26(Id, args) = cloudfront("GET", "/2019-03-26/field-level-encryption/$(Id)", args)
 GetFieldLevelEncryption2019_03_26(a...; b...) = GetFieldLevelEncryption2019_03_26(a..., b)
 
 """
@@ -323,8 +323,8 @@ Required Parameters
   "Id": "Request the ID for the field-level encryption configuration information."
 }
 """
-GetFieldLevelEncryptionConfig2019_03_26(Id) = cloudfront("GET", "/2019-03-26/field-level-encryption/{Id}/config")
-GetFieldLevelEncryptionConfig2019_03_26(Id, args) = cloudfront("GET", "/2019-03-26/field-level-encryption/{Id}/config", args)
+GetFieldLevelEncryptionConfig2019_03_26(Id) = cloudfront("GET", "/2019-03-26/field-level-encryption/$(Id)/config")
+GetFieldLevelEncryptionConfig2019_03_26(Id, args) = cloudfront("GET", "/2019-03-26/field-level-encryption/$(Id)/config", args)
 GetFieldLevelEncryptionConfig2019_03_26(a...; b...) = GetFieldLevelEncryptionConfig2019_03_26(a..., b)
 
 """
@@ -337,8 +337,8 @@ Required Parameters
   "Id": "Get the ID for the field-level encryption profile information."
 }
 """
-GetFieldLevelEncryptionProfile2019_03_26(Id) = cloudfront("GET", "/2019-03-26/field-level-encryption-profile/{Id}")
-GetFieldLevelEncryptionProfile2019_03_26(Id, args) = cloudfront("GET", "/2019-03-26/field-level-encryption-profile/{Id}", args)
+GetFieldLevelEncryptionProfile2019_03_26(Id) = cloudfront("GET", "/2019-03-26/field-level-encryption-profile/$(Id)")
+GetFieldLevelEncryptionProfile2019_03_26(Id, args) = cloudfront("GET", "/2019-03-26/field-level-encryption-profile/$(Id)", args)
 GetFieldLevelEncryptionProfile2019_03_26(a...; b...) = GetFieldLevelEncryptionProfile2019_03_26(a..., b)
 
 """
@@ -351,8 +351,8 @@ Required Parameters
   "Id": "Get the ID for the field-level encryption profile configuration information."
 }
 """
-GetFieldLevelEncryptionProfileConfig2019_03_26(Id) = cloudfront("GET", "/2019-03-26/field-level-encryption-profile/{Id}/config")
-GetFieldLevelEncryptionProfileConfig2019_03_26(Id, args) = cloudfront("GET", "/2019-03-26/field-level-encryption-profile/{Id}/config", args)
+GetFieldLevelEncryptionProfileConfig2019_03_26(Id) = cloudfront("GET", "/2019-03-26/field-level-encryption-profile/$(Id)/config")
+GetFieldLevelEncryptionProfileConfig2019_03_26(Id, args) = cloudfront("GET", "/2019-03-26/field-level-encryption-profile/$(Id)/config", args)
 GetFieldLevelEncryptionProfileConfig2019_03_26(a...; b...) = GetFieldLevelEncryptionProfileConfig2019_03_26(a..., b)
 
 """
@@ -366,8 +366,8 @@ Required Parameters
   "Id": "The identifier for the invalidation request, for example, IDFDVBD632BHDS5."
 }
 """
-GetInvalidation2019_03_26(DistributionId, Id) = cloudfront("GET", "/2019-03-26/distribution/{DistributionId}/invalidation/{Id}")
-GetInvalidation2019_03_26(DistributionId, Id, args) = cloudfront("GET", "/2019-03-26/distribution/{DistributionId}/invalidation/{Id}", args)
+GetInvalidation2019_03_26(DistributionId, Id) = cloudfront("GET", "/2019-03-26/distribution/$(DistributionId)/invalidation/$(Id)")
+GetInvalidation2019_03_26(DistributionId, Id, args) = cloudfront("GET", "/2019-03-26/distribution/$(DistributionId)/invalidation/$(Id)", args)
 GetInvalidation2019_03_26(a...; b...) = GetInvalidation2019_03_26(a..., b)
 
 """
@@ -380,8 +380,8 @@ Required Parameters
   "Id": "Request the ID for the public key."
 }
 """
-GetPublicKey2019_03_26(Id) = cloudfront("GET", "/2019-03-26/public-key/{Id}")
-GetPublicKey2019_03_26(Id, args) = cloudfront("GET", "/2019-03-26/public-key/{Id}", args)
+GetPublicKey2019_03_26(Id) = cloudfront("GET", "/2019-03-26/public-key/$(Id)")
+GetPublicKey2019_03_26(Id, args) = cloudfront("GET", "/2019-03-26/public-key/$(Id)", args)
 GetPublicKey2019_03_26(a...; b...) = GetPublicKey2019_03_26(a..., b)
 
 """
@@ -394,8 +394,8 @@ Required Parameters
   "Id": "Request the ID for the public key configuration."
 }
 """
-GetPublicKeyConfig2019_03_26(Id) = cloudfront("GET", "/2019-03-26/public-key/{Id}/config")
-GetPublicKeyConfig2019_03_26(Id, args) = cloudfront("GET", "/2019-03-26/public-key/{Id}/config", args)
+GetPublicKeyConfig2019_03_26(Id) = cloudfront("GET", "/2019-03-26/public-key/$(Id)/config")
+GetPublicKeyConfig2019_03_26(Id, args) = cloudfront("GET", "/2019-03-26/public-key/$(Id)/config", args)
 GetPublicKeyConfig2019_03_26(a...; b...) = GetPublicKeyConfig2019_03_26(a..., b)
 
 """
@@ -408,8 +408,8 @@ Required Parameters
   "Id": "The streaming distribution's ID."
 }
 """
-GetStreamingDistribution2019_03_26(Id) = cloudfront("GET", "/2019-03-26/streaming-distribution/{Id}")
-GetStreamingDistribution2019_03_26(Id, args) = cloudfront("GET", "/2019-03-26/streaming-distribution/{Id}", args)
+GetStreamingDistribution2019_03_26(Id) = cloudfront("GET", "/2019-03-26/streaming-distribution/$(Id)")
+GetStreamingDistribution2019_03_26(Id, args) = cloudfront("GET", "/2019-03-26/streaming-distribution/$(Id)", args)
 GetStreamingDistribution2019_03_26(a...; b...) = GetStreamingDistribution2019_03_26(a..., b)
 
 """
@@ -422,8 +422,8 @@ Required Parameters
   "Id": "The streaming distribution's ID."
 }
 """
-GetStreamingDistributionConfig2019_03_26(Id) = cloudfront("GET", "/2019-03-26/streaming-distribution/{Id}/config")
-GetStreamingDistributionConfig2019_03_26(Id, args) = cloudfront("GET", "/2019-03-26/streaming-distribution/{Id}/config", args)
+GetStreamingDistributionConfig2019_03_26(Id) = cloudfront("GET", "/2019-03-26/streaming-distribution/$(Id)/config")
+GetStreamingDistributionConfig2019_03_26(Id, args) = cloudfront("GET", "/2019-03-26/streaming-distribution/$(Id)/config", args)
 GetStreamingDistributionConfig2019_03_26(a...; b...) = GetStreamingDistributionConfig2019_03_26(a..., b)
 
 """
@@ -472,8 +472,8 @@ Optional Parameters
   "MaxItems": "The maximum number of distributions that you want CloudFront to return in the response body. The maximum and default values are both 100."
 }
 """
-ListDistributionsByWebACLId2019_03_26(WebACLId) = cloudfront("GET", "/2019-03-26/distributionsByWebACLId/{WebACLId}")
-ListDistributionsByWebACLId2019_03_26(WebACLId, args) = cloudfront("GET", "/2019-03-26/distributionsByWebACLId/{WebACLId}", args)
+ListDistributionsByWebACLId2019_03_26(WebACLId) = cloudfront("GET", "/2019-03-26/distributionsByWebACLId/$(WebACLId)")
+ListDistributionsByWebACLId2019_03_26(WebACLId, args) = cloudfront("GET", "/2019-03-26/distributionsByWebACLId/$(WebACLId)", args)
 ListDistributionsByWebACLId2019_03_26(a...; b...) = ListDistributionsByWebACLId2019_03_26(a..., b)
 
 """
@@ -522,8 +522,8 @@ Optional Parameters
   "MaxItems": "The maximum number of invalidation batches that you want in the response body."
 }
 """
-ListInvalidations2019_03_26(DistributionId) = cloudfront("GET", "/2019-03-26/distribution/{DistributionId}/invalidation")
-ListInvalidations2019_03_26(DistributionId, args) = cloudfront("GET", "/2019-03-26/distribution/{DistributionId}/invalidation", args)
+ListInvalidations2019_03_26(DistributionId) = cloudfront("GET", "/2019-03-26/distribution/$(DistributionId)/invalidation")
+ListInvalidations2019_03_26(DistributionId, args) = cloudfront("GET", "/2019-03-26/distribution/$(DistributionId)/invalidation", args)
 ListInvalidations2019_03_26(a...; b...) = ListInvalidations2019_03_26(a..., b)
 
 """
@@ -616,8 +616,8 @@ Optional Parameters
   "IfMatch": "The value of the ETag header that you received when retrieving the identity's configuration. For example: E2QWRUHAPOMQZL."
 }
 """
-UpdateCloudFrontOriginAccessIdentity2019_03_26(CloudFrontOriginAccessIdentityConfig, Id) = cloudfront("PUT", "/2019-03-26/origin-access-identity/cloudfront/{Id}/config")
-UpdateCloudFrontOriginAccessIdentity2019_03_26(CloudFrontOriginAccessIdentityConfig, Id, args) = cloudfront("PUT", "/2019-03-26/origin-access-identity/cloudfront/{Id}/config", args)
+UpdateCloudFrontOriginAccessIdentity2019_03_26(CloudFrontOriginAccessIdentityConfig, Id) = cloudfront("PUT", "/2019-03-26/origin-access-identity/cloudfront/$(Id)/config")
+UpdateCloudFrontOriginAccessIdentity2019_03_26(CloudFrontOriginAccessIdentityConfig, Id, args) = cloudfront("PUT", "/2019-03-26/origin-access-identity/cloudfront/$(Id)/config", args)
 UpdateCloudFrontOriginAccessIdentity2019_03_26(a...; b...) = UpdateCloudFrontOriginAccessIdentity2019_03_26(a..., b)
 
 """
@@ -636,8 +636,8 @@ Optional Parameters
   "IfMatch": "The value of the ETag header that you received when retrieving the distribution's configuration. For example: E2QWRUHAPOMQZL."
 }
 """
-UpdateDistribution2019_03_26(DistributionConfig, Id) = cloudfront("PUT", "/2019-03-26/distribution/{Id}/config")
-UpdateDistribution2019_03_26(DistributionConfig, Id, args) = cloudfront("PUT", "/2019-03-26/distribution/{Id}/config", args)
+UpdateDistribution2019_03_26(DistributionConfig, Id) = cloudfront("PUT", "/2019-03-26/distribution/$(Id)/config")
+UpdateDistribution2019_03_26(DistributionConfig, Id, args) = cloudfront("PUT", "/2019-03-26/distribution/$(Id)/config", args)
 UpdateDistribution2019_03_26(a...; b...) = UpdateDistribution2019_03_26(a..., b)
 
 """
@@ -656,8 +656,8 @@ Optional Parameters
   "IfMatch": "The value of the ETag header that you received when retrieving the configuration identity to update. For example: E2QWRUHAPOMQZL."
 }
 """
-UpdateFieldLevelEncryptionConfig2019_03_26(FieldLevelEncryptionConfig, Id) = cloudfront("PUT", "/2019-03-26/field-level-encryption/{Id}/config")
-UpdateFieldLevelEncryptionConfig2019_03_26(FieldLevelEncryptionConfig, Id, args) = cloudfront("PUT", "/2019-03-26/field-level-encryption/{Id}/config", args)
+UpdateFieldLevelEncryptionConfig2019_03_26(FieldLevelEncryptionConfig, Id) = cloudfront("PUT", "/2019-03-26/field-level-encryption/$(Id)/config")
+UpdateFieldLevelEncryptionConfig2019_03_26(FieldLevelEncryptionConfig, Id, args) = cloudfront("PUT", "/2019-03-26/field-level-encryption/$(Id)/config", args)
 UpdateFieldLevelEncryptionConfig2019_03_26(a...; b...) = UpdateFieldLevelEncryptionConfig2019_03_26(a..., b)
 
 """
@@ -676,8 +676,8 @@ Optional Parameters
   "IfMatch": "The value of the ETag header that you received when retrieving the profile identity to update. For example: E2QWRUHAPOMQZL."
 }
 """
-UpdateFieldLevelEncryptionProfile2019_03_26(FieldLevelEncryptionProfileConfig, Id) = cloudfront("PUT", "/2019-03-26/field-level-encryption-profile/{Id}/config")
-UpdateFieldLevelEncryptionProfile2019_03_26(FieldLevelEncryptionProfileConfig, Id, args) = cloudfront("PUT", "/2019-03-26/field-level-encryption-profile/{Id}/config", args)
+UpdateFieldLevelEncryptionProfile2019_03_26(FieldLevelEncryptionProfileConfig, Id) = cloudfront("PUT", "/2019-03-26/field-level-encryption-profile/$(Id)/config")
+UpdateFieldLevelEncryptionProfile2019_03_26(FieldLevelEncryptionProfileConfig, Id, args) = cloudfront("PUT", "/2019-03-26/field-level-encryption-profile/$(Id)/config", args)
 UpdateFieldLevelEncryptionProfile2019_03_26(a...; b...) = UpdateFieldLevelEncryptionProfile2019_03_26(a..., b)
 
 """
@@ -696,8 +696,8 @@ Optional Parameters
   "IfMatch": "The value of the ETag header that you received when retrieving the public key to update. For example: E2QWRUHAPOMQZL."
 }
 """
-UpdatePublicKey2019_03_26(Id, PublicKeyConfig) = cloudfront("PUT", "/2019-03-26/public-key/{Id}/config")
-UpdatePublicKey2019_03_26(Id, PublicKeyConfig, args) = cloudfront("PUT", "/2019-03-26/public-key/{Id}/config", args)
+UpdatePublicKey2019_03_26(Id, PublicKeyConfig) = cloudfront("PUT", "/2019-03-26/public-key/$(Id)/config")
+UpdatePublicKey2019_03_26(Id, PublicKeyConfig, args) = cloudfront("PUT", "/2019-03-26/public-key/$(Id)/config", args)
 UpdatePublicKey2019_03_26(a...; b...) = UpdatePublicKey2019_03_26(a..., b)
 
 """
@@ -716,6 +716,6 @@ Optional Parameters
   "IfMatch": "The value of the ETag header that you received when retrieving the streaming distribution's configuration. For example: E2QWRUHAPOMQZL."
 }
 """
-UpdateStreamingDistribution2019_03_26(Id, StreamingDistributionConfig) = cloudfront("PUT", "/2019-03-26/streaming-distribution/{Id}/config")
-UpdateStreamingDistribution2019_03_26(Id, StreamingDistributionConfig, args) = cloudfront("PUT", "/2019-03-26/streaming-distribution/{Id}/config", args)
+UpdateStreamingDistribution2019_03_26(Id, StreamingDistributionConfig) = cloudfront("PUT", "/2019-03-26/streaming-distribution/$(Id)/config")
+UpdateStreamingDistribution2019_03_26(Id, StreamingDistributionConfig, args) = cloudfront("PUT", "/2019-03-26/streaming-distribution/$(Id)/config", args)
 UpdateStreamingDistribution2019_03_26(a...; b...) = UpdateStreamingDistribution2019_03_26(a..., b)

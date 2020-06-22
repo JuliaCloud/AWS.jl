@@ -18,4 +18,6 @@ Optional Parameters
   "StreamName": "The Kinesis video stream name from where you want to get the media content. If you don't specify the streamName, you must specify the streamARN."
 }
 """
-GetMedia(args) = kinesis_video_media("POST", "/getMedia", args)
+GetMedia(StartSelector) = kinesis_video_media("POST", "/getMedia")
+GetMedia(StartSelector, args) = kinesis_video_media("POST", "/getMedia", args)
+GetMedia(a...; b...) = GetMedia(a..., b)

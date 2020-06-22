@@ -26,7 +26,9 @@ Optional Parameters
   "VpcConfig": "If this canary is to test an endpoint in a VPC, this structure contains information about the subnet and security groups of the VPC endpoint. For more information, see  Running a Canary in a VPC."
 }
 """
-CreateCanary(args) = synthetics("POST", "/canary", args)
+CreateCanary(ArtifactS3Location, Code, ExecutionRoleArn, Name, RuntimeVersion, Schedule) = synthetics("POST", "/canary")
+CreateCanary(ArtifactS3Location, Code, ExecutionRoleArn, Name, RuntimeVersion, Schedule, args) = synthetics("POST", "/canary", args)
+CreateCanary(a...; b...) = CreateCanary(a..., b)
 
 """
     DeleteCanary()
@@ -38,7 +40,9 @@ Required Parameters
   "Name": "The name of the canary that you want to delete. To find the names of your canaries, use DescribeCanaries."
 }
 """
-DeleteCanary(args) = synthetics("DELETE", "/canary/{name}", args)
+DeleteCanary(Name) = synthetics("DELETE", "/canary/$(name)")
+DeleteCanary(Name, args) = synthetics("DELETE", "/canary/$(name)", args)
+DeleteCanary(a...; b...) = DeleteCanary(a..., b)
 
 """
     DescribeCanaries()
@@ -53,6 +57,7 @@ Optional Parameters
 """
 DescribeCanaries() = synthetics("POST", "/canaries")
 DescribeCanaries(args) = synthetics("POST", "/canaries", args)
+DescribeCanaries(a...; b...) = DescribeCanaries(a..., b)
 
 """
     DescribeCanariesLastRun()
@@ -67,6 +72,7 @@ Optional Parameters
 """
 DescribeCanariesLastRun() = synthetics("POST", "/canaries/last-run")
 DescribeCanariesLastRun(args) = synthetics("POST", "/canaries/last-run", args)
+DescribeCanariesLastRun(a...; b...) = DescribeCanariesLastRun(a..., b)
 
 """
     DescribeRuntimeVersions()
@@ -81,6 +87,7 @@ Optional Parameters
 """
 DescribeRuntimeVersions() = synthetics("POST", "/runtime-versions")
 DescribeRuntimeVersions(args) = synthetics("POST", "/runtime-versions", args)
+DescribeRuntimeVersions(a...; b...) = DescribeRuntimeVersions(a..., b)
 
 """
     GetCanary()
@@ -92,7 +99,9 @@ Required Parameters
   "Name": "The name of the canary that you want details for."
 }
 """
-GetCanary(args) = synthetics("GET", "/canary/{name}", args)
+GetCanary(Name) = synthetics("GET", "/canary/$(name)")
+GetCanary(Name, args) = synthetics("GET", "/canary/$(name)", args)
+GetCanary(a...; b...) = GetCanary(a..., b)
 
 """
     GetCanaryRuns()
@@ -110,7 +119,9 @@ Optional Parameters
   "NextToken": "A token that indicates that there is more data available. You can use this token in a subsequent GetCanaryRuns operation to retrieve the next set of results."
 }
 """
-GetCanaryRuns(args) = synthetics("POST", "/canary/{name}/runs", args)
+GetCanaryRuns(Name) = synthetics("POST", "/canary/$(name)/runs")
+GetCanaryRuns(Name, args) = synthetics("POST", "/canary/$(name)/runs", args)
+GetCanaryRuns(a...; b...) = GetCanaryRuns(a..., b)
 
 """
     ListTagsForResource()
@@ -122,7 +133,9 @@ Required Parameters
   "ResourceArn": "The ARN of the canary that you want to view tags for. The ARN format of a canary is arn:aws:synthetics:Region:account-id:canary:canary-name ."
 }
 """
-ListTagsForResource(args) = synthetics("GET", "/tags/{resourceArn}", args)
+ListTagsForResource(ResourceArn) = synthetics("GET", "/tags/$(resourceArn)")
+ListTagsForResource(ResourceArn, args) = synthetics("GET", "/tags/$(resourceArn)", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     StartCanary()
@@ -134,7 +147,9 @@ Required Parameters
   "Name": "The name of the canary that you want to run. To find canary names, use DescribeCanaries."
 }
 """
-StartCanary(args) = synthetics("POST", "/canary/{name}/start", args)
+StartCanary(Name) = synthetics("POST", "/canary/$(name)/start")
+StartCanary(Name, args) = synthetics("POST", "/canary/$(name)/start", args)
+StartCanary(a...; b...) = StartCanary(a..., b)
 
 """
     StopCanary()
@@ -146,7 +161,9 @@ Required Parameters
   "Name": "The name of the canary that you want to stop. To find the names of your canaries, use DescribeCanaries."
 }
 """
-StopCanary(args) = synthetics("POST", "/canary/{name}/stop", args)
+StopCanary(Name) = synthetics("POST", "/canary/$(name)/stop")
+StopCanary(Name, args) = synthetics("POST", "/canary/$(name)/stop", args)
+StopCanary(a...; b...) = StopCanary(a..., b)
 
 """
     TagResource()
@@ -159,7 +176,9 @@ Required Parameters
   "Tags": "The list of key-value pairs to associate with the canary."
 }
 """
-TagResource(args) = synthetics("POST", "/tags/{resourceArn}", args)
+TagResource(ResourceArn, Tags) = synthetics("POST", "/tags/$(resourceArn)")
+TagResource(ResourceArn, Tags, args) = synthetics("POST", "/tags/$(resourceArn)", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
@@ -172,7 +191,9 @@ Required Parameters
   "TagKeys": "The list of tag keys to remove from the resource."
 }
 """
-UntagResource(args) = synthetics("DELETE", "/tags/{resourceArn}", args)
+UntagResource(ResourceArn, TagKeys) = synthetics("DELETE", "/tags/$(resourceArn)")
+UntagResource(ResourceArn, TagKeys, args) = synthetics("DELETE", "/tags/$(resourceArn)", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateCanary()
@@ -196,4 +217,6 @@ Optional Parameters
   "VpcConfig": "If this canary is to test an endpoint in a VPC, this structure contains information about the subnet and security groups of the VPC endpoint. For more information, see  Running a Canary in a VPC."
 }
 """
-UpdateCanary(args) = synthetics("PATCH", "/canary/{name}", args)
+UpdateCanary(Name) = synthetics("PATCH", "/canary/$(name)")
+UpdateCanary(Name, args) = synthetics("PATCH", "/canary/$(name)", args)
+UpdateCanary(a...; b...) = UpdateCanary(a..., b)

@@ -22,7 +22,9 @@ Optional Parameters
   "transactionId": "The identifier of a transaction that was started by using the BeginTransaction operation. Specify the transaction ID of the transaction that you want to include the SQL statement in. If the SQL statement is not part of a transaction, don't set this parameter."
 }
 """
-BatchExecuteStatement(args) = rds_data("POST", "/BatchExecute", args)
+BatchExecuteStatement(resourceArn, secretArn, sql) = rds_data("POST", "/BatchExecute")
+BatchExecuteStatement(resourceArn, secretArn, sql, args) = rds_data("POST", "/BatchExecute", args)
+BatchExecuteStatement(a...; b...) = BatchExecuteStatement(a..., b)
 
 """
     BeginTransaction()
@@ -41,7 +43,9 @@ Optional Parameters
   "schema": "The name of the database schema."
 }
 """
-BeginTransaction(args) = rds_data("POST", "/BeginTransaction", args)
+BeginTransaction(resourceArn, secretArn) = rds_data("POST", "/BeginTransaction")
+BeginTransaction(resourceArn, secretArn, args) = rds_data("POST", "/BeginTransaction", args)
+BeginTransaction(a...; b...) = BeginTransaction(a..., b)
 
 """
     CommitTransaction()
@@ -55,7 +59,9 @@ Required Parameters
   "transactionId": "The identifier of the transaction to end and commit."
 }
 """
-CommitTransaction(args) = rds_data("POST", "/CommitTransaction", args)
+CommitTransaction(resourceArn, secretArn, transactionId) = rds_data("POST", "/CommitTransaction")
+CommitTransaction(resourceArn, secretArn, transactionId, args) = rds_data("POST", "/CommitTransaction", args)
+CommitTransaction(a...; b...) = CommitTransaction(a..., b)
 
 """
     ExecuteSql()
@@ -75,7 +81,9 @@ Optional Parameters
   "schema": "The name of the database schema."
 }
 """
-ExecuteSql(args) = rds_data("POST", "/ExecuteSql", args)
+ExecuteSql(awsSecretStoreArn, dbClusterOrInstanceArn, sqlStatements) = rds_data("POST", "/ExecuteSql")
+ExecuteSql(awsSecretStoreArn, dbClusterOrInstanceArn, sqlStatements, args) = rds_data("POST", "/ExecuteSql", args)
+ExecuteSql(a...; b...) = ExecuteSql(a..., b)
 
 """
     ExecuteStatement()
@@ -100,7 +108,9 @@ Optional Parameters
   "transactionId": "The identifier of a transaction that was started by using the BeginTransaction operation. Specify the transaction ID of the transaction that you want to include the SQL statement in. If the SQL statement is not part of a transaction, don't set this parameter."
 }
 """
-ExecuteStatement(args) = rds_data("POST", "/Execute", args)
+ExecuteStatement(resourceArn, secretArn, sql) = rds_data("POST", "/Execute")
+ExecuteStatement(resourceArn, secretArn, sql, args) = rds_data("POST", "/Execute", args)
+ExecuteStatement(a...; b...) = ExecuteStatement(a..., b)
 
 """
     RollbackTransaction()
@@ -114,4 +124,6 @@ Required Parameters
   "transactionId": "The identifier of the transaction to roll back."
 }
 """
-RollbackTransaction(args) = rds_data("POST", "/RollbackTransaction", args)
+RollbackTransaction(resourceArn, secretArn, transactionId) = rds_data("POST", "/RollbackTransaction")
+RollbackTransaction(resourceArn, secretArn, transactionId, args) = rds_data("POST", "/RollbackTransaction", args)
+RollbackTransaction(a...; b...) = RollbackTransaction(a..., b)
