@@ -236,15 +236,6 @@ end
         end
 
         @testset "JSON" begin
-            aws = AWS.AWSConfig()
-
-            request = LittleDict{Symbol, Union{String, Dict{<:Any, <:Any}}}(
-                :content => "",
-                :request_method => "GET",
-                :service => "s3",
-                :url => "https://s3.us-east-1.amazonaws.com/sample-bucket"
-            )
-
             json_headers = ["Content-Type"=>"application/json"]
             json_body = """{"Marker":null,"VaultList":[{"CreationDate":"2020-06-22T03:14:41.754Z","LastInventoryDate":null,"NumberOfArchives":0,"SizeInBytes":0,"VaultARN":"arn:aws:glacier:us-east-1:000:vaults/test","VaultName":"test"}]}"""
 
