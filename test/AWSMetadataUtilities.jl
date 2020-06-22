@@ -274,7 +274,9 @@ end
           "OptionalParam": "This parameter is optional."
         }
         \"\"\"
-        service_name(args) = service_name("GET", "request_uri", args)
+        service_name(RequiredParam) = service_name("GET", "request_uri")
+        service_name(RequiredParam, args) = service_name("GET", "request_uri", args)
+        service_name(a...; b...) = service_name(a..., b)
         """
 
         result = _generate_high_level_definition(
