@@ -234,6 +234,44 @@ end
                end
             end
         end
+
+        @testset "JSON" begin
+            aws = AWS.AWSConfig()
+
+            request = LittleDict{Symbol, Union{String, Dict{<:Any, <:Any}}}(
+                :content => "",
+                :request_method => "GET",
+                :service => "s3",
+                :url => "https://s3.us-east-1.amazonaws.com/sample-bucket"
+            )
+
+            json_headers = ["Content-Type"=>"application/json"]
+            json_body = """{"Marker":null,"VaultList":[{"CreationDate":"2020-06-22T03:14:41.754Z","LastInventoryDate":null,"NumberOfArchives":0,"SizeInBytes":0,"VaultARN":"arn:aws:glacier:us-east-1:000:vaults/test","VaultName":"test"}]}"""
+
+            expected_body_type = OrderedDict{String, Any}
+            expected_body = JSON.parse(json_body, dicttype=OrderedDict)
+
+            apply(Patches._http_request_patch) do
+                Patches._response!(body=json_body, headers=json_headers,)
+
+                @testset "body" begin
+                    result = AWS.do_request(aws, request)
+
+                    @test typeof(result) == expected_body_type
+                    @test result == expected_body
+                end
+
+                @testset "body and headers" begin
+                    body, headers = AWS.do_request(aws, request; return_headers=true)
+
+                    @test body == expected_body
+                    @test typeof(body) == expected_body_type
+
+                    @test headers == Dict(json_headers)
+                    @test typeof(headers) == Dict{SubString{String}, SubString{String}}
+                end
+            end
+        end
     end
 end
 
@@ -379,5 +417,52 @@ end
 
         sleep(2)
         @test _bucket_exists(bucket_name) == false
+    end
+end
+
+@testset "rest-json" begin
+    timestamp = lowercase(Dates.format(now(Dates.UTC), "yyyymmddTHHMMSSZ"))
+    vault_names = ["aws.jl.test-01---$timestamp", "aws.jl.test-02---$timestamp", ]
+
+    @testset "PUT" begin
+        for vault in vault_names
+            AWSServices.glacier("PUT", "/-/vaults/$vault")
+        end
+    end
+
+    @testset "POST" begin
+        tags = Dict("Tags"=> Dict("Tag-01"=>"Tag-01", "Tag-02"=>"Tag-02"))
+
+        for vault in vault_names
+            AWSServices.glacier("POST", "/-/vaults/$vault/tags?operation=add", tags)
+        end
+
+        for vault in vault_names
+            result_tags = AWSServices.glacier("GET", "/-/vaults/$vault/tags")
+
+            @test result_tags == tags
+        end
+    end
+
+    @testset "GET - w/ args" begin
+        # If this is an Integer AWS Coral cannot convert it to a String
+        # "class com.amazon.coral.value.json.numbers.TruncatingBigNumber can not be converted to an String"
+        limit = "1"
+        result = AWSServices.glacier("GET", "/-/vaults/", ("limit"=>limit))
+
+        @test length(result["VaultList"]) == parse(Int, limit)
+    end
+
+    @testset "DELETE" begin
+        for vault in vault_names
+            AWSServices.glacier("DELETE", "/-/vaults/$vault")
+        end
+
+        result = AWSServices.glacier("GET", "/-/vaults")
+        res_vault_names = [v["VaultName"] for v in result["VaultList"]]
+
+        for vault in vault_names
+            @test !(vault in res_vault_names)
+        end
     end
 end

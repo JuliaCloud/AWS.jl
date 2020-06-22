@@ -57,6 +57,11 @@ end
 struct RestJSONService
     name::String
     api_version::String
+
+    service_specifics::Dict{Symbol, Any}
+
+    RestJSONService(name::String, api_version::String) = new(name, api_version, Dict())
+    RestJSONService(name::String, api_version::String, service_specifics::Dict{Symbol, <:Any}) = new(name, api_version, service_specifics)
 end
 
 # Needs to be included after the definition of struct otherwise it cannot find them
@@ -307,11 +312,29 @@ function do_request(aws::AWSConfig, request::AbstractDict; return_headers::Bool=
         return (return_headers ? (xml_dict(body, xml_dict_type), Dict(response.headers)) : xml_dict(body, xml_dict_type))
     end
 
+    if occursin(r"json$", mime)
+        if isempty(response.body)
+            return nothing
+        end
+
+        info = (get(request, :ordered_json_dict, true) ? JSON.parse(body, dicttype=OrderedDict) : JSON.parse(body))
+
+        @protected try
+            action = request[:query]["Action"]
+            info = info[string(action, "Response")]
+            info = info[string(action, "Result")]
+        catch e
+            @ignore if typeof(e) == KeyError end
+        end
+
+        return (return_headers ? (info, Dict(response.headers)) : info)
+    end
+
     # Return raw data by default...
     return (return_headers ? (response.body, response.headers) : response.body)
 end
 
-function _generate_rest_resource(request_uri::String, args::Dict{String, Any})
+function _generate_rest_resource(request_uri::String, args::AbstractDict)
     for (k,v) in args
         if occursin("{$k}", request_uri)
             request_uri = replace(request_uri, "{$k}" => v)
@@ -335,7 +358,7 @@ function _generate_service_url(region::String, request::AbstractDict)
     return string("https://", endpoint, ".", isempty(region) ? "" : "$region.", SERVICE_HOST, request[:resource])
 end
 
-function _return_headers(args::Dict{String, Any})
+function _return_headers(args::AbstractDict)
     return_headers = get(args, "return_headers", false)
 
     if return_headers
@@ -383,7 +406,6 @@ function (service::RestXMLService)(aws::AWSConfig, request_method::String, reque
     request[:resource] = _generate_rest_resource(request_uri, args)
 
     query_str = HTTP.escapeuri(args)
-    query_str = replace(query_str, "_"=>"-")  # Convert out arg name to match the AWS hyphen style
 
     if !isempty(query_str)
         if occursin("?", request[:resource])
@@ -427,16 +449,31 @@ end
 (service::JSONService)(a...; b...) = service(a..., b)
 
 function (service::RestJSONService)(aws::AWS.AWSConfig, request_method::String, request_uri::String, args=[])
-    return AWSCore.service_rest_json(
-        aws;
-        service=service.name,
-        version=service.api_version,
-        verb=request_method,
-        resource=request_uri,
-        args=args
-    )
+    args = Dict(args)
+    return_headers = _return_headers(args)
+
+    request = LittleDict()
+    request[:service] = service.name
+    request[:version] = service.api_version
+    request[:request_method] = request_method
+
+    request[:resource] = _generate_rest_resource(request_uri, args)
+    request[:url] = _generate_service_url(aws.region, request)
+
+    request[:headers] = Dict{String, String}(get(args, "headers", []))
+
+    if haskey(service.service_specifics, :headers)
+        request[:headers] = merge(request[:headers], service.service_specifics[:headers])
+    end
+
+    request[:headers]["Content-Type"] = "application/json"
+    delete!(args, "headers")
+
+    request[:content] = json(args)
+
+    do_request(aws, request; return_headers=return_headers)
 end
-(service::RestJSONService)(request_method::String, request_uri::String, args=[]) = service(aws_config(), request_method, request_uri, args)
+(service::RestJSONService)(request_method::String, request_uri::String, args=[]) = service(AWSConfig(), request_method, request_uri, args)
 (service::RestJSONService)(a...; b...) = service(a..., b)
 
 end  # module AWS
