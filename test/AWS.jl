@@ -422,7 +422,7 @@ end
     end
 
     @testset "POST" begin
-        tags = Dict("Tags"=> Dict("Tag-01"=>"Tag-01", "Tag-02"=>"Tag-02"))
+        tags = Dict("Tags"=> LittleDict("Tag-01"=>"Tag-01", "Tag-02"=>"Tag-02"))
 
         for vault in vault_names
             AWSServices.glacier("POST", "/-/vaults/$vault/tags?operation=add", tags)
@@ -439,7 +439,8 @@ end
         # If this is an Integer AWS Coral cannot convert it to a String
         # "class com.amazon.coral.value.json.numbers.TruncatingBigNumber can not be converted to an String"
         limit = "1"
-        result = AWSServices.glacier("GET", "/-/vaults/", ("limit"=>limit))
+        params = LittleDict("limit" => limit)
+        result = AWSServices.glacier("GET", "/-/vaults/", params)
 
         @test length(result["VaultList"]) == parse(Int, limit)
     end

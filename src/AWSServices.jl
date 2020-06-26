@@ -3,6 +3,7 @@
 module AWSServices
 
 using AWS
+using OrderedCollections: LittleDict
 
 const accessanalyzer = AWS.RestJSONService("access-analyzer", "2019-11-01")
 const acm = AWS.JSONService("acm", "2015-12-08", "1.1", "CertificateManager")
@@ -38,6 +39,7 @@ const cloudtrail = AWS.JSONService("cloudtrail", "2013-11-01", "1.1", "com.amazo
 const cloudwatch = AWS.QueryService("monitoring", "2010-08-01")
 const cloudwatch_events = AWS.JSONService("events", "2015-10-07", "1.1", "AWSEvents")
 const cloudwatch_logs = AWS.JSONService("logs", "2014-03-28", "1.1", "Logs_20140328")
+const codeartifact = AWS.RestJSONService("codeartifact", "2018-09-22")
 const codebuild = AWS.JSONService("codebuild", "2016-10-06", "1.1", "CodeBuild_20161006")
 const codecommit = AWS.JSONService("codecommit", "2015-04-13", "1.1", "CodeCommit_20150413")
 const codedeploy = AWS.JSONService("codedeploy", "2014-10-06", "1.1", "CodeDeploy_20141006")
@@ -94,13 +96,14 @@ const forecastquery = AWS.JSONService("forecastquery", "2018-06-26", "1.1", "Ama
 const frauddetector = AWS.JSONService("frauddetector", "2019-11-15", "1.1", "AWSHawksNestServiceFacade")
 const fsx = AWS.JSONService("fsx", "2018-03-01", "1.1", "AWSSimbaAPIService_v20180301")
 const gamelift = AWS.JSONService("gamelift", "2015-10-01", "1.1", "GameLift")
-const glacier = AWS.RestJSONService("glacier", "2012-06-01")
+const glacier = AWS.RestJSONService("glacier", "2012-06-01", LittleDict("headers" => LittleDict("x-amz-glacier-version" => "2012-06-01")))
 const global_accelerator = AWS.JSONService("globalaccelerator", "2018-08-08", "1.1", "GlobalAccelerator_V20180706")
 const glue = AWS.JSONService("glue", "2017-03-31", "1.1", "AWSGlue")
 const greengrass = AWS.RestJSONService("greengrass", "2017-06-07")
 const groundstation = AWS.RestJSONService("groundstation", "2019-05-23")
 const guardduty = AWS.RestJSONService("guardduty", "2017-11-28")
 const health = AWS.JSONService("health", "2016-08-04", "1.1", "AWSHealth_20160804")
+const honeycode = AWS.RestJSONService("honeycode", "2020-03-01")
 const iam = AWS.QueryService("iam", "2010-05-08")
 const imagebuilder = AWS.RestJSONService("imagebuilder", "2019-12-02")
 const importexport = AWS.QueryService("importexport", "2010-06-01")

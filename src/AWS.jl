@@ -58,10 +58,10 @@ struct RestJSONService
     name::String
     api_version::String
 
-    service_specifics::Dict{Symbol, Any}
+    service_specifics::LittleDict{String, AbstractDict}
 
     RestJSONService(name::String, api_version::String) = new(name, api_version, Dict())
-    RestJSONService(name::String, api_version::String, service_specifics::Dict{Symbol, <:Any}) = new(name, api_version, service_specifics)
+    RestJSONService(name::String, api_version::String, service_specifics::LittleDict{String, <:AbstractDict}) = new(name, api_version, service_specifics)
 end
 
 # Needs to be included after the definition of struct otherwise it cannot find them
@@ -314,18 +314,10 @@ function do_request(aws::AWSConfig, request::AbstractDict; return_headers::Bool=
 
     if occursin(r"json$", mime)
         if isempty(response.body)
-            return nothing
+            return (return_headers ? (nothing, response.headers) : nothing)
         end
 
         info = (get(request, :ordered_json_dict, true) ? JSON.parse(body, dicttype=OrderedDict) : JSON.parse(body))
-
-        @protected try
-            action = request[:query]["Action"]
-            info = info[string(action, "Response")]
-            info = info[string(action, "Result")]
-        catch e
-            @ignore if typeof(e) == KeyError end
-        end
 
         return (return_headers ? (info, Dict(response.headers)) : info)
     end
@@ -358,7 +350,7 @@ function _generate_service_url(region::String, request::AbstractDict)
     return string("https://", endpoint, ".", isempty(region) ? "" : "$region.", SERVICE_HOST, request[:resource])
 end
 
-function _return_headers(args::AbstractDict)
+function _return_headers(args::Dict{String, Any})
     return_headers = get(args, "return_headers", false)
 
     if return_headers
@@ -449,7 +441,7 @@ end
 (service::JSONService)(a...; b...) = service(a..., b)
 
 function (service::RestJSONService)(aws::AWS.AWSConfig, request_method::String, request_uri::String, args=[])
-    args = Dict(args)
+    args = stringdict(args)
     return_headers = _return_headers(args)
 
     request = LittleDict()
@@ -462,8 +454,8 @@ function (service::RestJSONService)(aws::AWS.AWSConfig, request_method::String, 
 
     request[:headers] = Dict{String, String}(get(args, "headers", []))
 
-    if haskey(service.service_specifics, :headers)
-        request[:headers] = merge(request[:headers], service.service_specifics[:headers])
+    if haskey(service.service_specifics, "headers")
+        request[:headers] = merge(request[:headers], service.service_specifics["headers"])
     end
 
     request[:headers]["Content-Type"] = "application/json"
