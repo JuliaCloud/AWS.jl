@@ -19,7 +19,9 @@ Optional Parameters
   "Tags": "A set of tags (key-value pairs) that you want to associate with this channel."
 }
 """
-CreateSignalingChannel(args) = kinesis_video("POST", "/createSignalingChannel", args)
+CreateSignalingChannel(ChannelName) = kinesis_video("POST", "/createSignalingChannel")
+CreateSignalingChannel(ChannelName, args) = kinesis_video("POST", "/createSignalingChannel", args)
+CreateSignalingChannel(a...; b...) = CreateSignalingChannel(a..., b)
 
 """
     CreateStream()
@@ -40,7 +42,9 @@ Optional Parameters
   "Tags": "A list of tags to associate with the specified stream. Each tag is a key-value pair (the value is optional)."
 }
 """
-CreateStream(args) = kinesis_video("POST", "/createStream", args)
+CreateStream(StreamName) = kinesis_video("POST", "/createStream")
+CreateStream(StreamName, args) = kinesis_video("POST", "/createStream", args)
+CreateStream(a...; b...) = CreateStream(a..., b)
 
 """
     DeleteSignalingChannel()
@@ -57,7 +61,9 @@ Optional Parameters
   "CurrentVersion": "The current version of the signaling channel that you want to delete. You can obtain the current version by invoking the DescribeSignalingChannel or ListSignalingChannels API operations."
 }
 """
-DeleteSignalingChannel(args) = kinesis_video("POST", "/deleteSignalingChannel", args)
+DeleteSignalingChannel(ChannelARN) = kinesis_video("POST", "/deleteSignalingChannel")
+DeleteSignalingChannel(ChannelARN, args) = kinesis_video("POST", "/deleteSignalingChannel", args)
+DeleteSignalingChannel(a...; b...) = DeleteSignalingChannel(a..., b)
 
 """
     DeleteStream()
@@ -74,7 +80,9 @@ Optional Parameters
   "CurrentVersion": "Optional: The version of the stream that you want to delete.  Specify the version as a safeguard to ensure that your are deleting the correct stream. To get the stream version, use the DescribeStream API. If not specified, only the CreationTime is checked before deleting the stream."
 }
 """
-DeleteStream(args) = kinesis_video("POST", "/deleteStream", args)
+DeleteStream(StreamARN) = kinesis_video("POST", "/deleteStream")
+DeleteStream(StreamARN, args) = kinesis_video("POST", "/deleteStream", args)
+DeleteStream(a...; b...) = DeleteStream(a..., b)
 
 """
     DescribeSignalingChannel()
@@ -89,6 +97,7 @@ Optional Parameters
 """
 DescribeSignalingChannel() = kinesis_video("POST", "/describeSignalingChannel")
 DescribeSignalingChannel(args) = kinesis_video("POST", "/describeSignalingChannel", args)
+DescribeSignalingChannel(a...; b...) = DescribeSignalingChannel(a..., b)
 
 """
     DescribeStream()
@@ -103,6 +112,7 @@ Optional Parameters
 """
 DescribeStream() = kinesis_video("POST", "/describeStream")
 DescribeStream(args) = kinesis_video("POST", "/describeStream", args)
+DescribeStream(a...; b...) = DescribeStream(a..., b)
 
 """
     GetDataEndpoint()
@@ -120,7 +130,9 @@ Optional Parameters
   "StreamName": "The name of the stream that you want to get the endpoint for. You must specify either this parameter or a StreamARN in the request."
 }
 """
-GetDataEndpoint(args) = kinesis_video("POST", "/getDataEndpoint", args)
+GetDataEndpoint(APIName) = kinesis_video("POST", "/getDataEndpoint")
+GetDataEndpoint(APIName, args) = kinesis_video("POST", "/getDataEndpoint", args)
+GetDataEndpoint(a...; b...) = GetDataEndpoint(a..., b)
 
 """
     GetSignalingChannelEndpoint()
@@ -137,7 +149,9 @@ Optional Parameters
   "SingleMasterChannelEndpointConfiguration": "A structure containing the endpoint configuration for the SINGLE_MASTER channel type."
 }
 """
-GetSignalingChannelEndpoint(args) = kinesis_video("POST", "/getSignalingChannelEndpoint", args)
+GetSignalingChannelEndpoint(ChannelARN) = kinesis_video("POST", "/getSignalingChannelEndpoint")
+GetSignalingChannelEndpoint(ChannelARN, args) = kinesis_video("POST", "/getSignalingChannelEndpoint", args)
+GetSignalingChannelEndpoint(a...; b...) = GetSignalingChannelEndpoint(a..., b)
 
 """
     ListSignalingChannels()
@@ -153,6 +167,7 @@ Optional Parameters
 """
 ListSignalingChannels() = kinesis_video("POST", "/listSignalingChannels")
 ListSignalingChannels(args) = kinesis_video("POST", "/listSignalingChannels", args)
+ListSignalingChannels(a...; b...) = ListSignalingChannels(a..., b)
 
 """
     ListStreams()
@@ -168,6 +183,7 @@ Optional Parameters
 """
 ListStreams() = kinesis_video("POST", "/listStreams")
 ListStreams(args) = kinesis_video("POST", "/listStreams", args)
+ListStreams(a...; b...) = ListStreams(a..., b)
 
 """
     ListTagsForResource()
@@ -184,7 +200,9 @@ Optional Parameters
   "NextToken": "If you specify this parameter and the result of a ListTagsForResource call is truncated, the response includes a token that you can use in the next request to fetch the next batch of tags. "
 }
 """
-ListTagsForResource(args) = kinesis_video("POST", "/ListTagsForResource", args)
+ListTagsForResource(ResourceARN) = kinesis_video("POST", "/ListTagsForResource")
+ListTagsForResource(ResourceARN, args) = kinesis_video("POST", "/ListTagsForResource", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     ListTagsForStream()
@@ -200,6 +218,7 @@ Optional Parameters
 """
 ListTagsForStream() = kinesis_video("POST", "/listTagsForStream")
 ListTagsForStream(args) = kinesis_video("POST", "/listTagsForStream", args)
+ListTagsForStream(a...; b...) = ListTagsForStream(a..., b)
 
 """
     TagResource()
@@ -212,7 +231,9 @@ Required Parameters
   "Tags": "A list of tags to associate with the specified signaling channel. Each tag is a key-value pair."
 }
 """
-TagResource(args) = kinesis_video("POST", "/TagResource", args)
+TagResource(ResourceARN, Tags) = kinesis_video("POST", "/TagResource")
+TagResource(ResourceARN, Tags, args) = kinesis_video("POST", "/TagResource", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     TagStream()
@@ -230,7 +251,9 @@ Optional Parameters
   "StreamName": "The name of the stream that you want to add the tag or tags to."
 }
 """
-TagStream(args) = kinesis_video("POST", "/tagStream", args)
+TagStream(Tags) = kinesis_video("POST", "/tagStream")
+TagStream(Tags, args) = kinesis_video("POST", "/tagStream", args)
+TagStream(a...; b...) = TagStream(a..., b)
 
 """
     UntagResource()
@@ -243,7 +266,9 @@ Required Parameters
   "TagKeyList": "A list of the keys of the tags that you want to remove."
 }
 """
-UntagResource(args) = kinesis_video("POST", "/UntagResource", args)
+UntagResource(ResourceARN, TagKeyList) = kinesis_video("POST", "/UntagResource")
+UntagResource(ResourceARN, TagKeyList, args) = kinesis_video("POST", "/UntagResource", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UntagStream()
@@ -261,7 +286,9 @@ Optional Parameters
   "StreamName": "The name of the stream that you want to remove tags from."
 }
 """
-UntagStream(args) = kinesis_video("POST", "/untagStream", args)
+UntagStream(TagKeyList) = kinesis_video("POST", "/untagStream")
+UntagStream(TagKeyList, args) = kinesis_video("POST", "/untagStream", args)
+UntagStream(a...; b...) = UntagStream(a..., b)
 
 """
     UpdateDataRetention()
@@ -281,7 +308,9 @@ Optional Parameters
   "StreamName": "The name of the stream whose retention period you want to change."
 }
 """
-UpdateDataRetention(args) = kinesis_video("POST", "/updateDataRetention", args)
+UpdateDataRetention(CurrentVersion, DataRetentionChangeInHours, Operation) = kinesis_video("POST", "/updateDataRetention")
+UpdateDataRetention(CurrentVersion, DataRetentionChangeInHours, Operation, args) = kinesis_video("POST", "/updateDataRetention", args)
+UpdateDataRetention(a...; b...) = UpdateDataRetention(a..., b)
 
 """
     UpdateSignalingChannel()
@@ -299,7 +328,9 @@ Optional Parameters
   "SingleMasterConfiguration": "The structure containing the configuration for the SINGLE_MASTER type of the signaling channel that you want to update. "
 }
 """
-UpdateSignalingChannel(args) = kinesis_video("POST", "/updateSignalingChannel", args)
+UpdateSignalingChannel(ChannelARN, CurrentVersion) = kinesis_video("POST", "/updateSignalingChannel")
+UpdateSignalingChannel(ChannelARN, CurrentVersion, args) = kinesis_video("POST", "/updateSignalingChannel", args)
+UpdateSignalingChannel(a...; b...) = UpdateSignalingChannel(a..., b)
 
 """
     UpdateStream()
@@ -319,4 +350,6 @@ Optional Parameters
   "StreamName": "The name of the stream whose metadata you want to update. The stream name is an identifier for the stream, and must be unique for each account and region."
 }
 """
-UpdateStream(args) = kinesis_video("POST", "/updateStream", args)
+UpdateStream(CurrentVersion) = kinesis_video("POST", "/updateStream")
+UpdateStream(CurrentVersion, args) = kinesis_video("POST", "/updateStream", args)
+UpdateStream(a...; b...) = UpdateStream(a..., b)

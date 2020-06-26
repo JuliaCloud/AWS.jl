@@ -18,7 +18,9 @@ Optional Parameters
   "Tags": "Metadata to assign to the application. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define."
 }
 """
-CreateApplication(args) = appconfig("POST", "/applications", args)
+CreateApplication(Name) = appconfig("POST", "/applications")
+CreateApplication(Name, args) = appconfig("POST", "/applications", args)
+CreateApplication(a...; b...) = CreateApplication(a..., b)
 
 """
     CreateConfigurationProfile()
@@ -29,18 +31,20 @@ Required Parameters
 {
   "ApplicationId": "The application ID.",
   "LocationUri": "A URI to locate the configuration. You can specify a Systems Manager (SSM) document, an SSM Parameter Store parameter, or an Amazon S3 object. For an SSM document, specify either the document name in the format ssm-document://&lt;Document_name&gt; or the Amazon Resource Name (ARN). For a parameter, specify either the parameter name in the format ssm-parameter://&lt;Parameter_name&gt; or the ARN. For an Amazon S3 object, specify the URI in the following format: s3://&lt;bucket&gt;/&lt;objectKey&gt; . Here is an example: s3://my-bucket/my-app/us-east-1/my-config.json",
-  "Name": "A name for the configuration profile.",
-  "RetrievalRoleArn": "The ARN of an IAM role with permission to access the configuration at the specified LocationUri."
+  "Name": "A name for the configuration profile."
 }
 
 Optional Parameters
 {
   "Description": "A description of the configuration profile.",
+  "RetrievalRoleArn": "The ARN of an IAM role with permission to access the configuration at the specified LocationUri.",
   "Tags": "Metadata to assign to the configuration profile. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define.",
   "Validators": "A list of methods for validating the configuration."
 }
 """
-CreateConfigurationProfile(args) = appconfig("POST", "/applications/{ApplicationId}/configurationprofiles", args)
+CreateConfigurationProfile(ApplicationId, LocationUri, Name) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles")
+CreateConfigurationProfile(ApplicationId, LocationUri, Name, args) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles", args)
+CreateConfigurationProfile(a...; b...) = CreateConfigurationProfile(a..., b)
 
 """
     CreateDeploymentStrategy()
@@ -63,7 +67,9 @@ Optional Parameters
   "Tags": "Metadata to assign to the deployment strategy. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define."
 }
 """
-CreateDeploymentStrategy(args) = appconfig("POST", "/deploymentstrategies", args)
+CreateDeploymentStrategy(DeploymentDurationInMinutes, GrowthFactor, Name, ReplicateTo) = appconfig("POST", "/deploymentstrategies")
+CreateDeploymentStrategy(DeploymentDurationInMinutes, GrowthFactor, Name, ReplicateTo, args) = appconfig("POST", "/deploymentstrategies", args)
+CreateDeploymentStrategy(a...; b...) = CreateDeploymentStrategy(a..., b)
 
 """
     CreateEnvironment()
@@ -83,7 +89,32 @@ Optional Parameters
   "Tags": "Metadata to assign to the environment. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define."
 }
 """
-CreateEnvironment(args) = appconfig("POST", "/applications/{ApplicationId}/environments", args)
+CreateEnvironment(ApplicationId, Name) = appconfig("POST", "/applications/$(ApplicationId)/environments")
+CreateEnvironment(ApplicationId, Name, args) = appconfig("POST", "/applications/$(ApplicationId)/environments", args)
+CreateEnvironment(a...; b...) = CreateEnvironment(a..., b)
+
+"""
+    CreateHostedConfigurationVersion()
+
+Create a new configuration in the AppConfig configuration store.
+
+Required Parameters
+{
+  "ApplicationId": "The application ID.",
+  "ConfigurationProfileId": "The configuration profile ID.",
+  "Content": "The content of the configuration or the configuration data.",
+  "ContentType": "A standard MIME type describing the format of the configuration content. For more information, see Content-Type."
+}
+
+Optional Parameters
+{
+  "Description": "A description of the configuration.",
+  "LatestVersionNumber": "An optional locking token used to prevent race conditions from overwriting configuration updates when creating a new version. To ensure your data is not overwritten when creating multiple hosted configuration versions in rapid succession, specify the version of the latest hosted configuration version."
+}
+"""
+CreateHostedConfigurationVersion(ApplicationId, ConfigurationProfileId, Content, ContentType) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions")
+CreateHostedConfigurationVersion(ApplicationId, ConfigurationProfileId, Content, ContentType, args) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions", args)
+CreateHostedConfigurationVersion(a...; b...) = CreateHostedConfigurationVersion(a..., b)
 
 """
     DeleteApplication()
@@ -95,7 +126,9 @@ Required Parameters
   "ApplicationId": "The ID of the application to delete."
 }
 """
-DeleteApplication(args) = appconfig("DELETE", "/applications/{ApplicationId}", args)
+DeleteApplication(ApplicationId) = appconfig("DELETE", "/applications/$(ApplicationId)")
+DeleteApplication(ApplicationId, args) = appconfig("DELETE", "/applications/$(ApplicationId)", args)
+DeleteApplication(a...; b...) = DeleteApplication(a..., b)
 
 """
     DeleteConfigurationProfile()
@@ -108,7 +141,9 @@ Required Parameters
   "ConfigurationProfileId": "The ID of the configuration profile you want to delete."
 }
 """
-DeleteConfigurationProfile(args) = appconfig("DELETE", "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}", args)
+DeleteConfigurationProfile(ApplicationId, ConfigurationProfileId) = appconfig("DELETE", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)")
+DeleteConfigurationProfile(ApplicationId, ConfigurationProfileId, args) = appconfig("DELETE", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)", args)
+DeleteConfigurationProfile(a...; b...) = DeleteConfigurationProfile(a..., b)
 
 """
     DeleteDeploymentStrategy()
@@ -120,7 +155,9 @@ Required Parameters
   "DeploymentStrategyId": "The ID of the deployment strategy you want to delete."
 }
 """
-DeleteDeploymentStrategy(args) = appconfig("DELETE", "/deployementstrategies/{DeploymentStrategyId}", args)
+DeleteDeploymentStrategy(DeploymentStrategyId) = appconfig("DELETE", "/deployementstrategies/$(DeploymentStrategyId)")
+DeleteDeploymentStrategy(DeploymentStrategyId, args) = appconfig("DELETE", "/deployementstrategies/$(DeploymentStrategyId)", args)
+DeleteDeploymentStrategy(a...; b...) = DeleteDeploymentStrategy(a..., b)
 
 """
     DeleteEnvironment()
@@ -133,7 +170,25 @@ Required Parameters
   "EnvironmentId": "The ID of the environment you want to delete."
 }
 """
-DeleteEnvironment(args) = appconfig("DELETE", "/applications/{ApplicationId}/environments/{EnvironmentId}", args)
+DeleteEnvironment(ApplicationId, EnvironmentId) = appconfig("DELETE", "/applications/$(ApplicationId)/environments/$(EnvironmentId)")
+DeleteEnvironment(ApplicationId, EnvironmentId, args) = appconfig("DELETE", "/applications/$(ApplicationId)/environments/$(EnvironmentId)", args)
+DeleteEnvironment(a...; b...) = DeleteEnvironment(a..., b)
+
+"""
+    DeleteHostedConfigurationVersion()
+
+Delete a version of a configuration from the AppConfig configuration store.
+
+Required Parameters
+{
+  "ApplicationId": "The application ID.",
+  "ConfigurationProfileId": "The configuration profile ID.",
+  "VersionNumber": "The versions number to delete."
+}
+"""
+DeleteHostedConfigurationVersion(ApplicationId, ConfigurationProfileId, VersionNumber) = appconfig("DELETE", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)")
+DeleteHostedConfigurationVersion(ApplicationId, ConfigurationProfileId, VersionNumber, args) = appconfig("DELETE", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)", args)
+DeleteHostedConfigurationVersion(a...; b...) = DeleteHostedConfigurationVersion(a..., b)
 
 """
     GetApplication()
@@ -145,7 +200,9 @@ Required Parameters
   "ApplicationId": "The ID of the application you want to get."
 }
 """
-GetApplication(args) = appconfig("GET", "/applications/{ApplicationId}", args)
+GetApplication(ApplicationId) = appconfig("GET", "/applications/$(ApplicationId)")
+GetApplication(ApplicationId, args) = appconfig("GET", "/applications/$(ApplicationId)", args)
+GetApplication(a...; b...) = GetApplication(a..., b)
 
 """
     GetConfiguration()
@@ -165,7 +222,9 @@ Optional Parameters
   "ClientConfigurationVersion": "The configuration version returned in the most recent GetConfiguration response.  AWS AppConfig uses the value of the ClientConfigurationVersion parameter to identify the configuration version on your clients. If you don’t send ClientConfigurationVersion with each call to GetConfiguration, your clients receive the current configuration. You are charged each time your clients receive a configuration. To avoid excess charges, we recommend that you include the ClientConfigurationVersion value with every call to GetConfiguration. This value must be saved on your client. Subsequent calls to GetConfiguration must pass this value by using the ClientConfigurationVersion parameter.   For more information about working with configurations, see Retrieving the Configuration in the AWS AppConfig User Guide."
 }
 """
-GetConfiguration(args) = appconfig("GET", "/applications/{Application}/environments/{Environment}/configurations/{Configuration}", args)
+GetConfiguration(Application, ClientId, Configuration, Environment) = appconfig("GET", "/applications/$(Application)/environments/$(Environment)/configurations/$(Configuration)")
+GetConfiguration(Application, ClientId, Configuration, Environment, args) = appconfig("GET", "/applications/$(Application)/environments/$(Environment)/configurations/$(Configuration)", args)
+GetConfiguration(a...; b...) = GetConfiguration(a..., b)
 
 """
     GetConfigurationProfile()
@@ -178,7 +237,9 @@ Required Parameters
   "ConfigurationProfileId": "The ID of the configuration profile you want to get."
 }
 """
-GetConfigurationProfile(args) = appconfig("GET", "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}", args)
+GetConfigurationProfile(ApplicationId, ConfigurationProfileId) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)")
+GetConfigurationProfile(ApplicationId, ConfigurationProfileId, args) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)", args)
+GetConfigurationProfile(a...; b...) = GetConfigurationProfile(a..., b)
 
 """
     GetDeployment()
@@ -192,7 +253,9 @@ Required Parameters
   "EnvironmentId": "The ID of the environment that includes the deployment you want to get. "
 }
 """
-GetDeployment(args) = appconfig("GET", "/applications/{ApplicationId}/environments/{EnvironmentId}/deployments/{DeploymentNumber}", args)
+GetDeployment(ApplicationId, DeploymentNumber, EnvironmentId) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)")
+GetDeployment(ApplicationId, DeploymentNumber, EnvironmentId, args) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)", args)
+GetDeployment(a...; b...) = GetDeployment(a..., b)
 
 """
     GetDeploymentStrategy()
@@ -204,7 +267,9 @@ Required Parameters
   "DeploymentStrategyId": "The ID of the deployment strategy to get."
 }
 """
-GetDeploymentStrategy(args) = appconfig("GET", "/deploymentstrategies/{DeploymentStrategyId}", args)
+GetDeploymentStrategy(DeploymentStrategyId) = appconfig("GET", "/deploymentstrategies/$(DeploymentStrategyId)")
+GetDeploymentStrategy(DeploymentStrategyId, args) = appconfig("GET", "/deploymentstrategies/$(DeploymentStrategyId)", args)
+GetDeploymentStrategy(a...; b...) = GetDeploymentStrategy(a..., b)
 
 """
     GetEnvironment()
@@ -217,7 +282,25 @@ Required Parameters
   "EnvironmentId": "The ID of the environment you wnat to get."
 }
 """
-GetEnvironment(args) = appconfig("GET", "/applications/{ApplicationId}/environments/{EnvironmentId}", args)
+GetEnvironment(ApplicationId, EnvironmentId) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)")
+GetEnvironment(ApplicationId, EnvironmentId, args) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)", args)
+GetEnvironment(a...; b...) = GetEnvironment(a..., b)
+
+"""
+    GetHostedConfigurationVersion()
+
+Get information about a specific configuration version.
+
+Required Parameters
+{
+  "ApplicationId": "The application ID.",
+  "ConfigurationProfileId": "The configuration profile ID.",
+  "VersionNumber": "The version."
+}
+"""
+GetHostedConfigurationVersion(ApplicationId, ConfigurationProfileId, VersionNumber) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)")
+GetHostedConfigurationVersion(ApplicationId, ConfigurationProfileId, VersionNumber, args) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)", args)
+GetHostedConfigurationVersion(a...; b...) = GetHostedConfigurationVersion(a..., b)
 
 """
     ListApplications()
@@ -232,6 +315,7 @@ Optional Parameters
 """
 ListApplications() = appconfig("GET", "/applications")
 ListApplications(args) = appconfig("GET", "/applications", args)
+ListApplications(a...; b...) = ListApplications(a..., b)
 
 """
     ListConfigurationProfiles()
@@ -249,7 +333,9 @@ Optional Parameters
   "NextToken": "A token to start the list. Use this token to get the next set of results."
 }
 """
-ListConfigurationProfiles(args) = appconfig("GET", "/applications/{ApplicationId}/configurationprofiles", args)
+ListConfigurationProfiles(ApplicationId) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles")
+ListConfigurationProfiles(ApplicationId, args) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles", args)
+ListConfigurationProfiles(a...; b...) = ListConfigurationProfiles(a..., b)
 
 """
     ListDeploymentStrategies()
@@ -264,6 +350,7 @@ Optional Parameters
 """
 ListDeploymentStrategies() = appconfig("GET", "/deploymentstrategies")
 ListDeploymentStrategies(args) = appconfig("GET", "/deploymentstrategies", args)
+ListDeploymentStrategies(a...; b...) = ListDeploymentStrategies(a..., b)
 
 """
     ListDeployments()
@@ -282,7 +369,9 @@ Optional Parameters
   "NextToken": "A token to start the list. Use this token to get the next set of results."
 }
 """
-ListDeployments(args) = appconfig("GET", "/applications/{ApplicationId}/environments/{EnvironmentId}/deployments", args)
+ListDeployments(ApplicationId, EnvironmentId) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments")
+ListDeployments(ApplicationId, EnvironmentId, args) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments", args)
+ListDeployments(a...; b...) = ListDeployments(a..., b)
 
 """
     ListEnvironments()
@@ -300,7 +389,30 @@ Optional Parameters
   "NextToken": "A token to start the list. Use this token to get the next set of results."
 }
 """
-ListEnvironments(args) = appconfig("GET", "/applications/{ApplicationId}/environments", args)
+ListEnvironments(ApplicationId) = appconfig("GET", "/applications/$(ApplicationId)/environments")
+ListEnvironments(ApplicationId, args) = appconfig("GET", "/applications/$(ApplicationId)/environments", args)
+ListEnvironments(a...; b...) = ListEnvironments(a..., b)
+
+"""
+    ListHostedConfigurationVersions()
+
+View a list of configurations stored in the AppConfig configuration store by version.
+
+Required Parameters
+{
+  "ApplicationId": "The application ID.",
+  "ConfigurationProfileId": "The configuration profile ID."
+}
+
+Optional Parameters
+{
+  "MaxResults": "The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.",
+  "NextToken": "A token to start the list. Use this token to get the next set of results. "
+}
+"""
+ListHostedConfigurationVersions(ApplicationId, ConfigurationProfileId) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions")
+ListHostedConfigurationVersions(ApplicationId, ConfigurationProfileId, args) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions", args)
+ListHostedConfigurationVersions(a...; b...) = ListHostedConfigurationVersions(a..., b)
 
 """
     ListTagsForResource()
@@ -312,7 +424,9 @@ Required Parameters
   "ResourceArn": "The resource ARN."
 }
 """
-ListTagsForResource(args) = appconfig("GET", "/tags/{ResourceArn}", args)
+ListTagsForResource(ResourceArn) = appconfig("GET", "/tags/$(ResourceArn)")
+ListTagsForResource(ResourceArn, args) = appconfig("GET", "/tags/$(ResourceArn)", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     StartDeployment()
@@ -334,7 +448,9 @@ Optional Parameters
   "Tags": "Metadata to assign to the deployment. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define."
 }
 """
-StartDeployment(args) = appconfig("POST", "/applications/{ApplicationId}/environments/{EnvironmentId}/deployments", args)
+StartDeployment(ApplicationId, ConfigurationProfileId, ConfigurationVersion, DeploymentStrategyId, EnvironmentId) = appconfig("POST", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments")
+StartDeployment(ApplicationId, ConfigurationProfileId, ConfigurationVersion, DeploymentStrategyId, EnvironmentId, args) = appconfig("POST", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments", args)
+StartDeployment(a...; b...) = StartDeployment(a..., b)
 
 """
     StopDeployment()
@@ -348,7 +464,9 @@ Required Parameters
   "EnvironmentId": "The environment ID."
 }
 """
-StopDeployment(args) = appconfig("DELETE", "/applications/{ApplicationId}/environments/{EnvironmentId}/deployments/{DeploymentNumber}", args)
+StopDeployment(ApplicationId, DeploymentNumber, EnvironmentId) = appconfig("DELETE", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)")
+StopDeployment(ApplicationId, DeploymentNumber, EnvironmentId, args) = appconfig("DELETE", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)", args)
+StopDeployment(a...; b...) = StopDeployment(a..., b)
 
 """
     TagResource()
@@ -361,7 +479,9 @@ Required Parameters
   "Tags": "The key-value string map. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters."
 }
 """
-TagResource(args) = appconfig("POST", "/tags/{ResourceArn}", args)
+TagResource(ResourceArn, Tags) = appconfig("POST", "/tags/$(ResourceArn)")
+TagResource(ResourceArn, Tags, args) = appconfig("POST", "/tags/$(ResourceArn)", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
@@ -374,7 +494,9 @@ Required Parameters
   "TagKeys": "The tag keys to delete."
 }
 """
-UntagResource(args) = appconfig("DELETE", "/tags/{ResourceArn}", args)
+UntagResource(ResourceArn, TagKeys) = appconfig("DELETE", "/tags/$(ResourceArn)")
+UntagResource(ResourceArn, TagKeys, args) = appconfig("DELETE", "/tags/$(ResourceArn)", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateApplication()
@@ -392,7 +514,9 @@ Optional Parameters
   "Name": "The name of the application."
 }
 """
-UpdateApplication(args) = appconfig("PATCH", "/applications/{ApplicationId}", args)
+UpdateApplication(ApplicationId) = appconfig("PATCH", "/applications/$(ApplicationId)")
+UpdateApplication(ApplicationId, args) = appconfig("PATCH", "/applications/$(ApplicationId)", args)
+UpdateApplication(a...; b...) = UpdateApplication(a..., b)
 
 """
     UpdateConfigurationProfile()
@@ -413,7 +537,9 @@ Optional Parameters
   "Validators": "A list of methods for validating the configuration."
 }
 """
-UpdateConfigurationProfile(args) = appconfig("PATCH", "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}", args)
+UpdateConfigurationProfile(ApplicationId, ConfigurationProfileId) = appconfig("PATCH", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)")
+UpdateConfigurationProfile(ApplicationId, ConfigurationProfileId, args) = appconfig("PATCH", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)", args)
+UpdateConfigurationProfile(a...; b...) = UpdateConfigurationProfile(a..., b)
 
 """
     UpdateDeploymentStrategy()
@@ -434,7 +560,9 @@ Optional Parameters
   "GrowthType": "The algorithm used to define how percentage grows over time. AWS AppConfig supports the following growth types:  Linear: For this type, AppConfig processes the deployment by increments of the growth factor evenly distributed over the deployment time. For example, a linear deployment that uses a growth factor of 20 initially makes the configuration available to 20 percent of the targets. After 1/5th of the deployment time has passed, the system updates the percentage to 40 percent. This continues until 100% of the targets are set to receive the deployed configuration.  Exponential: For this type, AppConfig processes the deployment exponentially using the following formula: G*(2^N). In this formula, G is the growth factor specified by the user and N is the number of steps until the configuration is deployed to all targets. For example, if you specify a growth factor of 2, then the system rolls out the configuration as follows:  2*(2^0)   2*(2^1)   2*(2^2)  Expressed numerically, the deployment rolls out as follows: 2% of the targets, 4% of the targets, 8% of the targets, and continues until the configuration has been deployed to all targets."
 }
 """
-UpdateDeploymentStrategy(args) = appconfig("PATCH", "/deploymentstrategies/{DeploymentStrategyId}", args)
+UpdateDeploymentStrategy(DeploymentStrategyId) = appconfig("PATCH", "/deploymentstrategies/$(DeploymentStrategyId)")
+UpdateDeploymentStrategy(DeploymentStrategyId, args) = appconfig("PATCH", "/deploymentstrategies/$(DeploymentStrategyId)", args)
+UpdateDeploymentStrategy(a...; b...) = UpdateDeploymentStrategy(a..., b)
 
 """
     UpdateEnvironment()
@@ -454,7 +582,9 @@ Optional Parameters
   "Name": "The name of the environment."
 }
 """
-UpdateEnvironment(args) = appconfig("PATCH", "/applications/{ApplicationId}/environments/{EnvironmentId}", args)
+UpdateEnvironment(ApplicationId, EnvironmentId) = appconfig("PATCH", "/applications/$(ApplicationId)/environments/$(EnvironmentId)")
+UpdateEnvironment(ApplicationId, EnvironmentId, args) = appconfig("PATCH", "/applications/$(ApplicationId)/environments/$(EnvironmentId)", args)
+UpdateEnvironment(a...; b...) = UpdateEnvironment(a..., b)
 
 """
     ValidateConfiguration()
@@ -468,4 +598,6 @@ Required Parameters
   "ConfigurationVersion": "The version of the configuration to validate."
 }
 """
-ValidateConfiguration(args) = appconfig("POST", "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/validators", args)
+ValidateConfiguration(ApplicationId, ConfigurationProfileId, ConfigurationVersion) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/validators")
+ValidateConfiguration(ApplicationId, ConfigurationProfileId, ConfigurationVersion, args) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/validators", args)
+ValidateConfiguration(a...; b...) = ValidateConfiguration(a..., b)

@@ -12,7 +12,9 @@ Required Parameters
   "IdentityPoolId": "A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region."
 }
 """
-BulkPublish(args) = cognito_sync("POST", "/identitypools/{IdentityPoolId}/bulkpublish", args)
+BulkPublish(IdentityPoolId) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/bulkpublish")
+BulkPublish(IdentityPoolId, args) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/bulkpublish", args)
+BulkPublish(a...; b...) = BulkPublish(a..., b)
 
 """
     DeleteDataset()
@@ -26,7 +28,9 @@ Required Parameters
   "IdentityPoolId": "A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region."
 }
 """
-DeleteDataset(args) = cognito_sync("DELETE", "/identitypools/{IdentityPoolId}/identities/{IdentityId}/datasets/{DatasetName}", args)
+DeleteDataset(DatasetName, IdentityId, IdentityPoolId) = cognito_sync("DELETE", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)")
+DeleteDataset(DatasetName, IdentityId, IdentityPoolId, args) = cognito_sync("DELETE", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)", args)
+DeleteDataset(a...; b...) = DeleteDataset(a..., b)
 
 """
     DescribeDataset()
@@ -40,7 +44,9 @@ Required Parameters
   "IdentityPoolId": "A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region."
 }
 """
-DescribeDataset(args) = cognito_sync("GET", "/identitypools/{IdentityPoolId}/identities/{IdentityId}/datasets/{DatasetName}", args)
+DescribeDataset(DatasetName, IdentityId, IdentityPoolId) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)")
+DescribeDataset(DatasetName, IdentityId, IdentityPoolId, args) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)", args)
+DescribeDataset(a...; b...) = DescribeDataset(a..., b)
 
 """
     DescribeIdentityPoolUsage()
@@ -52,7 +58,9 @@ Required Parameters
   "IdentityPoolId": "A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region."
 }
 """
-DescribeIdentityPoolUsage(args) = cognito_sync("GET", "/identitypools/{IdentityPoolId}", args)
+DescribeIdentityPoolUsage(IdentityPoolId) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)")
+DescribeIdentityPoolUsage(IdentityPoolId, args) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)", args)
+DescribeIdentityPoolUsage(a...; b...) = DescribeIdentityPoolUsage(a..., b)
 
 """
     DescribeIdentityUsage()
@@ -65,7 +73,9 @@ Required Parameters
   "IdentityPoolId": "A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region."
 }
 """
-DescribeIdentityUsage(args) = cognito_sync("GET", "/identitypools/{IdentityPoolId}/identities/{IdentityId}", args)
+DescribeIdentityUsage(IdentityId, IdentityPoolId) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)")
+DescribeIdentityUsage(IdentityId, IdentityPoolId, args) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)", args)
+DescribeIdentityUsage(a...; b...) = DescribeIdentityUsage(a..., b)
 
 """
     GetBulkPublishDetails()
@@ -77,7 +87,9 @@ Required Parameters
   "IdentityPoolId": "A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. GUID generation is unique within a region."
 }
 """
-GetBulkPublishDetails(args) = cognito_sync("POST", "/identitypools/{IdentityPoolId}/getBulkPublishDetails", args)
+GetBulkPublishDetails(IdentityPoolId) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/getBulkPublishDetails")
+GetBulkPublishDetails(IdentityPoolId, args) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/getBulkPublishDetails", args)
+GetBulkPublishDetails(a...; b...) = GetBulkPublishDetails(a..., b)
 
 """
     GetCognitoEvents()
@@ -89,7 +101,9 @@ Required Parameters
   "IdentityPoolId": "The Cognito Identity Pool ID for the request"
 }
 """
-GetCognitoEvents(args) = cognito_sync("GET", "/identitypools/{IdentityPoolId}/events", args)
+GetCognitoEvents(IdentityPoolId) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)/events")
+GetCognitoEvents(IdentityPoolId, args) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)/events", args)
+GetCognitoEvents(a...; b...) = GetCognitoEvents(a..., b)
 
 """
     GetIdentityPoolConfiguration()
@@ -101,7 +115,9 @@ Required Parameters
   "IdentityPoolId": "A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. This is the ID of the pool for which to return a configuration."
 }
 """
-GetIdentityPoolConfiguration(args) = cognito_sync("GET", "/identitypools/{IdentityPoolId}/configuration", args)
+GetIdentityPoolConfiguration(IdentityPoolId) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)/configuration")
+GetIdentityPoolConfiguration(IdentityPoolId, args) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)/configuration", args)
+GetIdentityPoolConfiguration(a...; b...) = GetIdentityPoolConfiguration(a..., b)
 
 """
     ListDatasets()
@@ -120,7 +136,9 @@ Optional Parameters
   "NextToken": "A pagination token for obtaining the next page of results."
 }
 """
-ListDatasets(args) = cognito_sync("GET", "/identitypools/{IdentityPoolId}/identities/{IdentityId}/datasets", args)
+ListDatasets(IdentityId, IdentityPoolId) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets")
+ListDatasets(IdentityId, IdentityPoolId, args) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets", args)
+ListDatasets(a...; b...) = ListDatasets(a..., b)
 
 """
     ListIdentityPoolUsage()
@@ -135,6 +153,7 @@ Optional Parameters
 """
 ListIdentityPoolUsage() = cognito_sync("GET", "/identitypools")
 ListIdentityPoolUsage(args) = cognito_sync("GET", "/identitypools", args)
+ListIdentityPoolUsage(a...; b...) = ListIdentityPoolUsage(a..., b)
 
 """
     ListRecords()
@@ -156,7 +175,9 @@ Optional Parameters
   "SyncSessionToken": "A token containing a session ID, identity ID, and expiration."
 }
 """
-ListRecords(args) = cognito_sync("GET", "/identitypools/{IdentityPoolId}/identities/{IdentityId}/datasets/{DatasetName}/records", args)
+ListRecords(DatasetName, IdentityId, IdentityPoolId) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)/records")
+ListRecords(DatasetName, IdentityId, IdentityPoolId, args) = cognito_sync("GET", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)/records", args)
+ListRecords(a...; b...) = ListRecords(a..., b)
 
 """
     RegisterDevice()
@@ -171,7 +192,9 @@ Required Parameters
   "Token": "The push token."
 }
 """
-RegisterDevice(args) = cognito_sync("POST", "/identitypools/{IdentityPoolId}/identity/{IdentityId}/device", args)
+RegisterDevice(IdentityId, IdentityPoolId, Platform, Token) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/identity/$(IdentityId)/device")
+RegisterDevice(IdentityId, IdentityPoolId, Platform, Token, args) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/identity/$(IdentityId)/device", args)
+RegisterDevice(a...; b...) = RegisterDevice(a..., b)
 
 """
     SetCognitoEvents()
@@ -184,7 +207,9 @@ Required Parameters
   "IdentityPoolId": "The Cognito Identity Pool to use when configuring Cognito Events"
 }
 """
-SetCognitoEvents(args) = cognito_sync("POST", "/identitypools/{IdentityPoolId}/events", args)
+SetCognitoEvents(Events, IdentityPoolId) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/events")
+SetCognitoEvents(Events, IdentityPoolId, args) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/events", args)
+SetCognitoEvents(a...; b...) = SetCognitoEvents(a..., b)
 
 """
     SetIdentityPoolConfiguration()
@@ -202,7 +227,9 @@ Optional Parameters
   "PushSync": "Options to apply to this identity pool for push synchronization."
 }
 """
-SetIdentityPoolConfiguration(args) = cognito_sync("POST", "/identitypools/{IdentityPoolId}/configuration", args)
+SetIdentityPoolConfiguration(IdentityPoolId) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/configuration")
+SetIdentityPoolConfiguration(IdentityPoolId, args) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/configuration", args)
+SetIdentityPoolConfiguration(a...; b...) = SetIdentityPoolConfiguration(a..., b)
 
 """
     SubscribeToDataset()
@@ -217,7 +244,9 @@ Required Parameters
   "IdentityPoolId": "A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. The ID of the pool to which the identity belongs."
 }
 """
-SubscribeToDataset(args) = cognito_sync("POST", "/identitypools/{IdentityPoolId}/identities/{IdentityId}/datasets/{DatasetName}/subscriptions/{DeviceId}", args)
+SubscribeToDataset(DatasetName, DeviceId, IdentityId, IdentityPoolId) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)/subscriptions/$(DeviceId)")
+SubscribeToDataset(DatasetName, DeviceId, IdentityId, IdentityPoolId, args) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)/subscriptions/$(DeviceId)", args)
+SubscribeToDataset(a...; b...) = SubscribeToDataset(a..., b)
 
 """
     UnsubscribeFromDataset()
@@ -232,7 +261,9 @@ Required Parameters
   "IdentityPoolId": "A name-spaced GUID (for example, us-east-1:23EC4050-6AEA-7089-A2DD-08002EXAMPLE) created by Amazon Cognito. The ID of the pool to which this identity belongs."
 }
 """
-UnsubscribeFromDataset(args) = cognito_sync("DELETE", "/identitypools/{IdentityPoolId}/identities/{IdentityId}/datasets/{DatasetName}/subscriptions/{DeviceId}", args)
+UnsubscribeFromDataset(DatasetName, DeviceId, IdentityId, IdentityPoolId) = cognito_sync("DELETE", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)/subscriptions/$(DeviceId)")
+UnsubscribeFromDataset(DatasetName, DeviceId, IdentityId, IdentityPoolId, args) = cognito_sync("DELETE", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)/subscriptions/$(DeviceId)", args)
+UnsubscribeFromDataset(a...; b...) = UnsubscribeFromDataset(a..., b)
 
 """
     UpdateRecords()
@@ -254,4 +285,6 @@ Optional Parameters
   "RecordPatches": "A list of patch operations."
 }
 """
-UpdateRecords(args) = cognito_sync("POST", "/identitypools/{IdentityPoolId}/identities/{IdentityId}/datasets/{DatasetName}", args)
+UpdateRecords(DatasetName, IdentityId, IdentityPoolId, SyncSessionToken) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)")
+UpdateRecords(DatasetName, IdentityId, IdentityPoolId, SyncSessionToken, args) = cognito_sync("POST", "/identitypools/$(IdentityPoolId)/identities/$(IdentityId)/datasets/$(DatasetName)", args)
+UpdateRecords(a...; b...) = UpdateRecords(a..., b)

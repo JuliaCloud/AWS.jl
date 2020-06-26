@@ -12,7 +12,9 @@ Required Parameters
   "Id": "The identifier of the job that you want to cancel. To get a list of the jobs (including their jobId) that have a status of Submitted, use the ListJobsByStatus API action."
 }
 """
-CancelJob(args) = elastic_transcoder("DELETE", "/2012-09-25/jobs/{Id}", args)
+CancelJob(Id) = elastic_transcoder("DELETE", "/2012-09-25/jobs/$(Id)")
+CancelJob(Id, args) = elastic_transcoder("DELETE", "/2012-09-25/jobs/$(Id)", args)
+CancelJob(a...; b...) = CancelJob(a..., b)
 
 """
     CreateJob()
@@ -35,7 +37,9 @@ Optional Parameters
   "UserMetadata": "User-defined metadata that you want to associate with an Elastic Transcoder job. You specify metadata in key/value pairs, and you can add up to 10 key/value pairs per job. Elastic Transcoder does not guarantee that key/value pairs are returned in the same order in which you specify them."
 }
 """
-CreateJob(args) = elastic_transcoder("POST", "/2012-09-25/jobs", args)
+CreateJob(PipelineId) = elastic_transcoder("POST", "/2012-09-25/jobs")
+CreateJob(PipelineId, args) = elastic_transcoder("POST", "/2012-09-25/jobs", args)
+CreateJob(a...; b...) = CreateJob(a..., b)
 
 """
     CreatePipeline()
@@ -58,7 +62,9 @@ Optional Parameters
   "ThumbnailConfig": "The ThumbnailConfig object specifies several values, including the Amazon S3 bucket in which you want Elastic Transcoder to save thumbnail files, which users you want to have access to the files, the type of access you want users to have, and the storage class that you want to assign to the files. If you specify values for ContentConfig, you must also specify values for ThumbnailConfig even if you don't want to create thumbnails. If you specify values for ContentConfig and ThumbnailConfig, omit the OutputBucket object.    Bucket: The Amazon S3 bucket in which you want Elastic Transcoder to save thumbnail files.    Permissions (Optional): The Permissions object specifies which users and/or predefined Amazon S3 groups you want to have access to thumbnail files, and the type of access you want them to have. You can grant permissions to a maximum of 30 users and/or predefined Amazon S3 groups.    GranteeType: Specify the type of value that appears in the Grantee object:     Canonical: The value in the Grantee object is either the canonical user ID for an AWS account or an origin access identity for an Amazon CloudFront distribution.  A canonical user ID is not the same as an AWS account number.     Email: The value in the Grantee object is the registered email address of an AWS account.     Group: The value in the Grantee object is one of the following predefined Amazon S3 groups: AllUsers, AuthenticatedUsers, or LogDelivery.      Grantee: The AWS user or group that you want to have access to thumbnail files. To identify the user or group, you can specify the canonical user ID for an AWS account, an origin access identity for a CloudFront distribution, the registered email address of an AWS account, or a predefined Amazon S3 group.     Access: The permission that you want to give to the AWS user that you specified in Grantee. Permissions are granted on the thumbnail files that Elastic Transcoder adds to the bucket. Valid values include:     READ: The grantee can read the thumbnails and metadata for objects that Elastic Transcoder adds to the Amazon S3 bucket.    READ_ACP: The grantee can read the object ACL for thumbnails that Elastic Transcoder adds to the Amazon S3 bucket.    WRITE_ACP: The grantee can write the ACL for the thumbnails that Elastic Transcoder adds to the Amazon S3 bucket.    FULL_CONTROL: The grantee has READ, READ_ACP, and WRITE_ACP permissions for the thumbnails that Elastic Transcoder adds to the Amazon S3 bucket.      StorageClass: The Amazon S3 storage class, Standard or ReducedRedundancy, that you want Elastic Transcoder to assign to the thumbnails that it stores in your Amazon S3 bucket.  "
 }
 """
-CreatePipeline(args) = elastic_transcoder("POST", "/2012-09-25/pipelines", args)
+CreatePipeline(InputBucket, Name, Role) = elastic_transcoder("POST", "/2012-09-25/pipelines")
+CreatePipeline(InputBucket, Name, Role, args) = elastic_transcoder("POST", "/2012-09-25/pipelines", args)
+CreatePipeline(a...; b...) = CreatePipeline(a..., b)
 
 """
     CreatePreset()
@@ -79,7 +85,9 @@ Optional Parameters
   "Video": "A section of the request body that specifies the video parameters."
 }
 """
-CreatePreset(args) = elastic_transcoder("POST", "/2012-09-25/presets", args)
+CreatePreset(Container, Name) = elastic_transcoder("POST", "/2012-09-25/presets")
+CreatePreset(Container, Name, args) = elastic_transcoder("POST", "/2012-09-25/presets", args)
+CreatePreset(a...; b...) = CreatePreset(a..., b)
 
 """
     DeletePipeline()
@@ -91,7 +99,9 @@ Required Parameters
   "Id": "The identifier of the pipeline that you want to delete."
 }
 """
-DeletePipeline(args) = elastic_transcoder("DELETE", "/2012-09-25/pipelines/{Id}", args)
+DeletePipeline(Id) = elastic_transcoder("DELETE", "/2012-09-25/pipelines/$(Id)")
+DeletePipeline(Id, args) = elastic_transcoder("DELETE", "/2012-09-25/pipelines/$(Id)", args)
+DeletePipeline(a...; b...) = DeletePipeline(a..., b)
 
 """
     DeletePreset()
@@ -103,7 +113,9 @@ Required Parameters
   "Id": "The identifier of the preset for which you want to get detailed information."
 }
 """
-DeletePreset(args) = elastic_transcoder("DELETE", "/2012-09-25/presets/{Id}", args)
+DeletePreset(Id) = elastic_transcoder("DELETE", "/2012-09-25/presets/$(Id)")
+DeletePreset(Id, args) = elastic_transcoder("DELETE", "/2012-09-25/presets/$(Id)", args)
+DeletePreset(a...; b...) = DeletePreset(a..., b)
 
 """
     ListJobsByPipeline()
@@ -121,7 +133,9 @@ Optional Parameters
   "PageToken": " When Elastic Transcoder returns more than one page of results, use pageToken in subsequent GET requests to get each successive page of results. "
 }
 """
-ListJobsByPipeline(args) = elastic_transcoder("GET", "/2012-09-25/jobsByPipeline/{PipelineId}", args)
+ListJobsByPipeline(PipelineId) = elastic_transcoder("GET", "/2012-09-25/jobsByPipeline/$(PipelineId)")
+ListJobsByPipeline(PipelineId, args) = elastic_transcoder("GET", "/2012-09-25/jobsByPipeline/$(PipelineId)", args)
+ListJobsByPipeline(a...; b...) = ListJobsByPipeline(a..., b)
 
 """
     ListJobsByStatus()
@@ -139,7 +153,9 @@ Optional Parameters
   "PageToken": " When Elastic Transcoder returns more than one page of results, use pageToken in subsequent GET requests to get each successive page of results. "
 }
 """
-ListJobsByStatus(args) = elastic_transcoder("GET", "/2012-09-25/jobsByStatus/{Status}", args)
+ListJobsByStatus(Status) = elastic_transcoder("GET", "/2012-09-25/jobsByStatus/$(Status)")
+ListJobsByStatus(Status, args) = elastic_transcoder("GET", "/2012-09-25/jobsByStatus/$(Status)", args)
+ListJobsByStatus(a...; b...) = ListJobsByStatus(a..., b)
 
 """
     ListPipelines()
@@ -154,6 +170,7 @@ Optional Parameters
 """
 ListPipelines() = elastic_transcoder("GET", "/2012-09-25/pipelines")
 ListPipelines(args) = elastic_transcoder("GET", "/2012-09-25/pipelines", args)
+ListPipelines(a...; b...) = ListPipelines(a..., b)
 
 """
     ListPresets()
@@ -168,6 +185,7 @@ Optional Parameters
 """
 ListPresets() = elastic_transcoder("GET", "/2012-09-25/presets")
 ListPresets(args) = elastic_transcoder("GET", "/2012-09-25/presets", args)
+ListPresets(a...; b...) = ListPresets(a..., b)
 
 """
     ReadJob()
@@ -179,7 +197,9 @@ Required Parameters
   "Id": "The identifier of the job for which you want to get detailed information."
 }
 """
-ReadJob(args) = elastic_transcoder("GET", "/2012-09-25/jobs/{Id}", args)
+ReadJob(Id) = elastic_transcoder("GET", "/2012-09-25/jobs/$(Id)")
+ReadJob(Id, args) = elastic_transcoder("GET", "/2012-09-25/jobs/$(Id)", args)
+ReadJob(a...; b...) = ReadJob(a..., b)
 
 """
     ReadPipeline()
@@ -191,7 +211,9 @@ Required Parameters
   "Id": "The identifier of the pipeline to read."
 }
 """
-ReadPipeline(args) = elastic_transcoder("GET", "/2012-09-25/pipelines/{Id}", args)
+ReadPipeline(Id) = elastic_transcoder("GET", "/2012-09-25/pipelines/$(Id)")
+ReadPipeline(Id, args) = elastic_transcoder("GET", "/2012-09-25/pipelines/$(Id)", args)
+ReadPipeline(a...; b...) = ReadPipeline(a..., b)
 
 """
     ReadPreset()
@@ -203,7 +225,9 @@ Required Parameters
   "Id": "The identifier of the preset for which you want to get detailed information."
 }
 """
-ReadPreset(args) = elastic_transcoder("GET", "/2012-09-25/presets/{Id}", args)
+ReadPreset(Id) = elastic_transcoder("GET", "/2012-09-25/presets/$(Id)")
+ReadPreset(Id, args) = elastic_transcoder("GET", "/2012-09-25/presets/$(Id)", args)
+ReadPreset(a...; b...) = ReadPreset(a..., b)
 
 """
     TestRole()
@@ -218,7 +242,9 @@ Required Parameters
   "Topics": "The ARNs of one or more Amazon Simple Notification Service (Amazon SNS) topics that you want the action to send a test notification to."
 }
 """
-TestRole(args) = elastic_transcoder("POST", "/2012-09-25/roleTests", args)
+TestRole(InputBucket, OutputBucket, Role, Topics) = elastic_transcoder("POST", "/2012-09-25/roleTests")
+TestRole(InputBucket, OutputBucket, Role, Topics, args) = elastic_transcoder("POST", "/2012-09-25/roleTests", args)
+TestRole(a...; b...) = TestRole(a..., b)
 
 """
     UpdatePipeline()
@@ -241,7 +267,9 @@ Optional Parameters
   "ThumbnailConfig": "The ThumbnailConfig object specifies several values, including the Amazon S3 bucket in which you want Elastic Transcoder to save thumbnail files, which users you want to have access to the files, the type of access you want users to have, and the storage class that you want to assign to the files. If you specify values for ContentConfig, you must also specify values for ThumbnailConfig even if you don't want to create thumbnails. If you specify values for ContentConfig and ThumbnailConfig, omit the OutputBucket object.    Bucket: The Amazon S3 bucket in which you want Elastic Transcoder to save thumbnail files.    Permissions (Optional): The Permissions object specifies which users and/or predefined Amazon S3 groups you want to have access to thumbnail files, and the type of access you want them to have. You can grant permissions to a maximum of 30 users and/or predefined Amazon S3 groups.    GranteeType: Specify the type of value that appears in the Grantee object:    Canonical: The value in the Grantee object is either the canonical user ID for an AWS account or an origin access identity for an Amazon CloudFront distribution.  A canonical user ID is not the same as an AWS account number.     Email: The value in the Grantee object is the registered email address of an AWS account.    Group: The value in the Grantee object is one of the following predefined Amazon S3 groups: AllUsers, AuthenticatedUsers, or LogDelivery.      Grantee: The AWS user or group that you want to have access to thumbnail files. To identify the user or group, you can specify the canonical user ID for an AWS account, an origin access identity for a CloudFront distribution, the registered email address of an AWS account, or a predefined Amazon S3 group.     Access: The permission that you want to give to the AWS user that you specified in Grantee. Permissions are granted on the thumbnail files that Elastic Transcoder adds to the bucket. Valid values include:     READ: The grantee can read the thumbnails and metadata for objects that Elastic Transcoder adds to the Amazon S3 bucket.    READ_ACP: The grantee can read the object ACL for thumbnails that Elastic Transcoder adds to the Amazon S3 bucket.    WRITE_ACP: The grantee can write the ACL for the thumbnails that Elastic Transcoder adds to the Amazon S3 bucket.    FULL_CONTROL: The grantee has READ, READ_ACP, and WRITE_ACP permissions for the thumbnails that Elastic Transcoder adds to the Amazon S3 bucket.       StorageClass: The Amazon S3 storage class, Standard or ReducedRedundancy, that you want Elastic Transcoder to assign to the thumbnails that it stores in your Amazon S3 bucket.  "
 }
 """
-UpdatePipeline(args) = elastic_transcoder("PUT", "/2012-09-25/pipelines/{Id}", args)
+UpdatePipeline(Id) = elastic_transcoder("PUT", "/2012-09-25/pipelines/$(Id)")
+UpdatePipeline(Id, args) = elastic_transcoder("PUT", "/2012-09-25/pipelines/$(Id)", args)
+UpdatePipeline(a...; b...) = UpdatePipeline(a..., b)
 
 """
     UpdatePipelineNotifications()
@@ -254,7 +282,9 @@ Required Parameters
   "Notifications": "The topic ARN for the Amazon Simple Notification Service (Amazon SNS) topic that you want to notify to report job status.  To receive notifications, you must also subscribe to the new topic in the Amazon SNS console.     Progressing: The topic ARN for the Amazon Simple Notification Service (Amazon SNS) topic that you want to notify when Elastic Transcoder has started to process jobs that are added to this pipeline. This is the ARN that Amazon SNS returned when you created the topic.    Complete: The topic ARN for the Amazon SNS topic that you want to notify when Elastic Transcoder has finished processing a job. This is the ARN that Amazon SNS returned when you created the topic.    Warning: The topic ARN for the Amazon SNS topic that you want to notify when Elastic Transcoder encounters a warning condition. This is the ARN that Amazon SNS returned when you created the topic.    Error: The topic ARN for the Amazon SNS topic that you want to notify when Elastic Transcoder encounters an error condition. This is the ARN that Amazon SNS returned when you created the topic.  "
 }
 """
-UpdatePipelineNotifications(args) = elastic_transcoder("POST", "/2012-09-25/pipelines/{Id}/notifications", args)
+UpdatePipelineNotifications(Id, Notifications) = elastic_transcoder("POST", "/2012-09-25/pipelines/$(Id)/notifications")
+UpdatePipelineNotifications(Id, Notifications, args) = elastic_transcoder("POST", "/2012-09-25/pipelines/$(Id)/notifications", args)
+UpdatePipelineNotifications(a...; b...) = UpdatePipelineNotifications(a..., b)
 
 """
     UpdatePipelineStatus()
@@ -267,4 +297,6 @@ Required Parameters
   "Status": "The desired status of the pipeline:    Active: The pipeline is processing jobs.    Paused: The pipeline is not currently processing jobs.  "
 }
 """
-UpdatePipelineStatus(args) = elastic_transcoder("POST", "/2012-09-25/pipelines/{Id}/status", args)
+UpdatePipelineStatus(Id, Status) = elastic_transcoder("POST", "/2012-09-25/pipelines/$(Id)/status")
+UpdatePipelineStatus(Id, Status, args) = elastic_transcoder("POST", "/2012-09-25/pipelines/$(Id)/status", args)
+UpdatePipelineStatus(a...; b...) = UpdatePipelineStatus(a..., b)

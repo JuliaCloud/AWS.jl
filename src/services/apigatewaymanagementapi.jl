@@ -12,7 +12,9 @@ Required Parameters
   "ConnectionId": ""
 }
 """
-DeleteConnection(args) = apigatewaymanagementapi("DELETE", "/@connections/{connectionId}", args)
+DeleteConnection(ConnectionId) = apigatewaymanagementapi("DELETE", "/@connections/$(connectionId)")
+DeleteConnection(ConnectionId, args) = apigatewaymanagementapi("DELETE", "/@connections/$(connectionId)", args)
+DeleteConnection(a...; b...) = DeleteConnection(a..., b)
 
 """
     GetConnection()
@@ -24,7 +26,9 @@ Required Parameters
   "ConnectionId": ""
 }
 """
-GetConnection(args) = apigatewaymanagementapi("GET", "/@connections/{connectionId}", args)
+GetConnection(ConnectionId) = apigatewaymanagementapi("GET", "/@connections/$(connectionId)")
+GetConnection(ConnectionId, args) = apigatewaymanagementapi("GET", "/@connections/$(connectionId)", args)
+GetConnection(a...; b...) = GetConnection(a..., b)
 
 """
     PostToConnection()
@@ -37,4 +41,6 @@ Required Parameters
   "Data": "The data to be sent to the client specified by its connection id."
 }
 """
-PostToConnection(args) = apigatewaymanagementapi("POST", "/@connections/{connectionId}", args)
+PostToConnection(ConnectionId, Data) = apigatewaymanagementapi("POST", "/@connections/$(connectionId)")
+PostToConnection(ConnectionId, Data, args) = apigatewaymanagementapi("POST", "/@connections/$(connectionId)", args)
+PostToConnection(a...; b...) = PostToConnection(a..., b)

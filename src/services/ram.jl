@@ -17,7 +17,9 @@ Optional Parameters
   "clientToken": "A unique, case-sensitive identifier that you provide to ensure the idempotency of the request."
 }
 """
-AcceptResourceShareInvitation(args) = ram("POST", "/acceptresourceshareinvitation", args)
+AcceptResourceShareInvitation(resourceShareInvitationArn) = ram("POST", "/acceptresourceshareinvitation")
+AcceptResourceShareInvitation(resourceShareInvitationArn, args) = ram("POST", "/acceptresourceshareinvitation", args)
+AcceptResourceShareInvitation(a...; b...) = AcceptResourceShareInvitation(a..., b)
 
 """
     AssociateResourceShare()
@@ -36,7 +38,9 @@ Optional Parameters
   "resourceArns": "The Amazon Resource Names (ARN) of the resources."
 }
 """
-AssociateResourceShare(args) = ram("POST", "/associateresourceshare", args)
+AssociateResourceShare(resourceShareArn) = ram("POST", "/associateresourceshare")
+AssociateResourceShare(resourceShareArn, args) = ram("POST", "/associateresourceshare", args)
+AssociateResourceShare(a...; b...) = AssociateResourceShare(a..., b)
 
 """
     AssociateResourceSharePermission()
@@ -55,7 +59,9 @@ Optional Parameters
   "replace": "Indicates whether the permission should replace the permissions that are currently associated with the resource share. Use true to replace the current permissions. Use false to add the permission to the current permission."
 }
 """
-AssociateResourceSharePermission(args) = ram("POST", "/associateresourcesharepermission", args)
+AssociateResourceSharePermission(permissionArn, resourceShareArn) = ram("POST", "/associateresourcesharepermission")
+AssociateResourceSharePermission(permissionArn, resourceShareArn, args) = ram("POST", "/associateresourcesharepermission", args)
+AssociateResourceSharePermission(a...; b...) = AssociateResourceSharePermission(a..., b)
 
 """
     CreateResourceShare()
@@ -77,7 +83,9 @@ Optional Parameters
   "tags": "One or more tags."
 }
 """
-CreateResourceShare(args) = ram("POST", "/createresourceshare", args)
+CreateResourceShare(name) = ram("POST", "/createresourceshare")
+CreateResourceShare(name, args) = ram("POST", "/createresourceshare", args)
+CreateResourceShare(a...; b...) = CreateResourceShare(a..., b)
 
 """
     DeleteResourceShare()
@@ -94,7 +102,9 @@ Optional Parameters
   "clientToken": "A unique, case-sensitive identifier that you provide to ensure the idempotency of the request."
 }
 """
-DeleteResourceShare(args) = ram("DELETE", "/deleteresourceshare", args)
+DeleteResourceShare(resourceShareArn) = ram("DELETE", "/deleteresourceshare")
+DeleteResourceShare(resourceShareArn, args) = ram("DELETE", "/deleteresourceshare", args)
+DeleteResourceShare(a...; b...) = DeleteResourceShare(a..., b)
 
 """
     DisassociateResourceShare()
@@ -113,7 +123,9 @@ Optional Parameters
   "resourceArns": "The Amazon Resource Names (ARNs) of the resources."
 }
 """
-DisassociateResourceShare(args) = ram("POST", "/disassociateresourceshare", args)
+DisassociateResourceShare(resourceShareArn) = ram("POST", "/disassociateresourceshare")
+DisassociateResourceShare(resourceShareArn, args) = ram("POST", "/disassociateresourceshare", args)
+DisassociateResourceShare(a...; b...) = DisassociateResourceShare(a..., b)
 
 """
     DisassociateResourceSharePermission()
@@ -131,7 +143,9 @@ Optional Parameters
   "clientToken": "A unique, case-sensitive identifier that you provide to ensure the idempotency of the request."
 }
 """
-DisassociateResourceSharePermission(args) = ram("POST", "/disassociateresourcesharepermission", args)
+DisassociateResourceSharePermission(permissionArn, resourceShareArn) = ram("POST", "/disassociateresourcesharepermission")
+DisassociateResourceSharePermission(permissionArn, resourceShareArn, args) = ram("POST", "/disassociateresourcesharepermission", args)
+DisassociateResourceSharePermission(a...; b...) = DisassociateResourceSharePermission(a..., b)
 
 """
     EnableSharingWithAwsOrganization()
@@ -140,6 +154,7 @@ Enables resource sharing within your AWS Organization. The caller must be the ma
 """
 EnableSharingWithAwsOrganization() = ram("POST", "/enablesharingwithawsorganization")
 EnableSharingWithAwsOrganization(args) = ram("POST", "/enablesharingwithawsorganization", args)
+EnableSharingWithAwsOrganization(a...; b...) = EnableSharingWithAwsOrganization(a..., b)
 
 """
     GetPermission()
@@ -156,7 +171,9 @@ Optional Parameters
   "permissionVersion": "The identifier for the version of the permission."
 }
 """
-GetPermission(args) = ram("POST", "/getpermission", args)
+GetPermission(permissionArn) = ram("POST", "/getpermission")
+GetPermission(permissionArn, args) = ram("POST", "/getpermission", args)
+GetPermission(a...; b...) = GetPermission(a..., b)
 
 """
     GetResourcePolicies()
@@ -175,7 +192,9 @@ Optional Parameters
   "principal": "The principal."
 }
 """
-GetResourcePolicies(args) = ram("POST", "/getresourcepolicies", args)
+GetResourcePolicies(resourceArns) = ram("POST", "/getresourcepolicies")
+GetResourcePolicies(resourceArns, args) = ram("POST", "/getresourcepolicies", args)
+GetResourcePolicies(a...; b...) = GetResourcePolicies(a..., b)
 
 """
     GetResourceShareAssociations()
@@ -197,7 +216,9 @@ Optional Parameters
   "resourceShareArns": "The Amazon Resource Names (ARN) of the resource shares."
 }
 """
-GetResourceShareAssociations(args) = ram("POST", "/getresourceshareassociations", args)
+GetResourceShareAssociations(associationType) = ram("POST", "/getresourceshareassociations")
+GetResourceShareAssociations(associationType, args) = ram("POST", "/getresourceshareassociations", args)
+GetResourceShareAssociations(a...; b...) = GetResourceShareAssociations(a..., b)
 
 """
     GetResourceShareInvitations()
@@ -214,6 +235,7 @@ Optional Parameters
 """
 GetResourceShareInvitations() = ram("POST", "/getresourceshareinvitations")
 GetResourceShareInvitations(args) = ram("POST", "/getresourceshareinvitations", args)
+GetResourceShareInvitations(a...; b...) = GetResourceShareInvitations(a..., b)
 
 """
     GetResourceShares()
@@ -235,7 +257,9 @@ Optional Parameters
   "tagFilters": "One or more tag filters."
 }
 """
-GetResourceShares(args) = ram("POST", "/getresourceshares", args)
+GetResourceShares(resourceOwner) = ram("POST", "/getresourceshares")
+GetResourceShares(resourceOwner, args) = ram("POST", "/getresourceshares", args)
+GetResourceShares(a...; b...) = GetResourceShares(a..., b)
 
 """
     ListPendingInvitationResources()
@@ -253,7 +277,9 @@ Optional Parameters
   "nextToken": "The token for the next page of results."
 }
 """
-ListPendingInvitationResources(args) = ram("POST", "/listpendinginvitationresources", args)
+ListPendingInvitationResources(resourceShareInvitationArn) = ram("POST", "/listpendinginvitationresources")
+ListPendingInvitationResources(resourceShareInvitationArn, args) = ram("POST", "/listpendinginvitationresources", args)
+ListPendingInvitationResources(a...; b...) = ListPendingInvitationResources(a..., b)
 
 """
     ListPermissions()
@@ -269,6 +295,7 @@ Optional Parameters
 """
 ListPermissions() = ram("POST", "/listpermissions")
 ListPermissions(args) = ram("POST", "/listpermissions", args)
+ListPermissions(a...; b...) = ListPermissions(a..., b)
 
 """
     ListPrincipals()
@@ -290,7 +317,9 @@ Optional Parameters
   "resourceType": "The resource type. Valid values: codebuild:Project | codebuild:ReportGroup | ec2:CapacityReservation | ec2:DedicatedHost | ec2:Subnet | ec2:TrafficMirrorTarget | ec2:TransitGateway | imagebuilder:Component | imagebuilder:Image | imagebuilder:ImageRecipe | license-manager:LicenseConfiguration I resource-groups:Group | rds:Cluster | route53resolver:ResolverRule "
 }
 """
-ListPrincipals(args) = ram("POST", "/listprincipals", args)
+ListPrincipals(resourceOwner) = ram("POST", "/listprincipals")
+ListPrincipals(resourceOwner, args) = ram("POST", "/listprincipals", args)
+ListPrincipals(a...; b...) = ListPrincipals(a..., b)
 
 """
     ListResourceSharePermissions()
@@ -308,7 +337,9 @@ Optional Parameters
   "nextToken": "The token for the next page of results."
 }
 """
-ListResourceSharePermissions(args) = ram("POST", "/listresourcesharepermissions", args)
+ListResourceSharePermissions(resourceShareArn) = ram("POST", "/listresourcesharepermissions")
+ListResourceSharePermissions(resourceShareArn, args) = ram("POST", "/listresourcesharepermissions", args)
+ListResourceSharePermissions(a...; b...) = ListResourceSharePermissions(a..., b)
 
 """
     ListResourceTypes()
@@ -323,6 +354,7 @@ Optional Parameters
 """
 ListResourceTypes() = ram("POST", "/listresourcetypes")
 ListResourceTypes(args) = ram("POST", "/listresourcetypes", args)
+ListResourceTypes(a...; b...) = ListResourceTypes(a..., b)
 
 """
     ListResources()
@@ -344,7 +376,9 @@ Optional Parameters
   "resourceType": "The resource type. Valid values: codebuild:Project | codebuild:ReportGroup | ec2:CapacityReservation | ec2:DedicatedHost | ec2:Subnet | ec2:TrafficMirrorTarget | ec2:TransitGateway | imagebuilder:Component | imagebuilder:Image | imagebuilder:ImageRecipe | license-manager:LicenseConfiguration I resource-groups:Group | rds:Cluster | route53resolver:ResolverRule "
 }
 """
-ListResources(args) = ram("POST", "/listresources", args)
+ListResources(resourceOwner) = ram("POST", "/listresources")
+ListResources(resourceOwner, args) = ram("POST", "/listresources", args)
+ListResources(a...; b...) = ListResources(a..., b)
 
 """
     PromoteResourceShareCreatedFromPolicy()
@@ -356,7 +390,9 @@ Required Parameters
   "resourceShareArn": "The ARN of the resource share to promote."
 }
 """
-PromoteResourceShareCreatedFromPolicy(args) = ram("POST", "/promoteresourcesharecreatedfrompolicy", args)
+PromoteResourceShareCreatedFromPolicy(resourceShareArn) = ram("POST", "/promoteresourcesharecreatedfrompolicy")
+PromoteResourceShareCreatedFromPolicy(resourceShareArn, args) = ram("POST", "/promoteresourcesharecreatedfrompolicy", args)
+PromoteResourceShareCreatedFromPolicy(a...; b...) = PromoteResourceShareCreatedFromPolicy(a..., b)
 
 """
     RejectResourceShareInvitation()
@@ -373,7 +409,9 @@ Optional Parameters
   "clientToken": "A unique, case-sensitive identifier that you provide to ensure the idempotency of the request."
 }
 """
-RejectResourceShareInvitation(args) = ram("POST", "/rejectresourceshareinvitation", args)
+RejectResourceShareInvitation(resourceShareInvitationArn) = ram("POST", "/rejectresourceshareinvitation")
+RejectResourceShareInvitation(resourceShareInvitationArn, args) = ram("POST", "/rejectresourceshareinvitation", args)
+RejectResourceShareInvitation(a...; b...) = RejectResourceShareInvitation(a..., b)
 
 """
     TagResource()
@@ -386,7 +424,9 @@ Required Parameters
   "tags": "One or more tags."
 }
 """
-TagResource(args) = ram("POST", "/tagresource", args)
+TagResource(resourceShareArn, tags) = ram("POST", "/tagresource")
+TagResource(resourceShareArn, tags, args) = ram("POST", "/tagresource", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
@@ -399,7 +439,9 @@ Required Parameters
   "tagKeys": "The tag keys of the tags to remove."
 }
 """
-UntagResource(args) = ram("POST", "/untagresource", args)
+UntagResource(resourceShareArn, tagKeys) = ram("POST", "/untagresource")
+UntagResource(resourceShareArn, tagKeys, args) = ram("POST", "/untagresource", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateResourceShare()
@@ -418,4 +460,6 @@ Optional Parameters
   "name": "The name of the resource share."
 }
 """
-UpdateResourceShare(args) = ram("POST", "/updateresourceshare", args)
+UpdateResourceShare(resourceShareArn) = ram("POST", "/updateresourceshare")
+UpdateResourceShare(resourceShareArn, args) = ram("POST", "/updateresourceshare", args)
+UpdateResourceShare(a...; b...) = UpdateResourceShare(a..., b)

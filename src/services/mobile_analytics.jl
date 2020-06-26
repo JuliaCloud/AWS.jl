@@ -18,4 +18,6 @@ Optional Parameters
   "clientContextEncoding": "The encoding used for the client context."
 }
 """
-PutEvents(args) = mobile_analytics("POST", "/2014-06-05/events", args)
+PutEvents(clientContext, events) = mobile_analytics("POST", "/2014-06-05/events")
+PutEvents(clientContext, events, args) = mobile_analytics("POST", "/2014-06-05/events", args)
+PutEvents(a...; b...) = PutEvents(a..., b)

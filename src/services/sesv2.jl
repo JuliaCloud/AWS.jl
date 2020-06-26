@@ -22,7 +22,9 @@ Optional Parameters
   "TrackingOptions": "An object that defines the open and click tracking options for emails that you send using the configuration set."
 }
 """
-CreateConfigurationSet(args) = sesv2("POST", "/v2/email/configuration-sets", args)
+CreateConfigurationSet(ConfigurationSetName) = sesv2("POST", "/v2/email/configuration-sets")
+CreateConfigurationSet(ConfigurationSetName, args) = sesv2("POST", "/v2/email/configuration-sets", args)
+CreateConfigurationSet(a...; b...) = CreateConfigurationSet(a..., b)
 
 """
     CreateConfigurationSetEventDestination()
@@ -36,7 +38,9 @@ Required Parameters
   "EventDestinationName": "A name that identifies the event destination within the configuration set."
 }
 """
-CreateConfigurationSetEventDestination(args) = sesv2("POST", "/v2/email/configuration-sets/{ConfigurationSetName}/event-destinations", args)
+CreateConfigurationSetEventDestination(ConfigurationSetName, EventDestination, EventDestinationName) = sesv2("POST", "/v2/email/configuration-sets/$(ConfigurationSetName)/event-destinations")
+CreateConfigurationSetEventDestination(ConfigurationSetName, EventDestination, EventDestinationName, args) = sesv2("POST", "/v2/email/configuration-sets/$(ConfigurationSetName)/event-destinations", args)
+CreateConfigurationSetEventDestination(a...; b...) = CreateConfigurationSetEventDestination(a..., b)
 
 """
     CreateDedicatedIpPool()
@@ -53,7 +57,9 @@ Optional Parameters
   "Tags": "An object that defines the tags (keys and values) that you want to associate with the pool."
 }
 """
-CreateDedicatedIpPool(args) = sesv2("POST", "/v2/email/dedicated-ip-pools", args)
+CreateDedicatedIpPool(PoolName) = sesv2("POST", "/v2/email/dedicated-ip-pools")
+CreateDedicatedIpPool(PoolName, args) = sesv2("POST", "/v2/email/dedicated-ip-pools", args)
+CreateDedicatedIpPool(a...; b...) = CreateDedicatedIpPool(a..., b)
 
 """
     CreateDeliverabilityTestReport()
@@ -72,7 +78,9 @@ Optional Parameters
   "Tags": "An array of objects that define the tags (keys and values) that you want to associate with the predictive inbox placement test."
 }
 """
-CreateDeliverabilityTestReport(args) = sesv2("POST", "/v2/email/deliverability-dashboard/test", args)
+CreateDeliverabilityTestReport(Content, FromEmailAddress) = sesv2("POST", "/v2/email/deliverability-dashboard/test")
+CreateDeliverabilityTestReport(Content, FromEmailAddress, args) = sesv2("POST", "/v2/email/deliverability-dashboard/test", args)
+CreateDeliverabilityTestReport(a...; b...) = CreateDeliverabilityTestReport(a..., b)
 
 """
     CreateEmailIdentity()
@@ -90,7 +98,9 @@ Optional Parameters
   "Tags": "An array of objects that define the tags (keys and values) that you want to associate with the email identity."
 }
 """
-CreateEmailIdentity(args) = sesv2("POST", "/v2/email/identities", args)
+CreateEmailIdentity(EmailIdentity) = sesv2("POST", "/v2/email/identities")
+CreateEmailIdentity(EmailIdentity, args) = sesv2("POST", "/v2/email/identities", args)
+CreateEmailIdentity(a...; b...) = CreateEmailIdentity(a..., b)
 
 """
     DeleteConfigurationSet()
@@ -102,7 +112,9 @@ Required Parameters
   "ConfigurationSetName": "The name of the configuration set that you want to delete."
 }
 """
-DeleteConfigurationSet(args) = sesv2("DELETE", "/v2/email/configuration-sets/{ConfigurationSetName}", args)
+DeleteConfigurationSet(ConfigurationSetName) = sesv2("DELETE", "/v2/email/configuration-sets/$(ConfigurationSetName)")
+DeleteConfigurationSet(ConfigurationSetName, args) = sesv2("DELETE", "/v2/email/configuration-sets/$(ConfigurationSetName)", args)
+DeleteConfigurationSet(a...; b...) = DeleteConfigurationSet(a..., b)
 
 """
     DeleteConfigurationSetEventDestination()
@@ -115,7 +127,9 @@ Required Parameters
   "EventDestinationName": "The name of the event destination that you want to delete."
 }
 """
-DeleteConfigurationSetEventDestination(args) = sesv2("DELETE", "/v2/email/configuration-sets/{ConfigurationSetName}/event-destinations/{EventDestinationName}", args)
+DeleteConfigurationSetEventDestination(ConfigurationSetName, EventDestinationName) = sesv2("DELETE", "/v2/email/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)")
+DeleteConfigurationSetEventDestination(ConfigurationSetName, EventDestinationName, args) = sesv2("DELETE", "/v2/email/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)", args)
+DeleteConfigurationSetEventDestination(a...; b...) = DeleteConfigurationSetEventDestination(a..., b)
 
 """
     DeleteDedicatedIpPool()
@@ -127,7 +141,9 @@ Required Parameters
   "PoolName": "The name of the dedicated IP pool that you want to delete."
 }
 """
-DeleteDedicatedIpPool(args) = sesv2("DELETE", "/v2/email/dedicated-ip-pools/{PoolName}", args)
+DeleteDedicatedIpPool(PoolName) = sesv2("DELETE", "/v2/email/dedicated-ip-pools/$(PoolName)")
+DeleteDedicatedIpPool(PoolName, args) = sesv2("DELETE", "/v2/email/dedicated-ip-pools/$(PoolName)", args)
+DeleteDedicatedIpPool(a...; b...) = DeleteDedicatedIpPool(a..., b)
 
 """
     DeleteEmailIdentity()
@@ -139,7 +155,9 @@ Required Parameters
   "EmailIdentity": "The identity (that is, the email address or domain) that you want to delete."
 }
 """
-DeleteEmailIdentity(args) = sesv2("DELETE", "/v2/email/identities/{EmailIdentity}", args)
+DeleteEmailIdentity(EmailIdentity) = sesv2("DELETE", "/v2/email/identities/$(EmailIdentity)")
+DeleteEmailIdentity(EmailIdentity, args) = sesv2("DELETE", "/v2/email/identities/$(EmailIdentity)", args)
+DeleteEmailIdentity(a...; b...) = DeleteEmailIdentity(a..., b)
 
 """
     DeleteSuppressedDestination()
@@ -151,7 +169,9 @@ Required Parameters
   "EmailAddress": "The suppressed email destination to remove from the account suppression list."
 }
 """
-DeleteSuppressedDestination(args) = sesv2("DELETE", "/v2/email/suppression/addresses/{EmailAddress}", args)
+DeleteSuppressedDestination(EmailAddress) = sesv2("DELETE", "/v2/email/suppression/addresses/$(EmailAddress)")
+DeleteSuppressedDestination(EmailAddress, args) = sesv2("DELETE", "/v2/email/suppression/addresses/$(EmailAddress)", args)
+DeleteSuppressedDestination(a...; b...) = DeleteSuppressedDestination(a..., b)
 
 """
     GetAccount()
@@ -160,6 +180,7 @@ Obtain information about the email-sending status and capabilities of your Amazo
 """
 GetAccount() = sesv2("GET", "/v2/email/account")
 GetAccount(args) = sesv2("GET", "/v2/email/account", args)
+GetAccount(a...; b...) = GetAccount(a..., b)
 
 """
     GetBlacklistReports()
@@ -171,7 +192,9 @@ Required Parameters
   "BlacklistItemNames": "A list of IP addresses that you want to retrieve blacklist information about. You can only specify the dedicated IP addresses that you use to send email using Amazon SES or Amazon Pinpoint."
 }
 """
-GetBlacklistReports(args) = sesv2("GET", "/v2/email/deliverability-dashboard/blacklist-report", args)
+GetBlacklistReports(BlacklistItemNames) = sesv2("GET", "/v2/email/deliverability-dashboard/blacklist-report")
+GetBlacklistReports(BlacklistItemNames, args) = sesv2("GET", "/v2/email/deliverability-dashboard/blacklist-report", args)
+GetBlacklistReports(a...; b...) = GetBlacklistReports(a..., b)
 
 """
     GetConfigurationSet()
@@ -183,7 +206,9 @@ Required Parameters
   "ConfigurationSetName": "The name of the configuration set that you want to obtain more information about."
 }
 """
-GetConfigurationSet(args) = sesv2("GET", "/v2/email/configuration-sets/{ConfigurationSetName}", args)
+GetConfigurationSet(ConfigurationSetName) = sesv2("GET", "/v2/email/configuration-sets/$(ConfigurationSetName)")
+GetConfigurationSet(ConfigurationSetName, args) = sesv2("GET", "/v2/email/configuration-sets/$(ConfigurationSetName)", args)
+GetConfigurationSet(a...; b...) = GetConfigurationSet(a..., b)
 
 """
     GetConfigurationSetEventDestinations()
@@ -195,7 +220,9 @@ Required Parameters
   "ConfigurationSetName": "The name of the configuration set that contains the event destination."
 }
 """
-GetConfigurationSetEventDestinations(args) = sesv2("GET", "/v2/email/configuration-sets/{ConfigurationSetName}/event-destinations", args)
+GetConfigurationSetEventDestinations(ConfigurationSetName) = sesv2("GET", "/v2/email/configuration-sets/$(ConfigurationSetName)/event-destinations")
+GetConfigurationSetEventDestinations(ConfigurationSetName, args) = sesv2("GET", "/v2/email/configuration-sets/$(ConfigurationSetName)/event-destinations", args)
+GetConfigurationSetEventDestinations(a...; b...) = GetConfigurationSetEventDestinations(a..., b)
 
 """
     GetDedicatedIp()
@@ -207,7 +234,9 @@ Required Parameters
   "Ip": "The IP address that you want to obtain more information about. The value you specify has to be a dedicated IP address that's assocaited with your AWS account."
 }
 """
-GetDedicatedIp(args) = sesv2("GET", "/v2/email/dedicated-ips/{IP}", args)
+GetDedicatedIp(Ip) = sesv2("GET", "/v2/email/dedicated-ips/$(IP)")
+GetDedicatedIp(Ip, args) = sesv2("GET", "/v2/email/dedicated-ips/$(IP)", args)
+GetDedicatedIp(a...; b...) = GetDedicatedIp(a..., b)
 
 """
     GetDedicatedIps()
@@ -223,6 +252,7 @@ Optional Parameters
 """
 GetDedicatedIps() = sesv2("GET", "/v2/email/dedicated-ips")
 GetDedicatedIps(args) = sesv2("GET", "/v2/email/dedicated-ips", args)
+GetDedicatedIps(a...; b...) = GetDedicatedIps(a..., b)
 
 """
     GetDeliverabilityDashboardOptions()
@@ -231,6 +261,7 @@ Retrieve information about the status of the Deliverability dashboard for your a
 """
 GetDeliverabilityDashboardOptions() = sesv2("GET", "/v2/email/deliverability-dashboard")
 GetDeliverabilityDashboardOptions(args) = sesv2("GET", "/v2/email/deliverability-dashboard", args)
+GetDeliverabilityDashboardOptions(a...; b...) = GetDeliverabilityDashboardOptions(a..., b)
 
 """
     GetDeliverabilityTestReport()
@@ -242,7 +273,9 @@ Required Parameters
   "ReportId": "A unique string that identifies the predictive inbox placement test."
 }
 """
-GetDeliverabilityTestReport(args) = sesv2("GET", "/v2/email/deliverability-dashboard/test-reports/{ReportId}", args)
+GetDeliverabilityTestReport(ReportId) = sesv2("GET", "/v2/email/deliverability-dashboard/test-reports/$(ReportId)")
+GetDeliverabilityTestReport(ReportId, args) = sesv2("GET", "/v2/email/deliverability-dashboard/test-reports/$(ReportId)", args)
+GetDeliverabilityTestReport(a...; b...) = GetDeliverabilityTestReport(a..., b)
 
 """
     GetDomainDeliverabilityCampaign()
@@ -254,7 +287,9 @@ Required Parameters
   "CampaignId": "The unique identifier for the campaign. The Deliverability dashboard automatically generates and assigns this identifier to a campaign."
 }
 """
-GetDomainDeliverabilityCampaign(args) = sesv2("GET", "/v2/email/deliverability-dashboard/campaigns/{CampaignId}", args)
+GetDomainDeliverabilityCampaign(CampaignId) = sesv2("GET", "/v2/email/deliverability-dashboard/campaigns/$(CampaignId)")
+GetDomainDeliverabilityCampaign(CampaignId, args) = sesv2("GET", "/v2/email/deliverability-dashboard/campaigns/$(CampaignId)", args)
+GetDomainDeliverabilityCampaign(a...; b...) = GetDomainDeliverabilityCampaign(a..., b)
 
 """
     GetDomainStatisticsReport()
@@ -268,7 +303,9 @@ Required Parameters
   "StartDate": "The first day (in Unix time) that you want to obtain domain deliverability metrics for."
 }
 """
-GetDomainStatisticsReport(args) = sesv2("GET", "/v2/email/deliverability-dashboard/statistics-report/{Domain}", args)
+GetDomainStatisticsReport(Domain, EndDate, StartDate) = sesv2("GET", "/v2/email/deliverability-dashboard/statistics-report/$(Domain)")
+GetDomainStatisticsReport(Domain, EndDate, StartDate, args) = sesv2("GET", "/v2/email/deliverability-dashboard/statistics-report/$(Domain)", args)
+GetDomainStatisticsReport(a...; b...) = GetDomainStatisticsReport(a..., b)
 
 """
     GetEmailIdentity()
@@ -280,7 +317,9 @@ Required Parameters
   "EmailIdentity": "The email identity that you want to retrieve details for."
 }
 """
-GetEmailIdentity(args) = sesv2("GET", "/v2/email/identities/{EmailIdentity}", args)
+GetEmailIdentity(EmailIdentity) = sesv2("GET", "/v2/email/identities/$(EmailIdentity)")
+GetEmailIdentity(EmailIdentity, args) = sesv2("GET", "/v2/email/identities/$(EmailIdentity)", args)
+GetEmailIdentity(a...; b...) = GetEmailIdentity(a..., b)
 
 """
     GetSuppressedDestination()
@@ -292,7 +331,9 @@ Required Parameters
   "EmailAddress": "The email address that's on the account suppression list."
 }
 """
-GetSuppressedDestination(args) = sesv2("GET", "/v2/email/suppression/addresses/{EmailAddress}", args)
+GetSuppressedDestination(EmailAddress) = sesv2("GET", "/v2/email/suppression/addresses/$(EmailAddress)")
+GetSuppressedDestination(EmailAddress, args) = sesv2("GET", "/v2/email/suppression/addresses/$(EmailAddress)", args)
+GetSuppressedDestination(a...; b...) = GetSuppressedDestination(a..., b)
 
 """
     ListConfigurationSets()
@@ -307,6 +348,7 @@ Optional Parameters
 """
 ListConfigurationSets() = sesv2("GET", "/v2/email/configuration-sets")
 ListConfigurationSets(args) = sesv2("GET", "/v2/email/configuration-sets", args)
+ListConfigurationSets(a...; b...) = ListConfigurationSets(a..., b)
 
 """
     ListDedicatedIpPools()
@@ -321,6 +363,7 @@ Optional Parameters
 """
 ListDedicatedIpPools() = sesv2("GET", "/v2/email/dedicated-ip-pools")
 ListDedicatedIpPools(args) = sesv2("GET", "/v2/email/dedicated-ip-pools", args)
+ListDedicatedIpPools(a...; b...) = ListDedicatedIpPools(a..., b)
 
 """
     ListDeliverabilityTestReports()
@@ -335,6 +378,7 @@ Optional Parameters
 """
 ListDeliverabilityTestReports() = sesv2("GET", "/v2/email/deliverability-dashboard/test-reports")
 ListDeliverabilityTestReports(args) = sesv2("GET", "/v2/email/deliverability-dashboard/test-reports", args)
+ListDeliverabilityTestReports(a...; b...) = ListDeliverabilityTestReports(a..., b)
 
 """
     ListDomainDeliverabilityCampaigns()
@@ -354,7 +398,9 @@ Optional Parameters
   "PageSize": "The maximum number of results to include in response to a single call to the ListDomainDeliverabilityCampaigns operation. If the number of results is larger than the number that you specify in this parameter, the response includes a NextToken element, which you can use to obtain additional results."
 }
 """
-ListDomainDeliverabilityCampaigns(args) = sesv2("GET", "/v2/email/deliverability-dashboard/domains/{SubscribedDomain}/campaigns", args)
+ListDomainDeliverabilityCampaigns(EndDate, StartDate, SubscribedDomain) = sesv2("GET", "/v2/email/deliverability-dashboard/domains/$(SubscribedDomain)/campaigns")
+ListDomainDeliverabilityCampaigns(EndDate, StartDate, SubscribedDomain, args) = sesv2("GET", "/v2/email/deliverability-dashboard/domains/$(SubscribedDomain)/campaigns", args)
+ListDomainDeliverabilityCampaigns(a...; b...) = ListDomainDeliverabilityCampaigns(a..., b)
 
 """
     ListEmailIdentities()
@@ -369,6 +415,7 @@ Optional Parameters
 """
 ListEmailIdentities() = sesv2("GET", "/v2/email/identities")
 ListEmailIdentities(args) = sesv2("GET", "/v2/email/identities", args)
+ListEmailIdentities(a...; b...) = ListEmailIdentities(a..., b)
 
 """
     ListSuppressedDestinations()
@@ -386,6 +433,7 @@ Optional Parameters
 """
 ListSuppressedDestinations() = sesv2("GET", "/v2/email/suppression/addresses")
 ListSuppressedDestinations(args) = sesv2("GET", "/v2/email/suppression/addresses", args)
+ListSuppressedDestinations(a...; b...) = ListSuppressedDestinations(a..., b)
 
 """
     ListTagsForResource()
@@ -397,7 +445,9 @@ Required Parameters
   "ResourceArn": "The Amazon Resource Name (ARN) of the resource that you want to retrieve tag information for."
 }
 """
-ListTagsForResource(args) = sesv2("GET", "/v2/email/tags", args)
+ListTagsForResource(ResourceArn) = sesv2("GET", "/v2/email/tags")
+ListTagsForResource(ResourceArn, args) = sesv2("GET", "/v2/email/tags", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     PutAccountDedicatedIpWarmupAttributes()
@@ -411,6 +461,7 @@ Optional Parameters
 """
 PutAccountDedicatedIpWarmupAttributes() = sesv2("PUT", "/v2/email/account/dedicated-ips/warmup")
 PutAccountDedicatedIpWarmupAttributes(args) = sesv2("PUT", "/v2/email/account/dedicated-ips/warmup", args)
+PutAccountDedicatedIpWarmupAttributes(a...; b...) = PutAccountDedicatedIpWarmupAttributes(a..., b)
 
 """
     PutAccountSendingAttributes()
@@ -424,6 +475,7 @@ Optional Parameters
 """
 PutAccountSendingAttributes() = sesv2("PUT", "/v2/email/account/sending")
 PutAccountSendingAttributes(args) = sesv2("PUT", "/v2/email/account/sending", args)
+PutAccountSendingAttributes(a...; b...) = PutAccountSendingAttributes(a..., b)
 
 """
     PutAccountSuppressionAttributes()
@@ -437,6 +489,7 @@ Optional Parameters
 """
 PutAccountSuppressionAttributes() = sesv2("PUT", "/v2/email/account/suppression")
 PutAccountSuppressionAttributes(args) = sesv2("PUT", "/v2/email/account/suppression", args)
+PutAccountSuppressionAttributes(a...; b...) = PutAccountSuppressionAttributes(a..., b)
 
 """
     PutConfigurationSetDeliveryOptions()
@@ -454,7 +507,9 @@ Optional Parameters
   "TlsPolicy": "Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS). If the value is Require, messages are only delivered if a TLS connection can be established. If the value is Optional, messages can be delivered in plain text if a TLS connection can't be established."
 }
 """
-PutConfigurationSetDeliveryOptions(args) = sesv2("PUT", "/v2/email/configuration-sets/{ConfigurationSetName}/delivery-options", args)
+PutConfigurationSetDeliveryOptions(ConfigurationSetName) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/delivery-options")
+PutConfigurationSetDeliveryOptions(ConfigurationSetName, args) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/delivery-options", args)
+PutConfigurationSetDeliveryOptions(a...; b...) = PutConfigurationSetDeliveryOptions(a..., b)
 
 """
     PutConfigurationSetReputationOptions()
@@ -471,7 +526,9 @@ Optional Parameters
   "ReputationMetricsEnabled": "If true, tracking of reputation metrics is enabled for the configuration set. If false, tracking of reputation metrics is disabled for the configuration set."
 }
 """
-PutConfigurationSetReputationOptions(args) = sesv2("PUT", "/v2/email/configuration-sets/{ConfigurationSetName}/reputation-options", args)
+PutConfigurationSetReputationOptions(ConfigurationSetName) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/reputation-options")
+PutConfigurationSetReputationOptions(ConfigurationSetName, args) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/reputation-options", args)
+PutConfigurationSetReputationOptions(a...; b...) = PutConfigurationSetReputationOptions(a..., b)
 
 """
     PutConfigurationSetSendingOptions()
@@ -488,7 +545,9 @@ Optional Parameters
   "SendingEnabled": "If true, email sending is enabled for the configuration set. If false, email sending is disabled for the configuration set."
 }
 """
-PutConfigurationSetSendingOptions(args) = sesv2("PUT", "/v2/email/configuration-sets/{ConfigurationSetName}/sending", args)
+PutConfigurationSetSendingOptions(ConfigurationSetName) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/sending")
+PutConfigurationSetSendingOptions(ConfigurationSetName, args) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/sending", args)
+PutConfigurationSetSendingOptions(a...; b...) = PutConfigurationSetSendingOptions(a..., b)
 
 """
     PutConfigurationSetSuppressionOptions()
@@ -505,7 +564,9 @@ Optional Parameters
   "SuppressedReasons": "A list that contains the reasons that email addresses are automatically added to the suppression list for your account. This list can contain any or all of the following:    COMPLAINT – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a complaint.    BOUNCE – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a hard bounce.  "
 }
 """
-PutConfigurationSetSuppressionOptions(args) = sesv2("PUT", "/v2/email/configuration-sets/{ConfigurationSetName}/suppression-options", args)
+PutConfigurationSetSuppressionOptions(ConfigurationSetName) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/suppression-options")
+PutConfigurationSetSuppressionOptions(ConfigurationSetName, args) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/suppression-options", args)
+PutConfigurationSetSuppressionOptions(a...; b...) = PutConfigurationSetSuppressionOptions(a..., b)
 
 """
     PutConfigurationSetTrackingOptions()
@@ -522,7 +583,9 @@ Optional Parameters
   "CustomRedirectDomain": "The domain that you want to use to track open and click events."
 }
 """
-PutConfigurationSetTrackingOptions(args) = sesv2("PUT", "/v2/email/configuration-sets/{ConfigurationSetName}/tracking-options", args)
+PutConfigurationSetTrackingOptions(ConfigurationSetName) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/tracking-options")
+PutConfigurationSetTrackingOptions(ConfigurationSetName, args) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/tracking-options", args)
+PutConfigurationSetTrackingOptions(a...; b...) = PutConfigurationSetTrackingOptions(a..., b)
 
 """
     PutDedicatedIpInPool()
@@ -535,7 +598,9 @@ Required Parameters
   "Ip": "The IP address that you want to move to the dedicated IP pool. The value you specify has to be a dedicated IP address that's associated with your AWS account."
 }
 """
-PutDedicatedIpInPool(args) = sesv2("PUT", "/v2/email/dedicated-ips/{IP}/pool", args)
+PutDedicatedIpInPool(DestinationPoolName, Ip) = sesv2("PUT", "/v2/email/dedicated-ips/$(IP)/pool")
+PutDedicatedIpInPool(DestinationPoolName, Ip, args) = sesv2("PUT", "/v2/email/dedicated-ips/$(IP)/pool", args)
+PutDedicatedIpInPool(a...; b...) = PutDedicatedIpInPool(a..., b)
 
 """
     PutDedicatedIpWarmupAttributes()
@@ -548,7 +613,9 @@ Required Parameters
   "WarmupPercentage": "The warm-up percentage that you want to associate with the dedicated IP address."
 }
 """
-PutDedicatedIpWarmupAttributes(args) = sesv2("PUT", "/v2/email/dedicated-ips/{IP}/warmup", args)
+PutDedicatedIpWarmupAttributes(Ip, WarmupPercentage) = sesv2("PUT", "/v2/email/dedicated-ips/$(IP)/warmup")
+PutDedicatedIpWarmupAttributes(Ip, WarmupPercentage, args) = sesv2("PUT", "/v2/email/dedicated-ips/$(IP)/warmup", args)
+PutDedicatedIpWarmupAttributes(a...; b...) = PutDedicatedIpWarmupAttributes(a..., b)
 
 """
     PutDeliverabilityDashboardOption()
@@ -565,7 +632,9 @@ Optional Parameters
   "SubscribedDomains": "An array of objects, one for each verified domain that you use to send email and enabled the Deliverability dashboard for."
 }
 """
-PutDeliverabilityDashboardOption(args) = sesv2("PUT", "/v2/email/deliverability-dashboard", args)
+PutDeliverabilityDashboardOption(DashboardEnabled) = sesv2("PUT", "/v2/email/deliverability-dashboard")
+PutDeliverabilityDashboardOption(DashboardEnabled, args) = sesv2("PUT", "/v2/email/deliverability-dashboard", args)
+PutDeliverabilityDashboardOption(a...; b...) = PutDeliverabilityDashboardOption(a..., b)
 
 """
     PutEmailIdentityDkimAttributes()
@@ -582,7 +651,9 @@ Optional Parameters
   "SigningEnabled": "Sets the DKIM signing configuration for the identity. When you set this value true, then the messages that are sent from the identity are signed using DKIM. If you set this value to false, your messages are sent without DKIM signing."
 }
 """
-PutEmailIdentityDkimAttributes(args) = sesv2("PUT", "/v2/email/identities/{EmailIdentity}/dkim", args)
+PutEmailIdentityDkimAttributes(EmailIdentity) = sesv2("PUT", "/v2/email/identities/$(EmailIdentity)/dkim")
+PutEmailIdentityDkimAttributes(EmailIdentity, args) = sesv2("PUT", "/v2/email/identities/$(EmailIdentity)/dkim", args)
+PutEmailIdentityDkimAttributes(a...; b...) = PutEmailIdentityDkimAttributes(a..., b)
 
 """
     PutEmailIdentityDkimSigningAttributes()
@@ -600,7 +671,9 @@ Optional Parameters
   "SigningAttributes": "An object that contains information about the private key and selector that you want to use to configure DKIM for the identity. This object is only required if you want to configure Bring Your Own DKIM (BYODKIM) for the identity."
 }
 """
-PutEmailIdentityDkimSigningAttributes(args) = sesv2("PUT", "/v1/email/identities/{EmailIdentity}/dkim/signing", args)
+PutEmailIdentityDkimSigningAttributes(EmailIdentity, SigningAttributesOrigin) = sesv2("PUT", "/v1/email/identities/$(EmailIdentity)/dkim/signing")
+PutEmailIdentityDkimSigningAttributes(EmailIdentity, SigningAttributesOrigin, args) = sesv2("PUT", "/v1/email/identities/$(EmailIdentity)/dkim/signing", args)
+PutEmailIdentityDkimSigningAttributes(a...; b...) = PutEmailIdentityDkimSigningAttributes(a..., b)
 
 """
     PutEmailIdentityFeedbackAttributes()
@@ -617,7 +690,9 @@ Optional Parameters
   "EmailForwardingEnabled": "Sets the feedback forwarding configuration for the identity. If the value is true, you receive email notifications when bounce or complaint events occur. These notifications are sent to the address that you specified in the Return-Path header of the original email. You're required to have a method of tracking bounces and complaints. If you haven't set up another mechanism for receiving bounce or complaint notifications (for example, by setting up an event destination), you receive an email notification when these events occur (even if this setting is disabled)."
 }
 """
-PutEmailIdentityFeedbackAttributes(args) = sesv2("PUT", "/v2/email/identities/{EmailIdentity}/feedback", args)
+PutEmailIdentityFeedbackAttributes(EmailIdentity) = sesv2("PUT", "/v2/email/identities/$(EmailIdentity)/feedback")
+PutEmailIdentityFeedbackAttributes(EmailIdentity, args) = sesv2("PUT", "/v2/email/identities/$(EmailIdentity)/feedback", args)
+PutEmailIdentityFeedbackAttributes(a...; b...) = PutEmailIdentityFeedbackAttributes(a..., b)
 
 """
     PutEmailIdentityMailFromAttributes()
@@ -635,7 +710,9 @@ Optional Parameters
   "MailFromDomain": " The custom MAIL FROM domain that you want the verified identity to use. The MAIL FROM domain must meet the following criteria:   It has to be a subdomain of the verified identity.   It can't be used to receive email.   It can't be used in a \"From\" address if the MAIL FROM domain is a destination for feedback forwarding emails.  "
 }
 """
-PutEmailIdentityMailFromAttributes(args) = sesv2("PUT", "/v2/email/identities/{EmailIdentity}/mail-from", args)
+PutEmailIdentityMailFromAttributes(EmailIdentity) = sesv2("PUT", "/v2/email/identities/$(EmailIdentity)/mail-from")
+PutEmailIdentityMailFromAttributes(EmailIdentity, args) = sesv2("PUT", "/v2/email/identities/$(EmailIdentity)/mail-from", args)
+PutEmailIdentityMailFromAttributes(a...; b...) = PutEmailIdentityMailFromAttributes(a..., b)
 
 """
     PutSuppressedDestination()
@@ -648,7 +725,9 @@ Required Parameters
   "Reason": "The factors that should cause the email address to be added to the suppression list for your account."
 }
 """
-PutSuppressedDestination(args) = sesv2("PUT", "/v2/email/suppression/addresses", args)
+PutSuppressedDestination(EmailAddress, Reason) = sesv2("PUT", "/v2/email/suppression/addresses")
+PutSuppressedDestination(EmailAddress, Reason, args) = sesv2("PUT", "/v2/email/suppression/addresses", args)
+PutSuppressedDestination(a...; b...) = PutSuppressedDestination(a..., b)
 
 """
     SendEmail()
@@ -670,7 +749,9 @@ Optional Parameters
   "ReplyToAddresses": "The \"Reply-to\" email addresses for the message. When the recipient replies to the message, each Reply-to address receives the reply."
 }
 """
-SendEmail(args) = sesv2("POST", "/v2/email/outbound-emails", args)
+SendEmail(Content, Destination) = sesv2("POST", "/v2/email/outbound-emails")
+SendEmail(Content, Destination, args) = sesv2("POST", "/v2/email/outbound-emails", args)
+SendEmail(a...; b...) = SendEmail(a..., b)
 
 """
     TagResource()
@@ -683,7 +764,9 @@ Required Parameters
   "Tags": "A list of the tags that you want to add to the resource. A tag consists of a required tag key (Key) and an associated tag value (Value). The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters."
 }
 """
-TagResource(args) = sesv2("POST", "/v2/email/tags", args)
+TagResource(ResourceArn, Tags) = sesv2("POST", "/v2/email/tags")
+TagResource(ResourceArn, Tags, args) = sesv2("POST", "/v2/email/tags", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
@@ -696,7 +779,9 @@ Required Parameters
   "TagKeys": "The tags (tag keys) that you want to remove from the resource. When you specify a tag key, the action removes both that key and its associated tag value. To remove more than one tag from the resource, append the TagKeys parameter and argument for each additional tag to remove, separated by an ampersand. For example: /v2/email/tags?ResourceArn=ResourceArn&amp;TagKeys=Key1&amp;TagKeys=Key2 "
 }
 """
-UntagResource(args) = sesv2("DELETE", "/v2/email/tags", args)
+UntagResource(ResourceArn, TagKeys) = sesv2("DELETE", "/v2/email/tags")
+UntagResource(ResourceArn, TagKeys, args) = sesv2("DELETE", "/v2/email/tags", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateConfigurationSetEventDestination()
@@ -710,4 +795,6 @@ Required Parameters
   "EventDestinationName": "The name of the event destination that you want to modify."
 }
 """
-UpdateConfigurationSetEventDestination(args) = sesv2("PUT", "/v2/email/configuration-sets/{ConfigurationSetName}/event-destinations/{EventDestinationName}", args)
+UpdateConfigurationSetEventDestination(ConfigurationSetName, EventDestination, EventDestinationName) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)")
+UpdateConfigurationSetEventDestination(ConfigurationSetName, EventDestination, EventDestinationName, args) = sesv2("PUT", "/v2/email/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)", args)
+UpdateConfigurationSetEventDestination(a...; b...) = UpdateConfigurationSetEventDestination(a..., b)

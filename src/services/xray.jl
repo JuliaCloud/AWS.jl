@@ -17,7 +17,9 @@ Optional Parameters
   "NextToken": "Pagination token."
 }
 """
-BatchGetTraces(args) = xray("POST", "/Traces", args)
+BatchGetTraces(TraceIds) = xray("POST", "/Traces")
+BatchGetTraces(TraceIds, args) = xray("POST", "/Traces", args)
+BatchGetTraces(a...; b...) = BatchGetTraces(a..., b)
 
 """
     CreateGroup()
@@ -34,7 +36,9 @@ Optional Parameters
   "FilterExpression": "The filter expression defining criteria by which to group traces."
 }
 """
-CreateGroup(args) = xray("POST", "/CreateGroup", args)
+CreateGroup(GroupName) = xray("POST", "/CreateGroup")
+CreateGroup(GroupName, args) = xray("POST", "/CreateGroup", args)
+CreateGroup(a...; b...) = CreateGroup(a..., b)
 
 """
     CreateSamplingRule()
@@ -46,7 +50,9 @@ Required Parameters
   "SamplingRule": "The rule definition."
 }
 """
-CreateSamplingRule(args) = xray("POST", "/CreateSamplingRule", args)
+CreateSamplingRule(SamplingRule) = xray("POST", "/CreateSamplingRule")
+CreateSamplingRule(SamplingRule, args) = xray("POST", "/CreateSamplingRule", args)
+CreateSamplingRule(a...; b...) = CreateSamplingRule(a..., b)
 
 """
     DeleteGroup()
@@ -61,6 +67,7 @@ Optional Parameters
 """
 DeleteGroup() = xray("POST", "/DeleteGroup")
 DeleteGroup(args) = xray("POST", "/DeleteGroup", args)
+DeleteGroup(a...; b...) = DeleteGroup(a..., b)
 
 """
     DeleteSamplingRule()
@@ -75,6 +82,7 @@ Optional Parameters
 """
 DeleteSamplingRule() = xray("POST", "/DeleteSamplingRule")
 DeleteSamplingRule(args) = xray("POST", "/DeleteSamplingRule", args)
+DeleteSamplingRule(a...; b...) = DeleteSamplingRule(a..., b)
 
 """
     GetEncryptionConfig()
@@ -83,6 +91,7 @@ Retrieves the current encryption configuration for X-Ray data.
 """
 GetEncryptionConfig() = xray("POST", "/EncryptionConfig")
 GetEncryptionConfig(args) = xray("POST", "/EncryptionConfig", args)
+GetEncryptionConfig(a...; b...) = GetEncryptionConfig(a..., b)
 
 """
     GetGroup()
@@ -97,6 +106,7 @@ Optional Parameters
 """
 GetGroup() = xray("POST", "/GetGroup")
 GetGroup(args) = xray("POST", "/GetGroup", args)
+GetGroup(a...; b...) = GetGroup(a..., b)
 
 """
     GetGroups()
@@ -110,6 +120,7 @@ Optional Parameters
 """
 GetGroups() = xray("POST", "/Groups")
 GetGroups(args) = xray("POST", "/Groups", args)
+GetGroups(a...; b...) = GetGroups(a..., b)
 
 """
     GetSamplingRules()
@@ -123,6 +134,7 @@ Optional Parameters
 """
 GetSamplingRules() = xray("POST", "/GetSamplingRules")
 GetSamplingRules(args) = xray("POST", "/GetSamplingRules", args)
+GetSamplingRules(a...; b...) = GetSamplingRules(a..., b)
 
 """
     GetSamplingStatisticSummaries()
@@ -136,6 +148,7 @@ Optional Parameters
 """
 GetSamplingStatisticSummaries() = xray("POST", "/SamplingStatisticSummaries")
 GetSamplingStatisticSummaries(args) = xray("POST", "/SamplingStatisticSummaries", args)
+GetSamplingStatisticSummaries(a...; b...) = GetSamplingStatisticSummaries(a..., b)
 
 """
     GetSamplingTargets()
@@ -147,7 +160,9 @@ Required Parameters
   "SamplingStatisticsDocuments": "Information about rules that the service is using to sample requests."
 }
 """
-GetSamplingTargets(args) = xray("POST", "/SamplingTargets", args)
+GetSamplingTargets(SamplingStatisticsDocuments) = xray("POST", "/SamplingTargets")
+GetSamplingTargets(SamplingStatisticsDocuments, args) = xray("POST", "/SamplingTargets", args)
+GetSamplingTargets(a...; b...) = GetSamplingTargets(a..., b)
 
 """
     GetServiceGraph()
@@ -167,7 +182,9 @@ Optional Parameters
   "NextToken": "Pagination token."
 }
 """
-GetServiceGraph(args) = xray("POST", "/ServiceGraph", args)
+GetServiceGraph(EndTime, StartTime) = xray("POST", "/ServiceGraph")
+GetServiceGraph(EndTime, StartTime, args) = xray("POST", "/ServiceGraph", args)
+GetServiceGraph(a...; b...) = GetServiceGraph(a..., b)
 
 """
     GetTimeSeriesServiceStatistics()
@@ -189,7 +206,9 @@ Optional Parameters
   "Period": "Aggregation period in seconds."
 }
 """
-GetTimeSeriesServiceStatistics(args) = xray("POST", "/TimeSeriesServiceStatistics", args)
+GetTimeSeriesServiceStatistics(EndTime, StartTime) = xray("POST", "/TimeSeriesServiceStatistics")
+GetTimeSeriesServiceStatistics(EndTime, StartTime, args) = xray("POST", "/TimeSeriesServiceStatistics", args)
+GetTimeSeriesServiceStatistics(a...; b...) = GetTimeSeriesServiceStatistics(a..., b)
 
 """
     GetTraceGraph()
@@ -206,7 +225,9 @@ Optional Parameters
   "NextToken": "Pagination token."
 }
 """
-GetTraceGraph(args) = xray("POST", "/TraceGraph", args)
+GetTraceGraph(TraceIds) = xray("POST", "/TraceGraph")
+GetTraceGraph(TraceIds, args) = xray("POST", "/TraceGraph", args)
+GetTraceGraph(a...; b...) = GetTraceGraph(a..., b)
 
 """
     GetTraceSummaries()
@@ -228,7 +249,9 @@ Optional Parameters
   "TimeRangeType": "A parameter to indicate whether to query trace summaries by TraceId or Event time."
 }
 """
-GetTraceSummaries(args) = xray("POST", "/TraceSummaries", args)
+GetTraceSummaries(EndTime, StartTime) = xray("POST", "/TraceSummaries")
+GetTraceSummaries(EndTime, StartTime, args) = xray("POST", "/TraceSummaries", args)
+GetTraceSummaries(a...; b...) = GetTraceSummaries(a..., b)
 
 """
     PutEncryptionConfig()
@@ -245,7 +268,9 @@ Optional Parameters
   "KeyId": "An AWS KMS customer master key (CMK) in one of the following formats:    Alias - The name of the key. For example, alias/MyKey.    Key ID - The KMS key ID of the key. For example, ae4aa6d49-a4d8-9df9-a475-4ff6d7898456. AWS X-Ray does not support asymmetric CMKs.    ARN - The full Amazon Resource Name of the key ID or alias. For example, arn:aws:kms:us-east-2:123456789012:key/ae4aa6d49-a4d8-9df9-a475-4ff6d7898456. Use this format to specify a key in a different account.   Omit this key if you set Type to NONE."
 }
 """
-PutEncryptionConfig(args) = xray("POST", "/PutEncryptionConfig", args)
+PutEncryptionConfig(Type) = xray("POST", "/PutEncryptionConfig")
+PutEncryptionConfig(Type, args) = xray("POST", "/PutEncryptionConfig", args)
+PutEncryptionConfig(a...; b...) = PutEncryptionConfig(a..., b)
 
 """
     PutTelemetryRecords()
@@ -264,7 +289,9 @@ Optional Parameters
   "ResourceARN": ""
 }
 """
-PutTelemetryRecords(args) = xray("POST", "/TelemetryRecords", args)
+PutTelemetryRecords(TelemetryRecords) = xray("POST", "/TelemetryRecords")
+PutTelemetryRecords(TelemetryRecords, args) = xray("POST", "/TelemetryRecords", args)
+PutTelemetryRecords(a...; b...) = PutTelemetryRecords(a..., b)
 
 """
     PutTraceSegments()
@@ -276,7 +303,9 @@ Required Parameters
   "TraceSegmentDocuments": "A string containing a JSON document defining one or more segments or subsegments."
 }
 """
-PutTraceSegments(args) = xray("POST", "/TraceSegments", args)
+PutTraceSegments(TraceSegmentDocuments) = xray("POST", "/TraceSegments")
+PutTraceSegments(TraceSegmentDocuments, args) = xray("POST", "/TraceSegments", args)
+PutTraceSegments(a...; b...) = PutTraceSegments(a..., b)
 
 """
     UpdateGroup()
@@ -292,6 +321,7 @@ Optional Parameters
 """
 UpdateGroup() = xray("POST", "/UpdateGroup")
 UpdateGroup(args) = xray("POST", "/UpdateGroup", args)
+UpdateGroup(a...; b...) = UpdateGroup(a..., b)
 
 """
     UpdateSamplingRule()
@@ -303,4 +333,6 @@ Required Parameters
   "SamplingRuleUpdate": "The rule and fields to change."
 }
 """
-UpdateSamplingRule(args) = xray("POST", "/UpdateSamplingRule", args)
+UpdateSamplingRule(SamplingRuleUpdate) = xray("POST", "/UpdateSamplingRule")
+UpdateSamplingRule(SamplingRuleUpdate, args) = xray("POST", "/UpdateSamplingRule", args)
+UpdateSamplingRule(a...; b...) = UpdateSamplingRule(a..., b)

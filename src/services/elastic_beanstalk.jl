@@ -35,6 +35,19 @@ Optional Parameters
 ApplyEnvironmentManagedAction(args) = elastic_beanstalk("ApplyEnvironmentManagedAction", args)
 
 """
+    AssociateEnvironmentOperationsRole()
+
+Add or change the operations role used by an environment. After this call is made, Elastic Beanstalk uses the associated operations role for permissions to downstream services during subsequent calls acting on this environment. For more information, see Operations roles in the AWS Elastic Beanstalk Developer Guide.
+
+Required Parameters
+{
+  "EnvironmentName": "The name of the environment to which to set the operations role.",
+  "OperationsRole": "The Amazon Resource Name (ARN) of an existing IAM role to be used as the environment's operations role."
+}
+"""
+AssociateEnvironmentOperationsRole(args) = elastic_beanstalk("AssociateEnvironmentOperationsRole", args)
+
+"""
     CheckDNSAvailability()
 
 Checks if the specified CNAME is available.
@@ -144,9 +157,10 @@ Optional Parameters
   "Description": "Your description for this environment.",
   "EnvironmentName": "A unique name for the environment. Constraint: Must be from 4 to 40 characters in length. The name can contain only letters, numbers, and hyphens. It can't start or end with a hyphen. This name must be unique within a region in your account. If the specified name already exists in the region, Elastic Beanstalk returns an InvalidParameterValue error.  If you don't specify the CNAMEPrefix parameter, the environment name becomes part of the CNAME, and therefore part of the visible URL for your application.",
   "GroupName": "The name of the group to which the target environment belongs. Specify a group name only if the environment's name is specified in an environment manifest and not with the environment name parameter. See Environment Manifest (env.yaml) for details.",
+  "OperationsRole": "The Amazon Resource Name (ARN) of an existing IAM role to be used as the environment's operations role. If specified, Elastic Beanstalk uses the operations role for permissions to downstream services during this call and during subsequent calls acting on this environment. To specify an operations role, you must have the iam:PassRole permission for the role. For more information, see Operations roles in the AWS Elastic Beanstalk Developer Guide.",
   "OptionSettings": "If specified, AWS Elastic Beanstalk sets the specified configuration options to the requested value in the configuration set for the new environment. These override the values obtained from the solution stack or the configuration template.",
   "OptionsToRemove": "A list of custom user-defined configuration options to remove from the configuration set for this new environment.",
-  "PlatformArn": "The Amazon Resource Name (ARN) of the custom platform to use with the environment. For more information, see  Custom Platforms in the AWS Elastic Beanstalk Developer Guide.  If you specify PlatformArn, don't specify SolutionStackName. ",
+  "PlatformArn": "The Amazon Resource Name (ARN) of the custom platform to use with the environment. For more information, see Custom Platforms in the AWS Elastic Beanstalk Developer Guide.  If you specify PlatformArn, don't specify SolutionStackName. ",
   "SolutionStackName": "The name of an Elastic Beanstalk solution stack (platform version) to use with the environment. If specified, Elastic Beanstalk sets the configuration values to the default values associated with the specified solution stack. For a list of current solution stacks, see Elastic Beanstalk Supported Platforms in the AWS Elastic Beanstalk Platforms guide.  If you specify SolutionStackName, don't specify PlatformArn or TemplateName. ",
   "Tags": "Specifies the tags applied to resources in the environment.",
   "TemplateName": "The name of the Elastic Beanstalk configuration template to use with the environment.  If you specify TemplateName, then don't specify SolutionStackName. ",
@@ -466,6 +480,18 @@ DescribePlatformVersion() = elastic_beanstalk("DescribePlatformVersion")
 DescribePlatformVersion(args) = elastic_beanstalk("DescribePlatformVersion", args)
 
 """
+    DisassociateEnvironmentOperationsRole()
+
+Disassociate the operations role from an environment. After this call is made, Elastic Beanstalk uses the caller's permissions for permissions to downstream services during subsequent calls acting on this environment. For more information, see Operations roles in the AWS Elastic Beanstalk Developer Guide.
+
+Required Parameters
+{
+  "EnvironmentName": "The name of the environment from which to disassociate the operations role."
+}
+"""
+DisassociateEnvironmentOperationsRole(args) = elastic_beanstalk("DisassociateEnvironmentOperationsRole", args)
+
+"""
     ListAvailableSolutionStacks()
 
 Returns a list of the available solution stack names, with the public version first and then in reverse chronological order.
@@ -715,8 +741,8 @@ Required Parameters
 
 Optional Parameters
 {
-  "TagsToAdd": "A list of tags to add or update. If a key of an existing tag is added, the tag's value is updated.",
-  "TagsToRemove": "A list of tag keys to remove. If a tag key doesn't exist, it is silently ignored."
+  "TagsToAdd": "A list of tags to add or update. If a key of an existing tag is added, the tag's value is updated. Specify at least one of these parameters: TagsToAdd, TagsToRemove.",
+  "TagsToRemove": "A list of tag keys to remove. If a tag key doesn't exist, it is silently ignored. Specify at least one of these parameters: TagsToAdd, TagsToRemove."
 }
 """
 UpdateTagsForResource(args) = elastic_beanstalk("UpdateTagsForResource", args)

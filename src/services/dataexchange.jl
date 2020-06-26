@@ -12,7 +12,9 @@ Required Parameters
   "JobId": "The unique identifier for a job."
 }
 """
-CancelJob(args) = dataexchange("DELETE", "/v1/jobs/{JobId}", args)
+CancelJob(JobId) = dataexchange("DELETE", "/v1/jobs/$(JobId)")
+CancelJob(JobId, args) = dataexchange("DELETE", "/v1/jobs/$(JobId)", args)
+CancelJob(a...; b...) = CancelJob(a..., b)
 
 """
     CreateDataSet()
@@ -31,7 +33,9 @@ Optional Parameters
   "Tags": "A data set tag is an optional label that you can assign to a data set when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to these data sets and revisions."
 }
 """
-CreateDataSet(args) = dataexchange("POST", "/v1/data-sets", args)
+CreateDataSet(AssetType, Description, Name) = dataexchange("POST", "/v1/data-sets")
+CreateDataSet(AssetType, Description, Name, args) = dataexchange("POST", "/v1/data-sets", args)
+CreateDataSet(a...; b...) = CreateDataSet(a..., b)
 
 """
     CreateJob()
@@ -44,7 +48,9 @@ Required Parameters
   "Type": "The type of job to be created."
 }
 """
-CreateJob(args) = dataexchange("POST", "/v1/jobs", args)
+CreateJob(Details, Type) = dataexchange("POST", "/v1/jobs")
+CreateJob(Details, Type, args) = dataexchange("POST", "/v1/jobs", args)
+CreateJob(a...; b...) = CreateJob(a..., b)
 
 """
     CreateRevision()
@@ -62,7 +68,9 @@ Optional Parameters
   "Tags": "A revision tag is an optional label that you can assign to a revision when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to these data sets and revisions."
 }
 """
-CreateRevision(args) = dataexchange("POST", "/v1/data-sets/{DataSetId}/revisions", args)
+CreateRevision(DataSetId) = dataexchange("POST", "/v1/data-sets/$(DataSetId)/revisions")
+CreateRevision(DataSetId, args) = dataexchange("POST", "/v1/data-sets/$(DataSetId)/revisions", args)
+CreateRevision(a...; b...) = CreateRevision(a..., b)
 
 """
     DeleteAsset()
@@ -76,7 +84,9 @@ Required Parameters
   "RevisionId": "The unique identifier for a revision."
 }
 """
-DeleteAsset(args) = dataexchange("DELETE", "/v1/data-sets/{DataSetId}/revisions/{RevisionId}/assets/{AssetId}", args)
+DeleteAsset(AssetId, DataSetId, RevisionId) = dataexchange("DELETE", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets/$(AssetId)")
+DeleteAsset(AssetId, DataSetId, RevisionId, args) = dataexchange("DELETE", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets/$(AssetId)", args)
+DeleteAsset(a...; b...) = DeleteAsset(a..., b)
 
 """
     DeleteDataSet()
@@ -88,7 +98,9 @@ Required Parameters
   "DataSetId": "The unique identifier for a data set."
 }
 """
-DeleteDataSet(args) = dataexchange("DELETE", "/v1/data-sets/{DataSetId}", args)
+DeleteDataSet(DataSetId) = dataexchange("DELETE", "/v1/data-sets/$(DataSetId)")
+DeleteDataSet(DataSetId, args) = dataexchange("DELETE", "/v1/data-sets/$(DataSetId)", args)
+DeleteDataSet(a...; b...) = DeleteDataSet(a..., b)
 
 """
     DeleteRevision()
@@ -101,7 +113,9 @@ Required Parameters
   "RevisionId": "The unique identifier for a revision."
 }
 """
-DeleteRevision(args) = dataexchange("DELETE", "/v1/data-sets/{DataSetId}/revisions/{RevisionId}", args)
+DeleteRevision(DataSetId, RevisionId) = dataexchange("DELETE", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)")
+DeleteRevision(DataSetId, RevisionId, args) = dataexchange("DELETE", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)", args)
+DeleteRevision(a...; b...) = DeleteRevision(a..., b)
 
 """
     GetAsset()
@@ -115,7 +129,9 @@ Required Parameters
   "RevisionId": "The unique identifier for a revision."
 }
 """
-GetAsset(args) = dataexchange("GET", "/v1/data-sets/{DataSetId}/revisions/{RevisionId}/assets/{AssetId}", args)
+GetAsset(AssetId, DataSetId, RevisionId) = dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets/$(AssetId)")
+GetAsset(AssetId, DataSetId, RevisionId, args) = dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets/$(AssetId)", args)
+GetAsset(a...; b...) = GetAsset(a..., b)
 
 """
     GetDataSet()
@@ -127,7 +143,9 @@ Required Parameters
   "DataSetId": "The unique identifier for a data set."
 }
 """
-GetDataSet(args) = dataexchange("GET", "/v1/data-sets/{DataSetId}", args)
+GetDataSet(DataSetId) = dataexchange("GET", "/v1/data-sets/$(DataSetId)")
+GetDataSet(DataSetId, args) = dataexchange("GET", "/v1/data-sets/$(DataSetId)", args)
+GetDataSet(a...; b...) = GetDataSet(a..., b)
 
 """
     GetJob()
@@ -139,7 +157,9 @@ Required Parameters
   "JobId": "The unique identifier for a job."
 }
 """
-GetJob(args) = dataexchange("GET", "/v1/jobs/{JobId}", args)
+GetJob(JobId) = dataexchange("GET", "/v1/jobs/$(JobId)")
+GetJob(JobId, args) = dataexchange("GET", "/v1/jobs/$(JobId)", args)
+GetJob(a...; b...) = GetJob(a..., b)
 
 """
     GetRevision()
@@ -152,7 +172,9 @@ Required Parameters
   "RevisionId": "The unique identifier for a revision."
 }
 """
-GetRevision(args) = dataexchange("GET", "/v1/data-sets/{DataSetId}/revisions/{RevisionId}", args)
+GetRevision(DataSetId, RevisionId) = dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)")
+GetRevision(DataSetId, RevisionId, args) = dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)", args)
+GetRevision(a...; b...) = GetRevision(a..., b)
 
 """
     ListDataSetRevisions()
@@ -170,7 +192,9 @@ Optional Parameters
   "NextToken": "The token value retrieved from a previous call to access the next page of results."
 }
 """
-ListDataSetRevisions(args) = dataexchange("GET", "/v1/data-sets/{DataSetId}/revisions", args)
+ListDataSetRevisions(DataSetId) = dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions")
+ListDataSetRevisions(DataSetId, args) = dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions", args)
+ListDataSetRevisions(a...; b...) = ListDataSetRevisions(a..., b)
 
 """
     ListDataSets()
@@ -186,6 +210,7 @@ Optional Parameters
 """
 ListDataSets() = dataexchange("GET", "/v1/data-sets")
 ListDataSets(args) = dataexchange("GET", "/v1/data-sets", args)
+ListDataSets(a...; b...) = ListDataSets(a..., b)
 
 """
     ListJobs()
@@ -202,6 +227,7 @@ Optional Parameters
 """
 ListJobs() = dataexchange("GET", "/v1/jobs")
 ListJobs(args) = dataexchange("GET", "/v1/jobs", args)
+ListJobs(a...; b...) = ListJobs(a..., b)
 
 """
     ListRevisionAssets()
@@ -220,7 +246,9 @@ Optional Parameters
   "NextToken": "The token value retrieved from a previous call to access the next page of results."
 }
 """
-ListRevisionAssets(args) = dataexchange("GET", "/v1/data-sets/{DataSetId}/revisions/{RevisionId}/assets", args)
+ListRevisionAssets(DataSetId, RevisionId) = dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets")
+ListRevisionAssets(DataSetId, RevisionId, args) = dataexchange("GET", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets", args)
+ListRevisionAssets(a...; b...) = ListRevisionAssets(a..., b)
 
 """
     ListTagsForResource()
@@ -232,7 +260,9 @@ Required Parameters
   "ResourceArn": "An Amazon Resource Name (ARN) that uniquely identifies an AWS resource."
 }
 """
-ListTagsForResource(args) = dataexchange("GET", "/tags/{resource-arn}", args)
+ListTagsForResource(ResourceArn) = dataexchange("GET", "/tags/$(resource-arn)")
+ListTagsForResource(ResourceArn, args) = dataexchange("GET", "/tags/$(resource-arn)", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     StartJob()
@@ -244,7 +274,9 @@ Required Parameters
   "JobId": "The unique identifier for a job."
 }
 """
-StartJob(args) = dataexchange("PATCH", "/v1/jobs/{JobId}", args)
+StartJob(JobId) = dataexchange("PATCH", "/v1/jobs/$(JobId)")
+StartJob(JobId, args) = dataexchange("PATCH", "/v1/jobs/$(JobId)", args)
+StartJob(a...; b...) = StartJob(a..., b)
 
 """
     TagResource()
@@ -257,7 +289,9 @@ Required Parameters
   "Tags": "A label that consists of a customer-defined key and an optional value."
 }
 """
-TagResource(args) = dataexchange("POST", "/tags/{resource-arn}", args)
+TagResource(ResourceArn, Tags) = dataexchange("POST", "/tags/$(resource-arn)")
+TagResource(ResourceArn, Tags, args) = dataexchange("POST", "/tags/$(resource-arn)", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
@@ -270,7 +304,9 @@ Required Parameters
   "TagKeys": "The key tags."
 }
 """
-UntagResource(args) = dataexchange("DELETE", "/tags/{resource-arn}", args)
+UntagResource(ResourceArn, TagKeys) = dataexchange("DELETE", "/tags/$(resource-arn)")
+UntagResource(ResourceArn, TagKeys, args) = dataexchange("DELETE", "/tags/$(resource-arn)", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateAsset()
@@ -285,7 +321,9 @@ Required Parameters
   "RevisionId": "The unique identifier for a revision."
 }
 """
-UpdateAsset(args) = dataexchange("PATCH", "/v1/data-sets/{DataSetId}/revisions/{RevisionId}/assets/{AssetId}", args)
+UpdateAsset(AssetId, DataSetId, Name, RevisionId) = dataexchange("PATCH", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets/$(AssetId)")
+UpdateAsset(AssetId, DataSetId, Name, RevisionId, args) = dataexchange("PATCH", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)/assets/$(AssetId)", args)
+UpdateAsset(a...; b...) = UpdateAsset(a..., b)
 
 """
     UpdateDataSet()
@@ -303,7 +341,9 @@ Optional Parameters
   "Name": "The name of the data set."
 }
 """
-UpdateDataSet(args) = dataexchange("PATCH", "/v1/data-sets/{DataSetId}", args)
+UpdateDataSet(DataSetId) = dataexchange("PATCH", "/v1/data-sets/$(DataSetId)")
+UpdateDataSet(DataSetId, args) = dataexchange("PATCH", "/v1/data-sets/$(DataSetId)", args)
+UpdateDataSet(a...; b...) = UpdateDataSet(a..., b)
 
 """
     UpdateRevision()
@@ -322,4 +362,6 @@ Optional Parameters
   "Finalized": "Finalizing a revision tells AWS Data Exchange that your changes to the assets in the revision are complete. After it's in this read-only state, you can publish the revision to your products."
 }
 """
-UpdateRevision(args) = dataexchange("PATCH", "/v1/data-sets/{DataSetId}/revisions/{RevisionId}", args)
+UpdateRevision(DataSetId, RevisionId) = dataexchange("PATCH", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)")
+UpdateRevision(DataSetId, RevisionId, args) = dataexchange("PATCH", "/v1/data-sets/$(DataSetId)/revisions/$(RevisionId)", args)
+UpdateRevision(a...; b...) = UpdateRevision(a..., b)

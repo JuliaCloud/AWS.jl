@@ -14,7 +14,9 @@ Required Parameters
   "userId": "The identifier of the user associated with the session data."
 }
 """
-DeleteSession(args) = lex_runtime_service("DELETE", "/bot/{botName}/alias/{botAlias}/user/{userId}/session", args)
+DeleteSession(botAlias, botName, userId) = lex_runtime_service("DELETE", "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/session")
+DeleteSession(botAlias, botName, userId, args) = lex_runtime_service("DELETE", "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/session", args)
+DeleteSession(a...; b...) = DeleteSession(a..., b)
 
 """
     GetSession()
@@ -33,7 +35,9 @@ Optional Parameters
   "checkpointLabelFilter": "A string used to filter the intents returned in the recentIntentSummaryView structure.  When you specify a filter, only intents with their checkpointLabel field set to that string are returned."
 }
 """
-GetSession(args) = lex_runtime_service("GET", "/bot/{botName}/alias/{botAlias}/user/{userId}/session/", args)
+GetSession(botAlias, botName, userId) = lex_runtime_service("GET", "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/session/")
+GetSession(botAlias, botName, userId, args) = lex_runtime_service("GET", "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/session/", args)
+GetSession(a...; b...) = GetSession(a..., b)
 
 """
     PostContent()
@@ -56,7 +60,9 @@ Optional Parameters
   "sessionAttributes": "You pass this value as the x-amz-lex-session-attributes HTTP header. Application-specific information passed between Amazon Lex and a client application. The value must be a JSON serialized and base64 encoded map with string keys and values. The total size of the sessionAttributes and requestAttributes headers is limited to 12 KB. For more information, see Setting Session Attributes."
 }
 """
-PostContent(args) = lex_runtime_service("POST", "/bot/{botName}/alias/{botAlias}/user/{userId}/content", args)
+PostContent(botAlias, botName, contentType, inputStream, userId) = lex_runtime_service("POST", "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/content")
+PostContent(botAlias, botName, contentType, inputStream, userId, args) = lex_runtime_service("POST", "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/content", args)
+PostContent(a...; b...) = PostContent(a..., b)
 
 """
     PostText()
@@ -77,7 +83,9 @@ Optional Parameters
   "sessionAttributes": "Application-specific information passed between Amazon Lex and a client application. For more information, see Setting Session Attributes."
 }
 """
-PostText(args) = lex_runtime_service("POST", "/bot/{botName}/alias/{botAlias}/user/{userId}/text", args)
+PostText(botAlias, botName, inputText, userId) = lex_runtime_service("POST", "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/text")
+PostText(botAlias, botName, inputText, userId, args) = lex_runtime_service("POST", "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/text", args)
+PostText(a...; b...) = PostText(a..., b)
 
 """
     PutSession()
@@ -99,4 +107,6 @@ Optional Parameters
   "sessionAttributes": "Map of key/value pairs representing the session-specific context information. It contains application information passed between Amazon Lex and a client application."
 }
 """
-PutSession(args) = lex_runtime_service("POST", "/bot/{botName}/alias/{botAlias}/user/{userId}/session", args)
+PutSession(botAlias, botName, userId) = lex_runtime_service("POST", "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/session")
+PutSession(botAlias, botName, userId, args) = lex_runtime_service("POST", "/bot/$(botName)/alias/$(botAlias)/user/$(userId)/session", args)
+PutSession(a...; b...) = PutSession(a..., b)

@@ -17,7 +17,9 @@ Optional Parameters
   "fleetInstanceId": ""
 }
 """
-ConfigureAgent(args) = codeguruprofiler("POST", "/profilingGroups/{profilingGroupName}/configureAgent", args)
+ConfigureAgent(profilingGroupName) = codeguruprofiler("POST", "/profilingGroups/$(profilingGroupName)/configureAgent")
+ConfigureAgent(profilingGroupName, args) = codeguruprofiler("POST", "/profilingGroups/$(profilingGroupName)/configureAgent", args)
+ConfigureAgent(a...; b...) = ConfigureAgent(a..., b)
 
 """
     CreateProfilingGroup()
@@ -35,7 +37,9 @@ Optional Parameters
   "agentOrchestrationConfig": "The agent orchestration configuration."
 }
 """
-CreateProfilingGroup(args) = codeguruprofiler("POST", "/profilingGroups", args)
+CreateProfilingGroup(clientToken, profilingGroupName) = codeguruprofiler("POST", "/profilingGroups")
+CreateProfilingGroup(clientToken, profilingGroupName, args) = codeguruprofiler("POST", "/profilingGroups", args)
+CreateProfilingGroup(a...; b...) = CreateProfilingGroup(a..., b)
 
 """
     DeleteProfilingGroup()
@@ -47,7 +51,9 @@ Required Parameters
   "profilingGroupName": "The profiling group name to delete."
 }
 """
-DeleteProfilingGroup(args) = codeguruprofiler("DELETE", "/profilingGroups/{profilingGroupName}", args)
+DeleteProfilingGroup(profilingGroupName) = codeguruprofiler("DELETE", "/profilingGroups/$(profilingGroupName)")
+DeleteProfilingGroup(profilingGroupName, args) = codeguruprofiler("DELETE", "/profilingGroups/$(profilingGroupName)", args)
+DeleteProfilingGroup(a...; b...) = DeleteProfilingGroup(a..., b)
 
 """
     DescribeProfilingGroup()
@@ -59,7 +65,9 @@ Required Parameters
   "profilingGroupName": "The profiling group name."
 }
 """
-DescribeProfilingGroup(args) = codeguruprofiler("GET", "/profilingGroups/{profilingGroupName}", args)
+DescribeProfilingGroup(profilingGroupName) = codeguruprofiler("GET", "/profilingGroups/$(profilingGroupName)")
+DescribeProfilingGroup(profilingGroupName, args) = codeguruprofiler("GET", "/profilingGroups/$(profilingGroupName)", args)
+DescribeProfilingGroup(a...; b...) = DescribeProfilingGroup(a..., b)
 
 """
     GetPolicy()
@@ -71,7 +79,9 @@ Required Parameters
   "profilingGroupName": "The name of the profiling group."
 }
 """
-GetPolicy(args) = codeguruprofiler("GET", "/profilingGroups/{profilingGroupName}/policy", args)
+GetPolicy(profilingGroupName) = codeguruprofiler("GET", "/profilingGroups/$(profilingGroupName)/policy")
+GetPolicy(profilingGroupName, args) = codeguruprofiler("GET", "/profilingGroups/$(profilingGroupName)/policy", args)
+GetPolicy(a...; b...) = GetPolicy(a..., b)
 
 """
     GetProfile()
@@ -92,7 +102,9 @@ Optional Parameters
   "startTime": "The start time of the profile to get. You must specify exactly two of the following parameters: startTime, period, and endTime. "
 }
 """
-GetProfile(args) = codeguruprofiler("GET", "/profilingGroups/{profilingGroupName}/profile", args)
+GetProfile(profilingGroupName) = codeguruprofiler("GET", "/profilingGroups/$(profilingGroupName)/profile")
+GetProfile(profilingGroupName, args) = codeguruprofiler("GET", "/profilingGroups/$(profilingGroupName)/profile", args)
+GetProfile(a...; b...) = GetProfile(a..., b)
 
 """
     ListProfileTimes()
@@ -114,7 +126,9 @@ Optional Parameters
   "orderBy": "The order (ascending or descending by start time of the profile) to use when listing profiles. Defaults to TIMESTAMP_DESCENDING. "
 }
 """
-ListProfileTimes(args) = codeguruprofiler("GET", "/profilingGroups/{profilingGroupName}/profileTimes", args)
+ListProfileTimes(endTime, period, profilingGroupName, startTime) = codeguruprofiler("GET", "/profilingGroups/$(profilingGroupName)/profileTimes")
+ListProfileTimes(endTime, period, profilingGroupName, startTime, args) = codeguruprofiler("GET", "/profilingGroups/$(profilingGroupName)/profileTimes", args)
+ListProfileTimes(a...; b...) = ListProfileTimes(a..., b)
 
 """
     ListProfilingGroups()
@@ -130,6 +144,7 @@ Optional Parameters
 """
 ListProfilingGroups() = codeguruprofiler("GET", "/profilingGroups")
 ListProfilingGroups(args) = codeguruprofiler("GET", "/profilingGroups", args)
+ListProfilingGroups(a...; b...) = ListProfilingGroups(a..., b)
 
 """
     PostAgentProfile()
@@ -148,7 +163,9 @@ Optional Parameters
   "profileToken": ""
 }
 """
-PostAgentProfile(args) = codeguruprofiler("POST", "/profilingGroups/{profilingGroupName}/agentProfile", args)
+PostAgentProfile(agentProfile, contentType, profilingGroupName) = codeguruprofiler("POST", "/profilingGroups/$(profilingGroupName)/agentProfile")
+PostAgentProfile(agentProfile, contentType, profilingGroupName, args) = codeguruprofiler("POST", "/profilingGroups/$(profilingGroupName)/agentProfile", args)
+PostAgentProfile(a...; b...) = PostAgentProfile(a..., b)
 
 """
     PutPermission()
@@ -167,7 +184,9 @@ Optional Parameters
   "revisionId": "A unique identifier for the current revision of the policy. This is required, if a policy exists for the profiling group. This is not required when creating the policy for the first time."
 }
 """
-PutPermission(args) = codeguruprofiler("PUT", "/profilingGroups/{profilingGroupName}/policy/{actionGroup}", args)
+PutPermission(actionGroup, principals, profilingGroupName) = codeguruprofiler("PUT", "/profilingGroups/$(profilingGroupName)/policy/$(actionGroup)")
+PutPermission(actionGroup, principals, profilingGroupName, args) = codeguruprofiler("PUT", "/profilingGroups/$(profilingGroupName)/policy/$(actionGroup)", args)
+PutPermission(a...; b...) = PutPermission(a..., b)
 
 """
     RemovePermission()
@@ -181,7 +200,9 @@ Required Parameters
   "revisionId": "A unique identifier for the current revision of the policy."
 }
 """
-RemovePermission(args) = codeguruprofiler("DELETE", "/profilingGroups/{profilingGroupName}/policy/{actionGroup}", args)
+RemovePermission(actionGroup, profilingGroupName, revisionId) = codeguruprofiler("DELETE", "/profilingGroups/$(profilingGroupName)/policy/$(actionGroup)")
+RemovePermission(actionGroup, profilingGroupName, revisionId, args) = codeguruprofiler("DELETE", "/profilingGroups/$(profilingGroupName)/policy/$(actionGroup)", args)
+RemovePermission(a...; b...) = RemovePermission(a..., b)
 
 """
     UpdateProfilingGroup()
@@ -194,4 +215,6 @@ Required Parameters
   "profilingGroupName": "The name of the profiling group to update."
 }
 """
-UpdateProfilingGroup(args) = codeguruprofiler("PUT", "/profilingGroups/{profilingGroupName}", args)
+UpdateProfilingGroup(agentOrchestrationConfig, profilingGroupName) = codeguruprofiler("PUT", "/profilingGroups/$(profilingGroupName)")
+UpdateProfilingGroup(agentOrchestrationConfig, profilingGroupName, args) = codeguruprofiler("PUT", "/profilingGroups/$(profilingGroupName)", args)
+UpdateProfilingGroup(a...; b...) = UpdateProfilingGroup(a..., b)

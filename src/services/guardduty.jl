@@ -14,7 +14,9 @@ Required Parameters
   "MasterId": "The account ID of the master GuardDuty account whose invitation you're accepting."
 }
 """
-AcceptInvitation(args) = guardduty("POST", "/detector/{detectorId}/master", args)
+AcceptInvitation(DetectorId, InvitationId, MasterId) = guardduty("POST", "/detector/$(detectorId)/master")
+AcceptInvitation(DetectorId, InvitationId, MasterId, args) = guardduty("POST", "/detector/$(detectorId)/master", args)
+AcceptInvitation(a...; b...) = AcceptInvitation(a..., b)
 
 """
     ArchiveFindings()
@@ -27,7 +29,9 @@ Required Parameters
   "FindingIds": "The IDs of the findings that you want to archive."
 }
 """
-ArchiveFindings(args) = guardduty("POST", "/detector/{detectorId}/findings/archive", args)
+ArchiveFindings(DetectorId, FindingIds) = guardduty("POST", "/detector/$(detectorId)/findings/archive")
+ArchiveFindings(DetectorId, FindingIds, args) = guardduty("POST", "/detector/$(detectorId)/findings/archive", args)
+ArchiveFindings(a...; b...) = ArchiveFindings(a..., b)
 
 """
     CreateDetector()
@@ -46,7 +50,9 @@ Optional Parameters
   "Tags": "The tags to be added to a new detector resource."
 }
 """
-CreateDetector(args) = guardduty("POST", "/detector", args)
+CreateDetector(Enable) = guardduty("POST", "/detector")
+CreateDetector(Enable, args) = guardduty("POST", "/detector", args)
+CreateDetector(a...; b...) = CreateDetector(a..., b)
 
 """
     CreateFilter()
@@ -69,7 +75,9 @@ Optional Parameters
   "Tags": "The tags to be added to a new filter resource."
 }
 """
-CreateFilter(args) = guardduty("POST", "/detector/{detectorId}/filter", args)
+CreateFilter(DetectorId, FindingCriteria, Name) = guardduty("POST", "/detector/$(detectorId)/filter")
+CreateFilter(DetectorId, FindingCriteria, Name, args) = guardduty("POST", "/detector/$(detectorId)/filter", args)
+CreateFilter(a...; b...) = CreateFilter(a..., b)
 
 """
     CreateIPSet()
@@ -91,7 +99,9 @@ Optional Parameters
   "Tags": "The tags to be added to a new IP set resource."
 }
 """
-CreateIPSet(args) = guardduty("POST", "/detector/{detectorId}/ipset", args)
+CreateIPSet(Activate, DetectorId, Format, Location, Name) = guardduty("POST", "/detector/$(detectorId)/ipset")
+CreateIPSet(Activate, DetectorId, Format, Location, Name, args) = guardduty("POST", "/detector/$(detectorId)/ipset", args)
+CreateIPSet(a...; b...) = CreateIPSet(a..., b)
 
 """
     CreateMembers()
@@ -104,7 +114,9 @@ Required Parameters
   "DetectorId": "The unique ID of the detector of the GuardDuty account that you want to associate member accounts with."
 }
 """
-CreateMembers(args) = guardduty("POST", "/detector/{detectorId}/member", args)
+CreateMembers(AccountDetails, DetectorId) = guardduty("POST", "/detector/$(detectorId)/member")
+CreateMembers(AccountDetails, DetectorId, args) = guardduty("POST", "/detector/$(detectorId)/member", args)
+CreateMembers(a...; b...) = CreateMembers(a..., b)
 
 """
     CreatePublishingDestination()
@@ -123,7 +135,9 @@ Optional Parameters
   "ClientToken": "The idempotency token for the request."
 }
 """
-CreatePublishingDestination(args) = guardduty("POST", "/detector/{detectorId}/publishingDestination", args)
+CreatePublishingDestination(DestinationProperties, DestinationType, DetectorId) = guardduty("POST", "/detector/$(detectorId)/publishingDestination")
+CreatePublishingDestination(DestinationProperties, DestinationType, DetectorId, args) = guardduty("POST", "/detector/$(detectorId)/publishingDestination", args)
+CreatePublishingDestination(a...; b...) = CreatePublishingDestination(a..., b)
 
 """
     CreateSampleFindings()
@@ -140,7 +154,9 @@ Optional Parameters
   "FindingTypes": "The types of sample findings to generate."
 }
 """
-CreateSampleFindings(args) = guardduty("POST", "/detector/{detectorId}/findings/create", args)
+CreateSampleFindings(DetectorId) = guardduty("POST", "/detector/$(detectorId)/findings/create")
+CreateSampleFindings(DetectorId, args) = guardduty("POST", "/detector/$(detectorId)/findings/create", args)
+CreateSampleFindings(a...; b...) = CreateSampleFindings(a..., b)
 
 """
     CreateThreatIntelSet()
@@ -162,7 +178,9 @@ Optional Parameters
   "Tags": "The tags to be added to a new threat list resource."
 }
 """
-CreateThreatIntelSet(args) = guardduty("POST", "/detector/{detectorId}/threatintelset", args)
+CreateThreatIntelSet(Activate, DetectorId, Format, Location, Name) = guardduty("POST", "/detector/$(detectorId)/threatintelset")
+CreateThreatIntelSet(Activate, DetectorId, Format, Location, Name, args) = guardduty("POST", "/detector/$(detectorId)/threatintelset", args)
+CreateThreatIntelSet(a...; b...) = CreateThreatIntelSet(a..., b)
 
 """
     DeclineInvitations()
@@ -174,7 +192,9 @@ Required Parameters
   "AccountIds": "A list of account IDs of the AWS accounts that sent invitations to the current member account that you want to decline invitations from."
 }
 """
-DeclineInvitations(args) = guardduty("POST", "/invitation/decline", args)
+DeclineInvitations(AccountIds) = guardduty("POST", "/invitation/decline")
+DeclineInvitations(AccountIds, args) = guardduty("POST", "/invitation/decline", args)
+DeclineInvitations(a...; b...) = DeclineInvitations(a..., b)
 
 """
     DeleteDetector()
@@ -186,7 +206,9 @@ Required Parameters
   "DetectorId": "The unique ID of the detector that you want to delete."
 }
 """
-DeleteDetector(args) = guardduty("DELETE", "/detector/{detectorId}", args)
+DeleteDetector(DetectorId) = guardduty("DELETE", "/detector/$(detectorId)")
+DeleteDetector(DetectorId, args) = guardduty("DELETE", "/detector/$(detectorId)", args)
+DeleteDetector(a...; b...) = DeleteDetector(a..., b)
 
 """
     DeleteFilter()
@@ -199,7 +221,9 @@ Required Parameters
   "FilterName": "The name of the filter that you want to delete."
 }
 """
-DeleteFilter(args) = guardduty("DELETE", "/detector/{detectorId}/filter/{filterName}", args)
+DeleteFilter(DetectorId, FilterName) = guardduty("DELETE", "/detector/$(detectorId)/filter/$(filterName)")
+DeleteFilter(DetectorId, FilterName, args) = guardduty("DELETE", "/detector/$(detectorId)/filter/$(filterName)", args)
+DeleteFilter(a...; b...) = DeleteFilter(a..., b)
 
 """
     DeleteIPSet()
@@ -212,7 +236,9 @@ Required Parameters
   "IpSetId": "The unique ID of the IPSet to delete."
 }
 """
-DeleteIPSet(args) = guardduty("DELETE", "/detector/{detectorId}/ipset/{ipSetId}", args)
+DeleteIPSet(DetectorId, IpSetId) = guardduty("DELETE", "/detector/$(detectorId)/ipset/$(ipSetId)")
+DeleteIPSet(DetectorId, IpSetId, args) = guardduty("DELETE", "/detector/$(detectorId)/ipset/$(ipSetId)", args)
+DeleteIPSet(a...; b...) = DeleteIPSet(a..., b)
 
 """
     DeleteInvitations()
@@ -224,7 +250,9 @@ Required Parameters
   "AccountIds": "A list of account IDs of the AWS accounts that sent invitations to the current member account that you want to delete invitations from."
 }
 """
-DeleteInvitations(args) = guardduty("POST", "/invitation/delete", args)
+DeleteInvitations(AccountIds) = guardduty("POST", "/invitation/delete")
+DeleteInvitations(AccountIds, args) = guardduty("POST", "/invitation/delete", args)
+DeleteInvitations(a...; b...) = DeleteInvitations(a..., b)
 
 """
     DeleteMembers()
@@ -237,7 +265,9 @@ Required Parameters
   "DetectorId": "The unique ID of the detector of the GuardDuty account whose members you want to delete."
 }
 """
-DeleteMembers(args) = guardduty("POST", "/detector/{detectorId}/member/delete", args)
+DeleteMembers(AccountIds, DetectorId) = guardduty("POST", "/detector/$(detectorId)/member/delete")
+DeleteMembers(AccountIds, DetectorId, args) = guardduty("POST", "/detector/$(detectorId)/member/delete", args)
+DeleteMembers(a...; b...) = DeleteMembers(a..., b)
 
 """
     DeletePublishingDestination()
@@ -250,7 +280,9 @@ Required Parameters
   "DetectorId": "The unique ID of the detector associated with the publishing destination to delete."
 }
 """
-DeletePublishingDestination(args) = guardduty("DELETE", "/detector/{detectorId}/publishingDestination/{destinationId}", args)
+DeletePublishingDestination(DestinationId, DetectorId) = guardduty("DELETE", "/detector/$(detectorId)/publishingDestination/$(destinationId)")
+DeletePublishingDestination(DestinationId, DetectorId, args) = guardduty("DELETE", "/detector/$(detectorId)/publishingDestination/$(destinationId)", args)
+DeletePublishingDestination(a...; b...) = DeletePublishingDestination(a..., b)
 
 """
     DeleteThreatIntelSet()
@@ -263,7 +295,9 @@ Required Parameters
   "ThreatIntelSetId": "The unique ID of the threatIntelSet that you want to delete."
 }
 """
-DeleteThreatIntelSet(args) = guardduty("DELETE", "/detector/{detectorId}/threatintelset/{threatIntelSetId}", args)
+DeleteThreatIntelSet(DetectorId, ThreatIntelSetId) = guardduty("DELETE", "/detector/$(detectorId)/threatintelset/$(threatIntelSetId)")
+DeleteThreatIntelSet(DetectorId, ThreatIntelSetId, args) = guardduty("DELETE", "/detector/$(detectorId)/threatintelset/$(threatIntelSetId)", args)
+DeleteThreatIntelSet(a...; b...) = DeleteThreatIntelSet(a..., b)
 
 """
     DescribeOrganizationConfiguration()
@@ -275,7 +309,9 @@ Required Parameters
   "DetectorId": "The ID of the detector to retrieve information about the delegated administrator from."
 }
 """
-DescribeOrganizationConfiguration(args) = guardduty("GET", "/detector/{detectorId}/admin", args)
+DescribeOrganizationConfiguration(DetectorId) = guardduty("GET", "/detector/$(detectorId)/admin")
+DescribeOrganizationConfiguration(DetectorId, args) = guardduty("GET", "/detector/$(detectorId)/admin", args)
+DescribeOrganizationConfiguration(a...; b...) = DescribeOrganizationConfiguration(a..., b)
 
 """
     DescribePublishingDestination()
@@ -288,7 +324,9 @@ Required Parameters
   "DetectorId": "The unique ID of the detector associated with the publishing destination to retrieve."
 }
 """
-DescribePublishingDestination(args) = guardduty("GET", "/detector/{detectorId}/publishingDestination/{destinationId}", args)
+DescribePublishingDestination(DestinationId, DetectorId) = guardduty("GET", "/detector/$(detectorId)/publishingDestination/$(destinationId)")
+DescribePublishingDestination(DestinationId, DetectorId, args) = guardduty("GET", "/detector/$(detectorId)/publishingDestination/$(destinationId)", args)
+DescribePublishingDestination(a...; b...) = DescribePublishingDestination(a..., b)
 
 """
     DisableOrganizationAdminAccount()
@@ -300,7 +338,9 @@ Required Parameters
   "AdminAccountId": "The AWS Account ID for the organizations account to be disabled as a GuardDuty delegated administrator."
 }
 """
-DisableOrganizationAdminAccount(args) = guardduty("POST", "/admin/disable", args)
+DisableOrganizationAdminAccount(AdminAccountId) = guardduty("POST", "/admin/disable")
+DisableOrganizationAdminAccount(AdminAccountId, args) = guardduty("POST", "/admin/disable", args)
+DisableOrganizationAdminAccount(a...; b...) = DisableOrganizationAdminAccount(a..., b)
 
 """
     DisassociateFromMasterAccount()
@@ -312,7 +352,9 @@ Required Parameters
   "DetectorId": "The unique ID of the detector of the GuardDuty member account."
 }
 """
-DisassociateFromMasterAccount(args) = guardduty("POST", "/detector/{detectorId}/master/disassociate", args)
+DisassociateFromMasterAccount(DetectorId) = guardduty("POST", "/detector/$(detectorId)/master/disassociate")
+DisassociateFromMasterAccount(DetectorId, args) = guardduty("POST", "/detector/$(detectorId)/master/disassociate", args)
+DisassociateFromMasterAccount(a...; b...) = DisassociateFromMasterAccount(a..., b)
 
 """
     DisassociateMembers()
@@ -325,7 +367,9 @@ Required Parameters
   "DetectorId": "The unique ID of the detector of the GuardDuty account whose members you want to disassociate from the master account."
 }
 """
-DisassociateMembers(args) = guardduty("POST", "/detector/{detectorId}/member/disassociate", args)
+DisassociateMembers(AccountIds, DetectorId) = guardduty("POST", "/detector/$(detectorId)/member/disassociate")
+DisassociateMembers(AccountIds, DetectorId, args) = guardduty("POST", "/detector/$(detectorId)/member/disassociate", args)
+DisassociateMembers(a...; b...) = DisassociateMembers(a..., b)
 
 """
     EnableOrganizationAdminAccount()
@@ -337,7 +381,9 @@ Required Parameters
   "AdminAccountId": "The AWS Account ID for the organization account to be enabled as a GuardDuty delegated administrator."
 }
 """
-EnableOrganizationAdminAccount(args) = guardduty("POST", "/admin/enable", args)
+EnableOrganizationAdminAccount(AdminAccountId) = guardduty("POST", "/admin/enable")
+EnableOrganizationAdminAccount(AdminAccountId, args) = guardduty("POST", "/admin/enable", args)
+EnableOrganizationAdminAccount(a...; b...) = EnableOrganizationAdminAccount(a..., b)
 
 """
     GetDetector()
@@ -349,7 +395,9 @@ Required Parameters
   "DetectorId": "The unique ID of the detector that you want to get."
 }
 """
-GetDetector(args) = guardduty("GET", "/detector/{detectorId}", args)
+GetDetector(DetectorId) = guardduty("GET", "/detector/$(detectorId)")
+GetDetector(DetectorId, args) = guardduty("GET", "/detector/$(detectorId)", args)
+GetDetector(a...; b...) = GetDetector(a..., b)
 
 """
     GetFilter()
@@ -362,7 +410,9 @@ Required Parameters
   "FilterName": "The name of the filter you want to get."
 }
 """
-GetFilter(args) = guardduty("GET", "/detector/{detectorId}/filter/{filterName}", args)
+GetFilter(DetectorId, FilterName) = guardduty("GET", "/detector/$(detectorId)/filter/$(filterName)")
+GetFilter(DetectorId, FilterName, args) = guardduty("GET", "/detector/$(detectorId)/filter/$(filterName)", args)
+GetFilter(a...; b...) = GetFilter(a..., b)
 
 """
     GetFindings()
@@ -380,7 +430,9 @@ Optional Parameters
   "SortCriteria": "Represents the criteria used for sorting findings."
 }
 """
-GetFindings(args) = guardduty("POST", "/detector/{detectorId}/findings/get", args)
+GetFindings(DetectorId, FindingIds) = guardduty("POST", "/detector/$(detectorId)/findings/get")
+GetFindings(DetectorId, FindingIds, args) = guardduty("POST", "/detector/$(detectorId)/findings/get", args)
+GetFindings(a...; b...) = GetFindings(a..., b)
 
 """
     GetFindingsStatistics()
@@ -398,7 +450,9 @@ Optional Parameters
   "FindingCriteria": "Represents the criteria that is used for querying findings."
 }
 """
-GetFindingsStatistics(args) = guardduty("POST", "/detector/{detectorId}/findings/statistics", args)
+GetFindingsStatistics(DetectorId, FindingStatisticTypes) = guardduty("POST", "/detector/$(detectorId)/findings/statistics")
+GetFindingsStatistics(DetectorId, FindingStatisticTypes, args) = guardduty("POST", "/detector/$(detectorId)/findings/statistics", args)
+GetFindingsStatistics(a...; b...) = GetFindingsStatistics(a..., b)
 
 """
     GetIPSet()
@@ -411,7 +465,9 @@ Required Parameters
   "IpSetId": "The unique ID of the IPSet to retrieve."
 }
 """
-GetIPSet(args) = guardduty("GET", "/detector/{detectorId}/ipset/{ipSetId}", args)
+GetIPSet(DetectorId, IpSetId) = guardduty("GET", "/detector/$(detectorId)/ipset/$(ipSetId)")
+GetIPSet(DetectorId, IpSetId, args) = guardduty("GET", "/detector/$(detectorId)/ipset/$(ipSetId)", args)
+GetIPSet(a...; b...) = GetIPSet(a..., b)
 
 """
     GetInvitationsCount()
@@ -420,6 +476,7 @@ Returns the count of all GuardDuty membership invitations that were sent to the 
 """
 GetInvitationsCount() = guardduty("GET", "/invitation/count")
 GetInvitationsCount(args) = guardduty("GET", "/invitation/count", args)
+GetInvitationsCount(a...; b...) = GetInvitationsCount(a..., b)
 
 """
     GetMasterAccount()
@@ -431,7 +488,9 @@ Required Parameters
   "DetectorId": "The unique ID of the detector of the GuardDuty member account."
 }
 """
-GetMasterAccount(args) = guardduty("GET", "/detector/{detectorId}/master", args)
+GetMasterAccount(DetectorId) = guardduty("GET", "/detector/$(detectorId)/master")
+GetMasterAccount(DetectorId, args) = guardduty("GET", "/detector/$(detectorId)/master", args)
+GetMasterAccount(a...; b...) = GetMasterAccount(a..., b)
 
 """
     GetMembers()
@@ -444,7 +503,9 @@ Required Parameters
   "DetectorId": "The unique ID of the detector of the GuardDuty account whose members you want to retrieve."
 }
 """
-GetMembers(args) = guardduty("POST", "/detector/{detectorId}/member/get", args)
+GetMembers(AccountIds, DetectorId) = guardduty("POST", "/detector/$(detectorId)/member/get")
+GetMembers(AccountIds, DetectorId, args) = guardduty("POST", "/detector/$(detectorId)/member/get", args)
+GetMembers(a...; b...) = GetMembers(a..., b)
 
 """
     GetThreatIntelSet()
@@ -457,7 +518,9 @@ Required Parameters
   "ThreatIntelSetId": "The unique ID of the threatIntelSet that you want to get."
 }
 """
-GetThreatIntelSet(args) = guardduty("GET", "/detector/{detectorId}/threatintelset/{threatIntelSetId}", args)
+GetThreatIntelSet(DetectorId, ThreatIntelSetId) = guardduty("GET", "/detector/$(detectorId)/threatintelset/$(threatIntelSetId)")
+GetThreatIntelSet(DetectorId, ThreatIntelSetId, args) = guardduty("GET", "/detector/$(detectorId)/threatintelset/$(threatIntelSetId)", args)
+GetThreatIntelSet(a...; b...) = GetThreatIntelSet(a..., b)
 
 """
     InviteMembers()
@@ -476,7 +539,9 @@ Optional Parameters
   "Message": "The invitation message that you want to send to the accounts that you’re inviting to GuardDuty as members."
 }
 """
-InviteMembers(args) = guardduty("POST", "/detector/{detectorId}/member/invite", args)
+InviteMembers(AccountIds, DetectorId) = guardduty("POST", "/detector/$(detectorId)/member/invite")
+InviteMembers(AccountIds, DetectorId, args) = guardduty("POST", "/detector/$(detectorId)/member/invite", args)
+InviteMembers(a...; b...) = InviteMembers(a..., b)
 
 """
     ListDetectors()
@@ -491,6 +556,7 @@ Optional Parameters
 """
 ListDetectors() = guardduty("GET", "/detector")
 ListDetectors(args) = guardduty("GET", "/detector", args)
+ListDetectors(a...; b...) = ListDetectors(a..., b)
 
 """
     ListFilters()
@@ -508,7 +574,9 @@ Optional Parameters
   "NextToken": "You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data."
 }
 """
-ListFilters(args) = guardduty("GET", "/detector/{detectorId}/filter", args)
+ListFilters(DetectorId) = guardduty("GET", "/detector/$(detectorId)/filter")
+ListFilters(DetectorId, args) = guardduty("GET", "/detector/$(detectorId)/filter", args)
+ListFilters(a...; b...) = ListFilters(a..., b)
 
 """
     ListFindings()
@@ -528,7 +596,9 @@ Optional Parameters
   "SortCriteria": "Represents the criteria used for sorting findings."
 }
 """
-ListFindings(args) = guardduty("POST", "/detector/{detectorId}/findings", args)
+ListFindings(DetectorId) = guardduty("POST", "/detector/$(detectorId)/findings")
+ListFindings(DetectorId, args) = guardduty("POST", "/detector/$(detectorId)/findings", args)
+ListFindings(a...; b...) = ListFindings(a..., b)
 
 """
     ListIPSets()
@@ -546,7 +616,9 @@ Optional Parameters
   "NextToken": "You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data."
 }
 """
-ListIPSets(args) = guardduty("GET", "/detector/{detectorId}/ipset", args)
+ListIPSets(DetectorId) = guardduty("GET", "/detector/$(detectorId)/ipset")
+ListIPSets(DetectorId, args) = guardduty("GET", "/detector/$(detectorId)/ipset", args)
+ListIPSets(a...; b...) = ListIPSets(a..., b)
 
 """
     ListInvitations()
@@ -561,6 +633,7 @@ Optional Parameters
 """
 ListInvitations() = guardduty("GET", "/invitation")
 ListInvitations(args) = guardduty("GET", "/invitation", args)
+ListInvitations(a...; b...) = ListInvitations(a..., b)
 
 """
     ListMembers()
@@ -579,7 +652,9 @@ Optional Parameters
   "OnlyAssociated": "Specifies whether to only return associated members or to return all members (including members who haven't been invited yet or have been disassociated)."
 }
 """
-ListMembers(args) = guardduty("GET", "/detector/{detectorId}/member", args)
+ListMembers(DetectorId) = guardduty("GET", "/detector/$(detectorId)/member")
+ListMembers(DetectorId, args) = guardduty("GET", "/detector/$(detectorId)/member", args)
+ListMembers(a...; b...) = ListMembers(a..., b)
 
 """
     ListOrganizationAdminAccounts()
@@ -594,6 +669,7 @@ Optional Parameters
 """
 ListOrganizationAdminAccounts() = guardduty("GET", "/admin")
 ListOrganizationAdminAccounts(args) = guardduty("GET", "/admin", args)
+ListOrganizationAdminAccounts(a...; b...) = ListOrganizationAdminAccounts(a..., b)
 
 """
     ListPublishingDestinations()
@@ -611,7 +687,9 @@ Optional Parameters
   "NextToken": "A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page."
 }
 """
-ListPublishingDestinations(args) = guardduty("GET", "/detector/{detectorId}/publishingDestination", args)
+ListPublishingDestinations(DetectorId) = guardduty("GET", "/detector/$(detectorId)/publishingDestination")
+ListPublishingDestinations(DetectorId, args) = guardduty("GET", "/detector/$(detectorId)/publishingDestination", args)
+ListPublishingDestinations(a...; b...) = ListPublishingDestinations(a..., b)
 
 """
     ListTagsForResource()
@@ -623,7 +701,9 @@ Required Parameters
   "ResourceArn": "The Amazon Resource Name (ARN) for the given GuardDuty resource. "
 }
 """
-ListTagsForResource(args) = guardduty("GET", "/tags/{resourceArn}", args)
+ListTagsForResource(ResourceArn) = guardduty("GET", "/tags/$(resourceArn)")
+ListTagsForResource(ResourceArn, args) = guardduty("GET", "/tags/$(resourceArn)", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     ListThreatIntelSets()
@@ -641,7 +721,9 @@ Optional Parameters
   "NextToken": "You can use this parameter to paginate results in the response. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data."
 }
 """
-ListThreatIntelSets(args) = guardduty("GET", "/detector/{detectorId}/threatintelset", args)
+ListThreatIntelSets(DetectorId) = guardduty("GET", "/detector/$(detectorId)/threatintelset")
+ListThreatIntelSets(DetectorId, args) = guardduty("GET", "/detector/$(detectorId)/threatintelset", args)
+ListThreatIntelSets(a...; b...) = ListThreatIntelSets(a..., b)
 
 """
     StartMonitoringMembers()
@@ -654,7 +736,9 @@ Required Parameters
   "DetectorId": "The unique ID of the detector of the GuardDuty master account associated with the member accounts to monitor."
 }
 """
-StartMonitoringMembers(args) = guardduty("POST", "/detector/{detectorId}/member/start", args)
+StartMonitoringMembers(AccountIds, DetectorId) = guardduty("POST", "/detector/$(detectorId)/member/start")
+StartMonitoringMembers(AccountIds, DetectorId, args) = guardduty("POST", "/detector/$(detectorId)/member/start", args)
+StartMonitoringMembers(a...; b...) = StartMonitoringMembers(a..., b)
 
 """
     StopMonitoringMembers()
@@ -667,7 +751,9 @@ Required Parameters
   "DetectorId": "The unique ID of the detector associated with the GuardDuty master account that is monitoring member accounts."
 }
 """
-StopMonitoringMembers(args) = guardduty("POST", "/detector/{detectorId}/member/stop", args)
+StopMonitoringMembers(AccountIds, DetectorId) = guardduty("POST", "/detector/$(detectorId)/member/stop")
+StopMonitoringMembers(AccountIds, DetectorId, args) = guardduty("POST", "/detector/$(detectorId)/member/stop", args)
+StopMonitoringMembers(a...; b...) = StopMonitoringMembers(a..., b)
 
 """
     TagResource()
@@ -680,7 +766,9 @@ Required Parameters
   "Tags": "The tags to be added to a resource."
 }
 """
-TagResource(args) = guardduty("POST", "/tags/{resourceArn}", args)
+TagResource(ResourceArn, Tags) = guardduty("POST", "/tags/$(resourceArn)")
+TagResource(ResourceArn, Tags, args) = guardduty("POST", "/tags/$(resourceArn)", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UnarchiveFindings()
@@ -693,7 +781,9 @@ Required Parameters
   "FindingIds": "The IDs of the findings to unarchive."
 }
 """
-UnarchiveFindings(args) = guardduty("POST", "/detector/{detectorId}/findings/unarchive", args)
+UnarchiveFindings(DetectorId, FindingIds) = guardduty("POST", "/detector/$(detectorId)/findings/unarchive")
+UnarchiveFindings(DetectorId, FindingIds, args) = guardduty("POST", "/detector/$(detectorId)/findings/unarchive", args)
+UnarchiveFindings(a...; b...) = UnarchiveFindings(a..., b)
 
 """
     UntagResource()
@@ -706,7 +796,9 @@ Required Parameters
   "TagKeys": "The tag keys to remove from the resource."
 }
 """
-UntagResource(args) = guardduty("DELETE", "/tags/{resourceArn}", args)
+UntagResource(ResourceArn, TagKeys) = guardduty("DELETE", "/tags/$(resourceArn)")
+UntagResource(ResourceArn, TagKeys, args) = guardduty("DELETE", "/tags/$(resourceArn)", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateDetector()
@@ -724,7 +816,9 @@ Optional Parameters
   "FindingPublishingFrequency": "An enum value that specifies how frequently findings are exported, such as to CloudWatch Events."
 }
 """
-UpdateDetector(args) = guardduty("POST", "/detector/{detectorId}", args)
+UpdateDetector(DetectorId) = guardduty("POST", "/detector/$(detectorId)")
+UpdateDetector(DetectorId, args) = guardduty("POST", "/detector/$(detectorId)", args)
+UpdateDetector(a...; b...) = UpdateDetector(a..., b)
 
 """
     UpdateFilter()
@@ -745,7 +839,9 @@ Optional Parameters
   "Rank": "Specifies the position of the filter in the list of current filters. Also specifies the order in which this filter is applied to the findings."
 }
 """
-UpdateFilter(args) = guardduty("POST", "/detector/{detectorId}/filter/{filterName}", args)
+UpdateFilter(DetectorId, FilterName) = guardduty("POST", "/detector/$(detectorId)/filter/$(filterName)")
+UpdateFilter(DetectorId, FilterName, args) = guardduty("POST", "/detector/$(detectorId)/filter/$(filterName)", args)
+UpdateFilter(a...; b...) = UpdateFilter(a..., b)
 
 """
     UpdateFindingsFeedback()
@@ -764,7 +860,9 @@ Optional Parameters
   "Comments": "Additional feedback about the GuardDuty findings."
 }
 """
-UpdateFindingsFeedback(args) = guardduty("POST", "/detector/{detectorId}/findings/feedback", args)
+UpdateFindingsFeedback(DetectorId, Feedback, FindingIds) = guardduty("POST", "/detector/$(detectorId)/findings/feedback")
+UpdateFindingsFeedback(DetectorId, Feedback, FindingIds, args) = guardduty("POST", "/detector/$(detectorId)/findings/feedback", args)
+UpdateFindingsFeedback(a...; b...) = UpdateFindingsFeedback(a..., b)
 
 """
     UpdateIPSet()
@@ -784,7 +882,9 @@ Optional Parameters
   "Name": "The unique ID that specifies the IPSet that you want to update."
 }
 """
-UpdateIPSet(args) = guardduty("POST", "/detector/{detectorId}/ipset/{ipSetId}", args)
+UpdateIPSet(DetectorId, IpSetId) = guardduty("POST", "/detector/$(detectorId)/ipset/$(ipSetId)")
+UpdateIPSet(DetectorId, IpSetId, args) = guardduty("POST", "/detector/$(detectorId)/ipset/$(ipSetId)", args)
+UpdateIPSet(a...; b...) = UpdateIPSet(a..., b)
 
 """
     UpdateOrganizationConfiguration()
@@ -797,7 +897,9 @@ Required Parameters
   "DetectorId": "The ID of the detector to update the delegated administrator for."
 }
 """
-UpdateOrganizationConfiguration(args) = guardduty("POST", "/detector/{detectorId}/admin", args)
+UpdateOrganizationConfiguration(AutoEnable, DetectorId) = guardduty("POST", "/detector/$(detectorId)/admin")
+UpdateOrganizationConfiguration(AutoEnable, DetectorId, args) = guardduty("POST", "/detector/$(detectorId)/admin", args)
+UpdateOrganizationConfiguration(a...; b...) = UpdateOrganizationConfiguration(a..., b)
 
 """
     UpdatePublishingDestination()
@@ -815,7 +917,9 @@ Optional Parameters
   "DestinationProperties": "A DestinationProperties object that includes the DestinationArn and KmsKeyArn of the publishing destination."
 }
 """
-UpdatePublishingDestination(args) = guardduty("POST", "/detector/{detectorId}/publishingDestination/{destinationId}", args)
+UpdatePublishingDestination(DestinationId, DetectorId) = guardduty("POST", "/detector/$(detectorId)/publishingDestination/$(destinationId)")
+UpdatePublishingDestination(DestinationId, DetectorId, args) = guardduty("POST", "/detector/$(detectorId)/publishingDestination/$(destinationId)", args)
+UpdatePublishingDestination(a...; b...) = UpdatePublishingDestination(a..., b)
 
 """
     UpdateThreatIntelSet()
@@ -835,4 +939,6 @@ Optional Parameters
   "Name": "The unique ID that specifies the ThreatIntelSet that you want to update."
 }
 """
-UpdateThreatIntelSet(args) = guardduty("POST", "/detector/{detectorId}/threatintelset/{threatIntelSetId}", args)
+UpdateThreatIntelSet(DetectorId, ThreatIntelSetId) = guardduty("POST", "/detector/$(detectorId)/threatintelset/$(threatIntelSetId)")
+UpdateThreatIntelSet(DetectorId, ThreatIntelSetId, args) = guardduty("POST", "/detector/$(detectorId)/threatintelset/$(threatIntelSetId)", args)
+UpdateThreatIntelSet(a...; b...) = UpdateThreatIntelSet(a..., b)

@@ -15,7 +15,9 @@ Required Parameters
   "projectName": "The name of the project containing the placement in which to associate the device."
 }
 """
-AssociateDeviceWithPlacement(args) = iot_1click_projects("PUT", "/projects/{projectName}/placements/{placementName}/devices/{deviceTemplateName}", args)
+AssociateDeviceWithPlacement(deviceId, deviceTemplateName, placementName, projectName) = iot_1click_projects("PUT", "/projects/$(projectName)/placements/$(placementName)/devices/$(deviceTemplateName)")
+AssociateDeviceWithPlacement(deviceId, deviceTemplateName, placementName, projectName, args) = iot_1click_projects("PUT", "/projects/$(projectName)/placements/$(placementName)/devices/$(deviceTemplateName)", args)
+AssociateDeviceWithPlacement(a...; b...) = AssociateDeviceWithPlacement(a..., b)
 
 """
     CreatePlacement()
@@ -33,7 +35,9 @@ Optional Parameters
   "attributes": "Optional user-defined key/value pairs providing contextual data (such as location or function) for the placement."
 }
 """
-CreatePlacement(args) = iot_1click_projects("POST", "/projects/{projectName}/placements", args)
+CreatePlacement(placementName, projectName) = iot_1click_projects("POST", "/projects/$(projectName)/placements")
+CreatePlacement(placementName, projectName, args) = iot_1click_projects("POST", "/projects/$(projectName)/placements", args)
+CreatePlacement(a...; b...) = CreatePlacement(a..., b)
 
 """
     CreateProject()
@@ -52,7 +56,9 @@ Optional Parameters
   "tags": "Optional tags (metadata key/value pairs) to be associated with the project. For example, { {\"key1\": \"value1\", \"key2\": \"value2\"} }. For more information, see AWS Tagging Strategies."
 }
 """
-CreateProject(args) = iot_1click_projects("POST", "/projects", args)
+CreateProject(projectName) = iot_1click_projects("POST", "/projects")
+CreateProject(projectName, args) = iot_1click_projects("POST", "/projects", args)
+CreateProject(a...; b...) = CreateProject(a..., b)
 
 """
     DeletePlacement()
@@ -65,7 +71,9 @@ Required Parameters
   "projectName": "The project containing the empty placement to delete."
 }
 """
-DeletePlacement(args) = iot_1click_projects("DELETE", "/projects/{projectName}/placements/{placementName}", args)
+DeletePlacement(placementName, projectName) = iot_1click_projects("DELETE", "/projects/$(projectName)/placements/$(placementName)")
+DeletePlacement(placementName, projectName, args) = iot_1click_projects("DELETE", "/projects/$(projectName)/placements/$(placementName)", args)
+DeletePlacement(a...; b...) = DeletePlacement(a..., b)
 
 """
     DeleteProject()
@@ -77,7 +85,9 @@ Required Parameters
   "projectName": "The name of the empty project to delete."
 }
 """
-DeleteProject(args) = iot_1click_projects("DELETE", "/projects/{projectName}", args)
+DeleteProject(projectName) = iot_1click_projects("DELETE", "/projects/$(projectName)")
+DeleteProject(projectName, args) = iot_1click_projects("DELETE", "/projects/$(projectName)", args)
+DeleteProject(a...; b...) = DeleteProject(a..., b)
 
 """
     DescribePlacement()
@@ -90,7 +100,9 @@ Required Parameters
   "projectName": "The project containing the placement to be described."
 }
 """
-DescribePlacement(args) = iot_1click_projects("GET", "/projects/{projectName}/placements/{placementName}", args)
+DescribePlacement(placementName, projectName) = iot_1click_projects("GET", "/projects/$(projectName)/placements/$(placementName)")
+DescribePlacement(placementName, projectName, args) = iot_1click_projects("GET", "/projects/$(projectName)/placements/$(placementName)", args)
+DescribePlacement(a...; b...) = DescribePlacement(a..., b)
 
 """
     DescribeProject()
@@ -102,7 +114,9 @@ Required Parameters
   "projectName": "The name of the project to be described."
 }
 """
-DescribeProject(args) = iot_1click_projects("GET", "/projects/{projectName}", args)
+DescribeProject(projectName) = iot_1click_projects("GET", "/projects/$(projectName)")
+DescribeProject(projectName, args) = iot_1click_projects("GET", "/projects/$(projectName)", args)
+DescribeProject(a...; b...) = DescribeProject(a..., b)
 
 """
     DisassociateDeviceFromPlacement()
@@ -116,7 +130,9 @@ Required Parameters
   "projectName": "The name of the project that contains the placement."
 }
 """
-DisassociateDeviceFromPlacement(args) = iot_1click_projects("DELETE", "/projects/{projectName}/placements/{placementName}/devices/{deviceTemplateName}", args)
+DisassociateDeviceFromPlacement(deviceTemplateName, placementName, projectName) = iot_1click_projects("DELETE", "/projects/$(projectName)/placements/$(placementName)/devices/$(deviceTemplateName)")
+DisassociateDeviceFromPlacement(deviceTemplateName, placementName, projectName, args) = iot_1click_projects("DELETE", "/projects/$(projectName)/placements/$(placementName)/devices/$(deviceTemplateName)", args)
+DisassociateDeviceFromPlacement(a...; b...) = DisassociateDeviceFromPlacement(a..., b)
 
 """
     GetDevicesInPlacement()
@@ -129,7 +145,9 @@ Required Parameters
   "projectName": "The name of the project containing the placement."
 }
 """
-GetDevicesInPlacement(args) = iot_1click_projects("GET", "/projects/{projectName}/placements/{placementName}/devices", args)
+GetDevicesInPlacement(placementName, projectName) = iot_1click_projects("GET", "/projects/$(projectName)/placements/$(placementName)/devices")
+GetDevicesInPlacement(placementName, projectName, args) = iot_1click_projects("GET", "/projects/$(projectName)/placements/$(placementName)/devices", args)
+GetDevicesInPlacement(a...; b...) = GetDevicesInPlacement(a..., b)
 
 """
     ListPlacements()
@@ -147,7 +165,9 @@ Optional Parameters
   "nextToken": "The token to retrieve the next set of results."
 }
 """
-ListPlacements(args) = iot_1click_projects("GET", "/projects/{projectName}/placements", args)
+ListPlacements(projectName) = iot_1click_projects("GET", "/projects/$(projectName)/placements")
+ListPlacements(projectName, args) = iot_1click_projects("GET", "/projects/$(projectName)/placements", args)
+ListPlacements(a...; b...) = ListPlacements(a..., b)
 
 """
     ListProjects()
@@ -162,6 +182,7 @@ Optional Parameters
 """
 ListProjects() = iot_1click_projects("GET", "/projects")
 ListProjects(args) = iot_1click_projects("GET", "/projects", args)
+ListProjects(a...; b...) = ListProjects(a..., b)
 
 """
     ListTagsForResource()
@@ -173,7 +194,9 @@ Required Parameters
   "resourceArn": "The ARN of the resource whose tags you want to list."
 }
 """
-ListTagsForResource(args) = iot_1click_projects("GET", "/tags/{resourceArn}", args)
+ListTagsForResource(resourceArn) = iot_1click_projects("GET", "/tags/$(resourceArn)")
+ListTagsForResource(resourceArn, args) = iot_1click_projects("GET", "/tags/$(resourceArn)", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     TagResource()
@@ -186,7 +209,9 @@ Required Parameters
   "tags": "The new or modifying tag(s) for the resource. See AWS IoT 1-Click Service Limits for the maximum number of tags allowed per resource."
 }
 """
-TagResource(args) = iot_1click_projects("POST", "/tags/{resourceArn}", args)
+TagResource(resourceArn, tags) = iot_1click_projects("POST", "/tags/$(resourceArn)")
+TagResource(resourceArn, tags, args) = iot_1click_projects("POST", "/tags/$(resourceArn)", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
@@ -199,7 +224,9 @@ Required Parameters
   "tagKeys": "The keys of those tags which you want to remove."
 }
 """
-UntagResource(args) = iot_1click_projects("DELETE", "/tags/{resourceArn}", args)
+UntagResource(resourceArn, tagKeys) = iot_1click_projects("DELETE", "/tags/$(resourceArn)")
+UntagResource(resourceArn, tagKeys, args) = iot_1click_projects("DELETE", "/tags/$(resourceArn)", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdatePlacement()
@@ -217,7 +244,9 @@ Optional Parameters
   "attributes": "The user-defined object of attributes used to update the placement. The maximum number of key/value pairs is 50."
 }
 """
-UpdatePlacement(args) = iot_1click_projects("PUT", "/projects/{projectName}/placements/{placementName}", args)
+UpdatePlacement(placementName, projectName) = iot_1click_projects("PUT", "/projects/$(projectName)/placements/$(placementName)")
+UpdatePlacement(placementName, projectName, args) = iot_1click_projects("PUT", "/projects/$(projectName)/placements/$(placementName)", args)
+UpdatePlacement(a...; b...) = UpdatePlacement(a..., b)
 
 """
     UpdateProject()
@@ -235,4 +264,6 @@ Optional Parameters
   "placementTemplate": "An object defining the project update. Once a project has been created, you cannot add device template names to the project. However, for a given placementTemplate, you can update the associated callbackOverrides for the device definition using this API."
 }
 """
-UpdateProject(args) = iot_1click_projects("PUT", "/projects/{projectName}", args)
+UpdateProject(projectName) = iot_1click_projects("PUT", "/projects/$(projectName)")
+UpdateProject(projectName, args) = iot_1click_projects("PUT", "/projects/$(projectName)", args)
+UpdateProject(a...; b...) = UpdateProject(a..., b)

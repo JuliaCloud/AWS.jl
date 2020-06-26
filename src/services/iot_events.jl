@@ -22,7 +22,9 @@ Optional Parameters
   "tags": "Metadata that can be used to manage the detector model."
 }
 """
-CreateDetectorModel(args) = iot_events("POST", "/detector-models", args)
+CreateDetectorModel(detectorModelDefinition, detectorModelName, roleArn) = iot_events("POST", "/detector-models")
+CreateDetectorModel(detectorModelDefinition, detectorModelName, roleArn, args) = iot_events("POST", "/detector-models", args)
+CreateDetectorModel(a...; b...) = CreateDetectorModel(a..., b)
 
 """
     CreateInput()
@@ -41,7 +43,9 @@ Optional Parameters
   "tags": "Metadata that can be used to manage the input."
 }
 """
-CreateInput(args) = iot_events("POST", "/inputs", args)
+CreateInput(inputDefinition, inputName) = iot_events("POST", "/inputs")
+CreateInput(inputDefinition, inputName, args) = iot_events("POST", "/inputs", args)
+CreateInput(a...; b...) = CreateInput(a..., b)
 
 """
     DeleteDetectorModel()
@@ -53,7 +57,9 @@ Required Parameters
   "detectorModelName": "The name of the detector model to be deleted."
 }
 """
-DeleteDetectorModel(args) = iot_events("DELETE", "/detector-models/{detectorModelName}", args)
+DeleteDetectorModel(detectorModelName) = iot_events("DELETE", "/detector-models/$(detectorModelName)")
+DeleteDetectorModel(detectorModelName, args) = iot_events("DELETE", "/detector-models/$(detectorModelName)", args)
+DeleteDetectorModel(a...; b...) = DeleteDetectorModel(a..., b)
 
 """
     DeleteInput()
@@ -65,7 +71,9 @@ Required Parameters
   "inputName": "The name of the input to delete."
 }
 """
-DeleteInput(args) = iot_events("DELETE", "/inputs/{inputName}", args)
+DeleteInput(inputName) = iot_events("DELETE", "/inputs/$(inputName)")
+DeleteInput(inputName, args) = iot_events("DELETE", "/inputs/$(inputName)", args)
+DeleteInput(a...; b...) = DeleteInput(a..., b)
 
 """
     DescribeDetectorModel()
@@ -82,7 +90,9 @@ Optional Parameters
   "detectorModelVersion": "The version of the detector model."
 }
 """
-DescribeDetectorModel(args) = iot_events("GET", "/detector-models/{detectorModelName}", args)
+DescribeDetectorModel(detectorModelName) = iot_events("GET", "/detector-models/$(detectorModelName)")
+DescribeDetectorModel(detectorModelName, args) = iot_events("GET", "/detector-models/$(detectorModelName)", args)
+DescribeDetectorModel(a...; b...) = DescribeDetectorModel(a..., b)
 
 """
     DescribeInput()
@@ -94,7 +104,9 @@ Required Parameters
   "inputName": "The name of the input."
 }
 """
-DescribeInput(args) = iot_events("GET", "/inputs/{inputName}", args)
+DescribeInput(inputName) = iot_events("GET", "/inputs/$(inputName)")
+DescribeInput(inputName, args) = iot_events("GET", "/inputs/$(inputName)", args)
+DescribeInput(a...; b...) = DescribeInput(a..., b)
 
 """
     DescribeLoggingOptions()
@@ -103,6 +115,7 @@ Retrieves the current settings of the AWS IoT Events logging options.
 """
 DescribeLoggingOptions() = iot_events("GET", "/logging")
 DescribeLoggingOptions(args) = iot_events("GET", "/logging", args)
+DescribeLoggingOptions(a...; b...) = DescribeLoggingOptions(a..., b)
 
 """
     ListDetectorModelVersions()
@@ -120,7 +133,9 @@ Optional Parameters
   "nextToken": "The token for the next set of results."
 }
 """
-ListDetectorModelVersions(args) = iot_events("GET", "/detector-models/{detectorModelName}/versions", args)
+ListDetectorModelVersions(detectorModelName) = iot_events("GET", "/detector-models/$(detectorModelName)/versions")
+ListDetectorModelVersions(detectorModelName, args) = iot_events("GET", "/detector-models/$(detectorModelName)/versions", args)
+ListDetectorModelVersions(a...; b...) = ListDetectorModelVersions(a..., b)
 
 """
     ListDetectorModels()
@@ -135,6 +150,7 @@ Optional Parameters
 """
 ListDetectorModels() = iot_events("GET", "/detector-models")
 ListDetectorModels(args) = iot_events("GET", "/detector-models", args)
+ListDetectorModels(a...; b...) = ListDetectorModels(a..., b)
 
 """
     ListInputs()
@@ -149,6 +165,7 @@ Optional Parameters
 """
 ListInputs() = iot_events("GET", "/inputs")
 ListInputs(args) = iot_events("GET", "/inputs", args)
+ListInputs(a...; b...) = ListInputs(a..., b)
 
 """
     ListTagsForResource()
@@ -160,7 +177,9 @@ Required Parameters
   "resourceArn": "The ARN of the resource."
 }
 """
-ListTagsForResource(args) = iot_events("GET", "/tags", args)
+ListTagsForResource(resourceArn) = iot_events("GET", "/tags")
+ListTagsForResource(resourceArn, args) = iot_events("GET", "/tags", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     PutLoggingOptions()
@@ -172,7 +191,9 @@ Required Parameters
   "loggingOptions": "The new values of the AWS IoT Events logging options."
 }
 """
-PutLoggingOptions(args) = iot_events("PUT", "/logging", args)
+PutLoggingOptions(loggingOptions) = iot_events("PUT", "/logging")
+PutLoggingOptions(loggingOptions, args) = iot_events("PUT", "/logging", args)
+PutLoggingOptions(a...; b...) = PutLoggingOptions(a..., b)
 
 """
     TagResource()
@@ -185,7 +206,9 @@ Required Parameters
   "tags": "The new or modified tags for the resource."
 }
 """
-TagResource(args) = iot_events("POST", "/tags", args)
+TagResource(resourceArn, tags) = iot_events("POST", "/tags")
+TagResource(resourceArn, tags, args) = iot_events("POST", "/tags", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
@@ -198,7 +221,9 @@ Required Parameters
   "tagKeys": "A list of the keys of the tags to be removed from the resource."
 }
 """
-UntagResource(args) = iot_events("DELETE", "/tags", args)
+UntagResource(resourceArn, tagKeys) = iot_events("DELETE", "/tags")
+UntagResource(resourceArn, tagKeys, args) = iot_events("DELETE", "/tags", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateDetectorModel()
@@ -218,7 +243,9 @@ Optional Parameters
   "evaluationMethod": "Information about the order in which events are evaluated and how actions are executed. "
 }
 """
-UpdateDetectorModel(args) = iot_events("POST", "/detector-models/{detectorModelName}", args)
+UpdateDetectorModel(detectorModelDefinition, detectorModelName, roleArn) = iot_events("POST", "/detector-models/$(detectorModelName)")
+UpdateDetectorModel(detectorModelDefinition, detectorModelName, roleArn, args) = iot_events("POST", "/detector-models/$(detectorModelName)", args)
+UpdateDetectorModel(a...; b...) = UpdateDetectorModel(a..., b)
 
 """
     UpdateInput()
@@ -236,4 +263,6 @@ Optional Parameters
   "inputDescription": "A brief description of the input."
 }
 """
-UpdateInput(args) = iot_events("PUT", "/inputs/{inputName}", args)
+UpdateInput(inputDefinition, inputName) = iot_events("PUT", "/inputs/$(inputName)")
+UpdateInput(inputDefinition, inputName, args) = iot_events("PUT", "/inputs/$(inputName)", args)
+UpdateInput(a...; b...) = UpdateInput(a..., b)

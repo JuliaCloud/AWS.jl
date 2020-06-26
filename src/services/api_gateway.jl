@@ -21,6 +21,7 @@ Optional Parameters
 """
 CreateApiKey() = api_gateway("POST", "/apikeys")
 CreateApiKey(args) = api_gateway("POST", "/apikeys", args)
+CreateApiKey(a...; b...) = CreateApiKey(a..., b)
 
 """
     CreateAuthorizer()
@@ -45,7 +46,9 @@ Optional Parameters
   "providerARNs": "A list of the Amazon Cognito user pool ARNs for the COGNITO_USER_POOLS authorizer. Each element is of this format: arn:aws:cognito-idp:{region}:{account_id}:userpool/{user_pool_id}. For a TOKEN or REQUEST authorizer, this is not defined. "
 }
 """
-CreateAuthorizer(args) = api_gateway("POST", "/restapis/{restapi_id}/authorizers", args)
+CreateAuthorizer(name, restApiId, type) = api_gateway("POST", "/restapis/$(restapi_id)/authorizers")
+CreateAuthorizer(name, restApiId, type, args) = api_gateway("POST", "/restapis/$(restapi_id)/authorizers", args)
+CreateAuthorizer(a...; b...) = CreateAuthorizer(a..., b)
 
 """
     CreateBasePathMapping()
@@ -64,7 +67,9 @@ Optional Parameters
   "stage": "The name of the API's stage that you want to use for this mapping. Specify '(none)' if you want callers to explicitly specify the stage name after any base path name."
 }
 """
-CreateBasePathMapping(args) = api_gateway("POST", "/domainnames/{domain_name}/basepathmappings", args)
+CreateBasePathMapping(domainName, restApiId) = api_gateway("POST", "/domainnames/$(domain_name)/basepathmappings")
+CreateBasePathMapping(domainName, restApiId, args) = api_gateway("POST", "/domainnames/$(domain_name)/basepathmappings", args)
+CreateBasePathMapping(a...; b...) = CreateBasePathMapping(a..., b)
 
 """
     CreateDeployment()
@@ -88,7 +93,9 @@ Optional Parameters
   "variables": "A map that defines the stage variables for the Stage resource that is associated with the new deployment. Variable names can have alphanumeric and underscore characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+."
 }
 """
-CreateDeployment(args) = api_gateway("POST", "/restapis/{restapi_id}/deployments", args)
+CreateDeployment(restApiId) = api_gateway("POST", "/restapis/$(restapi_id)/deployments")
+CreateDeployment(restApiId, args) = api_gateway("POST", "/restapis/$(restapi_id)/deployments", args)
+CreateDeployment(a...; b...) = CreateDeployment(a..., b)
 
 """
     CreateDocumentationPart()
@@ -102,7 +109,9 @@ Required Parameters
   "restApiId": "[Required] The string identifier of the associated RestApi."
 }
 """
-CreateDocumentationPart(args) = api_gateway("POST", "/restapis/{restapi_id}/documentation/parts", args)
+CreateDocumentationPart(location, properties, restApiId) = api_gateway("POST", "/restapis/$(restapi_id)/documentation/parts")
+CreateDocumentationPart(location, properties, restApiId, args) = api_gateway("POST", "/restapis/$(restapi_id)/documentation/parts", args)
+CreateDocumentationPart(a...; b...) = CreateDocumentationPart(a..., b)
 
 """
     CreateDocumentationVersion()
@@ -121,7 +130,9 @@ Optional Parameters
   "stageName": "The stage name to be associated with the new documentation snapshot."
 }
 """
-CreateDocumentationVersion(args) = api_gateway("POST", "/restapis/{restapi_id}/documentation/versions", args)
+CreateDocumentationVersion(documentationVersion, restApiId) = api_gateway("POST", "/restapis/$(restapi_id)/documentation/versions")
+CreateDocumentationVersion(documentationVersion, restApiId, args) = api_gateway("POST", "/restapis/$(restapi_id)/documentation/versions", args)
+CreateDocumentationVersion(a...; b...) = CreateDocumentationVersion(a..., b)
 
 """
     CreateDomainName()
@@ -147,7 +158,9 @@ Optional Parameters
   "tags": "The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters."
 }
 """
-CreateDomainName(args) = api_gateway("POST", "/domainnames", args)
+CreateDomainName(domainName) = api_gateway("POST", "/domainnames")
+CreateDomainName(domainName, args) = api_gateway("POST", "/domainnames", args)
+CreateDomainName(a...; b...) = CreateDomainName(a..., b)
 
 """
     CreateModel()
@@ -167,7 +180,9 @@ Optional Parameters
   "schema": "The schema for the model. For application/json models, this should be JSON schema draft 4 model."
 }
 """
-CreateModel(args) = api_gateway("POST", "/restapis/{restapi_id}/models", args)
+CreateModel(contentType, name, restApiId) = api_gateway("POST", "/restapis/$(restapi_id)/models")
+CreateModel(contentType, name, restApiId, args) = api_gateway("POST", "/restapis/$(restapi_id)/models", args)
+CreateModel(a...; b...) = CreateModel(a..., b)
 
 """
     CreateRequestValidator()
@@ -186,7 +201,9 @@ Optional Parameters
   "validateRequestParameters": "A Boolean flag to indicate whether to validate request parameters, true, or not false."
 }
 """
-CreateRequestValidator(args) = api_gateway("POST", "/restapis/{restapi_id}/requestvalidators", args)
+CreateRequestValidator(restApiId) = api_gateway("POST", "/restapis/$(restapi_id)/requestvalidators")
+CreateRequestValidator(restApiId, args) = api_gateway("POST", "/restapis/$(restapi_id)/requestvalidators", args)
+CreateRequestValidator(a...; b...) = CreateRequestValidator(a..., b)
 
 """
     CreateResource()
@@ -200,7 +217,9 @@ Required Parameters
   "restApiId": "[Required] The string identifier of the associated RestApi."
 }
 """
-CreateResource(args) = api_gateway("POST", "/restapis/{restapi_id}/resources/{parent_id}", args)
+CreateResource(parentId, pathPart, restApiId) = api_gateway("POST", "/restapis/$(restapi_id)/resources/$(parent_id)")
+CreateResource(parentId, pathPart, restApiId, args) = api_gateway("POST", "/restapis/$(restapi_id)/resources/$(parent_id)", args)
+CreateResource(a...; b...) = CreateResource(a..., b)
 
 """
     CreateRestApi()
@@ -225,7 +244,9 @@ Optional Parameters
   "version": "A version identifier for the API."
 }
 """
-CreateRestApi(args) = api_gateway("POST", "/restapis", args)
+CreateRestApi(name) = api_gateway("POST", "/restapis")
+CreateRestApi(name, args) = api_gateway("POST", "/restapis", args)
+CreateRestApi(a...; b...) = CreateRestApi(a..., b)
 
 """
     CreateStage()
@@ -251,7 +272,9 @@ Optional Parameters
   "variables": "A map that defines the stage variables for the new Stage resource. Variable names can have alphanumeric and underscore characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+."
 }
 """
-CreateStage(args) = api_gateway("POST", "/restapis/{restapi_id}/stages", args)
+CreateStage(deploymentId, restApiId, stageName) = api_gateway("POST", "/restapis/$(restapi_id)/stages")
+CreateStage(deploymentId, restApiId, stageName, args) = api_gateway("POST", "/restapis/$(restapi_id)/stages", args)
+CreateStage(a...; b...) = CreateStage(a..., b)
 
 """
     CreateUsagePlan()
@@ -272,7 +295,9 @@ Optional Parameters
   "throttle": "The throttling limits of the usage plan."
 }
 """
-CreateUsagePlan(args) = api_gateway("POST", "/usageplans", args)
+CreateUsagePlan(name) = api_gateway("POST", "/usageplans")
+CreateUsagePlan(name, args) = api_gateway("POST", "/usageplans", args)
+CreateUsagePlan(a...; b...) = CreateUsagePlan(a..., b)
 
 """
     CreateUsagePlanKey()
@@ -286,7 +311,9 @@ Required Parameters
   "usagePlanId": "[Required] The Id of the UsagePlan resource representing the usage plan containing the to-be-created UsagePlanKey resource representing a plan customer."
 }
 """
-CreateUsagePlanKey(args) = api_gateway("POST", "/usageplans/{usageplanId}/keys", args)
+CreateUsagePlanKey(keyId, keyType, usagePlanId) = api_gateway("POST", "/usageplans/$(usageplanId)/keys")
+CreateUsagePlanKey(keyId, keyType, usagePlanId, args) = api_gateway("POST", "/usageplans/$(usageplanId)/keys", args)
+CreateUsagePlanKey(a...; b...) = CreateUsagePlanKey(a..., b)
 
 """
     CreateVpcLink()
@@ -305,7 +332,9 @@ Optional Parameters
   "tags": "The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters."
 }
 """
-CreateVpcLink(args) = api_gateway("POST", "/vpclinks", args)
+CreateVpcLink(name, targetArns) = api_gateway("POST", "/vpclinks")
+CreateVpcLink(name, targetArns, args) = api_gateway("POST", "/vpclinks", args)
+CreateVpcLink(a...; b...) = CreateVpcLink(a..., b)
 
 """
     DeleteApiKey()
@@ -317,7 +346,9 @@ Required Parameters
   "apiKey": "[Required] The identifier of the ApiKey resource to be deleted."
 }
 """
-DeleteApiKey(args) = api_gateway("DELETE", "/apikeys/{api_Key}", args)
+DeleteApiKey(apiKey) = api_gateway("DELETE", "/apikeys/$(api_Key)")
+DeleteApiKey(apiKey, args) = api_gateway("DELETE", "/apikeys/$(api_Key)", args)
+DeleteApiKey(a...; b...) = DeleteApiKey(a..., b)
 
 """
     DeleteAuthorizer()
@@ -330,7 +361,9 @@ Required Parameters
   "restApiId": "[Required] The string identifier of the associated RestApi."
 }
 """
-DeleteAuthorizer(args) = api_gateway("DELETE", "/restapis/{restapi_id}/authorizers/{authorizer_id}", args)
+DeleteAuthorizer(authorizerId, restApiId) = api_gateway("DELETE", "/restapis/$(restapi_id)/authorizers/$(authorizer_id)")
+DeleteAuthorizer(authorizerId, restApiId, args) = api_gateway("DELETE", "/restapis/$(restapi_id)/authorizers/$(authorizer_id)", args)
+DeleteAuthorizer(a...; b...) = DeleteAuthorizer(a..., b)
 
 """
     DeleteBasePathMapping()
@@ -343,7 +376,9 @@ Required Parameters
   "domainName": "[Required] The domain name of the BasePathMapping resource to delete."
 }
 """
-DeleteBasePathMapping(args) = api_gateway("DELETE", "/domainnames/{domain_name}/basepathmappings/{base_path}", args)
+DeleteBasePathMapping(basePath, domainName) = api_gateway("DELETE", "/domainnames/$(domain_name)/basepathmappings/$(base_path)")
+DeleteBasePathMapping(basePath, domainName, args) = api_gateway("DELETE", "/domainnames/$(domain_name)/basepathmappings/$(base_path)", args)
+DeleteBasePathMapping(a...; b...) = DeleteBasePathMapping(a..., b)
 
 """
     DeleteClientCertificate()
@@ -355,7 +390,9 @@ Required Parameters
   "clientCertificateId": "[Required] The identifier of the ClientCertificate resource to be deleted."
 }
 """
-DeleteClientCertificate(args) = api_gateway("DELETE", "/clientcertificates/{clientcertificate_id}", args)
+DeleteClientCertificate(clientCertificateId) = api_gateway("DELETE", "/clientcertificates/$(clientcertificate_id)")
+DeleteClientCertificate(clientCertificateId, args) = api_gateway("DELETE", "/clientcertificates/$(clientcertificate_id)", args)
+DeleteClientCertificate(a...; b...) = DeleteClientCertificate(a..., b)
 
 """
     DeleteDeployment()
@@ -368,7 +405,9 @@ Required Parameters
   "restApiId": "[Required] The string identifier of the associated RestApi."
 }
 """
-DeleteDeployment(args) = api_gateway("DELETE", "/restapis/{restapi_id}/deployments/{deployment_id}", args)
+DeleteDeployment(deploymentId, restApiId) = api_gateway("DELETE", "/restapis/$(restapi_id)/deployments/$(deployment_id)")
+DeleteDeployment(deploymentId, restApiId, args) = api_gateway("DELETE", "/restapis/$(restapi_id)/deployments/$(deployment_id)", args)
+DeleteDeployment(a...; b...) = DeleteDeployment(a..., b)
 
 """
     DeleteDocumentationPart()
@@ -381,7 +420,9 @@ Required Parameters
   "restApiId": "[Required] The string identifier of the associated RestApi."
 }
 """
-DeleteDocumentationPart(args) = api_gateway("DELETE", "/restapis/{restapi_id}/documentation/parts/{part_id}", args)
+DeleteDocumentationPart(documentationPartId, restApiId) = api_gateway("DELETE", "/restapis/$(restapi_id)/documentation/parts/$(part_id)")
+DeleteDocumentationPart(documentationPartId, restApiId, args) = api_gateway("DELETE", "/restapis/$(restapi_id)/documentation/parts/$(part_id)", args)
+DeleteDocumentationPart(a...; b...) = DeleteDocumentationPart(a..., b)
 
 """
     DeleteDocumentationVersion()
@@ -394,7 +435,9 @@ Required Parameters
   "restApiId": "[Required] The string identifier of the associated RestApi."
 }
 """
-DeleteDocumentationVersion(args) = api_gateway("DELETE", "/restapis/{restapi_id}/documentation/versions/{doc_version}", args)
+DeleteDocumentationVersion(documentationVersion, restApiId) = api_gateway("DELETE", "/restapis/$(restapi_id)/documentation/versions/$(doc_version)")
+DeleteDocumentationVersion(documentationVersion, restApiId, args) = api_gateway("DELETE", "/restapis/$(restapi_id)/documentation/versions/$(doc_version)", args)
+DeleteDocumentationVersion(a...; b...) = DeleteDocumentationVersion(a..., b)
 
 """
     DeleteDomainName()
@@ -406,7 +449,9 @@ Required Parameters
   "domainName": "[Required] The name of the DomainName resource to be deleted."
 }
 """
-DeleteDomainName(args) = api_gateway("DELETE", "/domainnames/{domain_name}", args)
+DeleteDomainName(domainName) = api_gateway("DELETE", "/domainnames/$(domain_name)")
+DeleteDomainName(domainName, args) = api_gateway("DELETE", "/domainnames/$(domain_name)", args)
+DeleteDomainName(a...; b...) = DeleteDomainName(a..., b)
 
 """
     DeleteGatewayResponse()
@@ -419,7 +464,9 @@ Required Parameters
   "restApiId": "[Required] The string identifier of the associated RestApi."
 }
 """
-DeleteGatewayResponse(args) = api_gateway("DELETE", "/restapis/{restapi_id}/gatewayresponses/{response_type}", args)
+DeleteGatewayResponse(responseType, restApiId) = api_gateway("DELETE", "/restapis/$(restapi_id)/gatewayresponses/$(response_type)")
+DeleteGatewayResponse(responseType, restApiId, args) = api_gateway("DELETE", "/restapis/$(restapi_id)/gatewayresponses/$(response_type)", args)
+DeleteGatewayResponse(a...; b...) = DeleteGatewayResponse(a..., b)
 
 """
     DeleteIntegration()
@@ -433,7 +480,9 @@ Required Parameters
   "restApiId": "[Required] The string identifier of the associated RestApi."
 }
 """
-DeleteIntegration(args) = api_gateway("DELETE", "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration", args)
+DeleteIntegration(httpMethod, resourceId, restApiId) = api_gateway("DELETE", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration")
+DeleteIntegration(httpMethod, resourceId, restApiId, args) = api_gateway("DELETE", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration", args)
+DeleteIntegration(a...; b...) = DeleteIntegration(a..., b)
 
 """
     DeleteIntegrationResponse()
@@ -448,7 +497,9 @@ Required Parameters
   "statusCode": "[Required] Specifies a delete integration response request's status code."
 }
 """
-DeleteIntegrationResponse(args) = api_gateway("DELETE", "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration/responses/{status_code}", args)
+DeleteIntegrationResponse(httpMethod, resourceId, restApiId, statusCode) = api_gateway("DELETE", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration/responses/$(status_code)")
+DeleteIntegrationResponse(httpMethod, resourceId, restApiId, statusCode, args) = api_gateway("DELETE", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration/responses/$(status_code)", args)
+DeleteIntegrationResponse(a...; b...) = DeleteIntegrationResponse(a..., b)
 
 """
     DeleteMethod()
@@ -462,7 +513,9 @@ Required Parameters
   "restApiId": "[Required] The string identifier of the associated RestApi."
 }
 """
-DeleteMethod(args) = api_gateway("DELETE", "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", args)
+DeleteMethod(httpMethod, resourceId, restApiId) = api_gateway("DELETE", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)")
+DeleteMethod(httpMethod, resourceId, restApiId, args) = api_gateway("DELETE", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)", args)
+DeleteMethod(a...; b...) = DeleteMethod(a..., b)
 
 """
     DeleteMethodResponse()
@@ -477,7 +530,9 @@ Required Parameters
   "statusCode": "[Required] The status code identifier for the MethodResponse resource."
 }
 """
-DeleteMethodResponse(args) = api_gateway("DELETE", "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/responses/{status_code}", args)
+DeleteMethodResponse(httpMethod, resourceId, restApiId, statusCode) = api_gateway("DELETE", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/responses/$(status_code)")
+DeleteMethodResponse(httpMethod, resourceId, restApiId, statusCode, args) = api_gateway("DELETE", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/responses/$(status_code)", args)
+DeleteMethodResponse(a...; b...) = DeleteMethodResponse(a..., b)
 
 """
     DeleteModel()
@@ -490,7 +545,9 @@ Required Parameters
   "restApiId": "[Required] The string identifier of the associated RestApi."
 }
 """
-DeleteModel(args) = api_gateway("DELETE", "/restapis/{restapi_id}/models/{model_name}", args)
+DeleteModel(modelName, restApiId) = api_gateway("DELETE", "/restapis/$(restapi_id)/models/$(model_name)")
+DeleteModel(modelName, restApiId, args) = api_gateway("DELETE", "/restapis/$(restapi_id)/models/$(model_name)", args)
+DeleteModel(a...; b...) = DeleteModel(a..., b)
 
 """
     DeleteRequestValidator()
@@ -503,7 +560,9 @@ Required Parameters
   "restApiId": "[Required] The string identifier of the associated RestApi."
 }
 """
-DeleteRequestValidator(args) = api_gateway("DELETE", "/restapis/{restapi_id}/requestvalidators/{requestvalidator_id}", args)
+DeleteRequestValidator(requestValidatorId, restApiId) = api_gateway("DELETE", "/restapis/$(restapi_id)/requestvalidators/$(requestvalidator_id)")
+DeleteRequestValidator(requestValidatorId, restApiId, args) = api_gateway("DELETE", "/restapis/$(restapi_id)/requestvalidators/$(requestvalidator_id)", args)
+DeleteRequestValidator(a...; b...) = DeleteRequestValidator(a..., b)
 
 """
     DeleteResource()
@@ -516,7 +575,9 @@ Required Parameters
   "restApiId": "[Required] The string identifier of the associated RestApi."
 }
 """
-DeleteResource(args) = api_gateway("DELETE", "/restapis/{restapi_id}/resources/{resource_id}", args)
+DeleteResource(resourceId, restApiId) = api_gateway("DELETE", "/restapis/$(restapi_id)/resources/$(resource_id)")
+DeleteResource(resourceId, restApiId, args) = api_gateway("DELETE", "/restapis/$(restapi_id)/resources/$(resource_id)", args)
+DeleteResource(a...; b...) = DeleteResource(a..., b)
 
 """
     DeleteRestApi()
@@ -528,7 +589,9 @@ Required Parameters
   "restApiId": "[Required] The string identifier of the associated RestApi."
 }
 """
-DeleteRestApi(args) = api_gateway("DELETE", "/restapis/{restapi_id}", args)
+DeleteRestApi(restApiId) = api_gateway("DELETE", "/restapis/$(restapi_id)")
+DeleteRestApi(restApiId, args) = api_gateway("DELETE", "/restapis/$(restapi_id)", args)
+DeleteRestApi(a...; b...) = DeleteRestApi(a..., b)
 
 """
     DeleteStage()
@@ -541,7 +604,9 @@ Required Parameters
   "stageName": "[Required] The name of the Stage resource to delete."
 }
 """
-DeleteStage(args) = api_gateway("DELETE", "/restapis/{restapi_id}/stages/{stage_name}", args)
+DeleteStage(restApiId, stageName) = api_gateway("DELETE", "/restapis/$(restapi_id)/stages/$(stage_name)")
+DeleteStage(restApiId, stageName, args) = api_gateway("DELETE", "/restapis/$(restapi_id)/stages/$(stage_name)", args)
+DeleteStage(a...; b...) = DeleteStage(a..., b)
 
 """
     DeleteUsagePlan()
@@ -553,7 +618,9 @@ Required Parameters
   "usagePlanId": "[Required] The Id of the to-be-deleted usage plan."
 }
 """
-DeleteUsagePlan(args) = api_gateway("DELETE", "/usageplans/{usageplanId}", args)
+DeleteUsagePlan(usagePlanId) = api_gateway("DELETE", "/usageplans/$(usageplanId)")
+DeleteUsagePlan(usagePlanId, args) = api_gateway("DELETE", "/usageplans/$(usageplanId)", args)
+DeleteUsagePlan(a...; b...) = DeleteUsagePlan(a..., b)
 
 """
     DeleteUsagePlanKey()
@@ -566,7 +633,9 @@ Required Parameters
   "usagePlanId": "[Required] The Id of the UsagePlan resource representing the usage plan containing the to-be-deleted UsagePlanKey resource representing a plan customer."
 }
 """
-DeleteUsagePlanKey(args) = api_gateway("DELETE", "/usageplans/{usageplanId}/keys/{keyId}", args)
+DeleteUsagePlanKey(keyId, usagePlanId) = api_gateway("DELETE", "/usageplans/$(usageplanId)/keys/$(keyId)")
+DeleteUsagePlanKey(keyId, usagePlanId, args) = api_gateway("DELETE", "/usageplans/$(usageplanId)/keys/$(keyId)", args)
+DeleteUsagePlanKey(a...; b...) = DeleteUsagePlanKey(a..., b)
 
 """
     DeleteVpcLink()
@@ -578,7 +647,9 @@ Required Parameters
   "vpcLinkId": "[Required] The identifier of the VpcLink. It is used in an Integration to reference this VpcLink."
 }
 """
-DeleteVpcLink(args) = api_gateway("DELETE", "/vpclinks/{vpclink_id}", args)
+DeleteVpcLink(vpcLinkId) = api_gateway("DELETE", "/vpclinks/$(vpclink_id)")
+DeleteVpcLink(vpcLinkId, args) = api_gateway("DELETE", "/vpclinks/$(vpclink_id)", args)
+DeleteVpcLink(a...; b...) = DeleteVpcLink(a..., b)
 
 """
     FlushStageAuthorizersCache()
@@ -591,7 +662,9 @@ Required Parameters
   "stageName": "The name of the stage to flush."
 }
 """
-FlushStageAuthorizersCache(args) = api_gateway("DELETE", "/restapis/{restapi_id}/stages/{stage_name}/cache/authorizers", args)
+FlushStageAuthorizersCache(restApiId, stageName) = api_gateway("DELETE", "/restapis/$(restapi_id)/stages/$(stage_name)/cache/authorizers")
+FlushStageAuthorizersCache(restApiId, stageName, args) = api_gateway("DELETE", "/restapis/$(restapi_id)/stages/$(stage_name)/cache/authorizers", args)
+FlushStageAuthorizersCache(a...; b...) = FlushStageAuthorizersCache(a..., b)
 
 """
     FlushStageCache()
@@ -604,7 +677,9 @@ Required Parameters
   "stageName": "[Required] The name of the stage to flush its cache."
 }
 """
-FlushStageCache(args) = api_gateway("DELETE", "/restapis/{restapi_id}/stages/{stage_name}/cache/data", args)
+FlushStageCache(restApiId, stageName) = api_gateway("DELETE", "/restapis/$(restapi_id)/stages/$(stage_name)/cache/data")
+FlushStageCache(restApiId, stageName, args) = api_gateway("DELETE", "/restapis/$(restapi_id)/stages/$(stage_name)/cache/data", args)
+FlushStageCache(a...; b...) = FlushStageCache(a..., b)
 
 """
     GenerateClientCertificate()
@@ -619,6 +694,7 @@ Optional Parameters
 """
 GenerateClientCertificate() = api_gateway("POST", "/clientcertificates")
 GenerateClientCertificate(args) = api_gateway("POST", "/clientcertificates", args)
+GenerateClientCertificate(a...; b...) = GenerateClientCertificate(a..., b)
 
 """
     GetAccount()
@@ -627,6 +703,7 @@ Gets information about the current Account resource.
 """
 GetAccount() = api_gateway("GET", "/account")
 GetAccount(args) = api_gateway("GET", "/account", args)
+GetAccount(a...; b...) = GetAccount(a..., b)
 
 """
     GetApiKey()
@@ -643,7 +720,9 @@ Optional Parameters
   "includeValue": "A boolean flag to specify whether (true) or not (false) the result contains the key value."
 }
 """
-GetApiKey(args) = api_gateway("GET", "/apikeys/{api_Key}", args)
+GetApiKey(apiKey) = api_gateway("GET", "/apikeys/$(api_Key)")
+GetApiKey(apiKey, args) = api_gateway("GET", "/apikeys/$(api_Key)", args)
+GetApiKey(a...; b...) = GetApiKey(a..., b)
 
 """
     GetApiKeys()
@@ -661,6 +740,7 @@ Optional Parameters
 """
 GetApiKeys() = api_gateway("GET", "/apikeys")
 GetApiKeys(args) = api_gateway("GET", "/apikeys", args)
+GetApiKeys(a...; b...) = GetApiKeys(a..., b)
 
 """
     GetAuthorizer()
@@ -673,7 +753,9 @@ Required Parameters
   "restApiId": "[Required] The string identifier of the associated RestApi."
 }
 """
-GetAuthorizer(args) = api_gateway("GET", "/restapis/{restapi_id}/authorizers/{authorizer_id}", args)
+GetAuthorizer(authorizerId, restApiId) = api_gateway("GET", "/restapis/$(restapi_id)/authorizers/$(authorizer_id)")
+GetAuthorizer(authorizerId, restApiId, args) = api_gateway("GET", "/restapis/$(restapi_id)/authorizers/$(authorizer_id)", args)
+GetAuthorizer(a...; b...) = GetAuthorizer(a..., b)
 
 """
     GetAuthorizers()
@@ -691,7 +773,9 @@ Optional Parameters
   "position": "The current pagination position in the paged result set."
 }
 """
-GetAuthorizers(args) = api_gateway("GET", "/restapis/{restapi_id}/authorizers", args)
+GetAuthorizers(restApiId) = api_gateway("GET", "/restapis/$(restapi_id)/authorizers")
+GetAuthorizers(restApiId, args) = api_gateway("GET", "/restapis/$(restapi_id)/authorizers", args)
+GetAuthorizers(a...; b...) = GetAuthorizers(a..., b)
 
 """
     GetBasePathMapping()
@@ -704,7 +788,9 @@ Required Parameters
   "domainName": "[Required] The domain name of the BasePathMapping resource to be described."
 }
 """
-GetBasePathMapping(args) = api_gateway("GET", "/domainnames/{domain_name}/basepathmappings/{base_path}", args)
+GetBasePathMapping(basePath, domainName) = api_gateway("GET", "/domainnames/$(domain_name)/basepathmappings/$(base_path)")
+GetBasePathMapping(basePath, domainName, args) = api_gateway("GET", "/domainnames/$(domain_name)/basepathmappings/$(base_path)", args)
+GetBasePathMapping(a...; b...) = GetBasePathMapping(a..., b)
 
 """
     GetBasePathMappings()
@@ -722,7 +808,9 @@ Optional Parameters
   "position": "The current pagination position in the paged result set."
 }
 """
-GetBasePathMappings(args) = api_gateway("GET", "/domainnames/{domain_name}/basepathmappings", args)
+GetBasePathMappings(domainName) = api_gateway("GET", "/domainnames/$(domain_name)/basepathmappings")
+GetBasePathMappings(domainName, args) = api_gateway("GET", "/domainnames/$(domain_name)/basepathmappings", args)
+GetBasePathMappings(a...; b...) = GetBasePathMappings(a..., b)
 
 """
     GetClientCertificate()
@@ -734,7 +822,9 @@ Required Parameters
   "clientCertificateId": "[Required] The identifier of the ClientCertificate resource to be described."
 }
 """
-GetClientCertificate(args) = api_gateway("GET", "/clientcertificates/{clientcertificate_id}", args)
+GetClientCertificate(clientCertificateId) = api_gateway("GET", "/clientcertificates/$(clientcertificate_id)")
+GetClientCertificate(clientCertificateId, args) = api_gateway("GET", "/clientcertificates/$(clientcertificate_id)", args)
+GetClientCertificate(a...; b...) = GetClientCertificate(a..., b)
 
 """
     GetClientCertificates()
@@ -749,6 +839,7 @@ Optional Parameters
 """
 GetClientCertificates() = api_gateway("GET", "/clientcertificates")
 GetClientCertificates(args) = api_gateway("GET", "/clientcertificates", args)
+GetClientCertificates(a...; b...) = GetClientCertificates(a..., b)
 
 """
     GetDeployment()
@@ -766,7 +857,9 @@ Optional Parameters
   "embed": "A query parameter to retrieve the specified embedded resources of the returned Deployment resource in the response. In a REST API call, this embed parameter value is a list of comma-separated strings, as in GET /restapis/{restapi_id}/deployments/{deployment_id}?embed=var1,var2. The SDK and other platform-dependent libraries might use a different format for the list. Currently, this request supports only retrieval of the embedded API summary this way. Hence, the parameter value must be a single-valued list containing only the \"apisummary\" string. For example, GET /restapis/{restapi_id}/deployments/{deployment_id}?embed=apisummary."
 }
 """
-GetDeployment(args) = api_gateway("GET", "/restapis/{restapi_id}/deployments/{deployment_id}", args)
+GetDeployment(deploymentId, restApiId) = api_gateway("GET", "/restapis/$(restapi_id)/deployments/$(deployment_id)")
+GetDeployment(deploymentId, restApiId, args) = api_gateway("GET", "/restapis/$(restapi_id)/deployments/$(deployment_id)", args)
+GetDeployment(a...; b...) = GetDeployment(a..., b)
 
 """
     GetDeployments()
@@ -784,7 +877,9 @@ Optional Parameters
   "position": "The current pagination position in the paged result set."
 }
 """
-GetDeployments(args) = api_gateway("GET", "/restapis/{restapi_id}/deployments", args)
+GetDeployments(restApiId) = api_gateway("GET", "/restapis/$(restapi_id)/deployments")
+GetDeployments(restApiId, args) = api_gateway("GET", "/restapis/$(restapi_id)/deployments", args)
+GetDeployments(a...; b...) = GetDeployments(a..., b)
 
 """
     GetDocumentationPart()
@@ -797,7 +892,9 @@ Required Parameters
   "restApiId": "[Required] The string identifier of the associated RestApi."
 }
 """
-GetDocumentationPart(args) = api_gateway("GET", "/restapis/{restapi_id}/documentation/parts/{part_id}", args)
+GetDocumentationPart(documentationPartId, restApiId) = api_gateway("GET", "/restapis/$(restapi_id)/documentation/parts/$(part_id)")
+GetDocumentationPart(documentationPartId, restApiId, args) = api_gateway("GET", "/restapis/$(restapi_id)/documentation/parts/$(part_id)", args)
+GetDocumentationPart(a...; b...) = GetDocumentationPart(a..., b)
 
 """
     GetDocumentationParts()
@@ -819,7 +916,9 @@ Optional Parameters
   "type": "The type of API entities of the to-be-retrieved documentation parts. "
 }
 """
-GetDocumentationParts(args) = api_gateway("GET", "/restapis/{restapi_id}/documentation/parts", args)
+GetDocumentationParts(restApiId) = api_gateway("GET", "/restapis/$(restapi_id)/documentation/parts")
+GetDocumentationParts(restApiId, args) = api_gateway("GET", "/restapis/$(restapi_id)/documentation/parts", args)
+GetDocumentationParts(a...; b...) = GetDocumentationParts(a..., b)
 
 """
     GetDocumentationVersion()
@@ -832,7 +931,9 @@ Required Parameters
   "restApiId": "[Required] The string identifier of the associated RestApi."
 }
 """
-GetDocumentationVersion(args) = api_gateway("GET", "/restapis/{restapi_id}/documentation/versions/{doc_version}", args)
+GetDocumentationVersion(documentationVersion, restApiId) = api_gateway("GET", "/restapis/$(restapi_id)/documentation/versions/$(doc_version)")
+GetDocumentationVersion(documentationVersion, restApiId, args) = api_gateway("GET", "/restapis/$(restapi_id)/documentation/versions/$(doc_version)", args)
+GetDocumentationVersion(a...; b...) = GetDocumentationVersion(a..., b)
 
 """
     GetDocumentationVersions()
@@ -850,7 +951,9 @@ Optional Parameters
   "position": "The current pagination position in the paged result set."
 }
 """
-GetDocumentationVersions(args) = api_gateway("GET", "/restapis/{restapi_id}/documentation/versions", args)
+GetDocumentationVersions(restApiId) = api_gateway("GET", "/restapis/$(restapi_id)/documentation/versions")
+GetDocumentationVersions(restApiId, args) = api_gateway("GET", "/restapis/$(restapi_id)/documentation/versions", args)
+GetDocumentationVersions(a...; b...) = GetDocumentationVersions(a..., b)
 
 """
     GetDomainName()
@@ -862,7 +965,9 @@ Required Parameters
   "domainName": "[Required] The name of the DomainName resource."
 }
 """
-GetDomainName(args) = api_gateway("GET", "/domainnames/{domain_name}", args)
+GetDomainName(domainName) = api_gateway("GET", "/domainnames/$(domain_name)")
+GetDomainName(domainName, args) = api_gateway("GET", "/domainnames/$(domain_name)", args)
+GetDomainName(a...; b...) = GetDomainName(a..., b)
 
 """
     GetDomainNames()
@@ -877,6 +982,7 @@ Optional Parameters
 """
 GetDomainNames() = api_gateway("GET", "/domainnames")
 GetDomainNames(args) = api_gateway("GET", "/domainnames", args)
+GetDomainNames(a...; b...) = GetDomainNames(a..., b)
 
 """
     GetExport()
@@ -896,7 +1002,9 @@ Optional Parameters
   "parameters": "A key-value map of query string parameters that specify properties of the export, depending on the requested exportType. For exportType oas30 and swagger, any combination of the following parameters are supported: extensions='integrations' or extensions='apigateway' will export the API with x-amazon-apigateway-integration extensions. extensions='authorizers' will export the API with x-amazon-apigateway-authorizer extensions. postman will export the API with Postman extensions, allowing for import to the Postman tool"
 }
 """
-GetExport(args) = api_gateway("GET", "/restapis/{restapi_id}/stages/{stage_name}/exports/{export_type}", args)
+GetExport(exportType, restApiId, stageName) = api_gateway("GET", "/restapis/$(restapi_id)/stages/$(stage_name)/exports/$(export_type)")
+GetExport(exportType, restApiId, stageName, args) = api_gateway("GET", "/restapis/$(restapi_id)/stages/$(stage_name)/exports/$(export_type)", args)
+GetExport(a...; b...) = GetExport(a..., b)
 
 """
     GetGatewayResponse()
@@ -909,7 +1017,9 @@ Required Parameters
   "restApiId": "[Required] The string identifier of the associated RestApi."
 }
 """
-GetGatewayResponse(args) = api_gateway("GET", "/restapis/{restapi_id}/gatewayresponses/{response_type}", args)
+GetGatewayResponse(responseType, restApiId) = api_gateway("GET", "/restapis/$(restapi_id)/gatewayresponses/$(response_type)")
+GetGatewayResponse(responseType, restApiId, args) = api_gateway("GET", "/restapis/$(restapi_id)/gatewayresponses/$(response_type)", args)
+GetGatewayResponse(a...; b...) = GetGatewayResponse(a..., b)
 
 """
     GetGatewayResponses()
@@ -927,7 +1037,9 @@ Optional Parameters
   "position": "The current pagination position in the paged result set. The GatewayResponse collection does not support pagination and the position does not apply here."
 }
 """
-GetGatewayResponses(args) = api_gateway("GET", "/restapis/{restapi_id}/gatewayresponses", args)
+GetGatewayResponses(restApiId) = api_gateway("GET", "/restapis/$(restapi_id)/gatewayresponses")
+GetGatewayResponses(restApiId, args) = api_gateway("GET", "/restapis/$(restapi_id)/gatewayresponses", args)
+GetGatewayResponses(a...; b...) = GetGatewayResponses(a..., b)
 
 """
     GetIntegration()
@@ -941,7 +1053,9 @@ Required Parameters
   "restApiId": "[Required] The string identifier of the associated RestApi."
 }
 """
-GetIntegration(args) = api_gateway("GET", "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration", args)
+GetIntegration(httpMethod, resourceId, restApiId) = api_gateway("GET", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration")
+GetIntegration(httpMethod, resourceId, restApiId, args) = api_gateway("GET", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration", args)
+GetIntegration(a...; b...) = GetIntegration(a..., b)
 
 """
     GetIntegrationResponse()
@@ -956,7 +1070,9 @@ Required Parameters
   "statusCode": "[Required] Specifies a get integration response request's status code."
 }
 """
-GetIntegrationResponse(args) = api_gateway("GET", "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration/responses/{status_code}", args)
+GetIntegrationResponse(httpMethod, resourceId, restApiId, statusCode) = api_gateway("GET", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration/responses/$(status_code)")
+GetIntegrationResponse(httpMethod, resourceId, restApiId, statusCode, args) = api_gateway("GET", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration/responses/$(status_code)", args)
+GetIntegrationResponse(a...; b...) = GetIntegrationResponse(a..., b)
 
 """
     GetMethod()
@@ -970,7 +1086,9 @@ Required Parameters
   "restApiId": "[Required] The string identifier of the associated RestApi."
 }
 """
-GetMethod(args) = api_gateway("GET", "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", args)
+GetMethod(httpMethod, resourceId, restApiId) = api_gateway("GET", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)")
+GetMethod(httpMethod, resourceId, restApiId, args) = api_gateway("GET", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)", args)
+GetMethod(a...; b...) = GetMethod(a..., b)
 
 """
     GetMethodResponse()
@@ -985,7 +1103,9 @@ Required Parameters
   "statusCode": "[Required] The status code for the MethodResponse resource."
 }
 """
-GetMethodResponse(args) = api_gateway("GET", "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/responses/{status_code}", args)
+GetMethodResponse(httpMethod, resourceId, restApiId, statusCode) = api_gateway("GET", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/responses/$(status_code)")
+GetMethodResponse(httpMethod, resourceId, restApiId, statusCode, args) = api_gateway("GET", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/responses/$(status_code)", args)
+GetMethodResponse(a...; b...) = GetMethodResponse(a..., b)
 
 """
     GetModel()
@@ -1003,7 +1123,9 @@ Optional Parameters
   "flatten": "A query parameter of a Boolean value to resolve (true) all external model references and returns a flattened model schema or not (false) The default is false."
 }
 """
-GetModel(args) = api_gateway("GET", "/restapis/{restapi_id}/models/{model_name}", args)
+GetModel(modelName, restApiId) = api_gateway("GET", "/restapis/$(restapi_id)/models/$(model_name)")
+GetModel(modelName, restApiId, args) = api_gateway("GET", "/restapis/$(restapi_id)/models/$(model_name)", args)
+GetModel(a...; b...) = GetModel(a..., b)
 
 """
     GetModelTemplate()
@@ -1016,7 +1138,9 @@ Required Parameters
   "restApiId": "[Required] The string identifier of the associated RestApi."
 }
 """
-GetModelTemplate(args) = api_gateway("GET", "/restapis/{restapi_id}/models/{model_name}/default_template", args)
+GetModelTemplate(modelName, restApiId) = api_gateway("GET", "/restapis/$(restapi_id)/models/$(model_name)/default_template")
+GetModelTemplate(modelName, restApiId, args) = api_gateway("GET", "/restapis/$(restapi_id)/models/$(model_name)/default_template", args)
+GetModelTemplate(a...; b...) = GetModelTemplate(a..., b)
 
 """
     GetModels()
@@ -1034,7 +1158,9 @@ Optional Parameters
   "position": "The current pagination position in the paged result set."
 }
 """
-GetModels(args) = api_gateway("GET", "/restapis/{restapi_id}/models", args)
+GetModels(restApiId) = api_gateway("GET", "/restapis/$(restapi_id)/models")
+GetModels(restApiId, args) = api_gateway("GET", "/restapis/$(restapi_id)/models", args)
+GetModels(a...; b...) = GetModels(a..., b)
 
 """
     GetRequestValidator()
@@ -1047,7 +1173,9 @@ Required Parameters
   "restApiId": "[Required] The string identifier of the associated RestApi."
 }
 """
-GetRequestValidator(args) = api_gateway("GET", "/restapis/{restapi_id}/requestvalidators/{requestvalidator_id}", args)
+GetRequestValidator(requestValidatorId, restApiId) = api_gateway("GET", "/restapis/$(restapi_id)/requestvalidators/$(requestvalidator_id)")
+GetRequestValidator(requestValidatorId, restApiId, args) = api_gateway("GET", "/restapis/$(restapi_id)/requestvalidators/$(requestvalidator_id)", args)
+GetRequestValidator(a...; b...) = GetRequestValidator(a..., b)
 
 """
     GetRequestValidators()
@@ -1065,7 +1193,9 @@ Optional Parameters
   "position": "The current pagination position in the paged result set."
 }
 """
-GetRequestValidators(args) = api_gateway("GET", "/restapis/{restapi_id}/requestvalidators", args)
+GetRequestValidators(restApiId) = api_gateway("GET", "/restapis/$(restapi_id)/requestvalidators")
+GetRequestValidators(restApiId, args) = api_gateway("GET", "/restapis/$(restapi_id)/requestvalidators", args)
+GetRequestValidators(a...; b...) = GetRequestValidators(a..., b)
 
 """
     GetResource()
@@ -1083,7 +1213,9 @@ Optional Parameters
   "embed": "A query parameter to retrieve the specified resources embedded in the returned Resource representation in the response. This embed parameter value is a list of comma-separated strings. Currently, the request supports only retrieval of the embedded Method resources this way. The query parameter value must be a single-valued list and contain the \"methods\" string. For example, GET /restapis/{restapi_id}/resources/{resource_id}?embed=methods."
 }
 """
-GetResource(args) = api_gateway("GET", "/restapis/{restapi_id}/resources/{resource_id}", args)
+GetResource(resourceId, restApiId) = api_gateway("GET", "/restapis/$(restapi_id)/resources/$(resource_id)")
+GetResource(resourceId, restApiId, args) = api_gateway("GET", "/restapis/$(restapi_id)/resources/$(resource_id)", args)
+GetResource(a...; b...) = GetResource(a..., b)
 
 """
     GetResources()
@@ -1102,7 +1234,9 @@ Optional Parameters
   "position": "The current pagination position in the paged result set."
 }
 """
-GetResources(args) = api_gateway("GET", "/restapis/{restapi_id}/resources", args)
+GetResources(restApiId) = api_gateway("GET", "/restapis/$(restapi_id)/resources")
+GetResources(restApiId, args) = api_gateway("GET", "/restapis/$(restapi_id)/resources", args)
+GetResources(a...; b...) = GetResources(a..., b)
 
 """
     GetRestApi()
@@ -1114,7 +1248,9 @@ Required Parameters
   "restApiId": "[Required] The string identifier of the associated RestApi."
 }
 """
-GetRestApi(args) = api_gateway("GET", "/restapis/{restapi_id}", args)
+GetRestApi(restApiId) = api_gateway("GET", "/restapis/$(restapi_id)")
+GetRestApi(restApiId, args) = api_gateway("GET", "/restapis/$(restapi_id)", args)
+GetRestApi(a...; b...) = GetRestApi(a..., b)
 
 """
     GetRestApis()
@@ -1129,6 +1265,7 @@ Optional Parameters
 """
 GetRestApis() = api_gateway("GET", "/restapis")
 GetRestApis(args) = api_gateway("GET", "/restapis", args)
+GetRestApis(a...; b...) = GetRestApis(a..., b)
 
 """
     GetSdk()
@@ -1147,7 +1284,9 @@ Optional Parameters
   "parameters": "A string-to-string key-value map of query parameters sdkType-dependent properties of the SDK. For sdkType of objectivec or swift, a parameter named classPrefix is required. For sdkType of android, parameters named groupId, artifactId, artifactVersion, and invokerPackage are required. For sdkType of java, parameters named serviceName and javaPackageName are required. "
 }
 """
-GetSdk(args) = api_gateway("GET", "/restapis/{restapi_id}/stages/{stage_name}/sdks/{sdk_type}", args)
+GetSdk(restApiId, sdkType, stageName) = api_gateway("GET", "/restapis/$(restapi_id)/stages/$(stage_name)/sdks/$(sdk_type)")
+GetSdk(restApiId, sdkType, stageName, args) = api_gateway("GET", "/restapis/$(restapi_id)/stages/$(stage_name)/sdks/$(sdk_type)", args)
+GetSdk(a...; b...) = GetSdk(a..., b)
 
 """
     GetSdkType()
@@ -1159,7 +1298,9 @@ Required Parameters
   "id": "[Required] The identifier of the queried SdkType instance."
 }
 """
-GetSdkType(args) = api_gateway("GET", "/sdktypes/{sdktype_id}", args)
+GetSdkType(id) = api_gateway("GET", "/sdktypes/$(sdktype_id)")
+GetSdkType(id, args) = api_gateway("GET", "/sdktypes/$(sdktype_id)", args)
+GetSdkType(a...; b...) = GetSdkType(a..., b)
 
 """
     GetSdkTypes()
@@ -1174,6 +1315,7 @@ Optional Parameters
 """
 GetSdkTypes() = api_gateway("GET", "/sdktypes")
 GetSdkTypes(args) = api_gateway("GET", "/sdktypes", args)
+GetSdkTypes(a...; b...) = GetSdkTypes(a..., b)
 
 """
     GetStage()
@@ -1186,7 +1328,9 @@ Required Parameters
   "stageName": "[Required] The name of the Stage resource to get information about."
 }
 """
-GetStage(args) = api_gateway("GET", "/restapis/{restapi_id}/stages/{stage_name}", args)
+GetStage(restApiId, stageName) = api_gateway("GET", "/restapis/$(restapi_id)/stages/$(stage_name)")
+GetStage(restApiId, stageName, args) = api_gateway("GET", "/restapis/$(restapi_id)/stages/$(stage_name)", args)
+GetStage(a...; b...) = GetStage(a..., b)
 
 """
     GetStages()
@@ -1203,7 +1347,9 @@ Optional Parameters
   "deploymentId": "The stages' deployment identifiers."
 }
 """
-GetStages(args) = api_gateway("GET", "/restapis/{restapi_id}/stages", args)
+GetStages(restApiId) = api_gateway("GET", "/restapis/$(restapi_id)/stages")
+GetStages(restApiId, args) = api_gateway("GET", "/restapis/$(restapi_id)/stages", args)
+GetStages(a...; b...) = GetStages(a..., b)
 
 """
     GetTags()
@@ -1221,7 +1367,9 @@ Optional Parameters
   "position": "(Not currently supported) The current pagination position in the paged result set."
 }
 """
-GetTags(args) = api_gateway("GET", "/tags/{resource_arn}", args)
+GetTags(resourceArn) = api_gateway("GET", "/tags/$(resource_arn)")
+GetTags(resourceArn, args) = api_gateway("GET", "/tags/$(resource_arn)", args)
+GetTags(a...; b...) = GetTags(a..., b)
 
 """
     GetUsage()
@@ -1242,7 +1390,9 @@ Optional Parameters
   "position": "The current pagination position in the paged result set."
 }
 """
-GetUsage(args) = api_gateway("GET", "/usageplans/{usageplanId}/usage", args)
+GetUsage(endDate, startDate, usagePlanId) = api_gateway("GET", "/usageplans/$(usageplanId)/usage")
+GetUsage(endDate, startDate, usagePlanId, args) = api_gateway("GET", "/usageplans/$(usageplanId)/usage", args)
+GetUsage(a...; b...) = GetUsage(a..., b)
 
 """
     GetUsagePlan()
@@ -1254,7 +1404,9 @@ Required Parameters
   "usagePlanId": "[Required] The identifier of the UsagePlan resource to be retrieved."
 }
 """
-GetUsagePlan(args) = api_gateway("GET", "/usageplans/{usageplanId}", args)
+GetUsagePlan(usagePlanId) = api_gateway("GET", "/usageplans/$(usageplanId)")
+GetUsagePlan(usagePlanId, args) = api_gateway("GET", "/usageplans/$(usageplanId)", args)
+GetUsagePlan(a...; b...) = GetUsagePlan(a..., b)
 
 """
     GetUsagePlanKey()
@@ -1267,7 +1419,9 @@ Required Parameters
   "usagePlanId": "[Required] The Id of the UsagePlan resource representing the usage plan containing the to-be-retrieved UsagePlanKey resource representing a plan customer."
 }
 """
-GetUsagePlanKey(args) = api_gateway("GET", "/usageplans/{usageplanId}/keys/{keyId}", args)
+GetUsagePlanKey(keyId, usagePlanId) = api_gateway("GET", "/usageplans/$(usageplanId)/keys/$(keyId)")
+GetUsagePlanKey(keyId, usagePlanId, args) = api_gateway("GET", "/usageplans/$(usageplanId)/keys/$(keyId)", args)
+GetUsagePlanKey(a...; b...) = GetUsagePlanKey(a..., b)
 
 """
     GetUsagePlanKeys()
@@ -1286,7 +1440,9 @@ Optional Parameters
   "position": "The current pagination position in the paged result set."
 }
 """
-GetUsagePlanKeys(args) = api_gateway("GET", "/usageplans/{usageplanId}/keys", args)
+GetUsagePlanKeys(usagePlanId) = api_gateway("GET", "/usageplans/$(usageplanId)/keys")
+GetUsagePlanKeys(usagePlanId, args) = api_gateway("GET", "/usageplans/$(usageplanId)/keys", args)
+GetUsagePlanKeys(a...; b...) = GetUsagePlanKeys(a..., b)
 
 """
     GetUsagePlans()
@@ -1302,6 +1458,7 @@ Optional Parameters
 """
 GetUsagePlans() = api_gateway("GET", "/usageplans")
 GetUsagePlans(args) = api_gateway("GET", "/usageplans", args)
+GetUsagePlans(a...; b...) = GetUsagePlans(a..., b)
 
 """
     GetVpcLink()
@@ -1313,7 +1470,9 @@ Required Parameters
   "vpcLinkId": "[Required] The identifier of the VpcLink. It is used in an Integration to reference this VpcLink."
 }
 """
-GetVpcLink(args) = api_gateway("GET", "/vpclinks/{vpclink_id}", args)
+GetVpcLink(vpcLinkId) = api_gateway("GET", "/vpclinks/$(vpclink_id)")
+GetVpcLink(vpcLinkId, args) = api_gateway("GET", "/vpclinks/$(vpclink_id)", args)
+GetVpcLink(a...; b...) = GetVpcLink(a..., b)
 
 """
     GetVpcLinks()
@@ -1328,6 +1487,7 @@ Optional Parameters
 """
 GetVpcLinks() = api_gateway("GET", "/vpclinks")
 GetVpcLinks(args) = api_gateway("GET", "/vpclinks", args)
+GetVpcLinks(a...; b...) = GetVpcLinks(a..., b)
 
 """
     ImportApiKeys()
@@ -1345,7 +1505,9 @@ Optional Parameters
   "failOnWarnings": "A query parameter to indicate whether to rollback ApiKey importation (true) or not (false) when error is encountered."
 }
 """
-ImportApiKeys(args) = api_gateway("POST", "/apikeys?mode=import", args)
+ImportApiKeys(body, format) = api_gateway("POST", "/apikeys?mode=import")
+ImportApiKeys(body, format, args) = api_gateway("POST", "/apikeys?mode=import", args)
+ImportApiKeys(a...; b...) = ImportApiKeys(a..., b)
 
 """
     ImportDocumentationParts()
@@ -1364,7 +1526,9 @@ Optional Parameters
   "mode": "A query parameter to indicate whether to overwrite (OVERWRITE) any existing DocumentationParts definition or to merge (MERGE) the new definition into the existing one. The default value is MERGE."
 }
 """
-ImportDocumentationParts(args) = api_gateway("PUT", "/restapis/{restapi_id}/documentation/parts", args)
+ImportDocumentationParts(body, restApiId) = api_gateway("PUT", "/restapis/$(restapi_id)/documentation/parts")
+ImportDocumentationParts(body, restApiId, args) = api_gateway("PUT", "/restapis/$(restapi_id)/documentation/parts", args)
+ImportDocumentationParts(a...; b...) = ImportDocumentationParts(a..., b)
 
 """
     ImportRestApi()
@@ -1373,7 +1537,7 @@ A feature of the API Gateway control service for creating a new API from an exte
 
 Required Parameters
 {
-  "body": "[Required] The POST request body containing external API definitions. Currently, only OpenAPI definition JSON/YAML files are supported. The maximum size of the API definition file is 2MB."
+  "body": "[Required] The POST request body containing external API definitions. Currently, only OpenAPI definition JSON/YAML files are supported. The maximum size of the API definition file is 6MB."
 }
 
 Optional Parameters
@@ -1382,7 +1546,9 @@ Optional Parameters
   "parameters": "A key-value map of context-specific query string parameters specifying the behavior of different API importing operations. The following shows operation-specific parameters and their supported values.  To exclude DocumentationParts from the import, set parameters as ignore=documentation.  To configure the endpoint type, set parameters as endpointConfigurationTypes=EDGE, endpointConfigurationTypes=REGIONAL, or endpointConfigurationTypes=PRIVATE. The default endpoint type is EDGE.  To handle imported basepath, set parameters as basepath=ignore, basepath=prepend or basepath=split. For example, the AWS CLI command to exclude documentation from the imported API is: aws apigateway import-rest-api --parameters ignore=documentation --body 'file:///path/to/imported-api-body.json' The AWS CLI command to set the regional endpoint on the imported API is: aws apigateway import-rest-api --parameters endpointConfigurationTypes=REGIONAL --body 'file:///path/to/imported-api-body.json'"
 }
 """
-ImportRestApi(args) = api_gateway("POST", "/restapis?mode=import", args)
+ImportRestApi(body) = api_gateway("POST", "/restapis?mode=import")
+ImportRestApi(body, args) = api_gateway("POST", "/restapis?mode=import", args)
+ImportRestApi(a...; b...) = ImportRestApi(a..., b)
 
 """
     PutGatewayResponse()
@@ -1402,7 +1568,9 @@ Optional Parameters
   "statusCode": "The HTTP status code of the GatewayResponse."
 }
 """
-PutGatewayResponse(args) = api_gateway("PUT", "/restapis/{restapi_id}/gatewayresponses/{response_type}", args)
+PutGatewayResponse(responseType, restApiId) = api_gateway("PUT", "/restapis/$(restapi_id)/gatewayresponses/$(response_type)")
+PutGatewayResponse(responseType, restApiId, args) = api_gateway("PUT", "/restapis/$(restapi_id)/gatewayresponses/$(response_type)", args)
+PutGatewayResponse(a...; b...) = PutGatewayResponse(a..., b)
 
 """
     PutIntegration()
@@ -1419,8 +1587,8 @@ Required Parameters
 
 Optional Parameters
 {
-  "cacheKeyParameters": "An API-specific tag group of related cached parameters.",
-  "cacheNamespace": "A list of request parameters whose values are to be cached.",
+  "cacheKeyParameters": "A list of request parameters whose values API Gateway caches. To be valid values for cacheKeyParameters, these parameters must also be specified for Method requestParameters.",
+  "cacheNamespace": "Specifies a group of related cached parameters. By default, API Gateway uses the resource ID as the cacheNamespace. You can specify the same cacheNamespace across resources to return the same cached data for requests to different resources.",
   "connectionId": "The (id) of the VpcLink used for the integration when connectionType=VPC_LINK and undefined, otherwise.",
   "connectionType": "The type of the network connection to the integration endpoint. The valid value is INTERNET for connections through the public routable internet or VPC_LINK for private connections between API Gateway and a network load balancer in a VPC. The default value is INTERNET.",
   "contentHandling": "Specifies how to handle request payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  CONVERT_TO_BINARY: Converts a request payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a request payload from a binary blob to a Base64-encoded string.  If this property is not defined, the request payload will be passed through from the method request to integration request without modification, provided that the passthroughBehavior is configured to support payload pass-through.",
@@ -1430,10 +1598,13 @@ Optional Parameters
   "requestParameters": "A key-value map specifying request parameters that are passed from the method request to the back end. The key is an integration request parameter name and the associated value is a method request parameter value or static value that must be enclosed within single quotes and pre-encoded as required by the back end. The method request parameter value must match the pattern of method.request.{location}.{name}, where location is querystring, path, or header and name must be a valid and unique method request parameter name.",
   "requestTemplates": "Represents a map of Velocity templates that are applied on the request payload based on the value of the Content-Type header sent by the client. The content type value is the key in this map, and the template (as a String) is the value.",
   "timeoutInMillis": "Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds.",
+  "tlsConfig": "",
   "uri": "Specifies Uniform Resource Identifier (URI) of the integration endpoint.   For HTTP or HTTP_PROXY integrations, the URI must be a fully formed, encoded HTTP(S) URL according to the RFC-3986 specification, for either standard integration, where connectionType is not VPC_LINK, or private integration, where connectionType is VPC_LINK. For a private HTTP integration, the URI is not used for routing.    For AWS or AWS_PROXY integrations, the URI is of the form arn:aws:apigateway:{region}:{subdomain.service|service}:path|action/{service_api}. Here, {Region} is the API Gateway region (e.g., us-east-1); {service} is the name of the integrated AWS service (e.g., s3); and {subdomain} is a designated subdomain supported by certain AWS service for fast host-name lookup. action can be used for an AWS service action-based API, using an Action={name}&amp;{p1}={v1}&amp;p2={v2}... query string. The ensuing {service_api} refers to a supported action {name} plus any required input parameters. Alternatively, path can be used for an AWS service path-based API. The ensuing service_api refers to the path to an AWS service resource, including the region of the integrated AWS service, if applicable. For example, for integration with the S3 API of GetObject, the uri can be either arn:aws:apigateway:us-west-2:s3:action/GetObject&amp;Bucket={bucket}&amp;Key={key} or arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key} "
 }
 """
-PutIntegration(args) = api_gateway("PUT", "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration", args)
+PutIntegration(httpMethod, resourceId, restApiId, type) = api_gateway("PUT", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration")
+PutIntegration(httpMethod, resourceId, restApiId, type, args) = api_gateway("PUT", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration", args)
+PutIntegration(a...; b...) = PutIntegration(a..., b)
 
 """
     PutIntegrationResponse()
@@ -1456,7 +1627,9 @@ Optional Parameters
   "selectionPattern": "Specifies the selection pattern of a put integration response."
 }
 """
-PutIntegrationResponse(args) = api_gateway("PUT", "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration/responses/{status_code}", args)
+PutIntegrationResponse(httpMethod, resourceId, restApiId, statusCode) = api_gateway("PUT", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration/responses/$(status_code)")
+PutIntegrationResponse(httpMethod, resourceId, restApiId, statusCode, args) = api_gateway("PUT", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration/responses/$(status_code)", args)
+PutIntegrationResponse(a...; b...) = PutIntegrationResponse(a..., b)
 
 """
     PutMethod()
@@ -1482,7 +1655,9 @@ Optional Parameters
   "requestValidatorId": "The identifier of a RequestValidator for validating the method request."
 }
 """
-PutMethod(args) = api_gateway("PUT", "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", args)
+PutMethod(authorizationType, httpMethod, resourceId, restApiId) = api_gateway("PUT", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)")
+PutMethod(authorizationType, httpMethod, resourceId, restApiId, args) = api_gateway("PUT", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)", args)
+PutMethod(a...; b...) = PutMethod(a..., b)
 
 """
     PutMethodResponse()
@@ -1503,7 +1678,9 @@ Optional Parameters
   "responseParameters": "A key-value map specifying required or optional response parameters that API Gateway can send back to the caller. A key defines a method response header name and the associated value is a Boolean flag indicating whether the method response parameter is required or not. The method response header names must match the pattern of method.response.header.{name}, where name is a valid and unique header name. The response parameter names defined here are available in the integration response to be mapped from an integration response header expressed in integration.response.header.{name}, a static value enclosed within a pair of single quotes (e.g., 'application/json'), or a JSON expression from the back-end response payload in the form of integration.response.body.{JSON-expression}, where JSON-expression is a valid JSON expression without the   prefix.)"
 }
 """
-PutMethodResponse(args) = api_gateway("PUT", "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/responses/{status_code}", args)
+PutMethodResponse(httpMethod, resourceId, restApiId, statusCode) = api_gateway("PUT", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/responses/$(status_code)")
+PutMethodResponse(httpMethod, resourceId, restApiId, statusCode, args) = api_gateway("PUT", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/responses/$(status_code)", args)
+PutMethodResponse(a...; b...) = PutMethodResponse(a..., b)
 
 """
     PutRestApi()
@@ -1512,7 +1689,7 @@ A feature of the API Gateway control service for updating an existing API with a
 
 Required Parameters
 {
-  "body": "[Required] The PUT request body containing external API definitions. Currently, only OpenAPI definition JSON/YAML files are supported. The maximum size of the API definition file is 2MB.",
+  "body": "[Required] The PUT request body containing external API definitions. Currently, only OpenAPI definition JSON/YAML files are supported. The maximum size of the API definition file is 6MB.",
   "restApiId": "[Required] The string identifier of the associated RestApi."
 }
 
@@ -1523,7 +1700,9 @@ Optional Parameters
   "parameters": "Custom header parameters as part of the request. For example, to exclude DocumentationParts from an imported API, set ignore=documentation as a parameters value, as in the AWS CLI command of aws apigateway import-rest-api --parameters ignore=documentation --body 'file:///path/to/imported-api-body.json'."
 }
 """
-PutRestApi(args) = api_gateway("PUT", "/restapis/{restapi_id}", args)
+PutRestApi(body, restApiId) = api_gateway("PUT", "/restapis/$(restapi_id)")
+PutRestApi(body, restApiId, args) = api_gateway("PUT", "/restapis/$(restapi_id)", args)
+PutRestApi(a...; b...) = PutRestApi(a..., b)
 
 """
     TagResource()
@@ -1536,7 +1715,9 @@ Required Parameters
   "tags": "[Required] The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters."
 }
 """
-TagResource(args) = api_gateway("PUT", "/tags/{resource_arn}", args)
+TagResource(resourceArn, tags) = api_gateway("PUT", "/tags/$(resource_arn)")
+TagResource(resourceArn, tags, args) = api_gateway("PUT", "/tags/$(resource_arn)", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     TestInvokeAuthorizer()
@@ -1559,7 +1740,9 @@ Optional Parameters
   "stageVariables": "A key-value map of stage variables to simulate an invocation on a deployed Stage."
 }
 """
-TestInvokeAuthorizer(args) = api_gateway("POST", "/restapis/{restapi_id}/authorizers/{authorizer_id}", args)
+TestInvokeAuthorizer(authorizerId, restApiId) = api_gateway("POST", "/restapis/$(restapi_id)/authorizers/$(authorizer_id)")
+TestInvokeAuthorizer(authorizerId, restApiId, args) = api_gateway("POST", "/restapis/$(restapi_id)/authorizers/$(authorizer_id)", args)
+TestInvokeAuthorizer(a...; b...) = TestInvokeAuthorizer(a..., b)
 
 """
     TestInvokeMethod()
@@ -1583,7 +1766,9 @@ Optional Parameters
   "stageVariables": "A key-value map of stage variables to simulate an invocation on a deployed Stage."
 }
 """
-TestInvokeMethod(args) = api_gateway("POST", "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", args)
+TestInvokeMethod(httpMethod, resourceId, restApiId) = api_gateway("POST", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)")
+TestInvokeMethod(httpMethod, resourceId, restApiId, args) = api_gateway("POST", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)", args)
+TestInvokeMethod(a...; b...) = TestInvokeMethod(a..., b)
 
 """
     UntagResource()
@@ -1596,7 +1781,9 @@ Required Parameters
   "tagKeys": "[Required] The Tag keys to delete."
 }
 """
-UntagResource(args) = api_gateway("DELETE", "/tags/{resource_arn}", args)
+UntagResource(resourceArn, tagKeys) = api_gateway("DELETE", "/tags/$(resource_arn)")
+UntagResource(resourceArn, tagKeys, args) = api_gateway("DELETE", "/tags/$(resource_arn)", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateAccount()
@@ -1610,6 +1797,7 @@ Optional Parameters
 """
 UpdateAccount() = api_gateway("PATCH", "/account")
 UpdateAccount(args) = api_gateway("PATCH", "/account", args)
+UpdateAccount(a...; b...) = UpdateAccount(a..., b)
 
 """
     UpdateApiKey()
@@ -1626,7 +1814,9 @@ Optional Parameters
   "patchOperations": "A list of update operations to be applied to the specified resource and in the order specified in this list."
 }
 """
-UpdateApiKey(args) = api_gateway("PATCH", "/apikeys/{api_Key}", args)
+UpdateApiKey(apiKey) = api_gateway("PATCH", "/apikeys/$(api_Key)")
+UpdateApiKey(apiKey, args) = api_gateway("PATCH", "/apikeys/$(api_Key)", args)
+UpdateApiKey(a...; b...) = UpdateApiKey(a..., b)
 
 """
     UpdateAuthorizer()
@@ -1644,7 +1834,9 @@ Optional Parameters
   "patchOperations": "A list of update operations to be applied to the specified resource and in the order specified in this list."
 }
 """
-UpdateAuthorizer(args) = api_gateway("PATCH", "/restapis/{restapi_id}/authorizers/{authorizer_id}", args)
+UpdateAuthorizer(authorizerId, restApiId) = api_gateway("PATCH", "/restapis/$(restapi_id)/authorizers/$(authorizer_id)")
+UpdateAuthorizer(authorizerId, restApiId, args) = api_gateway("PATCH", "/restapis/$(restapi_id)/authorizers/$(authorizer_id)", args)
+UpdateAuthorizer(a...; b...) = UpdateAuthorizer(a..., b)
 
 """
     UpdateBasePathMapping()
@@ -1662,7 +1854,9 @@ Optional Parameters
   "patchOperations": "A list of update operations to be applied to the specified resource and in the order specified in this list."
 }
 """
-UpdateBasePathMapping(args) = api_gateway("PATCH", "/domainnames/{domain_name}/basepathmappings/{base_path}", args)
+UpdateBasePathMapping(basePath, domainName) = api_gateway("PATCH", "/domainnames/$(domain_name)/basepathmappings/$(base_path)")
+UpdateBasePathMapping(basePath, domainName, args) = api_gateway("PATCH", "/domainnames/$(domain_name)/basepathmappings/$(base_path)", args)
+UpdateBasePathMapping(a...; b...) = UpdateBasePathMapping(a..., b)
 
 """
     UpdateClientCertificate()
@@ -1679,7 +1873,9 @@ Optional Parameters
   "patchOperations": "A list of update operations to be applied to the specified resource and in the order specified in this list."
 }
 """
-UpdateClientCertificate(args) = api_gateway("PATCH", "/clientcertificates/{clientcertificate_id}", args)
+UpdateClientCertificate(clientCertificateId) = api_gateway("PATCH", "/clientcertificates/$(clientcertificate_id)")
+UpdateClientCertificate(clientCertificateId, args) = api_gateway("PATCH", "/clientcertificates/$(clientcertificate_id)", args)
+UpdateClientCertificate(a...; b...) = UpdateClientCertificate(a..., b)
 
 """
     UpdateDeployment()
@@ -1697,7 +1893,9 @@ Optional Parameters
   "patchOperations": "A list of update operations to be applied to the specified resource and in the order specified in this list."
 }
 """
-UpdateDeployment(args) = api_gateway("PATCH", "/restapis/{restapi_id}/deployments/{deployment_id}", args)
+UpdateDeployment(deploymentId, restApiId) = api_gateway("PATCH", "/restapis/$(restapi_id)/deployments/$(deployment_id)")
+UpdateDeployment(deploymentId, restApiId, args) = api_gateway("PATCH", "/restapis/$(restapi_id)/deployments/$(deployment_id)", args)
+UpdateDeployment(a...; b...) = UpdateDeployment(a..., b)
 
 """
     UpdateDocumentationPart()
@@ -1715,7 +1913,9 @@ Optional Parameters
   "patchOperations": "A list of update operations to be applied to the specified resource and in the order specified in this list."
 }
 """
-UpdateDocumentationPart(args) = api_gateway("PATCH", "/restapis/{restapi_id}/documentation/parts/{part_id}", args)
+UpdateDocumentationPart(documentationPartId, restApiId) = api_gateway("PATCH", "/restapis/$(restapi_id)/documentation/parts/$(part_id)")
+UpdateDocumentationPart(documentationPartId, restApiId, args) = api_gateway("PATCH", "/restapis/$(restapi_id)/documentation/parts/$(part_id)", args)
+UpdateDocumentationPart(a...; b...) = UpdateDocumentationPart(a..., b)
 
 """
     UpdateDocumentationVersion()
@@ -1733,7 +1933,9 @@ Optional Parameters
   "patchOperations": "A list of update operations to be applied to the specified resource and in the order specified in this list."
 }
 """
-UpdateDocumentationVersion(args) = api_gateway("PATCH", "/restapis/{restapi_id}/documentation/versions/{doc_version}", args)
+UpdateDocumentationVersion(documentationVersion, restApiId) = api_gateway("PATCH", "/restapis/$(restapi_id)/documentation/versions/$(doc_version)")
+UpdateDocumentationVersion(documentationVersion, restApiId, args) = api_gateway("PATCH", "/restapis/$(restapi_id)/documentation/versions/$(doc_version)", args)
+UpdateDocumentationVersion(a...; b...) = UpdateDocumentationVersion(a..., b)
 
 """
     UpdateDomainName()
@@ -1750,7 +1952,9 @@ Optional Parameters
   "patchOperations": "A list of update operations to be applied to the specified resource and in the order specified in this list."
 }
 """
-UpdateDomainName(args) = api_gateway("PATCH", "/domainnames/{domain_name}", args)
+UpdateDomainName(domainName) = api_gateway("PATCH", "/domainnames/$(domain_name)")
+UpdateDomainName(domainName, args) = api_gateway("PATCH", "/domainnames/$(domain_name)", args)
+UpdateDomainName(a...; b...) = UpdateDomainName(a..., b)
 
 """
     UpdateGatewayResponse()
@@ -1768,7 +1972,9 @@ Optional Parameters
   "patchOperations": "A list of update operations to be applied to the specified resource and in the order specified in this list."
 }
 """
-UpdateGatewayResponse(args) = api_gateway("PATCH", "/restapis/{restapi_id}/gatewayresponses/{response_type}", args)
+UpdateGatewayResponse(responseType, restApiId) = api_gateway("PATCH", "/restapis/$(restapi_id)/gatewayresponses/$(response_type)")
+UpdateGatewayResponse(responseType, restApiId, args) = api_gateway("PATCH", "/restapis/$(restapi_id)/gatewayresponses/$(response_type)", args)
+UpdateGatewayResponse(a...; b...) = UpdateGatewayResponse(a..., b)
 
 """
     UpdateIntegration()
@@ -1787,7 +1993,9 @@ Optional Parameters
   "patchOperations": "A list of update operations to be applied to the specified resource and in the order specified in this list."
 }
 """
-UpdateIntegration(args) = api_gateway("PATCH", "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration", args)
+UpdateIntegration(httpMethod, resourceId, restApiId) = api_gateway("PATCH", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration")
+UpdateIntegration(httpMethod, resourceId, restApiId, args) = api_gateway("PATCH", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration", args)
+UpdateIntegration(a...; b...) = UpdateIntegration(a..., b)
 
 """
     UpdateIntegrationResponse()
@@ -1807,7 +2015,9 @@ Optional Parameters
   "patchOperations": "A list of update operations to be applied to the specified resource and in the order specified in this list."
 }
 """
-UpdateIntegrationResponse(args) = api_gateway("PATCH", "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration/responses/{status_code}", args)
+UpdateIntegrationResponse(httpMethod, resourceId, restApiId, statusCode) = api_gateway("PATCH", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration/responses/$(status_code)")
+UpdateIntegrationResponse(httpMethod, resourceId, restApiId, statusCode, args) = api_gateway("PATCH", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/integration/responses/$(status_code)", args)
+UpdateIntegrationResponse(a...; b...) = UpdateIntegrationResponse(a..., b)
 
 """
     UpdateMethod()
@@ -1826,7 +2036,9 @@ Optional Parameters
   "patchOperations": "A list of update operations to be applied to the specified resource and in the order specified in this list."
 }
 """
-UpdateMethod(args) = api_gateway("PATCH", "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", args)
+UpdateMethod(httpMethod, resourceId, restApiId) = api_gateway("PATCH", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)")
+UpdateMethod(httpMethod, resourceId, restApiId, args) = api_gateway("PATCH", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)", args)
+UpdateMethod(a...; b...) = UpdateMethod(a..., b)
 
 """
     UpdateMethodResponse()
@@ -1846,7 +2058,9 @@ Optional Parameters
   "patchOperations": "A list of update operations to be applied to the specified resource and in the order specified in this list."
 }
 """
-UpdateMethodResponse(args) = api_gateway("PATCH", "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/responses/{status_code}", args)
+UpdateMethodResponse(httpMethod, resourceId, restApiId, statusCode) = api_gateway("PATCH", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/responses/$(status_code)")
+UpdateMethodResponse(httpMethod, resourceId, restApiId, statusCode, args) = api_gateway("PATCH", "/restapis/$(restapi_id)/resources/$(resource_id)/methods/$(http_method)/responses/$(status_code)", args)
+UpdateMethodResponse(a...; b...) = UpdateMethodResponse(a..., b)
 
 """
     UpdateModel()
@@ -1864,7 +2078,9 @@ Optional Parameters
   "patchOperations": "A list of update operations to be applied to the specified resource and in the order specified in this list."
 }
 """
-UpdateModel(args) = api_gateway("PATCH", "/restapis/{restapi_id}/models/{model_name}", args)
+UpdateModel(modelName, restApiId) = api_gateway("PATCH", "/restapis/$(restapi_id)/models/$(model_name)")
+UpdateModel(modelName, restApiId, args) = api_gateway("PATCH", "/restapis/$(restapi_id)/models/$(model_name)", args)
+UpdateModel(a...; b...) = UpdateModel(a..., b)
 
 """
     UpdateRequestValidator()
@@ -1882,7 +2098,9 @@ Optional Parameters
   "patchOperations": "A list of update operations to be applied to the specified resource and in the order specified in this list."
 }
 """
-UpdateRequestValidator(args) = api_gateway("PATCH", "/restapis/{restapi_id}/requestvalidators/{requestvalidator_id}", args)
+UpdateRequestValidator(requestValidatorId, restApiId) = api_gateway("PATCH", "/restapis/$(restapi_id)/requestvalidators/$(requestvalidator_id)")
+UpdateRequestValidator(requestValidatorId, restApiId, args) = api_gateway("PATCH", "/restapis/$(restapi_id)/requestvalidators/$(requestvalidator_id)", args)
+UpdateRequestValidator(a...; b...) = UpdateRequestValidator(a..., b)
 
 """
     UpdateResource()
@@ -1900,7 +2118,9 @@ Optional Parameters
   "patchOperations": "A list of update operations to be applied to the specified resource and in the order specified in this list."
 }
 """
-UpdateResource(args) = api_gateway("PATCH", "/restapis/{restapi_id}/resources/{resource_id}", args)
+UpdateResource(resourceId, restApiId) = api_gateway("PATCH", "/restapis/$(restapi_id)/resources/$(resource_id)")
+UpdateResource(resourceId, restApiId, args) = api_gateway("PATCH", "/restapis/$(restapi_id)/resources/$(resource_id)", args)
+UpdateResource(a...; b...) = UpdateResource(a..., b)
 
 """
     UpdateRestApi()
@@ -1917,7 +2137,9 @@ Optional Parameters
   "patchOperations": "A list of update operations to be applied to the specified resource and in the order specified in this list."
 }
 """
-UpdateRestApi(args) = api_gateway("PATCH", "/restapis/{restapi_id}", args)
+UpdateRestApi(restApiId) = api_gateway("PATCH", "/restapis/$(restapi_id)")
+UpdateRestApi(restApiId, args) = api_gateway("PATCH", "/restapis/$(restapi_id)", args)
+UpdateRestApi(a...; b...) = UpdateRestApi(a..., b)
 
 """
     UpdateStage()
@@ -1935,7 +2157,9 @@ Optional Parameters
   "patchOperations": "A list of update operations to be applied to the specified resource and in the order specified in this list."
 }
 """
-UpdateStage(args) = api_gateway("PATCH", "/restapis/{restapi_id}/stages/{stage_name}", args)
+UpdateStage(restApiId, stageName) = api_gateway("PATCH", "/restapis/$(restapi_id)/stages/$(stage_name)")
+UpdateStage(restApiId, stageName, args) = api_gateway("PATCH", "/restapis/$(restapi_id)/stages/$(stage_name)", args)
+UpdateStage(a...; b...) = UpdateStage(a..., b)
 
 """
     UpdateUsage()
@@ -1953,7 +2177,9 @@ Optional Parameters
   "patchOperations": "A list of update operations to be applied to the specified resource and in the order specified in this list."
 }
 """
-UpdateUsage(args) = api_gateway("PATCH", "/usageplans/{usageplanId}/keys/{keyId}/usage", args)
+UpdateUsage(keyId, usagePlanId) = api_gateway("PATCH", "/usageplans/$(usageplanId)/keys/$(keyId)/usage")
+UpdateUsage(keyId, usagePlanId, args) = api_gateway("PATCH", "/usageplans/$(usageplanId)/keys/$(keyId)/usage", args)
+UpdateUsage(a...; b...) = UpdateUsage(a..., b)
 
 """
     UpdateUsagePlan()
@@ -1970,7 +2196,9 @@ Optional Parameters
   "patchOperations": "A list of update operations to be applied to the specified resource and in the order specified in this list."
 }
 """
-UpdateUsagePlan(args) = api_gateway("PATCH", "/usageplans/{usageplanId}", args)
+UpdateUsagePlan(usagePlanId) = api_gateway("PATCH", "/usageplans/$(usageplanId)")
+UpdateUsagePlan(usagePlanId, args) = api_gateway("PATCH", "/usageplans/$(usageplanId)", args)
+UpdateUsagePlan(a...; b...) = UpdateUsagePlan(a..., b)
 
 """
     UpdateVpcLink()
@@ -1987,4 +2215,6 @@ Optional Parameters
   "patchOperations": "A list of update operations to be applied to the specified resource and in the order specified in this list."
 }
 """
-UpdateVpcLink(args) = api_gateway("PATCH", "/vpclinks/{vpclink_id}", args)
+UpdateVpcLink(vpcLinkId) = api_gateway("PATCH", "/vpclinks/$(vpclink_id)")
+UpdateVpcLink(vpcLinkId, args) = api_gateway("PATCH", "/vpclinks/$(vpclink_id)", args)
+UpdateVpcLink(a...; b...) = UpdateVpcLink(a..., b)

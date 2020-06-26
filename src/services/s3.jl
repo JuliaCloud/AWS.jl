@@ -19,8 +19,8 @@ Optional Parameters
   "RequestPayer": ""
 }
 """
-AbortMultipartUpload(Bucket, Key, UploadId) = s3("DELETE", "/{Bucket}/{Key+}")
-AbortMultipartUpload(Bucket, Key, UploadId, args) = s3("DELETE", "/{Bucket}/{Key+}", args)
+AbortMultipartUpload(Bucket, Key, UploadId) = s3("DELETE", "/$(Bucket)/$(Key)")
+AbortMultipartUpload(Bucket, Key, UploadId, args) = s3("DELETE", "/$(Bucket)/$(Key)", args)
 AbortMultipartUpload(a...; b...) = AbortMultipartUpload(a..., b)
 
 """
@@ -41,8 +41,8 @@ Optional Parameters
   "RequestPayer": ""
 }
 """
-CompleteMultipartUpload(Bucket, Key, UploadId) = s3("POST", "/{Bucket}/{Key+}")
-CompleteMultipartUpload(Bucket, Key, UploadId, args) = s3("POST", "/{Bucket}/{Key+}", args)
+CompleteMultipartUpload(Bucket, Key, UploadId) = s3("POST", "/$(Bucket)/$(Key)")
+CompleteMultipartUpload(Bucket, Key, UploadId, args) = s3("POST", "/$(Bucket)/$(Key)", args)
 CompleteMultipartUpload(a...; b...) = CompleteMultipartUpload(a..., b)
 
 """
@@ -95,8 +95,8 @@ Optional Parameters
   "WebsiteRedirectLocation": "If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata."
 }
 """
-CopyObject(Bucket, CopySource, Key) = s3("PUT", "/{Bucket}/{Key+}")
-CopyObject(Bucket, CopySource, Key, args) = s3("PUT", "/{Bucket}/{Key+}", args)
+CopyObject(Bucket, CopySource, Key) = s3("PUT", "/$(Bucket)/$(Key)")
+CopyObject(Bucket, CopySource, Key, args) = s3("PUT", "/$(Bucket)/$(Key)", args)
 CopyObject(a...; b...) = CopyObject(a..., b)
 
 """
@@ -121,8 +121,8 @@ Optional Parameters
   "ObjectLockEnabledForBucket": "Specifies whether you want S3 Object Lock to be enabled for the new bucket."
 }
 """
-CreateBucket(Bucket) = s3("PUT", "/{Bucket}")
-CreateBucket(Bucket, args) = s3("PUT", "/{Bucket}", args)
+CreateBucket(Bucket) = s3("PUT", "/$(Bucket)")
+CreateBucket(Bucket, args) = s3("PUT", "/$(Bucket)", args)
 CreateBucket(a...; b...) = CreateBucket(a..., b)
 
 """
@@ -165,8 +165,8 @@ Optional Parameters
   "WebsiteRedirectLocation": "If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata."
 }
 """
-CreateMultipartUpload(Bucket, Key) = s3("POST", "/{Bucket}/{Key+}?uploads")
-CreateMultipartUpload(Bucket, Key, args) = s3("POST", "/{Bucket}/{Key+}?uploads", args)
+CreateMultipartUpload(Bucket, Key) = s3("POST", "/$(Bucket)/$(Key)?uploads")
+CreateMultipartUpload(Bucket, Key, args) = s3("POST", "/$(Bucket)/$(Key)?uploads", args)
 CreateMultipartUpload(a...; b...) = CreateMultipartUpload(a..., b)
 
 """
@@ -179,8 +179,8 @@ Required Parameters
   "Bucket": "Specifies the bucket being deleted."
 }
 """
-DeleteBucket(Bucket) = s3("DELETE", "/{Bucket}")
-DeleteBucket(Bucket, args) = s3("DELETE", "/{Bucket}", args)
+DeleteBucket(Bucket) = s3("DELETE", "/$(Bucket)")
+DeleteBucket(Bucket, args) = s3("DELETE", "/$(Bucket)", args)
 DeleteBucket(a...; b...) = DeleteBucket(a..., b)
 
 """
@@ -194,8 +194,8 @@ Required Parameters
   "Id": "The ID that identifies the analytics configuration."
 }
 """
-DeleteBucketAnalyticsConfiguration(Bucket, Id) = s3("DELETE", "/{Bucket}?analytics")
-DeleteBucketAnalyticsConfiguration(Bucket, Id, args) = s3("DELETE", "/{Bucket}?analytics", args)
+DeleteBucketAnalyticsConfiguration(Bucket, Id) = s3("DELETE", "/$(Bucket)?analytics")
+DeleteBucketAnalyticsConfiguration(Bucket, Id, args) = s3("DELETE", "/$(Bucket)?analytics", args)
 DeleteBucketAnalyticsConfiguration(a...; b...) = DeleteBucketAnalyticsConfiguration(a..., b)
 
 """
@@ -208,8 +208,8 @@ Required Parameters
   "Bucket": "Specifies the bucket whose cors configuration is being deleted."
 }
 """
-DeleteBucketCors(Bucket) = s3("DELETE", "/{Bucket}?cors")
-DeleteBucketCors(Bucket, args) = s3("DELETE", "/{Bucket}?cors", args)
+DeleteBucketCors(Bucket) = s3("DELETE", "/$(Bucket)?cors")
+DeleteBucketCors(Bucket, args) = s3("DELETE", "/$(Bucket)?cors", args)
 DeleteBucketCors(a...; b...) = DeleteBucketCors(a..., b)
 
 """
@@ -222,8 +222,8 @@ Required Parameters
   "Bucket": "The name of the bucket containing the server-side encryption configuration to delete."
 }
 """
-DeleteBucketEncryption(Bucket) = s3("DELETE", "/{Bucket}?encryption")
-DeleteBucketEncryption(Bucket, args) = s3("DELETE", "/{Bucket}?encryption", args)
+DeleteBucketEncryption(Bucket) = s3("DELETE", "/$(Bucket)?encryption")
+DeleteBucketEncryption(Bucket, args) = s3("DELETE", "/$(Bucket)?encryption", args)
 DeleteBucketEncryption(a...; b...) = DeleteBucketEncryption(a..., b)
 
 """
@@ -237,8 +237,8 @@ Required Parameters
   "Id": "The ID used to identify the inventory configuration."
 }
 """
-DeleteBucketInventoryConfiguration(Bucket, Id) = s3("DELETE", "/{Bucket}?inventory")
-DeleteBucketInventoryConfiguration(Bucket, Id, args) = s3("DELETE", "/{Bucket}?inventory", args)
+DeleteBucketInventoryConfiguration(Bucket, Id) = s3("DELETE", "/$(Bucket)?inventory")
+DeleteBucketInventoryConfiguration(Bucket, Id, args) = s3("DELETE", "/$(Bucket)?inventory", args)
 DeleteBucketInventoryConfiguration(a...; b...) = DeleteBucketInventoryConfiguration(a..., b)
 
 """
@@ -251,8 +251,8 @@ Required Parameters
   "Bucket": "The bucket name of the lifecycle to delete."
 }
 """
-DeleteBucketLifecycle(Bucket) = s3("DELETE", "/{Bucket}?lifecycle")
-DeleteBucketLifecycle(Bucket, args) = s3("DELETE", "/{Bucket}?lifecycle", args)
+DeleteBucketLifecycle(Bucket) = s3("DELETE", "/$(Bucket)?lifecycle")
+DeleteBucketLifecycle(Bucket, args) = s3("DELETE", "/$(Bucket)?lifecycle", args)
 DeleteBucketLifecycle(a...; b...) = DeleteBucketLifecycle(a..., b)
 
 """
@@ -266,8 +266,8 @@ Required Parameters
   "Id": "The ID used to identify the metrics configuration."
 }
 """
-DeleteBucketMetricsConfiguration(Bucket, Id) = s3("DELETE", "/{Bucket}?metrics")
-DeleteBucketMetricsConfiguration(Bucket, Id, args) = s3("DELETE", "/{Bucket}?metrics", args)
+DeleteBucketMetricsConfiguration(Bucket, Id) = s3("DELETE", "/$(Bucket)?metrics")
+DeleteBucketMetricsConfiguration(Bucket, Id, args) = s3("DELETE", "/$(Bucket)?metrics", args)
 DeleteBucketMetricsConfiguration(a...; b...) = DeleteBucketMetricsConfiguration(a..., b)
 
 """
@@ -280,8 +280,8 @@ Required Parameters
   "Bucket": "The bucket name."
 }
 """
-DeleteBucketPolicy(Bucket) = s3("DELETE", "/{Bucket}?policy")
-DeleteBucketPolicy(Bucket, args) = s3("DELETE", "/{Bucket}?policy", args)
+DeleteBucketPolicy(Bucket) = s3("DELETE", "/$(Bucket)?policy")
+DeleteBucketPolicy(Bucket, args) = s3("DELETE", "/$(Bucket)?policy", args)
 DeleteBucketPolicy(a...; b...) = DeleteBucketPolicy(a..., b)
 
 """
@@ -294,8 +294,8 @@ Required Parameters
   "Bucket": " The bucket name. "
 }
 """
-DeleteBucketReplication(Bucket) = s3("DELETE", "/{Bucket}?replication")
-DeleteBucketReplication(Bucket, args) = s3("DELETE", "/{Bucket}?replication", args)
+DeleteBucketReplication(Bucket) = s3("DELETE", "/$(Bucket)?replication")
+DeleteBucketReplication(Bucket, args) = s3("DELETE", "/$(Bucket)?replication", args)
 DeleteBucketReplication(a...; b...) = DeleteBucketReplication(a..., b)
 
 """
@@ -308,8 +308,8 @@ Required Parameters
   "Bucket": "The bucket that has the tag set to be removed."
 }
 """
-DeleteBucketTagging(Bucket) = s3("DELETE", "/{Bucket}?tagging")
-DeleteBucketTagging(Bucket, args) = s3("DELETE", "/{Bucket}?tagging", args)
+DeleteBucketTagging(Bucket) = s3("DELETE", "/$(Bucket)?tagging")
+DeleteBucketTagging(Bucket, args) = s3("DELETE", "/$(Bucket)?tagging", args)
 DeleteBucketTagging(a...; b...) = DeleteBucketTagging(a..., b)
 
 """
@@ -322,8 +322,8 @@ Required Parameters
   "Bucket": "The bucket name for which you want to remove the website configuration. "
 }
 """
-DeleteBucketWebsite(Bucket) = s3("DELETE", "/{Bucket}?website")
-DeleteBucketWebsite(Bucket, args) = s3("DELETE", "/{Bucket}?website", args)
+DeleteBucketWebsite(Bucket) = s3("DELETE", "/$(Bucket)?website")
+DeleteBucketWebsite(Bucket, args) = s3("DELETE", "/$(Bucket)?website", args)
 DeleteBucketWebsite(a...; b...) = DeleteBucketWebsite(a..., b)
 
 """
@@ -345,8 +345,8 @@ Optional Parameters
   "VersionId": "VersionId used to reference a specific version of the object."
 }
 """
-DeleteObject(Bucket, Key) = s3("DELETE", "/{Bucket}/{Key+}")
-DeleteObject(Bucket, Key, args) = s3("DELETE", "/{Bucket}/{Key+}", args)
+DeleteObject(Bucket, Key) = s3("DELETE", "/$(Bucket)/$(Key)")
+DeleteObject(Bucket, Key, args) = s3("DELETE", "/$(Bucket)/$(Key)", args)
 DeleteObject(a...; b...) = DeleteObject(a..., b)
 
 """
@@ -365,8 +365,8 @@ Optional Parameters
   "VersionId": "The versionId of the object that the tag-set will be removed from."
 }
 """
-DeleteObjectTagging(Bucket, Key) = s3("DELETE", "/{Bucket}/{Key+}?tagging")
-DeleteObjectTagging(Bucket, Key, args) = s3("DELETE", "/{Bucket}/{Key+}?tagging", args)
+DeleteObjectTagging(Bucket, Key) = s3("DELETE", "/$(Bucket)/$(Key)?tagging")
+DeleteObjectTagging(Bucket, Key, args) = s3("DELETE", "/$(Bucket)/$(Key)?tagging", args)
 DeleteObjectTagging(a...; b...) = DeleteObjectTagging(a..., b)
 
 """
@@ -387,8 +387,8 @@ Optional Parameters
   "RequestPayer": ""
 }
 """
-DeleteObjects(Bucket, Delete) = s3("POST", "/{Bucket}?delete")
-DeleteObjects(Bucket, Delete, args) = s3("POST", "/{Bucket}?delete", args)
+DeleteObjects(Bucket, Delete) = s3("POST", "/$(Bucket)?delete")
+DeleteObjects(Bucket, Delete, args) = s3("POST", "/$(Bucket)?delete", args)
 DeleteObjects(a...; b...) = DeleteObjects(a..., b)
 
 """
@@ -401,8 +401,8 @@ Required Parameters
   "Bucket": "The Amazon S3 bucket whose PublicAccessBlock configuration you want to delete. "
 }
 """
-DeletePublicAccessBlock(Bucket) = s3("DELETE", "/{Bucket}?publicAccessBlock")
-DeletePublicAccessBlock(Bucket, args) = s3("DELETE", "/{Bucket}?publicAccessBlock", args)
+DeletePublicAccessBlock(Bucket) = s3("DELETE", "/$(Bucket)?publicAccessBlock")
+DeletePublicAccessBlock(Bucket, args) = s3("DELETE", "/$(Bucket)?publicAccessBlock", args)
 DeletePublicAccessBlock(a...; b...) = DeletePublicAccessBlock(a..., b)
 
 """
@@ -415,8 +415,8 @@ Required Parameters
   "Bucket": "Name of the bucket for which the accelerate configuration is retrieved."
 }
 """
-GetBucketAccelerateConfiguration(Bucket) = s3("GET", "/{Bucket}?accelerate")
-GetBucketAccelerateConfiguration(Bucket, args) = s3("GET", "/{Bucket}?accelerate", args)
+GetBucketAccelerateConfiguration(Bucket) = s3("GET", "/$(Bucket)?accelerate")
+GetBucketAccelerateConfiguration(Bucket, args) = s3("GET", "/$(Bucket)?accelerate", args)
 GetBucketAccelerateConfiguration(a...; b...) = GetBucketAccelerateConfiguration(a..., b)
 
 """
@@ -429,8 +429,8 @@ Required Parameters
   "Bucket": "Specifies the S3 bucket whose ACL is being requested."
 }
 """
-GetBucketAcl(Bucket) = s3("GET", "/{Bucket}?acl")
-GetBucketAcl(Bucket, args) = s3("GET", "/{Bucket}?acl", args)
+GetBucketAcl(Bucket) = s3("GET", "/$(Bucket)?acl")
+GetBucketAcl(Bucket, args) = s3("GET", "/$(Bucket)?acl", args)
 GetBucketAcl(a...; b...) = GetBucketAcl(a..., b)
 
 """
@@ -444,8 +444,8 @@ Required Parameters
   "Id": "The ID that identifies the analytics configuration."
 }
 """
-GetBucketAnalyticsConfiguration(Bucket, Id) = s3("GET", "/{Bucket}?analytics")
-GetBucketAnalyticsConfiguration(Bucket, Id, args) = s3("GET", "/{Bucket}?analytics", args)
+GetBucketAnalyticsConfiguration(Bucket, Id) = s3("GET", "/$(Bucket)?analytics")
+GetBucketAnalyticsConfiguration(Bucket, Id, args) = s3("GET", "/$(Bucket)?analytics", args)
 GetBucketAnalyticsConfiguration(a...; b...) = GetBucketAnalyticsConfiguration(a..., b)
 
 """
@@ -458,8 +458,8 @@ Required Parameters
   "Bucket": "The bucket name for which to get the cors configuration."
 }
 """
-GetBucketCors(Bucket) = s3("GET", "/{Bucket}?cors")
-GetBucketCors(Bucket, args) = s3("GET", "/{Bucket}?cors", args)
+GetBucketCors(Bucket) = s3("GET", "/$(Bucket)?cors")
+GetBucketCors(Bucket, args) = s3("GET", "/$(Bucket)?cors", args)
 GetBucketCors(a...; b...) = GetBucketCors(a..., b)
 
 """
@@ -472,8 +472,8 @@ Required Parameters
   "Bucket": "The name of the bucket from which the server-side encryption configuration is retrieved."
 }
 """
-GetBucketEncryption(Bucket) = s3("GET", "/{Bucket}?encryption")
-GetBucketEncryption(Bucket, args) = s3("GET", "/{Bucket}?encryption", args)
+GetBucketEncryption(Bucket) = s3("GET", "/$(Bucket)?encryption")
+GetBucketEncryption(Bucket, args) = s3("GET", "/$(Bucket)?encryption", args)
 GetBucketEncryption(a...; b...) = GetBucketEncryption(a..., b)
 
 """
@@ -487,8 +487,8 @@ Required Parameters
   "Id": "The ID used to identify the inventory configuration."
 }
 """
-GetBucketInventoryConfiguration(Bucket, Id) = s3("GET", "/{Bucket}?inventory")
-GetBucketInventoryConfiguration(Bucket, Id, args) = s3("GET", "/{Bucket}?inventory", args)
+GetBucketInventoryConfiguration(Bucket, Id) = s3("GET", "/$(Bucket)?inventory")
+GetBucketInventoryConfiguration(Bucket, Id, args) = s3("GET", "/$(Bucket)?inventory", args)
 GetBucketInventoryConfiguration(a...; b...) = GetBucketInventoryConfiguration(a..., b)
 
 """
@@ -501,8 +501,8 @@ Required Parameters
   "Bucket": "The name of the bucket for which to get the lifecycle information."
 }
 """
-GetBucketLifecycle(Bucket) = s3("GET", "/{Bucket}?lifecycle")
-GetBucketLifecycle(Bucket, args) = s3("GET", "/{Bucket}?lifecycle", args)
+GetBucketLifecycle(Bucket) = s3("GET", "/$(Bucket)?lifecycle")
+GetBucketLifecycle(Bucket, args) = s3("GET", "/$(Bucket)?lifecycle", args)
 GetBucketLifecycle(a...; b...) = GetBucketLifecycle(a..., b)
 
 """
@@ -515,8 +515,8 @@ Required Parameters
   "Bucket": "The name of the bucket for which to get the lifecycle information."
 }
 """
-GetBucketLifecycleConfiguration(Bucket) = s3("GET", "/{Bucket}?lifecycle")
-GetBucketLifecycleConfiguration(Bucket, args) = s3("GET", "/{Bucket}?lifecycle", args)
+GetBucketLifecycleConfiguration(Bucket) = s3("GET", "/$(Bucket)?lifecycle")
+GetBucketLifecycleConfiguration(Bucket, args) = s3("GET", "/$(Bucket)?lifecycle", args)
 GetBucketLifecycleConfiguration(a...; b...) = GetBucketLifecycleConfiguration(a..., b)
 
 """
@@ -529,8 +529,8 @@ Required Parameters
   "Bucket": "The name of the bucket for which to get the location."
 }
 """
-GetBucketLocation(Bucket) = s3("GET", "/{Bucket}?location")
-GetBucketLocation(Bucket, args) = s3("GET", "/{Bucket}?location", args)
+GetBucketLocation(Bucket) = s3("GET", "/$(Bucket)?location")
+GetBucketLocation(Bucket, args) = s3("GET", "/$(Bucket)?location", args)
 GetBucketLocation(a...; b...) = GetBucketLocation(a..., b)
 
 """
@@ -543,8 +543,8 @@ Required Parameters
   "Bucket": "The bucket name for which to get the logging information."
 }
 """
-GetBucketLogging(Bucket) = s3("GET", "/{Bucket}?logging")
-GetBucketLogging(Bucket, args) = s3("GET", "/{Bucket}?logging", args)
+GetBucketLogging(Bucket) = s3("GET", "/$(Bucket)?logging")
+GetBucketLogging(Bucket, args) = s3("GET", "/$(Bucket)?logging", args)
 GetBucketLogging(a...; b...) = GetBucketLogging(a..., b)
 
 """
@@ -558,8 +558,8 @@ Required Parameters
   "Id": "The ID used to identify the metrics configuration."
 }
 """
-GetBucketMetricsConfiguration(Bucket, Id) = s3("GET", "/{Bucket}?metrics")
-GetBucketMetricsConfiguration(Bucket, Id, args) = s3("GET", "/{Bucket}?metrics", args)
+GetBucketMetricsConfiguration(Bucket, Id) = s3("GET", "/$(Bucket)?metrics")
+GetBucketMetricsConfiguration(Bucket, Id, args) = s3("GET", "/$(Bucket)?metrics", args)
 GetBucketMetricsConfiguration(a...; b...) = GetBucketMetricsConfiguration(a..., b)
 
 """
@@ -572,8 +572,8 @@ Required Parameters
   "Bucket": "Name of the bucket for which to get the notification configuration."
 }
 """
-GetBucketNotification(Bucket) = s3("GET", "/{Bucket}?notification")
-GetBucketNotification(Bucket, args) = s3("GET", "/{Bucket}?notification", args)
+GetBucketNotification(Bucket) = s3("GET", "/$(Bucket)?notification")
+GetBucketNotification(Bucket, args) = s3("GET", "/$(Bucket)?notification", args)
 GetBucketNotification(a...; b...) = GetBucketNotification(a..., b)
 
 """
@@ -586,8 +586,8 @@ Required Parameters
   "Bucket": "Name of the bucket for which to get the notification configuration."
 }
 """
-GetBucketNotificationConfiguration(Bucket) = s3("GET", "/{Bucket}?notification")
-GetBucketNotificationConfiguration(Bucket, args) = s3("GET", "/{Bucket}?notification", args)
+GetBucketNotificationConfiguration(Bucket) = s3("GET", "/$(Bucket)?notification")
+GetBucketNotificationConfiguration(Bucket, args) = s3("GET", "/$(Bucket)?notification", args)
 GetBucketNotificationConfiguration(a...; b...) = GetBucketNotificationConfiguration(a..., b)
 
 """
@@ -600,8 +600,8 @@ Required Parameters
   "Bucket": "The bucket name for which to get the bucket policy."
 }
 """
-GetBucketPolicy(Bucket) = s3("GET", "/{Bucket}?policy")
-GetBucketPolicy(Bucket, args) = s3("GET", "/{Bucket}?policy", args)
+GetBucketPolicy(Bucket) = s3("GET", "/$(Bucket)?policy")
+GetBucketPolicy(Bucket, args) = s3("GET", "/$(Bucket)?policy", args)
 GetBucketPolicy(a...; b...) = GetBucketPolicy(a..., b)
 
 """
@@ -614,8 +614,8 @@ Required Parameters
   "Bucket": "The name of the Amazon S3 bucket whose policy status you want to retrieve."
 }
 """
-GetBucketPolicyStatus(Bucket) = s3("GET", "/{Bucket}?policyStatus")
-GetBucketPolicyStatus(Bucket, args) = s3("GET", "/{Bucket}?policyStatus", args)
+GetBucketPolicyStatus(Bucket) = s3("GET", "/$(Bucket)?policyStatus")
+GetBucketPolicyStatus(Bucket, args) = s3("GET", "/$(Bucket)?policyStatus", args)
 GetBucketPolicyStatus(a...; b...) = GetBucketPolicyStatus(a..., b)
 
 """
@@ -628,8 +628,8 @@ Required Parameters
   "Bucket": "The bucket name for which to get the replication information."
 }
 """
-GetBucketReplication(Bucket) = s3("GET", "/{Bucket}?replication")
-GetBucketReplication(Bucket, args) = s3("GET", "/{Bucket}?replication", args)
+GetBucketReplication(Bucket) = s3("GET", "/$(Bucket)?replication")
+GetBucketReplication(Bucket, args) = s3("GET", "/$(Bucket)?replication", args)
 GetBucketReplication(a...; b...) = GetBucketReplication(a..., b)
 
 """
@@ -642,8 +642,8 @@ Required Parameters
   "Bucket": "The name of the bucket for which to get the payment request configuration"
 }
 """
-GetBucketRequestPayment(Bucket) = s3("GET", "/{Bucket}?requestPayment")
-GetBucketRequestPayment(Bucket, args) = s3("GET", "/{Bucket}?requestPayment", args)
+GetBucketRequestPayment(Bucket) = s3("GET", "/$(Bucket)?requestPayment")
+GetBucketRequestPayment(Bucket, args) = s3("GET", "/$(Bucket)?requestPayment", args)
 GetBucketRequestPayment(a...; b...) = GetBucketRequestPayment(a..., b)
 
 """
@@ -656,8 +656,8 @@ Required Parameters
   "Bucket": "The name of the bucket for which to get the tagging information."
 }
 """
-GetBucketTagging(Bucket) = s3("GET", "/{Bucket}?tagging")
-GetBucketTagging(Bucket, args) = s3("GET", "/{Bucket}?tagging", args)
+GetBucketTagging(Bucket) = s3("GET", "/$(Bucket)?tagging")
+GetBucketTagging(Bucket, args) = s3("GET", "/$(Bucket)?tagging", args)
 GetBucketTagging(a...; b...) = GetBucketTagging(a..., b)
 
 """
@@ -670,8 +670,8 @@ Required Parameters
   "Bucket": "The name of the bucket for which to get the versioning information."
 }
 """
-GetBucketVersioning(Bucket) = s3("GET", "/{Bucket}?versioning")
-GetBucketVersioning(Bucket, args) = s3("GET", "/{Bucket}?versioning", args)
+GetBucketVersioning(Bucket) = s3("GET", "/$(Bucket)?versioning")
+GetBucketVersioning(Bucket, args) = s3("GET", "/$(Bucket)?versioning", args)
 GetBucketVersioning(a...; b...) = GetBucketVersioning(a..., b)
 
 """
@@ -684,8 +684,8 @@ Required Parameters
   "Bucket": "The bucket name for which to get the website configuration."
 }
 """
-GetBucketWebsite(Bucket) = s3("GET", "/{Bucket}?website")
-GetBucketWebsite(Bucket, args) = s3("GET", "/{Bucket}?website", args)
+GetBucketWebsite(Bucket) = s3("GET", "/$(Bucket)?website")
+GetBucketWebsite(Bucket, args) = s3("GET", "/$(Bucket)?website", args)
 GetBucketWebsite(a...; b...) = GetBucketWebsite(a..., b)
 
 """
@@ -720,8 +720,8 @@ Optional Parameters
   "VersionId": "VersionId used to reference a specific version of the object."
 }
 """
-GetObject(Bucket, Key) = s3("GET", "/{Bucket}/{Key+}")
-GetObject(Bucket, Key, args) = s3("GET", "/{Bucket}/{Key+}", args)
+GetObject(Bucket, Key) = s3("GET", "/$(Bucket)/$(Key)")
+GetObject(Bucket, Key, args) = s3("GET", "/$(Bucket)/$(Key)", args)
 GetObject(a...; b...) = GetObject(a..., b)
 
 """
@@ -741,8 +741,8 @@ Optional Parameters
   "VersionId": "VersionId used to reference a specific version of the object."
 }
 """
-GetObjectAcl(Bucket, Key) = s3("GET", "/{Bucket}/{Key+}?acl")
-GetObjectAcl(Bucket, Key, args) = s3("GET", "/{Bucket}/{Key+}?acl", args)
+GetObjectAcl(Bucket, Key) = s3("GET", "/$(Bucket)/$(Key)?acl")
+GetObjectAcl(Bucket, Key, args) = s3("GET", "/$(Bucket)/$(Key)?acl", args)
 GetObjectAcl(a...; b...) = GetObjectAcl(a..., b)
 
 """
@@ -762,8 +762,8 @@ Optional Parameters
   "VersionId": "The version ID of the object whose Legal Hold status you want to retrieve."
 }
 """
-GetObjectLegalHold(Bucket, Key) = s3("GET", "/{Bucket}/{Key+}?legal-hold")
-GetObjectLegalHold(Bucket, Key, args) = s3("GET", "/{Bucket}/{Key+}?legal-hold", args)
+GetObjectLegalHold(Bucket, Key) = s3("GET", "/$(Bucket)/$(Key)?legal-hold")
+GetObjectLegalHold(Bucket, Key, args) = s3("GET", "/$(Bucket)/$(Key)?legal-hold", args)
 GetObjectLegalHold(a...; b...) = GetObjectLegalHold(a..., b)
 
 """
@@ -776,8 +776,8 @@ Required Parameters
   "Bucket": "The bucket whose Object Lock configuration you want to retrieve."
 }
 """
-GetObjectLockConfiguration(Bucket) = s3("GET", "/{Bucket}?object-lock")
-GetObjectLockConfiguration(Bucket, args) = s3("GET", "/{Bucket}?object-lock", args)
+GetObjectLockConfiguration(Bucket) = s3("GET", "/$(Bucket)?object-lock")
+GetObjectLockConfiguration(Bucket, args) = s3("GET", "/$(Bucket)?object-lock", args)
 GetObjectLockConfiguration(a...; b...) = GetObjectLockConfiguration(a..., b)
 
 """
@@ -797,8 +797,8 @@ Optional Parameters
   "VersionId": "The version ID for the object whose retention settings you want to retrieve."
 }
 """
-GetObjectRetention(Bucket, Key) = s3("GET", "/{Bucket}/{Key+}?retention")
-GetObjectRetention(Bucket, Key, args) = s3("GET", "/{Bucket}/{Key+}?retention", args)
+GetObjectRetention(Bucket, Key) = s3("GET", "/$(Bucket)/$(Key)?retention")
+GetObjectRetention(Bucket, Key, args) = s3("GET", "/$(Bucket)/$(Key)?retention", args)
 GetObjectRetention(a...; b...) = GetObjectRetention(a..., b)
 
 """
@@ -817,8 +817,8 @@ Optional Parameters
   "VersionId": "The versionId of the object for which to get the tagging information."
 }
 """
-GetObjectTagging(Bucket, Key) = s3("GET", "/{Bucket}/{Key+}?tagging")
-GetObjectTagging(Bucket, Key, args) = s3("GET", "/{Bucket}/{Key+}?tagging", args)
+GetObjectTagging(Bucket, Key) = s3("GET", "/$(Bucket)/$(Key)?tagging")
+GetObjectTagging(Bucket, Key, args) = s3("GET", "/$(Bucket)/$(Key)?tagging", args)
 GetObjectTagging(a...; b...) = GetObjectTagging(a..., b)
 
 """
@@ -837,8 +837,8 @@ Optional Parameters
   "RequestPayer": ""
 }
 """
-GetObjectTorrent(Bucket, Key) = s3("GET", "/{Bucket}/{Key+}?torrent")
-GetObjectTorrent(Bucket, Key, args) = s3("GET", "/{Bucket}/{Key+}?torrent", args)
+GetObjectTorrent(Bucket, Key) = s3("GET", "/$(Bucket)/$(Key)?torrent")
+GetObjectTorrent(Bucket, Key, args) = s3("GET", "/$(Bucket)/$(Key)?torrent", args)
 GetObjectTorrent(a...; b...) = GetObjectTorrent(a..., b)
 
 """
@@ -851,8 +851,8 @@ Required Parameters
   "Bucket": "The name of the Amazon S3 bucket whose PublicAccessBlock configuration you want to retrieve. "
 }
 """
-GetPublicAccessBlock(Bucket) = s3("GET", "/{Bucket}?publicAccessBlock")
-GetPublicAccessBlock(Bucket, args) = s3("GET", "/{Bucket}?publicAccessBlock", args)
+GetPublicAccessBlock(Bucket) = s3("GET", "/$(Bucket)?publicAccessBlock")
+GetPublicAccessBlock(Bucket, args) = s3("GET", "/$(Bucket)?publicAccessBlock", args)
 GetPublicAccessBlock(a...; b...) = GetPublicAccessBlock(a..., b)
 
 """
@@ -865,8 +865,8 @@ Required Parameters
   "Bucket": "The bucket name."
 }
 """
-HeadBucket(Bucket) = s3("HEAD", "/{Bucket}")
-HeadBucket(Bucket, args) = s3("HEAD", "/{Bucket}", args)
+HeadBucket(Bucket) = s3("HEAD", "/$(Bucket)")
+HeadBucket(Bucket, args) = s3("HEAD", "/$(Bucket)", args)
 HeadBucket(a...; b...) = HeadBucket(a..., b)
 
 """
@@ -895,8 +895,8 @@ Optional Parameters
   "VersionId": "VersionId used to reference a specific version of the object."
 }
 """
-HeadObject(Bucket, Key) = s3("HEAD", "/{Bucket}/{Key+}")
-HeadObject(Bucket, Key, args) = s3("HEAD", "/{Bucket}/{Key+}", args)
+HeadObject(Bucket, Key) = s3("HEAD", "/$(Bucket)/$(Key)")
+HeadObject(Bucket, Key, args) = s3("HEAD", "/$(Bucket)/$(Key)", args)
 HeadObject(a...; b...) = HeadObject(a..., b)
 
 """
@@ -914,8 +914,8 @@ Optional Parameters
   "ContinuationToken": "The ContinuationToken that represents a placeholder from where this request should begin."
 }
 """
-ListBucketAnalyticsConfigurations(Bucket) = s3("GET", "/{Bucket}?analytics")
-ListBucketAnalyticsConfigurations(Bucket, args) = s3("GET", "/{Bucket}?analytics", args)
+ListBucketAnalyticsConfigurations(Bucket) = s3("GET", "/$(Bucket)?analytics")
+ListBucketAnalyticsConfigurations(Bucket, args) = s3("GET", "/$(Bucket)?analytics", args)
 ListBucketAnalyticsConfigurations(a...; b...) = ListBucketAnalyticsConfigurations(a..., b)
 
 """
@@ -933,8 +933,8 @@ Optional Parameters
   "ContinuationToken": "The marker used to continue an inventory configuration listing that has been truncated. Use the NextContinuationToken from a previously truncated list response to continue the listing. The continuation token is an opaque value that Amazon S3 understands."
 }
 """
-ListBucketInventoryConfigurations(Bucket) = s3("GET", "/{Bucket}?inventory")
-ListBucketInventoryConfigurations(Bucket, args) = s3("GET", "/{Bucket}?inventory", args)
+ListBucketInventoryConfigurations(Bucket) = s3("GET", "/$(Bucket)?inventory")
+ListBucketInventoryConfigurations(Bucket, args) = s3("GET", "/$(Bucket)?inventory", args)
 ListBucketInventoryConfigurations(a...; b...) = ListBucketInventoryConfigurations(a..., b)
 
 """
@@ -952,8 +952,8 @@ Optional Parameters
   "ContinuationToken": "The marker that is used to continue a metrics configuration listing that has been truncated. Use the NextContinuationToken from a previously truncated list response to continue the listing. The continuation token is an opaque value that Amazon S3 understands."
 }
 """
-ListBucketMetricsConfigurations(Bucket) = s3("GET", "/{Bucket}?metrics")
-ListBucketMetricsConfigurations(Bucket, args) = s3("GET", "/{Bucket}?metrics", args)
+ListBucketMetricsConfigurations(Bucket) = s3("GET", "/$(Bucket)?metrics")
+ListBucketMetricsConfigurations(Bucket, args) = s3("GET", "/$(Bucket)?metrics", args)
 ListBucketMetricsConfigurations(a...; b...) = ListBucketMetricsConfigurations(a..., b)
 
 """
@@ -985,8 +985,8 @@ Optional Parameters
   "UploadIdMarker": "Together with key-marker, specifies the multipart upload after which listing should begin. If key-marker is not specified, the upload-id-marker parameter is ignored. Otherwise, any multipart uploads for a key equal to the key-marker might be included in the list only if they have an upload ID lexicographically greater than the specified upload-id-marker."
 }
 """
-ListMultipartUploads(Bucket) = s3("GET", "/{Bucket}?uploads")
-ListMultipartUploads(Bucket, args) = s3("GET", "/{Bucket}?uploads", args)
+ListMultipartUploads(Bucket) = s3("GET", "/$(Bucket)?uploads")
+ListMultipartUploads(Bucket, args) = s3("GET", "/$(Bucket)?uploads", args)
 ListMultipartUploads(a...; b...) = ListMultipartUploads(a..., b)
 
 """
@@ -1009,8 +1009,8 @@ Optional Parameters
   "VersionIdMarker": "Specifies the object version you want to start listing from."
 }
 """
-ListObjectVersions(Bucket) = s3("GET", "/{Bucket}?versions")
-ListObjectVersions(Bucket, args) = s3("GET", "/{Bucket}?versions", args)
+ListObjectVersions(Bucket) = s3("GET", "/$(Bucket)?versions")
+ListObjectVersions(Bucket, args) = s3("GET", "/$(Bucket)?versions", args)
 ListObjectVersions(a...; b...) = ListObjectVersions(a..., b)
 
 """
@@ -1033,8 +1033,8 @@ Optional Parameters
   "RequestPayer": "Confirms that the requester knows that she or he will be charged for the list objects request. Bucket owners need not specify this parameter in their requests."
 }
 """
-ListObjects(Bucket) = s3("GET", "/{Bucket}")
-ListObjects(Bucket, args) = s3("GET", "/{Bucket}", args)
+ListObjects(Bucket) = s3("GET", "/$(Bucket)")
+ListObjects(Bucket, args) = s3("GET", "/$(Bucket)", args)
 ListObjects(a...; b...) = ListObjects(a..., b)
 
 """
@@ -1059,8 +1059,8 @@ Optional Parameters
   "StartAfter": "StartAfter is where you want Amazon S3 to start listing from. Amazon S3 starts listing after this specified key. StartAfter can be any key in the bucket."
 }
 """
-ListObjectsV2(Bucket) = s3("GET", "/{Bucket}?list-type=2")
-ListObjectsV2(Bucket, args) = s3("GET", "/{Bucket}?list-type=2", args)
+ListObjectsV2(Bucket) = s3("GET", "/$(Bucket)?list-type=2")
+ListObjectsV2(Bucket, args) = s3("GET", "/$(Bucket)?list-type=2", args)
 ListObjectsV2(a...; b...) = ListObjectsV2(a..., b)
 
 """
@@ -1082,8 +1082,8 @@ Optional Parameters
   "RequestPayer": ""
 }
 """
-ListParts(Bucket, Key, UploadId) = s3("GET", "/{Bucket}/{Key+}")
-ListParts(Bucket, Key, UploadId, args) = s3("GET", "/{Bucket}/{Key+}", args)
+ListParts(Bucket, Key, UploadId) = s3("GET", "/$(Bucket)/$(Key)")
+ListParts(Bucket, Key, UploadId, args) = s3("GET", "/$(Bucket)/$(Key)", args)
 ListParts(a...; b...) = ListParts(a..., b)
 
 """
@@ -1097,8 +1097,8 @@ Required Parameters
   "Bucket": "Name of the bucket for which the accelerate configuration is set."
 }
 """
-PutBucketAccelerateConfiguration(AccelerateConfiguration, Bucket) = s3("PUT", "/{Bucket}?accelerate")
-PutBucketAccelerateConfiguration(AccelerateConfiguration, Bucket, args) = s3("PUT", "/{Bucket}?accelerate", args)
+PutBucketAccelerateConfiguration(AccelerateConfiguration, Bucket) = s3("PUT", "/$(Bucket)?accelerate")
+PutBucketAccelerateConfiguration(AccelerateConfiguration, Bucket, args) = s3("PUT", "/$(Bucket)?accelerate", args)
 PutBucketAccelerateConfiguration(a...; b...) = PutBucketAccelerateConfiguration(a..., b)
 
 """
@@ -1123,8 +1123,8 @@ Optional Parameters
   "GrantWriteACP": "Allows grantee to write the ACL for the applicable bucket."
 }
 """
-PutBucketAcl(Bucket) = s3("PUT", "/{Bucket}?acl")
-PutBucketAcl(Bucket, args) = s3("PUT", "/{Bucket}?acl", args)
+PutBucketAcl(Bucket) = s3("PUT", "/$(Bucket)?acl")
+PutBucketAcl(Bucket, args) = s3("PUT", "/$(Bucket)?acl", args)
 PutBucketAcl(a...; b...) = PutBucketAcl(a..., b)
 
 """
@@ -1139,8 +1139,8 @@ Required Parameters
   "Id": "The ID that identifies the analytics configuration."
 }
 """
-PutBucketAnalyticsConfiguration(AnalyticsConfiguration, Bucket, Id) = s3("PUT", "/{Bucket}?analytics")
-PutBucketAnalyticsConfiguration(AnalyticsConfiguration, Bucket, Id, args) = s3("PUT", "/{Bucket}?analytics", args)
+PutBucketAnalyticsConfiguration(AnalyticsConfiguration, Bucket, Id) = s3("PUT", "/$(Bucket)?analytics")
+PutBucketAnalyticsConfiguration(AnalyticsConfiguration, Bucket, Id, args) = s3("PUT", "/$(Bucket)?analytics", args)
 PutBucketAnalyticsConfiguration(a...; b...) = PutBucketAnalyticsConfiguration(a..., b)
 
 """
@@ -1159,8 +1159,8 @@ Optional Parameters
   "ContentMD5": "The base64-encoded 128-bit MD5 digest of the data. This header must be used as a message integrity check to verify that the request body was not corrupted in transit. For more information, go to RFC 1864. "
 }
 """
-PutBucketCors(Bucket, CORSConfiguration) = s3("PUT", "/{Bucket}?cors")
-PutBucketCors(Bucket, CORSConfiguration, args) = s3("PUT", "/{Bucket}?cors", args)
+PutBucketCors(Bucket, CORSConfiguration) = s3("PUT", "/$(Bucket)?cors")
+PutBucketCors(Bucket, CORSConfiguration, args) = s3("PUT", "/$(Bucket)?cors", args)
 PutBucketCors(a...; b...) = PutBucketCors(a..., b)
 
 """
@@ -1179,8 +1179,8 @@ Optional Parameters
   "ContentMD5": "The base64-encoded 128-bit MD5 digest of the server-side encryption configuration. This parameter is auto-populated when using the command from the CLI."
 }
 """
-PutBucketEncryption(Bucket, ServerSideEncryptionConfiguration) = s3("PUT", "/{Bucket}?encryption")
-PutBucketEncryption(Bucket, ServerSideEncryptionConfiguration, args) = s3("PUT", "/{Bucket}?encryption", args)
+PutBucketEncryption(Bucket, ServerSideEncryptionConfiguration) = s3("PUT", "/$(Bucket)?encryption")
+PutBucketEncryption(Bucket, ServerSideEncryptionConfiguration, args) = s3("PUT", "/$(Bucket)?encryption", args)
 PutBucketEncryption(a...; b...) = PutBucketEncryption(a..., b)
 
 """
@@ -1195,8 +1195,8 @@ Required Parameters
   "InventoryConfiguration": "Specifies the inventory configuration."
 }
 """
-PutBucketInventoryConfiguration(Bucket, Id, InventoryConfiguration) = s3("PUT", "/{Bucket}?inventory")
-PutBucketInventoryConfiguration(Bucket, Id, InventoryConfiguration, args) = s3("PUT", "/{Bucket}?inventory", args)
+PutBucketInventoryConfiguration(Bucket, Id, InventoryConfiguration) = s3("PUT", "/$(Bucket)?inventory")
+PutBucketInventoryConfiguration(Bucket, Id, InventoryConfiguration, args) = s3("PUT", "/$(Bucket)?inventory", args)
 PutBucketInventoryConfiguration(a...; b...) = PutBucketInventoryConfiguration(a..., b)
 
 """
@@ -1215,8 +1215,8 @@ Optional Parameters
   "LifecycleConfiguration": ""
 }
 """
-PutBucketLifecycle(Bucket) = s3("PUT", "/{Bucket}?lifecycle")
-PutBucketLifecycle(Bucket, args) = s3("PUT", "/{Bucket}?lifecycle", args)
+PutBucketLifecycle(Bucket) = s3("PUT", "/$(Bucket)?lifecycle")
+PutBucketLifecycle(Bucket, args) = s3("PUT", "/$(Bucket)?lifecycle", args)
 PutBucketLifecycle(a...; b...) = PutBucketLifecycle(a..., b)
 
 """
@@ -1234,8 +1234,8 @@ Optional Parameters
   "LifecycleConfiguration": "Container for lifecycle rules. You can add as many as 1,000 rules."
 }
 """
-PutBucketLifecycleConfiguration(Bucket) = s3("PUT", "/{Bucket}?lifecycle")
-PutBucketLifecycleConfiguration(Bucket, args) = s3("PUT", "/{Bucket}?lifecycle", args)
+PutBucketLifecycleConfiguration(Bucket) = s3("PUT", "/$(Bucket)?lifecycle")
+PutBucketLifecycleConfiguration(Bucket, args) = s3("PUT", "/$(Bucket)?lifecycle", args)
 PutBucketLifecycleConfiguration(a...; b...) = PutBucketLifecycleConfiguration(a..., b)
 
 """
@@ -1254,8 +1254,8 @@ Optional Parameters
   "ContentMD5": "The MD5 hash of the PutBucketLogging request body."
 }
 """
-PutBucketLogging(Bucket, BucketLoggingStatus) = s3("PUT", "/{Bucket}?logging")
-PutBucketLogging(Bucket, BucketLoggingStatus, args) = s3("PUT", "/{Bucket}?logging", args)
+PutBucketLogging(Bucket, BucketLoggingStatus) = s3("PUT", "/$(Bucket)?logging")
+PutBucketLogging(Bucket, BucketLoggingStatus, args) = s3("PUT", "/$(Bucket)?logging", args)
 PutBucketLogging(a...; b...) = PutBucketLogging(a..., b)
 
 """
@@ -1270,8 +1270,8 @@ Required Parameters
   "MetricsConfiguration": "Specifies the metrics configuration."
 }
 """
-PutBucketMetricsConfiguration(Bucket, Id, MetricsConfiguration) = s3("PUT", "/{Bucket}?metrics")
-PutBucketMetricsConfiguration(Bucket, Id, MetricsConfiguration, args) = s3("PUT", "/{Bucket}?metrics", args)
+PutBucketMetricsConfiguration(Bucket, Id, MetricsConfiguration) = s3("PUT", "/$(Bucket)?metrics")
+PutBucketMetricsConfiguration(Bucket, Id, MetricsConfiguration, args) = s3("PUT", "/$(Bucket)?metrics", args)
 PutBucketMetricsConfiguration(a...; b...) = PutBucketMetricsConfiguration(a..., b)
 
 """
@@ -1290,8 +1290,8 @@ Optional Parameters
   "ContentMD5": "The MD5 hash of the PutPublicAccessBlock request body."
 }
 """
-PutBucketNotification(Bucket, NotificationConfiguration) = s3("PUT", "/{Bucket}?notification")
-PutBucketNotification(Bucket, NotificationConfiguration, args) = s3("PUT", "/{Bucket}?notification", args)
+PutBucketNotification(Bucket, NotificationConfiguration) = s3("PUT", "/$(Bucket)?notification")
+PutBucketNotification(Bucket, NotificationConfiguration, args) = s3("PUT", "/$(Bucket)?notification", args)
 PutBucketNotification(a...; b...) = PutBucketNotification(a..., b)
 
 """
@@ -1305,8 +1305,8 @@ Required Parameters
   "NotificationConfiguration": ""
 }
 """
-PutBucketNotificationConfiguration(Bucket, NotificationConfiguration) = s3("PUT", "/{Bucket}?notification")
-PutBucketNotificationConfiguration(Bucket, NotificationConfiguration, args) = s3("PUT", "/{Bucket}?notification", args)
+PutBucketNotificationConfiguration(Bucket, NotificationConfiguration) = s3("PUT", "/$(Bucket)?notification")
+PutBucketNotificationConfiguration(Bucket, NotificationConfiguration, args) = s3("PUT", "/$(Bucket)?notification", args)
 PutBucketNotificationConfiguration(a...; b...) = PutBucketNotificationConfiguration(a..., b)
 
 """
@@ -1326,8 +1326,8 @@ Optional Parameters
   "ContentMD5": "The MD5 hash of the request body."
 }
 """
-PutBucketPolicy(Bucket, Policy) = s3("PUT", "/{Bucket}?policy")
-PutBucketPolicy(Bucket, Policy, args) = s3("PUT", "/{Bucket}?policy", args)
+PutBucketPolicy(Bucket, Policy) = s3("PUT", "/$(Bucket)?policy")
+PutBucketPolicy(Bucket, Policy, args) = s3("PUT", "/$(Bucket)?policy", args)
 PutBucketPolicy(a...; b...) = PutBucketPolicy(a..., b)
 
 """
@@ -1347,8 +1347,8 @@ Optional Parameters
   "Token": ""
 }
 """
-PutBucketReplication(Bucket, ReplicationConfiguration) = s3("PUT", "/{Bucket}?replication")
-PutBucketReplication(Bucket, ReplicationConfiguration, args) = s3("PUT", "/{Bucket}?replication", args)
+PutBucketReplication(Bucket, ReplicationConfiguration) = s3("PUT", "/$(Bucket)?replication")
+PutBucketReplication(Bucket, ReplicationConfiguration, args) = s3("PUT", "/$(Bucket)?replication", args)
 PutBucketReplication(a...; b...) = PutBucketReplication(a..., b)
 
 """
@@ -1367,8 +1367,8 @@ Optional Parameters
   "ContentMD5": "&gt;The base64-encoded 128-bit MD5 digest of the data. You must use this header as a message integrity check to verify that the request body was not corrupted in transit. For more information, see RFC 1864."
 }
 """
-PutBucketRequestPayment(Bucket, RequestPaymentConfiguration) = s3("PUT", "/{Bucket}?requestPayment")
-PutBucketRequestPayment(Bucket, RequestPaymentConfiguration, args) = s3("PUT", "/{Bucket}?requestPayment", args)
+PutBucketRequestPayment(Bucket, RequestPaymentConfiguration) = s3("PUT", "/$(Bucket)?requestPayment")
+PutBucketRequestPayment(Bucket, RequestPaymentConfiguration, args) = s3("PUT", "/$(Bucket)?requestPayment", args)
 PutBucketRequestPayment(a...; b...) = PutBucketRequestPayment(a..., b)
 
 """
@@ -1387,8 +1387,8 @@ Optional Parameters
   "ContentMD5": "The base64-encoded 128-bit MD5 digest of the data. You must use this header as a message integrity check to verify that the request body was not corrupted in transit. For more information, see RFC 1864."
 }
 """
-PutBucketTagging(Bucket, Tagging) = s3("PUT", "/{Bucket}?tagging")
-PutBucketTagging(Bucket, Tagging, args) = s3("PUT", "/{Bucket}?tagging", args)
+PutBucketTagging(Bucket, Tagging) = s3("PUT", "/$(Bucket)?tagging")
+PutBucketTagging(Bucket, Tagging, args) = s3("PUT", "/$(Bucket)?tagging", args)
 PutBucketTagging(a...; b...) = PutBucketTagging(a..., b)
 
 """
@@ -1408,8 +1408,8 @@ Optional Parameters
   "MFA": "The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device."
 }
 """
-PutBucketVersioning(Bucket, VersioningConfiguration) = s3("PUT", "/{Bucket}?versioning")
-PutBucketVersioning(Bucket, VersioningConfiguration, args) = s3("PUT", "/{Bucket}?versioning", args)
+PutBucketVersioning(Bucket, VersioningConfiguration) = s3("PUT", "/$(Bucket)?versioning")
+PutBucketVersioning(Bucket, VersioningConfiguration, args) = s3("PUT", "/$(Bucket)?versioning", args)
 PutBucketVersioning(a...; b...) = PutBucketVersioning(a..., b)
 
 """
@@ -1428,8 +1428,8 @@ Optional Parameters
   "ContentMD5": "The base64-encoded 128-bit MD5 digest of the data. You must use this header as a message integrity check to verify that the request body was not corrupted in transit. For more information, see RFC 1864."
 }
 """
-PutBucketWebsite(Bucket, WebsiteConfiguration) = s3("PUT", "/{Bucket}?website")
-PutBucketWebsite(Bucket, WebsiteConfiguration, args) = s3("PUT", "/{Bucket}?website", args)
+PutBucketWebsite(Bucket, WebsiteConfiguration) = s3("PUT", "/$(Bucket)?website")
+PutBucketWebsite(Bucket, WebsiteConfiguration, args) = s3("PUT", "/$(Bucket)?website", args)
 PutBucketWebsite(a...; b...) = PutBucketWebsite(a..., b)
 
 """
@@ -1475,8 +1475,8 @@ Optional Parameters
   "WebsiteRedirectLocation": "If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata. For information about object metadata, see Object Key and Metadata. In the following example, the request header sets the redirect to an object (anotherPage.html) in the same bucket:  x-amz-website-redirect-location: /anotherPage.html  In the following example, the request header sets the object redirect to another website:  x-amz-website-redirect-location: http://www.example.com/  For more information about website hosting in Amazon S3, see Hosting Websites on Amazon S3 and How to Configure Website Page Redirects. "
 }
 """
-PutObject(Bucket, Key) = s3("PUT", "/{Bucket}/{Key+}")
-PutObject(Bucket, Key, args) = s3("PUT", "/{Bucket}/{Key+}", args)
+PutObject(Bucket, Key) = s3("PUT", "/$(Bucket)/$(Key)")
+PutObject(Bucket, Key, args) = s3("PUT", "/$(Bucket)/$(Key)", args)
 PutObject(a...; b...) = PutObject(a..., b)
 
 """
@@ -1504,8 +1504,8 @@ Optional Parameters
   "VersionId": "VersionId used to reference a specific version of the object."
 }
 """
-PutObjectAcl(Bucket, Key) = s3("PUT", "/{Bucket}/{Key+}?acl")
-PutObjectAcl(Bucket, Key, args) = s3("PUT", "/{Bucket}/{Key+}?acl", args)
+PutObjectAcl(Bucket, Key) = s3("PUT", "/$(Bucket)/$(Key)?acl")
+PutObjectAcl(Bucket, Key, args) = s3("PUT", "/$(Bucket)/$(Key)?acl", args)
 PutObjectAcl(a...; b...) = PutObjectAcl(a..., b)
 
 """
@@ -1527,8 +1527,8 @@ Optional Parameters
   "VersionId": "The version ID of the object that you want to place a Legal Hold on."
 }
 """
-PutObjectLegalHold(Bucket, Key) = s3("PUT", "/{Bucket}/{Key+}?legal-hold")
-PutObjectLegalHold(Bucket, Key, args) = s3("PUT", "/{Bucket}/{Key+}?legal-hold", args)
+PutObjectLegalHold(Bucket, Key) = s3("PUT", "/$(Bucket)/$(Key)?legal-hold")
+PutObjectLegalHold(Bucket, Key, args) = s3("PUT", "/$(Bucket)/$(Key)?legal-hold", args)
 PutObjectLegalHold(a...; b...) = PutObjectLegalHold(a..., b)
 
 """
@@ -1549,8 +1549,8 @@ Optional Parameters
   "Token": "A token to allow Object Lock to be enabled for an existing bucket."
 }
 """
-PutObjectLockConfiguration(Bucket) = s3("PUT", "/{Bucket}?object-lock")
-PutObjectLockConfiguration(Bucket, args) = s3("PUT", "/{Bucket}?object-lock", args)
+PutObjectLockConfiguration(Bucket) = s3("PUT", "/$(Bucket)?object-lock")
+PutObjectLockConfiguration(Bucket, args) = s3("PUT", "/$(Bucket)?object-lock", args)
 PutObjectLockConfiguration(a...; b...) = PutObjectLockConfiguration(a..., b)
 
 """
@@ -1573,8 +1573,8 @@ Optional Parameters
   "VersionId": "The version ID for the object that you want to apply this Object Retention configuration to."
 }
 """
-PutObjectRetention(Bucket, Key) = s3("PUT", "/{Bucket}/{Key+}?retention")
-PutObjectRetention(Bucket, Key, args) = s3("PUT", "/{Bucket}/{Key+}?retention", args)
+PutObjectRetention(Bucket, Key) = s3("PUT", "/$(Bucket)/$(Key)?retention")
+PutObjectRetention(Bucket, Key, args) = s3("PUT", "/$(Bucket)/$(Key)?retention", args)
 PutObjectRetention(a...; b...) = PutObjectRetention(a..., b)
 
 """
@@ -1595,8 +1595,8 @@ Optional Parameters
   "VersionId": "The versionId of the object that the tag-set will be added to."
 }
 """
-PutObjectTagging(Bucket, Key, Tagging) = s3("PUT", "/{Bucket}/{Key+}?tagging")
-PutObjectTagging(Bucket, Key, Tagging, args) = s3("PUT", "/{Bucket}/{Key+}?tagging", args)
+PutObjectTagging(Bucket, Key, Tagging) = s3("PUT", "/$(Bucket)/$(Key)?tagging")
+PutObjectTagging(Bucket, Key, Tagging, args) = s3("PUT", "/$(Bucket)/$(Key)?tagging", args)
 PutObjectTagging(a...; b...) = PutObjectTagging(a..., b)
 
 """
@@ -1615,8 +1615,8 @@ Optional Parameters
   "ContentMD5": "The MD5 hash of the PutPublicAccessBlock request body. "
 }
 """
-PutPublicAccessBlock(Bucket, PublicAccessBlockConfiguration) = s3("PUT", "/{Bucket}?publicAccessBlock")
-PutPublicAccessBlock(Bucket, PublicAccessBlockConfiguration, args) = s3("PUT", "/{Bucket}?publicAccessBlock", args)
+PutPublicAccessBlock(Bucket, PublicAccessBlockConfiguration) = s3("PUT", "/$(Bucket)?publicAccessBlock")
+PutPublicAccessBlock(Bucket, PublicAccessBlockConfiguration, args) = s3("PUT", "/$(Bucket)?publicAccessBlock", args)
 PutPublicAccessBlock(a...; b...) = PutPublicAccessBlock(a..., b)
 
 """
@@ -1637,8 +1637,8 @@ Optional Parameters
   "VersionId": "VersionId used to reference a specific version of the object."
 }
 """
-RestoreObject(Bucket, Key) = s3("POST", "/{Bucket}/{Key+}?restore")
-RestoreObject(Bucket, Key, args) = s3("POST", "/{Bucket}/{Key+}?restore", args)
+RestoreObject(Bucket, Key) = s3("POST", "/$(Bucket)/$(Key)?restore")
+RestoreObject(Bucket, Key, args) = s3("POST", "/$(Bucket)/$(Key)?restore", args)
 RestoreObject(a...; b...) = RestoreObject(a..., b)
 
 """
@@ -1665,8 +1665,8 @@ Optional Parameters
   "ScanRange": "Specifies the byte range of the object to get the records from. A record is processed when its first byte is contained by the range. This parameter is optional, but when specified, it must not be empty. See RFC 2616, Section 14.35.1 about how to specify the start and end of the range.  ScanRangemay be used in the following ways:    &lt;scanrange&gt;&lt;start&gt;50&lt;/start&gt;&lt;end&gt;100&lt;/end&gt;&lt;/scanrange&gt; - process only the records starting between the bytes 50 and 100 (inclusive, counting from zero)    &lt;scanrange&gt;&lt;start&gt;50&lt;/start&gt;&lt;/scanrange&gt; - process only the records starting after the byte 50    &lt;scanrange&gt;&lt;end&gt;50&lt;/end&gt;&lt;/scanrange&gt; - process only the records within the last 50 bytes of the file.  "
 }
 """
-SelectObjectContent(Bucket, Expression, ExpressionType, InputSerialization, Key, OutputSerialization) = s3("POST", "/{Bucket}/{Key+}?select&select-type=2")
-SelectObjectContent(Bucket, Expression, ExpressionType, InputSerialization, Key, OutputSerialization, args) = s3("POST", "/{Bucket}/{Key+}?select&select-type=2", args)
+SelectObjectContent(Bucket, Expression, ExpressionType, InputSerialization, Key, OutputSerialization) = s3("POST", "/$(Bucket)/$(Key)?select&select-type=2")
+SelectObjectContent(Bucket, Expression, ExpressionType, InputSerialization, Key, OutputSerialization, args) = s3("POST", "/$(Bucket)/$(Key)?select&select-type=2", args)
 SelectObjectContent(a...; b...) = SelectObjectContent(a..., b)
 
 """
@@ -1693,8 +1693,8 @@ Optional Parameters
   "SSECustomerKeyMD5": "Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the encryption key was transmitted without error."
 }
 """
-UploadPart(Bucket, Key, PartNumber, UploadId) = s3("PUT", "/{Bucket}/{Key+}")
-UploadPart(Bucket, Key, PartNumber, UploadId, args) = s3("PUT", "/{Bucket}/{Key+}", args)
+UploadPart(Bucket, Key, PartNumber, UploadId) = s3("PUT", "/$(Bucket)/$(Key)")
+UploadPart(Bucket, Key, PartNumber, UploadId, args) = s3("PUT", "/$(Bucket)/$(Key)", args)
 UploadPart(a...; b...) = UploadPart(a..., b)
 
 """
@@ -1727,6 +1727,6 @@ Optional Parameters
   "SSECustomerKeyMD5": "Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the encryption key was transmitted without error."
 }
 """
-UploadPartCopy(Bucket, CopySource, Key, PartNumber, UploadId) = s3("PUT", "/{Bucket}/{Key+}")
-UploadPartCopy(Bucket, CopySource, Key, PartNumber, UploadId, args) = s3("PUT", "/{Bucket}/{Key+}", args)
+UploadPartCopy(Bucket, CopySource, Key, PartNumber, UploadId) = s3("PUT", "/$(Bucket)/$(Key)")
+UploadPartCopy(Bucket, CopySource, Key, PartNumber, UploadId, args) = s3("PUT", "/$(Bucket)/$(Key)", args)
 UploadPartCopy(a...; b...) = UploadPartCopy(a..., b)

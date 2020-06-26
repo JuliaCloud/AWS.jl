@@ -13,7 +13,9 @@ Required Parameters
   "messages": "The list of messages to be sent. Each message has format: '{ \"messageId\": \"string\", \"payload\": \"string\"}'. Note that the field names of message payloads (data) that you send to AWS IoT Analytics:   Must contain only alphanumeric characters and undescores (_); no other special characters are allowed.   Must begin with an alphabetic character or single underscore (_).   Cannot contain hyphens (-).   In regular expression terms: \"^[A-Za-z_]([A-Za-z0-9]*|[A-Za-z0-9][A-Za-z0-9_]*) \".    Cannot be greater than 255 characters.   Are case-insensitive. (Fields named \"foo\" and \"FOO\" in the same payload are considered duplicates.)   For example, {\"temp_01\": 29} or {\"_temp_01\": 29} are valid, but {\"temp-01\": 29}, {\"01_temp\": 29} or {\"__temp_01\": 29} are invalid in message payloads. "
 }
 """
-BatchPutMessage(args) = iotanalytics("POST", "/messages/batch", args)
+BatchPutMessage(channelName, messages) = iotanalytics("POST", "/messages/batch")
+BatchPutMessage(channelName, messages, args) = iotanalytics("POST", "/messages/batch", args)
+BatchPutMessage(a...; b...) = BatchPutMessage(a..., b)
 
 """
     CancelPipelineReprocessing()
@@ -26,7 +28,9 @@ Required Parameters
   "reprocessingId": "The ID of the reprocessing task (returned by \"StartPipelineReprocessing\")."
 }
 """
-CancelPipelineReprocessing(args) = iotanalytics("DELETE", "/pipelines/{pipelineName}/reprocessing/{reprocessingId}", args)
+CancelPipelineReprocessing(pipelineName, reprocessingId) = iotanalytics("DELETE", "/pipelines/$(pipelineName)/reprocessing/$(reprocessingId)")
+CancelPipelineReprocessing(pipelineName, reprocessingId, args) = iotanalytics("DELETE", "/pipelines/$(pipelineName)/reprocessing/$(reprocessingId)", args)
+CancelPipelineReprocessing(a...; b...) = CancelPipelineReprocessing(a..., b)
 
 """
     CreateChannel()
@@ -45,7 +49,9 @@ Optional Parameters
   "tags": "Metadata which can be used to manage the channel."
 }
 """
-CreateChannel(args) = iotanalytics("POST", "/channels", args)
+CreateChannel(channelName) = iotanalytics("POST", "/channels")
+CreateChannel(channelName, args) = iotanalytics("POST", "/channels", args)
+CreateChannel(a...; b...) = CreateChannel(a..., b)
 
 """
     CreateDataset()
@@ -67,7 +73,9 @@ Optional Parameters
   "versioningConfiguration": "[Optional] How many versions of data set contents are kept. If not specified or set to null, only the latest version plus the latest succeeded version (if they are different) are kept for the time period specified by the \"retentionPeriod\" parameter. (For more information, see https://docs.aws.amazon.com/iotanalytics/latest/userguide/getting-started.html#aws-iot-analytics-dataset-versions)"
 }
 """
-CreateDataset(args) = iotanalytics("POST", "/datasets", args)
+CreateDataset(actions, datasetName) = iotanalytics("POST", "/datasets")
+CreateDataset(actions, datasetName, args) = iotanalytics("POST", "/datasets", args)
+CreateDataset(a...; b...) = CreateDataset(a..., b)
 
 """
     CreateDatasetContent()
@@ -79,7 +87,9 @@ Required Parameters
   "datasetName": "The name of the data set."
 }
 """
-CreateDatasetContent(args) = iotanalytics("POST", "/datasets/{datasetName}/content", args)
+CreateDatasetContent(datasetName) = iotanalytics("POST", "/datasets/$(datasetName)/content")
+CreateDatasetContent(datasetName, args) = iotanalytics("POST", "/datasets/$(datasetName)/content", args)
+CreateDatasetContent(a...; b...) = CreateDatasetContent(a..., b)
 
 """
     CreateDatastore()
@@ -98,7 +108,9 @@ Optional Parameters
   "tags": "Metadata which can be used to manage the data store."
 }
 """
-CreateDatastore(args) = iotanalytics("POST", "/datastores", args)
+CreateDatastore(datastoreName) = iotanalytics("POST", "/datastores")
+CreateDatastore(datastoreName, args) = iotanalytics("POST", "/datastores", args)
+CreateDatastore(a...; b...) = CreateDatastore(a..., b)
 
 """
     CreatePipeline()
@@ -116,7 +128,9 @@ Optional Parameters
   "tags": "Metadata which can be used to manage the pipeline."
 }
 """
-CreatePipeline(args) = iotanalytics("POST", "/pipelines", args)
+CreatePipeline(pipelineActivities, pipelineName) = iotanalytics("POST", "/pipelines")
+CreatePipeline(pipelineActivities, pipelineName, args) = iotanalytics("POST", "/pipelines", args)
+CreatePipeline(a...; b...) = CreatePipeline(a..., b)
 
 """
     DeleteChannel()
@@ -128,7 +142,9 @@ Required Parameters
   "channelName": "The name of the channel to delete."
 }
 """
-DeleteChannel(args) = iotanalytics("DELETE", "/channels/{channelName}", args)
+DeleteChannel(channelName) = iotanalytics("DELETE", "/channels/$(channelName)")
+DeleteChannel(channelName, args) = iotanalytics("DELETE", "/channels/$(channelName)", args)
+DeleteChannel(a...; b...) = DeleteChannel(a..., b)
 
 """
     DeleteDataset()
@@ -140,7 +156,9 @@ Required Parameters
   "datasetName": "The name of the data set to delete."
 }
 """
-DeleteDataset(args) = iotanalytics("DELETE", "/datasets/{datasetName}", args)
+DeleteDataset(datasetName) = iotanalytics("DELETE", "/datasets/$(datasetName)")
+DeleteDataset(datasetName, args) = iotanalytics("DELETE", "/datasets/$(datasetName)", args)
+DeleteDataset(a...; b...) = DeleteDataset(a..., b)
 
 """
     DeleteDatasetContent()
@@ -157,7 +175,9 @@ Optional Parameters
   "versionId": "The version of the data set whose content is deleted. You can also use the strings \" LATEST\" or \" LATEST_SUCCEEDED\" to delete the latest or latest successfully completed data set. If not specified, \" LATEST_SUCCEEDED\" is the default."
 }
 """
-DeleteDatasetContent(args) = iotanalytics("DELETE", "/datasets/{datasetName}/content", args)
+DeleteDatasetContent(datasetName) = iotanalytics("DELETE", "/datasets/$(datasetName)/content")
+DeleteDatasetContent(datasetName, args) = iotanalytics("DELETE", "/datasets/$(datasetName)/content", args)
+DeleteDatasetContent(a...; b...) = DeleteDatasetContent(a..., b)
 
 """
     DeleteDatastore()
@@ -169,7 +189,9 @@ Required Parameters
   "datastoreName": "The name of the data store to delete."
 }
 """
-DeleteDatastore(args) = iotanalytics("DELETE", "/datastores/{datastoreName}", args)
+DeleteDatastore(datastoreName) = iotanalytics("DELETE", "/datastores/$(datastoreName)")
+DeleteDatastore(datastoreName, args) = iotanalytics("DELETE", "/datastores/$(datastoreName)", args)
+DeleteDatastore(a...; b...) = DeleteDatastore(a..., b)
 
 """
     DeletePipeline()
@@ -181,7 +203,9 @@ Required Parameters
   "pipelineName": "The name of the pipeline to delete."
 }
 """
-DeletePipeline(args) = iotanalytics("DELETE", "/pipelines/{pipelineName}", args)
+DeletePipeline(pipelineName) = iotanalytics("DELETE", "/pipelines/$(pipelineName)")
+DeletePipeline(pipelineName, args) = iotanalytics("DELETE", "/pipelines/$(pipelineName)", args)
+DeletePipeline(a...; b...) = DeletePipeline(a..., b)
 
 """
     DescribeChannel()
@@ -198,7 +222,9 @@ Optional Parameters
   "includeStatistics": "If true, additional statistical information about the channel is included in the response. This feature cannot be used with a channel whose S3 storage is customer-managed."
 }
 """
-DescribeChannel(args) = iotanalytics("GET", "/channels/{channelName}", args)
+DescribeChannel(channelName) = iotanalytics("GET", "/channels/$(channelName)")
+DescribeChannel(channelName, args) = iotanalytics("GET", "/channels/$(channelName)", args)
+DescribeChannel(a...; b...) = DescribeChannel(a..., b)
 
 """
     DescribeDataset()
@@ -210,7 +236,9 @@ Required Parameters
   "datasetName": "The name of the data set whose information is retrieved."
 }
 """
-DescribeDataset(args) = iotanalytics("GET", "/datasets/{datasetName}", args)
+DescribeDataset(datasetName) = iotanalytics("GET", "/datasets/$(datasetName)")
+DescribeDataset(datasetName, args) = iotanalytics("GET", "/datasets/$(datasetName)", args)
+DescribeDataset(a...; b...) = DescribeDataset(a..., b)
 
 """
     DescribeDatastore()
@@ -227,7 +255,9 @@ Optional Parameters
   "includeStatistics": "If true, additional statistical information about the data store is included in the response. This feature cannot be used with a data store whose S3 storage is customer-managed."
 }
 """
-DescribeDatastore(args) = iotanalytics("GET", "/datastores/{datastoreName}", args)
+DescribeDatastore(datastoreName) = iotanalytics("GET", "/datastores/$(datastoreName)")
+DescribeDatastore(datastoreName, args) = iotanalytics("GET", "/datastores/$(datastoreName)", args)
+DescribeDatastore(a...; b...) = DescribeDatastore(a..., b)
 
 """
     DescribeLoggingOptions()
@@ -236,6 +266,7 @@ Retrieves the current settings of the AWS IoT Analytics logging options.
 """
 DescribeLoggingOptions() = iotanalytics("GET", "/logging")
 DescribeLoggingOptions(args) = iotanalytics("GET", "/logging", args)
+DescribeLoggingOptions(a...; b...) = DescribeLoggingOptions(a..., b)
 
 """
     DescribePipeline()
@@ -247,7 +278,9 @@ Required Parameters
   "pipelineName": "The name of the pipeline whose information is retrieved."
 }
 """
-DescribePipeline(args) = iotanalytics("GET", "/pipelines/{pipelineName}", args)
+DescribePipeline(pipelineName) = iotanalytics("GET", "/pipelines/$(pipelineName)")
+DescribePipeline(pipelineName, args) = iotanalytics("GET", "/pipelines/$(pipelineName)", args)
+DescribePipeline(a...; b...) = DescribePipeline(a..., b)
 
 """
     GetDatasetContent()
@@ -264,7 +297,9 @@ Optional Parameters
   "versionId": "The version of the data set whose contents are retrieved. You can also use the strings \" LATEST\" or \" LATEST_SUCCEEDED\" to retrieve the contents of the latest or latest successfully completed data set. If not specified, \" LATEST_SUCCEEDED\" is the default."
 }
 """
-GetDatasetContent(args) = iotanalytics("GET", "/datasets/{datasetName}/content", args)
+GetDatasetContent(datasetName) = iotanalytics("GET", "/datasets/$(datasetName)/content")
+GetDatasetContent(datasetName, args) = iotanalytics("GET", "/datasets/$(datasetName)/content", args)
+GetDatasetContent(a...; b...) = GetDatasetContent(a..., b)
 
 """
     ListChannels()
@@ -279,6 +314,7 @@ Optional Parameters
 """
 ListChannels() = iotanalytics("GET", "/channels")
 ListChannels(args) = iotanalytics("GET", "/channels", args)
+ListChannels(a...; b...) = ListChannels(a..., b)
 
 """
     ListDatasetContents()
@@ -298,7 +334,9 @@ Optional Parameters
   "scheduledOnOrAfter": "A filter to limit results to those data set contents whose creation is scheduled on or after the given time. See the field triggers.schedule in the CreateDataset request. (timestamp)"
 }
 """
-ListDatasetContents(args) = iotanalytics("GET", "/datasets/{datasetName}/contents", args)
+ListDatasetContents(datasetName) = iotanalytics("GET", "/datasets/$(datasetName)/contents")
+ListDatasetContents(datasetName, args) = iotanalytics("GET", "/datasets/$(datasetName)/contents", args)
+ListDatasetContents(a...; b...) = ListDatasetContents(a..., b)
 
 """
     ListDatasets()
@@ -313,6 +351,7 @@ Optional Parameters
 """
 ListDatasets() = iotanalytics("GET", "/datasets")
 ListDatasets(args) = iotanalytics("GET", "/datasets", args)
+ListDatasets(a...; b...) = ListDatasets(a..., b)
 
 """
     ListDatastores()
@@ -327,6 +366,7 @@ Optional Parameters
 """
 ListDatastores() = iotanalytics("GET", "/datastores")
 ListDatastores(args) = iotanalytics("GET", "/datastores", args)
+ListDatastores(a...; b...) = ListDatastores(a..., b)
 
 """
     ListPipelines()
@@ -341,6 +381,7 @@ Optional Parameters
 """
 ListPipelines() = iotanalytics("GET", "/pipelines")
 ListPipelines(args) = iotanalytics("GET", "/pipelines", args)
+ListPipelines(a...; b...) = ListPipelines(a..., b)
 
 """
     ListTagsForResource()
@@ -352,7 +393,9 @@ Required Parameters
   "resourceArn": "The ARN of the resource whose tags you want to list."
 }
 """
-ListTagsForResource(args) = iotanalytics("GET", "/tags", args)
+ListTagsForResource(resourceArn) = iotanalytics("GET", "/tags")
+ListTagsForResource(resourceArn, args) = iotanalytics("GET", "/tags", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     PutLoggingOptions()
@@ -364,7 +407,9 @@ Required Parameters
   "loggingOptions": "The new values of the AWS IoT Analytics logging options."
 }
 """
-PutLoggingOptions(args) = iotanalytics("PUT", "/logging", args)
+PutLoggingOptions(loggingOptions) = iotanalytics("PUT", "/logging")
+PutLoggingOptions(loggingOptions, args) = iotanalytics("PUT", "/logging", args)
+PutLoggingOptions(a...; b...) = PutLoggingOptions(a..., b)
 
 """
     RunPipelineActivity()
@@ -377,7 +422,9 @@ Required Parameters
   "pipelineActivity": "The pipeline activity that is run. This must not be a 'channel' activity or a 'datastore' activity because these activities are used in a pipeline only to load the original message and to store the (possibly) transformed message. If a 'lambda' activity is specified, only short-running Lambda functions (those with a timeout of less than 30 seconds or less) can be used."
 }
 """
-RunPipelineActivity(args) = iotanalytics("POST", "/pipelineactivities/run", args)
+RunPipelineActivity(payloads, pipelineActivity) = iotanalytics("POST", "/pipelineactivities/run")
+RunPipelineActivity(payloads, pipelineActivity, args) = iotanalytics("POST", "/pipelineactivities/run", args)
+RunPipelineActivity(a...; b...) = RunPipelineActivity(a..., b)
 
 """
     SampleChannelData()
@@ -396,7 +443,9 @@ Optional Parameters
   "startTime": "The start of the time window from which sample messages are retrieved."
 }
 """
-SampleChannelData(args) = iotanalytics("GET", "/channels/{channelName}/sample", args)
+SampleChannelData(channelName) = iotanalytics("GET", "/channels/$(channelName)/sample")
+SampleChannelData(channelName, args) = iotanalytics("GET", "/channels/$(channelName)/sample", args)
+SampleChannelData(a...; b...) = SampleChannelData(a..., b)
 
 """
     StartPipelineReprocessing()
@@ -414,7 +463,9 @@ Optional Parameters
   "startTime": "The start time (inclusive) of raw message data that is reprocessed."
 }
 """
-StartPipelineReprocessing(args) = iotanalytics("POST", "/pipelines/{pipelineName}/reprocessing", args)
+StartPipelineReprocessing(pipelineName) = iotanalytics("POST", "/pipelines/$(pipelineName)/reprocessing")
+StartPipelineReprocessing(pipelineName, args) = iotanalytics("POST", "/pipelines/$(pipelineName)/reprocessing", args)
+StartPipelineReprocessing(a...; b...) = StartPipelineReprocessing(a..., b)
 
 """
     TagResource()
@@ -427,7 +478,9 @@ Required Parameters
   "tags": "The new or modified tags for the resource."
 }
 """
-TagResource(args) = iotanalytics("POST", "/tags", args)
+TagResource(resourceArn, tags) = iotanalytics("POST", "/tags")
+TagResource(resourceArn, tags, args) = iotanalytics("POST", "/tags", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
@@ -440,7 +493,9 @@ Required Parameters
   "tagKeys": "The keys of those tags which you want to remove."
 }
 """
-UntagResource(args) = iotanalytics("DELETE", "/tags", args)
+UntagResource(resourceArn, tagKeys) = iotanalytics("DELETE", "/tags")
+UntagResource(resourceArn, tagKeys, args) = iotanalytics("DELETE", "/tags", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateChannel()
@@ -458,7 +513,9 @@ Optional Parameters
   "retentionPeriod": "How long, in days, message data is kept for the channel. The retention period cannot be updated if the channel's S3 storage is customer-managed."
 }
 """
-UpdateChannel(args) = iotanalytics("PUT", "/channels/{channelName}", args)
+UpdateChannel(channelName) = iotanalytics("PUT", "/channels/$(channelName)")
+UpdateChannel(channelName, args) = iotanalytics("PUT", "/channels/$(channelName)", args)
+UpdateChannel(a...; b...) = UpdateChannel(a..., b)
 
 """
     UpdateDataset()
@@ -479,7 +536,9 @@ Optional Parameters
   "versioningConfiguration": "[Optional] How many versions of data set contents are kept. If not specified or set to null, only the latest version plus the latest succeeded version (if they are different) are kept for the time period specified by the \"retentionPeriod\" parameter. (For more information, see https://docs.aws.amazon.com/iotanalytics/latest/userguide/getting-started.html#aws-iot-analytics-dataset-versions)"
 }
 """
-UpdateDataset(args) = iotanalytics("PUT", "/datasets/{datasetName}", args)
+UpdateDataset(actions, datasetName) = iotanalytics("PUT", "/datasets/$(datasetName)")
+UpdateDataset(actions, datasetName, args) = iotanalytics("PUT", "/datasets/$(datasetName)", args)
+UpdateDataset(a...; b...) = UpdateDataset(a..., b)
 
 """
     UpdateDatastore()
@@ -497,7 +556,9 @@ Optional Parameters
   "retentionPeriod": "How long, in days, message data is kept for the data store. The retention period cannot be updated if the data store's S3 storage is customer-managed."
 }
 """
-UpdateDatastore(args) = iotanalytics("PUT", "/datastores/{datastoreName}", args)
+UpdateDatastore(datastoreName) = iotanalytics("PUT", "/datastores/$(datastoreName)")
+UpdateDatastore(datastoreName, args) = iotanalytics("PUT", "/datastores/$(datastoreName)", args)
+UpdateDatastore(a...; b...) = UpdateDatastore(a..., b)
 
 """
     UpdatePipeline()
@@ -510,4 +571,6 @@ Required Parameters
   "pipelineName": "The name of the pipeline to update."
 }
 """
-UpdatePipeline(args) = iotanalytics("PUT", "/pipelines/{pipelineName}", args)
+UpdatePipeline(pipelineActivities, pipelineName) = iotanalytics("PUT", "/pipelines/$(pipelineName)")
+UpdatePipeline(pipelineActivities, pipelineName, args) = iotanalytics("PUT", "/pipelines/$(pipelineName)", args)
+UpdatePipeline(a...; b...) = UpdatePipeline(a..., b)

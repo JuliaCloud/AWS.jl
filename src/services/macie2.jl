@@ -13,19 +13,9 @@ Required Parameters
   "masterAccount": "The AWS account ID for the account that sent the invitation."
 }
 """
-AcceptInvitation(args) = macie2("POST", "/invitations/accept", args)
-
-"""
-    ArchiveFindings()
-
- Archives one or more findings.
-
-Required Parameters
-{
-  "findingIds": "An array of strings that lists the unique identifiers for the findings to archive."
-}
-"""
-ArchiveFindings(args) = macie2("POST", "/findings/archive", args)
+AcceptInvitation(invitationId, masterAccount) = macie2("POST", "/invitations/accept")
+AcceptInvitation(invitationId, masterAccount, args) = macie2("POST", "/invitations/accept", args)
+AcceptInvitation(a...; b...) = AcceptInvitation(a..., b)
 
 """
     BatchGetCustomDataIdentifiers()
@@ -39,6 +29,7 @@ Optional Parameters
 """
 BatchGetCustomDataIdentifiers() = macie2("POST", "/custom-data-identifiers/get")
 BatchGetCustomDataIdentifiers(args) = macie2("POST", "/custom-data-identifiers/get", args)
+BatchGetCustomDataIdentifiers(a...; b...) = BatchGetCustomDataIdentifiers(a..., b)
 
 """
     CreateClassificationJob()
@@ -63,7 +54,9 @@ Optional Parameters
   "tags": "A map of key-value pairs that specifies the tags to associate with the job. A job can have a maximum of 50 tags. Each tag consists of a required tag key and an associated tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters."
 }
 """
-CreateClassificationJob(args) = macie2("POST", "/jobs", args)
+CreateClassificationJob(clientToken, jobType, name, s3JobDefinition) = macie2("POST", "/jobs")
+CreateClassificationJob(clientToken, jobType, name, s3JobDefinition, args) = macie2("POST", "/jobs", args)
+CreateClassificationJob(a...; b...) = CreateClassificationJob(a..., b)
 
 """
     CreateCustomDataIdentifier()
@@ -76,7 +69,7 @@ Optional Parameters
   "description": "A custom description of the custom data identifier. The description can contain up to 120 characters. We strongly recommend that you avoid including any sensitive data in the description of a custom data identifier. Other users of your account might be able to see the identifier's description, depending on the actions that they're allowed to perform in Amazon Macie.",
   "ignoreWords": "An array that lists specific character sequences (ignore words) to exclude from the results. If the text matched by the regular expression is the same as any string in this array, Amazon Macie ignores it. The array can contain as many as 10 ignore words. Each ignore word can contain 4 - 90 characters.",
   "keywords": "An array that lists specific character sequences (keywords), one of which must be within proximity (maximumMatchDistance) of the regular expression to match. The array can contain as many as 50 keywords. Each keyword can contain 4 - 90 characters.",
-  "maximumMatchDistance": "The maximum number of characters that can exist between text that matches the regex pattern and the character sequences specified by the keywords array. Macie includes or excludes a result based on the proximity of a keyword to text that matches the regex pattern. The distance can be 1 - 300 characters. The default value is 300.",
+  "maximumMatchDistance": "The maximum number of characters that can exist between text that matches the regex pattern and the character sequences specified by the keywords array. Macie includes or excludes a result based on the proximity of a keyword to text that matches the regex pattern. The distance can be 1 - 300 characters. The default value is 50.",
   "name": "A custom name for the custom data identifier. The name can contain as many as 120 characters. We strongly recommend that you avoid including any sensitive data in the name of a custom data identifier. Other users of your account might be able to see the identifier's name, depending on the actions that they're allowed to perform in Amazon Macie.",
   "regex": "The regular expression (regex) that defines the pattern to match. The expression can contain as many as 500 characters.",
   "tags": "A map of key-value pairs that specifies the tags to associate with the custom data identifier. A custom data identifier can have a maximum of 50 tags. Each tag consists of a required tag key and an associated tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters."
@@ -84,6 +77,7 @@ Optional Parameters
 """
 CreateCustomDataIdentifier() = macie2("POST", "/custom-data-identifiers")
 CreateCustomDataIdentifier(args) = macie2("POST", "/custom-data-identifiers", args)
+CreateCustomDataIdentifier(a...; b...) = CreateCustomDataIdentifier(a..., b)
 
 """
     CreateFindingsFilter()
@@ -92,7 +86,7 @@ Creates and defines the criteria and other settings for a findings filter.
 
 Required Parameters
 {
-  "action": "The action to perform on findings that meet the filter criteria (findingCriteria). Valid values are: ARCHIVE, automatically archive the findings; and, NOOP, don't perform any action on the findings.",
+  "action": "The action to perform on findings that meet the filter criteria (findingCriteria). Valid values are: ARCHIVE, suppress (automatically archive) the findings; and, NOOP, don't perform any action on the findings.",
   "findingCriteria": "The criteria to use to filter findings.",
   "name": "A custom name for the filter. The name must contain at least 3 characters and can contain as many as 64 characters. We strongly recommend that you avoid including any sensitive data in the name of a filter. Other users of your account might be able to see the filter's name, depending on the actions that they're allowed to perform in Amazon Macie."
 }
@@ -105,7 +99,9 @@ Optional Parameters
   "tags": "A map of key-value pairs that specifies the tags to associate with the filter. A findings filter can have a maximum of 50 tags. Each tag consists of a required tag key and an associated tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters."
 }
 """
-CreateFindingsFilter(args) = macie2("POST", "/findingsfilters", args)
+CreateFindingsFilter(action, findingCriteria, name) = macie2("POST", "/findingsfilters")
+CreateFindingsFilter(action, findingCriteria, name, args) = macie2("POST", "/findingsfilters", args)
+CreateFindingsFilter(a...; b...) = CreateFindingsFilter(a..., b)
 
 """
     CreateInvitations()
@@ -123,7 +119,9 @@ Optional Parameters
   "message": "A custom message to include in the invitation. Amazon Macie adds this message to the standard content that it sends for an invitation."
 }
 """
-CreateInvitations(args) = macie2("POST", "/invitations", args)
+CreateInvitations(accountIds) = macie2("POST", "/invitations")
+CreateInvitations(accountIds, args) = macie2("POST", "/invitations", args)
+CreateInvitations(a...; b...) = CreateInvitations(a..., b)
 
 """
     CreateMember()
@@ -140,7 +138,9 @@ Optional Parameters
   "tags": "A map of key-value pairs that specifies the tags to associate with the account in Amazon Macie. An account can have a maximum of 50 tags. Each tag consists of a required tag key and an associated tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters."
 }
 """
-CreateMember(args) = macie2("POST", "/members", args)
+CreateMember(account) = macie2("POST", "/members")
+CreateMember(account, args) = macie2("POST", "/members", args)
+CreateMember(a...; b...) = CreateMember(a..., b)
 
 """
     CreateSampleFindings()
@@ -154,6 +154,7 @@ Optional Parameters
 """
 CreateSampleFindings() = macie2("POST", "/findings/sample")
 CreateSampleFindings(args) = macie2("POST", "/findings/sample", args)
+CreateSampleFindings(a...; b...) = CreateSampleFindings(a..., b)
 
 """
     DeclineInvitations()
@@ -165,7 +166,9 @@ Required Parameters
   "accountIds": "An array that lists AWS account IDs, one for each account that sent an invitation to decline."
 }
 """
-DeclineInvitations(args) = macie2("POST", "/invitations/decline", args)
+DeclineInvitations(accountIds) = macie2("POST", "/invitations/decline")
+DeclineInvitations(accountIds, args) = macie2("POST", "/invitations/decline", args)
+DeclineInvitations(a...; b...) = DeclineInvitations(a..., b)
 
 """
     DeleteCustomDataIdentifier()
@@ -177,7 +180,9 @@ Required Parameters
   "id": "The unique identifier for the Amazon Macie resource or account that the request applies to."
 }
 """
-DeleteCustomDataIdentifier(args) = macie2("DELETE", "/custom-data-identifiers/{id}", args)
+DeleteCustomDataIdentifier(id) = macie2("DELETE", "/custom-data-identifiers/$(id)")
+DeleteCustomDataIdentifier(id, args) = macie2("DELETE", "/custom-data-identifiers/$(id)", args)
+DeleteCustomDataIdentifier(a...; b...) = DeleteCustomDataIdentifier(a..., b)
 
 """
     DeleteFindingsFilter()
@@ -189,7 +194,9 @@ Required Parameters
   "id": "The unique identifier for the Amazon Macie resource or account that the request applies to."
 }
 """
-DeleteFindingsFilter(args) = macie2("DELETE", "/findingsfilters/{id}", args)
+DeleteFindingsFilter(id) = macie2("DELETE", "/findingsfilters/$(id)")
+DeleteFindingsFilter(id, args) = macie2("DELETE", "/findingsfilters/$(id)", args)
+DeleteFindingsFilter(a...; b...) = DeleteFindingsFilter(a..., b)
 
 """
     DeleteInvitations()
@@ -201,7 +208,9 @@ Required Parameters
   "accountIds": "An array that lists AWS account IDs, one for each account that sent an invitation to delete."
 }
 """
-DeleteInvitations(args) = macie2("POST", "/invitations/delete", args)
+DeleteInvitations(accountIds) = macie2("POST", "/invitations/delete")
+DeleteInvitations(accountIds, args) = macie2("POST", "/invitations/delete", args)
+DeleteInvitations(a...; b...) = DeleteInvitations(a..., b)
 
 """
     DeleteMember()
@@ -213,7 +222,9 @@ Required Parameters
   "id": "The unique identifier for the Amazon Macie resource or account that the request applies to."
 }
 """
-DeleteMember(args) = macie2("DELETE", "/members/{id}", args)
+DeleteMember(id) = macie2("DELETE", "/members/$(id)")
+DeleteMember(id, args) = macie2("DELETE", "/members/$(id)", args)
+DeleteMember(a...; b...) = DeleteMember(a..., b)
 
 """
     DescribeBuckets()
@@ -230,6 +241,7 @@ Optional Parameters
 """
 DescribeBuckets() = macie2("POST", "/datasources/s3")
 DescribeBuckets(args) = macie2("POST", "/datasources/s3", args)
+DescribeBuckets(a...; b...) = DescribeBuckets(a..., b)
 
 """
     DescribeClassificationJob()
@@ -241,7 +253,9 @@ Required Parameters
   "jobId": "The unique identifier for the classification job."
 }
 """
-DescribeClassificationJob(args) = macie2("GET", "/jobs/{jobId}", args)
+DescribeClassificationJob(jobId) = macie2("GET", "/jobs/$(jobId)")
+DescribeClassificationJob(jobId, args) = macie2("GET", "/jobs/$(jobId)", args)
+DescribeClassificationJob(a...; b...) = DescribeClassificationJob(a..., b)
 
 """
     DescribeOrganizationConfiguration()
@@ -250,6 +264,7 @@ Retrieves information about the Amazon Macie configuration settings for an AWS o
 """
 DescribeOrganizationConfiguration() = macie2("GET", "/admin/configuration")
 DescribeOrganizationConfiguration(args) = macie2("GET", "/admin/configuration", args)
+DescribeOrganizationConfiguration(a...; b...) = DescribeOrganizationConfiguration(a..., b)
 
 """
     DisableMacie()
@@ -258,6 +273,7 @@ Disables an Amazon Macie account and deletes Macie resources for the account.
 """
 DisableMacie() = macie2("DELETE", "/macie")
 DisableMacie(args) = macie2("DELETE", "/macie", args)
+DisableMacie(a...; b...) = DisableMacie(a..., b)
 
 """
     DisableOrganizationAdminAccount()
@@ -269,7 +285,9 @@ Required Parameters
   "adminAccountId": "The AWS account ID of the delegated administrator account."
 }
 """
-DisableOrganizationAdminAccount(args) = macie2("DELETE", "/admin", args)
+DisableOrganizationAdminAccount(adminAccountId) = macie2("DELETE", "/admin")
+DisableOrganizationAdminAccount(adminAccountId, args) = macie2("DELETE", "/admin", args)
+DisableOrganizationAdminAccount(a...; b...) = DisableOrganizationAdminAccount(a..., b)
 
 """
     DisassociateFromMasterAccount()
@@ -278,6 +296,7 @@ Disassociates a member account from its Amazon Macie master account.
 """
 DisassociateFromMasterAccount() = macie2("POST", "/master/disassociate")
 DisassociateFromMasterAccount(args) = macie2("POST", "/master/disassociate", args)
+DisassociateFromMasterAccount(a...; b...) = DisassociateFromMasterAccount(a..., b)
 
 """
     DisassociateMember()
@@ -289,7 +308,9 @@ Required Parameters
   "id": "The unique identifier for the Amazon Macie resource or account that the request applies to."
 }
 """
-DisassociateMember(args) = macie2("POST", "/members/disassociate/{id}", args)
+DisassociateMember(id) = macie2("POST", "/members/disassociate/$(id)")
+DisassociateMember(id, args) = macie2("POST", "/members/disassociate/$(id)", args)
+DisassociateMember(a...; b...) = DisassociateMember(a..., b)
 
 """
     EnableMacie()
@@ -299,12 +320,13 @@ Enables Amazon Macie and specifies the configuration settings for a Macie accoun
 Optional Parameters
 {
   "clientToken": "A unique, case-sensitive token that you provide to ensure the idempotency of the request.",
-  "findingPublishingFrequency": "Specifies how often to publish findings for the account. This includes adding findings to AWS Security Hub and exporting finding events to Amazon CloudWatch.",
+  "findingPublishingFrequency": "Specifies how often to publish updates to policy findings for the account. This includes publishing updates to AWS Security Hub and Amazon EventBridge (formerly called Amazon CloudWatch Events).",
   "status": "Specifies the status for the account. To enable Amazon Macie and start all Amazon Macie activities for the account, set this value to ENABLED."
 }
 """
 EnableMacie() = macie2("POST", "/macie")
 EnableMacie(args) = macie2("POST", "/macie", args)
+EnableMacie(a...; b...) = EnableMacie(a..., b)
 
 """
     EnableOrganizationAdminAccount()
@@ -321,7 +343,9 @@ Optional Parameters
   "clientToken": "A unique, case-sensitive token that you provide to ensure the idempotency of the request."
 }
 """
-EnableOrganizationAdminAccount(args) = macie2("POST", "/admin", args)
+EnableOrganizationAdminAccount(adminAccountId) = macie2("POST", "/admin")
+EnableOrganizationAdminAccount(adminAccountId, args) = macie2("POST", "/admin", args)
+EnableOrganizationAdminAccount(a...; b...) = EnableOrganizationAdminAccount(a..., b)
 
 """
     GetBucketStatistics()
@@ -335,14 +359,16 @@ Optional Parameters
 """
 GetBucketStatistics() = macie2("POST", "/datasources/s3/statistics")
 GetBucketStatistics(args) = macie2("POST", "/datasources/s3/statistics", args)
+GetBucketStatistics(a...; b...) = GetBucketStatistics(a..., b)
 
 """
     GetClassificationExportConfiguration()
 
-Retrieves the configuration settings for exporting data classification results.
+Retrieves the configuration settings for storing data classification results.
 """
 GetClassificationExportConfiguration() = macie2("GET", "/classification-export-configuration")
 GetClassificationExportConfiguration(args) = macie2("GET", "/classification-export-configuration", args)
+GetClassificationExportConfiguration(a...; b...) = GetClassificationExportConfiguration(a..., b)
 
 """
     GetCustomDataIdentifier()
@@ -354,7 +380,9 @@ Required Parameters
   "id": "The unique identifier for the Amazon Macie resource or account that the request applies to."
 }
 """
-GetCustomDataIdentifier(args) = macie2("GET", "/custom-data-identifiers/{id}", args)
+GetCustomDataIdentifier(id) = macie2("GET", "/custom-data-identifiers/$(id)")
+GetCustomDataIdentifier(id, args) = macie2("GET", "/custom-data-identifiers/$(id)", args)
+GetCustomDataIdentifier(a...; b...) = GetCustomDataIdentifier(a..., b)
 
 """
     GetFindingStatistics()
@@ -373,7 +401,9 @@ Optional Parameters
   "sortCriteria": "The criteria to use to sort the query results."
 }
 """
-GetFindingStatistics(args) = macie2("POST", "/findings/statistics", args)
+GetFindingStatistics(groupBy) = macie2("POST", "/findings/statistics")
+GetFindingStatistics(groupBy, args) = macie2("POST", "/findings/statistics", args)
+GetFindingStatistics(a...; b...) = GetFindingStatistics(a..., b)
 
 """
     GetFindings()
@@ -390,7 +420,9 @@ Optional Parameters
   "sortCriteria": "The criteria for sorting the results of the request."
 }
 """
-GetFindings(args) = macie2("POST", "/findings/describe", args)
+GetFindings(findingIds) = macie2("POST", "/findings/describe")
+GetFindings(findingIds, args) = macie2("POST", "/findings/describe", args)
+GetFindings(a...; b...) = GetFindings(a..., b)
 
 """
     GetFindingsFilter()
@@ -402,7 +434,9 @@ Required Parameters
   "id": "The unique identifier for the Amazon Macie resource or account that the request applies to."
 }
 """
-GetFindingsFilter(args) = macie2("GET", "/findingsfilters/{id}", args)
+GetFindingsFilter(id) = macie2("GET", "/findingsfilters/$(id)")
+GetFindingsFilter(id, args) = macie2("GET", "/findingsfilters/$(id)", args)
+GetFindingsFilter(a...; b...) = GetFindingsFilter(a..., b)
 
 """
     GetInvitationsCount()
@@ -411,6 +445,7 @@ Retrieves the count of Amazon Macie membership invitations that were received by
 """
 GetInvitationsCount() = macie2("GET", "/invitations/count")
 GetInvitationsCount(args) = macie2("GET", "/invitations/count", args)
+GetInvitationsCount(a...; b...) = GetInvitationsCount(a..., b)
 
 """
     GetMacieSession()
@@ -419,6 +454,7 @@ Retrieves information about the current status and configuration settings for an
 """
 GetMacieSession() = macie2("GET", "/macie")
 GetMacieSession(args) = macie2("GET", "/macie", args)
+GetMacieSession(a...; b...) = GetMacieSession(a..., b)
 
 """
     GetMasterAccount()
@@ -427,6 +463,7 @@ Retrieves information about the Amazon Macie master account for an account.
 """
 GetMasterAccount() = macie2("GET", "/master")
 GetMasterAccount(args) = macie2("GET", "/master", args)
+GetMasterAccount(a...; b...) = GetMasterAccount(a..., b)
 
 """
     GetMember()
@@ -438,7 +475,9 @@ Required Parameters
   "id": "The unique identifier for the Amazon Macie resource or account that the request applies to."
 }
 """
-GetMember(args) = macie2("GET", "/members/{id}", args)
+GetMember(id) = macie2("GET", "/members/$(id)")
+GetMember(id, args) = macie2("GET", "/members/$(id)", args)
+GetMember(a...; b...) = GetMember(a..., b)
 
 """
     GetUsageStatistics()
@@ -455,6 +494,7 @@ Optional Parameters
 """
 GetUsageStatistics() = macie2("POST", "/usage/statistics")
 GetUsageStatistics(args) = macie2("POST", "/usage/statistics", args)
+GetUsageStatistics(a...; b...) = GetUsageStatistics(a..., b)
 
 """
     GetUsageTotals()
@@ -463,6 +503,7 @@ Retrieves (queries) aggregated usage data for an account.
 """
 GetUsageTotals() = macie2("GET", "/usage")
 GetUsageTotals(args) = macie2("GET", "/usage", args)
+GetUsageTotals(a...; b...) = GetUsageTotals(a..., b)
 
 """
     ListClassificationJobs()
@@ -479,6 +520,7 @@ Optional Parameters
 """
 ListClassificationJobs() = macie2("POST", "/jobs/list")
 ListClassificationJobs(args) = macie2("POST", "/jobs/list", args)
+ListClassificationJobs(a...; b...) = ListClassificationJobs(a..., b)
 
 """
     ListCustomDataIdentifiers()
@@ -493,6 +535,7 @@ Optional Parameters
 """
 ListCustomDataIdentifiers() = macie2("POST", "/custom-data-identifiers/list")
 ListCustomDataIdentifiers(args) = macie2("POST", "/custom-data-identifiers/list", args)
+ListCustomDataIdentifiers(a...; b...) = ListCustomDataIdentifiers(a..., b)
 
 """
     ListFindings()
@@ -509,6 +552,7 @@ Optional Parameters
 """
 ListFindings() = macie2("POST", "/findings")
 ListFindings(args) = macie2("POST", "/findings", args)
+ListFindings(a...; b...) = ListFindings(a..., b)
 
 """
     ListFindingsFilters()
@@ -523,6 +567,7 @@ Optional Parameters
 """
 ListFindingsFilters() = macie2("GET", "/findingsfilters")
 ListFindingsFilters(args) = macie2("GET", "/findingsfilters", args)
+ListFindingsFilters(a...; b...) = ListFindingsFilters(a..., b)
 
 """
     ListInvitations()
@@ -537,6 +582,7 @@ Optional Parameters
 """
 ListInvitations() = macie2("GET", "/invitations")
 ListInvitations(args) = macie2("GET", "/invitations", args)
+ListInvitations(a...; b...) = ListInvitations(a..., b)
 
 """
     ListMembers()
@@ -552,6 +598,7 @@ Optional Parameters
 """
 ListMembers() = macie2("GET", "/members")
 ListMembers(args) = macie2("GET", "/members", args)
+ListMembers(a...; b...) = ListMembers(a..., b)
 
 """
     ListOrganizationAdminAccounts()
@@ -566,6 +613,7 @@ Optional Parameters
 """
 ListOrganizationAdminAccounts() = macie2("GET", "/admin")
 ListOrganizationAdminAccounts(args) = macie2("GET", "/admin", args)
+ListOrganizationAdminAccounts(a...; b...) = ListOrganizationAdminAccounts(a..., b)
 
 """
     ListTagsForResource()
@@ -577,19 +625,23 @@ Required Parameters
   "resourceArn": "The Amazon Resource Name (ARN) of the classification job, custom data identifier, findings filter, or member account."
 }
 """
-ListTagsForResource(args) = macie2("GET", "/tags/{resourceArn}", args)
+ListTagsForResource(resourceArn) = macie2("GET", "/tags/$(resourceArn)")
+ListTagsForResource(resourceArn, args) = macie2("GET", "/tags/$(resourceArn)", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     PutClassificationExportConfiguration()
 
-Creates or updates the configuration settings for exporting data classification results.
+Creates or updates the configuration settings for storing data classification results.
 
 Required Parameters
 {
-  "configuration": "The location to export data classification results to, and the encryption settings to use when storing results in that location."
+  "configuration": "The location to store data classification results in, and the encryption settings to use when storing results in that location."
 }
 """
-PutClassificationExportConfiguration(args) = macie2("PUT", "/classification-export-configuration", args)
+PutClassificationExportConfiguration(configuration) = macie2("PUT", "/classification-export-configuration")
+PutClassificationExportConfiguration(configuration, args) = macie2("PUT", "/classification-export-configuration", args)
+PutClassificationExportConfiguration(a...; b...) = PutClassificationExportConfiguration(a..., b)
 
 """
     TagResource()
@@ -602,7 +654,9 @@ Required Parameters
   "tags": "A map of key-value pairs that specifies the tags to associate with the resource. A resource can have a maximum of 50 tags. Each tag consists of a required tag key and an associated tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters."
 }
 """
-TagResource(args) = macie2("POST", "/tags/{resourceArn}", args)
+TagResource(resourceArn, tags) = macie2("POST", "/tags/$(resourceArn)")
+TagResource(resourceArn, tags, args) = macie2("POST", "/tags/$(resourceArn)", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     TestCustomDataIdentifier()
@@ -619,22 +673,12 @@ Optional Parameters
 {
   "ignoreWords": "An array that lists specific character sequences (ignore words) to exclude from the results. If the text matched by the regular expression is the same as any string in this array, Amazon Macie ignores it. The array can contain as many as 10 ignore words. Each ignore word can contain 4 - 90 characters.",
   "keywords": "An array that lists specific character sequences (keywords), one of which must be within proximity (maximumMatchDistance) of the regular expression to match. The array can contain as many as 50 keywords. Each keyword can contain 4 - 90 characters.",
-  "maximumMatchDistance": "The maximum number of characters that can exist between text that matches the regex pattern and the character sequences specified by the keywords array. Macie includes or excludes a result based on the proximity of a keyword to text that matches the regex pattern. The distance can be 1 - 300 characters. The default value is 300."
+  "maximumMatchDistance": "The maximum number of characters that can exist between text that matches the regex pattern and the character sequences specified by the keywords array. Macie includes or excludes a result based on the proximity of a keyword to text that matches the regex pattern. The distance can be 1 - 300 characters. The default value is 50."
 }
 """
-TestCustomDataIdentifier(args) = macie2("POST", "/custom-data-identifiers/test", args)
-
-"""
-    UnarchiveFindings()
-
- Reactivates (unarchives) one or more findings.
-
-Required Parameters
-{
-  "findingIds": "An array of strings that lists the unique identifiers for the findings to reactivate."
-}
-"""
-UnarchiveFindings(args) = macie2("POST", "/findings/unarchive", args)
+TestCustomDataIdentifier(regex, sampleText) = macie2("POST", "/custom-data-identifiers/test")
+TestCustomDataIdentifier(regex, sampleText, args) = macie2("POST", "/custom-data-identifiers/test", args)
+TestCustomDataIdentifier(a...; b...) = TestCustomDataIdentifier(a..., b)
 
 """
     UntagResource()
@@ -647,7 +691,9 @@ Required Parameters
   "tagKeys": "The key of the tag to remove from the resource. To remove multiple tags, append the tagKeys parameter and argument for each additional tag to remove, separated by an ampersand (&amp;)."
 }
 """
-UntagResource(args) = macie2("DELETE", "/tags/{resourceArn}", args)
+UntagResource(resourceArn, tagKeys) = macie2("DELETE", "/tags/$(resourceArn)")
+UntagResource(resourceArn, tagKeys, args) = macie2("DELETE", "/tags/$(resourceArn)", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateClassificationJob()
@@ -660,7 +706,9 @@ Required Parameters
   "jobStatus": "The status to change the job's status to. The only supported value is CANCELLED, which cancels the job completely."
 }
 """
-UpdateClassificationJob(args) = macie2("PATCH", "/jobs/{jobId}", args)
+UpdateClassificationJob(jobId, jobStatus) = macie2("PATCH", "/jobs/$(jobId)")
+UpdateClassificationJob(jobId, jobStatus, args) = macie2("PATCH", "/jobs/$(jobId)", args)
+UpdateClassificationJob(a...; b...) = UpdateClassificationJob(a..., b)
 
 """
     UpdateFindingsFilter()
@@ -674,14 +722,16 @@ Required Parameters
 
 Optional Parameters
 {
-  "action": "The action to perform on findings that meet the filter criteria (findingCriteria). Valid values are: ARCHIVE, automatically archive the findings; and, NOOP, don't perform any action on the findings.",
+  "action": "The action to perform on findings that meet the filter criteria (findingCriteria). Valid values are: ARCHIVE, suppress (automatically archive) the findings; and, NOOP, don't perform any action on the findings.",
   "description": "A custom description of the filter. The description can contain as many as 512 characters. We strongly recommend that you avoid including any sensitive data in the description of a filter. Other users might be able to see the filter's description, depending on the actions that they're allowed to perform in Amazon Macie.",
   "findingCriteria": "The criteria to use to filter findings.",
   "name": "A custom name for the filter. The name must contain at least 3 characters and can contain as many as 64 characters. We strongly recommend that you avoid including any sensitive data in the name of a filter. Other users might be able to see the filter's name, depending on the actions that they're allowed to perform in Amazon Macie.",
   "position": "The position of the filter in the list of saved filters on the Amazon Macie console. This value also determines the order in which the filter is applied to findings, relative to other filters that are also applied to the findings."
 }
 """
-UpdateFindingsFilter(args) = macie2("PATCH", "/findingsfilters/{id}", args)
+UpdateFindingsFilter(id) = macie2("PATCH", "/findingsfilters/$(id)")
+UpdateFindingsFilter(id, args) = macie2("PATCH", "/findingsfilters/$(id)", args)
+UpdateFindingsFilter(a...; b...) = UpdateFindingsFilter(a..., b)
 
 """
     UpdateMacieSession()
@@ -690,12 +740,13 @@ Suspends or re-enables an Amazon Macie account, or updates the configuration set
 
 Optional Parameters
 {
-  "findingPublishingFrequency": "Specifies how often to publish findings for the account. This includes adding findings to AWS Security Hub and exporting finding events to Amazon CloudWatch.",
+  "findingPublishingFrequency": "Specifies how often to publish updates to policy findings for the account. This includes publishing updates to AWS Security Hub and Amazon EventBridge (formerly called Amazon CloudWatch Events).",
   "status": "Specifies whether to change the status of the account. Valid values are: ENABLED, resume all Amazon Macie activities for the account; and, PAUSED, suspend all Macie activities for the account."
 }
 """
 UpdateMacieSession() = macie2("PATCH", "/macie")
 UpdateMacieSession(args) = macie2("PATCH", "/macie", args)
+UpdateMacieSession(a...; b...) = UpdateMacieSession(a..., b)
 
 """
     UpdateMemberSession()
@@ -708,7 +759,9 @@ Required Parameters
   "status": "Specifies the new status for the account. Valid values are: ENABLED, resume all Amazon Macie activities for the account; and, PAUSED, suspend all Macie activities for the account."
 }
 """
-UpdateMemberSession(args) = macie2("PATCH", "/macie/members/{id}", args)
+UpdateMemberSession(id, status) = macie2("PATCH", "/macie/members/$(id)")
+UpdateMemberSession(id, status, args) = macie2("PATCH", "/macie/members/$(id)", args)
+UpdateMemberSession(a...; b...) = UpdateMemberSession(a..., b)
 
 """
     UpdateOrganizationConfiguration()
@@ -720,4 +773,6 @@ Required Parameters
   "autoEnable": "Specifies whether Amazon Macie is enabled automatically for each account, when the account is added to the AWS organization."
 }
 """
-UpdateOrganizationConfiguration(args) = macie2("PATCH", "/admin/configuration", args)
+UpdateOrganizationConfiguration(autoEnable) = macie2("PATCH", "/admin/configuration")
+UpdateOrganizationConfiguration(autoEnable, args) = macie2("PATCH", "/admin/configuration", args)
+UpdateOrganizationConfiguration(a...; b...) = UpdateOrganizationConfiguration(a..., b)

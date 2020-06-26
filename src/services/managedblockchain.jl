@@ -15,7 +15,9 @@ Required Parameters
   "NetworkId": "The unique identifier of the network in which the member is created."
 }
 """
-CreateMember(args) = managedblockchain("POST", "/networks/{networkId}/members", args)
+CreateMember(ClientRequestToken, InvitationId, MemberConfiguration, NetworkId) = managedblockchain("POST", "/networks/$(networkId)/members")
+CreateMember(ClientRequestToken, InvitationId, MemberConfiguration, NetworkId, args) = managedblockchain("POST", "/networks/$(networkId)/members", args)
+CreateMember(a...; b...) = CreateMember(a..., b)
 
 """
     CreateNetwork()
@@ -38,7 +40,9 @@ Optional Parameters
   "FrameworkConfiguration": " Configuration properties of the blockchain framework relevant to the network configuration. "
 }
 """
-CreateNetwork(args) = managedblockchain("POST", "/networks", args)
+CreateNetwork(ClientRequestToken, Framework, FrameworkVersion, MemberConfiguration, Name, VotingPolicy) = managedblockchain("POST", "/networks")
+CreateNetwork(ClientRequestToken, Framework, FrameworkVersion, MemberConfiguration, Name, VotingPolicy, args) = managedblockchain("POST", "/networks", args)
+CreateNetwork(a...; b...) = CreateNetwork(a..., b)
 
 """
     CreateNode()
@@ -53,7 +57,9 @@ Required Parameters
   "NodeConfiguration": "The properties of a node configuration."
 }
 """
-CreateNode(args) = managedblockchain("POST", "/networks/{networkId}/members/{memberId}/nodes", args)
+CreateNode(ClientRequestToken, MemberId, NetworkId, NodeConfiguration) = managedblockchain("POST", "/networks/$(networkId)/members/$(memberId)/nodes")
+CreateNode(ClientRequestToken, MemberId, NetworkId, NodeConfiguration, args) = managedblockchain("POST", "/networks/$(networkId)/members/$(memberId)/nodes", args)
+CreateNode(a...; b...) = CreateNode(a..., b)
 
 """
     CreateProposal()
@@ -73,7 +79,9 @@ Optional Parameters
   "Description": "A description for the proposal that is visible to voting members, for example, \"Proposal to add Example Corp. as member.\""
 }
 """
-CreateProposal(args) = managedblockchain("POST", "/networks/{networkId}/proposals", args)
+CreateProposal(Actions, ClientRequestToken, MemberId, NetworkId) = managedblockchain("POST", "/networks/$(networkId)/proposals")
+CreateProposal(Actions, ClientRequestToken, MemberId, NetworkId, args) = managedblockchain("POST", "/networks/$(networkId)/proposals", args)
+CreateProposal(a...; b...) = CreateProposal(a..., b)
 
 """
     DeleteMember()
@@ -86,7 +94,9 @@ Required Parameters
   "NetworkId": "The unique identifier of the network from which the member is removed."
 }
 """
-DeleteMember(args) = managedblockchain("DELETE", "/networks/{networkId}/members/{memberId}", args)
+DeleteMember(MemberId, NetworkId) = managedblockchain("DELETE", "/networks/$(networkId)/members/$(memberId)")
+DeleteMember(MemberId, NetworkId, args) = managedblockchain("DELETE", "/networks/$(networkId)/members/$(memberId)", args)
+DeleteMember(a...; b...) = DeleteMember(a..., b)
 
 """
     DeleteNode()
@@ -100,7 +110,9 @@ Required Parameters
   "NodeId": "The unique identifier of the node."
 }
 """
-DeleteNode(args) = managedblockchain("DELETE", "/networks/{networkId}/members/{memberId}/nodes/{nodeId}", args)
+DeleteNode(MemberId, NetworkId, NodeId) = managedblockchain("DELETE", "/networks/$(networkId)/members/$(memberId)/nodes/$(nodeId)")
+DeleteNode(MemberId, NetworkId, NodeId, args) = managedblockchain("DELETE", "/networks/$(networkId)/members/$(memberId)/nodes/$(nodeId)", args)
+DeleteNode(a...; b...) = DeleteNode(a..., b)
 
 """
     GetMember()
@@ -113,7 +125,9 @@ Required Parameters
   "NetworkId": "The unique identifier of the network to which the member belongs."
 }
 """
-GetMember(args) = managedblockchain("GET", "/networks/{networkId}/members/{memberId}", args)
+GetMember(MemberId, NetworkId) = managedblockchain("GET", "/networks/$(networkId)/members/$(memberId)")
+GetMember(MemberId, NetworkId, args) = managedblockchain("GET", "/networks/$(networkId)/members/$(memberId)", args)
+GetMember(a...; b...) = GetMember(a..., b)
 
 """
     GetNetwork()
@@ -125,7 +139,9 @@ Required Parameters
   "NetworkId": "The unique identifier of the network to get information about."
 }
 """
-GetNetwork(args) = managedblockchain("GET", "/networks/{networkId}", args)
+GetNetwork(NetworkId) = managedblockchain("GET", "/networks/$(networkId)")
+GetNetwork(NetworkId, args) = managedblockchain("GET", "/networks/$(networkId)", args)
+GetNetwork(a...; b...) = GetNetwork(a..., b)
 
 """
     GetNode()
@@ -139,7 +155,9 @@ Required Parameters
   "NodeId": "The unique identifier of the node."
 }
 """
-GetNode(args) = managedblockchain("GET", "/networks/{networkId}/members/{memberId}/nodes/{nodeId}", args)
+GetNode(MemberId, NetworkId, NodeId) = managedblockchain("GET", "/networks/$(networkId)/members/$(memberId)/nodes/$(nodeId)")
+GetNode(MemberId, NetworkId, NodeId, args) = managedblockchain("GET", "/networks/$(networkId)/members/$(memberId)/nodes/$(nodeId)", args)
+GetNode(a...; b...) = GetNode(a..., b)
 
 """
     GetProposal()
@@ -152,7 +170,9 @@ Required Parameters
   "ProposalId": "The unique identifier of the proposal."
 }
 """
-GetProposal(args) = managedblockchain("GET", "/networks/{networkId}/proposals/{proposalId}", args)
+GetProposal(NetworkId, ProposalId) = managedblockchain("GET", "/networks/$(networkId)/proposals/$(proposalId)")
+GetProposal(NetworkId, ProposalId, args) = managedblockchain("GET", "/networks/$(networkId)/proposals/$(proposalId)", args)
+GetProposal(a...; b...) = GetProposal(a..., b)
 
 """
     ListInvitations()
@@ -167,6 +187,7 @@ Optional Parameters
 """
 ListInvitations() = managedblockchain("GET", "/invitations")
 ListInvitations(args) = managedblockchain("GET", "/invitations", args)
+ListInvitations(a...; b...) = ListInvitations(a..., b)
 
 """
     ListMembers()
@@ -187,7 +208,9 @@ Optional Parameters
   "Status": "An optional status specifier. If provided, only members currently in this status are listed."
 }
 """
-ListMembers(args) = managedblockchain("GET", "/networks/{networkId}/members", args)
+ListMembers(NetworkId) = managedblockchain("GET", "/networks/$(networkId)/members")
+ListMembers(NetworkId, args) = managedblockchain("GET", "/networks/$(networkId)/members", args)
+ListMembers(a...; b...) = ListMembers(a..., b)
 
 """
     ListNetworks()
@@ -205,6 +228,7 @@ Optional Parameters
 """
 ListNetworks() = managedblockchain("GET", "/networks")
 ListNetworks(args) = managedblockchain("GET", "/networks", args)
+ListNetworks(a...; b...) = ListNetworks(a..., b)
 
 """
     ListNodes()
@@ -224,7 +248,9 @@ Optional Parameters
   "Status": "An optional status specifier. If provided, only nodes currently in this status are listed."
 }
 """
-ListNodes(args) = managedblockchain("GET", "/networks/{networkId}/members/{memberId}/nodes", args)
+ListNodes(MemberId, NetworkId) = managedblockchain("GET", "/networks/$(networkId)/members/$(memberId)/nodes")
+ListNodes(MemberId, NetworkId, args) = managedblockchain("GET", "/networks/$(networkId)/members/$(memberId)/nodes", args)
+ListNodes(a...; b...) = ListNodes(a..., b)
 
 """
     ListProposalVotes()
@@ -243,7 +269,9 @@ Optional Parameters
   "NextToken": " The pagination token that indicates the next set of results to retrieve. "
 }
 """
-ListProposalVotes(args) = managedblockchain("GET", "/networks/{networkId}/proposals/{proposalId}/votes", args)
+ListProposalVotes(NetworkId, ProposalId) = managedblockchain("GET", "/networks/$(networkId)/proposals/$(proposalId)/votes")
+ListProposalVotes(NetworkId, ProposalId, args) = managedblockchain("GET", "/networks/$(networkId)/proposals/$(proposalId)/votes", args)
+ListProposalVotes(a...; b...) = ListProposalVotes(a..., b)
 
 """
     ListProposals()
@@ -261,7 +289,9 @@ Optional Parameters
   "NextToken": " The pagination token that indicates the next set of results to retrieve. "
 }
 """
-ListProposals(args) = managedblockchain("GET", "/networks/{networkId}/proposals", args)
+ListProposals(NetworkId) = managedblockchain("GET", "/networks/$(networkId)/proposals")
+ListProposals(NetworkId, args) = managedblockchain("GET", "/networks/$(networkId)/proposals", args)
+ListProposals(a...; b...) = ListProposals(a..., b)
 
 """
     RejectInvitation()
@@ -273,7 +303,9 @@ Required Parameters
   "InvitationId": "The unique identifier of the invitation to reject."
 }
 """
-RejectInvitation(args) = managedblockchain("DELETE", "/invitations/{invitationId}", args)
+RejectInvitation(InvitationId) = managedblockchain("DELETE", "/invitations/$(invitationId)")
+RejectInvitation(InvitationId, args) = managedblockchain("DELETE", "/invitations/$(invitationId)", args)
+RejectInvitation(a...; b...) = RejectInvitation(a..., b)
 
 """
     UpdateMember()
@@ -291,7 +323,9 @@ Optional Parameters
   "LogPublishingConfiguration": "Configuration properties for publishing to Amazon CloudWatch Logs."
 }
 """
-UpdateMember(args) = managedblockchain("PATCH", "/networks/{networkId}/members/{memberId}", args)
+UpdateMember(MemberId, NetworkId) = managedblockchain("PATCH", "/networks/$(networkId)/members/$(memberId)")
+UpdateMember(MemberId, NetworkId, args) = managedblockchain("PATCH", "/networks/$(networkId)/members/$(memberId)", args)
+UpdateMember(a...; b...) = UpdateMember(a..., b)
 
 """
     UpdateNode()
@@ -310,7 +344,9 @@ Optional Parameters
   "LogPublishingConfiguration": "Configuration properties for publishing to Amazon CloudWatch Logs."
 }
 """
-UpdateNode(args) = managedblockchain("PATCH", "/networks/{networkId}/members/{memberId}/nodes/{nodeId}", args)
+UpdateNode(MemberId, NetworkId, NodeId) = managedblockchain("PATCH", "/networks/$(networkId)/members/$(memberId)/nodes/$(nodeId)")
+UpdateNode(MemberId, NetworkId, NodeId, args) = managedblockchain("PATCH", "/networks/$(networkId)/members/$(memberId)/nodes/$(nodeId)", args)
+UpdateNode(a...; b...) = UpdateNode(a..., b)
 
 """
     VoteOnProposal()
@@ -325,4 +361,6 @@ Required Parameters
   "VoterMemberId": "The unique identifier of the member casting the vote. "
 }
 """
-VoteOnProposal(args) = managedblockchain("POST", "/networks/{networkId}/proposals/{proposalId}/votes", args)
+VoteOnProposal(NetworkId, ProposalId, Vote, VoterMemberId) = managedblockchain("POST", "/networks/$(networkId)/proposals/$(proposalId)/votes")
+VoteOnProposal(NetworkId, ProposalId, Vote, VoterMemberId, args) = managedblockchain("POST", "/networks/$(networkId)/proposals/$(proposalId)/votes", args)
+VoteOnProposal(a...; b...) = VoteOnProposal(a..., b)

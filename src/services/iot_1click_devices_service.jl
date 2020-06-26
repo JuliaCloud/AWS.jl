@@ -13,7 +13,9 @@ Required Parameters
   "ClaimCode": "The claim code, starting with \"C-\", as provided by the device manufacturer."
 }
 """
-ClaimDevicesByClaimCode(args) = iot_1click_devices_service("PUT", "/claims/{claimCode}", args)
+ClaimDevicesByClaimCode(ClaimCode) = iot_1click_devices_service("PUT", "/claims/$(claimCode)")
+ClaimDevicesByClaimCode(ClaimCode, args) = iot_1click_devices_service("PUT", "/claims/$(claimCode)", args)
+ClaimDevicesByClaimCode(a...; b...) = ClaimDevicesByClaimCode(a..., b)
 
 """
     DescribeDevice()
@@ -26,7 +28,9 @@ Required Parameters
   "DeviceId": "The unique identifier of the device."
 }
 """
-DescribeDevice(args) = iot_1click_devices_service("GET", "/devices/{deviceId}", args)
+DescribeDevice(DeviceId) = iot_1click_devices_service("GET", "/devices/$(deviceId)")
+DescribeDevice(DeviceId, args) = iot_1click_devices_service("GET", "/devices/$(deviceId)", args)
+DescribeDevice(a...; b...) = DescribeDevice(a..., b)
 
 """
     FinalizeDeviceClaim()
@@ -47,7 +51,9 @@ Optional Parameters
   "Tags": "A collection of key/value pairs defining the resource tags. For example, {\n \"tags\": {\"key1\": \"value1\", \"key2\": \"value2\"} }. For more information, see AWS\n Tagging Strategies.\n \n "
 }
 """
-FinalizeDeviceClaim(args) = iot_1click_devices_service("PUT", "/devices/{deviceId}/finalize-claim", args)
+FinalizeDeviceClaim(DeviceId) = iot_1click_devices_service("PUT", "/devices/$(deviceId)/finalize-claim")
+FinalizeDeviceClaim(DeviceId, args) = iot_1click_devices_service("PUT", "/devices/$(deviceId)/finalize-claim", args)
+FinalizeDeviceClaim(a...; b...) = FinalizeDeviceClaim(a..., b)
 
 """
     GetDeviceMethods()
@@ -59,7 +65,9 @@ Required Parameters
   "DeviceId": "The unique identifier of the device."
 }
 """
-GetDeviceMethods(args) = iot_1click_devices_service("GET", "/devices/{deviceId}/methods", args)
+GetDeviceMethods(DeviceId) = iot_1click_devices_service("GET", "/devices/$(deviceId)/methods")
+GetDeviceMethods(DeviceId, args) = iot_1click_devices_service("GET", "/devices/$(deviceId)/methods", args)
+GetDeviceMethods(a...; b...) = GetDeviceMethods(a..., b)
 
 """
     InitiateDeviceClaim()
@@ -75,7 +83,9 @@ Required Parameters
   "DeviceId": "The unique identifier of the device."
 }
 """
-InitiateDeviceClaim(args) = iot_1click_devices_service("PUT", "/devices/{deviceId}/initiate-claim", args)
+InitiateDeviceClaim(DeviceId) = iot_1click_devices_service("PUT", "/devices/$(deviceId)/initiate-claim")
+InitiateDeviceClaim(DeviceId, args) = iot_1click_devices_service("PUT", "/devices/$(deviceId)/initiate-claim", args)
+InitiateDeviceClaim(a...; b...) = InitiateDeviceClaim(a..., b)
 
 """
     InvokeDeviceMethod()
@@ -94,7 +104,9 @@ Optional Parameters
   "DeviceMethodParameters": "A JSON encoded string containing the device method request parameters."
 }
 """
-InvokeDeviceMethod(args) = iot_1click_devices_service("POST", "/devices/{deviceId}/methods", args)
+InvokeDeviceMethod(DeviceId) = iot_1click_devices_service("POST", "/devices/$(deviceId)/methods")
+InvokeDeviceMethod(DeviceId, args) = iot_1click_devices_service("POST", "/devices/$(deviceId)/methods", args)
+InvokeDeviceMethod(a...; b...) = InvokeDeviceMethod(a..., b)
 
 """
     ListDeviceEvents()
@@ -115,7 +127,9 @@ Optional Parameters
   "NextToken": "The token to retrieve the next set of results."
 }
 """
-ListDeviceEvents(args) = iot_1click_devices_service("GET", "/devices/{deviceId}/events", args)
+ListDeviceEvents(DeviceId, FromTimeStamp, ToTimeStamp) = iot_1click_devices_service("GET", "/devices/$(deviceId)/events")
+ListDeviceEvents(DeviceId, FromTimeStamp, ToTimeStamp, args) = iot_1click_devices_service("GET", "/devices/$(deviceId)/events", args)
+ListDeviceEvents(a...; b...) = ListDeviceEvents(a..., b)
 
 """
     ListDevices()
@@ -131,6 +145,7 @@ Optional Parameters
 """
 ListDevices() = iot_1click_devices_service("GET", "/devices")
 ListDevices(args) = iot_1click_devices_service("GET", "/devices", args)
+ListDevices(a...; b...) = ListDevices(a..., b)
 
 """
     ListTagsForResource()
@@ -142,7 +157,9 @@ Required Parameters
   "ResourceArn": "The ARN of the resource."
 }
 """
-ListTagsForResource(args) = iot_1click_devices_service("GET", "/tags/{resource-arn}", args)
+ListTagsForResource(ResourceArn) = iot_1click_devices_service("GET", "/tags/$(resource-arn)")
+ListTagsForResource(ResourceArn, args) = iot_1click_devices_service("GET", "/tags/$(resource-arn)", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     TagResource()
@@ -156,7 +173,9 @@ Required Parameters
   "Tags": "A collection of key/value pairs defining the resource tags. For example, {\n \"tags\": {\"key1\": \"value1\", \"key2\": \"value2\"} }. For more information, see AWS\n Tagging Strategies.\n \n "
 }
 """
-TagResource(args) = iot_1click_devices_service("POST", "/tags/{resource-arn}", args)
+TagResource(ResourceArn, Tags) = iot_1click_devices_service("POST", "/tags/$(resource-arn)")
+TagResource(ResourceArn, Tags, args) = iot_1click_devices_service("POST", "/tags/$(resource-arn)", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UnclaimDevice()
@@ -168,7 +187,9 @@ Required Parameters
   "DeviceId": "The unique identifier of the device."
 }
 """
-UnclaimDevice(args) = iot_1click_devices_service("PUT", "/devices/{deviceId}/unclaim", args)
+UnclaimDevice(DeviceId) = iot_1click_devices_service("PUT", "/devices/$(deviceId)/unclaim")
+UnclaimDevice(DeviceId, args) = iot_1click_devices_service("PUT", "/devices/$(deviceId)/unclaim", args)
+UnclaimDevice(a...; b...) = UnclaimDevice(a..., b)
 
 """
     UntagResource()
@@ -182,7 +203,9 @@ Required Parameters
   "TagKeys": "A collections of tag keys. For example, {\"key1\",\"key2\"}"
 }
 """
-UntagResource(args) = iot_1click_devices_service("DELETE", "/tags/{resource-arn}", args)
+UntagResource(ResourceArn, TagKeys) = iot_1click_devices_service("DELETE", "/tags/$(resource-arn)")
+UntagResource(ResourceArn, TagKeys, args) = iot_1click_devices_service("DELETE", "/tags/$(resource-arn)", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateDeviceState()
@@ -200,4 +223,6 @@ Optional Parameters
   "Enabled": "If true, the device is enabled. If false, the device is\n disabled."
 }
 """
-UpdateDeviceState(args) = iot_1click_devices_service("PUT", "/devices/{deviceId}/state", args)
+UpdateDeviceState(DeviceId) = iot_1click_devices_service("PUT", "/devices/$(deviceId)/state")
+UpdateDeviceState(DeviceId, args) = iot_1click_devices_service("PUT", "/devices/$(deviceId)/state", args)
+UpdateDeviceState(a...; b...) = UpdateDeviceState(a..., b)

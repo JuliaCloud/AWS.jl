@@ -13,7 +13,9 @@ Required Parameters
   "RoleArn": "The ARN of the role you wish to associate with this group. The existence of the role is not validated."
 }
 """
-AssociateRoleToGroup(args) = greengrass("PUT", "/greengrass/groups/{GroupId}/role", args)
+AssociateRoleToGroup(GroupId, RoleArn) = greengrass("PUT", "/greengrass/groups/$(GroupId)/role")
+AssociateRoleToGroup(GroupId, RoleArn, args) = greengrass("PUT", "/greengrass/groups/$(GroupId)/role", args)
+AssociateRoleToGroup(a...; b...) = AssociateRoleToGroup(a..., b)
 
 """
     AssociateServiceRoleToAccount()
@@ -25,7 +27,9 @@ Required Parameters
   "RoleArn": "The ARN of the service role you wish to associate with your account."
 }
 """
-AssociateServiceRoleToAccount(args) = greengrass("PUT", "/greengrass/servicerole", args)
+AssociateServiceRoleToAccount(RoleArn) = greengrass("PUT", "/greengrass/servicerole")
+AssociateServiceRoleToAccount(RoleArn, args) = greengrass("PUT", "/greengrass/servicerole", args)
+AssociateServiceRoleToAccount(a...; b...) = AssociateServiceRoleToAccount(a..., b)
 
 """
     CreateConnectorDefinition()
@@ -42,6 +46,7 @@ Optional Parameters
 """
 CreateConnectorDefinition() = greengrass("POST", "/greengrass/definition/connectors")
 CreateConnectorDefinition(args) = greengrass("POST", "/greengrass/definition/connectors", args)
+CreateConnectorDefinition(a...; b...) = CreateConnectorDefinition(a..., b)
 
 """
     CreateConnectorDefinitionVersion()
@@ -59,7 +64,9 @@ Optional Parameters
   "Connectors": "A list of references to connectors in this version, with their corresponding configuration settings."
 }
 """
-CreateConnectorDefinitionVersion(args) = greengrass("POST", "/greengrass/definition/connectors/{ConnectorDefinitionId}/versions", args)
+CreateConnectorDefinitionVersion(ConnectorDefinitionId) = greengrass("POST", "/greengrass/definition/connectors/$(ConnectorDefinitionId)/versions")
+CreateConnectorDefinitionVersion(ConnectorDefinitionId, args) = greengrass("POST", "/greengrass/definition/connectors/$(ConnectorDefinitionId)/versions", args)
+CreateConnectorDefinitionVersion(a...; b...) = CreateConnectorDefinitionVersion(a..., b)
 
 """
     CreateCoreDefinition()
@@ -76,6 +83,7 @@ Optional Parameters
 """
 CreateCoreDefinition() = greengrass("POST", "/greengrass/definition/cores")
 CreateCoreDefinition(args) = greengrass("POST", "/greengrass/definition/cores", args)
+CreateCoreDefinition(a...; b...) = CreateCoreDefinition(a..., b)
 
 """
     CreateCoreDefinitionVersion()
@@ -93,7 +101,9 @@ Optional Parameters
   "Cores": "A list of cores in the core definition version."
 }
 """
-CreateCoreDefinitionVersion(args) = greengrass("POST", "/greengrass/definition/cores/{CoreDefinitionId}/versions", args)
+CreateCoreDefinitionVersion(CoreDefinitionId) = greengrass("POST", "/greengrass/definition/cores/$(CoreDefinitionId)/versions")
+CreateCoreDefinitionVersion(CoreDefinitionId, args) = greengrass("POST", "/greengrass/definition/cores/$(CoreDefinitionId)/versions", args)
+CreateCoreDefinitionVersion(a...; b...) = CreateCoreDefinitionVersion(a..., b)
 
 """
     CreateDeployment()
@@ -113,7 +123,9 @@ Optional Parameters
   "GroupVersionId": "The ID of the group version to be deployed."
 }
 """
-CreateDeployment(args) = greengrass("POST", "/greengrass/groups/{GroupId}/deployments", args)
+CreateDeployment(DeploymentType, GroupId) = greengrass("POST", "/greengrass/groups/$(GroupId)/deployments")
+CreateDeployment(DeploymentType, GroupId, args) = greengrass("POST", "/greengrass/groups/$(GroupId)/deployments", args)
+CreateDeployment(a...; b...) = CreateDeployment(a..., b)
 
 """
     CreateDeviceDefinition()
@@ -130,6 +142,7 @@ Optional Parameters
 """
 CreateDeviceDefinition() = greengrass("POST", "/greengrass/definition/devices")
 CreateDeviceDefinition(args) = greengrass("POST", "/greengrass/definition/devices", args)
+CreateDeviceDefinition(a...; b...) = CreateDeviceDefinition(a..., b)
 
 """
     CreateDeviceDefinitionVersion()
@@ -147,7 +160,9 @@ Optional Parameters
   "Devices": "A list of devices in the definition version."
 }
 """
-CreateDeviceDefinitionVersion(args) = greengrass("POST", "/greengrass/definition/devices/{DeviceDefinitionId}/versions", args)
+CreateDeviceDefinitionVersion(DeviceDefinitionId) = greengrass("POST", "/greengrass/definition/devices/$(DeviceDefinitionId)/versions")
+CreateDeviceDefinitionVersion(DeviceDefinitionId, args) = greengrass("POST", "/greengrass/definition/devices/$(DeviceDefinitionId)/versions", args)
+CreateDeviceDefinitionVersion(a...; b...) = CreateDeviceDefinitionVersion(a..., b)
 
 """
     CreateFunctionDefinition()
@@ -164,6 +179,7 @@ Optional Parameters
 """
 CreateFunctionDefinition() = greengrass("POST", "/greengrass/definition/functions")
 CreateFunctionDefinition(args) = greengrass("POST", "/greengrass/definition/functions", args)
+CreateFunctionDefinition(a...; b...) = CreateFunctionDefinition(a..., b)
 
 """
     CreateFunctionDefinitionVersion()
@@ -182,7 +198,9 @@ Optional Parameters
   "Functions": "A list of Lambda functions in this function definition version."
 }
 """
-CreateFunctionDefinitionVersion(args) = greengrass("POST", "/greengrass/definition/functions/{FunctionDefinitionId}/versions", args)
+CreateFunctionDefinitionVersion(FunctionDefinitionId) = greengrass("POST", "/greengrass/definition/functions/$(FunctionDefinitionId)/versions")
+CreateFunctionDefinitionVersion(FunctionDefinitionId, args) = greengrass("POST", "/greengrass/definition/functions/$(FunctionDefinitionId)/versions", args)
+CreateFunctionDefinitionVersion(a...; b...) = CreateFunctionDefinitionVersion(a..., b)
 
 """
     CreateGroup()
@@ -199,6 +217,7 @@ Optional Parameters
 """
 CreateGroup() = greengrass("POST", "/greengrass/groups")
 CreateGroup(args) = greengrass("POST", "/greengrass/groups", args)
+CreateGroup(a...; b...) = CreateGroup(a..., b)
 
 """
     CreateGroupCertificateAuthority()
@@ -215,7 +234,9 @@ Optional Parameters
   "AmznClientToken": "A client token used to correlate requests and responses."
 }
 """
-CreateGroupCertificateAuthority(args) = greengrass("POST", "/greengrass/groups/{GroupId}/certificateauthorities", args)
+CreateGroupCertificateAuthority(GroupId) = greengrass("POST", "/greengrass/groups/$(GroupId)/certificateauthorities")
+CreateGroupCertificateAuthority(GroupId, args) = greengrass("POST", "/greengrass/groups/$(GroupId)/certificateauthorities", args)
+CreateGroupCertificateAuthority(a...; b...) = CreateGroupCertificateAuthority(a..., b)
 
 """
     CreateGroupVersion()
@@ -239,7 +260,9 @@ Optional Parameters
   "SubscriptionDefinitionVersionArn": "The ARN of the subscription definition version for this group."
 }
 """
-CreateGroupVersion(args) = greengrass("POST", "/greengrass/groups/{GroupId}/versions", args)
+CreateGroupVersion(GroupId) = greengrass("POST", "/greengrass/groups/$(GroupId)/versions")
+CreateGroupVersion(GroupId, args) = greengrass("POST", "/greengrass/groups/$(GroupId)/versions", args)
+CreateGroupVersion(a...; b...) = CreateGroupVersion(a..., b)
 
 """
     CreateLoggerDefinition()
@@ -256,6 +279,7 @@ Optional Parameters
 """
 CreateLoggerDefinition() = greengrass("POST", "/greengrass/definition/loggers")
 CreateLoggerDefinition(args) = greengrass("POST", "/greengrass/definition/loggers", args)
+CreateLoggerDefinition(a...; b...) = CreateLoggerDefinition(a..., b)
 
 """
     CreateLoggerDefinitionVersion()
@@ -273,7 +297,9 @@ Optional Parameters
   "Loggers": "A list of loggers."
 }
 """
-CreateLoggerDefinitionVersion(args) = greengrass("POST", "/greengrass/definition/loggers/{LoggerDefinitionId}/versions", args)
+CreateLoggerDefinitionVersion(LoggerDefinitionId) = greengrass("POST", "/greengrass/definition/loggers/$(LoggerDefinitionId)/versions")
+CreateLoggerDefinitionVersion(LoggerDefinitionId, args) = greengrass("POST", "/greengrass/definition/loggers/$(LoggerDefinitionId)/versions", args)
+CreateLoggerDefinitionVersion(a...; b...) = CreateLoggerDefinitionVersion(a..., b)
 
 """
     CreateResourceDefinition()
@@ -290,6 +316,7 @@ Optional Parameters
 """
 CreateResourceDefinition() = greengrass("POST", "/greengrass/definition/resources")
 CreateResourceDefinition(args) = greengrass("POST", "/greengrass/definition/resources", args)
+CreateResourceDefinition(a...; b...) = CreateResourceDefinition(a..., b)
 
 """
     CreateResourceDefinitionVersion()
@@ -307,7 +334,9 @@ Optional Parameters
   "Resources": "A list of resources."
 }
 """
-CreateResourceDefinitionVersion(args) = greengrass("POST", "/greengrass/definition/resources/{ResourceDefinitionId}/versions", args)
+CreateResourceDefinitionVersion(ResourceDefinitionId) = greengrass("POST", "/greengrass/definition/resources/$(ResourceDefinitionId)/versions")
+CreateResourceDefinitionVersion(ResourceDefinitionId, args) = greengrass("POST", "/greengrass/definition/resources/$(ResourceDefinitionId)/versions", args)
+CreateResourceDefinitionVersion(a...; b...) = CreateResourceDefinitionVersion(a..., b)
 
 """
     CreateSoftwareUpdateJob()
@@ -329,7 +358,9 @@ Optional Parameters
   "UpdateAgentLogLevel": ""
 }
 """
-CreateSoftwareUpdateJob(args) = greengrass("POST", "/greengrass/updates", args)
+CreateSoftwareUpdateJob(S3UrlSignerRole, SoftwareToUpdate, UpdateTargets, UpdateTargetsArchitecture, UpdateTargetsOperatingSystem) = greengrass("POST", "/greengrass/updates")
+CreateSoftwareUpdateJob(S3UrlSignerRole, SoftwareToUpdate, UpdateTargets, UpdateTargetsArchitecture, UpdateTargetsOperatingSystem, args) = greengrass("POST", "/greengrass/updates", args)
+CreateSoftwareUpdateJob(a...; b...) = CreateSoftwareUpdateJob(a..., b)
 
 """
     CreateSubscriptionDefinition()
@@ -346,6 +377,7 @@ Optional Parameters
 """
 CreateSubscriptionDefinition() = greengrass("POST", "/greengrass/definition/subscriptions")
 CreateSubscriptionDefinition(args) = greengrass("POST", "/greengrass/definition/subscriptions", args)
+CreateSubscriptionDefinition(a...; b...) = CreateSubscriptionDefinition(a..., b)
 
 """
     CreateSubscriptionDefinitionVersion()
@@ -363,7 +395,9 @@ Optional Parameters
   "Subscriptions": "A list of subscriptions."
 }
 """
-CreateSubscriptionDefinitionVersion(args) = greengrass("POST", "/greengrass/definition/subscriptions/{SubscriptionDefinitionId}/versions", args)
+CreateSubscriptionDefinitionVersion(SubscriptionDefinitionId) = greengrass("POST", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)/versions")
+CreateSubscriptionDefinitionVersion(SubscriptionDefinitionId, args) = greengrass("POST", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)/versions", args)
+CreateSubscriptionDefinitionVersion(a...; b...) = CreateSubscriptionDefinitionVersion(a..., b)
 
 """
     DeleteConnectorDefinition()
@@ -375,7 +409,9 @@ Required Parameters
   "ConnectorDefinitionId": "The ID of the connector definition."
 }
 """
-DeleteConnectorDefinition(args) = greengrass("DELETE", "/greengrass/definition/connectors/{ConnectorDefinitionId}", args)
+DeleteConnectorDefinition(ConnectorDefinitionId) = greengrass("DELETE", "/greengrass/definition/connectors/$(ConnectorDefinitionId)")
+DeleteConnectorDefinition(ConnectorDefinitionId, args) = greengrass("DELETE", "/greengrass/definition/connectors/$(ConnectorDefinitionId)", args)
+DeleteConnectorDefinition(a...; b...) = DeleteConnectorDefinition(a..., b)
 
 """
     DeleteCoreDefinition()
@@ -387,7 +423,9 @@ Required Parameters
   "CoreDefinitionId": "The ID of the core definition."
 }
 """
-DeleteCoreDefinition(args) = greengrass("DELETE", "/greengrass/definition/cores/{CoreDefinitionId}", args)
+DeleteCoreDefinition(CoreDefinitionId) = greengrass("DELETE", "/greengrass/definition/cores/$(CoreDefinitionId)")
+DeleteCoreDefinition(CoreDefinitionId, args) = greengrass("DELETE", "/greengrass/definition/cores/$(CoreDefinitionId)", args)
+DeleteCoreDefinition(a...; b...) = DeleteCoreDefinition(a..., b)
 
 """
     DeleteDeviceDefinition()
@@ -399,7 +437,9 @@ Required Parameters
   "DeviceDefinitionId": "The ID of the device definition."
 }
 """
-DeleteDeviceDefinition(args) = greengrass("DELETE", "/greengrass/definition/devices/{DeviceDefinitionId}", args)
+DeleteDeviceDefinition(DeviceDefinitionId) = greengrass("DELETE", "/greengrass/definition/devices/$(DeviceDefinitionId)")
+DeleteDeviceDefinition(DeviceDefinitionId, args) = greengrass("DELETE", "/greengrass/definition/devices/$(DeviceDefinitionId)", args)
+DeleteDeviceDefinition(a...; b...) = DeleteDeviceDefinition(a..., b)
 
 """
     DeleteFunctionDefinition()
@@ -411,7 +451,9 @@ Required Parameters
   "FunctionDefinitionId": "The ID of the Lambda function definition."
 }
 """
-DeleteFunctionDefinition(args) = greengrass("DELETE", "/greengrass/definition/functions/{FunctionDefinitionId}", args)
+DeleteFunctionDefinition(FunctionDefinitionId) = greengrass("DELETE", "/greengrass/definition/functions/$(FunctionDefinitionId)")
+DeleteFunctionDefinition(FunctionDefinitionId, args) = greengrass("DELETE", "/greengrass/definition/functions/$(FunctionDefinitionId)", args)
+DeleteFunctionDefinition(a...; b...) = DeleteFunctionDefinition(a..., b)
 
 """
     DeleteGroup()
@@ -423,7 +465,9 @@ Required Parameters
   "GroupId": "The ID of the Greengrass group."
 }
 """
-DeleteGroup(args) = greengrass("DELETE", "/greengrass/groups/{GroupId}", args)
+DeleteGroup(GroupId) = greengrass("DELETE", "/greengrass/groups/$(GroupId)")
+DeleteGroup(GroupId, args) = greengrass("DELETE", "/greengrass/groups/$(GroupId)", args)
+DeleteGroup(a...; b...) = DeleteGroup(a..., b)
 
 """
     DeleteLoggerDefinition()
@@ -435,7 +479,9 @@ Required Parameters
   "LoggerDefinitionId": "The ID of the logger definition."
 }
 """
-DeleteLoggerDefinition(args) = greengrass("DELETE", "/greengrass/definition/loggers/{LoggerDefinitionId}", args)
+DeleteLoggerDefinition(LoggerDefinitionId) = greengrass("DELETE", "/greengrass/definition/loggers/$(LoggerDefinitionId)")
+DeleteLoggerDefinition(LoggerDefinitionId, args) = greengrass("DELETE", "/greengrass/definition/loggers/$(LoggerDefinitionId)", args)
+DeleteLoggerDefinition(a...; b...) = DeleteLoggerDefinition(a..., b)
 
 """
     DeleteResourceDefinition()
@@ -447,7 +493,9 @@ Required Parameters
   "ResourceDefinitionId": "The ID of the resource definition."
 }
 """
-DeleteResourceDefinition(args) = greengrass("DELETE", "/greengrass/definition/resources/{ResourceDefinitionId}", args)
+DeleteResourceDefinition(ResourceDefinitionId) = greengrass("DELETE", "/greengrass/definition/resources/$(ResourceDefinitionId)")
+DeleteResourceDefinition(ResourceDefinitionId, args) = greengrass("DELETE", "/greengrass/definition/resources/$(ResourceDefinitionId)", args)
+DeleteResourceDefinition(a...; b...) = DeleteResourceDefinition(a..., b)
 
 """
     DeleteSubscriptionDefinition()
@@ -459,7 +507,9 @@ Required Parameters
   "SubscriptionDefinitionId": "The ID of the subscription definition."
 }
 """
-DeleteSubscriptionDefinition(args) = greengrass("DELETE", "/greengrass/definition/subscriptions/{SubscriptionDefinitionId}", args)
+DeleteSubscriptionDefinition(SubscriptionDefinitionId) = greengrass("DELETE", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)")
+DeleteSubscriptionDefinition(SubscriptionDefinitionId, args) = greengrass("DELETE", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)", args)
+DeleteSubscriptionDefinition(a...; b...) = DeleteSubscriptionDefinition(a..., b)
 
 """
     DisassociateRoleFromGroup()
@@ -471,7 +521,9 @@ Required Parameters
   "GroupId": "The ID of the Greengrass group."
 }
 """
-DisassociateRoleFromGroup(args) = greengrass("DELETE", "/greengrass/groups/{GroupId}/role", args)
+DisassociateRoleFromGroup(GroupId) = greengrass("DELETE", "/greengrass/groups/$(GroupId)/role")
+DisassociateRoleFromGroup(GroupId, args) = greengrass("DELETE", "/greengrass/groups/$(GroupId)/role", args)
+DisassociateRoleFromGroup(a...; b...) = DisassociateRoleFromGroup(a..., b)
 
 """
     DisassociateServiceRoleFromAccount()
@@ -480,6 +532,7 @@ Disassociates the service role from your account. Without a service role, deploy
 """
 DisassociateServiceRoleFromAccount() = greengrass("DELETE", "/greengrass/servicerole")
 DisassociateServiceRoleFromAccount(args) = greengrass("DELETE", "/greengrass/servicerole", args)
+DisassociateServiceRoleFromAccount(a...; b...) = DisassociateServiceRoleFromAccount(a..., b)
 
 """
     GetAssociatedRole()
@@ -491,7 +544,9 @@ Required Parameters
   "GroupId": "The ID of the Greengrass group."
 }
 """
-GetAssociatedRole(args) = greengrass("GET", "/greengrass/groups/{GroupId}/role", args)
+GetAssociatedRole(GroupId) = greengrass("GET", "/greengrass/groups/$(GroupId)/role")
+GetAssociatedRole(GroupId, args) = greengrass("GET", "/greengrass/groups/$(GroupId)/role", args)
+GetAssociatedRole(a...; b...) = GetAssociatedRole(a..., b)
 
 """
     GetBulkDeploymentStatus()
@@ -503,7 +558,9 @@ Required Parameters
   "BulkDeploymentId": "The ID of the bulk deployment."
 }
 """
-GetBulkDeploymentStatus(args) = greengrass("GET", "/greengrass/bulk/deployments/{BulkDeploymentId}/status", args)
+GetBulkDeploymentStatus(BulkDeploymentId) = greengrass("GET", "/greengrass/bulk/deployments/$(BulkDeploymentId)/status")
+GetBulkDeploymentStatus(BulkDeploymentId, args) = greengrass("GET", "/greengrass/bulk/deployments/$(BulkDeploymentId)/status", args)
+GetBulkDeploymentStatus(a...; b...) = GetBulkDeploymentStatus(a..., b)
 
 """
     GetConnectivityInfo()
@@ -515,7 +572,9 @@ Required Parameters
   "ThingName": "The thing name."
 }
 """
-GetConnectivityInfo(args) = greengrass("GET", "/greengrass/things/{ThingName}/connectivityInfo", args)
+GetConnectivityInfo(ThingName) = greengrass("GET", "/greengrass/things/$(ThingName)/connectivityInfo")
+GetConnectivityInfo(ThingName, args) = greengrass("GET", "/greengrass/things/$(ThingName)/connectivityInfo", args)
+GetConnectivityInfo(a...; b...) = GetConnectivityInfo(a..., b)
 
 """
     GetConnectorDefinition()
@@ -527,7 +586,9 @@ Required Parameters
   "ConnectorDefinitionId": "The ID of the connector definition."
 }
 """
-GetConnectorDefinition(args) = greengrass("GET", "/greengrass/definition/connectors/{ConnectorDefinitionId}", args)
+GetConnectorDefinition(ConnectorDefinitionId) = greengrass("GET", "/greengrass/definition/connectors/$(ConnectorDefinitionId)")
+GetConnectorDefinition(ConnectorDefinitionId, args) = greengrass("GET", "/greengrass/definition/connectors/$(ConnectorDefinitionId)", args)
+GetConnectorDefinition(a...; b...) = GetConnectorDefinition(a..., b)
 
 """
     GetConnectorDefinitionVersion()
@@ -545,7 +606,9 @@ Optional Parameters
   "NextToken": "The token for the next set of results, or ''null'' if there are no additional results."
 }
 """
-GetConnectorDefinitionVersion(args) = greengrass("GET", "/greengrass/definition/connectors/{ConnectorDefinitionId}/versions/{ConnectorDefinitionVersionId}", args)
+GetConnectorDefinitionVersion(ConnectorDefinitionId, ConnectorDefinitionVersionId) = greengrass("GET", "/greengrass/definition/connectors/$(ConnectorDefinitionId)/versions/$(ConnectorDefinitionVersionId)")
+GetConnectorDefinitionVersion(ConnectorDefinitionId, ConnectorDefinitionVersionId, args) = greengrass("GET", "/greengrass/definition/connectors/$(ConnectorDefinitionId)/versions/$(ConnectorDefinitionVersionId)", args)
+GetConnectorDefinitionVersion(a...; b...) = GetConnectorDefinitionVersion(a..., b)
 
 """
     GetCoreDefinition()
@@ -557,7 +620,9 @@ Required Parameters
   "CoreDefinitionId": "The ID of the core definition."
 }
 """
-GetCoreDefinition(args) = greengrass("GET", "/greengrass/definition/cores/{CoreDefinitionId}", args)
+GetCoreDefinition(CoreDefinitionId) = greengrass("GET", "/greengrass/definition/cores/$(CoreDefinitionId)")
+GetCoreDefinition(CoreDefinitionId, args) = greengrass("GET", "/greengrass/definition/cores/$(CoreDefinitionId)", args)
+GetCoreDefinition(a...; b...) = GetCoreDefinition(a..., b)
 
 """
     GetCoreDefinitionVersion()
@@ -570,7 +635,9 @@ Required Parameters
   "CoreDefinitionVersionId": "The ID of the core definition version. This value maps to the ''Version'' property of the corresponding ''VersionInformation'' object, which is returned by ''ListCoreDefinitionVersions'' requests. If the version is the last one that was associated with a core definition, the value also maps to the ''LatestVersion'' property of the corresponding ''DefinitionInformation'' object."
 }
 """
-GetCoreDefinitionVersion(args) = greengrass("GET", "/greengrass/definition/cores/{CoreDefinitionId}/versions/{CoreDefinitionVersionId}", args)
+GetCoreDefinitionVersion(CoreDefinitionId, CoreDefinitionVersionId) = greengrass("GET", "/greengrass/definition/cores/$(CoreDefinitionId)/versions/$(CoreDefinitionVersionId)")
+GetCoreDefinitionVersion(CoreDefinitionId, CoreDefinitionVersionId, args) = greengrass("GET", "/greengrass/definition/cores/$(CoreDefinitionId)/versions/$(CoreDefinitionVersionId)", args)
+GetCoreDefinitionVersion(a...; b...) = GetCoreDefinitionVersion(a..., b)
 
 """
     GetDeploymentStatus()
@@ -583,7 +650,9 @@ Required Parameters
   "GroupId": "The ID of the Greengrass group."
 }
 """
-GetDeploymentStatus(args) = greengrass("GET", "/greengrass/groups/{GroupId}/deployments/{DeploymentId}/status", args)
+GetDeploymentStatus(DeploymentId, GroupId) = greengrass("GET", "/greengrass/groups/$(GroupId)/deployments/$(DeploymentId)/status")
+GetDeploymentStatus(DeploymentId, GroupId, args) = greengrass("GET", "/greengrass/groups/$(GroupId)/deployments/$(DeploymentId)/status", args)
+GetDeploymentStatus(a...; b...) = GetDeploymentStatus(a..., b)
 
 """
     GetDeviceDefinition()
@@ -595,7 +664,9 @@ Required Parameters
   "DeviceDefinitionId": "The ID of the device definition."
 }
 """
-GetDeviceDefinition(args) = greengrass("GET", "/greengrass/definition/devices/{DeviceDefinitionId}", args)
+GetDeviceDefinition(DeviceDefinitionId) = greengrass("GET", "/greengrass/definition/devices/$(DeviceDefinitionId)")
+GetDeviceDefinition(DeviceDefinitionId, args) = greengrass("GET", "/greengrass/definition/devices/$(DeviceDefinitionId)", args)
+GetDeviceDefinition(a...; b...) = GetDeviceDefinition(a..., b)
 
 """
     GetDeviceDefinitionVersion()
@@ -613,7 +684,9 @@ Optional Parameters
   "NextToken": "The token for the next set of results, or ''null'' if there are no additional results."
 }
 """
-GetDeviceDefinitionVersion(args) = greengrass("GET", "/greengrass/definition/devices/{DeviceDefinitionId}/versions/{DeviceDefinitionVersionId}", args)
+GetDeviceDefinitionVersion(DeviceDefinitionId, DeviceDefinitionVersionId) = greengrass("GET", "/greengrass/definition/devices/$(DeviceDefinitionId)/versions/$(DeviceDefinitionVersionId)")
+GetDeviceDefinitionVersion(DeviceDefinitionId, DeviceDefinitionVersionId, args) = greengrass("GET", "/greengrass/definition/devices/$(DeviceDefinitionId)/versions/$(DeviceDefinitionVersionId)", args)
+GetDeviceDefinitionVersion(a...; b...) = GetDeviceDefinitionVersion(a..., b)
 
 """
     GetFunctionDefinition()
@@ -625,7 +698,9 @@ Required Parameters
   "FunctionDefinitionId": "The ID of the Lambda function definition."
 }
 """
-GetFunctionDefinition(args) = greengrass("GET", "/greengrass/definition/functions/{FunctionDefinitionId}", args)
+GetFunctionDefinition(FunctionDefinitionId) = greengrass("GET", "/greengrass/definition/functions/$(FunctionDefinitionId)")
+GetFunctionDefinition(FunctionDefinitionId, args) = greengrass("GET", "/greengrass/definition/functions/$(FunctionDefinitionId)", args)
+GetFunctionDefinition(a...; b...) = GetFunctionDefinition(a..., b)
 
 """
     GetFunctionDefinitionVersion()
@@ -643,7 +718,9 @@ Optional Parameters
   "NextToken": "The token for the next set of results, or ''null'' if there are no additional results."
 }
 """
-GetFunctionDefinitionVersion(args) = greengrass("GET", "/greengrass/definition/functions/{FunctionDefinitionId}/versions/{FunctionDefinitionVersionId}", args)
+GetFunctionDefinitionVersion(FunctionDefinitionId, FunctionDefinitionVersionId) = greengrass("GET", "/greengrass/definition/functions/$(FunctionDefinitionId)/versions/$(FunctionDefinitionVersionId)")
+GetFunctionDefinitionVersion(FunctionDefinitionId, FunctionDefinitionVersionId, args) = greengrass("GET", "/greengrass/definition/functions/$(FunctionDefinitionId)/versions/$(FunctionDefinitionVersionId)", args)
+GetFunctionDefinitionVersion(a...; b...) = GetFunctionDefinitionVersion(a..., b)
 
 """
     GetGroup()
@@ -655,7 +732,9 @@ Required Parameters
   "GroupId": "The ID of the Greengrass group."
 }
 """
-GetGroup(args) = greengrass("GET", "/greengrass/groups/{GroupId}", args)
+GetGroup(GroupId) = greengrass("GET", "/greengrass/groups/$(GroupId)")
+GetGroup(GroupId, args) = greengrass("GET", "/greengrass/groups/$(GroupId)", args)
+GetGroup(a...; b...) = GetGroup(a..., b)
 
 """
     GetGroupCertificateAuthority()
@@ -668,7 +747,9 @@ Required Parameters
   "GroupId": "The ID of the Greengrass group."
 }
 """
-GetGroupCertificateAuthority(args) = greengrass("GET", "/greengrass/groups/{GroupId}/certificateauthorities/{CertificateAuthorityId}", args)
+GetGroupCertificateAuthority(CertificateAuthorityId, GroupId) = greengrass("GET", "/greengrass/groups/$(GroupId)/certificateauthorities/$(CertificateAuthorityId)")
+GetGroupCertificateAuthority(CertificateAuthorityId, GroupId, args) = greengrass("GET", "/greengrass/groups/$(GroupId)/certificateauthorities/$(CertificateAuthorityId)", args)
+GetGroupCertificateAuthority(a...; b...) = GetGroupCertificateAuthority(a..., b)
 
 """
     GetGroupCertificateConfiguration()
@@ -680,7 +761,9 @@ Required Parameters
   "GroupId": "The ID of the Greengrass group."
 }
 """
-GetGroupCertificateConfiguration(args) = greengrass("GET", "/greengrass/groups/{GroupId}/certificateauthorities/configuration/expiry", args)
+GetGroupCertificateConfiguration(GroupId) = greengrass("GET", "/greengrass/groups/$(GroupId)/certificateauthorities/configuration/expiry")
+GetGroupCertificateConfiguration(GroupId, args) = greengrass("GET", "/greengrass/groups/$(GroupId)/certificateauthorities/configuration/expiry", args)
+GetGroupCertificateConfiguration(a...; b...) = GetGroupCertificateConfiguration(a..., b)
 
 """
     GetGroupVersion()
@@ -693,7 +776,9 @@ Required Parameters
   "GroupVersionId": "The ID of the group version. This value maps to the ''Version'' property of the corresponding ''VersionInformation'' object, which is returned by ''ListGroupVersions'' requests. If the version is the last one that was associated with a group, the value also maps to the ''LatestVersion'' property of the corresponding ''GroupInformation'' object."
 }
 """
-GetGroupVersion(args) = greengrass("GET", "/greengrass/groups/{GroupId}/versions/{GroupVersionId}", args)
+GetGroupVersion(GroupId, GroupVersionId) = greengrass("GET", "/greengrass/groups/$(GroupId)/versions/$(GroupVersionId)")
+GetGroupVersion(GroupId, GroupVersionId, args) = greengrass("GET", "/greengrass/groups/$(GroupId)/versions/$(GroupVersionId)", args)
+GetGroupVersion(a...; b...) = GetGroupVersion(a..., b)
 
 """
     GetLoggerDefinition()
@@ -705,7 +790,9 @@ Required Parameters
   "LoggerDefinitionId": "The ID of the logger definition."
 }
 """
-GetLoggerDefinition(args) = greengrass("GET", "/greengrass/definition/loggers/{LoggerDefinitionId}", args)
+GetLoggerDefinition(LoggerDefinitionId) = greengrass("GET", "/greengrass/definition/loggers/$(LoggerDefinitionId)")
+GetLoggerDefinition(LoggerDefinitionId, args) = greengrass("GET", "/greengrass/definition/loggers/$(LoggerDefinitionId)", args)
+GetLoggerDefinition(a...; b...) = GetLoggerDefinition(a..., b)
 
 """
     GetLoggerDefinitionVersion()
@@ -723,7 +810,9 @@ Optional Parameters
   "NextToken": "The token for the next set of results, or ''null'' if there are no additional results."
 }
 """
-GetLoggerDefinitionVersion(args) = greengrass("GET", "/greengrass/definition/loggers/{LoggerDefinitionId}/versions/{LoggerDefinitionVersionId}", args)
+GetLoggerDefinitionVersion(LoggerDefinitionId, LoggerDefinitionVersionId) = greengrass("GET", "/greengrass/definition/loggers/$(LoggerDefinitionId)/versions/$(LoggerDefinitionVersionId)")
+GetLoggerDefinitionVersion(LoggerDefinitionId, LoggerDefinitionVersionId, args) = greengrass("GET", "/greengrass/definition/loggers/$(LoggerDefinitionId)/versions/$(LoggerDefinitionVersionId)", args)
+GetLoggerDefinitionVersion(a...; b...) = GetLoggerDefinitionVersion(a..., b)
 
 """
     GetResourceDefinition()
@@ -735,7 +824,9 @@ Required Parameters
   "ResourceDefinitionId": "The ID of the resource definition."
 }
 """
-GetResourceDefinition(args) = greengrass("GET", "/greengrass/definition/resources/{ResourceDefinitionId}", args)
+GetResourceDefinition(ResourceDefinitionId) = greengrass("GET", "/greengrass/definition/resources/$(ResourceDefinitionId)")
+GetResourceDefinition(ResourceDefinitionId, args) = greengrass("GET", "/greengrass/definition/resources/$(ResourceDefinitionId)", args)
+GetResourceDefinition(a...; b...) = GetResourceDefinition(a..., b)
 
 """
     GetResourceDefinitionVersion()
@@ -748,7 +839,9 @@ Required Parameters
   "ResourceDefinitionVersionId": "The ID of the resource definition version. This value maps to the ''Version'' property of the corresponding ''VersionInformation'' object, which is returned by ''ListResourceDefinitionVersions'' requests. If the version is the last one that was associated with a resource definition, the value also maps to the ''LatestVersion'' property of the corresponding ''DefinitionInformation'' object."
 }
 """
-GetResourceDefinitionVersion(args) = greengrass("GET", "/greengrass/definition/resources/{ResourceDefinitionId}/versions/{ResourceDefinitionVersionId}", args)
+GetResourceDefinitionVersion(ResourceDefinitionId, ResourceDefinitionVersionId) = greengrass("GET", "/greengrass/definition/resources/$(ResourceDefinitionId)/versions/$(ResourceDefinitionVersionId)")
+GetResourceDefinitionVersion(ResourceDefinitionId, ResourceDefinitionVersionId, args) = greengrass("GET", "/greengrass/definition/resources/$(ResourceDefinitionId)/versions/$(ResourceDefinitionVersionId)", args)
+GetResourceDefinitionVersion(a...; b...) = GetResourceDefinitionVersion(a..., b)
 
 """
     GetServiceRoleForAccount()
@@ -757,6 +850,7 @@ Retrieves the service role that is attached to your account.
 """
 GetServiceRoleForAccount() = greengrass("GET", "/greengrass/servicerole")
 GetServiceRoleForAccount(args) = greengrass("GET", "/greengrass/servicerole", args)
+GetServiceRoleForAccount(a...; b...) = GetServiceRoleForAccount(a..., b)
 
 """
     GetSubscriptionDefinition()
@@ -768,7 +862,9 @@ Required Parameters
   "SubscriptionDefinitionId": "The ID of the subscription definition."
 }
 """
-GetSubscriptionDefinition(args) = greengrass("GET", "/greengrass/definition/subscriptions/{SubscriptionDefinitionId}", args)
+GetSubscriptionDefinition(SubscriptionDefinitionId) = greengrass("GET", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)")
+GetSubscriptionDefinition(SubscriptionDefinitionId, args) = greengrass("GET", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)", args)
+GetSubscriptionDefinition(a...; b...) = GetSubscriptionDefinition(a..., b)
 
 """
     GetSubscriptionDefinitionVersion()
@@ -786,7 +882,9 @@ Optional Parameters
   "NextToken": "The token for the next set of results, or ''null'' if there are no additional results."
 }
 """
-GetSubscriptionDefinitionVersion(args) = greengrass("GET", "/greengrass/definition/subscriptions/{SubscriptionDefinitionId}/versions/{SubscriptionDefinitionVersionId}", args)
+GetSubscriptionDefinitionVersion(SubscriptionDefinitionId, SubscriptionDefinitionVersionId) = greengrass("GET", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)/versions/$(SubscriptionDefinitionVersionId)")
+GetSubscriptionDefinitionVersion(SubscriptionDefinitionId, SubscriptionDefinitionVersionId, args) = greengrass("GET", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)/versions/$(SubscriptionDefinitionVersionId)", args)
+GetSubscriptionDefinitionVersion(a...; b...) = GetSubscriptionDefinitionVersion(a..., b)
 
 """
     ListBulkDeploymentDetailedReports()
@@ -804,7 +902,9 @@ Optional Parameters
   "NextToken": "The token for the next set of results, or ''null'' if there are no additional results."
 }
 """
-ListBulkDeploymentDetailedReports(args) = greengrass("GET", "/greengrass/bulk/deployments/{BulkDeploymentId}/detailed-reports", args)
+ListBulkDeploymentDetailedReports(BulkDeploymentId) = greengrass("GET", "/greengrass/bulk/deployments/$(BulkDeploymentId)/detailed-reports")
+ListBulkDeploymentDetailedReports(BulkDeploymentId, args) = greengrass("GET", "/greengrass/bulk/deployments/$(BulkDeploymentId)/detailed-reports", args)
+ListBulkDeploymentDetailedReports(a...; b...) = ListBulkDeploymentDetailedReports(a..., b)
 
 """
     ListBulkDeployments()
@@ -819,6 +919,7 @@ Optional Parameters
 """
 ListBulkDeployments() = greengrass("GET", "/greengrass/bulk/deployments")
 ListBulkDeployments(args) = greengrass("GET", "/greengrass/bulk/deployments", args)
+ListBulkDeployments(a...; b...) = ListBulkDeployments(a..., b)
 
 """
     ListConnectorDefinitionVersions()
@@ -836,7 +937,9 @@ Optional Parameters
   "NextToken": "The token for the next set of results, or ''null'' if there are no additional results."
 }
 """
-ListConnectorDefinitionVersions(args) = greengrass("GET", "/greengrass/definition/connectors/{ConnectorDefinitionId}/versions", args)
+ListConnectorDefinitionVersions(ConnectorDefinitionId) = greengrass("GET", "/greengrass/definition/connectors/$(ConnectorDefinitionId)/versions")
+ListConnectorDefinitionVersions(ConnectorDefinitionId, args) = greengrass("GET", "/greengrass/definition/connectors/$(ConnectorDefinitionId)/versions", args)
+ListConnectorDefinitionVersions(a...; b...) = ListConnectorDefinitionVersions(a..., b)
 
 """
     ListConnectorDefinitions()
@@ -851,6 +954,7 @@ Optional Parameters
 """
 ListConnectorDefinitions() = greengrass("GET", "/greengrass/definition/connectors")
 ListConnectorDefinitions(args) = greengrass("GET", "/greengrass/definition/connectors", args)
+ListConnectorDefinitions(a...; b...) = ListConnectorDefinitions(a..., b)
 
 """
     ListCoreDefinitionVersions()
@@ -868,7 +972,9 @@ Optional Parameters
   "NextToken": "The token for the next set of results, or ''null'' if there are no additional results."
 }
 """
-ListCoreDefinitionVersions(args) = greengrass("GET", "/greengrass/definition/cores/{CoreDefinitionId}/versions", args)
+ListCoreDefinitionVersions(CoreDefinitionId) = greengrass("GET", "/greengrass/definition/cores/$(CoreDefinitionId)/versions")
+ListCoreDefinitionVersions(CoreDefinitionId, args) = greengrass("GET", "/greengrass/definition/cores/$(CoreDefinitionId)/versions", args)
+ListCoreDefinitionVersions(a...; b...) = ListCoreDefinitionVersions(a..., b)
 
 """
     ListCoreDefinitions()
@@ -883,6 +989,7 @@ Optional Parameters
 """
 ListCoreDefinitions() = greengrass("GET", "/greengrass/definition/cores")
 ListCoreDefinitions(args) = greengrass("GET", "/greengrass/definition/cores", args)
+ListCoreDefinitions(a...; b...) = ListCoreDefinitions(a..., b)
 
 """
     ListDeployments()
@@ -900,7 +1007,9 @@ Optional Parameters
   "NextToken": "The token for the next set of results, or ''null'' if there are no additional results."
 }
 """
-ListDeployments(args) = greengrass("GET", "/greengrass/groups/{GroupId}/deployments", args)
+ListDeployments(GroupId) = greengrass("GET", "/greengrass/groups/$(GroupId)/deployments")
+ListDeployments(GroupId, args) = greengrass("GET", "/greengrass/groups/$(GroupId)/deployments", args)
+ListDeployments(a...; b...) = ListDeployments(a..., b)
 
 """
     ListDeviceDefinitionVersions()
@@ -918,7 +1027,9 @@ Optional Parameters
   "NextToken": "The token for the next set of results, or ''null'' if there are no additional results."
 }
 """
-ListDeviceDefinitionVersions(args) = greengrass("GET", "/greengrass/definition/devices/{DeviceDefinitionId}/versions", args)
+ListDeviceDefinitionVersions(DeviceDefinitionId) = greengrass("GET", "/greengrass/definition/devices/$(DeviceDefinitionId)/versions")
+ListDeviceDefinitionVersions(DeviceDefinitionId, args) = greengrass("GET", "/greengrass/definition/devices/$(DeviceDefinitionId)/versions", args)
+ListDeviceDefinitionVersions(a...; b...) = ListDeviceDefinitionVersions(a..., b)
 
 """
     ListDeviceDefinitions()
@@ -933,6 +1044,7 @@ Optional Parameters
 """
 ListDeviceDefinitions() = greengrass("GET", "/greengrass/definition/devices")
 ListDeviceDefinitions(args) = greengrass("GET", "/greengrass/definition/devices", args)
+ListDeviceDefinitions(a...; b...) = ListDeviceDefinitions(a..., b)
 
 """
     ListFunctionDefinitionVersions()
@@ -950,7 +1062,9 @@ Optional Parameters
   "NextToken": "The token for the next set of results, or ''null'' if there are no additional results."
 }
 """
-ListFunctionDefinitionVersions(args) = greengrass("GET", "/greengrass/definition/functions/{FunctionDefinitionId}/versions", args)
+ListFunctionDefinitionVersions(FunctionDefinitionId) = greengrass("GET", "/greengrass/definition/functions/$(FunctionDefinitionId)/versions")
+ListFunctionDefinitionVersions(FunctionDefinitionId, args) = greengrass("GET", "/greengrass/definition/functions/$(FunctionDefinitionId)/versions", args)
+ListFunctionDefinitionVersions(a...; b...) = ListFunctionDefinitionVersions(a..., b)
 
 """
     ListFunctionDefinitions()
@@ -965,6 +1079,7 @@ Optional Parameters
 """
 ListFunctionDefinitions() = greengrass("GET", "/greengrass/definition/functions")
 ListFunctionDefinitions(args) = greengrass("GET", "/greengrass/definition/functions", args)
+ListFunctionDefinitions(a...; b...) = ListFunctionDefinitions(a..., b)
 
 """
     ListGroupCertificateAuthorities()
@@ -976,7 +1091,9 @@ Required Parameters
   "GroupId": "The ID of the Greengrass group."
 }
 """
-ListGroupCertificateAuthorities(args) = greengrass("GET", "/greengrass/groups/{GroupId}/certificateauthorities", args)
+ListGroupCertificateAuthorities(GroupId) = greengrass("GET", "/greengrass/groups/$(GroupId)/certificateauthorities")
+ListGroupCertificateAuthorities(GroupId, args) = greengrass("GET", "/greengrass/groups/$(GroupId)/certificateauthorities", args)
+ListGroupCertificateAuthorities(a...; b...) = ListGroupCertificateAuthorities(a..., b)
 
 """
     ListGroupVersions()
@@ -994,7 +1111,9 @@ Optional Parameters
   "NextToken": "The token for the next set of results, or ''null'' if there are no additional results."
 }
 """
-ListGroupVersions(args) = greengrass("GET", "/greengrass/groups/{GroupId}/versions", args)
+ListGroupVersions(GroupId) = greengrass("GET", "/greengrass/groups/$(GroupId)/versions")
+ListGroupVersions(GroupId, args) = greengrass("GET", "/greengrass/groups/$(GroupId)/versions", args)
+ListGroupVersions(a...; b...) = ListGroupVersions(a..., b)
 
 """
     ListGroups()
@@ -1009,6 +1128,7 @@ Optional Parameters
 """
 ListGroups() = greengrass("GET", "/greengrass/groups")
 ListGroups(args) = greengrass("GET", "/greengrass/groups", args)
+ListGroups(a...; b...) = ListGroups(a..., b)
 
 """
     ListLoggerDefinitionVersions()
@@ -1026,7 +1146,9 @@ Optional Parameters
   "NextToken": "The token for the next set of results, or ''null'' if there are no additional results."
 }
 """
-ListLoggerDefinitionVersions(args) = greengrass("GET", "/greengrass/definition/loggers/{LoggerDefinitionId}/versions", args)
+ListLoggerDefinitionVersions(LoggerDefinitionId) = greengrass("GET", "/greengrass/definition/loggers/$(LoggerDefinitionId)/versions")
+ListLoggerDefinitionVersions(LoggerDefinitionId, args) = greengrass("GET", "/greengrass/definition/loggers/$(LoggerDefinitionId)/versions", args)
+ListLoggerDefinitionVersions(a...; b...) = ListLoggerDefinitionVersions(a..., b)
 
 """
     ListLoggerDefinitions()
@@ -1041,6 +1163,7 @@ Optional Parameters
 """
 ListLoggerDefinitions() = greengrass("GET", "/greengrass/definition/loggers")
 ListLoggerDefinitions(args) = greengrass("GET", "/greengrass/definition/loggers", args)
+ListLoggerDefinitions(a...; b...) = ListLoggerDefinitions(a..., b)
 
 """
     ListResourceDefinitionVersions()
@@ -1058,7 +1181,9 @@ Optional Parameters
   "NextToken": "The token for the next set of results, or ''null'' if there are no additional results."
 }
 """
-ListResourceDefinitionVersions(args) = greengrass("GET", "/greengrass/definition/resources/{ResourceDefinitionId}/versions", args)
+ListResourceDefinitionVersions(ResourceDefinitionId) = greengrass("GET", "/greengrass/definition/resources/$(ResourceDefinitionId)/versions")
+ListResourceDefinitionVersions(ResourceDefinitionId, args) = greengrass("GET", "/greengrass/definition/resources/$(ResourceDefinitionId)/versions", args)
+ListResourceDefinitionVersions(a...; b...) = ListResourceDefinitionVersions(a..., b)
 
 """
     ListResourceDefinitions()
@@ -1073,6 +1198,7 @@ Optional Parameters
 """
 ListResourceDefinitions() = greengrass("GET", "/greengrass/definition/resources")
 ListResourceDefinitions(args) = greengrass("GET", "/greengrass/definition/resources", args)
+ListResourceDefinitions(a...; b...) = ListResourceDefinitions(a..., b)
 
 """
     ListSubscriptionDefinitionVersions()
@@ -1090,7 +1216,9 @@ Optional Parameters
   "NextToken": "The token for the next set of results, or ''null'' if there are no additional results."
 }
 """
-ListSubscriptionDefinitionVersions(args) = greengrass("GET", "/greengrass/definition/subscriptions/{SubscriptionDefinitionId}/versions", args)
+ListSubscriptionDefinitionVersions(SubscriptionDefinitionId) = greengrass("GET", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)/versions")
+ListSubscriptionDefinitionVersions(SubscriptionDefinitionId, args) = greengrass("GET", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)/versions", args)
+ListSubscriptionDefinitionVersions(a...; b...) = ListSubscriptionDefinitionVersions(a..., b)
 
 """
     ListSubscriptionDefinitions()
@@ -1105,6 +1233,7 @@ Optional Parameters
 """
 ListSubscriptionDefinitions() = greengrass("GET", "/greengrass/definition/subscriptions")
 ListSubscriptionDefinitions(args) = greengrass("GET", "/greengrass/definition/subscriptions", args)
+ListSubscriptionDefinitions(a...; b...) = ListSubscriptionDefinitions(a..., b)
 
 """
     ListTagsForResource()
@@ -1116,7 +1245,9 @@ Required Parameters
   "ResourceArn": "The Amazon Resource Name (ARN) of the resource."
 }
 """
-ListTagsForResource(args) = greengrass("GET", "/tags/{resource-arn}", args)
+ListTagsForResource(ResourceArn) = greengrass("GET", "/tags/$(resource-arn)")
+ListTagsForResource(ResourceArn, args) = greengrass("GET", "/tags/$(resource-arn)", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     ResetDeployments()
@@ -1134,7 +1265,9 @@ Optional Parameters
   "Force": "If true, performs a best-effort only core reset."
 }
 """
-ResetDeployments(args) = greengrass("POST", "/greengrass/groups/{GroupId}/deployments/$reset", args)
+ResetDeployments(GroupId) = greengrass("POST", "/greengrass/groups/$(GroupId)/deployments/$reset")
+ResetDeployments(GroupId, args) = greengrass("POST", "/greengrass/groups/$(GroupId)/deployments/$reset", args)
+ResetDeployments(a...; b...) = ResetDeployments(a..., b)
 
 """
     StartBulkDeployment()
@@ -1153,7 +1286,9 @@ Optional Parameters
   "tags": "Tag(s) to add to the new resource."
 }
 """
-StartBulkDeployment(args) = greengrass("POST", "/greengrass/bulk/deployments", args)
+StartBulkDeployment(ExecutionRoleArn, InputFileUri) = greengrass("POST", "/greengrass/bulk/deployments")
+StartBulkDeployment(ExecutionRoleArn, InputFileUri, args) = greengrass("POST", "/greengrass/bulk/deployments", args)
+StartBulkDeployment(a...; b...) = StartBulkDeployment(a..., b)
 
 """
     StopBulkDeployment()
@@ -1165,7 +1300,9 @@ Required Parameters
   "BulkDeploymentId": "The ID of the bulk deployment."
 }
 """
-StopBulkDeployment(args) = greengrass("PUT", "/greengrass/bulk/deployments/{BulkDeploymentId}/$stop", args)
+StopBulkDeployment(BulkDeploymentId) = greengrass("PUT", "/greengrass/bulk/deployments/$(BulkDeploymentId)/$stop")
+StopBulkDeployment(BulkDeploymentId, args) = greengrass("PUT", "/greengrass/bulk/deployments/$(BulkDeploymentId)/$stop", args)
+StopBulkDeployment(a...; b...) = StopBulkDeployment(a..., b)
 
 """
     TagResource()
@@ -1182,7 +1319,9 @@ Optional Parameters
   "tags": ""
 }
 """
-TagResource(args) = greengrass("POST", "/tags/{resource-arn}", args)
+TagResource(ResourceArn) = greengrass("POST", "/tags/$(resource-arn)")
+TagResource(ResourceArn, args) = greengrass("POST", "/tags/$(resource-arn)", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
@@ -1195,7 +1334,9 @@ Required Parameters
   "TagKeys": "An array of tag keys to delete"
 }
 """
-UntagResource(args) = greengrass("DELETE", "/tags/{resource-arn}", args)
+UntagResource(ResourceArn, TagKeys) = greengrass("DELETE", "/tags/$(resource-arn)")
+UntagResource(ResourceArn, TagKeys, args) = greengrass("DELETE", "/tags/$(resource-arn)", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateConnectivityInfo()
@@ -1212,7 +1353,9 @@ Optional Parameters
   "ConnectivityInfo": "A list of connectivity info."
 }
 """
-UpdateConnectivityInfo(args) = greengrass("PUT", "/greengrass/things/{ThingName}/connectivityInfo", args)
+UpdateConnectivityInfo(ThingName) = greengrass("PUT", "/greengrass/things/$(ThingName)/connectivityInfo")
+UpdateConnectivityInfo(ThingName, args) = greengrass("PUT", "/greengrass/things/$(ThingName)/connectivityInfo", args)
+UpdateConnectivityInfo(a...; b...) = UpdateConnectivityInfo(a..., b)
 
 """
     UpdateConnectorDefinition()
@@ -1229,7 +1372,9 @@ Optional Parameters
   "Name": "The name of the definition."
 }
 """
-UpdateConnectorDefinition(args) = greengrass("PUT", "/greengrass/definition/connectors/{ConnectorDefinitionId}", args)
+UpdateConnectorDefinition(ConnectorDefinitionId) = greengrass("PUT", "/greengrass/definition/connectors/$(ConnectorDefinitionId)")
+UpdateConnectorDefinition(ConnectorDefinitionId, args) = greengrass("PUT", "/greengrass/definition/connectors/$(ConnectorDefinitionId)", args)
+UpdateConnectorDefinition(a...; b...) = UpdateConnectorDefinition(a..., b)
 
 """
     UpdateCoreDefinition()
@@ -1246,7 +1391,9 @@ Optional Parameters
   "Name": "The name of the definition."
 }
 """
-UpdateCoreDefinition(args) = greengrass("PUT", "/greengrass/definition/cores/{CoreDefinitionId}", args)
+UpdateCoreDefinition(CoreDefinitionId) = greengrass("PUT", "/greengrass/definition/cores/$(CoreDefinitionId)")
+UpdateCoreDefinition(CoreDefinitionId, args) = greengrass("PUT", "/greengrass/definition/cores/$(CoreDefinitionId)", args)
+UpdateCoreDefinition(a...; b...) = UpdateCoreDefinition(a..., b)
 
 """
     UpdateDeviceDefinition()
@@ -1263,7 +1410,9 @@ Optional Parameters
   "Name": "The name of the definition."
 }
 """
-UpdateDeviceDefinition(args) = greengrass("PUT", "/greengrass/definition/devices/{DeviceDefinitionId}", args)
+UpdateDeviceDefinition(DeviceDefinitionId) = greengrass("PUT", "/greengrass/definition/devices/$(DeviceDefinitionId)")
+UpdateDeviceDefinition(DeviceDefinitionId, args) = greengrass("PUT", "/greengrass/definition/devices/$(DeviceDefinitionId)", args)
+UpdateDeviceDefinition(a...; b...) = UpdateDeviceDefinition(a..., b)
 
 """
     UpdateFunctionDefinition()
@@ -1280,7 +1429,9 @@ Optional Parameters
   "Name": "The name of the definition."
 }
 """
-UpdateFunctionDefinition(args) = greengrass("PUT", "/greengrass/definition/functions/{FunctionDefinitionId}", args)
+UpdateFunctionDefinition(FunctionDefinitionId) = greengrass("PUT", "/greengrass/definition/functions/$(FunctionDefinitionId)")
+UpdateFunctionDefinition(FunctionDefinitionId, args) = greengrass("PUT", "/greengrass/definition/functions/$(FunctionDefinitionId)", args)
+UpdateFunctionDefinition(a...; b...) = UpdateFunctionDefinition(a..., b)
 
 """
     UpdateGroup()
@@ -1297,7 +1448,9 @@ Optional Parameters
   "Name": "The name of the definition."
 }
 """
-UpdateGroup(args) = greengrass("PUT", "/greengrass/groups/{GroupId}", args)
+UpdateGroup(GroupId) = greengrass("PUT", "/greengrass/groups/$(GroupId)")
+UpdateGroup(GroupId, args) = greengrass("PUT", "/greengrass/groups/$(GroupId)", args)
+UpdateGroup(a...; b...) = UpdateGroup(a..., b)
 
 """
     UpdateGroupCertificateConfiguration()
@@ -1314,7 +1467,9 @@ Optional Parameters
   "CertificateExpiryInMilliseconds": "The amount of time remaining before the certificate expires, in milliseconds."
 }
 """
-UpdateGroupCertificateConfiguration(args) = greengrass("PUT", "/greengrass/groups/{GroupId}/certificateauthorities/configuration/expiry", args)
+UpdateGroupCertificateConfiguration(GroupId) = greengrass("PUT", "/greengrass/groups/$(GroupId)/certificateauthorities/configuration/expiry")
+UpdateGroupCertificateConfiguration(GroupId, args) = greengrass("PUT", "/greengrass/groups/$(GroupId)/certificateauthorities/configuration/expiry", args)
+UpdateGroupCertificateConfiguration(a...; b...) = UpdateGroupCertificateConfiguration(a..., b)
 
 """
     UpdateLoggerDefinition()
@@ -1331,7 +1486,9 @@ Optional Parameters
   "Name": "The name of the definition."
 }
 """
-UpdateLoggerDefinition(args) = greengrass("PUT", "/greengrass/definition/loggers/{LoggerDefinitionId}", args)
+UpdateLoggerDefinition(LoggerDefinitionId) = greengrass("PUT", "/greengrass/definition/loggers/$(LoggerDefinitionId)")
+UpdateLoggerDefinition(LoggerDefinitionId, args) = greengrass("PUT", "/greengrass/definition/loggers/$(LoggerDefinitionId)", args)
+UpdateLoggerDefinition(a...; b...) = UpdateLoggerDefinition(a..., b)
 
 """
     UpdateResourceDefinition()
@@ -1348,7 +1505,9 @@ Optional Parameters
   "Name": "The name of the definition."
 }
 """
-UpdateResourceDefinition(args) = greengrass("PUT", "/greengrass/definition/resources/{ResourceDefinitionId}", args)
+UpdateResourceDefinition(ResourceDefinitionId) = greengrass("PUT", "/greengrass/definition/resources/$(ResourceDefinitionId)")
+UpdateResourceDefinition(ResourceDefinitionId, args) = greengrass("PUT", "/greengrass/definition/resources/$(ResourceDefinitionId)", args)
+UpdateResourceDefinition(a...; b...) = UpdateResourceDefinition(a..., b)
 
 """
     UpdateSubscriptionDefinition()
@@ -1365,4 +1524,6 @@ Optional Parameters
   "Name": "The name of the definition."
 }
 """
-UpdateSubscriptionDefinition(args) = greengrass("PUT", "/greengrass/definition/subscriptions/{SubscriptionDefinitionId}", args)
+UpdateSubscriptionDefinition(SubscriptionDefinitionId) = greengrass("PUT", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)")
+UpdateSubscriptionDefinition(SubscriptionDefinitionId, args) = greengrass("PUT", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)", args)
+UpdateSubscriptionDefinition(a...; b...) = UpdateSubscriptionDefinition(a..., b)

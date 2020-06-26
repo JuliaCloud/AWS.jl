@@ -20,7 +20,9 @@ Optional Parameters
   "tags": "The tags to apply to the analyzer."
 }
 """
-CreateAnalyzer(args) = accessanalyzer("PUT", "/analyzer", args)
+CreateAnalyzer(analyzerName, type) = accessanalyzer("PUT", "/analyzer")
+CreateAnalyzer(analyzerName, type, args) = accessanalyzer("PUT", "/analyzer", args)
+CreateAnalyzer(a...; b...) = CreateAnalyzer(a..., b)
 
 """
     CreateArchiveRule()
@@ -39,7 +41,9 @@ Optional Parameters
   "clientToken": "A client token."
 }
 """
-CreateArchiveRule(args) = accessanalyzer("PUT", "/analyzer/{analyzerName}/archive-rule", args)
+CreateArchiveRule(analyzerName, filter, ruleName) = accessanalyzer("PUT", "/analyzer/$(analyzerName)/archive-rule")
+CreateArchiveRule(analyzerName, filter, ruleName, args) = accessanalyzer("PUT", "/analyzer/$(analyzerName)/archive-rule", args)
+CreateArchiveRule(a...; b...) = CreateArchiveRule(a..., b)
 
 """
     DeleteAnalyzer()
@@ -56,7 +60,9 @@ Optional Parameters
   "clientToken": "A client token."
 }
 """
-DeleteAnalyzer(args) = accessanalyzer("DELETE", "/analyzer/{analyzerName}", args)
+DeleteAnalyzer(analyzerName) = accessanalyzer("DELETE", "/analyzer/$(analyzerName)")
+DeleteAnalyzer(analyzerName, args) = accessanalyzer("DELETE", "/analyzer/$(analyzerName)", args)
+DeleteAnalyzer(a...; b...) = DeleteAnalyzer(a..., b)
 
 """
     DeleteArchiveRule()
@@ -74,7 +80,9 @@ Optional Parameters
   "clientToken": "A client token."
 }
 """
-DeleteArchiveRule(args) = accessanalyzer("DELETE", "/analyzer/{analyzerName}/archive-rule/{ruleName}", args)
+DeleteArchiveRule(analyzerName, ruleName) = accessanalyzer("DELETE", "/analyzer/$(analyzerName)/archive-rule/$(ruleName)")
+DeleteArchiveRule(analyzerName, ruleName, args) = accessanalyzer("DELETE", "/analyzer/$(analyzerName)/archive-rule/$(ruleName)", args)
+DeleteArchiveRule(a...; b...) = DeleteArchiveRule(a..., b)
 
 """
     GetAnalyzedResource()
@@ -87,7 +95,9 @@ Required Parameters
   "resourceArn": "The ARN of the resource to retrieve information about."
 }
 """
-GetAnalyzedResource(args) = accessanalyzer("GET", "/analyzed-resource", args)
+GetAnalyzedResource(analyzerArn, resourceArn) = accessanalyzer("GET", "/analyzed-resource")
+GetAnalyzedResource(analyzerArn, resourceArn, args) = accessanalyzer("GET", "/analyzed-resource", args)
+GetAnalyzedResource(a...; b...) = GetAnalyzedResource(a..., b)
 
 """
     GetAnalyzer()
@@ -99,7 +109,9 @@ Required Parameters
   "analyzerName": "The name of the analyzer retrieved."
 }
 """
-GetAnalyzer(args) = accessanalyzer("GET", "/analyzer/{analyzerName}", args)
+GetAnalyzer(analyzerName) = accessanalyzer("GET", "/analyzer/$(analyzerName)")
+GetAnalyzer(analyzerName, args) = accessanalyzer("GET", "/analyzer/$(analyzerName)", args)
+GetAnalyzer(a...; b...) = GetAnalyzer(a..., b)
 
 """
     GetArchiveRule()
@@ -112,7 +124,9 @@ Required Parameters
   "ruleName": "The name of the rule to retrieve."
 }
 """
-GetArchiveRule(args) = accessanalyzer("GET", "/analyzer/{analyzerName}/archive-rule/{ruleName}", args)
+GetArchiveRule(analyzerName, ruleName) = accessanalyzer("GET", "/analyzer/$(analyzerName)/archive-rule/$(ruleName)")
+GetArchiveRule(analyzerName, ruleName, args) = accessanalyzer("GET", "/analyzer/$(analyzerName)/archive-rule/$(ruleName)", args)
+GetArchiveRule(a...; b...) = GetArchiveRule(a..., b)
 
 """
     GetFinding()
@@ -125,7 +139,9 @@ Required Parameters
   "id": "The ID of the finding to retrieve."
 }
 """
-GetFinding(args) = accessanalyzer("GET", "/finding/{id}", args)
+GetFinding(analyzerArn, id) = accessanalyzer("GET", "/finding/$(id)")
+GetFinding(analyzerArn, id, args) = accessanalyzer("GET", "/finding/$(id)", args)
+GetFinding(a...; b...) = GetFinding(a..., b)
 
 """
     ListAnalyzedResources()
@@ -144,7 +160,9 @@ Optional Parameters
   "resourceType": "The type of resource."
 }
 """
-ListAnalyzedResources(args) = accessanalyzer("POST", "/analyzed-resource", args)
+ListAnalyzedResources(analyzerArn) = accessanalyzer("POST", "/analyzed-resource")
+ListAnalyzedResources(analyzerArn, args) = accessanalyzer("POST", "/analyzed-resource", args)
+ListAnalyzedResources(a...; b...) = ListAnalyzedResources(a..., b)
 
 """
     ListAnalyzers()
@@ -160,6 +178,7 @@ Optional Parameters
 """
 ListAnalyzers() = accessanalyzer("GET", "/analyzer")
 ListAnalyzers(args) = accessanalyzer("GET", "/analyzer", args)
+ListAnalyzers(a...; b...) = ListAnalyzers(a..., b)
 
 """
     ListArchiveRules()
@@ -177,7 +196,9 @@ Optional Parameters
   "nextToken": "A token used for pagination of results returned."
 }
 """
-ListArchiveRules(args) = accessanalyzer("GET", "/analyzer/{analyzerName}/archive-rule", args)
+ListArchiveRules(analyzerName) = accessanalyzer("GET", "/analyzer/$(analyzerName)/archive-rule")
+ListArchiveRules(analyzerName, args) = accessanalyzer("GET", "/analyzer/$(analyzerName)/archive-rule", args)
+ListArchiveRules(a...; b...) = ListArchiveRules(a..., b)
 
 """
     ListFindings()
@@ -197,7 +218,9 @@ Optional Parameters
   "sort": "The sort order for the findings returned."
 }
 """
-ListFindings(args) = accessanalyzer("POST", "/finding", args)
+ListFindings(analyzerArn) = accessanalyzer("POST", "/finding")
+ListFindings(analyzerArn, args) = accessanalyzer("POST", "/finding", args)
+ListFindings(a...; b...) = ListFindings(a..., b)
 
 """
     ListTagsForResource()
@@ -209,7 +232,9 @@ Required Parameters
   "resourceArn": "The ARN of the resource to retrieve tags from."
 }
 """
-ListTagsForResource(args) = accessanalyzer("GET", "/tags/{resourceArn}", args)
+ListTagsForResource(resourceArn) = accessanalyzer("GET", "/tags/$(resourceArn)")
+ListTagsForResource(resourceArn, args) = accessanalyzer("GET", "/tags/$(resourceArn)", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     StartResourceScan()
@@ -222,7 +247,9 @@ Required Parameters
   "resourceArn": "The ARN of the resource to scan."
 }
 """
-StartResourceScan(args) = accessanalyzer("POST", "/resource/scan", args)
+StartResourceScan(analyzerArn, resourceArn) = accessanalyzer("POST", "/resource/scan")
+StartResourceScan(analyzerArn, resourceArn, args) = accessanalyzer("POST", "/resource/scan", args)
+StartResourceScan(a...; b...) = StartResourceScan(a..., b)
 
 """
     TagResource()
@@ -235,7 +262,9 @@ Required Parameters
   "tags": "The tags to add to the resource."
 }
 """
-TagResource(args) = accessanalyzer("POST", "/tags/{resourceArn}", args)
+TagResource(resourceArn, tags) = accessanalyzer("POST", "/tags/$(resourceArn)")
+TagResource(resourceArn, tags, args) = accessanalyzer("POST", "/tags/$(resourceArn)", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
@@ -248,7 +277,9 @@ Required Parameters
   "tagKeys": "The key for the tag to add."
 }
 """
-UntagResource(args) = accessanalyzer("DELETE", "/tags/{resourceArn}", args)
+UntagResource(resourceArn, tagKeys) = accessanalyzer("DELETE", "/tags/$(resourceArn)")
+UntagResource(resourceArn, tagKeys, args) = accessanalyzer("DELETE", "/tags/$(resourceArn)", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateArchiveRule()
@@ -267,7 +298,9 @@ Optional Parameters
   "clientToken": "A client token."
 }
 """
-UpdateArchiveRule(args) = accessanalyzer("PUT", "/analyzer/{analyzerName}/archive-rule/{ruleName}", args)
+UpdateArchiveRule(analyzerName, filter, ruleName) = accessanalyzer("PUT", "/analyzer/$(analyzerName)/archive-rule/$(ruleName)")
+UpdateArchiveRule(analyzerName, filter, ruleName, args) = accessanalyzer("PUT", "/analyzer/$(analyzerName)/archive-rule/$(ruleName)", args)
+UpdateArchiveRule(a...; b...) = UpdateArchiveRule(a..., b)
 
 """
     UpdateFindings()
@@ -287,4 +320,6 @@ Optional Parameters
   "resourceArn": "The ARN of the resource identified in the finding."
 }
 """
-UpdateFindings(args) = accessanalyzer("PUT", "/finding", args)
+UpdateFindings(analyzerArn, status) = accessanalyzer("PUT", "/finding")
+UpdateFindings(analyzerArn, status, args) = accessanalyzer("PUT", "/finding", args)
+UpdateFindings(a...; b...) = UpdateFindings(a..., b)

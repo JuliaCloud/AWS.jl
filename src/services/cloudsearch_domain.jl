@@ -29,7 +29,9 @@ Optional Parameters
   "stats": "Specifies one or more fields for which to get statistics information. Each specified field must be facet-enabled in the domain configuration. The fields are specified in JSON using the form: {\"FIELD-A\":{},\"FIELD-B\":{}} There are currently no options supported for statistics."
 }
 """
-Search(args) = cloudsearch_domain("GET", "/2013-01-01/search?format=sdk&pretty=true", args)
+Search(query) = cloudsearch_domain("GET", "/2013-01-01/search?format=sdk&pretty=true")
+Search(query, args) = cloudsearch_domain("GET", "/2013-01-01/search?format=sdk&pretty=true", args)
+Search(a...; b...) = Search(a..., b)
 
 """
     Suggest()
@@ -47,7 +49,9 @@ Optional Parameters
   "size": "Specifies the maximum number of suggestions to return. "
 }
 """
-Suggest(args) = cloudsearch_domain("GET", "/2013-01-01/suggest?format=sdk&pretty=true", args)
+Suggest(query, suggester) = cloudsearch_domain("GET", "/2013-01-01/suggest?format=sdk&pretty=true")
+Suggest(query, suggester, args) = cloudsearch_domain("GET", "/2013-01-01/suggest?format=sdk&pretty=true", args)
+Suggest(a...; b...) = Suggest(a..., b)
 
 """
     UploadDocuments()
@@ -60,4 +64,6 @@ Required Parameters
   "documents": "A batch of documents formatted in JSON or HTML."
 }
 """
-UploadDocuments(args) = cloudsearch_domain("POST", "/2013-01-01/documents/batch?format=sdk", args)
+UploadDocuments(contentType, documents) = cloudsearch_domain("POST", "/2013-01-01/documents/batch?format=sdk")
+UploadDocuments(contentType, documents, args) = cloudsearch_domain("POST", "/2013-01-01/documents/batch?format=sdk", args)
+UploadDocuments(a...; b...) = UploadDocuments(a..., b)

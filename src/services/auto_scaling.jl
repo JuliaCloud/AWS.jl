@@ -72,6 +72,18 @@ Required Parameters
 BatchPutScheduledUpdateGroupAction(args) = auto_scaling("BatchPutScheduledUpdateGroupAction", args)
 
 """
+    CancelInstanceRefresh()
+
+Cancels an instance refresh operation in progress. Cancellation does not roll back any replacements that have already been completed, but it prevents new replacements from being started.  For more information, see Replacing Auto Scaling Instances Based on an Instance Refresh.
+
+Required Parameters
+{
+  "AutoScalingGroupName": "The name of the Auto Scaling group."
+}
+"""
+CancelInstanceRefresh(args) = auto_scaling("CancelInstanceRefresh", args)
+
+"""
     CompleteLifecycleAction()
 
 Completes the lifecycle action for the specified token or instance with the specified result. This step is a part of the procedure for adding a lifecycle hook to an Auto Scaling group:   (Optional) Create a Lambda function and a rule that allows CloudWatch Events to invoke your Lambda function when Amazon EC2 Auto Scaling launches or terminates instances.   (Optional) Create a notification target and an IAM role. The target can be either an Amazon SQS queue or an Amazon SNS topic. The role allows Amazon EC2 Auto Scaling to publish lifecycle notifications to the target.   Create the lifecycle hook. Specify whether the hook is used when the instances launch or terminate.   If you need more time, record the lifecycle action heartbeat to keep the instance in a pending state.    If you finish before the timeout period ends, complete the lifecycle action.    For more information, see Amazon EC2 Auto Scaling Lifecycle Hooks in the Amazon EC2 Auto Scaling User Guide.
@@ -323,6 +335,25 @@ Describes the notification types that are supported by Amazon EC2 Auto Scaling.
 """
 DescribeAutoScalingNotificationTypes() = auto_scaling("DescribeAutoScalingNotificationTypes")
 DescribeAutoScalingNotificationTypes(args) = auto_scaling("DescribeAutoScalingNotificationTypes", args)
+
+"""
+    DescribeInstanceRefreshes()
+
+Describes one or more instance refreshes. You can determine the status of a request by looking at the Status parameter. The following are the possible statuses:     Pending - The request was created, but the operation has not started.    InProgress - The operation is in progress.    Successful - The operation completed successfully.    Failed - The operation failed to complete. You can troubleshoot using the status reason and the scaling activities.     Cancelling - An ongoing operation is being cancelled. Cancellation does not roll back any replacements that have already been completed, but it prevents new replacements from being started.     Cancelled - The operation is cancelled.   
+
+Required Parameters
+{
+  "AutoScalingGroupName": "The name of the Auto Scaling group."
+}
+
+Optional Parameters
+{
+  "InstanceRefreshIds": "One or more instance refresh IDs.",
+  "MaxRecords": "The maximum number of items to return with this call. The default value is 50 and the maximum value is 100.",
+  "NextToken": "The token for the next set of items to return. (You received this token from a previous call.)"
+}
+"""
+DescribeInstanceRefreshes(args) = auto_scaling("DescribeInstanceRefreshes", args)
 
 """
     DescribeLaunchConfigurations()
@@ -759,7 +790,7 @@ Required Parameters
 
 Optional Parameters
 {
-  "ScalingProcesses": "One or more of the following processes. If you omit this parameter, all processes are specified.    Launch     Terminate     HealthCheck     ReplaceUnhealthy     AZRebalance     AlarmNotification     ScheduledActions     AddToLoadBalancer   "
+  "ScalingProcesses": "One or more of the following processes:    Launch     Terminate     AddToLoadBalancer     AlarmNotification     AZRebalance     HealthCheck     InstanceRefresh     ReplaceUnhealthy     ScheduledActions    If you omit this parameter, all processes are specified."
 }
 """
 ResumeProcesses(args) = auto_scaling("ResumeProcesses", args)
@@ -815,6 +846,24 @@ Required Parameters
 SetInstanceProtection(args) = auto_scaling("SetInstanceProtection", args)
 
 """
+    StartInstanceRefresh()
+
+Starts a new instance refresh operation, which triggers a rolling replacement of all previously launched instances in the Auto Scaling group with a new group of instances. If successful, this call creates a new instance refresh request with a unique ID that you can use to track its progress. To query its status, call the DescribeInstanceRefreshes API. To describe the instance refreshes that have already run, call the DescribeInstanceRefreshes API. To cancel an active instance refresh operation, use the CancelInstanceRefresh API. For more information, see Replacing Auto Scaling Instances Based on an Instance Refresh.
+
+Required Parameters
+{
+  "AutoScalingGroupName": "The name of the Auto Scaling group."
+}
+
+Optional Parameters
+{
+  "Preferences": "Set of preferences associated with the instance refresh request.",
+  "Strategy": "The strategy to use for the instance refresh. The only valid value is Rolling. A rolling update is an update that is applied to all instances in an Auto Scaling group until all instances have been updated. A rolling update can fail due to failed health checks or if instances are on standby or are protected from scale-in. If the rolling update process fails, any instances that were already replaced are not rolled back to their previous configuration. "
+}
+"""
+StartInstanceRefresh(args) = auto_scaling("StartInstanceRefresh", args)
+
+"""
     SuspendProcesses()
 
 Suspends the specified automatic scaling processes, or all processes, for the specified Auto Scaling group. If you suspend either the Launch or Terminate process types, it can prevent other process types from functioning properly. For more information, see Suspending and Resuming Scaling Processes in the Amazon EC2 Auto Scaling User Guide. To resume processes that have been suspended, call the ResumeProcesses API.
@@ -826,7 +875,7 @@ Required Parameters
 
 Optional Parameters
 {
-  "ScalingProcesses": "One or more of the following processes. If you omit this parameter, all processes are specified.    Launch     Terminate     HealthCheck     ReplaceUnhealthy     AZRebalance     AlarmNotification     ScheduledActions     AddToLoadBalancer   "
+  "ScalingProcesses": "One or more of the following processes:    Launch     Terminate     AddToLoadBalancer     AlarmNotification     AZRebalance     HealthCheck     InstanceRefresh     ReplaceUnhealthy     ScheduledActions    If you omit this parameter, all processes are specified."
 }
 """
 SuspendProcesses(args) = auto_scaling("SuspendProcesses", args)

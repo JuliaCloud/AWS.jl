@@ -13,7 +13,9 @@ Required Parameters
   "StreamId": "The unique ID that QLDB assigns to each QLDB journal stream."
 }
 """
-CancelJournalKinesisStream(args) = qldb("DELETE", "/ledgers/{name}/journal-kinesis-streams/{streamId}", args)
+CancelJournalKinesisStream(LedgerName, StreamId) = qldb("DELETE", "/ledgers/$(name)/journal-kinesis-streams/$(streamId)")
+CancelJournalKinesisStream(LedgerName, StreamId, args) = qldb("DELETE", "/ledgers/$(name)/journal-kinesis-streams/$(streamId)", args)
+CancelJournalKinesisStream(a...; b...) = CancelJournalKinesisStream(a..., b)
 
 """
     CreateLedger()
@@ -22,7 +24,7 @@ Creates a new ledger in your AWS account.
 
 Required Parameters
 {
-  "Name": "The name of the ledger that you want to create. The name must be unique among all of your ledgers in the current AWS Region.",
+  "Name": "The name of the ledger that you want to create. The name must be unique among all of your ledgers in the current AWS Region. Naming constraints for ledger names are defined in Quotas in Amazon QLDB in the Amazon QLDB Developer Guide.",
   "PermissionsMode": "The permissions mode to assign to the ledger that you want to create."
 }
 
@@ -32,7 +34,9 @@ Optional Parameters
   "Tags": "The key-value pairs to add as tags to the ledger that you want to create. Tag keys are case sensitive. Tag values are case sensitive and can be null."
 }
 """
-CreateLedger(args) = qldb("POST", "/ledgers", args)
+CreateLedger(Name, PermissionsMode) = qldb("POST", "/ledgers")
+CreateLedger(Name, PermissionsMode, args) = qldb("POST", "/ledgers", args)
+CreateLedger(a...; b...) = CreateLedger(a..., b)
 
 """
     DeleteLedger()
@@ -44,7 +48,9 @@ Required Parameters
   "Name": "The name of the ledger that you want to delete."
 }
 """
-DeleteLedger(args) = qldb("DELETE", "/ledgers/{name}", args)
+DeleteLedger(Name) = qldb("DELETE", "/ledgers/$(name)")
+DeleteLedger(Name, args) = qldb("DELETE", "/ledgers/$(name)", args)
+DeleteLedger(a...; b...) = DeleteLedger(a..., b)
 
 """
     DescribeJournalKinesisStream()
@@ -57,7 +63,9 @@ Required Parameters
   "StreamId": "The unique ID that QLDB assigns to each QLDB journal stream."
 }
 """
-DescribeJournalKinesisStream(args) = qldb("GET", "/ledgers/{name}/journal-kinesis-streams/{streamId}", args)
+DescribeJournalKinesisStream(LedgerName, StreamId) = qldb("GET", "/ledgers/$(name)/journal-kinesis-streams/$(streamId)")
+DescribeJournalKinesisStream(LedgerName, StreamId, args) = qldb("GET", "/ledgers/$(name)/journal-kinesis-streams/$(streamId)", args)
+DescribeJournalKinesisStream(a...; b...) = DescribeJournalKinesisStream(a..., b)
 
 """
     DescribeJournalS3Export()
@@ -70,7 +78,9 @@ Required Parameters
   "Name": "The name of the ledger."
 }
 """
-DescribeJournalS3Export(args) = qldb("GET", "/ledgers/{name}/journal-s3-exports/{exportId}", args)
+DescribeJournalS3Export(ExportId, Name) = qldb("GET", "/ledgers/$(name)/journal-s3-exports/$(exportId)")
+DescribeJournalS3Export(ExportId, Name, args) = qldb("GET", "/ledgers/$(name)/journal-s3-exports/$(exportId)", args)
+DescribeJournalS3Export(a...; b...) = DescribeJournalS3Export(a..., b)
 
 """
     DescribeLedger()
@@ -82,7 +92,9 @@ Required Parameters
   "Name": "The name of the ledger that you want to describe."
 }
 """
-DescribeLedger(args) = qldb("GET", "/ledgers/{name}", args)
+DescribeLedger(Name) = qldb("GET", "/ledgers/$(name)")
+DescribeLedger(Name, args) = qldb("GET", "/ledgers/$(name)", args)
+DescribeLedger(a...; b...) = DescribeLedger(a..., b)
 
 """
     ExportJournalToS3()
@@ -98,12 +110,14 @@ Required Parameters
   "S3ExportConfiguration": "The configuration settings of the Amazon S3 bucket destination for your export request."
 }
 """
-ExportJournalToS3(args) = qldb("POST", "/ledgers/{name}/journal-s3-exports", args)
+ExportJournalToS3(ExclusiveEndTime, InclusiveStartTime, Name, RoleArn, S3ExportConfiguration) = qldb("POST", "/ledgers/$(name)/journal-s3-exports")
+ExportJournalToS3(ExclusiveEndTime, InclusiveStartTime, Name, RoleArn, S3ExportConfiguration, args) = qldb("POST", "/ledgers/$(name)/journal-s3-exports", args)
+ExportJournalToS3(a...; b...) = ExportJournalToS3(a..., b)
 
 """
     GetBlock()
 
-Returns a journal block object at a specified address in a ledger. Also returns a proof of the specified block for verification if DigestTipAddress is provided. If the specified ledger doesn't exist or is in DELETING status, then throws ResourceNotFoundException. If the specified ledger is in CREATING status, then throws ResourcePreconditionNotMetException. If no block exists with the specified address, then throws InvalidParameterException.
+Returns a block object at a specified address in a journal. Also returns a proof of the specified block for verification if DigestTipAddress is provided. For information about the data contents in a block, see Journal contents in the Amazon QLDB Developer Guide. If the specified ledger doesn't exist or is in DELETING status, then throws ResourceNotFoundException. If the specified ledger is in CREATING status, then throws ResourcePreconditionNotMetException. If no block exists with the specified address, then throws InvalidParameterException.
 
 Required Parameters
 {
@@ -116,7 +130,9 @@ Optional Parameters
   "DigestTipAddress": "The latest block location covered by the digest for which to request a proof. An address is an Amazon Ion structure that has two fields: strandId and sequenceNo. For example: {strandId:\"BlFTjlSXze9BIh1KOszcE3\",sequenceNo:49} "
 }
 """
-GetBlock(args) = qldb("POST", "/ledgers/{name}/block", args)
+GetBlock(BlockAddress, Name) = qldb("POST", "/ledgers/$(name)/block")
+GetBlock(BlockAddress, Name, args) = qldb("POST", "/ledgers/$(name)/block", args)
+GetBlock(a...; b...) = GetBlock(a..., b)
 
 """
     GetDigest()
@@ -128,7 +144,9 @@ Required Parameters
   "Name": "The name of the ledger."
 }
 """
-GetDigest(args) = qldb("POST", "/ledgers/{name}/digest", args)
+GetDigest(Name) = qldb("POST", "/ledgers/$(name)/digest")
+GetDigest(Name, args) = qldb("POST", "/ledgers/$(name)/digest", args)
+GetDigest(a...; b...) = GetDigest(a..., b)
 
 """
     GetRevision()
@@ -147,7 +165,9 @@ Optional Parameters
   "DigestTipAddress": "The latest block location covered by the digest for which to request a proof. An address is an Amazon Ion structure that has two fields: strandId and sequenceNo. For example: {strandId:\"BlFTjlSXze9BIh1KOszcE3\",sequenceNo:49} "
 }
 """
-GetRevision(args) = qldb("POST", "/ledgers/{name}/revision", args)
+GetRevision(BlockAddress, DocumentId, Name) = qldb("POST", "/ledgers/$(name)/revision")
+GetRevision(BlockAddress, DocumentId, Name, args) = qldb("POST", "/ledgers/$(name)/revision", args)
+GetRevision(a...; b...) = GetRevision(a..., b)
 
 """
     ListJournalKinesisStreamsForLedger()
@@ -165,7 +185,9 @@ Optional Parameters
   "NextToken": "A pagination token, indicating that you want to retrieve the next page of results. If you received a value for NextToken in the response from a previous ListJournalKinesisStreamsForLedger call, you should use that value as input here."
 }
 """
-ListJournalKinesisStreamsForLedger(args) = qldb("GET", "/ledgers/{name}/journal-kinesis-streams", args)
+ListJournalKinesisStreamsForLedger(LedgerName) = qldb("GET", "/ledgers/$(name)/journal-kinesis-streams")
+ListJournalKinesisStreamsForLedger(LedgerName, args) = qldb("GET", "/ledgers/$(name)/journal-kinesis-streams", args)
+ListJournalKinesisStreamsForLedger(a...; b...) = ListJournalKinesisStreamsForLedger(a..., b)
 
 """
     ListJournalS3Exports()
@@ -180,6 +202,7 @@ Optional Parameters
 """
 ListJournalS3Exports() = qldb("GET", "/journal-s3-exports")
 ListJournalS3Exports(args) = qldb("GET", "/journal-s3-exports", args)
+ListJournalS3Exports(a...; b...) = ListJournalS3Exports(a..., b)
 
 """
     ListJournalS3ExportsForLedger()
@@ -197,7 +220,9 @@ Optional Parameters
   "NextToken": "A pagination token, indicating that you want to retrieve the next page of results. If you received a value for NextToken in the response from a previous ListJournalS3ExportsForLedger call, then you should use that value as input here."
 }
 """
-ListJournalS3ExportsForLedger(args) = qldb("GET", "/ledgers/{name}/journal-s3-exports", args)
+ListJournalS3ExportsForLedger(Name) = qldb("GET", "/ledgers/$(name)/journal-s3-exports")
+ListJournalS3ExportsForLedger(Name, args) = qldb("GET", "/ledgers/$(name)/journal-s3-exports", args)
+ListJournalS3ExportsForLedger(a...; b...) = ListJournalS3ExportsForLedger(a..., b)
 
 """
     ListLedgers()
@@ -212,6 +237,7 @@ Optional Parameters
 """
 ListLedgers() = qldb("GET", "/ledgers")
 ListLedgers(args) = qldb("GET", "/ledgers", args)
+ListLedgers(a...; b...) = ListLedgers(a..., b)
 
 """
     ListTagsForResource()
@@ -223,12 +249,14 @@ Required Parameters
   "ResourceArn": "The Amazon Resource Name (ARN) for which you want to list the tags. For example:  arn:aws:qldb:us-east-1:123456789012:ledger/exampleLedger "
 }
 """
-ListTagsForResource(args) = qldb("GET", "/tags/{resourceArn}", args)
+ListTagsForResource(ResourceArn) = qldb("GET", "/tags/$(resourceArn)")
+ListTagsForResource(ResourceArn, args) = qldb("GET", "/tags/$(resourceArn)", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     StreamJournalToKinesis()
 
-Creates a stream for a given Amazon QLDB ledger that delivers the journal data to a specified Amazon Kinesis Data Streams resource. The stream captures every document revision that is committed to your journal and sends it to the Kinesis data stream.
+Creates a journal stream for a given Amazon QLDB ledger. The stream captures every document revision that is committed to the ledger's journal and delivers the data to a specified Amazon Kinesis Data Streams resource.
 
 Required Parameters
 {
@@ -236,16 +264,18 @@ Required Parameters
   "KinesisConfiguration": "The configuration settings of the Kinesis Data Streams destination for your stream request.",
   "LedgerName": "The name of the ledger.",
   "RoleArn": "The Amazon Resource Name (ARN) of the IAM role that grants QLDB permissions for a journal stream to write data records to a Kinesis Data Streams resource.",
-  "StreamName": "The name that you want to assign to the QLDB journal stream. User-defined names can help identify and indicate the purpose of a stream. Your stream name must be unique among other active streams for a given ledger. If you try to create a stream with the same name and configuration of an active, existing stream for the same ledger, QLDB simply returns the existing stream. Stream names have the same naming constraints as ledger names, as defined in Quotas in Amazon QLDB in the Amazon QLDB Developer Guide."
+  "StreamName": "The name that you want to assign to the QLDB journal stream. User-defined names can help identify and indicate the purpose of a stream. Your stream name must be unique among other active streams for a given ledger. Stream names have the same naming constraints as ledger names, as defined in Quotas in Amazon QLDB in the Amazon QLDB Developer Guide."
 }
 
 Optional Parameters
 {
-  "ExclusiveEndTime": "The exclusive date and time that specifies when the stream ends. If you keep this parameter blank, the stream runs indefinitely until you cancel it. The ExclusiveEndTime must be in ISO 8601 date and time format and in Universal Coordinated Time (UTC). For example: 2019-06-13T21:36:34Z ",
+  "ExclusiveEndTime": "The exclusive date and time that specifies when the stream ends. If you don't define this parameter, the stream runs indefinitely until you cancel it. The ExclusiveEndTime must be in ISO 8601 date and time format and in Universal Coordinated Time (UTC). For example: 2019-06-13T21:36:34Z ",
   "Tags": "The key-value pairs to add as tags to the stream that you want to create. Tag keys are case sensitive. Tag values are case sensitive and can be null."
 }
 """
-StreamJournalToKinesis(args) = qldb("POST", "/ledgers/{name}/journal-kinesis-streams", args)
+StreamJournalToKinesis(InclusiveStartTime, KinesisConfiguration, LedgerName, RoleArn, StreamName) = qldb("POST", "/ledgers/$(name)/journal-kinesis-streams")
+StreamJournalToKinesis(InclusiveStartTime, KinesisConfiguration, LedgerName, RoleArn, StreamName, args) = qldb("POST", "/ledgers/$(name)/journal-kinesis-streams", args)
+StreamJournalToKinesis(a...; b...) = StreamJournalToKinesis(a..., b)
 
 """
     TagResource()
@@ -258,7 +288,9 @@ Required Parameters
   "Tags": "The key-value pairs to add as tags to the specified QLDB resource. Tag keys are case sensitive. If you specify a key that already exists for the resource, your request fails and returns an error. Tag values are case sensitive and can be null."
 }
 """
-TagResource(args) = qldb("POST", "/tags/{resourceArn}", args)
+TagResource(ResourceArn, Tags) = qldb("POST", "/tags/$(resourceArn)")
+TagResource(ResourceArn, Tags, args) = qldb("POST", "/tags/$(resourceArn)", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
@@ -271,7 +303,9 @@ Required Parameters
   "TagKeys": "The list of tag keys that you want to remove."
 }
 """
-UntagResource(args) = qldb("DELETE", "/tags/{resourceArn}", args)
+UntagResource(ResourceArn, TagKeys) = qldb("DELETE", "/tags/$(resourceArn)")
+UntagResource(ResourceArn, TagKeys, args) = qldb("DELETE", "/tags/$(resourceArn)", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateLedger()
@@ -288,4 +322,6 @@ Optional Parameters
   "DeletionProtection": "The flag that prevents a ledger from being deleted by any user. If not provided on ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger using the QLDB API or the AWS Command Line Interface (AWS CLI). You can disable it by calling the UpdateLedger operation to set the flag to false. The QLDB console disables deletion protection for you when you use it to delete a ledger."
 }
 """
-UpdateLedger(args) = qldb("PATCH", "/ledgers/{name}", args)
+UpdateLedger(Name) = qldb("PATCH", "/ledgers/$(name)")
+UpdateLedger(Name, args) = qldb("PATCH", "/ledgers/$(name)", args)
+UpdateLedger(a...; b...) = UpdateLedger(a..., b)

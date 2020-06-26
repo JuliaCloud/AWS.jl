@@ -23,7 +23,9 @@ Optional Parameters
   "scope": "The list of scopes that is defined by the client. Upon authorization, this list is used to restrict permissions when granting an access token."
 }
 """
-CreateToken(args) = sso_oidc("POST", "/token", args)
+CreateToken(clientId, clientSecret, deviceCode, grantType) = sso_oidc("POST", "/token")
+CreateToken(clientId, clientSecret, deviceCode, grantType, args) = sso_oidc("POST", "/token", args)
+CreateToken(a...; b...) = CreateToken(a..., b)
 
 """
     RegisterClient()
@@ -41,7 +43,9 @@ Optional Parameters
   "scopes": "The list of scopes that are defined by the client. Upon authorization, this list is used to restrict permissions when granting an access token."
 }
 """
-RegisterClient(args) = sso_oidc("POST", "/client/register", args)
+RegisterClient(clientName, clientType) = sso_oidc("POST", "/client/register")
+RegisterClient(clientName, clientType, args) = sso_oidc("POST", "/client/register", args)
+RegisterClient(a...; b...) = RegisterClient(a..., b)
 
 """
     StartDeviceAuthorization()
@@ -55,4 +59,6 @@ Required Parameters
   "startUrl": "The URL for the AWS SSO user portal. For more information, see Using the User Portal in the AWS Single Sign-On User Guide."
 }
 """
-StartDeviceAuthorization(args) = sso_oidc("POST", "/device_authorization", args)
+StartDeviceAuthorization(clientId, clientSecret, startUrl) = sso_oidc("POST", "/device_authorization")
+StartDeviceAuthorization(clientId, clientSecret, startUrl, args) = sso_oidc("POST", "/device_authorization", args)
+StartDeviceAuthorization(a...; b...) = StartDeviceAuthorization(a..., b)

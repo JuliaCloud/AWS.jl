@@ -19,7 +19,9 @@ Optional Parameters
   "LinkId": "The ID of the link."
 }
 """
-AssociateCustomerGateway(args) = networkmanager("POST", "/global-networks/{globalNetworkId}/customer-gateway-associations", args)
+AssociateCustomerGateway(CustomerGatewayArn, DeviceId, GlobalNetworkId) = networkmanager("POST", "/global-networks/$(globalNetworkId)/customer-gateway-associations")
+AssociateCustomerGateway(CustomerGatewayArn, DeviceId, GlobalNetworkId, args) = networkmanager("POST", "/global-networks/$(globalNetworkId)/customer-gateway-associations", args)
+AssociateCustomerGateway(a...; b...) = AssociateCustomerGateway(a..., b)
 
 """
     AssociateLink()
@@ -33,7 +35,9 @@ Required Parameters
   "LinkId": "The ID of the link."
 }
 """
-AssociateLink(args) = networkmanager("POST", "/global-networks/{globalNetworkId}/link-associations", args)
+AssociateLink(DeviceId, GlobalNetworkId, LinkId) = networkmanager("POST", "/global-networks/$(globalNetworkId)/link-associations")
+AssociateLink(DeviceId, GlobalNetworkId, LinkId, args) = networkmanager("POST", "/global-networks/$(globalNetworkId)/link-associations", args)
+AssociateLink(a...; b...) = AssociateLink(a..., b)
 
 """
     CreateDevice()
@@ -57,7 +61,9 @@ Optional Parameters
   "Vendor": "The vendor of the device. Length Constraints: Maximum length of 128 characters."
 }
 """
-CreateDevice(args) = networkmanager("POST", "/global-networks/{globalNetworkId}/devices", args)
+CreateDevice(GlobalNetworkId) = networkmanager("POST", "/global-networks/$(globalNetworkId)/devices")
+CreateDevice(GlobalNetworkId, args) = networkmanager("POST", "/global-networks/$(globalNetworkId)/devices", args)
+CreateDevice(a...; b...) = CreateDevice(a..., b)
 
 """
     CreateGlobalNetwork()
@@ -72,6 +78,7 @@ Optional Parameters
 """
 CreateGlobalNetwork() = networkmanager("POST", "/global-networks")
 CreateGlobalNetwork(args) = networkmanager("POST", "/global-networks", args)
+CreateGlobalNetwork(a...; b...) = CreateGlobalNetwork(a..., b)
 
 """
     CreateLink()
@@ -93,7 +100,9 @@ Optional Parameters
   "Type": "The type of the link. Constraints: Cannot include the following characters: |   ^ Length Constraints: Maximum length of 128 characters."
 }
 """
-CreateLink(args) = networkmanager("POST", "/global-networks/{globalNetworkId}/links", args)
+CreateLink(Bandwidth, GlobalNetworkId, SiteId) = networkmanager("POST", "/global-networks/$(globalNetworkId)/links")
+CreateLink(Bandwidth, GlobalNetworkId, SiteId, args) = networkmanager("POST", "/global-networks/$(globalNetworkId)/links", args)
+CreateLink(a...; b...) = CreateLink(a..., b)
 
 """
     CreateSite()
@@ -112,7 +121,9 @@ Optional Parameters
   "Tags": "The tags to apply to the resource during creation."
 }
 """
-CreateSite(args) = networkmanager("POST", "/global-networks/{globalNetworkId}/sites", args)
+CreateSite(GlobalNetworkId) = networkmanager("POST", "/global-networks/$(globalNetworkId)/sites")
+CreateSite(GlobalNetworkId, args) = networkmanager("POST", "/global-networks/$(globalNetworkId)/sites", args)
+CreateSite(a...; b...) = CreateSite(a..., b)
 
 """
     DeleteDevice()
@@ -125,7 +136,9 @@ Required Parameters
   "GlobalNetworkId": "The ID of the global network."
 }
 """
-DeleteDevice(args) = networkmanager("DELETE", "/global-networks/{globalNetworkId}/devices/{deviceId}", args)
+DeleteDevice(DeviceId, GlobalNetworkId) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/devices/$(deviceId)")
+DeleteDevice(DeviceId, GlobalNetworkId, args) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/devices/$(deviceId)", args)
+DeleteDevice(a...; b...) = DeleteDevice(a..., b)
 
 """
     DeleteGlobalNetwork()
@@ -137,7 +150,9 @@ Required Parameters
   "GlobalNetworkId": "The ID of the global network."
 }
 """
-DeleteGlobalNetwork(args) = networkmanager("DELETE", "/global-networks/{globalNetworkId}", args)
+DeleteGlobalNetwork(GlobalNetworkId) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)")
+DeleteGlobalNetwork(GlobalNetworkId, args) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)", args)
+DeleteGlobalNetwork(a...; b...) = DeleteGlobalNetwork(a..., b)
 
 """
     DeleteLink()
@@ -150,7 +165,9 @@ Required Parameters
   "LinkId": "The ID of the link."
 }
 """
-DeleteLink(args) = networkmanager("DELETE", "/global-networks/{globalNetworkId}/links/{linkId}", args)
+DeleteLink(GlobalNetworkId, LinkId) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/links/$(linkId)")
+DeleteLink(GlobalNetworkId, LinkId, args) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/links/$(linkId)", args)
+DeleteLink(a...; b...) = DeleteLink(a..., b)
 
 """
     DeleteSite()
@@ -163,7 +180,9 @@ Required Parameters
   "SiteId": "The ID of the site."
 }
 """
-DeleteSite(args) = networkmanager("DELETE", "/global-networks/{globalNetworkId}/sites/{siteId}", args)
+DeleteSite(GlobalNetworkId, SiteId) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/sites/$(siteId)")
+DeleteSite(GlobalNetworkId, SiteId, args) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/sites/$(siteId)", args)
+DeleteSite(a...; b...) = DeleteSite(a..., b)
 
 """
     DeregisterTransitGateway()
@@ -176,7 +195,9 @@ Required Parameters
   "TransitGatewayArn": "The Amazon Resource Name (ARN) of the transit gateway."
 }
 """
-DeregisterTransitGateway(args) = networkmanager("DELETE", "/global-networks/{globalNetworkId}/transit-gateway-registrations/{transitGatewayArn}", args)
+DeregisterTransitGateway(GlobalNetworkId, TransitGatewayArn) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/transit-gateway-registrations/$(transitGatewayArn)")
+DeregisterTransitGateway(GlobalNetworkId, TransitGatewayArn, args) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/transit-gateway-registrations/$(transitGatewayArn)", args)
+DeregisterTransitGateway(a...; b...) = DeregisterTransitGateway(a..., b)
 
 """
     DescribeGlobalNetworks()
@@ -192,6 +213,7 @@ Optional Parameters
 """
 DescribeGlobalNetworks() = networkmanager("GET", "/global-networks")
 DescribeGlobalNetworks(args) = networkmanager("GET", "/global-networks", args)
+DescribeGlobalNetworks(a...; b...) = DescribeGlobalNetworks(a..., b)
 
 """
     DisassociateCustomerGateway()
@@ -204,7 +226,9 @@ Required Parameters
   "GlobalNetworkId": "The ID of the global network."
 }
 """
-DisassociateCustomerGateway(args) = networkmanager("DELETE", "/global-networks/{globalNetworkId}/customer-gateway-associations/{customerGatewayArn}", args)
+DisassociateCustomerGateway(CustomerGatewayArn, GlobalNetworkId) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/customer-gateway-associations/$(customerGatewayArn)")
+DisassociateCustomerGateway(CustomerGatewayArn, GlobalNetworkId, args) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/customer-gateway-associations/$(customerGatewayArn)", args)
+DisassociateCustomerGateway(a...; b...) = DisassociateCustomerGateway(a..., b)
 
 """
     DisassociateLink()
@@ -218,7 +242,9 @@ Required Parameters
   "LinkId": "The ID of the link."
 }
 """
-DisassociateLink(args) = networkmanager("DELETE", "/global-networks/{globalNetworkId}/link-associations", args)
+DisassociateLink(DeviceId, GlobalNetworkId, LinkId) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/link-associations")
+DisassociateLink(DeviceId, GlobalNetworkId, LinkId, args) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/link-associations", args)
+DisassociateLink(a...; b...) = DisassociateLink(a..., b)
 
 """
     GetCustomerGatewayAssociations()
@@ -237,7 +263,9 @@ Optional Parameters
   "NextToken": "The token for the next page of results."
 }
 """
-GetCustomerGatewayAssociations(args) = networkmanager("GET", "/global-networks/{globalNetworkId}/customer-gateway-associations", args)
+GetCustomerGatewayAssociations(GlobalNetworkId) = networkmanager("GET", "/global-networks/$(globalNetworkId)/customer-gateway-associations")
+GetCustomerGatewayAssociations(GlobalNetworkId, args) = networkmanager("GET", "/global-networks/$(globalNetworkId)/customer-gateway-associations", args)
+GetCustomerGatewayAssociations(a...; b...) = GetCustomerGatewayAssociations(a..., b)
 
 """
     GetDevices()
@@ -257,7 +285,9 @@ Optional Parameters
   "SiteId": "The ID of the site."
 }
 """
-GetDevices(args) = networkmanager("GET", "/global-networks/{globalNetworkId}/devices", args)
+GetDevices(GlobalNetworkId) = networkmanager("GET", "/global-networks/$(globalNetworkId)/devices")
+GetDevices(GlobalNetworkId, args) = networkmanager("GET", "/global-networks/$(globalNetworkId)/devices", args)
+GetDevices(a...; b...) = GetDevices(a..., b)
 
 """
     GetLinkAssociations()
@@ -277,7 +307,9 @@ Optional Parameters
   "NextToken": "The token for the next page of results."
 }
 """
-GetLinkAssociations(args) = networkmanager("GET", "/global-networks/{globalNetworkId}/link-associations", args)
+GetLinkAssociations(GlobalNetworkId) = networkmanager("GET", "/global-networks/$(globalNetworkId)/link-associations")
+GetLinkAssociations(GlobalNetworkId, args) = networkmanager("GET", "/global-networks/$(globalNetworkId)/link-associations", args)
+GetLinkAssociations(a...; b...) = GetLinkAssociations(a..., b)
 
 """
     GetLinks()
@@ -299,7 +331,9 @@ Optional Parameters
   "Type": "The link type."
 }
 """
-GetLinks(args) = networkmanager("GET", "/global-networks/{globalNetworkId}/links", args)
+GetLinks(GlobalNetworkId) = networkmanager("GET", "/global-networks/$(globalNetworkId)/links")
+GetLinks(GlobalNetworkId, args) = networkmanager("GET", "/global-networks/$(globalNetworkId)/links", args)
+GetLinks(a...; b...) = GetLinks(a..., b)
 
 """
     GetSites()
@@ -318,7 +352,9 @@ Optional Parameters
   "SiteIds": "One or more site IDs. The maximum is 10."
 }
 """
-GetSites(args) = networkmanager("GET", "/global-networks/{globalNetworkId}/sites", args)
+GetSites(GlobalNetworkId) = networkmanager("GET", "/global-networks/$(globalNetworkId)/sites")
+GetSites(GlobalNetworkId, args) = networkmanager("GET", "/global-networks/$(globalNetworkId)/sites", args)
+GetSites(a...; b...) = GetSites(a..., b)
 
 """
     GetTransitGatewayRegistrations()
@@ -337,7 +373,9 @@ Optional Parameters
   "TransitGatewayArns": "The Amazon Resource Names (ARNs) of one or more transit gateways. The maximum is 10."
 }
 """
-GetTransitGatewayRegistrations(args) = networkmanager("GET", "/global-networks/{globalNetworkId}/transit-gateway-registrations", args)
+GetTransitGatewayRegistrations(GlobalNetworkId) = networkmanager("GET", "/global-networks/$(globalNetworkId)/transit-gateway-registrations")
+GetTransitGatewayRegistrations(GlobalNetworkId, args) = networkmanager("GET", "/global-networks/$(globalNetworkId)/transit-gateway-registrations", args)
+GetTransitGatewayRegistrations(a...; b...) = GetTransitGatewayRegistrations(a..., b)
 
 """
     ListTagsForResource()
@@ -349,7 +387,9 @@ Required Parameters
   "ResourceArn": "The Amazon Resource Name (ARN) of the resource."
 }
 """
-ListTagsForResource(args) = networkmanager("GET", "/tags/{resourceArn}", args)
+ListTagsForResource(ResourceArn) = networkmanager("GET", "/tags/$(resourceArn)")
+ListTagsForResource(ResourceArn, args) = networkmanager("GET", "/tags/$(resourceArn)", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     RegisterTransitGateway()
@@ -362,7 +402,9 @@ Required Parameters
   "TransitGatewayArn": "The Amazon Resource Name (ARN) of the transit gateway. For more information, see Resources Defined by Amazon EC2."
 }
 """
-RegisterTransitGateway(args) = networkmanager("POST", "/global-networks/{globalNetworkId}/transit-gateway-registrations", args)
+RegisterTransitGateway(GlobalNetworkId, TransitGatewayArn) = networkmanager("POST", "/global-networks/$(globalNetworkId)/transit-gateway-registrations")
+RegisterTransitGateway(GlobalNetworkId, TransitGatewayArn, args) = networkmanager("POST", "/global-networks/$(globalNetworkId)/transit-gateway-registrations", args)
+RegisterTransitGateway(a...; b...) = RegisterTransitGateway(a..., b)
 
 """
     TagResource()
@@ -375,7 +417,9 @@ Required Parameters
   "Tags": "The tags to apply to the specified resource."
 }
 """
-TagResource(args) = networkmanager("POST", "/tags/{resourceArn}", args)
+TagResource(ResourceArn, Tags) = networkmanager("POST", "/tags/$(resourceArn)")
+TagResource(ResourceArn, Tags, args) = networkmanager("POST", "/tags/$(resourceArn)", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
@@ -388,7 +432,9 @@ Required Parameters
   "TagKeys": "The tag keys to remove from the specified resource."
 }
 """
-UntagResource(args) = networkmanager("DELETE", "/tags/{resourceArn}", args)
+UntagResource(ResourceArn, TagKeys) = networkmanager("DELETE", "/tags/$(resourceArn)")
+UntagResource(ResourceArn, TagKeys, args) = networkmanager("DELETE", "/tags/$(resourceArn)", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateDevice()
@@ -412,7 +458,9 @@ Optional Parameters
   "Vendor": "The vendor of the device. Length Constraints: Maximum length of 128 characters."
 }
 """
-UpdateDevice(args) = networkmanager("PATCH", "/global-networks/{globalNetworkId}/devices/{deviceId}", args)
+UpdateDevice(DeviceId, GlobalNetworkId) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)/devices/$(deviceId)")
+UpdateDevice(DeviceId, GlobalNetworkId, args) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)/devices/$(deviceId)", args)
+UpdateDevice(a...; b...) = UpdateDevice(a..., b)
 
 """
     UpdateGlobalNetwork()
@@ -429,7 +477,9 @@ Optional Parameters
   "Description": "A description of the global network. Length Constraints: Maximum length of 256 characters."
 }
 """
-UpdateGlobalNetwork(args) = networkmanager("PATCH", "/global-networks/{globalNetworkId}", args)
+UpdateGlobalNetwork(GlobalNetworkId) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)")
+UpdateGlobalNetwork(GlobalNetworkId, args) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)", args)
+UpdateGlobalNetwork(a...; b...) = UpdateGlobalNetwork(a..., b)
 
 """
     UpdateLink()
@@ -450,7 +500,9 @@ Optional Parameters
   "Type": "The type of the link. Length Constraints: Maximum length of 128 characters."
 }
 """
-UpdateLink(args) = networkmanager("PATCH", "/global-networks/{globalNetworkId}/links/{linkId}", args)
+UpdateLink(GlobalNetworkId, LinkId) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)/links/$(linkId)")
+UpdateLink(GlobalNetworkId, LinkId, args) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)/links/$(linkId)", args)
+UpdateLink(a...; b...) = UpdateLink(a..., b)
 
 """
     UpdateSite()
@@ -469,4 +521,6 @@ Optional Parameters
   "Location": "The site location:    Address: The physical address of the site.    Latitude: The latitude of the site.     Longitude: The longitude of the site.  "
 }
 """
-UpdateSite(args) = networkmanager("PATCH", "/global-networks/{globalNetworkId}/sites/{siteId}", args)
+UpdateSite(GlobalNetworkId, SiteId) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)/sites/$(siteId)")
+UpdateSite(GlobalNetworkId, SiteId, args) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)/sites/$(siteId)", args)
+UpdateSite(a...; b...) = UpdateSite(a..., b)

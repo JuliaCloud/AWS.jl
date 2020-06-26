@@ -55,7 +55,7 @@ AssociatePrincipalWithPortfolio(args) = service_catalog("AssociatePrincipalWithP
 """
     AssociateProductWithPortfolio()
 
-Associates the specified product with the specified portfolio.
+Associates the specified product with the specified portfolio. A delegated admin is authorized to invoke this command.
 
 Required Parameters
 {
@@ -162,7 +162,7 @@ CopyProduct(args) = service_catalog("CopyProduct", args)
 """
     CreateConstraint()
 
-Creates a constraint.
+Creates a constraint. A delegated admin is authorized to invoke this command.
 
 Required Parameters
 {
@@ -184,7 +184,7 @@ CreateConstraint(args) = service_catalog("CreateConstraint", args)
 """
     CreatePortfolio()
 
-Creates a portfolio.
+Creates a portfolio. A delegated admin is authorized to invoke this command.
 
 Required Parameters
 {
@@ -205,7 +205,7 @@ CreatePortfolio(args) = service_catalog("CreatePortfolio", args)
 """
     CreatePortfolioShare()
 
-Shares the specified portfolio with the specified account or organization node. Shares to an organization node can only be created by the master account of an Organization. AWSOrganizationsAccess must be enabled in order to create a portfolio share to an organization node.
+Shares the specified portfolio with the specified account or organization node. Shares to an organization node can only be created by the master account of an organization or by a delegated administrator. You can share portfolios to an organization, an organizational unit, or a specific account. Note that if a delegated admin is de-registered, they can no longer create portfolio shares.  AWSOrganizationsAccess must be enabled in order to create a portfolio share to an organization node.
 
 Required Parameters
 {
@@ -224,7 +224,7 @@ CreatePortfolioShare(args) = service_catalog("CreatePortfolioShare", args)
 """
     CreateProduct()
 
-Creates a product.
+Creates a product. A delegated admin is authorized to invoke this command.
 
 Required Parameters
 {
@@ -300,7 +300,7 @@ Creates a self-service action.
 
 Required Parameters
 {
-  "Definition": "The self-service action definition. Can be one of the following:  Name  The name of the AWS Systems Manager Document. For example, AWS-RestartEC2Instance.  Version  The AWS Systems Manager automation document version. For example, \"Version\": \"1\"   AssumeRole  The Amazon Resource Name (ARN) of the role that performs the self-service actions on your behalf. For example, \"AssumeRole\": \"arn:aws:iam::12345678910:role/ActionRole\". To reuse the provisioned product launch role, set to \"AssumeRole\": \"LAUNCH_ROLE\".  Parameters  The list of parameters in JSON format. For example: [{ \"Name \": \"InstanceId \", \"Type \": \"TARGET \"}] or [{ \"Name \": \"InstanceId \", \"Type \": \"TEXT_VALUE \"}].  ",
+  "Definition": "The self-service action definition. Can be one of the following:  Name  The name of the AWS Systems Manager document (SSM document). For example, AWS-RestartEC2Instance. If you are using a shared SSM document, you must provide the ARN instead of the name.  Version  The AWS Systems Manager automation document version. For example, \"Version\": \"1\"   AssumeRole  The Amazon Resource Name (ARN) of the role that performs the self-service actions on your behalf. For example, \"AssumeRole\": \"arn:aws:iam::12345678910:role/ActionRole\". To reuse the provisioned product launch role, set to \"AssumeRole\": \"LAUNCH_ROLE\".  Parameters  The list of parameters in JSON format. For example: [{ \"Name \": \"InstanceId \", \"Type \": \"TARGET \"}] or [{ \"Name \": \"InstanceId \", \"Type \": \"TEXT_VALUE \"}].  ",
   "DefinitionType": "The service action definition type. For example, SSM_AUTOMATION.",
   "IdempotencyToken": "A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.",
   "Name": "The self-service action name."
@@ -330,7 +330,7 @@ CreateTagOption(args) = service_catalog("CreateTagOption", args)
 """
     DeleteConstraint()
 
-Deletes the specified constraint.
+Deletes the specified constraint. A delegated admin is authorized to invoke this command.
 
 Required Parameters
 {
@@ -347,7 +347,7 @@ DeleteConstraint(args) = service_catalog("DeleteConstraint", args)
 """
     DeletePortfolio()
 
-Deletes the specified portfolio. You cannot delete a portfolio if it was shared with you or if it has associated products, users, constraints, or shared accounts.
+Deletes the specified portfolio. You cannot delete a portfolio if it was shared with you or if it has associated products, users, constraints, or shared accounts. A delegated admin is authorized to invoke this command.
 
 Required Parameters
 {
@@ -364,7 +364,7 @@ DeletePortfolio(args) = service_catalog("DeletePortfolio", args)
 """
     DeletePortfolioShare()
 
-Stops sharing the specified portfolio with the specified account or organization node. Shares to an organization node can only be deleted by the master account of an Organization.
+Stops sharing the specified portfolio with the specified account or organization node. Shares to an organization node can only be deleted by the master account of an organization or by a delegated administrator. Note that if a delegated admin is de-registered, portfolio shares created from that account are removed.
 
 Required Parameters
 {
@@ -383,7 +383,7 @@ DeletePortfolioShare(args) = service_catalog("DeletePortfolioShare", args)
 """
     DeleteProduct()
 
-Deletes the specified product. You cannot delete a product if it was shared with you or is associated with a portfolio.
+Deletes the specified product. You cannot delete a product if it was shared with you or is associated with a portfolio. A delegated admin is authorized to invoke this command.
 
 Required Parameters
 {
@@ -499,7 +499,7 @@ DescribeCopyProductStatus(args) = service_catalog("DescribeCopyProductStatus", a
 """
     DescribePortfolio()
 
-Gets information about the specified portfolio.
+Gets information about the specified portfolio. A delegated admin is authorized to invoke this command.
 
 Required Parameters
 {
@@ -516,7 +516,7 @@ DescribePortfolio(args) = service_catalog("DescribePortfolio", args)
 """
     DescribePortfolioShareStatus()
 
-Gets the status of the specified portfolio share operation. This API can only be called by the master account in the organization.
+Gets the status of the specified portfolio share operation. This API can only be called by the master account in the organization or by a delegated admin.
 
 Required Parameters
 {
@@ -530,16 +530,14 @@ DescribePortfolioShareStatus(args) = service_catalog("DescribePortfolioShareStat
 
 Gets information about the specified product.
 
-Required Parameters
-{
-  "Id": "The product identifier."
-}
-
 Optional Parameters
 {
-  "AcceptLanguage": "The language code.    en - English (default)    jp - Japanese    zh - Chinese  "
+  "AcceptLanguage": "The language code.    en - English (default)    jp - Japanese    zh - Chinese  ",
+  "Id": "The product identifier.",
+  "Name": "The product name."
 }
 """
+DescribeProduct() = service_catalog("DescribeProduct")
 DescribeProduct(args) = service_catalog("DescribeProduct", args)
 
 """
@@ -547,16 +545,14 @@ DescribeProduct(args) = service_catalog("DescribeProduct", args)
 
 Gets information about the specified product. This operation is run with administrator access.
 
-Required Parameters
-{
-  "Id": "The product identifier."
-}
-
 Optional Parameters
 {
-  "AcceptLanguage": "The language code.    en - English (default)    jp - Japanese    zh - Chinese  "
+  "AcceptLanguage": "The language code.    en - English (default)    jp - Japanese    zh - Chinese  ",
+  "Id": "The product identifier.",
+  "Name": "The product name."
 }
 """
+DescribeProductAsAdmin() = service_catalog("DescribeProductAsAdmin")
 DescribeProductAsAdmin(args) = service_catalog("DescribeProductAsAdmin", args)
 
 """
@@ -617,18 +613,17 @@ DescribeProvisionedProductPlan(args) = service_catalog("DescribeProvisionedProdu
 
 Gets information about the specified provisioning artifact (also known as a version) for the specified product.
 
-Required Parameters
-{
-  "ProductId": "The product identifier.",
-  "ProvisioningArtifactId": "The identifier of the provisioning artifact."
-}
-
 Optional Parameters
 {
   "AcceptLanguage": "The language code.    en - English (default)    jp - Japanese    zh - Chinese  ",
+  "ProductId": "The product identifier.",
+  "ProductName": "The product name.",
+  "ProvisioningArtifactId": "The identifier of the provisioning artifact.",
+  "ProvisioningArtifactName": "The provisioning artifact name.",
   "Verbose": "Indicates whether a verbose level of detail is enabled."
 }
 """
+DescribeProvisioningArtifact() = service_catalog("DescribeProvisioningArtifact")
 DescribeProvisioningArtifact(args) = service_catalog("DescribeProvisioningArtifact", args)
 
 """
@@ -719,7 +714,7 @@ DescribeTagOption(args) = service_catalog("DescribeTagOption", args)
 """
     DisableAWSOrganizationsAccess()
 
-Disable portfolio sharing through AWS Organizations feature. This feature will not delete your current shares but it will prevent you from creating new shares throughout your organization. Current shares will not be in sync with your organization structure if it changes after calling this API. This API can only be called by the master account in the organization.
+Disable portfolio sharing through AWS Organizations feature. This feature will not delete your current shares but it will prevent you from creating new shares throughout your organization. Current shares will not be in sync with your organization structure if it changes after calling this API. This API can only be called by the master account in the organization. This API can't be invoked if there are active delegated administrators in the organization. Note that a delegated administrator is not authorized to invoke DisableAWSOrganizationsAccess.
 """
 DisableAWSOrganizationsAccess() = service_catalog("DisableAWSOrganizationsAccess")
 DisableAWSOrganizationsAccess(args) = service_catalog("DisableAWSOrganizationsAccess", args)
@@ -758,7 +753,7 @@ DisassociatePrincipalFromPortfolio(args) = service_catalog("DisassociatePrincipa
 """
     DisassociateProductFromPortfolio()
 
-Disassociates the specified product from the specified portfolio. 
+Disassociates the specified product from the specified portfolio.  A delegated admin is authorized to invoke this command.
 
 Required Parameters
 {
@@ -808,7 +803,7 @@ DisassociateTagOptionFromResource(args) = service_catalog("DisassociateTagOption
 """
     EnableAWSOrganizationsAccess()
 
-Enable portfolio sharing feature through AWS Organizations. This API will allow Service Catalog to receive updates on your organization in order to sync your shares with the current structure. This API can only be called by the master account in the organization. By calling this API Service Catalog will make a call to organizations:EnableAWSServiceAccess on your behalf so that your shares can be in sync with any changes in your AWS Organizations structure.
+Enable portfolio sharing feature through AWS Organizations. This API will allow Service Catalog to receive updates on your organization in order to sync your shares with the current structure. This API can only be called by the master account in the organization. By calling this API Service Catalog will make a call to organizations:EnableAWSServiceAccess on your behalf so that your shares can be in sync with any changes in your AWS Organizations structure. Note that a delegated administrator is not authorized to invoke EnableAWSOrganizationsAccess.
 """
 EnableAWSOrganizationsAccess() = service_catalog("EnableAWSOrganizationsAccess")
 EnableAWSOrganizationsAccess(args) = service_catalog("EnableAWSOrganizationsAccess", args)
@@ -854,7 +849,7 @@ ExecuteProvisionedProductServiceAction(args) = service_catalog("ExecuteProvision
 """
     GetAWSOrganizationsAccessStatus()
 
-Get the Access Status for AWS Organization portfolio share feature. This API can only be called by the master account in the organization.
+Get the Access Status for AWS Organization portfolio share feature. This API can only be called by the master account in the organization or by a delegated admin.
 """
 GetAWSOrganizationsAccessStatus() = service_catalog("GetAWSOrganizationsAccessStatus")
 GetAWSOrganizationsAccessStatus(args) = service_catalog("GetAWSOrganizationsAccessStatus", args)
@@ -936,7 +931,7 @@ ListLaunchPaths(args) = service_catalog("ListLaunchPaths", args)
 """
     ListOrganizationPortfolioAccess()
 
-Lists the organization nodes that have access to the specified portfolio. This API can only be called by the master account in the organization.
+Lists the organization nodes that have access to the specified portfolio. This API can only be called by the master account in the organization or by a delegated admin. If a delegated admin is de-registered, they can no longer perform this operation.
 
 Required Parameters
 {
@@ -956,7 +951,7 @@ ListOrganizationPortfolioAccess(args) = service_catalog("ListOrganizationPortfol
 """
     ListPortfolioAccess()
 
-Lists the account IDs that have access to the specified portfolio.
+Lists the account IDs that have access to the specified portfolio. A delegated admin can list the accounts that have access to the shared portfolio. Note that if a delegated admin is de-registered, they can no longer perform this operation.
 
 Required Parameters
 {
@@ -1421,7 +1416,7 @@ Required Parameters
 {
   "IdempotencyToken": "The idempotency token that uniquely identifies the provisioning product update request.",
   "ProvisionedProductId": "The identifier of the provisioned product.",
-  "ProvisionedProductProperties": "A map that contains the provisioned product properties to be updated. The OWNER key only accepts user ARNs. The owner is the user that is allowed to see, update, terminate, and execute service actions in the provisioned product. The administrator can change the owner of a provisioned product to another IAM user within the same account. Both end user owners and administrators can see ownership history of the provisioned product using the ListRecordHistory API. The new owner can describe all past records for the provisioned product using the DescribeRecord API. The previous owner can no longer use DescribeRecord, but can still see the product's history from when he was an owner using ListRecordHistory. If a provisioned product ownership is assigned to an end user, they can see and perform any action through the API or Service Catalog console such as update, terminate, and execute service actions. If an end user provisions a product and the owner is updated to someone else, they will no longer be able to see or perform any actions through API or the Service Catalog console on that provisioned product."
+  "ProvisionedProductProperties": "A map that contains the provisioned product properties to be updated. The OWNER key accepts user ARNs and role ARNs. The owner is the user that is allowed to see, update, terminate, and execute service actions in the provisioned product. The administrator can change the owner of a provisioned product to another IAM user within the same account. Both end user owners and administrators can see ownership history of the provisioned product using the ListRecordHistory API. The new owner can describe all past records for the provisioned product using the DescribeRecord API. The previous owner can no longer use DescribeRecord, but can still see the product's history from when he was an owner using ListRecordHistory. If a provisioned product ownership is assigned to an end user, they can see and perform any action through the API or Service Catalog console such as update, terminate, and execute service actions. If an end user provisions a product and the owner is updated to someone else, they will no longer be able to see or perform any actions through API or the Service Catalog console on that provisioned product."
 }
 
 Optional Parameters

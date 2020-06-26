@@ -14,7 +14,9 @@ Required Parameters
   "SnapshotId": "The ID of the snapshot containing the block from which to get data."
 }
 """
-GetSnapshotBlock(args) = ebs("GET", "/snapshots/{snapshotId}/blocks/{blockIndex}", args)
+GetSnapshotBlock(BlockIndex, BlockToken, SnapshotId) = ebs("GET", "/snapshots/$(snapshotId)/blocks/$(blockIndex)")
+GetSnapshotBlock(BlockIndex, BlockToken, SnapshotId, args) = ebs("GET", "/snapshots/$(snapshotId)/blocks/$(blockIndex)", args)
+GetSnapshotBlock(a...; b...) = GetSnapshotBlock(a..., b)
 
 """
     ListChangedBlocks()
@@ -34,7 +36,9 @@ Optional Parameters
   "StartingBlockIndex": "The block index from which the comparison should start. The list in the response will start from this block index or the next valid block index in the snapshots."
 }
 """
-ListChangedBlocks(args) = ebs("GET", "/snapshots/{secondSnapshotId}/changedblocks", args)
+ListChangedBlocks(SecondSnapshotId) = ebs("GET", "/snapshots/$(secondSnapshotId)/changedblocks")
+ListChangedBlocks(SecondSnapshotId, args) = ebs("GET", "/snapshots/$(secondSnapshotId)/changedblocks", args)
+ListChangedBlocks(a...; b...) = ListChangedBlocks(a..., b)
 
 """
     ListSnapshotBlocks()
@@ -53,4 +57,6 @@ Optional Parameters
   "StartingBlockIndex": "The block index from which the list should start. The list in the response will start from this block index or the next valid block index in the snapshot."
 }
 """
-ListSnapshotBlocks(args) = ebs("GET", "/snapshots/{snapshotId}/blocks", args)
+ListSnapshotBlocks(SnapshotId) = ebs("GET", "/snapshots/$(snapshotId)/blocks")
+ListSnapshotBlocks(SnapshotId, args) = ebs("GET", "/snapshots/$(snapshotId)/blocks", args)
+ListSnapshotBlocks(a...; b...) = ListSnapshotBlocks(a..., b)

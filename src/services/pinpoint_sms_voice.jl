@@ -14,6 +14,7 @@ Optional Parameters
 """
 CreateConfigurationSet() = pinpoint_sms_voice("POST", "/v1/sms-voice/configuration-sets")
 CreateConfigurationSet(args) = pinpoint_sms_voice("POST", "/v1/sms-voice/configuration-sets", args)
+CreateConfigurationSet(a...; b...) = CreateConfigurationSet(a..., b)
 
 """
     CreateConfigurationSetEventDestination()
@@ -31,7 +32,9 @@ Optional Parameters
   "EventDestinationName": "A name that identifies the event destination."
 }
 """
-CreateConfigurationSetEventDestination(args) = pinpoint_sms_voice("POST", "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations", args)
+CreateConfigurationSetEventDestination(ConfigurationSetName) = pinpoint_sms_voice("POST", "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)/event-destinations")
+CreateConfigurationSetEventDestination(ConfigurationSetName, args) = pinpoint_sms_voice("POST", "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)/event-destinations", args)
+CreateConfigurationSetEventDestination(a...; b...) = CreateConfigurationSetEventDestination(a..., b)
 
 """
     DeleteConfigurationSet()
@@ -43,7 +46,9 @@ Required Parameters
   "ConfigurationSetName": "ConfigurationSetName"
 }
 """
-DeleteConfigurationSet(args) = pinpoint_sms_voice("DELETE", "/v1/sms-voice/configuration-sets/{ConfigurationSetName}", args)
+DeleteConfigurationSet(ConfigurationSetName) = pinpoint_sms_voice("DELETE", "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)")
+DeleteConfigurationSet(ConfigurationSetName, args) = pinpoint_sms_voice("DELETE", "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)", args)
+DeleteConfigurationSet(a...; b...) = DeleteConfigurationSet(a..., b)
 
 """
     DeleteConfigurationSetEventDestination()
@@ -56,7 +61,9 @@ Required Parameters
   "EventDestinationName": "EventDestinationName"
 }
 """
-DeleteConfigurationSetEventDestination(args) = pinpoint_sms_voice("DELETE", "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations/{EventDestinationName}", args)
+DeleteConfigurationSetEventDestination(ConfigurationSetName, EventDestinationName) = pinpoint_sms_voice("DELETE", "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)")
+DeleteConfigurationSetEventDestination(ConfigurationSetName, EventDestinationName, args) = pinpoint_sms_voice("DELETE", "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)", args)
+DeleteConfigurationSetEventDestination(a...; b...) = DeleteConfigurationSetEventDestination(a..., b)
 
 """
     GetConfigurationSetEventDestinations()
@@ -68,7 +75,9 @@ Required Parameters
   "ConfigurationSetName": "ConfigurationSetName"
 }
 """
-GetConfigurationSetEventDestinations(args) = pinpoint_sms_voice("GET", "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations", args)
+GetConfigurationSetEventDestinations(ConfigurationSetName) = pinpoint_sms_voice("GET", "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)/event-destinations")
+GetConfigurationSetEventDestinations(ConfigurationSetName, args) = pinpoint_sms_voice("GET", "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)/event-destinations", args)
+GetConfigurationSetEventDestinations(a...; b...) = GetConfigurationSetEventDestinations(a..., b)
 
 """
     ListConfigurationSets()
@@ -83,6 +92,7 @@ Optional Parameters
 """
 ListConfigurationSets() = pinpoint_sms_voice("GET", "/v1/sms-voice/configuration-sets")
 ListConfigurationSets(args) = pinpoint_sms_voice("GET", "/v1/sms-voice/configuration-sets", args)
+ListConfigurationSets(a...; b...) = ListConfigurationSets(a..., b)
 
 """
     SendVoiceMessage()
@@ -100,6 +110,7 @@ Optional Parameters
 """
 SendVoiceMessage() = pinpoint_sms_voice("POST", "/v1/sms-voice/voice/message")
 SendVoiceMessage(args) = pinpoint_sms_voice("POST", "/v1/sms-voice/voice/message", args)
+SendVoiceMessage(a...; b...) = SendVoiceMessage(a..., b)
 
 """
     UpdateConfigurationSetEventDestination()
@@ -117,4 +128,6 @@ Optional Parameters
   "EventDestination": ""
 }
 """
-UpdateConfigurationSetEventDestination(args) = pinpoint_sms_voice("PUT", "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations/{EventDestinationName}", args)
+UpdateConfigurationSetEventDestination(ConfigurationSetName, EventDestinationName) = pinpoint_sms_voice("PUT", "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)")
+UpdateConfigurationSetEventDestination(ConfigurationSetName, EventDestinationName, args) = pinpoint_sms_voice("PUT", "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)", args)
+UpdateConfigurationSetEventDestination(a...; b...) = UpdateConfigurationSetEventDestination(a..., b)

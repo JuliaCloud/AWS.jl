@@ -20,7 +20,9 @@ Optional Parameters
   "Name": ""
 }
 """
-CreateOutpost(args) = outposts("POST", "/outposts", args)
+CreateOutpost(SiteId) = outposts("POST", "/outposts")
+CreateOutpost(SiteId, args) = outposts("POST", "/outposts", args)
+CreateOutpost(a...; b...) = CreateOutpost(a..., b)
 
 """
     DeleteOutpost()
@@ -32,7 +34,9 @@ Required Parameters
   "OutpostId": ""
 }
 """
-DeleteOutpost(args) = outposts("DELETE", "/outposts/{OutpostId}", args)
+DeleteOutpost(OutpostId) = outposts("DELETE", "/outposts/$(OutpostId)")
+DeleteOutpost(OutpostId, args) = outposts("DELETE", "/outposts/$(OutpostId)", args)
+DeleteOutpost(a...; b...) = DeleteOutpost(a..., b)
 
 """
     DeleteSite()
@@ -44,7 +48,9 @@ Required Parameters
   "SiteId": ""
 }
 """
-DeleteSite(args) = outposts("DELETE", "/sites/{SiteId}", args)
+DeleteSite(SiteId) = outposts("DELETE", "/sites/$(SiteId)")
+DeleteSite(SiteId, args) = outposts("DELETE", "/sites/$(SiteId)", args)
+DeleteSite(a...; b...) = DeleteSite(a..., b)
 
 """
     GetOutpost()
@@ -56,7 +62,9 @@ Required Parameters
   "OutpostId": ""
 }
 """
-GetOutpost(args) = outposts("GET", "/outposts/{OutpostId}", args)
+GetOutpost(OutpostId) = outposts("GET", "/outposts/$(OutpostId)")
+GetOutpost(OutpostId, args) = outposts("GET", "/outposts/$(OutpostId)", args)
+GetOutpost(a...; b...) = GetOutpost(a..., b)
 
 """
     GetOutpostInstanceTypes()
@@ -74,7 +82,9 @@ Optional Parameters
   "NextToken": ""
 }
 """
-GetOutpostInstanceTypes(args) = outposts("GET", "/outposts/{OutpostId}/instanceTypes", args)
+GetOutpostInstanceTypes(OutpostId) = outposts("GET", "/outposts/$(OutpostId)/instanceTypes")
+GetOutpostInstanceTypes(OutpostId, args) = outposts("GET", "/outposts/$(OutpostId)/instanceTypes", args)
+GetOutpostInstanceTypes(a...; b...) = GetOutpostInstanceTypes(a..., b)
 
 """
     ListOutposts()
@@ -89,6 +99,7 @@ Optional Parameters
 """
 ListOutposts() = outposts("GET", "/outposts")
 ListOutposts(args) = outposts("GET", "/outposts", args)
+ListOutposts(a...; b...) = ListOutposts(a..., b)
 
 """
     ListSites()
@@ -103,3 +114,4 @@ Optional Parameters
 """
 ListSites() = outposts("GET", "/sites")
 ListSites(args) = outposts("GET", "/sites", args)
+ListSites(a...; b...) = ListSites(a..., b)

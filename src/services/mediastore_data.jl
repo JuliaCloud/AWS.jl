@@ -12,7 +12,9 @@ Required Parameters
   "Path": "The path (including the file name) where the object is stored in the container. Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt;"
 }
 """
-DeleteObject(args) = mediastore_data("DELETE", "/{Path+}", args)
+DeleteObject(Path) = mediastore_data("DELETE", "/$(Path)")
+DeleteObject(Path, args) = mediastore_data("DELETE", "/$(Path)", args)
+DeleteObject(a...; b...) = DeleteObject(a..., b)
 
 """
     DescribeObject()
@@ -24,7 +26,9 @@ Required Parameters
   "Path": "The path (including the file name) where the object is stored in the container. Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt;"
 }
 """
-DescribeObject(args) = mediastore_data("HEAD", "/{Path+}", args)
+DescribeObject(Path) = mediastore_data("HEAD", "/$(Path)")
+DescribeObject(Path, args) = mediastore_data("HEAD", "/$(Path)", args)
+DescribeObject(a...; b...) = DescribeObject(a..., b)
 
 """
     GetObject()
@@ -41,7 +45,9 @@ Optional Parameters
   "Range": "The range bytes of an object to retrieve. For more information about the Range header, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35. AWS Elemental MediaStore ignores this header for partially uploaded objects that have streaming upload availability."
 }
 """
-GetObject(args) = mediastore_data("GET", "/{Path+}", args)
+GetObject(Path) = mediastore_data("GET", "/$(Path)")
+GetObject(Path, args) = mediastore_data("GET", "/$(Path)", args)
+GetObject(a...; b...) = GetObject(a..., b)
 
 """
     ListItems()
@@ -57,6 +63,7 @@ Optional Parameters
 """
 ListItems() = mediastore_data("GET", "/")
 ListItems(args) = mediastore_data("GET", "/", args)
+ListItems(a...; b...) = ListItems(a..., b)
 
 """
     PutObject()
@@ -77,4 +84,6 @@ Optional Parameters
   "UploadAvailability": "Indicates the availability of an object while it is still uploading. If the value is set to streaming, the object is available for downloading after some initial buffering but before the object is uploaded completely. If the value is set to standard, the object is available for downloading only when it is uploaded completely. The default value for this header is standard. To use this header, you must also set the HTTP Transfer-Encoding header to chunked."
 }
 """
-PutObject(args) = mediastore_data("PUT", "/{Path+}", args)
+PutObject(Body, Path) = mediastore_data("PUT", "/$(Path)")
+PutObject(Body, Path, args) = mediastore_data("PUT", "/$(Path)", args)
+PutObject(a...; b...) = PutObject(a..., b)

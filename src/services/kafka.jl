@@ -28,7 +28,9 @@ Optional Parameters
   "Tags": "\n            Create tags when creating the cluster.\n         "
 }
 """
-CreateCluster(args) = kafka("POST", "/v1/clusters", args)
+CreateCluster(BrokerNodeGroupInfo, ClusterName, KafkaVersion, NumberOfBrokerNodes) = kafka("POST", "/v1/clusters")
+CreateCluster(BrokerNodeGroupInfo, ClusterName, KafkaVersion, NumberOfBrokerNodes, args) = kafka("POST", "/v1/clusters", args)
+CreateCluster(a...; b...) = CreateCluster(a..., b)
 
 """
     CreateConfiguration()
@@ -49,7 +51,9 @@ Optional Parameters
   "KafkaVersions": "\n            The versions of Apache Kafka with which you can use this MSK configuration.\n         "
 }
 """
-CreateConfiguration(args) = kafka("POST", "/v1/configurations", args)
+CreateConfiguration(Name, ServerProperties) = kafka("POST", "/v1/configurations")
+CreateConfiguration(Name, ServerProperties, args) = kafka("POST", "/v1/configurations", args)
+CreateConfiguration(a...; b...) = CreateConfiguration(a..., b)
 
 """
     DeleteCluster()
@@ -68,7 +72,9 @@ Optional Parameters
   "CurrentVersion": "\n            The current version of the MSK cluster.\n         "
 }
 """
-DeleteCluster(args) = kafka("DELETE", "/v1/clusters/{clusterArn}", args)
+DeleteCluster(ClusterArn) = kafka("DELETE", "/v1/clusters/$(clusterArn)")
+DeleteCluster(ClusterArn, args) = kafka("DELETE", "/v1/clusters/$(clusterArn)", args)
+DeleteCluster(a...; b...) = DeleteCluster(a..., b)
 
 """
     DescribeCluster()
@@ -82,7 +88,9 @@ Required Parameters
   "ClusterArn": "\n            The Amazon Resource Name (ARN) that uniquely identifies the cluster.\n         "
 }
 """
-DescribeCluster(args) = kafka("GET", "/v1/clusters/{clusterArn}", args)
+DescribeCluster(ClusterArn) = kafka("GET", "/v1/clusters/$(clusterArn)")
+DescribeCluster(ClusterArn, args) = kafka("GET", "/v1/clusters/$(clusterArn)", args)
+DescribeCluster(a...; b...) = DescribeCluster(a..., b)
 
 """
     DescribeClusterOperation()
@@ -96,7 +104,9 @@ Required Parameters
   "ClusterOperationArn": "\n            The Amazon Resource Name (ARN) that uniquely identifies the MSK cluster operation.\n         "
 }
 """
-DescribeClusterOperation(args) = kafka("GET", "/v1/operations/{clusterOperationArn}", args)
+DescribeClusterOperation(ClusterOperationArn) = kafka("GET", "/v1/operations/$(clusterOperationArn)")
+DescribeClusterOperation(ClusterOperationArn, args) = kafka("GET", "/v1/operations/$(clusterOperationArn)", args)
+DescribeClusterOperation(a...; b...) = DescribeClusterOperation(a..., b)
 
 """
     DescribeConfiguration()
@@ -110,7 +120,9 @@ Required Parameters
   "Arn": "\n            The Amazon Resource Name (ARN) that uniquely identifies an MSK configuration and all of its revisions.\n         "
 }
 """
-DescribeConfiguration(args) = kafka("GET", "/v1/configurations/{arn}", args)
+DescribeConfiguration(Arn) = kafka("GET", "/v1/configurations/$(arn)")
+DescribeConfiguration(Arn, args) = kafka("GET", "/v1/configurations/$(arn)", args)
+DescribeConfiguration(a...; b...) = DescribeConfiguration(a..., b)
 
 """
     DescribeConfigurationRevision()
@@ -125,7 +137,9 @@ Required Parameters
   "Revision": "\n            A string that uniquely identifies a revision of an MSK configuration.\n         "
 }
 """
-DescribeConfigurationRevision(args) = kafka("GET", "/v1/configurations/{arn}/revisions/{revision}", args)
+DescribeConfigurationRevision(Arn, Revision) = kafka("GET", "/v1/configurations/$(arn)/revisions/$(revision)")
+DescribeConfigurationRevision(Arn, Revision, args) = kafka("GET", "/v1/configurations/$(arn)/revisions/$(revision)", args)
+DescribeConfigurationRevision(a...; b...) = DescribeConfigurationRevision(a..., b)
 
 """
     GetBootstrapBrokers()
@@ -139,7 +153,9 @@ Required Parameters
   "ClusterArn": "\n            The Amazon Resource Name (ARN) that uniquely identifies the cluster.\n         "
 }
 """
-GetBootstrapBrokers(args) = kafka("GET", "/v1/clusters/{clusterArn}/bootstrap-brokers", args)
+GetBootstrapBrokers(ClusterArn) = kafka("GET", "/v1/clusters/$(clusterArn)/bootstrap-brokers")
+GetBootstrapBrokers(ClusterArn, args) = kafka("GET", "/v1/clusters/$(clusterArn)/bootstrap-brokers", args)
+GetBootstrapBrokers(a...; b...) = GetBootstrapBrokers(a..., b)
 
 """
     GetCompatibleKafkaVersions()
@@ -155,6 +171,7 @@ Optional Parameters
 """
 GetCompatibleKafkaVersions() = kafka("GET", "/v1/compatible-kafka-versions")
 GetCompatibleKafkaVersions(args) = kafka("GET", "/v1/compatible-kafka-versions", args)
+GetCompatibleKafkaVersions(a...; b...) = GetCompatibleKafkaVersions(a..., b)
 
 """
     ListClusterOperations()
@@ -174,7 +191,9 @@ Optional Parameters
   "NextToken": "\n            The paginated results marker. When the result of the operation is truncated, the call returns NextToken in the response. \n            To get the next batch, provide this token in your next request.\n         "
 }
 """
-ListClusterOperations(args) = kafka("GET", "/v1/clusters/{clusterArn}/operations", args)
+ListClusterOperations(ClusterArn) = kafka("GET", "/v1/clusters/$(clusterArn)/operations")
+ListClusterOperations(ClusterArn, args) = kafka("GET", "/v1/clusters/$(clusterArn)/operations", args)
+ListClusterOperations(a...; b...) = ListClusterOperations(a..., b)
 
 """
     ListClusters()
@@ -192,6 +211,7 @@ Optional Parameters
 """
 ListClusters() = kafka("GET", "/v1/clusters")
 ListClusters(args) = kafka("GET", "/v1/clusters", args)
+ListClusters(a...; b...) = ListClusters(a..., b)
 
 """
     ListConfigurationRevisions()
@@ -211,7 +231,9 @@ Optional Parameters
   "NextToken": "\n            The paginated results marker. When the result of the operation is truncated, the call returns NextToken in the response. \n            To get the next batch, provide this token in your next request.\n         "
 }
 """
-ListConfigurationRevisions(args) = kafka("GET", "/v1/configurations/{arn}/revisions", args)
+ListConfigurationRevisions(Arn) = kafka("GET", "/v1/configurations/$(arn)/revisions")
+ListConfigurationRevisions(Arn, args) = kafka("GET", "/v1/configurations/$(arn)/revisions", args)
+ListConfigurationRevisions(a...; b...) = ListConfigurationRevisions(a..., b)
 
 """
     ListConfigurations()
@@ -228,6 +250,7 @@ Optional Parameters
 """
 ListConfigurations() = kafka("GET", "/v1/configurations")
 ListConfigurations(args) = kafka("GET", "/v1/configurations", args)
+ListConfigurations(a...; b...) = ListConfigurations(a..., b)
 
 """
     ListKafkaVersions()
@@ -244,6 +267,7 @@ Optional Parameters
 """
 ListKafkaVersions() = kafka("GET", "/v1/kafka-versions")
 ListKafkaVersions(args) = kafka("GET", "/v1/kafka-versions", args)
+ListKafkaVersions(a...; b...) = ListKafkaVersions(a..., b)
 
 """
     ListNodes()
@@ -263,7 +287,9 @@ Optional Parameters
   "NextToken": "\n            The paginated results marker. When the result of the operation is truncated, the call returns NextToken in the response. \n            To get the next batch, provide this token in your next request.\n         "
 }
 """
-ListNodes(args) = kafka("GET", "/v1/clusters/{clusterArn}/nodes", args)
+ListNodes(ClusterArn) = kafka("GET", "/v1/clusters/$(clusterArn)/nodes")
+ListNodes(ClusterArn, args) = kafka("GET", "/v1/clusters/$(clusterArn)/nodes", args)
+ListNodes(a...; b...) = ListNodes(a..., b)
 
 """
     ListTagsForResource()
@@ -277,7 +303,9 @@ Required Parameters
   "ResourceArn": "\n            The Amazon Resource Name (ARN) that uniquely identifies the resource that's associated with the tags.\n         "
 }
 """
-ListTagsForResource(args) = kafka("GET", "/v1/tags/{resourceArn}", args)
+ListTagsForResource(ResourceArn) = kafka("GET", "/v1/tags/$(resourceArn)")
+ListTagsForResource(ResourceArn, args) = kafka("GET", "/v1/tags/$(resourceArn)", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     TagResource()
@@ -292,7 +320,9 @@ Required Parameters
   "Tags": "\n            The key-value pair for the resource tag.\n         "
 }
 """
-TagResource(args) = kafka("POST", "/v1/tags/{resourceArn}", args)
+TagResource(ResourceArn, Tags) = kafka("POST", "/v1/tags/$(resourceArn)")
+TagResource(ResourceArn, Tags, args) = kafka("POST", "/v1/tags/$(resourceArn)", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
@@ -307,7 +337,9 @@ Required Parameters
   "TagKeys": "\n            Tag keys must be unique for a given cluster. In addition, the following restrictions apply:\n            \n               \n                  Each tag key must be unique. If you add a tag with a key that's already in\n                  use, your new tag overwrites the existing key-value pair. \n               \n               \n                  You can't start a tag key with aws: because this prefix is reserved for use\n                  by  AWS.  AWS creates tags that begin with this prefix on your behalf, but\n                  you can't edit or delete them.\n               \n               \n                  Tag keys must be between 1 and 128 Unicode characters in length.\n               \n               \n                  Tag keys must consist of the following characters: Unicode letters, digits,\n                  white space, and the following special characters: _ . / = + -\n                     @.\n               \n            \n         "
 }
 """
-UntagResource(args) = kafka("DELETE", "/v1/tags/{resourceArn}", args)
+UntagResource(ResourceArn, TagKeys) = kafka("DELETE", "/v1/tags/$(resourceArn)")
+UntagResource(ResourceArn, TagKeys, args) = kafka("DELETE", "/v1/tags/$(resourceArn)", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateBrokerCount()
@@ -323,7 +355,9 @@ Required Parameters
   "TargetNumberOfBrokerNodes": "\n            The number of broker nodes that you want the cluster to have after this operation completes successfully.\n         "
 }
 """
-UpdateBrokerCount(args) = kafka("PUT", "/v1/clusters/{clusterArn}/nodes/count", args)
+UpdateBrokerCount(ClusterArn, CurrentVersion, TargetNumberOfBrokerNodes) = kafka("PUT", "/v1/clusters/$(clusterArn)/nodes/count")
+UpdateBrokerCount(ClusterArn, CurrentVersion, TargetNumberOfBrokerNodes, args) = kafka("PUT", "/v1/clusters/$(clusterArn)/nodes/count", args)
+UpdateBrokerCount(a...; b...) = UpdateBrokerCount(a..., b)
 
 """
     UpdateBrokerStorage()
@@ -339,7 +373,9 @@ Required Parameters
   "TargetBrokerEBSVolumeInfo": "\n            Describes the target volume size and the ID of the broker to apply the update to.\n         "
 }
 """
-UpdateBrokerStorage(args) = kafka("PUT", "/v1/clusters/{clusterArn}/nodes/storage", args)
+UpdateBrokerStorage(ClusterArn, CurrentVersion, TargetBrokerEBSVolumeInfo) = kafka("PUT", "/v1/clusters/$(clusterArn)/nodes/storage")
+UpdateBrokerStorage(ClusterArn, CurrentVersion, TargetBrokerEBSVolumeInfo, args) = kafka("PUT", "/v1/clusters/$(clusterArn)/nodes/storage", args)
+UpdateBrokerStorage(a...; b...) = UpdateBrokerStorage(a..., b)
 
 """
     UpdateClusterConfiguration()
@@ -355,7 +391,9 @@ Required Parameters
   "CurrentVersion": "\n            The version of the cluster that needs to be updated.\n         "
 }
 """
-UpdateClusterConfiguration(args) = kafka("PUT", "/v1/clusters/{clusterArn}/configuration", args)
+UpdateClusterConfiguration(ClusterArn, ConfigurationInfo, CurrentVersion) = kafka("PUT", "/v1/clusters/$(clusterArn)/configuration")
+UpdateClusterConfiguration(ClusterArn, ConfigurationInfo, CurrentVersion, args) = kafka("PUT", "/v1/clusters/$(clusterArn)/configuration", args)
+UpdateClusterConfiguration(a...; b...) = UpdateClusterConfiguration(a..., b)
 
 """
     UpdateClusterKafkaVersion()
@@ -376,7 +414,9 @@ Optional Parameters
   "ConfigurationInfo": "\n            The custom configuration that should be applied on the new version of cluster.\n            "
 }
 """
-UpdateClusterKafkaVersion(args) = kafka("PUT", "/v1/clusters/{clusterArn}/version", args)
+UpdateClusterKafkaVersion(ClusterArn, CurrentVersion, TargetKafkaVersion) = kafka("PUT", "/v1/clusters/$(clusterArn)/version")
+UpdateClusterKafkaVersion(ClusterArn, CurrentVersion, TargetKafkaVersion, args) = kafka("PUT", "/v1/clusters/$(clusterArn)/version", args)
+UpdateClusterKafkaVersion(a...; b...) = UpdateClusterKafkaVersion(a..., b)
 
 """
     UpdateMonitoring()
@@ -398,4 +438,6 @@ Optional Parameters
   "OpenMonitoring": "\n            The settings for open monitoring.\n         "
 }
 """
-UpdateMonitoring(args) = kafka("PUT", "/v1/clusters/{clusterArn}/monitoring", args)
+UpdateMonitoring(ClusterArn, CurrentVersion) = kafka("PUT", "/v1/clusters/$(clusterArn)/monitoring")
+UpdateMonitoring(ClusterArn, CurrentVersion, args) = kafka("PUT", "/v1/clusters/$(clusterArn)/monitoring", args)
+UpdateMonitoring(a...; b...) = UpdateMonitoring(a..., b)

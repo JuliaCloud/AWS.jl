@@ -18,7 +18,9 @@ Optional Parameters
   "Deletes": "Schedule actions to delete from the schedule."
 }
 """
-BatchUpdateSchedule(args) = medialive("PUT", "/prod/channels/{channelId}/schedule", args)
+BatchUpdateSchedule(ChannelId) = medialive("PUT", "/prod/channels/$(channelId)/schedule")
+BatchUpdateSchedule(ChannelId, args) = medialive("PUT", "/prod/channels/$(channelId)/schedule", args)
+BatchUpdateSchedule(a...; b...) = BatchUpdateSchedule(a..., b)
 
 """
     CreateChannel()
@@ -42,6 +44,7 @@ Optional Parameters
 """
 CreateChannel() = medialive("POST", "/prod/channels")
 CreateChannel(args) = medialive("POST", "/prod/channels", args)
+CreateChannel(a...; b...) = CreateChannel(a..., b)
 
 """
     CreateInput()
@@ -65,6 +68,7 @@ Optional Parameters
 """
 CreateInput() = medialive("POST", "/prod/inputs")
 CreateInput(args) = medialive("POST", "/prod/inputs", args)
+CreateInput(a...; b...) = CreateInput(a..., b)
 
 """
     CreateInputSecurityGroup()
@@ -79,6 +83,7 @@ Optional Parameters
 """
 CreateInputSecurityGroup() = medialive("POST", "/prod/inputSecurityGroups")
 CreateInputSecurityGroup(args) = medialive("POST", "/prod/inputSecurityGroups", args)
+CreateInputSecurityGroup(a...; b...) = CreateInputSecurityGroup(a..., b)
 
 """
     CreateMultiplex()
@@ -98,7 +103,9 @@ Optional Parameters
   "Tags": "A collection of key-value pairs."
 }
 """
-CreateMultiplex(args) = medialive("POST", "/prod/multiplexes", args)
+CreateMultiplex(AvailabilityZones, MultiplexSettings, Name, RequestId) = medialive("POST", "/prod/multiplexes")
+CreateMultiplex(AvailabilityZones, MultiplexSettings, Name, RequestId, args) = medialive("POST", "/prod/multiplexes", args)
+CreateMultiplex(a...; b...) = CreateMultiplex(a..., b)
 
 """
     CreateMultiplexProgram()
@@ -113,7 +120,9 @@ Required Parameters
   "RequestId": "Unique request ID. This prevents retries from creating multiple\nresources.\n"
 }
 """
-CreateMultiplexProgram(args) = medialive("POST", "/prod/multiplexes/{multiplexId}/programs", args)
+CreateMultiplexProgram(MultiplexId, MultiplexProgramSettings, ProgramName, RequestId) = medialive("POST", "/prod/multiplexes/$(multiplexId)/programs")
+CreateMultiplexProgram(MultiplexId, MultiplexProgramSettings, ProgramName, RequestId, args) = medialive("POST", "/prod/multiplexes/$(multiplexId)/programs", args)
+CreateMultiplexProgram(a...; b...) = CreateMultiplexProgram(a..., b)
 
 """
     CreateTags()
@@ -130,7 +139,9 @@ Optional Parameters
   "Tags": ""
 }
 """
-CreateTags(args) = medialive("POST", "/prod/tags/{resource-arn}", args)
+CreateTags(ResourceArn) = medialive("POST", "/prod/tags/$(resource-arn)")
+CreateTags(ResourceArn, args) = medialive("POST", "/prod/tags/$(resource-arn)", args)
+CreateTags(a...; b...) = CreateTags(a..., b)
 
 """
     DeleteChannel()
@@ -142,7 +153,9 @@ Required Parameters
   "ChannelId": "Unique ID of the channel."
 }
 """
-DeleteChannel(args) = medialive("DELETE", "/prod/channels/{channelId}", args)
+DeleteChannel(ChannelId) = medialive("DELETE", "/prod/channels/$(channelId)")
+DeleteChannel(ChannelId, args) = medialive("DELETE", "/prod/channels/$(channelId)", args)
+DeleteChannel(a...; b...) = DeleteChannel(a..., b)
 
 """
     DeleteInput()
@@ -154,7 +167,9 @@ Required Parameters
   "InputId": "Unique ID of the input"
 }
 """
-DeleteInput(args) = medialive("DELETE", "/prod/inputs/{inputId}", args)
+DeleteInput(InputId) = medialive("DELETE", "/prod/inputs/$(inputId)")
+DeleteInput(InputId, args) = medialive("DELETE", "/prod/inputs/$(inputId)", args)
+DeleteInput(a...; b...) = DeleteInput(a..., b)
 
 """
     DeleteInputSecurityGroup()
@@ -166,7 +181,9 @@ Required Parameters
   "InputSecurityGroupId": "The Input Security Group to delete"
 }
 """
-DeleteInputSecurityGroup(args) = medialive("DELETE", "/prod/inputSecurityGroups/{inputSecurityGroupId}", args)
+DeleteInputSecurityGroup(InputSecurityGroupId) = medialive("DELETE", "/prod/inputSecurityGroups/$(inputSecurityGroupId)")
+DeleteInputSecurityGroup(InputSecurityGroupId, args) = medialive("DELETE", "/prod/inputSecurityGroups/$(inputSecurityGroupId)", args)
+DeleteInputSecurityGroup(a...; b...) = DeleteInputSecurityGroup(a..., b)
 
 """
     DeleteMultiplex()
@@ -178,7 +195,9 @@ Required Parameters
   "MultiplexId": "The ID of the multiplex."
 }
 """
-DeleteMultiplex(args) = medialive("DELETE", "/prod/multiplexes/{multiplexId}", args)
+DeleteMultiplex(MultiplexId) = medialive("DELETE", "/prod/multiplexes/$(multiplexId)")
+DeleteMultiplex(MultiplexId, args) = medialive("DELETE", "/prod/multiplexes/$(multiplexId)", args)
+DeleteMultiplex(a...; b...) = DeleteMultiplex(a..., b)
 
 """
     DeleteMultiplexProgram()
@@ -191,7 +210,9 @@ Required Parameters
   "ProgramName": "The multiplex program name."
 }
 """
-DeleteMultiplexProgram(args) = medialive("DELETE", "/prod/multiplexes/{multiplexId}/programs/{programName}", args)
+DeleteMultiplexProgram(MultiplexId, ProgramName) = medialive("DELETE", "/prod/multiplexes/$(multiplexId)/programs/$(programName)")
+DeleteMultiplexProgram(MultiplexId, ProgramName, args) = medialive("DELETE", "/prod/multiplexes/$(multiplexId)/programs/$(programName)", args)
+DeleteMultiplexProgram(a...; b...) = DeleteMultiplexProgram(a..., b)
 
 """
     DeleteReservation()
@@ -203,7 +224,9 @@ Required Parameters
   "ReservationId": "Unique reservation ID, e.g. '1234567'"
 }
 """
-DeleteReservation(args) = medialive("DELETE", "/prod/reservations/{reservationId}", args)
+DeleteReservation(ReservationId) = medialive("DELETE", "/prod/reservations/$(reservationId)")
+DeleteReservation(ReservationId, args) = medialive("DELETE", "/prod/reservations/$(reservationId)", args)
+DeleteReservation(a...; b...) = DeleteReservation(a..., b)
 
 """
     DeleteSchedule()
@@ -215,7 +238,9 @@ Required Parameters
   "ChannelId": "Id of the channel whose schedule is being deleted."
 }
 """
-DeleteSchedule(args) = medialive("DELETE", "/prod/channels/{channelId}/schedule", args)
+DeleteSchedule(ChannelId) = medialive("DELETE", "/prod/channels/$(channelId)/schedule")
+DeleteSchedule(ChannelId, args) = medialive("DELETE", "/prod/channels/$(channelId)/schedule", args)
+DeleteSchedule(a...; b...) = DeleteSchedule(a..., b)
 
 """
     DeleteTags()
@@ -228,7 +253,9 @@ Required Parameters
   "TagKeys": "An array of tag keys to delete"
 }
 """
-DeleteTags(args) = medialive("DELETE", "/prod/tags/{resource-arn}", args)
+DeleteTags(ResourceArn, TagKeys) = medialive("DELETE", "/prod/tags/$(resource-arn)")
+DeleteTags(ResourceArn, TagKeys, args) = medialive("DELETE", "/prod/tags/$(resource-arn)", args)
+DeleteTags(a...; b...) = DeleteTags(a..., b)
 
 """
     DescribeChannel()
@@ -240,7 +267,9 @@ Required Parameters
   "ChannelId": "channel ID"
 }
 """
-DescribeChannel(args) = medialive("GET", "/prod/channels/{channelId}", args)
+DescribeChannel(ChannelId) = medialive("GET", "/prod/channels/$(channelId)")
+DescribeChannel(ChannelId, args) = medialive("GET", "/prod/channels/$(channelId)", args)
+DescribeChannel(a...; b...) = DescribeChannel(a..., b)
 
 """
     DescribeInput()
@@ -252,7 +281,9 @@ Required Parameters
   "InputId": "Unique ID of the input"
 }
 """
-DescribeInput(args) = medialive("GET", "/prod/inputs/{inputId}", args)
+DescribeInput(InputId) = medialive("GET", "/prod/inputs/$(inputId)")
+DescribeInput(InputId, args) = medialive("GET", "/prod/inputs/$(inputId)", args)
+DescribeInput(a...; b...) = DescribeInput(a..., b)
 
 """
     DescribeInputDevice()
@@ -264,7 +295,9 @@ Required Parameters
   "InputDeviceId": "The unique ID of this input device. For example, hd-123456789abcdef."
 }
 """
-DescribeInputDevice(args) = medialive("GET", "/prod/inputDevices/{inputDeviceId}", args)
+DescribeInputDevice(InputDeviceId) = medialive("GET", "/prod/inputDevices/$(inputDeviceId)")
+DescribeInputDevice(InputDeviceId, args) = medialive("GET", "/prod/inputDevices/$(inputDeviceId)", args)
+DescribeInputDevice(a...; b...) = DescribeInputDevice(a..., b)
 
 """
     DescribeInputSecurityGroup()
@@ -276,7 +309,9 @@ Required Parameters
   "InputSecurityGroupId": "The id of the Input Security Group to describe"
 }
 """
-DescribeInputSecurityGroup(args) = medialive("GET", "/prod/inputSecurityGroups/{inputSecurityGroupId}", args)
+DescribeInputSecurityGroup(InputSecurityGroupId) = medialive("GET", "/prod/inputSecurityGroups/$(inputSecurityGroupId)")
+DescribeInputSecurityGroup(InputSecurityGroupId, args) = medialive("GET", "/prod/inputSecurityGroups/$(inputSecurityGroupId)", args)
+DescribeInputSecurityGroup(a...; b...) = DescribeInputSecurityGroup(a..., b)
 
 """
     DescribeMultiplex()
@@ -288,7 +323,9 @@ Required Parameters
   "MultiplexId": "The ID of the multiplex."
 }
 """
-DescribeMultiplex(args) = medialive("GET", "/prod/multiplexes/{multiplexId}", args)
+DescribeMultiplex(MultiplexId) = medialive("GET", "/prod/multiplexes/$(multiplexId)")
+DescribeMultiplex(MultiplexId, args) = medialive("GET", "/prod/multiplexes/$(multiplexId)", args)
+DescribeMultiplex(a...; b...) = DescribeMultiplex(a..., b)
 
 """
     DescribeMultiplexProgram()
@@ -301,7 +338,9 @@ Required Parameters
   "ProgramName": "The name of the program."
 }
 """
-DescribeMultiplexProgram(args) = medialive("GET", "/prod/multiplexes/{multiplexId}/programs/{programName}", args)
+DescribeMultiplexProgram(MultiplexId, ProgramName) = medialive("GET", "/prod/multiplexes/$(multiplexId)/programs/$(programName)")
+DescribeMultiplexProgram(MultiplexId, ProgramName, args) = medialive("GET", "/prod/multiplexes/$(multiplexId)/programs/$(programName)", args)
+DescribeMultiplexProgram(a...; b...) = DescribeMultiplexProgram(a..., b)
 
 """
     DescribeOffering()
@@ -313,7 +352,9 @@ Required Parameters
   "OfferingId": "Unique offering ID, e.g. '87654321'"
 }
 """
-DescribeOffering(args) = medialive("GET", "/prod/offerings/{offeringId}", args)
+DescribeOffering(OfferingId) = medialive("GET", "/prod/offerings/$(offeringId)")
+DescribeOffering(OfferingId, args) = medialive("GET", "/prod/offerings/$(offeringId)", args)
+DescribeOffering(a...; b...) = DescribeOffering(a..., b)
 
 """
     DescribeReservation()
@@ -325,7 +366,9 @@ Required Parameters
   "ReservationId": "Unique reservation ID, e.g. '1234567'"
 }
 """
-DescribeReservation(args) = medialive("GET", "/prod/reservations/{reservationId}", args)
+DescribeReservation(ReservationId) = medialive("GET", "/prod/reservations/$(reservationId)")
+DescribeReservation(ReservationId, args) = medialive("GET", "/prod/reservations/$(reservationId)", args)
+DescribeReservation(a...; b...) = DescribeReservation(a..., b)
 
 """
     DescribeSchedule()
@@ -343,7 +386,9 @@ Optional Parameters
   "NextToken": ""
 }
 """
-DescribeSchedule(args) = medialive("GET", "/prod/channels/{channelId}/schedule", args)
+DescribeSchedule(ChannelId) = medialive("GET", "/prod/channels/$(channelId)/schedule")
+DescribeSchedule(ChannelId, args) = medialive("GET", "/prod/channels/$(channelId)/schedule", args)
+DescribeSchedule(a...; b...) = DescribeSchedule(a..., b)
 
 """
     ListChannels()
@@ -358,6 +403,7 @@ Optional Parameters
 """
 ListChannels() = medialive("GET", "/prod/channels")
 ListChannels(args) = medialive("GET", "/prod/channels", args)
+ListChannels(a...; b...) = ListChannels(a..., b)
 
 """
     ListInputDevices()
@@ -372,6 +418,7 @@ Optional Parameters
 """
 ListInputDevices() = medialive("GET", "/prod/inputDevices")
 ListInputDevices(args) = medialive("GET", "/prod/inputDevices", args)
+ListInputDevices(a...; b...) = ListInputDevices(a..., b)
 
 """
     ListInputSecurityGroups()
@@ -386,6 +433,7 @@ Optional Parameters
 """
 ListInputSecurityGroups() = medialive("GET", "/prod/inputSecurityGroups")
 ListInputSecurityGroups(args) = medialive("GET", "/prod/inputSecurityGroups", args)
+ListInputSecurityGroups(a...; b...) = ListInputSecurityGroups(a..., b)
 
 """
     ListInputs()
@@ -400,6 +448,7 @@ Optional Parameters
 """
 ListInputs() = medialive("GET", "/prod/inputs")
 ListInputs(args) = medialive("GET", "/prod/inputs", args)
+ListInputs(a...; b...) = ListInputs(a..., b)
 
 """
     ListMultiplexPrograms()
@@ -417,7 +466,9 @@ Optional Parameters
   "NextToken": "The token to retrieve the next page of results."
 }
 """
-ListMultiplexPrograms(args) = medialive("GET", "/prod/multiplexes/{multiplexId}/programs", args)
+ListMultiplexPrograms(MultiplexId) = medialive("GET", "/prod/multiplexes/$(multiplexId)/programs")
+ListMultiplexPrograms(MultiplexId, args) = medialive("GET", "/prod/multiplexes/$(multiplexId)/programs", args)
+ListMultiplexPrograms(a...; b...) = ListMultiplexPrograms(a..., b)
 
 """
     ListMultiplexes()
@@ -432,6 +483,7 @@ Optional Parameters
 """
 ListMultiplexes() = medialive("GET", "/prod/multiplexes")
 ListMultiplexes(args) = medialive("GET", "/prod/multiplexes", args)
+ListMultiplexes(a...; b...) = ListMultiplexes(a..., b)
 
 """
     ListOfferings()
@@ -456,6 +508,7 @@ Optional Parameters
 """
 ListOfferings() = medialive("GET", "/prod/offerings")
 ListOfferings(args) = medialive("GET", "/prod/offerings", args)
+ListOfferings(a...; b...) = ListOfferings(a..., b)
 
 """
     ListReservations()
@@ -478,6 +531,7 @@ Optional Parameters
 """
 ListReservations() = medialive("GET", "/prod/reservations")
 ListReservations(args) = medialive("GET", "/prod/reservations", args)
+ListReservations(a...; b...) = ListReservations(a..., b)
 
 """
     ListTagsForResource()
@@ -489,7 +543,9 @@ Required Parameters
   "ResourceArn": ""
 }
 """
-ListTagsForResource(args) = medialive("GET", "/prod/tags/{resource-arn}", args)
+ListTagsForResource(ResourceArn) = medialive("GET", "/prod/tags/$(resource-arn)")
+ListTagsForResource(ResourceArn, args) = medialive("GET", "/prod/tags/$(resource-arn)", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     PurchaseOffering()
@@ -510,7 +566,9 @@ Optional Parameters
   "Tags": "A collection of key-value pairs"
 }
 """
-PurchaseOffering(args) = medialive("POST", "/prod/offerings/{offeringId}/purchase", args)
+PurchaseOffering(Count, OfferingId) = medialive("POST", "/prod/offerings/$(offeringId)/purchase")
+PurchaseOffering(Count, OfferingId, args) = medialive("POST", "/prod/offerings/$(offeringId)/purchase", args)
+PurchaseOffering(a...; b...) = PurchaseOffering(a..., b)
 
 """
     StartChannel()
@@ -522,7 +580,9 @@ Required Parameters
   "ChannelId": "A request to start a channel"
 }
 """
-StartChannel(args) = medialive("POST", "/prod/channels/{channelId}/start", args)
+StartChannel(ChannelId) = medialive("POST", "/prod/channels/$(channelId)/start")
+StartChannel(ChannelId, args) = medialive("POST", "/prod/channels/$(channelId)/start", args)
+StartChannel(a...; b...) = StartChannel(a..., b)
 
 """
     StartMultiplex()
@@ -534,7 +594,9 @@ Required Parameters
   "MultiplexId": "The ID of the multiplex."
 }
 """
-StartMultiplex(args) = medialive("POST", "/prod/multiplexes/{multiplexId}/start", args)
+StartMultiplex(MultiplexId) = medialive("POST", "/prod/multiplexes/$(multiplexId)/start")
+StartMultiplex(MultiplexId, args) = medialive("POST", "/prod/multiplexes/$(multiplexId)/start", args)
+StartMultiplex(a...; b...) = StartMultiplex(a..., b)
 
 """
     StopChannel()
@@ -546,7 +608,9 @@ Required Parameters
   "ChannelId": "A request to stop a running channel"
 }
 """
-StopChannel(args) = medialive("POST", "/prod/channels/{channelId}/stop", args)
+StopChannel(ChannelId) = medialive("POST", "/prod/channels/$(channelId)/stop")
+StopChannel(ChannelId, args) = medialive("POST", "/prod/channels/$(channelId)/stop", args)
+StopChannel(a...; b...) = StopChannel(a..., b)
 
 """
     StopMultiplex()
@@ -558,7 +622,9 @@ Required Parameters
   "MultiplexId": "The ID of the multiplex."
 }
 """
-StopMultiplex(args) = medialive("POST", "/prod/multiplexes/{multiplexId}/stop", args)
+StopMultiplex(MultiplexId) = medialive("POST", "/prod/multiplexes/$(multiplexId)/stop")
+StopMultiplex(MultiplexId, args) = medialive("POST", "/prod/multiplexes/$(multiplexId)/stop", args)
+StopMultiplex(a...; b...) = StopMultiplex(a..., b)
 
 """
     UpdateChannel()
@@ -581,7 +647,9 @@ Optional Parameters
   "RoleArn": "An optional Amazon Resource Name (ARN) of the role to assume when running the Channel. If you do not specify this on an update call but the role was previously set that role will be removed."
 }
 """
-UpdateChannel(args) = medialive("PUT", "/prod/channels/{channelId}", args)
+UpdateChannel(ChannelId) = medialive("PUT", "/prod/channels/$(channelId)")
+UpdateChannel(ChannelId, args) = medialive("PUT", "/prod/channels/$(channelId)", args)
+UpdateChannel(a...; b...) = UpdateChannel(a..., b)
 
 """
     UpdateChannelClass()
@@ -599,7 +667,9 @@ Optional Parameters
   "Destinations": "A list of output destinations for this channel."
 }
 """
-UpdateChannelClass(args) = medialive("PUT", "/prod/channels/{channelId}/channelClass", args)
+UpdateChannelClass(ChannelClass, ChannelId) = medialive("PUT", "/prod/channels/$(channelId)/channelClass")
+UpdateChannelClass(ChannelClass, ChannelId, args) = medialive("PUT", "/prod/channels/$(channelId)/channelClass", args)
+UpdateChannelClass(a...; b...) = UpdateChannelClass(a..., b)
 
 """
     UpdateInput()
@@ -622,7 +692,9 @@ Optional Parameters
   "Sources": "The source URLs for a PULL-type input. Every PULL type input needs\nexactly two source URLs for redundancy.\nOnly specify sources for PULL type Inputs. Leave Destinations empty.\n"
 }
 """
-UpdateInput(args) = medialive("PUT", "/prod/inputs/{inputId}", args)
+UpdateInput(InputId) = medialive("PUT", "/prod/inputs/$(inputId)")
+UpdateInput(InputId, args) = medialive("PUT", "/prod/inputs/$(inputId)", args)
+UpdateInput(a...; b...) = UpdateInput(a..., b)
 
 """
     UpdateInputDevice()
@@ -640,7 +712,9 @@ Optional Parameters
   "Name": "The name that you assigned to this input device (not the unique ID)."
 }
 """
-UpdateInputDevice(args) = medialive("PUT", "/prod/inputDevices/{inputDeviceId}", args)
+UpdateInputDevice(InputDeviceId) = medialive("PUT", "/prod/inputDevices/$(inputDeviceId)")
+UpdateInputDevice(InputDeviceId, args) = medialive("PUT", "/prod/inputDevices/$(inputDeviceId)", args)
+UpdateInputDevice(a...; b...) = UpdateInputDevice(a..., b)
 
 """
     UpdateInputSecurityGroup()
@@ -658,7 +732,9 @@ Optional Parameters
   "WhitelistRules": "List of IPv4 CIDR addresses to whitelist"
 }
 """
-UpdateInputSecurityGroup(args) = medialive("PUT", "/prod/inputSecurityGroups/{inputSecurityGroupId}", args)
+UpdateInputSecurityGroup(InputSecurityGroupId) = medialive("PUT", "/prod/inputSecurityGroups/$(inputSecurityGroupId)")
+UpdateInputSecurityGroup(InputSecurityGroupId, args) = medialive("PUT", "/prod/inputSecurityGroups/$(inputSecurityGroupId)", args)
+UpdateInputSecurityGroup(a...; b...) = UpdateInputSecurityGroup(a..., b)
 
 """
     UpdateMultiplex()
@@ -676,7 +752,9 @@ Optional Parameters
   "Name": "Name of the multiplex."
 }
 """
-UpdateMultiplex(args) = medialive("PUT", "/prod/multiplexes/{multiplexId}", args)
+UpdateMultiplex(MultiplexId) = medialive("PUT", "/prod/multiplexes/$(multiplexId)")
+UpdateMultiplex(MultiplexId, args) = medialive("PUT", "/prod/multiplexes/$(multiplexId)", args)
+UpdateMultiplex(a...; b...) = UpdateMultiplex(a..., b)
 
 """
     UpdateMultiplexProgram()
@@ -694,7 +772,9 @@ Optional Parameters
   "MultiplexProgramSettings": "The new settings for a multiplex program."
 }
 """
-UpdateMultiplexProgram(args) = medialive("PUT", "/prod/multiplexes/{multiplexId}/programs/{programName}", args)
+UpdateMultiplexProgram(MultiplexId, ProgramName) = medialive("PUT", "/prod/multiplexes/$(multiplexId)/programs/$(programName)")
+UpdateMultiplexProgram(MultiplexId, ProgramName, args) = medialive("PUT", "/prod/multiplexes/$(multiplexId)/programs/$(programName)", args)
+UpdateMultiplexProgram(a...; b...) = UpdateMultiplexProgram(a..., b)
 
 """
     UpdateReservation()
@@ -711,4 +791,6 @@ Optional Parameters
   "Name": "Name of the reservation"
 }
 """
-UpdateReservation(args) = medialive("PUT", "/prod/reservations/{reservationId}", args)
+UpdateReservation(ReservationId) = medialive("PUT", "/prod/reservations/$(reservationId)")
+UpdateReservation(ReservationId, args) = medialive("PUT", "/prod/reservations/$(reservationId)", args)
+UpdateReservation(a...; b...) = UpdateReservation(a..., b)

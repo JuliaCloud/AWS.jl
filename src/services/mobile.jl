@@ -17,6 +17,7 @@ Optional Parameters
 """
 CreateProject() = mobile("POST", "/projects")
 CreateProject(args) = mobile("POST", "/projects", args)
+CreateProject(a...; b...) = CreateProject(a..., b)
 
 """
     DeleteProject()
@@ -28,7 +29,9 @@ Required Parameters
   "projectId": " Unique project identifier. "
 }
 """
-DeleteProject(args) = mobile("DELETE", "/projects/{projectId}", args)
+DeleteProject(projectId) = mobile("DELETE", "/projects/$(projectId)")
+DeleteProject(projectId, args) = mobile("DELETE", "/projects/$(projectId)", args)
+DeleteProject(a...; b...) = DeleteProject(a..., b)
 
 """
     DescribeBundle()
@@ -40,7 +43,9 @@ Required Parameters
   "bundleId": " Unique bundle identifier. "
 }
 """
-DescribeBundle(args) = mobile("GET", "/bundles/{bundleId}", args)
+DescribeBundle(bundleId) = mobile("GET", "/bundles/$(bundleId)")
+DescribeBundle(bundleId, args) = mobile("GET", "/bundles/$(bundleId)", args)
+DescribeBundle(a...; b...) = DescribeBundle(a..., b)
 
 """
     DescribeProject()
@@ -57,7 +62,9 @@ Optional Parameters
   "syncFromResources": " If set to true, causes AWS Mobile Hub to synchronize information from other services, e.g., update state of AWS CloudFormation stacks in the AWS Mobile Hub project. "
 }
 """
-DescribeProject(args) = mobile("GET", "/project", args)
+DescribeProject(projectId) = mobile("GET", "/project")
+DescribeProject(projectId, args) = mobile("GET", "/project", args)
+DescribeProject(a...; b...) = DescribeProject(a..., b)
 
 """
     ExportBundle()
@@ -75,7 +82,9 @@ Optional Parameters
   "projectId": " Unique project identifier. "
 }
 """
-ExportBundle(args) = mobile("POST", "/bundles/{bundleId}", args)
+ExportBundle(bundleId) = mobile("POST", "/bundles/$(bundleId)")
+ExportBundle(bundleId, args) = mobile("POST", "/bundles/$(bundleId)", args)
+ExportBundle(a...; b...) = ExportBundle(a..., b)
 
 """
     ExportProject()
@@ -87,7 +96,9 @@ Required Parameters
   "projectId": " Unique project identifier. "
 }
 """
-ExportProject(args) = mobile("POST", "/exports/{projectId}", args)
+ExportProject(projectId) = mobile("POST", "/exports/$(projectId)")
+ExportProject(projectId, args) = mobile("POST", "/exports/$(projectId)", args)
+ExportProject(a...; b...) = ExportProject(a..., b)
 
 """
     ListBundles()
@@ -102,6 +113,7 @@ Optional Parameters
 """
 ListBundles() = mobile("GET", "/bundles")
 ListBundles(args) = mobile("GET", "/bundles", args)
+ListBundles(a...; b...) = ListBundles(a..., b)
 
 """
     ListProjects()
@@ -116,6 +128,7 @@ Optional Parameters
 """
 ListProjects() = mobile("GET", "/projects")
 ListProjects(args) = mobile("GET", "/projects", args)
+ListProjects(a...; b...) = ListProjects(a..., b)
 
 """
     UpdateProject()
@@ -132,4 +145,6 @@ Optional Parameters
   "contents": " ZIP or YAML file which contains project configuration to be updated. This should be the contents of the file downloaded from the URL provided in an export project operation. "
 }
 """
-UpdateProject(args) = mobile("POST", "/update", args)
+UpdateProject(projectId) = mobile("POST", "/update")
+UpdateProject(projectId, args) = mobile("POST", "/update", args)
+UpdateProject(a...; b...) = UpdateProject(a..., b)

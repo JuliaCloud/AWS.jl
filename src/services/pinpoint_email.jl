@@ -21,7 +21,9 @@ Optional Parameters
   "TrackingOptions": "An object that defines the open and click tracking options for emails that you send using the configuration set."
 }
 """
-CreateConfigurationSet(args) = pinpoint_email("POST", "/v1/email/configuration-sets", args)
+CreateConfigurationSet(ConfigurationSetName) = pinpoint_email("POST", "/v1/email/configuration-sets")
+CreateConfigurationSet(ConfigurationSetName, args) = pinpoint_email("POST", "/v1/email/configuration-sets", args)
+CreateConfigurationSet(a...; b...) = CreateConfigurationSet(a..., b)
 
 """
     CreateConfigurationSetEventDestination()
@@ -35,7 +37,9 @@ Required Parameters
   "EventDestinationName": "A name that identifies the event destination within the configuration set."
 }
 """
-CreateConfigurationSetEventDestination(args) = pinpoint_email("POST", "/v1/email/configuration-sets/{ConfigurationSetName}/event-destinations", args)
+CreateConfigurationSetEventDestination(ConfigurationSetName, EventDestination, EventDestinationName) = pinpoint_email("POST", "/v1/email/configuration-sets/$(ConfigurationSetName)/event-destinations")
+CreateConfigurationSetEventDestination(ConfigurationSetName, EventDestination, EventDestinationName, args) = pinpoint_email("POST", "/v1/email/configuration-sets/$(ConfigurationSetName)/event-destinations", args)
+CreateConfigurationSetEventDestination(a...; b...) = CreateConfigurationSetEventDestination(a..., b)
 
 """
     CreateDedicatedIpPool()
@@ -52,7 +56,9 @@ Optional Parameters
   "Tags": "An object that defines the tags (keys and values) that you want to associate with the pool."
 }
 """
-CreateDedicatedIpPool(args) = pinpoint_email("POST", "/v1/email/dedicated-ip-pools", args)
+CreateDedicatedIpPool(PoolName) = pinpoint_email("POST", "/v1/email/dedicated-ip-pools")
+CreateDedicatedIpPool(PoolName, args) = pinpoint_email("POST", "/v1/email/dedicated-ip-pools", args)
+CreateDedicatedIpPool(a...; b...) = CreateDedicatedIpPool(a..., b)
 
 """
     CreateDeliverabilityTestReport()
@@ -71,7 +77,9 @@ Optional Parameters
   "Tags": "An array of objects that define the tags (keys and values) that you want to associate with the predictive inbox placement test."
 }
 """
-CreateDeliverabilityTestReport(args) = pinpoint_email("POST", "/v1/email/deliverability-dashboard/test", args)
+CreateDeliverabilityTestReport(Content, FromEmailAddress) = pinpoint_email("POST", "/v1/email/deliverability-dashboard/test")
+CreateDeliverabilityTestReport(Content, FromEmailAddress, args) = pinpoint_email("POST", "/v1/email/deliverability-dashboard/test", args)
+CreateDeliverabilityTestReport(a...; b...) = CreateDeliverabilityTestReport(a..., b)
 
 """
     CreateEmailIdentity()
@@ -88,7 +96,9 @@ Optional Parameters
   "Tags": "An array of objects that define the tags (keys and values) that you want to associate with the email identity."
 }
 """
-CreateEmailIdentity(args) = pinpoint_email("POST", "/v1/email/identities", args)
+CreateEmailIdentity(EmailIdentity) = pinpoint_email("POST", "/v1/email/identities")
+CreateEmailIdentity(EmailIdentity, args) = pinpoint_email("POST", "/v1/email/identities", args)
+CreateEmailIdentity(a...; b...) = CreateEmailIdentity(a..., b)
 
 """
     DeleteConfigurationSet()
@@ -100,7 +110,9 @@ Required Parameters
   "ConfigurationSetName": "The name of the configuration set that you want to delete."
 }
 """
-DeleteConfigurationSet(args) = pinpoint_email("DELETE", "/v1/email/configuration-sets/{ConfigurationSetName}", args)
+DeleteConfigurationSet(ConfigurationSetName) = pinpoint_email("DELETE", "/v1/email/configuration-sets/$(ConfigurationSetName)")
+DeleteConfigurationSet(ConfigurationSetName, args) = pinpoint_email("DELETE", "/v1/email/configuration-sets/$(ConfigurationSetName)", args)
+DeleteConfigurationSet(a...; b...) = DeleteConfigurationSet(a..., b)
 
 """
     DeleteConfigurationSetEventDestination()
@@ -113,7 +125,9 @@ Required Parameters
   "EventDestinationName": "The name of the event destination that you want to delete."
 }
 """
-DeleteConfigurationSetEventDestination(args) = pinpoint_email("DELETE", "/v1/email/configuration-sets/{ConfigurationSetName}/event-destinations/{EventDestinationName}", args)
+DeleteConfigurationSetEventDestination(ConfigurationSetName, EventDestinationName) = pinpoint_email("DELETE", "/v1/email/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)")
+DeleteConfigurationSetEventDestination(ConfigurationSetName, EventDestinationName, args) = pinpoint_email("DELETE", "/v1/email/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)", args)
+DeleteConfigurationSetEventDestination(a...; b...) = DeleteConfigurationSetEventDestination(a..., b)
 
 """
     DeleteDedicatedIpPool()
@@ -125,7 +139,9 @@ Required Parameters
   "PoolName": "The name of the dedicated IP pool that you want to delete."
 }
 """
-DeleteDedicatedIpPool(args) = pinpoint_email("DELETE", "/v1/email/dedicated-ip-pools/{PoolName}", args)
+DeleteDedicatedIpPool(PoolName) = pinpoint_email("DELETE", "/v1/email/dedicated-ip-pools/$(PoolName)")
+DeleteDedicatedIpPool(PoolName, args) = pinpoint_email("DELETE", "/v1/email/dedicated-ip-pools/$(PoolName)", args)
+DeleteDedicatedIpPool(a...; b...) = DeleteDedicatedIpPool(a..., b)
 
 """
     DeleteEmailIdentity()
@@ -137,7 +153,9 @@ Required Parameters
   "EmailIdentity": "The identity (that is, the email address or domain) that you want to delete from your Amazon Pinpoint account."
 }
 """
-DeleteEmailIdentity(args) = pinpoint_email("DELETE", "/v1/email/identities/{EmailIdentity}", args)
+DeleteEmailIdentity(EmailIdentity) = pinpoint_email("DELETE", "/v1/email/identities/$(EmailIdentity)")
+DeleteEmailIdentity(EmailIdentity, args) = pinpoint_email("DELETE", "/v1/email/identities/$(EmailIdentity)", args)
+DeleteEmailIdentity(a...; b...) = DeleteEmailIdentity(a..., b)
 
 """
     GetAccount()
@@ -146,6 +164,7 @@ Obtain information about the email-sending status and capabilities of your Amazo
 """
 GetAccount() = pinpoint_email("GET", "/v1/email/account")
 GetAccount(args) = pinpoint_email("GET", "/v1/email/account", args)
+GetAccount(a...; b...) = GetAccount(a..., b)
 
 """
     GetBlacklistReports()
@@ -157,7 +176,9 @@ Required Parameters
   "BlacklistItemNames": "A list of IP addresses that you want to retrieve blacklist information about. You can only specify the dedicated IP addresses that you use to send email using Amazon Pinpoint or Amazon SES."
 }
 """
-GetBlacklistReports(args) = pinpoint_email("GET", "/v1/email/deliverability-dashboard/blacklist-report", args)
+GetBlacklistReports(BlacklistItemNames) = pinpoint_email("GET", "/v1/email/deliverability-dashboard/blacklist-report")
+GetBlacklistReports(BlacklistItemNames, args) = pinpoint_email("GET", "/v1/email/deliverability-dashboard/blacklist-report", args)
+GetBlacklistReports(a...; b...) = GetBlacklistReports(a..., b)
 
 """
     GetConfigurationSet()
@@ -169,7 +190,9 @@ Required Parameters
   "ConfigurationSetName": "The name of the configuration set that you want to obtain more information about."
 }
 """
-GetConfigurationSet(args) = pinpoint_email("GET", "/v1/email/configuration-sets/{ConfigurationSetName}", args)
+GetConfigurationSet(ConfigurationSetName) = pinpoint_email("GET", "/v1/email/configuration-sets/$(ConfigurationSetName)")
+GetConfigurationSet(ConfigurationSetName, args) = pinpoint_email("GET", "/v1/email/configuration-sets/$(ConfigurationSetName)", args)
+GetConfigurationSet(a...; b...) = GetConfigurationSet(a..., b)
 
 """
     GetConfigurationSetEventDestinations()
@@ -181,7 +204,9 @@ Required Parameters
   "ConfigurationSetName": "The name of the configuration set that contains the event destination."
 }
 """
-GetConfigurationSetEventDestinations(args) = pinpoint_email("GET", "/v1/email/configuration-sets/{ConfigurationSetName}/event-destinations", args)
+GetConfigurationSetEventDestinations(ConfigurationSetName) = pinpoint_email("GET", "/v1/email/configuration-sets/$(ConfigurationSetName)/event-destinations")
+GetConfigurationSetEventDestinations(ConfigurationSetName, args) = pinpoint_email("GET", "/v1/email/configuration-sets/$(ConfigurationSetName)/event-destinations", args)
+GetConfigurationSetEventDestinations(a...; b...) = GetConfigurationSetEventDestinations(a..., b)
 
 """
     GetDedicatedIp()
@@ -193,7 +218,9 @@ Required Parameters
   "Ip": "The IP address that you want to obtain more information about. The value you specify has to be a dedicated IP address that's assocaited with your Amazon Pinpoint account."
 }
 """
-GetDedicatedIp(args) = pinpoint_email("GET", "/v1/email/dedicated-ips/{IP}", args)
+GetDedicatedIp(Ip) = pinpoint_email("GET", "/v1/email/dedicated-ips/$(IP)")
+GetDedicatedIp(Ip, args) = pinpoint_email("GET", "/v1/email/dedicated-ips/$(IP)", args)
+GetDedicatedIp(a...; b...) = GetDedicatedIp(a..., b)
 
 """
     GetDedicatedIps()
@@ -209,6 +236,7 @@ Optional Parameters
 """
 GetDedicatedIps() = pinpoint_email("GET", "/v1/email/dedicated-ips")
 GetDedicatedIps(args) = pinpoint_email("GET", "/v1/email/dedicated-ips", args)
+GetDedicatedIps(a...; b...) = GetDedicatedIps(a..., b)
 
 """
     GetDeliverabilityDashboardOptions()
@@ -217,6 +245,7 @@ Retrieve information about the status of the Deliverability dashboard for your A
 """
 GetDeliverabilityDashboardOptions() = pinpoint_email("GET", "/v1/email/deliverability-dashboard")
 GetDeliverabilityDashboardOptions(args) = pinpoint_email("GET", "/v1/email/deliverability-dashboard", args)
+GetDeliverabilityDashboardOptions(a...; b...) = GetDeliverabilityDashboardOptions(a..., b)
 
 """
     GetDeliverabilityTestReport()
@@ -228,7 +257,9 @@ Required Parameters
   "ReportId": "A unique string that identifies the predictive inbox placement test."
 }
 """
-GetDeliverabilityTestReport(args) = pinpoint_email("GET", "/v1/email/deliverability-dashboard/test-reports/{ReportId}", args)
+GetDeliverabilityTestReport(ReportId) = pinpoint_email("GET", "/v1/email/deliverability-dashboard/test-reports/$(ReportId)")
+GetDeliverabilityTestReport(ReportId, args) = pinpoint_email("GET", "/v1/email/deliverability-dashboard/test-reports/$(ReportId)", args)
+GetDeliverabilityTestReport(a...; b...) = GetDeliverabilityTestReport(a..., b)
 
 """
     GetDomainDeliverabilityCampaign()
@@ -240,7 +271,9 @@ Required Parameters
   "CampaignId": "The unique identifier for the campaign. Amazon Pinpoint automatically generates and assigns this identifier to a campaign. This value is not the same as the campaign identifier that Amazon Pinpoint assigns to campaigns that you create and manage by using the Amazon Pinpoint API or the Amazon Pinpoint console."
 }
 """
-GetDomainDeliverabilityCampaign(args) = pinpoint_email("GET", "/v1/email/deliverability-dashboard/campaigns/{CampaignId}", args)
+GetDomainDeliverabilityCampaign(CampaignId) = pinpoint_email("GET", "/v1/email/deliverability-dashboard/campaigns/$(CampaignId)")
+GetDomainDeliverabilityCampaign(CampaignId, args) = pinpoint_email("GET", "/v1/email/deliverability-dashboard/campaigns/$(CampaignId)", args)
+GetDomainDeliverabilityCampaign(a...; b...) = GetDomainDeliverabilityCampaign(a..., b)
 
 """
     GetDomainStatisticsReport()
@@ -254,7 +287,9 @@ Required Parameters
   "StartDate": "The first day (in Unix time) that you want to obtain domain deliverability metrics for."
 }
 """
-GetDomainStatisticsReport(args) = pinpoint_email("GET", "/v1/email/deliverability-dashboard/statistics-report/{Domain}", args)
+GetDomainStatisticsReport(Domain, EndDate, StartDate) = pinpoint_email("GET", "/v1/email/deliverability-dashboard/statistics-report/$(Domain)")
+GetDomainStatisticsReport(Domain, EndDate, StartDate, args) = pinpoint_email("GET", "/v1/email/deliverability-dashboard/statistics-report/$(Domain)", args)
+GetDomainStatisticsReport(a...; b...) = GetDomainStatisticsReport(a..., b)
 
 """
     GetEmailIdentity()
@@ -266,7 +301,9 @@ Required Parameters
   "EmailIdentity": "The email identity that you want to retrieve details for."
 }
 """
-GetEmailIdentity(args) = pinpoint_email("GET", "/v1/email/identities/{EmailIdentity}", args)
+GetEmailIdentity(EmailIdentity) = pinpoint_email("GET", "/v1/email/identities/$(EmailIdentity)")
+GetEmailIdentity(EmailIdentity, args) = pinpoint_email("GET", "/v1/email/identities/$(EmailIdentity)", args)
+GetEmailIdentity(a...; b...) = GetEmailIdentity(a..., b)
 
 """
     ListConfigurationSets()
@@ -281,6 +318,7 @@ Optional Parameters
 """
 ListConfigurationSets() = pinpoint_email("GET", "/v1/email/configuration-sets")
 ListConfigurationSets(args) = pinpoint_email("GET", "/v1/email/configuration-sets", args)
+ListConfigurationSets(a...; b...) = ListConfigurationSets(a..., b)
 
 """
     ListDedicatedIpPools()
@@ -295,6 +333,7 @@ Optional Parameters
 """
 ListDedicatedIpPools() = pinpoint_email("GET", "/v1/email/dedicated-ip-pools")
 ListDedicatedIpPools(args) = pinpoint_email("GET", "/v1/email/dedicated-ip-pools", args)
+ListDedicatedIpPools(a...; b...) = ListDedicatedIpPools(a..., b)
 
 """
     ListDeliverabilityTestReports()
@@ -309,6 +348,7 @@ Optional Parameters
 """
 ListDeliverabilityTestReports() = pinpoint_email("GET", "/v1/email/deliverability-dashboard/test-reports")
 ListDeliverabilityTestReports(args) = pinpoint_email("GET", "/v1/email/deliverability-dashboard/test-reports", args)
+ListDeliverabilityTestReports(a...; b...) = ListDeliverabilityTestReports(a..., b)
 
 """
     ListDomainDeliverabilityCampaigns()
@@ -328,7 +368,9 @@ Optional Parameters
   "PageSize": "The maximum number of results to include in response to a single call to the ListDomainDeliverabilityCampaigns operation. If the number of results is larger than the number that you specify in this parameter, the response includes a NextToken element, which you can use to obtain additional results."
 }
 """
-ListDomainDeliverabilityCampaigns(args) = pinpoint_email("GET", "/v1/email/deliverability-dashboard/domains/{SubscribedDomain}/campaigns", args)
+ListDomainDeliverabilityCampaigns(EndDate, StartDate, SubscribedDomain) = pinpoint_email("GET", "/v1/email/deliverability-dashboard/domains/$(SubscribedDomain)/campaigns")
+ListDomainDeliverabilityCampaigns(EndDate, StartDate, SubscribedDomain, args) = pinpoint_email("GET", "/v1/email/deliverability-dashboard/domains/$(SubscribedDomain)/campaigns", args)
+ListDomainDeliverabilityCampaigns(a...; b...) = ListDomainDeliverabilityCampaigns(a..., b)
 
 """
     ListEmailIdentities()
@@ -343,6 +385,7 @@ Optional Parameters
 """
 ListEmailIdentities() = pinpoint_email("GET", "/v1/email/identities")
 ListEmailIdentities(args) = pinpoint_email("GET", "/v1/email/identities", args)
+ListEmailIdentities(a...; b...) = ListEmailIdentities(a..., b)
 
 """
     ListTagsForResource()
@@ -354,7 +397,9 @@ Required Parameters
   "ResourceArn": "The Amazon Resource Name (ARN) of the resource that you want to retrieve tag information for."
 }
 """
-ListTagsForResource(args) = pinpoint_email("GET", "/v1/email/tags", args)
+ListTagsForResource(ResourceArn) = pinpoint_email("GET", "/v1/email/tags")
+ListTagsForResource(ResourceArn, args) = pinpoint_email("GET", "/v1/email/tags", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     PutAccountDedicatedIpWarmupAttributes()
@@ -368,6 +413,7 @@ Optional Parameters
 """
 PutAccountDedicatedIpWarmupAttributes() = pinpoint_email("PUT", "/v1/email/account/dedicated-ips/warmup")
 PutAccountDedicatedIpWarmupAttributes(args) = pinpoint_email("PUT", "/v1/email/account/dedicated-ips/warmup", args)
+PutAccountDedicatedIpWarmupAttributes(a...; b...) = PutAccountDedicatedIpWarmupAttributes(a..., b)
 
 """
     PutAccountSendingAttributes()
@@ -381,6 +427,7 @@ Optional Parameters
 """
 PutAccountSendingAttributes() = pinpoint_email("PUT", "/v1/email/account/sending")
 PutAccountSendingAttributes(args) = pinpoint_email("PUT", "/v1/email/account/sending", args)
+PutAccountSendingAttributes(a...; b...) = PutAccountSendingAttributes(a..., b)
 
 """
     PutConfigurationSetDeliveryOptions()
@@ -398,7 +445,9 @@ Optional Parameters
   "TlsPolicy": "Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS). If the value is Require, messages are only delivered if a TLS connection can be established. If the value is Optional, messages can be delivered in plain text if a TLS connection can't be established."
 }
 """
-PutConfigurationSetDeliveryOptions(args) = pinpoint_email("PUT", "/v1/email/configuration-sets/{ConfigurationSetName}/delivery-options", args)
+PutConfigurationSetDeliveryOptions(ConfigurationSetName) = pinpoint_email("PUT", "/v1/email/configuration-sets/$(ConfigurationSetName)/delivery-options")
+PutConfigurationSetDeliveryOptions(ConfigurationSetName, args) = pinpoint_email("PUT", "/v1/email/configuration-sets/$(ConfigurationSetName)/delivery-options", args)
+PutConfigurationSetDeliveryOptions(a...; b...) = PutConfigurationSetDeliveryOptions(a..., b)
 
 """
     PutConfigurationSetReputationOptions()
@@ -415,7 +464,9 @@ Optional Parameters
   "ReputationMetricsEnabled": "If true, tracking of reputation metrics is enabled for the configuration set. If false, tracking of reputation metrics is disabled for the configuration set."
 }
 """
-PutConfigurationSetReputationOptions(args) = pinpoint_email("PUT", "/v1/email/configuration-sets/{ConfigurationSetName}/reputation-options", args)
+PutConfigurationSetReputationOptions(ConfigurationSetName) = pinpoint_email("PUT", "/v1/email/configuration-sets/$(ConfigurationSetName)/reputation-options")
+PutConfigurationSetReputationOptions(ConfigurationSetName, args) = pinpoint_email("PUT", "/v1/email/configuration-sets/$(ConfigurationSetName)/reputation-options", args)
+PutConfigurationSetReputationOptions(a...; b...) = PutConfigurationSetReputationOptions(a..., b)
 
 """
     PutConfigurationSetSendingOptions()
@@ -432,7 +483,9 @@ Optional Parameters
   "SendingEnabled": "If true, email sending is enabled for the configuration set. If false, email sending is disabled for the configuration set."
 }
 """
-PutConfigurationSetSendingOptions(args) = pinpoint_email("PUT", "/v1/email/configuration-sets/{ConfigurationSetName}/sending", args)
+PutConfigurationSetSendingOptions(ConfigurationSetName) = pinpoint_email("PUT", "/v1/email/configuration-sets/$(ConfigurationSetName)/sending")
+PutConfigurationSetSendingOptions(ConfigurationSetName, args) = pinpoint_email("PUT", "/v1/email/configuration-sets/$(ConfigurationSetName)/sending", args)
+PutConfigurationSetSendingOptions(a...; b...) = PutConfigurationSetSendingOptions(a..., b)
 
 """
     PutConfigurationSetTrackingOptions()
@@ -449,7 +502,9 @@ Optional Parameters
   "CustomRedirectDomain": "The domain that you want to use to track open and click events."
 }
 """
-PutConfigurationSetTrackingOptions(args) = pinpoint_email("PUT", "/v1/email/configuration-sets/{ConfigurationSetName}/tracking-options", args)
+PutConfigurationSetTrackingOptions(ConfigurationSetName) = pinpoint_email("PUT", "/v1/email/configuration-sets/$(ConfigurationSetName)/tracking-options")
+PutConfigurationSetTrackingOptions(ConfigurationSetName, args) = pinpoint_email("PUT", "/v1/email/configuration-sets/$(ConfigurationSetName)/tracking-options", args)
+PutConfigurationSetTrackingOptions(a...; b...) = PutConfigurationSetTrackingOptions(a..., b)
 
 """
     PutDedicatedIpInPool()
@@ -462,7 +517,9 @@ Required Parameters
   "Ip": "The IP address that you want to move to the dedicated IP pool. The value you specify has to be a dedicated IP address that's associated with your Amazon Pinpoint account."
 }
 """
-PutDedicatedIpInPool(args) = pinpoint_email("PUT", "/v1/email/dedicated-ips/{IP}/pool", args)
+PutDedicatedIpInPool(DestinationPoolName, Ip) = pinpoint_email("PUT", "/v1/email/dedicated-ips/$(IP)/pool")
+PutDedicatedIpInPool(DestinationPoolName, Ip, args) = pinpoint_email("PUT", "/v1/email/dedicated-ips/$(IP)/pool", args)
+PutDedicatedIpInPool(a...; b...) = PutDedicatedIpInPool(a..., b)
 
 """
     PutDedicatedIpWarmupAttributes()
@@ -475,7 +532,9 @@ Required Parameters
   "WarmupPercentage": "The warm-up percentage that you want to associate with the dedicated IP address."
 }
 """
-PutDedicatedIpWarmupAttributes(args) = pinpoint_email("PUT", "/v1/email/dedicated-ips/{IP}/warmup", args)
+PutDedicatedIpWarmupAttributes(Ip, WarmupPercentage) = pinpoint_email("PUT", "/v1/email/dedicated-ips/$(IP)/warmup")
+PutDedicatedIpWarmupAttributes(Ip, WarmupPercentage, args) = pinpoint_email("PUT", "/v1/email/dedicated-ips/$(IP)/warmup", args)
+PutDedicatedIpWarmupAttributes(a...; b...) = PutDedicatedIpWarmupAttributes(a..., b)
 
 """
     PutDeliverabilityDashboardOption()
@@ -492,7 +551,9 @@ Optional Parameters
   "SubscribedDomains": "An array of objects, one for each verified domain that you use to send email and enabled the Deliverability dashboard for."
 }
 """
-PutDeliverabilityDashboardOption(args) = pinpoint_email("PUT", "/v1/email/deliverability-dashboard", args)
+PutDeliverabilityDashboardOption(DashboardEnabled) = pinpoint_email("PUT", "/v1/email/deliverability-dashboard")
+PutDeliverabilityDashboardOption(DashboardEnabled, args) = pinpoint_email("PUT", "/v1/email/deliverability-dashboard", args)
+PutDeliverabilityDashboardOption(a...; b...) = PutDeliverabilityDashboardOption(a..., b)
 
 """
     PutEmailIdentityDkimAttributes()
@@ -509,7 +570,9 @@ Optional Parameters
   "SigningEnabled": "Sets the DKIM signing configuration for the identity. When you set this value true, then the messages that Amazon Pinpoint sends from the identity are DKIM-signed. When you set this value to false, then the messages that Amazon Pinpoint sends from the identity aren't DKIM-signed."
 }
 """
-PutEmailIdentityDkimAttributes(args) = pinpoint_email("PUT", "/v1/email/identities/{EmailIdentity}/dkim", args)
+PutEmailIdentityDkimAttributes(EmailIdentity) = pinpoint_email("PUT", "/v1/email/identities/$(EmailIdentity)/dkim")
+PutEmailIdentityDkimAttributes(EmailIdentity, args) = pinpoint_email("PUT", "/v1/email/identities/$(EmailIdentity)/dkim", args)
+PutEmailIdentityDkimAttributes(a...; b...) = PutEmailIdentityDkimAttributes(a..., b)
 
 """
     PutEmailIdentityFeedbackAttributes()
@@ -526,7 +589,9 @@ Optional Parameters
   "EmailForwardingEnabled": "Sets the feedback forwarding configuration for the identity. If the value is true, Amazon Pinpoint sends you email notifications when bounce or complaint events occur. Amazon Pinpoint sends this notification to the address that you specified in the Return-Path header of the original email. When you set this value to false, Amazon Pinpoint sends notifications through other mechanisms, such as by notifying an Amazon SNS topic or another event destination. You're required to have a method of tracking bounces and complaints. If you haven't set up another mechanism for receiving bounce or complaint notifications, Amazon Pinpoint sends an email notification when these events occur (even if this setting is disabled)."
 }
 """
-PutEmailIdentityFeedbackAttributes(args) = pinpoint_email("PUT", "/v1/email/identities/{EmailIdentity}/feedback", args)
+PutEmailIdentityFeedbackAttributes(EmailIdentity) = pinpoint_email("PUT", "/v1/email/identities/$(EmailIdentity)/feedback")
+PutEmailIdentityFeedbackAttributes(EmailIdentity, args) = pinpoint_email("PUT", "/v1/email/identities/$(EmailIdentity)/feedback", args)
+PutEmailIdentityFeedbackAttributes(a...; b...) = PutEmailIdentityFeedbackAttributes(a..., b)
 
 """
     PutEmailIdentityMailFromAttributes()
@@ -544,7 +609,9 @@ Optional Parameters
   "MailFromDomain": " The custom MAIL FROM domain that you want the verified identity to use. The MAIL FROM domain must meet the following criteria:   It has to be a subdomain of the verified identity.   It can't be used to receive email.   It can't be used in a \"From\" address if the MAIL FROM domain is a destination for feedback forwarding emails.  "
 }
 """
-PutEmailIdentityMailFromAttributes(args) = pinpoint_email("PUT", "/v1/email/identities/{EmailIdentity}/mail-from", args)
+PutEmailIdentityMailFromAttributes(EmailIdentity) = pinpoint_email("PUT", "/v1/email/identities/$(EmailIdentity)/mail-from")
+PutEmailIdentityMailFromAttributes(EmailIdentity, args) = pinpoint_email("PUT", "/v1/email/identities/$(EmailIdentity)/mail-from", args)
+PutEmailIdentityMailFromAttributes(a...; b...) = PutEmailIdentityMailFromAttributes(a..., b)
 
 """
     SendEmail()
@@ -566,7 +633,9 @@ Optional Parameters
   "ReplyToAddresses": "The \"Reply-to\" email addresses for the message. When the recipient replies to the message, each Reply-to address receives the reply."
 }
 """
-SendEmail(args) = pinpoint_email("POST", "/v1/email/outbound-emails", args)
+SendEmail(Content, Destination) = pinpoint_email("POST", "/v1/email/outbound-emails")
+SendEmail(Content, Destination, args) = pinpoint_email("POST", "/v1/email/outbound-emails", args)
+SendEmail(a...; b...) = SendEmail(a..., b)
 
 """
     TagResource()
@@ -579,7 +648,9 @@ Required Parameters
   "Tags": "A list of the tags that you want to add to the resource. A tag consists of a required tag key (Key) and an associated tag value (Value). The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters."
 }
 """
-TagResource(args) = pinpoint_email("POST", "/v1/email/tags", args)
+TagResource(ResourceArn, Tags) = pinpoint_email("POST", "/v1/email/tags")
+TagResource(ResourceArn, Tags, args) = pinpoint_email("POST", "/v1/email/tags", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
@@ -592,7 +663,9 @@ Required Parameters
   "TagKeys": "The tags (tag keys) that you want to remove from the resource. When you specify a tag key, the action removes both that key and its associated tag value. To remove more than one tag from the resource, append the TagKeys parameter and argument for each additional tag to remove, separated by an ampersand. For example: /v1/email/tags?ResourceArn=ResourceArn&amp;TagKeys=Key1&amp;TagKeys=Key2 "
 }
 """
-UntagResource(args) = pinpoint_email("DELETE", "/v1/email/tags", args)
+UntagResource(ResourceArn, TagKeys) = pinpoint_email("DELETE", "/v1/email/tags")
+UntagResource(ResourceArn, TagKeys, args) = pinpoint_email("DELETE", "/v1/email/tags", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateConfigurationSetEventDestination()
@@ -606,4 +679,6 @@ Required Parameters
   "EventDestinationName": "The name of the event destination that you want to modify."
 }
 """
-UpdateConfigurationSetEventDestination(args) = pinpoint_email("PUT", "/v1/email/configuration-sets/{ConfigurationSetName}/event-destinations/{EventDestinationName}", args)
+UpdateConfigurationSetEventDestination(ConfigurationSetName, EventDestination, EventDestinationName) = pinpoint_email("PUT", "/v1/email/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)")
+UpdateConfigurationSetEventDestination(ConfigurationSetName, EventDestination, EventDestinationName, args) = pinpoint_email("PUT", "/v1/email/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)", args)
+UpdateConfigurationSetEventDestination(a...; b...) = UpdateConfigurationSetEventDestination(a..., b)

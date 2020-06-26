@@ -14,7 +14,9 @@ Required Parameters
   "vaultName": "The name of the vault."
 }
 """
-AbortMultipartUpload(args) = glacier("DELETE", "/{accountId}/vaults/{vaultName}/multipart-uploads/{uploadId}", args)
+AbortMultipartUpload(accountId, uploadId, vaultName) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)")
+AbortMultipartUpload(accountId, uploadId, vaultName, args) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)", args)
+AbortMultipartUpload(a...; b...) = AbortMultipartUpload(a..., b)
 
 """
     AbortVaultLock()
@@ -27,7 +29,9 @@ Required Parameters
   "vaultName": "The name of the vault."
 }
 """
-AbortVaultLock(args) = glacier("DELETE", "/{accountId}/vaults/{vaultName}/lock-policy", args)
+AbortVaultLock(accountId, vaultName) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/lock-policy")
+AbortVaultLock(accountId, vaultName, args) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/lock-policy", args)
+AbortVaultLock(a...; b...) = AbortVaultLock(a..., b)
 
 """
     AddTagsToVault()
@@ -45,7 +49,9 @@ Optional Parameters
   "Tags": "The tags to add to the vault. Each tag is composed of a key and a value. The value can be an empty string."
 }
 """
-AddTagsToVault(args) = glacier("POST", "/{accountId}/vaults/{vaultName}/tags?operation=add", args)
+AddTagsToVault(accountId, vaultName) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/tags?operation=add")
+AddTagsToVault(accountId, vaultName, args) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/tags?operation=add", args)
+AddTagsToVault(a...; b...) = AddTagsToVault(a..., b)
 
 """
     CompleteMultipartUpload()
@@ -65,7 +71,9 @@ Optional Parameters
   "checksum": "The SHA256 tree hash of the entire archive. It is the tree hash of SHA256 tree hash of the individual parts. If the value you specify in the request does not match the SHA256 tree hash of the final assembled archive as computed by Amazon S3 Glacier (Glacier), Glacier returns an error and the request fails."
 }
 """
-CompleteMultipartUpload(args) = glacier("POST", "/{accountId}/vaults/{vaultName}/multipart-uploads/{uploadId}", args)
+CompleteMultipartUpload(accountId, uploadId, vaultName) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)")
+CompleteMultipartUpload(accountId, uploadId, vaultName, args) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)", args)
+CompleteMultipartUpload(a...; b...) = CompleteMultipartUpload(a..., b)
 
 """
     CompleteVaultLock()
@@ -79,7 +87,9 @@ Required Parameters
   "vaultName": "The name of the vault."
 }
 """
-CompleteVaultLock(args) = glacier("POST", "/{accountId}/vaults/{vaultName}/lock-policy/{lockId}", args)
+CompleteVaultLock(accountId, lockId, vaultName) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/lock-policy/$(lockId)")
+CompleteVaultLock(accountId, lockId, vaultName, args) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/lock-policy/$(lockId)", args)
+CompleteVaultLock(a...; b...) = CompleteVaultLock(a..., b)
 
 """
     CreateVault()
@@ -92,7 +102,9 @@ Required Parameters
   "vaultName": "The name of the vault."
 }
 """
-CreateVault(args) = glacier("PUT", "/{accountId}/vaults/{vaultName}", args)
+CreateVault(accountId, vaultName) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)")
+CreateVault(accountId, vaultName, args) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)", args)
+CreateVault(a...; b...) = CreateVault(a..., b)
 
 """
     DeleteArchive()
@@ -106,7 +118,9 @@ Required Parameters
   "vaultName": "The name of the vault."
 }
 """
-DeleteArchive(args) = glacier("DELETE", "/{accountId}/vaults/{vaultName}/archives/{archiveId}", args)
+DeleteArchive(accountId, archiveId, vaultName) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/archives/$(archiveId)")
+DeleteArchive(accountId, archiveId, vaultName, args) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/archives/$(archiveId)", args)
+DeleteArchive(a...; b...) = DeleteArchive(a..., b)
 
 """
     DeleteVault()
@@ -119,7 +133,9 @@ Required Parameters
   "vaultName": "The name of the vault."
 }
 """
-DeleteVault(args) = glacier("DELETE", "/{accountId}/vaults/{vaultName}", args)
+DeleteVault(accountId, vaultName) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)")
+DeleteVault(accountId, vaultName, args) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)", args)
+DeleteVault(a...; b...) = DeleteVault(a..., b)
 
 """
     DeleteVaultAccessPolicy()
@@ -132,7 +148,9 @@ Required Parameters
   "vaultName": "The name of the vault."
 }
 """
-DeleteVaultAccessPolicy(args) = glacier("DELETE", "/{accountId}/vaults/{vaultName}/access-policy", args)
+DeleteVaultAccessPolicy(accountId, vaultName) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/access-policy")
+DeleteVaultAccessPolicy(accountId, vaultName, args) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/access-policy", args)
+DeleteVaultAccessPolicy(a...; b...) = DeleteVaultAccessPolicy(a..., b)
 
 """
     DeleteVaultNotifications()
@@ -145,7 +163,9 @@ Required Parameters
   "vaultName": "The name of the vault."
 }
 """
-DeleteVaultNotifications(args) = glacier("DELETE", "/{accountId}/vaults/{vaultName}/notification-configuration", args)
+DeleteVaultNotifications(accountId, vaultName) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/notification-configuration")
+DeleteVaultNotifications(accountId, vaultName, args) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/notification-configuration", args)
+DeleteVaultNotifications(a...; b...) = DeleteVaultNotifications(a..., b)
 
 """
     DescribeJob()
@@ -159,7 +179,9 @@ Required Parameters
   "vaultName": "The name of the vault."
 }
 """
-DescribeJob(args) = glacier("GET", "/{accountId}/vaults/{vaultName}/jobs/{jobId}", args)
+DescribeJob(accountId, jobId, vaultName) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/jobs/$(jobId)")
+DescribeJob(accountId, jobId, vaultName, args) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/jobs/$(jobId)", args)
+DescribeJob(a...; b...) = DescribeJob(a..., b)
 
 """
     DescribeVault()
@@ -172,7 +194,9 @@ Required Parameters
   "vaultName": "The name of the vault."
 }
 """
-DescribeVault(args) = glacier("GET", "/{accountId}/vaults/{vaultName}", args)
+DescribeVault(accountId, vaultName) = glacier("GET", "/$(accountId)/vaults/$(vaultName)")
+DescribeVault(accountId, vaultName, args) = glacier("GET", "/$(accountId)/vaults/$(vaultName)", args)
+DescribeVault(a...; b...) = DescribeVault(a..., b)
 
 """
     GetDataRetrievalPolicy()
@@ -184,7 +208,9 @@ Required Parameters
   "accountId": "The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID. "
 }
 """
-GetDataRetrievalPolicy(args) = glacier("GET", "/{accountId}/policies/data-retrieval", args)
+GetDataRetrievalPolicy(accountId) = glacier("GET", "/$(accountId)/policies/data-retrieval")
+GetDataRetrievalPolicy(accountId, args) = glacier("GET", "/$(accountId)/policies/data-retrieval", args)
+GetDataRetrievalPolicy(a...; b...) = GetDataRetrievalPolicy(a..., b)
 
 """
     GetJobOutput()
@@ -203,7 +229,9 @@ Optional Parameters
   "range": "The range of bytes to retrieve from the output. For example, if you want to download the first 1,048,576 bytes, specify the range as bytes=0-1048575. By default, this operation downloads the entire output. If the job output is large, then you can use a range to retrieve a portion of the output. This allows you to download the entire output in smaller chunks of bytes. For example, suppose you have 1 GB of job output you want to download and you decide to download 128 MB chunks of data at a time, which is a total of eight Get Job Output requests. You use the following process to download the job output:   Download a 128 MB chunk of output by specifying the appropriate byte range. Verify that all 128 MB of data was received.   Along with the data, the response includes a SHA256 tree hash of the payload. You compute the checksum of the payload on the client and compare it with the checksum you received in the response to ensure you received all the expected data.   Repeat steps 1 and 2 for all the eight 128 MB chunks of output data, each time specifying the appropriate byte range.   After downloading all the parts of the job output, you have a list of eight checksum values. Compute the tree hash of these values to find the checksum of the entire output. Using the DescribeJob API, obtain job information of the job that provided you the output. The response includes the checksum of the entire archive stored in Amazon S3 Glacier. You compare this value with the checksum you computed to ensure you have downloaded the entire archive content with no errors.   "
 }
 """
-GetJobOutput(args) = glacier("GET", "/{accountId}/vaults/{vaultName}/jobs/{jobId}/output", args)
+GetJobOutput(accountId, jobId, vaultName) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/jobs/$(jobId)/output")
+GetJobOutput(accountId, jobId, vaultName, args) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/jobs/$(jobId)/output", args)
+GetJobOutput(a...; b...) = GetJobOutput(a..., b)
 
 """
     GetVaultAccessPolicy()
@@ -216,7 +244,9 @@ Required Parameters
   "vaultName": "The name of the vault."
 }
 """
-GetVaultAccessPolicy(args) = glacier("GET", "/{accountId}/vaults/{vaultName}/access-policy", args)
+GetVaultAccessPolicy(accountId, vaultName) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/access-policy")
+GetVaultAccessPolicy(accountId, vaultName, args) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/access-policy", args)
+GetVaultAccessPolicy(a...; b...) = GetVaultAccessPolicy(a..., b)
 
 """
     GetVaultLock()
@@ -229,7 +259,9 @@ Required Parameters
   "vaultName": "The name of the vault."
 }
 """
-GetVaultLock(args) = glacier("GET", "/{accountId}/vaults/{vaultName}/lock-policy", args)
+GetVaultLock(accountId, vaultName) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/lock-policy")
+GetVaultLock(accountId, vaultName, args) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/lock-policy", args)
+GetVaultLock(a...; b...) = GetVaultLock(a..., b)
 
 """
     GetVaultNotifications()
@@ -242,7 +274,9 @@ Required Parameters
   "vaultName": "The name of the vault."
 }
 """
-GetVaultNotifications(args) = glacier("GET", "/{accountId}/vaults/{vaultName}/notification-configuration", args)
+GetVaultNotifications(accountId, vaultName) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/notification-configuration")
+GetVaultNotifications(accountId, vaultName, args) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/notification-configuration", args)
+GetVaultNotifications(a...; b...) = GetVaultNotifications(a..., b)
 
 """
     InitiateJob()
@@ -260,7 +294,9 @@ Optional Parameters
   "jobParameters": "Provides options for specifying job information."
 }
 """
-InitiateJob(args) = glacier("POST", "/{accountId}/vaults/{vaultName}/jobs", args)
+InitiateJob(accountId, vaultName) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/jobs")
+InitiateJob(accountId, vaultName, args) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/jobs", args)
+InitiateJob(a...; b...) = InitiateJob(a..., b)
 
 """
     InitiateMultipartUpload()
@@ -279,7 +315,9 @@ Optional Parameters
   "partSize": "The size of each part except the last, in bytes. The last part can be smaller than this part size."
 }
 """
-InitiateMultipartUpload(args) = glacier("POST", "/{accountId}/vaults/{vaultName}/multipart-uploads", args)
+InitiateMultipartUpload(accountId, vaultName) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/multipart-uploads")
+InitiateMultipartUpload(accountId, vaultName, args) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/multipart-uploads", args)
+InitiateMultipartUpload(a...; b...) = InitiateMultipartUpload(a..., b)
 
 """
     InitiateVaultLock()
@@ -297,7 +335,9 @@ Optional Parameters
   "policy": "The vault lock policy as a JSON string, which uses \" \" as an escape character."
 }
 """
-InitiateVaultLock(args) = glacier("POST", "/{accountId}/vaults/{vaultName}/lock-policy", args)
+InitiateVaultLock(accountId, vaultName) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/lock-policy")
+InitiateVaultLock(accountId, vaultName, args) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/lock-policy", args)
+InitiateVaultLock(a...; b...) = InitiateVaultLock(a..., b)
 
 """
     ListJobs()
@@ -318,7 +358,9 @@ Optional Parameters
   "statuscode": "The type of job status to return. You can specify the following values: InProgress, Succeeded, or Failed."
 }
 """
-ListJobs(args) = glacier("GET", "/{accountId}/vaults/{vaultName}/jobs", args)
+ListJobs(accountId, vaultName) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/jobs")
+ListJobs(accountId, vaultName, args) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/jobs", args)
+ListJobs(a...; b...) = ListJobs(a..., b)
 
 """
     ListMultipartUploads()
@@ -337,7 +379,9 @@ Optional Parameters
   "marker": "An opaque string used for pagination. This value specifies the upload at which the listing of uploads should begin. Get the marker value from a previous List Uploads response. You need only include the marker if you are continuing the pagination of results started in a previous List Uploads request."
 }
 """
-ListMultipartUploads(args) = glacier("GET", "/{accountId}/vaults/{vaultName}/multipart-uploads", args)
+ListMultipartUploads(accountId, vaultName) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/multipart-uploads")
+ListMultipartUploads(accountId, vaultName, args) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/multipart-uploads", args)
+ListMultipartUploads(a...; b...) = ListMultipartUploads(a..., b)
 
 """
     ListParts()
@@ -357,7 +401,9 @@ Optional Parameters
   "marker": "An opaque string used for pagination. This value specifies the part at which the listing of parts should begin. Get the marker value from the response of a previous List Parts response. You need only include the marker if you are continuing the pagination of results started in a previous List Parts request."
 }
 """
-ListParts(args) = glacier("GET", "/{accountId}/vaults/{vaultName}/multipart-uploads/{uploadId}", args)
+ListParts(accountId, uploadId, vaultName) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)")
+ListParts(accountId, uploadId, vaultName, args) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)", args)
+ListParts(a...; b...) = ListParts(a..., b)
 
 """
     ListProvisionedCapacity()
@@ -369,7 +415,9 @@ Required Parameters
   "accountId": "The AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, don't include any hyphens ('-') in the ID. "
 }
 """
-ListProvisionedCapacity(args) = glacier("GET", "/{accountId}/provisioned-capacity", args)
+ListProvisionedCapacity(accountId) = glacier("GET", "/$(accountId)/provisioned-capacity")
+ListProvisionedCapacity(accountId, args) = glacier("GET", "/$(accountId)/provisioned-capacity", args)
+ListProvisionedCapacity(a...; b...) = ListProvisionedCapacity(a..., b)
 
 """
     ListTagsForVault()
@@ -382,7 +430,9 @@ Required Parameters
   "vaultName": "The name of the vault."
 }
 """
-ListTagsForVault(args) = glacier("GET", "/{accountId}/vaults/{vaultName}/tags", args)
+ListTagsForVault(accountId, vaultName) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/tags")
+ListTagsForVault(accountId, vaultName, args) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/tags", args)
+ListTagsForVault(a...; b...) = ListTagsForVault(a..., b)
 
 """
     ListVaults()
@@ -400,7 +450,9 @@ Optional Parameters
   "marker": "A string used for pagination. The marker specifies the vault ARN after which the listing of vaults should begin."
 }
 """
-ListVaults(args) = glacier("GET", "/{accountId}/vaults", args)
+ListVaults(accountId) = glacier("GET", "/$(accountId)/vaults")
+ListVaults(accountId, args) = glacier("GET", "/$(accountId)/vaults", args)
+ListVaults(a...; b...) = ListVaults(a..., b)
 
 """
     PurchaseProvisionedCapacity()
@@ -412,7 +464,9 @@ Required Parameters
   "accountId": "The AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, don't include any hyphens ('-') in the ID. "
 }
 """
-PurchaseProvisionedCapacity(args) = glacier("POST", "/{accountId}/provisioned-capacity", args)
+PurchaseProvisionedCapacity(accountId) = glacier("POST", "/$(accountId)/provisioned-capacity")
+PurchaseProvisionedCapacity(accountId, args) = glacier("POST", "/$(accountId)/provisioned-capacity", args)
+PurchaseProvisionedCapacity(a...; b...) = PurchaseProvisionedCapacity(a..., b)
 
 """
     RemoveTagsFromVault()
@@ -430,7 +484,9 @@ Optional Parameters
   "TagKeys": "A list of tag keys. Each corresponding tag is removed from the vault."
 }
 """
-RemoveTagsFromVault(args) = glacier("POST", "/{accountId}/vaults/{vaultName}/tags?operation=remove", args)
+RemoveTagsFromVault(accountId, vaultName) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/tags?operation=remove")
+RemoveTagsFromVault(accountId, vaultName, args) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/tags?operation=remove", args)
+RemoveTagsFromVault(a...; b...) = RemoveTagsFromVault(a..., b)
 
 """
     SetDataRetrievalPolicy()
@@ -447,7 +503,9 @@ Optional Parameters
   "Policy": "The data retrieval policy in JSON format."
 }
 """
-SetDataRetrievalPolicy(args) = glacier("PUT", "/{accountId}/policies/data-retrieval", args)
+SetDataRetrievalPolicy(accountId) = glacier("PUT", "/$(accountId)/policies/data-retrieval")
+SetDataRetrievalPolicy(accountId, args) = glacier("PUT", "/$(accountId)/policies/data-retrieval", args)
+SetDataRetrievalPolicy(a...; b...) = SetDataRetrievalPolicy(a..., b)
 
 """
     SetVaultAccessPolicy()
@@ -465,7 +523,9 @@ Optional Parameters
   "policy": "The vault access policy as a JSON string."
 }
 """
-SetVaultAccessPolicy(args) = glacier("PUT", "/{accountId}/vaults/{vaultName}/access-policy", args)
+SetVaultAccessPolicy(accountId, vaultName) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)/access-policy")
+SetVaultAccessPolicy(accountId, vaultName, args) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)/access-policy", args)
+SetVaultAccessPolicy(a...; b...) = SetVaultAccessPolicy(a..., b)
 
 """
     SetVaultNotifications()
@@ -483,7 +543,9 @@ Optional Parameters
   "vaultNotificationConfig": "Provides options for specifying notification configuration."
 }
 """
-SetVaultNotifications(args) = glacier("PUT", "/{accountId}/vaults/{vaultName}/notification-configuration", args)
+SetVaultNotifications(accountId, vaultName) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)/notification-configuration")
+SetVaultNotifications(accountId, vaultName, args) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)/notification-configuration", args)
+SetVaultNotifications(a...; b...) = SetVaultNotifications(a..., b)
 
 """
     UploadArchive()
@@ -503,7 +565,9 @@ Optional Parameters
   "checksum": "The SHA256 tree hash of the data being uploaded."
 }
 """
-UploadArchive(args) = glacier("POST", "/{accountId}/vaults/{vaultName}/archives", args)
+UploadArchive(accountId, vaultName) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/archives")
+UploadArchive(accountId, vaultName, args) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/archives", args)
+UploadArchive(a...; b...) = UploadArchive(a..., b)
 
 """
     UploadMultipartPart()
@@ -524,4 +588,6 @@ Optional Parameters
   "range": "Identifies the range of bytes in the assembled archive that will be uploaded in this part. Amazon S3 Glacier uses this information to assemble the archive in the proper sequence. The format of this header follows RFC 2616. An example header is Content-Range:bytes 0-4194303/*."
 }
 """
-UploadMultipartPart(args) = glacier("PUT", "/{accountId}/vaults/{vaultName}/multipart-uploads/{uploadId}", args)
+UploadMultipartPart(accountId, uploadId, vaultName) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)")
+UploadMultipartPart(accountId, uploadId, vaultName, args) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)", args)
+UploadMultipartPart(a...; b...) = UploadMultipartPart(a..., b)

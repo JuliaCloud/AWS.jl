@@ -13,7 +13,9 @@ Required Parameters
   "imageBuildVersionArn": "The Amazon Resource Name (ARN) of the image whose creation you want to cancel."
 }
 """
-CancelImageCreation(args) = imagebuilder("PUT", "/CancelImageCreation", args)
+CancelImageCreation(clientToken, imageBuildVersionArn) = imagebuilder("PUT", "/CancelImageCreation")
+CancelImageCreation(clientToken, imageBuildVersionArn, args) = imagebuilder("PUT", "/CancelImageCreation", args)
+CancelImageCreation(a...; b...) = CancelImageCreation(a..., b)
 
 """
     CreateComponent()
@@ -39,7 +41,9 @@ Optional Parameters
   "uri": "The uri of the component. Must be an S3 URL and the requester must have permission to access the S3 bucket. If you use S3, you can specify component content up to your service quota. Either data or uri can be used to specify the data within the component."
 }
 """
-CreateComponent(args) = imagebuilder("PUT", "/CreateComponent", args)
+CreateComponent(clientToken, name, platform, semanticVersion) = imagebuilder("PUT", "/CreateComponent")
+CreateComponent(clientToken, name, platform, semanticVersion, args) = imagebuilder("PUT", "/CreateComponent", args)
+CreateComponent(a...; b...) = CreateComponent(a..., b)
 
 """
     CreateDistributionConfiguration()
@@ -59,7 +63,9 @@ Optional Parameters
   "tags": " The tags of the distribution configuration. "
 }
 """
-CreateDistributionConfiguration(args) = imagebuilder("PUT", "/CreateDistributionConfiguration", args)
+CreateDistributionConfiguration(clientToken, distributions, name) = imagebuilder("PUT", "/CreateDistributionConfiguration")
+CreateDistributionConfiguration(clientToken, distributions, name, args) = imagebuilder("PUT", "/CreateDistributionConfiguration", args)
+CreateDistributionConfiguration(a...; b...) = CreateDistributionConfiguration(a..., b)
 
 """
     CreateImage()
@@ -81,7 +87,9 @@ Optional Parameters
   "tags": " The tags of the image. "
 }
 """
-CreateImage(args) = imagebuilder("PUT", "/CreateImage", args)
+CreateImage(clientToken, imageRecipeArn, infrastructureConfigurationArn) = imagebuilder("PUT", "/CreateImage")
+CreateImage(clientToken, imageRecipeArn, infrastructureConfigurationArn, args) = imagebuilder("PUT", "/CreateImage", args)
+CreateImage(a...; b...) = CreateImage(a..., b)
 
 """
     CreateImagePipeline()
@@ -107,7 +115,9 @@ Optional Parameters
   "tags": " The tags of the image pipeline. "
 }
 """
-CreateImagePipeline(args) = imagebuilder("PUT", "/CreateImagePipeline", args)
+CreateImagePipeline(clientToken, imageRecipeArn, infrastructureConfigurationArn, name) = imagebuilder("PUT", "/CreateImagePipeline")
+CreateImagePipeline(clientToken, imageRecipeArn, infrastructureConfigurationArn, name, args) = imagebuilder("PUT", "/CreateImagePipeline", args)
+CreateImagePipeline(a...; b...) = CreateImagePipeline(a..., b)
 
 """
     CreateImageRecipe()
@@ -127,10 +137,13 @@ Optional Parameters
 {
   "blockDeviceMappings": "The block device mappings of the image recipe. ",
   "description": " The description of the image recipe. ",
-  "tags": " The tags of the image recipe. "
+  "tags": " The tags of the image recipe. ",
+  "workingDirectory": "The working directory to be used during build and test workflows."
 }
 """
-CreateImageRecipe(args) = imagebuilder("PUT", "/CreateImageRecipe", args)
+CreateImageRecipe(clientToken, components, name, parentImage, semanticVersion) = imagebuilder("PUT", "/CreateImageRecipe")
+CreateImageRecipe(clientToken, components, name, parentImage, semanticVersion, args) = imagebuilder("PUT", "/CreateImageRecipe", args)
+CreateImageRecipe(a...; b...) = CreateImageRecipe(a..., b)
 
 """
     CreateInfrastructureConfiguration()
@@ -150,6 +163,7 @@ Optional Parameters
   "instanceTypes": "The instance types of the infrastructure configuration. You can specify one or more instance types to use for this build. The service will pick one of these instance types based on availability. ",
   "keyPair": "The key pair of the infrastructure configuration. This can be used to log on to and debug the instance used to create your image. ",
   "logging": "The logging configuration of the infrastructure configuration. ",
+  "resourceTags": "The tags attached to the resource created by Image Builder.",
   "securityGroupIds": "The security group IDs to associate with the instance used to customize your EC2 AMI. ",
   "snsTopicArn": "The SNS topic on which to send image build events. ",
   "subnetId": "The subnet ID in which to place the instance used to customize your EC2 AMI. ",
@@ -157,7 +171,9 @@ Optional Parameters
   "terminateInstanceOnFailure": "The terminate instance on failure setting of the infrastructure configuration. Set to false if you want Image Builder to retain the instance used to configure your AMI if the build or test phase of your workflow fails. "
 }
 """
-CreateInfrastructureConfiguration(args) = imagebuilder("PUT", "/CreateInfrastructureConfiguration", args)
+CreateInfrastructureConfiguration(clientToken, instanceProfileName, name) = imagebuilder("PUT", "/CreateInfrastructureConfiguration")
+CreateInfrastructureConfiguration(clientToken, instanceProfileName, name, args) = imagebuilder("PUT", "/CreateInfrastructureConfiguration", args)
+CreateInfrastructureConfiguration(a...; b...) = CreateInfrastructureConfiguration(a..., b)
 
 """
     DeleteComponent()
@@ -169,7 +185,9 @@ Required Parameters
   "componentBuildVersionArn": "The Amazon Resource Name (ARN) of the component build version to delete. "
 }
 """
-DeleteComponent(args) = imagebuilder("DELETE", "/DeleteComponent", args)
+DeleteComponent(componentBuildVersionArn) = imagebuilder("DELETE", "/DeleteComponent")
+DeleteComponent(componentBuildVersionArn, args) = imagebuilder("DELETE", "/DeleteComponent", args)
+DeleteComponent(a...; b...) = DeleteComponent(a..., b)
 
 """
     DeleteDistributionConfiguration()
@@ -181,7 +199,9 @@ Required Parameters
   "distributionConfigurationArn": "The Amazon Resource Name (ARN) of the distribution configuration to delete. "
 }
 """
-DeleteDistributionConfiguration(args) = imagebuilder("DELETE", "/DeleteDistributionConfiguration", args)
+DeleteDistributionConfiguration(distributionConfigurationArn) = imagebuilder("DELETE", "/DeleteDistributionConfiguration")
+DeleteDistributionConfiguration(distributionConfigurationArn, args) = imagebuilder("DELETE", "/DeleteDistributionConfiguration", args)
+DeleteDistributionConfiguration(a...; b...) = DeleteDistributionConfiguration(a..., b)
 
 """
     DeleteImage()
@@ -193,7 +213,9 @@ Required Parameters
   "imageBuildVersionArn": "The Amazon Resource Name (ARN) of the image to delete. "
 }
 """
-DeleteImage(args) = imagebuilder("DELETE", "/DeleteImage", args)
+DeleteImage(imageBuildVersionArn) = imagebuilder("DELETE", "/DeleteImage")
+DeleteImage(imageBuildVersionArn, args) = imagebuilder("DELETE", "/DeleteImage", args)
+DeleteImage(a...; b...) = DeleteImage(a..., b)
 
 """
     DeleteImagePipeline()
@@ -205,7 +227,9 @@ Required Parameters
   "imagePipelineArn": "The Amazon Resource Name (ARN) of the image pipeline to delete. "
 }
 """
-DeleteImagePipeline(args) = imagebuilder("DELETE", "/DeleteImagePipeline", args)
+DeleteImagePipeline(imagePipelineArn) = imagebuilder("DELETE", "/DeleteImagePipeline")
+DeleteImagePipeline(imagePipelineArn, args) = imagebuilder("DELETE", "/DeleteImagePipeline", args)
+DeleteImagePipeline(a...; b...) = DeleteImagePipeline(a..., b)
 
 """
     DeleteImageRecipe()
@@ -217,7 +241,9 @@ Required Parameters
   "imageRecipeArn": "The Amazon Resource Name (ARN) of the image recipe to delete. "
 }
 """
-DeleteImageRecipe(args) = imagebuilder("DELETE", "/DeleteImageRecipe", args)
+DeleteImageRecipe(imageRecipeArn) = imagebuilder("DELETE", "/DeleteImageRecipe")
+DeleteImageRecipe(imageRecipeArn, args) = imagebuilder("DELETE", "/DeleteImageRecipe", args)
+DeleteImageRecipe(a...; b...) = DeleteImageRecipe(a..., b)
 
 """
     DeleteInfrastructureConfiguration()
@@ -229,7 +255,9 @@ Required Parameters
   "infrastructureConfigurationArn": "The Amazon Resource Name (ARN) of the infrastructure configuration to delete. "
 }
 """
-DeleteInfrastructureConfiguration(args) = imagebuilder("DELETE", "/DeleteInfrastructureConfiguration", args)
+DeleteInfrastructureConfiguration(infrastructureConfigurationArn) = imagebuilder("DELETE", "/DeleteInfrastructureConfiguration")
+DeleteInfrastructureConfiguration(infrastructureConfigurationArn, args) = imagebuilder("DELETE", "/DeleteInfrastructureConfiguration", args)
+DeleteInfrastructureConfiguration(a...; b...) = DeleteInfrastructureConfiguration(a..., b)
 
 """
     GetComponent()
@@ -241,7 +269,9 @@ Required Parameters
   "componentBuildVersionArn": "The Amazon Resource Name (ARN) of the component that you want to retrieve. Regex requires \"/ d+ \" suffix."
 }
 """
-GetComponent(args) = imagebuilder("GET", "/GetComponent", args)
+GetComponent(componentBuildVersionArn) = imagebuilder("GET", "/GetComponent")
+GetComponent(componentBuildVersionArn, args) = imagebuilder("GET", "/GetComponent", args)
+GetComponent(a...; b...) = GetComponent(a..., b)
 
 """
     GetComponentPolicy()
@@ -253,7 +283,9 @@ Required Parameters
   "componentArn": "The Amazon Resource Name (ARN) of the component whose policy you want to retrieve. "
 }
 """
-GetComponentPolicy(args) = imagebuilder("GET", "/GetComponentPolicy", args)
+GetComponentPolicy(componentArn) = imagebuilder("GET", "/GetComponentPolicy")
+GetComponentPolicy(componentArn, args) = imagebuilder("GET", "/GetComponentPolicy", args)
+GetComponentPolicy(a...; b...) = GetComponentPolicy(a..., b)
 
 """
     GetDistributionConfiguration()
@@ -265,7 +297,9 @@ Required Parameters
   "distributionConfigurationArn": "The Amazon Resource Name (ARN) of the distribution configuration that you want to retrieve. "
 }
 """
-GetDistributionConfiguration(args) = imagebuilder("GET", "/GetDistributionConfiguration", args)
+GetDistributionConfiguration(distributionConfigurationArn) = imagebuilder("GET", "/GetDistributionConfiguration")
+GetDistributionConfiguration(distributionConfigurationArn, args) = imagebuilder("GET", "/GetDistributionConfiguration", args)
+GetDistributionConfiguration(a...; b...) = GetDistributionConfiguration(a..., b)
 
 """
     GetImage()
@@ -277,7 +311,9 @@ Required Parameters
   "imageBuildVersionArn": "The Amazon Resource Name (ARN) of the image that you want to retrieve. "
 }
 """
-GetImage(args) = imagebuilder("GET", "/GetImage", args)
+GetImage(imageBuildVersionArn) = imagebuilder("GET", "/GetImage")
+GetImage(imageBuildVersionArn, args) = imagebuilder("GET", "/GetImage", args)
+GetImage(a...; b...) = GetImage(a..., b)
 
 """
     GetImagePipeline()
@@ -289,7 +325,9 @@ Required Parameters
   "imagePipelineArn": "The Amazon Resource Name (ARN) of the image pipeline that you want to retrieve. "
 }
 """
-GetImagePipeline(args) = imagebuilder("GET", "/GetImagePipeline", args)
+GetImagePipeline(imagePipelineArn) = imagebuilder("GET", "/GetImagePipeline")
+GetImagePipeline(imagePipelineArn, args) = imagebuilder("GET", "/GetImagePipeline", args)
+GetImagePipeline(a...; b...) = GetImagePipeline(a..., b)
 
 """
     GetImagePolicy()
@@ -301,7 +339,9 @@ Required Parameters
   "imageArn": "The Amazon Resource Name (ARN) of the image whose policy you want to retrieve. "
 }
 """
-GetImagePolicy(args) = imagebuilder("GET", "/GetImagePolicy", args)
+GetImagePolicy(imageArn) = imagebuilder("GET", "/GetImagePolicy")
+GetImagePolicy(imageArn, args) = imagebuilder("GET", "/GetImagePolicy", args)
+GetImagePolicy(a...; b...) = GetImagePolicy(a..., b)
 
 """
     GetImageRecipe()
@@ -313,7 +353,9 @@ Required Parameters
   "imageRecipeArn": "The Amazon Resource Name (ARN) of the image recipe that you want to retrieve. "
 }
 """
-GetImageRecipe(args) = imagebuilder("GET", "/GetImageRecipe", args)
+GetImageRecipe(imageRecipeArn) = imagebuilder("GET", "/GetImageRecipe")
+GetImageRecipe(imageRecipeArn, args) = imagebuilder("GET", "/GetImageRecipe", args)
+GetImageRecipe(a...; b...) = GetImageRecipe(a..., b)
 
 """
     GetImageRecipePolicy()
@@ -325,7 +367,9 @@ Required Parameters
   "imageRecipeArn": "The Amazon Resource Name (ARN) of the image recipe whose policy you want to retrieve. "
 }
 """
-GetImageRecipePolicy(args) = imagebuilder("GET", "/GetImageRecipePolicy", args)
+GetImageRecipePolicy(imageRecipeArn) = imagebuilder("GET", "/GetImageRecipePolicy")
+GetImageRecipePolicy(imageRecipeArn, args) = imagebuilder("GET", "/GetImageRecipePolicy", args)
+GetImageRecipePolicy(a...; b...) = GetImageRecipePolicy(a..., b)
 
 """
     GetInfrastructureConfiguration()
@@ -337,7 +381,9 @@ Required Parameters
   "infrastructureConfigurationArn": "The Amazon Resource Name (ARN) of the infrastructure configuration that you want to retrieve. "
 }
 """
-GetInfrastructureConfiguration(args) = imagebuilder("GET", "/GetInfrastructureConfiguration", args)
+GetInfrastructureConfiguration(infrastructureConfigurationArn) = imagebuilder("GET", "/GetInfrastructureConfiguration")
+GetInfrastructureConfiguration(infrastructureConfigurationArn, args) = imagebuilder("GET", "/GetInfrastructureConfiguration", args)
+GetInfrastructureConfiguration(a...; b...) = GetInfrastructureConfiguration(a..., b)
 
 """
     ImportComponent()
@@ -364,7 +410,9 @@ Optional Parameters
   "uri": "The uri of the component. Must be an S3 URL and the requester must have permission to access the S3 bucket. If you use S3, you can specify component content up to your service quota. Either data or uri can be used to specify the data within the component. "
 }
 """
-ImportComponent(args) = imagebuilder("PUT", "/ImportComponent", args)
+ImportComponent(clientToken, format, name, platform, semanticVersion, type) = imagebuilder("PUT", "/ImportComponent")
+ImportComponent(clientToken, format, name, platform, semanticVersion, type, args) = imagebuilder("PUT", "/ImportComponent", args)
+ImportComponent(a...; b...) = ImportComponent(a..., b)
 
 """
     ListComponentBuildVersions()
@@ -382,7 +430,9 @@ Optional Parameters
   "nextToken": "A token to specify where to start paginating. This is the NextToken from a previously truncated response. "
 }
 """
-ListComponentBuildVersions(args) = imagebuilder("POST", "/ListComponentBuildVersions", args)
+ListComponentBuildVersions(componentVersionArn) = imagebuilder("POST", "/ListComponentBuildVersions")
+ListComponentBuildVersions(componentVersionArn, args) = imagebuilder("POST", "/ListComponentBuildVersions", args)
+ListComponentBuildVersions(a...; b...) = ListComponentBuildVersions(a..., b)
 
 """
     ListComponents()
@@ -399,6 +449,7 @@ Optional Parameters
 """
 ListComponents() = imagebuilder("POST", "/ListComponents")
 ListComponents(args) = imagebuilder("POST", "/ListComponents", args)
+ListComponents(a...; b...) = ListComponents(a..., b)
 
 """
     ListDistributionConfigurations()
@@ -414,11 +465,12 @@ Optional Parameters
 """
 ListDistributionConfigurations() = imagebuilder("POST", "/ListDistributionConfigurations")
 ListDistributionConfigurations(args) = imagebuilder("POST", "/ListDistributionConfigurations", args)
+ListDistributionConfigurations(a...; b...) = ListDistributionConfigurations(a..., b)
 
 """
     ListImageBuildVersions()
 
- Returns a list of distribution configurations. 
+ Returns a list of image build versions. 
 
 Required Parameters
 {
@@ -432,7 +484,9 @@ Optional Parameters
   "nextToken": "A token to specify where to start paginating. This is the NextToken from a previously truncated response. "
 }
 """
-ListImageBuildVersions(args) = imagebuilder("POST", "/ListImageBuildVersions", args)
+ListImageBuildVersions(imageVersionArn) = imagebuilder("POST", "/ListImageBuildVersions")
+ListImageBuildVersions(imageVersionArn, args) = imagebuilder("POST", "/ListImageBuildVersions", args)
+ListImageBuildVersions(a...; b...) = ListImageBuildVersions(a..., b)
 
 """
     ListImagePipelineImages()
@@ -451,7 +505,9 @@ Optional Parameters
   "nextToken": "A token to specify where to start paginating. This is the NextToken from a previously truncated response. "
 }
 """
-ListImagePipelineImages(args) = imagebuilder("POST", "/ListImagePipelineImages", args)
+ListImagePipelineImages(imagePipelineArn) = imagebuilder("POST", "/ListImagePipelineImages")
+ListImagePipelineImages(imagePipelineArn, args) = imagebuilder("POST", "/ListImagePipelineImages", args)
+ListImagePipelineImages(a...; b...) = ListImagePipelineImages(a..., b)
 
 """
     ListImagePipelines()
@@ -467,6 +523,7 @@ Optional Parameters
 """
 ListImagePipelines() = imagebuilder("POST", "/ListImagePipelines")
 ListImagePipelines(args) = imagebuilder("POST", "/ListImagePipelines", args)
+ListImagePipelines(a...; b...) = ListImagePipelines(a..., b)
 
 """
     ListImageRecipes()
@@ -483,11 +540,12 @@ Optional Parameters
 """
 ListImageRecipes() = imagebuilder("POST", "/ListImageRecipes")
 ListImageRecipes(args) = imagebuilder("POST", "/ListImageRecipes", args)
+ListImageRecipes(a...; b...) = ListImageRecipes(a..., b)
 
 """
     ListImages()
 
- Returns the list of image build versions for the specified semantic version. 
+ Returns the list of images that you have access to. 
 
 Optional Parameters
 {
@@ -499,6 +557,7 @@ Optional Parameters
 """
 ListImages() = imagebuilder("POST", "/ListImages")
 ListImages(args) = imagebuilder("POST", "/ListImages", args)
+ListImages(a...; b...) = ListImages(a..., b)
 
 """
     ListInfrastructureConfigurations()
@@ -514,6 +573,7 @@ Optional Parameters
 """
 ListInfrastructureConfigurations() = imagebuilder("POST", "/ListInfrastructureConfigurations")
 ListInfrastructureConfigurations(args) = imagebuilder("POST", "/ListInfrastructureConfigurations", args)
+ListInfrastructureConfigurations(a...; b...) = ListInfrastructureConfigurations(a..., b)
 
 """
     ListTagsForResource()
@@ -525,7 +585,9 @@ Required Parameters
   "resourceArn": "The Amazon Resource Name (ARN) of the resource whose tags you want to retrieve. "
 }
 """
-ListTagsForResource(args) = imagebuilder("GET", "/tags/{resourceArn}", args)
+ListTagsForResource(resourceArn) = imagebuilder("GET", "/tags/$(resourceArn)")
+ListTagsForResource(resourceArn, args) = imagebuilder("GET", "/tags/$(resourceArn)", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     PutComponentPolicy()
@@ -538,7 +600,9 @@ Required Parameters
   "policy": "The policy to apply. "
 }
 """
-PutComponentPolicy(args) = imagebuilder("PUT", "/PutComponentPolicy", args)
+PutComponentPolicy(componentArn, policy) = imagebuilder("PUT", "/PutComponentPolicy")
+PutComponentPolicy(componentArn, policy, args) = imagebuilder("PUT", "/PutComponentPolicy", args)
+PutComponentPolicy(a...; b...) = PutComponentPolicy(a..., b)
 
 """
     PutImagePolicy()
@@ -551,7 +615,9 @@ Required Parameters
   "policy": "The policy to apply. "
 }
 """
-PutImagePolicy(args) = imagebuilder("PUT", "/PutImagePolicy", args)
+PutImagePolicy(imageArn, policy) = imagebuilder("PUT", "/PutImagePolicy")
+PutImagePolicy(imageArn, policy, args) = imagebuilder("PUT", "/PutImagePolicy", args)
+PutImagePolicy(a...; b...) = PutImagePolicy(a..., b)
 
 """
     PutImageRecipePolicy()
@@ -564,7 +630,9 @@ Required Parameters
   "policy": "The policy to apply. "
 }
 """
-PutImageRecipePolicy(args) = imagebuilder("PUT", "/PutImageRecipePolicy", args)
+PutImageRecipePolicy(imageRecipeArn, policy) = imagebuilder("PUT", "/PutImageRecipePolicy")
+PutImageRecipePolicy(imageRecipeArn, policy, args) = imagebuilder("PUT", "/PutImageRecipePolicy", args)
+PutImageRecipePolicy(a...; b...) = PutImageRecipePolicy(a..., b)
 
 """
     StartImagePipelineExecution()
@@ -577,7 +645,9 @@ Required Parameters
   "imagePipelineArn": "The Amazon Resource Name (ARN) of the image pipeline that you want to manually invoke. "
 }
 """
-StartImagePipelineExecution(args) = imagebuilder("PUT", "/StartImagePipelineExecution", args)
+StartImagePipelineExecution(clientToken, imagePipelineArn) = imagebuilder("PUT", "/StartImagePipelineExecution")
+StartImagePipelineExecution(clientToken, imagePipelineArn, args) = imagebuilder("PUT", "/StartImagePipelineExecution", args)
+StartImagePipelineExecution(a...; b...) = StartImagePipelineExecution(a..., b)
 
 """
     TagResource()
@@ -590,7 +660,9 @@ Required Parameters
   "tags": "The tags to apply to the resource. "
 }
 """
-TagResource(args) = imagebuilder("POST", "/tags/{resourceArn}", args)
+TagResource(resourceArn, tags) = imagebuilder("POST", "/tags/$(resourceArn)")
+TagResource(resourceArn, tags, args) = imagebuilder("POST", "/tags/$(resourceArn)", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
@@ -603,7 +675,9 @@ Required Parameters
   "tagKeys": "The tag keys to remove from the resource. "
 }
 """
-UntagResource(args) = imagebuilder("DELETE", "/tags/{resourceArn}", args)
+UntagResource(resourceArn, tagKeys) = imagebuilder("DELETE", "/tags/$(resourceArn)")
+UntagResource(resourceArn, tagKeys, args) = imagebuilder("DELETE", "/tags/$(resourceArn)", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateDistributionConfiguration()
@@ -622,7 +696,9 @@ Optional Parameters
   "description": "The description of the distribution configuration. "
 }
 """
-UpdateDistributionConfiguration(args) = imagebuilder("PUT", "/UpdateDistributionConfiguration", args)
+UpdateDistributionConfiguration(clientToken, distributionConfigurationArn, distributions) = imagebuilder("PUT", "/UpdateDistributionConfiguration")
+UpdateDistributionConfiguration(clientToken, distributionConfigurationArn, distributions, args) = imagebuilder("PUT", "/UpdateDistributionConfiguration", args)
+UpdateDistributionConfiguration(a...; b...) = UpdateDistributionConfiguration(a..., b)
 
 """
     UpdateImagePipeline()
@@ -647,7 +723,9 @@ Optional Parameters
   "status": "The status of the image pipeline. "
 }
 """
-UpdateImagePipeline(args) = imagebuilder("PUT", "/UpdateImagePipeline", args)
+UpdateImagePipeline(clientToken, imagePipelineArn, imageRecipeArn, infrastructureConfigurationArn) = imagebuilder("PUT", "/UpdateImagePipeline")
+UpdateImagePipeline(clientToken, imagePipelineArn, imageRecipeArn, infrastructureConfigurationArn, args) = imagebuilder("PUT", "/UpdateImagePipeline", args)
+UpdateImagePipeline(a...; b...) = UpdateImagePipeline(a..., b)
 
 """
     UpdateInfrastructureConfiguration()
@@ -667,10 +745,13 @@ Optional Parameters
   "instanceTypes": "The instance types of the infrastructure configuration. You can specify one or more instance types to use for this build. The service will pick one of these instance types based on availability. ",
   "keyPair": "The key pair of the infrastructure configuration. This can be used to log on to and debug the instance used to create your image. ",
   "logging": "The logging configuration of the infrastructure configuration. ",
+  "resourceTags": "The tags attached to the resource created by Image Builder.",
   "securityGroupIds": "The security group IDs to associate with the instance used to customize your EC2 AMI. ",
   "snsTopicArn": "The SNS topic on which to send image build events. ",
   "subnetId": "The subnet ID to place the instance used to customize your EC2 AMI in. ",
   "terminateInstanceOnFailure": "The terminate instance on failure setting of the infrastructure configuration. Set to false if you want Image Builder to retain the instance used to configure your AMI if the build or test phase of your workflow fails. "
 }
 """
-UpdateInfrastructureConfiguration(args) = imagebuilder("PUT", "/UpdateInfrastructureConfiguration", args)
+UpdateInfrastructureConfiguration(clientToken, infrastructureConfigurationArn, instanceProfileName) = imagebuilder("PUT", "/UpdateInfrastructureConfiguration")
+UpdateInfrastructureConfiguration(clientToken, infrastructureConfigurationArn, instanceProfileName, args) = imagebuilder("PUT", "/UpdateInfrastructureConfiguration", args)
+UpdateInfrastructureConfiguration(a...; b...) = UpdateInfrastructureConfiguration(a..., b)

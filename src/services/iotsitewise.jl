@@ -19,7 +19,9 @@ Optional Parameters
   "clientToken": "A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required."
 }
 """
-AssociateAssets(args) = iotsitewise("POST", "/assets/{assetId}/associate", args)
+AssociateAssets(assetId, childAssetId, hierarchyId) = iotsitewise("POST", "/assets/$(assetId)/associate")
+AssociateAssets(assetId, childAssetId, hierarchyId, args) = iotsitewise("POST", "/assets/$(assetId)/associate", args)
+AssociateAssets(a...; b...) = AssociateAssets(a..., b)
 
 """
     BatchAssociateProjectAssets()
@@ -37,7 +39,9 @@ Optional Parameters
   "clientToken": "A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required."
 }
 """
-BatchAssociateProjectAssets(args) = iotsitewise("POST", "/projects/{projectId}/assets/associate", args)
+BatchAssociateProjectAssets(assetIds, projectId) = iotsitewise("POST", "/projects/$(projectId)/assets/associate")
+BatchAssociateProjectAssets(assetIds, projectId, args) = iotsitewise("POST", "/projects/$(projectId)/assets/associate", args)
+BatchAssociateProjectAssets(a...; b...) = BatchAssociateProjectAssets(a..., b)
 
 """
     BatchDisassociateProjectAssets()
@@ -55,7 +59,9 @@ Optional Parameters
   "clientToken": "A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required."
 }
 """
-BatchDisassociateProjectAssets(args) = iotsitewise("POST", "/projects/{projectId}/assets/disassociate", args)
+BatchDisassociateProjectAssets(assetIds, projectId) = iotsitewise("POST", "/projects/$(projectId)/assets/disassociate")
+BatchDisassociateProjectAssets(assetIds, projectId, args) = iotsitewise("POST", "/projects/$(projectId)/assets/disassociate", args)
+BatchDisassociateProjectAssets(a...; b...) = BatchDisassociateProjectAssets(a..., b)
 
 """
     BatchPutAssetPropertyValue()
@@ -67,7 +73,9 @@ Required Parameters
   "entries": "The list of asset property value entries for the batch put request. You can specify up to 10 entries per request."
 }
 """
-BatchPutAssetPropertyValue(args) = iotsitewise("POST", "/properties", args)
+BatchPutAssetPropertyValue(entries) = iotsitewise("POST", "/properties")
+BatchPutAssetPropertyValue(entries, args) = iotsitewise("POST", "/properties", args)
+BatchPutAssetPropertyValue(a...; b...) = BatchPutAssetPropertyValue(a..., b)
 
 """
     CreateAccessPolicy()
@@ -87,7 +95,9 @@ Optional Parameters
   "tags": "A list of key-value pairs that contain metadata for the access policy. For more information, see Tagging your AWS IoT SiteWise resources in the AWS IoT SiteWise User Guide."
 }
 """
-CreateAccessPolicy(args) = iotsitewise("POST", "/access-policies", args)
+CreateAccessPolicy(accessPolicyIdentity, accessPolicyPermission, accessPolicyResource) = iotsitewise("POST", "/access-policies")
+CreateAccessPolicy(accessPolicyIdentity, accessPolicyPermission, accessPolicyResource, args) = iotsitewise("POST", "/access-policies", args)
+CreateAccessPolicy(a...; b...) = CreateAccessPolicy(a..., b)
 
 """
     CreateAsset()
@@ -106,7 +116,9 @@ Optional Parameters
   "tags": "A list of key-value pairs that contain metadata for the asset. For more information, see Tagging your AWS IoT SiteWise resources in the AWS IoT SiteWise User Guide."
 }
 """
-CreateAsset(args) = iotsitewise("POST", "/assets", args)
+CreateAsset(assetModelId, assetName) = iotsitewise("POST", "/assets")
+CreateAsset(assetModelId, assetName, args) = iotsitewise("POST", "/assets", args)
+CreateAsset(a...; b...) = CreateAsset(a..., b)
 
 """
     CreateAssetModel()
@@ -127,7 +139,9 @@ Optional Parameters
   "tags": "A list of key-value pairs that contain metadata for the asset model. For more information, see Tagging your AWS IoT SiteWise resources in the AWS IoT SiteWise User Guide."
 }
 """
-CreateAssetModel(args) = iotsitewise("POST", "/asset-models", args)
+CreateAssetModel(assetModelName) = iotsitewise("POST", "/asset-models")
+CreateAssetModel(assetModelName, args) = iotsitewise("POST", "/asset-models", args)
+CreateAssetModel(a...; b...) = CreateAssetModel(a..., b)
 
 """
     CreateDashboard()
@@ -148,7 +162,9 @@ Optional Parameters
   "tags": "A list of key-value pairs that contain metadata for the dashboard. For more information, see Tagging your AWS IoT SiteWise resources in the AWS IoT SiteWise User Guide."
 }
 """
-CreateDashboard(args) = iotsitewise("POST", "/dashboards", args)
+CreateDashboard(dashboardDefinition, dashboardName, projectId) = iotsitewise("POST", "/dashboards")
+CreateDashboard(dashboardDefinition, dashboardName, projectId, args) = iotsitewise("POST", "/dashboards", args)
+CreateDashboard(a...; b...) = CreateDashboard(a..., b)
 
 """
     CreateGateway()
@@ -166,7 +182,9 @@ Optional Parameters
   "tags": "A list of key-value pairs that contain metadata for the gateway. For more information, see Tagging your AWS IoT SiteWise resources in the AWS IoT SiteWise User Guide."
 }
 """
-CreateGateway(args) = iotsitewise("POST", "/20200301/gateways", args)
+CreateGateway(gatewayName, gatewayPlatform) = iotsitewise("POST", "/20200301/gateways")
+CreateGateway(gatewayName, gatewayPlatform, args) = iotsitewise("POST", "/20200301/gateways", args)
+CreateGateway(a...; b...) = CreateGateway(a..., b)
 
 """
     CreatePortal()
@@ -188,7 +206,9 @@ Optional Parameters
   "tags": "A list of key-value pairs that contain metadata for the portal. For more information, see Tagging your AWS IoT SiteWise resources in the AWS IoT SiteWise User Guide."
 }
 """
-CreatePortal(args) = iotsitewise("POST", "/portals", args)
+CreatePortal(portalContactEmail, portalName, roleArn) = iotsitewise("POST", "/portals")
+CreatePortal(portalContactEmail, portalName, roleArn, args) = iotsitewise("POST", "/portals", args)
+CreatePortal(a...; b...) = CreatePortal(a..., b)
 
 """
     CreateProject()
@@ -208,7 +228,9 @@ Optional Parameters
   "tags": "A list of key-value pairs that contain metadata for the project. For more information, see Tagging your AWS IoT SiteWise resources in the AWS IoT SiteWise User Guide."
 }
 """
-CreateProject(args) = iotsitewise("POST", "/projects", args)
+CreateProject(portalId, projectName) = iotsitewise("POST", "/projects")
+CreateProject(portalId, projectName, args) = iotsitewise("POST", "/projects", args)
+CreateProject(a...; b...) = CreateProject(a..., b)
 
 """
     DeleteAccessPolicy()
@@ -225,7 +247,9 @@ Optional Parameters
   "clientToken": "A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required."
 }
 """
-DeleteAccessPolicy(args) = iotsitewise("DELETE", "/access-policies/{accessPolicyId}", args)
+DeleteAccessPolicy(accessPolicyId) = iotsitewise("DELETE", "/access-policies/$(accessPolicyId)")
+DeleteAccessPolicy(accessPolicyId, args) = iotsitewise("DELETE", "/access-policies/$(accessPolicyId)", args)
+DeleteAccessPolicy(a...; b...) = DeleteAccessPolicy(a..., b)
 
 """
     DeleteAsset()
@@ -242,7 +266,9 @@ Optional Parameters
   "clientToken": "A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required."
 }
 """
-DeleteAsset(args) = iotsitewise("DELETE", "/assets/{assetId}", args)
+DeleteAsset(assetId) = iotsitewise("DELETE", "/assets/$(assetId)")
+DeleteAsset(assetId, args) = iotsitewise("DELETE", "/assets/$(assetId)", args)
+DeleteAsset(a...; b...) = DeleteAsset(a..., b)
 
 """
     DeleteAssetModel()
@@ -259,7 +285,9 @@ Optional Parameters
   "clientToken": "A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required."
 }
 """
-DeleteAssetModel(args) = iotsitewise("DELETE", "/asset-models/{assetModelId}", args)
+DeleteAssetModel(assetModelId) = iotsitewise("DELETE", "/asset-models/$(assetModelId)")
+DeleteAssetModel(assetModelId, args) = iotsitewise("DELETE", "/asset-models/$(assetModelId)", args)
+DeleteAssetModel(a...; b...) = DeleteAssetModel(a..., b)
 
 """
     DeleteDashboard()
@@ -276,7 +304,9 @@ Optional Parameters
   "clientToken": "A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required."
 }
 """
-DeleteDashboard(args) = iotsitewise("DELETE", "/dashboards/{dashboardId}", args)
+DeleteDashboard(dashboardId) = iotsitewise("DELETE", "/dashboards/$(dashboardId)")
+DeleteDashboard(dashboardId, args) = iotsitewise("DELETE", "/dashboards/$(dashboardId)", args)
+DeleteDashboard(a...; b...) = DeleteDashboard(a..., b)
 
 """
     DeleteGateway()
@@ -288,7 +318,9 @@ Required Parameters
   "gatewayId": "The ID of the gateway to delete."
 }
 """
-DeleteGateway(args) = iotsitewise("DELETE", "/20200301/gateways/{gatewayId}", args)
+DeleteGateway(gatewayId) = iotsitewise("DELETE", "/20200301/gateways/$(gatewayId)")
+DeleteGateway(gatewayId, args) = iotsitewise("DELETE", "/20200301/gateways/$(gatewayId)", args)
+DeleteGateway(a...; b...) = DeleteGateway(a..., b)
 
 """
     DeletePortal()
@@ -305,7 +337,9 @@ Optional Parameters
   "clientToken": "A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required."
 }
 """
-DeletePortal(args) = iotsitewise("DELETE", "/portals/{portalId}", args)
+DeletePortal(portalId) = iotsitewise("DELETE", "/portals/$(portalId)")
+DeletePortal(portalId, args) = iotsitewise("DELETE", "/portals/$(portalId)", args)
+DeletePortal(a...; b...) = DeletePortal(a..., b)
 
 """
     DeleteProject()
@@ -322,7 +356,9 @@ Optional Parameters
   "clientToken": "A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required."
 }
 """
-DeleteProject(args) = iotsitewise("DELETE", "/projects/{projectId}", args)
+DeleteProject(projectId) = iotsitewise("DELETE", "/projects/$(projectId)")
+DeleteProject(projectId, args) = iotsitewise("DELETE", "/projects/$(projectId)", args)
+DeleteProject(a...; b...) = DeleteProject(a..., b)
 
 """
     DescribeAccessPolicy()
@@ -334,7 +370,9 @@ Required Parameters
   "accessPolicyId": "The ID of the access policy."
 }
 """
-DescribeAccessPolicy(args) = iotsitewise("GET", "/access-policies/{accessPolicyId}", args)
+DescribeAccessPolicy(accessPolicyId) = iotsitewise("GET", "/access-policies/$(accessPolicyId)")
+DescribeAccessPolicy(accessPolicyId, args) = iotsitewise("GET", "/access-policies/$(accessPolicyId)", args)
+DescribeAccessPolicy(a...; b...) = DescribeAccessPolicy(a..., b)
 
 """
     DescribeAsset()
@@ -346,7 +384,9 @@ Required Parameters
   "assetId": "The ID of the asset."
 }
 """
-DescribeAsset(args) = iotsitewise("GET", "/assets/{assetId}", args)
+DescribeAsset(assetId) = iotsitewise("GET", "/assets/$(assetId)")
+DescribeAsset(assetId, args) = iotsitewise("GET", "/assets/$(assetId)", args)
+DescribeAsset(a...; b...) = DescribeAsset(a..., b)
 
 """
     DescribeAssetModel()
@@ -358,7 +398,9 @@ Required Parameters
   "assetModelId": "The ID of the asset model."
 }
 """
-DescribeAssetModel(args) = iotsitewise("GET", "/asset-models/{assetModelId}", args)
+DescribeAssetModel(assetModelId) = iotsitewise("GET", "/asset-models/$(assetModelId)")
+DescribeAssetModel(assetModelId, args) = iotsitewise("GET", "/asset-models/$(assetModelId)", args)
+DescribeAssetModel(a...; b...) = DescribeAssetModel(a..., b)
 
 """
     DescribeAssetProperty()
@@ -371,7 +413,9 @@ Required Parameters
   "propertyId": "The ID of the asset property."
 }
 """
-DescribeAssetProperty(args) = iotsitewise("GET", "/assets/{assetId}/properties/{propertyId}", args)
+DescribeAssetProperty(assetId, propertyId) = iotsitewise("GET", "/assets/$(assetId)/properties/$(propertyId)")
+DescribeAssetProperty(assetId, propertyId, args) = iotsitewise("GET", "/assets/$(assetId)/properties/$(propertyId)", args)
+DescribeAssetProperty(a...; b...) = DescribeAssetProperty(a..., b)
 
 """
     DescribeDashboard()
@@ -383,7 +427,9 @@ Required Parameters
   "dashboardId": "The ID of the dashboard."
 }
 """
-DescribeDashboard(args) = iotsitewise("GET", "/dashboards/{dashboardId}", args)
+DescribeDashboard(dashboardId) = iotsitewise("GET", "/dashboards/$(dashboardId)")
+DescribeDashboard(dashboardId, args) = iotsitewise("GET", "/dashboards/$(dashboardId)", args)
+DescribeDashboard(a...; b...) = DescribeDashboard(a..., b)
 
 """
     DescribeGateway()
@@ -395,7 +441,9 @@ Required Parameters
   "gatewayId": "The ID of the gateway device."
 }
 """
-DescribeGateway(args) = iotsitewise("GET", "/20200301/gateways/{gatewayId}", args)
+DescribeGateway(gatewayId) = iotsitewise("GET", "/20200301/gateways/$(gatewayId)")
+DescribeGateway(gatewayId, args) = iotsitewise("GET", "/20200301/gateways/$(gatewayId)", args)
+DescribeGateway(a...; b...) = DescribeGateway(a..., b)
 
 """
     DescribeGatewayCapabilityConfiguration()
@@ -408,7 +456,9 @@ Required Parameters
   "gatewayId": "The ID of the gateway that defines the capability configuration."
 }
 """
-DescribeGatewayCapabilityConfiguration(args) = iotsitewise("GET", "/20200301/gateways/{gatewayId}/capability/{capabilityNamespace}", args)
+DescribeGatewayCapabilityConfiguration(capabilityNamespace, gatewayId) = iotsitewise("GET", "/20200301/gateways/$(gatewayId)/capability/$(capabilityNamespace)")
+DescribeGatewayCapabilityConfiguration(capabilityNamespace, gatewayId, args) = iotsitewise("GET", "/20200301/gateways/$(gatewayId)/capability/$(capabilityNamespace)", args)
+DescribeGatewayCapabilityConfiguration(a...; b...) = DescribeGatewayCapabilityConfiguration(a..., b)
 
 """
     DescribeLoggingOptions()
@@ -417,6 +467,7 @@ Retrieves the current AWS IoT SiteWise logging options.
 """
 DescribeLoggingOptions() = iotsitewise("GET", "/logging")
 DescribeLoggingOptions(args) = iotsitewise("GET", "/logging", args)
+DescribeLoggingOptions(a...; b...) = DescribeLoggingOptions(a..., b)
 
 """
     DescribePortal()
@@ -428,7 +479,9 @@ Required Parameters
   "portalId": "The ID of the portal."
 }
 """
-DescribePortal(args) = iotsitewise("GET", "/portals/{portalId}", args)
+DescribePortal(portalId) = iotsitewise("GET", "/portals/$(portalId)")
+DescribePortal(portalId, args) = iotsitewise("GET", "/portals/$(portalId)", args)
+DescribePortal(a...; b...) = DescribePortal(a..., b)
 
 """
     DescribeProject()
@@ -440,7 +493,9 @@ Required Parameters
   "projectId": "The ID of the project."
 }
 """
-DescribeProject(args) = iotsitewise("GET", "/projects/{projectId}", args)
+DescribeProject(projectId) = iotsitewise("GET", "/projects/$(projectId)")
+DescribeProject(projectId, args) = iotsitewise("GET", "/projects/$(projectId)", args)
+DescribeProject(a...; b...) = DescribeProject(a..., b)
 
 """
     DisassociateAssets()
@@ -459,7 +514,9 @@ Optional Parameters
   "clientToken": "A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required."
 }
 """
-DisassociateAssets(args) = iotsitewise("POST", "/assets/{assetId}/disassociate", args)
+DisassociateAssets(assetId, childAssetId, hierarchyId) = iotsitewise("POST", "/assets/$(assetId)/disassociate")
+DisassociateAssets(assetId, childAssetId, hierarchyId, args) = iotsitewise("POST", "/assets/$(assetId)/disassociate", args)
+DisassociateAssets(a...; b...) = DisassociateAssets(a..., b)
 
 """
     GetAssetPropertyAggregates()
@@ -485,7 +542,9 @@ Optional Parameters
   "timeOrdering": "The chronological sorting order of the requested information."
 }
 """
-GetAssetPropertyAggregates(args) = iotsitewise("GET", "/properties/aggregates", args)
+GetAssetPropertyAggregates(aggregateTypes, endDate, resolution, startDate) = iotsitewise("GET", "/properties/aggregates")
+GetAssetPropertyAggregates(aggregateTypes, endDate, resolution, startDate, args) = iotsitewise("GET", "/properties/aggregates", args)
+GetAssetPropertyAggregates(a...; b...) = GetAssetPropertyAggregates(a..., b)
 
 """
     GetAssetPropertyValue()
@@ -501,6 +560,7 @@ Optional Parameters
 """
 GetAssetPropertyValue() = iotsitewise("GET", "/properties/latest")
 GetAssetPropertyValue(args) = iotsitewise("GET", "/properties/latest", args)
+GetAssetPropertyValue(a...; b...) = GetAssetPropertyValue(a..., b)
 
 """
     GetAssetPropertyValueHistory()
@@ -524,7 +584,9 @@ Optional Parameters
   "timeOrdering": "The chronological sorting order of the requested information."
 }
 """
-GetAssetPropertyValueHistory(args) = iotsitewise("GET", "/properties/history", args)
+GetAssetPropertyValueHistory(endDate, startDate) = iotsitewise("GET", "/properties/history")
+GetAssetPropertyValueHistory(endDate, startDate, args) = iotsitewise("GET", "/properties/history", args)
+GetAssetPropertyValueHistory(a...; b...) = GetAssetPropertyValueHistory(a..., b)
 
 """
     ListAccessPolicies()
@@ -543,6 +605,7 @@ Optional Parameters
 """
 ListAccessPolicies() = iotsitewise("GET", "/access-policies")
 ListAccessPolicies(args) = iotsitewise("GET", "/access-policies", args)
+ListAccessPolicies(a...; b...) = ListAccessPolicies(a..., b)
 
 """
     ListAssetModels()
@@ -557,6 +620,7 @@ Optional Parameters
 """
 ListAssetModels() = iotsitewise("GET", "/asset-models")
 ListAssetModels(args) = iotsitewise("GET", "/asset-models", args)
+ListAssetModels(a...; b...) = ListAssetModels(a..., b)
 
 """
     ListAssets()
@@ -573,6 +637,7 @@ Optional Parameters
 """
 ListAssets() = iotsitewise("GET", "/assets")
 ListAssets(args) = iotsitewise("GET", "/assets", args)
+ListAssets(a...; b...) = ListAssets(a..., b)
 
 """
     ListAssociatedAssets()
@@ -591,7 +656,9 @@ Optional Parameters
   "nextToken": "The token to be used for the next set of paginated results."
 }
 """
-ListAssociatedAssets(args) = iotsitewise("GET", "/assets/{assetId}/hierarchies", args)
+ListAssociatedAssets(assetId, hierarchyId) = iotsitewise("GET", "/assets/$(assetId)/hierarchies")
+ListAssociatedAssets(assetId, hierarchyId, args) = iotsitewise("GET", "/assets/$(assetId)/hierarchies", args)
+ListAssociatedAssets(a...; b...) = ListAssociatedAssets(a..., b)
 
 """
     ListDashboards()
@@ -609,7 +676,9 @@ Optional Parameters
   "nextToken": "The token to be used for the next set of paginated results."
 }
 """
-ListDashboards(args) = iotsitewise("GET", "/dashboards", args)
+ListDashboards(projectId) = iotsitewise("GET", "/dashboards")
+ListDashboards(projectId, args) = iotsitewise("GET", "/dashboards", args)
+ListDashboards(a...; b...) = ListDashboards(a..., b)
 
 """
     ListGateways()
@@ -624,6 +693,7 @@ Optional Parameters
 """
 ListGateways() = iotsitewise("GET", "/20200301/gateways")
 ListGateways(args) = iotsitewise("GET", "/20200301/gateways", args)
+ListGateways(a...; b...) = ListGateways(a..., b)
 
 """
     ListPortals()
@@ -638,6 +708,7 @@ Optional Parameters
 """
 ListPortals() = iotsitewise("GET", "/portals")
 ListPortals(args) = iotsitewise("GET", "/portals", args)
+ListPortals(a...; b...) = ListPortals(a..., b)
 
 """
     ListProjectAssets()
@@ -655,7 +726,9 @@ Optional Parameters
   "nextToken": "The token to be used for the next set of paginated results."
 }
 """
-ListProjectAssets(args) = iotsitewise("GET", "/projects/{projectId}/assets", args)
+ListProjectAssets(projectId) = iotsitewise("GET", "/projects/$(projectId)/assets")
+ListProjectAssets(projectId, args) = iotsitewise("GET", "/projects/$(projectId)/assets", args)
+ListProjectAssets(a...; b...) = ListProjectAssets(a..., b)
 
 """
     ListProjects()
@@ -673,7 +746,9 @@ Optional Parameters
   "nextToken": "The token to be used for the next set of paginated results."
 }
 """
-ListProjects(args) = iotsitewise("GET", "/projects", args)
+ListProjects(portalId) = iotsitewise("GET", "/projects")
+ListProjects(portalId, args) = iotsitewise("GET", "/projects", args)
+ListProjects(a...; b...) = ListProjects(a..., b)
 
 """
     ListTagsForResource()
@@ -685,7 +760,9 @@ Required Parameters
   "resourceArn": "The ARN of the resource."
 }
 """
-ListTagsForResource(args) = iotsitewise("GET", "/tags", args)
+ListTagsForResource(resourceArn) = iotsitewise("GET", "/tags")
+ListTagsForResource(resourceArn, args) = iotsitewise("GET", "/tags", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     PutLoggingOptions()
@@ -697,7 +774,9 @@ Required Parameters
   "loggingOptions": "The logging options to set."
 }
 """
-PutLoggingOptions(args) = iotsitewise("PUT", "/logging", args)
+PutLoggingOptions(loggingOptions) = iotsitewise("PUT", "/logging")
+PutLoggingOptions(loggingOptions, args) = iotsitewise("PUT", "/logging", args)
+PutLoggingOptions(a...; b...) = PutLoggingOptions(a..., b)
 
 """
     TagResource()
@@ -710,7 +789,9 @@ Required Parameters
   "tags": "A list of key-value pairs that contain metadata for the resource. For more information, see Tagging your AWS IoT SiteWise resources in the AWS IoT SiteWise User Guide."
 }
 """
-TagResource(args) = iotsitewise("POST", "/tags", args)
+TagResource(resourceArn, tags) = iotsitewise("POST", "/tags")
+TagResource(resourceArn, tags, args) = iotsitewise("POST", "/tags", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
@@ -723,7 +804,9 @@ Required Parameters
   "tagKeys": "A list of keys for tags to remove from the resource."
 }
 """
-UntagResource(args) = iotsitewise("DELETE", "/tags", args)
+UntagResource(resourceArn, tagKeys) = iotsitewise("DELETE", "/tags")
+UntagResource(resourceArn, tagKeys, args) = iotsitewise("DELETE", "/tags", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateAccessPolicy()
@@ -743,7 +826,9 @@ Optional Parameters
   "clientToken": "A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required."
 }
 """
-UpdateAccessPolicy(args) = iotsitewise("PUT", "/access-policies/{accessPolicyId}", args)
+UpdateAccessPolicy(accessPolicyId, accessPolicyIdentity, accessPolicyPermission, accessPolicyResource) = iotsitewise("PUT", "/access-policies/$(accessPolicyId)")
+UpdateAccessPolicy(accessPolicyId, accessPolicyIdentity, accessPolicyPermission, accessPolicyResource, args) = iotsitewise("PUT", "/access-policies/$(accessPolicyId)", args)
+UpdateAccessPolicy(a...; b...) = UpdateAccessPolicy(a..., b)
 
 """
     UpdateAsset()
@@ -761,7 +846,9 @@ Optional Parameters
   "clientToken": "A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required."
 }
 """
-UpdateAsset(args) = iotsitewise("PUT", "/assets/{assetId}", args)
+UpdateAsset(assetId, assetName) = iotsitewise("PUT", "/assets/$(assetId)")
+UpdateAsset(assetId, assetName, args) = iotsitewise("PUT", "/assets/$(assetId)", args)
+UpdateAsset(a...; b...) = UpdateAsset(a..., b)
 
 """
     UpdateAssetModel()
@@ -782,7 +869,9 @@ Optional Parameters
   "clientToken": "A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required."
 }
 """
-UpdateAssetModel(args) = iotsitewise("PUT", "/asset-models/{assetModelId}", args)
+UpdateAssetModel(assetModelId, assetModelName) = iotsitewise("PUT", "/asset-models/$(assetModelId)")
+UpdateAssetModel(assetModelId, assetModelName, args) = iotsitewise("PUT", "/asset-models/$(assetModelId)", args)
+UpdateAssetModel(a...; b...) = UpdateAssetModel(a..., b)
 
 """
     UpdateAssetProperty()
@@ -802,7 +891,9 @@ Optional Parameters
   "propertyNotificationState": "The MQTT notification state (enabled or disabled) for this asset property. When the notification state is enabled, AWS IoT SiteWise publishes property value updates to a unique MQTT topic. For more information, see Interacting with Other Services in the AWS IoT SiteWise User Guide. If you omit this parameter, the notification state is set to DISABLED."
 }
 """
-UpdateAssetProperty(args) = iotsitewise("PUT", "/assets/{assetId}/properties/{propertyId}", args)
+UpdateAssetProperty(assetId, propertyId) = iotsitewise("PUT", "/assets/$(assetId)/properties/$(propertyId)")
+UpdateAssetProperty(assetId, propertyId, args) = iotsitewise("PUT", "/assets/$(assetId)/properties/$(propertyId)", args)
+UpdateAssetProperty(a...; b...) = UpdateAssetProperty(a..., b)
 
 """
     UpdateDashboard()
@@ -822,7 +913,9 @@ Optional Parameters
   "dashboardDescription": "A new description for the dashboard."
 }
 """
-UpdateDashboard(args) = iotsitewise("PUT", "/dashboards/{dashboardId}", args)
+UpdateDashboard(dashboardDefinition, dashboardId, dashboardName) = iotsitewise("PUT", "/dashboards/$(dashboardId)")
+UpdateDashboard(dashboardDefinition, dashboardId, dashboardName, args) = iotsitewise("PUT", "/dashboards/$(dashboardId)", args)
+UpdateDashboard(a...; b...) = UpdateDashboard(a..., b)
 
 """
     UpdateGateway()
@@ -835,7 +928,9 @@ Required Parameters
   "gatewayName": "A unique, friendly name for the gateway."
 }
 """
-UpdateGateway(args) = iotsitewise("PUT", "/20200301/gateways/{gatewayId}", args)
+UpdateGateway(gatewayId, gatewayName) = iotsitewise("PUT", "/20200301/gateways/$(gatewayId)")
+UpdateGateway(gatewayId, gatewayName, args) = iotsitewise("PUT", "/20200301/gateways/$(gatewayId)", args)
+UpdateGateway(a...; b...) = UpdateGateway(a..., b)
 
 """
     UpdateGatewayCapabilityConfiguration()
@@ -849,7 +944,9 @@ Required Parameters
   "gatewayId": "The ID of the gateway to be updated."
 }
 """
-UpdateGatewayCapabilityConfiguration(args) = iotsitewise("POST", "/20200301/gateways/{gatewayId}/capability", args)
+UpdateGatewayCapabilityConfiguration(capabilityConfiguration, capabilityNamespace, gatewayId) = iotsitewise("POST", "/20200301/gateways/$(gatewayId)/capability")
+UpdateGatewayCapabilityConfiguration(capabilityConfiguration, capabilityNamespace, gatewayId, args) = iotsitewise("POST", "/20200301/gateways/$(gatewayId)/capability", args)
+UpdateGatewayCapabilityConfiguration(a...; b...) = UpdateGatewayCapabilityConfiguration(a..., b)
 
 """
     UpdatePortal()
@@ -871,7 +968,9 @@ Optional Parameters
   "portalLogoImage": ""
 }
 """
-UpdatePortal(args) = iotsitewise("PUT", "/portals/{portalId}", args)
+UpdatePortal(portalContactEmail, portalId, portalName, roleArn) = iotsitewise("PUT", "/portals/$(portalId)")
+UpdatePortal(portalContactEmail, portalId, portalName, roleArn, args) = iotsitewise("PUT", "/portals/$(portalId)", args)
+UpdatePortal(a...; b...) = UpdatePortal(a..., b)
 
 """
     UpdateProject()
@@ -890,4 +989,6 @@ Optional Parameters
   "projectDescription": "A new description for the project."
 }
 """
-UpdateProject(args) = iotsitewise("PUT", "/projects/{projectId}", args)
+UpdateProject(projectId, projectName) = iotsitewise("PUT", "/projects/$(projectId)")
+UpdateProject(projectId, projectName, args) = iotsitewise("PUT", "/projects/$(projectId)", args)
+UpdateProject(a...; b...) = UpdateProject(a..., b)

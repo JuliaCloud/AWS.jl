@@ -17,7 +17,9 @@ Optional Parameters
   "setAsActive": "Specifies whether the certificate is active."
 }
 """
-AcceptCertificateTransfer(args) = iot("PATCH", "/accept-certificate-transfer/{certificateId}", args)
+AcceptCertificateTransfer(certificateId) = iot("PATCH", "/accept-certificate-transfer/$(certificateId)")
+AcceptCertificateTransfer(certificateId, args) = iot("PATCH", "/accept-certificate-transfer/$(certificateId)", args)
+AcceptCertificateTransfer(a...; b...) = AcceptCertificateTransfer(a..., b)
 
 """
     AddThingToBillingGroup()
@@ -34,6 +36,7 @@ Optional Parameters
 """
 AddThingToBillingGroup() = iot("PUT", "/billing-groups/addThingToBillingGroup")
 AddThingToBillingGroup(args) = iot("PUT", "/billing-groups/addThingToBillingGroup", args)
+AddThingToBillingGroup(a...; b...) = AddThingToBillingGroup(a..., b)
 
 """
     AddThingToThingGroup()
@@ -51,6 +54,7 @@ Optional Parameters
 """
 AddThingToThingGroup() = iot("PUT", "/thing-groups/addThingToThingGroup")
 AddThingToThingGroup(args) = iot("PUT", "/thing-groups/addThingToThingGroup", args)
+AddThingToThingGroup(a...; b...) = AddThingToThingGroup(a..., b)
 
 """
     AssociateTargetsWithJob()
@@ -68,7 +72,9 @@ Optional Parameters
   "comment": "An optional comment string describing why the job was associated with the targets."
 }
 """
-AssociateTargetsWithJob(args) = iot("POST", "/jobs/{jobId}/targets", args)
+AssociateTargetsWithJob(jobId, targets) = iot("POST", "/jobs/$(jobId)/targets")
+AssociateTargetsWithJob(jobId, targets, args) = iot("POST", "/jobs/$(jobId)/targets", args)
+AssociateTargetsWithJob(a...; b...) = AssociateTargetsWithJob(a..., b)
 
 """
     AttachPolicy()
@@ -81,7 +87,9 @@ Required Parameters
   "target": "The identity to which the policy is attached."
 }
 """
-AttachPolicy(args) = iot("PUT", "/target-policies/{policyName}", args)
+AttachPolicy(policyName, target) = iot("PUT", "/target-policies/$(policyName)")
+AttachPolicy(policyName, target, args) = iot("PUT", "/target-policies/$(policyName)", args)
+AttachPolicy(a...; b...) = AttachPolicy(a..., b)
 
 """
     AttachPrincipalPolicy()
@@ -94,7 +102,9 @@ Required Parameters
   "principal": "The principal, which can be a certificate ARN (as returned from the CreateCertificate operation) or an Amazon Cognito ID."
 }
 """
-AttachPrincipalPolicy(args) = iot("PUT", "/principal-policies/{policyName}", args)
+AttachPrincipalPolicy(policyName, principal) = iot("PUT", "/principal-policies/$(policyName)")
+AttachPrincipalPolicy(policyName, principal, args) = iot("PUT", "/principal-policies/$(policyName)", args)
+AttachPrincipalPolicy(a...; b...) = AttachPrincipalPolicy(a..., b)
 
 """
     AttachSecurityProfile()
@@ -107,7 +117,9 @@ Required Parameters
   "securityProfileTargetArn": "The ARN of the target (thing group) to which the security profile is attached."
 }
 """
-AttachSecurityProfile(args) = iot("PUT", "/security-profiles/{securityProfileName}/targets", args)
+AttachSecurityProfile(securityProfileName, securityProfileTargetArn) = iot("PUT", "/security-profiles/$(securityProfileName)/targets")
+AttachSecurityProfile(securityProfileName, securityProfileTargetArn, args) = iot("PUT", "/security-profiles/$(securityProfileName)/targets", args)
+AttachSecurityProfile(a...; b...) = AttachSecurityProfile(a..., b)
 
 """
     AttachThingPrincipal()
@@ -120,7 +132,9 @@ Required Parameters
   "thingName": "The name of the thing."
 }
 """
-AttachThingPrincipal(args) = iot("PUT", "/things/{thingName}/principals", args)
+AttachThingPrincipal(principal, thingName) = iot("PUT", "/things/$(thingName)/principals")
+AttachThingPrincipal(principal, thingName, args) = iot("PUT", "/things/$(thingName)/principals", args)
+AttachThingPrincipal(a...; b...) = AttachThingPrincipal(a..., b)
 
 """
     CancelAuditMitigationActionsTask()
@@ -132,7 +146,9 @@ Required Parameters
   "taskId": "The unique identifier for the task that you want to cancel. "
 }
 """
-CancelAuditMitigationActionsTask(args) = iot("PUT", "/audit/mitigationactions/tasks/{taskId}/cancel", args)
+CancelAuditMitigationActionsTask(taskId) = iot("PUT", "/audit/mitigationactions/tasks/$(taskId)/cancel")
+CancelAuditMitigationActionsTask(taskId, args) = iot("PUT", "/audit/mitigationactions/tasks/$(taskId)/cancel", args)
+CancelAuditMitigationActionsTask(a...; b...) = CancelAuditMitigationActionsTask(a..., b)
 
 """
     CancelAuditTask()
@@ -144,7 +160,9 @@ Required Parameters
   "taskId": "The ID of the audit you want to cancel. You can only cancel an audit that is \"IN_PROGRESS\"."
 }
 """
-CancelAuditTask(args) = iot("PUT", "/audit/tasks/{taskId}/cancel", args)
+CancelAuditTask(taskId) = iot("PUT", "/audit/tasks/$(taskId)/cancel")
+CancelAuditTask(taskId, args) = iot("PUT", "/audit/tasks/$(taskId)/cancel", args)
+CancelAuditTask(a...; b...) = CancelAuditTask(a..., b)
 
 """
     CancelCertificateTransfer()
@@ -156,7 +174,9 @@ Required Parameters
   "certificateId": "The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)"
 }
 """
-CancelCertificateTransfer(args) = iot("PATCH", "/cancel-certificate-transfer/{certificateId}", args)
+CancelCertificateTransfer(certificateId) = iot("PATCH", "/cancel-certificate-transfer/$(certificateId)")
+CancelCertificateTransfer(certificateId, args) = iot("PATCH", "/cancel-certificate-transfer/$(certificateId)", args)
+CancelCertificateTransfer(a...; b...) = CancelCertificateTransfer(a..., b)
 
 """
     CancelJob()
@@ -175,7 +195,9 @@ Optional Parameters
   "reasonCode": "(Optional)A reason code string that explains why the job was canceled."
 }
 """
-CancelJob(args) = iot("PUT", "/jobs/{jobId}/cancel", args)
+CancelJob(jobId) = iot("PUT", "/jobs/$(jobId)/cancel")
+CancelJob(jobId, args) = iot("PUT", "/jobs/$(jobId)/cancel", args)
+CancelJob(a...; b...) = CancelJob(a..., b)
 
 """
     CancelJobExecution()
@@ -195,7 +217,9 @@ Optional Parameters
   "statusDetails": "A collection of name/value pairs that describe the status of the job execution. If not specified, the statusDetails are unchanged. You can specify at most 10 name/value pairs."
 }
 """
-CancelJobExecution(args) = iot("PUT", "/things/{thingName}/jobs/{jobId}/cancel", args)
+CancelJobExecution(jobId, thingName) = iot("PUT", "/things/$(thingName)/jobs/$(jobId)/cancel")
+CancelJobExecution(jobId, thingName, args) = iot("PUT", "/things/$(thingName)/jobs/$(jobId)/cancel", args)
+CancelJobExecution(a...; b...) = CancelJobExecution(a..., b)
 
 """
     ClearDefaultAuthorizer()
@@ -204,6 +228,7 @@ Clears the default authorizer.
 """
 ClearDefaultAuthorizer() = iot("DELETE", "/default-authorizer")
 ClearDefaultAuthorizer(args) = iot("DELETE", "/default-authorizer", args)
+ClearDefaultAuthorizer(a...; b...) = ClearDefaultAuthorizer(a..., b)
 
 """
     ConfirmTopicRuleDestination()
@@ -215,7 +240,9 @@ Required Parameters
   "confirmationToken": "The token used to confirm ownership or access to the topic rule confirmation URL."
 }
 """
-ConfirmTopicRuleDestination(args) = iot("GET", "/confirmdestination/{confirmationToken+}", args)
+ConfirmTopicRuleDestination(confirmationToken) = iot("GET", "/confirmdestination/$(confirmationToken)")
+ConfirmTopicRuleDestination(confirmationToken, args) = iot("GET", "/confirmdestination/$(confirmationToken)", args)
+ConfirmTopicRuleDestination(a...; b...) = ConfirmTopicRuleDestination(a..., b)
 
 """
     CreateAuthorizer()
@@ -237,7 +264,9 @@ Optional Parameters
   "tokenSigningPublicKeys": "The public keys used to verify the digital signature returned by your custom authentication service."
 }
 """
-CreateAuthorizer(args) = iot("POST", "/authorizer/{authorizerName}", args)
+CreateAuthorizer(authorizerFunctionArn, authorizerName) = iot("POST", "/authorizer/$(authorizerName)")
+CreateAuthorizer(authorizerFunctionArn, authorizerName, args) = iot("POST", "/authorizer/$(authorizerName)", args)
+CreateAuthorizer(a...; b...) = CreateAuthorizer(a..., b)
 
 """
     CreateBillingGroup()
@@ -255,7 +284,9 @@ Optional Parameters
   "tags": "Metadata which can be used to manage the billing group."
 }
 """
-CreateBillingGroup(args) = iot("POST", "/billing-groups/{billingGroupName}", args)
+CreateBillingGroup(billingGroupName) = iot("POST", "/billing-groups/$(billingGroupName)")
+CreateBillingGroup(billingGroupName, args) = iot("POST", "/billing-groups/$(billingGroupName)", args)
+CreateBillingGroup(a...; b...) = CreateBillingGroup(a..., b)
 
 """
     CreateCertificateFromCsr()
@@ -272,7 +303,9 @@ Optional Parameters
   "setAsActive": "Specifies whether the certificate is active."
 }
 """
-CreateCertificateFromCsr(args) = iot("POST", "/certificates", args)
+CreateCertificateFromCsr(certificateSigningRequest) = iot("POST", "/certificates")
+CreateCertificateFromCsr(certificateSigningRequest, args) = iot("POST", "/certificates", args)
+CreateCertificateFromCsr(a...; b...) = CreateCertificateFromCsr(a..., b)
 
 """
     CreateDimension()
@@ -292,7 +325,9 @@ Optional Parameters
   "tags": "Metadata that can be used to manage the dimension."
 }
 """
-CreateDimension(args) = iot("POST", "/dimensions/{name}", args)
+CreateDimension(clientRequestToken, name, stringValues, type) = iot("POST", "/dimensions/$(name)")
+CreateDimension(clientRequestToken, name, stringValues, type, args) = iot("POST", "/dimensions/$(name)", args)
+CreateDimension(a...; b...) = CreateDimension(a..., b)
 
 """
     CreateDomainConfiguration()
@@ -314,7 +349,9 @@ Optional Parameters
   "validationCertificateArn": "The certificate used to validate the server certificate and prove domain name ownership. This certificate must be signed by a public certificate authority. This value is not required for AWS-managed domains."
 }
 """
-CreateDomainConfiguration(args) = iot("POST", "/domainConfigurations/{domainConfigurationName}", args)
+CreateDomainConfiguration(domainConfigurationName) = iot("POST", "/domainConfigurations/$(domainConfigurationName)")
+CreateDomainConfiguration(domainConfigurationName, args) = iot("POST", "/domainConfigurations/$(domainConfigurationName)", args)
+CreateDomainConfiguration(a...; b...) = CreateDomainConfiguration(a..., b)
 
 """
     CreateDynamicThingGroup()
@@ -335,7 +372,9 @@ Optional Parameters
   "thingGroupProperties": "The dynamic thing group properties."
 }
 """
-CreateDynamicThingGroup(args) = iot("POST", "/dynamic-thing-groups/{thingGroupName}", args)
+CreateDynamicThingGroup(queryString, thingGroupName) = iot("POST", "/dynamic-thing-groups/$(thingGroupName)")
+CreateDynamicThingGroup(queryString, thingGroupName, args) = iot("POST", "/dynamic-thing-groups/$(thingGroupName)", args)
+CreateDynamicThingGroup(a...; b...) = CreateDynamicThingGroup(a..., b)
 
 """
     CreateJob()
@@ -361,7 +400,9 @@ Optional Parameters
   "timeoutConfig": "Specifies the amount of time each device has to finish its execution of the job. The timer is started when the job execution status is set to IN_PROGRESS. If the job execution status is not set to another terminal state before the time expires, it will be automatically set to TIMED_OUT."
 }
 """
-CreateJob(args) = iot("PUT", "/jobs/{jobId}", args)
+CreateJob(jobId, targets) = iot("PUT", "/jobs/$(jobId)")
+CreateJob(jobId, targets, args) = iot("PUT", "/jobs/$(jobId)", args)
+CreateJob(a...; b...) = CreateJob(a..., b)
 
 """
     CreateKeysAndCertificate()
@@ -375,6 +416,7 @@ Optional Parameters
 """
 CreateKeysAndCertificate() = iot("POST", "/keys-and-certificate")
 CreateKeysAndCertificate(args) = iot("POST", "/keys-and-certificate", args)
+CreateKeysAndCertificate(a...; b...) = CreateKeysAndCertificate(a..., b)
 
 """
     CreateMitigationAction()
@@ -393,7 +435,9 @@ Optional Parameters
   "tags": "Metadata that can be used to manage the mitigation action."
 }
 """
-CreateMitigationAction(args) = iot("POST", "/mitigationactions/actions/{actionName}", args)
+CreateMitigationAction(actionName, actionParams, roleArn) = iot("POST", "/mitigationactions/actions/$(actionName)")
+CreateMitigationAction(actionName, actionParams, roleArn, args) = iot("POST", "/mitigationactions/actions/$(actionName)", args)
+CreateMitigationAction(a...; b...) = CreateMitigationAction(a..., b)
 
 """
     CreateOTAUpdate()
@@ -404,22 +448,26 @@ Required Parameters
 {
   "files": "The files to be streamed by the OTA update.",
   "otaUpdateId": "The ID of the OTA update to be created.",
-  "roleArn": "The IAM role that allows access to the AWS IoT Jobs service.",
-  "targets": "The targeted devices to receive OTA updates."
+  "roleArn": "The IAM role that grants AWS IoT access to the Amazon S3, AWS IoT jobs and AWS Code Signing resources to create an OTA update job.",
+  "targets": "The devices targeted to receive OTA updates."
 }
 
 Optional Parameters
 {
   "additionalParameters": "A list of additional OTA update parameters which are name-value pairs.",
+  "awsJobAbortConfig": "The criteria that determine when and how a job abort takes place.",
   "awsJobExecutionsRolloutConfig": "Configuration for the rollout of OTA updates.",
   "awsJobPresignedUrlConfig": "Configuration information for pre-signed URLs.",
+  "awsJobTimeoutConfig": "Specifies the amount of time each device has to finish its execution of the job. A timer is started when the job execution status is set to IN_PROGRESS. If the job execution status is not set to another terminal state before the timer expires, it will be automatically set to TIMED_OUT.",
   "description": "The description of the OTA update.",
   "protocols": "The protocol used to transfer the OTA update image. Valid values are [HTTP], [MQTT], [HTTP, MQTT]. When both HTTP and MQTT are specified, the target device can choose the protocol.",
   "tags": "Metadata which can be used to manage updates.",
   "targetSelection": "Specifies whether the update will continue to run (CONTINUOUS), or will be complete after all the things specified as targets have completed the update (SNAPSHOT). If continuous, the update may also be run on a thing when a change is detected in a target. For example, an update will run on a thing when the thing is added to a target group, even after the update was completed by all things originally in the group. Valid values: CONTINUOUS | SNAPSHOT."
 }
 """
-CreateOTAUpdate(args) = iot("POST", "/otaUpdates/{otaUpdateId}", args)
+CreateOTAUpdate(files, otaUpdateId, roleArn, targets) = iot("POST", "/otaUpdates/$(otaUpdateId)")
+CreateOTAUpdate(files, otaUpdateId, roleArn, targets, args) = iot("POST", "/otaUpdates/$(otaUpdateId)", args)
+CreateOTAUpdate(a...; b...) = CreateOTAUpdate(a..., b)
 
 """
     CreatePolicy()
@@ -437,7 +485,9 @@ Optional Parameters
   "tags": "Metadata which can be used to manage the policy.  For URI Request parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter use format: &amp;&amp;tags \"key1=value1&amp;key2=value2...\" For the cli-input-json file use format: \"tags\": \"key1=value1&amp;key2=value2...\" "
 }
 """
-CreatePolicy(args) = iot("POST", "/policies/{policyName}", args)
+CreatePolicy(policyDocument, policyName) = iot("POST", "/policies/$(policyName)")
+CreatePolicy(policyDocument, policyName, args) = iot("POST", "/policies/$(policyName)", args)
+CreatePolicy(a...; b...) = CreatePolicy(a..., b)
 
 """
     CreatePolicyVersion()
@@ -455,7 +505,9 @@ Optional Parameters
   "setAsDefault": "Specifies whether the policy version is set as the default. When this parameter is true, the new policy version becomes the operative version (that is, the version that is in effect for the certificates to which the policy is attached)."
 }
 """
-CreatePolicyVersion(args) = iot("POST", "/policies/{policyName}/version", args)
+CreatePolicyVersion(policyDocument, policyName) = iot("POST", "/policies/$(policyName)/version")
+CreatePolicyVersion(policyDocument, policyName, args) = iot("POST", "/policies/$(policyName)/version", args)
+CreatePolicyVersion(a...; b...) = CreatePolicyVersion(a..., b)
 
 """
     CreateProvisioningClaim()
@@ -467,7 +519,9 @@ Required Parameters
   "templateName": "The name of the provisioning template to use."
 }
 """
-CreateProvisioningClaim(args) = iot("POST", "/provisioning-templates/{templateName}/provisioning-claim", args)
+CreateProvisioningClaim(templateName) = iot("POST", "/provisioning-templates/$(templateName)/provisioning-claim")
+CreateProvisioningClaim(templateName, args) = iot("POST", "/provisioning-templates/$(templateName)/provisioning-claim", args)
+CreateProvisioningClaim(a...; b...) = CreateProvisioningClaim(a..., b)
 
 """
     CreateProvisioningTemplate()
@@ -489,7 +543,9 @@ Optional Parameters
   "tags": "Metadata which can be used to manage the fleet provisioning template.  For URI Request parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter use format: &amp;&amp;tags \"key1=value1&amp;key2=value2...\" For the cli-input-json file use format: \"tags\": \"key1=value1&amp;key2=value2...\" "
 }
 """
-CreateProvisioningTemplate(args) = iot("POST", "/provisioning-templates", args)
+CreateProvisioningTemplate(provisioningRoleArn, templateBody, templateName) = iot("POST", "/provisioning-templates")
+CreateProvisioningTemplate(provisioningRoleArn, templateBody, templateName, args) = iot("POST", "/provisioning-templates", args)
+CreateProvisioningTemplate(a...; b...) = CreateProvisioningTemplate(a..., b)
 
 """
     CreateProvisioningTemplateVersion()
@@ -507,7 +563,9 @@ Optional Parameters
   "setAsDefault": "Sets a fleet provision template version as the default version."
 }
 """
-CreateProvisioningTemplateVersion(args) = iot("POST", "/provisioning-templates/{templateName}/versions", args)
+CreateProvisioningTemplateVersion(templateBody, templateName) = iot("POST", "/provisioning-templates/$(templateName)/versions")
+CreateProvisioningTemplateVersion(templateBody, templateName, args) = iot("POST", "/provisioning-templates/$(templateName)/versions", args)
+CreateProvisioningTemplateVersion(a...; b...) = CreateProvisioningTemplateVersion(a..., b)
 
 """
     CreateRoleAlias()
@@ -526,7 +584,9 @@ Optional Parameters
   "tags": "Metadata which can be used to manage the role alias.  For URI Request parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter use format: &amp;&amp;tags \"key1=value1&amp;key2=value2...\" For the cli-input-json file use format: \"tags\": \"key1=value1&amp;key2=value2...\" "
 }
 """
-CreateRoleAlias(args) = iot("POST", "/role-aliases/{roleAlias}", args)
+CreateRoleAlias(roleAlias, roleArn) = iot("POST", "/role-aliases/$(roleAlias)")
+CreateRoleAlias(roleAlias, roleArn, args) = iot("POST", "/role-aliases/$(roleAlias)", args)
+CreateRoleAlias(a...; b...) = CreateRoleAlias(a..., b)
 
 """
     CreateScheduledAudit()
@@ -547,7 +607,9 @@ Optional Parameters
   "tags": "Metadata that can be used to manage the scheduled audit."
 }
 """
-CreateScheduledAudit(args) = iot("POST", "/audit/scheduledaudits/{scheduledAuditName}", args)
+CreateScheduledAudit(frequency, scheduledAuditName, targetCheckNames) = iot("POST", "/audit/scheduledaudits/$(scheduledAuditName)")
+CreateScheduledAudit(frequency, scheduledAuditName, targetCheckNames, args) = iot("POST", "/audit/scheduledaudits/$(scheduledAuditName)", args)
+CreateScheduledAudit(a...; b...) = CreateScheduledAudit(a..., b)
 
 """
     CreateSecurityProfile()
@@ -569,7 +631,9 @@ Optional Parameters
   "tags": "Metadata that can be used to manage the security profile."
 }
 """
-CreateSecurityProfile(args) = iot("POST", "/security-profiles/{securityProfileName}", args)
+CreateSecurityProfile(securityProfileName) = iot("POST", "/security-profiles/$(securityProfileName)")
+CreateSecurityProfile(securityProfileName, args) = iot("POST", "/security-profiles/$(securityProfileName)", args)
+CreateSecurityProfile(a...; b...) = CreateSecurityProfile(a..., b)
 
 """
     CreateStream()
@@ -589,7 +653,9 @@ Optional Parameters
   "tags": "Metadata which can be used to manage streams."
 }
 """
-CreateStream(args) = iot("POST", "/streams/{streamId}", args)
+CreateStream(files, roleArn, streamId) = iot("POST", "/streams/$(streamId)")
+CreateStream(files, roleArn, streamId, args) = iot("POST", "/streams/$(streamId)", args)
+CreateStream(a...; b...) = CreateStream(a..., b)
 
 """
     CreateThing()
@@ -608,7 +674,9 @@ Optional Parameters
   "thingTypeName": "The name of the thing type associated with the new thing."
 }
 """
-CreateThing(args) = iot("POST", "/things/{thingName}", args)
+CreateThing(thingName) = iot("POST", "/things/$(thingName)")
+CreateThing(thingName, args) = iot("POST", "/things/$(thingName)", args)
+CreateThing(a...; b...) = CreateThing(a..., b)
 
 """
     CreateThingGroup()
@@ -627,7 +695,9 @@ Optional Parameters
   "thingGroupProperties": "The thing group properties."
 }
 """
-CreateThingGroup(args) = iot("POST", "/thing-groups/{thingGroupName}", args)
+CreateThingGroup(thingGroupName) = iot("POST", "/thing-groups/$(thingGroupName)")
+CreateThingGroup(thingGroupName, args) = iot("POST", "/thing-groups/$(thingGroupName)", args)
+CreateThingGroup(a...; b...) = CreateThingGroup(a..., b)
 
 """
     CreateThingType()
@@ -645,7 +715,9 @@ Optional Parameters
   "thingTypeProperties": "The ThingTypeProperties for the thing type to create. It contains information about the new thing type including a description, and a list of searchable thing attribute names."
 }
 """
-CreateThingType(args) = iot("POST", "/thing-types/{thingTypeName}", args)
+CreateThingType(thingTypeName) = iot("POST", "/thing-types/$(thingTypeName)")
+CreateThingType(thingTypeName, args) = iot("POST", "/thing-types/$(thingTypeName)", args)
+CreateThingType(a...; b...) = CreateThingType(a..., b)
 
 """
     CreateTopicRule()
@@ -663,7 +735,9 @@ Optional Parameters
   "tags": "Metadata which can be used to manage the topic rule.  For URI Request parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter use format: --tags \"key1=value1&amp;key2=value2...\" For the cli-input-json file use format: \"tags\": \"key1=value1&amp;key2=value2...\" "
 }
 """
-CreateTopicRule(args) = iot("POST", "/rules/{ruleName}", args)
+CreateTopicRule(ruleName, topicRulePayload) = iot("POST", "/rules/$(ruleName)")
+CreateTopicRule(ruleName, topicRulePayload, args) = iot("POST", "/rules/$(ruleName)", args)
+CreateTopicRule(a...; b...) = CreateTopicRule(a..., b)
 
 """
     CreateTopicRuleDestination()
@@ -675,7 +749,9 @@ Required Parameters
   "destinationConfiguration": "The topic rule destination configuration."
 }
 """
-CreateTopicRuleDestination(args) = iot("POST", "/destinations", args)
+CreateTopicRuleDestination(destinationConfiguration) = iot("POST", "/destinations")
+CreateTopicRuleDestination(destinationConfiguration, args) = iot("POST", "/destinations", args)
+CreateTopicRuleDestination(a...; b...) = CreateTopicRuleDestination(a..., b)
 
 """
     DeleteAccountAuditConfiguration()
@@ -689,6 +765,7 @@ Optional Parameters
 """
 DeleteAccountAuditConfiguration() = iot("DELETE", "/audit/configuration")
 DeleteAccountAuditConfiguration(args) = iot("DELETE", "/audit/configuration", args)
+DeleteAccountAuditConfiguration(a...; b...) = DeleteAccountAuditConfiguration(a..., b)
 
 """
     DeleteAuthorizer()
@@ -700,7 +777,9 @@ Required Parameters
   "authorizerName": "The name of the authorizer to delete."
 }
 """
-DeleteAuthorizer(args) = iot("DELETE", "/authorizer/{authorizerName}", args)
+DeleteAuthorizer(authorizerName) = iot("DELETE", "/authorizer/$(authorizerName)")
+DeleteAuthorizer(authorizerName, args) = iot("DELETE", "/authorizer/$(authorizerName)", args)
+DeleteAuthorizer(a...; b...) = DeleteAuthorizer(a..., b)
 
 """
     DeleteBillingGroup()
@@ -717,7 +796,9 @@ Optional Parameters
   "expectedVersion": "The expected version of the billing group. If the version of the billing group does not match the expected version specified in the request, the DeleteBillingGroup request is rejected with a VersionConflictException."
 }
 """
-DeleteBillingGroup(args) = iot("DELETE", "/billing-groups/{billingGroupName}", args)
+DeleteBillingGroup(billingGroupName) = iot("DELETE", "/billing-groups/$(billingGroupName)")
+DeleteBillingGroup(billingGroupName, args) = iot("DELETE", "/billing-groups/$(billingGroupName)", args)
+DeleteBillingGroup(a...; b...) = DeleteBillingGroup(a..., b)
 
 """
     DeleteCACertificate()
@@ -729,7 +810,9 @@ Required Parameters
   "certificateId": "The ID of the certificate to delete. (The last part of the certificate ARN contains the certificate ID.)"
 }
 """
-DeleteCACertificate(args) = iot("DELETE", "/cacertificate/{caCertificateId}", args)
+DeleteCACertificate(certificateId) = iot("DELETE", "/cacertificate/$(caCertificateId)")
+DeleteCACertificate(certificateId, args) = iot("DELETE", "/cacertificate/$(caCertificateId)", args)
+DeleteCACertificate(a...; b...) = DeleteCACertificate(a..., b)
 
 """
     DeleteCertificate()
@@ -746,7 +829,9 @@ Optional Parameters
   "forceDelete": "Forces the deletion of a certificate if it is inactive and is not attached to an IoT thing."
 }
 """
-DeleteCertificate(args) = iot("DELETE", "/certificates/{certificateId}", args)
+DeleteCertificate(certificateId) = iot("DELETE", "/certificates/$(certificateId)")
+DeleteCertificate(certificateId, args) = iot("DELETE", "/certificates/$(certificateId)", args)
+DeleteCertificate(a...; b...) = DeleteCertificate(a..., b)
 
 """
     DeleteDimension()
@@ -758,7 +843,9 @@ Required Parameters
   "name": "The unique identifier for the dimension that you want to delete."
 }
 """
-DeleteDimension(args) = iot("DELETE", "/dimensions/{name}", args)
+DeleteDimension(name) = iot("DELETE", "/dimensions/$(name)")
+DeleteDimension(name, args) = iot("DELETE", "/dimensions/$(name)", args)
+DeleteDimension(a...; b...) = DeleteDimension(a..., b)
 
 """
     DeleteDomainConfiguration()
@@ -770,7 +857,9 @@ Required Parameters
   "domainConfigurationName": "The name of the domain configuration to be deleted."
 }
 """
-DeleteDomainConfiguration(args) = iot("DELETE", "/domainConfigurations/{domainConfigurationName}", args)
+DeleteDomainConfiguration(domainConfigurationName) = iot("DELETE", "/domainConfigurations/$(domainConfigurationName)")
+DeleteDomainConfiguration(domainConfigurationName, args) = iot("DELETE", "/domainConfigurations/$(domainConfigurationName)", args)
+DeleteDomainConfiguration(a...; b...) = DeleteDomainConfiguration(a..., b)
 
 """
     DeleteDynamicThingGroup()
@@ -787,7 +876,9 @@ Optional Parameters
   "expectedVersion": "The expected version of the dynamic thing group to delete."
 }
 """
-DeleteDynamicThingGroup(args) = iot("DELETE", "/dynamic-thing-groups/{thingGroupName}", args)
+DeleteDynamicThingGroup(thingGroupName) = iot("DELETE", "/dynamic-thing-groups/$(thingGroupName)")
+DeleteDynamicThingGroup(thingGroupName, args) = iot("DELETE", "/dynamic-thing-groups/$(thingGroupName)", args)
+DeleteDynamicThingGroup(a...; b...) = DeleteDynamicThingGroup(a..., b)
 
 """
     DeleteJob()
@@ -804,7 +895,9 @@ Optional Parameters
   "force": "(Optional) When true, you can delete a job which is \"IN_PROGRESS\". Otherwise, you can only delete a job which is in a terminal state (\"COMPLETED\" or \"CANCELED\") or an exception will occur. The default is false.  Deleting a job which is \"IN_PROGRESS\", will cause a device which is executing the job to be unable to access job information or update the job execution status. Use caution and ensure that each device executing a job which is deleted is able to recover to a valid state. "
 }
 """
-DeleteJob(args) = iot("DELETE", "/jobs/{jobId}", args)
+DeleteJob(jobId) = iot("DELETE", "/jobs/$(jobId)")
+DeleteJob(jobId, args) = iot("DELETE", "/jobs/$(jobId)", args)
+DeleteJob(a...; b...) = DeleteJob(a..., b)
 
 """
     DeleteJobExecution()
@@ -823,7 +916,9 @@ Optional Parameters
   "force": "(Optional) When true, you can delete a job execution which is \"IN_PROGRESS\". Otherwise, you can only delete a job execution which is in a terminal state (\"SUCCEEDED\", \"FAILED\", \"REJECTED\", \"REMOVED\" or \"CANCELED\") or an exception will occur. The default is false.  Deleting a job execution which is \"IN_PROGRESS\", will cause the device to be unable to access job information or update the job execution status. Use caution and ensure that the device is able to recover to a valid state. "
 }
 """
-DeleteJobExecution(args) = iot("DELETE", "/things/{thingName}/jobs/{jobId}/executionNumber/{executionNumber}", args)
+DeleteJobExecution(executionNumber, jobId, thingName) = iot("DELETE", "/things/$(thingName)/jobs/$(jobId)/executionNumber/$(executionNumber)")
+DeleteJobExecution(executionNumber, jobId, thingName, args) = iot("DELETE", "/things/$(thingName)/jobs/$(jobId)/executionNumber/$(executionNumber)", args)
+DeleteJobExecution(a...; b...) = DeleteJobExecution(a..., b)
 
 """
     DeleteMitigationAction()
@@ -835,7 +930,9 @@ Required Parameters
   "actionName": "The name of the mitigation action that you want to delete."
 }
 """
-DeleteMitigationAction(args) = iot("DELETE", "/mitigationactions/actions/{actionName}", args)
+DeleteMitigationAction(actionName) = iot("DELETE", "/mitigationactions/actions/$(actionName)")
+DeleteMitigationAction(actionName, args) = iot("DELETE", "/mitigationactions/actions/$(actionName)", args)
+DeleteMitigationAction(a...; b...) = DeleteMitigationAction(a..., b)
 
 """
     DeleteOTAUpdate()
@@ -844,16 +941,18 @@ Delete an OTA update.
 
 Required Parameters
 {
-  "otaUpdateId": "The OTA update ID to delete."
+  "otaUpdateId": "The ID of the OTA update to delete."
 }
 
 Optional Parameters
 {
   "deleteStream": "Specifies if the stream associated with an OTA update should be deleted when the OTA update is deleted.",
-  "forceDeleteAWSJob": "Specifies if the AWS Job associated with the OTA update should be deleted with the OTA update is deleted."
+  "forceDeleteAWSJob": "Specifies if the AWS Job associated with the OTA update should be deleted when the OTA update is deleted."
 }
 """
-DeleteOTAUpdate(args) = iot("DELETE", "/otaUpdates/{otaUpdateId}", args)
+DeleteOTAUpdate(otaUpdateId) = iot("DELETE", "/otaUpdates/$(otaUpdateId)")
+DeleteOTAUpdate(otaUpdateId, args) = iot("DELETE", "/otaUpdates/$(otaUpdateId)", args)
+DeleteOTAUpdate(a...; b...) = DeleteOTAUpdate(a..., b)
 
 """
     DeletePolicy()
@@ -865,7 +964,9 @@ Required Parameters
   "policyName": "The name of the policy to delete."
 }
 """
-DeletePolicy(args) = iot("DELETE", "/policies/{policyName}", args)
+DeletePolicy(policyName) = iot("DELETE", "/policies/$(policyName)")
+DeletePolicy(policyName, args) = iot("DELETE", "/policies/$(policyName)", args)
+DeletePolicy(a...; b...) = DeletePolicy(a..., b)
 
 """
     DeletePolicyVersion()
@@ -878,7 +979,9 @@ Required Parameters
   "policyVersionId": "The policy version ID."
 }
 """
-DeletePolicyVersion(args) = iot("DELETE", "/policies/{policyName}/version/{policyVersionId}", args)
+DeletePolicyVersion(policyName, policyVersionId) = iot("DELETE", "/policies/$(policyName)/version/$(policyVersionId)")
+DeletePolicyVersion(policyName, policyVersionId, args) = iot("DELETE", "/policies/$(policyName)/version/$(policyVersionId)", args)
+DeletePolicyVersion(a...; b...) = DeletePolicyVersion(a..., b)
 
 """
     DeleteProvisioningTemplate()
@@ -890,7 +993,9 @@ Required Parameters
   "templateName": "The name of the fleet provision template to delete."
 }
 """
-DeleteProvisioningTemplate(args) = iot("DELETE", "/provisioning-templates/{templateName}", args)
+DeleteProvisioningTemplate(templateName) = iot("DELETE", "/provisioning-templates/$(templateName)")
+DeleteProvisioningTemplate(templateName, args) = iot("DELETE", "/provisioning-templates/$(templateName)", args)
+DeleteProvisioningTemplate(a...; b...) = DeleteProvisioningTemplate(a..., b)
 
 """
     DeleteProvisioningTemplateVersion()
@@ -903,7 +1008,9 @@ Required Parameters
   "versionId": "The fleet provisioning template version ID to delete."
 }
 """
-DeleteProvisioningTemplateVersion(args) = iot("DELETE", "/provisioning-templates/{templateName}/versions/{versionId}", args)
+DeleteProvisioningTemplateVersion(templateName, versionId) = iot("DELETE", "/provisioning-templates/$(templateName)/versions/$(versionId)")
+DeleteProvisioningTemplateVersion(templateName, versionId, args) = iot("DELETE", "/provisioning-templates/$(templateName)/versions/$(versionId)", args)
+DeleteProvisioningTemplateVersion(a...; b...) = DeleteProvisioningTemplateVersion(a..., b)
 
 """
     DeleteRegistrationCode()
@@ -912,6 +1019,7 @@ Deletes a CA certificate registration code.
 """
 DeleteRegistrationCode() = iot("DELETE", "/registrationcode")
 DeleteRegistrationCode(args) = iot("DELETE", "/registrationcode", args)
+DeleteRegistrationCode(a...; b...) = DeleteRegistrationCode(a..., b)
 
 """
     DeleteRoleAlias()
@@ -923,7 +1031,9 @@ Required Parameters
   "roleAlias": "The role alias to delete."
 }
 """
-DeleteRoleAlias(args) = iot("DELETE", "/role-aliases/{roleAlias}", args)
+DeleteRoleAlias(roleAlias) = iot("DELETE", "/role-aliases/$(roleAlias)")
+DeleteRoleAlias(roleAlias, args) = iot("DELETE", "/role-aliases/$(roleAlias)", args)
+DeleteRoleAlias(a...; b...) = DeleteRoleAlias(a..., b)
 
 """
     DeleteScheduledAudit()
@@ -935,7 +1045,9 @@ Required Parameters
   "scheduledAuditName": "The name of the scheduled audit you want to delete."
 }
 """
-DeleteScheduledAudit(args) = iot("DELETE", "/audit/scheduledaudits/{scheduledAuditName}", args)
+DeleteScheduledAudit(scheduledAuditName) = iot("DELETE", "/audit/scheduledaudits/$(scheduledAuditName)")
+DeleteScheduledAudit(scheduledAuditName, args) = iot("DELETE", "/audit/scheduledaudits/$(scheduledAuditName)", args)
+DeleteScheduledAudit(a...; b...) = DeleteScheduledAudit(a..., b)
 
 """
     DeleteSecurityProfile()
@@ -952,7 +1064,9 @@ Optional Parameters
   "expectedVersion": "The expected version of the security profile. A new version is generated whenever the security profile is updated. If you specify a value that is different from the actual version, a VersionConflictException is thrown."
 }
 """
-DeleteSecurityProfile(args) = iot("DELETE", "/security-profiles/{securityProfileName}", args)
+DeleteSecurityProfile(securityProfileName) = iot("DELETE", "/security-profiles/$(securityProfileName)")
+DeleteSecurityProfile(securityProfileName, args) = iot("DELETE", "/security-profiles/$(securityProfileName)", args)
+DeleteSecurityProfile(a...; b...) = DeleteSecurityProfile(a..., b)
 
 """
     DeleteStream()
@@ -964,7 +1078,9 @@ Required Parameters
   "streamId": "The stream ID."
 }
 """
-DeleteStream(args) = iot("DELETE", "/streams/{streamId}", args)
+DeleteStream(streamId) = iot("DELETE", "/streams/$(streamId)")
+DeleteStream(streamId, args) = iot("DELETE", "/streams/$(streamId)", args)
+DeleteStream(a...; b...) = DeleteStream(a..., b)
 
 """
     DeleteThing()
@@ -981,7 +1097,9 @@ Optional Parameters
   "expectedVersion": "The expected version of the thing record in the registry. If the version of the record in the registry does not match the expected version specified in the request, the DeleteThing request is rejected with a VersionConflictException."
 }
 """
-DeleteThing(args) = iot("DELETE", "/things/{thingName}", args)
+DeleteThing(thingName) = iot("DELETE", "/things/$(thingName)")
+DeleteThing(thingName, args) = iot("DELETE", "/things/$(thingName)", args)
+DeleteThing(a...; b...) = DeleteThing(a..., b)
 
 """
     DeleteThingGroup()
@@ -998,7 +1116,9 @@ Optional Parameters
   "expectedVersion": "The expected version of the thing group to delete."
 }
 """
-DeleteThingGroup(args) = iot("DELETE", "/thing-groups/{thingGroupName}", args)
+DeleteThingGroup(thingGroupName) = iot("DELETE", "/thing-groups/$(thingGroupName)")
+DeleteThingGroup(thingGroupName, args) = iot("DELETE", "/thing-groups/$(thingGroupName)", args)
+DeleteThingGroup(a...; b...) = DeleteThingGroup(a..., b)
 
 """
     DeleteThingType()
@@ -1010,7 +1130,9 @@ Required Parameters
   "thingTypeName": "The name of the thing type."
 }
 """
-DeleteThingType(args) = iot("DELETE", "/thing-types/{thingTypeName}", args)
+DeleteThingType(thingTypeName) = iot("DELETE", "/thing-types/$(thingTypeName)")
+DeleteThingType(thingTypeName, args) = iot("DELETE", "/thing-types/$(thingTypeName)", args)
+DeleteThingType(a...; b...) = DeleteThingType(a..., b)
 
 """
     DeleteTopicRule()
@@ -1022,7 +1144,9 @@ Required Parameters
   "ruleName": "The name of the rule."
 }
 """
-DeleteTopicRule(args) = iot("DELETE", "/rules/{ruleName}", args)
+DeleteTopicRule(ruleName) = iot("DELETE", "/rules/$(ruleName)")
+DeleteTopicRule(ruleName, args) = iot("DELETE", "/rules/$(ruleName)", args)
+DeleteTopicRule(a...; b...) = DeleteTopicRule(a..., b)
 
 """
     DeleteTopicRuleDestination()
@@ -1034,7 +1158,9 @@ Required Parameters
   "arn": "The ARN of the topic rule destination to delete."
 }
 """
-DeleteTopicRuleDestination(args) = iot("DELETE", "/destinations/{arn+}", args)
+DeleteTopicRuleDestination(arn) = iot("DELETE", "/destinations/$(arn)")
+DeleteTopicRuleDestination(arn, args) = iot("DELETE", "/destinations/$(arn)", args)
+DeleteTopicRuleDestination(a...; b...) = DeleteTopicRuleDestination(a..., b)
 
 """
     DeleteV2LoggingLevel()
@@ -1047,7 +1173,9 @@ Required Parameters
   "targetType": "The type of resource for which you are configuring logging. Must be THING_Group."
 }
 """
-DeleteV2LoggingLevel(args) = iot("DELETE", "/v2LoggingLevel", args)
+DeleteV2LoggingLevel(targetName, targetType) = iot("DELETE", "/v2LoggingLevel")
+DeleteV2LoggingLevel(targetName, targetType, args) = iot("DELETE", "/v2LoggingLevel", args)
+DeleteV2LoggingLevel(a...; b...) = DeleteV2LoggingLevel(a..., b)
 
 """
     DeprecateThingType()
@@ -1064,7 +1192,9 @@ Optional Parameters
   "undoDeprecate": "Whether to undeprecate a deprecated thing type. If true, the thing type will not be deprecated anymore and you can associate it with things."
 }
 """
-DeprecateThingType(args) = iot("POST", "/thing-types/{thingTypeName}/deprecate", args)
+DeprecateThingType(thingTypeName) = iot("POST", "/thing-types/$(thingTypeName)/deprecate")
+DeprecateThingType(thingTypeName, args) = iot("POST", "/thing-types/$(thingTypeName)/deprecate", args)
+DeprecateThingType(a...; b...) = DeprecateThingType(a..., b)
 
 """
     DescribeAccountAuditConfiguration()
@@ -1073,6 +1203,7 @@ Gets information about the Device Defender audit settings for this account. Sett
 """
 DescribeAccountAuditConfiguration() = iot("GET", "/audit/configuration")
 DescribeAccountAuditConfiguration(args) = iot("GET", "/audit/configuration", args)
+DescribeAccountAuditConfiguration(a...; b...) = DescribeAccountAuditConfiguration(a..., b)
 
 """
     DescribeAuditFinding()
@@ -1084,7 +1215,9 @@ Required Parameters
   "findingId": "A unique identifier for a single audit finding. You can use this identifier to apply mitigation actions to the finding."
 }
 """
-DescribeAuditFinding(args) = iot("GET", "/audit/findings/{findingId}", args)
+DescribeAuditFinding(findingId) = iot("GET", "/audit/findings/$(findingId)")
+DescribeAuditFinding(findingId, args) = iot("GET", "/audit/findings/$(findingId)", args)
+DescribeAuditFinding(a...; b...) = DescribeAuditFinding(a..., b)
 
 """
     DescribeAuditMitigationActionsTask()
@@ -1096,7 +1229,9 @@ Required Parameters
   "taskId": "The unique identifier for the audit mitigation task."
 }
 """
-DescribeAuditMitigationActionsTask(args) = iot("GET", "/audit/mitigationactions/tasks/{taskId}", args)
+DescribeAuditMitigationActionsTask(taskId) = iot("GET", "/audit/mitigationactions/tasks/$(taskId)")
+DescribeAuditMitigationActionsTask(taskId, args) = iot("GET", "/audit/mitigationactions/tasks/$(taskId)", args)
+DescribeAuditMitigationActionsTask(a...; b...) = DescribeAuditMitigationActionsTask(a..., b)
 
 """
     DescribeAuditTask()
@@ -1108,7 +1243,9 @@ Required Parameters
   "taskId": "The ID of the audit whose information you want to get."
 }
 """
-DescribeAuditTask(args) = iot("GET", "/audit/tasks/{taskId}", args)
+DescribeAuditTask(taskId) = iot("GET", "/audit/tasks/$(taskId)")
+DescribeAuditTask(taskId, args) = iot("GET", "/audit/tasks/$(taskId)", args)
+DescribeAuditTask(a...; b...) = DescribeAuditTask(a..., b)
 
 """
     DescribeAuthorizer()
@@ -1120,7 +1257,9 @@ Required Parameters
   "authorizerName": "The name of the authorizer to describe."
 }
 """
-DescribeAuthorizer(args) = iot("GET", "/authorizer/{authorizerName}", args)
+DescribeAuthorizer(authorizerName) = iot("GET", "/authorizer/$(authorizerName)")
+DescribeAuthorizer(authorizerName, args) = iot("GET", "/authorizer/$(authorizerName)", args)
+DescribeAuthorizer(a...; b...) = DescribeAuthorizer(a..., b)
 
 """
     DescribeBillingGroup()
@@ -1132,7 +1271,9 @@ Required Parameters
   "billingGroupName": "The name of the billing group."
 }
 """
-DescribeBillingGroup(args) = iot("GET", "/billing-groups/{billingGroupName}", args)
+DescribeBillingGroup(billingGroupName) = iot("GET", "/billing-groups/$(billingGroupName)")
+DescribeBillingGroup(billingGroupName, args) = iot("GET", "/billing-groups/$(billingGroupName)", args)
+DescribeBillingGroup(a...; b...) = DescribeBillingGroup(a..., b)
 
 """
     DescribeCACertificate()
@@ -1144,7 +1285,9 @@ Required Parameters
   "certificateId": "The CA certificate identifier."
 }
 """
-DescribeCACertificate(args) = iot("GET", "/cacertificate/{caCertificateId}", args)
+DescribeCACertificate(certificateId) = iot("GET", "/cacertificate/$(caCertificateId)")
+DescribeCACertificate(certificateId, args) = iot("GET", "/cacertificate/$(caCertificateId)", args)
+DescribeCACertificate(a...; b...) = DescribeCACertificate(a..., b)
 
 """
     DescribeCertificate()
@@ -1156,7 +1299,9 @@ Required Parameters
   "certificateId": "The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)"
 }
 """
-DescribeCertificate(args) = iot("GET", "/certificates/{certificateId}", args)
+DescribeCertificate(certificateId) = iot("GET", "/certificates/$(certificateId)")
+DescribeCertificate(certificateId, args) = iot("GET", "/certificates/$(certificateId)", args)
+DescribeCertificate(a...; b...) = DescribeCertificate(a..., b)
 
 """
     DescribeDefaultAuthorizer()
@@ -1165,6 +1310,7 @@ Describes the default authorizer.
 """
 DescribeDefaultAuthorizer() = iot("GET", "/default-authorizer")
 DescribeDefaultAuthorizer(args) = iot("GET", "/default-authorizer", args)
+DescribeDefaultAuthorizer(a...; b...) = DescribeDefaultAuthorizer(a..., b)
 
 """
     DescribeDimension()
@@ -1176,7 +1322,9 @@ Required Parameters
   "name": "The unique identifier for the dimension."
 }
 """
-DescribeDimension(args) = iot("GET", "/dimensions/{name}", args)
+DescribeDimension(name) = iot("GET", "/dimensions/$(name)")
+DescribeDimension(name, args) = iot("GET", "/dimensions/$(name)", args)
+DescribeDimension(a...; b...) = DescribeDimension(a..., b)
 
 """
     DescribeDomainConfiguration()
@@ -1188,7 +1336,9 @@ Required Parameters
   "domainConfigurationName": "The name of the domain configuration."
 }
 """
-DescribeDomainConfiguration(args) = iot("GET", "/domainConfigurations/{domainConfigurationName}", args)
+DescribeDomainConfiguration(domainConfigurationName) = iot("GET", "/domainConfigurations/$(domainConfigurationName)")
+DescribeDomainConfiguration(domainConfigurationName, args) = iot("GET", "/domainConfigurations/$(domainConfigurationName)", args)
+DescribeDomainConfiguration(a...; b...) = DescribeDomainConfiguration(a..., b)
 
 """
     DescribeEndpoint()
@@ -1202,6 +1352,7 @@ Optional Parameters
 """
 DescribeEndpoint() = iot("GET", "/endpoint")
 DescribeEndpoint(args) = iot("GET", "/endpoint", args)
+DescribeEndpoint(a...; b...) = DescribeEndpoint(a..., b)
 
 """
     DescribeEventConfigurations()
@@ -1210,6 +1361,7 @@ Describes event configurations.
 """
 DescribeEventConfigurations() = iot("GET", "/event-configurations")
 DescribeEventConfigurations(args) = iot("GET", "/event-configurations", args)
+DescribeEventConfigurations(a...; b...) = DescribeEventConfigurations(a..., b)
 
 """
     DescribeIndex()
@@ -1221,7 +1373,9 @@ Required Parameters
   "indexName": "The index name."
 }
 """
-DescribeIndex(args) = iot("GET", "/indices/{indexName}", args)
+DescribeIndex(indexName) = iot("GET", "/indices/$(indexName)")
+DescribeIndex(indexName, args) = iot("GET", "/indices/$(indexName)", args)
+DescribeIndex(a...; b...) = DescribeIndex(a..., b)
 
 """
     DescribeJob()
@@ -1233,7 +1387,9 @@ Required Parameters
   "jobId": "The unique identifier you assigned to this job when it was created."
 }
 """
-DescribeJob(args) = iot("GET", "/jobs/{jobId}", args)
+DescribeJob(jobId) = iot("GET", "/jobs/$(jobId)")
+DescribeJob(jobId, args) = iot("GET", "/jobs/$(jobId)", args)
+DescribeJob(a...; b...) = DescribeJob(a..., b)
 
 """
     DescribeJobExecution()
@@ -1251,7 +1407,9 @@ Optional Parameters
   "executionNumber": "A string (consisting of the digits \"0\" through \"9\" which is used to specify a particular job execution on a particular device."
 }
 """
-DescribeJobExecution(args) = iot("GET", "/things/{thingName}/jobs/{jobId}", args)
+DescribeJobExecution(jobId, thingName) = iot("GET", "/things/$(thingName)/jobs/$(jobId)")
+DescribeJobExecution(jobId, thingName, args) = iot("GET", "/things/$(thingName)/jobs/$(jobId)", args)
+DescribeJobExecution(a...; b...) = DescribeJobExecution(a..., b)
 
 """
     DescribeMitigationAction()
@@ -1263,7 +1421,9 @@ Required Parameters
   "actionName": "The friendly name that uniquely identifies the mitigation action."
 }
 """
-DescribeMitigationAction(args) = iot("GET", "/mitigationactions/actions/{actionName}", args)
+DescribeMitigationAction(actionName) = iot("GET", "/mitigationactions/actions/$(actionName)")
+DescribeMitigationAction(actionName, args) = iot("GET", "/mitigationactions/actions/$(actionName)", args)
+DescribeMitigationAction(a...; b...) = DescribeMitigationAction(a..., b)
 
 """
     DescribeProvisioningTemplate()
@@ -1275,7 +1435,9 @@ Required Parameters
   "templateName": "The name of the fleet provisioning template."
 }
 """
-DescribeProvisioningTemplate(args) = iot("GET", "/provisioning-templates/{templateName}", args)
+DescribeProvisioningTemplate(templateName) = iot("GET", "/provisioning-templates/$(templateName)")
+DescribeProvisioningTemplate(templateName, args) = iot("GET", "/provisioning-templates/$(templateName)", args)
+DescribeProvisioningTemplate(a...; b...) = DescribeProvisioningTemplate(a..., b)
 
 """
     DescribeProvisioningTemplateVersion()
@@ -1288,7 +1450,9 @@ Required Parameters
   "versionId": "The fleet provisioning template version ID."
 }
 """
-DescribeProvisioningTemplateVersion(args) = iot("GET", "/provisioning-templates/{templateName}/versions/{versionId}", args)
+DescribeProvisioningTemplateVersion(templateName, versionId) = iot("GET", "/provisioning-templates/$(templateName)/versions/$(versionId)")
+DescribeProvisioningTemplateVersion(templateName, versionId, args) = iot("GET", "/provisioning-templates/$(templateName)/versions/$(versionId)", args)
+DescribeProvisioningTemplateVersion(a...; b...) = DescribeProvisioningTemplateVersion(a..., b)
 
 """
     DescribeRoleAlias()
@@ -1300,7 +1464,9 @@ Required Parameters
   "roleAlias": "The role alias to describe."
 }
 """
-DescribeRoleAlias(args) = iot("GET", "/role-aliases/{roleAlias}", args)
+DescribeRoleAlias(roleAlias) = iot("GET", "/role-aliases/$(roleAlias)")
+DescribeRoleAlias(roleAlias, args) = iot("GET", "/role-aliases/$(roleAlias)", args)
+DescribeRoleAlias(a...; b...) = DescribeRoleAlias(a..., b)
 
 """
     DescribeScheduledAudit()
@@ -1312,7 +1478,9 @@ Required Parameters
   "scheduledAuditName": "The name of the scheduled audit whose information you want to get."
 }
 """
-DescribeScheduledAudit(args) = iot("GET", "/audit/scheduledaudits/{scheduledAuditName}", args)
+DescribeScheduledAudit(scheduledAuditName) = iot("GET", "/audit/scheduledaudits/$(scheduledAuditName)")
+DescribeScheduledAudit(scheduledAuditName, args) = iot("GET", "/audit/scheduledaudits/$(scheduledAuditName)", args)
+DescribeScheduledAudit(a...; b...) = DescribeScheduledAudit(a..., b)
 
 """
     DescribeSecurityProfile()
@@ -1324,7 +1492,9 @@ Required Parameters
   "securityProfileName": "The name of the security profile whose information you want to get."
 }
 """
-DescribeSecurityProfile(args) = iot("GET", "/security-profiles/{securityProfileName}", args)
+DescribeSecurityProfile(securityProfileName) = iot("GET", "/security-profiles/$(securityProfileName)")
+DescribeSecurityProfile(securityProfileName, args) = iot("GET", "/security-profiles/$(securityProfileName)", args)
+DescribeSecurityProfile(a...; b...) = DescribeSecurityProfile(a..., b)
 
 """
     DescribeStream()
@@ -1336,7 +1506,9 @@ Required Parameters
   "streamId": "The stream ID."
 }
 """
-DescribeStream(args) = iot("GET", "/streams/{streamId}", args)
+DescribeStream(streamId) = iot("GET", "/streams/$(streamId)")
+DescribeStream(streamId, args) = iot("GET", "/streams/$(streamId)", args)
+DescribeStream(a...; b...) = DescribeStream(a..., b)
 
 """
     DescribeThing()
@@ -1348,7 +1520,9 @@ Required Parameters
   "thingName": "The name of the thing."
 }
 """
-DescribeThing(args) = iot("GET", "/things/{thingName}", args)
+DescribeThing(thingName) = iot("GET", "/things/$(thingName)")
+DescribeThing(thingName, args) = iot("GET", "/things/$(thingName)", args)
+DescribeThing(a...; b...) = DescribeThing(a..., b)
 
 """
     DescribeThingGroup()
@@ -1360,7 +1534,9 @@ Required Parameters
   "thingGroupName": "The name of the thing group."
 }
 """
-DescribeThingGroup(args) = iot("GET", "/thing-groups/{thingGroupName}", args)
+DescribeThingGroup(thingGroupName) = iot("GET", "/thing-groups/$(thingGroupName)")
+DescribeThingGroup(thingGroupName, args) = iot("GET", "/thing-groups/$(thingGroupName)", args)
+DescribeThingGroup(a...; b...) = DescribeThingGroup(a..., b)
 
 """
     DescribeThingRegistrationTask()
@@ -1372,7 +1548,9 @@ Required Parameters
   "taskId": "The task ID."
 }
 """
-DescribeThingRegistrationTask(args) = iot("GET", "/thing-registration-tasks/{taskId}", args)
+DescribeThingRegistrationTask(taskId) = iot("GET", "/thing-registration-tasks/$(taskId)")
+DescribeThingRegistrationTask(taskId, args) = iot("GET", "/thing-registration-tasks/$(taskId)", args)
+DescribeThingRegistrationTask(a...; b...) = DescribeThingRegistrationTask(a..., b)
 
 """
     DescribeThingType()
@@ -1384,7 +1562,9 @@ Required Parameters
   "thingTypeName": "The name of the thing type."
 }
 """
-DescribeThingType(args) = iot("GET", "/thing-types/{thingTypeName}", args)
+DescribeThingType(thingTypeName) = iot("GET", "/thing-types/$(thingTypeName)")
+DescribeThingType(thingTypeName, args) = iot("GET", "/thing-types/$(thingTypeName)", args)
+DescribeThingType(a...; b...) = DescribeThingType(a..., b)
 
 """
     DetachPolicy()
@@ -1397,7 +1577,9 @@ Required Parameters
   "target": "The target from which the policy will be detached."
 }
 """
-DetachPolicy(args) = iot("POST", "/target-policies/{policyName}", args)
+DetachPolicy(policyName, target) = iot("POST", "/target-policies/$(policyName)")
+DetachPolicy(policyName, target, args) = iot("POST", "/target-policies/$(policyName)", args)
+DetachPolicy(a...; b...) = DetachPolicy(a..., b)
 
 """
     DetachPrincipalPolicy()
@@ -1410,7 +1592,9 @@ Required Parameters
   "principal": "The principal. If the principal is a certificate, specify the certificate ARN. If the principal is an Amazon Cognito identity, specify the identity ID."
 }
 """
-DetachPrincipalPolicy(args) = iot("DELETE", "/principal-policies/{policyName}", args)
+DetachPrincipalPolicy(policyName, principal) = iot("DELETE", "/principal-policies/$(policyName)")
+DetachPrincipalPolicy(policyName, principal, args) = iot("DELETE", "/principal-policies/$(policyName)", args)
+DetachPrincipalPolicy(a...; b...) = DetachPrincipalPolicy(a..., b)
 
 """
     DetachSecurityProfile()
@@ -1423,7 +1607,9 @@ Required Parameters
   "securityProfileTargetArn": "The ARN of the thing group from which the security profile is detached."
 }
 """
-DetachSecurityProfile(args) = iot("DELETE", "/security-profiles/{securityProfileName}/targets", args)
+DetachSecurityProfile(securityProfileName, securityProfileTargetArn) = iot("DELETE", "/security-profiles/$(securityProfileName)/targets")
+DetachSecurityProfile(securityProfileName, securityProfileTargetArn, args) = iot("DELETE", "/security-profiles/$(securityProfileName)/targets", args)
+DetachSecurityProfile(a...; b...) = DetachSecurityProfile(a..., b)
 
 """
     DetachThingPrincipal()
@@ -1436,7 +1622,9 @@ Required Parameters
   "thingName": "The name of the thing."
 }
 """
-DetachThingPrincipal(args) = iot("DELETE", "/things/{thingName}/principals", args)
+DetachThingPrincipal(principal, thingName) = iot("DELETE", "/things/$(thingName)/principals")
+DetachThingPrincipal(principal, thingName, args) = iot("DELETE", "/things/$(thingName)/principals", args)
+DetachThingPrincipal(a...; b...) = DetachThingPrincipal(a..., b)
 
 """
     DisableTopicRule()
@@ -1448,7 +1636,9 @@ Required Parameters
   "ruleName": "The name of the rule to disable."
 }
 """
-DisableTopicRule(args) = iot("POST", "/rules/{ruleName}/disable", args)
+DisableTopicRule(ruleName) = iot("POST", "/rules/$(ruleName)/disable")
+DisableTopicRule(ruleName, args) = iot("POST", "/rules/$(ruleName)/disable", args)
+DisableTopicRule(a...; b...) = DisableTopicRule(a..., b)
 
 """
     EnableTopicRule()
@@ -1460,7 +1650,9 @@ Required Parameters
   "ruleName": "The name of the topic rule to enable."
 }
 """
-EnableTopicRule(args) = iot("POST", "/rules/{ruleName}/enable", args)
+EnableTopicRule(ruleName) = iot("POST", "/rules/$(ruleName)/enable")
+EnableTopicRule(ruleName, args) = iot("POST", "/rules/$(ruleName)/enable", args)
+EnableTopicRule(a...; b...) = EnableTopicRule(a..., b)
 
 """
     GetCardinality()
@@ -1479,7 +1671,9 @@ Optional Parameters
   "queryVersion": "The query version."
 }
 """
-GetCardinality(args) = iot("POST", "/indices/cardinality", args)
+GetCardinality(queryString) = iot("POST", "/indices/cardinality")
+GetCardinality(queryString, args) = iot("POST", "/indices/cardinality", args)
+GetCardinality(a...; b...) = GetCardinality(a..., b)
 
 """
     GetEffectivePolicies()
@@ -1495,6 +1689,7 @@ Optional Parameters
 """
 GetEffectivePolicies() = iot("POST", "/effective-policies")
 GetEffectivePolicies(args) = iot("POST", "/effective-policies", args)
+GetEffectivePolicies(a...; b...) = GetEffectivePolicies(a..., b)
 
 """
     GetIndexingConfiguration()
@@ -1503,6 +1698,7 @@ Gets the indexing configuration.
 """
 GetIndexingConfiguration() = iot("GET", "/indexing/config")
 GetIndexingConfiguration(args) = iot("GET", "/indexing/config", args)
+GetIndexingConfiguration(a...; b...) = GetIndexingConfiguration(a..., b)
 
 """
     GetJobDocument()
@@ -1514,7 +1710,9 @@ Required Parameters
   "jobId": "The unique identifier you assigned to this job when it was created."
 }
 """
-GetJobDocument(args) = iot("GET", "/jobs/{jobId}/job-document", args)
+GetJobDocument(jobId) = iot("GET", "/jobs/$(jobId)/job-document")
+GetJobDocument(jobId, args) = iot("GET", "/jobs/$(jobId)/job-document", args)
+GetJobDocument(a...; b...) = GetJobDocument(a..., b)
 
 """
     GetLoggingOptions()
@@ -1523,6 +1721,7 @@ Gets the logging options. NOTE: use of this command is not recommended. Use GetV
 """
 GetLoggingOptions() = iot("GET", "/loggingOptions")
 GetLoggingOptions(args) = iot("GET", "/loggingOptions", args)
+GetLoggingOptions(a...; b...) = GetLoggingOptions(a..., b)
 
 """
     GetOTAUpdate()
@@ -1534,7 +1733,9 @@ Required Parameters
   "otaUpdateId": "The OTA update ID."
 }
 """
-GetOTAUpdate(args) = iot("GET", "/otaUpdates/{otaUpdateId}", args)
+GetOTAUpdate(otaUpdateId) = iot("GET", "/otaUpdates/$(otaUpdateId)")
+GetOTAUpdate(otaUpdateId, args) = iot("GET", "/otaUpdates/$(otaUpdateId)", args)
+GetOTAUpdate(a...; b...) = GetOTAUpdate(a..., b)
 
 """
     GetPercentiles()
@@ -1554,7 +1755,9 @@ Optional Parameters
   "queryVersion": "The query version."
 }
 """
-GetPercentiles(args) = iot("POST", "/indices/percentiles", args)
+GetPercentiles(queryString) = iot("POST", "/indices/percentiles")
+GetPercentiles(queryString, args) = iot("POST", "/indices/percentiles", args)
+GetPercentiles(a...; b...) = GetPercentiles(a..., b)
 
 """
     GetPolicy()
@@ -1566,7 +1769,9 @@ Required Parameters
   "policyName": "The name of the policy."
 }
 """
-GetPolicy(args) = iot("GET", "/policies/{policyName}", args)
+GetPolicy(policyName) = iot("GET", "/policies/$(policyName)")
+GetPolicy(policyName, args) = iot("GET", "/policies/$(policyName)", args)
+GetPolicy(a...; b...) = GetPolicy(a..., b)
 
 """
     GetPolicyVersion()
@@ -1579,7 +1784,9 @@ Required Parameters
   "policyVersionId": "The policy version ID."
 }
 """
-GetPolicyVersion(args) = iot("GET", "/policies/{policyName}/version/{policyVersionId}", args)
+GetPolicyVersion(policyName, policyVersionId) = iot("GET", "/policies/$(policyName)/version/$(policyVersionId)")
+GetPolicyVersion(policyName, policyVersionId, args) = iot("GET", "/policies/$(policyName)/version/$(policyVersionId)", args)
+GetPolicyVersion(a...; b...) = GetPolicyVersion(a..., b)
 
 """
     GetRegistrationCode()
@@ -1588,6 +1795,7 @@ Gets a registration code used to register a CA certificate with AWS IoT.
 """
 GetRegistrationCode() = iot("GET", "/registrationcode")
 GetRegistrationCode(args) = iot("GET", "/registrationcode", args)
+GetRegistrationCode(a...; b...) = GetRegistrationCode(a..., b)
 
 """
     GetStatistics()
@@ -1606,7 +1814,9 @@ Optional Parameters
   "queryVersion": "The version of the query used to search."
 }
 """
-GetStatistics(args) = iot("POST", "/indices/statistics", args)
+GetStatistics(queryString) = iot("POST", "/indices/statistics")
+GetStatistics(queryString, args) = iot("POST", "/indices/statistics", args)
+GetStatistics(a...; b...) = GetStatistics(a..., b)
 
 """
     GetTopicRule()
@@ -1618,7 +1828,9 @@ Required Parameters
   "ruleName": "The name of the rule."
 }
 """
-GetTopicRule(args) = iot("GET", "/rules/{ruleName}", args)
+GetTopicRule(ruleName) = iot("GET", "/rules/$(ruleName)")
+GetTopicRule(ruleName, args) = iot("GET", "/rules/$(ruleName)", args)
+GetTopicRule(a...; b...) = GetTopicRule(a..., b)
 
 """
     GetTopicRuleDestination()
@@ -1630,7 +1842,9 @@ Required Parameters
   "arn": "The ARN of the topic rule destination."
 }
 """
-GetTopicRuleDestination(args) = iot("GET", "/destinations/{arn+}", args)
+GetTopicRuleDestination(arn) = iot("GET", "/destinations/$(arn)")
+GetTopicRuleDestination(arn, args) = iot("GET", "/destinations/$(arn)", args)
+GetTopicRuleDestination(a...; b...) = GetTopicRuleDestination(a..., b)
 
 """
     GetV2LoggingOptions()
@@ -1639,6 +1853,7 @@ Gets the fine grained logging options.
 """
 GetV2LoggingOptions() = iot("GET", "/v2LoggingOptions")
 GetV2LoggingOptions(args) = iot("GET", "/v2LoggingOptions", args)
+GetV2LoggingOptions(a...; b...) = GetV2LoggingOptions(a..., b)
 
 """
     ListActiveViolations()
@@ -1655,6 +1870,7 @@ Optional Parameters
 """
 ListActiveViolations() = iot("GET", "/active-violations")
 ListActiveViolations(args) = iot("GET", "/active-violations", args)
+ListActiveViolations(a...; b...) = ListActiveViolations(a..., b)
 
 """
     ListAttachedPolicies()
@@ -1673,7 +1889,9 @@ Optional Parameters
   "recursive": "When true, recursively list attached policies."
 }
 """
-ListAttachedPolicies(args) = iot("POST", "/attached-policies/{target}", args)
+ListAttachedPolicies(target) = iot("POST", "/attached-policies/$(target)")
+ListAttachedPolicies(target, args) = iot("POST", "/attached-policies/$(target)", args)
+ListAttachedPolicies(a...; b...) = ListAttachedPolicies(a..., b)
 
 """
     ListAuditFindings()
@@ -1693,6 +1911,7 @@ Optional Parameters
 """
 ListAuditFindings() = iot("POST", "/audit/findings")
 ListAuditFindings(args) = iot("POST", "/audit/findings", args)
+ListAuditFindings(a...; b...) = ListAuditFindings(a..., b)
 
 """
     ListAuditMitigationActionsExecutions()
@@ -1712,7 +1931,9 @@ Optional Parameters
   "nextToken": "The token for the next set of results."
 }
 """
-ListAuditMitigationActionsExecutions(args) = iot("GET", "/audit/mitigationactions/executions", args)
+ListAuditMitigationActionsExecutions(findingId, taskId) = iot("GET", "/audit/mitigationactions/executions")
+ListAuditMitigationActionsExecutions(findingId, taskId, args) = iot("GET", "/audit/mitigationactions/executions", args)
+ListAuditMitigationActionsExecutions(a...; b...) = ListAuditMitigationActionsExecutions(a..., b)
 
 """
     ListAuditMitigationActionsTasks()
@@ -1734,7 +1955,9 @@ Optional Parameters
   "taskStatus": "Specify this filter to limit results to tasks that are in a specific state."
 }
 """
-ListAuditMitigationActionsTasks(args) = iot("GET", "/audit/mitigationactions/tasks", args)
+ListAuditMitigationActionsTasks(endTime, startTime) = iot("GET", "/audit/mitigationactions/tasks")
+ListAuditMitigationActionsTasks(endTime, startTime, args) = iot("GET", "/audit/mitigationactions/tasks", args)
+ListAuditMitigationActionsTasks(a...; b...) = ListAuditMitigationActionsTasks(a..., b)
 
 """
     ListAuditTasks()
@@ -1755,7 +1978,9 @@ Optional Parameters
   "taskType": "A filter to limit the output to the specified type of audit: can be one of \"ON_DEMAND_AUDIT_TASK\" or \"SCHEDULED__AUDIT_TASK\"."
 }
 """
-ListAuditTasks(args) = iot("GET", "/audit/tasks", args)
+ListAuditTasks(endTime, startTime) = iot("GET", "/audit/tasks")
+ListAuditTasks(endTime, startTime, args) = iot("GET", "/audit/tasks", args)
+ListAuditTasks(a...; b...) = ListAuditTasks(a..., b)
 
 """
     ListAuthorizers()
@@ -1772,6 +1997,7 @@ Optional Parameters
 """
 ListAuthorizers() = iot("GET", "/authorizers/")
 ListAuthorizers(args) = iot("GET", "/authorizers/", args)
+ListAuthorizers(a...; b...) = ListAuthorizers(a..., b)
 
 """
     ListBillingGroups()
@@ -1787,6 +2013,7 @@ Optional Parameters
 """
 ListBillingGroups() = iot("GET", "/billing-groups")
 ListBillingGroups(args) = iot("GET", "/billing-groups", args)
+ListBillingGroups(a...; b...) = ListBillingGroups(a..., b)
 
 """
     ListCACertificates()
@@ -1802,6 +2029,7 @@ Optional Parameters
 """
 ListCACertificates() = iot("GET", "/cacertificates")
 ListCACertificates(args) = iot("GET", "/cacertificates", args)
+ListCACertificates(a...; b...) = ListCACertificates(a..., b)
 
 """
     ListCertificates()
@@ -1817,6 +2045,7 @@ Optional Parameters
 """
 ListCertificates() = iot("GET", "/certificates")
 ListCertificates(args) = iot("GET", "/certificates", args)
+ListCertificates(a...; b...) = ListCertificates(a..., b)
 
 """
     ListCertificatesByCA()
@@ -1835,7 +2064,9 @@ Optional Parameters
   "pageSize": "The result page size."
 }
 """
-ListCertificatesByCA(args) = iot("GET", "/certificates-by-ca/{caCertificateId}", args)
+ListCertificatesByCA(caCertificateId) = iot("GET", "/certificates-by-ca/$(caCertificateId)")
+ListCertificatesByCA(caCertificateId, args) = iot("GET", "/certificates-by-ca/$(caCertificateId)", args)
+ListCertificatesByCA(a...; b...) = ListCertificatesByCA(a..., b)
 
 """
     ListDimensions()
@@ -1850,6 +2081,7 @@ Optional Parameters
 """
 ListDimensions() = iot("GET", "/dimensions")
 ListDimensions(args) = iot("GET", "/dimensions", args)
+ListDimensions(a...; b...) = ListDimensions(a..., b)
 
 """
     ListDomainConfigurations()
@@ -1865,6 +2097,7 @@ Optional Parameters
 """
 ListDomainConfigurations() = iot("GET", "/domainConfigurations")
 ListDomainConfigurations(args) = iot("GET", "/domainConfigurations", args)
+ListDomainConfigurations(a...; b...) = ListDomainConfigurations(a..., b)
 
 """
     ListIndices()
@@ -1879,6 +2112,7 @@ Optional Parameters
 """
 ListIndices() = iot("GET", "/indices")
 ListIndices(args) = iot("GET", "/indices", args)
+ListIndices(a...; b...) = ListIndices(a..., b)
 
 """
     ListJobExecutionsForJob()
@@ -1897,7 +2131,9 @@ Optional Parameters
   "status": "The status of the job."
 }
 """
-ListJobExecutionsForJob(args) = iot("GET", "/jobs/{jobId}/things", args)
+ListJobExecutionsForJob(jobId) = iot("GET", "/jobs/$(jobId)/things")
+ListJobExecutionsForJob(jobId, args) = iot("GET", "/jobs/$(jobId)/things", args)
+ListJobExecutionsForJob(a...; b...) = ListJobExecutionsForJob(a..., b)
 
 """
     ListJobExecutionsForThing()
@@ -1916,7 +2152,9 @@ Optional Parameters
   "status": "An optional filter that lets you search for jobs that have the specified status."
 }
 """
-ListJobExecutionsForThing(args) = iot("GET", "/things/{thingName}/jobs", args)
+ListJobExecutionsForThing(thingName) = iot("GET", "/things/$(thingName)/jobs")
+ListJobExecutionsForThing(thingName, args) = iot("GET", "/things/$(thingName)/jobs", args)
+ListJobExecutionsForThing(a...; b...) = ListJobExecutionsForThing(a..., b)
 
 """
     ListJobs()
@@ -1935,6 +2173,7 @@ Optional Parameters
 """
 ListJobs() = iot("GET", "/jobs")
 ListJobs(args) = iot("GET", "/jobs", args)
+ListJobs(a...; b...) = ListJobs(a..., b)
 
 """
     ListMitigationActions()
@@ -1950,6 +2189,7 @@ Optional Parameters
 """
 ListMitigationActions() = iot("GET", "/mitigationactions/actions")
 ListMitigationActions(args) = iot("GET", "/mitigationactions/actions", args)
+ListMitigationActions(a...; b...) = ListMitigationActions(a..., b)
 
 """
     ListOTAUpdates()
@@ -1965,6 +2205,7 @@ Optional Parameters
 """
 ListOTAUpdates() = iot("GET", "/otaUpdates")
 ListOTAUpdates(args) = iot("GET", "/otaUpdates", args)
+ListOTAUpdates(a...; b...) = ListOTAUpdates(a..., b)
 
 """
     ListOutgoingCertificates()
@@ -1980,6 +2221,7 @@ Optional Parameters
 """
 ListOutgoingCertificates() = iot("GET", "/certificates-out-going")
 ListOutgoingCertificates(args) = iot("GET", "/certificates-out-going", args)
+ListOutgoingCertificates(a...; b...) = ListOutgoingCertificates(a..., b)
 
 """
     ListPolicies()
@@ -1995,6 +2237,7 @@ Optional Parameters
 """
 ListPolicies() = iot("GET", "/policies")
 ListPolicies(args) = iot("GET", "/policies", args)
+ListPolicies(a...; b...) = ListPolicies(a..., b)
 
 """
     ListPolicyPrincipals()
@@ -2013,7 +2256,9 @@ Optional Parameters
   "pageSize": "The result page size."
 }
 """
-ListPolicyPrincipals(args) = iot("GET", "/policy-principals", args)
+ListPolicyPrincipals(policyName) = iot("GET", "/policy-principals")
+ListPolicyPrincipals(policyName, args) = iot("GET", "/policy-principals", args)
+ListPolicyPrincipals(a...; b...) = ListPolicyPrincipals(a..., b)
 
 """
     ListPolicyVersions()
@@ -2025,7 +2270,9 @@ Required Parameters
   "policyName": "The policy name."
 }
 """
-ListPolicyVersions(args) = iot("GET", "/policies/{policyName}/version", args)
+ListPolicyVersions(policyName) = iot("GET", "/policies/$(policyName)/version")
+ListPolicyVersions(policyName, args) = iot("GET", "/policies/$(policyName)/version", args)
+ListPolicyVersions(a...; b...) = ListPolicyVersions(a..., b)
 
 """
     ListPrincipalPolicies()
@@ -2044,7 +2291,9 @@ Optional Parameters
   "pageSize": "The result page size."
 }
 """
-ListPrincipalPolicies(args) = iot("GET", "/principal-policies", args)
+ListPrincipalPolicies(principal) = iot("GET", "/principal-policies")
+ListPrincipalPolicies(principal, args) = iot("GET", "/principal-policies", args)
+ListPrincipalPolicies(a...; b...) = ListPrincipalPolicies(a..., b)
 
 """
     ListPrincipalThings()
@@ -2062,7 +2311,9 @@ Optional Parameters
   "nextToken": "The token to retrieve the next set of results."
 }
 """
-ListPrincipalThings(args) = iot("GET", "/principals/things", args)
+ListPrincipalThings(principal) = iot("GET", "/principals/things")
+ListPrincipalThings(principal, args) = iot("GET", "/principals/things", args)
+ListPrincipalThings(a...; b...) = ListPrincipalThings(a..., b)
 
 """
     ListProvisioningTemplateVersions()
@@ -2080,7 +2331,9 @@ Optional Parameters
   "nextToken": "A token to retrieve the next set of results."
 }
 """
-ListProvisioningTemplateVersions(args) = iot("GET", "/provisioning-templates/{templateName}/versions", args)
+ListProvisioningTemplateVersions(templateName) = iot("GET", "/provisioning-templates/$(templateName)/versions")
+ListProvisioningTemplateVersions(templateName, args) = iot("GET", "/provisioning-templates/$(templateName)/versions", args)
+ListProvisioningTemplateVersions(a...; b...) = ListProvisioningTemplateVersions(a..., b)
 
 """
     ListProvisioningTemplates()
@@ -2095,6 +2348,7 @@ Optional Parameters
 """
 ListProvisioningTemplates() = iot("GET", "/provisioning-templates")
 ListProvisioningTemplates(args) = iot("GET", "/provisioning-templates", args)
+ListProvisioningTemplates(a...; b...) = ListProvisioningTemplates(a..., b)
 
 """
     ListRoleAliases()
@@ -2110,6 +2364,7 @@ Optional Parameters
 """
 ListRoleAliases() = iot("GET", "/role-aliases")
 ListRoleAliases(args) = iot("GET", "/role-aliases", args)
+ListRoleAliases(a...; b...) = ListRoleAliases(a..., b)
 
 """
     ListScheduledAudits()
@@ -2124,6 +2379,7 @@ Optional Parameters
 """
 ListScheduledAudits() = iot("GET", "/audit/scheduledaudits")
 ListScheduledAudits(args) = iot("GET", "/audit/scheduledaudits", args)
+ListScheduledAudits(a...; b...) = ListScheduledAudits(a..., b)
 
 """
     ListSecurityProfiles()
@@ -2139,6 +2395,7 @@ Optional Parameters
 """
 ListSecurityProfiles() = iot("GET", "/security-profiles")
 ListSecurityProfiles(args) = iot("GET", "/security-profiles", args)
+ListSecurityProfiles(a...; b...) = ListSecurityProfiles(a..., b)
 
 """
     ListSecurityProfilesForTarget()
@@ -2157,7 +2414,9 @@ Optional Parameters
   "recursive": "If true, return child groups too."
 }
 """
-ListSecurityProfilesForTarget(args) = iot("GET", "/security-profiles-for-target", args)
+ListSecurityProfilesForTarget(securityProfileTargetArn) = iot("GET", "/security-profiles-for-target")
+ListSecurityProfilesForTarget(securityProfileTargetArn, args) = iot("GET", "/security-profiles-for-target", args)
+ListSecurityProfilesForTarget(a...; b...) = ListSecurityProfilesForTarget(a..., b)
 
 """
     ListStreams()
@@ -2173,6 +2432,7 @@ Optional Parameters
 """
 ListStreams() = iot("GET", "/streams")
 ListStreams(args) = iot("GET", "/streams", args)
+ListStreams(a...; b...) = ListStreams(a..., b)
 
 """
     ListTagsForResource()
@@ -2189,7 +2449,9 @@ Optional Parameters
   "nextToken": "The token to retrieve the next set of results."
 }
 """
-ListTagsForResource(args) = iot("GET", "/tags", args)
+ListTagsForResource(resourceArn) = iot("GET", "/tags")
+ListTagsForResource(resourceArn, args) = iot("GET", "/tags", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     ListTargetsForPolicy()
@@ -2207,7 +2469,9 @@ Optional Parameters
   "pageSize": "The maximum number of results to return at one time."
 }
 """
-ListTargetsForPolicy(args) = iot("POST", "/policy-targets/{policyName}", args)
+ListTargetsForPolicy(policyName) = iot("POST", "/policy-targets/$(policyName)")
+ListTargetsForPolicy(policyName, args) = iot("POST", "/policy-targets/$(policyName)", args)
+ListTargetsForPolicy(a...; b...) = ListTargetsForPolicy(a..., b)
 
 """
     ListTargetsForSecurityProfile()
@@ -2225,7 +2489,9 @@ Optional Parameters
   "nextToken": "The token for the next set of results."
 }
 """
-ListTargetsForSecurityProfile(args) = iot("GET", "/security-profiles/{securityProfileName}/targets", args)
+ListTargetsForSecurityProfile(securityProfileName) = iot("GET", "/security-profiles/$(securityProfileName)/targets")
+ListTargetsForSecurityProfile(securityProfileName, args) = iot("GET", "/security-profiles/$(securityProfileName)/targets", args)
+ListTargetsForSecurityProfile(a...; b...) = ListTargetsForSecurityProfile(a..., b)
 
 """
     ListThingGroups()
@@ -2243,6 +2509,7 @@ Optional Parameters
 """
 ListThingGroups() = iot("GET", "/thing-groups")
 ListThingGroups(args) = iot("GET", "/thing-groups", args)
+ListThingGroups(a...; b...) = ListThingGroups(a..., b)
 
 """
     ListThingGroupsForThing()
@@ -2260,7 +2527,9 @@ Optional Parameters
   "nextToken": "The token to retrieve the next set of results."
 }
 """
-ListThingGroupsForThing(args) = iot("GET", "/things/{thingName}/thing-groups", args)
+ListThingGroupsForThing(thingName) = iot("GET", "/things/$(thingName)/thing-groups")
+ListThingGroupsForThing(thingName, args) = iot("GET", "/things/$(thingName)/thing-groups", args)
+ListThingGroupsForThing(a...; b...) = ListThingGroupsForThing(a..., b)
 
 """
     ListThingPrincipals()
@@ -2272,7 +2541,9 @@ Required Parameters
   "thingName": "The name of the thing."
 }
 """
-ListThingPrincipals(args) = iot("GET", "/things/{thingName}/principals", args)
+ListThingPrincipals(thingName) = iot("GET", "/things/$(thingName)/principals")
+ListThingPrincipals(thingName, args) = iot("GET", "/things/$(thingName)/principals", args)
+ListThingPrincipals(a...; b...) = ListThingPrincipals(a..., b)
 
 """
     ListThingRegistrationTaskReports()
@@ -2291,7 +2562,9 @@ Optional Parameters
   "nextToken": "The token to retrieve the next set of results."
 }
 """
-ListThingRegistrationTaskReports(args) = iot("GET", "/thing-registration-tasks/{taskId}/reports", args)
+ListThingRegistrationTaskReports(reportType, taskId) = iot("GET", "/thing-registration-tasks/$(taskId)/reports")
+ListThingRegistrationTaskReports(reportType, taskId, args) = iot("GET", "/thing-registration-tasks/$(taskId)/reports", args)
+ListThingRegistrationTaskReports(a...; b...) = ListThingRegistrationTaskReports(a..., b)
 
 """
     ListThingRegistrationTasks()
@@ -2307,6 +2580,7 @@ Optional Parameters
 """
 ListThingRegistrationTasks() = iot("GET", "/thing-registration-tasks")
 ListThingRegistrationTasks(args) = iot("GET", "/thing-registration-tasks", args)
+ListThingRegistrationTasks(a...; b...) = ListThingRegistrationTasks(a..., b)
 
 """
     ListThingTypes()
@@ -2322,6 +2596,7 @@ Optional Parameters
 """
 ListThingTypes() = iot("GET", "/thing-types")
 ListThingTypes(args) = iot("GET", "/thing-types", args)
+ListThingTypes(a...; b...) = ListThingTypes(a..., b)
 
 """
     ListThings()
@@ -2339,6 +2614,7 @@ Optional Parameters
 """
 ListThings() = iot("GET", "/things")
 ListThings(args) = iot("GET", "/things", args)
+ListThings(a...; b...) = ListThings(a..., b)
 
 """
     ListThingsInBillingGroup()
@@ -2356,7 +2632,9 @@ Optional Parameters
   "nextToken": "The token to retrieve the next set of results."
 }
 """
-ListThingsInBillingGroup(args) = iot("GET", "/billing-groups/{billingGroupName}/things", args)
+ListThingsInBillingGroup(billingGroupName) = iot("GET", "/billing-groups/$(billingGroupName)/things")
+ListThingsInBillingGroup(billingGroupName, args) = iot("GET", "/billing-groups/$(billingGroupName)/things", args)
+ListThingsInBillingGroup(a...; b...) = ListThingsInBillingGroup(a..., b)
 
 """
     ListThingsInThingGroup()
@@ -2375,7 +2653,9 @@ Optional Parameters
   "recursive": "When true, list things in this thing group and in all child groups as well."
 }
 """
-ListThingsInThingGroup(args) = iot("GET", "/thing-groups/{thingGroupName}/things", args)
+ListThingsInThingGroup(thingGroupName) = iot("GET", "/thing-groups/$(thingGroupName)/things")
+ListThingsInThingGroup(thingGroupName, args) = iot("GET", "/thing-groups/$(thingGroupName)/things", args)
+ListThingsInThingGroup(a...; b...) = ListThingsInThingGroup(a..., b)
 
 """
     ListTopicRuleDestinations()
@@ -2390,6 +2670,7 @@ Optional Parameters
 """
 ListTopicRuleDestinations() = iot("GET", "/destinations")
 ListTopicRuleDestinations(args) = iot("GET", "/destinations", args)
+ListTopicRuleDestinations(a...; b...) = ListTopicRuleDestinations(a..., b)
 
 """
     ListTopicRules()
@@ -2406,6 +2687,7 @@ Optional Parameters
 """
 ListTopicRules() = iot("GET", "/rules")
 ListTopicRules(args) = iot("GET", "/rules", args)
+ListTopicRules(a...; b...) = ListTopicRules(a..., b)
 
 """
     ListV2LoggingLevels()
@@ -2421,6 +2703,7 @@ Optional Parameters
 """
 ListV2LoggingLevels() = iot("GET", "/v2LoggingLevel")
 ListV2LoggingLevels(args) = iot("GET", "/v2LoggingLevel", args)
+ListV2LoggingLevels(a...; b...) = ListV2LoggingLevels(a..., b)
 
 """
     ListViolationEvents()
@@ -2441,7 +2724,9 @@ Optional Parameters
   "thingName": "A filter to limit results to those alerts caused by the specified thing."
 }
 """
-ListViolationEvents(args) = iot("GET", "/violation-events", args)
+ListViolationEvents(endTime, startTime) = iot("GET", "/violation-events")
+ListViolationEvents(endTime, startTime, args) = iot("GET", "/violation-events", args)
+ListViolationEvents(a...; b...) = ListViolationEvents(a..., b)
 
 """
     RegisterCACertificate()
@@ -2462,7 +2747,9 @@ Optional Parameters
   "tags": "Metadata which can be used to manage the CA certificate.  For URI Request parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter use format: &amp;&amp;tags \"key1=value1&amp;key2=value2...\" For the cli-input-json file use format: \"tags\": \"key1=value1&amp;key2=value2...\" "
 }
 """
-RegisterCACertificate(args) = iot("POST", "/cacertificate", args)
+RegisterCACertificate(caCertificate, verificationCertificate) = iot("POST", "/cacertificate")
+RegisterCACertificate(caCertificate, verificationCertificate, args) = iot("POST", "/cacertificate", args)
+RegisterCACertificate(a...; b...) = RegisterCACertificate(a..., b)
 
 """
     RegisterCertificate()
@@ -2481,7 +2768,9 @@ Optional Parameters
   "status": "The status of the register certificate request."
 }
 """
-RegisterCertificate(args) = iot("POST", "/certificate/register", args)
+RegisterCertificate(certificatePem) = iot("POST", "/certificate/register")
+RegisterCertificate(certificatePem, args) = iot("POST", "/certificate/register", args)
+RegisterCertificate(a...; b...) = RegisterCertificate(a..., b)
 
 """
     RegisterCertificateWithoutCA()
@@ -2498,7 +2787,9 @@ Optional Parameters
   "status": "The status of the register certificate request."
 }
 """
-RegisterCertificateWithoutCA(args) = iot("POST", "/certificate/register-no-ca", args)
+RegisterCertificateWithoutCA(certificatePem) = iot("POST", "/certificate/register-no-ca")
+RegisterCertificateWithoutCA(certificatePem, args) = iot("POST", "/certificate/register-no-ca", args)
+RegisterCertificateWithoutCA(a...; b...) = RegisterCertificateWithoutCA(a..., b)
 
 """
     RegisterThing()
@@ -2515,7 +2806,9 @@ Optional Parameters
   "parameters": "The parameters for provisioning a thing. See Provisioning Templates for more information."
 }
 """
-RegisterThing(args) = iot("POST", "/things", args)
+RegisterThing(templateBody) = iot("POST", "/things")
+RegisterThing(templateBody, args) = iot("POST", "/things", args)
+RegisterThing(a...; b...) = RegisterThing(a..., b)
 
 """
     RejectCertificateTransfer()
@@ -2532,7 +2825,9 @@ Optional Parameters
   "rejectReason": "The reason the certificate transfer was rejected."
 }
 """
-RejectCertificateTransfer(args) = iot("PATCH", "/reject-certificate-transfer/{certificateId}", args)
+RejectCertificateTransfer(certificateId) = iot("PATCH", "/reject-certificate-transfer/$(certificateId)")
+RejectCertificateTransfer(certificateId, args) = iot("PATCH", "/reject-certificate-transfer/$(certificateId)", args)
+RejectCertificateTransfer(a...; b...) = RejectCertificateTransfer(a..., b)
 
 """
     RemoveThingFromBillingGroup()
@@ -2549,11 +2844,12 @@ Optional Parameters
 """
 RemoveThingFromBillingGroup() = iot("PUT", "/billing-groups/removeThingFromBillingGroup")
 RemoveThingFromBillingGroup(args) = iot("PUT", "/billing-groups/removeThingFromBillingGroup", args)
+RemoveThingFromBillingGroup(a...; b...) = RemoveThingFromBillingGroup(a..., b)
 
 """
     RemoveThingFromThingGroup()
 
-Remove the specified thing from the specified group.
+Remove the specified thing from the specified group. You must specify either a thingGroupArn or a thingGroupName to identify the thing group and either a thingArn or a thingName to identify the thing to remove from the thing group. 
 
 Optional Parameters
 {
@@ -2565,6 +2861,7 @@ Optional Parameters
 """
 RemoveThingFromThingGroup() = iot("PUT", "/thing-groups/removeThingFromThingGroup")
 RemoveThingFromThingGroup(args) = iot("PUT", "/thing-groups/removeThingFromThingGroup", args)
+RemoveThingFromThingGroup(a...; b...) = RemoveThingFromThingGroup(a..., b)
 
 """
     ReplaceTopicRule()
@@ -2577,7 +2874,9 @@ Required Parameters
   "topicRulePayload": "The rule payload."
 }
 """
-ReplaceTopicRule(args) = iot("PATCH", "/rules/{ruleName}", args)
+ReplaceTopicRule(ruleName, topicRulePayload) = iot("PATCH", "/rules/$(ruleName)")
+ReplaceTopicRule(ruleName, topicRulePayload, args) = iot("PATCH", "/rules/$(ruleName)", args)
+ReplaceTopicRule(a...; b...) = ReplaceTopicRule(a..., b)
 
 """
     SearchIndex()
@@ -2597,7 +2896,9 @@ Optional Parameters
   "queryVersion": "The query version."
 }
 """
-SearchIndex(args) = iot("POST", "/indices/search", args)
+SearchIndex(queryString) = iot("POST", "/indices/search")
+SearchIndex(queryString, args) = iot("POST", "/indices/search", args)
+SearchIndex(a...; b...) = SearchIndex(a..., b)
 
 """
     SetDefaultAuthorizer()
@@ -2609,7 +2910,9 @@ Required Parameters
   "authorizerName": "The authorizer name."
 }
 """
-SetDefaultAuthorizer(args) = iot("POST", "/default-authorizer", args)
+SetDefaultAuthorizer(authorizerName) = iot("POST", "/default-authorizer")
+SetDefaultAuthorizer(authorizerName, args) = iot("POST", "/default-authorizer", args)
+SetDefaultAuthorizer(a...; b...) = SetDefaultAuthorizer(a..., b)
 
 """
     SetDefaultPolicyVersion()
@@ -2622,7 +2925,9 @@ Required Parameters
   "policyVersionId": "The policy version ID."
 }
 """
-SetDefaultPolicyVersion(args) = iot("PATCH", "/policies/{policyName}/version/{policyVersionId}", args)
+SetDefaultPolicyVersion(policyName, policyVersionId) = iot("PATCH", "/policies/$(policyName)/version/$(policyVersionId)")
+SetDefaultPolicyVersion(policyName, policyVersionId, args) = iot("PATCH", "/policies/$(policyName)/version/$(policyVersionId)", args)
+SetDefaultPolicyVersion(a...; b...) = SetDefaultPolicyVersion(a..., b)
 
 """
     SetLoggingOptions()
@@ -2634,7 +2939,9 @@ Required Parameters
   "loggingOptionsPayload": "The logging options payload."
 }
 """
-SetLoggingOptions(args) = iot("POST", "/loggingOptions", args)
+SetLoggingOptions(loggingOptionsPayload) = iot("POST", "/loggingOptions")
+SetLoggingOptions(loggingOptionsPayload, args) = iot("POST", "/loggingOptions", args)
+SetLoggingOptions(a...; b...) = SetLoggingOptions(a..., b)
 
 """
     SetV2LoggingLevel()
@@ -2647,7 +2954,9 @@ Required Parameters
   "logTarget": "The log target."
 }
 """
-SetV2LoggingLevel(args) = iot("POST", "/v2LoggingLevel", args)
+SetV2LoggingLevel(logLevel, logTarget) = iot("POST", "/v2LoggingLevel")
+SetV2LoggingLevel(logLevel, logTarget, args) = iot("POST", "/v2LoggingLevel", args)
+SetV2LoggingLevel(a...; b...) = SetV2LoggingLevel(a..., b)
 
 """
     SetV2LoggingOptions()
@@ -2663,6 +2972,7 @@ Optional Parameters
 """
 SetV2LoggingOptions() = iot("POST", "/v2LoggingOptions")
 SetV2LoggingOptions(args) = iot("POST", "/v2LoggingOptions", args)
+SetV2LoggingOptions(a...; b...) = SetV2LoggingOptions(a..., b)
 
 """
     StartAuditMitigationActionsTask()
@@ -2677,7 +2987,9 @@ Required Parameters
   "taskId": "A unique identifier for the task. You can use this identifier to check the status of the task or to cancel it."
 }
 """
-StartAuditMitigationActionsTask(args) = iot("POST", "/audit/mitigationactions/tasks/{taskId}", args)
+StartAuditMitigationActionsTask(auditCheckToActionsMapping, clientRequestToken, target, taskId) = iot("POST", "/audit/mitigationactions/tasks/$(taskId)")
+StartAuditMitigationActionsTask(auditCheckToActionsMapping, clientRequestToken, target, taskId, args) = iot("POST", "/audit/mitigationactions/tasks/$(taskId)", args)
+StartAuditMitigationActionsTask(a...; b...) = StartAuditMitigationActionsTask(a..., b)
 
 """
     StartOnDemandAuditTask()
@@ -2689,7 +3001,9 @@ Required Parameters
   "targetCheckNames": "Which checks are performed during the audit. The checks you specify must be enabled for your account or an exception occurs. Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or UpdateAccountAuditConfiguration to select which checks are enabled."
 }
 """
-StartOnDemandAuditTask(args) = iot("POST", "/audit/tasks", args)
+StartOnDemandAuditTask(targetCheckNames) = iot("POST", "/audit/tasks")
+StartOnDemandAuditTask(targetCheckNames, args) = iot("POST", "/audit/tasks", args)
+StartOnDemandAuditTask(a...; b...) = StartOnDemandAuditTask(a..., b)
 
 """
     StartThingRegistrationTask()
@@ -2704,7 +3018,9 @@ Required Parameters
   "templateBody": "The provisioning template."
 }
 """
-StartThingRegistrationTask(args) = iot("POST", "/thing-registration-tasks", args)
+StartThingRegistrationTask(inputFileBucket, inputFileKey, roleArn, templateBody) = iot("POST", "/thing-registration-tasks")
+StartThingRegistrationTask(inputFileBucket, inputFileKey, roleArn, templateBody, args) = iot("POST", "/thing-registration-tasks", args)
+StartThingRegistrationTask(a...; b...) = StartThingRegistrationTask(a..., b)
 
 """
     StopThingRegistrationTask()
@@ -2716,7 +3032,9 @@ Required Parameters
   "taskId": "The bulk thing provisioning task ID."
 }
 """
-StopThingRegistrationTask(args) = iot("PUT", "/thing-registration-tasks/{taskId}/cancel", args)
+StopThingRegistrationTask(taskId) = iot("PUT", "/thing-registration-tasks/$(taskId)/cancel")
+StopThingRegistrationTask(taskId, args) = iot("PUT", "/thing-registration-tasks/$(taskId)/cancel", args)
+StopThingRegistrationTask(a...; b...) = StopThingRegistrationTask(a..., b)
 
 """
     TagResource()
@@ -2729,7 +3047,9 @@ Required Parameters
   "tags": "The new or modified tags for the resource."
 }
 """
-TagResource(args) = iot("POST", "/tags", args)
+TagResource(resourceArn, tags) = iot("POST", "/tags")
+TagResource(resourceArn, tags, args) = iot("POST", "/tags", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     TestAuthorization()
@@ -2750,7 +3070,9 @@ Optional Parameters
   "principal": "The principal."
 }
 """
-TestAuthorization(args) = iot("POST", "/test-authorization", args)
+TestAuthorization(authInfos) = iot("POST", "/test-authorization")
+TestAuthorization(authInfos, args) = iot("POST", "/test-authorization", args)
+TestAuthorization(a...; b...) = TestAuthorization(a..., b)
 
 """
     TestInvokeAuthorizer()
@@ -2771,7 +3093,9 @@ Optional Parameters
   "tokenSignature": "The signature made with the token and your custom authentication service's private key. This value must be Base-64-encoded."
 }
 """
-TestInvokeAuthorizer(args) = iot("POST", "/authorizer/{authorizerName}/test", args)
+TestInvokeAuthorizer(authorizerName) = iot("POST", "/authorizer/$(authorizerName)/test")
+TestInvokeAuthorizer(authorizerName, args) = iot("POST", "/authorizer/$(authorizerName)/test", args)
+TestInvokeAuthorizer(a...; b...) = TestInvokeAuthorizer(a..., b)
 
 """
     TransferCertificate()
@@ -2789,7 +3113,9 @@ Optional Parameters
   "transferMessage": "The transfer message."
 }
 """
-TransferCertificate(args) = iot("PATCH", "/transfer-certificate/{certificateId}", args)
+TransferCertificate(certificateId, targetAwsAccount) = iot("PATCH", "/transfer-certificate/$(certificateId)")
+TransferCertificate(certificateId, targetAwsAccount, args) = iot("PATCH", "/transfer-certificate/$(certificateId)", args)
+TransferCertificate(a...; b...) = TransferCertificate(a..., b)
 
 """
     UntagResource()
@@ -2802,7 +3128,9 @@ Required Parameters
   "tagKeys": "A list of the keys of the tags to be removed from the resource."
 }
 """
-UntagResource(args) = iot("POST", "/untag", args)
+UntagResource(resourceArn, tagKeys) = iot("POST", "/untag")
+UntagResource(resourceArn, tagKeys, args) = iot("POST", "/untag", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateAccountAuditConfiguration()
@@ -2818,6 +3146,7 @@ Optional Parameters
 """
 UpdateAccountAuditConfiguration() = iot("PATCH", "/audit/configuration")
 UpdateAccountAuditConfiguration(args) = iot("PATCH", "/audit/configuration", args)
+UpdateAccountAuditConfiguration(a...; b...) = UpdateAccountAuditConfiguration(a..., b)
 
 """
     UpdateAuthorizer()
@@ -2837,7 +3166,9 @@ Optional Parameters
   "tokenSigningPublicKeys": "The public keys used to verify the token signature."
 }
 """
-UpdateAuthorizer(args) = iot("PUT", "/authorizer/{authorizerName}", args)
+UpdateAuthorizer(authorizerName) = iot("PUT", "/authorizer/$(authorizerName)")
+UpdateAuthorizer(authorizerName, args) = iot("PUT", "/authorizer/$(authorizerName)", args)
+UpdateAuthorizer(a...; b...) = UpdateAuthorizer(a..., b)
 
 """
     UpdateBillingGroup()
@@ -2855,7 +3186,9 @@ Optional Parameters
   "expectedVersion": "The expected version of the billing group. If the version of the billing group does not match the expected version specified in the request, the UpdateBillingGroup request is rejected with a VersionConflictException."
 }
 """
-UpdateBillingGroup(args) = iot("PATCH", "/billing-groups/{billingGroupName}", args)
+UpdateBillingGroup(billingGroupName, billingGroupProperties) = iot("PATCH", "/billing-groups/$(billingGroupName)")
+UpdateBillingGroup(billingGroupName, billingGroupProperties, args) = iot("PATCH", "/billing-groups/$(billingGroupName)", args)
+UpdateBillingGroup(a...; b...) = UpdateBillingGroup(a..., b)
 
 """
     UpdateCACertificate()
@@ -2875,7 +3208,9 @@ Optional Parameters
   "removeAutoRegistration": "If true, removes auto registration."
 }
 """
-UpdateCACertificate(args) = iot("PUT", "/cacertificate/{caCertificateId}", args)
+UpdateCACertificate(certificateId) = iot("PUT", "/cacertificate/$(caCertificateId)")
+UpdateCACertificate(certificateId, args) = iot("PUT", "/cacertificate/$(caCertificateId)", args)
+UpdateCACertificate(a...; b...) = UpdateCACertificate(a..., b)
 
 """
     UpdateCertificate()
@@ -2888,7 +3223,9 @@ Required Parameters
   "newStatus": "The new status.  Note: Setting the status to PENDING_TRANSFER or PENDING_ACTIVATION will result in an exception being thrown. PENDING_TRANSFER and PENDING_ACTIVATION are statuses used internally by AWS IoT. They are not intended for developer use.  Note: The status value REGISTER_INACTIVE is deprecated and should not be used."
 }
 """
-UpdateCertificate(args) = iot("PUT", "/certificates/{certificateId}", args)
+UpdateCertificate(certificateId, newStatus) = iot("PUT", "/certificates/$(certificateId)")
+UpdateCertificate(certificateId, newStatus, args) = iot("PUT", "/certificates/$(certificateId)", args)
+UpdateCertificate(a...; b...) = UpdateCertificate(a..., b)
 
 """
     UpdateDimension()
@@ -2901,7 +3238,9 @@ Required Parameters
   "stringValues": "Specifies the value or list of values for the dimension. For TOPIC_FILTER dimensions, this is a pattern used to match the MQTT topic (for example, \"admin/#\")."
 }
 """
-UpdateDimension(args) = iot("PATCH", "/dimensions/{name}", args)
+UpdateDimension(name, stringValues) = iot("PATCH", "/dimensions/$(name)")
+UpdateDimension(name, stringValues, args) = iot("PATCH", "/dimensions/$(name)", args)
+UpdateDimension(a...; b...) = UpdateDimension(a..., b)
 
 """
     UpdateDomainConfiguration()
@@ -2920,7 +3259,9 @@ Optional Parameters
   "removeAuthorizerConfig": "Removes the authorization configuration from a domain."
 }
 """
-UpdateDomainConfiguration(args) = iot("PUT", "/domainConfigurations/{domainConfigurationName}", args)
+UpdateDomainConfiguration(domainConfigurationName) = iot("PUT", "/domainConfigurations/$(domainConfigurationName)")
+UpdateDomainConfiguration(domainConfigurationName, args) = iot("PUT", "/domainConfigurations/$(domainConfigurationName)", args)
+UpdateDomainConfiguration(a...; b...) = UpdateDomainConfiguration(a..., b)
 
 """
     UpdateDynamicThingGroup()
@@ -2941,7 +3282,9 @@ Optional Parameters
   "queryVersion": "The dynamic thing group query version to update.  Currently one query version is supported: \"2017-09-30\". If not specified, the query version defaults to this value. "
 }
 """
-UpdateDynamicThingGroup(args) = iot("PATCH", "/dynamic-thing-groups/{thingGroupName}", args)
+UpdateDynamicThingGroup(thingGroupName, thingGroupProperties) = iot("PATCH", "/dynamic-thing-groups/$(thingGroupName)")
+UpdateDynamicThingGroup(thingGroupName, thingGroupProperties, args) = iot("PATCH", "/dynamic-thing-groups/$(thingGroupName)", args)
+UpdateDynamicThingGroup(a...; b...) = UpdateDynamicThingGroup(a..., b)
 
 """
     UpdateEventConfigurations()
@@ -2955,6 +3298,7 @@ Optional Parameters
 """
 UpdateEventConfigurations() = iot("PATCH", "/event-configurations")
 UpdateEventConfigurations(args) = iot("PATCH", "/event-configurations", args)
+UpdateEventConfigurations(a...; b...) = UpdateEventConfigurations(a..., b)
 
 """
     UpdateIndexingConfiguration()
@@ -2969,6 +3313,7 @@ Optional Parameters
 """
 UpdateIndexingConfiguration() = iot("POST", "/indexing/config")
 UpdateIndexingConfiguration(args) = iot("POST", "/indexing/config", args)
+UpdateIndexingConfiguration(a...; b...) = UpdateIndexingConfiguration(a..., b)
 
 """
     UpdateJob()
@@ -2989,7 +3334,9 @@ Optional Parameters
   "timeoutConfig": "Specifies the amount of time each device has to finish its execution of the job. The timer is started when the job execution status is set to IN_PROGRESS. If the job execution status is not set to another terminal state before the time expires, it will be automatically set to TIMED_OUT. "
 }
 """
-UpdateJob(args) = iot("PATCH", "/jobs/{jobId}", args)
+UpdateJob(jobId) = iot("PATCH", "/jobs/$(jobId)")
+UpdateJob(jobId, args) = iot("PATCH", "/jobs/$(jobId)", args)
+UpdateJob(a...; b...) = UpdateJob(a..., b)
 
 """
     UpdateMitigationAction()
@@ -3007,7 +3354,9 @@ Optional Parameters
   "roleArn": "The ARN of the IAM role that is used to apply the mitigation action."
 }
 """
-UpdateMitigationAction(args) = iot("PATCH", "/mitigationactions/actions/{actionName}", args)
+UpdateMitigationAction(actionName) = iot("PATCH", "/mitigationactions/actions/$(actionName)")
+UpdateMitigationAction(actionName, args) = iot("PATCH", "/mitigationactions/actions/$(actionName)", args)
+UpdateMitigationAction(a...; b...) = UpdateMitigationAction(a..., b)
 
 """
     UpdateProvisioningTemplate()
@@ -3029,7 +3378,9 @@ Optional Parameters
   "removePreProvisioningHook": "Removes pre-provisioning hook template."
 }
 """
-UpdateProvisioningTemplate(args) = iot("PATCH", "/provisioning-templates/{templateName}", args)
+UpdateProvisioningTemplate(templateName) = iot("PATCH", "/provisioning-templates/$(templateName)")
+UpdateProvisioningTemplate(templateName, args) = iot("PATCH", "/provisioning-templates/$(templateName)", args)
+UpdateProvisioningTemplate(a...; b...) = UpdateProvisioningTemplate(a..., b)
 
 """
     UpdateRoleAlias()
@@ -3047,7 +3398,9 @@ Optional Parameters
   "roleArn": "The role ARN."
 }
 """
-UpdateRoleAlias(args) = iot("PUT", "/role-aliases/{roleAlias}", args)
+UpdateRoleAlias(roleAlias) = iot("PUT", "/role-aliases/$(roleAlias)")
+UpdateRoleAlias(roleAlias, args) = iot("PUT", "/role-aliases/$(roleAlias)", args)
+UpdateRoleAlias(a...; b...) = UpdateRoleAlias(a..., b)
 
 """
     UpdateScheduledAudit()
@@ -3067,7 +3420,9 @@ Optional Parameters
   "targetCheckNames": "Which checks are performed during the scheduled audit. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAuditConfiguration to select which checks are enabled.)"
 }
 """
-UpdateScheduledAudit(args) = iot("PATCH", "/audit/scheduledaudits/{scheduledAuditName}", args)
+UpdateScheduledAudit(scheduledAuditName) = iot("PATCH", "/audit/scheduledaudits/$(scheduledAuditName)")
+UpdateScheduledAudit(scheduledAuditName, args) = iot("PATCH", "/audit/scheduledaudits/$(scheduledAuditName)", args)
+UpdateScheduledAudit(a...; b...) = UpdateScheduledAudit(a..., b)
 
 """
     UpdateSecurityProfile()
@@ -3092,7 +3447,9 @@ Optional Parameters
   "securityProfileDescription": "A description of the security profile."
 }
 """
-UpdateSecurityProfile(args) = iot("PATCH", "/security-profiles/{securityProfileName}", args)
+UpdateSecurityProfile(securityProfileName) = iot("PATCH", "/security-profiles/$(securityProfileName)")
+UpdateSecurityProfile(securityProfileName, args) = iot("PATCH", "/security-profiles/$(securityProfileName)", args)
+UpdateSecurityProfile(a...; b...) = UpdateSecurityProfile(a..., b)
 
 """
     UpdateStream()
@@ -3111,7 +3468,9 @@ Optional Parameters
   "roleArn": "An IAM role that allows the IoT service principal assumes to access your S3 files."
 }
 """
-UpdateStream(args) = iot("PUT", "/streams/{streamId}", args)
+UpdateStream(streamId) = iot("PUT", "/streams/$(streamId)")
+UpdateStream(streamId, args) = iot("PUT", "/streams/$(streamId)", args)
+UpdateStream(a...; b...) = UpdateStream(a..., b)
 
 """
     UpdateThing()
@@ -3131,7 +3490,9 @@ Optional Parameters
   "thingTypeName": "The name of the thing type."
 }
 """
-UpdateThing(args) = iot("PATCH", "/things/{thingName}", args)
+UpdateThing(thingName) = iot("PATCH", "/things/$(thingName)")
+UpdateThing(thingName, args) = iot("PATCH", "/things/$(thingName)", args)
+UpdateThing(a...; b...) = UpdateThing(a..., b)
 
 """
     UpdateThingGroup()
@@ -3149,7 +3510,9 @@ Optional Parameters
   "expectedVersion": "The expected version of the thing group. If this does not match the version of the thing group being updated, the update will fail."
 }
 """
-UpdateThingGroup(args) = iot("PATCH", "/thing-groups/{thingGroupName}", args)
+UpdateThingGroup(thingGroupName, thingGroupProperties) = iot("PATCH", "/thing-groups/$(thingGroupName)")
+UpdateThingGroup(thingGroupName, thingGroupProperties, args) = iot("PATCH", "/thing-groups/$(thingGroupName)", args)
+UpdateThingGroup(a...; b...) = UpdateThingGroup(a..., b)
 
 """
     UpdateThingGroupsForThing()
@@ -3166,6 +3529,7 @@ Optional Parameters
 """
 UpdateThingGroupsForThing() = iot("PUT", "/thing-groups/updateThingGroupsForThing")
 UpdateThingGroupsForThing(args) = iot("PUT", "/thing-groups/updateThingGroupsForThing", args)
+UpdateThingGroupsForThing(a...; b...) = UpdateThingGroupsForThing(a..., b)
 
 """
     UpdateTopicRuleDestination()
@@ -3178,7 +3542,9 @@ Required Parameters
   "status": "The status of the topic rule destination. Valid values are:  IN_PROGRESS  A topic rule destination was created but has not been confirmed. You can set status to IN_PROGRESS by calling UpdateTopicRuleDestination. Calling UpdateTopicRuleDestination causes a new confirmation challenge to be sent to your confirmation endpoint.  ENABLED  Confirmation was completed, and traffic to this destination is allowed. You can set status to DISABLED by calling UpdateTopicRuleDestination.  DISABLED  Confirmation was completed, and traffic to this destination is not allowed. You can set status to ENABLED by calling UpdateTopicRuleDestination.  ERROR  Confirmation could not be completed, for example if the confirmation timed out. You can call GetTopicRuleDestination for details about the error. You can set status to IN_PROGRESS by calling UpdateTopicRuleDestination. Calling UpdateTopicRuleDestination causes a new confirmation challenge to be sent to your confirmation endpoint.  "
 }
 """
-UpdateTopicRuleDestination(args) = iot("PATCH", "/destinations", args)
+UpdateTopicRuleDestination(arn, status) = iot("PATCH", "/destinations")
+UpdateTopicRuleDestination(arn, status, args) = iot("PATCH", "/destinations", args)
+UpdateTopicRuleDestination(a...; b...) = UpdateTopicRuleDestination(a..., b)
 
 """
     ValidateSecurityProfileBehaviors()
@@ -3190,4 +3556,6 @@ Required Parameters
   "behaviors": "Specifies the behaviors that, when violated by a device (thing), cause an alert."
 }
 """
-ValidateSecurityProfileBehaviors(args) = iot("POST", "/security-profile-behaviors/validate", args)
+ValidateSecurityProfileBehaviors(behaviors) = iot("POST", "/security-profile-behaviors/validate")
+ValidateSecurityProfileBehaviors(behaviors, args) = iot("POST", "/security-profile-behaviors/validate", args)
+ValidateSecurityProfileBehaviors(a...; b...) = ValidateSecurityProfileBehaviors(a..., b)

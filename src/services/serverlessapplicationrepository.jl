@@ -30,7 +30,9 @@ Optional Parameters
   "TemplateUrl": "A link to the S3 object containing the packaged AWS SAM template of your application.You can specify only one of templateBody and templateUrl; otherwise an error results."
 }
 """
-CreateApplication(args) = serverlessapplicationrepository("POST", "/applications", args)
+CreateApplication(Author, Description, Name) = serverlessapplicationrepository("POST", "/applications")
+CreateApplication(Author, Description, Name, args) = serverlessapplicationrepository("POST", "/applications", args)
+CreateApplication(a...; b...) = CreateApplication(a..., b)
 
 """
     CreateApplicationVersion()
@@ -51,7 +53,9 @@ Optional Parameters
   "TemplateUrl": "A link to the packaged AWS SAM template of your application."
 }
 """
-CreateApplicationVersion(args) = serverlessapplicationrepository("PUT", "/applications/{applicationId}/versions/{semanticVersion}", args)
+CreateApplicationVersion(ApplicationId, SemanticVersion) = serverlessapplicationrepository("PUT", "/applications/$(applicationId)/versions/$(semanticVersion)")
+CreateApplicationVersion(ApplicationId, SemanticVersion, args) = serverlessapplicationrepository("PUT", "/applications/$(applicationId)/versions/$(semanticVersion)", args)
+CreateApplicationVersion(a...; b...) = CreateApplicationVersion(a..., b)
 
 """
     CreateCloudFormationChangeSet()
@@ -79,7 +83,9 @@ Optional Parameters
   "TemplateId": "The UUID returned by CreateCloudFormationTemplate.Pattern: [0-9a-fA-F]{8} -[0-9a-fA-F]{4} -[0-9a-fA-F]{4} -[0-9a-fA-F]{4} -[0-9a-fA-F]{12}"
 }
 """
-CreateCloudFormationChangeSet(args) = serverlessapplicationrepository("POST", "/applications/{applicationId}/changesets", args)
+CreateCloudFormationChangeSet(ApplicationId, StackName) = serverlessapplicationrepository("POST", "/applications/$(applicationId)/changesets")
+CreateCloudFormationChangeSet(ApplicationId, StackName, args) = serverlessapplicationrepository("POST", "/applications/$(applicationId)/changesets", args)
+CreateCloudFormationChangeSet(a...; b...) = CreateCloudFormationChangeSet(a..., b)
 
 """
     CreateCloudFormationTemplate()
@@ -96,7 +102,9 @@ Optional Parameters
   "SemanticVersion": "The semantic version of the application:\n https://semver.org/\n "
 }
 """
-CreateCloudFormationTemplate(args) = serverlessapplicationrepository("POST", "/applications/{applicationId}/templates", args)
+CreateCloudFormationTemplate(ApplicationId) = serverlessapplicationrepository("POST", "/applications/$(applicationId)/templates")
+CreateCloudFormationTemplate(ApplicationId, args) = serverlessapplicationrepository("POST", "/applications/$(applicationId)/templates", args)
+CreateCloudFormationTemplate(a...; b...) = CreateCloudFormationTemplate(a..., b)
 
 """
     DeleteApplication()
@@ -108,7 +116,9 @@ Required Parameters
   "ApplicationId": "The Amazon Resource Name (ARN) of the application."
 }
 """
-DeleteApplication(args) = serverlessapplicationrepository("DELETE", "/applications/{applicationId}", args)
+DeleteApplication(ApplicationId) = serverlessapplicationrepository("DELETE", "/applications/$(applicationId)")
+DeleteApplication(ApplicationId, args) = serverlessapplicationrepository("DELETE", "/applications/$(applicationId)", args)
+DeleteApplication(a...; b...) = DeleteApplication(a..., b)
 
 """
     GetApplication()
@@ -125,7 +135,9 @@ Optional Parameters
   "SemanticVersion": "The semantic version of the application to get."
 }
 """
-GetApplication(args) = serverlessapplicationrepository("GET", "/applications/{applicationId}", args)
+GetApplication(ApplicationId) = serverlessapplicationrepository("GET", "/applications/$(applicationId)")
+GetApplication(ApplicationId, args) = serverlessapplicationrepository("GET", "/applications/$(applicationId)", args)
+GetApplication(a...; b...) = GetApplication(a..., b)
 
 """
     GetApplicationPolicy()
@@ -137,7 +149,9 @@ Required Parameters
   "ApplicationId": "The Amazon Resource Name (ARN) of the application."
 }
 """
-GetApplicationPolicy(args) = serverlessapplicationrepository("GET", "/applications/{applicationId}/policy", args)
+GetApplicationPolicy(ApplicationId) = serverlessapplicationrepository("GET", "/applications/$(applicationId)/policy")
+GetApplicationPolicy(ApplicationId, args) = serverlessapplicationrepository("GET", "/applications/$(applicationId)/policy", args)
+GetApplicationPolicy(a...; b...) = GetApplicationPolicy(a..., b)
 
 """
     GetCloudFormationTemplate()
@@ -150,7 +164,9 @@ Required Parameters
   "TemplateId": "The UUID returned by CreateCloudFormationTemplate.Pattern: [0-9a-fA-F]{8} -[0-9a-fA-F]{4} -[0-9a-fA-F]{4} -[0-9a-fA-F]{4} -[0-9a-fA-F]{12}"
 }
 """
-GetCloudFormationTemplate(args) = serverlessapplicationrepository("GET", "/applications/{applicationId}/templates/{templateId}", args)
+GetCloudFormationTemplate(ApplicationId, TemplateId) = serverlessapplicationrepository("GET", "/applications/$(applicationId)/templates/$(templateId)")
+GetCloudFormationTemplate(ApplicationId, TemplateId, args) = serverlessapplicationrepository("GET", "/applications/$(applicationId)/templates/$(templateId)", args)
+GetCloudFormationTemplate(a...; b...) = GetCloudFormationTemplate(a..., b)
 
 """
     ListApplicationDependencies()
@@ -169,7 +185,9 @@ Optional Parameters
   "SemanticVersion": "The semantic version of the application to get."
 }
 """
-ListApplicationDependencies(args) = serverlessapplicationrepository("GET", "/applications/{applicationId}/dependencies", args)
+ListApplicationDependencies(ApplicationId) = serverlessapplicationrepository("GET", "/applications/$(applicationId)/dependencies")
+ListApplicationDependencies(ApplicationId, args) = serverlessapplicationrepository("GET", "/applications/$(applicationId)/dependencies", args)
+ListApplicationDependencies(a...; b...) = ListApplicationDependencies(a..., b)
 
 """
     ListApplicationVersions()
@@ -187,7 +205,9 @@ Optional Parameters
   "NextToken": "A token to specify where to start paginating."
 }
 """
-ListApplicationVersions(args) = serverlessapplicationrepository("GET", "/applications/{applicationId}/versions", args)
+ListApplicationVersions(ApplicationId) = serverlessapplicationrepository("GET", "/applications/$(applicationId)/versions")
+ListApplicationVersions(ApplicationId, args) = serverlessapplicationrepository("GET", "/applications/$(applicationId)/versions", args)
+ListApplicationVersions(a...; b...) = ListApplicationVersions(a..., b)
 
 """
     ListApplications()
@@ -202,6 +222,7 @@ Optional Parameters
 """
 ListApplications() = serverlessapplicationrepository("GET", "/applications")
 ListApplications(args) = serverlessapplicationrepository("GET", "/applications", args)
+ListApplications(a...; b...) = ListApplications(a..., b)
 
 """
     PutApplicationPolicy()
@@ -217,7 +238,9 @@ Required Parameters
   "Statements": "An array of policy statements applied to the application."
 }
 """
-PutApplicationPolicy(args) = serverlessapplicationrepository("PUT", "/applications/{applicationId}/policy", args)
+PutApplicationPolicy(ApplicationId, Statements) = serverlessapplicationrepository("PUT", "/applications/$(applicationId)/policy")
+PutApplicationPolicy(ApplicationId, Statements, args) = serverlessapplicationrepository("PUT", "/applications/$(applicationId)/policy", args)
+PutApplicationPolicy(a...; b...) = PutApplicationPolicy(a..., b)
 
 """
     UnshareApplication()
@@ -230,7 +253,9 @@ Required Parameters
   "OrganizationId": "The AWS Organization ID to unshare the application from."
 }
 """
-UnshareApplication(args) = serverlessapplicationrepository("POST", "/applications/{applicationId}/unshare", args)
+UnshareApplication(ApplicationId, OrganizationId) = serverlessapplicationrepository("POST", "/applications/$(applicationId)/unshare")
+UnshareApplication(ApplicationId, OrganizationId, args) = serverlessapplicationrepository("POST", "/applications/$(applicationId)/unshare", args)
+UnshareApplication(a...; b...) = UnshareApplication(a..., b)
 
 """
     UpdateApplication()
@@ -252,4 +277,6 @@ Optional Parameters
   "ReadmeUrl": "A link to the readme file in Markdown language that contains a more detailed description of the application and how it works.Maximum size 5 MB"
 }
 """
-UpdateApplication(args) = serverlessapplicationrepository("PATCH", "/applications/{applicationId}", args)
+UpdateApplication(ApplicationId) = serverlessapplicationrepository("PATCH", "/applications/$(applicationId)")
+UpdateApplication(ApplicationId, args) = serverlessapplicationrepository("PATCH", "/applications/$(applicationId)", args)
+UpdateApplication(a...; b...) = UpdateApplication(a..., b)

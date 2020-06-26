@@ -12,7 +12,9 @@ Required Parameters
   "Name": "The name of the lexicon to delete. Must be an existing lexicon in the region."
 }
 """
-DeleteLexicon(args) = polly("DELETE", "/v1/lexicons/{LexiconName}", args)
+DeleteLexicon(Name) = polly("DELETE", "/v1/lexicons/$(LexiconName)")
+DeleteLexicon(Name, args) = polly("DELETE", "/v1/lexicons/$(LexiconName)", args)
+DeleteLexicon(a...; b...) = DeleteLexicon(a..., b)
 
 """
     DescribeVoices()
@@ -29,6 +31,7 @@ Optional Parameters
 """
 DescribeVoices() = polly("GET", "/v1/voices")
 DescribeVoices(args) = polly("GET", "/v1/voices", args)
+DescribeVoices(a...; b...) = DescribeVoices(a..., b)
 
 """
     GetLexicon()
@@ -40,7 +43,9 @@ Required Parameters
   "Name": "Name of the lexicon."
 }
 """
-GetLexicon(args) = polly("GET", "/v1/lexicons/{LexiconName}", args)
+GetLexicon(Name) = polly("GET", "/v1/lexicons/$(LexiconName)")
+GetLexicon(Name, args) = polly("GET", "/v1/lexicons/$(LexiconName)", args)
+GetLexicon(a...; b...) = GetLexicon(a..., b)
 
 """
     GetSpeechSynthesisTask()
@@ -52,7 +57,9 @@ Required Parameters
   "TaskId": "The Amazon Polly generated identifier for a speech synthesis task."
 }
 """
-GetSpeechSynthesisTask(args) = polly("GET", "/v1/synthesisTasks/{TaskId}", args)
+GetSpeechSynthesisTask(TaskId) = polly("GET", "/v1/synthesisTasks/$(TaskId)")
+GetSpeechSynthesisTask(TaskId, args) = polly("GET", "/v1/synthesisTasks/$(TaskId)", args)
+GetSpeechSynthesisTask(a...; b...) = GetSpeechSynthesisTask(a..., b)
 
 """
     ListLexicons()
@@ -66,6 +73,7 @@ Optional Parameters
 """
 ListLexicons() = polly("GET", "/v1/lexicons")
 ListLexicons(args) = polly("GET", "/v1/lexicons", args)
+ListLexicons(a...; b...) = ListLexicons(a..., b)
 
 """
     ListSpeechSynthesisTasks()
@@ -81,6 +89,7 @@ Optional Parameters
 """
 ListSpeechSynthesisTasks() = polly("GET", "/v1/synthesisTasks")
 ListSpeechSynthesisTasks(args) = polly("GET", "/v1/synthesisTasks", args)
+ListSpeechSynthesisTasks(a...; b...) = ListSpeechSynthesisTasks(a..., b)
 
 """
     PutLexicon()
@@ -93,7 +102,9 @@ Required Parameters
   "Name": "Name of the lexicon. The name must follow the regular express format [0-9A-Za-z]{1,20}. That is, the name is a case-sensitive alphanumeric string up to 20 characters long. "
 }
 """
-PutLexicon(args) = polly("PUT", "/v1/lexicons/{LexiconName}", args)
+PutLexicon(Content, Name) = polly("PUT", "/v1/lexicons/$(LexiconName)")
+PutLexicon(Content, Name, args) = polly("PUT", "/v1/lexicons/$(LexiconName)", args)
+PutLexicon(a...; b...) = PutLexicon(a..., b)
 
 """
     StartSpeechSynthesisTask()
@@ -120,7 +131,9 @@ Optional Parameters
   "TextType": "Specifies whether the input text is plain text or SSML. The default value is plain text. "
 }
 """
-StartSpeechSynthesisTask(args) = polly("POST", "/v1/synthesisTasks", args)
+StartSpeechSynthesisTask(OutputFormat, OutputS3BucketName, Text, VoiceId) = polly("POST", "/v1/synthesisTasks")
+StartSpeechSynthesisTask(OutputFormat, OutputS3BucketName, Text, VoiceId, args) = polly("POST", "/v1/synthesisTasks", args)
+StartSpeechSynthesisTask(a...; b...) = StartSpeechSynthesisTask(a..., b)
 
 """
     SynthesizeSpeech()
@@ -144,4 +157,6 @@ Optional Parameters
   "TextType": " Specifies whether the input text is plain text or SSML. The default value is plain text. For more information, see Using SSML."
 }
 """
-SynthesizeSpeech(args) = polly("POST", "/v1/speech", args)
+SynthesizeSpeech(OutputFormat, Text, VoiceId) = polly("POST", "/v1/speech")
+SynthesizeSpeech(OutputFormat, Text, VoiceId, args) = polly("POST", "/v1/speech", args)
+SynthesizeSpeech(a...; b...) = SynthesizeSpeech(a..., b)

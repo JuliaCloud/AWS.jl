@@ -30,6 +30,7 @@ Optional Parameters
 """
 CreateBroker() = mq("POST", "/v1/brokers")
 CreateBroker(args) = mq("POST", "/v1/brokers", args)
+CreateBroker(a...; b...) = CreateBroker(a..., b)
 
 """
     CreateConfiguration()
@@ -46,6 +47,7 @@ Optional Parameters
 """
 CreateConfiguration() = mq("POST", "/v1/configurations")
 CreateConfiguration(args) = mq("POST", "/v1/configurations", args)
+CreateConfiguration(a...; b...) = CreateConfiguration(a..., b)
 
 """
     CreateTags()
@@ -62,7 +64,9 @@ Optional Parameters
   "Tags": "The key-value pair for the resource tag."
 }
 """
-CreateTags(args) = mq("POST", "/v1/tags/{resource-arn}", args)
+CreateTags(ResourceArn) = mq("POST", "/v1/tags/$(resource-arn)")
+CreateTags(ResourceArn, args) = mq("POST", "/v1/tags/$(resource-arn)", args)
+CreateTags(a...; b...) = CreateTags(a..., b)
 
 """
     CreateUser()
@@ -82,7 +86,9 @@ Optional Parameters
   "Password": "Required. The password of the user. This value must be at least 12 characters long, must contain at least 4 unique characters, and must not contain commas."
 }
 """
-CreateUser(args) = mq("POST", "/v1/brokers/{broker-id}/users/{username}", args)
+CreateUser(BrokerId, Username) = mq("POST", "/v1/brokers/$(broker-id)/users/$(username)")
+CreateUser(BrokerId, Username, args) = mq("POST", "/v1/brokers/$(broker-id)/users/$(username)", args)
+CreateUser(a...; b...) = CreateUser(a..., b)
 
 """
     DeleteBroker()
@@ -94,7 +100,9 @@ Required Parameters
   "BrokerId": "The name of the broker. This value must be unique in your AWS account, 1-50 characters long, must contain only letters, numbers, dashes, and underscores, and must not contain whitespaces, brackets, wildcard characters, or special characters."
 }
 """
-DeleteBroker(args) = mq("DELETE", "/v1/brokers/{broker-id}", args)
+DeleteBroker(BrokerId) = mq("DELETE", "/v1/brokers/$(broker-id)")
+DeleteBroker(BrokerId, args) = mq("DELETE", "/v1/brokers/$(broker-id)", args)
+DeleteBroker(a...; b...) = DeleteBroker(a..., b)
 
 """
     DeleteTags()
@@ -107,7 +115,9 @@ Required Parameters
   "TagKeys": "An array of tag keys to delete"
 }
 """
-DeleteTags(args) = mq("DELETE", "/v1/tags/{resource-arn}", args)
+DeleteTags(ResourceArn, TagKeys) = mq("DELETE", "/v1/tags/$(resource-arn)")
+DeleteTags(ResourceArn, TagKeys, args) = mq("DELETE", "/v1/tags/$(resource-arn)", args)
+DeleteTags(a...; b...) = DeleteTags(a..., b)
 
 """
     DeleteUser()
@@ -120,7 +130,9 @@ Required Parameters
   "Username": "The username of the ActiveMQ user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long."
 }
 """
-DeleteUser(args) = mq("DELETE", "/v1/brokers/{broker-id}/users/{username}", args)
+DeleteUser(BrokerId, Username) = mq("DELETE", "/v1/brokers/$(broker-id)/users/$(username)")
+DeleteUser(BrokerId, Username, args) = mq("DELETE", "/v1/brokers/$(broker-id)/users/$(username)", args)
+DeleteUser(a...; b...) = DeleteUser(a..., b)
 
 """
     DescribeBroker()
@@ -132,7 +144,9 @@ Required Parameters
   "BrokerId": "The name of the broker. This value must be unique in your AWS account, 1-50 characters long, must contain only letters, numbers, dashes, and underscores, and must not contain whitespaces, brackets, wildcard characters, or special characters."
 }
 """
-DescribeBroker(args) = mq("GET", "/v1/brokers/{broker-id}", args)
+DescribeBroker(BrokerId) = mq("GET", "/v1/brokers/$(broker-id)")
+DescribeBroker(BrokerId, args) = mq("GET", "/v1/brokers/$(broker-id)", args)
+DescribeBroker(a...; b...) = DescribeBroker(a..., b)
 
 """
     DescribeBrokerEngineTypes()
@@ -148,6 +162,7 @@ Optional Parameters
 """
 DescribeBrokerEngineTypes() = mq("GET", "/v1/broker-engine-types")
 DescribeBrokerEngineTypes(args) = mq("GET", "/v1/broker-engine-types", args)
+DescribeBrokerEngineTypes(a...; b...) = DescribeBrokerEngineTypes(a..., b)
 
 """
     DescribeBrokerInstanceOptions()
@@ -165,6 +180,7 @@ Optional Parameters
 """
 DescribeBrokerInstanceOptions() = mq("GET", "/v1/broker-instance-options")
 DescribeBrokerInstanceOptions(args) = mq("GET", "/v1/broker-instance-options", args)
+DescribeBrokerInstanceOptions(a...; b...) = DescribeBrokerInstanceOptions(a..., b)
 
 """
     DescribeConfiguration()
@@ -176,7 +192,9 @@ Required Parameters
   "ConfigurationId": "The unique ID that Amazon MQ generates for the configuration."
 }
 """
-DescribeConfiguration(args) = mq("GET", "/v1/configurations/{configuration-id}", args)
+DescribeConfiguration(ConfigurationId) = mq("GET", "/v1/configurations/$(configuration-id)")
+DescribeConfiguration(ConfigurationId, args) = mq("GET", "/v1/configurations/$(configuration-id)", args)
+DescribeConfiguration(a...; b...) = DescribeConfiguration(a..., b)
 
 """
     DescribeConfigurationRevision()
@@ -189,7 +207,9 @@ Required Parameters
   "ConfigurationRevision": "The revision of the configuration."
 }
 """
-DescribeConfigurationRevision(args) = mq("GET", "/v1/configurations/{configuration-id}/revisions/{configuration-revision}", args)
+DescribeConfigurationRevision(ConfigurationId, ConfigurationRevision) = mq("GET", "/v1/configurations/$(configuration-id)/revisions/$(configuration-revision)")
+DescribeConfigurationRevision(ConfigurationId, ConfigurationRevision, args) = mq("GET", "/v1/configurations/$(configuration-id)/revisions/$(configuration-revision)", args)
+DescribeConfigurationRevision(a...; b...) = DescribeConfigurationRevision(a..., b)
 
 """
     DescribeUser()
@@ -202,7 +222,9 @@ Required Parameters
   "Username": "The username of the ActiveMQ user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long."
 }
 """
-DescribeUser(args) = mq("GET", "/v1/brokers/{broker-id}/users/{username}", args)
+DescribeUser(BrokerId, Username) = mq("GET", "/v1/brokers/$(broker-id)/users/$(username)")
+DescribeUser(BrokerId, Username, args) = mq("GET", "/v1/brokers/$(broker-id)/users/$(username)", args)
+DescribeUser(a...; b...) = DescribeUser(a..., b)
 
 """
     ListBrokers()
@@ -217,6 +239,7 @@ Optional Parameters
 """
 ListBrokers() = mq("GET", "/v1/brokers")
 ListBrokers(args) = mq("GET", "/v1/brokers", args)
+ListBrokers(a...; b...) = ListBrokers(a..., b)
 
 """
     ListConfigurationRevisions()
@@ -234,7 +257,9 @@ Optional Parameters
   "NextToken": "The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty."
 }
 """
-ListConfigurationRevisions(args) = mq("GET", "/v1/configurations/{configuration-id}/revisions", args)
+ListConfigurationRevisions(ConfigurationId) = mq("GET", "/v1/configurations/$(configuration-id)/revisions")
+ListConfigurationRevisions(ConfigurationId, args) = mq("GET", "/v1/configurations/$(configuration-id)/revisions", args)
+ListConfigurationRevisions(a...; b...) = ListConfigurationRevisions(a..., b)
 
 """
     ListConfigurations()
@@ -249,6 +274,7 @@ Optional Parameters
 """
 ListConfigurations() = mq("GET", "/v1/configurations")
 ListConfigurations(args) = mq("GET", "/v1/configurations", args)
+ListConfigurations(a...; b...) = ListConfigurations(a..., b)
 
 """
     ListTags()
@@ -260,7 +286,9 @@ Required Parameters
   "ResourceArn": "The Amazon Resource Name (ARN) of the resource tag."
 }
 """
-ListTags(args) = mq("GET", "/v1/tags/{resource-arn}", args)
+ListTags(ResourceArn) = mq("GET", "/v1/tags/$(resource-arn)")
+ListTags(ResourceArn, args) = mq("GET", "/v1/tags/$(resource-arn)", args)
+ListTags(a...; b...) = ListTags(a..., b)
 
 """
     ListUsers()
@@ -278,7 +306,9 @@ Optional Parameters
   "NextToken": "The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty."
 }
 """
-ListUsers(args) = mq("GET", "/v1/brokers/{broker-id}/users", args)
+ListUsers(BrokerId) = mq("GET", "/v1/brokers/$(broker-id)/users")
+ListUsers(BrokerId, args) = mq("GET", "/v1/brokers/$(broker-id)/users", args)
+ListUsers(a...; b...) = ListUsers(a..., b)
 
 """
     RebootBroker()
@@ -290,7 +320,9 @@ Required Parameters
   "BrokerId": "The unique ID that Amazon MQ generates for the broker."
 }
 """
-RebootBroker(args) = mq("POST", "/v1/brokers/{broker-id}/reboot", args)
+RebootBroker(BrokerId) = mq("POST", "/v1/brokers/$(broker-id)/reboot")
+RebootBroker(BrokerId, args) = mq("POST", "/v1/brokers/$(broker-id)/reboot", args)
+RebootBroker(a...; b...) = RebootBroker(a..., b)
 
 """
     UpdateBroker()
@@ -312,7 +344,9 @@ Optional Parameters
   "SecurityGroups": "The list of security groups (1 minimum, 5 maximum) that authorizes connections to brokers."
 }
 """
-UpdateBroker(args) = mq("PUT", "/v1/brokers/{broker-id}", args)
+UpdateBroker(BrokerId) = mq("PUT", "/v1/brokers/$(broker-id)")
+UpdateBroker(BrokerId, args) = mq("PUT", "/v1/brokers/$(broker-id)", args)
+UpdateBroker(a...; b...) = UpdateBroker(a..., b)
 
 """
     UpdateConfiguration()
@@ -330,7 +364,9 @@ Optional Parameters
   "Description": "The description of the configuration."
 }
 """
-UpdateConfiguration(args) = mq("PUT", "/v1/configurations/{configuration-id}", args)
+UpdateConfiguration(ConfigurationId) = mq("PUT", "/v1/configurations/$(configuration-id)")
+UpdateConfiguration(ConfigurationId, args) = mq("PUT", "/v1/configurations/$(configuration-id)", args)
+UpdateConfiguration(a...; b...) = UpdateConfiguration(a..., b)
 
 """
     UpdateUser()
@@ -350,4 +386,6 @@ Optional Parameters
   "Password": "The password of the user. This value must be at least 12 characters long, must contain at least 4 unique characters, and must not contain commas."
 }
 """
-UpdateUser(args) = mq("PUT", "/v1/brokers/{broker-id}/users/{username}", args)
+UpdateUser(BrokerId, Username) = mq("PUT", "/v1/brokers/$(broker-id)/users/$(username)")
+UpdateUser(BrokerId, Username, args) = mq("PUT", "/v1/brokers/$(broker-id)/users/$(username)", args)
+UpdateUser(a...; b...) = UpdateUser(a..., b)

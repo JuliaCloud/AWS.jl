@@ -20,8 +20,8 @@ Optional Parameters
   "VpcConfiguration": "If you include this field, Amazon S3 restricts access to this access point to requests from the specified virtual private cloud (VPC)."
 }
 """
-CreateAccessPoint(AccountId, Bucket, Name) = s3_control("PUT", "/v20180820/accesspoint/{name}")
-CreateAccessPoint(AccountId, Bucket, Name, args) = s3_control("PUT", "/v20180820/accesspoint/{name}", args)
+CreateAccessPoint(AccountId, Bucket, Name) = s3_control("PUT", "/v20180820/accesspoint/$(name)")
+CreateAccessPoint(AccountId, Bucket, Name, args) = s3_control("PUT", "/v20180820/accesspoint/$(name)", args)
 CreateAccessPoint(a...; b...) = CreateAccessPoint(a..., b)
 
 """
@@ -62,8 +62,8 @@ Required Parameters
   "Name": "The name of the access point you want to delete."
 }
 """
-DeleteAccessPoint(AccountId, Name) = s3_control("DELETE", "/v20180820/accesspoint/{name}")
-DeleteAccessPoint(AccountId, Name, args) = s3_control("DELETE", "/v20180820/accesspoint/{name}", args)
+DeleteAccessPoint(AccountId, Name) = s3_control("DELETE", "/v20180820/accesspoint/$(name)")
+DeleteAccessPoint(AccountId, Name, args) = s3_control("DELETE", "/v20180820/accesspoint/$(name)", args)
 DeleteAccessPoint(a...; b...) = DeleteAccessPoint(a..., b)
 
 """
@@ -77,8 +77,8 @@ Required Parameters
   "Name": "The name of the access point whose policy you want to delete."
 }
 """
-DeleteAccessPointPolicy(AccountId, Name) = s3_control("DELETE", "/v20180820/accesspoint/{name}/policy")
-DeleteAccessPointPolicy(AccountId, Name, args) = s3_control("DELETE", "/v20180820/accesspoint/{name}/policy", args)
+DeleteAccessPointPolicy(AccountId, Name) = s3_control("DELETE", "/v20180820/accesspoint/$(name)/policy")
+DeleteAccessPointPolicy(AccountId, Name, args) = s3_control("DELETE", "/v20180820/accesspoint/$(name)/policy", args)
 DeleteAccessPointPolicy(a...; b...) = DeleteAccessPointPolicy(a..., b)
 
 """
@@ -92,8 +92,8 @@ Required Parameters
   "JobId": "The ID for the Amazon S3 Batch Operations job whose tags you want to delete."
 }
 """
-DeleteJobTagging(AccountId, JobId) = s3_control("DELETE", "/v20180820/jobs/{id}/tagging")
-DeleteJobTagging(AccountId, JobId, args) = s3_control("DELETE", "/v20180820/jobs/{id}/tagging", args)
+DeleteJobTagging(AccountId, JobId) = s3_control("DELETE", "/v20180820/jobs/$(id)/tagging")
+DeleteJobTagging(AccountId, JobId, args) = s3_control("DELETE", "/v20180820/jobs/$(id)/tagging", args)
 DeleteJobTagging(a...; b...) = DeleteJobTagging(a..., b)
 
 """
@@ -121,8 +121,8 @@ Required Parameters
   "JobId": "The ID for the job whose information you want to retrieve."
 }
 """
-DescribeJob(AccountId, JobId) = s3_control("GET", "/v20180820/jobs/{id}")
-DescribeJob(AccountId, JobId, args) = s3_control("GET", "/v20180820/jobs/{id}", args)
+DescribeJob(AccountId, JobId) = s3_control("GET", "/v20180820/jobs/$(id)")
+DescribeJob(AccountId, JobId, args) = s3_control("GET", "/v20180820/jobs/$(id)", args)
 DescribeJob(a...; b...) = DescribeJob(a..., b)
 
 """
@@ -136,8 +136,8 @@ Required Parameters
   "Name": "The name of the access point whose configuration information you want to retrieve."
 }
 """
-GetAccessPoint(AccountId, Name) = s3_control("GET", "/v20180820/accesspoint/{name}")
-GetAccessPoint(AccountId, Name, args) = s3_control("GET", "/v20180820/accesspoint/{name}", args)
+GetAccessPoint(AccountId, Name) = s3_control("GET", "/v20180820/accesspoint/$(name)")
+GetAccessPoint(AccountId, Name, args) = s3_control("GET", "/v20180820/accesspoint/$(name)", args)
 GetAccessPoint(a...; b...) = GetAccessPoint(a..., b)
 
 """
@@ -151,8 +151,8 @@ Required Parameters
   "Name": "The name of the access point whose policy you want to retrieve."
 }
 """
-GetAccessPointPolicy(AccountId, Name) = s3_control("GET", "/v20180820/accesspoint/{name}/policy")
-GetAccessPointPolicy(AccountId, Name, args) = s3_control("GET", "/v20180820/accesspoint/{name}/policy", args)
+GetAccessPointPolicy(AccountId, Name) = s3_control("GET", "/v20180820/accesspoint/$(name)/policy")
+GetAccessPointPolicy(AccountId, Name, args) = s3_control("GET", "/v20180820/accesspoint/$(name)/policy", args)
 GetAccessPointPolicy(a...; b...) = GetAccessPointPolicy(a..., b)
 
 """
@@ -166,8 +166,8 @@ Required Parameters
   "Name": "The name of the access point whose policy status you want to retrieve."
 }
 """
-GetAccessPointPolicyStatus(AccountId, Name) = s3_control("GET", "/v20180820/accesspoint/{name}/policyStatus")
-GetAccessPointPolicyStatus(AccountId, Name, args) = s3_control("GET", "/v20180820/accesspoint/{name}/policyStatus", args)
+GetAccessPointPolicyStatus(AccountId, Name) = s3_control("GET", "/v20180820/accesspoint/$(name)/policyStatus")
+GetAccessPointPolicyStatus(AccountId, Name, args) = s3_control("GET", "/v20180820/accesspoint/$(name)/policyStatus", args)
 GetAccessPointPolicyStatus(a...; b...) = GetAccessPointPolicyStatus(a..., b)
 
 """
@@ -181,8 +181,8 @@ Required Parameters
   "JobId": "The ID for the Amazon S3 Batch Operations job whose tags you want to retrieve."
 }
 """
-GetJobTagging(AccountId, JobId) = s3_control("GET", "/v20180820/jobs/{id}/tagging")
-GetJobTagging(AccountId, JobId, args) = s3_control("GET", "/v20180820/jobs/{id}/tagging", args)
+GetJobTagging(AccountId, JobId) = s3_control("GET", "/v20180820/jobs/$(id)/tagging")
+GetJobTagging(AccountId, JobId, args) = s3_control("GET", "/v20180820/jobs/$(id)/tagging", args)
 GetJobTagging(a...; b...) = GetJobTagging(a..., b)
 
 """
@@ -253,8 +253,8 @@ Required Parameters
   "Policy": "The policy that you want to apply to the specified access point. For more information about access point policies, see Managing Data Access with Amazon S3 Access Points in the Amazon Simple Storage Service Developer Guide."
 }
 """
-PutAccessPointPolicy(AccountId, Name, Policy) = s3_control("PUT", "/v20180820/accesspoint/{name}/policy")
-PutAccessPointPolicy(AccountId, Name, Policy, args) = s3_control("PUT", "/v20180820/accesspoint/{name}/policy", args)
+PutAccessPointPolicy(AccountId, Name, Policy) = s3_control("PUT", "/v20180820/accesspoint/$(name)/policy")
+PutAccessPointPolicy(AccountId, Name, Policy, args) = s3_control("PUT", "/v20180820/accesspoint/$(name)/policy", args)
 PutAccessPointPolicy(a...; b...) = PutAccessPointPolicy(a..., b)
 
 """
@@ -269,8 +269,8 @@ Required Parameters
   "Tags": "The set of tags to associate with the Amazon S3 Batch Operations job."
 }
 """
-PutJobTagging(AccountId, JobId, Tags) = s3_control("PUT", "/v20180820/jobs/{id}/tagging")
-PutJobTagging(AccountId, JobId, Tags, args) = s3_control("PUT", "/v20180820/jobs/{id}/tagging", args)
+PutJobTagging(AccountId, JobId, Tags) = s3_control("PUT", "/v20180820/jobs/$(id)/tagging")
+PutJobTagging(AccountId, JobId, Tags, args) = s3_control("PUT", "/v20180820/jobs/$(id)/tagging", args)
 PutJobTagging(a...; b...) = PutJobTagging(a..., b)
 
 """
@@ -300,8 +300,8 @@ Required Parameters
   "Priority": "The priority you want to assign to this job."
 }
 """
-UpdateJobPriority(AccountId, JobId, Priority) = s3_control("POST", "/v20180820/jobs/{id}/priority")
-UpdateJobPriority(AccountId, JobId, Priority, args) = s3_control("POST", "/v20180820/jobs/{id}/priority", args)
+UpdateJobPriority(AccountId, JobId, Priority) = s3_control("POST", "/v20180820/jobs/$(id)/priority")
+UpdateJobPriority(AccountId, JobId, Priority, args) = s3_control("POST", "/v20180820/jobs/$(id)/priority", args)
 UpdateJobPriority(a...; b...) = UpdateJobPriority(a..., b)
 
 """
@@ -321,6 +321,6 @@ Optional Parameters
   "StatusUpdateReason": "A description of the reason why you want to change the specified job's status. This field can be any string up to the maximum length."
 }
 """
-UpdateJobStatus(AccountId, JobId, RequestedJobStatus) = s3_control("POST", "/v20180820/jobs/{id}/status")
-UpdateJobStatus(AccountId, JobId, RequestedJobStatus, args) = s3_control("POST", "/v20180820/jobs/{id}/status", args)
+UpdateJobStatus(AccountId, JobId, RequestedJobStatus) = s3_control("POST", "/v20180820/jobs/$(id)/status")
+UpdateJobStatus(AccountId, JobId, RequestedJobStatus, args) = s3_control("POST", "/v20180820/jobs/$(id)/status", args)
 UpdateJobStatus(a...; b...) = UpdateJobStatus(a..., b)

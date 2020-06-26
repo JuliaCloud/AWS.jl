@@ -27,7 +27,9 @@ Optional Parameters
   "Version": "A version identifier for the API."
 }
 """
-CreateApi(args) = apigatewayv2("POST", "/v2/apis", args)
+CreateApi(Name, ProtocolType) = apigatewayv2("POST", "/v2/apis")
+CreateApi(Name, ProtocolType, args) = apigatewayv2("POST", "/v2/apis", args)
+CreateApi(a...; b...) = CreateApi(a..., b)
 
 """
     CreateApiMapping()
@@ -46,7 +48,9 @@ Optional Parameters
   "ApiMappingKey": "The API mapping key."
 }
 """
-CreateApiMapping(args) = apigatewayv2("POST", "/v2/domainnames/{domainName}/apimappings", args)
+CreateApiMapping(ApiId, DomainName, Stage) = apigatewayv2("POST", "/v2/domainnames/$(domainName)/apimappings")
+CreateApiMapping(ApiId, DomainName, Stage, args) = apigatewayv2("POST", "/v2/domainnames/$(domainName)/apimappings", args)
+CreateApiMapping(a...; b...) = CreateApiMapping(a..., b)
 
 """
     CreateAuthorizer()
@@ -70,7 +74,9 @@ Optional Parameters
   "JwtConfiguration": "Represents the configuration of a JWT authorizer. Required for the JWT authorizer type. Supported only for HTTP APIs."
 }
 """
-CreateAuthorizer(args) = apigatewayv2("POST", "/v2/apis/{apiId}/authorizers", args)
+CreateAuthorizer(ApiId, AuthorizerType, IdentitySource, Name) = apigatewayv2("POST", "/v2/apis/$(apiId)/authorizers")
+CreateAuthorizer(ApiId, AuthorizerType, IdentitySource, Name, args) = apigatewayv2("POST", "/v2/apis/$(apiId)/authorizers", args)
+CreateAuthorizer(a...; b...) = CreateAuthorizer(a..., b)
 
 """
     CreateDeployment()
@@ -88,7 +94,9 @@ Optional Parameters
   "StageName": "The name of the Stage resource for the Deployment resource to create."
 }
 """
-CreateDeployment(args) = apigatewayv2("POST", "/v2/apis/{apiId}/deployments", args)
+CreateDeployment(ApiId) = apigatewayv2("POST", "/v2/apis/$(apiId)/deployments")
+CreateDeployment(ApiId, args) = apigatewayv2("POST", "/v2/apis/$(apiId)/deployments", args)
+CreateDeployment(a...; b...) = CreateDeployment(a..., b)
 
 """
     CreateDomainName()
@@ -106,7 +114,9 @@ Optional Parameters
   "Tags": "The collection of tags associated with a domain name."
 }
 """
-CreateDomainName(args) = apigatewayv2("POST", "/v2/domainnames", args)
+CreateDomainName(DomainName) = apigatewayv2("POST", "/v2/domainnames")
+CreateDomainName(DomainName, args) = apigatewayv2("POST", "/v2/domainnames", args)
+CreateDomainName(a...; b...) = CreateDomainName(a..., b)
 
 """
     CreateIntegration()
@@ -137,7 +147,9 @@ Optional Parameters
   "TlsConfig": "The TLS configuration for a private integration. If you specify a TLS configuration, private integration traffic uses the HTTPS protocol. Supported only for HTTP APIs."
 }
 """
-CreateIntegration(args) = apigatewayv2("POST", "/v2/apis/{apiId}/integrations", args)
+CreateIntegration(ApiId, IntegrationType) = apigatewayv2("POST", "/v2/apis/$(apiId)/integrations")
+CreateIntegration(ApiId, IntegrationType, args) = apigatewayv2("POST", "/v2/apis/$(apiId)/integrations", args)
+CreateIntegration(a...; b...) = CreateIntegration(a..., b)
 
 """
     CreateIntegrationResponse()
@@ -159,7 +171,9 @@ Optional Parameters
   "TemplateSelectionExpression": "The template selection expression for the integration response. Supported only for WebSocket APIs."
 }
 """
-CreateIntegrationResponse(args) = apigatewayv2("POST", "/v2/apis/{apiId}/integrations/{integrationId}/integrationresponses", args)
+CreateIntegrationResponse(ApiId, IntegrationId, IntegrationResponseKey) = apigatewayv2("POST", "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses")
+CreateIntegrationResponse(ApiId, IntegrationId, IntegrationResponseKey, args) = apigatewayv2("POST", "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses", args)
+CreateIntegrationResponse(a...; b...) = CreateIntegrationResponse(a..., b)
 
 """
     CreateModel()
@@ -179,7 +193,9 @@ Optional Parameters
   "Description": "The description of the model."
 }
 """
-CreateModel(args) = apigatewayv2("POST", "/v2/apis/{apiId}/models", args)
+CreateModel(ApiId, Name, Schema) = apigatewayv2("POST", "/v2/apis/$(apiId)/models")
+CreateModel(ApiId, Name, Schema, args) = apigatewayv2("POST", "/v2/apis/$(apiId)/models", args)
+CreateModel(a...; b...) = CreateModel(a..., b)
 
 """
     CreateRoute()
@@ -206,7 +222,9 @@ Optional Parameters
   "Target": "The target for the route."
 }
 """
-CreateRoute(args) = apigatewayv2("POST", "/v2/apis/{apiId}/routes", args)
+CreateRoute(ApiId, RouteKey) = apigatewayv2("POST", "/v2/apis/$(apiId)/routes")
+CreateRoute(ApiId, RouteKey, args) = apigatewayv2("POST", "/v2/apis/$(apiId)/routes", args)
+CreateRoute(a...; b...) = CreateRoute(a..., b)
 
 """
     CreateRouteResponse()
@@ -227,7 +245,9 @@ Optional Parameters
   "ResponseParameters": "The route response parameters."
 }
 """
-CreateRouteResponse(args) = apigatewayv2("POST", "/v2/apis/{apiId}/routes/{routeId}/routeresponses", args)
+CreateRouteResponse(ApiId, RouteId, RouteResponseKey) = apigatewayv2("POST", "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses")
+CreateRouteResponse(ApiId, RouteId, RouteResponseKey, args) = apigatewayv2("POST", "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses", args)
+CreateRouteResponse(a...; b...) = CreateRouteResponse(a..., b)
 
 """
     CreateStage()
@@ -253,7 +273,9 @@ Optional Parameters
   "Tags": "The collection of tags. Each tag element is associated with a given resource."
 }
 """
-CreateStage(args) = apigatewayv2("POST", "/v2/apis/{apiId}/stages", args)
+CreateStage(ApiId, StageName) = apigatewayv2("POST", "/v2/apis/$(apiId)/stages")
+CreateStage(ApiId, StageName, args) = apigatewayv2("POST", "/v2/apis/$(apiId)/stages", args)
+CreateStage(a...; b...) = CreateStage(a..., b)
 
 """
     CreateVpcLink()
@@ -272,7 +294,9 @@ Optional Parameters
   "Tags": "A list of tags."
 }
 """
-CreateVpcLink(args) = apigatewayv2("POST", "/v2/vpclinks", args)
+CreateVpcLink(Name, SubnetIds) = apigatewayv2("POST", "/v2/vpclinks")
+CreateVpcLink(Name, SubnetIds, args) = apigatewayv2("POST", "/v2/vpclinks", args)
+CreateVpcLink(a...; b...) = CreateVpcLink(a..., b)
 
 """
     DeleteAccessLogSettings()
@@ -285,7 +309,9 @@ Required Parameters
   "StageName": "The stage name. Stage names can only contain alphanumeric characters, hyphens, and underscores. Maximum length is 128 characters."
 }
 """
-DeleteAccessLogSettings(args) = apigatewayv2("DELETE", "/v2/apis/{apiId}/stages/{stageName}/accesslogsettings", args)
+DeleteAccessLogSettings(ApiId, StageName) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/stages/$(stageName)/accesslogsettings")
+DeleteAccessLogSettings(ApiId, StageName, args) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/stages/$(stageName)/accesslogsettings", args)
+DeleteAccessLogSettings(a...; b...) = DeleteAccessLogSettings(a..., b)
 
 """
     DeleteApi()
@@ -297,7 +323,9 @@ Required Parameters
   "ApiId": "The API identifier."
 }
 """
-DeleteApi(args) = apigatewayv2("DELETE", "/v2/apis/{apiId}", args)
+DeleteApi(ApiId) = apigatewayv2("DELETE", "/v2/apis/$(apiId)")
+DeleteApi(ApiId, args) = apigatewayv2("DELETE", "/v2/apis/$(apiId)", args)
+DeleteApi(a...; b...) = DeleteApi(a..., b)
 
 """
     DeleteApiMapping()
@@ -310,7 +338,9 @@ Required Parameters
   "DomainName": "The domain name."
 }
 """
-DeleteApiMapping(args) = apigatewayv2("DELETE", "/v2/domainnames/{domainName}/apimappings/{apiMappingId}", args)
+DeleteApiMapping(ApiMappingId, DomainName) = apigatewayv2("DELETE", "/v2/domainnames/$(domainName)/apimappings/$(apiMappingId)")
+DeleteApiMapping(ApiMappingId, DomainName, args) = apigatewayv2("DELETE", "/v2/domainnames/$(domainName)/apimappings/$(apiMappingId)", args)
+DeleteApiMapping(a...; b...) = DeleteApiMapping(a..., b)
 
 """
     DeleteAuthorizer()
@@ -323,7 +353,9 @@ Required Parameters
   "AuthorizerId": "The authorizer identifier."
 }
 """
-DeleteAuthorizer(args) = apigatewayv2("DELETE", "/v2/apis/{apiId}/authorizers/{authorizerId}", args)
+DeleteAuthorizer(ApiId, AuthorizerId) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/authorizers/$(authorizerId)")
+DeleteAuthorizer(ApiId, AuthorizerId, args) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/authorizers/$(authorizerId)", args)
+DeleteAuthorizer(a...; b...) = DeleteAuthorizer(a..., b)
 
 """
     DeleteCorsConfiguration()
@@ -335,7 +367,9 @@ Required Parameters
   "ApiId": "The API identifier."
 }
 """
-DeleteCorsConfiguration(args) = apigatewayv2("DELETE", "/v2/apis/{apiId}/cors", args)
+DeleteCorsConfiguration(ApiId) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/cors")
+DeleteCorsConfiguration(ApiId, args) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/cors", args)
+DeleteCorsConfiguration(a...; b...) = DeleteCorsConfiguration(a..., b)
 
 """
     DeleteDeployment()
@@ -348,7 +382,9 @@ Required Parameters
   "DeploymentId": "The deployment ID."
 }
 """
-DeleteDeployment(args) = apigatewayv2("DELETE", "/v2/apis/{apiId}/deployments/{deploymentId}", args)
+DeleteDeployment(ApiId, DeploymentId) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/deployments/$(deploymentId)")
+DeleteDeployment(ApiId, DeploymentId, args) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/deployments/$(deploymentId)", args)
+DeleteDeployment(a...; b...) = DeleteDeployment(a..., b)
 
 """
     DeleteDomainName()
@@ -360,7 +396,9 @@ Required Parameters
   "DomainName": "The domain name."
 }
 """
-DeleteDomainName(args) = apigatewayv2("DELETE", "/v2/domainnames/{domainName}", args)
+DeleteDomainName(DomainName) = apigatewayv2("DELETE", "/v2/domainnames/$(domainName)")
+DeleteDomainName(DomainName, args) = apigatewayv2("DELETE", "/v2/domainnames/$(domainName)", args)
+DeleteDomainName(a...; b...) = DeleteDomainName(a..., b)
 
 """
     DeleteIntegration()
@@ -373,7 +411,9 @@ Required Parameters
   "IntegrationId": "The integration ID."
 }
 """
-DeleteIntegration(args) = apigatewayv2("DELETE", "/v2/apis/{apiId}/integrations/{integrationId}", args)
+DeleteIntegration(ApiId, IntegrationId) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/integrations/$(integrationId)")
+DeleteIntegration(ApiId, IntegrationId, args) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/integrations/$(integrationId)", args)
+DeleteIntegration(a...; b...) = DeleteIntegration(a..., b)
 
 """
     DeleteIntegrationResponse()
@@ -387,7 +427,9 @@ Required Parameters
   "IntegrationResponseId": "The integration response ID."
 }
 """
-DeleteIntegrationResponse(args) = apigatewayv2("DELETE", "/v2/apis/{apiId}/integrations/{integrationId}/integrationresponses/{integrationResponseId}", args)
+DeleteIntegrationResponse(ApiId, IntegrationId, IntegrationResponseId) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses/$(integrationResponseId)")
+DeleteIntegrationResponse(ApiId, IntegrationId, IntegrationResponseId, args) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses/$(integrationResponseId)", args)
+DeleteIntegrationResponse(a...; b...) = DeleteIntegrationResponse(a..., b)
 
 """
     DeleteModel()
@@ -400,7 +442,9 @@ Required Parameters
   "ModelId": "The model ID."
 }
 """
-DeleteModel(args) = apigatewayv2("DELETE", "/v2/apis/{apiId}/models/{modelId}", args)
+DeleteModel(ApiId, ModelId) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/models/$(modelId)")
+DeleteModel(ApiId, ModelId, args) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/models/$(modelId)", args)
+DeleteModel(a...; b...) = DeleteModel(a..., b)
 
 """
     DeleteRoute()
@@ -413,7 +457,9 @@ Required Parameters
   "RouteId": "The route ID."
 }
 """
-DeleteRoute(args) = apigatewayv2("DELETE", "/v2/apis/{apiId}/routes/{routeId}", args)
+DeleteRoute(ApiId, RouteId) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/routes/$(routeId)")
+DeleteRoute(ApiId, RouteId, args) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/routes/$(routeId)", args)
+DeleteRoute(a...; b...) = DeleteRoute(a..., b)
 
 """
     DeleteRouteRequestParameter()
@@ -427,7 +473,9 @@ Required Parameters
   "RouteId": "The route ID."
 }
 """
-DeleteRouteRequestParameter(args) = apigatewayv2("DELETE", "/v2/apis/{apiId}/routes/{routeId}/requestparameters/{requestParameterKey}", args)
+DeleteRouteRequestParameter(ApiId, RequestParameterKey, RouteId) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/routes/$(routeId)/requestparameters/$(requestParameterKey)")
+DeleteRouteRequestParameter(ApiId, RequestParameterKey, RouteId, args) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/routes/$(routeId)/requestparameters/$(requestParameterKey)", args)
+DeleteRouteRequestParameter(a...; b...) = DeleteRouteRequestParameter(a..., b)
 
 """
     DeleteRouteResponse()
@@ -441,7 +489,9 @@ Required Parameters
   "RouteResponseId": "The route response ID."
 }
 """
-DeleteRouteResponse(args) = apigatewayv2("DELETE", "/v2/apis/{apiId}/routes/{routeId}/routeresponses/{routeResponseId}", args)
+DeleteRouteResponse(ApiId, RouteId, RouteResponseId) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses/$(routeResponseId)")
+DeleteRouteResponse(ApiId, RouteId, RouteResponseId, args) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses/$(routeResponseId)", args)
+DeleteRouteResponse(a...; b...) = DeleteRouteResponse(a..., b)
 
 """
     DeleteRouteSettings()
@@ -455,7 +505,9 @@ Required Parameters
   "StageName": "The stage name. Stage names can only contain alphanumeric characters, hyphens, and underscores. Maximum length is 128 characters."
 }
 """
-DeleteRouteSettings(args) = apigatewayv2("DELETE", "/v2/apis/{apiId}/stages/{stageName}/routesettings/{routeKey}", args)
+DeleteRouteSettings(ApiId, RouteKey, StageName) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/stages/$(stageName)/routesettings/$(routeKey)")
+DeleteRouteSettings(ApiId, RouteKey, StageName, args) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/stages/$(stageName)/routesettings/$(routeKey)", args)
+DeleteRouteSettings(a...; b...) = DeleteRouteSettings(a..., b)
 
 """
     DeleteStage()
@@ -468,7 +520,9 @@ Required Parameters
   "StageName": "The stage name. Stage names can only contain alphanumeric characters, hyphens, and underscores. Maximum length is 128 characters."
 }
 """
-DeleteStage(args) = apigatewayv2("DELETE", "/v2/apis/{apiId}/stages/{stageName}", args)
+DeleteStage(ApiId, StageName) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/stages/$(stageName)")
+DeleteStage(ApiId, StageName, args) = apigatewayv2("DELETE", "/v2/apis/$(apiId)/stages/$(stageName)", args)
+DeleteStage(a...; b...) = DeleteStage(a..., b)
 
 """
     DeleteVpcLink()
@@ -480,7 +534,9 @@ Required Parameters
   "VpcLinkId": "The ID of the VPC link."
 }
 """
-DeleteVpcLink(args) = apigatewayv2("DELETE", "/v2/vpclinks/{vpcLinkId}", args)
+DeleteVpcLink(VpcLinkId) = apigatewayv2("DELETE", "/v2/vpclinks/$(vpcLinkId)")
+DeleteVpcLink(VpcLinkId, args) = apigatewayv2("DELETE", "/v2/vpclinks/$(vpcLinkId)", args)
+DeleteVpcLink(a...; b...) = DeleteVpcLink(a..., b)
 
 """
     ExportApi()
@@ -501,7 +557,9 @@ Optional Parameters
   "StageName": "The name of the API stage to export. If you don't specify this property, a representation of the latest API configuration is exported."
 }
 """
-ExportApi(args) = apigatewayv2("GET", "/v2/apis/{apiId}/exports/{specification}", args)
+ExportApi(ApiId, OutputType, Specification) = apigatewayv2("GET", "/v2/apis/$(apiId)/exports/$(specification)")
+ExportApi(ApiId, OutputType, Specification, args) = apigatewayv2("GET", "/v2/apis/$(apiId)/exports/$(specification)", args)
+ExportApi(a...; b...) = ExportApi(a..., b)
 
 """
     GetApi()
@@ -513,7 +571,9 @@ Required Parameters
   "ApiId": "The API identifier."
 }
 """
-GetApi(args) = apigatewayv2("GET", "/v2/apis/{apiId}", args)
+GetApi(ApiId) = apigatewayv2("GET", "/v2/apis/$(apiId)")
+GetApi(ApiId, args) = apigatewayv2("GET", "/v2/apis/$(apiId)", args)
+GetApi(a...; b...) = GetApi(a..., b)
 
 """
     GetApiMapping()
@@ -526,7 +586,9 @@ Required Parameters
   "DomainName": "The domain name."
 }
 """
-GetApiMapping(args) = apigatewayv2("GET", "/v2/domainnames/{domainName}/apimappings/{apiMappingId}", args)
+GetApiMapping(ApiMappingId, DomainName) = apigatewayv2("GET", "/v2/domainnames/$(domainName)/apimappings/$(apiMappingId)")
+GetApiMapping(ApiMappingId, DomainName, args) = apigatewayv2("GET", "/v2/domainnames/$(domainName)/apimappings/$(apiMappingId)", args)
+GetApiMapping(a...; b...) = GetApiMapping(a..., b)
 
 """
     GetApiMappings()
@@ -544,7 +606,9 @@ Optional Parameters
   "NextToken": "The next page of elements from this collection. Not valid for the last element of the collection."
 }
 """
-GetApiMappings(args) = apigatewayv2("GET", "/v2/domainnames/{domainName}/apimappings", args)
+GetApiMappings(DomainName) = apigatewayv2("GET", "/v2/domainnames/$(domainName)/apimappings")
+GetApiMappings(DomainName, args) = apigatewayv2("GET", "/v2/domainnames/$(domainName)/apimappings", args)
+GetApiMappings(a...; b...) = GetApiMappings(a..., b)
 
 """
     GetApis()
@@ -559,6 +623,7 @@ Optional Parameters
 """
 GetApis() = apigatewayv2("GET", "/v2/apis")
 GetApis(args) = apigatewayv2("GET", "/v2/apis", args)
+GetApis(a...; b...) = GetApis(a..., b)
 
 """
     GetAuthorizer()
@@ -571,7 +636,9 @@ Required Parameters
   "AuthorizerId": "The authorizer identifier."
 }
 """
-GetAuthorizer(args) = apigatewayv2("GET", "/v2/apis/{apiId}/authorizers/{authorizerId}", args)
+GetAuthorizer(ApiId, AuthorizerId) = apigatewayv2("GET", "/v2/apis/$(apiId)/authorizers/$(authorizerId)")
+GetAuthorizer(ApiId, AuthorizerId, args) = apigatewayv2("GET", "/v2/apis/$(apiId)/authorizers/$(authorizerId)", args)
+GetAuthorizer(a...; b...) = GetAuthorizer(a..., b)
 
 """
     GetAuthorizers()
@@ -589,7 +656,9 @@ Optional Parameters
   "NextToken": "The next page of elements from this collection. Not valid for the last element of the collection."
 }
 """
-GetAuthorizers(args) = apigatewayv2("GET", "/v2/apis/{apiId}/authorizers", args)
+GetAuthorizers(ApiId) = apigatewayv2("GET", "/v2/apis/$(apiId)/authorizers")
+GetAuthorizers(ApiId, args) = apigatewayv2("GET", "/v2/apis/$(apiId)/authorizers", args)
+GetAuthorizers(a...; b...) = GetAuthorizers(a..., b)
 
 """
     GetDeployment()
@@ -602,7 +671,9 @@ Required Parameters
   "DeploymentId": "The deployment ID."
 }
 """
-GetDeployment(args) = apigatewayv2("GET", "/v2/apis/{apiId}/deployments/{deploymentId}", args)
+GetDeployment(ApiId, DeploymentId) = apigatewayv2("GET", "/v2/apis/$(apiId)/deployments/$(deploymentId)")
+GetDeployment(ApiId, DeploymentId, args) = apigatewayv2("GET", "/v2/apis/$(apiId)/deployments/$(deploymentId)", args)
+GetDeployment(a...; b...) = GetDeployment(a..., b)
 
 """
     GetDeployments()
@@ -620,7 +691,9 @@ Optional Parameters
   "NextToken": "The next page of elements from this collection. Not valid for the last element of the collection."
 }
 """
-GetDeployments(args) = apigatewayv2("GET", "/v2/apis/{apiId}/deployments", args)
+GetDeployments(ApiId) = apigatewayv2("GET", "/v2/apis/$(apiId)/deployments")
+GetDeployments(ApiId, args) = apigatewayv2("GET", "/v2/apis/$(apiId)/deployments", args)
+GetDeployments(a...; b...) = GetDeployments(a..., b)
 
 """
     GetDomainName()
@@ -632,7 +705,9 @@ Required Parameters
   "DomainName": "The domain name."
 }
 """
-GetDomainName(args) = apigatewayv2("GET", "/v2/domainnames/{domainName}", args)
+GetDomainName(DomainName) = apigatewayv2("GET", "/v2/domainnames/$(domainName)")
+GetDomainName(DomainName, args) = apigatewayv2("GET", "/v2/domainnames/$(domainName)", args)
+GetDomainName(a...; b...) = GetDomainName(a..., b)
 
 """
     GetDomainNames()
@@ -647,6 +722,7 @@ Optional Parameters
 """
 GetDomainNames() = apigatewayv2("GET", "/v2/domainnames")
 GetDomainNames(args) = apigatewayv2("GET", "/v2/domainnames", args)
+GetDomainNames(a...; b...) = GetDomainNames(a..., b)
 
 """
     GetIntegration()
@@ -659,7 +735,9 @@ Required Parameters
   "IntegrationId": "The integration ID."
 }
 """
-GetIntegration(args) = apigatewayv2("GET", "/v2/apis/{apiId}/integrations/{integrationId}", args)
+GetIntegration(ApiId, IntegrationId) = apigatewayv2("GET", "/v2/apis/$(apiId)/integrations/$(integrationId)")
+GetIntegration(ApiId, IntegrationId, args) = apigatewayv2("GET", "/v2/apis/$(apiId)/integrations/$(integrationId)", args)
+GetIntegration(a...; b...) = GetIntegration(a..., b)
 
 """
     GetIntegrationResponse()
@@ -673,7 +751,9 @@ Required Parameters
   "IntegrationResponseId": "The integration response ID."
 }
 """
-GetIntegrationResponse(args) = apigatewayv2("GET", "/v2/apis/{apiId}/integrations/{integrationId}/integrationresponses/{integrationResponseId}", args)
+GetIntegrationResponse(ApiId, IntegrationId, IntegrationResponseId) = apigatewayv2("GET", "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses/$(integrationResponseId)")
+GetIntegrationResponse(ApiId, IntegrationId, IntegrationResponseId, args) = apigatewayv2("GET", "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses/$(integrationResponseId)", args)
+GetIntegrationResponse(a...; b...) = GetIntegrationResponse(a..., b)
 
 """
     GetIntegrationResponses()
@@ -692,7 +772,9 @@ Optional Parameters
   "NextToken": "The next page of elements from this collection. Not valid for the last element of the collection."
 }
 """
-GetIntegrationResponses(args) = apigatewayv2("GET", "/v2/apis/{apiId}/integrations/{integrationId}/integrationresponses", args)
+GetIntegrationResponses(ApiId, IntegrationId) = apigatewayv2("GET", "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses")
+GetIntegrationResponses(ApiId, IntegrationId, args) = apigatewayv2("GET", "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses", args)
+GetIntegrationResponses(a...; b...) = GetIntegrationResponses(a..., b)
 
 """
     GetIntegrations()
@@ -710,7 +792,9 @@ Optional Parameters
   "NextToken": "The next page of elements from this collection. Not valid for the last element of the collection."
 }
 """
-GetIntegrations(args) = apigatewayv2("GET", "/v2/apis/{apiId}/integrations", args)
+GetIntegrations(ApiId) = apigatewayv2("GET", "/v2/apis/$(apiId)/integrations")
+GetIntegrations(ApiId, args) = apigatewayv2("GET", "/v2/apis/$(apiId)/integrations", args)
+GetIntegrations(a...; b...) = GetIntegrations(a..., b)
 
 """
     GetModel()
@@ -723,7 +807,9 @@ Required Parameters
   "ModelId": "The model ID."
 }
 """
-GetModel(args) = apigatewayv2("GET", "/v2/apis/{apiId}/models/{modelId}", args)
+GetModel(ApiId, ModelId) = apigatewayv2("GET", "/v2/apis/$(apiId)/models/$(modelId)")
+GetModel(ApiId, ModelId, args) = apigatewayv2("GET", "/v2/apis/$(apiId)/models/$(modelId)", args)
+GetModel(a...; b...) = GetModel(a..., b)
 
 """
     GetModelTemplate()
@@ -736,7 +822,9 @@ Required Parameters
   "ModelId": "The model ID."
 }
 """
-GetModelTemplate(args) = apigatewayv2("GET", "/v2/apis/{apiId}/models/{modelId}/template", args)
+GetModelTemplate(ApiId, ModelId) = apigatewayv2("GET", "/v2/apis/$(apiId)/models/$(modelId)/template")
+GetModelTemplate(ApiId, ModelId, args) = apigatewayv2("GET", "/v2/apis/$(apiId)/models/$(modelId)/template", args)
+GetModelTemplate(a...; b...) = GetModelTemplate(a..., b)
 
 """
     GetModels()
@@ -754,7 +842,9 @@ Optional Parameters
   "NextToken": "The next page of elements from this collection. Not valid for the last element of the collection."
 }
 """
-GetModels(args) = apigatewayv2("GET", "/v2/apis/{apiId}/models", args)
+GetModels(ApiId) = apigatewayv2("GET", "/v2/apis/$(apiId)/models")
+GetModels(ApiId, args) = apigatewayv2("GET", "/v2/apis/$(apiId)/models", args)
+GetModels(a...; b...) = GetModels(a..., b)
 
 """
     GetRoute()
@@ -767,7 +857,9 @@ Required Parameters
   "RouteId": "The route ID."
 }
 """
-GetRoute(args) = apigatewayv2("GET", "/v2/apis/{apiId}/routes/{routeId}", args)
+GetRoute(ApiId, RouteId) = apigatewayv2("GET", "/v2/apis/$(apiId)/routes/$(routeId)")
+GetRoute(ApiId, RouteId, args) = apigatewayv2("GET", "/v2/apis/$(apiId)/routes/$(routeId)", args)
+GetRoute(a...; b...) = GetRoute(a..., b)
 
 """
     GetRouteResponse()
@@ -781,7 +873,9 @@ Required Parameters
   "RouteResponseId": "The route response ID."
 }
 """
-GetRouteResponse(args) = apigatewayv2("GET", "/v2/apis/{apiId}/routes/{routeId}/routeresponses/{routeResponseId}", args)
+GetRouteResponse(ApiId, RouteId, RouteResponseId) = apigatewayv2("GET", "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses/$(routeResponseId)")
+GetRouteResponse(ApiId, RouteId, RouteResponseId, args) = apigatewayv2("GET", "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses/$(routeResponseId)", args)
+GetRouteResponse(a...; b...) = GetRouteResponse(a..., b)
 
 """
     GetRouteResponses()
@@ -800,7 +894,9 @@ Optional Parameters
   "NextToken": "The next page of elements from this collection. Not valid for the last element of the collection."
 }
 """
-GetRouteResponses(args) = apigatewayv2("GET", "/v2/apis/{apiId}/routes/{routeId}/routeresponses", args)
+GetRouteResponses(ApiId, RouteId) = apigatewayv2("GET", "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses")
+GetRouteResponses(ApiId, RouteId, args) = apigatewayv2("GET", "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses", args)
+GetRouteResponses(a...; b...) = GetRouteResponses(a..., b)
 
 """
     GetRoutes()
@@ -818,7 +914,9 @@ Optional Parameters
   "NextToken": "The next page of elements from this collection. Not valid for the last element of the collection."
 }
 """
-GetRoutes(args) = apigatewayv2("GET", "/v2/apis/{apiId}/routes", args)
+GetRoutes(ApiId) = apigatewayv2("GET", "/v2/apis/$(apiId)/routes")
+GetRoutes(ApiId, args) = apigatewayv2("GET", "/v2/apis/$(apiId)/routes", args)
+GetRoutes(a...; b...) = GetRoutes(a..., b)
 
 """
     GetStage()
@@ -831,7 +929,9 @@ Required Parameters
   "StageName": "The stage name. Stage names can only contain alphanumeric characters, hyphens, and underscores. Maximum length is 128 characters."
 }
 """
-GetStage(args) = apigatewayv2("GET", "/v2/apis/{apiId}/stages/{stageName}", args)
+GetStage(ApiId, StageName) = apigatewayv2("GET", "/v2/apis/$(apiId)/stages/$(stageName)")
+GetStage(ApiId, StageName, args) = apigatewayv2("GET", "/v2/apis/$(apiId)/stages/$(stageName)", args)
+GetStage(a...; b...) = GetStage(a..., b)
 
 """
     GetStages()
@@ -849,7 +949,9 @@ Optional Parameters
   "NextToken": "The next page of elements from this collection. Not valid for the last element of the collection."
 }
 """
-GetStages(args) = apigatewayv2("GET", "/v2/apis/{apiId}/stages", args)
+GetStages(ApiId) = apigatewayv2("GET", "/v2/apis/$(apiId)/stages")
+GetStages(ApiId, args) = apigatewayv2("GET", "/v2/apis/$(apiId)/stages", args)
+GetStages(a...; b...) = GetStages(a..., b)
 
 """
     GetTags()
@@ -861,7 +963,9 @@ Required Parameters
   "ResourceArn": "The resource ARN for the tag."
 }
 """
-GetTags(args) = apigatewayv2("GET", "/v2/tags/{resource-arn}", args)
+GetTags(ResourceArn) = apigatewayv2("GET", "/v2/tags/$(resource-arn)")
+GetTags(ResourceArn, args) = apigatewayv2("GET", "/v2/tags/$(resource-arn)", args)
+GetTags(a...; b...) = GetTags(a..., b)
 
 """
     GetVpcLink()
@@ -873,7 +977,9 @@ Required Parameters
   "VpcLinkId": "The ID of the VPC link."
 }
 """
-GetVpcLink(args) = apigatewayv2("GET", "/v2/vpclinks/{vpcLinkId}", args)
+GetVpcLink(VpcLinkId) = apigatewayv2("GET", "/v2/vpclinks/$(vpcLinkId)")
+GetVpcLink(VpcLinkId, args) = apigatewayv2("GET", "/v2/vpclinks/$(vpcLinkId)", args)
+GetVpcLink(a...; b...) = GetVpcLink(a..., b)
 
 """
     GetVpcLinks()
@@ -888,6 +994,7 @@ Optional Parameters
 """
 GetVpcLinks() = apigatewayv2("GET", "/v2/vpclinks")
 GetVpcLinks(args) = apigatewayv2("GET", "/v2/vpclinks", args)
+GetVpcLinks(a...; b...) = GetVpcLinks(a..., b)
 
 """
     ImportApi()
@@ -905,7 +1012,9 @@ Optional Parameters
   "FailOnWarnings": "Specifies whether to rollback the API creation when a warning is encountered. By default, API creation continues if a warning is encountered."
 }
 """
-ImportApi(args) = apigatewayv2("PUT", "/v2/apis", args)
+ImportApi(Body) = apigatewayv2("PUT", "/v2/apis")
+ImportApi(Body, args) = apigatewayv2("PUT", "/v2/apis", args)
+ImportApi(a...; b...) = ImportApi(a..., b)
 
 """
     ReimportApi()
@@ -924,7 +1033,9 @@ Optional Parameters
   "FailOnWarnings": "Specifies whether to rollback the API creation when a warning is encountered. By default, API creation continues if a warning is encountered."
 }
 """
-ReimportApi(args) = apigatewayv2("PUT", "/v2/apis/{apiId}", args)
+ReimportApi(ApiId, Body) = apigatewayv2("PUT", "/v2/apis/$(apiId)")
+ReimportApi(ApiId, Body, args) = apigatewayv2("PUT", "/v2/apis/$(apiId)", args)
+ReimportApi(a...; b...) = ReimportApi(a..., b)
 
 """
     TagResource()
@@ -941,7 +1052,9 @@ Optional Parameters
   "Tags": "The collection of tags. Each tag element is associated with a given resource."
 }
 """
-TagResource(args) = apigatewayv2("POST", "/v2/tags/{resource-arn}", args)
+TagResource(ResourceArn) = apigatewayv2("POST", "/v2/tags/$(resource-arn)")
+TagResource(ResourceArn, args) = apigatewayv2("POST", "/v2/tags/$(resource-arn)", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
@@ -954,7 +1067,9 @@ Required Parameters
   "TagKeys": "The Tag keys to delete"
 }
 """
-UntagResource(args) = apigatewayv2("DELETE", "/v2/tags/{resource-arn}", args)
+UntagResource(ResourceArn, TagKeys) = apigatewayv2("DELETE", "/v2/tags/$(resource-arn)")
+UntagResource(ResourceArn, TagKeys, args) = apigatewayv2("DELETE", "/v2/tags/$(resource-arn)", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateApi()
@@ -980,7 +1095,9 @@ Optional Parameters
   "Version": "A version identifier for the API."
 }
 """
-UpdateApi(args) = apigatewayv2("PATCH", "/v2/apis/{apiId}", args)
+UpdateApi(ApiId) = apigatewayv2("PATCH", "/v2/apis/$(apiId)")
+UpdateApi(ApiId, args) = apigatewayv2("PATCH", "/v2/apis/$(apiId)", args)
+UpdateApi(a...; b...) = UpdateApi(a..., b)
 
 """
     UpdateApiMapping()
@@ -1000,7 +1117,9 @@ Optional Parameters
   "Stage": "The API stage."
 }
 """
-UpdateApiMapping(args) = apigatewayv2("PATCH", "/v2/domainnames/{domainName}/apimappings/{apiMappingId}", args)
+UpdateApiMapping(ApiId, ApiMappingId, DomainName) = apigatewayv2("PATCH", "/v2/domainnames/$(domainName)/apimappings/$(apiMappingId)")
+UpdateApiMapping(ApiId, ApiMappingId, DomainName, args) = apigatewayv2("PATCH", "/v2/domainnames/$(domainName)/apimappings/$(apiMappingId)", args)
+UpdateApiMapping(a...; b...) = UpdateApiMapping(a..., b)
 
 """
     UpdateAuthorizer()
@@ -1025,7 +1144,9 @@ Optional Parameters
   "Name": "The name of the authorizer."
 }
 """
-UpdateAuthorizer(args) = apigatewayv2("PATCH", "/v2/apis/{apiId}/authorizers/{authorizerId}", args)
+UpdateAuthorizer(ApiId, AuthorizerId) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/authorizers/$(authorizerId)")
+UpdateAuthorizer(ApiId, AuthorizerId, args) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/authorizers/$(authorizerId)", args)
+UpdateAuthorizer(a...; b...) = UpdateAuthorizer(a..., b)
 
 """
     UpdateDeployment()
@@ -1043,7 +1164,9 @@ Optional Parameters
   "Description": "The description for the deployment resource."
 }
 """
-UpdateDeployment(args) = apigatewayv2("PATCH", "/v2/apis/{apiId}/deployments/{deploymentId}", args)
+UpdateDeployment(ApiId, DeploymentId) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/deployments/$(deploymentId)")
+UpdateDeployment(ApiId, DeploymentId, args) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/deployments/$(deploymentId)", args)
+UpdateDeployment(a...; b...) = UpdateDeployment(a..., b)
 
 """
     UpdateDomainName()
@@ -1060,7 +1183,9 @@ Optional Parameters
   "DomainNameConfigurations": "The domain name configurations."
 }
 """
-UpdateDomainName(args) = apigatewayv2("PATCH", "/v2/domainnames/{domainName}", args)
+UpdateDomainName(DomainName) = apigatewayv2("PATCH", "/v2/domainnames/$(domainName)")
+UpdateDomainName(DomainName, args) = apigatewayv2("PATCH", "/v2/domainnames/$(domainName)", args)
+UpdateDomainName(a...; b...) = UpdateDomainName(a..., b)
 
 """
     UpdateIntegration()
@@ -1092,7 +1217,9 @@ Optional Parameters
   "TlsConfig": "The TLS configuration for a private integration. If you specify a TLS configuration, private integration traffic uses the HTTPS protocol. Supported only for HTTP APIs."
 }
 """
-UpdateIntegration(args) = apigatewayv2("PATCH", "/v2/apis/{apiId}/integrations/{integrationId}", args)
+UpdateIntegration(ApiId, IntegrationId) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/integrations/$(integrationId)")
+UpdateIntegration(ApiId, IntegrationId, args) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/integrations/$(integrationId)", args)
+UpdateIntegration(a...; b...) = UpdateIntegration(a..., b)
 
 """
     UpdateIntegrationResponse()
@@ -1115,7 +1242,9 @@ Optional Parameters
   "TemplateSelectionExpression": "The template selection expression for the integration response. Supported only for WebSocket APIs."
 }
 """
-UpdateIntegrationResponse(args) = apigatewayv2("PATCH", "/v2/apis/{apiId}/integrations/{integrationId}/integrationresponses/{integrationResponseId}", args)
+UpdateIntegrationResponse(ApiId, IntegrationId, IntegrationResponseId) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses/$(integrationResponseId)")
+UpdateIntegrationResponse(ApiId, IntegrationId, IntegrationResponseId, args) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/integrations/$(integrationId)/integrationresponses/$(integrationResponseId)", args)
+UpdateIntegrationResponse(a...; b...) = UpdateIntegrationResponse(a..., b)
 
 """
     UpdateModel()
@@ -1136,7 +1265,9 @@ Optional Parameters
   "Schema": "The schema for the model. For application/json models, this should be JSON schema draft 4 model."
 }
 """
-UpdateModel(args) = apigatewayv2("PATCH", "/v2/apis/{apiId}/models/{modelId}", args)
+UpdateModel(ApiId, ModelId) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/models/$(modelId)")
+UpdateModel(ApiId, ModelId, args) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/models/$(modelId)", args)
+UpdateModel(a...; b...) = UpdateModel(a..., b)
 
 """
     UpdateRoute()
@@ -1164,7 +1295,9 @@ Optional Parameters
   "Target": "The target for the route."
 }
 """
-UpdateRoute(args) = apigatewayv2("PATCH", "/v2/apis/{apiId}/routes/{routeId}", args)
+UpdateRoute(ApiId, RouteId) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/routes/$(routeId)")
+UpdateRoute(ApiId, RouteId, args) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/routes/$(routeId)", args)
+UpdateRoute(a...; b...) = UpdateRoute(a..., b)
 
 """
     UpdateRouteResponse()
@@ -1186,7 +1319,9 @@ Optional Parameters
   "RouteResponseKey": "The route response key."
 }
 """
-UpdateRouteResponse(args) = apigatewayv2("PATCH", "/v2/apis/{apiId}/routes/{routeId}/routeresponses/{routeResponseId}", args)
+UpdateRouteResponse(ApiId, RouteId, RouteResponseId) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses/$(routeResponseId)")
+UpdateRouteResponse(ApiId, RouteId, RouteResponseId, args) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/routes/$(routeId)/routeresponses/$(routeResponseId)", args)
+UpdateRouteResponse(a...; b...) = UpdateRouteResponse(a..., b)
 
 """
     UpdateStage()
@@ -1211,7 +1346,9 @@ Optional Parameters
   "StageVariables": "A map that defines the stage variables for a Stage. Variable names can have alphanumeric and underscore characters, and the values must match [A-Za-z0-9-._~:/?#&amp;=,]+."
 }
 """
-UpdateStage(args) = apigatewayv2("PATCH", "/v2/apis/{apiId}/stages/{stageName}", args)
+UpdateStage(ApiId, StageName) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/stages/$(stageName)")
+UpdateStage(ApiId, StageName, args) = apigatewayv2("PATCH", "/v2/apis/$(apiId)/stages/$(stageName)", args)
+UpdateStage(a...; b...) = UpdateStage(a..., b)
 
 """
     UpdateVpcLink()
@@ -1228,4 +1365,6 @@ Optional Parameters
   "Name": "The name of the VPC link."
 }
 """
-UpdateVpcLink(args) = apigatewayv2("PATCH", "/v2/vpclinks/{vpcLinkId}", args)
+UpdateVpcLink(VpcLinkId) = apigatewayv2("PATCH", "/v2/vpclinks/$(vpcLinkId)")
+UpdateVpcLink(VpcLinkId, args) = apigatewayv2("PATCH", "/v2/vpclinks/$(vpcLinkId)", args)
+UpdateVpcLink(a...; b...) = UpdateVpcLink(a..., b)

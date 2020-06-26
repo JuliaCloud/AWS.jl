@@ -18,7 +18,9 @@ Optional Parameters
   "Tags": ""
 }
 """
-CreateChannel(args) = mediapackage("POST", "/channels", args)
+CreateChannel(Id) = mediapackage("POST", "/channels")
+CreateChannel(Id, args) = mediapackage("POST", "/channels", args)
+CreateChannel(a...; b...) = CreateChannel(a..., b)
 
 """
     CreateHarvestJob()
@@ -34,7 +36,9 @@ Required Parameters
   "StartTime": "The start of the time-window which will be harvested\n"
 }
 """
-CreateHarvestJob(args) = mediapackage("POST", "/harvest_jobs", args)
+CreateHarvestJob(EndTime, Id, OriginEndpointId, S3Destination, StartTime) = mediapackage("POST", "/harvest_jobs")
+CreateHarvestJob(EndTime, Id, OriginEndpointId, S3Destination, StartTime, args) = mediapackage("POST", "/harvest_jobs", args)
+CreateHarvestJob(a...; b...) = CreateHarvestJob(a..., b)
 
 """
     CreateOriginEndpoint()
@@ -63,7 +67,9 @@ Optional Parameters
   "Whitelist": "A list of source IP CIDR blocks that will be allowed to access the OriginEndpoint."
 }
 """
-CreateOriginEndpoint(args) = mediapackage("POST", "/origin_endpoints", args)
+CreateOriginEndpoint(ChannelId, Id) = mediapackage("POST", "/origin_endpoints")
+CreateOriginEndpoint(ChannelId, Id, args) = mediapackage("POST", "/origin_endpoints", args)
+CreateOriginEndpoint(a...; b...) = CreateOriginEndpoint(a..., b)
 
 """
     DeleteChannel()
@@ -75,7 +81,9 @@ Required Parameters
   "Id": "The ID of the Channel to delete."
 }
 """
-DeleteChannel(args) = mediapackage("DELETE", "/channels/{id}", args)
+DeleteChannel(Id) = mediapackage("DELETE", "/channels/$(id)")
+DeleteChannel(Id, args) = mediapackage("DELETE", "/channels/$(id)", args)
+DeleteChannel(a...; b...) = DeleteChannel(a..., b)
 
 """
     DeleteOriginEndpoint()
@@ -87,7 +95,9 @@ Required Parameters
   "Id": "The ID of the OriginEndpoint to delete."
 }
 """
-DeleteOriginEndpoint(args) = mediapackage("DELETE", "/origin_endpoints/{id}", args)
+DeleteOriginEndpoint(Id) = mediapackage("DELETE", "/origin_endpoints/$(id)")
+DeleteOriginEndpoint(Id, args) = mediapackage("DELETE", "/origin_endpoints/$(id)", args)
+DeleteOriginEndpoint(a...; b...) = DeleteOriginEndpoint(a..., b)
 
 """
     DescribeChannel()
@@ -99,7 +109,9 @@ Required Parameters
   "Id": "The ID of a Channel."
 }
 """
-DescribeChannel(args) = mediapackage("GET", "/channels/{id}", args)
+DescribeChannel(Id) = mediapackage("GET", "/channels/$(id)")
+DescribeChannel(Id, args) = mediapackage("GET", "/channels/$(id)", args)
+DescribeChannel(a...; b...) = DescribeChannel(a..., b)
 
 """
     DescribeHarvestJob()
@@ -111,7 +123,9 @@ Required Parameters
   "Id": "The ID of the HarvestJob."
 }
 """
-DescribeHarvestJob(args) = mediapackage("GET", "/harvest_jobs/{id}", args)
+DescribeHarvestJob(Id) = mediapackage("GET", "/harvest_jobs/$(id)")
+DescribeHarvestJob(Id, args) = mediapackage("GET", "/harvest_jobs/$(id)", args)
+DescribeHarvestJob(a...; b...) = DescribeHarvestJob(a..., b)
 
 """
     DescribeOriginEndpoint()
@@ -123,7 +137,9 @@ Required Parameters
   "Id": "The ID of the OriginEndpoint."
 }
 """
-DescribeOriginEndpoint(args) = mediapackage("GET", "/origin_endpoints/{id}", args)
+DescribeOriginEndpoint(Id) = mediapackage("GET", "/origin_endpoints/$(id)")
+DescribeOriginEndpoint(Id, args) = mediapackage("GET", "/origin_endpoints/$(id)", args)
+DescribeOriginEndpoint(a...; b...) = DescribeOriginEndpoint(a..., b)
 
 """
     ListChannels()
@@ -138,6 +154,7 @@ Optional Parameters
 """
 ListChannels() = mediapackage("GET", "/channels")
 ListChannels(args) = mediapackage("GET", "/channels", args)
+ListChannels(a...; b...) = ListChannels(a..., b)
 
 """
     ListHarvestJobs()
@@ -154,6 +171,7 @@ Optional Parameters
 """
 ListHarvestJobs() = mediapackage("GET", "/harvest_jobs")
 ListHarvestJobs(args) = mediapackage("GET", "/harvest_jobs", args)
+ListHarvestJobs(a...; b...) = ListHarvestJobs(a..., b)
 
 """
     ListOriginEndpoints()
@@ -169,6 +187,7 @@ Optional Parameters
 """
 ListOriginEndpoints() = mediapackage("GET", "/origin_endpoints")
 ListOriginEndpoints(args) = mediapackage("GET", "/origin_endpoints", args)
+ListOriginEndpoints(a...; b...) = ListOriginEndpoints(a..., b)
 
 """
     ListTagsForResource()
@@ -180,7 +199,9 @@ Required Parameters
   "ResourceArn": ""
 }
 """
-ListTagsForResource(args) = mediapackage("GET", "/tags/{resource-arn}", args)
+ListTagsForResource(ResourceArn) = mediapackage("GET", "/tags/$(resource-arn)")
+ListTagsForResource(ResourceArn, args) = mediapackage("GET", "/tags/$(resource-arn)", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     RotateChannelCredentials()
@@ -192,7 +213,9 @@ Required Parameters
   "Id": "The ID of the channel to update."
 }
 """
-RotateChannelCredentials(args) = mediapackage("PUT", "/channels/{id}/credentials", args)
+RotateChannelCredentials(Id) = mediapackage("PUT", "/channels/$(id)/credentials")
+RotateChannelCredentials(Id, args) = mediapackage("PUT", "/channels/$(id)/credentials", args)
+RotateChannelCredentials(a...; b...) = RotateChannelCredentials(a..., b)
 
 """
     RotateIngestEndpointCredentials()
@@ -205,7 +228,9 @@ Required Parameters
   "IngestEndpointId": "The id of the IngestEndpoint whose credentials should be rotated"
 }
 """
-RotateIngestEndpointCredentials(args) = mediapackage("PUT", "/channels/{id}/ingest_endpoints/{ingest_endpoint_id}/credentials", args)
+RotateIngestEndpointCredentials(Id, IngestEndpointId) = mediapackage("PUT", "/channels/$(id)/ingest_endpoints/$(ingest_endpoint_id)/credentials")
+RotateIngestEndpointCredentials(Id, IngestEndpointId, args) = mediapackage("PUT", "/channels/$(id)/ingest_endpoints/$(ingest_endpoint_id)/credentials", args)
+RotateIngestEndpointCredentials(a...; b...) = RotateIngestEndpointCredentials(a..., b)
 
 """
     TagResource()
@@ -218,7 +243,9 @@ Required Parameters
   "Tags": ""
 }
 """
-TagResource(args) = mediapackage("POST", "/tags/{resource-arn}", args)
+TagResource(ResourceArn, Tags) = mediapackage("POST", "/tags/$(resource-arn)")
+TagResource(ResourceArn, Tags, args) = mediapackage("POST", "/tags/$(resource-arn)", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
@@ -231,7 +258,9 @@ Required Parameters
   "TagKeys": "The key(s) of tag to be deleted"
 }
 """
-UntagResource(args) = mediapackage("DELETE", "/tags/{resource-arn}", args)
+UntagResource(ResourceArn, TagKeys) = mediapackage("DELETE", "/tags/$(resource-arn)")
+UntagResource(ResourceArn, TagKeys, args) = mediapackage("DELETE", "/tags/$(resource-arn)", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateChannel()
@@ -248,7 +277,9 @@ Optional Parameters
   "Description": "A short text description of the Channel."
 }
 """
-UpdateChannel(args) = mediapackage("PUT", "/channels/{id}", args)
+UpdateChannel(Id) = mediapackage("PUT", "/channels/$(id)")
+UpdateChannel(Id, args) = mediapackage("PUT", "/channels/$(id)", args)
+UpdateChannel(a...; b...) = UpdateChannel(a..., b)
 
 """
     UpdateOriginEndpoint()
@@ -275,4 +306,6 @@ Optional Parameters
   "Whitelist": "A list of source IP CIDR blocks that will be allowed to access the OriginEndpoint."
 }
 """
-UpdateOriginEndpoint(args) = mediapackage("PUT", "/origin_endpoints/{id}", args)
+UpdateOriginEndpoint(Id) = mediapackage("PUT", "/origin_endpoints/$(id)")
+UpdateOriginEndpoint(Id, args) = mediapackage("PUT", "/origin_endpoints/$(id)", args)
+UpdateOriginEndpoint(a...; b...) = UpdateOriginEndpoint(a..., b)

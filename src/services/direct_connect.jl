@@ -332,7 +332,7 @@ CreateLag(args) = direct_connect("CreateLag", args)
 """
     CreatePrivateVirtualInterface()
 
-Creates a private virtual interface. A virtual interface is the VLAN that transports AWS Direct Connect traffic. A private virtual interface can be connected to either a Direct Connect gateway or a Virtual Private Gateway (VGW). Connecting the private virtual interface to a Direct Connect gateway enables the possibility for connecting to multiple VPCs, including VPCs in different AWS Regions. Connecting the private virtual interface to a VGW only provides access to a single VPC within the same Region.
+Creates a private virtual interface. A virtual interface is the VLAN that transports AWS Direct Connect traffic. A private virtual interface can be connected to either a Direct Connect gateway or a Virtual Private Gateway (VGW). Connecting the private virtual interface to a Direct Connect gateway enables the possibility for connecting to multiple VPCs, including VPCs in different AWS Regions. Connecting the private virtual interface to a VGW only provides access to a single VPC within the same Region. Setting the MTU of a virtual interface to 9001 (jumbo frames) can cause an update to the underlying physical connection if it wasn't updated to support jumbo frames. Updating the connection disrupts network connectivity for all virtual interfaces associated with the connection for up to 30 seconds. To check whether your connection supports jumbo frames, call DescribeConnections. To check whether your virtual interface supports jumbo frames, call DescribeVirtualInterfaces.
 
 Required Parameters
 {
@@ -358,7 +358,7 @@ CreatePublicVirtualInterface(args) = direct_connect("CreatePublicVirtualInterfac
 """
     CreateTransitVirtualInterface()
 
-Creates a transit virtual interface. A transit virtual interface should be used to access one or more transit gateways associated with Direct Connect gateways. A transit virtual interface enables the connection of multiple VPCs attached to a transit gateway to a Direct Connect gateway.  If you associate your transit gateway with one or more Direct Connect gateways, the Autonomous System Number (ASN) used by the transit gateway and the Direct Connect gateway must be different. For example, if you use the default ASN 64512 for both your the transit gateway and Direct Connect gateway, the association request fails. 
+Creates a transit virtual interface. A transit virtual interface should be used to access one or more transit gateways associated with Direct Connect gateways. A transit virtual interface enables the connection of multiple VPCs attached to a transit gateway to a Direct Connect gateway.  If you associate your transit gateway with one or more Direct Connect gateways, the Autonomous System Number (ASN) used by the transit gateway and the Direct Connect gateway must be different. For example, if you use the default ASN 64512 for both your the transit gateway and Direct Connect gateway, the association request fails.  Setting the MTU of a virtual interface to 8500 (jumbo frames) can cause an update to the underlying physical connection if it wasn't updated to support jumbo frames. Updating the connection disrupts network connectivity for all virtual interfaces associated with the connection for up to 30 seconds. To check whether your connection supports jumbo frames, call DescribeConnections. To check whether your virtual interface supports jumbo frames, call DescribeVirtualInterfaces.
 
 Required Parameters
 {
@@ -710,6 +710,54 @@ Required Parameters
 DisassociateConnectionFromLag(args) = direct_connect("DisassociateConnectionFromLag", args)
 
 """
+    ListVirtualInterfaceTestHistory()
+
+Lists the virtual interface failover test history.
+
+Optional Parameters
+{
+  "bgpPeers": "The BGP peers that were placed in the DOWN state during the virtual interface failover test.",
+  "maxResults": "The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.",
+  "nextToken": "The token for the next page of results.",
+  "status": "The status of the virtual interface failover test.",
+  "testId": "The ID of the virtual interface failover test.",
+  "virtualInterfaceId": "The ID of the virtual interface that was tested."
+}
+"""
+ListVirtualInterfaceTestHistory() = direct_connect("ListVirtualInterfaceTestHistory")
+ListVirtualInterfaceTestHistory(args) = direct_connect("ListVirtualInterfaceTestHistory", args)
+
+"""
+    StartBgpFailoverTest()
+
+Starts the virtual interface failover test that verifies your configuration meets your resiliency requirements by placing the BGP peering session in the DOWN state. You can then send traffic to verify that there are no outages. You can run the test on public, private, transit, and hosted virtual interfaces. You can use ListVirtualInterfaceTestHistory to view the virtual interface test history. If you need to stop the test before the test interval completes, use StopBgpFailoverTest.
+
+Required Parameters
+{
+  "virtualInterfaceId": "The ID of the virtual interface you want to test."
+}
+
+Optional Parameters
+{
+  "bgpPeers": "The BGP peers to place in the DOWN state.",
+  "testDurationInMinutes": "The time in minutes that the virtual interface failover test will last. Maximum value: 180 minutes (3 hours). Default: 180 minutes (3 hours)."
+}
+"""
+StartBgpFailoverTest(args) = direct_connect("StartBgpFailoverTest", args)
+
+"""
+    StopBgpFailoverTest()
+
+Stops the virtual interface failover test.
+
+Required Parameters
+{
+  "virtualInterfaceId": "The ID of the virtual interface you no longer want to test."
+}
+"""
+StopBgpFailoverTest(args) = direct_connect("StopBgpFailoverTest", args)
+
+"""
     TagResource()
 
 Adds the specified tags to the specified AWS Direct Connect resource. Each resource can have a maximum of 50 tags. Each tag consists of a key and an optional value. If a tag with the same key is already associated with the resource, this action updates its value.
@@ -771,7 +819,7 @@ UpdateLag(args) = direct_connect("UpdateLag", args)
 """
     UpdateVirtualInterfaceAttributes()
 
-Updates the specified attributes of the specified virtual private interface. Setting the MTU of a virtual interface to 9001 (jumbo frames) can cause an update to the underlying physical connection if it wasn't updated to support jumbo frames. Updating the connection disrupts network connectivity for all virtual interfaces associated with the connection for up to 30 seconds. To check whether your connection supports jumbo frames, call DescribeConnections. To check whether your virtual interface supports jumbo frames, call DescribeVirtualInterfaces.
+Updates the specified attributes of the specified virtual private interface. Setting the MTU of a virtual interface to 9001 (jumbo frames) can cause an update to the underlying physical connection if it wasn't updated to support jumbo frames. Updating the connection disrupts network connectivity for all virtual interfaces associated with the connection for up to 30 seconds. To check whether your connection supports jumbo frames, call DescribeConnections. To check whether your virtual q interface supports jumbo frames, call DescribeVirtualInterfaces.
 
 Required Parameters
 {

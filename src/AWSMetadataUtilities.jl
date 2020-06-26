@@ -348,17 +348,12 @@ function _generate_high_level_definition(
                 $name(args) = $service_name(\"$name\", args)
                 """
         end
-    elseif protocol == "rest-json"
+    elseif protocol in ["rest-json", "rest-xml"]
         if !isempty(required_parameters)
-            operation_definition *= "\n$name(args) = $service_name(\"$method\", \"$request_uri\", args)\n"
-        else
-            operation_definition *= """\n
-            $name() = $service_name(\"$method\", \"$request_uri\")
-            $name(args) = $service_name(\"$method\", \"$request_uri\", args)
-            """
-        end
-    elseif protocol == "rest-xml"
-        if !isempty(required_parameters)
+            request_uri = replace(request_uri, '{'=>"\$(")  # Replace { with $(
+            request_uri = replace(request_uri, '}'=>')')  # Replace } with )
+            request_uri = replace(request_uri, '+'=>"")  # Remove + from the request URI
+
             operation_definition *= """\n
             $name($(join(required_param_keys, ", "))) = $service_name(\"$method\", \"$request_uri\")
             $name($(join(required_param_keys, ", ")), args) = $service_name(\"$method\", \"$request_uri\", args)

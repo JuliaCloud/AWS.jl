@@ -49,7 +49,7 @@ Required Parameters
   "JobType": "The type of job for this cluster. Currently, the only job type supported for clusters is LOCAL_USE.",
   "Resources": "The resources associated with the cluster job. These resources include Amazon S3 buckets and optional AWS Lambda functions written in the Python language. ",
   "RoleARN": "The RoleARN that you want to associate with this cluster. RoleArn values are created by using the CreateRole API action in AWS Identity and Access Management (IAM).",
-  "ShippingOption": "The shipping speed for each node in this cluster. This speed doesn't dictate how soon you'll get each Snowball Edge device, rather it represents how quickly each device moves to its destination while in transit. Regional shipping speeds are as follows:   In Australia, you have access to express shipping. Typically, devices shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snowball Edges shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snowball Edges are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.  "
+  "ShippingOption": "The shipping speed for each node in this cluster. This speed doesn't dictate how soon you'll get each Snowball Edge device, rather it represents how quickly each device moves to its destination while in transit. Regional shipping speeds are as follows:    In Australia, you have access to express shipping. Typically, Snowballs shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snowballs shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snowballs are delivered in one to seven days.   In the United States of America (US), you have access to one-day shipping and two-day shipping.     In Australia, you have access to express shipping. Typically, devices shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snowball Edges shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snowball Edges are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.  "
 }
 
 Optional Parameters
@@ -58,7 +58,7 @@ Optional Parameters
   "ForwardingAddressId": "The forwarding address ID for a cluster. This field is not supported in most regions.",
   "KmsKeyARN": "The KmsKeyARN value that you want to associate with this cluster. KmsKeyARN values are created by using the CreateKey API action in AWS Key Management Service (AWS KMS). ",
   "Notification": "The Amazon Simple Notification Service (Amazon SNS) notification settings for this cluster.",
-  "SnowballType": "The type of AWS Snowball device to use for this cluster. Currently, the only supported device type for cluster jobs is EDGE. For more information, see Snowball Edge Device Options in the Snowball Edge Developer Guide.",
+  "SnowballType": "The type of AWS Snowball device to use for this cluster.   For cluster jobs, AWS Snowball currently supports only the EDGE device type. ",
   "TaxDocuments": "The tax documents required in your AWS Region."
 }
 """
@@ -74,6 +74,7 @@ Optional Parameters
   "AddressId": "The ID for the address that you want the Snowball shipped to.",
   "ClusterId": "The ID of a cluster. If you're creating a job for a node in a cluster, you need to provide only this clusterId value. The other job attributes are inherited from the cluster.",
   "Description": "Defines an optional description of this specific job, for example Important Photos 2016-08-11.",
+  "DeviceConfiguration": "Defines the device configuration for an AWS Snowcone job.",
   "ForwardingAddressId": "The forwarding address ID for a job. This field is not supported in most regions.",
   "JobType": "Defines the type of job that you're creating. ",
   "KmsKeyARN": "The KmsKeyARN that you want to associate with this job. KmsKeyARNs are created using the CreateKey AWS Key Management Service (KMS) API action.",
@@ -82,7 +83,7 @@ Optional Parameters
   "RoleARN": "The RoleARN that you want to associate with this job. RoleArns are created using the CreateRole AWS Identity and Access Management (IAM) API action.",
   "ShippingOption": "The shipping speed for this job. This speed doesn't dictate how soon you'll get the Snowball, rather it represents how quickly the Snowball moves to its destination while in transit. Regional shipping speeds are as follows:   In Australia, you have access to express shipping. Typically, Snowballs shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snowballs shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snowballs are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.  ",
   "SnowballCapacityPreference": "If your job is being created in one of the US regions, you have the option of specifying what size Snowball you'd like for this job. In all other regions, Snowballs come with 80 TB in storage capacity.",
-  "SnowballType": "The type of AWS Snowball device to use for this job. Currently, the only supported device type for cluster jobs is EDGE. For more information, see Snowball Edge Device Options in the Snowball Edge Developer Guide.",
+  "SnowballType": "The type of AWS Snowball device to use for this job.   For cluster jobs, AWS Snowball currently supports only the EDGE device type.  The type of AWS Snowball device to use for this job. Currently, the only supported device type for cluster jobs is EDGE. For more information, see Snowball Edge Device Options in the Snowball Edge Developer Guide.",
   "TaxDocuments": "The tax documents required in your AWS Region."
 }
 """

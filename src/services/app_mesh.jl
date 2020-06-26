@@ -24,7 +24,9 @@ Optional Parameters
   "tags": "Optional metadata that you can apply to the service mesh to assist with categorization\n         and organization. Each tag consists of a key and an optional value, both of which you\n         define. Tag keys can have a maximum character length of 128 characters, and tag values can have\n            a maximum length of 256 characters."
 }
 """
-CreateMesh(args) = app_mesh("PUT", "/v20190125/meshes", args)
+CreateMesh(meshName) = app_mesh("PUT", "/v20190125/meshes")
+CreateMesh(meshName, args) = app_mesh("PUT", "/v20190125/meshes", args)
+CreateMesh(a...; b...) = CreateMesh(a..., b)
 
 """
     CreateRoute()
@@ -45,11 +47,13 @@ Required Parameters
 Optional Parameters
 {
   "clientToken": "Unique, case-sensitive identifier that you provide to ensure the idempotency of the\nrequest. Up to 36 letters, numbers, hyphens, and underscores are allowed.",
-  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then\n               the account that you specify must share the mesh with your account before you can create \n             the resource in the service mesh. For more information about mesh sharing, see Working with Shared Meshes.",
+  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then\n               the account that you specify must share the mesh with your account before you can create \n             the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.",
   "tags": "Optional metadata that you can apply to the route to assist with categorization and\n         organization. Each tag consists of a key and an optional value, both of which you define.\n         Tag keys can have a maximum character length of 128 characters, and tag values can have\n            a maximum length of 256 characters."
 }
 """
-CreateRoute(args) = app_mesh("PUT", "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes", args)
+CreateRoute(meshName, routeName, spec, virtualRouterName) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes")
+CreateRoute(meshName, routeName, spec, virtualRouterName, args) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes", args)
+CreateRoute(a...; b...) = CreateRoute(a..., b)
 
 """
     CreateVirtualNode()
@@ -86,11 +90,13 @@ Required Parameters
 Optional Parameters
 {
   "clientToken": "Unique, case-sensitive identifier that you provide to ensure the idempotency of the\nrequest. Up to 36 letters, numbers, hyphens, and underscores are allowed.",
-  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then\n               the account that you specify must share the mesh with your account before you can create \n             the resource in the service mesh. For more information about mesh sharing, see Working with Shared Meshes.",
+  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then\n               the account that you specify must share the mesh with your account before you can create \n             the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.",
   "tags": "Optional metadata that you can apply to the virtual node to assist with categorization\n         and organization. Each tag consists of a key and an optional value, both of which you\n         define. Tag keys can have a maximum character length of 128 characters, and tag values can have\n            a maximum length of 256 characters."
 }
 """
-CreateVirtualNode(args) = app_mesh("PUT", "/v20190125/meshes/{meshName}/virtualNodes", args)
+CreateVirtualNode(meshName, spec, virtualNodeName) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualNodes")
+CreateVirtualNode(meshName, spec, virtualNodeName, args) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualNodes", args)
+CreateVirtualNode(a...; b...) = CreateVirtualNode(a..., b)
 
 """
     CreateVirtualRouter()
@@ -113,11 +119,13 @@ Required Parameters
 Optional Parameters
 {
   "clientToken": "Unique, case-sensitive identifier that you provide to ensure the idempotency of the\nrequest. Up to 36 letters, numbers, hyphens, and underscores are allowed.",
-  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then\n               the account that you specify must share the mesh with your account before you can create \n             the resource in the service mesh. For more information about mesh sharing, see Working with Shared Meshes.",
+  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then\n               the account that you specify must share the mesh with your account before you can create \n             the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.",
   "tags": "Optional metadata that you can apply to the virtual router to assist with categorization\n         and organization. Each tag consists of a key and an optional value, both of which you\n         define. Tag keys can have a maximum character length of 128 characters, and tag values can have\n            a maximum length of 256 characters."
 }
 """
-CreateVirtualRouter(args) = app_mesh("PUT", "/v20190125/meshes/{meshName}/virtualRouters", args)
+CreateVirtualRouter(meshName, spec, virtualRouterName) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualRouters")
+CreateVirtualRouter(meshName, spec, virtualRouterName, args) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualRouters", args)
+CreateVirtualRouter(a...; b...) = CreateVirtualRouter(a..., b)
 
 """
     CreateVirtualService()
@@ -140,11 +148,13 @@ Required Parameters
 Optional Parameters
 {
   "clientToken": "Unique, case-sensitive identifier that you provide to ensure the idempotency of the\nrequest. Up to 36 letters, numbers, hyphens, and underscores are allowed.",
-  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then\n               the account that you specify must share the mesh with your account before you can create \n             the resource in the service mesh. For more information about mesh sharing, see Working with Shared Meshes.",
+  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then\n               the account that you specify must share the mesh with your account before you can create \n             the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.",
   "tags": "Optional metadata that you can apply to the virtual service to assist with\n         categorization and organization. Each tag consists of a key and an optional value, both of\n         which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have\n            a maximum length of 256 characters."
 }
 """
-CreateVirtualService(args) = app_mesh("PUT", "/v20190125/meshes/{meshName}/virtualServices", args)
+CreateVirtualService(meshName, spec, virtualServiceName) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualServices")
+CreateVirtualService(meshName, spec, virtualServiceName, args) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualServices", args)
+CreateVirtualService(a...; b...) = CreateVirtualService(a..., b)
 
 """
     DeleteMesh()
@@ -158,7 +168,9 @@ Required Parameters
   "meshName": "The name of the service mesh to delete."
 }
 """
-DeleteMesh(args) = app_mesh("DELETE", "/v20190125/meshes/{meshName}", args)
+DeleteMesh(meshName) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)")
+DeleteMesh(meshName, args) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)", args)
+DeleteMesh(a...; b...) = DeleteMesh(a..., b)
 
 """
     DeleteRoute()
@@ -174,10 +186,12 @@ Required Parameters
 
 Optional Parameters
 {
-  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's\n               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes."
+  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's\n               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes."
 }
 """
-DeleteRoute(args) = app_mesh("DELETE", "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes/{routeName}", args)
+DeleteRoute(meshName, routeName, virtualRouterName) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes/$(routeName)")
+DeleteRoute(meshName, routeName, virtualRouterName, args) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes/$(routeName)", args)
+DeleteRoute(a...; b...) = DeleteRoute(a..., b)
 
 """
     DeleteVirtualNode()
@@ -194,10 +208,12 @@ Required Parameters
 
 Optional Parameters
 {
-  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's\n               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes."
+  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's\n               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes."
 }
 """
-DeleteVirtualNode(args) = app_mesh("DELETE", "/v20190125/meshes/{meshName}/virtualNodes/{virtualNodeName}", args)
+DeleteVirtualNode(meshName, virtualNodeName) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualNodes/$(virtualNodeName)")
+DeleteVirtualNode(meshName, virtualNodeName, args) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualNodes/$(virtualNodeName)", args)
+DeleteVirtualNode(a...; b...) = DeleteVirtualNode(a..., b)
 
 """
     DeleteVirtualRouter()
@@ -214,10 +230,12 @@ Required Parameters
 
 Optional Parameters
 {
-  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's\n               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes."
+  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's\n               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes."
 }
 """
-DeleteVirtualRouter(args) = app_mesh("DELETE", "/v20190125/meshes/{meshName}/virtualRouters/{virtualRouterName}", args)
+DeleteVirtualRouter(meshName, virtualRouterName) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualRouters/$(virtualRouterName)")
+DeleteVirtualRouter(meshName, virtualRouterName, args) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualRouters/$(virtualRouterName)", args)
+DeleteVirtualRouter(a...; b...) = DeleteVirtualRouter(a..., b)
 
 """
     DeleteVirtualService()
@@ -232,10 +250,12 @@ Required Parameters
 
 Optional Parameters
 {
-  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's\n               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes."
+  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's\n               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes."
 }
 """
-DeleteVirtualService(args) = app_mesh("DELETE", "/v20190125/meshes/{meshName}/virtualServices/{virtualServiceName}", args)
+DeleteVirtualService(meshName, virtualServiceName) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualServices/$(virtualServiceName)")
+DeleteVirtualService(meshName, virtualServiceName, args) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualServices/$(virtualServiceName)", args)
+DeleteVirtualService(a...; b...) = DeleteVirtualService(a..., b)
 
 """
     DescribeMesh()
@@ -249,10 +269,12 @@ Required Parameters
 
 Optional Parameters
 {
-  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's\n               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes."
+  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's\n               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes."
 }
 """
-DescribeMesh(args) = app_mesh("GET", "/v20190125/meshes/{meshName}", args)
+DescribeMesh(meshName) = app_mesh("GET", "/v20190125/meshes/$(meshName)")
+DescribeMesh(meshName, args) = app_mesh("GET", "/v20190125/meshes/$(meshName)", args)
+DescribeMesh(a...; b...) = DescribeMesh(a..., b)
 
 """
     DescribeRoute()
@@ -268,10 +290,12 @@ Required Parameters
 
 Optional Parameters
 {
-  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's\n               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes."
+  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's\n               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes."
 }
 """
-DescribeRoute(args) = app_mesh("GET", "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes/{routeName}", args)
+DescribeRoute(meshName, routeName, virtualRouterName) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes/$(routeName)")
+DescribeRoute(meshName, routeName, virtualRouterName, args) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes/$(routeName)", args)
+DescribeRoute(a...; b...) = DescribeRoute(a..., b)
 
 """
     DescribeVirtualNode()
@@ -286,10 +310,12 @@ Required Parameters
 
 Optional Parameters
 {
-  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's\n               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes."
+  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's\n               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes."
 }
 """
-DescribeVirtualNode(args) = app_mesh("GET", "/v20190125/meshes/{meshName}/virtualNodes/{virtualNodeName}", args)
+DescribeVirtualNode(meshName, virtualNodeName) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualNodes/$(virtualNodeName)")
+DescribeVirtualNode(meshName, virtualNodeName, args) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualNodes/$(virtualNodeName)", args)
+DescribeVirtualNode(a...; b...) = DescribeVirtualNode(a..., b)
 
 """
     DescribeVirtualRouter()
@@ -304,10 +330,12 @@ Required Parameters
 
 Optional Parameters
 {
-  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's\n               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes."
+  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's\n               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes."
 }
 """
-DescribeVirtualRouter(args) = app_mesh("GET", "/v20190125/meshes/{meshName}/virtualRouters/{virtualRouterName}", args)
+DescribeVirtualRouter(meshName, virtualRouterName) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualRouters/$(virtualRouterName)")
+DescribeVirtualRouter(meshName, virtualRouterName, args) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualRouters/$(virtualRouterName)", args)
+DescribeVirtualRouter(a...; b...) = DescribeVirtualRouter(a..., b)
 
 """
     DescribeVirtualService()
@@ -322,10 +350,12 @@ Required Parameters
 
 Optional Parameters
 {
-  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's\n               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes."
+  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's\n               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes."
 }
 """
-DescribeVirtualService(args) = app_mesh("GET", "/v20190125/meshes/{meshName}/virtualServices/{virtualServiceName}", args)
+DescribeVirtualService(meshName, virtualServiceName) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualServices/$(virtualServiceName)")
+DescribeVirtualService(meshName, virtualServiceName, args) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualServices/$(virtualServiceName)", args)
+DescribeVirtualService(a...; b...) = DescribeVirtualService(a..., b)
 
 """
     ListMeshes()
@@ -340,6 +370,7 @@ Optional Parameters
 """
 ListMeshes() = app_mesh("GET", "/v20190125/meshes")
 ListMeshes(args) = app_mesh("GET", "/v20190125/meshes", args)
+ListMeshes(a...; b...) = ListMeshes(a..., b)
 
 """
     ListRoutes()
@@ -355,11 +386,13 @@ Required Parameters
 Optional Parameters
 {
   "limit": "The maximum number of results returned by ListRoutes in paginated output.\n         When you use this parameter, ListRoutes returns only limit\n         results in a single page along with a nextToken response element. You can see\n         the remaining results of the initial request by sending another ListRoutes\n         request with the returned nextToken value. This value can be between\n         1 and 100. If you don't use this parameter,\n            ListRoutes returns up to 100 results and a\n            nextToken value if applicable.",
-  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's\n               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes.",
+  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's\n               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.",
   "nextToken": "The nextToken value returned from a previous paginated\n            ListRoutes request where limit was used and the results\n         exceeded the value of that parameter. Pagination continues from the end of the previous\n         results that returned the nextToken value."
 }
 """
-ListRoutes(args) = app_mesh("GET", "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes", args)
+ListRoutes(meshName, virtualRouterName) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes")
+ListRoutes(meshName, virtualRouterName, args) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes", args)
+ListRoutes(a...; b...) = ListRoutes(a..., b)
 
 """
     ListTagsForResource()
@@ -377,7 +410,9 @@ Optional Parameters
   "nextToken": "The nextToken value returned from a previous paginated\n            ListTagsForResource request where limit was used and the\n         results exceeded the value of that parameter. Pagination continues from the end of the\n         previous results that returned the nextToken value."
 }
 """
-ListTagsForResource(args) = app_mesh("GET", "/v20190125/tags", args)
+ListTagsForResource(resourceArn) = app_mesh("GET", "/v20190125/tags")
+ListTagsForResource(resourceArn, args) = app_mesh("GET", "/v20190125/tags", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     ListVirtualNodes()
@@ -392,11 +427,13 @@ Required Parameters
 Optional Parameters
 {
   "limit": "The maximum number of results returned by ListVirtualNodes in paginated\n         output. When you use this parameter, ListVirtualNodes returns only\n            limit results in a single page along with a nextToken response\n         element. You can see the remaining results of the initial request by sending another\n            ListVirtualNodes request with the returned nextToken value.\n         This value can be between 1 and 100. If you don't use this\n         parameter, ListVirtualNodes returns up to 100 results and a\n            nextToken value if applicable.",
-  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's\n               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes.",
+  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's\n               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.",
   "nextToken": "The nextToken value returned from a previous paginated\n            ListVirtualNodes request where limit was used and the results\n         exceeded the value of that parameter. Pagination continues from the end of the previous\n         results that returned the nextToken value."
 }
 """
-ListVirtualNodes(args) = app_mesh("GET", "/v20190125/meshes/{meshName}/virtualNodes", args)
+ListVirtualNodes(meshName) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualNodes")
+ListVirtualNodes(meshName, args) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualNodes", args)
+ListVirtualNodes(a...; b...) = ListVirtualNodes(a..., b)
 
 """
     ListVirtualRouters()
@@ -411,11 +448,13 @@ Required Parameters
 Optional Parameters
 {
   "limit": "The maximum number of results returned by ListVirtualRouters in paginated\n         output. When you use this parameter, ListVirtualRouters returns only\n            limit results in a single page along with a nextToken response\n         element. You can see the remaining results of the initial request by sending another\n            ListVirtualRouters request with the returned nextToken value.\n         This value can be between 1 and 100. If you don't use this\n         parameter, ListVirtualRouters returns up to 100 results and\n         a nextToken value if applicable.",
-  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's\n               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes.",
+  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's\n               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.",
   "nextToken": "The nextToken value returned from a previous paginated\n            ListVirtualRouters request where limit was used and the\n         results exceeded the value of that parameter. Pagination continues from the end of the\n         previous results that returned the nextToken value."
 }
 """
-ListVirtualRouters(args) = app_mesh("GET", "/v20190125/meshes/{meshName}/virtualRouters", args)
+ListVirtualRouters(meshName) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualRouters")
+ListVirtualRouters(meshName, args) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualRouters", args)
+ListVirtualRouters(a...; b...) = ListVirtualRouters(a..., b)
 
 """
     ListVirtualServices()
@@ -430,11 +469,13 @@ Required Parameters
 Optional Parameters
 {
   "limit": "The maximum number of results returned by ListVirtualServices in paginated\n         output. When you use this parameter, ListVirtualServices returns only\n            limit results in a single page along with a nextToken response\n         element. You can see the remaining results of the initial request by sending another\n            ListVirtualServices request with the returned nextToken value.\n         This value can be between 1 and 100. If you don't use this\n         parameter, ListVirtualServices returns up to 100 results and\n         a nextToken value if applicable.",
-  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's\n               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes.",
+  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's\n               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.",
   "nextToken": "The nextToken value returned from a previous paginated\n            ListVirtualServices request where limit was used and the\n         results exceeded the value of that parameter. Pagination continues from the end of the\n         previous results that returned the nextToken value."
 }
 """
-ListVirtualServices(args) = app_mesh("GET", "/v20190125/meshes/{meshName}/virtualServices", args)
+ListVirtualServices(meshName) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualServices")
+ListVirtualServices(meshName, args) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualServices", args)
+ListVirtualServices(a...; b...) = ListVirtualServices(a..., b)
 
 """
     TagResource()
@@ -450,7 +491,9 @@ Required Parameters
   "tags": "The tags to add to the resource. A tag is an array of key-value pairs.\n         Tag keys can have a maximum character length of 128 characters, and tag values can have\n            a maximum length of 256 characters."
 }
 """
-TagResource(args) = app_mesh("PUT", "/v20190125/tag", args)
+TagResource(resourceArn, tags) = app_mesh("PUT", "/v20190125/tag")
+TagResource(resourceArn, tags, args) = app_mesh("PUT", "/v20190125/tag", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
@@ -463,7 +506,9 @@ Required Parameters
   "tagKeys": "The keys of the tags to be removed."
 }
 """
-UntagResource(args) = app_mesh("PUT", "/v20190125/untag", args)
+UntagResource(resourceArn, tagKeys) = app_mesh("PUT", "/v20190125/untag")
+UntagResource(resourceArn, tagKeys, args) = app_mesh("PUT", "/v20190125/untag", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateMesh()
@@ -481,7 +526,9 @@ Optional Parameters
   "spec": "The service mesh specification to apply."
 }
 """
-UpdateMesh(args) = app_mesh("PUT", "/v20190125/meshes/{meshName}", args)
+UpdateMesh(meshName) = app_mesh("PUT", "/v20190125/meshes/$(meshName)")
+UpdateMesh(meshName, args) = app_mesh("PUT", "/v20190125/meshes/$(meshName)", args)
+UpdateMesh(a...; b...) = UpdateMesh(a..., b)
 
 """
     UpdateRoute()
@@ -499,10 +546,12 @@ Required Parameters
 Optional Parameters
 {
   "clientToken": "Unique, case-sensitive identifier that you provide to ensure the idempotency of the\nrequest. Up to 36 letters, numbers, hyphens, and underscores are allowed.",
-  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's\n               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes."
+  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's\n               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes."
 }
 """
-UpdateRoute(args) = app_mesh("PUT", "/v20190125/meshes/{meshName}/virtualRouter/{virtualRouterName}/routes/{routeName}", args)
+UpdateRoute(meshName, routeName, spec, virtualRouterName) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes/$(routeName)")
+UpdateRoute(meshName, routeName, spec, virtualRouterName, args) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes/$(routeName)", args)
+UpdateRoute(a...; b...) = UpdateRoute(a..., b)
 
 """
     UpdateVirtualNode()
@@ -519,10 +568,12 @@ Required Parameters
 Optional Parameters
 {
   "clientToken": "Unique, case-sensitive identifier that you provide to ensure the idempotency of the\nrequest. Up to 36 letters, numbers, hyphens, and underscores are allowed.",
-  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's\n               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes."
+  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's\n               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes."
 }
 """
-UpdateVirtualNode(args) = app_mesh("PUT", "/v20190125/meshes/{meshName}/virtualNodes/{virtualNodeName}", args)
+UpdateVirtualNode(meshName, spec, virtualNodeName) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualNodes/$(virtualNodeName)")
+UpdateVirtualNode(meshName, spec, virtualNodeName, args) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualNodes/$(virtualNodeName)", args)
+UpdateVirtualNode(a...; b...) = UpdateVirtualNode(a..., b)
 
 """
     UpdateVirtualRouter()
@@ -539,10 +590,12 @@ Required Parameters
 Optional Parameters
 {
   "clientToken": "Unique, case-sensitive identifier that you provide to ensure the idempotency of the\nrequest. Up to 36 letters, numbers, hyphens, and underscores are allowed.",
-  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's\n               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes."
+  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's\n               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes."
 }
 """
-UpdateVirtualRouter(args) = app_mesh("PUT", "/v20190125/meshes/{meshName}/virtualRouters/{virtualRouterName}", args)
+UpdateVirtualRouter(meshName, spec, virtualRouterName) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualRouters/$(virtualRouterName)")
+UpdateVirtualRouter(meshName, spec, virtualRouterName, args) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualRouters/$(virtualRouterName)", args)
+UpdateVirtualRouter(a...; b...) = UpdateVirtualRouter(a..., b)
 
 """
     UpdateVirtualService()
@@ -559,7 +612,9 @@ Required Parameters
 Optional Parameters
 {
   "clientToken": "Unique, case-sensitive identifier that you provide to ensure the idempotency of the\nrequest. Up to 36 letters, numbers, hyphens, and underscores are allowed.",
-  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's\n               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with Shared Meshes."
+  "meshOwner": "The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's\n               the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes."
 }
 """
-UpdateVirtualService(args) = app_mesh("PUT", "/v20190125/meshes/{meshName}/virtualServices/{virtualServiceName}", args)
+UpdateVirtualService(meshName, spec, virtualServiceName) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualServices/$(virtualServiceName)")
+UpdateVirtualService(meshName, spec, virtualServiceName, args) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualServices/$(virtualServiceName)", args)
+UpdateVirtualService(a...; b...) = UpdateVirtualService(a..., b)

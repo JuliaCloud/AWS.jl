@@ -19,7 +19,9 @@ Optional Parameters
   "DisplayName": "The name to display."
 }
 """
-AssociateDomain(args) = worklink("POST", "/associateDomain", args)
+AssociateDomain(AcmCertificateArn, DomainName, FleetArn) = worklink("POST", "/associateDomain")
+AssociateDomain(AcmCertificateArn, DomainName, FleetArn, args) = worklink("POST", "/associateDomain", args)
+AssociateDomain(a...; b...) = AssociateDomain(a..., b)
 
 """
     AssociateWebsiteAuthorizationProvider()
@@ -37,7 +39,9 @@ Optional Parameters
   "DomainName": "The domain name of the authorization provider. This applies only to SAML-based authorization providers."
 }
 """
-AssociateWebsiteAuthorizationProvider(args) = worklink("POST", "/associateWebsiteAuthorizationProvider", args)
+AssociateWebsiteAuthorizationProvider(AuthorizationProviderType, FleetArn) = worklink("POST", "/associateWebsiteAuthorizationProvider")
+AssociateWebsiteAuthorizationProvider(AuthorizationProviderType, FleetArn, args) = worklink("POST", "/associateWebsiteAuthorizationProvider", args)
+AssociateWebsiteAuthorizationProvider(a...; b...) = AssociateWebsiteAuthorizationProvider(a..., b)
 
 """
     AssociateWebsiteCertificateAuthority()
@@ -55,7 +59,9 @@ Optional Parameters
   "DisplayName": "The certificate name to display."
 }
 """
-AssociateWebsiteCertificateAuthority(args) = worklink("POST", "/associateWebsiteCertificateAuthority", args)
+AssociateWebsiteCertificateAuthority(Certificate, FleetArn) = worklink("POST", "/associateWebsiteCertificateAuthority")
+AssociateWebsiteCertificateAuthority(Certificate, FleetArn, args) = worklink("POST", "/associateWebsiteCertificateAuthority", args)
+AssociateWebsiteCertificateAuthority(a...; b...) = AssociateWebsiteCertificateAuthority(a..., b)
 
 """
     CreateFleet()
@@ -74,7 +80,9 @@ Optional Parameters
   "Tags": " The tags to add to the resource. A tag is a key-value pair."
 }
 """
-CreateFleet(args) = worklink("POST", "/createFleet", args)
+CreateFleet(FleetName) = worklink("POST", "/createFleet")
+CreateFleet(FleetName, args) = worklink("POST", "/createFleet", args)
+CreateFleet(a...; b...) = CreateFleet(a..., b)
 
 """
     DeleteFleet()
@@ -86,7 +94,9 @@ Required Parameters
   "FleetArn": "The ARN of the fleet."
 }
 """
-DeleteFleet(args) = worklink("POST", "/deleteFleet", args)
+DeleteFleet(FleetArn) = worklink("POST", "/deleteFleet")
+DeleteFleet(FleetArn, args) = worklink("POST", "/deleteFleet", args)
+DeleteFleet(a...; b...) = DeleteFleet(a..., b)
 
 """
     DescribeAuditStreamConfiguration()
@@ -98,7 +108,9 @@ Required Parameters
   "FleetArn": "The ARN of the fleet."
 }
 """
-DescribeAuditStreamConfiguration(args) = worklink("POST", "/describeAuditStreamConfiguration", args)
+DescribeAuditStreamConfiguration(FleetArn) = worklink("POST", "/describeAuditStreamConfiguration")
+DescribeAuditStreamConfiguration(FleetArn, args) = worklink("POST", "/describeAuditStreamConfiguration", args)
+DescribeAuditStreamConfiguration(a...; b...) = DescribeAuditStreamConfiguration(a..., b)
 
 """
     DescribeCompanyNetworkConfiguration()
@@ -110,7 +122,9 @@ Required Parameters
   "FleetArn": "The ARN of the fleet."
 }
 """
-DescribeCompanyNetworkConfiguration(args) = worklink("POST", "/describeCompanyNetworkConfiguration", args)
+DescribeCompanyNetworkConfiguration(FleetArn) = worklink("POST", "/describeCompanyNetworkConfiguration")
+DescribeCompanyNetworkConfiguration(FleetArn, args) = worklink("POST", "/describeCompanyNetworkConfiguration", args)
+DescribeCompanyNetworkConfiguration(a...; b...) = DescribeCompanyNetworkConfiguration(a..., b)
 
 """
     DescribeDevice()
@@ -123,7 +137,9 @@ Required Parameters
   "FleetArn": "The ARN of the fleet."
 }
 """
-DescribeDevice(args) = worklink("POST", "/describeDevice", args)
+DescribeDevice(DeviceId, FleetArn) = worklink("POST", "/describeDevice")
+DescribeDevice(DeviceId, FleetArn, args) = worklink("POST", "/describeDevice", args)
+DescribeDevice(a...; b...) = DescribeDevice(a..., b)
 
 """
     DescribeDevicePolicyConfiguration()
@@ -135,7 +151,9 @@ Required Parameters
   "FleetArn": "The ARN of the fleet."
 }
 """
-DescribeDevicePolicyConfiguration(args) = worklink("POST", "/describeDevicePolicyConfiguration", args)
+DescribeDevicePolicyConfiguration(FleetArn) = worklink("POST", "/describeDevicePolicyConfiguration")
+DescribeDevicePolicyConfiguration(FleetArn, args) = worklink("POST", "/describeDevicePolicyConfiguration", args)
+DescribeDevicePolicyConfiguration(a...; b...) = DescribeDevicePolicyConfiguration(a..., b)
 
 """
     DescribeDomain()
@@ -148,7 +166,9 @@ Required Parameters
   "FleetArn": "The ARN of the fleet."
 }
 """
-DescribeDomain(args) = worklink("POST", "/describeDomain", args)
+DescribeDomain(DomainName, FleetArn) = worklink("POST", "/describeDomain")
+DescribeDomain(DomainName, FleetArn, args) = worklink("POST", "/describeDomain", args)
+DescribeDomain(a...; b...) = DescribeDomain(a..., b)
 
 """
     DescribeFleetMetadata()
@@ -160,7 +180,9 @@ Required Parameters
   "FleetArn": "The Amazon Resource Name (ARN) of the fleet."
 }
 """
-DescribeFleetMetadata(args) = worklink("POST", "/describeFleetMetadata", args)
+DescribeFleetMetadata(FleetArn) = worklink("POST", "/describeFleetMetadata")
+DescribeFleetMetadata(FleetArn, args) = worklink("POST", "/describeFleetMetadata", args)
+DescribeFleetMetadata(a...; b...) = DescribeFleetMetadata(a..., b)
 
 """
     DescribeIdentityProviderConfiguration()
@@ -172,7 +194,9 @@ Required Parameters
   "FleetArn": "The ARN of the fleet."
 }
 """
-DescribeIdentityProviderConfiguration(args) = worklink("POST", "/describeIdentityProviderConfiguration", args)
+DescribeIdentityProviderConfiguration(FleetArn) = worklink("POST", "/describeIdentityProviderConfiguration")
+DescribeIdentityProviderConfiguration(FleetArn, args) = worklink("POST", "/describeIdentityProviderConfiguration", args)
+DescribeIdentityProviderConfiguration(a...; b...) = DescribeIdentityProviderConfiguration(a..., b)
 
 """
     DescribeWebsiteCertificateAuthority()
@@ -185,7 +209,9 @@ Required Parameters
   "WebsiteCaId": "A unique identifier for the certificate authority."
 }
 """
-DescribeWebsiteCertificateAuthority(args) = worklink("POST", "/describeWebsiteCertificateAuthority", args)
+DescribeWebsiteCertificateAuthority(FleetArn, WebsiteCaId) = worklink("POST", "/describeWebsiteCertificateAuthority")
+DescribeWebsiteCertificateAuthority(FleetArn, WebsiteCaId, args) = worklink("POST", "/describeWebsiteCertificateAuthority", args)
+DescribeWebsiteCertificateAuthority(a...; b...) = DescribeWebsiteCertificateAuthority(a..., b)
 
 """
     DisassociateDomain()
@@ -198,7 +224,9 @@ Required Parameters
   "FleetArn": "The ARN of the fleet."
 }
 """
-DisassociateDomain(args) = worklink("POST", "/disassociateDomain", args)
+DisassociateDomain(DomainName, FleetArn) = worklink("POST", "/disassociateDomain")
+DisassociateDomain(DomainName, FleetArn, args) = worklink("POST", "/disassociateDomain", args)
+DisassociateDomain(a...; b...) = DisassociateDomain(a..., b)
 
 """
     DisassociateWebsiteAuthorizationProvider()
@@ -211,7 +239,9 @@ Required Parameters
   "FleetArn": "The ARN of the fleet."
 }
 """
-DisassociateWebsiteAuthorizationProvider(args) = worklink("POST", "/disassociateWebsiteAuthorizationProvider", args)
+DisassociateWebsiteAuthorizationProvider(AuthorizationProviderId, FleetArn) = worklink("POST", "/disassociateWebsiteAuthorizationProvider")
+DisassociateWebsiteAuthorizationProvider(AuthorizationProviderId, FleetArn, args) = worklink("POST", "/disassociateWebsiteAuthorizationProvider", args)
+DisassociateWebsiteAuthorizationProvider(a...; b...) = DisassociateWebsiteAuthorizationProvider(a..., b)
 
 """
     DisassociateWebsiteCertificateAuthority()
@@ -224,7 +254,9 @@ Required Parameters
   "WebsiteCaId": "A unique identifier for the CA."
 }
 """
-DisassociateWebsiteCertificateAuthority(args) = worklink("POST", "/disassociateWebsiteCertificateAuthority", args)
+DisassociateWebsiteCertificateAuthority(FleetArn, WebsiteCaId) = worklink("POST", "/disassociateWebsiteCertificateAuthority")
+DisassociateWebsiteCertificateAuthority(FleetArn, WebsiteCaId, args) = worklink("POST", "/disassociateWebsiteCertificateAuthority", args)
+DisassociateWebsiteCertificateAuthority(a...; b...) = DisassociateWebsiteCertificateAuthority(a..., b)
 
 """
     ListDevices()
@@ -242,7 +274,9 @@ Optional Parameters
   "NextToken": "The pagination token used to retrieve the next page of results for this operation. If this value is null, it retrieves the first page."
 }
 """
-ListDevices(args) = worklink("POST", "/listDevices", args)
+ListDevices(FleetArn) = worklink("POST", "/listDevices")
+ListDevices(FleetArn, args) = worklink("POST", "/listDevices", args)
+ListDevices(a...; b...) = ListDevices(a..., b)
 
 """
     ListDomains()
@@ -260,7 +294,9 @@ Optional Parameters
   "NextToken": "The pagination token used to retrieve the next page of results for this operation. If this value is null, it retrieves the first page."
 }
 """
-ListDomains(args) = worklink("POST", "/listDomains", args)
+ListDomains(FleetArn) = worklink("POST", "/listDomains")
+ListDomains(FleetArn, args) = worklink("POST", "/listDomains", args)
+ListDomains(a...; b...) = ListDomains(a..., b)
 
 """
     ListFleets()
@@ -275,6 +311,7 @@ Optional Parameters
 """
 ListFleets() = worklink("POST", "/listFleets")
 ListFleets(args) = worklink("POST", "/listFleets", args)
+ListFleets(a...; b...) = ListFleets(a..., b)
 
 """
     ListTagsForResource()
@@ -286,7 +323,9 @@ Required Parameters
   "ResourceArn": "The Amazon Resource Name (ARN) of the fleet."
 }
 """
-ListTagsForResource(args) = worklink("GET", "/tags/{ResourceArn}", args)
+ListTagsForResource(ResourceArn) = worklink("GET", "/tags/$(ResourceArn)")
+ListTagsForResource(ResourceArn, args) = worklink("GET", "/tags/$(ResourceArn)", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     ListWebsiteAuthorizationProviders()
@@ -304,7 +343,9 @@ Optional Parameters
   "NextToken": "The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page."
 }
 """
-ListWebsiteAuthorizationProviders(args) = worklink("POST", "/listWebsiteAuthorizationProviders", args)
+ListWebsiteAuthorizationProviders(FleetArn) = worklink("POST", "/listWebsiteAuthorizationProviders")
+ListWebsiteAuthorizationProviders(FleetArn, args) = worklink("POST", "/listWebsiteAuthorizationProviders", args)
+ListWebsiteAuthorizationProviders(a...; b...) = ListWebsiteAuthorizationProviders(a..., b)
 
 """
     ListWebsiteCertificateAuthorities()
@@ -322,7 +363,9 @@ Optional Parameters
   "NextToken": "The pagination token used to retrieve the next page of results for this operation. If this value is null, it retrieves the first page."
 }
 """
-ListWebsiteCertificateAuthorities(args) = worklink("POST", "/listWebsiteCertificateAuthorities", args)
+ListWebsiteCertificateAuthorities(FleetArn) = worklink("POST", "/listWebsiteCertificateAuthorities")
+ListWebsiteCertificateAuthorities(FleetArn, args) = worklink("POST", "/listWebsiteCertificateAuthorities", args)
+ListWebsiteCertificateAuthorities(a...; b...) = ListWebsiteCertificateAuthorities(a..., b)
 
 """
     RestoreDomainAccess()
@@ -335,7 +378,9 @@ Required Parameters
   "FleetArn": "The ARN of the fleet."
 }
 """
-RestoreDomainAccess(args) = worklink("POST", "/restoreDomainAccess", args)
+RestoreDomainAccess(DomainName, FleetArn) = worklink("POST", "/restoreDomainAccess")
+RestoreDomainAccess(DomainName, FleetArn, args) = worklink("POST", "/restoreDomainAccess", args)
+RestoreDomainAccess(a...; b...) = RestoreDomainAccess(a..., b)
 
 """
     RevokeDomainAccess()
@@ -348,7 +393,9 @@ Required Parameters
   "FleetArn": "The ARN of the fleet."
 }
 """
-RevokeDomainAccess(args) = worklink("POST", "/revokeDomainAccess", args)
+RevokeDomainAccess(DomainName, FleetArn) = worklink("POST", "/revokeDomainAccess")
+RevokeDomainAccess(DomainName, FleetArn, args) = worklink("POST", "/revokeDomainAccess", args)
+RevokeDomainAccess(a...; b...) = RevokeDomainAccess(a..., b)
 
 """
     SignOutUser()
@@ -361,7 +408,9 @@ Required Parameters
   "Username": "The name of the user."
 }
 """
-SignOutUser(args) = worklink("POST", "/signOutUser", args)
+SignOutUser(FleetArn, Username) = worklink("POST", "/signOutUser")
+SignOutUser(FleetArn, Username, args) = worklink("POST", "/signOutUser", args)
+SignOutUser(a...; b...) = SignOutUser(a..., b)
 
 """
     TagResource()
@@ -374,7 +423,9 @@ Required Parameters
   "Tags": "The tags to add to the resource. A tag is a key-value pair."
 }
 """
-TagResource(args) = worklink("POST", "/tags/{ResourceArn}", args)
+TagResource(ResourceArn, Tags) = worklink("POST", "/tags/$(ResourceArn)")
+TagResource(ResourceArn, Tags, args) = worklink("POST", "/tags/$(ResourceArn)", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
@@ -387,7 +438,9 @@ Required Parameters
   "TagKeys": "The list of tag keys to remove from the resource."
 }
 """
-UntagResource(args) = worklink("DELETE", "/tags/{ResourceArn}", args)
+UntagResource(ResourceArn, TagKeys) = worklink("DELETE", "/tags/$(ResourceArn)")
+UntagResource(ResourceArn, TagKeys, args) = worklink("DELETE", "/tags/$(ResourceArn)", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateAuditStreamConfiguration()
@@ -404,7 +457,9 @@ Optional Parameters
   "AuditStreamArn": "The ARN of the Amazon Kinesis data stream that receives the audit events."
 }
 """
-UpdateAuditStreamConfiguration(args) = worklink("POST", "/updateAuditStreamConfiguration", args)
+UpdateAuditStreamConfiguration(FleetArn) = worklink("POST", "/updateAuditStreamConfiguration")
+UpdateAuditStreamConfiguration(FleetArn, args) = worklink("POST", "/updateAuditStreamConfiguration", args)
+UpdateAuditStreamConfiguration(a...; b...) = UpdateAuditStreamConfiguration(a..., b)
 
 """
     UpdateCompanyNetworkConfiguration()
@@ -419,7 +474,9 @@ Required Parameters
   "VpcId": "The VPC with connectivity to associated websites."
 }
 """
-UpdateCompanyNetworkConfiguration(args) = worklink("POST", "/updateCompanyNetworkConfiguration", args)
+UpdateCompanyNetworkConfiguration(FleetArn, SecurityGroupIds, SubnetIds, VpcId) = worklink("POST", "/updateCompanyNetworkConfiguration")
+UpdateCompanyNetworkConfiguration(FleetArn, SecurityGroupIds, SubnetIds, VpcId, args) = worklink("POST", "/updateCompanyNetworkConfiguration", args)
+UpdateCompanyNetworkConfiguration(a...; b...) = UpdateCompanyNetworkConfiguration(a..., b)
 
 """
     UpdateDevicePolicyConfiguration()
@@ -436,7 +493,9 @@ Optional Parameters
   "DeviceCaCertificate": "The certificate chain, including intermediate certificates and the root certificate authority certificate used to issue device certificates."
 }
 """
-UpdateDevicePolicyConfiguration(args) = worklink("POST", "/updateDevicePolicyConfiguration", args)
+UpdateDevicePolicyConfiguration(FleetArn) = worklink("POST", "/updateDevicePolicyConfiguration")
+UpdateDevicePolicyConfiguration(FleetArn, args) = worklink("POST", "/updateDevicePolicyConfiguration", args)
+UpdateDevicePolicyConfiguration(a...; b...) = UpdateDevicePolicyConfiguration(a..., b)
 
 """
     UpdateDomainMetadata()
@@ -454,7 +513,9 @@ Optional Parameters
   "DisplayName": "The name to display."
 }
 """
-UpdateDomainMetadata(args) = worklink("POST", "/updateDomainMetadata", args)
+UpdateDomainMetadata(DomainName, FleetArn) = worklink("POST", "/updateDomainMetadata")
+UpdateDomainMetadata(DomainName, FleetArn, args) = worklink("POST", "/updateDomainMetadata", args)
+UpdateDomainMetadata(a...; b...) = UpdateDomainMetadata(a..., b)
 
 """
     UpdateFleetMetadata()
@@ -472,7 +533,9 @@ Optional Parameters
   "OptimizeForEndUserLocation": "The option to optimize for better performance by routing traffic through the closest AWS Region to users, which may be outside of your home Region."
 }
 """
-UpdateFleetMetadata(args) = worklink("POST", "/UpdateFleetMetadata", args)
+UpdateFleetMetadata(FleetArn) = worklink("POST", "/UpdateFleetMetadata")
+UpdateFleetMetadata(FleetArn, args) = worklink("POST", "/UpdateFleetMetadata", args)
+UpdateFleetMetadata(a...; b...) = UpdateFleetMetadata(a..., b)
 
 """
     UpdateIdentityProviderConfiguration()
@@ -490,4 +553,6 @@ Optional Parameters
   "IdentityProviderSamlMetadata": "The SAML metadata document provided by the customer’s identity provider. The existing IdentityProviderSamlMetadata is unset if null is passed."
 }
 """
-UpdateIdentityProviderConfiguration(args) = worklink("POST", "/updateIdentityProviderConfiguration", args)
+UpdateIdentityProviderConfiguration(FleetArn, IdentityProviderType) = worklink("POST", "/updateIdentityProviderConfiguration")
+UpdateIdentityProviderConfiguration(FleetArn, IdentityProviderType, args) = worklink("POST", "/updateIdentityProviderConfiguration", args)
+UpdateIdentityProviderConfiguration(a...; b...) = UpdateIdentityProviderConfiguration(a..., b)

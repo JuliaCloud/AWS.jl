@@ -32,7 +32,9 @@ Optional Parameters
   "tags": " Tag for an Amplify App "
 }
 """
-CreateApp(args) = amplify("POST", "/apps", args)
+CreateApp(name) = amplify("POST", "/apps")
+CreateApp(name, args) = amplify("POST", "/apps", args)
+CreateApp(a...; b...) = CreateApp(a..., b)
 
 """
     CreateBackendEnvironment()
@@ -51,7 +53,9 @@ Optional Parameters
   "stackName": " CloudFormation stack name of backend environment. "
 }
 """
-CreateBackendEnvironment(args) = amplify("POST", "/apps/{appId}/backendenvironments", args)
+CreateBackendEnvironment(appId, environmentName) = amplify("POST", "/apps/$(appId)/backendenvironments")
+CreateBackendEnvironment(appId, environmentName, args) = amplify("POST", "/apps/$(appId)/backendenvironments", args)
+CreateBackendEnvironment(a...; b...) = CreateBackendEnvironment(a..., b)
 
 """
     CreateBranch()
@@ -83,7 +87,9 @@ Optional Parameters
   "ttl": " The content TTL for the website in seconds. "
 }
 """
-CreateBranch(args) = amplify("POST", "/apps/{appId}/branches", args)
+CreateBranch(appId, branchName) = amplify("POST", "/apps/$(appId)/branches")
+CreateBranch(appId, branchName, args) = amplify("POST", "/apps/$(appId)/branches", args)
+CreateBranch(a...; b...) = CreateBranch(a..., b)
 
 """
     CreateDeployment()
@@ -101,7 +107,9 @@ Optional Parameters
   "fileMap": " Optional file map that contains file name as the key and file content md5 hash as the value. If this argument is provided, the service will generate different upload url per file. Otherwise, the service will only generate a single upload url for the zipped files. "
 }
 """
-CreateDeployment(args) = amplify("POST", "/apps/{appId}/branches/{branchName}/deployments", args)
+CreateDeployment(appId, branchName) = amplify("POST", "/apps/$(appId)/branches/$(branchName)/deployments")
+CreateDeployment(appId, branchName, args) = amplify("POST", "/apps/$(appId)/branches/$(branchName)/deployments", args)
+CreateDeployment(a...; b...) = CreateDeployment(a..., b)
 
 """
     CreateDomainAssociation()
@@ -120,7 +128,9 @@ Optional Parameters
   "enableAutoSubDomain": " Enables automated creation of Subdomains for branches. (Currently not supported) "
 }
 """
-CreateDomainAssociation(args) = amplify("POST", "/apps/{appId}/domains", args)
+CreateDomainAssociation(appId, domainName, subDomainSettings) = amplify("POST", "/apps/$(appId)/domains")
+CreateDomainAssociation(appId, domainName, subDomainSettings, args) = amplify("POST", "/apps/$(appId)/domains", args)
+CreateDomainAssociation(a...; b...) = CreateDomainAssociation(a..., b)
 
 """
     CreateWebhook()
@@ -138,7 +148,9 @@ Optional Parameters
   "description": " Description for a webhook. "
 }
 """
-CreateWebhook(args) = amplify("POST", "/apps/{appId}/webhooks", args)
+CreateWebhook(appId, branchName) = amplify("POST", "/apps/$(appId)/webhooks")
+CreateWebhook(appId, branchName, args) = amplify("POST", "/apps/$(appId)/webhooks", args)
+CreateWebhook(a...; b...) = CreateWebhook(a..., b)
 
 """
     DeleteApp()
@@ -150,7 +162,9 @@ Required Parameters
   "appId": " Unique Id for an Amplify App. "
 }
 """
-DeleteApp(args) = amplify("DELETE", "/apps/{appId}", args)
+DeleteApp(appId) = amplify("DELETE", "/apps/$(appId)")
+DeleteApp(appId, args) = amplify("DELETE", "/apps/$(appId)", args)
+DeleteApp(a...; b...) = DeleteApp(a..., b)
 
 """
     DeleteBackendEnvironment()
@@ -163,7 +177,9 @@ Required Parameters
   "environmentName": " Name of a backend environment of an Amplify App. "
 }
 """
-DeleteBackendEnvironment(args) = amplify("DELETE", "/apps/{appId}/backendenvironments/{environmentName}", args)
+DeleteBackendEnvironment(appId, environmentName) = amplify("DELETE", "/apps/$(appId)/backendenvironments/$(environmentName)")
+DeleteBackendEnvironment(appId, environmentName, args) = amplify("DELETE", "/apps/$(appId)/backendenvironments/$(environmentName)", args)
+DeleteBackendEnvironment(a...; b...) = DeleteBackendEnvironment(a..., b)
 
 """
     DeleteBranch()
@@ -176,7 +192,9 @@ Required Parameters
   "branchName": " Name for the branch. "
 }
 """
-DeleteBranch(args) = amplify("DELETE", "/apps/{appId}/branches/{branchName}", args)
+DeleteBranch(appId, branchName) = amplify("DELETE", "/apps/$(appId)/branches/$(branchName)")
+DeleteBranch(appId, branchName, args) = amplify("DELETE", "/apps/$(appId)/branches/$(branchName)", args)
+DeleteBranch(a...; b...) = DeleteBranch(a..., b)
 
 """
     DeleteDomainAssociation()
@@ -189,7 +207,9 @@ Required Parameters
   "domainName": " Name of the domain. "
 }
 """
-DeleteDomainAssociation(args) = amplify("DELETE", "/apps/{appId}/domains/{domainName}", args)
+DeleteDomainAssociation(appId, domainName) = amplify("DELETE", "/apps/$(appId)/domains/$(domainName)")
+DeleteDomainAssociation(appId, domainName, args) = amplify("DELETE", "/apps/$(appId)/domains/$(domainName)", args)
+DeleteDomainAssociation(a...; b...) = DeleteDomainAssociation(a..., b)
 
 """
     DeleteJob()
@@ -203,7 +223,9 @@ Required Parameters
   "jobId": " Unique Id for the Job. "
 }
 """
-DeleteJob(args) = amplify("DELETE", "/apps/{appId}/branches/{branchName}/jobs/{jobId}", args)
+DeleteJob(appId, branchName, jobId) = amplify("DELETE", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)")
+DeleteJob(appId, branchName, jobId, args) = amplify("DELETE", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)", args)
+DeleteJob(a...; b...) = DeleteJob(a..., b)
 
 """
     DeleteWebhook()
@@ -215,7 +237,9 @@ Required Parameters
   "webhookId": " Unique Id for a webhook. "
 }
 """
-DeleteWebhook(args) = amplify("DELETE", "/webhooks/{webhookId}", args)
+DeleteWebhook(webhookId) = amplify("DELETE", "/webhooks/$(webhookId)")
+DeleteWebhook(webhookId, args) = amplify("DELETE", "/webhooks/$(webhookId)", args)
+DeleteWebhook(a...; b...) = DeleteWebhook(a..., b)
 
 """
     GenerateAccessLogs()
@@ -234,7 +258,9 @@ Optional Parameters
   "startTime": " The time at which the logs should start, inclusive. "
 }
 """
-GenerateAccessLogs(args) = amplify("POST", "/apps/{appId}/accesslogs", args)
+GenerateAccessLogs(appId, domainName) = amplify("POST", "/apps/$(appId)/accesslogs")
+GenerateAccessLogs(appId, domainName, args) = amplify("POST", "/apps/$(appId)/accesslogs", args)
+GenerateAccessLogs(a...; b...) = GenerateAccessLogs(a..., b)
 
 """
     GetApp()
@@ -246,7 +272,9 @@ Required Parameters
   "appId": " Unique Id for an Amplify App. "
 }
 """
-GetApp(args) = amplify("GET", "/apps/{appId}", args)
+GetApp(appId) = amplify("GET", "/apps/$(appId)")
+GetApp(appId, args) = amplify("GET", "/apps/$(appId)", args)
+GetApp(a...; b...) = GetApp(a..., b)
 
 """
     GetArtifactUrl()
@@ -258,7 +286,9 @@ Required Parameters
   "artifactId": " Unique Id for a artifact. "
 }
 """
-GetArtifactUrl(args) = amplify("GET", "/artifacts/{artifactId}", args)
+GetArtifactUrl(artifactId) = amplify("GET", "/artifacts/$(artifactId)")
+GetArtifactUrl(artifactId, args) = amplify("GET", "/artifacts/$(artifactId)", args)
+GetArtifactUrl(a...; b...) = GetArtifactUrl(a..., b)
 
 """
     GetBackendEnvironment()
@@ -271,7 +301,9 @@ Required Parameters
   "environmentName": " Name for the backend environment. "
 }
 """
-GetBackendEnvironment(args) = amplify("GET", "/apps/{appId}/backendenvironments/{environmentName}", args)
+GetBackendEnvironment(appId, environmentName) = amplify("GET", "/apps/$(appId)/backendenvironments/$(environmentName)")
+GetBackendEnvironment(appId, environmentName, args) = amplify("GET", "/apps/$(appId)/backendenvironments/$(environmentName)", args)
+GetBackendEnvironment(a...; b...) = GetBackendEnvironment(a..., b)
 
 """
     GetBranch()
@@ -284,7 +316,9 @@ Required Parameters
   "branchName": " Name for the branch. "
 }
 """
-GetBranch(args) = amplify("GET", "/apps/{appId}/branches/{branchName}", args)
+GetBranch(appId, branchName) = amplify("GET", "/apps/$(appId)/branches/$(branchName)")
+GetBranch(appId, branchName, args) = amplify("GET", "/apps/$(appId)/branches/$(branchName)", args)
+GetBranch(a...; b...) = GetBranch(a..., b)
 
 """
     GetDomainAssociation()
@@ -297,7 +331,9 @@ Required Parameters
   "domainName": " Name of the domain. "
 }
 """
-GetDomainAssociation(args) = amplify("GET", "/apps/{appId}/domains/{domainName}", args)
+GetDomainAssociation(appId, domainName) = amplify("GET", "/apps/$(appId)/domains/$(domainName)")
+GetDomainAssociation(appId, domainName, args) = amplify("GET", "/apps/$(appId)/domains/$(domainName)", args)
+GetDomainAssociation(a...; b...) = GetDomainAssociation(a..., b)
 
 """
     GetJob()
@@ -311,7 +347,9 @@ Required Parameters
   "jobId": " Unique Id for the Job. "
 }
 """
-GetJob(args) = amplify("GET", "/apps/{appId}/branches/{branchName}/jobs/{jobId}", args)
+GetJob(appId, branchName, jobId) = amplify("GET", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)")
+GetJob(appId, branchName, jobId, args) = amplify("GET", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)", args)
+GetJob(a...; b...) = GetJob(a..., b)
 
 """
     GetWebhook()
@@ -323,7 +361,9 @@ Required Parameters
   "webhookId": " Unique Id for a webhook. "
 }
 """
-GetWebhook(args) = amplify("GET", "/webhooks/{webhookId}", args)
+GetWebhook(webhookId) = amplify("GET", "/webhooks/$(webhookId)")
+GetWebhook(webhookId, args) = amplify("GET", "/webhooks/$(webhookId)", args)
+GetWebhook(a...; b...) = GetWebhook(a..., b)
 
 """
     ListApps()
@@ -338,6 +378,7 @@ Optional Parameters
 """
 ListApps() = amplify("GET", "/apps")
 ListApps(args) = amplify("GET", "/apps", args)
+ListApps(a...; b...) = ListApps(a..., b)
 
 """
     ListArtifacts()
@@ -357,7 +398,9 @@ Optional Parameters
   "nextToken": " Pagination token. Set to null to start listing artifacts from start. If non-null pagination token is returned in a result, then pass its value in here to list more artifacts. "
 }
 """
-ListArtifacts(args) = amplify("GET", "/apps/{appId}/branches/{branchName}/jobs/{jobId}/artifacts", args)
+ListArtifacts(appId, branchName, jobId) = amplify("GET", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)/artifacts")
+ListArtifacts(appId, branchName, jobId, args) = amplify("GET", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)/artifacts", args)
+ListArtifacts(a...; b...) = ListArtifacts(a..., b)
 
 """
     ListBackendEnvironments()
@@ -376,7 +419,9 @@ Optional Parameters
   "nextToken": " Pagination token. Set to null to start listing backen environments from start. If a non-null pagination token is returned in a result, then pass its value in here to list more backend environments. "
 }
 """
-ListBackendEnvironments(args) = amplify("GET", "/apps/{appId}/backendenvironments", args)
+ListBackendEnvironments(appId) = amplify("GET", "/apps/$(appId)/backendenvironments")
+ListBackendEnvironments(appId, args) = amplify("GET", "/apps/$(appId)/backendenvironments", args)
+ListBackendEnvironments(a...; b...) = ListBackendEnvironments(a..., b)
 
 """
     ListBranches()
@@ -394,7 +439,9 @@ Optional Parameters
   "nextToken": " Pagination token. Set to null to start listing branches from start. If a non-null pagination token is returned in a result, then pass its value in here to list more branches. "
 }
 """
-ListBranches(args) = amplify("GET", "/apps/{appId}/branches", args)
+ListBranches(appId) = amplify("GET", "/apps/$(appId)/branches")
+ListBranches(appId, args) = amplify("GET", "/apps/$(appId)/branches", args)
+ListBranches(a...; b...) = ListBranches(a..., b)
 
 """
     ListDomainAssociations()
@@ -412,7 +459,9 @@ Optional Parameters
   "nextToken": " Pagination token. Set to null to start listing Apps from start. If non-null pagination token is returned in a result, then pass its value in here to list more projects. "
 }
 """
-ListDomainAssociations(args) = amplify("GET", "/apps/{appId}/domains", args)
+ListDomainAssociations(appId) = amplify("GET", "/apps/$(appId)/domains")
+ListDomainAssociations(appId, args) = amplify("GET", "/apps/$(appId)/domains", args)
+ListDomainAssociations(a...; b...) = ListDomainAssociations(a..., b)
 
 """
     ListJobs()
@@ -431,7 +480,9 @@ Optional Parameters
   "nextToken": " Pagination token. Set to null to start listing steps from start. If a non-null pagination token is returned in a result, then pass its value in here to list more steps. "
 }
 """
-ListJobs(args) = amplify("GET", "/apps/{appId}/branches/{branchName}/jobs", args)
+ListJobs(appId, branchName) = amplify("GET", "/apps/$(appId)/branches/$(branchName)/jobs")
+ListJobs(appId, branchName, args) = amplify("GET", "/apps/$(appId)/branches/$(branchName)/jobs", args)
+ListJobs(a...; b...) = ListJobs(a..., b)
 
 """
     ListTagsForResource()
@@ -443,7 +494,9 @@ Required Parameters
   "resourceArn": " Resource arn used to list tags. "
 }
 """
-ListTagsForResource(args) = amplify("GET", "/tags/{resourceArn}", args)
+ListTagsForResource(resourceArn) = amplify("GET", "/tags/$(resourceArn)")
+ListTagsForResource(resourceArn, args) = amplify("GET", "/tags/$(resourceArn)", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     ListWebhooks()
@@ -461,7 +514,9 @@ Optional Parameters
   "nextToken": " Pagination token. Set to null to start listing webhooks from start. If non-null pagination token is returned in a result, then pass its value in here to list more webhooks. "
 }
 """
-ListWebhooks(args) = amplify("GET", "/apps/{appId}/webhooks", args)
+ListWebhooks(appId) = amplify("GET", "/apps/$(appId)/webhooks")
+ListWebhooks(appId, args) = amplify("GET", "/apps/$(appId)/webhooks", args)
+ListWebhooks(a...; b...) = ListWebhooks(a..., b)
 
 """
     StartDeployment()
@@ -480,7 +535,9 @@ Optional Parameters
   "sourceUrl": " The sourceUrl for this deployment, used when calling start deployment without create deployment. SourceUrl can be any HTTP GET url that is public accessible and downloads a single zip. "
 }
 """
-StartDeployment(args) = amplify("POST", "/apps/{appId}/branches/{branchName}/deployments/start", args)
+StartDeployment(appId, branchName) = amplify("POST", "/apps/$(appId)/branches/$(branchName)/deployments/start")
+StartDeployment(appId, branchName, args) = amplify("POST", "/apps/$(appId)/branches/$(branchName)/deployments/start", args)
+StartDeployment(a...; b...) = StartDeployment(a..., b)
 
 """
     StartJob()
@@ -503,7 +560,9 @@ Optional Parameters
   "jobReason": " Descriptive reason for starting this job. "
 }
 """
-StartJob(args) = amplify("POST", "/apps/{appId}/branches/{branchName}/jobs", args)
+StartJob(appId, branchName, jobType) = amplify("POST", "/apps/$(appId)/branches/$(branchName)/jobs")
+StartJob(appId, branchName, jobType, args) = amplify("POST", "/apps/$(appId)/branches/$(branchName)/jobs", args)
+StartJob(a...; b...) = StartJob(a..., b)
 
 """
     StopJob()
@@ -517,7 +576,9 @@ Required Parameters
   "jobId": " Unique Id for the Job. "
 }
 """
-StopJob(args) = amplify("DELETE", "/apps/{appId}/branches/{branchName}/jobs/{jobId}/stop", args)
+StopJob(appId, branchName, jobId) = amplify("DELETE", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)/stop")
+StopJob(appId, branchName, jobId, args) = amplify("DELETE", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)/stop", args)
+StopJob(a...; b...) = StopJob(a..., b)
 
 """
     TagResource()
@@ -530,7 +591,9 @@ Required Parameters
   "tags": " Tags used to tag resource. "
 }
 """
-TagResource(args) = amplify("POST", "/tags/{resourceArn}", args)
+TagResource(resourceArn, tags) = amplify("POST", "/tags/$(resourceArn)")
+TagResource(resourceArn, tags, args) = amplify("POST", "/tags/$(resourceArn)", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
@@ -543,7 +606,9 @@ Required Parameters
   "tagKeys": " Tag keys used to untag resource. "
 }
 """
-UntagResource(args) = amplify("DELETE", "/tags/{resourceArn}", args)
+UntagResource(resourceArn, tagKeys) = amplify("DELETE", "/tags/$(resourceArn)")
+UntagResource(resourceArn, tagKeys, args) = amplify("DELETE", "/tags/$(resourceArn)", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateApp()
@@ -575,7 +640,9 @@ Optional Parameters
   "repository": " Repository for an Amplify App "
 }
 """
-UpdateApp(args) = amplify("POST", "/apps/{appId}", args)
+UpdateApp(appId) = amplify("POST", "/apps/$(appId)")
+UpdateApp(appId, args) = amplify("POST", "/apps/$(appId)", args)
+UpdateApp(a...; b...) = UpdateApp(a..., b)
 
 """
     UpdateBranch()
@@ -606,7 +673,9 @@ Optional Parameters
   "ttl": " The content TTL for the website in seconds. "
 }
 """
-UpdateBranch(args) = amplify("POST", "/apps/{appId}/branches/{branchName}", args)
+UpdateBranch(appId, branchName) = amplify("POST", "/apps/$(appId)/branches/$(branchName)")
+UpdateBranch(appId, branchName, args) = amplify("POST", "/apps/$(appId)/branches/$(branchName)", args)
+UpdateBranch(a...; b...) = UpdateBranch(a..., b)
 
 """
     UpdateDomainAssociation()
@@ -625,7 +694,9 @@ Optional Parameters
   "enableAutoSubDomain": " Enables automated creation of Subdomains for branches. (Currently not supported) "
 }
 """
-UpdateDomainAssociation(args) = amplify("POST", "/apps/{appId}/domains/{domainName}", args)
+UpdateDomainAssociation(appId, domainName, subDomainSettings) = amplify("POST", "/apps/$(appId)/domains/$(domainName)")
+UpdateDomainAssociation(appId, domainName, subDomainSettings, args) = amplify("POST", "/apps/$(appId)/domains/$(domainName)", args)
+UpdateDomainAssociation(a...; b...) = UpdateDomainAssociation(a..., b)
 
 """
     UpdateWebhook()
@@ -643,4 +714,6 @@ Optional Parameters
   "description": " Description for a webhook. "
 }
 """
-UpdateWebhook(args) = amplify("POST", "/webhooks/{webhookId}", args)
+UpdateWebhook(webhookId) = amplify("POST", "/webhooks/$(webhookId)")
+UpdateWebhook(webhookId, args) = amplify("POST", "/webhooks/$(webhookId)", args)
+UpdateWebhook(a...; b...) = UpdateWebhook(a..., b)

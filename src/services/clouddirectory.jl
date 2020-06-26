@@ -19,7 +19,9 @@ Optional Parameters
   "ObjectAttributeList": "Attributes on the facet that you are adding to the object."
 }
 """
-AddFacetToObject(args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/facets", args)
+AddFacetToObject(DirectoryArn, ObjectReference, SchemaFacet) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/facets")
+AddFacetToObject(DirectoryArn, ObjectReference, SchemaFacet, args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/facets", args)
+AddFacetToObject(a...; b...) = AddFacetToObject(a..., b)
 
 """
     ApplySchema()
@@ -32,7 +34,9 @@ Required Parameters
   "PublishedSchemaArn": "Published schema Amazon Resource Name (ARN) that needs to be copied. For more information, see arns."
 }
 """
-ApplySchema(args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/apply", args)
+ApplySchema(DirectoryArn, PublishedSchemaArn) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/apply")
+ApplySchema(DirectoryArn, PublishedSchemaArn, args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/apply", args)
+ApplySchema(a...; b...) = ApplySchema(a..., b)
 
 """
     AttachObject()
@@ -47,7 +51,9 @@ Required Parameters
   "ParentReference": "The parent object reference."
 }
 """
-AttachObject(args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/attach", args)
+AttachObject(ChildReference, DirectoryArn, LinkName, ParentReference) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/attach")
+AttachObject(ChildReference, DirectoryArn, LinkName, ParentReference, args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/attach", args)
+AttachObject(a...; b...) = AttachObject(a..., b)
 
 """
     AttachPolicy()
@@ -61,7 +67,9 @@ Required Parameters
   "PolicyReference": "The reference that is associated with the policy object."
 }
 """
-AttachPolicy(args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/policy/attach", args)
+AttachPolicy(DirectoryArn, ObjectReference, PolicyReference) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/policy/attach")
+AttachPolicy(DirectoryArn, ObjectReference, PolicyReference, args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/policy/attach", args)
+AttachPolicy(a...; b...) = AttachPolicy(a..., b)
 
 """
     AttachToIndex()
@@ -75,7 +83,9 @@ Required Parameters
   "TargetReference": "A reference to the object that you are attaching to the index."
 }
 """
-AttachToIndex(args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/index/attach", args)
+AttachToIndex(DirectoryArn, IndexReference, TargetReference) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/index/attach")
+AttachToIndex(DirectoryArn, IndexReference, TargetReference, args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/index/attach", args)
+AttachToIndex(a...; b...) = AttachToIndex(a..., b)
 
 """
     AttachTypedLink()
@@ -91,7 +101,9 @@ Required Parameters
   "TypedLinkFacet": "Identifies the typed link facet that is associated with the typed link."
 }
 """
-AttachTypedLink(args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/typedlink/attach", args)
+AttachTypedLink(Attributes, DirectoryArn, SourceObjectReference, TargetObjectReference, TypedLinkFacet) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/typedlink/attach")
+AttachTypedLink(Attributes, DirectoryArn, SourceObjectReference, TargetObjectReference, TypedLinkFacet, args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/typedlink/attach", args)
+AttachTypedLink(a...; b...) = AttachTypedLink(a..., b)
 
 """
     BatchRead()
@@ -109,7 +121,9 @@ Optional Parameters
   "ConsistencyLevel": "Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object."
 }
 """
-BatchRead(args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/batchread", args)
+BatchRead(DirectoryArn, Operations) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/batchread")
+BatchRead(DirectoryArn, Operations, args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/batchread", args)
+BatchRead(a...; b...) = BatchRead(a..., b)
 
 """
     BatchWrite()
@@ -122,7 +136,9 @@ Required Parameters
   "Operations": "A list of operations that are part of the batch."
 }
 """
-BatchWrite(args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/batchwrite", args)
+BatchWrite(DirectoryArn, Operations) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/batchwrite")
+BatchWrite(DirectoryArn, Operations, args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/batchwrite", args)
+BatchWrite(a...; b...) = BatchWrite(a..., b)
 
 """
     CreateDirectory()
@@ -135,7 +151,9 @@ Required Parameters
   "SchemaArn": "The Amazon Resource Name (ARN) of the published schema that will be copied into the data Directory. For more information, see arns."
 }
 """
-CreateDirectory(args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/directory/create", args)
+CreateDirectory(Name, SchemaArn) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/directory/create")
+CreateDirectory(Name, SchemaArn, args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/directory/create", args)
+CreateDirectory(a...; b...) = CreateDirectory(a..., b)
 
 """
     CreateFacet()
@@ -155,7 +173,9 @@ Optional Parameters
   "ObjectType": "Specifies whether a given object created from this facet is of type node, leaf node, policy or index.   Node: Can have multiple children but one parent.     Leaf node: Cannot have children but can have multiple parents.     Policy: Allows you to store a policy document and policy type. For more information, see Policies.     Index: Can be created with the Index API.  "
 }
 """
-CreateFacet(args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/facet/create", args)
+CreateFacet(Name, SchemaArn) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/facet/create")
+CreateFacet(Name, SchemaArn, args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/facet/create", args)
+CreateFacet(a...; b...) = CreateFacet(a..., b)
 
 """
     CreateIndex()
@@ -175,7 +195,9 @@ Optional Parameters
   "ParentReference": "A reference to the parent object that contains the index object."
 }
 """
-CreateIndex(args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/index", args)
+CreateIndex(DirectoryArn, IsUnique, OrderedIndexedAttributeList) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/index")
+CreateIndex(DirectoryArn, IsUnique, OrderedIndexedAttributeList, args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/index", args)
+CreateIndex(a...; b...) = CreateIndex(a..., b)
 
 """
     CreateObject()
@@ -195,7 +217,9 @@ Optional Parameters
   "ParentReference": "If specified, the parent reference to which this object will be attached."
 }
 """
-CreateObject(args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object", args)
+CreateObject(DirectoryArn, SchemaFacets) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object")
+CreateObject(DirectoryArn, SchemaFacets, args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object", args)
+CreateObject(a...; b...) = CreateObject(a..., b)
 
 """
     CreateSchema()
@@ -207,7 +231,9 @@ Required Parameters
   "Name": "The name that is associated with the schema. This is unique to each account and in each region."
 }
 """
-CreateSchema(args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/create", args)
+CreateSchema(Name) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/create")
+CreateSchema(Name, args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/create", args)
+CreateSchema(a...; b...) = CreateSchema(a..., b)
 
 """
     CreateTypedLinkFacet()
@@ -220,7 +246,9 @@ Required Parameters
   "SchemaArn": "The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns."
 }
 """
-CreateTypedLinkFacet(args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/typedlink/facet/create", args)
+CreateTypedLinkFacet(Facet, SchemaArn) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/typedlink/facet/create")
+CreateTypedLinkFacet(Facet, SchemaArn, args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/typedlink/facet/create", args)
+CreateTypedLinkFacet(a...; b...) = CreateTypedLinkFacet(a..., b)
 
 """
     DeleteDirectory()
@@ -232,7 +260,9 @@ Required Parameters
   "DirectoryArn": "The ARN of the directory to delete."
 }
 """
-DeleteDirectory(args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/directory", args)
+DeleteDirectory(DirectoryArn) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/directory")
+DeleteDirectory(DirectoryArn, args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/directory", args)
+DeleteDirectory(a...; b...) = DeleteDirectory(a..., b)
 
 """
     DeleteFacet()
@@ -245,7 +275,9 @@ Required Parameters
   "SchemaArn": "The Amazon Resource Name (ARN) that is associated with the Facet. For more information, see arns."
 }
 """
-DeleteFacet(args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/facet/delete", args)
+DeleteFacet(Name, SchemaArn) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/facet/delete")
+DeleteFacet(Name, SchemaArn, args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/facet/delete", args)
+DeleteFacet(a...; b...) = DeleteFacet(a..., b)
 
 """
     DeleteObject()
@@ -258,7 +290,9 @@ Required Parameters
   "ObjectReference": "A reference that identifies the object."
 }
 """
-DeleteObject(args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/delete", args)
+DeleteObject(DirectoryArn, ObjectReference) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/delete")
+DeleteObject(DirectoryArn, ObjectReference, args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/delete", args)
+DeleteObject(a...; b...) = DeleteObject(a..., b)
 
 """
     DeleteSchema()
@@ -270,7 +304,9 @@ Required Parameters
   "SchemaArn": "The Amazon Resource Name (ARN) of the development schema. For more information, see arns."
 }
 """
-DeleteSchema(args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema", args)
+DeleteSchema(SchemaArn) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema")
+DeleteSchema(SchemaArn, args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema", args)
+DeleteSchema(a...; b...) = DeleteSchema(a..., b)
 
 """
     DeleteTypedLinkFacet()
@@ -283,7 +319,9 @@ Required Parameters
   "SchemaArn": "The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns."
 }
 """
-DeleteTypedLinkFacet(args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/typedlink/facet/delete", args)
+DeleteTypedLinkFacet(Name, SchemaArn) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/typedlink/facet/delete")
+DeleteTypedLinkFacet(Name, SchemaArn, args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/typedlink/facet/delete", args)
+DeleteTypedLinkFacet(a...; b...) = DeleteTypedLinkFacet(a..., b)
 
 """
     DetachFromIndex()
@@ -297,7 +335,9 @@ Required Parameters
   "TargetReference": "A reference to the object being detached from the index."
 }
 """
-DetachFromIndex(args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/index/detach", args)
+DetachFromIndex(DirectoryArn, IndexReference, TargetReference) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/index/detach")
+DetachFromIndex(DirectoryArn, IndexReference, TargetReference, args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/index/detach", args)
+DetachFromIndex(a...; b...) = DetachFromIndex(a..., b)
 
 """
     DetachObject()
@@ -311,7 +351,9 @@ Required Parameters
   "ParentReference": "The parent reference from which the object with the specified link name is detached."
 }
 """
-DetachObject(args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/detach", args)
+DetachObject(DirectoryArn, LinkName, ParentReference) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/detach")
+DetachObject(DirectoryArn, LinkName, ParentReference, args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/detach", args)
+DetachObject(a...; b...) = DetachObject(a..., b)
 
 """
     DetachPolicy()
@@ -325,7 +367,9 @@ Required Parameters
   "PolicyReference": "Reference that identifies the policy object."
 }
 """
-DetachPolicy(args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/policy/detach", args)
+DetachPolicy(DirectoryArn, ObjectReference, PolicyReference) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/policy/detach")
+DetachPolicy(DirectoryArn, ObjectReference, PolicyReference, args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/policy/detach", args)
+DetachPolicy(a...; b...) = DetachPolicy(a..., b)
 
 """
     DetachTypedLink()
@@ -338,7 +382,9 @@ Required Parameters
   "TypedLinkSpecifier": "Used to accept a typed link specifier as input."
 }
 """
-DetachTypedLink(args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/typedlink/detach", args)
+DetachTypedLink(DirectoryArn, TypedLinkSpecifier) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/typedlink/detach")
+DetachTypedLink(DirectoryArn, TypedLinkSpecifier, args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/typedlink/detach", args)
+DetachTypedLink(a...; b...) = DetachTypedLink(a..., b)
 
 """
     DisableDirectory()
@@ -350,7 +396,9 @@ Required Parameters
   "DirectoryArn": "The ARN of the directory to disable."
 }
 """
-DisableDirectory(args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/directory/disable", args)
+DisableDirectory(DirectoryArn) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/directory/disable")
+DisableDirectory(DirectoryArn, args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/directory/disable", args)
+DisableDirectory(a...; b...) = DisableDirectory(a..., b)
 
 """
     EnableDirectory()
@@ -362,7 +410,9 @@ Required Parameters
   "DirectoryArn": "The ARN of the directory to enable."
 }
 """
-EnableDirectory(args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/directory/enable", args)
+EnableDirectory(DirectoryArn) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/directory/enable")
+EnableDirectory(DirectoryArn, args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/directory/enable", args)
+EnableDirectory(a...; b...) = EnableDirectory(a..., b)
 
 """
     GetAppliedSchemaVersion()
@@ -374,7 +424,9 @@ Required Parameters
   "SchemaArn": "The ARN of the applied schema."
 }
 """
-GetAppliedSchemaVersion(args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/getappliedschema", args)
+GetAppliedSchemaVersion(SchemaArn) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/getappliedschema")
+GetAppliedSchemaVersion(SchemaArn, args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/getappliedschema", args)
+GetAppliedSchemaVersion(a...; b...) = GetAppliedSchemaVersion(a..., b)
 
 """
     GetDirectory()
@@ -386,7 +438,9 @@ Required Parameters
   "DirectoryArn": "The ARN of the directory."
 }
 """
-GetDirectory(args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/directory/get", args)
+GetDirectory(DirectoryArn) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/directory/get")
+GetDirectory(DirectoryArn, args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/directory/get", args)
+GetDirectory(a...; b...) = GetDirectory(a..., b)
 
 """
     GetFacet()
@@ -399,7 +453,9 @@ Required Parameters
   "SchemaArn": "The Amazon Resource Name (ARN) that is associated with the Facet. For more information, see arns."
 }
 """
-GetFacet(args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/facet", args)
+GetFacet(Name, SchemaArn) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/facet")
+GetFacet(Name, SchemaArn, args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/facet", args)
+GetFacet(a...; b...) = GetFacet(a..., b)
 
 """
     GetLinkAttributes()
@@ -418,7 +474,9 @@ Optional Parameters
   "ConsistencyLevel": "The consistency level at which to retrieve the attributes on a typed link."
 }
 """
-GetLinkAttributes(args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/attributes/get", args)
+GetLinkAttributes(AttributeNames, DirectoryArn, TypedLinkSpecifier) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/attributes/get")
+GetLinkAttributes(AttributeNames, DirectoryArn, TypedLinkSpecifier, args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/attributes/get", args)
+GetLinkAttributes(a...; b...) = GetLinkAttributes(a..., b)
 
 """
     GetObjectAttributes()
@@ -438,7 +496,9 @@ Optional Parameters
   "ConsistencyLevel": "The consistency level at which to retrieve the attributes on an object."
 }
 """
-GetObjectAttributes(args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/attributes/get", args)
+GetObjectAttributes(AttributeNames, DirectoryArn, ObjectReference, SchemaFacet) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/attributes/get")
+GetObjectAttributes(AttributeNames, DirectoryArn, ObjectReference, SchemaFacet, args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/attributes/get", args)
+GetObjectAttributes(a...; b...) = GetObjectAttributes(a..., b)
 
 """
     GetObjectInformation()
@@ -456,7 +516,9 @@ Optional Parameters
   "ConsistencyLevel": "The consistency level at which to retrieve the object information."
 }
 """
-GetObjectInformation(args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/information", args)
+GetObjectInformation(DirectoryArn, ObjectReference) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/information")
+GetObjectInformation(DirectoryArn, ObjectReference, args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/information", args)
+GetObjectInformation(a...; b...) = GetObjectInformation(a..., b)
 
 """
     GetSchemaAsJson()
@@ -468,7 +530,9 @@ Required Parameters
   "SchemaArn": "The ARN of the schema to retrieve."
 }
 """
-GetSchemaAsJson(args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/json", args)
+GetSchemaAsJson(SchemaArn) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/json")
+GetSchemaAsJson(SchemaArn, args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/json", args)
+GetSchemaAsJson(a...; b...) = GetSchemaAsJson(a..., b)
 
 """
     GetTypedLinkFacetInformation()
@@ -481,7 +545,9 @@ Required Parameters
   "SchemaArn": "The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns."
 }
 """
-GetTypedLinkFacetInformation(args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/facet/get", args)
+GetTypedLinkFacetInformation(Name, SchemaArn) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/facet/get")
+GetTypedLinkFacetInformation(Name, SchemaArn, args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/facet/get", args)
+GetTypedLinkFacetInformation(a...; b...) = GetTypedLinkFacetInformation(a..., b)
 
 """
     ListAppliedSchemaArns()
@@ -500,7 +566,9 @@ Optional Parameters
   "SchemaArn": "The response for ListAppliedSchemaArns when this parameter is used will list all minor version ARNs for a major version."
 }
 """
-ListAppliedSchemaArns(args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/applied", args)
+ListAppliedSchemaArns(DirectoryArn) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/applied")
+ListAppliedSchemaArns(DirectoryArn, args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/applied", args)
+ListAppliedSchemaArns(a...; b...) = ListAppliedSchemaArns(a..., b)
 
 """
     ListAttachedIndices()
@@ -520,7 +588,9 @@ Optional Parameters
   "NextToken": "The pagination token."
 }
 """
-ListAttachedIndices(args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/indices", args)
+ListAttachedIndices(DirectoryArn, TargetReference) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/indices")
+ListAttachedIndices(DirectoryArn, TargetReference, args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/indices", args)
+ListAttachedIndices(a...; b...) = ListAttachedIndices(a..., b)
 
 """
     ListDevelopmentSchemaArns()
@@ -535,6 +605,7 @@ Optional Parameters
 """
 ListDevelopmentSchemaArns() = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/development")
 ListDevelopmentSchemaArns(args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/development", args)
+ListDevelopmentSchemaArns(a...; b...) = ListDevelopmentSchemaArns(a..., b)
 
 """
     ListDirectories()
@@ -550,6 +621,7 @@ Optional Parameters
 """
 ListDirectories() = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/directory/list")
 ListDirectories(args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/directory/list", args)
+ListDirectories(a...; b...) = ListDirectories(a..., b)
 
 """
     ListFacetAttributes()
@@ -568,7 +640,9 @@ Optional Parameters
   "NextToken": "The pagination token."
 }
 """
-ListFacetAttributes(args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/facet/attributes", args)
+ListFacetAttributes(Name, SchemaArn) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/facet/attributes")
+ListFacetAttributes(Name, SchemaArn, args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/facet/attributes", args)
+ListFacetAttributes(a...; b...) = ListFacetAttributes(a..., b)
 
 """
     ListFacetNames()
@@ -586,7 +660,9 @@ Optional Parameters
   "NextToken": "The pagination token."
 }
 """
-ListFacetNames(args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/facet/list", args)
+ListFacetNames(SchemaArn) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/facet/list")
+ListFacetNames(SchemaArn, args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/facet/list", args)
+ListFacetNames(a...; b...) = ListFacetNames(a..., b)
 
 """
     ListIncomingTypedLinks()
@@ -608,7 +684,9 @@ Optional Parameters
   "NextToken": "The pagination token."
 }
 """
-ListIncomingTypedLinks(args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/incoming", args)
+ListIncomingTypedLinks(DirectoryArn, ObjectReference) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/incoming")
+ListIncomingTypedLinks(DirectoryArn, ObjectReference, args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/incoming", args)
+ListIncomingTypedLinks(a...; b...) = ListIncomingTypedLinks(a..., b)
 
 """
     ListIndex()
@@ -629,7 +707,9 @@ Optional Parameters
   "RangesOnIndexedValues": "Specifies the ranges of indexed values that you want to query."
 }
 """
-ListIndex(args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/index/targets", args)
+ListIndex(DirectoryArn, IndexReference) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/index/targets")
+ListIndex(DirectoryArn, IndexReference, args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/index/targets", args)
+ListIndex(a...; b...) = ListIndex(a..., b)
 
 """
     ListManagedSchemaArns()
@@ -645,6 +725,7 @@ Optional Parameters
 """
 ListManagedSchemaArns() = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/managed")
 ListManagedSchemaArns(args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/managed", args)
+ListManagedSchemaArns(a...; b...) = ListManagedSchemaArns(a..., b)
 
 """
     ListObjectAttributes()
@@ -665,7 +746,9 @@ Optional Parameters
   "NextToken": "The pagination token."
 }
 """
-ListObjectAttributes(args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/attributes", args)
+ListObjectAttributes(DirectoryArn, ObjectReference) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/attributes")
+ListObjectAttributes(DirectoryArn, ObjectReference, args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/attributes", args)
+ListObjectAttributes(a...; b...) = ListObjectAttributes(a..., b)
 
 """
     ListObjectChildren()
@@ -685,7 +768,9 @@ Optional Parameters
   "NextToken": "The pagination token."
 }
 """
-ListObjectChildren(args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/children", args)
+ListObjectChildren(DirectoryArn, ObjectReference) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/children")
+ListObjectChildren(DirectoryArn, ObjectReference, args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/children", args)
+ListObjectChildren(a...; b...) = ListObjectChildren(a..., b)
 
 """
     ListObjectParentPaths()
@@ -704,7 +789,9 @@ Optional Parameters
   "NextToken": "The pagination token."
 }
 """
-ListObjectParentPaths(args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/parentpaths", args)
+ListObjectParentPaths(DirectoryArn, ObjectReference) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/parentpaths")
+ListObjectParentPaths(DirectoryArn, ObjectReference, args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/parentpaths", args)
+ListObjectParentPaths(a...; b...) = ListObjectParentPaths(a..., b)
 
 """
     ListObjectParents()
@@ -725,7 +812,9 @@ Optional Parameters
   "NextToken": "The pagination token."
 }
 """
-ListObjectParents(args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/parent", args)
+ListObjectParents(DirectoryArn, ObjectReference) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/parent")
+ListObjectParents(DirectoryArn, ObjectReference, args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/parent", args)
+ListObjectParents(a...; b...) = ListObjectParents(a..., b)
 
 """
     ListObjectPolicies()
@@ -745,7 +834,9 @@ Optional Parameters
   "NextToken": "The pagination token."
 }
 """
-ListObjectPolicies(args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/policy", args)
+ListObjectPolicies(DirectoryArn, ObjectReference) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/policy")
+ListObjectPolicies(DirectoryArn, ObjectReference, args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/policy", args)
+ListObjectPolicies(a...; b...) = ListObjectPolicies(a..., b)
 
 """
     ListOutgoingTypedLinks()
@@ -767,7 +858,9 @@ Optional Parameters
   "NextToken": "The pagination token."
 }
 """
-ListOutgoingTypedLinks(args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/outgoing", args)
+ListOutgoingTypedLinks(DirectoryArn, ObjectReference) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/outgoing")
+ListOutgoingTypedLinks(DirectoryArn, ObjectReference, args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/outgoing", args)
+ListOutgoingTypedLinks(a...; b...) = ListOutgoingTypedLinks(a..., b)
 
 """
     ListPolicyAttachments()
@@ -787,7 +880,9 @@ Optional Parameters
   "NextToken": "The pagination token."
 }
 """
-ListPolicyAttachments(args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/policy/attachment", args)
+ListPolicyAttachments(DirectoryArn, PolicyReference) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/policy/attachment")
+ListPolicyAttachments(DirectoryArn, PolicyReference, args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/policy/attachment", args)
+ListPolicyAttachments(a...; b...) = ListPolicyAttachments(a..., b)
 
 """
     ListPublishedSchemaArns()
@@ -803,6 +898,7 @@ Optional Parameters
 """
 ListPublishedSchemaArns() = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/published")
 ListPublishedSchemaArns(args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/published", args)
+ListPublishedSchemaArns(a...; b...) = ListPublishedSchemaArns(a..., b)
 
 """
     ListTagsForResource()
@@ -820,7 +916,9 @@ Optional Parameters
   "NextToken": "The pagination token. This is for future use. Currently pagination is not supported for tagging."
 }
 """
-ListTagsForResource(args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/tags", args)
+ListTagsForResource(ResourceArn) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/tags")
+ListTagsForResource(ResourceArn, args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/tags", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     ListTypedLinkFacetAttributes()
@@ -839,7 +937,9 @@ Optional Parameters
   "NextToken": "The pagination token."
 }
 """
-ListTypedLinkFacetAttributes(args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/facet/attributes", args)
+ListTypedLinkFacetAttributes(Name, SchemaArn) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/facet/attributes")
+ListTypedLinkFacetAttributes(Name, SchemaArn, args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/facet/attributes", args)
+ListTypedLinkFacetAttributes(a...; b...) = ListTypedLinkFacetAttributes(a..., b)
 
 """
     ListTypedLinkFacetNames()
@@ -857,7 +957,9 @@ Optional Parameters
   "NextToken": "The pagination token."
 }
 """
-ListTypedLinkFacetNames(args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/facet/list", args)
+ListTypedLinkFacetNames(SchemaArn) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/facet/list")
+ListTypedLinkFacetNames(SchemaArn, args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/facet/list", args)
+ListTypedLinkFacetNames(a...; b...) = ListTypedLinkFacetNames(a..., b)
 
 """
     LookupPolicy()
@@ -876,7 +978,9 @@ Optional Parameters
   "NextToken": "The token to request the next page of results."
 }
 """
-LookupPolicy(args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/policy/lookup", args)
+LookupPolicy(DirectoryArn, ObjectReference) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/policy/lookup")
+LookupPolicy(DirectoryArn, ObjectReference, args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/policy/lookup", args)
+LookupPolicy(a...; b...) = LookupPolicy(a..., b)
 
 """
     PublishSchema()
@@ -895,7 +999,9 @@ Optional Parameters
   "Name": "The new name under which the schema will be published. If this is not provided, the development schema is considered."
 }
 """
-PublishSchema(args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/publish", args)
+PublishSchema(DevelopmentSchemaArn, Version) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/publish")
+PublishSchema(DevelopmentSchemaArn, Version, args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/publish", args)
+PublishSchema(a...; b...) = PublishSchema(a..., b)
 
 """
     PutSchemaFromJson()
@@ -908,7 +1014,9 @@ Required Parameters
   "SchemaArn": "The ARN of the schema to update."
 }
 """
-PutSchemaFromJson(args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/json", args)
+PutSchemaFromJson(Document, SchemaArn) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/json")
+PutSchemaFromJson(Document, SchemaArn, args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/json", args)
+PutSchemaFromJson(a...; b...) = PutSchemaFromJson(a..., b)
 
 """
     RemoveFacetFromObject()
@@ -922,7 +1030,9 @@ Required Parameters
   "SchemaFacet": "The facet to remove. See SchemaFacet for details."
 }
 """
-RemoveFacetFromObject(args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/facets/delete", args)
+RemoveFacetFromObject(DirectoryArn, ObjectReference, SchemaFacet) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/facets/delete")
+RemoveFacetFromObject(DirectoryArn, ObjectReference, SchemaFacet, args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/facets/delete", args)
+RemoveFacetFromObject(a...; b...) = RemoveFacetFromObject(a..., b)
 
 """
     TagResource()
@@ -935,7 +1045,9 @@ Required Parameters
   "Tags": "A list of tag key-value pairs."
 }
 """
-TagResource(args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/tags/add", args)
+TagResource(ResourceArn, Tags) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/tags/add")
+TagResource(ResourceArn, Tags, args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/tags/add", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
@@ -948,7 +1060,9 @@ Required Parameters
   "TagKeys": "Keys of the tag that need to be removed from the resource."
 }
 """
-UntagResource(args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/tags/remove", args)
+UntagResource(ResourceArn, TagKeys) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/tags/remove")
+UntagResource(ResourceArn, TagKeys, args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/tags/remove", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateFacet()
@@ -967,7 +1081,9 @@ Optional Parameters
   "ObjectType": "The object type that is associated with the facet. See CreateFacetRequest ObjectType for more details."
 }
 """
-UpdateFacet(args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/facet", args)
+UpdateFacet(Name, SchemaArn) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/facet")
+UpdateFacet(Name, SchemaArn, args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/facet", args)
+UpdateFacet(a...; b...) = UpdateFacet(a..., b)
 
 """
     UpdateLinkAttributes()
@@ -981,7 +1097,9 @@ Required Parameters
   "TypedLinkSpecifier": "Allows a typed link specifier to be accepted as input."
 }
 """
-UpdateLinkAttributes(args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/attributes/update", args)
+UpdateLinkAttributes(AttributeUpdates, DirectoryArn, TypedLinkSpecifier) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/attributes/update")
+UpdateLinkAttributes(AttributeUpdates, DirectoryArn, TypedLinkSpecifier, args) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/attributes/update", args)
+UpdateLinkAttributes(a...; b...) = UpdateLinkAttributes(a..., b)
 
 """
     UpdateObjectAttributes()
@@ -995,7 +1113,9 @@ Required Parameters
   "ObjectReference": "The reference that identifies the object."
 }
 """
-UpdateObjectAttributes(args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/update", args)
+UpdateObjectAttributes(AttributeUpdates, DirectoryArn, ObjectReference) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/update")
+UpdateObjectAttributes(AttributeUpdates, DirectoryArn, ObjectReference, args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/update", args)
+UpdateObjectAttributes(a...; b...) = UpdateObjectAttributes(a..., b)
 
 """
     UpdateSchema()
@@ -1008,7 +1128,9 @@ Required Parameters
   "SchemaArn": "The Amazon Resource Name (ARN) of the development schema. For more information, see arns."
 }
 """
-UpdateSchema(args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/update", args)
+UpdateSchema(Name, SchemaArn) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/update")
+UpdateSchema(Name, SchemaArn, args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/update", args)
+UpdateSchema(a...; b...) = UpdateSchema(a..., b)
 
 """
     UpdateTypedLinkFacet()
@@ -1023,7 +1145,9 @@ Required Parameters
   "SchemaArn": "The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns."
 }
 """
-UpdateTypedLinkFacet(args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/typedlink/facet", args)
+UpdateTypedLinkFacet(AttributeUpdates, IdentityAttributeOrder, Name, SchemaArn) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/typedlink/facet")
+UpdateTypedLinkFacet(AttributeUpdates, IdentityAttributeOrder, Name, SchemaArn, args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/typedlink/facet", args)
+UpdateTypedLinkFacet(a...; b...) = UpdateTypedLinkFacet(a..., b)
 
 """
     UpgradeAppliedSchema()
@@ -1041,7 +1165,9 @@ Optional Parameters
   "DryRun": "Used for testing whether the major version schemas are backward compatible or not. If schema compatibility fails, an exception would be thrown else the call would succeed but no changes will be saved. This parameter is optional."
 }
 """
-UpgradeAppliedSchema(args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/upgradeapplied", args)
+UpgradeAppliedSchema(DirectoryArn, PublishedSchemaArn) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/upgradeapplied")
+UpgradeAppliedSchema(DirectoryArn, PublishedSchemaArn, args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/upgradeapplied", args)
+UpgradeAppliedSchema(a...; b...) = UpgradeAppliedSchema(a..., b)
 
 """
     UpgradePublishedSchema()
@@ -1060,4 +1186,6 @@ Optional Parameters
   "DryRun": "Used for testing whether the Development schema provided is backwards compatible, or not, with the publish schema provided by the user to be upgraded. If schema compatibility fails, an exception would be thrown else the call would succeed. This parameter is optional and defaults to false."
 }
 """
-UpgradePublishedSchema(args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/upgradepublished", args)
+UpgradePublishedSchema(DevelopmentSchemaArn, MinorVersion, PublishedSchemaArn) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/upgradepublished")
+UpgradePublishedSchema(DevelopmentSchemaArn, MinorVersion, PublishedSchemaArn, args) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/upgradepublished", args)
+UpgradePublishedSchema(a...; b...) = UpgradePublishedSchema(a..., b)

@@ -12,7 +12,9 @@ Required Parameters
   "profileName": "The name of the signing profile to be canceled."
 }
 """
-CancelSigningProfile(args) = signer("DELETE", "/signing-profiles/{profileName}", args)
+CancelSigningProfile(profileName) = signer("DELETE", "/signing-profiles/$(profileName)")
+CancelSigningProfile(profileName, args) = signer("DELETE", "/signing-profiles/$(profileName)", args)
+CancelSigningProfile(a...; b...) = CancelSigningProfile(a..., b)
 
 """
     DescribeSigningJob()
@@ -24,7 +26,9 @@ Required Parameters
   "jobId": "The ID of the signing job on input."
 }
 """
-DescribeSigningJob(args) = signer("GET", "/signing-jobs/{jobId}", args)
+DescribeSigningJob(jobId) = signer("GET", "/signing-jobs/$(jobId)")
+DescribeSigningJob(jobId, args) = signer("GET", "/signing-jobs/$(jobId)", args)
+DescribeSigningJob(a...; b...) = DescribeSigningJob(a..., b)
 
 """
     GetSigningPlatform()
@@ -36,7 +40,9 @@ Required Parameters
   "platformId": "The ID of the target signing platform."
 }
 """
-GetSigningPlatform(args) = signer("GET", "/signing-platforms/{platformId}", args)
+GetSigningPlatform(platformId) = signer("GET", "/signing-platforms/$(platformId)")
+GetSigningPlatform(platformId, args) = signer("GET", "/signing-platforms/$(platformId)", args)
+GetSigningPlatform(a...; b...) = GetSigningPlatform(a..., b)
 
 """
     GetSigningProfile()
@@ -48,7 +54,9 @@ Required Parameters
   "profileName": "The name of the target signing profile."
 }
 """
-GetSigningProfile(args) = signer("GET", "/signing-profiles/{profileName}", args)
+GetSigningProfile(profileName) = signer("GET", "/signing-profiles/$(profileName)")
+GetSigningProfile(profileName, args) = signer("GET", "/signing-profiles/$(profileName)", args)
+GetSigningProfile(a...; b...) = GetSigningProfile(a..., b)
 
 """
     ListSigningJobs()
@@ -66,6 +74,7 @@ Optional Parameters
 """
 ListSigningJobs() = signer("GET", "/signing-jobs")
 ListSigningJobs(args) = signer("GET", "/signing-jobs", args)
+ListSigningJobs(a...; b...) = ListSigningJobs(a..., b)
 
 """
     ListSigningPlatforms()
@@ -83,6 +92,7 @@ Optional Parameters
 """
 ListSigningPlatforms() = signer("GET", "/signing-platforms")
 ListSigningPlatforms(args) = signer("GET", "/signing-platforms", args)
+ListSigningPlatforms(a...; b...) = ListSigningPlatforms(a..., b)
 
 """
     ListSigningProfiles()
@@ -98,6 +108,7 @@ Optional Parameters
 """
 ListSigningProfiles() = signer("GET", "/signing-profiles")
 ListSigningProfiles(args) = signer("GET", "/signing-profiles", args)
+ListSigningProfiles(a...; b...) = ListSigningProfiles(a..., b)
 
 """
     ListTagsForResource()
@@ -109,7 +120,9 @@ Required Parameters
   "resourceArn": "The Amazon Resource Name (ARN) for the signing profile."
 }
 """
-ListTagsForResource(args) = signer("GET", "/tags/{resourceArn}", args)
+ListTagsForResource(resourceArn) = signer("GET", "/tags/$(resourceArn)")
+ListTagsForResource(resourceArn, args) = signer("GET", "/tags/$(resourceArn)", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     PutSigningProfile()
@@ -130,7 +143,9 @@ Optional Parameters
   "tags": "Tags to be associated with the signing profile that is being created."
 }
 """
-PutSigningProfile(args) = signer("PUT", "/signing-profiles/{profileName}", args)
+PutSigningProfile(platformId, profileName, signingMaterial) = signer("PUT", "/signing-profiles/$(profileName)")
+PutSigningProfile(platformId, profileName, signingMaterial, args) = signer("PUT", "/signing-profiles/$(profileName)", args)
+PutSigningProfile(a...; b...) = PutSigningProfile(a..., b)
 
 """
     StartSigningJob()
@@ -149,7 +164,9 @@ Optional Parameters
   "profileName": "The name of the signing profile."
 }
 """
-StartSigningJob(args) = signer("POST", "/signing-jobs", args)
+StartSigningJob(clientRequestToken, destination, source) = signer("POST", "/signing-jobs")
+StartSigningJob(clientRequestToken, destination, source, args) = signer("POST", "/signing-jobs", args)
+StartSigningJob(a...; b...) = StartSigningJob(a..., b)
 
 """
     TagResource()
@@ -162,7 +179,9 @@ Required Parameters
   "tags": "One or more tags to be associated with the signing profile."
 }
 """
-TagResource(args) = signer("POST", "/tags/{resourceArn}", args)
+TagResource(resourceArn, tags) = signer("POST", "/tags/$(resourceArn)")
+TagResource(resourceArn, tags, args) = signer("POST", "/tags/$(resourceArn)", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
@@ -175,4 +194,6 @@ Required Parameters
   "tagKeys": "A list of tag keys to be removed from the signing profile."
 }
 """
-UntagResource(args) = signer("DELETE", "/tags/{resourceArn}", args)
+UntagResource(resourceArn, tagKeys) = signer("DELETE", "/tags/$(resourceArn)")
+UntagResource(resourceArn, tagKeys, args) = signer("DELETE", "/tags/$(resourceArn)", args)
+UntagResource(a...; b...) = UntagResource(a..., b)

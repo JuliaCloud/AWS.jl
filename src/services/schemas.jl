@@ -18,7 +18,9 @@ Optional Parameters
   "Tags": "Tags associated with the resource."
 }
 """
-CreateDiscoverer(args) = schemas("POST", "/v1/discoverers", args)
+CreateDiscoverer(SourceArn) = schemas("POST", "/v1/discoverers")
+CreateDiscoverer(SourceArn, args) = schemas("POST", "/v1/discoverers", args)
+CreateDiscoverer(a...; b...) = CreateDiscoverer(a..., b)
 
 """
     CreateRegistry()
@@ -36,7 +38,9 @@ Optional Parameters
   "Tags": "Tags to associate with the registry."
 }
 """
-CreateRegistry(args) = schemas("POST", "/v1/registries/name/{registryName}", args)
+CreateRegistry(RegistryName) = schemas("POST", "/v1/registries/name/$(registryName)")
+CreateRegistry(RegistryName, args) = schemas("POST", "/v1/registries/name/$(registryName)", args)
+CreateRegistry(a...; b...) = CreateRegistry(a..., b)
 
 """
     CreateSchema()
@@ -57,7 +61,9 @@ Optional Parameters
   "Tags": "Tags associated with the schema."
 }
 """
-CreateSchema(args) = schemas("POST", "/v1/registries/name/{registryName}/schemas/name/{schemaName}", args)
+CreateSchema(Content, RegistryName, SchemaName, Type) = schemas("POST", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)")
+CreateSchema(Content, RegistryName, SchemaName, Type, args) = schemas("POST", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)", args)
+CreateSchema(a...; b...) = CreateSchema(a..., b)
 
 """
     DeleteDiscoverer()
@@ -69,7 +75,9 @@ Required Parameters
   "DiscovererId": "The ID of the discoverer."
 }
 """
-DeleteDiscoverer(args) = schemas("DELETE", "/v1/discoverers/id/{discovererId}", args)
+DeleteDiscoverer(DiscovererId) = schemas("DELETE", "/v1/discoverers/id/$(discovererId)")
+DeleteDiscoverer(DiscovererId, args) = schemas("DELETE", "/v1/discoverers/id/$(discovererId)", args)
+DeleteDiscoverer(a...; b...) = DeleteDiscoverer(a..., b)
 
 """
     DeleteRegistry()
@@ -81,7 +89,9 @@ Required Parameters
   "RegistryName": "The name of the registry."
 }
 """
-DeleteRegistry(args) = schemas("DELETE", "/v1/registries/name/{registryName}", args)
+DeleteRegistry(RegistryName) = schemas("DELETE", "/v1/registries/name/$(registryName)")
+DeleteRegistry(RegistryName, args) = schemas("DELETE", "/v1/registries/name/$(registryName)", args)
+DeleteRegistry(a...; b...) = DeleteRegistry(a..., b)
 
 """
     DeleteResourcePolicy()
@@ -95,6 +105,7 @@ Optional Parameters
 """
 DeleteResourcePolicy() = schemas("DELETE", "/v1/policy")
 DeleteResourcePolicy(args) = schemas("DELETE", "/v1/policy", args)
+DeleteResourcePolicy(a...; b...) = DeleteResourcePolicy(a..., b)
 
 """
     DeleteSchema()
@@ -107,7 +118,9 @@ Required Parameters
   "SchemaName": "The name of the schema."
 }
 """
-DeleteSchema(args) = schemas("DELETE", "/v1/registries/name/{registryName}/schemas/name/{schemaName}", args)
+DeleteSchema(RegistryName, SchemaName) = schemas("DELETE", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)")
+DeleteSchema(RegistryName, SchemaName, args) = schemas("DELETE", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)", args)
+DeleteSchema(a...; b...) = DeleteSchema(a..., b)
 
 """
     DeleteSchemaVersion()
@@ -121,7 +134,9 @@ Required Parameters
   "SchemaVersion": "The version number of the schema"
 }
 """
-DeleteSchemaVersion(args) = schemas("DELETE", "/v1/registries/name/{registryName}/schemas/name/{schemaName}/version/{schemaVersion}", args)
+DeleteSchemaVersion(RegistryName, SchemaName, SchemaVersion) = schemas("DELETE", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/version/$(schemaVersion)")
+DeleteSchemaVersion(RegistryName, SchemaName, SchemaVersion, args) = schemas("DELETE", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/version/$(schemaVersion)", args)
+DeleteSchemaVersion(a...; b...) = DeleteSchemaVersion(a..., b)
 
 """
     DescribeCodeBinding()
@@ -140,7 +155,9 @@ Optional Parameters
   "SchemaVersion": "Specifying this limits the results to only this schema version."
 }
 """
-DescribeCodeBinding(args) = schemas("GET", "/v1/registries/name/{registryName}/schemas/name/{schemaName}/language/{language}", args)
+DescribeCodeBinding(Language, RegistryName, SchemaName) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)")
+DescribeCodeBinding(Language, RegistryName, SchemaName, args) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)", args)
+DescribeCodeBinding(a...; b...) = DescribeCodeBinding(a..., b)
 
 """
     DescribeDiscoverer()
@@ -152,7 +169,9 @@ Required Parameters
   "DiscovererId": "The ID of the discoverer."
 }
 """
-DescribeDiscoverer(args) = schemas("GET", "/v1/discoverers/id/{discovererId}", args)
+DescribeDiscoverer(DiscovererId) = schemas("GET", "/v1/discoverers/id/$(discovererId)")
+DescribeDiscoverer(DiscovererId, args) = schemas("GET", "/v1/discoverers/id/$(discovererId)", args)
+DescribeDiscoverer(a...; b...) = DescribeDiscoverer(a..., b)
 
 """
     DescribeRegistry()
@@ -164,7 +183,9 @@ Required Parameters
   "RegistryName": "The name of the registry."
 }
 """
-DescribeRegistry(args) = schemas("GET", "/v1/registries/name/{registryName}", args)
+DescribeRegistry(RegistryName) = schemas("GET", "/v1/registries/name/$(registryName)")
+DescribeRegistry(RegistryName, args) = schemas("GET", "/v1/registries/name/$(registryName)", args)
+DescribeRegistry(a...; b...) = DescribeRegistry(a..., b)
 
 """
     DescribeSchema()
@@ -182,7 +203,9 @@ Optional Parameters
   "SchemaVersion": "Specifying this limits the results to only this schema version."
 }
 """
-DescribeSchema(args) = schemas("GET", "/v1/registries/name/{registryName}/schemas/name/{schemaName}", args)
+DescribeSchema(RegistryName, SchemaName) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)")
+DescribeSchema(RegistryName, SchemaName, args) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)", args)
+DescribeSchema(a...; b...) = DescribeSchema(a..., b)
 
 """
     GetCodeBindingSource()
@@ -201,7 +224,9 @@ Optional Parameters
   "SchemaVersion": "Specifying this limits the results to only this schema version."
 }
 """
-GetCodeBindingSource(args) = schemas("GET", "/v1/registries/name/{registryName}/schemas/name/{schemaName}/language/{language}/source", args)
+GetCodeBindingSource(Language, RegistryName, SchemaName) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)/source")
+GetCodeBindingSource(Language, RegistryName, SchemaName, args) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)/source", args)
+GetCodeBindingSource(a...; b...) = GetCodeBindingSource(a..., b)
 
 """
     GetDiscoveredSchema()
@@ -214,7 +239,9 @@ Required Parameters
   "Type": "The type of event."
 }
 """
-GetDiscoveredSchema(args) = schemas("POST", "/v1/discover", args)
+GetDiscoveredSchema(Events, Type) = schemas("POST", "/v1/discover")
+GetDiscoveredSchema(Events, Type, args) = schemas("POST", "/v1/discover", args)
+GetDiscoveredSchema(a...; b...) = GetDiscoveredSchema(a..., b)
 
 """
     GetResourcePolicy()
@@ -228,6 +255,7 @@ Optional Parameters
 """
 GetResourcePolicy() = schemas("GET", "/v1/policy")
 GetResourcePolicy(args) = schemas("GET", "/v1/policy", args)
+GetResourcePolicy(a...; b...) = GetResourcePolicy(a..., b)
 
 """
     ListDiscoverers()
@@ -244,6 +272,7 @@ Optional Parameters
 """
 ListDiscoverers() = schemas("GET", "/v1/discoverers")
 ListDiscoverers(args) = schemas("GET", "/v1/discoverers", args)
+ListDiscoverers(a...; b...) = ListDiscoverers(a..., b)
 
 """
     ListRegistries()
@@ -260,6 +289,7 @@ Optional Parameters
 """
 ListRegistries() = schemas("GET", "/v1/registries")
 ListRegistries(args) = schemas("GET", "/v1/registries", args)
+ListRegistries(a...; b...) = ListRegistries(a..., b)
 
 """
     ListSchemaVersions()
@@ -278,7 +308,9 @@ Optional Parameters
   "NextToken": "The token that specifies the next page of results to return. To request the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared with other accounts."
 }
 """
-ListSchemaVersions(args) = schemas("GET", "/v1/registries/name/{registryName}/schemas/name/{schemaName}/versions", args)
+ListSchemaVersions(RegistryName, SchemaName) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/versions")
+ListSchemaVersions(RegistryName, SchemaName, args) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/versions", args)
+ListSchemaVersions(a...; b...) = ListSchemaVersions(a..., b)
 
 """
     ListSchemas()
@@ -297,7 +329,9 @@ Optional Parameters
   "SchemaNamePrefix": "Specifying this limits the results to only those schema names that start with the specified prefix."
 }
 """
-ListSchemas(args) = schemas("GET", "/v1/registries/name/{registryName}/schemas", args)
+ListSchemas(RegistryName) = schemas("GET", "/v1/registries/name/$(registryName)/schemas")
+ListSchemas(RegistryName, args) = schemas("GET", "/v1/registries/name/$(registryName)/schemas", args)
+ListSchemas(a...; b...) = ListSchemas(a..., b)
 
 """
     ListTagsForResource()
@@ -309,7 +343,9 @@ Required Parameters
   "ResourceArn": "The ARN of the resource."
 }
 """
-ListTagsForResource(args) = schemas("GET", "/tags/{resource-arn}", args)
+ListTagsForResource(ResourceArn) = schemas("GET", "/tags/$(resource-arn)")
+ListTagsForResource(ResourceArn, args) = schemas("GET", "/tags/$(resource-arn)", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     PutCodeBinding()
@@ -328,7 +364,9 @@ Optional Parameters
   "SchemaVersion": "Specifying this limits the results to only this schema version."
 }
 """
-PutCodeBinding(args) = schemas("POST", "/v1/registries/name/{registryName}/schemas/name/{schemaName}/language/{language}", args)
+PutCodeBinding(Language, RegistryName, SchemaName) = schemas("POST", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)")
+PutCodeBinding(Language, RegistryName, SchemaName, args) = schemas("POST", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)", args)
+PutCodeBinding(a...; b...) = PutCodeBinding(a..., b)
 
 """
     PutResourcePolicy()
@@ -346,7 +384,9 @@ Optional Parameters
   "RevisionId": "The revision ID of the policy."
 }
 """
-PutResourcePolicy(args) = schemas("PUT", "/v1/policy", args)
+PutResourcePolicy(Policy) = schemas("PUT", "/v1/policy")
+PutResourcePolicy(Policy, args) = schemas("PUT", "/v1/policy", args)
+PutResourcePolicy(a...; b...) = PutResourcePolicy(a..., b)
 
 """
     SearchSchemas()
@@ -365,7 +405,9 @@ Optional Parameters
   "NextToken": "The token that specifies the next page of results to return. To request the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared with other accounts."
 }
 """
-SearchSchemas(args) = schemas("GET", "/v1/registries/name/{registryName}/schemas/search", args)
+SearchSchemas(Keywords, RegistryName) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/search")
+SearchSchemas(Keywords, RegistryName, args) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/search", args)
+SearchSchemas(a...; b...) = SearchSchemas(a..., b)
 
 """
     StartDiscoverer()
@@ -377,7 +419,9 @@ Required Parameters
   "DiscovererId": "The ID of the discoverer."
 }
 """
-StartDiscoverer(args) = schemas("POST", "/v1/discoverers/id/{discovererId}/start", args)
+StartDiscoverer(DiscovererId) = schemas("POST", "/v1/discoverers/id/$(discovererId)/start")
+StartDiscoverer(DiscovererId, args) = schemas("POST", "/v1/discoverers/id/$(discovererId)/start", args)
+StartDiscoverer(a...; b...) = StartDiscoverer(a..., b)
 
 """
     StopDiscoverer()
@@ -389,7 +433,9 @@ Required Parameters
   "DiscovererId": "The ID of the discoverer."
 }
 """
-StopDiscoverer(args) = schemas("POST", "/v1/discoverers/id/{discovererId}/stop", args)
+StopDiscoverer(DiscovererId) = schemas("POST", "/v1/discoverers/id/$(discovererId)/stop")
+StopDiscoverer(DiscovererId, args) = schemas("POST", "/v1/discoverers/id/$(discovererId)/stop", args)
+StopDiscoverer(a...; b...) = StopDiscoverer(a..., b)
 
 """
     TagResource()
@@ -402,7 +448,9 @@ Required Parameters
   "Tags": "Tags associated with the resource."
 }
 """
-TagResource(args) = schemas("POST", "/tags/{resource-arn}", args)
+TagResource(ResourceArn, Tags) = schemas("POST", "/tags/$(resource-arn)")
+TagResource(ResourceArn, Tags, args) = schemas("POST", "/tags/$(resource-arn)", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagResource()
@@ -415,7 +463,9 @@ Required Parameters
   "TagKeys": "Keys of key-value pairs."
 }
 """
-UntagResource(args) = schemas("DELETE", "/tags/{resource-arn}", args)
+UntagResource(ResourceArn, TagKeys) = schemas("DELETE", "/tags/$(resource-arn)")
+UntagResource(ResourceArn, TagKeys, args) = schemas("DELETE", "/tags/$(resource-arn)", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateDiscoverer()
@@ -432,7 +482,9 @@ Optional Parameters
   "Description": "The description of the discoverer to update."
 }
 """
-UpdateDiscoverer(args) = schemas("PUT", "/v1/discoverers/id/{discovererId}", args)
+UpdateDiscoverer(DiscovererId) = schemas("PUT", "/v1/discoverers/id/$(discovererId)")
+UpdateDiscoverer(DiscovererId, args) = schemas("PUT", "/v1/discoverers/id/$(discovererId)", args)
+UpdateDiscoverer(a...; b...) = UpdateDiscoverer(a..., b)
 
 """
     UpdateRegistry()
@@ -449,7 +501,9 @@ Optional Parameters
   "Description": "The description of the registry to update."
 }
 """
-UpdateRegistry(args) = schemas("PUT", "/v1/registries/name/{registryName}", args)
+UpdateRegistry(RegistryName) = schemas("PUT", "/v1/registries/name/$(registryName)")
+UpdateRegistry(RegistryName, args) = schemas("PUT", "/v1/registries/name/$(registryName)", args)
+UpdateRegistry(a...; b...) = UpdateRegistry(a..., b)
 
 """
     UpdateSchema()
@@ -470,4 +524,6 @@ Optional Parameters
   "Type": "The schema type for the events schema."
 }
 """
-UpdateSchema(args) = schemas("PUT", "/v1/registries/name/{registryName}/schemas/name/{schemaName}", args)
+UpdateSchema(RegistryName, SchemaName) = schemas("PUT", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)")
+UpdateSchema(RegistryName, SchemaName, args) = schemas("PUT", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)", args)
+UpdateSchema(a...; b...) = UpdateSchema(a..., b)

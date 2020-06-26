@@ -14,7 +14,9 @@ Required Parameters
   "UserId": "The user ID."
 }
 """
-AssociatePhoneNumberWithUser(args) = chime("POST", "/accounts/{accountId}/users/{userId}?operation=associate-phone-number", args)
+AssociatePhoneNumberWithUser(AccountId, E164PhoneNumber, UserId) = chime("POST", "/accounts/$(accountId)/users/$(userId)?operation=associate-phone-number")
+AssociatePhoneNumberWithUser(AccountId, E164PhoneNumber, UserId, args) = chime("POST", "/accounts/$(accountId)/users/$(userId)?operation=associate-phone-number", args)
+AssociatePhoneNumberWithUser(a...; b...) = AssociatePhoneNumberWithUser(a..., b)
 
 """
     AssociatePhoneNumbersWithVoiceConnector()
@@ -32,7 +34,9 @@ Optional Parameters
   "ForceAssociate": "If true, associates the provided phone numbers with the provided Amazon Chime Voice Connector and removes any previously existing associations. If false, does not associate any phone numbers that have previously existing associations."
 }
 """
-AssociatePhoneNumbersWithVoiceConnector(args) = chime("POST", "/voice-connectors/{voiceConnectorId}?operation=associate-phone-numbers", args)
+AssociatePhoneNumbersWithVoiceConnector(VoiceConnectorId) = chime("POST", "/voice-connectors/$(voiceConnectorId)?operation=associate-phone-numbers")
+AssociatePhoneNumbersWithVoiceConnector(VoiceConnectorId, args) = chime("POST", "/voice-connectors/$(voiceConnectorId)?operation=associate-phone-numbers", args)
+AssociatePhoneNumbersWithVoiceConnector(a...; b...) = AssociatePhoneNumbersWithVoiceConnector(a..., b)
 
 """
     AssociatePhoneNumbersWithVoiceConnectorGroup()
@@ -50,7 +54,9 @@ Optional Parameters
   "ForceAssociate": "If true, associates the provided phone numbers with the provided Amazon Chime Voice Connector Group and removes any previously existing associations. If false, does not associate any phone numbers that have previously existing associations."
 }
 """
-AssociatePhoneNumbersWithVoiceConnectorGroup(args) = chime("POST", "/voice-connector-groups/{voiceConnectorGroupId}?operation=associate-phone-numbers", args)
+AssociatePhoneNumbersWithVoiceConnectorGroup(VoiceConnectorGroupId) = chime("POST", "/voice-connector-groups/$(voiceConnectorGroupId)?operation=associate-phone-numbers")
+AssociatePhoneNumbersWithVoiceConnectorGroup(VoiceConnectorGroupId, args) = chime("POST", "/voice-connector-groups/$(voiceConnectorGroupId)?operation=associate-phone-numbers", args)
+AssociatePhoneNumbersWithVoiceConnectorGroup(a...; b...) = AssociatePhoneNumbersWithVoiceConnectorGroup(a..., b)
 
 """
     AssociateSigninDelegateGroupsWithAccount()
@@ -63,7 +69,9 @@ Required Parameters
   "SigninDelegateGroups": "The sign-in delegate groups."
 }
 """
-AssociateSigninDelegateGroupsWithAccount(args) = chime("POST", "/accounts/{accountId}?operation=associate-signin-delegate-groups", args)
+AssociateSigninDelegateGroupsWithAccount(AccountId, SigninDelegateGroups) = chime("POST", "/accounts/$(accountId)?operation=associate-signin-delegate-groups")
+AssociateSigninDelegateGroupsWithAccount(AccountId, SigninDelegateGroups, args) = chime("POST", "/accounts/$(accountId)?operation=associate-signin-delegate-groups", args)
+AssociateSigninDelegateGroupsWithAccount(a...; b...) = AssociateSigninDelegateGroupsWithAccount(a..., b)
 
 """
     BatchCreateAttendee()
@@ -76,7 +84,9 @@ Required Parameters
   "MeetingId": "The Amazon Chime SDK meeting ID."
 }
 """
-BatchCreateAttendee(args) = chime("POST", "/meetings/{meetingId}/attendees?operation=batch-create", args)
+BatchCreateAttendee(Attendees, MeetingId) = chime("POST", "/meetings/$(meetingId)/attendees?operation=batch-create")
+BatchCreateAttendee(Attendees, MeetingId, args) = chime("POST", "/meetings/$(meetingId)/attendees?operation=batch-create", args)
+BatchCreateAttendee(a...; b...) = BatchCreateAttendee(a..., b)
 
 """
     BatchCreateRoomMembership()
@@ -90,7 +100,9 @@ Required Parameters
   "RoomId": "The room ID."
 }
 """
-BatchCreateRoomMembership(args) = chime("POST", "/accounts/{accountId}/rooms/{roomId}/memberships?operation=batch-create", args)
+BatchCreateRoomMembership(AccountId, MembershipItemList, RoomId) = chime("POST", "/accounts/$(accountId)/rooms/$(roomId)/memberships?operation=batch-create")
+BatchCreateRoomMembership(AccountId, MembershipItemList, RoomId, args) = chime("POST", "/accounts/$(accountId)/rooms/$(roomId)/memberships?operation=batch-create", args)
+BatchCreateRoomMembership(a...; b...) = BatchCreateRoomMembership(a..., b)
 
 """
     BatchDeletePhoneNumber()
@@ -102,7 +114,9 @@ Required Parameters
   "PhoneNumberIds": "List of phone number IDs."
 }
 """
-BatchDeletePhoneNumber(args) = chime("POST", "/phone-numbers?operation=batch-delete", args)
+BatchDeletePhoneNumber(PhoneNumberIds) = chime("POST", "/phone-numbers?operation=batch-delete")
+BatchDeletePhoneNumber(PhoneNumberIds, args) = chime("POST", "/phone-numbers?operation=batch-delete", args)
+BatchDeletePhoneNumber(a...; b...) = BatchDeletePhoneNumber(a..., b)
 
 """
     BatchSuspendUser()
@@ -115,7 +129,9 @@ Required Parameters
   "UserIdList": "The request containing the user IDs to suspend."
 }
 """
-BatchSuspendUser(args) = chime("POST", "/accounts/{accountId}/users?operation=suspend", args)
+BatchSuspendUser(AccountId, UserIdList) = chime("POST", "/accounts/$(accountId)/users?operation=suspend")
+BatchSuspendUser(AccountId, UserIdList, args) = chime("POST", "/accounts/$(accountId)/users?operation=suspend", args)
+BatchSuspendUser(a...; b...) = BatchSuspendUser(a..., b)
 
 """
     BatchUnsuspendUser()
@@ -128,7 +144,9 @@ Required Parameters
   "UserIdList": "The request containing the user IDs to unsuspend."
 }
 """
-BatchUnsuspendUser(args) = chime("POST", "/accounts/{accountId}/users?operation=unsuspend", args)
+BatchUnsuspendUser(AccountId, UserIdList) = chime("POST", "/accounts/$(accountId)/users?operation=unsuspend")
+BatchUnsuspendUser(AccountId, UserIdList, args) = chime("POST", "/accounts/$(accountId)/users?operation=unsuspend", args)
+BatchUnsuspendUser(a...; b...) = BatchUnsuspendUser(a..., b)
 
 """
     BatchUpdatePhoneNumber()
@@ -140,7 +158,9 @@ Required Parameters
   "UpdatePhoneNumberRequestItems": "The request containing the phone number IDs and product types or calling names to update."
 }
 """
-BatchUpdatePhoneNumber(args) = chime("POST", "/phone-numbers?operation=batch-update", args)
+BatchUpdatePhoneNumber(UpdatePhoneNumberRequestItems) = chime("POST", "/phone-numbers?operation=batch-update")
+BatchUpdatePhoneNumber(UpdatePhoneNumberRequestItems, args) = chime("POST", "/phone-numbers?operation=batch-update", args)
+BatchUpdatePhoneNumber(a...; b...) = BatchUpdatePhoneNumber(a..., b)
 
 """
     BatchUpdateUser()
@@ -153,7 +173,9 @@ Required Parameters
   "UpdateUserRequestItems": "The request containing the user IDs and details to update."
 }
 """
-BatchUpdateUser(args) = chime("POST", "/accounts/{accountId}/users", args)
+BatchUpdateUser(AccountId, UpdateUserRequestItems) = chime("POST", "/accounts/$(accountId)/users")
+BatchUpdateUser(AccountId, UpdateUserRequestItems, args) = chime("POST", "/accounts/$(accountId)/users", args)
+BatchUpdateUser(a...; b...) = BatchUpdateUser(a..., b)
 
 """
     CreateAccount()
@@ -165,7 +187,9 @@ Required Parameters
   "Name": "The name of the Amazon Chime account."
 }
 """
-CreateAccount(args) = chime("POST", "/accounts", args)
+CreateAccount(Name) = chime("POST", "/accounts")
+CreateAccount(Name, args) = chime("POST", "/accounts", args)
+CreateAccount(a...; b...) = CreateAccount(a..., b)
 
 """
     CreateAttendee()
@@ -183,7 +207,9 @@ Optional Parameters
   "Tags": "The tag key-value pairs."
 }
 """
-CreateAttendee(args) = chime("POST", "/meetings/{meetingId}/attendees", args)
+CreateAttendee(ExternalUserId, MeetingId) = chime("POST", "/meetings/$(meetingId)/attendees")
+CreateAttendee(ExternalUserId, MeetingId, args) = chime("POST", "/meetings/$(meetingId)/attendees", args)
+CreateAttendee(a...; b...) = CreateAttendee(a..., b)
 
 """
     CreateBot()
@@ -201,12 +227,14 @@ Optional Parameters
   "Domain": "The domain of the Amazon Chime Enterprise account."
 }
 """
-CreateBot(args) = chime("POST", "/accounts/{accountId}/bots", args)
+CreateBot(AccountId, DisplayName) = chime("POST", "/accounts/$(accountId)/bots")
+CreateBot(AccountId, DisplayName, args) = chime("POST", "/accounts/$(accountId)/bots", args)
+CreateBot(a...; b...) = CreateBot(a..., b)
 
 """
     CreateMeeting()
 
-Creates a new Amazon Chime SDK meeting in the specified media Region with no initial attendees. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
+Creates a new Amazon Chime SDK meeting in the specified media Region with no initial attendees. For more information about specifying media Regions, see Amazon Chime SDK Media Regions in the Amazon Chime Developer Guide. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
 
 Required Parameters
 {
@@ -216,13 +244,39 @@ Required Parameters
 Optional Parameters
 {
   "ExternalMeetingId": "The external meeting ID.",
-  "MediaRegion": "The Region in which to create the meeting. Available values: ap-northeast-1, ap-southeast-1, ap-southeast-2, ca-central-1, eu-central-1, eu-north-1, eu-west-1, eu-west-2, eu-west-3, sa-east-1, us-east-1, us-east-2, us-west-1, us-west-2.",
+  "MediaRegion": "The Region in which to create the meeting. Default: us-east-1. Available values: ap-northeast-1, ap-southeast-1, ap-southeast-2, ca-central-1, eu-central-1, eu-north-1, eu-west-1, eu-west-2, eu-west-3, sa-east-1, us-east-1, us-east-2, us-west-1, us-west-2.",
   "MeetingHostId": "Reserved.",
   "NotificationsConfiguration": "The configuration for resource targets to receive notifications when meeting and attendee events occur.",
   "Tags": "The tag key-value pairs."
 }
 """
-CreateMeeting(args) = chime("POST", "/meetings", args)
+CreateMeeting(ClientRequestToken) = chime("POST", "/meetings")
+CreateMeeting(ClientRequestToken, args) = chime("POST", "/meetings", args)
+CreateMeeting(a...; b...) = CreateMeeting(a..., b)
+
+"""
+    CreateMeetingWithAttendees()
+
+Creates a new Amazon Chime SDK meeting in the specified media Region, with attendees. For more information about specifying media Regions, see Amazon Chime SDK Media Regions in the Amazon Chime Developer Guide. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
+
+Required Parameters
+{
+  "ClientRequestToken": "The unique identifier for the client request. Use a different token for different meetings."
+}
+
+Optional Parameters
+{
+  "Attendees": "The request containing the attendees to create.",
+  "ExternalMeetingId": "The external meeting ID.",
+  "MediaRegion": "The Region in which to create the meeting. Default: us-east-1. Available values: ap-northeast-1, ap-southeast-1, ap-southeast-2, ca-central-1, eu-central-1, eu-north-1, eu-west-1, eu-west-2, eu-west-3, sa-east-1, us-east-1, us-east-2, us-west-1, us-west-2.",
+  "MeetingHostId": "Reserved.",
+  "NotificationsConfiguration": "",
+  "Tags": "The tag key-value pairs."
+}
+"""
+CreateMeetingWithAttendees(ClientRequestToken) = chime("POST", "/meetings?operation=create-attendees")
+CreateMeetingWithAttendees(ClientRequestToken, args) = chime("POST", "/meetings?operation=create-attendees", args)
+CreateMeetingWithAttendees(a...; b...) = CreateMeetingWithAttendees(a..., b)
 
 """
     CreatePhoneNumberOrder()
@@ -235,7 +289,9 @@ Required Parameters
   "ProductType": "The phone number product type."
 }
 """
-CreatePhoneNumberOrder(args) = chime("POST", "/phone-number-orders", args)
+CreatePhoneNumberOrder(E164PhoneNumbers, ProductType) = chime("POST", "/phone-number-orders")
+CreatePhoneNumberOrder(E164PhoneNumbers, ProductType, args) = chime("POST", "/phone-number-orders", args)
+CreatePhoneNumberOrder(a...; b...) = CreatePhoneNumberOrder(a..., b)
 
 """
     CreateProxySession()
@@ -258,7 +314,9 @@ Optional Parameters
   "NumberSelectionBehavior": "The preference for proxy phone number reuse, or stickiness, between the same participants across sessions."
 }
 """
-CreateProxySession(args) = chime("POST", "/voice-connectors/{voiceConnectorId}/proxy-sessions", args)
+CreateProxySession(Capabilities, ParticipantPhoneNumbers, VoiceConnectorId) = chime("POST", "/voice-connectors/$(voiceConnectorId)/proxy-sessions")
+CreateProxySession(Capabilities, ParticipantPhoneNumbers, VoiceConnectorId, args) = chime("POST", "/voice-connectors/$(voiceConnectorId)/proxy-sessions", args)
+CreateProxySession(a...; b...) = CreateProxySession(a..., b)
 
 """
     CreateRoom()
@@ -276,7 +334,9 @@ Optional Parameters
   "ClientRequestToken": "The idempotency token for the request."
 }
 """
-CreateRoom(args) = chime("POST", "/accounts/{accountId}/rooms", args)
+CreateRoom(AccountId, Name) = chime("POST", "/accounts/$(accountId)/rooms")
+CreateRoom(AccountId, Name, args) = chime("POST", "/accounts/$(accountId)/rooms", args)
+CreateRoom(a...; b...) = CreateRoom(a..., b)
 
 """
     CreateRoomMembership()
@@ -295,7 +355,9 @@ Optional Parameters
   "Role": "The role of the member."
 }
 """
-CreateRoomMembership(args) = chime("POST", "/accounts/{accountId}/rooms/{roomId}/memberships", args)
+CreateRoomMembership(AccountId, MemberId, RoomId) = chime("POST", "/accounts/$(accountId)/rooms/$(roomId)/memberships")
+CreateRoomMembership(AccountId, MemberId, RoomId, args) = chime("POST", "/accounts/$(accountId)/rooms/$(roomId)/memberships", args)
+CreateRoomMembership(a...; b...) = CreateRoomMembership(a..., b)
 
 """
     CreateUser()
@@ -314,7 +376,9 @@ Optional Parameters
   "Username": "The user name."
 }
 """
-CreateUser(args) = chime("POST", "/accounts/{accountId}/users?operation=create", args)
+CreateUser(AccountId) = chime("POST", "/accounts/$(accountId)/users?operation=create")
+CreateUser(AccountId, args) = chime("POST", "/accounts/$(accountId)/users?operation=create", args)
+CreateUser(a...; b...) = CreateUser(a..., b)
 
 """
     CreateVoiceConnector()
@@ -332,7 +396,9 @@ Optional Parameters
   "AwsRegion": "The AWS Region in which the Amazon Chime Voice Connector is created. Default value: us-east-1."
 }
 """
-CreateVoiceConnector(args) = chime("POST", "/voice-connectors", args)
+CreateVoiceConnector(Name, RequireEncryption) = chime("POST", "/voice-connectors")
+CreateVoiceConnector(Name, RequireEncryption, args) = chime("POST", "/voice-connectors", args)
+CreateVoiceConnector(a...; b...) = CreateVoiceConnector(a..., b)
 
 """
     CreateVoiceConnectorGroup()
@@ -349,7 +415,9 @@ Optional Parameters
   "VoiceConnectorItems": "The Amazon Chime Voice Connectors to route inbound calls to."
 }
 """
-CreateVoiceConnectorGroup(args) = chime("POST", "/voice-connector-groups", args)
+CreateVoiceConnectorGroup(Name) = chime("POST", "/voice-connector-groups")
+CreateVoiceConnectorGroup(Name, args) = chime("POST", "/voice-connector-groups", args)
+CreateVoiceConnectorGroup(a...; b...) = CreateVoiceConnectorGroup(a..., b)
 
 """
     DeleteAccount()
@@ -361,7 +429,9 @@ Required Parameters
   "AccountId": "The Amazon Chime account ID."
 }
 """
-DeleteAccount(args) = chime("DELETE", "/accounts/{accountId}", args)
+DeleteAccount(AccountId) = chime("DELETE", "/accounts/$(accountId)")
+DeleteAccount(AccountId, args) = chime("DELETE", "/accounts/$(accountId)", args)
+DeleteAccount(a...; b...) = DeleteAccount(a..., b)
 
 """
     DeleteAttendee()
@@ -374,7 +444,9 @@ Required Parameters
   "MeetingId": "The Amazon Chime SDK meeting ID."
 }
 """
-DeleteAttendee(args) = chime("DELETE", "/meetings/{meetingId}/attendees/{attendeeId}", args)
+DeleteAttendee(AttendeeId, MeetingId) = chime("DELETE", "/meetings/$(meetingId)/attendees/$(attendeeId)")
+DeleteAttendee(AttendeeId, MeetingId, args) = chime("DELETE", "/meetings/$(meetingId)/attendees/$(attendeeId)", args)
+DeleteAttendee(a...; b...) = DeleteAttendee(a..., b)
 
 """
     DeleteEventsConfiguration()
@@ -387,7 +459,9 @@ Required Parameters
   "BotId": "The bot ID."
 }
 """
-DeleteEventsConfiguration(args) = chime("DELETE", "/accounts/{accountId}/bots/{botId}/events-configuration", args)
+DeleteEventsConfiguration(AccountId, BotId) = chime("DELETE", "/accounts/$(accountId)/bots/$(botId)/events-configuration")
+DeleteEventsConfiguration(AccountId, BotId, args) = chime("DELETE", "/accounts/$(accountId)/bots/$(botId)/events-configuration", args)
+DeleteEventsConfiguration(a...; b...) = DeleteEventsConfiguration(a..., b)
 
 """
     DeleteMeeting()
@@ -399,7 +473,9 @@ Required Parameters
   "MeetingId": "The Amazon Chime SDK meeting ID."
 }
 """
-DeleteMeeting(args) = chime("DELETE", "/meetings/{meetingId}", args)
+DeleteMeeting(MeetingId) = chime("DELETE", "/meetings/$(meetingId)")
+DeleteMeeting(MeetingId, args) = chime("DELETE", "/meetings/$(meetingId)", args)
+DeleteMeeting(a...; b...) = DeleteMeeting(a..., b)
 
 """
     DeletePhoneNumber()
@@ -411,7 +487,9 @@ Required Parameters
   "PhoneNumberId": "The phone number ID."
 }
 """
-DeletePhoneNumber(args) = chime("DELETE", "/phone-numbers/{phoneNumberId}", args)
+DeletePhoneNumber(PhoneNumberId) = chime("DELETE", "/phone-numbers/$(phoneNumberId)")
+DeletePhoneNumber(PhoneNumberId, args) = chime("DELETE", "/phone-numbers/$(phoneNumberId)", args)
+DeletePhoneNumber(a...; b...) = DeletePhoneNumber(a..., b)
 
 """
     DeleteProxySession()
@@ -424,7 +502,9 @@ Required Parameters
   "VoiceConnectorId": "The Amazon Chime voice connector ID."
 }
 """
-DeleteProxySession(args) = chime("DELETE", "/voice-connectors/{voiceConnectorId}/proxy-sessions/{proxySessionId}", args)
+DeleteProxySession(ProxySessionId, VoiceConnectorId) = chime("DELETE", "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)")
+DeleteProxySession(ProxySessionId, VoiceConnectorId, args) = chime("DELETE", "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)", args)
+DeleteProxySession(a...; b...) = DeleteProxySession(a..., b)
 
 """
     DeleteRoom()
@@ -437,7 +517,9 @@ Required Parameters
   "RoomId": "The chat room ID."
 }
 """
-DeleteRoom(args) = chime("DELETE", "/accounts/{accountId}/rooms/{roomId}", args)
+DeleteRoom(AccountId, RoomId) = chime("DELETE", "/accounts/$(accountId)/rooms/$(roomId)")
+DeleteRoom(AccountId, RoomId, args) = chime("DELETE", "/accounts/$(accountId)/rooms/$(roomId)", args)
+DeleteRoom(a...; b...) = DeleteRoom(a..., b)
 
 """
     DeleteRoomMembership()
@@ -451,7 +533,9 @@ Required Parameters
   "RoomId": "The room ID."
 }
 """
-DeleteRoomMembership(args) = chime("DELETE", "/accounts/{accountId}/rooms/{roomId}/memberships/{memberId}", args)
+DeleteRoomMembership(AccountId, MemberId, RoomId) = chime("DELETE", "/accounts/$(accountId)/rooms/$(roomId)/memberships/$(memberId)")
+DeleteRoomMembership(AccountId, MemberId, RoomId, args) = chime("DELETE", "/accounts/$(accountId)/rooms/$(roomId)/memberships/$(memberId)", args)
+DeleteRoomMembership(a...; b...) = DeleteRoomMembership(a..., b)
 
 """
     DeleteVoiceConnector()
@@ -463,7 +547,9 @@ Required Parameters
   "VoiceConnectorId": "The Amazon Chime Voice Connector ID."
 }
 """
-DeleteVoiceConnector(args) = chime("DELETE", "/voice-connectors/{voiceConnectorId}", args)
+DeleteVoiceConnector(VoiceConnectorId) = chime("DELETE", "/voice-connectors/$(voiceConnectorId)")
+DeleteVoiceConnector(VoiceConnectorId, args) = chime("DELETE", "/voice-connectors/$(voiceConnectorId)", args)
+DeleteVoiceConnector(a...; b...) = DeleteVoiceConnector(a..., b)
 
 """
     DeleteVoiceConnectorGroup()
@@ -475,7 +561,9 @@ Required Parameters
   "VoiceConnectorGroupId": "The Amazon Chime Voice Connector group ID."
 }
 """
-DeleteVoiceConnectorGroup(args) = chime("DELETE", "/voice-connector-groups/{voiceConnectorGroupId}", args)
+DeleteVoiceConnectorGroup(VoiceConnectorGroupId) = chime("DELETE", "/voice-connector-groups/$(voiceConnectorGroupId)")
+DeleteVoiceConnectorGroup(VoiceConnectorGroupId, args) = chime("DELETE", "/voice-connector-groups/$(voiceConnectorGroupId)", args)
+DeleteVoiceConnectorGroup(a...; b...) = DeleteVoiceConnectorGroup(a..., b)
 
 """
     DeleteVoiceConnectorOrigination()
@@ -487,7 +575,9 @@ Required Parameters
   "VoiceConnectorId": "The Amazon Chime Voice Connector ID."
 }
 """
-DeleteVoiceConnectorOrigination(args) = chime("DELETE", "/voice-connectors/{voiceConnectorId}/origination", args)
+DeleteVoiceConnectorOrigination(VoiceConnectorId) = chime("DELETE", "/voice-connectors/$(voiceConnectorId)/origination")
+DeleteVoiceConnectorOrigination(VoiceConnectorId, args) = chime("DELETE", "/voice-connectors/$(voiceConnectorId)/origination", args)
+DeleteVoiceConnectorOrigination(a...; b...) = DeleteVoiceConnectorOrigination(a..., b)
 
 """
     DeleteVoiceConnectorProxy()
@@ -499,7 +589,9 @@ Required Parameters
   "VoiceConnectorId": "The Amazon Chime Voice Connector ID."
 }
 """
-DeleteVoiceConnectorProxy(args) = chime("DELETE", "/voice-connectors/{voiceConnectorId}/programmable-numbers/proxy", args)
+DeleteVoiceConnectorProxy(VoiceConnectorId) = chime("DELETE", "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy")
+DeleteVoiceConnectorProxy(VoiceConnectorId, args) = chime("DELETE", "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy", args)
+DeleteVoiceConnectorProxy(a...; b...) = DeleteVoiceConnectorProxy(a..., b)
 
 """
     DeleteVoiceConnectorStreamingConfiguration()
@@ -511,7 +603,9 @@ Required Parameters
   "VoiceConnectorId": "The Amazon Chime Voice Connector ID."
 }
 """
-DeleteVoiceConnectorStreamingConfiguration(args) = chime("DELETE", "/voice-connectors/{voiceConnectorId}/streaming-configuration", args)
+DeleteVoiceConnectorStreamingConfiguration(VoiceConnectorId) = chime("DELETE", "/voice-connectors/$(voiceConnectorId)/streaming-configuration")
+DeleteVoiceConnectorStreamingConfiguration(VoiceConnectorId, args) = chime("DELETE", "/voice-connectors/$(voiceConnectorId)/streaming-configuration", args)
+DeleteVoiceConnectorStreamingConfiguration(a...; b...) = DeleteVoiceConnectorStreamingConfiguration(a..., b)
 
 """
     DeleteVoiceConnectorTermination()
@@ -523,7 +617,9 @@ Required Parameters
   "VoiceConnectorId": "The Amazon Chime Voice Connector ID."
 }
 """
-DeleteVoiceConnectorTermination(args) = chime("DELETE", "/voice-connectors/{voiceConnectorId}/termination", args)
+DeleteVoiceConnectorTermination(VoiceConnectorId) = chime("DELETE", "/voice-connectors/$(voiceConnectorId)/termination")
+DeleteVoiceConnectorTermination(VoiceConnectorId, args) = chime("DELETE", "/voice-connectors/$(voiceConnectorId)/termination", args)
+DeleteVoiceConnectorTermination(a...; b...) = DeleteVoiceConnectorTermination(a..., b)
 
 """
     DeleteVoiceConnectorTerminationCredentials()
@@ -540,7 +636,9 @@ Optional Parameters
   "Usernames": "The RFC2617 compliant username associated with the SIP credentials, in US-ASCII format."
 }
 """
-DeleteVoiceConnectorTerminationCredentials(args) = chime("POST", "/voice-connectors/{voiceConnectorId}/termination/credentials?operation=delete", args)
+DeleteVoiceConnectorTerminationCredentials(VoiceConnectorId) = chime("POST", "/voice-connectors/$(voiceConnectorId)/termination/credentials?operation=delete")
+DeleteVoiceConnectorTerminationCredentials(VoiceConnectorId, args) = chime("POST", "/voice-connectors/$(voiceConnectorId)/termination/credentials?operation=delete", args)
+DeleteVoiceConnectorTerminationCredentials(a...; b...) = DeleteVoiceConnectorTerminationCredentials(a..., b)
 
 """
     DisassociatePhoneNumberFromUser()
@@ -553,7 +651,9 @@ Required Parameters
   "UserId": "The user ID."
 }
 """
-DisassociatePhoneNumberFromUser(args) = chime("POST", "/accounts/{accountId}/users/{userId}?operation=disassociate-phone-number", args)
+DisassociatePhoneNumberFromUser(AccountId, UserId) = chime("POST", "/accounts/$(accountId)/users/$(userId)?operation=disassociate-phone-number")
+DisassociatePhoneNumberFromUser(AccountId, UserId, args) = chime("POST", "/accounts/$(accountId)/users/$(userId)?operation=disassociate-phone-number", args)
+DisassociatePhoneNumberFromUser(a...; b...) = DisassociatePhoneNumberFromUser(a..., b)
 
 """
     DisassociatePhoneNumbersFromVoiceConnector()
@@ -570,7 +670,9 @@ Optional Parameters
   "E164PhoneNumbers": "List of phone numbers, in E.164 format."
 }
 """
-DisassociatePhoneNumbersFromVoiceConnector(args) = chime("POST", "/voice-connectors/{voiceConnectorId}?operation=disassociate-phone-numbers", args)
+DisassociatePhoneNumbersFromVoiceConnector(VoiceConnectorId) = chime("POST", "/voice-connectors/$(voiceConnectorId)?operation=disassociate-phone-numbers")
+DisassociatePhoneNumbersFromVoiceConnector(VoiceConnectorId, args) = chime("POST", "/voice-connectors/$(voiceConnectorId)?operation=disassociate-phone-numbers", args)
+DisassociatePhoneNumbersFromVoiceConnector(a...; b...) = DisassociatePhoneNumbersFromVoiceConnector(a..., b)
 
 """
     DisassociatePhoneNumbersFromVoiceConnectorGroup()
@@ -587,7 +689,9 @@ Optional Parameters
   "E164PhoneNumbers": "List of phone numbers, in E.164 format."
 }
 """
-DisassociatePhoneNumbersFromVoiceConnectorGroup(args) = chime("POST", "/voice-connector-groups/{voiceConnectorGroupId}?operation=disassociate-phone-numbers", args)
+DisassociatePhoneNumbersFromVoiceConnectorGroup(VoiceConnectorGroupId) = chime("POST", "/voice-connector-groups/$(voiceConnectorGroupId)?operation=disassociate-phone-numbers")
+DisassociatePhoneNumbersFromVoiceConnectorGroup(VoiceConnectorGroupId, args) = chime("POST", "/voice-connector-groups/$(voiceConnectorGroupId)?operation=disassociate-phone-numbers", args)
+DisassociatePhoneNumbersFromVoiceConnectorGroup(a...; b...) = DisassociatePhoneNumbersFromVoiceConnectorGroup(a..., b)
 
 """
     DisassociateSigninDelegateGroupsFromAccount()
@@ -600,7 +704,9 @@ Required Parameters
   "GroupNames": "The sign-in delegate group names."
 }
 """
-DisassociateSigninDelegateGroupsFromAccount(args) = chime("POST", "/accounts/{accountId}?operation=disassociate-signin-delegate-groups", args)
+DisassociateSigninDelegateGroupsFromAccount(AccountId, GroupNames) = chime("POST", "/accounts/$(accountId)?operation=disassociate-signin-delegate-groups")
+DisassociateSigninDelegateGroupsFromAccount(AccountId, GroupNames, args) = chime("POST", "/accounts/$(accountId)?operation=disassociate-signin-delegate-groups", args)
+DisassociateSigninDelegateGroupsFromAccount(a...; b...) = DisassociateSigninDelegateGroupsFromAccount(a..., b)
 
 """
     GetAccount()
@@ -612,7 +718,9 @@ Required Parameters
   "AccountId": "The Amazon Chime account ID."
 }
 """
-GetAccount(args) = chime("GET", "/accounts/{accountId}", args)
+GetAccount(AccountId) = chime("GET", "/accounts/$(accountId)")
+GetAccount(AccountId, args) = chime("GET", "/accounts/$(accountId)", args)
+GetAccount(a...; b...) = GetAccount(a..., b)
 
 """
     GetAccountSettings()
@@ -624,7 +732,9 @@ Required Parameters
   "AccountId": "The Amazon Chime account ID."
 }
 """
-GetAccountSettings(args) = chime("GET", "/accounts/{accountId}/settings", args)
+GetAccountSettings(AccountId) = chime("GET", "/accounts/$(accountId)/settings")
+GetAccountSettings(AccountId, args) = chime("GET", "/accounts/$(accountId)/settings", args)
+GetAccountSettings(a...; b...) = GetAccountSettings(a..., b)
 
 """
     GetAttendee()
@@ -637,7 +747,9 @@ Required Parameters
   "MeetingId": "The Amazon Chime SDK meeting ID."
 }
 """
-GetAttendee(args) = chime("GET", "/meetings/{meetingId}/attendees/{attendeeId}", args)
+GetAttendee(AttendeeId, MeetingId) = chime("GET", "/meetings/$(meetingId)/attendees/$(attendeeId)")
+GetAttendee(AttendeeId, MeetingId, args) = chime("GET", "/meetings/$(meetingId)/attendees/$(attendeeId)", args)
+GetAttendee(a...; b...) = GetAttendee(a..., b)
 
 """
     GetBot()
@@ -650,7 +762,9 @@ Required Parameters
   "BotId": "The bot ID."
 }
 """
-GetBot(args) = chime("GET", "/accounts/{accountId}/bots/{botId}", args)
+GetBot(AccountId, BotId) = chime("GET", "/accounts/$(accountId)/bots/$(botId)")
+GetBot(AccountId, BotId, args) = chime("GET", "/accounts/$(accountId)/bots/$(botId)", args)
+GetBot(a...; b...) = GetBot(a..., b)
 
 """
     GetEventsConfiguration()
@@ -663,7 +777,9 @@ Required Parameters
   "BotId": "The bot ID."
 }
 """
-GetEventsConfiguration(args) = chime("GET", "/accounts/{accountId}/bots/{botId}/events-configuration", args)
+GetEventsConfiguration(AccountId, BotId) = chime("GET", "/accounts/$(accountId)/bots/$(botId)/events-configuration")
+GetEventsConfiguration(AccountId, BotId, args) = chime("GET", "/accounts/$(accountId)/bots/$(botId)/events-configuration", args)
+GetEventsConfiguration(a...; b...) = GetEventsConfiguration(a..., b)
 
 """
     GetGlobalSettings()
@@ -672,6 +788,7 @@ Retrieves global settings for the administrator's AWS account, such as Amazon Ch
 """
 GetGlobalSettings() = chime("GET", "/settings")
 GetGlobalSettings(args) = chime("GET", "/settings", args)
+GetGlobalSettings(a...; b...) = GetGlobalSettings(a..., b)
 
 """
     GetMeeting()
@@ -683,7 +800,9 @@ Required Parameters
   "MeetingId": "The Amazon Chime SDK meeting ID."
 }
 """
-GetMeeting(args) = chime("GET", "/meetings/{meetingId}", args)
+GetMeeting(MeetingId) = chime("GET", "/meetings/$(meetingId)")
+GetMeeting(MeetingId, args) = chime("GET", "/meetings/$(meetingId)", args)
+GetMeeting(a...; b...) = GetMeeting(a..., b)
 
 """
     GetPhoneNumber()
@@ -695,7 +814,9 @@ Required Parameters
   "PhoneNumberId": "The phone number ID."
 }
 """
-GetPhoneNumber(args) = chime("GET", "/phone-numbers/{phoneNumberId}", args)
+GetPhoneNumber(PhoneNumberId) = chime("GET", "/phone-numbers/$(phoneNumberId)")
+GetPhoneNumber(PhoneNumberId, args) = chime("GET", "/phone-numbers/$(phoneNumberId)", args)
+GetPhoneNumber(a...; b...) = GetPhoneNumber(a..., b)
 
 """
     GetPhoneNumberOrder()
@@ -707,7 +828,9 @@ Required Parameters
   "PhoneNumberOrderId": "The ID for the phone number order."
 }
 """
-GetPhoneNumberOrder(args) = chime("GET", "/phone-number-orders/{phoneNumberOrderId}", args)
+GetPhoneNumberOrder(PhoneNumberOrderId) = chime("GET", "/phone-number-orders/$(phoneNumberOrderId)")
+GetPhoneNumberOrder(PhoneNumberOrderId, args) = chime("GET", "/phone-number-orders/$(phoneNumberOrderId)", args)
+GetPhoneNumberOrder(a...; b...) = GetPhoneNumberOrder(a..., b)
 
 """
     GetPhoneNumberSettings()
@@ -716,6 +839,7 @@ Retrieves the phone number settings for the administrator's AWS account, such as
 """
 GetPhoneNumberSettings() = chime("GET", "/settings/phone-number")
 GetPhoneNumberSettings(args) = chime("GET", "/settings/phone-number", args)
+GetPhoneNumberSettings(a...; b...) = GetPhoneNumberSettings(a..., b)
 
 """
     GetProxySession()
@@ -728,7 +852,9 @@ Required Parameters
   "VoiceConnectorId": "The Amazon Chime voice connector ID."
 }
 """
-GetProxySession(args) = chime("GET", "/voice-connectors/{voiceConnectorId}/proxy-sessions/{proxySessionId}", args)
+GetProxySession(ProxySessionId, VoiceConnectorId) = chime("GET", "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)")
+GetProxySession(ProxySessionId, VoiceConnectorId, args) = chime("GET", "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)", args)
+GetProxySession(a...; b...) = GetProxySession(a..., b)
 
 """
     GetRetentionSettings()
@@ -740,7 +866,9 @@ Required Parameters
   "AccountId": "The Amazon Chime account ID."
 }
 """
-GetRetentionSettings(args) = chime("GET", "/accounts/{accountId}/retention-settings", args)
+GetRetentionSettings(AccountId) = chime("GET", "/accounts/$(accountId)/retention-settings")
+GetRetentionSettings(AccountId, args) = chime("GET", "/accounts/$(accountId)/retention-settings", args)
+GetRetentionSettings(a...; b...) = GetRetentionSettings(a..., b)
 
 """
     GetRoom()
@@ -753,7 +881,9 @@ Required Parameters
   "RoomId": "The room ID."
 }
 """
-GetRoom(args) = chime("GET", "/accounts/{accountId}/rooms/{roomId}", args)
+GetRoom(AccountId, RoomId) = chime("GET", "/accounts/$(accountId)/rooms/$(roomId)")
+GetRoom(AccountId, RoomId, args) = chime("GET", "/accounts/$(accountId)/rooms/$(roomId)", args)
+GetRoom(a...; b...) = GetRoom(a..., b)
 
 """
     GetUser()
@@ -766,7 +896,9 @@ Required Parameters
   "UserId": "The user ID."
 }
 """
-GetUser(args) = chime("GET", "/accounts/{accountId}/users/{userId}", args)
+GetUser(AccountId, UserId) = chime("GET", "/accounts/$(accountId)/users/$(userId)")
+GetUser(AccountId, UserId, args) = chime("GET", "/accounts/$(accountId)/users/$(userId)", args)
+GetUser(a...; b...) = GetUser(a..., b)
 
 """
     GetUserSettings()
@@ -779,7 +911,9 @@ Required Parameters
   "UserId": "The user ID."
 }
 """
-GetUserSettings(args) = chime("GET", "/accounts/{accountId}/users/{userId}/settings", args)
+GetUserSettings(AccountId, UserId) = chime("GET", "/accounts/$(accountId)/users/$(userId)/settings")
+GetUserSettings(AccountId, UserId, args) = chime("GET", "/accounts/$(accountId)/users/$(userId)/settings", args)
+GetUserSettings(a...; b...) = GetUserSettings(a..., b)
 
 """
     GetVoiceConnector()
@@ -791,7 +925,9 @@ Required Parameters
   "VoiceConnectorId": "The Amazon Chime Voice Connector ID."
 }
 """
-GetVoiceConnector(args) = chime("GET", "/voice-connectors/{voiceConnectorId}", args)
+GetVoiceConnector(VoiceConnectorId) = chime("GET", "/voice-connectors/$(voiceConnectorId)")
+GetVoiceConnector(VoiceConnectorId, args) = chime("GET", "/voice-connectors/$(voiceConnectorId)", args)
+GetVoiceConnector(a...; b...) = GetVoiceConnector(a..., b)
 
 """
     GetVoiceConnectorGroup()
@@ -803,7 +939,9 @@ Required Parameters
   "VoiceConnectorGroupId": "The Amazon Chime Voice Connector group ID."
 }
 """
-GetVoiceConnectorGroup(args) = chime("GET", "/voice-connector-groups/{voiceConnectorGroupId}", args)
+GetVoiceConnectorGroup(VoiceConnectorGroupId) = chime("GET", "/voice-connector-groups/$(voiceConnectorGroupId)")
+GetVoiceConnectorGroup(VoiceConnectorGroupId, args) = chime("GET", "/voice-connector-groups/$(voiceConnectorGroupId)", args)
+GetVoiceConnectorGroup(a...; b...) = GetVoiceConnectorGroup(a..., b)
 
 """
     GetVoiceConnectorLoggingConfiguration()
@@ -815,7 +953,9 @@ Required Parameters
   "VoiceConnectorId": "The Amazon Chime Voice Connector ID."
 }
 """
-GetVoiceConnectorLoggingConfiguration(args) = chime("GET", "/voice-connectors/{voiceConnectorId}/logging-configuration", args)
+GetVoiceConnectorLoggingConfiguration(VoiceConnectorId) = chime("GET", "/voice-connectors/$(voiceConnectorId)/logging-configuration")
+GetVoiceConnectorLoggingConfiguration(VoiceConnectorId, args) = chime("GET", "/voice-connectors/$(voiceConnectorId)/logging-configuration", args)
+GetVoiceConnectorLoggingConfiguration(a...; b...) = GetVoiceConnectorLoggingConfiguration(a..., b)
 
 """
     GetVoiceConnectorOrigination()
@@ -827,7 +967,9 @@ Required Parameters
   "VoiceConnectorId": "The Amazon Chime Voice Connector ID."
 }
 """
-GetVoiceConnectorOrigination(args) = chime("GET", "/voice-connectors/{voiceConnectorId}/origination", args)
+GetVoiceConnectorOrigination(VoiceConnectorId) = chime("GET", "/voice-connectors/$(voiceConnectorId)/origination")
+GetVoiceConnectorOrigination(VoiceConnectorId, args) = chime("GET", "/voice-connectors/$(voiceConnectorId)/origination", args)
+GetVoiceConnectorOrigination(a...; b...) = GetVoiceConnectorOrigination(a..., b)
 
 """
     GetVoiceConnectorProxy()
@@ -839,7 +981,9 @@ Required Parameters
   "VoiceConnectorId": "The Amazon Chime voice connector ID."
 }
 """
-GetVoiceConnectorProxy(args) = chime("GET", "/voice-connectors/{voiceConnectorId}/programmable-numbers/proxy", args)
+GetVoiceConnectorProxy(VoiceConnectorId) = chime("GET", "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy")
+GetVoiceConnectorProxy(VoiceConnectorId, args) = chime("GET", "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy", args)
+GetVoiceConnectorProxy(a...; b...) = GetVoiceConnectorProxy(a..., b)
 
 """
     GetVoiceConnectorStreamingConfiguration()
@@ -851,7 +995,9 @@ Required Parameters
   "VoiceConnectorId": "The Amazon Chime Voice Connector ID."
 }
 """
-GetVoiceConnectorStreamingConfiguration(args) = chime("GET", "/voice-connectors/{voiceConnectorId}/streaming-configuration", args)
+GetVoiceConnectorStreamingConfiguration(VoiceConnectorId) = chime("GET", "/voice-connectors/$(voiceConnectorId)/streaming-configuration")
+GetVoiceConnectorStreamingConfiguration(VoiceConnectorId, args) = chime("GET", "/voice-connectors/$(voiceConnectorId)/streaming-configuration", args)
+GetVoiceConnectorStreamingConfiguration(a...; b...) = GetVoiceConnectorStreamingConfiguration(a..., b)
 
 """
     GetVoiceConnectorTermination()
@@ -863,7 +1009,9 @@ Required Parameters
   "VoiceConnectorId": "The Amazon Chime Voice Connector ID."
 }
 """
-GetVoiceConnectorTermination(args) = chime("GET", "/voice-connectors/{voiceConnectorId}/termination", args)
+GetVoiceConnectorTermination(VoiceConnectorId) = chime("GET", "/voice-connectors/$(voiceConnectorId)/termination")
+GetVoiceConnectorTermination(VoiceConnectorId, args) = chime("GET", "/voice-connectors/$(voiceConnectorId)/termination", args)
+GetVoiceConnectorTermination(a...; b...) = GetVoiceConnectorTermination(a..., b)
 
 """
     GetVoiceConnectorTerminationHealth()
@@ -875,7 +1023,9 @@ Required Parameters
   "VoiceConnectorId": "The Amazon Chime Voice Connector ID."
 }
 """
-GetVoiceConnectorTerminationHealth(args) = chime("GET", "/voice-connectors/{voiceConnectorId}/termination/health", args)
+GetVoiceConnectorTerminationHealth(VoiceConnectorId) = chime("GET", "/voice-connectors/$(voiceConnectorId)/termination/health")
+GetVoiceConnectorTerminationHealth(VoiceConnectorId, args) = chime("GET", "/voice-connectors/$(voiceConnectorId)/termination/health", args)
+GetVoiceConnectorTerminationHealth(a...; b...) = GetVoiceConnectorTerminationHealth(a..., b)
 
 """
     InviteUsers()
@@ -893,7 +1043,9 @@ Optional Parameters
   "UserType": "The user type."
 }
 """
-InviteUsers(args) = chime("POST", "/accounts/{accountId}/users?operation=add", args)
+InviteUsers(AccountId, UserEmailList) = chime("POST", "/accounts/$(accountId)/users?operation=add")
+InviteUsers(AccountId, UserEmailList, args) = chime("POST", "/accounts/$(accountId)/users?operation=add", args)
+InviteUsers(a...; b...) = InviteUsers(a..., b)
 
 """
     ListAccounts()
@@ -910,6 +1062,7 @@ Optional Parameters
 """
 ListAccounts() = chime("GET", "/accounts")
 ListAccounts(args) = chime("GET", "/accounts", args)
+ListAccounts(a...; b...) = ListAccounts(a..., b)
 
 """
     ListAttendeeTags()
@@ -922,7 +1075,9 @@ Required Parameters
   "MeetingId": "The Amazon Chime SDK meeting ID."
 }
 """
-ListAttendeeTags(args) = chime("GET", "/meetings/{meetingId}/attendees/{attendeeId}/tags", args)
+ListAttendeeTags(AttendeeId, MeetingId) = chime("GET", "/meetings/$(meetingId)/attendees/$(attendeeId)/tags")
+ListAttendeeTags(AttendeeId, MeetingId, args) = chime("GET", "/meetings/$(meetingId)/attendees/$(attendeeId)/tags", args)
+ListAttendeeTags(a...; b...) = ListAttendeeTags(a..., b)
 
 """
     ListAttendees()
@@ -940,7 +1095,9 @@ Optional Parameters
   "NextToken": "The token to use to retrieve the next page of results."
 }
 """
-ListAttendees(args) = chime("GET", "/meetings/{meetingId}/attendees", args)
+ListAttendees(MeetingId) = chime("GET", "/meetings/$(meetingId)/attendees")
+ListAttendees(MeetingId, args) = chime("GET", "/meetings/$(meetingId)/attendees", args)
+ListAttendees(a...; b...) = ListAttendees(a..., b)
 
 """
     ListBots()
@@ -958,7 +1115,9 @@ Optional Parameters
   "NextToken": "The token to use to retrieve the next page of results."
 }
 """
-ListBots(args) = chime("GET", "/accounts/{accountId}/bots", args)
+ListBots(AccountId) = chime("GET", "/accounts/$(accountId)/bots")
+ListBots(AccountId, args) = chime("GET", "/accounts/$(accountId)/bots", args)
+ListBots(a...; b...) = ListBots(a..., b)
 
 """
     ListMeetingTags()
@@ -970,7 +1129,9 @@ Required Parameters
   "MeetingId": "The Amazon Chime SDK meeting ID."
 }
 """
-ListMeetingTags(args) = chime("GET", "/meetings/{meetingId}/tags", args)
+ListMeetingTags(MeetingId) = chime("GET", "/meetings/$(meetingId)/tags")
+ListMeetingTags(MeetingId, args) = chime("GET", "/meetings/$(meetingId)/tags", args)
+ListMeetingTags(a...; b...) = ListMeetingTags(a..., b)
 
 """
     ListMeetings()
@@ -985,6 +1146,7 @@ Optional Parameters
 """
 ListMeetings() = chime("GET", "/meetings")
 ListMeetings(args) = chime("GET", "/meetings", args)
+ListMeetings(a...; b...) = ListMeetings(a..., b)
 
 """
     ListPhoneNumberOrders()
@@ -999,6 +1161,7 @@ Optional Parameters
 """
 ListPhoneNumberOrders() = chime("GET", "/phone-number-orders")
 ListPhoneNumberOrders(args) = chime("GET", "/phone-number-orders", args)
+ListPhoneNumberOrders(a...; b...) = ListPhoneNumberOrders(a..., b)
 
 """
     ListPhoneNumbers()
@@ -1017,6 +1180,7 @@ Optional Parameters
 """
 ListPhoneNumbers() = chime("GET", "/phone-numbers")
 ListPhoneNumbers(args) = chime("GET", "/phone-numbers", args)
+ListPhoneNumbers(a...; b...) = ListPhoneNumbers(a..., b)
 
 """
     ListProxySessions()
@@ -1035,7 +1199,9 @@ Optional Parameters
   "Status": "The proxy session status."
 }
 """
-ListProxySessions(args) = chime("GET", "/voice-connectors/{voiceConnectorId}/proxy-sessions", args)
+ListProxySessions(VoiceConnectorId) = chime("GET", "/voice-connectors/$(voiceConnectorId)/proxy-sessions")
+ListProxySessions(VoiceConnectorId, args) = chime("GET", "/voice-connectors/$(voiceConnectorId)/proxy-sessions", args)
+ListProxySessions(a...; b...) = ListProxySessions(a..., b)
 
 """
     ListRoomMemberships()
@@ -1054,7 +1220,9 @@ Optional Parameters
   "NextToken": "The token to use to retrieve the next page of results."
 }
 """
-ListRoomMemberships(args) = chime("GET", "/accounts/{accountId}/rooms/{roomId}/memberships", args)
+ListRoomMemberships(AccountId, RoomId) = chime("GET", "/accounts/$(accountId)/rooms/$(roomId)/memberships")
+ListRoomMemberships(AccountId, RoomId, args) = chime("GET", "/accounts/$(accountId)/rooms/$(roomId)/memberships", args)
+ListRoomMemberships(a...; b...) = ListRoomMemberships(a..., b)
 
 """
     ListRooms()
@@ -1073,7 +1241,9 @@ Optional Parameters
   "NextToken": "The token to use to retrieve the next page of results."
 }
 """
-ListRooms(args) = chime("GET", "/accounts/{accountId}/rooms", args)
+ListRooms(AccountId) = chime("GET", "/accounts/$(accountId)/rooms")
+ListRooms(AccountId, args) = chime("GET", "/accounts/$(accountId)/rooms", args)
+ListRooms(a...; b...) = ListRooms(a..., b)
 
 """
     ListTagsForResource()
@@ -1085,7 +1255,9 @@ Required Parameters
   "ResourceARN": "The resource ARN."
 }
 """
-ListTagsForResource(args) = chime("GET", "/tags", args)
+ListTagsForResource(ResourceARN) = chime("GET", "/tags")
+ListTagsForResource(ResourceARN, args) = chime("GET", "/tags", args)
+ListTagsForResource(a...; b...) = ListTagsForResource(a..., b)
 
 """
     ListUsers()
@@ -1105,7 +1277,9 @@ Optional Parameters
   "UserType": "The user type."
 }
 """
-ListUsers(args) = chime("GET", "/accounts/{accountId}/users", args)
+ListUsers(AccountId) = chime("GET", "/accounts/$(accountId)/users")
+ListUsers(AccountId, args) = chime("GET", "/accounts/$(accountId)/users", args)
+ListUsers(a...; b...) = ListUsers(a..., b)
 
 """
     ListVoiceConnectorGroups()
@@ -1120,6 +1294,7 @@ Optional Parameters
 """
 ListVoiceConnectorGroups() = chime("GET", "/voice-connector-groups")
 ListVoiceConnectorGroups(args) = chime("GET", "/voice-connector-groups", args)
+ListVoiceConnectorGroups(a...; b...) = ListVoiceConnectorGroups(a..., b)
 
 """
     ListVoiceConnectorTerminationCredentials()
@@ -1131,7 +1306,9 @@ Required Parameters
   "VoiceConnectorId": "The Amazon Chime Voice Connector ID."
 }
 """
-ListVoiceConnectorTerminationCredentials(args) = chime("GET", "/voice-connectors/{voiceConnectorId}/termination/credentials", args)
+ListVoiceConnectorTerminationCredentials(VoiceConnectorId) = chime("GET", "/voice-connectors/$(voiceConnectorId)/termination/credentials")
+ListVoiceConnectorTerminationCredentials(VoiceConnectorId, args) = chime("GET", "/voice-connectors/$(voiceConnectorId)/termination/credentials", args)
+ListVoiceConnectorTerminationCredentials(a...; b...) = ListVoiceConnectorTerminationCredentials(a..., b)
 
 """
     ListVoiceConnectors()
@@ -1146,6 +1323,7 @@ Optional Parameters
 """
 ListVoiceConnectors() = chime("GET", "/voice-connectors")
 ListVoiceConnectors(args) = chime("GET", "/voice-connectors", args)
+ListVoiceConnectors(a...; b...) = ListVoiceConnectors(a..., b)
 
 """
     LogoutUser()
@@ -1158,7 +1336,9 @@ Required Parameters
   "UserId": "The user ID."
 }
 """
-LogoutUser(args) = chime("POST", "/accounts/{accountId}/users/{userId}?operation=logout", args)
+LogoutUser(AccountId, UserId) = chime("POST", "/accounts/$(accountId)/users/$(userId)?operation=logout")
+LogoutUser(AccountId, UserId, args) = chime("POST", "/accounts/$(accountId)/users/$(userId)?operation=logout", args)
+LogoutUser(a...; b...) = LogoutUser(a..., b)
 
 """
     PutEventsConfiguration()
@@ -1177,7 +1357,9 @@ Optional Parameters
   "OutboundEventsHTTPSEndpoint": "HTTPS endpoint that allows the bot to receive outgoing events."
 }
 """
-PutEventsConfiguration(args) = chime("PUT", "/accounts/{accountId}/bots/{botId}/events-configuration", args)
+PutEventsConfiguration(AccountId, BotId) = chime("PUT", "/accounts/$(accountId)/bots/$(botId)/events-configuration")
+PutEventsConfiguration(AccountId, BotId, args) = chime("PUT", "/accounts/$(accountId)/bots/$(botId)/events-configuration", args)
+PutEventsConfiguration(a...; b...) = PutEventsConfiguration(a..., b)
 
 """
     PutRetentionSettings()
@@ -1190,7 +1372,9 @@ Required Parameters
   "RetentionSettings": "The retention settings."
 }
 """
-PutRetentionSettings(args) = chime("PUT", "/accounts/{accountId}/retention-settings", args)
+PutRetentionSettings(AccountId, RetentionSettings) = chime("PUT", "/accounts/$(accountId)/retention-settings")
+PutRetentionSettings(AccountId, RetentionSettings, args) = chime("PUT", "/accounts/$(accountId)/retention-settings", args)
+PutRetentionSettings(a...; b...) = PutRetentionSettings(a..., b)
 
 """
     PutVoiceConnectorLoggingConfiguration()
@@ -1203,7 +1387,9 @@ Required Parameters
   "VoiceConnectorId": "The Amazon Chime Voice Connector ID."
 }
 """
-PutVoiceConnectorLoggingConfiguration(args) = chime("PUT", "/voice-connectors/{voiceConnectorId}/logging-configuration", args)
+PutVoiceConnectorLoggingConfiguration(LoggingConfiguration, VoiceConnectorId) = chime("PUT", "/voice-connectors/$(voiceConnectorId)/logging-configuration")
+PutVoiceConnectorLoggingConfiguration(LoggingConfiguration, VoiceConnectorId, args) = chime("PUT", "/voice-connectors/$(voiceConnectorId)/logging-configuration", args)
+PutVoiceConnectorLoggingConfiguration(a...; b...) = PutVoiceConnectorLoggingConfiguration(a..., b)
 
 """
     PutVoiceConnectorOrigination()
@@ -1216,7 +1402,9 @@ Required Parameters
   "VoiceConnectorId": "The Amazon Chime Voice Connector ID."
 }
 """
-PutVoiceConnectorOrigination(args) = chime("PUT", "/voice-connectors/{voiceConnectorId}/origination", args)
+PutVoiceConnectorOrigination(Origination, VoiceConnectorId) = chime("PUT", "/voice-connectors/$(voiceConnectorId)/origination")
+PutVoiceConnectorOrigination(Origination, VoiceConnectorId, args) = chime("PUT", "/voice-connectors/$(voiceConnectorId)/origination", args)
+PutVoiceConnectorOrigination(a...; b...) = PutVoiceConnectorOrigination(a..., b)
 
 """
     PutVoiceConnectorProxy()
@@ -1236,7 +1424,9 @@ Optional Parameters
   "FallBackPhoneNumber": "The phone number to route calls to after a proxy session expires."
 }
 """
-PutVoiceConnectorProxy(args) = chime("PUT", "/voice-connectors/{voiceConnectorId}/programmable-numbers/proxy", args)
+PutVoiceConnectorProxy(DefaultSessionExpiryMinutes, PhoneNumberPoolCountries, VoiceConnectorId) = chime("PUT", "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy")
+PutVoiceConnectorProxy(DefaultSessionExpiryMinutes, PhoneNumberPoolCountries, VoiceConnectorId, args) = chime("PUT", "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy", args)
+PutVoiceConnectorProxy(a...; b...) = PutVoiceConnectorProxy(a..., b)
 
 """
     PutVoiceConnectorStreamingConfiguration()
@@ -1249,7 +1439,9 @@ Required Parameters
   "VoiceConnectorId": "The Amazon Chime Voice Connector ID."
 }
 """
-PutVoiceConnectorStreamingConfiguration(args) = chime("PUT", "/voice-connectors/{voiceConnectorId}/streaming-configuration", args)
+PutVoiceConnectorStreamingConfiguration(StreamingConfiguration, VoiceConnectorId) = chime("PUT", "/voice-connectors/$(voiceConnectorId)/streaming-configuration")
+PutVoiceConnectorStreamingConfiguration(StreamingConfiguration, VoiceConnectorId, args) = chime("PUT", "/voice-connectors/$(voiceConnectorId)/streaming-configuration", args)
+PutVoiceConnectorStreamingConfiguration(a...; b...) = PutVoiceConnectorStreamingConfiguration(a..., b)
 
 """
     PutVoiceConnectorTermination()
@@ -1262,7 +1454,9 @@ Required Parameters
   "VoiceConnectorId": "The Amazon Chime Voice Connector ID."
 }
 """
-PutVoiceConnectorTermination(args) = chime("PUT", "/voice-connectors/{voiceConnectorId}/termination", args)
+PutVoiceConnectorTermination(Termination, VoiceConnectorId) = chime("PUT", "/voice-connectors/$(voiceConnectorId)/termination")
+PutVoiceConnectorTermination(Termination, VoiceConnectorId, args) = chime("PUT", "/voice-connectors/$(voiceConnectorId)/termination", args)
+PutVoiceConnectorTermination(a...; b...) = PutVoiceConnectorTermination(a..., b)
 
 """
     PutVoiceConnectorTerminationCredentials()
@@ -1279,7 +1473,9 @@ Optional Parameters
   "Credentials": "The termination SIP credentials."
 }
 """
-PutVoiceConnectorTerminationCredentials(args) = chime("POST", "/voice-connectors/{voiceConnectorId}/termination/credentials?operation=put", args)
+PutVoiceConnectorTerminationCredentials(VoiceConnectorId) = chime("POST", "/voice-connectors/$(voiceConnectorId)/termination/credentials?operation=put")
+PutVoiceConnectorTerminationCredentials(VoiceConnectorId, args) = chime("POST", "/voice-connectors/$(voiceConnectorId)/termination/credentials?operation=put", args)
+PutVoiceConnectorTerminationCredentials(a...; b...) = PutVoiceConnectorTerminationCredentials(a..., b)
 
 """
     RedactConversationMessage()
@@ -1293,7 +1489,9 @@ Required Parameters
   "MessageId": "The message ID."
 }
 """
-RedactConversationMessage(args) = chime("POST", "/accounts/{accountId}/conversations/{conversationId}/messages/{messageId}?operation=redact", args)
+RedactConversationMessage(AccountId, ConversationId, MessageId) = chime("POST", "/accounts/$(accountId)/conversations/$(conversationId)/messages/$(messageId)?operation=redact")
+RedactConversationMessage(AccountId, ConversationId, MessageId, args) = chime("POST", "/accounts/$(accountId)/conversations/$(conversationId)/messages/$(messageId)?operation=redact", args)
+RedactConversationMessage(a...; b...) = RedactConversationMessage(a..., b)
 
 """
     RedactRoomMessage()
@@ -1307,7 +1505,9 @@ Required Parameters
   "RoomId": "The room ID."
 }
 """
-RedactRoomMessage(args) = chime("POST", "/accounts/{accountId}/rooms/{roomId}/messages/{messageId}?operation=redact", args)
+RedactRoomMessage(AccountId, MessageId, RoomId) = chime("POST", "/accounts/$(accountId)/rooms/$(roomId)/messages/$(messageId)?operation=redact")
+RedactRoomMessage(AccountId, MessageId, RoomId, args) = chime("POST", "/accounts/$(accountId)/rooms/$(roomId)/messages/$(messageId)?operation=redact", args)
+RedactRoomMessage(a...; b...) = RedactRoomMessage(a..., b)
 
 """
     RegenerateSecurityToken()
@@ -1320,7 +1520,9 @@ Required Parameters
   "BotId": "The bot ID."
 }
 """
-RegenerateSecurityToken(args) = chime("POST", "/accounts/{accountId}/bots/{botId}?operation=regenerate-security-token", args)
+RegenerateSecurityToken(AccountId, BotId) = chime("POST", "/accounts/$(accountId)/bots/$(botId)?operation=regenerate-security-token")
+RegenerateSecurityToken(AccountId, BotId, args) = chime("POST", "/accounts/$(accountId)/bots/$(botId)?operation=regenerate-security-token", args)
+RegenerateSecurityToken(a...; b...) = RegenerateSecurityToken(a..., b)
 
 """
     ResetPersonalPIN()
@@ -1333,7 +1535,9 @@ Required Parameters
   "UserId": "The user ID."
 }
 """
-ResetPersonalPIN(args) = chime("POST", "/accounts/{accountId}/users/{userId}?operation=reset-personal-pin", args)
+ResetPersonalPIN(AccountId, UserId) = chime("POST", "/accounts/$(accountId)/users/$(userId)?operation=reset-personal-pin")
+ResetPersonalPIN(AccountId, UserId, args) = chime("POST", "/accounts/$(accountId)/users/$(userId)?operation=reset-personal-pin", args)
+ResetPersonalPIN(a...; b...) = ResetPersonalPIN(a..., b)
 
 """
     RestorePhoneNumber()
@@ -1345,7 +1549,9 @@ Required Parameters
   "PhoneNumberId": "The phone number."
 }
 """
-RestorePhoneNumber(args) = chime("POST", "/phone-numbers/{phoneNumberId}?operation=restore", args)
+RestorePhoneNumber(PhoneNumberId) = chime("POST", "/phone-numbers/$(phoneNumberId)?operation=restore")
+RestorePhoneNumber(PhoneNumberId, args) = chime("POST", "/phone-numbers/$(phoneNumberId)?operation=restore", args)
+RestorePhoneNumber(a...; b...) = RestorePhoneNumber(a..., b)
 
 """
     SearchAvailablePhoneNumbers()
@@ -1365,6 +1571,7 @@ Optional Parameters
 """
 SearchAvailablePhoneNumbers() = chime("GET", "/search?type=phone-numbers")
 SearchAvailablePhoneNumbers(args) = chime("GET", "/search?type=phone-numbers", args)
+SearchAvailablePhoneNumbers(a...; b...) = SearchAvailablePhoneNumbers(a..., b)
 
 """
     TagAttendee()
@@ -1378,7 +1585,9 @@ Required Parameters
   "Tags": "The tag key-value pairs."
 }
 """
-TagAttendee(args) = chime("POST", "/meetings/{meetingId}/attendees/{attendeeId}/tags?operation=add", args)
+TagAttendee(AttendeeId, MeetingId, Tags) = chime("POST", "/meetings/$(meetingId)/attendees/$(attendeeId)/tags?operation=add")
+TagAttendee(AttendeeId, MeetingId, Tags, args) = chime("POST", "/meetings/$(meetingId)/attendees/$(attendeeId)/tags?operation=add", args)
+TagAttendee(a...; b...) = TagAttendee(a..., b)
 
 """
     TagMeeting()
@@ -1391,7 +1600,9 @@ Required Parameters
   "Tags": "The tag key-value pairs."
 }
 """
-TagMeeting(args) = chime("POST", "/meetings/{meetingId}/tags?operation=add", args)
+TagMeeting(MeetingId, Tags) = chime("POST", "/meetings/$(meetingId)/tags?operation=add")
+TagMeeting(MeetingId, Tags, args) = chime("POST", "/meetings/$(meetingId)/tags?operation=add", args)
+TagMeeting(a...; b...) = TagMeeting(a..., b)
 
 """
     TagResource()
@@ -1404,7 +1615,9 @@ Required Parameters
   "Tags": "The tag key-value pairs."
 }
 """
-TagResource(args) = chime("POST", "/tags?operation=tag-resource", args)
+TagResource(ResourceARN, Tags) = chime("POST", "/tags?operation=tag-resource")
+TagResource(ResourceARN, Tags, args) = chime("POST", "/tags?operation=tag-resource", args)
+TagResource(a...; b...) = TagResource(a..., b)
 
 """
     UntagAttendee()
@@ -1418,7 +1631,9 @@ Required Parameters
   "TagKeys": "The tag keys."
 }
 """
-UntagAttendee(args) = chime("POST", "/meetings/{meetingId}/attendees/{attendeeId}/tags?operation=delete", args)
+UntagAttendee(AttendeeId, MeetingId, TagKeys) = chime("POST", "/meetings/$(meetingId)/attendees/$(attendeeId)/tags?operation=delete")
+UntagAttendee(AttendeeId, MeetingId, TagKeys, args) = chime("POST", "/meetings/$(meetingId)/attendees/$(attendeeId)/tags?operation=delete", args)
+UntagAttendee(a...; b...) = UntagAttendee(a..., b)
 
 """
     UntagMeeting()
@@ -1431,7 +1646,9 @@ Required Parameters
   "TagKeys": "The tag keys."
 }
 """
-UntagMeeting(args) = chime("POST", "/meetings/{meetingId}/tags?operation=delete", args)
+UntagMeeting(MeetingId, TagKeys) = chime("POST", "/meetings/$(meetingId)/tags?operation=delete")
+UntagMeeting(MeetingId, TagKeys, args) = chime("POST", "/meetings/$(meetingId)/tags?operation=delete", args)
+UntagMeeting(a...; b...) = UntagMeeting(a..., b)
 
 """
     UntagResource()
@@ -1444,7 +1661,9 @@ Required Parameters
   "TagKeys": "The tag keys."
 }
 """
-UntagResource(args) = chime("POST", "/tags?operation=untag-resource", args)
+UntagResource(ResourceARN, TagKeys) = chime("POST", "/tags?operation=untag-resource")
+UntagResource(ResourceARN, TagKeys, args) = chime("POST", "/tags?operation=untag-resource", args)
+UntagResource(a...; b...) = UntagResource(a..., b)
 
 """
     UpdateAccount()
@@ -1461,7 +1680,9 @@ Optional Parameters
   "Name": "The new name for the specified Amazon Chime account."
 }
 """
-UpdateAccount(args) = chime("POST", "/accounts/{accountId}", args)
+UpdateAccount(AccountId) = chime("POST", "/accounts/$(accountId)")
+UpdateAccount(AccountId, args) = chime("POST", "/accounts/$(accountId)", args)
+UpdateAccount(a...; b...) = UpdateAccount(a..., b)
 
 """
     UpdateAccountSettings()
@@ -1474,7 +1695,9 @@ Required Parameters
   "AccountSettings": "The Amazon Chime account settings to update."
 }
 """
-UpdateAccountSettings(args) = chime("PUT", "/accounts/{accountId}/settings", args)
+UpdateAccountSettings(AccountId, AccountSettings) = chime("PUT", "/accounts/$(accountId)/settings")
+UpdateAccountSettings(AccountId, AccountSettings, args) = chime("PUT", "/accounts/$(accountId)/settings", args)
+UpdateAccountSettings(a...; b...) = UpdateAccountSettings(a..., b)
 
 """
     UpdateBot()
@@ -1492,7 +1715,9 @@ Optional Parameters
   "Disabled": "When true, stops the specified bot from running in your account."
 }
 """
-UpdateBot(args) = chime("POST", "/accounts/{accountId}/bots/{botId}", args)
+UpdateBot(AccountId, BotId) = chime("POST", "/accounts/$(accountId)/bots/$(botId)")
+UpdateBot(AccountId, BotId, args) = chime("POST", "/accounts/$(accountId)/bots/$(botId)", args)
+UpdateBot(a...; b...) = UpdateBot(a..., b)
 
 """
     UpdateGlobalSettings()
@@ -1505,7 +1730,9 @@ Required Parameters
   "VoiceConnector": "The Amazon Chime Voice Connector settings."
 }
 """
-UpdateGlobalSettings(args) = chime("PUT", "/settings", args)
+UpdateGlobalSettings(BusinessCalling, VoiceConnector) = chime("PUT", "/settings")
+UpdateGlobalSettings(BusinessCalling, VoiceConnector, args) = chime("PUT", "/settings", args)
+UpdateGlobalSettings(a...; b...) = UpdateGlobalSettings(a..., b)
 
 """
     UpdatePhoneNumber()
@@ -1523,7 +1750,9 @@ Optional Parameters
   "ProductType": "The product type."
 }
 """
-UpdatePhoneNumber(args) = chime("POST", "/phone-numbers/{phoneNumberId}", args)
+UpdatePhoneNumber(PhoneNumberId) = chime("POST", "/phone-numbers/$(phoneNumberId)")
+UpdatePhoneNumber(PhoneNumberId, args) = chime("POST", "/phone-numbers/$(phoneNumberId)", args)
+UpdatePhoneNumber(a...; b...) = UpdatePhoneNumber(a..., b)
 
 """
     UpdatePhoneNumberSettings()
@@ -1535,7 +1764,9 @@ Required Parameters
   "CallingName": "The default outbound calling name for the account."
 }
 """
-UpdatePhoneNumberSettings(args) = chime("PUT", "/settings/phone-number", args)
+UpdatePhoneNumberSettings(CallingName) = chime("PUT", "/settings/phone-number")
+UpdatePhoneNumberSettings(CallingName, args) = chime("PUT", "/settings/phone-number", args)
+UpdatePhoneNumberSettings(a...; b...) = UpdatePhoneNumberSettings(a..., b)
 
 """
     UpdateProxySession()
@@ -1554,7 +1785,9 @@ Optional Parameters
   "ExpiryMinutes": "The number of minutes allowed for the proxy session."
 }
 """
-UpdateProxySession(args) = chime("POST", "/voice-connectors/{voiceConnectorId}/proxy-sessions/{proxySessionId}", args)
+UpdateProxySession(Capabilities, ProxySessionId, VoiceConnectorId) = chime("POST", "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)")
+UpdateProxySession(Capabilities, ProxySessionId, VoiceConnectorId, args) = chime("POST", "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)", args)
+UpdateProxySession(a...; b...) = UpdateProxySession(a..., b)
 
 """
     UpdateRoom()
@@ -1572,7 +1805,9 @@ Optional Parameters
   "Name": "The room name."
 }
 """
-UpdateRoom(args) = chime("POST", "/accounts/{accountId}/rooms/{roomId}", args)
+UpdateRoom(AccountId, RoomId) = chime("POST", "/accounts/$(accountId)/rooms/$(roomId)")
+UpdateRoom(AccountId, RoomId, args) = chime("POST", "/accounts/$(accountId)/rooms/$(roomId)", args)
+UpdateRoom(a...; b...) = UpdateRoom(a..., b)
 
 """
     UpdateRoomMembership()
@@ -1591,7 +1826,9 @@ Optional Parameters
   "Role": "The role of the member."
 }
 """
-UpdateRoomMembership(args) = chime("POST", "/accounts/{accountId}/rooms/{roomId}/memberships/{memberId}", args)
+UpdateRoomMembership(AccountId, MemberId, RoomId) = chime("POST", "/accounts/$(accountId)/rooms/$(roomId)/memberships/$(memberId)")
+UpdateRoomMembership(AccountId, MemberId, RoomId, args) = chime("POST", "/accounts/$(accountId)/rooms/$(roomId)/memberships/$(memberId)", args)
+UpdateRoomMembership(a...; b...) = UpdateRoomMembership(a..., b)
 
 """
     UpdateUser()
@@ -1611,7 +1848,9 @@ Optional Parameters
   "UserType": "The user type."
 }
 """
-UpdateUser(args) = chime("POST", "/accounts/{accountId}/users/{userId}", args)
+UpdateUser(AccountId, UserId) = chime("POST", "/accounts/$(accountId)/users/$(userId)")
+UpdateUser(AccountId, UserId, args) = chime("POST", "/accounts/$(accountId)/users/$(userId)", args)
+UpdateUser(a...; b...) = UpdateUser(a..., b)
 
 """
     UpdateUserSettings()
@@ -1625,7 +1864,9 @@ Required Parameters
   "UserSettings": "The user settings to update."
 }
 """
-UpdateUserSettings(args) = chime("PUT", "/accounts/{accountId}/users/{userId}/settings", args)
+UpdateUserSettings(AccountId, UserId, UserSettings) = chime("PUT", "/accounts/$(accountId)/users/$(userId)/settings")
+UpdateUserSettings(AccountId, UserId, UserSettings, args) = chime("PUT", "/accounts/$(accountId)/users/$(userId)/settings", args)
+UpdateUserSettings(a...; b...) = UpdateUserSettings(a..., b)
 
 """
     UpdateVoiceConnector()
@@ -1639,7 +1880,9 @@ Required Parameters
   "VoiceConnectorId": "The Amazon Chime Voice Connector ID."
 }
 """
-UpdateVoiceConnector(args) = chime("PUT", "/voice-connectors/{voiceConnectorId}", args)
+UpdateVoiceConnector(Name, RequireEncryption, VoiceConnectorId) = chime("PUT", "/voice-connectors/$(voiceConnectorId)")
+UpdateVoiceConnector(Name, RequireEncryption, VoiceConnectorId, args) = chime("PUT", "/voice-connectors/$(voiceConnectorId)", args)
+UpdateVoiceConnector(a...; b...) = UpdateVoiceConnector(a..., b)
 
 """
     UpdateVoiceConnectorGroup()
@@ -1653,4 +1896,6 @@ Required Parameters
   "VoiceConnectorItems": "The VoiceConnectorItems to associate with the group."
 }
 """
-UpdateVoiceConnectorGroup(args) = chime("PUT", "/voice-connector-groups/{voiceConnectorGroupId}", args)
+UpdateVoiceConnectorGroup(Name, VoiceConnectorGroupId, VoiceConnectorItems) = chime("PUT", "/voice-connector-groups/$(voiceConnectorGroupId)")
+UpdateVoiceConnectorGroup(Name, VoiceConnectorGroupId, VoiceConnectorItems, args) = chime("PUT", "/voice-connector-groups/$(voiceConnectorGroupId)", args)
+UpdateVoiceConnectorGroup(a...; b...) = UpdateVoiceConnectorGroup(a..., b)

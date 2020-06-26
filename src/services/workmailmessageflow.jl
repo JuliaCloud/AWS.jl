@@ -12,4 +12,6 @@ Required Parameters
   "messageId": "The identifier of the email message to retrieve."
 }
 """
-GetRawMessageContent(args) = workmailmessageflow("GET", "/messages/{messageId}", args)
+GetRawMessageContent(messageId) = workmailmessageflow("GET", "/messages/$(messageId)")
+GetRawMessageContent(messageId, args) = workmailmessageflow("GET", "/messages/$(messageId)", args)
+GetRawMessageContent(a...; b...) = GetRawMessageContent(a..., b)
