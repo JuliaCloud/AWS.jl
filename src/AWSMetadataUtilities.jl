@@ -137,7 +137,7 @@ function _generate_low_level_definition(service::Dict)
     service_specifics = LittleDict{String, String}()
 
     if service_id == "glacier"
-        service_specifics[service_id] = "LittleDict(\"headers\" => Dict(\"x-amz-glacier-version\" => \"$(service["apiVersion"])\"))"
+        service_specifics[service_id] = "LittleDict(\"x-amz-glacier-version\" => \"$(service["apiVersion"])\")"
     end
 
     if protocol == "rest-xml"

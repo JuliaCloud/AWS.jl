@@ -58,10 +58,10 @@ struct RestJSONService
     name::String
     api_version::String
 
-    service_specifics::LittleDict{String, AbstractDict}
+    service_specific_headers::LittleDict{String, String}
 
-    RestJSONService(name::String, api_version::String) = new(name, api_version, Dict())
-    RestJSONService(name::String, api_version::String, service_specifics::LittleDict{String, <:AbstractDict}) = new(name, api_version, service_specifics)
+    RestJSONService(name::String, api_version::String) = new(name, api_version, LittleDict())
+    RestJSONService(name::String, api_version::String, service_specific_headers::LittleDict{String, String}) = new(name, api_version, service_specific_headers)
 end
 
 # Needs to be included after the definition of struct otherwise it cannot find them
@@ -454,8 +454,8 @@ function (service::RestJSONService)(aws::AWS.AWSConfig, request_method::String, 
 
     request[:headers] = Dict{String, String}(get(args, "headers", []))
 
-    if haskey(service.service_specifics, "headers")
-        request[:headers] = merge(request[:headers], service.service_specifics["headers"])
+    if !isempty(service.service_specific_headers)
+        request[:headers] = merge(request[:headers], service.service_specific_headers)
     end
 
     request[:headers]["Content-Type"] = "application/json"

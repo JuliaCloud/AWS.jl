@@ -96,7 +96,7 @@ const forecastquery = AWS.JSONService("forecastquery", "2018-06-26", "1.1", "Ama
 const frauddetector = AWS.JSONService("frauddetector", "2019-11-15", "1.1", "AWSHawksNestServiceFacade")
 const fsx = AWS.JSONService("fsx", "2018-03-01", "1.1", "AWSSimbaAPIService_v20180301")
 const gamelift = AWS.JSONService("gamelift", "2015-10-01", "1.1", "GameLift")
-const glacier = AWS.RestJSONService("glacier", "2012-06-01", LittleDict("headers" => LittleDict("x-amz-glacier-version" => "2012-06-01")))
+const glacier = AWS.RestJSONService("glacier", "2012-06-01", LittleDict("x-amz-glacier-version" => "2012-06-01"))
 const global_accelerator = AWS.JSONService("globalaccelerator", "2018-08-08", "1.1", "GlobalAccelerator_V20180706")
 const glue = AWS.JSONService("glue", "2017-03-31", "1.1", "AWSGlue")
 const greengrass = AWS.RestJSONService("greengrass", "2017-06-07")
