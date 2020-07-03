@@ -383,15 +383,15 @@ end
     end
 
     @testset "POST - w/ Params" begin
-        AWSServices.s3("POST", "/$bucket_name?delete", Dict("body"=>
-        """
+        body = """
             <Delete xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
                 <Object>
                     <Key>$file_name</Key>
                 </Object>
             </Delete>
-        """
-        ))
+            """
+
+        AWSServices.s3("POST", "/$bucket_name?delete", Dict("body"=>body))
 
         try
             AWSServices.s3("GET", "/$bucket_name/$file_name")
