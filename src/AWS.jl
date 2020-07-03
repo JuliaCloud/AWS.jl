@@ -401,6 +401,11 @@ function (service::RestXMLService)(aws::AWSConfig, request_method::String, reque
         request_method=request_method,
         content=get(args, "body", ""),
         headers=LittleDict{String, String}(get(args, "headers", [])),
+        return_stream=get(args, "return_stream", false),
+        http_options=get(args, "http_options", []),
+        response_stream=get(args, "response_stream", nothing),
+        return_raw=get(args, "return_raw", false),
+        ordered_json_dict=get(args, "ordered_json_dict", true),
     )
 
     delete!(args, "headers")
@@ -465,6 +470,11 @@ function (service::RestJSONService)(
         request_method=request_method,
         headers=LittleDict{String, String}(get(args, "headers", [])),
         resource = _generate_rest_resource(request_uri, args),
+        return_stream=get(args, "return_stream", false),
+        http_options=get(args, "http_options", []),
+        response_stream=get(args, "response_stream", nothing),
+        return_raw=get(args, "return_raw", false),
+        ordered_json_dict=get(args, "ordered_json_dict", true),
     )
 
     request.url = _generate_service_url(aws.region, request.service, request.resource)
