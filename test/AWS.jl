@@ -23,23 +23,22 @@ end
     time = DateTime(2020)
     date = Dates.format(time, "yyyymmdd")
 
-    request = LittleDict(
-        :service => "s3",
-        :version => "2006-03-01",
-        :request_method => "HEAD",
-        :headers => Dict(
+    request = Request(
+        service="s3",
+        api_version="api_verison",
+        request_method="GET",
+        headers=LittleDict(
             "Host" => "s3.us-east-1.amazonaws.com",
             "User-Agent" => "AWS.jl/1.0.0"
         ),
-        :content => "",
-        :resource => "/test-resource",
-        :url => "https://s3.us-east-1.amazonaws.com/test-resource"
+        resource="/test-resource",
+        url="https://s3.us-east-1.amazonaws.com/test-resource"
     )
 
     @testset "sign v2" begin
         result = AWS._sign_aws2!(aws, request, time)
-        content = result[:content]
-        content_type = result[:headers]["Content-Type"]
+        content = result.content
+        content_type = result.headers["Content-Type"]
 
         expected_access_key = "AWSAccessKeyId=$access_key"
         expected_expires = "Expires=2020-01-01T00%3A02%3A00Z"
@@ -59,12 +58,12 @@ end
     end
 
     @testset "sign v4" begin
-        expected_x_amz_content_sha256 = bytes2hex(digest(MD_SHA256, request[:content]))
-        expected_content_md5 = base64encode(digest(MD_MD5, request[:content]))
+        expected_x_amz_content_sha256 = bytes2hex(digest(MD_SHA256, request.content))
+        expected_content_md5 = base64encode(digest(MD_MD5, request.content))
         expected_x_amz_date = Dates.format(time, dateformat"yyyymmdd\THHMMSS\Z")
 
         result = AWS._sign_aws4!(aws, request, time)
-        headers = result[:headers]
+        headers = result.headers
 
         @test headers["x-amz-content-sha256"] == expected_x_amz_content_sha256
         @test headers["Content-MD5"] == expected_content_md5
@@ -72,9 +71,9 @@ end
 
         authorization_header = split(headers["Authorization"], ' ')
         @test authorization_header[1] == "AWS4-HMAC-SHA256"
-        @test authorization_header[2] == "Credential=$access_key/$date/us-east-1/$(request[:service])/aws4_request,"
+        @test authorization_header[2] == "Credential=$access_key/$date/us-east-1/$(request.service)/aws4_request,"
         @test authorization_header[3] == "SignedHeaders=content-md5;content-type;host;user-agent;x-amz-content-sha256;x-amz-date,"
-        @test authorization_header[4] == "Signature=c30f329e4e7090dadfa91f14cbdc45a4a842878b03724c4fda7d5274b239293a"
+        @test authorization_header[4] == "Signature=0f292eaf0b66cf353bafcb1b9b6d90ee27064236a60f17f6fc5bd7d40173a0be"
     end
 end
 
@@ -82,11 +81,11 @@ end
     aws = AWS.AWSConfig()
 
     @testset "HEAD request method" begin
-        request = LittleDict{Symbol, Union{String, Dict}}(
-            :content => "",
-            :request_method => "HEAD",
-            :service => "s3",
-            :url => "https://s3.us-east-1.amazonaws.com/sample-bucket",
+        request = Request(
+            service="s3",
+            api_version="api_verison",
+            request_method="HEAD",
+            url="https://s3.us-east-1.amazonaws.com/sample-bucket"
         )
 
         apply(Patches._http_request_patch) do
@@ -98,30 +97,30 @@ end
     end
 
     @testset "return stream" begin
-        request = LittleDict(
-            :content => "",
-            :return_stream => true,
-            :response_stream => "Response Stream",
-            :request_method => "GET",
-            :service => "s3",
-            :url => "https://s3.us-east-1.amazonaws.com/sample-bucket"
+        request = Request(
+            service="s3",
+            api_version="api_verison",
+            request_method="GET",
+            return_stream=true,
+            response_stream=Base.BufferStream(),
+            url="https://s3.us-east-1.amazonaws.com/sample-bucket"
         )
 
         apply(Patches._http_request_patch) do
             Patches._response!()
             result = AWS.do_request(aws, request)
 
-            @test request[:response_stream] == result
+            @test request.response_stream == result
         end
     end
 
     @testset "return raw" begin
-        request = LittleDict(
-            :content => "",
-            :return_raw => true,
-            :request_method => "GET",
-            :service => "s3",
-            :url => "https://s3.us-east-1.amazonaws.com/sample-bucket"
+        request = Request(
+            service="s3",
+            api_version="api_verison",
+            request_method="GET",
+            url="https://s3.us-east-1.amazonaws.com/sample-bucket",
+            return_raw=true
         )
 
         @testset "body" begin
@@ -145,11 +144,11 @@ end
     end
 
     @testset "MIME" begin
-        request = LittleDict{Symbol, Union{String, Dict}}(
-            :content => "",
-            :request_method => "GET",
-            :service => "s3",
-            :url => "https://s3.us-east-1.amazonaws.com/sample-bucket"
+        request = Request(
+            service="s3",
+            api_version="api_verison",
+            request_method="GET",
+            url="https://s3.us-east-1.amazonaws.com/sample-bucket"
         )
 
         @testset "empty" begin
@@ -202,11 +201,11 @@ end
         end
 
         @testset "xml" begin
-            request = LittleDict{Symbol, Union{String, Dict}}(
-                :content => "",
-                :request_method => "GET",
-                :service => "s3",
-                :url => "https://s3.us-east-1.amazonaws.com/sample-bucket"
+            request = Request(
+                service="s3",
+                api_version="api_verison",
+                request_method="GET",
+                url="https://s3.us-east-1.amazonaws.com/sample-bucket",
             )
 
             expected_body_type = OrderedDict{Union{Symbol, String}, Any}
@@ -282,25 +281,27 @@ end
     region = "us-east-2"
     resource = "/aws.jl-test---timestamp"
 
-    request = LittleDict(
-        :resource=>resource,
-        :service=>"service",
+    request = Request(
+        service="service",
+        api_version="api_version",
+        request_method="GET",
+        resource=resource,
     )
 
     @testset "regionless endpoints" for regionless_endpoint in ["iam", "route53"]
         endpoint = "sdb"
-        request[:endpoint] = regionless_endpoint
+        request.service = regionless_endpoint
         expected_result = "https://$regionless_endpoint.amazonaws.com$resource"
-        result = AWS._generate_service_url(region, request)
+        result = AWS._generate_service_url(region, request.service, request.resource)
 
         @test expected_result == result
     end
 
     @testset "region service" begin
         endpoint = "sdb"
-        request[:endpoint] = endpoint
+        request.service = endpoint
         expected_result = "https://$endpoint.$region.amazonaws.com$resource"
-        result = AWS._generate_service_url(region, request)
+        result = AWS._generate_service_url(region, request.service, request.resource)
 
         @test expected_result == result
     end
@@ -308,10 +309,10 @@ end
 
     @testset "sdb -- us-east-1 region exception" begin
         endpoint = "sdb"
-        request[:endpoint] = endpoint
+        request.service = endpoint
         expected_result = "https://$endpoint.amazonaws.com$resource"
         region = "us-east-1"
-        result = AWS._generate_service_url(region, request)
+        result = AWS._generate_service_url(region, request.service, request.resource)
 
         @test expected_result == result
     end
@@ -364,7 +365,7 @@ end
 
     @testset "PUT - w/ Params" begin
         body = "sample-file-body"
-        AWSServices.s3("PUT", "/$bucket_name/$file_name"; Body=body)
+        AWSServices.s3("PUT", "/$bucket_name/$file_name", Dict("body"=>body))
 
         @test !isempty(AWSServices.s3("GET", "/$bucket_name/$file_name"))
     end
@@ -376,20 +377,21 @@ end
 
     @testset "GET - w/ Params" begin
         max_keys = 1
-        result = AWSServices.s3("GET", "/$bucket_name"; max_keys=max_keys)
+        result = AWSServices.s3("GET", "/$bucket_name", Dict("max_keys"=>max_keys))
 
         @test max_keys == length([result["ListBucketResult"]["Contents"]])
     end
 
     @testset "POST - w/ Params" begin
-        AWSServices.s3("POST", "/$bucket_name?delete"; Body="""
+        AWSServices.s3("POST", "/$bucket_name?delete", Dict("body"=>
+        """
             <Delete xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
                 <Object>
                     <Key>$file_name</Key>
                 </Object>
             </Delete>
         """
-        )
+        ))
 
         try
             AWSServices.s3("GET", "/$bucket_name/$file_name")

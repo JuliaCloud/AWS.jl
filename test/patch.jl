@@ -61,7 +61,7 @@ function _response!(; version::VersionNumber=version, status::Int64=status, head
     return response
 end
 
-_http_request_patch = @patch function AWS._http_request(aws::AWSConfig, request::LittleDict)
+_http_request_patch = @patch function AWS._http_request(aws::AWSConfig, request::Request)
     return response
 end
 
