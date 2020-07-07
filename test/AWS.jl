@@ -81,6 +81,8 @@ end
     aws = AWS.AWSConfig()
 
     @testset "HEAD request method" begin
+        expected_result_type = LittleDict
+
         request = Request(
             service="s3",
             api_version="api_verison",
@@ -92,7 +94,8 @@ end
             Patches._response!()
             result = AWS.do_request(aws, request)
 
-            @test Dict(Patches.headers) == result
+            @test result == expected_result_type(Patches.headers)
+            @test typeof(result) <: expected_result_type
         end
     end
 
@@ -110,7 +113,7 @@ end
             Patches._response!()
             result = AWS.do_request(aws, request)
 
-            @test request.response_stream == result
+            @test result == request.response_stream
         end
     end
 
@@ -128,7 +131,7 @@ end
                 Patches._response!()
                 result = AWS.do_request(aws, request)
 
-                @test Patches.body == String(result)
+                @test String(result) == Patches.body
             end
         end
 
@@ -137,8 +140,8 @@ end
                 Patches._response!()
                 body, headers = AWS.do_request(aws, request; return_headers=true)
 
-                @test Patches.body == String(body)
-                @test Patches.headers == headers
+                @test String(body) == Patches.body
+                @test headers == Patches.headers
             end
         end
     end
@@ -162,28 +165,30 @@ end
                     @testset "body" begin
                        result = AWS.do_request(aws, request)
 
-                       @test expected_body == String(result)
+                       @test String(result) == expected_body
                     end
 
                     @testset "body and headers" begin
                         body, headers = AWS.do_request(aws, request; return_headers=true)
 
-                        @test expected_body == String(body)
-                        @test expected_headers == headers
+                        @test String(body) == expected_body
+                        @test headers == expected_headers
                     end
                 end
 
                 @testset "text/xml" begin
                     expected_headers = Pair["Content-Type"=>"",]
-                    expected_body_type = OrderedDict{Union{Symbol, String}, Any}
+                    expected_body_type = LittleDict{Union{Symbol, String}, Any}
                     expected_body = xml_dict((Patches.body), expected_body_type)
+
+                    expected_header_type = LittleDict{SubString{String}, SubString{String}}
 
                     Patches._response!(headers=expected_headers)
 
                     @testset "body" begin
                         result = AWS.do_request(aws, request)
 
-                        @test typeof(result) == expected_body_type
+                        @test typeof(result) <: expected_body_type
                         @test result == expected_body
                     end
 
@@ -191,10 +196,10 @@ end
                         body, headers = AWS.do_request(aws, request; return_headers=true)
 
                         @test body == expected_body
-                        @test typeof(body) == expected_body_type
+                        @test typeof(body) <: expected_body_type
 
-                        @test headers == Dict(expected_headers)
-                        @test typeof(headers) == Dict{SubString{String}, SubString{String}}
+                        @test headers == LittleDict(expected_headers)
+                        @test typeof(headers) <: expected_header_type
                     end
                 end
             end
@@ -208,7 +213,7 @@ end
                 url="https://s3.us-east-1.amazonaws.com/sample-bucket",
             )
 
-            expected_body_type = OrderedDict{Union{Symbol, String}, Any}
+            expected_body_type = LittleDict{Union{Symbol, String}, Any}
             expected_body = xml_dict((Patches.body), expected_body_type)
             expected_headers = Pair["Content-Type"=>"application/xml",]
 
@@ -218,18 +223,18 @@ end
                 @testset "body" begin
                     result = AWS.do_request(aws, request)
 
-                    @test typeof(result) == expected_body_type
                     @test result == expected_body
+                    @test typeof(result) <: expected_body_type
                 end
 
                 @testset "body and headers" begin
                     body, headers = AWS.do_request(aws, request; return_headers=true)
 
                     @test body == expected_body
-                    @test typeof(body) == expected_body_type
+                    @test typeof(body) <: expected_body_type
 
-                    @test headers == Dict(expected_headers)
-                    @test typeof(headers) == Dict{SubString{String}, SubString{String}}
+                    @test headers == LittleDict(expected_headers)
+                    @test typeof(headers) <: LittleDict{SubString{String}, SubString{String}}
                end
             end
         end
@@ -238,8 +243,8 @@ end
             json_headers = ["Content-Type"=>"application/json"]
             json_body = """{"Marker":null,"VaultList":[{"CreationDate":"2020-06-22T03:14:41.754Z","LastInventoryDate":null,"NumberOfArchives":0,"SizeInBytes":0,"VaultARN":"arn:aws:glacier:us-east-1:000:vaults/test","VaultName":"test"}]}"""
 
-            expected_body_type = OrderedDict{String, Any}
-            expected_body = JSON.parse(json_body, dicttype=OrderedDict)
+            expected_body_type = LittleDict{String, Any}
+            expected_body = JSON.parse(json_body, dicttype=LittleDict)
 
             apply(Patches._http_request_patch) do
                 Patches._response!(body=json_body, headers=json_headers,)
@@ -247,7 +252,7 @@ end
                 @testset "body" begin
                     result = AWS.do_request(aws, request)
 
-                    @test typeof(result) == expected_body_type
+                    @test typeof(result) <: expected_body_type
                     @test result == expected_body
                 end
 
@@ -255,10 +260,10 @@ end
                     body, headers = AWS.do_request(aws, request; return_headers=true)
 
                     @test body == expected_body
-                    @test typeof(body) == expected_body_type
+                    @test typeof(body) <: expected_body_type
 
-                    @test headers == Dict(json_headers)
-                    @test typeof(headers) == Dict{SubString{String}, SubString{String}}
+                    @test headers == LittleDict(json_headers)
+                    @test typeof(headers) <: LittleDict{SubString{String}, SubString{String}}
                 end
             end
         end
@@ -294,7 +299,7 @@ end
         expected_result = "https://$regionless_endpoint.amazonaws.com$resource"
         result = AWS._generate_service_url(region, request.service, request.resource)
 
-        @test expected_result == result
+        @test result == expected_result
     end
 
     @testset "region service" begin
@@ -303,7 +308,7 @@ end
         expected_result = "https://$endpoint.$region.amazonaws.com$resource"
         result = AWS._generate_service_url(region, request.service, request.resource)
 
-        @test expected_result == result
+        @test result == expected_result
     end
 
 
@@ -314,7 +319,7 @@ end
         region = "us-east-1"
         result = AWS._generate_service_url(region, request.service, request.resource)
 
-        @test expected_result == result
+        @test result == expected_result
     end
 end
 
@@ -324,7 +329,7 @@ end
         dict = Dict{String, Any}("return_headers"=>true)
         result = AWS._return_headers(dict)
 
-        @test expected == result
+        @test result == expected
         @test isempty(dict)
     end
 
@@ -332,7 +337,7 @@ end
         expected = false
         result = AWS._return_headers(Dict{String, Any}())
 
-        @test expected == result
+        @test result == expected
     end
 end
 
@@ -372,14 +377,14 @@ end
 
     @testset "GET" begin
         result = AWSServices.s3("GET", "/$bucket_name")
-        @test file_name == result["ListBucketResult"]["Contents"]["Key"]
+        @test result["ListBucketResult"]["Contents"]["Key"] == file_name
     end
 
     @testset "GET - w/ Params" begin
         max_keys = 1
         result = AWSServices.s3("GET", "/$bucket_name", Dict("max_keys" => max_keys))
 
-        @test max_keys == length([result["ListBucketResult"]["Contents"]])
+        @test length([result["ListBucketResult"]["Contents"]]) == max_keys
     end
 
     @testset "POST - w/ Params" begin

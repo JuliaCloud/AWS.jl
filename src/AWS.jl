@@ -66,7 +66,7 @@ end
 Base.@kwdef mutable struct Request
     service::String
     api_version::String
-    request_method::String  # Enum?
+    request_method::String
 
     headers::AbstractDict{String, String}=LittleDict{String, String}()
     content::String=""
@@ -77,7 +77,26 @@ Base.@kwdef mutable struct Request
     response_stream::Union{Base.BufferStream, Nothing}=nothing
     http_options::Array=[]
     return_raw::Bool=false
-    ordered_json_dict::Bool=true
+    response_dict_type::Type=LittleDict
+
+    function Request(
+        service::String,
+        api_version::String,
+        request_method::String,
+
+        headers::AbstractDict{String, String},
+        content::String,
+        resource::String,
+        url::String,
+
+        return_stream::Bool,
+        response_stream::Union{Base.BufferStream, Nothing},
+        http_options::Array,
+        return_raw::Bool,
+        response_dict_type::Type{T},
+    ) where T <: AbstractDict
+        return new(service, api_version, request_method, headers, content, resource, url, return_stream, response_stream, http_options, return_raw, response_dict_type)
+    end
 end
 
 # Needs to be included after the definition of struct otherwise it cannot find them
@@ -292,9 +311,11 @@ function do_request(aws::AWSConfig, request::Request; return_headers::Bool=false
         end
     end
 
+    response_dict_type = request.response_dict_type
+
     # For HEAD request, return headers...
     if request.request_method == "HEAD"
-        return Dict(response.headers)
+        return response_dict_type(response.headers)
     end
 
     # Return response stream if requested...
@@ -318,9 +339,9 @@ function do_request(aws::AWSConfig, request::Request; return_headers::Bool=false
     body = String(copy(response.body))
 
     if occursin(r"/xml", mime)
-        xml_dict_type = OrderedDict{Union{Symbol, String}, Any}
+        xml_dict_type = response_dict_type{Union{Symbol, String}, Any}
 
-        return (return_headers ? (xml_dict(body, xml_dict_type), Dict(response.headers)) : xml_dict(body, xml_dict_type))
+        return (return_headers ? (xml_dict(body, xml_dict_type), response_dict_type(response.headers)) : xml_dict(body, xml_dict_type))
     end
 
     if endswith(mime, "json")
@@ -328,9 +349,9 @@ function do_request(aws::AWSConfig, request::Request; return_headers::Bool=false
             return (return_headers ? (nothing, response.headers) : nothing)
         end
 
-        info = request.ordered_json_dict ? JSON.parse(body, dicttype=OrderedDict) : JSON.parse(body)
+        info = JSON.parse(body, dicttype=response_dict_type)
 
-        return (return_headers ? (info, Dict(response.headers)) : info)
+        return (return_headers ? (info, response_dict_type(response.headers)) : info)
     end
 
     # Return raw data by default...
@@ -370,6 +391,15 @@ function _return_headers(args::AbstractDict{String, <:Any})
     return return_headers
 end
 
+function _set_response_dict_type!(request::Request, args::AbstractDict{String, <:Any})
+    response_dict_type = get(args, "response_dict_type", "")
+    response_dict_type = eval(Meta.parse(response_dict_type))
+
+    if response_dict_type != nothing
+        request.response_dict_type = response_dict_type
+    end
+end
+
 """
     (service::RestXMLService)(
         aws::AWSConfig, request_method::String, request_uri::String, args=[];
@@ -401,8 +431,9 @@ function (service::RestXMLService)(aws::AWSConfig, request_method::String, reque
         http_options=get(args, "http_options", []),
         response_stream=get(args, "response_stream", nothing),
         return_raw=get(args, "return_raw", false),
-        ordered_json_dict=get(args, "ordered_json_dict", true),
     )
+
+    _set_response_dict_type!(request, args)
 
     delete!(args, "headers")
     delete!(args, "body")
@@ -469,9 +500,9 @@ function (service::RestJSONService)(
         http_options=get(args, "http_options", []),
         response_stream=get(args, "response_stream", nothing),
         return_raw=get(args, "return_raw", false),
-        ordered_json_dict=get(args, "ordered_json_dict", true),
     )
 
+    _set_response_dict_type!(request, args)
     request.url = _generate_service_url(aws.region, request.service, request.resource)
 
     if !isempty(service.service_specific_headers)
