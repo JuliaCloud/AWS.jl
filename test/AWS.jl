@@ -365,7 +365,7 @@ end
 
     @testset "PUT - w/ Params" begin
         body = "sample-file-body"
-        AWSServices.s3("PUT", "/$bucket_name/$file_name", Dict("body"=>body))
+        AWSServices.s3("PUT", "/$bucket_name/$file_name", Dict("body" => body))
 
         @test !isempty(AWSServices.s3("GET", "/$bucket_name/$file_name"))
     end
@@ -377,7 +377,7 @@ end
 
     @testset "GET - w/ Params" begin
         max_keys = 1
-        result = AWSServices.s3("GET", "/$bucket_name", Dict("max_keys"=>max_keys))
+        result = AWSServices.s3("GET", "/$bucket_name", Dict("max_keys" => max_keys))
 
         @test max_keys == length([result["ListBucketResult"]["Contents"]])
     end
@@ -391,7 +391,7 @@ end
             </Delete>
             """
 
-        AWSServices.s3("POST", "/$bucket_name?delete", Dict("body"=>body))
+        AWSServices.s3("POST", "/$bucket_name?delete", Dict("body" => body))
 
         try
             AWSServices.s3("GET", "/$bucket_name/$file_name")
@@ -424,7 +424,7 @@ end
     end
 
     @testset "POST" begin
-        tags = Dict("Tags"=> LittleDict("Tag-01"=>"Tag-01", "Tag-02"=>"Tag-02"))
+        tags = Dict("Tags"=> LittleDict("Tag-01" => "Tag-01", "Tag-02" => "Tag-02"))
 
         for vault in vault_names
             AWSServices.glacier("POST", "/-/vaults/$vault/tags?operation=add", tags)

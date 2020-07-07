@@ -10,7 +10,9 @@ using Retry
 using Sockets
 using XMLDict
 
-export @service, AWSServices, RestJSONService, JSONService, RestXMLService, QueryService, AWSConfig, AWSExceptions, set_user_agent, Request
+export @service
+export AWSConfig, AWSExceptions, AWSServices, Request, set_user_agent
+export JSONService, RestJSONService, RestXMLService, QueryService
 
 include("AWSCredentials.jl")
 include("AWSConfig.jl")
@@ -205,10 +207,8 @@ function _http_request(aws::AWSConfig, request::Request)
         push!(options, ("response_stream", io))
     end
 
-    if !isempty(request.http_options)
-        for option in request.http_options
-            push!(options, option)
-        end
+    for option in request.http_options
+        push!(options, option)
     end
 
     @repeat 4 try
@@ -253,10 +253,6 @@ function do_request(aws::AWSConfig, request::Request; return_headers::Bool=false
         "PriorRequestNotComplete"
     ]
 
-    if isempty(request.headers)
-        request.headers = LittleDict{String, String}()
-    end
-
     request.headers["User-Agent"] = user_agent
     request.headers["Host"] = HTTP.URI(request.url).host
 
@@ -273,7 +269,7 @@ function do_request(aws::AWSConfig, request::Request; return_headers::Bool=false
             e = AWSException(e)
         end
 
-        @retry if "message" in fieldnames(typeof(e)) && occursin("Signature expired", e.message) end
+        @retry if :message in fieldnames(typeof(e)) && occursin("Signature expired", e.message) end
 
         # Handle ExpiredToken...
         # https://github.com/aws/aws-sdk-go/blob/v1.31.5/aws/request/retryer.go#L98
@@ -327,7 +323,7 @@ function do_request(aws::AWSConfig, request::Request; return_headers::Bool=false
         return (return_headers ? (xml_dict(body, xml_dict_type), Dict(response.headers)) : xml_dict(body, xml_dict_type))
     end
 
-    if occursin(r"json$", mime)
+    if endswith(mime, "json")
         if isempty(response.body)
             return (return_headers ? (nothing, response.headers) : nothing)
         end
@@ -355,9 +351,9 @@ end
 
 function _generate_service_url(region::String, service::String, resource::String)
     SERVICE_HOST = "amazonaws.com"
-    regionless_endpoints = ("iam", "route53")
+    regionless_services = ("iam", "route53")
 
-    if service in regionless_endpoints || (service == "sdb" && region == "us-east-1")
+    if service in regionless_services || (service == "sdb" && region == "us-east-1")
         region = ""
     end
 
@@ -427,8 +423,7 @@ function (service::RestXMLService)(aws::AWSConfig, request_method::String, reque
 
     return do_request(aws, request; return_headers=return_headers)
 end
-(service::RestXMLService)(request_method::String, request_uri::String, args::AbstractDict{String, <:Any}) = service(AWSConfig(), request_method, request_uri, args)
-(service::RestXMLService)(request_method::String, request_uri::String) = service(request_method, request_uri, Dict{String, Any}())
+(service::RestXMLService)(request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, Any}()) = service(AWSConfig(), request_method, request_uri, args)
 
 function (service::QueryService)(aws::AWS.AWSConfig, operation, args=[])
     return AWSCore.service_query(
@@ -469,7 +464,7 @@ function (service::RestJSONService)(
         api_version=service.api_version,
         request_method=request_method,
         headers=LittleDict{String, String}(get(args, "headers", [])),
-        resource = _generate_rest_resource(request_uri, args),
+        resource=_generate_rest_resource(request_uri, args),
         return_stream=get(args, "return_stream", false),
         http_options=get(args, "http_options", []),
         response_stream=get(args, "response_stream", nothing),
@@ -489,7 +484,6 @@ function (service::RestJSONService)(
 
     do_request(aws, request; return_headers=return_headers)
 end
-(service::RestJSONService)(request_method::String, request_uri::String, args::AbstractDict{String, <:Any}) = service(AWSConfig(), request_method, request_uri, args)
-(service::RestJSONService)(request_method::String, request_uri::String) = service(request_method, request_uri, Dict{String, Any}())
+(service::RestJSONService)(request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, Any}()) = service(AWSConfig(), request_method, request_uri, args)
 
 end  # module AWS
