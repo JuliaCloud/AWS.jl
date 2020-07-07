@@ -75,7 +75,7 @@ Base.@kwdef mutable struct Request
 
     return_stream::Bool=false
     response_stream::Union{Base.BufferStream, Nothing}=nothing
-    http_options::Array=[]
+    http_options::Array{String}=[]
     return_raw::Bool=false
     response_dict_type::Type=LittleDict
 
@@ -218,18 +218,6 @@ function _sign_aws4!(aws::AWSConfig, request::Request, time::DateTime)
 end
 
 function _http_request(aws::AWSConfig, request::Request)
-    options = []
-
-    if request.return_stream
-        io = Base.BufferStream()
-        request.response_stream = io
-        push!(options, ("response_stream", io))
-    end
-
-    for option in request.http_options
-        push!(options, option)
-    end
-
     @repeat 4 try
         http_stack = HTTP.stack(redirect=false, retry=false, aws_authorization=false)
 
@@ -240,7 +228,8 @@ function _http_request(aws::AWSConfig, request::Request)
             HTTP.mkheaders(request.headers),
             request.content;
             require_ssl_verification=false,
-            options...
+            response_stream=request.response_stream,
+            request.http_options...
         )
     catch e
         # Base.IOError is needed because HTTP.jl can often have errors that aren't
@@ -500,6 +489,7 @@ function (service::RestJSONService)(
         http_options=get(args, "http_options", []),
         response_stream=get(args, "response_stream", nothing),
         return_raw=get(args, "return_raw", false),
+        response_dict_type=OrderedDict,  #
     )
 
     _set_response_dict_type!(request, args)
