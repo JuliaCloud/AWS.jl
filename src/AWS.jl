@@ -182,7 +182,7 @@ function _sign_aws4!(aws::AWSConfig, request::Request, time::DateTime)
     end
 
     # Sort and lowercase() Headers to produce canonical form...
-    canonical_headers = ["$(lowercase(k)):$(strip(v))" for (k,v) in request.headers]
+    canonical_headers = join(sort(["$(lowercase(k)):$(strip(v))" for (k,v) in request.headers]), "\n")
     signed_headers = join(sort([lowercase(k) for k in keys(request.headers)]), ";")
 
     # Sort Query String...
@@ -195,7 +195,7 @@ function _sign_aws4!(aws::AWSConfig, request::Request, time::DateTime)
         request.request_method, "\n",
         request.service == "s3" ? uri.path : HTTP.escapepath(uri.path), "\n",
         HTTP.escapeuri(query), "\n",
-        join(sort(canonical_headers), "\n"), "\n\n",
+        canonical_headers, "\n\n",
         signed_headers, "\n",
         content_hash
     )
