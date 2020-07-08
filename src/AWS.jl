@@ -59,8 +59,7 @@ struct RestJSONService
 
     service_specific_headers::LittleDict{String, String}
 
-    RestJSONService(name::String, api_version::String) = new(name, api_version, LittleDict())
-    RestJSONService(name::String, api_version::String, service_specific_headers::LittleDict{String, String}) = new(name, api_version, service_specific_headers)
+    RestJSONService(name::String, api_version::String, service_specific_headers::LittleDict{String, String}=LittleDict{String, String}()) = new(name, api_version, service_specific_headers)
 end
 
 Base.@kwdef mutable struct Request
@@ -77,26 +76,7 @@ Base.@kwdef mutable struct Request
     response_stream::Union{Base.BufferStream, Nothing}=nothing
     http_options::Array{String}=[]
     return_raw::Bool=false
-    response_dict_type::Type=LittleDict
-
-    function Request(
-        service::String,
-        api_version::String,
-        request_method::String,
-
-        headers::AbstractDict{String, String},
-        content::String,
-        resource::String,
-        url::String,
-
-        return_stream::Bool,
-        response_stream::Union{Base.BufferStream, Nothing},
-        http_options::Array,
-        return_raw::Bool,
-        response_dict_type::Type{T},
-    ) where T <: AbstractDict
-        return new(service, api_version, request_method, headers, content, resource, url, return_stream, response_stream, http_options, return_raw, response_dict_type)
-    end
+    response_dict_type::Type{<:AbstractDict}=LittleDict
 end
 
 # Needs to be included after the definition of struct otherwise it cannot find them
@@ -380,14 +360,6 @@ function _return_headers(args::AbstractDict{String, <:Any})
     return return_headers
 end
 
-function _set_response_dict_type!(request::Request, args::AbstractDict{String, <:Any})
-    response_dict_type = get(args, "response_dict_type", "")
-    response_dict_type = eval(Meta.parse(response_dict_type))
-
-    if response_dict_type != nothing
-        request.response_dict_type = response_dict_type
-    end
-end
 
 """
     (service::RestXMLService)(
@@ -422,7 +394,9 @@ function (service::RestXMLService)(aws::AWSConfig, request_method::String, reque
         return_raw=get(args, "return_raw", false),
     )
 
-    _set_response_dict_type!(request, args)
+    if haskey(args, "response_dict_type")
+        request.response_dict_type = get(args, "response_dict_type")
+    end
 
     delete!(args, "headers")
     delete!(args, "body")
@@ -489,10 +463,12 @@ function (service::RestJSONService)(
         http_options=get(args, "http_options", []),
         response_stream=get(args, "response_stream", nothing),
         return_raw=get(args, "return_raw", false),
-        response_dict_type=OrderedDict,  #
     )
 
-    _set_response_dict_type!(request, args)
+    if haskey(args, "response_dict_type")
+        request.response_dict_type = get(args, "response_dict_type")
+    end
+
     request.url = _generate_service_url(aws.region, request.service, request.resource)
 
     if !isempty(service.service_specific_headers)
