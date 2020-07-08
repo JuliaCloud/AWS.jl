@@ -395,7 +395,7 @@ function (service::RestXMLService)(aws::AWSConfig, request_method::String, reque
     )
 
     if haskey(args, "response_dict_type")
-        request.response_dict_type = get(args, "response_dict_type")
+        request.response_dict_type = args["response_dict_type"]
     end
 
     delete!(args, "headers")
@@ -466,7 +466,7 @@ function (service::RestJSONService)(
     )
 
     if haskey(args, "response_dict_type")
-        request.response_dict_type = get(args, "response_dict_type")
+        request.response_dict_type = args["response_dict_type"]
     end
 
     request.url = _generate_service_url(aws.region, request.service, request.resource)
