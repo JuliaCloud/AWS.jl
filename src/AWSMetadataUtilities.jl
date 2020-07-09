@@ -3,7 +3,7 @@ module AWSMetadataUtilities
 include("AWSExceptions.jl")
 
 using .AWSExceptions
-using OrderedCollections: OrderedDict
+using OrderedCollections: OrderedDict, LittleDict
 using HTTP
 using JSON
 
@@ -134,11 +134,21 @@ function _generate_low_level_definition(service::Dict)
     service_id = replace(lowercase(service["serviceId"]), ' ' => '_')
     api_version = service["apiVersion"]
 
+    service_specifics = LittleDict{String, String}()
+
+    if service_id == "glacier"
+        service_specifics[service_id] = "LittleDict(\"x-amz-glacier-version\" => \"$(service["apiVersion"])\")"
+    end
+
     if protocol == "rest-xml"
         return "const $service_id = AWS.RestXMLService(\"$service_name\", \"$api_version\")"
     elseif protocol in ["ec2", "query"]
         return "const $service_id = AWS.QueryService(\"$service_name\", \"$api_version\")"
     elseif protocol == "rest-json"
+         if haskey(service_specifics, service_id)
+             return "const $service_id = AWS.RestJSONService(\"$service_name\", \"$api_version\", $(service_specifics[service_id]))"
+         end
+
         return "const $service_id = AWS.RestJSONService(\"$service_name\", \"$api_version\")"
     elseif protocol == "json"
         json_version = service["jsonVersion"]

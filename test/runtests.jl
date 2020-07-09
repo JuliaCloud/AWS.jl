@@ -14,7 +14,6 @@ using OrderedCollections: LittleDict, OrderedDict
 using MbedTLS: digest, MD_SHA256, MD_MD5
 using Mocking
 using Retry
-using SymDict
 using Test
 using UUIDs
 using XMLDict
