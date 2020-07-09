@@ -58,9 +58,9 @@ struct RestJSONService
     api_version::String
 
     service_specific_headers::LittleDict{String, String}
-
-    RestJSONService(name::String, api_version::String, service_specific_headers::LittleDict{String, String}=LittleDict{String, String}()) = new(name, api_version, service_specific_headers)
 end
+
+RestJSONService(name::String, api_version::String) = RestJSONService(name, api_version, LittleDict{String, String}())
 
 Base.@kwdef mutable struct Request
     service::String
