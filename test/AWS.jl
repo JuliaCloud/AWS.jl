@@ -366,7 +366,6 @@ end
 
     @testset "sqs - special casing suffix" begin
         service = "sqs"
-<<<<<<< HEAD
         result = AWS._flatten_query(service, args)
 
         expected = Pair{String,String}[
@@ -465,26 +464,15 @@ end
             queue_url = _get_queue_url(queue_name)
             expected_message_id = "aws-jl-test"
 
-            # Send a message
             AWSServices.sqs("SendMessage", LittleDict(
                     "QueueUrl"=>queue_url,
                     "MessageBody"=>expected_message
                 )
             )
 
-            # Get the receipt handle
             response = AWSServices.sqs("ReceiveMessage", LittleDict("QueueUrl"=>queue_url,))
             receipt_handle = response["ReceiveMessageResponse"]["ReceiveMessageResult"]["Message"]["ReceiptHandle"]
 
-            # Change the message visibility
-            response = AWSServices.sqs("ChangeMessageVisibility", LittleDict(
-                    "QueueUrl"=>queue_url,
-                    "ReceiptHandle"=>receipt_handle,
-                    "VisibilityTimeout"=>300  # 5 minutes
-                )
-            )
-
-            # Delete the message
             response = AWSServices.sqs("DeleteMessageBatch", LittleDict(
                     "QueueUrl"=>queue_url,
                     "DeleteMessageBatchRequestEntry"=>[
