@@ -86,7 +86,7 @@ http_status(e::HTTP.StatusError) = e.status
 header(e::HTTP.StatusError, k, d="") = HTTP.header(e.response, k, d)
 
 function _sign!(aws::AWSConfig, request::Request; time::DateTime=now(Dates.UTC))
-    if request.service in ["sdb", "importexport"]
+    if request.service in ("sdb", "importexport")
         _sign_aws2!(aws, request, time)
     else
         _sign_aws4!(aws, request, time)
@@ -299,6 +299,7 @@ function do_request(aws::AWSConfig, request::Request; return_headers::Bool=false
 
     # Parse response data according to mimetype...
     mime = HTTP.header(response, "Content-Type", "")
+
     if isempty(mime)
         if length(response.body) > 5 && String(response.body[1:5]) == "<?xml"
             mime = "text/xml"
@@ -360,6 +361,30 @@ function _return_headers(args::AbstractDict{String, <:Any})
     return return_headers
 end
 
+function _flatten_query(service::String, query::AbstractDict{String, <: Any}, prefix::String="")
+    result = Dict{String,String}()
+
+    for (k, v) in query
+        if typeof(v) <: AbstractDict
+            merge!(result, _flatten_query(service, v, "$prefix$k."))
+        elseif typeof(v) <: AbstractArray
+            for (i, j) in enumerate(v)
+                suffix = service in ("ec2", "sqs") ? "" : ".member"
+                prefix_key = "$prefix$k$suffix.$i"
+
+                if typeof(j) <: AbstractDict
+                    merge!(result, _flatten_query(service, j, "$prefix_key."))
+                else
+                    result[prefix_key] = string(j)
+                end
+            end
+        else
+            result["$prefix$k"] = string(v)
+        end
+    end
+
+    return result
+end
 
 """
     (service::RestXMLService)(
@@ -419,17 +444,30 @@ function (service::RestXMLService)(aws::AWSConfig, request_method::String, reque
 end
 (service::RestXMLService)(request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, Any}()) = service(AWSConfig(), request_method, request_uri, args)
 
-function (service::QueryService)(aws::AWS.AWSConfig, operation, args=[])
-    return AWSCore.service_query(
-        aws;
+function (service::QueryService)(aws::AWS.AWSConfig, operation::String, args::AbstractDict{String, <:Any})
+    POST_RESOURCE = "/"
+    return_headers = _return_headers(args)
+
+    request = Request(
         service=service.name,
-        version=service.api_version,
-        operation=operation,
-        args=args
+        api_version=service.api_version,
+        resource=POST_RESOURCE,
+        request_method="POST",
+        headers=LittleDict("Content-Type"=>"application/x-www-form-urlencoded; charset=utf-8"),
+        url = _generate_service_url(aws.region, service.name, POST_RESOURCE)
     )
+
+    args["Action"] = operation
+    args["Version"] = service.api_version
+
+    if service.name == "iam"
+        aws.region = "us-east-1"
+    end
+
+    request.content = HTTP.escapeuri(_flatten_query(service.name, args))
+    do_request(aws, request; return_headers=return_headers)
 end
-(service::QueryService)(operation, args=[]) = service(aws_config(), operation, args)
-(service::QueryService)(a...; b...) = service(a..., b)
+(service::QueryService)(operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}()) = service(AWSConfig(), operation, args)
 
 function (service::JSONService)(aws::AWS.AWSConfig, operation, args=[])
     return AWSCore.service_json(
