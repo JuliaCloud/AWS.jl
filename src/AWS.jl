@@ -453,18 +453,26 @@ function (service::QueryService)(aws::AWS.AWSConfig, operation::String, args::Ab
         api_version=service.api_version,
         resource=POST_RESOURCE,
         request_method="POST",
-        headers=LittleDict("Content-Type"=>"application/x-www-form-urlencoded; charset=utf-8"),
-        url = _generate_service_url(aws.region, service.name, POST_RESOURCE)
+        headers=LittleDict{String, String}(get(args, "headers", [])),
+        url=_generate_service_url(aws.region, service.name, POST_RESOURCE),
+        return_stream=get(args, "return_stream", false),
+        http_options=get(args, "http_options", []),
+        response_stream=get(args, "response_stream", nothing),
+        return_raw=get(args, "return_raw", false),
     )
 
-    args["Action"] = operation
-    args["Version"] = service.api_version
+    request.headers["Content-Type"] = "application/x-www-form-urlencoded; charset=utf-8"
 
     if service.name == "iam"
         aws.region = "us-east-1"
     end
 
-    request.content = HTTP.escapeuri(_flatten_query(service.name, args))
+    if isempty(request.content)
+        args["Action"] = operation
+        args["Version"] = service.api_version
+        request.content = HTTP.escapeuri(_flatten_query(service.name, args))
+    end
+
     do_request(aws, request; return_headers=return_headers)
 end
 (service::QueryService)(operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}()) = service(AWSConfig(), operation, args)
