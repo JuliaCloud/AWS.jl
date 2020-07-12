@@ -485,7 +485,7 @@ function (service::QueryService)(aws::AWS.AWSConfig, operation::String, args::Ab
 end
 (service::QueryService)(operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}()) = service(AWSConfig(), operation, args)
 
-function (service::JSONService)(aws::AWS.AWSConfig, operation::String, args::AbstractDict{String, <:Any})
+function (service::JSONService)(aws::AWS.AWSConfig, operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}())
     POST_RESOURCE = "/"
     return_headers = _return_headers(args)
 
