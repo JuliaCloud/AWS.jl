@@ -196,20 +196,6 @@ function _sign_aws4!(aws::AWSConfig, request::Request, time::DateTime)
     return request
 end
 
-function _http_get(url::String)
-    host = HTTP.URI(url).host
-
-    return _http_request(AWSConfig(), Request(
-            service="",
-            api_version="",
-            request_method="GET",
-            url=url,
-            headers=Dict("Host"=>host),
-            content=UInt8[],
-        )
-    )
-end
-
 function _http_request(aws::AWSConfig, request::Request)
     @repeat 4 try
         http_stack = HTTP.stack(redirect=false, retry=false, aws_authorization=false)

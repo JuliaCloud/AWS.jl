@@ -365,7 +365,7 @@ end
         "Security-Credentials" => "Test-Security-Credentials"
     )
 
-    _http_get_patch = @patch function AWS._http_get(url::String)
+    _http_get_patch = @patch function HTTP.request(method::String, url::String)
         security_credentials = test_values["Security-Credentials"]
         uri = test_values["URI"]
 

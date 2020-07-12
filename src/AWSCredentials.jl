@@ -276,9 +276,7 @@ body, or `nothing` if not running on an EC2 instance.
 """
 function _ec2_metadata(metadata_endpoint::String)
     try
-        request = @mock AWS._http_get(
-            "http://169.254.169.254/latest/meta-data/$metadata_endpoint"
-        )
+        request = @mock HTTP.request("GET", "http://169.254.169.254/latest/meta-data/$metadata_endpoint")
 
         return String(request.body)
     catch e
@@ -339,7 +337,7 @@ function ecs_instance_credentials()
 
     uri = ENV["AWS_CONTAINER_CREDENTIALS_RELATIVE_URI"]
 
-    response = @mock AWS._http_get("http://169.254.170.2$uri")
+    response = @mock HTTP.request("GET", "http://169.254.170.2$uri")
     new_creds = String(response.body)
     new_creds = JSON.parse(new_creds)
 
