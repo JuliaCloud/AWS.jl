@@ -371,6 +371,42 @@ end
     end
 end
 
+@testset "json" begin
+    @testset "secrets_manager" begin
+        secret_name = "AWS.jl-Test-Secret" * lowercase(Dates.format(now(Dates.UTC), "yyyymmddTHHMMSSZ"))
+        secret_string = "sshhh it is a secret!"
+
+        function _get_secret_string(secret_name)
+            response = AWSServices.secrets_manager("GetSecretValue", LittleDict("SecretId"=>secret_name))
+
+            return response["SecretString"]
+        end
+
+        @testset "create secret" begin
+            resp = AWSServices.secrets_manager("CreateSecret", LittleDict(
+                    "Name"=>secret_name,
+                    "SecretString"=>secret_string,
+                    "ClientRequestToken"=>string(uuid4())
+                )
+            )
+        end
+
+        @testset "get secret value" begin
+            @test _get_secret_string(secret_name) == secret_string
+        end
+
+        @testset "delete secret" begin
+            AWSServices.secrets_manager("DeleteSecret", LittleDict(
+                    "SecretId"=>secret_name,
+                    "ForceDeleteWithoutRecovery"=>"true",
+                )
+            )
+
+            @test_throws AWSException _get_secret_string(secret_name)
+        end
+    end
+end
+
 @testset "query" begin
     @testset "iam" begin
         policy_arn = ""
