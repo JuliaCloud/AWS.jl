@@ -444,7 +444,7 @@ function (service::RestXMLService)(aws::AWSConfig, request_method::String, reque
 end
 (service::RestXMLService)(request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, Any}()) = service(AWSConfig(), request_method, request_uri, args)
 
-function (service::QueryService)(aws::AWS.AWSConfig, operation::String, args::AbstractDict{String, <:Any})
+function (service::QueryService)(aws::AWS.AWSConfig, operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}())
     POST_RESOURCE = "/"
     return_headers = _return_headers(args)
 
