@@ -22,9 +22,11 @@ Mocking.activate()
 
 include("patch.jl")
 
+aws = AWSConfig()
+
 @testset "AWS.jl" begin
     include("AWS.jl")
-    #include("AWSCredentials.jl")  # TODO: Uncomment after all request types are complete
+    include("AWSCredentials.jl")
     include("AWSExceptions.jl")
     include("AWSMetadataUtilities.jl")
 end

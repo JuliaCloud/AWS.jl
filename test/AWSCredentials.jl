@@ -5,7 +5,7 @@ macro test_ecode(error_codes, expr)
             @test false
         catch e
             if e isa AWSException
-                @test ecode(e) in ($error_codes;)
+                @test ecode(e) in [$error_codes;]
             else
                 rethrow(e)
             end
@@ -14,77 +14,76 @@ macro test_ecode(error_codes, expr)
 end
 
 @testset "Load Credentials" begin
-    user = AWS.aws_user_arn(aws)  # TODO: Remove qualification when dep on AWSCore is removed
+    user = aws_user_arn(aws)
     @test occursin(r"^arn:aws:(iam|sts)::[0-9]+:[^:]+$", user)
-    aws[:region] = "us-east-1"
+    aws.region = "us-east-1"
 
     @test_ecode(
         "InvalidAction",
-        AWSCore.Services.iam("GetFoo", Dict("ContentType" => "JSON"))
+        AWSServices.iam("GetFoo")
     )
 
     @test_ecode(
         ["AccessDenied", "NoSuchEntity"],
-        AWSCore.Services.iam("GetUser", Dict("UserName" => "notauser", "ContentType" => "JSON"))
+        AWSServices.iam("GetUser", Dict("UserName"=>"notauser"))
     )
 
     @test_ecode(
         "ValidationError",
-        AWSCore.Services.iam("GetUser", Dict("UserName" => "@#!%%!", "ContentType" => "JSON"))
+        AWSServices.iam("GetUser", Dict("UserName"=>"@#!%%!"))
     )
 
     @test_ecode(
         ["AccessDenied", "EntityAlreadyExists"],
-        AWSCore.Services.iam("CreateUser", Dict("UserName" => "root", "ContentType" => "JSON"))
+        AWSServices.iam("CreateUser", Dict("UserName"=>"root"))
     )
 end
 
 @testset "NoAuth" begin
-    pub_request1 = Dict{Symbol, Any}(
-        :service => "s3",
-        :headers => Dict{String, String}("Range" => "bytes=0-0"),
-        :content => "",
-        :resource => "/invenia-static-website-content/invenia_ca/index.html",
-        :url => "https://s3.us-east-1.amazonaws.com/invenia-static-website-content/invenia_ca/index.html",
-        :verb => "GET",
-        :region => "us-east-1",
-        :creds => nothing,
+    pub_request1 = AWS.Request(
+        service="s3",
+        api_version="2006-03-01",
+        request_method="GET",
+        headers=Dict{String, String}("Range"=>"bytes=0-0"),
+        content="",
+        resource="/invenia-static-website-content/invenia_ca/index.html",
+        url="https://s3.us-east-1.amazonaws.com/invenia-static-website-content/invenia_ca/index.html",
     )
-    pub_request2 = Dict{Symbol, Any}(
-        :service => "s3",
-        :headers => Dict{String, String}("Range" => "bytes=0-0"),
-        :content => "",
-        :resource => "ryft-public-sample-data/AWS-x86-AMI-queries.json",
-        :url => "https://s3.amazonaws.com/ryft-public-sample-data/AWS-x86-AMI-queries.json",
-        :verb => "GET",
-        :region => "us-east-1",
-        :creds => nothing,
+
+    pub_request2 = AWS.Request(
+        service="s3",
+        api_version="2006-03-01",
+        request_method="GET",
+        headers=Dict{String, String}("Range"=>"bytes=0-0"),
+        content="",
+        resource="ryft-public-sample-data/AWS-x86-AMI-queries.json",
+        url="https://s3.amazonaws.com/ryft-public-sample-data/AWS-x86-AMI-queries.json",
     )
 
     try
-        response = AWSCore.do_request(pub_request1)
+        response = AWS.do_request(aws, pub_request1)
         @test response == "<"
     catch e
         @test_ecode(
             ["AccessDenied", "NoSuchEntity"],
-            AWSCore.do_request(pub_request1)
+            AWS.do_request(aws, pub_request1)
         )
     end
 
     try
-        response = AWSCore.do_request(pub_request2)
+        response = AWS.do_request(aws, pub_request2)
         @test response == UInt8['[']
     catch e
         @test_ecode(
             ["AccessDenied", "NoSuchEntity"],
-            AWSCore.do_request(pub_request2)
+            AWS.do_request(aws, pub_request2)
         )
     end
 end
 
 @testset "AWSCredentials" begin
     @testset "Defaults" begin
-        creds = AWS.AWSCredentials("access_key_id" ,"secret_key")
+        creds = AWSCredentials("access_key_id" ,"secret_key")
         @test creds.token == ""
         @test creds.user_arn == ""
         @test creds.account_number == ""
@@ -94,9 +93,8 @@ end
 
     @testset "Renewal" begin
         # Credentials shouldn't throw an error if no renew function is supplied
-        creds = AWS.AWSCredentials("access_key_id", "secret_key", renew=nothing)
-        # TODO: Remove qualification when dep on AWSCore is removed
-        newcreds = AWS.check_credentials(creds, force_refresh = true)
+        creds = AWSCredentials("access_key_id", "secret_key", renew=nothing)
+        newcreds = check_credentials(creds, force_refresh = true)
 
         # Creds should remain unchanged if no renew function exists
         @test creds === newcreds
@@ -105,9 +103,8 @@ end
         @test creds.renew == nothing
 
         # Creds should error if the renew function returns nothing
-        creds = AWS.AWSCredentials("access_key_id", "secret_key", renew = () -> nothing)
-        # TODO: Remove qualification when dep on AWSCore is removed
-        @test_throws ErrorException AWS.check_credentials(creds, force_refresh=true)
+        creds = AWSCredentials("access_key_id", "secret_key", renew = () -> nothing)
+        @test_throws ErrorException check_credentials(creds, force_refresh=true)
 
         # Creds should remain unchanged
         @test creds.access_key_id == "access_key_id"
@@ -119,7 +116,7 @@ end
             () -> (i += 1; AWSCredentials("NEW_ID_$i", "NEW_KEY_$i"))
         end
 
-        creds = AWS.AWSCredentials(
+        creds = AWSCredentials(
             "access_key_id",
             "secret_key",
             renew=gen_credentials(),
@@ -142,8 +139,7 @@ end
         renew = creds.renew
 
         # Check renewal on time out
-        # TODO: Remove qualification when dep on AWSCore is removed
-        newcreds = AWS.check_credentials(creds, force_refresh=false)
+        newcreds = check_credentials(creds, force_refresh=false)
         @test creds === newcreds
         @test creds.access_key_id == "NEW_ID_2"
         @test creds.secret_key == "NEW_KEY_2"
@@ -153,8 +149,7 @@ end
         @test !AWS._will_expire(creds)
 
         # Check renewal doesn't happen if not forced or timed out
-        # TODO: Remove qualification when dep on AWSCore is removed
-        newcreds = AWS.check_credentials(creds, force_refresh=false)
+        newcreds = check_credentials(creds, force_refresh=false)
         @test creds === newcreds
         @test creds.access_key_id == "NEW_ID_2"
         @test creds.secret_key == "NEW_KEY_2"
@@ -163,8 +158,7 @@ end
         @test creds.expiry == typemax(DateTime)
 
         # Check forced renewal works
-        # TODO: Remove qualification when dep on AWSCore is removed
-        newcreds = AWS.check_credentials(creds, force_refresh=true)
+        newcreds = check_credentials(creds, force_refresh=true)
         @test creds === newcreds
         @test creds.access_key_id == "NEW_ID_3"
         @test creds.secret_key == "NEW_KEY_3"
@@ -232,14 +226,12 @@ end
             "AWS_DEFAULT_PROFILE" => "test",
             "AWS_ACCESS_KEY_ID" => nothing
         ) do
-
             @testset "Loading" begin
                 # Check credentials load
-                config = AWSCore.aws_config()
-                creds = config[:creds]
+                config = AWSConfig()
+                creds = config.credentials
 
-                # TODO: Resolve test after AWSConfig is rewritten
-                @test_broken creds isa AWS.AWSCredentials
+                @test creds isa AWSCredentials
 
                 @test creds.access_key_id == "TEST_ACCESS_ID"
                 @test creds.secret_key == "TEST_ACCESS_KEY"
@@ -247,23 +239,23 @@ end
 
                 # Check credential file takes precedence over config
                 ENV["AWS_DEFAULT_PROFILE"] = "test2"
-                config = AWSCore.aws_config()
-                creds = config[:creds]
+                config = AWSConfig()
+                creds = config.credentials
 
                 @test creds.access_key_id == "RIGHT_ACCESS_ID2"
                 @test creds.secret_key == "RIGHT_ACCESS_KEY2"
 
                 # Check credentials take precedence over role
                 ENV["AWS_DEFAULT_PROFILE"] = "test3"
-                config = AWSCore.aws_config()
-                creds = config[:creds]
+                config = AWSConfig()
+                creds = config.credentials
 
                 @test creds.access_key_id == "RIGHT_ACCESS_ID3"
                 @test creds.secret_key == "RIGHT_ACCESS_KEY3"
 
                 ENV["AWS_DEFAULT_PROFILE"] = "test4"
-                config = AWSCore.aws_config()
-                creds = config[:creds]
+                config = AWSConfig()
+                creds = config.credentials
 
                 @test creds.access_key_id == "RIGHT_ACCESS_ID4"
                 @test creds.secret_key == "RIGHT_ACCESS_KEY4"
@@ -273,8 +265,8 @@ end
             @testset "Refresh" begin
                 ENV["AWS_DEFAULT_PROFILE"] = "test"
                 # Check credentials refresh on timeout
-                config = AWSCore.aws_config()
-                creds = config[:creds]
+                config = AWSConfig()
+                creds = config.credentials
                 creds.access_key_id = "EXPIRED_ACCESS_ID"
                 creds.secret_key = "EXPIRED_ACCESS_KEY"
                 creds.expiry = now(UTC)
@@ -282,11 +274,9 @@ end
                 @test creds.renew !== nothing
                 renew = creds.renew
 
-                # TODO: Resolve test after AWSConfig is rewritten
-                @test_broken renew() isa AWS.AWSCredentials
+                @test renew() isa AWSCredentials
 
-                # TODO: Remove qualification when dep on AWSCore is removed
-                creds = AWSCore.check_credentials(config[:creds])
+                creds = check_credentials(config.credentials)
 
                 @test creds.access_key_id == "TEST_ACCESS_ID"
                 @test creds.secret_key == "TEST_ACCESS_KEY"
@@ -298,40 +288,38 @@ end
 
                 # Check force_refresh
                 creds.access_key_id = "WRONG_ACCESS_KEY"
-                # TODO: Remove qualification when dep on AWSCore is removed
-                creds = AWSCore.check_credentials(creds, force_refresh = true)
+                creds = check_credentials(creds, force_refresh = true)
                 @test creds.access_key_id == "TEST_ACCESS_ID"
             end
 
             @testset "Profile" begin
                 # Check profile kwarg
                 ENV["AWS_DEFAULT_PROFILE"] = "test"
-                creds = AWS.AWSCredentials(profile="test2")
+                creds = AWSCredentials(profile="test2")
                 @test creds.access_key_id == "RIGHT_ACCESS_ID2"
                 @test creds.secret_key == "RIGHT_ACCESS_KEY2"
 
-                config = AWSCore.aws_config(profile="test2")
-                creds = config[:creds]
+                config = AWSConfig(profile="test2")
+                creds = config.credentials
                 @test creds.access_key_id == "RIGHT_ACCESS_ID2"
                 @test creds.secret_key == "RIGHT_ACCESS_KEY2"
 
                 # Check profile persists on renewal
                 creds.access_key_id = "WRONG_ACCESS_ID2"
                 creds.secret_key = "WRONG_ACCESS_KEY2"
-                # TODO: Remove qualification when dep on AWSCore is removed
-                creds = AWSCore.check_credentials(creds, force_refresh=true)
+                creds = check_credentials(creds, force_refresh=true)
 
                 @test creds.access_key_id == "RIGHT_ACCESS_ID2"
                 @test creds.secret_key == "RIGHT_ACCESS_KEY2"
             end
 
-            @test_broken @testset "Assume Role" begin
+            @testset "Assume Role" begin
                 # Check we try to assume a role
                 ENV["AWS_DEFAULT_PROFILE"] = "test:dev"
 
                 @test_ecode(
                     "InvalidClientTokenId",
-                    AWSCore.aws_config()
+                    AWSConfig()
                 )
 
                 # Check we try to assume a role
@@ -341,7 +329,7 @@ end
 
                     @test_ecode(
                         "InvalidClientTokenId",
-                        AWSCore.aws_config()
+                        AWSConfig()
                     )
                     redirect_stdout(oldout)
                     close(w)
@@ -361,7 +349,7 @@ end
         "Test-Profile" => "test",
         "Test-Config-Profile" => "profile test",
 
-        # Default profile values, needs to match due to AWSCredentials.jl:239
+        # Default profile values, needs to match due to AWSCredentials.jl check_credentials()
         "AccessKeyId" => "Default-Key",
         "SecretAccessKey" => "Default-Secret",
 
@@ -377,7 +365,7 @@ end
         "Security-Credentials" => "Test-Security-Credentials"
     )
 
-    http_get_patch = @patch function http_get(url::String)
+    _http_get_patch = @patch function AWS._http_get(url::String)
         security_credentials = test_values["Security-Credentials"]
         uri = test_values["URI"]
 
@@ -408,8 +396,7 @@ end
             close(config_io)
 
             withenv("AWS_CONFIG_FILE" => config_file) do
-                # TODO: Remove qualification when dep on AWSCore is removed
-                default_profile = AWS.dot_aws_config()
+                default_profile = dot_aws_config()
 
                 @test default_profile.access_key_id == test_values["AccessKeyId"]
                 @test default_profile.secret_key == test_values["SecretAccessKey"]
@@ -430,8 +417,7 @@ end
             close(config_io)
 
             withenv("AWS_CONFIG_FILE" => config_file) do
-                # TODO: Remove qualification when dep on AWSCore is removed
-                specified_result = AWS.dot_aws_config(test_values["Test-Profile"])
+                specified_result = dot_aws_config(test_values["Test-Profile"])
 
                 @test specified_result.access_key_id == test_values["Test-AccessKeyId"]
                 @test specified_result.secret_key == test_values["Test-SecretAccessKey"]
@@ -452,8 +438,7 @@ end
             close(creds_io)
 
             withenv("AWS_SHARED_CREDENTIALS_FILE" => creds_file) do
-                # TODO: Remove qualification when dep on AWSCore is removed
-                specified_result = AWS.dot_aws_credentials()
+                specified_result = dot_aws_credentials()
 
                 @test specified_result.access_key_id == test_values["AccessKeyId"]
                 @test specified_result.secret_key == test_values["SecretAccessKey"]
@@ -474,8 +459,7 @@ end
             close(creds_io)
 
             withenv("AWS_SHARED_CREDENTIALS_FILE" => creds_file) do
-                # TODO: Remove qualification when dep on AWSCore is removed
-                specified_result = AWS.dot_aws_credentials(test_values["Test-Profile"])
+                specified_result = dot_aws_credentials(test_values["Test-Profile"])
 
                 @test specified_result.access_key_id == test_values["Test-AccessKeyId"]
                 @test specified_result.secret_key == test_values["Test-SecretAccessKey"]
@@ -488,39 +472,34 @@ end
             "AWS_ACCESS_KEY_ID" => test_values["AccessKeyId"],
             "AWS_SECRET_ACCESS_KEY" => test_values["SecretAccessKey"]
         ) do
-            # TODO: Remove qualification when dep on AWSCore is removed
-            aws_creds = AWS.env_var_credentials()
+            aws_creds = env_var_credentials()
             @test aws_creds.access_key_id == test_values["AccessKeyId"]
             @test aws_creds.secret_key == test_values["SecretAccessKey"]
         end
     end
 
     @testset "Instance - EC2" begin
-        apply([http_get_patch]) do
-            # TODO: Remove qualification when dep on AWSCore is removed
-            result = AWS.ec2_instance_credentials()
+        apply([_http_get_patch]) do
+            result = ec2_instance_credentials()
             @test result.access_key_id == test_values["AccessKeyId"]
             @test result.secret_key == test_values["SecretAccessKey"]
             @test result.token == test_values["Token"]
             @test result.user_arn == test_values["InstanceProfileArn"]
             @test result.expiry == test_values["Expiration"]
-            # TODO: Remove qualification when dep on AWSCore is removed
-            @test result.renew == AWS.ec2_instance_credentials
+            @test result.renew == ec2_instance_credentials
         end
     end
 
     @testset "Instance - ECS" begin
         withenv("AWS_CONTAINER_CREDENTIALS_RELATIVE_URI" => test_values["URI"]) do
-            apply([http_get_patch]) do
-                # TODO: Remove qualification when dep on AWSCore is removed
-                result = AWS.ecs_instance_credentials()
+            apply([_http_get_patch]) do
+                result = ecs_instance_credentials()
                 @test result.access_key_id == test_values["AccessKeyId"]
                 @test result.secret_key == test_values["SecretAccessKey"]
                 @test result.token == test_values["Token"]
                 @test result.user_arn == test_values["RoleArn"]
                 @test result.expiry == test_values["Expiration"]
-                # TODO: Remove qualification when dep on AWSCore is removed
-                @test result.renew == AWS.ecs_instance_credentials
+                @test result.renew == ecs_instance_credentials
             end
         end
     end
@@ -531,16 +510,14 @@ end
                 "AWS_ACCESS_KEY_ID" => test_values["AccessKeyId"],
                 "AWS_SECRET_ACCESS_KEY" => test_values["SecretAccessKey"]
             ) do
-                testAWSCredentials = AWS.AWSCredentials(
+                testAWSCredentials = AWSCredentials(
                     test_values["AccessKeyId"],
                     test_values["SecretAccessKey"],
                     expiry=Dates.now() - Minute(10),
-                    # TODO: Remove qualification when dep on AWSCore is removed
-                    renew=AWS.env_var_credentials
+                    renew=env_var_credentials
                 )
 
-                # TODO: Remove qualification when dep on AWSCore is removed
-                result = AWS.check_credentials(testAWSCredentials, force_refresh=true)
+                result = check_credentials(testAWSCredentials, force_refresh=true)
                 @test result.access_key_id == testAWSCredentials.access_key_id
                 @test result.secret_key == testAWSCredentials.secret_key
                 @test result.expiry == typemax(DateTime)
