@@ -5,7 +5,7 @@ macro test_ecode(error_codes, expr)
             @test false
         catch e
             if e isa AWSException
-                @test ecode(e) in ($error_codes;)
+                @test ecode(e) in [$error_codes;]
             else
                 rethrow(e)
             end
