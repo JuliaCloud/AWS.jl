@@ -463,15 +463,9 @@ function (service::QueryService)(aws::AWS.AWSConfig, operation::String, args::Ab
 
     request.headers["Content-Type"] = "application/x-www-form-urlencoded; charset=utf-8"
 
-    if service.name == "iam"
-        aws.region = "us-east-1"
-    end
-
-    if isempty(request.content)
-        args["Action"] = operation
-        args["Version"] = service.api_version
-        request.content = HTTP.escapeuri(_flatten_query(service.name, args))
-    end
+    args["Action"] = operation
+    args["Version"] = service.api_version
+    request.content = HTTP.escapeuri(_flatten_query(service.name, args))
 
     do_request(aws, request; return_headers=return_headers)
 end

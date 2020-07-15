@@ -387,23 +387,18 @@ end
         )
         expected_policy_document = JSON.json(expected_policy_document)
 
-        @testset "Create Policy" begin
-            response = AWSServices.iam("CreatePolicy", LittleDict("PolicyName"=>expected_policy_name, "PolicyDocument"=>expected_policy_document))
-            policy_arn = response["CreatePolicyResponse"]["CreatePolicyResult"]["Policy"]["Arn"]
-        end
+        # Create Policy
+        response = AWSServices.iam("CreatePolicy", LittleDict("PolicyName"=>expected_policy_name, "PolicyDocument"=>expected_policy_document))
+        policy_arn = response["CreatePolicyResponse"]["CreatePolicyResult"]["Policy"]["Arn"]
 
-        @testset "Get Policy" begin
-            response_policy_version = AWSServices.iam("GetPolicyVersion", LittleDict("PolicyArn"=>policy_arn, "VersionId"=>"v1"))
-            response_document = response_policy_version["GetPolicyVersionResponse"]["GetPolicyVersionResult"]["PolicyVersion"]["Document"]
+        # Get Policy
+        response_policy_version = AWSServices.iam("GetPolicyVersion", LittleDict("PolicyArn"=>policy_arn, "VersionId"=>"v1"))
+        response_document = response_policy_version["GetPolicyVersionResponse"]["GetPolicyVersionResult"]["PolicyVersion"]["Document"]
+        @test HTTP.unescapeuri(response_document) == expected_policy_document
 
-            @test HTTP.unescapeuri(response_document) == expected_policy_document
-        end
-
-        @testset "Delete Policy" begin
-            AWSServices.iam("DeletePolicy", LittleDict("PolicyArn"=>policy_arn))
-
-            @test_throws AWSException AWSServices.iam("GetPolicy", LittleDict("PolicyArn"=>policy_arn))
-        end
+        # Delete Policy
+        AWSServices.iam("DeletePolicy", LittleDict("PolicyArn"=>policy_arn))
+        @test_throws AWSException AWSServices.iam("GetPolicy", LittleDict("PolicyArn"=>policy_arn))
     end
 
     @testset "sqs" begin
@@ -416,69 +411,54 @@ end
             return result["GetQueueUrlResponse"]["GetQueueUrlResult"]["QueueUrl"]
         end
 
-        @testset "Create Queue" begin
-            AWSServices.sqs("CreateQueue", LittleDict("QueueName"=>queue_name))
-        end
+        # Create Queue
+        AWSServices.sqs("CreateQueue", LittleDict("QueueName"=>queue_name))
 
-        @testset "Get Queues" begin
-            @test _get_queue_url(queue_name) isa String
-        end
+        # Get Queues
+        queue_url = _get_queue_url(queue_name)
+        @test !isempty(queue_url)
 
-        @testset "Change Message Visibility Batch Request" begin
-            queue_url = _get_queue_url(queue_name)
-            expected_message_id = "aws-jl-test"
+        # Change Message Visibility Batch Request
+        expected_message_id = "aws-jl-test"
 
-            AWSServices.sqs("SendMessage", LittleDict(
-                    "QueueUrl"=>queue_url,
-                    "MessageBody"=>expected_message
-                )
+        AWSServices.sqs("SendMessage", LittleDict(
+                "QueueUrl"=>queue_url,
+                "MessageBody"=>expected_message
             )
+        )
 
-            response = AWSServices.sqs("ReceiveMessage", LittleDict("QueueUrl"=>queue_url,))
-            receipt_handle = response["ReceiveMessageResponse"]["ReceiveMessageResult"]["Message"]["ReceiptHandle"]
+        response = AWSServices.sqs("ReceiveMessage", LittleDict("QueueUrl"=>queue_url,))
+        receipt_handle = response["ReceiveMessageResponse"]["ReceiveMessageResult"]["Message"]["ReceiptHandle"]
 
-            response = AWSServices.sqs("DeleteMessageBatch", LittleDict(
-                    "QueueUrl"=>queue_url,
-                    "DeleteMessageBatchRequestEntry"=>[
-                        LittleDict(
-                            "Id"=>expected_message_id,
-                            "ReceiptHandle"=>receipt_handle,
-                        )
-                    ]
-                )
+        response = AWSServices.sqs("DeleteMessageBatch", LittleDict(
+                "QueueUrl"=>queue_url,
+                "DeleteMessageBatchRequestEntry"=>[
+                    LittleDict(
+                        "Id"=>expected_message_id,
+                        "ReceiptHandle"=>receipt_handle,
+                    )
+                ]
             )
+        )
 
-            message_id = response["DeleteMessageBatchResponse"]["DeleteMessageBatchResult"]["DeleteMessageBatchResultEntry"]["Id"]
+        message_id = response["DeleteMessageBatchResponse"]["DeleteMessageBatchResult"]["DeleteMessageBatchResultEntry"]["Id"]
+        @test message_id == expected_message_id
 
-            @test message_id == expected_message_id
-        end
-
-        @testset "Send Message" begin
-            queue_url = _get_queue_url(queue_name)
-
-            AWSServices.sqs("SendMessage", LittleDict(
-                    "QueueUrl"=>queue_url,
-                    "MessageBody"=>expected_message
-                )
+        # Send message
+        AWSServices.sqs("SendMessage", LittleDict(
+                "QueueUrl"=>queue_url,
+                "MessageBody"=>expected_message
             )
-        end
+        )
 
-        @testset "Receive Message" begin
-            queue_url = _get_queue_url(queue_name)
+        # Receive Message
+        result = AWSServices.sqs("ReceiveMessage", LittleDict("QueueUrl"=>queue_url))
+        message = result["ReceiveMessageResponse"]["ReceiveMessageResult"]["Message"]["Body"]
+        @test message == expected_message
 
-            result = AWSServices.sqs("ReceiveMessage", LittleDict("QueueUrl"=>queue_url))
-            message = result["ReceiveMessageResponse"]["ReceiveMessageResult"]["Message"]["Body"]
-
-            @test message == expected_message
-        end
-
-        @testset "Delete Queue" begin
-            queue_url = _get_queue_url(queue_name)
-
-            AWSServices.sqs("DeleteQueue", LittleDict("QueueUrl"=>queue_url))
-
-            @test_throws AWSException _get_queue_url(queue_name)
-        end
+        # Delete Queue
+        AWSServices.sqs("DeleteQueue", LittleDict("QueueUrl"=>queue_url))
+        @test_throws AWSException _get_queue_url(queue_name)
     end
 end
 
