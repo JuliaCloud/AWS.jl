@@ -352,22 +352,30 @@ end
         service = "sts"
         result = AWS._flatten_query(service, args)
 
-        @test result["high_level_key"] == high_level_value
-        @test result["high_level_array.member.1.low_level_key_1"] == entry_1["low_level_key_1"]
-        @test result["high_level_array.member.1.low_level_key_2"] == entry_1["low_level_key_2"]
-        @test result["high_level_array.member.2.low_level_key_3"] == entry_2["low_level_key_3"]
-        @test result["high_level_array.member.2.low_level_key_4"] == entry_2["low_level_key_4"]
+        expected = Pair{String,String}[
+            "high_level_key" => "high_level_value",
+            "high_level_array.member.1.low_level_key_1" => "low_level_value_1",
+            "high_level_array.member.1.low_level_key_2" => "low_level_value_2",
+            "high_level_array.member.2.low_level_key_3" => "low_level_value_3",
+            "high_level_array.member.2.low_level_key_4" => "low_level_value_4"
+        ]
+
+        @test result == expected
     end
 
     @testset "sqs - special casing suffix" begin
         service = "sqs"
         result = AWS._flatten_query(service, args)
 
-        @test result["high_level_key"] == high_level_value
-        @test result["high_level_array.1.low_level_key_1"] == entry_1["low_level_key_1"]
-        @test result["high_level_array.1.low_level_key_2"] == entry_1["low_level_key_2"]
-        @test result["high_level_array.2.low_level_key_3"] == entry_2["low_level_key_3"]
-        @test result["high_level_array.2.low_level_key_4"] == entry_2["low_level_key_4"]
+        expected = Pair{String,String}[
+            "high_level_key" => "high_level_value",
+            "high_level_array.1.low_level_key_1" => "low_level_value_1",
+            "high_level_array.1.low_level_key_2" => "low_level_value_2",
+            "high_level_array.2.low_level_key_3" => "low_level_value_3",
+            "high_level_array.2.low_level_key_4" => "low_level_value_4"
+        ]
+
+        @test result == expected
     end
 end
 
