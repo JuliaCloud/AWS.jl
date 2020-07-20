@@ -369,25 +369,27 @@ function _return_headers(args::AbstractDict{String, <:Any})
     return return_headers
 end
 
-function _flatten_query(service::String, query::AbstractDict{String, <: Any}, prefix::String="")
-    result = Dict{String,String}()
+function _flatten_query(service::String, query::AbstractDict{String, <: Any})
+    return _flatten_query!(Pair{String, String}[], service, query)
+end
 
+function _flatten_query!(result::Vector{Pair{String, String}}, service::String, query::AbstractDict{String, <:Any}, prefix::String="")
     for (k, v) in query
         if typeof(v) <: AbstractDict
-            merge!(result, _flatten_query(service, v, "$prefix$k."))
+            _flatten_query!(result, service, v, string(prefix, k, "."))
         elseif typeof(v) <: AbstractArray
             for (i, j) in enumerate(v)
                 suffix = service in ("ec2", "sqs") ? "" : ".member"
-                prefix_key = "$prefix$k$suffix.$i"
+                prefix_key = string(prefix, k, suffix, ".", i)
 
                 if typeof(j) <: AbstractDict
-                    merge!(result, _flatten_query(service, j, "$prefix_key."))
+                    _flatten_query!(result, service, j, string(prefix_key, "."))
                 else
-                    result[prefix_key] = string(j)
+                    push!(result, Pair(prefix_key, string(j)))
                 end
             end
         else
-            result["$prefix$k"] = string(v)
+            push!(result, Pair(string(prefix, k), string(v)))
         end
     end
 
