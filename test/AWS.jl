@@ -293,7 +293,7 @@ end
         resource=resource,
     )
 
-    @testset "regionless endpoints" for regionless_endpoint in ["iam", "route53"]
+    @testset "regionless endpoints" for regionless_endpoint in ("iam", "route53")
         endpoint = "sdb"
         request.service = regionless_endpoint
         expected_result = "https://$regionless_endpoint.amazonaws.com$resource"
@@ -338,6 +338,137 @@ end
         result = AWS._return_headers(Dict{String, Any}())
 
         @test result == expected
+    end
+end
+
+@testset "_flatten_query" begin
+    high_level_value = "high_level_value"
+    entry_1 = LittleDict("low_level_key_1"=>"low_level_value_1", "low_level_key_2"=>"low_level_value_2")
+    entry_2 = LittleDict("low_level_key_3"=>"low_level_value_3", "low_level_key_4"=>"low_level_value_4")
+
+    args = LittleDict("high_level_key"=>high_level_value, "high_level_array"=>[entry_1, entry_2])
+
+    @testset "non-special case suffix" begin
+        service = "sts"
+        result = AWS._flatten_query(service, args)
+
+        expected = Pair{String,String}[
+            "high_level_key" => "high_level_value",
+            "high_level_array.member.1.low_level_key_1" => "low_level_value_1",
+            "high_level_array.member.1.low_level_key_2" => "low_level_value_2",
+            "high_level_array.member.2.low_level_key_3" => "low_level_value_3",
+            "high_level_array.member.2.low_level_key_4" => "low_level_value_4"
+        ]
+
+        @test result == expected
+    end
+
+    @testset "sqs - special casing suffix" begin
+        service = "sqs"
+        result = AWS._flatten_query(service, args)
+
+        expected = Pair{String,String}[
+            "high_level_key" => "high_level_value",
+            "high_level_array.1.low_level_key_1" => "low_level_value_1",
+            "high_level_array.1.low_level_key_2" => "low_level_value_2",
+            "high_level_array.2.low_level_key_3" => "low_level_value_3",
+            "high_level_array.2.low_level_key_4" => "low_level_value_4"
+        ]
+
+        @test result == expected
+    end
+end
+
+@testset "query" begin
+    @testset "iam" begin
+        policy_arn = ""
+        expected_policy_name = "AWS.jl-Test-Policy" * lowercase(Dates.format(now(Dates.UTC), "yyyymmddTHHMMSSZ"))
+        expected_policy_document = LittleDict(
+            "Version"=> "2012-10-17",
+            "Statement"=> [
+                LittleDict(
+                    "Effect"=>"Allow",
+                    "Action"=>["s3:Get*", "s3:List*"],
+                    "Resource"=> ["arn:aws:s3:::my-bucket/shared/*"]
+                )
+            ],
+        )
+        expected_policy_document = JSON.json(expected_policy_document)
+
+        # Create Policy
+        response = AWSServices.iam("CreatePolicy", LittleDict("PolicyName"=>expected_policy_name, "PolicyDocument"=>expected_policy_document))
+        policy_arn = response["CreatePolicyResponse"]["CreatePolicyResult"]["Policy"]["Arn"]
+
+        # Get Policy
+        try
+            response_policy_version = AWSServices.iam("GetPolicyVersion", LittleDict("PolicyArn"=>policy_arn, "VersionId"=>"v1"))
+            response_document = response_policy_version["GetPolicyVersionResponse"]["GetPolicyVersionResult"]["PolicyVersion"]["Document"]
+            @test HTTP.unescapeuri(response_document) == expected_policy_document
+        finally
+            # Delete Policy
+            AWSServices.iam("DeletePolicy", LittleDict("PolicyArn"=>policy_arn))
+            @test_throws AWSException AWSServices.iam("GetPolicy", LittleDict("PolicyArn"=>policy_arn))
+        end
+    end
+
+    @testset "sqs" begin
+        queue_name = "aws-jl-test---" * lowercase(Dates.format(now(Dates.UTC), "yyyymmddTHHMMSSZ"))
+        expected_message = "Hello for AWS.jl"
+
+        function _get_queue_url(queue_name)
+            result = AWSServices.sqs("GetQueueUrl", LittleDict("QueueName"=>queue_name))
+
+            return result["GetQueueUrlResponse"]["GetQueueUrlResult"]["QueueUrl"]
+        end
+
+        # Create Queue
+        AWSServices.sqs("CreateQueue", LittleDict("QueueName"=>queue_name))
+
+        # Get Queues
+        queue_url = _get_queue_url(queue_name)
+        @test !isempty(queue_url)
+
+        # Change Message Visibility Batch Request
+        expected_message_id = "aws-jl-test"
+
+        AWSServices.sqs("SendMessage", LittleDict(
+                "QueueUrl"=>queue_url,
+                "MessageBody"=>expected_message
+            )
+        )
+
+        response = AWSServices.sqs("ReceiveMessage", LittleDict("QueueUrl"=>queue_url,))
+        receipt_handle = response["ReceiveMessageResponse"]["ReceiveMessageResult"]["Message"]["ReceiptHandle"]
+
+        response = AWSServices.sqs("DeleteMessageBatch", LittleDict(
+                "QueueUrl"=>queue_url,
+                "DeleteMessageBatchRequestEntry"=>[
+                    LittleDict(
+                        "Id"=>expected_message_id,
+                        "ReceiptHandle"=>receipt_handle,
+                    )
+                ]
+            )
+        )
+
+        message_id = response["DeleteMessageBatchResponse"]["DeleteMessageBatchResult"]["DeleteMessageBatchResultEntry"]["Id"]
+        @test message_id == expected_message_id
+
+        # Send message
+        AWSServices.sqs("SendMessage", LittleDict(
+                "QueueUrl"=>queue_url,
+                "MessageBody"=>expected_message
+            )
+        )
+
+        # Receive Message
+        result = AWSServices.sqs("ReceiveMessage", LittleDict("QueueUrl"=>queue_url))
+        message = result["ReceiveMessageResponse"]["ReceiveMessageResult"]["Message"]["Body"]
+        @test message == expected_message
+
+        # Delete Queue
+        AWSServices.sqs("DeleteQueue", LittleDict("QueueUrl"=>queue_url))
+        @test_throws AWSException _get_queue_url(queue_name)
     end
 end
 

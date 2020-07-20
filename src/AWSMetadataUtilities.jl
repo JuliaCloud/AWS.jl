@@ -142,7 +142,7 @@ function _generate_low_level_definition(service::Dict)
 
     if protocol == "rest-xml"
         return "const $service_id = AWS.RestXMLService(\"$service_name\", \"$api_version\")"
-    elseif protocol in ["ec2", "query"]
+    elseif protocol in ("ec2", "query")
         return "const $service_id = AWS.QueryService(\"$service_name\", \"$api_version\")"
     elseif protocol == "rest-json"
          if haskey(service_specifics, service_id)
@@ -349,7 +349,7 @@ function _generate_high_level_definition(
     operation_definition *= repeat('"', 3)
 
     # Depending on the protocol type of the operation we need to generate a different definition
-    if protocol in ["json", "query", "ec2"]
+    if protocol in ("json", "query", "ec2")
         if !isempty(required_parameters)
             operation_definition *= "\n$name(args) = $service_name(\"$name\", args)\n"
         else
@@ -358,7 +358,7 @@ function _generate_high_level_definition(
                 $name(args) = $service_name(\"$name\", args)
                 """
         end
-    elseif protocol in ["rest-json", "rest-xml"]
+    elseif protocol in ("rest-json", "rest-xml")
         if !isempty(required_parameters)
             request_uri = replace(request_uri, '{'=>"\$(")  # Replace { with $(
             request_uri = replace(request_uri, '}'=>')')  # Replace } with )

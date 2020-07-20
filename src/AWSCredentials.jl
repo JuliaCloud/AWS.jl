@@ -486,7 +486,7 @@ function _aws_get_role(role::AbstractString, ini::Inifile)
     source_profile === nothing && return nothing
     credentials = nothing
 
-    for f in [dot_aws_credentials, dot_aws_config]
+    for f in (dot_aws_credentials, dot_aws_config)
         credentials = f(source_profile)
         credentials === nothing || break
     end
