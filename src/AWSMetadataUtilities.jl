@@ -218,7 +218,7 @@ function _get_function_parameters(input::String, shapes::Dict)
         end
     end
 
-    return (sort(required_parameters), sort(optional_parameters))
+    return (sort!(OrderedDict(required_parameters)), sort!(OrderedDict(optional_parameters)))
 end
 
 """
