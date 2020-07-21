@@ -390,20 +390,16 @@ end
             return response["SecretString"]
         end
 
-        @testset "create secret" begin
-            resp = AWSServices.secrets_manager("CreateSecret", LittleDict(
-                    "Name"=>secret_name,
-                    "SecretString"=>secret_string,
-                    "ClientRequestToken"=>string(uuid4())
-                )
+        resp = AWSServices.secrets_manager("CreateSecret", LittleDict(
+                "Name"=>secret_name,
+                "SecretString"=>secret_string,
+                "ClientRequestToken"=>string(uuid4())
             )
-        end
+        )
 
-        @testset "get secret value" begin
+        try
             @test _get_secret_string(secret_name) == secret_string
-        end
-
-        @testset "delete secret" begin
+        finally
             AWSServices.secrets_manager("DeleteSecret", LittleDict(
                     "SecretId"=>secret_name,
                     "ForceDeleteWithoutRecovery"=>"true",
