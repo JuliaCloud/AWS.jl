@@ -475,7 +475,7 @@ function (service::JSONService)(aws::AWS.AWSConfig, operation::String, args::Abs
         resource=POST_RESOURCE,
         request_method="POST",
         headers=LittleDict{String, String}(get(args, "headers", [])),
-        content = json(args),
+        content=json(args),
         url=_generate_service_url(aws.region, service.name, POST_RESOURCE),
         return_stream=get(args, "return_stream", false),
         http_options=get(args, "http_options", []),
