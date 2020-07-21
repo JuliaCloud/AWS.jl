@@ -310,15 +310,9 @@ function do_request(aws::AWSConfig, request::Request; return_headers::Bool=false
 
     if occursin(r"/xml", mime)
         xml_dict_type = response_dict_type{Union{Symbol, String}, Any}
-
         return (return_headers ? (xml_dict(body, xml_dict_type), response_dict_type(response.headers)) : xml_dict(body, xml_dict_type))
     elseif occursin(r"/x-amz-json-1.[01]$", mime) || endswith(mime, "json")
-        if isempty(response.body)
-            return (return_headers ? (nothing, response.headers) : nothing)
-        end
-
-        info = JSON.parse(body, dicttype=response_dict_type)
-
+        info = isempty(response.body) ? nothing : JSON.parse(body, dicttype=response_dict_type)
         return (return_headers ? (info, response_dict_type(response.headers)) : info)
     end
 
@@ -481,6 +475,7 @@ function (service::JSONService)(aws::AWS.AWSConfig, operation::String, args::Abs
         resource=POST_RESOURCE,
         request_method="POST",
         headers=LittleDict{String, String}(get(args, "headers", [])),
+        content = json(args),
         url=_generate_service_url(aws.region, service.name, POST_RESOURCE),
         return_stream=get(args, "return_stream", false),
         http_options=get(args, "http_options", []),
@@ -490,8 +485,6 @@ function (service::JSONService)(aws::AWS.AWSConfig, operation::String, args::Abs
 
     request.headers["Content-Type"] = "application/x-amz-json-$(service.json_version)"
     request.headers["X-Amz-Target"] = "$(service.target).$(operation)"
-
-    request.content = json(args)
 
     do_request(aws, request; return_headers=return_headers)
 end
