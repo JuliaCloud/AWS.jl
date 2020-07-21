@@ -391,10 +391,10 @@ end
         end
 
         resp = AWSServices.secrets_manager("CreateSecret", LittleDict(
-                "Name"=>secret_name,
-                "SecretString"=>secret_string,
-                "ClientRequestToken"=>string(uuid4())
-            ))
+            "Name"=>secret_name,
+            "SecretString"=>secret_string,
+            "ClientRequestToken"=>string(uuid4()),
+        ))
         
         try
             @test _get_secret_string(secret_name) == secret_string
