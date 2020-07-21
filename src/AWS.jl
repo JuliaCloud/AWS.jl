@@ -312,19 +312,9 @@ function do_request(aws::AWSConfig, request::Request; return_headers::Bool=false
         xml_dict_type = response_dict_type{Union{Symbol, String}, Any}
 
         return (return_headers ? (xml_dict(body, xml_dict_type), response_dict_type(response.headers)) : xml_dict(body, xml_dict_type))
-    end
-
-    if occursin(r"/x-amz-json-1.[01]$", mime)
+    elseif occursin(r"/x-amz-json-1.[01]$", mime) || endswith(mime, "json")
         if isempty(response.body)
             return nothing
-        end
-
-        return (return_headers ? (JSON.parse(body, dicttype=response_dict_type), response_dict_type(response.headers)) : JSON.parse(body, dicttype=response_dict_type))
-    end
-
-    if endswith(mime, "json")
-        if isempty(response.body)
-            return (return_headers ? (nothing, response.headers) : nothing)
         end
 
         info = JSON.parse(body, dicttype=response_dict_type)
