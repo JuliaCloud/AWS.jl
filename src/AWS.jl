@@ -314,7 +314,7 @@ function do_request(aws::AWSConfig, request::Request; return_headers::Bool=false
         return (return_headers ? (xml_dict(body, xml_dict_type), response_dict_type(response.headers)) : xml_dict(body, xml_dict_type))
     elseif occursin(r"/x-amz-json-1.[01]$", mime) || endswith(mime, "json")
         if isempty(response.body)
-            return nothing
+            return (return_headers ? (nothing, response.headers) : nothing)
         end
 
         info = JSON.parse(body, dicttype=response_dict_type)
