@@ -401,10 +401,9 @@ end
             @test _get_secret_string(secret_name) == secret_string
         finally
             AWSServices.secrets_manager("DeleteSecret", LittleDict(
-                    "SecretId"=>secret_name,
-                    "ForceDeleteWithoutRecovery"=>"true",
-                )
-            )
+                "SecretId"=>secret_name,
+                "ForceDeleteWithoutRecovery"=>"true",
+            ))
 
             @test_throws AWSException _get_secret_string(secret_name)
         end
