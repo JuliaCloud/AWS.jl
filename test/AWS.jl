@@ -267,6 +267,40 @@ end
                 end
             end
         end
+
+        @testset "Text" begin
+            request = Request(
+                service="s3",
+                api_version="api_verison",
+                request_method="GET",
+                url="https://s3.us-east-1.amazonaws.com/sample-bucket",
+            )
+
+            apply(Patches._http_request_patch) do
+                expected_headers = Pair["Content-Type"=>"text/html",]
+                expected_body = Patches.body
+                expected_header_type = LittleDict{SubString{String}, SubString{String}}
+
+                Patches._response!(headers=expected_headers)
+
+                @testset "body" begin
+                    result = AWS.do_request(aws, request)
+
+                    @test typeof(result) <: String
+                    @test result == expected_body
+                end
+
+                @testset "body and headers" begin
+                    body, headers = AWS.do_request(aws, request; return_headers=true)
+
+                    @test body == expected_body
+                    @test typeof(body) <: String
+
+                    @test headers == LittleDict(expected_headers)
+                    @test typeof(headers) <: expected_header_type
+                end
+            end
+        end
     end
 end
 
