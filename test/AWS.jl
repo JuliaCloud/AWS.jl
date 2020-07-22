@@ -361,7 +361,6 @@ end
         ]
 
         @test result == expected
-
     end
 
     @testset "sqs - special casing suffix" begin
@@ -462,17 +461,14 @@ end
         )
         expected_policy_document = JSON.json(expected_policy_document)
 
-        # Create Policy
         response = AWSServices.iam("CreatePolicy", LittleDict("PolicyName"=>expected_policy_name, "PolicyDocument"=>expected_policy_document))
         policy_arn = response["CreatePolicyResponse"]["CreatePolicyResult"]["Policy"]["Arn"]
 
-        # Get Policy
         try
             response_policy_version = AWSServices.iam("GetPolicyVersion", LittleDict("PolicyArn"=>policy_arn, "VersionId"=>"v1"))
             response_document = response_policy_version["GetPolicyVersionResponse"]["GetPolicyVersionResult"]["PolicyVersion"]["Document"]
             @test HTTP.unescapeuri(response_document) == expected_policy_document
         finally
-            # Delete Policy
             AWSServices.iam("DeletePolicy", LittleDict("PolicyArn"=>policy_arn))
             @test_throws AWSException AWSServices.iam("GetPolicy", LittleDict("PolicyArn"=>policy_arn))
         end

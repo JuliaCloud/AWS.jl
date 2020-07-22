@@ -356,7 +356,6 @@ function _return_headers(args::AbstractDict{String, <:Any})
     return return_headers
 end
 
-<<<<<<< HEAD
 function _flatten_query(service::String, query::AbstractDict{String, <: Any})
     return _flatten_query!(Pair{String, String}[], service, query)
 end
