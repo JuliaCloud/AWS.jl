@@ -365,7 +365,7 @@ end
         "Security-Credentials" => "Test-Security-Credentials"
     )
 
-    _http_get_patch = @patch function HTTP.request(method::String, url::String)
+    _http_request_patch = @patch function HTTP.request(method::String, url::String)
         security_credentials = test_values["Security-Credentials"]
         uri = test_values["URI"]
 
@@ -479,7 +479,7 @@ end
     end
 
     @testset "Instance - EC2" begin
-        apply([_http_get_patch]) do
+        apply([_http_request_patch]) do
             result = ec2_instance_credentials()
             @test result.access_key_id == test_values["AccessKeyId"]
             @test result.secret_key == test_values["SecretAccessKey"]
@@ -492,7 +492,7 @@ end
 
     @testset "Instance - ECS" begin
         withenv("AWS_CONTAINER_CREDENTIALS_RELATIVE_URI" => test_values["URI"]) do
-            apply([_http_get_patch]) do
+            apply([_http_request_patch]) do
                 result = ecs_instance_credentials()
                 @test result.access_key_id == test_values["AccessKeyId"]
                 @test result.secret_key == test_values["SecretAccessKey"]
