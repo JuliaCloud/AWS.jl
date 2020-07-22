@@ -381,7 +381,7 @@ end
 
 @testset "json" begin
     @testset "secrets_manager" begin
-        secret_name = "AWS.jl-Test-Secret" * lowercase(Dates.format(now(Dates.UTC), "yyyymmddTHHMMSSZ"))
+        secret_name = "AWS.jl-Test-Secret" * lowercase(Dates.format(now(Dates.UTC), "yyyymmddTHHMMSSsssZ"))
         secret_string = "sshhh it is a secret!"
 
         function _get_secret_string(secret_name)
@@ -412,7 +412,7 @@ end
 @testset "query" begin
     @testset "iam" begin
         policy_arn = ""
-        expected_policy_name = "AWS.jl-Test-Policy" * lowercase(Dates.format(now(Dates.UTC), "yyyymmddTHHMMSSZ"))
+        expected_policy_name = "AWS.jl-Test-Policy" * lowercase(Dates.format(now(Dates.UTC), "yyyymmddTHHMMSSsssZ"))
         expected_policy_document = LittleDict(
             "Version"=> "2012-10-17",
             "Statement"=> [
@@ -442,7 +442,7 @@ end
     end
 
     @testset "sqs" begin
-        queue_name = "aws-jl-test---" * lowercase(Dates.format(now(Dates.UTC), "yyyymmddTHHMMSSZ"))
+        queue_name = "aws-jl-test---" * lowercase(Dates.format(now(Dates.UTC), "yyyymmddTHHMMSSsssZ"))
         expected_message = "Hello for AWS.jl"
 
         function _get_queue_url(queue_name)
@@ -503,7 +503,7 @@ end
 end
 
 @testset "rest-xml" begin
-    bucket_name = "aws.jl-test---" * lowercase(Dates.format(now(Dates.UTC), "yyyymmddTHHMMSSZ"))
+    bucket_name = "aws.jl-test---" * lowercase(Dates.format(now(Dates.UTC), "yyyymmddTHHMMSSsssZ"))
     file_name = string(uuid4())
 
     function _bucket_exists(bucket_name)
@@ -580,7 +580,7 @@ end
 end
 
 @testset "rest-json" begin
-    timestamp = lowercase(Dates.format(now(Dates.UTC), "yyyymmddTHHMMSSZ"))
+    timestamp = lowercase(Dates.format(now(Dates.UTC), "yyyymmddTHHMMSSsssZ"))
     vault_names = ["aws.jl.test-01---$timestamp", "aws.jl.test-02---$timestamp", ]
 
     @testset "PUT" begin
