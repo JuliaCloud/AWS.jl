@@ -310,17 +310,9 @@ function do_request(aws::AWSConfig, request::Request; return_headers::Bool=false
 
     if occursin(r"/xml", mime)
         xml_dict_type = response_dict_type{Union{Symbol, String}, Any}
-
         return (return_headers ? (xml_dict(body, xml_dict_type), response_dict_type(response.headers)) : xml_dict(body, xml_dict_type))
-    end
-
-    if endswith(mime, "json")
-        if isempty(response.body)
-            return (return_headers ? (nothing, response.headers) : nothing)
-        end
-
-        info = JSON.parse(body, dicttype=response_dict_type)
-
+    elseif occursin(r"/x-amz-json-1.[01]$", mime) || endswith(mime, "json")
+        info = isempty(response.body) ? nothing : JSON.parse(body, dicttype=response_dict_type)
         return (return_headers ? (info, response_dict_type(response.headers)) : info)
     end
 
@@ -473,19 +465,30 @@ function (service::QueryService)(aws::AWS.AWSConfig, operation::String, args::Ab
 end
 (service::QueryService)(operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}()) = service(AWSConfig(), operation, args)
 
-function (service::JSONService)(aws::AWS.AWSConfig, operation, args=[])
-    return AWSCore.service_json(
-        aws;
+function (service::JSONService)(aws::AWS.AWSConfig, operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}())
+    POST_RESOURCE = "/"
+    return_headers = _return_headers(args)
+
+    request = Request(
         service=service.name,
-        version=service.api_version,
-        json_version=service.json_version,
-        target=service.target,
-        operation=operation,
-        args=args
+        api_version=service.api_version,
+        resource=POST_RESOURCE,
+        request_method="POST",
+        headers=LittleDict{String, String}(get(args, "headers", [])),
+        content=json(args),
+        url=_generate_service_url(aws.region, service.name, POST_RESOURCE),
+        return_stream=get(args, "return_stream", false),
+        http_options=get(args, "http_options", []),
+        response_stream=get(args, "response_stream", nothing),
+        return_raw=get(args, "return_raw", false),
     )
+
+    request.headers["Content-Type"] = "application/x-amz-json-$(service.json_version)"
+    request.headers["X-Amz-Target"] = "$(service.target).$(operation)"
+
+    do_request(aws, request; return_headers=return_headers)
 end
-(service::JSONService)(operation, args=[]) = service(aws_config(), operation, args)
-(service::JSONService)(a...; b...) = service(a..., b)
+(service::JSONService)(operation::String, args::AbstractDict{String, <:Any}=Dict{String, String}()) = service(AWSConfig(), operation, args)
 
 function (service::RestJSONService)(
     aws::AWS.AWSConfig,

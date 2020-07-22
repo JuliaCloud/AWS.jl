@@ -195,8 +195,8 @@ Get the required and optional parameters for a given operation.
 - `Tuple(Dict, Dict)`: (required_parameters, optional_parameters)
 """
 function _get_function_parameters(input::String, shapes::Dict)
-    required_parameters = Dict{String, Any}()
-    optional_parameters = Dict{String, Any}()
+    required_parameters = LittleDict{String, Any}()
+    optional_parameters = LittleDict{String, Any}()
 
     input_shape = shapes[input]
 
