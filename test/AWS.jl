@@ -476,7 +476,7 @@ end
     end
 
     @testset "sqs" begin
-        queue_name = "aws-jl-test---" * lowercase(Dates.format(now(Dates.UTC), "yyyymmddTHHMMSSsssZ"))
+        queue_name = "aws-jl-test---" * lowercase(Dates.format(now(Dates.UTC), dateformat"yyyymmdd\THHMMSSsssZ"))
         expected_message = "Hello for AWS.jl"
 
         function _get_queue_url(queue_name)
