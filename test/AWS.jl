@@ -415,7 +415,7 @@ end
 
 @testset "json" begin
     @testset "secrets_manager" begin
-        secret_name = "AWS.jl-Test-Secret" * lowercase(Dates.format(now(Dates.UTC), "yyyymmddTHHMMSSsssZ"))
+        secret_name = "AWS.jl-Test-Secret" * lowercase(Dates.format(now(Dates.UTC), dateformat"yyyymmdd\THHMMSSsssZ"))
         secret_string = "sshhh it is a secret!"
 
         function _get_secret_string(secret_name)
