@@ -537,7 +537,7 @@ end
 end
 
 @testset "rest-xml" begin
-    bucket_name = "aws.jl-test---" * lowercase(Dates.format(now(Dates.UTC), "yyyymmddTHHMMSSsssZ"))
+    bucket_name = "aws.jl-test---" * lowercase(Dates.format(now(Dates.UTC), dateformat"yyyymmdd\THHMMSSsssZ"))
     file_name = string(uuid4())
 
     function _bucket_exists(bucket_name)
