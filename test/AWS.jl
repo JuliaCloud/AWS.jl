@@ -446,7 +446,7 @@ end
 @testset "query" begin
     @testset "iam" begin
         policy_arn = ""
-        expected_policy_name = "AWS.jl-Test-Policy" * lowercase(Dates.format(now(Dates.UTC), "yyyymmddTHHMMSSsssZ"))
+        expected_policy_name = "AWS.jl-Test-Policy" * lowercase(Dates.format(now(Dates.UTC), dateformat"yyyymmdd\THHMMSSsssZ"))
         expected_policy_document = LittleDict(
             "Version"=> "2012-10-17",
             "Statement"=> [
