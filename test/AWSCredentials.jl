@@ -479,7 +479,7 @@ end
     end
 
     @testset "Instance - EC2" begin
-        apply([_http_request_patch]) do
+        apply(_http_request_patch) do
             result = ec2_instance_credentials()
             @test result.access_key_id == test_values["AccessKeyId"]
             @test result.secret_key == test_values["SecretAccessKey"]
