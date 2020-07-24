@@ -54,7 +54,7 @@ end
         service="s3",
         api_version="2006-03-01",
         request_method="GET",
-        headers=Dict{String, String}("Range"=>"bytes=0-0"),
+        headers=Dict("Range" => "bytes=0-0"),
         content="",
         resource="ryft-public-sample-data/AWS-x86-AMI-queries.json",
         url="https://s3.amazonaws.com/ryft-public-sample-data/AWS-x86-AMI-queries.json",
