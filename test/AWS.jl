@@ -614,7 +614,7 @@ end
 end
 
 @testset "rest-json" begin
-    timestamp = lowercase(Dates.format(now(Dates.UTC), "yyyymmddTHHMMSSsssZ"))
+    timestamp = lowercase(Dates.format(now(Dates.UTC), dateformat"yyyymmdd\THHMMSSsssZ"))
     vault_names = ["aws.jl.test-01---$timestamp", "aws.jl.test-02---$timestamp", ]
 
     @testset "PUT" begin
