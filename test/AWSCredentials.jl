@@ -492,7 +492,7 @@ end
 
     @testset "Instance - ECS" begin
         withenv("AWS_CONTAINER_CREDENTIALS_RELATIVE_URI" => test_values["URI"]) do
-            apply([_http_request_patch]) do
+            apply(_http_request_patch) do
                 result = ecs_instance_credentials()
                 @test result.access_key_id == test_values["AccessKeyId"]
                 @test result.secret_key == test_values["SecretAccessKey"]
