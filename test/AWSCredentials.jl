@@ -44,7 +44,7 @@ end
         service="s3",
         api_version="2006-03-01",
         request_method="GET",
-        headers=Dict{String, String}("Range"=>"bytes=0-0"),
+        headers=Dict("Range" => "bytes=0-0"),
         content="",
         resource="/invenia-static-website-content/invenia_ca/index.html",
         url="https://s3.us-east-1.amazonaws.com/invenia-static-website-content/invenia_ca/index.html",
