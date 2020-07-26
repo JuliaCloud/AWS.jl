@@ -12,22 +12,6 @@ It includes automated code generation to ensure all new AWS services are availab
 
 To see an overview of the architecture see the [wiki page](https://github.com/JuliaCloud/AWS.jl/wiki/v1-Design-Document). 
 
-There are a few alternatives to this package:
-* [AWSCore.jl](https://github.com/JuliaCloud/AWSCore.jl) - Low-level AWS interface
-* [AWSSDK.jl](https://github.com/JuliaCloud/AWSSDK.jl) - High-level AWS interface
-
-As well as some hand-written packages for specific AWS services:
-* [AWSS3.jl](https://github.com/JuliaCloud/AWSS3.jl) - Julia1.0+
-* [AWSSQS.jl](https://github.com/JuliaCloud/AWSSQS.jl) - Julia1.0+ 
-* [AWSSNS.jl](https://github.com/samoconnor/AWSSNS.jl) - Julia0.7
-* [AWSIAM.jl](https://github.com/samoconnor/AWSIAM.jl) - Julia0.6
-* [AWSEC2.jl](https://github.com/samoconnor/AWSEC2.jl) - Julia0.6
-* [AWSLambda.jl](https://github.com/samoconnor/AWSLambda.jl) - Julia0.6
-* [AWSSES.jl](https://github.com/samoconnor/AWSSES.jl) - Julia0.6
-* [AWSSDB.jl](https://github.com/samoconnor/AWSSDB.jl) - Julia0.6
-
-
-
 ## Installation
 ```julia
 julia> Pkg.add("AWS")
@@ -61,7 +45,7 @@ using AWS: @service
 S3.ListObjects("/your-bucket")
 ```
 
-Note: When calling the `@service` macro you **MUST** capitalize the service name.
+Note: When calling the `@service` macro you **MUST** capitalize the first character and match the `/services/{service}.jl` filename.
 If you do not the service will not be placed in your namespace and you will see an error.
 This is due to the lowercase service name being a `constant`.
 
@@ -70,6 +54,38 @@ using AWS: @service
 @service s3
 WARNING: import of AWSServices.s3 into s3 conflicts with an existing identifier; ignored.
 ```
+
+## Limitations
+Currently there are a few limitations with the high-level APIs. For example, with S3's DeleteMultipleObjects call.
+To remove multiple objects you must pass in an XML string (see below) in the body of the request.
+There is no-programatic way to see this from the [aws-sdk-js](https://github.com/aws/aws-sdk-js/blob/master/apis/s3-2006-03-01.normal.json), so the high-level function will not work.
+There are most likely other similar functions which require more intricate details in how the requests are performed, both in the S3 definitions and in other services.
+
+```julia
+body = """
+    <Delete xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+        <Object>
+            <Key>$file_name</Key>
+        </Object>
+    </Delete>
+    """
+```
+
+## Alternative Solutions
+There are a few alternatives to this package, the two below are being deprecated in favour of this package:
+* [AWSCore.jl](https://github.com/JuliaCloud/AWSCore.jl) - Low-level AWS interface
+* [AWSSDK.jl](https://github.com/JuliaCloud/AWSSDK.jl) - High-level AWS interface
+
+As well as some hand-written packages for specific AWS services:
+* [AWSS3.jl](https://github.com/JuliaCloud/AWSS3.jl) - Julia1.0+
+* [AWSSQS.jl](https://github.com/JuliaCloud/AWSSQS.jl) - Julia1.0+ 
+* [AWSSNS.jl](https://github.com/samoconnor/AWSSNS.jl) - Julia0.7
+* [AWSIAM.jl](https://github.com/samoconnor/AWSIAM.jl) - Julia0.6
+* [AWSEC2.jl](https://github.com/samoconnor/AWSEC2.jl) - Julia0.6
+* [AWSLambda.jl](https://github.com/samoconnor/AWSLambda.jl) - Julia0.6
+* [AWSSES.jl](https://github.com/samoconnor/AWSSES.jl) - Julia0.6
+* [AWSSDB.jl](https://github.com/samoconnor/AWSSDB.jl) - Julia0.6
+
 
 ## License
 ```
