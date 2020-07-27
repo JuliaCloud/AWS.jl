@@ -26,7 +26,7 @@ To use the low-level API, you must know how to perform the request you are makin
 If you do not know how to perform a request you can reference the [AWS Documentation](https://docs.aws.amazon.com/).
 Alternatively you can look at `/src/services/{Service}.jl` to find a list of available requests, as well as their required and optional parameters.
 
-For example, to list the objects in an S3 bucket you must pass in the request method (`"GET"`) and the endpoint (`"/${bucket}"`).
+For example, to list the objects in an S3 bucket you must pass in the request method (`"GET"`) and the endpoint (`"/${bucket}"`):
 
 ```julia
 using AWS.AWSServices: s3
