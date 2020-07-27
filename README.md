@@ -60,7 +60,7 @@ Currently there are a few limitations with the high-level APIs.
 For example, with S3's DeleteMultipleObjects call.
 To remove multiple objects you must pass in an XML string (see below) in the body of the request.
 
-Low-Level API Example
+Low-Level API Example:
 ```julia
 using AWS.AWSServices: s3
 
