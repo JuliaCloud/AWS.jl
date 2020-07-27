@@ -45,7 +45,7 @@ using AWS: @service
 S3.ListObjects("/your-bucket")
 ```
 
-Note: When calling the `@service` macro you **MUST** capitalize the first character and match the `/services/{service}.jl` filename.
+**Note:** When calling the `@service` macro you **MUST** capitalize the first character and match the `/services/{service}.jl` filename.
 If you do not the service will not be placed in your namespace and you will see an error.
 This is due to the lowercase service name being a `constant`.
 
