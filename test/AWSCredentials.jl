@@ -25,7 +25,7 @@ end
 
     @test_ecode(
         ["AccessDenied", "NoSuchEntity"],
-        AWSServices.iam("GetUser", Dict("UserName"=>"notauser"))
+        AWSServices.iam("GetUser", Dict("UserName" => "notauser"))
     )
 
     @test_ecode(
