@@ -477,12 +477,12 @@ end
         policy_arn = ""
         expected_policy_name = "AWS.jl-Test-Policy" * _now_formatted()
         expected_policy_document = LittleDict(
-            "Version"=> "2012-10-17",
-            "Statement"=> [
+            "Version" => "2012-10-17",
+            "Statement" => [
                 LittleDict(
-                    "Effect"=>"Allow",
-                    "Action"=>["s3:Get*", "s3:List*"],
-                    "Resource"=> ["arn:aws:s3:::my-bucket/shared/*"]
+                    "Effect" => "Allow",
+                    "Action" => ["s3:Get*", "s3:List*"],
+                    "Resource" => ["arn:aws:s3:::my-bucket/shared/*"]
                 )
             ],
         )
