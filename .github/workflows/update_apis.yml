@@ -1,7 +1,7 @@
 name: AWS
 on:
   schedule:
-    - cron: '0 6 * * *'  # Daily at 6 a.m.
+    - cron: '0 6 * * *'  # Daily at 6 a.m. UTC 
 
 jobs:
   AWS:
