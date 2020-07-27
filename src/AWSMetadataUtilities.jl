@@ -366,7 +366,7 @@ function _generate_high_level_definition(
         operation_definition *= "Required Parameters\n"
 
         for required_parameter in required_parameters
-            operation_definition *= "$(required_parameter[1]) => $(required_parameter[2]["documentation"])\n"
+            operation_definition *= "- $(required_parameter[1]): $(required_parameter[2]["documentation"])\n"
         end
 
         operation_definition *= "\n"
@@ -377,7 +377,7 @@ function _generate_high_level_definition(
         operation_definition *= "Optional Parameters\n"
 
         for (optional_key, optional_value) in optional_parameters
-            operation_definition *= "$optional_key => $optional_value\n"
+            operation_definition *= "- $optional_key: $optional_value\n"
         end
     end
 
