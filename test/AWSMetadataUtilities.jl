@@ -152,8 +152,8 @@ end
         required_params, optional_params = _get_function_parameters(input, shapes)
 
         @test required_params == Dict(
-            "RequiredParam1" => LittleDict("location" => "","documentation" => "Required param 1"),
-            "RequiredParam2" => LittleDict("location" => "","documentation" => "Required param 2")
+            "RequiredParam1" => LittleDict("location" => "", "documentation" => "Required param 1"),
+            "RequiredParam2" => LittleDict("location" => "", "documentation" => "Required param 2")
         )
 
         @test optional_params == Dict(
