@@ -385,7 +385,7 @@ function _generate_high_level_definition(
 
     # Get a list of Julia friendly parameter keys
     # Replace all hyphens with underscore to be Julia friendly
-    required_param_keys_clean = replace.(collect(keys(required_parameters)), "-"=>"_")
+    required_param_keys_clean = replace.(collect(keys(required_parameters)), "-" => "_")
 
     # Filter out any required parameters which are in the URI
     required_parameters = filter(p -> (p[2]["location"] != "uri"), required_parameters)
