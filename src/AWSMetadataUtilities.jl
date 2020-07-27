@@ -406,7 +406,7 @@ function _generate_high_level_definition(
         else
             operation_definition *= """\n
                 $name() = $service_name(\"$name\")
-                $name(args::AbstractDict{String, <: Any}) = $service_name(\"$name\", args)
+                $name(args::AbstractDict{String, <:Any}) = $service_name(\"$name\", args)
                 """
         end
     elseif protocol in ("rest-json", "rest-xml")
