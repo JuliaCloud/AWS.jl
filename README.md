@@ -35,7 +35,7 @@ s3("GET", "/your-bucket")
 ```
 
 ### High-Level
-To use the high-level API, you only need to know the name of the request which you wish to make.
+To use the high-level API, you only need to know the name of the request you wish to make.
 For example again, to list the objects in an S3 bucket:
 
 ```julia
