@@ -97,7 +97,6 @@ S3.DeleteObjects(bucket_name, body)  # Delete multiple objects
 ```
 There are most likely other similar functions which require more intricate details in how the requests are performed, both in the S3 definitions and in other services.
 
-
 ## Alternative Solutions
 There are a few alternatives to this package, the two below are being deprecated in favour of this package:
 * [AWSCore.jl](https://github.com/JuliaCloud/AWSCore.jl) - Low-level AWS interface
