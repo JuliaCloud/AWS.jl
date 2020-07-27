@@ -286,7 +286,7 @@ end
                 @testset "body" begin
                     result = AWS.do_request(aws, request)
 
-                    @test typeof(result) <: String
+                    @test result isa String
                     @test result == expected_body
                 end
 
