@@ -167,6 +167,7 @@ Clean up the documentation to make it Julia compiler and human-readable.
 - Remove anything in-between <> HTML tags
 - Remove any dollar signs
 - Remove any \\
+- Replace " with \"
 
 # Arguments
 - `documentation::String`: Documentation to be cleaned
@@ -178,6 +179,7 @@ function _documentation_cleaning(documentation::String)
     documentation = replace(documentation, r"\<.*?\>" => "")
     documentation = replace(documentation, '$' => ' ')
     documentation = replace(documentation, '\\' => ' ')
+    documentation = replace(documentation, '\"' => "\\\"")
 
     return documentation
 end
