@@ -45,14 +45,25 @@ using AWS: @service
 S3.ListObjects("/your-bucket")
 ```
 
-**Note:** When calling the `@service` macro you **MUST** capitalize the first character and match the `/services/{service}.jl` filename.
-If you do not the service will not be placed in your namespace and you will see an error.
-This is due to the lowercase service name being a `constant`.
+
+**Note:** When calling the `@service` macro you **CANNOT** match the predefined constant for the low level API. The low level API constants are named in all lowercase, and spaces are replaced with underscores.
 
 ```julia
+using AWS.AWSServices: secrets_manager
 using AWS: @service
-@service s3
-WARNING: import of AWSServices.s3 into s3 conflicts with an existing identifier; ignored.
+
+# This matches the constant and will error!
+@service secrets_manager
+> ERROR: cannot assign a value to variable AWSServices.secrets_manager from module Main
+
+# This does NOT match the filename structure and will error!
+@service secretsmanager
+> ERROR: could not open file /.julia/dev/AWS.jl/src/services/secretsmanager.jl
+
+# All of the examples below are valid!
+@service Secrets_Manager
+@service SECRETS_MANAGER
+@service sECRETS_MANAGER
 ```
 
 ## Limitations
