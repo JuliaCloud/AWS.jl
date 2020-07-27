@@ -78,7 +78,7 @@ s3("POST", "/$bucket_name?delete", Dict("body" => body))  # Delete multiple obje
 
 There is no-programatic way to see this from the [aws-sdk-js](https://github.com/aws/aws-sdk-js/blob/master/apis/s3-2006-03-01.normal.json), so the high-level function will not work.
 
-High-Level API Example
+High-Level API Example:
 ```julia
 using AWS: @service
 @service S3
