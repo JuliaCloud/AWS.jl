@@ -277,7 +277,7 @@ end
             )
 
             apply(Patches._http_request_patch) do
-                expected_headers = Pair["Content-Type"=>"text/html",]
+                expected_headers = ["Content-Type" => "text/html"]
                 expected_body = Patches.body
                 expected_header_type = LittleDict{SubString{String}, SubString{String}}
 
