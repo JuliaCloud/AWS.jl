@@ -77,14 +77,14 @@ There are a few alternatives to this package, the two below are being deprecated
 * [AWSSDK.jl](https://github.com/JuliaCloud/AWSSDK.jl) - High-level AWS interface
 
 As well as some hand-written packages for specific AWS services:
-* [AWSS3.jl](https://github.com/JuliaCloud/AWSS3.jl) - Julia1.0+
-* [AWSSQS.jl](https://github.com/JuliaCloud/AWSSQS.jl) - Julia1.0+ 
-* [AWSSNS.jl](https://github.com/samoconnor/AWSSNS.jl) - Julia0.7
-* [AWSIAM.jl](https://github.com/samoconnor/AWSIAM.jl) - Julia0.6
-* [AWSEC2.jl](https://github.com/samoconnor/AWSEC2.jl) - Julia0.6
-* [AWSLambda.jl](https://github.com/samoconnor/AWSLambda.jl) - Julia0.6
-* [AWSSES.jl](https://github.com/samoconnor/AWSSES.jl) - Julia0.6
-* [AWSSDB.jl](https://github.com/samoconnor/AWSSDB.jl) - Julia0.6
+* [AWSS3.jl](https://github.com/JuliaCloud/AWSS3.jl) - Julia 1.0+
+* [AWSSQS.jl](https://github.com/JuliaCloud/AWSSQS.jl) - Julia 1.0+ 
+* [AWSSNS.jl](https://github.com/samoconnor/AWSSNS.jl) - Julia 0.7
+* [AWSIAM.jl](https://github.com/samoconnor/AWSIAM.jl) - Julia 0.6
+* [AWSEC2.jl](https://github.com/samoconnor/AWSEC2.jl) - Julia 0.6
+* [AWSLambda.jl](https://github.com/samoconnor/AWSLambda.jl) - Julia 0.6
+* [AWSSES.jl](https://github.com/samoconnor/AWSSES.jl) - Julia 0.6
+* [AWSSDB.jl](https://github.com/samoconnor/AWSSDB.jl) - Julia 0.6
 
 
 ## License
