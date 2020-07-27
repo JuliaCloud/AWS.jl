@@ -191,7 +191,7 @@ end
     OptionalParam => Optional param
     \"\"\"
     SampleOperation(RequiredParam1, RequiredParam2) = sample_service("POST", "/", Dict{String, Any}("RequiredParam1"=>RequiredParam1, "RequiredParam2"=>RequiredParam2))
-    SampleOperation(RequiredParam1, RequiredParam2, args::AbstractDict{String, <: Any}) = sample_service("POST", "/", Dict{String, Any}("RequiredParam1"=>RequiredParam1, "RequiredParam2"=>RequiredParam2, args...))
+    SampleOperation(RequiredParam1, RequiredParam2, args::AbstractDict{String, <:Any}) = sample_service("POST", "/", Dict{String, Any}("RequiredParam1"=>RequiredParam1, "RequiredParam2"=>RequiredParam2, args...))
     SampleOperation(a...; b...) = SampleOperation(a..., b)
     """
 
@@ -230,7 +230,7 @@ end
         OptionalParam => This parameter is optional.
         \"\"\"
         service_name(RequiredParam) = service_name("GET", "request_uri", Dict{String, Any}("RequiredParam"=>RequiredParam))
-        service_name(RequiredParam, args::AbstractDict{String, <: Any}) = service_name("GET", "request_uri", Dict{String, Any}("RequiredParam"=>RequiredParam, args...))
+        service_name(RequiredParam, args::AbstractDict{String, <:Any}) = service_name("GET", "request_uri", Dict{String, Any}("RequiredParam"=>RequiredParam, args...))
         service_name(a...; b...) = service_name(a..., b)
         """
 
@@ -263,7 +263,7 @@ end
         OptionalParam => This parameter is optional.
         \"\"\"
         service_name(RequiredParam) = service_name("GET", "request_uri", Dict{String, Any}("RequiredParam"=>RequiredParam))
-        service_name(RequiredParam, args::AbstractDict{String, <: Any}) = service_name("GET", "request_uri", Dict{String, Any}("RequiredParam"=>RequiredParam, args...))
+        service_name(RequiredParam, args::AbstractDict{String, <:Any}) = service_name("GET", "request_uri", Dict{String, Any}("RequiredParam"=>RequiredParam, args...))
         service_name(a...; b...) = service_name(a..., b)
         """
 
@@ -297,7 +297,7 @@ end
         OptionalParam => This parameter is optional.
         \"\"\"
         service_name(RequiredParam) = service_name("service_name", Dict{String, Any}("RequiredParam"=>RequiredParam))
-        service_name(RequiredParam, args::AbstractDict{String, <: Any}) = service_name("service_name", Dict{String, Any}("RequiredParam"=>RequiredParam, args...))
+        service_name(RequiredParam, args::AbstractDict{String, <:Any}) = service_name("service_name", Dict{String, Any}("RequiredParam"=>RequiredParam, args...))
         """
 
         result = _generate_high_level_definition(
@@ -329,7 +329,7 @@ end
         OptionalParam => This parameter is optional.
         \"\"\"
         service_name(RequiredParam) = service_name("service_name", Dict{String, Any}("RequiredParam"=>RequiredParam))
-        service_name(RequiredParam, args::AbstractDict{String, <: Any}) = service_name("service_name", Dict{String, Any}("RequiredParam"=>RequiredParam, args...))
+        service_name(RequiredParam, args::AbstractDict{String, <:Any}) = service_name("service_name", Dict{String, Any}("RequiredParam"=>RequiredParam, args...))
         """
 
         result = _generate_high_level_definition(
@@ -361,7 +361,7 @@ end
         OptionalParam => This parameter is optional.
         \"\"\"
         service_name(RequiredParam) = service_name("service_name", Dict{String, Any}("RequiredParam"=>RequiredParam))
-        service_name(RequiredParam, args::AbstractDict{String, <: Any}) = service_name("service_name", Dict{String, Any}("RequiredParam"=>RequiredParam, args...))
+        service_name(RequiredParam, args::AbstractDict{String, <:Any}) = service_name("service_name", Dict{String, Any}("RequiredParam"=>RequiredParam, args...))
         """
 
         result = _generate_high_level_definition(

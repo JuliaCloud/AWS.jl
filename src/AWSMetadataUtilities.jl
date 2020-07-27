@@ -421,13 +421,13 @@ function _generate_high_level_definition(
                 if isempty(header_parameters)
                     operation_definition *= """\n
                     $name($(join(required_param_keys_clean, ", "))) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}($(join(definition_required_parameters, ", "))))
-                    $name($(join(required_param_keys_clean, ", ")), args::AbstractDict{String, <: Any}) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}($(join(definition_required_parameters, ", ")), args...))
+                    $name($(join(required_param_keys_clean, ", ")), args::AbstractDict{String, <:Any}) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}($(join(definition_required_parameters, ", ")), args...))
                     $name(a...; b...) = $name(a..., b)
                     """
                 else
                     operation_definition *= """\n
                     $name($(join(required_param_keys_clean, ", "))) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}($(join(definition_required_parameters, ", ")), "headers"=>Dict{String, Any}($(join(header_parameters, ", ")))))
-                    $name($(join(required_param_keys_clean, ", ")), args::AbstractDict{String, <: Any}) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(merge, Dict{String, Any}($(join(definition_required_parameters, ", ")), "headers"=>Dict{String, Any}($(join(header_parameters, ", ")))), args...)))
+                    $name($(join(required_param_keys_clean, ", ")), args::AbstractDict{String, <:Any}) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(merge, Dict{String, Any}($(join(definition_required_parameters, ", ")), "headers"=>Dict{String, Any}($(join(header_parameters, ", ")))), args...)))
                     $name(a...; b...) = $name(a..., b)
                     """
                 end
@@ -435,13 +435,13 @@ function _generate_high_level_definition(
                 if isempty(header_parameters)
                     operation_definition *= """\n
                     $name($(join(required_param_keys_clean, ", "))) = $service_name(\"$method\", \"$request_uri\")
-                    $name($(join(required_param_keys_clean, ", ")), args::AbstractDict{String, <: Any}) = $service_name(\"$method\", \"$request_uri\", args)
+                    $name($(join(required_param_keys_clean, ", ")), args::AbstractDict{String, <:Any}) = $service_name(\"$method\", \"$request_uri\", args)
                     $name(a...; b...) = $name(a..., b)
                     """
                 else
                     operation_definition *= """\n
                     $name($(join(required_param_keys_clean, ", "))) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}("headers"=>Dict{String, Any}($(join(header_parameters, ", ")))))
-                    $name($(join(required_param_keys_clean, ", ")), args::AbstractDict{String, <: Any}) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(merge, Dict{String, Any}("headers"=>Dict{String, Any}($(join(header_parameters, ", ")))), args...)))
+                    $name($(join(required_param_keys_clean, ", ")), args::AbstractDict{String, <:Any}) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(merge, Dict{String, Any}("headers"=>Dict{String, Any}($(join(header_parameters, ", ")))), args...)))
                     $name(a...; b...) = $name(a..., b)
                     """
                 end
