@@ -297,7 +297,7 @@ end
                     @test body isa String
 
                     @test headers == LittleDict(expected_headers)
-                    @test typeof(headers) <: expected_header_type
+                    @test headers isa expected_header_type
                 end
             end
         end
