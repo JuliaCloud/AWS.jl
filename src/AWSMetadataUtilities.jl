@@ -376,8 +376,8 @@ function _generate_high_level_definition(
     if !isempty(optional_parameters)
         operation_definition *= "Optional Parameters\n"
 
-        for optional_parameter in optional_parameters
-            operation_definition *= "$(optional_parameter[1]) => $(optional_parameter[2])\n"
+        for (optional_key, optional_value) in optional_parameters
+            operation_definition *= "$optional_key => $optional_value\n"
         end
     end
 
