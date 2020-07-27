@@ -56,20 +56,47 @@ WARNING: import of AWSServices.s3 into s3 conflicts with an existing identifier;
 ```
 
 ## Limitations
-Currently there are a few limitations with the high-level APIs. For example, with S3's DeleteMultipleObjects call.
+Currently there are a few limitations with the high-level APIs. 
+For example, with S3's DeleteMultipleObjects call.
 To remove multiple objects you must pass in an XML string (see below) in the body of the request.
-There is no-programatic way to see this from the [aws-sdk-js](https://github.com/aws/aws-sdk-js/blob/master/apis/s3-2006-03-01.normal.json), so the high-level function will not work.
-There are most likely other similar functions which require more intricate details in how the requests are performed, both in the S3 definitions and in other services.
 
+Low-Level API Example
 ```julia
+using AWS.AWSServices: s3
+
 body = """
     <Delete xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
         <Object>
-            <Key>$file_name</Key>
+            <Key>test.txt</Key>
         </Object>
     </Delete>
     """
+bucket_name = "example-bucket"
+
+s3("POST", "/$bucket_name?delete", Dict("body" => body))  # Delete multiple objects
 ```
+
+There is no-programatic way to see this from the [aws-sdk-js](https://github.com/aws/aws-sdk-js/blob/master/apis/s3-2006-03-01.normal.json), so the high-level function will not work.
+
+High-Level API Example
+```julia
+using AWS: @service
+@service S3
+
+body = """
+    <Delete xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+        <Object>
+            <Key>test.txt</Key>
+        </Object>
+    </Delete>
+    """
+bucket_name = "example-bucket"
+
+S3.DeleteObjects(bucket_name, body)  # Delete multiple objects
+> ERROR: AWS.AWSExceptions.AWSException("MissingRequestBodyError", "Request Body is empty")
+```
+There are most likely other similar functions which require more intricate details in how the requests are performed, both in the S3 definitions and in other services.
+
 
 ## Alternative Solutions
 There are a few alternatives to this package, the two below are being deprecated in favour of this package:
@@ -85,29 +112,3 @@ As well as some hand-written packages for specific AWS services:
 * [AWSLambda.jl](https://github.com/samoconnor/AWSLambda.jl) - Julia 0.6
 * [AWSSES.jl](https://github.com/samoconnor/AWSSES.jl) - Julia 0.6
 * [AWSSDB.jl](https://github.com/samoconnor/AWSSDB.jl) - Julia 0.6
-
-
-## License
-```
-MIT License
-
-Copyright (c) 2020 JuliaCloud
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
