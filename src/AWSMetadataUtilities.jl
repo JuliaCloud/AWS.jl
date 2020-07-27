@@ -411,9 +411,9 @@ function _generate_high_level_definition(
         end
     elseif protocol in ("rest-json", "rest-xml")
         if !isempty(required_param_keys_clean)
-            request_uri = replace(request_uri, '{'=>"\$(")  # Replace { with $(
-            request_uri = replace(request_uri, '}'=>')')  # Replace } with )
-            request_uri = replace(request_uri, '+'=>"")  # Remove + from the request URI
+            request_uri = replace(request_uri, '{' => "\$(")  # Replace { with $(
+            request_uri = replace(request_uri, '}' => ')')  # Replace } with )
+            request_uri = replace(request_uri, '+' => "")  # Remove + from the request URI
             
             # Are there parameters which are not required to be in either the URI or Headers?
             if !isempty(required_parameters)
