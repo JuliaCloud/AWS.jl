@@ -281,7 +281,7 @@ end
             )
 
             apply(Patches._http_request_patch) do
-                expected_headers = Pair["Content-Type"=>"text/html",]
+                expected_headers = ["Content-Type" => "text/html"]
                 expected_body = Patches.body
                 expected_header_type = LittleDict{SubString{String}, SubString{String}}
 
@@ -290,7 +290,7 @@ end
                 @testset "body" begin
                     result = AWS.do_request(aws, request)
 
-                    @test typeof(result) <: String
+                    @test result isa String
                     @test result == expected_body
                 end
 
@@ -298,10 +298,10 @@ end
                     body, headers = AWS.do_request(aws, request; return_headers=true)
 
                     @test body == expected_body
-                    @test typeof(body) <: String
+                    @test body isa String
 
                     @test headers == LittleDict(expected_headers)
-                    @test typeof(headers) <: expected_header_type
+                    @test headers isa expected_header_type
                 end
             end
         end

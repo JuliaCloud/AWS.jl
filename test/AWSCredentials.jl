@@ -25,17 +25,17 @@ end
 
     @test_ecode(
         ["AccessDenied", "NoSuchEntity"],
-        AWSServices.iam("GetUser", Dict("UserName"=>"notauser"))
+        AWSServices.iam("GetUser", Dict("UserName" => "notauser"))
     )
 
     @test_ecode(
         "ValidationError",
-        AWSServices.iam("GetUser", Dict("UserName"=>"@#!%%!"))
+        AWSServices.iam("GetUser", Dict("UserName" => "@#!%%!"))
     )
 
     @test_ecode(
         ["AccessDenied", "EntityAlreadyExists"],
-        AWSServices.iam("CreateUser", Dict("UserName"=>"root"))
+        AWSServices.iam("CreateUser", Dict("UserName" => "root"))
     )
 end
 
@@ -44,7 +44,7 @@ end
         service="s3",
         api_version="2006-03-01",
         request_method="GET",
-        headers=Dict{String, String}("Range"=>"bytes=0-0"),
+        headers=Dict("Range" => "bytes=0-0"),
         content="",
         resource="/invenia-static-website-content/invenia_ca/index.html",
         url="https://s3.us-east-1.amazonaws.com/invenia-static-website-content/invenia_ca/index.html",
@@ -54,7 +54,7 @@ end
         service="s3",
         api_version="2006-03-01",
         request_method="GET",
-        headers=Dict{String, String}("Range"=>"bytes=0-0"),
+        headers=Dict("Range" => "bytes=0-0"),
         content="",
         resource="ryft-public-sample-data/AWS-x86-AMI-queries.json",
         url="https://s3.amazonaws.com/ryft-public-sample-data/AWS-x86-AMI-queries.json",
@@ -479,7 +479,7 @@ end
     end
 
     @testset "Instance - EC2" begin
-        apply([_http_request_patch]) do
+        apply(_http_request_patch) do
             result = ec2_instance_credentials()
             @test result.access_key_id == test_values["AccessKeyId"]
             @test result.secret_key == test_values["SecretAccessKey"]
@@ -492,7 +492,7 @@ end
 
     @testset "Instance - ECS" begin
         withenv("AWS_CONTAINER_CREDENTIALS_RELATIVE_URI" => test_values["URI"]) do
-            apply([_http_request_patch]) do
+            apply(_http_request_patch) do
                 result = ecs_instance_credentials()
                 @test result.access_key_id == test_values["AccessKeyId"]
                 @test result.secret_key == test_values["SecretAccessKey"]
