@@ -394,9 +394,9 @@ function _generate_high_level_definition(
     header_parameters = filter(p -> (p[2]["location"] == "header"), required_parameters)
     required_parameters = setdiff(required_parameters, header_parameters)
 
-    # "par-am"=>par_am
-    definition_required_parameters = ["\"$(p[1])\"=>$(replace(p[1], "-"=>"_"))" for p in required_parameters]
-    header_parameters = ["\"$(p[1])\"=>$(replace(p[1], "-"=>"_"))" for p in header_parameters]
+    # "par-am" => par_am
+    definition_required_parameters = ["\"$(p[1])\"=>$(replace(p[1], "-" => "_"))" for p in required_parameters]
+    header_parameters = ["\"$(p[1])\"=>$(replace(p[1], "-" => "_"))" for p in header_parameters]
 
     # Depending on the protocol type of the operation we need to generate a different definition
     if protocol in ("json", "query", "ec2")
