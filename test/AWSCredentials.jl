@@ -30,7 +30,7 @@ end
 
     @test_ecode(
         "ValidationError",
-        AWSServices.iam("GetUser", Dict("UserName"=>"@#!%%!"))
+        AWSServices.iam("GetUser", Dict("UserName" => "@#!%%!"))
     )
 
     @test_ecode(
