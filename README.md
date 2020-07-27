@@ -18,7 +18,7 @@ julia> Pkg.add("AWS")
 ```
 
 ## Usage
-There are two ways to use `AWS.jl`, low-level and high-level API requests.
+`AWS.jl` can be used with low-level and high-level API requests.
 Please note when passing parameters for a request they must be a subtype of `AbstractDict{String, <:Any}`.
 
 ### Low-Level
