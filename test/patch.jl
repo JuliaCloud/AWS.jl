@@ -39,17 +39,6 @@ body = """
     </ListBucketResult>
     """
 
-response = """
-GET /mattbr-test-bucket HTTP/1.1
-Content-MD5: content-md5
-Host: s3.us-east-1.amazonaws.com
-Authorization: AWS4-HMAC-SHA256 Credential=AccessKey/20200616/us-east-1/s3/aws4_request, SignedHeaders=content-md5;host;user-agent;x-amz-content-sha256;x-amz-date, Signature=Signature
-x-amz-date: 20200616T212914Z
-User-Agent: AWS.jl/1.0.0
-x-amz-content-sha256: content-sha256
-Content-Length: 0
-"""
-
 response = HTTP.Messages.Response()
 
 function _response!(; version::VersionNumber=version, status::Int64=status, headers::Array=headers, body::String=body)

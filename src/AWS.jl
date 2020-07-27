@@ -1,6 +1,5 @@
 module AWS
 
-using AWSCore
 using Base64
 using HTTP
 using MbedTLS
@@ -314,10 +313,11 @@ function do_request(aws::AWSConfig, request::Request; return_headers::Bool=false
     elseif occursin(r"/x-amz-json-1.[01]$", mime) || endswith(mime, "json")
         info = isempty(response.body) ? nothing : JSON.parse(body, dicttype=response_dict_type)
         return (return_headers ? (info, response_dict_type(response.headers)) : info)
+    elseif startswith(mime, "text/")
+        return (return_headers ? (body, response_dict_type(response.headers)) : body)
+    else
+        return (return_headers ? (response.body, response.headers) : response.body)
     end
-
-    # Return raw data by default...
-    return (return_headers ? (response.body, response.headers) : response.body)
 end
 
 function _generate_rest_resource(request_uri::String, args::AbstractDict{String, <:Any})

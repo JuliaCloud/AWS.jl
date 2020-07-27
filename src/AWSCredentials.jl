@@ -276,13 +276,11 @@ body, or `nothing` if not running on an EC2 instance.
 """
 function _ec2_metadata(metadata_endpoint::String)
     try
-        request = @mock http_get(
-            "http://169.254.169.254/latest/meta-data/$metadata_endpoint"
-        )
+        request = @mock HTTP.request("GET", "http://169.254.169.254/latest/meta-data/$metadata_endpoint")
 
         return String(request.body)
     catch e
-        e isa IOError || rethrow(e)
+        e isa HTTP.IOError || rethrow(e)
     end
 
     return nothing
@@ -339,7 +337,7 @@ function ecs_instance_credentials()
 
     uri = ENV["AWS_CONTAINER_CREDENTIALS_RELATIVE_URI"]
 
-    response = @mock http_get("http://169.254.170.2$uri")
+    response = @mock HTTP.request("GET", "http://169.254.170.2$uri")
     new_creds = String(response.body)
     new_creds = JSON.parse(new_creds)
 
@@ -469,9 +467,6 @@ function aws_get_region(profile::AbstractString, ini::Inifile)
 end
 
 
-
-
-
 """
     _aws_get_role(role::AbstractString, ini::Inifile) -> Union{AWSCredentials, Nothing}
 
@@ -492,13 +487,12 @@ function _aws_get_role(role::AbstractString, ini::Inifile)
     end
 
     credentials === nothing && return nothing
-    config = AWSConfig(:creds => credentials, :region => aws_get_region(source_profile, ini))
+    config = AWSConfig(creds=credentials, region=aws_get_region(source_profile, ini))
 
     role = AWSServices.sts(
         config,
         "AssumeRole",
-        RoleArn=role_arn,
-        RoleSessionName=replace(role, r"[^\w+=,.@-]" => s"-"),
+        LittleDict("RoleArn" => role_arn, "RoleSessionName" => replace(role, r"[^\w+=,.@-]" => s"-"))
     )
 
     role_creds = role["Credentials"]

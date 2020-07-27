@@ -1,3 +1,7 @@
+function _now_formatted()
+    return lowercase(Dates.format(now(Dates.UTC), "yyyymmddTHHMMSSsssZ"))
+end
+
 @testset "service module" begin
     @service S3
     @test :S3 in names(Main)
@@ -267,6 +271,40 @@ end
                 end
             end
         end
+
+        @testset "Text" begin
+            request = Request(
+                service="s3",
+                api_version="api_verison",
+                request_method="GET",
+                url="https://s3.us-east-1.amazonaws.com/sample-bucket",
+            )
+
+            apply(Patches._http_request_patch) do
+                expected_headers = ["Content-Type" => "text/html"]
+                expected_body = Patches.body
+                expected_header_type = LittleDict{SubString{String}, SubString{String}}
+
+                Patches._response!(headers=expected_headers)
+
+                @testset "body" begin
+                    result = AWS.do_request(aws, request)
+
+                    @test result isa String
+                    @test result == expected_body
+                end
+
+                @testset "body and headers" begin
+                    body, headers = AWS.do_request(aws, request; return_headers=true)
+
+                    @test body == expected_body
+                    @test body isa String
+
+                    @test headers == LittleDict(expected_headers)
+                    @test headers isa expected_header_type
+                end
+            end
+        end
     end
 end
 
@@ -381,7 +419,7 @@ end
 
 @testset "json" begin
     @testset "secrets_manager" begin
-        secret_name = "AWS.jl-Test-Secret" * lowercase(Dates.format(now(Dates.UTC), "yyyymmddTHHMMSSZ"))
+        secret_name = "AWS.jl-Test-Secret" * _now_formatted()
         secret_string = "sshhh it is a secret!"
 
         function _get_secret_string(secret_name)
@@ -412,7 +450,7 @@ end
 @testset "query" begin
     @testset "iam" begin
         policy_arn = ""
-        expected_policy_name = "AWS.jl-Test-Policy" * lowercase(Dates.format(now(Dates.UTC), "yyyymmddTHHMMSSZ"))
+        expected_policy_name = "AWS.jl-Test-Policy" * _now_formatted()
         expected_policy_document = LittleDict(
             "Version"=> "2012-10-17",
             "Statement"=> [
@@ -442,7 +480,7 @@ end
     end
 
     @testset "sqs" begin
-        queue_name = "aws-jl-test---" * lowercase(Dates.format(now(Dates.UTC), "yyyymmddTHHMMSSZ"))
+        queue_name = "aws-jl-test---" * _now_formatted()
         expected_message = "Hello for AWS.jl"
 
         function _get_queue_url(queue_name)
@@ -503,7 +541,7 @@ end
 end
 
 @testset "rest-xml" begin
-    bucket_name = "aws.jl-test---" * lowercase(Dates.format(now(Dates.UTC), "yyyymmddTHHMMSSZ"))
+    bucket_name = "aws.jl-test---" * _now_formatted()
     file_name = string(uuid4())
 
     function _bucket_exists(bucket_name)
@@ -580,7 +618,7 @@ end
 end
 
 @testset "rest-json" begin
-    timestamp = lowercase(Dates.format(now(Dates.UTC), "yyyymmddTHHMMSSZ"))
+    timestamp = _now_formatted()
     vault_names = ["aws.jl.test-01---$timestamp", "aws.jl.test-02---$timestamp", ]
 
     @testset "PUT" begin
