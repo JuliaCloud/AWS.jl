@@ -294,7 +294,7 @@ end
                     body, headers = AWS.do_request(aws, request; return_headers=true)
 
                     @test body == expected_body
-                    @test typeof(body) <: String
+                    @test body isa String
 
                     @test headers == LittleDict(expected_headers)
                     @test typeof(headers) <: expected_header_type
