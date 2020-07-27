@@ -35,7 +35,7 @@ end
 
     @test_ecode(
         ["AccessDenied", "EntityAlreadyExists"],
-        AWSServices.iam("CreateUser", Dict("UserName"=>"root"))
+        AWSServices.iam("CreateUser", Dict("UserName" => "root"))
     )
 end
 
