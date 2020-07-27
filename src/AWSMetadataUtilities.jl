@@ -402,7 +402,7 @@ function _generate_high_level_definition(
     if protocol in ("json", "query", "ec2")
         if !isempty(required_param_keys_clean)
             operation_definition *= "\n$name($(join(required_param_keys_clean, ", "))) = $service_name(\"$name\", Dict{String, Any}($(join(definition_required_parameters, ", "))))"
-            operation_definition *= "\n$name($(join(required_param_keys_clean, ", ")), args::AbstractDict{String, <: Any}) = $service_name(\"$name\", Dict{String, Any}($(join(definition_required_parameters, ", ")), args...))\n"
+            operation_definition *= "\n$name($(join(required_param_keys_clean, ", ")), args::AbstractDict{String, <:Any}) = $service_name(\"$name\", Dict{String, Any}($(join(definition_required_parameters, ", ")), args...))\n"
         else
             operation_definition *= """\n
                 $name() = $service_name(\"$name\")
