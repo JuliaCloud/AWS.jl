@@ -5,7 +5,7 @@
 
 
 ## Overview
-Julia interface for [Amazon Web Services](https://aws.amazon.com).
+A Julia interface for [Amazon Web Services](https://aws.amazon.com).
 
 This package is a simplification of both the low-level APIs from [AWSCore.jl](https://github.com/JuliaCloud/AWSCore.jl) and the high level APIs from [AWSSDK.jl](https://github.com/JuliaCloud/AWSSDK.jl).
 It includes automated code generation to ensure all new AWS services are available, as well as keeping existing services up to date.  
