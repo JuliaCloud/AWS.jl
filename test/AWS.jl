@@ -635,7 +635,7 @@ end
             )
 
             # Receive Message
-            result = AWSServices.sqs("ReceiveMessage", LittleDict("QueueUrl"=>queue_url))
+            result = AWSServices.sqs("ReceiveMessage", LittleDict("QueueUrl" => queue_url))
             message = result["ReceiveMessageResponse"]["ReceiveMessageResult"]["Message"]["Body"]
             @test message == expected_message
         finally
