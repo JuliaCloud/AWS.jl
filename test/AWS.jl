@@ -435,7 +435,7 @@ end
         try
             @test _get_secret_string(secret_name) == secret_string
         finally
-            Secrets_Manager.DeleteSecret(secret_name, LittleDict("ForceDeleteWithoutRecovery"=>"true"))
+            Secrets_Manager.DeleteSecret(secret_name, LittleDict("ForceDeleteWithoutRecovery" => "true"))
         end
 
         @test_throws AWSException _get_secret_string(secret_name)
