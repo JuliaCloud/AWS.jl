@@ -367,8 +367,8 @@ function _generate_high_level_definition(
     if !isempty(required_parameters)
         operation_definition *= "# Required Parameters\n"
 
-        for required_parameter in required_parameters
-            operation_definition *= "- `$(required_parameter[1])`: $(required_parameter[2]["documentation"])\n"
+        for (required_key, required_value) in required_parameters
+            operation_definition *= "- `$required_key`: $(required_value["documentation"])\n"
         end
 
         operation_definition *= "\n"
