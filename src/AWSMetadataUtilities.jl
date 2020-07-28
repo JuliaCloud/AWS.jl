@@ -198,7 +198,7 @@ Get the required and optional parameters for a given operation.
 """
 function _get_function_parameters(input::String, shapes::Dict)
     """
-        _get_parameter_name(parameter::String, input_shape::AbstractDict){String, <: Any}
+        _get_parameter_name(parameter::String, input_shape::AbstractDict){String, <:Any}
 
     Find the correct parameter name for making requests. Certain ones have a specific locationName, for Batch requests this locationName is nested one shape deeper.
 
