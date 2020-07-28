@@ -605,8 +605,8 @@ end
             expected_message_id = "aws-jl-test"
 
             AWSServices.sqs("SendMessage", LittleDict(
-                    "QueueUrl"=>queue_url,
-                    "MessageBody"=>expected_message
+                    "QueueUrl" => queue_url,
+                    "MessageBody" => expected_message
                 )
             )
 
