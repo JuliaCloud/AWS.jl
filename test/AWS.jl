@@ -595,7 +595,7 @@ end
         end
 
         # Create Queue
-        AWSServices.sqs("CreateQueue", LittleDict("QueueName"=>queue_name))
+        AWSServices.sqs("CreateQueue", LittleDict("QueueName" => queue_name))
 
         queue_url = _get_queue_url(queue_name)
         @test !isempty(queue_url)
