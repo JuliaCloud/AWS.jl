@@ -183,12 +183,12 @@ end
 
     The documentation for this operation.
 
-    Required Parameters
-    - RequiredParam1: Required param 1
-    - RequiredParam2: Required param 2
+    # Required Parameters
+    - `RequiredParam1`: Required param 1
+    - `RequiredParam2`: Required param 2
 
-    Optional Parameters
-    - OptionalParam: Optional param
+    # Optional Parameters
+    - `OptionalParam`: Optional param
     \"\"\"
     SampleOperation(RequiredParam1, RequiredParam2) = sample_service("POST", "/", Dict{String, Any}("RequiredParam1"=>RequiredParam1, "RequiredParam2"=>RequiredParam2))
     SampleOperation(RequiredParam1, RequiredParam2, args::AbstractDict{String, <:Any}) = sample_service("POST", "/", Dict{String, Any}("RequiredParam1"=>RequiredParam1, "RequiredParam2"=>RequiredParam2, args...))
@@ -223,11 +223,11 @@ end
 
         Documentation for service_name.
 
-        Required Parameters
-        - RequiredParam: This parameter is required.
+        # Required Parameters
+        - `RequiredParam`: This parameter is required.
 
-        Optional Parameters
-        - OptionalParam: This parameter is optional.
+        # Optional Parameters
+        - `OptionalParam`: This parameter is optional.
         \"\"\"
         service_name(RequiredParam) = service_name("GET", "request_uri", Dict{String, Any}("RequiredParam"=>RequiredParam))
         service_name(RequiredParam, args::AbstractDict{String, <:Any}) = service_name("GET", "request_uri", Dict{String, Any}("RequiredParam"=>RequiredParam, args...))
@@ -256,11 +256,11 @@ end
 
         Documentation for service_name.
 
-        Required Parameters
-        - RequiredParam: This parameter is required.
+        # Required Parameters
+        - `RequiredParam`: This parameter is required.
 
-        Optional Parameters
-        - OptionalParam: This parameter is optional.
+        # Optional Parameters
+        - `OptionalParam`: This parameter is optional.
         \"\"\"
         service_name(RequiredParam) = service_name("GET", "request_uri", Dict{String, Any}("RequiredParam"=>RequiredParam))
         service_name(RequiredParam, args::AbstractDict{String, <:Any}) = service_name("GET", "request_uri", Dict{String, Any}("RequiredParam"=>RequiredParam, args...))
@@ -290,11 +290,11 @@ end
 
         Documentation for service_name.
 
-        Required Parameters
-        - RequiredParam: This parameter is required.
+        # Required Parameters
+        - `RequiredParam`: This parameter is required.
 
-        Optional Parameters
-        - OptionalParam: This parameter is optional.
+        # Optional Parameters
+        - `OptionalParam`: This parameter is optional.
         \"\"\"
         service_name(RequiredParam) = service_name("service_name", Dict{String, Any}("RequiredParam"=>RequiredParam))
         service_name(RequiredParam, args::AbstractDict{String, <:Any}) = service_name("service_name", Dict{String, Any}("RequiredParam"=>RequiredParam, args...))
@@ -322,11 +322,11 @@ end
 
         Documentation for service_name.
 
-        Required Parameters
-        - RequiredParam: This parameter is required.
+        # Required Parameters
+        - `RequiredParam`: This parameter is required.
 
-        Optional Parameters
-        - OptionalParam: This parameter is optional.
+        # Optional Parameters
+        - `OptionalParam`: This parameter is optional.
         \"\"\"
         service_name(RequiredParam) = service_name("service_name", Dict{String, Any}("RequiredParam"=>RequiredParam))
         service_name(RequiredParam, args::AbstractDict{String, <:Any}) = service_name("service_name", Dict{String, Any}("RequiredParam"=>RequiredParam, args...))
@@ -354,11 +354,11 @@ end
 
         Documentation for service_name.
 
-        Required Parameters
-        - RequiredParam: This parameter is required.
+        # Required Parameters
+        - `RequiredParam`: This parameter is required.
 
-        Optional Parameters
-        - OptionalParam: This parameter is optional.
+        # Optional Parameters
+        - `OptionalParam`: This parameter is optional.
         \"\"\"
         service_name(RequiredParam) = service_name("service_name", Dict{String, Any}("RequiredParam"=>RequiredParam))
         service_name(RequiredParam, args::AbstractDict{String, <:Any}) = service_name("service_name", Dict{String, Any}("RequiredParam"=>RequiredParam, args...))
