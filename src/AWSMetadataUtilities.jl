@@ -204,7 +204,7 @@ function _get_function_parameters(input::String, shapes::Dict)
 
     # Arguments
     - `parameter::String`: Name of the original parameter
-    - `input_shape::AbstractDict{String, <: Any}`: The parameter shape
+    - `input_shape::AbstractDict{String, <:Any}`: The parameter shape
     
     # Returns
     - `String`: Either the original parameter name, the locationName for the parameter, or the locationName nested one shape deeper
