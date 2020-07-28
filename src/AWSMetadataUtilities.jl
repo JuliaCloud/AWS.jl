@@ -237,8 +237,8 @@ function _get_function_parameters(input::String, shapes::Dict)
             documentation = _documentation_cleaning(get(input_shape["members"][parameter], "documentation", ""))
 
             required_parameters[parameter_name] = LittleDict{String, String}(
-                "location"=>parameter_location,
-                "documentation"=>documentation,
+                "location" => parameter_location,
+                "documentation" => documentation,
             )
         end
     end
