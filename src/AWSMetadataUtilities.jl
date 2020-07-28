@@ -167,6 +167,7 @@ Clean up the documentation to make it Julia compiler and human-readable.
 - Remove anything in-between <> HTML tags
 - Remove any dollar signs
 - Remove any \\
+- Replace " with \"
 
 # Arguments
 - `documentation::String`: Documentation to be cleaned
@@ -178,6 +179,7 @@ function _documentation_cleaning(documentation::String)
     documentation = replace(documentation, r"\<.*?\>" => "")
     documentation = replace(documentation, '$' => ' ')
     documentation = replace(documentation, '\\' => ' ')
+    documentation = replace(documentation, '\"' => "\\\"")
 
     return documentation
 end
@@ -195,22 +197,55 @@ Get the required and optional parameters for a given operation.
 - `Tuple(Dict, Dict)`: (required_parameters, optional_parameters)
 """
 function _get_function_parameters(input::String, shapes::Dict)
+    """
+        _get_parameter_name(parameter::String, input_shape::AbstractDict){String, <:Any}
+
+    Find the correct parameter name for making requests. Certain ones have a specific locationName, for Batch requests this locationName is nested one shape deeper.
+
+    # Arguments
+    - `parameter::String`: Name of the original parameter
+    - `input_shape::AbstractDict{String, <:Any}`: The parameter shape
+    
+    # Returns
+    - `String`: Either the original parameter name, the locationName for the parameter, or the locationName nested one shape deeper
+    """
+    function _get_parameter_name(parameter::String, input_shape::AbstractDict{String, <:Any})
+        # If the parameter has a locationName, return it
+        if haskey(input_shape["members"][parameter], "locationName")
+            return input_shape["members"][parameter]["locationName"]
+        end
+
+        # Check to see if the nested shape has a locationName
+        nested_shape = input_shape["members"][parameter]["shape"]
+        nested_member = get(shapes[nested_shape], "member", "")
+
+        # If nested_shape[member] exists return locationName (if exists), otherwise return the original parameter name
+        return !isempty(nested_member) ? get(nested_member, "locationName", parameter) : parameter
+    end
+
     required_parameters = LittleDict{String, Any}()
     optional_parameters = LittleDict{String, Any}()
-
     input_shape = shapes[input]
 
     if haskey(input_shape, "required")
         for parameter in input_shape["required"]
-            required_parameters[parameter] = _documentation_cleaning(get(input_shape["members"][parameter], "documentation", ""))
+            parameter_name = _get_parameter_name(parameter, input_shape)
+
+            # Check if the parameter needs to be in a certain place
+            parameter_location = get(input_shape["members"][parameter], "location", "")
+
+            documentation = _documentation_cleaning(get(input_shape["members"][parameter], "documentation", ""))
+
+            required_parameters[parameter_name] = LittleDict{String, String}(
+                "location" => parameter_location,
+                "documentation" => documentation,
+            )
         end
     end
 
-    # TODO: Use the LocationName instead of the parameter name
-    # https://github.com/aws/aws-sdk-js/blob/master/apis/s3-2006-03-01.normal.json#L5750
     if haskey(input_shape, "members")
         for parameter in input_shape["members"]
-            parameter_name = parameter[1]
+            parameter_name = get(input_shape["members"][parameter[1]], "locationName", parameter[1])
 
             if !haskey(required_parameters, parameter_name)
                 optional_parameters[parameter_name] = _documentation_cleaning(get(parameter[2], "documentation", ""))
@@ -321,58 +356,102 @@ function _generate_high_level_definition(
     optional_parameters::AbstractDict,
     documentation::String
 )
-    required_param_keys = collect(keys(required_parameters))
-
     operation_definition = """
-    \"\"\"
+    $(repeat('"', 3))
         $name()
 
-    $documentation
+    $documentation\n
     """
 
     # Add in the required parameters if applicable
     if !isempty(required_parameters)
-        operation_definition *= """
+        operation_definition *= "# Required Parameters\n"
 
-        Required Parameters
-        $(json(required_parameters, 2))"""
+        for (required_key, required_value) in required_parameters
+            operation_definition *= "- `$required_key`: $(required_value["documentation"])\n"
+        end
+
+        operation_definition *= "\n"
     end
 
     # Add in the optional parameters if applicable
     if !isempty(optional_parameters)
-        operation_definition *= """
+        operation_definition *= "# Optional Parameters\n"
 
-        Optional Parameters
-        $(json(optional_parameters, 2))"""
+        for (optional_key, optional_value) in optional_parameters
+            operation_definition *= "- `$optional_key`: $optional_value\n"
+        end
     end
 
     operation_definition *= repeat('"', 3)
 
+    # Get a list of Julia friendly parameter keys
+    # Replace all hyphens with underscore to be Julia friendly
+    required_param_keys_clean = replace.(collect(keys(required_parameters)), "-" => "_")
+
+    # Filter out any required parameters which are in the URI
+    required_parameters = filter(p -> (p[2]["location"] != "uri"), required_parameters)
+
+    # Filter all header parameters
+    header_parameters = filter(p -> (p[2]["location"] == "header"), required_parameters)
+    required_parameters = setdiff(required_parameters, header_parameters)
+
+    # "par-am" => par_am
+    definition_required_parameters = ["\"$(p[1])\"=>$(replace(p[1], "-" => "_"))" for p in required_parameters]
+    header_parameters = ["\"$(p[1])\"=>$(replace(p[1], "-" => "_"))" for p in header_parameters]
+
     # Depending on the protocol type of the operation we need to generate a different definition
     if protocol in ("json", "query", "ec2")
-        if !isempty(required_parameters)
-            operation_definition *= "\n$name(args) = $service_name(\"$name\", args)\n"
+        if !isempty(required_param_keys_clean)
+            operation_definition *= "\n$name($(join(required_param_keys_clean, ", "))) = $service_name(\"$name\", Dict{String, Any}($(join(definition_required_parameters, ", "))))"
+            operation_definition *= "\n$name($(join(required_param_keys_clean, ", ")), args::AbstractDict{String, <:Any}) = $service_name(\"$name\", Dict{String, Any}($(join(definition_required_parameters, ", ")), args...))\n"
         else
             operation_definition *= """\n
                 $name() = $service_name(\"$name\")
-                $name(args) = $service_name(\"$name\", args)
+                $name(args::AbstractDict{String, <:Any}) = $service_name(\"$name\", args)
                 """
         end
     elseif protocol in ("rest-json", "rest-xml")
-        if !isempty(required_parameters)
-            request_uri = replace(request_uri, '{'=>"\$(")  # Replace { with $(
-            request_uri = replace(request_uri, '}'=>')')  # Replace } with )
-            request_uri = replace(request_uri, '+'=>"")  # Remove + from the request URI
-
-            operation_definition *= """\n
-            $name($(join(required_param_keys, ", "))) = $service_name(\"$method\", \"$request_uri\")
-            $name($(join(required_param_keys, ", ")), args) = $service_name(\"$method\", \"$request_uri\", args)
-            $name(a...; b...) = $name(a..., b)
-            """
+        if !isempty(required_param_keys_clean)
+            request_uri = replace(request_uri, '{' => "\$(")  # Replace { with $(
+            request_uri = replace(request_uri, '}' => ')')  # Replace } with )
+            request_uri = replace(request_uri, '+' => "")  # Remove + from the request URI
+            
+            # Are there parameters which are not required to be in either the URI or Headers?
+            if !isempty(required_parameters)
+                # Do we have Header specific parameters?
+                if isempty(header_parameters)
+                    operation_definition *= """\n
+                    $name($(join(required_param_keys_clean, ", "))) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}($(join(definition_required_parameters, ", "))))
+                    $name($(join(required_param_keys_clean, ", ")), args::AbstractDict{String, <:Any}) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}($(join(definition_required_parameters, ", ")), args...))
+                    $name(a...; b...) = $name(a..., b)
+                    """
+                else
+                    operation_definition *= """\n
+                    $name($(join(required_param_keys_clean, ", "))) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}($(join(definition_required_parameters, ", ")), "headers"=>Dict{String, Any}($(join(header_parameters, ", ")))))
+                    $name($(join(required_param_keys_clean, ", ")), args::AbstractDict{String, <:Any}) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(merge, Dict{String, Any}($(join(definition_required_parameters, ", ")), "headers"=>Dict{String, Any}($(join(header_parameters, ", ")))), args...)))
+                    $name(a...; b...) = $name(a..., b)
+                    """
+                end
+            else
+                if isempty(header_parameters)
+                    operation_definition *= """\n
+                    $name($(join(required_param_keys_clean, ", "))) = $service_name(\"$method\", \"$request_uri\")
+                    $name($(join(required_param_keys_clean, ", ")), args::AbstractDict{String, <:Any}) = $service_name(\"$method\", \"$request_uri\", args)
+                    $name(a...; b...) = $name(a..., b)
+                    """
+                else
+                    operation_definition *= """\n
+                    $name($(join(required_param_keys_clean, ", "))) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}("headers"=>Dict{String, Any}($(join(header_parameters, ", ")))))
+                    $name($(join(required_param_keys_clean, ", ")), args::AbstractDict{String, <:Any}) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(merge, Dict{String, Any}("headers"=>Dict{String, Any}($(join(header_parameters, ", ")))), args...)))
+                    $name(a...; b...) = $name(a..., b)
+                    """
+                end
+            end
         else
             operation_definition *= """\n
             $name() = $service_name(\"$method\", \"$request_uri\")
-            $name(args) = $service_name(\"$method\", \"$request_uri\", args)
+            $name(args::AbstractDict{String, Any}) = $service_name(\"$method\", \"$request_uri\", args)
             $name(a...; b...) = $name(a..., b)
             """
         end
@@ -380,5 +459,4 @@ function _generate_high_level_definition(
 
     return operation_definition
 end
-
-end
+end  # Module

@@ -130,7 +130,7 @@ end
 
         required_params, optional_params = _get_function_parameters(input, shapes)
 
-        @test required_params == Dict("RequiredParam"=>"Required param")
+        @test required_params == Dict("RequiredParam" => LittleDict("location" => "", "documentation" => "Required param"))
         @test isempty(optional_params)
     end
 
@@ -152,8 +152,8 @@ end
         required_params, optional_params = _get_function_parameters(input, shapes)
 
         @test required_params == Dict(
-            "RequiredParam2"=>"Required param 2",
-            "RequiredParam1"=>"Required param 1"
+            "RequiredParam1" => LittleDict("location" => "", "documentation" => "Required param 1"),
+            "RequiredParam2" => LittleDict("location" => "", "documentation" => "Required param 2")
         )
 
         @test optional_params == Dict(
@@ -183,19 +183,15 @@ end
 
     The documentation for this operation.
 
-    Required Parameters
-    {
-      "RequiredParam1": "Required param 1",
-      "RequiredParam2": "Required param 2"
-    }
+    # Required Parameters
+    - `RequiredParam1`: Required param 1
+    - `RequiredParam2`: Required param 2
 
-    Optional Parameters
-    {
-      "OptionalParam": "Optional param"
-    }
+    # Optional Parameters
+    - `OptionalParam`: Optional param
     \"\"\"
-    SampleOperation(RequiredParam1, RequiredParam2) = sample_service("POST", "/")
-    SampleOperation(RequiredParam1, RequiredParam2, args) = sample_service("POST", "/", args)
+    SampleOperation(RequiredParam1, RequiredParam2) = sample_service("POST", "/", Dict{String, Any}("RequiredParam1"=>RequiredParam1, "RequiredParam2"=>RequiredParam2))
+    SampleOperation(RequiredParam1, RequiredParam2, args::AbstractDict{String, <:Any}) = sample_service("POST", "/", Dict{String, Any}("RequiredParam1"=>RequiredParam1, "RequiredParam2"=>RequiredParam2, args...))
     SampleOperation(a...; b...) = SampleOperation(a..., b)
     """
 
@@ -215,7 +211,7 @@ end
     name = "service_name"
     method = "GET"
     request_uri = "request_uri"
-    required_params = Dict("RequiredParam"=>"This parameter is required.")
+    required_params = Dict("RequiredParam"=>Dict("location"=>"", "documentation"=>"This parameter is required."))
     optional_params = Dict("OptionalParam"=>"This parameter is optional.")
     documentation = "Documentation for $service_name."
 
@@ -227,18 +223,14 @@ end
 
         Documentation for service_name.
 
-        Required Parameters
-        {
-          "RequiredParam": "This parameter is required."
-        }
+        # Required Parameters
+        - `RequiredParam`: This parameter is required.
 
-        Optional Parameters
-        {
-          "OptionalParam": "This parameter is optional."
-        }
+        # Optional Parameters
+        - `OptionalParam`: This parameter is optional.
         \"\"\"
-        service_name(RequiredParam) = service_name("GET", "request_uri")
-        service_name(RequiredParam, args) = service_name("GET", "request_uri", args)
+        service_name(RequiredParam) = service_name("GET", "request_uri", Dict{String, Any}("RequiredParam"=>RequiredParam))
+        service_name(RequiredParam, args::AbstractDict{String, <:Any}) = service_name("GET", "request_uri", Dict{String, Any}("RequiredParam"=>RequiredParam, args...))
         service_name(a...; b...) = service_name(a..., b)
         """
 
@@ -264,18 +256,14 @@ end
 
         Documentation for service_name.
 
-        Required Parameters
-        {
-          "RequiredParam": "This parameter is required."
-        }
+        # Required Parameters
+        - `RequiredParam`: This parameter is required.
 
-        Optional Parameters
-        {
-          "OptionalParam": "This parameter is optional."
-        }
+        # Optional Parameters
+        - `OptionalParam`: This parameter is optional.
         \"\"\"
-        service_name(RequiredParam) = service_name("GET", "request_uri")
-        service_name(RequiredParam, args) = service_name("GET", "request_uri", args)
+        service_name(RequiredParam) = service_name("GET", "request_uri", Dict{String, Any}("RequiredParam"=>RequiredParam))
+        service_name(RequiredParam, args::AbstractDict{String, <:Any}) = service_name("GET", "request_uri", Dict{String, Any}("RequiredParam"=>RequiredParam, args...))
         service_name(a...; b...) = service_name(a..., b)
         """
 
@@ -302,17 +290,14 @@ end
 
         Documentation for service_name.
 
-        Required Parameters
-        {
-          "RequiredParam": "This parameter is required."
-        }
+        # Required Parameters
+        - `RequiredParam`: This parameter is required.
 
-        Optional Parameters
-        {
-          "OptionalParam": "This parameter is optional."
-        }
+        # Optional Parameters
+        - `OptionalParam`: This parameter is optional.
         \"\"\"
-        service_name(args) = service_name("service_name", args)
+        service_name(RequiredParam) = service_name("service_name", Dict{String, Any}("RequiredParam"=>RequiredParam))
+        service_name(RequiredParam, args::AbstractDict{String, <:Any}) = service_name("service_name", Dict{String, Any}("RequiredParam"=>RequiredParam, args...))
         """
 
         result = _generate_high_level_definition(
@@ -337,17 +322,14 @@ end
 
         Documentation for service_name.
 
-        Required Parameters
-        {
-          "RequiredParam": "This parameter is required."
-        }
+        # Required Parameters
+        - `RequiredParam`: This parameter is required.
 
-        Optional Parameters
-        {
-          "OptionalParam": "This parameter is optional."
-        }
+        # Optional Parameters
+        - `OptionalParam`: This parameter is optional.
         \"\"\"
-        service_name(args) = service_name("service_name", args)
+        service_name(RequiredParam) = service_name("service_name", Dict{String, Any}("RequiredParam"=>RequiredParam))
+        service_name(RequiredParam, args::AbstractDict{String, <:Any}) = service_name("service_name", Dict{String, Any}("RequiredParam"=>RequiredParam, args...))
         """
 
         result = _generate_high_level_definition(
@@ -372,17 +354,14 @@ end
 
         Documentation for service_name.
 
-        Required Parameters
-        {
-          "RequiredParam": "This parameter is required."
-        }
+        # Required Parameters
+        - `RequiredParam`: This parameter is required.
 
-        Optional Parameters
-        {
-          "OptionalParam": "This parameter is optional."
-        }
+        # Optional Parameters
+        - `OptionalParam`: This parameter is optional.
         \"\"\"
-        service_name(args) = service_name("service_name", args)
+        service_name(RequiredParam) = service_name("service_name", Dict{String, Any}("RequiredParam"=>RequiredParam))
+        service_name(RequiredParam, args::AbstractDict{String, <:Any}) = service_name("service_name", Dict{String, Any}("RequiredParam"=>RequiredParam, args...))
         """
 
         result = _generate_high_level_definition(
