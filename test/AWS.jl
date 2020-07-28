@@ -639,7 +639,7 @@ end
             message = result["ReceiveMessageResponse"]["ReceiveMessageResult"]["Message"]["Body"]
             @test message == expected_message
         finally
-            AWSServices.sqs("DeleteQueue", LittleDict("QueueUrl"=>queue_url))
+            AWSServices.sqs("DeleteQueue", LittleDict("QueueUrl" => queue_url))
         end
         
         @test_throws AWSException _get_queue_url(queue_name)
