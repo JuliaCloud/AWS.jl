@@ -528,7 +528,7 @@ end
             AWSServices.iam("DeletePolicy", LittleDict("PolicyArn"=>policy_arn))
         end
 
-        @test_throws AWSException AWSServices.iam("GetPolicy", LittleDict("PolicyArn"=>policy_arn))
+        @test_throws AWSException AWSServices.iam("GetPolicy", LittleDict("PolicyArn" => policy_arn))
     end
 
     @testset "high-level sqs" begin
