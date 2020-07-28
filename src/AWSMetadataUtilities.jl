@@ -209,7 +209,7 @@ function _get_function_parameters(input::String, shapes::Dict)
     # Returns
     - `String`: Either the original parameter name, the locationName for the parameter, or the locationName nested one shape deeper
     """
-    function _get_parameter_name(parameter::String, input_shape::AbstractDict{String, <: Any})
+    function _get_parameter_name(parameter::String, input_shape::AbstractDict{String, <:Any})
         # If the parameter has a locationName, return it
         if haskey(input_shape["members"][parameter], "locationName")
             return input_shape["members"][parameter]["locationName"]
