@@ -629,8 +629,8 @@ end
 
             # Send message
             AWSServices.sqs("SendMessage", LittleDict(
-                    "QueueUrl"=>queue_url,
-                    "MessageBody"=>expected_message
+                    "QueueUrl" => queue_url,
+                    "MessageBody" => expected_message
                 )
             )
 
