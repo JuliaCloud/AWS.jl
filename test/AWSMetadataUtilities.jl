@@ -4,11 +4,11 @@
 end
 
 @testset "_filter_latest_service_version" begin
-    migration_hub_v1 = Dict("name"=>"AWSMigrationHub-2017-05-31.normal.json")
-    migration_hub_v2 = Dict("name"=>"AWSMigrationHub-2020-01-01.normal.json")
+    migration_hub_v1 = Dict("name" => "AWSMigrationHub-2017-05-31.normal.json")
+    migration_hub_v2 = Dict("name" => "AWSMigrationHub-2020-01-01.normal.json")
 
-    access_analyzer_v1 = Dict("name"=>"accessanalyzer-2019-11-01.normal.json")
-    access_analyzer_v2 = Dict("name"=>"accessanalyzer-2020-01-01.normal.json")
+    access_analyzer_v1 = Dict("name" => "accessanalyzer-2019-11-01.normal.json")
+    access_analyzer_v2 = Dict("name" => "accessanalyzer-2020-01-01.normal.json")
 
     @testset "empty" begin
         @test isempty(_filter_latest_service_version([]))
@@ -61,12 +61,12 @@ end
 
 @testset "_generate_low_level_definition" begin
     service = Dict(
-        "serviceId"=>"sample_service",
-        "protocol"=>"invalid-protocol",
-        "endpointPrefix"=>"endpoint",
-        "apiVersion"=>"api_version",
-        "jsonVersion"=>"json_version",
-        "targetPrefix"=>"target"
+        "serviceId" => "sample_service",
+        "protocol" => "invalid-protocol",
+        "endpointPrefix" => "endpoint",
+        "apiVersion" => "api_version",
+        "jsonVersion" => "json_version",
+        "targetPrefix" => "target"
     )
 
     @testset "Invalid Protocol" begin
@@ -141,8 +141,8 @@ end
 
         @test isempty(required_params)
         @test optional_params == Dict(
-            "OptionalParam1"=>"Optional param 1",
-            "OptionalParam2"=>"Optional param 2"
+            "OptionalParam1" => Dict("documentation" => "Optional param 1", "idempotent" => false),
+            "OptionalParam2" => Dict("documentation" => "Optional param 2", "idempotent" => false)
         )
     end
 
@@ -157,7 +157,7 @@ end
         )
 
         @test optional_params == Dict(
-            "OptionalParam"=>"Optional param",
+            "OptionalParam" => Dict("documentation" => "Optional param", "idempotent" => false)
         )
     end
 
@@ -192,7 +192,6 @@ end
     \"\"\"
     SampleOperation(RequiredParam1, RequiredParam2) = sample_service("POST", "/", Dict{String, Any}("RequiredParam1"=>RequiredParam1, "RequiredParam2"=>RequiredParam2))
     SampleOperation(RequiredParam1, RequiredParam2, args::AbstractDict{String, <:Any}) = sample_service("POST", "/", Dict{String, Any}("RequiredParam1"=>RequiredParam1, "RequiredParam2"=>RequiredParam2, args...))
-    SampleOperation(a...; b...) = SampleOperation(a..., b)
     """
 
     result = _generate_high_level_definitions(
@@ -211,8 +210,8 @@ end
     name = "service_name"
     method = "GET"
     request_uri = "request_uri"
-    required_params = Dict("RequiredParam"=>Dict("location"=>"", "documentation"=>"This parameter is required."))
-    optional_params = Dict("OptionalParam"=>"This parameter is optional.")
+    required_params = Dict("RequiredParam" => Dict("location" => "", "documentation" => "This parameter is required."))
+    optional_params = Dict("OptionalParam" => Dict("idempotent" => false, "documentation" => "This parameter is optional."))
     documentation = "Documentation for $service_name."
 
     @testset "rest-xml" begin
@@ -231,7 +230,6 @@ end
         \"\"\"
         service_name(RequiredParam) = service_name("GET", "request_uri", Dict{String, Any}("RequiredParam"=>RequiredParam))
         service_name(RequiredParam, args::AbstractDict{String, <:Any}) = service_name("GET", "request_uri", Dict{String, Any}("RequiredParam"=>RequiredParam, args...))
-        service_name(a...; b...) = service_name(a..., b)
         """
 
         result = _generate_high_level_definition(
@@ -264,7 +262,6 @@ end
         \"\"\"
         service_name(RequiredParam) = service_name("GET", "request_uri", Dict{String, Any}("RequiredParam"=>RequiredParam))
         service_name(RequiredParam, args::AbstractDict{String, <:Any}) = service_name("GET", "request_uri", Dict{String, Any}("RequiredParam"=>RequiredParam, args...))
-        service_name(a...; b...) = service_name(a..., b)
         """
 
         result = _generate_high_level_definition(
