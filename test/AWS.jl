@@ -614,11 +614,11 @@ end
             receipt_handle = response["ReceiveMessageResponse"]["ReceiveMessageResult"]["Message"]["ReceiptHandle"]
 
             response = AWSServices.sqs("DeleteMessageBatch", LittleDict(
-                    "QueueUrl"=>queue_url,
-                    "DeleteMessageBatchRequestEntry"=>[
+                    "QueueUrl" => queue_url,
+                    "DeleteMessageBatchRequestEntry" => [
                         LittleDict(
-                            "Id"=>expected_message_id,
-                            "ReceiptHandle"=>receipt_handle,
+                            "Id" => expected_message_id,
+                            "ReceiptHandle" => receipt_handle,
                         )
                     ]
                 )
