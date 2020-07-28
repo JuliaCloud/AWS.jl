@@ -436,9 +436,9 @@ end
             @test _get_secret_string(secret_name) == secret_string
         finally
             Secrets_Manager.DeleteSecret(secret_name, LittleDict("ForceDeleteWithoutRecovery"=>"true"))
-
-            @test_throws AWSException _get_secret_string(secret_name)
         end
+
+        @test_throws AWSException _get_secret_string(secret_name)
     end
     
     @testset "low-level secrets manager" begin
@@ -464,9 +464,9 @@ end
                 "SecretId"=>secret_name,
                 "ForceDeleteWithoutRecovery"=>"true",
             ))
-
-            @test_throws AWSException _get_secret_string(secret_name)
         end
+
+        @test_throws AWSException _get_secret_string(secret_name)
     end
 end
 
@@ -497,8 +497,9 @@ end
             @test HTTP.unescapeuri(response_document) == expected_policy_document
         finally
             IAM.DeletePolicy(policy_arn)
-            @test_throws AWSException IAM.GetPolicy(policy_arn)
         end
+
+        @test_throws AWSException IAM.GetPolicy(policy_arn)
     end
 
     @testset "low-level iam" begin
@@ -516,20 +517,18 @@ end
         )
         expected_policy_document = JSON.json(expected_policy_document)
 
-        # Create Policy
         response = AWSServices.iam("CreatePolicy", LittleDict("PolicyName"=>expected_policy_name, "PolicyDocument"=>expected_policy_document))
         policy_arn = response["CreatePolicyResponse"]["CreatePolicyResult"]["Policy"]["Arn"]
 
-        # Get Policy
         try
             response_policy_version = AWSServices.iam("GetPolicyVersion", LittleDict("PolicyArn"=>policy_arn, "VersionId"=>"v1"))
             response_document = response_policy_version["GetPolicyVersionResponse"]["GetPolicyVersionResult"]["PolicyVersion"]["Document"]
             @test HTTP.unescapeuri(response_document) == expected_policy_document
         finally
-            # Delete Policy
             AWSServices.iam("DeletePolicy", LittleDict("PolicyArn"=>policy_arn))
-            @test_throws AWSException AWSServices.iam("GetPolicy", LittleDict("PolicyArn"=>policy_arn))
         end
+
+        @test_throws AWSException AWSServices.iam("GetPolicy", LittleDict("PolicyArn"=>policy_arn))
     end
 
     @testset "high-level sqs" begin
@@ -573,18 +572,16 @@ end
             message_id = response["DeleteMessageBatchResponse"]["DeleteMessageBatchResult"]["DeleteMessageBatchResultEntry"]["Id"]
             @test message_id == expected_message_id
 
-            # Send message
             SQS.SendMessage(expected_message, queue_url)
             
-            # Receive Message
             result = SQS.ReceiveMessage(queue_url)
             message = result["ReceiveMessageResponse"]["ReceiveMessageResult"]["Message"]["Body"]
             @test message == expected_message
         finally
-            # Delete Queue
             SQS.DeleteQueue(queue_url)
-            @test_throws AWSException _get_queue_url(queue_name)
         end
+
+        @test_throws AWSException _get_queue_url(queue_name)
     end
 
     @testset "low-level sqs" begin
@@ -600,50 +597,51 @@ end
         # Create Queue
         AWSServices.sqs("CreateQueue", LittleDict("QueueName"=>queue_name))
 
-        # Get Queues
         queue_url = _get_queue_url(queue_name)
         @test !isempty(queue_url)
 
-        # Change Message Visibility Batch Request
-        expected_message_id = "aws-jl-test"
+        try
+            # Change Message Visibility Batch Request
+            expected_message_id = "aws-jl-test"
 
-        AWSServices.sqs("SendMessage", LittleDict(
-                "QueueUrl"=>queue_url,
-                "MessageBody"=>expected_message
+            AWSServices.sqs("SendMessage", LittleDict(
+                    "QueueUrl"=>queue_url,
+                    "MessageBody"=>expected_message
+                )
             )
-        )
 
-        response = AWSServices.sqs("ReceiveMessage", LittleDict("QueueUrl"=>queue_url,))
-        receipt_handle = response["ReceiveMessageResponse"]["ReceiveMessageResult"]["Message"]["ReceiptHandle"]
+            response = AWSServices.sqs("ReceiveMessage", LittleDict("QueueUrl"=>queue_url,))
+            receipt_handle = response["ReceiveMessageResponse"]["ReceiveMessageResult"]["Message"]["ReceiptHandle"]
 
-        response = AWSServices.sqs("DeleteMessageBatch", LittleDict(
-                "QueueUrl"=>queue_url,
-                "DeleteMessageBatchRequestEntry"=>[
-                    LittleDict(
-                        "Id"=>expected_message_id,
-                        "ReceiptHandle"=>receipt_handle,
-                    )
-                ]
+            response = AWSServices.sqs("DeleteMessageBatch", LittleDict(
+                    "QueueUrl"=>queue_url,
+                    "DeleteMessageBatchRequestEntry"=>[
+                        LittleDict(
+                            "Id"=>expected_message_id,
+                            "ReceiptHandle"=>receipt_handle,
+                        )
+                    ]
+                )
             )
-        )
 
-        message_id = response["DeleteMessageBatchResponse"]["DeleteMessageBatchResult"]["DeleteMessageBatchResultEntry"]["Id"]
-        @test message_id == expected_message_id
+            message_id = response["DeleteMessageBatchResponse"]["DeleteMessageBatchResult"]["DeleteMessageBatchResultEntry"]["Id"]
+            @test message_id == expected_message_id
 
-        # Send message
-        AWSServices.sqs("SendMessage", LittleDict(
-                "QueueUrl"=>queue_url,
-                "MessageBody"=>expected_message
+            # Send message
+            AWSServices.sqs("SendMessage", LittleDict(
+                    "QueueUrl"=>queue_url,
+                    "MessageBody"=>expected_message
+                )
             )
-        )
 
-        # Receive Message
-        result = AWSServices.sqs("ReceiveMessage", LittleDict("QueueUrl"=>queue_url))
-        message = result["ReceiveMessageResponse"]["ReceiveMessageResult"]["Message"]["Body"]
-        @test message == expected_message
-
-        # Delete Queue
-        AWSServices.sqs("DeleteQueue", LittleDict("QueueUrl"=>queue_url))
+            # Receive Message
+            result = AWSServices.sqs("ReceiveMessage", LittleDict("QueueUrl"=>queue_url))
+            message = result["ReceiveMessageResponse"]["ReceiveMessageResult"]["Message"]["Body"]
+            @test message == expected_message
+        finally
+            AWSServices.sqs("DeleteQueue", LittleDict("QueueUrl"=>queue_url))
+        end
+        
         @test_throws AWSException _get_queue_url(queue_name)
     end
 end
@@ -698,8 +696,9 @@ end
             S3.DeleteBucket(bucket_name)
 
             sleep(2)
-            @test _bucket_exists(bucket_name) == false
         end
+
+        @test _bucket_exists(bucket_name) == false
     end
 
     @testset "low-level s3" begin
@@ -757,8 +756,9 @@ end
             AWSServices.s3("DELETE", "/$bucket_name")
 
             sleep(2)
-            @test _bucket_exists(bucket_name) == false
         end
+
+        @test _bucket_exists(bucket_name) == false
     end
 end
 
@@ -799,13 +799,13 @@ end
             for vault in vault_names
                 Glacier.DeleteVault("-", vault)
             end
+        end
 
-            result = Glacier.ListVaults("-")
-            res_vault_names = [v["VaultName"] for v in result["VaultList"]]
+        result = Glacier.ListVaults("-")
+        res_vault_names = [v["VaultName"] for v in result["VaultList"]]
 
-            for vault in vault_names
-                @test !(vault in res_vault_names)
-            end
+        for vault in vault_names
+            @test !(vault in res_vault_names)
         end
     end
 
@@ -845,13 +845,13 @@ end
             for vault in vault_names
                 AWSServices.glacier("DELETE", "/-/vaults/$vault")
             end
+        end
 
-            result = AWSServices.glacier("GET", "/-/vaults")
-            res_vault_names = [v["VaultName"] for v in result["VaultList"]]
+        result = AWSServices.glacier("GET", "/-/vaults")
+        res_vault_names = [v["VaultName"] for v in result["VaultList"]]
 
-            for vault in vault_names
-                @test !(vault in res_vault_names)
-            end
+        for vault in vault_names
+            @test !(vault in res_vault_names)
         end
     end
 end
