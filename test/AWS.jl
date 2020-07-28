@@ -430,7 +430,7 @@ end
             return response["SecretString"]
         end
 
-        Secrets_Manager.CreateSecret(secret_name, LittleDict("SecretString"=>secret_string, "ClientRequestToken"=>string(uuid4())))
+        Secrets_Manager.CreateSecret(secret_name, LittleDict("SecretString" => secret_string, "ClientRequestToken" => string(uuid4())))
 
         try
             @test _get_secret_string(secret_name) == secret_string
