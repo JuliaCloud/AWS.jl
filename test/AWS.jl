@@ -589,7 +589,7 @@ end
         expected_message = "Hello for AWS.jl"
 
         function _get_queue_url(queue_name)
-            result = AWSServices.sqs("GetQueueUrl", LittleDict("QueueName"=>queue_name))
+            result = AWSServices.sqs("GetQueueUrl", LittleDict("QueueName" => queue_name))
 
             return result["GetQueueUrlResponse"]["GetQueueUrlResult"]["QueueUrl"]
         end
