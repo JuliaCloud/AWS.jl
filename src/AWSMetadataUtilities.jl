@@ -456,8 +456,8 @@ function _generate_high_level_definition(
                 """
         elseif required_keys
             return """\n
-                $name($(join(req_keys, ", "))) = $service_name(\"$method\", \"$request_uri\")
-                $name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}) = $service_name(\"$method\", \"$request_uri\", args)
+                $function_name($(join(req_keys, ", "))) = $service_name(\"$method\", \"$request_uri\")
+                $function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}) = $service_name(\"$method\", \"$request_uri\", args)
                 """
         elseif headers
             return """\n
