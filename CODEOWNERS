@@ -1,1 +1,4 @@
-src/services/ @omus
+# Assign the generated high-level wrappers to no one. Doing so makes it easy to filter
+# these files during code reviews. We'll use the reserved TEST-NET-1 IP range to avoid
+# accidentally spamming anyone.
+src/services/ null@192.0.2.0
