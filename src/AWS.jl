@@ -26,7 +26,7 @@ global user_agent = "AWS.jl/1.0.0"
 set_user_agent(new_user_agent::String) = return global user_agent = new_user_agent
 
 macro service(module_name::Symbol)
-    service_name = joinpath(@__DIR__, "services", lowercase(string(module_name)) * ".gen.jl")
+    service_name = joinpath(@__DIR__, "services", lowercase(string(module_name)) * ".jl")
 
     return Expr(:toplevel,
     :(module($(esc(module_name)))
