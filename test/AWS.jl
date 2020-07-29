@@ -421,7 +421,7 @@ end
     @testset "high-level secrets manager" begin
         @service Secrets_Manager
 
-        secret_name = "AWS.jl-Test-Secret" * _now_formatted()
+        secret_name = "aws-jl-test---" * _now_formatted()
         secret_string = "sshhh it is a secret!"
 
         function _get_secret_string(secret_name)
@@ -442,7 +442,7 @@ end
     end
     
     @testset "low-level secrets manager" begin
-        secret_name = "AWS.jl-Test-Secret" * _now_formatted()
+        secret_name = "aws-jl-test---" * _now_formatted()
         secret_string = "sshhh it is a secret!"
 
         function _get_secret_string(secret_name)
@@ -475,7 +475,7 @@ end
         @service IAM
 
         policy_arn = ""
-        expected_policy_name = "AWS.jl-Test-Policy" * _now_formatted()
+        expected_policy_name = "aws-jl-test---" * _now_formatted()
         expected_policy_document = LittleDict(
             "Version" => "2012-10-17",
             "Statement" => [
@@ -504,7 +504,7 @@ end
 
     @testset "low-level iam" begin
         policy_arn = ""
-        expected_policy_name = "AWS.jl-Test-Policy" * _now_formatted()
+        expected_policy_name = "aws-jl-test---" * _now_formatted()
         expected_policy_document = LittleDict(
             "Version"=> "2012-10-17",
             "Statement"=> [
@@ -650,7 +650,7 @@ end
     @testset "high-level s3" begin
         @service S3
 
-        bucket_name = "aws.jl-test---" * _now_formatted()
+        bucket_name = "aws-jl-test---" * _now_formatted()
         file_name = string(uuid4())
 
         function _bucket_exists(bucket_name)
@@ -702,7 +702,7 @@ end
     end
 
     @testset "low-level s3" begin
-        bucket_name = "aws.jl-test---" * _now_formatted()
+        bucket_name = "aws-jl-test---" * _now_formatted()
         file_name = string(uuid4())
 
         function _bucket_exists(bucket_name)
@@ -767,7 +767,7 @@ end
         @service Glacier
 
         timestamp = _now_formatted()
-        vault_names = ["aws.jl.test-01---$timestamp", "aws.jl.test-02---$timestamp", ]
+        vault_names = ["aws-jl-test-01---$timestamp", "aws-jl-test-02---$timestamp", ]
 
         # PUT
         for vault in vault_names
@@ -811,7 +811,7 @@ end
 
     @testset "low-level glacier" begin
         timestamp = _now_formatted()
-        vault_names = ["aws.jl.test-01---$timestamp", "aws.jl.test-02---$timestamp", ]
+        vault_names = ["aws-jl-test-01---$timestamp", "aws-jl-test-02---$timestamp", ]
 
         # PUT
         for vault in vault_names

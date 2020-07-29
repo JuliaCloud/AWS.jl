@@ -1,0 +1,123 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  A stack for testing AWS.jl on EC2
+
+Parameters:
+  KeyName:
+    Description: The keyname associated with the instance.
+    Type: String
+    Default: ec2_keyfile
+  PublicCIUser:
+    Description: User which can assume the testing role
+    Type: String
+
+Resources:
+  EC2TravisPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      Users:
+        - !Sub ${PublicCIUser}
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - ec2:DescribeInstances
+              - ec2:DescribeInstanceStatus
+            Resource: "*"
+          - Effect: Allow
+            Action: ec2:CreateTags  # Only tag instances on creation
+            Resource: !Sub arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:instance/*
+            Condition:
+              StringEquals:
+                ec2:CreateAction: RunInstances
+          - Effect: Allow
+            Action: ec2:RunInstances  # Create instance only from AWS_JL_EC2Template
+            Resource: "*"
+            Condition:
+              ArnLike:
+                ec2:LaunchTemplate: !Sub arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:launch-template/${AWS_JL_EC2Template}
+              Bool:
+                ec2:IsLaunchTemplateResource: true
+          - Effect: Allow
+            Action: ec2:RunInstances  # Authorize resources not defined in AWS_JL_EC2Template
+            Resource:
+              - !Sub arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:subnet/*
+              - !Sub arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:network-interface/*
+            Condition:
+              ArnLike:
+                ec2:LaunchTemplate: !Sub arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:launch-template/${AWS_JL_EC2Template}
+          - Effect: Allow
+            Action: ec2:TerminateInstances  # Only terminate instances created from the template
+            Resource: !Sub arn:aws:ec2:${AWS::Region}:${AWS::AccountId}:instance/*
+            Condition:
+              StringEquals:
+                ec2:ResourceTag/aws:ec2launchtemplate:id: !Sub ${AWS_JL_EC2Template}
+          - Effect: Allow
+            Action:
+              - iam:PassRole
+            Resource:
+              - !GetAtt InstanceRole.Arn
+          - Effect: Allow
+            Action:
+              - ssm:GetParameter
+            Resource:
+              - !Sub arn:aws:ssm:*:${AWS::AccountId}:parameter/public_ci/AWS_JL/ec2_keyfile
+          - Effect: Allow
+            Action: route53:GetAccountLimit
+            Resource: "*"
+  SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: AWS_JL-EC2-Test
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+  InstanceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: /
+  InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - !Ref InstanceRole
+  AWS_JL_EC2Template:
+    Type: AWS::EC2::LaunchTemplate
+    Properties:
+      LaunchTemplateName: AWS_JL_EC2Template
+      LaunchTemplateData:
+        InstanceType: t2.micro
+        ImageId: ami-0922553b7b0369273
+        # Instance must have a profile for `ec2_instance_credentials()` to succeed
+        IamInstanceProfile:
+          Name: !Ref InstanceProfile
+        # Allow ssh access into the instance
+        SecurityGroupIds:
+          - !GetAtt SecurityGroup.GroupId
+        KeyName: !Ref KeyName
+        UserData:
+          Fn::Base64: !Sub |
+            #!/bin/bash
+            yum update -y
+
+            # Install julia v1.0.3
+            yum install -y curl tar git
+            julia_url="https://julialang-s3.julialang.org/bin/linux/x64/1.0/julia-1.0.3-linux-x86_64.tar.gz"
+            julia_root=/julia
+
+            mkdir $julia_root
+            curl -s -L --retry 7 "$julia_url" | tar -C "$julia_root" -x -z --strip-components=1 -f -
+
+            /julia/bin/julia -e 'using InteractiveUtils; versioninfo()'
