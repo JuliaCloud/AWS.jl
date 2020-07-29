@@ -3,6 +3,8 @@ include("../AWSServices.jl")
 using Compat
 using .AWSServices: accessanalyzer
 
+sdfsd
+
 """
     CreateAnalyzer()
 
