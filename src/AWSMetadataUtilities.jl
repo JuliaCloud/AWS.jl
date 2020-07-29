@@ -461,8 +461,8 @@ function _generate_high_level_definition(
                 """
         elseif headers
             return """\n
-                $name() = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}("headers"=>Dict{String, Any}($(join(header_kv, ", ")))))
-                $name(args::AbstractDict{String, <:Any}) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}($(join(header_kv, ", ")))), args...)))
+                $function_name() = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}("headers"=>Dict{String, Any}($(join(header_kv, ", ")))))
+                $function_name(args::AbstractDict{String, <:Any}) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}($(join(header_kv, ", ")))), args...)))
                 """
         elseif idempotent
             return """\n
