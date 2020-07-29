@@ -252,8 +252,8 @@ function _get_function_parameters(input::String, shapes::Dict)
                 idempotent = get(parameter[2], "idempotencyToken", false)
                 
                 optional_parameters[parameter_name] = LittleDict{String, Union{String, Bool}}(
-                    "documentation"=>documentation,
-                    "idempotent"=>idempotent,
+                    "documentation" => documentation,
+                    "idempotent" => idempotent,
                 )
             end
         end
