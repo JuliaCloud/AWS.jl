@@ -379,18 +379,6 @@ function _generate_high_level_definition(
     - `String`: Function definition as Julia code
     """
     function _generate_rest_operation_defintion(required_params::AbstractDict, optional_params::AbstractDict, function_name::String, service_name::String, method::String, request_uri::String)
-        """
-        There are various combinations of parameters which we need to account for here, and given the combination of what the request requires we need to generate a different definition.
-        
-        We need to account for all combinations of:
-            - Required parameters
-            - Required parameters in the URI
-            - Parameters which need to be placed in the request header
-            - Idempotent parameters
-            - Arguments passed in by the user
-
-        There is no seemingly simple way to account for all of these, so I decided to generate a truth table to handle all different combinations.
-        """
         request_uri = replace(request_uri, '{' => "\$(")  # Replace { with $(
         request_uri = replace(request_uri, '}' => ')')  # Replace } with )
         request_uri = replace(request_uri, '+' => "")  # Remove + from the request URI
@@ -402,72 +390,39 @@ function _generate_high_level_definition(
         required_params = setdiff(required_params, header_params)
 
         idempotent_params = filter(p -> (p[2]["idempotent"]), optional_params)
-        optional_params = setdiff(optional_params, idempotent_params)
 
         req_kv = ["\"$(p[1])\"=>$(replace(p[1], "-" => "_"))" for p in required_params]
         header_kv = ["\"$(p[1])\"=>$(replace(p[1], "-" => "_"))" for p in header_params]
         idempotent_kv = ["\"$(p[1])\"=>string(uuid4())" for p in idempotent_params]
 
         required_keys = !isempty(req_keys)
-        required_kv = !isempty(req_kv)
         headers = !isempty(header_params)
         idempotent = !isempty(idempotent_params)
 
-        # Truth table
-        if required_keys && headers && idempotent && required_kv
+        req_str = !isempty(req_kv) ? "Dict{String, Any}($(join(req_kv, ", "))" : ""
+        params_str = (!isempty(req_kv) || idempotent) ? "$(join(vcat(req_kv, idempotent_kv), ", "))" : ""
+        headers_str = headers ? "\"headers\"=>Dict{String, Any}($(join(header_kv, ", ")))" : ""
+        params_headers_str = "Dict{String, Any}($(join([s for s in (params_str, headers_str) if !isempty(s)], ", ")))"
+        
+        if required_keys && (idempotent || headers)
             return """\n
-                $function_name($(join(req_keys, ", "))) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}($(join(req_kv, ", ")), $(join(idempotent_kv, ", ")), "headers"=>Dict{String, Any}($(join(header_kv, ", ")))))
-                $function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(req_kv, ", ")), $(join(idempotent_kv, ", ")), "headers"=>Dict{String, Any}($(join(header_kv, ", ")))), args...)))
+                $function_name($(join(req_keys, ", "))) = $service_name(\"$method\", \"$request_uri\", $params_headers_str)
+                $function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $params_headers_str, args)))
                 """
-        elseif required_keys && headers && idempotent
+        elseif !required_keys && (idempotent || headers)
             return """\n
-                $function_name($(join(req_keys, ", "))) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}($(join(idempotent_kv, ", ")), "headers"=>Dict{String, Any}($(join(header_kv, ", ")))))
-                $function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(idempotent_kv, ", ")), "headers"=>Dict{String, Any}($(join(header_kv, ", ")))), args...)))
+                $function_name() = $service_name(\"$method\", \"$request_uri\", $params_headers_str)
+                $function_name(args::AbstractDict{String, <:Any}) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $params_headers_str, args)))
                 """
-        elseif required_keys && headers && required_kv
+        elseif required_keys && !isempty(req_kv)
             return """\n
-                $function_name($(join(req_keys, ", "))) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}($(join(req_kv, ", ")), "headers"=>Dict{String, Any}($(join(header_kv, ", ")))))
-                $function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(req_kv, ", ")), "headers"=>Dict{String, Any}($(join(header_kv, ", ")))), args...)))
-                """
-        elseif required_keys && headers
-            return """\n
-                $function_name($(join(req_keys, ", "))) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}("headers"=>Dict{String, Any}($(join(header_kv, ", ")))))
-                $function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}($(join(header_kv, ", ")))), args...)))
-                """
-        elseif required_keys && idempotent && required_kv
-            return """\n
-                $function_name($(join(req_keys, ", "))) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}($(join(req_kv, ", ")), $(join(idempotent_kv, ", "))))
-                $function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(req_kv, ", ")), $(join(idempotent_kv, ", "))), args...)))
-                """
-        elseif required_keys && idempotent
-            return """\n
-                $function_name($(join(req_keys, ", "))) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}($(join(idempotent_kv, ", "))))
-                $function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(idempotent_kv, ", "))), args...)))
-                """
-        elseif headers && idempotent
-            return """\n
-                $function_name() = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}($(join(idempotent_kv, ", ")), "headers"=>Dict{String, Any}($(join(header_kv, ", ")))))
-                $function_name(args::AbstractDict{String, <:Any}) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(idempotent_kv, ", ")), "headers"=>Dict{String, Any}($(join(header_kv, ", ")))), args...)))
-                """
-        elseif required_keys && required_kv
-            return """\n
-                $name($(join(req_keys, ", "))) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}($(join(req_kv, ", "))))
-                $name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}($(join(req_kv, ", ")), args...))
+                $function_name($(join(req_keys, ", "))) = $service_name(\"$method\", \"$request_uri\", $req_str))
+                $function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $req_str), args)))
                 """
         elseif required_keys
             return """\n
-                $name($(join(req_keys, ", "))) = $service_name(\"$method\", \"$request_uri\")
-                $name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}) = $service_name(\"$method\", \"$request_uri\", args)
-                """
-        elseif headers
-            return """\n
-                $name() = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}("headers"=>Dict{String, Any}($(join(header_kv, ", ")))))
-                $name(args::AbstractDict{String, <:Any}) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}($(join(header_kv, ", ")))), args...)))
-                """
-        elseif idempotent
-            return """\n
-                $function_name() = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}($(join(idempotent_kv, ", "))))
-                $function_name(args::AbstractDict{String, <:Any}) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(idempotent_kv, ", "))), args...)))
+                $function_name($(join(req_keys, ", "))) = $service_name(\"$method\", \"$request_uri\")
+                $function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}) = $service_name(\"$method\", \"$request_uri\", args)
                 """
         else
             return """\n
@@ -508,12 +463,12 @@ function _generate_high_level_definition(
         elseif required
             return """\n
                 $function_name($(join(req_keys, ", "))) = $service_name(\"$function_name\", Dict{String, Any}($(join(req_kv, ", "))))
-                $function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}) = $service_name(\"$function_name\", Dict{String, Any}($(join(req_kv, ", ")), args...))
+                $function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}) = $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(req_kv, ", "))), args)))
                 """
         elseif idempotent
             return """\n
                 $function_name() = $service_name(\"$function_name\", Dict{String, Any}($(join(idempotent_kv, ", "))))
-                $function_name(args::AbstractDict{String, <:Any}) = $service_name(\"$function_name\", Dict{String, Any}($(join(idempotent_kv, ", ")), args...))
+                $function_name(args::AbstractDict{String, <:Any}) = $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(idempotent_kv, ", "))), args)))
                 """
         else
             return """\n
