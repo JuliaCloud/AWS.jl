@@ -122,6 +122,36 @@ end
     @test result == expected_result
 end
 
+@testset "_uri_cleaning" begin
+    @testset "no parameters" begin
+        uri = "/v1/configurations/"
+        expected = "/v1/configurations/"
+
+        @test expected == _uri_cleaning(uri)
+    end
+
+    @testset "single parameter" begin
+        uri = "/v1/configurations/{parameter-one}"
+        expected = "/v1/configurations/\$(parameter_one)"
+
+        @test expected == _uri_cleaning(uri)
+    end
+
+    @testset "multiple parameters" begin
+        uri = "/v1/configurations/{parameter_one}/{parameter_two}"
+        expected = "/v1/configurations/\$(parameter_one)/\$(parameter_two)"
+
+        @test expected == _uri_cleaning(uri)
+    end
+
+    @testset "hyphen not in parameter" begin
+        uri = "/v1/configuration-parameters/{parameter-one}"
+        expected = "/v1/configuration-parameters/\$(parameter_one)"
+
+        @test expected == _uri_cleaning(uri)
+    end
+end
+
 @testset "_get_function_parameters" begin
     shapes = JSON.parsefile(joinpath(@__DIR__, "resources/shapes.json"))
 
