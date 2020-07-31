@@ -205,7 +205,7 @@ Example:
 - `String`: Cleaned URI
 """
 function _uri_cleaning(uri::String)
-    uri_parameters = eachmatch(r"{.*?}", uri) # Match anything surrounded in "{ }"
+    uri_parameters = eachmatch(r"{.*?}", uri)  # Match anything surrounded in "{ }"
 
     for param in uri_parameters
         match = param.match
