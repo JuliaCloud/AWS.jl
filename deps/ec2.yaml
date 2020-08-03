@@ -118,6 +118,6 @@ Resources:
             julia_root=/julia
 
             mkdir $julia_root
-            curl -s -L --retry 7 "$julia_url" | tar -C "$julia_root" -x -z --strip-components=1 -f -
+            curl -sSL --retry 7 "$julia_url" | tar -C "$julia_root" -x -z --strip-components=1 -f -
 
             /julia/bin/julia -e 'using InteractiveUtils; versioninfo()'
