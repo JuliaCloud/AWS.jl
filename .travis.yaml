@@ -30,16 +30,17 @@ jobs:
       julia: 1.0
       os: linux
       before_install:
+        - export AWS_DEFAULT_REGION=us-east-1
         - pip install --user awscli
       script:
-        - aws ssm get-parameter --region us-east-1 --name /public_ci/AWS_JL/ec2_keyfile --query 'Parameter.Value' --output text --with-decryption > ec2.pem
+        - aws ssm get-parameter --region $AWS_DEFAULT_REGION --name /public_ci/AWS_JL/ec2_keyfile --query 'Parameter.Value' --output text --with-decryption > ec2.pem
         - chmod 600 ec2.pem
         - export KEYFILE=ec2.pem
         # Tag with commit to be able to terminate later
-        - INSTANCE_ID=$(aws ec2 run-instances --region us-east-1 --launch-template LaunchTemplateName=AWS_JL_EC2Template --tag-specifications "ResourceType=instance,Tags=[{Key=AWS_JL_Commit,Value=$TRAVIS_COMMIT}]" --query 'Instances[0].InstanceId' --output text)
+        - INSTANCE_ID=$(aws ec2 run-instances --region $AWS_DEFAULT_REGION --launch-template LaunchTemplateName=AWS_JL_EC2Template --tag-specifications "ResourceType=instance,Tags=[{Key=AWS_JL_Commit,Value=$TRAVIS_COMMIT}]" --query 'Instances[0].InstanceId' --output text)
         # Wait until UserData installs Julia
-        - aws ec2 wait instance-status-ok --region us-east-1 --instance-ids $INSTANCE_ID
-        - export EC2Ip=$(aws ec2 describe-instances --region us-east-1 --instance-ids $INSTANCE_ID  --query 'Reservations[0].Instances[0].PublicIpAddress' --output text)
+        - aws ec2 wait instance-status-ok --region $AWS_DEFAULT_REGION --instance-ids $INSTANCE_ID
+        - export EC2Ip=$(aws ec2 describe-instances --region $AWS_DEFAULT_REGION --instance-ids $INSTANCE_ID  --query 'Reservations[0].Instances[0].PublicIpAddress' --output text)
         - |
           julia -e '
           using Distributed
@@ -59,11 +60,11 @@ jobs:
           @fetch Pkg.test("AWS")
           '
       after_script:
-        - INSTANCE_ID=$(aws ec2 describe-instances --region us-east-1 --filter Name=tag:AWS_JL_Commit,Values=$TRAVIS_COMMIT Name=instance-state-name,Values=running,pending --query 'Reservations[*].Instances[0].InstanceId' --output text)
+        - INSTANCE_ID=$(aws ec2 describe-instances --region $AWS_DEFAULT_REGION --filter Name=tag:AWS_JL_Commit,Values=$TRAVIS_COMMIT Name=instance-state-name,Values=running,pending --query 'Reservations[*].Instances[0].InstanceId' --output text)
         - |
           if [ "$INSTANCE_ID" ]; then
-              aws ec2 terminate-instances --region us-east-1 --instance-ids $INSTANCE_ID
-              aws ec2 wait instance-terminated --region us-east-1 --instance-ids $INSTANCE_ID
+              aws ec2 terminate-instances --region $AWS_DEFAULT_REGION --instance-ids $INSTANCE_ID
+              aws ec2 wait instance-terminated --region $AWS_DEFAULT_REGION --instance-ids $INSTANCE_ID
           fi
       after_success: skip
     - stage: "Online tests"
@@ -71,23 +72,24 @@ jobs:
       julia: 1.0
       os: linux
       before_install:
+        - export AWS_DEFAULT_REGION=us-east-1
         - pip install --user awscli
       script:
-        - id=$(aws batch submit-job --region us-east-1 --job-name $TRAVIS_COMMIT --job-definition AWS_JL-ECS-00001-Job --job-queue AWS_JL-ECS-00001-JobQueue --container-overrides "environment=[{name=AWS_JL_BRANCH,value=$TRAVIS_COMMIT}]" --query jobId --output text)
+        - id=$(aws batch submit-job --region $AWS_DEFAULT_REGION --job-name $TRAVIS_COMMIT --job-definition AWS_JL-ECS-00001-Job --job-queue AWS_JL-ECS-00001-JobQueue --container-overrides "environment=[{name=AWS_JL_BRANCH,value=$TRAVIS_COMMIT}]" --query jobId --output text)
         - |
-          status=$(aws batch describe-jobs --region us-east-1 --jobs $id --query jobs[0].status --output text)
+          status=$(aws batch describe-jobs --region $AWS_DEFAULT_REGION --jobs $id --query jobs[0].status --output text)
           # If the query fails it will either return "None" or status won't be set
           while [ "$status" ] && [ "$status" != "None" ] && [ "$status" != "FAILED" ] && [ "$status" != "SUCCEEDED" ]; do
               echo "Waiting for job $id, status: $status..."
               sleep 30
-              status=$(aws batch describe-jobs --region us-east-1 --jobs $id --query jobs[0].status --output text)
+              status=$(aws batch describe-jobs --region $AWS_DEFAULT_REGION --jobs $id --query jobs[0].status --output text)
           done
           echo "Job $id finished, status: $status"
         - |
           # Get test output
-          logstream=$(aws batch describe-jobs --region us-east-1 --jobs $id --query jobs[0].container.logStreamName --output text)
+          logstream=$(aws batch describe-jobs --region $AWS_DEFAULT_REGION --jobs $id --query jobs[0].container.logStreamName --output text)
           if [ "$logstream" ]; then
-              aws logs get-log-events --region us-east-1 --log-group-name /aws/batch/job --log-stream-name $logstream --query events[*].message --output text | tr '\t' '\n'
+              aws logs get-log-events --region $AWS_DEFAULT_REGION --log-group-name /aws/batch/job --log-stream-name $logstream --query events[*].message --output text | tr '\t' '\n'
           fi
         - test "$status" == "SUCCEEDED"
       after_success: skip
