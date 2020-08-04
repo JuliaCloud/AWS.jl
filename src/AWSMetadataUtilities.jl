@@ -193,7 +193,7 @@ Find all URI parameters, and apply the following replacements:
 * { => \$(
 * } => )
 * - => _
-* + => nothing
+* + => empty string
 
 Example:
 "/v1/configurations/{configuration-id}" => "/v1/configurations/\$(configuration_id)"
