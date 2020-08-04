@@ -185,7 +185,7 @@ function _documentation_cleaning(documentation::String)
 end
 
 """
-    _uri_cleaning(uri::String)
+    _clean_uri(uri::String)
 
 Replace URI parameters with the appropriate syntax for Julia interpolation.
 
@@ -204,7 +204,7 @@ Example;
 # Returns
 - `String`: Cleaned URI
 """
-function _uri_cleaning(uri::String)
+function _clean_uri(uri::String)
     uri_parameters = eachmatch(r"{.*?}", uri) # Match anything surrounded in "{ }"
 
     for param in uri_parameters
@@ -451,7 +451,7 @@ function _generate_high_level_definition(
         end
     elseif protocol in ("rest-json", "rest-xml")
         if !isempty(required_param_keys_clean)
-            request_uri = _uri_cleaning(request_uri)
+            request_uri = _clean_uri(request_uri)
             
             # Are there parameters which are not required to be in either the URI or Headers?
             if !isempty(required_parameters)
