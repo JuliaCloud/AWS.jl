@@ -122,33 +122,40 @@ end
     @test result == expected_result
 end
 
-@testset "_uri_cleaning" begin
+@testset "_clean_uri" begin
     @testset "no parameters" begin
         uri = "/v1/configurations/"
         expected = "/v1/configurations/"
 
-        @test expected == _uri_cleaning(uri)
+        @test expected == _clean_uri(uri)
     end
 
     @testset "single parameter" begin
         uri = "/v1/configurations/{parameter-one}"
         expected = "/v1/configurations/\$(parameter_one)"
 
-        @test expected == _uri_cleaning(uri)
+        @test expected == _clean_uri(uri)
     end
 
     @testset "multiple parameters" begin
         uri = "/v1/configurations/{parameter_one}/{parameter_two}"
         expected = "/v1/configurations/\$(parameter_one)/\$(parameter_two)"
 
-        @test expected == _uri_cleaning(uri)
+        @test expected == _clean_uri(uri)
     end
 
     @testset "hyphen not in parameter" begin
         uri = "/v1/configuration-parameters/{parameter-one}"
         expected = "/v1/configuration-parameters/\$(parameter_one)"
 
-        @test expected == _uri_cleaning(uri)
+        @test expected == _clean_uri(uri)
+    end
+
+    @testset "remove plus signs" begin
+        uri = "/v1/configuration-parameters/{parameter-one+}"
+        expected = "/v1/configuration-parameters/\$(parameter_one)"
+
+        @test expected == _clean_uri(uri)
     end
 end
 
