@@ -185,6 +185,44 @@ function _documentation_cleaning(documentation::String)
 end
 
 """
+    _clean_uri(uri::String)
+
+Replace URI parameters with the appropriate syntax for Julia interpolation.
+
+Find all URI parameters, and apply the following replacements:
+* { => \$(
+* } => )
+* - => _
+* + => empty string
+
+Example:
+"/v1/configurations/{configuration-id}" => "/v1/configurations/\$(configuration_id)"
+
+# Arguments
+- `uri::String`: URI to be cleaned
+
+# Returns
+- `String`: Cleaned URI
+"""
+function _clean_uri(uri::String)
+    uri_parameters = eachmatch(r"{.*?}", uri) # Match anything surrounded in "{ }"
+
+    for param in uri_parameters
+        match = param.match
+        original_match = match
+
+        match = replace(match, '{' => "\$(")  # Replace { with $(
+        match = replace(match, '}' => ')')  # Replace } with )
+        match = replace(match, '-' => '_')  # Replace hyphens with underscores
+        match = replace(match, '+' => "")  # Remove +
+
+        uri = replace(uri, original_match => match)
+    end
+
+    return uri
+end
+
+"""
     _get_function_parameters(input, shapes)
 
 Get the required and optional parameters for a given operation.
@@ -413,9 +451,7 @@ function _generate_high_level_definition(
         end
     elseif protocol in ("rest-json", "rest-xml")
         if !isempty(required_param_keys_clean)
-            request_uri = replace(request_uri, '{' => "\$(")  # Replace { with $(
-            request_uri = replace(request_uri, '}' => ')')  # Replace } with )
-            request_uri = replace(request_uri, '+' => "")  # Remove + from the request URI
+            request_uri = _clean_uri(request_uri)
             
             # Are there parameters which are not required to be in either the URI or Headers?
             if !isempty(required_parameters)
