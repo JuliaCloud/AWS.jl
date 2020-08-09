@@ -89,7 +89,7 @@ jobs:
           # Get test output
           logstream=$(aws batch describe-jobs --region $AWS_DEFAULT_REGION --jobs $id --query jobs[0].container.logStreamName --output text)
           if [ "$logstream" ]; then
-              aws logs get-log-events --region $AWS_DEFAULT_REGION --log-group-name /aws/batch/job --log-stream-name $logstream --query events[*].message --output text | tr '\t' '\n'
+              aws logs get-log-events --log-group-name /aws/batch/job --log-stream-name $logstream --query events[*].message --output text | tr '\t' '\n'
           fi
         - test "$status" == "SUCCEEDED"
       after_success: skip
