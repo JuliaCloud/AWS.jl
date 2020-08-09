@@ -82,7 +82,7 @@ jobs:
           while [ "$status" ] && [ "$status" != "None" ] && [ "$status" != "FAILED" ] && [ "$status" != "SUCCEEDED" ]; do
               echo "Waiting for job $id, status: $status..."
               sleep 30
-              status=$(aws batch describe-jobs --region $AWS_DEFAULT_REGION --jobs $id --query jobs[0].status --output text)
+              status=$(aws batch describe-jobs --jobs $id --query jobs[0].status --output text)
           done
           echo "Job $id finished, status: $status"
         - |
