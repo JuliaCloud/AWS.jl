@@ -63,7 +63,7 @@ jobs:
         - INSTANCE_ID=$(aws ec2 describe-instances --filter Name=tag:AWS_JL_Commit,Values=$TRAVIS_COMMIT Name=instance-state-name,Values=running,pending --query 'Reservations[*].Instances[0].InstanceId' --output text)
         - |
           if [ "$INSTANCE_ID" ]; then
-              aws ec2 terminate-instances --region $AWS_DEFAULT_REGION --instance-ids $INSTANCE_ID
+              aws ec2 terminate-instances --instance-ids $INSTANCE_ID
               aws ec2 wait instance-terminated --region $AWS_DEFAULT_REGION --instance-ids $INSTANCE_ID
           fi
       after_success: skip
