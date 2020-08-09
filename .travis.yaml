@@ -33,7 +33,7 @@ jobs:
         - export AWS_DEFAULT_REGION=us-east-1
         - pip install --user awscli
       script:
-        - aws ssm get-parameter --region $AWS_DEFAULT_REGION --name /public_ci/AWS_JL/ec2_keyfile --query 'Parameter.Value' --output text --with-decryption > ec2.pem
+        - aws ssm get-parameter --name /public_ci/AWS_JL/ec2_keyfile --query 'Parameter.Value' --output text --with-decryption > ec2.pem
         - chmod 600 ec2.pem
         - export KEYFILE=ec2.pem
         # Tag with commit to be able to terminate later
