@@ -75,7 +75,7 @@ jobs:
         - export AWS_DEFAULT_REGION=us-east-1
         - pip install --user awscli
       script:
-        - id=$(aws batch submit-job --region $AWS_DEFAULT_REGION --job-name $TRAVIS_COMMIT --job-definition AWS_JL-ECS-00001-Job --job-queue AWS_JL-ECS-00001-JobQueue --container-overrides "environment=[{name=AWS_JL_BRANCH,value=$TRAVIS_COMMIT}]" --query jobId --output text)
+        - id=$(aws batch submit-job --job-name $TRAVIS_COMMIT --job-definition AWS_JL-ECS-00001-Job --job-queue AWS_JL-ECS-00001-JobQueue --container-overrides "environment=[{name=AWS_JL_BRANCH,value=$TRAVIS_COMMIT}]" --query jobId --output text)
         - |
           status=$(aws batch describe-jobs --jobs $id --query jobs[0].status --output text)
           # If the query fails it will either return "None" or status won't be set
