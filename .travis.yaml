@@ -64,7 +64,7 @@ jobs:
         - |
           if [ "$INSTANCE_ID" ]; then
               aws ec2 terminate-instances --instance-ids $INSTANCE_ID
-              aws ec2 wait instance-terminated --region $AWS_DEFAULT_REGION --instance-ids $INSTANCE_ID
+              aws ec2 wait instance-terminated --instance-ids $INSTANCE_ID
           fi
       after_success: skip
     - stage: "Online tests"
