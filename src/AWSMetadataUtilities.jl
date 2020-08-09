@@ -185,6 +185,44 @@ function _documentation_cleaning(documentation::String)
 end
 
 """
+    _clean_uri(uri::String)
+
+Replace URI parameters with the appropriate syntax for Julia interpolation.
+
+Find all URI parameters, and apply the following replacements:
+* { => \$(
+* } => )
+* - => _
+* + => empty string
+
+Example:
+"/v1/configurations/{configuration-id}" => "/v1/configurations/\$(configuration_id)"
+
+# Arguments
+- `uri::String`: URI to be cleaned
+
+# Returns
+- `String`: Cleaned URI
+"""
+function _clean_uri(uri::String)
+    uri_parameters = eachmatch(r"{.*?}", uri) # Match anything surrounded in "{ }"
+
+    for param in uri_parameters
+        match = param.match
+        original_match = match
+
+        match = replace(match, '{' => "\$(")  # Replace { with $(
+        match = replace(match, '}' => ')')  # Replace } with )
+        match = replace(match, '-' => '_')  # Replace hyphens with underscores
+        match = replace(match, '+' => "")  # Remove +
+
+        uri = replace(uri, original_match => match)
+    end
+
+    return uri
+end
+
+"""
     _get_function_parameters(input, shapes)
 
 Get the required and optional parameters for a given operation.
