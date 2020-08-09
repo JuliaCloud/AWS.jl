@@ -39,7 +39,7 @@ jobs:
         # Tag with commit to be able to terminate later
         - INSTANCE_ID=$(aws ec2 run-instances --region $AWS_DEFAULT_REGION --launch-template LaunchTemplateName=AWS_JL_EC2Template --tag-specifications "ResourceType=instance,Tags=[{Key=AWS_JL_Commit,Value=$TRAVIS_COMMIT}]" --query 'Instances[0].InstanceId' --output text)
         # Wait until UserData installs Julia
-        - aws ec2 wait instance-status-ok --region $AWS_DEFAULT_REGION --instance-ids $INSTANCE_ID
+        - aws ec2 wait instance-status-ok --instance-ids $INSTANCE_ID
         - export EC2Ip=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID  --query 'Reservations[0].Instances[0].PublicIpAddress' --output text)
         - |
           julia -e '
