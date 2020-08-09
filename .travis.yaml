@@ -77,7 +77,7 @@ jobs:
       script:
         - id=$(aws batch submit-job --region $AWS_DEFAULT_REGION --job-name $TRAVIS_COMMIT --job-definition AWS_JL-ECS-00001-Job --job-queue AWS_JL-ECS-00001-JobQueue --container-overrides "environment=[{name=AWS_JL_BRANCH,value=$TRAVIS_COMMIT}]" --query jobId --output text)
         - |
-          status=$(aws batch describe-jobs --region $AWS_DEFAULT_REGION --jobs $id --query jobs[0].status --output text)
+          status=$(aws batch describe-jobs --jobs $id --query jobs[0].status --output text)
           # If the query fails it will either return "None" or status won't be set
           while [ "$status" ] && [ "$status" != "None" ] && [ "$status" != "FAILED" ] && [ "$status" != "SUCCEEDED" ]; do
               echo "Waiting for job $id, status: $status..."
