@@ -160,7 +160,7 @@ function _generate_low_level_definition(service::Dict)
 end
 
 """
-    _documentation_cleaning(documentation::String)
+    _clean_documentation(documentation::String)
 
 Clean up the documentation to make it Julia compiler and human-readable.
 
@@ -175,7 +175,7 @@ Clean up the documentation to make it Julia compiler and human-readable.
 # Returns
 - `String`: Cleaned documentation string
 """
-function _documentation_cleaning(documentation::String)
+function _clean_documentation(documentation::String)
     documentation = replace(documentation, r"\<.*?\>" => "")
     documentation = replace(documentation, '$' => ' ')
     documentation = replace(documentation, '\\' => ' ')
@@ -272,7 +272,7 @@ function _get_function_parameters(input::String, shapes::Dict)
             # Check if the parameter needs to be in a certain place
             parameter_location = get(input_shape["members"][parameter], "location", "")
 
-            documentation = _documentation_cleaning(get(input_shape["members"][parameter], "documentation", ""))
+            documentation = _clean_documentation(get(input_shape["members"][parameter], "documentation", ""))
 
             required_parameters[parameter_name] = LittleDict{String, String}(
                 "location" => parameter_location,
@@ -286,7 +286,7 @@ function _get_function_parameters(input::String, shapes::Dict)
             parameter_name = get(input_shape["members"][parameter[1]], "locationName", parameter[1])
 
             if !haskey(required_parameters, parameter_name)
-                documentation = _documentation_cleaning(get(parameter[2], "documentation", ""))
+                documentation = _clean_documentation(get(parameter[2], "documentation", ""))
                 idempotent = get(parameter[2], "idempotencyToken", false)
                 
                 optional_parameters[parameter_name] = LittleDict{String, Union{String, Bool}}(
@@ -336,7 +336,7 @@ function _generate_high_level_definitions(
         documentation = ""
 
         if haskey(operation, "documentation")
-            documentation = _documentation_cleaning(operation["documentation"])
+            documentation = _clean_documentation(operation["documentation"])
         end
 
         required_parameters = Dict{String, Any}()
