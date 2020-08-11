@@ -31,7 +31,7 @@ The fields `access_key_id` and `secret_key` hold the access keys used to authent
 [Temporary Security Credentials](http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp.html) require the extra session `token` field.
 The `user_arn` and `account_number` fields are used to cache the result of the [`aws_user_arn`](@ref) and [`aws_account_number`](@ref) functions.
 
-AWSCore searches for credentials in a series of possible locations and stops as soon as it finds credentials.
+AWS.jl searches for credentials in a series of possible locations and stops as soon as it finds credentials.
 The order of precedence for this search is as follows:
 
 1. Passing credentials directly to the `AWSCredentials` constructor
