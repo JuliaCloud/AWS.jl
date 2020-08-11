@@ -10,9 +10,10 @@ using Sockets
 using XMLDict
 
 export @service
-export AWSConfig, AWSExceptions, AWSServices, Request, set_user_agent
+export AWSConfig, AWSExceptions, AWSServices, Request, set_user_agent, _merge
 export JSONService, RestJSONService, RestXMLService, QueryService
 
+include("_utilities.jl")
 include("AWSCredentials.jl")
 include("AWSConfig.jl")
 include("AWSExceptions.jl")

@@ -7,6 +7,7 @@ using AWS.AWSMetadataUtilities: _documentation_cleaning, _filter_latest_service_
     _get_aws_sdk_js_files, _get_service_and_version, _get_function_parameters, _clean_uri,
     InvalidFileName, ProtocolNotDefined
 using Base64
+using Compat: mergewith
 using Dates
 using HTTP
 using JSON
@@ -25,6 +26,7 @@ include("patch.jl")
 aws = AWSConfig()
 
 @testset "AWS.jl" begin
+    include("_utilities.jl")
     include("AWS.jl")
     include("AWSCredentials.jl")
     include("AWSExceptions.jl")

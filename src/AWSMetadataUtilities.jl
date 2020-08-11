@@ -286,7 +286,13 @@ function _get_function_parameters(input::String, shapes::Dict)
             parameter_name = get(input_shape["members"][parameter[1]], "locationName", parameter[1])
 
             if !haskey(required_parameters, parameter_name)
-                optional_parameters[parameter_name] = _documentation_cleaning(get(parameter[2], "documentation", ""))
+                documentation = _documentation_cleaning(get(parameter[2], "documentation", ""))
+                idempotent = get(parameter[2], "idempotencyToken", false)
+                
+                optional_parameters[parameter_name] = LittleDict{String, Union{String, Bool}}(
+                    "documentation" => documentation,
+                    "idempotent" => idempotent,
+                )
             end
         end
     end
@@ -394,103 +400,173 @@ function _generate_high_level_definition(
     optional_parameters::AbstractDict,
     documentation::String
 )
-    operation_definition = """
-    $(repeat('"', 3))
-        $name()
-
-    $documentation\n
     """
+        _generate_rest_operation_defintion(required_params::LittleDict{String, Any}, optional_params::LittleDict{String, Any}, function_name::String, service_name::String, method::String, request_uri::String)
 
-    # Add in the required parameters if applicable
-    if !isempty(required_parameters)
-        operation_definition *= "# Required Parameters\n"
+    Generate function definition for a service request given required, header and idempotent parameters.
+    
+    # Arguments
+    - `required_params::LittleDict{String, Any}`: All required parameters which the function needs
+    - `optional_params::LittleDict{String, Any}`: All optional parameters which can be passed in
+    - `function_name::String`: Name of the function which we are generating a definition for
+    - `service_name::String`: Name of the AWS service which this function is being defined for
+    - `method::String`: The REST method that this function requires
+    - `request_uri::String`: The endpoint of the function
 
-        for (required_key, required_value) in required_parameters
-            operation_definition *= "- `$required_key`: $(required_value["documentation"])\n"
-        end
+    # Returns
+    - `String`: Function definition as Julia code
+    """
+    function _generate_rest_operation_defintion(required_params::AbstractDict, optional_params::AbstractDict, function_name::String, service_name::String, method::String, request_uri::String)
+        request_uri = replace(request_uri, '{' => "\$(")  # Replace { with $(
+        request_uri = replace(request_uri, '}' => ')')  # Replace } with )
+        request_uri = replace(request_uri, '+' => "")  # Remove + from the request URI
 
-        operation_definition *= "\n"
-    end
+        req_keys = replace.(collect(keys(required_params)), "-" => "_")
+        
+        required_params = filter(p -> (p[2]["location"] != "uri"), required_params)
+        header_params = filter(p -> (p[2]["location"] == "header"), required_params)
+        required_params = setdiff(required_params, header_params)
 
-    # Add in the optional parameters if applicable
-    if !isempty(optional_parameters)
-        operation_definition *= "# Optional Parameters\n"
+        idempotent_params = filter(p -> (p[2]["idempotent"]), optional_params)
 
-        for (optional_key, optional_value) in optional_parameters
-            operation_definition *= "- `$optional_key`: $optional_value\n"
-        end
-    end
+        req_kv = ["\"$(p[1])\"=>$(replace(p[1], "-" => "_"))" for p in required_params]
+        header_kv = ["\"$(p[1])\"=>$(replace(p[1], "-" => "_"))" for p in header_params]
+        idempotent_kv = ["\"$(p[1])\"=>string(uuid4())" for p in idempotent_params]
 
-    operation_definition *= repeat('"', 3)
+        required_keys = !isempty(req_keys)
+        headers = !isempty(header_params)
+        idempotent = !isempty(idempotent_params)
 
-    # Get a list of Julia friendly parameter keys
-    # Replace all hyphens with underscore to be Julia friendly
-    required_param_keys_clean = replace.(collect(keys(required_parameters)), "-" => "_")
-
-    # Filter out any required parameters which are in the URI
-    required_parameters = filter(p -> (p[2]["location"] != "uri"), required_parameters)
-
-    # Filter all header parameters
-    header_parameters = filter(p -> (p[2]["location"] == "header"), required_parameters)
-    required_parameters = setdiff(required_parameters, header_parameters)
-
-    # "par-am" => par_am
-    definition_required_parameters = ["\"$(p[1])\"=>$(replace(p[1], "-" => "_"))" for p in required_parameters]
-    header_parameters = ["\"$(p[1])\"=>$(replace(p[1], "-" => "_"))" for p in header_parameters]
-
-    # Depending on the protocol type of the operation we need to generate a different definition
-    if protocol in ("json", "query", "ec2")
-        if !isempty(required_param_keys_clean)
-            operation_definition *= "\n$name($(join(required_param_keys_clean, ", "))) = $service_name(\"$name\", Dict{String, Any}($(join(definition_required_parameters, ", "))))"
-            operation_definition *= "\n$name($(join(required_param_keys_clean, ", ")), args::AbstractDict{String, <:Any}) = $service_name(\"$name\", Dict{String, Any}($(join(definition_required_parameters, ", ")), args...))\n"
+        req_str = !isempty(req_kv) ? "Dict{String, Any}($(join(req_kv, ", "))" : ""
+        params_str = (!isempty(req_kv) || idempotent) ? "$(join(vcat(req_kv, idempotent_kv), ", "))" : ""
+        headers_str = headers ? "\"headers\"=>Dict{String, Any}($(join(header_kv, ", ")))" : ""
+        params_headers_str = "Dict{String, Any}($(join([s for s in (params_str, headers_str) if !isempty(s)], ", ")))"
+        
+        if required_keys && (idempotent || headers)
+            return """\n
+                $function_name($(join(req_keys, ", "))) = $service_name(\"$method\", \"$request_uri\", $params_headers_str)
+                $function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $params_headers_str, args)))
+                """
+        elseif !required_keys && (idempotent || headers)
+            return """\n
+                $function_name() = $service_name(\"$method\", \"$request_uri\", $params_headers_str)
+                $function_name(args::AbstractDict{String, <:Any}) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $params_headers_str, args)))
+                """
+        elseif required_keys && !isempty(req_kv)
+            return """\n
+                $function_name($(join(req_keys, ", "))) = $service_name(\"$method\", \"$request_uri\", $req_str))
+                $function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $req_str), args)))
+                """
+        elseif required_keys
+            return """\n
+                $function_name($(join(req_keys, ", "))) = $service_name(\"$method\", \"$request_uri\")
+                $function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}) = $service_name(\"$method\", \"$request_uri\", args)
+                """
         else
-            operation_definition *= """\n
-                $name() = $service_name(\"$name\")
-                $name(args::AbstractDict{String, <:Any}) = $service_name(\"$name\", args)
+            return """\n
+                $function_name() = $service_name(\"$method\", \"$request_uri\")
+                $function_name(args::AbstractDict{String, Any}) = $service_name(\"$method\", \"$request_uri\", args)
                 """
         end
-    elseif protocol in ("rest-json", "rest-xml")
-        if !isempty(required_param_keys_clean)
-            request_uri = _clean_uri(request_uri)
-            
-            # Are there parameters which are not required to be in either the URI or Headers?
-            if !isempty(required_parameters)
-                # Do we have Header specific parameters?
-                if isempty(header_parameters)
-                    operation_definition *= """\n
-                    $name($(join(required_param_keys_clean, ", "))) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}($(join(definition_required_parameters, ", "))))
-                    $name($(join(required_param_keys_clean, ", ")), args::AbstractDict{String, <:Any}) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}($(join(definition_required_parameters, ", ")), args...))
-                    $name(a...; b...) = $name(a..., b)
-                    """
-                else
-                    operation_definition *= """\n
-                    $name($(join(required_param_keys_clean, ", "))) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}($(join(definition_required_parameters, ", ")), "headers"=>Dict{String, Any}($(join(header_parameters, ", ")))))
-                    $name($(join(required_param_keys_clean, ", ")), args::AbstractDict{String, <:Any}) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(merge, Dict{String, Any}($(join(definition_required_parameters, ", ")), "headers"=>Dict{String, Any}($(join(header_parameters, ", ")))), args...)))
-                    $name(a...; b...) = $name(a..., b)
-                    """
-                end
-            else
-                if isempty(header_parameters)
-                    operation_definition *= """\n
-                    $name($(join(required_param_keys_clean, ", "))) = $service_name(\"$method\", \"$request_uri\")
-                    $name($(join(required_param_keys_clean, ", ")), args::AbstractDict{String, <:Any}) = $service_name(\"$method\", \"$request_uri\", args)
-                    $name(a...; b...) = $name(a..., b)
-                    """
-                else
-                    operation_definition *= """\n
-                    $name($(join(required_param_keys_clean, ", "))) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}("headers"=>Dict{String, Any}($(join(header_parameters, ", ")))))
-                    $name($(join(required_param_keys_clean, ", ")), args::AbstractDict{String, <:Any}) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(merge, Dict{String, Any}("headers"=>Dict{String, Any}($(join(header_parameters, ", ")))), args...)))
-                    $name(a...; b...) = $name(a..., b)
-                    """
-                end
-            end
+    end
+
+    """
+        _generate_json_query_operation_definition()
+
+    # Arguments
+    - `required_params::AbstractDict`:
+    - `optional_params::AbstractDict`:
+    - `function_name::String`:
+    - `service_name`: 
+
+    # Returns
+    - `String`: Function definition as Julia code
+    """
+    function _generate_json_query_opeation_definition(required_params::AbstractDict, optional_params::AbstractDict, function_name::String, service_name::String)
+        req_keys = replace.(collect(keys(required_params)), "-" => "_")
+
+        idempotent_params = filter(p -> (p[2]["idempotent"]), optional_params)
+
+        req_kv = ["\"$(p[1])\"=>$(replace(p[1], "-" => "_"))" for p in required_params]
+        idempotent_kv = ["\"$(p[1])\"=>string(uuid4())" for p in idempotent_params]
+
+        required = !isempty(req_kv)
+        idempotent = !isempty(idempotent_kv)
+
+        if required && idempotent
+            return """\n
+                $function_name($(join(req_keys, ", "))) = $service_name(\"$function_name\", Dict{String, Any}($(join(req_kv, ", ")), $(join(idempotent_kv, ", "))))
+                $function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}) = $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(req_kv, ", ")), $(join(idempotent_kv, ", "))), args)))
+                """
+        elseif required
+            return """\n
+                $function_name($(join(req_keys, ", "))) = $service_name(\"$function_name\", Dict{String, Any}($(join(req_kv, ", "))))
+                $function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}) = $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(req_kv, ", "))), args)))
+                """
+        elseif idempotent
+            return """\n
+                $function_name() = $service_name(\"$function_name\", Dict{String, Any}($(join(idempotent_kv, ", "))))
+                $function_name(args::AbstractDict{String, <:Any}) = $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(idempotent_kv, ", "))), args)))
+                """
         else
-            operation_definition *= """\n
-            $name() = $service_name(\"$method\", \"$request_uri\")
-            $name(args::AbstractDict{String, Any}) = $service_name(\"$method\", \"$request_uri\", args)
-            $name(a...; b...) = $name(a..., b)
-            """
+            return """\n
+                $function_name() = $service_name(\"$function_name\")
+                $function_name(args::AbstractDict{String, <:Any}) = $service_name(\"$function_name\", args)
+                """
         end
+    end
+
+    """
+        _generate_docstring(function_name, documentation, required_parameters, optional_parameters)
+
+    Generate the docstring for the `function_name`.
+    
+    # Arguments
+    - `function_name`: 
+    - `documentation`: 
+    - `required_parameters`: 
+    - `optional_parameters`: 
+
+    # Returns
+    - `String`: Docstring for the function
+    """
+    function _generate_docstring(function_name, documentation, required_parameters, optional_parameters)
+        operation_definition = """
+            $(repeat('"', 3))
+                $function_name()
+
+            $documentation\n
+            """
+
+        # Add in the required parameters if applicable
+        if !isempty(required_parameters)
+            operation_definition *= "# Required Parameters\n"
+
+            for (required_key, required_value) in required_parameters
+                operation_definition *= "- `$required_key`: $(required_value["documentation"])\n"
+            end
+
+            operation_definition *= "\n"
+        end
+
+        # Add in the optional parameters if applicable
+        if !isempty(optional_parameters)
+            operation_definition *= "# Optional Parameters\n"
+
+            for (optional_key, optional_value) in optional_parameters
+                operation_definition *= "- `$optional_key`: $(optional_value["documentation"])\n"
+            end
+        end
+
+        operation_definition *= repeat('"', 3)
+    end
+
+    operation_definition = _generate_docstring(name, documentation, required_parameters, optional_parameters)
+
+    if protocol in ("json", "query", "ec2")
+        operation_definition *= _generate_json_query_opeation_definition(required_parameters, optional_parameters, name, service_name)
+    elseif protocol in ("rest-json", "rest-xml")
+        operation_definition *= _generate_rest_operation_defintion(required_parameters, optional_parameters, name, service_name, method, request_uri)
     end
 
     return operation_definition

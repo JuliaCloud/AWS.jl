@@ -88,7 +88,7 @@
     "version": "2019-06-10"
   },
   "ssm-2014-11-06.normal.json": {
-    "sha": "9e48984e5564033cebe94fc6968f250e6dbaa208",
+    "sha": "1f9e5ae1a2c0678986e408316ca2fad6e8a62978",
     "version": "2014-11-06"
   },
   "sqs-2012-11-05.normal.json": {
@@ -140,7 +140,7 @@
     "version": "2017-09-08"
   },
   "securityhub-2018-10-26.normal.json": {
-    "sha": "2a0538caa02afa572140dee55c10f491270c9d41",
+    "sha": "1b27613c59a688d3294b98bbc28ef7beb52ac2ca",
     "version": "2018-10-26"
   },
   "secretsmanager-2017-10-17.normal.json": {
@@ -164,7 +164,7 @@
     "version": "2019-11-07"
   },
   "sagemaker-2017-07-24.normal.json": {
-    "sha": "e14a4149cd911d1966ec3c9a898bdc4f4cd8c78b",
+    "sha": "f572dbc9b9983422b30a2cb7dd9ee7fffb1443ce",
     "version": "2017-07-24"
   },
   "s3control-2018-08-20.normal.json": {
@@ -220,7 +220,7 @@
     "version": "2018-08-01"
   },
   "rds-2014-10-31.normal.json": {
-    "sha": "d8e84718b4b6c556f1d74263455976cbcf002fcd",
+    "sha": "fa2948c1ab9c144f71be0be54968024bb74417ac",
     "version": "2014-10-31"
   },
   "ram-2018-01-04.normal.json": {
@@ -300,11 +300,11 @@
     "version": "2017-01-17"
   },
   "mq-2017-11-27.normal.json": {
-    "sha": "fc29a08b059956db07d9657ebfe5b4f977420bf1",
+    "sha": "e6d72ba68042d75140e8a6a59edb1438b98d40a2",
     "version": "2017-11-27"
   },
   "monitoring-2010-08-01.normal.json": {
-    "sha": "de44503169a431da1bf8a959cd60124a39d4d869",
+    "sha": "1db6e4e3b43db51954f159065277764b6a9e70a7",
     "version": "2010-08-01"
   },
   "mobileanalytics-2014-06-05.normal.json": {
@@ -340,11 +340,11 @@
     "version": "2018-11-07"
   },
   "mediapackage-2017-10-12.normal.json": {
-    "sha": "19df04043fe30e96a11f61140e3a433c74a3e1aa",
+    "sha": "6d7cd59eb473bec136477e167998ec17edf7abcd",
     "version": "2017-10-12"
   },
   "medialive-2017-10-14.normal.json": {
-    "sha": "616430757c39ed8227ab3502956f3e4d828c6c3c",
+    "sha": "4d26e1d7bf971cc7ec8dd7001b48053838b7ec14",
     "version": "2017-10-14"
   },
   "mediaconvert-2017-08-29.normal.json": {
@@ -352,7 +352,7 @@
     "version": "2017-08-29"
   },
   "mediaconnect-2018-11-14.normal.json": {
-    "sha": "d99ba2ba86d422f778291f78ef1462f6dbfdbdd5",
+    "sha": "7cf58eb5bea8478e5585137ce0156194bd3a60d6",
     "version": "2018-11-14"
   },
   "marketplacecommerceanalytics-2015-07-01.normal.json": {
@@ -368,7 +368,7 @@
     "version": "2018-09-24"
   },
   "macie2-2020-01-01.normal.json": {
-    "sha": "153167f21344ee01849db73394e9f7e13408d74a",
+    "sha": "bf9d8e2dbb6960f02cd2af442a85d81a3e99a0e6",
     "version": "2020-01-01"
   },
   "macie-2017-12-19.normal.json": {
@@ -436,7 +436,7 @@
     "version": "2013-12-02"
   },
   "kendra-2019-02-03.normal.json": {
-    "sha": "c537a8d6f904601af0980d36f2d69666a08505ba",
+    "sha": "1fbb4e8e38465a30c567eaeaf941787a67831bef",
     "version": "2019-02-03"
   },
   "kafka-2018-11-14.normal.json": {
@@ -444,7 +444,7 @@
     "version": "2018-11-14"
   },
   "ivs-2020-07-14.normal.json": {
-    "sha": "4bf1c71713ba5a1bdfa5bed9c54e5fad584b0561",
+    "sha": "a516da723b962918ad5157549c8f7eb11d13b153",
     "version": "2020-07-14"
   },
   "iotthingsgraph-2018-09-06.normal.json": {
@@ -500,7 +500,7 @@
     "version": "2010-06-01"
   },
   "imagebuilder-2019-12-02.normal.json": {
-    "sha": "0d4656ee22e4fa21fed5557ea2ea5786b9840fa9",
+    "sha": "c63383de8a48042124974785cf402e3b2f2bd634",
     "version": "2019-12-02"
   },
   "iam-2010-05-08.normal.json": {
@@ -528,7 +528,7 @@
     "version": "2017-06-07"
   },
   "glue-2017-03-31.normal.json": {
-    "sha": "47fd6b6fc98fcfcd1f12340da3503fb7d1e00251",
+    "sha": "2094673bcac0cdeb19a74e16d6114c49a9c8e858",
     "version": "2017-03-31"
   },
   "globalaccelerator-2018-08-08.normal.json": {
@@ -544,11 +544,11 @@
     "version": "2015-10-01"
   },
   "fsx-2018-03-01.normal.json": {
-    "sha": "61d5cb7a1072a0893b6c2b5d522edd02c947f724",
+    "sha": "0a05d5975ea67ced00b07bdaae227ccff13e3b35",
     "version": "2018-03-01"
   },
   "frauddetector-2019-11-15.normal.json": {
-    "sha": "597e32e38fe0e256c79cc1b0418a9aab59c5a8e3",
+    "sha": "87a5381c63f13e4d255c69d0536a5282b4dca2ae",
     "version": "2019-11-15"
   },
   "forecastquery-2018-06-26.normal.json": {
@@ -636,7 +636,7 @@
     "version": "2018-04-02"
   },
   "ec2-2016-11-15.normal.json": {
-    "sha": "b71ab88faf6d8764d3fd79de4742060fed9cf46b",
+    "sha": "525ec84d2f20167c0552ea14745c8fb4a5d0aafd",
     "version": "2016-11-15"
   },
   "ebs-2019-11-02.normal.json": {
@@ -656,7 +656,7 @@
     "version": "2014-10-31"
   },
   "dms-2016-01-01.normal.json": {
-    "sha": "5a6aad759ab2b4937bf283990221f97902e8b870",
+    "sha": "7b0352c5e9fbc6c41f886e6d8c51843d69f37aaf",
     "version": "2016-01-01"
   },
   "dlm-2018-01-12.normal.json": {
@@ -684,7 +684,7 @@
     "version": "2017-04-19"
   },
   "datasync-2018-11-09.normal.json": {
-    "sha": "2b8d21ea576594e1750416940e64d2bc5f06d86f",
+    "sha": "12c558ea39e446c3654a47d3cb56a87bd53e1847",
     "version": "2018-11-09"
   },
   "datapipeline-2012-10-29.normal.json": {
@@ -836,7 +836,7 @@
     "version": "2018-01-06"
   },
   "autoscaling-2011-01-01.normal.json": {
-    "sha": "7a2ffedbac219fb0cfe2feadfdac0045dcf46606",
+    "sha": "85006b358d39d9d851b7f333db42bb42a4a48438",
     "version": "2011-01-01"
   },
   "athena-2017-05-18.normal.json": {
