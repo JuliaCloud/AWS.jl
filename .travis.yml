@@ -1,0 +1,24 @@
+language: julia
+os:
+- linux
+- osx
+- windows
+julia:
+- 1.0
+- 1
+- nightly
+matrix:
+  allow_failures:
+  - julia: nightly
+branches:
+  only:
+  - master
+  - staging
+  - trying
+  - "/^v[0-9]+\\.[0-9]+\\.[0-9]+$/"
+notifications:
+  email: false
+env:
+  global:
+  - secure: GQYy5qV+dwWytZCBWQzcncunvniDhMoijNvGIiRZ3W4HTjZlSZLkAJ9gRp3mxj8Y8i8yXD24AchDrELv/tAaxMqwMiFKMB60YUwNWzz3uIUoleWjn4fgyrzgPLPh6enbBUGEhT3LTUm5Cic9VK7061oj+exQiQ2LOW3in+EqEf8=
+  - secure: jNGJkiuh4krsxUOHpHQYpch+0OE8KVPd8lxMLVKsxOk5JfXj5wCaXCAR1Fj8B6ZG5jwRuCXSedQZxV73+UmwOV0n+W+SS4jFi+Ypb3QGKjAhT9Z4Rn5nBVeU9TVWWfVhJ04H4GyoGQ3mR8vQ2IEQ+62Q/pnvukmWsgI7BpcIUG8=
