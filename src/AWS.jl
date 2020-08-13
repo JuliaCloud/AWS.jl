@@ -401,7 +401,10 @@ Perform a RestXML request to AWS
 # Returns
 - The response from AWS
 """
-function (service::RestXMLService)(aws::AWSConfig, request_method::String, request_uri::String, args::AbstractDict{String, <:Any})
+function (service::RestXMLService)(
+    request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, String}(); 
+    aws::AWSConfig=AWSConfig()
+)
     request = Request(
         service=service.name,
         api_version=service.api_version,
@@ -437,9 +440,11 @@ function (service::RestXMLService)(aws::AWSConfig, request_method::String, reque
 
     return do_request(aws, request; return_headers=return_headers)
 end
-(service::RestXMLService)(request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, Any}()) = service(AWSConfig(), request_method, request_uri, args)
 
-function (service::QueryService)(aws::AWS.AWSConfig, operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}())
+function (service::QueryService)(
+    operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}(); 
+    aws::AWS.AWSConfig=AWSConfig()
+)
     POST_RESOURCE = "/"
     return_headers = _return_headers(args)
 
@@ -464,9 +469,11 @@ function (service::QueryService)(aws::AWS.AWSConfig, operation::String, args::Ab
 
     do_request(aws, request; return_headers=return_headers)
 end
-(service::QueryService)(operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}()) = service(AWSConfig(), operation, args)
 
-function (service::JSONService)(aws::AWS.AWSConfig, operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}())
+function (service::JSONService)(
+    operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}();
+    aws::AWS.AWSConfig=AWSConfig()
+)
     POST_RESOURCE = "/"
     return_headers = _return_headers(args)
 
@@ -489,13 +496,10 @@ function (service::JSONService)(aws::AWS.AWSConfig, operation::String, args::Abs
 
     do_request(aws, request; return_headers=return_headers)
 end
-(service::JSONService)(operation::String, args::AbstractDict{String, <:Any}=Dict{String, String}()) = service(AWSConfig(), operation, args)
 
 function (service::RestJSONService)(
-    aws::AWS.AWSConfig,
-    request_method::String,
-    request_uri::String,
-    args::AbstractDict{String, <:Any},
+    request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, String}();
+    aws::AWS.AWSConfig=AWSConfig()
 )
     return_headers = _return_headers(args)
 
@@ -527,6 +531,5 @@ function (service::RestJSONService)(
 
     do_request(aws, request; return_headers=return_headers)
 end
-(service::RestJSONService)(request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, Any}()) = service(AWSConfig(), request_method, request_uri, args)
 
 end  # module AWS
