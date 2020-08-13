@@ -227,8 +227,8 @@ end
     # Optional Parameters
     - `OptionalParam`: Optional param
     \"\"\"
-    SampleOperation(RequiredParam1, RequiredParam2; aws::AWSConfig=AWSConfig()) = sample_service("POST", "/", Dict{String, Any}("RequiredParam1"=>RequiredParam1, "RequiredParam2"=>RequiredParam2); aws=aws)
-    SampleOperation(RequiredParam1, RequiredParam2, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sample_service("POST", "/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam1"=>RequiredParam1, "RequiredParam2"=>RequiredParam2), args)); aws=aws)
+    SampleOperation(RequiredParam1, RequiredParam2; aws::AWSConfig=AWS.aws_config) = sample_service("POST", "/", Dict{String, Any}("RequiredParam1"=>RequiredParam1, "RequiredParam2"=>RequiredParam2); aws=aws)
+    SampleOperation(RequiredParam1, RequiredParam2, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sample_service("POST", "/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam1"=>RequiredParam1, "RequiredParam2"=>RequiredParam2), args)); aws=aws)
     """
 
     result = _generate_high_level_definitions(
@@ -267,8 +267,8 @@ end
             # Optional Parameters
             - `OptionalParam`: This parameter is optional.
             \"\"\"
-            service_name(RequiredParam; aws::AWSConfig=AWSConfig()) = service_name("GET", "request_uri", Dict{String, Any}("RequiredParam"=>RequiredParam); aws=aws)
-            service_name(RequiredParam, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = service_name("GET", "request_uri", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam"=>RequiredParam), args)); aws=aws)
+            service_name(RequiredParam; aws::AWSConfig=AWS.aws_config) = service_name("GET", "request_uri", Dict{String, Any}("RequiredParam"=>RequiredParam); aws=aws)
+            service_name(RequiredParam, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = service_name("GET", "request_uri", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam"=>RequiredParam), args)); aws=aws)
             """
 
             result = _generate_high_level_definition(
@@ -299,8 +299,8 @@ end
             # Optional Parameters
             - `OptionalParam`: This parameter is optional.
             \"\"\"
-            service_name(RequiredParam; aws::AWSConfig=AWSConfig()) = service_name("service_name", Dict{String, Any}("RequiredParam"=>RequiredParam); aws=aws)
-            service_name(RequiredParam, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = service_name("service_name", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam"=>RequiredParam), args)); aws=aws)
+            service_name(RequiredParam; aws::AWSConfig=AWS.aws_config) = service_name("service_name", Dict{String, Any}("RequiredParam"=>RequiredParam); aws=aws)
+            service_name(RequiredParam, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = service_name("service_name", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam"=>RequiredParam), args)); aws=aws)
             """
 
             result = _generate_high_level_definition(
@@ -336,8 +336,8 @@ end
             # Optional Parameters
             - `OptionalParam`: This parameter is optional.
             \"\"\"
-            service_name(RequiredParam; aws::AWSConfig=AWSConfig()) = service_name("GET", "request_uri", Dict{String, Any}("OptionalParam"=>string(uuid4()), "headers"=>Dict{String, Any}("RequiredParam"=>RequiredParam)); aws=aws)
-            service_name(RequiredParam, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = service_name("GET", "request_uri", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OptionalParam"=>string(uuid4()), "headers"=>Dict{String, Any}("RequiredParam"=>RequiredParam)), args)); aws=aws)
+            service_name(RequiredParam; aws::AWSConfig=AWS.aws_config) = service_name("GET", "request_uri", Dict{String, Any}("OptionalParam"=>string(uuid4()), "headers"=>Dict{String, Any}("RequiredParam"=>RequiredParam)); aws=aws)
+            service_name(RequiredParam, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = service_name("GET", "request_uri", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OptionalParam"=>string(uuid4()), "headers"=>Dict{String, Any}("RequiredParam"=>RequiredParam)), args)); aws=aws)
             """
             result = _generate_high_level_definition(
                 service_name,
@@ -367,8 +367,8 @@ end
             # Optional Parameters
             - `OptionalParam`: This parameter is optional.
             \"\"\"
-            service_name(RequiredParam; aws::AWSConfig=AWSConfig()) = service_name("service_name", Dict{String, Any}("RequiredParam"=>RequiredParam, "OptionalParam"=>string(uuid4())); aws=aws)
-            service_name(RequiredParam, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = service_name("service_name", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam"=>RequiredParam, "OptionalParam"=>string(uuid4())), args)); aws=aws)
+            service_name(RequiredParam; aws::AWSConfig=AWS.aws_config) = service_name("service_name", Dict{String, Any}("RequiredParam"=>RequiredParam, "OptionalParam"=>string(uuid4())); aws=aws)
+            service_name(RequiredParam, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = service_name("service_name", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequiredParam"=>RequiredParam, "OptionalParam"=>string(uuid4())), args)); aws=aws)
             """
 
             result = _generate_high_level_definition(

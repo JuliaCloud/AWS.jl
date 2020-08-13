@@ -444,28 +444,28 @@ function _generate_high_level_definition(
         
         if required_keys && (idempotent || headers)
             return """\n
-                $function_name($(join(req_keys, ", ")); aws::AWSConfig=AWSConfig()) = $service_name(\"$method\", \"$request_uri\", $params_headers_str; aws=aws)
-                $function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $params_headers_str, args)); aws=aws)
+                $function_name($(join(req_keys, ", ")); aws::AWSConfig=AWS.aws_config) = $service_name(\"$method\", \"$request_uri\", $params_headers_str; aws=aws)
+                $function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $params_headers_str, args)); aws=aws)
                 """
         elseif !required_keys && (idempotent || headers)
             return """\n
-                $function_name(; aws::AWSConfig=AWSConfig()) = $service_name(\"$method\", \"$request_uri\", $params_headers_str; aws=aws)
-                $function_name(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $params_headers_str, args)); aws=aws)
+                $function_name(; aws::AWSConfig=AWS.aws_config) = $service_name(\"$method\", \"$request_uri\", $params_headers_str; aws=aws)
+                $function_name(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $params_headers_str, args)); aws=aws)
                 """
         elseif required_keys && !isempty(req_kv)
             return """\n
-                $function_name($(join(req_keys, ", ")); aws::AWSConfig=AWSConfig()) = $service_name(\"$method\", \"$request_uri\", $req_str); aws=aws)
-                $function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $req_str), args)); aws=aws)
+                $function_name($(join(req_keys, ", ")); aws::AWSConfig=AWS.aws_config) = $service_name(\"$method\", \"$request_uri\", $req_str); aws=aws)
+                $function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = $service_name(\"$method\", \"$request_uri\", Dict{String, Any}(mergewith(_merge, $req_str), args)); aws=aws)
                 """
         elseif required_keys
             return """\n
-                $function_name($(join(req_keys, ", ")); aws::AWSConfig=AWSConfig()) = $service_name(\"$method\", \"$request_uri\"; aws=aws)
-                $function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = $service_name(\"$method\", \"$request_uri\", args; aws=aws)
+                $function_name($(join(req_keys, ", ")); aws::AWSConfig=AWS.aws_config) = $service_name(\"$method\", \"$request_uri\"; aws=aws)
+                $function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = $service_name(\"$method\", \"$request_uri\", args; aws=aws)
                 """
         else
             return """\n
-                $function_name(; aws::AWSConfig=AWSConfig()) = $service_name(\"$method\", \"$request_uri\"; aws=aws)
-                $function_name(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = $service_name(\"$method\", \"$request_uri\", args; aws=aws)
+                $function_name(; aws::AWSConfig=AWS.aws_config) = $service_name(\"$method\", \"$request_uri\"; aws=aws)
+                $function_name(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = $service_name(\"$method\", \"$request_uri\", args; aws=aws)
                 """
         end
     end
@@ -495,23 +495,23 @@ function _generate_high_level_definition(
 
         if required && idempotent
             return """\n
-                $function_name($(join(req_keys, ", ")); aws::AWSConfig=AWSConfig()) = $service_name(\"$function_name\", Dict{String, Any}($(join(req_kv, ", ")), $(join(idempotent_kv, ", "))); aws=aws)
-                $function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(req_kv, ", ")), $(join(idempotent_kv, ", "))), args)); aws=aws)
+                $function_name($(join(req_keys, ", ")); aws::AWSConfig=AWS.aws_config) = $service_name(\"$function_name\", Dict{String, Any}($(join(req_kv, ", ")), $(join(idempotent_kv, ", "))); aws=aws)
+                $function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(req_kv, ", ")), $(join(idempotent_kv, ", "))), args)); aws=aws)
                 """
         elseif required
             return """\n
-                $function_name($(join(req_keys, ", ")); aws::AWSConfig=AWSConfig()) = $service_name(\"$function_name\", Dict{String, Any}($(join(req_kv, ", "))); aws=aws)
-                $function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(req_kv, ", "))), args)); aws=aws)
+                $function_name($(join(req_keys, ", ")); aws::AWSConfig=AWS.aws_config) = $service_name(\"$function_name\", Dict{String, Any}($(join(req_kv, ", "))); aws=aws)
+                $function_name($(join(req_keys, ", ")), args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(req_kv, ", "))), args)); aws=aws)
                 """
         elseif idempotent
             return """\n
-                $function_name(; aws::AWSConfig=AWSConfig()) = $service_name(\"$function_name\", Dict{String, Any}($(join(idempotent_kv, ", "))); aws=aws)
-                $function_name(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(idempotent_kv, ", "))), args)); aws=aws)
+                $function_name(; aws::AWSConfig=AWS.aws_config) = $service_name(\"$function_name\", Dict{String, Any}($(join(idempotent_kv, ", "))); aws=aws)
+                $function_name(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = $service_name(\"$function_name\", Dict{String, Any}(mergewith(_merge, Dict{String, Any}($(join(idempotent_kv, ", "))), args)); aws=aws)
                 """
         else
             return """\n
-                $function_name(; aws::AWSConfig=AWSConfig()) = $service_name(\"$function_name\"; aws=aws)
-                $function_name(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = $service_name(\"$function_name\", args; aws=aws)
+                $function_name(; aws::AWSConfig=AWS.aws_config) = $service_name(\"$function_name\"; aws=aws)
+                $function_name(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = $service_name(\"$function_name\", args; aws=aws)
                 """
         end
     end
