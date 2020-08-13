@@ -20,8 +20,8 @@ Creates an Amazon Forecast dataset. The information about the dataset that you p
 - `EncryptionConfig`: An AWS Key Management Service (KMS) key and the AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the key.
 - `Tags`: The optional metadata that you apply to the dataset to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.  
 """
-CreateDataset(DatasetName, DatasetType, Domain, Schema; aws::AWSConfig=AWSConfig()) = forecast("CreateDataset", Dict{String, Any}("DatasetName"=>DatasetName, "DatasetType"=>DatasetType, "Domain"=>Domain, "Schema"=>Schema); aws=aws)
-CreateDataset(DatasetName, DatasetType, Domain, Schema, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = forecast("CreateDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetName"=>DatasetName, "DatasetType"=>DatasetType, "Domain"=>Domain, "Schema"=>Schema), args)); aws=aws)
+CreateDataset(DatasetName, DatasetType, Domain, Schema; aws::AWSConfig=AWS.aws_config) = forecast("CreateDataset", Dict{String, Any}("DatasetName"=>DatasetName, "DatasetType"=>DatasetType, "Domain"=>Domain, "Schema"=>Schema); aws=aws)
+CreateDataset(DatasetName, DatasetType, Domain, Schema, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = forecast("CreateDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetName"=>DatasetName, "DatasetType"=>DatasetType, "Domain"=>Domain, "Schema"=>Schema), args)); aws=aws)
 
 """
     CreateDatasetGroup()
@@ -36,8 +36,8 @@ Creates a dataset group, which holds a collection of related datasets. You can a
 - `DatasetArns`: An array of Amazon Resource Names (ARNs) of the datasets that you want to include in the dataset group.
 - `Tags`: The optional metadata that you apply to the dataset group to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.  
 """
-CreateDatasetGroup(DatasetGroupName, Domain; aws::AWSConfig=AWSConfig()) = forecast("CreateDatasetGroup", Dict{String, Any}("DatasetGroupName"=>DatasetGroupName, "Domain"=>Domain); aws=aws)
-CreateDatasetGroup(DatasetGroupName, Domain, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = forecast("CreateDatasetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetGroupName"=>DatasetGroupName, "Domain"=>Domain), args)); aws=aws)
+CreateDatasetGroup(DatasetGroupName, Domain; aws::AWSConfig=AWS.aws_config) = forecast("CreateDatasetGroup", Dict{String, Any}("DatasetGroupName"=>DatasetGroupName, "Domain"=>Domain); aws=aws)
+CreateDatasetGroup(DatasetGroupName, Domain, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = forecast("CreateDatasetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetGroupName"=>DatasetGroupName, "Domain"=>Domain), args)); aws=aws)
 
 """
     CreateDatasetImportJob()
@@ -53,8 +53,8 @@ Imports your training data to an Amazon Forecast dataset. You provide the locati
 - `Tags`: The optional metadata that you apply to the dataset import job to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.  
 - `TimestampFormat`: The format of timestamps in the dataset. The format that you specify depends on the DataFrequency specified when the dataset was created. The following formats are supported   \"yyyy-MM-dd\" For the following data frequencies: Y, M, W, and D   \"yyyy-MM-dd HH:mm:ss\" For the following data frequencies: H, 30min, 15min, and 1min; and optionally, for: Y, M, W, and D   If the format isn't specified, Amazon Forecast expects the format to be \"yyyy-MM-dd HH:mm:ss\".
 """
-CreateDatasetImportJob(DataSource, DatasetArn, DatasetImportJobName; aws::AWSConfig=AWSConfig()) = forecast("CreateDatasetImportJob", Dict{String, Any}("DataSource"=>DataSource, "DatasetArn"=>DatasetArn, "DatasetImportJobName"=>DatasetImportJobName); aws=aws)
-CreateDatasetImportJob(DataSource, DatasetArn, DatasetImportJobName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = forecast("CreateDatasetImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataSource"=>DataSource, "DatasetArn"=>DatasetArn, "DatasetImportJobName"=>DatasetImportJobName), args)); aws=aws)
+CreateDatasetImportJob(DataSource, DatasetArn, DatasetImportJobName; aws::AWSConfig=AWS.aws_config) = forecast("CreateDatasetImportJob", Dict{String, Any}("DataSource"=>DataSource, "DatasetArn"=>DatasetArn, "DatasetImportJobName"=>DatasetImportJobName); aws=aws)
+CreateDatasetImportJob(DataSource, DatasetArn, DatasetImportJobName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = forecast("CreateDatasetImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataSource"=>DataSource, "DatasetArn"=>DatasetArn, "DatasetImportJobName"=>DatasetImportJobName), args)); aws=aws)
 
 """
     CreateForecast()
@@ -69,8 +69,8 @@ Creates a forecast for each item in the TARGET_TIME_SERIES dataset that was used
 - `ForecastTypes`: The quantiles at which probabilistic forecasts are generated. You can currently specify up to 5 quantiles per forecast. Accepted values include 0.01 to 0.99 (increments of .01 only) and mean. The mean forecast is different from the median (0.50) when the distribution is not symmetric (for example, Beta and Negative Binomial). The default value is [\"0.1\", \"0.5\", \"0.9\"].
 - `Tags`: The optional metadata that you apply to the forecast to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.  
 """
-CreateForecast(ForecastName, PredictorArn; aws::AWSConfig=AWSConfig()) = forecast("CreateForecast", Dict{String, Any}("ForecastName"=>ForecastName, "PredictorArn"=>PredictorArn); aws=aws)
-CreateForecast(ForecastName, PredictorArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = forecast("CreateForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ForecastName"=>ForecastName, "PredictorArn"=>PredictorArn), args)); aws=aws)
+CreateForecast(ForecastName, PredictorArn; aws::AWSConfig=AWS.aws_config) = forecast("CreateForecast", Dict{String, Any}("ForecastName"=>ForecastName, "PredictorArn"=>PredictorArn); aws=aws)
+CreateForecast(ForecastName, PredictorArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = forecast("CreateForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ForecastName"=>ForecastName, "PredictorArn"=>PredictorArn), args)); aws=aws)
 
 """
     CreateForecastExportJob()
@@ -85,8 +85,8 @@ Exports a forecast created by the CreateForecast operation to your Amazon Simple
 # Optional Parameters
 - `Tags`: The optional metadata that you apply to the forecast export job to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.  
 """
-CreateForecastExportJob(Destination, ForecastArn, ForecastExportJobName; aws::AWSConfig=AWSConfig()) = forecast("CreateForecastExportJob", Dict{String, Any}("Destination"=>Destination, "ForecastArn"=>ForecastArn, "ForecastExportJobName"=>ForecastExportJobName); aws=aws)
-CreateForecastExportJob(Destination, ForecastArn, ForecastExportJobName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = forecast("CreateForecastExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Destination"=>Destination, "ForecastArn"=>ForecastArn, "ForecastExportJobName"=>ForecastExportJobName), args)); aws=aws)
+CreateForecastExportJob(Destination, ForecastArn, ForecastExportJobName; aws::AWSConfig=AWS.aws_config) = forecast("CreateForecastExportJob", Dict{String, Any}("Destination"=>Destination, "ForecastArn"=>ForecastArn, "ForecastExportJobName"=>ForecastExportJobName); aws=aws)
+CreateForecastExportJob(Destination, ForecastArn, ForecastExportJobName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = forecast("CreateForecastExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Destination"=>Destination, "ForecastArn"=>ForecastArn, "ForecastExportJobName"=>ForecastExportJobName), args)); aws=aws)
 
 """
     CreatePredictor()
@@ -109,8 +109,8 @@ Creates an Amazon Forecast predictor. In the request, you provide a dataset grou
 - `Tags`: The optional metadata that you apply to the predictor to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.  
 - `TrainingParameters`: The hyperparameters to override for model training. The hyperparameters that you can override are listed in the individual algorithms. For the list of supported algorithms, see aws-forecast-choosing-recipes.
 """
-CreatePredictor(FeaturizationConfig, ForecastHorizon, InputDataConfig, PredictorName; aws::AWSConfig=AWSConfig()) = forecast("CreatePredictor", Dict{String, Any}("FeaturizationConfig"=>FeaturizationConfig, "ForecastHorizon"=>ForecastHorizon, "InputDataConfig"=>InputDataConfig, "PredictorName"=>PredictorName); aws=aws)
-CreatePredictor(FeaturizationConfig, ForecastHorizon, InputDataConfig, PredictorName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = forecast("CreatePredictor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FeaturizationConfig"=>FeaturizationConfig, "ForecastHorizon"=>ForecastHorizon, "InputDataConfig"=>InputDataConfig, "PredictorName"=>PredictorName), args)); aws=aws)
+CreatePredictor(FeaturizationConfig, ForecastHorizon, InputDataConfig, PredictorName; aws::AWSConfig=AWS.aws_config) = forecast("CreatePredictor", Dict{String, Any}("FeaturizationConfig"=>FeaturizationConfig, "ForecastHorizon"=>ForecastHorizon, "InputDataConfig"=>InputDataConfig, "PredictorName"=>PredictorName); aws=aws)
+CreatePredictor(FeaturizationConfig, ForecastHorizon, InputDataConfig, PredictorName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = forecast("CreatePredictor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FeaturizationConfig"=>FeaturizationConfig, "ForecastHorizon"=>ForecastHorizon, "InputDataConfig"=>InputDataConfig, "PredictorName"=>PredictorName), args)); aws=aws)
 
 """
     DeleteDataset()
@@ -121,8 +121,8 @@ Deletes an Amazon Forecast dataset that was created using the CreateDataset oper
 - `DatasetArn`: The Amazon Resource Name (ARN) of the dataset to delete.
 
 """
-DeleteDataset(DatasetArn; aws::AWSConfig=AWSConfig()) = forecast("DeleteDataset", Dict{String, Any}("DatasetArn"=>DatasetArn); aws=aws)
-DeleteDataset(DatasetArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = forecast("DeleteDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetArn"=>DatasetArn), args)); aws=aws)
+DeleteDataset(DatasetArn; aws::AWSConfig=AWS.aws_config) = forecast("DeleteDataset", Dict{String, Any}("DatasetArn"=>DatasetArn); aws=aws)
+DeleteDataset(DatasetArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = forecast("DeleteDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetArn"=>DatasetArn), args)); aws=aws)
 
 """
     DeleteDatasetGroup()
@@ -133,8 +133,8 @@ Deletes a dataset group created using the CreateDatasetGroup operation. You can 
 - `DatasetGroupArn`: The Amazon Resource Name (ARN) of the dataset group to delete.
 
 """
-DeleteDatasetGroup(DatasetGroupArn; aws::AWSConfig=AWSConfig()) = forecast("DeleteDatasetGroup", Dict{String, Any}("DatasetGroupArn"=>DatasetGroupArn); aws=aws)
-DeleteDatasetGroup(DatasetGroupArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = forecast("DeleteDatasetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetGroupArn"=>DatasetGroupArn), args)); aws=aws)
+DeleteDatasetGroup(DatasetGroupArn; aws::AWSConfig=AWS.aws_config) = forecast("DeleteDatasetGroup", Dict{String, Any}("DatasetGroupArn"=>DatasetGroupArn); aws=aws)
+DeleteDatasetGroup(DatasetGroupArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = forecast("DeleteDatasetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetGroupArn"=>DatasetGroupArn), args)); aws=aws)
 
 """
     DeleteDatasetImportJob()
@@ -145,8 +145,8 @@ Deletes a dataset import job created using the CreateDatasetImportJob operation.
 - `DatasetImportJobArn`: The Amazon Resource Name (ARN) of the dataset import job to delete.
 
 """
-DeleteDatasetImportJob(DatasetImportJobArn; aws::AWSConfig=AWSConfig()) = forecast("DeleteDatasetImportJob", Dict{String, Any}("DatasetImportJobArn"=>DatasetImportJobArn); aws=aws)
-DeleteDatasetImportJob(DatasetImportJobArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = forecast("DeleteDatasetImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetImportJobArn"=>DatasetImportJobArn), args)); aws=aws)
+DeleteDatasetImportJob(DatasetImportJobArn; aws::AWSConfig=AWS.aws_config) = forecast("DeleteDatasetImportJob", Dict{String, Any}("DatasetImportJobArn"=>DatasetImportJobArn); aws=aws)
+DeleteDatasetImportJob(DatasetImportJobArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = forecast("DeleteDatasetImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetImportJobArn"=>DatasetImportJobArn), args)); aws=aws)
 
 """
     DeleteForecast()
@@ -157,8 +157,8 @@ Deletes a forecast created using the CreateForecast operation. You can delete on
 - `ForecastArn`: The Amazon Resource Name (ARN) of the forecast to delete.
 
 """
-DeleteForecast(ForecastArn; aws::AWSConfig=AWSConfig()) = forecast("DeleteForecast", Dict{String, Any}("ForecastArn"=>ForecastArn); aws=aws)
-DeleteForecast(ForecastArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = forecast("DeleteForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ForecastArn"=>ForecastArn), args)); aws=aws)
+DeleteForecast(ForecastArn; aws::AWSConfig=AWS.aws_config) = forecast("DeleteForecast", Dict{String, Any}("ForecastArn"=>ForecastArn); aws=aws)
+DeleteForecast(ForecastArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = forecast("DeleteForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ForecastArn"=>ForecastArn), args)); aws=aws)
 
 """
     DeleteForecastExportJob()
@@ -169,8 +169,8 @@ Deletes a forecast export job created using the CreateForecastExportJob operatio
 - `ForecastExportJobArn`: The Amazon Resource Name (ARN) of the forecast export job to delete.
 
 """
-DeleteForecastExportJob(ForecastExportJobArn; aws::AWSConfig=AWSConfig()) = forecast("DeleteForecastExportJob", Dict{String, Any}("ForecastExportJobArn"=>ForecastExportJobArn); aws=aws)
-DeleteForecastExportJob(ForecastExportJobArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = forecast("DeleteForecastExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ForecastExportJobArn"=>ForecastExportJobArn), args)); aws=aws)
+DeleteForecastExportJob(ForecastExportJobArn; aws::AWSConfig=AWS.aws_config) = forecast("DeleteForecastExportJob", Dict{String, Any}("ForecastExportJobArn"=>ForecastExportJobArn); aws=aws)
+DeleteForecastExportJob(ForecastExportJobArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = forecast("DeleteForecastExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ForecastExportJobArn"=>ForecastExportJobArn), args)); aws=aws)
 
 """
     DeletePredictor()
@@ -181,8 +181,8 @@ Deletes a predictor created using the CreatePredictor operation. You can delete 
 - `PredictorArn`: The Amazon Resource Name (ARN) of the predictor to delete.
 
 """
-DeletePredictor(PredictorArn; aws::AWSConfig=AWSConfig()) = forecast("DeletePredictor", Dict{String, Any}("PredictorArn"=>PredictorArn); aws=aws)
-DeletePredictor(PredictorArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = forecast("DeletePredictor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PredictorArn"=>PredictorArn), args)); aws=aws)
+DeletePredictor(PredictorArn; aws::AWSConfig=AWS.aws_config) = forecast("DeletePredictor", Dict{String, Any}("PredictorArn"=>PredictorArn); aws=aws)
+DeletePredictor(PredictorArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = forecast("DeletePredictor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PredictorArn"=>PredictorArn), args)); aws=aws)
 
 """
     DescribeDataset()
@@ -193,8 +193,8 @@ Describes an Amazon Forecast dataset created using the CreateDataset operation. 
 - `DatasetArn`: The Amazon Resource Name (ARN) of the dataset.
 
 """
-DescribeDataset(DatasetArn; aws::AWSConfig=AWSConfig()) = forecast("DescribeDataset", Dict{String, Any}("DatasetArn"=>DatasetArn); aws=aws)
-DescribeDataset(DatasetArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = forecast("DescribeDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetArn"=>DatasetArn), args)); aws=aws)
+DescribeDataset(DatasetArn; aws::AWSConfig=AWS.aws_config) = forecast("DescribeDataset", Dict{String, Any}("DatasetArn"=>DatasetArn); aws=aws)
+DescribeDataset(DatasetArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = forecast("DescribeDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetArn"=>DatasetArn), args)); aws=aws)
 
 """
     DescribeDatasetGroup()
@@ -205,8 +205,8 @@ Describes a dataset group created using the CreateDatasetGroup operation. In add
 - `DatasetGroupArn`: The Amazon Resource Name (ARN) of the dataset group.
 
 """
-DescribeDatasetGroup(DatasetGroupArn; aws::AWSConfig=AWSConfig()) = forecast("DescribeDatasetGroup", Dict{String, Any}("DatasetGroupArn"=>DatasetGroupArn); aws=aws)
-DescribeDatasetGroup(DatasetGroupArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = forecast("DescribeDatasetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetGroupArn"=>DatasetGroupArn), args)); aws=aws)
+DescribeDatasetGroup(DatasetGroupArn; aws::AWSConfig=AWS.aws_config) = forecast("DescribeDatasetGroup", Dict{String, Any}("DatasetGroupArn"=>DatasetGroupArn); aws=aws)
+DescribeDatasetGroup(DatasetGroupArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = forecast("DescribeDatasetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetGroupArn"=>DatasetGroupArn), args)); aws=aws)
 
 """
     DescribeDatasetImportJob()
@@ -217,8 +217,8 @@ Describes a dataset import job created using the CreateDatasetImportJob operatio
 - `DatasetImportJobArn`: The Amazon Resource Name (ARN) of the dataset import job.
 
 """
-DescribeDatasetImportJob(DatasetImportJobArn; aws::AWSConfig=AWSConfig()) = forecast("DescribeDatasetImportJob", Dict{String, Any}("DatasetImportJobArn"=>DatasetImportJobArn); aws=aws)
-DescribeDatasetImportJob(DatasetImportJobArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = forecast("DescribeDatasetImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetImportJobArn"=>DatasetImportJobArn), args)); aws=aws)
+DescribeDatasetImportJob(DatasetImportJobArn; aws::AWSConfig=AWS.aws_config) = forecast("DescribeDatasetImportJob", Dict{String, Any}("DatasetImportJobArn"=>DatasetImportJobArn); aws=aws)
+DescribeDatasetImportJob(DatasetImportJobArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = forecast("DescribeDatasetImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetImportJobArn"=>DatasetImportJobArn), args)); aws=aws)
 
 """
     DescribeForecast()
@@ -229,8 +229,8 @@ Describes a forecast created using the CreateForecast operation. In addition to 
 - `ForecastArn`: The Amazon Resource Name (ARN) of the forecast.
 
 """
-DescribeForecast(ForecastArn; aws::AWSConfig=AWSConfig()) = forecast("DescribeForecast", Dict{String, Any}("ForecastArn"=>ForecastArn); aws=aws)
-DescribeForecast(ForecastArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = forecast("DescribeForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ForecastArn"=>ForecastArn), args)); aws=aws)
+DescribeForecast(ForecastArn; aws::AWSConfig=AWS.aws_config) = forecast("DescribeForecast", Dict{String, Any}("ForecastArn"=>ForecastArn); aws=aws)
+DescribeForecast(ForecastArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = forecast("DescribeForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ForecastArn"=>ForecastArn), args)); aws=aws)
 
 """
     DescribeForecastExportJob()
@@ -241,8 +241,8 @@ Describes a forecast export job created using the CreateForecastExportJob operat
 - `ForecastExportJobArn`: The Amazon Resource Name (ARN) of the forecast export job.
 
 """
-DescribeForecastExportJob(ForecastExportJobArn; aws::AWSConfig=AWSConfig()) = forecast("DescribeForecastExportJob", Dict{String, Any}("ForecastExportJobArn"=>ForecastExportJobArn); aws=aws)
-DescribeForecastExportJob(ForecastExportJobArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = forecast("DescribeForecastExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ForecastExportJobArn"=>ForecastExportJobArn), args)); aws=aws)
+DescribeForecastExportJob(ForecastExportJobArn; aws::AWSConfig=AWS.aws_config) = forecast("DescribeForecastExportJob", Dict{String, Any}("ForecastExportJobArn"=>ForecastExportJobArn); aws=aws)
+DescribeForecastExportJob(ForecastExportJobArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = forecast("DescribeForecastExportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ForecastExportJobArn"=>ForecastExportJobArn), args)); aws=aws)
 
 """
     DescribePredictor()
@@ -253,8 +253,8 @@ Describes a predictor created using the CreatePredictor operation. In addition t
 - `PredictorArn`: The Amazon Resource Name (ARN) of the predictor that you want information about.
 
 """
-DescribePredictor(PredictorArn; aws::AWSConfig=AWSConfig()) = forecast("DescribePredictor", Dict{String, Any}("PredictorArn"=>PredictorArn); aws=aws)
-DescribePredictor(PredictorArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = forecast("DescribePredictor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PredictorArn"=>PredictorArn), args)); aws=aws)
+DescribePredictor(PredictorArn; aws::AWSConfig=AWS.aws_config) = forecast("DescribePredictor", Dict{String, Any}("PredictorArn"=>PredictorArn); aws=aws)
+DescribePredictor(PredictorArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = forecast("DescribePredictor", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PredictorArn"=>PredictorArn), args)); aws=aws)
 
 """
     GetAccuracyMetrics()
@@ -265,8 +265,8 @@ Provides metrics on the accuracy of the models that were trained by the CreatePr
 - `PredictorArn`: The Amazon Resource Name (ARN) of the predictor to get metrics for.
 
 """
-GetAccuracyMetrics(PredictorArn; aws::AWSConfig=AWSConfig()) = forecast("GetAccuracyMetrics", Dict{String, Any}("PredictorArn"=>PredictorArn); aws=aws)
-GetAccuracyMetrics(PredictorArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = forecast("GetAccuracyMetrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PredictorArn"=>PredictorArn), args)); aws=aws)
+GetAccuracyMetrics(PredictorArn; aws::AWSConfig=AWS.aws_config) = forecast("GetAccuracyMetrics", Dict{String, Any}("PredictorArn"=>PredictorArn); aws=aws)
+GetAccuracyMetrics(PredictorArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = forecast("GetAccuracyMetrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PredictorArn"=>PredictorArn), args)); aws=aws)
 
 """
     ListDatasetGroups()
@@ -277,8 +277,8 @@ Returns a list of dataset groups created using the CreateDatasetGroup operation.
 - `MaxResults`: The number of items to return in the response.
 - `NextToken`: If the result of the previous request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next request. Tokens expire after 24 hours.
 """
-ListDatasetGroups(; aws::AWSConfig=AWSConfig()) = forecast("ListDatasetGroups"; aws=aws)
-ListDatasetGroups(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = forecast("ListDatasetGroups", args; aws=aws)
+ListDatasetGroups(; aws::AWSConfig=AWS.aws_config) = forecast("ListDatasetGroups"; aws=aws)
+ListDatasetGroups(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = forecast("ListDatasetGroups", args; aws=aws)
 
 """
     ListDatasetImportJobs()
@@ -290,8 +290,8 @@ Returns a list of dataset import jobs created using the CreateDatasetImportJob o
 - `MaxResults`: The number of items to return in the response.
 - `NextToken`: If the result of the previous request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next request. Tokens expire after 24 hours.
 """
-ListDatasetImportJobs(; aws::AWSConfig=AWSConfig()) = forecast("ListDatasetImportJobs"; aws=aws)
-ListDatasetImportJobs(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = forecast("ListDatasetImportJobs", args; aws=aws)
+ListDatasetImportJobs(; aws::AWSConfig=AWS.aws_config) = forecast("ListDatasetImportJobs"; aws=aws)
+ListDatasetImportJobs(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = forecast("ListDatasetImportJobs", args; aws=aws)
 
 """
     ListDatasets()
@@ -302,8 +302,8 @@ Returns a list of datasets created using the CreateDataset operation. For each d
 - `MaxResults`: The number of items to return in the response.
 - `NextToken`: If the result of the previous request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next request. Tokens expire after 24 hours.
 """
-ListDatasets(; aws::AWSConfig=AWSConfig()) = forecast("ListDatasets"; aws=aws)
-ListDatasets(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = forecast("ListDatasets", args; aws=aws)
+ListDatasets(; aws::AWSConfig=AWS.aws_config) = forecast("ListDatasets"; aws=aws)
+ListDatasets(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = forecast("ListDatasets", args; aws=aws)
 
 """
     ListForecastExportJobs()
@@ -315,8 +315,8 @@ Returns a list of forecast export jobs created using the CreateForecastExportJob
 - `MaxResults`: The number of items to return in the response.
 - `NextToken`: If the result of the previous request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next request. Tokens expire after 24 hours.
 """
-ListForecastExportJobs(; aws::AWSConfig=AWSConfig()) = forecast("ListForecastExportJobs"; aws=aws)
-ListForecastExportJobs(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = forecast("ListForecastExportJobs", args; aws=aws)
+ListForecastExportJobs(; aws::AWSConfig=AWS.aws_config) = forecast("ListForecastExportJobs"; aws=aws)
+ListForecastExportJobs(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = forecast("ListForecastExportJobs", args; aws=aws)
 
 """
     ListForecasts()
@@ -328,8 +328,8 @@ Returns a list of forecasts created using the CreateForecast operation. For each
 - `MaxResults`: The number of items to return in the response.
 - `NextToken`: If the result of the previous request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next request. Tokens expire after 24 hours.
 """
-ListForecasts(; aws::AWSConfig=AWSConfig()) = forecast("ListForecasts"; aws=aws)
-ListForecasts(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = forecast("ListForecasts", args; aws=aws)
+ListForecasts(; aws::AWSConfig=AWS.aws_config) = forecast("ListForecasts"; aws=aws)
+ListForecasts(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = forecast("ListForecasts", args; aws=aws)
 
 """
     ListPredictors()
@@ -341,8 +341,8 @@ Returns a list of predictors created using the CreatePredictor operation. For ea
 - `MaxResults`: The number of items to return in the response.
 - `NextToken`: If the result of the previous request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next request. Tokens expire after 24 hours.
 """
-ListPredictors(; aws::AWSConfig=AWSConfig()) = forecast("ListPredictors"; aws=aws)
-ListPredictors(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = forecast("ListPredictors", args; aws=aws)
+ListPredictors(; aws::AWSConfig=AWS.aws_config) = forecast("ListPredictors"; aws=aws)
+ListPredictors(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = forecast("ListPredictors", args; aws=aws)
 
 """
     ListTagsForResource()
@@ -353,8 +353,8 @@ Lists the tags for an Amazon Forecast resource.
 - `ResourceArn`: The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are Forecast dataset groups, datasets, dataset import jobs, predictors, forecasts, and forecast export jobs.
 
 """
-ListTagsForResource(ResourceArn; aws::AWSConfig=AWSConfig()) = forecast("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws=aws)
-ListTagsForResource(ResourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = forecast("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws=aws)
+ListTagsForResource(ResourceArn; aws::AWSConfig=AWS.aws_config) = forecast("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws=aws)
+ListTagsForResource(ResourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = forecast("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws=aws)
 
 """
     TagResource()
@@ -366,8 +366,8 @@ Associates the specified tags to a resource with the specified resourceArn. If e
 - `Tags`: The tags to add to the resource. A tag is an array of key-value pairs. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.  
 
 """
-TagResource(ResourceArn, Tags; aws::AWSConfig=AWSConfig()) = forecast("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws=aws)
-TagResource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = forecast("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), args)); aws=aws)
+TagResource(ResourceArn, Tags; aws::AWSConfig=AWS.aws_config) = forecast("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws=aws)
+TagResource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = forecast("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), args)); aws=aws)
 
 """
     UntagResource()
@@ -379,8 +379,8 @@ Deletes the specified tags from a resource.
 - `TagKeys`: The keys of the tags to be removed.
 
 """
-UntagResource(ResourceArn, TagKeys; aws::AWSConfig=AWSConfig()) = forecast("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws=aws)
-UntagResource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = forecast("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws=aws)
+UntagResource(ResourceArn, TagKeys; aws::AWSConfig=AWS.aws_config) = forecast("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws=aws)
+UntagResource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = forecast("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws=aws)
 
 """
     UpdateDatasetGroup()
@@ -392,5 +392,5 @@ Replaces the datasets in a dataset group with the specified datasets.  The Statu
 - `DatasetGroupArn`: The ARN of the dataset group.
 
 """
-UpdateDatasetGroup(DatasetArns, DatasetGroupArn; aws::AWSConfig=AWSConfig()) = forecast("UpdateDatasetGroup", Dict{String, Any}("DatasetArns"=>DatasetArns, "DatasetGroupArn"=>DatasetGroupArn); aws=aws)
-UpdateDatasetGroup(DatasetArns, DatasetGroupArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = forecast("UpdateDatasetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetArns"=>DatasetArns, "DatasetGroupArn"=>DatasetGroupArn), args)); aws=aws)
+UpdateDatasetGroup(DatasetArns, DatasetGroupArn; aws::AWSConfig=AWS.aws_config) = forecast("UpdateDatasetGroup", Dict{String, Any}("DatasetArns"=>DatasetArns, "DatasetGroupArn"=>DatasetGroupArn); aws=aws)
+UpdateDatasetGroup(DatasetArns, DatasetGroupArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = forecast("UpdateDatasetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatasetArns"=>DatasetArns, "DatasetGroupArn"=>DatasetGroupArn), args)); aws=aws)

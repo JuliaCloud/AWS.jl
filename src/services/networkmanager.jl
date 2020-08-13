@@ -17,8 +17,8 @@ Associates a customer gateway with a device and optionally, with a link. If you 
 # Optional Parameters
 - `LinkId`: The ID of the link.
 """
-AssociateCustomerGateway(CustomerGatewayArn, DeviceId, globalNetworkId; aws::AWSConfig=AWSConfig()) = networkmanager("POST", "/global-networks/$(globalNetworkId)/customer-gateway-associations", Dict{String, Any}("CustomerGatewayArn"=>CustomerGatewayArn, "DeviceId"=>DeviceId))
-AssociateCustomerGateway(CustomerGatewayArn, DeviceId, globalNetworkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = networkmanager("POST", "/global-networks/$(globalNetworkId)/customer-gateway-associations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomerGatewayArn"=>CustomerGatewayArn, "DeviceId"=>DeviceId), args)); aws=aws)
+AssociateCustomerGateway(CustomerGatewayArn, DeviceId, globalNetworkId; aws::AWSConfig=AWS.aws_config) = networkmanager("POST", "/global-networks/$(globalNetworkId)/customer-gateway-associations", Dict{String, Any}("CustomerGatewayArn"=>CustomerGatewayArn, "DeviceId"=>DeviceId); aws=aws)
+AssociateCustomerGateway(CustomerGatewayArn, DeviceId, globalNetworkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = networkmanager("POST", "/global-networks/$(globalNetworkId)/customer-gateway-associations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CustomerGatewayArn"=>CustomerGatewayArn, "DeviceId"=>DeviceId), args)); aws=aws)
 
 """
     AssociateLink()
@@ -31,8 +31,8 @@ Associates a link to a device. A device can be associated to multiple links and 
 - `globalNetworkId`: The ID of the global network.
 
 """
-AssociateLink(DeviceId, LinkId, globalNetworkId; aws::AWSConfig=AWSConfig()) = networkmanager("POST", "/global-networks/$(globalNetworkId)/link-associations", Dict{String, Any}("DeviceId"=>DeviceId, "LinkId"=>LinkId))
-AssociateLink(DeviceId, LinkId, globalNetworkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = networkmanager("POST", "/global-networks/$(globalNetworkId)/link-associations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceId"=>DeviceId, "LinkId"=>LinkId), args)); aws=aws)
+AssociateLink(DeviceId, LinkId, globalNetworkId; aws::AWSConfig=AWS.aws_config) = networkmanager("POST", "/global-networks/$(globalNetworkId)/link-associations", Dict{String, Any}("DeviceId"=>DeviceId, "LinkId"=>LinkId); aws=aws)
+AssociateLink(DeviceId, LinkId, globalNetworkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = networkmanager("POST", "/global-networks/$(globalNetworkId)/link-associations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceId"=>DeviceId, "LinkId"=>LinkId), args)); aws=aws)
 
 """
     CreateDevice()
@@ -52,8 +52,8 @@ Creates a new device in a global network. If you specify both a site ID and a lo
 - `Type`: The type of the device.
 - `Vendor`: The vendor of the device. Length Constraints: Maximum length of 128 characters.
 """
-CreateDevice(globalNetworkId; aws::AWSConfig=AWSConfig()) = networkmanager("POST", "/global-networks/$(globalNetworkId)/devices"; aws=aws)
-CreateDevice(globalNetworkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = networkmanager("POST", "/global-networks/$(globalNetworkId)/devices", args; aws=aws)
+CreateDevice(globalNetworkId; aws::AWSConfig=AWS.aws_config) = networkmanager("POST", "/global-networks/$(globalNetworkId)/devices"; aws=aws)
+CreateDevice(globalNetworkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = networkmanager("POST", "/global-networks/$(globalNetworkId)/devices", args; aws=aws)
 
 """
     CreateGlobalNetwork()
@@ -64,8 +64,8 @@ Creates a new, empty global network.
 - `Description`: A description of the global network. Length Constraints: Maximum length of 256 characters.
 - `Tags`: The tags to apply to the resource during creation.
 """
-CreateGlobalNetwork(; aws::AWSConfig=AWSConfig()) = networkmanager("POST", "/global-networks"; aws=aws)
-CreateGlobalNetwork(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = networkmanager("POST", "/global-networks", args; aws=aws)
+CreateGlobalNetwork(; aws::AWSConfig=AWS.aws_config) = networkmanager("POST", "/global-networks"; aws=aws)
+CreateGlobalNetwork(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = networkmanager("POST", "/global-networks", args; aws=aws)
 
 """
     CreateLink()
@@ -83,8 +83,8 @@ Creates a new link for a specified site.
 - `Tags`: The tags to apply to the resource during creation.
 - `Type`: The type of the link. Constraints: Cannot include the following characters: |   ^ Length Constraints: Maximum length of 128 characters.
 """
-CreateLink(Bandwidth, SiteId, globalNetworkId; aws::AWSConfig=AWSConfig()) = networkmanager("POST", "/global-networks/$(globalNetworkId)/links", Dict{String, Any}("Bandwidth"=>Bandwidth, "SiteId"=>SiteId))
-CreateLink(Bandwidth, SiteId, globalNetworkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = networkmanager("POST", "/global-networks/$(globalNetworkId)/links", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Bandwidth"=>Bandwidth, "SiteId"=>SiteId), args)); aws=aws)
+CreateLink(Bandwidth, SiteId, globalNetworkId; aws::AWSConfig=AWS.aws_config) = networkmanager("POST", "/global-networks/$(globalNetworkId)/links", Dict{String, Any}("Bandwidth"=>Bandwidth, "SiteId"=>SiteId); aws=aws)
+CreateLink(Bandwidth, SiteId, globalNetworkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = networkmanager("POST", "/global-networks/$(globalNetworkId)/links", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Bandwidth"=>Bandwidth, "SiteId"=>SiteId), args)); aws=aws)
 
 """
     CreateSite()
@@ -99,8 +99,8 @@ Creates a new site in a global network.
 - `Location`: The site location. This information is used for visualization in the Network Manager console. If you specify the address, the latitude and longitude are automatically calculated.    Address: The physical address of the site.    Latitude: The latitude of the site.     Longitude: The longitude of the site.  
 - `Tags`: The tags to apply to the resource during creation.
 """
-CreateSite(globalNetworkId; aws::AWSConfig=AWSConfig()) = networkmanager("POST", "/global-networks/$(globalNetworkId)/sites"; aws=aws)
-CreateSite(globalNetworkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = networkmanager("POST", "/global-networks/$(globalNetworkId)/sites", args; aws=aws)
+CreateSite(globalNetworkId; aws::AWSConfig=AWS.aws_config) = networkmanager("POST", "/global-networks/$(globalNetworkId)/sites"; aws=aws)
+CreateSite(globalNetworkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = networkmanager("POST", "/global-networks/$(globalNetworkId)/sites", args; aws=aws)
 
 """
     DeleteDevice()
@@ -112,8 +112,8 @@ Deletes an existing device. You must first disassociate the device from any link
 - `globalNetworkId`: The ID of the global network.
 
 """
-DeleteDevice(deviceId, globalNetworkId; aws::AWSConfig=AWSConfig()) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/devices/$(deviceId)"; aws=aws)
-DeleteDevice(deviceId, globalNetworkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/devices/$(deviceId)", args; aws=aws)
+DeleteDevice(deviceId, globalNetworkId; aws::AWSConfig=AWS.aws_config) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/devices/$(deviceId)"; aws=aws)
+DeleteDevice(deviceId, globalNetworkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/devices/$(deviceId)", args; aws=aws)
 
 """
     DeleteGlobalNetwork()
@@ -124,8 +124,8 @@ Deletes an existing global network. You must first delete all global network obj
 - `globalNetworkId`: The ID of the global network.
 
 """
-DeleteGlobalNetwork(globalNetworkId; aws::AWSConfig=AWSConfig()) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)"; aws=aws)
-DeleteGlobalNetwork(globalNetworkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)", args; aws=aws)
+DeleteGlobalNetwork(globalNetworkId; aws::AWSConfig=AWS.aws_config) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)"; aws=aws)
+DeleteGlobalNetwork(globalNetworkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)", args; aws=aws)
 
 """
     DeleteLink()
@@ -137,8 +137,8 @@ Deletes an existing link. You must first disassociate the link from any devices 
 - `linkId`: The ID of the link.
 
 """
-DeleteLink(globalNetworkId, linkId; aws::AWSConfig=AWSConfig()) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/links/$(linkId)"; aws=aws)
-DeleteLink(globalNetworkId, linkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/links/$(linkId)", args; aws=aws)
+DeleteLink(globalNetworkId, linkId; aws::AWSConfig=AWS.aws_config) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/links/$(linkId)"; aws=aws)
+DeleteLink(globalNetworkId, linkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/links/$(linkId)", args; aws=aws)
 
 """
     DeleteSite()
@@ -150,8 +150,8 @@ Deletes an existing site. The site cannot be associated with any device or link.
 - `siteId`: The ID of the site.
 
 """
-DeleteSite(globalNetworkId, siteId; aws::AWSConfig=AWSConfig()) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/sites/$(siteId)"; aws=aws)
-DeleteSite(globalNetworkId, siteId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/sites/$(siteId)", args; aws=aws)
+DeleteSite(globalNetworkId, siteId; aws::AWSConfig=AWS.aws_config) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/sites/$(siteId)"; aws=aws)
+DeleteSite(globalNetworkId, siteId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/sites/$(siteId)", args; aws=aws)
 
 """
     DeregisterTransitGateway()
@@ -163,8 +163,8 @@ Deregisters a transit gateway from your global network. This action does not del
 - `transitGatewayArn`: The Amazon Resource Name (ARN) of the transit gateway.
 
 """
-DeregisterTransitGateway(globalNetworkId, transitGatewayArn; aws::AWSConfig=AWSConfig()) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/transit-gateway-registrations/$(transitGatewayArn)"; aws=aws)
-DeregisterTransitGateway(globalNetworkId, transitGatewayArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/transit-gateway-registrations/$(transitGatewayArn)", args; aws=aws)
+DeregisterTransitGateway(globalNetworkId, transitGatewayArn; aws::AWSConfig=AWS.aws_config) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/transit-gateway-registrations/$(transitGatewayArn)"; aws=aws)
+DeregisterTransitGateway(globalNetworkId, transitGatewayArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/transit-gateway-registrations/$(transitGatewayArn)", args; aws=aws)
 
 """
     DescribeGlobalNetworks()
@@ -176,8 +176,8 @@ Describes one or more global networks. By default, all global networks are descr
 - `maxResults`: The maximum number of results to return.
 - `nextToken`: The token for the next page of results.
 """
-DescribeGlobalNetworks(; aws::AWSConfig=AWSConfig()) = networkmanager("GET", "/global-networks"; aws=aws)
-DescribeGlobalNetworks(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = networkmanager("GET", "/global-networks", args; aws=aws)
+DescribeGlobalNetworks(; aws::AWSConfig=AWS.aws_config) = networkmanager("GET", "/global-networks"; aws=aws)
+DescribeGlobalNetworks(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = networkmanager("GET", "/global-networks", args; aws=aws)
 
 """
     DisassociateCustomerGateway()
@@ -189,8 +189,8 @@ Disassociates a customer gateway from a device and a link.
 - `globalNetworkId`: The ID of the global network.
 
 """
-DisassociateCustomerGateway(customerGatewayArn, globalNetworkId; aws::AWSConfig=AWSConfig()) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/customer-gateway-associations/$(customerGatewayArn)"; aws=aws)
-DisassociateCustomerGateway(customerGatewayArn, globalNetworkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/customer-gateway-associations/$(customerGatewayArn)", args; aws=aws)
+DisassociateCustomerGateway(customerGatewayArn, globalNetworkId; aws::AWSConfig=AWS.aws_config) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/customer-gateway-associations/$(customerGatewayArn)"; aws=aws)
+DisassociateCustomerGateway(customerGatewayArn, globalNetworkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/customer-gateway-associations/$(customerGatewayArn)", args; aws=aws)
 
 """
     DisassociateLink()
@@ -203,8 +203,8 @@ Disassociates an existing device from a link. You must first disassociate any cu
 - `linkId`: The ID of the link.
 
 """
-DisassociateLink(deviceId, globalNetworkId, linkId; aws::AWSConfig=AWSConfig()) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/link-associations", Dict{String, Any}("deviceId"=>deviceId, "linkId"=>linkId))
-DisassociateLink(deviceId, globalNetworkId, linkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/link-associations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deviceId"=>deviceId, "linkId"=>linkId), args)); aws=aws)
+DisassociateLink(deviceId, globalNetworkId, linkId; aws::AWSConfig=AWS.aws_config) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/link-associations", Dict{String, Any}("deviceId"=>deviceId, "linkId"=>linkId); aws=aws)
+DisassociateLink(deviceId, globalNetworkId, linkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = networkmanager("DELETE", "/global-networks/$(globalNetworkId)/link-associations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("deviceId"=>deviceId, "linkId"=>linkId), args)); aws=aws)
 
 """
     GetCustomerGatewayAssociations()
@@ -219,8 +219,8 @@ Gets the association information for customer gateways that are associated with 
 - `maxResults`: The maximum number of results to return.
 - `nextToken`: The token for the next page of results.
 """
-GetCustomerGatewayAssociations(globalNetworkId; aws::AWSConfig=AWSConfig()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/customer-gateway-associations"; aws=aws)
-GetCustomerGatewayAssociations(globalNetworkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/customer-gateway-associations", args; aws=aws)
+GetCustomerGatewayAssociations(globalNetworkId; aws::AWSConfig=AWS.aws_config) = networkmanager("GET", "/global-networks/$(globalNetworkId)/customer-gateway-associations"; aws=aws)
+GetCustomerGatewayAssociations(globalNetworkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = networkmanager("GET", "/global-networks/$(globalNetworkId)/customer-gateway-associations", args; aws=aws)
 
 """
     GetDevices()
@@ -236,8 +236,8 @@ Gets information about one or more of your devices in a global network.
 - `nextToken`: The token for the next page of results.
 - `siteId`: The ID of the site.
 """
-GetDevices(globalNetworkId; aws::AWSConfig=AWSConfig()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/devices"; aws=aws)
-GetDevices(globalNetworkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/devices", args; aws=aws)
+GetDevices(globalNetworkId; aws::AWSConfig=AWS.aws_config) = networkmanager("GET", "/global-networks/$(globalNetworkId)/devices"; aws=aws)
+GetDevices(globalNetworkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = networkmanager("GET", "/global-networks/$(globalNetworkId)/devices", args; aws=aws)
 
 """
     GetLinkAssociations()
@@ -253,8 +253,8 @@ Gets the link associations for a device or a link. Either the device ID or the l
 - `maxResults`: The maximum number of results to return.
 - `nextToken`: The token for the next page of results.
 """
-GetLinkAssociations(globalNetworkId; aws::AWSConfig=AWSConfig()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/link-associations"; aws=aws)
-GetLinkAssociations(globalNetworkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/link-associations", args; aws=aws)
+GetLinkAssociations(globalNetworkId; aws::AWSConfig=AWS.aws_config) = networkmanager("GET", "/global-networks/$(globalNetworkId)/link-associations"; aws=aws)
+GetLinkAssociations(globalNetworkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = networkmanager("GET", "/global-networks/$(globalNetworkId)/link-associations", args; aws=aws)
 
 """
     GetLinks()
@@ -272,8 +272,8 @@ Gets information about one or more links in a specified global network. If you s
 - `siteId`: The ID of the site.
 - `type`: The link type.
 """
-GetLinks(globalNetworkId; aws::AWSConfig=AWSConfig()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/links"; aws=aws)
-GetLinks(globalNetworkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/links", args; aws=aws)
+GetLinks(globalNetworkId; aws::AWSConfig=AWS.aws_config) = networkmanager("GET", "/global-networks/$(globalNetworkId)/links"; aws=aws)
+GetLinks(globalNetworkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = networkmanager("GET", "/global-networks/$(globalNetworkId)/links", args; aws=aws)
 
 """
     GetSites()
@@ -288,8 +288,8 @@ Gets information about one or more of your sites in a global network.
 - `nextToken`: The token for the next page of results.
 - `siteIds`: One or more site IDs. The maximum is 10.
 """
-GetSites(globalNetworkId; aws::AWSConfig=AWSConfig()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/sites"; aws=aws)
-GetSites(globalNetworkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/sites", args; aws=aws)
+GetSites(globalNetworkId; aws::AWSConfig=AWS.aws_config) = networkmanager("GET", "/global-networks/$(globalNetworkId)/sites"; aws=aws)
+GetSites(globalNetworkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = networkmanager("GET", "/global-networks/$(globalNetworkId)/sites", args; aws=aws)
 
 """
     GetTransitGatewayRegistrations()
@@ -304,8 +304,8 @@ Gets information about the transit gateway registrations in a specified global n
 - `nextToken`: The token for the next page of results.
 - `transitGatewayArns`: The Amazon Resource Names (ARNs) of one or more transit gateways. The maximum is 10.
 """
-GetTransitGatewayRegistrations(globalNetworkId; aws::AWSConfig=AWSConfig()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/transit-gateway-registrations"; aws=aws)
-GetTransitGatewayRegistrations(globalNetworkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = networkmanager("GET", "/global-networks/$(globalNetworkId)/transit-gateway-registrations", args; aws=aws)
+GetTransitGatewayRegistrations(globalNetworkId; aws::AWSConfig=AWS.aws_config) = networkmanager("GET", "/global-networks/$(globalNetworkId)/transit-gateway-registrations"; aws=aws)
+GetTransitGatewayRegistrations(globalNetworkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = networkmanager("GET", "/global-networks/$(globalNetworkId)/transit-gateway-registrations", args; aws=aws)
 
 """
     ListTagsForResource()
@@ -316,8 +316,8 @@ Lists the tags for a specified resource.
 - `resourceArn`: The Amazon Resource Name (ARN) of the resource.
 
 """
-ListTagsForResource(resourceArn; aws::AWSConfig=AWSConfig()) = networkmanager("GET", "/tags/$(resourceArn)"; aws=aws)
-ListTagsForResource(resourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = networkmanager("GET", "/tags/$(resourceArn)", args; aws=aws)
+ListTagsForResource(resourceArn; aws::AWSConfig=AWS.aws_config) = networkmanager("GET", "/tags/$(resourceArn)"; aws=aws)
+ListTagsForResource(resourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = networkmanager("GET", "/tags/$(resourceArn)", args; aws=aws)
 
 """
     RegisterTransitGateway()
@@ -329,8 +329,8 @@ Registers a transit gateway in your global network. The transit gateway can be i
 - `globalNetworkId`: The ID of the global network.
 
 """
-RegisterTransitGateway(TransitGatewayArn, globalNetworkId; aws::AWSConfig=AWSConfig()) = networkmanager("POST", "/global-networks/$(globalNetworkId)/transit-gateway-registrations", Dict{String, Any}("TransitGatewayArn"=>TransitGatewayArn))
-RegisterTransitGateway(TransitGatewayArn, globalNetworkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = networkmanager("POST", "/global-networks/$(globalNetworkId)/transit-gateway-registrations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayArn"=>TransitGatewayArn), args)); aws=aws)
+RegisterTransitGateway(TransitGatewayArn, globalNetworkId; aws::AWSConfig=AWS.aws_config) = networkmanager("POST", "/global-networks/$(globalNetworkId)/transit-gateway-registrations", Dict{String, Any}("TransitGatewayArn"=>TransitGatewayArn); aws=aws)
+RegisterTransitGateway(TransitGatewayArn, globalNetworkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = networkmanager("POST", "/global-networks/$(globalNetworkId)/transit-gateway-registrations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransitGatewayArn"=>TransitGatewayArn), args)); aws=aws)
 
 """
     TagResource()
@@ -342,8 +342,8 @@ Tags a specified resource.
 - `resourceArn`: The Amazon Resource Name (ARN) of the resource.
 
 """
-TagResource(Tags, resourceArn; aws::AWSConfig=AWSConfig()) = networkmanager("POST", "/tags/$(resourceArn)", Dict{String, Any}("Tags"=>Tags))
-TagResource(Tags, resourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = networkmanager("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws=aws)
+TagResource(Tags, resourceArn; aws::AWSConfig=AWS.aws_config) = networkmanager("POST", "/tags/$(resourceArn)", Dict{String, Any}("Tags"=>Tags); aws=aws)
+TagResource(Tags, resourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = networkmanager("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws=aws)
 
 """
     UntagResource()
@@ -355,8 +355,8 @@ Removes tags from a specified resource.
 - `tagKeys`: The tag keys to remove from the specified resource.
 
 """
-UntagResource(resourceArn, tagKeys; aws::AWSConfig=AWSConfig()) = networkmanager("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys))
-UntagResource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = networkmanager("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws=aws)
+UntagResource(resourceArn, tagKeys; aws::AWSConfig=AWS.aws_config) = networkmanager("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws=aws)
+UntagResource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = networkmanager("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws=aws)
 
 """
     UpdateDevice()
@@ -376,8 +376,8 @@ Updates the details for an existing device. To remove information for any of the
 - `Type`: The type of the device.
 - `Vendor`: The vendor of the device. Length Constraints: Maximum length of 128 characters.
 """
-UpdateDevice(deviceId, globalNetworkId; aws::AWSConfig=AWSConfig()) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)/devices/$(deviceId)"; aws=aws)
-UpdateDevice(deviceId, globalNetworkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)/devices/$(deviceId)", args; aws=aws)
+UpdateDevice(deviceId, globalNetworkId; aws::AWSConfig=AWS.aws_config) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)/devices/$(deviceId)"; aws=aws)
+UpdateDevice(deviceId, globalNetworkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)/devices/$(deviceId)", args; aws=aws)
 
 """
     UpdateGlobalNetwork()
@@ -390,8 +390,8 @@ Updates an existing global network. To remove information for any of the paramet
 # Optional Parameters
 - `Description`: A description of the global network. Length Constraints: Maximum length of 256 characters.
 """
-UpdateGlobalNetwork(globalNetworkId; aws::AWSConfig=AWSConfig()) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)"; aws=aws)
-UpdateGlobalNetwork(globalNetworkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)", args; aws=aws)
+UpdateGlobalNetwork(globalNetworkId; aws::AWSConfig=AWS.aws_config) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)"; aws=aws)
+UpdateGlobalNetwork(globalNetworkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)", args; aws=aws)
 
 """
     UpdateLink()
@@ -408,8 +408,8 @@ Updates the details for an existing link. To remove information for any of the p
 - `Provider`: The provider of the link. Length Constraints: Maximum length of 128 characters.
 - `Type`: The type of the link. Length Constraints: Maximum length of 128 characters.
 """
-UpdateLink(globalNetworkId, linkId; aws::AWSConfig=AWSConfig()) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)/links/$(linkId)"; aws=aws)
-UpdateLink(globalNetworkId, linkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)/links/$(linkId)", args; aws=aws)
+UpdateLink(globalNetworkId, linkId; aws::AWSConfig=AWS.aws_config) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)/links/$(linkId)"; aws=aws)
+UpdateLink(globalNetworkId, linkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)/links/$(linkId)", args; aws=aws)
 
 """
     UpdateSite()
@@ -424,5 +424,5 @@ Updates the information for an existing site. To remove information for any of t
 - `Description`: A description of your site. Length Constraints: Maximum length of 256 characters.
 - `Location`: The site location:    Address: The physical address of the site.    Latitude: The latitude of the site.     Longitude: The longitude of the site.  
 """
-UpdateSite(globalNetworkId, siteId; aws::AWSConfig=AWSConfig()) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)/sites/$(siteId)"; aws=aws)
-UpdateSite(globalNetworkId, siteId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)/sites/$(siteId)", args; aws=aws)
+UpdateSite(globalNetworkId, siteId; aws::AWSConfig=AWS.aws_config) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)/sites/$(siteId)"; aws=aws)
+UpdateSite(globalNetworkId, siteId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = networkmanager("PATCH", "/global-networks/$(globalNetworkId)/sites/$(siteId)", args; aws=aws)

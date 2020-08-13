@@ -15,8 +15,8 @@ Deletes the shadow for the specified thing. For more information, see DeleteThin
 # Optional Parameters
 - `name`: The name of the shadow.
 """
-DeleteThingShadow(thingName; aws::AWSConfig=AWSConfig()) = iot_data_plane("DELETE", "/things/$(thingName)/shadow"; aws=aws)
-DeleteThingShadow(thingName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = iot_data_plane("DELETE", "/things/$(thingName)/shadow", args; aws=aws)
+DeleteThingShadow(thingName; aws::AWSConfig=AWS.aws_config) = iot_data_plane("DELETE", "/things/$(thingName)/shadow"; aws=aws)
+DeleteThingShadow(thingName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iot_data_plane("DELETE", "/things/$(thingName)/shadow", args; aws=aws)
 
 """
     GetThingShadow()
@@ -29,8 +29,8 @@ Gets the shadow for the specified thing. For more information, see GetThingShado
 # Optional Parameters
 - `name`: The name of the shadow.
 """
-GetThingShadow(thingName; aws::AWSConfig=AWSConfig()) = iot_data_plane("GET", "/things/$(thingName)/shadow"; aws=aws)
-GetThingShadow(thingName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = iot_data_plane("GET", "/things/$(thingName)/shadow", args; aws=aws)
+GetThingShadow(thingName; aws::AWSConfig=AWS.aws_config) = iot_data_plane("GET", "/things/$(thingName)/shadow"; aws=aws)
+GetThingShadow(thingName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iot_data_plane("GET", "/things/$(thingName)/shadow", args; aws=aws)
 
 """
     ListNamedShadowsForThing()
@@ -44,8 +44,8 @@ Lists the shadows for the specified thing.
 - `nextToken`: The token to retrieve the next set of results.
 - `pageSize`: The result page size.
 """
-ListNamedShadowsForThing(thingName; aws::AWSConfig=AWSConfig()) = iot_data_plane("GET", "/api/things/shadow/ListNamedShadowsForThing/$(thingName)"; aws=aws)
-ListNamedShadowsForThing(thingName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = iot_data_plane("GET", "/api/things/shadow/ListNamedShadowsForThing/$(thingName)", args; aws=aws)
+ListNamedShadowsForThing(thingName; aws::AWSConfig=AWS.aws_config) = iot_data_plane("GET", "/api/things/shadow/ListNamedShadowsForThing/$(thingName)"; aws=aws)
+ListNamedShadowsForThing(thingName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iot_data_plane("GET", "/api/things/shadow/ListNamedShadowsForThing/$(thingName)", args; aws=aws)
 
 """
     Publish()
@@ -59,8 +59,8 @@ Publishes state information. For more information, see HTTP Protocol in the AWS 
 - `payload`: The state information, in JSON format.
 - `qos`: The Quality of Service (QoS) level.
 """
-Publish(topic; aws::AWSConfig=AWSConfig()) = iot_data_plane("POST", "/topics/$(topic)"; aws=aws)
-Publish(topic, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = iot_data_plane("POST", "/topics/$(topic)", args; aws=aws)
+Publish(topic; aws::AWSConfig=AWS.aws_config) = iot_data_plane("POST", "/topics/$(topic)"; aws=aws)
+Publish(topic, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iot_data_plane("POST", "/topics/$(topic)", args; aws=aws)
 
 """
     UpdateThingShadow()
@@ -74,5 +74,5 @@ Updates the shadow for the specified thing. For more information, see UpdateThin
 # Optional Parameters
 - `name`: The name of the shadow.
 """
-UpdateThingShadow(payload, thingName; aws::AWSConfig=AWSConfig()) = iot_data_plane("POST", "/things/$(thingName)/shadow", Dict{String, Any}("payload"=>payload))
-UpdateThingShadow(payload, thingName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = iot_data_plane("POST", "/things/$(thingName)/shadow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("payload"=>payload), args)); aws=aws)
+UpdateThingShadow(payload, thingName; aws::AWSConfig=AWS.aws_config) = iot_data_plane("POST", "/things/$(thingName)/shadow", Dict{String, Any}("payload"=>payload); aws=aws)
+UpdateThingShadow(payload, thingName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iot_data_plane("POST", "/things/$(thingName)/shadow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("payload"=>payload), args)); aws=aws)

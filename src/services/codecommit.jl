@@ -14,8 +14,8 @@ Creates an association between an approval rule template and a specified reposit
 - `repositoryName`: The name of the repository that you want to associate with the template.
 
 """
-AssociateApprovalRuleTemplateWithRepository(approvalRuleTemplateName, repositoryName; aws::AWSConfig=AWSConfig()) = codecommit("AssociateApprovalRuleTemplateWithRepository", Dict{String, Any}("approvalRuleTemplateName"=>approvalRuleTemplateName, "repositoryName"=>repositoryName); aws=aws)
-AssociateApprovalRuleTemplateWithRepository(approvalRuleTemplateName, repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("AssociateApprovalRuleTemplateWithRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("approvalRuleTemplateName"=>approvalRuleTemplateName, "repositoryName"=>repositoryName), args)); aws=aws)
+AssociateApprovalRuleTemplateWithRepository(approvalRuleTemplateName, repositoryName; aws::AWSConfig=AWS.aws_config) = codecommit("AssociateApprovalRuleTemplateWithRepository", Dict{String, Any}("approvalRuleTemplateName"=>approvalRuleTemplateName, "repositoryName"=>repositoryName); aws=aws)
+AssociateApprovalRuleTemplateWithRepository(approvalRuleTemplateName, repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("AssociateApprovalRuleTemplateWithRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("approvalRuleTemplateName"=>approvalRuleTemplateName, "repositoryName"=>repositoryName), args)); aws=aws)
 
 """
     BatchAssociateApprovalRuleTemplateWithRepositories()
@@ -27,8 +27,8 @@ Creates an association between an approval rule template and one or more specifi
 - `repositoryNames`: The names of the repositories you want to associate with the template.  The length constraint limit is for each string in the array. The array itself can be empty. 
 
 """
-BatchAssociateApprovalRuleTemplateWithRepositories(approvalRuleTemplateName, repositoryNames; aws::AWSConfig=AWSConfig()) = codecommit("BatchAssociateApprovalRuleTemplateWithRepositories", Dict{String, Any}("approvalRuleTemplateName"=>approvalRuleTemplateName, "repositoryNames"=>repositoryNames); aws=aws)
-BatchAssociateApprovalRuleTemplateWithRepositories(approvalRuleTemplateName, repositoryNames, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("BatchAssociateApprovalRuleTemplateWithRepositories", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("approvalRuleTemplateName"=>approvalRuleTemplateName, "repositoryNames"=>repositoryNames), args)); aws=aws)
+BatchAssociateApprovalRuleTemplateWithRepositories(approvalRuleTemplateName, repositoryNames; aws::AWSConfig=AWS.aws_config) = codecommit("BatchAssociateApprovalRuleTemplateWithRepositories", Dict{String, Any}("approvalRuleTemplateName"=>approvalRuleTemplateName, "repositoryNames"=>repositoryNames); aws=aws)
+BatchAssociateApprovalRuleTemplateWithRepositories(approvalRuleTemplateName, repositoryNames, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("BatchAssociateApprovalRuleTemplateWithRepositories", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("approvalRuleTemplateName"=>approvalRuleTemplateName, "repositoryNames"=>repositoryNames), args)); aws=aws)
 
 """
     BatchDescribeMergeConflicts()
@@ -49,8 +49,8 @@ Returns information about one or more merge conflicts in the attempted merge of 
 - `maxMergeHunks`: The maximum number of merge hunks to include in the output.
 - `nextToken`: An enumeration token that, when provided in a request, returns the next batch of the results.
 """
-BatchDescribeMergeConflicts(destinationCommitSpecifier, mergeOption, repositoryName, sourceCommitSpecifier; aws::AWSConfig=AWSConfig()) = codecommit("BatchDescribeMergeConflicts", Dict{String, Any}("destinationCommitSpecifier"=>destinationCommitSpecifier, "mergeOption"=>mergeOption, "repositoryName"=>repositoryName, "sourceCommitSpecifier"=>sourceCommitSpecifier); aws=aws)
-BatchDescribeMergeConflicts(destinationCommitSpecifier, mergeOption, repositoryName, sourceCommitSpecifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("BatchDescribeMergeConflicts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationCommitSpecifier"=>destinationCommitSpecifier, "mergeOption"=>mergeOption, "repositoryName"=>repositoryName, "sourceCommitSpecifier"=>sourceCommitSpecifier), args)); aws=aws)
+BatchDescribeMergeConflicts(destinationCommitSpecifier, mergeOption, repositoryName, sourceCommitSpecifier; aws::AWSConfig=AWS.aws_config) = codecommit("BatchDescribeMergeConflicts", Dict{String, Any}("destinationCommitSpecifier"=>destinationCommitSpecifier, "mergeOption"=>mergeOption, "repositoryName"=>repositoryName, "sourceCommitSpecifier"=>sourceCommitSpecifier); aws=aws)
+BatchDescribeMergeConflicts(destinationCommitSpecifier, mergeOption, repositoryName, sourceCommitSpecifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("BatchDescribeMergeConflicts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationCommitSpecifier"=>destinationCommitSpecifier, "mergeOption"=>mergeOption, "repositoryName"=>repositoryName, "sourceCommitSpecifier"=>sourceCommitSpecifier), args)); aws=aws)
 
 """
     BatchDisassociateApprovalRuleTemplateFromRepositories()
@@ -62,8 +62,8 @@ Removes the association between an approval rule template and one or more specif
 - `repositoryNames`: The repository names that you want to disassociate from the approval rule template.  The length constraint limit is for each string in the array. The array itself can be empty. 
 
 """
-BatchDisassociateApprovalRuleTemplateFromRepositories(approvalRuleTemplateName, repositoryNames; aws::AWSConfig=AWSConfig()) = codecommit("BatchDisassociateApprovalRuleTemplateFromRepositories", Dict{String, Any}("approvalRuleTemplateName"=>approvalRuleTemplateName, "repositoryNames"=>repositoryNames); aws=aws)
-BatchDisassociateApprovalRuleTemplateFromRepositories(approvalRuleTemplateName, repositoryNames, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("BatchDisassociateApprovalRuleTemplateFromRepositories", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("approvalRuleTemplateName"=>approvalRuleTemplateName, "repositoryNames"=>repositoryNames), args)); aws=aws)
+BatchDisassociateApprovalRuleTemplateFromRepositories(approvalRuleTemplateName, repositoryNames; aws::AWSConfig=AWS.aws_config) = codecommit("BatchDisassociateApprovalRuleTemplateFromRepositories", Dict{String, Any}("approvalRuleTemplateName"=>approvalRuleTemplateName, "repositoryNames"=>repositoryNames); aws=aws)
+BatchDisassociateApprovalRuleTemplateFromRepositories(approvalRuleTemplateName, repositoryNames, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("BatchDisassociateApprovalRuleTemplateFromRepositories", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("approvalRuleTemplateName"=>approvalRuleTemplateName, "repositoryNames"=>repositoryNames), args)); aws=aws)
 
 """
     BatchGetCommits()
@@ -75,8 +75,8 @@ Returns information about the contents of one or more commits in a repository.
 - `repositoryName`: The name of the repository that contains the commits.
 
 """
-BatchGetCommits(commitIds, repositoryName; aws::AWSConfig=AWSConfig()) = codecommit("BatchGetCommits", Dict{String, Any}("commitIds"=>commitIds, "repositoryName"=>repositoryName); aws=aws)
-BatchGetCommits(commitIds, repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("BatchGetCommits", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("commitIds"=>commitIds, "repositoryName"=>repositoryName), args)); aws=aws)
+BatchGetCommits(commitIds, repositoryName; aws::AWSConfig=AWS.aws_config) = codecommit("BatchGetCommits", Dict{String, Any}("commitIds"=>commitIds, "repositoryName"=>repositoryName); aws=aws)
+BatchGetCommits(commitIds, repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("BatchGetCommits", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("commitIds"=>commitIds, "repositoryName"=>repositoryName), args)); aws=aws)
 
 """
     BatchGetRepositories()
@@ -87,8 +87,8 @@ Returns information about one or more repositories.  The description field for a
 - `repositoryNames`: The names of the repositories to get information about.  The length constraint limit is for each string in the array. The array itself can be empty. 
 
 """
-BatchGetRepositories(repositoryNames; aws::AWSConfig=AWSConfig()) = codecommit("BatchGetRepositories", Dict{String, Any}("repositoryNames"=>repositoryNames); aws=aws)
-BatchGetRepositories(repositoryNames, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("BatchGetRepositories", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryNames"=>repositoryNames), args)); aws=aws)
+BatchGetRepositories(repositoryNames; aws::AWSConfig=AWS.aws_config) = codecommit("BatchGetRepositories", Dict{String, Any}("repositoryNames"=>repositoryNames); aws=aws)
+BatchGetRepositories(repositoryNames, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("BatchGetRepositories", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryNames"=>repositoryNames), args)); aws=aws)
 
 """
     CreateApprovalRuleTemplate()
@@ -102,8 +102,8 @@ Creates a template for approval rules that can then be associated with one or mo
 # Optional Parameters
 - `approvalRuleTemplateDescription`: The description of the approval rule template. Consider providing a description that explains what this template does and when it might be appropriate to associate it with repositories.
 """
-CreateApprovalRuleTemplate(approvalRuleTemplateContent, approvalRuleTemplateName; aws::AWSConfig=AWSConfig()) = codecommit("CreateApprovalRuleTemplate", Dict{String, Any}("approvalRuleTemplateContent"=>approvalRuleTemplateContent, "approvalRuleTemplateName"=>approvalRuleTemplateName); aws=aws)
-CreateApprovalRuleTemplate(approvalRuleTemplateContent, approvalRuleTemplateName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("CreateApprovalRuleTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("approvalRuleTemplateContent"=>approvalRuleTemplateContent, "approvalRuleTemplateName"=>approvalRuleTemplateName), args)); aws=aws)
+CreateApprovalRuleTemplate(approvalRuleTemplateContent, approvalRuleTemplateName; aws::AWSConfig=AWS.aws_config) = codecommit("CreateApprovalRuleTemplate", Dict{String, Any}("approvalRuleTemplateContent"=>approvalRuleTemplateContent, "approvalRuleTemplateName"=>approvalRuleTemplateName); aws=aws)
+CreateApprovalRuleTemplate(approvalRuleTemplateContent, approvalRuleTemplateName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("CreateApprovalRuleTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("approvalRuleTemplateContent"=>approvalRuleTemplateContent, "approvalRuleTemplateName"=>approvalRuleTemplateName), args)); aws=aws)
 
 """
     CreateBranch()
@@ -116,8 +116,8 @@ Creates a branch in a repository and points the branch to a commit.  Calling the
 - `repositoryName`: The name of the repository in which you want to create the new branch.
 
 """
-CreateBranch(branchName, commitId, repositoryName; aws::AWSConfig=AWSConfig()) = codecommit("CreateBranch", Dict{String, Any}("branchName"=>branchName, "commitId"=>commitId, "repositoryName"=>repositoryName); aws=aws)
-CreateBranch(branchName, commitId, repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("CreateBranch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("branchName"=>branchName, "commitId"=>commitId, "repositoryName"=>repositoryName), args)); aws=aws)
+CreateBranch(branchName, commitId, repositoryName; aws::AWSConfig=AWS.aws_config) = codecommit("CreateBranch", Dict{String, Any}("branchName"=>branchName, "commitId"=>commitId, "repositoryName"=>repositoryName); aws=aws)
+CreateBranch(branchName, commitId, repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("CreateBranch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("branchName"=>branchName, "commitId"=>commitId, "repositoryName"=>repositoryName), args)); aws=aws)
 
 """
     CreateCommit()
@@ -138,8 +138,8 @@ Creates a commit for a repository on the tip of a specified branch.
 - `putFiles`: The files to add or update in this commit.
 - `setFileModes`: The file modes to update for files in this commit.
 """
-CreateCommit(branchName, repositoryName; aws::AWSConfig=AWSConfig()) = codecommit("CreateCommit", Dict{String, Any}("branchName"=>branchName, "repositoryName"=>repositoryName); aws=aws)
-CreateCommit(branchName, repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("CreateCommit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("branchName"=>branchName, "repositoryName"=>repositoryName), args)); aws=aws)
+CreateCommit(branchName, repositoryName; aws::AWSConfig=AWS.aws_config) = codecommit("CreateCommit", Dict{String, Any}("branchName"=>branchName, "repositoryName"=>repositoryName); aws=aws)
+CreateCommit(branchName, repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("CreateCommit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("branchName"=>branchName, "repositoryName"=>repositoryName), args)); aws=aws)
 
 """
     CreatePullRequest()
@@ -154,8 +154,8 @@ Creates a pull request in the specified repository.
 - `clientRequestToken`: A unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request returns information about the initial request that used that token.  The AWS SDKs prepopulate client request tokens. If you are using an AWS SDK, an idempotency token is created for you. 
 - `description`: A description of the pull request.
 """
-CreatePullRequest(targets, title; aws::AWSConfig=AWSConfig()) = codecommit("CreatePullRequest", Dict{String, Any}("targets"=>targets, "title"=>title, "clientRequestToken"=>string(uuid4())); aws=aws)
-CreatePullRequest(targets, title, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("CreatePullRequest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("targets"=>targets, "title"=>title, "clientRequestToken"=>string(uuid4())), args)); aws=aws)
+CreatePullRequest(targets, title; aws::AWSConfig=AWS.aws_config) = codecommit("CreatePullRequest", Dict{String, Any}("targets"=>targets, "title"=>title, "clientRequestToken"=>string(uuid4())); aws=aws)
+CreatePullRequest(targets, title, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("CreatePullRequest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("targets"=>targets, "title"=>title, "clientRequestToken"=>string(uuid4())), args)); aws=aws)
 
 """
     CreatePullRequestApprovalRule()
@@ -168,8 +168,8 @@ Creates an approval rule for a pull request.
 - `pullRequestId`: The system-generated ID of the pull request for which you want to create the approval rule.
 
 """
-CreatePullRequestApprovalRule(approvalRuleContent, approvalRuleName, pullRequestId; aws::AWSConfig=AWSConfig()) = codecommit("CreatePullRequestApprovalRule", Dict{String, Any}("approvalRuleContent"=>approvalRuleContent, "approvalRuleName"=>approvalRuleName, "pullRequestId"=>pullRequestId); aws=aws)
-CreatePullRequestApprovalRule(approvalRuleContent, approvalRuleName, pullRequestId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("CreatePullRequestApprovalRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("approvalRuleContent"=>approvalRuleContent, "approvalRuleName"=>approvalRuleName, "pullRequestId"=>pullRequestId), args)); aws=aws)
+CreatePullRequestApprovalRule(approvalRuleContent, approvalRuleName, pullRequestId; aws::AWSConfig=AWS.aws_config) = codecommit("CreatePullRequestApprovalRule", Dict{String, Any}("approvalRuleContent"=>approvalRuleContent, "approvalRuleName"=>approvalRuleName, "pullRequestId"=>pullRequestId); aws=aws)
+CreatePullRequestApprovalRule(approvalRuleContent, approvalRuleName, pullRequestId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("CreatePullRequestApprovalRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("approvalRuleContent"=>approvalRuleContent, "approvalRuleName"=>approvalRuleName, "pullRequestId"=>pullRequestId), args)); aws=aws)
 
 """
     CreateRepository()
@@ -183,8 +183,8 @@ Creates a new, empty repository.
 - `repositoryDescription`: A comment or description about the new repository.  The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a webpage. 
 - `tags`: One or more tag key-value pairs to use when tagging this repository.
 """
-CreateRepository(repositoryName; aws::AWSConfig=AWSConfig()) = codecommit("CreateRepository", Dict{String, Any}("repositoryName"=>repositoryName); aws=aws)
-CreateRepository(repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("CreateRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws=aws)
+CreateRepository(repositoryName; aws::AWSConfig=AWS.aws_config) = codecommit("CreateRepository", Dict{String, Any}("repositoryName"=>repositoryName); aws=aws)
+CreateRepository(repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("CreateRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws=aws)
 
 """
     CreateUnreferencedMergeCommit()
@@ -206,8 +206,8 @@ Creates an unreferenced commit that represents the result of merging two branche
 - `email`: The email address for the person who created the unreferenced commit.
 - `keepEmptyFolders`: If the commit contains deletions, whether to keep a folder or folder structure if the changes leave the folders empty. If this is specified as true, a .gitkeep file is created for empty folders. The default is false.
 """
-CreateUnreferencedMergeCommit(destinationCommitSpecifier, mergeOption, repositoryName, sourceCommitSpecifier; aws::AWSConfig=AWSConfig()) = codecommit("CreateUnreferencedMergeCommit", Dict{String, Any}("destinationCommitSpecifier"=>destinationCommitSpecifier, "mergeOption"=>mergeOption, "repositoryName"=>repositoryName, "sourceCommitSpecifier"=>sourceCommitSpecifier); aws=aws)
-CreateUnreferencedMergeCommit(destinationCommitSpecifier, mergeOption, repositoryName, sourceCommitSpecifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("CreateUnreferencedMergeCommit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationCommitSpecifier"=>destinationCommitSpecifier, "mergeOption"=>mergeOption, "repositoryName"=>repositoryName, "sourceCommitSpecifier"=>sourceCommitSpecifier), args)); aws=aws)
+CreateUnreferencedMergeCommit(destinationCommitSpecifier, mergeOption, repositoryName, sourceCommitSpecifier; aws::AWSConfig=AWS.aws_config) = codecommit("CreateUnreferencedMergeCommit", Dict{String, Any}("destinationCommitSpecifier"=>destinationCommitSpecifier, "mergeOption"=>mergeOption, "repositoryName"=>repositoryName, "sourceCommitSpecifier"=>sourceCommitSpecifier); aws=aws)
+CreateUnreferencedMergeCommit(destinationCommitSpecifier, mergeOption, repositoryName, sourceCommitSpecifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("CreateUnreferencedMergeCommit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationCommitSpecifier"=>destinationCommitSpecifier, "mergeOption"=>mergeOption, "repositoryName"=>repositoryName, "sourceCommitSpecifier"=>sourceCommitSpecifier), args)); aws=aws)
 
 """
     DeleteApprovalRuleTemplate()
@@ -218,8 +218,8 @@ Deletes a specified approval rule template. Deleting a template does not remove 
 - `approvalRuleTemplateName`: The name of the approval rule template to delete.
 
 """
-DeleteApprovalRuleTemplate(approvalRuleTemplateName; aws::AWSConfig=AWSConfig()) = codecommit("DeleteApprovalRuleTemplate", Dict{String, Any}("approvalRuleTemplateName"=>approvalRuleTemplateName); aws=aws)
-DeleteApprovalRuleTemplate(approvalRuleTemplateName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("DeleteApprovalRuleTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("approvalRuleTemplateName"=>approvalRuleTemplateName), args)); aws=aws)
+DeleteApprovalRuleTemplate(approvalRuleTemplateName; aws::AWSConfig=AWS.aws_config) = codecommit("DeleteApprovalRuleTemplate", Dict{String, Any}("approvalRuleTemplateName"=>approvalRuleTemplateName); aws=aws)
+DeleteApprovalRuleTemplate(approvalRuleTemplateName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("DeleteApprovalRuleTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("approvalRuleTemplateName"=>approvalRuleTemplateName), args)); aws=aws)
 
 """
     DeleteBranch()
@@ -231,8 +231,8 @@ Deletes a branch from a repository, unless that branch is the default branch for
 - `repositoryName`: The name of the repository that contains the branch to be deleted.
 
 """
-DeleteBranch(branchName, repositoryName; aws::AWSConfig=AWSConfig()) = codecommit("DeleteBranch", Dict{String, Any}("branchName"=>branchName, "repositoryName"=>repositoryName); aws=aws)
-DeleteBranch(branchName, repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("DeleteBranch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("branchName"=>branchName, "repositoryName"=>repositoryName), args)); aws=aws)
+DeleteBranch(branchName, repositoryName; aws::AWSConfig=AWS.aws_config) = codecommit("DeleteBranch", Dict{String, Any}("branchName"=>branchName, "repositoryName"=>repositoryName); aws=aws)
+DeleteBranch(branchName, repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("DeleteBranch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("branchName"=>branchName, "repositoryName"=>repositoryName), args)); aws=aws)
 
 """
     DeleteCommentContent()
@@ -243,8 +243,8 @@ Deletes the content of a comment made on a change, file, or commit in a reposito
 - `commentId`: The unique, system-generated ID of the comment. To get this ID, use GetCommentsForComparedCommit or GetCommentsForPullRequest.
 
 """
-DeleteCommentContent(commentId; aws::AWSConfig=AWSConfig()) = codecommit("DeleteCommentContent", Dict{String, Any}("commentId"=>commentId); aws=aws)
-DeleteCommentContent(commentId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("DeleteCommentContent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("commentId"=>commentId), args)); aws=aws)
+DeleteCommentContent(commentId; aws::AWSConfig=AWS.aws_config) = codecommit("DeleteCommentContent", Dict{String, Any}("commentId"=>commentId); aws=aws)
+DeleteCommentContent(commentId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("DeleteCommentContent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("commentId"=>commentId), args)); aws=aws)
 
 """
     DeleteFile()
@@ -263,8 +263,8 @@ Deletes a specified file from a specified branch. A commit is created on the bra
 - `keepEmptyFolders`: If a file is the only object in the folder or directory, specifies whether to delete the folder or directory that contains the file. By default, empty folders are deleted. This includes empty folders that are part of the directory structure. For example, if the path to a file is dir1/dir2/dir3/dir4, and dir2 and dir3 are empty, deleting the last file in dir4 also deletes the empty folders dir4, dir3, and dir2.
 - `name`: The name of the author of the commit that deletes the file. If no name is specified, the user's ARN is used as the author name and committer name.
 """
-DeleteFile(branchName, filePath, parentCommitId, repositoryName; aws::AWSConfig=AWSConfig()) = codecommit("DeleteFile", Dict{String, Any}("branchName"=>branchName, "filePath"=>filePath, "parentCommitId"=>parentCommitId, "repositoryName"=>repositoryName); aws=aws)
-DeleteFile(branchName, filePath, parentCommitId, repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("DeleteFile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("branchName"=>branchName, "filePath"=>filePath, "parentCommitId"=>parentCommitId, "repositoryName"=>repositoryName), args)); aws=aws)
+DeleteFile(branchName, filePath, parentCommitId, repositoryName; aws::AWSConfig=AWS.aws_config) = codecommit("DeleteFile", Dict{String, Any}("branchName"=>branchName, "filePath"=>filePath, "parentCommitId"=>parentCommitId, "repositoryName"=>repositoryName); aws=aws)
+DeleteFile(branchName, filePath, parentCommitId, repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("DeleteFile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("branchName"=>branchName, "filePath"=>filePath, "parentCommitId"=>parentCommitId, "repositoryName"=>repositoryName), args)); aws=aws)
 
 """
     DeletePullRequestApprovalRule()
@@ -276,8 +276,8 @@ Deletes an approval rule from a specified pull request. Approval rules can be de
 - `pullRequestId`: The system-generated ID of the pull request that contains the approval rule you want to delete.
 
 """
-DeletePullRequestApprovalRule(approvalRuleName, pullRequestId; aws::AWSConfig=AWSConfig()) = codecommit("DeletePullRequestApprovalRule", Dict{String, Any}("approvalRuleName"=>approvalRuleName, "pullRequestId"=>pullRequestId); aws=aws)
-DeletePullRequestApprovalRule(approvalRuleName, pullRequestId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("DeletePullRequestApprovalRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("approvalRuleName"=>approvalRuleName, "pullRequestId"=>pullRequestId), args)); aws=aws)
+DeletePullRequestApprovalRule(approvalRuleName, pullRequestId; aws::AWSConfig=AWS.aws_config) = codecommit("DeletePullRequestApprovalRule", Dict{String, Any}("approvalRuleName"=>approvalRuleName, "pullRequestId"=>pullRequestId); aws=aws)
+DeletePullRequestApprovalRule(approvalRuleName, pullRequestId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("DeletePullRequestApprovalRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("approvalRuleName"=>approvalRuleName, "pullRequestId"=>pullRequestId), args)); aws=aws)
 
 """
     DeleteRepository()
@@ -288,8 +288,8 @@ Deletes a repository. If a specified repository was already deleted, a null repo
 - `repositoryName`: The name of the repository to delete.
 
 """
-DeleteRepository(repositoryName; aws::AWSConfig=AWSConfig()) = codecommit("DeleteRepository", Dict{String, Any}("repositoryName"=>repositoryName); aws=aws)
-DeleteRepository(repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("DeleteRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws=aws)
+DeleteRepository(repositoryName; aws::AWSConfig=AWS.aws_config) = codecommit("DeleteRepository", Dict{String, Any}("repositoryName"=>repositoryName); aws=aws)
+DeleteRepository(repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("DeleteRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws=aws)
 
 """
     DescribeMergeConflicts()
@@ -309,8 +309,8 @@ Returns information about one or more merge conflicts in the attempted merge of 
 - `maxMergeHunks`: The maximum number of merge hunks to include in the output.
 - `nextToken`: An enumeration token that, when provided in a request, returns the next batch of the results.
 """
-DescribeMergeConflicts(destinationCommitSpecifier, filePath, mergeOption, repositoryName, sourceCommitSpecifier; aws::AWSConfig=AWSConfig()) = codecommit("DescribeMergeConflicts", Dict{String, Any}("destinationCommitSpecifier"=>destinationCommitSpecifier, "filePath"=>filePath, "mergeOption"=>mergeOption, "repositoryName"=>repositoryName, "sourceCommitSpecifier"=>sourceCommitSpecifier); aws=aws)
-DescribeMergeConflicts(destinationCommitSpecifier, filePath, mergeOption, repositoryName, sourceCommitSpecifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("DescribeMergeConflicts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationCommitSpecifier"=>destinationCommitSpecifier, "filePath"=>filePath, "mergeOption"=>mergeOption, "repositoryName"=>repositoryName, "sourceCommitSpecifier"=>sourceCommitSpecifier), args)); aws=aws)
+DescribeMergeConflicts(destinationCommitSpecifier, filePath, mergeOption, repositoryName, sourceCommitSpecifier; aws::AWSConfig=AWS.aws_config) = codecommit("DescribeMergeConflicts", Dict{String, Any}("destinationCommitSpecifier"=>destinationCommitSpecifier, "filePath"=>filePath, "mergeOption"=>mergeOption, "repositoryName"=>repositoryName, "sourceCommitSpecifier"=>sourceCommitSpecifier); aws=aws)
+DescribeMergeConflicts(destinationCommitSpecifier, filePath, mergeOption, repositoryName, sourceCommitSpecifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("DescribeMergeConflicts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationCommitSpecifier"=>destinationCommitSpecifier, "filePath"=>filePath, "mergeOption"=>mergeOption, "repositoryName"=>repositoryName, "sourceCommitSpecifier"=>sourceCommitSpecifier), args)); aws=aws)
 
 """
     DescribePullRequestEvents()
@@ -326,8 +326,8 @@ Returns information about one or more pull request events.
 - `nextToken`: An enumeration token that, when provided in a request, returns the next batch of the results.
 - `pullRequestEventType`: Optional. The pull request event type about which you want to return information.
 """
-DescribePullRequestEvents(pullRequestId; aws::AWSConfig=AWSConfig()) = codecommit("DescribePullRequestEvents", Dict{String, Any}("pullRequestId"=>pullRequestId); aws=aws)
-DescribePullRequestEvents(pullRequestId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("DescribePullRequestEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pullRequestId"=>pullRequestId), args)); aws=aws)
+DescribePullRequestEvents(pullRequestId; aws::AWSConfig=AWS.aws_config) = codecommit("DescribePullRequestEvents", Dict{String, Any}("pullRequestId"=>pullRequestId); aws=aws)
+DescribePullRequestEvents(pullRequestId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("DescribePullRequestEvents", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pullRequestId"=>pullRequestId), args)); aws=aws)
 
 """
     DisassociateApprovalRuleTemplateFromRepository()
@@ -339,8 +339,8 @@ Removes the association between a template and a repository so that approval rul
 - `repositoryName`: The name of the repository you want to disassociate from the template.
 
 """
-DisassociateApprovalRuleTemplateFromRepository(approvalRuleTemplateName, repositoryName; aws::AWSConfig=AWSConfig()) = codecommit("DisassociateApprovalRuleTemplateFromRepository", Dict{String, Any}("approvalRuleTemplateName"=>approvalRuleTemplateName, "repositoryName"=>repositoryName); aws=aws)
-DisassociateApprovalRuleTemplateFromRepository(approvalRuleTemplateName, repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("DisassociateApprovalRuleTemplateFromRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("approvalRuleTemplateName"=>approvalRuleTemplateName, "repositoryName"=>repositoryName), args)); aws=aws)
+DisassociateApprovalRuleTemplateFromRepository(approvalRuleTemplateName, repositoryName; aws::AWSConfig=AWS.aws_config) = codecommit("DisassociateApprovalRuleTemplateFromRepository", Dict{String, Any}("approvalRuleTemplateName"=>approvalRuleTemplateName, "repositoryName"=>repositoryName); aws=aws)
+DisassociateApprovalRuleTemplateFromRepository(approvalRuleTemplateName, repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("DisassociateApprovalRuleTemplateFromRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("approvalRuleTemplateName"=>approvalRuleTemplateName, "repositoryName"=>repositoryName), args)); aws=aws)
 
 """
     EvaluatePullRequestApprovalRules()
@@ -352,8 +352,8 @@ Evaluates whether a pull request has met all the conditions specified in its ass
 - `revisionId`: The system-generated ID for the pull request revision. To retrieve the most recent revision ID for a pull request, use GetPullRequest.
 
 """
-EvaluatePullRequestApprovalRules(pullRequestId, revisionId; aws::AWSConfig=AWSConfig()) = codecommit("EvaluatePullRequestApprovalRules", Dict{String, Any}("pullRequestId"=>pullRequestId, "revisionId"=>revisionId); aws=aws)
-EvaluatePullRequestApprovalRules(pullRequestId, revisionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("EvaluatePullRequestApprovalRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pullRequestId"=>pullRequestId, "revisionId"=>revisionId), args)); aws=aws)
+EvaluatePullRequestApprovalRules(pullRequestId, revisionId; aws::AWSConfig=AWS.aws_config) = codecommit("EvaluatePullRequestApprovalRules", Dict{String, Any}("pullRequestId"=>pullRequestId, "revisionId"=>revisionId); aws=aws)
+EvaluatePullRequestApprovalRules(pullRequestId, revisionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("EvaluatePullRequestApprovalRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pullRequestId"=>pullRequestId, "revisionId"=>revisionId), args)); aws=aws)
 
 """
     GetApprovalRuleTemplate()
@@ -364,8 +364,8 @@ Returns information about a specified approval rule template.
 - `approvalRuleTemplateName`: The name of the approval rule template for which you want to get information.
 
 """
-GetApprovalRuleTemplate(approvalRuleTemplateName; aws::AWSConfig=AWSConfig()) = codecommit("GetApprovalRuleTemplate", Dict{String, Any}("approvalRuleTemplateName"=>approvalRuleTemplateName); aws=aws)
-GetApprovalRuleTemplate(approvalRuleTemplateName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("GetApprovalRuleTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("approvalRuleTemplateName"=>approvalRuleTemplateName), args)); aws=aws)
+GetApprovalRuleTemplate(approvalRuleTemplateName; aws::AWSConfig=AWS.aws_config) = codecommit("GetApprovalRuleTemplate", Dict{String, Any}("approvalRuleTemplateName"=>approvalRuleTemplateName); aws=aws)
+GetApprovalRuleTemplate(approvalRuleTemplateName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("GetApprovalRuleTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("approvalRuleTemplateName"=>approvalRuleTemplateName), args)); aws=aws)
 
 """
     GetBlob()
@@ -377,8 +377,8 @@ Returns the base-64 encoded content of an individual blob in a repository.
 - `repositoryName`: The name of the repository that contains the blob.
 
 """
-GetBlob(blobId, repositoryName; aws::AWSConfig=AWSConfig()) = codecommit("GetBlob", Dict{String, Any}("blobId"=>blobId, "repositoryName"=>repositoryName); aws=aws)
-GetBlob(blobId, repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("GetBlob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("blobId"=>blobId, "repositoryName"=>repositoryName), args)); aws=aws)
+GetBlob(blobId, repositoryName; aws::AWSConfig=AWS.aws_config) = codecommit("GetBlob", Dict{String, Any}("blobId"=>blobId, "repositoryName"=>repositoryName); aws=aws)
+GetBlob(blobId, repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("GetBlob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("blobId"=>blobId, "repositoryName"=>repositoryName), args)); aws=aws)
 
 """
     GetBranch()
@@ -389,8 +389,8 @@ Returns information about a repository branch, including its name and the last c
 - `branchName`: The name of the branch for which you want to retrieve information.
 - `repositoryName`: The name of the repository that contains the branch for which you want to retrieve information.
 """
-GetBranch(; aws::AWSConfig=AWSConfig()) = codecommit("GetBranch"; aws=aws)
-GetBranch(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("GetBranch", args; aws=aws)
+GetBranch(; aws::AWSConfig=AWS.aws_config) = codecommit("GetBranch"; aws=aws)
+GetBranch(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("GetBranch", args; aws=aws)
 
 """
     GetComment()
@@ -401,8 +401,8 @@ Returns the content of a comment made on a change, file, or commit in a reposito
 - `commentId`: The unique, system-generated ID of the comment. To get this ID, use GetCommentsForComparedCommit or GetCommentsForPullRequest.
 
 """
-GetComment(commentId; aws::AWSConfig=AWSConfig()) = codecommit("GetComment", Dict{String, Any}("commentId"=>commentId); aws=aws)
-GetComment(commentId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("GetComment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("commentId"=>commentId), args)); aws=aws)
+GetComment(commentId; aws::AWSConfig=AWS.aws_config) = codecommit("GetComment", Dict{String, Any}("commentId"=>commentId); aws=aws)
+GetComment(commentId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("GetComment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("commentId"=>commentId), args)); aws=aws)
 
 """
     GetCommentReactions()
@@ -417,8 +417,8 @@ Returns information about reactions to a specified comment ID. Reactions from us
 - `nextToken`: An enumeration token that, when provided in a request, returns the next batch of the results. 
 - `reactionUserArn`: Optional. The Amazon Resource Name (ARN) of the user or identity for which you want to get reaction information.
 """
-GetCommentReactions(commentId; aws::AWSConfig=AWSConfig()) = codecommit("GetCommentReactions", Dict{String, Any}("commentId"=>commentId); aws=aws)
-GetCommentReactions(commentId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("GetCommentReactions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("commentId"=>commentId), args)); aws=aws)
+GetCommentReactions(commentId; aws::AWSConfig=AWS.aws_config) = codecommit("GetCommentReactions", Dict{String, Any}("commentId"=>commentId); aws=aws)
+GetCommentReactions(commentId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("GetCommentReactions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("commentId"=>commentId), args)); aws=aws)
 
 """
     GetCommentsForComparedCommit()
@@ -434,8 +434,8 @@ Returns information about comments made on the comparison between two commits.  
 - `maxResults`: A non-zero, non-negative integer used to limit the number of returned results. The default is 100 comments, but you can configure up to 500.
 - `nextToken`: An enumeration token that when provided in a request, returns the next batch of the results. 
 """
-GetCommentsForComparedCommit(afterCommitId, repositoryName; aws::AWSConfig=AWSConfig()) = codecommit("GetCommentsForComparedCommit", Dict{String, Any}("afterCommitId"=>afterCommitId, "repositoryName"=>repositoryName); aws=aws)
-GetCommentsForComparedCommit(afterCommitId, repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("GetCommentsForComparedCommit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("afterCommitId"=>afterCommitId, "repositoryName"=>repositoryName), args)); aws=aws)
+GetCommentsForComparedCommit(afterCommitId, repositoryName; aws::AWSConfig=AWS.aws_config) = codecommit("GetCommentsForComparedCommit", Dict{String, Any}("afterCommitId"=>afterCommitId, "repositoryName"=>repositoryName); aws=aws)
+GetCommentsForComparedCommit(afterCommitId, repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("GetCommentsForComparedCommit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("afterCommitId"=>afterCommitId, "repositoryName"=>repositoryName), args)); aws=aws)
 
 """
     GetCommentsForPullRequest()
@@ -452,8 +452,8 @@ Returns comments made on a pull request.  Reaction counts might include numbers 
 - `nextToken`: An enumeration token that, when provided in a request, returns the next batch of the results.
 - `repositoryName`: The name of the repository that contains the pull request.
 """
-GetCommentsForPullRequest(pullRequestId; aws::AWSConfig=AWSConfig()) = codecommit("GetCommentsForPullRequest", Dict{String, Any}("pullRequestId"=>pullRequestId); aws=aws)
-GetCommentsForPullRequest(pullRequestId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("GetCommentsForPullRequest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pullRequestId"=>pullRequestId), args)); aws=aws)
+GetCommentsForPullRequest(pullRequestId; aws::AWSConfig=AWS.aws_config) = codecommit("GetCommentsForPullRequest", Dict{String, Any}("pullRequestId"=>pullRequestId); aws=aws)
+GetCommentsForPullRequest(pullRequestId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("GetCommentsForPullRequest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pullRequestId"=>pullRequestId), args)); aws=aws)
 
 """
     GetCommit()
@@ -465,8 +465,8 @@ Returns information about a commit, including commit message and committer infor
 - `repositoryName`: The name of the repository to which the commit was made.
 
 """
-GetCommit(commitId, repositoryName; aws::AWSConfig=AWSConfig()) = codecommit("GetCommit", Dict{String, Any}("commitId"=>commitId, "repositoryName"=>repositoryName); aws=aws)
-GetCommit(commitId, repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("GetCommit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("commitId"=>commitId, "repositoryName"=>repositoryName), args)); aws=aws)
+GetCommit(commitId, repositoryName; aws::AWSConfig=AWS.aws_config) = codecommit("GetCommit", Dict{String, Any}("commitId"=>commitId, "repositoryName"=>repositoryName); aws=aws)
+GetCommit(commitId, repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("GetCommit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("commitId"=>commitId, "repositoryName"=>repositoryName), args)); aws=aws)
 
 """
     GetDifferences()
@@ -484,8 +484,8 @@ Returns information about the differences in a valid commit specifier (such as a
 - `beforeCommitSpecifier`: The branch, tag, HEAD, or other fully qualified reference used to identify a commit (for example, the full commit ID). Optional. If not specified, all changes before the afterCommitSpecifier value are shown. If you do not use beforeCommitSpecifier in your request, consider limiting the results with maxResults.
 - `beforePath`: The file path in which to check for differences. Limits the results to this path. Can also be used to specify the previous name of a directory or folder. If beforePath and afterPath are not specified, differences are shown for all paths.
 """
-GetDifferences(afterCommitSpecifier, repositoryName; aws::AWSConfig=AWSConfig()) = codecommit("GetDifferences", Dict{String, Any}("afterCommitSpecifier"=>afterCommitSpecifier, "repositoryName"=>repositoryName); aws=aws)
-GetDifferences(afterCommitSpecifier, repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("GetDifferences", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("afterCommitSpecifier"=>afterCommitSpecifier, "repositoryName"=>repositoryName), args)); aws=aws)
+GetDifferences(afterCommitSpecifier, repositoryName; aws::AWSConfig=AWS.aws_config) = codecommit("GetDifferences", Dict{String, Any}("afterCommitSpecifier"=>afterCommitSpecifier, "repositoryName"=>repositoryName); aws=aws)
+GetDifferences(afterCommitSpecifier, repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("GetDifferences", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("afterCommitSpecifier"=>afterCommitSpecifier, "repositoryName"=>repositoryName), args)); aws=aws)
 
 """
     GetFile()
@@ -499,8 +499,8 @@ Returns the base-64 encoded contents of a specified file and its metadata.
 # Optional Parameters
 - `commitSpecifier`: The fully quaified reference that identifies the commit that contains the file. For example, you can specify a full commit ID, a tag, a branch name, or a reference such as refs/heads/master. If none is provided, the head commit is used.
 """
-GetFile(filePath, repositoryName; aws::AWSConfig=AWSConfig()) = codecommit("GetFile", Dict{String, Any}("filePath"=>filePath, "repositoryName"=>repositoryName); aws=aws)
-GetFile(filePath, repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("GetFile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filePath"=>filePath, "repositoryName"=>repositoryName), args)); aws=aws)
+GetFile(filePath, repositoryName; aws::AWSConfig=AWS.aws_config) = codecommit("GetFile", Dict{String, Any}("filePath"=>filePath, "repositoryName"=>repositoryName); aws=aws)
+GetFile(filePath, repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("GetFile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filePath"=>filePath, "repositoryName"=>repositoryName), args)); aws=aws)
 
 """
     GetFolder()
@@ -514,8 +514,8 @@ Returns the contents of a specified folder in a repository.
 # Optional Parameters
 - `commitSpecifier`: A fully qualified reference used to identify a commit that contains the version of the folder's content to return. A fully qualified reference can be a commit ID, branch name, tag, or reference such as HEAD. If no specifier is provided, the folder content is returned as it exists in the HEAD commit.
 """
-GetFolder(folderPath, repositoryName; aws::AWSConfig=AWSConfig()) = codecommit("GetFolder", Dict{String, Any}("folderPath"=>folderPath, "repositoryName"=>repositoryName); aws=aws)
-GetFolder(folderPath, repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("GetFolder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("folderPath"=>folderPath, "repositoryName"=>repositoryName), args)); aws=aws)
+GetFolder(folderPath, repositoryName; aws::AWSConfig=AWS.aws_config) = codecommit("GetFolder", Dict{String, Any}("folderPath"=>folderPath, "repositoryName"=>repositoryName); aws=aws)
+GetFolder(folderPath, repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("GetFolder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("folderPath"=>folderPath, "repositoryName"=>repositoryName), args)); aws=aws)
 
 """
     GetMergeCommit()
@@ -531,8 +531,8 @@ Returns information about a specified merge commit.
 - `conflictDetailLevel`: The level of conflict detail to use. If unspecified, the default FILE_LEVEL is used, which returns a not-mergeable result if the same file has differences in both branches. If LINE_LEVEL is specified, a conflict is considered not mergeable if the same file in both branches has differences on the same line.
 - `conflictResolutionStrategy`: Specifies which branch to use when resolving conflicts, or whether to attempt automatically merging two versions of a file. The default is NONE, which requires any conflicts to be resolved manually before the merge operation is successful.
 """
-GetMergeCommit(destinationCommitSpecifier, repositoryName, sourceCommitSpecifier; aws::AWSConfig=AWSConfig()) = codecommit("GetMergeCommit", Dict{String, Any}("destinationCommitSpecifier"=>destinationCommitSpecifier, "repositoryName"=>repositoryName, "sourceCommitSpecifier"=>sourceCommitSpecifier); aws=aws)
-GetMergeCommit(destinationCommitSpecifier, repositoryName, sourceCommitSpecifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("GetMergeCommit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationCommitSpecifier"=>destinationCommitSpecifier, "repositoryName"=>repositoryName, "sourceCommitSpecifier"=>sourceCommitSpecifier), args)); aws=aws)
+GetMergeCommit(destinationCommitSpecifier, repositoryName, sourceCommitSpecifier; aws::AWSConfig=AWS.aws_config) = codecommit("GetMergeCommit", Dict{String, Any}("destinationCommitSpecifier"=>destinationCommitSpecifier, "repositoryName"=>repositoryName, "sourceCommitSpecifier"=>sourceCommitSpecifier); aws=aws)
+GetMergeCommit(destinationCommitSpecifier, repositoryName, sourceCommitSpecifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("GetMergeCommit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationCommitSpecifier"=>destinationCommitSpecifier, "repositoryName"=>repositoryName, "sourceCommitSpecifier"=>sourceCommitSpecifier), args)); aws=aws)
 
 """
     GetMergeConflicts()
@@ -551,8 +551,8 @@ Returns information about merge conflicts between the before and after commit ID
 - `maxConflictFiles`: The maximum number of files to include in the output.
 - `nextToken`: An enumeration token that, when provided in a request, returns the next batch of the results.
 """
-GetMergeConflicts(destinationCommitSpecifier, mergeOption, repositoryName, sourceCommitSpecifier; aws::AWSConfig=AWSConfig()) = codecommit("GetMergeConflicts", Dict{String, Any}("destinationCommitSpecifier"=>destinationCommitSpecifier, "mergeOption"=>mergeOption, "repositoryName"=>repositoryName, "sourceCommitSpecifier"=>sourceCommitSpecifier); aws=aws)
-GetMergeConflicts(destinationCommitSpecifier, mergeOption, repositoryName, sourceCommitSpecifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("GetMergeConflicts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationCommitSpecifier"=>destinationCommitSpecifier, "mergeOption"=>mergeOption, "repositoryName"=>repositoryName, "sourceCommitSpecifier"=>sourceCommitSpecifier), args)); aws=aws)
+GetMergeConflicts(destinationCommitSpecifier, mergeOption, repositoryName, sourceCommitSpecifier; aws::AWSConfig=AWS.aws_config) = codecommit("GetMergeConflicts", Dict{String, Any}("destinationCommitSpecifier"=>destinationCommitSpecifier, "mergeOption"=>mergeOption, "repositoryName"=>repositoryName, "sourceCommitSpecifier"=>sourceCommitSpecifier); aws=aws)
+GetMergeConflicts(destinationCommitSpecifier, mergeOption, repositoryName, sourceCommitSpecifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("GetMergeConflicts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationCommitSpecifier"=>destinationCommitSpecifier, "mergeOption"=>mergeOption, "repositoryName"=>repositoryName, "sourceCommitSpecifier"=>sourceCommitSpecifier), args)); aws=aws)
 
 """
     GetMergeOptions()
@@ -568,8 +568,8 @@ Returns information about the merge options available for merging two specified 
 - `conflictDetailLevel`: The level of conflict detail to use. If unspecified, the default FILE_LEVEL is used, which returns a not-mergeable result if the same file has differences in both branches. If LINE_LEVEL is specified, a conflict is considered not mergeable if the same file in both branches has differences on the same line.
 - `conflictResolutionStrategy`: Specifies which branch to use when resolving conflicts, or whether to attempt automatically merging two versions of a file. The default is NONE, which requires any conflicts to be resolved manually before the merge operation is successful.
 """
-GetMergeOptions(destinationCommitSpecifier, repositoryName, sourceCommitSpecifier; aws::AWSConfig=AWSConfig()) = codecommit("GetMergeOptions", Dict{String, Any}("destinationCommitSpecifier"=>destinationCommitSpecifier, "repositoryName"=>repositoryName, "sourceCommitSpecifier"=>sourceCommitSpecifier); aws=aws)
-GetMergeOptions(destinationCommitSpecifier, repositoryName, sourceCommitSpecifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("GetMergeOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationCommitSpecifier"=>destinationCommitSpecifier, "repositoryName"=>repositoryName, "sourceCommitSpecifier"=>sourceCommitSpecifier), args)); aws=aws)
+GetMergeOptions(destinationCommitSpecifier, repositoryName, sourceCommitSpecifier; aws::AWSConfig=AWS.aws_config) = codecommit("GetMergeOptions", Dict{String, Any}("destinationCommitSpecifier"=>destinationCommitSpecifier, "repositoryName"=>repositoryName, "sourceCommitSpecifier"=>sourceCommitSpecifier); aws=aws)
+GetMergeOptions(destinationCommitSpecifier, repositoryName, sourceCommitSpecifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("GetMergeOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationCommitSpecifier"=>destinationCommitSpecifier, "repositoryName"=>repositoryName, "sourceCommitSpecifier"=>sourceCommitSpecifier), args)); aws=aws)
 
 """
     GetPullRequest()
@@ -580,8 +580,8 @@ Gets information about a pull request in a specified repository.
 - `pullRequestId`: The system-generated ID of the pull request. To get this ID, use ListPullRequests.
 
 """
-GetPullRequest(pullRequestId; aws::AWSConfig=AWSConfig()) = codecommit("GetPullRequest", Dict{String, Any}("pullRequestId"=>pullRequestId); aws=aws)
-GetPullRequest(pullRequestId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("GetPullRequest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pullRequestId"=>pullRequestId), args)); aws=aws)
+GetPullRequest(pullRequestId; aws::AWSConfig=AWS.aws_config) = codecommit("GetPullRequest", Dict{String, Any}("pullRequestId"=>pullRequestId); aws=aws)
+GetPullRequest(pullRequestId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("GetPullRequest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pullRequestId"=>pullRequestId), args)); aws=aws)
 
 """
     GetPullRequestApprovalStates()
@@ -593,8 +593,8 @@ Gets information about the approval states for a specified pull request. Approva
 - `revisionId`: The system-generated ID for the pull request revision.
 
 """
-GetPullRequestApprovalStates(pullRequestId, revisionId; aws::AWSConfig=AWSConfig()) = codecommit("GetPullRequestApprovalStates", Dict{String, Any}("pullRequestId"=>pullRequestId, "revisionId"=>revisionId); aws=aws)
-GetPullRequestApprovalStates(pullRequestId, revisionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("GetPullRequestApprovalStates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pullRequestId"=>pullRequestId, "revisionId"=>revisionId), args)); aws=aws)
+GetPullRequestApprovalStates(pullRequestId, revisionId; aws::AWSConfig=AWS.aws_config) = codecommit("GetPullRequestApprovalStates", Dict{String, Any}("pullRequestId"=>pullRequestId, "revisionId"=>revisionId); aws=aws)
+GetPullRequestApprovalStates(pullRequestId, revisionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("GetPullRequestApprovalStates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pullRequestId"=>pullRequestId, "revisionId"=>revisionId), args)); aws=aws)
 
 """
     GetPullRequestOverrideState()
@@ -606,8 +606,8 @@ Returns information about whether approval rules have been set aside (overridden
 - `revisionId`: The system-generated ID of the revision for the pull request. To retrieve the most recent revision ID, use GetPullRequest.
 
 """
-GetPullRequestOverrideState(pullRequestId, revisionId; aws::AWSConfig=AWSConfig()) = codecommit("GetPullRequestOverrideState", Dict{String, Any}("pullRequestId"=>pullRequestId, "revisionId"=>revisionId); aws=aws)
-GetPullRequestOverrideState(pullRequestId, revisionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("GetPullRequestOverrideState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pullRequestId"=>pullRequestId, "revisionId"=>revisionId), args)); aws=aws)
+GetPullRequestOverrideState(pullRequestId, revisionId; aws::AWSConfig=AWS.aws_config) = codecommit("GetPullRequestOverrideState", Dict{String, Any}("pullRequestId"=>pullRequestId, "revisionId"=>revisionId); aws=aws)
+GetPullRequestOverrideState(pullRequestId, revisionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("GetPullRequestOverrideState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pullRequestId"=>pullRequestId, "revisionId"=>revisionId), args)); aws=aws)
 
 """
     GetRepository()
@@ -618,8 +618,8 @@ Returns information about a repository.  The description field for a repository 
 - `repositoryName`: The name of the repository to get information about.
 
 """
-GetRepository(repositoryName; aws::AWSConfig=AWSConfig()) = codecommit("GetRepository", Dict{String, Any}("repositoryName"=>repositoryName); aws=aws)
-GetRepository(repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("GetRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws=aws)
+GetRepository(repositoryName; aws::AWSConfig=AWS.aws_config) = codecommit("GetRepository", Dict{String, Any}("repositoryName"=>repositoryName); aws=aws)
+GetRepository(repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("GetRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws=aws)
 
 """
     GetRepositoryTriggers()
@@ -630,8 +630,8 @@ Gets information about triggers configured for a repository.
 - `repositoryName`: The name of the repository for which the trigger is configured.
 
 """
-GetRepositoryTriggers(repositoryName; aws::AWSConfig=AWSConfig()) = codecommit("GetRepositoryTriggers", Dict{String, Any}("repositoryName"=>repositoryName); aws=aws)
-GetRepositoryTriggers(repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("GetRepositoryTriggers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws=aws)
+GetRepositoryTriggers(repositoryName; aws::AWSConfig=AWS.aws_config) = codecommit("GetRepositoryTriggers", Dict{String, Any}("repositoryName"=>repositoryName); aws=aws)
+GetRepositoryTriggers(repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("GetRepositoryTriggers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws=aws)
 
 """
     ListApprovalRuleTemplates()
@@ -642,8 +642,8 @@ Lists all approval rule templates in the specified AWS Region in your AWS accoun
 - `maxResults`: A non-zero, non-negative integer used to limit the number of returned results.
 - `nextToken`: An enumeration token that, when provided in a request, returns the next batch of the results.
 """
-ListApprovalRuleTemplates(; aws::AWSConfig=AWSConfig()) = codecommit("ListApprovalRuleTemplates"; aws=aws)
-ListApprovalRuleTemplates(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("ListApprovalRuleTemplates", args; aws=aws)
+ListApprovalRuleTemplates(; aws::AWSConfig=AWS.aws_config) = codecommit("ListApprovalRuleTemplates"; aws=aws)
+ListApprovalRuleTemplates(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("ListApprovalRuleTemplates", args; aws=aws)
 
 """
     ListAssociatedApprovalRuleTemplatesForRepository()
@@ -657,8 +657,8 @@ Lists all approval rule templates that are associated with a specified repositor
 - `maxResults`: A non-zero, non-negative integer used to limit the number of returned results.
 - `nextToken`: An enumeration token that, when provided in a request, returns the next batch of the results.
 """
-ListAssociatedApprovalRuleTemplatesForRepository(repositoryName; aws::AWSConfig=AWSConfig()) = codecommit("ListAssociatedApprovalRuleTemplatesForRepository", Dict{String, Any}("repositoryName"=>repositoryName); aws=aws)
-ListAssociatedApprovalRuleTemplatesForRepository(repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("ListAssociatedApprovalRuleTemplatesForRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws=aws)
+ListAssociatedApprovalRuleTemplatesForRepository(repositoryName; aws::AWSConfig=AWS.aws_config) = codecommit("ListAssociatedApprovalRuleTemplatesForRepository", Dict{String, Any}("repositoryName"=>repositoryName); aws=aws)
+ListAssociatedApprovalRuleTemplatesForRepository(repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("ListAssociatedApprovalRuleTemplatesForRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws=aws)
 
 """
     ListBranches()
@@ -671,8 +671,8 @@ Gets information about one or more branches in a repository.
 # Optional Parameters
 - `nextToken`: An enumeration token that allows the operation to batch the results.
 """
-ListBranches(repositoryName; aws::AWSConfig=AWSConfig()) = codecommit("ListBranches", Dict{String, Any}("repositoryName"=>repositoryName); aws=aws)
-ListBranches(repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("ListBranches", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws=aws)
+ListBranches(repositoryName; aws::AWSConfig=AWS.aws_config) = codecommit("ListBranches", Dict{String, Any}("repositoryName"=>repositoryName); aws=aws)
+ListBranches(repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("ListBranches", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws=aws)
 
 """
     ListPullRequests()
@@ -688,8 +688,8 @@ Returns a list of pull requests for a specified repository. The return list can 
 - `nextToken`: An enumeration token that, when provided in a request, returns the next batch of the results.
 - `pullRequestStatus`: Optional. The status of the pull request. If used, this refines the results to the pull requests that match the specified status.
 """
-ListPullRequests(repositoryName; aws::AWSConfig=AWSConfig()) = codecommit("ListPullRequests", Dict{String, Any}("repositoryName"=>repositoryName); aws=aws)
-ListPullRequests(repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("ListPullRequests", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws=aws)
+ListPullRequests(repositoryName; aws::AWSConfig=AWS.aws_config) = codecommit("ListPullRequests", Dict{String, Any}("repositoryName"=>repositoryName); aws=aws)
+ListPullRequests(repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("ListPullRequests", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws=aws)
 
 """
     ListRepositories()
@@ -701,8 +701,8 @@ Gets information about one or more repositories.
 - `order`: The order in which to sort the results of a list repositories operation.
 - `sortBy`: The criteria used to sort the results of a list repositories operation.
 """
-ListRepositories(; aws::AWSConfig=AWSConfig()) = codecommit("ListRepositories"; aws=aws)
-ListRepositories(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("ListRepositories", args; aws=aws)
+ListRepositories(; aws::AWSConfig=AWS.aws_config) = codecommit("ListRepositories"; aws=aws)
+ListRepositories(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("ListRepositories", args; aws=aws)
 
 """
     ListRepositoriesForApprovalRuleTemplate()
@@ -716,8 +716,8 @@ Lists all repositories associated with the specified approval rule template.
 - `maxResults`: A non-zero, non-negative integer used to limit the number of returned results.
 - `nextToken`: An enumeration token that, when provided in a request, returns the next batch of the results.
 """
-ListRepositoriesForApprovalRuleTemplate(approvalRuleTemplateName; aws::AWSConfig=AWSConfig()) = codecommit("ListRepositoriesForApprovalRuleTemplate", Dict{String, Any}("approvalRuleTemplateName"=>approvalRuleTemplateName); aws=aws)
-ListRepositoriesForApprovalRuleTemplate(approvalRuleTemplateName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("ListRepositoriesForApprovalRuleTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("approvalRuleTemplateName"=>approvalRuleTemplateName), args)); aws=aws)
+ListRepositoriesForApprovalRuleTemplate(approvalRuleTemplateName; aws::AWSConfig=AWS.aws_config) = codecommit("ListRepositoriesForApprovalRuleTemplate", Dict{String, Any}("approvalRuleTemplateName"=>approvalRuleTemplateName); aws=aws)
+ListRepositoriesForApprovalRuleTemplate(approvalRuleTemplateName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("ListRepositoriesForApprovalRuleTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("approvalRuleTemplateName"=>approvalRuleTemplateName), args)); aws=aws)
 
 """
     ListTagsForResource()
@@ -730,8 +730,8 @@ Gets information about AWS tags for a specified Amazon Resource Name (ARN) in AW
 # Optional Parameters
 - `nextToken`: An enumeration token that, when provided in a request, returns the next batch of the results.
 """
-ListTagsForResource(resourceArn; aws::AWSConfig=AWSConfig()) = codecommit("ListTagsForResource", Dict{String, Any}("resourceArn"=>resourceArn); aws=aws)
-ListTagsForResource(resourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), args)); aws=aws)
+ListTagsForResource(resourceArn; aws::AWSConfig=AWS.aws_config) = codecommit("ListTagsForResource", Dict{String, Any}("resourceArn"=>resourceArn); aws=aws)
+ListTagsForResource(resourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), args)); aws=aws)
 
 """
     MergeBranchesByFastForward()
@@ -746,8 +746,8 @@ Merges two branches using the fast-forward merge strategy.
 # Optional Parameters
 - `targetBranch`: The branch where the merge is applied.
 """
-MergeBranchesByFastForward(destinationCommitSpecifier, repositoryName, sourceCommitSpecifier; aws::AWSConfig=AWSConfig()) = codecommit("MergeBranchesByFastForward", Dict{String, Any}("destinationCommitSpecifier"=>destinationCommitSpecifier, "repositoryName"=>repositoryName, "sourceCommitSpecifier"=>sourceCommitSpecifier); aws=aws)
-MergeBranchesByFastForward(destinationCommitSpecifier, repositoryName, sourceCommitSpecifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("MergeBranchesByFastForward", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationCommitSpecifier"=>destinationCommitSpecifier, "repositoryName"=>repositoryName, "sourceCommitSpecifier"=>sourceCommitSpecifier), args)); aws=aws)
+MergeBranchesByFastForward(destinationCommitSpecifier, repositoryName, sourceCommitSpecifier; aws::AWSConfig=AWS.aws_config) = codecommit("MergeBranchesByFastForward", Dict{String, Any}("destinationCommitSpecifier"=>destinationCommitSpecifier, "repositoryName"=>repositoryName, "sourceCommitSpecifier"=>sourceCommitSpecifier); aws=aws)
+MergeBranchesByFastForward(destinationCommitSpecifier, repositoryName, sourceCommitSpecifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("MergeBranchesByFastForward", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationCommitSpecifier"=>destinationCommitSpecifier, "repositoryName"=>repositoryName, "sourceCommitSpecifier"=>sourceCommitSpecifier), args)); aws=aws)
 
 """
     MergeBranchesBySquash()
@@ -769,8 +769,8 @@ Merges two branches using the squash merge strategy.
 - `keepEmptyFolders`: If the commit contains deletions, whether to keep a folder or folder structure if the changes leave the folders empty. If this is specified as true, a .gitkeep file is created for empty folders. The default is false.
 - `targetBranch`: The branch where the merge is applied. 
 """
-MergeBranchesBySquash(destinationCommitSpecifier, repositoryName, sourceCommitSpecifier; aws::AWSConfig=AWSConfig()) = codecommit("MergeBranchesBySquash", Dict{String, Any}("destinationCommitSpecifier"=>destinationCommitSpecifier, "repositoryName"=>repositoryName, "sourceCommitSpecifier"=>sourceCommitSpecifier); aws=aws)
-MergeBranchesBySquash(destinationCommitSpecifier, repositoryName, sourceCommitSpecifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("MergeBranchesBySquash", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationCommitSpecifier"=>destinationCommitSpecifier, "repositoryName"=>repositoryName, "sourceCommitSpecifier"=>sourceCommitSpecifier), args)); aws=aws)
+MergeBranchesBySquash(destinationCommitSpecifier, repositoryName, sourceCommitSpecifier; aws::AWSConfig=AWS.aws_config) = codecommit("MergeBranchesBySquash", Dict{String, Any}("destinationCommitSpecifier"=>destinationCommitSpecifier, "repositoryName"=>repositoryName, "sourceCommitSpecifier"=>sourceCommitSpecifier); aws=aws)
+MergeBranchesBySquash(destinationCommitSpecifier, repositoryName, sourceCommitSpecifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("MergeBranchesBySquash", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationCommitSpecifier"=>destinationCommitSpecifier, "repositoryName"=>repositoryName, "sourceCommitSpecifier"=>sourceCommitSpecifier), args)); aws=aws)
 
 """
     MergeBranchesByThreeWay()
@@ -792,8 +792,8 @@ Merges two specified branches using the three-way merge strategy.
 - `keepEmptyFolders`: If the commit contains deletions, whether to keep a folder or folder structure if the changes leave the folders empty. If true, a .gitkeep file is created for empty folders. The default is false.
 - `targetBranch`: The branch where the merge is applied. 
 """
-MergeBranchesByThreeWay(destinationCommitSpecifier, repositoryName, sourceCommitSpecifier; aws::AWSConfig=AWSConfig()) = codecommit("MergeBranchesByThreeWay", Dict{String, Any}("destinationCommitSpecifier"=>destinationCommitSpecifier, "repositoryName"=>repositoryName, "sourceCommitSpecifier"=>sourceCommitSpecifier); aws=aws)
-MergeBranchesByThreeWay(destinationCommitSpecifier, repositoryName, sourceCommitSpecifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("MergeBranchesByThreeWay", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationCommitSpecifier"=>destinationCommitSpecifier, "repositoryName"=>repositoryName, "sourceCommitSpecifier"=>sourceCommitSpecifier), args)); aws=aws)
+MergeBranchesByThreeWay(destinationCommitSpecifier, repositoryName, sourceCommitSpecifier; aws::AWSConfig=AWS.aws_config) = codecommit("MergeBranchesByThreeWay", Dict{String, Any}("destinationCommitSpecifier"=>destinationCommitSpecifier, "repositoryName"=>repositoryName, "sourceCommitSpecifier"=>sourceCommitSpecifier); aws=aws)
+MergeBranchesByThreeWay(destinationCommitSpecifier, repositoryName, sourceCommitSpecifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("MergeBranchesByThreeWay", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destinationCommitSpecifier"=>destinationCommitSpecifier, "repositoryName"=>repositoryName, "sourceCommitSpecifier"=>sourceCommitSpecifier), args)); aws=aws)
 
 """
     MergePullRequestByFastForward()
@@ -807,8 +807,8 @@ Attempts to merge the source commit of a pull request into the specified destina
 # Optional Parameters
 - `sourceCommitId`: The full commit ID of the original or updated commit in the pull request source branch. Pass this value if you want an exception thrown if the current commit ID of the tip of the source branch does not match this commit ID.
 """
-MergePullRequestByFastForward(pullRequestId, repositoryName; aws::AWSConfig=AWSConfig()) = codecommit("MergePullRequestByFastForward", Dict{String, Any}("pullRequestId"=>pullRequestId, "repositoryName"=>repositoryName); aws=aws)
-MergePullRequestByFastForward(pullRequestId, repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("MergePullRequestByFastForward", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pullRequestId"=>pullRequestId, "repositoryName"=>repositoryName), args)); aws=aws)
+MergePullRequestByFastForward(pullRequestId, repositoryName; aws::AWSConfig=AWS.aws_config) = codecommit("MergePullRequestByFastForward", Dict{String, Any}("pullRequestId"=>pullRequestId, "repositoryName"=>repositoryName); aws=aws)
+MergePullRequestByFastForward(pullRequestId, repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("MergePullRequestByFastForward", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pullRequestId"=>pullRequestId, "repositoryName"=>repositoryName), args)); aws=aws)
 
 """
     MergePullRequestBySquash()
@@ -829,8 +829,8 @@ Attempts to merge the source commit of a pull request into the specified destina
 - `keepEmptyFolders`: If the commit contains deletions, whether to keep a folder or folder structure if the changes leave the folders empty. If true, a .gitkeep file is created for empty folders. The default is false.
 - `sourceCommitId`: The full commit ID of the original or updated commit in the pull request source branch. Pass this value if you want an exception thrown if the current commit ID of the tip of the source branch does not match this commit ID.
 """
-MergePullRequestBySquash(pullRequestId, repositoryName; aws::AWSConfig=AWSConfig()) = codecommit("MergePullRequestBySquash", Dict{String, Any}("pullRequestId"=>pullRequestId, "repositoryName"=>repositoryName); aws=aws)
-MergePullRequestBySquash(pullRequestId, repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("MergePullRequestBySquash", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pullRequestId"=>pullRequestId, "repositoryName"=>repositoryName), args)); aws=aws)
+MergePullRequestBySquash(pullRequestId, repositoryName; aws::AWSConfig=AWS.aws_config) = codecommit("MergePullRequestBySquash", Dict{String, Any}("pullRequestId"=>pullRequestId, "repositoryName"=>repositoryName); aws=aws)
+MergePullRequestBySquash(pullRequestId, repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("MergePullRequestBySquash", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pullRequestId"=>pullRequestId, "repositoryName"=>repositoryName), args)); aws=aws)
 
 """
     MergePullRequestByThreeWay()
@@ -851,8 +851,8 @@ Attempts to merge the source commit of a pull request into the specified destina
 - `keepEmptyFolders`: If the commit contains deletions, whether to keep a folder or folder structure if the changes leave the folders empty. If true, a .gitkeep file is created for empty folders. The default is false.
 - `sourceCommitId`: The full commit ID of the original or updated commit in the pull request source branch. Pass this value if you want an exception thrown if the current commit ID of the tip of the source branch does not match this commit ID.
 """
-MergePullRequestByThreeWay(pullRequestId, repositoryName; aws::AWSConfig=AWSConfig()) = codecommit("MergePullRequestByThreeWay", Dict{String, Any}("pullRequestId"=>pullRequestId, "repositoryName"=>repositoryName); aws=aws)
-MergePullRequestByThreeWay(pullRequestId, repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("MergePullRequestByThreeWay", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pullRequestId"=>pullRequestId, "repositoryName"=>repositoryName), args)); aws=aws)
+MergePullRequestByThreeWay(pullRequestId, repositoryName; aws::AWSConfig=AWS.aws_config) = codecommit("MergePullRequestByThreeWay", Dict{String, Any}("pullRequestId"=>pullRequestId, "repositoryName"=>repositoryName); aws=aws)
+MergePullRequestByThreeWay(pullRequestId, repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("MergePullRequestByThreeWay", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pullRequestId"=>pullRequestId, "repositoryName"=>repositoryName), args)); aws=aws)
 
 """
     OverridePullRequestApprovalRules()
@@ -865,8 +865,8 @@ Sets aside (overrides) all approval rule requirements for a specified pull reque
 - `revisionId`: The system-generated ID of the most recent revision of the pull request. You cannot override approval rules for anything but the most recent revision of a pull request. To get the revision ID, use GetPullRequest.
 
 """
-OverridePullRequestApprovalRules(overrideStatus, pullRequestId, revisionId; aws::AWSConfig=AWSConfig()) = codecommit("OverridePullRequestApprovalRules", Dict{String, Any}("overrideStatus"=>overrideStatus, "pullRequestId"=>pullRequestId, "revisionId"=>revisionId); aws=aws)
-OverridePullRequestApprovalRules(overrideStatus, pullRequestId, revisionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("OverridePullRequestApprovalRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("overrideStatus"=>overrideStatus, "pullRequestId"=>pullRequestId, "revisionId"=>revisionId), args)); aws=aws)
+OverridePullRequestApprovalRules(overrideStatus, pullRequestId, revisionId; aws::AWSConfig=AWS.aws_config) = codecommit("OverridePullRequestApprovalRules", Dict{String, Any}("overrideStatus"=>overrideStatus, "pullRequestId"=>pullRequestId, "revisionId"=>revisionId); aws=aws)
+OverridePullRequestApprovalRules(overrideStatus, pullRequestId, revisionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("OverridePullRequestApprovalRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("overrideStatus"=>overrideStatus, "pullRequestId"=>pullRequestId, "revisionId"=>revisionId), args)); aws=aws)
 
 """
     PostCommentForComparedCommit()
@@ -883,8 +883,8 @@ Posts a comment on the comparison between two commits.
 - `clientRequestToken`: A unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request returns information about the initial request that used that token.
 - `location`: The location of the comparison where you want to comment.
 """
-PostCommentForComparedCommit(afterCommitId, content, repositoryName; aws::AWSConfig=AWSConfig()) = codecommit("PostCommentForComparedCommit", Dict{String, Any}("afterCommitId"=>afterCommitId, "content"=>content, "repositoryName"=>repositoryName, "clientRequestToken"=>string(uuid4())); aws=aws)
-PostCommentForComparedCommit(afterCommitId, content, repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("PostCommentForComparedCommit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("afterCommitId"=>afterCommitId, "content"=>content, "repositoryName"=>repositoryName, "clientRequestToken"=>string(uuid4())), args)); aws=aws)
+PostCommentForComparedCommit(afterCommitId, content, repositoryName; aws::AWSConfig=AWS.aws_config) = codecommit("PostCommentForComparedCommit", Dict{String, Any}("afterCommitId"=>afterCommitId, "content"=>content, "repositoryName"=>repositoryName, "clientRequestToken"=>string(uuid4())); aws=aws)
+PostCommentForComparedCommit(afterCommitId, content, repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("PostCommentForComparedCommit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("afterCommitId"=>afterCommitId, "content"=>content, "repositoryName"=>repositoryName, "clientRequestToken"=>string(uuid4())), args)); aws=aws)
 
 """
     PostCommentForPullRequest()
@@ -902,8 +902,8 @@ Posts a comment on a pull request.
 - `clientRequestToken`: A unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request returns information about the initial request that used that token.
 - `location`: The location of the change where you want to post your comment. If no location is provided, the comment is posted as a general comment on the pull request difference between the before commit ID and the after commit ID.
 """
-PostCommentForPullRequest(afterCommitId, beforeCommitId, content, pullRequestId, repositoryName; aws::AWSConfig=AWSConfig()) = codecommit("PostCommentForPullRequest", Dict{String, Any}("afterCommitId"=>afterCommitId, "beforeCommitId"=>beforeCommitId, "content"=>content, "pullRequestId"=>pullRequestId, "repositoryName"=>repositoryName, "clientRequestToken"=>string(uuid4())); aws=aws)
-PostCommentForPullRequest(afterCommitId, beforeCommitId, content, pullRequestId, repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("PostCommentForPullRequest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("afterCommitId"=>afterCommitId, "beforeCommitId"=>beforeCommitId, "content"=>content, "pullRequestId"=>pullRequestId, "repositoryName"=>repositoryName, "clientRequestToken"=>string(uuid4())), args)); aws=aws)
+PostCommentForPullRequest(afterCommitId, beforeCommitId, content, pullRequestId, repositoryName; aws::AWSConfig=AWS.aws_config) = codecommit("PostCommentForPullRequest", Dict{String, Any}("afterCommitId"=>afterCommitId, "beforeCommitId"=>beforeCommitId, "content"=>content, "pullRequestId"=>pullRequestId, "repositoryName"=>repositoryName, "clientRequestToken"=>string(uuid4())); aws=aws)
+PostCommentForPullRequest(afterCommitId, beforeCommitId, content, pullRequestId, repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("PostCommentForPullRequest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("afterCommitId"=>afterCommitId, "beforeCommitId"=>beforeCommitId, "content"=>content, "pullRequestId"=>pullRequestId, "repositoryName"=>repositoryName, "clientRequestToken"=>string(uuid4())), args)); aws=aws)
 
 """
     PostCommentReply()
@@ -917,8 +917,8 @@ Posts a comment in reply to an existing comment on a comparison between commits 
 # Optional Parameters
 - `clientRequestToken`: A unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request returns information about the initial request that used that token.
 """
-PostCommentReply(content, inReplyTo; aws::AWSConfig=AWSConfig()) = codecommit("PostCommentReply", Dict{String, Any}("content"=>content, "inReplyTo"=>inReplyTo, "clientRequestToken"=>string(uuid4())); aws=aws)
-PostCommentReply(content, inReplyTo, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("PostCommentReply", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("content"=>content, "inReplyTo"=>inReplyTo, "clientRequestToken"=>string(uuid4())), args)); aws=aws)
+PostCommentReply(content, inReplyTo; aws::AWSConfig=AWS.aws_config) = codecommit("PostCommentReply", Dict{String, Any}("content"=>content, "inReplyTo"=>inReplyTo, "clientRequestToken"=>string(uuid4())); aws=aws)
+PostCommentReply(content, inReplyTo, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("PostCommentReply", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("content"=>content, "inReplyTo"=>inReplyTo, "clientRequestToken"=>string(uuid4())), args)); aws=aws)
 
 """
     PutCommentReaction()
@@ -930,8 +930,8 @@ Adds or updates a reaction to a specified comment for the user whose identity is
 - `reactionValue`: The emoji reaction you want to add or update. To remove a reaction, provide a value of blank or null. You can also provide the value of none. For information about emoji reaction values supported in AWS CodeCommit, see the AWS CodeCommit User Guide.
 
 """
-PutCommentReaction(commentId, reactionValue; aws::AWSConfig=AWSConfig()) = codecommit("PutCommentReaction", Dict{String, Any}("commentId"=>commentId, "reactionValue"=>reactionValue); aws=aws)
-PutCommentReaction(commentId, reactionValue, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("PutCommentReaction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("commentId"=>commentId, "reactionValue"=>reactionValue), args)); aws=aws)
+PutCommentReaction(commentId, reactionValue; aws::AWSConfig=AWS.aws_config) = codecommit("PutCommentReaction", Dict{String, Any}("commentId"=>commentId, "reactionValue"=>reactionValue); aws=aws)
+PutCommentReaction(commentId, reactionValue, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("PutCommentReaction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("commentId"=>commentId, "reactionValue"=>reactionValue), args)); aws=aws)
 
 """
     PutFile()
@@ -951,8 +951,8 @@ Adds or updates a file in a branch in an AWS CodeCommit repository, and generate
 - `name`: The name of the person adding or updating the file. Although it is optional, a name makes the commit history for your repository more useful.
 - `parentCommitId`: The full commit ID of the head commit in the branch where you want to add or update the file. If this is an empty repository, no commit ID is required. If this is not an empty repository, a commit ID is required.  The commit ID must match the ID of the head commit at the time of the operation. Otherwise, an error occurs, and the file is not added or updated.
 """
-PutFile(branchName, fileContent, filePath, repositoryName; aws::AWSConfig=AWSConfig()) = codecommit("PutFile", Dict{String, Any}("branchName"=>branchName, "fileContent"=>fileContent, "filePath"=>filePath, "repositoryName"=>repositoryName); aws=aws)
-PutFile(branchName, fileContent, filePath, repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("PutFile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("branchName"=>branchName, "fileContent"=>fileContent, "filePath"=>filePath, "repositoryName"=>repositoryName), args)); aws=aws)
+PutFile(branchName, fileContent, filePath, repositoryName; aws::AWSConfig=AWS.aws_config) = codecommit("PutFile", Dict{String, Any}("branchName"=>branchName, "fileContent"=>fileContent, "filePath"=>filePath, "repositoryName"=>repositoryName); aws=aws)
+PutFile(branchName, fileContent, filePath, repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("PutFile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("branchName"=>branchName, "fileContent"=>fileContent, "filePath"=>filePath, "repositoryName"=>repositoryName), args)); aws=aws)
 
 """
     PutRepositoryTriggers()
@@ -964,8 +964,8 @@ Replaces all triggers for a repository. Used to create or delete triggers.
 - `triggers`: The JSON block of configuration information for each trigger.
 
 """
-PutRepositoryTriggers(repositoryName, triggers; aws::AWSConfig=AWSConfig()) = codecommit("PutRepositoryTriggers", Dict{String, Any}("repositoryName"=>repositoryName, "triggers"=>triggers); aws=aws)
-PutRepositoryTriggers(repositoryName, triggers, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("PutRepositoryTriggers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName, "triggers"=>triggers), args)); aws=aws)
+PutRepositoryTriggers(repositoryName, triggers; aws::AWSConfig=AWS.aws_config) = codecommit("PutRepositoryTriggers", Dict{String, Any}("repositoryName"=>repositoryName, "triggers"=>triggers); aws=aws)
+PutRepositoryTriggers(repositoryName, triggers, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("PutRepositoryTriggers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName, "triggers"=>triggers), args)); aws=aws)
 
 """
     TagResource()
@@ -977,8 +977,8 @@ Adds or updates tags for a resource in AWS CodeCommit. For a list of valid resou
 - `tags`: The key-value pair to use when tagging this repository.
 
 """
-TagResource(resourceArn, tags; aws::AWSConfig=AWSConfig()) = codecommit("TagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws=aws)
-TagResource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), args)); aws=aws)
+TagResource(resourceArn, tags; aws::AWSConfig=AWS.aws_config) = codecommit("TagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws=aws)
+TagResource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), args)); aws=aws)
 
 """
     TestRepositoryTriggers()
@@ -990,8 +990,8 @@ Tests the functionality of repository triggers by sending information to the tri
 - `triggers`: The list of triggers to test.
 
 """
-TestRepositoryTriggers(repositoryName, triggers; aws::AWSConfig=AWSConfig()) = codecommit("TestRepositoryTriggers", Dict{String, Any}("repositoryName"=>repositoryName, "triggers"=>triggers); aws=aws)
-TestRepositoryTriggers(repositoryName, triggers, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("TestRepositoryTriggers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName, "triggers"=>triggers), args)); aws=aws)
+TestRepositoryTriggers(repositoryName, triggers; aws::AWSConfig=AWS.aws_config) = codecommit("TestRepositoryTriggers", Dict{String, Any}("repositoryName"=>repositoryName, "triggers"=>triggers); aws=aws)
+TestRepositoryTriggers(repositoryName, triggers, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("TestRepositoryTriggers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName, "triggers"=>triggers), args)); aws=aws)
 
 """
     UntagResource()
@@ -1003,8 +1003,8 @@ Removes tags for a resource in AWS CodeCommit. For a list of valid resources in 
 - `tagKeys`: The tag key for each tag that you want to remove from the resource.
 
 """
-UntagResource(resourceArn, tagKeys; aws::AWSConfig=AWSConfig()) = codecommit("UntagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws=aws)
-UntagResource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), args)); aws=aws)
+UntagResource(resourceArn, tagKeys; aws::AWSConfig=AWS.aws_config) = codecommit("UntagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws=aws)
+UntagResource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), args)); aws=aws)
 
 """
     UpdateApprovalRuleTemplateContent()
@@ -1018,8 +1018,8 @@ Updates the content of an approval rule template. You can change the number of r
 # Optional Parameters
 - `existingRuleContentSha256`: The SHA-256 hash signature for the content of the approval rule. You can retrieve this information by using GetPullRequest.
 """
-UpdateApprovalRuleTemplateContent(approvalRuleTemplateName, newRuleContent; aws::AWSConfig=AWSConfig()) = codecommit("UpdateApprovalRuleTemplateContent", Dict{String, Any}("approvalRuleTemplateName"=>approvalRuleTemplateName, "newRuleContent"=>newRuleContent); aws=aws)
-UpdateApprovalRuleTemplateContent(approvalRuleTemplateName, newRuleContent, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("UpdateApprovalRuleTemplateContent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("approvalRuleTemplateName"=>approvalRuleTemplateName, "newRuleContent"=>newRuleContent), args)); aws=aws)
+UpdateApprovalRuleTemplateContent(approvalRuleTemplateName, newRuleContent; aws::AWSConfig=AWS.aws_config) = codecommit("UpdateApprovalRuleTemplateContent", Dict{String, Any}("approvalRuleTemplateName"=>approvalRuleTemplateName, "newRuleContent"=>newRuleContent); aws=aws)
+UpdateApprovalRuleTemplateContent(approvalRuleTemplateName, newRuleContent, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("UpdateApprovalRuleTemplateContent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("approvalRuleTemplateName"=>approvalRuleTemplateName, "newRuleContent"=>newRuleContent), args)); aws=aws)
 
 """
     UpdateApprovalRuleTemplateDescription()
@@ -1031,8 +1031,8 @@ Updates the description for a specified approval rule template.
 - `approvalRuleTemplateName`: The name of the template for which you want to update the description.
 
 """
-UpdateApprovalRuleTemplateDescription(approvalRuleTemplateDescription, approvalRuleTemplateName; aws::AWSConfig=AWSConfig()) = codecommit("UpdateApprovalRuleTemplateDescription", Dict{String, Any}("approvalRuleTemplateDescription"=>approvalRuleTemplateDescription, "approvalRuleTemplateName"=>approvalRuleTemplateName); aws=aws)
-UpdateApprovalRuleTemplateDescription(approvalRuleTemplateDescription, approvalRuleTemplateName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("UpdateApprovalRuleTemplateDescription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("approvalRuleTemplateDescription"=>approvalRuleTemplateDescription, "approvalRuleTemplateName"=>approvalRuleTemplateName), args)); aws=aws)
+UpdateApprovalRuleTemplateDescription(approvalRuleTemplateDescription, approvalRuleTemplateName; aws::AWSConfig=AWS.aws_config) = codecommit("UpdateApprovalRuleTemplateDescription", Dict{String, Any}("approvalRuleTemplateDescription"=>approvalRuleTemplateDescription, "approvalRuleTemplateName"=>approvalRuleTemplateName); aws=aws)
+UpdateApprovalRuleTemplateDescription(approvalRuleTemplateDescription, approvalRuleTemplateName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("UpdateApprovalRuleTemplateDescription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("approvalRuleTemplateDescription"=>approvalRuleTemplateDescription, "approvalRuleTemplateName"=>approvalRuleTemplateName), args)); aws=aws)
 
 """
     UpdateApprovalRuleTemplateName()
@@ -1044,8 +1044,8 @@ Updates the name of a specified approval rule template.
 - `oldApprovalRuleTemplateName`: The current name of the approval rule template.
 
 """
-UpdateApprovalRuleTemplateName(newApprovalRuleTemplateName, oldApprovalRuleTemplateName; aws::AWSConfig=AWSConfig()) = codecommit("UpdateApprovalRuleTemplateName", Dict{String, Any}("newApprovalRuleTemplateName"=>newApprovalRuleTemplateName, "oldApprovalRuleTemplateName"=>oldApprovalRuleTemplateName); aws=aws)
-UpdateApprovalRuleTemplateName(newApprovalRuleTemplateName, oldApprovalRuleTemplateName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("UpdateApprovalRuleTemplateName", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("newApprovalRuleTemplateName"=>newApprovalRuleTemplateName, "oldApprovalRuleTemplateName"=>oldApprovalRuleTemplateName), args)); aws=aws)
+UpdateApprovalRuleTemplateName(newApprovalRuleTemplateName, oldApprovalRuleTemplateName; aws::AWSConfig=AWS.aws_config) = codecommit("UpdateApprovalRuleTemplateName", Dict{String, Any}("newApprovalRuleTemplateName"=>newApprovalRuleTemplateName, "oldApprovalRuleTemplateName"=>oldApprovalRuleTemplateName); aws=aws)
+UpdateApprovalRuleTemplateName(newApprovalRuleTemplateName, oldApprovalRuleTemplateName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("UpdateApprovalRuleTemplateName", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("newApprovalRuleTemplateName"=>newApprovalRuleTemplateName, "oldApprovalRuleTemplateName"=>oldApprovalRuleTemplateName), args)); aws=aws)
 
 """
     UpdateComment()
@@ -1057,8 +1057,8 @@ Replaces the contents of a comment.
 - `content`: The updated content to replace the existing content of the comment.
 
 """
-UpdateComment(commentId, content; aws::AWSConfig=AWSConfig()) = codecommit("UpdateComment", Dict{String, Any}("commentId"=>commentId, "content"=>content); aws=aws)
-UpdateComment(commentId, content, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("UpdateComment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("commentId"=>commentId, "content"=>content), args)); aws=aws)
+UpdateComment(commentId, content; aws::AWSConfig=AWS.aws_config) = codecommit("UpdateComment", Dict{String, Any}("commentId"=>commentId, "content"=>content); aws=aws)
+UpdateComment(commentId, content, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("UpdateComment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("commentId"=>commentId, "content"=>content), args)); aws=aws)
 
 """
     UpdateDefaultBranch()
@@ -1070,8 +1070,8 @@ Sets or changes the default branch name for the specified repository.  If you us
 - `repositoryName`: The name of the repository to set or change the default branch for.
 
 """
-UpdateDefaultBranch(defaultBranchName, repositoryName; aws::AWSConfig=AWSConfig()) = codecommit("UpdateDefaultBranch", Dict{String, Any}("defaultBranchName"=>defaultBranchName, "repositoryName"=>repositoryName); aws=aws)
-UpdateDefaultBranch(defaultBranchName, repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("UpdateDefaultBranch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("defaultBranchName"=>defaultBranchName, "repositoryName"=>repositoryName), args)); aws=aws)
+UpdateDefaultBranch(defaultBranchName, repositoryName; aws::AWSConfig=AWS.aws_config) = codecommit("UpdateDefaultBranch", Dict{String, Any}("defaultBranchName"=>defaultBranchName, "repositoryName"=>repositoryName); aws=aws)
+UpdateDefaultBranch(defaultBranchName, repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("UpdateDefaultBranch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("defaultBranchName"=>defaultBranchName, "repositoryName"=>repositoryName), args)); aws=aws)
 
 """
     UpdatePullRequestApprovalRuleContent()
@@ -1086,8 +1086,8 @@ Updates the structure of an approval rule created specifically for a pull reques
 # Optional Parameters
 - `existingRuleContentSha256`: The SHA-256 hash signature for the content of the approval rule. You can retrieve this information by using GetPullRequest.
 """
-UpdatePullRequestApprovalRuleContent(approvalRuleName, newRuleContent, pullRequestId; aws::AWSConfig=AWSConfig()) = codecommit("UpdatePullRequestApprovalRuleContent", Dict{String, Any}("approvalRuleName"=>approvalRuleName, "newRuleContent"=>newRuleContent, "pullRequestId"=>pullRequestId); aws=aws)
-UpdatePullRequestApprovalRuleContent(approvalRuleName, newRuleContent, pullRequestId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("UpdatePullRequestApprovalRuleContent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("approvalRuleName"=>approvalRuleName, "newRuleContent"=>newRuleContent, "pullRequestId"=>pullRequestId), args)); aws=aws)
+UpdatePullRequestApprovalRuleContent(approvalRuleName, newRuleContent, pullRequestId; aws::AWSConfig=AWS.aws_config) = codecommit("UpdatePullRequestApprovalRuleContent", Dict{String, Any}("approvalRuleName"=>approvalRuleName, "newRuleContent"=>newRuleContent, "pullRequestId"=>pullRequestId); aws=aws)
+UpdatePullRequestApprovalRuleContent(approvalRuleName, newRuleContent, pullRequestId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("UpdatePullRequestApprovalRuleContent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("approvalRuleName"=>approvalRuleName, "newRuleContent"=>newRuleContent, "pullRequestId"=>pullRequestId), args)); aws=aws)
 
 """
     UpdatePullRequestApprovalState()
@@ -1100,8 +1100,8 @@ Updates the state of a user's approval on a pull request. The user is derived fr
 - `revisionId`: The system-generated ID of the revision.
 
 """
-UpdatePullRequestApprovalState(approvalState, pullRequestId, revisionId; aws::AWSConfig=AWSConfig()) = codecommit("UpdatePullRequestApprovalState", Dict{String, Any}("approvalState"=>approvalState, "pullRequestId"=>pullRequestId, "revisionId"=>revisionId); aws=aws)
-UpdatePullRequestApprovalState(approvalState, pullRequestId, revisionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("UpdatePullRequestApprovalState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("approvalState"=>approvalState, "pullRequestId"=>pullRequestId, "revisionId"=>revisionId), args)); aws=aws)
+UpdatePullRequestApprovalState(approvalState, pullRequestId, revisionId; aws::AWSConfig=AWS.aws_config) = codecommit("UpdatePullRequestApprovalState", Dict{String, Any}("approvalState"=>approvalState, "pullRequestId"=>pullRequestId, "revisionId"=>revisionId); aws=aws)
+UpdatePullRequestApprovalState(approvalState, pullRequestId, revisionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("UpdatePullRequestApprovalState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("approvalState"=>approvalState, "pullRequestId"=>pullRequestId, "revisionId"=>revisionId), args)); aws=aws)
 
 """
     UpdatePullRequestDescription()
@@ -1113,8 +1113,8 @@ Replaces the contents of the description of a pull request.
 - `pullRequestId`: The system-generated ID of the pull request. To get this ID, use ListPullRequests.
 
 """
-UpdatePullRequestDescription(description, pullRequestId; aws::AWSConfig=AWSConfig()) = codecommit("UpdatePullRequestDescription", Dict{String, Any}("description"=>description, "pullRequestId"=>pullRequestId); aws=aws)
-UpdatePullRequestDescription(description, pullRequestId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("UpdatePullRequestDescription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("description"=>description, "pullRequestId"=>pullRequestId), args)); aws=aws)
+UpdatePullRequestDescription(description, pullRequestId; aws::AWSConfig=AWS.aws_config) = codecommit("UpdatePullRequestDescription", Dict{String, Any}("description"=>description, "pullRequestId"=>pullRequestId); aws=aws)
+UpdatePullRequestDescription(description, pullRequestId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("UpdatePullRequestDescription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("description"=>description, "pullRequestId"=>pullRequestId), args)); aws=aws)
 
 """
     UpdatePullRequestStatus()
@@ -1126,8 +1126,8 @@ Updates the status of a pull request.
 - `pullRequestStatus`: The status of the pull request. The only valid operations are to update the status from OPEN to OPEN, OPEN to CLOSED or from CLOSED to CLOSED.
 
 """
-UpdatePullRequestStatus(pullRequestId, pullRequestStatus; aws::AWSConfig=AWSConfig()) = codecommit("UpdatePullRequestStatus", Dict{String, Any}("pullRequestId"=>pullRequestId, "pullRequestStatus"=>pullRequestStatus); aws=aws)
-UpdatePullRequestStatus(pullRequestId, pullRequestStatus, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("UpdatePullRequestStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pullRequestId"=>pullRequestId, "pullRequestStatus"=>pullRequestStatus), args)); aws=aws)
+UpdatePullRequestStatus(pullRequestId, pullRequestStatus; aws::AWSConfig=AWS.aws_config) = codecommit("UpdatePullRequestStatus", Dict{String, Any}("pullRequestId"=>pullRequestId, "pullRequestStatus"=>pullRequestStatus); aws=aws)
+UpdatePullRequestStatus(pullRequestId, pullRequestStatus, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("UpdatePullRequestStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pullRequestId"=>pullRequestId, "pullRequestStatus"=>pullRequestStatus), args)); aws=aws)
 
 """
     UpdatePullRequestTitle()
@@ -1139,8 +1139,8 @@ Replaces the title of a pull request.
 - `title`: The updated title of the pull request. This replaces the existing title.
 
 """
-UpdatePullRequestTitle(pullRequestId, title; aws::AWSConfig=AWSConfig()) = codecommit("UpdatePullRequestTitle", Dict{String, Any}("pullRequestId"=>pullRequestId, "title"=>title); aws=aws)
-UpdatePullRequestTitle(pullRequestId, title, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("UpdatePullRequestTitle", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pullRequestId"=>pullRequestId, "title"=>title), args)); aws=aws)
+UpdatePullRequestTitle(pullRequestId, title; aws::AWSConfig=AWS.aws_config) = codecommit("UpdatePullRequestTitle", Dict{String, Any}("pullRequestId"=>pullRequestId, "title"=>title); aws=aws)
+UpdatePullRequestTitle(pullRequestId, title, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("UpdatePullRequestTitle", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pullRequestId"=>pullRequestId, "title"=>title), args)); aws=aws)
 
 """
     UpdateRepositoryDescription()
@@ -1153,8 +1153,8 @@ Sets or changes the comment or description for a repository.  The description fi
 # Optional Parameters
 - `repositoryDescription`: The new comment or description for the specified repository. Repository descriptions are limited to 1,000 characters.
 """
-UpdateRepositoryDescription(repositoryName; aws::AWSConfig=AWSConfig()) = codecommit("UpdateRepositoryDescription", Dict{String, Any}("repositoryName"=>repositoryName); aws=aws)
-UpdateRepositoryDescription(repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("UpdateRepositoryDescription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws=aws)
+UpdateRepositoryDescription(repositoryName; aws::AWSConfig=AWS.aws_config) = codecommit("UpdateRepositoryDescription", Dict{String, Any}("repositoryName"=>repositoryName); aws=aws)
+UpdateRepositoryDescription(repositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("UpdateRepositoryDescription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("repositoryName"=>repositoryName), args)); aws=aws)
 
 """
     UpdateRepositoryName()
@@ -1166,5 +1166,5 @@ Renames a repository. The repository name must be unique across the calling AWS 
 - `oldName`: The current name of the repository.
 
 """
-UpdateRepositoryName(newName, oldName; aws::AWSConfig=AWSConfig()) = codecommit("UpdateRepositoryName", Dict{String, Any}("newName"=>newName, "oldName"=>oldName); aws=aws)
-UpdateRepositoryName(newName, oldName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codecommit("UpdateRepositoryName", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("newName"=>newName, "oldName"=>oldName), args)); aws=aws)
+UpdateRepositoryName(newName, oldName; aws::AWSConfig=AWS.aws_config) = codecommit("UpdateRepositoryName", Dict{String, Any}("newName"=>newName, "oldName"=>oldName); aws=aws)
+UpdateRepositoryName(newName, oldName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codecommit("UpdateRepositoryName", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("newName"=>newName, "oldName"=>oldName), args)); aws=aws)

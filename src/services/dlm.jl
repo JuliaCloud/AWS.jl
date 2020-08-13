@@ -18,8 +18,8 @@ Creates a policy to manage the lifecycle of the specified AWS resources. You can
 # Optional Parameters
 - `Tags`: The tags to apply to the lifecycle policy during creation.
 """
-CreateLifecyclePolicy(Description, ExecutionRoleArn, PolicyDetails, State; aws::AWSConfig=AWSConfig()) = dlm("POST", "/policies", Dict{String, Any}("Description"=>Description, "ExecutionRoleArn"=>ExecutionRoleArn, "PolicyDetails"=>PolicyDetails, "State"=>State))
-CreateLifecyclePolicy(Description, ExecutionRoleArn, PolicyDetails, State, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = dlm("POST", "/policies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "ExecutionRoleArn"=>ExecutionRoleArn, "PolicyDetails"=>PolicyDetails, "State"=>State), args)); aws=aws)
+CreateLifecyclePolicy(Description, ExecutionRoleArn, PolicyDetails, State; aws::AWSConfig=AWS.aws_config) = dlm("POST", "/policies", Dict{String, Any}("Description"=>Description, "ExecutionRoleArn"=>ExecutionRoleArn, "PolicyDetails"=>PolicyDetails, "State"=>State); aws=aws)
+CreateLifecyclePolicy(Description, ExecutionRoleArn, PolicyDetails, State, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = dlm("POST", "/policies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "ExecutionRoleArn"=>ExecutionRoleArn, "PolicyDetails"=>PolicyDetails, "State"=>State), args)); aws=aws)
 
 """
     DeleteLifecyclePolicy()
@@ -30,8 +30,8 @@ Deletes the specified lifecycle policy and halts the automated operations that t
 - `policyId`: The identifier of the lifecycle policy.
 
 """
-DeleteLifecyclePolicy(policyId; aws::AWSConfig=AWSConfig()) = dlm("DELETE", "/policies/$(policyId)/"; aws=aws)
-DeleteLifecyclePolicy(policyId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = dlm("DELETE", "/policies/$(policyId)/", args; aws=aws)
+DeleteLifecyclePolicy(policyId; aws::AWSConfig=AWS.aws_config) = dlm("DELETE", "/policies/$(policyId)/"; aws=aws)
+DeleteLifecyclePolicy(policyId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = dlm("DELETE", "/policies/$(policyId)/", args; aws=aws)
 
 """
     GetLifecyclePolicies()
@@ -45,8 +45,8 @@ Gets summary information about all or the specified data lifecycle policies. To 
 - `tagsToAdd`: The tags to add to objects created by the policy. Tags are strings in the format key=value. These user-defined tags are added in addition to the AWS-added lifecycle tags.
 - `targetTags`: The target tag for a policy. Tags are strings in the format key=value.
 """
-GetLifecyclePolicies(; aws::AWSConfig=AWSConfig()) = dlm("GET", "/policies"; aws=aws)
-GetLifecyclePolicies(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = dlm("GET", "/policies", args; aws=aws)
+GetLifecyclePolicies(; aws::AWSConfig=AWS.aws_config) = dlm("GET", "/policies"; aws=aws)
+GetLifecyclePolicies(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = dlm("GET", "/policies", args; aws=aws)
 
 """
     GetLifecyclePolicy()
@@ -57,8 +57,8 @@ Gets detailed information about the specified lifecycle policy.
 - `policyId`: The identifier of the lifecycle policy.
 
 """
-GetLifecyclePolicy(policyId; aws::AWSConfig=AWSConfig()) = dlm("GET", "/policies/$(policyId)/"; aws=aws)
-GetLifecyclePolicy(policyId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = dlm("GET", "/policies/$(policyId)/", args; aws=aws)
+GetLifecyclePolicy(policyId; aws::AWSConfig=AWS.aws_config) = dlm("GET", "/policies/$(policyId)/"; aws=aws)
+GetLifecyclePolicy(policyId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = dlm("GET", "/policies/$(policyId)/", args; aws=aws)
 
 """
     ListTagsForResource()
@@ -69,8 +69,8 @@ Lists the tags for the specified resource.
 - `resourceArn`: The Amazon Resource Name (ARN) of the resource.
 
 """
-ListTagsForResource(resourceArn; aws::AWSConfig=AWSConfig()) = dlm("GET", "/tags/$(resourceArn)"; aws=aws)
-ListTagsForResource(resourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = dlm("GET", "/tags/$(resourceArn)", args; aws=aws)
+ListTagsForResource(resourceArn; aws::AWSConfig=AWS.aws_config) = dlm("GET", "/tags/$(resourceArn)"; aws=aws)
+ListTagsForResource(resourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = dlm("GET", "/tags/$(resourceArn)", args; aws=aws)
 
 """
     TagResource()
@@ -82,8 +82,8 @@ Adds the specified tags to the specified resource.
 - `resourceArn`: The Amazon Resource Name (ARN) of the resource.
 
 """
-TagResource(Tags, resourceArn; aws::AWSConfig=AWSConfig()) = dlm("POST", "/tags/$(resourceArn)", Dict{String, Any}("Tags"=>Tags))
-TagResource(Tags, resourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = dlm("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws=aws)
+TagResource(Tags, resourceArn; aws::AWSConfig=AWS.aws_config) = dlm("POST", "/tags/$(resourceArn)", Dict{String, Any}("Tags"=>Tags); aws=aws)
+TagResource(Tags, resourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = dlm("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws=aws)
 
 """
     UntagResource()
@@ -95,8 +95,8 @@ Removes the specified tags from the specified resource.
 - `tagKeys`: The tag keys.
 
 """
-UntagResource(resourceArn, tagKeys; aws::AWSConfig=AWSConfig()) = dlm("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys))
-UntagResource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = dlm("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws=aws)
+UntagResource(resourceArn, tagKeys; aws::AWSConfig=AWS.aws_config) = dlm("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws=aws)
+UntagResource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = dlm("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws=aws)
 
 """
     UpdateLifecyclePolicy()
@@ -112,5 +112,5 @@ Updates the specified lifecycle policy.
 - `PolicyDetails`: The configuration of the lifecycle policy. You cannot update the policy type or the resource type.
 - `State`: The desired activation state of the lifecycle policy after creation.
 """
-UpdateLifecyclePolicy(policyId; aws::AWSConfig=AWSConfig()) = dlm("PATCH", "/policies/$(policyId)"; aws=aws)
-UpdateLifecyclePolicy(policyId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = dlm("PATCH", "/policies/$(policyId)", args; aws=aws)
+UpdateLifecyclePolicy(policyId; aws::AWSConfig=AWS.aws_config) = dlm("PATCH", "/policies/$(policyId)"; aws=aws)
+UpdateLifecyclePolicy(policyId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = dlm("PATCH", "/policies/$(policyId)", args; aws=aws)

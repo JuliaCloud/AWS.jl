@@ -15,8 +15,8 @@ Accepts an invitation to a resource share from another AWS account.
 # Optional Parameters
 - `clientToken`: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
 """
-AcceptResourceShareInvitation(resourceShareInvitationArn; aws::AWSConfig=AWSConfig()) = ram("POST", "/acceptresourceshareinvitation", Dict{String, Any}("resourceShareInvitationArn"=>resourceShareInvitationArn))
-AcceptResourceShareInvitation(resourceShareInvitationArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = ram("POST", "/acceptresourceshareinvitation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareInvitationArn"=>resourceShareInvitationArn), args)); aws=aws)
+AcceptResourceShareInvitation(resourceShareInvitationArn; aws::AWSConfig=AWS.aws_config) = ram("POST", "/acceptresourceshareinvitation", Dict{String, Any}("resourceShareInvitationArn"=>resourceShareInvitationArn); aws=aws)
+AcceptResourceShareInvitation(resourceShareInvitationArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = ram("POST", "/acceptresourceshareinvitation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareInvitationArn"=>resourceShareInvitationArn), args)); aws=aws)
 
 """
     AssociateResourceShare()
@@ -31,8 +31,8 @@ Associates the specified resource share with the specified principals and resour
 - `principals`: The principals.
 - `resourceArns`: The Amazon Resource Names (ARN) of the resources.
 """
-AssociateResourceShare(resourceShareArn; aws::AWSConfig=AWSConfig()) = ram("POST", "/associateresourceshare", Dict{String, Any}("resourceShareArn"=>resourceShareArn))
-AssociateResourceShare(resourceShareArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = ram("POST", "/associateresourceshare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareArn"=>resourceShareArn), args)); aws=aws)
+AssociateResourceShare(resourceShareArn; aws::AWSConfig=AWS.aws_config) = ram("POST", "/associateresourceshare", Dict{String, Any}("resourceShareArn"=>resourceShareArn); aws=aws)
+AssociateResourceShare(resourceShareArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = ram("POST", "/associateresourceshare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareArn"=>resourceShareArn), args)); aws=aws)
 
 """
     AssociateResourceSharePermission()
@@ -47,8 +47,8 @@ Associates a permission with a resource share.
 - `clientToken`: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
 - `replace`: Indicates whether the permission should replace the permissions that are currently associated with the resource share. Use true to replace the current permissions. Use false to add the permission to the current permission.
 """
-AssociateResourceSharePermission(permissionArn, resourceShareArn; aws::AWSConfig=AWSConfig()) = ram("POST", "/associateresourcesharepermission", Dict{String, Any}("permissionArn"=>permissionArn, "resourceShareArn"=>resourceShareArn))
-AssociateResourceSharePermission(permissionArn, resourceShareArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = ram("POST", "/associateresourcesharepermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("permissionArn"=>permissionArn, "resourceShareArn"=>resourceShareArn), args)); aws=aws)
+AssociateResourceSharePermission(permissionArn, resourceShareArn; aws::AWSConfig=AWS.aws_config) = ram("POST", "/associateresourcesharepermission", Dict{String, Any}("permissionArn"=>permissionArn, "resourceShareArn"=>resourceShareArn); aws=aws)
+AssociateResourceSharePermission(permissionArn, resourceShareArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = ram("POST", "/associateresourcesharepermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("permissionArn"=>permissionArn, "resourceShareArn"=>resourceShareArn), args)); aws=aws)
 
 """
     CreateResourceShare()
@@ -66,8 +66,8 @@ Creates a resource share.
 - `resourceArns`: The Amazon Resource Names (ARN) of the resources to associate with the resource share.
 - `tags`: One or more tags.
 """
-CreateResourceShare(name; aws::AWSConfig=AWSConfig()) = ram("POST", "/createresourceshare", Dict{String, Any}("name"=>name))
-CreateResourceShare(name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = ram("POST", "/createresourceshare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws=aws)
+CreateResourceShare(name; aws::AWSConfig=AWS.aws_config) = ram("POST", "/createresourceshare", Dict{String, Any}("name"=>name); aws=aws)
+CreateResourceShare(name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = ram("POST", "/createresourceshare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws=aws)
 
 """
     DeleteResourceShare()
@@ -80,8 +80,8 @@ Deletes the specified resource share.
 # Optional Parameters
 - `clientToken`: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
 """
-DeleteResourceShare(resourceShareArn; aws::AWSConfig=AWSConfig()) = ram("DELETE", "/deleteresourceshare", Dict{String, Any}("resourceShareArn"=>resourceShareArn))
-DeleteResourceShare(resourceShareArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = ram("DELETE", "/deleteresourceshare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareArn"=>resourceShareArn), args)); aws=aws)
+DeleteResourceShare(resourceShareArn; aws::AWSConfig=AWS.aws_config) = ram("DELETE", "/deleteresourceshare", Dict{String, Any}("resourceShareArn"=>resourceShareArn); aws=aws)
+DeleteResourceShare(resourceShareArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = ram("DELETE", "/deleteresourceshare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareArn"=>resourceShareArn), args)); aws=aws)
 
 """
     DisassociateResourceShare()
@@ -96,8 +96,8 @@ Disassociates the specified principals or resources from the specified resource 
 - `principals`: The principals.
 - `resourceArns`: The Amazon Resource Names (ARNs) of the resources.
 """
-DisassociateResourceShare(resourceShareArn; aws::AWSConfig=AWSConfig()) = ram("POST", "/disassociateresourceshare", Dict{String, Any}("resourceShareArn"=>resourceShareArn))
-DisassociateResourceShare(resourceShareArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = ram("POST", "/disassociateresourceshare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareArn"=>resourceShareArn), args)); aws=aws)
+DisassociateResourceShare(resourceShareArn; aws::AWSConfig=AWS.aws_config) = ram("POST", "/disassociateresourceshare", Dict{String, Any}("resourceShareArn"=>resourceShareArn); aws=aws)
+DisassociateResourceShare(resourceShareArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = ram("POST", "/disassociateresourceshare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareArn"=>resourceShareArn), args)); aws=aws)
 
 """
     DisassociateResourceSharePermission()
@@ -111,8 +111,8 @@ Disassociates an AWS RAM permission from a resource share.
 # Optional Parameters
 - `clientToken`: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
 """
-DisassociateResourceSharePermission(permissionArn, resourceShareArn; aws::AWSConfig=AWSConfig()) = ram("POST", "/disassociateresourcesharepermission", Dict{String, Any}("permissionArn"=>permissionArn, "resourceShareArn"=>resourceShareArn))
-DisassociateResourceSharePermission(permissionArn, resourceShareArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = ram("POST", "/disassociateresourcesharepermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("permissionArn"=>permissionArn, "resourceShareArn"=>resourceShareArn), args)); aws=aws)
+DisassociateResourceSharePermission(permissionArn, resourceShareArn; aws::AWSConfig=AWS.aws_config) = ram("POST", "/disassociateresourcesharepermission", Dict{String, Any}("permissionArn"=>permissionArn, "resourceShareArn"=>resourceShareArn); aws=aws)
+DisassociateResourceSharePermission(permissionArn, resourceShareArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = ram("POST", "/disassociateresourcesharepermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("permissionArn"=>permissionArn, "resourceShareArn"=>resourceShareArn), args)); aws=aws)
 
 """
     EnableSharingWithAwsOrganization()
@@ -120,8 +120,8 @@ DisassociateResourceSharePermission(permissionArn, resourceShareArn, args::Abstr
 Enables resource sharing within your AWS Organization. The caller must be the master account for the AWS Organization.
 
 """
-EnableSharingWithAwsOrganization(; aws::AWSConfig=AWSConfig()) = ram("POST", "/enablesharingwithawsorganization"; aws=aws)
-EnableSharingWithAwsOrganization(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = ram("POST", "/enablesharingwithawsorganization", args; aws=aws)
+EnableSharingWithAwsOrganization(; aws::AWSConfig=AWS.aws_config) = ram("POST", "/enablesharingwithawsorganization"; aws=aws)
+EnableSharingWithAwsOrganization(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = ram("POST", "/enablesharingwithawsorganization", args; aws=aws)
 
 """
     GetPermission()
@@ -134,8 +134,8 @@ Gets the contents of an AWS RAM permission in JSON format.
 # Optional Parameters
 - `permissionVersion`: The identifier for the version of the permission.
 """
-GetPermission(permissionArn; aws::AWSConfig=AWSConfig()) = ram("POST", "/getpermission", Dict{String, Any}("permissionArn"=>permissionArn))
-GetPermission(permissionArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = ram("POST", "/getpermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("permissionArn"=>permissionArn), args)); aws=aws)
+GetPermission(permissionArn; aws::AWSConfig=AWS.aws_config) = ram("POST", "/getpermission", Dict{String, Any}("permissionArn"=>permissionArn); aws=aws)
+GetPermission(permissionArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = ram("POST", "/getpermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("permissionArn"=>permissionArn), args)); aws=aws)
 
 """
     GetResourcePolicies()
@@ -150,8 +150,8 @@ Gets the policies for the specified resources that you own and have shared.
 - `nextToken`: The token for the next page of results.
 - `principal`: The principal.
 """
-GetResourcePolicies(resourceArns; aws::AWSConfig=AWSConfig()) = ram("POST", "/getresourcepolicies", Dict{String, Any}("resourceArns"=>resourceArns))
-GetResourcePolicies(resourceArns, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = ram("POST", "/getresourcepolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArns"=>resourceArns), args)); aws=aws)
+GetResourcePolicies(resourceArns; aws::AWSConfig=AWS.aws_config) = ram("POST", "/getresourcepolicies", Dict{String, Any}("resourceArns"=>resourceArns); aws=aws)
+GetResourcePolicies(resourceArns, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = ram("POST", "/getresourcepolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArns"=>resourceArns), args)); aws=aws)
 
 """
     GetResourceShareAssociations()
@@ -169,8 +169,8 @@ Gets the resources or principals for the resource shares that you own.
 - `resourceArn`: The Amazon Resource Name (ARN) of the resource. You cannot specify this parameter if the association type is PRINCIPAL.
 - `resourceShareArns`: The Amazon Resource Names (ARN) of the resource shares.
 """
-GetResourceShareAssociations(associationType; aws::AWSConfig=AWSConfig()) = ram("POST", "/getresourceshareassociations", Dict{String, Any}("associationType"=>associationType))
-GetResourceShareAssociations(associationType, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = ram("POST", "/getresourceshareassociations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("associationType"=>associationType), args)); aws=aws)
+GetResourceShareAssociations(associationType; aws::AWSConfig=AWS.aws_config) = ram("POST", "/getresourceshareassociations", Dict{String, Any}("associationType"=>associationType); aws=aws)
+GetResourceShareAssociations(associationType, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = ram("POST", "/getresourceshareassociations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("associationType"=>associationType), args)); aws=aws)
 
 """
     GetResourceShareInvitations()
@@ -183,8 +183,8 @@ Gets the invitations for resource sharing that you've received.
 - `resourceShareArns`: The Amazon Resource Names (ARN) of the resource shares.
 - `resourceShareInvitationArns`: The Amazon Resource Names (ARN) of the invitations.
 """
-GetResourceShareInvitations(; aws::AWSConfig=AWSConfig()) = ram("POST", "/getresourceshareinvitations"; aws=aws)
-GetResourceShareInvitations(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = ram("POST", "/getresourceshareinvitations", args; aws=aws)
+GetResourceShareInvitations(; aws::AWSConfig=AWS.aws_config) = ram("POST", "/getresourceshareinvitations"; aws=aws)
+GetResourceShareInvitations(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = ram("POST", "/getresourceshareinvitations", args; aws=aws)
 
 """
     GetResourceShares()
@@ -202,8 +202,8 @@ Gets the resource shares that you own or the resource shares that are shared wit
 - `resourceShareStatus`: The status of the resource share.
 - `tagFilters`: One or more tag filters.
 """
-GetResourceShares(resourceOwner; aws::AWSConfig=AWSConfig()) = ram("POST", "/getresourceshares", Dict{String, Any}("resourceOwner"=>resourceOwner))
-GetResourceShares(resourceOwner, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = ram("POST", "/getresourceshares", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceOwner"=>resourceOwner), args)); aws=aws)
+GetResourceShares(resourceOwner; aws::AWSConfig=AWS.aws_config) = ram("POST", "/getresourceshares", Dict{String, Any}("resourceOwner"=>resourceOwner); aws=aws)
+GetResourceShares(resourceOwner, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = ram("POST", "/getresourceshares", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceOwner"=>resourceOwner), args)); aws=aws)
 
 """
     ListPendingInvitationResources()
@@ -217,8 +217,8 @@ Lists the resources in a resource share that is shared with you but that the inv
 - `maxResults`: The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
 - `nextToken`: The token for the next page of results.
 """
-ListPendingInvitationResources(resourceShareInvitationArn; aws::AWSConfig=AWSConfig()) = ram("POST", "/listpendinginvitationresources", Dict{String, Any}("resourceShareInvitationArn"=>resourceShareInvitationArn))
-ListPendingInvitationResources(resourceShareInvitationArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = ram("POST", "/listpendinginvitationresources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareInvitationArn"=>resourceShareInvitationArn), args)); aws=aws)
+ListPendingInvitationResources(resourceShareInvitationArn; aws::AWSConfig=AWS.aws_config) = ram("POST", "/listpendinginvitationresources", Dict{String, Any}("resourceShareInvitationArn"=>resourceShareInvitationArn); aws=aws)
+ListPendingInvitationResources(resourceShareInvitationArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = ram("POST", "/listpendinginvitationresources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareInvitationArn"=>resourceShareInvitationArn), args)); aws=aws)
 
 """
     ListPermissions()
@@ -230,8 +230,8 @@ Lists the AWS RAM permissions.
 - `nextToken`: The token for the next page of results.
 - `resourceType`: Specifies the resource type for which to list permissions. For example, to list only permissions that apply to EC2 subnets, specify ec2:Subnet.
 """
-ListPermissions(; aws::AWSConfig=AWSConfig()) = ram("POST", "/listpermissions"; aws=aws)
-ListPermissions(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = ram("POST", "/listpermissions", args; aws=aws)
+ListPermissions(; aws::AWSConfig=AWS.aws_config) = ram("POST", "/listpermissions"; aws=aws)
+ListPermissions(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = ram("POST", "/listpermissions", args; aws=aws)
 
 """
     ListPrincipals()
@@ -249,8 +249,8 @@ Lists the principals that you have shared resources with or that have shared res
 - `resourceShareArns`: The Amazon Resource Names (ARN) of the resource shares.
 - `resourceType`: The resource type. Valid values: codebuild:Project | codebuild:ReportGroup | ec2:CapacityReservation | ec2:DedicatedHost | ec2:Subnet | ec2:TrafficMirrorTarget | ec2:TransitGateway | imagebuilder:Component | imagebuilder:Image | imagebuilder:ImageRecipe | license-manager:LicenseConfiguration I resource-groups:Group | rds:Cluster | route53resolver:ResolverRule 
 """
-ListPrincipals(resourceOwner; aws::AWSConfig=AWSConfig()) = ram("POST", "/listprincipals", Dict{String, Any}("resourceOwner"=>resourceOwner))
-ListPrincipals(resourceOwner, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = ram("POST", "/listprincipals", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceOwner"=>resourceOwner), args)); aws=aws)
+ListPrincipals(resourceOwner; aws::AWSConfig=AWS.aws_config) = ram("POST", "/listprincipals", Dict{String, Any}("resourceOwner"=>resourceOwner); aws=aws)
+ListPrincipals(resourceOwner, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = ram("POST", "/listprincipals", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceOwner"=>resourceOwner), args)); aws=aws)
 
 """
     ListResourceSharePermissions()
@@ -264,8 +264,8 @@ Lists the AWS RAM permissions that are associated with a resource share.
 - `maxResults`: The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
 - `nextToken`: The token for the next page of results.
 """
-ListResourceSharePermissions(resourceShareArn; aws::AWSConfig=AWSConfig()) = ram("POST", "/listresourcesharepermissions", Dict{String, Any}("resourceShareArn"=>resourceShareArn))
-ListResourceSharePermissions(resourceShareArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = ram("POST", "/listresourcesharepermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareArn"=>resourceShareArn), args)); aws=aws)
+ListResourceSharePermissions(resourceShareArn; aws::AWSConfig=AWS.aws_config) = ram("POST", "/listresourcesharepermissions", Dict{String, Any}("resourceShareArn"=>resourceShareArn); aws=aws)
+ListResourceSharePermissions(resourceShareArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = ram("POST", "/listresourcesharepermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareArn"=>resourceShareArn), args)); aws=aws)
 
 """
     ListResourceTypes()
@@ -276,8 +276,8 @@ Lists the shareable resource types supported by AWS RAM.
 - `maxResults`: The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
 - `nextToken`: The token for the next page of results.
 """
-ListResourceTypes(; aws::AWSConfig=AWSConfig()) = ram("POST", "/listresourcetypes"; aws=aws)
-ListResourceTypes(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = ram("POST", "/listresourcetypes", args; aws=aws)
+ListResourceTypes(; aws::AWSConfig=AWS.aws_config) = ram("POST", "/listresourcetypes"; aws=aws)
+ListResourceTypes(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = ram("POST", "/listresourcetypes", args; aws=aws)
 
 """
     ListResources()
@@ -295,8 +295,8 @@ Lists the resources that you added to a resource shares or the resources that ar
 - `resourceShareArns`: The Amazon Resource Names (ARN) of the resource shares.
 - `resourceType`: The resource type. Valid values: codebuild:Project | codebuild:ReportGroup | ec2:CapacityReservation | ec2:DedicatedHost | ec2:Subnet | ec2:TrafficMirrorTarget | ec2:TransitGateway | imagebuilder:Component | imagebuilder:Image | imagebuilder:ImageRecipe | license-manager:LicenseConfiguration I resource-groups:Group | rds:Cluster | route53resolver:ResolverRule 
 """
-ListResources(resourceOwner; aws::AWSConfig=AWSConfig()) = ram("POST", "/listresources", Dict{String, Any}("resourceOwner"=>resourceOwner))
-ListResources(resourceOwner, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = ram("POST", "/listresources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceOwner"=>resourceOwner), args)); aws=aws)
+ListResources(resourceOwner; aws::AWSConfig=AWS.aws_config) = ram("POST", "/listresources", Dict{String, Any}("resourceOwner"=>resourceOwner); aws=aws)
+ListResources(resourceOwner, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = ram("POST", "/listresources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceOwner"=>resourceOwner), args)); aws=aws)
 
 """
     PromoteResourceShareCreatedFromPolicy()
@@ -307,8 +307,8 @@ Resource shares that were created by attaching a policy to a resource are visibl
 - `resourceShareArn`: The ARN of the resource share to promote.
 
 """
-PromoteResourceShareCreatedFromPolicy(resourceShareArn; aws::AWSConfig=AWSConfig()) = ram("POST", "/promoteresourcesharecreatedfrompolicy", Dict{String, Any}("resourceShareArn"=>resourceShareArn))
-PromoteResourceShareCreatedFromPolicy(resourceShareArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = ram("POST", "/promoteresourcesharecreatedfrompolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareArn"=>resourceShareArn), args)); aws=aws)
+PromoteResourceShareCreatedFromPolicy(resourceShareArn; aws::AWSConfig=AWS.aws_config) = ram("POST", "/promoteresourcesharecreatedfrompolicy", Dict{String, Any}("resourceShareArn"=>resourceShareArn); aws=aws)
+PromoteResourceShareCreatedFromPolicy(resourceShareArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = ram("POST", "/promoteresourcesharecreatedfrompolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareArn"=>resourceShareArn), args)); aws=aws)
 
 """
     RejectResourceShareInvitation()
@@ -321,8 +321,8 @@ Rejects an invitation to a resource share from another AWS account.
 # Optional Parameters
 - `clientToken`: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
 """
-RejectResourceShareInvitation(resourceShareInvitationArn; aws::AWSConfig=AWSConfig()) = ram("POST", "/rejectresourceshareinvitation", Dict{String, Any}("resourceShareInvitationArn"=>resourceShareInvitationArn))
-RejectResourceShareInvitation(resourceShareInvitationArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = ram("POST", "/rejectresourceshareinvitation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareInvitationArn"=>resourceShareInvitationArn), args)); aws=aws)
+RejectResourceShareInvitation(resourceShareInvitationArn; aws::AWSConfig=AWS.aws_config) = ram("POST", "/rejectresourceshareinvitation", Dict{String, Any}("resourceShareInvitationArn"=>resourceShareInvitationArn); aws=aws)
+RejectResourceShareInvitation(resourceShareInvitationArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = ram("POST", "/rejectresourceshareinvitation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareInvitationArn"=>resourceShareInvitationArn), args)); aws=aws)
 
 """
     TagResource()
@@ -334,8 +334,8 @@ Adds the specified tags to the specified resource share that you own.
 - `tags`: One or more tags.
 
 """
-TagResource(resourceShareArn, tags; aws::AWSConfig=AWSConfig()) = ram("POST", "/tagresource", Dict{String, Any}("resourceShareArn"=>resourceShareArn, "tags"=>tags))
-TagResource(resourceShareArn, tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = ram("POST", "/tagresource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareArn"=>resourceShareArn, "tags"=>tags), args)); aws=aws)
+TagResource(resourceShareArn, tags; aws::AWSConfig=AWS.aws_config) = ram("POST", "/tagresource", Dict{String, Any}("resourceShareArn"=>resourceShareArn, "tags"=>tags); aws=aws)
+TagResource(resourceShareArn, tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = ram("POST", "/tagresource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareArn"=>resourceShareArn, "tags"=>tags), args)); aws=aws)
 
 """
     UntagResource()
@@ -347,8 +347,8 @@ Removes the specified tags from the specified resource share that you own.
 - `tagKeys`: The tag keys of the tags to remove.
 
 """
-UntagResource(resourceShareArn, tagKeys; aws::AWSConfig=AWSConfig()) = ram("POST", "/untagresource", Dict{String, Any}("resourceShareArn"=>resourceShareArn, "tagKeys"=>tagKeys))
-UntagResource(resourceShareArn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = ram("POST", "/untagresource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareArn"=>resourceShareArn, "tagKeys"=>tagKeys), args)); aws=aws)
+UntagResource(resourceShareArn, tagKeys; aws::AWSConfig=AWS.aws_config) = ram("POST", "/untagresource", Dict{String, Any}("resourceShareArn"=>resourceShareArn, "tagKeys"=>tagKeys); aws=aws)
+UntagResource(resourceShareArn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = ram("POST", "/untagresource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareArn"=>resourceShareArn, "tagKeys"=>tagKeys), args)); aws=aws)
 
 """
     UpdateResourceShare()
@@ -363,5 +363,5 @@ Updates the specified resource share that you own.
 - `clientToken`: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
 - `name`: The name of the resource share.
 """
-UpdateResourceShare(resourceShareArn; aws::AWSConfig=AWSConfig()) = ram("POST", "/updateresourceshare", Dict{String, Any}("resourceShareArn"=>resourceShareArn))
-UpdateResourceShare(resourceShareArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = ram("POST", "/updateresourceshare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareArn"=>resourceShareArn), args)); aws=aws)
+UpdateResourceShare(resourceShareArn; aws::AWSConfig=AWS.aws_config) = ram("POST", "/updateresourceshare", Dict{String, Any}("resourceShareArn"=>resourceShareArn); aws=aws)
+UpdateResourceShare(resourceShareArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = ram("POST", "/updateresourceshare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceShareArn"=>resourceShareArn), args)); aws=aws)

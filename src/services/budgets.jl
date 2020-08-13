@@ -16,8 +16,8 @@ Creates a budget and, if included, notifications and subscribers.   Only one of 
 # Optional Parameters
 - `NotificationsWithSubscribers`: A notification that you want to associate with a budget. A budget can have up to five notifications, and each notification can have one SNS subscriber and up to 10 email subscribers. If you include notifications and subscribers in your CreateBudget call, AWS creates the notifications and subscribers for you.
 """
-CreateBudget(AccountId, Budget; aws::AWSConfig=AWSConfig()) = budgets("CreateBudget", Dict{String, Any}("AccountId"=>AccountId, "Budget"=>Budget); aws=aws)
-CreateBudget(AccountId, Budget, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = budgets("CreateBudget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "Budget"=>Budget), args)); aws=aws)
+CreateBudget(AccountId, Budget; aws::AWSConfig=AWS.aws_config) = budgets("CreateBudget", Dict{String, Any}("AccountId"=>AccountId, "Budget"=>Budget); aws=aws)
+CreateBudget(AccountId, Budget, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = budgets("CreateBudget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "Budget"=>Budget), args)); aws=aws)
 
 """
     CreateNotification()
@@ -31,8 +31,8 @@ Creates a notification. You must create the budget before you create the associa
 - `Subscribers`: A list of subscribers that you want to associate with the notification. Each notification can have one SNS subscriber and up to 10 email subscribers.
 
 """
-CreateNotification(AccountId, BudgetName, Notification, Subscribers; aws::AWSConfig=AWSConfig()) = budgets("CreateNotification", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification, "Subscribers"=>Subscribers); aws=aws)
-CreateNotification(AccountId, BudgetName, Notification, Subscribers, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = budgets("CreateNotification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification, "Subscribers"=>Subscribers), args)); aws=aws)
+CreateNotification(AccountId, BudgetName, Notification, Subscribers; aws::AWSConfig=AWS.aws_config) = budgets("CreateNotification", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification, "Subscribers"=>Subscribers); aws=aws)
+CreateNotification(AccountId, BudgetName, Notification, Subscribers, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = budgets("CreateNotification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification, "Subscribers"=>Subscribers), args)); aws=aws)
 
 """
     CreateSubscriber()
@@ -46,8 +46,8 @@ Creates a subscriber. You must create the associated budget and notification bef
 - `Subscriber`: The subscriber that you want to associate with a budget notification.
 
 """
-CreateSubscriber(AccountId, BudgetName, Notification, Subscriber; aws::AWSConfig=AWSConfig()) = budgets("CreateSubscriber", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification, "Subscriber"=>Subscriber); aws=aws)
-CreateSubscriber(AccountId, BudgetName, Notification, Subscriber, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = budgets("CreateSubscriber", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification, "Subscriber"=>Subscriber), args)); aws=aws)
+CreateSubscriber(AccountId, BudgetName, Notification, Subscriber; aws::AWSConfig=AWS.aws_config) = budgets("CreateSubscriber", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification, "Subscriber"=>Subscriber); aws=aws)
+CreateSubscriber(AccountId, BudgetName, Notification, Subscriber, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = budgets("CreateSubscriber", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification, "Subscriber"=>Subscriber), args)); aws=aws)
 
 """
     DeleteBudget()
@@ -59,8 +59,8 @@ Deletes a budget. You can delete your budget at any time.  Deleting a budget als
 - `BudgetName`: The name of the budget that you want to delete.
 
 """
-DeleteBudget(AccountId, BudgetName; aws::AWSConfig=AWSConfig()) = budgets("DeleteBudget", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName); aws=aws)
-DeleteBudget(AccountId, BudgetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = budgets("DeleteBudget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName), args)); aws=aws)
+DeleteBudget(AccountId, BudgetName; aws::AWSConfig=AWS.aws_config) = budgets("DeleteBudget", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName); aws=aws)
+DeleteBudget(AccountId, BudgetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = budgets("DeleteBudget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName), args)); aws=aws)
 
 """
     DeleteNotification()
@@ -73,8 +73,8 @@ Deletes a notification.  Deleting a notification also deletes the subscribers th
 - `Notification`: The notification that you want to delete.
 
 """
-DeleteNotification(AccountId, BudgetName, Notification; aws::AWSConfig=AWSConfig()) = budgets("DeleteNotification", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification); aws=aws)
-DeleteNotification(AccountId, BudgetName, Notification, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = budgets("DeleteNotification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification), args)); aws=aws)
+DeleteNotification(AccountId, BudgetName, Notification; aws::AWSConfig=AWS.aws_config) = budgets("DeleteNotification", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification); aws=aws)
+DeleteNotification(AccountId, BudgetName, Notification, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = budgets("DeleteNotification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification), args)); aws=aws)
 
 """
     DeleteSubscriber()
@@ -88,8 +88,8 @@ Deletes a subscriber.  Deleting the last subscriber to a notification also delet
 - `Subscriber`: The subscriber that you want to delete.
 
 """
-DeleteSubscriber(AccountId, BudgetName, Notification, Subscriber; aws::AWSConfig=AWSConfig()) = budgets("DeleteSubscriber", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification, "Subscriber"=>Subscriber); aws=aws)
-DeleteSubscriber(AccountId, BudgetName, Notification, Subscriber, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = budgets("DeleteSubscriber", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification, "Subscriber"=>Subscriber), args)); aws=aws)
+DeleteSubscriber(AccountId, BudgetName, Notification, Subscriber; aws::AWSConfig=AWS.aws_config) = budgets("DeleteSubscriber", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification, "Subscriber"=>Subscriber); aws=aws)
+DeleteSubscriber(AccountId, BudgetName, Notification, Subscriber, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = budgets("DeleteSubscriber", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification, "Subscriber"=>Subscriber), args)); aws=aws)
 
 """
     DescribeBudget()
@@ -101,8 +101,8 @@ Describes a budget.  The Request Syntax section shows the BudgetLimit syntax. Fo
 - `BudgetName`: The name of the budget that you want a description of.
 
 """
-DescribeBudget(AccountId, BudgetName; aws::AWSConfig=AWSConfig()) = budgets("DescribeBudget", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName); aws=aws)
-DescribeBudget(AccountId, BudgetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = budgets("DescribeBudget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName), args)); aws=aws)
+DescribeBudget(AccountId, BudgetName; aws::AWSConfig=AWS.aws_config) = budgets("DescribeBudget", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName); aws=aws)
+DescribeBudget(AccountId, BudgetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = budgets("DescribeBudget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName), args)); aws=aws)
 
 """
     DescribeBudgetPerformanceHistory()
@@ -118,8 +118,8 @@ Describes the history for DAILY, MONTHLY, and QUARTERLY budgets. Budget history 
 - `NextToken`: 
 - `TimePeriod`: Retrieves how often the budget went into an ALARM state for the specified time period.
 """
-DescribeBudgetPerformanceHistory(AccountId, BudgetName; aws::AWSConfig=AWSConfig()) = budgets("DescribeBudgetPerformanceHistory", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName); aws=aws)
-DescribeBudgetPerformanceHistory(AccountId, BudgetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = budgets("DescribeBudgetPerformanceHistory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName), args)); aws=aws)
+DescribeBudgetPerformanceHistory(AccountId, BudgetName; aws::AWSConfig=AWS.aws_config) = budgets("DescribeBudgetPerformanceHistory", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName); aws=aws)
+DescribeBudgetPerformanceHistory(AccountId, BudgetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = budgets("DescribeBudgetPerformanceHistory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName), args)); aws=aws)
 
 """
     DescribeBudgets()
@@ -133,8 +133,8 @@ Lists the budgets that are associated with an account.  The Request Syntax secti
 - `MaxResults`: An optional integer that represents how many entries a paginated response contains. The maximum is 100.
 - `NextToken`: The pagination token that you include in your request to indicate the next set of results that you want to retrieve.
 """
-DescribeBudgets(AccountId; aws::AWSConfig=AWSConfig()) = budgets("DescribeBudgets", Dict{String, Any}("AccountId"=>AccountId); aws=aws)
-DescribeBudgets(AccountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = budgets("DescribeBudgets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId), args)); aws=aws)
+DescribeBudgets(AccountId; aws::AWSConfig=AWS.aws_config) = budgets("DescribeBudgets", Dict{String, Any}("AccountId"=>AccountId); aws=aws)
+DescribeBudgets(AccountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = budgets("DescribeBudgets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId), args)); aws=aws)
 
 """
     DescribeNotificationsForBudget()
@@ -149,8 +149,8 @@ Lists the notifications that are associated with a budget.
 - `MaxResults`: An optional integer that represents how many entries a paginated response contains. The maximum is 100.
 - `NextToken`: The pagination token that you include in your request to indicate the next set of results that you want to retrieve.
 """
-DescribeNotificationsForBudget(AccountId, BudgetName; aws::AWSConfig=AWSConfig()) = budgets("DescribeNotificationsForBudget", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName); aws=aws)
-DescribeNotificationsForBudget(AccountId, BudgetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = budgets("DescribeNotificationsForBudget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName), args)); aws=aws)
+DescribeNotificationsForBudget(AccountId, BudgetName; aws::AWSConfig=AWS.aws_config) = budgets("DescribeNotificationsForBudget", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName); aws=aws)
+DescribeNotificationsForBudget(AccountId, BudgetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = budgets("DescribeNotificationsForBudget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName), args)); aws=aws)
 
 """
     DescribeSubscribersForNotification()
@@ -166,8 +166,8 @@ Lists the subscribers that are associated with a notification.
 - `MaxResults`: An optional integer that represents how many entries a paginated response contains. The maximum is 100.
 - `NextToken`: The pagination token that you include in your request to indicate the next set of results that you want to retrieve.
 """
-DescribeSubscribersForNotification(AccountId, BudgetName, Notification; aws::AWSConfig=AWSConfig()) = budgets("DescribeSubscribersForNotification", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification); aws=aws)
-DescribeSubscribersForNotification(AccountId, BudgetName, Notification, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = budgets("DescribeSubscribersForNotification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification), args)); aws=aws)
+DescribeSubscribersForNotification(AccountId, BudgetName, Notification; aws::AWSConfig=AWS.aws_config) = budgets("DescribeSubscribersForNotification", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification); aws=aws)
+DescribeSubscribersForNotification(AccountId, BudgetName, Notification, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = budgets("DescribeSubscribersForNotification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "Notification"=>Notification), args)); aws=aws)
 
 """
     UpdateBudget()
@@ -179,8 +179,8 @@ Updates a budget. You can change every part of a budget except for the budgetNam
 - `NewBudget`: The budget that you want to update your budget to.
 
 """
-UpdateBudget(AccountId, NewBudget; aws::AWSConfig=AWSConfig()) = budgets("UpdateBudget", Dict{String, Any}("AccountId"=>AccountId, "NewBudget"=>NewBudget); aws=aws)
-UpdateBudget(AccountId, NewBudget, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = budgets("UpdateBudget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "NewBudget"=>NewBudget), args)); aws=aws)
+UpdateBudget(AccountId, NewBudget; aws::AWSConfig=AWS.aws_config) = budgets("UpdateBudget", Dict{String, Any}("AccountId"=>AccountId, "NewBudget"=>NewBudget); aws=aws)
+UpdateBudget(AccountId, NewBudget, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = budgets("UpdateBudget", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "NewBudget"=>NewBudget), args)); aws=aws)
 
 """
     UpdateNotification()
@@ -194,8 +194,8 @@ Updates a notification.
 - `OldNotification`: The previous notification that is associated with a budget.
 
 """
-UpdateNotification(AccountId, BudgetName, NewNotification, OldNotification; aws::AWSConfig=AWSConfig()) = budgets("UpdateNotification", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "NewNotification"=>NewNotification, "OldNotification"=>OldNotification); aws=aws)
-UpdateNotification(AccountId, BudgetName, NewNotification, OldNotification, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = budgets("UpdateNotification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "NewNotification"=>NewNotification, "OldNotification"=>OldNotification), args)); aws=aws)
+UpdateNotification(AccountId, BudgetName, NewNotification, OldNotification; aws::AWSConfig=AWS.aws_config) = budgets("UpdateNotification", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "NewNotification"=>NewNotification, "OldNotification"=>OldNotification); aws=aws)
+UpdateNotification(AccountId, BudgetName, NewNotification, OldNotification, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = budgets("UpdateNotification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "NewNotification"=>NewNotification, "OldNotification"=>OldNotification), args)); aws=aws)
 
 """
     UpdateSubscriber()
@@ -210,5 +210,5 @@ Updates a subscriber.
 - `OldSubscriber`: The previous subscriber that is associated with a budget notification.
 
 """
-UpdateSubscriber(AccountId, BudgetName, NewSubscriber, Notification, OldSubscriber; aws::AWSConfig=AWSConfig()) = budgets("UpdateSubscriber", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "NewSubscriber"=>NewSubscriber, "Notification"=>Notification, "OldSubscriber"=>OldSubscriber); aws=aws)
-UpdateSubscriber(AccountId, BudgetName, NewSubscriber, Notification, OldSubscriber, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = budgets("UpdateSubscriber", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "NewSubscriber"=>NewSubscriber, "Notification"=>Notification, "OldSubscriber"=>OldSubscriber), args)); aws=aws)
+UpdateSubscriber(AccountId, BudgetName, NewSubscriber, Notification, OldSubscriber; aws::AWSConfig=AWS.aws_config) = budgets("UpdateSubscriber", Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "NewSubscriber"=>NewSubscriber, "Notification"=>Notification, "OldSubscriber"=>OldSubscriber); aws=aws)
+UpdateSubscriber(AccountId, BudgetName, NewSubscriber, Notification, OldSubscriber, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = budgets("UpdateSubscriber", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "BudgetName"=>BudgetName, "NewSubscriber"=>NewSubscriber, "Notification"=>Notification, "OldSubscriber"=>OldSubscriber), args)); aws=aws)

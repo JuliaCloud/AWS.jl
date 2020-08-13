@@ -14,8 +14,8 @@ Adds metadata tags to an AWS DMS resource, including replication instance, endpo
 - `Tags`: One or more tags to be assigned to the resource.
 
 """
-AddTagsToResource(ResourceArn, Tags; aws::AWSConfig=AWSConfig()) = database_migration_service("AddTagsToResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws=aws)
-AddTagsToResource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("AddTagsToResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), args)); aws=aws)
+AddTagsToResource(ResourceArn, Tags; aws::AWSConfig=AWS.aws_config) = database_migration_service("AddTagsToResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws=aws)
+AddTagsToResource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("AddTagsToResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), args)); aws=aws)
 
 """
     ApplyPendingMaintenanceAction()
@@ -28,8 +28,8 @@ Applies a pending maintenance action to a resource (for example, to a replicatio
 - `ReplicationInstanceArn`: The Amazon Resource Name (ARN) of the AWS DMS resource that the pending maintenance action applies to.
 
 """
-ApplyPendingMaintenanceAction(ApplyAction, OptInType, ReplicationInstanceArn; aws::AWSConfig=AWSConfig()) = database_migration_service("ApplyPendingMaintenanceAction", Dict{String, Any}("ApplyAction"=>ApplyAction, "OptInType"=>OptInType, "ReplicationInstanceArn"=>ReplicationInstanceArn); aws=aws)
-ApplyPendingMaintenanceAction(ApplyAction, OptInType, ReplicationInstanceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("ApplyPendingMaintenanceAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplyAction"=>ApplyAction, "OptInType"=>OptInType, "ReplicationInstanceArn"=>ReplicationInstanceArn), args)); aws=aws)
+ApplyPendingMaintenanceAction(ApplyAction, OptInType, ReplicationInstanceArn; aws::AWSConfig=AWS.aws_config) = database_migration_service("ApplyPendingMaintenanceAction", Dict{String, Any}("ApplyAction"=>ApplyAction, "OptInType"=>OptInType, "ReplicationInstanceArn"=>ReplicationInstanceArn); aws=aws)
+ApplyPendingMaintenanceAction(ApplyAction, OptInType, ReplicationInstanceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("ApplyPendingMaintenanceAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplyAction"=>ApplyAction, "OptInType"=>OptInType, "ReplicationInstanceArn"=>ReplicationInstanceArn), args)); aws=aws)
 
 """
     CancelReplicationTaskAssessmentRun()
@@ -40,8 +40,8 @@ Cancels a single premigration assessment run. This operation prevents any indivi
 - `ReplicationTaskAssessmentRunArn`: Amazon Resource Name (ARN) of the premigration assessment run to be canceled.
 
 """
-CancelReplicationTaskAssessmentRun(ReplicationTaskAssessmentRunArn; aws::AWSConfig=AWSConfig()) = database_migration_service("CancelReplicationTaskAssessmentRun", Dict{String, Any}("ReplicationTaskAssessmentRunArn"=>ReplicationTaskAssessmentRunArn); aws=aws)
-CancelReplicationTaskAssessmentRun(ReplicationTaskAssessmentRunArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("CancelReplicationTaskAssessmentRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskAssessmentRunArn"=>ReplicationTaskAssessmentRunArn), args)); aws=aws)
+CancelReplicationTaskAssessmentRun(ReplicationTaskAssessmentRunArn; aws::AWSConfig=AWS.aws_config) = database_migration_service("CancelReplicationTaskAssessmentRun", Dict{String, Any}("ReplicationTaskAssessmentRunArn"=>ReplicationTaskAssessmentRunArn); aws=aws)
+CancelReplicationTaskAssessmentRun(ReplicationTaskAssessmentRunArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("CancelReplicationTaskAssessmentRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskAssessmentRunArn"=>ReplicationTaskAssessmentRunArn), args)); aws=aws)
 
 """
     CreateEndpoint()
@@ -82,8 +82,8 @@ Creates an endpoint using the provided settings.
 - `Tags`: One or more tags to be assigned to the endpoint.
 - `Username`: The user name to be used to log in to the endpoint database.
 """
-CreateEndpoint(EndpointIdentifier, EndpointType, EngineName; aws::AWSConfig=AWSConfig()) = database_migration_service("CreateEndpoint", Dict{String, Any}("EndpointIdentifier"=>EndpointIdentifier, "EndpointType"=>EndpointType, "EngineName"=>EngineName); aws=aws)
-CreateEndpoint(EndpointIdentifier, EndpointType, EngineName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("CreateEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointIdentifier"=>EndpointIdentifier, "EndpointType"=>EndpointType, "EngineName"=>EngineName), args)); aws=aws)
+CreateEndpoint(EndpointIdentifier, EndpointType, EngineName; aws::AWSConfig=AWS.aws_config) = database_migration_service("CreateEndpoint", Dict{String, Any}("EndpointIdentifier"=>EndpointIdentifier, "EndpointType"=>EndpointType, "EngineName"=>EngineName); aws=aws)
+CreateEndpoint(EndpointIdentifier, EndpointType, EngineName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("CreateEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointIdentifier"=>EndpointIdentifier, "EndpointType"=>EndpointType, "EngineName"=>EngineName), args)); aws=aws)
 
 """
     CreateEventSubscription()
@@ -101,8 +101,8 @@ CreateEndpoint(EndpointIdentifier, EndpointType, EngineName, args::AbstractDict{
 - `SourceType`:  The type of AWS DMS resource that generates the events. For example, if you want to be notified of events generated by a replication instance, you set this parameter to replication-instance. If this value isn't specified, all events are returned.  Valid values: replication-instance | replication-task 
 - `Tags`: One or more tags to be assigned to the event subscription.
 """
-CreateEventSubscription(SnsTopicArn, SubscriptionName; aws::AWSConfig=AWSConfig()) = database_migration_service("CreateEventSubscription", Dict{String, Any}("SnsTopicArn"=>SnsTopicArn, "SubscriptionName"=>SubscriptionName); aws=aws)
-CreateEventSubscription(SnsTopicArn, SubscriptionName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("CreateEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnsTopicArn"=>SnsTopicArn, "SubscriptionName"=>SubscriptionName), args)); aws=aws)
+CreateEventSubscription(SnsTopicArn, SubscriptionName; aws::AWSConfig=AWS.aws_config) = database_migration_service("CreateEventSubscription", Dict{String, Any}("SnsTopicArn"=>SnsTopicArn, "SubscriptionName"=>SubscriptionName); aws=aws)
+CreateEventSubscription(SnsTopicArn, SubscriptionName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("CreateEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnsTopicArn"=>SnsTopicArn, "SubscriptionName"=>SubscriptionName), args)); aws=aws)
 
 """
     CreateReplicationInstance()
@@ -127,8 +127,8 @@ Creates the replication instance using the specified parameters. AWS DMS require
 - `Tags`: One or more tags to be assigned to the replication instance.
 - `VpcSecurityGroupIds`:  Specifies the VPC security group to be used with the replication instance. The VPC security group must work with the VPC containing the replication instance. 
 """
-CreateReplicationInstance(ReplicationInstanceClass, ReplicationInstanceIdentifier; aws::AWSConfig=AWSConfig()) = database_migration_service("CreateReplicationInstance", Dict{String, Any}("ReplicationInstanceClass"=>ReplicationInstanceClass, "ReplicationInstanceIdentifier"=>ReplicationInstanceIdentifier); aws=aws)
-CreateReplicationInstance(ReplicationInstanceClass, ReplicationInstanceIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("CreateReplicationInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationInstanceClass"=>ReplicationInstanceClass, "ReplicationInstanceIdentifier"=>ReplicationInstanceIdentifier), args)); aws=aws)
+CreateReplicationInstance(ReplicationInstanceClass, ReplicationInstanceIdentifier; aws::AWSConfig=AWS.aws_config) = database_migration_service("CreateReplicationInstance", Dict{String, Any}("ReplicationInstanceClass"=>ReplicationInstanceClass, "ReplicationInstanceIdentifier"=>ReplicationInstanceIdentifier); aws=aws)
+CreateReplicationInstance(ReplicationInstanceClass, ReplicationInstanceIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("CreateReplicationInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationInstanceClass"=>ReplicationInstanceClass, "ReplicationInstanceIdentifier"=>ReplicationInstanceIdentifier), args)); aws=aws)
 
 """
     CreateReplicationSubnetGroup()
@@ -143,8 +143,8 @@ Creates a replication subnet group given a list of the subnet IDs in a VPC.
 # Optional Parameters
 - `Tags`: One or more tags to be assigned to the subnet group.
 """
-CreateReplicationSubnetGroup(ReplicationSubnetGroupDescription, ReplicationSubnetGroupIdentifier, SubnetIds; aws::AWSConfig=AWSConfig()) = database_migration_service("CreateReplicationSubnetGroup", Dict{String, Any}("ReplicationSubnetGroupDescription"=>ReplicationSubnetGroupDescription, "ReplicationSubnetGroupIdentifier"=>ReplicationSubnetGroupIdentifier, "SubnetIds"=>SubnetIds); aws=aws)
-CreateReplicationSubnetGroup(ReplicationSubnetGroupDescription, ReplicationSubnetGroupIdentifier, SubnetIds, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("CreateReplicationSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationSubnetGroupDescription"=>ReplicationSubnetGroupDescription, "ReplicationSubnetGroupIdentifier"=>ReplicationSubnetGroupIdentifier, "SubnetIds"=>SubnetIds), args)); aws=aws)
+CreateReplicationSubnetGroup(ReplicationSubnetGroupDescription, ReplicationSubnetGroupIdentifier, SubnetIds; aws::AWSConfig=AWS.aws_config) = database_migration_service("CreateReplicationSubnetGroup", Dict{String, Any}("ReplicationSubnetGroupDescription"=>ReplicationSubnetGroupDescription, "ReplicationSubnetGroupIdentifier"=>ReplicationSubnetGroupIdentifier, "SubnetIds"=>SubnetIds); aws=aws)
+CreateReplicationSubnetGroup(ReplicationSubnetGroupDescription, ReplicationSubnetGroupIdentifier, SubnetIds, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("CreateReplicationSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationSubnetGroupDescription"=>ReplicationSubnetGroupDescription, "ReplicationSubnetGroupIdentifier"=>ReplicationSubnetGroupIdentifier, "SubnetIds"=>SubnetIds), args)); aws=aws)
 
 """
     CreateReplicationTask()
@@ -167,8 +167,8 @@ Creates a replication task using the specified parameters.
 - `Tags`: One or more tags to be assigned to the replication task.
 - `TaskData`: Supplemental information that the task requires to migrate the data for certain source and target endpoints. For more information, see Specifying Supplemental Data for Task Settings in the AWS Database Migration Service User Guide. 
 """
-CreateReplicationTask(MigrationType, ReplicationInstanceArn, ReplicationTaskIdentifier, SourceEndpointArn, TableMappings, TargetEndpointArn; aws::AWSConfig=AWSConfig()) = database_migration_service("CreateReplicationTask", Dict{String, Any}("MigrationType"=>MigrationType, "ReplicationInstanceArn"=>ReplicationInstanceArn, "ReplicationTaskIdentifier"=>ReplicationTaskIdentifier, "SourceEndpointArn"=>SourceEndpointArn, "TableMappings"=>TableMappings, "TargetEndpointArn"=>TargetEndpointArn); aws=aws)
-CreateReplicationTask(MigrationType, ReplicationInstanceArn, ReplicationTaskIdentifier, SourceEndpointArn, TableMappings, TargetEndpointArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("CreateReplicationTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MigrationType"=>MigrationType, "ReplicationInstanceArn"=>ReplicationInstanceArn, "ReplicationTaskIdentifier"=>ReplicationTaskIdentifier, "SourceEndpointArn"=>SourceEndpointArn, "TableMappings"=>TableMappings, "TargetEndpointArn"=>TargetEndpointArn), args)); aws=aws)
+CreateReplicationTask(MigrationType, ReplicationInstanceArn, ReplicationTaskIdentifier, SourceEndpointArn, TableMappings, TargetEndpointArn; aws::AWSConfig=AWS.aws_config) = database_migration_service("CreateReplicationTask", Dict{String, Any}("MigrationType"=>MigrationType, "ReplicationInstanceArn"=>ReplicationInstanceArn, "ReplicationTaskIdentifier"=>ReplicationTaskIdentifier, "SourceEndpointArn"=>SourceEndpointArn, "TableMappings"=>TableMappings, "TargetEndpointArn"=>TargetEndpointArn); aws=aws)
+CreateReplicationTask(MigrationType, ReplicationInstanceArn, ReplicationTaskIdentifier, SourceEndpointArn, TableMappings, TargetEndpointArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("CreateReplicationTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MigrationType"=>MigrationType, "ReplicationInstanceArn"=>ReplicationInstanceArn, "ReplicationTaskIdentifier"=>ReplicationTaskIdentifier, "SourceEndpointArn"=>SourceEndpointArn, "TableMappings"=>TableMappings, "TargetEndpointArn"=>TargetEndpointArn), args)); aws=aws)
 
 """
     DeleteCertificate()
@@ -179,8 +179,8 @@ Deletes the specified certificate.
 - `CertificateArn`: The Amazon Resource Name (ARN) of the deleted certificate.
 
 """
-DeleteCertificate(CertificateArn; aws::AWSConfig=AWSConfig()) = database_migration_service("DeleteCertificate", Dict{String, Any}("CertificateArn"=>CertificateArn); aws=aws)
-DeleteCertificate(CertificateArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("DeleteCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn), args)); aws=aws)
+DeleteCertificate(CertificateArn; aws::AWSConfig=AWS.aws_config) = database_migration_service("DeleteCertificate", Dict{String, Any}("CertificateArn"=>CertificateArn); aws=aws)
+DeleteCertificate(CertificateArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("DeleteCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateArn"=>CertificateArn), args)); aws=aws)
 
 """
     DeleteConnection()
@@ -192,8 +192,8 @@ Deletes the connection between a replication instance and an endpoint.
 - `ReplicationInstanceArn`: The Amazon Resource Name (ARN) of the replication instance.
 
 """
-DeleteConnection(EndpointArn, ReplicationInstanceArn; aws::AWSConfig=AWSConfig()) = database_migration_service("DeleteConnection", Dict{String, Any}("EndpointArn"=>EndpointArn, "ReplicationInstanceArn"=>ReplicationInstanceArn); aws=aws)
-DeleteConnection(EndpointArn, ReplicationInstanceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("DeleteConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn, "ReplicationInstanceArn"=>ReplicationInstanceArn), args)); aws=aws)
+DeleteConnection(EndpointArn, ReplicationInstanceArn; aws::AWSConfig=AWS.aws_config) = database_migration_service("DeleteConnection", Dict{String, Any}("EndpointArn"=>EndpointArn, "ReplicationInstanceArn"=>ReplicationInstanceArn); aws=aws)
+DeleteConnection(EndpointArn, ReplicationInstanceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("DeleteConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn, "ReplicationInstanceArn"=>ReplicationInstanceArn), args)); aws=aws)
 
 """
     DeleteEndpoint()
@@ -204,8 +204,8 @@ Deletes the specified endpoint.  All tasks associated with the endpoint must be 
 - `EndpointArn`: The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
 
 """
-DeleteEndpoint(EndpointArn; aws::AWSConfig=AWSConfig()) = database_migration_service("DeleteEndpoint", Dict{String, Any}("EndpointArn"=>EndpointArn); aws=aws)
-DeleteEndpoint(EndpointArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("DeleteEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn), args)); aws=aws)
+DeleteEndpoint(EndpointArn; aws::AWSConfig=AWS.aws_config) = database_migration_service("DeleteEndpoint", Dict{String, Any}("EndpointArn"=>EndpointArn); aws=aws)
+DeleteEndpoint(EndpointArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("DeleteEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn), args)); aws=aws)
 
 """
     DeleteEventSubscription()
@@ -216,8 +216,8 @@ DeleteEndpoint(EndpointArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AW
 - `SubscriptionName`: The name of the DMS event notification subscription to be deleted.
 
 """
-DeleteEventSubscription(SubscriptionName; aws::AWSConfig=AWSConfig()) = database_migration_service("DeleteEventSubscription", Dict{String, Any}("SubscriptionName"=>SubscriptionName); aws=aws)
-DeleteEventSubscription(SubscriptionName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("DeleteEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionName"=>SubscriptionName), args)); aws=aws)
+DeleteEventSubscription(SubscriptionName; aws::AWSConfig=AWS.aws_config) = database_migration_service("DeleteEventSubscription", Dict{String, Any}("SubscriptionName"=>SubscriptionName); aws=aws)
+DeleteEventSubscription(SubscriptionName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("DeleteEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionName"=>SubscriptionName), args)); aws=aws)
 
 """
     DeleteReplicationInstance()
@@ -228,8 +228,8 @@ Deletes the specified replication instance.  You must delete any migration tasks
 - `ReplicationInstanceArn`: The Amazon Resource Name (ARN) of the replication instance to be deleted.
 
 """
-DeleteReplicationInstance(ReplicationInstanceArn; aws::AWSConfig=AWSConfig()) = database_migration_service("DeleteReplicationInstance", Dict{String, Any}("ReplicationInstanceArn"=>ReplicationInstanceArn); aws=aws)
-DeleteReplicationInstance(ReplicationInstanceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("DeleteReplicationInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationInstanceArn"=>ReplicationInstanceArn), args)); aws=aws)
+DeleteReplicationInstance(ReplicationInstanceArn; aws::AWSConfig=AWS.aws_config) = database_migration_service("DeleteReplicationInstance", Dict{String, Any}("ReplicationInstanceArn"=>ReplicationInstanceArn); aws=aws)
+DeleteReplicationInstance(ReplicationInstanceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("DeleteReplicationInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationInstanceArn"=>ReplicationInstanceArn), args)); aws=aws)
 
 """
     DeleteReplicationSubnetGroup()
@@ -240,8 +240,8 @@ Deletes a subnet group.
 - `ReplicationSubnetGroupIdentifier`: The subnet group name of the replication instance.
 
 """
-DeleteReplicationSubnetGroup(ReplicationSubnetGroupIdentifier; aws::AWSConfig=AWSConfig()) = database_migration_service("DeleteReplicationSubnetGroup", Dict{String, Any}("ReplicationSubnetGroupIdentifier"=>ReplicationSubnetGroupIdentifier); aws=aws)
-DeleteReplicationSubnetGroup(ReplicationSubnetGroupIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("DeleteReplicationSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationSubnetGroupIdentifier"=>ReplicationSubnetGroupIdentifier), args)); aws=aws)
+DeleteReplicationSubnetGroup(ReplicationSubnetGroupIdentifier; aws::AWSConfig=AWS.aws_config) = database_migration_service("DeleteReplicationSubnetGroup", Dict{String, Any}("ReplicationSubnetGroupIdentifier"=>ReplicationSubnetGroupIdentifier); aws=aws)
+DeleteReplicationSubnetGroup(ReplicationSubnetGroupIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("DeleteReplicationSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationSubnetGroupIdentifier"=>ReplicationSubnetGroupIdentifier), args)); aws=aws)
 
 """
     DeleteReplicationTask()
@@ -252,8 +252,8 @@ Deletes the specified replication task.
 - `ReplicationTaskArn`: The Amazon Resource Name (ARN) of the replication task to be deleted.
 
 """
-DeleteReplicationTask(ReplicationTaskArn; aws::AWSConfig=AWSConfig()) = database_migration_service("DeleteReplicationTask", Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn); aws=aws)
-DeleteReplicationTask(ReplicationTaskArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("DeleteReplicationTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn), args)); aws=aws)
+DeleteReplicationTask(ReplicationTaskArn; aws::AWSConfig=AWS.aws_config) = database_migration_service("DeleteReplicationTask", Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn); aws=aws)
+DeleteReplicationTask(ReplicationTaskArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("DeleteReplicationTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn), args)); aws=aws)
 
 """
     DeleteReplicationTaskAssessmentRun()
@@ -264,8 +264,8 @@ Deletes the record of a single premigration assessment run. This operation remov
 - `ReplicationTaskAssessmentRunArn`: Amazon Resource Name (ARN) of the premigration assessment run to be deleted.
 
 """
-DeleteReplicationTaskAssessmentRun(ReplicationTaskAssessmentRunArn; aws::AWSConfig=AWSConfig()) = database_migration_service("DeleteReplicationTaskAssessmentRun", Dict{String, Any}("ReplicationTaskAssessmentRunArn"=>ReplicationTaskAssessmentRunArn); aws=aws)
-DeleteReplicationTaskAssessmentRun(ReplicationTaskAssessmentRunArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("DeleteReplicationTaskAssessmentRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskAssessmentRunArn"=>ReplicationTaskAssessmentRunArn), args)); aws=aws)
+DeleteReplicationTaskAssessmentRun(ReplicationTaskAssessmentRunArn; aws::AWSConfig=AWS.aws_config) = database_migration_service("DeleteReplicationTaskAssessmentRun", Dict{String, Any}("ReplicationTaskAssessmentRunArn"=>ReplicationTaskAssessmentRunArn); aws=aws)
+DeleteReplicationTaskAssessmentRun(ReplicationTaskAssessmentRunArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("DeleteReplicationTaskAssessmentRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskAssessmentRunArn"=>ReplicationTaskAssessmentRunArn), args)); aws=aws)
 
 """
     DescribeAccountAttributes()
@@ -273,8 +273,8 @@ DeleteReplicationTaskAssessmentRun(ReplicationTaskAssessmentRunArn, args::Abstra
 Lists all of the AWS DMS attributes for a customer account. These attributes include AWS DMS quotas for the account and a unique account identifier in a particular DMS region. DMS quotas include a list of resource quotas supported by the account, such as the number of replication instances allowed. The description for each resource quota, includes the quota name, current usage toward that quota, and the quota's maximum value. DMS uses the unique account identifier to name each artifact used by DMS in the given region. This command does not take any parameters.
 
 """
-DescribeAccountAttributes(; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribeAccountAttributes"; aws=aws)
-DescribeAccountAttributes(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribeAccountAttributes", args; aws=aws)
+DescribeAccountAttributes(; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribeAccountAttributes"; aws=aws)
+DescribeAccountAttributes(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribeAccountAttributes", args; aws=aws)
 
 """
     DescribeApplicableIndividualAssessments()
@@ -290,8 +290,8 @@ Provides a list of individual assessments that you can specify for a new premigr
 - `SourceEngineName`: Name of a database engine that the specified replication instance supports as a source.
 - `TargetEngineName`: Name of a database engine that the specified replication instance supports as a target.
 """
-DescribeApplicableIndividualAssessments(; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribeApplicableIndividualAssessments"; aws=aws)
-DescribeApplicableIndividualAssessments(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribeApplicableIndividualAssessments", args; aws=aws)
+DescribeApplicableIndividualAssessments(; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribeApplicableIndividualAssessments"; aws=aws)
+DescribeApplicableIndividualAssessments(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribeApplicableIndividualAssessments", args; aws=aws)
 
 """
     DescribeCertificates()
@@ -303,8 +303,8 @@ Provides a description of the certificate.
 - `Marker`:  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
 - `MaxRecords`:  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 10
 """
-DescribeCertificates(; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribeCertificates"; aws=aws)
-DescribeCertificates(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribeCertificates", args; aws=aws)
+DescribeCertificates(; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribeCertificates"; aws=aws)
+DescribeCertificates(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribeCertificates", args; aws=aws)
 
 """
     DescribeConnections()
@@ -316,8 +316,8 @@ Describes the status of the connections that have been made between the replicat
 - `Marker`:  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
 - `MaxRecords`:  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
 """
-DescribeConnections(; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribeConnections"; aws=aws)
-DescribeConnections(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribeConnections", args; aws=aws)
+DescribeConnections(; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribeConnections"; aws=aws)
+DescribeConnections(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribeConnections", args; aws=aws)
 
 """
     DescribeEndpointTypes()
@@ -329,8 +329,8 @@ Returns information about the type of endpoints available.
 - `Marker`:  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
 - `MaxRecords`:  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
 """
-DescribeEndpointTypes(; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribeEndpointTypes"; aws=aws)
-DescribeEndpointTypes(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribeEndpointTypes", args; aws=aws)
+DescribeEndpointTypes(; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribeEndpointTypes"; aws=aws)
+DescribeEndpointTypes(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribeEndpointTypes", args; aws=aws)
 
 """
     DescribeEndpoints()
@@ -342,8 +342,8 @@ Returns information about the endpoints for your account in the current region.
 - `Marker`:  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
 - `MaxRecords`:  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
 """
-DescribeEndpoints(; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribeEndpoints"; aws=aws)
-DescribeEndpoints(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribeEndpoints", args; aws=aws)
+DescribeEndpoints(; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribeEndpoints"; aws=aws)
+DescribeEndpoints(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribeEndpoints", args; aws=aws)
 
 """
     DescribeEventCategories()
@@ -354,8 +354,8 @@ Lists categories for all event source types, or, if specified, for a specified s
 - `Filters`: Filters applied to the event categories.
 - `SourceType`:  The type of AWS DMS resource that generates events.  Valid values: replication-instance | replication-task
 """
-DescribeEventCategories(; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribeEventCategories"; aws=aws)
-DescribeEventCategories(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribeEventCategories", args; aws=aws)
+DescribeEventCategories(; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribeEventCategories"; aws=aws)
+DescribeEventCategories(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribeEventCategories", args; aws=aws)
 
 """
     DescribeEventSubscriptions()
@@ -368,8 +368,8 @@ Lists all the event subscriptions for a customer account. The description of a s
 - `MaxRecords`:  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
 - `SubscriptionName`: The name of the AWS DMS event subscription to be described.
 """
-DescribeEventSubscriptions(; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribeEventSubscriptions"; aws=aws)
-DescribeEventSubscriptions(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribeEventSubscriptions", args; aws=aws)
+DescribeEventSubscriptions(; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribeEventSubscriptions"; aws=aws)
+DescribeEventSubscriptions(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribeEventSubscriptions", args; aws=aws)
 
 """
     DescribeEvents()
@@ -387,8 +387,8 @@ DescribeEventSubscriptions(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS
 - `SourceType`: The type of AWS DMS resource that generates events. Valid values: replication-instance | replication-task
 - `StartTime`: The start time for the events to be listed.
 """
-DescribeEvents(; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribeEvents"; aws=aws)
-DescribeEvents(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribeEvents", args; aws=aws)
+DescribeEvents(; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribeEvents"; aws=aws)
+DescribeEvents(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribeEvents", args; aws=aws)
 
 """
     DescribeOrderableReplicationInstances()
@@ -399,8 +399,8 @@ Returns information about the replication instance types that can be created in 
 - `Marker`:  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
 - `MaxRecords`:  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
 """
-DescribeOrderableReplicationInstances(; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribeOrderableReplicationInstances"; aws=aws)
-DescribeOrderableReplicationInstances(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribeOrderableReplicationInstances", args; aws=aws)
+DescribeOrderableReplicationInstances(; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribeOrderableReplicationInstances"; aws=aws)
+DescribeOrderableReplicationInstances(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribeOrderableReplicationInstances", args; aws=aws)
 
 """
     DescribePendingMaintenanceActions()
@@ -413,8 +413,8 @@ For internal use only
 - `MaxRecords`:  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
 - `ReplicationInstanceArn`: The Amazon Resource Name (ARN) of the replication instance.
 """
-DescribePendingMaintenanceActions(; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribePendingMaintenanceActions"; aws=aws)
-DescribePendingMaintenanceActions(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribePendingMaintenanceActions", args; aws=aws)
+DescribePendingMaintenanceActions(; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribePendingMaintenanceActions"; aws=aws)
+DescribePendingMaintenanceActions(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribePendingMaintenanceActions", args; aws=aws)
 
 """
     DescribeRefreshSchemasStatus()
@@ -425,8 +425,8 @@ Returns the status of the RefreshSchemas operation.
 - `EndpointArn`: The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
 
 """
-DescribeRefreshSchemasStatus(EndpointArn; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribeRefreshSchemasStatus", Dict{String, Any}("EndpointArn"=>EndpointArn); aws=aws)
-DescribeRefreshSchemasStatus(EndpointArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribeRefreshSchemasStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn), args)); aws=aws)
+DescribeRefreshSchemasStatus(EndpointArn; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribeRefreshSchemasStatus", Dict{String, Any}("EndpointArn"=>EndpointArn); aws=aws)
+DescribeRefreshSchemasStatus(EndpointArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribeRefreshSchemasStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn), args)); aws=aws)
 
 """
     DescribeReplicationInstanceTaskLogs()
@@ -440,8 +440,8 @@ Returns information about the task logs for the specified task.
 - `Marker`:  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
 - `MaxRecords`:  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
 """
-DescribeReplicationInstanceTaskLogs(ReplicationInstanceArn; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribeReplicationInstanceTaskLogs", Dict{String, Any}("ReplicationInstanceArn"=>ReplicationInstanceArn); aws=aws)
-DescribeReplicationInstanceTaskLogs(ReplicationInstanceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribeReplicationInstanceTaskLogs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationInstanceArn"=>ReplicationInstanceArn), args)); aws=aws)
+DescribeReplicationInstanceTaskLogs(ReplicationInstanceArn; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribeReplicationInstanceTaskLogs", Dict{String, Any}("ReplicationInstanceArn"=>ReplicationInstanceArn); aws=aws)
+DescribeReplicationInstanceTaskLogs(ReplicationInstanceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribeReplicationInstanceTaskLogs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationInstanceArn"=>ReplicationInstanceArn), args)); aws=aws)
 
 """
     DescribeReplicationInstances()
@@ -453,8 +453,8 @@ Returns information about replication instances for your account in the current 
 - `Marker`:  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
 - `MaxRecords`:  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
 """
-DescribeReplicationInstances(; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribeReplicationInstances"; aws=aws)
-DescribeReplicationInstances(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribeReplicationInstances", args; aws=aws)
+DescribeReplicationInstances(; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribeReplicationInstances"; aws=aws)
+DescribeReplicationInstances(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribeReplicationInstances", args; aws=aws)
 
 """
     DescribeReplicationSubnetGroups()
@@ -466,8 +466,8 @@ Returns information about the replication subnet groups.
 - `Marker`:  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
 - `MaxRecords`:  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
 """
-DescribeReplicationSubnetGroups(; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribeReplicationSubnetGroups"; aws=aws)
-DescribeReplicationSubnetGroups(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribeReplicationSubnetGroups", args; aws=aws)
+DescribeReplicationSubnetGroups(; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribeReplicationSubnetGroups"; aws=aws)
+DescribeReplicationSubnetGroups(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribeReplicationSubnetGroups", args; aws=aws)
 
 """
     DescribeReplicationTaskAssessmentResults()
@@ -479,8 +479,8 @@ Returns the task assessment results from Amazon S3. This action always returns t
 - `MaxRecords`:  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
 - `ReplicationTaskArn`: The Amazon Resource Name (ARN) string that uniquely identifies the task. When this input parameter is specified, the API returns only one result and ignore the values of the MaxRecords and Marker parameters. 
 """
-DescribeReplicationTaskAssessmentResults(; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribeReplicationTaskAssessmentResults"; aws=aws)
-DescribeReplicationTaskAssessmentResults(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribeReplicationTaskAssessmentResults", args; aws=aws)
+DescribeReplicationTaskAssessmentResults(; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribeReplicationTaskAssessmentResults"; aws=aws)
+DescribeReplicationTaskAssessmentResults(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribeReplicationTaskAssessmentResults", args; aws=aws)
 
 """
     DescribeReplicationTaskAssessmentRuns()
@@ -492,8 +492,8 @@ Returns a paginated list of premigration assessment runs based on filter setting
 - `Marker`: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
 - `MaxRecords`: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
 """
-DescribeReplicationTaskAssessmentRuns(; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribeReplicationTaskAssessmentRuns"; aws=aws)
-DescribeReplicationTaskAssessmentRuns(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribeReplicationTaskAssessmentRuns", args; aws=aws)
+DescribeReplicationTaskAssessmentRuns(; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribeReplicationTaskAssessmentRuns"; aws=aws)
+DescribeReplicationTaskAssessmentRuns(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribeReplicationTaskAssessmentRuns", args; aws=aws)
 
 """
     DescribeReplicationTaskIndividualAssessments()
@@ -505,8 +505,8 @@ Returns a paginated list of individual assessments based on filter settings. The
 - `Marker`: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
 - `MaxRecords`: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
 """
-DescribeReplicationTaskIndividualAssessments(; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribeReplicationTaskIndividualAssessments"; aws=aws)
-DescribeReplicationTaskIndividualAssessments(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribeReplicationTaskIndividualAssessments", args; aws=aws)
+DescribeReplicationTaskIndividualAssessments(; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribeReplicationTaskIndividualAssessments"; aws=aws)
+DescribeReplicationTaskIndividualAssessments(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribeReplicationTaskIndividualAssessments", args; aws=aws)
 
 """
     DescribeReplicationTasks()
@@ -519,8 +519,8 @@ Returns information about replication tasks for your account in the current regi
 - `MaxRecords`:  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
 - `WithoutSettings`: An option to set to avoid returning information about settings. Use this to reduce overhead when setting information is too large. To use this option, choose true; otherwise, choose false (the default).
 """
-DescribeReplicationTasks(; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribeReplicationTasks"; aws=aws)
-DescribeReplicationTasks(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribeReplicationTasks", args; aws=aws)
+DescribeReplicationTasks(; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribeReplicationTasks"; aws=aws)
+DescribeReplicationTasks(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribeReplicationTasks", args; aws=aws)
 
 """
     DescribeSchemas()
@@ -534,8 +534,8 @@ Returns information about the schema for the specified endpoint.
 - `Marker`:  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
 - `MaxRecords`:  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
 """
-DescribeSchemas(EndpointArn; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribeSchemas", Dict{String, Any}("EndpointArn"=>EndpointArn); aws=aws)
-DescribeSchemas(EndpointArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribeSchemas", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn), args)); aws=aws)
+DescribeSchemas(EndpointArn; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribeSchemas", Dict{String, Any}("EndpointArn"=>EndpointArn); aws=aws)
+DescribeSchemas(EndpointArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribeSchemas", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn), args)); aws=aws)
 
 """
     DescribeTableStatistics()
@@ -550,8 +550,8 @@ Returns table statistics on the database migration task, including table name, r
 - `Marker`:  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
 - `MaxRecords`:  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 500.
 """
-DescribeTableStatistics(ReplicationTaskArn; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribeTableStatistics", Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn); aws=aws)
-DescribeTableStatistics(ReplicationTaskArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("DescribeTableStatistics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn), args)); aws=aws)
+DescribeTableStatistics(ReplicationTaskArn; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribeTableStatistics", Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn); aws=aws)
+DescribeTableStatistics(ReplicationTaskArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("DescribeTableStatistics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn), args)); aws=aws)
 
 """
     ImportCertificate()
@@ -566,8 +566,8 @@ Uploads the specified certificate.
 - `CertificateWallet`: The location of an imported Oracle Wallet certificate for use with SSL.
 - `Tags`: The tags associated with the certificate.
 """
-ImportCertificate(CertificateIdentifier; aws::AWSConfig=AWSConfig()) = database_migration_service("ImportCertificate", Dict{String, Any}("CertificateIdentifier"=>CertificateIdentifier); aws=aws)
-ImportCertificate(CertificateIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("ImportCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateIdentifier"=>CertificateIdentifier), args)); aws=aws)
+ImportCertificate(CertificateIdentifier; aws::AWSConfig=AWS.aws_config) = database_migration_service("ImportCertificate", Dict{String, Any}("CertificateIdentifier"=>CertificateIdentifier); aws=aws)
+ImportCertificate(CertificateIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("ImportCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateIdentifier"=>CertificateIdentifier), args)); aws=aws)
 
 """
     ListTagsForResource()
@@ -578,8 +578,8 @@ Lists all tags for an AWS DMS resource.
 - `ResourceArn`: The Amazon Resource Name (ARN) string that uniquely identifies the AWS DMS resource.
 
 """
-ListTagsForResource(ResourceArn; aws::AWSConfig=AWSConfig()) = database_migration_service("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws=aws)
-ListTagsForResource(ResourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws=aws)
+ListTagsForResource(ResourceArn; aws::AWSConfig=AWS.aws_config) = database_migration_service("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws=aws)
+ListTagsForResource(ResourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws=aws)
 
 """
     ModifyEndpoint()
@@ -619,8 +619,8 @@ Modifies the specified endpoint.
 - `SybaseSettings`: Settings in JSON format for the source and target SAP ASE endpoint. For information about other available settings, see Extra connection attributes when using SAP ASE as a source for AWS DMS and Extra connection attributes when using SAP ASE as a target for AWS DMS in the AWS Database Migration Service User Guide. 
 - `Username`: The user name to be used to login to the endpoint database.
 """
-ModifyEndpoint(EndpointArn; aws::AWSConfig=AWSConfig()) = database_migration_service("ModifyEndpoint", Dict{String, Any}("EndpointArn"=>EndpointArn); aws=aws)
-ModifyEndpoint(EndpointArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("ModifyEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn), args)); aws=aws)
+ModifyEndpoint(EndpointArn; aws::AWSConfig=AWS.aws_config) = database_migration_service("ModifyEndpoint", Dict{String, Any}("EndpointArn"=>EndpointArn); aws=aws)
+ModifyEndpoint(EndpointArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("ModifyEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn), args)); aws=aws)
 
 """
     ModifyEventSubscription()
@@ -636,8 +636,8 @@ Modifies an existing AWS DMS event notification subscription.
 - `SnsTopicArn`:  The Amazon Resource Name (ARN) of the Amazon SNS topic created for event notification. The ARN is created by Amazon SNS when you create a topic and subscribe to it.
 - `SourceType`:  The type of AWS DMS resource that generates the events you want to subscribe to.  Valid values: replication-instance | replication-task
 """
-ModifyEventSubscription(SubscriptionName; aws::AWSConfig=AWSConfig()) = database_migration_service("ModifyEventSubscription", Dict{String, Any}("SubscriptionName"=>SubscriptionName); aws=aws)
-ModifyEventSubscription(SubscriptionName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("ModifyEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionName"=>SubscriptionName), args)); aws=aws)
+ModifyEventSubscription(SubscriptionName; aws::AWSConfig=AWS.aws_config) = database_migration_service("ModifyEventSubscription", Dict{String, Any}("SubscriptionName"=>SubscriptionName); aws=aws)
+ModifyEventSubscription(SubscriptionName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("ModifyEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionName"=>SubscriptionName), args)); aws=aws)
 
 """
     ModifyReplicationInstance()
@@ -659,8 +659,8 @@ Modifies the replication instance to apply new settings. You can change one or m
 - `ReplicationInstanceIdentifier`: The replication instance identifier. This parameter is stored as a lowercase string.
 - `VpcSecurityGroupIds`:  Specifies the VPC security group to be used with the replication instance. The VPC security group must work with the VPC containing the replication instance. 
 """
-ModifyReplicationInstance(ReplicationInstanceArn; aws::AWSConfig=AWSConfig()) = database_migration_service("ModifyReplicationInstance", Dict{String, Any}("ReplicationInstanceArn"=>ReplicationInstanceArn); aws=aws)
-ModifyReplicationInstance(ReplicationInstanceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("ModifyReplicationInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationInstanceArn"=>ReplicationInstanceArn), args)); aws=aws)
+ModifyReplicationInstance(ReplicationInstanceArn; aws::AWSConfig=AWS.aws_config) = database_migration_service("ModifyReplicationInstance", Dict{String, Any}("ReplicationInstanceArn"=>ReplicationInstanceArn); aws=aws)
+ModifyReplicationInstance(ReplicationInstanceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("ModifyReplicationInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationInstanceArn"=>ReplicationInstanceArn), args)); aws=aws)
 
 """
     ModifyReplicationSubnetGroup()
@@ -674,8 +674,8 @@ Modifies the settings for the specified replication subnet group.
 # Optional Parameters
 - `ReplicationSubnetGroupDescription`: A description for the replication instance subnet group.
 """
-ModifyReplicationSubnetGroup(ReplicationSubnetGroupIdentifier, SubnetIds; aws::AWSConfig=AWSConfig()) = database_migration_service("ModifyReplicationSubnetGroup", Dict{String, Any}("ReplicationSubnetGroupIdentifier"=>ReplicationSubnetGroupIdentifier, "SubnetIds"=>SubnetIds); aws=aws)
-ModifyReplicationSubnetGroup(ReplicationSubnetGroupIdentifier, SubnetIds, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("ModifyReplicationSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationSubnetGroupIdentifier"=>ReplicationSubnetGroupIdentifier, "SubnetIds"=>SubnetIds), args)); aws=aws)
+ModifyReplicationSubnetGroup(ReplicationSubnetGroupIdentifier, SubnetIds; aws::AWSConfig=AWS.aws_config) = database_migration_service("ModifyReplicationSubnetGroup", Dict{String, Any}("ReplicationSubnetGroupIdentifier"=>ReplicationSubnetGroupIdentifier, "SubnetIds"=>SubnetIds); aws=aws)
+ModifyReplicationSubnetGroup(ReplicationSubnetGroupIdentifier, SubnetIds, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("ModifyReplicationSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationSubnetGroupIdentifier"=>ReplicationSubnetGroupIdentifier, "SubnetIds"=>SubnetIds), args)); aws=aws)
 
 """
     ModifyReplicationTask()
@@ -695,8 +695,8 @@ Modifies the specified replication task. You can't modify the task endpoints. Th
 - `TableMappings`: When using the AWS CLI or boto3, provide the path of the JSON file that contains the table mappings. Precede the path with file://. When working with the DMS API, provide the JSON as the parameter value, for example: --table-mappings file://mappingfile.json 
 - `TaskData`: Supplemental information that the task requires to migrate the data for certain source and target endpoints. For more information, see Specifying Supplemental Data for Task Settings in the AWS Database Migration Service User Guide. 
 """
-ModifyReplicationTask(ReplicationTaskArn; aws::AWSConfig=AWSConfig()) = database_migration_service("ModifyReplicationTask", Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn); aws=aws)
-ModifyReplicationTask(ReplicationTaskArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("ModifyReplicationTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn), args)); aws=aws)
+ModifyReplicationTask(ReplicationTaskArn; aws::AWSConfig=AWS.aws_config) = database_migration_service("ModifyReplicationTask", Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn); aws=aws)
+ModifyReplicationTask(ReplicationTaskArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("ModifyReplicationTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn), args)); aws=aws)
 
 """
     RebootReplicationInstance()
@@ -709,8 +709,8 @@ Reboots a replication instance. Rebooting results in a momentary outage, until t
 # Optional Parameters
 - `ForceFailover`: If this parameter is true, the reboot is conducted through a Multi-AZ failover. (If the instance isn't configured for Multi-AZ, then you can't specify true.)
 """
-RebootReplicationInstance(ReplicationInstanceArn; aws::AWSConfig=AWSConfig()) = database_migration_service("RebootReplicationInstance", Dict{String, Any}("ReplicationInstanceArn"=>ReplicationInstanceArn); aws=aws)
-RebootReplicationInstance(ReplicationInstanceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("RebootReplicationInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationInstanceArn"=>ReplicationInstanceArn), args)); aws=aws)
+RebootReplicationInstance(ReplicationInstanceArn; aws::AWSConfig=AWS.aws_config) = database_migration_service("RebootReplicationInstance", Dict{String, Any}("ReplicationInstanceArn"=>ReplicationInstanceArn); aws=aws)
+RebootReplicationInstance(ReplicationInstanceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("RebootReplicationInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationInstanceArn"=>ReplicationInstanceArn), args)); aws=aws)
 
 """
     RefreshSchemas()
@@ -722,8 +722,8 @@ Populates the schema for the specified endpoint. This is an asynchronous operati
 - `ReplicationInstanceArn`: The Amazon Resource Name (ARN) of the replication instance.
 
 """
-RefreshSchemas(EndpointArn, ReplicationInstanceArn; aws::AWSConfig=AWSConfig()) = database_migration_service("RefreshSchemas", Dict{String, Any}("EndpointArn"=>EndpointArn, "ReplicationInstanceArn"=>ReplicationInstanceArn); aws=aws)
-RefreshSchemas(EndpointArn, ReplicationInstanceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("RefreshSchemas", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn, "ReplicationInstanceArn"=>ReplicationInstanceArn), args)); aws=aws)
+RefreshSchemas(EndpointArn, ReplicationInstanceArn; aws::AWSConfig=AWS.aws_config) = database_migration_service("RefreshSchemas", Dict{String, Any}("EndpointArn"=>EndpointArn, "ReplicationInstanceArn"=>ReplicationInstanceArn); aws=aws)
+RefreshSchemas(EndpointArn, ReplicationInstanceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("RefreshSchemas", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn, "ReplicationInstanceArn"=>ReplicationInstanceArn), args)); aws=aws)
 
 """
     ReloadTables()
@@ -737,8 +737,8 @@ Reloads the target database table with the source data.
 # Optional Parameters
 - `ReloadOption`: Options for reload. Specify data-reload to reload the data and re-validate it if validation is enabled. Specify validate-only to re-validate the table. This option applies only when validation is enabled for the task.  Valid values: data-reload, validate-only Default value is data-reload.
 """
-ReloadTables(ReplicationTaskArn, TablesToReload; aws::AWSConfig=AWSConfig()) = database_migration_service("ReloadTables", Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn, "TablesToReload"=>TablesToReload); aws=aws)
-ReloadTables(ReplicationTaskArn, TablesToReload, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("ReloadTables", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn, "TablesToReload"=>TablesToReload), args)); aws=aws)
+ReloadTables(ReplicationTaskArn, TablesToReload; aws::AWSConfig=AWS.aws_config) = database_migration_service("ReloadTables", Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn, "TablesToReload"=>TablesToReload); aws=aws)
+ReloadTables(ReplicationTaskArn, TablesToReload, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("ReloadTables", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn, "TablesToReload"=>TablesToReload), args)); aws=aws)
 
 """
     RemoveTagsFromResource()
@@ -750,8 +750,8 @@ Removes metadata tags from a DMS resource.
 - `TagKeys`: The tag key (name) of the tag to be removed.
 
 """
-RemoveTagsFromResource(ResourceArn, TagKeys; aws::AWSConfig=AWSConfig()) = database_migration_service("RemoveTagsFromResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws=aws)
-RemoveTagsFromResource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("RemoveTagsFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws=aws)
+RemoveTagsFromResource(ResourceArn, TagKeys; aws::AWSConfig=AWS.aws_config) = database_migration_service("RemoveTagsFromResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws=aws)
+RemoveTagsFromResource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("RemoveTagsFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws=aws)
 
 """
     StartReplicationTask()
@@ -767,8 +767,8 @@ Starts the replication task. For more information about AWS DMS tasks, see Worki
 - `CdcStartTime`: Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error. Timestamp Example: --cdc-start-time “2018-03-08T12:12:12”
 - `CdcStopPosition`: Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:3018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time: 3018-02-09T12:12:12 “
 """
-StartReplicationTask(ReplicationTaskArn, StartReplicationTaskType; aws::AWSConfig=AWSConfig()) = database_migration_service("StartReplicationTask", Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn, "StartReplicationTaskType"=>StartReplicationTaskType); aws=aws)
-StartReplicationTask(ReplicationTaskArn, StartReplicationTaskType, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("StartReplicationTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn, "StartReplicationTaskType"=>StartReplicationTaskType), args)); aws=aws)
+StartReplicationTask(ReplicationTaskArn, StartReplicationTaskType; aws::AWSConfig=AWS.aws_config) = database_migration_service("StartReplicationTask", Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn, "StartReplicationTaskType"=>StartReplicationTaskType); aws=aws)
+StartReplicationTask(ReplicationTaskArn, StartReplicationTaskType, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("StartReplicationTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn, "StartReplicationTaskType"=>StartReplicationTaskType), args)); aws=aws)
 
 """
     StartReplicationTaskAssessment()
@@ -779,8 +779,8 @@ StartReplicationTask(ReplicationTaskArn, StartReplicationTaskType, args::Abstrac
 - `ReplicationTaskArn`:  The Amazon Resource Name (ARN) of the replication task. 
 
 """
-StartReplicationTaskAssessment(ReplicationTaskArn; aws::AWSConfig=AWSConfig()) = database_migration_service("StartReplicationTaskAssessment", Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn); aws=aws)
-StartReplicationTaskAssessment(ReplicationTaskArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("StartReplicationTaskAssessment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn), args)); aws=aws)
+StartReplicationTaskAssessment(ReplicationTaskArn; aws::AWSConfig=AWS.aws_config) = database_migration_service("StartReplicationTaskAssessment", Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn); aws=aws)
+StartReplicationTaskAssessment(ReplicationTaskArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("StartReplicationTaskAssessment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn), args)); aws=aws)
 
 """
     StartReplicationTaskAssessmentRun()
@@ -800,8 +800,8 @@ Starts a new premigration assessment run for one or more individual assessments 
 - `ResultKmsKeyArn`: ARN of a custom KMS encryption key that you specify when you set ResultEncryptionMode to \"SSE_KMS\".
 - `ResultLocationFolder`: Folder within an Amazon S3 bucket where you want AWS DMS to store the results of this assessment run.
 """
-StartReplicationTaskAssessmentRun(AssessmentRunName, ReplicationTaskArn, ResultLocationBucket, ServiceAccessRoleArn; aws::AWSConfig=AWSConfig()) = database_migration_service("StartReplicationTaskAssessmentRun", Dict{String, Any}("AssessmentRunName"=>AssessmentRunName, "ReplicationTaskArn"=>ReplicationTaskArn, "ResultLocationBucket"=>ResultLocationBucket, "ServiceAccessRoleArn"=>ServiceAccessRoleArn); aws=aws)
-StartReplicationTaskAssessmentRun(AssessmentRunName, ReplicationTaskArn, ResultLocationBucket, ServiceAccessRoleArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("StartReplicationTaskAssessmentRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssessmentRunName"=>AssessmentRunName, "ReplicationTaskArn"=>ReplicationTaskArn, "ResultLocationBucket"=>ResultLocationBucket, "ServiceAccessRoleArn"=>ServiceAccessRoleArn), args)); aws=aws)
+StartReplicationTaskAssessmentRun(AssessmentRunName, ReplicationTaskArn, ResultLocationBucket, ServiceAccessRoleArn; aws::AWSConfig=AWS.aws_config) = database_migration_service("StartReplicationTaskAssessmentRun", Dict{String, Any}("AssessmentRunName"=>AssessmentRunName, "ReplicationTaskArn"=>ReplicationTaskArn, "ResultLocationBucket"=>ResultLocationBucket, "ServiceAccessRoleArn"=>ServiceAccessRoleArn); aws=aws)
+StartReplicationTaskAssessmentRun(AssessmentRunName, ReplicationTaskArn, ResultLocationBucket, ServiceAccessRoleArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("StartReplicationTaskAssessmentRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssessmentRunName"=>AssessmentRunName, "ReplicationTaskArn"=>ReplicationTaskArn, "ResultLocationBucket"=>ResultLocationBucket, "ServiceAccessRoleArn"=>ServiceAccessRoleArn), args)); aws=aws)
 
 """
     StopReplicationTask()
@@ -812,8 +812,8 @@ Stops the replication task.
 - `ReplicationTaskArn`: The Amazon Resource Name(ARN) of the replication task to be stopped.
 
 """
-StopReplicationTask(ReplicationTaskArn; aws::AWSConfig=AWSConfig()) = database_migration_service("StopReplicationTask", Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn); aws=aws)
-StopReplicationTask(ReplicationTaskArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("StopReplicationTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn), args)); aws=aws)
+StopReplicationTask(ReplicationTaskArn; aws::AWSConfig=AWS.aws_config) = database_migration_service("StopReplicationTask", Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn); aws=aws)
+StopReplicationTask(ReplicationTaskArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("StopReplicationTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationTaskArn"=>ReplicationTaskArn), args)); aws=aws)
 
 """
     TestConnection()
@@ -825,5 +825,5 @@ Tests the connection between the replication instance and the endpoint.
 - `ReplicationInstanceArn`: The Amazon Resource Name (ARN) of the replication instance.
 
 """
-TestConnection(EndpointArn, ReplicationInstanceArn; aws::AWSConfig=AWSConfig()) = database_migration_service("TestConnection", Dict{String, Any}("EndpointArn"=>EndpointArn, "ReplicationInstanceArn"=>ReplicationInstanceArn); aws=aws)
-TestConnection(EndpointArn, ReplicationInstanceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = database_migration_service("TestConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn, "ReplicationInstanceArn"=>ReplicationInstanceArn), args)); aws=aws)
+TestConnection(EndpointArn, ReplicationInstanceArn; aws::AWSConfig=AWS.aws_config) = database_migration_service("TestConnection", Dict{String, Any}("EndpointArn"=>EndpointArn, "ReplicationInstanceArn"=>ReplicationInstanceArn); aws=aws)
+TestConnection(EndpointArn, ReplicationInstanceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = database_migration_service("TestConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn, "ReplicationInstanceArn"=>ReplicationInstanceArn), args)); aws=aws)

@@ -16,8 +16,8 @@ using UUIDs
 # Optional Parameters
 - `Items`: A list of items on which to perform the operation.
 """
-BatchDeleteAttributes(DomainName, Item; aws::AWSConfig=AWSConfig()) = simpledb("BatchDeleteAttributes", Dict{String, Any}("DomainName"=>DomainName, "Item"=>Item); aws=aws)
-BatchDeleteAttributes(DomainName, Item, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = simpledb("BatchDeleteAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "Item"=>Item), args)); aws=aws)
+BatchDeleteAttributes(DomainName, Item; aws::AWSConfig=AWS.aws_config) = simpledb("BatchDeleteAttributes", Dict{String, Any}("DomainName"=>DomainName, "Item"=>Item); aws=aws)
+BatchDeleteAttributes(DomainName, Item, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = simpledb("BatchDeleteAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "Item"=>Item), args)); aws=aws)
 
 """
     BatchPutAttributes()
@@ -31,8 +31,8 @@ BatchDeleteAttributes(DomainName, Item, args::AbstractDict{String, <:Any}; aws::
 # Optional Parameters
 - `Items`: A list of items on which to perform the operation.
 """
-BatchPutAttributes(DomainName, Item; aws::AWSConfig=AWSConfig()) = simpledb("BatchPutAttributes", Dict{String, Any}("DomainName"=>DomainName, "Item"=>Item); aws=aws)
-BatchPutAttributes(DomainName, Item, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = simpledb("BatchPutAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "Item"=>Item), args)); aws=aws)
+BatchPutAttributes(DomainName, Item; aws::AWSConfig=AWS.aws_config) = simpledb("BatchPutAttributes", Dict{String, Any}("DomainName"=>DomainName, "Item"=>Item); aws=aws)
+BatchPutAttributes(DomainName, Item, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = simpledb("BatchPutAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "Item"=>Item), args)); aws=aws)
 
 """
     CreateDomain()
@@ -43,8 +43,8 @@ BatchPutAttributes(DomainName, Item, args::AbstractDict{String, <:Any}; aws::AWS
 - `DomainName`: The name of the domain to create. The name can range between 3 and 255 characters and can contain the following characters: a-z, A-Z, 0-9, '_', '-', and '.'.
 
 """
-CreateDomain(DomainName; aws::AWSConfig=AWSConfig()) = simpledb("CreateDomain", Dict{String, Any}("DomainName"=>DomainName); aws=aws)
-CreateDomain(DomainName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = simpledb("CreateDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws=aws)
+CreateDomain(DomainName; aws::AWSConfig=AWS.aws_config) = simpledb("CreateDomain", Dict{String, Any}("DomainName"=>DomainName); aws=aws)
+CreateDomain(DomainName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = simpledb("CreateDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws=aws)
 
 """
     DeleteAttributes()
@@ -59,8 +59,8 @@ CreateDomain(DomainName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSCo
 - `Attributes`: A list of Attributes. Similar to columns on a spreadsheet, attributes represent categories of data that can be assigned to items.
 - `Expected`: The update condition which, if specified, determines whether the specified attributes will be deleted or not. The update condition must be satisfied in order for this request to be processed and the attributes to be deleted.
 """
-DeleteAttributes(DomainName, ItemName; aws::AWSConfig=AWSConfig()) = simpledb("DeleteAttributes", Dict{String, Any}("DomainName"=>DomainName, "ItemName"=>ItemName); aws=aws)
-DeleteAttributes(DomainName, ItemName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = simpledb("DeleteAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "ItemName"=>ItemName), args)); aws=aws)
+DeleteAttributes(DomainName, ItemName; aws::AWSConfig=AWS.aws_config) = simpledb("DeleteAttributes", Dict{String, Any}("DomainName"=>DomainName, "ItemName"=>ItemName); aws=aws)
+DeleteAttributes(DomainName, ItemName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = simpledb("DeleteAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "ItemName"=>ItemName), args)); aws=aws)
 
 """
     DeleteDomain()
@@ -71,8 +71,8 @@ DeleteAttributes(DomainName, ItemName, args::AbstractDict{String, <:Any}; aws::A
 - `DomainName`: The name of the domain to delete.
 
 """
-DeleteDomain(DomainName; aws::AWSConfig=AWSConfig()) = simpledb("DeleteDomain", Dict{String, Any}("DomainName"=>DomainName); aws=aws)
-DeleteDomain(DomainName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = simpledb("DeleteDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws=aws)
+DeleteDomain(DomainName; aws::AWSConfig=AWS.aws_config) = simpledb("DeleteDomain", Dict{String, Any}("DomainName"=>DomainName); aws=aws)
+DeleteDomain(DomainName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = simpledb("DeleteDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws=aws)
 
 """
     DomainMetadata()
@@ -83,8 +83,8 @@ DeleteDomain(DomainName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSCo
 - `DomainName`: The name of the domain for which to display the metadata of.
 
 """
-DomainMetadata(DomainName; aws::AWSConfig=AWSConfig()) = simpledb("DomainMetadata", Dict{String, Any}("DomainName"=>DomainName); aws=aws)
-DomainMetadata(DomainName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = simpledb("DomainMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws=aws)
+DomainMetadata(DomainName; aws::AWSConfig=AWS.aws_config) = simpledb("DomainMetadata", Dict{String, Any}("DomainName"=>DomainName); aws=aws)
+DomainMetadata(DomainName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = simpledb("DomainMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName), args)); aws=aws)
 
 """
     GetAttributes()
@@ -99,8 +99,8 @@ DomainMetadata(DomainName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS
 - `AttributeNames`: The names of the attributes.
 - `ConsistentRead`: Determines whether or not strong consistency should be enforced when data is read from SimpleDB. If true, any data previously written to SimpleDB will be returned. Otherwise, results will be consistent eventually, and the client may not see data that was written immediately before your read.
 """
-GetAttributes(DomainName, ItemName; aws::AWSConfig=AWSConfig()) = simpledb("GetAttributes", Dict{String, Any}("DomainName"=>DomainName, "ItemName"=>ItemName); aws=aws)
-GetAttributes(DomainName, ItemName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = simpledb("GetAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "ItemName"=>ItemName), args)); aws=aws)
+GetAttributes(DomainName, ItemName; aws::AWSConfig=AWS.aws_config) = simpledb("GetAttributes", Dict{String, Any}("DomainName"=>DomainName, "ItemName"=>ItemName); aws=aws)
+GetAttributes(DomainName, ItemName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = simpledb("GetAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "ItemName"=>ItemName), args)); aws=aws)
 
 """
     ListDomains()
@@ -111,8 +111,8 @@ GetAttributes(DomainName, ItemName, args::AbstractDict{String, <:Any}; aws::AWSC
 - `MaxNumberOfDomains`: The maximum number of domain names you want returned. The range is 1 to 100. The default setting is 100.
 - `NextToken`: A string informing Amazon SimpleDB where to start the next list of domain names.
 """
-ListDomains(; aws::AWSConfig=AWSConfig()) = simpledb("ListDomains"; aws=aws)
-ListDomains(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = simpledb("ListDomains", args; aws=aws)
+ListDomains(; aws::AWSConfig=AWS.aws_config) = simpledb("ListDomains"; aws=aws)
+ListDomains(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = simpledb("ListDomains", args; aws=aws)
 
 """
     PutAttributes()
@@ -128,8 +128,8 @@ ListDomains(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sim
 - `Attributes`: The list of attributes.
 - `Expected`: The update condition which, if specified, determines whether the specified attributes will be updated or not. The update condition must be satisfied in order for this request to be processed and the attributes to be updated.
 """
-PutAttributes(Attribute, DomainName, ItemName; aws::AWSConfig=AWSConfig()) = simpledb("PutAttributes", Dict{String, Any}("Attribute"=>Attribute, "DomainName"=>DomainName, "ItemName"=>ItemName); aws=aws)
-PutAttributes(Attribute, DomainName, ItemName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = simpledb("PutAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attribute"=>Attribute, "DomainName"=>DomainName, "ItemName"=>ItemName), args)); aws=aws)
+PutAttributes(Attribute, DomainName, ItemName; aws::AWSConfig=AWS.aws_config) = simpledb("PutAttributes", Dict{String, Any}("Attribute"=>Attribute, "DomainName"=>DomainName, "ItemName"=>ItemName); aws=aws)
+PutAttributes(Attribute, DomainName, ItemName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = simpledb("PutAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attribute"=>Attribute, "DomainName"=>DomainName, "ItemName"=>ItemName), args)); aws=aws)
 
 """
     Select()
@@ -143,5 +143,5 @@ PutAttributes(Attribute, DomainName, ItemName, args::AbstractDict{String, <:Any}
 - `ConsistentRead`: Determines whether or not strong consistency should be enforced when data is read from SimpleDB. If true, any data previously written to SimpleDB will be returned. Otherwise, results will be consistent eventually, and the client may not see data that was written immediately before your read.
 - `NextToken`: A string informing Amazon SimpleDB where to start the next list of ItemNames.
 """
-Select(SelectExpression; aws::AWSConfig=AWSConfig()) = simpledb("Select", Dict{String, Any}("SelectExpression"=>SelectExpression); aws=aws)
-Select(SelectExpression, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = simpledb("Select", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SelectExpression"=>SelectExpression), args)); aws=aws)
+Select(SelectExpression; aws::AWSConfig=AWS.aws_config) = simpledb("Select", Dict{String, Any}("SelectExpression"=>SelectExpression); aws=aws)
+Select(SelectExpression, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = simpledb("Select", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SelectExpression"=>SelectExpression), args)); aws=aws)

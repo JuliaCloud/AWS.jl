@@ -16,8 +16,8 @@ Update a channel schedule
 - `creates`: Schedule actions to create in the schedule.
 - `deletes`: Schedule actions to delete from the schedule.
 """
-BatchUpdateSchedule(channelId; aws::AWSConfig=AWSConfig()) = medialive("PUT", "/prod/channels/$(channelId)/schedule"; aws=aws)
-BatchUpdateSchedule(channelId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = medialive("PUT", "/prod/channels/$(channelId)/schedule", args; aws=aws)
+BatchUpdateSchedule(channelId; aws::AWSConfig=AWS.aws_config) = medialive("PUT", "/prod/channels/$(channelId)/schedule"; aws=aws)
+BatchUpdateSchedule(channelId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = medialive("PUT", "/prod/channels/$(channelId)/schedule", args; aws=aws)
 
 """
     CreateChannel()
@@ -39,8 +39,8 @@ creating multiple resources.
 - `roleArn`: An optional Amazon Resource Name (ARN) of the role to assume when running the Channel.
 - `tags`: A collection of key-value pairs.
 """
-CreateChannel(; aws::AWSConfig=AWSConfig()) = medialive("POST", "/prod/channels", Dict{String, Any}("requestId"=>string(uuid4())); aws=aws)
-CreateChannel(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = medialive("POST", "/prod/channels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("requestId"=>string(uuid4())), args)); aws=aws)
+CreateChannel(; aws::AWSConfig=AWS.aws_config) = medialive("POST", "/prod/channels", Dict{String, Any}("requestId"=>string(uuid4())); aws=aws)
+CreateChannel(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = medialive("POST", "/prod/channels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("requestId"=>string(uuid4())), args)); aws=aws)
 
 """
     CreateInput()
@@ -68,8 +68,8 @@ Only specify sources for PULL type Inputs. Leave Destinations empty.
 - `type`: 
 - `vpc`: 
 """
-CreateInput(; aws::AWSConfig=AWSConfig()) = medialive("POST", "/prod/inputs", Dict{String, Any}("requestId"=>string(uuid4())); aws=aws)
-CreateInput(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = medialive("POST", "/prod/inputs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("requestId"=>string(uuid4())), args)); aws=aws)
+CreateInput(; aws::AWSConfig=AWS.aws_config) = medialive("POST", "/prod/inputs", Dict{String, Any}("requestId"=>string(uuid4())); aws=aws)
+CreateInput(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = medialive("POST", "/prod/inputs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("requestId"=>string(uuid4())), args)); aws=aws)
 
 """
     CreateInputSecurityGroup()
@@ -80,8 +80,8 @@ Creates a Input Security Group
 - `tags`: A collection of key-value pairs.
 - `whitelistRules`: List of IPv4 CIDR addresses to whitelist
 """
-CreateInputSecurityGroup(; aws::AWSConfig=AWSConfig()) = medialive("POST", "/prod/inputSecurityGroups"; aws=aws)
-CreateInputSecurityGroup(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = medialive("POST", "/prod/inputSecurityGroups", args; aws=aws)
+CreateInputSecurityGroup(; aws::AWSConfig=AWS.aws_config) = medialive("POST", "/prod/inputSecurityGroups"; aws=aws)
+CreateInputSecurityGroup(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = medialive("POST", "/prod/inputSecurityGroups", args; aws=aws)
 
 """
     CreateMultiplex()
@@ -99,8 +99,8 @@ resources.
 # Optional Parameters
 - `tags`: A collection of key-value pairs.
 """
-CreateMultiplex(availabilityZones, multiplexSettings, name, requestId; aws::AWSConfig=AWSConfig()) = medialive("POST", "/prod/multiplexes", Dict{String, Any}("availabilityZones"=>availabilityZones, "multiplexSettings"=>multiplexSettings, "name"=>name, "requestId"=>requestId))
-CreateMultiplex(availabilityZones, multiplexSettings, name, requestId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = medialive("POST", "/prod/multiplexes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("availabilityZones"=>availabilityZones, "multiplexSettings"=>multiplexSettings, "name"=>name, "requestId"=>requestId), args)); aws=aws)
+CreateMultiplex(availabilityZones, multiplexSettings, name, requestId; aws::AWSConfig=AWS.aws_config) = medialive("POST", "/prod/multiplexes", Dict{String, Any}("availabilityZones"=>availabilityZones, "multiplexSettings"=>multiplexSettings, "name"=>name, "requestId"=>requestId); aws=aws)
+CreateMultiplex(availabilityZones, multiplexSettings, name, requestId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = medialive("POST", "/prod/multiplexes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("availabilityZones"=>availabilityZones, "multiplexSettings"=>multiplexSettings, "name"=>name, "requestId"=>requestId), args)); aws=aws)
 
 """
     CreateMultiplexProgram()
@@ -116,8 +116,8 @@ resources.
 
 
 """
-CreateMultiplexProgram(multiplexId, multiplexProgramSettings, programName, requestId; aws::AWSConfig=AWSConfig()) = medialive("POST", "/prod/multiplexes/$(multiplexId)/programs", Dict{String, Any}("multiplexProgramSettings"=>multiplexProgramSettings, "programName"=>programName, "requestId"=>requestId))
-CreateMultiplexProgram(multiplexId, multiplexProgramSettings, programName, requestId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = medialive("POST", "/prod/multiplexes/$(multiplexId)/programs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("multiplexProgramSettings"=>multiplexProgramSettings, "programName"=>programName, "requestId"=>requestId), args)); aws=aws)
+CreateMultiplexProgram(multiplexId, multiplexProgramSettings, programName, requestId; aws::AWSConfig=AWS.aws_config) = medialive("POST", "/prod/multiplexes/$(multiplexId)/programs", Dict{String, Any}("multiplexProgramSettings"=>multiplexProgramSettings, "programName"=>programName, "requestId"=>requestId); aws=aws)
+CreateMultiplexProgram(multiplexId, multiplexProgramSettings, programName, requestId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = medialive("POST", "/prod/multiplexes/$(multiplexId)/programs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("multiplexProgramSettings"=>multiplexProgramSettings, "programName"=>programName, "requestId"=>requestId), args)); aws=aws)
 
 """
     CreateTags()
@@ -130,8 +130,8 @@ Create tags for a resource
 # Optional Parameters
 - `tags`: 
 """
-CreateTags(resource_arn; aws::AWSConfig=AWSConfig()) = medialive("POST", "/prod/tags/$(resource-arn)"; aws=aws)
-CreateTags(resource_arn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = medialive("POST", "/prod/tags/$(resource-arn)", args; aws=aws)
+CreateTags(resource_arn; aws::AWSConfig=AWS.aws_config) = medialive("POST", "/prod/tags/$(resource-arn)"; aws=aws)
+CreateTags(resource_arn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = medialive("POST", "/prod/tags/$(resource-arn)", args; aws=aws)
 
 """
     DeleteChannel()
@@ -142,8 +142,8 @@ Starts deletion of channel. The associated outputs are also deleted.
 - `channelId`: Unique ID of the channel.
 
 """
-DeleteChannel(channelId; aws::AWSConfig=AWSConfig()) = medialive("DELETE", "/prod/channels/$(channelId)"; aws=aws)
-DeleteChannel(channelId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = medialive("DELETE", "/prod/channels/$(channelId)", args; aws=aws)
+DeleteChannel(channelId; aws::AWSConfig=AWS.aws_config) = medialive("DELETE", "/prod/channels/$(channelId)"; aws=aws)
+DeleteChannel(channelId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = medialive("DELETE", "/prod/channels/$(channelId)", args; aws=aws)
 
 """
     DeleteInput()
@@ -154,8 +154,8 @@ Deletes the input end point
 - `inputId`: Unique ID of the input
 
 """
-DeleteInput(inputId; aws::AWSConfig=AWSConfig()) = medialive("DELETE", "/prod/inputs/$(inputId)"; aws=aws)
-DeleteInput(inputId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = medialive("DELETE", "/prod/inputs/$(inputId)", args; aws=aws)
+DeleteInput(inputId; aws::AWSConfig=AWS.aws_config) = medialive("DELETE", "/prod/inputs/$(inputId)"; aws=aws)
+DeleteInput(inputId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = medialive("DELETE", "/prod/inputs/$(inputId)", args; aws=aws)
 
 """
     DeleteInputSecurityGroup()
@@ -166,8 +166,8 @@ Deletes an Input Security Group
 - `inputSecurityGroupId`: The Input Security Group to delete
 
 """
-DeleteInputSecurityGroup(inputSecurityGroupId; aws::AWSConfig=AWSConfig()) = medialive("DELETE", "/prod/inputSecurityGroups/$(inputSecurityGroupId)"; aws=aws)
-DeleteInputSecurityGroup(inputSecurityGroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = medialive("DELETE", "/prod/inputSecurityGroups/$(inputSecurityGroupId)", args; aws=aws)
+DeleteInputSecurityGroup(inputSecurityGroupId; aws::AWSConfig=AWS.aws_config) = medialive("DELETE", "/prod/inputSecurityGroups/$(inputSecurityGroupId)"; aws=aws)
+DeleteInputSecurityGroup(inputSecurityGroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = medialive("DELETE", "/prod/inputSecurityGroups/$(inputSecurityGroupId)", args; aws=aws)
 
 """
     DeleteMultiplex()
@@ -178,8 +178,8 @@ Delete a multiplex. The multiplex must be idle.
 - `multiplexId`: The ID of the multiplex.
 
 """
-DeleteMultiplex(multiplexId; aws::AWSConfig=AWSConfig()) = medialive("DELETE", "/prod/multiplexes/$(multiplexId)"; aws=aws)
-DeleteMultiplex(multiplexId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = medialive("DELETE", "/prod/multiplexes/$(multiplexId)", args; aws=aws)
+DeleteMultiplex(multiplexId; aws::AWSConfig=AWS.aws_config) = medialive("DELETE", "/prod/multiplexes/$(multiplexId)"; aws=aws)
+DeleteMultiplex(multiplexId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = medialive("DELETE", "/prod/multiplexes/$(multiplexId)", args; aws=aws)
 
 """
     DeleteMultiplexProgram()
@@ -191,8 +191,8 @@ Delete a program from a multiplex.
 - `programName`: The multiplex program name.
 
 """
-DeleteMultiplexProgram(multiplexId, programName; aws::AWSConfig=AWSConfig()) = medialive("DELETE", "/prod/multiplexes/$(multiplexId)/programs/$(programName)"; aws=aws)
-DeleteMultiplexProgram(multiplexId, programName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = medialive("DELETE", "/prod/multiplexes/$(multiplexId)/programs/$(programName)", args; aws=aws)
+DeleteMultiplexProgram(multiplexId, programName; aws::AWSConfig=AWS.aws_config) = medialive("DELETE", "/prod/multiplexes/$(multiplexId)/programs/$(programName)"; aws=aws)
+DeleteMultiplexProgram(multiplexId, programName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = medialive("DELETE", "/prod/multiplexes/$(multiplexId)/programs/$(programName)", args; aws=aws)
 
 """
     DeleteReservation()
@@ -203,8 +203,8 @@ Delete an expired reservation.
 - `reservationId`: Unique reservation ID, e.g. '1234567'
 
 """
-DeleteReservation(reservationId; aws::AWSConfig=AWSConfig()) = medialive("DELETE", "/prod/reservations/$(reservationId)"; aws=aws)
-DeleteReservation(reservationId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = medialive("DELETE", "/prod/reservations/$(reservationId)", args; aws=aws)
+DeleteReservation(reservationId; aws::AWSConfig=AWS.aws_config) = medialive("DELETE", "/prod/reservations/$(reservationId)"; aws=aws)
+DeleteReservation(reservationId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = medialive("DELETE", "/prod/reservations/$(reservationId)", args; aws=aws)
 
 """
     DeleteSchedule()
@@ -215,8 +215,8 @@ Delete all schedule actions on a channel.
 - `channelId`: Id of the channel whose schedule is being deleted.
 
 """
-DeleteSchedule(channelId; aws::AWSConfig=AWSConfig()) = medialive("DELETE", "/prod/channels/$(channelId)/schedule"; aws=aws)
-DeleteSchedule(channelId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = medialive("DELETE", "/prod/channels/$(channelId)/schedule", args; aws=aws)
+DeleteSchedule(channelId; aws::AWSConfig=AWS.aws_config) = medialive("DELETE", "/prod/channels/$(channelId)/schedule"; aws=aws)
+DeleteSchedule(channelId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = medialive("DELETE", "/prod/channels/$(channelId)/schedule", args; aws=aws)
 
 """
     DeleteTags()
@@ -228,8 +228,8 @@ Removes tags for a resource
 - `tagKeys`: An array of tag keys to delete
 
 """
-DeleteTags(resource_arn, tagKeys; aws::AWSConfig=AWSConfig()) = medialive("DELETE", "/prod/tags/$(resource-arn)", Dict{String, Any}("tagKeys"=>tagKeys))
-DeleteTags(resource_arn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = medialive("DELETE", "/prod/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws=aws)
+DeleteTags(resource_arn, tagKeys; aws::AWSConfig=AWS.aws_config) = medialive("DELETE", "/prod/tags/$(resource-arn)", Dict{String, Any}("tagKeys"=>tagKeys); aws=aws)
+DeleteTags(resource_arn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = medialive("DELETE", "/prod/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws=aws)
 
 """
     DescribeChannel()
@@ -240,8 +240,8 @@ Gets details about a channel
 - `channelId`: channel ID
 
 """
-DescribeChannel(channelId; aws::AWSConfig=AWSConfig()) = medialive("GET", "/prod/channels/$(channelId)"; aws=aws)
-DescribeChannel(channelId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = medialive("GET", "/prod/channels/$(channelId)", args; aws=aws)
+DescribeChannel(channelId; aws::AWSConfig=AWS.aws_config) = medialive("GET", "/prod/channels/$(channelId)"; aws=aws)
+DescribeChannel(channelId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = medialive("GET", "/prod/channels/$(channelId)", args; aws=aws)
 
 """
     DescribeInput()
@@ -252,8 +252,8 @@ Produces details about an input
 - `inputId`: Unique ID of the input
 
 """
-DescribeInput(inputId; aws::AWSConfig=AWSConfig()) = medialive("GET", "/prod/inputs/$(inputId)"; aws=aws)
-DescribeInput(inputId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = medialive("GET", "/prod/inputs/$(inputId)", args; aws=aws)
+DescribeInput(inputId; aws::AWSConfig=AWS.aws_config) = medialive("GET", "/prod/inputs/$(inputId)"; aws=aws)
+DescribeInput(inputId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = medialive("GET", "/prod/inputs/$(inputId)", args; aws=aws)
 
 """
     DescribeInputDevice()
@@ -264,8 +264,8 @@ Gets the details for the input device
 - `inputDeviceId`: The unique ID of this input device. For example, hd-123456789abcdef.
 
 """
-DescribeInputDevice(inputDeviceId; aws::AWSConfig=AWSConfig()) = medialive("GET", "/prod/inputDevices/$(inputDeviceId)"; aws=aws)
-DescribeInputDevice(inputDeviceId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = medialive("GET", "/prod/inputDevices/$(inputDeviceId)", args; aws=aws)
+DescribeInputDevice(inputDeviceId; aws::AWSConfig=AWS.aws_config) = medialive("GET", "/prod/inputDevices/$(inputDeviceId)"; aws=aws)
+DescribeInputDevice(inputDeviceId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = medialive("GET", "/prod/inputDevices/$(inputDeviceId)", args; aws=aws)
 
 """
     DescribeInputDeviceThumbnail()
@@ -277,8 +277,8 @@ Get the latest thumbnail data for the input device.
 - `inputDeviceId`: The unique ID of this input device. For example, hd-123456789abcdef.
 
 """
-DescribeInputDeviceThumbnail(accept, inputDeviceId; aws::AWSConfig=AWSConfig()) = medialive("GET", "/prod/inputDevices/$(inputDeviceId)/thumbnailData", Dict{String, Any}("headers"=>Dict{String, Any}("accept"=>accept)); aws=aws)
-DescribeInputDeviceThumbnail(accept, inputDeviceId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = medialive("GET", "/prod/inputDevices/$(inputDeviceId)/thumbnailData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("accept"=>accept)), args)); aws=aws)
+DescribeInputDeviceThumbnail(accept, inputDeviceId; aws::AWSConfig=AWS.aws_config) = medialive("GET", "/prod/inputDevices/$(inputDeviceId)/thumbnailData", Dict{String, Any}("headers"=>Dict{String, Any}("accept"=>accept)); aws=aws)
+DescribeInputDeviceThumbnail(accept, inputDeviceId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = medialive("GET", "/prod/inputDevices/$(inputDeviceId)/thumbnailData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("accept"=>accept)), args)); aws=aws)
 
 """
     DescribeInputSecurityGroup()
@@ -289,8 +289,8 @@ Produces a summary of an Input Security Group
 - `inputSecurityGroupId`: The id of the Input Security Group to describe
 
 """
-DescribeInputSecurityGroup(inputSecurityGroupId; aws::AWSConfig=AWSConfig()) = medialive("GET", "/prod/inputSecurityGroups/$(inputSecurityGroupId)"; aws=aws)
-DescribeInputSecurityGroup(inputSecurityGroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = medialive("GET", "/prod/inputSecurityGroups/$(inputSecurityGroupId)", args; aws=aws)
+DescribeInputSecurityGroup(inputSecurityGroupId; aws::AWSConfig=AWS.aws_config) = medialive("GET", "/prod/inputSecurityGroups/$(inputSecurityGroupId)"; aws=aws)
+DescribeInputSecurityGroup(inputSecurityGroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = medialive("GET", "/prod/inputSecurityGroups/$(inputSecurityGroupId)", args; aws=aws)
 
 """
     DescribeMultiplex()
@@ -301,8 +301,8 @@ Gets details about a multiplex.
 - `multiplexId`: The ID of the multiplex.
 
 """
-DescribeMultiplex(multiplexId; aws::AWSConfig=AWSConfig()) = medialive("GET", "/prod/multiplexes/$(multiplexId)"; aws=aws)
-DescribeMultiplex(multiplexId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = medialive("GET", "/prod/multiplexes/$(multiplexId)", args; aws=aws)
+DescribeMultiplex(multiplexId; aws::AWSConfig=AWS.aws_config) = medialive("GET", "/prod/multiplexes/$(multiplexId)"; aws=aws)
+DescribeMultiplex(multiplexId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = medialive("GET", "/prod/multiplexes/$(multiplexId)", args; aws=aws)
 
 """
     DescribeMultiplexProgram()
@@ -314,8 +314,8 @@ Get the details for a program in a multiplex.
 - `programName`: The name of the program.
 
 """
-DescribeMultiplexProgram(multiplexId, programName; aws::AWSConfig=AWSConfig()) = medialive("GET", "/prod/multiplexes/$(multiplexId)/programs/$(programName)"; aws=aws)
-DescribeMultiplexProgram(multiplexId, programName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = medialive("GET", "/prod/multiplexes/$(multiplexId)/programs/$(programName)", args; aws=aws)
+DescribeMultiplexProgram(multiplexId, programName; aws::AWSConfig=AWS.aws_config) = medialive("GET", "/prod/multiplexes/$(multiplexId)/programs/$(programName)"; aws=aws)
+DescribeMultiplexProgram(multiplexId, programName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = medialive("GET", "/prod/multiplexes/$(multiplexId)/programs/$(programName)", args; aws=aws)
 
 """
     DescribeOffering()
@@ -326,8 +326,8 @@ Get details for an offering.
 - `offeringId`: Unique offering ID, e.g. '87654321'
 
 """
-DescribeOffering(offeringId; aws::AWSConfig=AWSConfig()) = medialive("GET", "/prod/offerings/$(offeringId)"; aws=aws)
-DescribeOffering(offeringId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = medialive("GET", "/prod/offerings/$(offeringId)", args; aws=aws)
+DescribeOffering(offeringId; aws::AWSConfig=AWS.aws_config) = medialive("GET", "/prod/offerings/$(offeringId)"; aws=aws)
+DescribeOffering(offeringId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = medialive("GET", "/prod/offerings/$(offeringId)", args; aws=aws)
 
 """
     DescribeReservation()
@@ -338,8 +338,8 @@ Get details for a reservation.
 - `reservationId`: Unique reservation ID, e.g. '1234567'
 
 """
-DescribeReservation(reservationId; aws::AWSConfig=AWSConfig()) = medialive("GET", "/prod/reservations/$(reservationId)"; aws=aws)
-DescribeReservation(reservationId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = medialive("GET", "/prod/reservations/$(reservationId)", args; aws=aws)
+DescribeReservation(reservationId; aws::AWSConfig=AWS.aws_config) = medialive("GET", "/prod/reservations/$(reservationId)"; aws=aws)
+DescribeReservation(reservationId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = medialive("GET", "/prod/reservations/$(reservationId)", args; aws=aws)
 
 """
     DescribeSchedule()
@@ -353,8 +353,8 @@ Get a channel schedule
 - `maxResults`: 
 - `nextToken`: 
 """
-DescribeSchedule(channelId; aws::AWSConfig=AWSConfig()) = medialive("GET", "/prod/channels/$(channelId)/schedule"; aws=aws)
-DescribeSchedule(channelId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = medialive("GET", "/prod/channels/$(channelId)/schedule", args; aws=aws)
+DescribeSchedule(channelId; aws::AWSConfig=AWS.aws_config) = medialive("GET", "/prod/channels/$(channelId)/schedule"; aws=aws)
+DescribeSchedule(channelId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = medialive("GET", "/prod/channels/$(channelId)/schedule", args; aws=aws)
 
 """
     ListChannels()
@@ -365,8 +365,8 @@ Produces list of channels that have been created
 - `maxResults`: 
 - `nextToken`: 
 """
-ListChannels(; aws::AWSConfig=AWSConfig()) = medialive("GET", "/prod/channels"; aws=aws)
-ListChannels(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = medialive("GET", "/prod/channels", args; aws=aws)
+ListChannels(; aws::AWSConfig=AWS.aws_config) = medialive("GET", "/prod/channels"; aws=aws)
+ListChannels(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = medialive("GET", "/prod/channels", args; aws=aws)
 
 """
     ListInputDevices()
@@ -377,8 +377,8 @@ List input devices
 - `maxResults`: 
 - `nextToken`: 
 """
-ListInputDevices(; aws::AWSConfig=AWSConfig()) = medialive("GET", "/prod/inputDevices"; aws=aws)
-ListInputDevices(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = medialive("GET", "/prod/inputDevices", args; aws=aws)
+ListInputDevices(; aws::AWSConfig=AWS.aws_config) = medialive("GET", "/prod/inputDevices"; aws=aws)
+ListInputDevices(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = medialive("GET", "/prod/inputDevices", args; aws=aws)
 
 """
     ListInputSecurityGroups()
@@ -389,8 +389,8 @@ Produces a list of Input Security Groups for an account
 - `maxResults`: 
 - `nextToken`: 
 """
-ListInputSecurityGroups(; aws::AWSConfig=AWSConfig()) = medialive("GET", "/prod/inputSecurityGroups"; aws=aws)
-ListInputSecurityGroups(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = medialive("GET", "/prod/inputSecurityGroups", args; aws=aws)
+ListInputSecurityGroups(; aws::AWSConfig=AWS.aws_config) = medialive("GET", "/prod/inputSecurityGroups"; aws=aws)
+ListInputSecurityGroups(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = medialive("GET", "/prod/inputSecurityGroups", args; aws=aws)
 
 """
     ListInputs()
@@ -401,8 +401,8 @@ Produces list of inputs that have been created
 - `maxResults`: 
 - `nextToken`: 
 """
-ListInputs(; aws::AWSConfig=AWSConfig()) = medialive("GET", "/prod/inputs"; aws=aws)
-ListInputs(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = medialive("GET", "/prod/inputs", args; aws=aws)
+ListInputs(; aws::AWSConfig=AWS.aws_config) = medialive("GET", "/prod/inputs"; aws=aws)
+ListInputs(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = medialive("GET", "/prod/inputs", args; aws=aws)
 
 """
     ListMultiplexPrograms()
@@ -416,8 +416,8 @@ List the programs that currently exist for a specific multiplex.
 - `maxResults`: The maximum number of items to return.
 - `nextToken`: The token to retrieve the next page of results.
 """
-ListMultiplexPrograms(multiplexId; aws::AWSConfig=AWSConfig()) = medialive("GET", "/prod/multiplexes/$(multiplexId)/programs"; aws=aws)
-ListMultiplexPrograms(multiplexId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = medialive("GET", "/prod/multiplexes/$(multiplexId)/programs", args; aws=aws)
+ListMultiplexPrograms(multiplexId; aws::AWSConfig=AWS.aws_config) = medialive("GET", "/prod/multiplexes/$(multiplexId)/programs"; aws=aws)
+ListMultiplexPrograms(multiplexId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = medialive("GET", "/prod/multiplexes/$(multiplexId)/programs", args; aws=aws)
 
 """
     ListMultiplexes()
@@ -428,8 +428,8 @@ Retrieve a list of the existing multiplexes.
 - `maxResults`: The maximum number of items to return.
 - `nextToken`: The token to retrieve the next page of results.
 """
-ListMultiplexes(; aws::AWSConfig=AWSConfig()) = medialive("GET", "/prod/multiplexes"; aws=aws)
-ListMultiplexes(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = medialive("GET", "/prod/multiplexes", args; aws=aws)
+ListMultiplexes(; aws::AWSConfig=AWS.aws_config) = medialive("GET", "/prod/multiplexes"; aws=aws)
+ListMultiplexes(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = medialive("GET", "/prod/multiplexes", args; aws=aws)
 
 """
     ListOfferings()
@@ -455,8 +455,8 @@ List offerings available for purchase.
 - `videoQuality`: Filter by video quality, 'STANDARD', 'ENHANCED', or 'PREMIUM'
 
 """
-ListOfferings(; aws::AWSConfig=AWSConfig()) = medialive("GET", "/prod/offerings"; aws=aws)
-ListOfferings(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = medialive("GET", "/prod/offerings", args; aws=aws)
+ListOfferings(; aws::AWSConfig=AWS.aws_config) = medialive("GET", "/prod/offerings"; aws=aws)
+ListOfferings(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = medialive("GET", "/prod/offerings", args; aws=aws)
 
 """
     ListReservations()
@@ -479,8 +479,8 @@ List purchased reservations.
 - `videoQuality`: Filter by video quality, 'STANDARD', 'ENHANCED', or 'PREMIUM'
 
 """
-ListReservations(; aws::AWSConfig=AWSConfig()) = medialive("GET", "/prod/reservations"; aws=aws)
-ListReservations(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = medialive("GET", "/prod/reservations", args; aws=aws)
+ListReservations(; aws::AWSConfig=AWS.aws_config) = medialive("GET", "/prod/reservations"; aws=aws)
+ListReservations(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = medialive("GET", "/prod/reservations", args; aws=aws)
 
 """
     ListTagsForResource()
@@ -491,8 +491,8 @@ Produces list of tags that have been created for a resource
 - `resource-arn`: 
 
 """
-ListTagsForResource(resource_arn; aws::AWSConfig=AWSConfig()) = medialive("GET", "/prod/tags/$(resource-arn)"; aws=aws)
-ListTagsForResource(resource_arn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = medialive("GET", "/prod/tags/$(resource-arn)", args; aws=aws)
+ListTagsForResource(resource_arn; aws::AWSConfig=AWS.aws_config) = medialive("GET", "/prod/tags/$(resource-arn)"; aws=aws)
+ListTagsForResource(resource_arn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = medialive("GET", "/prod/tags/$(resource-arn)", args; aws=aws)
 
 """
     PurchaseOffering()
@@ -509,8 +509,8 @@ Purchase an offering and create a reservation.
 - `start`: Requested reservation start time (UTC) in ISO-8601 format. The specified time must be between the first day of the current month and one year from now. If no value is given, the default is now.
 - `tags`: A collection of key-value pairs
 """
-PurchaseOffering(count, offeringId; aws::AWSConfig=AWSConfig()) = medialive("POST", "/prod/offerings/$(offeringId)/purchase", Dict{String, Any}("count"=>count, "requestId"=>string(uuid4())); aws=aws)
-PurchaseOffering(count, offeringId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = medialive("POST", "/prod/offerings/$(offeringId)/purchase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("count"=>count, "requestId"=>string(uuid4())), args)); aws=aws)
+PurchaseOffering(count, offeringId; aws::AWSConfig=AWS.aws_config) = medialive("POST", "/prod/offerings/$(offeringId)/purchase", Dict{String, Any}("count"=>count, "requestId"=>string(uuid4())); aws=aws)
+PurchaseOffering(count, offeringId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = medialive("POST", "/prod/offerings/$(offeringId)/purchase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("count"=>count, "requestId"=>string(uuid4())), args)); aws=aws)
 
 """
     StartChannel()
@@ -521,8 +521,8 @@ Starts an existing channel
 - `channelId`: A request to start a channel
 
 """
-StartChannel(channelId; aws::AWSConfig=AWSConfig()) = medialive("POST", "/prod/channels/$(channelId)/start"; aws=aws)
-StartChannel(channelId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = medialive("POST", "/prod/channels/$(channelId)/start", args; aws=aws)
+StartChannel(channelId; aws::AWSConfig=AWS.aws_config) = medialive("POST", "/prod/channels/$(channelId)/start"; aws=aws)
+StartChannel(channelId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = medialive("POST", "/prod/channels/$(channelId)/start", args; aws=aws)
 
 """
     StartMultiplex()
@@ -533,8 +533,8 @@ Start (run) the multiplex. Starting the multiplex does not start the channels. Y
 - `multiplexId`: The ID of the multiplex.
 
 """
-StartMultiplex(multiplexId; aws::AWSConfig=AWSConfig()) = medialive("POST", "/prod/multiplexes/$(multiplexId)/start"; aws=aws)
-StartMultiplex(multiplexId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = medialive("POST", "/prod/multiplexes/$(multiplexId)/start", args; aws=aws)
+StartMultiplex(multiplexId; aws::AWSConfig=AWS.aws_config) = medialive("POST", "/prod/multiplexes/$(multiplexId)/start"; aws=aws)
+StartMultiplex(multiplexId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = medialive("POST", "/prod/multiplexes/$(multiplexId)/start", args; aws=aws)
 
 """
     StopChannel()
@@ -545,8 +545,8 @@ Stops a running channel
 - `channelId`: A request to stop a running channel
 
 """
-StopChannel(channelId; aws::AWSConfig=AWSConfig()) = medialive("POST", "/prod/channels/$(channelId)/stop"; aws=aws)
-StopChannel(channelId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = medialive("POST", "/prod/channels/$(channelId)/stop", args; aws=aws)
+StopChannel(channelId; aws::AWSConfig=AWS.aws_config) = medialive("POST", "/prod/channels/$(channelId)/stop"; aws=aws)
+StopChannel(channelId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = medialive("POST", "/prod/channels/$(channelId)/stop", args; aws=aws)
 
 """
     StopMultiplex()
@@ -557,8 +557,8 @@ Stops a running multiplex. If the multiplex isn't running, this action has no ef
 - `multiplexId`: The ID of the multiplex.
 
 """
-StopMultiplex(multiplexId; aws::AWSConfig=AWSConfig()) = medialive("POST", "/prod/multiplexes/$(multiplexId)/stop"; aws=aws)
-StopMultiplex(multiplexId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = medialive("POST", "/prod/multiplexes/$(multiplexId)/stop", args; aws=aws)
+StopMultiplex(multiplexId; aws::AWSConfig=AWS.aws_config) = medialive("POST", "/prod/multiplexes/$(multiplexId)/stop"; aws=aws)
+StopMultiplex(multiplexId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = medialive("POST", "/prod/multiplexes/$(multiplexId)/stop", args; aws=aws)
 
 """
     UpdateChannel()
@@ -577,8 +577,8 @@ Updates a channel.
 - `name`: The name of the channel.
 - `roleArn`: An optional Amazon Resource Name (ARN) of the role to assume when running the Channel. If you do not specify this on an update call but the role was previously set that role will be removed.
 """
-UpdateChannel(channelId; aws::AWSConfig=AWSConfig()) = medialive("PUT", "/prod/channels/$(channelId)"; aws=aws)
-UpdateChannel(channelId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = medialive("PUT", "/prod/channels/$(channelId)", args; aws=aws)
+UpdateChannel(channelId; aws::AWSConfig=AWS.aws_config) = medialive("PUT", "/prod/channels/$(channelId)"; aws=aws)
+UpdateChannel(channelId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = medialive("PUT", "/prod/channels/$(channelId)", args; aws=aws)
 
 """
     UpdateChannelClass()
@@ -592,8 +592,8 @@ Changes the class of the channel.
 # Optional Parameters
 - `destinations`: A list of output destinations for this channel.
 """
-UpdateChannelClass(channelClass, channelId; aws::AWSConfig=AWSConfig()) = medialive("PUT", "/prod/channels/$(channelId)/channelClass", Dict{String, Any}("channelClass"=>channelClass))
-UpdateChannelClass(channelClass, channelId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = medialive("PUT", "/prod/channels/$(channelId)/channelClass", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channelClass"=>channelClass), args)); aws=aws)
+UpdateChannelClass(channelClass, channelId; aws::AWSConfig=AWS.aws_config) = medialive("PUT", "/prod/channels/$(channelId)/channelClass", Dict{String, Any}("channelClass"=>channelClass); aws=aws)
+UpdateChannelClass(channelClass, channelId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = medialive("PUT", "/prod/channels/$(channelId)/channelClass", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channelClass"=>channelClass), args)); aws=aws)
 
 """
     UpdateInput()
@@ -618,8 +618,8 @@ exactly two source URLs for redundancy.
 Only specify sources for PULL type Inputs. Leave Destinations empty.
 
 """
-UpdateInput(inputId; aws::AWSConfig=AWSConfig()) = medialive("PUT", "/prod/inputs/$(inputId)"; aws=aws)
-UpdateInput(inputId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = medialive("PUT", "/prod/inputs/$(inputId)", args; aws=aws)
+UpdateInput(inputId; aws::AWSConfig=AWS.aws_config) = medialive("PUT", "/prod/inputs/$(inputId)"; aws=aws)
+UpdateInput(inputId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = medialive("PUT", "/prod/inputs/$(inputId)", args; aws=aws)
 
 """
     UpdateInputDevice()
@@ -633,8 +633,8 @@ Updates the parameters for the input device.
 - `hdDeviceSettings`: The settings that you want to apply to the input device.
 - `name`: The name that you assigned to this input device (not the unique ID).
 """
-UpdateInputDevice(inputDeviceId; aws::AWSConfig=AWSConfig()) = medialive("PUT", "/prod/inputDevices/$(inputDeviceId)"; aws=aws)
-UpdateInputDevice(inputDeviceId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = medialive("PUT", "/prod/inputDevices/$(inputDeviceId)", args; aws=aws)
+UpdateInputDevice(inputDeviceId; aws::AWSConfig=AWS.aws_config) = medialive("PUT", "/prod/inputDevices/$(inputDeviceId)"; aws=aws)
+UpdateInputDevice(inputDeviceId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = medialive("PUT", "/prod/inputDevices/$(inputDeviceId)", args; aws=aws)
 
 """
     UpdateInputSecurityGroup()
@@ -648,8 +648,8 @@ Update an Input Security Group's Whilelists.
 - `tags`: A collection of key-value pairs.
 - `whitelistRules`: List of IPv4 CIDR addresses to whitelist
 """
-UpdateInputSecurityGroup(inputSecurityGroupId; aws::AWSConfig=AWSConfig()) = medialive("PUT", "/prod/inputSecurityGroups/$(inputSecurityGroupId)"; aws=aws)
-UpdateInputSecurityGroup(inputSecurityGroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = medialive("PUT", "/prod/inputSecurityGroups/$(inputSecurityGroupId)", args; aws=aws)
+UpdateInputSecurityGroup(inputSecurityGroupId; aws::AWSConfig=AWS.aws_config) = medialive("PUT", "/prod/inputSecurityGroups/$(inputSecurityGroupId)"; aws=aws)
+UpdateInputSecurityGroup(inputSecurityGroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = medialive("PUT", "/prod/inputSecurityGroups/$(inputSecurityGroupId)", args; aws=aws)
 
 """
     UpdateMultiplex()
@@ -663,8 +663,8 @@ Updates a multiplex.
 - `multiplexSettings`: The new settings for a multiplex.
 - `name`: Name of the multiplex.
 """
-UpdateMultiplex(multiplexId; aws::AWSConfig=AWSConfig()) = medialive("PUT", "/prod/multiplexes/$(multiplexId)"; aws=aws)
-UpdateMultiplex(multiplexId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = medialive("PUT", "/prod/multiplexes/$(multiplexId)", args; aws=aws)
+UpdateMultiplex(multiplexId; aws::AWSConfig=AWS.aws_config) = medialive("PUT", "/prod/multiplexes/$(multiplexId)"; aws=aws)
+UpdateMultiplex(multiplexId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = medialive("PUT", "/prod/multiplexes/$(multiplexId)", args; aws=aws)
 
 """
     UpdateMultiplexProgram()
@@ -678,8 +678,8 @@ Update a program in a multiplex.
 # Optional Parameters
 - `multiplexProgramSettings`: The new settings for a multiplex program.
 """
-UpdateMultiplexProgram(multiplexId, programName; aws::AWSConfig=AWSConfig()) = medialive("PUT", "/prod/multiplexes/$(multiplexId)/programs/$(programName)"; aws=aws)
-UpdateMultiplexProgram(multiplexId, programName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = medialive("PUT", "/prod/multiplexes/$(multiplexId)/programs/$(programName)", args; aws=aws)
+UpdateMultiplexProgram(multiplexId, programName; aws::AWSConfig=AWS.aws_config) = medialive("PUT", "/prod/multiplexes/$(multiplexId)/programs/$(programName)"; aws=aws)
+UpdateMultiplexProgram(multiplexId, programName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = medialive("PUT", "/prod/multiplexes/$(multiplexId)/programs/$(programName)", args; aws=aws)
 
 """
     UpdateReservation()
@@ -692,5 +692,5 @@ Update reservation.
 # Optional Parameters
 - `name`: Name of the reservation
 """
-UpdateReservation(reservationId; aws::AWSConfig=AWSConfig()) = medialive("PUT", "/prod/reservations/$(reservationId)"; aws=aws)
-UpdateReservation(reservationId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = medialive("PUT", "/prod/reservations/$(reservationId)", args; aws=aws)
+UpdateReservation(reservationId; aws::AWSConfig=AWS.aws_config) = medialive("PUT", "/prod/reservations/$(reservationId)"; aws=aws)
+UpdateReservation(reservationId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = medialive("PUT", "/prod/reservations/$(reservationId)", args; aws=aws)

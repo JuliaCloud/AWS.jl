@@ -16,8 +16,8 @@ Downloads an MP4 file (clip) containing the archived, on-demand media from the s
 - `StreamARN`: The Amazon Resource Name (ARN) of the stream for which to retrieve the media clip.  You must specify either the StreamName or the StreamARN. 
 - `StreamName`: The name of the stream for which to retrieve the media clip.  You must specify either the StreamName or the StreamARN. 
 """
-GetClip(ClipFragmentSelector; aws::AWSConfig=AWSConfig()) = kinesis_video_archived_media("POST", "/getClip", Dict{String, Any}("ClipFragmentSelector"=>ClipFragmentSelector))
-GetClip(ClipFragmentSelector, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = kinesis_video_archived_media("POST", "/getClip", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClipFragmentSelector"=>ClipFragmentSelector), args)); aws=aws)
+GetClip(ClipFragmentSelector; aws::AWSConfig=AWS.aws_config) = kinesis_video_archived_media("POST", "/getClip", Dict{String, Any}("ClipFragmentSelector"=>ClipFragmentSelector); aws=aws)
+GetClip(ClipFragmentSelector, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = kinesis_video_archived_media("POST", "/getClip", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClipFragmentSelector"=>ClipFragmentSelector), args)); aws=aws)
 
 """
     GetDASHStreamingSessionURL()
@@ -34,8 +34,8 @@ Retrieves an MPEG Dynamic Adaptive Streaming over HTTP (DASH) URL for the stream
 - `StreamARN`: The Amazon Resource Name (ARN) of the stream for which to retrieve the MPEG-DASH manifest URL. You must specify either the StreamName or the StreamARN.
 - `StreamName`: The name of the stream for which to retrieve the MPEG-DASH manifest URL. You must specify either the StreamName or the StreamARN.
 """
-GetDASHStreamingSessionURL(; aws::AWSConfig=AWSConfig()) = kinesis_video_archived_media("POST", "/getDASHStreamingSessionURL"; aws=aws)
-GetDASHStreamingSessionURL(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = kinesis_video_archived_media("POST", "/getDASHStreamingSessionURL", args; aws=aws)
+GetDASHStreamingSessionURL(; aws::AWSConfig=AWS.aws_config) = kinesis_video_archived_media("POST", "/getDASHStreamingSessionURL"; aws=aws)
+GetDASHStreamingSessionURL(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = kinesis_video_archived_media("POST", "/getDASHStreamingSessionURL", args; aws=aws)
 
 """
     GetHLSStreamingSessionURL()
@@ -53,8 +53,8 @@ Retrieves an HTTP Live Streaming (HLS) URL for the stream. You can then open the
 - `StreamARN`: The Amazon Resource Name (ARN) of the stream for which to retrieve the HLS master playlist URL. You must specify either the StreamName or the StreamARN.
 - `StreamName`: The name of the stream for which to retrieve the HLS master playlist URL. You must specify either the StreamName or the StreamARN.
 """
-GetHLSStreamingSessionURL(; aws::AWSConfig=AWSConfig()) = kinesis_video_archived_media("POST", "/getHLSStreamingSessionURL"; aws=aws)
-GetHLSStreamingSessionURL(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = kinesis_video_archived_media("POST", "/getHLSStreamingSessionURL", args; aws=aws)
+GetHLSStreamingSessionURL(; aws::AWSConfig=AWS.aws_config) = kinesis_video_archived_media("POST", "/getHLSStreamingSessionURL"; aws=aws)
+GetHLSStreamingSessionURL(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = kinesis_video_archived_media("POST", "/getHLSStreamingSessionURL", args; aws=aws)
 
 """
     GetMediaForFragmentList()
@@ -66,8 +66,8 @@ Gets media for a list of fragments (specified by fragment number) from the archi
 - `StreamName`: The name of the stream from which to retrieve fragment media.
 
 """
-GetMediaForFragmentList(Fragments, StreamName; aws::AWSConfig=AWSConfig()) = kinesis_video_archived_media("POST", "/getMediaForFragmentList", Dict{String, Any}("Fragments"=>Fragments, "StreamName"=>StreamName))
-GetMediaForFragmentList(Fragments, StreamName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = kinesis_video_archived_media("POST", "/getMediaForFragmentList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Fragments"=>Fragments, "StreamName"=>StreamName), args)); aws=aws)
+GetMediaForFragmentList(Fragments, StreamName; aws::AWSConfig=AWS.aws_config) = kinesis_video_archived_media("POST", "/getMediaForFragmentList", Dict{String, Any}("Fragments"=>Fragments, "StreamName"=>StreamName); aws=aws)
+GetMediaForFragmentList(Fragments, StreamName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = kinesis_video_archived_media("POST", "/getMediaForFragmentList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Fragments"=>Fragments, "StreamName"=>StreamName), args)); aws=aws)
 
 """
     ListFragments()
@@ -82,5 +82,5 @@ Returns a list of Fragment objects from the specified stream and timestamp range
 - `MaxResults`: The total number of fragments to return. If the total number of fragments available is more than the value specified in max-results, then a ListFragmentsOutput NextToken is provided in the output that you can use to resume pagination.
 - `NextToken`: A token to specify where to start paginating. This is the ListFragmentsOutput NextToken from a previously truncated response.
 """
-ListFragments(StreamName; aws::AWSConfig=AWSConfig()) = kinesis_video_archived_media("POST", "/listFragments", Dict{String, Any}("StreamName"=>StreamName))
-ListFragments(StreamName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = kinesis_video_archived_media("POST", "/listFragments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamName"=>StreamName), args)); aws=aws)
+ListFragments(StreamName; aws::AWSConfig=AWS.aws_config) = kinesis_video_archived_media("POST", "/listFragments", Dict{String, Any}("StreamName"=>StreamName); aws=aws)
+ListFragments(StreamName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = kinesis_video_archived_media("POST", "/listFragments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamName"=>StreamName), args)); aws=aws)

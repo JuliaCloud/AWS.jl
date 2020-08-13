@@ -16,8 +16,8 @@ An application in AppConfig is a logical unit of code that provides capabilities
 - `Description`: A description of the application.
 - `Tags`: Metadata to assign to the application. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define.
 """
-CreateApplication(Name; aws::AWSConfig=AWSConfig()) = appconfig("POST", "/applications", Dict{String, Any}("Name"=>Name))
-CreateApplication(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appconfig("POST", "/applications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+CreateApplication(Name; aws::AWSConfig=AWS.aws_config) = appconfig("POST", "/applications", Dict{String, Any}("Name"=>Name); aws=aws)
+CreateApplication(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appconfig("POST", "/applications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
 
 """
     CreateConfigurationProfile()
@@ -35,8 +35,8 @@ Information that enables AppConfig to access the configuration source. Valid con
 - `Tags`: Metadata to assign to the configuration profile. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define.
 - `Validators`: A list of methods for validating the configuration.
 """
-CreateConfigurationProfile(ApplicationId, LocationUri, Name; aws::AWSConfig=AWSConfig()) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles", Dict{String, Any}("LocationUri"=>LocationUri, "Name"=>Name))
-CreateConfigurationProfile(ApplicationId, LocationUri, Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationUri"=>LocationUri, "Name"=>Name), args)); aws=aws)
+CreateConfigurationProfile(ApplicationId, LocationUri, Name; aws::AWSConfig=AWS.aws_config) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles", Dict{String, Any}("LocationUri"=>LocationUri, "Name"=>Name); aws=aws)
+CreateConfigurationProfile(ApplicationId, LocationUri, Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LocationUri"=>LocationUri, "Name"=>Name), args)); aws=aws)
 
 """
     CreateDeploymentStrategy()
@@ -55,8 +55,8 @@ A deployment strategy defines important criteria for rolling out your configurat
 - `GrowthType`: The algorithm used to define how percentage grows over time. AWS AppConfig supports the following growth types:  Linear: For this type, AppConfig processes the deployment by dividing the total number of targets by the value specified for Step percentage. For example, a linear deployment that uses a Step percentage of 10 deploys the configuration to 10 percent of the hosts. After those deployments are complete, the system deploys the configuration to the next 10 percent. This continues until 100% of the targets have successfully received the configuration.  Exponential: For this type, AppConfig processes the deployment exponentially using the following formula: G*(2^N). In this formula, G is the growth factor specified by the user and N is the number of steps until the configuration is deployed to all targets. For example, if you specify a growth factor of 2, then the system rolls out the configuration as follows:  2*(2^0)   2*(2^1)   2*(2^2)  Expressed numerically, the deployment rolls out as follows: 2% of the targets, 4% of the targets, 8% of the targets, and continues until the configuration has been deployed to all targets.
 - `Tags`: Metadata to assign to the deployment strategy. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define.
 """
-CreateDeploymentStrategy(DeploymentDurationInMinutes, GrowthFactor, Name, ReplicateTo; aws::AWSConfig=AWSConfig()) = appconfig("POST", "/deploymentstrategies", Dict{String, Any}("DeploymentDurationInMinutes"=>DeploymentDurationInMinutes, "GrowthFactor"=>GrowthFactor, "Name"=>Name, "ReplicateTo"=>ReplicateTo))
-CreateDeploymentStrategy(DeploymentDurationInMinutes, GrowthFactor, Name, ReplicateTo, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appconfig("POST", "/deploymentstrategies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeploymentDurationInMinutes"=>DeploymentDurationInMinutes, "GrowthFactor"=>GrowthFactor, "Name"=>Name, "ReplicateTo"=>ReplicateTo), args)); aws=aws)
+CreateDeploymentStrategy(DeploymentDurationInMinutes, GrowthFactor, Name, ReplicateTo; aws::AWSConfig=AWS.aws_config) = appconfig("POST", "/deploymentstrategies", Dict{String, Any}("DeploymentDurationInMinutes"=>DeploymentDurationInMinutes, "GrowthFactor"=>GrowthFactor, "Name"=>Name, "ReplicateTo"=>ReplicateTo); aws=aws)
+CreateDeploymentStrategy(DeploymentDurationInMinutes, GrowthFactor, Name, ReplicateTo, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appconfig("POST", "/deploymentstrategies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeploymentDurationInMinutes"=>DeploymentDurationInMinutes, "GrowthFactor"=>GrowthFactor, "Name"=>Name, "ReplicateTo"=>ReplicateTo), args)); aws=aws)
 
 """
     CreateEnvironment()
@@ -72,8 +72,8 @@ For each application, you define one or more environments. An environment is a l
 - `Monitors`: Amazon CloudWatch alarms to monitor during the deployment process.
 - `Tags`: Metadata to assign to the environment. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define.
 """
-CreateEnvironment(ApplicationId, Name; aws::AWSConfig=AWSConfig()) = appconfig("POST", "/applications/$(ApplicationId)/environments", Dict{String, Any}("Name"=>Name))
-CreateEnvironment(ApplicationId, Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appconfig("POST", "/applications/$(ApplicationId)/environments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+CreateEnvironment(ApplicationId, Name; aws::AWSConfig=AWS.aws_config) = appconfig("POST", "/applications/$(ApplicationId)/environments", Dict{String, Any}("Name"=>Name); aws=aws)
+CreateEnvironment(ApplicationId, Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appconfig("POST", "/applications/$(ApplicationId)/environments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
 
 """
     CreateHostedConfigurationVersion()
@@ -90,8 +90,8 @@ Create a new configuration in the AppConfig configuration store.
 - `Description`: A description of the configuration.
 - `Latest-Version-Number`: An optional locking token used to prevent race conditions from overwriting configuration updates when creating a new version. To ensure your data is not overwritten when creating multiple hosted configuration versions in rapid succession, specify the version of the latest hosted configuration version.
 """
-CreateHostedConfigurationVersion(ApplicationId, ConfigurationProfileId, Content, Content_Type; aws::AWSConfig=AWSConfig()) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions", Dict{String, Any}("Content"=>Content, "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)); aws=aws)
-CreateHostedConfigurationVersion(ApplicationId, ConfigurationProfileId, Content, Content_Type, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)), args)); aws=aws)
+CreateHostedConfigurationVersion(ApplicationId, ConfigurationProfileId, Content, Content_Type; aws::AWSConfig=AWS.aws_config) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions", Dict{String, Any}("Content"=>Content, "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)); aws=aws)
+CreateHostedConfigurationVersion(ApplicationId, ConfigurationProfileId, Content, Content_Type, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "headers"=>Dict{String, Any}("Content-Type"=>Content_Type)), args)); aws=aws)
 
 """
     DeleteApplication()
@@ -102,8 +102,8 @@ Delete an application. Deleting an application does not delete a configuration f
 - `ApplicationId`: The ID of the application to delete.
 
 """
-DeleteApplication(ApplicationId; aws::AWSConfig=AWSConfig()) = appconfig("DELETE", "/applications/$(ApplicationId)"; aws=aws)
-DeleteApplication(ApplicationId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appconfig("DELETE", "/applications/$(ApplicationId)", args; aws=aws)
+DeleteApplication(ApplicationId; aws::AWSConfig=AWS.aws_config) = appconfig("DELETE", "/applications/$(ApplicationId)"; aws=aws)
+DeleteApplication(ApplicationId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appconfig("DELETE", "/applications/$(ApplicationId)", args; aws=aws)
 
 """
     DeleteConfigurationProfile()
@@ -115,8 +115,8 @@ Delete a configuration profile. Deleting a configuration profile does not delete
 - `ConfigurationProfileId`: The ID of the configuration profile you want to delete.
 
 """
-DeleteConfigurationProfile(ApplicationId, ConfigurationProfileId; aws::AWSConfig=AWSConfig()) = appconfig("DELETE", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)"; aws=aws)
-DeleteConfigurationProfile(ApplicationId, ConfigurationProfileId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appconfig("DELETE", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)", args; aws=aws)
+DeleteConfigurationProfile(ApplicationId, ConfigurationProfileId; aws::AWSConfig=AWS.aws_config) = appconfig("DELETE", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)"; aws=aws)
+DeleteConfigurationProfile(ApplicationId, ConfigurationProfileId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appconfig("DELETE", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)", args; aws=aws)
 
 """
     DeleteDeploymentStrategy()
@@ -127,8 +127,8 @@ Delete a deployment strategy. Deleting a deployment strategy does not delete a c
 - `DeploymentStrategyId`: The ID of the deployment strategy you want to delete.
 
 """
-DeleteDeploymentStrategy(DeploymentStrategyId; aws::AWSConfig=AWSConfig()) = appconfig("DELETE", "/deployementstrategies/$(DeploymentStrategyId)"; aws=aws)
-DeleteDeploymentStrategy(DeploymentStrategyId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appconfig("DELETE", "/deployementstrategies/$(DeploymentStrategyId)", args; aws=aws)
+DeleteDeploymentStrategy(DeploymentStrategyId; aws::AWSConfig=AWS.aws_config) = appconfig("DELETE", "/deployementstrategies/$(DeploymentStrategyId)"; aws=aws)
+DeleteDeploymentStrategy(DeploymentStrategyId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appconfig("DELETE", "/deployementstrategies/$(DeploymentStrategyId)", args; aws=aws)
 
 """
     DeleteEnvironment()
@@ -140,8 +140,8 @@ Delete an environment. Deleting an environment does not delete a configuration f
 - `EnvironmentId`: The ID of the environment you want to delete.
 
 """
-DeleteEnvironment(ApplicationId, EnvironmentId; aws::AWSConfig=AWSConfig()) = appconfig("DELETE", "/applications/$(ApplicationId)/environments/$(EnvironmentId)"; aws=aws)
-DeleteEnvironment(ApplicationId, EnvironmentId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appconfig("DELETE", "/applications/$(ApplicationId)/environments/$(EnvironmentId)", args; aws=aws)
+DeleteEnvironment(ApplicationId, EnvironmentId; aws::AWSConfig=AWS.aws_config) = appconfig("DELETE", "/applications/$(ApplicationId)/environments/$(EnvironmentId)"; aws=aws)
+DeleteEnvironment(ApplicationId, EnvironmentId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appconfig("DELETE", "/applications/$(ApplicationId)/environments/$(EnvironmentId)", args; aws=aws)
 
 """
     DeleteHostedConfigurationVersion()
@@ -154,8 +154,8 @@ Delete a version of a configuration from the AppConfig configuration store.
 - `VersionNumber`: The versions number to delete.
 
 """
-DeleteHostedConfigurationVersion(ApplicationId, ConfigurationProfileId, VersionNumber; aws::AWSConfig=AWSConfig()) = appconfig("DELETE", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)"; aws=aws)
-DeleteHostedConfigurationVersion(ApplicationId, ConfigurationProfileId, VersionNumber, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appconfig("DELETE", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)", args; aws=aws)
+DeleteHostedConfigurationVersion(ApplicationId, ConfigurationProfileId, VersionNumber; aws::AWSConfig=AWS.aws_config) = appconfig("DELETE", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)"; aws=aws)
+DeleteHostedConfigurationVersion(ApplicationId, ConfigurationProfileId, VersionNumber, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appconfig("DELETE", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)", args; aws=aws)
 
 """
     GetApplication()
@@ -166,8 +166,8 @@ Retrieve information about an application.
 - `ApplicationId`: The ID of the application you want to get.
 
 """
-GetApplication(ApplicationId; aws::AWSConfig=AWSConfig()) = appconfig("GET", "/applications/$(ApplicationId)"; aws=aws)
-GetApplication(ApplicationId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appconfig("GET", "/applications/$(ApplicationId)", args; aws=aws)
+GetApplication(ApplicationId; aws::AWSConfig=AWS.aws_config) = appconfig("GET", "/applications/$(ApplicationId)"; aws=aws)
+GetApplication(ApplicationId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appconfig("GET", "/applications/$(ApplicationId)", args; aws=aws)
 
 """
     GetConfiguration()
@@ -183,8 +183,8 @@ Receive information about a configuration.  AWS AppConfig uses the value of the 
 # Optional Parameters
 - `client_configuration_version`: The configuration version returned in the most recent GetConfiguration response.  AWS AppConfig uses the value of the ClientConfigurationVersion parameter to identify the configuration version on your clients. If you don’t send ClientConfigurationVersion with each call to GetConfiguration, your clients receive the current configuration. You are charged each time your clients receive a configuration. To avoid excess charges, we recommend that you include the ClientConfigurationVersion value with every call to GetConfiguration. This value must be saved on your client. Subsequent calls to GetConfiguration must pass this value by using the ClientConfigurationVersion parameter.   For more information about working with configurations, see Retrieving the Configuration in the AWS AppConfig User Guide.
 """
-GetConfiguration(Application, Configuration, Environment, client_id; aws::AWSConfig=AWSConfig()) = appconfig("GET", "/applications/$(Application)/environments/$(Environment)/configurations/$(Configuration)", Dict{String, Any}("client_id"=>client_id))
-GetConfiguration(Application, Configuration, Environment, client_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appconfig("GET", "/applications/$(Application)/environments/$(Environment)/configurations/$(Configuration)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_id"=>client_id), args)); aws=aws)
+GetConfiguration(Application, Configuration, Environment, client_id; aws::AWSConfig=AWS.aws_config) = appconfig("GET", "/applications/$(Application)/environments/$(Environment)/configurations/$(Configuration)", Dict{String, Any}("client_id"=>client_id); aws=aws)
+GetConfiguration(Application, Configuration, Environment, client_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appconfig("GET", "/applications/$(Application)/environments/$(Environment)/configurations/$(Configuration)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("client_id"=>client_id), args)); aws=aws)
 
 """
     GetConfigurationProfile()
@@ -196,8 +196,8 @@ Retrieve information about a configuration profile.
 - `ConfigurationProfileId`: The ID of the configuration profile you want to get.
 
 """
-GetConfigurationProfile(ApplicationId, ConfigurationProfileId; aws::AWSConfig=AWSConfig()) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)"; aws=aws)
-GetConfigurationProfile(ApplicationId, ConfigurationProfileId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)", args; aws=aws)
+GetConfigurationProfile(ApplicationId, ConfigurationProfileId; aws::AWSConfig=AWS.aws_config) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)"; aws=aws)
+GetConfigurationProfile(ApplicationId, ConfigurationProfileId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)", args; aws=aws)
 
 """
     GetDeployment()
@@ -210,8 +210,8 @@ Retrieve information about a configuration deployment.
 - `EnvironmentId`: The ID of the environment that includes the deployment you want to get. 
 
 """
-GetDeployment(ApplicationId, DeploymentNumber, EnvironmentId; aws::AWSConfig=AWSConfig()) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)"; aws=aws)
-GetDeployment(ApplicationId, DeploymentNumber, EnvironmentId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)", args; aws=aws)
+GetDeployment(ApplicationId, DeploymentNumber, EnvironmentId; aws::AWSConfig=AWS.aws_config) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)"; aws=aws)
+GetDeployment(ApplicationId, DeploymentNumber, EnvironmentId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)", args; aws=aws)
 
 """
     GetDeploymentStrategy()
@@ -222,8 +222,8 @@ Retrieve information about a deployment strategy. A deployment strategy defines 
 - `DeploymentStrategyId`: The ID of the deployment strategy to get.
 
 """
-GetDeploymentStrategy(DeploymentStrategyId; aws::AWSConfig=AWSConfig()) = appconfig("GET", "/deploymentstrategies/$(DeploymentStrategyId)"; aws=aws)
-GetDeploymentStrategy(DeploymentStrategyId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appconfig("GET", "/deploymentstrategies/$(DeploymentStrategyId)", args; aws=aws)
+GetDeploymentStrategy(DeploymentStrategyId; aws::AWSConfig=AWS.aws_config) = appconfig("GET", "/deploymentstrategies/$(DeploymentStrategyId)"; aws=aws)
+GetDeploymentStrategy(DeploymentStrategyId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appconfig("GET", "/deploymentstrategies/$(DeploymentStrategyId)", args; aws=aws)
 
 """
     GetEnvironment()
@@ -235,8 +235,8 @@ Retrieve information about an environment. An environment is a logical deploymen
 - `EnvironmentId`: The ID of the environment you wnat to get.
 
 """
-GetEnvironment(ApplicationId, EnvironmentId; aws::AWSConfig=AWSConfig()) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)"; aws=aws)
-GetEnvironment(ApplicationId, EnvironmentId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)", args; aws=aws)
+GetEnvironment(ApplicationId, EnvironmentId; aws::AWSConfig=AWS.aws_config) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)"; aws=aws)
+GetEnvironment(ApplicationId, EnvironmentId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)", args; aws=aws)
 
 """
     GetHostedConfigurationVersion()
@@ -249,8 +249,8 @@ Get information about a specific configuration version.
 - `VersionNumber`: The version.
 
 """
-GetHostedConfigurationVersion(ApplicationId, ConfigurationProfileId, VersionNumber; aws::AWSConfig=AWSConfig()) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)"; aws=aws)
-GetHostedConfigurationVersion(ApplicationId, ConfigurationProfileId, VersionNumber, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)", args; aws=aws)
+GetHostedConfigurationVersion(ApplicationId, ConfigurationProfileId, VersionNumber; aws::AWSConfig=AWS.aws_config) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)"; aws=aws)
+GetHostedConfigurationVersion(ApplicationId, ConfigurationProfileId, VersionNumber, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions/$(VersionNumber)", args; aws=aws)
 
 """
     ListApplications()
@@ -261,8 +261,8 @@ List all applications in your AWS account.
 - `max_results`: The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
 - `next_token`: A token to start the list. Use this token to get the next set of results.
 """
-ListApplications(; aws::AWSConfig=AWSConfig()) = appconfig("GET", "/applications"; aws=aws)
-ListApplications(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = appconfig("GET", "/applications", args; aws=aws)
+ListApplications(; aws::AWSConfig=AWS.aws_config) = appconfig("GET", "/applications"; aws=aws)
+ListApplications(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = appconfig("GET", "/applications", args; aws=aws)
 
 """
     ListConfigurationProfiles()
@@ -276,8 +276,8 @@ Lists the configuration profiles for an application.
 - `max_results`: The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
 - `next_token`: A token to start the list. Use this token to get the next set of results.
 """
-ListConfigurationProfiles(ApplicationId; aws::AWSConfig=AWSConfig()) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles"; aws=aws)
-ListConfigurationProfiles(ApplicationId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles", args; aws=aws)
+ListConfigurationProfiles(ApplicationId; aws::AWSConfig=AWS.aws_config) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles"; aws=aws)
+ListConfigurationProfiles(ApplicationId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles", args; aws=aws)
 
 """
     ListDeploymentStrategies()
@@ -288,8 +288,8 @@ List deployment strategies.
 - `max_results`: The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
 - `next_token`: A token to start the list. Use this token to get the next set of results.
 """
-ListDeploymentStrategies(; aws::AWSConfig=AWSConfig()) = appconfig("GET", "/deploymentstrategies"; aws=aws)
-ListDeploymentStrategies(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = appconfig("GET", "/deploymentstrategies", args; aws=aws)
+ListDeploymentStrategies(; aws::AWSConfig=AWS.aws_config) = appconfig("GET", "/deploymentstrategies"; aws=aws)
+ListDeploymentStrategies(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = appconfig("GET", "/deploymentstrategies", args; aws=aws)
 
 """
     ListDeployments()
@@ -304,8 +304,8 @@ Lists the deployments for an environment.
 - `max_results`: The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
 - `next_token`: A token to start the list. Use this token to get the next set of results.
 """
-ListDeployments(ApplicationId, EnvironmentId; aws::AWSConfig=AWSConfig()) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments"; aws=aws)
-ListDeployments(ApplicationId, EnvironmentId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments", args; aws=aws)
+ListDeployments(ApplicationId, EnvironmentId; aws::AWSConfig=AWS.aws_config) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments"; aws=aws)
+ListDeployments(ApplicationId, EnvironmentId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appconfig("GET", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments", args; aws=aws)
 
 """
     ListEnvironments()
@@ -319,8 +319,8 @@ List the environments for an application.
 - `max_results`: The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
 - `next_token`: A token to start the list. Use this token to get the next set of results.
 """
-ListEnvironments(ApplicationId; aws::AWSConfig=AWSConfig()) = appconfig("GET", "/applications/$(ApplicationId)/environments"; aws=aws)
-ListEnvironments(ApplicationId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appconfig("GET", "/applications/$(ApplicationId)/environments", args; aws=aws)
+ListEnvironments(ApplicationId; aws::AWSConfig=AWS.aws_config) = appconfig("GET", "/applications/$(ApplicationId)/environments"; aws=aws)
+ListEnvironments(ApplicationId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appconfig("GET", "/applications/$(ApplicationId)/environments", args; aws=aws)
 
 """
     ListHostedConfigurationVersions()
@@ -335,8 +335,8 @@ View a list of configurations stored in the AppConfig configuration store by ver
 - `max_results`: The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
 - `next_token`: A token to start the list. Use this token to get the next set of results. 
 """
-ListHostedConfigurationVersions(ApplicationId, ConfigurationProfileId; aws::AWSConfig=AWSConfig()) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions"; aws=aws)
-ListHostedConfigurationVersions(ApplicationId, ConfigurationProfileId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions", args; aws=aws)
+ListHostedConfigurationVersions(ApplicationId, ConfigurationProfileId; aws::AWSConfig=AWS.aws_config) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions"; aws=aws)
+ListHostedConfigurationVersions(ApplicationId, ConfigurationProfileId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appconfig("GET", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/hostedconfigurationversions", args; aws=aws)
 
 """
     ListTagsForResource()
@@ -347,8 +347,8 @@ Retrieves the list of key-value tags assigned to the resource.
 - `ResourceArn`: The resource ARN.
 
 """
-ListTagsForResource(ResourceArn; aws::AWSConfig=AWSConfig()) = appconfig("GET", "/tags/$(ResourceArn)"; aws=aws)
-ListTagsForResource(ResourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appconfig("GET", "/tags/$(ResourceArn)", args; aws=aws)
+ListTagsForResource(ResourceArn; aws::AWSConfig=AWS.aws_config) = appconfig("GET", "/tags/$(ResourceArn)"; aws=aws)
+ListTagsForResource(ResourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appconfig("GET", "/tags/$(ResourceArn)", args; aws=aws)
 
 """
     StartDeployment()
@@ -366,8 +366,8 @@ Starts a deployment.
 - `Description`: A description of the deployment.
 - `Tags`: Metadata to assign to the deployment. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define.
 """
-StartDeployment(ApplicationId, ConfigurationProfileId, ConfigurationVersion, DeploymentStrategyId, EnvironmentId; aws::AWSConfig=AWSConfig()) = appconfig("POST", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments", Dict{String, Any}("ConfigurationProfileId"=>ConfigurationProfileId, "ConfigurationVersion"=>ConfigurationVersion, "DeploymentStrategyId"=>DeploymentStrategyId))
-StartDeployment(ApplicationId, ConfigurationProfileId, ConfigurationVersion, DeploymentStrategyId, EnvironmentId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appconfig("POST", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationProfileId"=>ConfigurationProfileId, "ConfigurationVersion"=>ConfigurationVersion, "DeploymentStrategyId"=>DeploymentStrategyId), args)); aws=aws)
+StartDeployment(ApplicationId, ConfigurationProfileId, ConfigurationVersion, DeploymentStrategyId, EnvironmentId; aws::AWSConfig=AWS.aws_config) = appconfig("POST", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments", Dict{String, Any}("ConfigurationProfileId"=>ConfigurationProfileId, "ConfigurationVersion"=>ConfigurationVersion, "DeploymentStrategyId"=>DeploymentStrategyId); aws=aws)
+StartDeployment(ApplicationId, ConfigurationProfileId, ConfigurationVersion, DeploymentStrategyId, EnvironmentId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appconfig("POST", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConfigurationProfileId"=>ConfigurationProfileId, "ConfigurationVersion"=>ConfigurationVersion, "DeploymentStrategyId"=>DeploymentStrategyId), args)); aws=aws)
 
 """
     StopDeployment()
@@ -380,8 +380,8 @@ Stops a deployment. This API action works only on deployments that have a status
 - `EnvironmentId`: The environment ID.
 
 """
-StopDeployment(ApplicationId, DeploymentNumber, EnvironmentId; aws::AWSConfig=AWSConfig()) = appconfig("DELETE", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)"; aws=aws)
-StopDeployment(ApplicationId, DeploymentNumber, EnvironmentId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appconfig("DELETE", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)", args; aws=aws)
+StopDeployment(ApplicationId, DeploymentNumber, EnvironmentId; aws::AWSConfig=AWS.aws_config) = appconfig("DELETE", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)"; aws=aws)
+StopDeployment(ApplicationId, DeploymentNumber, EnvironmentId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appconfig("DELETE", "/applications/$(ApplicationId)/environments/$(EnvironmentId)/deployments/$(DeploymentNumber)", args; aws=aws)
 
 """
     TagResource()
@@ -393,8 +393,8 @@ Metadata to assign to an AppConfig resource. Tags help organize and categorize y
 - `Tags`: The key-value string map. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
 
 """
-TagResource(ResourceArn, Tags; aws::AWSConfig=AWSConfig()) = appconfig("POST", "/tags/$(ResourceArn)", Dict{String, Any}("Tags"=>Tags))
-TagResource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appconfig("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws=aws)
+TagResource(ResourceArn, Tags; aws::AWSConfig=AWS.aws_config) = appconfig("POST", "/tags/$(ResourceArn)", Dict{String, Any}("Tags"=>Tags); aws=aws)
+TagResource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appconfig("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws=aws)
 
 """
     UntagResource()
@@ -406,8 +406,8 @@ Deletes a tag key and value from an AppConfig resource.
 - `tagKeys`: The tag keys to delete.
 
 """
-UntagResource(ResourceArn, tagKeys; aws::AWSConfig=AWSConfig()) = appconfig("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}("tagKeys"=>tagKeys))
-UntagResource(ResourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appconfig("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws=aws)
+UntagResource(ResourceArn, tagKeys; aws::AWSConfig=AWS.aws_config) = appconfig("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws=aws)
+UntagResource(ResourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appconfig("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws=aws)
 
 """
     UpdateApplication()
@@ -421,8 +421,8 @@ Updates an application.
 - `Description`: A description of the application.
 - `Name`: The name of the application.
 """
-UpdateApplication(ApplicationId; aws::AWSConfig=AWSConfig()) = appconfig("PATCH", "/applications/$(ApplicationId)"; aws=aws)
-UpdateApplication(ApplicationId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appconfig("PATCH", "/applications/$(ApplicationId)", args; aws=aws)
+UpdateApplication(ApplicationId; aws::AWSConfig=AWS.aws_config) = appconfig("PATCH", "/applications/$(ApplicationId)"; aws=aws)
+UpdateApplication(ApplicationId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appconfig("PATCH", "/applications/$(ApplicationId)", args; aws=aws)
 
 """
     UpdateConfigurationProfile()
@@ -439,8 +439,8 @@ Updates a configuration profile.
 - `RetrievalRoleArn`: The ARN of an IAM role with permission to access the configuration at the specified LocationUri.
 - `Validators`: A list of methods for validating the configuration.
 """
-UpdateConfigurationProfile(ApplicationId, ConfigurationProfileId; aws::AWSConfig=AWSConfig()) = appconfig("PATCH", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)"; aws=aws)
-UpdateConfigurationProfile(ApplicationId, ConfigurationProfileId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appconfig("PATCH", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)", args; aws=aws)
+UpdateConfigurationProfile(ApplicationId, ConfigurationProfileId; aws::AWSConfig=AWS.aws_config) = appconfig("PATCH", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)"; aws=aws)
+UpdateConfigurationProfile(ApplicationId, ConfigurationProfileId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appconfig("PATCH", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)", args; aws=aws)
 
 """
     UpdateDeploymentStrategy()
@@ -457,8 +457,8 @@ Updates a deployment strategy.
 - `GrowthFactor`: The percentage of targets to receive a deployed configuration during each interval.
 - `GrowthType`: The algorithm used to define how percentage grows over time. AWS AppConfig supports the following growth types:  Linear: For this type, AppConfig processes the deployment by increments of the growth factor evenly distributed over the deployment time. For example, a linear deployment that uses a growth factor of 20 initially makes the configuration available to 20 percent of the targets. After 1/5th of the deployment time has passed, the system updates the percentage to 40 percent. This continues until 100% of the targets are set to receive the deployed configuration.  Exponential: For this type, AppConfig processes the deployment exponentially using the following formula: G*(2^N). In this formula, G is the growth factor specified by the user and N is the number of steps until the configuration is deployed to all targets. For example, if you specify a growth factor of 2, then the system rolls out the configuration as follows:  2*(2^0)   2*(2^1)   2*(2^2)  Expressed numerically, the deployment rolls out as follows: 2% of the targets, 4% of the targets, 8% of the targets, and continues until the configuration has been deployed to all targets.
 """
-UpdateDeploymentStrategy(DeploymentStrategyId; aws::AWSConfig=AWSConfig()) = appconfig("PATCH", "/deploymentstrategies/$(DeploymentStrategyId)"; aws=aws)
-UpdateDeploymentStrategy(DeploymentStrategyId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appconfig("PATCH", "/deploymentstrategies/$(DeploymentStrategyId)", args; aws=aws)
+UpdateDeploymentStrategy(DeploymentStrategyId; aws::AWSConfig=AWS.aws_config) = appconfig("PATCH", "/deploymentstrategies/$(DeploymentStrategyId)"; aws=aws)
+UpdateDeploymentStrategy(DeploymentStrategyId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appconfig("PATCH", "/deploymentstrategies/$(DeploymentStrategyId)", args; aws=aws)
 
 """
     UpdateEnvironment()
@@ -474,8 +474,8 @@ Updates an environment.
 - `Monitors`: Amazon CloudWatch alarms to monitor during the deployment process.
 - `Name`: The name of the environment.
 """
-UpdateEnvironment(ApplicationId, EnvironmentId; aws::AWSConfig=AWSConfig()) = appconfig("PATCH", "/applications/$(ApplicationId)/environments/$(EnvironmentId)"; aws=aws)
-UpdateEnvironment(ApplicationId, EnvironmentId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appconfig("PATCH", "/applications/$(ApplicationId)/environments/$(EnvironmentId)", args; aws=aws)
+UpdateEnvironment(ApplicationId, EnvironmentId; aws::AWSConfig=AWS.aws_config) = appconfig("PATCH", "/applications/$(ApplicationId)/environments/$(EnvironmentId)"; aws=aws)
+UpdateEnvironment(ApplicationId, EnvironmentId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appconfig("PATCH", "/applications/$(ApplicationId)/environments/$(EnvironmentId)", args; aws=aws)
 
 """
     ValidateConfiguration()
@@ -488,5 +488,5 @@ Uses the validators in a configuration profile to validate a configuration.
 - `configuration_version`: The version of the configuration to validate.
 
 """
-ValidateConfiguration(ApplicationId, ConfigurationProfileId, configuration_version; aws::AWSConfig=AWSConfig()) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/validators", Dict{String, Any}("configuration_version"=>configuration_version))
-ValidateConfiguration(ApplicationId, ConfigurationProfileId, configuration_version, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/validators", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configuration_version"=>configuration_version), args)); aws=aws)
+ValidateConfiguration(ApplicationId, ConfigurationProfileId, configuration_version; aws::AWSConfig=AWS.aws_config) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/validators", Dict{String, Any}("configuration_version"=>configuration_version); aws=aws)
+ValidateConfiguration(ApplicationId, ConfigurationProfileId, configuration_version, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appconfig("POST", "/applications/$(ApplicationId)/configurationprofiles/$(ConfigurationProfileId)/validators", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configuration_version"=>configuration_version), args)); aws=aws)

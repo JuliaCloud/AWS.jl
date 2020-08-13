@@ -17,8 +17,8 @@ Adds an existing external connection to a repository. One external connection is
 # Optional Parameters
 - `domain-owner`:  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
 """
-AssociateExternalConnection(domain, external_connection, repository; aws::AWSConfig=AWSConfig()) = codeartifact("POST", "/v1/repository/external-connection", Dict{String, Any}("domain"=>domain, "external-connection"=>external_connection, "repository"=>repository))
-AssociateExternalConnection(domain, external_connection, repository, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codeartifact("POST", "/v1/repository/external-connection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "external-connection"=>external_connection, "repository"=>repository), args)); aws=aws)
+AssociateExternalConnection(domain, external_connection, repository; aws::AWSConfig=AWS.aws_config) = codeartifact("POST", "/v1/repository/external-connection", Dict{String, Any}("domain"=>domain, "external-connection"=>external_connection, "repository"=>repository); aws=aws)
+AssociateExternalConnection(domain, external_connection, repository, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codeartifact("POST", "/v1/repository/external-connection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "external-connection"=>external_connection, "repository"=>repository), args)); aws=aws)
 
 """
     CopyPackageVersions()
@@ -40,8 +40,8 @@ AssociateExternalConnection(domain, external_connection, repository, args::Abstr
 - `versionRevisions`:  A list of key-value pairs. The keys are package versions and the values are package version revisions. A CopyPackageVersion operation succeeds if the specified versions in the source repository match the specified package version revision.    You must specify versions or versionRevisions. You cannot specify both.  
 - `versions`:  The versions of the package to copy.    You must specify versions or versionRevisions. You cannot specify both.  
 """
-CopyPackageVersions(destination_repository, domain, format, package, source_repository; aws::AWSConfig=AWSConfig()) = codeartifact("POST", "/v1/package/versions/copy", Dict{String, Any}("destination-repository"=>destination_repository, "domain"=>domain, "format"=>format, "package"=>package, "source-repository"=>source_repository))
-CopyPackageVersions(destination_repository, domain, format, package, source_repository, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codeartifact("POST", "/v1/package/versions/copy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destination-repository"=>destination_repository, "domain"=>domain, "format"=>format, "package"=>package, "source-repository"=>source_repository), args)); aws=aws)
+CopyPackageVersions(destination_repository, domain, format, package, source_repository; aws::AWSConfig=AWS.aws_config) = codeartifact("POST", "/v1/package/versions/copy", Dict{String, Any}("destination-repository"=>destination_repository, "domain"=>domain, "format"=>format, "package"=>package, "source-repository"=>source_repository); aws=aws)
+CopyPackageVersions(destination_repository, domain, format, package, source_repository, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codeartifact("POST", "/v1/package/versions/copy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("destination-repository"=>destination_repository, "domain"=>domain, "format"=>format, "package"=>package, "source-repository"=>source_repository), args)); aws=aws)
 
 """
     CreateDomain()
@@ -54,8 +54,8 @@ CopyPackageVersions(destination_repository, domain, format, package, source_repo
 # Optional Parameters
 - `encryptionKey`:  The encryption key for the domain. This is used to encrypt content stored in a domain. An encryption key can be a key ID, a key Amazon Resource Name (ARN), a key alias, or a key alias ARN. To specify an encryptionKey, your IAM role must have kms:DescribeKey and kms:CreateGrant permissions on the encryption key that is used. For more information, see DescribeKey in the AWS Key Management Service API Reference and AWS KMS API Permissions Reference in the AWS Key Management Service Developer Guide.    CodeArtifact supports only symmetric CMKs. Do not associate an asymmetric CMK with your domain. For more information, see Using symmetric and asymmetric keys in the AWS Key Management Service Developer Guide.  
 """
-CreateDomain(domain; aws::AWSConfig=AWSConfig()) = codeartifact("POST", "/v1/domain", Dict{String, Any}("domain"=>domain))
-CreateDomain(domain, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codeartifact("POST", "/v1/domain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), args)); aws=aws)
+CreateDomain(domain; aws::AWSConfig=AWS.aws_config) = codeartifact("POST", "/v1/domain", Dict{String, Any}("domain"=>domain); aws=aws)
+CreateDomain(domain, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codeartifact("POST", "/v1/domain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), args)); aws=aws)
 
 """
     CreateRepository()
@@ -71,8 +71,8 @@ CreateDomain(domain, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig
 - `domain-owner`:  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
 - `upstreams`:  A list of upstream repositories to associate with the repository. The order of the upstream repositories in the list determines their priority order when AWS CodeArtifact looks for a requested package version. For more information, see Working with upstream repositories. 
 """
-CreateRepository(domain, repository; aws::AWSConfig=AWSConfig()) = codeartifact("POST", "/v1/repository", Dict{String, Any}("domain"=>domain, "repository"=>repository))
-CreateRepository(domain, repository, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codeartifact("POST", "/v1/repository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), args)); aws=aws)
+CreateRepository(domain, repository; aws::AWSConfig=AWS.aws_config) = codeartifact("POST", "/v1/repository", Dict{String, Any}("domain"=>domain, "repository"=>repository); aws=aws)
+CreateRepository(domain, repository, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codeartifact("POST", "/v1/repository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), args)); aws=aws)
 
 """
     DeleteDomain()
@@ -85,8 +85,8 @@ CreateRepository(domain, repository, args::AbstractDict{String, <:Any}; aws::AWS
 # Optional Parameters
 - `domain-owner`:  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
 """
-DeleteDomain(domain; aws::AWSConfig=AWSConfig()) = codeartifact("DELETE", "/v1/domain", Dict{String, Any}("domain"=>domain))
-DeleteDomain(domain, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codeartifact("DELETE", "/v1/domain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), args)); aws=aws)
+DeleteDomain(domain; aws::AWSConfig=AWS.aws_config) = codeartifact("DELETE", "/v1/domain", Dict{String, Any}("domain"=>domain); aws=aws)
+DeleteDomain(domain, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codeartifact("DELETE", "/v1/domain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), args)); aws=aws)
 
 """
     DeleteDomainPermissionsPolicy()
@@ -100,8 +100,8 @@ DeleteDomain(domain, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig
 - `domain-owner`:  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
 - `policy-revision`:  The current revision of the resource policy to be deleted. This revision is used for optimistic locking, which prevents others from overwriting your changes to the domain's resource policy. 
 """
-DeleteDomainPermissionsPolicy(domain; aws::AWSConfig=AWSConfig()) = codeartifact("DELETE", "/v1/domain/permissions/policy", Dict{String, Any}("domain"=>domain))
-DeleteDomainPermissionsPolicy(domain, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codeartifact("DELETE", "/v1/domain/permissions/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), args)); aws=aws)
+DeleteDomainPermissionsPolicy(domain; aws::AWSConfig=AWS.aws_config) = codeartifact("DELETE", "/v1/domain/permissions/policy", Dict{String, Any}("domain"=>domain); aws=aws)
+DeleteDomainPermissionsPolicy(domain, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codeartifact("DELETE", "/v1/domain/permissions/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), args)); aws=aws)
 
 """
     DeletePackageVersions()
@@ -120,8 +120,8 @@ DeleteDomainPermissionsPolicy(domain, args::AbstractDict{String, <:Any}; aws::AW
 - `expectedStatus`:  The expected status of the package version to delete. Valid values are:     Published     Unfinished     Unlisted     Archived     Disposed   
 - `namespace`:  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.   
 """
-DeletePackageVersions(domain, format, package, repository, versions; aws::AWSConfig=AWSConfig()) = codeartifact("POST", "/v1/package/versions/delete", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "versions"=>versions))
-DeletePackageVersions(domain, format, package, repository, versions, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codeartifact("POST", "/v1/package/versions/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "versions"=>versions), args)); aws=aws)
+DeletePackageVersions(domain, format, package, repository, versions; aws::AWSConfig=AWS.aws_config) = codeartifact("POST", "/v1/package/versions/delete", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "versions"=>versions); aws=aws)
+DeletePackageVersions(domain, format, package, repository, versions, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codeartifact("POST", "/v1/package/versions/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "versions"=>versions), args)); aws=aws)
 
 """
     DeleteRepository()
@@ -135,8 +135,8 @@ DeletePackageVersions(domain, format, package, repository, versions, args::Abstr
 # Optional Parameters
 - `domain-owner`:  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
 """
-DeleteRepository(domain, repository; aws::AWSConfig=AWSConfig()) = codeartifact("DELETE", "/v1/repository", Dict{String, Any}("domain"=>domain, "repository"=>repository))
-DeleteRepository(domain, repository, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codeartifact("DELETE", "/v1/repository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), args)); aws=aws)
+DeleteRepository(domain, repository; aws::AWSConfig=AWS.aws_config) = codeartifact("DELETE", "/v1/repository", Dict{String, Any}("domain"=>domain, "repository"=>repository); aws=aws)
+DeleteRepository(domain, repository, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codeartifact("DELETE", "/v1/repository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), args)); aws=aws)
 
 """
     DeleteRepositoryPermissionsPolicy()
@@ -151,8 +151,8 @@ DeleteRepository(domain, repository, args::AbstractDict{String, <:Any}; aws::AWS
 - `domain-owner`:  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
 - `policy-revision`:  The revision of the repository's resource policy to be deleted. This revision is used for optimistic locking, which prevents others from accidentally overwriting your changes to the repository's resource policy. 
 """
-DeleteRepositoryPermissionsPolicy(domain, repository; aws::AWSConfig=AWSConfig()) = codeartifact("DELETE", "/v1/repository/permissions/policies", Dict{String, Any}("domain"=>domain, "repository"=>repository))
-DeleteRepositoryPermissionsPolicy(domain, repository, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codeartifact("DELETE", "/v1/repository/permissions/policies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), args)); aws=aws)
+DeleteRepositoryPermissionsPolicy(domain, repository; aws::AWSConfig=AWS.aws_config) = codeartifact("DELETE", "/v1/repository/permissions/policies", Dict{String, Any}("domain"=>domain, "repository"=>repository); aws=aws)
+DeleteRepositoryPermissionsPolicy(domain, repository, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codeartifact("DELETE", "/v1/repository/permissions/policies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), args)); aws=aws)
 
 """
     DescribeDomain()
@@ -165,8 +165,8 @@ DeleteRepositoryPermissionsPolicy(domain, repository, args::AbstractDict{String,
 # Optional Parameters
 - `domain-owner`:  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
 """
-DescribeDomain(domain; aws::AWSConfig=AWSConfig()) = codeartifact("GET", "/v1/domain", Dict{String, Any}("domain"=>domain))
-DescribeDomain(domain, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codeartifact("GET", "/v1/domain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), args)); aws=aws)
+DescribeDomain(domain; aws::AWSConfig=AWS.aws_config) = codeartifact("GET", "/v1/domain", Dict{String, Any}("domain"=>domain); aws=aws)
+DescribeDomain(domain, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codeartifact("GET", "/v1/domain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), args)); aws=aws)
 
 """
     DescribePackageVersion()
@@ -184,8 +184,8 @@ DescribeDomain(domain, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConf
 - `domain-owner`:  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
 - `namespace`:  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.   
 """
-DescribePackageVersion(domain, format, package, repository, version; aws::AWSConfig=AWSConfig()) = codeartifact("GET", "/v1/package/version", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version))
-DescribePackageVersion(domain, format, package, repository, version, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codeartifact("GET", "/v1/package/version", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version), args)); aws=aws)
+DescribePackageVersion(domain, format, package, repository, version; aws::AWSConfig=AWS.aws_config) = codeartifact("GET", "/v1/package/version", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version); aws=aws)
+DescribePackageVersion(domain, format, package, repository, version, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codeartifact("GET", "/v1/package/version", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version), args)); aws=aws)
 
 """
     DescribeRepository()
@@ -199,8 +199,8 @@ DescribePackageVersion(domain, format, package, repository, version, args::Abstr
 # Optional Parameters
 - `domain-owner`:  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
 """
-DescribeRepository(domain, repository; aws::AWSConfig=AWSConfig()) = codeartifact("GET", "/v1/repository", Dict{String, Any}("domain"=>domain, "repository"=>repository))
-DescribeRepository(domain, repository, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codeartifact("GET", "/v1/repository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), args)); aws=aws)
+DescribeRepository(domain, repository; aws::AWSConfig=AWS.aws_config) = codeartifact("GET", "/v1/repository", Dict{String, Any}("domain"=>domain, "repository"=>repository); aws=aws)
+DescribeRepository(domain, repository, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codeartifact("GET", "/v1/repository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), args)); aws=aws)
 
 """
     DisassociateExternalConnection()
@@ -215,8 +215,8 @@ DescribeRepository(domain, repository, args::AbstractDict{String, <:Any}; aws::A
 # Optional Parameters
 - `domain-owner`:  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
 """
-DisassociateExternalConnection(domain, external_connection, repository; aws::AWSConfig=AWSConfig()) = codeartifact("DELETE", "/v1/repository/external-connection", Dict{String, Any}("domain"=>domain, "external-connection"=>external_connection, "repository"=>repository))
-DisassociateExternalConnection(domain, external_connection, repository, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codeartifact("DELETE", "/v1/repository/external-connection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "external-connection"=>external_connection, "repository"=>repository), args)); aws=aws)
+DisassociateExternalConnection(domain, external_connection, repository; aws::AWSConfig=AWS.aws_config) = codeartifact("DELETE", "/v1/repository/external-connection", Dict{String, Any}("domain"=>domain, "external-connection"=>external_connection, "repository"=>repository); aws=aws)
+DisassociateExternalConnection(domain, external_connection, repository, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codeartifact("DELETE", "/v1/repository/external-connection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "external-connection"=>external_connection, "repository"=>repository), args)); aws=aws)
 
 """
     DisposePackageVersions()
@@ -236,8 +236,8 @@ DisassociateExternalConnection(domain, external_connection, repository, args::Ab
 - `namespace`:  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.   
 - `versionRevisions`:  The revisions of the package versions you want to dispose. 
 """
-DisposePackageVersions(domain, format, package, repository, versions; aws::AWSConfig=AWSConfig()) = codeartifact("POST", "/v1/package/versions/dispose", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "versions"=>versions))
-DisposePackageVersions(domain, format, package, repository, versions, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codeartifact("POST", "/v1/package/versions/dispose", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "versions"=>versions), args)); aws=aws)
+DisposePackageVersions(domain, format, package, repository, versions; aws::AWSConfig=AWS.aws_config) = codeartifact("POST", "/v1/package/versions/dispose", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "versions"=>versions); aws=aws)
+DisposePackageVersions(domain, format, package, repository, versions, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codeartifact("POST", "/v1/package/versions/dispose", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "versions"=>versions), args)); aws=aws)
 
 """
     GetAuthorizationToken()
@@ -251,8 +251,8 @@ DisposePackageVersions(domain, format, package, repository, versions, args::Abst
 - `domain-owner`:  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
 - `duration`: The time, in seconds, that the generated authorization token is valid.
 """
-GetAuthorizationToken(domain; aws::AWSConfig=AWSConfig()) = codeartifact("POST", "/v1/authorization-token", Dict{String, Any}("domain"=>domain))
-GetAuthorizationToken(domain, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codeartifact("POST", "/v1/authorization-token", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), args)); aws=aws)
+GetAuthorizationToken(domain; aws::AWSConfig=AWS.aws_config) = codeartifact("POST", "/v1/authorization-token", Dict{String, Any}("domain"=>domain); aws=aws)
+GetAuthorizationToken(domain, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codeartifact("POST", "/v1/authorization-token", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), args)); aws=aws)
 
 """
     GetDomainPermissionsPolicy()
@@ -265,8 +265,8 @@ GetAuthorizationToken(domain, args::AbstractDict{String, <:Any}; aws::AWSConfig=
 # Optional Parameters
 - `domain-owner`:  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
 """
-GetDomainPermissionsPolicy(domain; aws::AWSConfig=AWSConfig()) = codeartifact("GET", "/v1/domain/permissions/policy", Dict{String, Any}("domain"=>domain))
-GetDomainPermissionsPolicy(domain, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codeartifact("GET", "/v1/domain/permissions/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), args)); aws=aws)
+GetDomainPermissionsPolicy(domain; aws::AWSConfig=AWS.aws_config) = codeartifact("GET", "/v1/domain/permissions/policy", Dict{String, Any}("domain"=>domain); aws=aws)
+GetDomainPermissionsPolicy(domain, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codeartifact("GET", "/v1/domain/permissions/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), args)); aws=aws)
 
 """
     GetPackageVersionAsset()
@@ -286,8 +286,8 @@ GetDomainPermissionsPolicy(domain, args::AbstractDict{String, <:Any}; aws::AWSCo
 - `namespace`:  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.   
 - `revision`:  The name of the package version revision that contains the requested asset. 
 """
-GetPackageVersionAsset(asset, domain, format, package, repository, version; aws::AWSConfig=AWSConfig()) = codeartifact("GET", "/v1/package/version/asset", Dict{String, Any}("asset"=>asset, "domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version))
-GetPackageVersionAsset(asset, domain, format, package, repository, version, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codeartifact("GET", "/v1/package/version/asset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("asset"=>asset, "domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version), args)); aws=aws)
+GetPackageVersionAsset(asset, domain, format, package, repository, version; aws::AWSConfig=AWS.aws_config) = codeartifact("GET", "/v1/package/version/asset", Dict{String, Any}("asset"=>asset, "domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version); aws=aws)
+GetPackageVersionAsset(asset, domain, format, package, repository, version, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codeartifact("GET", "/v1/package/version/asset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("asset"=>asset, "domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version), args)); aws=aws)
 
 """
     GetPackageVersionReadme()
@@ -305,8 +305,8 @@ GetPackageVersionAsset(asset, domain, format, package, repository, version, args
 - `domain-owner`:  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
 - `namespace`:  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.   
 """
-GetPackageVersionReadme(domain, format, package, repository, version; aws::AWSConfig=AWSConfig()) = codeartifact("GET", "/v1/package/version/readme", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version))
-GetPackageVersionReadme(domain, format, package, repository, version, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codeartifact("GET", "/v1/package/version/readme", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version), args)); aws=aws)
+GetPackageVersionReadme(domain, format, package, repository, version; aws::AWSConfig=AWS.aws_config) = codeartifact("GET", "/v1/package/version/readme", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version); aws=aws)
+GetPackageVersionReadme(domain, format, package, repository, version, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codeartifact("GET", "/v1/package/version/readme", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version), args)); aws=aws)
 
 """
     GetRepositoryEndpoint()
@@ -321,8 +321,8 @@ GetPackageVersionReadme(domain, format, package, repository, version, args::Abst
 # Optional Parameters
 - `domain-owner`:  The 12-digit account number of the AWS account that owns the domain that contains the repository. It does not include dashes or spaces. 
 """
-GetRepositoryEndpoint(domain, format, repository; aws::AWSConfig=AWSConfig()) = codeartifact("GET", "/v1/repository/endpoint", Dict{String, Any}("domain"=>domain, "format"=>format, "repository"=>repository))
-GetRepositoryEndpoint(domain, format, repository, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codeartifact("GET", "/v1/repository/endpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "repository"=>repository), args)); aws=aws)
+GetRepositoryEndpoint(domain, format, repository; aws::AWSConfig=AWS.aws_config) = codeartifact("GET", "/v1/repository/endpoint", Dict{String, Any}("domain"=>domain, "format"=>format, "repository"=>repository); aws=aws)
+GetRepositoryEndpoint(domain, format, repository, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codeartifact("GET", "/v1/repository/endpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "repository"=>repository), args)); aws=aws)
 
 """
     GetRepositoryPermissionsPolicy()
@@ -336,8 +336,8 @@ GetRepositoryEndpoint(domain, format, repository, args::AbstractDict{String, <:A
 # Optional Parameters
 - `domain-owner`:  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
 """
-GetRepositoryPermissionsPolicy(domain, repository; aws::AWSConfig=AWSConfig()) = codeartifact("GET", "/v1/repository/permissions/policy", Dict{String, Any}("domain"=>domain, "repository"=>repository))
-GetRepositoryPermissionsPolicy(domain, repository, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codeartifact("GET", "/v1/repository/permissions/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), args)); aws=aws)
+GetRepositoryPermissionsPolicy(domain, repository; aws::AWSConfig=AWS.aws_config) = codeartifact("GET", "/v1/repository/permissions/policy", Dict{String, Any}("domain"=>domain, "repository"=>repository); aws=aws)
+GetRepositoryPermissionsPolicy(domain, repository, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codeartifact("GET", "/v1/repository/permissions/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), args)); aws=aws)
 
 """
     ListDomains()
@@ -348,8 +348,8 @@ GetRepositoryPermissionsPolicy(domain, repository, args::AbstractDict{String, <:
 - `maxResults`:  The maximum number of results to return per page. 
 - `nextToken`:  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. 
 """
-ListDomains(; aws::AWSConfig=AWSConfig()) = codeartifact("POST", "/v1/domains"; aws=aws)
-ListDomains(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = codeartifact("POST", "/v1/domains", args; aws=aws)
+ListDomains(; aws::AWSConfig=AWS.aws_config) = codeartifact("POST", "/v1/domains"; aws=aws)
+ListDomains(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = codeartifact("POST", "/v1/domains", args; aws=aws)
 
 """
     ListPackageVersionAssets()
@@ -369,8 +369,8 @@ ListDomains(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = codea
 - `namespace`:  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.   
 - `next-token`:  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. 
 """
-ListPackageVersionAssets(domain, format, package, repository, version; aws::AWSConfig=AWSConfig()) = codeartifact("POST", "/v1/package/version/assets", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version))
-ListPackageVersionAssets(domain, format, package, repository, version, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codeartifact("POST", "/v1/package/version/assets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version), args)); aws=aws)
+ListPackageVersionAssets(domain, format, package, repository, version; aws::AWSConfig=AWS.aws_config) = codeartifact("POST", "/v1/package/version/assets", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version); aws=aws)
+ListPackageVersionAssets(domain, format, package, repository, version, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codeartifact("POST", "/v1/package/version/assets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version), args)); aws=aws)
 
 """
     ListPackageVersionDependencies()
@@ -389,8 +389,8 @@ ListPackageVersionAssets(domain, format, package, repository, version, args::Abs
 - `namespace`:  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.   
 - `next-token`:  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. 
 """
-ListPackageVersionDependencies(domain, format, package, repository, version; aws::AWSConfig=AWSConfig()) = codeartifact("POST", "/v1/package/version/dependencies", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version))
-ListPackageVersionDependencies(domain, format, package, repository, version, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codeartifact("POST", "/v1/package/version/dependencies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version), args)); aws=aws)
+ListPackageVersionDependencies(domain, format, package, repository, version; aws::AWSConfig=AWS.aws_config) = codeartifact("POST", "/v1/package/version/dependencies", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version); aws=aws)
+ListPackageVersionDependencies(domain, format, package, repository, version, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codeartifact("POST", "/v1/package/version/dependencies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "version"=>version), args)); aws=aws)
 
 """
     ListPackageVersions()
@@ -411,8 +411,8 @@ ListPackageVersionDependencies(domain, format, package, repository, version, arg
 - `sortBy`:  How to sort the returned list of package versions. 
 - `status`:  A string that specifies the status of the package versions to include in the returned list. It can be one of the following:     Published     Unfinished     Unlisted     Archived     Disposed   
 """
-ListPackageVersions(domain, format, package, repository; aws::AWSConfig=AWSConfig()) = codeartifact("POST", "/v1/package/versions", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository))
-ListPackageVersions(domain, format, package, repository, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codeartifact("POST", "/v1/package/versions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository), args)); aws=aws)
+ListPackageVersions(domain, format, package, repository; aws::AWSConfig=AWS.aws_config) = codeartifact("POST", "/v1/package/versions", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository); aws=aws)
+ListPackageVersions(domain, format, package, repository, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codeartifact("POST", "/v1/package/versions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository), args)); aws=aws)
 
 """
     ListPackages()
@@ -431,8 +431,8 @@ ListPackageVersions(domain, format, package, repository, args::AbstractDict{Stri
 - `next-token`:  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. 
 - `package-prefix`:  A prefix used to filter returned repositories. Only repositories with names that start with repositoryPrefix are returned. 
 """
-ListPackages(domain, repository; aws::AWSConfig=AWSConfig()) = codeartifact("POST", "/v1/packages", Dict{String, Any}("domain"=>domain, "repository"=>repository))
-ListPackages(domain, repository, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codeartifact("POST", "/v1/packages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), args)); aws=aws)
+ListPackages(domain, repository; aws::AWSConfig=AWS.aws_config) = codeartifact("POST", "/v1/packages", Dict{String, Any}("domain"=>domain, "repository"=>repository); aws=aws)
+ListPackages(domain, repository, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codeartifact("POST", "/v1/packages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), args)); aws=aws)
 
 """
     ListRepositories()
@@ -444,8 +444,8 @@ ListPackages(domain, repository, args::AbstractDict{String, <:Any}; aws::AWSConf
 - `next-token`:  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. 
 - `repository-prefix`:  A prefix used to filter returned repositories. Only repositories with names that start with repositoryPrefix are returned.
 """
-ListRepositories(; aws::AWSConfig=AWSConfig()) = codeartifact("POST", "/v1/repositories"; aws=aws)
-ListRepositories(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = codeartifact("POST", "/v1/repositories", args; aws=aws)
+ListRepositories(; aws::AWSConfig=AWS.aws_config) = codeartifact("POST", "/v1/repositories"; aws=aws)
+ListRepositories(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = codeartifact("POST", "/v1/repositories", args; aws=aws)
 
 """
     ListRepositoriesInDomain()
@@ -462,8 +462,8 @@ ListRepositories(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = 
 - `next-token`:  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. 
 - `repository-prefix`:  A prefix used to filter returned repositories. Only repositories with names that start with repositoryPrefix are returned. 
 """
-ListRepositoriesInDomain(domain; aws::AWSConfig=AWSConfig()) = codeartifact("POST", "/v1/domain/repositories", Dict{String, Any}("domain"=>domain))
-ListRepositoriesInDomain(domain, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codeartifact("POST", "/v1/domain/repositories", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), args)); aws=aws)
+ListRepositoriesInDomain(domain; aws::AWSConfig=AWS.aws_config) = codeartifact("POST", "/v1/domain/repositories", Dict{String, Any}("domain"=>domain); aws=aws)
+ListRepositoriesInDomain(domain, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codeartifact("POST", "/v1/domain/repositories", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain), args)); aws=aws)
 
 """
     PutDomainPermissionsPolicy()
@@ -478,8 +478,8 @@ ListRepositoriesInDomain(domain, args::AbstractDict{String, <:Any}; aws::AWSConf
 - `domainOwner`:  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
 - `policyRevision`:  The current revision of the resource policy to be set. This revision is used for optimistic locking, which prevents others from overwriting your changes to the domain's resource policy. 
 """
-PutDomainPermissionsPolicy(domain, policyDocument; aws::AWSConfig=AWSConfig()) = codeartifact("PUT", "/v1/domain/permissions/policy", Dict{String, Any}("domain"=>domain, "policyDocument"=>policyDocument))
-PutDomainPermissionsPolicy(domain, policyDocument, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codeartifact("PUT", "/v1/domain/permissions/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "policyDocument"=>policyDocument), args)); aws=aws)
+PutDomainPermissionsPolicy(domain, policyDocument; aws::AWSConfig=AWS.aws_config) = codeartifact("PUT", "/v1/domain/permissions/policy", Dict{String, Any}("domain"=>domain, "policyDocument"=>policyDocument); aws=aws)
+PutDomainPermissionsPolicy(domain, policyDocument, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codeartifact("PUT", "/v1/domain/permissions/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "policyDocument"=>policyDocument), args)); aws=aws)
 
 """
     PutRepositoryPermissionsPolicy()
@@ -495,8 +495,8 @@ PutDomainPermissionsPolicy(domain, policyDocument, args::AbstractDict{String, <:
 - `domain-owner`:  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
 - `policyRevision`:  Sets the revision of the resource policy that specifies permissions to access the repository. This revision is used for optimistic locking, which prevents others from overwriting your changes to the repository's resource policy. 
 """
-PutRepositoryPermissionsPolicy(domain, policyDocument, repository; aws::AWSConfig=AWSConfig()) = codeartifact("PUT", "/v1/repository/permissions/policy", Dict{String, Any}("domain"=>domain, "policyDocument"=>policyDocument, "repository"=>repository))
-PutRepositoryPermissionsPolicy(domain, policyDocument, repository, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codeartifact("PUT", "/v1/repository/permissions/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "policyDocument"=>policyDocument, "repository"=>repository), args)); aws=aws)
+PutRepositoryPermissionsPolicy(domain, policyDocument, repository; aws::AWSConfig=AWS.aws_config) = codeartifact("PUT", "/v1/repository/permissions/policy", Dict{String, Any}("domain"=>domain, "policyDocument"=>policyDocument, "repository"=>repository); aws=aws)
+PutRepositoryPermissionsPolicy(domain, policyDocument, repository, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codeartifact("PUT", "/v1/repository/permissions/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "policyDocument"=>policyDocument, "repository"=>repository), args)); aws=aws)
 
 """
     UpdatePackageVersionsStatus()
@@ -517,8 +517,8 @@ PutRepositoryPermissionsPolicy(domain, policyDocument, repository, args::Abstrac
 - `namespace`:  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.   
 - `versionRevisions`:  A map of package versions and package version revisions. The map key is the package version (for example, 3.5.2), and the map value is the package version revision. 
 """
-UpdatePackageVersionsStatus(domain, format, package, repository, targetStatus, versions; aws::AWSConfig=AWSConfig()) = codeartifact("POST", "/v1/package/versions/update_status", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "targetStatus"=>targetStatus, "versions"=>versions))
-UpdatePackageVersionsStatus(domain, format, package, repository, targetStatus, versions, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codeartifact("POST", "/v1/package/versions/update_status", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "targetStatus"=>targetStatus, "versions"=>versions), args)); aws=aws)
+UpdatePackageVersionsStatus(domain, format, package, repository, targetStatus, versions; aws::AWSConfig=AWS.aws_config) = codeartifact("POST", "/v1/package/versions/update_status", Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "targetStatus"=>targetStatus, "versions"=>versions); aws=aws)
+UpdatePackageVersionsStatus(domain, format, package, repository, targetStatus, versions, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codeartifact("POST", "/v1/package/versions/update_status", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "format"=>format, "package"=>package, "repository"=>repository, "targetStatus"=>targetStatus, "versions"=>versions), args)); aws=aws)
 
 """
     UpdateRepository()
@@ -534,5 +534,5 @@ UpdatePackageVersionsStatus(domain, format, package, repository, targetStatus, v
 - `domain-owner`:  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
 - `upstreams`:  A list of upstream repositories to associate with the repository. The order of the upstream repositories in the list determines their priority order when AWS CodeArtifact looks for a requested package version. For more information, see Working with upstream repositories. 
 """
-UpdateRepository(domain, repository; aws::AWSConfig=AWSConfig()) = codeartifact("PUT", "/v1/repository", Dict{String, Any}("domain"=>domain, "repository"=>repository))
-UpdateRepository(domain, repository, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = codeartifact("PUT", "/v1/repository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), args)); aws=aws)
+UpdateRepository(domain, repository; aws::AWSConfig=AWS.aws_config) = codeartifact("PUT", "/v1/repository", Dict{String, Any}("domain"=>domain, "repository"=>repository); aws=aws)
+UpdateRepository(domain, repository, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codeartifact("PUT", "/v1/repository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domain"=>domain, "repository"=>repository), args)); aws=aws)

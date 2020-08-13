@@ -17,8 +17,8 @@ Creates an application. An application consists of one or more server groups. Ea
 - `serverGroups`: The server groups to include in the application.
 - `tags`: The tags to be associated with the application.
 """
-CreateApp(; aws::AWSConfig=AWSConfig()) = sms("CreateApp"; aws=aws)
-CreateApp(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sms("CreateApp", args; aws=aws)
+CreateApp(; aws::AWSConfig=AWS.aws_config) = sms("CreateApp"; aws=aws)
+CreateApp(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sms("CreateApp", args; aws=aws)
 
 """
     CreateReplicationJob()
@@ -39,8 +39,8 @@ Creates a replication job. The replication job schedules periodic replication ru
 - `roleName`: The name of the IAM role to be used by the AWS SMS.
 - `runOnce`: Indicates whether to run the replication job one time.
 """
-CreateReplicationJob(seedReplicationTime, serverId; aws::AWSConfig=AWSConfig()) = sms("CreateReplicationJob", Dict{String, Any}("seedReplicationTime"=>seedReplicationTime, "serverId"=>serverId); aws=aws)
-CreateReplicationJob(seedReplicationTime, serverId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sms("CreateReplicationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("seedReplicationTime"=>seedReplicationTime, "serverId"=>serverId), args)); aws=aws)
+CreateReplicationJob(seedReplicationTime, serverId; aws::AWSConfig=AWS.aws_config) = sms("CreateReplicationJob", Dict{String, Any}("seedReplicationTime"=>seedReplicationTime, "serverId"=>serverId); aws=aws)
+CreateReplicationJob(seedReplicationTime, serverId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sms("CreateReplicationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("seedReplicationTime"=>seedReplicationTime, "serverId"=>serverId), args)); aws=aws)
 
 """
     DeleteApp()
@@ -52,8 +52,8 @@ Deletes the specified application. Optionally deletes the launched stack associa
 - `forceStopAppReplication`: Indicates whether to stop all replication jobs corresponding to the servers in the application while deleting the application.
 - `forceTerminateApp`: Indicates whether to terminate the stack corresponding to the application while deleting the application.
 """
-DeleteApp(; aws::AWSConfig=AWSConfig()) = sms("DeleteApp"; aws=aws)
-DeleteApp(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sms("DeleteApp", args; aws=aws)
+DeleteApp(; aws::AWSConfig=AWS.aws_config) = sms("DeleteApp"; aws=aws)
+DeleteApp(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sms("DeleteApp", args; aws=aws)
 
 """
     DeleteAppLaunchConfiguration()
@@ -63,8 +63,8 @@ Deletes the launch configuration for the specified application.
 # Optional Parameters
 - `appId`: The ID of the application.
 """
-DeleteAppLaunchConfiguration(; aws::AWSConfig=AWSConfig()) = sms("DeleteAppLaunchConfiguration"; aws=aws)
-DeleteAppLaunchConfiguration(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sms("DeleteAppLaunchConfiguration", args; aws=aws)
+DeleteAppLaunchConfiguration(; aws::AWSConfig=AWS.aws_config) = sms("DeleteAppLaunchConfiguration"; aws=aws)
+DeleteAppLaunchConfiguration(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sms("DeleteAppLaunchConfiguration", args; aws=aws)
 
 """
     DeleteAppReplicationConfiguration()
@@ -74,8 +74,8 @@ Deletes the replication configuration for the specified application.
 # Optional Parameters
 - `appId`: The ID of the application.
 """
-DeleteAppReplicationConfiguration(; aws::AWSConfig=AWSConfig()) = sms("DeleteAppReplicationConfiguration"; aws=aws)
-DeleteAppReplicationConfiguration(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sms("DeleteAppReplicationConfiguration", args; aws=aws)
+DeleteAppReplicationConfiguration(; aws::AWSConfig=AWS.aws_config) = sms("DeleteAppReplicationConfiguration"; aws=aws)
+DeleteAppReplicationConfiguration(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sms("DeleteAppReplicationConfiguration", args; aws=aws)
 
 """
     DeleteAppValidationConfiguration()
@@ -86,8 +86,8 @@ Deletes the validation configuration for the specified application.
 - `appId`: The ID of the application.
 
 """
-DeleteAppValidationConfiguration(appId; aws::AWSConfig=AWSConfig()) = sms("DeleteAppValidationConfiguration", Dict{String, Any}("appId"=>appId); aws=aws)
-DeleteAppValidationConfiguration(appId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sms("DeleteAppValidationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId), args)); aws=aws)
+DeleteAppValidationConfiguration(appId; aws::AWSConfig=AWS.aws_config) = sms("DeleteAppValidationConfiguration", Dict{String, Any}("appId"=>appId); aws=aws)
+DeleteAppValidationConfiguration(appId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sms("DeleteAppValidationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId), args)); aws=aws)
 
 """
     DeleteReplicationJob()
@@ -98,8 +98,8 @@ Deletes the specified replication job. After you delete a replication job, there
 - `replicationJobId`: The ID of the replication job.
 
 """
-DeleteReplicationJob(replicationJobId; aws::AWSConfig=AWSConfig()) = sms("DeleteReplicationJob", Dict{String, Any}("replicationJobId"=>replicationJobId); aws=aws)
-DeleteReplicationJob(replicationJobId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sms("DeleteReplicationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("replicationJobId"=>replicationJobId), args)); aws=aws)
+DeleteReplicationJob(replicationJobId; aws::AWSConfig=AWS.aws_config) = sms("DeleteReplicationJob", Dict{String, Any}("replicationJobId"=>replicationJobId); aws=aws)
+DeleteReplicationJob(replicationJobId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sms("DeleteReplicationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("replicationJobId"=>replicationJobId), args)); aws=aws)
 
 """
     DeleteServerCatalog()
@@ -107,8 +107,8 @@ DeleteReplicationJob(replicationJobId, args::AbstractDict{String, <:Any}; aws::A
 Deletes all servers from your server catalog.
 
 """
-DeleteServerCatalog(; aws::AWSConfig=AWSConfig()) = sms("DeleteServerCatalog"; aws=aws)
-DeleteServerCatalog(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sms("DeleteServerCatalog", args; aws=aws)
+DeleteServerCatalog(; aws::AWSConfig=AWS.aws_config) = sms("DeleteServerCatalog"; aws=aws)
+DeleteServerCatalog(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sms("DeleteServerCatalog", args; aws=aws)
 
 """
     DisassociateConnector()
@@ -119,8 +119,8 @@ Disassociates the specified connector from AWS SMS. After you disassociate a con
 - `connectorId`: The ID of the connector.
 
 """
-DisassociateConnector(connectorId; aws::AWSConfig=AWSConfig()) = sms("DisassociateConnector", Dict{String, Any}("connectorId"=>connectorId); aws=aws)
-DisassociateConnector(connectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sms("DisassociateConnector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("connectorId"=>connectorId), args)); aws=aws)
+DisassociateConnector(connectorId; aws::AWSConfig=AWS.aws_config) = sms("DisassociateConnector", Dict{String, Any}("connectorId"=>connectorId); aws=aws)
+DisassociateConnector(connectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sms("DisassociateConnector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("connectorId"=>connectorId), args)); aws=aws)
 
 """
     GenerateChangeSet()
@@ -131,8 +131,8 @@ Generates a target change set for a currently launched stack and writes it to an
 - `appId`: The ID of the application associated with the change set.
 - `changesetFormat`: The format for the change set.
 """
-GenerateChangeSet(; aws::AWSConfig=AWSConfig()) = sms("GenerateChangeSet"; aws=aws)
-GenerateChangeSet(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sms("GenerateChangeSet", args; aws=aws)
+GenerateChangeSet(; aws::AWSConfig=AWS.aws_config) = sms("GenerateChangeSet"; aws=aws)
+GenerateChangeSet(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sms("GenerateChangeSet", args; aws=aws)
 
 """
     GenerateTemplate()
@@ -143,8 +143,8 @@ Generates an AWS CloudFormation template based on the current launch configurati
 - `appId`: The ID of the application associated with the AWS CloudFormation template.
 - `templateFormat`: The format for generating the AWS CloudFormation template.
 """
-GenerateTemplate(; aws::AWSConfig=AWSConfig()) = sms("GenerateTemplate"; aws=aws)
-GenerateTemplate(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sms("GenerateTemplate", args; aws=aws)
+GenerateTemplate(; aws::AWSConfig=AWS.aws_config) = sms("GenerateTemplate"; aws=aws)
+GenerateTemplate(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sms("GenerateTemplate", args; aws=aws)
 
 """
     GetApp()
@@ -154,8 +154,8 @@ Retrieve information about the specified application.
 # Optional Parameters
 - `appId`: The ID of the application.
 """
-GetApp(; aws::AWSConfig=AWSConfig()) = sms("GetApp"; aws=aws)
-GetApp(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sms("GetApp", args; aws=aws)
+GetApp(; aws::AWSConfig=AWS.aws_config) = sms("GetApp"; aws=aws)
+GetApp(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sms("GetApp", args; aws=aws)
 
 """
     GetAppLaunchConfiguration()
@@ -165,8 +165,8 @@ Retrieves the application launch configuration associated with the specified app
 # Optional Parameters
 - `appId`: The ID of the application.
 """
-GetAppLaunchConfiguration(; aws::AWSConfig=AWSConfig()) = sms("GetAppLaunchConfiguration"; aws=aws)
-GetAppLaunchConfiguration(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sms("GetAppLaunchConfiguration", args; aws=aws)
+GetAppLaunchConfiguration(; aws::AWSConfig=AWS.aws_config) = sms("GetAppLaunchConfiguration"; aws=aws)
+GetAppLaunchConfiguration(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sms("GetAppLaunchConfiguration", args; aws=aws)
 
 """
     GetAppReplicationConfiguration()
@@ -176,8 +176,8 @@ Retrieves the application replication configuration associated with the specifie
 # Optional Parameters
 - `appId`: The ID of the application.
 """
-GetAppReplicationConfiguration(; aws::AWSConfig=AWSConfig()) = sms("GetAppReplicationConfiguration"; aws=aws)
-GetAppReplicationConfiguration(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sms("GetAppReplicationConfiguration", args; aws=aws)
+GetAppReplicationConfiguration(; aws::AWSConfig=AWS.aws_config) = sms("GetAppReplicationConfiguration"; aws=aws)
+GetAppReplicationConfiguration(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sms("GetAppReplicationConfiguration", args; aws=aws)
 
 """
     GetAppValidationConfiguration()
@@ -188,8 +188,8 @@ Retrieves information about a configuration for validating an application.
 - `appId`: The ID of the application.
 
 """
-GetAppValidationConfiguration(appId; aws::AWSConfig=AWSConfig()) = sms("GetAppValidationConfiguration", Dict{String, Any}("appId"=>appId); aws=aws)
-GetAppValidationConfiguration(appId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sms("GetAppValidationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId), args)); aws=aws)
+GetAppValidationConfiguration(appId; aws::AWSConfig=AWS.aws_config) = sms("GetAppValidationConfiguration", Dict{String, Any}("appId"=>appId); aws=aws)
+GetAppValidationConfiguration(appId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sms("GetAppValidationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId), args)); aws=aws)
 
 """
     GetAppValidationOutput()
@@ -200,8 +200,8 @@ Retrieves output from validating an application.
 - `appId`: The ID of the application.
 
 """
-GetAppValidationOutput(appId; aws::AWSConfig=AWSConfig()) = sms("GetAppValidationOutput", Dict{String, Any}("appId"=>appId); aws=aws)
-GetAppValidationOutput(appId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sms("GetAppValidationOutput", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId), args)); aws=aws)
+GetAppValidationOutput(appId; aws::AWSConfig=AWS.aws_config) = sms("GetAppValidationOutput", Dict{String, Any}("appId"=>appId); aws=aws)
+GetAppValidationOutput(appId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sms("GetAppValidationOutput", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId), args)); aws=aws)
 
 """
     GetConnectors()
@@ -212,8 +212,8 @@ Describes the connectors registered with the AWS SMS.
 - `maxResults`: The maximum number of results to return in a single call. The default value is 50. To retrieve the remaining results, make another call with the returned NextToken value.
 - `nextToken`: The token for the next set of results.
 """
-GetConnectors(; aws::AWSConfig=AWSConfig()) = sms("GetConnectors"; aws=aws)
-GetConnectors(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sms("GetConnectors", args; aws=aws)
+GetConnectors(; aws::AWSConfig=AWS.aws_config) = sms("GetConnectors"; aws=aws)
+GetConnectors(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sms("GetConnectors", args; aws=aws)
 
 """
     GetReplicationJobs()
@@ -225,8 +225,8 @@ Describes the specified replication job or all of your replication jobs.
 - `nextToken`: The token for the next set of results.
 - `replicationJobId`: The ID of the replication job.
 """
-GetReplicationJobs(; aws::AWSConfig=AWSConfig()) = sms("GetReplicationJobs"; aws=aws)
-GetReplicationJobs(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sms("GetReplicationJobs", args; aws=aws)
+GetReplicationJobs(; aws::AWSConfig=AWS.aws_config) = sms("GetReplicationJobs"; aws=aws)
+GetReplicationJobs(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sms("GetReplicationJobs", args; aws=aws)
 
 """
     GetReplicationRuns()
@@ -240,8 +240,8 @@ Describes the replication runs for the specified replication job.
 - `maxResults`: The maximum number of results to return in a single call. The default value is 50. To retrieve the remaining results, make another call with the returned NextToken value.
 - `nextToken`: The token for the next set of results.
 """
-GetReplicationRuns(replicationJobId; aws::AWSConfig=AWSConfig()) = sms("GetReplicationRuns", Dict{String, Any}("replicationJobId"=>replicationJobId); aws=aws)
-GetReplicationRuns(replicationJobId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sms("GetReplicationRuns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("replicationJobId"=>replicationJobId), args)); aws=aws)
+GetReplicationRuns(replicationJobId; aws::AWSConfig=AWS.aws_config) = sms("GetReplicationRuns", Dict{String, Any}("replicationJobId"=>replicationJobId); aws=aws)
+GetReplicationRuns(replicationJobId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sms("GetReplicationRuns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("replicationJobId"=>replicationJobId), args)); aws=aws)
 
 """
     GetServers()
@@ -253,8 +253,8 @@ Describes the servers in your server catalog. Before you can describe your serve
 - `nextToken`: The token for the next set of results.
 - `vmServerAddressList`: The server addresses.
 """
-GetServers(; aws::AWSConfig=AWSConfig()) = sms("GetServers"; aws=aws)
-GetServers(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sms("GetServers", args; aws=aws)
+GetServers(; aws::AWSConfig=AWS.aws_config) = sms("GetServers"; aws=aws)
+GetServers(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sms("GetServers", args; aws=aws)
 
 """
     ImportAppCatalog()
@@ -264,8 +264,8 @@ Allows application import from AWS Migration Hub.
 # Optional Parameters
 - `roleName`: The name of the service role. If you omit this parameter, we create a service-linked role for AWS Migration Hub in your account. Otherwise, the role that you provide must have the policy and trust policy described in the AWS Migration Hub User Guide.
 """
-ImportAppCatalog(; aws::AWSConfig=AWSConfig()) = sms("ImportAppCatalog"; aws=aws)
-ImportAppCatalog(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sms("ImportAppCatalog", args; aws=aws)
+ImportAppCatalog(; aws::AWSConfig=AWS.aws_config) = sms("ImportAppCatalog"; aws=aws)
+ImportAppCatalog(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sms("ImportAppCatalog", args; aws=aws)
 
 """
     ImportServerCatalog()
@@ -273,8 +273,8 @@ ImportAppCatalog(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) 
 Gathers a complete list of on-premises servers. Connectors must be installed and monitoring all servers to import. This call returns immediately, but might take additional time to retrieve all the servers.
 
 """
-ImportServerCatalog(; aws::AWSConfig=AWSConfig()) = sms("ImportServerCatalog"; aws=aws)
-ImportServerCatalog(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sms("ImportServerCatalog", args; aws=aws)
+ImportServerCatalog(; aws::AWSConfig=AWS.aws_config) = sms("ImportServerCatalog"; aws=aws)
+ImportServerCatalog(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sms("ImportServerCatalog", args; aws=aws)
 
 """
     LaunchApp()
@@ -284,8 +284,8 @@ Launches the specified application as a stack in AWS CloudFormation.
 # Optional Parameters
 - `appId`: The ID of the application.
 """
-LaunchApp(; aws::AWSConfig=AWSConfig()) = sms("LaunchApp"; aws=aws)
-LaunchApp(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sms("LaunchApp", args; aws=aws)
+LaunchApp(; aws::AWSConfig=AWS.aws_config) = sms("LaunchApp"; aws=aws)
+LaunchApp(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sms("LaunchApp", args; aws=aws)
 
 """
     ListApps()
@@ -297,8 +297,8 @@ Retrieves summaries for all applications.
 - `maxResults`: The maximum number of results to return in a single call. The default value is 100. To retrieve the remaining results, make another call with the returned NextToken value. 
 - `nextToken`: The token for the next set of results.
 """
-ListApps(; aws::AWSConfig=AWSConfig()) = sms("ListApps"; aws=aws)
-ListApps(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sms("ListApps", args; aws=aws)
+ListApps(; aws::AWSConfig=AWS.aws_config) = sms("ListApps"; aws=aws)
+ListApps(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sms("ListApps", args; aws=aws)
 
 """
     NotifyAppValidationOutput()
@@ -311,8 +311,8 @@ Provides information to AWS SMS about whether application validation is successf
 # Optional Parameters
 - `notificationContext`: The notification information.
 """
-NotifyAppValidationOutput(appId; aws::AWSConfig=AWSConfig()) = sms("NotifyAppValidationOutput", Dict{String, Any}("appId"=>appId); aws=aws)
-NotifyAppValidationOutput(appId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sms("NotifyAppValidationOutput", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId), args)); aws=aws)
+NotifyAppValidationOutput(appId; aws::AWSConfig=AWS.aws_config) = sms("NotifyAppValidationOutput", Dict{String, Any}("appId"=>appId); aws=aws)
+NotifyAppValidationOutput(appId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sms("NotifyAppValidationOutput", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId), args)); aws=aws)
 
 """
     PutAppLaunchConfiguration()
@@ -325,8 +325,8 @@ Creates or updates the launch configuration for the specified application.
 - `roleName`: The name of service role in the customer's account that AWS CloudFormation uses to launch the application.
 - `serverGroupLaunchConfigurations`: Information about the launch configurations for server groups in the application.
 """
-PutAppLaunchConfiguration(; aws::AWSConfig=AWSConfig()) = sms("PutAppLaunchConfiguration"; aws=aws)
-PutAppLaunchConfiguration(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sms("PutAppLaunchConfiguration", args; aws=aws)
+PutAppLaunchConfiguration(; aws::AWSConfig=AWS.aws_config) = sms("PutAppLaunchConfiguration"; aws=aws)
+PutAppLaunchConfiguration(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sms("PutAppLaunchConfiguration", args; aws=aws)
 
 """
     PutAppReplicationConfiguration()
@@ -337,8 +337,8 @@ Creates or updates the replication configuration for the specified application.
 - `appId`: The ID of the application.
 - `serverGroupReplicationConfigurations`: Information about the replication configurations for server groups in the application.
 """
-PutAppReplicationConfiguration(; aws::AWSConfig=AWSConfig()) = sms("PutAppReplicationConfiguration"; aws=aws)
-PutAppReplicationConfiguration(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sms("PutAppReplicationConfiguration", args; aws=aws)
+PutAppReplicationConfiguration(; aws::AWSConfig=AWS.aws_config) = sms("PutAppReplicationConfiguration"; aws=aws)
+PutAppReplicationConfiguration(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sms("PutAppReplicationConfiguration", args; aws=aws)
 
 """
     PutAppValidationConfiguration()
@@ -352,8 +352,8 @@ Creates or updates a validation configuration for the specified application.
 - `appValidationConfigurations`: The configuration for application validation.
 - `serverGroupValidationConfigurations`: The configuration for instance validation.
 """
-PutAppValidationConfiguration(appId; aws::AWSConfig=AWSConfig()) = sms("PutAppValidationConfiguration", Dict{String, Any}("appId"=>appId); aws=aws)
-PutAppValidationConfiguration(appId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sms("PutAppValidationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId), args)); aws=aws)
+PutAppValidationConfiguration(appId; aws::AWSConfig=AWS.aws_config) = sms("PutAppValidationConfiguration", Dict{String, Any}("appId"=>appId); aws=aws)
+PutAppValidationConfiguration(appId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sms("PutAppValidationConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId), args)); aws=aws)
 
 """
     StartAppReplication()
@@ -363,8 +363,8 @@ Starts replicating the specified application by creating replication jobs for ea
 # Optional Parameters
 - `appId`: The ID of the application.
 """
-StartAppReplication(; aws::AWSConfig=AWSConfig()) = sms("StartAppReplication"; aws=aws)
-StartAppReplication(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sms("StartAppReplication", args; aws=aws)
+StartAppReplication(; aws::AWSConfig=AWS.aws_config) = sms("StartAppReplication"; aws=aws)
+StartAppReplication(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sms("StartAppReplication", args; aws=aws)
 
 """
     StartOnDemandAppReplication()
@@ -377,8 +377,8 @@ Starts an on-demand replication run for the specified application.
 # Optional Parameters
 - `description`: The description of the replication run.
 """
-StartOnDemandAppReplication(appId; aws::AWSConfig=AWSConfig()) = sms("StartOnDemandAppReplication", Dict{String, Any}("appId"=>appId); aws=aws)
-StartOnDemandAppReplication(appId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sms("StartOnDemandAppReplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId), args)); aws=aws)
+StartOnDemandAppReplication(appId; aws::AWSConfig=AWS.aws_config) = sms("StartOnDemandAppReplication", Dict{String, Any}("appId"=>appId); aws=aws)
+StartOnDemandAppReplication(appId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sms("StartOnDemandAppReplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId), args)); aws=aws)
 
 """
     StartOnDemandReplicationRun()
@@ -391,8 +391,8 @@ Starts an on-demand replication run for the specified replication job. This repl
 # Optional Parameters
 - `description`: The description of the replication run.
 """
-StartOnDemandReplicationRun(replicationJobId; aws::AWSConfig=AWSConfig()) = sms("StartOnDemandReplicationRun", Dict{String, Any}("replicationJobId"=>replicationJobId); aws=aws)
-StartOnDemandReplicationRun(replicationJobId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sms("StartOnDemandReplicationRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("replicationJobId"=>replicationJobId), args)); aws=aws)
+StartOnDemandReplicationRun(replicationJobId; aws::AWSConfig=AWS.aws_config) = sms("StartOnDemandReplicationRun", Dict{String, Any}("replicationJobId"=>replicationJobId); aws=aws)
+StartOnDemandReplicationRun(replicationJobId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sms("StartOnDemandReplicationRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("replicationJobId"=>replicationJobId), args)); aws=aws)
 
 """
     StopAppReplication()
@@ -402,8 +402,8 @@ Stops replicating the specified application by deleting the replication job for 
 # Optional Parameters
 - `appId`: The ID of the application.
 """
-StopAppReplication(; aws::AWSConfig=AWSConfig()) = sms("StopAppReplication"; aws=aws)
-StopAppReplication(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sms("StopAppReplication", args; aws=aws)
+StopAppReplication(; aws::AWSConfig=AWS.aws_config) = sms("StopAppReplication"; aws=aws)
+StopAppReplication(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sms("StopAppReplication", args; aws=aws)
 
 """
     TerminateApp()
@@ -413,8 +413,8 @@ Terminates the stack for the specified application.
 # Optional Parameters
 - `appId`: The ID of the application.
 """
-TerminateApp(; aws::AWSConfig=AWSConfig()) = sms("TerminateApp"; aws=aws)
-TerminateApp(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sms("TerminateApp", args; aws=aws)
+TerminateApp(; aws::AWSConfig=AWS.aws_config) = sms("TerminateApp"; aws=aws)
+TerminateApp(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sms("TerminateApp", args; aws=aws)
 
 """
     UpdateApp()
@@ -429,8 +429,8 @@ Updates the specified application.
 - `serverGroups`: The server groups in the application to update.
 - `tags`: The tags to associate with the application.
 """
-UpdateApp(; aws::AWSConfig=AWSConfig()) = sms("UpdateApp"; aws=aws)
-UpdateApp(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sms("UpdateApp", args; aws=aws)
+UpdateApp(; aws::AWSConfig=AWS.aws_config) = sms("UpdateApp"; aws=aws)
+UpdateApp(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sms("UpdateApp", args; aws=aws)
 
 """
     UpdateReplicationJob()
@@ -450,5 +450,5 @@ Updates the specified settings for the specified replication job.
 - `numberOfRecentAmisToKeep`: The maximum number of SMS-created AMIs to retain. The oldest is deleted after the maximum number is reached and a new AMI is created.
 - `roleName`: The name of the IAM role to be used by AWS SMS.
 """
-UpdateReplicationJob(replicationJobId; aws::AWSConfig=AWSConfig()) = sms("UpdateReplicationJob", Dict{String, Any}("replicationJobId"=>replicationJobId); aws=aws)
-UpdateReplicationJob(replicationJobId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sms("UpdateReplicationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("replicationJobId"=>replicationJobId), args)); aws=aws)
+UpdateReplicationJob(replicationJobId; aws::AWSConfig=AWS.aws_config) = sms("UpdateReplicationJob", Dict{String, Any}("replicationJobId"=>replicationJobId); aws=aws)
+UpdateReplicationJob(replicationJobId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sms("UpdateReplicationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("replicationJobId"=>replicationJobId), args)); aws=aws)

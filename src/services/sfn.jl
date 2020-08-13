@@ -15,8 +15,8 @@ Creates an activity. An activity is a task that you write in any programming lan
 # Optional Parameters
 - `tags`: The list of tags to add to a resource. An array of key-value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide, and Controlling Access Using IAM Tags. Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
 """
-CreateActivity(name; aws::AWSConfig=AWSConfig()) = sfn("CreateActivity", Dict{String, Any}("name"=>name); aws=aws)
-CreateActivity(name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sfn("CreateActivity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws=aws)
+CreateActivity(name; aws::AWSConfig=AWS.aws_config) = sfn("CreateActivity", Dict{String, Any}("name"=>name); aws=aws)
+CreateActivity(name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sfn("CreateActivity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws=aws)
 
 """
     CreateStateMachine()
@@ -33,8 +33,8 @@ Creates a state machine. A state machine consists of a collection of states that
 - `tags`: Tags to be added when creating a state machine. An array of key-value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide, and Controlling Access Using IAM Tags. Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
 - `type`: Determines whether a Standard or Express state machine is created. The default is STANDARD. You cannot update the type of a state machine once it has been created.
 """
-CreateStateMachine(definition, name, roleArn; aws::AWSConfig=AWSConfig()) = sfn("CreateStateMachine", Dict{String, Any}("definition"=>definition, "name"=>name, "roleArn"=>roleArn); aws=aws)
-CreateStateMachine(definition, name, roleArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sfn("CreateStateMachine", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("definition"=>definition, "name"=>name, "roleArn"=>roleArn), args)); aws=aws)
+CreateStateMachine(definition, name, roleArn; aws::AWSConfig=AWS.aws_config) = sfn("CreateStateMachine", Dict{String, Any}("definition"=>definition, "name"=>name, "roleArn"=>roleArn); aws=aws)
+CreateStateMachine(definition, name, roleArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sfn("CreateStateMachine", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("definition"=>definition, "name"=>name, "roleArn"=>roleArn), args)); aws=aws)
 
 """
     DeleteActivity()
@@ -45,8 +45,8 @@ Deletes an activity.
 - `activityArn`: The Amazon Resource Name (ARN) of the activity to delete.
 
 """
-DeleteActivity(activityArn; aws::AWSConfig=AWSConfig()) = sfn("DeleteActivity", Dict{String, Any}("activityArn"=>activityArn); aws=aws)
-DeleteActivity(activityArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sfn("DeleteActivity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("activityArn"=>activityArn), args)); aws=aws)
+DeleteActivity(activityArn; aws::AWSConfig=AWS.aws_config) = sfn("DeleteActivity", Dict{String, Any}("activityArn"=>activityArn); aws=aws)
+DeleteActivity(activityArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sfn("DeleteActivity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("activityArn"=>activityArn), args)); aws=aws)
 
 """
     DeleteStateMachine()
@@ -57,8 +57,8 @@ Deletes a state machine. This is an asynchronous operation: It sets the state ma
 - `stateMachineArn`: The Amazon Resource Name (ARN) of the state machine to delete.
 
 """
-DeleteStateMachine(stateMachineArn; aws::AWSConfig=AWSConfig()) = sfn("DeleteStateMachine", Dict{String, Any}("stateMachineArn"=>stateMachineArn); aws=aws)
-DeleteStateMachine(stateMachineArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sfn("DeleteStateMachine", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stateMachineArn"=>stateMachineArn), args)); aws=aws)
+DeleteStateMachine(stateMachineArn; aws::AWSConfig=AWS.aws_config) = sfn("DeleteStateMachine", Dict{String, Any}("stateMachineArn"=>stateMachineArn); aws=aws)
+DeleteStateMachine(stateMachineArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sfn("DeleteStateMachine", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stateMachineArn"=>stateMachineArn), args)); aws=aws)
 
 """
     DescribeActivity()
@@ -69,8 +69,8 @@ Describes an activity.  This operation is eventually consistent. The results are
 - `activityArn`: The Amazon Resource Name (ARN) of the activity to describe.
 
 """
-DescribeActivity(activityArn; aws::AWSConfig=AWSConfig()) = sfn("DescribeActivity", Dict{String, Any}("activityArn"=>activityArn); aws=aws)
-DescribeActivity(activityArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sfn("DescribeActivity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("activityArn"=>activityArn), args)); aws=aws)
+DescribeActivity(activityArn; aws::AWSConfig=AWS.aws_config) = sfn("DescribeActivity", Dict{String, Any}("activityArn"=>activityArn); aws=aws)
+DescribeActivity(activityArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sfn("DescribeActivity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("activityArn"=>activityArn), args)); aws=aws)
 
 """
     DescribeExecution()
@@ -81,8 +81,8 @@ Describes an execution.  This operation is eventually consistent. The results ar
 - `executionArn`: The Amazon Resource Name (ARN) of the execution to describe.
 
 """
-DescribeExecution(executionArn; aws::AWSConfig=AWSConfig()) = sfn("DescribeExecution", Dict{String, Any}("executionArn"=>executionArn); aws=aws)
-DescribeExecution(executionArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sfn("DescribeExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("executionArn"=>executionArn), args)); aws=aws)
+DescribeExecution(executionArn; aws::AWSConfig=AWS.aws_config) = sfn("DescribeExecution", Dict{String, Any}("executionArn"=>executionArn); aws=aws)
+DescribeExecution(executionArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sfn("DescribeExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("executionArn"=>executionArn), args)); aws=aws)
 
 """
     DescribeStateMachine()
@@ -93,8 +93,8 @@ Describes a state machine.  This operation is eventually consistent. The results
 - `stateMachineArn`: The Amazon Resource Name (ARN) of the state machine to describe.
 
 """
-DescribeStateMachine(stateMachineArn; aws::AWSConfig=AWSConfig()) = sfn("DescribeStateMachine", Dict{String, Any}("stateMachineArn"=>stateMachineArn); aws=aws)
-DescribeStateMachine(stateMachineArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sfn("DescribeStateMachine", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stateMachineArn"=>stateMachineArn), args)); aws=aws)
+DescribeStateMachine(stateMachineArn; aws::AWSConfig=AWS.aws_config) = sfn("DescribeStateMachine", Dict{String, Any}("stateMachineArn"=>stateMachineArn); aws=aws)
+DescribeStateMachine(stateMachineArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sfn("DescribeStateMachine", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stateMachineArn"=>stateMachineArn), args)); aws=aws)
 
 """
     DescribeStateMachineForExecution()
@@ -105,8 +105,8 @@ Describes the state machine associated with a specific execution.  This operatio
 - `executionArn`: The Amazon Resource Name (ARN) of the execution you want state machine information for.
 
 """
-DescribeStateMachineForExecution(executionArn; aws::AWSConfig=AWSConfig()) = sfn("DescribeStateMachineForExecution", Dict{String, Any}("executionArn"=>executionArn); aws=aws)
-DescribeStateMachineForExecution(executionArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sfn("DescribeStateMachineForExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("executionArn"=>executionArn), args)); aws=aws)
+DescribeStateMachineForExecution(executionArn; aws::AWSConfig=AWS.aws_config) = sfn("DescribeStateMachineForExecution", Dict{String, Any}("executionArn"=>executionArn); aws=aws)
+DescribeStateMachineForExecution(executionArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sfn("DescribeStateMachineForExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("executionArn"=>executionArn), args)); aws=aws)
 
 """
     GetActivityTask()
@@ -119,8 +119,8 @@ Used by workers to retrieve a task (with the specified activity ARN) which has b
 # Optional Parameters
 - `workerName`: You can provide an arbitrary name in order to identify the worker that the task is assigned to. This name is used when it is logged in the execution history.
 """
-GetActivityTask(activityArn; aws::AWSConfig=AWSConfig()) = sfn("GetActivityTask", Dict{String, Any}("activityArn"=>activityArn); aws=aws)
-GetActivityTask(activityArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sfn("GetActivityTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("activityArn"=>activityArn), args)); aws=aws)
+GetActivityTask(activityArn; aws::AWSConfig=AWS.aws_config) = sfn("GetActivityTask", Dict{String, Any}("activityArn"=>activityArn); aws=aws)
+GetActivityTask(activityArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sfn("GetActivityTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("activityArn"=>activityArn), args)); aws=aws)
 
 """
     GetExecutionHistory()
@@ -135,8 +135,8 @@ Returns the history of the specified execution as a list of events. By default, 
 - `nextToken`: If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
 - `reverseOrder`: Lists events in descending order of their timeStamp.
 """
-GetExecutionHistory(executionArn; aws::AWSConfig=AWSConfig()) = sfn("GetExecutionHistory", Dict{String, Any}("executionArn"=>executionArn); aws=aws)
-GetExecutionHistory(executionArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sfn("GetExecutionHistory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("executionArn"=>executionArn), args)); aws=aws)
+GetExecutionHistory(executionArn; aws::AWSConfig=AWS.aws_config) = sfn("GetExecutionHistory", Dict{String, Any}("executionArn"=>executionArn); aws=aws)
+GetExecutionHistory(executionArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sfn("GetExecutionHistory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("executionArn"=>executionArn), args)); aws=aws)
 
 """
     ListActivities()
@@ -147,8 +147,8 @@ Lists the existing activities. If nextToken is returned, there are more results 
 - `maxResults`: The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
 - `nextToken`: If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
 """
-ListActivities(; aws::AWSConfig=AWSConfig()) = sfn("ListActivities"; aws=aws)
-ListActivities(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sfn("ListActivities", args; aws=aws)
+ListActivities(; aws::AWSConfig=AWS.aws_config) = sfn("ListActivities"; aws=aws)
+ListActivities(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sfn("ListActivities", args; aws=aws)
 
 """
     ListExecutions()
@@ -163,8 +163,8 @@ Lists the executions of a state machine that meet the filtering criteria. Result
 - `nextToken`: If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
 - `statusFilter`: If specified, only list the executions whose current execution status matches the given filter.
 """
-ListExecutions(stateMachineArn; aws::AWSConfig=AWSConfig()) = sfn("ListExecutions", Dict{String, Any}("stateMachineArn"=>stateMachineArn); aws=aws)
-ListExecutions(stateMachineArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sfn("ListExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stateMachineArn"=>stateMachineArn), args)); aws=aws)
+ListExecutions(stateMachineArn; aws::AWSConfig=AWS.aws_config) = sfn("ListExecutions", Dict{String, Any}("stateMachineArn"=>stateMachineArn); aws=aws)
+ListExecutions(stateMachineArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sfn("ListExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stateMachineArn"=>stateMachineArn), args)); aws=aws)
 
 """
     ListStateMachines()
@@ -175,8 +175,8 @@ Lists the existing state machines. If nextToken is returned, there are more resu
 - `maxResults`: The maximum number of results that are returned per call. You can use nextToken to obtain further pages of results. The default is 100 and the maximum allowed page size is 1000. A value of 0 uses the default. This is only an upper limit. The actual number of results returned per call might be fewer than the specified maximum.
 - `nextToken`: If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
 """
-ListStateMachines(; aws::AWSConfig=AWSConfig()) = sfn("ListStateMachines"; aws=aws)
-ListStateMachines(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sfn("ListStateMachines", args; aws=aws)
+ListStateMachines(; aws::AWSConfig=AWS.aws_config) = sfn("ListStateMachines"; aws=aws)
+ListStateMachines(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sfn("ListStateMachines", args; aws=aws)
 
 """
     ListTagsForResource()
@@ -187,8 +187,8 @@ List tags for a given resource. Tags may only contain Unicode letters, digits, w
 - `resourceArn`: The Amazon Resource Name (ARN) for the Step Functions state machine or activity.
 
 """
-ListTagsForResource(resourceArn; aws::AWSConfig=AWSConfig()) = sfn("ListTagsForResource", Dict{String, Any}("resourceArn"=>resourceArn); aws=aws)
-ListTagsForResource(resourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sfn("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), args)); aws=aws)
+ListTagsForResource(resourceArn; aws::AWSConfig=AWS.aws_config) = sfn("ListTagsForResource", Dict{String, Any}("resourceArn"=>resourceArn); aws=aws)
+ListTagsForResource(resourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sfn("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), args)); aws=aws)
 
 """
     SendTaskFailure()
@@ -202,8 +202,8 @@ Used by activity workers and task states using the callback pattern to report th
 - `cause`: A more detailed explanation of the cause of the failure.
 - `error`: The error code of the failure.
 """
-SendTaskFailure(taskToken; aws::AWSConfig=AWSConfig()) = sfn("SendTaskFailure", Dict{String, Any}("taskToken"=>taskToken); aws=aws)
-SendTaskFailure(taskToken, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sfn("SendTaskFailure", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskToken"=>taskToken), args)); aws=aws)
+SendTaskFailure(taskToken; aws::AWSConfig=AWS.aws_config) = sfn("SendTaskFailure", Dict{String, Any}("taskToken"=>taskToken); aws=aws)
+SendTaskFailure(taskToken, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sfn("SendTaskFailure", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskToken"=>taskToken), args)); aws=aws)
 
 """
     SendTaskHeartbeat()
@@ -214,8 +214,8 @@ Used by activity workers and task states using the callback pattern to report to
 - `taskToken`: The token that represents this task. Task tokens are generated by Step Functions when tasks are assigned to a worker, or in the context object when a workflow enters a task state. See GetActivityTaskOutput taskToken.
 
 """
-SendTaskHeartbeat(taskToken; aws::AWSConfig=AWSConfig()) = sfn("SendTaskHeartbeat", Dict{String, Any}("taskToken"=>taskToken); aws=aws)
-SendTaskHeartbeat(taskToken, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sfn("SendTaskHeartbeat", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskToken"=>taskToken), args)); aws=aws)
+SendTaskHeartbeat(taskToken; aws::AWSConfig=AWS.aws_config) = sfn("SendTaskHeartbeat", Dict{String, Any}("taskToken"=>taskToken); aws=aws)
+SendTaskHeartbeat(taskToken, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sfn("SendTaskHeartbeat", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskToken"=>taskToken), args)); aws=aws)
 
 """
     SendTaskSuccess()
@@ -227,8 +227,8 @@ Used by activity workers and task states using the callback pattern to report th
 - `taskToken`: The token that represents this task. Task tokens are generated by Step Functions when tasks are assigned to a worker, or in the context object when a workflow enters a task state. See GetActivityTaskOutput taskToken.
 
 """
-SendTaskSuccess(output, taskToken; aws::AWSConfig=AWSConfig()) = sfn("SendTaskSuccess", Dict{String, Any}("output"=>output, "taskToken"=>taskToken); aws=aws)
-SendTaskSuccess(output, taskToken, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sfn("SendTaskSuccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("output"=>output, "taskToken"=>taskToken), args)); aws=aws)
+SendTaskSuccess(output, taskToken; aws::AWSConfig=AWS.aws_config) = sfn("SendTaskSuccess", Dict{String, Any}("output"=>output, "taskToken"=>taskToken); aws=aws)
+SendTaskSuccess(output, taskToken, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sfn("SendTaskSuccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("output"=>output, "taskToken"=>taskToken), args)); aws=aws)
 
 """
     StartExecution()
@@ -242,8 +242,8 @@ Starts a state machine execution.   StartExecution is idempotent. If StartExecut
 - `input`: The string that contains the JSON input data for the execution, for example:  \"input\": \"{ \"first_name \" :  \"test \"}\"   If you don't include any JSON input data, you still must include the two braces, for example: \"input\": \"{}\"  
 - `name`: The name of the execution. This name must be unique for your AWS account, region, and state machine for 90 days. For more information, see  Limits Related to State Machine Executions in the AWS Step Functions Developer Guide. A name must not contain:   white space   brackets &lt; &gt; { } [ ]    wildcard characters ? *    special characters \" # %   ^ | ~ `   &amp; , ; : /    control characters (U+0000-001F, U+007F-009F)   To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
 """
-StartExecution(stateMachineArn; aws::AWSConfig=AWSConfig()) = sfn("StartExecution", Dict{String, Any}("stateMachineArn"=>stateMachineArn); aws=aws)
-StartExecution(stateMachineArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sfn("StartExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stateMachineArn"=>stateMachineArn), args)); aws=aws)
+StartExecution(stateMachineArn; aws::AWSConfig=AWS.aws_config) = sfn("StartExecution", Dict{String, Any}("stateMachineArn"=>stateMachineArn); aws=aws)
+StartExecution(stateMachineArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sfn("StartExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stateMachineArn"=>stateMachineArn), args)); aws=aws)
 
 """
     StopExecution()
@@ -257,8 +257,8 @@ Stops an execution. This API action is not supported by EXPRESS state machines.
 - `cause`: A more detailed explanation of the cause of the failure.
 - `error`: The error code of the failure.
 """
-StopExecution(executionArn; aws::AWSConfig=AWSConfig()) = sfn("StopExecution", Dict{String, Any}("executionArn"=>executionArn); aws=aws)
-StopExecution(executionArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sfn("StopExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("executionArn"=>executionArn), args)); aws=aws)
+StopExecution(executionArn; aws::AWSConfig=AWS.aws_config) = sfn("StopExecution", Dict{String, Any}("executionArn"=>executionArn); aws=aws)
+StopExecution(executionArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sfn("StopExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("executionArn"=>executionArn), args)); aws=aws)
 
 """
     TagResource()
@@ -270,8 +270,8 @@ Add a tag to a Step Functions resource. An array of key-value pairs. For more in
 - `tags`: The list of tags to add to a resource. Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
 
 """
-TagResource(resourceArn, tags; aws::AWSConfig=AWSConfig()) = sfn("TagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws=aws)
-TagResource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sfn("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), args)); aws=aws)
+TagResource(resourceArn, tags; aws::AWSConfig=AWS.aws_config) = sfn("TagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws=aws)
+TagResource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sfn("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), args)); aws=aws)
 
 """
     UntagResource()
@@ -283,8 +283,8 @@ Remove a tag from a Step Functions resource
 - `tagKeys`: The list of tags to remove from the resource.
 
 """
-UntagResource(resourceArn, tagKeys; aws::AWSConfig=AWSConfig()) = sfn("UntagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws=aws)
-UntagResource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sfn("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), args)); aws=aws)
+UntagResource(resourceArn, tagKeys; aws::AWSConfig=AWS.aws_config) = sfn("UntagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws=aws)
+UntagResource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sfn("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), args)); aws=aws)
 
 """
     UpdateStateMachine()
@@ -299,5 +299,5 @@ Updates an existing state machine by modifying its definition, roleArn, or loggi
 - `loggingConfiguration`: The LoggingConfiguration data type is used to set CloudWatch Logs options.
 - `roleArn`: The Amazon Resource Name (ARN) of the IAM role of the state machine.
 """
-UpdateStateMachine(stateMachineArn; aws::AWSConfig=AWSConfig()) = sfn("UpdateStateMachine", Dict{String, Any}("stateMachineArn"=>stateMachineArn); aws=aws)
-UpdateStateMachine(stateMachineArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = sfn("UpdateStateMachine", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stateMachineArn"=>stateMachineArn), args)); aws=aws)
+UpdateStateMachine(stateMachineArn; aws::AWSConfig=AWS.aws_config) = sfn("UpdateStateMachine", Dict{String, Any}("stateMachineArn"=>stateMachineArn); aws=aws)
+UpdateStateMachine(stateMachineArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sfn("UpdateStateMachine", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("stateMachineArn"=>stateMachineArn), args)); aws=aws)

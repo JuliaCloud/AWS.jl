@@ -22,8 +22,8 @@ Creates a new identity pool. The identity pool is a store of user identity infor
 - `SamlProviderARNs`: An array of Amazon Resource Names (ARNs) of the SAML provider for your identity pool.
 - `SupportedLoginProviders`: Optional key:value pairs mapping provider names to provider app IDs.
 """
-CreateIdentityPool(AllowUnauthenticatedIdentities, IdentityPoolName; aws::AWSConfig=AWSConfig()) = cognito_identity("CreateIdentityPool", Dict{String, Any}("AllowUnauthenticatedIdentities"=>AllowUnauthenticatedIdentities, "IdentityPoolName"=>IdentityPoolName); aws=aws)
-CreateIdentityPool(AllowUnauthenticatedIdentities, IdentityPoolName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cognito_identity("CreateIdentityPool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AllowUnauthenticatedIdentities"=>AllowUnauthenticatedIdentities, "IdentityPoolName"=>IdentityPoolName), args)); aws=aws)
+CreateIdentityPool(AllowUnauthenticatedIdentities, IdentityPoolName; aws::AWSConfig=AWS.aws_config) = cognito_identity("CreateIdentityPool", Dict{String, Any}("AllowUnauthenticatedIdentities"=>AllowUnauthenticatedIdentities, "IdentityPoolName"=>IdentityPoolName); aws=aws)
+CreateIdentityPool(AllowUnauthenticatedIdentities, IdentityPoolName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cognito_identity("CreateIdentityPool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AllowUnauthenticatedIdentities"=>AllowUnauthenticatedIdentities, "IdentityPoolName"=>IdentityPoolName), args)); aws=aws)
 
 """
     DeleteIdentities()
@@ -34,8 +34,8 @@ Deletes identities from an identity pool. You can specify a list of 1-60 identit
 - `IdentityIdsToDelete`: A list of 1-60 identities that you want to delete.
 
 """
-DeleteIdentities(IdentityIdsToDelete; aws::AWSConfig=AWSConfig()) = cognito_identity("DeleteIdentities", Dict{String, Any}("IdentityIdsToDelete"=>IdentityIdsToDelete); aws=aws)
-DeleteIdentities(IdentityIdsToDelete, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cognito_identity("DeleteIdentities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityIdsToDelete"=>IdentityIdsToDelete), args)); aws=aws)
+DeleteIdentities(IdentityIdsToDelete; aws::AWSConfig=AWS.aws_config) = cognito_identity("DeleteIdentities", Dict{String, Any}("IdentityIdsToDelete"=>IdentityIdsToDelete); aws=aws)
+DeleteIdentities(IdentityIdsToDelete, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cognito_identity("DeleteIdentities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityIdsToDelete"=>IdentityIdsToDelete), args)); aws=aws)
 
 """
     DeleteIdentityPool()
@@ -46,8 +46,8 @@ Deletes an identity pool. Once a pool is deleted, users will not be able to auth
 - `IdentityPoolId`: An identity pool ID in the format REGION:GUID.
 
 """
-DeleteIdentityPool(IdentityPoolId; aws::AWSConfig=AWSConfig()) = cognito_identity("DeleteIdentityPool", Dict{String, Any}("IdentityPoolId"=>IdentityPoolId); aws=aws)
-DeleteIdentityPool(IdentityPoolId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cognito_identity("DeleteIdentityPool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityPoolId"=>IdentityPoolId), args)); aws=aws)
+DeleteIdentityPool(IdentityPoolId; aws::AWSConfig=AWS.aws_config) = cognito_identity("DeleteIdentityPool", Dict{String, Any}("IdentityPoolId"=>IdentityPoolId); aws=aws)
+DeleteIdentityPool(IdentityPoolId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cognito_identity("DeleteIdentityPool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityPoolId"=>IdentityPoolId), args)); aws=aws)
 
 """
     DescribeIdentity()
@@ -58,8 +58,8 @@ Returns metadata related to the given identity, including when the identity was 
 - `IdentityId`: A unique identifier in the format REGION:GUID.
 
 """
-DescribeIdentity(IdentityId; aws::AWSConfig=AWSConfig()) = cognito_identity("DescribeIdentity", Dict{String, Any}("IdentityId"=>IdentityId); aws=aws)
-DescribeIdentity(IdentityId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cognito_identity("DescribeIdentity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityId"=>IdentityId), args)); aws=aws)
+DescribeIdentity(IdentityId; aws::AWSConfig=AWS.aws_config) = cognito_identity("DescribeIdentity", Dict{String, Any}("IdentityId"=>IdentityId); aws=aws)
+DescribeIdentity(IdentityId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cognito_identity("DescribeIdentity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityId"=>IdentityId), args)); aws=aws)
 
 """
     DescribeIdentityPool()
@@ -70,8 +70,8 @@ Gets details about a particular identity pool, including the pool name, ID descr
 - `IdentityPoolId`: An identity pool ID in the format REGION:GUID.
 
 """
-DescribeIdentityPool(IdentityPoolId; aws::AWSConfig=AWSConfig()) = cognito_identity("DescribeIdentityPool", Dict{String, Any}("IdentityPoolId"=>IdentityPoolId); aws=aws)
-DescribeIdentityPool(IdentityPoolId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cognito_identity("DescribeIdentityPool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityPoolId"=>IdentityPoolId), args)); aws=aws)
+DescribeIdentityPool(IdentityPoolId; aws::AWSConfig=AWS.aws_config) = cognito_identity("DescribeIdentityPool", Dict{String, Any}("IdentityPoolId"=>IdentityPoolId); aws=aws)
+DescribeIdentityPool(IdentityPoolId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cognito_identity("DescribeIdentityPool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityPoolId"=>IdentityPoolId), args)); aws=aws)
 
 """
     GetCredentialsForIdentity()
@@ -85,8 +85,8 @@ Returns credentials for the provided identity ID. Any provided logins will be va
 - `CustomRoleArn`: The Amazon Resource Name (ARN) of the role to be assumed when multiple roles were received in the token from the identity provider. For example, a SAML-based identity provider. This parameter is optional for identity providers that do not support role customization.
 - `Logins`: A set of optional name-value pairs that map provider names to provider tokens. The name-value pair will follow the syntax \"provider_name\": \"provider_user_identifier\". Logins should not be specified when trying to get credentials for an unauthenticated identity. The Logins parameter is required when using identities associated with external identity providers such as FaceBook. For examples of Logins maps, see the code examples in the External Identity Providers section of the Amazon Cognito Developer Guide.
 """
-GetCredentialsForIdentity(IdentityId; aws::AWSConfig=AWSConfig()) = cognito_identity("GetCredentialsForIdentity", Dict{String, Any}("IdentityId"=>IdentityId); aws=aws)
-GetCredentialsForIdentity(IdentityId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cognito_identity("GetCredentialsForIdentity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityId"=>IdentityId), args)); aws=aws)
+GetCredentialsForIdentity(IdentityId; aws::AWSConfig=AWS.aws_config) = cognito_identity("GetCredentialsForIdentity", Dict{String, Any}("IdentityId"=>IdentityId); aws=aws)
+GetCredentialsForIdentity(IdentityId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cognito_identity("GetCredentialsForIdentity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityId"=>IdentityId), args)); aws=aws)
 
 """
     GetId()
@@ -100,8 +100,8 @@ Generates (or retrieves) a Cognito ID. Supplying multiple logins will create an 
 - `AccountId`: A standard AWS account ID (9+ digits).
 - `Logins`: A set of optional name-value pairs that map provider names to provider tokens. The available provider names for Logins are as follows:   Facebook: graph.facebook.com    Amazon Cognito user pool: cognito-idp.&lt;region&gt;.amazonaws.com/&lt;YOUR_USER_POOL_ID&gt;, for example, cognito-idp.us-east-1.amazonaws.com/us-east-1_123456789.    Google: accounts.google.com    Amazon: www.amazon.com    Twitter: api.twitter.com    Digits: www.digits.com   
 """
-GetId(IdentityPoolId; aws::AWSConfig=AWSConfig()) = cognito_identity("GetId", Dict{String, Any}("IdentityPoolId"=>IdentityPoolId); aws=aws)
-GetId(IdentityPoolId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cognito_identity("GetId", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityPoolId"=>IdentityPoolId), args)); aws=aws)
+GetId(IdentityPoolId; aws::AWSConfig=AWS.aws_config) = cognito_identity("GetId", Dict{String, Any}("IdentityPoolId"=>IdentityPoolId); aws=aws)
+GetId(IdentityPoolId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cognito_identity("GetId", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityPoolId"=>IdentityPoolId), args)); aws=aws)
 
 """
     GetIdentityPoolRoles()
@@ -112,8 +112,8 @@ Gets the roles for an identity pool. You must use AWS Developer credentials to c
 - `IdentityPoolId`: An identity pool ID in the format REGION:GUID.
 
 """
-GetIdentityPoolRoles(IdentityPoolId; aws::AWSConfig=AWSConfig()) = cognito_identity("GetIdentityPoolRoles", Dict{String, Any}("IdentityPoolId"=>IdentityPoolId); aws=aws)
-GetIdentityPoolRoles(IdentityPoolId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cognito_identity("GetIdentityPoolRoles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityPoolId"=>IdentityPoolId), args)); aws=aws)
+GetIdentityPoolRoles(IdentityPoolId; aws::AWSConfig=AWS.aws_config) = cognito_identity("GetIdentityPoolRoles", Dict{String, Any}("IdentityPoolId"=>IdentityPoolId); aws=aws)
+GetIdentityPoolRoles(IdentityPoolId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cognito_identity("GetIdentityPoolRoles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityPoolId"=>IdentityPoolId), args)); aws=aws)
 
 """
     GetOpenIdToken()
@@ -126,8 +126,8 @@ Gets an OpenID token, using a known Cognito ID. This known Cognito ID is returne
 # Optional Parameters
 - `Logins`: A set of optional name-value pairs that map provider names to provider tokens. When using graph.facebook.com and www.amazon.com, supply the access_token returned from the provider's authflow. For accounts.google.com, an Amazon Cognito user pool provider, or any other OpenId Connect provider, always include the id_token.
 """
-GetOpenIdToken(IdentityId; aws::AWSConfig=AWSConfig()) = cognito_identity("GetOpenIdToken", Dict{String, Any}("IdentityId"=>IdentityId); aws=aws)
-GetOpenIdToken(IdentityId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cognito_identity("GetOpenIdToken", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityId"=>IdentityId), args)); aws=aws)
+GetOpenIdToken(IdentityId; aws::AWSConfig=AWS.aws_config) = cognito_identity("GetOpenIdToken", Dict{String, Any}("IdentityId"=>IdentityId); aws=aws)
+GetOpenIdToken(IdentityId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cognito_identity("GetOpenIdToken", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityId"=>IdentityId), args)); aws=aws)
 
 """
     GetOpenIdTokenForDeveloperIdentity()
@@ -142,8 +142,8 @@ Registers (or retrieves) a Cognito IdentityId and an OpenID Connect token for a 
 - `IdentityId`: A unique identifier in the format REGION:GUID.
 - `TokenDuration`: The expiration time of the token, in seconds. You can specify a custom expiration time for the token so that you can cache it. If you don't provide an expiration time, the token is valid for 15 minutes. You can exchange the token with Amazon STS for temporary AWS credentials, which are valid for a maximum of one hour. The maximum token duration you can set is 24 hours. You should take care in setting the expiration time for a token, as there are significant security implications: an attacker could use a leaked token to access your AWS resources for the token's duration.  Please provide for a small grace period, usually no more than 5 minutes, to account for clock skew. 
 """
-GetOpenIdTokenForDeveloperIdentity(IdentityPoolId, Logins; aws::AWSConfig=AWSConfig()) = cognito_identity("GetOpenIdTokenForDeveloperIdentity", Dict{String, Any}("IdentityPoolId"=>IdentityPoolId, "Logins"=>Logins); aws=aws)
-GetOpenIdTokenForDeveloperIdentity(IdentityPoolId, Logins, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cognito_identity("GetOpenIdTokenForDeveloperIdentity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityPoolId"=>IdentityPoolId, "Logins"=>Logins), args)); aws=aws)
+GetOpenIdTokenForDeveloperIdentity(IdentityPoolId, Logins; aws::AWSConfig=AWS.aws_config) = cognito_identity("GetOpenIdTokenForDeveloperIdentity", Dict{String, Any}("IdentityPoolId"=>IdentityPoolId, "Logins"=>Logins); aws=aws)
+GetOpenIdTokenForDeveloperIdentity(IdentityPoolId, Logins, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cognito_identity("GetOpenIdTokenForDeveloperIdentity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityPoolId"=>IdentityPoolId, "Logins"=>Logins), args)); aws=aws)
 
 """
     ListIdentities()
@@ -158,8 +158,8 @@ Lists the identities in an identity pool. You must use AWS Developer credentials
 - `HideDisabled`: An optional boolean parameter that allows you to hide disabled identities. If omitted, the ListIdentities API will include disabled identities in the response.
 - `NextToken`: A pagination token.
 """
-ListIdentities(IdentityPoolId, MaxResults; aws::AWSConfig=AWSConfig()) = cognito_identity("ListIdentities", Dict{String, Any}("IdentityPoolId"=>IdentityPoolId, "MaxResults"=>MaxResults); aws=aws)
-ListIdentities(IdentityPoolId, MaxResults, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cognito_identity("ListIdentities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityPoolId"=>IdentityPoolId, "MaxResults"=>MaxResults), args)); aws=aws)
+ListIdentities(IdentityPoolId, MaxResults; aws::AWSConfig=AWS.aws_config) = cognito_identity("ListIdentities", Dict{String, Any}("IdentityPoolId"=>IdentityPoolId, "MaxResults"=>MaxResults); aws=aws)
+ListIdentities(IdentityPoolId, MaxResults, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cognito_identity("ListIdentities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityPoolId"=>IdentityPoolId, "MaxResults"=>MaxResults), args)); aws=aws)
 
 """
     ListIdentityPools()
@@ -172,8 +172,8 @@ Lists all of the Cognito identity pools registered for your account. You must us
 # Optional Parameters
 - `NextToken`: A pagination token.
 """
-ListIdentityPools(MaxResults; aws::AWSConfig=AWSConfig()) = cognito_identity("ListIdentityPools", Dict{String, Any}("MaxResults"=>MaxResults); aws=aws)
-ListIdentityPools(MaxResults, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cognito_identity("ListIdentityPools", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaxResults"=>MaxResults), args)); aws=aws)
+ListIdentityPools(MaxResults; aws::AWSConfig=AWS.aws_config) = cognito_identity("ListIdentityPools", Dict{String, Any}("MaxResults"=>MaxResults); aws=aws)
+ListIdentityPools(MaxResults, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cognito_identity("ListIdentityPools", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaxResults"=>MaxResults), args)); aws=aws)
 
 """
     ListTagsForResource()
@@ -184,8 +184,8 @@ Lists the tags that are assigned to an Amazon Cognito identity pool. A tag is a 
 - `ResourceArn`: The Amazon Resource Name (ARN) of the identity pool that the tags are assigned to.
 
 """
-ListTagsForResource(ResourceArn; aws::AWSConfig=AWSConfig()) = cognito_identity("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws=aws)
-ListTagsForResource(ResourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cognito_identity("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws=aws)
+ListTagsForResource(ResourceArn; aws::AWSConfig=AWS.aws_config) = cognito_identity("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws=aws)
+ListTagsForResource(ResourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cognito_identity("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws=aws)
 
 """
     LookupDeveloperIdentity()
@@ -201,8 +201,8 @@ Retrieves the IdentityID associated with a DeveloperUserIdentifier or the list o
 - `MaxResults`: The maximum number of identities to return.
 - `NextToken`: A pagination token. The first call you make will have NextToken set to null. After that the service will return NextToken values as needed. For example, let's say you make a request with MaxResults set to 10, and there are 20 matches in the database. The service will return a pagination token as a part of the response. This token can be used to call the API again and get results starting from the 11th match.
 """
-LookupDeveloperIdentity(IdentityPoolId; aws::AWSConfig=AWSConfig()) = cognito_identity("LookupDeveloperIdentity", Dict{String, Any}("IdentityPoolId"=>IdentityPoolId); aws=aws)
-LookupDeveloperIdentity(IdentityPoolId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cognito_identity("LookupDeveloperIdentity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityPoolId"=>IdentityPoolId), args)); aws=aws)
+LookupDeveloperIdentity(IdentityPoolId; aws::AWSConfig=AWS.aws_config) = cognito_identity("LookupDeveloperIdentity", Dict{String, Any}("IdentityPoolId"=>IdentityPoolId); aws=aws)
+LookupDeveloperIdentity(IdentityPoolId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cognito_identity("LookupDeveloperIdentity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityPoolId"=>IdentityPoolId), args)); aws=aws)
 
 """
     MergeDeveloperIdentities()
@@ -216,8 +216,8 @@ Merges two users having different IdentityIds, existing in the same identity poo
 - `SourceUserIdentifier`: User identifier for the source user. The value should be a DeveloperUserIdentifier.
 
 """
-MergeDeveloperIdentities(DestinationUserIdentifier, DeveloperProviderName, IdentityPoolId, SourceUserIdentifier; aws::AWSConfig=AWSConfig()) = cognito_identity("MergeDeveloperIdentities", Dict{String, Any}("DestinationUserIdentifier"=>DestinationUserIdentifier, "DeveloperProviderName"=>DeveloperProviderName, "IdentityPoolId"=>IdentityPoolId, "SourceUserIdentifier"=>SourceUserIdentifier); aws=aws)
-MergeDeveloperIdentities(DestinationUserIdentifier, DeveloperProviderName, IdentityPoolId, SourceUserIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cognito_identity("MergeDeveloperIdentities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationUserIdentifier"=>DestinationUserIdentifier, "DeveloperProviderName"=>DeveloperProviderName, "IdentityPoolId"=>IdentityPoolId, "SourceUserIdentifier"=>SourceUserIdentifier), args)); aws=aws)
+MergeDeveloperIdentities(DestinationUserIdentifier, DeveloperProviderName, IdentityPoolId, SourceUserIdentifier; aws::AWSConfig=AWS.aws_config) = cognito_identity("MergeDeveloperIdentities", Dict{String, Any}("DestinationUserIdentifier"=>DestinationUserIdentifier, "DeveloperProviderName"=>DeveloperProviderName, "IdentityPoolId"=>IdentityPoolId, "SourceUserIdentifier"=>SourceUserIdentifier); aws=aws)
+MergeDeveloperIdentities(DestinationUserIdentifier, DeveloperProviderName, IdentityPoolId, SourceUserIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cognito_identity("MergeDeveloperIdentities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationUserIdentifier"=>DestinationUserIdentifier, "DeveloperProviderName"=>DeveloperProviderName, "IdentityPoolId"=>IdentityPoolId, "SourceUserIdentifier"=>SourceUserIdentifier), args)); aws=aws)
 
 """
     SetIdentityPoolRoles()
@@ -231,8 +231,8 @@ Sets the roles for an identity pool. These roles are used when making calls to G
 # Optional Parameters
 - `RoleMappings`: How users for a specific identity provider are to mapped to roles. This is a string to RoleMapping object map. The string identifies the identity provider, for example, \"graph.facebook.com\" or \"cognito-idp-east-1.amazonaws.com/us-east-1_abcdefghi:app_client_id\". Up to 25 rules can be specified per identity provider.
 """
-SetIdentityPoolRoles(IdentityPoolId, Roles; aws::AWSConfig=AWSConfig()) = cognito_identity("SetIdentityPoolRoles", Dict{String, Any}("IdentityPoolId"=>IdentityPoolId, "Roles"=>Roles); aws=aws)
-SetIdentityPoolRoles(IdentityPoolId, Roles, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cognito_identity("SetIdentityPoolRoles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityPoolId"=>IdentityPoolId, "Roles"=>Roles), args)); aws=aws)
+SetIdentityPoolRoles(IdentityPoolId, Roles; aws::AWSConfig=AWS.aws_config) = cognito_identity("SetIdentityPoolRoles", Dict{String, Any}("IdentityPoolId"=>IdentityPoolId, "Roles"=>Roles); aws=aws)
+SetIdentityPoolRoles(IdentityPoolId, Roles, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cognito_identity("SetIdentityPoolRoles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityPoolId"=>IdentityPoolId, "Roles"=>Roles), args)); aws=aws)
 
 """
     TagResource()
@@ -244,8 +244,8 @@ Assigns a set of tags to an Amazon Cognito identity pool. A tag is a label that 
 - `Tags`: The tags to assign to the identity pool.
 
 """
-TagResource(ResourceArn, Tags; aws::AWSConfig=AWSConfig()) = cognito_identity("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws=aws)
-TagResource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cognito_identity("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), args)); aws=aws)
+TagResource(ResourceArn, Tags; aws::AWSConfig=AWS.aws_config) = cognito_identity("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws=aws)
+TagResource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cognito_identity("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), args)); aws=aws)
 
 """
     UnlinkDeveloperIdentity()
@@ -259,8 +259,8 @@ Unlinks a DeveloperUserIdentifier from an existing identity. Unlinked developer 
 - `IdentityPoolId`: An identity pool ID in the format REGION:GUID.
 
 """
-UnlinkDeveloperIdentity(DeveloperProviderName, DeveloperUserIdentifier, IdentityId, IdentityPoolId; aws::AWSConfig=AWSConfig()) = cognito_identity("UnlinkDeveloperIdentity", Dict{String, Any}("DeveloperProviderName"=>DeveloperProviderName, "DeveloperUserIdentifier"=>DeveloperUserIdentifier, "IdentityId"=>IdentityId, "IdentityPoolId"=>IdentityPoolId); aws=aws)
-UnlinkDeveloperIdentity(DeveloperProviderName, DeveloperUserIdentifier, IdentityId, IdentityPoolId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cognito_identity("UnlinkDeveloperIdentity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeveloperProviderName"=>DeveloperProviderName, "DeveloperUserIdentifier"=>DeveloperUserIdentifier, "IdentityId"=>IdentityId, "IdentityPoolId"=>IdentityPoolId), args)); aws=aws)
+UnlinkDeveloperIdentity(DeveloperProviderName, DeveloperUserIdentifier, IdentityId, IdentityPoolId; aws::AWSConfig=AWS.aws_config) = cognito_identity("UnlinkDeveloperIdentity", Dict{String, Any}("DeveloperProviderName"=>DeveloperProviderName, "DeveloperUserIdentifier"=>DeveloperUserIdentifier, "IdentityId"=>IdentityId, "IdentityPoolId"=>IdentityPoolId); aws=aws)
+UnlinkDeveloperIdentity(DeveloperProviderName, DeveloperUserIdentifier, IdentityId, IdentityPoolId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cognito_identity("UnlinkDeveloperIdentity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeveloperProviderName"=>DeveloperProviderName, "DeveloperUserIdentifier"=>DeveloperUserIdentifier, "IdentityId"=>IdentityId, "IdentityPoolId"=>IdentityPoolId), args)); aws=aws)
 
 """
     UnlinkIdentity()
@@ -273,8 +273,8 @@ Unlinks a federated identity from an existing account. Unlinked logins will be c
 - `LoginsToRemove`: Provider names to unlink from this identity.
 
 """
-UnlinkIdentity(IdentityId, Logins, LoginsToRemove; aws::AWSConfig=AWSConfig()) = cognito_identity("UnlinkIdentity", Dict{String, Any}("IdentityId"=>IdentityId, "Logins"=>Logins, "LoginsToRemove"=>LoginsToRemove); aws=aws)
-UnlinkIdentity(IdentityId, Logins, LoginsToRemove, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cognito_identity("UnlinkIdentity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityId"=>IdentityId, "Logins"=>Logins, "LoginsToRemove"=>LoginsToRemove), args)); aws=aws)
+UnlinkIdentity(IdentityId, Logins, LoginsToRemove; aws::AWSConfig=AWS.aws_config) = cognito_identity("UnlinkIdentity", Dict{String, Any}("IdentityId"=>IdentityId, "Logins"=>Logins, "LoginsToRemove"=>LoginsToRemove); aws=aws)
+UnlinkIdentity(IdentityId, Logins, LoginsToRemove, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cognito_identity("UnlinkIdentity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdentityId"=>IdentityId, "Logins"=>Logins, "LoginsToRemove"=>LoginsToRemove), args)); aws=aws)
 
 """
     UntagResource()
@@ -286,8 +286,8 @@ Removes the specified tags from an Amazon Cognito identity pool. You can use thi
 - `TagKeys`: The keys of the tags to remove from the user pool.
 
 """
-UntagResource(ResourceArn, TagKeys; aws::AWSConfig=AWSConfig()) = cognito_identity("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws=aws)
-UntagResource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cognito_identity("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws=aws)
+UntagResource(ResourceArn, TagKeys; aws::AWSConfig=AWS.aws_config) = cognito_identity("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws=aws)
+UntagResource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cognito_identity("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws=aws)
 
 """
     UpdateIdentityPool()
@@ -308,5 +308,5 @@ Updates an identity pool. You must use AWS Developer credentials to call this AP
 - `SamlProviderARNs`: An array of Amazon Resource Names (ARNs) of the SAML provider for your identity pool.
 - `SupportedLoginProviders`: Optional key:value pairs mapping provider names to provider app IDs.
 """
-UpdateIdentityPool(AllowUnauthenticatedIdentities, IdentityPoolId, IdentityPoolName; aws::AWSConfig=AWSConfig()) = cognito_identity("UpdateIdentityPool", Dict{String, Any}("AllowUnauthenticatedIdentities"=>AllowUnauthenticatedIdentities, "IdentityPoolId"=>IdentityPoolId, "IdentityPoolName"=>IdentityPoolName); aws=aws)
-UpdateIdentityPool(AllowUnauthenticatedIdentities, IdentityPoolId, IdentityPoolName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cognito_identity("UpdateIdentityPool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AllowUnauthenticatedIdentities"=>AllowUnauthenticatedIdentities, "IdentityPoolId"=>IdentityPoolId, "IdentityPoolName"=>IdentityPoolName), args)); aws=aws)
+UpdateIdentityPool(AllowUnauthenticatedIdentities, IdentityPoolId, IdentityPoolName; aws::AWSConfig=AWS.aws_config) = cognito_identity("UpdateIdentityPool", Dict{String, Any}("AllowUnauthenticatedIdentities"=>AllowUnauthenticatedIdentities, "IdentityPoolId"=>IdentityPoolId, "IdentityPoolName"=>IdentityPoolName); aws=aws)
+UpdateIdentityPool(AllowUnauthenticatedIdentities, IdentityPoolId, IdentityPoolName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cognito_identity("UpdateIdentityPool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AllowUnauthenticatedIdentities"=>AllowUnauthenticatedIdentities, "IdentityPoolId"=>IdentityPoolId, "IdentityPoolName"=>IdentityPoolName), args)); aws=aws)

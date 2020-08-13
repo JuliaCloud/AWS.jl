@@ -15,8 +15,8 @@ Associates a phone number with the specified Amazon Chime user.
 - `userId`: The user ID.
 
 """
-AssociatePhoneNumberWithUser(E164PhoneNumber, accountId, userId; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)/users/$(userId)?operation=associate-phone-number", Dict{String, Any}("E164PhoneNumber"=>E164PhoneNumber))
-AssociatePhoneNumberWithUser(E164PhoneNumber, accountId, userId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)/users/$(userId)?operation=associate-phone-number", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("E164PhoneNumber"=>E164PhoneNumber), args)); aws=aws)
+AssociatePhoneNumberWithUser(E164PhoneNumber, accountId, userId; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)/users/$(userId)?operation=associate-phone-number", Dict{String, Any}("E164PhoneNumber"=>E164PhoneNumber); aws=aws)
+AssociatePhoneNumberWithUser(E164PhoneNumber, accountId, userId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)/users/$(userId)?operation=associate-phone-number", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("E164PhoneNumber"=>E164PhoneNumber), args)); aws=aws)
 
 """
     AssociatePhoneNumbersWithVoiceConnector()
@@ -30,8 +30,8 @@ Associates phone numbers with the specified Amazon Chime Voice Connector.
 # Optional Parameters
 - `ForceAssociate`: If true, associates the provided phone numbers with the provided Amazon Chime Voice Connector and removes any previously existing associations. If false, does not associate any phone numbers that have previously existing associations.
 """
-AssociatePhoneNumbersWithVoiceConnector(E164PhoneNumbers, voiceConnectorId; aws::AWSConfig=AWSConfig()) = chime("POST", "/voice-connectors/$(voiceConnectorId)?operation=associate-phone-numbers", Dict{String, Any}("E164PhoneNumbers"=>E164PhoneNumbers))
-AssociatePhoneNumbersWithVoiceConnector(E164PhoneNumbers, voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/voice-connectors/$(voiceConnectorId)?operation=associate-phone-numbers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("E164PhoneNumbers"=>E164PhoneNumbers), args)); aws=aws)
+AssociatePhoneNumbersWithVoiceConnector(E164PhoneNumbers, voiceConnectorId; aws::AWSConfig=AWS.aws_config) = chime("POST", "/voice-connectors/$(voiceConnectorId)?operation=associate-phone-numbers", Dict{String, Any}("E164PhoneNumbers"=>E164PhoneNumbers); aws=aws)
+AssociatePhoneNumbersWithVoiceConnector(E164PhoneNumbers, voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/voice-connectors/$(voiceConnectorId)?operation=associate-phone-numbers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("E164PhoneNumbers"=>E164PhoneNumbers), args)); aws=aws)
 
 """
     AssociatePhoneNumbersWithVoiceConnectorGroup()
@@ -45,8 +45,8 @@ Associates phone numbers with the specified Amazon Chime Voice Connector group.
 # Optional Parameters
 - `ForceAssociate`: If true, associates the provided phone numbers with the provided Amazon Chime Voice Connector Group and removes any previously existing associations. If false, does not associate any phone numbers that have previously existing associations.
 """
-AssociatePhoneNumbersWithVoiceConnectorGroup(E164PhoneNumbers, voiceConnectorGroupId; aws::AWSConfig=AWSConfig()) = chime("POST", "/voice-connector-groups/$(voiceConnectorGroupId)?operation=associate-phone-numbers", Dict{String, Any}("E164PhoneNumbers"=>E164PhoneNumbers))
-AssociatePhoneNumbersWithVoiceConnectorGroup(E164PhoneNumbers, voiceConnectorGroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/voice-connector-groups/$(voiceConnectorGroupId)?operation=associate-phone-numbers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("E164PhoneNumbers"=>E164PhoneNumbers), args)); aws=aws)
+AssociatePhoneNumbersWithVoiceConnectorGroup(E164PhoneNumbers, voiceConnectorGroupId; aws::AWSConfig=AWS.aws_config) = chime("POST", "/voice-connector-groups/$(voiceConnectorGroupId)?operation=associate-phone-numbers", Dict{String, Any}("E164PhoneNumbers"=>E164PhoneNumbers); aws=aws)
+AssociatePhoneNumbersWithVoiceConnectorGroup(E164PhoneNumbers, voiceConnectorGroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/voice-connector-groups/$(voiceConnectorGroupId)?operation=associate-phone-numbers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("E164PhoneNumbers"=>E164PhoneNumbers), args)); aws=aws)
 
 """
     AssociateSigninDelegateGroupsWithAccount()
@@ -58,8 +58,8 @@ Associates the specified sign-in delegate groups with the specified Amazon Chime
 - `accountId`: The Amazon Chime account ID.
 
 """
-AssociateSigninDelegateGroupsWithAccount(SigninDelegateGroups, accountId; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)?operation=associate-signin-delegate-groups", Dict{String, Any}("SigninDelegateGroups"=>SigninDelegateGroups))
-AssociateSigninDelegateGroupsWithAccount(SigninDelegateGroups, accountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)?operation=associate-signin-delegate-groups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SigninDelegateGroups"=>SigninDelegateGroups), args)); aws=aws)
+AssociateSigninDelegateGroupsWithAccount(SigninDelegateGroups, accountId; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)?operation=associate-signin-delegate-groups", Dict{String, Any}("SigninDelegateGroups"=>SigninDelegateGroups); aws=aws)
+AssociateSigninDelegateGroupsWithAccount(SigninDelegateGroups, accountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)?operation=associate-signin-delegate-groups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SigninDelegateGroups"=>SigninDelegateGroups), args)); aws=aws)
 
 """
     BatchCreateAttendee()
@@ -71,8 +71,8 @@ Creates up to 100 new attendees for an active Amazon Chime SDK meeting. For more
 - `meetingId`: The Amazon Chime SDK meeting ID.
 
 """
-BatchCreateAttendee(Attendees, meetingId; aws::AWSConfig=AWSConfig()) = chime("POST", "/meetings/$(meetingId)/attendees?operation=batch-create", Dict{String, Any}("Attendees"=>Attendees))
-BatchCreateAttendee(Attendees, meetingId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/meetings/$(meetingId)/attendees?operation=batch-create", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attendees"=>Attendees), args)); aws=aws)
+BatchCreateAttendee(Attendees, meetingId; aws::AWSConfig=AWS.aws_config) = chime("POST", "/meetings/$(meetingId)/attendees?operation=batch-create", Dict{String, Any}("Attendees"=>Attendees); aws=aws)
+BatchCreateAttendee(Attendees, meetingId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/meetings/$(meetingId)/attendees?operation=batch-create", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attendees"=>Attendees), args)); aws=aws)
 
 """
     BatchCreateRoomMembership()
@@ -85,8 +85,8 @@ Adds up to 50 members to a chat room in an Amazon Chime Enterprise account. Memb
 - `roomId`: The room ID.
 
 """
-BatchCreateRoomMembership(MembershipItemList, accountId, roomId; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)/rooms/$(roomId)/memberships?operation=batch-create", Dict{String, Any}("MembershipItemList"=>MembershipItemList))
-BatchCreateRoomMembership(MembershipItemList, accountId, roomId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)/rooms/$(roomId)/memberships?operation=batch-create", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MembershipItemList"=>MembershipItemList), args)); aws=aws)
+BatchCreateRoomMembership(MembershipItemList, accountId, roomId; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)/rooms/$(roomId)/memberships?operation=batch-create", Dict{String, Any}("MembershipItemList"=>MembershipItemList); aws=aws)
+BatchCreateRoomMembership(MembershipItemList, accountId, roomId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)/rooms/$(roomId)/memberships?operation=batch-create", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MembershipItemList"=>MembershipItemList), args)); aws=aws)
 
 """
     BatchDeletePhoneNumber()
@@ -97,8 +97,8 @@ Moves phone numbers into the Deletion queue. Phone numbers must be disassociated
 - `PhoneNumberIds`: List of phone number IDs.
 
 """
-BatchDeletePhoneNumber(PhoneNumberIds; aws::AWSConfig=AWSConfig()) = chime("POST", "/phone-numbers?operation=batch-delete", Dict{String, Any}("PhoneNumberIds"=>PhoneNumberIds))
-BatchDeletePhoneNumber(PhoneNumberIds, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/phone-numbers?operation=batch-delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PhoneNumberIds"=>PhoneNumberIds), args)); aws=aws)
+BatchDeletePhoneNumber(PhoneNumberIds; aws::AWSConfig=AWS.aws_config) = chime("POST", "/phone-numbers?operation=batch-delete", Dict{String, Any}("PhoneNumberIds"=>PhoneNumberIds); aws=aws)
+BatchDeletePhoneNumber(PhoneNumberIds, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/phone-numbers?operation=batch-delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PhoneNumberIds"=>PhoneNumberIds), args)); aws=aws)
 
 """
     BatchSuspendUser()
@@ -110,8 +110,8 @@ Suspends up to 50 users from a Team or EnterpriseLWA Amazon Chime account. For m
 - `accountId`: The Amazon Chime account ID.
 
 """
-BatchSuspendUser(UserIdList, accountId; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)/users?operation=suspend", Dict{String, Any}("UserIdList"=>UserIdList))
-BatchSuspendUser(UserIdList, accountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)/users?operation=suspend", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserIdList"=>UserIdList), args)); aws=aws)
+BatchSuspendUser(UserIdList, accountId; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)/users?operation=suspend", Dict{String, Any}("UserIdList"=>UserIdList); aws=aws)
+BatchSuspendUser(UserIdList, accountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)/users?operation=suspend", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserIdList"=>UserIdList), args)); aws=aws)
 
 """
     BatchUnsuspendUser()
@@ -123,8 +123,8 @@ Removes the suspension from up to 50 previously suspended users for the specifie
 - `accountId`: The Amazon Chime account ID.
 
 """
-BatchUnsuspendUser(UserIdList, accountId; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)/users?operation=unsuspend", Dict{String, Any}("UserIdList"=>UserIdList))
-BatchUnsuspendUser(UserIdList, accountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)/users?operation=unsuspend", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserIdList"=>UserIdList), args)); aws=aws)
+BatchUnsuspendUser(UserIdList, accountId; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)/users?operation=unsuspend", Dict{String, Any}("UserIdList"=>UserIdList); aws=aws)
+BatchUnsuspendUser(UserIdList, accountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)/users?operation=unsuspend", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserIdList"=>UserIdList), args)); aws=aws)
 
 """
     BatchUpdatePhoneNumber()
@@ -135,8 +135,8 @@ Updates phone number product types or calling names. You can update one attribut
 - `UpdatePhoneNumberRequestItems`: The request containing the phone number IDs and product types or calling names to update.
 
 """
-BatchUpdatePhoneNumber(UpdatePhoneNumberRequestItems; aws::AWSConfig=AWSConfig()) = chime("POST", "/phone-numbers?operation=batch-update", Dict{String, Any}("UpdatePhoneNumberRequestItems"=>UpdatePhoneNumberRequestItems))
-BatchUpdatePhoneNumber(UpdatePhoneNumberRequestItems, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/phone-numbers?operation=batch-update", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UpdatePhoneNumberRequestItems"=>UpdatePhoneNumberRequestItems), args)); aws=aws)
+BatchUpdatePhoneNumber(UpdatePhoneNumberRequestItems; aws::AWSConfig=AWS.aws_config) = chime("POST", "/phone-numbers?operation=batch-update", Dict{String, Any}("UpdatePhoneNumberRequestItems"=>UpdatePhoneNumberRequestItems); aws=aws)
+BatchUpdatePhoneNumber(UpdatePhoneNumberRequestItems, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/phone-numbers?operation=batch-update", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UpdatePhoneNumberRequestItems"=>UpdatePhoneNumberRequestItems), args)); aws=aws)
 
 """
     BatchUpdateUser()
@@ -148,8 +148,8 @@ Updates user details within the UpdateUserRequestItem object for up to 20 users 
 - `accountId`: The Amazon Chime account ID.
 
 """
-BatchUpdateUser(UpdateUserRequestItems, accountId; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)/users", Dict{String, Any}("UpdateUserRequestItems"=>UpdateUserRequestItems))
-BatchUpdateUser(UpdateUserRequestItems, accountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)/users", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UpdateUserRequestItems"=>UpdateUserRequestItems), args)); aws=aws)
+BatchUpdateUser(UpdateUserRequestItems, accountId; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)/users", Dict{String, Any}("UpdateUserRequestItems"=>UpdateUserRequestItems); aws=aws)
+BatchUpdateUser(UpdateUserRequestItems, accountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)/users", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UpdateUserRequestItems"=>UpdateUserRequestItems), args)); aws=aws)
 
 """
     CreateAccount()
@@ -160,8 +160,8 @@ Creates an Amazon Chime account under the administrator's AWS account. Only Team
 - `Name`: The name of the Amazon Chime account.
 
 """
-CreateAccount(Name; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts", Dict{String, Any}("Name"=>Name))
-CreateAccount(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+CreateAccount(Name; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts", Dict{String, Any}("Name"=>Name); aws=aws)
+CreateAccount(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
 
 """
     CreateAttendee()
@@ -175,8 +175,8 @@ Creates a new attendee for an active Amazon Chime SDK meeting. For more informat
 # Optional Parameters
 - `Tags`: The tag key-value pairs.
 """
-CreateAttendee(ExternalUserId, meetingId; aws::AWSConfig=AWSConfig()) = chime("POST", "/meetings/$(meetingId)/attendees", Dict{String, Any}("ExternalUserId"=>ExternalUserId))
-CreateAttendee(ExternalUserId, meetingId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/meetings/$(meetingId)/attendees", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExternalUserId"=>ExternalUserId), args)); aws=aws)
+CreateAttendee(ExternalUserId, meetingId; aws::AWSConfig=AWS.aws_config) = chime("POST", "/meetings/$(meetingId)/attendees", Dict{String, Any}("ExternalUserId"=>ExternalUserId); aws=aws)
+CreateAttendee(ExternalUserId, meetingId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/meetings/$(meetingId)/attendees", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExternalUserId"=>ExternalUserId), args)); aws=aws)
 
 """
     CreateBot()
@@ -190,8 +190,8 @@ Creates a bot for an Amazon Chime Enterprise account.
 # Optional Parameters
 - `Domain`: The domain of the Amazon Chime Enterprise account.
 """
-CreateBot(DisplayName, accountId; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)/bots", Dict{String, Any}("DisplayName"=>DisplayName))
-CreateBot(DisplayName, accountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)/bots", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DisplayName"=>DisplayName), args)); aws=aws)
+CreateBot(DisplayName, accountId; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)/bots", Dict{String, Any}("DisplayName"=>DisplayName); aws=aws)
+CreateBot(DisplayName, accountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)/bots", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DisplayName"=>DisplayName), args)); aws=aws)
 
 """
     CreateMeeting()
@@ -208,8 +208,8 @@ Creates a new Amazon Chime SDK meeting in the specified media Region with no ini
 - `NotificationsConfiguration`: The configuration for resource targets to receive notifications when meeting and attendee events occur.
 - `Tags`: The tag key-value pairs.
 """
-CreateMeeting(ClientRequestToken; aws::AWSConfig=AWSConfig()) = chime("POST", "/meetings", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken))
-CreateMeeting(ClientRequestToken, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/meetings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken), args)); aws=aws)
+CreateMeeting(ClientRequestToken; aws::AWSConfig=AWS.aws_config) = chime("POST", "/meetings", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken); aws=aws)
+CreateMeeting(ClientRequestToken, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/meetings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken), args)); aws=aws)
 
 """
     CreateMeetingWithAttendees()
@@ -227,8 +227,8 @@ Creates a new Amazon Chime SDK meeting in the specified media Region, with atten
 - `NotificationsConfiguration`: 
 - `Tags`: The tag key-value pairs.
 """
-CreateMeetingWithAttendees(ClientRequestToken; aws::AWSConfig=AWSConfig()) = chime("POST", "/meetings?operation=create-attendees", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken))
-CreateMeetingWithAttendees(ClientRequestToken, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/meetings?operation=create-attendees", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken), args)); aws=aws)
+CreateMeetingWithAttendees(ClientRequestToken; aws::AWSConfig=AWS.aws_config) = chime("POST", "/meetings?operation=create-attendees", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken); aws=aws)
+CreateMeetingWithAttendees(ClientRequestToken, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/meetings?operation=create-attendees", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken), args)); aws=aws)
 
 """
     CreatePhoneNumberOrder()
@@ -240,8 +240,8 @@ Creates an order for phone numbers to be provisioned. Choose from Amazon Chime B
 - `ProductType`: The phone number product type.
 
 """
-CreatePhoneNumberOrder(E164PhoneNumbers, ProductType; aws::AWSConfig=AWSConfig()) = chime("POST", "/phone-number-orders", Dict{String, Any}("E164PhoneNumbers"=>E164PhoneNumbers, "ProductType"=>ProductType))
-CreatePhoneNumberOrder(E164PhoneNumbers, ProductType, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/phone-number-orders", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("E164PhoneNumbers"=>E164PhoneNumbers, "ProductType"=>ProductType), args)); aws=aws)
+CreatePhoneNumberOrder(E164PhoneNumbers, ProductType; aws::AWSConfig=AWS.aws_config) = chime("POST", "/phone-number-orders", Dict{String, Any}("E164PhoneNumbers"=>E164PhoneNumbers, "ProductType"=>ProductType); aws=aws)
+CreatePhoneNumberOrder(E164PhoneNumbers, ProductType, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/phone-number-orders", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("E164PhoneNumbers"=>E164PhoneNumbers, "ProductType"=>ProductType), args)); aws=aws)
 
 """
     CreateProxySession()
@@ -260,8 +260,8 @@ Creates a proxy session on the specified Amazon Chime Voice Connector for the sp
 - `Name`: The name of the proxy session.
 - `NumberSelectionBehavior`: The preference for proxy phone number reuse, or stickiness, between the same participants across sessions.
 """
-CreateProxySession(Capabilities, ParticipantPhoneNumbers, voiceConnectorId; aws::AWSConfig=AWSConfig()) = chime("POST", "/voice-connectors/$(voiceConnectorId)/proxy-sessions", Dict{String, Any}("Capabilities"=>Capabilities, "ParticipantPhoneNumbers"=>ParticipantPhoneNumbers))
-CreateProxySession(Capabilities, ParticipantPhoneNumbers, voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/voice-connectors/$(voiceConnectorId)/proxy-sessions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Capabilities"=>Capabilities, "ParticipantPhoneNumbers"=>ParticipantPhoneNumbers), args)); aws=aws)
+CreateProxySession(Capabilities, ParticipantPhoneNumbers, voiceConnectorId; aws::AWSConfig=AWS.aws_config) = chime("POST", "/voice-connectors/$(voiceConnectorId)/proxy-sessions", Dict{String, Any}("Capabilities"=>Capabilities, "ParticipantPhoneNumbers"=>ParticipantPhoneNumbers); aws=aws)
+CreateProxySession(Capabilities, ParticipantPhoneNumbers, voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/voice-connectors/$(voiceConnectorId)/proxy-sessions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Capabilities"=>Capabilities, "ParticipantPhoneNumbers"=>ParticipantPhoneNumbers), args)); aws=aws)
 
 """
     CreateRoom()
@@ -275,8 +275,8 @@ Creates a chat room for the specified Amazon Chime Enterprise account.
 # Optional Parameters
 - `ClientRequestToken`: The idempotency token for the request.
 """
-CreateRoom(Name, accountId; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)/rooms", Dict{String, Any}("Name"=>Name, "ClientRequestToken"=>string(uuid4())); aws=aws)
-CreateRoom(Name, accountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)/rooms", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "ClientRequestToken"=>string(uuid4())), args)); aws=aws)
+CreateRoom(Name, accountId; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)/rooms", Dict{String, Any}("Name"=>Name, "ClientRequestToken"=>string(uuid4())); aws=aws)
+CreateRoom(Name, accountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)/rooms", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "ClientRequestToken"=>string(uuid4())), args)); aws=aws)
 
 """
     CreateRoomMembership()
@@ -291,8 +291,8 @@ Adds a member to a chat room in an Amazon Chime Enterprise account. A member can
 # Optional Parameters
 - `Role`: The role of the member.
 """
-CreateRoomMembership(MemberId, accountId, roomId; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)/rooms/$(roomId)/memberships", Dict{String, Any}("MemberId"=>MemberId))
-CreateRoomMembership(MemberId, accountId, roomId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)/rooms/$(roomId)/memberships", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MemberId"=>MemberId), args)); aws=aws)
+CreateRoomMembership(MemberId, accountId, roomId; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)/rooms/$(roomId)/memberships", Dict{String, Any}("MemberId"=>MemberId); aws=aws)
+CreateRoomMembership(MemberId, accountId, roomId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)/rooms/$(roomId)/memberships", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MemberId"=>MemberId), args)); aws=aws)
 
 """
     CreateUser()
@@ -307,8 +307,8 @@ Creates a user under the specified Amazon Chime account.
 - `UserType`: The user type.
 - `Username`: The user name.
 """
-CreateUser(accountId; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)/users?operation=create"; aws=aws)
-CreateUser(accountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)/users?operation=create", args; aws=aws)
+CreateUser(accountId; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)/users?operation=create"; aws=aws)
+CreateUser(accountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)/users?operation=create", args; aws=aws)
 
 """
     CreateVoiceConnector()
@@ -322,8 +322,8 @@ Creates an Amazon Chime Voice Connector under the administrator's AWS account. Y
 # Optional Parameters
 - `AwsRegion`: The AWS Region in which the Amazon Chime Voice Connector is created. Default value: us-east-1.
 """
-CreateVoiceConnector(Name, RequireEncryption; aws::AWSConfig=AWSConfig()) = chime("POST", "/voice-connectors", Dict{String, Any}("Name"=>Name, "RequireEncryption"=>RequireEncryption))
-CreateVoiceConnector(Name, RequireEncryption, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/voice-connectors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RequireEncryption"=>RequireEncryption), args)); aws=aws)
+CreateVoiceConnector(Name, RequireEncryption; aws::AWSConfig=AWS.aws_config) = chime("POST", "/voice-connectors", Dict{String, Any}("Name"=>Name, "RequireEncryption"=>RequireEncryption); aws=aws)
+CreateVoiceConnector(Name, RequireEncryption, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/voice-connectors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RequireEncryption"=>RequireEncryption), args)); aws=aws)
 
 """
     CreateVoiceConnectorGroup()
@@ -336,8 +336,8 @@ Creates an Amazon Chime Voice Connector group under the administrator's AWS acco
 # Optional Parameters
 - `VoiceConnectorItems`: The Amazon Chime Voice Connectors to route inbound calls to.
 """
-CreateVoiceConnectorGroup(Name; aws::AWSConfig=AWSConfig()) = chime("POST", "/voice-connector-groups", Dict{String, Any}("Name"=>Name))
-CreateVoiceConnectorGroup(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/voice-connector-groups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+CreateVoiceConnectorGroup(Name; aws::AWSConfig=AWS.aws_config) = chime("POST", "/voice-connector-groups", Dict{String, Any}("Name"=>Name); aws=aws)
+CreateVoiceConnectorGroup(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/voice-connector-groups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
 
 """
     DeleteAccount()
@@ -348,8 +348,8 @@ Deletes the specified Amazon Chime account. You must suspend all users before de
 - `accountId`: The Amazon Chime account ID.
 
 """
-DeleteAccount(accountId; aws::AWSConfig=AWSConfig()) = chime("DELETE", "/accounts/$(accountId)"; aws=aws)
-DeleteAccount(accountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("DELETE", "/accounts/$(accountId)", args; aws=aws)
+DeleteAccount(accountId; aws::AWSConfig=AWS.aws_config) = chime("DELETE", "/accounts/$(accountId)"; aws=aws)
+DeleteAccount(accountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("DELETE", "/accounts/$(accountId)", args; aws=aws)
 
 """
     DeleteAttendee()
@@ -361,8 +361,8 @@ Deletes an attendee from the specified Amazon Chime SDK meeting and deletes thei
 - `meetingId`: The Amazon Chime SDK meeting ID.
 
 """
-DeleteAttendee(attendeeId, meetingId; aws::AWSConfig=AWSConfig()) = chime("DELETE", "/meetings/$(meetingId)/attendees/$(attendeeId)"; aws=aws)
-DeleteAttendee(attendeeId, meetingId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("DELETE", "/meetings/$(meetingId)/attendees/$(attendeeId)", args; aws=aws)
+DeleteAttendee(attendeeId, meetingId; aws::AWSConfig=AWS.aws_config) = chime("DELETE", "/meetings/$(meetingId)/attendees/$(attendeeId)"; aws=aws)
+DeleteAttendee(attendeeId, meetingId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("DELETE", "/meetings/$(meetingId)/attendees/$(attendeeId)", args; aws=aws)
 
 """
     DeleteEventsConfiguration()
@@ -374,8 +374,8 @@ Deletes the events configuration that allows a bot to receive outgoing events.
 - `botId`: The bot ID.
 
 """
-DeleteEventsConfiguration(accountId, botId; aws::AWSConfig=AWSConfig()) = chime("DELETE", "/accounts/$(accountId)/bots/$(botId)/events-configuration"; aws=aws)
-DeleteEventsConfiguration(accountId, botId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("DELETE", "/accounts/$(accountId)/bots/$(botId)/events-configuration", args; aws=aws)
+DeleteEventsConfiguration(accountId, botId; aws::AWSConfig=AWS.aws_config) = chime("DELETE", "/accounts/$(accountId)/bots/$(botId)/events-configuration"; aws=aws)
+DeleteEventsConfiguration(accountId, botId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("DELETE", "/accounts/$(accountId)/bots/$(botId)/events-configuration", args; aws=aws)
 
 """
     DeleteMeeting()
@@ -386,8 +386,8 @@ Deletes the specified Amazon Chime SDK meeting. When a meeting is deleted, its a
 - `meetingId`: The Amazon Chime SDK meeting ID.
 
 """
-DeleteMeeting(meetingId; aws::AWSConfig=AWSConfig()) = chime("DELETE", "/meetings/$(meetingId)"; aws=aws)
-DeleteMeeting(meetingId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("DELETE", "/meetings/$(meetingId)", args; aws=aws)
+DeleteMeeting(meetingId; aws::AWSConfig=AWS.aws_config) = chime("DELETE", "/meetings/$(meetingId)"; aws=aws)
+DeleteMeeting(meetingId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("DELETE", "/meetings/$(meetingId)", args; aws=aws)
 
 """
     DeletePhoneNumber()
@@ -398,8 +398,8 @@ Moves the specified phone number into the Deletion queue. A phone number must be
 - `phoneNumberId`: The phone number ID.
 
 """
-DeletePhoneNumber(phoneNumberId; aws::AWSConfig=AWSConfig()) = chime("DELETE", "/phone-numbers/$(phoneNumberId)"; aws=aws)
-DeletePhoneNumber(phoneNumberId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("DELETE", "/phone-numbers/$(phoneNumberId)", args; aws=aws)
+DeletePhoneNumber(phoneNumberId; aws::AWSConfig=AWS.aws_config) = chime("DELETE", "/phone-numbers/$(phoneNumberId)"; aws=aws)
+DeletePhoneNumber(phoneNumberId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("DELETE", "/phone-numbers/$(phoneNumberId)", args; aws=aws)
 
 """
     DeleteProxySession()
@@ -411,8 +411,8 @@ Deletes the specified proxy session from the specified Amazon Chime Voice Connec
 - `voiceConnectorId`: The Amazon Chime voice connector ID.
 
 """
-DeleteProxySession(proxySessionId, voiceConnectorId; aws::AWSConfig=AWSConfig()) = chime("DELETE", "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)"; aws=aws)
-DeleteProxySession(proxySessionId, voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("DELETE", "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)", args; aws=aws)
+DeleteProxySession(proxySessionId, voiceConnectorId; aws::AWSConfig=AWS.aws_config) = chime("DELETE", "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)"; aws=aws)
+DeleteProxySession(proxySessionId, voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("DELETE", "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)", args; aws=aws)
 
 """
     DeleteRoom()
@@ -424,8 +424,8 @@ Deletes a chat room in an Amazon Chime Enterprise account.
 - `roomId`: The chat room ID.
 
 """
-DeleteRoom(accountId, roomId; aws::AWSConfig=AWSConfig()) = chime("DELETE", "/accounts/$(accountId)/rooms/$(roomId)"; aws=aws)
-DeleteRoom(accountId, roomId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("DELETE", "/accounts/$(accountId)/rooms/$(roomId)", args; aws=aws)
+DeleteRoom(accountId, roomId; aws::AWSConfig=AWS.aws_config) = chime("DELETE", "/accounts/$(accountId)/rooms/$(roomId)"; aws=aws)
+DeleteRoom(accountId, roomId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("DELETE", "/accounts/$(accountId)/rooms/$(roomId)", args; aws=aws)
 
 """
     DeleteRoomMembership()
@@ -438,8 +438,8 @@ Removes a member from a chat room in an Amazon Chime Enterprise account.
 - `roomId`: The room ID.
 
 """
-DeleteRoomMembership(accountId, memberId, roomId; aws::AWSConfig=AWSConfig()) = chime("DELETE", "/accounts/$(accountId)/rooms/$(roomId)/memberships/$(memberId)"; aws=aws)
-DeleteRoomMembership(accountId, memberId, roomId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("DELETE", "/accounts/$(accountId)/rooms/$(roomId)/memberships/$(memberId)", args; aws=aws)
+DeleteRoomMembership(accountId, memberId, roomId; aws::AWSConfig=AWS.aws_config) = chime("DELETE", "/accounts/$(accountId)/rooms/$(roomId)/memberships/$(memberId)"; aws=aws)
+DeleteRoomMembership(accountId, memberId, roomId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("DELETE", "/accounts/$(accountId)/rooms/$(roomId)/memberships/$(memberId)", args; aws=aws)
 
 """
     DeleteVoiceConnector()
@@ -450,8 +450,8 @@ Deletes the specified Amazon Chime Voice Connector. Any phone numbers associated
 - `voiceConnectorId`: The Amazon Chime Voice Connector ID.
 
 """
-DeleteVoiceConnector(voiceConnectorId; aws::AWSConfig=AWSConfig()) = chime("DELETE", "/voice-connectors/$(voiceConnectorId)"; aws=aws)
-DeleteVoiceConnector(voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("DELETE", "/voice-connectors/$(voiceConnectorId)", args; aws=aws)
+DeleteVoiceConnector(voiceConnectorId; aws::AWSConfig=AWS.aws_config) = chime("DELETE", "/voice-connectors/$(voiceConnectorId)"; aws=aws)
+DeleteVoiceConnector(voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("DELETE", "/voice-connectors/$(voiceConnectorId)", args; aws=aws)
 
 """
     DeleteVoiceConnectorEmergencyCallingConfiguration()
@@ -462,8 +462,8 @@ Deletes the emergency calling configuration details from the specified Amazon Ch
 - `voiceConnectorId`: The Amazon Chime Voice Connector ID.
 
 """
-DeleteVoiceConnectorEmergencyCallingConfiguration(voiceConnectorId; aws::AWSConfig=AWSConfig()) = chime("DELETE", "/voice-connectors/$(voiceConnectorId)/emergency-calling-configuration"; aws=aws)
-DeleteVoiceConnectorEmergencyCallingConfiguration(voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("DELETE", "/voice-connectors/$(voiceConnectorId)/emergency-calling-configuration", args; aws=aws)
+DeleteVoiceConnectorEmergencyCallingConfiguration(voiceConnectorId; aws::AWSConfig=AWS.aws_config) = chime("DELETE", "/voice-connectors/$(voiceConnectorId)/emergency-calling-configuration"; aws=aws)
+DeleteVoiceConnectorEmergencyCallingConfiguration(voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("DELETE", "/voice-connectors/$(voiceConnectorId)/emergency-calling-configuration", args; aws=aws)
 
 """
     DeleteVoiceConnectorGroup()
@@ -474,8 +474,8 @@ Deletes the specified Amazon Chime Voice Connector group. Any VoiceConnectorItem
 - `voiceConnectorGroupId`: The Amazon Chime Voice Connector group ID.
 
 """
-DeleteVoiceConnectorGroup(voiceConnectorGroupId; aws::AWSConfig=AWSConfig()) = chime("DELETE", "/voice-connector-groups/$(voiceConnectorGroupId)"; aws=aws)
-DeleteVoiceConnectorGroup(voiceConnectorGroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("DELETE", "/voice-connector-groups/$(voiceConnectorGroupId)", args; aws=aws)
+DeleteVoiceConnectorGroup(voiceConnectorGroupId; aws::AWSConfig=AWS.aws_config) = chime("DELETE", "/voice-connector-groups/$(voiceConnectorGroupId)"; aws=aws)
+DeleteVoiceConnectorGroup(voiceConnectorGroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("DELETE", "/voice-connector-groups/$(voiceConnectorGroupId)", args; aws=aws)
 
 """
     DeleteVoiceConnectorOrigination()
@@ -486,8 +486,8 @@ Deletes the origination settings for the specified Amazon Chime Voice Connector.
 - `voiceConnectorId`: The Amazon Chime Voice Connector ID.
 
 """
-DeleteVoiceConnectorOrigination(voiceConnectorId; aws::AWSConfig=AWSConfig()) = chime("DELETE", "/voice-connectors/$(voiceConnectorId)/origination"; aws=aws)
-DeleteVoiceConnectorOrigination(voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("DELETE", "/voice-connectors/$(voiceConnectorId)/origination", args; aws=aws)
+DeleteVoiceConnectorOrigination(voiceConnectorId; aws::AWSConfig=AWS.aws_config) = chime("DELETE", "/voice-connectors/$(voiceConnectorId)/origination"; aws=aws)
+DeleteVoiceConnectorOrigination(voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("DELETE", "/voice-connectors/$(voiceConnectorId)/origination", args; aws=aws)
 
 """
     DeleteVoiceConnectorProxy()
@@ -498,8 +498,8 @@ Deletes the proxy configuration from the specified Amazon Chime Voice Connector.
 - `voiceConnectorId`: The Amazon Chime Voice Connector ID.
 
 """
-DeleteVoiceConnectorProxy(voiceConnectorId; aws::AWSConfig=AWSConfig()) = chime("DELETE", "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy"; aws=aws)
-DeleteVoiceConnectorProxy(voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("DELETE", "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy", args; aws=aws)
+DeleteVoiceConnectorProxy(voiceConnectorId; aws::AWSConfig=AWS.aws_config) = chime("DELETE", "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy"; aws=aws)
+DeleteVoiceConnectorProxy(voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("DELETE", "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy", args; aws=aws)
 
 """
     DeleteVoiceConnectorStreamingConfiguration()
@@ -510,8 +510,8 @@ Deletes the streaming configuration for the specified Amazon Chime Voice Connect
 - `voiceConnectorId`: The Amazon Chime Voice Connector ID.
 
 """
-DeleteVoiceConnectorStreamingConfiguration(voiceConnectorId; aws::AWSConfig=AWSConfig()) = chime("DELETE", "/voice-connectors/$(voiceConnectorId)/streaming-configuration"; aws=aws)
-DeleteVoiceConnectorStreamingConfiguration(voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("DELETE", "/voice-connectors/$(voiceConnectorId)/streaming-configuration", args; aws=aws)
+DeleteVoiceConnectorStreamingConfiguration(voiceConnectorId; aws::AWSConfig=AWS.aws_config) = chime("DELETE", "/voice-connectors/$(voiceConnectorId)/streaming-configuration"; aws=aws)
+DeleteVoiceConnectorStreamingConfiguration(voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("DELETE", "/voice-connectors/$(voiceConnectorId)/streaming-configuration", args; aws=aws)
 
 """
     DeleteVoiceConnectorTermination()
@@ -522,8 +522,8 @@ Deletes the termination settings for the specified Amazon Chime Voice Connector.
 - `voiceConnectorId`: The Amazon Chime Voice Connector ID.
 
 """
-DeleteVoiceConnectorTermination(voiceConnectorId; aws::AWSConfig=AWSConfig()) = chime("DELETE", "/voice-connectors/$(voiceConnectorId)/termination"; aws=aws)
-DeleteVoiceConnectorTermination(voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("DELETE", "/voice-connectors/$(voiceConnectorId)/termination", args; aws=aws)
+DeleteVoiceConnectorTermination(voiceConnectorId; aws::AWSConfig=AWS.aws_config) = chime("DELETE", "/voice-connectors/$(voiceConnectorId)/termination"; aws=aws)
+DeleteVoiceConnectorTermination(voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("DELETE", "/voice-connectors/$(voiceConnectorId)/termination", args; aws=aws)
 
 """
     DeleteVoiceConnectorTerminationCredentials()
@@ -535,8 +535,8 @@ Deletes the specified SIP credentials used by your equipment to authenticate dur
 - `voiceConnectorId`: The Amazon Chime Voice Connector ID.
 
 """
-DeleteVoiceConnectorTerminationCredentials(Usernames, voiceConnectorId; aws::AWSConfig=AWSConfig()) = chime("POST", "/voice-connectors/$(voiceConnectorId)/termination/credentials?operation=delete", Dict{String, Any}("Usernames"=>Usernames))
-DeleteVoiceConnectorTerminationCredentials(Usernames, voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/voice-connectors/$(voiceConnectorId)/termination/credentials?operation=delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Usernames"=>Usernames), args)); aws=aws)
+DeleteVoiceConnectorTerminationCredentials(Usernames, voiceConnectorId; aws::AWSConfig=AWS.aws_config) = chime("POST", "/voice-connectors/$(voiceConnectorId)/termination/credentials?operation=delete", Dict{String, Any}("Usernames"=>Usernames); aws=aws)
+DeleteVoiceConnectorTerminationCredentials(Usernames, voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/voice-connectors/$(voiceConnectorId)/termination/credentials?operation=delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Usernames"=>Usernames), args)); aws=aws)
 
 """
     DisassociatePhoneNumberFromUser()
@@ -548,8 +548,8 @@ Disassociates the primary provisioned phone number from the specified Amazon Chi
 - `userId`: The user ID.
 
 """
-DisassociatePhoneNumberFromUser(accountId, userId; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)/users/$(userId)?operation=disassociate-phone-number"; aws=aws)
-DisassociatePhoneNumberFromUser(accountId, userId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)/users/$(userId)?operation=disassociate-phone-number", args; aws=aws)
+DisassociatePhoneNumberFromUser(accountId, userId; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)/users/$(userId)?operation=disassociate-phone-number"; aws=aws)
+DisassociatePhoneNumberFromUser(accountId, userId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)/users/$(userId)?operation=disassociate-phone-number", args; aws=aws)
 
 """
     DisassociatePhoneNumbersFromVoiceConnector()
@@ -561,8 +561,8 @@ Disassociates the specified phone numbers from the specified Amazon Chime Voice 
 - `voiceConnectorId`: The Amazon Chime Voice Connector ID.
 
 """
-DisassociatePhoneNumbersFromVoiceConnector(E164PhoneNumbers, voiceConnectorId; aws::AWSConfig=AWSConfig()) = chime("POST", "/voice-connectors/$(voiceConnectorId)?operation=disassociate-phone-numbers", Dict{String, Any}("E164PhoneNumbers"=>E164PhoneNumbers))
-DisassociatePhoneNumbersFromVoiceConnector(E164PhoneNumbers, voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/voice-connectors/$(voiceConnectorId)?operation=disassociate-phone-numbers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("E164PhoneNumbers"=>E164PhoneNumbers), args)); aws=aws)
+DisassociatePhoneNumbersFromVoiceConnector(E164PhoneNumbers, voiceConnectorId; aws::AWSConfig=AWS.aws_config) = chime("POST", "/voice-connectors/$(voiceConnectorId)?operation=disassociate-phone-numbers", Dict{String, Any}("E164PhoneNumbers"=>E164PhoneNumbers); aws=aws)
+DisassociatePhoneNumbersFromVoiceConnector(E164PhoneNumbers, voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/voice-connectors/$(voiceConnectorId)?operation=disassociate-phone-numbers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("E164PhoneNumbers"=>E164PhoneNumbers), args)); aws=aws)
 
 """
     DisassociatePhoneNumbersFromVoiceConnectorGroup()
@@ -574,8 +574,8 @@ Disassociates the specified phone numbers from the specified Amazon Chime Voice 
 - `voiceConnectorGroupId`: The Amazon Chime Voice Connector group ID.
 
 """
-DisassociatePhoneNumbersFromVoiceConnectorGroup(E164PhoneNumbers, voiceConnectorGroupId; aws::AWSConfig=AWSConfig()) = chime("POST", "/voice-connector-groups/$(voiceConnectorGroupId)?operation=disassociate-phone-numbers", Dict{String, Any}("E164PhoneNumbers"=>E164PhoneNumbers))
-DisassociatePhoneNumbersFromVoiceConnectorGroup(E164PhoneNumbers, voiceConnectorGroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/voice-connector-groups/$(voiceConnectorGroupId)?operation=disassociate-phone-numbers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("E164PhoneNumbers"=>E164PhoneNumbers), args)); aws=aws)
+DisassociatePhoneNumbersFromVoiceConnectorGroup(E164PhoneNumbers, voiceConnectorGroupId; aws::AWSConfig=AWS.aws_config) = chime("POST", "/voice-connector-groups/$(voiceConnectorGroupId)?operation=disassociate-phone-numbers", Dict{String, Any}("E164PhoneNumbers"=>E164PhoneNumbers); aws=aws)
+DisassociatePhoneNumbersFromVoiceConnectorGroup(E164PhoneNumbers, voiceConnectorGroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/voice-connector-groups/$(voiceConnectorGroupId)?operation=disassociate-phone-numbers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("E164PhoneNumbers"=>E164PhoneNumbers), args)); aws=aws)
 
 """
     DisassociateSigninDelegateGroupsFromAccount()
@@ -587,8 +587,8 @@ Disassociates the specified sign-in delegate groups from the specified Amazon Ch
 - `accountId`: The Amazon Chime account ID.
 
 """
-DisassociateSigninDelegateGroupsFromAccount(GroupNames, accountId; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)?operation=disassociate-signin-delegate-groups", Dict{String, Any}("GroupNames"=>GroupNames))
-DisassociateSigninDelegateGroupsFromAccount(GroupNames, accountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)?operation=disassociate-signin-delegate-groups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupNames"=>GroupNames), args)); aws=aws)
+DisassociateSigninDelegateGroupsFromAccount(GroupNames, accountId; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)?operation=disassociate-signin-delegate-groups", Dict{String, Any}("GroupNames"=>GroupNames); aws=aws)
+DisassociateSigninDelegateGroupsFromAccount(GroupNames, accountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)?operation=disassociate-signin-delegate-groups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupNames"=>GroupNames), args)); aws=aws)
 
 """
     GetAccount()
@@ -599,8 +599,8 @@ Retrieves details for the specified Amazon Chime account, such as account type a
 - `accountId`: The Amazon Chime account ID.
 
 """
-GetAccount(accountId; aws::AWSConfig=AWSConfig()) = chime("GET", "/accounts/$(accountId)"; aws=aws)
-GetAccount(accountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("GET", "/accounts/$(accountId)", args; aws=aws)
+GetAccount(accountId; aws::AWSConfig=AWS.aws_config) = chime("GET", "/accounts/$(accountId)"; aws=aws)
+GetAccount(accountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("GET", "/accounts/$(accountId)", args; aws=aws)
 
 """
     GetAccountSettings()
@@ -611,8 +611,8 @@ Retrieves account settings for the specified Amazon Chime account ID, such as re
 - `accountId`: The Amazon Chime account ID.
 
 """
-GetAccountSettings(accountId; aws::AWSConfig=AWSConfig()) = chime("GET", "/accounts/$(accountId)/settings"; aws=aws)
-GetAccountSettings(accountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("GET", "/accounts/$(accountId)/settings", args; aws=aws)
+GetAccountSettings(accountId; aws::AWSConfig=AWS.aws_config) = chime("GET", "/accounts/$(accountId)/settings"; aws=aws)
+GetAccountSettings(accountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("GET", "/accounts/$(accountId)/settings", args; aws=aws)
 
 """
     GetAttendee()
@@ -624,8 +624,8 @@ Gets the Amazon Chime SDK attendee details for a specified meeting ID and attend
 - `meetingId`: The Amazon Chime SDK meeting ID.
 
 """
-GetAttendee(attendeeId, meetingId; aws::AWSConfig=AWSConfig()) = chime("GET", "/meetings/$(meetingId)/attendees/$(attendeeId)"; aws=aws)
-GetAttendee(attendeeId, meetingId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("GET", "/meetings/$(meetingId)/attendees/$(attendeeId)", args; aws=aws)
+GetAttendee(attendeeId, meetingId; aws::AWSConfig=AWS.aws_config) = chime("GET", "/meetings/$(meetingId)/attendees/$(attendeeId)"; aws=aws)
+GetAttendee(attendeeId, meetingId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("GET", "/meetings/$(meetingId)/attendees/$(attendeeId)", args; aws=aws)
 
 """
     GetBot()
@@ -637,8 +637,8 @@ Retrieves details for the specified bot, such as bot email address, bot type, st
 - `botId`: The bot ID.
 
 """
-GetBot(accountId, botId; aws::AWSConfig=AWSConfig()) = chime("GET", "/accounts/$(accountId)/bots/$(botId)"; aws=aws)
-GetBot(accountId, botId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("GET", "/accounts/$(accountId)/bots/$(botId)", args; aws=aws)
+GetBot(accountId, botId; aws::AWSConfig=AWS.aws_config) = chime("GET", "/accounts/$(accountId)/bots/$(botId)"; aws=aws)
+GetBot(accountId, botId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("GET", "/accounts/$(accountId)/bots/$(botId)", args; aws=aws)
 
 """
     GetEventsConfiguration()
@@ -650,8 +650,8 @@ Gets details for an events configuration that allows a bot to receive outgoing e
 - `botId`: The bot ID.
 
 """
-GetEventsConfiguration(accountId, botId; aws::AWSConfig=AWSConfig()) = chime("GET", "/accounts/$(accountId)/bots/$(botId)/events-configuration"; aws=aws)
-GetEventsConfiguration(accountId, botId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("GET", "/accounts/$(accountId)/bots/$(botId)/events-configuration", args; aws=aws)
+GetEventsConfiguration(accountId, botId; aws::AWSConfig=AWS.aws_config) = chime("GET", "/accounts/$(accountId)/bots/$(botId)/events-configuration"; aws=aws)
+GetEventsConfiguration(accountId, botId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("GET", "/accounts/$(accountId)/bots/$(botId)/events-configuration", args; aws=aws)
 
 """
     GetGlobalSettings()
@@ -659,8 +659,8 @@ GetEventsConfiguration(accountId, botId, args::AbstractDict{String, <:Any}; aws:
 Retrieves global settings for the administrator's AWS account, such as Amazon Chime Business Calling and Amazon Chime Voice Connector settings.
 
 """
-GetGlobalSettings(; aws::AWSConfig=AWSConfig()) = chime("GET", "/settings"; aws=aws)
-GetGlobalSettings(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = chime("GET", "/settings", args; aws=aws)
+GetGlobalSettings(; aws::AWSConfig=AWS.aws_config) = chime("GET", "/settings"; aws=aws)
+GetGlobalSettings(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = chime("GET", "/settings", args; aws=aws)
 
 """
     GetMeeting()
@@ -671,8 +671,8 @@ Gets the Amazon Chime SDK meeting details for the specified meeting ID. For more
 - `meetingId`: The Amazon Chime SDK meeting ID.
 
 """
-GetMeeting(meetingId; aws::AWSConfig=AWSConfig()) = chime("GET", "/meetings/$(meetingId)"; aws=aws)
-GetMeeting(meetingId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("GET", "/meetings/$(meetingId)", args; aws=aws)
+GetMeeting(meetingId; aws::AWSConfig=AWS.aws_config) = chime("GET", "/meetings/$(meetingId)"; aws=aws)
+GetMeeting(meetingId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("GET", "/meetings/$(meetingId)", args; aws=aws)
 
 """
     GetPhoneNumber()
@@ -683,8 +683,8 @@ Retrieves details for the specified phone number ID, such as associations, capab
 - `phoneNumberId`: The phone number ID.
 
 """
-GetPhoneNumber(phoneNumberId; aws::AWSConfig=AWSConfig()) = chime("GET", "/phone-numbers/$(phoneNumberId)"; aws=aws)
-GetPhoneNumber(phoneNumberId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("GET", "/phone-numbers/$(phoneNumberId)", args; aws=aws)
+GetPhoneNumber(phoneNumberId; aws::AWSConfig=AWS.aws_config) = chime("GET", "/phone-numbers/$(phoneNumberId)"; aws=aws)
+GetPhoneNumber(phoneNumberId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("GET", "/phone-numbers/$(phoneNumberId)", args; aws=aws)
 
 """
     GetPhoneNumberOrder()
@@ -695,8 +695,8 @@ Retrieves details for the specified phone number order, such as order creation t
 - `phoneNumberOrderId`: The ID for the phone number order.
 
 """
-GetPhoneNumberOrder(phoneNumberOrderId; aws::AWSConfig=AWSConfig()) = chime("GET", "/phone-number-orders/$(phoneNumberOrderId)"; aws=aws)
-GetPhoneNumberOrder(phoneNumberOrderId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("GET", "/phone-number-orders/$(phoneNumberOrderId)", args; aws=aws)
+GetPhoneNumberOrder(phoneNumberOrderId; aws::AWSConfig=AWS.aws_config) = chime("GET", "/phone-number-orders/$(phoneNumberOrderId)"; aws=aws)
+GetPhoneNumberOrder(phoneNumberOrderId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("GET", "/phone-number-orders/$(phoneNumberOrderId)", args; aws=aws)
 
 """
     GetPhoneNumberSettings()
@@ -704,8 +704,8 @@ GetPhoneNumberOrder(phoneNumberOrderId, args::AbstractDict{String, <:Any}; aws::
 Retrieves the phone number settings for the administrator's AWS account, such as the default outbound calling name.
 
 """
-GetPhoneNumberSettings(; aws::AWSConfig=AWSConfig()) = chime("GET", "/settings/phone-number"; aws=aws)
-GetPhoneNumberSettings(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = chime("GET", "/settings/phone-number", args; aws=aws)
+GetPhoneNumberSettings(; aws::AWSConfig=AWS.aws_config) = chime("GET", "/settings/phone-number"; aws=aws)
+GetPhoneNumberSettings(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = chime("GET", "/settings/phone-number", args; aws=aws)
 
 """
     GetProxySession()
@@ -717,8 +717,8 @@ Gets the specified proxy session details for the specified Amazon Chime Voice Co
 - `voiceConnectorId`: The Amazon Chime voice connector ID.
 
 """
-GetProxySession(proxySessionId, voiceConnectorId; aws::AWSConfig=AWSConfig()) = chime("GET", "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)"; aws=aws)
-GetProxySession(proxySessionId, voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("GET", "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)", args; aws=aws)
+GetProxySession(proxySessionId, voiceConnectorId; aws::AWSConfig=AWS.aws_config) = chime("GET", "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)"; aws=aws)
+GetProxySession(proxySessionId, voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("GET", "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)", args; aws=aws)
 
 """
     GetRetentionSettings()
@@ -729,8 +729,8 @@ Gets the retention settings for the specified Amazon Chime Enterprise account. F
 - `accountId`: The Amazon Chime account ID.
 
 """
-GetRetentionSettings(accountId; aws::AWSConfig=AWSConfig()) = chime("GET", "/accounts/$(accountId)/retention-settings"; aws=aws)
-GetRetentionSettings(accountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("GET", "/accounts/$(accountId)/retention-settings", args; aws=aws)
+GetRetentionSettings(accountId; aws::AWSConfig=AWS.aws_config) = chime("GET", "/accounts/$(accountId)/retention-settings"; aws=aws)
+GetRetentionSettings(accountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("GET", "/accounts/$(accountId)/retention-settings", args; aws=aws)
 
 """
     GetRoom()
@@ -742,8 +742,8 @@ Retrieves room details, such as the room name, for a room in an Amazon Chime Ent
 - `roomId`: The room ID.
 
 """
-GetRoom(accountId, roomId; aws::AWSConfig=AWSConfig()) = chime("GET", "/accounts/$(accountId)/rooms/$(roomId)"; aws=aws)
-GetRoom(accountId, roomId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("GET", "/accounts/$(accountId)/rooms/$(roomId)", args; aws=aws)
+GetRoom(accountId, roomId; aws::AWSConfig=AWS.aws_config) = chime("GET", "/accounts/$(accountId)/rooms/$(roomId)"; aws=aws)
+GetRoom(accountId, roomId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("GET", "/accounts/$(accountId)/rooms/$(roomId)", args; aws=aws)
 
 """
     GetUser()
@@ -755,8 +755,8 @@ Retrieves details for the specified user ID, such as primary email address, lice
 - `userId`: The user ID.
 
 """
-GetUser(accountId, userId; aws::AWSConfig=AWSConfig()) = chime("GET", "/accounts/$(accountId)/users/$(userId)"; aws=aws)
-GetUser(accountId, userId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("GET", "/accounts/$(accountId)/users/$(userId)", args; aws=aws)
+GetUser(accountId, userId; aws::AWSConfig=AWS.aws_config) = chime("GET", "/accounts/$(accountId)/users/$(userId)"; aws=aws)
+GetUser(accountId, userId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("GET", "/accounts/$(accountId)/users/$(userId)", args; aws=aws)
 
 """
     GetUserSettings()
@@ -768,8 +768,8 @@ Retrieves settings for the specified user ID, such as any associated phone numbe
 - `userId`: The user ID.
 
 """
-GetUserSettings(accountId, userId; aws::AWSConfig=AWSConfig()) = chime("GET", "/accounts/$(accountId)/users/$(userId)/settings"; aws=aws)
-GetUserSettings(accountId, userId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("GET", "/accounts/$(accountId)/users/$(userId)/settings", args; aws=aws)
+GetUserSettings(accountId, userId; aws::AWSConfig=AWS.aws_config) = chime("GET", "/accounts/$(accountId)/users/$(userId)/settings"; aws=aws)
+GetUserSettings(accountId, userId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("GET", "/accounts/$(accountId)/users/$(userId)/settings", args; aws=aws)
 
 """
     GetVoiceConnector()
@@ -780,8 +780,8 @@ Retrieves details for the specified Amazon Chime Voice Connector, such as timest
 - `voiceConnectorId`: The Amazon Chime Voice Connector ID.
 
 """
-GetVoiceConnector(voiceConnectorId; aws::AWSConfig=AWSConfig()) = chime("GET", "/voice-connectors/$(voiceConnectorId)"; aws=aws)
-GetVoiceConnector(voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("GET", "/voice-connectors/$(voiceConnectorId)", args; aws=aws)
+GetVoiceConnector(voiceConnectorId; aws::AWSConfig=AWS.aws_config) = chime("GET", "/voice-connectors/$(voiceConnectorId)"; aws=aws)
+GetVoiceConnector(voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("GET", "/voice-connectors/$(voiceConnectorId)", args; aws=aws)
 
 """
     GetVoiceConnectorEmergencyCallingConfiguration()
@@ -792,8 +792,8 @@ Gets the emergency calling configuration details for the specified Amazon Chime 
 - `voiceConnectorId`: The Amazon Chime Voice Connector ID.
 
 """
-GetVoiceConnectorEmergencyCallingConfiguration(voiceConnectorId; aws::AWSConfig=AWSConfig()) = chime("GET", "/voice-connectors/$(voiceConnectorId)/emergency-calling-configuration"; aws=aws)
-GetVoiceConnectorEmergencyCallingConfiguration(voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("GET", "/voice-connectors/$(voiceConnectorId)/emergency-calling-configuration", args; aws=aws)
+GetVoiceConnectorEmergencyCallingConfiguration(voiceConnectorId; aws::AWSConfig=AWS.aws_config) = chime("GET", "/voice-connectors/$(voiceConnectorId)/emergency-calling-configuration"; aws=aws)
+GetVoiceConnectorEmergencyCallingConfiguration(voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("GET", "/voice-connectors/$(voiceConnectorId)/emergency-calling-configuration", args; aws=aws)
 
 """
     GetVoiceConnectorGroup()
@@ -804,8 +804,8 @@ Retrieves details for the specified Amazon Chime Voice Connector group, such as 
 - `voiceConnectorGroupId`: The Amazon Chime Voice Connector group ID.
 
 """
-GetVoiceConnectorGroup(voiceConnectorGroupId; aws::AWSConfig=AWSConfig()) = chime("GET", "/voice-connector-groups/$(voiceConnectorGroupId)"; aws=aws)
-GetVoiceConnectorGroup(voiceConnectorGroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("GET", "/voice-connector-groups/$(voiceConnectorGroupId)", args; aws=aws)
+GetVoiceConnectorGroup(voiceConnectorGroupId; aws::AWSConfig=AWS.aws_config) = chime("GET", "/voice-connector-groups/$(voiceConnectorGroupId)"; aws=aws)
+GetVoiceConnectorGroup(voiceConnectorGroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("GET", "/voice-connector-groups/$(voiceConnectorGroupId)", args; aws=aws)
 
 """
     GetVoiceConnectorLoggingConfiguration()
@@ -816,8 +816,8 @@ Retrieves the logging configuration details for the specified Amazon Chime Voice
 - `voiceConnectorId`: The Amazon Chime Voice Connector ID.
 
 """
-GetVoiceConnectorLoggingConfiguration(voiceConnectorId; aws::AWSConfig=AWSConfig()) = chime("GET", "/voice-connectors/$(voiceConnectorId)/logging-configuration"; aws=aws)
-GetVoiceConnectorLoggingConfiguration(voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("GET", "/voice-connectors/$(voiceConnectorId)/logging-configuration", args; aws=aws)
+GetVoiceConnectorLoggingConfiguration(voiceConnectorId; aws::AWSConfig=AWS.aws_config) = chime("GET", "/voice-connectors/$(voiceConnectorId)/logging-configuration"; aws=aws)
+GetVoiceConnectorLoggingConfiguration(voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("GET", "/voice-connectors/$(voiceConnectorId)/logging-configuration", args; aws=aws)
 
 """
     GetVoiceConnectorOrigination()
@@ -828,8 +828,8 @@ Retrieves origination setting details for the specified Amazon Chime Voice Conne
 - `voiceConnectorId`: The Amazon Chime Voice Connector ID.
 
 """
-GetVoiceConnectorOrigination(voiceConnectorId; aws::AWSConfig=AWSConfig()) = chime("GET", "/voice-connectors/$(voiceConnectorId)/origination"; aws=aws)
-GetVoiceConnectorOrigination(voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("GET", "/voice-connectors/$(voiceConnectorId)/origination", args; aws=aws)
+GetVoiceConnectorOrigination(voiceConnectorId; aws::AWSConfig=AWS.aws_config) = chime("GET", "/voice-connectors/$(voiceConnectorId)/origination"; aws=aws)
+GetVoiceConnectorOrigination(voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("GET", "/voice-connectors/$(voiceConnectorId)/origination", args; aws=aws)
 
 """
     GetVoiceConnectorProxy()
@@ -840,8 +840,8 @@ Gets the proxy configuration details for the specified Amazon Chime Voice Connec
 - `voiceConnectorId`: The Amazon Chime voice connector ID.
 
 """
-GetVoiceConnectorProxy(voiceConnectorId; aws::AWSConfig=AWSConfig()) = chime("GET", "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy"; aws=aws)
-GetVoiceConnectorProxy(voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("GET", "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy", args; aws=aws)
+GetVoiceConnectorProxy(voiceConnectorId; aws::AWSConfig=AWS.aws_config) = chime("GET", "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy"; aws=aws)
+GetVoiceConnectorProxy(voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("GET", "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy", args; aws=aws)
 
 """
     GetVoiceConnectorStreamingConfiguration()
@@ -852,8 +852,8 @@ Retrieves the streaming configuration details for the specified Amazon Chime Voi
 - `voiceConnectorId`: The Amazon Chime Voice Connector ID.
 
 """
-GetVoiceConnectorStreamingConfiguration(voiceConnectorId; aws::AWSConfig=AWSConfig()) = chime("GET", "/voice-connectors/$(voiceConnectorId)/streaming-configuration"; aws=aws)
-GetVoiceConnectorStreamingConfiguration(voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("GET", "/voice-connectors/$(voiceConnectorId)/streaming-configuration", args; aws=aws)
+GetVoiceConnectorStreamingConfiguration(voiceConnectorId; aws::AWSConfig=AWS.aws_config) = chime("GET", "/voice-connectors/$(voiceConnectorId)/streaming-configuration"; aws=aws)
+GetVoiceConnectorStreamingConfiguration(voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("GET", "/voice-connectors/$(voiceConnectorId)/streaming-configuration", args; aws=aws)
 
 """
     GetVoiceConnectorTermination()
@@ -864,8 +864,8 @@ Retrieves termination setting details for the specified Amazon Chime Voice Conne
 - `voiceConnectorId`: The Amazon Chime Voice Connector ID.
 
 """
-GetVoiceConnectorTermination(voiceConnectorId; aws::AWSConfig=AWSConfig()) = chime("GET", "/voice-connectors/$(voiceConnectorId)/termination"; aws=aws)
-GetVoiceConnectorTermination(voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("GET", "/voice-connectors/$(voiceConnectorId)/termination", args; aws=aws)
+GetVoiceConnectorTermination(voiceConnectorId; aws::AWSConfig=AWS.aws_config) = chime("GET", "/voice-connectors/$(voiceConnectorId)/termination"; aws=aws)
+GetVoiceConnectorTermination(voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("GET", "/voice-connectors/$(voiceConnectorId)/termination", args; aws=aws)
 
 """
     GetVoiceConnectorTerminationHealth()
@@ -876,8 +876,8 @@ Retrieves information about the last time a SIP OPTIONS ping was received from y
 - `voiceConnectorId`: The Amazon Chime Voice Connector ID.
 
 """
-GetVoiceConnectorTerminationHealth(voiceConnectorId; aws::AWSConfig=AWSConfig()) = chime("GET", "/voice-connectors/$(voiceConnectorId)/termination/health"; aws=aws)
-GetVoiceConnectorTerminationHealth(voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("GET", "/voice-connectors/$(voiceConnectorId)/termination/health", args; aws=aws)
+GetVoiceConnectorTerminationHealth(voiceConnectorId; aws::AWSConfig=AWS.aws_config) = chime("GET", "/voice-connectors/$(voiceConnectorId)/termination/health"; aws=aws)
+GetVoiceConnectorTerminationHealth(voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("GET", "/voice-connectors/$(voiceConnectorId)/termination/health", args; aws=aws)
 
 """
     InviteUsers()
@@ -891,8 +891,8 @@ Sends email to a maximum of 50 users, inviting them to the specified Amazon Chim
 # Optional Parameters
 - `UserType`: The user type.
 """
-InviteUsers(UserEmailList, accountId; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)/users?operation=add", Dict{String, Any}("UserEmailList"=>UserEmailList))
-InviteUsers(UserEmailList, accountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)/users?operation=add", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserEmailList"=>UserEmailList), args)); aws=aws)
+InviteUsers(UserEmailList, accountId; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)/users?operation=add", Dict{String, Any}("UserEmailList"=>UserEmailList); aws=aws)
+InviteUsers(UserEmailList, accountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)/users?operation=add", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserEmailList"=>UserEmailList), args)); aws=aws)
 
 """
     ListAccounts()
@@ -905,8 +905,8 @@ Lists the Amazon Chime accounts under the administrator's AWS account. You can f
 - `next-token`: The token to use to retrieve the next page of results.
 - `user-email`: User email address with which to filter results.
 """
-ListAccounts(; aws::AWSConfig=AWSConfig()) = chime("GET", "/accounts"; aws=aws)
-ListAccounts(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = chime("GET", "/accounts", args; aws=aws)
+ListAccounts(; aws::AWSConfig=AWS.aws_config) = chime("GET", "/accounts"; aws=aws)
+ListAccounts(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = chime("GET", "/accounts", args; aws=aws)
 
 """
     ListAttendeeTags()
@@ -918,8 +918,8 @@ Lists the tags applied to an Amazon Chime SDK attendee resource.
 - `meetingId`: The Amazon Chime SDK meeting ID.
 
 """
-ListAttendeeTags(attendeeId, meetingId; aws::AWSConfig=AWSConfig()) = chime("GET", "/meetings/$(meetingId)/attendees/$(attendeeId)/tags"; aws=aws)
-ListAttendeeTags(attendeeId, meetingId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("GET", "/meetings/$(meetingId)/attendees/$(attendeeId)/tags", args; aws=aws)
+ListAttendeeTags(attendeeId, meetingId; aws::AWSConfig=AWS.aws_config) = chime("GET", "/meetings/$(meetingId)/attendees/$(attendeeId)/tags"; aws=aws)
+ListAttendeeTags(attendeeId, meetingId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("GET", "/meetings/$(meetingId)/attendees/$(attendeeId)/tags", args; aws=aws)
 
 """
     ListAttendees()
@@ -933,8 +933,8 @@ Lists the attendees for the specified Amazon Chime SDK meeting. For more informa
 - `max-results`: The maximum number of results to return in a single call.
 - `next-token`: The token to use to retrieve the next page of results.
 """
-ListAttendees(meetingId; aws::AWSConfig=AWSConfig()) = chime("GET", "/meetings/$(meetingId)/attendees"; aws=aws)
-ListAttendees(meetingId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("GET", "/meetings/$(meetingId)/attendees", args; aws=aws)
+ListAttendees(meetingId; aws::AWSConfig=AWS.aws_config) = chime("GET", "/meetings/$(meetingId)/attendees"; aws=aws)
+ListAttendees(meetingId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("GET", "/meetings/$(meetingId)/attendees", args; aws=aws)
 
 """
     ListBots()
@@ -948,8 +948,8 @@ Lists the bots associated with the administrator's Amazon Chime Enterprise accou
 - `max-results`: The maximum number of results to return in a single call. The default is 10.
 - `next-token`: The token to use to retrieve the next page of results.
 """
-ListBots(accountId; aws::AWSConfig=AWSConfig()) = chime("GET", "/accounts/$(accountId)/bots"; aws=aws)
-ListBots(accountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("GET", "/accounts/$(accountId)/bots", args; aws=aws)
+ListBots(accountId; aws::AWSConfig=AWS.aws_config) = chime("GET", "/accounts/$(accountId)/bots"; aws=aws)
+ListBots(accountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("GET", "/accounts/$(accountId)/bots", args; aws=aws)
 
 """
     ListMeetingTags()
@@ -960,8 +960,8 @@ Lists the tags applied to an Amazon Chime SDK meeting resource.
 - `meetingId`: The Amazon Chime SDK meeting ID.
 
 """
-ListMeetingTags(meetingId; aws::AWSConfig=AWSConfig()) = chime("GET", "/meetings/$(meetingId)/tags"; aws=aws)
-ListMeetingTags(meetingId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("GET", "/meetings/$(meetingId)/tags", args; aws=aws)
+ListMeetingTags(meetingId; aws::AWSConfig=AWS.aws_config) = chime("GET", "/meetings/$(meetingId)/tags"; aws=aws)
+ListMeetingTags(meetingId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("GET", "/meetings/$(meetingId)/tags", args; aws=aws)
 
 """
     ListMeetings()
@@ -972,8 +972,8 @@ Lists up to 100 active Amazon Chime SDK meetings. For more information about the
 - `max-results`: The maximum number of results to return in a single call.
 - `next-token`: The token to use to retrieve the next page of results.
 """
-ListMeetings(; aws::AWSConfig=AWSConfig()) = chime("GET", "/meetings"; aws=aws)
-ListMeetings(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = chime("GET", "/meetings", args; aws=aws)
+ListMeetings(; aws::AWSConfig=AWS.aws_config) = chime("GET", "/meetings"; aws=aws)
+ListMeetings(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = chime("GET", "/meetings", args; aws=aws)
 
 """
     ListPhoneNumberOrders()
@@ -984,8 +984,8 @@ Lists the phone number orders for the administrator's Amazon Chime account.
 - `max-results`: The maximum number of results to return in a single call.
 - `next-token`: The token to use to retrieve the next page of results.
 """
-ListPhoneNumberOrders(; aws::AWSConfig=AWSConfig()) = chime("GET", "/phone-number-orders"; aws=aws)
-ListPhoneNumberOrders(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = chime("GET", "/phone-number-orders", args; aws=aws)
+ListPhoneNumberOrders(; aws::AWSConfig=AWS.aws_config) = chime("GET", "/phone-number-orders"; aws=aws)
+ListPhoneNumberOrders(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = chime("GET", "/phone-number-orders", args; aws=aws)
 
 """
     ListPhoneNumbers()
@@ -1000,8 +1000,8 @@ Lists the phone numbers for the specified Amazon Chime account, Amazon Chime use
 - `product-type`: The phone number product type.
 - `status`: The phone number status.
 """
-ListPhoneNumbers(; aws::AWSConfig=AWSConfig()) = chime("GET", "/phone-numbers"; aws=aws)
-ListPhoneNumbers(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = chime("GET", "/phone-numbers", args; aws=aws)
+ListPhoneNumbers(; aws::AWSConfig=AWS.aws_config) = chime("GET", "/phone-numbers"; aws=aws)
+ListPhoneNumbers(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = chime("GET", "/phone-numbers", args; aws=aws)
 
 """
     ListProxySessions()
@@ -1016,8 +1016,8 @@ Lists the proxy sessions for the specified Amazon Chime Voice Connector.
 - `next-token`: The token to use to retrieve the next page of results.
 - `status`: The proxy session status.
 """
-ListProxySessions(voiceConnectorId; aws::AWSConfig=AWSConfig()) = chime("GET", "/voice-connectors/$(voiceConnectorId)/proxy-sessions"; aws=aws)
-ListProxySessions(voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("GET", "/voice-connectors/$(voiceConnectorId)/proxy-sessions", args; aws=aws)
+ListProxySessions(voiceConnectorId; aws::AWSConfig=AWS.aws_config) = chime("GET", "/voice-connectors/$(voiceConnectorId)/proxy-sessions"; aws=aws)
+ListProxySessions(voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("GET", "/voice-connectors/$(voiceConnectorId)/proxy-sessions", args; aws=aws)
 
 """
     ListRoomMemberships()
@@ -1032,8 +1032,8 @@ Lists the membership details for the specified room in an Amazon Chime Enterpris
 - `max-results`: The maximum number of results to return in a single call.
 - `next-token`: The token to use to retrieve the next page of results.
 """
-ListRoomMemberships(accountId, roomId; aws::AWSConfig=AWSConfig()) = chime("GET", "/accounts/$(accountId)/rooms/$(roomId)/memberships"; aws=aws)
-ListRoomMemberships(accountId, roomId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("GET", "/accounts/$(accountId)/rooms/$(roomId)/memberships", args; aws=aws)
+ListRoomMemberships(accountId, roomId; aws::AWSConfig=AWS.aws_config) = chime("GET", "/accounts/$(accountId)/rooms/$(roomId)/memberships"; aws=aws)
+ListRoomMemberships(accountId, roomId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("GET", "/accounts/$(accountId)/rooms/$(roomId)/memberships", args; aws=aws)
 
 """
     ListRooms()
@@ -1048,8 +1048,8 @@ Lists the room details for the specified Amazon Chime Enterprise account. Option
 - `member-id`: The member ID (user ID or bot ID).
 - `next-token`: The token to use to retrieve the next page of results.
 """
-ListRooms(accountId; aws::AWSConfig=AWSConfig()) = chime("GET", "/accounts/$(accountId)/rooms"; aws=aws)
-ListRooms(accountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("GET", "/accounts/$(accountId)/rooms", args; aws=aws)
+ListRooms(accountId; aws::AWSConfig=AWS.aws_config) = chime("GET", "/accounts/$(accountId)/rooms"; aws=aws)
+ListRooms(accountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("GET", "/accounts/$(accountId)/rooms", args; aws=aws)
 
 """
     ListTagsForResource()
@@ -1060,8 +1060,8 @@ Lists the tags applied to an Amazon Chime SDK meeting resource.
 - `arn`: The resource ARN.
 
 """
-ListTagsForResource(arn; aws::AWSConfig=AWSConfig()) = chime("GET", "/tags", Dict{String, Any}("arn"=>arn))
-ListTagsForResource(arn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("GET", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws=aws)
+ListTagsForResource(arn; aws::AWSConfig=AWS.aws_config) = chime("GET", "/tags", Dict{String, Any}("arn"=>arn); aws=aws)
+ListTagsForResource(arn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("GET", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("arn"=>arn), args)); aws=aws)
 
 """
     ListUsers()
@@ -1077,8 +1077,8 @@ Lists the users that belong to the specified Amazon Chime account. You can speci
 - `user-email`: Optional. The user email address used to filter results. Maximum 1.
 - `user-type`: The user type.
 """
-ListUsers(accountId; aws::AWSConfig=AWSConfig()) = chime("GET", "/accounts/$(accountId)/users"; aws=aws)
-ListUsers(accountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("GET", "/accounts/$(accountId)/users", args; aws=aws)
+ListUsers(accountId; aws::AWSConfig=AWS.aws_config) = chime("GET", "/accounts/$(accountId)/users"; aws=aws)
+ListUsers(accountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("GET", "/accounts/$(accountId)/users", args; aws=aws)
 
 """
     ListVoiceConnectorGroups()
@@ -1089,8 +1089,8 @@ Lists the Amazon Chime Voice Connector groups for the administrator's AWS accoun
 - `max-results`: The maximum number of results to return in a single call.
 - `next-token`: The token to use to retrieve the next page of results.
 """
-ListVoiceConnectorGroups(; aws::AWSConfig=AWSConfig()) = chime("GET", "/voice-connector-groups"; aws=aws)
-ListVoiceConnectorGroups(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = chime("GET", "/voice-connector-groups", args; aws=aws)
+ListVoiceConnectorGroups(; aws::AWSConfig=AWS.aws_config) = chime("GET", "/voice-connector-groups"; aws=aws)
+ListVoiceConnectorGroups(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = chime("GET", "/voice-connector-groups", args; aws=aws)
 
 """
     ListVoiceConnectorTerminationCredentials()
@@ -1101,8 +1101,8 @@ Lists the SIP credentials for the specified Amazon Chime Voice Connector.
 - `voiceConnectorId`: The Amazon Chime Voice Connector ID.
 
 """
-ListVoiceConnectorTerminationCredentials(voiceConnectorId; aws::AWSConfig=AWSConfig()) = chime("GET", "/voice-connectors/$(voiceConnectorId)/termination/credentials"; aws=aws)
-ListVoiceConnectorTerminationCredentials(voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("GET", "/voice-connectors/$(voiceConnectorId)/termination/credentials", args; aws=aws)
+ListVoiceConnectorTerminationCredentials(voiceConnectorId; aws::AWSConfig=AWS.aws_config) = chime("GET", "/voice-connectors/$(voiceConnectorId)/termination/credentials"; aws=aws)
+ListVoiceConnectorTerminationCredentials(voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("GET", "/voice-connectors/$(voiceConnectorId)/termination/credentials", args; aws=aws)
 
 """
     ListVoiceConnectors()
@@ -1113,8 +1113,8 @@ Lists the Amazon Chime Voice Connectors for the administrator's AWS account.
 - `max-results`: The maximum number of results to return in a single call.
 - `next-token`: The token to use to retrieve the next page of results.
 """
-ListVoiceConnectors(; aws::AWSConfig=AWSConfig()) = chime("GET", "/voice-connectors"; aws=aws)
-ListVoiceConnectors(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = chime("GET", "/voice-connectors", args; aws=aws)
+ListVoiceConnectors(; aws::AWSConfig=AWS.aws_config) = chime("GET", "/voice-connectors"; aws=aws)
+ListVoiceConnectors(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = chime("GET", "/voice-connectors", args; aws=aws)
 
 """
     LogoutUser()
@@ -1126,8 +1126,8 @@ Logs out the specified user from all of the devices they are currently logged in
 - `userId`: The user ID.
 
 """
-LogoutUser(accountId, userId; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)/users/$(userId)?operation=logout"; aws=aws)
-LogoutUser(accountId, userId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)/users/$(userId)?operation=logout", args; aws=aws)
+LogoutUser(accountId, userId; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)/users/$(userId)?operation=logout"; aws=aws)
+LogoutUser(accountId, userId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)/users/$(userId)?operation=logout", args; aws=aws)
 
 """
     PutEventsConfiguration()
@@ -1142,8 +1142,8 @@ Creates an events configuration that allows a bot to receive outgoing events sen
 - `LambdaFunctionArn`: Lambda function ARN that allows the bot to receive outgoing events.
 - `OutboundEventsHTTPSEndpoint`: HTTPS endpoint that allows the bot to receive outgoing events.
 """
-PutEventsConfiguration(accountId, botId; aws::AWSConfig=AWSConfig()) = chime("PUT", "/accounts/$(accountId)/bots/$(botId)/events-configuration"; aws=aws)
-PutEventsConfiguration(accountId, botId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("PUT", "/accounts/$(accountId)/bots/$(botId)/events-configuration", args; aws=aws)
+PutEventsConfiguration(accountId, botId; aws::AWSConfig=AWS.aws_config) = chime("PUT", "/accounts/$(accountId)/bots/$(botId)/events-configuration"; aws=aws)
+PutEventsConfiguration(accountId, botId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("PUT", "/accounts/$(accountId)/bots/$(botId)/events-configuration", args; aws=aws)
 
 """
     PutRetentionSettings()
@@ -1155,8 +1155,8 @@ Puts retention settings for the specified Amazon Chime Enterprise account. We re
 - `accountId`: The Amazon Chime account ID.
 
 """
-PutRetentionSettings(RetentionSettings, accountId; aws::AWSConfig=AWSConfig()) = chime("PUT", "/accounts/$(accountId)/retention-settings", Dict{String, Any}("RetentionSettings"=>RetentionSettings))
-PutRetentionSettings(RetentionSettings, accountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("PUT", "/accounts/$(accountId)/retention-settings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RetentionSettings"=>RetentionSettings), args)); aws=aws)
+PutRetentionSettings(RetentionSettings, accountId; aws::AWSConfig=AWS.aws_config) = chime("PUT", "/accounts/$(accountId)/retention-settings", Dict{String, Any}("RetentionSettings"=>RetentionSettings); aws=aws)
+PutRetentionSettings(RetentionSettings, accountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("PUT", "/accounts/$(accountId)/retention-settings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RetentionSettings"=>RetentionSettings), args)); aws=aws)
 
 """
     PutVoiceConnectorEmergencyCallingConfiguration()
@@ -1168,8 +1168,8 @@ Puts emergency calling configuration details to the specified Amazon Chime Voice
 - `voiceConnectorId`: The Amazon Chime Voice Connector ID.
 
 """
-PutVoiceConnectorEmergencyCallingConfiguration(EmergencyCallingConfiguration, voiceConnectorId; aws::AWSConfig=AWSConfig()) = chime("PUT", "/voice-connectors/$(voiceConnectorId)/emergency-calling-configuration", Dict{String, Any}("EmergencyCallingConfiguration"=>EmergencyCallingConfiguration))
-PutVoiceConnectorEmergencyCallingConfiguration(EmergencyCallingConfiguration, voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("PUT", "/voice-connectors/$(voiceConnectorId)/emergency-calling-configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmergencyCallingConfiguration"=>EmergencyCallingConfiguration), args)); aws=aws)
+PutVoiceConnectorEmergencyCallingConfiguration(EmergencyCallingConfiguration, voiceConnectorId; aws::AWSConfig=AWS.aws_config) = chime("PUT", "/voice-connectors/$(voiceConnectorId)/emergency-calling-configuration", Dict{String, Any}("EmergencyCallingConfiguration"=>EmergencyCallingConfiguration); aws=aws)
+PutVoiceConnectorEmergencyCallingConfiguration(EmergencyCallingConfiguration, voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("PUT", "/voice-connectors/$(voiceConnectorId)/emergency-calling-configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmergencyCallingConfiguration"=>EmergencyCallingConfiguration), args)); aws=aws)
 
 """
     PutVoiceConnectorLoggingConfiguration()
@@ -1181,8 +1181,8 @@ Adds a logging configuration for the specified Amazon Chime Voice Connector. The
 - `voiceConnectorId`: The Amazon Chime Voice Connector ID.
 
 """
-PutVoiceConnectorLoggingConfiguration(LoggingConfiguration, voiceConnectorId; aws::AWSConfig=AWSConfig()) = chime("PUT", "/voice-connectors/$(voiceConnectorId)/logging-configuration", Dict{String, Any}("LoggingConfiguration"=>LoggingConfiguration))
-PutVoiceConnectorLoggingConfiguration(LoggingConfiguration, voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("PUT", "/voice-connectors/$(voiceConnectorId)/logging-configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoggingConfiguration"=>LoggingConfiguration), args)); aws=aws)
+PutVoiceConnectorLoggingConfiguration(LoggingConfiguration, voiceConnectorId; aws::AWSConfig=AWS.aws_config) = chime("PUT", "/voice-connectors/$(voiceConnectorId)/logging-configuration", Dict{String, Any}("LoggingConfiguration"=>LoggingConfiguration); aws=aws)
+PutVoiceConnectorLoggingConfiguration(LoggingConfiguration, voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("PUT", "/voice-connectors/$(voiceConnectorId)/logging-configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoggingConfiguration"=>LoggingConfiguration), args)); aws=aws)
 
 """
     PutVoiceConnectorOrigination()
@@ -1194,8 +1194,8 @@ Adds origination settings for the specified Amazon Chime Voice Connector.  If em
 - `voiceConnectorId`: The Amazon Chime Voice Connector ID.
 
 """
-PutVoiceConnectorOrigination(Origination, voiceConnectorId; aws::AWSConfig=AWSConfig()) = chime("PUT", "/voice-connectors/$(voiceConnectorId)/origination", Dict{String, Any}("Origination"=>Origination))
-PutVoiceConnectorOrigination(Origination, voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("PUT", "/voice-connectors/$(voiceConnectorId)/origination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Origination"=>Origination), args)); aws=aws)
+PutVoiceConnectorOrigination(Origination, voiceConnectorId; aws::AWSConfig=AWS.aws_config) = chime("PUT", "/voice-connectors/$(voiceConnectorId)/origination", Dict{String, Any}("Origination"=>Origination); aws=aws)
+PutVoiceConnectorOrigination(Origination, voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("PUT", "/voice-connectors/$(voiceConnectorId)/origination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Origination"=>Origination), args)); aws=aws)
 
 """
     PutVoiceConnectorProxy()
@@ -1211,8 +1211,8 @@ Puts the specified proxy configuration to the specified Amazon Chime Voice Conne
 - `Disabled`: When true, stops proxy sessions from being created on the specified Amazon Chime Voice Connector.
 - `FallBackPhoneNumber`: The phone number to route calls to after a proxy session expires.
 """
-PutVoiceConnectorProxy(DefaultSessionExpiryMinutes, PhoneNumberPoolCountries, voiceConnectorId; aws::AWSConfig=AWSConfig()) = chime("PUT", "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy", Dict{String, Any}("DefaultSessionExpiryMinutes"=>DefaultSessionExpiryMinutes, "PhoneNumberPoolCountries"=>PhoneNumberPoolCountries))
-PutVoiceConnectorProxy(DefaultSessionExpiryMinutes, PhoneNumberPoolCountries, voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("PUT", "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DefaultSessionExpiryMinutes"=>DefaultSessionExpiryMinutes, "PhoneNumberPoolCountries"=>PhoneNumberPoolCountries), args)); aws=aws)
+PutVoiceConnectorProxy(DefaultSessionExpiryMinutes, PhoneNumberPoolCountries, voiceConnectorId; aws::AWSConfig=AWS.aws_config) = chime("PUT", "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy", Dict{String, Any}("DefaultSessionExpiryMinutes"=>DefaultSessionExpiryMinutes, "PhoneNumberPoolCountries"=>PhoneNumberPoolCountries); aws=aws)
+PutVoiceConnectorProxy(DefaultSessionExpiryMinutes, PhoneNumberPoolCountries, voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("PUT", "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DefaultSessionExpiryMinutes"=>DefaultSessionExpiryMinutes, "PhoneNumberPoolCountries"=>PhoneNumberPoolCountries), args)); aws=aws)
 
 """
     PutVoiceConnectorStreamingConfiguration()
@@ -1224,8 +1224,8 @@ Adds a streaming configuration for the specified Amazon Chime Voice Connector. T
 - `voiceConnectorId`: The Amazon Chime Voice Connector ID.
 
 """
-PutVoiceConnectorStreamingConfiguration(StreamingConfiguration, voiceConnectorId; aws::AWSConfig=AWSConfig()) = chime("PUT", "/voice-connectors/$(voiceConnectorId)/streaming-configuration", Dict{String, Any}("StreamingConfiguration"=>StreamingConfiguration))
-PutVoiceConnectorStreamingConfiguration(StreamingConfiguration, voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("PUT", "/voice-connectors/$(voiceConnectorId)/streaming-configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamingConfiguration"=>StreamingConfiguration), args)); aws=aws)
+PutVoiceConnectorStreamingConfiguration(StreamingConfiguration, voiceConnectorId; aws::AWSConfig=AWS.aws_config) = chime("PUT", "/voice-connectors/$(voiceConnectorId)/streaming-configuration", Dict{String, Any}("StreamingConfiguration"=>StreamingConfiguration); aws=aws)
+PutVoiceConnectorStreamingConfiguration(StreamingConfiguration, voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("PUT", "/voice-connectors/$(voiceConnectorId)/streaming-configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamingConfiguration"=>StreamingConfiguration), args)); aws=aws)
 
 """
     PutVoiceConnectorTermination()
@@ -1237,8 +1237,8 @@ Adds termination settings for the specified Amazon Chime Voice Connector.  If em
 - `voiceConnectorId`: The Amazon Chime Voice Connector ID.
 
 """
-PutVoiceConnectorTermination(Termination, voiceConnectorId; aws::AWSConfig=AWSConfig()) = chime("PUT", "/voice-connectors/$(voiceConnectorId)/termination", Dict{String, Any}("Termination"=>Termination))
-PutVoiceConnectorTermination(Termination, voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("PUT", "/voice-connectors/$(voiceConnectorId)/termination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Termination"=>Termination), args)); aws=aws)
+PutVoiceConnectorTermination(Termination, voiceConnectorId; aws::AWSConfig=AWS.aws_config) = chime("PUT", "/voice-connectors/$(voiceConnectorId)/termination", Dict{String, Any}("Termination"=>Termination); aws=aws)
+PutVoiceConnectorTermination(Termination, voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("PUT", "/voice-connectors/$(voiceConnectorId)/termination", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Termination"=>Termination), args)); aws=aws)
 
 """
     PutVoiceConnectorTerminationCredentials()
@@ -1251,8 +1251,8 @@ Adds termination SIP credentials for the specified Amazon Chime Voice Connector.
 # Optional Parameters
 - `Credentials`: The termination SIP credentials.
 """
-PutVoiceConnectorTerminationCredentials(voiceConnectorId; aws::AWSConfig=AWSConfig()) = chime("POST", "/voice-connectors/$(voiceConnectorId)/termination/credentials?operation=put"; aws=aws)
-PutVoiceConnectorTerminationCredentials(voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/voice-connectors/$(voiceConnectorId)/termination/credentials?operation=put", args; aws=aws)
+PutVoiceConnectorTerminationCredentials(voiceConnectorId; aws::AWSConfig=AWS.aws_config) = chime("POST", "/voice-connectors/$(voiceConnectorId)/termination/credentials?operation=put"; aws=aws)
+PutVoiceConnectorTerminationCredentials(voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/voice-connectors/$(voiceConnectorId)/termination/credentials?operation=put", args; aws=aws)
 
 """
     RedactConversationMessage()
@@ -1265,8 +1265,8 @@ Redacts the specified message from the specified Amazon Chime conversation.
 - `messageId`: The message ID.
 
 """
-RedactConversationMessage(accountId, conversationId, messageId; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)/conversations/$(conversationId)/messages/$(messageId)?operation=redact"; aws=aws)
-RedactConversationMessage(accountId, conversationId, messageId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)/conversations/$(conversationId)/messages/$(messageId)?operation=redact", args; aws=aws)
+RedactConversationMessage(accountId, conversationId, messageId; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)/conversations/$(conversationId)/messages/$(messageId)?operation=redact"; aws=aws)
+RedactConversationMessage(accountId, conversationId, messageId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)/conversations/$(conversationId)/messages/$(messageId)?operation=redact", args; aws=aws)
 
 """
     RedactRoomMessage()
@@ -1279,8 +1279,8 @@ Redacts the specified message from the specified Amazon Chime chat room.
 - `roomId`: The room ID.
 
 """
-RedactRoomMessage(accountId, messageId, roomId; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)/rooms/$(roomId)/messages/$(messageId)?operation=redact"; aws=aws)
-RedactRoomMessage(accountId, messageId, roomId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)/rooms/$(roomId)/messages/$(messageId)?operation=redact", args; aws=aws)
+RedactRoomMessage(accountId, messageId, roomId; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)/rooms/$(roomId)/messages/$(messageId)?operation=redact"; aws=aws)
+RedactRoomMessage(accountId, messageId, roomId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)/rooms/$(roomId)/messages/$(messageId)?operation=redact", args; aws=aws)
 
 """
     RegenerateSecurityToken()
@@ -1292,8 +1292,8 @@ Regenerates the security token for a bot.
 - `botId`: The bot ID.
 
 """
-RegenerateSecurityToken(accountId, botId; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)/bots/$(botId)?operation=regenerate-security-token"; aws=aws)
-RegenerateSecurityToken(accountId, botId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)/bots/$(botId)?operation=regenerate-security-token", args; aws=aws)
+RegenerateSecurityToken(accountId, botId; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)/bots/$(botId)?operation=regenerate-security-token"; aws=aws)
+RegenerateSecurityToken(accountId, botId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)/bots/$(botId)?operation=regenerate-security-token", args; aws=aws)
 
 """
     ResetPersonalPIN()
@@ -1305,8 +1305,8 @@ Resets the personal meeting PIN for the specified user on an Amazon Chime accoun
 - `userId`: The user ID.
 
 """
-ResetPersonalPIN(accountId, userId; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)/users/$(userId)?operation=reset-personal-pin"; aws=aws)
-ResetPersonalPIN(accountId, userId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)/users/$(userId)?operation=reset-personal-pin", args; aws=aws)
+ResetPersonalPIN(accountId, userId; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)/users/$(userId)?operation=reset-personal-pin"; aws=aws)
+ResetPersonalPIN(accountId, userId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)/users/$(userId)?operation=reset-personal-pin", args; aws=aws)
 
 """
     RestorePhoneNumber()
@@ -1317,8 +1317,8 @@ Moves a phone number from the Deletion queue back into the phone number Inventor
 - `phoneNumberId`: The phone number.
 
 """
-RestorePhoneNumber(phoneNumberId; aws::AWSConfig=AWSConfig()) = chime("POST", "/phone-numbers/$(phoneNumberId)?operation=restore"; aws=aws)
-RestorePhoneNumber(phoneNumberId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/phone-numbers/$(phoneNumberId)?operation=restore", args; aws=aws)
+RestorePhoneNumber(phoneNumberId; aws::AWSConfig=AWS.aws_config) = chime("POST", "/phone-numbers/$(phoneNumberId)?operation=restore"; aws=aws)
+RestorePhoneNumber(phoneNumberId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/phone-numbers/$(phoneNumberId)?operation=restore", args; aws=aws)
 
 """
     SearchAvailablePhoneNumbers()
@@ -1334,8 +1334,8 @@ Searches phone numbers that can be ordered.
 - `state`: The state used to filter results.
 - `toll-free-prefix`: The toll-free prefix that you use to filter results.
 """
-SearchAvailablePhoneNumbers(; aws::AWSConfig=AWSConfig()) = chime("GET", "/search?type=phone-numbers"; aws=aws)
-SearchAvailablePhoneNumbers(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = chime("GET", "/search?type=phone-numbers", args; aws=aws)
+SearchAvailablePhoneNumbers(; aws::AWSConfig=AWS.aws_config) = chime("GET", "/search?type=phone-numbers"; aws=aws)
+SearchAvailablePhoneNumbers(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = chime("GET", "/search?type=phone-numbers", args; aws=aws)
 
 """
     TagAttendee()
@@ -1348,8 +1348,8 @@ Applies the specified tags to the specified Amazon Chime SDK attendee.
 - `meetingId`: The Amazon Chime SDK meeting ID.
 
 """
-TagAttendee(Tags, attendeeId, meetingId; aws::AWSConfig=AWSConfig()) = chime("POST", "/meetings/$(meetingId)/attendees/$(attendeeId)/tags?operation=add", Dict{String, Any}("Tags"=>Tags))
-TagAttendee(Tags, attendeeId, meetingId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/meetings/$(meetingId)/attendees/$(attendeeId)/tags?operation=add", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws=aws)
+TagAttendee(Tags, attendeeId, meetingId; aws::AWSConfig=AWS.aws_config) = chime("POST", "/meetings/$(meetingId)/attendees/$(attendeeId)/tags?operation=add", Dict{String, Any}("Tags"=>Tags); aws=aws)
+TagAttendee(Tags, attendeeId, meetingId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/meetings/$(meetingId)/attendees/$(attendeeId)/tags?operation=add", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws=aws)
 
 """
     TagMeeting()
@@ -1361,8 +1361,8 @@ Applies the specified tags to the specified Amazon Chime SDK meeting.
 - `meetingId`: The Amazon Chime SDK meeting ID.
 
 """
-TagMeeting(Tags, meetingId; aws::AWSConfig=AWSConfig()) = chime("POST", "/meetings/$(meetingId)/tags?operation=add", Dict{String, Any}("Tags"=>Tags))
-TagMeeting(Tags, meetingId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/meetings/$(meetingId)/tags?operation=add", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws=aws)
+TagMeeting(Tags, meetingId; aws::AWSConfig=AWS.aws_config) = chime("POST", "/meetings/$(meetingId)/tags?operation=add", Dict{String, Any}("Tags"=>Tags); aws=aws)
+TagMeeting(Tags, meetingId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/meetings/$(meetingId)/tags?operation=add", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws=aws)
 
 """
     TagResource()
@@ -1374,8 +1374,8 @@ Applies the specified tags to the specified Amazon Chime SDK meeting resource.
 - `Tags`: The tag key-value pairs.
 
 """
-TagResource(ResourceARN, Tags; aws::AWSConfig=AWSConfig()) = chime("POST", "/tags?operation=tag-resource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags))
-TagResource(ResourceARN, Tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/tags?operation=tag-resource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), args)); aws=aws)
+TagResource(ResourceARN, Tags; aws::AWSConfig=AWS.aws_config) = chime("POST", "/tags?operation=tag-resource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws=aws)
+TagResource(ResourceARN, Tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/tags?operation=tag-resource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), args)); aws=aws)
 
 """
     UntagAttendee()
@@ -1388,8 +1388,8 @@ Untags the specified tags from the specified Amazon Chime SDK attendee.
 - `meetingId`: The Amazon Chime SDK meeting ID.
 
 """
-UntagAttendee(TagKeys, attendeeId, meetingId; aws::AWSConfig=AWSConfig()) = chime("POST", "/meetings/$(meetingId)/attendees/$(attendeeId)/tags?operation=delete", Dict{String, Any}("TagKeys"=>TagKeys))
-UntagAttendee(TagKeys, attendeeId, meetingId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/meetings/$(meetingId)/attendees/$(attendeeId)/tags?operation=delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKeys"=>TagKeys), args)); aws=aws)
+UntagAttendee(TagKeys, attendeeId, meetingId; aws::AWSConfig=AWS.aws_config) = chime("POST", "/meetings/$(meetingId)/attendees/$(attendeeId)/tags?operation=delete", Dict{String, Any}("TagKeys"=>TagKeys); aws=aws)
+UntagAttendee(TagKeys, attendeeId, meetingId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/meetings/$(meetingId)/attendees/$(attendeeId)/tags?operation=delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKeys"=>TagKeys), args)); aws=aws)
 
 """
     UntagMeeting()
@@ -1401,8 +1401,8 @@ Untags the specified tags from the specified Amazon Chime SDK meeting.
 - `meetingId`: The Amazon Chime SDK meeting ID.
 
 """
-UntagMeeting(TagKeys, meetingId; aws::AWSConfig=AWSConfig()) = chime("POST", "/meetings/$(meetingId)/tags?operation=delete", Dict{String, Any}("TagKeys"=>TagKeys))
-UntagMeeting(TagKeys, meetingId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/meetings/$(meetingId)/tags?operation=delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKeys"=>TagKeys), args)); aws=aws)
+UntagMeeting(TagKeys, meetingId; aws::AWSConfig=AWS.aws_config) = chime("POST", "/meetings/$(meetingId)/tags?operation=delete", Dict{String, Any}("TagKeys"=>TagKeys); aws=aws)
+UntagMeeting(TagKeys, meetingId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/meetings/$(meetingId)/tags?operation=delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKeys"=>TagKeys), args)); aws=aws)
 
 """
     UntagResource()
@@ -1414,8 +1414,8 @@ Untags the specified tags from the specified Amazon Chime SDK meeting resource.
 - `TagKeys`: The tag keys.
 
 """
-UntagResource(ResourceARN, TagKeys; aws::AWSConfig=AWSConfig()) = chime("POST", "/tags?operation=untag-resource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys))
-UntagResource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/tags?operation=untag-resource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), args)); aws=aws)
+UntagResource(ResourceARN, TagKeys; aws::AWSConfig=AWS.aws_config) = chime("POST", "/tags?operation=untag-resource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws=aws)
+UntagResource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/tags?operation=untag-resource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), args)); aws=aws)
 
 """
     UpdateAccount()
@@ -1428,8 +1428,8 @@ Updates account details for the specified Amazon Chime account. Currently, only 
 # Optional Parameters
 - `Name`: The new name for the specified Amazon Chime account.
 """
-UpdateAccount(accountId; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)"; aws=aws)
-UpdateAccount(accountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)", args; aws=aws)
+UpdateAccount(accountId; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)"; aws=aws)
+UpdateAccount(accountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)", args; aws=aws)
 
 """
     UpdateAccountSettings()
@@ -1441,8 +1441,8 @@ Updates the settings for the specified Amazon Chime account. You can update sett
 - `accountId`: The Amazon Chime account ID.
 
 """
-UpdateAccountSettings(AccountSettings, accountId; aws::AWSConfig=AWSConfig()) = chime("PUT", "/accounts/$(accountId)/settings", Dict{String, Any}("AccountSettings"=>AccountSettings))
-UpdateAccountSettings(AccountSettings, accountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("PUT", "/accounts/$(accountId)/settings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountSettings"=>AccountSettings), args)); aws=aws)
+UpdateAccountSettings(AccountSettings, accountId; aws::AWSConfig=AWS.aws_config) = chime("PUT", "/accounts/$(accountId)/settings", Dict{String, Any}("AccountSettings"=>AccountSettings); aws=aws)
+UpdateAccountSettings(AccountSettings, accountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("PUT", "/accounts/$(accountId)/settings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountSettings"=>AccountSettings), args)); aws=aws)
 
 """
     UpdateBot()
@@ -1456,8 +1456,8 @@ Updates the status of the specified bot, such as starting or stopping the bot fr
 # Optional Parameters
 - `Disabled`: When true, stops the specified bot from running in your account.
 """
-UpdateBot(accountId, botId; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)/bots/$(botId)"; aws=aws)
-UpdateBot(accountId, botId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)/bots/$(botId)", args; aws=aws)
+UpdateBot(accountId, botId; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)/bots/$(botId)"; aws=aws)
+UpdateBot(accountId, botId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)/bots/$(botId)", args; aws=aws)
 
 """
     UpdateGlobalSettings()
@@ -1469,8 +1469,8 @@ Updates global settings for the administrator's AWS account, such as Amazon Chim
 - `VoiceConnector`: The Amazon Chime Voice Connector settings.
 
 """
-UpdateGlobalSettings(BusinessCalling, VoiceConnector; aws::AWSConfig=AWSConfig()) = chime("PUT", "/settings", Dict{String, Any}("BusinessCalling"=>BusinessCalling, "VoiceConnector"=>VoiceConnector))
-UpdateGlobalSettings(BusinessCalling, VoiceConnector, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("PUT", "/settings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BusinessCalling"=>BusinessCalling, "VoiceConnector"=>VoiceConnector), args)); aws=aws)
+UpdateGlobalSettings(BusinessCalling, VoiceConnector; aws::AWSConfig=AWS.aws_config) = chime("PUT", "/settings", Dict{String, Any}("BusinessCalling"=>BusinessCalling, "VoiceConnector"=>VoiceConnector); aws=aws)
+UpdateGlobalSettings(BusinessCalling, VoiceConnector, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("PUT", "/settings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BusinessCalling"=>BusinessCalling, "VoiceConnector"=>VoiceConnector), args)); aws=aws)
 
 """
     UpdatePhoneNumber()
@@ -1484,8 +1484,8 @@ Updates phone number details, such as product type or calling name, for the spec
 - `CallingName`: The outbound calling name associated with the phone number.
 - `ProductType`: The product type.
 """
-UpdatePhoneNumber(phoneNumberId; aws::AWSConfig=AWSConfig()) = chime("POST", "/phone-numbers/$(phoneNumberId)"; aws=aws)
-UpdatePhoneNumber(phoneNumberId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/phone-numbers/$(phoneNumberId)", args; aws=aws)
+UpdatePhoneNumber(phoneNumberId; aws::AWSConfig=AWS.aws_config) = chime("POST", "/phone-numbers/$(phoneNumberId)"; aws=aws)
+UpdatePhoneNumber(phoneNumberId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/phone-numbers/$(phoneNumberId)", args; aws=aws)
 
 """
     UpdatePhoneNumberSettings()
@@ -1496,8 +1496,8 @@ Updates the phone number settings for the administrator's AWS account, such as t
 - `CallingName`: The default outbound calling name for the account.
 
 """
-UpdatePhoneNumberSettings(CallingName; aws::AWSConfig=AWSConfig()) = chime("PUT", "/settings/phone-number", Dict{String, Any}("CallingName"=>CallingName))
-UpdatePhoneNumberSettings(CallingName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("PUT", "/settings/phone-number", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CallingName"=>CallingName), args)); aws=aws)
+UpdatePhoneNumberSettings(CallingName; aws::AWSConfig=AWS.aws_config) = chime("PUT", "/settings/phone-number", Dict{String, Any}("CallingName"=>CallingName); aws=aws)
+UpdatePhoneNumberSettings(CallingName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("PUT", "/settings/phone-number", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CallingName"=>CallingName), args)); aws=aws)
 
 """
     UpdateProxySession()
@@ -1512,8 +1512,8 @@ Updates the specified proxy session details, such as voice or SMS capabilities.
 # Optional Parameters
 - `ExpiryMinutes`: The number of minutes allowed for the proxy session.
 """
-UpdateProxySession(Capabilities, proxySessionId, voiceConnectorId; aws::AWSConfig=AWSConfig()) = chime("POST", "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)", Dict{String, Any}("Capabilities"=>Capabilities))
-UpdateProxySession(Capabilities, proxySessionId, voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Capabilities"=>Capabilities), args)); aws=aws)
+UpdateProxySession(Capabilities, proxySessionId, voiceConnectorId; aws::AWSConfig=AWS.aws_config) = chime("POST", "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)", Dict{String, Any}("Capabilities"=>Capabilities); aws=aws)
+UpdateProxySession(Capabilities, proxySessionId, voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Capabilities"=>Capabilities), args)); aws=aws)
 
 """
     UpdateRoom()
@@ -1527,8 +1527,8 @@ Updates room details, such as the room name, for a room in an Amazon Chime Enter
 # Optional Parameters
 - `Name`: The room name.
 """
-UpdateRoom(accountId, roomId; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)/rooms/$(roomId)"; aws=aws)
-UpdateRoom(accountId, roomId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)/rooms/$(roomId)", args; aws=aws)
+UpdateRoom(accountId, roomId; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)/rooms/$(roomId)"; aws=aws)
+UpdateRoom(accountId, roomId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)/rooms/$(roomId)", args; aws=aws)
 
 """
     UpdateRoomMembership()
@@ -1543,8 +1543,8 @@ Updates room membership details, such as the member role, for a room in an Amazo
 # Optional Parameters
 - `Role`: The role of the member.
 """
-UpdateRoomMembership(accountId, memberId, roomId; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)/rooms/$(roomId)/memberships/$(memberId)"; aws=aws)
-UpdateRoomMembership(accountId, memberId, roomId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)/rooms/$(roomId)/memberships/$(memberId)", args; aws=aws)
+UpdateRoomMembership(accountId, memberId, roomId; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)/rooms/$(roomId)/memberships/$(memberId)"; aws=aws)
+UpdateRoomMembership(accountId, memberId, roomId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)/rooms/$(roomId)/memberships/$(memberId)", args; aws=aws)
 
 """
     UpdateUser()
@@ -1560,8 +1560,8 @@ Updates user details for a specified user ID. Currently, only LicenseType update
 - `LicenseType`: The user license type to update. This must be a supported license type for the Amazon Chime account that the user belongs to.
 - `UserType`: The user type.
 """
-UpdateUser(accountId, userId; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)/users/$(userId)"; aws=aws)
-UpdateUser(accountId, userId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("POST", "/accounts/$(accountId)/users/$(userId)", args; aws=aws)
+UpdateUser(accountId, userId; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)/users/$(userId)"; aws=aws)
+UpdateUser(accountId, userId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("POST", "/accounts/$(accountId)/users/$(userId)", args; aws=aws)
 
 """
     UpdateUserSettings()
@@ -1574,8 +1574,8 @@ Updates the settings for the specified user, such as phone number settings.
 - `userId`: The user ID.
 
 """
-UpdateUserSettings(UserSettings, accountId, userId; aws::AWSConfig=AWSConfig()) = chime("PUT", "/accounts/$(accountId)/users/$(userId)/settings", Dict{String, Any}("UserSettings"=>UserSettings))
-UpdateUserSettings(UserSettings, accountId, userId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("PUT", "/accounts/$(accountId)/users/$(userId)/settings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserSettings"=>UserSettings), args)); aws=aws)
+UpdateUserSettings(UserSettings, accountId, userId; aws::AWSConfig=AWS.aws_config) = chime("PUT", "/accounts/$(accountId)/users/$(userId)/settings", Dict{String, Any}("UserSettings"=>UserSettings); aws=aws)
+UpdateUserSettings(UserSettings, accountId, userId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("PUT", "/accounts/$(accountId)/users/$(userId)/settings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserSettings"=>UserSettings), args)); aws=aws)
 
 """
     UpdateVoiceConnector()
@@ -1588,8 +1588,8 @@ Updates details for the specified Amazon Chime Voice Connector.
 - `voiceConnectorId`: The Amazon Chime Voice Connector ID.
 
 """
-UpdateVoiceConnector(Name, RequireEncryption, voiceConnectorId; aws::AWSConfig=AWSConfig()) = chime("PUT", "/voice-connectors/$(voiceConnectorId)", Dict{String, Any}("Name"=>Name, "RequireEncryption"=>RequireEncryption))
-UpdateVoiceConnector(Name, RequireEncryption, voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("PUT", "/voice-connectors/$(voiceConnectorId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RequireEncryption"=>RequireEncryption), args)); aws=aws)
+UpdateVoiceConnector(Name, RequireEncryption, voiceConnectorId; aws::AWSConfig=AWS.aws_config) = chime("PUT", "/voice-connectors/$(voiceConnectorId)", Dict{String, Any}("Name"=>Name, "RequireEncryption"=>RequireEncryption); aws=aws)
+UpdateVoiceConnector(Name, RequireEncryption, voiceConnectorId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("PUT", "/voice-connectors/$(voiceConnectorId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RequireEncryption"=>RequireEncryption), args)); aws=aws)
 
 """
     UpdateVoiceConnectorGroup()
@@ -1602,5 +1602,5 @@ Updates details for the specified Amazon Chime Voice Connector group, such as th
 - `voiceConnectorGroupId`: The Amazon Chime Voice Connector group ID.
 
 """
-UpdateVoiceConnectorGroup(Name, VoiceConnectorItems, voiceConnectorGroupId; aws::AWSConfig=AWSConfig()) = chime("PUT", "/voice-connector-groups/$(voiceConnectorGroupId)", Dict{String, Any}("Name"=>Name, "VoiceConnectorItems"=>VoiceConnectorItems))
-UpdateVoiceConnectorGroup(Name, VoiceConnectorItems, voiceConnectorGroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = chime("PUT", "/voice-connector-groups/$(voiceConnectorGroupId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "VoiceConnectorItems"=>VoiceConnectorItems), args)); aws=aws)
+UpdateVoiceConnectorGroup(Name, VoiceConnectorItems, voiceConnectorGroupId; aws::AWSConfig=AWS.aws_config) = chime("PUT", "/voice-connector-groups/$(voiceConnectorGroupId)", Dict{String, Any}("Name"=>Name, "VoiceConnectorItems"=>VoiceConnectorItems); aws=aws)
+UpdateVoiceConnectorGroup(Name, VoiceConnectorItems, voiceConnectorGroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = chime("PUT", "/voice-connector-groups/$(voiceConnectorGroupId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "VoiceConnectorItems"=>VoiceConnectorItems), args)); aws=aws)

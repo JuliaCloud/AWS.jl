@@ -14,8 +14,8 @@ Accepts the invitation to be a member account and be monitored by the Security H
 - `MasterId`: The account ID of the Security Hub master account that sent the invitation.
 
 """
-AcceptInvitation(InvitationId, MasterId; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/master", Dict{String, Any}("InvitationId"=>InvitationId, "MasterId"=>MasterId))
-AcceptInvitation(InvitationId, MasterId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/master", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InvitationId"=>InvitationId, "MasterId"=>MasterId), args)); aws=aws)
+AcceptInvitation(InvitationId, MasterId; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/master", Dict{String, Any}("InvitationId"=>InvitationId, "MasterId"=>MasterId); aws=aws)
+AcceptInvitation(InvitationId, MasterId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/master", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InvitationId"=>InvitationId, "MasterId"=>MasterId), args)); aws=aws)
 
 """
     BatchDisableStandards()
@@ -26,8 +26,8 @@ Disables the standards specified by the provided StandardsSubscriptionArns. For 
 - `StandardsSubscriptionArns`: The ARNs of the standards subscriptions to disable.
 
 """
-BatchDisableStandards(StandardsSubscriptionArns; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/standards/deregister", Dict{String, Any}("StandardsSubscriptionArns"=>StandardsSubscriptionArns))
-BatchDisableStandards(StandardsSubscriptionArns, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/standards/deregister", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StandardsSubscriptionArns"=>StandardsSubscriptionArns), args)); aws=aws)
+BatchDisableStandards(StandardsSubscriptionArns; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/standards/deregister", Dict{String, Any}("StandardsSubscriptionArns"=>StandardsSubscriptionArns); aws=aws)
+BatchDisableStandards(StandardsSubscriptionArns, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/standards/deregister", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StandardsSubscriptionArns"=>StandardsSubscriptionArns), args)); aws=aws)
 
 """
     BatchEnableStandards()
@@ -38,8 +38,8 @@ Enables the standards specified by the provided StandardsArn. To obtain the ARN 
 - `StandardsSubscriptionRequests`: The list of standards checks to enable.
 
 """
-BatchEnableStandards(StandardsSubscriptionRequests; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/standards/register", Dict{String, Any}("StandardsSubscriptionRequests"=>StandardsSubscriptionRequests))
-BatchEnableStandards(StandardsSubscriptionRequests, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/standards/register", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StandardsSubscriptionRequests"=>StandardsSubscriptionRequests), args)); aws=aws)
+BatchEnableStandards(StandardsSubscriptionRequests; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/standards/register", Dict{String, Any}("StandardsSubscriptionRequests"=>StandardsSubscriptionRequests); aws=aws)
+BatchEnableStandards(StandardsSubscriptionRequests, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/standards/register", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StandardsSubscriptionRequests"=>StandardsSubscriptionRequests), args)); aws=aws)
 
 """
     BatchImportFindings()
@@ -50,8 +50,8 @@ Imports security findings generated from an integrated third-party product into 
 - `Findings`: A list of findings to import. To successfully import a finding, it must follow the AWS Security Finding Format. Maximum of 100 findings per request.
 
 """
-BatchImportFindings(Findings; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/findings/import", Dict{String, Any}("Findings"=>Findings))
-BatchImportFindings(Findings, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/findings/import", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Findings"=>Findings), args)); aws=aws)
+BatchImportFindings(Findings; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/findings/import", Dict{String, Any}("Findings"=>Findings); aws=aws)
+BatchImportFindings(Findings, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/findings/import", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Findings"=>Findings), args)); aws=aws)
 
 """
     BatchUpdateFindings()
@@ -72,8 +72,8 @@ Used by Security Hub customers to update information about their investigation i
 - `VerificationState`: Indicates the veracity of a finding. The available values for VerificationState are as follows.    UNKNOWN – The default disposition of a security finding    TRUE_POSITIVE – The security finding is confirmed    FALSE_POSITIVE – The security finding was determined to be a false alarm    BENIGN_POSITIVE – A special case of TRUE_POSITIVE where the finding doesn't pose any threat, is expected, or both  
 - `Workflow`: Used to update the workflow status of a finding. The workflow status indicates the progress of the investigation into the finding. 
 """
-BatchUpdateFindings(FindingIdentifiers; aws::AWSConfig=AWSConfig()) = securityhub("PATCH", "/findings/batchupdate", Dict{String, Any}("FindingIdentifiers"=>FindingIdentifiers))
-BatchUpdateFindings(FindingIdentifiers, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = securityhub("PATCH", "/findings/batchupdate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FindingIdentifiers"=>FindingIdentifiers), args)); aws=aws)
+BatchUpdateFindings(FindingIdentifiers; aws::AWSConfig=AWS.aws_config) = securityhub("PATCH", "/findings/batchupdate", Dict{String, Any}("FindingIdentifiers"=>FindingIdentifiers); aws=aws)
+BatchUpdateFindings(FindingIdentifiers, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = securityhub("PATCH", "/findings/batchupdate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FindingIdentifiers"=>FindingIdentifiers), args)); aws=aws)
 
 """
     CreateActionTarget()
@@ -86,8 +86,8 @@ Creates a custom action target in Security Hub. You can use custom actions on fi
 - `Name`: The name of the custom action target.
 
 """
-CreateActionTarget(Description, Id, Name; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/actionTargets", Dict{String, Any}("Description"=>Description, "Id"=>Id, "Name"=>Name))
-CreateActionTarget(Description, Id, Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/actionTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "Id"=>Id, "Name"=>Name), args)); aws=aws)
+CreateActionTarget(Description, Id, Name; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/actionTargets", Dict{String, Any}("Description"=>Description, "Id"=>Id, "Name"=>Name); aws=aws)
+CreateActionTarget(Description, Id, Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/actionTargets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "Id"=>Id, "Name"=>Name), args)); aws=aws)
 
 """
     CreateInsight()
@@ -100,8 +100,8 @@ Creates a custom insight in Security Hub. An insight is a consolidation of findi
 - `Name`: The name of the custom insight to create.
 
 """
-CreateInsight(Filters, GroupByAttribute, Name; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/insights", Dict{String, Any}("Filters"=>Filters, "GroupByAttribute"=>GroupByAttribute, "Name"=>Name))
-CreateInsight(Filters, GroupByAttribute, Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/insights", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filters"=>Filters, "GroupByAttribute"=>GroupByAttribute, "Name"=>Name), args)); aws=aws)
+CreateInsight(Filters, GroupByAttribute, Name; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/insights", Dict{String, Any}("Filters"=>Filters, "GroupByAttribute"=>GroupByAttribute, "Name"=>Name); aws=aws)
+CreateInsight(Filters, GroupByAttribute, Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/insights", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filters"=>Filters, "GroupByAttribute"=>GroupByAttribute, "Name"=>Name), args)); aws=aws)
 
 """
     CreateMembers()
@@ -111,8 +111,8 @@ Creates a member association in Security Hub between the specified accounts and 
 # Optional Parameters
 - `AccountDetails`: The list of accounts to associate with the Security Hub master account. For each account, the list includes the account ID and the email address.
 """
-CreateMembers(; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/members"; aws=aws)
-CreateMembers(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/members", args; aws=aws)
+CreateMembers(; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/members"; aws=aws)
+CreateMembers(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/members", args; aws=aws)
 
 """
     DeclineInvitations()
@@ -123,8 +123,8 @@ Declines invitations to become a member account.
 - `AccountIds`: The list of account IDs for the accounts from which to decline the invitations to Security Hub.
 
 """
-DeclineInvitations(AccountIds; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/invitations/decline", Dict{String, Any}("AccountIds"=>AccountIds))
-DeclineInvitations(AccountIds, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/invitations/decline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountIds"=>AccountIds), args)); aws=aws)
+DeclineInvitations(AccountIds; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/invitations/decline", Dict{String, Any}("AccountIds"=>AccountIds); aws=aws)
+DeclineInvitations(AccountIds, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/invitations/decline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountIds"=>AccountIds), args)); aws=aws)
 
 """
     DeleteActionTarget()
@@ -135,8 +135,8 @@ Deletes a custom action target from Security Hub. Deleting a custom action targe
 - `ActionTargetArn`: The ARN of the custom action target to delete.
 
 """
-DeleteActionTarget(ActionTargetArn; aws::AWSConfig=AWSConfig()) = securityhub("DELETE", "/actionTargets/$(ActionTargetArn)"; aws=aws)
-DeleteActionTarget(ActionTargetArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = securityhub("DELETE", "/actionTargets/$(ActionTargetArn)", args; aws=aws)
+DeleteActionTarget(ActionTargetArn; aws::AWSConfig=AWS.aws_config) = securityhub("DELETE", "/actionTargets/$(ActionTargetArn)"; aws=aws)
+DeleteActionTarget(ActionTargetArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = securityhub("DELETE", "/actionTargets/$(ActionTargetArn)", args; aws=aws)
 
 """
     DeleteInsight()
@@ -147,8 +147,8 @@ Deletes the insight specified by the InsightArn.
 - `InsightArn`: The ARN of the insight to delete.
 
 """
-DeleteInsight(InsightArn; aws::AWSConfig=AWSConfig()) = securityhub("DELETE", "/insights/$(InsightArn)"; aws=aws)
-DeleteInsight(InsightArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = securityhub("DELETE", "/insights/$(InsightArn)", args; aws=aws)
+DeleteInsight(InsightArn; aws::AWSConfig=AWS.aws_config) = securityhub("DELETE", "/insights/$(InsightArn)"; aws=aws)
+DeleteInsight(InsightArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = securityhub("DELETE", "/insights/$(InsightArn)", args; aws=aws)
 
 """
     DeleteInvitations()
@@ -159,8 +159,8 @@ Deletes invitations received by the AWS account to become a member account.
 - `AccountIds`: The list of the account IDs that sent the invitations to delete.
 
 """
-DeleteInvitations(AccountIds; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/invitations/delete", Dict{String, Any}("AccountIds"=>AccountIds))
-DeleteInvitations(AccountIds, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/invitations/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountIds"=>AccountIds), args)); aws=aws)
+DeleteInvitations(AccountIds; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/invitations/delete", Dict{String, Any}("AccountIds"=>AccountIds); aws=aws)
+DeleteInvitations(AccountIds, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/invitations/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountIds"=>AccountIds), args)); aws=aws)
 
 """
     DeleteMembers()
@@ -170,8 +170,8 @@ Deletes the specified member accounts from Security Hub.
 # Optional Parameters
 - `AccountIds`: The list of account IDs for the member accounts to delete.
 """
-DeleteMembers(; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/members/delete"; aws=aws)
-DeleteMembers(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/members/delete", args; aws=aws)
+DeleteMembers(; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/members/delete"; aws=aws)
+DeleteMembers(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/members/delete", args; aws=aws)
 
 """
     DescribeActionTargets()
@@ -183,8 +183,8 @@ Returns a list of the custom action targets in Security Hub in your account.
 - `MaxResults`: The maximum number of results to return.
 - `NextToken`: The token that is required for pagination. On your first call to the DescribeActionTargets operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
 """
-DescribeActionTargets(; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/actionTargets/get"; aws=aws)
-DescribeActionTargets(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/actionTargets/get", args; aws=aws)
+DescribeActionTargets(; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/actionTargets/get"; aws=aws)
+DescribeActionTargets(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/actionTargets/get", args; aws=aws)
 
 """
     DescribeHub()
@@ -194,8 +194,8 @@ Returns details about the Hub resource in your account, including the HubArn and
 # Optional Parameters
 - `HubArn`: The ARN of the Hub resource to retrieve.
 """
-DescribeHub(; aws::AWSConfig=AWSConfig()) = securityhub("GET", "/accounts"; aws=aws)
-DescribeHub(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = securityhub("GET", "/accounts", args; aws=aws)
+DescribeHub(; aws::AWSConfig=AWS.aws_config) = securityhub("GET", "/accounts"; aws=aws)
+DescribeHub(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = securityhub("GET", "/accounts", args; aws=aws)
 
 """
     DescribeProducts()
@@ -206,8 +206,8 @@ Returns information about the available products that you can subscribe to and i
 - `MaxResults`: The maximum number of results to return.
 - `NextToken`: The token that is required for pagination. On your first call to the DescribeProducts operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
 """
-DescribeProducts(; aws::AWSConfig=AWSConfig()) = securityhub("GET", "/products"; aws=aws)
-DescribeProducts(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = securityhub("GET", "/products", args; aws=aws)
+DescribeProducts(; aws::AWSConfig=AWS.aws_config) = securityhub("GET", "/products"; aws=aws)
+DescribeProducts(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = securityhub("GET", "/products", args; aws=aws)
 
 """
     DescribeStandards()
@@ -218,8 +218,8 @@ Returns a list of the available standards in Security Hub. For each standard, th
 - `MaxResults`: The maximum number of standards to return.
 - `NextToken`: The token that is required for pagination. On your first call to the DescribeStandards operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
 """
-DescribeStandards(; aws::AWSConfig=AWSConfig()) = securityhub("GET", "/standards"; aws=aws)
-DescribeStandards(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = securityhub("GET", "/standards", args; aws=aws)
+DescribeStandards(; aws::AWSConfig=AWS.aws_config) = securityhub("GET", "/standards"; aws=aws)
+DescribeStandards(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = securityhub("GET", "/standards", args; aws=aws)
 
 """
     DescribeStandardsControls()
@@ -233,8 +233,8 @@ Returns a list of security standards controls. For each control, the results inc
 - `MaxResults`: The maximum number of security standard controls to return.
 - `NextToken`: The token that is required for pagination. On your first call to the DescribeStandardsControls operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
 """
-DescribeStandardsControls(StandardsSubscriptionArn; aws::AWSConfig=AWSConfig()) = securityhub("GET", "/standards/controls/$(StandardsSubscriptionArn)"; aws=aws)
-DescribeStandardsControls(StandardsSubscriptionArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = securityhub("GET", "/standards/controls/$(StandardsSubscriptionArn)", args; aws=aws)
+DescribeStandardsControls(StandardsSubscriptionArn; aws::AWSConfig=AWS.aws_config) = securityhub("GET", "/standards/controls/$(StandardsSubscriptionArn)"; aws=aws)
+DescribeStandardsControls(StandardsSubscriptionArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = securityhub("GET", "/standards/controls/$(StandardsSubscriptionArn)", args; aws=aws)
 
 """
     DisableImportFindingsForProduct()
@@ -245,8 +245,8 @@ Disables the integration of the specified product with Security Hub. After the i
 - `ProductSubscriptionArn`: The ARN of the integrated product to disable the integration for.
 
 """
-DisableImportFindingsForProduct(ProductSubscriptionArn; aws::AWSConfig=AWSConfig()) = securityhub("DELETE", "/productSubscriptions/$(ProductSubscriptionArn)"; aws=aws)
-DisableImportFindingsForProduct(ProductSubscriptionArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = securityhub("DELETE", "/productSubscriptions/$(ProductSubscriptionArn)", args; aws=aws)
+DisableImportFindingsForProduct(ProductSubscriptionArn; aws::AWSConfig=AWS.aws_config) = securityhub("DELETE", "/productSubscriptions/$(ProductSubscriptionArn)"; aws=aws)
+DisableImportFindingsForProduct(ProductSubscriptionArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = securityhub("DELETE", "/productSubscriptions/$(ProductSubscriptionArn)", args; aws=aws)
 
 """
     DisableSecurityHub()
@@ -254,8 +254,8 @@ DisableImportFindingsForProduct(ProductSubscriptionArn, args::AbstractDict{Strin
 Disables Security Hub in your account only in the current Region. To disable Security Hub in all Regions, you must submit one request per Region where you have enabled Security Hub. When you disable Security Hub for a master account, it doesn't disable Security Hub for any associated member accounts. When you disable Security Hub, your existing findings and insights and any Security Hub configuration settings are deleted after 90 days and cannot be recovered. Any standards that were enabled are disabled, and your master and member account associations are removed. If you want to save your existing findings, you must export them before you disable Security Hub.
 
 """
-DisableSecurityHub(; aws::AWSConfig=AWSConfig()) = securityhub("DELETE", "/accounts"; aws=aws)
-DisableSecurityHub(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = securityhub("DELETE", "/accounts", args; aws=aws)
+DisableSecurityHub(; aws::AWSConfig=AWS.aws_config) = securityhub("DELETE", "/accounts"; aws=aws)
+DisableSecurityHub(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = securityhub("DELETE", "/accounts", args; aws=aws)
 
 """
     DisassociateFromMasterAccount()
@@ -263,8 +263,8 @@ DisableSecurityHub(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) 
 Disassociates the current Security Hub member account from the associated master account.
 
 """
-DisassociateFromMasterAccount(; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/master/disassociate"; aws=aws)
-DisassociateFromMasterAccount(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/master/disassociate", args; aws=aws)
+DisassociateFromMasterAccount(; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/master/disassociate"; aws=aws)
+DisassociateFromMasterAccount(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/master/disassociate", args; aws=aws)
 
 """
     DisassociateMembers()
@@ -274,8 +274,8 @@ Disassociates the specified member accounts from the associated master account.
 # Optional Parameters
 - `AccountIds`: The account IDs of the member accounts to disassociate from the master account.
 """
-DisassociateMembers(; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/members/disassociate"; aws=aws)
-DisassociateMembers(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/members/disassociate", args; aws=aws)
+DisassociateMembers(; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/members/disassociate"; aws=aws)
+DisassociateMembers(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/members/disassociate", args; aws=aws)
 
 """
     EnableImportFindingsForProduct()
@@ -286,8 +286,8 @@ Enables the integration of a partner product with Security Hub. Integrated produ
 - `ProductArn`: The ARN of the product to enable the integration for.
 
 """
-EnableImportFindingsForProduct(ProductArn; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/productSubscriptions", Dict{String, Any}("ProductArn"=>ProductArn))
-EnableImportFindingsForProduct(ProductArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/productSubscriptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductArn"=>ProductArn), args)); aws=aws)
+EnableImportFindingsForProduct(ProductArn; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/productSubscriptions", Dict{String, Any}("ProductArn"=>ProductArn); aws=aws)
+EnableImportFindingsForProduct(ProductArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/productSubscriptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductArn"=>ProductArn), args)); aws=aws)
 
 """
     EnableSecurityHub()
@@ -298,8 +298,8 @@ Enables Security Hub for your account in the current Region or the Region you sp
 - `EnableDefaultStandards`: Whether to enable the security standards that Security Hub has designated as automatically enabled. If you do not provide a value for EnableDefaultStandards, it is set to true. To not enable the automatically enabled standards, set EnableDefaultStandards to false.
 - `Tags`: The tags to add to the hub resource when you enable Security Hub.
 """
-EnableSecurityHub(; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/accounts"; aws=aws)
-EnableSecurityHub(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/accounts", args; aws=aws)
+EnableSecurityHub(; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/accounts"; aws=aws)
+EnableSecurityHub(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/accounts", args; aws=aws)
 
 """
     GetEnabledStandards()
@@ -311,8 +311,8 @@ Returns a list of the standards that are currently enabled.
 - `NextToken`: The token that is required for pagination. On your first call to the GetEnabledStandards operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
 - `StandardsSubscriptionArns`: The list of the standards subscription ARNs for the standards to retrieve.
 """
-GetEnabledStandards(; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/standards/get"; aws=aws)
-GetEnabledStandards(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/standards/get", args; aws=aws)
+GetEnabledStandards(; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/standards/get"; aws=aws)
+GetEnabledStandards(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/standards/get", args; aws=aws)
 
 """
     GetFindings()
@@ -325,8 +325,8 @@ Returns a list of findings that match the specified criteria.
 - `NextToken`: The token that is required for pagination. On your first call to the GetFindings operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
 - `SortCriteria`: The finding attributes used to sort the list of returned findings.
 """
-GetFindings(; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/findings"; aws=aws)
-GetFindings(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/findings", args; aws=aws)
+GetFindings(; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/findings"; aws=aws)
+GetFindings(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/findings", args; aws=aws)
 
 """
     GetInsightResults()
@@ -337,8 +337,8 @@ Lists the results of the Security Hub insight specified by the insight ARN.
 - `InsightArn`: The ARN of the insight for which to return results.
 
 """
-GetInsightResults(InsightArn; aws::AWSConfig=AWSConfig()) = securityhub("GET", "/insights/results/$(InsightArn)"; aws=aws)
-GetInsightResults(InsightArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = securityhub("GET", "/insights/results/$(InsightArn)", args; aws=aws)
+GetInsightResults(InsightArn; aws::AWSConfig=AWS.aws_config) = securityhub("GET", "/insights/results/$(InsightArn)"; aws=aws)
+GetInsightResults(InsightArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = securityhub("GET", "/insights/results/$(InsightArn)", args; aws=aws)
 
 """
     GetInsights()
@@ -350,8 +350,8 @@ Lists and describes insights for the specified insight ARNs.
 - `MaxResults`: The maximum number of items to return in the response.
 - `NextToken`: The token that is required for pagination. On your first call to the GetInsights operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
 """
-GetInsights(; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/insights/get"; aws=aws)
-GetInsights(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/insights/get", args; aws=aws)
+GetInsights(; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/insights/get"; aws=aws)
+GetInsights(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/insights/get", args; aws=aws)
 
 """
     GetInvitationsCount()
@@ -359,8 +359,8 @@ GetInsights(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = secur
 Returns the count of all Security Hub membership invitations that were sent to the current member account, not including the currently accepted invitation. 
 
 """
-GetInvitationsCount(; aws::AWSConfig=AWSConfig()) = securityhub("GET", "/invitations/count"; aws=aws)
-GetInvitationsCount(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = securityhub("GET", "/invitations/count", args; aws=aws)
+GetInvitationsCount(; aws::AWSConfig=AWS.aws_config) = securityhub("GET", "/invitations/count"; aws=aws)
+GetInvitationsCount(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = securityhub("GET", "/invitations/count", args; aws=aws)
 
 """
     GetMasterAccount()
@@ -368,8 +368,8 @@ GetInvitationsCount(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig())
 Provides the details for the Security Hub master account for the current member account. 
 
 """
-GetMasterAccount(; aws::AWSConfig=AWSConfig()) = securityhub("GET", "/master"; aws=aws)
-GetMasterAccount(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = securityhub("GET", "/master", args; aws=aws)
+GetMasterAccount(; aws::AWSConfig=AWS.aws_config) = securityhub("GET", "/master"; aws=aws)
+GetMasterAccount(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = securityhub("GET", "/master", args; aws=aws)
 
 """
     GetMembers()
@@ -380,8 +380,8 @@ Returns the details for the Security Hub member accounts for the specified accou
 - `AccountIds`: The list of account IDs for the Security Hub member accounts to return the details for. 
 
 """
-GetMembers(AccountIds; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/members/get", Dict{String, Any}("AccountIds"=>AccountIds))
-GetMembers(AccountIds, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/members/get", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountIds"=>AccountIds), args)); aws=aws)
+GetMembers(AccountIds; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/members/get", Dict{String, Any}("AccountIds"=>AccountIds); aws=aws)
+GetMembers(AccountIds, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/members/get", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountIds"=>AccountIds), args)); aws=aws)
 
 """
     InviteMembers()
@@ -391,8 +391,8 @@ Invites other AWS accounts to become member accounts for the Security Hub master
 # Optional Parameters
 - `AccountIds`: The list of account IDs of the AWS accounts to invite to Security Hub as members. 
 """
-InviteMembers(; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/members/invite"; aws=aws)
-InviteMembers(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/members/invite", args; aws=aws)
+InviteMembers(; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/members/invite"; aws=aws)
+InviteMembers(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/members/invite", args; aws=aws)
 
 """
     ListEnabledProductsForImport()
@@ -403,8 +403,8 @@ Lists all findings-generating solutions (products) that you are subscribed to re
 - `MaxResults`: The maximum number of items to return in the response.
 - `NextToken`: The token that is required for pagination. On your first call to the ListEnabledProductsForImport operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
 """
-ListEnabledProductsForImport(; aws::AWSConfig=AWSConfig()) = securityhub("GET", "/productSubscriptions"; aws=aws)
-ListEnabledProductsForImport(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = securityhub("GET", "/productSubscriptions", args; aws=aws)
+ListEnabledProductsForImport(; aws::AWSConfig=AWS.aws_config) = securityhub("GET", "/productSubscriptions"; aws=aws)
+ListEnabledProductsForImport(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = securityhub("GET", "/productSubscriptions", args; aws=aws)
 
 """
     ListInvitations()
@@ -415,8 +415,8 @@ Lists all Security Hub membership invitations that were sent to the current AWS 
 - `MaxResults`: The maximum number of items to return in the response. 
 - `NextToken`: The token that is required for pagination. On your first call to the ListInvitations operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
 """
-ListInvitations(; aws::AWSConfig=AWSConfig()) = securityhub("GET", "/invitations"; aws=aws)
-ListInvitations(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = securityhub("GET", "/invitations", args; aws=aws)
+ListInvitations(; aws::AWSConfig=AWS.aws_config) = securityhub("GET", "/invitations"; aws=aws)
+ListInvitations(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = securityhub("GET", "/invitations", args; aws=aws)
 
 """
     ListMembers()
@@ -428,8 +428,8 @@ Lists details about all member accounts for the current Security Hub master acco
 - `NextToken`: The token that is required for pagination. On your first call to the ListMembers operation, set the value of this parameter to NULL. For subsequent calls to the operation, to continue listing data, set the value of this parameter to the value returned from the previous response.
 - `OnlyAssociated`: Specifies which member accounts to include in the response based on their relationship status with the master account. The default value is TRUE. If OnlyAssociated is set to TRUE, the response includes member accounts whose relationship status with the master is set to ENABLED or DISABLED. If OnlyAssociated is set to FALSE, the response includes all existing member accounts. 
 """
-ListMembers(; aws::AWSConfig=AWSConfig()) = securityhub("GET", "/members"; aws=aws)
-ListMembers(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = securityhub("GET", "/members", args; aws=aws)
+ListMembers(; aws::AWSConfig=AWS.aws_config) = securityhub("GET", "/members"; aws=aws)
+ListMembers(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = securityhub("GET", "/members", args; aws=aws)
 
 """
     ListTagsForResource()
@@ -440,8 +440,8 @@ Returns a list of tags associated with a resource.
 - `ResourceArn`: The ARN of the resource to retrieve tags for.
 
 """
-ListTagsForResource(ResourceArn; aws::AWSConfig=AWSConfig()) = securityhub("GET", "/tags/$(ResourceArn)"; aws=aws)
-ListTagsForResource(ResourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = securityhub("GET", "/tags/$(ResourceArn)", args; aws=aws)
+ListTagsForResource(ResourceArn; aws::AWSConfig=AWS.aws_config) = securityhub("GET", "/tags/$(ResourceArn)"; aws=aws)
+ListTagsForResource(ResourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = securityhub("GET", "/tags/$(ResourceArn)", args; aws=aws)
 
 """
     TagResource()
@@ -453,8 +453,8 @@ Adds one or more tags to a resource.
 - `Tags`: The tags to add to the resource.
 
 """
-TagResource(ResourceArn, Tags; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/tags/$(ResourceArn)", Dict{String, Any}("Tags"=>Tags))
-TagResource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = securityhub("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws=aws)
+TagResource(ResourceArn, Tags; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/tags/$(ResourceArn)", Dict{String, Any}("Tags"=>Tags); aws=aws)
+TagResource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = securityhub("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws=aws)
 
 """
     UntagResource()
@@ -466,8 +466,8 @@ Removes one or more tags from a resource.
 - `tagKeys`: The tag keys associated with the tags to remove from the resource.
 
 """
-UntagResource(ResourceArn, tagKeys; aws::AWSConfig=AWSConfig()) = securityhub("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}("tagKeys"=>tagKeys))
-UntagResource(ResourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = securityhub("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws=aws)
+UntagResource(ResourceArn, tagKeys; aws::AWSConfig=AWS.aws_config) = securityhub("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws=aws)
+UntagResource(ResourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = securityhub("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws=aws)
 
 """
     UpdateActionTarget()
@@ -481,8 +481,8 @@ Updates the name and description of a custom action target in Security Hub.
 - `Description`: The updated description for the custom action target.
 - `Name`: The updated name of the custom action target.
 """
-UpdateActionTarget(ActionTargetArn; aws::AWSConfig=AWSConfig()) = securityhub("PATCH", "/actionTargets/$(ActionTargetArn)"; aws=aws)
-UpdateActionTarget(ActionTargetArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = securityhub("PATCH", "/actionTargets/$(ActionTargetArn)", args; aws=aws)
+UpdateActionTarget(ActionTargetArn; aws::AWSConfig=AWS.aws_config) = securityhub("PATCH", "/actionTargets/$(ActionTargetArn)"; aws=aws)
+UpdateActionTarget(ActionTargetArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = securityhub("PATCH", "/actionTargets/$(ActionTargetArn)", args; aws=aws)
 
 """
     UpdateFindings()
@@ -496,8 +496,8 @@ UpdateActionTarget(ActionTargetArn, args::AbstractDict{String, <:Any}; aws::AWSC
 - `Note`: The updated note for the finding.
 - `RecordState`: The updated record state for the finding.
 """
-UpdateFindings(Filters; aws::AWSConfig=AWSConfig()) = securityhub("PATCH", "/findings", Dict{String, Any}("Filters"=>Filters))
-UpdateFindings(Filters, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = securityhub("PATCH", "/findings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filters"=>Filters), args)); aws=aws)
+UpdateFindings(Filters; aws::AWSConfig=AWS.aws_config) = securityhub("PATCH", "/findings", Dict{String, Any}("Filters"=>Filters); aws=aws)
+UpdateFindings(Filters, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = securityhub("PATCH", "/findings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filters"=>Filters), args)); aws=aws)
 
 """
     UpdateInsight()
@@ -512,8 +512,8 @@ Updates the Security Hub insight identified by the specified insight ARN.
 - `GroupByAttribute`: The updated GroupBy attribute that defines this insight.
 - `Name`: The updated name for the insight.
 """
-UpdateInsight(InsightArn; aws::AWSConfig=AWSConfig()) = securityhub("PATCH", "/insights/$(InsightArn)"; aws=aws)
-UpdateInsight(InsightArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = securityhub("PATCH", "/insights/$(InsightArn)", args; aws=aws)
+UpdateInsight(InsightArn; aws::AWSConfig=AWS.aws_config) = securityhub("PATCH", "/insights/$(InsightArn)"; aws=aws)
+UpdateInsight(InsightArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = securityhub("PATCH", "/insights/$(InsightArn)", args; aws=aws)
 
 """
     UpdateSecurityHubConfiguration()
@@ -523,8 +523,8 @@ Updates configuration options for Security Hub.
 # Optional Parameters
 - `AutoEnableControls`: Whether to automatically enable new controls when they are added to standards that are enabled. By default, this is set to true, and new controls are enabled automatically. To not automatically enable new controls, set this to false. 
 """
-UpdateSecurityHubConfiguration(; aws::AWSConfig=AWSConfig()) = securityhub("PATCH", "/accounts"; aws=aws)
-UpdateSecurityHubConfiguration(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = securityhub("PATCH", "/accounts", args; aws=aws)
+UpdateSecurityHubConfiguration(; aws::AWSConfig=AWS.aws_config) = securityhub("PATCH", "/accounts"; aws=aws)
+UpdateSecurityHubConfiguration(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = securityhub("PATCH", "/accounts", args; aws=aws)
 
 """
     UpdateStandardsControl()
@@ -538,5 +538,5 @@ Used to control whether an individual security standard control is enabled or di
 - `ControlStatus`: The updated status of the security standard control.
 - `DisabledReason`: A description of the reason why you are disabling a security standard control. If you are disabling a control, then this is required.
 """
-UpdateStandardsControl(StandardsControlArn; aws::AWSConfig=AWSConfig()) = securityhub("PATCH", "/standards/control/$(StandardsControlArn)"; aws=aws)
-UpdateStandardsControl(StandardsControlArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = securityhub("PATCH", "/standards/control/$(StandardsControlArn)", args; aws=aws)
+UpdateStandardsControl(StandardsControlArn; aws::AWSConfig=AWS.aws_config) = securityhub("PATCH", "/standards/control/$(StandardsControlArn)"; aws=aws)
+UpdateStandardsControl(StandardsControlArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = securityhub("PATCH", "/standards/control/$(StandardsControlArn)", args; aws=aws)

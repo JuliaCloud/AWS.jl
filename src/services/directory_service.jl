@@ -13,8 +13,8 @@ Accepts a directory sharing request that was sent from the directory owner accou
 - `SharedDirectoryId`: Identifier of the shared directory in the directory consumer account. This identifier is different for each directory owner account. 
 
 """
-AcceptSharedDirectory(SharedDirectoryId; aws::AWSConfig=AWSConfig()) = directory_service("AcceptSharedDirectory", Dict{String, Any}("SharedDirectoryId"=>SharedDirectoryId); aws=aws)
-AcceptSharedDirectory(SharedDirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("AcceptSharedDirectory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SharedDirectoryId"=>SharedDirectoryId), args)); aws=aws)
+AcceptSharedDirectory(SharedDirectoryId; aws::AWSConfig=AWS.aws_config) = directory_service("AcceptSharedDirectory", Dict{String, Any}("SharedDirectoryId"=>SharedDirectoryId); aws=aws)
+AcceptSharedDirectory(SharedDirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("AcceptSharedDirectory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SharedDirectoryId"=>SharedDirectoryId), args)); aws=aws)
 
 """
     AddIpRoutes()
@@ -28,8 +28,8 @@ If the DNS server for your on-premises domain uses a publicly addressable IP add
 # Optional Parameters
 - `UpdateSecurityGroupForDirectoryControllers`: If set to true, updates the inbound and outbound rules of the security group that has the description: \"AWS created security group for directory ID directory controllers.\" Following are the new rules:  Inbound:   Type: Custom UDP Rule, Protocol: UDP, Range: 88, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 123, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 138, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 389, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 464, Source: 0.0.0.0/0   Type: Custom UDP Rule, Protocol: UDP, Range: 445, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 88, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 135, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 445, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 464, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 636, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 1024-65535, Source: 0.0.0.0/0   Type: Custom TCP Rule, Protocol: TCP, Range: 3268-33269, Source: 0.0.0.0/0   Type: DNS (UDP), Protocol: UDP, Range: 53, Source: 0.0.0.0/0   Type: DNS (TCP), Protocol: TCP, Range: 53, Source: 0.0.0.0/0   Type: LDAP, Protocol: TCP, Range: 389, Source: 0.0.0.0/0   Type: All ICMP, Protocol: All, Range: N/A, Source: 0.0.0.0/0    Outbound:   Type: All traffic, Protocol: All, Range: All, Destination: 0.0.0.0/0   These security rules impact an internal network interface that is not exposed publicly.
 """
-AddIpRoutes(DirectoryId, IpRoutes; aws::AWSConfig=AWSConfig()) = directory_service("AddIpRoutes", Dict{String, Any}("DirectoryId"=>DirectoryId, "IpRoutes"=>IpRoutes); aws=aws)
-AddIpRoutes(DirectoryId, IpRoutes, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("AddIpRoutes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "IpRoutes"=>IpRoutes), args)); aws=aws)
+AddIpRoutes(DirectoryId, IpRoutes; aws::AWSConfig=AWS.aws_config) = directory_service("AddIpRoutes", Dict{String, Any}("DirectoryId"=>DirectoryId, "IpRoutes"=>IpRoutes); aws=aws)
+AddIpRoutes(DirectoryId, IpRoutes, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("AddIpRoutes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "IpRoutes"=>IpRoutes), args)); aws=aws)
 
 """
     AddTagsToResource()
@@ -41,8 +41,8 @@ Adds or overwrites one or more tags for the specified directory. Each directory 
 - `Tags`: The tags to be assigned to the directory.
 
 """
-AddTagsToResource(ResourceId, Tags; aws::AWSConfig=AWSConfig()) = directory_service("AddTagsToResource", Dict{String, Any}("ResourceId"=>ResourceId, "Tags"=>Tags); aws=aws)
-AddTagsToResource(ResourceId, Tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("AddTagsToResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "Tags"=>Tags), args)); aws=aws)
+AddTagsToResource(ResourceId, Tags; aws::AWSConfig=AWS.aws_config) = directory_service("AddTagsToResource", Dict{String, Any}("ResourceId"=>ResourceId, "Tags"=>Tags); aws=aws)
+AddTagsToResource(ResourceId, Tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("AddTagsToResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "Tags"=>Tags), args)); aws=aws)
 
 """
     CancelSchemaExtension()
@@ -54,8 +54,8 @@ Cancels an in-progress schema extension to a Microsoft AD directory. Once a sche
 - `SchemaExtensionId`: The identifier of the schema extension that will be canceled.
 
 """
-CancelSchemaExtension(DirectoryId, SchemaExtensionId; aws::AWSConfig=AWSConfig()) = directory_service("CancelSchemaExtension", Dict{String, Any}("DirectoryId"=>DirectoryId, "SchemaExtensionId"=>SchemaExtensionId); aws=aws)
-CancelSchemaExtension(DirectoryId, SchemaExtensionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("CancelSchemaExtension", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "SchemaExtensionId"=>SchemaExtensionId), args)); aws=aws)
+CancelSchemaExtension(DirectoryId, SchemaExtensionId; aws::AWSConfig=AWS.aws_config) = directory_service("CancelSchemaExtension", Dict{String, Any}("DirectoryId"=>DirectoryId, "SchemaExtensionId"=>SchemaExtensionId); aws=aws)
+CancelSchemaExtension(DirectoryId, SchemaExtensionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("CancelSchemaExtension", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "SchemaExtensionId"=>SchemaExtensionId), args)); aws=aws)
 
 """
     ConnectDirectory()
@@ -73,8 +73,8 @@ Creates an AD Connector to connect to an on-premises directory. Before you call 
 - `ShortName`: The NetBIOS name of the on-premises directory, such as CORP.
 - `Tags`: The tags to be assigned to AD Connector.
 """
-ConnectDirectory(ConnectSettings, Name, Password, Size; aws::AWSConfig=AWSConfig()) = directory_service("ConnectDirectory", Dict{String, Any}("ConnectSettings"=>ConnectSettings, "Name"=>Name, "Password"=>Password, "Size"=>Size); aws=aws)
-ConnectDirectory(ConnectSettings, Name, Password, Size, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("ConnectDirectory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectSettings"=>ConnectSettings, "Name"=>Name, "Password"=>Password, "Size"=>Size), args)); aws=aws)
+ConnectDirectory(ConnectSettings, Name, Password, Size; aws::AWSConfig=AWS.aws_config) = directory_service("ConnectDirectory", Dict{String, Any}("ConnectSettings"=>ConnectSettings, "Name"=>Name, "Password"=>Password, "Size"=>Size); aws=aws)
+ConnectDirectory(ConnectSettings, Name, Password, Size, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("ConnectDirectory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectSettings"=>ConnectSettings, "Name"=>Name, "Password"=>Password, "Size"=>Size), args)); aws=aws)
 
 """
     CreateAlias()
@@ -86,8 +86,8 @@ Creates an alias for a directory and assigns the alias to the directory. The ali
 - `DirectoryId`: The identifier of the directory for which to create the alias.
 
 """
-CreateAlias(Alias, DirectoryId; aws::AWSConfig=AWSConfig()) = directory_service("CreateAlias", Dict{String, Any}("Alias"=>Alias, "DirectoryId"=>DirectoryId); aws=aws)
-CreateAlias(Alias, DirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("CreateAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Alias"=>Alias, "DirectoryId"=>DirectoryId), args)); aws=aws)
+CreateAlias(Alias, DirectoryId; aws::AWSConfig=AWS.aws_config) = directory_service("CreateAlias", Dict{String, Any}("Alias"=>Alias, "DirectoryId"=>DirectoryId); aws=aws)
+CreateAlias(Alias, DirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("CreateAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Alias"=>Alias, "DirectoryId"=>DirectoryId), args)); aws=aws)
 
 """
     CreateComputer()
@@ -103,8 +103,8 @@ Creates a computer account in the specified directory, and joins the computer to
 - `ComputerAttributes`: An array of Attribute objects that contain any LDAP attributes to apply to the computer account.
 - `OrganizationalUnitDistinguishedName`: The fully-qualified distinguished name of the organizational unit to place the computer account in.
 """
-CreateComputer(ComputerName, DirectoryId, Password; aws::AWSConfig=AWSConfig()) = directory_service("CreateComputer", Dict{String, Any}("ComputerName"=>ComputerName, "DirectoryId"=>DirectoryId, "Password"=>Password); aws=aws)
-CreateComputer(ComputerName, DirectoryId, Password, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("CreateComputer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ComputerName"=>ComputerName, "DirectoryId"=>DirectoryId, "Password"=>Password), args)); aws=aws)
+CreateComputer(ComputerName, DirectoryId, Password; aws::AWSConfig=AWS.aws_config) = directory_service("CreateComputer", Dict{String, Any}("ComputerName"=>ComputerName, "DirectoryId"=>DirectoryId, "Password"=>Password); aws=aws)
+CreateComputer(ComputerName, DirectoryId, Password, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("CreateComputer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ComputerName"=>ComputerName, "DirectoryId"=>DirectoryId, "Password"=>Password), args)); aws=aws)
 
 """
     CreateConditionalForwarder()
@@ -117,8 +117,8 @@ Creates a conditional forwarder associated with your AWS directory. Conditional 
 - `RemoteDomainName`: The fully qualified domain name (FQDN) of the remote domain with which you will set up a trust relationship.
 
 """
-CreateConditionalForwarder(DirectoryId, DnsIpAddrs, RemoteDomainName; aws::AWSConfig=AWSConfig()) = directory_service("CreateConditionalForwarder", Dict{String, Any}("DirectoryId"=>DirectoryId, "DnsIpAddrs"=>DnsIpAddrs, "RemoteDomainName"=>RemoteDomainName); aws=aws)
-CreateConditionalForwarder(DirectoryId, DnsIpAddrs, RemoteDomainName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("CreateConditionalForwarder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "DnsIpAddrs"=>DnsIpAddrs, "RemoteDomainName"=>RemoteDomainName), args)); aws=aws)
+CreateConditionalForwarder(DirectoryId, DnsIpAddrs, RemoteDomainName; aws::AWSConfig=AWS.aws_config) = directory_service("CreateConditionalForwarder", Dict{String, Any}("DirectoryId"=>DirectoryId, "DnsIpAddrs"=>DnsIpAddrs, "RemoteDomainName"=>RemoteDomainName); aws=aws)
+CreateConditionalForwarder(DirectoryId, DnsIpAddrs, RemoteDomainName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("CreateConditionalForwarder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "DnsIpAddrs"=>DnsIpAddrs, "RemoteDomainName"=>RemoteDomainName), args)); aws=aws)
 
 """
     CreateDirectory()
@@ -136,8 +136,8 @@ Creates a Simple AD directory. For more information, see Simple Active Directory
 - `Tags`: The tags to be assigned to the Simple AD directory.
 - `VpcSettings`: A DirectoryVpcSettings object that contains additional information for the operation.
 """
-CreateDirectory(Name, Password, Size; aws::AWSConfig=AWSConfig()) = directory_service("CreateDirectory", Dict{String, Any}("Name"=>Name, "Password"=>Password, "Size"=>Size); aws=aws)
-CreateDirectory(Name, Password, Size, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("CreateDirectory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Password"=>Password, "Size"=>Size), args)); aws=aws)
+CreateDirectory(Name, Password, Size; aws::AWSConfig=AWS.aws_config) = directory_service("CreateDirectory", Dict{String, Any}("Name"=>Name, "Password"=>Password, "Size"=>Size); aws=aws)
+CreateDirectory(Name, Password, Size, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("CreateDirectory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Password"=>Password, "Size"=>Size), args)); aws=aws)
 
 """
     CreateLogSubscription()
@@ -149,8 +149,8 @@ Creates a subscription to forward real-time Directory Service domain controller 
 - `LogGroupName`: The name of the CloudWatch log group where the real-time domain controller logs are forwarded.
 
 """
-CreateLogSubscription(DirectoryId, LogGroupName; aws::AWSConfig=AWSConfig()) = directory_service("CreateLogSubscription", Dict{String, Any}("DirectoryId"=>DirectoryId, "LogGroupName"=>LogGroupName); aws=aws)
-CreateLogSubscription(DirectoryId, LogGroupName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("CreateLogSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "LogGroupName"=>LogGroupName), args)); aws=aws)
+CreateLogSubscription(DirectoryId, LogGroupName; aws::AWSConfig=AWS.aws_config) = directory_service("CreateLogSubscription", Dict{String, Any}("DirectoryId"=>DirectoryId, "LogGroupName"=>LogGroupName); aws=aws)
+CreateLogSubscription(DirectoryId, LogGroupName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("CreateLogSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "LogGroupName"=>LogGroupName), args)); aws=aws)
 
 """
     CreateMicrosoftAD()
@@ -168,8 +168,8 @@ Creates a Microsoft AD directory in the AWS Cloud. For more information, see AWS
 - `ShortName`: The NetBIOS name for your domain, such as CORP. If you don't specify a NetBIOS name, it will default to the first part of your directory DNS. For example, CORP for the directory DNS corp.example.com. 
 - `Tags`: The tags to be assigned to the AWS Managed Microsoft AD directory.
 """
-CreateMicrosoftAD(Name, Password, VpcSettings; aws::AWSConfig=AWSConfig()) = directory_service("CreateMicrosoftAD", Dict{String, Any}("Name"=>Name, "Password"=>Password, "VpcSettings"=>VpcSettings); aws=aws)
-CreateMicrosoftAD(Name, Password, VpcSettings, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("CreateMicrosoftAD", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Password"=>Password, "VpcSettings"=>VpcSettings), args)); aws=aws)
+CreateMicrosoftAD(Name, Password, VpcSettings; aws::AWSConfig=AWS.aws_config) = directory_service("CreateMicrosoftAD", Dict{String, Any}("Name"=>Name, "Password"=>Password, "VpcSettings"=>VpcSettings); aws=aws)
+CreateMicrosoftAD(Name, Password, VpcSettings, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("CreateMicrosoftAD", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Password"=>Password, "VpcSettings"=>VpcSettings), args)); aws=aws)
 
 """
     CreateSnapshot()
@@ -182,8 +182,8 @@ Creates a snapshot of a Simple AD or Microsoft AD directory in the AWS cloud.  Y
 # Optional Parameters
 - `Name`: The descriptive name to apply to the snapshot.
 """
-CreateSnapshot(DirectoryId; aws::AWSConfig=AWSConfig()) = directory_service("CreateSnapshot", Dict{String, Any}("DirectoryId"=>DirectoryId); aws=aws)
-CreateSnapshot(DirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("CreateSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId), args)); aws=aws)
+CreateSnapshot(DirectoryId; aws::AWSConfig=AWS.aws_config) = directory_service("CreateSnapshot", Dict{String, Any}("DirectoryId"=>DirectoryId); aws=aws)
+CreateSnapshot(DirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("CreateSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId), args)); aws=aws)
 
 """
     CreateTrust()
@@ -201,8 +201,8 @@ AWS Directory Service for Microsoft Active Directory allows you to configure tru
 - `SelectiveAuth`: Optional parameter to enable selective authentication for the trust.
 - `TrustType`: The trust relationship type. Forest is the default.
 """
-CreateTrust(DirectoryId, RemoteDomainName, TrustDirection, TrustPassword; aws::AWSConfig=AWSConfig()) = directory_service("CreateTrust", Dict{String, Any}("DirectoryId"=>DirectoryId, "RemoteDomainName"=>RemoteDomainName, "TrustDirection"=>TrustDirection, "TrustPassword"=>TrustPassword); aws=aws)
-CreateTrust(DirectoryId, RemoteDomainName, TrustDirection, TrustPassword, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("CreateTrust", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "RemoteDomainName"=>RemoteDomainName, "TrustDirection"=>TrustDirection, "TrustPassword"=>TrustPassword), args)); aws=aws)
+CreateTrust(DirectoryId, RemoteDomainName, TrustDirection, TrustPassword; aws::AWSConfig=AWS.aws_config) = directory_service("CreateTrust", Dict{String, Any}("DirectoryId"=>DirectoryId, "RemoteDomainName"=>RemoteDomainName, "TrustDirection"=>TrustDirection, "TrustPassword"=>TrustPassword); aws=aws)
+CreateTrust(DirectoryId, RemoteDomainName, TrustDirection, TrustPassword, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("CreateTrust", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "RemoteDomainName"=>RemoteDomainName, "TrustDirection"=>TrustDirection, "TrustPassword"=>TrustPassword), args)); aws=aws)
 
 """
     DeleteConditionalForwarder()
@@ -214,8 +214,8 @@ Deletes a conditional forwarder that has been set up for your AWS directory.
 - `RemoteDomainName`: The fully qualified domain name (FQDN) of the remote domain with which you are deleting the conditional forwarder.
 
 """
-DeleteConditionalForwarder(DirectoryId, RemoteDomainName; aws::AWSConfig=AWSConfig()) = directory_service("DeleteConditionalForwarder", Dict{String, Any}("DirectoryId"=>DirectoryId, "RemoteDomainName"=>RemoteDomainName); aws=aws)
-DeleteConditionalForwarder(DirectoryId, RemoteDomainName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("DeleteConditionalForwarder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "RemoteDomainName"=>RemoteDomainName), args)); aws=aws)
+DeleteConditionalForwarder(DirectoryId, RemoteDomainName; aws::AWSConfig=AWS.aws_config) = directory_service("DeleteConditionalForwarder", Dict{String, Any}("DirectoryId"=>DirectoryId, "RemoteDomainName"=>RemoteDomainName); aws=aws)
+DeleteConditionalForwarder(DirectoryId, RemoteDomainName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("DeleteConditionalForwarder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "RemoteDomainName"=>RemoteDomainName), args)); aws=aws)
 
 """
     DeleteDirectory()
@@ -226,8 +226,8 @@ Deletes an AWS Directory Service directory. Before you call DeleteDirectory, ens
 - `DirectoryId`: The identifier of the directory to delete.
 
 """
-DeleteDirectory(DirectoryId; aws::AWSConfig=AWSConfig()) = directory_service("DeleteDirectory", Dict{String, Any}("DirectoryId"=>DirectoryId); aws=aws)
-DeleteDirectory(DirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("DeleteDirectory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId), args)); aws=aws)
+DeleteDirectory(DirectoryId; aws::AWSConfig=AWS.aws_config) = directory_service("DeleteDirectory", Dict{String, Any}("DirectoryId"=>DirectoryId); aws=aws)
+DeleteDirectory(DirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("DeleteDirectory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId), args)); aws=aws)
 
 """
     DeleteLogSubscription()
@@ -238,8 +238,8 @@ Deletes the specified log subscription.
 - `DirectoryId`: Identifier of the directory whose log subscription you want to delete.
 
 """
-DeleteLogSubscription(DirectoryId; aws::AWSConfig=AWSConfig()) = directory_service("DeleteLogSubscription", Dict{String, Any}("DirectoryId"=>DirectoryId); aws=aws)
-DeleteLogSubscription(DirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("DeleteLogSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId), args)); aws=aws)
+DeleteLogSubscription(DirectoryId; aws::AWSConfig=AWS.aws_config) = directory_service("DeleteLogSubscription", Dict{String, Any}("DirectoryId"=>DirectoryId); aws=aws)
+DeleteLogSubscription(DirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("DeleteLogSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId), args)); aws=aws)
 
 """
     DeleteSnapshot()
@@ -250,8 +250,8 @@ Deletes a directory snapshot.
 - `SnapshotId`: The identifier of the directory snapshot to be deleted.
 
 """
-DeleteSnapshot(SnapshotId; aws::AWSConfig=AWSConfig()) = directory_service("DeleteSnapshot", Dict{String, Any}("SnapshotId"=>SnapshotId); aws=aws)
-DeleteSnapshot(SnapshotId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("DeleteSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotId"=>SnapshotId), args)); aws=aws)
+DeleteSnapshot(SnapshotId; aws::AWSConfig=AWS.aws_config) = directory_service("DeleteSnapshot", Dict{String, Any}("SnapshotId"=>SnapshotId); aws=aws)
+DeleteSnapshot(SnapshotId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("DeleteSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotId"=>SnapshotId), args)); aws=aws)
 
 """
     DeleteTrust()
@@ -264,8 +264,8 @@ Deletes an existing trust relationship between your AWS Managed Microsoft AD dir
 # Optional Parameters
 - `DeleteAssociatedConditionalForwarder`: Delete a conditional forwarder as part of a DeleteTrustRequest.
 """
-DeleteTrust(TrustId; aws::AWSConfig=AWSConfig()) = directory_service("DeleteTrust", Dict{String, Any}("TrustId"=>TrustId); aws=aws)
-DeleteTrust(TrustId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("DeleteTrust", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrustId"=>TrustId), args)); aws=aws)
+DeleteTrust(TrustId; aws::AWSConfig=AWS.aws_config) = directory_service("DeleteTrust", Dict{String, Any}("TrustId"=>TrustId); aws=aws)
+DeleteTrust(TrustId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("DeleteTrust", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrustId"=>TrustId), args)); aws=aws)
 
 """
     DeregisterCertificate()
@@ -277,8 +277,8 @@ Deletes from the system the certificate that was registered for a secured LDAP c
 - `DirectoryId`: The identifier of the directory.
 
 """
-DeregisterCertificate(CertificateId, DirectoryId; aws::AWSConfig=AWSConfig()) = directory_service("DeregisterCertificate", Dict{String, Any}("CertificateId"=>CertificateId, "DirectoryId"=>DirectoryId); aws=aws)
-DeregisterCertificate(CertificateId, DirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("DeregisterCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateId"=>CertificateId, "DirectoryId"=>DirectoryId), args)); aws=aws)
+DeregisterCertificate(CertificateId, DirectoryId; aws::AWSConfig=AWS.aws_config) = directory_service("DeregisterCertificate", Dict{String, Any}("CertificateId"=>CertificateId, "DirectoryId"=>DirectoryId); aws=aws)
+DeregisterCertificate(CertificateId, DirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("DeregisterCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateId"=>CertificateId, "DirectoryId"=>DirectoryId), args)); aws=aws)
 
 """
     DeregisterEventTopic()
@@ -290,8 +290,8 @@ Removes the specified directory as a publisher to the specified SNS topic.
 - `TopicName`: The name of the SNS topic from which to remove the directory as a publisher.
 
 """
-DeregisterEventTopic(DirectoryId, TopicName; aws::AWSConfig=AWSConfig()) = directory_service("DeregisterEventTopic", Dict{String, Any}("DirectoryId"=>DirectoryId, "TopicName"=>TopicName); aws=aws)
-DeregisterEventTopic(DirectoryId, TopicName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("DeregisterEventTopic", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "TopicName"=>TopicName), args)); aws=aws)
+DeregisterEventTopic(DirectoryId, TopicName; aws::AWSConfig=AWS.aws_config) = directory_service("DeregisterEventTopic", Dict{String, Any}("DirectoryId"=>DirectoryId, "TopicName"=>TopicName); aws=aws)
+DeregisterEventTopic(DirectoryId, TopicName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("DeregisterEventTopic", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "TopicName"=>TopicName), args)); aws=aws)
 
 """
     DescribeCertificate()
@@ -303,8 +303,8 @@ Displays information about the certificate registered for a secured LDAP connect
 - `DirectoryId`: The identifier of the directory.
 
 """
-DescribeCertificate(CertificateId, DirectoryId; aws::AWSConfig=AWSConfig()) = directory_service("DescribeCertificate", Dict{String, Any}("CertificateId"=>CertificateId, "DirectoryId"=>DirectoryId); aws=aws)
-DescribeCertificate(CertificateId, DirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("DescribeCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateId"=>CertificateId, "DirectoryId"=>DirectoryId), args)); aws=aws)
+DescribeCertificate(CertificateId, DirectoryId; aws::AWSConfig=AWS.aws_config) = directory_service("DescribeCertificate", Dict{String, Any}("CertificateId"=>CertificateId, "DirectoryId"=>DirectoryId); aws=aws)
+DescribeCertificate(CertificateId, DirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("DescribeCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateId"=>CertificateId, "DirectoryId"=>DirectoryId), args)); aws=aws)
 
 """
     DescribeConditionalForwarders()
@@ -317,8 +317,8 @@ Obtains information about the conditional forwarders for this account. If no inp
 # Optional Parameters
 - `RemoteDomainNames`: The fully qualified domain names (FQDN) of the remote domains for which to get the list of associated conditional forwarders. If this member is null, all conditional forwarders are returned.
 """
-DescribeConditionalForwarders(DirectoryId; aws::AWSConfig=AWSConfig()) = directory_service("DescribeConditionalForwarders", Dict{String, Any}("DirectoryId"=>DirectoryId); aws=aws)
-DescribeConditionalForwarders(DirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("DescribeConditionalForwarders", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId), args)); aws=aws)
+DescribeConditionalForwarders(DirectoryId; aws::AWSConfig=AWS.aws_config) = directory_service("DescribeConditionalForwarders", Dict{String, Any}("DirectoryId"=>DirectoryId); aws=aws)
+DescribeConditionalForwarders(DirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("DescribeConditionalForwarders", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId), args)); aws=aws)
 
 """
     DescribeDirectories()
@@ -330,8 +330,8 @@ Obtains information about the directories that belong to this account. You can r
 - `Limit`: The maximum number of items to return. If this value is zero, the maximum number of items is specified by the limitations of the operation.
 - `NextToken`: The DescribeDirectoriesResult.NextToken value from a previous call to DescribeDirectories. Pass null if this is the first call.
 """
-DescribeDirectories(; aws::AWSConfig=AWSConfig()) = directory_service("DescribeDirectories"; aws=aws)
-DescribeDirectories(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("DescribeDirectories", args; aws=aws)
+DescribeDirectories(; aws::AWSConfig=AWS.aws_config) = directory_service("DescribeDirectories"; aws=aws)
+DescribeDirectories(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("DescribeDirectories", args; aws=aws)
 
 """
     DescribeDomainControllers()
@@ -346,8 +346,8 @@ Provides information about any domain controllers in your directory.
 - `Limit`: The maximum number of items to return.
 - `NextToken`: The DescribeDomainControllers.NextToken value from a previous call to DescribeDomainControllers. Pass null if this is the first call. 
 """
-DescribeDomainControllers(DirectoryId; aws::AWSConfig=AWSConfig()) = directory_service("DescribeDomainControllers", Dict{String, Any}("DirectoryId"=>DirectoryId); aws=aws)
-DescribeDomainControllers(DirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("DescribeDomainControllers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId), args)); aws=aws)
+DescribeDomainControllers(DirectoryId; aws::AWSConfig=AWS.aws_config) = directory_service("DescribeDomainControllers", Dict{String, Any}("DirectoryId"=>DirectoryId); aws=aws)
+DescribeDomainControllers(DirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("DescribeDomainControllers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId), args)); aws=aws)
 
 """
     DescribeEventTopics()
@@ -358,8 +358,8 @@ Obtains information about which SNS topics receive status messages from the spec
 - `DirectoryId`: The Directory ID for which to get the list of associated SNS topics. If this member is null, associations for all Directory IDs are returned.
 - `TopicNames`: A list of SNS topic names for which to obtain the information. If this member is null, all associations for the specified Directory ID are returned. An empty list results in an InvalidParameterException being thrown.
 """
-DescribeEventTopics(; aws::AWSConfig=AWSConfig()) = directory_service("DescribeEventTopics"; aws=aws)
-DescribeEventTopics(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("DescribeEventTopics", args; aws=aws)
+DescribeEventTopics(; aws::AWSConfig=AWS.aws_config) = directory_service("DescribeEventTopics"; aws=aws)
+DescribeEventTopics(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("DescribeEventTopics", args; aws=aws)
 
 """
     DescribeLDAPSSettings()
@@ -374,8 +374,8 @@ Describes the status of LDAP security for the specified directory.
 - `NextToken`: The type of next token used for pagination.
 - `Type`: The type of LDAP security to enable. Currently only the value Client is supported.
 """
-DescribeLDAPSSettings(DirectoryId; aws::AWSConfig=AWSConfig()) = directory_service("DescribeLDAPSSettings", Dict{String, Any}("DirectoryId"=>DirectoryId); aws=aws)
-DescribeLDAPSSettings(DirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("DescribeLDAPSSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId), args)); aws=aws)
+DescribeLDAPSSettings(DirectoryId; aws::AWSConfig=AWS.aws_config) = directory_service("DescribeLDAPSSettings", Dict{String, Any}("DirectoryId"=>DirectoryId); aws=aws)
+DescribeLDAPSSettings(DirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("DescribeLDAPSSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId), args)); aws=aws)
 
 """
     DescribeSharedDirectories()
@@ -390,8 +390,8 @@ Returns the shared directories in your account.
 - `NextToken`: The DescribeSharedDirectoriesResult.NextToken value from a previous call to DescribeSharedDirectories. Pass null if this is the first call. 
 - `SharedDirectoryIds`: A list of identifiers of all shared directories in your account. 
 """
-DescribeSharedDirectories(OwnerDirectoryId; aws::AWSConfig=AWSConfig()) = directory_service("DescribeSharedDirectories", Dict{String, Any}("OwnerDirectoryId"=>OwnerDirectoryId); aws=aws)
-DescribeSharedDirectories(OwnerDirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("DescribeSharedDirectories", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OwnerDirectoryId"=>OwnerDirectoryId), args)); aws=aws)
+DescribeSharedDirectories(OwnerDirectoryId; aws::AWSConfig=AWS.aws_config) = directory_service("DescribeSharedDirectories", Dict{String, Any}("OwnerDirectoryId"=>OwnerDirectoryId); aws=aws)
+DescribeSharedDirectories(OwnerDirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("DescribeSharedDirectories", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OwnerDirectoryId"=>OwnerDirectoryId), args)); aws=aws)
 
 """
     DescribeSnapshots()
@@ -404,8 +404,8 @@ Obtains information about the directory snapshots that belong to this account. T
 - `NextToken`: The DescribeSnapshotsResult.NextToken value from a previous call to DescribeSnapshots. Pass null if this is the first call.
 - `SnapshotIds`: A list of identifiers of the snapshots to obtain the information for. If this member is null or empty, all snapshots are returned using the Limit and NextToken members.
 """
-DescribeSnapshots(; aws::AWSConfig=AWSConfig()) = directory_service("DescribeSnapshots"; aws=aws)
-DescribeSnapshots(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("DescribeSnapshots", args; aws=aws)
+DescribeSnapshots(; aws::AWSConfig=AWS.aws_config) = directory_service("DescribeSnapshots"; aws=aws)
+DescribeSnapshots(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("DescribeSnapshots", args; aws=aws)
 
 """
     DescribeTrusts()
@@ -418,8 +418,8 @@ Obtains information about the trust relationships for this account. If no input 
 - `NextToken`: The DescribeTrustsResult.NextToken value from a previous call to DescribeTrusts. Pass null if this is the first call.
 - `TrustIds`: A list of identifiers of the trust relationships for which to obtain the information. If this member is null, all trust relationships that belong to the current account are returned. An empty list results in an InvalidParameterException being thrown.
 """
-DescribeTrusts(; aws::AWSConfig=AWSConfig()) = directory_service("DescribeTrusts"; aws=aws)
-DescribeTrusts(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("DescribeTrusts", args; aws=aws)
+DescribeTrusts(; aws::AWSConfig=AWS.aws_config) = directory_service("DescribeTrusts"; aws=aws)
+DescribeTrusts(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("DescribeTrusts", args; aws=aws)
 
 """
     DisableLDAPS()
@@ -431,8 +431,8 @@ Deactivates LDAP secure calls for the specified directory.
 - `Type`: The type of LDAP security to enable. Currently only the value Client is supported.
 
 """
-DisableLDAPS(DirectoryId, Type; aws::AWSConfig=AWSConfig()) = directory_service("DisableLDAPS", Dict{String, Any}("DirectoryId"=>DirectoryId, "Type"=>Type); aws=aws)
-DisableLDAPS(DirectoryId, Type, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("DisableLDAPS", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "Type"=>Type), args)); aws=aws)
+DisableLDAPS(DirectoryId, Type; aws::AWSConfig=AWS.aws_config) = directory_service("DisableLDAPS", Dict{String, Any}("DirectoryId"=>DirectoryId, "Type"=>Type); aws=aws)
+DisableLDAPS(DirectoryId, Type, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("DisableLDAPS", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "Type"=>Type), args)); aws=aws)
 
 """
     DisableRadius()
@@ -443,8 +443,8 @@ Disables multi-factor authentication (MFA) with the Remote Authentication Dial I
 - `DirectoryId`: The identifier of the directory for which to disable MFA.
 
 """
-DisableRadius(DirectoryId; aws::AWSConfig=AWSConfig()) = directory_service("DisableRadius", Dict{String, Any}("DirectoryId"=>DirectoryId); aws=aws)
-DisableRadius(DirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("DisableRadius", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId), args)); aws=aws)
+DisableRadius(DirectoryId; aws::AWSConfig=AWS.aws_config) = directory_service("DisableRadius", Dict{String, Any}("DirectoryId"=>DirectoryId); aws=aws)
+DisableRadius(DirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("DisableRadius", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId), args)); aws=aws)
 
 """
     DisableSso()
@@ -458,8 +458,8 @@ Disables single-sign on for a directory.
 - `Password`: The password of an alternate account to use to disable single-sign on. This is only used for AD Connector directories. For more information, see the UserName parameter.
 - `UserName`: The username of an alternate account to use to disable single-sign on. This is only used for AD Connector directories. This account must have privileges to remove a service principal name. If the AD Connector service account does not have privileges to remove a service principal name, you can specify an alternate account with the UserName and Password parameters. These credentials are only used to disable single sign-on and are not stored by the service. The AD Connector service account is not changed.
 """
-DisableSso(DirectoryId; aws::AWSConfig=AWSConfig()) = directory_service("DisableSso", Dict{String, Any}("DirectoryId"=>DirectoryId); aws=aws)
-DisableSso(DirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("DisableSso", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId), args)); aws=aws)
+DisableSso(DirectoryId; aws::AWSConfig=AWS.aws_config) = directory_service("DisableSso", Dict{String, Any}("DirectoryId"=>DirectoryId); aws=aws)
+DisableSso(DirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("DisableSso", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId), args)); aws=aws)
 
 """
     EnableLDAPS()
@@ -471,8 +471,8 @@ Activates the switch for the specific directory to always use LDAP secure calls.
 - `Type`: The type of LDAP security to enable. Currently only the value Client is supported.
 
 """
-EnableLDAPS(DirectoryId, Type; aws::AWSConfig=AWSConfig()) = directory_service("EnableLDAPS", Dict{String, Any}("DirectoryId"=>DirectoryId, "Type"=>Type); aws=aws)
-EnableLDAPS(DirectoryId, Type, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("EnableLDAPS", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "Type"=>Type), args)); aws=aws)
+EnableLDAPS(DirectoryId, Type; aws::AWSConfig=AWS.aws_config) = directory_service("EnableLDAPS", Dict{String, Any}("DirectoryId"=>DirectoryId, "Type"=>Type); aws=aws)
+EnableLDAPS(DirectoryId, Type, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("EnableLDAPS", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "Type"=>Type), args)); aws=aws)
 
 """
     EnableRadius()
@@ -484,8 +484,8 @@ Enables multi-factor authentication (MFA) with the Remote Authentication Dial In
 - `RadiusSettings`: A RadiusSettings object that contains information about the RADIUS server.
 
 """
-EnableRadius(DirectoryId, RadiusSettings; aws::AWSConfig=AWSConfig()) = directory_service("EnableRadius", Dict{String, Any}("DirectoryId"=>DirectoryId, "RadiusSettings"=>RadiusSettings); aws=aws)
-EnableRadius(DirectoryId, RadiusSettings, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("EnableRadius", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "RadiusSettings"=>RadiusSettings), args)); aws=aws)
+EnableRadius(DirectoryId, RadiusSettings; aws::AWSConfig=AWS.aws_config) = directory_service("EnableRadius", Dict{String, Any}("DirectoryId"=>DirectoryId, "RadiusSettings"=>RadiusSettings); aws=aws)
+EnableRadius(DirectoryId, RadiusSettings, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("EnableRadius", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "RadiusSettings"=>RadiusSettings), args)); aws=aws)
 
 """
     EnableSso()
@@ -499,8 +499,8 @@ Enables single sign-on for a directory. Single sign-on allows users in your dire
 - `Password`: The password of an alternate account to use to enable single-sign on. This is only used for AD Connector directories. For more information, see the UserName parameter.
 - `UserName`: The username of an alternate account to use to enable single-sign on. This is only used for AD Connector directories. This account must have privileges to add a service principal name. If the AD Connector service account does not have privileges to add a service principal name, you can specify an alternate account with the UserName and Password parameters. These credentials are only used to enable single sign-on and are not stored by the service. The AD Connector service account is not changed.
 """
-EnableSso(DirectoryId; aws::AWSConfig=AWSConfig()) = directory_service("EnableSso", Dict{String, Any}("DirectoryId"=>DirectoryId); aws=aws)
-EnableSso(DirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("EnableSso", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId), args)); aws=aws)
+EnableSso(DirectoryId; aws::AWSConfig=AWS.aws_config) = directory_service("EnableSso", Dict{String, Any}("DirectoryId"=>DirectoryId); aws=aws)
+EnableSso(DirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("EnableSso", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId), args)); aws=aws)
 
 """
     GetDirectoryLimits()
@@ -508,8 +508,8 @@ EnableSso(DirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConf
 Obtains directory limit information for the current Region.
 
 """
-GetDirectoryLimits(; aws::AWSConfig=AWSConfig()) = directory_service("GetDirectoryLimits"; aws=aws)
-GetDirectoryLimits(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("GetDirectoryLimits", args; aws=aws)
+GetDirectoryLimits(; aws::AWSConfig=AWS.aws_config) = directory_service("GetDirectoryLimits"; aws=aws)
+GetDirectoryLimits(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("GetDirectoryLimits", args; aws=aws)
 
 """
     GetSnapshotLimits()
@@ -520,8 +520,8 @@ Obtains the manual snapshot limits for a directory.
 - `DirectoryId`: Contains the identifier of the directory to obtain the limits for.
 
 """
-GetSnapshotLimits(DirectoryId; aws::AWSConfig=AWSConfig()) = directory_service("GetSnapshotLimits", Dict{String, Any}("DirectoryId"=>DirectoryId); aws=aws)
-GetSnapshotLimits(DirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("GetSnapshotLimits", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId), args)); aws=aws)
+GetSnapshotLimits(DirectoryId; aws::AWSConfig=AWS.aws_config) = directory_service("GetSnapshotLimits", Dict{String, Any}("DirectoryId"=>DirectoryId); aws=aws)
+GetSnapshotLimits(DirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("GetSnapshotLimits", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId), args)); aws=aws)
 
 """
     ListCertificates()
@@ -535,8 +535,8 @@ For the specified directory, lists all the certificates registered for a secured
 - `Limit`: The number of items that should show up on one page
 - `NextToken`: A token for requesting another page of certificates if the NextToken response element indicates that more certificates are available. Use the value of the returned NextToken element in your request until the token comes back as null. Pass null if this is the first call.
 """
-ListCertificates(DirectoryId; aws::AWSConfig=AWSConfig()) = directory_service("ListCertificates", Dict{String, Any}("DirectoryId"=>DirectoryId); aws=aws)
-ListCertificates(DirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("ListCertificates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId), args)); aws=aws)
+ListCertificates(DirectoryId; aws::AWSConfig=AWS.aws_config) = directory_service("ListCertificates", Dict{String, Any}("DirectoryId"=>DirectoryId); aws=aws)
+ListCertificates(DirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("ListCertificates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId), args)); aws=aws)
 
 """
     ListIpRoutes()
@@ -550,8 +550,8 @@ Lists the address blocks that you have added to a directory.
 - `Limit`: Maximum number of items to return. If this value is zero, the maximum number of items is specified by the limitations of the operation.
 - `NextToken`: The ListIpRoutes.NextToken value from a previous call to ListIpRoutes. Pass null if this is the first call.
 """
-ListIpRoutes(DirectoryId; aws::AWSConfig=AWSConfig()) = directory_service("ListIpRoutes", Dict{String, Any}("DirectoryId"=>DirectoryId); aws=aws)
-ListIpRoutes(DirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("ListIpRoutes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId), args)); aws=aws)
+ListIpRoutes(DirectoryId; aws::AWSConfig=AWS.aws_config) = directory_service("ListIpRoutes", Dict{String, Any}("DirectoryId"=>DirectoryId); aws=aws)
+ListIpRoutes(DirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("ListIpRoutes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId), args)); aws=aws)
 
 """
     ListLogSubscriptions()
@@ -563,8 +563,8 @@ Lists the active log subscriptions for the AWS account.
 - `Limit`: The maximum number of items returned.
 - `NextToken`: The token for the next set of items to return.
 """
-ListLogSubscriptions(; aws::AWSConfig=AWSConfig()) = directory_service("ListLogSubscriptions"; aws=aws)
-ListLogSubscriptions(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("ListLogSubscriptions", args; aws=aws)
+ListLogSubscriptions(; aws::AWSConfig=AWS.aws_config) = directory_service("ListLogSubscriptions"; aws=aws)
+ListLogSubscriptions(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("ListLogSubscriptions", args; aws=aws)
 
 """
     ListSchemaExtensions()
@@ -578,8 +578,8 @@ Lists all schema extensions applied to a Microsoft AD Directory.
 - `Limit`: The maximum number of items to return.
 - `NextToken`: The ListSchemaExtensions.NextToken value from a previous call to ListSchemaExtensions. Pass null if this is the first call.
 """
-ListSchemaExtensions(DirectoryId; aws::AWSConfig=AWSConfig()) = directory_service("ListSchemaExtensions", Dict{String, Any}("DirectoryId"=>DirectoryId); aws=aws)
-ListSchemaExtensions(DirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("ListSchemaExtensions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId), args)); aws=aws)
+ListSchemaExtensions(DirectoryId; aws::AWSConfig=AWS.aws_config) = directory_service("ListSchemaExtensions", Dict{String, Any}("DirectoryId"=>DirectoryId); aws=aws)
+ListSchemaExtensions(DirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("ListSchemaExtensions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId), args)); aws=aws)
 
 """
     ListTagsForResource()
@@ -593,8 +593,8 @@ Lists all tags on a directory.
 - `Limit`: Reserved for future use.
 - `NextToken`: Reserved for future use.
 """
-ListTagsForResource(ResourceId; aws::AWSConfig=AWSConfig()) = directory_service("ListTagsForResource", Dict{String, Any}("ResourceId"=>ResourceId); aws=aws)
-ListTagsForResource(ResourceId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), args)); aws=aws)
+ListTagsForResource(ResourceId; aws::AWSConfig=AWS.aws_config) = directory_service("ListTagsForResource", Dict{String, Any}("ResourceId"=>ResourceId); aws=aws)
+ListTagsForResource(ResourceId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), args)); aws=aws)
 
 """
     RegisterCertificate()
@@ -606,8 +606,8 @@ Registers a certificate for secured LDAP connection.
 - `DirectoryId`: The identifier of the directory.
 
 """
-RegisterCertificate(CertificateData, DirectoryId; aws::AWSConfig=AWSConfig()) = directory_service("RegisterCertificate", Dict{String, Any}("CertificateData"=>CertificateData, "DirectoryId"=>DirectoryId); aws=aws)
-RegisterCertificate(CertificateData, DirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("RegisterCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateData"=>CertificateData, "DirectoryId"=>DirectoryId), args)); aws=aws)
+RegisterCertificate(CertificateData, DirectoryId; aws::AWSConfig=AWS.aws_config) = directory_service("RegisterCertificate", Dict{String, Any}("CertificateData"=>CertificateData, "DirectoryId"=>DirectoryId); aws=aws)
+RegisterCertificate(CertificateData, DirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("RegisterCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateData"=>CertificateData, "DirectoryId"=>DirectoryId), args)); aws=aws)
 
 """
     RegisterEventTopic()
@@ -619,8 +619,8 @@ Associates a directory with an SNS topic. This establishes the directory as a pu
 - `TopicName`: The SNS topic name to which the directory will publish status messages. This SNS topic must be in the same region as the specified Directory ID.
 
 """
-RegisterEventTopic(DirectoryId, TopicName; aws::AWSConfig=AWSConfig()) = directory_service("RegisterEventTopic", Dict{String, Any}("DirectoryId"=>DirectoryId, "TopicName"=>TopicName); aws=aws)
-RegisterEventTopic(DirectoryId, TopicName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("RegisterEventTopic", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "TopicName"=>TopicName), args)); aws=aws)
+RegisterEventTopic(DirectoryId, TopicName; aws::AWSConfig=AWS.aws_config) = directory_service("RegisterEventTopic", Dict{String, Any}("DirectoryId"=>DirectoryId, "TopicName"=>TopicName); aws=aws)
+RegisterEventTopic(DirectoryId, TopicName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("RegisterEventTopic", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "TopicName"=>TopicName), args)); aws=aws)
 
 """
     RejectSharedDirectory()
@@ -631,8 +631,8 @@ Rejects a directory sharing request that was sent from the directory owner accou
 - `SharedDirectoryId`: Identifier of the shared directory in the directory consumer account. This identifier is different for each directory owner account.
 
 """
-RejectSharedDirectory(SharedDirectoryId; aws::AWSConfig=AWSConfig()) = directory_service("RejectSharedDirectory", Dict{String, Any}("SharedDirectoryId"=>SharedDirectoryId); aws=aws)
-RejectSharedDirectory(SharedDirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("RejectSharedDirectory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SharedDirectoryId"=>SharedDirectoryId), args)); aws=aws)
+RejectSharedDirectory(SharedDirectoryId; aws::AWSConfig=AWS.aws_config) = directory_service("RejectSharedDirectory", Dict{String, Any}("SharedDirectoryId"=>SharedDirectoryId); aws=aws)
+RejectSharedDirectory(SharedDirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("RejectSharedDirectory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SharedDirectoryId"=>SharedDirectoryId), args)); aws=aws)
 
 """
     RemoveIpRoutes()
@@ -644,8 +644,8 @@ Removes IP address blocks from a directory.
 - `DirectoryId`: Identifier (ID) of the directory from which you want to remove the IP addresses.
 
 """
-RemoveIpRoutes(CidrIps, DirectoryId; aws::AWSConfig=AWSConfig()) = directory_service("RemoveIpRoutes", Dict{String, Any}("CidrIps"=>CidrIps, "DirectoryId"=>DirectoryId); aws=aws)
-RemoveIpRoutes(CidrIps, DirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("RemoveIpRoutes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CidrIps"=>CidrIps, "DirectoryId"=>DirectoryId), args)); aws=aws)
+RemoveIpRoutes(CidrIps, DirectoryId; aws::AWSConfig=AWS.aws_config) = directory_service("RemoveIpRoutes", Dict{String, Any}("CidrIps"=>CidrIps, "DirectoryId"=>DirectoryId); aws=aws)
+RemoveIpRoutes(CidrIps, DirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("RemoveIpRoutes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CidrIps"=>CidrIps, "DirectoryId"=>DirectoryId), args)); aws=aws)
 
 """
     RemoveTagsFromResource()
@@ -657,8 +657,8 @@ Removes tags from a directory.
 - `TagKeys`: The tag key (name) of the tag to be removed.
 
 """
-RemoveTagsFromResource(ResourceId, TagKeys; aws::AWSConfig=AWSConfig()) = directory_service("RemoveTagsFromResource", Dict{String, Any}("ResourceId"=>ResourceId, "TagKeys"=>TagKeys); aws=aws)
-RemoveTagsFromResource(ResourceId, TagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("RemoveTagsFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "TagKeys"=>TagKeys), args)); aws=aws)
+RemoveTagsFromResource(ResourceId, TagKeys; aws::AWSConfig=AWS.aws_config) = directory_service("RemoveTagsFromResource", Dict{String, Any}("ResourceId"=>ResourceId, "TagKeys"=>TagKeys); aws=aws)
+RemoveTagsFromResource(ResourceId, TagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("RemoveTagsFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "TagKeys"=>TagKeys), args)); aws=aws)
 
 """
     ResetUserPassword()
@@ -671,8 +671,8 @@ Resets the password for any user in your AWS Managed Microsoft AD or Simple AD d
 - `UserName`: The user name of the user whose password will be reset.
 
 """
-ResetUserPassword(DirectoryId, NewPassword, UserName; aws::AWSConfig=AWSConfig()) = directory_service("ResetUserPassword", Dict{String, Any}("DirectoryId"=>DirectoryId, "NewPassword"=>NewPassword, "UserName"=>UserName); aws=aws)
-ResetUserPassword(DirectoryId, NewPassword, UserName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("ResetUserPassword", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "NewPassword"=>NewPassword, "UserName"=>UserName), args)); aws=aws)
+ResetUserPassword(DirectoryId, NewPassword, UserName; aws::AWSConfig=AWS.aws_config) = directory_service("ResetUserPassword", Dict{String, Any}("DirectoryId"=>DirectoryId, "NewPassword"=>NewPassword, "UserName"=>UserName); aws=aws)
+ResetUserPassword(DirectoryId, NewPassword, UserName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("ResetUserPassword", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "NewPassword"=>NewPassword, "UserName"=>UserName), args)); aws=aws)
 
 """
     RestoreFromSnapshot()
@@ -683,8 +683,8 @@ Restores a directory using an existing directory snapshot. When you restore a di
 - `SnapshotId`: The identifier of the snapshot to restore from.
 
 """
-RestoreFromSnapshot(SnapshotId; aws::AWSConfig=AWSConfig()) = directory_service("RestoreFromSnapshot", Dict{String, Any}("SnapshotId"=>SnapshotId); aws=aws)
-RestoreFromSnapshot(SnapshotId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("RestoreFromSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotId"=>SnapshotId), args)); aws=aws)
+RestoreFromSnapshot(SnapshotId; aws::AWSConfig=AWS.aws_config) = directory_service("RestoreFromSnapshot", Dict{String, Any}("SnapshotId"=>SnapshotId); aws=aws)
+RestoreFromSnapshot(SnapshotId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("RestoreFromSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotId"=>SnapshotId), args)); aws=aws)
 
 """
     ShareDirectory()
@@ -699,8 +699,8 @@ Shares a specified directory (DirectoryId) in your AWS account (directory owner)
 # Optional Parameters
 - `ShareNotes`: A directory share request that is sent by the directory owner to the directory consumer. The request includes a typed message to help the directory consumer administrator determine whether to approve or reject the share invitation.
 """
-ShareDirectory(DirectoryId, ShareMethod, ShareTarget; aws::AWSConfig=AWSConfig()) = directory_service("ShareDirectory", Dict{String, Any}("DirectoryId"=>DirectoryId, "ShareMethod"=>ShareMethod, "ShareTarget"=>ShareTarget); aws=aws)
-ShareDirectory(DirectoryId, ShareMethod, ShareTarget, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("ShareDirectory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "ShareMethod"=>ShareMethod, "ShareTarget"=>ShareTarget), args)); aws=aws)
+ShareDirectory(DirectoryId, ShareMethod, ShareTarget; aws::AWSConfig=AWS.aws_config) = directory_service("ShareDirectory", Dict{String, Any}("DirectoryId"=>DirectoryId, "ShareMethod"=>ShareMethod, "ShareTarget"=>ShareTarget); aws=aws)
+ShareDirectory(DirectoryId, ShareMethod, ShareTarget, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("ShareDirectory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "ShareMethod"=>ShareMethod, "ShareTarget"=>ShareTarget), args)); aws=aws)
 
 """
     StartSchemaExtension()
@@ -714,8 +714,8 @@ Applies a schema extension to a Microsoft AD directory.
 - `LdifContent`: The LDIF file represented as a string. To construct the LdifContent string, precede each line as it would be formatted in an ldif file with  n. See the example request below for more details. The file size can be no larger than 1MB.
 
 """
-StartSchemaExtension(CreateSnapshotBeforeSchemaExtension, Description, DirectoryId, LdifContent; aws::AWSConfig=AWSConfig()) = directory_service("StartSchemaExtension", Dict{String, Any}("CreateSnapshotBeforeSchemaExtension"=>CreateSnapshotBeforeSchemaExtension, "Description"=>Description, "DirectoryId"=>DirectoryId, "LdifContent"=>LdifContent); aws=aws)
-StartSchemaExtension(CreateSnapshotBeforeSchemaExtension, Description, DirectoryId, LdifContent, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("StartSchemaExtension", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreateSnapshotBeforeSchemaExtension"=>CreateSnapshotBeforeSchemaExtension, "Description"=>Description, "DirectoryId"=>DirectoryId, "LdifContent"=>LdifContent), args)); aws=aws)
+StartSchemaExtension(CreateSnapshotBeforeSchemaExtension, Description, DirectoryId, LdifContent; aws::AWSConfig=AWS.aws_config) = directory_service("StartSchemaExtension", Dict{String, Any}("CreateSnapshotBeforeSchemaExtension"=>CreateSnapshotBeforeSchemaExtension, "Description"=>Description, "DirectoryId"=>DirectoryId, "LdifContent"=>LdifContent); aws=aws)
+StartSchemaExtension(CreateSnapshotBeforeSchemaExtension, Description, DirectoryId, LdifContent, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("StartSchemaExtension", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreateSnapshotBeforeSchemaExtension"=>CreateSnapshotBeforeSchemaExtension, "Description"=>Description, "DirectoryId"=>DirectoryId, "LdifContent"=>LdifContent), args)); aws=aws)
 
 """
     UnshareDirectory()
@@ -727,8 +727,8 @@ Stops the directory sharing between the directory owner and consumer accounts.
 - `UnshareTarget`: Identifier for the directory consumer account with whom the directory has to be unshared.
 
 """
-UnshareDirectory(DirectoryId, UnshareTarget; aws::AWSConfig=AWSConfig()) = directory_service("UnshareDirectory", Dict{String, Any}("DirectoryId"=>DirectoryId, "UnshareTarget"=>UnshareTarget); aws=aws)
-UnshareDirectory(DirectoryId, UnshareTarget, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("UnshareDirectory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "UnshareTarget"=>UnshareTarget), args)); aws=aws)
+UnshareDirectory(DirectoryId, UnshareTarget; aws::AWSConfig=AWS.aws_config) = directory_service("UnshareDirectory", Dict{String, Any}("DirectoryId"=>DirectoryId, "UnshareTarget"=>UnshareTarget); aws=aws)
+UnshareDirectory(DirectoryId, UnshareTarget, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("UnshareDirectory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "UnshareTarget"=>UnshareTarget), args)); aws=aws)
 
 """
     UpdateConditionalForwarder()
@@ -741,8 +741,8 @@ Updates a conditional forwarder that has been set up for your AWS directory.
 - `RemoteDomainName`: The fully qualified domain name (FQDN) of the remote domain with which you will set up a trust relationship.
 
 """
-UpdateConditionalForwarder(DirectoryId, DnsIpAddrs, RemoteDomainName; aws::AWSConfig=AWSConfig()) = directory_service("UpdateConditionalForwarder", Dict{String, Any}("DirectoryId"=>DirectoryId, "DnsIpAddrs"=>DnsIpAddrs, "RemoteDomainName"=>RemoteDomainName); aws=aws)
-UpdateConditionalForwarder(DirectoryId, DnsIpAddrs, RemoteDomainName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("UpdateConditionalForwarder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "DnsIpAddrs"=>DnsIpAddrs, "RemoteDomainName"=>RemoteDomainName), args)); aws=aws)
+UpdateConditionalForwarder(DirectoryId, DnsIpAddrs, RemoteDomainName; aws::AWSConfig=AWS.aws_config) = directory_service("UpdateConditionalForwarder", Dict{String, Any}("DirectoryId"=>DirectoryId, "DnsIpAddrs"=>DnsIpAddrs, "RemoteDomainName"=>RemoteDomainName); aws=aws)
+UpdateConditionalForwarder(DirectoryId, DnsIpAddrs, RemoteDomainName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("UpdateConditionalForwarder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "DnsIpAddrs"=>DnsIpAddrs, "RemoteDomainName"=>RemoteDomainName), args)); aws=aws)
 
 """
     UpdateNumberOfDomainControllers()
@@ -754,8 +754,8 @@ Adds or removes domain controllers to or from the directory. Based on the differ
 - `DirectoryId`: Identifier of the directory to which the domain controllers will be added or removed.
 
 """
-UpdateNumberOfDomainControllers(DesiredNumber, DirectoryId; aws::AWSConfig=AWSConfig()) = directory_service("UpdateNumberOfDomainControllers", Dict{String, Any}("DesiredNumber"=>DesiredNumber, "DirectoryId"=>DirectoryId); aws=aws)
-UpdateNumberOfDomainControllers(DesiredNumber, DirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("UpdateNumberOfDomainControllers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DesiredNumber"=>DesiredNumber, "DirectoryId"=>DirectoryId), args)); aws=aws)
+UpdateNumberOfDomainControllers(DesiredNumber, DirectoryId; aws::AWSConfig=AWS.aws_config) = directory_service("UpdateNumberOfDomainControllers", Dict{String, Any}("DesiredNumber"=>DesiredNumber, "DirectoryId"=>DirectoryId); aws=aws)
+UpdateNumberOfDomainControllers(DesiredNumber, DirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("UpdateNumberOfDomainControllers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DesiredNumber"=>DesiredNumber, "DirectoryId"=>DirectoryId), args)); aws=aws)
 
 """
     UpdateRadius()
@@ -767,8 +767,8 @@ Updates the Remote Authentication Dial In User Service (RADIUS) server informati
 - `RadiusSettings`: A RadiusSettings object that contains information about the RADIUS server.
 
 """
-UpdateRadius(DirectoryId, RadiusSettings; aws::AWSConfig=AWSConfig()) = directory_service("UpdateRadius", Dict{String, Any}("DirectoryId"=>DirectoryId, "RadiusSettings"=>RadiusSettings); aws=aws)
-UpdateRadius(DirectoryId, RadiusSettings, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("UpdateRadius", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "RadiusSettings"=>RadiusSettings), args)); aws=aws)
+UpdateRadius(DirectoryId, RadiusSettings; aws::AWSConfig=AWS.aws_config) = directory_service("UpdateRadius", Dict{String, Any}("DirectoryId"=>DirectoryId, "RadiusSettings"=>RadiusSettings); aws=aws)
+UpdateRadius(DirectoryId, RadiusSettings, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("UpdateRadius", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "RadiusSettings"=>RadiusSettings), args)); aws=aws)
 
 """
     UpdateTrust()
@@ -781,8 +781,8 @@ Updates the trust that has been set up between your AWS Managed Microsoft AD dir
 # Optional Parameters
 - `SelectiveAuth`: Updates selective authentication for the trust.
 """
-UpdateTrust(TrustId; aws::AWSConfig=AWSConfig()) = directory_service("UpdateTrust", Dict{String, Any}("TrustId"=>TrustId); aws=aws)
-UpdateTrust(TrustId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("UpdateTrust", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrustId"=>TrustId), args)); aws=aws)
+UpdateTrust(TrustId; aws::AWSConfig=AWS.aws_config) = directory_service("UpdateTrust", Dict{String, Any}("TrustId"=>TrustId); aws=aws)
+UpdateTrust(TrustId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("UpdateTrust", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrustId"=>TrustId), args)); aws=aws)
 
 """
     VerifyTrust()
@@ -793,5 +793,5 @@ AWS Directory Service for Microsoft Active Directory allows you to configure and
 - `TrustId`: The unique Trust ID of the trust relationship to verify.
 
 """
-VerifyTrust(TrustId; aws::AWSConfig=AWSConfig()) = directory_service("VerifyTrust", Dict{String, Any}("TrustId"=>TrustId); aws=aws)
-VerifyTrust(TrustId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = directory_service("VerifyTrust", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrustId"=>TrustId), args)); aws=aws)
+VerifyTrust(TrustId; aws::AWSConfig=AWS.aws_config) = directory_service("VerifyTrust", Dict{String, Any}("TrustId"=>TrustId); aws=aws)
+VerifyTrust(TrustId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = directory_service("VerifyTrust", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrustId"=>TrustId), args)); aws=aws)

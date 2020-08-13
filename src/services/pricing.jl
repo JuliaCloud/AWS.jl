@@ -15,8 +15,8 @@ Returns the metadata for one service or a list of the metadata for all services.
 - `NextToken`: The pagination token that indicates the next set of results that you want to retrieve.
 - `ServiceCode`: The code for the service whose information you want to retrieve, such as AmazonEC2. You can use the ServiceCode to filter the results in a GetProducts call. To retrieve a list of all services, leave this blank.
 """
-DescribeServices(; aws::AWSConfig=AWSConfig()) = pricing("DescribeServices"; aws=aws)
-DescribeServices(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pricing("DescribeServices", args; aws=aws)
+DescribeServices(; aws::AWSConfig=AWS.aws_config) = pricing("DescribeServices"; aws=aws)
+DescribeServices(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pricing("DescribeServices", args; aws=aws)
 
 """
     GetAttributeValues()
@@ -31,8 +31,8 @@ Returns a list of attribute values. Attibutes are similar to the details in a Pr
 - `MaxResults`: The maximum number of results to return in response.
 - `NextToken`: The pagination token that indicates the next set of results that you want to retrieve.
 """
-GetAttributeValues(AttributeName, ServiceCode; aws::AWSConfig=AWSConfig()) = pricing("GetAttributeValues", Dict{String, Any}("AttributeName"=>AttributeName, "ServiceCode"=>ServiceCode); aws=aws)
-GetAttributeValues(AttributeName, ServiceCode, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pricing("GetAttributeValues", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeName"=>AttributeName, "ServiceCode"=>ServiceCode), args)); aws=aws)
+GetAttributeValues(AttributeName, ServiceCode; aws::AWSConfig=AWS.aws_config) = pricing("GetAttributeValues", Dict{String, Any}("AttributeName"=>AttributeName, "ServiceCode"=>ServiceCode); aws=aws)
+GetAttributeValues(AttributeName, ServiceCode, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pricing("GetAttributeValues", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeName"=>AttributeName, "ServiceCode"=>ServiceCode), args)); aws=aws)
 
 """
     GetProducts()
@@ -46,5 +46,5 @@ Returns a list of all products that match the filter criteria.
 - `NextToken`: The pagination token that indicates the next set of results that you want to retrieve.
 - `ServiceCode`: The code for the service whose products you want to retrieve. 
 """
-GetProducts(; aws::AWSConfig=AWSConfig()) = pricing("GetProducts"; aws=aws)
-GetProducts(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pricing("GetProducts", args; aws=aws)
+GetProducts(; aws::AWSConfig=AWS.aws_config) = pricing("GetProducts"; aws=aws)
+GetProducts(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pricing("GetProducts", args; aws=aws)

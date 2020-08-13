@@ -14,8 +14,8 @@ Creates the participant's connection. Note that ParticipantToken is used for inv
 - `X-Amz-Bearer`: Participant Token as obtained from StartChatContact API response.
 
 """
-CreateParticipantConnection(Type, X_Amz_Bearer; aws::AWSConfig=AWSConfig()) = connectparticipant("POST", "/participant/connection", Dict{String, Any}("Type"=>Type, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)); aws=aws)
-CreateParticipantConnection(Type, X_Amz_Bearer, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = connectparticipant("POST", "/participant/connection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Type"=>Type, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), args)); aws=aws)
+CreateParticipantConnection(Type, X_Amz_Bearer; aws::AWSConfig=AWS.aws_config) = connectparticipant("POST", "/participant/connection", Dict{String, Any}("Type"=>Type, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)); aws=aws)
+CreateParticipantConnection(Type, X_Amz_Bearer, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = connectparticipant("POST", "/participant/connection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Type"=>Type, "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), args)); aws=aws)
 
 """
     DisconnectParticipant()
@@ -28,8 +28,8 @@ Disconnects a participant. Note that ConnectionToken is used for invoking this A
 # Optional Parameters
 - `ClientToken`: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
 """
-DisconnectParticipant(X_Amz_Bearer; aws::AWSConfig=AWSConfig()) = connectparticipant("POST", "/participant/disconnect", Dict{String, Any}("ClientToken"=>string(uuid4()), "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)); aws=aws)
-DisconnectParticipant(X_Amz_Bearer, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = connectparticipant("POST", "/participant/disconnect", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>string(uuid4()), "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), args)); aws=aws)
+DisconnectParticipant(X_Amz_Bearer; aws::AWSConfig=AWS.aws_config) = connectparticipant("POST", "/participant/disconnect", Dict{String, Any}("ClientToken"=>string(uuid4()), "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)); aws=aws)
+DisconnectParticipant(X_Amz_Bearer, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = connectparticipant("POST", "/participant/disconnect", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>string(uuid4()), "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), args)); aws=aws)
 
 """
     GetTranscript()
@@ -47,8 +47,8 @@ Retrieves a transcript of the session. Note that ConnectionToken is used for inv
 - `SortOrder`: The sort order for the records. Default: DESCENDING.
 - `StartPosition`: A filtering option for where to start.
 """
-GetTranscript(X_Amz_Bearer; aws::AWSConfig=AWSConfig()) = connectparticipant("POST", "/participant/transcript", Dict{String, Any}("headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)); aws=aws)
-GetTranscript(X_Amz_Bearer, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = connectparticipant("POST", "/participant/transcript", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), args)); aws=aws)
+GetTranscript(X_Amz_Bearer; aws::AWSConfig=AWS.aws_config) = connectparticipant("POST", "/participant/transcript", Dict{String, Any}("headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)); aws=aws)
+GetTranscript(X_Amz_Bearer, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = connectparticipant("POST", "/participant/transcript", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), args)); aws=aws)
 
 """
     SendEvent()
@@ -63,8 +63,8 @@ Sends an event. Note that ConnectionToken is used for invoking this API instead 
 - `ClientToken`: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
 - `Content`: The content of the event to be sent (for example, message text). This is not yet supported.
 """
-SendEvent(ContentType, X_Amz_Bearer; aws::AWSConfig=AWSConfig()) = connectparticipant("POST", "/participant/event", Dict{String, Any}("ContentType"=>ContentType, "ClientToken"=>string(uuid4()), "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)); aws=aws)
-SendEvent(ContentType, X_Amz_Bearer, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = connectparticipant("POST", "/participant/event", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContentType"=>ContentType, "ClientToken"=>string(uuid4()), "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), args)); aws=aws)
+SendEvent(ContentType, X_Amz_Bearer; aws::AWSConfig=AWS.aws_config) = connectparticipant("POST", "/participant/event", Dict{String, Any}("ContentType"=>ContentType, "ClientToken"=>string(uuid4()), "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)); aws=aws)
+SendEvent(ContentType, X_Amz_Bearer, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = connectparticipant("POST", "/participant/event", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ContentType"=>ContentType, "ClientToken"=>string(uuid4()), "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), args)); aws=aws)
 
 """
     SendMessage()
@@ -79,5 +79,5 @@ Sends a message. Note that ConnectionToken is used for invoking this API instead
 # Optional Parameters
 - `ClientToken`: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
 """
-SendMessage(Content, ContentType, X_Amz_Bearer; aws::AWSConfig=AWSConfig()) = connectparticipant("POST", "/participant/message", Dict{String, Any}("Content"=>Content, "ContentType"=>ContentType, "ClientToken"=>string(uuid4()), "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)); aws=aws)
-SendMessage(Content, ContentType, X_Amz_Bearer, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = connectparticipant("POST", "/participant/message", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "ContentType"=>ContentType, "ClientToken"=>string(uuid4()), "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), args)); aws=aws)
+SendMessage(Content, ContentType, X_Amz_Bearer; aws::AWSConfig=AWS.aws_config) = connectparticipant("POST", "/participant/message", Dict{String, Any}("Content"=>Content, "ContentType"=>ContentType, "ClientToken"=>string(uuid4()), "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)); aws=aws)
+SendMessage(Content, ContentType, X_Amz_Bearer, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = connectparticipant("POST", "/participant/message", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "ContentType"=>ContentType, "ClientToken"=>string(uuid4()), "headers"=>Dict{String, Any}("X-Amz-Bearer"=>X_Amz_Bearer)), args)); aws=aws)

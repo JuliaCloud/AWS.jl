@@ -14,8 +14,8 @@ Ends a given Amazon QLDB journal stream. Before a stream can be canceled, its cu
 - `streamId`: The unique ID that QLDB assigns to each QLDB journal stream.
 
 """
-CancelJournalKinesisStream(name, streamId; aws::AWSConfig=AWSConfig()) = qldb("DELETE", "/ledgers/$(name)/journal-kinesis-streams/$(streamId)"; aws=aws)
-CancelJournalKinesisStream(name, streamId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = qldb("DELETE", "/ledgers/$(name)/journal-kinesis-streams/$(streamId)", args; aws=aws)
+CancelJournalKinesisStream(name, streamId; aws::AWSConfig=AWS.aws_config) = qldb("DELETE", "/ledgers/$(name)/journal-kinesis-streams/$(streamId)"; aws=aws)
+CancelJournalKinesisStream(name, streamId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = qldb("DELETE", "/ledgers/$(name)/journal-kinesis-streams/$(streamId)", args; aws=aws)
 
 """
     CreateLedger()
@@ -30,8 +30,8 @@ Creates a new ledger in your AWS account.
 - `DeletionProtection`: The flag that prevents a ledger from being deleted by any user. If not provided on ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger using the QLDB API or the AWS Command Line Interface (AWS CLI). You can disable it by calling the UpdateLedger operation to set the flag to false. The QLDB console disables deletion protection for you when you use it to delete a ledger.
 - `Tags`: The key-value pairs to add as tags to the ledger that you want to create. Tag keys are case sensitive. Tag values are case sensitive and can be null.
 """
-CreateLedger(Name, PermissionsMode; aws::AWSConfig=AWSConfig()) = qldb("POST", "/ledgers", Dict{String, Any}("Name"=>Name, "PermissionsMode"=>PermissionsMode))
-CreateLedger(Name, PermissionsMode, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = qldb("POST", "/ledgers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "PermissionsMode"=>PermissionsMode), args)); aws=aws)
+CreateLedger(Name, PermissionsMode; aws::AWSConfig=AWS.aws_config) = qldb("POST", "/ledgers", Dict{String, Any}("Name"=>Name, "PermissionsMode"=>PermissionsMode); aws=aws)
+CreateLedger(Name, PermissionsMode, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = qldb("POST", "/ledgers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "PermissionsMode"=>PermissionsMode), args)); aws=aws)
 
 """
     DeleteLedger()
@@ -42,8 +42,8 @@ Deletes a ledger and all of its contents. This action is irreversible. If deleti
 - `name`: The name of the ledger that you want to delete.
 
 """
-DeleteLedger(name; aws::AWSConfig=AWSConfig()) = qldb("DELETE", "/ledgers/$(name)"; aws=aws)
-DeleteLedger(name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = qldb("DELETE", "/ledgers/$(name)", args; aws=aws)
+DeleteLedger(name; aws::AWSConfig=AWS.aws_config) = qldb("DELETE", "/ledgers/$(name)"; aws=aws)
+DeleteLedger(name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = qldb("DELETE", "/ledgers/$(name)", args; aws=aws)
 
 """
     DescribeJournalKinesisStream()
@@ -55,8 +55,8 @@ Returns detailed information about a given Amazon QLDB journal stream. The outpu
 - `streamId`: The unique ID that QLDB assigns to each QLDB journal stream.
 
 """
-DescribeJournalKinesisStream(name, streamId; aws::AWSConfig=AWSConfig()) = qldb("GET", "/ledgers/$(name)/journal-kinesis-streams/$(streamId)"; aws=aws)
-DescribeJournalKinesisStream(name, streamId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = qldb("GET", "/ledgers/$(name)/journal-kinesis-streams/$(streamId)", args; aws=aws)
+DescribeJournalKinesisStream(name, streamId; aws::AWSConfig=AWS.aws_config) = qldb("GET", "/ledgers/$(name)/journal-kinesis-streams/$(streamId)"; aws=aws)
+DescribeJournalKinesisStream(name, streamId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = qldb("GET", "/ledgers/$(name)/journal-kinesis-streams/$(streamId)", args; aws=aws)
 
 """
     DescribeJournalS3Export()
@@ -68,8 +68,8 @@ Returns information about a journal export job, including the ledger name, expor
 - `name`: The name of the ledger.
 
 """
-DescribeJournalS3Export(exportId, name; aws::AWSConfig=AWSConfig()) = qldb("GET", "/ledgers/$(name)/journal-s3-exports/$(exportId)"; aws=aws)
-DescribeJournalS3Export(exportId, name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = qldb("GET", "/ledgers/$(name)/journal-s3-exports/$(exportId)", args; aws=aws)
+DescribeJournalS3Export(exportId, name; aws::AWSConfig=AWS.aws_config) = qldb("GET", "/ledgers/$(name)/journal-s3-exports/$(exportId)"; aws=aws)
+DescribeJournalS3Export(exportId, name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = qldb("GET", "/ledgers/$(name)/journal-s3-exports/$(exportId)", args; aws=aws)
 
 """
     DescribeLedger()
@@ -80,8 +80,8 @@ Returns information about a ledger, including its state and when it was created.
 - `name`: The name of the ledger that you want to describe.
 
 """
-DescribeLedger(name; aws::AWSConfig=AWSConfig()) = qldb("GET", "/ledgers/$(name)"; aws=aws)
-DescribeLedger(name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = qldb("GET", "/ledgers/$(name)", args; aws=aws)
+DescribeLedger(name; aws::AWSConfig=AWS.aws_config) = qldb("GET", "/ledgers/$(name)"; aws=aws)
+DescribeLedger(name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = qldb("GET", "/ledgers/$(name)", args; aws=aws)
 
 """
     ExportJournalToS3()
@@ -96,8 +96,8 @@ Exports journal contents within a date and time range from a ledger into a speci
 - `name`: The name of the ledger.
 
 """
-ExportJournalToS3(ExclusiveEndTime, InclusiveStartTime, RoleArn, S3ExportConfiguration, name; aws::AWSConfig=AWSConfig()) = qldb("POST", "/ledgers/$(name)/journal-s3-exports", Dict{String, Any}("ExclusiveEndTime"=>ExclusiveEndTime, "InclusiveStartTime"=>InclusiveStartTime, "RoleArn"=>RoleArn, "S3ExportConfiguration"=>S3ExportConfiguration))
-ExportJournalToS3(ExclusiveEndTime, InclusiveStartTime, RoleArn, S3ExportConfiguration, name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = qldb("POST", "/ledgers/$(name)/journal-s3-exports", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExclusiveEndTime"=>ExclusiveEndTime, "InclusiveStartTime"=>InclusiveStartTime, "RoleArn"=>RoleArn, "S3ExportConfiguration"=>S3ExportConfiguration), args)); aws=aws)
+ExportJournalToS3(ExclusiveEndTime, InclusiveStartTime, RoleArn, S3ExportConfiguration, name; aws::AWSConfig=AWS.aws_config) = qldb("POST", "/ledgers/$(name)/journal-s3-exports", Dict{String, Any}("ExclusiveEndTime"=>ExclusiveEndTime, "InclusiveStartTime"=>InclusiveStartTime, "RoleArn"=>RoleArn, "S3ExportConfiguration"=>S3ExportConfiguration); aws=aws)
+ExportJournalToS3(ExclusiveEndTime, InclusiveStartTime, RoleArn, S3ExportConfiguration, name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = qldb("POST", "/ledgers/$(name)/journal-s3-exports", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExclusiveEndTime"=>ExclusiveEndTime, "InclusiveStartTime"=>InclusiveStartTime, "RoleArn"=>RoleArn, "S3ExportConfiguration"=>S3ExportConfiguration), args)); aws=aws)
 
 """
     GetBlock()
@@ -111,8 +111,8 @@ Returns a block object at a specified address in a journal. Also returns a proof
 # Optional Parameters
 - `DigestTipAddress`: The latest block location covered by the digest for which to request a proof. An address is an Amazon Ion structure that has two fields: strandId and sequenceNo. For example: {strandId:\"BlFTjlSXze9BIh1KOszcE3\",sequenceNo:49} 
 """
-GetBlock(BlockAddress, name; aws::AWSConfig=AWSConfig()) = qldb("POST", "/ledgers/$(name)/block", Dict{String, Any}("BlockAddress"=>BlockAddress))
-GetBlock(BlockAddress, name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = qldb("POST", "/ledgers/$(name)/block", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BlockAddress"=>BlockAddress), args)); aws=aws)
+GetBlock(BlockAddress, name; aws::AWSConfig=AWS.aws_config) = qldb("POST", "/ledgers/$(name)/block", Dict{String, Any}("BlockAddress"=>BlockAddress); aws=aws)
+GetBlock(BlockAddress, name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = qldb("POST", "/ledgers/$(name)/block", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BlockAddress"=>BlockAddress), args)); aws=aws)
 
 """
     GetDigest()
@@ -123,8 +123,8 @@ Returns the digest of a ledger at the latest committed block in the journal. The
 - `name`: The name of the ledger.
 
 """
-GetDigest(name; aws::AWSConfig=AWSConfig()) = qldb("POST", "/ledgers/$(name)/digest"; aws=aws)
-GetDigest(name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = qldb("POST", "/ledgers/$(name)/digest", args; aws=aws)
+GetDigest(name; aws::AWSConfig=AWS.aws_config) = qldb("POST", "/ledgers/$(name)/digest"; aws=aws)
+GetDigest(name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = qldb("POST", "/ledgers/$(name)/digest", args; aws=aws)
 
 """
     GetRevision()
@@ -139,8 +139,8 @@ Returns a revision data object for a specified document ID and block address. Al
 # Optional Parameters
 - `DigestTipAddress`: The latest block location covered by the digest for which to request a proof. An address is an Amazon Ion structure that has two fields: strandId and sequenceNo. For example: {strandId:\"BlFTjlSXze9BIh1KOszcE3\",sequenceNo:49} 
 """
-GetRevision(BlockAddress, DocumentId, name; aws::AWSConfig=AWSConfig()) = qldb("POST", "/ledgers/$(name)/revision", Dict{String, Any}("BlockAddress"=>BlockAddress, "DocumentId"=>DocumentId))
-GetRevision(BlockAddress, DocumentId, name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = qldb("POST", "/ledgers/$(name)/revision", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BlockAddress"=>BlockAddress, "DocumentId"=>DocumentId), args)); aws=aws)
+GetRevision(BlockAddress, DocumentId, name; aws::AWSConfig=AWS.aws_config) = qldb("POST", "/ledgers/$(name)/revision", Dict{String, Any}("BlockAddress"=>BlockAddress, "DocumentId"=>DocumentId); aws=aws)
+GetRevision(BlockAddress, DocumentId, name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = qldb("POST", "/ledgers/$(name)/revision", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BlockAddress"=>BlockAddress, "DocumentId"=>DocumentId), args)); aws=aws)
 
 """
     ListJournalKinesisStreamsForLedger()
@@ -154,8 +154,8 @@ Returns an array of all Amazon QLDB journal stream descriptors for a given ledge
 - `max_results`: The maximum number of results to return in a single ListJournalKinesisStreamsForLedger request. (The actual number of results returned might be fewer.)
 - `next_token`: A pagination token, indicating that you want to retrieve the next page of results. If you received a value for NextToken in the response from a previous ListJournalKinesisStreamsForLedger call, you should use that value as input here.
 """
-ListJournalKinesisStreamsForLedger(name; aws::AWSConfig=AWSConfig()) = qldb("GET", "/ledgers/$(name)/journal-kinesis-streams"; aws=aws)
-ListJournalKinesisStreamsForLedger(name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = qldb("GET", "/ledgers/$(name)/journal-kinesis-streams", args; aws=aws)
+ListJournalKinesisStreamsForLedger(name; aws::AWSConfig=AWS.aws_config) = qldb("GET", "/ledgers/$(name)/journal-kinesis-streams"; aws=aws)
+ListJournalKinesisStreamsForLedger(name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = qldb("GET", "/ledgers/$(name)/journal-kinesis-streams", args; aws=aws)
 
 """
     ListJournalS3Exports()
@@ -166,8 +166,8 @@ Returns an array of journal export job descriptions for all ledgers that are ass
 - `max_results`: The maximum number of results to return in a single ListJournalS3Exports request. (The actual number of results returned might be fewer.)
 - `next_token`: A pagination token, indicating that you want to retrieve the next page of results. If you received a value for NextToken in the response from a previous ListJournalS3Exports call, then you should use that value as input here.
 """
-ListJournalS3Exports(; aws::AWSConfig=AWSConfig()) = qldb("GET", "/journal-s3-exports"; aws=aws)
-ListJournalS3Exports(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = qldb("GET", "/journal-s3-exports", args; aws=aws)
+ListJournalS3Exports(; aws::AWSConfig=AWS.aws_config) = qldb("GET", "/journal-s3-exports"; aws=aws)
+ListJournalS3Exports(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = qldb("GET", "/journal-s3-exports", args; aws=aws)
 
 """
     ListJournalS3ExportsForLedger()
@@ -181,8 +181,8 @@ Returns an array of journal export job descriptions for a specified ledger. This
 - `max_results`: The maximum number of results to return in a single ListJournalS3ExportsForLedger request. (The actual number of results returned might be fewer.)
 - `next_token`: A pagination token, indicating that you want to retrieve the next page of results. If you received a value for NextToken in the response from a previous ListJournalS3ExportsForLedger call, then you should use that value as input here.
 """
-ListJournalS3ExportsForLedger(name; aws::AWSConfig=AWSConfig()) = qldb("GET", "/ledgers/$(name)/journal-s3-exports"; aws=aws)
-ListJournalS3ExportsForLedger(name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = qldb("GET", "/ledgers/$(name)/journal-s3-exports", args; aws=aws)
+ListJournalS3ExportsForLedger(name; aws::AWSConfig=AWS.aws_config) = qldb("GET", "/ledgers/$(name)/journal-s3-exports"; aws=aws)
+ListJournalS3ExportsForLedger(name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = qldb("GET", "/ledgers/$(name)/journal-s3-exports", args; aws=aws)
 
 """
     ListLedgers()
@@ -193,8 +193,8 @@ Returns an array of ledger summaries that are associated with the current AWS ac
 - `max_results`: The maximum number of results to return in a single ListLedgers request. (The actual number of results returned might be fewer.)
 - `next_token`: A pagination token, indicating that you want to retrieve the next page of results. If you received a value for NextToken in the response from a previous ListLedgers call, then you should use that value as input here.
 """
-ListLedgers(; aws::AWSConfig=AWSConfig()) = qldb("GET", "/ledgers"; aws=aws)
-ListLedgers(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = qldb("GET", "/ledgers", args; aws=aws)
+ListLedgers(; aws::AWSConfig=AWS.aws_config) = qldb("GET", "/ledgers"; aws=aws)
+ListLedgers(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = qldb("GET", "/ledgers", args; aws=aws)
 
 """
     ListTagsForResource()
@@ -205,8 +205,8 @@ Returns all tags for a specified Amazon QLDB resource.
 - `resourceArn`: The Amazon Resource Name (ARN) for which you want to list the tags. For example:  arn:aws:qldb:us-east-1:123456789012:ledger/exampleLedger 
 
 """
-ListTagsForResource(resourceArn; aws::AWSConfig=AWSConfig()) = qldb("GET", "/tags/$(resourceArn)"; aws=aws)
-ListTagsForResource(resourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = qldb("GET", "/tags/$(resourceArn)", args; aws=aws)
+ListTagsForResource(resourceArn; aws::AWSConfig=AWS.aws_config) = qldb("GET", "/tags/$(resourceArn)"; aws=aws)
+ListTagsForResource(resourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = qldb("GET", "/tags/$(resourceArn)", args; aws=aws)
 
 """
     StreamJournalToKinesis()
@@ -224,8 +224,8 @@ Creates a journal stream for a given Amazon QLDB ledger. The stream captures eve
 - `ExclusiveEndTime`: The exclusive date and time that specifies when the stream ends. If you don't define this parameter, the stream runs indefinitely until you cancel it. The ExclusiveEndTime must be in ISO 8601 date and time format and in Universal Coordinated Time (UTC). For example: 2019-06-13T21:36:34Z 
 - `Tags`: The key-value pairs to add as tags to the stream that you want to create. Tag keys are case sensitive. Tag values are case sensitive and can be null.
 """
-StreamJournalToKinesis(InclusiveStartTime, KinesisConfiguration, RoleArn, StreamName, name; aws::AWSConfig=AWSConfig()) = qldb("POST", "/ledgers/$(name)/journal-kinesis-streams", Dict{String, Any}("InclusiveStartTime"=>InclusiveStartTime, "KinesisConfiguration"=>KinesisConfiguration, "RoleArn"=>RoleArn, "StreamName"=>StreamName))
-StreamJournalToKinesis(InclusiveStartTime, KinesisConfiguration, RoleArn, StreamName, name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = qldb("POST", "/ledgers/$(name)/journal-kinesis-streams", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InclusiveStartTime"=>InclusiveStartTime, "KinesisConfiguration"=>KinesisConfiguration, "RoleArn"=>RoleArn, "StreamName"=>StreamName), args)); aws=aws)
+StreamJournalToKinesis(InclusiveStartTime, KinesisConfiguration, RoleArn, StreamName, name; aws::AWSConfig=AWS.aws_config) = qldb("POST", "/ledgers/$(name)/journal-kinesis-streams", Dict{String, Any}("InclusiveStartTime"=>InclusiveStartTime, "KinesisConfiguration"=>KinesisConfiguration, "RoleArn"=>RoleArn, "StreamName"=>StreamName); aws=aws)
+StreamJournalToKinesis(InclusiveStartTime, KinesisConfiguration, RoleArn, StreamName, name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = qldb("POST", "/ledgers/$(name)/journal-kinesis-streams", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InclusiveStartTime"=>InclusiveStartTime, "KinesisConfiguration"=>KinesisConfiguration, "RoleArn"=>RoleArn, "StreamName"=>StreamName), args)); aws=aws)
 
 """
     TagResource()
@@ -237,8 +237,8 @@ Adds one or more tags to a specified Amazon QLDB resource. A resource can have u
 - `resourceArn`: The Amazon Resource Name (ARN) to which you want to add the tags. For example:  arn:aws:qldb:us-east-1:123456789012:ledger/exampleLedger 
 
 """
-TagResource(Tags, resourceArn; aws::AWSConfig=AWSConfig()) = qldb("POST", "/tags/$(resourceArn)", Dict{String, Any}("Tags"=>Tags))
-TagResource(Tags, resourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = qldb("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws=aws)
+TagResource(Tags, resourceArn; aws::AWSConfig=AWS.aws_config) = qldb("POST", "/tags/$(resourceArn)", Dict{String, Any}("Tags"=>Tags); aws=aws)
+TagResource(Tags, resourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = qldb("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws=aws)
 
 """
     UntagResource()
@@ -250,8 +250,8 @@ Removes one or more tags from a specified Amazon QLDB resource. You can specify 
 - `tagKeys`: The list of tag keys that you want to remove.
 
 """
-UntagResource(resourceArn, tagKeys; aws::AWSConfig=AWSConfig()) = qldb("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys))
-UntagResource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = qldb("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws=aws)
+UntagResource(resourceArn, tagKeys; aws::AWSConfig=AWS.aws_config) = qldb("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws=aws)
+UntagResource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = qldb("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws=aws)
 
 """
     UpdateLedger()
@@ -264,5 +264,5 @@ Updates properties on a ledger.
 # Optional Parameters
 - `DeletionProtection`: The flag that prevents a ledger from being deleted by any user. If not provided on ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger using the QLDB API or the AWS Command Line Interface (AWS CLI). You can disable it by calling the UpdateLedger operation to set the flag to false. The QLDB console disables deletion protection for you when you use it to delete a ledger.
 """
-UpdateLedger(name; aws::AWSConfig=AWSConfig()) = qldb("PATCH", "/ledgers/$(name)"; aws=aws)
-UpdateLedger(name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = qldb("PATCH", "/ledgers/$(name)", args; aws=aws)
+UpdateLedger(name; aws::AWSConfig=AWS.aws_config) = qldb("PATCH", "/ledgers/$(name)"; aws=aws)
+UpdateLedger(name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = qldb("PATCH", "/ledgers/$(name)", args; aws=aws)

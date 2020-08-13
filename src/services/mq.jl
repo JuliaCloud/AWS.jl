@@ -30,8 +30,8 @@ Creates a broker. Note: This API is asynchronous.
 - `tags`: Create tags when creating the broker.
 - `users`: Required. The list of ActiveMQ users (persons or applications) who can access queues and topics. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
 """
-CreateBroker(; aws::AWSConfig=AWSConfig()) = mq("POST", "/v1/brokers", Dict{String, Any}("creatorRequestId"=>string(uuid4())); aws=aws)
-CreateBroker(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mq("POST", "/v1/brokers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("creatorRequestId"=>string(uuid4())), args)); aws=aws)
+CreateBroker(; aws::AWSConfig=AWS.aws_config) = mq("POST", "/v1/brokers", Dict{String, Any}("creatorRequestId"=>string(uuid4())); aws=aws)
+CreateBroker(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mq("POST", "/v1/brokers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("creatorRequestId"=>string(uuid4())), args)); aws=aws)
 
 """
     CreateConfiguration()
@@ -45,8 +45,8 @@ Creates a new configuration for the specified configuration name. Amazon MQ uses
 - `name`: Required. The name of the configuration. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 1-150 characters long.
 - `tags`: Create tags when creating the configuration.
 """
-CreateConfiguration(; aws::AWSConfig=AWSConfig()) = mq("POST", "/v1/configurations"; aws=aws)
-CreateConfiguration(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = mq("POST", "/v1/configurations", args; aws=aws)
+CreateConfiguration(; aws::AWSConfig=AWS.aws_config) = mq("POST", "/v1/configurations"; aws=aws)
+CreateConfiguration(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = mq("POST", "/v1/configurations", args; aws=aws)
 
 """
     CreateTags()
@@ -59,8 +59,8 @@ Add a tag to a resource.
 # Optional Parameters
 - `tags`: The key-value pair for the resource tag.
 """
-CreateTags(resource_arn; aws::AWSConfig=AWSConfig()) = mq("POST", "/v1/tags/$(resource-arn)"; aws=aws)
-CreateTags(resource_arn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mq("POST", "/v1/tags/$(resource-arn)", args; aws=aws)
+CreateTags(resource_arn; aws::AWSConfig=AWS.aws_config) = mq("POST", "/v1/tags/$(resource-arn)"; aws=aws)
+CreateTags(resource_arn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mq("POST", "/v1/tags/$(resource-arn)", args; aws=aws)
 
 """
     CreateUser()
@@ -76,8 +76,8 @@ Creates an ActiveMQ user.
 - `groups`: The list of groups (20 maximum) to which the ActiveMQ user belongs. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
 - `password`: Required. The password of the user. This value must be at least 12 characters long, must contain at least 4 unique characters, and must not contain commas.
 """
-CreateUser(broker_id, username; aws::AWSConfig=AWSConfig()) = mq("POST", "/v1/brokers/$(broker-id)/users/$(username)"; aws=aws)
-CreateUser(broker_id, username, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mq("POST", "/v1/brokers/$(broker-id)/users/$(username)", args; aws=aws)
+CreateUser(broker_id, username; aws::AWSConfig=AWS.aws_config) = mq("POST", "/v1/brokers/$(broker-id)/users/$(username)"; aws=aws)
+CreateUser(broker_id, username, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mq("POST", "/v1/brokers/$(broker-id)/users/$(username)", args; aws=aws)
 
 """
     DeleteBroker()
@@ -88,8 +88,8 @@ Deletes a broker. Note: This API is asynchronous.
 - `broker-id`: The unique ID that Amazon MQ generates for the broker.
 
 """
-DeleteBroker(broker_id; aws::AWSConfig=AWSConfig()) = mq("DELETE", "/v1/brokers/$(broker-id)"; aws=aws)
-DeleteBroker(broker_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mq("DELETE", "/v1/brokers/$(broker-id)", args; aws=aws)
+DeleteBroker(broker_id; aws::AWSConfig=AWS.aws_config) = mq("DELETE", "/v1/brokers/$(broker-id)"; aws=aws)
+DeleteBroker(broker_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mq("DELETE", "/v1/brokers/$(broker-id)", args; aws=aws)
 
 """
     DeleteTags()
@@ -101,8 +101,8 @@ Removes a tag from a resource.
 - `tagKeys`: An array of tag keys to delete
 
 """
-DeleteTags(resource_arn, tagKeys; aws::AWSConfig=AWSConfig()) = mq("DELETE", "/v1/tags/$(resource-arn)", Dict{String, Any}("tagKeys"=>tagKeys))
-DeleteTags(resource_arn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mq("DELETE", "/v1/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws=aws)
+DeleteTags(resource_arn, tagKeys; aws::AWSConfig=AWS.aws_config) = mq("DELETE", "/v1/tags/$(resource-arn)", Dict{String, Any}("tagKeys"=>tagKeys); aws=aws)
+DeleteTags(resource_arn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mq("DELETE", "/v1/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws=aws)
 
 """
     DeleteUser()
@@ -114,8 +114,8 @@ Deletes an ActiveMQ user.
 - `username`: The username of the ActiveMQ user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
 
 """
-DeleteUser(broker_id, username; aws::AWSConfig=AWSConfig()) = mq("DELETE", "/v1/brokers/$(broker-id)/users/$(username)"; aws=aws)
-DeleteUser(broker_id, username, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mq("DELETE", "/v1/brokers/$(broker-id)/users/$(username)", args; aws=aws)
+DeleteUser(broker_id, username; aws::AWSConfig=AWS.aws_config) = mq("DELETE", "/v1/brokers/$(broker-id)/users/$(username)"; aws=aws)
+DeleteUser(broker_id, username, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mq("DELETE", "/v1/brokers/$(broker-id)/users/$(username)", args; aws=aws)
 
 """
     DescribeBroker()
@@ -126,8 +126,8 @@ Returns information about the specified broker.
 - `broker-id`: The name of the broker. This value must be unique in your AWS account, 1-50 characters long, must contain only letters, numbers, dashes, and underscores, and must not contain whitespaces, brackets, wildcard characters, or special characters.
 
 """
-DescribeBroker(broker_id; aws::AWSConfig=AWSConfig()) = mq("GET", "/v1/brokers/$(broker-id)"; aws=aws)
-DescribeBroker(broker_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mq("GET", "/v1/brokers/$(broker-id)", args; aws=aws)
+DescribeBroker(broker_id; aws::AWSConfig=AWS.aws_config) = mq("GET", "/v1/brokers/$(broker-id)"; aws=aws)
+DescribeBroker(broker_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mq("GET", "/v1/brokers/$(broker-id)", args; aws=aws)
 
 """
     DescribeBrokerEngineTypes()
@@ -139,8 +139,8 @@ Describe available engine types and versions.
 - `maxResults`: The maximum number of engine types that Amazon MQ can return per page (20 by default). This value must be an integer from 5 to 100.
 - `nextToken`: The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
 """
-DescribeBrokerEngineTypes(; aws::AWSConfig=AWSConfig()) = mq("GET", "/v1/broker-engine-types"; aws=aws)
-DescribeBrokerEngineTypes(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = mq("GET", "/v1/broker-engine-types", args; aws=aws)
+DescribeBrokerEngineTypes(; aws::AWSConfig=AWS.aws_config) = mq("GET", "/v1/broker-engine-types"; aws=aws)
+DescribeBrokerEngineTypes(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = mq("GET", "/v1/broker-engine-types", args; aws=aws)
 
 """
     DescribeBrokerInstanceOptions()
@@ -154,8 +154,8 @@ Describe available broker instance options.
 - `nextToken`: The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
 - `storageType`: Filter response by storage type.
 """
-DescribeBrokerInstanceOptions(; aws::AWSConfig=AWSConfig()) = mq("GET", "/v1/broker-instance-options"; aws=aws)
-DescribeBrokerInstanceOptions(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = mq("GET", "/v1/broker-instance-options", args; aws=aws)
+DescribeBrokerInstanceOptions(; aws::AWSConfig=AWS.aws_config) = mq("GET", "/v1/broker-instance-options"; aws=aws)
+DescribeBrokerInstanceOptions(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = mq("GET", "/v1/broker-instance-options", args; aws=aws)
 
 """
     DescribeConfiguration()
@@ -166,8 +166,8 @@ Returns information about the specified configuration.
 - `configuration-id`: The unique ID that Amazon MQ generates for the configuration.
 
 """
-DescribeConfiguration(configuration_id; aws::AWSConfig=AWSConfig()) = mq("GET", "/v1/configurations/$(configuration-id)"; aws=aws)
-DescribeConfiguration(configuration_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mq("GET", "/v1/configurations/$(configuration-id)", args; aws=aws)
+DescribeConfiguration(configuration_id; aws::AWSConfig=AWS.aws_config) = mq("GET", "/v1/configurations/$(configuration-id)"; aws=aws)
+DescribeConfiguration(configuration_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mq("GET", "/v1/configurations/$(configuration-id)", args; aws=aws)
 
 """
     DescribeConfigurationRevision()
@@ -179,8 +179,8 @@ Returns the specified configuration revision for the specified configuration.
 - `configuration-revision`: The revision of the configuration.
 
 """
-DescribeConfigurationRevision(configuration_id, configuration_revision; aws::AWSConfig=AWSConfig()) = mq("GET", "/v1/configurations/$(configuration-id)/revisions/$(configuration-revision)"; aws=aws)
-DescribeConfigurationRevision(configuration_id, configuration_revision, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mq("GET", "/v1/configurations/$(configuration-id)/revisions/$(configuration-revision)", args; aws=aws)
+DescribeConfigurationRevision(configuration_id, configuration_revision; aws::AWSConfig=AWS.aws_config) = mq("GET", "/v1/configurations/$(configuration-id)/revisions/$(configuration-revision)"; aws=aws)
+DescribeConfigurationRevision(configuration_id, configuration_revision, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mq("GET", "/v1/configurations/$(configuration-id)/revisions/$(configuration-revision)", args; aws=aws)
 
 """
     DescribeUser()
@@ -192,8 +192,8 @@ Returns information about an ActiveMQ user.
 - `username`: The username of the ActiveMQ user. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
 
 """
-DescribeUser(broker_id, username; aws::AWSConfig=AWSConfig()) = mq("GET", "/v1/brokers/$(broker-id)/users/$(username)"; aws=aws)
-DescribeUser(broker_id, username, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mq("GET", "/v1/brokers/$(broker-id)/users/$(username)", args; aws=aws)
+DescribeUser(broker_id, username; aws::AWSConfig=AWS.aws_config) = mq("GET", "/v1/brokers/$(broker-id)/users/$(username)"; aws=aws)
+DescribeUser(broker_id, username, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mq("GET", "/v1/brokers/$(broker-id)/users/$(username)", args; aws=aws)
 
 """
     ListBrokers()
@@ -204,8 +204,8 @@ Returns a list of all brokers.
 - `maxResults`: The maximum number of brokers that Amazon MQ can return per page (20 by default). This value must be an integer from 5 to 100.
 - `nextToken`: The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
 """
-ListBrokers(; aws::AWSConfig=AWSConfig()) = mq("GET", "/v1/brokers"; aws=aws)
-ListBrokers(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = mq("GET", "/v1/brokers", args; aws=aws)
+ListBrokers(; aws::AWSConfig=AWS.aws_config) = mq("GET", "/v1/brokers"; aws=aws)
+ListBrokers(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = mq("GET", "/v1/brokers", args; aws=aws)
 
 """
     ListConfigurationRevisions()
@@ -219,8 +219,8 @@ Returns a list of all revisions for the specified configuration.
 - `maxResults`: The maximum number of configurations that Amazon MQ can return per page (20 by default). This value must be an integer from 5 to 100.
 - `nextToken`: The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
 """
-ListConfigurationRevisions(configuration_id; aws::AWSConfig=AWSConfig()) = mq("GET", "/v1/configurations/$(configuration-id)/revisions"; aws=aws)
-ListConfigurationRevisions(configuration_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mq("GET", "/v1/configurations/$(configuration-id)/revisions", args; aws=aws)
+ListConfigurationRevisions(configuration_id; aws::AWSConfig=AWS.aws_config) = mq("GET", "/v1/configurations/$(configuration-id)/revisions"; aws=aws)
+ListConfigurationRevisions(configuration_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mq("GET", "/v1/configurations/$(configuration-id)/revisions", args; aws=aws)
 
 """
     ListConfigurations()
@@ -231,8 +231,8 @@ Returns a list of all configurations.
 - `maxResults`: The maximum number of configurations that Amazon MQ can return per page (20 by default). This value must be an integer from 5 to 100.
 - `nextToken`: The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
 """
-ListConfigurations(; aws::AWSConfig=AWSConfig()) = mq("GET", "/v1/configurations"; aws=aws)
-ListConfigurations(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = mq("GET", "/v1/configurations", args; aws=aws)
+ListConfigurations(; aws::AWSConfig=AWS.aws_config) = mq("GET", "/v1/configurations"; aws=aws)
+ListConfigurations(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = mq("GET", "/v1/configurations", args; aws=aws)
 
 """
     ListTags()
@@ -243,8 +243,8 @@ Lists tags for a resource.
 - `resource-arn`: The Amazon Resource Name (ARN) of the resource tag.
 
 """
-ListTags(resource_arn; aws::AWSConfig=AWSConfig()) = mq("GET", "/v1/tags/$(resource-arn)"; aws=aws)
-ListTags(resource_arn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mq("GET", "/v1/tags/$(resource-arn)", args; aws=aws)
+ListTags(resource_arn; aws::AWSConfig=AWS.aws_config) = mq("GET", "/v1/tags/$(resource-arn)"; aws=aws)
+ListTags(resource_arn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mq("GET", "/v1/tags/$(resource-arn)", args; aws=aws)
 
 """
     ListUsers()
@@ -258,8 +258,8 @@ Returns a list of all ActiveMQ users.
 - `maxResults`: The maximum number of ActiveMQ users that can be returned per page (20 by default). This value must be an integer from 5 to 100.
 - `nextToken`: The token that specifies the next page of results Amazon MQ should return. To request the first page, leave nextToken empty.
 """
-ListUsers(broker_id; aws::AWSConfig=AWSConfig()) = mq("GET", "/v1/brokers/$(broker-id)/users"; aws=aws)
-ListUsers(broker_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mq("GET", "/v1/brokers/$(broker-id)/users", args; aws=aws)
+ListUsers(broker_id; aws::AWSConfig=AWS.aws_config) = mq("GET", "/v1/brokers/$(broker-id)/users"; aws=aws)
+ListUsers(broker_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mq("GET", "/v1/brokers/$(broker-id)/users", args; aws=aws)
 
 """
     RebootBroker()
@@ -270,8 +270,8 @@ Reboots a broker. Note: This API is asynchronous.
 - `broker-id`: The unique ID that Amazon MQ generates for the broker.
 
 """
-RebootBroker(broker_id; aws::AWSConfig=AWSConfig()) = mq("POST", "/v1/brokers/$(broker-id)/reboot"; aws=aws)
-RebootBroker(broker_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mq("POST", "/v1/brokers/$(broker-id)/reboot", args; aws=aws)
+RebootBroker(broker_id; aws::AWSConfig=AWS.aws_config) = mq("POST", "/v1/brokers/$(broker-id)/reboot"; aws=aws)
+RebootBroker(broker_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mq("POST", "/v1/brokers/$(broker-id)/reboot", args; aws=aws)
 
 """
     UpdateBroker()
@@ -291,8 +291,8 @@ Adds a pending configuration change to a broker.
 - `logs`: Enables Amazon CloudWatch logging for brokers.
 - `securityGroups`: The list of security groups (1 minimum, 5 maximum) that authorizes connections to brokers.
 """
-UpdateBroker(broker_id; aws::AWSConfig=AWSConfig()) = mq("PUT", "/v1/brokers/$(broker-id)"; aws=aws)
-UpdateBroker(broker_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mq("PUT", "/v1/brokers/$(broker-id)", args; aws=aws)
+UpdateBroker(broker_id; aws::AWSConfig=AWS.aws_config) = mq("PUT", "/v1/brokers/$(broker-id)"; aws=aws)
+UpdateBroker(broker_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mq("PUT", "/v1/brokers/$(broker-id)", args; aws=aws)
 
 """
     UpdateConfiguration()
@@ -306,8 +306,8 @@ Updates the specified configuration.
 - `data`: Required. The base64-encoded XML configuration.
 - `description`: The description of the configuration.
 """
-UpdateConfiguration(configuration_id; aws::AWSConfig=AWSConfig()) = mq("PUT", "/v1/configurations/$(configuration-id)"; aws=aws)
-UpdateConfiguration(configuration_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mq("PUT", "/v1/configurations/$(configuration-id)", args; aws=aws)
+UpdateConfiguration(configuration_id; aws::AWSConfig=AWS.aws_config) = mq("PUT", "/v1/configurations/$(configuration-id)"; aws=aws)
+UpdateConfiguration(configuration_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mq("PUT", "/v1/configurations/$(configuration-id)", args; aws=aws)
 
 """
     UpdateUser()
@@ -323,5 +323,5 @@ Updates the information for an ActiveMQ user.
 - `groups`: The list of groups (20 maximum) to which the ActiveMQ user belongs. This value can contain only alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 2-100 characters long.
 - `password`: The password of the user. This value must be at least 12 characters long, must contain at least 4 unique characters, and must not contain commas.
 """
-UpdateUser(broker_id, username; aws::AWSConfig=AWSConfig()) = mq("PUT", "/v1/brokers/$(broker-id)/users/$(username)"; aws=aws)
-UpdateUser(broker_id, username, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mq("PUT", "/v1/brokers/$(broker-id)/users/$(username)", args; aws=aws)
+UpdateUser(broker_id, username; aws::AWSConfig=AWS.aws_config) = mq("PUT", "/v1/brokers/$(broker-id)/users/$(username)"; aws=aws)
+UpdateUser(broker_id, username, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mq("PUT", "/v1/brokers/$(broker-id)/users/$(username)", args; aws=aws)

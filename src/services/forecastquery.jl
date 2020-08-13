@@ -18,5 +18,5 @@ Retrieves a forecast for a single item, filtered by the supplied criteria. The c
 - `NextToken`: If the result of the previous request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next request. Tokens expire after 24 hours.
 - `StartDate`: The start date for the forecast. Specify the date using this format: yyyy-MM-dd'T'HH:mm:ss (ISO 8601 format). For example, 2015-01-01T08:00:00.
 """
-QueryForecast(Filters, ForecastArn; aws::AWSConfig=AWSConfig()) = forecastquery("QueryForecast", Dict{String, Any}("Filters"=>Filters, "ForecastArn"=>ForecastArn); aws=aws)
-QueryForecast(Filters, ForecastArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = forecastquery("QueryForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filters"=>Filters, "ForecastArn"=>ForecastArn), args)); aws=aws)
+QueryForecast(Filters, ForecastArn; aws::AWSConfig=AWS.aws_config) = forecastquery("QueryForecast", Dict{String, Any}("Filters"=>Filters, "ForecastArn"=>ForecastArn); aws=aws)
+QueryForecast(Filters, ForecastArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = forecastquery("QueryForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filters"=>Filters, "ForecastArn"=>ForecastArn), args)); aws=aws)

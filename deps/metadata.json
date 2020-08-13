@@ -220,7 +220,7 @@
     "version": "2018-08-01"
   },
   "rds-2014-10-31.normal.json": {
-    "sha": "fa2948c1ab9c144f71be0be54968024bb74417ac",
+    "sha": "e233abcc99421c824210ef01c00f59c2d10ff052",
     "version": "2014-10-31"
   },
   "ram-2018-01-04.normal.json": {
@@ -368,7 +368,7 @@
     "version": "2018-09-24"
   },
   "macie2-2020-01-01.normal.json": {
-    "sha": "bf9d8e2dbb6960f02cd2af442a85d81a3e99a0e6",
+    "sha": "f6b643913cb1ccc9f8f8c47ca23973faa86a3869",
     "version": "2020-01-01"
   },
   "macie-2017-12-19.normal.json": {
@@ -620,7 +620,7 @@
     "version": "2017-07-25"
   },
   "eks-2017-11-01.normal.json": {
-    "sha": "a53d1453c5fdeabf8561462ca45ab289019f4f07",
+    "sha": "129ebb465a09ae5e7192d791e806048a659da947",
     "version": "2017-11-01"
   },
   "ecs-2014-11-13.normal.json": {
@@ -636,7 +636,7 @@
     "version": "2018-04-02"
   },
   "ec2-2016-11-15.normal.json": {
-    "sha": "24bd88fce9feef54d5760939bbb5a2ae9168b5b3",
+    "sha": "7ae0256a9df88d303a203b19e7e97e9dbc03d4ae",
     "version": "2016-11-15"
   },
   "ebs-2019-11-02.normal.json": {
@@ -728,7 +728,7 @@
     "version": "2014-06-30"
   },
   "cognito-idp-2016-04-18.normal.json": {
-    "sha": "293e07e38528e4eeaebab9a19630f24e5afeb869",
+    "sha": "355a419669d420b117e3daf7090965b92f633ebb",
     "version": "2016-04-18"
   },
   "cognito-identity-2014-06-30.normal.json": {
@@ -823,6 +823,10 @@
     "sha": "d6ec39470fe03b529604e6062524c868f14eb250",
     "version": "2016-10-20"
   },
+  "braket-2019-09-01.normal.json": {
+    "sha": "9503e0d196a31de3aca59c4b4af1247964950532",
+    "version": "2019-09-01"
+  },
   "batch-2016-08-10.normal.json": {
     "sha": "0317690469b89ab7bb98e30dbb2acc28dca37fa5",
     "version": "2016-08-10"
@@ -844,7 +848,7 @@
     "version": "2017-05-18"
   },
   "appsync-2017-07-25.normal.json": {
-    "sha": "0bc6dfd54d2ab20ed886c7292679b98d0c07db22",
+    "sha": "ef5ec03a6755215ee1e9a83a98c46b1d3b3a7762",
     "version": "2017-07-25"
   },
   "appstream-2016-12-01.normal.json": {

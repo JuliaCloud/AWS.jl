@@ -13,8 +13,8 @@ Advertises an IPv4 address range that is provisioned for use with your AWS resou
 - `Cidr`: The address range, in CIDR notation. This must be the exact range that you provisioned. You can't advertise only a portion of the provisioned range.
 
 """
-AdvertiseByoipCidr(Cidr; aws::AWSConfig=AWSConfig()) = global_accelerator("AdvertiseByoipCidr", Dict{String, Any}("Cidr"=>Cidr); aws=aws)
-AdvertiseByoipCidr(Cidr, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = global_accelerator("AdvertiseByoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr), args)); aws=aws)
+AdvertiseByoipCidr(Cidr; aws::AWSConfig=AWS.aws_config) = global_accelerator("AdvertiseByoipCidr", Dict{String, Any}("Cidr"=>Cidr); aws=aws)
+AdvertiseByoipCidr(Cidr, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = global_accelerator("AdvertiseByoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr), args)); aws=aws)
 
 """
     CreateAccelerator()
@@ -31,8 +31,8 @@ Create an accelerator. An accelerator includes one or more listeners that proces
 - `IpAddresses`: Optionally, if you've added your own IP address pool to Global Accelerator, you can choose IP addresses from your own pool to use for the accelerator's static IP addresses. You can specify one or two addresses, separated by a comma. Do not include the /32 suffix. If you specify only one IP address from your IP address range, Global Accelerator assigns a second static IP address for the accelerator from the AWS IP address pool. For more information, see Bring Your Own IP Addresses (BYOIP) in the AWS Global Accelerator Developer Guide.
 - `Tags`: Create tags for an accelerator. For more information, see Tagging in AWS Global Accelerator in the AWS Global Accelerator Developer Guide.
 """
-CreateAccelerator(IdempotencyToken, Name; aws::AWSConfig=AWSConfig()) = global_accelerator("CreateAccelerator", Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "Name"=>Name); aws=aws)
-CreateAccelerator(IdempotencyToken, Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = global_accelerator("CreateAccelerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "Name"=>Name), args)); aws=aws)
+CreateAccelerator(IdempotencyToken, Name; aws::AWSConfig=AWS.aws_config) = global_accelerator("CreateAccelerator", Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "Name"=>Name); aws=aws)
+CreateAccelerator(IdempotencyToken, Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = global_accelerator("CreateAccelerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IdempotencyToken"=>IdempotencyToken, "Name"=>Name), args)); aws=aws)
 
 """
     CreateEndpointGroup()
@@ -53,8 +53,8 @@ Create an endpoint group for the specified listener. An endpoint group is a coll
 - `ThresholdCount`: The number of consecutive health checks required to set the state of a healthy endpoint to unhealthy, or to set an unhealthy endpoint to healthy. The default value is 3.
 - `TrafficDialPercentage`: The percentage of traffic to send to an AWS Region. Additional traffic is distributed to other endpoint groups for this listener.  Use this action to increase (dial up) or decrease (dial down) traffic to a specific Region. The percentage is applied to the traffic that would otherwise have been routed to the Region based on optimal routing. The default value is 100.
 """
-CreateEndpointGroup(EndpointGroupRegion, IdempotencyToken, ListenerArn; aws::AWSConfig=AWSConfig()) = global_accelerator("CreateEndpointGroup", Dict{String, Any}("EndpointGroupRegion"=>EndpointGroupRegion, "IdempotencyToken"=>IdempotencyToken, "ListenerArn"=>ListenerArn); aws=aws)
-CreateEndpointGroup(EndpointGroupRegion, IdempotencyToken, ListenerArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = global_accelerator("CreateEndpointGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupRegion"=>EndpointGroupRegion, "IdempotencyToken"=>IdempotencyToken, "ListenerArn"=>ListenerArn), args)); aws=aws)
+CreateEndpointGroup(EndpointGroupRegion, IdempotencyToken, ListenerArn; aws::AWSConfig=AWS.aws_config) = global_accelerator("CreateEndpointGroup", Dict{String, Any}("EndpointGroupRegion"=>EndpointGroupRegion, "IdempotencyToken"=>IdempotencyToken, "ListenerArn"=>ListenerArn); aws=aws)
+CreateEndpointGroup(EndpointGroupRegion, IdempotencyToken, ListenerArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = global_accelerator("CreateEndpointGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupRegion"=>EndpointGroupRegion, "IdempotencyToken"=>IdempotencyToken, "ListenerArn"=>ListenerArn), args)); aws=aws)
 
 """
     CreateListener()
@@ -70,8 +70,8 @@ Create a listener to process inbound connections from clients to an accelerator.
 # Optional Parameters
 - `ClientAffinity`: Client affinity lets you direct all requests from a user to the same endpoint, if you have stateful applications, regardless of the port and protocol of the client request. Clienty affinity gives you control over whether to always route each client to the same specific endpoint. AWS Global Accelerator uses a consistent-flow hashing algorithm to choose the optimal endpoint for a connection. If client affinity is NONE, Global Accelerator uses the \"five-tuple\" (5-tuple) properties—source IP address, source port, destination IP address, destination port, and protocol—to select the hash value, and then chooses the best endpoint. However, with this setting, if someone uses different ports to connect to Global Accelerator, their connections might not be always routed to the same endpoint because the hash value changes.  If you want a given client to always be routed to the same endpoint, set client affinity to SOURCE_IP instead. When you use the SOURCE_IP setting, Global Accelerator uses the \"two-tuple\" (2-tuple) properties— source (client) IP address and destination IP address—to select the hash value. The default value is NONE.
 """
-CreateListener(AcceleratorArn, IdempotencyToken, PortRanges, Protocol; aws::AWSConfig=AWSConfig()) = global_accelerator("CreateListener", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn, "IdempotencyToken"=>IdempotencyToken, "PortRanges"=>PortRanges, "Protocol"=>Protocol); aws=aws)
-CreateListener(AcceleratorArn, IdempotencyToken, PortRanges, Protocol, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = global_accelerator("CreateListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn, "IdempotencyToken"=>IdempotencyToken, "PortRanges"=>PortRanges, "Protocol"=>Protocol), args)); aws=aws)
+CreateListener(AcceleratorArn, IdempotencyToken, PortRanges, Protocol; aws::AWSConfig=AWS.aws_config) = global_accelerator("CreateListener", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn, "IdempotencyToken"=>IdempotencyToken, "PortRanges"=>PortRanges, "Protocol"=>Protocol); aws=aws)
+CreateListener(AcceleratorArn, IdempotencyToken, PortRanges, Protocol, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = global_accelerator("CreateListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn, "IdempotencyToken"=>IdempotencyToken, "PortRanges"=>PortRanges, "Protocol"=>Protocol), args)); aws=aws)
 
 """
     DeleteAccelerator()
@@ -82,8 +82,8 @@ Delete an accelerator. Before you can delete an accelerator, you must disable it
 - `AcceleratorArn`: The Amazon Resource Name (ARN) of an accelerator.
 
 """
-DeleteAccelerator(AcceleratorArn; aws::AWSConfig=AWSConfig()) = global_accelerator("DeleteAccelerator", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws=aws)
-DeleteAccelerator(AcceleratorArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = global_accelerator("DeleteAccelerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), args)); aws=aws)
+DeleteAccelerator(AcceleratorArn; aws::AWSConfig=AWS.aws_config) = global_accelerator("DeleteAccelerator", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws=aws)
+DeleteAccelerator(AcceleratorArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = global_accelerator("DeleteAccelerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), args)); aws=aws)
 
 """
     DeleteEndpointGroup()
@@ -94,8 +94,8 @@ Delete an endpoint group from a listener.
 - `EndpointGroupArn`: The Amazon Resource Name (ARN) of the endpoint group to delete.
 
 """
-DeleteEndpointGroup(EndpointGroupArn; aws::AWSConfig=AWSConfig()) = global_accelerator("DeleteEndpointGroup", Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn); aws=aws)
-DeleteEndpointGroup(EndpointGroupArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = global_accelerator("DeleteEndpointGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn), args)); aws=aws)
+DeleteEndpointGroup(EndpointGroupArn; aws::AWSConfig=AWS.aws_config) = global_accelerator("DeleteEndpointGroup", Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn); aws=aws)
+DeleteEndpointGroup(EndpointGroupArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = global_accelerator("DeleteEndpointGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn), args)); aws=aws)
 
 """
     DeleteListener()
@@ -106,8 +106,8 @@ Delete a listener from an accelerator.
 - `ListenerArn`: The Amazon Resource Name (ARN) of the listener.
 
 """
-DeleteListener(ListenerArn; aws::AWSConfig=AWSConfig()) = global_accelerator("DeleteListener", Dict{String, Any}("ListenerArn"=>ListenerArn); aws=aws)
-DeleteListener(ListenerArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = global_accelerator("DeleteListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), args)); aws=aws)
+DeleteListener(ListenerArn; aws::AWSConfig=AWS.aws_config) = global_accelerator("DeleteListener", Dict{String, Any}("ListenerArn"=>ListenerArn); aws=aws)
+DeleteListener(ListenerArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = global_accelerator("DeleteListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), args)); aws=aws)
 
 """
     DeprovisionByoipCidr()
@@ -118,8 +118,8 @@ Releases the specified address range that you provisioned to use with your AWS r
 - `Cidr`: The address range, in CIDR notation. The prefix must be the same prefix that you specified when you provisioned the address range.
 
 """
-DeprovisionByoipCidr(Cidr; aws::AWSConfig=AWSConfig()) = global_accelerator("DeprovisionByoipCidr", Dict{String, Any}("Cidr"=>Cidr); aws=aws)
-DeprovisionByoipCidr(Cidr, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = global_accelerator("DeprovisionByoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr), args)); aws=aws)
+DeprovisionByoipCidr(Cidr; aws::AWSConfig=AWS.aws_config) = global_accelerator("DeprovisionByoipCidr", Dict{String, Any}("Cidr"=>Cidr); aws=aws)
+DeprovisionByoipCidr(Cidr, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = global_accelerator("DeprovisionByoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr), args)); aws=aws)
 
 """
     DescribeAccelerator()
@@ -130,8 +130,8 @@ Describe an accelerator. To see an AWS CLI example of describing an accelerator,
 - `AcceleratorArn`: The Amazon Resource Name (ARN) of the accelerator to describe.
 
 """
-DescribeAccelerator(AcceleratorArn; aws::AWSConfig=AWSConfig()) = global_accelerator("DescribeAccelerator", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws=aws)
-DescribeAccelerator(AcceleratorArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = global_accelerator("DescribeAccelerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), args)); aws=aws)
+DescribeAccelerator(AcceleratorArn; aws::AWSConfig=AWS.aws_config) = global_accelerator("DescribeAccelerator", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws=aws)
+DescribeAccelerator(AcceleratorArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = global_accelerator("DescribeAccelerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), args)); aws=aws)
 
 """
     DescribeAcceleratorAttributes()
@@ -142,8 +142,8 @@ Describe the attributes of an accelerator. To see an AWS CLI example of describi
 - `AcceleratorArn`: The Amazon Resource Name (ARN) of the accelerator with the attributes that you want to describe.
 
 """
-DescribeAcceleratorAttributes(AcceleratorArn; aws::AWSConfig=AWSConfig()) = global_accelerator("DescribeAcceleratorAttributes", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws=aws)
-DescribeAcceleratorAttributes(AcceleratorArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = global_accelerator("DescribeAcceleratorAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), args)); aws=aws)
+DescribeAcceleratorAttributes(AcceleratorArn; aws::AWSConfig=AWS.aws_config) = global_accelerator("DescribeAcceleratorAttributes", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws=aws)
+DescribeAcceleratorAttributes(AcceleratorArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = global_accelerator("DescribeAcceleratorAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), args)); aws=aws)
 
 """
     DescribeEndpointGroup()
@@ -154,8 +154,8 @@ Describe an endpoint group. To see an AWS CLI example of describing an endpoint 
 - `EndpointGroupArn`: The Amazon Resource Name (ARN) of the endpoint group to describe.
 
 """
-DescribeEndpointGroup(EndpointGroupArn; aws::AWSConfig=AWSConfig()) = global_accelerator("DescribeEndpointGroup", Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn); aws=aws)
-DescribeEndpointGroup(EndpointGroupArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = global_accelerator("DescribeEndpointGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn), args)); aws=aws)
+DescribeEndpointGroup(EndpointGroupArn; aws::AWSConfig=AWS.aws_config) = global_accelerator("DescribeEndpointGroup", Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn); aws=aws)
+DescribeEndpointGroup(EndpointGroupArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = global_accelerator("DescribeEndpointGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn), args)); aws=aws)
 
 """
     DescribeListener()
@@ -166,8 +166,8 @@ Describe a listener. To see an AWS CLI example of describing a listener, scroll 
 - `ListenerArn`: The Amazon Resource Name (ARN) of the listener to describe.
 
 """
-DescribeListener(ListenerArn; aws::AWSConfig=AWSConfig()) = global_accelerator("DescribeListener", Dict{String, Any}("ListenerArn"=>ListenerArn); aws=aws)
-DescribeListener(ListenerArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = global_accelerator("DescribeListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), args)); aws=aws)
+DescribeListener(ListenerArn; aws::AWSConfig=AWS.aws_config) = global_accelerator("DescribeListener", Dict{String, Any}("ListenerArn"=>ListenerArn); aws=aws)
+DescribeListener(ListenerArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = global_accelerator("DescribeListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), args)); aws=aws)
 
 """
     ListAccelerators()
@@ -178,8 +178,8 @@ List the accelerators for an AWS account. To see an AWS CLI example of listing t
 - `MaxResults`: The number of Global Accelerator objects that you want to return with this call. The default value is 10.
 - `NextToken`: The token for the next set of results. You receive this token from a previous call.
 """
-ListAccelerators(; aws::AWSConfig=AWSConfig()) = global_accelerator("ListAccelerators"; aws=aws)
-ListAccelerators(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = global_accelerator("ListAccelerators", args; aws=aws)
+ListAccelerators(; aws::AWSConfig=AWS.aws_config) = global_accelerator("ListAccelerators"; aws=aws)
+ListAccelerators(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = global_accelerator("ListAccelerators", args; aws=aws)
 
 """
     ListByoipCidrs()
@@ -190,8 +190,8 @@ Lists the IP address ranges that were specified in calls to ProvisionByoipCidr, 
 - `MaxResults`: The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
 - `NextToken`: The token for the next page of results.
 """
-ListByoipCidrs(; aws::AWSConfig=AWSConfig()) = global_accelerator("ListByoipCidrs"; aws=aws)
-ListByoipCidrs(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = global_accelerator("ListByoipCidrs", args; aws=aws)
+ListByoipCidrs(; aws::AWSConfig=AWS.aws_config) = global_accelerator("ListByoipCidrs"; aws=aws)
+ListByoipCidrs(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = global_accelerator("ListByoipCidrs", args; aws=aws)
 
 """
     ListEndpointGroups()
@@ -205,8 +205,8 @@ List the endpoint groups that are associated with a listener. To see an AWS CLI 
 - `MaxResults`: The number of endpoint group objects that you want to return with this call. The default value is 10.
 - `NextToken`: The token for the next set of results. You receive this token from a previous call.
 """
-ListEndpointGroups(ListenerArn; aws::AWSConfig=AWSConfig()) = global_accelerator("ListEndpointGroups", Dict{String, Any}("ListenerArn"=>ListenerArn); aws=aws)
-ListEndpointGroups(ListenerArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = global_accelerator("ListEndpointGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), args)); aws=aws)
+ListEndpointGroups(ListenerArn; aws::AWSConfig=AWS.aws_config) = global_accelerator("ListEndpointGroups", Dict{String, Any}("ListenerArn"=>ListenerArn); aws=aws)
+ListEndpointGroups(ListenerArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = global_accelerator("ListEndpointGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), args)); aws=aws)
 
 """
     ListListeners()
@@ -220,8 +220,8 @@ List the listeners for an accelerator. To see an AWS CLI example of listing the 
 - `MaxResults`: The number of listener objects that you want to return with this call. The default value is 10.
 - `NextToken`: The token for the next set of results. You receive this token from a previous call.
 """
-ListListeners(AcceleratorArn; aws::AWSConfig=AWSConfig()) = global_accelerator("ListListeners", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws=aws)
-ListListeners(AcceleratorArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = global_accelerator("ListListeners", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), args)); aws=aws)
+ListListeners(AcceleratorArn; aws::AWSConfig=AWS.aws_config) = global_accelerator("ListListeners", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws=aws)
+ListListeners(AcceleratorArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = global_accelerator("ListListeners", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), args)); aws=aws)
 
 """
     ListTagsForResource()
@@ -232,8 +232,8 @@ List all tags for an accelerator. To see an AWS CLI example of listing tags for 
 - `ResourceArn`: The Amazon Resource Name (ARN) of the accelerator to list tags for. An ARN uniquely identifies an accelerator.
 
 """
-ListTagsForResource(ResourceArn; aws::AWSConfig=AWSConfig()) = global_accelerator("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws=aws)
-ListTagsForResource(ResourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = global_accelerator("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws=aws)
+ListTagsForResource(ResourceArn; aws::AWSConfig=AWS.aws_config) = global_accelerator("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws=aws)
+ListTagsForResource(ResourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = global_accelerator("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws=aws)
 
 """
     ProvisionByoipCidr()
@@ -245,8 +245,8 @@ Provisions an IP address range to use with your AWS resources through bring your
 - `CidrAuthorizationContext`: A signed document that proves that you are authorized to bring the specified IP address range to Amazon using BYOIP. 
 
 """
-ProvisionByoipCidr(Cidr, CidrAuthorizationContext; aws::AWSConfig=AWSConfig()) = global_accelerator("ProvisionByoipCidr", Dict{String, Any}("Cidr"=>Cidr, "CidrAuthorizationContext"=>CidrAuthorizationContext); aws=aws)
-ProvisionByoipCidr(Cidr, CidrAuthorizationContext, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = global_accelerator("ProvisionByoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr, "CidrAuthorizationContext"=>CidrAuthorizationContext), args)); aws=aws)
+ProvisionByoipCidr(Cidr, CidrAuthorizationContext; aws::AWSConfig=AWS.aws_config) = global_accelerator("ProvisionByoipCidr", Dict{String, Any}("Cidr"=>Cidr, "CidrAuthorizationContext"=>CidrAuthorizationContext); aws=aws)
+ProvisionByoipCidr(Cidr, CidrAuthorizationContext, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = global_accelerator("ProvisionByoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr, "CidrAuthorizationContext"=>CidrAuthorizationContext), args)); aws=aws)
 
 """
     TagResource()
@@ -258,8 +258,8 @@ Add tags to an accelerator resource. To see an AWS CLI example of adding tags to
 - `Tags`: The tags to add to a resource. A tag consists of a key and a value that you define.
 
 """
-TagResource(ResourceArn, Tags; aws::AWSConfig=AWSConfig()) = global_accelerator("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws=aws)
-TagResource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = global_accelerator("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), args)); aws=aws)
+TagResource(ResourceArn, Tags; aws::AWSConfig=AWS.aws_config) = global_accelerator("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws=aws)
+TagResource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = global_accelerator("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), args)); aws=aws)
 
 """
     UntagResource()
@@ -271,8 +271,8 @@ Remove tags from a Global Accelerator resource. When you specify a tag key, the 
 - `TagKeys`: The tag key pairs that you want to remove from the specified resources.
 
 """
-UntagResource(ResourceArn, TagKeys; aws::AWSConfig=AWSConfig()) = global_accelerator("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws=aws)
-UntagResource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = global_accelerator("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws=aws)
+UntagResource(ResourceArn, TagKeys; aws::AWSConfig=AWS.aws_config) = global_accelerator("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws=aws)
+UntagResource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = global_accelerator("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws=aws)
 
 """
     UpdateAccelerator()
@@ -287,8 +287,8 @@ Update an accelerator. To see an AWS CLI example of updating an accelerator, scr
 - `IpAddressType`: The value for the address type must be IPv4. 
 - `Name`: The name of the accelerator. The name can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens (-), and must not begin or end with a hyphen.
 """
-UpdateAccelerator(AcceleratorArn; aws::AWSConfig=AWSConfig()) = global_accelerator("UpdateAccelerator", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws=aws)
-UpdateAccelerator(AcceleratorArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = global_accelerator("UpdateAccelerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), args)); aws=aws)
+UpdateAccelerator(AcceleratorArn; aws::AWSConfig=AWS.aws_config) = global_accelerator("UpdateAccelerator", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws=aws)
+UpdateAccelerator(AcceleratorArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = global_accelerator("UpdateAccelerator", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), args)); aws=aws)
 
 """
     UpdateAcceleratorAttributes()
@@ -303,8 +303,8 @@ Update the attributes for an accelerator. To see an AWS CLI example of updating 
 - `FlowLogsS3Bucket`: The name of the Amazon S3 bucket for the flow logs. Attribute is required if FlowLogsEnabled is true. The bucket must exist and have a bucket policy that grants AWS Global Accelerator permission to write to the bucket.
 - `FlowLogsS3Prefix`: Update the prefix for the location in the Amazon S3 bucket for the flow logs. Attribute is required if FlowLogsEnabled is true.  If you don’t specify a prefix, the flow logs are stored in the root of the bucket. If you specify slash (/) for the S3 bucket prefix, the log file bucket folder structure will include a double slash (//), like the following: s3-bucket_name//AWSLogs/aws_account_id
 """
-UpdateAcceleratorAttributes(AcceleratorArn; aws::AWSConfig=AWSConfig()) = global_accelerator("UpdateAcceleratorAttributes", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws=aws)
-UpdateAcceleratorAttributes(AcceleratorArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = global_accelerator("UpdateAcceleratorAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), args)); aws=aws)
+UpdateAcceleratorAttributes(AcceleratorArn; aws::AWSConfig=AWS.aws_config) = global_accelerator("UpdateAcceleratorAttributes", Dict{String, Any}("AcceleratorArn"=>AcceleratorArn); aws=aws)
+UpdateAcceleratorAttributes(AcceleratorArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = global_accelerator("UpdateAcceleratorAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AcceleratorArn"=>AcceleratorArn), args)); aws=aws)
 
 """
     UpdateEndpointGroup()
@@ -323,8 +323,8 @@ Update an endpoint group. To see an AWS CLI example of updating an endpoint grou
 - `ThresholdCount`: The number of consecutive health checks required to set the state of a healthy endpoint to unhealthy, or to set an unhealthy endpoint to healthy. The default value is 3.
 - `TrafficDialPercentage`: The percentage of traffic to send to an AWS Region. Additional traffic is distributed to other endpoint groups for this listener.  Use this action to increase (dial up) or decrease (dial down) traffic to a specific Region. The percentage is applied to the traffic that would otherwise have been routed to the Region based on optimal routing. The default value is 100.
 """
-UpdateEndpointGroup(EndpointGroupArn; aws::AWSConfig=AWSConfig()) = global_accelerator("UpdateEndpointGroup", Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn); aws=aws)
-UpdateEndpointGroup(EndpointGroupArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = global_accelerator("UpdateEndpointGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn), args)); aws=aws)
+UpdateEndpointGroup(EndpointGroupArn; aws::AWSConfig=AWS.aws_config) = global_accelerator("UpdateEndpointGroup", Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn); aws=aws)
+UpdateEndpointGroup(EndpointGroupArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = global_accelerator("UpdateEndpointGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointGroupArn"=>EndpointGroupArn), args)); aws=aws)
 
 """
     UpdateListener()
@@ -339,8 +339,8 @@ Update a listener. To see an AWS CLI example of updating listener, scroll down t
 - `PortRanges`: The updated list of port ranges for the connections from clients to the accelerator.
 - `Protocol`: The updated protocol for the connections from clients to the accelerator.
 """
-UpdateListener(ListenerArn; aws::AWSConfig=AWSConfig()) = global_accelerator("UpdateListener", Dict{String, Any}("ListenerArn"=>ListenerArn); aws=aws)
-UpdateListener(ListenerArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = global_accelerator("UpdateListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), args)); aws=aws)
+UpdateListener(ListenerArn; aws::AWSConfig=AWS.aws_config) = global_accelerator("UpdateListener", Dict{String, Any}("ListenerArn"=>ListenerArn); aws=aws)
+UpdateListener(ListenerArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = global_accelerator("UpdateListener", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListenerArn"=>ListenerArn), args)); aws=aws)
 
 """
     WithdrawByoipCidr()
@@ -351,5 +351,5 @@ Stops advertising an address range that is provisioned as an address pool. You c
 - `Cidr`: The address range, in CIDR notation.
 
 """
-WithdrawByoipCidr(Cidr; aws::AWSConfig=AWSConfig()) = global_accelerator("WithdrawByoipCidr", Dict{String, Any}("Cidr"=>Cidr); aws=aws)
-WithdrawByoipCidr(Cidr, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = global_accelerator("WithdrawByoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr), args)); aws=aws)
+WithdrawByoipCidr(Cidr; aws::AWSConfig=AWS.aws_config) = global_accelerator("WithdrawByoipCidr", Dict{String, Any}("Cidr"=>Cidr); aws=aws)
+WithdrawByoipCidr(Cidr, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = global_accelerator("WithdrawByoipCidr", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Cidr"=>Cidr), args)); aws=aws)

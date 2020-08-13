@@ -18,8 +18,8 @@ cannot be changed after a Channel is created.
 - `description`: A short text description of the Channel.
 - `tags`: 
 """
-CreateChannel(id; aws::AWSConfig=AWSConfig()) = mediapackage("POST", "/channels", Dict{String, Any}("id"=>id))
-CreateChannel(id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mediapackage("POST", "/channels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws=aws)
+CreateChannel(id; aws::AWSConfig=AWS.aws_config) = mediapackage("POST", "/channels", Dict{String, Any}("id"=>id); aws=aws)
+CreateChannel(id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mediapackage("POST", "/channels", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws=aws)
 
 """
     CreateHarvestJob()
@@ -40,8 +40,8 @@ This cannot be changed after the HarvestJob is submitted.
 
 
 """
-CreateHarvestJob(endTime, id, originEndpointId, s3Destination, startTime; aws::AWSConfig=AWSConfig()) = mediapackage("POST", "/harvest_jobs", Dict{String, Any}("endTime"=>endTime, "id"=>id, "originEndpointId"=>originEndpointId, "s3Destination"=>s3Destination, "startTime"=>startTime))
-CreateHarvestJob(endTime, id, originEndpointId, s3Destination, startTime, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mediapackage("POST", "/harvest_jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "id"=>id, "originEndpointId"=>originEndpointId, "s3Destination"=>s3Destination, "startTime"=>startTime), args)); aws=aws)
+CreateHarvestJob(endTime, id, originEndpointId, s3Destination, startTime; aws::AWSConfig=AWS.aws_config) = mediapackage("POST", "/harvest_jobs", Dict{String, Any}("endTime"=>endTime, "id"=>id, "originEndpointId"=>originEndpointId, "s3Destination"=>s3Destination, "startTime"=>startTime); aws=aws)
+CreateHarvestJob(endTime, id, originEndpointId, s3Destination, startTime, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mediapackage("POST", "/harvest_jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "id"=>id, "originEndpointId"=>originEndpointId, "s3Destination"=>s3Destination, "startTime"=>startTime), args)); aws=aws)
 
 """
     CreateOriginEndpoint()
@@ -77,8 +77,8 @@ If not specified, there will be no time delay in effect for the OriginEndpoint.
 
 - `whitelist`: A list of source IP CIDR blocks that will be allowed to access the OriginEndpoint.
 """
-CreateOriginEndpoint(channelId, id; aws::AWSConfig=AWSConfig()) = mediapackage("POST", "/origin_endpoints", Dict{String, Any}("channelId"=>channelId, "id"=>id))
-CreateOriginEndpoint(channelId, id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mediapackage("POST", "/origin_endpoints", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channelId"=>channelId, "id"=>id), args)); aws=aws)
+CreateOriginEndpoint(channelId, id; aws::AWSConfig=AWS.aws_config) = mediapackage("POST", "/origin_endpoints", Dict{String, Any}("channelId"=>channelId, "id"=>id); aws=aws)
+CreateOriginEndpoint(channelId, id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mediapackage("POST", "/origin_endpoints", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("channelId"=>channelId, "id"=>id), args)); aws=aws)
 
 """
     DeleteChannel()
@@ -89,8 +89,8 @@ Deletes an existing Channel.
 - `id`: The ID of the Channel to delete.
 
 """
-DeleteChannel(id; aws::AWSConfig=AWSConfig()) = mediapackage("DELETE", "/channels/$(id)"; aws=aws)
-DeleteChannel(id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mediapackage("DELETE", "/channels/$(id)", args; aws=aws)
+DeleteChannel(id; aws::AWSConfig=AWS.aws_config) = mediapackage("DELETE", "/channels/$(id)"; aws=aws)
+DeleteChannel(id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mediapackage("DELETE", "/channels/$(id)", args; aws=aws)
 
 """
     DeleteOriginEndpoint()
@@ -101,8 +101,8 @@ Deletes an existing OriginEndpoint.
 - `id`: The ID of the OriginEndpoint to delete.
 
 """
-DeleteOriginEndpoint(id; aws::AWSConfig=AWSConfig()) = mediapackage("DELETE", "/origin_endpoints/$(id)"; aws=aws)
-DeleteOriginEndpoint(id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mediapackage("DELETE", "/origin_endpoints/$(id)", args; aws=aws)
+DeleteOriginEndpoint(id; aws::AWSConfig=AWS.aws_config) = mediapackage("DELETE", "/origin_endpoints/$(id)"; aws=aws)
+DeleteOriginEndpoint(id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mediapackage("DELETE", "/origin_endpoints/$(id)", args; aws=aws)
 
 """
     DescribeChannel()
@@ -113,8 +113,8 @@ Gets details about a Channel.
 - `id`: The ID of a Channel.
 
 """
-DescribeChannel(id; aws::AWSConfig=AWSConfig()) = mediapackage("GET", "/channels/$(id)"; aws=aws)
-DescribeChannel(id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mediapackage("GET", "/channels/$(id)", args; aws=aws)
+DescribeChannel(id; aws::AWSConfig=AWS.aws_config) = mediapackage("GET", "/channels/$(id)"; aws=aws)
+DescribeChannel(id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mediapackage("GET", "/channels/$(id)", args; aws=aws)
 
 """
     DescribeHarvestJob()
@@ -125,8 +125,8 @@ Gets details about an existing HarvestJob.
 - `id`: The ID of the HarvestJob.
 
 """
-DescribeHarvestJob(id; aws::AWSConfig=AWSConfig()) = mediapackage("GET", "/harvest_jobs/$(id)"; aws=aws)
-DescribeHarvestJob(id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mediapackage("GET", "/harvest_jobs/$(id)", args; aws=aws)
+DescribeHarvestJob(id; aws::AWSConfig=AWS.aws_config) = mediapackage("GET", "/harvest_jobs/$(id)"; aws=aws)
+DescribeHarvestJob(id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mediapackage("GET", "/harvest_jobs/$(id)", args; aws=aws)
 
 """
     DescribeOriginEndpoint()
@@ -137,8 +137,8 @@ Gets details about an existing OriginEndpoint.
 - `id`: The ID of the OriginEndpoint.
 
 """
-DescribeOriginEndpoint(id; aws::AWSConfig=AWSConfig()) = mediapackage("GET", "/origin_endpoints/$(id)"; aws=aws)
-DescribeOriginEndpoint(id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mediapackage("GET", "/origin_endpoints/$(id)", args; aws=aws)
+DescribeOriginEndpoint(id; aws::AWSConfig=AWS.aws_config) = mediapackage("GET", "/origin_endpoints/$(id)"; aws=aws)
+DescribeOriginEndpoint(id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mediapackage("GET", "/origin_endpoints/$(id)", args; aws=aws)
 
 """
     ListChannels()
@@ -149,8 +149,8 @@ Returns a collection of Channels.
 - `maxResults`: Upper bound on number of records to return.
 - `nextToken`: A token used to resume pagination from the end of a previous request.
 """
-ListChannels(; aws::AWSConfig=AWSConfig()) = mediapackage("GET", "/channels"; aws=aws)
-ListChannels(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = mediapackage("GET", "/channels", args; aws=aws)
+ListChannels(; aws::AWSConfig=AWS.aws_config) = mediapackage("GET", "/channels"; aws=aws)
+ListChannels(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = mediapackage("GET", "/channels", args; aws=aws)
 
 """
     ListHarvestJobs()
@@ -163,8 +163,8 @@ Returns a collection of HarvestJob records.
 - `maxResults`: The upper bound on the number of records to return.
 - `nextToken`: A token used to resume pagination from the end of a previous request.
 """
-ListHarvestJobs(; aws::AWSConfig=AWSConfig()) = mediapackage("GET", "/harvest_jobs"; aws=aws)
-ListHarvestJobs(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = mediapackage("GET", "/harvest_jobs", args; aws=aws)
+ListHarvestJobs(; aws::AWSConfig=AWS.aws_config) = mediapackage("GET", "/harvest_jobs"; aws=aws)
+ListHarvestJobs(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = mediapackage("GET", "/harvest_jobs", args; aws=aws)
 
 """
     ListOriginEndpoints()
@@ -176,8 +176,8 @@ Returns a collection of OriginEndpoint records.
 - `maxResults`: The upper bound on the number of records to return.
 - `nextToken`: A token used to resume pagination from the end of a previous request.
 """
-ListOriginEndpoints(; aws::AWSConfig=AWSConfig()) = mediapackage("GET", "/origin_endpoints"; aws=aws)
-ListOriginEndpoints(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = mediapackage("GET", "/origin_endpoints", args; aws=aws)
+ListOriginEndpoints(; aws::AWSConfig=AWS.aws_config) = mediapackage("GET", "/origin_endpoints"; aws=aws)
+ListOriginEndpoints(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = mediapackage("GET", "/origin_endpoints", args; aws=aws)
 
 """
     ListTagsForResource()
@@ -188,8 +188,8 @@ ListOriginEndpoints(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig())
 - `resource-arn`: 
 
 """
-ListTagsForResource(resource_arn; aws::AWSConfig=AWSConfig()) = mediapackage("GET", "/tags/$(resource-arn)"; aws=aws)
-ListTagsForResource(resource_arn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mediapackage("GET", "/tags/$(resource-arn)", args; aws=aws)
+ListTagsForResource(resource_arn; aws::AWSConfig=AWS.aws_config) = mediapackage("GET", "/tags/$(resource-arn)"; aws=aws)
+ListTagsForResource(resource_arn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mediapackage("GET", "/tags/$(resource-arn)", args; aws=aws)
 
 """
     RotateChannelCredentials()
@@ -200,8 +200,8 @@ Changes the Channel's first IngestEndpoint's username and password. WARNING - Th
 - `id`: The ID of the channel to update.
 
 """
-RotateChannelCredentials(id; aws::AWSConfig=AWSConfig()) = mediapackage("PUT", "/channels/$(id)/credentials"; aws=aws)
-RotateChannelCredentials(id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mediapackage("PUT", "/channels/$(id)/credentials", args; aws=aws)
+RotateChannelCredentials(id; aws::AWSConfig=AWS.aws_config) = mediapackage("PUT", "/channels/$(id)/credentials"; aws=aws)
+RotateChannelCredentials(id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mediapackage("PUT", "/channels/$(id)/credentials", args; aws=aws)
 
 """
     RotateIngestEndpointCredentials()
@@ -213,8 +213,8 @@ Rotate the IngestEndpoint's username and password, as specified by the IngestEnd
 - `ingest_endpoint_id`: The id of the IngestEndpoint whose credentials should be rotated
 
 """
-RotateIngestEndpointCredentials(id, ingest_endpoint_id; aws::AWSConfig=AWSConfig()) = mediapackage("PUT", "/channels/$(id)/ingest_endpoints/$(ingest_endpoint_id)/credentials"; aws=aws)
-RotateIngestEndpointCredentials(id, ingest_endpoint_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mediapackage("PUT", "/channels/$(id)/ingest_endpoints/$(ingest_endpoint_id)/credentials", args; aws=aws)
+RotateIngestEndpointCredentials(id, ingest_endpoint_id; aws::AWSConfig=AWS.aws_config) = mediapackage("PUT", "/channels/$(id)/ingest_endpoints/$(ingest_endpoint_id)/credentials"; aws=aws)
+RotateIngestEndpointCredentials(id, ingest_endpoint_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mediapackage("PUT", "/channels/$(id)/ingest_endpoints/$(ingest_endpoint_id)/credentials", args; aws=aws)
 
 """
     TagResource()
@@ -226,8 +226,8 @@ RotateIngestEndpointCredentials(id, ingest_endpoint_id, args::AbstractDict{Strin
 - `tags`: 
 
 """
-TagResource(resource_arn, tags; aws::AWSConfig=AWSConfig()) = mediapackage("POST", "/tags/$(resource-arn)", Dict{String, Any}("tags"=>tags))
-TagResource(resource_arn, tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mediapackage("POST", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws=aws)
+TagResource(resource_arn, tags; aws::AWSConfig=AWS.aws_config) = mediapackage("POST", "/tags/$(resource-arn)", Dict{String, Any}("tags"=>tags); aws=aws)
+TagResource(resource_arn, tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mediapackage("POST", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws=aws)
 
 """
     UntagResource()
@@ -239,8 +239,8 @@ TagResource(resource_arn, tags, args::AbstractDict{String, <:Any}; aws::AWSConfi
 - `tagKeys`: The key(s) of tag to be deleted
 
 """
-UntagResource(resource_arn, tagKeys; aws::AWSConfig=AWSConfig()) = mediapackage("DELETE", "/tags/$(resource-arn)", Dict{String, Any}("tagKeys"=>tagKeys))
-UntagResource(resource_arn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mediapackage("DELETE", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws=aws)
+UntagResource(resource_arn, tagKeys; aws::AWSConfig=AWS.aws_config) = mediapackage("DELETE", "/tags/$(resource-arn)", Dict{String, Any}("tagKeys"=>tagKeys); aws=aws)
+UntagResource(resource_arn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mediapackage("DELETE", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws=aws)
 
 """
     UpdateChannel()
@@ -253,8 +253,8 @@ Updates an existing Channel.
 # Optional Parameters
 - `description`: A short text description of the Channel.
 """
-UpdateChannel(id; aws::AWSConfig=AWSConfig()) = mediapackage("PUT", "/channels/$(id)"; aws=aws)
-UpdateChannel(id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mediapackage("PUT", "/channels/$(id)", args; aws=aws)
+UpdateChannel(id; aws::AWSConfig=AWS.aws_config) = mediapackage("PUT", "/channels/$(id)"; aws=aws)
+UpdateChannel(id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mediapackage("PUT", "/channels/$(id)", args; aws=aws)
 
 """
     UpdateOriginEndpoint()
@@ -284,5 +284,5 @@ If not specified, there will be no time delay in effect for the OriginEndpoint.
 
 - `whitelist`: A list of source IP CIDR blocks that will be allowed to access the OriginEndpoint.
 """
-UpdateOriginEndpoint(id; aws::AWSConfig=AWSConfig()) = mediapackage("PUT", "/origin_endpoints/$(id)"; aws=aws)
-UpdateOriginEndpoint(id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mediapackage("PUT", "/origin_endpoints/$(id)", args; aws=aws)
+UpdateOriginEndpoint(id; aws::AWSConfig=AWS.aws_config) = mediapackage("PUT", "/origin_endpoints/$(id)"; aws=aws)
+UpdateOriginEndpoint(id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mediapackage("PUT", "/origin_endpoints/$(id)", args; aws=aws)

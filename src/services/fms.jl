@@ -13,8 +13,8 @@ Sets the AWS Firewall Manager administrator account. AWS Firewall Manager must b
 - `AdminAccount`: The AWS account ID to associate with AWS Firewall Manager as the AWS Firewall Manager administrator account. This can be an AWS Organizations master account or a member account. For more information about AWS Organizations and master accounts, see Managing the AWS Accounts in Your Organization. 
 
 """
-AssociateAdminAccount(AdminAccount; aws::AWSConfig=AWSConfig()) = fms("AssociateAdminAccount", Dict{String, Any}("AdminAccount"=>AdminAccount); aws=aws)
-AssociateAdminAccount(AdminAccount, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = fms("AssociateAdminAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AdminAccount"=>AdminAccount), args)); aws=aws)
+AssociateAdminAccount(AdminAccount; aws::AWSConfig=AWS.aws_config) = fms("AssociateAdminAccount", Dict{String, Any}("AdminAccount"=>AdminAccount); aws=aws)
+AssociateAdminAccount(AdminAccount, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = fms("AssociateAdminAccount", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AdminAccount"=>AdminAccount), args)); aws=aws)
 
 """
     DeleteAppsList()
@@ -25,8 +25,8 @@ Permanently deletes an AWS Firewall Manager applications list.
 - `ListId`: The ID of the applications list that you want to delete. You can retrieve this ID from PutAppsList, ListAppsLists, and GetAppsList.
 
 """
-DeleteAppsList(ListId; aws::AWSConfig=AWSConfig()) = fms("DeleteAppsList", Dict{String, Any}("ListId"=>ListId); aws=aws)
-DeleteAppsList(ListId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = fms("DeleteAppsList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListId"=>ListId), args)); aws=aws)
+DeleteAppsList(ListId; aws::AWSConfig=AWS.aws_config) = fms("DeleteAppsList", Dict{String, Any}("ListId"=>ListId); aws=aws)
+DeleteAppsList(ListId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = fms("DeleteAppsList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListId"=>ListId), args)); aws=aws)
 
 """
     DeleteNotificationChannel()
@@ -34,8 +34,8 @@ DeleteAppsList(ListId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConf
 Deletes an AWS Firewall Manager association with the IAM role and the Amazon Simple Notification Service (SNS) topic that is used to record AWS Firewall Manager SNS logs.
 
 """
-DeleteNotificationChannel(; aws::AWSConfig=AWSConfig()) = fms("DeleteNotificationChannel"; aws=aws)
-DeleteNotificationChannel(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = fms("DeleteNotificationChannel", args; aws=aws)
+DeleteNotificationChannel(; aws::AWSConfig=AWS.aws_config) = fms("DeleteNotificationChannel"; aws=aws)
+DeleteNotificationChannel(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = fms("DeleteNotificationChannel", args; aws=aws)
 
 """
     DeletePolicy()
@@ -48,8 +48,8 @@ Permanently deletes an AWS Firewall Manager policy.
 # Optional Parameters
 - `DeleteAllPolicyResources`: If True, the request performs cleanup according to the policy type.  For AWS WAF and Shield Advanced policies, the cleanup does the following:   Deletes rule groups created by AWS Firewall Manager   Removes web ACLs from in-scope resources   Deletes web ACLs that contain no rules or rule groups   For security group policies, the cleanup does the following for each security group in the policy:   Disassociates the security group from in-scope resources    Deletes the security group if it was created through Firewall Manager and if it's no longer associated with any resources through another policy   After the cleanup, in-scope resources are no longer protected by web ACLs in this policy. Protection of out-of-scope resources remains unchanged. Scope is determined by tags that you create and accounts that you associate with the policy. When creating the policy, if you specify that only resources in specific accounts or with specific tags are in scope of the policy, those accounts and resources are handled by the policy. All others are out of scope. If you don't specify tags or accounts, all resources are in scope. 
 """
-DeletePolicy(PolicyId; aws::AWSConfig=AWSConfig()) = fms("DeletePolicy", Dict{String, Any}("PolicyId"=>PolicyId); aws=aws)
-DeletePolicy(PolicyId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = fms("DeletePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId), args)); aws=aws)
+DeletePolicy(PolicyId; aws::AWSConfig=AWS.aws_config) = fms("DeletePolicy", Dict{String, Any}("PolicyId"=>PolicyId); aws=aws)
+DeletePolicy(PolicyId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = fms("DeletePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId), args)); aws=aws)
 
 """
     DeleteProtocolsList()
@@ -60,8 +60,8 @@ Permanently deletes an AWS Firewall Manager protocols list.
 - `ListId`: The ID of the protocols list that you want to delete. You can retrieve this ID from PutProtocolsList, ListProtocolsLists, and GetProtocolsLost.
 
 """
-DeleteProtocolsList(ListId; aws::AWSConfig=AWSConfig()) = fms("DeleteProtocolsList", Dict{String, Any}("ListId"=>ListId); aws=aws)
-DeleteProtocolsList(ListId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = fms("DeleteProtocolsList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListId"=>ListId), args)); aws=aws)
+DeleteProtocolsList(ListId; aws::AWSConfig=AWS.aws_config) = fms("DeleteProtocolsList", Dict{String, Any}("ListId"=>ListId); aws=aws)
+DeleteProtocolsList(ListId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = fms("DeleteProtocolsList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListId"=>ListId), args)); aws=aws)
 
 """
     DisassociateAdminAccount()
@@ -69,8 +69,8 @@ DeleteProtocolsList(ListId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AW
 Disassociates the account that has been set as the AWS Firewall Manager administrator account. To set a different account as the administrator account, you must submit an AssociateAdminAccount request.
 
 """
-DisassociateAdminAccount(; aws::AWSConfig=AWSConfig()) = fms("DisassociateAdminAccount"; aws=aws)
-DisassociateAdminAccount(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = fms("DisassociateAdminAccount", args; aws=aws)
+DisassociateAdminAccount(; aws::AWSConfig=AWS.aws_config) = fms("DisassociateAdminAccount"; aws=aws)
+DisassociateAdminAccount(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = fms("DisassociateAdminAccount", args; aws=aws)
 
 """
     GetAdminAccount()
@@ -78,8 +78,8 @@ DisassociateAdminAccount(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSCo
 Returns the AWS Organizations master account that is associated with AWS Firewall Manager as the AWS Firewall Manager administrator.
 
 """
-GetAdminAccount(; aws::AWSConfig=AWSConfig()) = fms("GetAdminAccount"; aws=aws)
-GetAdminAccount(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = fms("GetAdminAccount", args; aws=aws)
+GetAdminAccount(; aws::AWSConfig=AWS.aws_config) = fms("GetAdminAccount"; aws=aws)
+GetAdminAccount(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = fms("GetAdminAccount", args; aws=aws)
 
 """
     GetAppsList()
@@ -92,8 +92,8 @@ Returns information about the specified AWS Firewall Manager applications list.
 # Optional Parameters
 - `DefaultList`: Specifies whether the list to retrieve is a default list owned by AWS Firewall Manager.
 """
-GetAppsList(ListId; aws::AWSConfig=AWSConfig()) = fms("GetAppsList", Dict{String, Any}("ListId"=>ListId); aws=aws)
-GetAppsList(ListId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = fms("GetAppsList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListId"=>ListId), args)); aws=aws)
+GetAppsList(ListId; aws::AWSConfig=AWS.aws_config) = fms("GetAppsList", Dict{String, Any}("ListId"=>ListId); aws=aws)
+GetAppsList(ListId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = fms("GetAppsList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListId"=>ListId), args)); aws=aws)
 
 """
     GetComplianceDetail()
@@ -105,8 +105,8 @@ Returns detailed compliance information about the specified member account. Deta
 - `PolicyId`: The ID of the policy that you want to get the details for. PolicyId is returned by PutPolicy and by ListPolicies.
 
 """
-GetComplianceDetail(MemberAccount, PolicyId; aws::AWSConfig=AWSConfig()) = fms("GetComplianceDetail", Dict{String, Any}("MemberAccount"=>MemberAccount, "PolicyId"=>PolicyId); aws=aws)
-GetComplianceDetail(MemberAccount, PolicyId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = fms("GetComplianceDetail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MemberAccount"=>MemberAccount, "PolicyId"=>PolicyId), args)); aws=aws)
+GetComplianceDetail(MemberAccount, PolicyId; aws::AWSConfig=AWS.aws_config) = fms("GetComplianceDetail", Dict{String, Any}("MemberAccount"=>MemberAccount, "PolicyId"=>PolicyId); aws=aws)
+GetComplianceDetail(MemberAccount, PolicyId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = fms("GetComplianceDetail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MemberAccount"=>MemberAccount, "PolicyId"=>PolicyId), args)); aws=aws)
 
 """
     GetNotificationChannel()
@@ -114,8 +114,8 @@ GetComplianceDetail(MemberAccount, PolicyId, args::AbstractDict{String, <:Any}; 
 Information about the Amazon Simple Notification Service (SNS) topic that is used to record AWS Firewall Manager SNS logs.
 
 """
-GetNotificationChannel(; aws::AWSConfig=AWSConfig()) = fms("GetNotificationChannel"; aws=aws)
-GetNotificationChannel(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = fms("GetNotificationChannel", args; aws=aws)
+GetNotificationChannel(; aws::AWSConfig=AWS.aws_config) = fms("GetNotificationChannel"; aws=aws)
+GetNotificationChannel(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = fms("GetNotificationChannel", args; aws=aws)
 
 """
     GetPolicy()
@@ -126,8 +126,8 @@ Returns information about the specified AWS Firewall Manager policy.
 - `PolicyId`: The ID of the AWS Firewall Manager policy that you want the details for.
 
 """
-GetPolicy(PolicyId; aws::AWSConfig=AWSConfig()) = fms("GetPolicy", Dict{String, Any}("PolicyId"=>PolicyId); aws=aws)
-GetPolicy(PolicyId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = fms("GetPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId), args)); aws=aws)
+GetPolicy(PolicyId; aws::AWSConfig=AWS.aws_config) = fms("GetPolicy", Dict{String, Any}("PolicyId"=>PolicyId); aws=aws)
+GetPolicy(PolicyId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = fms("GetPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId), args)); aws=aws)
 
 """
     GetProtectionStatus()
@@ -144,8 +144,8 @@ If you created a Shield Advanced policy, returns policy-level attack summary inf
 - `NextToken`: If you specify a value for MaxResults and you have more objects than the number that you specify for MaxResults, AWS Firewall Manager returns a NextToken value in the response, which you can use to retrieve another group of objects. For the second and subsequent GetProtectionStatus requests, specify the value of NextToken from the previous response to get information about another batch of objects.
 - `StartTime`: The start of the time period to query for the attacks. This is a timestamp type. The request syntax listing indicates a number type because the default used by AWS Firewall Manager is Unix time in seconds. However, any valid timestamp format is allowed.
 """
-GetProtectionStatus(PolicyId; aws::AWSConfig=AWSConfig()) = fms("GetProtectionStatus", Dict{String, Any}("PolicyId"=>PolicyId); aws=aws)
-GetProtectionStatus(PolicyId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = fms("GetProtectionStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId), args)); aws=aws)
+GetProtectionStatus(PolicyId; aws::AWSConfig=AWS.aws_config) = fms("GetProtectionStatus", Dict{String, Any}("PolicyId"=>PolicyId); aws=aws)
+GetProtectionStatus(PolicyId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = fms("GetProtectionStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId), args)); aws=aws)
 
 """
     GetProtocolsList()
@@ -158,8 +158,8 @@ Returns information about the specified AWS Firewall Manager protocols list.
 # Optional Parameters
 - `DefaultList`: Specifies whether the list to retrieve is a default list owned by AWS Firewall Manager.
 """
-GetProtocolsList(ListId; aws::AWSConfig=AWSConfig()) = fms("GetProtocolsList", Dict{String, Any}("ListId"=>ListId); aws=aws)
-GetProtocolsList(ListId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = fms("GetProtocolsList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListId"=>ListId), args)); aws=aws)
+GetProtocolsList(ListId; aws::AWSConfig=AWS.aws_config) = fms("GetProtocolsList", Dict{String, Any}("ListId"=>ListId); aws=aws)
+GetProtocolsList(ListId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = fms("GetProtocolsList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ListId"=>ListId), args)); aws=aws)
 
 """
     GetViolationDetails()
@@ -173,8 +173,8 @@ Retrieves violations for a resource based on the specified AWS Firewall Manager 
 - `ResourceType`: The resource type. This is in the format shown in the AWS Resource Types Reference. Supported resource types are: AWS::EC2::Instance, AWS::EC2::NetworkInterface, or AWS::EC2::SecurityGroup. 
 
 """
-GetViolationDetails(MemberAccount, PolicyId, ResourceId, ResourceType; aws::AWSConfig=AWSConfig()) = fms("GetViolationDetails", Dict{String, Any}("MemberAccount"=>MemberAccount, "PolicyId"=>PolicyId, "ResourceId"=>ResourceId, "ResourceType"=>ResourceType); aws=aws)
-GetViolationDetails(MemberAccount, PolicyId, ResourceId, ResourceType, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = fms("GetViolationDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MemberAccount"=>MemberAccount, "PolicyId"=>PolicyId, "ResourceId"=>ResourceId, "ResourceType"=>ResourceType), args)); aws=aws)
+GetViolationDetails(MemberAccount, PolicyId, ResourceId, ResourceType; aws::AWSConfig=AWS.aws_config) = fms("GetViolationDetails", Dict{String, Any}("MemberAccount"=>MemberAccount, "PolicyId"=>PolicyId, "ResourceId"=>ResourceId, "ResourceType"=>ResourceType); aws=aws)
+GetViolationDetails(MemberAccount, PolicyId, ResourceId, ResourceType, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = fms("GetViolationDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MemberAccount"=>MemberAccount, "PolicyId"=>PolicyId, "ResourceId"=>ResourceId, "ResourceType"=>ResourceType), args)); aws=aws)
 
 """
     ListAppsLists()
@@ -188,8 +188,8 @@ Returns an array of AppsListDataSummary objects.
 - `DefaultLists`: Specifies whether the lists to retrieve are default lists owned by AWS Firewall Manager.
 - `NextToken`: If you specify a value for MaxResults in your list request, and you have more objects than the maximum, AWS Firewall Manager returns this token in the response. For all but the first request, you provide the token returned by the prior request in the request parameters, to retrieve the next batch of objects.
 """
-ListAppsLists(MaxResults; aws::AWSConfig=AWSConfig()) = fms("ListAppsLists", Dict{String, Any}("MaxResults"=>MaxResults); aws=aws)
-ListAppsLists(MaxResults, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = fms("ListAppsLists", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaxResults"=>MaxResults), args)); aws=aws)
+ListAppsLists(MaxResults; aws::AWSConfig=AWS.aws_config) = fms("ListAppsLists", Dict{String, Any}("MaxResults"=>MaxResults); aws=aws)
+ListAppsLists(MaxResults, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = fms("ListAppsLists", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaxResults"=>MaxResults), args)); aws=aws)
 
 """
     ListComplianceStatus()
@@ -203,8 +203,8 @@ Returns an array of PolicyComplianceStatus objects. Use PolicyComplianceStatus t
 - `MaxResults`: Specifies the number of PolicyComplianceStatus objects that you want AWS Firewall Manager to return for this request. If you have more PolicyComplianceStatus objects than the number that you specify for MaxResults, the response includes a NextToken value that you can use to get another batch of PolicyComplianceStatus objects.
 - `NextToken`: If you specify a value for MaxResults and you have more PolicyComplianceStatus objects than the number that you specify for MaxResults, AWS Firewall Manager returns a NextToken value in the response that allows you to list another group of PolicyComplianceStatus objects. For the second and subsequent ListComplianceStatus requests, specify the value of NextToken from the previous response to get information about another batch of PolicyComplianceStatus objects.
 """
-ListComplianceStatus(PolicyId; aws::AWSConfig=AWSConfig()) = fms("ListComplianceStatus", Dict{String, Any}("PolicyId"=>PolicyId); aws=aws)
-ListComplianceStatus(PolicyId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = fms("ListComplianceStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId), args)); aws=aws)
+ListComplianceStatus(PolicyId; aws::AWSConfig=AWS.aws_config) = fms("ListComplianceStatus", Dict{String, Any}("PolicyId"=>PolicyId); aws=aws)
+ListComplianceStatus(PolicyId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = fms("ListComplianceStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyId"=>PolicyId), args)); aws=aws)
 
 """
     ListMemberAccounts()
@@ -215,8 +215,8 @@ Returns a MemberAccounts object that lists the member accounts in the administra
 - `MaxResults`: Specifies the number of member account IDs that you want AWS Firewall Manager to return for this request. If you have more IDs than the number that you specify for MaxResults, the response includes a NextToken value that you can use to get another batch of member account IDs.
 - `NextToken`: If you specify a value for MaxResults and you have more account IDs than the number that you specify for MaxResults, AWS Firewall Manager returns a NextToken value in the response that allows you to list another group of IDs. For the second and subsequent ListMemberAccountsRequest requests, specify the value of NextToken from the previous response to get information about another batch of member account IDs.
 """
-ListMemberAccounts(; aws::AWSConfig=AWSConfig()) = fms("ListMemberAccounts"; aws=aws)
-ListMemberAccounts(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = fms("ListMemberAccounts", args; aws=aws)
+ListMemberAccounts(; aws::AWSConfig=AWS.aws_config) = fms("ListMemberAccounts"; aws=aws)
+ListMemberAccounts(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = fms("ListMemberAccounts", args; aws=aws)
 
 """
     ListPolicies()
@@ -227,8 +227,8 @@ Returns an array of PolicySummary objects.
 - `MaxResults`: Specifies the number of PolicySummary objects that you want AWS Firewall Manager to return for this request. If you have more PolicySummary objects than the number that you specify for MaxResults, the response includes a NextToken value that you can use to get another batch of PolicySummary objects.
 - `NextToken`: If you specify a value for MaxResults and you have more PolicySummary objects than the number that you specify for MaxResults, AWS Firewall Manager returns a NextToken value in the response that allows you to list another group of PolicySummary objects. For the second and subsequent ListPolicies requests, specify the value of NextToken from the previous response to get information about another batch of PolicySummary objects.
 """
-ListPolicies(; aws::AWSConfig=AWSConfig()) = fms("ListPolicies"; aws=aws)
-ListPolicies(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = fms("ListPolicies", args; aws=aws)
+ListPolicies(; aws::AWSConfig=AWS.aws_config) = fms("ListPolicies"; aws=aws)
+ListPolicies(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = fms("ListPolicies", args; aws=aws)
 
 """
     ListProtocolsLists()
@@ -242,8 +242,8 @@ Returns an array of ProtocolsListDataSummary objects.
 - `DefaultLists`: Specifies whether the lists to retrieve are default lists owned by AWS Firewall Manager.
 - `NextToken`: If you specify a value for MaxResults in your list request, and you have more objects than the maximum, AWS Firewall Manager returns this token in the response. For all but the first request, you provide the token returned by the prior request in the request parameters, to retrieve the next batch of objects.
 """
-ListProtocolsLists(MaxResults; aws::AWSConfig=AWSConfig()) = fms("ListProtocolsLists", Dict{String, Any}("MaxResults"=>MaxResults); aws=aws)
-ListProtocolsLists(MaxResults, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = fms("ListProtocolsLists", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaxResults"=>MaxResults), args)); aws=aws)
+ListProtocolsLists(MaxResults; aws::AWSConfig=AWS.aws_config) = fms("ListProtocolsLists", Dict{String, Any}("MaxResults"=>MaxResults); aws=aws)
+ListProtocolsLists(MaxResults, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = fms("ListProtocolsLists", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaxResults"=>MaxResults), args)); aws=aws)
 
 """
     ListTagsForResource()
@@ -254,8 +254,8 @@ Retrieves the list of tags for the specified AWS resource.
 - `ResourceArn`: The Amazon Resource Name (ARN) of the resource to return tags for. The AWS Firewall Manager resources that support tagging are policies, applications lists, and protocols lists. 
 
 """
-ListTagsForResource(ResourceArn; aws::AWSConfig=AWSConfig()) = fms("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws=aws)
-ListTagsForResource(ResourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = fms("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws=aws)
+ListTagsForResource(ResourceArn; aws::AWSConfig=AWS.aws_config) = fms("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws=aws)
+ListTagsForResource(ResourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = fms("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws=aws)
 
 """
     PutAppsList()
@@ -268,8 +268,8 @@ Creates an AWS Firewall Manager applications list.
 # Optional Parameters
 - `TagList`: The tags associated with the resource.
 """
-PutAppsList(AppsList; aws::AWSConfig=AWSConfig()) = fms("PutAppsList", Dict{String, Any}("AppsList"=>AppsList); aws=aws)
-PutAppsList(AppsList, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = fms("PutAppsList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppsList"=>AppsList), args)); aws=aws)
+PutAppsList(AppsList; aws::AWSConfig=AWS.aws_config) = fms("PutAppsList", Dict{String, Any}("AppsList"=>AppsList); aws=aws)
+PutAppsList(AppsList, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = fms("PutAppsList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppsList"=>AppsList), args)); aws=aws)
 
 """
     PutNotificationChannel()
@@ -281,8 +281,8 @@ Designates the IAM role and Amazon Simple Notification Service (SNS) topic that 
 - `SnsTopicArn`: The Amazon Resource Name (ARN) of the SNS topic that collects notifications from AWS Firewall Manager.
 
 """
-PutNotificationChannel(SnsRoleName, SnsTopicArn; aws::AWSConfig=AWSConfig()) = fms("PutNotificationChannel", Dict{String, Any}("SnsRoleName"=>SnsRoleName, "SnsTopicArn"=>SnsTopicArn); aws=aws)
-PutNotificationChannel(SnsRoleName, SnsTopicArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = fms("PutNotificationChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnsRoleName"=>SnsRoleName, "SnsTopicArn"=>SnsTopicArn), args)); aws=aws)
+PutNotificationChannel(SnsRoleName, SnsTopicArn; aws::AWSConfig=AWS.aws_config) = fms("PutNotificationChannel", Dict{String, Any}("SnsRoleName"=>SnsRoleName, "SnsTopicArn"=>SnsTopicArn); aws=aws)
+PutNotificationChannel(SnsRoleName, SnsTopicArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = fms("PutNotificationChannel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnsRoleName"=>SnsRoleName, "SnsTopicArn"=>SnsTopicArn), args)); aws=aws)
 
 """
     PutPolicy()
@@ -295,8 +295,8 @@ Creates an AWS Firewall Manager policy. Firewall Manager provides the following 
 # Optional Parameters
 - `TagList`: The tags to add to the AWS resource.
 """
-PutPolicy(Policy; aws::AWSConfig=AWSConfig()) = fms("PutPolicy", Dict{String, Any}("Policy"=>Policy); aws=aws)
-PutPolicy(Policy, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = fms("PutPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy), args)); aws=aws)
+PutPolicy(Policy; aws::AWSConfig=AWS.aws_config) = fms("PutPolicy", Dict{String, Any}("Policy"=>Policy); aws=aws)
+PutPolicy(Policy, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = fms("PutPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy), args)); aws=aws)
 
 """
     PutProtocolsList()
@@ -309,8 +309,8 @@ Creates an AWS Firewall Manager protocols list.
 # Optional Parameters
 - `TagList`: The tags associated with the resource.
 """
-PutProtocolsList(ProtocolsList; aws::AWSConfig=AWSConfig()) = fms("PutProtocolsList", Dict{String, Any}("ProtocolsList"=>ProtocolsList); aws=aws)
-PutProtocolsList(ProtocolsList, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = fms("PutProtocolsList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProtocolsList"=>ProtocolsList), args)); aws=aws)
+PutProtocolsList(ProtocolsList; aws::AWSConfig=AWS.aws_config) = fms("PutProtocolsList", Dict{String, Any}("ProtocolsList"=>ProtocolsList); aws=aws)
+PutProtocolsList(ProtocolsList, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = fms("PutProtocolsList", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProtocolsList"=>ProtocolsList), args)); aws=aws)
 
 """
     TagResource()
@@ -322,8 +322,8 @@ Adds one or more tags to an AWS resource.
 - `TagList`: The tags to add to the resource.
 
 """
-TagResource(ResourceArn, TagList; aws::AWSConfig=AWSConfig()) = fms("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagList"=>TagList); aws=aws)
-TagResource(ResourceArn, TagList, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = fms("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagList"=>TagList), args)); aws=aws)
+TagResource(ResourceArn, TagList; aws::AWSConfig=AWS.aws_config) = fms("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagList"=>TagList); aws=aws)
+TagResource(ResourceArn, TagList, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = fms("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagList"=>TagList), args)); aws=aws)
 
 """
     UntagResource()
@@ -335,5 +335,5 @@ Removes one or more tags from an AWS resource.
 - `TagKeys`: The keys of the tags to remove from the resource. 
 
 """
-UntagResource(ResourceArn, TagKeys; aws::AWSConfig=AWSConfig()) = fms("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws=aws)
-UntagResource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = fms("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws=aws)
+UntagResource(ResourceArn, TagKeys; aws::AWSConfig=AWS.aws_config) = fms("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws=aws)
+UntagResource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = fms("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws=aws)

@@ -20,8 +20,8 @@ Creates a detector model.
 - `key`: The input attribute key used to identify a device or system to create a detector (an instance of the detector model) and then to route each input received to the appropriate detector (instance). This parameter uses a JSON-path expression in the message payload of each input to specify the attribute-value pair that is used to identify the device associated with the input.
 - `tags`: Metadata that can be used to manage the detector model.
 """
-CreateDetectorModel(detectorModelDefinition, detectorModelName, roleArn; aws::AWSConfig=AWSConfig()) = iot_events("POST", "/detector-models", Dict{String, Any}("detectorModelDefinition"=>detectorModelDefinition, "detectorModelName"=>detectorModelName, "roleArn"=>roleArn))
-CreateDetectorModel(detectorModelDefinition, detectorModelName, roleArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = iot_events("POST", "/detector-models", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorModelDefinition"=>detectorModelDefinition, "detectorModelName"=>detectorModelName, "roleArn"=>roleArn), args)); aws=aws)
+CreateDetectorModel(detectorModelDefinition, detectorModelName, roleArn; aws::AWSConfig=AWS.aws_config) = iot_events("POST", "/detector-models", Dict{String, Any}("detectorModelDefinition"=>detectorModelDefinition, "detectorModelName"=>detectorModelName, "roleArn"=>roleArn); aws=aws)
+CreateDetectorModel(detectorModelDefinition, detectorModelName, roleArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iot_events("POST", "/detector-models", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorModelDefinition"=>detectorModelDefinition, "detectorModelName"=>detectorModelName, "roleArn"=>roleArn), args)); aws=aws)
 
 """
     CreateInput()
@@ -36,8 +36,8 @@ Creates an input.
 - `inputDescription`: A brief description of the input.
 - `tags`: Metadata that can be used to manage the input.
 """
-CreateInput(inputDefinition, inputName; aws::AWSConfig=AWSConfig()) = iot_events("POST", "/inputs", Dict{String, Any}("inputDefinition"=>inputDefinition, "inputName"=>inputName))
-CreateInput(inputDefinition, inputName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = iot_events("POST", "/inputs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("inputDefinition"=>inputDefinition, "inputName"=>inputName), args)); aws=aws)
+CreateInput(inputDefinition, inputName; aws::AWSConfig=AWS.aws_config) = iot_events("POST", "/inputs", Dict{String, Any}("inputDefinition"=>inputDefinition, "inputName"=>inputName); aws=aws)
+CreateInput(inputDefinition, inputName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iot_events("POST", "/inputs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("inputDefinition"=>inputDefinition, "inputName"=>inputName), args)); aws=aws)
 
 """
     DeleteDetectorModel()
@@ -48,8 +48,8 @@ Deletes a detector model. Any active instances of the detector model are also de
 - `detectorModelName`: The name of the detector model to be deleted.
 
 """
-DeleteDetectorModel(detectorModelName; aws::AWSConfig=AWSConfig()) = iot_events("DELETE", "/detector-models/$(detectorModelName)"; aws=aws)
-DeleteDetectorModel(detectorModelName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = iot_events("DELETE", "/detector-models/$(detectorModelName)", args; aws=aws)
+DeleteDetectorModel(detectorModelName; aws::AWSConfig=AWS.aws_config) = iot_events("DELETE", "/detector-models/$(detectorModelName)"; aws=aws)
+DeleteDetectorModel(detectorModelName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iot_events("DELETE", "/detector-models/$(detectorModelName)", args; aws=aws)
 
 """
     DeleteInput()
@@ -60,8 +60,8 @@ Deletes an input.
 - `inputName`: The name of the input to delete.
 
 """
-DeleteInput(inputName; aws::AWSConfig=AWSConfig()) = iot_events("DELETE", "/inputs/$(inputName)"; aws=aws)
-DeleteInput(inputName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = iot_events("DELETE", "/inputs/$(inputName)", args; aws=aws)
+DeleteInput(inputName; aws::AWSConfig=AWS.aws_config) = iot_events("DELETE", "/inputs/$(inputName)"; aws=aws)
+DeleteInput(inputName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iot_events("DELETE", "/inputs/$(inputName)", args; aws=aws)
 
 """
     DescribeDetectorModel()
@@ -74,8 +74,8 @@ Describes a detector model. If the version parameter is not specified, informati
 # Optional Parameters
 - `version`: The version of the detector model.
 """
-DescribeDetectorModel(detectorModelName; aws::AWSConfig=AWSConfig()) = iot_events("GET", "/detector-models/$(detectorModelName)"; aws=aws)
-DescribeDetectorModel(detectorModelName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = iot_events("GET", "/detector-models/$(detectorModelName)", args; aws=aws)
+DescribeDetectorModel(detectorModelName; aws::AWSConfig=AWS.aws_config) = iot_events("GET", "/detector-models/$(detectorModelName)"; aws=aws)
+DescribeDetectorModel(detectorModelName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iot_events("GET", "/detector-models/$(detectorModelName)", args; aws=aws)
 
 """
     DescribeInput()
@@ -86,8 +86,8 @@ Describes an input.
 - `inputName`: The name of the input.
 
 """
-DescribeInput(inputName; aws::AWSConfig=AWSConfig()) = iot_events("GET", "/inputs/$(inputName)"; aws=aws)
-DescribeInput(inputName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = iot_events("GET", "/inputs/$(inputName)", args; aws=aws)
+DescribeInput(inputName; aws::AWSConfig=AWS.aws_config) = iot_events("GET", "/inputs/$(inputName)"; aws=aws)
+DescribeInput(inputName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iot_events("GET", "/inputs/$(inputName)", args; aws=aws)
 
 """
     DescribeLoggingOptions()
@@ -95,8 +95,8 @@ DescribeInput(inputName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSCo
 Retrieves the current settings of the AWS IoT Events logging options.
 
 """
-DescribeLoggingOptions(; aws::AWSConfig=AWSConfig()) = iot_events("GET", "/logging"; aws=aws)
-DescribeLoggingOptions(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = iot_events("GET", "/logging", args; aws=aws)
+DescribeLoggingOptions(; aws::AWSConfig=AWS.aws_config) = iot_events("GET", "/logging"; aws=aws)
+DescribeLoggingOptions(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = iot_events("GET", "/logging", args; aws=aws)
 
 """
     ListDetectorModelVersions()
@@ -110,8 +110,8 @@ Lists all the versions of a detector model. Only the metadata associated with ea
 - `maxResults`: The maximum number of results to return at one time.
 - `nextToken`: The token for the next set of results.
 """
-ListDetectorModelVersions(detectorModelName; aws::AWSConfig=AWSConfig()) = iot_events("GET", "/detector-models/$(detectorModelName)/versions"; aws=aws)
-ListDetectorModelVersions(detectorModelName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = iot_events("GET", "/detector-models/$(detectorModelName)/versions", args; aws=aws)
+ListDetectorModelVersions(detectorModelName; aws::AWSConfig=AWS.aws_config) = iot_events("GET", "/detector-models/$(detectorModelName)/versions"; aws=aws)
+ListDetectorModelVersions(detectorModelName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iot_events("GET", "/detector-models/$(detectorModelName)/versions", args; aws=aws)
 
 """
     ListDetectorModels()
@@ -122,8 +122,8 @@ Lists the detector models you have created. Only the metadata associated with ea
 - `maxResults`: The maximum number of results to return at one time.
 - `nextToken`: The token for the next set of results.
 """
-ListDetectorModels(; aws::AWSConfig=AWSConfig()) = iot_events("GET", "/detector-models"; aws=aws)
-ListDetectorModels(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = iot_events("GET", "/detector-models", args; aws=aws)
+ListDetectorModels(; aws::AWSConfig=AWS.aws_config) = iot_events("GET", "/detector-models"; aws=aws)
+ListDetectorModels(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = iot_events("GET", "/detector-models", args; aws=aws)
 
 """
     ListInputs()
@@ -134,8 +134,8 @@ Lists the inputs you have created.
 - `maxResults`: The maximum number of results to return at one time.
 - `nextToken`: The token for the next set of results.
 """
-ListInputs(; aws::AWSConfig=AWSConfig()) = iot_events("GET", "/inputs"; aws=aws)
-ListInputs(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = iot_events("GET", "/inputs", args; aws=aws)
+ListInputs(; aws::AWSConfig=AWS.aws_config) = iot_events("GET", "/inputs"; aws=aws)
+ListInputs(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = iot_events("GET", "/inputs", args; aws=aws)
 
 """
     ListTagsForResource()
@@ -146,8 +146,8 @@ Lists the tags (metadata) you have assigned to the resource.
 - `resourceArn`: The ARN of the resource.
 
 """
-ListTagsForResource(resourceArn; aws::AWSConfig=AWSConfig()) = iot_events("GET", "/tags", Dict{String, Any}("resourceArn"=>resourceArn))
-ListTagsForResource(resourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = iot_events("GET", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), args)); aws=aws)
+ListTagsForResource(resourceArn; aws::AWSConfig=AWS.aws_config) = iot_events("GET", "/tags", Dict{String, Any}("resourceArn"=>resourceArn); aws=aws)
+ListTagsForResource(resourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iot_events("GET", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), args)); aws=aws)
 
 """
     PutLoggingOptions()
@@ -158,8 +158,8 @@ Sets or updates the AWS IoT Events logging options. If you update the value of a
 - `loggingOptions`: The new values of the AWS IoT Events logging options.
 
 """
-PutLoggingOptions(loggingOptions; aws::AWSConfig=AWSConfig()) = iot_events("PUT", "/logging", Dict{String, Any}("loggingOptions"=>loggingOptions))
-PutLoggingOptions(loggingOptions, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = iot_events("PUT", "/logging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("loggingOptions"=>loggingOptions), args)); aws=aws)
+PutLoggingOptions(loggingOptions; aws::AWSConfig=AWS.aws_config) = iot_events("PUT", "/logging", Dict{String, Any}("loggingOptions"=>loggingOptions); aws=aws)
+PutLoggingOptions(loggingOptions, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iot_events("PUT", "/logging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("loggingOptions"=>loggingOptions), args)); aws=aws)
 
 """
     TagResource()
@@ -171,8 +171,8 @@ Adds to or modifies the tags of the given resource. Tags are metadata that can b
 - `tags`: The new or modified tags for the resource.
 
 """
-TagResource(resourceArn, tags; aws::AWSConfig=AWSConfig()) = iot_events("POST", "/tags", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags))
-TagResource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = iot_events("POST", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), args)); aws=aws)
+TagResource(resourceArn, tags; aws::AWSConfig=AWS.aws_config) = iot_events("POST", "/tags", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws=aws)
+TagResource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iot_events("POST", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), args)); aws=aws)
 
 """
     UntagResource()
@@ -184,8 +184,8 @@ Removes the given tags (metadata) from the resource.
 - `tagKeys`: A list of the keys of the tags to be removed from the resource.
 
 """
-UntagResource(resourceArn, tagKeys; aws::AWSConfig=AWSConfig()) = iot_events("DELETE", "/tags", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys))
-UntagResource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = iot_events("DELETE", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), args)); aws=aws)
+UntagResource(resourceArn, tagKeys; aws::AWSConfig=AWS.aws_config) = iot_events("DELETE", "/tags", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws=aws)
+UntagResource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iot_events("DELETE", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), args)); aws=aws)
 
 """
     UpdateDetectorModel()
@@ -201,8 +201,8 @@ Updates a detector model. Detectors (instances) spawned by the previous version 
 - `detectorModelDescription`: A brief description of the detector model.
 - `evaluationMethod`: Information about the order in which events are evaluated and how actions are executed. 
 """
-UpdateDetectorModel(detectorModelDefinition, detectorModelName, roleArn; aws::AWSConfig=AWSConfig()) = iot_events("POST", "/detector-models/$(detectorModelName)", Dict{String, Any}("detectorModelDefinition"=>detectorModelDefinition, "roleArn"=>roleArn))
-UpdateDetectorModel(detectorModelDefinition, detectorModelName, roleArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = iot_events("POST", "/detector-models/$(detectorModelName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorModelDefinition"=>detectorModelDefinition, "roleArn"=>roleArn), args)); aws=aws)
+UpdateDetectorModel(detectorModelDefinition, detectorModelName, roleArn; aws::AWSConfig=AWS.aws_config) = iot_events("POST", "/detector-models/$(detectorModelName)", Dict{String, Any}("detectorModelDefinition"=>detectorModelDefinition, "roleArn"=>roleArn); aws=aws)
+UpdateDetectorModel(detectorModelDefinition, detectorModelName, roleArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iot_events("POST", "/detector-models/$(detectorModelName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("detectorModelDefinition"=>detectorModelDefinition, "roleArn"=>roleArn), args)); aws=aws)
 
 """
     UpdateInput()
@@ -216,5 +216,5 @@ Updates an input.
 # Optional Parameters
 - `inputDescription`: A brief description of the input.
 """
-UpdateInput(inputDefinition, inputName; aws::AWSConfig=AWSConfig()) = iot_events("PUT", "/inputs/$(inputName)", Dict{String, Any}("inputDefinition"=>inputDefinition))
-UpdateInput(inputDefinition, inputName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = iot_events("PUT", "/inputs/$(inputName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("inputDefinition"=>inputDefinition), args)); aws=aws)
+UpdateInput(inputDefinition, inputName; aws::AWSConfig=AWS.aws_config) = iot_events("PUT", "/inputs/$(inputName)", Dict{String, Any}("inputDefinition"=>inputDefinition); aws=aws)
+UpdateInput(inputDefinition, inputName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iot_events("PUT", "/inputs/$(inputName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("inputDefinition"=>inputDefinition), args)); aws=aws)

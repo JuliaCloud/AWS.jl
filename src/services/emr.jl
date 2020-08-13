@@ -14,8 +14,8 @@ Adds an instance fleet to a running cluster.  The instance fleet configuration i
 - `InstanceFleet`: Specifies the configuration of the instance fleet.
 
 """
-AddInstanceFleet(ClusterId, InstanceFleet; aws::AWSConfig=AWSConfig()) = emr("AddInstanceFleet", Dict{String, Any}("ClusterId"=>ClusterId, "InstanceFleet"=>InstanceFleet); aws=aws)
-AddInstanceFleet(ClusterId, InstanceFleet, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = emr("AddInstanceFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "InstanceFleet"=>InstanceFleet), args)); aws=aws)
+AddInstanceFleet(ClusterId, InstanceFleet; aws::AWSConfig=AWS.aws_config) = emr("AddInstanceFleet", Dict{String, Any}("ClusterId"=>ClusterId, "InstanceFleet"=>InstanceFleet); aws=aws)
+AddInstanceFleet(ClusterId, InstanceFleet, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = emr("AddInstanceFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "InstanceFleet"=>InstanceFleet), args)); aws=aws)
 
 """
     AddInstanceGroups()
@@ -27,8 +27,8 @@ Adds one or more instance groups to a running cluster.
 - `JobFlowId`: Job flow in which to add the instance groups.
 
 """
-AddInstanceGroups(InstanceGroups, JobFlowId; aws::AWSConfig=AWSConfig()) = emr("AddInstanceGroups", Dict{String, Any}("InstanceGroups"=>InstanceGroups, "JobFlowId"=>JobFlowId); aws=aws)
-AddInstanceGroups(InstanceGroups, JobFlowId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = emr("AddInstanceGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceGroups"=>InstanceGroups, "JobFlowId"=>JobFlowId), args)); aws=aws)
+AddInstanceGroups(InstanceGroups, JobFlowId; aws::AWSConfig=AWS.aws_config) = emr("AddInstanceGroups", Dict{String, Any}("InstanceGroups"=>InstanceGroups, "JobFlowId"=>JobFlowId); aws=aws)
+AddInstanceGroups(InstanceGroups, JobFlowId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = emr("AddInstanceGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceGroups"=>InstanceGroups, "JobFlowId"=>JobFlowId), args)); aws=aws)
 
 """
     AddJobFlowSteps()
@@ -40,8 +40,8 @@ AddJobFlowSteps adds new steps to a running cluster. A maximum of 256 steps are 
 - `Steps`:  A list of StepConfig to be executed by the job flow. 
 
 """
-AddJobFlowSteps(JobFlowId, Steps; aws::AWSConfig=AWSConfig()) = emr("AddJobFlowSteps", Dict{String, Any}("JobFlowId"=>JobFlowId, "Steps"=>Steps); aws=aws)
-AddJobFlowSteps(JobFlowId, Steps, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = emr("AddJobFlowSteps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobFlowId"=>JobFlowId, "Steps"=>Steps), args)); aws=aws)
+AddJobFlowSteps(JobFlowId, Steps; aws::AWSConfig=AWS.aws_config) = emr("AddJobFlowSteps", Dict{String, Any}("JobFlowId"=>JobFlowId, "Steps"=>Steps); aws=aws)
+AddJobFlowSteps(JobFlowId, Steps, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = emr("AddJobFlowSteps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobFlowId"=>JobFlowId, "Steps"=>Steps), args)); aws=aws)
 
 """
     AddTags()
@@ -53,8 +53,8 @@ Adds tags to an Amazon EMR resource. Tags make it easier to associate clusters i
 - `Tags`: A list of tags to associate with a cluster and propagate to EC2 instances. Tags are user-defined key/value pairs that consist of a required key string with a maximum of 128 characters, and an optional value string with a maximum of 256 characters.
 
 """
-AddTags(ResourceId, Tags; aws::AWSConfig=AWSConfig()) = emr("AddTags", Dict{String, Any}("ResourceId"=>ResourceId, "Tags"=>Tags); aws=aws)
-AddTags(ResourceId, Tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = emr("AddTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "Tags"=>Tags), args)); aws=aws)
+AddTags(ResourceId, Tags; aws::AWSConfig=AWS.aws_config) = emr("AddTags", Dict{String, Any}("ResourceId"=>ResourceId, "Tags"=>Tags); aws=aws)
+AddTags(ResourceId, Tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = emr("AddTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "Tags"=>Tags), args)); aws=aws)
 
 """
     CancelSteps()
@@ -68,8 +68,8 @@ Cancels a pending step or steps in a running cluster. Available only in Amazon E
 # Optional Parameters
 - `StepCancellationOption`: The option to choose for cancelling RUNNING steps. By default, the value is SEND_INTERRUPT.
 """
-CancelSteps(ClusterId, StepIds; aws::AWSConfig=AWSConfig()) = emr("CancelSteps", Dict{String, Any}("ClusterId"=>ClusterId, "StepIds"=>StepIds); aws=aws)
-CancelSteps(ClusterId, StepIds, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = emr("CancelSteps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "StepIds"=>StepIds), args)); aws=aws)
+CancelSteps(ClusterId, StepIds; aws::AWSConfig=AWS.aws_config) = emr("CancelSteps", Dict{String, Any}("ClusterId"=>ClusterId, "StepIds"=>StepIds); aws=aws)
+CancelSteps(ClusterId, StepIds, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = emr("CancelSteps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "StepIds"=>StepIds), args)); aws=aws)
 
 """
     CreateSecurityConfiguration()
@@ -81,8 +81,8 @@ Creates a security configuration, which is stored in the service and can be spec
 - `SecurityConfiguration`: The security configuration details in JSON format. For JSON parameters and examples, see Use Security Configurations to Set Up Cluster Security in the Amazon EMR Management Guide.
 
 """
-CreateSecurityConfiguration(Name, SecurityConfiguration; aws::AWSConfig=AWSConfig()) = emr("CreateSecurityConfiguration", Dict{String, Any}("Name"=>Name, "SecurityConfiguration"=>SecurityConfiguration); aws=aws)
-CreateSecurityConfiguration(Name, SecurityConfiguration, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = emr("CreateSecurityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SecurityConfiguration"=>SecurityConfiguration), args)); aws=aws)
+CreateSecurityConfiguration(Name, SecurityConfiguration; aws::AWSConfig=AWS.aws_config) = emr("CreateSecurityConfiguration", Dict{String, Any}("Name"=>Name, "SecurityConfiguration"=>SecurityConfiguration); aws=aws)
+CreateSecurityConfiguration(Name, SecurityConfiguration, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = emr("CreateSecurityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SecurityConfiguration"=>SecurityConfiguration), args)); aws=aws)
 
 """
     DeleteSecurityConfiguration()
@@ -93,8 +93,8 @@ Deletes a security configuration.
 - `Name`: The name of the security configuration.
 
 """
-DeleteSecurityConfiguration(Name; aws::AWSConfig=AWSConfig()) = emr("DeleteSecurityConfiguration", Dict{String, Any}("Name"=>Name); aws=aws)
-DeleteSecurityConfiguration(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = emr("DeleteSecurityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+DeleteSecurityConfiguration(Name; aws::AWSConfig=AWS.aws_config) = emr("DeleteSecurityConfiguration", Dict{String, Any}("Name"=>Name); aws=aws)
+DeleteSecurityConfiguration(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = emr("DeleteSecurityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
 
 """
     DescribeCluster()
@@ -105,8 +105,8 @@ Provides cluster-level details including status, hardware and software configura
 - `ClusterId`: The identifier of the cluster to describe.
 
 """
-DescribeCluster(ClusterId; aws::AWSConfig=AWSConfig()) = emr("DescribeCluster", Dict{String, Any}("ClusterId"=>ClusterId); aws=aws)
-DescribeCluster(ClusterId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = emr("DescribeCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws=aws)
+DescribeCluster(ClusterId; aws::AWSConfig=AWS.aws_config) = emr("DescribeCluster", Dict{String, Any}("ClusterId"=>ClusterId); aws=aws)
+DescribeCluster(ClusterId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = emr("DescribeCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws=aws)
 
 """
     DescribeJobFlows()
@@ -119,8 +119,8 @@ This API is deprecated and will eventually be removed. We recommend you use List
 - `JobFlowIds`: Return only job flows whose job flow ID is contained in this list.
 - `JobFlowStates`: Return only job flows whose state is contained in this list.
 """
-DescribeJobFlows(; aws::AWSConfig=AWSConfig()) = emr("DescribeJobFlows"; aws=aws)
-DescribeJobFlows(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = emr("DescribeJobFlows", args; aws=aws)
+DescribeJobFlows(; aws::AWSConfig=AWS.aws_config) = emr("DescribeJobFlows"; aws=aws)
+DescribeJobFlows(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = emr("DescribeJobFlows", args; aws=aws)
 
 """
     DescribeSecurityConfiguration()
@@ -131,8 +131,8 @@ Provides the details of a security configuration by returning the configuration 
 - `Name`: The name of the security configuration.
 
 """
-DescribeSecurityConfiguration(Name; aws::AWSConfig=AWSConfig()) = emr("DescribeSecurityConfiguration", Dict{String, Any}("Name"=>Name); aws=aws)
-DescribeSecurityConfiguration(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = emr("DescribeSecurityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+DescribeSecurityConfiguration(Name; aws::AWSConfig=AWS.aws_config) = emr("DescribeSecurityConfiguration", Dict{String, Any}("Name"=>Name); aws=aws)
+DescribeSecurityConfiguration(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = emr("DescribeSecurityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
 
 """
     DescribeStep()
@@ -144,8 +144,8 @@ Provides more detail about the cluster step.
 - `StepId`: The identifier of the step to describe.
 
 """
-DescribeStep(ClusterId, StepId; aws::AWSConfig=AWSConfig()) = emr("DescribeStep", Dict{String, Any}("ClusterId"=>ClusterId, "StepId"=>StepId); aws=aws)
-DescribeStep(ClusterId, StepId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = emr("DescribeStep", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "StepId"=>StepId), args)); aws=aws)
+DescribeStep(ClusterId, StepId; aws::AWSConfig=AWS.aws_config) = emr("DescribeStep", Dict{String, Any}("ClusterId"=>ClusterId, "StepId"=>StepId); aws=aws)
+DescribeStep(ClusterId, StepId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = emr("DescribeStep", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "StepId"=>StepId), args)); aws=aws)
 
 """
     GetBlockPublicAccessConfiguration()
@@ -153,8 +153,8 @@ DescribeStep(ClusterId, StepId, args::AbstractDict{String, <:Any}; aws::AWSConfi
 Returns the Amazon EMR block public access configuration for your AWS account in the current Region. For more information see Configure Block Public Access for Amazon EMR in the Amazon EMR Management Guide.
 
 """
-GetBlockPublicAccessConfiguration(; aws::AWSConfig=AWSConfig()) = emr("GetBlockPublicAccessConfiguration"; aws=aws)
-GetBlockPublicAccessConfiguration(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = emr("GetBlockPublicAccessConfiguration", args; aws=aws)
+GetBlockPublicAccessConfiguration(; aws::AWSConfig=AWS.aws_config) = emr("GetBlockPublicAccessConfiguration"; aws=aws)
+GetBlockPublicAccessConfiguration(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = emr("GetBlockPublicAccessConfiguration", args; aws=aws)
 
 """
     GetManagedScalingPolicy()
@@ -165,8 +165,8 @@ GetBlockPublicAccessConfiguration(args::AbstractDict{String, <:Any}; aws::AWSCon
 - `ClusterId`:  Specifies the ID of the cluster for which the managed scaling policy will be fetched. 
 
 """
-GetManagedScalingPolicy(ClusterId; aws::AWSConfig=AWSConfig()) = emr("GetManagedScalingPolicy", Dict{String, Any}("ClusterId"=>ClusterId); aws=aws)
-GetManagedScalingPolicy(ClusterId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = emr("GetManagedScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws=aws)
+GetManagedScalingPolicy(ClusterId; aws::AWSConfig=AWS.aws_config) = emr("GetManagedScalingPolicy", Dict{String, Any}("ClusterId"=>ClusterId); aws=aws)
+GetManagedScalingPolicy(ClusterId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = emr("GetManagedScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws=aws)
 
 """
     ListBootstrapActions()
@@ -179,8 +179,8 @@ Provides information about the bootstrap actions associated with a cluster.
 # Optional Parameters
 - `Marker`: The pagination token that indicates the next set of results to retrieve.
 """
-ListBootstrapActions(ClusterId; aws::AWSConfig=AWSConfig()) = emr("ListBootstrapActions", Dict{String, Any}("ClusterId"=>ClusterId); aws=aws)
-ListBootstrapActions(ClusterId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = emr("ListBootstrapActions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws=aws)
+ListBootstrapActions(ClusterId; aws::AWSConfig=AWS.aws_config) = emr("ListBootstrapActions", Dict{String, Any}("ClusterId"=>ClusterId); aws=aws)
+ListBootstrapActions(ClusterId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = emr("ListBootstrapActions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws=aws)
 
 """
     ListClusters()
@@ -193,8 +193,8 @@ Provides the status of all clusters visible to this AWS account. Allows you to f
 - `CreatedBefore`: The creation date and time end value filter for listing clusters.
 - `Marker`: The pagination token that indicates the next set of results to retrieve.
 """
-ListClusters(; aws::AWSConfig=AWSConfig()) = emr("ListClusters"; aws=aws)
-ListClusters(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = emr("ListClusters", args; aws=aws)
+ListClusters(; aws::AWSConfig=AWS.aws_config) = emr("ListClusters"; aws=aws)
+ListClusters(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = emr("ListClusters", args; aws=aws)
 
 """
     ListInstanceFleets()
@@ -207,8 +207,8 @@ Lists all available details about the instance fleets in a cluster.  The instanc
 # Optional Parameters
 - `Marker`: The pagination token that indicates the next set of results to retrieve.
 """
-ListInstanceFleets(ClusterId; aws::AWSConfig=AWSConfig()) = emr("ListInstanceFleets", Dict{String, Any}("ClusterId"=>ClusterId); aws=aws)
-ListInstanceFleets(ClusterId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = emr("ListInstanceFleets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws=aws)
+ListInstanceFleets(ClusterId; aws::AWSConfig=AWS.aws_config) = emr("ListInstanceFleets", Dict{String, Any}("ClusterId"=>ClusterId); aws=aws)
+ListInstanceFleets(ClusterId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = emr("ListInstanceFleets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws=aws)
 
 """
     ListInstanceGroups()
@@ -221,8 +221,8 @@ Provides all available details about the instance groups in a cluster.
 # Optional Parameters
 - `Marker`: The pagination token that indicates the next set of results to retrieve.
 """
-ListInstanceGroups(ClusterId; aws::AWSConfig=AWSConfig()) = emr("ListInstanceGroups", Dict{String, Any}("ClusterId"=>ClusterId); aws=aws)
-ListInstanceGroups(ClusterId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = emr("ListInstanceGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws=aws)
+ListInstanceGroups(ClusterId; aws::AWSConfig=AWS.aws_config) = emr("ListInstanceGroups", Dict{String, Any}("ClusterId"=>ClusterId); aws=aws)
+ListInstanceGroups(ClusterId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = emr("ListInstanceGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws=aws)
 
 """
     ListInstances()
@@ -240,8 +240,8 @@ Provides information for all active EC2 instances and EC2 instances terminated i
 - `InstanceStates`: A list of instance states that will filter the instances returned with this request.
 - `Marker`: The pagination token that indicates the next set of results to retrieve.
 """
-ListInstances(ClusterId; aws::AWSConfig=AWSConfig()) = emr("ListInstances", Dict{String, Any}("ClusterId"=>ClusterId); aws=aws)
-ListInstances(ClusterId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = emr("ListInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws=aws)
+ListInstances(ClusterId; aws::AWSConfig=AWS.aws_config) = emr("ListInstances", Dict{String, Any}("ClusterId"=>ClusterId); aws=aws)
+ListInstances(ClusterId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = emr("ListInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws=aws)
 
 """
     ListSecurityConfigurations()
@@ -251,8 +251,8 @@ Lists all the security configurations visible to this account, providing their c
 # Optional Parameters
 - `Marker`: The pagination token that indicates the set of results to retrieve.
 """
-ListSecurityConfigurations(; aws::AWSConfig=AWSConfig()) = emr("ListSecurityConfigurations"; aws=aws)
-ListSecurityConfigurations(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = emr("ListSecurityConfigurations", args; aws=aws)
+ListSecurityConfigurations(; aws::AWSConfig=AWS.aws_config) = emr("ListSecurityConfigurations"; aws=aws)
+ListSecurityConfigurations(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = emr("ListSecurityConfigurations", args; aws=aws)
 
 """
     ListSteps()
@@ -267,8 +267,8 @@ Provides a list of steps for the cluster in reverse order unless you specify ste
 - `StepIds`: The filter to limit the step list based on the identifier of the steps. You can specify a maximum of ten Step IDs. The character constraint applies to the overall length of the array.
 - `StepStates`: The filter to limit the step list based on certain states.
 """
-ListSteps(ClusterId; aws::AWSConfig=AWSConfig()) = emr("ListSteps", Dict{String, Any}("ClusterId"=>ClusterId); aws=aws)
-ListSteps(ClusterId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = emr("ListSteps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws=aws)
+ListSteps(ClusterId; aws::AWSConfig=AWS.aws_config) = emr("ListSteps", Dict{String, Any}("ClusterId"=>ClusterId); aws=aws)
+ListSteps(ClusterId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = emr("ListSteps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws=aws)
 
 """
     ModifyCluster()
@@ -281,8 +281,8 @@ Modifies the number of steps that can be executed concurrently for the cluster s
 # Optional Parameters
 - `StepConcurrencyLevel`: The number of steps that can be executed concurrently. You can specify a maximum of 256 steps. 
 """
-ModifyCluster(ClusterId; aws::AWSConfig=AWSConfig()) = emr("ModifyCluster", Dict{String, Any}("ClusterId"=>ClusterId); aws=aws)
-ModifyCluster(ClusterId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = emr("ModifyCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws=aws)
+ModifyCluster(ClusterId; aws::AWSConfig=AWS.aws_config) = emr("ModifyCluster", Dict{String, Any}("ClusterId"=>ClusterId); aws=aws)
+ModifyCluster(ClusterId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = emr("ModifyCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws=aws)
 
 """
     ModifyInstanceFleet()
@@ -294,8 +294,8 @@ Modifies the target On-Demand and target Spot capacities for the instance fleet 
 - `InstanceFleet`: The unique identifier of the instance fleet.
 
 """
-ModifyInstanceFleet(ClusterId, InstanceFleet; aws::AWSConfig=AWSConfig()) = emr("ModifyInstanceFleet", Dict{String, Any}("ClusterId"=>ClusterId, "InstanceFleet"=>InstanceFleet); aws=aws)
-ModifyInstanceFleet(ClusterId, InstanceFleet, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = emr("ModifyInstanceFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "InstanceFleet"=>InstanceFleet), args)); aws=aws)
+ModifyInstanceFleet(ClusterId, InstanceFleet; aws::AWSConfig=AWS.aws_config) = emr("ModifyInstanceFleet", Dict{String, Any}("ClusterId"=>ClusterId, "InstanceFleet"=>InstanceFleet); aws=aws)
+ModifyInstanceFleet(ClusterId, InstanceFleet, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = emr("ModifyInstanceFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "InstanceFleet"=>InstanceFleet), args)); aws=aws)
 
 """
     ModifyInstanceGroups()
@@ -306,8 +306,8 @@ ModifyInstanceGroups modifies the number of nodes and configuration settings of 
 - `ClusterId`: The ID of the cluster to which the instance group belongs.
 - `InstanceGroups`: Instance groups to change.
 """
-ModifyInstanceGroups(; aws::AWSConfig=AWSConfig()) = emr("ModifyInstanceGroups"; aws=aws)
-ModifyInstanceGroups(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = emr("ModifyInstanceGroups", args; aws=aws)
+ModifyInstanceGroups(; aws::AWSConfig=AWS.aws_config) = emr("ModifyInstanceGroups"; aws=aws)
+ModifyInstanceGroups(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = emr("ModifyInstanceGroups", args; aws=aws)
 
 """
     PutAutoScalingPolicy()
@@ -320,8 +320,8 @@ Creates or updates an automatic scaling policy for a core instance group or task
 - `InstanceGroupId`: Specifies the ID of the instance group to which the automatic scaling policy is applied.
 
 """
-PutAutoScalingPolicy(AutoScalingPolicy, ClusterId, InstanceGroupId; aws::AWSConfig=AWSConfig()) = emr("PutAutoScalingPolicy", Dict{String, Any}("AutoScalingPolicy"=>AutoScalingPolicy, "ClusterId"=>ClusterId, "InstanceGroupId"=>InstanceGroupId); aws=aws)
-PutAutoScalingPolicy(AutoScalingPolicy, ClusterId, InstanceGroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = emr("PutAutoScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingPolicy"=>AutoScalingPolicy, "ClusterId"=>ClusterId, "InstanceGroupId"=>InstanceGroupId), args)); aws=aws)
+PutAutoScalingPolicy(AutoScalingPolicy, ClusterId, InstanceGroupId; aws::AWSConfig=AWS.aws_config) = emr("PutAutoScalingPolicy", Dict{String, Any}("AutoScalingPolicy"=>AutoScalingPolicy, "ClusterId"=>ClusterId, "InstanceGroupId"=>InstanceGroupId); aws=aws)
+PutAutoScalingPolicy(AutoScalingPolicy, ClusterId, InstanceGroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = emr("PutAutoScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoScalingPolicy"=>AutoScalingPolicy, "ClusterId"=>ClusterId, "InstanceGroupId"=>InstanceGroupId), args)); aws=aws)
 
 """
     PutBlockPublicAccessConfiguration()
@@ -332,8 +332,8 @@ Creates or updates an Amazon EMR block public access configuration for your AWS 
 - `BlockPublicAccessConfiguration`: A configuration for Amazon EMR block public access. The configuration applies to all clusters created in your account for the current Region. The configuration specifies whether block public access is enabled. If block public access is enabled, security groups associated with the cluster cannot have rules that allow inbound traffic from 0.0.0.0/0 or ::/0 on a port, unless the port is specified as an exception using PermittedPublicSecurityGroupRuleRanges in the BlockPublicAccessConfiguration. By default, Port 22 (SSH) is an exception, and public access is allowed on this port. You can change this by updating BlockPublicSecurityGroupRules to remove the exception.  For accounts that created clusters in a Region before November 25, 2019, block public access is disabled by default in that Region. To use this feature, you must manually enable and configure it. For accounts that did not create an EMR cluster in a Region before this date, block public access is enabled by default in that Region. 
 
 """
-PutBlockPublicAccessConfiguration(BlockPublicAccessConfiguration; aws::AWSConfig=AWSConfig()) = emr("PutBlockPublicAccessConfiguration", Dict{String, Any}("BlockPublicAccessConfiguration"=>BlockPublicAccessConfiguration); aws=aws)
-PutBlockPublicAccessConfiguration(BlockPublicAccessConfiguration, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = emr("PutBlockPublicAccessConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BlockPublicAccessConfiguration"=>BlockPublicAccessConfiguration), args)); aws=aws)
+PutBlockPublicAccessConfiguration(BlockPublicAccessConfiguration; aws::AWSConfig=AWS.aws_config) = emr("PutBlockPublicAccessConfiguration", Dict{String, Any}("BlockPublicAccessConfiguration"=>BlockPublicAccessConfiguration); aws=aws)
+PutBlockPublicAccessConfiguration(BlockPublicAccessConfiguration, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = emr("PutBlockPublicAccessConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BlockPublicAccessConfiguration"=>BlockPublicAccessConfiguration), args)); aws=aws)
 
 """
     PutManagedScalingPolicy()
@@ -345,8 +345,8 @@ PutBlockPublicAccessConfiguration(BlockPublicAccessConfiguration, args::Abstract
 - `ManagedScalingPolicy`:  Specifies the constraints for the managed scaling policy. 
 
 """
-PutManagedScalingPolicy(ClusterId, ManagedScalingPolicy; aws::AWSConfig=AWSConfig()) = emr("PutManagedScalingPolicy", Dict{String, Any}("ClusterId"=>ClusterId, "ManagedScalingPolicy"=>ManagedScalingPolicy); aws=aws)
-PutManagedScalingPolicy(ClusterId, ManagedScalingPolicy, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = emr("PutManagedScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "ManagedScalingPolicy"=>ManagedScalingPolicy), args)); aws=aws)
+PutManagedScalingPolicy(ClusterId, ManagedScalingPolicy; aws::AWSConfig=AWS.aws_config) = emr("PutManagedScalingPolicy", Dict{String, Any}("ClusterId"=>ClusterId, "ManagedScalingPolicy"=>ManagedScalingPolicy); aws=aws)
+PutManagedScalingPolicy(ClusterId, ManagedScalingPolicy, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = emr("PutManagedScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "ManagedScalingPolicy"=>ManagedScalingPolicy), args)); aws=aws)
 
 """
     RemoveAutoScalingPolicy()
@@ -358,8 +358,8 @@ Removes an automatic scaling policy from a specified instance group within an EM
 - `InstanceGroupId`: Specifies the ID of the instance group to which the scaling policy is applied.
 
 """
-RemoveAutoScalingPolicy(ClusterId, InstanceGroupId; aws::AWSConfig=AWSConfig()) = emr("RemoveAutoScalingPolicy", Dict{String, Any}("ClusterId"=>ClusterId, "InstanceGroupId"=>InstanceGroupId); aws=aws)
-RemoveAutoScalingPolicy(ClusterId, InstanceGroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = emr("RemoveAutoScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "InstanceGroupId"=>InstanceGroupId), args)); aws=aws)
+RemoveAutoScalingPolicy(ClusterId, InstanceGroupId; aws::AWSConfig=AWS.aws_config) = emr("RemoveAutoScalingPolicy", Dict{String, Any}("ClusterId"=>ClusterId, "InstanceGroupId"=>InstanceGroupId); aws=aws)
+RemoveAutoScalingPolicy(ClusterId, InstanceGroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = emr("RemoveAutoScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId, "InstanceGroupId"=>InstanceGroupId), args)); aws=aws)
 
 """
     RemoveManagedScalingPolicy()
@@ -370,8 +370,8 @@ RemoveAutoScalingPolicy(ClusterId, InstanceGroupId, args::AbstractDict{String, <
 - `ClusterId`:  Specifies the ID of the cluster from which the managed scaling policy will be removed. 
 
 """
-RemoveManagedScalingPolicy(ClusterId; aws::AWSConfig=AWSConfig()) = emr("RemoveManagedScalingPolicy", Dict{String, Any}("ClusterId"=>ClusterId); aws=aws)
-RemoveManagedScalingPolicy(ClusterId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = emr("RemoveManagedScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws=aws)
+RemoveManagedScalingPolicy(ClusterId; aws::AWSConfig=AWS.aws_config) = emr("RemoveManagedScalingPolicy", Dict{String, Any}("ClusterId"=>ClusterId); aws=aws)
+RemoveManagedScalingPolicy(ClusterId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = emr("RemoveManagedScalingPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws=aws)
 
 """
     RemoveTags()
@@ -383,8 +383,8 @@ Removes tags from an Amazon EMR resource. Tags make it easier to associate clust
 - `TagKeys`: A list of tag keys to remove from a resource.
 
 """
-RemoveTags(ResourceId, TagKeys; aws::AWSConfig=AWSConfig()) = emr("RemoveTags", Dict{String, Any}("ResourceId"=>ResourceId, "TagKeys"=>TagKeys); aws=aws)
-RemoveTags(ResourceId, TagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = emr("RemoveTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "TagKeys"=>TagKeys), args)); aws=aws)
+RemoveTags(ResourceId, TagKeys; aws::AWSConfig=AWS.aws_config) = emr("RemoveTags", Dict{String, Any}("ResourceId"=>ResourceId, "TagKeys"=>TagKeys); aws=aws)
+RemoveTags(ResourceId, TagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = emr("RemoveTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "TagKeys"=>TagKeys), args)); aws=aws)
 
 """
     RunJobFlow()
@@ -421,8 +421,8 @@ RunJobFlow creates and starts running a new cluster (job flow). The cluster runs
 - `Tags`: A list of tags to associate with a cluster and propagate to Amazon EC2 instances.
 - `VisibleToAllUsers`: A value of true indicates that all IAM users in the AWS account can perform cluster actions if they have the proper IAM policy permissions. This is the default. A value of false indicates that only the IAM user who created the cluster can perform actions.
 """
-RunJobFlow(Instances, Name; aws::AWSConfig=AWSConfig()) = emr("RunJobFlow", Dict{String, Any}("Instances"=>Instances, "Name"=>Name); aws=aws)
-RunJobFlow(Instances, Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = emr("RunJobFlow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Instances"=>Instances, "Name"=>Name), args)); aws=aws)
+RunJobFlow(Instances, Name; aws::AWSConfig=AWS.aws_config) = emr("RunJobFlow", Dict{String, Any}("Instances"=>Instances, "Name"=>Name); aws=aws)
+RunJobFlow(Instances, Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = emr("RunJobFlow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Instances"=>Instances, "Name"=>Name), args)); aws=aws)
 
 """
     SetTerminationProtection()
@@ -434,8 +434,8 @@ SetTerminationProtection locks a cluster (job flow) so the EC2 instances in the 
 - `TerminationProtected`: A Boolean that indicates whether to protect the cluster and prevent the Amazon EC2 instances in the cluster from shutting down due to API calls, user intervention, or job-flow error.
 
 """
-SetTerminationProtection(JobFlowIds, TerminationProtected; aws::AWSConfig=AWSConfig()) = emr("SetTerminationProtection", Dict{String, Any}("JobFlowIds"=>JobFlowIds, "TerminationProtected"=>TerminationProtected); aws=aws)
-SetTerminationProtection(JobFlowIds, TerminationProtected, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = emr("SetTerminationProtection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobFlowIds"=>JobFlowIds, "TerminationProtected"=>TerminationProtected), args)); aws=aws)
+SetTerminationProtection(JobFlowIds, TerminationProtected; aws::AWSConfig=AWS.aws_config) = emr("SetTerminationProtection", Dict{String, Any}("JobFlowIds"=>JobFlowIds, "TerminationProtected"=>TerminationProtected); aws=aws)
+SetTerminationProtection(JobFlowIds, TerminationProtected, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = emr("SetTerminationProtection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobFlowIds"=>JobFlowIds, "TerminationProtected"=>TerminationProtected), args)); aws=aws)
 
 """
     SetVisibleToAllUsers()
@@ -447,8 +447,8 @@ Sets the Cluster VisibleToAllUsers value, which determines whether the cluster i
 - `VisibleToAllUsers`: A value of true indicates that all IAM users in the AWS account can perform cluster actions if they have the proper IAM policy permissions. This is the default. A value of false indicates that only the IAM user who created the cluster can perform actions.
 
 """
-SetVisibleToAllUsers(JobFlowIds, VisibleToAllUsers; aws::AWSConfig=AWSConfig()) = emr("SetVisibleToAllUsers", Dict{String, Any}("JobFlowIds"=>JobFlowIds, "VisibleToAllUsers"=>VisibleToAllUsers); aws=aws)
-SetVisibleToAllUsers(JobFlowIds, VisibleToAllUsers, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = emr("SetVisibleToAllUsers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobFlowIds"=>JobFlowIds, "VisibleToAllUsers"=>VisibleToAllUsers), args)); aws=aws)
+SetVisibleToAllUsers(JobFlowIds, VisibleToAllUsers; aws::AWSConfig=AWS.aws_config) = emr("SetVisibleToAllUsers", Dict{String, Any}("JobFlowIds"=>JobFlowIds, "VisibleToAllUsers"=>VisibleToAllUsers); aws=aws)
+SetVisibleToAllUsers(JobFlowIds, VisibleToAllUsers, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = emr("SetVisibleToAllUsers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobFlowIds"=>JobFlowIds, "VisibleToAllUsers"=>VisibleToAllUsers), args)); aws=aws)
 
 """
     TerminateJobFlows()
@@ -459,5 +459,5 @@ TerminateJobFlows shuts a list of clusters (job flows) down. When a job flow is 
 - `JobFlowIds`: A list of job flows to be shutdown.
 
 """
-TerminateJobFlows(JobFlowIds; aws::AWSConfig=AWSConfig()) = emr("TerminateJobFlows", Dict{String, Any}("JobFlowIds"=>JobFlowIds); aws=aws)
-TerminateJobFlows(JobFlowIds, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = emr("TerminateJobFlows", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobFlowIds"=>JobFlowIds), args)); aws=aws)
+TerminateJobFlows(JobFlowIds; aws::AWSConfig=AWS.aws_config) = emr("TerminateJobFlows", Dict{String, Any}("JobFlowIds"=>JobFlowIds); aws=aws)
+TerminateJobFlows(JobFlowIds, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = emr("TerminateJobFlows", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobFlowIds"=>JobFlowIds), args)); aws=aws)

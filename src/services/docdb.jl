@@ -16,8 +16,8 @@ Adds metadata tags to an Amazon DocumentDB resource. You can use these tags with
 # Optional Parameters
 - `Tags`: The tags to be assigned to the Amazon DocumentDB resource. 
 """
-AddTagsToResource(ResourceName, Tag; aws::AWSConfig=AWSConfig()) = docdb("AddTagsToResource", Dict{String, Any}("ResourceName"=>ResourceName, "Tag"=>Tag); aws=aws)
-AddTagsToResource(ResourceName, Tag, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("AddTagsToResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "Tag"=>Tag), args)); aws=aws)
+AddTagsToResource(ResourceName, Tag; aws::AWSConfig=AWS.aws_config) = docdb("AddTagsToResource", Dict{String, Any}("ResourceName"=>ResourceName, "Tag"=>Tag); aws=aws)
+AddTagsToResource(ResourceName, Tag, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("AddTagsToResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "Tag"=>Tag), args)); aws=aws)
 
 """
     ApplyPendingMaintenanceAction()
@@ -30,8 +30,8 @@ Applies a pending maintenance action to a resource (for example, to a DB instanc
 - `ResourceIdentifier`: The Amazon Resource Name (ARN) of the resource that the pending maintenance action applies to.
 
 """
-ApplyPendingMaintenanceAction(ApplyAction, OptInType, ResourceIdentifier; aws::AWSConfig=AWSConfig()) = docdb("ApplyPendingMaintenanceAction", Dict{String, Any}("ApplyAction"=>ApplyAction, "OptInType"=>OptInType, "ResourceIdentifier"=>ResourceIdentifier); aws=aws)
-ApplyPendingMaintenanceAction(ApplyAction, OptInType, ResourceIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("ApplyPendingMaintenanceAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplyAction"=>ApplyAction, "OptInType"=>OptInType, "ResourceIdentifier"=>ResourceIdentifier), args)); aws=aws)
+ApplyPendingMaintenanceAction(ApplyAction, OptInType, ResourceIdentifier; aws::AWSConfig=AWS.aws_config) = docdb("ApplyPendingMaintenanceAction", Dict{String, Any}("ApplyAction"=>ApplyAction, "OptInType"=>OptInType, "ResourceIdentifier"=>ResourceIdentifier); aws=aws)
+ApplyPendingMaintenanceAction(ApplyAction, OptInType, ResourceIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("ApplyPendingMaintenanceAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplyAction"=>ApplyAction, "OptInType"=>OptInType, "ResourceIdentifier"=>ResourceIdentifier), args)); aws=aws)
 
 """
     CopyDBClusterParameterGroup()
@@ -46,8 +46,8 @@ Copies the specified cluster parameter group.
 # Optional Parameters
 - `Tags`: The tags that are to be assigned to the parameter group.
 """
-CopyDBClusterParameterGroup(SourceDBClusterParameterGroupIdentifier, TargetDBClusterParameterGroupDescription, TargetDBClusterParameterGroupIdentifier; aws::AWSConfig=AWSConfig()) = docdb("CopyDBClusterParameterGroup", Dict{String, Any}("SourceDBClusterParameterGroupIdentifier"=>SourceDBClusterParameterGroupIdentifier, "TargetDBClusterParameterGroupDescription"=>TargetDBClusterParameterGroupDescription, "TargetDBClusterParameterGroupIdentifier"=>TargetDBClusterParameterGroupIdentifier); aws=aws)
-CopyDBClusterParameterGroup(SourceDBClusterParameterGroupIdentifier, TargetDBClusterParameterGroupDescription, TargetDBClusterParameterGroupIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("CopyDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceDBClusterParameterGroupIdentifier"=>SourceDBClusterParameterGroupIdentifier, "TargetDBClusterParameterGroupDescription"=>TargetDBClusterParameterGroupDescription, "TargetDBClusterParameterGroupIdentifier"=>TargetDBClusterParameterGroupIdentifier), args)); aws=aws)
+CopyDBClusterParameterGroup(SourceDBClusterParameterGroupIdentifier, TargetDBClusterParameterGroupDescription, TargetDBClusterParameterGroupIdentifier; aws::AWSConfig=AWS.aws_config) = docdb("CopyDBClusterParameterGroup", Dict{String, Any}("SourceDBClusterParameterGroupIdentifier"=>SourceDBClusterParameterGroupIdentifier, "TargetDBClusterParameterGroupDescription"=>TargetDBClusterParameterGroupDescription, "TargetDBClusterParameterGroupIdentifier"=>TargetDBClusterParameterGroupIdentifier); aws=aws)
+CopyDBClusterParameterGroup(SourceDBClusterParameterGroupIdentifier, TargetDBClusterParameterGroupDescription, TargetDBClusterParameterGroupIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("CopyDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceDBClusterParameterGroupIdentifier"=>SourceDBClusterParameterGroupIdentifier, "TargetDBClusterParameterGroupDescription"=>TargetDBClusterParameterGroupDescription, "TargetDBClusterParameterGroupIdentifier"=>TargetDBClusterParameterGroupIdentifier), args)); aws=aws)
 
 """
     CopyDBClusterSnapshot()
@@ -64,8 +64,8 @@ Copies a snapshot of a cluster. To copy a cluster snapshot from a shared manual 
 - `PreSignedUrl`: The URL that contains a Signature Version 4 signed request for the CopyDBClusterSnapshot API action in the AWS Region that contains the source cluster snapshot to copy. You must use the PreSignedUrl parameter when copying an encrypted cluster snapshot from another AWS Region. The presigned URL must be a valid request for the CopyDBSClusterSnapshot API action that can be executed in the source AWS Region that contains the encrypted DB cluster snapshot to be copied. The presigned URL request must contain the following parameter values:    KmsKeyId - The AWS KMS key identifier for the key to use to encrypt the copy of the cluster snapshot in the destination AWS Region. This is the same identifier for both the CopyDBClusterSnapshot action that is called in the destination AWS Region, and the action contained in the presigned URL.    DestinationRegion - The name of the AWS Region that the DB cluster snapshot will be created in.    SourceDBClusterSnapshotIdentifier - The cluster snapshot identifier for the encrypted cluster snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source AWS Region. For example, if you are copying an encrypted cluster snapshot from the us-west-2 AWS Region, then your SourceDBClusterSnapshotIdentifier looks like the following example: arn:aws:rds:us-west-2:123456789012:cluster-snapshot:my-cluster-snapshot-20161115.  
 - `Tags`: The tags to be assigned to the cluster snapshot.
 """
-CopyDBClusterSnapshot(SourceDBClusterSnapshotIdentifier, TargetDBClusterSnapshotIdentifier; aws::AWSConfig=AWSConfig()) = docdb("CopyDBClusterSnapshot", Dict{String, Any}("SourceDBClusterSnapshotIdentifier"=>SourceDBClusterSnapshotIdentifier, "TargetDBClusterSnapshotIdentifier"=>TargetDBClusterSnapshotIdentifier); aws=aws)
-CopyDBClusterSnapshot(SourceDBClusterSnapshotIdentifier, TargetDBClusterSnapshotIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("CopyDBClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceDBClusterSnapshotIdentifier"=>SourceDBClusterSnapshotIdentifier, "TargetDBClusterSnapshotIdentifier"=>TargetDBClusterSnapshotIdentifier), args)); aws=aws)
+CopyDBClusterSnapshot(SourceDBClusterSnapshotIdentifier, TargetDBClusterSnapshotIdentifier; aws::AWSConfig=AWS.aws_config) = docdb("CopyDBClusterSnapshot", Dict{String, Any}("SourceDBClusterSnapshotIdentifier"=>SourceDBClusterSnapshotIdentifier, "TargetDBClusterSnapshotIdentifier"=>TargetDBClusterSnapshotIdentifier); aws=aws)
+CopyDBClusterSnapshot(SourceDBClusterSnapshotIdentifier, TargetDBClusterSnapshotIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("CopyDBClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceDBClusterSnapshotIdentifier"=>SourceDBClusterSnapshotIdentifier, "TargetDBClusterSnapshotIdentifier"=>TargetDBClusterSnapshotIdentifier), args)); aws=aws)
 
 """
     CreateDBCluster()
@@ -94,8 +94,8 @@ Creates a new Amazon DocumentDB cluster.
 - `Tags`: The tags to be assigned to the cluster.
 - `VpcSecurityGroupIds`: A list of EC2 VPC security groups to associate with this cluster.
 """
-CreateDBCluster(DBClusterIdentifier, Engine, MasterUserPassword, MasterUsername; aws::AWSConfig=AWSConfig()) = docdb("CreateDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine, "MasterUserPassword"=>MasterUserPassword, "MasterUsername"=>MasterUsername); aws=aws)
-CreateDBCluster(DBClusterIdentifier, Engine, MasterUserPassword, MasterUsername, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("CreateDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine, "MasterUserPassword"=>MasterUserPassword, "MasterUsername"=>MasterUsername), args)); aws=aws)
+CreateDBCluster(DBClusterIdentifier, Engine, MasterUserPassword, MasterUsername; aws::AWSConfig=AWS.aws_config) = docdb("CreateDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine, "MasterUserPassword"=>MasterUserPassword, "MasterUsername"=>MasterUsername); aws=aws)
+CreateDBCluster(DBClusterIdentifier, Engine, MasterUserPassword, MasterUsername, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("CreateDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine, "MasterUserPassword"=>MasterUserPassword, "MasterUsername"=>MasterUsername), args)); aws=aws)
 
 """
     CreateDBClusterParameterGroup()
@@ -110,8 +110,8 @@ Creates a new cluster parameter group. Parameters in a cluster parameter group a
 # Optional Parameters
 - `Tags`: The tags to be assigned to the cluster parameter group.
 """
-CreateDBClusterParameterGroup(DBClusterParameterGroupName, DBParameterGroupFamily, Description; aws::AWSConfig=AWSConfig()) = docdb("CreateDBClusterParameterGroup", Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName, "DBParameterGroupFamily"=>DBParameterGroupFamily, "Description"=>Description); aws=aws)
-CreateDBClusterParameterGroup(DBClusterParameterGroupName, DBParameterGroupFamily, Description, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("CreateDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName, "DBParameterGroupFamily"=>DBParameterGroupFamily, "Description"=>Description), args)); aws=aws)
+CreateDBClusterParameterGroup(DBClusterParameterGroupName, DBParameterGroupFamily, Description; aws::AWSConfig=AWS.aws_config) = docdb("CreateDBClusterParameterGroup", Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName, "DBParameterGroupFamily"=>DBParameterGroupFamily, "Description"=>Description); aws=aws)
+CreateDBClusterParameterGroup(DBClusterParameterGroupName, DBParameterGroupFamily, Description, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("CreateDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName, "DBParameterGroupFamily"=>DBParameterGroupFamily, "Description"=>Description), args)); aws=aws)
 
 """
     CreateDBClusterSnapshot()
@@ -125,8 +125,8 @@ Creates a snapshot of a cluster.
 # Optional Parameters
 - `Tags`: The tags to be assigned to the cluster snapshot.
 """
-CreateDBClusterSnapshot(DBClusterIdentifier, DBClusterSnapshotIdentifier; aws::AWSConfig=AWSConfig()) = docdb("CreateDBClusterSnapshot", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier); aws=aws)
-CreateDBClusterSnapshot(DBClusterIdentifier, DBClusterSnapshotIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("CreateDBClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), args)); aws=aws)
+CreateDBClusterSnapshot(DBClusterIdentifier, DBClusterSnapshotIdentifier; aws::AWSConfig=AWS.aws_config) = docdb("CreateDBClusterSnapshot", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier); aws=aws)
+CreateDBClusterSnapshot(DBClusterIdentifier, DBClusterSnapshotIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("CreateDBClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), args)); aws=aws)
 
 """
     CreateDBInstance()
@@ -146,8 +146,8 @@ Creates a new instance.
 - `PromotionTier`: A value that specifies the order in which an Amazon DocumentDB replica is promoted to the primary instance after a failure of the existing primary instance. Default: 1 Valid values: 0-15
 - `Tags`: The tags to be assigned to the instance. You can assign up to 10 tags to an instance.
 """
-CreateDBInstance(DBClusterIdentifier, DBInstanceClass, DBInstanceIdentifier, Engine; aws::AWSConfig=AWSConfig()) = docdb("CreateDBInstance", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "DBInstanceClass"=>DBInstanceClass, "DBInstanceIdentifier"=>DBInstanceIdentifier, "Engine"=>Engine); aws=aws)
-CreateDBInstance(DBClusterIdentifier, DBInstanceClass, DBInstanceIdentifier, Engine, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("CreateDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "DBInstanceClass"=>DBInstanceClass, "DBInstanceIdentifier"=>DBInstanceIdentifier, "Engine"=>Engine), args)); aws=aws)
+CreateDBInstance(DBClusterIdentifier, DBInstanceClass, DBInstanceIdentifier, Engine; aws::AWSConfig=AWS.aws_config) = docdb("CreateDBInstance", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "DBInstanceClass"=>DBInstanceClass, "DBInstanceIdentifier"=>DBInstanceIdentifier, "Engine"=>Engine); aws=aws)
+CreateDBInstance(DBClusterIdentifier, DBInstanceClass, DBInstanceIdentifier, Engine, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("CreateDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "DBInstanceClass"=>DBInstanceClass, "DBInstanceIdentifier"=>DBInstanceIdentifier, "Engine"=>Engine), args)); aws=aws)
 
 """
     CreateDBSubnetGroup()
@@ -163,8 +163,8 @@ Creates a new subnet group. subnet groups must contain at least one subnet in at
 - `SubnetIds`: The Amazon EC2 subnet IDs for the subnet group.
 - `Tags`: The tags to be assigned to the subnet group.
 """
-CreateDBSubnetGroup(DBSubnetGroupDescription, DBSubnetGroupName, SubnetIdentifier; aws::AWSConfig=AWSConfig()) = docdb("CreateDBSubnetGroup", Dict{String, Any}("DBSubnetGroupDescription"=>DBSubnetGroupDescription, "DBSubnetGroupName"=>DBSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier); aws=aws)
-CreateDBSubnetGroup(DBSubnetGroupDescription, DBSubnetGroupName, SubnetIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("CreateDBSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSubnetGroupDescription"=>DBSubnetGroupDescription, "DBSubnetGroupName"=>DBSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier), args)); aws=aws)
+CreateDBSubnetGroup(DBSubnetGroupDescription, DBSubnetGroupName, SubnetIdentifier; aws::AWSConfig=AWS.aws_config) = docdb("CreateDBSubnetGroup", Dict{String, Any}("DBSubnetGroupDescription"=>DBSubnetGroupDescription, "DBSubnetGroupName"=>DBSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier); aws=aws)
+CreateDBSubnetGroup(DBSubnetGroupDescription, DBSubnetGroupName, SubnetIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("CreateDBSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSubnetGroupDescription"=>DBSubnetGroupDescription, "DBSubnetGroupName"=>DBSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier), args)); aws=aws)
 
 """
     DeleteDBCluster()
@@ -178,8 +178,8 @@ Deletes a previously provisioned cluster. When you delete a cluster, all automat
 - `FinalDBSnapshotIdentifier`:  The cluster snapshot identifier of the new cluster snapshot created when SkipFinalSnapshot is set to false.    Specifying this parameter and also setting the SkipFinalShapshot parameter to true results in an error.   Constraints:   Must be from 1 to 255 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.  
 - `SkipFinalSnapshot`:  Determines whether a final cluster snapshot is created before the cluster is deleted. If true is specified, no cluster snapshot is created. If false is specified, a cluster snapshot is created before the DB cluster is deleted.   If SkipFinalSnapshot is false, you must specify a FinalDBSnapshotIdentifier parameter.  Default: false 
 """
-DeleteDBCluster(DBClusterIdentifier; aws::AWSConfig=AWSConfig()) = docdb("DeleteDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier); aws=aws)
-DeleteDBCluster(DBClusterIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("DeleteDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), args)); aws=aws)
+DeleteDBCluster(DBClusterIdentifier; aws::AWSConfig=AWS.aws_config) = docdb("DeleteDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier); aws=aws)
+DeleteDBCluster(DBClusterIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("DeleteDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), args)); aws=aws)
 
 """
     DeleteDBClusterParameterGroup()
@@ -190,8 +190,8 @@ Deletes a specified cluster parameter group. The cluster parameter group to be d
 - `DBClusterParameterGroupName`: The name of the cluster parameter group. Constraints:   Must be the name of an existing cluster parameter group.   You can't delete a default cluster parameter group.   Cannot be associated with any clusters.  
 
 """
-DeleteDBClusterParameterGroup(DBClusterParameterGroupName; aws::AWSConfig=AWSConfig()) = docdb("DeleteDBClusterParameterGroup", Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName); aws=aws)
-DeleteDBClusterParameterGroup(DBClusterParameterGroupName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("DeleteDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName), args)); aws=aws)
+DeleteDBClusterParameterGroup(DBClusterParameterGroupName; aws::AWSConfig=AWS.aws_config) = docdb("DeleteDBClusterParameterGroup", Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName); aws=aws)
+DeleteDBClusterParameterGroup(DBClusterParameterGroupName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("DeleteDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName), args)); aws=aws)
 
 """
     DeleteDBClusterSnapshot()
@@ -202,8 +202,8 @@ Deletes a cluster snapshot. If the snapshot is being copied, the copy operation 
 - `DBClusterSnapshotIdentifier`: The identifier of the cluster snapshot to delete. Constraints: Must be the name of an existing cluster snapshot in the available state.
 
 """
-DeleteDBClusterSnapshot(DBClusterSnapshotIdentifier; aws::AWSConfig=AWSConfig()) = docdb("DeleteDBClusterSnapshot", Dict{String, Any}("DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier); aws=aws)
-DeleteDBClusterSnapshot(DBClusterSnapshotIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("DeleteDBClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), args)); aws=aws)
+DeleteDBClusterSnapshot(DBClusterSnapshotIdentifier; aws::AWSConfig=AWS.aws_config) = docdb("DeleteDBClusterSnapshot", Dict{String, Any}("DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier); aws=aws)
+DeleteDBClusterSnapshot(DBClusterSnapshotIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("DeleteDBClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), args)); aws=aws)
 
 """
     DeleteDBInstance()
@@ -214,8 +214,8 @@ Deletes a previously provisioned instance.
 - `DBInstanceIdentifier`: The instance identifier for the instance to be deleted. This parameter isn't case sensitive. Constraints:   Must match the name of an existing instance.  
 
 """
-DeleteDBInstance(DBInstanceIdentifier; aws::AWSConfig=AWSConfig()) = docdb("DeleteDBInstance", Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier); aws=aws)
-DeleteDBInstance(DBInstanceIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("DeleteDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), args)); aws=aws)
+DeleteDBInstance(DBInstanceIdentifier; aws::AWSConfig=AWS.aws_config) = docdb("DeleteDBInstance", Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier); aws=aws)
+DeleteDBInstance(DBInstanceIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("DeleteDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), args)); aws=aws)
 
 """
     DeleteDBSubnetGroup()
@@ -226,8 +226,8 @@ Deletes a subnet group.  The specified database subnet group must not be associa
 - `DBSubnetGroupName`: The name of the database subnet group to delete.  You can't delete the default subnet group.  Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup 
 
 """
-DeleteDBSubnetGroup(DBSubnetGroupName; aws::AWSConfig=AWSConfig()) = docdb("DeleteDBSubnetGroup", Dict{String, Any}("DBSubnetGroupName"=>DBSubnetGroupName); aws=aws)
-DeleteDBSubnetGroup(DBSubnetGroupName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("DeleteDBSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSubnetGroupName"=>DBSubnetGroupName), args)); aws=aws)
+DeleteDBSubnetGroup(DBSubnetGroupName; aws::AWSConfig=AWS.aws_config) = docdb("DeleteDBSubnetGroup", Dict{String, Any}("DBSubnetGroupName"=>DBSubnetGroupName); aws=aws)
+DeleteDBSubnetGroup(DBSubnetGroupName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("DeleteDBSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSubnetGroupName"=>DBSubnetGroupName), args)); aws=aws)
 
 """
     DescribeCertificates()
@@ -240,8 +240,8 @@ Returns a list of certificate authority (CA) certificates provided by Amazon Doc
 - `Marker`: An optional pagination token provided by a previous DescribeCertificates request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
 - `MaxRecords`: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints:   Minimum: 20   Maximum: 100  
 """
-DescribeCertificates(; aws::AWSConfig=AWSConfig()) = docdb("DescribeCertificates"; aws=aws)
-DescribeCertificates(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("DescribeCertificates", args; aws=aws)
+DescribeCertificates(; aws::AWSConfig=AWS.aws_config) = docdb("DescribeCertificates"; aws=aws)
+DescribeCertificates(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("DescribeCertificates", args; aws=aws)
 
 """
     DescribeDBClusterParameterGroups()
@@ -254,8 +254,8 @@ Returns a list of DBClusterParameterGroup descriptions. If a DBClusterParameterG
 - `Marker`: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
 - `MaxRecords`:  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
 """
-DescribeDBClusterParameterGroups(; aws::AWSConfig=AWSConfig()) = docdb("DescribeDBClusterParameterGroups"; aws=aws)
-DescribeDBClusterParameterGroups(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("DescribeDBClusterParameterGroups", args; aws=aws)
+DescribeDBClusterParameterGroups(; aws::AWSConfig=AWS.aws_config) = docdb("DescribeDBClusterParameterGroups"; aws=aws)
+DescribeDBClusterParameterGroups(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("DescribeDBClusterParameterGroups", args; aws=aws)
 
 """
     DescribeDBClusterParameters()
@@ -271,8 +271,8 @@ Returns the detailed parameter list for a particular cluster parameter group.
 - `MaxRecords`:  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
 - `Source`:  A value that indicates to return only parameters for a specific source. Parameter sources can be engine, service, or customer. 
 """
-DescribeDBClusterParameters(DBClusterParameterGroupName; aws::AWSConfig=AWSConfig()) = docdb("DescribeDBClusterParameters", Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName); aws=aws)
-DescribeDBClusterParameters(DBClusterParameterGroupName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("DescribeDBClusterParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName), args)); aws=aws)
+DescribeDBClusterParameters(DBClusterParameterGroupName; aws::AWSConfig=AWS.aws_config) = docdb("DescribeDBClusterParameters", Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName); aws=aws)
+DescribeDBClusterParameters(DBClusterParameterGroupName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("DescribeDBClusterParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName), args)); aws=aws)
 
 """
     DescribeDBClusterSnapshotAttributes()
@@ -283,8 +283,8 @@ Returns a list of cluster snapshot attribute names and values for a manual DB cl
 - `DBClusterSnapshotIdentifier`: The identifier for the cluster snapshot to describe the attributes for.
 
 """
-DescribeDBClusterSnapshotAttributes(DBClusterSnapshotIdentifier; aws::AWSConfig=AWSConfig()) = docdb("DescribeDBClusterSnapshotAttributes", Dict{String, Any}("DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier); aws=aws)
-DescribeDBClusterSnapshotAttributes(DBClusterSnapshotIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("DescribeDBClusterSnapshotAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), args)); aws=aws)
+DescribeDBClusterSnapshotAttributes(DBClusterSnapshotIdentifier; aws::AWSConfig=AWS.aws_config) = docdb("DescribeDBClusterSnapshotAttributes", Dict{String, Any}("DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier); aws=aws)
+DescribeDBClusterSnapshotAttributes(DBClusterSnapshotIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("DescribeDBClusterSnapshotAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), args)); aws=aws)
 
 """
     DescribeDBClusterSnapshots()
@@ -301,8 +301,8 @@ Returns information about cluster snapshots. This API operation supports paginat
 - `MaxRecords`:  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
 - `SnapshotType`: The type of cluster snapshots to be returned. You can specify one of the following values:    automated - Return all cluster snapshots that Amazon DocumentDB has automatically created for your AWS account.    manual - Return all cluster snapshots that you have manually created for your AWS account.    shared - Return all manual cluster snapshots that have been shared to your AWS account.    public - Return all cluster snapshots that have been marked as public.   If you don't specify a SnapshotType value, then both automated and manual cluster snapshots are returned. You can include shared cluster snapshots with these results by setting the IncludeShared parameter to true. You can include public cluster snapshots with these results by setting the IncludePublic parameter to true. The IncludeShared and IncludePublic parameters don't apply for SnapshotType values of manual or automated. The IncludePublic parameter doesn't apply when SnapshotType is set to shared. The IncludeShared parameter doesn't apply when SnapshotType is set to public.
 """
-DescribeDBClusterSnapshots(; aws::AWSConfig=AWSConfig()) = docdb("DescribeDBClusterSnapshots"; aws=aws)
-DescribeDBClusterSnapshots(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("DescribeDBClusterSnapshots", args; aws=aws)
+DescribeDBClusterSnapshots(; aws::AWSConfig=AWS.aws_config) = docdb("DescribeDBClusterSnapshots"; aws=aws)
+DescribeDBClusterSnapshots(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("DescribeDBClusterSnapshots", args; aws=aws)
 
 """
     DescribeDBClusters()
@@ -315,8 +315,8 @@ Returns information about provisioned Amazon DocumentDB clusters. This API opera
 - `Marker`: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
 - `MaxRecords`:  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
 """
-DescribeDBClusters(; aws::AWSConfig=AWSConfig()) = docdb("DescribeDBClusters"; aws=aws)
-DescribeDBClusters(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("DescribeDBClusters", args; aws=aws)
+DescribeDBClusters(; aws::AWSConfig=AWS.aws_config) = docdb("DescribeDBClusters"; aws=aws)
+DescribeDBClusters(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("DescribeDBClusters", args; aws=aws)
 
 """
     DescribeDBEngineVersions()
@@ -334,8 +334,8 @@ Returns a list of the available engines.
 - `Marker`: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
 - `MaxRecords`:  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
 """
-DescribeDBEngineVersions(; aws::AWSConfig=AWSConfig()) = docdb("DescribeDBEngineVersions"; aws=aws)
-DescribeDBEngineVersions(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("DescribeDBEngineVersions", args; aws=aws)
+DescribeDBEngineVersions(; aws::AWSConfig=AWS.aws_config) = docdb("DescribeDBEngineVersions"; aws=aws)
+DescribeDBEngineVersions(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("DescribeDBEngineVersions", args; aws=aws)
 
 """
     DescribeDBInstances()
@@ -348,8 +348,8 @@ Returns information about provisioned Amazon DocumentDB instances. This API supp
 - `Marker`: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
 - `MaxRecords`:  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
 """
-DescribeDBInstances(; aws::AWSConfig=AWSConfig()) = docdb("DescribeDBInstances"; aws=aws)
-DescribeDBInstances(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("DescribeDBInstances", args; aws=aws)
+DescribeDBInstances(; aws::AWSConfig=AWS.aws_config) = docdb("DescribeDBInstances"; aws=aws)
+DescribeDBInstances(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("DescribeDBInstances", args; aws=aws)
 
 """
     DescribeDBSubnetGroups()
@@ -362,8 +362,8 @@ Returns a list of DBSubnetGroup descriptions. If a DBSubnetGroupName is specifie
 - `Marker`: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
 - `MaxRecords`:  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
 """
-DescribeDBSubnetGroups(; aws::AWSConfig=AWSConfig()) = docdb("DescribeDBSubnetGroups"; aws=aws)
-DescribeDBSubnetGroups(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("DescribeDBSubnetGroups", args; aws=aws)
+DescribeDBSubnetGroups(; aws::AWSConfig=AWS.aws_config) = docdb("DescribeDBSubnetGroups"; aws=aws)
+DescribeDBSubnetGroups(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("DescribeDBSubnetGroups", args; aws=aws)
 
 """
     DescribeEngineDefaultClusterParameters()
@@ -378,8 +378,8 @@ Returns the default engine and system parameter information for the cluster data
 - `Marker`: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
 - `MaxRecords`:  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
 """
-DescribeEngineDefaultClusterParameters(DBParameterGroupFamily; aws::AWSConfig=AWSConfig()) = docdb("DescribeEngineDefaultClusterParameters", Dict{String, Any}("DBParameterGroupFamily"=>DBParameterGroupFamily); aws=aws)
-DescribeEngineDefaultClusterParameters(DBParameterGroupFamily, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("DescribeEngineDefaultClusterParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupFamily"=>DBParameterGroupFamily), args)); aws=aws)
+DescribeEngineDefaultClusterParameters(DBParameterGroupFamily; aws::AWSConfig=AWS.aws_config) = docdb("DescribeEngineDefaultClusterParameters", Dict{String, Any}("DBParameterGroupFamily"=>DBParameterGroupFamily); aws=aws)
+DescribeEngineDefaultClusterParameters(DBParameterGroupFamily, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("DescribeEngineDefaultClusterParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupFamily"=>DBParameterGroupFamily), args)); aws=aws)
 
 """
     DescribeEventCategories()
@@ -390,8 +390,8 @@ Displays a list of categories for all event source types, or, if specified, for 
 - `Filters`: This parameter is not currently supported.
 - `SourceType`: The type of source that is generating the events. Valid values: db-instance, db-parameter-group, db-security-group, db-snapshot 
 """
-DescribeEventCategories(; aws::AWSConfig=AWSConfig()) = docdb("DescribeEventCategories"; aws=aws)
-DescribeEventCategories(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("DescribeEventCategories", args; aws=aws)
+DescribeEventCategories(; aws::AWSConfig=AWS.aws_config) = docdb("DescribeEventCategories"; aws=aws)
+DescribeEventCategories(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("DescribeEventCategories", args; aws=aws)
 
 """
     DescribeEvents()
@@ -409,8 +409,8 @@ Returns events related to instances, security groups, snapshots, and DB paramete
 - `SourceType`: The event source to retrieve events for. If no value is specified, all events are returned.
 - `StartTime`:  The beginning of the time interval to retrieve events for, specified in ISO 8601 format.  Example: 2009-07-08T18:00Z
 """
-DescribeEvents(; aws::AWSConfig=AWSConfig()) = docdb("DescribeEvents"; aws=aws)
-DescribeEvents(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("DescribeEvents", args; aws=aws)
+DescribeEvents(; aws::AWSConfig=AWS.aws_config) = docdb("DescribeEvents"; aws=aws)
+DescribeEvents(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("DescribeEvents", args; aws=aws)
 
 """
     DescribeOrderableDBInstanceOptions()
@@ -429,8 +429,8 @@ Returns a list of orderable instance options for the specified engine.
 - `MaxRecords`:  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
 - `Vpc`: The virtual private cloud (VPC) filter value. Specify this parameter to show only the available VPC or non-VPC offerings.
 """
-DescribeOrderableDBInstanceOptions(Engine; aws::AWSConfig=AWSConfig()) = docdb("DescribeOrderableDBInstanceOptions", Dict{String, Any}("Engine"=>Engine); aws=aws)
-DescribeOrderableDBInstanceOptions(Engine, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("DescribeOrderableDBInstanceOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Engine"=>Engine), args)); aws=aws)
+DescribeOrderableDBInstanceOptions(Engine; aws::AWSConfig=AWS.aws_config) = docdb("DescribeOrderableDBInstanceOptions", Dict{String, Any}("Engine"=>Engine); aws=aws)
+DescribeOrderableDBInstanceOptions(Engine, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("DescribeOrderableDBInstanceOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Engine"=>Engine), args)); aws=aws)
 
 """
     DescribePendingMaintenanceActions()
@@ -443,8 +443,8 @@ Returns a list of resources (for example, instances) that have at least one pend
 - `MaxRecords`:  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
 - `ResourceIdentifier`: The ARN of a resource to return pending maintenance actions for.
 """
-DescribePendingMaintenanceActions(; aws::AWSConfig=AWSConfig()) = docdb("DescribePendingMaintenanceActions"; aws=aws)
-DescribePendingMaintenanceActions(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("DescribePendingMaintenanceActions", args; aws=aws)
+DescribePendingMaintenanceActions(; aws::AWSConfig=AWS.aws_config) = docdb("DescribePendingMaintenanceActions"; aws=aws)
+DescribePendingMaintenanceActions(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("DescribePendingMaintenanceActions", args; aws=aws)
 
 """
     FailoverDBCluster()
@@ -455,8 +455,8 @@ Forces a failover for a cluster. A failover for a cluster promotes one of the Am
 - `DBClusterIdentifier`: A cluster identifier to force a failover for. This parameter is not case sensitive. Constraints:   Must match the identifier of an existing DBCluster.  
 - `TargetDBInstanceIdentifier`: The name of the instance to promote to the primary instance. You must specify the instance identifier for an Amazon DocumentDB replica in the cluster. For example, mydbcluster-replica1.
 """
-FailoverDBCluster(; aws::AWSConfig=AWSConfig()) = docdb("FailoverDBCluster"; aws=aws)
-FailoverDBCluster(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("FailoverDBCluster", args; aws=aws)
+FailoverDBCluster(; aws::AWSConfig=AWS.aws_config) = docdb("FailoverDBCluster"; aws=aws)
+FailoverDBCluster(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("FailoverDBCluster", args; aws=aws)
 
 """
     ListTagsForResource()
@@ -469,8 +469,8 @@ Lists all tags on an Amazon DocumentDB resource.
 # Optional Parameters
 - `Filters`: This parameter is not currently supported.
 """
-ListTagsForResource(ResourceName; aws::AWSConfig=AWSConfig()) = docdb("ListTagsForResource", Dict{String, Any}("ResourceName"=>ResourceName); aws=aws)
-ListTagsForResource(ResourceName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName), args)); aws=aws)
+ListTagsForResource(ResourceName; aws::AWSConfig=AWS.aws_config) = docdb("ListTagsForResource", Dict{String, Any}("ResourceName"=>ResourceName); aws=aws)
+ListTagsForResource(ResourceName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName), args)); aws=aws)
 
 """
     ModifyDBCluster()
@@ -494,8 +494,8 @@ Modifies a setting for an Amazon DocumentDB cluster. You can change one or more 
 - `PreferredMaintenanceWindow`: The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region, occurring on a random day of the week.  Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
 - `VpcSecurityGroupIds`: A list of virtual private cloud (VPC) security groups that the cluster will belong to.
 """
-ModifyDBCluster(DBClusterIdentifier; aws::AWSConfig=AWSConfig()) = docdb("ModifyDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier); aws=aws)
-ModifyDBCluster(DBClusterIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("ModifyDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), args)); aws=aws)
+ModifyDBCluster(DBClusterIdentifier; aws::AWSConfig=AWS.aws_config) = docdb("ModifyDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier); aws=aws)
+ModifyDBCluster(DBClusterIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("ModifyDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), args)); aws=aws)
 
 """
     ModifyDBClusterParameterGroup()
@@ -509,8 +509,8 @@ ModifyDBCluster(DBClusterIdentifier, args::AbstractDict{String, <:Any}; aws::AWS
 # Optional Parameters
 - `Parameters`: A list of parameters in the cluster parameter group to modify.
 """
-ModifyDBClusterParameterGroup(DBClusterParameterGroupName, Parameter; aws::AWSConfig=AWSConfig()) = docdb("ModifyDBClusterParameterGroup", Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName, "Parameter"=>Parameter); aws=aws)
-ModifyDBClusterParameterGroup(DBClusterParameterGroupName, Parameter, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("ModifyDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName, "Parameter"=>Parameter), args)); aws=aws)
+ModifyDBClusterParameterGroup(DBClusterParameterGroupName, Parameter; aws::AWSConfig=AWS.aws_config) = docdb("ModifyDBClusterParameterGroup", Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName, "Parameter"=>Parameter); aws=aws)
+ModifyDBClusterParameterGroup(DBClusterParameterGroupName, Parameter, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("ModifyDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName, "Parameter"=>Parameter), args)); aws=aws)
 
 """
     ModifyDBClusterSnapshotAttribute()
@@ -525,8 +525,8 @@ Adds an attribute and values to, or removes an attribute and values from, a manu
 - `ValuesToAdd`: A list of cluster snapshot attributes to add to the attribute specified by AttributeName. To authorize other AWS accounts to copy or restore a manual cluster snapshot, set this list to include one or more AWS account IDs. To make the manual cluster snapshot restorable by any AWS account, set it to all. Do not add the all value for any manual cluster snapshots that contain private information that you don't want to be available to all AWS accounts.
 - `ValuesToRemove`: A list of cluster snapshot attributes to remove from the attribute specified by AttributeName. To remove authorization for other AWS accounts to copy or restore a manual cluster snapshot, set this list to include one or more AWS account identifiers. To remove authorization for any AWS account to copy or restore the cluster snapshot, set it to all . If you specify all, an AWS account whose account ID is explicitly added to the restore attribute can still copy or restore a manual cluster snapshot.
 """
-ModifyDBClusterSnapshotAttribute(AttributeName, DBClusterSnapshotIdentifier; aws::AWSConfig=AWSConfig()) = docdb("ModifyDBClusterSnapshotAttribute", Dict{String, Any}("AttributeName"=>AttributeName, "DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier); aws=aws)
-ModifyDBClusterSnapshotAttribute(AttributeName, DBClusterSnapshotIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("ModifyDBClusterSnapshotAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeName"=>AttributeName, "DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), args)); aws=aws)
+ModifyDBClusterSnapshotAttribute(AttributeName, DBClusterSnapshotIdentifier; aws::AWSConfig=AWS.aws_config) = docdb("ModifyDBClusterSnapshotAttribute", Dict{String, Any}("AttributeName"=>AttributeName, "DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier); aws=aws)
+ModifyDBClusterSnapshotAttribute(AttributeName, DBClusterSnapshotIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("ModifyDBClusterSnapshotAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeName"=>AttributeName, "DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), args)); aws=aws)
 
 """
     ModifyDBInstance()
@@ -545,8 +545,8 @@ Modifies settings for an instance. You can change one or more database configura
 - `PreferredMaintenanceWindow`: The weekly time range (in UTC) during which system maintenance can occur, which might result in an outage. Changing this parameter doesn't result in an outage except in the following situation, and the change is asynchronously applied as soon as possible. If there are pending actions that cause a reboot, and the maintenance window is changed to include the current time, changing this parameter causes a reboot of the instance. If you are moving this window to the current time, there must be at least 30 minutes between the current time and end of the window to ensure that pending changes are applied. Default: Uses existing setting. Format: ddd:hh24:mi-ddd:hh24:mi  Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Must be at least 30 minutes.
 - `PromotionTier`: A value that specifies the order in which an Amazon DocumentDB replica is promoted to the primary instance after a failure of the existing primary instance. Default: 1 Valid values: 0-15
 """
-ModifyDBInstance(DBInstanceIdentifier; aws::AWSConfig=AWSConfig()) = docdb("ModifyDBInstance", Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier); aws=aws)
-ModifyDBInstance(DBInstanceIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("ModifyDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), args)); aws=aws)
+ModifyDBInstance(DBInstanceIdentifier; aws::AWSConfig=AWS.aws_config) = docdb("ModifyDBInstance", Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier); aws=aws)
+ModifyDBInstance(DBInstanceIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("ModifyDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), args)); aws=aws)
 
 """
     ModifyDBSubnetGroup()
@@ -561,8 +561,8 @@ Modifies an existing subnet group. subnet groups must contain at least one subne
 - `DBSubnetGroupDescription`: The description for the subnet group.
 - `SubnetIds`: The Amazon EC2 subnet IDs for the subnet group.
 """
-ModifyDBSubnetGroup(DBSubnetGroupName, SubnetIdentifier; aws::AWSConfig=AWSConfig()) = docdb("ModifyDBSubnetGroup", Dict{String, Any}("DBSubnetGroupName"=>DBSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier); aws=aws)
-ModifyDBSubnetGroup(DBSubnetGroupName, SubnetIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("ModifyDBSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSubnetGroupName"=>DBSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier), args)); aws=aws)
+ModifyDBSubnetGroup(DBSubnetGroupName, SubnetIdentifier; aws::AWSConfig=AWS.aws_config) = docdb("ModifyDBSubnetGroup", Dict{String, Any}("DBSubnetGroupName"=>DBSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier); aws=aws)
+ModifyDBSubnetGroup(DBSubnetGroupName, SubnetIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("ModifyDBSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSubnetGroupName"=>DBSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier), args)); aws=aws)
 
 """
     RebootDBInstance()
@@ -575,8 +575,8 @@ You might need to reboot your instance, usually for maintenance reasons. For exa
 # Optional Parameters
 - `ForceFailover`:  When true, the reboot is conducted through a Multi-AZ failover.  Constraint: You can't specify true if the instance is not configured for Multi-AZ.
 """
-RebootDBInstance(DBInstanceIdentifier; aws::AWSConfig=AWSConfig()) = docdb("RebootDBInstance", Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier); aws=aws)
-RebootDBInstance(DBInstanceIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("RebootDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), args)); aws=aws)
+RebootDBInstance(DBInstanceIdentifier; aws::AWSConfig=AWS.aws_config) = docdb("RebootDBInstance", Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier); aws=aws)
+RebootDBInstance(DBInstanceIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("RebootDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), args)); aws=aws)
 
 """
     RemoveTagsFromResource()
@@ -588,8 +588,8 @@ Removes metadata tags from an Amazon DocumentDB resource.
 - `TagKeys`: The tag key (name) of the tag to be removed.
 
 """
-RemoveTagsFromResource(ResourceName, TagKeys; aws::AWSConfig=AWSConfig()) = docdb("RemoveTagsFromResource", Dict{String, Any}("ResourceName"=>ResourceName, "TagKeys"=>TagKeys); aws=aws)
-RemoveTagsFromResource(ResourceName, TagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("RemoveTagsFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "TagKeys"=>TagKeys), args)); aws=aws)
+RemoveTagsFromResource(ResourceName, TagKeys; aws::AWSConfig=AWS.aws_config) = docdb("RemoveTagsFromResource", Dict{String, Any}("ResourceName"=>ResourceName, "TagKeys"=>TagKeys); aws=aws)
+RemoveTagsFromResource(ResourceName, TagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("RemoveTagsFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "TagKeys"=>TagKeys), args)); aws=aws)
 
 """
     ResetDBClusterParameterGroup()
@@ -603,8 +603,8 @@ RemoveTagsFromResource(ResourceName, TagKeys, args::AbstractDict{String, <:Any};
 - `Parameters`: A list of parameter names in the cluster parameter group to reset to the default values. You can't use this parameter if the ResetAllParameters parameter is set to true.
 - `ResetAllParameters`: A value that is set to true to reset all parameters in the cluster parameter group to their default values, and false otherwise. You can't use this parameter if there is a list of parameter names specified for the Parameters parameter.
 """
-ResetDBClusterParameterGroup(DBClusterParameterGroupName; aws::AWSConfig=AWSConfig()) = docdb("ResetDBClusterParameterGroup", Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName); aws=aws)
-ResetDBClusterParameterGroup(DBClusterParameterGroupName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("ResetDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName), args)); aws=aws)
+ResetDBClusterParameterGroup(DBClusterParameterGroupName; aws::AWSConfig=AWS.aws_config) = docdb("ResetDBClusterParameterGroup", Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName); aws=aws)
+ResetDBClusterParameterGroup(DBClusterParameterGroupName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("ResetDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName), args)); aws=aws)
 
 """
     RestoreDBClusterFromSnapshot()
@@ -627,8 +627,8 @@ Creates a new cluster from a snapshot or cluster snapshot. If a snapshot is spec
 - `Tags`: The tags to be assigned to the restored cluster.
 - `VpcSecurityGroupIds`: A list of virtual private cloud (VPC) security groups that the new cluster will belong to.
 """
-RestoreDBClusterFromSnapshot(DBClusterIdentifier, Engine, SnapshotIdentifier; aws::AWSConfig=AWSConfig()) = docdb("RestoreDBClusterFromSnapshot", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine, "SnapshotIdentifier"=>SnapshotIdentifier); aws=aws)
-RestoreDBClusterFromSnapshot(DBClusterIdentifier, Engine, SnapshotIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("RestoreDBClusterFromSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine, "SnapshotIdentifier"=>SnapshotIdentifier), args)); aws=aws)
+RestoreDBClusterFromSnapshot(DBClusterIdentifier, Engine, SnapshotIdentifier; aws::AWSConfig=AWS.aws_config) = docdb("RestoreDBClusterFromSnapshot", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine, "SnapshotIdentifier"=>SnapshotIdentifier); aws=aws)
+RestoreDBClusterFromSnapshot(DBClusterIdentifier, Engine, SnapshotIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("RestoreDBClusterFromSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine, "SnapshotIdentifier"=>SnapshotIdentifier), args)); aws=aws)
 
 """
     RestoreDBClusterToPointInTime()
@@ -650,8 +650,8 @@ Restores a cluster to an arbitrary point in time. Users can restore to any point
 - `UseLatestRestorableTime`: A value that is set to true to restore the cluster to the latest restorable backup time, and false otherwise.  Default: false  Constraints: Cannot be specified if the RestoreToTime parameter is provided.
 - `VpcSecurityGroupIds`: A list of VPC security groups that the new cluster belongs to.
 """
-RestoreDBClusterToPointInTime(DBClusterIdentifier, SourceDBClusterIdentifier; aws::AWSConfig=AWSConfig()) = docdb("RestoreDBClusterToPointInTime", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "SourceDBClusterIdentifier"=>SourceDBClusterIdentifier); aws=aws)
-RestoreDBClusterToPointInTime(DBClusterIdentifier, SourceDBClusterIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("RestoreDBClusterToPointInTime", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "SourceDBClusterIdentifier"=>SourceDBClusterIdentifier), args)); aws=aws)
+RestoreDBClusterToPointInTime(DBClusterIdentifier, SourceDBClusterIdentifier; aws::AWSConfig=AWS.aws_config) = docdb("RestoreDBClusterToPointInTime", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "SourceDBClusterIdentifier"=>SourceDBClusterIdentifier); aws=aws)
+RestoreDBClusterToPointInTime(DBClusterIdentifier, SourceDBClusterIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("RestoreDBClusterToPointInTime", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "SourceDBClusterIdentifier"=>SourceDBClusterIdentifier), args)); aws=aws)
 
 """
     StartDBCluster()
@@ -662,8 +662,8 @@ Restarts the stopped cluster that is specified by DBClusterIdentifier. For more 
 - `DBClusterIdentifier`: The identifier of the cluster to restart. Example: docdb-2019-05-28-15-24-52 
 
 """
-StartDBCluster(DBClusterIdentifier; aws::AWSConfig=AWSConfig()) = docdb("StartDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier); aws=aws)
-StartDBCluster(DBClusterIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("StartDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), args)); aws=aws)
+StartDBCluster(DBClusterIdentifier; aws::AWSConfig=AWS.aws_config) = docdb("StartDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier); aws=aws)
+StartDBCluster(DBClusterIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("StartDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), args)); aws=aws)
 
 """
     StopDBCluster()
@@ -674,5 +674,5 @@ Stops the running cluster that is specified by DBClusterIdentifier. The cluster 
 - `DBClusterIdentifier`: The identifier of the cluster to stop. Example: docdb-2019-05-28-15-24-52 
 
 """
-StopDBCluster(DBClusterIdentifier; aws::AWSConfig=AWSConfig()) = docdb("StopDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier); aws=aws)
-StopDBCluster(DBClusterIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = docdb("StopDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), args)); aws=aws)
+StopDBCluster(DBClusterIdentifier; aws::AWSConfig=AWS.aws_config) = docdb("StopDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier); aws=aws)
+StopDBCluster(DBClusterIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = docdb("StopDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), args)); aws=aws)

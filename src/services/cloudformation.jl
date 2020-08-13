@@ -15,8 +15,8 @@ Cancels an update on the specified stack. If the call completes successfully, th
 # Optional Parameters
 - `ClientRequestToken`: A unique identifier for this CancelUpdateStack request. Specify this token if you plan to retry requests so that AWS CloudFormation knows that you're not attempting to cancel an update on a stack with the same name. You might retry CancelUpdateStack requests to ensure that AWS CloudFormation successfully received them.
 """
-CancelUpdateStack(StackName; aws::AWSConfig=AWSConfig()) = cloudformation("CancelUpdateStack", Dict{String, Any}("StackName"=>StackName); aws=aws)
-CancelUpdateStack(StackName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("CancelUpdateStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), args)); aws=aws)
+CancelUpdateStack(StackName; aws::AWSConfig=AWS.aws_config) = cloudformation("CancelUpdateStack", Dict{String, Any}("StackName"=>StackName); aws=aws)
+CancelUpdateStack(StackName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("CancelUpdateStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), args)); aws=aws)
 
 """
     ContinueUpdateRollback()
@@ -31,8 +31,8 @@ For a specified stack that is in the UPDATE_ROLLBACK_FAILED state, continues rol
 - `ResourcesToSkip`: A list of the logical IDs of the resources that AWS CloudFormation skips during the continue update rollback operation. You can specify only resources that are in the UPDATE_FAILED state because a rollback failed. You can't specify resources that are in the UPDATE_FAILED state for other reasons, for example, because an update was cancelled. To check why a resource update failed, use the DescribeStackResources action, and view the resource status reason.   Specify this property to skip rolling back resources that AWS CloudFormation can't successfully roll back. We recommend that you  troubleshoot resources before skipping them. AWS CloudFormation sets the status of the specified resources to UPDATE_COMPLETE and continues to roll back the stack. After the rollback is complete, the state of the skipped resources will be inconsistent with the state of the resources in the stack template. Before performing another stack update, you must update the stack or resources to be consistent with each other. If you don't, subsequent stack updates might fail, and the stack will become unrecoverable.   Specify the minimum number of resources required to successfully roll back your stack. For example, a failed resource update might cause dependent resources to fail. In this case, it might not be necessary to skip the dependent resources.  To skip resources that are part of nested stacks, use the following format: NestedStackName.ResourceLogicalID. If you want to specify the logical ID of a stack resource (Type: AWS::CloudFormation::Stack) in the ResourcesToSkip list, then its corresponding embedded stack must be in one of the following states: DELETE_IN_PROGRESS, DELETE_COMPLETE, or DELETE_FAILED.   Don't confuse a child stack's name with its corresponding logical ID defined in the parent stack. For an example of a continue update rollback operation with nested stacks, see Using ResourcesToSkip to recover a nested stacks hierarchy.  
 - `RoleARN`: The Amazon Resource Name (ARN) of an AWS Identity and Access Management (IAM) role that AWS CloudFormation assumes to roll back the stack. AWS CloudFormation uses the role's credentials to make calls on your behalf. AWS CloudFormation always uses this role for all future operations on the stack. As long as users have permission to operate on the stack, AWS CloudFormation uses this role even if the users don't have permission to pass it. Ensure that the role grants least privilege. If you don't specify a value, AWS CloudFormation uses the role that was previously associated with the stack. If no role is available, AWS CloudFormation uses a temporary session that is generated from your user credentials.
 """
-ContinueUpdateRollback(StackName; aws::AWSConfig=AWSConfig()) = cloudformation("ContinueUpdateRollback", Dict{String, Any}("StackName"=>StackName); aws=aws)
-ContinueUpdateRollback(StackName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("ContinueUpdateRollback", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), args)); aws=aws)
+ContinueUpdateRollback(StackName; aws::AWSConfig=AWS.aws_config) = cloudformation("ContinueUpdateRollback", Dict{String, Any}("StackName"=>StackName); aws=aws)
+ContinueUpdateRollback(StackName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("ContinueUpdateRollback", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), args)); aws=aws)
 
 """
     CreateChangeSet()
@@ -59,8 +59,8 @@ Creates a list of changes that will be applied to a stack so that you can review
 - `TemplateURL`: The location of the file that contains the revised template. The URL must point to a template (max size: 460,800 bytes) that is located in an S3 bucket. AWS CloudFormation generates the change set by comparing this template with the stack that you specified. Conditional: You must specify only TemplateBody or TemplateURL.
 - `UsePreviousTemplate`: Whether to reuse the template that is associated with the stack to create the change set.
 """
-CreateChangeSet(ChangeSetName, StackName; aws::AWSConfig=AWSConfig()) = cloudformation("CreateChangeSet", Dict{String, Any}("ChangeSetName"=>ChangeSetName, "StackName"=>StackName); aws=aws)
-CreateChangeSet(ChangeSetName, StackName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("CreateChangeSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeSetName"=>ChangeSetName, "StackName"=>StackName), args)); aws=aws)
+CreateChangeSet(ChangeSetName, StackName; aws::AWSConfig=AWS.aws_config) = cloudformation("CreateChangeSet", Dict{String, Any}("ChangeSetName"=>ChangeSetName, "StackName"=>StackName); aws=aws)
+CreateChangeSet(ChangeSetName, StackName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("CreateChangeSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeSetName"=>ChangeSetName, "StackName"=>StackName), args)); aws=aws)
 
 """
     CreateStack()
@@ -88,8 +88,8 @@ Creates a stack as specified in the template. After the call completes successfu
 - `TemplateURL`: Location of file containing the template body. The URL must point to a template (max size: 460,800 bytes) that is located in an Amazon S3 bucket. For more information, go to the Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
 - `TimeoutInMinutes`: The amount of time that can pass before the stack status becomes CREATE_FAILED; if DisableRollback is not set or is set to false, the stack will be rolled back.
 """
-CreateStack(StackName; aws::AWSConfig=AWSConfig()) = cloudformation("CreateStack", Dict{String, Any}("StackName"=>StackName); aws=aws)
-CreateStack(StackName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("CreateStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), args)); aws=aws)
+CreateStack(StackName; aws::AWSConfig=AWS.aws_config) = cloudformation("CreateStack", Dict{String, Any}("StackName"=>StackName); aws=aws)
+CreateStack(StackName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("CreateStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), args)); aws=aws)
 
 """
     CreateStackInstances()
@@ -107,8 +107,8 @@ Creates stack instances for the specified accounts, within the specified Regions
 - `OperationPreferences`: Preferences for how AWS CloudFormation performs this stack set operation.
 - `ParameterOverrides`: A list of stack set parameters whose values you want to override in the selected stack instances. Any overridden parameter values will be applied to all stack instances in the specified accounts and Regions. When specifying parameters and their values, be aware of how AWS CloudFormation sets parameter values during stack instance operations:   To override the current value for a parameter, include the parameter and specify its value.   To leave a parameter set to its present value, you can do one of the following:   Do not include the parameter in the list.   Include the parameter and specify UsePreviousValue as true. (You cannot specify both a value and set UsePreviousValue to true.)     To set all overridden parameter back to the values specified in the stack set, specify a parameter list but do not include any parameters.   To leave all parameters set to their present values, do not specify this property at all.   During stack set updates, any parameter values overridden for a stack instance are not updated, but retain their overridden value. You can only override the parameter values that are specified in the stack set; to add or delete a parameter itself, use UpdateStackSet to update the stack set template.
 """
-CreateStackInstances(Regions, StackSetName; aws::AWSConfig=AWSConfig()) = cloudformation("CreateStackInstances", Dict{String, Any}("Regions"=>Regions, "StackSetName"=>StackSetName, "OperationId"=>string(uuid4())); aws=aws)
-CreateStackInstances(Regions, StackSetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("CreateStackInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Regions"=>Regions, "StackSetName"=>StackSetName, "OperationId"=>string(uuid4())), args)); aws=aws)
+CreateStackInstances(Regions, StackSetName; aws::AWSConfig=AWS.aws_config) = cloudformation("CreateStackInstances", Dict{String, Any}("Regions"=>Regions, "StackSetName"=>StackSetName, "OperationId"=>string(uuid4())); aws=aws)
+CreateStackInstances(Regions, StackSetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("CreateStackInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Regions"=>Regions, "StackSetName"=>StackSetName, "OperationId"=>string(uuid4())), args)); aws=aws)
 
 """
     CreateStackSet()
@@ -131,8 +131,8 @@ Creates a stack set.
 - `TemplateBody`: The structure that contains the template body, with a minimum length of 1 byte and a maximum length of 51,200 bytes. For more information, see Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
 - `TemplateURL`: The location of the file that contains the template body. The URL must point to a template (maximum size: 460,800 bytes) that's located in an Amazon S3 bucket. For more information, see Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
 """
-CreateStackSet(StackSetName; aws::AWSConfig=AWSConfig()) = cloudformation("CreateStackSet", Dict{String, Any}("StackSetName"=>StackSetName, "ClientRequestToken"=>string(uuid4())); aws=aws)
-CreateStackSet(StackSetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("CreateStackSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackSetName"=>StackSetName, "ClientRequestToken"=>string(uuid4())), args)); aws=aws)
+CreateStackSet(StackSetName; aws::AWSConfig=AWS.aws_config) = cloudformation("CreateStackSet", Dict{String, Any}("StackSetName"=>StackSetName, "ClientRequestToken"=>string(uuid4())); aws=aws)
+CreateStackSet(StackSetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("CreateStackSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackSetName"=>StackSetName, "ClientRequestToken"=>string(uuid4())), args)); aws=aws)
 
 """
     DeleteChangeSet()
@@ -145,8 +145,8 @@ Deletes the specified change set. Deleting change sets ensures that no one execu
 # Optional Parameters
 - `StackName`: If you specified the name of a change set to delete, specify the stack name or ID (ARN) that is associated with it.
 """
-DeleteChangeSet(ChangeSetName; aws::AWSConfig=AWSConfig()) = cloudformation("DeleteChangeSet", Dict{String, Any}("ChangeSetName"=>ChangeSetName); aws=aws)
-DeleteChangeSet(ChangeSetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("DeleteChangeSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeSetName"=>ChangeSetName), args)); aws=aws)
+DeleteChangeSet(ChangeSetName; aws::AWSConfig=AWS.aws_config) = cloudformation("DeleteChangeSet", Dict{String, Any}("ChangeSetName"=>ChangeSetName); aws=aws)
+DeleteChangeSet(ChangeSetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("DeleteChangeSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeSetName"=>ChangeSetName), args)); aws=aws)
 
 """
     DeleteStack()
@@ -161,8 +161,8 @@ Deletes a specified stack. Once the call completes successfully, stack deletion 
 - `RetainResources`: For stacks in the DELETE_FAILED state, a list of resource logical IDs that are associated with the resources you want to retain. During deletion, AWS CloudFormation deletes the stack but does not delete the retained resources. Retaining resources is useful when you cannot delete a resource, such as a non-empty S3 bucket, but you want to delete the stack.
 - `RoleARN`: The Amazon Resource Name (ARN) of an AWS Identity and Access Management (IAM) role that AWS CloudFormation assumes to delete the stack. AWS CloudFormation uses the role's credentials to make calls on your behalf. If you don't specify a value, AWS CloudFormation uses the role that was previously associated with the stack. If no role is available, AWS CloudFormation uses a temporary session that is generated from your user credentials.
 """
-DeleteStack(StackName; aws::AWSConfig=AWSConfig()) = cloudformation("DeleteStack", Dict{String, Any}("StackName"=>StackName); aws=aws)
-DeleteStack(StackName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("DeleteStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), args)); aws=aws)
+DeleteStack(StackName; aws::AWSConfig=AWS.aws_config) = cloudformation("DeleteStack", Dict{String, Any}("StackName"=>StackName); aws=aws)
+DeleteStack(StackName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("DeleteStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), args)); aws=aws)
 
 """
     DeleteStackInstances()
@@ -180,8 +180,8 @@ Deletes stack instances for the specified accounts, in the specified Regions.
 - `OperationId`: The unique identifier for this stack set operation.  If you don't specify an operation ID, the SDK generates one automatically.  The operation ID also functions as an idempotency token, to ensure that AWS CloudFormation performs the stack set operation only once, even if you retry the request multiple times. You can retry stack set operation requests to ensure that AWS CloudFormation successfully received them. Repeating this stack set operation with a new operation ID retries all stack instances whose status is OUTDATED. 
 - `OperationPreferences`: Preferences for how AWS CloudFormation performs this stack set operation.
 """
-DeleteStackInstances(Regions, RetainStacks, StackSetName; aws::AWSConfig=AWSConfig()) = cloudformation("DeleteStackInstances", Dict{String, Any}("Regions"=>Regions, "RetainStacks"=>RetainStacks, "StackSetName"=>StackSetName, "OperationId"=>string(uuid4())); aws=aws)
-DeleteStackInstances(Regions, RetainStacks, StackSetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("DeleteStackInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Regions"=>Regions, "RetainStacks"=>RetainStacks, "StackSetName"=>StackSetName, "OperationId"=>string(uuid4())), args)); aws=aws)
+DeleteStackInstances(Regions, RetainStacks, StackSetName; aws::AWSConfig=AWS.aws_config) = cloudformation("DeleteStackInstances", Dict{String, Any}("Regions"=>Regions, "RetainStacks"=>RetainStacks, "StackSetName"=>StackSetName, "OperationId"=>string(uuid4())); aws=aws)
+DeleteStackInstances(Regions, RetainStacks, StackSetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("DeleteStackInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Regions"=>Regions, "RetainStacks"=>RetainStacks, "StackSetName"=>StackSetName, "OperationId"=>string(uuid4())), args)); aws=aws)
 
 """
     DeleteStackSet()
@@ -192,8 +192,8 @@ Deletes a stack set. Before you can delete a stack set, all of its member stack 
 - `StackSetName`: The name or unique ID of the stack set that you're deleting. You can obtain this value by running ListStackSets.
 
 """
-DeleteStackSet(StackSetName; aws::AWSConfig=AWSConfig()) = cloudformation("DeleteStackSet", Dict{String, Any}("StackSetName"=>StackSetName); aws=aws)
-DeleteStackSet(StackSetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("DeleteStackSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackSetName"=>StackSetName), args)); aws=aws)
+DeleteStackSet(StackSetName; aws::AWSConfig=AWS.aws_config) = cloudformation("DeleteStackSet", Dict{String, Any}("StackSetName"=>StackSetName); aws=aws)
+DeleteStackSet(StackSetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("DeleteStackSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackSetName"=>StackSetName), args)); aws=aws)
 
 """
     DeregisterType()
@@ -206,8 +206,8 @@ Removes a type or type version from active use in the CloudFormation registry. I
 - `TypeName`: The name of the type. Conditional: You must specify either TypeName and Type, or Arn.
 - `VersionId`: The ID of a specific version of the type. The version ID is the value at the end of the Amazon Resource Name (ARN) assigned to the type version when it is registered.
 """
-DeregisterType(; aws::AWSConfig=AWSConfig()) = cloudformation("DeregisterType"; aws=aws)
-DeregisterType(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("DeregisterType", args; aws=aws)
+DeregisterType(; aws::AWSConfig=AWS.aws_config) = cloudformation("DeregisterType"; aws=aws)
+DeregisterType(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("DeregisterType", args; aws=aws)
 
 """
     DescribeAccountLimits()
@@ -217,8 +217,8 @@ Retrieves your account's AWS CloudFormation limits, such as the maximum number o
 # Optional Parameters
 - `NextToken`: A string that identifies the next page of limits that you want to retrieve.
 """
-DescribeAccountLimits(; aws::AWSConfig=AWSConfig()) = cloudformation("DescribeAccountLimits"; aws=aws)
-DescribeAccountLimits(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("DescribeAccountLimits", args; aws=aws)
+DescribeAccountLimits(; aws::AWSConfig=AWS.aws_config) = cloudformation("DescribeAccountLimits"; aws=aws)
+DescribeAccountLimits(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("DescribeAccountLimits", args; aws=aws)
 
 """
     DescribeChangeSet()
@@ -232,8 +232,8 @@ Returns the inputs for the change set and a list of changes that AWS CloudFormat
 - `NextToken`: A string (provided by the DescribeChangeSet response output) that identifies the next page of information that you want to retrieve.
 - `StackName`: If you specified the name of a change set, specify the stack name or ID (ARN) of the change set you want to describe.
 """
-DescribeChangeSet(ChangeSetName; aws::AWSConfig=AWSConfig()) = cloudformation("DescribeChangeSet", Dict{String, Any}("ChangeSetName"=>ChangeSetName); aws=aws)
-DescribeChangeSet(ChangeSetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("DescribeChangeSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeSetName"=>ChangeSetName), args)); aws=aws)
+DescribeChangeSet(ChangeSetName; aws::AWSConfig=AWS.aws_config) = cloudformation("DescribeChangeSet", Dict{String, Any}("ChangeSetName"=>ChangeSetName); aws=aws)
+DescribeChangeSet(ChangeSetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("DescribeChangeSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeSetName"=>ChangeSetName), args)); aws=aws)
 
 """
     DescribeStackDriftDetectionStatus()
@@ -244,8 +244,8 @@ Returns information about a stack drift detection operation. A stack drift detec
 - `StackDriftDetectionId`: The ID of the drift detection results of this operation.  AWS CloudFormation generates new results, with a new drift detection ID, each time this operation is run. However, the number of drift results AWS CloudFormation retains for any given stack, and for how long, may vary. 
 
 """
-DescribeStackDriftDetectionStatus(StackDriftDetectionId; aws::AWSConfig=AWSConfig()) = cloudformation("DescribeStackDriftDetectionStatus", Dict{String, Any}("StackDriftDetectionId"=>StackDriftDetectionId); aws=aws)
-DescribeStackDriftDetectionStatus(StackDriftDetectionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("DescribeStackDriftDetectionStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackDriftDetectionId"=>StackDriftDetectionId), args)); aws=aws)
+DescribeStackDriftDetectionStatus(StackDriftDetectionId; aws::AWSConfig=AWS.aws_config) = cloudformation("DescribeStackDriftDetectionStatus", Dict{String, Any}("StackDriftDetectionId"=>StackDriftDetectionId); aws=aws)
+DescribeStackDriftDetectionStatus(StackDriftDetectionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("DescribeStackDriftDetectionStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackDriftDetectionId"=>StackDriftDetectionId), args)); aws=aws)
 
 """
     DescribeStackEvents()
@@ -256,8 +256,8 @@ Returns all stack related events for a specified stack in reverse chronological 
 - `NextToken`: A string that identifies the next page of events that you want to retrieve.
 - `StackName`: The name or the unique stack ID that is associated with the stack, which are not always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.   Default: There is no default value.
 """
-DescribeStackEvents(; aws::AWSConfig=AWSConfig()) = cloudformation("DescribeStackEvents"; aws=aws)
-DescribeStackEvents(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("DescribeStackEvents", args; aws=aws)
+DescribeStackEvents(; aws::AWSConfig=AWS.aws_config) = cloudformation("DescribeStackEvents"; aws=aws)
+DescribeStackEvents(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("DescribeStackEvents", args; aws=aws)
 
 """
     DescribeStackInstance()
@@ -270,8 +270,8 @@ Returns the stack instance that's associated with the specified stack set, AWS a
 - `StackSetName`: The name or the unique stack ID of the stack set that you want to get stack instance information for.
 
 """
-DescribeStackInstance(StackInstanceAccount, StackInstanceRegion, StackSetName; aws::AWSConfig=AWSConfig()) = cloudformation("DescribeStackInstance", Dict{String, Any}("StackInstanceAccount"=>StackInstanceAccount, "StackInstanceRegion"=>StackInstanceRegion, "StackSetName"=>StackSetName); aws=aws)
-DescribeStackInstance(StackInstanceAccount, StackInstanceRegion, StackSetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("DescribeStackInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackInstanceAccount"=>StackInstanceAccount, "StackInstanceRegion"=>StackInstanceRegion, "StackSetName"=>StackSetName), args)); aws=aws)
+DescribeStackInstance(StackInstanceAccount, StackInstanceRegion, StackSetName; aws::AWSConfig=AWS.aws_config) = cloudformation("DescribeStackInstance", Dict{String, Any}("StackInstanceAccount"=>StackInstanceAccount, "StackInstanceRegion"=>StackInstanceRegion, "StackSetName"=>StackSetName); aws=aws)
+DescribeStackInstance(StackInstanceAccount, StackInstanceRegion, StackSetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("DescribeStackInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackInstanceAccount"=>StackInstanceAccount, "StackInstanceRegion"=>StackInstanceRegion, "StackSetName"=>StackSetName), args)); aws=aws)
 
 """
     DescribeStackResource()
@@ -283,8 +283,8 @@ Returns a description of the specified resource in the specified stack. For dele
 - `StackName`: The name or the unique stack ID that is associated with the stack, which are not always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.   Default: There is no default value.
 
 """
-DescribeStackResource(LogicalResourceId, StackName; aws::AWSConfig=AWSConfig()) = cloudformation("DescribeStackResource", Dict{String, Any}("LogicalResourceId"=>LogicalResourceId, "StackName"=>StackName); aws=aws)
-DescribeStackResource(LogicalResourceId, StackName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("DescribeStackResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LogicalResourceId"=>LogicalResourceId, "StackName"=>StackName), args)); aws=aws)
+DescribeStackResource(LogicalResourceId, StackName; aws::AWSConfig=AWS.aws_config) = cloudformation("DescribeStackResource", Dict{String, Any}("LogicalResourceId"=>LogicalResourceId, "StackName"=>StackName); aws=aws)
+DescribeStackResource(LogicalResourceId, StackName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("DescribeStackResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LogicalResourceId"=>LogicalResourceId, "StackName"=>StackName), args)); aws=aws)
 
 """
     DescribeStackResourceDrifts()
@@ -299,8 +299,8 @@ Returns drift information for the resources that have been checked for drift in 
 - `NextToken`: A string that identifies the next page of stack resource drift results.
 - `StackResourceDriftStatusFilters`: The resource drift status values to use as filters for the resource drift results returned.    DELETED: The resource differs from its expected template configuration in that the resource has been deleted.    MODIFIED: One or more resource properties differ from their expected template values.    IN_SYNC: The resources's actual configuration matches its expected template configuration.    NOT_CHECKED: AWS CloudFormation does not currently return this value.  
 """
-DescribeStackResourceDrifts(StackName; aws::AWSConfig=AWSConfig()) = cloudformation("DescribeStackResourceDrifts", Dict{String, Any}("StackName"=>StackName); aws=aws)
-DescribeStackResourceDrifts(StackName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("DescribeStackResourceDrifts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), args)); aws=aws)
+DescribeStackResourceDrifts(StackName; aws::AWSConfig=AWS.aws_config) = cloudformation("DescribeStackResourceDrifts", Dict{String, Any}("StackName"=>StackName); aws=aws)
+DescribeStackResourceDrifts(StackName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("DescribeStackResourceDrifts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), args)); aws=aws)
 
 """
     DescribeStackResources()
@@ -312,8 +312,8 @@ Returns AWS resource descriptions for running and deleted stacks. If StackName i
 - `PhysicalResourceId`: The name or unique identifier that corresponds to a physical instance ID of a resource supported by AWS CloudFormation. For example, for an Amazon Elastic Compute Cloud (EC2) instance, PhysicalResourceId corresponds to the InstanceId. You can pass the EC2 InstanceId to DescribeStackResources to find which stack the instance belongs to and what other resources are part of the stack. Required: Conditional. If you do not specify PhysicalResourceId, you must specify StackName. Default: There is no default value.
 - `StackName`: The name or the unique stack ID that is associated with the stack, which are not always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.   Default: There is no default value. Required: Conditional. If you do not specify StackName, you must specify PhysicalResourceId.
 """
-DescribeStackResources(; aws::AWSConfig=AWSConfig()) = cloudformation("DescribeStackResources"; aws=aws)
-DescribeStackResources(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("DescribeStackResources", args; aws=aws)
+DescribeStackResources(; aws::AWSConfig=AWS.aws_config) = cloudformation("DescribeStackResources"; aws=aws)
+DescribeStackResources(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("DescribeStackResources", args; aws=aws)
 
 """
     DescribeStackSet()
@@ -324,8 +324,8 @@ Returns the description of the specified stack set.
 - `StackSetName`: The name or unique ID of the stack set whose description you want.
 
 """
-DescribeStackSet(StackSetName; aws::AWSConfig=AWSConfig()) = cloudformation("DescribeStackSet", Dict{String, Any}("StackSetName"=>StackSetName); aws=aws)
-DescribeStackSet(StackSetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("DescribeStackSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackSetName"=>StackSetName), args)); aws=aws)
+DescribeStackSet(StackSetName; aws::AWSConfig=AWS.aws_config) = cloudformation("DescribeStackSet", Dict{String, Any}("StackSetName"=>StackSetName); aws=aws)
+DescribeStackSet(StackSetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("DescribeStackSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackSetName"=>StackSetName), args)); aws=aws)
 
 """
     DescribeStackSetOperation()
@@ -337,8 +337,8 @@ Returns the description of the specified stack set operation.
 - `StackSetName`: The name or the unique stack ID of the stack set for the stack operation.
 
 """
-DescribeStackSetOperation(OperationId, StackSetName; aws::AWSConfig=AWSConfig()) = cloudformation("DescribeStackSetOperation", Dict{String, Any}("OperationId"=>OperationId, "StackSetName"=>StackSetName); aws=aws)
-DescribeStackSetOperation(OperationId, StackSetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("DescribeStackSetOperation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OperationId"=>OperationId, "StackSetName"=>StackSetName), args)); aws=aws)
+DescribeStackSetOperation(OperationId, StackSetName; aws::AWSConfig=AWS.aws_config) = cloudformation("DescribeStackSetOperation", Dict{String, Any}("OperationId"=>OperationId, "StackSetName"=>StackSetName); aws=aws)
+DescribeStackSetOperation(OperationId, StackSetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("DescribeStackSetOperation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OperationId"=>OperationId, "StackSetName"=>StackSetName), args)); aws=aws)
 
 """
     DescribeStacks()
@@ -349,8 +349,8 @@ Returns the description for the specified stack; if no stack name was specified,
 - `NextToken`: A string that identifies the next page of stacks that you want to retrieve.
 - `StackName`: The name or the unique stack ID that is associated with the stack, which are not always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.   Default: There is no default value.
 """
-DescribeStacks(; aws::AWSConfig=AWSConfig()) = cloudformation("DescribeStacks"; aws=aws)
-DescribeStacks(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("DescribeStacks", args; aws=aws)
+DescribeStacks(; aws::AWSConfig=AWS.aws_config) = cloudformation("DescribeStacks"; aws=aws)
+DescribeStacks(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("DescribeStacks", args; aws=aws)
 
 """
     DescribeType()
@@ -363,8 +363,8 @@ Returns detailed information about a type that has been registered. If you speci
 - `TypeName`: The name of the type. Conditional: You must specify either TypeName and Type, or Arn.
 - `VersionId`: The ID of a specific version of the type. The version ID is the value at the end of the Amazon Resource Name (ARN) assigned to the type version when it is registered. If you specify a VersionId, DescribeType returns information about that specific type version. Otherwise, it returns information about the default type version.
 """
-DescribeType(; aws::AWSConfig=AWSConfig()) = cloudformation("DescribeType"; aws=aws)
-DescribeType(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("DescribeType", args; aws=aws)
+DescribeType(; aws::AWSConfig=AWS.aws_config) = cloudformation("DescribeType"; aws=aws)
+DescribeType(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("DescribeType", args; aws=aws)
 
 """
     DescribeTypeRegistration()
@@ -375,8 +375,8 @@ Returns information about a type's registration, including its current status an
 - `RegistrationToken`: The identifier for this registration request. This registration token is generated by CloudFormation when you initiate a registration request using  RegisterType .
 
 """
-DescribeTypeRegistration(RegistrationToken; aws::AWSConfig=AWSConfig()) = cloudformation("DescribeTypeRegistration", Dict{String, Any}("RegistrationToken"=>RegistrationToken); aws=aws)
-DescribeTypeRegistration(RegistrationToken, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("DescribeTypeRegistration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RegistrationToken"=>RegistrationToken), args)); aws=aws)
+DescribeTypeRegistration(RegistrationToken; aws::AWSConfig=AWS.aws_config) = cloudformation("DescribeTypeRegistration", Dict{String, Any}("RegistrationToken"=>RegistrationToken); aws=aws)
+DescribeTypeRegistration(RegistrationToken, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("DescribeTypeRegistration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RegistrationToken"=>RegistrationToken), args)); aws=aws)
 
 """
     DetectStackDrift()
@@ -389,8 +389,8 @@ Detects whether a stack's actual configuration differs, or has drifted, from it'
 # Optional Parameters
 - `LogicalResourceIds`: The logical names of any resources you want to use as filters.
 """
-DetectStackDrift(StackName; aws::AWSConfig=AWSConfig()) = cloudformation("DetectStackDrift", Dict{String, Any}("StackName"=>StackName); aws=aws)
-DetectStackDrift(StackName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("DetectStackDrift", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), args)); aws=aws)
+DetectStackDrift(StackName; aws::AWSConfig=AWS.aws_config) = cloudformation("DetectStackDrift", Dict{String, Any}("StackName"=>StackName); aws=aws)
+DetectStackDrift(StackName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("DetectStackDrift", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), args)); aws=aws)
 
 """
     DetectStackResourceDrift()
@@ -402,8 +402,8 @@ Returns information about whether a resource's actual configuration differs, or 
 - `StackName`: The name of the stack to which the resource belongs.
 
 """
-DetectStackResourceDrift(LogicalResourceId, StackName; aws::AWSConfig=AWSConfig()) = cloudformation("DetectStackResourceDrift", Dict{String, Any}("LogicalResourceId"=>LogicalResourceId, "StackName"=>StackName); aws=aws)
-DetectStackResourceDrift(LogicalResourceId, StackName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("DetectStackResourceDrift", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LogicalResourceId"=>LogicalResourceId, "StackName"=>StackName), args)); aws=aws)
+DetectStackResourceDrift(LogicalResourceId, StackName; aws::AWSConfig=AWS.aws_config) = cloudformation("DetectStackResourceDrift", Dict{String, Any}("LogicalResourceId"=>LogicalResourceId, "StackName"=>StackName); aws=aws)
+DetectStackResourceDrift(LogicalResourceId, StackName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("DetectStackResourceDrift", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LogicalResourceId"=>LogicalResourceId, "StackName"=>StackName), args)); aws=aws)
 
 """
     DetectStackSetDrift()
@@ -417,8 +417,8 @@ Detect drift on a stack set. When CloudFormation performs drift detection on a s
 - `OperationId`:  The ID of the stack set operation. 
 - `OperationPreferences`: 
 """
-DetectStackSetDrift(StackSetName; aws::AWSConfig=AWSConfig()) = cloudformation("DetectStackSetDrift", Dict{String, Any}("StackSetName"=>StackSetName, "OperationId"=>string(uuid4())); aws=aws)
-DetectStackSetDrift(StackSetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("DetectStackSetDrift", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackSetName"=>StackSetName, "OperationId"=>string(uuid4())), args)); aws=aws)
+DetectStackSetDrift(StackSetName; aws::AWSConfig=AWS.aws_config) = cloudformation("DetectStackSetDrift", Dict{String, Any}("StackSetName"=>StackSetName, "OperationId"=>string(uuid4())); aws=aws)
+DetectStackSetDrift(StackSetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("DetectStackSetDrift", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackSetName"=>StackSetName, "OperationId"=>string(uuid4())), args)); aws=aws)
 
 """
     EstimateTemplateCost()
@@ -430,8 +430,8 @@ Returns the estimated monthly cost of a template. The return value is an AWS Sim
 - `TemplateBody`: Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. (For more information, go to Template Anatomy in the AWS CloudFormation User Guide.) Conditional: You must pass TemplateBody or TemplateURL. If both are passed, only TemplateBody is used.
 - `TemplateURL`: Location of file containing the template body. The URL must point to a template that is located in an Amazon S3 bucket. For more information, go to Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must pass TemplateURL or TemplateBody. If both are passed, only TemplateBody is used.
 """
-EstimateTemplateCost(; aws::AWSConfig=AWSConfig()) = cloudformation("EstimateTemplateCost"; aws=aws)
-EstimateTemplateCost(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("EstimateTemplateCost", args; aws=aws)
+EstimateTemplateCost(; aws::AWSConfig=AWS.aws_config) = cloudformation("EstimateTemplateCost"; aws=aws)
+EstimateTemplateCost(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("EstimateTemplateCost", args; aws=aws)
 
 """
     ExecuteChangeSet()
@@ -445,8 +445,8 @@ Updates a stack using the input information that was provided when the specified
 - `ClientRequestToken`: A unique identifier for this ExecuteChangeSet request. Specify this token if you plan to retry requests so that AWS CloudFormation knows that you're not attempting to execute a change set to update a stack with the same name. You might retry ExecuteChangeSet requests to ensure that AWS CloudFormation successfully received them.
 - `StackName`: If you specified the name of a change set, specify the stack name or ID (ARN) that is associated with the change set you want to execute.
 """
-ExecuteChangeSet(ChangeSetName; aws::AWSConfig=AWSConfig()) = cloudformation("ExecuteChangeSet", Dict{String, Any}("ChangeSetName"=>ChangeSetName); aws=aws)
-ExecuteChangeSet(ChangeSetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("ExecuteChangeSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeSetName"=>ChangeSetName), args)); aws=aws)
+ExecuteChangeSet(ChangeSetName; aws::AWSConfig=AWS.aws_config) = cloudformation("ExecuteChangeSet", Dict{String, Any}("ChangeSetName"=>ChangeSetName); aws=aws)
+ExecuteChangeSet(ChangeSetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("ExecuteChangeSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeSetName"=>ChangeSetName), args)); aws=aws)
 
 """
     GetStackPolicy()
@@ -457,8 +457,8 @@ Returns the stack policy for a specified stack. If a stack doesn't have a policy
 - `StackName`: The name or unique stack ID that is associated with the stack whose policy you want to get.
 
 """
-GetStackPolicy(StackName; aws::AWSConfig=AWSConfig()) = cloudformation("GetStackPolicy", Dict{String, Any}("StackName"=>StackName); aws=aws)
-GetStackPolicy(StackName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("GetStackPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), args)); aws=aws)
+GetStackPolicy(StackName; aws::AWSConfig=AWS.aws_config) = cloudformation("GetStackPolicy", Dict{String, Any}("StackName"=>StackName); aws=aws)
+GetStackPolicy(StackName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("GetStackPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), args)); aws=aws)
 
 """
     GetTemplate()
@@ -470,8 +470,8 @@ Returns the template body for a specified stack. You can get the template for ru
 - `StackName`: The name or the unique stack ID that is associated with the stack, which are not always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.   Default: There is no default value.
 - `TemplateStage`: For templates that include transforms, the stage of the template that AWS CloudFormation returns. To get the user-submitted template, specify Original. To get the template after AWS CloudFormation has processed all transforms, specify Processed.  If the template doesn't include transforms, Original and Processed return the same template. By default, AWS CloudFormation specifies Original. 
 """
-GetTemplate(; aws::AWSConfig=AWSConfig()) = cloudformation("GetTemplate"; aws=aws)
-GetTemplate(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("GetTemplate", args; aws=aws)
+GetTemplate(; aws::AWSConfig=AWS.aws_config) = cloudformation("GetTemplate"; aws=aws)
+GetTemplate(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("GetTemplate", args; aws=aws)
 
 """
     GetTemplateSummary()
@@ -484,8 +484,8 @@ Returns information about a new or existing template. The GetTemplateSummary act
 - `TemplateBody`: Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. For more information about templates, see Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must specify only one of the following parameters: StackName, StackSetName, TemplateBody, or TemplateURL.
 - `TemplateURL`: Location of file containing the template body. The URL must point to a template (max size: 460,800 bytes) that is located in an Amazon S3 bucket. For more information about templates, see Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must specify only one of the following parameters: StackName, StackSetName, TemplateBody, or TemplateURL.
 """
-GetTemplateSummary(; aws::AWSConfig=AWSConfig()) = cloudformation("GetTemplateSummary"; aws=aws)
-GetTemplateSummary(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("GetTemplateSummary", args; aws=aws)
+GetTemplateSummary(; aws::AWSConfig=AWS.aws_config) = cloudformation("GetTemplateSummary"; aws=aws)
+GetTemplateSummary(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("GetTemplateSummary", args; aws=aws)
 
 """
     ListChangeSets()
@@ -498,8 +498,8 @@ Returns the ID and status of each active change set for a stack. For example, AW
 # Optional Parameters
 - `NextToken`: A string (provided by the ListChangeSets response output) that identifies the next page of change sets that you want to retrieve.
 """
-ListChangeSets(StackName; aws::AWSConfig=AWSConfig()) = cloudformation("ListChangeSets", Dict{String, Any}("StackName"=>StackName); aws=aws)
-ListChangeSets(StackName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("ListChangeSets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), args)); aws=aws)
+ListChangeSets(StackName; aws::AWSConfig=AWS.aws_config) = cloudformation("ListChangeSets", Dict{String, Any}("StackName"=>StackName); aws=aws)
+ListChangeSets(StackName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("ListChangeSets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), args)); aws=aws)
 
 """
     ListExports()
@@ -509,8 +509,8 @@ Lists all exported output values in the account and Region in which you call thi
 # Optional Parameters
 - `NextToken`: A string (provided by the ListExports response output) that identifies the next page of exported output values that you asked to retrieve.
 """
-ListExports(; aws::AWSConfig=AWSConfig()) = cloudformation("ListExports"; aws=aws)
-ListExports(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("ListExports", args; aws=aws)
+ListExports(; aws::AWSConfig=AWS.aws_config) = cloudformation("ListExports"; aws=aws)
+ListExports(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("ListExports", args; aws=aws)
 
 """
     ListImports()
@@ -523,8 +523,8 @@ Lists all stacks that are importing an exported output value. To modify or remov
 # Optional Parameters
 - `NextToken`: A string (provided by the ListImports response output) that identifies the next page of stacks that are importing the specified exported output value. 
 """
-ListImports(ExportName; aws::AWSConfig=AWSConfig()) = cloudformation("ListImports", Dict{String, Any}("ExportName"=>ExportName); aws=aws)
-ListImports(ExportName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("ListImports", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExportName"=>ExportName), args)); aws=aws)
+ListImports(ExportName; aws::AWSConfig=AWS.aws_config) = cloudformation("ListImports", Dict{String, Any}("ExportName"=>ExportName); aws=aws)
+ListImports(ExportName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("ListImports", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExportName"=>ExportName), args)); aws=aws)
 
 """
     ListStackInstances()
@@ -541,8 +541,8 @@ Returns summary information about stack instances that are associated with the s
 - `StackInstanceAccount`: The name of the AWS account that you want to list stack instances for.
 - `StackInstanceRegion`: The name of the Region where you want to list stack instances. 
 """
-ListStackInstances(StackSetName; aws::AWSConfig=AWSConfig()) = cloudformation("ListStackInstances", Dict{String, Any}("StackSetName"=>StackSetName); aws=aws)
-ListStackInstances(StackSetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("ListStackInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackSetName"=>StackSetName), args)); aws=aws)
+ListStackInstances(StackSetName; aws::AWSConfig=AWS.aws_config) = cloudformation("ListStackInstances", Dict{String, Any}("StackSetName"=>StackSetName); aws=aws)
+ListStackInstances(StackSetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("ListStackInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackSetName"=>StackSetName), args)); aws=aws)
 
 """
     ListStackResources()
@@ -555,8 +555,8 @@ Returns descriptions of all resources of the specified stack. For deleted stacks
 # Optional Parameters
 - `NextToken`: A string that identifies the next page of stack resources that you want to retrieve.
 """
-ListStackResources(StackName; aws::AWSConfig=AWSConfig()) = cloudformation("ListStackResources", Dict{String, Any}("StackName"=>StackName); aws=aws)
-ListStackResources(StackName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("ListStackResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), args)); aws=aws)
+ListStackResources(StackName; aws::AWSConfig=AWS.aws_config) = cloudformation("ListStackResources", Dict{String, Any}("StackName"=>StackName); aws=aws)
+ListStackResources(StackName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("ListStackResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), args)); aws=aws)
 
 """
     ListStackSetOperationResults()
@@ -571,8 +571,8 @@ Returns summary information about the results of a stack set operation.
 - `MaxResults`: The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
 - `NextToken`: If the previous request didn't return all of the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call ListStackSetOperationResults again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
 """
-ListStackSetOperationResults(OperationId, StackSetName; aws::AWSConfig=AWSConfig()) = cloudformation("ListStackSetOperationResults", Dict{String, Any}("OperationId"=>OperationId, "StackSetName"=>StackSetName); aws=aws)
-ListStackSetOperationResults(OperationId, StackSetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("ListStackSetOperationResults", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OperationId"=>OperationId, "StackSetName"=>StackSetName), args)); aws=aws)
+ListStackSetOperationResults(OperationId, StackSetName; aws::AWSConfig=AWS.aws_config) = cloudformation("ListStackSetOperationResults", Dict{String, Any}("OperationId"=>OperationId, "StackSetName"=>StackSetName); aws=aws)
+ListStackSetOperationResults(OperationId, StackSetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("ListStackSetOperationResults", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OperationId"=>OperationId, "StackSetName"=>StackSetName), args)); aws=aws)
 
 """
     ListStackSetOperations()
@@ -586,8 +586,8 @@ Returns summary information about operations performed on a stack set.
 - `MaxResults`: The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
 - `NextToken`: If the previous paginated request didn't return all of the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call ListStackSetOperations again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
 """
-ListStackSetOperations(StackSetName; aws::AWSConfig=AWSConfig()) = cloudformation("ListStackSetOperations", Dict{String, Any}("StackSetName"=>StackSetName); aws=aws)
-ListStackSetOperations(StackSetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("ListStackSetOperations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackSetName"=>StackSetName), args)); aws=aws)
+ListStackSetOperations(StackSetName; aws::AWSConfig=AWS.aws_config) = cloudformation("ListStackSetOperations", Dict{String, Any}("StackSetName"=>StackSetName); aws=aws)
+ListStackSetOperations(StackSetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("ListStackSetOperations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackSetName"=>StackSetName), args)); aws=aws)
 
 """
     ListStackSets()
@@ -599,8 +599,8 @@ Returns summary information about stack sets that are associated with the user.
 - `NextToken`: If the previous paginated request didn't return all of the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call ListStackSets again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
 - `Status`: The status of the stack sets that you want to get summary information about.
 """
-ListStackSets(; aws::AWSConfig=AWSConfig()) = cloudformation("ListStackSets"; aws=aws)
-ListStackSets(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("ListStackSets", args; aws=aws)
+ListStackSets(; aws::AWSConfig=AWS.aws_config) = cloudformation("ListStackSets"; aws=aws)
+ListStackSets(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("ListStackSets", args; aws=aws)
 
 """
     ListStacks()
@@ -611,8 +611,8 @@ Returns the summary information for stacks whose status matches the specified St
 - `NextToken`: A string that identifies the next page of stacks that you want to retrieve.
 - `StackStatusFilter`: Stack status to use as a filter. Specify one or more stack status codes to list only stacks with the specified status codes. For a complete list of stack status codes, see the StackStatus parameter of the Stack data type.
 """
-ListStacks(; aws::AWSConfig=AWSConfig()) = cloudformation("ListStacks"; aws=aws)
-ListStacks(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("ListStacks", args; aws=aws)
+ListStacks(; aws::AWSConfig=AWS.aws_config) = cloudformation("ListStacks"; aws=aws)
+ListStacks(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("ListStacks", args; aws=aws)
 
 """
     ListTypeRegistrations()
@@ -627,8 +627,8 @@ Returns a list of registration tokens for the specified type(s).
 - `TypeArn`: The Amazon Resource Name (ARN) of the type. Conditional: You must specify either TypeName and Type, or Arn.
 - `TypeName`: The name of the type. Conditional: You must specify either TypeName and Type, or Arn.
 """
-ListTypeRegistrations(; aws::AWSConfig=AWSConfig()) = cloudformation("ListTypeRegistrations"; aws=aws)
-ListTypeRegistrations(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("ListTypeRegistrations", args; aws=aws)
+ListTypeRegistrations(; aws::AWSConfig=AWS.aws_config) = cloudformation("ListTypeRegistrations"; aws=aws)
+ListTypeRegistrations(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("ListTypeRegistrations", args; aws=aws)
 
 """
     ListTypeVersions()
@@ -643,8 +643,8 @@ Returns summary information about the versions of a type.
 - `Type`: The kind of the type. Currently the only valid value is RESOURCE. Conditional: You must specify either TypeName and Type, or Arn.
 - `TypeName`: The name of the type for which you want version summary information. Conditional: You must specify either TypeName and Type, or Arn.
 """
-ListTypeVersions(; aws::AWSConfig=AWSConfig()) = cloudformation("ListTypeVersions"; aws=aws)
-ListTypeVersions(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("ListTypeVersions", args; aws=aws)
+ListTypeVersions(; aws::AWSConfig=AWS.aws_config) = cloudformation("ListTypeVersions"; aws=aws)
+ListTypeVersions(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("ListTypeVersions", args; aws=aws)
 
 """
     ListTypes()
@@ -658,8 +658,8 @@ Returns summary information about types that have been registered with CloudForm
 - `ProvisioningType`: The provisioning behavior of the type. AWS CloudFormation determines the provisioning type during registration, based on the types of handlers in the schema handler package submitted. Valid values include:    FULLY_MUTABLE: The type includes an update handler to process updates to the type during stack update operations.    IMMUTABLE: The type does not include an update handler, so the type cannot be updated and must instead be replaced during stack update operations.    NON_PROVISIONABLE: The type does not include create, read, and delete handlers, and therefore cannot actually be provisioned.  
 - `Visibility`: The scope at which the type is visible and usable in CloudFormation operations. Valid values include:    PRIVATE: The type is only visible and usable within the account in which it is registered. Currently, AWS CloudFormation marks any types you create as PRIVATE.    PUBLIC: The type is publically visible and usable within any Amazon account.   The default is PRIVATE.
 """
-ListTypes(; aws::AWSConfig=AWSConfig()) = cloudformation("ListTypes"; aws=aws)
-ListTypes(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("ListTypes", args; aws=aws)
+ListTypes(; aws::AWSConfig=AWS.aws_config) = cloudformation("ListTypes"; aws=aws)
+ListTypes(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("ListTypes", args; aws=aws)
 
 """
     RecordHandlerProgress()
@@ -677,8 +677,8 @@ Reports progress of a resource handler to CloudFormation. Reserved for use by th
 - `ResourceModel`: Reserved for use by the CloudFormation CLI.
 - `StatusMessage`: Reserved for use by the CloudFormation CLI.
 """
-RecordHandlerProgress(BearerToken, OperationStatus; aws::AWSConfig=AWSConfig()) = cloudformation("RecordHandlerProgress", Dict{String, Any}("BearerToken"=>BearerToken, "OperationStatus"=>OperationStatus); aws=aws)
-RecordHandlerProgress(BearerToken, OperationStatus, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("RecordHandlerProgress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BearerToken"=>BearerToken, "OperationStatus"=>OperationStatus), args)); aws=aws)
+RecordHandlerProgress(BearerToken, OperationStatus; aws::AWSConfig=AWS.aws_config) = cloudformation("RecordHandlerProgress", Dict{String, Any}("BearerToken"=>BearerToken, "OperationStatus"=>OperationStatus); aws=aws)
+RecordHandlerProgress(BearerToken, OperationStatus, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("RecordHandlerProgress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BearerToken"=>BearerToken, "OperationStatus"=>OperationStatus), args)); aws=aws)
 
 """
     RegisterType()
@@ -695,8 +695,8 @@ Registers a type with the CloudFormation service. Registering a type makes it av
 - `LoggingConfig`: Specifies logging configuration information for a type.
 - `Type`: The kind of type. Currently, the only valid value is RESOURCE.
 """
-RegisterType(SchemaHandlerPackage, TypeName; aws::AWSConfig=AWSConfig()) = cloudformation("RegisterType", Dict{String, Any}("SchemaHandlerPackage"=>SchemaHandlerPackage, "TypeName"=>TypeName); aws=aws)
-RegisterType(SchemaHandlerPackage, TypeName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("RegisterType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaHandlerPackage"=>SchemaHandlerPackage, "TypeName"=>TypeName), args)); aws=aws)
+RegisterType(SchemaHandlerPackage, TypeName; aws::AWSConfig=AWS.aws_config) = cloudformation("RegisterType", Dict{String, Any}("SchemaHandlerPackage"=>SchemaHandlerPackage, "TypeName"=>TypeName); aws=aws)
+RegisterType(SchemaHandlerPackage, TypeName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("RegisterType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaHandlerPackage"=>SchemaHandlerPackage, "TypeName"=>TypeName), args)); aws=aws)
 
 """
     SetStackPolicy()
@@ -710,8 +710,8 @@ Sets a stack policy for a specified stack.
 - `StackPolicyBody`: Structure containing the stack policy body. For more information, go to  Prevent Updates to Stack Resources in the AWS CloudFormation User Guide. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both.
 - `StackPolicyURL`: Location of a file containing the stack policy. The URL must point to a policy (maximum size: 16 KB) located in an S3 bucket in the same Region as the stack. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both.
 """
-SetStackPolicy(StackName; aws::AWSConfig=AWSConfig()) = cloudformation("SetStackPolicy", Dict{String, Any}("StackName"=>StackName); aws=aws)
-SetStackPolicy(StackName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("SetStackPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), args)); aws=aws)
+SetStackPolicy(StackName; aws::AWSConfig=AWS.aws_config) = cloudformation("SetStackPolicy", Dict{String, Any}("StackName"=>StackName); aws=aws)
+SetStackPolicy(StackName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("SetStackPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), args)); aws=aws)
 
 """
     SetTypeDefaultVersion()
@@ -724,8 +724,8 @@ Specify the default version of a type. The default version of a type will be use
 - `TypeName`: The name of the type. Conditional: You must specify either TypeName and Type, or Arn.
 - `VersionId`: The ID of a specific version of the type. The version ID is the value at the end of the Amazon Resource Name (ARN) assigned to the type version when it is registered.
 """
-SetTypeDefaultVersion(; aws::AWSConfig=AWSConfig()) = cloudformation("SetTypeDefaultVersion"; aws=aws)
-SetTypeDefaultVersion(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("SetTypeDefaultVersion", args; aws=aws)
+SetTypeDefaultVersion(; aws::AWSConfig=AWS.aws_config) = cloudformation("SetTypeDefaultVersion"; aws=aws)
+SetTypeDefaultVersion(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("SetTypeDefaultVersion", args; aws=aws)
 
 """
     SignalResource()
@@ -739,8 +739,8 @@ Sends a signal to the specified resource with a success or failure status. You c
 - `UniqueId`: A unique ID of the signal. When you signal Amazon EC2 instances or Auto Scaling groups, specify the instance ID that you are signaling as the unique ID. If you send multiple signals to a single resource (such as signaling a wait condition), each signal requires a different unique ID.
 
 """
-SignalResource(LogicalResourceId, StackName, Status, UniqueId; aws::AWSConfig=AWSConfig()) = cloudformation("SignalResource", Dict{String, Any}("LogicalResourceId"=>LogicalResourceId, "StackName"=>StackName, "Status"=>Status, "UniqueId"=>UniqueId); aws=aws)
-SignalResource(LogicalResourceId, StackName, Status, UniqueId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("SignalResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LogicalResourceId"=>LogicalResourceId, "StackName"=>StackName, "Status"=>Status, "UniqueId"=>UniqueId), args)); aws=aws)
+SignalResource(LogicalResourceId, StackName, Status, UniqueId; aws::AWSConfig=AWS.aws_config) = cloudformation("SignalResource", Dict{String, Any}("LogicalResourceId"=>LogicalResourceId, "StackName"=>StackName, "Status"=>Status, "UniqueId"=>UniqueId); aws=aws)
+SignalResource(LogicalResourceId, StackName, Status, UniqueId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("SignalResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LogicalResourceId"=>LogicalResourceId, "StackName"=>StackName, "Status"=>Status, "UniqueId"=>UniqueId), args)); aws=aws)
 
 """
     StopStackSetOperation()
@@ -752,8 +752,8 @@ Stops an in-progress operation on a stack set and its associated stack instances
 - `StackSetName`: The name or unique ID of the stack set that you want to stop the operation for.
 
 """
-StopStackSetOperation(OperationId, StackSetName; aws::AWSConfig=AWSConfig()) = cloudformation("StopStackSetOperation", Dict{String, Any}("OperationId"=>OperationId, "StackSetName"=>StackSetName); aws=aws)
-StopStackSetOperation(OperationId, StackSetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("StopStackSetOperation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OperationId"=>OperationId, "StackSetName"=>StackSetName), args)); aws=aws)
+StopStackSetOperation(OperationId, StackSetName; aws::AWSConfig=AWS.aws_config) = cloudformation("StopStackSetOperation", Dict{String, Any}("OperationId"=>OperationId, "StackSetName"=>StackSetName); aws=aws)
+StopStackSetOperation(OperationId, StackSetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("StopStackSetOperation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OperationId"=>OperationId, "StackSetName"=>StackSetName), args)); aws=aws)
 
 """
     UpdateStack()
@@ -780,8 +780,8 @@ Updates a stack as specified in the template. After the call completes successfu
 - `TemplateURL`: Location of file containing the template body. The URL must point to a template that is located in an Amazon S3 bucket. For more information, go to Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
 - `UsePreviousTemplate`: Reuse the existing template that is associated with the stack that you are updating. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
 """
-UpdateStack(StackName; aws::AWSConfig=AWSConfig()) = cloudformation("UpdateStack", Dict{String, Any}("StackName"=>StackName); aws=aws)
-UpdateStack(StackName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("UpdateStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), args)); aws=aws)
+UpdateStack(StackName; aws::AWSConfig=AWS.aws_config) = cloudformation("UpdateStack", Dict{String, Any}("StackName"=>StackName); aws=aws)
+UpdateStack(StackName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("UpdateStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), args)); aws=aws)
 
 """
     UpdateStackInstances()
@@ -799,8 +799,8 @@ Updates the parameter values for stack instances for the specified accounts, wit
 - `OperationPreferences`: Preferences for how AWS CloudFormation performs this stack set operation.
 - `ParameterOverrides`:  A list of input parameters whose values you want to update for the specified stack instances.  Any overridden parameter values will be applied to all stack instances in the specified accounts and Regions. When specifying parameters and their values, be aware of how AWS CloudFormation sets parameter values during stack instance update operations:   To override the current value for a parameter, include the parameter and specify its value.   To leave a parameter set to its present value, you can do one of the following:   Do not include the parameter in the list.   Include the parameter and specify UsePreviousValue as true. (You cannot specify both a value and set UsePreviousValue to true.)     To set all overridden parameter back to the values specified in the stack set, specify a parameter list but do not include any parameters.   To leave all parameters set to their present values, do not specify this property at all.   During stack set updates, any parameter values overridden for a stack instance are not updated, but retain their overridden value. You can only override the parameter values that are specified in the stack set; to add or delete a parameter itself, use UpdateStackSet to update the stack set template. If you add a parameter to a template, before you can override the parameter value specified in the stack set you must first use UpdateStackSet to update all stack instances with the updated template and parameter value specified in the stack set. Once a stack instance has been updated with the new parameter, you can then override the parameter value using UpdateStackInstances.
 """
-UpdateStackInstances(Regions, StackSetName; aws::AWSConfig=AWSConfig()) = cloudformation("UpdateStackInstances", Dict{String, Any}("Regions"=>Regions, "StackSetName"=>StackSetName, "OperationId"=>string(uuid4())); aws=aws)
-UpdateStackInstances(Regions, StackSetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("UpdateStackInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Regions"=>Regions, "StackSetName"=>StackSetName, "OperationId"=>string(uuid4())), args)); aws=aws)
+UpdateStackInstances(Regions, StackSetName; aws::AWSConfig=AWS.aws_config) = cloudformation("UpdateStackInstances", Dict{String, Any}("Regions"=>Regions, "StackSetName"=>StackSetName, "OperationId"=>string(uuid4())); aws=aws)
+UpdateStackInstances(Regions, StackSetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("UpdateStackInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Regions"=>Regions, "StackSetName"=>StackSetName, "OperationId"=>string(uuid4())), args)); aws=aws)
 
 """
     UpdateStackSet()
@@ -828,8 +828,8 @@ Updates the stack set, and associated stack instances in the specified accounts 
 - `TemplateURL`: The location of the file that contains the template body. The URL must point to a template (maximum size: 460,800 bytes) that is located in an Amazon S3 bucket. For more information, see Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must specify only one of the following parameters: TemplateBody or TemplateURL—or set UsePreviousTemplate to true. 
 - `UsePreviousTemplate`: Use the existing template that's associated with the stack set that you're updating. Conditional: You must specify only one of the following parameters: TemplateBody or TemplateURL—or set UsePreviousTemplate to true. 
 """
-UpdateStackSet(StackSetName; aws::AWSConfig=AWSConfig()) = cloudformation("UpdateStackSet", Dict{String, Any}("StackSetName"=>StackSetName, "OperationId"=>string(uuid4())); aws=aws)
-UpdateStackSet(StackSetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("UpdateStackSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackSetName"=>StackSetName, "OperationId"=>string(uuid4())), args)); aws=aws)
+UpdateStackSet(StackSetName; aws::AWSConfig=AWS.aws_config) = cloudformation("UpdateStackSet", Dict{String, Any}("StackSetName"=>StackSetName, "OperationId"=>string(uuid4())); aws=aws)
+UpdateStackSet(StackSetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("UpdateStackSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackSetName"=>StackSetName, "OperationId"=>string(uuid4())), args)); aws=aws)
 
 """
     UpdateTerminationProtection()
@@ -841,8 +841,8 @@ Updates termination protection for the specified stack. If a user attempts to de
 - `StackName`: The name or unique ID of the stack for which you want to set termination protection.
 
 """
-UpdateTerminationProtection(EnableTerminationProtection, StackName; aws::AWSConfig=AWSConfig()) = cloudformation("UpdateTerminationProtection", Dict{String, Any}("EnableTerminationProtection"=>EnableTerminationProtection, "StackName"=>StackName); aws=aws)
-UpdateTerminationProtection(EnableTerminationProtection, StackName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("UpdateTerminationProtection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EnableTerminationProtection"=>EnableTerminationProtection, "StackName"=>StackName), args)); aws=aws)
+UpdateTerminationProtection(EnableTerminationProtection, StackName; aws::AWSConfig=AWS.aws_config) = cloudformation("UpdateTerminationProtection", Dict{String, Any}("EnableTerminationProtection"=>EnableTerminationProtection, "StackName"=>StackName); aws=aws)
+UpdateTerminationProtection(EnableTerminationProtection, StackName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("UpdateTerminationProtection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EnableTerminationProtection"=>EnableTerminationProtection, "StackName"=>StackName), args)); aws=aws)
 
 """
     ValidateTemplate()
@@ -853,5 +853,5 @@ Validates a specified template. AWS CloudFormation first checks if the template 
 - `TemplateBody`: Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. For more information, go to Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must pass TemplateURL or TemplateBody. If both are passed, only TemplateBody is used.
 - `TemplateURL`: Location of file containing the template body. The URL must point to a template (max size: 460,800 bytes) that is located in an Amazon S3 bucket. For more information, go to Template Anatomy in the AWS CloudFormation User Guide. Conditional: You must pass TemplateURL or TemplateBody. If both are passed, only TemplateBody is used.
 """
-ValidateTemplate(; aws::AWSConfig=AWSConfig()) = cloudformation("ValidateTemplate"; aws=aws)
-ValidateTemplate(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = cloudformation("ValidateTemplate", args; aws=aws)
+ValidateTemplate(; aws::AWSConfig=AWS.aws_config) = cloudformation("ValidateTemplate"; aws=aws)
+ValidateTemplate(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudformation("ValidateTemplate", args; aws=aws)

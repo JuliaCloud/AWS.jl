@@ -17,8 +17,8 @@ Adds a new Facet to an object. An object can have more than one facet applied on
 # Optional Parameters
 - `ObjectAttributeList`: Attributes on the facet that you are adding to the object.
 """
-AddFacetToObject(ObjectReference, SchemaFacet, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/facets", Dict{String, Any}("ObjectReference"=>ObjectReference, "SchemaFacet"=>SchemaFacet, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-AddFacetToObject(ObjectReference, SchemaFacet, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/facets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectReference"=>ObjectReference, "SchemaFacet"=>SchemaFacet, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+AddFacetToObject(ObjectReference, SchemaFacet, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/facets", Dict{String, Any}("ObjectReference"=>ObjectReference, "SchemaFacet"=>SchemaFacet, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+AddFacetToObject(ObjectReference, SchemaFacet, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/facets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectReference"=>ObjectReference, "SchemaFacet"=>SchemaFacet, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     ApplySchema()
@@ -30,8 +30,8 @@ Copies the input published schema, at the specified version, into the Directory 
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the Directory into which the schema is copied. For more information, see arns.
 
 """
-ApplySchema(PublishedSchemaArn, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/apply", Dict{String, Any}("PublishedSchemaArn"=>PublishedSchemaArn, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-ApplySchema(PublishedSchemaArn, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/apply", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PublishedSchemaArn"=>PublishedSchemaArn, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+ApplySchema(PublishedSchemaArn, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/apply", Dict{String, Any}("PublishedSchemaArn"=>PublishedSchemaArn, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+ApplySchema(PublishedSchemaArn, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/apply", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PublishedSchemaArn"=>PublishedSchemaArn, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     AttachObject()
@@ -45,8 +45,8 @@ Attaches an existing object to another object. An object can be accessed in two 
 - `x-amz-data-partition`: Amazon Resource Name (ARN) that is associated with the Directory where both objects reside. For more information, see arns.
 
 """
-AttachObject(ChildReference, LinkName, ParentReference, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/attach", Dict{String, Any}("ChildReference"=>ChildReference, "LinkName"=>LinkName, "ParentReference"=>ParentReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-AttachObject(ChildReference, LinkName, ParentReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/attach", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChildReference"=>ChildReference, "LinkName"=>LinkName, "ParentReference"=>ParentReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+AttachObject(ChildReference, LinkName, ParentReference, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/attach", Dict{String, Any}("ChildReference"=>ChildReference, "LinkName"=>LinkName, "ParentReference"=>ParentReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+AttachObject(ChildReference, LinkName, ParentReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/attach", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChildReference"=>ChildReference, "LinkName"=>LinkName, "ParentReference"=>ParentReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     AttachPolicy()
@@ -59,8 +59,8 @@ Attaches a policy object to a regular object. An object can have a limited numbe
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the Directory where both objects reside. For more information, see arns.
 
 """
-AttachPolicy(ObjectReference, PolicyReference, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/policy/attach", Dict{String, Any}("ObjectReference"=>ObjectReference, "PolicyReference"=>PolicyReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-AttachPolicy(ObjectReference, PolicyReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/policy/attach", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectReference"=>ObjectReference, "PolicyReference"=>PolicyReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+AttachPolicy(ObjectReference, PolicyReference, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/policy/attach", Dict{String, Any}("ObjectReference"=>ObjectReference, "PolicyReference"=>PolicyReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+AttachPolicy(ObjectReference, PolicyReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/policy/attach", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectReference"=>ObjectReference, "PolicyReference"=>PolicyReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     AttachToIndex()
@@ -73,8 +73,8 @@ Attaches the specified object to the specified index.
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) of the directory where the object and index exist.
 
 """
-AttachToIndex(IndexReference, TargetReference, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/index/attach", Dict{String, Any}("IndexReference"=>IndexReference, "TargetReference"=>TargetReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-AttachToIndex(IndexReference, TargetReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/index/attach", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexReference"=>IndexReference, "TargetReference"=>TargetReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+AttachToIndex(IndexReference, TargetReference, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/index/attach", Dict{String, Any}("IndexReference"=>IndexReference, "TargetReference"=>TargetReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+AttachToIndex(IndexReference, TargetReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/index/attach", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexReference"=>IndexReference, "TargetReference"=>TargetReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     AttachTypedLink()
@@ -89,8 +89,8 @@ Attaches a typed link to a specified source and target object. For more informat
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) of the directory where you want to attach the typed link.
 
 """
-AttachTypedLink(Attributes, SourceObjectReference, TargetObjectReference, TypedLinkFacet, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/typedlink/attach", Dict{String, Any}("Attributes"=>Attributes, "SourceObjectReference"=>SourceObjectReference, "TargetObjectReference"=>TargetObjectReference, "TypedLinkFacet"=>TypedLinkFacet, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-AttachTypedLink(Attributes, SourceObjectReference, TargetObjectReference, TypedLinkFacet, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/typedlink/attach", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attributes"=>Attributes, "SourceObjectReference"=>SourceObjectReference, "TargetObjectReference"=>TargetObjectReference, "TypedLinkFacet"=>TypedLinkFacet, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+AttachTypedLink(Attributes, SourceObjectReference, TargetObjectReference, TypedLinkFacet, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/typedlink/attach", Dict{String, Any}("Attributes"=>Attributes, "SourceObjectReference"=>SourceObjectReference, "TargetObjectReference"=>TargetObjectReference, "TypedLinkFacet"=>TypedLinkFacet, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+AttachTypedLink(Attributes, SourceObjectReference, TargetObjectReference, TypedLinkFacet, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/typedlink/attach", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attributes"=>Attributes, "SourceObjectReference"=>SourceObjectReference, "TargetObjectReference"=>TargetObjectReference, "TypedLinkFacet"=>TypedLinkFacet, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     BatchRead()
@@ -104,8 +104,8 @@ Performs all the read operations in a batch.
 # Optional Parameters
 - `x-amz-consistency-level`: Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
 """
-BatchRead(Operations, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/batchread", Dict{String, Any}("Operations"=>Operations, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-BatchRead(Operations, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/batchread", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Operations"=>Operations, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+BatchRead(Operations, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/batchread", Dict{String, Any}("Operations"=>Operations, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+BatchRead(Operations, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/batchread", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Operations"=>Operations, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     BatchWrite()
@@ -117,8 +117,8 @@ Performs all the write operations in a batch. Either all the operations succeed 
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the Directory. For more information, see arns.
 
 """
-BatchWrite(Operations, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/batchwrite", Dict{String, Any}("Operations"=>Operations, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-BatchWrite(Operations, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/batchwrite", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Operations"=>Operations, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+BatchWrite(Operations, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/batchwrite", Dict{String, Any}("Operations"=>Operations, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+BatchWrite(Operations, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/batchwrite", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Operations"=>Operations, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     CreateDirectory()
@@ -130,8 +130,8 @@ Creates a Directory by copying the published schema into the directory. A direct
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) of the published schema that will be copied into the data Directory. For more information, see arns.
 
 """
-CreateDirectory(Name, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/directory/create", Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-CreateDirectory(Name, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/directory/create", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+CreateDirectory(Name, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/directory/create", Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+CreateDirectory(Name, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/directory/create", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     CreateFacet()
@@ -147,8 +147,8 @@ Creates a new Facet in a schema. Facet creation is allowed only in development o
 - `FacetStyle`: There are two different styles that you can define on any given facet, Static and Dynamic. For static facets, all attributes must be defined in the schema. For dynamic facets, attributes can be defined during data plane operations.
 - `ObjectType`: Specifies whether a given object created from this facet is of type node, leaf node, policy or index.   Node: Can have multiple children but one parent.     Leaf node: Cannot have children but can have multiple parents.     Policy: Allows you to store a policy document and policy type. For more information, see Policies.     Index: Can be created with the Index API.  
 """
-CreateFacet(Name, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/facet/create", Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-CreateFacet(Name, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/facet/create", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+CreateFacet(Name, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/facet/create", Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+CreateFacet(Name, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/facet/create", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     CreateIndex()
@@ -164,8 +164,8 @@ Creates an index object. See Indexing and search for more information.
 - `LinkName`: The name of the link between the parent object and the index object.
 - `ParentReference`: A reference to the parent object that contains the index object.
 """
-CreateIndex(IsUnique, OrderedIndexedAttributeList, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/index", Dict{String, Any}("IsUnique"=>IsUnique, "OrderedIndexedAttributeList"=>OrderedIndexedAttributeList, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-CreateIndex(IsUnique, OrderedIndexedAttributeList, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/index", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IsUnique"=>IsUnique, "OrderedIndexedAttributeList"=>OrderedIndexedAttributeList, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+CreateIndex(IsUnique, OrderedIndexedAttributeList, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/index", Dict{String, Any}("IsUnique"=>IsUnique, "OrderedIndexedAttributeList"=>OrderedIndexedAttributeList, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+CreateIndex(IsUnique, OrderedIndexedAttributeList, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/index", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IsUnique"=>IsUnique, "OrderedIndexedAttributeList"=>OrderedIndexedAttributeList, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     CreateObject()
@@ -181,8 +181,8 @@ Creates an object in a Directory. Additionally attaches the object to a parent, 
 - `ObjectAttributeList`: The attribute map whose attribute ARN contains the key and attribute value as the map value.
 - `ParentReference`: If specified, the parent reference to which this object will be attached.
 """
-CreateObject(SchemaFacets, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object", Dict{String, Any}("SchemaFacets"=>SchemaFacets, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-CreateObject(SchemaFacets, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaFacets"=>SchemaFacets, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+CreateObject(SchemaFacets, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object", Dict{String, Any}("SchemaFacets"=>SchemaFacets, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+CreateObject(SchemaFacets, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaFacets"=>SchemaFacets, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     CreateSchema()
@@ -193,8 +193,8 @@ Creates a new schema in a development state. A schema can exist in three phases:
 - `Name`: The name that is associated with the schema. This is unique to each account and in each region.
 
 """
-CreateSchema(Name; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/create", Dict{String, Any}("Name"=>Name))
-CreateSchema(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/create", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+CreateSchema(Name; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/create", Dict{String, Any}("Name"=>Name); aws=aws)
+CreateSchema(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/create", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
 
 """
     CreateTypedLinkFacet()
@@ -206,8 +206,8 @@ Creates a TypedLinkFacet. For more information, see Typed Links.
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
 
 """
-CreateTypedLinkFacet(Facet, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/typedlink/facet/create", Dict{String, Any}("Facet"=>Facet, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-CreateTypedLinkFacet(Facet, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/typedlink/facet/create", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Facet"=>Facet, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+CreateTypedLinkFacet(Facet, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/typedlink/facet/create", Dict{String, Any}("Facet"=>Facet, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+CreateTypedLinkFacet(Facet, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/typedlink/facet/create", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Facet"=>Facet, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     DeleteDirectory()
@@ -218,8 +218,8 @@ Deletes a directory. Only disabled directories can be deleted. A deleted directo
 - `x-amz-data-partition`: The ARN of the directory to delete.
 
 """
-DeleteDirectory(x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/directory", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-DeleteDirectory(x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/directory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+DeleteDirectory(x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/directory", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+DeleteDirectory(x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/directory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     DeleteFacet()
@@ -231,8 +231,8 @@ Deletes a given Facet. All attributes and Rules that are associated with the fac
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the Facet. For more information, see arns.
 
 """
-DeleteFacet(Name, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/facet/delete", Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-DeleteFacet(Name, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/facet/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+DeleteFacet(Name, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/facet/delete", Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+DeleteFacet(Name, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/facet/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     DeleteObject()
@@ -244,8 +244,8 @@ Deletes an object and its associated attributes. Only objects with no children a
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the Directory where the object resides. For more information, see arns.
 
 """
-DeleteObject(ObjectReference, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/delete", Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-DeleteObject(ObjectReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+DeleteObject(ObjectReference, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/delete", Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+DeleteObject(ObjectReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     DeleteSchema()
@@ -256,8 +256,8 @@ Deletes a given schema. Schemas in a development and published state can only be
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) of the development schema. For more information, see arns.
 
 """
-DeleteSchema(x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-DeleteSchema(x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+DeleteSchema(x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+DeleteSchema(x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     DeleteTypedLinkFacet()
@@ -269,8 +269,8 @@ Deletes a TypedLinkFacet. For more information, see Typed Links.
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
 
 """
-DeleteTypedLinkFacet(Name, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/typedlink/facet/delete", Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-DeleteTypedLinkFacet(Name, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/typedlink/facet/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+DeleteTypedLinkFacet(Name, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/typedlink/facet/delete", Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+DeleteTypedLinkFacet(Name, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/typedlink/facet/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     DetachFromIndex()
@@ -283,8 +283,8 @@ Detaches the specified object from the specified index.
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) of the directory the index and object exist in.
 
 """
-DetachFromIndex(IndexReference, TargetReference, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/index/detach", Dict{String, Any}("IndexReference"=>IndexReference, "TargetReference"=>TargetReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-DetachFromIndex(IndexReference, TargetReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/index/detach", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexReference"=>IndexReference, "TargetReference"=>TargetReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+DetachFromIndex(IndexReference, TargetReference, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/index/detach", Dict{String, Any}("IndexReference"=>IndexReference, "TargetReference"=>TargetReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+DetachFromIndex(IndexReference, TargetReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/index/detach", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexReference"=>IndexReference, "TargetReference"=>TargetReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     DetachObject()
@@ -297,8 +297,8 @@ Detaches a given object from the parent object. The object that is to be detache
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the Directory where objects reside. For more information, see arns.
 
 """
-DetachObject(LinkName, ParentReference, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/detach", Dict{String, Any}("LinkName"=>LinkName, "ParentReference"=>ParentReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-DetachObject(LinkName, ParentReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/detach", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LinkName"=>LinkName, "ParentReference"=>ParentReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+DetachObject(LinkName, ParentReference, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/detach", Dict{String, Any}("LinkName"=>LinkName, "ParentReference"=>ParentReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+DetachObject(LinkName, ParentReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/detach", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LinkName"=>LinkName, "ParentReference"=>ParentReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     DetachPolicy()
@@ -311,8 +311,8 @@ Detaches a policy from an object.
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the Directory where both objects reside. For more information, see arns.
 
 """
-DetachPolicy(ObjectReference, PolicyReference, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/policy/detach", Dict{String, Any}("ObjectReference"=>ObjectReference, "PolicyReference"=>PolicyReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-DetachPolicy(ObjectReference, PolicyReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/policy/detach", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectReference"=>ObjectReference, "PolicyReference"=>PolicyReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+DetachPolicy(ObjectReference, PolicyReference, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/policy/detach", Dict{String, Any}("ObjectReference"=>ObjectReference, "PolicyReference"=>PolicyReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+DetachPolicy(ObjectReference, PolicyReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/policy/detach", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectReference"=>ObjectReference, "PolicyReference"=>PolicyReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     DetachTypedLink()
@@ -324,8 +324,8 @@ Detaches a typed link from a specified source and target object. For more inform
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) of the directory where you want to detach the typed link.
 
 """
-DetachTypedLink(TypedLinkSpecifier, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/typedlink/detach", Dict{String, Any}("TypedLinkSpecifier"=>TypedLinkSpecifier, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-DetachTypedLink(TypedLinkSpecifier, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/typedlink/detach", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TypedLinkSpecifier"=>TypedLinkSpecifier, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+DetachTypedLink(TypedLinkSpecifier, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/typedlink/detach", Dict{String, Any}("TypedLinkSpecifier"=>TypedLinkSpecifier, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+DetachTypedLink(TypedLinkSpecifier, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/typedlink/detach", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TypedLinkSpecifier"=>TypedLinkSpecifier, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     DisableDirectory()
@@ -336,8 +336,8 @@ Disables the specified directory. Disabled directories cannot be read or written
 - `x-amz-data-partition`: The ARN of the directory to disable.
 
 """
-DisableDirectory(x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/directory/disable", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-DisableDirectory(x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/directory/disable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+DisableDirectory(x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/directory/disable", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+DisableDirectory(x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/directory/disable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     EnableDirectory()
@@ -348,8 +348,8 @@ Enables the specified directory. Only disabled directories can be enabled. Once 
 - `x-amz-data-partition`: The ARN of the directory to enable.
 
 """
-EnableDirectory(x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/directory/enable", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-EnableDirectory(x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/directory/enable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+EnableDirectory(x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/directory/enable", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+EnableDirectory(x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/directory/enable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     GetAppliedSchemaVersion()
@@ -360,8 +360,8 @@ Returns current applied schema version ARN, including the minor version in use.
 - `SchemaArn`: The ARN of the applied schema.
 
 """
-GetAppliedSchemaVersion(SchemaArn; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/getappliedschema", Dict{String, Any}("SchemaArn"=>SchemaArn))
-GetAppliedSchemaVersion(SchemaArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/getappliedschema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaArn"=>SchemaArn), args)); aws=aws)
+GetAppliedSchemaVersion(SchemaArn; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/getappliedschema", Dict{String, Any}("SchemaArn"=>SchemaArn); aws=aws)
+GetAppliedSchemaVersion(SchemaArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/getappliedschema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SchemaArn"=>SchemaArn), args)); aws=aws)
 
 """
     GetDirectory()
@@ -372,8 +372,8 @@ Retrieves metadata about a directory.
 - `x-amz-data-partition`: The ARN of the directory.
 
 """
-GetDirectory(x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/directory/get", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-GetDirectory(x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/directory/get", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+GetDirectory(x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/directory/get", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+GetDirectory(x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/directory/get", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     GetFacet()
@@ -385,8 +385,8 @@ Gets details of the Facet, such as facet name, attributes, Rules, or ObjectType.
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the Facet. For more information, see arns.
 
 """
-GetFacet(Name, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/facet", Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-GetFacet(Name, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/facet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+GetFacet(Name, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/facet", Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+GetFacet(Name, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/facet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     GetLinkAttributes()
@@ -401,8 +401,8 @@ Retrieves attributes that are associated with a typed link.
 # Optional Parameters
 - `ConsistencyLevel`: The consistency level at which to retrieve the attributes on a typed link.
 """
-GetLinkAttributes(AttributeNames, TypedLinkSpecifier, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/attributes/get", Dict{String, Any}("AttributeNames"=>AttributeNames, "TypedLinkSpecifier"=>TypedLinkSpecifier, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-GetLinkAttributes(AttributeNames, TypedLinkSpecifier, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/attributes/get", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeNames"=>AttributeNames, "TypedLinkSpecifier"=>TypedLinkSpecifier, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+GetLinkAttributes(AttributeNames, TypedLinkSpecifier, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/attributes/get", Dict{String, Any}("AttributeNames"=>AttributeNames, "TypedLinkSpecifier"=>TypedLinkSpecifier, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+GetLinkAttributes(AttributeNames, TypedLinkSpecifier, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/attributes/get", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeNames"=>AttributeNames, "TypedLinkSpecifier"=>TypedLinkSpecifier, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     GetObjectAttributes()
@@ -418,8 +418,8 @@ Retrieves attributes within a facet that are associated with an object.
 # Optional Parameters
 - `x-amz-consistency-level`: The consistency level at which to retrieve the attributes on an object.
 """
-GetObjectAttributes(AttributeNames, ObjectReference, SchemaFacet, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/attributes/get", Dict{String, Any}("AttributeNames"=>AttributeNames, "ObjectReference"=>ObjectReference, "SchemaFacet"=>SchemaFacet, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-GetObjectAttributes(AttributeNames, ObjectReference, SchemaFacet, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/attributes/get", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeNames"=>AttributeNames, "ObjectReference"=>ObjectReference, "SchemaFacet"=>SchemaFacet, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+GetObjectAttributes(AttributeNames, ObjectReference, SchemaFacet, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/attributes/get", Dict{String, Any}("AttributeNames"=>AttributeNames, "ObjectReference"=>ObjectReference, "SchemaFacet"=>SchemaFacet, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+GetObjectAttributes(AttributeNames, ObjectReference, SchemaFacet, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/attributes/get", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeNames"=>AttributeNames, "ObjectReference"=>ObjectReference, "SchemaFacet"=>SchemaFacet, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     GetObjectInformation()
@@ -433,8 +433,8 @@ Retrieves metadata about an object.
 # Optional Parameters
 - `x-amz-consistency-level`: The consistency level at which to retrieve the object information.
 """
-GetObjectInformation(ObjectReference, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/information", Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-GetObjectInformation(ObjectReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/information", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+GetObjectInformation(ObjectReference, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/information", Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+GetObjectInformation(ObjectReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/information", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     GetSchemaAsJson()
@@ -445,8 +445,8 @@ Retrieves a JSON representation of the schema. See JSON Schema Format for more i
 - `x-amz-data-partition`: The ARN of the schema to retrieve.
 
 """
-GetSchemaAsJson(x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/json", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-GetSchemaAsJson(x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/json", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+GetSchemaAsJson(x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/json", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+GetSchemaAsJson(x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/json", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     GetTypedLinkFacetInformation()
@@ -458,8 +458,8 @@ Returns the identity attribute order for a specific TypedLinkFacet. For more inf
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
 
 """
-GetTypedLinkFacetInformation(Name, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/facet/get", Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-GetTypedLinkFacetInformation(Name, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/facet/get", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+GetTypedLinkFacetInformation(Name, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/facet/get", Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+GetTypedLinkFacetInformation(Name, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/facet/get", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     ListAppliedSchemaArns()
@@ -474,8 +474,8 @@ Lists schema major versions applied to a directory. If SchemaArn is provided, li
 - `NextToken`: The pagination token.
 - `SchemaArn`: The response for ListAppliedSchemaArns when this parameter is used will list all minor version ARNs for a major version.
 """
-ListAppliedSchemaArns(DirectoryArn; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/applied", Dict{String, Any}("DirectoryArn"=>DirectoryArn))
-ListAppliedSchemaArns(DirectoryArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/applied", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryArn"=>DirectoryArn), args)); aws=aws)
+ListAppliedSchemaArns(DirectoryArn; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/applied", Dict{String, Any}("DirectoryArn"=>DirectoryArn); aws=aws)
+ListAppliedSchemaArns(DirectoryArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/applied", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryArn"=>DirectoryArn), args)); aws=aws)
 
 """
     ListAttachedIndices()
@@ -491,8 +491,8 @@ Lists indices attached to the specified object.
 - `NextToken`: The pagination token.
 - `x-amz-consistency-level`: The consistency level to use for this operation.
 """
-ListAttachedIndices(TargetReference, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/indices", Dict{String, Any}("TargetReference"=>TargetReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-ListAttachedIndices(TargetReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/indices", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetReference"=>TargetReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+ListAttachedIndices(TargetReference, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/indices", Dict{String, Any}("TargetReference"=>TargetReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+ListAttachedIndices(TargetReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/indices", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetReference"=>TargetReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     ListDevelopmentSchemaArns()
@@ -503,8 +503,8 @@ Retrieves each Amazon Resource Name (ARN) of schemas in the development state.
 - `MaxResults`: The maximum number of results to retrieve.
 - `NextToken`: The pagination token.
 """
-ListDevelopmentSchemaArns(; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/development"; aws=aws)
-ListDevelopmentSchemaArns(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/development", args; aws=aws)
+ListDevelopmentSchemaArns(; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/development"; aws=aws)
+ListDevelopmentSchemaArns(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/development", args; aws=aws)
 
 """
     ListDirectories()
@@ -516,8 +516,8 @@ Lists directories created within an account.
 - `NextToken`: The pagination token.
 - `state`: The state of the directories in the list. Can be either Enabled, Disabled, or Deleted.
 """
-ListDirectories(; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/directory/list"; aws=aws)
-ListDirectories(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/directory/list", args; aws=aws)
+ListDirectories(; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/directory/list"; aws=aws)
+ListDirectories(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/directory/list", args; aws=aws)
 
 """
     ListFacetAttributes()
@@ -532,8 +532,8 @@ Retrieves attributes attached to the facet.
 - `MaxResults`: The maximum number of results to retrieve.
 - `NextToken`: The pagination token.
 """
-ListFacetAttributes(Name, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/facet/attributes", Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-ListFacetAttributes(Name, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/facet/attributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+ListFacetAttributes(Name, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/facet/attributes", Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+ListFacetAttributes(Name, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/facet/attributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     ListFacetNames()
@@ -547,8 +547,8 @@ Retrieves the names of facets that exist in a schema.
 - `MaxResults`: The maximum number of results to retrieve.
 - `NextToken`: The pagination token.
 """
-ListFacetNames(x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/facet/list", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-ListFacetNames(x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/facet/list", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+ListFacetNames(x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/facet/list", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+ListFacetNames(x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/facet/list", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     ListIncomingTypedLinks()
@@ -566,8 +566,8 @@ Returns a paginated list of all the incoming TypedLinkSpecifier information for 
 - `MaxResults`: The maximum number of results to retrieve.
 - `NextToken`: The pagination token.
 """
-ListIncomingTypedLinks(ObjectReference, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/incoming", Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-ListIncomingTypedLinks(ObjectReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/incoming", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+ListIncomingTypedLinks(ObjectReference, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/incoming", Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+ListIncomingTypedLinks(ObjectReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/incoming", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     ListIndex()
@@ -584,8 +584,8 @@ Lists objects attached to the specified index.
 - `RangesOnIndexedValues`: Specifies the ranges of indexed values that you want to query.
 - `x-amz-consistency-level`: The consistency level to execute the request at.
 """
-ListIndex(IndexReference, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/index/targets", Dict{String, Any}("IndexReference"=>IndexReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-ListIndex(IndexReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/index/targets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexReference"=>IndexReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+ListIndex(IndexReference, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/index/targets", Dict{String, Any}("IndexReference"=>IndexReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+ListIndex(IndexReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/index/targets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IndexReference"=>IndexReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     ListManagedSchemaArns()
@@ -597,8 +597,8 @@ Lists the major version families of each managed schema. If a major version ARN 
 - `NextToken`: The pagination token.
 - `SchemaArn`: The response for ListManagedSchemaArns. When this parameter is used, all minor version ARNs for a major version are listed.
 """
-ListManagedSchemaArns(; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/managed"; aws=aws)
-ListManagedSchemaArns(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/managed", args; aws=aws)
+ListManagedSchemaArns(; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/managed"; aws=aws)
+ListManagedSchemaArns(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/managed", args; aws=aws)
 
 """
     ListObjectAttributes()
@@ -615,8 +615,8 @@ Lists all attributes that are associated with an object.
 - `NextToken`: The pagination token.
 - `x-amz-consistency-level`: Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
 """
-ListObjectAttributes(ObjectReference, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/attributes", Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-ListObjectAttributes(ObjectReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/attributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+ListObjectAttributes(ObjectReference, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/attributes", Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+ListObjectAttributes(ObjectReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/attributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     ListObjectChildren()
@@ -632,8 +632,8 @@ Returns a paginated list of child objects that are associated with a given objec
 - `NextToken`: The pagination token.
 - `x-amz-consistency-level`: Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
 """
-ListObjectChildren(ObjectReference, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/children", Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-ListObjectChildren(ObjectReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/children", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+ListObjectChildren(ObjectReference, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/children", Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+ListObjectChildren(ObjectReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/children", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     ListObjectParentPaths()
@@ -648,8 +648,8 @@ Retrieves all available parent paths for any object type such as node, leaf node
 - `MaxResults`: The maximum number of items to be retrieved in a single call. This is an approximate number.
 - `NextToken`: The pagination token.
 """
-ListObjectParentPaths(ObjectReference, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/parentpaths", Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-ListObjectParentPaths(ObjectReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/parentpaths", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+ListObjectParentPaths(ObjectReference, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/parentpaths", Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+ListObjectParentPaths(ObjectReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/parentpaths", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     ListObjectParents()
@@ -666,8 +666,8 @@ Lists parent objects that are associated with a given object in pagination fashi
 - `NextToken`: The pagination token.
 - `x-amz-consistency-level`: Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
 """
-ListObjectParents(ObjectReference, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/parent", Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-ListObjectParents(ObjectReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/parent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+ListObjectParents(ObjectReference, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/parent", Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+ListObjectParents(ObjectReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/parent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     ListObjectPolicies()
@@ -683,8 +683,8 @@ Returns policies attached to an object in pagination fashion.
 - `NextToken`: The pagination token.
 - `x-amz-consistency-level`: Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
 """
-ListObjectPolicies(ObjectReference, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/policy", Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-ListObjectPolicies(ObjectReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+ListObjectPolicies(ObjectReference, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/policy", Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+ListObjectPolicies(ObjectReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/object/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     ListOutgoingTypedLinks()
@@ -702,8 +702,8 @@ Returns a paginated list of all the outgoing TypedLinkSpecifier information for 
 - `MaxResults`: The maximum number of results to retrieve.
 - `NextToken`: The pagination token.
 """
-ListOutgoingTypedLinks(ObjectReference, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/outgoing", Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-ListOutgoingTypedLinks(ObjectReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/outgoing", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+ListOutgoingTypedLinks(ObjectReference, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/outgoing", Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+ListOutgoingTypedLinks(ObjectReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/outgoing", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     ListPolicyAttachments()
@@ -719,8 +719,8 @@ Returns all of the ObjectIdentifiers to which a given policy is attached.
 - `NextToken`: The pagination token.
 - `x-amz-consistency-level`: Represents the manner and timing in which the successful write or update of an object is reflected in a subsequent read operation of that same object.
 """
-ListPolicyAttachments(PolicyReference, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/policy/attachment", Dict{String, Any}("PolicyReference"=>PolicyReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-ListPolicyAttachments(PolicyReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/policy/attachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyReference"=>PolicyReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+ListPolicyAttachments(PolicyReference, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/policy/attachment", Dict{String, Any}("PolicyReference"=>PolicyReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+ListPolicyAttachments(PolicyReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/policy/attachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyReference"=>PolicyReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     ListPublishedSchemaArns()
@@ -732,8 +732,8 @@ Lists the major version families of each published schema. If a major version AR
 - `NextToken`: The pagination token.
 - `SchemaArn`: The response for ListPublishedSchemaArns when this parameter is used will list all minor version ARNs for a major version.
 """
-ListPublishedSchemaArns(; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/published"; aws=aws)
-ListPublishedSchemaArns(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/published", args; aws=aws)
+ListPublishedSchemaArns(; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/published"; aws=aws)
+ListPublishedSchemaArns(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/schema/published", args; aws=aws)
 
 """
     ListTagsForResource()
@@ -747,8 +747,8 @@ Returns tags for a resource. Tagging is currently supported only for directories
 - `MaxResults`: The MaxResults parameter sets the maximum number of results returned in a single page. This is for future use and is not supported currently.
 - `NextToken`: The pagination token. This is for future use. Currently pagination is not supported for tagging.
 """
-ListTagsForResource(ResourceArn; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/tags", Dict{String, Any}("ResourceArn"=>ResourceArn))
-ListTagsForResource(ResourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws=aws)
+ListTagsForResource(ResourceArn; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/tags", Dict{String, Any}("ResourceArn"=>ResourceArn); aws=aws)
+ListTagsForResource(ResourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws=aws)
 
 """
     ListTypedLinkFacetAttributes()
@@ -763,8 +763,8 @@ Returns a paginated list of all attribute definitions for a particular TypedLink
 - `MaxResults`: The maximum number of results to retrieve.
 - `NextToken`: The pagination token.
 """
-ListTypedLinkFacetAttributes(Name, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/facet/attributes", Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-ListTypedLinkFacetAttributes(Name, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/facet/attributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+ListTypedLinkFacetAttributes(Name, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/facet/attributes", Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+ListTypedLinkFacetAttributes(Name, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/facet/attributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     ListTypedLinkFacetNames()
@@ -778,8 +778,8 @@ Returns a paginated list of TypedLink facet names for a particular schema. For m
 - `MaxResults`: The maximum number of results to retrieve.
 - `NextToken`: The pagination token.
 """
-ListTypedLinkFacetNames(x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/facet/list", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-ListTypedLinkFacetNames(x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/facet/list", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+ListTypedLinkFacetNames(x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/facet/list", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+ListTypedLinkFacetNames(x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/facet/list", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     LookupPolicy()
@@ -794,8 +794,8 @@ Lists all policies from the root of the Directory to the object specified. If th
 - `MaxResults`: The maximum number of items to be retrieved in a single call. This is an approximate number.
 - `NextToken`: The token to request the next page of results.
 """
-LookupPolicy(ObjectReference, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/policy/lookup", Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-LookupPolicy(ObjectReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/policy/lookup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+LookupPolicy(ObjectReference, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/policy/lookup", Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+LookupPolicy(ObjectReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/policy/lookup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     PublishSchema()
@@ -810,8 +810,8 @@ Publishes a development schema with a major version and a recommended minor vers
 - `MinorVersion`: The minor version under which the schema will be published. This parameter is recommended. Schemas have both a major and minor version associated with them.
 - `Name`: The new name under which the schema will be published. If this is not provided, the development schema is considered.
 """
-PublishSchema(Version, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/publish", Dict{String, Any}("Version"=>Version, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-PublishSchema(Version, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/publish", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Version"=>Version, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+PublishSchema(Version, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/publish", Dict{String, Any}("Version"=>Version, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+PublishSchema(Version, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/publish", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Version"=>Version, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     PutSchemaFromJson()
@@ -823,8 +823,8 @@ Allows a schema to be updated using JSON upload. Only available for development 
 - `x-amz-data-partition`: The ARN of the schema to update.
 
 """
-PutSchemaFromJson(Document, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/json", Dict{String, Any}("Document"=>Document, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-PutSchemaFromJson(Document, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/json", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Document"=>Document, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+PutSchemaFromJson(Document, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/json", Dict{String, Any}("Document"=>Document, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+PutSchemaFromJson(Document, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/json", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Document"=>Document, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     RemoveFacetFromObject()
@@ -837,8 +837,8 @@ Removes the specified facet from the specified object.
 - `x-amz-data-partition`: The ARN of the directory in which the object resides.
 
 """
-RemoveFacetFromObject(ObjectReference, SchemaFacet, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/facets/delete", Dict{String, Any}("ObjectReference"=>ObjectReference, "SchemaFacet"=>SchemaFacet, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-RemoveFacetFromObject(ObjectReference, SchemaFacet, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/facets/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectReference"=>ObjectReference, "SchemaFacet"=>SchemaFacet, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+RemoveFacetFromObject(ObjectReference, SchemaFacet, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/facets/delete", Dict{String, Any}("ObjectReference"=>ObjectReference, "SchemaFacet"=>SchemaFacet, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+RemoveFacetFromObject(ObjectReference, SchemaFacet, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/facets/delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ObjectReference"=>ObjectReference, "SchemaFacet"=>SchemaFacet, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     TagResource()
@@ -850,8 +850,8 @@ An API operation for adding tags to a resource.
 - `Tags`: A list of tag key-value pairs.
 
 """
-TagResource(ResourceArn, Tags; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/tags/add", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags))
-TagResource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/tags/add", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), args)); aws=aws)
+TagResource(ResourceArn, Tags; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/tags/add", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws=aws)
+TagResource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/tags/add", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), args)); aws=aws)
 
 """
     UntagResource()
@@ -863,8 +863,8 @@ An API operation for removing tags from a resource.
 - `TagKeys`: Keys of the tag that need to be removed from the resource.
 
 """
-UntagResource(ResourceArn, TagKeys; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/tags/remove", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys))
-UntagResource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/tags/remove", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws=aws)
+UntagResource(ResourceArn, TagKeys; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/tags/remove", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws=aws)
+UntagResource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/tags/remove", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws=aws)
 
 """
     UpdateFacet()
@@ -879,8 +879,8 @@ Does the following:   Adds new Attributes, Rules, or ObjectTypes.   Updates exis
 - `AttributeUpdates`: List of attributes that need to be updated in a given schema Facet. Each attribute is followed by AttributeAction, which specifies the type of update operation to perform. 
 - `ObjectType`: The object type that is associated with the facet. See CreateFacetRequest ObjectType for more details.
 """
-UpdateFacet(Name, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/facet", Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-UpdateFacet(Name, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/facet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+UpdateFacet(Name, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/facet", Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+UpdateFacet(Name, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/facet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     UpdateLinkAttributes()
@@ -893,8 +893,8 @@ Updates a given typed link’s attributes. Attributes to be updated must not con
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the Directory where the updated typed link resides. For more information, see arns or Typed Links.
 
 """
-UpdateLinkAttributes(AttributeUpdates, TypedLinkSpecifier, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/attributes/update", Dict{String, Any}("AttributeUpdates"=>AttributeUpdates, "TypedLinkSpecifier"=>TypedLinkSpecifier, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-UpdateLinkAttributes(AttributeUpdates, TypedLinkSpecifier, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/attributes/update", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeUpdates"=>AttributeUpdates, "TypedLinkSpecifier"=>TypedLinkSpecifier, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+UpdateLinkAttributes(AttributeUpdates, TypedLinkSpecifier, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/attributes/update", Dict{String, Any}("AttributeUpdates"=>AttributeUpdates, "TypedLinkSpecifier"=>TypedLinkSpecifier, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+UpdateLinkAttributes(AttributeUpdates, TypedLinkSpecifier, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("POST", "/amazonclouddirectory/2017-01-11/typedlink/attributes/update", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeUpdates"=>AttributeUpdates, "TypedLinkSpecifier"=>TypedLinkSpecifier, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     UpdateObjectAttributes()
@@ -907,8 +907,8 @@ Updates a given object's attributes.
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the Directory where the object resides. For more information, see arns.
 
 """
-UpdateObjectAttributes(AttributeUpdates, ObjectReference, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/update", Dict{String, Any}("AttributeUpdates"=>AttributeUpdates, "ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-UpdateObjectAttributes(AttributeUpdates, ObjectReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/update", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeUpdates"=>AttributeUpdates, "ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+UpdateObjectAttributes(AttributeUpdates, ObjectReference, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/update", Dict{String, Any}("AttributeUpdates"=>AttributeUpdates, "ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+UpdateObjectAttributes(AttributeUpdates, ObjectReference, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/object/update", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeUpdates"=>AttributeUpdates, "ObjectReference"=>ObjectReference, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     UpdateSchema()
@@ -920,8 +920,8 @@ Updates the schema name with a new name. Only development schema names can be up
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) of the development schema. For more information, see arns.
 
 """
-UpdateSchema(Name, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/update", Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-UpdateSchema(Name, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/update", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+UpdateSchema(Name, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/update", Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+UpdateSchema(Name, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/update", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     UpdateTypedLinkFacet()
@@ -935,8 +935,8 @@ Updates a TypedLinkFacet. For more information, see Typed Links.
 - `x-amz-data-partition`: The Amazon Resource Name (ARN) that is associated with the schema. For more information, see arns.
 
 """
-UpdateTypedLinkFacet(AttributeUpdates, IdentityAttributeOrder, Name, x_amz_data_partition; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/typedlink/facet", Dict{String, Any}("AttributeUpdates"=>AttributeUpdates, "IdentityAttributeOrder"=>IdentityAttributeOrder, "Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
-UpdateTypedLinkFacet(AttributeUpdates, IdentityAttributeOrder, Name, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/typedlink/facet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeUpdates"=>AttributeUpdates, "IdentityAttributeOrder"=>IdentityAttributeOrder, "Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
+UpdateTypedLinkFacet(AttributeUpdates, IdentityAttributeOrder, Name, x_amz_data_partition; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/typedlink/facet", Dict{String, Any}("AttributeUpdates"=>AttributeUpdates, "IdentityAttributeOrder"=>IdentityAttributeOrder, "Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)); aws=aws)
+UpdateTypedLinkFacet(AttributeUpdates, IdentityAttributeOrder, Name, x_amz_data_partition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/typedlink/facet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeUpdates"=>AttributeUpdates, "IdentityAttributeOrder"=>IdentityAttributeOrder, "Name"=>Name, "headers"=>Dict{String, Any}("x-amz-data-partition"=>x_amz_data_partition)), args)); aws=aws)
 
 """
     UpgradeAppliedSchema()
@@ -950,8 +950,8 @@ Upgrades a single directory in-place using the PublishedSchemaArn with schema up
 # Optional Parameters
 - `DryRun`: Used for testing whether the major version schemas are backward compatible or not. If schema compatibility fails, an exception would be thrown else the call would succeed but no changes will be saved. This parameter is optional.
 """
-UpgradeAppliedSchema(DirectoryArn, PublishedSchemaArn; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/upgradeapplied", Dict{String, Any}("DirectoryArn"=>DirectoryArn, "PublishedSchemaArn"=>PublishedSchemaArn))
-UpgradeAppliedSchema(DirectoryArn, PublishedSchemaArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/upgradeapplied", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryArn"=>DirectoryArn, "PublishedSchemaArn"=>PublishedSchemaArn), args)); aws=aws)
+UpgradeAppliedSchema(DirectoryArn, PublishedSchemaArn; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/upgradeapplied", Dict{String, Any}("DirectoryArn"=>DirectoryArn, "PublishedSchemaArn"=>PublishedSchemaArn); aws=aws)
+UpgradeAppliedSchema(DirectoryArn, PublishedSchemaArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/upgradeapplied", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryArn"=>DirectoryArn, "PublishedSchemaArn"=>PublishedSchemaArn), args)); aws=aws)
 
 """
     UpgradePublishedSchema()
@@ -966,5 +966,5 @@ Upgrades a published schema under a new minor version revision using the current
 # Optional Parameters
 - `DryRun`: Used for testing whether the Development schema provided is backwards compatible, or not, with the publish schema provided by the user to be upgraded. If schema compatibility fails, an exception would be thrown else the call would succeed. This parameter is optional and defaults to false.
 """
-UpgradePublishedSchema(DevelopmentSchemaArn, MinorVersion, PublishedSchemaArn; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/upgradepublished", Dict{String, Any}("DevelopmentSchemaArn"=>DevelopmentSchemaArn, "MinorVersion"=>MinorVersion, "PublishedSchemaArn"=>PublishedSchemaArn))
-UpgradePublishedSchema(DevelopmentSchemaArn, MinorVersion, PublishedSchemaArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/upgradepublished", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DevelopmentSchemaArn"=>DevelopmentSchemaArn, "MinorVersion"=>MinorVersion, "PublishedSchemaArn"=>PublishedSchemaArn), args)); aws=aws)
+UpgradePublishedSchema(DevelopmentSchemaArn, MinorVersion, PublishedSchemaArn; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/upgradepublished", Dict{String, Any}("DevelopmentSchemaArn"=>DevelopmentSchemaArn, "MinorVersion"=>MinorVersion, "PublishedSchemaArn"=>PublishedSchemaArn); aws=aws)
+UpgradePublishedSchema(DevelopmentSchemaArn, MinorVersion, PublishedSchemaArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = clouddirectory("PUT", "/amazonclouddirectory/2017-01-11/schema/upgradepublished", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DevelopmentSchemaArn"=>DevelopmentSchemaArn, "MinorVersion"=>MinorVersion, "PublishedSchemaArn"=>PublishedSchemaArn), args)); aws=aws)

@@ -15,8 +15,8 @@ Closes a tunnel identified by the unique tunnel id. When a CloseTunnel request i
 # Optional Parameters
 - `delete`: When set to true, AWS IoT Secure Tunneling deletes the tunnel data immediately.
 """
-CloseTunnel(tunnelId; aws::AWSConfig=AWSConfig()) = iotsecuretunneling("CloseTunnel", Dict{String, Any}("tunnelId"=>tunnelId); aws=aws)
-CloseTunnel(tunnelId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = iotsecuretunneling("CloseTunnel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tunnelId"=>tunnelId), args)); aws=aws)
+CloseTunnel(tunnelId; aws::AWSConfig=AWS.aws_config) = iotsecuretunneling("CloseTunnel", Dict{String, Any}("tunnelId"=>tunnelId); aws=aws)
+CloseTunnel(tunnelId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iotsecuretunneling("CloseTunnel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tunnelId"=>tunnelId), args)); aws=aws)
 
 """
     DescribeTunnel()
@@ -27,8 +27,8 @@ Gets information about a tunnel identified by the unique tunnel id.
 - `tunnelId`: The tunnel to describe.
 
 """
-DescribeTunnel(tunnelId; aws::AWSConfig=AWSConfig()) = iotsecuretunneling("DescribeTunnel", Dict{String, Any}("tunnelId"=>tunnelId); aws=aws)
-DescribeTunnel(tunnelId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = iotsecuretunneling("DescribeTunnel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tunnelId"=>tunnelId), args)); aws=aws)
+DescribeTunnel(tunnelId; aws::AWSConfig=AWS.aws_config) = iotsecuretunneling("DescribeTunnel", Dict{String, Any}("tunnelId"=>tunnelId); aws=aws)
+DescribeTunnel(tunnelId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iotsecuretunneling("DescribeTunnel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tunnelId"=>tunnelId), args)); aws=aws)
 
 """
     ListTagsForResource()
@@ -39,8 +39,8 @@ Lists the tags for the specified resource.
 - `resourceArn`: The resource ARN.
 
 """
-ListTagsForResource(resourceArn; aws::AWSConfig=AWSConfig()) = iotsecuretunneling("ListTagsForResource", Dict{String, Any}("resourceArn"=>resourceArn); aws=aws)
-ListTagsForResource(resourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = iotsecuretunneling("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), args)); aws=aws)
+ListTagsForResource(resourceArn; aws::AWSConfig=AWS.aws_config) = iotsecuretunneling("ListTagsForResource", Dict{String, Any}("resourceArn"=>resourceArn); aws=aws)
+ListTagsForResource(resourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iotsecuretunneling("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), args)); aws=aws)
 
 """
     ListTunnels()
@@ -52,8 +52,8 @@ List all tunnels for an AWS account. Tunnels are listed by creation time in desc
 - `nextToken`: A token to retrieve the next set of results.
 - `thingName`: The name of the IoT thing associated with the destination device.
 """
-ListTunnels(; aws::AWSConfig=AWSConfig()) = iotsecuretunneling("ListTunnels"; aws=aws)
-ListTunnels(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = iotsecuretunneling("ListTunnels", args; aws=aws)
+ListTunnels(; aws::AWSConfig=AWS.aws_config) = iotsecuretunneling("ListTunnels"; aws=aws)
+ListTunnels(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iotsecuretunneling("ListTunnels", args; aws=aws)
 
 """
     OpenTunnel()
@@ -66,8 +66,8 @@ Creates a new tunnel, and returns two client access tokens for clients to use to
 - `tags`: A collection of tag metadata.
 - `timeoutConfig`: Timeout configuration for a tunnel.
 """
-OpenTunnel(; aws::AWSConfig=AWSConfig()) = iotsecuretunneling("OpenTunnel"; aws=aws)
-OpenTunnel(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = iotsecuretunneling("OpenTunnel", args; aws=aws)
+OpenTunnel(; aws::AWSConfig=AWS.aws_config) = iotsecuretunneling("OpenTunnel"; aws=aws)
+OpenTunnel(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iotsecuretunneling("OpenTunnel", args; aws=aws)
 
 """
     TagResource()
@@ -79,8 +79,8 @@ A resource tag.
 - `tags`: The tags for the resource.
 
 """
-TagResource(resourceArn, tags; aws::AWSConfig=AWSConfig()) = iotsecuretunneling("TagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws=aws)
-TagResource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = iotsecuretunneling("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), args)); aws=aws)
+TagResource(resourceArn, tags; aws::AWSConfig=AWS.aws_config) = iotsecuretunneling("TagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws=aws)
+TagResource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iotsecuretunneling("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), args)); aws=aws)
 
 """
     UntagResource()
@@ -92,5 +92,5 @@ Removes a tag from a resource.
 - `tagKeys`: The keys of the tags to remove.
 
 """
-UntagResource(resourceArn, tagKeys; aws::AWSConfig=AWSConfig()) = iotsecuretunneling("UntagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws=aws)
-UntagResource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = iotsecuretunneling("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), args)); aws=aws)
+UntagResource(resourceArn, tagKeys; aws::AWSConfig=AWS.aws_config) = iotsecuretunneling("UntagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws=aws)
+UntagResource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iotsecuretunneling("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), args)); aws=aws)

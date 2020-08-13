@@ -13,8 +13,8 @@ using UUIDs
 - `CreateApplicationRequest`: 
 
 """
-CreateApp(CreateApplicationRequest; aws::AWSConfig=AWSConfig()) = pinpoint("POST", "/v1/apps", Dict{String, Any}("CreateApplicationRequest"=>CreateApplicationRequest))
-CreateApp(CreateApplicationRequest, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("POST", "/v1/apps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreateApplicationRequest"=>CreateApplicationRequest), args)); aws=aws)
+CreateApp(CreateApplicationRequest; aws::AWSConfig=AWS.aws_config) = pinpoint("POST", "/v1/apps", Dict{String, Any}("CreateApplicationRequest"=>CreateApplicationRequest); aws=aws)
+CreateApp(CreateApplicationRequest, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("POST", "/v1/apps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreateApplicationRequest"=>CreateApplicationRequest), args)); aws=aws)
 
 """
     CreateCampaign()
@@ -26,8 +26,8 @@ Creates a new campaign for an application or updates the settings of an existing
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-CreateCampaign(WriteCampaignRequest, application_id; aws::AWSConfig=AWSConfig()) = pinpoint("POST", "/v1/apps/$(application-id)/campaigns", Dict{String, Any}("WriteCampaignRequest"=>WriteCampaignRequest))
-CreateCampaign(WriteCampaignRequest, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("POST", "/v1/apps/$(application-id)/campaigns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WriteCampaignRequest"=>WriteCampaignRequest), args)); aws=aws)
+CreateCampaign(WriteCampaignRequest, application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("POST", "/v1/apps/$(application-id)/campaigns", Dict{String, Any}("WriteCampaignRequest"=>WriteCampaignRequest); aws=aws)
+CreateCampaign(WriteCampaignRequest, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("POST", "/v1/apps/$(application-id)/campaigns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WriteCampaignRequest"=>WriteCampaignRequest), args)); aws=aws)
 
 """
     CreateEmailTemplate()
@@ -39,8 +39,8 @@ Creates a message template for messages that are sent through the email channel.
 - `template-name`: The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
 
 """
-CreateEmailTemplate(EmailTemplateRequest, template_name; aws::AWSConfig=AWSConfig()) = pinpoint("POST", "/v1/templates/$(template-name)/email", Dict{String, Any}("EmailTemplateRequest"=>EmailTemplateRequest))
-CreateEmailTemplate(EmailTemplateRequest, template_name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("POST", "/v1/templates/$(template-name)/email", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmailTemplateRequest"=>EmailTemplateRequest), args)); aws=aws)
+CreateEmailTemplate(EmailTemplateRequest, template_name; aws::AWSConfig=AWS.aws_config) = pinpoint("POST", "/v1/templates/$(template-name)/email", Dict{String, Any}("EmailTemplateRequest"=>EmailTemplateRequest); aws=aws)
+CreateEmailTemplate(EmailTemplateRequest, template_name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("POST", "/v1/templates/$(template-name)/email", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmailTemplateRequest"=>EmailTemplateRequest), args)); aws=aws)
 
 """
     CreateExportJob()
@@ -52,8 +52,8 @@ Creates an export job for an application.
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-CreateExportJob(ExportJobRequest, application_id; aws::AWSConfig=AWSConfig()) = pinpoint("POST", "/v1/apps/$(application-id)/jobs/export", Dict{String, Any}("ExportJobRequest"=>ExportJobRequest))
-CreateExportJob(ExportJobRequest, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("POST", "/v1/apps/$(application-id)/jobs/export", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExportJobRequest"=>ExportJobRequest), args)); aws=aws)
+CreateExportJob(ExportJobRequest, application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("POST", "/v1/apps/$(application-id)/jobs/export", Dict{String, Any}("ExportJobRequest"=>ExportJobRequest); aws=aws)
+CreateExportJob(ExportJobRequest, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("POST", "/v1/apps/$(application-id)/jobs/export", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExportJobRequest"=>ExportJobRequest), args)); aws=aws)
 
 """
     CreateImportJob()
@@ -65,8 +65,8 @@ Creates an import job for an application.
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-CreateImportJob(ImportJobRequest, application_id; aws::AWSConfig=AWSConfig()) = pinpoint("POST", "/v1/apps/$(application-id)/jobs/import", Dict{String, Any}("ImportJobRequest"=>ImportJobRequest))
-CreateImportJob(ImportJobRequest, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("POST", "/v1/apps/$(application-id)/jobs/import", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImportJobRequest"=>ImportJobRequest), args)); aws=aws)
+CreateImportJob(ImportJobRequest, application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("POST", "/v1/apps/$(application-id)/jobs/import", Dict{String, Any}("ImportJobRequest"=>ImportJobRequest); aws=aws)
+CreateImportJob(ImportJobRequest, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("POST", "/v1/apps/$(application-id)/jobs/import", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImportJobRequest"=>ImportJobRequest), args)); aws=aws)
 
 """
     CreateJourney()
@@ -78,8 +78,8 @@ Creates a journey for an application.
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-CreateJourney(WriteJourneyRequest, application_id; aws::AWSConfig=AWSConfig()) = pinpoint("POST", "/v1/apps/$(application-id)/journeys", Dict{String, Any}("WriteJourneyRequest"=>WriteJourneyRequest))
-CreateJourney(WriteJourneyRequest, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("POST", "/v1/apps/$(application-id)/journeys", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WriteJourneyRequest"=>WriteJourneyRequest), args)); aws=aws)
+CreateJourney(WriteJourneyRequest, application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("POST", "/v1/apps/$(application-id)/journeys", Dict{String, Any}("WriteJourneyRequest"=>WriteJourneyRequest); aws=aws)
+CreateJourney(WriteJourneyRequest, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("POST", "/v1/apps/$(application-id)/journeys", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WriteJourneyRequest"=>WriteJourneyRequest), args)); aws=aws)
 
 """
     CreatePushTemplate()
@@ -91,8 +91,8 @@ Creates a message template for messages that are sent through a push notificatio
 - `template-name`: The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
 
 """
-CreatePushTemplate(PushNotificationTemplateRequest, template_name; aws::AWSConfig=AWSConfig()) = pinpoint("POST", "/v1/templates/$(template-name)/push", Dict{String, Any}("PushNotificationTemplateRequest"=>PushNotificationTemplateRequest))
-CreatePushTemplate(PushNotificationTemplateRequest, template_name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("POST", "/v1/templates/$(template-name)/push", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PushNotificationTemplateRequest"=>PushNotificationTemplateRequest), args)); aws=aws)
+CreatePushTemplate(PushNotificationTemplateRequest, template_name; aws::AWSConfig=AWS.aws_config) = pinpoint("POST", "/v1/templates/$(template-name)/push", Dict{String, Any}("PushNotificationTemplateRequest"=>PushNotificationTemplateRequest); aws=aws)
+CreatePushTemplate(PushNotificationTemplateRequest, template_name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("POST", "/v1/templates/$(template-name)/push", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PushNotificationTemplateRequest"=>PushNotificationTemplateRequest), args)); aws=aws)
 
 """
     CreateRecommenderConfiguration()
@@ -103,8 +103,8 @@ Creates an Amazon Pinpoint configuration for a recommender model.
 - `CreateRecommenderConfiguration`: 
 
 """
-CreateRecommenderConfiguration(CreateRecommenderConfiguration; aws::AWSConfig=AWSConfig()) = pinpoint("POST", "/v1/recommenders", Dict{String, Any}("CreateRecommenderConfiguration"=>CreateRecommenderConfiguration))
-CreateRecommenderConfiguration(CreateRecommenderConfiguration, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("POST", "/v1/recommenders", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreateRecommenderConfiguration"=>CreateRecommenderConfiguration), args)); aws=aws)
+CreateRecommenderConfiguration(CreateRecommenderConfiguration; aws::AWSConfig=AWS.aws_config) = pinpoint("POST", "/v1/recommenders", Dict{String, Any}("CreateRecommenderConfiguration"=>CreateRecommenderConfiguration); aws=aws)
+CreateRecommenderConfiguration(CreateRecommenderConfiguration, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("POST", "/v1/recommenders", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreateRecommenderConfiguration"=>CreateRecommenderConfiguration), args)); aws=aws)
 
 """
     CreateSegment()
@@ -116,8 +116,8 @@ Creates a new segment for an application or updates the configuration, dimension
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-CreateSegment(WriteSegmentRequest, application_id; aws::AWSConfig=AWSConfig()) = pinpoint("POST", "/v1/apps/$(application-id)/segments", Dict{String, Any}("WriteSegmentRequest"=>WriteSegmentRequest))
-CreateSegment(WriteSegmentRequest, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("POST", "/v1/apps/$(application-id)/segments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WriteSegmentRequest"=>WriteSegmentRequest), args)); aws=aws)
+CreateSegment(WriteSegmentRequest, application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("POST", "/v1/apps/$(application-id)/segments", Dict{String, Any}("WriteSegmentRequest"=>WriteSegmentRequest); aws=aws)
+CreateSegment(WriteSegmentRequest, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("POST", "/v1/apps/$(application-id)/segments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WriteSegmentRequest"=>WriteSegmentRequest), args)); aws=aws)
 
 """
     CreateSmsTemplate()
@@ -129,8 +129,8 @@ Creates a message template for messages that are sent through the SMS channel.
 - `template-name`: The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
 
 """
-CreateSmsTemplate(SMSTemplateRequest, template_name; aws::AWSConfig=AWSConfig()) = pinpoint("POST", "/v1/templates/$(template-name)/sms", Dict{String, Any}("SMSTemplateRequest"=>SMSTemplateRequest))
-CreateSmsTemplate(SMSTemplateRequest, template_name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("POST", "/v1/templates/$(template-name)/sms", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SMSTemplateRequest"=>SMSTemplateRequest), args)); aws=aws)
+CreateSmsTemplate(SMSTemplateRequest, template_name; aws::AWSConfig=AWS.aws_config) = pinpoint("POST", "/v1/templates/$(template-name)/sms", Dict{String, Any}("SMSTemplateRequest"=>SMSTemplateRequest); aws=aws)
+CreateSmsTemplate(SMSTemplateRequest, template_name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("POST", "/v1/templates/$(template-name)/sms", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SMSTemplateRequest"=>SMSTemplateRequest), args)); aws=aws)
 
 """
     CreateVoiceTemplate()
@@ -142,8 +142,8 @@ Creates a message template for messages that are sent through the voice channel.
 - `template-name`: The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
 
 """
-CreateVoiceTemplate(VoiceTemplateRequest, template_name; aws::AWSConfig=AWSConfig()) = pinpoint("POST", "/v1/templates/$(template-name)/voice", Dict{String, Any}("VoiceTemplateRequest"=>VoiceTemplateRequest))
-CreateVoiceTemplate(VoiceTemplateRequest, template_name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("POST", "/v1/templates/$(template-name)/voice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VoiceTemplateRequest"=>VoiceTemplateRequest), args)); aws=aws)
+CreateVoiceTemplate(VoiceTemplateRequest, template_name; aws::AWSConfig=AWS.aws_config) = pinpoint("POST", "/v1/templates/$(template-name)/voice", Dict{String, Any}("VoiceTemplateRequest"=>VoiceTemplateRequest); aws=aws)
+CreateVoiceTemplate(VoiceTemplateRequest, template_name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("POST", "/v1/templates/$(template-name)/voice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VoiceTemplateRequest"=>VoiceTemplateRequest), args)); aws=aws)
 
 """
     DeleteAdmChannel()
@@ -154,8 +154,8 @@ Disables the ADM channel for an application and deletes any existing settings fo
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-DeleteAdmChannel(application_id; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/adm"; aws=aws)
-DeleteAdmChannel(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/adm", args; aws=aws)
+DeleteAdmChannel(application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/adm"; aws=aws)
+DeleteAdmChannel(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/adm", args; aws=aws)
 
 """
     DeleteApnsChannel()
@@ -166,8 +166,8 @@ Disables the APNs channel for an application and deletes any existing settings f
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-DeleteApnsChannel(application_id; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/apns"; aws=aws)
-DeleteApnsChannel(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/apns", args; aws=aws)
+DeleteApnsChannel(application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/apns"; aws=aws)
+DeleteApnsChannel(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/apns", args; aws=aws)
 
 """
     DeleteApnsSandboxChannel()
@@ -178,8 +178,8 @@ Disables the APNs sandbox channel for an application and deletes any existing se
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-DeleteApnsSandboxChannel(application_id; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/apns_sandbox"; aws=aws)
-DeleteApnsSandboxChannel(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/apns_sandbox", args; aws=aws)
+DeleteApnsSandboxChannel(application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/apns_sandbox"; aws=aws)
+DeleteApnsSandboxChannel(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/apns_sandbox", args; aws=aws)
 
 """
     DeleteApnsVoipChannel()
@@ -190,8 +190,8 @@ Disables the APNs VoIP channel for an application and deletes any existing setti
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-DeleteApnsVoipChannel(application_id; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/apns_voip"; aws=aws)
-DeleteApnsVoipChannel(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/apns_voip", args; aws=aws)
+DeleteApnsVoipChannel(application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/apns_voip"; aws=aws)
+DeleteApnsVoipChannel(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/apns_voip", args; aws=aws)
 
 """
     DeleteApnsVoipSandboxChannel()
@@ -202,8 +202,8 @@ Disables the APNs VoIP sandbox channel for an application and deletes any existi
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-DeleteApnsVoipSandboxChannel(application_id; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/apns_voip_sandbox"; aws=aws)
-DeleteApnsVoipSandboxChannel(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/apns_voip_sandbox", args; aws=aws)
+DeleteApnsVoipSandboxChannel(application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/apns_voip_sandbox"; aws=aws)
+DeleteApnsVoipSandboxChannel(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/apns_voip_sandbox", args; aws=aws)
 
 """
     DeleteApp()
@@ -214,8 +214,8 @@ Deletes an application.
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-DeleteApp(application_id; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/apps/$(application-id)"; aws=aws)
-DeleteApp(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/apps/$(application-id)", args; aws=aws)
+DeleteApp(application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/apps/$(application-id)"; aws=aws)
+DeleteApp(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/apps/$(application-id)", args; aws=aws)
 
 """
     DeleteBaiduChannel()
@@ -226,8 +226,8 @@ Disables the Baidu channel for an application and deletes any existing settings 
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-DeleteBaiduChannel(application_id; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/baidu"; aws=aws)
-DeleteBaiduChannel(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/baidu", args; aws=aws)
+DeleteBaiduChannel(application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/baidu"; aws=aws)
+DeleteBaiduChannel(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/baidu", args; aws=aws)
 
 """
     DeleteCampaign()
@@ -239,8 +239,8 @@ Deletes a campaign from an application.
 - `campaign-id`: The unique identifier for the campaign.
 
 """
-DeleteCampaign(application_id, campaign_id; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/apps/$(application-id)/campaigns/$(campaign-id)"; aws=aws)
-DeleteCampaign(application_id, campaign_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/apps/$(application-id)/campaigns/$(campaign-id)", args; aws=aws)
+DeleteCampaign(application_id, campaign_id; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/apps/$(application-id)/campaigns/$(campaign-id)"; aws=aws)
+DeleteCampaign(application_id, campaign_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/apps/$(application-id)/campaigns/$(campaign-id)", args; aws=aws)
 
 """
     DeleteEmailChannel()
@@ -251,8 +251,8 @@ Disables the email channel for an application and deletes any existing settings 
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-DeleteEmailChannel(application_id; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/email"; aws=aws)
-DeleteEmailChannel(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/email", args; aws=aws)
+DeleteEmailChannel(application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/email"; aws=aws)
+DeleteEmailChannel(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/email", args; aws=aws)
 
 """
     DeleteEmailTemplate()
@@ -265,8 +265,8 @@ Deletes a message template for messages that were sent through the email channel
 # Optional Parameters
 - `version`: The unique identifier for the version of the message template to update, retrieve information about, or delete. To retrieve identifiers and other information for all the versions of a template, use the Template Versions resource. If specified, this value must match the identifier for an existing template version. If specified for an update operation, this value must match the identifier for the latest existing version of the template. This restriction helps ensure that race conditions don't occur. If you don't specify a value for this parameter, Amazon Pinpoint does the following: For a get operation, retrieves information about the active version of the template. For an update operation, saves the updates to (overwrites) the latest existing version of the template, if the create-new-version parameter isn't used or is set to false. For a delete operation, deletes the template, including all versions of the template.
 """
-DeleteEmailTemplate(template_name; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/templates/$(template-name)/email"; aws=aws)
-DeleteEmailTemplate(template_name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/templates/$(template-name)/email", args; aws=aws)
+DeleteEmailTemplate(template_name; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/templates/$(template-name)/email"; aws=aws)
+DeleteEmailTemplate(template_name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/templates/$(template-name)/email", args; aws=aws)
 
 """
     DeleteEndpoint()
@@ -278,8 +278,8 @@ Deletes an endpoint from an application.
 - `endpoint-id`: The unique identifier for the endpoint.
 
 """
-DeleteEndpoint(application_id, endpoint_id; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/apps/$(application-id)/endpoints/$(endpoint-id)"; aws=aws)
-DeleteEndpoint(application_id, endpoint_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/apps/$(application-id)/endpoints/$(endpoint-id)", args; aws=aws)
+DeleteEndpoint(application_id, endpoint_id; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/apps/$(application-id)/endpoints/$(endpoint-id)"; aws=aws)
+DeleteEndpoint(application_id, endpoint_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/apps/$(application-id)/endpoints/$(endpoint-id)", args; aws=aws)
 
 """
     DeleteEventStream()
@@ -290,8 +290,8 @@ Deletes the event stream for an application.
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-DeleteEventStream(application_id; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/apps/$(application-id)/eventstream"; aws=aws)
-DeleteEventStream(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/apps/$(application-id)/eventstream", args; aws=aws)
+DeleteEventStream(application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/apps/$(application-id)/eventstream"; aws=aws)
+DeleteEventStream(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/apps/$(application-id)/eventstream", args; aws=aws)
 
 """
     DeleteGcmChannel()
@@ -302,8 +302,8 @@ Disables the GCM channel for an application and deletes any existing settings fo
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-DeleteGcmChannel(application_id; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/gcm"; aws=aws)
-DeleteGcmChannel(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/gcm", args; aws=aws)
+DeleteGcmChannel(application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/gcm"; aws=aws)
+DeleteGcmChannel(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/gcm", args; aws=aws)
 
 """
     DeleteJourney()
@@ -315,8 +315,8 @@ Deletes a journey from an application.
 - `journey-id`: The unique identifier for the journey.
 
 """
-DeleteJourney(application_id, journey_id; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/apps/$(application-id)/journeys/$(journey-id)"; aws=aws)
-DeleteJourney(application_id, journey_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/apps/$(application-id)/journeys/$(journey-id)", args; aws=aws)
+DeleteJourney(application_id, journey_id; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/apps/$(application-id)/journeys/$(journey-id)"; aws=aws)
+DeleteJourney(application_id, journey_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/apps/$(application-id)/journeys/$(journey-id)", args; aws=aws)
 
 """
     DeletePushTemplate()
@@ -329,8 +329,8 @@ Deletes a message template for messages that were sent through a push notificati
 # Optional Parameters
 - `version`: The unique identifier for the version of the message template to update, retrieve information about, or delete. To retrieve identifiers and other information for all the versions of a template, use the Template Versions resource. If specified, this value must match the identifier for an existing template version. If specified for an update operation, this value must match the identifier for the latest existing version of the template. This restriction helps ensure that race conditions don't occur. If you don't specify a value for this parameter, Amazon Pinpoint does the following: For a get operation, retrieves information about the active version of the template. For an update operation, saves the updates to (overwrites) the latest existing version of the template, if the create-new-version parameter isn't used or is set to false. For a delete operation, deletes the template, including all versions of the template.
 """
-DeletePushTemplate(template_name; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/templates/$(template-name)/push"; aws=aws)
-DeletePushTemplate(template_name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/templates/$(template-name)/push", args; aws=aws)
+DeletePushTemplate(template_name; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/templates/$(template-name)/push"; aws=aws)
+DeletePushTemplate(template_name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/templates/$(template-name)/push", args; aws=aws)
 
 """
     DeleteRecommenderConfiguration()
@@ -341,8 +341,8 @@ Deletes an Amazon Pinpoint configuration for a recommender model.
 - `recommender-id`: The unique identifier for the recommender model configuration. This identifier is displayed as the Recommender ID on the Amazon Pinpoint console.
 
 """
-DeleteRecommenderConfiguration(recommender_id; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/recommenders/$(recommender-id)"; aws=aws)
-DeleteRecommenderConfiguration(recommender_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/recommenders/$(recommender-id)", args; aws=aws)
+DeleteRecommenderConfiguration(recommender_id; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/recommenders/$(recommender-id)"; aws=aws)
+DeleteRecommenderConfiguration(recommender_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/recommenders/$(recommender-id)", args; aws=aws)
 
 """
     DeleteSegment()
@@ -354,8 +354,8 @@ Deletes a segment from an application.
 - `segment-id`: The unique identifier for the segment.
 
 """
-DeleteSegment(application_id, segment_id; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/apps/$(application-id)/segments/$(segment-id)"; aws=aws)
-DeleteSegment(application_id, segment_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/apps/$(application-id)/segments/$(segment-id)", args; aws=aws)
+DeleteSegment(application_id, segment_id; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/apps/$(application-id)/segments/$(segment-id)"; aws=aws)
+DeleteSegment(application_id, segment_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/apps/$(application-id)/segments/$(segment-id)", args; aws=aws)
 
 """
     DeleteSmsChannel()
@@ -366,8 +366,8 @@ Disables the SMS channel for an application and deletes any existing settings fo
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-DeleteSmsChannel(application_id; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/sms"; aws=aws)
-DeleteSmsChannel(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/sms", args; aws=aws)
+DeleteSmsChannel(application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/sms"; aws=aws)
+DeleteSmsChannel(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/sms", args; aws=aws)
 
 """
     DeleteSmsTemplate()
@@ -380,8 +380,8 @@ Deletes a message template for messages that were sent through the SMS channel.
 # Optional Parameters
 - `version`: The unique identifier for the version of the message template to update, retrieve information about, or delete. To retrieve identifiers and other information for all the versions of a template, use the Template Versions resource. If specified, this value must match the identifier for an existing template version. If specified for an update operation, this value must match the identifier for the latest existing version of the template. This restriction helps ensure that race conditions don't occur. If you don't specify a value for this parameter, Amazon Pinpoint does the following: For a get operation, retrieves information about the active version of the template. For an update operation, saves the updates to (overwrites) the latest existing version of the template, if the create-new-version parameter isn't used or is set to false. For a delete operation, deletes the template, including all versions of the template.
 """
-DeleteSmsTemplate(template_name; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/templates/$(template-name)/sms"; aws=aws)
-DeleteSmsTemplate(template_name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/templates/$(template-name)/sms", args; aws=aws)
+DeleteSmsTemplate(template_name; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/templates/$(template-name)/sms"; aws=aws)
+DeleteSmsTemplate(template_name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/templates/$(template-name)/sms", args; aws=aws)
 
 """
     DeleteUserEndpoints()
@@ -393,8 +393,8 @@ Deletes all the endpoints that are associated with a specific user ID.
 - `user-id`: The unique identifier for the user.
 
 """
-DeleteUserEndpoints(application_id, user_id; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/apps/$(application-id)/users/$(user-id)"; aws=aws)
-DeleteUserEndpoints(application_id, user_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/apps/$(application-id)/users/$(user-id)", args; aws=aws)
+DeleteUserEndpoints(application_id, user_id; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/apps/$(application-id)/users/$(user-id)"; aws=aws)
+DeleteUserEndpoints(application_id, user_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/apps/$(application-id)/users/$(user-id)", args; aws=aws)
 
 """
     DeleteVoiceChannel()
@@ -405,8 +405,8 @@ Disables the voice channel for an application and deletes any existing settings 
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-DeleteVoiceChannel(application_id; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/voice"; aws=aws)
-DeleteVoiceChannel(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/voice", args; aws=aws)
+DeleteVoiceChannel(application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/voice"; aws=aws)
+DeleteVoiceChannel(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/apps/$(application-id)/channels/voice", args; aws=aws)
 
 """
     DeleteVoiceTemplate()
@@ -419,8 +419,8 @@ Deletes a message template for messages that were sent through the voice channel
 # Optional Parameters
 - `version`: The unique identifier for the version of the message template to update, retrieve information about, or delete. To retrieve identifiers and other information for all the versions of a template, use the Template Versions resource. If specified, this value must match the identifier for an existing template version. If specified for an update operation, this value must match the identifier for the latest existing version of the template. This restriction helps ensure that race conditions don't occur. If you don't specify a value for this parameter, Amazon Pinpoint does the following: For a get operation, retrieves information about the active version of the template. For an update operation, saves the updates to (overwrites) the latest existing version of the template, if the create-new-version parameter isn't used or is set to false. For a delete operation, deletes the template, including all versions of the template.
 """
-DeleteVoiceTemplate(template_name; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/templates/$(template-name)/voice"; aws=aws)
-DeleteVoiceTemplate(template_name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/templates/$(template-name)/voice", args; aws=aws)
+DeleteVoiceTemplate(template_name; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/templates/$(template-name)/voice"; aws=aws)
+DeleteVoiceTemplate(template_name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/templates/$(template-name)/voice", args; aws=aws)
 
 """
     GetAdmChannel()
@@ -431,8 +431,8 @@ Retrieves information about the status and settings of the ADM channel for an ap
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-GetAdmChannel(application_id; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/channels/adm"; aws=aws)
-GetAdmChannel(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/channels/adm", args; aws=aws)
+GetAdmChannel(application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/channels/adm"; aws=aws)
+GetAdmChannel(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/channels/adm", args; aws=aws)
 
 """
     GetApnsChannel()
@@ -443,8 +443,8 @@ Retrieves information about the status and settings of the APNs channel for an a
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-GetApnsChannel(application_id; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/channels/apns"; aws=aws)
-GetApnsChannel(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/channels/apns", args; aws=aws)
+GetApnsChannel(application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/channels/apns"; aws=aws)
+GetApnsChannel(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/channels/apns", args; aws=aws)
 
 """
     GetApnsSandboxChannel()
@@ -455,8 +455,8 @@ Retrieves information about the status and settings of the APNs sandbox channel 
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-GetApnsSandboxChannel(application_id; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/channels/apns_sandbox"; aws=aws)
-GetApnsSandboxChannel(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/channels/apns_sandbox", args; aws=aws)
+GetApnsSandboxChannel(application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/channels/apns_sandbox"; aws=aws)
+GetApnsSandboxChannel(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/channels/apns_sandbox", args; aws=aws)
 
 """
     GetApnsVoipChannel()
@@ -467,8 +467,8 @@ Retrieves information about the status and settings of the APNs VoIP channel for
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-GetApnsVoipChannel(application_id; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/channels/apns_voip"; aws=aws)
-GetApnsVoipChannel(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/channels/apns_voip", args; aws=aws)
+GetApnsVoipChannel(application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/channels/apns_voip"; aws=aws)
+GetApnsVoipChannel(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/channels/apns_voip", args; aws=aws)
 
 """
     GetApnsVoipSandboxChannel()
@@ -479,8 +479,8 @@ Retrieves information about the status and settings of the APNs VoIP sandbox cha
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-GetApnsVoipSandboxChannel(application_id; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/channels/apns_voip_sandbox"; aws=aws)
-GetApnsVoipSandboxChannel(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/channels/apns_voip_sandbox", args; aws=aws)
+GetApnsVoipSandboxChannel(application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/channels/apns_voip_sandbox"; aws=aws)
+GetApnsVoipSandboxChannel(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/channels/apns_voip_sandbox", args; aws=aws)
 
 """
     GetApp()
@@ -491,8 +491,8 @@ Retrieves information about an application.
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-GetApp(application_id; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)"; aws=aws)
-GetApp(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)", args; aws=aws)
+GetApp(application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)"; aws=aws)
+GetApp(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)", args; aws=aws)
 
 """
     GetApplicationDateRangeKpi()
@@ -509,8 +509,8 @@ Retrieves (queries) pre-aggregated data for a standard metric that applies to an
 - `page-size`: The maximum number of items to include in each page of a paginated response. This parameter is not supported for application, campaign, and journey metrics.
 - `start-time`: The first date and time to retrieve data for, as part of an inclusive date range that filters the query results. This value should be in extended ISO 8601 format and use Coordinated Universal Time (UTC), for example: 2019-07-19T20:00:00Z for 8:00 PM UTC July 19, 2019. This value should also be fewer than 90 days from the current day.
 """
-GetApplicationDateRangeKpi(application_id, kpi_name; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/kpis/daterange/$(kpi-name)"; aws=aws)
-GetApplicationDateRangeKpi(application_id, kpi_name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/kpis/daterange/$(kpi-name)", args; aws=aws)
+GetApplicationDateRangeKpi(application_id, kpi_name; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/kpis/daterange/$(kpi-name)"; aws=aws)
+GetApplicationDateRangeKpi(application_id, kpi_name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/kpis/daterange/$(kpi-name)", args; aws=aws)
 
 """
     GetApplicationSettings()
@@ -521,8 +521,8 @@ Retrieves information about the settings for an application.
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-GetApplicationSettings(application_id; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/settings"; aws=aws)
-GetApplicationSettings(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/settings", args; aws=aws)
+GetApplicationSettings(application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/settings"; aws=aws)
+GetApplicationSettings(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/settings", args; aws=aws)
 
 """
     GetApps()
@@ -533,8 +533,8 @@ Retrieves information about all the applications that are associated with your A
 - `page-size`: The maximum number of items to include in each page of a paginated response. This parameter is not supported for application, campaign, and journey metrics.
 - `token`: The NextToken string that specifies which page of results to return in a paginated response.
 """
-GetApps(; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps"; aws=aws)
-GetApps(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps", args; aws=aws)
+GetApps(; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps"; aws=aws)
+GetApps(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps", args; aws=aws)
 
 """
     GetBaiduChannel()
@@ -545,8 +545,8 @@ Retrieves information about the status and settings of the Baidu channel for an 
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-GetBaiduChannel(application_id; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/channels/baidu"; aws=aws)
-GetBaiduChannel(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/channels/baidu", args; aws=aws)
+GetBaiduChannel(application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/channels/baidu"; aws=aws)
+GetBaiduChannel(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/channels/baidu", args; aws=aws)
 
 """
     GetCampaign()
@@ -558,8 +558,8 @@ Retrieves information about the status, configuration, and other settings for a 
 - `campaign-id`: The unique identifier for the campaign.
 
 """
-GetCampaign(application_id, campaign_id; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/campaigns/$(campaign-id)"; aws=aws)
-GetCampaign(application_id, campaign_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/campaigns/$(campaign-id)", args; aws=aws)
+GetCampaign(application_id, campaign_id; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/campaigns/$(campaign-id)"; aws=aws)
+GetCampaign(application_id, campaign_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/campaigns/$(campaign-id)", args; aws=aws)
 
 """
     GetCampaignActivities()
@@ -574,8 +574,8 @@ Retrieves information about all the activities for a campaign.
 - `page-size`: The maximum number of items to include in each page of a paginated response. This parameter is not supported for application, campaign, and journey metrics.
 - `token`: The NextToken string that specifies which page of results to return in a paginated response.
 """
-GetCampaignActivities(application_id, campaign_id; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/campaigns/$(campaign-id)/activities"; aws=aws)
-GetCampaignActivities(application_id, campaign_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/campaigns/$(campaign-id)/activities", args; aws=aws)
+GetCampaignActivities(application_id, campaign_id; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/campaigns/$(campaign-id)/activities"; aws=aws)
+GetCampaignActivities(application_id, campaign_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/campaigns/$(campaign-id)/activities", args; aws=aws)
 
 """
     GetCampaignDateRangeKpi()
@@ -593,8 +593,8 @@ Retrieves (queries) pre-aggregated data for a standard metric that applies to a 
 - `page-size`: The maximum number of items to include in each page of a paginated response. This parameter is not supported for application, campaign, and journey metrics.
 - `start-time`: The first date and time to retrieve data for, as part of an inclusive date range that filters the query results. This value should be in extended ISO 8601 format and use Coordinated Universal Time (UTC), for example: 2019-07-19T20:00:00Z for 8:00 PM UTC July 19, 2019. This value should also be fewer than 90 days from the current day.
 """
-GetCampaignDateRangeKpi(application_id, campaign_id, kpi_name; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/campaigns/$(campaign-id)/kpis/daterange/$(kpi-name)"; aws=aws)
-GetCampaignDateRangeKpi(application_id, campaign_id, kpi_name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/campaigns/$(campaign-id)/kpis/daterange/$(kpi-name)", args; aws=aws)
+GetCampaignDateRangeKpi(application_id, campaign_id, kpi_name; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/campaigns/$(campaign-id)/kpis/daterange/$(kpi-name)"; aws=aws)
+GetCampaignDateRangeKpi(application_id, campaign_id, kpi_name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/campaigns/$(campaign-id)/kpis/daterange/$(kpi-name)", args; aws=aws)
 
 """
     GetCampaignVersion()
@@ -607,8 +607,8 @@ Retrieves information about the status, configuration, and other settings for a 
 - `version`: The unique version number (Version property) for the campaign version.
 
 """
-GetCampaignVersion(application_id, campaign_id, version; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/campaigns/$(campaign-id)/versions/$(version)"; aws=aws)
-GetCampaignVersion(application_id, campaign_id, version, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/campaigns/$(campaign-id)/versions/$(version)", args; aws=aws)
+GetCampaignVersion(application_id, campaign_id, version; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/campaigns/$(campaign-id)/versions/$(version)"; aws=aws)
+GetCampaignVersion(application_id, campaign_id, version, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/campaigns/$(campaign-id)/versions/$(version)", args; aws=aws)
 
 """
     GetCampaignVersions()
@@ -623,8 +623,8 @@ Retrieves information about the status, configuration, and other settings for al
 - `page-size`: The maximum number of items to include in each page of a paginated response. This parameter is not supported for application, campaign, and journey metrics.
 - `token`: The NextToken string that specifies which page of results to return in a paginated response.
 """
-GetCampaignVersions(application_id, campaign_id; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/campaigns/$(campaign-id)/versions"; aws=aws)
-GetCampaignVersions(application_id, campaign_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/campaigns/$(campaign-id)/versions", args; aws=aws)
+GetCampaignVersions(application_id, campaign_id; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/campaigns/$(campaign-id)/versions"; aws=aws)
+GetCampaignVersions(application_id, campaign_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/campaigns/$(campaign-id)/versions", args; aws=aws)
 
 """
     GetCampaigns()
@@ -638,8 +638,8 @@ Retrieves information about the status, configuration, and other settings for al
 - `page-size`: The maximum number of items to include in each page of a paginated response. This parameter is not supported for application, campaign, and journey metrics.
 - `token`: The NextToken string that specifies which page of results to return in a paginated response.
 """
-GetCampaigns(application_id; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/campaigns"; aws=aws)
-GetCampaigns(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/campaigns", args; aws=aws)
+GetCampaigns(application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/campaigns"; aws=aws)
+GetCampaigns(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/campaigns", args; aws=aws)
 
 """
     GetChannels()
@@ -650,8 +650,8 @@ Retrieves information about the history and status of each channel for an applic
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-GetChannels(application_id; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/channels"; aws=aws)
-GetChannels(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/channels", args; aws=aws)
+GetChannels(application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/channels"; aws=aws)
+GetChannels(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/channels", args; aws=aws)
 
 """
     GetEmailChannel()
@@ -662,8 +662,8 @@ Retrieves information about the status and settings of the email channel for an 
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-GetEmailChannel(application_id; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/channels/email"; aws=aws)
-GetEmailChannel(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/channels/email", args; aws=aws)
+GetEmailChannel(application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/channels/email"; aws=aws)
+GetEmailChannel(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/channels/email", args; aws=aws)
 
 """
     GetEmailTemplate()
@@ -676,8 +676,8 @@ Retrieves the content and settings of a message template for messages that are s
 # Optional Parameters
 - `version`: The unique identifier for the version of the message template to update, retrieve information about, or delete. To retrieve identifiers and other information for all the versions of a template, use the Template Versions resource. If specified, this value must match the identifier for an existing template version. If specified for an update operation, this value must match the identifier for the latest existing version of the template. This restriction helps ensure that race conditions don't occur. If you don't specify a value for this parameter, Amazon Pinpoint does the following: For a get operation, retrieves information about the active version of the template. For an update operation, saves the updates to (overwrites) the latest existing version of the template, if the create-new-version parameter isn't used or is set to false. For a delete operation, deletes the template, including all versions of the template.
 """
-GetEmailTemplate(template_name; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/templates/$(template-name)/email"; aws=aws)
-GetEmailTemplate(template_name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/templates/$(template-name)/email", args; aws=aws)
+GetEmailTemplate(template_name; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/templates/$(template-name)/email"; aws=aws)
+GetEmailTemplate(template_name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/templates/$(template-name)/email", args; aws=aws)
 
 """
     GetEndpoint()
@@ -689,8 +689,8 @@ Retrieves information about the settings and attributes of a specific endpoint f
 - `endpoint-id`: The unique identifier for the endpoint.
 
 """
-GetEndpoint(application_id, endpoint_id; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/endpoints/$(endpoint-id)"; aws=aws)
-GetEndpoint(application_id, endpoint_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/endpoints/$(endpoint-id)", args; aws=aws)
+GetEndpoint(application_id, endpoint_id; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/endpoints/$(endpoint-id)"; aws=aws)
+GetEndpoint(application_id, endpoint_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/endpoints/$(endpoint-id)", args; aws=aws)
 
 """
     GetEventStream()
@@ -701,8 +701,8 @@ Retrieves information about the event stream settings for an application.
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-GetEventStream(application_id; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/eventstream"; aws=aws)
-GetEventStream(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/eventstream", args; aws=aws)
+GetEventStream(application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/eventstream"; aws=aws)
+GetEventStream(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/eventstream", args; aws=aws)
 
 """
     GetExportJob()
@@ -714,8 +714,8 @@ Retrieves information about the status and settings of a specific export job for
 - `job-id`: The unique identifier for the job.
 
 """
-GetExportJob(application_id, job_id; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/jobs/export/$(job-id)"; aws=aws)
-GetExportJob(application_id, job_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/jobs/export/$(job-id)", args; aws=aws)
+GetExportJob(application_id, job_id; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/jobs/export/$(job-id)"; aws=aws)
+GetExportJob(application_id, job_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/jobs/export/$(job-id)", args; aws=aws)
 
 """
     GetExportJobs()
@@ -729,8 +729,8 @@ Retrieves information about the status and settings of all the export jobs for a
 - `page-size`: The maximum number of items to include in each page of a paginated response. This parameter is not supported for application, campaign, and journey metrics.
 - `token`: The NextToken string that specifies which page of results to return in a paginated response.
 """
-GetExportJobs(application_id; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/jobs/export"; aws=aws)
-GetExportJobs(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/jobs/export", args; aws=aws)
+GetExportJobs(application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/jobs/export"; aws=aws)
+GetExportJobs(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/jobs/export", args; aws=aws)
 
 """
     GetGcmChannel()
@@ -741,8 +741,8 @@ Retrieves information about the status and settings of the GCM channel for an ap
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-GetGcmChannel(application_id; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/channels/gcm"; aws=aws)
-GetGcmChannel(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/channels/gcm", args; aws=aws)
+GetGcmChannel(application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/channels/gcm"; aws=aws)
+GetGcmChannel(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/channels/gcm", args; aws=aws)
 
 """
     GetImportJob()
@@ -754,8 +754,8 @@ Retrieves information about the status and settings of a specific import job for
 - `job-id`: The unique identifier for the job.
 
 """
-GetImportJob(application_id, job_id; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/jobs/import/$(job-id)"; aws=aws)
-GetImportJob(application_id, job_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/jobs/import/$(job-id)", args; aws=aws)
+GetImportJob(application_id, job_id; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/jobs/import/$(job-id)"; aws=aws)
+GetImportJob(application_id, job_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/jobs/import/$(job-id)", args; aws=aws)
 
 """
     GetImportJobs()
@@ -769,8 +769,8 @@ Retrieves information about the status and settings of all the import jobs for a
 - `page-size`: The maximum number of items to include in each page of a paginated response. This parameter is not supported for application, campaign, and journey metrics.
 - `token`: The NextToken string that specifies which page of results to return in a paginated response.
 """
-GetImportJobs(application_id; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/jobs/import"; aws=aws)
-GetImportJobs(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/jobs/import", args; aws=aws)
+GetImportJobs(application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/jobs/import"; aws=aws)
+GetImportJobs(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/jobs/import", args; aws=aws)
 
 """
     GetJourney()
@@ -782,8 +782,8 @@ Retrieves information about the status, configuration, and other settings for a 
 - `journey-id`: The unique identifier for the journey.
 
 """
-GetJourney(application_id, journey_id; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/journeys/$(journey-id)"; aws=aws)
-GetJourney(application_id, journey_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/journeys/$(journey-id)", args; aws=aws)
+GetJourney(application_id, journey_id; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/journeys/$(journey-id)"; aws=aws)
+GetJourney(application_id, journey_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/journeys/$(journey-id)", args; aws=aws)
 
 """
     GetJourneyDateRangeKpi()
@@ -801,8 +801,8 @@ Retrieves (queries) pre-aggregated data for a standard engagement metric that ap
 - `page-size`: The maximum number of items to include in each page of a paginated response. This parameter is not supported for application, campaign, and journey metrics.
 - `start-time`: The first date and time to retrieve data for, as part of an inclusive date range that filters the query results. This value should be in extended ISO 8601 format and use Coordinated Universal Time (UTC), for example: 2019-07-19T20:00:00Z for 8:00 PM UTC July 19, 2019. This value should also be fewer than 90 days from the current day.
 """
-GetJourneyDateRangeKpi(application_id, journey_id, kpi_name; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/journeys/$(journey-id)/kpis/daterange/$(kpi-name)"; aws=aws)
-GetJourneyDateRangeKpi(application_id, journey_id, kpi_name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/journeys/$(journey-id)/kpis/daterange/$(kpi-name)", args; aws=aws)
+GetJourneyDateRangeKpi(application_id, journey_id, kpi_name; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/journeys/$(journey-id)/kpis/daterange/$(kpi-name)"; aws=aws)
+GetJourneyDateRangeKpi(application_id, journey_id, kpi_name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/journeys/$(journey-id)/kpis/daterange/$(kpi-name)", args; aws=aws)
 
 """
     GetJourneyExecutionActivityMetrics()
@@ -818,8 +818,8 @@ Retrieves (queries) pre-aggregated data for a standard execution metric that app
 - `next-token`: The  string that specifies which page of results to return in a paginated response. This parameter is not supported for application, campaign, and journey metrics.
 - `page-size`: The maximum number of items to include in each page of a paginated response. This parameter is not supported for application, campaign, and journey metrics.
 """
-GetJourneyExecutionActivityMetrics(application_id, journey_activity_id, journey_id; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/journeys/$(journey-id)/activities/$(journey-activity-id)/execution-metrics"; aws=aws)
-GetJourneyExecutionActivityMetrics(application_id, journey_activity_id, journey_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/journeys/$(journey-id)/activities/$(journey-activity-id)/execution-metrics", args; aws=aws)
+GetJourneyExecutionActivityMetrics(application_id, journey_activity_id, journey_id; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/journeys/$(journey-id)/activities/$(journey-activity-id)/execution-metrics"; aws=aws)
+GetJourneyExecutionActivityMetrics(application_id, journey_activity_id, journey_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/journeys/$(journey-id)/activities/$(journey-activity-id)/execution-metrics", args; aws=aws)
 
 """
     GetJourneyExecutionMetrics()
@@ -834,8 +834,8 @@ Retrieves (queries) pre-aggregated data for a standard execution metric that app
 - `next-token`: The  string that specifies which page of results to return in a paginated response. This parameter is not supported for application, campaign, and journey metrics.
 - `page-size`: The maximum number of items to include in each page of a paginated response. This parameter is not supported for application, campaign, and journey metrics.
 """
-GetJourneyExecutionMetrics(application_id, journey_id; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/journeys/$(journey-id)/execution-metrics"; aws=aws)
-GetJourneyExecutionMetrics(application_id, journey_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/journeys/$(journey-id)/execution-metrics", args; aws=aws)
+GetJourneyExecutionMetrics(application_id, journey_id; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/journeys/$(journey-id)/execution-metrics"; aws=aws)
+GetJourneyExecutionMetrics(application_id, journey_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/journeys/$(journey-id)/execution-metrics", args; aws=aws)
 
 """
     GetPushTemplate()
@@ -848,8 +848,8 @@ Retrieves the content and settings of a message template for messages that are s
 # Optional Parameters
 - `version`: The unique identifier for the version of the message template to update, retrieve information about, or delete. To retrieve identifiers and other information for all the versions of a template, use the Template Versions resource. If specified, this value must match the identifier for an existing template version. If specified for an update operation, this value must match the identifier for the latest existing version of the template. This restriction helps ensure that race conditions don't occur. If you don't specify a value for this parameter, Amazon Pinpoint does the following: For a get operation, retrieves information about the active version of the template. For an update operation, saves the updates to (overwrites) the latest existing version of the template, if the create-new-version parameter isn't used or is set to false. For a delete operation, deletes the template, including all versions of the template.
 """
-GetPushTemplate(template_name; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/templates/$(template-name)/push"; aws=aws)
-GetPushTemplate(template_name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/templates/$(template-name)/push", args; aws=aws)
+GetPushTemplate(template_name; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/templates/$(template-name)/push"; aws=aws)
+GetPushTemplate(template_name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/templates/$(template-name)/push", args; aws=aws)
 
 """
     GetRecommenderConfiguration()
@@ -860,8 +860,8 @@ Retrieves information about an Amazon Pinpoint configuration for a recommender m
 - `recommender-id`: The unique identifier for the recommender model configuration. This identifier is displayed as the Recommender ID on the Amazon Pinpoint console.
 
 """
-GetRecommenderConfiguration(recommender_id; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/recommenders/$(recommender-id)"; aws=aws)
-GetRecommenderConfiguration(recommender_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/recommenders/$(recommender-id)", args; aws=aws)
+GetRecommenderConfiguration(recommender_id; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/recommenders/$(recommender-id)"; aws=aws)
+GetRecommenderConfiguration(recommender_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/recommenders/$(recommender-id)", args; aws=aws)
 
 """
     GetRecommenderConfigurations()
@@ -872,8 +872,8 @@ Retrieves information about all the recommender model configurations that are as
 - `page-size`: The maximum number of items to include in each page of a paginated response. This parameter is not supported for application, campaign, and journey metrics.
 - `token`: The NextToken string that specifies which page of results to return in a paginated response.
 """
-GetRecommenderConfigurations(; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/recommenders"; aws=aws)
-GetRecommenderConfigurations(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/recommenders", args; aws=aws)
+GetRecommenderConfigurations(; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/recommenders"; aws=aws)
+GetRecommenderConfigurations(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/recommenders", args; aws=aws)
 
 """
     GetSegment()
@@ -885,8 +885,8 @@ Retrieves information about the configuration, dimension, and other settings for
 - `segment-id`: The unique identifier for the segment.
 
 """
-GetSegment(application_id, segment_id; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/segments/$(segment-id)"; aws=aws)
-GetSegment(application_id, segment_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/segments/$(segment-id)", args; aws=aws)
+GetSegment(application_id, segment_id; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/segments/$(segment-id)"; aws=aws)
+GetSegment(application_id, segment_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/segments/$(segment-id)", args; aws=aws)
 
 """
     GetSegmentExportJobs()
@@ -901,8 +901,8 @@ Retrieves information about the status and settings of the export jobs for a seg
 - `page-size`: The maximum number of items to include in each page of a paginated response. This parameter is not supported for application, campaign, and journey metrics.
 - `token`: The NextToken string that specifies which page of results to return in a paginated response.
 """
-GetSegmentExportJobs(application_id, segment_id; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/segments/$(segment-id)/jobs/export"; aws=aws)
-GetSegmentExportJobs(application_id, segment_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/segments/$(segment-id)/jobs/export", args; aws=aws)
+GetSegmentExportJobs(application_id, segment_id; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/segments/$(segment-id)/jobs/export"; aws=aws)
+GetSegmentExportJobs(application_id, segment_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/segments/$(segment-id)/jobs/export", args; aws=aws)
 
 """
     GetSegmentImportJobs()
@@ -917,8 +917,8 @@ Retrieves information about the status and settings of the import jobs for a seg
 - `page-size`: The maximum number of items to include in each page of a paginated response. This parameter is not supported for application, campaign, and journey metrics.
 - `token`: The NextToken string that specifies which page of results to return in a paginated response.
 """
-GetSegmentImportJobs(application_id, segment_id; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/segments/$(segment-id)/jobs/import"; aws=aws)
-GetSegmentImportJobs(application_id, segment_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/segments/$(segment-id)/jobs/import", args; aws=aws)
+GetSegmentImportJobs(application_id, segment_id; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/segments/$(segment-id)/jobs/import"; aws=aws)
+GetSegmentImportJobs(application_id, segment_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/segments/$(segment-id)/jobs/import", args; aws=aws)
 
 """
     GetSegmentVersion()
@@ -931,8 +931,8 @@ Retrieves information about the configuration, dimension, and other settings for
 - `version`: The unique version number (Version property) for the campaign version.
 
 """
-GetSegmentVersion(application_id, segment_id, version; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/segments/$(segment-id)/versions/$(version)"; aws=aws)
-GetSegmentVersion(application_id, segment_id, version, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/segments/$(segment-id)/versions/$(version)", args; aws=aws)
+GetSegmentVersion(application_id, segment_id, version; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/segments/$(segment-id)/versions/$(version)"; aws=aws)
+GetSegmentVersion(application_id, segment_id, version, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/segments/$(segment-id)/versions/$(version)", args; aws=aws)
 
 """
     GetSegmentVersions()
@@ -947,8 +947,8 @@ Retrieves information about the configuration, dimension, and other settings for
 - `page-size`: The maximum number of items to include in each page of a paginated response. This parameter is not supported for application, campaign, and journey metrics.
 - `token`: The NextToken string that specifies which page of results to return in a paginated response.
 """
-GetSegmentVersions(application_id, segment_id; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/segments/$(segment-id)/versions"; aws=aws)
-GetSegmentVersions(application_id, segment_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/segments/$(segment-id)/versions", args; aws=aws)
+GetSegmentVersions(application_id, segment_id; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/segments/$(segment-id)/versions"; aws=aws)
+GetSegmentVersions(application_id, segment_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/segments/$(segment-id)/versions", args; aws=aws)
 
 """
     GetSegments()
@@ -962,8 +962,8 @@ Retrieves information about the configuration, dimension, and other settings for
 - `page-size`: The maximum number of items to include in each page of a paginated response. This parameter is not supported for application, campaign, and journey metrics.
 - `token`: The NextToken string that specifies which page of results to return in a paginated response.
 """
-GetSegments(application_id; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/segments"; aws=aws)
-GetSegments(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/segments", args; aws=aws)
+GetSegments(application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/segments"; aws=aws)
+GetSegments(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/segments", args; aws=aws)
 
 """
     GetSmsChannel()
@@ -974,8 +974,8 @@ Retrieves information about the status and settings of the SMS channel for an ap
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-GetSmsChannel(application_id; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/channels/sms"; aws=aws)
-GetSmsChannel(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/channels/sms", args; aws=aws)
+GetSmsChannel(application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/channels/sms"; aws=aws)
+GetSmsChannel(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/channels/sms", args; aws=aws)
 
 """
     GetSmsTemplate()
@@ -988,8 +988,8 @@ Retrieves the content and settings of a message template for messages that are s
 # Optional Parameters
 - `version`: The unique identifier for the version of the message template to update, retrieve information about, or delete. To retrieve identifiers and other information for all the versions of a template, use the Template Versions resource. If specified, this value must match the identifier for an existing template version. If specified for an update operation, this value must match the identifier for the latest existing version of the template. This restriction helps ensure that race conditions don't occur. If you don't specify a value for this parameter, Amazon Pinpoint does the following: For a get operation, retrieves information about the active version of the template. For an update operation, saves the updates to (overwrites) the latest existing version of the template, if the create-new-version parameter isn't used or is set to false. For a delete operation, deletes the template, including all versions of the template.
 """
-GetSmsTemplate(template_name; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/templates/$(template-name)/sms"; aws=aws)
-GetSmsTemplate(template_name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/templates/$(template-name)/sms", args; aws=aws)
+GetSmsTemplate(template_name; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/templates/$(template-name)/sms"; aws=aws)
+GetSmsTemplate(template_name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/templates/$(template-name)/sms", args; aws=aws)
 
 """
     GetUserEndpoints()
@@ -1001,8 +1001,8 @@ Retrieves information about all the endpoints that are associated with a specifi
 - `user-id`: The unique identifier for the user.
 
 """
-GetUserEndpoints(application_id, user_id; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/users/$(user-id)"; aws=aws)
-GetUserEndpoints(application_id, user_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/users/$(user-id)", args; aws=aws)
+GetUserEndpoints(application_id, user_id; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/users/$(user-id)"; aws=aws)
+GetUserEndpoints(application_id, user_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/users/$(user-id)", args; aws=aws)
 
 """
     GetVoiceChannel()
@@ -1013,8 +1013,8 @@ Retrieves information about the status and settings of the voice channel for an 
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-GetVoiceChannel(application_id; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/channels/voice"; aws=aws)
-GetVoiceChannel(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/channels/voice", args; aws=aws)
+GetVoiceChannel(application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/channels/voice"; aws=aws)
+GetVoiceChannel(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/channels/voice", args; aws=aws)
 
 """
     GetVoiceTemplate()
@@ -1027,8 +1027,8 @@ Retrieves the content and settings of a message template for messages that are s
 # Optional Parameters
 - `version`: The unique identifier for the version of the message template to update, retrieve information about, or delete. To retrieve identifiers and other information for all the versions of a template, use the Template Versions resource. If specified, this value must match the identifier for an existing template version. If specified for an update operation, this value must match the identifier for the latest existing version of the template. This restriction helps ensure that race conditions don't occur. If you don't specify a value for this parameter, Amazon Pinpoint does the following: For a get operation, retrieves information about the active version of the template. For an update operation, saves the updates to (overwrites) the latest existing version of the template, if the create-new-version parameter isn't used or is set to false. For a delete operation, deletes the template, including all versions of the template.
 """
-GetVoiceTemplate(template_name; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/templates/$(template-name)/voice"; aws=aws)
-GetVoiceTemplate(template_name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/templates/$(template-name)/voice", args; aws=aws)
+GetVoiceTemplate(template_name; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/templates/$(template-name)/voice"; aws=aws)
+GetVoiceTemplate(template_name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/templates/$(template-name)/voice", args; aws=aws)
 
 """
     ListJourneys()
@@ -1042,8 +1042,8 @@ Retrieves information about the status, configuration, and other settings for al
 - `page-size`: The maximum number of items to include in each page of a paginated response. This parameter is not supported for application, campaign, and journey metrics.
 - `token`: The NextToken string that specifies which page of results to return in a paginated response.
 """
-ListJourneys(application_id; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/journeys"; aws=aws)
-ListJourneys(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/apps/$(application-id)/journeys", args; aws=aws)
+ListJourneys(application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/journeys"; aws=aws)
+ListJourneys(application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/apps/$(application-id)/journeys", args; aws=aws)
 
 """
     ListTagsForResource()
@@ -1054,8 +1054,8 @@ Retrieves all the tags (keys and values) that are associated with an application
 - `resource-arn`: The Amazon Resource Name (ARN) of the resource.
 
 """
-ListTagsForResource(resource_arn; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/tags/$(resource-arn)"; aws=aws)
-ListTagsForResource(resource_arn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/tags/$(resource-arn)", args; aws=aws)
+ListTagsForResource(resource_arn; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/tags/$(resource-arn)"; aws=aws)
+ListTagsForResource(resource_arn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/tags/$(resource-arn)", args; aws=aws)
 
 """
     ListTemplateVersions()
@@ -1070,8 +1070,8 @@ Retrieves information about all the versions of a specific message template.
 - `next-token`: The  string that specifies which page of results to return in a paginated response. This parameter is not supported for application, campaign, and journey metrics.
 - `page-size`: The maximum number of items to include in each page of a paginated response. This parameter is not supported for application, campaign, and journey metrics.
 """
-ListTemplateVersions(template_name, template_type; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/templates/$(template-name)/$(template-type)/versions"; aws=aws)
-ListTemplateVersions(template_name, template_type, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/templates/$(template-name)/$(template-type)/versions", args; aws=aws)
+ListTemplateVersions(template_name, template_type; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/templates/$(template-name)/$(template-type)/versions"; aws=aws)
+ListTemplateVersions(template_name, template_type, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/templates/$(template-name)/$(template-type)/versions", args; aws=aws)
 
 """
     ListTemplates()
@@ -1084,8 +1084,8 @@ Retrieves information about all the message templates that are associated with y
 - `prefix`: The substring to match in the names of the message templates to include in the results. If you specify this value, Amazon Pinpoint returns only those templates whose names begin with the value that you specify.
 - `template-type`: The type of message template to include in the results. Valid values are: EMAIL, PUSH, SMS, and VOICE. To include all types of templates in the results, don't include this parameter in your request.
 """
-ListTemplates(; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/templates"; aws=aws)
-ListTemplates(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = pinpoint("GET", "/v1/templates", args; aws=aws)
+ListTemplates(; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/templates"; aws=aws)
+ListTemplates(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("GET", "/v1/templates", args; aws=aws)
 
 """
     PhoneNumberValidate()
@@ -1096,8 +1096,8 @@ Retrieves information about a phone number.
 - `NumberValidateRequest`: 
 
 """
-PhoneNumberValidate(NumberValidateRequest; aws::AWSConfig=AWSConfig()) = pinpoint("POST", "/v1/phone/number/validate", Dict{String, Any}("NumberValidateRequest"=>NumberValidateRequest))
-PhoneNumberValidate(NumberValidateRequest, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("POST", "/v1/phone/number/validate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NumberValidateRequest"=>NumberValidateRequest), args)); aws=aws)
+PhoneNumberValidate(NumberValidateRequest; aws::AWSConfig=AWS.aws_config) = pinpoint("POST", "/v1/phone/number/validate", Dict{String, Any}("NumberValidateRequest"=>NumberValidateRequest); aws=aws)
+PhoneNumberValidate(NumberValidateRequest, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("POST", "/v1/phone/number/validate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NumberValidateRequest"=>NumberValidateRequest), args)); aws=aws)
 
 """
     PutEventStream()
@@ -1109,8 +1109,8 @@ Creates a new event stream for an application or updates the settings of an exis
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-PutEventStream(WriteEventStream, application_id; aws::AWSConfig=AWSConfig()) = pinpoint("POST", "/v1/apps/$(application-id)/eventstream", Dict{String, Any}("WriteEventStream"=>WriteEventStream))
-PutEventStream(WriteEventStream, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("POST", "/v1/apps/$(application-id)/eventstream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WriteEventStream"=>WriteEventStream), args)); aws=aws)
+PutEventStream(WriteEventStream, application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("POST", "/v1/apps/$(application-id)/eventstream", Dict{String, Any}("WriteEventStream"=>WriteEventStream); aws=aws)
+PutEventStream(WriteEventStream, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("POST", "/v1/apps/$(application-id)/eventstream", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WriteEventStream"=>WriteEventStream), args)); aws=aws)
 
 """
     PutEvents()
@@ -1122,8 +1122,8 @@ Creates a new event to record for endpoints, or creates or updates endpoint data
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-PutEvents(EventsRequest, application_id; aws::AWSConfig=AWSConfig()) = pinpoint("POST", "/v1/apps/$(application-id)/events", Dict{String, Any}("EventsRequest"=>EventsRequest))
-PutEvents(EventsRequest, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("POST", "/v1/apps/$(application-id)/events", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventsRequest"=>EventsRequest), args)); aws=aws)
+PutEvents(EventsRequest, application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("POST", "/v1/apps/$(application-id)/events", Dict{String, Any}("EventsRequest"=>EventsRequest); aws=aws)
+PutEvents(EventsRequest, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("POST", "/v1/apps/$(application-id)/events", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventsRequest"=>EventsRequest), args)); aws=aws)
 
 """
     RemoveAttributes()
@@ -1136,8 +1136,8 @@ Removes one or more attributes, of the same attribute type, from all the endpoin
 - `attribute-type`:  The type of attribute or attributes to remove. Valid values are: endpoint-custom-attributes - Custom attributes that describe endpoints, such as the date when an associated user opted in or out of receiving communications from you through a specific type of channel. endpoint-metric-attributes - Custom metrics that your app reports to Amazon Pinpoint for endpoints, such as the number of app sessions or the number of items left in a cart. endpoint-user-attributes - Custom attributes that describe users, such as first name, last name, and age.
 
 """
-RemoveAttributes(UpdateAttributesRequest, application_id, attribute_type; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/apps/$(application-id)/attributes/$(attribute-type)", Dict{String, Any}("UpdateAttributesRequest"=>UpdateAttributesRequest))
-RemoveAttributes(UpdateAttributesRequest, application_id, attribute_type, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/apps/$(application-id)/attributes/$(attribute-type)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UpdateAttributesRequest"=>UpdateAttributesRequest), args)); aws=aws)
+RemoveAttributes(UpdateAttributesRequest, application_id, attribute_type; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/apps/$(application-id)/attributes/$(attribute-type)", Dict{String, Any}("UpdateAttributesRequest"=>UpdateAttributesRequest); aws=aws)
+RemoveAttributes(UpdateAttributesRequest, application_id, attribute_type, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/apps/$(application-id)/attributes/$(attribute-type)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UpdateAttributesRequest"=>UpdateAttributesRequest), args)); aws=aws)
 
 """
     SendMessages()
@@ -1149,8 +1149,8 @@ Creates and sends a direct message.
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-SendMessages(MessageRequest, application_id; aws::AWSConfig=AWSConfig()) = pinpoint("POST", "/v1/apps/$(application-id)/messages", Dict{String, Any}("MessageRequest"=>MessageRequest))
-SendMessages(MessageRequest, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("POST", "/v1/apps/$(application-id)/messages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MessageRequest"=>MessageRequest), args)); aws=aws)
+SendMessages(MessageRequest, application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("POST", "/v1/apps/$(application-id)/messages", Dict{String, Any}("MessageRequest"=>MessageRequest); aws=aws)
+SendMessages(MessageRequest, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("POST", "/v1/apps/$(application-id)/messages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MessageRequest"=>MessageRequest), args)); aws=aws)
 
 """
     SendUsersMessages()
@@ -1162,8 +1162,8 @@ Creates and sends a message to a list of users.
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-SendUsersMessages(SendUsersMessageRequest, application_id; aws::AWSConfig=AWSConfig()) = pinpoint("POST", "/v1/apps/$(application-id)/users-messages", Dict{String, Any}("SendUsersMessageRequest"=>SendUsersMessageRequest))
-SendUsersMessages(SendUsersMessageRequest, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("POST", "/v1/apps/$(application-id)/users-messages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SendUsersMessageRequest"=>SendUsersMessageRequest), args)); aws=aws)
+SendUsersMessages(SendUsersMessageRequest, application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("POST", "/v1/apps/$(application-id)/users-messages", Dict{String, Any}("SendUsersMessageRequest"=>SendUsersMessageRequest); aws=aws)
+SendUsersMessages(SendUsersMessageRequest, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("POST", "/v1/apps/$(application-id)/users-messages", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SendUsersMessageRequest"=>SendUsersMessageRequest), args)); aws=aws)
 
 """
     TagResource()
@@ -1175,8 +1175,8 @@ Adds one or more tags (keys and values) to an application, campaign, message tem
 - `resource-arn`: The Amazon Resource Name (ARN) of the resource.
 
 """
-TagResource(TagsModel, resource_arn; aws::AWSConfig=AWSConfig()) = pinpoint("POST", "/v1/tags/$(resource-arn)", Dict{String, Any}("TagsModel"=>TagsModel))
-TagResource(TagsModel, resource_arn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("POST", "/v1/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagsModel"=>TagsModel), args)); aws=aws)
+TagResource(TagsModel, resource_arn; aws::AWSConfig=AWS.aws_config) = pinpoint("POST", "/v1/tags/$(resource-arn)", Dict{String, Any}("TagsModel"=>TagsModel); aws=aws)
+TagResource(TagsModel, resource_arn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("POST", "/v1/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagsModel"=>TagsModel), args)); aws=aws)
 
 """
     UntagResource()
@@ -1188,8 +1188,8 @@ Removes one or more tags (keys and values) from an application, campaign, messag
 - `tagKeys`: The key of the tag to remove from the resource. To remove multiple tags, append the tagKeys parameter and argument for each additional tag to remove, separated by an ampersand (&amp;).
 
 """
-UntagResource(resource_arn, tagKeys; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/tags/$(resource-arn)", Dict{String, Any}("tagKeys"=>tagKeys))
-UntagResource(resource_arn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("DELETE", "/v1/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws=aws)
+UntagResource(resource_arn, tagKeys; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/tags/$(resource-arn)", Dict{String, Any}("tagKeys"=>tagKeys); aws=aws)
+UntagResource(resource_arn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("DELETE", "/v1/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws=aws)
 
 """
     UpdateAdmChannel()
@@ -1201,8 +1201,8 @@ Enables the ADM channel for an application or updates the status and settings of
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-UpdateAdmChannel(ADMChannelRequest, application_id; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/adm", Dict{String, Any}("ADMChannelRequest"=>ADMChannelRequest))
-UpdateAdmChannel(ADMChannelRequest, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/adm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ADMChannelRequest"=>ADMChannelRequest), args)); aws=aws)
+UpdateAdmChannel(ADMChannelRequest, application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/adm", Dict{String, Any}("ADMChannelRequest"=>ADMChannelRequest); aws=aws)
+UpdateAdmChannel(ADMChannelRequest, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/adm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ADMChannelRequest"=>ADMChannelRequest), args)); aws=aws)
 
 """
     UpdateApnsChannel()
@@ -1214,8 +1214,8 @@ Enables the APNs channel for an application or updates the status and settings o
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-UpdateApnsChannel(APNSChannelRequest, application_id; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/apns", Dict{String, Any}("APNSChannelRequest"=>APNSChannelRequest))
-UpdateApnsChannel(APNSChannelRequest, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/apns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("APNSChannelRequest"=>APNSChannelRequest), args)); aws=aws)
+UpdateApnsChannel(APNSChannelRequest, application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/apns", Dict{String, Any}("APNSChannelRequest"=>APNSChannelRequest); aws=aws)
+UpdateApnsChannel(APNSChannelRequest, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/apns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("APNSChannelRequest"=>APNSChannelRequest), args)); aws=aws)
 
 """
     UpdateApnsSandboxChannel()
@@ -1227,8 +1227,8 @@ Enables the APNs sandbox channel for an application or updates the status and se
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-UpdateApnsSandboxChannel(APNSSandboxChannelRequest, application_id; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/apns_sandbox", Dict{String, Any}("APNSSandboxChannelRequest"=>APNSSandboxChannelRequest))
-UpdateApnsSandboxChannel(APNSSandboxChannelRequest, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/apns_sandbox", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("APNSSandboxChannelRequest"=>APNSSandboxChannelRequest), args)); aws=aws)
+UpdateApnsSandboxChannel(APNSSandboxChannelRequest, application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/apns_sandbox", Dict{String, Any}("APNSSandboxChannelRequest"=>APNSSandboxChannelRequest); aws=aws)
+UpdateApnsSandboxChannel(APNSSandboxChannelRequest, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/apns_sandbox", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("APNSSandboxChannelRequest"=>APNSSandboxChannelRequest), args)); aws=aws)
 
 """
     UpdateApnsVoipChannel()
@@ -1240,8 +1240,8 @@ Enables the APNs VoIP channel for an application or updates the status and setti
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-UpdateApnsVoipChannel(APNSVoipChannelRequest, application_id; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/apns_voip", Dict{String, Any}("APNSVoipChannelRequest"=>APNSVoipChannelRequest))
-UpdateApnsVoipChannel(APNSVoipChannelRequest, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/apns_voip", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("APNSVoipChannelRequest"=>APNSVoipChannelRequest), args)); aws=aws)
+UpdateApnsVoipChannel(APNSVoipChannelRequest, application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/apns_voip", Dict{String, Any}("APNSVoipChannelRequest"=>APNSVoipChannelRequest); aws=aws)
+UpdateApnsVoipChannel(APNSVoipChannelRequest, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/apns_voip", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("APNSVoipChannelRequest"=>APNSVoipChannelRequest), args)); aws=aws)
 
 """
     UpdateApnsVoipSandboxChannel()
@@ -1253,8 +1253,8 @@ Enables the APNs VoIP sandbox channel for an application or updates the status a
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-UpdateApnsVoipSandboxChannel(APNSVoipSandboxChannelRequest, application_id; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/apns_voip_sandbox", Dict{String, Any}("APNSVoipSandboxChannelRequest"=>APNSVoipSandboxChannelRequest))
-UpdateApnsVoipSandboxChannel(APNSVoipSandboxChannelRequest, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/apns_voip_sandbox", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("APNSVoipSandboxChannelRequest"=>APNSVoipSandboxChannelRequest), args)); aws=aws)
+UpdateApnsVoipSandboxChannel(APNSVoipSandboxChannelRequest, application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/apns_voip_sandbox", Dict{String, Any}("APNSVoipSandboxChannelRequest"=>APNSVoipSandboxChannelRequest); aws=aws)
+UpdateApnsVoipSandboxChannel(APNSVoipSandboxChannelRequest, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/apns_voip_sandbox", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("APNSVoipSandboxChannelRequest"=>APNSVoipSandboxChannelRequest), args)); aws=aws)
 
 """
     UpdateApplicationSettings()
@@ -1266,8 +1266,8 @@ Updates the settings for an application.
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-UpdateApplicationSettings(WriteApplicationSettingsRequest, application_id; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/apps/$(application-id)/settings", Dict{String, Any}("WriteApplicationSettingsRequest"=>WriteApplicationSettingsRequest))
-UpdateApplicationSettings(WriteApplicationSettingsRequest, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/apps/$(application-id)/settings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WriteApplicationSettingsRequest"=>WriteApplicationSettingsRequest), args)); aws=aws)
+UpdateApplicationSettings(WriteApplicationSettingsRequest, application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/apps/$(application-id)/settings", Dict{String, Any}("WriteApplicationSettingsRequest"=>WriteApplicationSettingsRequest); aws=aws)
+UpdateApplicationSettings(WriteApplicationSettingsRequest, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/apps/$(application-id)/settings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WriteApplicationSettingsRequest"=>WriteApplicationSettingsRequest), args)); aws=aws)
 
 """
     UpdateBaiduChannel()
@@ -1279,8 +1279,8 @@ Enables the Baidu channel for an application or updates the status and settings 
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-UpdateBaiduChannel(BaiduChannelRequest, application_id; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/baidu", Dict{String, Any}("BaiduChannelRequest"=>BaiduChannelRequest))
-UpdateBaiduChannel(BaiduChannelRequest, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/baidu", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BaiduChannelRequest"=>BaiduChannelRequest), args)); aws=aws)
+UpdateBaiduChannel(BaiduChannelRequest, application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/baidu", Dict{String, Any}("BaiduChannelRequest"=>BaiduChannelRequest); aws=aws)
+UpdateBaiduChannel(BaiduChannelRequest, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/baidu", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BaiduChannelRequest"=>BaiduChannelRequest), args)); aws=aws)
 
 """
     UpdateCampaign()
@@ -1293,8 +1293,8 @@ Updates the configuration and other settings for a campaign.
 - `campaign-id`: The unique identifier for the campaign.
 
 """
-UpdateCampaign(WriteCampaignRequest, application_id, campaign_id; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/apps/$(application-id)/campaigns/$(campaign-id)", Dict{String, Any}("WriteCampaignRequest"=>WriteCampaignRequest))
-UpdateCampaign(WriteCampaignRequest, application_id, campaign_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/apps/$(application-id)/campaigns/$(campaign-id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WriteCampaignRequest"=>WriteCampaignRequest), args)); aws=aws)
+UpdateCampaign(WriteCampaignRequest, application_id, campaign_id; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/apps/$(application-id)/campaigns/$(campaign-id)", Dict{String, Any}("WriteCampaignRequest"=>WriteCampaignRequest); aws=aws)
+UpdateCampaign(WriteCampaignRequest, application_id, campaign_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/apps/$(application-id)/campaigns/$(campaign-id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WriteCampaignRequest"=>WriteCampaignRequest), args)); aws=aws)
 
 """
     UpdateEmailChannel()
@@ -1306,8 +1306,8 @@ Enables the email channel for an application or updates the status and settings 
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-UpdateEmailChannel(EmailChannelRequest, application_id; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/email", Dict{String, Any}("EmailChannelRequest"=>EmailChannelRequest))
-UpdateEmailChannel(EmailChannelRequest, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/email", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmailChannelRequest"=>EmailChannelRequest), args)); aws=aws)
+UpdateEmailChannel(EmailChannelRequest, application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/email", Dict{String, Any}("EmailChannelRequest"=>EmailChannelRequest); aws=aws)
+UpdateEmailChannel(EmailChannelRequest, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/email", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmailChannelRequest"=>EmailChannelRequest), args)); aws=aws)
 
 """
     UpdateEmailTemplate()
@@ -1322,8 +1322,8 @@ Updates an existing message template for messages that are sent through the emai
 - `create-new-version`: Specifies whether to save the updates as a new version of the message template. Valid values are: true, save the updates as a new version; and, false, save the updates to (overwrite) the latest existing version of the template. If you don't specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the latest existing version of the template. If you specify a value of true for this parameter, don't specify a value for the version parameter. Otherwise, an error will occur.
 - `version`: The unique identifier for the version of the message template to update, retrieve information about, or delete. To retrieve identifiers and other information for all the versions of a template, use the Template Versions resource. If specified, this value must match the identifier for an existing template version. If specified for an update operation, this value must match the identifier for the latest existing version of the template. This restriction helps ensure that race conditions don't occur. If you don't specify a value for this parameter, Amazon Pinpoint does the following: For a get operation, retrieves information about the active version of the template. For an update operation, saves the updates to (overwrites) the latest existing version of the template, if the create-new-version parameter isn't used or is set to false. For a delete operation, deletes the template, including all versions of the template.
 """
-UpdateEmailTemplate(EmailTemplateRequest, template_name; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/templates/$(template-name)/email", Dict{String, Any}("EmailTemplateRequest"=>EmailTemplateRequest))
-UpdateEmailTemplate(EmailTemplateRequest, template_name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/templates/$(template-name)/email", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmailTemplateRequest"=>EmailTemplateRequest), args)); aws=aws)
+UpdateEmailTemplate(EmailTemplateRequest, template_name; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/templates/$(template-name)/email", Dict{String, Any}("EmailTemplateRequest"=>EmailTemplateRequest); aws=aws)
+UpdateEmailTemplate(EmailTemplateRequest, template_name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/templates/$(template-name)/email", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EmailTemplateRequest"=>EmailTemplateRequest), args)); aws=aws)
 
 """
     UpdateEndpoint()
@@ -1336,8 +1336,8 @@ Creates a new endpoint for an application or updates the settings and attributes
 - `endpoint-id`: The unique identifier for the endpoint.
 
 """
-UpdateEndpoint(EndpointRequest, application_id, endpoint_id; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/apps/$(application-id)/endpoints/$(endpoint-id)", Dict{String, Any}("EndpointRequest"=>EndpointRequest))
-UpdateEndpoint(EndpointRequest, application_id, endpoint_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/apps/$(application-id)/endpoints/$(endpoint-id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointRequest"=>EndpointRequest), args)); aws=aws)
+UpdateEndpoint(EndpointRequest, application_id, endpoint_id; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/apps/$(application-id)/endpoints/$(endpoint-id)", Dict{String, Any}("EndpointRequest"=>EndpointRequest); aws=aws)
+UpdateEndpoint(EndpointRequest, application_id, endpoint_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/apps/$(application-id)/endpoints/$(endpoint-id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointRequest"=>EndpointRequest), args)); aws=aws)
 
 """
     UpdateEndpointsBatch()
@@ -1349,8 +1349,8 @@ Creates a new batch of endpoints for an application or updates the settings and 
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-UpdateEndpointsBatch(EndpointBatchRequest, application_id; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/apps/$(application-id)/endpoints", Dict{String, Any}("EndpointBatchRequest"=>EndpointBatchRequest))
-UpdateEndpointsBatch(EndpointBatchRequest, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/apps/$(application-id)/endpoints", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointBatchRequest"=>EndpointBatchRequest), args)); aws=aws)
+UpdateEndpointsBatch(EndpointBatchRequest, application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/apps/$(application-id)/endpoints", Dict{String, Any}("EndpointBatchRequest"=>EndpointBatchRequest); aws=aws)
+UpdateEndpointsBatch(EndpointBatchRequest, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/apps/$(application-id)/endpoints", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointBatchRequest"=>EndpointBatchRequest), args)); aws=aws)
 
 """
     UpdateGcmChannel()
@@ -1362,8 +1362,8 @@ Enables the GCM channel for an application or updates the status and settings of
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-UpdateGcmChannel(GCMChannelRequest, application_id; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/gcm", Dict{String, Any}("GCMChannelRequest"=>GCMChannelRequest))
-UpdateGcmChannel(GCMChannelRequest, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/gcm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GCMChannelRequest"=>GCMChannelRequest), args)); aws=aws)
+UpdateGcmChannel(GCMChannelRequest, application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/gcm", Dict{String, Any}("GCMChannelRequest"=>GCMChannelRequest); aws=aws)
+UpdateGcmChannel(GCMChannelRequest, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/gcm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GCMChannelRequest"=>GCMChannelRequest), args)); aws=aws)
 
 """
     UpdateJourney()
@@ -1376,8 +1376,8 @@ Updates the configuration and other settings for a journey.
 - `journey-id`: The unique identifier for the journey.
 
 """
-UpdateJourney(WriteJourneyRequest, application_id, journey_id; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/apps/$(application-id)/journeys/$(journey-id)", Dict{String, Any}("WriteJourneyRequest"=>WriteJourneyRequest))
-UpdateJourney(WriteJourneyRequest, application_id, journey_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/apps/$(application-id)/journeys/$(journey-id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WriteJourneyRequest"=>WriteJourneyRequest), args)); aws=aws)
+UpdateJourney(WriteJourneyRequest, application_id, journey_id; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/apps/$(application-id)/journeys/$(journey-id)", Dict{String, Any}("WriteJourneyRequest"=>WriteJourneyRequest); aws=aws)
+UpdateJourney(WriteJourneyRequest, application_id, journey_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/apps/$(application-id)/journeys/$(journey-id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WriteJourneyRequest"=>WriteJourneyRequest), args)); aws=aws)
 
 """
     UpdateJourneyState()
@@ -1390,8 +1390,8 @@ Cancels (stops) an active journey.
 - `journey-id`: The unique identifier for the journey.
 
 """
-UpdateJourneyState(JourneyStateRequest, application_id, journey_id; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/apps/$(application-id)/journeys/$(journey-id)/state", Dict{String, Any}("JourneyStateRequest"=>JourneyStateRequest))
-UpdateJourneyState(JourneyStateRequest, application_id, journey_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/apps/$(application-id)/journeys/$(journey-id)/state", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JourneyStateRequest"=>JourneyStateRequest), args)); aws=aws)
+UpdateJourneyState(JourneyStateRequest, application_id, journey_id; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/apps/$(application-id)/journeys/$(journey-id)/state", Dict{String, Any}("JourneyStateRequest"=>JourneyStateRequest); aws=aws)
+UpdateJourneyState(JourneyStateRequest, application_id, journey_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/apps/$(application-id)/journeys/$(journey-id)/state", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JourneyStateRequest"=>JourneyStateRequest), args)); aws=aws)
 
 """
     UpdatePushTemplate()
@@ -1406,8 +1406,8 @@ Updates an existing message template for messages that are sent through a push n
 - `create-new-version`: Specifies whether to save the updates as a new version of the message template. Valid values are: true, save the updates as a new version; and, false, save the updates to (overwrite) the latest existing version of the template. If you don't specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the latest existing version of the template. If you specify a value of true for this parameter, don't specify a value for the version parameter. Otherwise, an error will occur.
 - `version`: The unique identifier for the version of the message template to update, retrieve information about, or delete. To retrieve identifiers and other information for all the versions of a template, use the Template Versions resource. If specified, this value must match the identifier for an existing template version. If specified for an update operation, this value must match the identifier for the latest existing version of the template. This restriction helps ensure that race conditions don't occur. If you don't specify a value for this parameter, Amazon Pinpoint does the following: For a get operation, retrieves information about the active version of the template. For an update operation, saves the updates to (overwrites) the latest existing version of the template, if the create-new-version parameter isn't used or is set to false. For a delete operation, deletes the template, including all versions of the template.
 """
-UpdatePushTemplate(PushNotificationTemplateRequest, template_name; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/templates/$(template-name)/push", Dict{String, Any}("PushNotificationTemplateRequest"=>PushNotificationTemplateRequest))
-UpdatePushTemplate(PushNotificationTemplateRequest, template_name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/templates/$(template-name)/push", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PushNotificationTemplateRequest"=>PushNotificationTemplateRequest), args)); aws=aws)
+UpdatePushTemplate(PushNotificationTemplateRequest, template_name; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/templates/$(template-name)/push", Dict{String, Any}("PushNotificationTemplateRequest"=>PushNotificationTemplateRequest); aws=aws)
+UpdatePushTemplate(PushNotificationTemplateRequest, template_name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/templates/$(template-name)/push", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PushNotificationTemplateRequest"=>PushNotificationTemplateRequest), args)); aws=aws)
 
 """
     UpdateRecommenderConfiguration()
@@ -1419,8 +1419,8 @@ Updates an Amazon Pinpoint configuration for a recommender model.
 - `recommender-id`: The unique identifier for the recommender model configuration. This identifier is displayed as the Recommender ID on the Amazon Pinpoint console.
 
 """
-UpdateRecommenderConfiguration(UpdateRecommenderConfiguration, recommender_id; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/recommenders/$(recommender-id)", Dict{String, Any}("UpdateRecommenderConfiguration"=>UpdateRecommenderConfiguration))
-UpdateRecommenderConfiguration(UpdateRecommenderConfiguration, recommender_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/recommenders/$(recommender-id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UpdateRecommenderConfiguration"=>UpdateRecommenderConfiguration), args)); aws=aws)
+UpdateRecommenderConfiguration(UpdateRecommenderConfiguration, recommender_id; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/recommenders/$(recommender-id)", Dict{String, Any}("UpdateRecommenderConfiguration"=>UpdateRecommenderConfiguration); aws=aws)
+UpdateRecommenderConfiguration(UpdateRecommenderConfiguration, recommender_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/recommenders/$(recommender-id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UpdateRecommenderConfiguration"=>UpdateRecommenderConfiguration), args)); aws=aws)
 
 """
     UpdateSegment()
@@ -1433,8 +1433,8 @@ Creates a new segment for an application or updates the configuration, dimension
 - `segment-id`: The unique identifier for the segment.
 
 """
-UpdateSegment(WriteSegmentRequest, application_id, segment_id; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/apps/$(application-id)/segments/$(segment-id)", Dict{String, Any}("WriteSegmentRequest"=>WriteSegmentRequest))
-UpdateSegment(WriteSegmentRequest, application_id, segment_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/apps/$(application-id)/segments/$(segment-id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WriteSegmentRequest"=>WriteSegmentRequest), args)); aws=aws)
+UpdateSegment(WriteSegmentRequest, application_id, segment_id; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/apps/$(application-id)/segments/$(segment-id)", Dict{String, Any}("WriteSegmentRequest"=>WriteSegmentRequest); aws=aws)
+UpdateSegment(WriteSegmentRequest, application_id, segment_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/apps/$(application-id)/segments/$(segment-id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WriteSegmentRequest"=>WriteSegmentRequest), args)); aws=aws)
 
 """
     UpdateSmsChannel()
@@ -1446,8 +1446,8 @@ Enables the SMS channel for an application or updates the status and settings of
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-UpdateSmsChannel(SMSChannelRequest, application_id; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/sms", Dict{String, Any}("SMSChannelRequest"=>SMSChannelRequest))
-UpdateSmsChannel(SMSChannelRequest, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/sms", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SMSChannelRequest"=>SMSChannelRequest), args)); aws=aws)
+UpdateSmsChannel(SMSChannelRequest, application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/sms", Dict{String, Any}("SMSChannelRequest"=>SMSChannelRequest); aws=aws)
+UpdateSmsChannel(SMSChannelRequest, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/sms", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SMSChannelRequest"=>SMSChannelRequest), args)); aws=aws)
 
 """
     UpdateSmsTemplate()
@@ -1462,8 +1462,8 @@ Updates an existing message template for messages that are sent through the SMS 
 - `create-new-version`: Specifies whether to save the updates as a new version of the message template. Valid values are: true, save the updates as a new version; and, false, save the updates to (overwrite) the latest existing version of the template. If you don't specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the latest existing version of the template. If you specify a value of true for this parameter, don't specify a value for the version parameter. Otherwise, an error will occur.
 - `version`: The unique identifier for the version of the message template to update, retrieve information about, or delete. To retrieve identifiers and other information for all the versions of a template, use the Template Versions resource. If specified, this value must match the identifier for an existing template version. If specified for an update operation, this value must match the identifier for the latest existing version of the template. This restriction helps ensure that race conditions don't occur. If you don't specify a value for this parameter, Amazon Pinpoint does the following: For a get operation, retrieves information about the active version of the template. For an update operation, saves the updates to (overwrites) the latest existing version of the template, if the create-new-version parameter isn't used or is set to false. For a delete operation, deletes the template, including all versions of the template.
 """
-UpdateSmsTemplate(SMSTemplateRequest, template_name; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/templates/$(template-name)/sms", Dict{String, Any}("SMSTemplateRequest"=>SMSTemplateRequest))
-UpdateSmsTemplate(SMSTemplateRequest, template_name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/templates/$(template-name)/sms", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SMSTemplateRequest"=>SMSTemplateRequest), args)); aws=aws)
+UpdateSmsTemplate(SMSTemplateRequest, template_name; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/templates/$(template-name)/sms", Dict{String, Any}("SMSTemplateRequest"=>SMSTemplateRequest); aws=aws)
+UpdateSmsTemplate(SMSTemplateRequest, template_name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/templates/$(template-name)/sms", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SMSTemplateRequest"=>SMSTemplateRequest), args)); aws=aws)
 
 """
     UpdateTemplateActiveVersion()
@@ -1476,8 +1476,8 @@ Changes the status of a specific version of a message template to active.
 - `template-type`: The type of channel that the message template is designed for. Valid values are: EMAIL, PUSH, SMS, and VOICE.
 
 """
-UpdateTemplateActiveVersion(TemplateActiveVersionRequest, template_name, template_type; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/templates/$(template-name)/$(template-type)/active-version", Dict{String, Any}("TemplateActiveVersionRequest"=>TemplateActiveVersionRequest))
-UpdateTemplateActiveVersion(TemplateActiveVersionRequest, template_name, template_type, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/templates/$(template-name)/$(template-type)/active-version", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TemplateActiveVersionRequest"=>TemplateActiveVersionRequest), args)); aws=aws)
+UpdateTemplateActiveVersion(TemplateActiveVersionRequest, template_name, template_type; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/templates/$(template-name)/$(template-type)/active-version", Dict{String, Any}("TemplateActiveVersionRequest"=>TemplateActiveVersionRequest); aws=aws)
+UpdateTemplateActiveVersion(TemplateActiveVersionRequest, template_name, template_type, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/templates/$(template-name)/$(template-type)/active-version", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TemplateActiveVersionRequest"=>TemplateActiveVersionRequest), args)); aws=aws)
 
 """
     UpdateVoiceChannel()
@@ -1489,8 +1489,8 @@ Enables the voice channel for an application or updates the status and settings 
 - `application-id`: The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
 
 """
-UpdateVoiceChannel(VoiceChannelRequest, application_id; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/voice", Dict{String, Any}("VoiceChannelRequest"=>VoiceChannelRequest))
-UpdateVoiceChannel(VoiceChannelRequest, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/voice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VoiceChannelRequest"=>VoiceChannelRequest), args)); aws=aws)
+UpdateVoiceChannel(VoiceChannelRequest, application_id; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/voice", Dict{String, Any}("VoiceChannelRequest"=>VoiceChannelRequest); aws=aws)
+UpdateVoiceChannel(VoiceChannelRequest, application_id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/apps/$(application-id)/channels/voice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VoiceChannelRequest"=>VoiceChannelRequest), args)); aws=aws)
 
 """
     UpdateVoiceTemplate()
@@ -1505,5 +1505,5 @@ Updates an existing message template for messages that are sent through the voic
 - `create-new-version`: Specifies whether to save the updates as a new version of the message template. Valid values are: true, save the updates as a new version; and, false, save the updates to (overwrite) the latest existing version of the template. If you don't specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the latest existing version of the template. If you specify a value of true for this parameter, don't specify a value for the version parameter. Otherwise, an error will occur.
 - `version`: The unique identifier for the version of the message template to update, retrieve information about, or delete. To retrieve identifiers and other information for all the versions of a template, use the Template Versions resource. If specified, this value must match the identifier for an existing template version. If specified for an update operation, this value must match the identifier for the latest existing version of the template. This restriction helps ensure that race conditions don't occur. If you don't specify a value for this parameter, Amazon Pinpoint does the following: For a get operation, retrieves information about the active version of the template. For an update operation, saves the updates to (overwrites) the latest existing version of the template, if the create-new-version parameter isn't used or is set to false. For a delete operation, deletes the template, including all versions of the template.
 """
-UpdateVoiceTemplate(VoiceTemplateRequest, template_name; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/templates/$(template-name)/voice", Dict{String, Any}("VoiceTemplateRequest"=>VoiceTemplateRequest))
-UpdateVoiceTemplate(VoiceTemplateRequest, template_name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = pinpoint("PUT", "/v1/templates/$(template-name)/voice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VoiceTemplateRequest"=>VoiceTemplateRequest), args)); aws=aws)
+UpdateVoiceTemplate(VoiceTemplateRequest, template_name; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/templates/$(template-name)/voice", Dict{String, Any}("VoiceTemplateRequest"=>VoiceTemplateRequest); aws=aws)
+UpdateVoiceTemplate(VoiceTemplateRequest, template_name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = pinpoint("PUT", "/v1/templates/$(template-name)/voice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VoiceTemplateRequest"=>VoiceTemplateRequest), args)); aws=aws)

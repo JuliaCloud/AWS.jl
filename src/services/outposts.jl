@@ -18,8 +18,8 @@ Creates an Outpost.
 - `Description`: 
 - `Name`: 
 """
-CreateOutpost(SiteId; aws::AWSConfig=AWSConfig()) = outposts("POST", "/outposts", Dict{String, Any}("SiteId"=>SiteId))
-CreateOutpost(SiteId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = outposts("POST", "/outposts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SiteId"=>SiteId), args)); aws=aws)
+CreateOutpost(SiteId; aws::AWSConfig=AWS.aws_config) = outposts("POST", "/outposts", Dict{String, Any}("SiteId"=>SiteId); aws=aws)
+CreateOutpost(SiteId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = outposts("POST", "/outposts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SiteId"=>SiteId), args)); aws=aws)
 
 """
     DeleteOutpost()
@@ -30,8 +30,8 @@ Deletes the Outpost.
 - `OutpostId`: 
 
 """
-DeleteOutpost(OutpostId; aws::AWSConfig=AWSConfig()) = outposts("DELETE", "/outposts/$(OutpostId)"; aws=aws)
-DeleteOutpost(OutpostId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = outposts("DELETE", "/outposts/$(OutpostId)", args; aws=aws)
+DeleteOutpost(OutpostId; aws::AWSConfig=AWS.aws_config) = outposts("DELETE", "/outposts/$(OutpostId)"; aws=aws)
+DeleteOutpost(OutpostId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = outposts("DELETE", "/outposts/$(OutpostId)", args; aws=aws)
 
 """
     DeleteSite()
@@ -42,8 +42,8 @@ Deletes the site.
 - `SiteId`: 
 
 """
-DeleteSite(SiteId; aws::AWSConfig=AWSConfig()) = outposts("DELETE", "/sites/$(SiteId)"; aws=aws)
-DeleteSite(SiteId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = outposts("DELETE", "/sites/$(SiteId)", args; aws=aws)
+DeleteSite(SiteId; aws::AWSConfig=AWS.aws_config) = outposts("DELETE", "/sites/$(SiteId)"; aws=aws)
+DeleteSite(SiteId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = outposts("DELETE", "/sites/$(SiteId)", args; aws=aws)
 
 """
     GetOutpost()
@@ -54,8 +54,8 @@ Gets information about the specified Outpost.
 - `OutpostId`: 
 
 """
-GetOutpost(OutpostId; aws::AWSConfig=AWSConfig()) = outposts("GET", "/outposts/$(OutpostId)"; aws=aws)
-GetOutpost(OutpostId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = outposts("GET", "/outposts/$(OutpostId)", args; aws=aws)
+GetOutpost(OutpostId; aws::AWSConfig=AWS.aws_config) = outposts("GET", "/outposts/$(OutpostId)"; aws=aws)
+GetOutpost(OutpostId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = outposts("GET", "/outposts/$(OutpostId)", args; aws=aws)
 
 """
     GetOutpostInstanceTypes()
@@ -69,8 +69,8 @@ Lists the instance types for the specified Outpost.
 - `MaxResults`: 
 - `NextToken`: 
 """
-GetOutpostInstanceTypes(OutpostId; aws::AWSConfig=AWSConfig()) = outposts("GET", "/outposts/$(OutpostId)/instanceTypes"; aws=aws)
-GetOutpostInstanceTypes(OutpostId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = outposts("GET", "/outposts/$(OutpostId)/instanceTypes", args; aws=aws)
+GetOutpostInstanceTypes(OutpostId; aws::AWSConfig=AWS.aws_config) = outposts("GET", "/outposts/$(OutpostId)/instanceTypes"; aws=aws)
+GetOutpostInstanceTypes(OutpostId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = outposts("GET", "/outposts/$(OutpostId)/instanceTypes", args; aws=aws)
 
 """
     ListOutposts()
@@ -81,8 +81,8 @@ List the Outposts for your AWS account.
 - `MaxResults`: 
 - `NextToken`: 
 """
-ListOutposts(; aws::AWSConfig=AWSConfig()) = outposts("GET", "/outposts"; aws=aws)
-ListOutposts(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = outposts("GET", "/outposts", args; aws=aws)
+ListOutposts(; aws::AWSConfig=AWS.aws_config) = outposts("GET", "/outposts"; aws=aws)
+ListOutposts(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = outposts("GET", "/outposts", args; aws=aws)
 
 """
     ListSites()
@@ -93,5 +93,5 @@ Lists the sites for the specified AWS account.
 - `MaxResults`: 
 - `NextToken`: 
 """
-ListSites(; aws::AWSConfig=AWSConfig()) = outposts("GET", "/sites"; aws=aws)
-ListSites(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = outposts("GET", "/sites", args; aws=aws)
+ListSites(; aws::AWSConfig=AWS.aws_config) = outposts("GET", "/sites"; aws=aws)
+ListSites(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = outposts("GET", "/sites", args; aws=aws)

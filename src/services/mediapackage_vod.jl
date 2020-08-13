@@ -19,8 +19,8 @@ Creates a new MediaPackage VOD Asset resource.
 - `resourceId`: The resource ID to include in SPEKE key requests.
 - `tags`: 
 """
-CreateAsset(id, packagingGroupId, sourceArn, sourceRoleArn; aws::AWSConfig=AWSConfig()) = mediapackage_vod("POST", "/assets", Dict{String, Any}("id"=>id, "packagingGroupId"=>packagingGroupId, "sourceArn"=>sourceArn, "sourceRoleArn"=>sourceRoleArn))
-CreateAsset(id, packagingGroupId, sourceArn, sourceRoleArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mediapackage_vod("POST", "/assets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id, "packagingGroupId"=>packagingGroupId, "sourceArn"=>sourceArn, "sourceRoleArn"=>sourceRoleArn), args)); aws=aws)
+CreateAsset(id, packagingGroupId, sourceArn, sourceRoleArn; aws::AWSConfig=AWS.aws_config) = mediapackage_vod("POST", "/assets", Dict{String, Any}("id"=>id, "packagingGroupId"=>packagingGroupId, "sourceArn"=>sourceArn, "sourceRoleArn"=>sourceRoleArn); aws=aws)
+CreateAsset(id, packagingGroupId, sourceArn, sourceRoleArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mediapackage_vod("POST", "/assets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id, "packagingGroupId"=>packagingGroupId, "sourceArn"=>sourceArn, "sourceRoleArn"=>sourceRoleArn), args)); aws=aws)
 
 """
     CreatePackagingConfiguration()
@@ -38,8 +38,8 @@ Creates a new MediaPackage VOD PackagingConfiguration resource.
 - `mssPackage`: 
 - `tags`: 
 """
-CreatePackagingConfiguration(id, packagingGroupId; aws::AWSConfig=AWSConfig()) = mediapackage_vod("POST", "/packaging_configurations", Dict{String, Any}("id"=>id, "packagingGroupId"=>packagingGroupId))
-CreatePackagingConfiguration(id, packagingGroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mediapackage_vod("POST", "/packaging_configurations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id, "packagingGroupId"=>packagingGroupId), args)); aws=aws)
+CreatePackagingConfiguration(id, packagingGroupId; aws::AWSConfig=AWS.aws_config) = mediapackage_vod("POST", "/packaging_configurations", Dict{String, Any}("id"=>id, "packagingGroupId"=>packagingGroupId); aws=aws)
+CreatePackagingConfiguration(id, packagingGroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mediapackage_vod("POST", "/packaging_configurations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id, "packagingGroupId"=>packagingGroupId), args)); aws=aws)
 
 """
     CreatePackagingGroup()
@@ -53,8 +53,8 @@ Creates a new MediaPackage VOD PackagingGroup resource.
 - `authorization`: 
 - `tags`: 
 """
-CreatePackagingGroup(id; aws::AWSConfig=AWSConfig()) = mediapackage_vod("POST", "/packaging_groups", Dict{String, Any}("id"=>id))
-CreatePackagingGroup(id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mediapackage_vod("POST", "/packaging_groups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws=aws)
+CreatePackagingGroup(id; aws::AWSConfig=AWS.aws_config) = mediapackage_vod("POST", "/packaging_groups", Dict{String, Any}("id"=>id); aws=aws)
+CreatePackagingGroup(id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mediapackage_vod("POST", "/packaging_groups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws=aws)
 
 """
     DeleteAsset()
@@ -65,8 +65,8 @@ Deletes an existing MediaPackage VOD Asset resource.
 - `id`: The ID of the MediaPackage VOD Asset resource to delete.
 
 """
-DeleteAsset(id; aws::AWSConfig=AWSConfig()) = mediapackage_vod("DELETE", "/assets/$(id)"; aws=aws)
-DeleteAsset(id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mediapackage_vod("DELETE", "/assets/$(id)", args; aws=aws)
+DeleteAsset(id; aws::AWSConfig=AWS.aws_config) = mediapackage_vod("DELETE", "/assets/$(id)"; aws=aws)
+DeleteAsset(id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mediapackage_vod("DELETE", "/assets/$(id)", args; aws=aws)
 
 """
     DeletePackagingConfiguration()
@@ -77,8 +77,8 @@ Deletes a MediaPackage VOD PackagingConfiguration resource.
 - `id`: The ID of the MediaPackage VOD PackagingConfiguration resource to delete.
 
 """
-DeletePackagingConfiguration(id; aws::AWSConfig=AWSConfig()) = mediapackage_vod("DELETE", "/packaging_configurations/$(id)"; aws=aws)
-DeletePackagingConfiguration(id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mediapackage_vod("DELETE", "/packaging_configurations/$(id)", args; aws=aws)
+DeletePackagingConfiguration(id; aws::AWSConfig=AWS.aws_config) = mediapackage_vod("DELETE", "/packaging_configurations/$(id)"; aws=aws)
+DeletePackagingConfiguration(id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mediapackage_vod("DELETE", "/packaging_configurations/$(id)", args; aws=aws)
 
 """
     DeletePackagingGroup()
@@ -89,8 +89,8 @@ Deletes a MediaPackage VOD PackagingGroup resource.
 - `id`: The ID of the MediaPackage VOD PackagingGroup resource to delete.
 
 """
-DeletePackagingGroup(id; aws::AWSConfig=AWSConfig()) = mediapackage_vod("DELETE", "/packaging_groups/$(id)"; aws=aws)
-DeletePackagingGroup(id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mediapackage_vod("DELETE", "/packaging_groups/$(id)", args; aws=aws)
+DeletePackagingGroup(id; aws::AWSConfig=AWS.aws_config) = mediapackage_vod("DELETE", "/packaging_groups/$(id)"; aws=aws)
+DeletePackagingGroup(id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mediapackage_vod("DELETE", "/packaging_groups/$(id)", args; aws=aws)
 
 """
     DescribeAsset()
@@ -101,8 +101,8 @@ Returns a description of a MediaPackage VOD Asset resource.
 - `id`: The ID of an MediaPackage VOD Asset resource.
 
 """
-DescribeAsset(id; aws::AWSConfig=AWSConfig()) = mediapackage_vod("GET", "/assets/$(id)"; aws=aws)
-DescribeAsset(id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mediapackage_vod("GET", "/assets/$(id)", args; aws=aws)
+DescribeAsset(id; aws::AWSConfig=AWS.aws_config) = mediapackage_vod("GET", "/assets/$(id)"; aws=aws)
+DescribeAsset(id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mediapackage_vod("GET", "/assets/$(id)", args; aws=aws)
 
 """
     DescribePackagingConfiguration()
@@ -113,8 +113,8 @@ Returns a description of a MediaPackage VOD PackagingConfiguration resource.
 - `id`: The ID of a MediaPackage VOD PackagingConfiguration resource.
 
 """
-DescribePackagingConfiguration(id; aws::AWSConfig=AWSConfig()) = mediapackage_vod("GET", "/packaging_configurations/$(id)"; aws=aws)
-DescribePackagingConfiguration(id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mediapackage_vod("GET", "/packaging_configurations/$(id)", args; aws=aws)
+DescribePackagingConfiguration(id; aws::AWSConfig=AWS.aws_config) = mediapackage_vod("GET", "/packaging_configurations/$(id)"; aws=aws)
+DescribePackagingConfiguration(id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mediapackage_vod("GET", "/packaging_configurations/$(id)", args; aws=aws)
 
 """
     DescribePackagingGroup()
@@ -125,8 +125,8 @@ Returns a description of a MediaPackage VOD PackagingGroup resource.
 - `id`: The ID of a MediaPackage VOD PackagingGroup resource.
 
 """
-DescribePackagingGroup(id; aws::AWSConfig=AWSConfig()) = mediapackage_vod("GET", "/packaging_groups/$(id)"; aws=aws)
-DescribePackagingGroup(id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mediapackage_vod("GET", "/packaging_groups/$(id)", args; aws=aws)
+DescribePackagingGroup(id; aws::AWSConfig=AWS.aws_config) = mediapackage_vod("GET", "/packaging_groups/$(id)"; aws=aws)
+DescribePackagingGroup(id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mediapackage_vod("GET", "/packaging_groups/$(id)", args; aws=aws)
 
 """
     ListAssets()
@@ -138,8 +138,8 @@ Returns a collection of MediaPackage VOD Asset resources.
 - `nextToken`: A token used to resume pagination from the end of a previous request.
 - `packagingGroupId`: Returns Assets associated with the specified PackagingGroup.
 """
-ListAssets(; aws::AWSConfig=AWSConfig()) = mediapackage_vod("GET", "/assets"; aws=aws)
-ListAssets(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = mediapackage_vod("GET", "/assets", args; aws=aws)
+ListAssets(; aws::AWSConfig=AWS.aws_config) = mediapackage_vod("GET", "/assets"; aws=aws)
+ListAssets(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = mediapackage_vod("GET", "/assets", args; aws=aws)
 
 """
     ListPackagingConfigurations()
@@ -151,8 +151,8 @@ Returns a collection of MediaPackage VOD PackagingConfiguration resources.
 - `nextToken`: A token used to resume pagination from the end of a previous request.
 - `packagingGroupId`: Returns MediaPackage VOD PackagingConfigurations associated with the specified PackagingGroup.
 """
-ListPackagingConfigurations(; aws::AWSConfig=AWSConfig()) = mediapackage_vod("GET", "/packaging_configurations"; aws=aws)
-ListPackagingConfigurations(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = mediapackage_vod("GET", "/packaging_configurations", args; aws=aws)
+ListPackagingConfigurations(; aws::AWSConfig=AWS.aws_config) = mediapackage_vod("GET", "/packaging_configurations"; aws=aws)
+ListPackagingConfigurations(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = mediapackage_vod("GET", "/packaging_configurations", args; aws=aws)
 
 """
     ListPackagingGroups()
@@ -163,8 +163,8 @@ Returns a collection of MediaPackage VOD PackagingGroup resources.
 - `maxResults`: Upper bound on number of records to return.
 - `nextToken`: A token used to resume pagination from the end of a previous request.
 """
-ListPackagingGroups(; aws::AWSConfig=AWSConfig()) = mediapackage_vod("GET", "/packaging_groups"; aws=aws)
-ListPackagingGroups(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = mediapackage_vod("GET", "/packaging_groups", args; aws=aws)
+ListPackagingGroups(; aws::AWSConfig=AWS.aws_config) = mediapackage_vod("GET", "/packaging_groups"; aws=aws)
+ListPackagingGroups(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = mediapackage_vod("GET", "/packaging_groups", args; aws=aws)
 
 """
     ListTagsForResource()
@@ -175,8 +175,8 @@ Returns a list of the tags assigned to the specified resource.
 - `resource-arn`: The Amazon Resource Name (ARN) for the resource. You can get this from the response to any request to the resource.
 
 """
-ListTagsForResource(resource_arn; aws::AWSConfig=AWSConfig()) = mediapackage_vod("GET", "/tags/$(resource-arn)"; aws=aws)
-ListTagsForResource(resource_arn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mediapackage_vod("GET", "/tags/$(resource-arn)", args; aws=aws)
+ListTagsForResource(resource_arn; aws::AWSConfig=AWS.aws_config) = mediapackage_vod("GET", "/tags/$(resource-arn)"; aws=aws)
+ListTagsForResource(resource_arn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mediapackage_vod("GET", "/tags/$(resource-arn)", args; aws=aws)
 
 """
     TagResource()
@@ -188,8 +188,8 @@ Adds tags to the specified resource. You can specify one or more tags to add.
 - `tags`: A collection of tags associated with a resource
 
 """
-TagResource(resource_arn, tags; aws::AWSConfig=AWSConfig()) = mediapackage_vod("POST", "/tags/$(resource-arn)", Dict{String, Any}("tags"=>tags))
-TagResource(resource_arn, tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mediapackage_vod("POST", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws=aws)
+TagResource(resource_arn, tags; aws::AWSConfig=AWS.aws_config) = mediapackage_vod("POST", "/tags/$(resource-arn)", Dict{String, Any}("tags"=>tags); aws=aws)
+TagResource(resource_arn, tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mediapackage_vod("POST", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws=aws)
 
 """
     UntagResource()
@@ -201,8 +201,8 @@ Removes tags from the specified resource. You can specify one or more tags to re
 - `tagKeys`: A comma-separated list of the tag keys to remove from the resource.
 
 """
-UntagResource(resource_arn, tagKeys; aws::AWSConfig=AWSConfig()) = mediapackage_vod("DELETE", "/tags/$(resource-arn)", Dict{String, Any}("tagKeys"=>tagKeys))
-UntagResource(resource_arn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mediapackage_vod("DELETE", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws=aws)
+UntagResource(resource_arn, tagKeys; aws::AWSConfig=AWS.aws_config) = mediapackage_vod("DELETE", "/tags/$(resource-arn)", Dict{String, Any}("tagKeys"=>tagKeys); aws=aws)
+UntagResource(resource_arn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mediapackage_vod("DELETE", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws=aws)
 
 """
     UpdatePackagingGroup()
@@ -215,5 +215,5 @@ Updates a specific packaging group. You can't change the id attribute or any oth
 # Optional Parameters
 - `authorization`: 
 """
-UpdatePackagingGroup(id; aws::AWSConfig=AWSConfig()) = mediapackage_vod("PUT", "/packaging_groups/$(id)"; aws=aws)
-UpdatePackagingGroup(id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = mediapackage_vod("PUT", "/packaging_groups/$(id)", args; aws=aws)
+UpdatePackagingGroup(id; aws::AWSConfig=AWS.aws_config) = mediapackage_vod("PUT", "/packaging_groups/$(id)"; aws=aws)
+UpdatePackagingGroup(id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mediapackage_vod("PUT", "/packaging_groups/$(id)", args; aws=aws)

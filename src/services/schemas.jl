@@ -16,8 +16,8 @@ Creates a discoverer.
 - `Description`: A description for the discoverer.
 - `tags`: Tags associated with the resource.
 """
-CreateDiscoverer(SourceArn; aws::AWSConfig=AWSConfig()) = schemas("POST", "/v1/discoverers", Dict{String, Any}("SourceArn"=>SourceArn))
-CreateDiscoverer(SourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = schemas("POST", "/v1/discoverers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceArn"=>SourceArn), args)); aws=aws)
+CreateDiscoverer(SourceArn; aws::AWSConfig=AWS.aws_config) = schemas("POST", "/v1/discoverers", Dict{String, Any}("SourceArn"=>SourceArn); aws=aws)
+CreateDiscoverer(SourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = schemas("POST", "/v1/discoverers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceArn"=>SourceArn), args)); aws=aws)
 
 """
     CreateRegistry()
@@ -31,8 +31,8 @@ Creates a registry.
 - `Description`: A description of the registry to be created.
 - `tags`: Tags to associate with the registry.
 """
-CreateRegistry(registryName; aws::AWSConfig=AWSConfig()) = schemas("POST", "/v1/registries/name/$(registryName)"; aws=aws)
-CreateRegistry(registryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = schemas("POST", "/v1/registries/name/$(registryName)", args; aws=aws)
+CreateRegistry(registryName; aws::AWSConfig=AWS.aws_config) = schemas("POST", "/v1/registries/name/$(registryName)"; aws=aws)
+CreateRegistry(registryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = schemas("POST", "/v1/registries/name/$(registryName)", args; aws=aws)
 
 """
     CreateSchema()
@@ -49,8 +49,8 @@ Creates a schema definition. Inactive schemas will be deleted after two years.
 - `Description`: A description of the schema.
 - `tags`: Tags associated with the schema.
 """
-CreateSchema(Content, Type, registryName, schemaName; aws::AWSConfig=AWSConfig()) = schemas("POST", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)", Dict{String, Any}("Content"=>Content, "Type"=>Type))
-CreateSchema(Content, Type, registryName, schemaName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = schemas("POST", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "Type"=>Type), args)); aws=aws)
+CreateSchema(Content, Type, registryName, schemaName; aws::AWSConfig=AWS.aws_config) = schemas("POST", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)", Dict{String, Any}("Content"=>Content, "Type"=>Type); aws=aws)
+CreateSchema(Content, Type, registryName, schemaName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = schemas("POST", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content, "Type"=>Type), args)); aws=aws)
 
 """
     DeleteDiscoverer()
@@ -61,8 +61,8 @@ Deletes a discoverer.
 - `discovererId`: The ID of the discoverer.
 
 """
-DeleteDiscoverer(discovererId; aws::AWSConfig=AWSConfig()) = schemas("DELETE", "/v1/discoverers/id/$(discovererId)"; aws=aws)
-DeleteDiscoverer(discovererId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = schemas("DELETE", "/v1/discoverers/id/$(discovererId)", args; aws=aws)
+DeleteDiscoverer(discovererId; aws::AWSConfig=AWS.aws_config) = schemas("DELETE", "/v1/discoverers/id/$(discovererId)"; aws=aws)
+DeleteDiscoverer(discovererId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = schemas("DELETE", "/v1/discoverers/id/$(discovererId)", args; aws=aws)
 
 """
     DeleteRegistry()
@@ -73,8 +73,8 @@ Deletes a Registry.
 - `registryName`: The name of the registry.
 
 """
-DeleteRegistry(registryName; aws::AWSConfig=AWSConfig()) = schemas("DELETE", "/v1/registries/name/$(registryName)"; aws=aws)
-DeleteRegistry(registryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = schemas("DELETE", "/v1/registries/name/$(registryName)", args; aws=aws)
+DeleteRegistry(registryName; aws::AWSConfig=AWS.aws_config) = schemas("DELETE", "/v1/registries/name/$(registryName)"; aws=aws)
+DeleteRegistry(registryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = schemas("DELETE", "/v1/registries/name/$(registryName)", args; aws=aws)
 
 """
     DeleteResourcePolicy()
@@ -84,8 +84,8 @@ Delete the resource-based policy attached to the specified registry.
 # Optional Parameters
 - `registryName`: The name of the registry.
 """
-DeleteResourcePolicy(; aws::AWSConfig=AWSConfig()) = schemas("DELETE", "/v1/policy"; aws=aws)
-DeleteResourcePolicy(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = schemas("DELETE", "/v1/policy", args; aws=aws)
+DeleteResourcePolicy(; aws::AWSConfig=AWS.aws_config) = schemas("DELETE", "/v1/policy"; aws=aws)
+DeleteResourcePolicy(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = schemas("DELETE", "/v1/policy", args; aws=aws)
 
 """
     DeleteSchema()
@@ -97,8 +97,8 @@ Delete a schema definition.
 - `schemaName`: The name of the schema.
 
 """
-DeleteSchema(registryName, schemaName; aws::AWSConfig=AWSConfig()) = schemas("DELETE", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)"; aws=aws)
-DeleteSchema(registryName, schemaName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = schemas("DELETE", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)", args; aws=aws)
+DeleteSchema(registryName, schemaName; aws::AWSConfig=AWS.aws_config) = schemas("DELETE", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)"; aws=aws)
+DeleteSchema(registryName, schemaName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = schemas("DELETE", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)", args; aws=aws)
 
 """
     DeleteSchemaVersion()
@@ -111,8 +111,8 @@ Delete the schema version definition
 - `schemaVersion`: The version number of the schema
 
 """
-DeleteSchemaVersion(registryName, schemaName, schemaVersion; aws::AWSConfig=AWSConfig()) = schemas("DELETE", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/version/$(schemaVersion)"; aws=aws)
-DeleteSchemaVersion(registryName, schemaName, schemaVersion, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = schemas("DELETE", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/version/$(schemaVersion)", args; aws=aws)
+DeleteSchemaVersion(registryName, schemaName, schemaVersion; aws::AWSConfig=AWS.aws_config) = schemas("DELETE", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/version/$(schemaVersion)"; aws=aws)
+DeleteSchemaVersion(registryName, schemaName, schemaVersion, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = schemas("DELETE", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/version/$(schemaVersion)", args; aws=aws)
 
 """
     DescribeCodeBinding()
@@ -127,8 +127,8 @@ Describe the code binding URI.
 # Optional Parameters
 - `schemaVersion`: Specifying this limits the results to only this schema version.
 """
-DescribeCodeBinding(language, registryName, schemaName; aws::AWSConfig=AWSConfig()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)"; aws=aws)
-DescribeCodeBinding(language, registryName, schemaName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)", args; aws=aws)
+DescribeCodeBinding(language, registryName, schemaName; aws::AWSConfig=AWS.aws_config) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)"; aws=aws)
+DescribeCodeBinding(language, registryName, schemaName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)", args; aws=aws)
 
 """
     DescribeDiscoverer()
@@ -139,8 +139,8 @@ Describes the discoverer.
 - `discovererId`: The ID of the discoverer.
 
 """
-DescribeDiscoverer(discovererId; aws::AWSConfig=AWSConfig()) = schemas("GET", "/v1/discoverers/id/$(discovererId)"; aws=aws)
-DescribeDiscoverer(discovererId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = schemas("GET", "/v1/discoverers/id/$(discovererId)", args; aws=aws)
+DescribeDiscoverer(discovererId; aws::AWSConfig=AWS.aws_config) = schemas("GET", "/v1/discoverers/id/$(discovererId)"; aws=aws)
+DescribeDiscoverer(discovererId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = schemas("GET", "/v1/discoverers/id/$(discovererId)", args; aws=aws)
 
 """
     DescribeRegistry()
@@ -151,8 +151,8 @@ Describes the registry.
 - `registryName`: The name of the registry.
 
 """
-DescribeRegistry(registryName; aws::AWSConfig=AWSConfig()) = schemas("GET", "/v1/registries/name/$(registryName)"; aws=aws)
-DescribeRegistry(registryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = schemas("GET", "/v1/registries/name/$(registryName)", args; aws=aws)
+DescribeRegistry(registryName; aws::AWSConfig=AWS.aws_config) = schemas("GET", "/v1/registries/name/$(registryName)"; aws=aws)
+DescribeRegistry(registryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = schemas("GET", "/v1/registries/name/$(registryName)", args; aws=aws)
 
 """
     DescribeSchema()
@@ -166,8 +166,8 @@ Retrieve the schema definition.
 # Optional Parameters
 - `schemaVersion`: Specifying this limits the results to only this schema version.
 """
-DescribeSchema(registryName, schemaName; aws::AWSConfig=AWSConfig()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)"; aws=aws)
-DescribeSchema(registryName, schemaName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)", args; aws=aws)
+DescribeSchema(registryName, schemaName; aws::AWSConfig=AWS.aws_config) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)"; aws=aws)
+DescribeSchema(registryName, schemaName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)", args; aws=aws)
 
 """
     GetCodeBindingSource()
@@ -182,8 +182,8 @@ Get the code binding source URI.
 # Optional Parameters
 - `schemaVersion`: Specifying this limits the results to only this schema version.
 """
-GetCodeBindingSource(language, registryName, schemaName; aws::AWSConfig=AWSConfig()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)/source"; aws=aws)
-GetCodeBindingSource(language, registryName, schemaName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)/source", args; aws=aws)
+GetCodeBindingSource(language, registryName, schemaName; aws::AWSConfig=AWS.aws_config) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)/source"; aws=aws)
+GetCodeBindingSource(language, registryName, schemaName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)/source", args; aws=aws)
 
 """
     GetDiscoveredSchema()
@@ -195,8 +195,8 @@ Get the discovered schema that was generated based on sampled events.
 - `Type`: The type of event.
 
 """
-GetDiscoveredSchema(Events, Type; aws::AWSConfig=AWSConfig()) = schemas("POST", "/v1/discover", Dict{String, Any}("Events"=>Events, "Type"=>Type))
-GetDiscoveredSchema(Events, Type, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = schemas("POST", "/v1/discover", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Events"=>Events, "Type"=>Type), args)); aws=aws)
+GetDiscoveredSchema(Events, Type; aws::AWSConfig=AWS.aws_config) = schemas("POST", "/v1/discover", Dict{String, Any}("Events"=>Events, "Type"=>Type); aws=aws)
+GetDiscoveredSchema(Events, Type, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = schemas("POST", "/v1/discover", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Events"=>Events, "Type"=>Type), args)); aws=aws)
 
 """
     GetResourcePolicy()
@@ -206,8 +206,8 @@ Retrieves the resource-based policy attached to a given registry.
 # Optional Parameters
 - `registryName`: The name of the registry.
 """
-GetResourcePolicy(; aws::AWSConfig=AWSConfig()) = schemas("GET", "/v1/policy"; aws=aws)
-GetResourcePolicy(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = schemas("GET", "/v1/policy", args; aws=aws)
+GetResourcePolicy(; aws::AWSConfig=AWS.aws_config) = schemas("GET", "/v1/policy"; aws=aws)
+GetResourcePolicy(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = schemas("GET", "/v1/policy", args; aws=aws)
 
 """
     ListDiscoverers()
@@ -220,8 +220,8 @@ List the discoverers.
 - `nextToken`: The token that specifies the next page of results to return. To request the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared with other accounts.
 - `sourceArnPrefix`: Specifying this limits the results to only those ARNs that start with the specified prefix.
 """
-ListDiscoverers(; aws::AWSConfig=AWSConfig()) = schemas("GET", "/v1/discoverers"; aws=aws)
-ListDiscoverers(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = schemas("GET", "/v1/discoverers", args; aws=aws)
+ListDiscoverers(; aws::AWSConfig=AWS.aws_config) = schemas("GET", "/v1/discoverers"; aws=aws)
+ListDiscoverers(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = schemas("GET", "/v1/discoverers", args; aws=aws)
 
 """
     ListRegistries()
@@ -234,8 +234,8 @@ List the registries.
 - `registryNamePrefix`: Specifying this limits the results to only those registry names that start with the specified prefix.
 - `scope`: Can be set to Local or AWS to limit responses to your custom registries, or the ones provided by AWS.
 """
-ListRegistries(; aws::AWSConfig=AWSConfig()) = schemas("GET", "/v1/registries"; aws=aws)
-ListRegistries(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = schemas("GET", "/v1/registries", args; aws=aws)
+ListRegistries(; aws::AWSConfig=AWS.aws_config) = schemas("GET", "/v1/registries"; aws=aws)
+ListRegistries(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = schemas("GET", "/v1/registries", args; aws=aws)
 
 """
     ListSchemaVersions()
@@ -250,8 +250,8 @@ Provides a list of the schema versions and related information.
 - `limit`: 
 - `nextToken`: The token that specifies the next page of results to return. To request the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared with other accounts.
 """
-ListSchemaVersions(registryName, schemaName; aws::AWSConfig=AWSConfig()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/versions"; aws=aws)
-ListSchemaVersions(registryName, schemaName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/versions", args; aws=aws)
+ListSchemaVersions(registryName, schemaName; aws::AWSConfig=AWS.aws_config) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/versions"; aws=aws)
+ListSchemaVersions(registryName, schemaName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/versions", args; aws=aws)
 
 """
     ListSchemas()
@@ -266,8 +266,8 @@ List the schemas.
 - `nextToken`: The token that specifies the next page of results to return. To request the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared with other accounts.
 - `schemaNamePrefix`: Specifying this limits the results to only those schema names that start with the specified prefix.
 """
-ListSchemas(registryName; aws::AWSConfig=AWSConfig()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas"; aws=aws)
-ListSchemas(registryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas", args; aws=aws)
+ListSchemas(registryName; aws::AWSConfig=AWS.aws_config) = schemas("GET", "/v1/registries/name/$(registryName)/schemas"; aws=aws)
+ListSchemas(registryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = schemas("GET", "/v1/registries/name/$(registryName)/schemas", args; aws=aws)
 
 """
     ListTagsForResource()
@@ -278,8 +278,8 @@ Get tags for resource.
 - `resource-arn`: The ARN of the resource.
 
 """
-ListTagsForResource(resource_arn; aws::AWSConfig=AWSConfig()) = schemas("GET", "/tags/$(resource-arn)"; aws=aws)
-ListTagsForResource(resource_arn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = schemas("GET", "/tags/$(resource-arn)", args; aws=aws)
+ListTagsForResource(resource_arn; aws::AWSConfig=AWS.aws_config) = schemas("GET", "/tags/$(resource-arn)"; aws=aws)
+ListTagsForResource(resource_arn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = schemas("GET", "/tags/$(resource-arn)", args; aws=aws)
 
 """
     PutCodeBinding()
@@ -294,8 +294,8 @@ Put code binding URI
 # Optional Parameters
 - `schemaVersion`: Specifying this limits the results to only this schema version.
 """
-PutCodeBinding(language, registryName, schemaName; aws::AWSConfig=AWSConfig()) = schemas("POST", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)"; aws=aws)
-PutCodeBinding(language, registryName, schemaName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = schemas("POST", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)", args; aws=aws)
+PutCodeBinding(language, registryName, schemaName; aws::AWSConfig=AWS.aws_config) = schemas("POST", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)"; aws=aws)
+PutCodeBinding(language, registryName, schemaName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = schemas("POST", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)/language/$(language)", args; aws=aws)
 
 """
     PutResourcePolicy()
@@ -309,8 +309,8 @@ The name of the policy.
 - `RevisionId`: The revision ID of the policy.
 - `registryName`: The name of the registry.
 """
-PutResourcePolicy(Policy; aws::AWSConfig=AWSConfig()) = schemas("PUT", "/v1/policy", Dict{String, Any}("Policy"=>Policy))
-PutResourcePolicy(Policy, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = schemas("PUT", "/v1/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy), args)); aws=aws)
+PutResourcePolicy(Policy; aws::AWSConfig=AWS.aws_config) = schemas("PUT", "/v1/policy", Dict{String, Any}("Policy"=>Policy); aws=aws)
+PutResourcePolicy(Policy, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = schemas("PUT", "/v1/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy), args)); aws=aws)
 
 """
     SearchSchemas()
@@ -325,8 +325,8 @@ Search the schemas
 - `limit`: 
 - `nextToken`: The token that specifies the next page of results to return. To request the first page, leave NextToken empty. The token will expire in 24 hours, and cannot be shared with other accounts.
 """
-SearchSchemas(keywords, registryName; aws::AWSConfig=AWSConfig()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/search", Dict{String, Any}("keywords"=>keywords))
-SearchSchemas(keywords, registryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/search", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("keywords"=>keywords), args)); aws=aws)
+SearchSchemas(keywords, registryName; aws::AWSConfig=AWS.aws_config) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/search", Dict{String, Any}("keywords"=>keywords); aws=aws)
+SearchSchemas(keywords, registryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = schemas("GET", "/v1/registries/name/$(registryName)/schemas/search", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("keywords"=>keywords), args)); aws=aws)
 
 """
     StartDiscoverer()
@@ -337,8 +337,8 @@ Starts the discoverer
 - `discovererId`: The ID of the discoverer.
 
 """
-StartDiscoverer(discovererId; aws::AWSConfig=AWSConfig()) = schemas("POST", "/v1/discoverers/id/$(discovererId)/start"; aws=aws)
-StartDiscoverer(discovererId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = schemas("POST", "/v1/discoverers/id/$(discovererId)/start", args; aws=aws)
+StartDiscoverer(discovererId; aws::AWSConfig=AWS.aws_config) = schemas("POST", "/v1/discoverers/id/$(discovererId)/start"; aws=aws)
+StartDiscoverer(discovererId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = schemas("POST", "/v1/discoverers/id/$(discovererId)/start", args; aws=aws)
 
 """
     StopDiscoverer()
@@ -349,8 +349,8 @@ Stops the discoverer
 - `discovererId`: The ID of the discoverer.
 
 """
-StopDiscoverer(discovererId; aws::AWSConfig=AWSConfig()) = schemas("POST", "/v1/discoverers/id/$(discovererId)/stop"; aws=aws)
-StopDiscoverer(discovererId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = schemas("POST", "/v1/discoverers/id/$(discovererId)/stop", args; aws=aws)
+StopDiscoverer(discovererId; aws::AWSConfig=AWS.aws_config) = schemas("POST", "/v1/discoverers/id/$(discovererId)/stop"; aws=aws)
+StopDiscoverer(discovererId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = schemas("POST", "/v1/discoverers/id/$(discovererId)/stop", args; aws=aws)
 
 """
     TagResource()
@@ -362,8 +362,8 @@ Add tags to a resource.
 - `tags`: Tags associated with the resource.
 
 """
-TagResource(resource_arn, tags; aws::AWSConfig=AWSConfig()) = schemas("POST", "/tags/$(resource-arn)", Dict{String, Any}("tags"=>tags))
-TagResource(resource_arn, tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = schemas("POST", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws=aws)
+TagResource(resource_arn, tags; aws::AWSConfig=AWS.aws_config) = schemas("POST", "/tags/$(resource-arn)", Dict{String, Any}("tags"=>tags); aws=aws)
+TagResource(resource_arn, tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = schemas("POST", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws=aws)
 
 """
     UntagResource()
@@ -375,8 +375,8 @@ Removes tags from a resource.
 - `tagKeys`: Keys of key-value pairs.
 
 """
-UntagResource(resource_arn, tagKeys; aws::AWSConfig=AWSConfig()) = schemas("DELETE", "/tags/$(resource-arn)", Dict{String, Any}("tagKeys"=>tagKeys))
-UntagResource(resource_arn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = schemas("DELETE", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws=aws)
+UntagResource(resource_arn, tagKeys; aws::AWSConfig=AWS.aws_config) = schemas("DELETE", "/tags/$(resource-arn)", Dict{String, Any}("tagKeys"=>tagKeys); aws=aws)
+UntagResource(resource_arn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = schemas("DELETE", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws=aws)
 
 """
     UpdateDiscoverer()
@@ -389,8 +389,8 @@ Updates the discoverer
 # Optional Parameters
 - `Description`: The description of the discoverer to update.
 """
-UpdateDiscoverer(discovererId; aws::AWSConfig=AWSConfig()) = schemas("PUT", "/v1/discoverers/id/$(discovererId)"; aws=aws)
-UpdateDiscoverer(discovererId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = schemas("PUT", "/v1/discoverers/id/$(discovererId)", args; aws=aws)
+UpdateDiscoverer(discovererId; aws::AWSConfig=AWS.aws_config) = schemas("PUT", "/v1/discoverers/id/$(discovererId)"; aws=aws)
+UpdateDiscoverer(discovererId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = schemas("PUT", "/v1/discoverers/id/$(discovererId)", args; aws=aws)
 
 """
     UpdateRegistry()
@@ -403,8 +403,8 @@ Updates a registry.
 # Optional Parameters
 - `Description`: The description of the registry to update.
 """
-UpdateRegistry(registryName; aws::AWSConfig=AWSConfig()) = schemas("PUT", "/v1/registries/name/$(registryName)"; aws=aws)
-UpdateRegistry(registryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = schemas("PUT", "/v1/registries/name/$(registryName)", args; aws=aws)
+UpdateRegistry(registryName; aws::AWSConfig=AWS.aws_config) = schemas("PUT", "/v1/registries/name/$(registryName)"; aws=aws)
+UpdateRegistry(registryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = schemas("PUT", "/v1/registries/name/$(registryName)", args; aws=aws)
 
 """
     UpdateSchema()
@@ -421,5 +421,5 @@ Updates the schema definition Inactive schemas will be deleted after two years.
 - `Description`: The description of the schema.
 - `Type`: The schema type for the events schema.
 """
-UpdateSchema(registryName, schemaName; aws::AWSConfig=AWSConfig()) = schemas("PUT", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)", Dict{String, Any}("ClientTokenId"=>string(uuid4())); aws=aws)
-UpdateSchema(registryName, schemaName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = schemas("PUT", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientTokenId"=>string(uuid4())), args)); aws=aws)
+UpdateSchema(registryName, schemaName; aws::AWSConfig=AWS.aws_config) = schemas("PUT", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)", Dict{String, Any}("ClientTokenId"=>string(uuid4())); aws=aws)
+UpdateSchema(registryName, schemaName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = schemas("PUT", "/v1/registries/name/$(registryName)/schemas/name/$(schemaName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientTokenId"=>string(uuid4())), args)); aws=aws)

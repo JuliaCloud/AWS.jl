@@ -14,8 +14,8 @@ Associates the specified fleet with the specified stack.
 - `StackName`: The name of the stack.
 
 """
-AssociateFleet(FleetName, StackName; aws::AWSConfig=AWSConfig()) = appstream("AssociateFleet", Dict{String, Any}("FleetName"=>FleetName, "StackName"=>StackName); aws=aws)
-AssociateFleet(FleetName, StackName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("AssociateFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetName"=>FleetName, "StackName"=>StackName), args)); aws=aws)
+AssociateFleet(FleetName, StackName; aws::AWSConfig=AWS.aws_config) = appstream("AssociateFleet", Dict{String, Any}("FleetName"=>FleetName, "StackName"=>StackName); aws=aws)
+AssociateFleet(FleetName, StackName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("AssociateFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetName"=>FleetName, "StackName"=>StackName), args)); aws=aws)
 
 """
     BatchAssociateUserStack()
@@ -26,8 +26,8 @@ Associates the specified users with the specified stacks. Users in a user pool c
 - `UserStackAssociations`: The list of UserStackAssociation objects.
 
 """
-BatchAssociateUserStack(UserStackAssociations; aws::AWSConfig=AWSConfig()) = appstream("BatchAssociateUserStack", Dict{String, Any}("UserStackAssociations"=>UserStackAssociations); aws=aws)
-BatchAssociateUserStack(UserStackAssociations, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("BatchAssociateUserStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserStackAssociations"=>UserStackAssociations), args)); aws=aws)
+BatchAssociateUserStack(UserStackAssociations; aws::AWSConfig=AWS.aws_config) = appstream("BatchAssociateUserStack", Dict{String, Any}("UserStackAssociations"=>UserStackAssociations); aws=aws)
+BatchAssociateUserStack(UserStackAssociations, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("BatchAssociateUserStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserStackAssociations"=>UserStackAssociations), args)); aws=aws)
 
 """
     BatchDisassociateUserStack()
@@ -38,8 +38,8 @@ Disassociates the specified users from the specified stacks.
 - `UserStackAssociations`: The list of UserStackAssociation objects.
 
 """
-BatchDisassociateUserStack(UserStackAssociations; aws::AWSConfig=AWSConfig()) = appstream("BatchDisassociateUserStack", Dict{String, Any}("UserStackAssociations"=>UserStackAssociations); aws=aws)
-BatchDisassociateUserStack(UserStackAssociations, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("BatchDisassociateUserStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserStackAssociations"=>UserStackAssociations), args)); aws=aws)
+BatchDisassociateUserStack(UserStackAssociations; aws::AWSConfig=AWS.aws_config) = appstream("BatchDisassociateUserStack", Dict{String, Any}("UserStackAssociations"=>UserStackAssociations); aws=aws)
+BatchDisassociateUserStack(UserStackAssociations, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("BatchDisassociateUserStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserStackAssociations"=>UserStackAssociations), args)); aws=aws)
 
 """
     CopyImage()
@@ -54,8 +54,8 @@ Copies the image within the same region or to a new region within the same AWS a
 # Optional Parameters
 - `DestinationImageDescription`: The description that the image will have when it is copied to the destination.
 """
-CopyImage(DestinationImageName, DestinationRegion, SourceImageName; aws::AWSConfig=AWSConfig()) = appstream("CopyImage", Dict{String, Any}("DestinationImageName"=>DestinationImageName, "DestinationRegion"=>DestinationRegion, "SourceImageName"=>SourceImageName); aws=aws)
-CopyImage(DestinationImageName, DestinationRegion, SourceImageName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("CopyImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationImageName"=>DestinationImageName, "DestinationRegion"=>DestinationRegion, "SourceImageName"=>SourceImageName), args)); aws=aws)
+CopyImage(DestinationImageName, DestinationRegion, SourceImageName; aws::AWSConfig=AWS.aws_config) = appstream("CopyImage", Dict{String, Any}("DestinationImageName"=>DestinationImageName, "DestinationRegion"=>DestinationRegion, "SourceImageName"=>SourceImageName); aws=aws)
+CopyImage(DestinationImageName, DestinationRegion, SourceImageName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("CopyImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DestinationImageName"=>DestinationImageName, "DestinationRegion"=>DestinationRegion, "SourceImageName"=>SourceImageName), args)); aws=aws)
 
 """
     CreateDirectoryConfig()
@@ -68,8 +68,8 @@ Creates a Directory Config object in AppStream 2.0. This object includes the con
 - `ServiceAccountCredentials`: The credentials for the service account used by the fleet or image builder to connect to the directory.
 
 """
-CreateDirectoryConfig(DirectoryName, OrganizationalUnitDistinguishedNames, ServiceAccountCredentials; aws::AWSConfig=AWSConfig()) = appstream("CreateDirectoryConfig", Dict{String, Any}("DirectoryName"=>DirectoryName, "OrganizationalUnitDistinguishedNames"=>OrganizationalUnitDistinguishedNames, "ServiceAccountCredentials"=>ServiceAccountCredentials); aws=aws)
-CreateDirectoryConfig(DirectoryName, OrganizationalUnitDistinguishedNames, ServiceAccountCredentials, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("CreateDirectoryConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryName"=>DirectoryName, "OrganizationalUnitDistinguishedNames"=>OrganizationalUnitDistinguishedNames, "ServiceAccountCredentials"=>ServiceAccountCredentials), args)); aws=aws)
+CreateDirectoryConfig(DirectoryName, OrganizationalUnitDistinguishedNames, ServiceAccountCredentials; aws::AWSConfig=AWS.aws_config) = appstream("CreateDirectoryConfig", Dict{String, Any}("DirectoryName"=>DirectoryName, "OrganizationalUnitDistinguishedNames"=>OrganizationalUnitDistinguishedNames, "ServiceAccountCredentials"=>ServiceAccountCredentials); aws=aws)
+CreateDirectoryConfig(DirectoryName, OrganizationalUnitDistinguishedNames, ServiceAccountCredentials, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("CreateDirectoryConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryName"=>DirectoryName, "OrganizationalUnitDistinguishedNames"=>OrganizationalUnitDistinguishedNames, "ServiceAccountCredentials"=>ServiceAccountCredentials), args)); aws=aws)
 
 """
     CreateFleet()
@@ -96,8 +96,8 @@ Creates a fleet. A fleet consists of streaming instances that run a specified im
 - `Tags`: The tags to associate with the fleet. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = +   - @ For more information, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
 - `VpcConfig`: The VPC configuration for the fleet.
 """
-CreateFleet(ComputeCapacity, InstanceType, Name; aws::AWSConfig=AWSConfig()) = appstream("CreateFleet", Dict{String, Any}("ComputeCapacity"=>ComputeCapacity, "InstanceType"=>InstanceType, "Name"=>Name); aws=aws)
-CreateFleet(ComputeCapacity, InstanceType, Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("CreateFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ComputeCapacity"=>ComputeCapacity, "InstanceType"=>InstanceType, "Name"=>Name), args)); aws=aws)
+CreateFleet(ComputeCapacity, InstanceType, Name; aws::AWSConfig=AWS.aws_config) = appstream("CreateFleet", Dict{String, Any}("ComputeCapacity"=>ComputeCapacity, "InstanceType"=>InstanceType, "Name"=>Name); aws=aws)
+CreateFleet(ComputeCapacity, InstanceType, Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("CreateFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ComputeCapacity"=>ComputeCapacity, "InstanceType"=>InstanceType, "Name"=>Name), args)); aws=aws)
 
 """
     CreateImageBuilder()
@@ -121,8 +121,8 @@ Creates an image builder. An image builder is a virtual machine that is used to 
 - `Tags`: The tags to associate with the image builder. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = +   - @ If you do not specify a value, the value is set to an empty string. For more information about tags, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
 - `VpcConfig`: The VPC configuration for the image builder. You can specify only one subnet.
 """
-CreateImageBuilder(InstanceType, Name; aws::AWSConfig=AWSConfig()) = appstream("CreateImageBuilder", Dict{String, Any}("InstanceType"=>InstanceType, "Name"=>Name); aws=aws)
-CreateImageBuilder(InstanceType, Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("CreateImageBuilder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceType"=>InstanceType, "Name"=>Name), args)); aws=aws)
+CreateImageBuilder(InstanceType, Name; aws::AWSConfig=AWS.aws_config) = appstream("CreateImageBuilder", Dict{String, Any}("InstanceType"=>InstanceType, "Name"=>Name); aws=aws)
+CreateImageBuilder(InstanceType, Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("CreateImageBuilder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceType"=>InstanceType, "Name"=>Name), args)); aws=aws)
 
 """
     CreateImageBuilderStreamingURL()
@@ -135,8 +135,8 @@ Creates a URL to start an image builder streaming session.
 # Optional Parameters
 - `Validity`: The time that the streaming URL will be valid, in seconds. Specify a value between 1 and 604800 seconds. The default is 3600 seconds.
 """
-CreateImageBuilderStreamingURL(Name; aws::AWSConfig=AWSConfig()) = appstream("CreateImageBuilderStreamingURL", Dict{String, Any}("Name"=>Name); aws=aws)
-CreateImageBuilderStreamingURL(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("CreateImageBuilderStreamingURL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+CreateImageBuilderStreamingURL(Name; aws::AWSConfig=AWS.aws_config) = appstream("CreateImageBuilderStreamingURL", Dict{String, Any}("Name"=>Name); aws=aws)
+CreateImageBuilderStreamingURL(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("CreateImageBuilderStreamingURL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
 
 """
     CreateStack()
@@ -158,8 +158,8 @@ Creates a stack to start streaming applications to users. A stack consists of an
 - `Tags`: The tags to associate with the stack. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = +   - @ For more information about tags, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
 - `UserSettings`: The actions that are enabled or disabled for users during their streaming sessions. By default, these actions are enabled. 
 """
-CreateStack(Name; aws::AWSConfig=AWSConfig()) = appstream("CreateStack", Dict{String, Any}("Name"=>Name); aws=aws)
-CreateStack(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("CreateStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+CreateStack(Name; aws::AWSConfig=AWS.aws_config) = appstream("CreateStack", Dict{String, Any}("Name"=>Name); aws=aws)
+CreateStack(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("CreateStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
 
 """
     CreateStreamingURL()
@@ -176,8 +176,8 @@ Creates a temporary URL to start an AppStream 2.0 streaming session for the spec
 - `SessionContext`: The session context. For more information, see Session Context in the Amazon AppStream 2.0 Administration Guide.
 - `Validity`: The time that the streaming URL will be valid, in seconds. Specify a value between 1 and 604800 seconds. The default is 60 seconds.
 """
-CreateStreamingURL(FleetName, StackName, UserId; aws::AWSConfig=AWSConfig()) = appstream("CreateStreamingURL", Dict{String, Any}("FleetName"=>FleetName, "StackName"=>StackName, "UserId"=>UserId); aws=aws)
-CreateStreamingURL(FleetName, StackName, UserId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("CreateStreamingURL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetName"=>FleetName, "StackName"=>StackName, "UserId"=>UserId), args)); aws=aws)
+CreateStreamingURL(FleetName, StackName, UserId; aws::AWSConfig=AWS.aws_config) = appstream("CreateStreamingURL", Dict{String, Any}("FleetName"=>FleetName, "StackName"=>StackName, "UserId"=>UserId); aws=aws)
+CreateStreamingURL(FleetName, StackName, UserId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("CreateStreamingURL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetName"=>FleetName, "StackName"=>StackName, "UserId"=>UserId), args)); aws=aws)
 
 """
     CreateUsageReportSubscription()
@@ -185,8 +185,8 @@ CreateStreamingURL(FleetName, StackName, UserId, args::AbstractDict{String, <:An
 Creates a usage report subscription. Usage reports are generated daily.
 
 """
-CreateUsageReportSubscription(; aws::AWSConfig=AWSConfig()) = appstream("CreateUsageReportSubscription"; aws=aws)
-CreateUsageReportSubscription(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("CreateUsageReportSubscription", args; aws=aws)
+CreateUsageReportSubscription(; aws::AWSConfig=AWS.aws_config) = appstream("CreateUsageReportSubscription"; aws=aws)
+CreateUsageReportSubscription(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("CreateUsageReportSubscription", args; aws=aws)
 
 """
     CreateUser()
@@ -202,8 +202,8 @@ Creates a new user in the user pool.
 - `LastName`: The last name, or surname, of the user.
 - `MessageAction`: The action to take for the welcome email that is sent to a user after the user is created in the user pool. If you specify SUPPRESS, no email is sent. If you specify RESEND, do not specify the first name or last name of the user. If the value is null, the email is sent.   The temporary password in the welcome email is valid for only 7 days. If users don’t set their passwords within 7 days, you must send them a new welcome email. 
 """
-CreateUser(AuthenticationType, UserName; aws::AWSConfig=AWSConfig()) = appstream("CreateUser", Dict{String, Any}("AuthenticationType"=>AuthenticationType, "UserName"=>UserName); aws=aws)
-CreateUser(AuthenticationType, UserName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("CreateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationType"=>AuthenticationType, "UserName"=>UserName), args)); aws=aws)
+CreateUser(AuthenticationType, UserName; aws::AWSConfig=AWS.aws_config) = appstream("CreateUser", Dict{String, Any}("AuthenticationType"=>AuthenticationType, "UserName"=>UserName); aws=aws)
+CreateUser(AuthenticationType, UserName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("CreateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationType"=>AuthenticationType, "UserName"=>UserName), args)); aws=aws)
 
 """
     DeleteDirectoryConfig()
@@ -214,8 +214,8 @@ Deletes the specified Directory Config object from AppStream 2.0. This object in
 - `DirectoryName`: The name of the directory configuration.
 
 """
-DeleteDirectoryConfig(DirectoryName; aws::AWSConfig=AWSConfig()) = appstream("DeleteDirectoryConfig", Dict{String, Any}("DirectoryName"=>DirectoryName); aws=aws)
-DeleteDirectoryConfig(DirectoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("DeleteDirectoryConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryName"=>DirectoryName), args)); aws=aws)
+DeleteDirectoryConfig(DirectoryName; aws::AWSConfig=AWS.aws_config) = appstream("DeleteDirectoryConfig", Dict{String, Any}("DirectoryName"=>DirectoryName); aws=aws)
+DeleteDirectoryConfig(DirectoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("DeleteDirectoryConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryName"=>DirectoryName), args)); aws=aws)
 
 """
     DeleteFleet()
@@ -226,8 +226,8 @@ Deletes the specified fleet.
 - `Name`: The name of the fleet.
 
 """
-DeleteFleet(Name; aws::AWSConfig=AWSConfig()) = appstream("DeleteFleet", Dict{String, Any}("Name"=>Name); aws=aws)
-DeleteFleet(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("DeleteFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+DeleteFleet(Name; aws::AWSConfig=AWS.aws_config) = appstream("DeleteFleet", Dict{String, Any}("Name"=>Name); aws=aws)
+DeleteFleet(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("DeleteFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
 
 """
     DeleteImage()
@@ -238,8 +238,8 @@ Deletes the specified image. You cannot delete an image when it is in use. After
 - `Name`: The name of the image.
 
 """
-DeleteImage(Name; aws::AWSConfig=AWSConfig()) = appstream("DeleteImage", Dict{String, Any}("Name"=>Name); aws=aws)
-DeleteImage(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("DeleteImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+DeleteImage(Name; aws::AWSConfig=AWS.aws_config) = appstream("DeleteImage", Dict{String, Any}("Name"=>Name); aws=aws)
+DeleteImage(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("DeleteImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
 
 """
     DeleteImageBuilder()
@@ -250,8 +250,8 @@ Deletes the specified image builder and releases the capacity.
 - `Name`: The name of the image builder.
 
 """
-DeleteImageBuilder(Name; aws::AWSConfig=AWSConfig()) = appstream("DeleteImageBuilder", Dict{String, Any}("Name"=>Name); aws=aws)
-DeleteImageBuilder(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("DeleteImageBuilder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+DeleteImageBuilder(Name; aws::AWSConfig=AWS.aws_config) = appstream("DeleteImageBuilder", Dict{String, Any}("Name"=>Name); aws=aws)
+DeleteImageBuilder(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("DeleteImageBuilder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
 
 """
     DeleteImagePermissions()
@@ -263,8 +263,8 @@ Deletes permissions for the specified private image. After you delete permission
 - `SharedAccountId`: The 12-digit identifier of the AWS account for which to delete image permissions.
 
 """
-DeleteImagePermissions(Name, SharedAccountId; aws::AWSConfig=AWSConfig()) = appstream("DeleteImagePermissions", Dict{String, Any}("Name"=>Name, "SharedAccountId"=>SharedAccountId); aws=aws)
-DeleteImagePermissions(Name, SharedAccountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("DeleteImagePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SharedAccountId"=>SharedAccountId), args)); aws=aws)
+DeleteImagePermissions(Name, SharedAccountId; aws::AWSConfig=AWS.aws_config) = appstream("DeleteImagePermissions", Dict{String, Any}("Name"=>Name, "SharedAccountId"=>SharedAccountId); aws=aws)
+DeleteImagePermissions(Name, SharedAccountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("DeleteImagePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SharedAccountId"=>SharedAccountId), args)); aws=aws)
 
 """
     DeleteStack()
@@ -275,8 +275,8 @@ Deletes the specified stack. After the stack is deleted, the application streami
 - `Name`: The name of the stack.
 
 """
-DeleteStack(Name; aws::AWSConfig=AWSConfig()) = appstream("DeleteStack", Dict{String, Any}("Name"=>Name); aws=aws)
-DeleteStack(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("DeleteStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+DeleteStack(Name; aws::AWSConfig=AWS.aws_config) = appstream("DeleteStack", Dict{String, Any}("Name"=>Name); aws=aws)
+DeleteStack(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("DeleteStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
 
 """
     DeleteUsageReportSubscription()
@@ -284,8 +284,8 @@ DeleteStack(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig())
 Disables usage report generation.
 
 """
-DeleteUsageReportSubscription(; aws::AWSConfig=AWSConfig()) = appstream("DeleteUsageReportSubscription"; aws=aws)
-DeleteUsageReportSubscription(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("DeleteUsageReportSubscription", args; aws=aws)
+DeleteUsageReportSubscription(; aws::AWSConfig=AWS.aws_config) = appstream("DeleteUsageReportSubscription"; aws=aws)
+DeleteUsageReportSubscription(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("DeleteUsageReportSubscription", args; aws=aws)
 
 """
     DeleteUser()
@@ -297,8 +297,8 @@ Deletes a user from the user pool.
 - `UserName`: The email address of the user.  Users' email addresses are case-sensitive. 
 
 """
-DeleteUser(AuthenticationType, UserName; aws::AWSConfig=AWSConfig()) = appstream("DeleteUser", Dict{String, Any}("AuthenticationType"=>AuthenticationType, "UserName"=>UserName); aws=aws)
-DeleteUser(AuthenticationType, UserName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("DeleteUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationType"=>AuthenticationType, "UserName"=>UserName), args)); aws=aws)
+DeleteUser(AuthenticationType, UserName; aws::AWSConfig=AWS.aws_config) = appstream("DeleteUser", Dict{String, Any}("AuthenticationType"=>AuthenticationType, "UserName"=>UserName); aws=aws)
+DeleteUser(AuthenticationType, UserName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("DeleteUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationType"=>AuthenticationType, "UserName"=>UserName), args)); aws=aws)
 
 """
     DescribeDirectoryConfigs()
@@ -310,8 +310,8 @@ Retrieves a list that describes one or more specified Directory Config objects f
 - `MaxResults`: The maximum size of each page of results.
 - `NextToken`: The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
 """
-DescribeDirectoryConfigs(; aws::AWSConfig=AWSConfig()) = appstream("DescribeDirectoryConfigs"; aws=aws)
-DescribeDirectoryConfigs(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("DescribeDirectoryConfigs", args; aws=aws)
+DescribeDirectoryConfigs(; aws::AWSConfig=AWS.aws_config) = appstream("DescribeDirectoryConfigs"; aws=aws)
+DescribeDirectoryConfigs(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("DescribeDirectoryConfigs", args; aws=aws)
 
 """
     DescribeFleets()
@@ -322,8 +322,8 @@ Retrieves a list that describes one or more specified fleets, if the fleet names
 - `Names`: The names of the fleets to describe.
 - `NextToken`: The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
 """
-DescribeFleets(; aws::AWSConfig=AWSConfig()) = appstream("DescribeFleets"; aws=aws)
-DescribeFleets(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("DescribeFleets", args; aws=aws)
+DescribeFleets(; aws::AWSConfig=AWS.aws_config) = appstream("DescribeFleets"; aws=aws)
+DescribeFleets(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("DescribeFleets", args; aws=aws)
 
 """
     DescribeImageBuilders()
@@ -335,8 +335,8 @@ Retrieves a list that describes one or more specified image builders, if the ima
 - `Names`: The names of the image builders to describe.
 - `NextToken`: The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
 """
-DescribeImageBuilders(; aws::AWSConfig=AWSConfig()) = appstream("DescribeImageBuilders"; aws=aws)
-DescribeImageBuilders(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("DescribeImageBuilders", args; aws=aws)
+DescribeImageBuilders(; aws::AWSConfig=AWS.aws_config) = appstream("DescribeImageBuilders"; aws=aws)
+DescribeImageBuilders(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("DescribeImageBuilders", args; aws=aws)
 
 """
     DescribeImagePermissions()
@@ -351,8 +351,8 @@ Retrieves a list that describes the permissions for shared AWS account IDs on a 
 - `NextToken`: The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
 - `SharedAwsAccountIds`: The 12-digit identifier of one or more AWS accounts with which the image is shared.
 """
-DescribeImagePermissions(Name; aws::AWSConfig=AWSConfig()) = appstream("DescribeImagePermissions", Dict{String, Any}("Name"=>Name); aws=aws)
-DescribeImagePermissions(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("DescribeImagePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+DescribeImagePermissions(Name; aws::AWSConfig=AWS.aws_config) = appstream("DescribeImagePermissions", Dict{String, Any}("Name"=>Name); aws=aws)
+DescribeImagePermissions(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("DescribeImagePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
 
 """
     DescribeImages()
@@ -366,8 +366,8 @@ Retrieves a list that describes one or more specified images, if the image names
 - `NextToken`: The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
 - `Type`: The type of image (public, private, or shared) to describe. 
 """
-DescribeImages(; aws::AWSConfig=AWSConfig()) = appstream("DescribeImages"; aws=aws)
-DescribeImages(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("DescribeImages", args; aws=aws)
+DescribeImages(; aws::AWSConfig=AWS.aws_config) = appstream("DescribeImages"; aws=aws)
+DescribeImages(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("DescribeImages", args; aws=aws)
 
 """
     DescribeSessions()
@@ -384,8 +384,8 @@ Retrieves a list that describes the streaming sessions for a specified stack and
 - `NextToken`: The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
 - `UserId`: The user identifier.
 """
-DescribeSessions(FleetName, StackName; aws::AWSConfig=AWSConfig()) = appstream("DescribeSessions", Dict{String, Any}("FleetName"=>FleetName, "StackName"=>StackName); aws=aws)
-DescribeSessions(FleetName, StackName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("DescribeSessions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetName"=>FleetName, "StackName"=>StackName), args)); aws=aws)
+DescribeSessions(FleetName, StackName; aws::AWSConfig=AWS.aws_config) = appstream("DescribeSessions", Dict{String, Any}("FleetName"=>FleetName, "StackName"=>StackName); aws=aws)
+DescribeSessions(FleetName, StackName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("DescribeSessions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetName"=>FleetName, "StackName"=>StackName), args)); aws=aws)
 
 """
     DescribeStacks()
@@ -396,8 +396,8 @@ Retrieves a list that describes one or more specified stacks, if the stack names
 - `Names`: The names of the stacks to describe.
 - `NextToken`: The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
 """
-DescribeStacks(; aws::AWSConfig=AWSConfig()) = appstream("DescribeStacks"; aws=aws)
-DescribeStacks(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("DescribeStacks", args; aws=aws)
+DescribeStacks(; aws::AWSConfig=AWS.aws_config) = appstream("DescribeStacks"; aws=aws)
+DescribeStacks(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("DescribeStacks", args; aws=aws)
 
 """
     DescribeUsageReportSubscriptions()
@@ -408,8 +408,8 @@ Retrieves a list that describes one or more usage report subscriptions.
 - `MaxResults`: The maximum size of each page of results.
 - `NextToken`: The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
 """
-DescribeUsageReportSubscriptions(; aws::AWSConfig=AWSConfig()) = appstream("DescribeUsageReportSubscriptions"; aws=aws)
-DescribeUsageReportSubscriptions(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("DescribeUsageReportSubscriptions", args; aws=aws)
+DescribeUsageReportSubscriptions(; aws::AWSConfig=AWS.aws_config) = appstream("DescribeUsageReportSubscriptions"; aws=aws)
+DescribeUsageReportSubscriptions(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("DescribeUsageReportSubscriptions", args; aws=aws)
 
 """
     DescribeUserStackAssociations()
@@ -423,8 +423,8 @@ Retrieves a list that describes the UserStackAssociation objects. You must speci
 - `StackName`: The name of the stack that is associated with the user.
 - `UserName`: The email address of the user who is associated with the stack.  Users' email addresses are case-sensitive. 
 """
-DescribeUserStackAssociations(; aws::AWSConfig=AWSConfig()) = appstream("DescribeUserStackAssociations"; aws=aws)
-DescribeUserStackAssociations(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("DescribeUserStackAssociations", args; aws=aws)
+DescribeUserStackAssociations(; aws::AWSConfig=AWS.aws_config) = appstream("DescribeUserStackAssociations"; aws=aws)
+DescribeUserStackAssociations(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("DescribeUserStackAssociations", args; aws=aws)
 
 """
     DescribeUsers()
@@ -438,8 +438,8 @@ Retrieves a list that describes one or more specified users in the user pool.
 - `MaxResults`: The maximum size of each page of results.
 - `NextToken`: The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
 """
-DescribeUsers(AuthenticationType; aws::AWSConfig=AWSConfig()) = appstream("DescribeUsers", Dict{String, Any}("AuthenticationType"=>AuthenticationType); aws=aws)
-DescribeUsers(AuthenticationType, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("DescribeUsers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationType"=>AuthenticationType), args)); aws=aws)
+DescribeUsers(AuthenticationType; aws::AWSConfig=AWS.aws_config) = appstream("DescribeUsers", Dict{String, Any}("AuthenticationType"=>AuthenticationType); aws=aws)
+DescribeUsers(AuthenticationType, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("DescribeUsers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationType"=>AuthenticationType), args)); aws=aws)
 
 """
     DisableUser()
@@ -451,8 +451,8 @@ Disables the specified user in the user pool. Users can't sign in to AppStream 2
 - `UserName`: The email address of the user.  Users' email addresses are case-sensitive. 
 
 """
-DisableUser(AuthenticationType, UserName; aws::AWSConfig=AWSConfig()) = appstream("DisableUser", Dict{String, Any}("AuthenticationType"=>AuthenticationType, "UserName"=>UserName); aws=aws)
-DisableUser(AuthenticationType, UserName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("DisableUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationType"=>AuthenticationType, "UserName"=>UserName), args)); aws=aws)
+DisableUser(AuthenticationType, UserName; aws::AWSConfig=AWS.aws_config) = appstream("DisableUser", Dict{String, Any}("AuthenticationType"=>AuthenticationType, "UserName"=>UserName); aws=aws)
+DisableUser(AuthenticationType, UserName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("DisableUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationType"=>AuthenticationType, "UserName"=>UserName), args)); aws=aws)
 
 """
     DisassociateFleet()
@@ -464,8 +464,8 @@ Disassociates the specified fleet from the specified stack.
 - `StackName`: The name of the stack.
 
 """
-DisassociateFleet(FleetName, StackName; aws::AWSConfig=AWSConfig()) = appstream("DisassociateFleet", Dict{String, Any}("FleetName"=>FleetName, "StackName"=>StackName); aws=aws)
-DisassociateFleet(FleetName, StackName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("DisassociateFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetName"=>FleetName, "StackName"=>StackName), args)); aws=aws)
+DisassociateFleet(FleetName, StackName; aws::AWSConfig=AWS.aws_config) = appstream("DisassociateFleet", Dict{String, Any}("FleetName"=>FleetName, "StackName"=>StackName); aws=aws)
+DisassociateFleet(FleetName, StackName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("DisassociateFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetName"=>FleetName, "StackName"=>StackName), args)); aws=aws)
 
 """
     EnableUser()
@@ -477,8 +477,8 @@ Enables a user in the user pool. After being enabled, users can sign in to AppSt
 - `UserName`: The email address of the user.  Users' email addresses are case-sensitive. During login, if they specify an email address that doesn't use the same capitalization as the email address specified when their user pool account was created, a \"user does not exist\" error message displays.  
 
 """
-EnableUser(AuthenticationType, UserName; aws::AWSConfig=AWSConfig()) = appstream("EnableUser", Dict{String, Any}("AuthenticationType"=>AuthenticationType, "UserName"=>UserName); aws=aws)
-EnableUser(AuthenticationType, UserName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("EnableUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationType"=>AuthenticationType, "UserName"=>UserName), args)); aws=aws)
+EnableUser(AuthenticationType, UserName; aws::AWSConfig=AWS.aws_config) = appstream("EnableUser", Dict{String, Any}("AuthenticationType"=>AuthenticationType, "UserName"=>UserName); aws=aws)
+EnableUser(AuthenticationType, UserName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("EnableUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationType"=>AuthenticationType, "UserName"=>UserName), args)); aws=aws)
 
 """
     ExpireSession()
@@ -489,8 +489,8 @@ Immediately stops the specified streaming session.
 - `SessionId`: The identifier of the streaming session.
 
 """
-ExpireSession(SessionId; aws::AWSConfig=AWSConfig()) = appstream("ExpireSession", Dict{String, Any}("SessionId"=>SessionId); aws=aws)
-ExpireSession(SessionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("ExpireSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SessionId"=>SessionId), args)); aws=aws)
+ExpireSession(SessionId; aws::AWSConfig=AWS.aws_config) = appstream("ExpireSession", Dict{String, Any}("SessionId"=>SessionId); aws=aws)
+ExpireSession(SessionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("ExpireSession", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SessionId"=>SessionId), args)); aws=aws)
 
 """
     ListAssociatedFleets()
@@ -503,8 +503,8 @@ Retrieves the name of the fleet that is associated with the specified stack.
 # Optional Parameters
 - `NextToken`: The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
 """
-ListAssociatedFleets(StackName; aws::AWSConfig=AWSConfig()) = appstream("ListAssociatedFleets", Dict{String, Any}("StackName"=>StackName); aws=aws)
-ListAssociatedFleets(StackName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("ListAssociatedFleets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), args)); aws=aws)
+ListAssociatedFleets(StackName; aws::AWSConfig=AWS.aws_config) = appstream("ListAssociatedFleets", Dict{String, Any}("StackName"=>StackName); aws=aws)
+ListAssociatedFleets(StackName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("ListAssociatedFleets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StackName"=>StackName), args)); aws=aws)
 
 """
     ListAssociatedStacks()
@@ -517,8 +517,8 @@ Retrieves the name of the stack with which the specified fleet is associated.
 # Optional Parameters
 - `NextToken`: The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
 """
-ListAssociatedStacks(FleetName; aws::AWSConfig=AWSConfig()) = appstream("ListAssociatedStacks", Dict{String, Any}("FleetName"=>FleetName); aws=aws)
-ListAssociatedStacks(FleetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("ListAssociatedStacks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetName"=>FleetName), args)); aws=aws)
+ListAssociatedStacks(FleetName; aws::AWSConfig=AWS.aws_config) = appstream("ListAssociatedStacks", Dict{String, Any}("FleetName"=>FleetName); aws=aws)
+ListAssociatedStacks(FleetName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("ListAssociatedStacks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FleetName"=>FleetName), args)); aws=aws)
 
 """
     ListTagsForResource()
@@ -529,8 +529,8 @@ Retrieves a list of all tags for the specified AppStream 2.0 resource. You can t
 - `ResourceArn`: The Amazon Resource Name (ARN) of the resource.
 
 """
-ListTagsForResource(ResourceArn; aws::AWSConfig=AWSConfig()) = appstream("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws=aws)
-ListTagsForResource(ResourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws=aws)
+ListTagsForResource(ResourceArn; aws::AWSConfig=AWS.aws_config) = appstream("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws=aws)
+ListTagsForResource(ResourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws=aws)
 
 """
     StartFleet()
@@ -541,8 +541,8 @@ Starts the specified fleet.
 - `Name`: The name of the fleet.
 
 """
-StartFleet(Name; aws::AWSConfig=AWSConfig()) = appstream("StartFleet", Dict{String, Any}("Name"=>Name); aws=aws)
-StartFleet(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("StartFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+StartFleet(Name; aws::AWSConfig=AWS.aws_config) = appstream("StartFleet", Dict{String, Any}("Name"=>Name); aws=aws)
+StartFleet(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("StartFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
 
 """
     StartImageBuilder()
@@ -555,8 +555,8 @@ Starts the specified image builder.
 # Optional Parameters
 - `AppstreamAgentVersion`: The version of the AppStream 2.0 agent to use for this image builder. To use the latest version of the AppStream 2.0 agent, specify [LATEST]. 
 """
-StartImageBuilder(Name; aws::AWSConfig=AWSConfig()) = appstream("StartImageBuilder", Dict{String, Any}("Name"=>Name); aws=aws)
-StartImageBuilder(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("StartImageBuilder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+StartImageBuilder(Name; aws::AWSConfig=AWS.aws_config) = appstream("StartImageBuilder", Dict{String, Any}("Name"=>Name); aws=aws)
+StartImageBuilder(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("StartImageBuilder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
 
 """
     StopFleet()
@@ -567,8 +567,8 @@ Stops the specified fleet.
 - `Name`: The name of the fleet.
 
 """
-StopFleet(Name; aws::AWSConfig=AWSConfig()) = appstream("StopFleet", Dict{String, Any}("Name"=>Name); aws=aws)
-StopFleet(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("StopFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+StopFleet(Name; aws::AWSConfig=AWS.aws_config) = appstream("StopFleet", Dict{String, Any}("Name"=>Name); aws=aws)
+StopFleet(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("StopFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
 
 """
     StopImageBuilder()
@@ -579,8 +579,8 @@ Stops the specified image builder.
 - `Name`: The name of the image builder.
 
 """
-StopImageBuilder(Name; aws::AWSConfig=AWSConfig()) = appstream("StopImageBuilder", Dict{String, Any}("Name"=>Name); aws=aws)
-StopImageBuilder(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("StopImageBuilder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+StopImageBuilder(Name; aws::AWSConfig=AWS.aws_config) = appstream("StopImageBuilder", Dict{String, Any}("Name"=>Name); aws=aws)
+StopImageBuilder(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("StopImageBuilder", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
 
 """
     TagResource()
@@ -592,8 +592,8 @@ Adds or overwrites one or more tags for the specified AppStream 2.0 resource. Yo
 - `Tags`: The tags to associate. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = +   - @
 
 """
-TagResource(ResourceArn, Tags; aws::AWSConfig=AWSConfig()) = appstream("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws=aws)
-TagResource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), args)); aws=aws)
+TagResource(ResourceArn, Tags; aws::AWSConfig=AWS.aws_config) = appstream("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws=aws)
+TagResource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), args)); aws=aws)
 
 """
     UntagResource()
@@ -605,8 +605,8 @@ Disassociates one or more specified tags from the specified AppStream 2.0 resour
 - `TagKeys`: The tag keys for the tags to disassociate.
 
 """
-UntagResource(ResourceArn, TagKeys; aws::AWSConfig=AWSConfig()) = appstream("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws=aws)
-UntagResource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws=aws)
+UntagResource(ResourceArn, TagKeys; aws::AWSConfig=AWS.aws_config) = appstream("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws=aws)
+UntagResource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws=aws)
 
 """
     UpdateDirectoryConfig()
@@ -620,8 +620,8 @@ Updates the specified Directory Config object in AppStream 2.0. This object incl
 - `OrganizationalUnitDistinguishedNames`: The distinguished names of the organizational units for computer accounts.
 - `ServiceAccountCredentials`: The credentials for the service account used by the fleet or image builder to connect to the directory.
 """
-UpdateDirectoryConfig(DirectoryName; aws::AWSConfig=AWSConfig()) = appstream("UpdateDirectoryConfig", Dict{String, Any}("DirectoryName"=>DirectoryName); aws=aws)
-UpdateDirectoryConfig(DirectoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("UpdateDirectoryConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryName"=>DirectoryName), args)); aws=aws)
+UpdateDirectoryConfig(DirectoryName; aws::AWSConfig=AWS.aws_config) = appstream("UpdateDirectoryConfig", Dict{String, Any}("DirectoryName"=>DirectoryName); aws=aws)
+UpdateDirectoryConfig(DirectoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("UpdateDirectoryConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryName"=>DirectoryName), args)); aws=aws)
 
 """
     UpdateFleet()
@@ -646,8 +646,8 @@ Updates the specified fleet. If the fleet is in the STOPPED state, you can updat
 - `Name`: A unique name for the fleet.
 - `VpcConfig`: The VPC configuration for the fleet.
 """
-UpdateFleet(; aws::AWSConfig=AWSConfig()) = appstream("UpdateFleet"; aws=aws)
-UpdateFleet(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("UpdateFleet", args; aws=aws)
+UpdateFleet(; aws::AWSConfig=AWS.aws_config) = appstream("UpdateFleet"; aws=aws)
+UpdateFleet(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("UpdateFleet", args; aws=aws)
 
 """
     UpdateImagePermissions()
@@ -660,8 +660,8 @@ Adds or updates permissions for the specified private image.
 - `SharedAccountId`: The 12-digit identifier of the AWS account for which you want add or update image permissions.
 
 """
-UpdateImagePermissions(ImagePermissions, Name, SharedAccountId; aws::AWSConfig=AWSConfig()) = appstream("UpdateImagePermissions", Dict{String, Any}("ImagePermissions"=>ImagePermissions, "Name"=>Name, "SharedAccountId"=>SharedAccountId); aws=aws)
-UpdateImagePermissions(ImagePermissions, Name, SharedAccountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("UpdateImagePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImagePermissions"=>ImagePermissions, "Name"=>Name, "SharedAccountId"=>SharedAccountId), args)); aws=aws)
+UpdateImagePermissions(ImagePermissions, Name, SharedAccountId; aws::AWSConfig=AWS.aws_config) = appstream("UpdateImagePermissions", Dict{String, Any}("ImagePermissions"=>ImagePermissions, "Name"=>Name, "SharedAccountId"=>SharedAccountId); aws=aws)
+UpdateImagePermissions(ImagePermissions, Name, SharedAccountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("UpdateImagePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImagePermissions"=>ImagePermissions, "Name"=>Name, "SharedAccountId"=>SharedAccountId), args)); aws=aws)
 
 """
     UpdateStack()
@@ -684,5 +684,5 @@ Updates the specified fields for the specified stack.
 - `StorageConnectors`: The storage connectors to enable.
 - `UserSettings`: The actions that are enabled or disabled for users during their streaming sessions. By default, these actions are enabled.
 """
-UpdateStack(Name; aws::AWSConfig=AWSConfig()) = appstream("UpdateStack", Dict{String, Any}("Name"=>Name); aws=aws)
-UpdateStack(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = appstream("UpdateStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+UpdateStack(Name; aws::AWSConfig=AWS.aws_config) = appstream("UpdateStack", Dict{String, Any}("Name"=>Name); aws=aws)
+UpdateStack(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = appstream("UpdateStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)

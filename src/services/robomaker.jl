@@ -13,8 +13,8 @@ Describes one or more simulation jobs.
 - `jobs`: A list of Amazon Resource Names (ARNs) of simulation jobs to describe.
 
 """
-BatchDescribeSimulationJob(jobs; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/batchDescribeSimulationJob", Dict{String, Any}("jobs"=>jobs))
-BatchDescribeSimulationJob(jobs, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/batchDescribeSimulationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobs"=>jobs), args)); aws=aws)
+BatchDescribeSimulationJob(jobs; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/batchDescribeSimulationJob", Dict{String, Any}("jobs"=>jobs); aws=aws)
+BatchDescribeSimulationJob(jobs, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/batchDescribeSimulationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobs"=>jobs), args)); aws=aws)
 
 """
     CancelDeploymentJob()
@@ -25,8 +25,8 @@ Cancels the specified deployment job.
 - `job`: The deployment job ARN to cancel.
 
 """
-CancelDeploymentJob(job; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/cancelDeploymentJob", Dict{String, Any}("job"=>job))
-CancelDeploymentJob(job, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/cancelDeploymentJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), args)); aws=aws)
+CancelDeploymentJob(job; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/cancelDeploymentJob", Dict{String, Any}("job"=>job); aws=aws)
+CancelDeploymentJob(job, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/cancelDeploymentJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), args)); aws=aws)
 
 """
     CancelSimulationJob()
@@ -37,8 +37,8 @@ Cancels the specified simulation job.
 - `job`: The simulation job ARN to cancel.
 
 """
-CancelSimulationJob(job; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/cancelSimulationJob", Dict{String, Any}("job"=>job))
-CancelSimulationJob(job, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/cancelSimulationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), args)); aws=aws)
+CancelSimulationJob(job; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/cancelSimulationJob", Dict{String, Any}("job"=>job); aws=aws)
+CancelSimulationJob(job, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/cancelSimulationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), args)); aws=aws)
 
 """
     CancelSimulationJobBatch()
@@ -49,8 +49,8 @@ Cancels a simulation job batch. When you cancel a simulation job batch, you are 
 - `batch`: The id of the batch to cancel.
 
 """
-CancelSimulationJobBatch(batch; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/cancelSimulationJobBatch", Dict{String, Any}("batch"=>batch))
-CancelSimulationJobBatch(batch, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/cancelSimulationJobBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("batch"=>batch), args)); aws=aws)
+CancelSimulationJobBatch(batch; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/cancelSimulationJobBatch", Dict{String, Any}("batch"=>batch); aws=aws)
+CancelSimulationJobBatch(batch, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/cancelSimulationJobBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("batch"=>batch), args)); aws=aws)
 
 """
     CreateDeploymentJob()
@@ -66,8 +66,8 @@ Deploys a specific version of a robot application to robots in a fleet. The robo
 - `deploymentConfig`: The requested deployment configuration.
 - `tags`: A map that contains tag keys and tag values that are attached to the deployment job.
 """
-CreateDeploymentJob(clientRequestToken, deploymentApplicationConfigs, fleet; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/createDeploymentJob", Dict{String, Any}("clientRequestToken"=>clientRequestToken, "deploymentApplicationConfigs"=>deploymentApplicationConfigs, "fleet"=>fleet))
-CreateDeploymentJob(clientRequestToken, deploymentApplicationConfigs, fleet, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/createDeploymentJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>clientRequestToken, "deploymentApplicationConfigs"=>deploymentApplicationConfigs, "fleet"=>fleet), args)); aws=aws)
+CreateDeploymentJob(clientRequestToken, deploymentApplicationConfigs, fleet; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/createDeploymentJob", Dict{String, Any}("clientRequestToken"=>clientRequestToken, "deploymentApplicationConfigs"=>deploymentApplicationConfigs, "fleet"=>fleet); aws=aws)
+CreateDeploymentJob(clientRequestToken, deploymentApplicationConfigs, fleet, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/createDeploymentJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>clientRequestToken, "deploymentApplicationConfigs"=>deploymentApplicationConfigs, "fleet"=>fleet), args)); aws=aws)
 
 """
     CreateFleet()
@@ -80,8 +80,8 @@ Creates a fleet, a logical group of robots running the same robot application.
 # Optional Parameters
 - `tags`: A map that contains tag keys and tag values that are attached to the fleet.
 """
-CreateFleet(name; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/createFleet", Dict{String, Any}("name"=>name))
-CreateFleet(name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/createFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws=aws)
+CreateFleet(name; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/createFleet", Dict{String, Any}("name"=>name); aws=aws)
+CreateFleet(name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/createFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws=aws)
 
 """
     CreateRobot()
@@ -96,8 +96,8 @@ Creates a robot.
 # Optional Parameters
 - `tags`: A map that contains tag keys and tag values that are attached to the robot.
 """
-CreateRobot(architecture, greengrassGroupId, name; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/createRobot", Dict{String, Any}("architecture"=>architecture, "greengrassGroupId"=>greengrassGroupId, "name"=>name))
-CreateRobot(architecture, greengrassGroupId, name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/createRobot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("architecture"=>architecture, "greengrassGroupId"=>greengrassGroupId, "name"=>name), args)); aws=aws)
+CreateRobot(architecture, greengrassGroupId, name; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/createRobot", Dict{String, Any}("architecture"=>architecture, "greengrassGroupId"=>greengrassGroupId, "name"=>name); aws=aws)
+CreateRobot(architecture, greengrassGroupId, name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/createRobot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("architecture"=>architecture, "greengrassGroupId"=>greengrassGroupId, "name"=>name), args)); aws=aws)
 
 """
     CreateRobotApplication()
@@ -112,8 +112,8 @@ Creates a robot application.
 # Optional Parameters
 - `tags`: A map that contains tag keys and tag values that are attached to the robot application.
 """
-CreateRobotApplication(name, robotSoftwareSuite, sources; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/createRobotApplication", Dict{String, Any}("name"=>name, "robotSoftwareSuite"=>robotSoftwareSuite, "sources"=>sources))
-CreateRobotApplication(name, robotSoftwareSuite, sources, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/createRobotApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "robotSoftwareSuite"=>robotSoftwareSuite, "sources"=>sources), args)); aws=aws)
+CreateRobotApplication(name, robotSoftwareSuite, sources; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/createRobotApplication", Dict{String, Any}("name"=>name, "robotSoftwareSuite"=>robotSoftwareSuite, "sources"=>sources); aws=aws)
+CreateRobotApplication(name, robotSoftwareSuite, sources, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/createRobotApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "robotSoftwareSuite"=>robotSoftwareSuite, "sources"=>sources), args)); aws=aws)
 
 """
     CreateRobotApplicationVersion()
@@ -126,8 +126,8 @@ Creates a version of a robot application.
 # Optional Parameters
 - `currentRevisionId`: The current revision id for the robot application. If you provide a value and it matches the latest revision ID, a new version will be created.
 """
-CreateRobotApplicationVersion(application; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/createRobotApplicationVersion", Dict{String, Any}("application"=>application))
-CreateRobotApplicationVersion(application, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/createRobotApplicationVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), args)); aws=aws)
+CreateRobotApplicationVersion(application; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/createRobotApplicationVersion", Dict{String, Any}("application"=>application); aws=aws)
+CreateRobotApplicationVersion(application, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/createRobotApplicationVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), args)); aws=aws)
 
 """
     CreateSimulationApplication()
@@ -144,8 +144,8 @@ Creates a simulation application.
 - `renderingEngine`: The rendering engine for the simulation application.
 - `tags`: A map that contains tag keys and tag values that are attached to the simulation application.
 """
-CreateSimulationApplication(name, robotSoftwareSuite, simulationSoftwareSuite, sources; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/createSimulationApplication", Dict{String, Any}("name"=>name, "robotSoftwareSuite"=>robotSoftwareSuite, "simulationSoftwareSuite"=>simulationSoftwareSuite, "sources"=>sources))
-CreateSimulationApplication(name, robotSoftwareSuite, simulationSoftwareSuite, sources, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/createSimulationApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "robotSoftwareSuite"=>robotSoftwareSuite, "simulationSoftwareSuite"=>simulationSoftwareSuite, "sources"=>sources), args)); aws=aws)
+CreateSimulationApplication(name, robotSoftwareSuite, simulationSoftwareSuite, sources; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/createSimulationApplication", Dict{String, Any}("name"=>name, "robotSoftwareSuite"=>robotSoftwareSuite, "simulationSoftwareSuite"=>simulationSoftwareSuite, "sources"=>sources); aws=aws)
+CreateSimulationApplication(name, robotSoftwareSuite, simulationSoftwareSuite, sources, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/createSimulationApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "robotSoftwareSuite"=>robotSoftwareSuite, "simulationSoftwareSuite"=>simulationSoftwareSuite, "sources"=>sources), args)); aws=aws)
 
 """
     CreateSimulationApplicationVersion()
@@ -158,8 +158,8 @@ Creates a simulation application with a specific revision id.
 # Optional Parameters
 - `currentRevisionId`: The current revision id for the simulation application. If you provide a value and it matches the latest revision ID, a new version will be created.
 """
-CreateSimulationApplicationVersion(application; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/createSimulationApplicationVersion", Dict{String, Any}("application"=>application))
-CreateSimulationApplicationVersion(application, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/createSimulationApplicationVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), args)); aws=aws)
+CreateSimulationApplicationVersion(application; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/createSimulationApplicationVersion", Dict{String, Any}("application"=>application); aws=aws)
+CreateSimulationApplicationVersion(application, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/createSimulationApplicationVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), args)); aws=aws)
 
 """
     CreateSimulationJob()
@@ -182,8 +182,8 @@ Creates a simulation job.  After 90 days, simulation jobs expire and will be del
 - `tags`: A map that contains tag keys and tag values that are attached to the simulation job.
 - `vpcConfig`: If your simulation job accesses resources in a VPC, you provide this parameter identifying the list of security group IDs and subnet IDs. These must belong to the same VPC. You must provide at least one security group and one subnet ID. 
 """
-CreateSimulationJob(iamRole, maxJobDurationInSeconds; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/createSimulationJob", Dict{String, Any}("iamRole"=>iamRole, "maxJobDurationInSeconds"=>maxJobDurationInSeconds, "clientRequestToken"=>string(uuid4())); aws=aws)
-CreateSimulationJob(iamRole, maxJobDurationInSeconds, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/createSimulationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("iamRole"=>iamRole, "maxJobDurationInSeconds"=>maxJobDurationInSeconds, "clientRequestToken"=>string(uuid4())), args)); aws=aws)
+CreateSimulationJob(iamRole, maxJobDurationInSeconds; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/createSimulationJob", Dict{String, Any}("iamRole"=>iamRole, "maxJobDurationInSeconds"=>maxJobDurationInSeconds, "clientRequestToken"=>string(uuid4())); aws=aws)
+CreateSimulationJob(iamRole, maxJobDurationInSeconds, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/createSimulationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("iamRole"=>iamRole, "maxJobDurationInSeconds"=>maxJobDurationInSeconds, "clientRequestToken"=>string(uuid4())), args)); aws=aws)
 
 """
     DeleteFleet()
@@ -194,8 +194,8 @@ Deletes a fleet.
 - `fleet`: The Amazon Resource Name (ARN) of the fleet.
 
 """
-DeleteFleet(fleet; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/deleteFleet", Dict{String, Any}("fleet"=>fleet))
-DeleteFleet(fleet, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/deleteFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fleet"=>fleet), args)); aws=aws)
+DeleteFleet(fleet; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/deleteFleet", Dict{String, Any}("fleet"=>fleet); aws=aws)
+DeleteFleet(fleet, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/deleteFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fleet"=>fleet), args)); aws=aws)
 
 """
     DeleteRobot()
@@ -206,8 +206,8 @@ Deletes a robot.
 - `robot`: The Amazon Resource Name (ARN) of the robot.
 
 """
-DeleteRobot(robot; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/deleteRobot", Dict{String, Any}("robot"=>robot))
-DeleteRobot(robot, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/deleteRobot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("robot"=>robot), args)); aws=aws)
+DeleteRobot(robot; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/deleteRobot", Dict{String, Any}("robot"=>robot); aws=aws)
+DeleteRobot(robot, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/deleteRobot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("robot"=>robot), args)); aws=aws)
 
 """
     DeleteRobotApplication()
@@ -220,8 +220,8 @@ Deletes a robot application.
 # Optional Parameters
 - `applicationVersion`: The version of the robot application to delete.
 """
-DeleteRobotApplication(application; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/deleteRobotApplication", Dict{String, Any}("application"=>application))
-DeleteRobotApplication(application, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/deleteRobotApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), args)); aws=aws)
+DeleteRobotApplication(application; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/deleteRobotApplication", Dict{String, Any}("application"=>application); aws=aws)
+DeleteRobotApplication(application, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/deleteRobotApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), args)); aws=aws)
 
 """
     DeleteSimulationApplication()
@@ -234,8 +234,8 @@ Deletes a simulation application.
 # Optional Parameters
 - `applicationVersion`: The version of the simulation application to delete.
 """
-DeleteSimulationApplication(application; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/deleteSimulationApplication", Dict{String, Any}("application"=>application))
-DeleteSimulationApplication(application, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/deleteSimulationApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), args)); aws=aws)
+DeleteSimulationApplication(application; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/deleteSimulationApplication", Dict{String, Any}("application"=>application); aws=aws)
+DeleteSimulationApplication(application, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/deleteSimulationApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), args)); aws=aws)
 
 """
     DeregisterRobot()
@@ -247,8 +247,8 @@ Deregisters a robot.
 - `robot`: The Amazon Resource Name (ARN) of the robot.
 
 """
-DeregisterRobot(fleet, robot; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/deregisterRobot", Dict{String, Any}("fleet"=>fleet, "robot"=>robot))
-DeregisterRobot(fleet, robot, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/deregisterRobot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fleet"=>fleet, "robot"=>robot), args)); aws=aws)
+DeregisterRobot(fleet, robot; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/deregisterRobot", Dict{String, Any}("fleet"=>fleet, "robot"=>robot); aws=aws)
+DeregisterRobot(fleet, robot, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/deregisterRobot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fleet"=>fleet, "robot"=>robot), args)); aws=aws)
 
 """
     DescribeDeploymentJob()
@@ -259,8 +259,8 @@ Describes a deployment job.
 - `job`: The Amazon Resource Name (ARN) of the deployment job.
 
 """
-DescribeDeploymentJob(job; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/describeDeploymentJob", Dict{String, Any}("job"=>job))
-DescribeDeploymentJob(job, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/describeDeploymentJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), args)); aws=aws)
+DescribeDeploymentJob(job; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/describeDeploymentJob", Dict{String, Any}("job"=>job); aws=aws)
+DescribeDeploymentJob(job, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/describeDeploymentJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), args)); aws=aws)
 
 """
     DescribeFleet()
@@ -271,8 +271,8 @@ Describes a fleet.
 - `fleet`: The Amazon Resource Name (ARN) of the fleet.
 
 """
-DescribeFleet(fleet; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/describeFleet", Dict{String, Any}("fleet"=>fleet))
-DescribeFleet(fleet, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/describeFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fleet"=>fleet), args)); aws=aws)
+DescribeFleet(fleet; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/describeFleet", Dict{String, Any}("fleet"=>fleet); aws=aws)
+DescribeFleet(fleet, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/describeFleet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fleet"=>fleet), args)); aws=aws)
 
 """
     DescribeRobot()
@@ -283,8 +283,8 @@ Describes a robot.
 - `robot`: The Amazon Resource Name (ARN) of the robot to be described.
 
 """
-DescribeRobot(robot; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/describeRobot", Dict{String, Any}("robot"=>robot))
-DescribeRobot(robot, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/describeRobot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("robot"=>robot), args)); aws=aws)
+DescribeRobot(robot; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/describeRobot", Dict{String, Any}("robot"=>robot); aws=aws)
+DescribeRobot(robot, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/describeRobot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("robot"=>robot), args)); aws=aws)
 
 """
     DescribeRobotApplication()
@@ -297,8 +297,8 @@ Describes a robot application.
 # Optional Parameters
 - `applicationVersion`: The version of the robot application to describe.
 """
-DescribeRobotApplication(application; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/describeRobotApplication", Dict{String, Any}("application"=>application))
-DescribeRobotApplication(application, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/describeRobotApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), args)); aws=aws)
+DescribeRobotApplication(application; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/describeRobotApplication", Dict{String, Any}("application"=>application); aws=aws)
+DescribeRobotApplication(application, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/describeRobotApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), args)); aws=aws)
 
 """
     DescribeSimulationApplication()
@@ -311,8 +311,8 @@ Describes a simulation application.
 # Optional Parameters
 - `applicationVersion`: The version of the simulation application to describe.
 """
-DescribeSimulationApplication(application; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/describeSimulationApplication", Dict{String, Any}("application"=>application))
-DescribeSimulationApplication(application, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/describeSimulationApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), args)); aws=aws)
+DescribeSimulationApplication(application; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/describeSimulationApplication", Dict{String, Any}("application"=>application); aws=aws)
+DescribeSimulationApplication(application, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/describeSimulationApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application), args)); aws=aws)
 
 """
     DescribeSimulationJob()
@@ -323,8 +323,8 @@ Describes a simulation job.
 - `job`: The Amazon Resource Name (ARN) of the simulation job to be described.
 
 """
-DescribeSimulationJob(job; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/describeSimulationJob", Dict{String, Any}("job"=>job))
-DescribeSimulationJob(job, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/describeSimulationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), args)); aws=aws)
+DescribeSimulationJob(job; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/describeSimulationJob", Dict{String, Any}("job"=>job); aws=aws)
+DescribeSimulationJob(job, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/describeSimulationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), args)); aws=aws)
 
 """
     DescribeSimulationJobBatch()
@@ -335,8 +335,8 @@ Describes a simulation job batch.
 - `batch`: The id of the batch to describe.
 
 """
-DescribeSimulationJobBatch(batch; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/describeSimulationJobBatch", Dict{String, Any}("batch"=>batch))
-DescribeSimulationJobBatch(batch, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/describeSimulationJobBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("batch"=>batch), args)); aws=aws)
+DescribeSimulationJobBatch(batch; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/describeSimulationJobBatch", Dict{String, Any}("batch"=>batch); aws=aws)
+DescribeSimulationJobBatch(batch, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/describeSimulationJobBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("batch"=>batch), args)); aws=aws)
 
 """
     ListDeploymentJobs()
@@ -348,8 +348,8 @@ Returns a list of deployment jobs for a fleet. You can optionally provide filter
 - `maxResults`: When this parameter is used, ListDeploymentJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListDeploymentJobs request with the returned nextToken value. This value can be between 1 and 200. If this parameter is not used, then ListDeploymentJobs returns up to 200 results and a nextToken value if applicable. 
 - `nextToken`: The nextToken value returned from a previous paginated ListDeploymentJobs request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. 
 """
-ListDeploymentJobs(; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/listDeploymentJobs"; aws=aws)
-ListDeploymentJobs(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/listDeploymentJobs", args; aws=aws)
+ListDeploymentJobs(; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/listDeploymentJobs"; aws=aws)
+ListDeploymentJobs(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/listDeploymentJobs", args; aws=aws)
 
 """
     ListFleets()
@@ -361,8 +361,8 @@ Returns a list of fleets. You can optionally provide filters to retrieve specifi
 - `maxResults`: When this parameter is used, ListFleets only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListFleets request with the returned nextToken value. This value can be between 1 and 200. If this parameter is not used, then ListFleets returns up to 200 results and a nextToken value if applicable. 
 - `nextToken`: The nextToken value returned from a previous paginated ListFleets request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
 """
-ListFleets(; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/listFleets"; aws=aws)
-ListFleets(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/listFleets", args; aws=aws)
+ListFleets(; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/listFleets"; aws=aws)
+ListFleets(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/listFleets", args; aws=aws)
 
 """
     ListRobotApplications()
@@ -375,8 +375,8 @@ Returns a list of robot application. You can optionally provide filters to retri
 - `nextToken`: The nextToken value returned from a previous paginated ListRobotApplications request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. 
 - `versionQualifier`: The version qualifier of the robot application.
 """
-ListRobotApplications(; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/listRobotApplications"; aws=aws)
-ListRobotApplications(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/listRobotApplications", args; aws=aws)
+ListRobotApplications(; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/listRobotApplications"; aws=aws)
+ListRobotApplications(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/listRobotApplications", args; aws=aws)
 
 """
     ListRobots()
@@ -388,8 +388,8 @@ Returns a list of robots. You can optionally provide filters to retrieve specifi
 - `maxResults`: When this parameter is used, ListRobots only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListRobots request with the returned nextToken value. This value can be between 1 and 200. If this parameter is not used, then ListRobots returns up to 200 results and a nextToken value if applicable. 
 - `nextToken`: The nextToken value returned from a previous paginated ListRobots request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. 
 """
-ListRobots(; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/listRobots"; aws=aws)
-ListRobots(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/listRobots", args; aws=aws)
+ListRobots(; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/listRobots"; aws=aws)
+ListRobots(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/listRobots", args; aws=aws)
 
 """
     ListSimulationApplications()
@@ -402,8 +402,8 @@ Returns a list of simulation applications. You can optionally provide filters to
 - `nextToken`: The nextToken value returned from a previous paginated ListSimulationApplications request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. 
 - `versionQualifier`: The version qualifier of the simulation application.
 """
-ListSimulationApplications(; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/listSimulationApplications"; aws=aws)
-ListSimulationApplications(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/listSimulationApplications", args; aws=aws)
+ListSimulationApplications(; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/listSimulationApplications"; aws=aws)
+ListSimulationApplications(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/listSimulationApplications", args; aws=aws)
 
 """
     ListSimulationJobBatches()
@@ -415,8 +415,8 @@ Returns a list simulation job batches. You can optionally provide filters to ret
 - `maxResults`: When this parameter is used, ListSimulationJobBatches only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListSimulationJobBatches request with the returned nextToken value. 
 - `nextToken`: The nextToken value returned from a previous paginated ListSimulationJobBatches request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. 
 """
-ListSimulationJobBatches(; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/listSimulationJobBatches"; aws=aws)
-ListSimulationJobBatches(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/listSimulationJobBatches", args; aws=aws)
+ListSimulationJobBatches(; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/listSimulationJobBatches"; aws=aws)
+ListSimulationJobBatches(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/listSimulationJobBatches", args; aws=aws)
 
 """
     ListSimulationJobs()
@@ -428,8 +428,8 @@ Returns a list of simulation jobs. You can optionally provide filters to retriev
 - `maxResults`: When this parameter is used, ListSimulationJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListSimulationJobs request with the returned nextToken value. This value can be between 1 and 1000. If this parameter is not used, then ListSimulationJobs returns up to 1000 results and a nextToken value if applicable. 
 - `nextToken`: The nextToken value returned from a previous paginated ListSimulationJobs request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
 """
-ListSimulationJobs(; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/listSimulationJobs"; aws=aws)
-ListSimulationJobs(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/listSimulationJobs", args; aws=aws)
+ListSimulationJobs(; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/listSimulationJobs"; aws=aws)
+ListSimulationJobs(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/listSimulationJobs", args; aws=aws)
 
 """
     ListTagsForResource()
@@ -440,8 +440,8 @@ Lists all tags on a AWS RoboMaker resource.
 - `resourceArn`: The AWS RoboMaker Amazon Resource Name (ARN) with tags to be listed.
 
 """
-ListTagsForResource(resourceArn; aws::AWSConfig=AWSConfig()) = robomaker("GET", "/tags/$(resourceArn)"; aws=aws)
-ListTagsForResource(resourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = robomaker("GET", "/tags/$(resourceArn)", args; aws=aws)
+ListTagsForResource(resourceArn; aws::AWSConfig=AWS.aws_config) = robomaker("GET", "/tags/$(resourceArn)"; aws=aws)
+ListTagsForResource(resourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = robomaker("GET", "/tags/$(resourceArn)", args; aws=aws)
 
 """
     RegisterRobot()
@@ -453,8 +453,8 @@ Registers a robot with a fleet.
 - `robot`: The Amazon Resource Name (ARN) of the robot.
 
 """
-RegisterRobot(fleet, robot; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/registerRobot", Dict{String, Any}("fleet"=>fleet, "robot"=>robot))
-RegisterRobot(fleet, robot, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/registerRobot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fleet"=>fleet, "robot"=>robot), args)); aws=aws)
+RegisterRobot(fleet, robot; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/registerRobot", Dict{String, Any}("fleet"=>fleet, "robot"=>robot); aws=aws)
+RegisterRobot(fleet, robot, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/registerRobot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fleet"=>fleet, "robot"=>robot), args)); aws=aws)
 
 """
     RestartSimulationJob()
@@ -465,8 +465,8 @@ Restarts a running simulation job.
 - `job`: The Amazon Resource Name (ARN) of the simulation job.
 
 """
-RestartSimulationJob(job; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/restartSimulationJob", Dict{String, Any}("job"=>job))
-RestartSimulationJob(job, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/restartSimulationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), args)); aws=aws)
+RestartSimulationJob(job; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/restartSimulationJob", Dict{String, Any}("job"=>job); aws=aws)
+RestartSimulationJob(job, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/restartSimulationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("job"=>job), args)); aws=aws)
 
 """
     StartSimulationJobBatch()
@@ -481,8 +481,8 @@ Starts a new simulation job batch. The batch is defined using one or more Simula
 - `clientRequestToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
 - `tags`: A map that contains tag keys and tag values that are attached to the deployment job batch.
 """
-StartSimulationJobBatch(createSimulationJobRequests; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/startSimulationJobBatch", Dict{String, Any}("createSimulationJobRequests"=>createSimulationJobRequests, "clientRequestToken"=>string(uuid4())); aws=aws)
-StartSimulationJobBatch(createSimulationJobRequests, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/startSimulationJobBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("createSimulationJobRequests"=>createSimulationJobRequests, "clientRequestToken"=>string(uuid4())), args)); aws=aws)
+StartSimulationJobBatch(createSimulationJobRequests; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/startSimulationJobBatch", Dict{String, Any}("createSimulationJobRequests"=>createSimulationJobRequests, "clientRequestToken"=>string(uuid4())); aws=aws)
+StartSimulationJobBatch(createSimulationJobRequests, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/startSimulationJobBatch", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("createSimulationJobRequests"=>createSimulationJobRequests, "clientRequestToken"=>string(uuid4())), args)); aws=aws)
 
 """
     SyncDeploymentJob()
@@ -494,8 +494,8 @@ Syncrhonizes robots in a fleet to the latest deployment. This is helpful if robo
 - `fleet`: The target fleet for the synchronization.
 
 """
-SyncDeploymentJob(clientRequestToken, fleet; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/syncDeploymentJob", Dict{String, Any}("clientRequestToken"=>clientRequestToken, "fleet"=>fleet))
-SyncDeploymentJob(clientRequestToken, fleet, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/syncDeploymentJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>clientRequestToken, "fleet"=>fleet), args)); aws=aws)
+SyncDeploymentJob(clientRequestToken, fleet; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/syncDeploymentJob", Dict{String, Any}("clientRequestToken"=>clientRequestToken, "fleet"=>fleet); aws=aws)
+SyncDeploymentJob(clientRequestToken, fleet, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/syncDeploymentJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>clientRequestToken, "fleet"=>fleet), args)); aws=aws)
 
 """
     TagResource()
@@ -507,8 +507,8 @@ Adds or edits tags for a AWS RoboMaker resource. Each tag consists of a tag key 
 - `tags`: A map that contains tag keys and tag values that are attached to the resource.
 
 """
-TagResource(resourceArn, tags; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags))
-TagResource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws=aws)
+TagResource(resourceArn, tags; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws=aws)
+TagResource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws=aws)
 
 """
     UntagResource()
@@ -520,8 +520,8 @@ Removes the specified tags from the specified AWS RoboMaker resource. To remove 
 - `tagKeys`: A map that contains tag keys and tag values that will be unattached from the resource.
 
 """
-UntagResource(resourceArn, tagKeys; aws::AWSConfig=AWSConfig()) = robomaker("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys))
-UntagResource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = robomaker("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws=aws)
+UntagResource(resourceArn, tagKeys; aws::AWSConfig=AWS.aws_config) = robomaker("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws=aws)
+UntagResource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = robomaker("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws=aws)
 
 """
     UpdateRobotApplication()
@@ -536,8 +536,8 @@ Updates a robot application.
 # Optional Parameters
 - `currentRevisionId`: The revision id for the robot application.
 """
-UpdateRobotApplication(application, robotSoftwareSuite, sources; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/updateRobotApplication", Dict{String, Any}("application"=>application, "robotSoftwareSuite"=>robotSoftwareSuite, "sources"=>sources))
-UpdateRobotApplication(application, robotSoftwareSuite, sources, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/updateRobotApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application, "robotSoftwareSuite"=>robotSoftwareSuite, "sources"=>sources), args)); aws=aws)
+UpdateRobotApplication(application, robotSoftwareSuite, sources; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/updateRobotApplication", Dict{String, Any}("application"=>application, "robotSoftwareSuite"=>robotSoftwareSuite, "sources"=>sources); aws=aws)
+UpdateRobotApplication(application, robotSoftwareSuite, sources, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/updateRobotApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application, "robotSoftwareSuite"=>robotSoftwareSuite, "sources"=>sources), args)); aws=aws)
 
 """
     UpdateSimulationApplication()
@@ -554,5 +554,5 @@ Updates a simulation application.
 - `currentRevisionId`: The revision id for the robot application.
 - `renderingEngine`: The rendering engine for the simulation application.
 """
-UpdateSimulationApplication(application, robotSoftwareSuite, simulationSoftwareSuite, sources; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/updateSimulationApplication", Dict{String, Any}("application"=>application, "robotSoftwareSuite"=>robotSoftwareSuite, "simulationSoftwareSuite"=>simulationSoftwareSuite, "sources"=>sources))
-UpdateSimulationApplication(application, robotSoftwareSuite, simulationSoftwareSuite, sources, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = robomaker("POST", "/updateSimulationApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application, "robotSoftwareSuite"=>robotSoftwareSuite, "simulationSoftwareSuite"=>simulationSoftwareSuite, "sources"=>sources), args)); aws=aws)
+UpdateSimulationApplication(application, robotSoftwareSuite, simulationSoftwareSuite, sources; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/updateSimulationApplication", Dict{String, Any}("application"=>application, "robotSoftwareSuite"=>robotSoftwareSuite, "simulationSoftwareSuite"=>simulationSoftwareSuite, "sources"=>sources); aws=aws)
+UpdateSimulationApplication(application, robotSoftwareSuite, simulationSoftwareSuite, sources, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = robomaker("POST", "/updateSimulationApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("application"=>application, "robotSoftwareSuite"=>robotSoftwareSuite, "simulationSoftwareSuite"=>simulationSoftwareSuite, "sources"=>sources), args)); aws=aws)

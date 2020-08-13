@@ -16,8 +16,8 @@ Creates a member within a Managed Blockchain network.
 - `networkId`: The unique identifier of the network in which the member is created.
 
 """
-CreateMember(ClientRequestToken, InvitationId, MemberConfiguration, networkId; aws::AWSConfig=AWSConfig()) = managedblockchain("POST", "/networks/$(networkId)/members", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "InvitationId"=>InvitationId, "MemberConfiguration"=>MemberConfiguration))
-CreateMember(ClientRequestToken, InvitationId, MemberConfiguration, networkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = managedblockchain("POST", "/networks/$(networkId)/members", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "InvitationId"=>InvitationId, "MemberConfiguration"=>MemberConfiguration), args)); aws=aws)
+CreateMember(ClientRequestToken, InvitationId, MemberConfiguration, networkId; aws::AWSConfig=AWS.aws_config) = managedblockchain("POST", "/networks/$(networkId)/members", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "InvitationId"=>InvitationId, "MemberConfiguration"=>MemberConfiguration); aws=aws)
+CreateMember(ClientRequestToken, InvitationId, MemberConfiguration, networkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = managedblockchain("POST", "/networks/$(networkId)/members", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "InvitationId"=>InvitationId, "MemberConfiguration"=>MemberConfiguration), args)); aws=aws)
 
 """
     CreateNetwork()
@@ -36,8 +36,8 @@ Creates a new blockchain network using Amazon Managed Blockchain.
 - `Description`: An optional description for the network.
 - `FrameworkConfiguration`:  Configuration properties of the blockchain framework relevant to the network configuration. 
 """
-CreateNetwork(ClientRequestToken, Framework, FrameworkVersion, MemberConfiguration, Name, VotingPolicy; aws::AWSConfig=AWSConfig()) = managedblockchain("POST", "/networks", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Framework"=>Framework, "FrameworkVersion"=>FrameworkVersion, "MemberConfiguration"=>MemberConfiguration, "Name"=>Name, "VotingPolicy"=>VotingPolicy))
-CreateNetwork(ClientRequestToken, Framework, FrameworkVersion, MemberConfiguration, Name, VotingPolicy, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = managedblockchain("POST", "/networks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Framework"=>Framework, "FrameworkVersion"=>FrameworkVersion, "MemberConfiguration"=>MemberConfiguration, "Name"=>Name, "VotingPolicy"=>VotingPolicy), args)); aws=aws)
+CreateNetwork(ClientRequestToken, Framework, FrameworkVersion, MemberConfiguration, Name, VotingPolicy; aws::AWSConfig=AWS.aws_config) = managedblockchain("POST", "/networks", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Framework"=>Framework, "FrameworkVersion"=>FrameworkVersion, "MemberConfiguration"=>MemberConfiguration, "Name"=>Name, "VotingPolicy"=>VotingPolicy); aws=aws)
+CreateNetwork(ClientRequestToken, Framework, FrameworkVersion, MemberConfiguration, Name, VotingPolicy, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = managedblockchain("POST", "/networks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Framework"=>Framework, "FrameworkVersion"=>FrameworkVersion, "MemberConfiguration"=>MemberConfiguration, "Name"=>Name, "VotingPolicy"=>VotingPolicy), args)); aws=aws)
 
 """
     CreateNode()
@@ -51,8 +51,8 @@ Creates a peer node in a member.
 - `networkId`: The unique identifier of the network in which this node runs.
 
 """
-CreateNode(ClientRequestToken, NodeConfiguration, memberId, networkId; aws::AWSConfig=AWSConfig()) = managedblockchain("POST", "/networks/$(networkId)/members/$(memberId)/nodes", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "NodeConfiguration"=>NodeConfiguration))
-CreateNode(ClientRequestToken, NodeConfiguration, memberId, networkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = managedblockchain("POST", "/networks/$(networkId)/members/$(memberId)/nodes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "NodeConfiguration"=>NodeConfiguration), args)); aws=aws)
+CreateNode(ClientRequestToken, NodeConfiguration, memberId, networkId; aws::AWSConfig=AWS.aws_config) = managedblockchain("POST", "/networks/$(networkId)/members/$(memberId)/nodes", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "NodeConfiguration"=>NodeConfiguration); aws=aws)
+CreateNode(ClientRequestToken, NodeConfiguration, memberId, networkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = managedblockchain("POST", "/networks/$(networkId)/members/$(memberId)/nodes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "NodeConfiguration"=>NodeConfiguration), args)); aws=aws)
 
 """
     CreateProposal()
@@ -68,8 +68,8 @@ Creates a proposal for a change to the network that other members of the network
 # Optional Parameters
 - `Description`: A description for the proposal that is visible to voting members, for example, \"Proposal to add Example Corp. as member.\"
 """
-CreateProposal(Actions, ClientRequestToken, MemberId, networkId; aws::AWSConfig=AWSConfig()) = managedblockchain("POST", "/networks/$(networkId)/proposals", Dict{String, Any}("Actions"=>Actions, "ClientRequestToken"=>ClientRequestToken, "MemberId"=>MemberId))
-CreateProposal(Actions, ClientRequestToken, MemberId, networkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = managedblockchain("POST", "/networks/$(networkId)/proposals", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Actions"=>Actions, "ClientRequestToken"=>ClientRequestToken, "MemberId"=>MemberId), args)); aws=aws)
+CreateProposal(Actions, ClientRequestToken, MemberId, networkId; aws::AWSConfig=AWS.aws_config) = managedblockchain("POST", "/networks/$(networkId)/proposals", Dict{String, Any}("Actions"=>Actions, "ClientRequestToken"=>ClientRequestToken, "MemberId"=>MemberId); aws=aws)
+CreateProposal(Actions, ClientRequestToken, MemberId, networkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = managedblockchain("POST", "/networks/$(networkId)/proposals", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Actions"=>Actions, "ClientRequestToken"=>ClientRequestToken, "MemberId"=>MemberId), args)); aws=aws)
 
 """
     DeleteMember()
@@ -81,8 +81,8 @@ Deletes a member. Deleting a member removes the member and all associated resour
 - `networkId`: The unique identifier of the network from which the member is removed.
 
 """
-DeleteMember(memberId, networkId; aws::AWSConfig=AWSConfig()) = managedblockchain("DELETE", "/networks/$(networkId)/members/$(memberId)"; aws=aws)
-DeleteMember(memberId, networkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = managedblockchain("DELETE", "/networks/$(networkId)/members/$(memberId)", args; aws=aws)
+DeleteMember(memberId, networkId; aws::AWSConfig=AWS.aws_config) = managedblockchain("DELETE", "/networks/$(networkId)/members/$(memberId)"; aws=aws)
+DeleteMember(memberId, networkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = managedblockchain("DELETE", "/networks/$(networkId)/members/$(memberId)", args; aws=aws)
 
 """
     DeleteNode()
@@ -95,8 +95,8 @@ Deletes a peer node from a member that your AWS account owns. All data on the no
 - `nodeId`: The unique identifier of the node.
 
 """
-DeleteNode(memberId, networkId, nodeId; aws::AWSConfig=AWSConfig()) = managedblockchain("DELETE", "/networks/$(networkId)/members/$(memberId)/nodes/$(nodeId)"; aws=aws)
-DeleteNode(memberId, networkId, nodeId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = managedblockchain("DELETE", "/networks/$(networkId)/members/$(memberId)/nodes/$(nodeId)", args; aws=aws)
+DeleteNode(memberId, networkId, nodeId; aws::AWSConfig=AWS.aws_config) = managedblockchain("DELETE", "/networks/$(networkId)/members/$(memberId)/nodes/$(nodeId)"; aws=aws)
+DeleteNode(memberId, networkId, nodeId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = managedblockchain("DELETE", "/networks/$(networkId)/members/$(memberId)/nodes/$(nodeId)", args; aws=aws)
 
 """
     GetMember()
@@ -108,8 +108,8 @@ Returns detailed information about a member.
 - `networkId`: The unique identifier of the network to which the member belongs.
 
 """
-GetMember(memberId, networkId; aws::AWSConfig=AWSConfig()) = managedblockchain("GET", "/networks/$(networkId)/members/$(memberId)"; aws=aws)
-GetMember(memberId, networkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = managedblockchain("GET", "/networks/$(networkId)/members/$(memberId)", args; aws=aws)
+GetMember(memberId, networkId; aws::AWSConfig=AWS.aws_config) = managedblockchain("GET", "/networks/$(networkId)/members/$(memberId)"; aws=aws)
+GetMember(memberId, networkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = managedblockchain("GET", "/networks/$(networkId)/members/$(memberId)", args; aws=aws)
 
 """
     GetNetwork()
@@ -120,8 +120,8 @@ Returns detailed information about a network.
 - `networkId`: The unique identifier of the network to get information about.
 
 """
-GetNetwork(networkId; aws::AWSConfig=AWSConfig()) = managedblockchain("GET", "/networks/$(networkId)"; aws=aws)
-GetNetwork(networkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = managedblockchain("GET", "/networks/$(networkId)", args; aws=aws)
+GetNetwork(networkId; aws::AWSConfig=AWS.aws_config) = managedblockchain("GET", "/networks/$(networkId)"; aws=aws)
+GetNetwork(networkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = managedblockchain("GET", "/networks/$(networkId)", args; aws=aws)
 
 """
     GetNode()
@@ -134,8 +134,8 @@ Returns detailed information about a peer node.
 - `nodeId`: The unique identifier of the node.
 
 """
-GetNode(memberId, networkId, nodeId; aws::AWSConfig=AWSConfig()) = managedblockchain("GET", "/networks/$(networkId)/members/$(memberId)/nodes/$(nodeId)"; aws=aws)
-GetNode(memberId, networkId, nodeId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = managedblockchain("GET", "/networks/$(networkId)/members/$(memberId)/nodes/$(nodeId)", args; aws=aws)
+GetNode(memberId, networkId, nodeId; aws::AWSConfig=AWS.aws_config) = managedblockchain("GET", "/networks/$(networkId)/members/$(memberId)/nodes/$(nodeId)"; aws=aws)
+GetNode(memberId, networkId, nodeId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = managedblockchain("GET", "/networks/$(networkId)/members/$(memberId)/nodes/$(nodeId)", args; aws=aws)
 
 """
     GetProposal()
@@ -147,8 +147,8 @@ Returns detailed information about a proposal.
 - `proposalId`: The unique identifier of the proposal.
 
 """
-GetProposal(networkId, proposalId; aws::AWSConfig=AWSConfig()) = managedblockchain("GET", "/networks/$(networkId)/proposals/$(proposalId)"; aws=aws)
-GetProposal(networkId, proposalId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = managedblockchain("GET", "/networks/$(networkId)/proposals/$(proposalId)", args; aws=aws)
+GetProposal(networkId, proposalId; aws::AWSConfig=AWS.aws_config) = managedblockchain("GET", "/networks/$(networkId)/proposals/$(proposalId)"; aws=aws)
+GetProposal(networkId, proposalId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = managedblockchain("GET", "/networks/$(networkId)/proposals/$(proposalId)", args; aws=aws)
 
 """
     ListInvitations()
@@ -159,8 +159,8 @@ Returns a listing of all invitations made on the specified network.
 - `maxResults`: The maximum number of invitations to return.
 - `nextToken`: The pagination token that indicates the next set of results to retrieve.
 """
-ListInvitations(; aws::AWSConfig=AWSConfig()) = managedblockchain("GET", "/invitations"; aws=aws)
-ListInvitations(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = managedblockchain("GET", "/invitations", args; aws=aws)
+ListInvitations(; aws::AWSConfig=AWS.aws_config) = managedblockchain("GET", "/invitations"; aws=aws)
+ListInvitations(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = managedblockchain("GET", "/invitations", args; aws=aws)
 
 """
     ListMembers()
@@ -177,8 +177,8 @@ Returns a listing of the members in a network and properties of their configurat
 - `nextToken`: The pagination token that indicates the next set of results to retrieve.
 - `status`: An optional status specifier. If provided, only members currently in this status are listed.
 """
-ListMembers(networkId; aws::AWSConfig=AWSConfig()) = managedblockchain("GET", "/networks/$(networkId)/members"; aws=aws)
-ListMembers(networkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = managedblockchain("GET", "/networks/$(networkId)/members", args; aws=aws)
+ListMembers(networkId; aws::AWSConfig=AWS.aws_config) = managedblockchain("GET", "/networks/$(networkId)/members"; aws=aws)
+ListMembers(networkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = managedblockchain("GET", "/networks/$(networkId)/members", args; aws=aws)
 
 """
     ListNetworks()
@@ -192,8 +192,8 @@ Returns information about the networks in which the current AWS account has memb
 - `nextToken`: The pagination token that indicates the next set of results to retrieve.
 - `status`: An optional status specifier. If provided, only networks currently in this status are listed.
 """
-ListNetworks(; aws::AWSConfig=AWSConfig()) = managedblockchain("GET", "/networks"; aws=aws)
-ListNetworks(args::AbstractDict{String, Any}; aws::AWSConfig=AWSConfig()) = managedblockchain("GET", "/networks", args; aws=aws)
+ListNetworks(; aws::AWSConfig=AWS.aws_config) = managedblockchain("GET", "/networks"; aws=aws)
+ListNetworks(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = managedblockchain("GET", "/networks", args; aws=aws)
 
 """
     ListNodes()
@@ -209,8 +209,8 @@ Returns information about the nodes within a network.
 - `nextToken`: The pagination token that indicates the next set of results to retrieve.
 - `status`: An optional status specifier. If provided, only nodes currently in this status are listed.
 """
-ListNodes(memberId, networkId; aws::AWSConfig=AWSConfig()) = managedblockchain("GET", "/networks/$(networkId)/members/$(memberId)/nodes"; aws=aws)
-ListNodes(memberId, networkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = managedblockchain("GET", "/networks/$(networkId)/members/$(memberId)/nodes", args; aws=aws)
+ListNodes(memberId, networkId; aws::AWSConfig=AWS.aws_config) = managedblockchain("GET", "/networks/$(networkId)/members/$(memberId)/nodes"; aws=aws)
+ListNodes(memberId, networkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = managedblockchain("GET", "/networks/$(networkId)/members/$(memberId)/nodes", args; aws=aws)
 
 """
     ListProposalVotes()
@@ -225,8 +225,8 @@ Returns the listing of votes for a specified proposal, including the value of ea
 - `maxResults`:  The maximum number of votes to return. 
 - `nextToken`:  The pagination token that indicates the next set of results to retrieve. 
 """
-ListProposalVotes(networkId, proposalId; aws::AWSConfig=AWSConfig()) = managedblockchain("GET", "/networks/$(networkId)/proposals/$(proposalId)/votes"; aws=aws)
-ListProposalVotes(networkId, proposalId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = managedblockchain("GET", "/networks/$(networkId)/proposals/$(proposalId)/votes", args; aws=aws)
+ListProposalVotes(networkId, proposalId; aws::AWSConfig=AWS.aws_config) = managedblockchain("GET", "/networks/$(networkId)/proposals/$(proposalId)/votes"; aws=aws)
+ListProposalVotes(networkId, proposalId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = managedblockchain("GET", "/networks/$(networkId)/proposals/$(proposalId)/votes", args; aws=aws)
 
 """
     ListProposals()
@@ -240,8 +240,8 @@ Returns a listing of proposals for the network.
 - `maxResults`:  The maximum number of proposals to return. 
 - `nextToken`:  The pagination token that indicates the next set of results to retrieve. 
 """
-ListProposals(networkId; aws::AWSConfig=AWSConfig()) = managedblockchain("GET", "/networks/$(networkId)/proposals"; aws=aws)
-ListProposals(networkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = managedblockchain("GET", "/networks/$(networkId)/proposals", args; aws=aws)
+ListProposals(networkId; aws::AWSConfig=AWS.aws_config) = managedblockchain("GET", "/networks/$(networkId)/proposals"; aws=aws)
+ListProposals(networkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = managedblockchain("GET", "/networks/$(networkId)/proposals", args; aws=aws)
 
 """
     RejectInvitation()
@@ -252,8 +252,8 @@ Rejects an invitation to join a network. This action can be called by a principa
 - `invitationId`: The unique identifier of the invitation to reject.
 
 """
-RejectInvitation(invitationId; aws::AWSConfig=AWSConfig()) = managedblockchain("DELETE", "/invitations/$(invitationId)"; aws=aws)
-RejectInvitation(invitationId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = managedblockchain("DELETE", "/invitations/$(invitationId)", args; aws=aws)
+RejectInvitation(invitationId; aws::AWSConfig=AWS.aws_config) = managedblockchain("DELETE", "/invitations/$(invitationId)"; aws=aws)
+RejectInvitation(invitationId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = managedblockchain("DELETE", "/invitations/$(invitationId)", args; aws=aws)
 
 """
     UpdateMember()
@@ -267,8 +267,8 @@ Updates a member configuration with new parameters.
 # Optional Parameters
 - `LogPublishingConfiguration`: Configuration properties for publishing to Amazon CloudWatch Logs.
 """
-UpdateMember(memberId, networkId; aws::AWSConfig=AWSConfig()) = managedblockchain("PATCH", "/networks/$(networkId)/members/$(memberId)"; aws=aws)
-UpdateMember(memberId, networkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = managedblockchain("PATCH", "/networks/$(networkId)/members/$(memberId)", args; aws=aws)
+UpdateMember(memberId, networkId; aws::AWSConfig=AWS.aws_config) = managedblockchain("PATCH", "/networks/$(networkId)/members/$(memberId)"; aws=aws)
+UpdateMember(memberId, networkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = managedblockchain("PATCH", "/networks/$(networkId)/members/$(memberId)", args; aws=aws)
 
 """
     UpdateNode()
@@ -283,8 +283,8 @@ Updates a node configuration with new parameters.
 # Optional Parameters
 - `LogPublishingConfiguration`: Configuration properties for publishing to Amazon CloudWatch Logs.
 """
-UpdateNode(memberId, networkId, nodeId; aws::AWSConfig=AWSConfig()) = managedblockchain("PATCH", "/networks/$(networkId)/members/$(memberId)/nodes/$(nodeId)"; aws=aws)
-UpdateNode(memberId, networkId, nodeId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = managedblockchain("PATCH", "/networks/$(networkId)/members/$(memberId)/nodes/$(nodeId)", args; aws=aws)
+UpdateNode(memberId, networkId, nodeId; aws::AWSConfig=AWS.aws_config) = managedblockchain("PATCH", "/networks/$(networkId)/members/$(memberId)/nodes/$(nodeId)"; aws=aws)
+UpdateNode(memberId, networkId, nodeId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = managedblockchain("PATCH", "/networks/$(networkId)/members/$(memberId)/nodes/$(nodeId)", args; aws=aws)
 
 """
     VoteOnProposal()
@@ -298,5 +298,5 @@ Casts a vote for a specified ProposalId on behalf of a member. The member to vot
 - `proposalId`:  The unique identifier of the proposal. 
 
 """
-VoteOnProposal(Vote, VoterMemberId, networkId, proposalId; aws::AWSConfig=AWSConfig()) = managedblockchain("POST", "/networks/$(networkId)/proposals/$(proposalId)/votes", Dict{String, Any}("Vote"=>Vote, "VoterMemberId"=>VoterMemberId))
-VoteOnProposal(Vote, VoterMemberId, networkId, proposalId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = managedblockchain("POST", "/networks/$(networkId)/proposals/$(proposalId)/votes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Vote"=>Vote, "VoterMemberId"=>VoterMemberId), args)); aws=aws)
+VoteOnProposal(Vote, VoterMemberId, networkId, proposalId; aws::AWSConfig=AWS.aws_config) = managedblockchain("POST", "/networks/$(networkId)/proposals/$(proposalId)/votes", Dict{String, Any}("Vote"=>Vote, "VoterMemberId"=>VoterMemberId); aws=aws)
+VoteOnProposal(Vote, VoterMemberId, networkId, proposalId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = managedblockchain("POST", "/networks/$(networkId)/proposals/$(proposalId)/votes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Vote"=>Vote, "VoterMemberId"=>VoterMemberId), args)); aws=aws)

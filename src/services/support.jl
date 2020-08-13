@@ -15,8 +15,8 @@ Adds one or more attachments to an attachment set.  An attachment set is a tempo
 # Optional Parameters
 - `attachmentSetId`: The ID of the attachment set. If an attachmentSetId is not specified, a new attachment set is created, and the ID of the set is returned in the response. If an attachmentSetId is specified, the attachments are added to the specified set, if it exists.
 """
-AddAttachmentsToSet(attachments; aws::AWSConfig=AWSConfig()) = support("AddAttachmentsToSet", Dict{String, Any}("attachments"=>attachments); aws=aws)
-AddAttachmentsToSet(attachments, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = support("AddAttachmentsToSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attachments"=>attachments), args)); aws=aws)
+AddAttachmentsToSet(attachments; aws::AWSConfig=AWS.aws_config) = support("AddAttachmentsToSet", Dict{String, Any}("attachments"=>attachments); aws=aws)
+AddAttachmentsToSet(attachments, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = support("AddAttachmentsToSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attachments"=>attachments), args)); aws=aws)
 
 """
     AddCommunicationToCase()
@@ -31,8 +31,8 @@ Adds additional customer communication to an AWS Support case. Use the caseId pa
 - `caseId`: The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
 - `ccEmailAddresses`: The email addresses in the CC line of an email to be added to the support case.
 """
-AddCommunicationToCase(communicationBody; aws::AWSConfig=AWSConfig()) = support("AddCommunicationToCase", Dict{String, Any}("communicationBody"=>communicationBody); aws=aws)
-AddCommunicationToCase(communicationBody, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = support("AddCommunicationToCase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("communicationBody"=>communicationBody), args)); aws=aws)
+AddCommunicationToCase(communicationBody; aws::AWSConfig=AWS.aws_config) = support("AddCommunicationToCase", Dict{String, Any}("communicationBody"=>communicationBody); aws=aws)
+AddCommunicationToCase(communicationBody, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = support("AddCommunicationToCase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("communicationBody"=>communicationBody), args)); aws=aws)
 
 """
     CreateCase()
@@ -52,8 +52,8 @@ Creates a case in the AWS Support Center. This operation is similar to how you c
 - `serviceCode`: The code for the AWS service. You can use the DescribeServices operation to get the possible serviceCode values.
 - `severityCode`: A value that indicates the urgency of the case. This value determines the response time according to your service level agreement with AWS Support. You can use the DescribeSeverityLevels operation to get the possible values for severityCode.  For more information, see SeverityLevel and Choosing a Severity in the AWS Support User Guide.  The availability of severity levels depends on the support plan for the AWS account. 
 """
-CreateCase(communicationBody, subject; aws::AWSConfig=AWSConfig()) = support("CreateCase", Dict{String, Any}("communicationBody"=>communicationBody, "subject"=>subject); aws=aws)
-CreateCase(communicationBody, subject, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = support("CreateCase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("communicationBody"=>communicationBody, "subject"=>subject), args)); aws=aws)
+CreateCase(communicationBody, subject; aws::AWSConfig=AWS.aws_config) = support("CreateCase", Dict{String, Any}("communicationBody"=>communicationBody, "subject"=>subject); aws=aws)
+CreateCase(communicationBody, subject, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = support("CreateCase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("communicationBody"=>communicationBody, "subject"=>subject), args)); aws=aws)
 
 """
     DescribeAttachment()
@@ -64,8 +64,8 @@ Returns the attachment that has the specified ID. Attachments can include screen
 - `attachmentId`: The ID of the attachment to return. Attachment IDs are returned by the DescribeCommunications operation.
 
 """
-DescribeAttachment(attachmentId; aws::AWSConfig=AWSConfig()) = support("DescribeAttachment", Dict{String, Any}("attachmentId"=>attachmentId); aws=aws)
-DescribeAttachment(attachmentId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = support("DescribeAttachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attachmentId"=>attachmentId), args)); aws=aws)
+DescribeAttachment(attachmentId; aws::AWSConfig=AWS.aws_config) = support("DescribeAttachment", Dict{String, Any}("attachmentId"=>attachmentId); aws=aws)
+DescribeAttachment(attachmentId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = support("DescribeAttachment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attachmentId"=>attachmentId), args)); aws=aws)
 
 """
     DescribeCases()
@@ -83,8 +83,8 @@ Returns a list of cases that you specify by passing one or more case IDs. You ca
 - `maxResults`: The maximum number of results to return before paginating.
 - `nextToken`: A resumption point for pagination.
 """
-DescribeCases(; aws::AWSConfig=AWSConfig()) = support("DescribeCases"; aws=aws)
-DescribeCases(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = support("DescribeCases", args; aws=aws)
+DescribeCases(; aws::AWSConfig=AWS.aws_config) = support("DescribeCases"; aws=aws)
+DescribeCases(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = support("DescribeCases", args; aws=aws)
 
 """
     DescribeCommunications()
@@ -100,8 +100,8 @@ Returns communications and attachments for one or more support cases. Use the af
 - `maxResults`: The maximum number of results to return before paginating.
 - `nextToken`: A resumption point for pagination.
 """
-DescribeCommunications(caseId; aws::AWSConfig=AWSConfig()) = support("DescribeCommunications", Dict{String, Any}("caseId"=>caseId); aws=aws)
-DescribeCommunications(caseId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = support("DescribeCommunications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("caseId"=>caseId), args)); aws=aws)
+DescribeCommunications(caseId; aws::AWSConfig=AWS.aws_config) = support("DescribeCommunications", Dict{String, Any}("caseId"=>caseId); aws=aws)
+DescribeCommunications(caseId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = support("DescribeCommunications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("caseId"=>caseId), args)); aws=aws)
 
 """
     DescribeServices()
@@ -112,8 +112,8 @@ Returns the current list of AWS services and a list of service categories for ea
 - `language`: The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English (\"en\") and Japanese (\"ja\"). Language parameters must be passed explicitly for operations that take them.
 - `serviceCodeList`: A JSON-formatted list of service codes available for AWS services.
 """
-DescribeServices(; aws::AWSConfig=AWSConfig()) = support("DescribeServices"; aws=aws)
-DescribeServices(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = support("DescribeServices", args; aws=aws)
+DescribeServices(; aws::AWSConfig=AWS.aws_config) = support("DescribeServices"; aws=aws)
+DescribeServices(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = support("DescribeServices", args; aws=aws)
 
 """
     DescribeSeverityLevels()
@@ -123,8 +123,8 @@ Returns the list of severity levels that you can assign to an AWS Support case. 
 # Optional Parameters
 - `language`: The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English (\"en\") and Japanese (\"ja\"). Language parameters must be passed explicitly for operations that take them.
 """
-DescribeSeverityLevels(; aws::AWSConfig=AWSConfig()) = support("DescribeSeverityLevels"; aws=aws)
-DescribeSeverityLevels(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = support("DescribeSeverityLevels", args; aws=aws)
+DescribeSeverityLevels(; aws::AWSConfig=AWS.aws_config) = support("DescribeSeverityLevels"; aws=aws)
+DescribeSeverityLevels(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = support("DescribeSeverityLevels", args; aws=aws)
 
 """
     DescribeTrustedAdvisorCheckRefreshStatuses()
@@ -135,8 +135,8 @@ Returns the refresh status of the AWS Trusted Advisor checks that have the speci
 - `checkIds`: The IDs of the Trusted Advisor checks to get the status of.   If you specify the check ID of a check that is automatically refreshed, you might see an InvalidParameterValue error. 
 
 """
-DescribeTrustedAdvisorCheckRefreshStatuses(checkIds; aws::AWSConfig=AWSConfig()) = support("DescribeTrustedAdvisorCheckRefreshStatuses", Dict{String, Any}("checkIds"=>checkIds); aws=aws)
-DescribeTrustedAdvisorCheckRefreshStatuses(checkIds, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = support("DescribeTrustedAdvisorCheckRefreshStatuses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("checkIds"=>checkIds), args)); aws=aws)
+DescribeTrustedAdvisorCheckRefreshStatuses(checkIds; aws::AWSConfig=AWS.aws_config) = support("DescribeTrustedAdvisorCheckRefreshStatuses", Dict{String, Any}("checkIds"=>checkIds); aws=aws)
+DescribeTrustedAdvisorCheckRefreshStatuses(checkIds, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = support("DescribeTrustedAdvisorCheckRefreshStatuses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("checkIds"=>checkIds), args)); aws=aws)
 
 """
     DescribeTrustedAdvisorCheckResult()
@@ -149,8 +149,8 @@ Returns the results of the AWS Trusted Advisor check that has the specified chec
 # Optional Parameters
 - `language`: The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English (\"en\") and Japanese (\"ja\"). Language parameters must be passed explicitly for operations that take them.
 """
-DescribeTrustedAdvisorCheckResult(checkId; aws::AWSConfig=AWSConfig()) = support("DescribeTrustedAdvisorCheckResult", Dict{String, Any}("checkId"=>checkId); aws=aws)
-DescribeTrustedAdvisorCheckResult(checkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = support("DescribeTrustedAdvisorCheckResult", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("checkId"=>checkId), args)); aws=aws)
+DescribeTrustedAdvisorCheckResult(checkId; aws::AWSConfig=AWS.aws_config) = support("DescribeTrustedAdvisorCheckResult", Dict{String, Any}("checkId"=>checkId); aws=aws)
+DescribeTrustedAdvisorCheckResult(checkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = support("DescribeTrustedAdvisorCheckResult", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("checkId"=>checkId), args)); aws=aws)
 
 """
     DescribeTrustedAdvisorCheckSummaries()
@@ -161,8 +161,8 @@ Returns the results for the AWS Trusted Advisor check summaries for the check ID
 - `checkIds`: The IDs of the Trusted Advisor checks.
 
 """
-DescribeTrustedAdvisorCheckSummaries(checkIds; aws::AWSConfig=AWSConfig()) = support("DescribeTrustedAdvisorCheckSummaries", Dict{String, Any}("checkIds"=>checkIds); aws=aws)
-DescribeTrustedAdvisorCheckSummaries(checkIds, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = support("DescribeTrustedAdvisorCheckSummaries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("checkIds"=>checkIds), args)); aws=aws)
+DescribeTrustedAdvisorCheckSummaries(checkIds; aws::AWSConfig=AWS.aws_config) = support("DescribeTrustedAdvisorCheckSummaries", Dict{String, Any}("checkIds"=>checkIds); aws=aws)
+DescribeTrustedAdvisorCheckSummaries(checkIds, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = support("DescribeTrustedAdvisorCheckSummaries", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("checkIds"=>checkIds), args)); aws=aws)
 
 """
     DescribeTrustedAdvisorChecks()
@@ -173,8 +173,8 @@ Returns information about all available AWS Trusted Advisor checks, including th
 - `language`: The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English (\"en\") and Japanese (\"ja\"). Language parameters must be passed explicitly for operations that take them.
 
 """
-DescribeTrustedAdvisorChecks(language; aws::AWSConfig=AWSConfig()) = support("DescribeTrustedAdvisorChecks", Dict{String, Any}("language"=>language); aws=aws)
-DescribeTrustedAdvisorChecks(language, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = support("DescribeTrustedAdvisorChecks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("language"=>language), args)); aws=aws)
+DescribeTrustedAdvisorChecks(language; aws::AWSConfig=AWS.aws_config) = support("DescribeTrustedAdvisorChecks", Dict{String, Any}("language"=>language); aws=aws)
+DescribeTrustedAdvisorChecks(language, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = support("DescribeTrustedAdvisorChecks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("language"=>language), args)); aws=aws)
 
 """
     RefreshTrustedAdvisorCheck()
@@ -185,8 +185,8 @@ Refreshes the AWS Trusted Advisor check that you specify using the check ID. You
 - `checkId`: The unique identifier for the Trusted Advisor check to refresh. Note: Specifying the check ID of a check that is automatically refreshed causes an InvalidParameterValue error.
 
 """
-RefreshTrustedAdvisorCheck(checkId; aws::AWSConfig=AWSConfig()) = support("RefreshTrustedAdvisorCheck", Dict{String, Any}("checkId"=>checkId); aws=aws)
-RefreshTrustedAdvisorCheck(checkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = support("RefreshTrustedAdvisorCheck", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("checkId"=>checkId), args)); aws=aws)
+RefreshTrustedAdvisorCheck(checkId; aws::AWSConfig=AWS.aws_config) = support("RefreshTrustedAdvisorCheck", Dict{String, Any}("checkId"=>checkId); aws=aws)
+RefreshTrustedAdvisorCheck(checkId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = support("RefreshTrustedAdvisorCheck", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("checkId"=>checkId), args)); aws=aws)
 
 """
     ResolveCase()
@@ -196,5 +196,5 @@ Resolves a support case. This operation takes a caseId and returns the initial a
 # Optional Parameters
 - `caseId`: The AWS Support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47 
 """
-ResolveCase(; aws::AWSConfig=AWSConfig()) = support("ResolveCase"; aws=aws)
-ResolveCase(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = support("ResolveCase", args; aws=aws)
+ResolveCase(; aws::AWSConfig=AWS.aws_config) = support("ResolveCase"; aws=aws)
+ResolveCase(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = support("ResolveCase", args; aws=aws)

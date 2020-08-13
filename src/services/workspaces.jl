@@ -14,8 +14,8 @@ Associates the specified IP access control group with the specified directory.
 - `GroupIds`: The identifiers of one or more IP access control groups.
 
 """
-AssociateIpGroups(DirectoryId, GroupIds; aws::AWSConfig=AWSConfig()) = workspaces("AssociateIpGroups", Dict{String, Any}("DirectoryId"=>DirectoryId, "GroupIds"=>GroupIds); aws=aws)
-AssociateIpGroups(DirectoryId, GroupIds, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("AssociateIpGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "GroupIds"=>GroupIds), args)); aws=aws)
+AssociateIpGroups(DirectoryId, GroupIds; aws::AWSConfig=AWS.aws_config) = workspaces("AssociateIpGroups", Dict{String, Any}("DirectoryId"=>DirectoryId, "GroupIds"=>GroupIds); aws=aws)
+AssociateIpGroups(DirectoryId, GroupIds, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("AssociateIpGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "GroupIds"=>GroupIds), args)); aws=aws)
 
 """
     AuthorizeIpRules()
@@ -27,8 +27,8 @@ Adds one or more rules to the specified IP access control group. This action giv
 - `UserRules`: The rules to add to the group.
 
 """
-AuthorizeIpRules(GroupId, UserRules; aws::AWSConfig=AWSConfig()) = workspaces("AuthorizeIpRules", Dict{String, Any}("GroupId"=>GroupId, "UserRules"=>UserRules); aws=aws)
-AuthorizeIpRules(GroupId, UserRules, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("AuthorizeIpRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId, "UserRules"=>UserRules), args)); aws=aws)
+AuthorizeIpRules(GroupId, UserRules; aws::AWSConfig=AWS.aws_config) = workspaces("AuthorizeIpRules", Dict{String, Any}("GroupId"=>GroupId, "UserRules"=>UserRules); aws=aws)
+AuthorizeIpRules(GroupId, UserRules, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("AuthorizeIpRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId, "UserRules"=>UserRules), args)); aws=aws)
 
 """
     CopyWorkspaceImage()
@@ -44,8 +44,8 @@ Copies the specified image from the specified Region to the current Region.
 - `Description`: A description of the image.
 - `Tags`: The tags for the image.
 """
-CopyWorkspaceImage(Name, SourceImageId, SourceRegion; aws::AWSConfig=AWSConfig()) = workspaces("CopyWorkspaceImage", Dict{String, Any}("Name"=>Name, "SourceImageId"=>SourceImageId, "SourceRegion"=>SourceRegion); aws=aws)
-CopyWorkspaceImage(Name, SourceImageId, SourceRegion, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("CopyWorkspaceImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SourceImageId"=>SourceImageId, "SourceRegion"=>SourceRegion), args)); aws=aws)
+CopyWorkspaceImage(Name, SourceImageId, SourceRegion; aws::AWSConfig=AWS.aws_config) = workspaces("CopyWorkspaceImage", Dict{String, Any}("Name"=>Name, "SourceImageId"=>SourceImageId, "SourceRegion"=>SourceRegion); aws=aws)
+CopyWorkspaceImage(Name, SourceImageId, SourceRegion, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("CopyWorkspaceImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SourceImageId"=>SourceImageId, "SourceRegion"=>SourceRegion), args)); aws=aws)
 
 """
     CreateIpGroup()
@@ -60,8 +60,8 @@ Creates an IP access control group. An IP access control group provides you with
 - `Tags`: The tags. Each WorkSpaces resource can have a maximum of 50 tags.
 - `UserRules`: The rules to add to the group.
 """
-CreateIpGroup(GroupName; aws::AWSConfig=AWSConfig()) = workspaces("CreateIpGroup", Dict{String, Any}("GroupName"=>GroupName); aws=aws)
-CreateIpGroup(GroupName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("CreateIpGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), args)); aws=aws)
+CreateIpGroup(GroupName; aws::AWSConfig=AWS.aws_config) = workspaces("CreateIpGroup", Dict{String, Any}("GroupName"=>GroupName); aws=aws)
+CreateIpGroup(GroupName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("CreateIpGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), args)); aws=aws)
 
 """
     CreateTags()
@@ -73,8 +73,8 @@ Creates the specified tags for the specified WorkSpaces resource.
 - `Tags`: The tags. Each WorkSpaces resource can have a maximum of 50 tags. If you want to add new tags to a set of existing tags, you must submit all of the existing tags along with the new ones.
 
 """
-CreateTags(ResourceId, Tags; aws::AWSConfig=AWSConfig()) = workspaces("CreateTags", Dict{String, Any}("ResourceId"=>ResourceId, "Tags"=>Tags); aws=aws)
-CreateTags(ResourceId, Tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("CreateTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "Tags"=>Tags), args)); aws=aws)
+CreateTags(ResourceId, Tags; aws::AWSConfig=AWS.aws_config) = workspaces("CreateTags", Dict{String, Any}("ResourceId"=>ResourceId, "Tags"=>Tags); aws=aws)
+CreateTags(ResourceId, Tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("CreateTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "Tags"=>Tags), args)); aws=aws)
 
 """
     CreateWorkspaces()
@@ -85,8 +85,8 @@ Creates one or more WorkSpaces. This operation is asynchronous and returns befor
 - `Workspaces`: The WorkSpaces to create. You can specify up to 25 WorkSpaces.
 
 """
-CreateWorkspaces(Workspaces; aws::AWSConfig=AWSConfig()) = workspaces("CreateWorkspaces", Dict{String, Any}("Workspaces"=>Workspaces); aws=aws)
-CreateWorkspaces(Workspaces, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("CreateWorkspaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Workspaces"=>Workspaces), args)); aws=aws)
+CreateWorkspaces(Workspaces; aws::AWSConfig=AWS.aws_config) = workspaces("CreateWorkspaces", Dict{String, Any}("Workspaces"=>Workspaces); aws=aws)
+CreateWorkspaces(Workspaces, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("CreateWorkspaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Workspaces"=>Workspaces), args)); aws=aws)
 
 """
     DeleteIpGroup()
@@ -97,8 +97,8 @@ Deletes the specified IP access control group. You cannot delete an IP access co
 - `GroupId`: The identifier of the IP access control group.
 
 """
-DeleteIpGroup(GroupId; aws::AWSConfig=AWSConfig()) = workspaces("DeleteIpGroup", Dict{String, Any}("GroupId"=>GroupId); aws=aws)
-DeleteIpGroup(GroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("DeleteIpGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId), args)); aws=aws)
+DeleteIpGroup(GroupId; aws::AWSConfig=AWS.aws_config) = workspaces("DeleteIpGroup", Dict{String, Any}("GroupId"=>GroupId); aws=aws)
+DeleteIpGroup(GroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("DeleteIpGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId), args)); aws=aws)
 
 """
     DeleteTags()
@@ -110,8 +110,8 @@ Deletes the specified tags from the specified WorkSpaces resource.
 - `TagKeys`: The tag keys.
 
 """
-DeleteTags(ResourceId, TagKeys; aws::AWSConfig=AWSConfig()) = workspaces("DeleteTags", Dict{String, Any}("ResourceId"=>ResourceId, "TagKeys"=>TagKeys); aws=aws)
-DeleteTags(ResourceId, TagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("DeleteTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "TagKeys"=>TagKeys), args)); aws=aws)
+DeleteTags(ResourceId, TagKeys; aws::AWSConfig=AWS.aws_config) = workspaces("DeleteTags", Dict{String, Any}("ResourceId"=>ResourceId, "TagKeys"=>TagKeys); aws=aws)
+DeleteTags(ResourceId, TagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("DeleteTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "TagKeys"=>TagKeys), args)); aws=aws)
 
 """
     DeleteWorkspaceImage()
@@ -122,8 +122,8 @@ Deletes the specified image from your account. To delete an image, you must firs
 - `ImageId`: The identifier of the image.
 
 """
-DeleteWorkspaceImage(ImageId; aws::AWSConfig=AWSConfig()) = workspaces("DeleteWorkspaceImage", Dict{String, Any}("ImageId"=>ImageId); aws=aws)
-DeleteWorkspaceImage(ImageId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("DeleteWorkspaceImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImageId"=>ImageId), args)); aws=aws)
+DeleteWorkspaceImage(ImageId; aws::AWSConfig=AWS.aws_config) = workspaces("DeleteWorkspaceImage", Dict{String, Any}("ImageId"=>ImageId); aws=aws)
+DeleteWorkspaceImage(ImageId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("DeleteWorkspaceImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImageId"=>ImageId), args)); aws=aws)
 
 """
     DeregisterWorkspaceDirectory()
@@ -134,8 +134,8 @@ Deregisters the specified directory. This operation is asynchronous and returns 
 - `DirectoryId`: The identifier of the directory. If any WorkSpaces are registered to this directory, you must remove them before you deregister the directory, or you will receive an OperationNotSupportedException error.
 
 """
-DeregisterWorkspaceDirectory(DirectoryId; aws::AWSConfig=AWSConfig()) = workspaces("DeregisterWorkspaceDirectory", Dict{String, Any}("DirectoryId"=>DirectoryId); aws=aws)
-DeregisterWorkspaceDirectory(DirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("DeregisterWorkspaceDirectory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId), args)); aws=aws)
+DeregisterWorkspaceDirectory(DirectoryId; aws::AWSConfig=AWS.aws_config) = workspaces("DeregisterWorkspaceDirectory", Dict{String, Any}("DirectoryId"=>DirectoryId); aws=aws)
+DeregisterWorkspaceDirectory(DirectoryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("DeregisterWorkspaceDirectory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId), args)); aws=aws)
 
 """
     DescribeAccount()
@@ -143,8 +143,8 @@ DeregisterWorkspaceDirectory(DirectoryId, args::AbstractDict{String, <:Any}; aws
 Retrieves a list that describes the configuration of Bring Your Own License (BYOL) for the specified account.
 
 """
-DescribeAccount(; aws::AWSConfig=AWSConfig()) = workspaces("DescribeAccount"; aws=aws)
-DescribeAccount(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("DescribeAccount", args; aws=aws)
+DescribeAccount(; aws::AWSConfig=AWS.aws_config) = workspaces("DescribeAccount"; aws=aws)
+DescribeAccount(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("DescribeAccount", args; aws=aws)
 
 """
     DescribeAccountModifications()
@@ -154,8 +154,8 @@ Retrieves a list that describes modifications to the configuration of Bring Your
 # Optional Parameters
 - `NextToken`: If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
 """
-DescribeAccountModifications(; aws::AWSConfig=AWSConfig()) = workspaces("DescribeAccountModifications"; aws=aws)
-DescribeAccountModifications(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("DescribeAccountModifications", args; aws=aws)
+DescribeAccountModifications(; aws::AWSConfig=AWS.aws_config) = workspaces("DescribeAccountModifications"; aws=aws)
+DescribeAccountModifications(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("DescribeAccountModifications", args; aws=aws)
 
 """
     DescribeClientProperties()
@@ -166,8 +166,8 @@ Retrieves a list that describes one or more specified Amazon WorkSpaces clients.
 - `ResourceIds`: The resource identifier, in the form of directory IDs.
 
 """
-DescribeClientProperties(ResourceIds; aws::AWSConfig=AWSConfig()) = workspaces("DescribeClientProperties", Dict{String, Any}("ResourceIds"=>ResourceIds); aws=aws)
-DescribeClientProperties(ResourceIds, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("DescribeClientProperties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceIds"=>ResourceIds), args)); aws=aws)
+DescribeClientProperties(ResourceIds; aws::AWSConfig=AWS.aws_config) = workspaces("DescribeClientProperties", Dict{String, Any}("ResourceIds"=>ResourceIds); aws=aws)
+DescribeClientProperties(ResourceIds, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("DescribeClientProperties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceIds"=>ResourceIds), args)); aws=aws)
 
 """
     DescribeIpGroups()
@@ -179,8 +179,8 @@ Describes one or more of your IP access control groups.
 - `MaxResults`: The maximum number of items to return.
 - `NextToken`: If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
 """
-DescribeIpGroups(; aws::AWSConfig=AWSConfig()) = workspaces("DescribeIpGroups"; aws=aws)
-DescribeIpGroups(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("DescribeIpGroups", args; aws=aws)
+DescribeIpGroups(; aws::AWSConfig=AWS.aws_config) = workspaces("DescribeIpGroups"; aws=aws)
+DescribeIpGroups(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("DescribeIpGroups", args; aws=aws)
 
 """
     DescribeTags()
@@ -191,8 +191,8 @@ Describes the specified tags for the specified WorkSpaces resource.
 - `ResourceId`: The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bundles, and IP access control groups.
 
 """
-DescribeTags(ResourceId; aws::AWSConfig=AWSConfig()) = workspaces("DescribeTags", Dict{String, Any}("ResourceId"=>ResourceId); aws=aws)
-DescribeTags(ResourceId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("DescribeTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), args)); aws=aws)
+DescribeTags(ResourceId; aws::AWSConfig=AWS.aws_config) = workspaces("DescribeTags", Dict{String, Any}("ResourceId"=>ResourceId); aws=aws)
+DescribeTags(ResourceId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("DescribeTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId), args)); aws=aws)
 
 """
     DescribeWorkspaceBundles()
@@ -204,8 +204,8 @@ Retrieves a list that describes the available WorkSpace bundles. You can filter 
 - `NextToken`: The token for the next set of results. (You received this token from a previous call.)
 - `Owner`: The owner of the bundles. You cannot combine this parameter with any other filter. Specify AMAZON to describe the bundles provided by AWS or null to describe the bundles that belong to your account.
 """
-DescribeWorkspaceBundles(; aws::AWSConfig=AWSConfig()) = workspaces("DescribeWorkspaceBundles"; aws=aws)
-DescribeWorkspaceBundles(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("DescribeWorkspaceBundles", args; aws=aws)
+DescribeWorkspaceBundles(; aws::AWSConfig=AWS.aws_config) = workspaces("DescribeWorkspaceBundles"; aws=aws)
+DescribeWorkspaceBundles(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("DescribeWorkspaceBundles", args; aws=aws)
 
 """
     DescribeWorkspaceDirectories()
@@ -217,8 +217,8 @@ Describes the available directories that are registered with Amazon WorkSpaces.
 - `Limit`: The maximum number of directories to return.
 - `NextToken`: If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
 """
-DescribeWorkspaceDirectories(; aws::AWSConfig=AWSConfig()) = workspaces("DescribeWorkspaceDirectories"; aws=aws)
-DescribeWorkspaceDirectories(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("DescribeWorkspaceDirectories", args; aws=aws)
+DescribeWorkspaceDirectories(; aws::AWSConfig=AWS.aws_config) = workspaces("DescribeWorkspaceDirectories"; aws=aws)
+DescribeWorkspaceDirectories(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("DescribeWorkspaceDirectories", args; aws=aws)
 
 """
     DescribeWorkspaceImagePermissions()
@@ -232,8 +232,8 @@ Describes the permissions that the owner of an image has granted to other AWS ac
 - `MaxResults`: The maximum number of items to return.
 - `NextToken`: If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
 """
-DescribeWorkspaceImagePermissions(ImageId; aws::AWSConfig=AWSConfig()) = workspaces("DescribeWorkspaceImagePermissions", Dict{String, Any}("ImageId"=>ImageId); aws=aws)
-DescribeWorkspaceImagePermissions(ImageId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("DescribeWorkspaceImagePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImageId"=>ImageId), args)); aws=aws)
+DescribeWorkspaceImagePermissions(ImageId; aws::AWSConfig=AWS.aws_config) = workspaces("DescribeWorkspaceImagePermissions", Dict{String, Any}("ImageId"=>ImageId); aws=aws)
+DescribeWorkspaceImagePermissions(ImageId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("DescribeWorkspaceImagePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ImageId"=>ImageId), args)); aws=aws)
 
 """
     DescribeWorkspaceImages()
@@ -246,8 +246,8 @@ Retrieves a list that describes one or more specified images, if the image ident
 - `MaxResults`: The maximum number of items to return.
 - `NextToken`: If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
 """
-DescribeWorkspaceImages(; aws::AWSConfig=AWSConfig()) = workspaces("DescribeWorkspaceImages"; aws=aws)
-DescribeWorkspaceImages(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("DescribeWorkspaceImages", args; aws=aws)
+DescribeWorkspaceImages(; aws::AWSConfig=AWS.aws_config) = workspaces("DescribeWorkspaceImages"; aws=aws)
+DescribeWorkspaceImages(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("DescribeWorkspaceImages", args; aws=aws)
 
 """
     DescribeWorkspaceSnapshots()
@@ -258,8 +258,8 @@ Describes the snapshots for the specified WorkSpace.
 - `WorkspaceId`: The identifier of the WorkSpace.
 
 """
-DescribeWorkspaceSnapshots(WorkspaceId; aws::AWSConfig=AWSConfig()) = workspaces("DescribeWorkspaceSnapshots", Dict{String, Any}("WorkspaceId"=>WorkspaceId); aws=aws)
-DescribeWorkspaceSnapshots(WorkspaceId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("DescribeWorkspaceSnapshots", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkspaceId"=>WorkspaceId), args)); aws=aws)
+DescribeWorkspaceSnapshots(WorkspaceId; aws::AWSConfig=AWS.aws_config) = workspaces("DescribeWorkspaceSnapshots", Dict{String, Any}("WorkspaceId"=>WorkspaceId); aws=aws)
+DescribeWorkspaceSnapshots(WorkspaceId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("DescribeWorkspaceSnapshots", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkspaceId"=>WorkspaceId), args)); aws=aws)
 
 """
     DescribeWorkspaces()
@@ -274,8 +274,8 @@ Describes the specified WorkSpaces. You can filter the results by using the bund
 - `UserName`: The name of the directory user. You must specify this parameter with DirectoryId.
 - `WorkspaceIds`: The identifiers of the WorkSpaces. You cannot combine this parameter with any other filter. Because the CreateWorkspaces operation is asynchronous, the identifier it returns is not immediately available. If you immediately call DescribeWorkspaces with this identifier, no information is returned.
 """
-DescribeWorkspaces(; aws::AWSConfig=AWSConfig()) = workspaces("DescribeWorkspaces"; aws=aws)
-DescribeWorkspaces(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("DescribeWorkspaces", args; aws=aws)
+DescribeWorkspaces(; aws::AWSConfig=AWS.aws_config) = workspaces("DescribeWorkspaces"; aws=aws)
+DescribeWorkspaces(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("DescribeWorkspaces", args; aws=aws)
 
 """
     DescribeWorkspacesConnectionStatus()
@@ -286,8 +286,8 @@ Describes the connection status of the specified WorkSpaces.
 - `NextToken`: If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
 - `WorkspaceIds`: The identifiers of the WorkSpaces. You can specify up to 25 WorkSpaces.
 """
-DescribeWorkspacesConnectionStatus(; aws::AWSConfig=AWSConfig()) = workspaces("DescribeWorkspacesConnectionStatus"; aws=aws)
-DescribeWorkspacesConnectionStatus(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("DescribeWorkspacesConnectionStatus", args; aws=aws)
+DescribeWorkspacesConnectionStatus(; aws::AWSConfig=AWS.aws_config) = workspaces("DescribeWorkspacesConnectionStatus"; aws=aws)
+DescribeWorkspacesConnectionStatus(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("DescribeWorkspacesConnectionStatus", args; aws=aws)
 
 """
     DisassociateIpGroups()
@@ -299,8 +299,8 @@ Disassociates the specified IP access control group from the specified directory
 - `GroupIds`: The identifiers of one or more IP access control groups.
 
 """
-DisassociateIpGroups(DirectoryId, GroupIds; aws::AWSConfig=AWSConfig()) = workspaces("DisassociateIpGroups", Dict{String, Any}("DirectoryId"=>DirectoryId, "GroupIds"=>GroupIds); aws=aws)
-DisassociateIpGroups(DirectoryId, GroupIds, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("DisassociateIpGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "GroupIds"=>GroupIds), args)); aws=aws)
+DisassociateIpGroups(DirectoryId, GroupIds; aws::AWSConfig=AWS.aws_config) = workspaces("DisassociateIpGroups", Dict{String, Any}("DirectoryId"=>DirectoryId, "GroupIds"=>GroupIds); aws=aws)
+DisassociateIpGroups(DirectoryId, GroupIds, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("DisassociateIpGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "GroupIds"=>GroupIds), args)); aws=aws)
 
 """
     ImportWorkspaceImage()
@@ -316,8 +316,8 @@ Imports the specified Windows 7 or Windows 10 Bring Your Own License (BYOL) imag
 # Optional Parameters
 - `Tags`: The tags. Each WorkSpaces resource can have a maximum of 50 tags.
 """
-ImportWorkspaceImage(Ec2ImageId, ImageDescription, ImageName, IngestionProcess; aws::AWSConfig=AWSConfig()) = workspaces("ImportWorkspaceImage", Dict{String, Any}("Ec2ImageId"=>Ec2ImageId, "ImageDescription"=>ImageDescription, "ImageName"=>ImageName, "IngestionProcess"=>IngestionProcess); aws=aws)
-ImportWorkspaceImage(Ec2ImageId, ImageDescription, ImageName, IngestionProcess, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("ImportWorkspaceImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Ec2ImageId"=>Ec2ImageId, "ImageDescription"=>ImageDescription, "ImageName"=>ImageName, "IngestionProcess"=>IngestionProcess), args)); aws=aws)
+ImportWorkspaceImage(Ec2ImageId, ImageDescription, ImageName, IngestionProcess; aws::AWSConfig=AWS.aws_config) = workspaces("ImportWorkspaceImage", Dict{String, Any}("Ec2ImageId"=>Ec2ImageId, "ImageDescription"=>ImageDescription, "ImageName"=>ImageName, "IngestionProcess"=>IngestionProcess); aws=aws)
+ImportWorkspaceImage(Ec2ImageId, ImageDescription, ImageName, IngestionProcess, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("ImportWorkspaceImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Ec2ImageId"=>Ec2ImageId, "ImageDescription"=>ImageDescription, "ImageName"=>ImageName, "IngestionProcess"=>IngestionProcess), args)); aws=aws)
 
 """
     ListAvailableManagementCidrRanges()
@@ -331,8 +331,8 @@ Retrieves a list of IP address ranges, specified as IPv4 CIDR blocks, that you c
 - `MaxResults`: The maximum number of items to return.
 - `NextToken`: If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
 """
-ListAvailableManagementCidrRanges(ManagementCidrRangeConstraint; aws::AWSConfig=AWSConfig()) = workspaces("ListAvailableManagementCidrRanges", Dict{String, Any}("ManagementCidrRangeConstraint"=>ManagementCidrRangeConstraint); aws=aws)
-ListAvailableManagementCidrRanges(ManagementCidrRangeConstraint, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("ListAvailableManagementCidrRanges", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ManagementCidrRangeConstraint"=>ManagementCidrRangeConstraint), args)); aws=aws)
+ListAvailableManagementCidrRanges(ManagementCidrRangeConstraint; aws::AWSConfig=AWS.aws_config) = workspaces("ListAvailableManagementCidrRanges", Dict{String, Any}("ManagementCidrRangeConstraint"=>ManagementCidrRangeConstraint); aws=aws)
+ListAvailableManagementCidrRanges(ManagementCidrRangeConstraint, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("ListAvailableManagementCidrRanges", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ManagementCidrRangeConstraint"=>ManagementCidrRangeConstraint), args)); aws=aws)
 
 """
     MigrateWorkspace()
@@ -344,8 +344,8 @@ Migrates a WorkSpace from one operating system or bundle type to another, while 
 - `SourceWorkspaceId`: The identifier of the WorkSpace to migrate from.
 
 """
-MigrateWorkspace(BundleId, SourceWorkspaceId; aws::AWSConfig=AWSConfig()) = workspaces("MigrateWorkspace", Dict{String, Any}("BundleId"=>BundleId, "SourceWorkspaceId"=>SourceWorkspaceId); aws=aws)
-MigrateWorkspace(BundleId, SourceWorkspaceId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("MigrateWorkspace", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BundleId"=>BundleId, "SourceWorkspaceId"=>SourceWorkspaceId), args)); aws=aws)
+MigrateWorkspace(BundleId, SourceWorkspaceId; aws::AWSConfig=AWS.aws_config) = workspaces("MigrateWorkspace", Dict{String, Any}("BundleId"=>BundleId, "SourceWorkspaceId"=>SourceWorkspaceId); aws=aws)
+MigrateWorkspace(BundleId, SourceWorkspaceId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("MigrateWorkspace", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BundleId"=>BundleId, "SourceWorkspaceId"=>SourceWorkspaceId), args)); aws=aws)
 
 """
     ModifyAccount()
@@ -356,8 +356,8 @@ Modifies the configuration of Bring Your Own License (BYOL) for the specified ac
 - `DedicatedTenancyManagementCidrRange`: The IP address range, specified as an IPv4 CIDR block, for the management network interface. Specify an IP address range that is compatible with your network and in CIDR notation (that is, specify the range as an IPv4 CIDR block). The CIDR block size must be /16 (for example, 203.0.113.25/16). It must also be specified as available by the ListAvailableManagementCidrRanges operation.
 - `DedicatedTenancySupport`: The status of BYOL.
 """
-ModifyAccount(; aws::AWSConfig=AWSConfig()) = workspaces("ModifyAccount"; aws=aws)
-ModifyAccount(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("ModifyAccount", args; aws=aws)
+ModifyAccount(; aws::AWSConfig=AWS.aws_config) = workspaces("ModifyAccount"; aws=aws)
+ModifyAccount(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("ModifyAccount", args; aws=aws)
 
 """
     ModifyClientProperties()
@@ -369,8 +369,8 @@ Modifies the properties of the specified Amazon WorkSpaces clients.
 - `ResourceId`: The resource identifiers, in the form of directory IDs.
 
 """
-ModifyClientProperties(ClientProperties, ResourceId; aws::AWSConfig=AWSConfig()) = workspaces("ModifyClientProperties", Dict{String, Any}("ClientProperties"=>ClientProperties, "ResourceId"=>ResourceId); aws=aws)
-ModifyClientProperties(ClientProperties, ResourceId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("ModifyClientProperties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientProperties"=>ClientProperties, "ResourceId"=>ResourceId), args)); aws=aws)
+ModifyClientProperties(ClientProperties, ResourceId; aws::AWSConfig=AWS.aws_config) = workspaces("ModifyClientProperties", Dict{String, Any}("ClientProperties"=>ClientProperties, "ResourceId"=>ResourceId); aws=aws)
+ModifyClientProperties(ClientProperties, ResourceId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("ModifyClientProperties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientProperties"=>ClientProperties, "ResourceId"=>ResourceId), args)); aws=aws)
 
 """
     ModifySelfservicePermissions()
@@ -382,8 +382,8 @@ Modifies the self-service WorkSpace management capabilities for your users. For 
 - `SelfservicePermissions`: The permissions to enable or disable self-service capabilities.
 
 """
-ModifySelfservicePermissions(ResourceId, SelfservicePermissions; aws::AWSConfig=AWSConfig()) = workspaces("ModifySelfservicePermissions", Dict{String, Any}("ResourceId"=>ResourceId, "SelfservicePermissions"=>SelfservicePermissions); aws=aws)
-ModifySelfservicePermissions(ResourceId, SelfservicePermissions, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("ModifySelfservicePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "SelfservicePermissions"=>SelfservicePermissions), args)); aws=aws)
+ModifySelfservicePermissions(ResourceId, SelfservicePermissions; aws::AWSConfig=AWS.aws_config) = workspaces("ModifySelfservicePermissions", Dict{String, Any}("ResourceId"=>ResourceId, "SelfservicePermissions"=>SelfservicePermissions); aws=aws)
+ModifySelfservicePermissions(ResourceId, SelfservicePermissions, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("ModifySelfservicePermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "SelfservicePermissions"=>SelfservicePermissions), args)); aws=aws)
 
 """
     ModifyWorkspaceAccessProperties()
@@ -395,8 +395,8 @@ Specifies which devices and operating systems users can use to access their Work
 - `WorkspaceAccessProperties`: The device types and operating systems to enable or disable for access.
 
 """
-ModifyWorkspaceAccessProperties(ResourceId, WorkspaceAccessProperties; aws::AWSConfig=AWSConfig()) = workspaces("ModifyWorkspaceAccessProperties", Dict{String, Any}("ResourceId"=>ResourceId, "WorkspaceAccessProperties"=>WorkspaceAccessProperties); aws=aws)
-ModifyWorkspaceAccessProperties(ResourceId, WorkspaceAccessProperties, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("ModifyWorkspaceAccessProperties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "WorkspaceAccessProperties"=>WorkspaceAccessProperties), args)); aws=aws)
+ModifyWorkspaceAccessProperties(ResourceId, WorkspaceAccessProperties; aws::AWSConfig=AWS.aws_config) = workspaces("ModifyWorkspaceAccessProperties", Dict{String, Any}("ResourceId"=>ResourceId, "WorkspaceAccessProperties"=>WorkspaceAccessProperties); aws=aws)
+ModifyWorkspaceAccessProperties(ResourceId, WorkspaceAccessProperties, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("ModifyWorkspaceAccessProperties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "WorkspaceAccessProperties"=>WorkspaceAccessProperties), args)); aws=aws)
 
 """
     ModifyWorkspaceCreationProperties()
@@ -408,8 +408,8 @@ Modify the default properties used to create WorkSpaces.
 - `WorkspaceCreationProperties`: The default properties for creating WorkSpaces.
 
 """
-ModifyWorkspaceCreationProperties(ResourceId, WorkspaceCreationProperties; aws::AWSConfig=AWSConfig()) = workspaces("ModifyWorkspaceCreationProperties", Dict{String, Any}("ResourceId"=>ResourceId, "WorkspaceCreationProperties"=>WorkspaceCreationProperties); aws=aws)
-ModifyWorkspaceCreationProperties(ResourceId, WorkspaceCreationProperties, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("ModifyWorkspaceCreationProperties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "WorkspaceCreationProperties"=>WorkspaceCreationProperties), args)); aws=aws)
+ModifyWorkspaceCreationProperties(ResourceId, WorkspaceCreationProperties; aws::AWSConfig=AWS.aws_config) = workspaces("ModifyWorkspaceCreationProperties", Dict{String, Any}("ResourceId"=>ResourceId, "WorkspaceCreationProperties"=>WorkspaceCreationProperties); aws=aws)
+ModifyWorkspaceCreationProperties(ResourceId, WorkspaceCreationProperties, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("ModifyWorkspaceCreationProperties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "WorkspaceCreationProperties"=>WorkspaceCreationProperties), args)); aws=aws)
 
 """
     ModifyWorkspaceProperties()
@@ -421,8 +421,8 @@ Modifies the specified WorkSpace properties. For important information about how
 - `WorkspaceProperties`: The properties of the WorkSpace.
 
 """
-ModifyWorkspaceProperties(WorkspaceId, WorkspaceProperties; aws::AWSConfig=AWSConfig()) = workspaces("ModifyWorkspaceProperties", Dict{String, Any}("WorkspaceId"=>WorkspaceId, "WorkspaceProperties"=>WorkspaceProperties); aws=aws)
-ModifyWorkspaceProperties(WorkspaceId, WorkspaceProperties, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("ModifyWorkspaceProperties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkspaceId"=>WorkspaceId, "WorkspaceProperties"=>WorkspaceProperties), args)); aws=aws)
+ModifyWorkspaceProperties(WorkspaceId, WorkspaceProperties; aws::AWSConfig=AWS.aws_config) = workspaces("ModifyWorkspaceProperties", Dict{String, Any}("WorkspaceId"=>WorkspaceId, "WorkspaceProperties"=>WorkspaceProperties); aws=aws)
+ModifyWorkspaceProperties(WorkspaceId, WorkspaceProperties, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("ModifyWorkspaceProperties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkspaceId"=>WorkspaceId, "WorkspaceProperties"=>WorkspaceProperties), args)); aws=aws)
 
 """
     ModifyWorkspaceState()
@@ -434,8 +434,8 @@ Sets the state of the specified WorkSpace. To maintain a WorkSpace without being
 - `WorkspaceState`: The WorkSpace state.
 
 """
-ModifyWorkspaceState(WorkspaceId, WorkspaceState; aws::AWSConfig=AWSConfig()) = workspaces("ModifyWorkspaceState", Dict{String, Any}("WorkspaceId"=>WorkspaceId, "WorkspaceState"=>WorkspaceState); aws=aws)
-ModifyWorkspaceState(WorkspaceId, WorkspaceState, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("ModifyWorkspaceState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkspaceId"=>WorkspaceId, "WorkspaceState"=>WorkspaceState), args)); aws=aws)
+ModifyWorkspaceState(WorkspaceId, WorkspaceState; aws::AWSConfig=AWS.aws_config) = workspaces("ModifyWorkspaceState", Dict{String, Any}("WorkspaceId"=>WorkspaceId, "WorkspaceState"=>WorkspaceState); aws=aws)
+ModifyWorkspaceState(WorkspaceId, WorkspaceState, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("ModifyWorkspaceState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkspaceId"=>WorkspaceId, "WorkspaceState"=>WorkspaceState), args)); aws=aws)
 
 """
     RebootWorkspaces()
@@ -446,8 +446,8 @@ Reboots the specified WorkSpaces. You cannot reboot a WorkSpace unless its state
 - `RebootWorkspaceRequests`: The WorkSpaces to reboot. You can specify up to 25 WorkSpaces.
 
 """
-RebootWorkspaces(RebootWorkspaceRequests; aws::AWSConfig=AWSConfig()) = workspaces("RebootWorkspaces", Dict{String, Any}("RebootWorkspaceRequests"=>RebootWorkspaceRequests); aws=aws)
-RebootWorkspaces(RebootWorkspaceRequests, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("RebootWorkspaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RebootWorkspaceRequests"=>RebootWorkspaceRequests), args)); aws=aws)
+RebootWorkspaces(RebootWorkspaceRequests; aws::AWSConfig=AWS.aws_config) = workspaces("RebootWorkspaces", Dict{String, Any}("RebootWorkspaceRequests"=>RebootWorkspaceRequests); aws=aws)
+RebootWorkspaces(RebootWorkspaceRequests, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("RebootWorkspaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RebootWorkspaceRequests"=>RebootWorkspaceRequests), args)); aws=aws)
 
 """
     RebuildWorkspaces()
@@ -458,8 +458,8 @@ Rebuilds the specified WorkSpace. You cannot rebuild a WorkSpace unless its stat
 - `RebuildWorkspaceRequests`: The WorkSpace to rebuild. You can specify a single WorkSpace.
 
 """
-RebuildWorkspaces(RebuildWorkspaceRequests; aws::AWSConfig=AWSConfig()) = workspaces("RebuildWorkspaces", Dict{String, Any}("RebuildWorkspaceRequests"=>RebuildWorkspaceRequests); aws=aws)
-RebuildWorkspaces(RebuildWorkspaceRequests, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("RebuildWorkspaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RebuildWorkspaceRequests"=>RebuildWorkspaceRequests), args)); aws=aws)
+RebuildWorkspaces(RebuildWorkspaceRequests; aws::AWSConfig=AWS.aws_config) = workspaces("RebuildWorkspaces", Dict{String, Any}("RebuildWorkspaceRequests"=>RebuildWorkspaceRequests); aws=aws)
+RebuildWorkspaces(RebuildWorkspaceRequests, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("RebuildWorkspaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RebuildWorkspaceRequests"=>RebuildWorkspaceRequests), args)); aws=aws)
 
 """
     RegisterWorkspaceDirectory()
@@ -476,8 +476,8 @@ Registers the specified directory. This operation is asynchronous and returns be
 - `Tags`: The tags associated with the directory.
 - `Tenancy`: Indicates whether your WorkSpace directory is dedicated or shared. To use Bring Your Own License (BYOL) images, this value must be set to DEDICATED and your AWS account must be enabled for BYOL. If your account has not been enabled for BYOL, you will receive an InvalidParameterValuesException error. For more information about BYOL images, see Bring Your Own Windows Desktop Images.
 """
-RegisterWorkspaceDirectory(DirectoryId, EnableWorkDocs; aws::AWSConfig=AWSConfig()) = workspaces("RegisterWorkspaceDirectory", Dict{String, Any}("DirectoryId"=>DirectoryId, "EnableWorkDocs"=>EnableWorkDocs); aws=aws)
-RegisterWorkspaceDirectory(DirectoryId, EnableWorkDocs, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("RegisterWorkspaceDirectory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "EnableWorkDocs"=>EnableWorkDocs), args)); aws=aws)
+RegisterWorkspaceDirectory(DirectoryId, EnableWorkDocs; aws::AWSConfig=AWS.aws_config) = workspaces("RegisterWorkspaceDirectory", Dict{String, Any}("DirectoryId"=>DirectoryId, "EnableWorkDocs"=>EnableWorkDocs); aws=aws)
+RegisterWorkspaceDirectory(DirectoryId, EnableWorkDocs, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("RegisterWorkspaceDirectory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DirectoryId"=>DirectoryId, "EnableWorkDocs"=>EnableWorkDocs), args)); aws=aws)
 
 """
     RestoreWorkspace()
@@ -488,8 +488,8 @@ Restores the specified WorkSpace to its last known healthy state. You cannot res
 - `WorkspaceId`: The identifier of the WorkSpace.
 
 """
-RestoreWorkspace(WorkspaceId; aws::AWSConfig=AWSConfig()) = workspaces("RestoreWorkspace", Dict{String, Any}("WorkspaceId"=>WorkspaceId); aws=aws)
-RestoreWorkspace(WorkspaceId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("RestoreWorkspace", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkspaceId"=>WorkspaceId), args)); aws=aws)
+RestoreWorkspace(WorkspaceId; aws::AWSConfig=AWS.aws_config) = workspaces("RestoreWorkspace", Dict{String, Any}("WorkspaceId"=>WorkspaceId); aws=aws)
+RestoreWorkspace(WorkspaceId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("RestoreWorkspace", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkspaceId"=>WorkspaceId), args)); aws=aws)
 
 """
     RevokeIpRules()
@@ -501,8 +501,8 @@ Removes one or more rules from the specified IP access control group.
 - `UserRules`: The rules to remove from the group.
 
 """
-RevokeIpRules(GroupId, UserRules; aws::AWSConfig=AWSConfig()) = workspaces("RevokeIpRules", Dict{String, Any}("GroupId"=>GroupId, "UserRules"=>UserRules); aws=aws)
-RevokeIpRules(GroupId, UserRules, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("RevokeIpRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId, "UserRules"=>UserRules), args)); aws=aws)
+RevokeIpRules(GroupId, UserRules; aws::AWSConfig=AWS.aws_config) = workspaces("RevokeIpRules", Dict{String, Any}("GroupId"=>GroupId, "UserRules"=>UserRules); aws=aws)
+RevokeIpRules(GroupId, UserRules, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("RevokeIpRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId, "UserRules"=>UserRules), args)); aws=aws)
 
 """
     StartWorkspaces()
@@ -513,8 +513,8 @@ Starts the specified WorkSpaces. You cannot start a WorkSpace unless it has a ru
 - `StartWorkspaceRequests`: The WorkSpaces to start. You can specify up to 25 WorkSpaces.
 
 """
-StartWorkspaces(StartWorkspaceRequests; aws::AWSConfig=AWSConfig()) = workspaces("StartWorkspaces", Dict{String, Any}("StartWorkspaceRequests"=>StartWorkspaceRequests); aws=aws)
-StartWorkspaces(StartWorkspaceRequests, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("StartWorkspaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StartWorkspaceRequests"=>StartWorkspaceRequests), args)); aws=aws)
+StartWorkspaces(StartWorkspaceRequests; aws::AWSConfig=AWS.aws_config) = workspaces("StartWorkspaces", Dict{String, Any}("StartWorkspaceRequests"=>StartWorkspaceRequests); aws=aws)
+StartWorkspaces(StartWorkspaceRequests, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("StartWorkspaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StartWorkspaceRequests"=>StartWorkspaceRequests), args)); aws=aws)
 
 """
     StopWorkspaces()
@@ -525,8 +525,8 @@ StartWorkspaces(StartWorkspaceRequests, args::AbstractDict{String, <:Any}; aws::
 - `StopWorkspaceRequests`: The WorkSpaces to stop. You can specify up to 25 WorkSpaces.
 
 """
-StopWorkspaces(StopWorkspaceRequests; aws::AWSConfig=AWSConfig()) = workspaces("StopWorkspaces", Dict{String, Any}("StopWorkspaceRequests"=>StopWorkspaceRequests); aws=aws)
-StopWorkspaces(StopWorkspaceRequests, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("StopWorkspaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StopWorkspaceRequests"=>StopWorkspaceRequests), args)); aws=aws)
+StopWorkspaces(StopWorkspaceRequests; aws::AWSConfig=AWS.aws_config) = workspaces("StopWorkspaces", Dict{String, Any}("StopWorkspaceRequests"=>StopWorkspaceRequests); aws=aws)
+StopWorkspaces(StopWorkspaceRequests, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("StopWorkspaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StopWorkspaceRequests"=>StopWorkspaceRequests), args)); aws=aws)
 
 """
     TerminateWorkspaces()
@@ -537,8 +537,8 @@ Terminates the specified WorkSpaces. Terminating a WorkSpace is a permanent acti
 - `TerminateWorkspaceRequests`: The WorkSpaces to terminate. You can specify up to 25 WorkSpaces.
 
 """
-TerminateWorkspaces(TerminateWorkspaceRequests; aws::AWSConfig=AWSConfig()) = workspaces("TerminateWorkspaces", Dict{String, Any}("TerminateWorkspaceRequests"=>TerminateWorkspaceRequests); aws=aws)
-TerminateWorkspaces(TerminateWorkspaceRequests, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("TerminateWorkspaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TerminateWorkspaceRequests"=>TerminateWorkspaceRequests), args)); aws=aws)
+TerminateWorkspaces(TerminateWorkspaceRequests; aws::AWSConfig=AWS.aws_config) = workspaces("TerminateWorkspaces", Dict{String, Any}("TerminateWorkspaceRequests"=>TerminateWorkspaceRequests); aws=aws)
+TerminateWorkspaces(TerminateWorkspaceRequests, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("TerminateWorkspaces", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TerminateWorkspaceRequests"=>TerminateWorkspaceRequests), args)); aws=aws)
 
 """
     UpdateRulesOfIpGroup()
@@ -550,8 +550,8 @@ Replaces the current rules of the specified IP access control group with the spe
 - `UserRules`: One or more rules.
 
 """
-UpdateRulesOfIpGroup(GroupId, UserRules; aws::AWSConfig=AWSConfig()) = workspaces("UpdateRulesOfIpGroup", Dict{String, Any}("GroupId"=>GroupId, "UserRules"=>UserRules); aws=aws)
-UpdateRulesOfIpGroup(GroupId, UserRules, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("UpdateRulesOfIpGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId, "UserRules"=>UserRules), args)); aws=aws)
+UpdateRulesOfIpGroup(GroupId, UserRules; aws::AWSConfig=AWS.aws_config) = workspaces("UpdateRulesOfIpGroup", Dict{String, Any}("GroupId"=>GroupId, "UserRules"=>UserRules); aws=aws)
+UpdateRulesOfIpGroup(GroupId, UserRules, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("UpdateRulesOfIpGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId, "UserRules"=>UserRules), args)); aws=aws)
 
 """
     UpdateWorkspaceImagePermission()
@@ -564,5 +564,5 @@ Shares or unshares an image with one account by specifying whether that account 
 - `SharedAccountId`: The identifier of the AWS account to share or unshare the image with.
 
 """
-UpdateWorkspaceImagePermission(AllowCopyImage, ImageId, SharedAccountId; aws::AWSConfig=AWSConfig()) = workspaces("UpdateWorkspaceImagePermission", Dict{String, Any}("AllowCopyImage"=>AllowCopyImage, "ImageId"=>ImageId, "SharedAccountId"=>SharedAccountId); aws=aws)
-UpdateWorkspaceImagePermission(AllowCopyImage, ImageId, SharedAccountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = workspaces("UpdateWorkspaceImagePermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AllowCopyImage"=>AllowCopyImage, "ImageId"=>ImageId, "SharedAccountId"=>SharedAccountId), args)); aws=aws)
+UpdateWorkspaceImagePermission(AllowCopyImage, ImageId, SharedAccountId; aws::AWSConfig=AWS.aws_config) = workspaces("UpdateWorkspaceImagePermission", Dict{String, Any}("AllowCopyImage"=>AllowCopyImage, "ImageId"=>ImageId, "SharedAccountId"=>SharedAccountId); aws=aws)
+UpdateWorkspaceImagePermission(AllowCopyImage, ImageId, SharedAccountId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workspaces("UpdateWorkspaceImagePermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AllowCopyImage"=>AllowCopyImage, "ImageId"=>ImageId, "SharedAccountId"=>SharedAccountId), args)); aws=aws)

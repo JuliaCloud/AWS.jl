@@ -13,8 +13,8 @@ A synchronous action that deletes a custom terminology.
 - `Name`: The name of the custom terminology being deleted. 
 
 """
-DeleteTerminology(Name; aws::AWSConfig=AWSConfig()) = translate("DeleteTerminology", Dict{String, Any}("Name"=>Name); aws=aws)
-DeleteTerminology(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = translate("DeleteTerminology", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+DeleteTerminology(Name; aws::AWSConfig=AWS.aws_config) = translate("DeleteTerminology", Dict{String, Any}("Name"=>Name); aws=aws)
+DeleteTerminology(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = translate("DeleteTerminology", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
 
 """
     DescribeTextTranslationJob()
@@ -25,8 +25,8 @@ Gets the properties associated with an asycnhronous batch translation job includ
 - `JobId`: The identifier that Amazon Translate generated for the job. The StartTextTranslationJob operation returns this identifier in its response.
 
 """
-DescribeTextTranslationJob(JobId; aws::AWSConfig=AWSConfig()) = translate("DescribeTextTranslationJob", Dict{String, Any}("JobId"=>JobId); aws=aws)
-DescribeTextTranslationJob(JobId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = translate("DescribeTextTranslationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws=aws)
+DescribeTextTranslationJob(JobId; aws::AWSConfig=AWS.aws_config) = translate("DescribeTextTranslationJob", Dict{String, Any}("JobId"=>JobId); aws=aws)
+DescribeTextTranslationJob(JobId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = translate("DescribeTextTranslationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws=aws)
 
 """
     GetTerminology()
@@ -38,8 +38,8 @@ Retrieves a custom terminology.
 - `TerminologyDataFormat`: The data format of the custom terminology being retrieved, either CSV or TMX.
 
 """
-GetTerminology(Name, TerminologyDataFormat; aws::AWSConfig=AWSConfig()) = translate("GetTerminology", Dict{String, Any}("Name"=>Name, "TerminologyDataFormat"=>TerminologyDataFormat); aws=aws)
-GetTerminology(Name, TerminologyDataFormat, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = translate("GetTerminology", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "TerminologyDataFormat"=>TerminologyDataFormat), args)); aws=aws)
+GetTerminology(Name, TerminologyDataFormat; aws::AWSConfig=AWS.aws_config) = translate("GetTerminology", Dict{String, Any}("Name"=>Name, "TerminologyDataFormat"=>TerminologyDataFormat); aws=aws)
+GetTerminology(Name, TerminologyDataFormat, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = translate("GetTerminology", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "TerminologyDataFormat"=>TerminologyDataFormat), args)); aws=aws)
 
 """
     ImportTerminology()
@@ -55,8 +55,8 @@ Creates or updates a custom terminology, depending on whether or not one already
 - `Description`: The description of the custom terminology being imported.
 - `EncryptionKey`: The encryption key for the custom terminology being imported.
 """
-ImportTerminology(MergeStrategy, Name, TerminologyData; aws::AWSConfig=AWSConfig()) = translate("ImportTerminology", Dict{String, Any}("MergeStrategy"=>MergeStrategy, "Name"=>Name, "TerminologyData"=>TerminologyData); aws=aws)
-ImportTerminology(MergeStrategy, Name, TerminologyData, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = translate("ImportTerminology", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MergeStrategy"=>MergeStrategy, "Name"=>Name, "TerminologyData"=>TerminologyData), args)); aws=aws)
+ImportTerminology(MergeStrategy, Name, TerminologyData; aws::AWSConfig=AWS.aws_config) = translate("ImportTerminology", Dict{String, Any}("MergeStrategy"=>MergeStrategy, "Name"=>Name, "TerminologyData"=>TerminologyData); aws=aws)
+ImportTerminology(MergeStrategy, Name, TerminologyData, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = translate("ImportTerminology", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MergeStrategy"=>MergeStrategy, "Name"=>Name, "TerminologyData"=>TerminologyData), args)); aws=aws)
 
 """
     ListTerminologies()
@@ -67,8 +67,8 @@ Provides a list of custom terminologies associated with your account.
 - `MaxResults`: The maximum number of custom terminologies returned per list request.
 - `NextToken`: If the result of the request to ListTerminologies was truncated, include the NextToken to fetch the next group of custom terminologies. 
 """
-ListTerminologies(; aws::AWSConfig=AWSConfig()) = translate("ListTerminologies"; aws=aws)
-ListTerminologies(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = translate("ListTerminologies", args; aws=aws)
+ListTerminologies(; aws::AWSConfig=AWS.aws_config) = translate("ListTerminologies"; aws=aws)
+ListTerminologies(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = translate("ListTerminologies", args; aws=aws)
 
 """
     ListTextTranslationJobs()
@@ -80,8 +80,8 @@ Gets a list of the batch translation jobs that you have submitted.
 - `MaxResults`: The maximum number of results to return in each page. The default value is 100.
 - `NextToken`: The token to request the next page of results.
 """
-ListTextTranslationJobs(; aws::AWSConfig=AWSConfig()) = translate("ListTextTranslationJobs"; aws=aws)
-ListTextTranslationJobs(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = translate("ListTextTranslationJobs", args; aws=aws)
+ListTextTranslationJobs(; aws::AWSConfig=AWS.aws_config) = translate("ListTextTranslationJobs"; aws=aws)
+ListTextTranslationJobs(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = translate("ListTextTranslationJobs", args; aws=aws)
 
 """
     StartTextTranslationJob()
@@ -100,8 +100,8 @@ Starts an asynchronous batch translation job. Batch translation jobs can be used
 - `JobName`: The name of the batch translation job to be performed.
 - `TerminologyNames`: The name of the terminology to use in the batch translation job. For a list of available terminologies, use the ListTerminologies operation.
 """
-StartTextTranslationJob(ClientToken, DataAccessRoleArn, InputDataConfig, OutputDataConfig, SourceLanguageCode, TargetLanguageCodes; aws::AWSConfig=AWSConfig()) = translate("StartTextTranslationJob", Dict{String, Any}("ClientToken"=>ClientToken, "DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "OutputDataConfig"=>OutputDataConfig, "SourceLanguageCode"=>SourceLanguageCode, "TargetLanguageCodes"=>TargetLanguageCodes); aws=aws)
-StartTextTranslationJob(ClientToken, DataAccessRoleArn, InputDataConfig, OutputDataConfig, SourceLanguageCode, TargetLanguageCodes, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = translate("StartTextTranslationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "OutputDataConfig"=>OutputDataConfig, "SourceLanguageCode"=>SourceLanguageCode, "TargetLanguageCodes"=>TargetLanguageCodes), args)); aws=aws)
+StartTextTranslationJob(ClientToken, DataAccessRoleArn, InputDataConfig, OutputDataConfig, SourceLanguageCode, TargetLanguageCodes; aws::AWSConfig=AWS.aws_config) = translate("StartTextTranslationJob", Dict{String, Any}("ClientToken"=>ClientToken, "DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "OutputDataConfig"=>OutputDataConfig, "SourceLanguageCode"=>SourceLanguageCode, "TargetLanguageCodes"=>TargetLanguageCodes); aws=aws)
+StartTextTranslationJob(ClientToken, DataAccessRoleArn, InputDataConfig, OutputDataConfig, SourceLanguageCode, TargetLanguageCodes, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = translate("StartTextTranslationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "DataAccessRoleArn"=>DataAccessRoleArn, "InputDataConfig"=>InputDataConfig, "OutputDataConfig"=>OutputDataConfig, "SourceLanguageCode"=>SourceLanguageCode, "TargetLanguageCodes"=>TargetLanguageCodes), args)); aws=aws)
 
 """
     StopTextTranslationJob()
@@ -112,8 +112,8 @@ Stops an asynchronous batch translation job that is in progress. If the job's st
 - `JobId`: The job ID of the job to be stopped.
 
 """
-StopTextTranslationJob(JobId; aws::AWSConfig=AWSConfig()) = translate("StopTextTranslationJob", Dict{String, Any}("JobId"=>JobId); aws=aws)
-StopTextTranslationJob(JobId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = translate("StopTextTranslationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws=aws)
+StopTextTranslationJob(JobId; aws::AWSConfig=AWS.aws_config) = translate("StopTextTranslationJob", Dict{String, Any}("JobId"=>JobId); aws=aws)
+StopTextTranslationJob(JobId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = translate("StopTextTranslationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws=aws)
 
 """
     TranslateText()
@@ -128,5 +128,5 @@ Translates input text from the source language to the target language. For a lis
 # Optional Parameters
 - `TerminologyNames`: The name of the terminology list file to be used in the TranslateText request. You can use 1 terminology list at most in a TranslateText request. Terminology lists can contain a maximum of 256 terms.
 """
-TranslateText(SourceLanguageCode, TargetLanguageCode, Text; aws::AWSConfig=AWSConfig()) = translate("TranslateText", Dict{String, Any}("SourceLanguageCode"=>SourceLanguageCode, "TargetLanguageCode"=>TargetLanguageCode, "Text"=>Text); aws=aws)
-TranslateText(SourceLanguageCode, TargetLanguageCode, Text, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWSConfig()) = translate("TranslateText", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceLanguageCode"=>SourceLanguageCode, "TargetLanguageCode"=>TargetLanguageCode, "Text"=>Text), args)); aws=aws)
+TranslateText(SourceLanguageCode, TargetLanguageCode, Text; aws::AWSConfig=AWS.aws_config) = translate("TranslateText", Dict{String, Any}("SourceLanguageCode"=>SourceLanguageCode, "TargetLanguageCode"=>TargetLanguageCode, "Text"=>Text); aws=aws)
+TranslateText(SourceLanguageCode, TargetLanguageCode, Text, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = translate("TranslateText", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceLanguageCode"=>SourceLanguageCode, "TargetLanguageCode"=>TargetLanguageCode, "Text"=>Text), args)); aws=aws)
