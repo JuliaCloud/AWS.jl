@@ -10,7 +10,7 @@ using Sockets
 using XMLDict
 
 export @service
-export _merge, AWSConfig, AWSExceptions, AWSServices, Request, set_aws_config, set_user_agent
+export _merge, AWSConfig, AWSExceptions, AWSServices, Request, global_aws_config, set_user_agent
 export JSONService, RestJSONService, RestXMLService, QueryService
 
 include("_utilities.jl")
@@ -25,7 +25,9 @@ using ..AWSExceptions: AWSException
 global user_agent = "AWS.jl/1.0.0"
 global aws_config = AWSConfig()
 
-set_aws_config(aws::AWSConfig) = return global aws_config = aws
+global_aws_config() = aws_config
+global_aws_config(aws::AWSConfig) = return global aws_config = aws
+
 set_user_agent(new_user_agent::String) = return global user_agent = new_user_agent
 
 macro service(module_name::Symbol)
@@ -445,7 +447,7 @@ end
 
 function (service::QueryService)(
     operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}(); 
-    aws::AWS.AWSConfig=aws_config
+    aws::AWSConfig=aws_config
 )
     POST_RESOURCE = "/"
     return_headers = _return_headers(args)
@@ -474,7 +476,7 @@ end
 
 function (service::JSONService)(
     operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}();
-    aws::AWS.AWSConfig=aws_config
+    aws::AWSConfig=aws_config
 )
     POST_RESOURCE = "/"
     return_headers = _return_headers(args)
@@ -501,7 +503,7 @@ end
 
 function (service::RestJSONService)(
     request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, String}();
-    aws::AWS.AWSConfig=aws_config
+    aws::AWSConfig=aws_config
 )
     return_headers = _return_headers(args)
 

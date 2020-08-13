@@ -17,12 +17,12 @@ end
 
 @testset "set aws config" begin
     new_aws_config = AWSConfig(AWSCredentials("access_key_id", "secret_key"), "us-east-1", "json")
-    set_aws_config(new_aws_config)
+    global_aws_config(new_aws_config)
 
     @test AWS.aws_config.credentials.access_key_id == new_aws_config.credentials.access_key_id
     @test AWS.aws_config.credentials.secret_key == new_aws_config.credentials.secret_key
 
-    set_aws_config(AWSConfig())
+    global_aws_config(AWSConfig())
 end
 
 @testset "sign" begin
