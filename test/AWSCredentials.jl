@@ -39,48 +39,6 @@ end
     )
 end
 
-@testset "NoAuth" begin
-    pub_request1 = AWS.Request(
-        service="s3",
-        api_version="2006-03-01",
-        request_method="GET",
-        headers=Dict("Range" => "bytes=0-0"),
-        content="",
-        resource="/invenia-static-website-content/invenia_ca/index.html",
-        url="https://s3.us-east-1.amazonaws.com/invenia-static-website-content/invenia_ca/index.html",
-    )
-
-    pub_request2 = AWS.Request(
-        service="s3",
-        api_version="2006-03-01",
-        request_method="GET",
-        headers=Dict("Range" => "bytes=0-0"),
-        content="",
-        resource="ryft-public-sample-data/AWS-x86-AMI-queries.json",
-        url="https://s3.amazonaws.com/ryft-public-sample-data/AWS-x86-AMI-queries.json",
-    )
-
-    try
-        response = AWS.do_request(aws, pub_request1)
-        @test response == "<"
-    catch e
-        @test_ecode(
-            ["AccessDenied", "NoSuchEntity"],
-            AWS.do_request(aws, pub_request1)
-        )
-    end
-
-    try
-        response = AWS.do_request(aws, pub_request2)
-        @test response == UInt8['[']
-    catch e
-        @test_ecode(
-            ["AccessDenied", "NoSuchEntity"],
-            AWS.do_request(aws, pub_request2)
-        )
-    end
-end
-
 @testset "AWSCredentials" begin
     @testset "Defaults" begin
         creds = AWSCredentials("access_key_id" ,"secret_key")

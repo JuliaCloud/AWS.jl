@@ -330,7 +330,7 @@ function do_request(aws::AWSConfig, request::Request; return_headers::Bool=false
     request.headers["Host"] = HTTP.URI(request.url).host
 
     @repeat 3 try
-        aws.credentials === nothing || _sign!(aws, request)
+        _sign!(aws, request)
         response = @mock _http_request(request)
 
         if response.status in REDIRECT_ERROR_CODES && HTTP.header(response, "Location") != ""
