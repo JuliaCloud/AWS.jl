@@ -10,7 +10,7 @@ using Sockets
 using XMLDict
 
 export @service
-export AWSConfig, AWSExceptions, AWSServices, Request, set_user_agent, _merge
+export _merge, AWSConfig, AWSExceptions, AWSServices, Request, global_aws_config, set_user_agent
 export JSONService, RestJSONService, RestXMLService, QueryService
 
 include("_utilities.jl")
@@ -23,6 +23,10 @@ using ..AWSExceptions
 using ..AWSExceptions: AWSException
 
 global user_agent = "AWS.jl/1.0.0"
+global aws_config = AWSConfig()
+
+global_aws_config() = aws_config
+global_aws_config(aws::AWSConfig) = return global aws_config = aws
 
 set_user_agent(new_user_agent::String) = return global user_agent = new_user_agent
 
@@ -401,7 +405,10 @@ Perform a RestXML request to AWS
 # Returns
 - The response from AWS
 """
-function (service::RestXMLService)(aws::AWSConfig, request_method::String, request_uri::String, args::AbstractDict{String, <:Any})
+function (service::RestXMLService)(
+    request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, String}(); 
+    aws::AWSConfig=aws_config
+)
     request = Request(
         service=service.name,
         api_version=service.api_version,
@@ -437,9 +444,11 @@ function (service::RestXMLService)(aws::AWSConfig, request_method::String, reque
 
     return do_request(aws, request; return_headers=return_headers)
 end
-(service::RestXMLService)(request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, Any}()) = service(AWSConfig(), request_method, request_uri, args)
 
-function (service::QueryService)(aws::AWS.AWSConfig, operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}())
+function (service::QueryService)(
+    operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}(); 
+    aws::AWSConfig=aws_config
+)
     POST_RESOURCE = "/"
     return_headers = _return_headers(args)
 
@@ -464,9 +473,11 @@ function (service::QueryService)(aws::AWS.AWSConfig, operation::String, args::Ab
 
     do_request(aws, request; return_headers=return_headers)
 end
-(service::QueryService)(operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}()) = service(AWSConfig(), operation, args)
 
-function (service::JSONService)(aws::AWS.AWSConfig, operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}())
+function (service::JSONService)(
+    operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}();
+    aws::AWSConfig=aws_config
+)
     POST_RESOURCE = "/"
     return_headers = _return_headers(args)
 
@@ -489,13 +500,10 @@ function (service::JSONService)(aws::AWS.AWSConfig, operation::String, args::Abs
 
     do_request(aws, request; return_headers=return_headers)
 end
-(service::JSONService)(operation::String, args::AbstractDict{String, <:Any}=Dict{String, String}()) = service(AWSConfig(), operation, args)
 
 function (service::RestJSONService)(
-    aws::AWS.AWSConfig,
-    request_method::String,
-    request_uri::String,
-    args::AbstractDict{String, <:Any},
+    request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, String}();
+    aws::AWSConfig=aws_config
 )
     return_headers = _return_headers(args)
 
@@ -527,6 +535,5 @@ function (service::RestJSONService)(
 
     do_request(aws, request; return_headers=return_headers)
 end
-(service::RestJSONService)(request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, Any}()) = service(AWSConfig(), request_method, request_uri, args)
 
 end  # module AWS

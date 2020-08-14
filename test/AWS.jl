@@ -7,12 +7,22 @@ end
     @test :S3 in names(Main)
 end
 
-@testset "User Agent" begin
+@testset "set user agent" begin
     new_user_agent = "new user agent"
 
     @test AWS.user_agent == "AWS.jl/1.0.0"
     set_user_agent(new_user_agent)
     @test AWS.user_agent == new_user_agent
+end
+
+@testset "set aws config" begin
+    new_aws_config = AWSConfig(AWSCredentials("access_key_id", "secret_key"), "us-east-1", "json")
+    global_aws_config(new_aws_config)
+
+    @test AWS.aws_config.credentials.access_key_id == new_aws_config.credentials.access_key_id
+    @test AWS.aws_config.credentials.secret_key == new_aws_config.credentials.secret_key
+
+    global_aws_config(AWSConfig())
 end
 
 @testset "sign" begin

@@ -52,7 +52,7 @@ function aws_account_number(aws::AWSConfig)
 end
 
 function _update_creds!(aws::AWSConfig)
-    r = AWSServices.sts(aws, "GetCallerIdentity")
+    r = AWSServices.sts("GetCallerIdentity"; aws=aws)
     r = r["GetCallerIdentityResponse"]["GetCallerIdentityResult"]
     creds = aws.credentials
 

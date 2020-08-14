@@ -490,9 +490,9 @@ function _aws_get_role(role::AbstractString, ini::Inifile)
     config = AWSConfig(creds=credentials, region=aws_get_region(source_profile, ini))
 
     role = AWSServices.sts(
-        config,
         "AssumeRole",
-        LittleDict("RoleArn" => role_arn, "RoleSessionName" => replace(role, r"[^\w+=,.@-]" => s"-"))
+        LittleDict("RoleArn" => role_arn, "RoleSessionName" => replace(role, r"[^\w+=,.@-]" => s"-"));
+        aws=config
     )
 
     role_creds = role["Credentials"]
