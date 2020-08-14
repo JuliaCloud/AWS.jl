@@ -4,8 +4,8 @@ os:
 - osx
 - windows
 julia:
-- 1.0
-- 1
+- 1.0  # LTS
+- 1  # Latest
 - nightly
 matrix:
   allow_failures:

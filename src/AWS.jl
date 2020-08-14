@@ -25,11 +25,77 @@ using ..AWSExceptions: AWSException
 global user_agent = "AWS.jl/1.0.0"
 global aws_config = AWSConfig()
 
+"""
+    global_aws_config()
+
+Retrieve the global AWS configuration.
+
+# Returns
+- `AWSConfig`: The global AWS configuration
+"""
 global_aws_config() = aws_config
+
+"""
+    global_aws_config(aws::AWSConfig)
+
+Set the global AWS configuration and return it.
+
+# Arguments
+- `aws::AWSConfig`: The new AWS configuration to be used globally
+
+# Returns
+- `AWSConfig`: The global AWS configuration
+"""
 global_aws_config(aws::AWSConfig) = return global aws_config = aws
 
+
+"""
+    set_user_agent(new_user_agent::String)
+
+Set the global user agent when making HTTP requests.
+
+# Arguments
+- `new_user_agent::String`: User agent to set when making HTTP requests
+
+# Return
+- `String`: The global user agent
+"""
 set_user_agent(new_user_agent::String) = return global user_agent = new_user_agent
 
+
+"""
+    macro service(module_name::Symbol)
+
+Include a high-level service wrapper based off of the module_name parameter.
+
+When calling the macro you cannot match the predefined constant for the lowl level API.
+The low level API constants are named in all lowercase, and spaces replaced with underscores.
+
+Examples:
+```julia
+using AWS.AWSServices: secrets_manager
+using AWS: @service
+
+# This matches the constant and will error!
+@service secrets_manager
+> ERROR: cannot assign a value to variable AWSServices.secrets_manager from module Main
+
+# This does NOT match the filename structure and will error!
+@service secretsmanager
+> ERROR: could not open file /.julia/dev/AWS.jl/src/services/secretsmanager.jl
+
+# All of the examples below are valid!
+@service Secrets_Manager
+@service SECRETS_MANAGER
+@service sECRETS_MANAGER
+```
+
+# Arguments
+- `module_name::Symbol`: Name of the service to include high-level API wrappers in your namespace
+
+# Return
+- `Expression`: Base.include() call to introduce the high-level service API wrapper functions in your namespace
+"""
 macro service(module_name::Symbol)
     service_name = joinpath(@__DIR__, "services", lowercase(string(module_name)) * ".jl")
 
@@ -86,8 +152,8 @@ end
 # Needs to be included after the definition of struct otherwise it cannot find them
 include("AWSServices.jl")
 
-http_status(e::HTTP.StatusError) = e.status
-header(e::HTTP.StatusError, k, d="") = HTTP.header(e.response, k, d)
+_http_status(e::HTTP.StatusError) = e.status
+_header(e::HTTP.StatusError, k, d="") = HTTP.header(e.response, k, d)
 
 function _sign!(aws::AWSConfig, request::Request; time::DateTime=now(Dates.UTC))
     if request.service in ("sdb", "importexport")
@@ -201,7 +267,7 @@ function _sign_aws4!(aws::AWSConfig, request::Request, time::DateTime)
     return request
 end
 
-function _http_request(aws::AWSConfig, request::Request)
+function _http_request(request::Request)
     @repeat 4 try
         http_stack = HTTP.stack(redirect=false, retry=false, aws_authorization=false)
 
@@ -223,11 +289,26 @@ function _http_request(aws::AWSConfig, request::Request)
                         isa(e, HTTP.ParseError) ||
                         isa(e, HTTP.IOError) ||
                         isa(e, Base.IOError) ||
-                        (isa(e, HTTP.StatusError) && http_status(e) >= 500)
+                        (isa(e, HTTP.StatusError) && _http_status(e) >= 500)
         end
     end
 end
 
+"""
+    do_request(aws::AWSConfig, request::Request; return_headers::Bool=false)
+
+Submit the request to AWS.
+
+# Arguments
+- `aws::AWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
+- `request::Request`: All the information about making a request to AWS
+
+# Keywords
+- `return_headers::Bool=false`: True if you want the headers from the response returned back
+
+# Returns
+- `Tuple or Dict`: Tuple if returning_headers, otherwise just return a Dict of the response body
+"""
 function do_request(aws::AWSConfig, request::Request; return_headers::Bool=false)
     response = nothing
     TOO_MANY_REQUESTS = 429
@@ -250,11 +331,10 @@ function do_request(aws::AWSConfig, request::Request; return_headers::Bool=false
 
     @repeat 3 try
         aws.credentials === nothing || _sign!(aws, request)
-        response = @mock _http_request(aws, request)
+        response = @mock _http_request(request)
 
         if response.status in REDIRECT_ERROR_CODES && HTTP.header(response, "Location") != ""
             request.url = HTTP.header(response, "Location")
-            continue
         end
     catch e
         if e isa HTTP.StatusError
@@ -273,12 +353,12 @@ function do_request(aws::AWSConfig, request::Request; return_headers::Bool=false
         # https://github.com/boto/botocore/blob/1.16.17/botocore/data/_retry.json
         # https://docs.aws.amazon.com/general/latest/gr/api-retries.html
         @delay_retry if e isa AWSException &&
-            (http_status(e.cause) == TOO_MANY_REQUESTS || ecode(e) in THROTTLING_ERROR_CODES)
+            (_http_status(e.cause) == TOO_MANY_REQUESTS || ecode(e) in THROTTLING_ERROR_CODES)
         end
 
         # Handle BadDigest error and CRC32 check sum failure
         @retry if e isa AWSException && (
-            header(e.cause, "crc32body") == "x-amz-crc32" ||
+            _header(e.cause, "crc32body") == "x-amz-crc32" ||
             ecode(e) in ("BadDigest", "RequestTimeout", "RequestTimeoutException")
         )
         end
@@ -387,23 +467,22 @@ end
 
 """
     (service::RestXMLService)(
-        aws::AWSConfig, request_method::String, request_uri::String, args=[];
-        return_headers=false,
+        request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, String}(); 
+        aws::AWSConfig=aws_config
     )
 
-Perform a RestXML request to AWS
+Perform a RestXML request to AWS.
 
 # Arguments
-- aws::AWSConfig: AWSConfig containing credentials and other information for fulfilling the request
-- request_method::String: RESTful request type, e.g.: `GET`, `HEAD`, `PUT`, etc.
-- request_uri::String: AWS URI for the endpoint
-- args::Array: Additional arguments to be included in the request
+- `request_method::String`: RESTful request type, e.g.: `GET`, `HEAD`, `PUT`, etc.
+- `request_uri::String`: AWS URI for the endpoint
+- `args::AbstractDict{String, <:Any}`: Additional arguments to be included in the request
 
 # Keywords
-- return_headers::Bool=false: Return the AWS response headers or not
+- `aws::AWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
 
 # Returns
-- The response from AWS
+- `Tuple or Dict`: If `return_headers` is passed in through `args` a Tuple containing the Headers and Response will be returned, otherwise just a Dict
 """
 function (service::RestXMLService)(
     request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, String}(); 
@@ -445,6 +524,25 @@ function (service::RestXMLService)(
     return do_request(aws, request; return_headers=return_headers)
 end
 
+
+"""
+    (service::QueryService)(
+        operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}(); 
+        aws::AWSConfig=aws_config
+    )
+
+Perform a Query request to AWS.
+
+# Arguments
+- `operation::String`:
+- `args::AbstractDict{String, <:Any}`: Additional arguments to be included in the request
+
+# Keywords
+- `aws::AWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
+
+# Returns
+- `Tuple or Dict`: If `return_headers` is passed in through `args` a Tuple containing the Headers and Response will be returned, otherwise just a Dict
+"""
 function (service::QueryService)(
     operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}(); 
     aws::AWSConfig=aws_config
@@ -474,6 +572,24 @@ function (service::QueryService)(
     do_request(aws, request; return_headers=return_headers)
 end
 
+"""
+    (service::JSONService)(
+        operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}();
+        aws::AWSConfig=aws_config
+    )
+
+Perform a JSON request to AWS.
+
+# Arguments
+- `operation::String`: Name of the operation to perform
+- `args::AbstractDict{String, <:Any}`: Additional arguments to be included in the request
+
+# Keywords
+- `aws::AWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
+
+# Returns
+- `Tuple or Dict`: If `return_headers` is passed in through `args` a Tuple containing the Headers and Response will be returned, otherwise just a Dict
+"""
 function (service::JSONService)(
     operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}();
     aws::AWSConfig=aws_config
@@ -501,6 +617,25 @@ function (service::JSONService)(
     do_request(aws, request; return_headers=return_headers)
 end
 
+"""
+    (service::RestJSONService)(
+        request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, String}();
+        aws::AWSConfig=aws_config
+    )
+
+Perform a RestJSON request to AWS.
+
+# Arguments
+- `request_method::String`: RESTful request type, e.g.: `GET`, `HEAD`, `PUT`, etc.
+- `request_uri::String`: AWS URI for the endpoint
+- `args::AbstractDict{String, <:Any}`: Additional arguments to be included in the request
+
+# Keywords
+- `aws::AWSConfig`: AWSConfig containing credentials and other information for fulfilling the request, default value is the global configuration
+
+# Returns
+- `Tuple or Dict`: If `return_headers` is passed in through `args` a Tuple containing the Headers and Response will be returned, otherwise just a Dict
+"""
 function (service::RestJSONService)(
     request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, String}();
     aws::AWSConfig=aws_config

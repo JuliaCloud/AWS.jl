@@ -1,0 +1,35 @@
+{
+    
+    "glacier": {
+        "apiVersion": "2012-06-01",
+        "endpointPrefix": "glacier",
+        "protocol": "rest-json",
+        "serviceId": "Glacier"
+    },
+    "s3": {
+        "apiVersion": "2006-03-01",
+        "endpointPrefix": "s3",
+        "protocol": "rest-xml",
+        "serviceId": "S3"
+    },
+    "ec2": {
+        "apiVersion": "2016-11-15",
+        "endpointPrefix": "ec2",
+        "protocol": "ec2",
+        "serviceId": "EC2"
+    },
+    "budgets": {
+        "apiVersion": "2016-10-20",
+        "endpointPrefix": "budgets",
+        "jsonVersion": "1.1",
+        "protocol": "json",
+        "serviceId": "Budgets",
+        "targetPrefix": "AWSBudgetServiceGateway"
+    },
+    "invalid": {
+        "apiVersion": "",
+        "endpointPrefix": "",
+        "protocol": "invalid",
+        "serviceId": ""
+    }
+}

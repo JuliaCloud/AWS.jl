@@ -471,13 +471,15 @@ function _generate_high_level_definition(
     end
 
     """
-        _generate_json_query_operation_definition()
+        _generate_json_query_operation_definition(required_params::AbstractDict, optional_params::AbstractDict, function_name::String, service_name::String)
+
+    Generate a JSON/Query high level definition.
 
     # Arguments
-    - `required_params::AbstractDict`:
-    - `optional_params::AbstractDict`:
-    - `function_name::String`:
-    - `service_name`: 
+    - `required_params::AbstractDict`: Required parameters for the function
+    - `optional_params::AbstractDict`: Optional parmaeters for the function
+    - `function_name::String`: Name of the function to generate code
+    - `service_name`: Name of the service associated with the function
 
     # Returns
     - `String`: Function definition as Julia code
@@ -522,10 +524,10 @@ function _generate_high_level_definition(
     Generate the docstring for the `function_name`.
     
     # Arguments
-    - `function_name`: 
-    - `documentation`: 
-    - `required_parameters`: 
-    - `optional_parameters`: 
+    - `function_name`: Name of the function
+    - `documentation`: Documentation associated with the function
+    - `required_parameters`: Required parameters for the function
+    - `optional_parameters`: Optional parameters for the function
 
     # Returns
     - `String`: Docstring for the function

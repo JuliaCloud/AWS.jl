@@ -1,6 +1,6 @@
 @testset "_get_aws_sdk_js_files" begin
     files = _get_aws_sdk_js_files()
-    @test files != nothing
+    @test !isempty(files)
 end
 
 @testset "_filter_latest_service_version" begin
@@ -56,7 +56,39 @@ end
 end
 
 @testset "_generate_low_level_definitions" begin
-    # one full example, e.g. s3
+    services = JSON.parsefile(joinpath(@__DIR__, "resources/services.json"))
+
+    @testset "rest-xml" begin
+        expected = "const s3 = AWS.RestXMLService(\"s3\", \"2006-03-01\")"
+        response = _generate_low_level_definition(services["s3"])
+
+        @test expected == response
+    end
+
+    @testset "rest-json" begin
+        expected = "const glacier = AWS.RestJSONService(\"glacier\", \"2012-06-01\", LittleDict(\"x-amz-glacier-version\" => \"2012-06-01\"))"
+        response = _generate_low_level_definition(services["glacier"])
+
+        @test expected == response
+    end
+
+    @testset "ec2 / query" begin
+        expected = "const ec2 = AWS.QueryService(\"ec2\", \"2016-11-15\")"
+        response = _generate_low_level_definition(services["ec2"])
+
+        @test expected == response
+    end
+
+    @testset "json" begin
+        expected = "const budgets = AWS.JSONService(\"budgets\", \"2016-10-20\", \"1.1\", \"AWSBudgetServiceGateway\")"
+        response = _generate_low_level_definition(services["budgets"])
+
+        @test expected == response
+    end
+
+    @testset "invalid protocol" begin
+        @test_throws ProtocolNotDefined _generate_low_level_definition(services["invalid"])
+    end
 end
 
 @testset "_generate_low_level_definition" begin
