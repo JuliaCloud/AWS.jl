@@ -73,6 +73,7 @@ Resources:
               - glacier:AddTagsToVault
               - glacier:CreateVault
               - glacier:DeleteVault
+              - ListTagsForVault
             Resource:
               - !Sub arn:aws:glacier:*:${AWS::AccountId}:vaults/aws-jl-test-*
           - Effect: Allow

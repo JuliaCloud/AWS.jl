@@ -1,3 +1,11 @@
+function _clean_high_level_definition(definition::String)
+    # Required post Julia1.5 with how triple quoted strings are dealt with.
+    definition = replace(definition, " "=>"")
+    definition = replace(definition, "\n"=>"")
+
+    return definition
+end
+
 @testset "_get_aws_sdk_js_files" begin
     files = _get_aws_sdk_js_files()
     @test !isempty(files)
@@ -270,8 +278,12 @@ end
         shapes
     )
 
-    @test expected_result == result[1]
     @test size(result)[1] == 1
+
+    expected_result = _clean_high_level_definition(expected_result)
+    result = _clean_high_level_definition(result[1])
+    
+    @test expected_result == result
 end
 
 @testset "_generate_high_level_definition" begin
@@ -314,6 +326,9 @@ end
                 documentation
             )
 
+            expected_result = _clean_high_level_definition(expected_result)
+            result = _clean_high_level_definition(result)
+            
             @test expected_result == result
         end
 
@@ -346,6 +361,9 @@ end
                 documentation
             )
 
+            expected_result = _clean_high_level_definition(expected_result)
+            result = _clean_high_level_definition(result)
+            
             @test expected_result == result
         end
     end
@@ -382,6 +400,9 @@ end
                 documentation
             )
 
+            expected_result = _clean_high_level_definition(expected_result)
+            result = _clean_high_level_definition(result)
+            
             @test expected_result == result
         end
 
@@ -413,7 +434,10 @@ end
                 optional_params,
                 documentation
             )
-
+            
+            expected_result = _clean_high_level_definition(expected_result)
+            result = _clean_high_level_definition(result)
+            
             @test expected_result == result
         end
     end

@@ -62,9 +62,3 @@ end
 
     @test expected == AWS._merge("a", "b")
 end
-
-@testset "mergewith(_merge) - AbstractString" begin
-    expected = "b"
-
-    @test expected ==  mergewith(AWS._merge, "a", "b")
-end
