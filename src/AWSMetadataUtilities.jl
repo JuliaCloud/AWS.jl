@@ -421,7 +421,8 @@ function _generate_high_level_definition(
         request_uri = replace(request_uri, '}' => ')')  # Replace } with )
         request_uri = replace(request_uri, '+' => "")  # Remove + from the request URI
 
-        req_keys = replace.(collect(keys(required_params)), "-" => "_")
+        # Pre Julia-1.3 workaround
+        req_keys = [replace(key, "-"=>"_") for key in collect(keys(required_params))]
         
         required_params = filter(p -> (p[2]["location"] != "uri"), required_params)
         header_params = filter(p -> (p[2]["location"] == "header"), required_params)
@@ -485,7 +486,7 @@ function _generate_high_level_definition(
     - `String`: Function definition as Julia code
     """
     function _generate_json_query_opeation_definition(required_params::AbstractDict, optional_params::AbstractDict, function_name::String, service_name::String)
-        req_keys = replace.(collect(keys(required_params)), "-" => "_")
+        req_keys = [replace(key, "-"=>"_") for key in collect(keys(required_params))]
 
         idempotent_params = filter(p -> (p[2]["idempotent"]), optional_params)
 

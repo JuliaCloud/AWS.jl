@@ -70,6 +70,7 @@ Resources:
         Statement:
           - Effect: Allow
             Action:
+              - glacier:AddTagsToVault
               - glacier:CreateVault
               - glacier:DeleteVault
             Resource:
