@@ -7,8 +7,12 @@ function _clean_high_level_definition(definition::String)
 end
 
 @testset "_get_aws_sdk_js_files" begin
-    files = _get_aws_sdk_js_files()
-    @test !isempty(files)
+    apply(Patches._http_get_patch) do
+        files = _get_aws_sdk_js_files()
+
+        @test length(files) == 1
+        @test files[1] == OrderedDict("name" => "test-2020-01-01.normal.json")
+    end
 end
 
 @testset "_filter_latest_service_version" begin
