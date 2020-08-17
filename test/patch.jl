@@ -50,8 +50,23 @@ function _response!(; version::VersionNumber=version, status::Int64=status, head
     return response
 end
 
-_http_request_patch = @patch function AWS._http_request(request::Request)
+_aws_http_request_patch = @patch function AWS._http_request(request::Request)
     return response
+end
+
+
+aws_sdk_files =
+    """
+    [
+        {"name": "test-2020-01-01.normal.json"},
+        {"name": "test-2020-01-01.min.json"},
+        {"name": "test-2020-01-01.paginators.json"},
+        {"name": "test-2020-01-01.examples.json"}
+    ]
+    """
+
+_http_get_patch = @patch function HTTP.get(url::String, headers)
+    return HTTP.Response(200, aws_sdk_files)
 end
 
 end

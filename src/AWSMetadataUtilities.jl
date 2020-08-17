@@ -6,6 +6,7 @@ using .AWSExceptions
 using OrderedCollections: OrderedDict, LittleDict
 using HTTP
 using JSON
+using Mocking
 
 
 """
@@ -20,7 +21,7 @@ function _get_aws_sdk_js_files()
     headers = ["User-Agent" => "JuliaCloud/AWS.jl"]
     url = "https://api.github.com/repos/aws/aws-sdk-js/contents/apis"
 
-    req = HTTP.get(url, headers)
+    req = @mock HTTP.get(url, headers)
     files = JSON.parse(String(req.body), dicttype=OrderedDict)
     filter!(f -> endswith(f["name"], ".normal.json"), files)  # Only get ${Service}.normal.json files
     files = _filter_latest_service_version(files)
