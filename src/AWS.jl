@@ -486,7 +486,7 @@ Perform a RestXML request to AWS.
 """
 function (service::RestXMLService)(
     request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, String}(); 
-    aws_config::AWSConfig=aws_config
+    aws_config::AWSConfig=aws_config,
 )
     request = Request(
         service=service.name,
@@ -545,7 +545,7 @@ Perform a Query request to AWS.
 """
 function (service::QueryService)(
     operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}(); 
-    aws_config::AWSConfig=aws_config
+    aws_config::AWSConfig=aws_config,
 )
     POST_RESOURCE = "/"
     return_headers = _return_headers(args)
@@ -592,7 +592,7 @@ Perform a JSON request to AWS.
 """
 function (service::JSONService)(
     operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}();
-    aws_config::AWSConfig=aws_config
+    aws_config::AWSConfig=aws_config,
 )
     POST_RESOURCE = "/"
     return_headers = _return_headers(args)
@@ -638,7 +638,7 @@ Perform a RestJSON request to AWS.
 """
 function (service::RestJSONService)(
     request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, String}();
-    aws_config::AWSConfig=aws_config
+    aws_config::AWSConfig=aws_config,
 )
     return_headers = _return_headers(args)
 
