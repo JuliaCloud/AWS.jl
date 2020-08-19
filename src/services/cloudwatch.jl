@@ -14,8 +14,8 @@ Deletes the specified alarms. You can delete up to 100 alarms in one operation. 
 
 """
 
-DeleteAlarms(AlarmNames; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("DeleteAlarms", Dict{String, Any}("AlarmNames"=>AlarmNames); aws_config=aws_config)
-DeleteAlarms(AlarmNames, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("DeleteAlarms", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlarmNames"=>AlarmNames), args)); aws_config=aws_config)
+DeleteAlarms(AlarmNames; aws_config::AWSConfig=global_aws_config()) = cloudwatch("DeleteAlarms", Dict{String, Any}("AlarmNames"=>AlarmNames); aws_config=aws_config)
+DeleteAlarms(AlarmNames, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch("DeleteAlarms", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlarmNames"=>AlarmNames), args)); aws_config=aws_config)
 
 """
     DeleteAnomalyDetector()
@@ -31,8 +31,8 @@ Deletes the specified anomaly detection model from your account.
 - `Dimensions`: The metric dimensions associated with the anomaly detection model to delete.
 """
 
-DeleteAnomalyDetector(MetricName, Namespace, Stat; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("DeleteAnomalyDetector", Dict{String, Any}("MetricName"=>MetricName, "Namespace"=>Namespace, "Stat"=>Stat); aws_config=aws_config)
-DeleteAnomalyDetector(MetricName, Namespace, Stat, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("DeleteAnomalyDetector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricName"=>MetricName, "Namespace"=>Namespace, "Stat"=>Stat), args)); aws_config=aws_config)
+DeleteAnomalyDetector(MetricName, Namespace, Stat; aws_config::AWSConfig=global_aws_config()) = cloudwatch("DeleteAnomalyDetector", Dict{String, Any}("MetricName"=>MetricName, "Namespace"=>Namespace, "Stat"=>Stat); aws_config=aws_config)
+DeleteAnomalyDetector(MetricName, Namespace, Stat, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch("DeleteAnomalyDetector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricName"=>MetricName, "Namespace"=>Namespace, "Stat"=>Stat), args)); aws_config=aws_config)
 
 """
     DeleteDashboards()
@@ -44,8 +44,8 @@ Deletes all dashboards that you specify. You can specify up to 100 dashboards to
 
 """
 
-DeleteDashboards(DashboardNames; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("DeleteDashboards", Dict{String, Any}("DashboardNames"=>DashboardNames); aws_config=aws_config)
-DeleteDashboards(DashboardNames, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("DeleteDashboards", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DashboardNames"=>DashboardNames), args)); aws_config=aws_config)
+DeleteDashboards(DashboardNames; aws_config::AWSConfig=global_aws_config()) = cloudwatch("DeleteDashboards", Dict{String, Any}("DashboardNames"=>DashboardNames); aws_config=aws_config)
+DeleteDashboards(DashboardNames, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch("DeleteDashboards", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DashboardNames"=>DashboardNames), args)); aws_config=aws_config)
 
 """
     DeleteInsightRules()
@@ -57,8 +57,8 @@ Permanently deletes the specified Contributor Insights rules. If you create a ru
 
 """
 
-DeleteInsightRules(RuleNames; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("DeleteInsightRules", Dict{String, Any}("RuleNames"=>RuleNames); aws_config=aws_config)
-DeleteInsightRules(RuleNames, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("DeleteInsightRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleNames"=>RuleNames), args)); aws_config=aws_config)
+DeleteInsightRules(RuleNames; aws_config::AWSConfig=global_aws_config()) = cloudwatch("DeleteInsightRules", Dict{String, Any}("RuleNames"=>RuleNames); aws_config=aws_config)
+DeleteInsightRules(RuleNames, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch("DeleteInsightRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleNames"=>RuleNames), args)); aws_config=aws_config)
 
 """
     DescribeAlarmHistory()
@@ -76,8 +76,8 @@ Retrieves the history for the specified alarm. You can filter the results by dat
 - `StartDate`: The starting date to retrieve alarm history.
 """
 
-DescribeAlarmHistory(; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("DescribeAlarmHistory"; aws_config=aws_config)
-DescribeAlarmHistory(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("DescribeAlarmHistory", args; aws_config=aws_config)
+DescribeAlarmHistory(; aws_config::AWSConfig=global_aws_config()) = cloudwatch("DescribeAlarmHistory"; aws_config=aws_config)
+DescribeAlarmHistory(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch("DescribeAlarmHistory", args; aws_config=aws_config)
 
 """
     DescribeAlarms()
@@ -96,8 +96,8 @@ Retrieves the specified alarms. You can filter the results by specifying a a pre
 - `StateValue`: Specify this parameter to receive information only about alarms that are currently in the state that you specify.
 """
 
-DescribeAlarms(; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("DescribeAlarms"; aws_config=aws_config)
-DescribeAlarms(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("DescribeAlarms", args; aws_config=aws_config)
+DescribeAlarms(; aws_config::AWSConfig=global_aws_config()) = cloudwatch("DescribeAlarms"; aws_config=aws_config)
+DescribeAlarms(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch("DescribeAlarms", args; aws_config=aws_config)
 
 """
     DescribeAlarmsForMetric()
@@ -116,8 +116,8 @@ Retrieves the alarms for the specified metric. To filter the results, specify a 
 - `Unit`: The unit for the metric.
 """
 
-DescribeAlarmsForMetric(MetricName, Namespace; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("DescribeAlarmsForMetric", Dict{String, Any}("MetricName"=>MetricName, "Namespace"=>Namespace); aws_config=aws_config)
-DescribeAlarmsForMetric(MetricName, Namespace, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("DescribeAlarmsForMetric", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricName"=>MetricName, "Namespace"=>Namespace), args)); aws_config=aws_config)
+DescribeAlarmsForMetric(MetricName, Namespace; aws_config::AWSConfig=global_aws_config()) = cloudwatch("DescribeAlarmsForMetric", Dict{String, Any}("MetricName"=>MetricName, "Namespace"=>Namespace); aws_config=aws_config)
+DescribeAlarmsForMetric(MetricName, Namespace, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch("DescribeAlarmsForMetric", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricName"=>MetricName, "Namespace"=>Namespace), args)); aws_config=aws_config)
 
 """
     DescribeAnomalyDetectors()
@@ -132,8 +132,8 @@ Lists the anomaly detection models that you have created in your account. You ca
 - `NextToken`: Use the token returned by the previous operation to request the next page of results.
 """
 
-DescribeAnomalyDetectors(; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("DescribeAnomalyDetectors"; aws_config=aws_config)
-DescribeAnomalyDetectors(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("DescribeAnomalyDetectors", args; aws_config=aws_config)
+DescribeAnomalyDetectors(; aws_config::AWSConfig=global_aws_config()) = cloudwatch("DescribeAnomalyDetectors"; aws_config=aws_config)
+DescribeAnomalyDetectors(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch("DescribeAnomalyDetectors", args; aws_config=aws_config)
 
 """
     DescribeInsightRules()
@@ -145,8 +145,8 @@ Returns a list of all the Contributor Insights rules in your account. All rules 
 - `NextToken`: Reserved for future use.
 """
 
-DescribeInsightRules(; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("DescribeInsightRules"; aws_config=aws_config)
-DescribeInsightRules(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("DescribeInsightRules", args; aws_config=aws_config)
+DescribeInsightRules(; aws_config::AWSConfig=global_aws_config()) = cloudwatch("DescribeInsightRules"; aws_config=aws_config)
+DescribeInsightRules(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch("DescribeInsightRules", args; aws_config=aws_config)
 
 """
     DisableAlarmActions()
@@ -158,8 +158,8 @@ Disables the actions for the specified alarms. When an alarm's actions are disab
 
 """
 
-DisableAlarmActions(AlarmNames; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("DisableAlarmActions", Dict{String, Any}("AlarmNames"=>AlarmNames); aws_config=aws_config)
-DisableAlarmActions(AlarmNames, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("DisableAlarmActions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlarmNames"=>AlarmNames), args)); aws_config=aws_config)
+DisableAlarmActions(AlarmNames; aws_config::AWSConfig=global_aws_config()) = cloudwatch("DisableAlarmActions", Dict{String, Any}("AlarmNames"=>AlarmNames); aws_config=aws_config)
+DisableAlarmActions(AlarmNames, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch("DisableAlarmActions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlarmNames"=>AlarmNames), args)); aws_config=aws_config)
 
 """
     DisableInsightRules()
@@ -171,8 +171,8 @@ Disables the specified Contributor Insights rules. When rules are disabled, they
 
 """
 
-DisableInsightRules(RuleNames; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("DisableInsightRules", Dict{String, Any}("RuleNames"=>RuleNames); aws_config=aws_config)
-DisableInsightRules(RuleNames, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("DisableInsightRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleNames"=>RuleNames), args)); aws_config=aws_config)
+DisableInsightRules(RuleNames; aws_config::AWSConfig=global_aws_config()) = cloudwatch("DisableInsightRules", Dict{String, Any}("RuleNames"=>RuleNames); aws_config=aws_config)
+DisableInsightRules(RuleNames, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch("DisableInsightRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleNames"=>RuleNames), args)); aws_config=aws_config)
 
 """
     EnableAlarmActions()
@@ -184,8 +184,8 @@ Enables the actions for the specified alarms.
 
 """
 
-EnableAlarmActions(AlarmNames; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("EnableAlarmActions", Dict{String, Any}("AlarmNames"=>AlarmNames); aws_config=aws_config)
-EnableAlarmActions(AlarmNames, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("EnableAlarmActions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlarmNames"=>AlarmNames), args)); aws_config=aws_config)
+EnableAlarmActions(AlarmNames; aws_config::AWSConfig=global_aws_config()) = cloudwatch("EnableAlarmActions", Dict{String, Any}("AlarmNames"=>AlarmNames); aws_config=aws_config)
+EnableAlarmActions(AlarmNames, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch("EnableAlarmActions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlarmNames"=>AlarmNames), args)); aws_config=aws_config)
 
 """
     EnableInsightRules()
@@ -197,8 +197,8 @@ Enables the specified Contributor Insights rules. When rules are enabled, they i
 
 """
 
-EnableInsightRules(RuleNames; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("EnableInsightRules", Dict{String, Any}("RuleNames"=>RuleNames); aws_config=aws_config)
-EnableInsightRules(RuleNames, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("EnableInsightRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleNames"=>RuleNames), args)); aws_config=aws_config)
+EnableInsightRules(RuleNames; aws_config::AWSConfig=global_aws_config()) = cloudwatch("EnableInsightRules", Dict{String, Any}("RuleNames"=>RuleNames); aws_config=aws_config)
+EnableInsightRules(RuleNames, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch("EnableInsightRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleNames"=>RuleNames), args)); aws_config=aws_config)
 
 """
     GetDashboard()
@@ -210,8 +210,8 @@ Displays the details of the dashboard that you specify. To copy an existing dash
 
 """
 
-GetDashboard(DashboardName; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("GetDashboard", Dict{String, Any}("DashboardName"=>DashboardName); aws_config=aws_config)
-GetDashboard(DashboardName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("GetDashboard", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DashboardName"=>DashboardName), args)); aws_config=aws_config)
+GetDashboard(DashboardName; aws_config::AWSConfig=global_aws_config()) = cloudwatch("GetDashboard", Dict{String, Any}("DashboardName"=>DashboardName); aws_config=aws_config)
+GetDashboard(DashboardName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch("GetDashboard", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DashboardName"=>DashboardName), args)); aws_config=aws_config)
 
 """
     GetInsightRuleReport()
@@ -230,8 +230,8 @@ This operation returns the time series data collected by a Contributor Insights 
 - `OrderBy`: Determines what statistic to use to rank the contributors. Valid values are SUM and MAXIMUM.
 """
 
-GetInsightRuleReport(EndTime, Period, RuleName, StartTime; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("GetInsightRuleReport", Dict{String, Any}("EndTime"=>EndTime, "Period"=>Period, "RuleName"=>RuleName, "StartTime"=>StartTime); aws_config=aws_config)
-GetInsightRuleReport(EndTime, Period, RuleName, StartTime, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("GetInsightRuleReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "Period"=>Period, "RuleName"=>RuleName, "StartTime"=>StartTime), args)); aws_config=aws_config)
+GetInsightRuleReport(EndTime, Period, RuleName, StartTime; aws_config::AWSConfig=global_aws_config()) = cloudwatch("GetInsightRuleReport", Dict{String, Any}("EndTime"=>EndTime, "Period"=>Period, "RuleName"=>RuleName, "StartTime"=>StartTime); aws_config=aws_config)
+GetInsightRuleReport(EndTime, Period, RuleName, StartTime, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch("GetInsightRuleReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "Period"=>Period, "RuleName"=>RuleName, "StartTime"=>StartTime), args)); aws_config=aws_config)
 
 """
     GetMetricData()
@@ -249,8 +249,8 @@ You can use the GetMetricData API to retrieve as many as 500 different metrics i
 - `ScanBy`: The order in which data points should be returned. TimestampDescending returns the newest data first and paginates when the MaxDatapoints limit is reached. TimestampAscending returns the oldest data first and paginates when the MaxDatapoints limit is reached.
 """
 
-GetMetricData(EndTime, MetricDataQueries, StartTime; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("GetMetricData", Dict{String, Any}("EndTime"=>EndTime, "MetricDataQueries"=>MetricDataQueries, "StartTime"=>StartTime); aws_config=aws_config)
-GetMetricData(EndTime, MetricDataQueries, StartTime, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("GetMetricData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "MetricDataQueries"=>MetricDataQueries, "StartTime"=>StartTime), args)); aws_config=aws_config)
+GetMetricData(EndTime, MetricDataQueries, StartTime; aws_config::AWSConfig=global_aws_config()) = cloudwatch("GetMetricData", Dict{String, Any}("EndTime"=>EndTime, "MetricDataQueries"=>MetricDataQueries, "StartTime"=>StartTime); aws_config=aws_config)
+GetMetricData(EndTime, MetricDataQueries, StartTime, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch("GetMetricData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "MetricDataQueries"=>MetricDataQueries, "StartTime"=>StartTime), args)); aws_config=aws_config)
 
 """
     GetMetricStatistics()
@@ -271,8 +271,8 @@ Gets statistics for the specified metric. The maximum number of data points retu
 - `Unit`: The unit for a given metric. If you omit Unit, all data that was collected with any unit is returned, along with the corresponding units that were specified when the data was reported to CloudWatch. If you specify a unit, the operation returns only data that was collected with that unit specified. If you specify a unit that does not match the data collected, the results of the operation are null. CloudWatch does not perform unit conversions.
 """
 
-GetMetricStatistics(EndTime, MetricName, Namespace, Period, StartTime; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("GetMetricStatistics", Dict{String, Any}("EndTime"=>EndTime, "MetricName"=>MetricName, "Namespace"=>Namespace, "Period"=>Period, "StartTime"=>StartTime); aws_config=aws_config)
-GetMetricStatistics(EndTime, MetricName, Namespace, Period, StartTime, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("GetMetricStatistics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "MetricName"=>MetricName, "Namespace"=>Namespace, "Period"=>Period, "StartTime"=>StartTime), args)); aws_config=aws_config)
+GetMetricStatistics(EndTime, MetricName, Namespace, Period, StartTime; aws_config::AWSConfig=global_aws_config()) = cloudwatch("GetMetricStatistics", Dict{String, Any}("EndTime"=>EndTime, "MetricName"=>MetricName, "Namespace"=>Namespace, "Period"=>Period, "StartTime"=>StartTime); aws_config=aws_config)
+GetMetricStatistics(EndTime, MetricName, Namespace, Period, StartTime, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch("GetMetricStatistics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "MetricName"=>MetricName, "Namespace"=>Namespace, "Period"=>Period, "StartTime"=>StartTime), args)); aws_config=aws_config)
 
 """
     GetMetricWidgetImage()
@@ -286,8 +286,8 @@ You can use the GetMetricWidgetImage API to retrieve a snapshot graph of one or 
 - `OutputFormat`: The format of the resulting image. Only PNG images are supported. The default is png. If you specify png, the API returns an HTTP response with the content-type set to text/xml. The image data is in a MetricWidgetImage field. For example:   &lt;GetMetricWidgetImageResponse xmlns=&lt;URLstring&gt;&gt;    &lt;GetMetricWidgetImageResult&gt;    &lt;MetricWidgetImage&gt;    iVBORw0KGgoAAAANSUhEUgAAAlgAAAGQEAYAAAAip...    &lt;/MetricWidgetImage&gt;    &lt;/GetMetricWidgetImageResult&gt;    &lt;ResponseMetadata&gt;    &lt;RequestId&gt;6f0d4192-4d42-11e8-82c1-f539a07e0e3b&lt;/RequestId&gt;    &lt;/ResponseMetadata&gt;   &lt;/GetMetricWidgetImageResponse&gt;  The image/png setting is intended only for custom HTTP requests. For most use cases, and all actions using an AWS SDK, you should use png. If you specify image/png, the HTTP response has a content-type set to image/png, and the body of the response is a PNG image. 
 """
 
-GetMetricWidgetImage(MetricWidget; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("GetMetricWidgetImage", Dict{String, Any}("MetricWidget"=>MetricWidget); aws_config=aws_config)
-GetMetricWidgetImage(MetricWidget, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("GetMetricWidgetImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricWidget"=>MetricWidget), args)); aws_config=aws_config)
+GetMetricWidgetImage(MetricWidget; aws_config::AWSConfig=global_aws_config()) = cloudwatch("GetMetricWidgetImage", Dict{String, Any}("MetricWidget"=>MetricWidget); aws_config=aws_config)
+GetMetricWidgetImage(MetricWidget, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch("GetMetricWidgetImage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricWidget"=>MetricWidget), args)); aws_config=aws_config)
 
 """
     ListDashboards()
@@ -299,8 +299,8 @@ Returns a list of the dashboards for your account. If you include DashboardNameP
 - `NextToken`: The token returned by a previous call to indicate that there is more data available.
 """
 
-ListDashboards(; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("ListDashboards"; aws_config=aws_config)
-ListDashboards(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("ListDashboards", args; aws_config=aws_config)
+ListDashboards(; aws_config::AWSConfig=global_aws_config()) = cloudwatch("ListDashboards"; aws_config=aws_config)
+ListDashboards(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch("ListDashboards", args; aws_config=aws_config)
 
 """
     ListMetrics()
@@ -315,8 +315,8 @@ List the specified metrics. You can use the returned metrics with GetMetricData 
 - `RecentlyActive`: To filter the results to show only metrics that have had data points published in the past three hours, specify this parameter with a value of PT3H. This is the only valid value for this parameter. The results that are returned are an approximation of the value you specify. There is a low probability that the returned results include metrics with last published data as much as 40 minutes more than the specified time interval.
 """
 
-ListMetrics(; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("ListMetrics"; aws_config=aws_config)
-ListMetrics(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("ListMetrics", args; aws_config=aws_config)
+ListMetrics(; aws_config::AWSConfig=global_aws_config()) = cloudwatch("ListMetrics"; aws_config=aws_config)
+ListMetrics(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch("ListMetrics", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -328,8 +328,8 @@ Displays the tags associated with a CloudWatch resource. Currently, alarms and C
 
 """
 
-ListTagsForResource(ResourceARN; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
-ListTagsForResource(ResourceARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), args)); aws_config=aws_config)
+ListTagsForResource(ResourceARN; aws_config::AWSConfig=global_aws_config()) = cloudwatch("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
+ListTagsForResource(ResourceARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), args)); aws_config=aws_config)
 
 """
     PutAnomalyDetector()
@@ -346,8 +346,8 @@ Creates an anomaly detection model for a CloudWatch metric. You can use the mode
 - `Dimensions`: The metric dimensions to create the anomaly detection model for.
 """
 
-PutAnomalyDetector(MetricName, Namespace, Stat; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("PutAnomalyDetector", Dict{String, Any}("MetricName"=>MetricName, "Namespace"=>Namespace, "Stat"=>Stat); aws_config=aws_config)
-PutAnomalyDetector(MetricName, Namespace, Stat, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("PutAnomalyDetector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricName"=>MetricName, "Namespace"=>Namespace, "Stat"=>Stat), args)); aws_config=aws_config)
+PutAnomalyDetector(MetricName, Namespace, Stat; aws_config::AWSConfig=global_aws_config()) = cloudwatch("PutAnomalyDetector", Dict{String, Any}("MetricName"=>MetricName, "Namespace"=>Namespace, "Stat"=>Stat); aws_config=aws_config)
+PutAnomalyDetector(MetricName, Namespace, Stat, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch("PutAnomalyDetector", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricName"=>MetricName, "Namespace"=>Namespace, "Stat"=>Stat), args)); aws_config=aws_config)
 
 """
     PutCompositeAlarm()
@@ -367,8 +367,8 @@ Creates or updates a composite alarm. When you create a composite alarm, you spe
 - `Tags`: A list of key-value pairs to associate with the composite alarm. You can associate as many as 50 tags with an alarm. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values.
 """
 
-PutCompositeAlarm(AlarmName, AlarmRule; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("PutCompositeAlarm", Dict{String, Any}("AlarmName"=>AlarmName, "AlarmRule"=>AlarmRule); aws_config=aws_config)
-PutCompositeAlarm(AlarmName, AlarmRule, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("PutCompositeAlarm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlarmName"=>AlarmName, "AlarmRule"=>AlarmRule), args)); aws_config=aws_config)
+PutCompositeAlarm(AlarmName, AlarmRule; aws_config::AWSConfig=global_aws_config()) = cloudwatch("PutCompositeAlarm", Dict{String, Any}("AlarmName"=>AlarmName, "AlarmRule"=>AlarmRule); aws_config=aws_config)
+PutCompositeAlarm(AlarmName, AlarmRule, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch("PutCompositeAlarm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlarmName"=>AlarmName, "AlarmRule"=>AlarmRule), args)); aws_config=aws_config)
 
 """
     PutDashboard()
@@ -381,8 +381,8 @@ Creates a dashboard if it does not already exist, or updates an existing dashboa
 
 """
 
-PutDashboard(DashboardBody, DashboardName; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("PutDashboard", Dict{String, Any}("DashboardBody"=>DashboardBody, "DashboardName"=>DashboardName); aws_config=aws_config)
-PutDashboard(DashboardBody, DashboardName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("PutDashboard", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DashboardBody"=>DashboardBody, "DashboardName"=>DashboardName), args)); aws_config=aws_config)
+PutDashboard(DashboardBody, DashboardName; aws_config::AWSConfig=global_aws_config()) = cloudwatch("PutDashboard", Dict{String, Any}("DashboardBody"=>DashboardBody, "DashboardName"=>DashboardName); aws_config=aws_config)
+PutDashboard(DashboardBody, DashboardName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch("PutDashboard", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DashboardBody"=>DashboardBody, "DashboardName"=>DashboardName), args)); aws_config=aws_config)
 
 """
     PutInsightRule()
@@ -398,8 +398,8 @@ Creates a Contributor Insights rule. Rules evaluate log events in a CloudWatch L
 - `Tags`: A list of key-value pairs to associate with the Contributor Insights rule. You can associate as many as 50 tags with a rule. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only the resources that have certain tag values. To be able to associate tags with a rule, you must have the cloudwatch:TagResource permission in addition to the cloudwatch:PutInsightRule permission. If you are using this operation to update an existing Contributor Insights rule, any tags you specify in this parameter are ignored. To change the tags of an existing rule, use TagResource.
 """
 
-PutInsightRule(RuleDefinition, RuleName; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("PutInsightRule", Dict{String, Any}("RuleDefinition"=>RuleDefinition, "RuleName"=>RuleName); aws_config=aws_config)
-PutInsightRule(RuleDefinition, RuleName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("PutInsightRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleDefinition"=>RuleDefinition, "RuleName"=>RuleName), args)); aws_config=aws_config)
+PutInsightRule(RuleDefinition, RuleName; aws_config::AWSConfig=global_aws_config()) = cloudwatch("PutInsightRule", Dict{String, Any}("RuleDefinition"=>RuleDefinition, "RuleName"=>RuleName); aws_config=aws_config)
+PutInsightRule(RuleDefinition, RuleName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch("PutInsightRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleDefinition"=>RuleDefinition, "RuleName"=>RuleName), args)); aws_config=aws_config)
 
 """
     PutMetricAlarm()
@@ -433,8 +433,8 @@ Creates or updates an alarm and associates it with the specified metric, metric 
 - `Unit`: The unit of measure for the statistic. For example, the units for the Amazon EC2 NetworkIn metric are Bytes because NetworkIn tracks the number of bytes that an instance receives on all network interfaces. You can also specify a unit when you create a custom metric. Units help provide conceptual meaning to your data. Metric data points that specify a unit of measure, such as Percent, are aggregated separately. If you don't specify Unit, CloudWatch retrieves all unit types that have been published for the metric and attempts to evaluate the alarm. Usually, metrics are published with only one unit, so the alarm works as intended. However, if the metric is published with multiple types of units and you don't specify a unit, the alarm's behavior is not defined and it behaves predictably. We recommend omitting Unit so that you don't inadvertently specify an incorrect unit that is not published for this metric. Doing so causes the alarm to be stuck in the INSUFFICIENT DATA state.
 """
 
-PutMetricAlarm(AlarmName, ComparisonOperator, EvaluationPeriods; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("PutMetricAlarm", Dict{String, Any}("AlarmName"=>AlarmName, "ComparisonOperator"=>ComparisonOperator, "EvaluationPeriods"=>EvaluationPeriods); aws_config=aws_config)
-PutMetricAlarm(AlarmName, ComparisonOperator, EvaluationPeriods, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("PutMetricAlarm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlarmName"=>AlarmName, "ComparisonOperator"=>ComparisonOperator, "EvaluationPeriods"=>EvaluationPeriods), args)); aws_config=aws_config)
+PutMetricAlarm(AlarmName, ComparisonOperator, EvaluationPeriods; aws_config::AWSConfig=global_aws_config()) = cloudwatch("PutMetricAlarm", Dict{String, Any}("AlarmName"=>AlarmName, "ComparisonOperator"=>ComparisonOperator, "EvaluationPeriods"=>EvaluationPeriods); aws_config=aws_config)
+PutMetricAlarm(AlarmName, ComparisonOperator, EvaluationPeriods, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch("PutMetricAlarm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlarmName"=>AlarmName, "ComparisonOperator"=>ComparisonOperator, "EvaluationPeriods"=>EvaluationPeriods), args)); aws_config=aws_config)
 
 """
     PutMetricData()
@@ -447,8 +447,8 @@ Publishes metric data points to Amazon CloudWatch. CloudWatch associates the dat
 
 """
 
-PutMetricData(MetricData, Namespace; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("PutMetricData", Dict{String, Any}("MetricData"=>MetricData, "Namespace"=>Namespace); aws_config=aws_config)
-PutMetricData(MetricData, Namespace, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("PutMetricData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricData"=>MetricData, "Namespace"=>Namespace), args)); aws_config=aws_config)
+PutMetricData(MetricData, Namespace; aws_config::AWSConfig=global_aws_config()) = cloudwatch("PutMetricData", Dict{String, Any}("MetricData"=>MetricData, "Namespace"=>Namespace); aws_config=aws_config)
+PutMetricData(MetricData, Namespace, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch("PutMetricData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricData"=>MetricData, "Namespace"=>Namespace), args)); aws_config=aws_config)
 
 """
     SetAlarmState()
@@ -464,8 +464,8 @@ Temporarily sets the state of an alarm for testing purposes. When the updated st
 - `StateReasonData`: The reason that this alarm is set to this specific state, in JSON format. For SNS or EC2 alarm actions, this is just informational. But for EC2 Auto Scaling or application Auto Scaling alarm actions, the Auto Scaling policy uses the information in this field to take the correct action.
 """
 
-SetAlarmState(AlarmName, StateReason, StateValue; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("SetAlarmState", Dict{String, Any}("AlarmName"=>AlarmName, "StateReason"=>StateReason, "StateValue"=>StateValue); aws_config=aws_config)
-SetAlarmState(AlarmName, StateReason, StateValue, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("SetAlarmState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlarmName"=>AlarmName, "StateReason"=>StateReason, "StateValue"=>StateValue), args)); aws_config=aws_config)
+SetAlarmState(AlarmName, StateReason, StateValue; aws_config::AWSConfig=global_aws_config()) = cloudwatch("SetAlarmState", Dict{String, Any}("AlarmName"=>AlarmName, "StateReason"=>StateReason, "StateValue"=>StateValue); aws_config=aws_config)
+SetAlarmState(AlarmName, StateReason, StateValue, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch("SetAlarmState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlarmName"=>AlarmName, "StateReason"=>StateReason, "StateValue"=>StateValue), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -478,8 +478,8 @@ Assigns one or more tags (key-value pairs) to the specified CloudWatch resource.
 
 """
 
-TagResource(ResourceARN, Tags; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
-TagResource(ResourceARN, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), args)); aws_config=aws_config)
+TagResource(ResourceARN, Tags; aws_config::AWSConfig=global_aws_config()) = cloudwatch("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
+TagResource(ResourceARN, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -492,5 +492,5 @@ Removes one or more tags from the specified resource.
 
 """
 
-UntagResource(ResourceARN, TagKeys; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
-UntagResource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudwatch("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+UntagResource(ResourceARN, TagKeys; aws_config::AWSConfig=global_aws_config()) = cloudwatch("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
+UntagResource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = cloudwatch("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), args)); aws_config=aws_config)

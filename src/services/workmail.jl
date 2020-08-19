@@ -16,8 +16,8 @@ Adds a member (user or group) to the resource's set of delegates.
 
 """
 
-AssociateDelegateToResource(EntityId, OrganizationId, ResourceId; aws_config::AWSConfig=AWS.aws_config) = workmail("AssociateDelegateToResource", Dict{String, Any}("EntityId"=>EntityId, "OrganizationId"=>OrganizationId, "ResourceId"=>ResourceId); aws_config=aws_config)
-AssociateDelegateToResource(EntityId, OrganizationId, ResourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("AssociateDelegateToResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityId"=>EntityId, "OrganizationId"=>OrganizationId, "ResourceId"=>ResourceId), args)); aws_config=aws_config)
+AssociateDelegateToResource(EntityId, OrganizationId, ResourceId; aws_config::AWSConfig=global_aws_config()) = workmail("AssociateDelegateToResource", Dict{String, Any}("EntityId"=>EntityId, "OrganizationId"=>OrganizationId, "ResourceId"=>ResourceId); aws_config=aws_config)
+AssociateDelegateToResource(EntityId, OrganizationId, ResourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("AssociateDelegateToResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityId"=>EntityId, "OrganizationId"=>OrganizationId, "ResourceId"=>ResourceId), args)); aws_config=aws_config)
 
 """
     AssociateMemberToGroup()
@@ -31,8 +31,8 @@ Adds a member (user or group) to the group's set.
 
 """
 
-AssociateMemberToGroup(GroupId, MemberId, OrganizationId; aws_config::AWSConfig=AWS.aws_config) = workmail("AssociateMemberToGroup", Dict{String, Any}("GroupId"=>GroupId, "MemberId"=>MemberId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
-AssociateMemberToGroup(GroupId, MemberId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("AssociateMemberToGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId, "MemberId"=>MemberId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
+AssociateMemberToGroup(GroupId, MemberId, OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("AssociateMemberToGroup", Dict{String, Any}("GroupId"=>GroupId, "MemberId"=>MemberId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
+AssociateMemberToGroup(GroupId, MemberId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("AssociateMemberToGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId, "MemberId"=>MemberId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
 """
     CreateAlias()
@@ -46,8 +46,8 @@ Adds an alias to the set of a given member (user or group) of Amazon WorkMail.
 
 """
 
-CreateAlias(Alias, EntityId, OrganizationId; aws_config::AWSConfig=AWS.aws_config) = workmail("CreateAlias", Dict{String, Any}("Alias"=>Alias, "EntityId"=>EntityId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
-CreateAlias(Alias, EntityId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("CreateAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Alias"=>Alias, "EntityId"=>EntityId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
+CreateAlias(Alias, EntityId, OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("CreateAlias", Dict{String, Any}("Alias"=>Alias, "EntityId"=>EntityId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
+CreateAlias(Alias, EntityId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("CreateAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Alias"=>Alias, "EntityId"=>EntityId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
 """
     CreateGroup()
@@ -60,8 +60,8 @@ Creates a group that can be used in Amazon WorkMail by calling the RegisterToWor
 
 """
 
-CreateGroup(Name, OrganizationId; aws_config::AWSConfig=AWS.aws_config) = workmail("CreateGroup", Dict{String, Any}("Name"=>Name, "OrganizationId"=>OrganizationId); aws_config=aws_config)
-CreateGroup(Name, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("CreateGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
+CreateGroup(Name, OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("CreateGroup", Dict{String, Any}("Name"=>Name, "OrganizationId"=>OrganizationId); aws_config=aws_config)
+CreateGroup(Name, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("CreateGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
 """
     CreateResource()
@@ -75,8 +75,8 @@ Creates a new Amazon WorkMail resource.
 
 """
 
-CreateResource(Name, OrganizationId, Type; aws_config::AWSConfig=AWS.aws_config) = workmail("CreateResource", Dict{String, Any}("Name"=>Name, "OrganizationId"=>OrganizationId, "Type"=>Type); aws_config=aws_config)
-CreateResource(Name, OrganizationId, Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("CreateResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "OrganizationId"=>OrganizationId, "Type"=>Type), args)); aws_config=aws_config)
+CreateResource(Name, OrganizationId, Type; aws_config::AWSConfig=global_aws_config()) = workmail("CreateResource", Dict{String, Any}("Name"=>Name, "OrganizationId"=>OrganizationId, "Type"=>Type); aws_config=aws_config)
+CreateResource(Name, OrganizationId, Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("CreateResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "OrganizationId"=>OrganizationId, "Type"=>Type), args)); aws_config=aws_config)
 
 """
     CreateUser()
@@ -91,8 +91,8 @@ Creates a user who can be used in Amazon WorkMail by calling the RegisterToWorkM
 
 """
 
-CreateUser(DisplayName, Name, OrganizationId, Password; aws_config::AWSConfig=AWS.aws_config) = workmail("CreateUser", Dict{String, Any}("DisplayName"=>DisplayName, "Name"=>Name, "OrganizationId"=>OrganizationId, "Password"=>Password); aws_config=aws_config)
-CreateUser(DisplayName, Name, OrganizationId, Password, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("CreateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DisplayName"=>DisplayName, "Name"=>Name, "OrganizationId"=>OrganizationId, "Password"=>Password), args)); aws_config=aws_config)
+CreateUser(DisplayName, Name, OrganizationId, Password; aws_config::AWSConfig=global_aws_config()) = workmail("CreateUser", Dict{String, Any}("DisplayName"=>DisplayName, "Name"=>Name, "OrganizationId"=>OrganizationId, "Password"=>Password); aws_config=aws_config)
+CreateUser(DisplayName, Name, OrganizationId, Password, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("CreateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DisplayName"=>DisplayName, "Name"=>Name, "OrganizationId"=>OrganizationId, "Password"=>Password), args)); aws_config=aws_config)
 
 """
     DeleteAccessControlRule()
@@ -105,8 +105,8 @@ Deletes an access control rule for the specified WorkMail organization.
 
 """
 
-DeleteAccessControlRule(Name, OrganizationId; aws_config::AWSConfig=AWS.aws_config) = workmail("DeleteAccessControlRule", Dict{String, Any}("Name"=>Name, "OrganizationId"=>OrganizationId); aws_config=aws_config)
-DeleteAccessControlRule(Name, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("DeleteAccessControlRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
+DeleteAccessControlRule(Name, OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("DeleteAccessControlRule", Dict{String, Any}("Name"=>Name, "OrganizationId"=>OrganizationId); aws_config=aws_config)
+DeleteAccessControlRule(Name, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("DeleteAccessControlRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
 """
     DeleteAlias()
@@ -120,8 +120,8 @@ Remove one or more specified aliases from a set of aliases for a given user.
 
 """
 
-DeleteAlias(Alias, EntityId, OrganizationId; aws_config::AWSConfig=AWS.aws_config) = workmail("DeleteAlias", Dict{String, Any}("Alias"=>Alias, "EntityId"=>EntityId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
-DeleteAlias(Alias, EntityId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("DeleteAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Alias"=>Alias, "EntityId"=>EntityId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
+DeleteAlias(Alias, EntityId, OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("DeleteAlias", Dict{String, Any}("Alias"=>Alias, "EntityId"=>EntityId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
+DeleteAlias(Alias, EntityId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("DeleteAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Alias"=>Alias, "EntityId"=>EntityId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
 """
     DeleteGroup()
@@ -134,8 +134,8 @@ Deletes a group from Amazon WorkMail.
 
 """
 
-DeleteGroup(GroupId, OrganizationId; aws_config::AWSConfig=AWS.aws_config) = workmail("DeleteGroup", Dict{String, Any}("GroupId"=>GroupId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
-DeleteGroup(GroupId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("DeleteGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
+DeleteGroup(GroupId, OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("DeleteGroup", Dict{String, Any}("GroupId"=>GroupId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
+DeleteGroup(GroupId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("DeleteGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
 """
     DeleteMailboxPermissions()
@@ -149,8 +149,8 @@ Deletes permissions granted to a member (user or group).
 
 """
 
-DeleteMailboxPermissions(EntityId, GranteeId, OrganizationId; aws_config::AWSConfig=AWS.aws_config) = workmail("DeleteMailboxPermissions", Dict{String, Any}("EntityId"=>EntityId, "GranteeId"=>GranteeId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
-DeleteMailboxPermissions(EntityId, GranteeId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("DeleteMailboxPermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityId"=>EntityId, "GranteeId"=>GranteeId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
+DeleteMailboxPermissions(EntityId, GranteeId, OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("DeleteMailboxPermissions", Dict{String, Any}("EntityId"=>EntityId, "GranteeId"=>GranteeId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
+DeleteMailboxPermissions(EntityId, GranteeId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("DeleteMailboxPermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityId"=>EntityId, "GranteeId"=>GranteeId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
 """
     DeleteResource()
@@ -163,8 +163,8 @@ Deletes the specified resource.
 
 """
 
-DeleteResource(OrganizationId, ResourceId; aws_config::AWSConfig=AWS.aws_config) = workmail("DeleteResource", Dict{String, Any}("OrganizationId"=>OrganizationId, "ResourceId"=>ResourceId); aws_config=aws_config)
-DeleteResource(OrganizationId, ResourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("DeleteResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId, "ResourceId"=>ResourceId), args)); aws_config=aws_config)
+DeleteResource(OrganizationId, ResourceId; aws_config::AWSConfig=global_aws_config()) = workmail("DeleteResource", Dict{String, Any}("OrganizationId"=>OrganizationId, "ResourceId"=>ResourceId); aws_config=aws_config)
+DeleteResource(OrganizationId, ResourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("DeleteResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId, "ResourceId"=>ResourceId), args)); aws_config=aws_config)
 
 """
     DeleteRetentionPolicy()
@@ -177,8 +177,8 @@ Deletes the specified retention policy from the specified organization.
 
 """
 
-DeleteRetentionPolicy(Id, OrganizationId; aws_config::AWSConfig=AWS.aws_config) = workmail("DeleteRetentionPolicy", Dict{String, Any}("Id"=>Id, "OrganizationId"=>OrganizationId); aws_config=aws_config)
-DeleteRetentionPolicy(Id, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("DeleteRetentionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
+DeleteRetentionPolicy(Id, OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("DeleteRetentionPolicy", Dict{String, Any}("Id"=>Id, "OrganizationId"=>OrganizationId); aws_config=aws_config)
+DeleteRetentionPolicy(Id, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("DeleteRetentionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Id"=>Id, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
 """
     DeleteUser()
@@ -191,8 +191,8 @@ Deletes a user from Amazon WorkMail and all subsequent systems. Before you can d
 
 """
 
-DeleteUser(OrganizationId, UserId; aws_config::AWSConfig=AWS.aws_config) = workmail("DeleteUser", Dict{String, Any}("OrganizationId"=>OrganizationId, "UserId"=>UserId); aws_config=aws_config)
-DeleteUser(OrganizationId, UserId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("DeleteUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId, "UserId"=>UserId), args)); aws_config=aws_config)
+DeleteUser(OrganizationId, UserId; aws_config::AWSConfig=global_aws_config()) = workmail("DeleteUser", Dict{String, Any}("OrganizationId"=>OrganizationId, "UserId"=>UserId); aws_config=aws_config)
+DeleteUser(OrganizationId, UserId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("DeleteUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId, "UserId"=>UserId), args)); aws_config=aws_config)
 
 """
     DeregisterFromWorkMail()
@@ -205,8 +205,8 @@ Mark a user, group, or resource as no longer used in Amazon WorkMail. This actio
 
 """
 
-DeregisterFromWorkMail(EntityId, OrganizationId; aws_config::AWSConfig=AWS.aws_config) = workmail("DeregisterFromWorkMail", Dict{String, Any}("EntityId"=>EntityId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
-DeregisterFromWorkMail(EntityId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("DeregisterFromWorkMail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityId"=>EntityId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
+DeregisterFromWorkMail(EntityId, OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("DeregisterFromWorkMail", Dict{String, Any}("EntityId"=>EntityId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
+DeregisterFromWorkMail(EntityId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("DeregisterFromWorkMail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityId"=>EntityId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
 """
     DescribeGroup()
@@ -219,8 +219,8 @@ Returns the data available for the group.
 
 """
 
-DescribeGroup(GroupId, OrganizationId; aws_config::AWSConfig=AWS.aws_config) = workmail("DescribeGroup", Dict{String, Any}("GroupId"=>GroupId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
-DescribeGroup(GroupId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("DescribeGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
+DescribeGroup(GroupId, OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("DescribeGroup", Dict{String, Any}("GroupId"=>GroupId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
+DescribeGroup(GroupId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("DescribeGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
 """
     DescribeOrganization()
@@ -232,8 +232,8 @@ Provides more information regarding a given organization based on its identifier
 
 """
 
-DescribeOrganization(OrganizationId; aws_config::AWSConfig=AWS.aws_config) = workmail("DescribeOrganization", Dict{String, Any}("OrganizationId"=>OrganizationId); aws_config=aws_config)
-DescribeOrganization(OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("DescribeOrganization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
+DescribeOrganization(OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("DescribeOrganization", Dict{String, Any}("OrganizationId"=>OrganizationId); aws_config=aws_config)
+DescribeOrganization(OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("DescribeOrganization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
 """
     DescribeResource()
@@ -246,8 +246,8 @@ Returns the data available for the resource.
 
 """
 
-DescribeResource(OrganizationId, ResourceId; aws_config::AWSConfig=AWS.aws_config) = workmail("DescribeResource", Dict{String, Any}("OrganizationId"=>OrganizationId, "ResourceId"=>ResourceId); aws_config=aws_config)
-DescribeResource(OrganizationId, ResourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("DescribeResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId, "ResourceId"=>ResourceId), args)); aws_config=aws_config)
+DescribeResource(OrganizationId, ResourceId; aws_config::AWSConfig=global_aws_config()) = workmail("DescribeResource", Dict{String, Any}("OrganizationId"=>OrganizationId, "ResourceId"=>ResourceId); aws_config=aws_config)
+DescribeResource(OrganizationId, ResourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("DescribeResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId, "ResourceId"=>ResourceId), args)); aws_config=aws_config)
 
 """
     DescribeUser()
@@ -260,8 +260,8 @@ Provides information regarding the user.
 
 """
 
-DescribeUser(OrganizationId, UserId; aws_config::AWSConfig=AWS.aws_config) = workmail("DescribeUser", Dict{String, Any}("OrganizationId"=>OrganizationId, "UserId"=>UserId); aws_config=aws_config)
-DescribeUser(OrganizationId, UserId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("DescribeUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId, "UserId"=>UserId), args)); aws_config=aws_config)
+DescribeUser(OrganizationId, UserId; aws_config::AWSConfig=global_aws_config()) = workmail("DescribeUser", Dict{String, Any}("OrganizationId"=>OrganizationId, "UserId"=>UserId); aws_config=aws_config)
+DescribeUser(OrganizationId, UserId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("DescribeUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId, "UserId"=>UserId), args)); aws_config=aws_config)
 
 """
     DisassociateDelegateFromResource()
@@ -275,8 +275,8 @@ Removes a member from the resource's set of delegates.
 
 """
 
-DisassociateDelegateFromResource(EntityId, OrganizationId, ResourceId; aws_config::AWSConfig=AWS.aws_config) = workmail("DisassociateDelegateFromResource", Dict{String, Any}("EntityId"=>EntityId, "OrganizationId"=>OrganizationId, "ResourceId"=>ResourceId); aws_config=aws_config)
-DisassociateDelegateFromResource(EntityId, OrganizationId, ResourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("DisassociateDelegateFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityId"=>EntityId, "OrganizationId"=>OrganizationId, "ResourceId"=>ResourceId), args)); aws_config=aws_config)
+DisassociateDelegateFromResource(EntityId, OrganizationId, ResourceId; aws_config::AWSConfig=global_aws_config()) = workmail("DisassociateDelegateFromResource", Dict{String, Any}("EntityId"=>EntityId, "OrganizationId"=>OrganizationId, "ResourceId"=>ResourceId); aws_config=aws_config)
+DisassociateDelegateFromResource(EntityId, OrganizationId, ResourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("DisassociateDelegateFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityId"=>EntityId, "OrganizationId"=>OrganizationId, "ResourceId"=>ResourceId), args)); aws_config=aws_config)
 
 """
     DisassociateMemberFromGroup()
@@ -290,8 +290,8 @@ Removes a member from a group.
 
 """
 
-DisassociateMemberFromGroup(GroupId, MemberId, OrganizationId; aws_config::AWSConfig=AWS.aws_config) = workmail("DisassociateMemberFromGroup", Dict{String, Any}("GroupId"=>GroupId, "MemberId"=>MemberId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
-DisassociateMemberFromGroup(GroupId, MemberId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("DisassociateMemberFromGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId, "MemberId"=>MemberId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
+DisassociateMemberFromGroup(GroupId, MemberId, OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("DisassociateMemberFromGroup", Dict{String, Any}("GroupId"=>GroupId, "MemberId"=>MemberId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
+DisassociateMemberFromGroup(GroupId, MemberId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("DisassociateMemberFromGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId, "MemberId"=>MemberId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
 """
     GetAccessControlEffect()
@@ -306,8 +306,8 @@ Gets the effects of an organization's access control rules as they apply to a sp
 
 """
 
-GetAccessControlEffect(Action, IpAddress, OrganizationId, UserId; aws_config::AWSConfig=AWS.aws_config) = workmail("GetAccessControlEffect", Dict{String, Any}("Action"=>Action, "IpAddress"=>IpAddress, "OrganizationId"=>OrganizationId, "UserId"=>UserId); aws_config=aws_config)
-GetAccessControlEffect(Action, IpAddress, OrganizationId, UserId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("GetAccessControlEffect", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Action"=>Action, "IpAddress"=>IpAddress, "OrganizationId"=>OrganizationId, "UserId"=>UserId), args)); aws_config=aws_config)
+GetAccessControlEffect(Action, IpAddress, OrganizationId, UserId; aws_config::AWSConfig=global_aws_config()) = workmail("GetAccessControlEffect", Dict{String, Any}("Action"=>Action, "IpAddress"=>IpAddress, "OrganizationId"=>OrganizationId, "UserId"=>UserId); aws_config=aws_config)
+GetAccessControlEffect(Action, IpAddress, OrganizationId, UserId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("GetAccessControlEffect", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Action"=>Action, "IpAddress"=>IpAddress, "OrganizationId"=>OrganizationId, "UserId"=>UserId), args)); aws_config=aws_config)
 
 """
     GetDefaultRetentionPolicy()
@@ -319,8 +319,8 @@ Gets the default retention policy details for the specified organization.
 
 """
 
-GetDefaultRetentionPolicy(OrganizationId; aws_config::AWSConfig=AWS.aws_config) = workmail("GetDefaultRetentionPolicy", Dict{String, Any}("OrganizationId"=>OrganizationId); aws_config=aws_config)
-GetDefaultRetentionPolicy(OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("GetDefaultRetentionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
+GetDefaultRetentionPolicy(OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("GetDefaultRetentionPolicy", Dict{String, Any}("OrganizationId"=>OrganizationId); aws_config=aws_config)
+GetDefaultRetentionPolicy(OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("GetDefaultRetentionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
 """
     GetMailboxDetails()
@@ -333,8 +333,8 @@ Requests a user's mailbox details for a specified organization and user.
 
 """
 
-GetMailboxDetails(OrganizationId, UserId; aws_config::AWSConfig=AWS.aws_config) = workmail("GetMailboxDetails", Dict{String, Any}("OrganizationId"=>OrganizationId, "UserId"=>UserId); aws_config=aws_config)
-GetMailboxDetails(OrganizationId, UserId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("GetMailboxDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId, "UserId"=>UserId), args)); aws_config=aws_config)
+GetMailboxDetails(OrganizationId, UserId; aws_config::AWSConfig=global_aws_config()) = workmail("GetMailboxDetails", Dict{String, Any}("OrganizationId"=>OrganizationId, "UserId"=>UserId); aws_config=aws_config)
+GetMailboxDetails(OrganizationId, UserId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("GetMailboxDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId, "UserId"=>UserId), args)); aws_config=aws_config)
 
 """
     ListAccessControlRules()
@@ -346,8 +346,8 @@ Lists the access control rules for the specified organization.
 
 """
 
-ListAccessControlRules(OrganizationId; aws_config::AWSConfig=AWS.aws_config) = workmail("ListAccessControlRules", Dict{String, Any}("OrganizationId"=>OrganizationId); aws_config=aws_config)
-ListAccessControlRules(OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("ListAccessControlRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
+ListAccessControlRules(OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("ListAccessControlRules", Dict{String, Any}("OrganizationId"=>OrganizationId); aws_config=aws_config)
+ListAccessControlRules(OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("ListAccessControlRules", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
 """
     ListAliases()
@@ -363,8 +363,8 @@ Creates a paginated call to list the aliases associated with a given entity.
 - `NextToken`: The token to use to retrieve the next page of results. The first call does not contain any tokens.
 """
 
-ListAliases(EntityId, OrganizationId; aws_config::AWSConfig=AWS.aws_config) = workmail("ListAliases", Dict{String, Any}("EntityId"=>EntityId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
-ListAliases(EntityId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("ListAliases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityId"=>EntityId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
+ListAliases(EntityId, OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("ListAliases", Dict{String, Any}("EntityId"=>EntityId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
+ListAliases(EntityId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("ListAliases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityId"=>EntityId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
 """
     ListGroupMembers()
@@ -380,8 +380,8 @@ Returns an overview of the members of a group. Users and groups can be members o
 - `NextToken`:  The token to use to retrieve the next page of results. The first call does not contain any tokens.
 """
 
-ListGroupMembers(GroupId, OrganizationId; aws_config::AWSConfig=AWS.aws_config) = workmail("ListGroupMembers", Dict{String, Any}("GroupId"=>GroupId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
-ListGroupMembers(GroupId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("ListGroupMembers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
+ListGroupMembers(GroupId, OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("ListGroupMembers", Dict{String, Any}("GroupId"=>GroupId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
+ListGroupMembers(GroupId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("ListGroupMembers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupId"=>GroupId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
 """
     ListGroups()
@@ -396,8 +396,8 @@ Returns summaries of the organization's groups.
 - `NextToken`: The token to use to retrieve the next page of results. The first call does not contain any tokens.
 """
 
-ListGroups(OrganizationId; aws_config::AWSConfig=AWS.aws_config) = workmail("ListGroups", Dict{String, Any}("OrganizationId"=>OrganizationId); aws_config=aws_config)
-ListGroups(OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("ListGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
+ListGroups(OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("ListGroups", Dict{String, Any}("OrganizationId"=>OrganizationId); aws_config=aws_config)
+ListGroups(OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("ListGroups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
 """
     ListMailboxPermissions()
@@ -413,8 +413,8 @@ Lists the mailbox permissions associated with a user, group, or resource mailbox
 - `NextToken`: The token to use to retrieve the next page of results. The first call does not contain any tokens.
 """
 
-ListMailboxPermissions(EntityId, OrganizationId; aws_config::AWSConfig=AWS.aws_config) = workmail("ListMailboxPermissions", Dict{String, Any}("EntityId"=>EntityId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
-ListMailboxPermissions(EntityId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("ListMailboxPermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityId"=>EntityId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
+ListMailboxPermissions(EntityId, OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("ListMailboxPermissions", Dict{String, Any}("EntityId"=>EntityId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
+ListMailboxPermissions(EntityId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("ListMailboxPermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityId"=>EntityId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
 """
     ListOrganizations()
@@ -426,8 +426,8 @@ Returns summaries of the customer's organizations.
 - `NextToken`: The token to use to retrieve the next page of results. The first call does not contain any tokens.
 """
 
-ListOrganizations(; aws_config::AWSConfig=AWS.aws_config) = workmail("ListOrganizations"; aws_config=aws_config)
-ListOrganizations(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("ListOrganizations", args; aws_config=aws_config)
+ListOrganizations(; aws_config::AWSConfig=global_aws_config()) = workmail("ListOrganizations"; aws_config=aws_config)
+ListOrganizations(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("ListOrganizations", args; aws_config=aws_config)
 
 """
     ListResourceDelegates()
@@ -443,8 +443,8 @@ Lists the delegates associated with a resource. Users and groups can be resource
 - `NextToken`: The token used to paginate through the delegates associated with a resource.
 """
 
-ListResourceDelegates(OrganizationId, ResourceId; aws_config::AWSConfig=AWS.aws_config) = workmail("ListResourceDelegates", Dict{String, Any}("OrganizationId"=>OrganizationId, "ResourceId"=>ResourceId); aws_config=aws_config)
-ListResourceDelegates(OrganizationId, ResourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("ListResourceDelegates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId, "ResourceId"=>ResourceId), args)); aws_config=aws_config)
+ListResourceDelegates(OrganizationId, ResourceId; aws_config::AWSConfig=global_aws_config()) = workmail("ListResourceDelegates", Dict{String, Any}("OrganizationId"=>OrganizationId, "ResourceId"=>ResourceId); aws_config=aws_config)
+ListResourceDelegates(OrganizationId, ResourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("ListResourceDelegates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId, "ResourceId"=>ResourceId), args)); aws_config=aws_config)
 
 """
     ListResources()
@@ -459,8 +459,8 @@ Returns summaries of the organization's resources.
 - `NextToken`: The token to use to retrieve the next page of results. The first call does not contain any tokens.
 """
 
-ListResources(OrganizationId; aws_config::AWSConfig=AWS.aws_config) = workmail("ListResources", Dict{String, Any}("OrganizationId"=>OrganizationId); aws_config=aws_config)
-ListResources(OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("ListResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
+ListResources(OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("ListResources", Dict{String, Any}("OrganizationId"=>OrganizationId); aws_config=aws_config)
+ListResources(OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("ListResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -472,8 +472,8 @@ Lists the tags applied to an Amazon WorkMail organization resource.
 
 """
 
-ListTagsForResource(ResourceARN; aws_config::AWSConfig=AWS.aws_config) = workmail("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
-ListTagsForResource(ResourceARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), args)); aws_config=aws_config)
+ListTagsForResource(ResourceARN; aws_config::AWSConfig=global_aws_config()) = workmail("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
+ListTagsForResource(ResourceARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), args)); aws_config=aws_config)
 
 """
     ListUsers()
@@ -488,8 +488,8 @@ Returns summaries of the organization's users.
 - `NextToken`: The token to use to retrieve the next page of results. The first call does not contain any tokens.
 """
 
-ListUsers(OrganizationId; aws_config::AWSConfig=AWS.aws_config) = workmail("ListUsers", Dict{String, Any}("OrganizationId"=>OrganizationId); aws_config=aws_config)
-ListUsers(OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("ListUsers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
+ListUsers(OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("ListUsers", Dict{String, Any}("OrganizationId"=>OrganizationId); aws_config=aws_config)
+ListUsers(OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("ListUsers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
 """
     PutAccessControlRule()
@@ -511,8 +511,8 @@ Adds a new access control rule for the specified organization. The rule allows o
 - `UserIds`: User IDs to include in the rule.
 """
 
-PutAccessControlRule(Description, Effect, Name, OrganizationId; aws_config::AWSConfig=AWS.aws_config) = workmail("PutAccessControlRule", Dict{String, Any}("Description"=>Description, "Effect"=>Effect, "Name"=>Name, "OrganizationId"=>OrganizationId); aws_config=aws_config)
-PutAccessControlRule(Description, Effect, Name, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("PutAccessControlRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "Effect"=>Effect, "Name"=>Name, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
+PutAccessControlRule(Description, Effect, Name, OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("PutAccessControlRule", Dict{String, Any}("Description"=>Description, "Effect"=>Effect, "Name"=>Name, "OrganizationId"=>OrganizationId); aws_config=aws_config)
+PutAccessControlRule(Description, Effect, Name, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("PutAccessControlRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "Effect"=>Effect, "Name"=>Name, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
 """
     PutMailboxPermissions()
@@ -527,8 +527,8 @@ Sets permissions for a user, group, or resource. This replaces any pre-existing 
 
 """
 
-PutMailboxPermissions(EntityId, GranteeId, OrganizationId, PermissionValues; aws_config::AWSConfig=AWS.aws_config) = workmail("PutMailboxPermissions", Dict{String, Any}("EntityId"=>EntityId, "GranteeId"=>GranteeId, "OrganizationId"=>OrganizationId, "PermissionValues"=>PermissionValues); aws_config=aws_config)
-PutMailboxPermissions(EntityId, GranteeId, OrganizationId, PermissionValues, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("PutMailboxPermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityId"=>EntityId, "GranteeId"=>GranteeId, "OrganizationId"=>OrganizationId, "PermissionValues"=>PermissionValues), args)); aws_config=aws_config)
+PutMailboxPermissions(EntityId, GranteeId, OrganizationId, PermissionValues; aws_config::AWSConfig=global_aws_config()) = workmail("PutMailboxPermissions", Dict{String, Any}("EntityId"=>EntityId, "GranteeId"=>GranteeId, "OrganizationId"=>OrganizationId, "PermissionValues"=>PermissionValues); aws_config=aws_config)
+PutMailboxPermissions(EntityId, GranteeId, OrganizationId, PermissionValues, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("PutMailboxPermissions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityId"=>EntityId, "GranteeId"=>GranteeId, "OrganizationId"=>OrganizationId, "PermissionValues"=>PermissionValues), args)); aws_config=aws_config)
 
 """
     PutRetentionPolicy()
@@ -545,8 +545,8 @@ Puts a retention policy to the specified organization.
 - `Id`: The retention policy ID.
 """
 
-PutRetentionPolicy(FolderConfigurations, Name, OrganizationId; aws_config::AWSConfig=AWS.aws_config) = workmail("PutRetentionPolicy", Dict{String, Any}("FolderConfigurations"=>FolderConfigurations, "Name"=>Name, "OrganizationId"=>OrganizationId); aws_config=aws_config)
-PutRetentionPolicy(FolderConfigurations, Name, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("PutRetentionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FolderConfigurations"=>FolderConfigurations, "Name"=>Name, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
+PutRetentionPolicy(FolderConfigurations, Name, OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("PutRetentionPolicy", Dict{String, Any}("FolderConfigurations"=>FolderConfigurations, "Name"=>Name, "OrganizationId"=>OrganizationId); aws_config=aws_config)
+PutRetentionPolicy(FolderConfigurations, Name, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("PutRetentionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FolderConfigurations"=>FolderConfigurations, "Name"=>Name, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
 """
     RegisterToWorkMail()
@@ -560,8 +560,8 @@ Registers an existing and disabled user, group, or resource for Amazon WorkMail 
 
 """
 
-RegisterToWorkMail(Email, EntityId, OrganizationId; aws_config::AWSConfig=AWS.aws_config) = workmail("RegisterToWorkMail", Dict{String, Any}("Email"=>Email, "EntityId"=>EntityId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
-RegisterToWorkMail(Email, EntityId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("RegisterToWorkMail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Email"=>Email, "EntityId"=>EntityId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
+RegisterToWorkMail(Email, EntityId, OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("RegisterToWorkMail", Dict{String, Any}("Email"=>Email, "EntityId"=>EntityId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
+RegisterToWorkMail(Email, EntityId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("RegisterToWorkMail", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Email"=>Email, "EntityId"=>EntityId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
 """
     ResetPassword()
@@ -575,8 +575,8 @@ Allows the administrator to reset the password for a user.
 
 """
 
-ResetPassword(OrganizationId, Password, UserId; aws_config::AWSConfig=AWS.aws_config) = workmail("ResetPassword", Dict{String, Any}("OrganizationId"=>OrganizationId, "Password"=>Password, "UserId"=>UserId); aws_config=aws_config)
-ResetPassword(OrganizationId, Password, UserId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("ResetPassword", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId, "Password"=>Password, "UserId"=>UserId), args)); aws_config=aws_config)
+ResetPassword(OrganizationId, Password, UserId; aws_config::AWSConfig=global_aws_config()) = workmail("ResetPassword", Dict{String, Any}("OrganizationId"=>OrganizationId, "Password"=>Password, "UserId"=>UserId); aws_config=aws_config)
+ResetPassword(OrganizationId, Password, UserId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("ResetPassword", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId, "Password"=>Password, "UserId"=>UserId), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -589,8 +589,8 @@ Applies the specified tags to the specified Amazon WorkMail organization resourc
 
 """
 
-TagResource(ResourceARN, Tags; aws_config::AWSConfig=AWS.aws_config) = workmail("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
-TagResource(ResourceARN, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), args)); aws_config=aws_config)
+TagResource(ResourceARN, Tags; aws_config::AWSConfig=global_aws_config()) = workmail("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
+TagResource(ResourceARN, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -603,8 +603,8 @@ Untags the specified tags from the specified Amazon WorkMail organization resour
 
 """
 
-UntagResource(ResourceARN, TagKeys; aws_config::AWSConfig=AWS.aws_config) = workmail("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
-UntagResource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+UntagResource(ResourceARN, TagKeys; aws_config::AWSConfig=global_aws_config()) = workmail("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
+UntagResource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
 
 """
     UpdateMailboxQuota()
@@ -618,8 +618,8 @@ Updates a user's current mailbox quota for a specified organization and user.
 
 """
 
-UpdateMailboxQuota(MailboxQuota, OrganizationId, UserId; aws_config::AWSConfig=AWS.aws_config) = workmail("UpdateMailboxQuota", Dict{String, Any}("MailboxQuota"=>MailboxQuota, "OrganizationId"=>OrganizationId, "UserId"=>UserId); aws_config=aws_config)
-UpdateMailboxQuota(MailboxQuota, OrganizationId, UserId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("UpdateMailboxQuota", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MailboxQuota"=>MailboxQuota, "OrganizationId"=>OrganizationId, "UserId"=>UserId), args)); aws_config=aws_config)
+UpdateMailboxQuota(MailboxQuota, OrganizationId, UserId; aws_config::AWSConfig=global_aws_config()) = workmail("UpdateMailboxQuota", Dict{String, Any}("MailboxQuota"=>MailboxQuota, "OrganizationId"=>OrganizationId, "UserId"=>UserId); aws_config=aws_config)
+UpdateMailboxQuota(MailboxQuota, OrganizationId, UserId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("UpdateMailboxQuota", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MailboxQuota"=>MailboxQuota, "OrganizationId"=>OrganizationId, "UserId"=>UserId), args)); aws_config=aws_config)
 
 """
     UpdatePrimaryEmailAddress()
@@ -633,8 +633,8 @@ Updates the primary email for a user, group, or resource. The current email is m
 
 """
 
-UpdatePrimaryEmailAddress(Email, EntityId, OrganizationId; aws_config::AWSConfig=AWS.aws_config) = workmail("UpdatePrimaryEmailAddress", Dict{String, Any}("Email"=>Email, "EntityId"=>EntityId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
-UpdatePrimaryEmailAddress(Email, EntityId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("UpdatePrimaryEmailAddress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Email"=>Email, "EntityId"=>EntityId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
+UpdatePrimaryEmailAddress(Email, EntityId, OrganizationId; aws_config::AWSConfig=global_aws_config()) = workmail("UpdatePrimaryEmailAddress", Dict{String, Any}("Email"=>Email, "EntityId"=>EntityId, "OrganizationId"=>OrganizationId); aws_config=aws_config)
+UpdatePrimaryEmailAddress(Email, EntityId, OrganizationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("UpdatePrimaryEmailAddress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Email"=>Email, "EntityId"=>EntityId, "OrganizationId"=>OrganizationId), args)); aws_config=aws_config)
 
 """
     UpdateResource()
@@ -650,5 +650,5 @@ Updates data for the resource. To have the latest information, it must be preced
 - `Name`: The name of the resource to be updated.
 """
 
-UpdateResource(OrganizationId, ResourceId; aws_config::AWSConfig=AWS.aws_config) = workmail("UpdateResource", Dict{String, Any}("OrganizationId"=>OrganizationId, "ResourceId"=>ResourceId); aws_config=aws_config)
-UpdateResource(OrganizationId, ResourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = workmail("UpdateResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId, "ResourceId"=>ResourceId), args)); aws_config=aws_config)
+UpdateResource(OrganizationId, ResourceId; aws_config::AWSConfig=global_aws_config()) = workmail("UpdateResource", Dict{String, Any}("OrganizationId"=>OrganizationId, "ResourceId"=>ResourceId); aws_config=aws_config)
+UpdateResource(OrganizationId, ResourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmail("UpdateResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OrganizationId"=>OrganizationId, "ResourceId"=>ResourceId), args)); aws_config=aws_config)

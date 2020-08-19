@@ -14,8 +14,8 @@ Cancels an existing Amazon FSx for Lustre data repository task if that task is i
 
 """
 
-CancelDataRepositoryTask(TaskId; aws_config::AWSConfig=AWS.aws_config) = fsx("CancelDataRepositoryTask", Dict{String, Any}("TaskId"=>TaskId); aws_config=aws_config)
-CancelDataRepositoryTask(TaskId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = fsx("CancelDataRepositoryTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskId"=>TaskId), args)); aws_config=aws_config)
+CancelDataRepositoryTask(TaskId; aws_config::AWSConfig=global_aws_config()) = fsx("CancelDataRepositoryTask", Dict{String, Any}("TaskId"=>TaskId); aws_config=aws_config)
+CancelDataRepositoryTask(TaskId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = fsx("CancelDataRepositoryTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskId"=>TaskId), args)); aws_config=aws_config)
 
 """
     CreateBackup()
@@ -30,8 +30,8 @@ Creates a backup of an existing Amazon FSx file system. Creating regular backups
 - `Tags`: The tags to apply to the backup at backup creation. The key value of the Name tag appears in the console as the backup name. If you have set CopyTagsToBackups to true, and you specify one or more tags using the CreateBackup action, no existing tags on the file system are copied from the file system to the backup.
 """
 
-CreateBackup(FileSystemId; aws_config::AWSConfig=AWS.aws_config) = fsx("CreateBackup", Dict{String, Any}("FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-CreateBackup(FileSystemId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = fsx("CreateBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+CreateBackup(FileSystemId; aws_config::AWSConfig=global_aws_config()) = fsx("CreateBackup", Dict{String, Any}("FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+CreateBackup(FileSystemId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = fsx("CreateBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     CreateDataRepositoryTask()
@@ -49,8 +49,8 @@ Creates an Amazon FSx for Lustre data repository task. You use data repository t
 - `Tags`: 
 """
 
-CreateDataRepositoryTask(FileSystemId, Report, Type; aws_config::AWSConfig=AWS.aws_config) = fsx("CreateDataRepositoryTask", Dict{String, Any}("FileSystemId"=>FileSystemId, "Report"=>Report, "Type"=>Type, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-CreateDataRepositoryTask(FileSystemId, Report, Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = fsx("CreateDataRepositoryTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemId"=>FileSystemId, "Report"=>Report, "Type"=>Type, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+CreateDataRepositoryTask(FileSystemId, Report, Type; aws_config::AWSConfig=global_aws_config()) = fsx("CreateDataRepositoryTask", Dict{String, Any}("FileSystemId"=>FileSystemId, "Report"=>Report, "Type"=>Type, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+CreateDataRepositoryTask(FileSystemId, Report, Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = fsx("CreateDataRepositoryTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemId"=>FileSystemId, "Report"=>Report, "Type"=>Type, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     CreateFileSystem()
@@ -72,8 +72,8 @@ Creates a new, empty Amazon FSx file system. If a file system with the specified
 - `WindowsConfiguration`: The Microsoft Windows configuration for the file system being created. 
 """
 
-CreateFileSystem(FileSystemType, StorageCapacity, SubnetIds; aws_config::AWSConfig=AWS.aws_config) = fsx("CreateFileSystem", Dict{String, Any}("FileSystemType"=>FileSystemType, "StorageCapacity"=>StorageCapacity, "SubnetIds"=>SubnetIds, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-CreateFileSystem(FileSystemType, StorageCapacity, SubnetIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = fsx("CreateFileSystem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemType"=>FileSystemType, "StorageCapacity"=>StorageCapacity, "SubnetIds"=>SubnetIds, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+CreateFileSystem(FileSystemType, StorageCapacity, SubnetIds; aws_config::AWSConfig=global_aws_config()) = fsx("CreateFileSystem", Dict{String, Any}("FileSystemType"=>FileSystemType, "StorageCapacity"=>StorageCapacity, "SubnetIds"=>SubnetIds, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+CreateFileSystem(FileSystemType, StorageCapacity, SubnetIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = fsx("CreateFileSystem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemType"=>FileSystemType, "StorageCapacity"=>StorageCapacity, "SubnetIds"=>SubnetIds, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     CreateFileSystemFromBackup()
@@ -93,8 +93,8 @@ Creates a new Amazon FSx file system from an existing Amazon FSx backup. If a fi
 - `WindowsConfiguration`: The configuration for this Microsoft Windows file system.
 """
 
-CreateFileSystemFromBackup(BackupId, SubnetIds; aws_config::AWSConfig=AWS.aws_config) = fsx("CreateFileSystemFromBackup", Dict{String, Any}("BackupId"=>BackupId, "SubnetIds"=>SubnetIds, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-CreateFileSystemFromBackup(BackupId, SubnetIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = fsx("CreateFileSystemFromBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId, "SubnetIds"=>SubnetIds, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+CreateFileSystemFromBackup(BackupId, SubnetIds; aws_config::AWSConfig=global_aws_config()) = fsx("CreateFileSystemFromBackup", Dict{String, Any}("BackupId"=>BackupId, "SubnetIds"=>SubnetIds, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+CreateFileSystemFromBackup(BackupId, SubnetIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = fsx("CreateFileSystemFromBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId, "SubnetIds"=>SubnetIds, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     DeleteBackup()
@@ -108,8 +108,8 @@ Deletes an Amazon FSx backup, deleting its contents. After deletion, the backup 
 - `ClientRequestToken`: A string of up to 64 ASCII characters that Amazon FSx uses to ensure idempotent deletion. This is automatically filled on your behalf when using the AWS CLI or SDK.
 """
 
-DeleteBackup(BackupId; aws_config::AWSConfig=AWS.aws_config) = fsx("DeleteBackup", Dict{String, Any}("BackupId"=>BackupId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-DeleteBackup(BackupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = fsx("DeleteBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+DeleteBackup(BackupId; aws_config::AWSConfig=global_aws_config()) = fsx("DeleteBackup", Dict{String, Any}("BackupId"=>BackupId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+DeleteBackup(BackupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = fsx("DeleteBackup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupId"=>BackupId, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     DeleteFileSystem()
@@ -125,8 +125,8 @@ Deletes a file system, deleting its contents. After deletion, the file system no
 - `WindowsConfiguration`: 
 """
 
-DeleteFileSystem(FileSystemId; aws_config::AWSConfig=AWS.aws_config) = fsx("DeleteFileSystem", Dict{String, Any}("FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-DeleteFileSystem(FileSystemId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = fsx("DeleteFileSystem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+DeleteFileSystem(FileSystemId; aws_config::AWSConfig=global_aws_config()) = fsx("DeleteFileSystem", Dict{String, Any}("FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+DeleteFileSystem(FileSystemId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = fsx("DeleteFileSystem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     DescribeBackups()
@@ -140,8 +140,8 @@ Returns the description of specific Amazon FSx backups, if a BackupIds value is 
 - `NextToken`: Opaque pagination token returned from a previous DescribeBackups operation (String). If a token present, the action continues the list from where the returning call left off.
 """
 
-DescribeBackups(; aws_config::AWSConfig=AWS.aws_config) = fsx("DescribeBackups"; aws_config=aws_config)
-DescribeBackups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = fsx("DescribeBackups", args; aws_config=aws_config)
+DescribeBackups(; aws_config::AWSConfig=global_aws_config()) = fsx("DescribeBackups"; aws_config=aws_config)
+DescribeBackups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = fsx("DescribeBackups", args; aws_config=aws_config)
 
 """
     DescribeDataRepositoryTasks()
@@ -155,8 +155,8 @@ Returns the description of specific Amazon FSx for Lustre data repository tasks,
 - `TaskIds`: (Optional) IDs of the tasks whose descriptions you want to retrieve (String).
 """
 
-DescribeDataRepositoryTasks(; aws_config::AWSConfig=AWS.aws_config) = fsx("DescribeDataRepositoryTasks"; aws_config=aws_config)
-DescribeDataRepositoryTasks(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = fsx("DescribeDataRepositoryTasks", args; aws_config=aws_config)
+DescribeDataRepositoryTasks(; aws_config::AWSConfig=global_aws_config()) = fsx("DescribeDataRepositoryTasks"; aws_config=aws_config)
+DescribeDataRepositoryTasks(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = fsx("DescribeDataRepositoryTasks", args; aws_config=aws_config)
 
 """
     DescribeFileSystems()
@@ -169,8 +169,8 @@ Returns the description of specific Amazon FSx file systems, if a FileSystemIds 
 - `NextToken`: Opaque pagination token returned from a previous DescribeFileSystems operation (String). If a token present, the action continues the list from where the returning call left off.
 """
 
-DescribeFileSystems(; aws_config::AWSConfig=AWS.aws_config) = fsx("DescribeFileSystems"; aws_config=aws_config)
-DescribeFileSystems(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = fsx("DescribeFileSystems", args; aws_config=aws_config)
+DescribeFileSystems(; aws_config::AWSConfig=global_aws_config()) = fsx("DescribeFileSystems"; aws_config=aws_config)
+DescribeFileSystems(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = fsx("DescribeFileSystems", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -185,8 +185,8 @@ Lists tags for an Amazon FSx file systems and backups in the case of Amazon FSx 
 - `NextToken`: Opaque pagination token returned from a previous ListTagsForResource operation (String). If a token present, the action continues the list from where the returning call left off.
 """
 
-ListTagsForResource(ResourceARN; aws_config::AWSConfig=AWS.aws_config) = fsx("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
-ListTagsForResource(ResourceARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = fsx("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), args)); aws_config=aws_config)
+ListTagsForResource(ResourceARN; aws_config::AWSConfig=global_aws_config()) = fsx("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
+ListTagsForResource(ResourceARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = fsx("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -199,8 +199,8 @@ Tags an Amazon FSx resource.
 
 """
 
-TagResource(ResourceARN, Tags; aws_config::AWSConfig=AWS.aws_config) = fsx("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
-TagResource(ResourceARN, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = fsx("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), args)); aws_config=aws_config)
+TagResource(ResourceARN, Tags; aws_config::AWSConfig=global_aws_config()) = fsx("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
+TagResource(ResourceARN, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = fsx("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -213,8 +213,8 @@ This action removes a tag from an Amazon FSx resource.
 
 """
 
-UntagResource(ResourceARN, TagKeys; aws_config::AWSConfig=AWS.aws_config) = fsx("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
-UntagResource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = fsx("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+UntagResource(ResourceARN, TagKeys; aws_config::AWSConfig=global_aws_config()) = fsx("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
+UntagResource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = fsx("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
 
 """
     UpdateFileSystem()
@@ -231,5 +231,5 @@ Use this operation to update the configuration of an existing Amazon FSx file sy
 - `WindowsConfiguration`: The configuration updates for an Amazon FSx for Windows File Server file system.
 """
 
-UpdateFileSystem(FileSystemId; aws_config::AWSConfig=AWS.aws_config) = fsx("UpdateFileSystem", Dict{String, Any}("FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
-UpdateFileSystem(FileSystemId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = fsx("UpdateFileSystem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
+UpdateFileSystem(FileSystemId; aws_config::AWSConfig=global_aws_config()) = fsx("UpdateFileSystem", Dict{String, Any}("FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+UpdateFileSystem(FileSystemId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = fsx("UpdateFileSystem", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemId"=>FileSystemId, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)

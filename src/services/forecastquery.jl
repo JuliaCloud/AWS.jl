@@ -19,5 +19,5 @@ Retrieves a forecast for a single item, filtered by the supplied criteria. The c
 - `StartDate`: The start date for the forecast. Specify the date using this format: yyyy-MM-dd'T'HH:mm:ss (ISO 8601 format). For example, 2015-01-01T08:00:00.
 """
 
-QueryForecast(Filters, ForecastArn; aws_config::AWSConfig=AWS.aws_config) = forecastquery("QueryForecast", Dict{String, Any}("Filters"=>Filters, "ForecastArn"=>ForecastArn); aws_config=aws_config)
-QueryForecast(Filters, ForecastArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = forecastquery("QueryForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filters"=>Filters, "ForecastArn"=>ForecastArn), args)); aws_config=aws_config)
+QueryForecast(Filters, ForecastArn; aws_config::AWSConfig=global_aws_config()) = forecastquery("QueryForecast", Dict{String, Any}("Filters"=>Filters, "ForecastArn"=>ForecastArn); aws_config=aws_config)
+QueryForecast(Filters, ForecastArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = forecastquery("QueryForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Filters"=>Filters, "ForecastArn"=>ForecastArn), args)); aws_config=aws_config)

@@ -16,8 +16,8 @@ This operation aborts a multipart upload identified by the upload ID. After the 
 
 """
 
-AbortMultipartUpload(accountId, uploadId, vaultName; aws_config::AWSConfig=AWS.aws_config) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)"; aws_config=aws_config)
-AbortMultipartUpload(accountId, uploadId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)", args; aws_config=aws_config)
+AbortMultipartUpload(accountId, uploadId, vaultName; aws_config::AWSConfig=global_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)"; aws_config=aws_config)
+AbortMultipartUpload(accountId, uploadId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)", args; aws_config=aws_config)
 
 """
     AbortVaultLock()
@@ -30,8 +30,8 @@ This operation aborts the vault locking process if the vault lock is not in the 
 
 """
 
-AbortVaultLock(accountId, vaultName; aws_config::AWSConfig=AWS.aws_config) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/lock-policy"; aws_config=aws_config)
-AbortVaultLock(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/lock-policy", args; aws_config=aws_config)
+AbortVaultLock(accountId, vaultName; aws_config::AWSConfig=global_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/lock-policy"; aws_config=aws_config)
+AbortVaultLock(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/lock-policy", args; aws_config=aws_config)
 
 """
     AddTagsToVault()
@@ -46,8 +46,8 @@ This operation adds the specified tags to a vault. Each tag is composed of a key
 - `Tags`: The tags to add to the vault. Each tag is composed of a key and a value. The value can be an empty string.
 """
 
-AddTagsToVault(accountId, vaultName; aws_config::AWSConfig=AWS.aws_config) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/tags?operation=add"; aws_config=aws_config)
-AddTagsToVault(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/tags?operation=add", args; aws_config=aws_config)
+AddTagsToVault(accountId, vaultName; aws_config::AWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/tags?operation=add"; aws_config=aws_config)
+AddTagsToVault(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/tags?operation=add", args; aws_config=aws_config)
 
 """
     CompleteMultipartUpload()
@@ -64,8 +64,8 @@ You call this operation to inform Amazon S3 Glacier (Glacier) that all the archi
 - `x-amz-sha256-tree-hash`: The SHA256 tree hash of the entire archive. It is the tree hash of SHA256 tree hash of the individual parts. If the value you specify in the request does not match the SHA256 tree hash of the final assembled archive as computed by Amazon S3 Glacier (Glacier), Glacier returns an error and the request fails.
 """
 
-CompleteMultipartUpload(accountId, uploadId, vaultName; aws_config::AWSConfig=AWS.aws_config) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)"; aws_config=aws_config)
-CompleteMultipartUpload(accountId, uploadId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)", args; aws_config=aws_config)
+CompleteMultipartUpload(accountId, uploadId, vaultName; aws_config::AWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)"; aws_config=aws_config)
+CompleteMultipartUpload(accountId, uploadId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)", args; aws_config=aws_config)
 
 """
     CompleteVaultLock()
@@ -79,8 +79,8 @@ This operation completes the vault locking process by transitioning the vault lo
 
 """
 
-CompleteVaultLock(accountId, lockId, vaultName; aws_config::AWSConfig=AWS.aws_config) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/lock-policy/$(lockId)"; aws_config=aws_config)
-CompleteVaultLock(accountId, lockId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/lock-policy/$(lockId)", args; aws_config=aws_config)
+CompleteVaultLock(accountId, lockId, vaultName; aws_config::AWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/lock-policy/$(lockId)"; aws_config=aws_config)
+CompleteVaultLock(accountId, lockId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/lock-policy/$(lockId)", args; aws_config=aws_config)
 
 """
     CreateVault()
@@ -93,8 +93,8 @@ This operation creates a new vault with the specified name. The name of the vaul
 
 """
 
-CreateVault(accountId, vaultName; aws_config::AWSConfig=AWS.aws_config) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)"; aws_config=aws_config)
-CreateVault(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)", args; aws_config=aws_config)
+CreateVault(accountId, vaultName; aws_config::AWSConfig=global_aws_config()) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)"; aws_config=aws_config)
+CreateVault(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)", args; aws_config=aws_config)
 
 """
     DeleteArchive()
@@ -108,8 +108,8 @@ This operation deletes an archive from a vault. Subsequent requests to initiate 
 
 """
 
-DeleteArchive(accountId, archiveId, vaultName; aws_config::AWSConfig=AWS.aws_config) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/archives/$(archiveId)"; aws_config=aws_config)
-DeleteArchive(accountId, archiveId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/archives/$(archiveId)", args; aws_config=aws_config)
+DeleteArchive(accountId, archiveId, vaultName; aws_config::AWSConfig=global_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/archives/$(archiveId)"; aws_config=aws_config)
+DeleteArchive(accountId, archiveId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/archives/$(archiveId)", args; aws_config=aws_config)
 
 """
     DeleteVault()
@@ -122,8 +122,8 @@ This operation deletes a vault. Amazon S3 Glacier will delete a vault only if th
 
 """
 
-DeleteVault(accountId, vaultName; aws_config::AWSConfig=AWS.aws_config) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)"; aws_config=aws_config)
-DeleteVault(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)", args; aws_config=aws_config)
+DeleteVault(accountId, vaultName; aws_config::AWSConfig=global_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)"; aws_config=aws_config)
+DeleteVault(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)", args; aws_config=aws_config)
 
 """
     DeleteVaultAccessPolicy()
@@ -136,8 +136,8 @@ This operation deletes the access policy associated with the specified vault. Th
 
 """
 
-DeleteVaultAccessPolicy(accountId, vaultName; aws_config::AWSConfig=AWS.aws_config) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/access-policy"; aws_config=aws_config)
-DeleteVaultAccessPolicy(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/access-policy", args; aws_config=aws_config)
+DeleteVaultAccessPolicy(accountId, vaultName; aws_config::AWSConfig=global_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/access-policy"; aws_config=aws_config)
+DeleteVaultAccessPolicy(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/access-policy", args; aws_config=aws_config)
 
 """
     DeleteVaultNotifications()
@@ -150,8 +150,8 @@ This operation deletes the notification configuration set for a vault. The opera
 
 """
 
-DeleteVaultNotifications(accountId, vaultName; aws_config::AWSConfig=AWS.aws_config) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/notification-configuration"; aws_config=aws_config)
-DeleteVaultNotifications(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/notification-configuration", args; aws_config=aws_config)
+DeleteVaultNotifications(accountId, vaultName; aws_config::AWSConfig=global_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/notification-configuration"; aws_config=aws_config)
+DeleteVaultNotifications(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glacier("DELETE", "/$(accountId)/vaults/$(vaultName)/notification-configuration", args; aws_config=aws_config)
 
 """
     DescribeJob()
@@ -165,8 +165,8 @@ This operation returns information about a job you previously initiated, includi
 
 """
 
-DescribeJob(accountId, jobId, vaultName; aws_config::AWSConfig=AWS.aws_config) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/jobs/$(jobId)"; aws_config=aws_config)
-DescribeJob(accountId, jobId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/jobs/$(jobId)", args; aws_config=aws_config)
+DescribeJob(accountId, jobId, vaultName; aws_config::AWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/jobs/$(jobId)"; aws_config=aws_config)
+DescribeJob(accountId, jobId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/jobs/$(jobId)", args; aws_config=aws_config)
 
 """
     DescribeVault()
@@ -179,8 +179,8 @@ This operation returns information about a vault, including the vault's Amazon R
 
 """
 
-DescribeVault(accountId, vaultName; aws_config::AWSConfig=AWS.aws_config) = glacier("GET", "/$(accountId)/vaults/$(vaultName)"; aws_config=aws_config)
-DescribeVault(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glacier("GET", "/$(accountId)/vaults/$(vaultName)", args; aws_config=aws_config)
+DescribeVault(accountId, vaultName; aws_config::AWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)"; aws_config=aws_config)
+DescribeVault(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)", args; aws_config=aws_config)
 
 """
     GetDataRetrievalPolicy()
@@ -192,8 +192,8 @@ This operation returns the current data retrieval policy for the account and reg
 
 """
 
-GetDataRetrievalPolicy(accountId; aws_config::AWSConfig=AWS.aws_config) = glacier("GET", "/$(accountId)/policies/data-retrieval"; aws_config=aws_config)
-GetDataRetrievalPolicy(accountId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glacier("GET", "/$(accountId)/policies/data-retrieval", args; aws_config=aws_config)
+GetDataRetrievalPolicy(accountId; aws_config::AWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/policies/data-retrieval"; aws_config=aws_config)
+GetDataRetrievalPolicy(accountId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/policies/data-retrieval", args; aws_config=aws_config)
 
 """
     GetJobOutput()
@@ -209,8 +209,8 @@ This operation downloads the output of the job you initiated using InitiateJob. 
 - `Range`: The range of bytes to retrieve from the output. For example, if you want to download the first 1,048,576 bytes, specify the range as bytes=0-1048575. By default, this operation downloads the entire output. If the job output is large, then you can use a range to retrieve a portion of the output. This allows you to download the entire output in smaller chunks of bytes. For example, suppose you have 1 GB of job output you want to download and you decide to download 128 MB chunks of data at a time, which is a total of eight Get Job Output requests. You use the following process to download the job output:   Download a 128 MB chunk of output by specifying the appropriate byte range. Verify that all 128 MB of data was received.   Along with the data, the response includes a SHA256 tree hash of the payload. You compute the checksum of the payload on the client and compare it with the checksum you received in the response to ensure you received all the expected data.   Repeat steps 1 and 2 for all the eight 128 MB chunks of output data, each time specifying the appropriate byte range.   After downloading all the parts of the job output, you have a list of eight checksum values. Compute the tree hash of these values to find the checksum of the entire output. Using the DescribeJob API, obtain job information of the job that provided you the output. The response includes the checksum of the entire archive stored in Amazon S3 Glacier. You compare this value with the checksum you computed to ensure you have downloaded the entire archive content with no errors.   
 """
 
-GetJobOutput(accountId, jobId, vaultName; aws_config::AWSConfig=AWS.aws_config) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/jobs/$(jobId)/output"; aws_config=aws_config)
-GetJobOutput(accountId, jobId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/jobs/$(jobId)/output", args; aws_config=aws_config)
+GetJobOutput(accountId, jobId, vaultName; aws_config::AWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/jobs/$(jobId)/output"; aws_config=aws_config)
+GetJobOutput(accountId, jobId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/jobs/$(jobId)/output", args; aws_config=aws_config)
 
 """
     GetVaultAccessPolicy()
@@ -223,8 +223,8 @@ This operation retrieves the access-policy subresource set on the vault; for mor
 
 """
 
-GetVaultAccessPolicy(accountId, vaultName; aws_config::AWSConfig=AWS.aws_config) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/access-policy"; aws_config=aws_config)
-GetVaultAccessPolicy(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/access-policy", args; aws_config=aws_config)
+GetVaultAccessPolicy(accountId, vaultName; aws_config::AWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/access-policy"; aws_config=aws_config)
+GetVaultAccessPolicy(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/access-policy", args; aws_config=aws_config)
 
 """
     GetVaultLock()
@@ -237,8 +237,8 @@ This operation retrieves the following attributes from the lock-policy subresour
 
 """
 
-GetVaultLock(accountId, vaultName; aws_config::AWSConfig=AWS.aws_config) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/lock-policy"; aws_config=aws_config)
-GetVaultLock(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/lock-policy", args; aws_config=aws_config)
+GetVaultLock(accountId, vaultName; aws_config::AWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/lock-policy"; aws_config=aws_config)
+GetVaultLock(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/lock-policy", args; aws_config=aws_config)
 
 """
     GetVaultNotifications()
@@ -251,8 +251,8 @@ This operation retrieves the notification-configuration subresource of the speci
 
 """
 
-GetVaultNotifications(accountId, vaultName; aws_config::AWSConfig=AWS.aws_config) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/notification-configuration"; aws_config=aws_config)
-GetVaultNotifications(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/notification-configuration", args; aws_config=aws_config)
+GetVaultNotifications(accountId, vaultName; aws_config::AWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/notification-configuration"; aws_config=aws_config)
+GetVaultNotifications(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/notification-configuration", args; aws_config=aws_config)
 
 """
     InitiateJob()
@@ -267,8 +267,8 @@ This operation initiates a job of the specified type, which can be a select, an 
 - `jobParameters`: Provides options for specifying job information.
 """
 
-InitiateJob(accountId, vaultName; aws_config::AWSConfig=AWS.aws_config) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/jobs"; aws_config=aws_config)
-InitiateJob(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/jobs", args; aws_config=aws_config)
+InitiateJob(accountId, vaultName; aws_config::AWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/jobs"; aws_config=aws_config)
+InitiateJob(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/jobs", args; aws_config=aws_config)
 
 """
     InitiateMultipartUpload()
@@ -284,8 +284,8 @@ This operation initiates a multipart upload. Amazon S3 Glacier creates a multipa
 - `x-amz-part-size`: The size of each part except the last, in bytes. The last part can be smaller than this part size.
 """
 
-InitiateMultipartUpload(accountId, vaultName; aws_config::AWSConfig=AWS.aws_config) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/multipart-uploads"; aws_config=aws_config)
-InitiateMultipartUpload(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/multipart-uploads", args; aws_config=aws_config)
+InitiateMultipartUpload(accountId, vaultName; aws_config::AWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/multipart-uploads"; aws_config=aws_config)
+InitiateMultipartUpload(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/multipart-uploads", args; aws_config=aws_config)
 
 """
     InitiateVaultLock()
@@ -300,8 +300,8 @@ This operation initiates the vault locking process by doing the following:   Ins
 - `policy`: The vault lock policy as a JSON string, which uses \" \" as an escape character.
 """
 
-InitiateVaultLock(accountId, vaultName; aws_config::AWSConfig=AWS.aws_config) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/lock-policy"; aws_config=aws_config)
-InitiateVaultLock(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/lock-policy", args; aws_config=aws_config)
+InitiateVaultLock(accountId, vaultName; aws_config::AWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/lock-policy"; aws_config=aws_config)
+InitiateVaultLock(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/lock-policy", args; aws_config=aws_config)
 
 """
     ListJobs()
@@ -319,8 +319,8 @@ This operation lists jobs for a vault, including jobs that are in-progress and j
 - `statuscode`: The type of job status to return. You can specify the following values: InProgress, Succeeded, or Failed.
 """
 
-ListJobs(accountId, vaultName; aws_config::AWSConfig=AWS.aws_config) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/jobs"; aws_config=aws_config)
-ListJobs(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/jobs", args; aws_config=aws_config)
+ListJobs(accountId, vaultName; aws_config::AWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/jobs"; aws_config=aws_config)
+ListJobs(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/jobs", args; aws_config=aws_config)
 
 """
     ListMultipartUploads()
@@ -336,8 +336,8 @@ This operation lists in-progress multipart uploads for the specified vault. An i
 - `marker`: An opaque string used for pagination. This value specifies the upload at which the listing of uploads should begin. Get the marker value from a previous List Uploads response. You need only include the marker if you are continuing the pagination of results started in a previous List Uploads request.
 """
 
-ListMultipartUploads(accountId, vaultName; aws_config::AWSConfig=AWS.aws_config) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/multipart-uploads"; aws_config=aws_config)
-ListMultipartUploads(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/multipart-uploads", args; aws_config=aws_config)
+ListMultipartUploads(accountId, vaultName; aws_config::AWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/multipart-uploads"; aws_config=aws_config)
+ListMultipartUploads(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/multipart-uploads", args; aws_config=aws_config)
 
 """
     ListParts()
@@ -354,8 +354,8 @@ This operation lists the parts of an archive that have been uploaded in a specif
 - `marker`: An opaque string used for pagination. This value specifies the part at which the listing of parts should begin. Get the marker value from the response of a previous List Parts response. You need only include the marker if you are continuing the pagination of results started in a previous List Parts request.
 """
 
-ListParts(accountId, uploadId, vaultName; aws_config::AWSConfig=AWS.aws_config) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)"; aws_config=aws_config)
-ListParts(accountId, uploadId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)", args; aws_config=aws_config)
+ListParts(accountId, uploadId, vaultName; aws_config::AWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)"; aws_config=aws_config)
+ListParts(accountId, uploadId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)", args; aws_config=aws_config)
 
 """
     ListProvisionedCapacity()
@@ -367,8 +367,8 @@ This operation lists the provisioned capacity units for the specified AWS accoun
 
 """
 
-ListProvisionedCapacity(accountId; aws_config::AWSConfig=AWS.aws_config) = glacier("GET", "/$(accountId)/provisioned-capacity"; aws_config=aws_config)
-ListProvisionedCapacity(accountId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glacier("GET", "/$(accountId)/provisioned-capacity", args; aws_config=aws_config)
+ListProvisionedCapacity(accountId; aws_config::AWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/provisioned-capacity"; aws_config=aws_config)
+ListProvisionedCapacity(accountId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/provisioned-capacity", args; aws_config=aws_config)
 
 """
     ListTagsForVault()
@@ -381,8 +381,8 @@ This operation lists all the tags attached to a vault. The operation returns an 
 
 """
 
-ListTagsForVault(accountId, vaultName; aws_config::AWSConfig=AWS.aws_config) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/tags"; aws_config=aws_config)
-ListTagsForVault(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/tags", args; aws_config=aws_config)
+ListTagsForVault(accountId, vaultName; aws_config::AWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/tags"; aws_config=aws_config)
+ListTagsForVault(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults/$(vaultName)/tags", args; aws_config=aws_config)
 
 """
     ListVaults()
@@ -397,8 +397,8 @@ This operation lists all vaults owned by the calling user's account. The list re
 - `marker`: A string used for pagination. The marker specifies the vault ARN after which the listing of vaults should begin.
 """
 
-ListVaults(accountId; aws_config::AWSConfig=AWS.aws_config) = glacier("GET", "/$(accountId)/vaults"; aws_config=aws_config)
-ListVaults(accountId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glacier("GET", "/$(accountId)/vaults", args; aws_config=aws_config)
+ListVaults(accountId; aws_config::AWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults"; aws_config=aws_config)
+ListVaults(accountId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glacier("GET", "/$(accountId)/vaults", args; aws_config=aws_config)
 
 """
     PurchaseProvisionedCapacity()
@@ -410,8 +410,8 @@ This operation purchases a provisioned capacity unit for an AWS account.
 
 """
 
-PurchaseProvisionedCapacity(accountId; aws_config::AWSConfig=AWS.aws_config) = glacier("POST", "/$(accountId)/provisioned-capacity"; aws_config=aws_config)
-PurchaseProvisionedCapacity(accountId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glacier("POST", "/$(accountId)/provisioned-capacity", args; aws_config=aws_config)
+PurchaseProvisionedCapacity(accountId; aws_config::AWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/provisioned-capacity"; aws_config=aws_config)
+PurchaseProvisionedCapacity(accountId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/provisioned-capacity", args; aws_config=aws_config)
 
 """
     RemoveTagsFromVault()
@@ -426,8 +426,8 @@ This operation removes one or more tags from the set of tags attached to a vault
 - `TagKeys`: A list of tag keys. Each corresponding tag is removed from the vault.
 """
 
-RemoveTagsFromVault(accountId, vaultName; aws_config::AWSConfig=AWS.aws_config) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/tags?operation=remove"; aws_config=aws_config)
-RemoveTagsFromVault(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/tags?operation=remove", args; aws_config=aws_config)
+RemoveTagsFromVault(accountId, vaultName; aws_config::AWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/tags?operation=remove"; aws_config=aws_config)
+RemoveTagsFromVault(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/tags?operation=remove", args; aws_config=aws_config)
 
 """
     SetDataRetrievalPolicy()
@@ -441,8 +441,8 @@ This operation sets and then enacts a data retrieval policy in the region specif
 - `Policy`: The data retrieval policy in JSON format.
 """
 
-SetDataRetrievalPolicy(accountId; aws_config::AWSConfig=AWS.aws_config) = glacier("PUT", "/$(accountId)/policies/data-retrieval"; aws_config=aws_config)
-SetDataRetrievalPolicy(accountId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glacier("PUT", "/$(accountId)/policies/data-retrieval", args; aws_config=aws_config)
+SetDataRetrievalPolicy(accountId; aws_config::AWSConfig=global_aws_config()) = glacier("PUT", "/$(accountId)/policies/data-retrieval"; aws_config=aws_config)
+SetDataRetrievalPolicy(accountId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glacier("PUT", "/$(accountId)/policies/data-retrieval", args; aws_config=aws_config)
 
 """
     SetVaultAccessPolicy()
@@ -457,8 +457,8 @@ This operation configures an access policy for a vault and will overwrite an exi
 - `policy`: The vault access policy as a JSON string.
 """
 
-SetVaultAccessPolicy(accountId, vaultName; aws_config::AWSConfig=AWS.aws_config) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)/access-policy"; aws_config=aws_config)
-SetVaultAccessPolicy(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)/access-policy", args; aws_config=aws_config)
+SetVaultAccessPolicy(accountId, vaultName; aws_config::AWSConfig=global_aws_config()) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)/access-policy"; aws_config=aws_config)
+SetVaultAccessPolicy(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)/access-policy", args; aws_config=aws_config)
 
 """
     SetVaultNotifications()
@@ -473,8 +473,8 @@ This operation configures notifications that will be sent when specific events h
 - `vaultNotificationConfig`: Provides options for specifying notification configuration.
 """
 
-SetVaultNotifications(accountId, vaultName; aws_config::AWSConfig=AWS.aws_config) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)/notification-configuration"; aws_config=aws_config)
-SetVaultNotifications(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)/notification-configuration", args; aws_config=aws_config)
+SetVaultNotifications(accountId, vaultName; aws_config::AWSConfig=global_aws_config()) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)/notification-configuration"; aws_config=aws_config)
+SetVaultNotifications(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)/notification-configuration", args; aws_config=aws_config)
 
 """
     UploadArchive()
@@ -491,8 +491,8 @@ This operation adds an archive to a vault. This is a synchronous operation, and 
 - `x-amz-sha256-tree-hash`: The SHA256 tree hash of the data being uploaded.
 """
 
-UploadArchive(accountId, vaultName; aws_config::AWSConfig=AWS.aws_config) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/archives"; aws_config=aws_config)
-UploadArchive(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/archives", args; aws_config=aws_config)
+UploadArchive(accountId, vaultName; aws_config::AWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/archives"; aws_config=aws_config)
+UploadArchive(accountId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glacier("POST", "/$(accountId)/vaults/$(vaultName)/archives", args; aws_config=aws_config)
 
 """
     UploadMultipartPart()
@@ -510,5 +510,5 @@ This operation uploads a part of an archive. You can upload archive parts in any
 - `x-amz-sha256-tree-hash`: The SHA256 tree hash of the data being uploaded.
 """
 
-UploadMultipartPart(accountId, uploadId, vaultName; aws_config::AWSConfig=AWS.aws_config) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)"; aws_config=aws_config)
-UploadMultipartPart(accountId, uploadId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)", args; aws_config=aws_config)
+UploadMultipartPart(accountId, uploadId, vaultName; aws_config::AWSConfig=global_aws_config()) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)"; aws_config=aws_config)
+UploadMultipartPart(accountId, uploadId, vaultName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = glacier("PUT", "/$(accountId)/vaults/$(vaultName)/multipart-uploads/$(uploadId)", args; aws_config=aws_config)

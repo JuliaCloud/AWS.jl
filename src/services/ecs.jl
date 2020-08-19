@@ -17,8 +17,8 @@ Creates a new capacity provider. Capacity providers are associated with an Amazo
 - `tags`: The metadata that you apply to the capacity provider to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8   Maximum value length - 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for AWS use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.  
 """
 
-CreateCapacityProvider(autoScalingGroupProvider, name; aws_config::AWSConfig=AWS.aws_config) = ecs("CreateCapacityProvider", Dict{String, Any}("autoScalingGroupProvider"=>autoScalingGroupProvider, "name"=>name); aws_config=aws_config)
-CreateCapacityProvider(autoScalingGroupProvider, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("CreateCapacityProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("autoScalingGroupProvider"=>autoScalingGroupProvider, "name"=>name), args)); aws_config=aws_config)
+CreateCapacityProvider(autoScalingGroupProvider, name; aws_config::AWSConfig=global_aws_config()) = ecs("CreateCapacityProvider", Dict{String, Any}("autoScalingGroupProvider"=>autoScalingGroupProvider, "name"=>name); aws_config=aws_config)
+CreateCapacityProvider(autoScalingGroupProvider, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("CreateCapacityProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("autoScalingGroupProvider"=>autoScalingGroupProvider, "name"=>name), args)); aws_config=aws_config)
 
 """
     CreateCluster()
@@ -33,8 +33,8 @@ Creates a new Amazon ECS cluster. By default, your account receives a default cl
 - `tags`: The metadata that you apply to the cluster to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8   Maximum value length - 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for AWS use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.  
 """
 
-CreateCluster(; aws_config::AWSConfig=AWS.aws_config) = ecs("CreateCluster"; aws_config=aws_config)
-CreateCluster(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("CreateCluster", args; aws_config=aws_config)
+CreateCluster(; aws_config::AWSConfig=global_aws_config()) = ecs("CreateCluster"; aws_config=aws_config)
+CreateCluster(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("CreateCluster", args; aws_config=aws_config)
 
 """
     CreateService()
@@ -67,8 +67,8 @@ Runs and maintains a desired number of tasks from a specified task definition. I
 - `taskDefinition`: The family and revision (family:revision) or full ARN of the task definition to run in your service. If a revision is not specified, the latest ACTIVE revision is used. A task definition must be specified if the service is using the ECS deployment controller.
 """
 
-CreateService(serviceName; aws_config::AWSConfig=AWS.aws_config) = ecs("CreateService", Dict{String, Any}("serviceName"=>serviceName); aws_config=aws_config)
-CreateService(serviceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("CreateService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceName"=>serviceName), args)); aws_config=aws_config)
+CreateService(serviceName; aws_config::AWSConfig=global_aws_config()) = ecs("CreateService", Dict{String, Any}("serviceName"=>serviceName); aws_config=aws_config)
+CreateService(serviceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("CreateService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("serviceName"=>serviceName), args)); aws_config=aws_config)
 
 """
     CreateTaskSet()
@@ -93,8 +93,8 @@ Create a task set in the specified cluster and service. This is used when a serv
 - `tags`: The metadata that you apply to the task set to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. When a service is deleted, the tags are deleted as well. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8   Maximum value length - 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for AWS use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.  
 """
 
-CreateTaskSet(cluster, service, taskDefinition; aws_config::AWSConfig=AWS.aws_config) = ecs("CreateTaskSet", Dict{String, Any}("cluster"=>cluster, "service"=>service, "taskDefinition"=>taskDefinition); aws_config=aws_config)
-CreateTaskSet(cluster, service, taskDefinition, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("CreateTaskSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster, "service"=>service, "taskDefinition"=>taskDefinition), args)); aws_config=aws_config)
+CreateTaskSet(cluster, service, taskDefinition; aws_config::AWSConfig=global_aws_config()) = ecs("CreateTaskSet", Dict{String, Any}("cluster"=>cluster, "service"=>service, "taskDefinition"=>taskDefinition); aws_config=aws_config)
+CreateTaskSet(cluster, service, taskDefinition, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("CreateTaskSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster, "service"=>service, "taskDefinition"=>taskDefinition), args)); aws_config=aws_config)
 
 """
     DeleteAccountSetting()
@@ -108,8 +108,8 @@ Disables an account setting for a specified IAM user, IAM role, or the root user
 - `principalArn`: The ARN of the principal, which can be an IAM user, IAM role, or the root user. If you specify the root user, it disables the account setting for all IAM users, IAM roles, and the root user of the account unless an IAM user or role explicitly overrides these settings. If this field is omitted, the setting is changed only for the authenticated user.
 """
 
-DeleteAccountSetting(name; aws_config::AWSConfig=AWS.aws_config) = ecs("DeleteAccountSetting", Dict{String, Any}("name"=>name); aws_config=aws_config)
-DeleteAccountSetting(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("DeleteAccountSetting", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws_config=aws_config)
+DeleteAccountSetting(name; aws_config::AWSConfig=global_aws_config()) = ecs("DeleteAccountSetting", Dict{String, Any}("name"=>name); aws_config=aws_config)
+DeleteAccountSetting(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("DeleteAccountSetting", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws_config=aws_config)
 
 """
     DeleteAttributes()
@@ -123,8 +123,8 @@ Deletes one or more custom attributes from an Amazon ECS resource.
 - `cluster`: The short name or full Amazon Resource Name (ARN) of the cluster that contains the resource to delete attributes. If you do not specify a cluster, the default cluster is assumed.
 """
 
-DeleteAttributes(attributes; aws_config::AWSConfig=AWS.aws_config) = ecs("DeleteAttributes", Dict{String, Any}("attributes"=>attributes); aws_config=aws_config)
-DeleteAttributes(attributes, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("DeleteAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attributes"=>attributes), args)); aws_config=aws_config)
+DeleteAttributes(attributes; aws_config::AWSConfig=global_aws_config()) = ecs("DeleteAttributes", Dict{String, Any}("attributes"=>attributes); aws_config=aws_config)
+DeleteAttributes(attributes, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("DeleteAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attributes"=>attributes), args)); aws_config=aws_config)
 
 """
     DeleteCapacityProvider()
@@ -136,8 +136,8 @@ Deletes the specified capacity provider.  The FARGATE and FARGATE_SPOT capacity 
 
 """
 
-DeleteCapacityProvider(capacityProvider; aws_config::AWSConfig=AWS.aws_config) = ecs("DeleteCapacityProvider", Dict{String, Any}("capacityProvider"=>capacityProvider); aws_config=aws_config)
-DeleteCapacityProvider(capacityProvider, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("DeleteCapacityProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("capacityProvider"=>capacityProvider), args)); aws_config=aws_config)
+DeleteCapacityProvider(capacityProvider; aws_config::AWSConfig=global_aws_config()) = ecs("DeleteCapacityProvider", Dict{String, Any}("capacityProvider"=>capacityProvider); aws_config=aws_config)
+DeleteCapacityProvider(capacityProvider, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("DeleteCapacityProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("capacityProvider"=>capacityProvider), args)); aws_config=aws_config)
 
 """
     DeleteCluster()
@@ -149,8 +149,8 @@ Deletes the specified cluster. The cluster will transition to the INACTIVE state
 
 """
 
-DeleteCluster(cluster; aws_config::AWSConfig=AWS.aws_config) = ecs("DeleteCluster", Dict{String, Any}("cluster"=>cluster); aws_config=aws_config)
-DeleteCluster(cluster, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("DeleteCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster), args)); aws_config=aws_config)
+DeleteCluster(cluster; aws_config::AWSConfig=global_aws_config()) = ecs("DeleteCluster", Dict{String, Any}("cluster"=>cluster); aws_config=aws_config)
+DeleteCluster(cluster, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("DeleteCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster), args)); aws_config=aws_config)
 
 """
     DeleteService()
@@ -165,8 +165,8 @@ Deletes a specified service within a cluster. You can delete a service if you ha
 - `force`: If true, allows you to delete a service even if it has not been scaled down to zero tasks. It is only necessary to use this if the service is using the REPLICA scheduling strategy.
 """
 
-DeleteService(service; aws_config::AWSConfig=AWS.aws_config) = ecs("DeleteService", Dict{String, Any}("service"=>service); aws_config=aws_config)
-DeleteService(service, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("DeleteService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("service"=>service), args)); aws_config=aws_config)
+DeleteService(service; aws_config::AWSConfig=global_aws_config()) = ecs("DeleteService", Dict{String, Any}("service"=>service); aws_config=aws_config)
+DeleteService(service, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("DeleteService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("service"=>service), args)); aws_config=aws_config)
 
 """
     DeleteTaskSet()
@@ -182,8 +182,8 @@ Deletes a specified task set within a service. This is used when a service uses 
 - `force`: If true, this allows you to delete a task set even if it hasn't been scaled down to zero.
 """
 
-DeleteTaskSet(cluster, service, taskSet; aws_config::AWSConfig=AWS.aws_config) = ecs("DeleteTaskSet", Dict{String, Any}("cluster"=>cluster, "service"=>service, "taskSet"=>taskSet); aws_config=aws_config)
-DeleteTaskSet(cluster, service, taskSet, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("DeleteTaskSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster, "service"=>service, "taskSet"=>taskSet), args)); aws_config=aws_config)
+DeleteTaskSet(cluster, service, taskSet; aws_config::AWSConfig=global_aws_config()) = ecs("DeleteTaskSet", Dict{String, Any}("cluster"=>cluster, "service"=>service, "taskSet"=>taskSet); aws_config=aws_config)
+DeleteTaskSet(cluster, service, taskSet, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("DeleteTaskSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster, "service"=>service, "taskSet"=>taskSet), args)); aws_config=aws_config)
 
 """
     DeregisterContainerInstance()
@@ -198,8 +198,8 @@ Deregisters an Amazon ECS container instance from the specified cluster. This in
 - `force`: Forces the deregistration of the container instance. If you have tasks running on the container instance when you deregister it with the force option, these tasks remain running until you terminate the instance or the tasks stop through some other means, but they are orphaned (no longer monitored or accounted for by Amazon ECS). If an orphaned task on your container instance is part of an Amazon ECS service, then the service scheduler starts another copy of that task, on a different container instance if possible.  Any containers in orphaned service tasks that are registered with a Classic Load Balancer or an Application Load Balancer target group are deregistered. They begin connection draining according to the settings on the load balancer or target group.
 """
 
-DeregisterContainerInstance(containerInstance; aws_config::AWSConfig=AWS.aws_config) = ecs("DeregisterContainerInstance", Dict{String, Any}("containerInstance"=>containerInstance); aws_config=aws_config)
-DeregisterContainerInstance(containerInstance, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("DeregisterContainerInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerInstance"=>containerInstance), args)); aws_config=aws_config)
+DeregisterContainerInstance(containerInstance; aws_config::AWSConfig=global_aws_config()) = ecs("DeregisterContainerInstance", Dict{String, Any}("containerInstance"=>containerInstance); aws_config=aws_config)
+DeregisterContainerInstance(containerInstance, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("DeregisterContainerInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerInstance"=>containerInstance), args)); aws_config=aws_config)
 
 """
     DeregisterTaskDefinition()
@@ -211,8 +211,8 @@ Deregisters the specified task definition by family and revision. Upon deregistr
 
 """
 
-DeregisterTaskDefinition(taskDefinition; aws_config::AWSConfig=AWS.aws_config) = ecs("DeregisterTaskDefinition", Dict{String, Any}("taskDefinition"=>taskDefinition); aws_config=aws_config)
-DeregisterTaskDefinition(taskDefinition, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("DeregisterTaskDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskDefinition"=>taskDefinition), args)); aws_config=aws_config)
+DeregisterTaskDefinition(taskDefinition; aws_config::AWSConfig=global_aws_config()) = ecs("DeregisterTaskDefinition", Dict{String, Any}("taskDefinition"=>taskDefinition); aws_config=aws_config)
+DeregisterTaskDefinition(taskDefinition, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("DeregisterTaskDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskDefinition"=>taskDefinition), args)); aws_config=aws_config)
 
 """
     DescribeCapacityProviders()
@@ -226,8 +226,8 @@ Describes one or more of your capacity providers.
 - `nextToken`: The nextToken value returned from a previous paginated DescribeCapacityProviders request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
 """
 
-DescribeCapacityProviders(; aws_config::AWSConfig=AWS.aws_config) = ecs("DescribeCapacityProviders"; aws_config=aws_config)
-DescribeCapacityProviders(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("DescribeCapacityProviders", args; aws_config=aws_config)
+DescribeCapacityProviders(; aws_config::AWSConfig=global_aws_config()) = ecs("DescribeCapacityProviders"; aws_config=aws_config)
+DescribeCapacityProviders(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("DescribeCapacityProviders", args; aws_config=aws_config)
 
 """
     DescribeClusters()
@@ -239,8 +239,8 @@ Describes one or more of your clusters.
 - `include`: Whether to include additional information about your clusters in the response. If this field is omitted, the attachments, statistics, and tags are not included. If ATTACHMENTS is specified, the attachments for the container instances or tasks within the cluster are included. If SETTINGS is specified, the settings for the cluster are included. If STATISTICS is specified, the following additional information, separated by launch type, is included:   runningEC2TasksCount   runningFargateTasksCount   pendingEC2TasksCount   pendingFargateTasksCount   activeEC2ServiceCount   activeFargateServiceCount   drainingEC2ServiceCount   drainingFargateServiceCount   If TAGS is specified, the metadata tags associated with the cluster are included.
 """
 
-DescribeClusters(; aws_config::AWSConfig=AWS.aws_config) = ecs("DescribeClusters"; aws_config=aws_config)
-DescribeClusters(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("DescribeClusters", args; aws_config=aws_config)
+DescribeClusters(; aws_config::AWSConfig=global_aws_config()) = ecs("DescribeClusters"; aws_config=aws_config)
+DescribeClusters(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("DescribeClusters", args; aws_config=aws_config)
 
 """
     DescribeContainerInstances()
@@ -255,8 +255,8 @@ Describes Amazon Elastic Container Service container instances. Returns metadata
 - `include`: Specifies whether you want to see the resource tags for the container instance. If TAGS is specified, the tags are included in the response. If this field is omitted, tags are not included in the response.
 """
 
-DescribeContainerInstances(containerInstances; aws_config::AWSConfig=AWS.aws_config) = ecs("DescribeContainerInstances", Dict{String, Any}("containerInstances"=>containerInstances); aws_config=aws_config)
-DescribeContainerInstances(containerInstances, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("DescribeContainerInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerInstances"=>containerInstances), args)); aws_config=aws_config)
+DescribeContainerInstances(containerInstances; aws_config::AWSConfig=global_aws_config()) = ecs("DescribeContainerInstances", Dict{String, Any}("containerInstances"=>containerInstances); aws_config=aws_config)
+DescribeContainerInstances(containerInstances, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("DescribeContainerInstances", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerInstances"=>containerInstances), args)); aws_config=aws_config)
 
 """
     DescribeServices()
@@ -271,8 +271,8 @@ Describes the specified services running in your cluster.
 - `include`: Specifies whether you want to see the resource tags for the service. If TAGS is specified, the tags are included in the response. If this field is omitted, tags are not included in the response.
 """
 
-DescribeServices(services; aws_config::AWSConfig=AWS.aws_config) = ecs("DescribeServices", Dict{String, Any}("services"=>services); aws_config=aws_config)
-DescribeServices(services, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("DescribeServices", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("services"=>services), args)); aws_config=aws_config)
+DescribeServices(services; aws_config::AWSConfig=global_aws_config()) = ecs("DescribeServices", Dict{String, Any}("services"=>services); aws_config=aws_config)
+DescribeServices(services, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("DescribeServices", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("services"=>services), args)); aws_config=aws_config)
 
 """
     DescribeTaskDefinition()
@@ -286,8 +286,8 @@ Describes a task definition. You can specify a family and revision to find infor
 - `include`: Specifies whether to see the resource tags for the task definition. If TAGS is specified, the tags are included in the response. If this field is omitted, tags are not included in the response.
 """
 
-DescribeTaskDefinition(taskDefinition; aws_config::AWSConfig=AWS.aws_config) = ecs("DescribeTaskDefinition", Dict{String, Any}("taskDefinition"=>taskDefinition); aws_config=aws_config)
-DescribeTaskDefinition(taskDefinition, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("DescribeTaskDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskDefinition"=>taskDefinition), args)); aws_config=aws_config)
+DescribeTaskDefinition(taskDefinition; aws_config::AWSConfig=global_aws_config()) = ecs("DescribeTaskDefinition", Dict{String, Any}("taskDefinition"=>taskDefinition); aws_config=aws_config)
+DescribeTaskDefinition(taskDefinition, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("DescribeTaskDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskDefinition"=>taskDefinition), args)); aws_config=aws_config)
 
 """
     DescribeTaskSets()
@@ -303,8 +303,8 @@ Describes the task sets in the specified cluster and service. This is used when 
 - `taskSets`: The ID or full Amazon Resource Name (ARN) of task sets to describe.
 """
 
-DescribeTaskSets(cluster, service; aws_config::AWSConfig=AWS.aws_config) = ecs("DescribeTaskSets", Dict{String, Any}("cluster"=>cluster, "service"=>service); aws_config=aws_config)
-DescribeTaskSets(cluster, service, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("DescribeTaskSets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster, "service"=>service), args)); aws_config=aws_config)
+DescribeTaskSets(cluster, service; aws_config::AWSConfig=global_aws_config()) = ecs("DescribeTaskSets", Dict{String, Any}("cluster"=>cluster, "service"=>service); aws_config=aws_config)
+DescribeTaskSets(cluster, service, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("DescribeTaskSets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster, "service"=>service), args)); aws_config=aws_config)
 
 """
     DescribeTasks()
@@ -319,8 +319,8 @@ Describes a specified task or tasks.
 - `include`: Specifies whether you want to see the resource tags for the task. If TAGS is specified, the tags are included in the response. If this field is omitted, tags are not included in the response.
 """
 
-DescribeTasks(tasks; aws_config::AWSConfig=AWS.aws_config) = ecs("DescribeTasks", Dict{String, Any}("tasks"=>tasks); aws_config=aws_config)
-DescribeTasks(tasks, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("DescribeTasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tasks"=>tasks), args)); aws_config=aws_config)
+DescribeTasks(tasks; aws_config::AWSConfig=global_aws_config()) = ecs("DescribeTasks", Dict{String, Any}("tasks"=>tasks); aws_config=aws_config)
+DescribeTasks(tasks, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("DescribeTasks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tasks"=>tasks), args)); aws_config=aws_config)
 
 """
     DiscoverPollEndpoint()
@@ -332,8 +332,8 @@ DescribeTasks(tasks, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AW
 - `containerInstance`: The container instance ID or full ARN of the container instance. The ARN contains the arn:aws:ecs namespace, followed by the Region of the container instance, the AWS account ID of the container instance owner, the container-instance namespace, and then the container instance ID. For example, arn:aws:ecs:region:aws_account_id:container-instance/container_instance_ID.
 """
 
-DiscoverPollEndpoint(; aws_config::AWSConfig=AWS.aws_config) = ecs("DiscoverPollEndpoint"; aws_config=aws_config)
-DiscoverPollEndpoint(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("DiscoverPollEndpoint", args; aws_config=aws_config)
+DiscoverPollEndpoint(; aws_config::AWSConfig=global_aws_config()) = ecs("DiscoverPollEndpoint"; aws_config=aws_config)
+DiscoverPollEndpoint(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("DiscoverPollEndpoint", args; aws_config=aws_config)
 
 """
     ListAccountSettings()
@@ -349,8 +349,8 @@ Lists the account settings for a specified principal.
 - `value`: The value of the account settings with which to filter results. You must also specify an account setting name to use this parameter.
 """
 
-ListAccountSettings(; aws_config::AWSConfig=AWS.aws_config) = ecs("ListAccountSettings"; aws_config=aws_config)
-ListAccountSettings(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("ListAccountSettings", args; aws_config=aws_config)
+ListAccountSettings(; aws_config::AWSConfig=global_aws_config()) = ecs("ListAccountSettings"; aws_config=aws_config)
+ListAccountSettings(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("ListAccountSettings", args; aws_config=aws_config)
 
 """
     ListAttributes()
@@ -368,8 +368,8 @@ Lists the attributes for Amazon ECS resources within a specified target type and
 - `nextToken`: The nextToken value returned from a ListAttributes request indicating that more results are available to fulfill the request and further calls will be needed. If maxResults was provided, it is possible the number of results to be fewer than maxResults.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
 """
 
-ListAttributes(targetType; aws_config::AWSConfig=AWS.aws_config) = ecs("ListAttributes", Dict{String, Any}("targetType"=>targetType); aws_config=aws_config)
-ListAttributes(targetType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("ListAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("targetType"=>targetType), args)); aws_config=aws_config)
+ListAttributes(targetType; aws_config::AWSConfig=global_aws_config()) = ecs("ListAttributes", Dict{String, Any}("targetType"=>targetType); aws_config=aws_config)
+ListAttributes(targetType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("ListAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("targetType"=>targetType), args)); aws_config=aws_config)
 
 """
     ListClusters()
@@ -381,8 +381,8 @@ Returns a list of existing clusters.
 - `nextToken`: The nextToken value returned from a ListClusters request indicating that more results are available to fulfill the request and further calls will be needed. If maxResults was provided, it is possible the number of results to be fewer than maxResults.  This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
 """
 
-ListClusters(; aws_config::AWSConfig=AWS.aws_config) = ecs("ListClusters"; aws_config=aws_config)
-ListClusters(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("ListClusters", args; aws_config=aws_config)
+ListClusters(; aws_config::AWSConfig=global_aws_config()) = ecs("ListClusters"; aws_config=aws_config)
+ListClusters(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("ListClusters", args; aws_config=aws_config)
 
 """
     ListContainerInstances()
@@ -397,8 +397,8 @@ Returns a list of container instances in a specified cluster. You can filter the
 - `status`: Filters the container instances by status. For example, if you specify the DRAINING status, the results include only container instances that have been set to DRAINING using UpdateContainerInstancesState. If you do not specify this parameter, the default is to include container instances set to all states other than INACTIVE.
 """
 
-ListContainerInstances(; aws_config::AWSConfig=AWS.aws_config) = ecs("ListContainerInstances"; aws_config=aws_config)
-ListContainerInstances(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("ListContainerInstances", args; aws_config=aws_config)
+ListContainerInstances(; aws_config::AWSConfig=global_aws_config()) = ecs("ListContainerInstances"; aws_config=aws_config)
+ListContainerInstances(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("ListContainerInstances", args; aws_config=aws_config)
 
 """
     ListServices()
@@ -413,8 +413,8 @@ Lists the services that are running in a specified cluster.
 - `schedulingStrategy`: The scheduling strategy for services to list.
 """
 
-ListServices(; aws_config::AWSConfig=AWS.aws_config) = ecs("ListServices"; aws_config=aws_config)
-ListServices(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("ListServices", args; aws_config=aws_config)
+ListServices(; aws_config::AWSConfig=global_aws_config()) = ecs("ListServices"; aws_config=aws_config)
+ListServices(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("ListServices", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -426,8 +426,8 @@ List the tags for an Amazon ECS resource.
 
 """
 
-ListTagsForResource(resourceArn; aws_config::AWSConfig=AWS.aws_config) = ecs("ListTagsForResource", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config)
-ListTagsForResource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), args)); aws_config=aws_config)
+ListTagsForResource(resourceArn; aws_config::AWSConfig=global_aws_config()) = ecs("ListTagsForResource", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config)
+ListTagsForResource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), args)); aws_config=aws_config)
 
 """
     ListTaskDefinitionFamilies()
@@ -441,8 +441,8 @@ Returns a list of task definition families that are registered to your account (
 - `status`: The task definition family status with which to filter the ListTaskDefinitionFamilies results. By default, both ACTIVE and INACTIVE task definition families are listed. If this parameter is set to ACTIVE, only task definition families that have an ACTIVE task definition revision are returned. If this parameter is set to INACTIVE, only task definition families that do not have any ACTIVE task definition revisions are returned. If you paginate the resulting output, be sure to keep the status value constant in each subsequent request.
 """
 
-ListTaskDefinitionFamilies(; aws_config::AWSConfig=AWS.aws_config) = ecs("ListTaskDefinitionFamilies"; aws_config=aws_config)
-ListTaskDefinitionFamilies(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("ListTaskDefinitionFamilies", args; aws_config=aws_config)
+ListTaskDefinitionFamilies(; aws_config::AWSConfig=global_aws_config()) = ecs("ListTaskDefinitionFamilies"; aws_config=aws_config)
+ListTaskDefinitionFamilies(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("ListTaskDefinitionFamilies", args; aws_config=aws_config)
 
 """
     ListTaskDefinitions()
@@ -457,8 +457,8 @@ Returns a list of task definitions that are registered to your account. You can 
 - `status`: The task definition status with which to filter the ListTaskDefinitions results. By default, only ACTIVE task definitions are listed. By setting this parameter to INACTIVE, you can view task definitions that are INACTIVE as long as an active task or service still references them. If you paginate the resulting output, be sure to keep the status value constant in each subsequent request.
 """
 
-ListTaskDefinitions(; aws_config::AWSConfig=AWS.aws_config) = ecs("ListTaskDefinitions"; aws_config=aws_config)
-ListTaskDefinitions(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("ListTaskDefinitions", args; aws_config=aws_config)
+ListTaskDefinitions(; aws_config::AWSConfig=global_aws_config()) = ecs("ListTaskDefinitions"; aws_config=aws_config)
+ListTaskDefinitions(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("ListTaskDefinitions", args; aws_config=aws_config)
 
 """
     ListTasks()
@@ -477,8 +477,8 @@ Returns a list of tasks for a specified cluster. You can filter the results by f
 - `startedBy`: The startedBy value with which to filter the task results. Specifying a startedBy value limits the results to tasks that were started with that value.
 """
 
-ListTasks(; aws_config::AWSConfig=AWS.aws_config) = ecs("ListTasks"; aws_config=aws_config)
-ListTasks(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("ListTasks", args; aws_config=aws_config)
+ListTasks(; aws_config::AWSConfig=global_aws_config()) = ecs("ListTasks"; aws_config=aws_config)
+ListTasks(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("ListTasks", args; aws_config=aws_config)
 
 """
     PutAccountSetting()
@@ -493,8 +493,8 @@ Modifies an account setting. Account settings are set on a per-Region basis. If 
 - `principalArn`: The ARN of the principal, which can be an IAM user, IAM role, or the root user. If you specify the root user, it modifies the account setting for all IAM users, IAM roles, and the root user of the account unless an IAM user or role explicitly overrides these settings. If this field is omitted, the setting is changed only for the authenticated user.
 """
 
-PutAccountSetting(name, value; aws_config::AWSConfig=AWS.aws_config) = ecs("PutAccountSetting", Dict{String, Any}("name"=>name, "value"=>value); aws_config=aws_config)
-PutAccountSetting(name, value, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("PutAccountSetting", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "value"=>value), args)); aws_config=aws_config)
+PutAccountSetting(name, value; aws_config::AWSConfig=global_aws_config()) = ecs("PutAccountSetting", Dict{String, Any}("name"=>name, "value"=>value); aws_config=aws_config)
+PutAccountSetting(name, value, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("PutAccountSetting", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "value"=>value), args)); aws_config=aws_config)
 
 """
     PutAccountSettingDefault()
@@ -507,8 +507,8 @@ Modifies an account setting for all IAM users on an account for whom no individu
 
 """
 
-PutAccountSettingDefault(name, value; aws_config::AWSConfig=AWS.aws_config) = ecs("PutAccountSettingDefault", Dict{String, Any}("name"=>name, "value"=>value); aws_config=aws_config)
-PutAccountSettingDefault(name, value, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("PutAccountSettingDefault", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "value"=>value), args)); aws_config=aws_config)
+PutAccountSettingDefault(name, value; aws_config::AWSConfig=global_aws_config()) = ecs("PutAccountSettingDefault", Dict{String, Any}("name"=>name, "value"=>value); aws_config=aws_config)
+PutAccountSettingDefault(name, value, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("PutAccountSettingDefault", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "value"=>value), args)); aws_config=aws_config)
 
 """
     PutAttributes()
@@ -522,8 +522,8 @@ Create or update an attribute on an Amazon ECS resource. If the attribute does n
 - `cluster`: The short name or full Amazon Resource Name (ARN) of the cluster that contains the resource to apply attributes. If you do not specify a cluster, the default cluster is assumed.
 """
 
-PutAttributes(attributes; aws_config::AWSConfig=AWS.aws_config) = ecs("PutAttributes", Dict{String, Any}("attributes"=>attributes); aws_config=aws_config)
-PutAttributes(attributes, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("PutAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attributes"=>attributes), args)); aws_config=aws_config)
+PutAttributes(attributes; aws_config::AWSConfig=global_aws_config()) = ecs("PutAttributes", Dict{String, Any}("attributes"=>attributes); aws_config=aws_config)
+PutAttributes(attributes, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("PutAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attributes"=>attributes), args)); aws_config=aws_config)
 
 """
     PutClusterCapacityProviders()
@@ -537,8 +537,8 @@ Modifies the available capacity providers and the default capacity provider stra
 
 """
 
-PutClusterCapacityProviders(capacityProviders, cluster, defaultCapacityProviderStrategy; aws_config::AWSConfig=AWS.aws_config) = ecs("PutClusterCapacityProviders", Dict{String, Any}("capacityProviders"=>capacityProviders, "cluster"=>cluster, "defaultCapacityProviderStrategy"=>defaultCapacityProviderStrategy); aws_config=aws_config)
-PutClusterCapacityProviders(capacityProviders, cluster, defaultCapacityProviderStrategy, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("PutClusterCapacityProviders", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("capacityProviders"=>capacityProviders, "cluster"=>cluster, "defaultCapacityProviderStrategy"=>defaultCapacityProviderStrategy), args)); aws_config=aws_config)
+PutClusterCapacityProviders(capacityProviders, cluster, defaultCapacityProviderStrategy; aws_config::AWSConfig=global_aws_config()) = ecs("PutClusterCapacityProviders", Dict{String, Any}("capacityProviders"=>capacityProviders, "cluster"=>cluster, "defaultCapacityProviderStrategy"=>defaultCapacityProviderStrategy); aws_config=aws_config)
+PutClusterCapacityProviders(capacityProviders, cluster, defaultCapacityProviderStrategy, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("PutClusterCapacityProviders", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("capacityProviders"=>capacityProviders, "cluster"=>cluster, "defaultCapacityProviderStrategy"=>defaultCapacityProviderStrategy), args)); aws_config=aws_config)
 
 """
     RegisterContainerInstance()
@@ -557,8 +557,8 @@ PutClusterCapacityProviders(capacityProviders, cluster, defaultCapacityProviderS
 - `versionInfo`: The version information for the Amazon ECS container agent and Docker daemon running on the container instance.
 """
 
-RegisterContainerInstance(; aws_config::AWSConfig=AWS.aws_config) = ecs("RegisterContainerInstance"; aws_config=aws_config)
-RegisterContainerInstance(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("RegisterContainerInstance", args; aws_config=aws_config)
+RegisterContainerInstance(; aws_config::AWSConfig=global_aws_config()) = ecs("RegisterContainerInstance"; aws_config=aws_config)
+RegisterContainerInstance(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("RegisterContainerInstance", args; aws_config=aws_config)
 
 """
     RegisterTaskDefinition()
@@ -585,8 +585,8 @@ Registers a new task definition from the supplied family and containerDefinition
 - `volumes`: A list of volume definitions in JSON format that containers in your task may use.
 """
 
-RegisterTaskDefinition(containerDefinitions, family; aws_config::AWSConfig=AWS.aws_config) = ecs("RegisterTaskDefinition", Dict{String, Any}("containerDefinitions"=>containerDefinitions, "family"=>family); aws_config=aws_config)
-RegisterTaskDefinition(containerDefinitions, family, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("RegisterTaskDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerDefinitions"=>containerDefinitions, "family"=>family), args)); aws_config=aws_config)
+RegisterTaskDefinition(containerDefinitions, family; aws_config::AWSConfig=global_aws_config()) = ecs("RegisterTaskDefinition", Dict{String, Any}("containerDefinitions"=>containerDefinitions, "family"=>family); aws_config=aws_config)
+RegisterTaskDefinition(containerDefinitions, family, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("RegisterTaskDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerDefinitions"=>containerDefinitions, "family"=>family), args)); aws_config=aws_config)
 
 """
     RunTask()
@@ -614,8 +614,8 @@ Starts a new task using the specified task definition. You can allow Amazon ECS 
 - `tags`: The metadata that you apply to the task to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8   Maximum value length - 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for AWS use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.  
 """
 
-RunTask(taskDefinition; aws_config::AWSConfig=AWS.aws_config) = ecs("RunTask", Dict{String, Any}("taskDefinition"=>taskDefinition); aws_config=aws_config)
-RunTask(taskDefinition, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("RunTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskDefinition"=>taskDefinition), args)); aws_config=aws_config)
+RunTask(taskDefinition; aws_config::AWSConfig=global_aws_config()) = ecs("RunTask", Dict{String, Any}("taskDefinition"=>taskDefinition); aws_config=aws_config)
+RunTask(taskDefinition, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("RunTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskDefinition"=>taskDefinition), args)); aws_config=aws_config)
 
 """
     StartTask()
@@ -638,8 +638,8 @@ Starts a new task from the specified task definition on the specified container 
 - `tags`: The metadata that you apply to the task to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8   Maximum value length - 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for AWS use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.  
 """
 
-StartTask(containerInstances, taskDefinition; aws_config::AWSConfig=AWS.aws_config) = ecs("StartTask", Dict{String, Any}("containerInstances"=>containerInstances, "taskDefinition"=>taskDefinition); aws_config=aws_config)
-StartTask(containerInstances, taskDefinition, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("StartTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerInstances"=>containerInstances, "taskDefinition"=>taskDefinition), args)); aws_config=aws_config)
+StartTask(containerInstances, taskDefinition; aws_config::AWSConfig=global_aws_config()) = ecs("StartTask", Dict{String, Any}("containerInstances"=>containerInstances, "taskDefinition"=>taskDefinition); aws_config=aws_config)
+StartTask(containerInstances, taskDefinition, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("StartTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerInstances"=>containerInstances, "taskDefinition"=>taskDefinition), args)); aws_config=aws_config)
 
 """
     StopTask()
@@ -654,8 +654,8 @@ Stops a running task. Any tags associated with the task will be deleted. When St
 - `reason`: An optional message specified when a task is stopped. For example, if you are using a custom scheduler, you can use this parameter to specify the reason for stopping the task here, and the message appears in subsequent DescribeTasks API operations on this task. Up to 255 characters are allowed in this message.
 """
 
-StopTask(task; aws_config::AWSConfig=AWS.aws_config) = ecs("StopTask", Dict{String, Any}("task"=>task); aws_config=aws_config)
-StopTask(task, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("StopTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("task"=>task), args)); aws_config=aws_config)
+StopTask(task; aws_config::AWSConfig=global_aws_config()) = ecs("StopTask", Dict{String, Any}("task"=>task); aws_config=aws_config)
+StopTask(task, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("StopTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("task"=>task), args)); aws_config=aws_config)
 
 """
     SubmitAttachmentStateChanges()
@@ -669,8 +669,8 @@ StopTask(task, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_
 - `cluster`: The short name or full ARN of the cluster that hosts the container instance the attachment belongs to.
 """
 
-SubmitAttachmentStateChanges(attachments; aws_config::AWSConfig=AWS.aws_config) = ecs("SubmitAttachmentStateChanges", Dict{String, Any}("attachments"=>attachments); aws_config=aws_config)
-SubmitAttachmentStateChanges(attachments, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("SubmitAttachmentStateChanges", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attachments"=>attachments), args)); aws_config=aws_config)
+SubmitAttachmentStateChanges(attachments; aws_config::AWSConfig=global_aws_config()) = ecs("SubmitAttachmentStateChanges", Dict{String, Any}("attachments"=>attachments); aws_config=aws_config)
+SubmitAttachmentStateChanges(attachments, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("SubmitAttachmentStateChanges", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attachments"=>attachments), args)); aws_config=aws_config)
 
 """
     SubmitContainerStateChange()
@@ -688,8 +688,8 @@ SubmitAttachmentStateChanges(attachments, args::AbstractDict{String, <:Any}; aws
 - `task`: The task ID or full Amazon Resource Name (ARN) of the task that hosts the container.
 """
 
-SubmitContainerStateChange(; aws_config::AWSConfig=AWS.aws_config) = ecs("SubmitContainerStateChange"; aws_config=aws_config)
-SubmitContainerStateChange(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("SubmitContainerStateChange", args; aws_config=aws_config)
+SubmitContainerStateChange(; aws_config::AWSConfig=global_aws_config()) = ecs("SubmitContainerStateChange"; aws_config=aws_config)
+SubmitContainerStateChange(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("SubmitContainerStateChange", args; aws_config=aws_config)
 
 """
     SubmitTaskStateChange()
@@ -708,8 +708,8 @@ SubmitContainerStateChange(args::AbstractDict{String, <:Any}; aws_config::AWSCon
 - `task`: The task ID or full ARN of the task in the state change request.
 """
 
-SubmitTaskStateChange(; aws_config::AWSConfig=AWS.aws_config) = ecs("SubmitTaskStateChange"; aws_config=aws_config)
-SubmitTaskStateChange(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("SubmitTaskStateChange", args; aws_config=aws_config)
+SubmitTaskStateChange(; aws_config::AWSConfig=global_aws_config()) = ecs("SubmitTaskStateChange"; aws_config=aws_config)
+SubmitTaskStateChange(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("SubmitTaskStateChange", args; aws_config=aws_config)
 
 """
     TagResource()
@@ -722,8 +722,8 @@ Associates the specified tags to a resource with the specified resourceArn. If e
 
 """
 
-TagResource(resourceArn, tags; aws_config::AWSConfig=AWS.aws_config) = ecs("TagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws_config=aws_config)
-TagResource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), args)); aws_config=aws_config)
+TagResource(resourceArn, tags; aws_config::AWSConfig=global_aws_config()) = ecs("TagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws_config=aws_config)
+TagResource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -736,8 +736,8 @@ Deletes specified tags from a resource.
 
 """
 
-UntagResource(resourceArn, tagKeys; aws_config::AWSConfig=AWS.aws_config) = ecs("UntagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws_config=aws_config)
-UntagResource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), args)); aws_config=aws_config)
+UntagResource(resourceArn, tagKeys; aws_config::AWSConfig=global_aws_config()) = ecs("UntagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws_config=aws_config)
+UntagResource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), args)); aws_config=aws_config)
 
 """
     UpdateClusterSettings()
@@ -750,8 +750,8 @@ Modifies the settings to use for a cluster.
 
 """
 
-UpdateClusterSettings(cluster, settings; aws_config::AWSConfig=AWS.aws_config) = ecs("UpdateClusterSettings", Dict{String, Any}("cluster"=>cluster, "settings"=>settings); aws_config=aws_config)
-UpdateClusterSettings(cluster, settings, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("UpdateClusterSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster, "settings"=>settings), args)); aws_config=aws_config)
+UpdateClusterSettings(cluster, settings; aws_config::AWSConfig=global_aws_config()) = ecs("UpdateClusterSettings", Dict{String, Any}("cluster"=>cluster, "settings"=>settings); aws_config=aws_config)
+UpdateClusterSettings(cluster, settings, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("UpdateClusterSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster, "settings"=>settings), args)); aws_config=aws_config)
 
 """
     UpdateContainerAgent()
@@ -765,8 +765,8 @@ Updates the Amazon ECS container agent on a specified container instance. Updati
 - `cluster`: The short name or full Amazon Resource Name (ARN) of the cluster that your container instance is running on. If you do not specify a cluster, the default cluster is assumed.
 """
 
-UpdateContainerAgent(containerInstance; aws_config::AWSConfig=AWS.aws_config) = ecs("UpdateContainerAgent", Dict{String, Any}("containerInstance"=>containerInstance); aws_config=aws_config)
-UpdateContainerAgent(containerInstance, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("UpdateContainerAgent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerInstance"=>containerInstance), args)); aws_config=aws_config)
+UpdateContainerAgent(containerInstance; aws_config::AWSConfig=global_aws_config()) = ecs("UpdateContainerAgent", Dict{String, Any}("containerInstance"=>containerInstance); aws_config=aws_config)
+UpdateContainerAgent(containerInstance, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("UpdateContainerAgent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerInstance"=>containerInstance), args)); aws_config=aws_config)
 
 """
     UpdateContainerInstancesState()
@@ -781,8 +781,8 @@ Modifies the status of an Amazon ECS container instance. Once a container instan
 - `cluster`: The short name or full Amazon Resource Name (ARN) of the cluster that hosts the container instance to update. If you do not specify a cluster, the default cluster is assumed.
 """
 
-UpdateContainerInstancesState(containerInstances, status; aws_config::AWSConfig=AWS.aws_config) = ecs("UpdateContainerInstancesState", Dict{String, Any}("containerInstances"=>containerInstances, "status"=>status); aws_config=aws_config)
-UpdateContainerInstancesState(containerInstances, status, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("UpdateContainerInstancesState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerInstances"=>containerInstances, "status"=>status), args)); aws_config=aws_config)
+UpdateContainerInstancesState(containerInstances, status; aws_config::AWSConfig=global_aws_config()) = ecs("UpdateContainerInstancesState", Dict{String, Any}("containerInstances"=>containerInstances, "status"=>status); aws_config=aws_config)
+UpdateContainerInstancesState(containerInstances, status, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("UpdateContainerInstancesState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("containerInstances"=>containerInstances, "status"=>status), args)); aws_config=aws_config)
 
 """
     UpdateService()
@@ -806,8 +806,8 @@ UpdateContainerInstancesState(containerInstances, status, args::AbstractDict{Str
 - `taskDefinition`: The family and revision (family:revision) or full ARN of the task definition to run in your service. If a revision is not specified, the latest ACTIVE revision is used. If you modify the task definition with UpdateService, Amazon ECS spawns a task with the new version of the task definition and then stops an old task after the new version is running.
 """
 
-UpdateService(service; aws_config::AWSConfig=AWS.aws_config) = ecs("UpdateService", Dict{String, Any}("service"=>service); aws_config=aws_config)
-UpdateService(service, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("UpdateService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("service"=>service), args)); aws_config=aws_config)
+UpdateService(service; aws_config::AWSConfig=global_aws_config()) = ecs("UpdateService", Dict{String, Any}("service"=>service); aws_config=aws_config)
+UpdateService(service, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("UpdateService", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("service"=>service), args)); aws_config=aws_config)
 
 """
     UpdateServicePrimaryTaskSet()
@@ -821,8 +821,8 @@ Modifies which task set in a service is the primary task set. Any parameters tha
 
 """
 
-UpdateServicePrimaryTaskSet(cluster, primaryTaskSet, service; aws_config::AWSConfig=AWS.aws_config) = ecs("UpdateServicePrimaryTaskSet", Dict{String, Any}("cluster"=>cluster, "primaryTaskSet"=>primaryTaskSet, "service"=>service); aws_config=aws_config)
-UpdateServicePrimaryTaskSet(cluster, primaryTaskSet, service, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("UpdateServicePrimaryTaskSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster, "primaryTaskSet"=>primaryTaskSet, "service"=>service), args)); aws_config=aws_config)
+UpdateServicePrimaryTaskSet(cluster, primaryTaskSet, service; aws_config::AWSConfig=global_aws_config()) = ecs("UpdateServicePrimaryTaskSet", Dict{String, Any}("cluster"=>cluster, "primaryTaskSet"=>primaryTaskSet, "service"=>service); aws_config=aws_config)
+UpdateServicePrimaryTaskSet(cluster, primaryTaskSet, service, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("UpdateServicePrimaryTaskSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster, "primaryTaskSet"=>primaryTaskSet, "service"=>service), args)); aws_config=aws_config)
 
 """
     UpdateTaskSet()
@@ -837,5 +837,5 @@ Modifies a task set. This is used when a service uses the EXTERNAL deployment co
 
 """
 
-UpdateTaskSet(cluster, scale, service, taskSet; aws_config::AWSConfig=AWS.aws_config) = ecs("UpdateTaskSet", Dict{String, Any}("cluster"=>cluster, "scale"=>scale, "service"=>service, "taskSet"=>taskSet); aws_config=aws_config)
-UpdateTaskSet(cluster, scale, service, taskSet, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ecs("UpdateTaskSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster, "scale"=>scale, "service"=>service, "taskSet"=>taskSet), args)); aws_config=aws_config)
+UpdateTaskSet(cluster, scale, service, taskSet; aws_config::AWSConfig=global_aws_config()) = ecs("UpdateTaskSet", Dict{String, Any}("cluster"=>cluster, "scale"=>scale, "service"=>service, "taskSet"=>taskSet); aws_config=aws_config)
+UpdateTaskSet(cluster, scale, service, taskSet, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = ecs("UpdateTaskSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("cluster"=>cluster, "scale"=>scale, "service"=>service, "taskSet"=>taskSet), args)); aws_config=aws_config)

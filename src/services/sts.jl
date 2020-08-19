@@ -24,8 +24,8 @@ Returns a set of temporary security credentials that you can use to access AWS r
 - `TransitiveTagKeys`: A list of keys for session tags that you want to set as transitive. If you set a tag key as transitive, the corresponding key and value passes to subsequent sessions in a role chain. For more information, see Chaining Roles with Session Tags in the IAM User Guide. This parameter is optional. When you set session tags as transitive, the session policy and session tags packed binary limit is not affected. If you choose not to specify a transitive tag key, then no tags are passed from this session to any subsequent sessions.
 """
 
-AssumeRole(RoleArn, RoleSessionName; aws_config::AWSConfig=AWS.aws_config) = sts("AssumeRole", Dict{String, Any}("RoleArn"=>RoleArn, "RoleSessionName"=>RoleSessionName); aws_config=aws_config)
-AssumeRole(RoleArn, RoleSessionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sts("AssumeRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleArn"=>RoleArn, "RoleSessionName"=>RoleSessionName), args)); aws_config=aws_config)
+AssumeRole(RoleArn, RoleSessionName; aws_config::AWSConfig=global_aws_config()) = sts("AssumeRole", Dict{String, Any}("RoleArn"=>RoleArn, "RoleSessionName"=>RoleSessionName); aws_config=aws_config)
+AssumeRole(RoleArn, RoleSessionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sts("AssumeRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleArn"=>RoleArn, "RoleSessionName"=>RoleSessionName), args)); aws_config=aws_config)
 
 """
     AssumeRoleWithSAML()
@@ -43,8 +43,8 @@ Returns a set of temporary security credentials for users who have been authenti
 - `PolicyArns`: The Amazon Resource Names (ARNs) of the IAM managed policies that you want to use as managed session policies. The policies must exist in the same account as the role. This parameter is optional. You can provide up to 10 managed policy ARNs. However, the plain text that you use for both inline and managed session policies can't exceed 2,048 characters. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.  An AWS conversion compresses the passed session policies and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plain text meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit.   Passing policies to this operation returns new temporary credentials. The resulting session's permissions are the intersection of the role's identity-based policy and the session policies. You can use the role's temporary credentials in subsequent AWS API calls to access resources in the account that owns the role. You cannot use session policies to grant more permissions than those allowed by the identity-based policy of the role that is being assumed. For more information, see Session Policies in the IAM User Guide.
 """
 
-AssumeRoleWithSAML(PrincipalArn, RoleArn, SAMLAssertion; aws_config::AWSConfig=AWS.aws_config) = sts("AssumeRoleWithSAML", Dict{String, Any}("PrincipalArn"=>PrincipalArn, "RoleArn"=>RoleArn, "SAMLAssertion"=>SAMLAssertion); aws_config=aws_config)
-AssumeRoleWithSAML(PrincipalArn, RoleArn, SAMLAssertion, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sts("AssumeRoleWithSAML", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PrincipalArn"=>PrincipalArn, "RoleArn"=>RoleArn, "SAMLAssertion"=>SAMLAssertion), args)); aws_config=aws_config)
+AssumeRoleWithSAML(PrincipalArn, RoleArn, SAMLAssertion; aws_config::AWSConfig=global_aws_config()) = sts("AssumeRoleWithSAML", Dict{String, Any}("PrincipalArn"=>PrincipalArn, "RoleArn"=>RoleArn, "SAMLAssertion"=>SAMLAssertion); aws_config=aws_config)
+AssumeRoleWithSAML(PrincipalArn, RoleArn, SAMLAssertion, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sts("AssumeRoleWithSAML", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PrincipalArn"=>PrincipalArn, "RoleArn"=>RoleArn, "SAMLAssertion"=>SAMLAssertion), args)); aws_config=aws_config)
 
 """
     AssumeRoleWithWebIdentity()
@@ -63,8 +63,8 @@ Returns a set of temporary security credentials for users who have been authenti
 - `ProviderId`: The fully qualified host component of the domain name of the identity provider. Specify this value only for OAuth 2.0 access tokens. Currently www.amazon.com and graph.facebook.com are the only supported identity providers for OAuth 2.0 access tokens. Do not include URL schemes and port numbers. Do not specify this value for OpenID Connect ID tokens.
 """
 
-AssumeRoleWithWebIdentity(RoleArn, RoleSessionName, WebIdentityToken; aws_config::AWSConfig=AWS.aws_config) = sts("AssumeRoleWithWebIdentity", Dict{String, Any}("RoleArn"=>RoleArn, "RoleSessionName"=>RoleSessionName, "WebIdentityToken"=>WebIdentityToken); aws_config=aws_config)
-AssumeRoleWithWebIdentity(RoleArn, RoleSessionName, WebIdentityToken, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sts("AssumeRoleWithWebIdentity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleArn"=>RoleArn, "RoleSessionName"=>RoleSessionName, "WebIdentityToken"=>WebIdentityToken), args)); aws_config=aws_config)
+AssumeRoleWithWebIdentity(RoleArn, RoleSessionName, WebIdentityToken; aws_config::AWSConfig=global_aws_config()) = sts("AssumeRoleWithWebIdentity", Dict{String, Any}("RoleArn"=>RoleArn, "RoleSessionName"=>RoleSessionName, "WebIdentityToken"=>WebIdentityToken); aws_config=aws_config)
+AssumeRoleWithWebIdentity(RoleArn, RoleSessionName, WebIdentityToken, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sts("AssumeRoleWithWebIdentity", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleArn"=>RoleArn, "RoleSessionName"=>RoleSessionName, "WebIdentityToken"=>WebIdentityToken), args)); aws_config=aws_config)
 
 """
     DecodeAuthorizationMessage()
@@ -76,8 +76,8 @@ Decodes additional information about the authorization status of a request from 
 
 """
 
-DecodeAuthorizationMessage(EncodedMessage; aws_config::AWSConfig=AWS.aws_config) = sts("DecodeAuthorizationMessage", Dict{String, Any}("EncodedMessage"=>EncodedMessage); aws_config=aws_config)
-DecodeAuthorizationMessage(EncodedMessage, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sts("DecodeAuthorizationMessage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EncodedMessage"=>EncodedMessage), args)); aws_config=aws_config)
+DecodeAuthorizationMessage(EncodedMessage; aws_config::AWSConfig=global_aws_config()) = sts("DecodeAuthorizationMessage", Dict{String, Any}("EncodedMessage"=>EncodedMessage); aws_config=aws_config)
+DecodeAuthorizationMessage(EncodedMessage, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sts("DecodeAuthorizationMessage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EncodedMessage"=>EncodedMessage), args)); aws_config=aws_config)
 
 """
     GetAccessKeyInfo()
@@ -89,8 +89,8 @@ Returns the account identifier for the specified access key ID. Access keys cons
 
 """
 
-GetAccessKeyInfo(AccessKeyId; aws_config::AWSConfig=AWS.aws_config) = sts("GetAccessKeyInfo", Dict{String, Any}("AccessKeyId"=>AccessKeyId); aws_config=aws_config)
-GetAccessKeyInfo(AccessKeyId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sts("GetAccessKeyInfo", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessKeyId"=>AccessKeyId), args)); aws_config=aws_config)
+GetAccessKeyInfo(AccessKeyId; aws_config::AWSConfig=global_aws_config()) = sts("GetAccessKeyInfo", Dict{String, Any}("AccessKeyId"=>AccessKeyId); aws_config=aws_config)
+GetAccessKeyInfo(AccessKeyId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sts("GetAccessKeyInfo", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessKeyId"=>AccessKeyId), args)); aws_config=aws_config)
 
 """
     GetCallerIdentity()
@@ -99,8 +99,8 @@ Returns details about the IAM user or role whose credentials are used to call th
 
 """
 
-GetCallerIdentity(; aws_config::AWSConfig=AWS.aws_config) = sts("GetCallerIdentity"; aws_config=aws_config)
-GetCallerIdentity(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sts("GetCallerIdentity", args; aws_config=aws_config)
+GetCallerIdentity(; aws_config::AWSConfig=global_aws_config()) = sts("GetCallerIdentity"; aws_config=aws_config)
+GetCallerIdentity(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sts("GetCallerIdentity", args; aws_config=aws_config)
 
 """
     GetFederationToken()
@@ -117,8 +117,8 @@ Returns a set of temporary security credentials (consisting of an access key ID,
 - `Tags`: A list of session tags. Each session tag consists of a key name and an associated value. For more information about session tags, see Passing Session Tags in STS in the IAM User Guide. This parameter is optional. You can pass up to 50 session tags. The plain text session tag keys can’t exceed 128 characters and the values can’t exceed 256 characters. For these and additional limits, see IAM and STS Character Limits in the IAM User Guide.  An AWS conversion compresses the passed session policies and session tags into a packed binary format that has a separate limit. Your request can fail for this limit even if your plain text meets the other requirements. The PackedPolicySize response element indicates by percentage how close the policies and tags for your request are to the upper size limit.   You can pass a session tag with the same key as a tag that is already attached to the user you are federating. When you do, session tags override a user tag with the same key.  Tag key–value pairs are not case sensitive, but case is preserved. This means that you cannot have separate Department and department tag keys. Assume that the role has the Department=Marketing tag and you pass the department=engineering session tag. Department and department are not saved as separate tags, and the session tag passed in the request takes precedence over the role tag.
 """
 
-GetFederationToken(Name; aws_config::AWSConfig=AWS.aws_config) = sts("GetFederationToken", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
-GetFederationToken(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sts("GetFederationToken", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
+GetFederationToken(Name; aws_config::AWSConfig=global_aws_config()) = sts("GetFederationToken", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+GetFederationToken(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sts("GetFederationToken", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     GetSessionToken()
@@ -131,5 +131,5 @@ Returns a set of temporary credentials for an AWS account or IAM user. The crede
 - `TokenCode`: The value provided by the MFA device, if MFA is required. If any policy requires the IAM user to submit an MFA code, specify this value. If MFA authentication is required, the user must provide a code when requesting a set of temporary security credentials. A user who fails to provide the code receives an \"access denied\" response when requesting resources that require MFA authentication. The format for this parameter, as described by its regex pattern, is a sequence of six numeric digits.
 """
 
-GetSessionToken(; aws_config::AWSConfig=AWS.aws_config) = sts("GetSessionToken"; aws_config=aws_config)
-GetSessionToken(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sts("GetSessionToken", args; aws_config=aws_config)
+GetSessionToken(; aws_config::AWSConfig=global_aws_config()) = sts("GetSessionToken"; aws_config=aws_config)
+GetSessionToken(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sts("GetSessionToken", args; aws_config=aws_config)

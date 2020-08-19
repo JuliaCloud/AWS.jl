@@ -14,8 +14,8 @@ Deletes an object at the specified path.
 
 """
 
-DeleteObject(Path; aws_config::AWSConfig=AWS.aws_config) = mediastore_data("DELETE", "/$(Path)"; aws_config=aws_config)
-DeleteObject(Path, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = mediastore_data("DELETE", "/$(Path)", args; aws_config=aws_config)
+DeleteObject(Path; aws_config::AWSConfig=global_aws_config()) = mediastore_data("DELETE", "/$(Path)"; aws_config=aws_config)
+DeleteObject(Path, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediastore_data("DELETE", "/$(Path)", args; aws_config=aws_config)
 
 """
     DescribeObject()
@@ -27,8 +27,8 @@ Gets the headers for an object at the specified path.
 
 """
 
-DescribeObject(Path; aws_config::AWSConfig=AWS.aws_config) = mediastore_data("HEAD", "/$(Path)"; aws_config=aws_config)
-DescribeObject(Path, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = mediastore_data("HEAD", "/$(Path)", args; aws_config=aws_config)
+DescribeObject(Path; aws_config::AWSConfig=global_aws_config()) = mediastore_data("HEAD", "/$(Path)"; aws_config=aws_config)
+DescribeObject(Path, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediastore_data("HEAD", "/$(Path)", args; aws_config=aws_config)
 
 """
     GetObject()
@@ -42,8 +42,8 @@ Downloads the object at the specified path. If the object’s upload availabilit
 - `Range`: The range bytes of an object to retrieve. For more information about the Range header, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35. AWS Elemental MediaStore ignores this header for partially uploaded objects that have streaming upload availability.
 """
 
-GetObject(Path; aws_config::AWSConfig=AWS.aws_config) = mediastore_data("GET", "/$(Path)"; aws_config=aws_config)
-GetObject(Path, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = mediastore_data("GET", "/$(Path)", args; aws_config=aws_config)
+GetObject(Path; aws_config::AWSConfig=global_aws_config()) = mediastore_data("GET", "/$(Path)"; aws_config=aws_config)
+GetObject(Path, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediastore_data("GET", "/$(Path)", args; aws_config=aws_config)
 
 """
     ListItems()
@@ -56,8 +56,8 @@ Provides a list of metadata entries about folders and objects in the specified f
 - `Path`: The path in the container from which to retrieve items. Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt;
 """
 
-ListItems(; aws_config::AWSConfig=AWS.aws_config) = mediastore_data("GET", "/"; aws_config=aws_config)
-ListItems(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = mediastore_data("GET", "/", args; aws_config=aws_config)
+ListItems(; aws_config::AWSConfig=global_aws_config()) = mediastore_data("GET", "/"; aws_config=aws_config)
+ListItems(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = mediastore_data("GET", "/", args; aws_config=aws_config)
 
 """
     PutObject()
@@ -75,5 +75,5 @@ Uploads an object to the specified path. Object sizes are limited to 25 MB for s
 - `x-amz-upload-availability`: Indicates the availability of an object while it is still uploading. If the value is set to streaming, the object is available for downloading after some initial buffering but before the object is uploaded completely. If the value is set to standard, the object is available for downloading only when it is uploaded completely. The default value for this header is standard. To use this header, you must also set the HTTP Transfer-Encoding header to chunked.
 """
 
-PutObject(Body, Path; aws_config::AWSConfig=AWS.aws_config) = mediastore_data("PUT", "/$(Path)", Dict{String, Any}("Body"=>Body); aws_config=aws_config)
-PutObject(Body, Path, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = mediastore_data("PUT", "/$(Path)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Body"=>Body), args)); aws_config=aws_config)
+PutObject(Body, Path; aws_config::AWSConfig=global_aws_config()) = mediastore_data("PUT", "/$(Path)", Dict{String, Any}("Body"=>Body); aws_config=aws_config)
+PutObject(Body, Path, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediastore_data("PUT", "/$(Path)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Body"=>Body), args)); aws_config=aws_config)

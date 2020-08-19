@@ -18,8 +18,8 @@ Gets the Interactive Connectivity Establishment (ICE) server configuration infor
 - `Username`: An optional user ID to be associated with the credentials.
 """
 
-GetIceServerConfig(ChannelARN; aws_config::AWSConfig=AWS.aws_config) = kinesis_video_signaling("POST", "/v1/get-ice-server-config", Dict{String, Any}("ChannelARN"=>ChannelARN); aws_config=aws_config)
-GetIceServerConfig(ChannelARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = kinesis_video_signaling("POST", "/v1/get-ice-server-config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChannelARN"=>ChannelARN), args)); aws_config=aws_config)
+GetIceServerConfig(ChannelARN; aws_config::AWSConfig=global_aws_config()) = kinesis_video_signaling("POST", "/v1/get-ice-server-config", Dict{String, Any}("ChannelARN"=>ChannelARN); aws_config=aws_config)
+GetIceServerConfig(ChannelARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis_video_signaling("POST", "/v1/get-ice-server-config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChannelARN"=>ChannelARN), args)); aws_config=aws_config)
 
 """
     SendAlexaOfferToMaster()
@@ -33,5 +33,5 @@ This API allows you to connect WebRTC-enabled devices with Alexa display devices
 
 """
 
-SendAlexaOfferToMaster(ChannelARN, MessagePayload, SenderClientId; aws_config::AWSConfig=AWS.aws_config) = kinesis_video_signaling("POST", "/v1/send-alexa-offer-to-master", Dict{String, Any}("ChannelARN"=>ChannelARN, "MessagePayload"=>MessagePayload, "SenderClientId"=>SenderClientId); aws_config=aws_config)
-SendAlexaOfferToMaster(ChannelARN, MessagePayload, SenderClientId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = kinesis_video_signaling("POST", "/v1/send-alexa-offer-to-master", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChannelARN"=>ChannelARN, "MessagePayload"=>MessagePayload, "SenderClientId"=>SenderClientId), args)); aws_config=aws_config)
+SendAlexaOfferToMaster(ChannelARN, MessagePayload, SenderClientId; aws_config::AWSConfig=global_aws_config()) = kinesis_video_signaling("POST", "/v1/send-alexa-offer-to-master", Dict{String, Any}("ChannelARN"=>ChannelARN, "MessagePayload"=>MessagePayload, "SenderClientId"=>SenderClientId); aws_config=aws_config)
+SendAlexaOfferToMaster(ChannelARN, MessagePayload, SenderClientId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kinesis_video_signaling("POST", "/v1/send-alexa-offer-to-master", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChannelARN"=>ChannelARN, "MessagePayload"=>MessagePayload, "SenderClientId"=>SenderClientId), args)); aws_config=aws_config)

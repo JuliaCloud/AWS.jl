@@ -14,8 +14,8 @@ Deletes the playback configuration for the specified name.
 
 """
 
-DeletePlaybackConfiguration(Name; aws_config::AWSConfig=AWS.aws_config) = mediatailor("DELETE", "/playbackConfiguration/$(Name)"; aws_config=aws_config)
-DeletePlaybackConfiguration(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = mediatailor("DELETE", "/playbackConfiguration/$(Name)", args; aws_config=aws_config)
+DeletePlaybackConfiguration(Name; aws_config::AWSConfig=global_aws_config()) = mediatailor("DELETE", "/playbackConfiguration/$(Name)"; aws_config=aws_config)
+DeletePlaybackConfiguration(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediatailor("DELETE", "/playbackConfiguration/$(Name)", args; aws_config=aws_config)
 
 """
     GetPlaybackConfiguration()
@@ -27,8 +27,8 @@ Returns the playback configuration for the specified name.
 
 """
 
-GetPlaybackConfiguration(Name; aws_config::AWSConfig=AWS.aws_config) = mediatailor("GET", "/playbackConfiguration/$(Name)"; aws_config=aws_config)
-GetPlaybackConfiguration(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = mediatailor("GET", "/playbackConfiguration/$(Name)", args; aws_config=aws_config)
+GetPlaybackConfiguration(Name; aws_config::AWSConfig=global_aws_config()) = mediatailor("GET", "/playbackConfiguration/$(Name)"; aws_config=aws_config)
+GetPlaybackConfiguration(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediatailor("GET", "/playbackConfiguration/$(Name)", args; aws_config=aws_config)
 
 """
     ListPlaybackConfigurations()
@@ -40,8 +40,8 @@ Returns a list of the playback configurations defined in AWS Elemental MediaTail
 - `NextToken`: Pagination token returned by the GET list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
 """
 
-ListPlaybackConfigurations(; aws_config::AWSConfig=AWS.aws_config) = mediatailor("GET", "/playbackConfigurations"; aws_config=aws_config)
-ListPlaybackConfigurations(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = mediatailor("GET", "/playbackConfigurations", args; aws_config=aws_config)
+ListPlaybackConfigurations(; aws_config::AWSConfig=global_aws_config()) = mediatailor("GET", "/playbackConfigurations"; aws_config=aws_config)
+ListPlaybackConfigurations(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = mediatailor("GET", "/playbackConfigurations", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -53,8 +53,8 @@ Returns a list of the tags assigned to the specified playback configuration reso
 
 """
 
-ListTagsForResource(ResourceArn; aws_config::AWSConfig=AWS.aws_config) = mediatailor("GET", "/tags/$(ResourceArn)"; aws_config=aws_config)
-ListTagsForResource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = mediatailor("GET", "/tags/$(ResourceArn)", args; aws_config=aws_config)
+ListTagsForResource(ResourceArn; aws_config::AWSConfig=global_aws_config()) = mediatailor("GET", "/tags/$(ResourceArn)"; aws_config=aws_config)
+ListTagsForResource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediatailor("GET", "/tags/$(ResourceArn)", args; aws_config=aws_config)
 
 """
     PutPlaybackConfiguration()
@@ -76,8 +76,8 @@ Adds a new playback configuration to AWS Elemental MediaTailor.
 - `tags`: The tags to assign to the playback configuration. 
 """
 
-PutPlaybackConfiguration(; aws_config::AWSConfig=AWS.aws_config) = mediatailor("PUT", "/playbackConfiguration"; aws_config=aws_config)
-PutPlaybackConfiguration(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = mediatailor("PUT", "/playbackConfiguration", args; aws_config=aws_config)
+PutPlaybackConfiguration(; aws_config::AWSConfig=global_aws_config()) = mediatailor("PUT", "/playbackConfiguration"; aws_config=aws_config)
+PutPlaybackConfiguration(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = mediatailor("PUT", "/playbackConfiguration", args; aws_config=aws_config)
 
 """
     TagResource()
@@ -95,8 +95,8 @@ Adds tags to the specified playback configuration resource. You can specify one 
 
 """
 
-TagResource(ResourceArn, tags; aws_config::AWSConfig=AWS.aws_config) = mediatailor("POST", "/tags/$(ResourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-TagResource(ResourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = mediatailor("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
+TagResource(ResourceArn, tags; aws_config::AWSConfig=global_aws_config()) = mediatailor("POST", "/tags/$(ResourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
+TagResource(ResourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediatailor("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -109,5 +109,5 @@ Removes tags from the specified playback configuration resource. You can specify
 
 """
 
-UntagResource(ResourceArn, tagKeys; aws_config::AWSConfig=AWS.aws_config) = mediatailor("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-UntagResource(ResourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = mediatailor("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
+UntagResource(ResourceArn, tagKeys; aws_config::AWSConfig=global_aws_config()) = mediatailor("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
+UntagResource(ResourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediatailor("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)

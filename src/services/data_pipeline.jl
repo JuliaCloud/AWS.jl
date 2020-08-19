@@ -17,8 +17,8 @@ Validates the specified pipeline and starts processing pipeline tasks. If the pi
 - `startTimestamp`: The date and time to resume the pipeline. By default, the pipeline resumes from the last completed execution.
 """
 
-ActivatePipeline(pipelineId; aws_config::AWSConfig=AWS.aws_config) = data_pipeline("ActivatePipeline", Dict{String, Any}("pipelineId"=>pipelineId); aws_config=aws_config)
-ActivatePipeline(pipelineId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = data_pipeline("ActivatePipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId), args)); aws_config=aws_config)
+ActivatePipeline(pipelineId; aws_config::AWSConfig=global_aws_config()) = data_pipeline("ActivatePipeline", Dict{String, Any}("pipelineId"=>pipelineId); aws_config=aws_config)
+ActivatePipeline(pipelineId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = data_pipeline("ActivatePipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId), args)); aws_config=aws_config)
 
 """
     AddTags()
@@ -31,8 +31,8 @@ Adds or modifies tags for the specified pipeline.
 
 """
 
-AddTags(pipelineId, tags; aws_config::AWSConfig=AWS.aws_config) = data_pipeline("AddTags", Dict{String, Any}("pipelineId"=>pipelineId, "tags"=>tags); aws_config=aws_config)
-AddTags(pipelineId, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = data_pipeline("AddTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId, "tags"=>tags), args)); aws_config=aws_config)
+AddTags(pipelineId, tags; aws_config::AWSConfig=global_aws_config()) = data_pipeline("AddTags", Dict{String, Any}("pipelineId"=>pipelineId, "tags"=>tags); aws_config=aws_config)
+AddTags(pipelineId, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = data_pipeline("AddTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId, "tags"=>tags), args)); aws_config=aws_config)
 
 """
     CreatePipeline()
@@ -48,8 +48,8 @@ Creates a new, empty pipeline. Use PutPipelineDefinition to populate the pipelin
 - `tags`: A list of tags to associate with the pipeline at creation. Tags let you control access to pipelines. For more information, see Controlling User Access to Pipelines in the AWS Data Pipeline Developer Guide.
 """
 
-CreatePipeline(name, uniqueId; aws_config::AWSConfig=AWS.aws_config) = data_pipeline("CreatePipeline", Dict{String, Any}("name"=>name, "uniqueId"=>uniqueId); aws_config=aws_config)
-CreatePipeline(name, uniqueId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = data_pipeline("CreatePipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "uniqueId"=>uniqueId), args)); aws_config=aws_config)
+CreatePipeline(name, uniqueId; aws_config::AWSConfig=global_aws_config()) = data_pipeline("CreatePipeline", Dict{String, Any}("name"=>name, "uniqueId"=>uniqueId); aws_config=aws_config)
+CreatePipeline(name, uniqueId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = data_pipeline("CreatePipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "uniqueId"=>uniqueId), args)); aws_config=aws_config)
 
 """
     DeactivatePipeline()
@@ -63,8 +63,8 @@ Deactivates the specified running pipeline. The pipeline is set to the DEACTIVAT
 - `cancelActive`: Indicates whether to cancel any running objects. The default is true, which sets the state of any running objects to CANCELED. If this value is false, the pipeline is deactivated after all running objects finish.
 """
 
-DeactivatePipeline(pipelineId; aws_config::AWSConfig=AWS.aws_config) = data_pipeline("DeactivatePipeline", Dict{String, Any}("pipelineId"=>pipelineId); aws_config=aws_config)
-DeactivatePipeline(pipelineId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = data_pipeline("DeactivatePipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId), args)); aws_config=aws_config)
+DeactivatePipeline(pipelineId; aws_config::AWSConfig=global_aws_config()) = data_pipeline("DeactivatePipeline", Dict{String, Any}("pipelineId"=>pipelineId); aws_config=aws_config)
+DeactivatePipeline(pipelineId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = data_pipeline("DeactivatePipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId), args)); aws_config=aws_config)
 
 """
     DeletePipeline()
@@ -76,8 +76,8 @@ Deletes a pipeline, its pipeline definition, and its run history. AWS Data Pipel
 
 """
 
-DeletePipeline(pipelineId; aws_config::AWSConfig=AWS.aws_config) = data_pipeline("DeletePipeline", Dict{String, Any}("pipelineId"=>pipelineId); aws_config=aws_config)
-DeletePipeline(pipelineId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = data_pipeline("DeletePipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId), args)); aws_config=aws_config)
+DeletePipeline(pipelineId; aws_config::AWSConfig=global_aws_config()) = data_pipeline("DeletePipeline", Dict{String, Any}("pipelineId"=>pipelineId); aws_config=aws_config)
+DeletePipeline(pipelineId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = data_pipeline("DeletePipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId), args)); aws_config=aws_config)
 
 """
     DescribeObjects()
@@ -93,8 +93,8 @@ Gets the object definitions for a set of objects associated with the pipeline. O
 - `marker`: The starting point for the results to be returned. For the first call, this value should be empty. As long as there are more results, continue to call DescribeObjects with the marker value from the previous call to retrieve the next set of results.
 """
 
-DescribeObjects(objectIds, pipelineId; aws_config::AWSConfig=AWS.aws_config) = data_pipeline("DescribeObjects", Dict{String, Any}("objectIds"=>objectIds, "pipelineId"=>pipelineId); aws_config=aws_config)
-DescribeObjects(objectIds, pipelineId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = data_pipeline("DescribeObjects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("objectIds"=>objectIds, "pipelineId"=>pipelineId), args)); aws_config=aws_config)
+DescribeObjects(objectIds, pipelineId; aws_config::AWSConfig=global_aws_config()) = data_pipeline("DescribeObjects", Dict{String, Any}("objectIds"=>objectIds, "pipelineId"=>pipelineId); aws_config=aws_config)
+DescribeObjects(objectIds, pipelineId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = data_pipeline("DescribeObjects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("objectIds"=>objectIds, "pipelineId"=>pipelineId), args)); aws_config=aws_config)
 
 """
     DescribePipelines()
@@ -106,8 +106,8 @@ Retrieves metadata about one or more pipelines. The information retrieved includ
 
 """
 
-DescribePipelines(pipelineIds; aws_config::AWSConfig=AWS.aws_config) = data_pipeline("DescribePipelines", Dict{String, Any}("pipelineIds"=>pipelineIds); aws_config=aws_config)
-DescribePipelines(pipelineIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = data_pipeline("DescribePipelines", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineIds"=>pipelineIds), args)); aws_config=aws_config)
+DescribePipelines(pipelineIds; aws_config::AWSConfig=global_aws_config()) = data_pipeline("DescribePipelines", Dict{String, Any}("pipelineIds"=>pipelineIds); aws_config=aws_config)
+DescribePipelines(pipelineIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = data_pipeline("DescribePipelines", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineIds"=>pipelineIds), args)); aws_config=aws_config)
 
 """
     EvaluateExpression()
@@ -121,8 +121,8 @@ Task runners call EvaluateExpression to evaluate a string in the context of the 
 
 """
 
-EvaluateExpression(expression, objectId, pipelineId; aws_config::AWSConfig=AWS.aws_config) = data_pipeline("EvaluateExpression", Dict{String, Any}("expression"=>expression, "objectId"=>objectId, "pipelineId"=>pipelineId); aws_config=aws_config)
-EvaluateExpression(expression, objectId, pipelineId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = data_pipeline("EvaluateExpression", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("expression"=>expression, "objectId"=>objectId, "pipelineId"=>pipelineId), args)); aws_config=aws_config)
+EvaluateExpression(expression, objectId, pipelineId; aws_config::AWSConfig=global_aws_config()) = data_pipeline("EvaluateExpression", Dict{String, Any}("expression"=>expression, "objectId"=>objectId, "pipelineId"=>pipelineId); aws_config=aws_config)
+EvaluateExpression(expression, objectId, pipelineId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = data_pipeline("EvaluateExpression", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("expression"=>expression, "objectId"=>objectId, "pipelineId"=>pipelineId), args)); aws_config=aws_config)
 
 """
     GetPipelineDefinition()
@@ -136,8 +136,8 @@ Gets the definition of the specified pipeline. You can call GetPipelineDefinitio
 - `version`: The version of the pipeline definition to retrieve. Set this parameter to latest (default) to use the last definition saved to the pipeline or active to use the last definition that was activated.
 """
 
-GetPipelineDefinition(pipelineId; aws_config::AWSConfig=AWS.aws_config) = data_pipeline("GetPipelineDefinition", Dict{String, Any}("pipelineId"=>pipelineId); aws_config=aws_config)
-GetPipelineDefinition(pipelineId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = data_pipeline("GetPipelineDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId), args)); aws_config=aws_config)
+GetPipelineDefinition(pipelineId; aws_config::AWSConfig=global_aws_config()) = data_pipeline("GetPipelineDefinition", Dict{String, Any}("pipelineId"=>pipelineId); aws_config=aws_config)
+GetPipelineDefinition(pipelineId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = data_pipeline("GetPipelineDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId), args)); aws_config=aws_config)
 
 """
     ListPipelines()
@@ -148,8 +148,8 @@ Lists the pipeline identifiers for all active pipelines that you have permission
 - `marker`: The starting point for the results to be returned. For the first call, this value should be empty. As long as there are more results, continue to call ListPipelines with the marker value from the previous call to retrieve the next set of results.
 """
 
-ListPipelines(; aws_config::AWSConfig=AWS.aws_config) = data_pipeline("ListPipelines"; aws_config=aws_config)
-ListPipelines(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = data_pipeline("ListPipelines", args; aws_config=aws_config)
+ListPipelines(; aws_config::AWSConfig=global_aws_config()) = data_pipeline("ListPipelines"; aws_config=aws_config)
+ListPipelines(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = data_pipeline("ListPipelines", args; aws_config=aws_config)
 
 """
     PollForTask()
@@ -164,8 +164,8 @@ Task runners call PollForTask to receive a task to perform from AWS Data Pipelin
 - `instanceIdentity`: Identity information for the EC2 instance that is hosting the task runner. You can get this value from the instance using http://169.254.169.254/latest/meta-data/instance-id. For more information, see Instance Metadata in the Amazon Elastic Compute Cloud User Guide. Passing in this value proves that your task runner is running on an EC2 instance, and ensures the proper AWS Data Pipeline service charges are applied to your pipeline.
 """
 
-PollForTask(workerGroup; aws_config::AWSConfig=AWS.aws_config) = data_pipeline("PollForTask", Dict{String, Any}("workerGroup"=>workerGroup); aws_config=aws_config)
-PollForTask(workerGroup, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = data_pipeline("PollForTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("workerGroup"=>workerGroup), args)); aws_config=aws_config)
+PollForTask(workerGroup; aws_config::AWSConfig=global_aws_config()) = data_pipeline("PollForTask", Dict{String, Any}("workerGroup"=>workerGroup); aws_config=aws_config)
+PollForTask(workerGroup, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = data_pipeline("PollForTask", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("workerGroup"=>workerGroup), args)); aws_config=aws_config)
 
 """
     PutPipelineDefinition()
@@ -181,8 +181,8 @@ Adds tasks, schedules, and preconditions to the specified pipeline. You can use 
 - `parameterValues`: The parameter values used with the pipeline.
 """
 
-PutPipelineDefinition(pipelineId, pipelineObjects; aws_config::AWSConfig=AWS.aws_config) = data_pipeline("PutPipelineDefinition", Dict{String, Any}("pipelineId"=>pipelineId, "pipelineObjects"=>pipelineObjects); aws_config=aws_config)
-PutPipelineDefinition(pipelineId, pipelineObjects, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = data_pipeline("PutPipelineDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId, "pipelineObjects"=>pipelineObjects), args)); aws_config=aws_config)
+PutPipelineDefinition(pipelineId, pipelineObjects; aws_config::AWSConfig=global_aws_config()) = data_pipeline("PutPipelineDefinition", Dict{String, Any}("pipelineId"=>pipelineId, "pipelineObjects"=>pipelineObjects); aws_config=aws_config)
+PutPipelineDefinition(pipelineId, pipelineObjects, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = data_pipeline("PutPipelineDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId, "pipelineObjects"=>pipelineObjects), args)); aws_config=aws_config)
 
 """
     QueryObjects()
@@ -199,8 +199,8 @@ Queries the specified pipeline for the names of objects that match the specified
 - `query`: The query that defines the objects to be returned. The Query object can contain a maximum of ten selectors. The conditions in the query are limited to top-level String fields in the object. These filters can be applied to components, instances, and attempts.
 """
 
-QueryObjects(pipelineId, sphere; aws_config::AWSConfig=AWS.aws_config) = data_pipeline("QueryObjects", Dict{String, Any}("pipelineId"=>pipelineId, "sphere"=>sphere); aws_config=aws_config)
-QueryObjects(pipelineId, sphere, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = data_pipeline("QueryObjects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId, "sphere"=>sphere), args)); aws_config=aws_config)
+QueryObjects(pipelineId, sphere; aws_config::AWSConfig=global_aws_config()) = data_pipeline("QueryObjects", Dict{String, Any}("pipelineId"=>pipelineId, "sphere"=>sphere); aws_config=aws_config)
+QueryObjects(pipelineId, sphere, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = data_pipeline("QueryObjects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId, "sphere"=>sphere), args)); aws_config=aws_config)
 
 """
     RemoveTags()
@@ -213,8 +213,8 @@ Removes existing tags from the specified pipeline.
 
 """
 
-RemoveTags(pipelineId, tagKeys; aws_config::AWSConfig=AWS.aws_config) = data_pipeline("RemoveTags", Dict{String, Any}("pipelineId"=>pipelineId, "tagKeys"=>tagKeys); aws_config=aws_config)
-RemoveTags(pipelineId, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = data_pipeline("RemoveTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId, "tagKeys"=>tagKeys), args)); aws_config=aws_config)
+RemoveTags(pipelineId, tagKeys; aws_config::AWSConfig=global_aws_config()) = data_pipeline("RemoveTags", Dict{String, Any}("pipelineId"=>pipelineId, "tagKeys"=>tagKeys); aws_config=aws_config)
+RemoveTags(pipelineId, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = data_pipeline("RemoveTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId, "tagKeys"=>tagKeys), args)); aws_config=aws_config)
 
 """
     ReportTaskProgress()
@@ -228,8 +228,8 @@ Task runners call ReportTaskProgress when assigned a task to acknowledge that it
 - `fields`: Key-value pairs that define the properties of the ReportTaskProgressInput object.
 """
 
-ReportTaskProgress(taskId; aws_config::AWSConfig=AWS.aws_config) = data_pipeline("ReportTaskProgress", Dict{String, Any}("taskId"=>taskId); aws_config=aws_config)
-ReportTaskProgress(taskId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = data_pipeline("ReportTaskProgress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskId"=>taskId), args)); aws_config=aws_config)
+ReportTaskProgress(taskId; aws_config::AWSConfig=global_aws_config()) = data_pipeline("ReportTaskProgress", Dict{String, Any}("taskId"=>taskId); aws_config=aws_config)
+ReportTaskProgress(taskId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = data_pipeline("ReportTaskProgress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskId"=>taskId), args)); aws_config=aws_config)
 
 """
     ReportTaskRunnerHeartbeat()
@@ -244,8 +244,8 @@ Task runners call ReportTaskRunnerHeartbeat every 15 minutes to indicate that th
 - `workerGroup`: The type of task the task runner is configured to accept and process. The worker group is set as a field on objects in the pipeline when they are created. You can only specify a single value for workerGroup. There are no wildcard values permitted in workerGroup; the string must be an exact, case-sensitive, match.
 """
 
-ReportTaskRunnerHeartbeat(taskrunnerId; aws_config::AWSConfig=AWS.aws_config) = data_pipeline("ReportTaskRunnerHeartbeat", Dict{String, Any}("taskrunnerId"=>taskrunnerId); aws_config=aws_config)
-ReportTaskRunnerHeartbeat(taskrunnerId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = data_pipeline("ReportTaskRunnerHeartbeat", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskrunnerId"=>taskrunnerId), args)); aws_config=aws_config)
+ReportTaskRunnerHeartbeat(taskrunnerId; aws_config::AWSConfig=global_aws_config()) = data_pipeline("ReportTaskRunnerHeartbeat", Dict{String, Any}("taskrunnerId"=>taskrunnerId); aws_config=aws_config)
+ReportTaskRunnerHeartbeat(taskrunnerId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = data_pipeline("ReportTaskRunnerHeartbeat", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskrunnerId"=>taskrunnerId), args)); aws_config=aws_config)
 
 """
     SetStatus()
@@ -259,8 +259,8 @@ Requests that the status of the specified physical or logical pipeline objects b
 
 """
 
-SetStatus(objectIds, pipelineId, status; aws_config::AWSConfig=AWS.aws_config) = data_pipeline("SetStatus", Dict{String, Any}("objectIds"=>objectIds, "pipelineId"=>pipelineId, "status"=>status); aws_config=aws_config)
-SetStatus(objectIds, pipelineId, status, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = data_pipeline("SetStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("objectIds"=>objectIds, "pipelineId"=>pipelineId, "status"=>status), args)); aws_config=aws_config)
+SetStatus(objectIds, pipelineId, status; aws_config::AWSConfig=global_aws_config()) = data_pipeline("SetStatus", Dict{String, Any}("objectIds"=>objectIds, "pipelineId"=>pipelineId, "status"=>status); aws_config=aws_config)
+SetStatus(objectIds, pipelineId, status, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = data_pipeline("SetStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("objectIds"=>objectIds, "pipelineId"=>pipelineId, "status"=>status), args)); aws_config=aws_config)
 
 """
     SetTaskStatus()
@@ -277,8 +277,8 @@ Task runners call SetTaskStatus to notify AWS Data Pipeline that a task is compl
 - `errorStackTrace`: If an error occurred during the task, this value specifies the stack trace associated with the error. This value is set on the physical attempt object. It is used to display error information to the user. The web service does not parse this value.
 """
 
-SetTaskStatus(taskId, taskStatus; aws_config::AWSConfig=AWS.aws_config) = data_pipeline("SetTaskStatus", Dict{String, Any}("taskId"=>taskId, "taskStatus"=>taskStatus); aws_config=aws_config)
-SetTaskStatus(taskId, taskStatus, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = data_pipeline("SetTaskStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskId"=>taskId, "taskStatus"=>taskStatus), args)); aws_config=aws_config)
+SetTaskStatus(taskId, taskStatus; aws_config::AWSConfig=global_aws_config()) = data_pipeline("SetTaskStatus", Dict{String, Any}("taskId"=>taskId, "taskStatus"=>taskStatus); aws_config=aws_config)
+SetTaskStatus(taskId, taskStatus, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = data_pipeline("SetTaskStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("taskId"=>taskId, "taskStatus"=>taskStatus), args)); aws_config=aws_config)
 
 """
     ValidatePipelineDefinition()
@@ -294,5 +294,5 @@ Validates the specified pipeline definition to ensure that it is well formed and
 - `parameterValues`: The parameter values used with the pipeline.
 """
 
-ValidatePipelineDefinition(pipelineId, pipelineObjects; aws_config::AWSConfig=AWS.aws_config) = data_pipeline("ValidatePipelineDefinition", Dict{String, Any}("pipelineId"=>pipelineId, "pipelineObjects"=>pipelineObjects); aws_config=aws_config)
-ValidatePipelineDefinition(pipelineId, pipelineObjects, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = data_pipeline("ValidatePipelineDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId, "pipelineObjects"=>pipelineObjects), args)); aws_config=aws_config)
+ValidatePipelineDefinition(pipelineId, pipelineObjects; aws_config::AWSConfig=global_aws_config()) = data_pipeline("ValidatePipelineDefinition", Dict{String, Any}("pipelineId"=>pipelineId, "pipelineObjects"=>pipelineObjects); aws_config=aws_config)
+ValidatePipelineDefinition(pipelineId, pipelineObjects, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = data_pipeline("ValidatePipelineDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineId"=>pipelineId, "pipelineObjects"=>pipelineObjects), args)); aws_config=aws_config)

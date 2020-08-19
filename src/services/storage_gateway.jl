@@ -17,13 +17,13 @@ Activates the gateway you previously deployed on your host. In the activation pr
 
 # Optional Parameters
 - `GatewayType`: A value that defines the type of gateway to activate. The type specified is critical to all later functions of the gateway and cannot be changed after activation. The default value is CACHED. Valid Values: STORED | CACHED | VTL | FILE_S3 
-- `MediumChangerType`: The value that indicates the type of medium changer to use for tape gateway. This field is optional. Valid Values: STK-L700 | AWS-Gateway-VTL 
+- `MediumChangerType`: The value that indicates the type of medium changer to use for tape gateway. This field is optional. Valid Values: STK-L700 | AWS-Gateway-VTL | IBM-03584L32-0402 
 - `Tags`: A list of up to 50 tags that you can assign to the gateway. Each tag is a key-value pair.  Valid characters for key and value are letters, spaces, and numbers that can be represented in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256 characters. 
 - `TapeDriveType`: The value that indicates the type of tape drive to use for tape gateway. This field is optional. Valid Values: IBM-ULT3580-TD5 
 """
 
-ActivateGateway(ActivationKey, GatewayName, GatewayRegion, GatewayTimezone; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("ActivateGateway", Dict{String, Any}("ActivationKey"=>ActivationKey, "GatewayName"=>GatewayName, "GatewayRegion"=>GatewayRegion, "GatewayTimezone"=>GatewayTimezone); aws_config=aws_config)
-ActivateGateway(ActivationKey, GatewayName, GatewayRegion, GatewayTimezone, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("ActivateGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ActivationKey"=>ActivationKey, "GatewayName"=>GatewayName, "GatewayRegion"=>GatewayRegion, "GatewayTimezone"=>GatewayTimezone), args)); aws_config=aws_config)
+ActivateGateway(ActivationKey, GatewayName, GatewayRegion, GatewayTimezone; aws_config::AWSConfig=global_aws_config()) = storage_gateway("ActivateGateway", Dict{String, Any}("ActivationKey"=>ActivationKey, "GatewayName"=>GatewayName, "GatewayRegion"=>GatewayRegion, "GatewayTimezone"=>GatewayTimezone); aws_config=aws_config)
+ActivateGateway(ActivationKey, GatewayName, GatewayRegion, GatewayTimezone, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("ActivateGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ActivationKey"=>ActivationKey, "GatewayName"=>GatewayName, "GatewayRegion"=>GatewayRegion, "GatewayTimezone"=>GatewayTimezone), args)); aws_config=aws_config)
 
 """
     AddCache()
@@ -36,8 +36,8 @@ Configures one or more gateway local disks as cache for a gateway. This operatio
 
 """
 
-AddCache(DiskIds, GatewayARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("AddCache", Dict{String, Any}("DiskIds"=>DiskIds, "GatewayARN"=>GatewayARN); aws_config=aws_config)
-AddCache(DiskIds, GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("AddCache", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DiskIds"=>DiskIds, "GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
+AddCache(DiskIds, GatewayARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("AddCache", Dict{String, Any}("DiskIds"=>DiskIds, "GatewayARN"=>GatewayARN); aws_config=aws_config)
+AddCache(DiskIds, GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("AddCache", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DiskIds"=>DiskIds, "GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
 
 """
     AddTagsToResource()
@@ -50,8 +50,8 @@ Adds one or more tags to the specified resource. You use tags to add metadata to
 
 """
 
-AddTagsToResource(ResourceARN, Tags; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("AddTagsToResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
-AddTagsToResource(ResourceARN, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("AddTagsToResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), args)); aws_config=aws_config)
+AddTagsToResource(ResourceARN, Tags; aws_config::AWSConfig=global_aws_config()) = storage_gateway("AddTagsToResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
+AddTagsToResource(ResourceARN, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("AddTagsToResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     AddUploadBuffer()
@@ -64,8 +64,8 @@ Configures one or more gateway local disks as upload buffer for a specified gate
 
 """
 
-AddUploadBuffer(DiskIds, GatewayARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("AddUploadBuffer", Dict{String, Any}("DiskIds"=>DiskIds, "GatewayARN"=>GatewayARN); aws_config=aws_config)
-AddUploadBuffer(DiskIds, GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("AddUploadBuffer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DiskIds"=>DiskIds, "GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
+AddUploadBuffer(DiskIds, GatewayARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("AddUploadBuffer", Dict{String, Any}("DiskIds"=>DiskIds, "GatewayARN"=>GatewayARN); aws_config=aws_config)
+AddUploadBuffer(DiskIds, GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("AddUploadBuffer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DiskIds"=>DiskIds, "GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
 
 """
     AddWorkingStorage()
@@ -78,8 +78,8 @@ Configures one or more gateway local disks as working storage for a gateway. Thi
 
 """
 
-AddWorkingStorage(DiskIds, GatewayARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("AddWorkingStorage", Dict{String, Any}("DiskIds"=>DiskIds, "GatewayARN"=>GatewayARN); aws_config=aws_config)
-AddWorkingStorage(DiskIds, GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("AddWorkingStorage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DiskIds"=>DiskIds, "GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
+AddWorkingStorage(DiskIds, GatewayARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("AddWorkingStorage", Dict{String, Any}("DiskIds"=>DiskIds, "GatewayARN"=>GatewayARN); aws_config=aws_config)
+AddWorkingStorage(DiskIds, GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("AddWorkingStorage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DiskIds"=>DiskIds, "GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
 
 """
     AssignTapePool()
@@ -90,10 +90,12 @@ Assigns a tape to a tape pool for archiving. The tape assigned to a pool is arch
 - `PoolId`: The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool. Valid Values: GLACIER | DEEP_ARCHIVE 
 - `TapeARN`: The unique Amazon Resource Name (ARN) of the virtual tape that you want to add to the tape pool.
 
+# Optional Parameters
+- `BypassGovernanceRetention`: Set permissions to bypass governance retention. If the lock type of the archived tape is Governance, the tape's archived age is not older than RetentionLockInDays, and the user does not already have BypassGovernanceRetention, setting this to TRUE enables the user to bypass the retention lock. This parameter is set to true by default for calls from the console. Valid values: TRUE | FALSE 
 """
 
-AssignTapePool(PoolId, TapeARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("AssignTapePool", Dict{String, Any}("PoolId"=>PoolId, "TapeARN"=>TapeARN); aws_config=aws_config)
-AssignTapePool(PoolId, TapeARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("AssignTapePool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PoolId"=>PoolId, "TapeARN"=>TapeARN), args)); aws_config=aws_config)
+AssignTapePool(PoolId, TapeARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("AssignTapePool", Dict{String, Any}("PoolId"=>PoolId, "TapeARN"=>TapeARN); aws_config=aws_config)
+AssignTapePool(PoolId, TapeARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("AssignTapePool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PoolId"=>PoolId, "TapeARN"=>TapeARN), args)); aws_config=aws_config)
 
 """
     AttachVolume()
@@ -110,8 +112,8 @@ Connects a volume to an iSCSI connection and then attaches the volume to the spe
 - `TargetName`: The name of the iSCSI target used by an initiator to connect to a volume and used as a suffix for the target ARN. For example, specifying TargetName as myvolume results in the target ARN of arn:aws:storagegateway:us-east-2:111122223333:gateway/sgw-12A3456B/target/iqn.1997-05.com.amazon:myvolume. The target name must be unique across all volumes on a gateway. If you don't specify a value, Storage Gateway uses the value that was previously used for this volume as the new target name.
 """
 
-AttachVolume(GatewayARN, NetworkInterfaceId, VolumeARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("AttachVolume", Dict{String, Any}("GatewayARN"=>GatewayARN, "NetworkInterfaceId"=>NetworkInterfaceId, "VolumeARN"=>VolumeARN); aws_config=aws_config)
-AttachVolume(GatewayARN, NetworkInterfaceId, VolumeARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("AttachVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN, "NetworkInterfaceId"=>NetworkInterfaceId, "VolumeARN"=>VolumeARN), args)); aws_config=aws_config)
+AttachVolume(GatewayARN, NetworkInterfaceId, VolumeARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("AttachVolume", Dict{String, Any}("GatewayARN"=>GatewayARN, "NetworkInterfaceId"=>NetworkInterfaceId, "VolumeARN"=>VolumeARN); aws_config=aws_config)
+AttachVolume(GatewayARN, NetworkInterfaceId, VolumeARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("AttachVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN, "NetworkInterfaceId"=>NetworkInterfaceId, "VolumeARN"=>VolumeARN), args)); aws_config=aws_config)
 
 """
     CancelArchival()
@@ -124,8 +126,8 @@ Cancels archiving of a virtual tape to the virtual tape shelf (VTS) after the ar
 
 """
 
-CancelArchival(GatewayARN, TapeARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("CancelArchival", Dict{String, Any}("GatewayARN"=>GatewayARN, "TapeARN"=>TapeARN); aws_config=aws_config)
-CancelArchival(GatewayARN, TapeARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("CancelArchival", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN, "TapeARN"=>TapeARN), args)); aws_config=aws_config)
+CancelArchival(GatewayARN, TapeARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("CancelArchival", Dict{String, Any}("GatewayARN"=>GatewayARN, "TapeARN"=>TapeARN); aws_config=aws_config)
+CancelArchival(GatewayARN, TapeARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("CancelArchival", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN, "TapeARN"=>TapeARN), args)); aws_config=aws_config)
 
 """
     CancelRetrieval()
@@ -138,8 +140,8 @@ Cancels retrieval of a virtual tape from the virtual tape shelf (VTS) to a gatew
 
 """
 
-CancelRetrieval(GatewayARN, TapeARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("CancelRetrieval", Dict{String, Any}("GatewayARN"=>GatewayARN, "TapeARN"=>TapeARN); aws_config=aws_config)
-CancelRetrieval(GatewayARN, TapeARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("CancelRetrieval", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN, "TapeARN"=>TapeARN), args)); aws_config=aws_config)
+CancelRetrieval(GatewayARN, TapeARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("CancelRetrieval", Dict{String, Any}("GatewayARN"=>GatewayARN, "TapeARN"=>TapeARN); aws_config=aws_config)
+CancelRetrieval(GatewayARN, TapeARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("CancelRetrieval", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN, "TapeARN"=>TapeARN), args)); aws_config=aws_config)
 
 """
     CreateCachediSCSIVolume()
@@ -161,8 +163,8 @@ Creates a cached volume on a specified cached volume gateway. This operation is 
 - `Tags`: A list of up to 50 tags that you can assign to a cached volume. Each tag is a key-value pair.  Valid characters for key and value are letters, spaces, and numbers that you can represent in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256 characters. 
 """
 
-CreateCachediSCSIVolume(ClientToken, GatewayARN, NetworkInterfaceId, TargetName, VolumeSizeInBytes; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("CreateCachediSCSIVolume", Dict{String, Any}("ClientToken"=>ClientToken, "GatewayARN"=>GatewayARN, "NetworkInterfaceId"=>NetworkInterfaceId, "TargetName"=>TargetName, "VolumeSizeInBytes"=>VolumeSizeInBytes); aws_config=aws_config)
-CreateCachediSCSIVolume(ClientToken, GatewayARN, NetworkInterfaceId, TargetName, VolumeSizeInBytes, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("CreateCachediSCSIVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "GatewayARN"=>GatewayARN, "NetworkInterfaceId"=>NetworkInterfaceId, "TargetName"=>TargetName, "VolumeSizeInBytes"=>VolumeSizeInBytes), args)); aws_config=aws_config)
+CreateCachediSCSIVolume(ClientToken, GatewayARN, NetworkInterfaceId, TargetName, VolumeSizeInBytes; aws_config::AWSConfig=global_aws_config()) = storage_gateway("CreateCachediSCSIVolume", Dict{String, Any}("ClientToken"=>ClientToken, "GatewayARN"=>GatewayARN, "NetworkInterfaceId"=>NetworkInterfaceId, "TargetName"=>TargetName, "VolumeSizeInBytes"=>VolumeSizeInBytes); aws_config=aws_config)
+CreateCachediSCSIVolume(ClientToken, GatewayARN, NetworkInterfaceId, TargetName, VolumeSizeInBytes, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("CreateCachediSCSIVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "GatewayARN"=>GatewayARN, "NetworkInterfaceId"=>NetworkInterfaceId, "TargetName"=>TargetName, "VolumeSizeInBytes"=>VolumeSizeInBytes), args)); aws_config=aws_config)
 
 """
     CreateNFSFileShare()
@@ -191,13 +193,13 @@ Creates a Network File System (NFS) file share on an existing file gateway. In S
 - `Tags`: A list of up to 50 tags that can be assigned to the NFS file share. Each tag is a key-value pair.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256. 
 """
 
-CreateNFSFileShare(ClientToken, GatewayARN, LocationARN, Role; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("CreateNFSFileShare", Dict{String, Any}("ClientToken"=>ClientToken, "GatewayARN"=>GatewayARN, "LocationARN"=>LocationARN, "Role"=>Role); aws_config=aws_config)
-CreateNFSFileShare(ClientToken, GatewayARN, LocationARN, Role, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("CreateNFSFileShare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "GatewayARN"=>GatewayARN, "LocationARN"=>LocationARN, "Role"=>Role), args)); aws_config=aws_config)
+CreateNFSFileShare(ClientToken, GatewayARN, LocationARN, Role; aws_config::AWSConfig=global_aws_config()) = storage_gateway("CreateNFSFileShare", Dict{String, Any}("ClientToken"=>ClientToken, "GatewayARN"=>GatewayARN, "LocationARN"=>LocationARN, "Role"=>Role); aws_config=aws_config)
+CreateNFSFileShare(ClientToken, GatewayARN, LocationARN, Role, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("CreateNFSFileShare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "GatewayARN"=>GatewayARN, "LocationARN"=>LocationARN, "Role"=>Role), args)); aws_config=aws_config)
 
 """
     CreateSMBFileShare()
 
-Creates a Server Message Block (SMB) file share on an existing file gateway. In Storage Gateway, a file share is a file system mount point backed by Amazon S3 cloud storage. Storage Gateway expose file shares using an SMB interface. This operation is only supported for file gateways.  File gateways require AWS Security Token Service (AWS STS) to be activated to enable you to create a file share. Make sure that AWS STS is activated in the AWS Region you are creating your file gateway in. If AWS STS is not activated in this AWS Region, activate it. For information about how to activate AWS STS, see Activating and deactivating AWS STS in an AWS Region in the AWS Identity and Access Management User Guide. File gateways don't support creating hard or symbolic links on a file share. 
+Creates a Server Message Block (SMB) file share on an existing file gateway. In Storage Gateway, a file share is a file system mount point backed by Amazon S3 cloud storage. Storage Gateway exposes file shares using an SMB interface. This operation is only supported for file gateways.  File gateways require AWS Security Token Service (AWS STS) to be activated to enable you to create a file share. Make sure that AWS STS is activated in the AWS Region you are creating your file gateway in. If AWS STS is not activated in this AWS Region, activate it. For information about how to activate AWS STS, see Activating and deactivating AWS STS in an AWS Region in the AWS Identity and Access Management User Guide. File gateways don't support creating hard or symbolic links on a file share. 
 
 # Required Parameters
 - `ClientToken`: A unique string value that you supply that is used by file gateway to ensure idempotent file share creation.
@@ -225,13 +227,13 @@ Creates a Server Message Block (SMB) file share on an existing file gateway. In 
 - `ValidUserList`: A list of users or groups in the Active Directory that are allowed to access the file  share. A group must be prefixed with the @ character. Acceptable formats include: DOMAIN User1, user1, @group1, and @DOMAIN group1. Can only be set if Authentication is set to ActiveDirectory.
 """
 
-CreateSMBFileShare(ClientToken, GatewayARN, LocationARN, Role; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("CreateSMBFileShare", Dict{String, Any}("ClientToken"=>ClientToken, "GatewayARN"=>GatewayARN, "LocationARN"=>LocationARN, "Role"=>Role); aws_config=aws_config)
-CreateSMBFileShare(ClientToken, GatewayARN, LocationARN, Role, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("CreateSMBFileShare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "GatewayARN"=>GatewayARN, "LocationARN"=>LocationARN, "Role"=>Role), args)); aws_config=aws_config)
+CreateSMBFileShare(ClientToken, GatewayARN, LocationARN, Role; aws_config::AWSConfig=global_aws_config()) = storage_gateway("CreateSMBFileShare", Dict{String, Any}("ClientToken"=>ClientToken, "GatewayARN"=>GatewayARN, "LocationARN"=>LocationARN, "Role"=>Role); aws_config=aws_config)
+CreateSMBFileShare(ClientToken, GatewayARN, LocationARN, Role, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("CreateSMBFileShare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "GatewayARN"=>GatewayARN, "LocationARN"=>LocationARN, "Role"=>Role), args)); aws_config=aws_config)
 
 """
     CreateSnapshot()
 
-Initiates a snapshot of a volume. AWS Storage Gateway provides the ability to back up point-in-time snapshots of your data to Amazon Simple Storage (Amazon S3) for durable off-site recovery, as well as import the data to an Amazon Elastic Block Store (EBS) volume in Amazon Elastic Compute Cloud (EC2). You can take snapshots of your gateway volume on a scheduled or ad hoc basis. This API enables you to take ad-hoc snapshot. For more information, see Editing a snapshot schedule. In the CreateSnapshot request you identify the volume by providing its Amazon Resource Name (ARN). You must also provide description for the snapshot. When AWS Storage Gateway takes the snapshot of specified volume, the snapshot and description appears in the AWS Storage Gateway Console. In response, AWS Storage Gateway returns you a snapshot ID. You can use this snapshot ID to check the snapshot progress or later use it when you want to create a volume from a snapshot. This operation is only supported in stored and cached volume gateway type.  To list or delete a snapshot, you must use the Amazon EC2 API. For more information, see DescribeSnapshots or DeleteSnapshot in the Amazon Elastic Compute Cloud API Reference.   Volume and snapshot IDs are changing to a longer length ID format. For more information, see the important note on the Welcome page. 
+Initiates a snapshot of a volume. AWS Storage Gateway provides the ability to back up point-in-time snapshots of your data to Amazon Simple Storage (Amazon S3) for durable off-site recovery, as well as import the data to an Amazon Elastic Block Store (EBS) volume in Amazon Elastic Compute Cloud (EC2). You can take snapshots of your gateway volume on a scheduled or ad hoc basis. This API enables you to take an ad hoc snapshot. For more information, see Editing a snapshot schedule. In the CreateSnapshot request, you identify the volume by providing its Amazon Resource Name (ARN). You must also provide description for the snapshot. When AWS Storage Gateway takes the snapshot of specified volume, the snapshot and description appears in the AWS Storage Gateway console. In response, AWS Storage Gateway returns you a snapshot ID. You can use this snapshot ID to check the snapshot progress or later use it when you want to create a volume from a snapshot. This operation is only supported in stored and cached volume gateway type.  To list or delete a snapshot, you must use the Amazon EC2 API. For more information, see DescribeSnapshots or DeleteSnapshot in the Amazon Elastic Compute Cloud API Reference.   Volume and snapshot IDs are changing to a longer length ID format. For more information, see the important note on the Welcome page. 
 
 # Required Parameters
 - `SnapshotDescription`: Textual description of the snapshot that appears in the Amazon EC2 console, Elastic Block Store snapshots panel in the Description field, and in the AWS Storage Gateway snapshot Details pane, Description field.
@@ -241,8 +243,8 @@ Initiates a snapshot of a volume. AWS Storage Gateway provides the ability to ba
 - `Tags`: A list of up to 50 tags that can be assigned to a snapshot. Each tag is a key-value pair.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256. 
 """
 
-CreateSnapshot(SnapshotDescription, VolumeARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("CreateSnapshot", Dict{String, Any}("SnapshotDescription"=>SnapshotDescription, "VolumeARN"=>VolumeARN); aws_config=aws_config)
-CreateSnapshot(SnapshotDescription, VolumeARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("CreateSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotDescription"=>SnapshotDescription, "VolumeARN"=>VolumeARN), args)); aws_config=aws_config)
+CreateSnapshot(SnapshotDescription, VolumeARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("CreateSnapshot", Dict{String, Any}("SnapshotDescription"=>SnapshotDescription, "VolumeARN"=>VolumeARN); aws_config=aws_config)
+CreateSnapshot(SnapshotDescription, VolumeARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("CreateSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotDescription"=>SnapshotDescription, "VolumeARN"=>VolumeARN), args)); aws_config=aws_config)
 
 """
     CreateSnapshotFromVolumeRecoveryPoint()
@@ -257,13 +259,13 @@ Initiates a snapshot of a gateway from a volume recovery point. This operation i
 - `Tags`: A list of up to 50 tags that can be assigned to a snapshot. Each tag is a key-value pair.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256. 
 """
 
-CreateSnapshotFromVolumeRecoveryPoint(SnapshotDescription, VolumeARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("CreateSnapshotFromVolumeRecoveryPoint", Dict{String, Any}("SnapshotDescription"=>SnapshotDescription, "VolumeARN"=>VolumeARN); aws_config=aws_config)
-CreateSnapshotFromVolumeRecoveryPoint(SnapshotDescription, VolumeARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("CreateSnapshotFromVolumeRecoveryPoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotDescription"=>SnapshotDescription, "VolumeARN"=>VolumeARN), args)); aws_config=aws_config)
+CreateSnapshotFromVolumeRecoveryPoint(SnapshotDescription, VolumeARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("CreateSnapshotFromVolumeRecoveryPoint", Dict{String, Any}("SnapshotDescription"=>SnapshotDescription, "VolumeARN"=>VolumeARN); aws_config=aws_config)
+CreateSnapshotFromVolumeRecoveryPoint(SnapshotDescription, VolumeARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("CreateSnapshotFromVolumeRecoveryPoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnapshotDescription"=>SnapshotDescription, "VolumeARN"=>VolumeARN), args)); aws_config=aws_config)
 
 """
     CreateStorediSCSIVolume()
 
-Creates a volume on a specified gateway. This operation is only supported in the stored volume gateway type. The size of the volume to create is inferred from the disk size. You can choose to preserve existing data on the disk, create volume from an existing snapshot, or create an empty volume. If you choose to create an empty gateway volume, then any existing data on the disk is erased. In the request you must specify the gateway and the disk information on which you are creating the volume. In response, the gateway creates the volume and returns volume information such as the volume Amazon Resource Name (ARN), its size, and the iSCSI target ARN that initiators can use to connect to the volume target.
+Creates a volume on a specified gateway. This operation is only supported in the stored volume gateway type. The size of the volume to create is inferred from the disk size. You can choose to preserve existing data on the disk, create volume from an existing snapshot, or create an empty volume. If you choose to create an empty gateway volume, then any existing data on the disk is erased. In the request, you must specify the gateway and the disk information on which you are creating the volume. In response, the gateway creates the volume and returns volume information such as the volume Amazon Resource Name (ARN), its size, and the iSCSI target ARN that initiators can use to connect to the volume target.
 
 # Required Parameters
 - `DiskId`: The unique identifier for the gateway local disk that is configured as a stored volume. Use ListLocalDisks to list disk IDs for a gateway.
@@ -279,13 +281,31 @@ Creates a volume on a specified gateway. This operation is only supported in the
 - `Tags`: A list of up to 50 tags that can be assigned to a stored volume. Each tag is a key-value pair.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256. 
 """
 
-CreateStorediSCSIVolume(DiskId, GatewayARN, NetworkInterfaceId, PreserveExistingData, TargetName; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("CreateStorediSCSIVolume", Dict{String, Any}("DiskId"=>DiskId, "GatewayARN"=>GatewayARN, "NetworkInterfaceId"=>NetworkInterfaceId, "PreserveExistingData"=>PreserveExistingData, "TargetName"=>TargetName); aws_config=aws_config)
-CreateStorediSCSIVolume(DiskId, GatewayARN, NetworkInterfaceId, PreserveExistingData, TargetName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("CreateStorediSCSIVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DiskId"=>DiskId, "GatewayARN"=>GatewayARN, "NetworkInterfaceId"=>NetworkInterfaceId, "PreserveExistingData"=>PreserveExistingData, "TargetName"=>TargetName), args)); aws_config=aws_config)
+CreateStorediSCSIVolume(DiskId, GatewayARN, NetworkInterfaceId, PreserveExistingData, TargetName; aws_config::AWSConfig=global_aws_config()) = storage_gateway("CreateStorediSCSIVolume", Dict{String, Any}("DiskId"=>DiskId, "GatewayARN"=>GatewayARN, "NetworkInterfaceId"=>NetworkInterfaceId, "PreserveExistingData"=>PreserveExistingData, "TargetName"=>TargetName); aws_config=aws_config)
+CreateStorediSCSIVolume(DiskId, GatewayARN, NetworkInterfaceId, PreserveExistingData, TargetName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("CreateStorediSCSIVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DiskId"=>DiskId, "GatewayARN"=>GatewayARN, "NetworkInterfaceId"=>NetworkInterfaceId, "PreserveExistingData"=>PreserveExistingData, "TargetName"=>TargetName), args)); aws_config=aws_config)
+
+"""
+    CreateTapePool()
+
+Creates a new custom tape pool. You can use custom tape pool to enable tape retention lock on tapes that are archived in the custom pool.
+
+# Required Parameters
+- `PoolName`: The name of the new custom tape pool.
+- `StorageClass`: The storage class that is associated with the new custom pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool.
+
+# Optional Parameters
+- `RetentionLockTimeInDays`: Tape retention lock time is set in days. Tape retention lock can be enabled for up to 100 years (36,500 days).
+- `RetentionLockType`: Tape retention lock can be configured in two modes. When configured in governance mode, AWS accounts with specific IAM permissions are authorized to remove the tape retention lock from archived virtual tapes. When configured in compliance mode, the tape retention lock cannot be removed by any user, including the root AWS account.
+- `Tags`: A list of up to 50 tags that can be assigned to tape pool. Each tag is a key-value pair.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256. 
+"""
+
+CreateTapePool(PoolName, StorageClass; aws_config::AWSConfig=global_aws_config()) = storage_gateway("CreateTapePool", Dict{String, Any}("PoolName"=>PoolName, "StorageClass"=>StorageClass); aws_config=aws_config)
+CreateTapePool(PoolName, StorageClass, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("CreateTapePool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PoolName"=>PoolName, "StorageClass"=>StorageClass), args)); aws_config=aws_config)
 
 """
     CreateTapeWithBarcode()
 
-Creates a virtual tape by using your own barcode. You write data to the virtual tape and then archive the tape. A barcode is unique and can not be reused if it has already been used on a tape. This applies to barcodes used on deleted tapes. This operation is only supported in the tape gateway type.  Cache storage must be allocated to the gateway before you can create a virtual tape. Use the AddCache operation to add cache storage to a gateway. 
+Creates a virtual tape by using your own barcode. You write data to the virtual tape and then archive the tape. A barcode is unique and cannot be reused if it has already been used on a tape. This applies to barcodes used on deleted tapes. This operation is only supported in the tape gateway type.  Cache storage must be allocated to the gateway before you can create a virtual tape. Use the AddCache operation to add cache storage to a gateway. 
 
 # Required Parameters
 - `GatewayARN`: The unique Amazon Resource Name (ARN) that represents the gateway to associate the virtual tape with. Use the ListGateways operation to return a list of gateways for your account and AWS Region.
@@ -297,10 +317,11 @@ Creates a virtual tape by using your own barcode. You write data to the virtual 
 - `KMSKey`: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
 - `PoolId`: The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Deep Archive) that corresponds to the pool. Valid Values: GLACIER | DEEP_ARCHIVE 
 - `Tags`: A list of up to 50 tags that can be assigned to a virtual tape that has a barcode. Each tag is a key-value pair.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256. 
+- `Worm`: Set to TRUE if the tape you are creating is to be configured as a write-once-read-many (WORM) tape.
 """
 
-CreateTapeWithBarcode(GatewayARN, TapeBarcode, TapeSizeInBytes; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("CreateTapeWithBarcode", Dict{String, Any}("GatewayARN"=>GatewayARN, "TapeBarcode"=>TapeBarcode, "TapeSizeInBytes"=>TapeSizeInBytes); aws_config=aws_config)
-CreateTapeWithBarcode(GatewayARN, TapeBarcode, TapeSizeInBytes, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("CreateTapeWithBarcode", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN, "TapeBarcode"=>TapeBarcode, "TapeSizeInBytes"=>TapeSizeInBytes), args)); aws_config=aws_config)
+CreateTapeWithBarcode(GatewayARN, TapeBarcode, TapeSizeInBytes; aws_config::AWSConfig=global_aws_config()) = storage_gateway("CreateTapeWithBarcode", Dict{String, Any}("GatewayARN"=>GatewayARN, "TapeBarcode"=>TapeBarcode, "TapeSizeInBytes"=>TapeSizeInBytes); aws_config=aws_config)
+CreateTapeWithBarcode(GatewayARN, TapeBarcode, TapeSizeInBytes, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("CreateTapeWithBarcode", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN, "TapeBarcode"=>TapeBarcode, "TapeSizeInBytes"=>TapeSizeInBytes), args)); aws_config=aws_config)
 
 """
     CreateTapes()
@@ -319,10 +340,11 @@ Creates one or more virtual tapes. You write data to the virtual tapes and then 
 - `KMSKey`: The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
 - `PoolId`: The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool. Valid Values: GLACIER | DEEP_ARCHIVE 
 - `Tags`: A list of up to 50 tags that can be assigned to a virtual tape. Each tag is a key-value pair.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256. 
+- `Worm`: Set to TRUE if the tape you are creating is to be configured as a write-once-read-many (WORM) tape.
 """
 
-CreateTapes(ClientToken, GatewayARN, NumTapesToCreate, TapeBarcodePrefix, TapeSizeInBytes; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("CreateTapes", Dict{String, Any}("ClientToken"=>ClientToken, "GatewayARN"=>GatewayARN, "NumTapesToCreate"=>NumTapesToCreate, "TapeBarcodePrefix"=>TapeBarcodePrefix, "TapeSizeInBytes"=>TapeSizeInBytes); aws_config=aws_config)
-CreateTapes(ClientToken, GatewayARN, NumTapesToCreate, TapeBarcodePrefix, TapeSizeInBytes, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("CreateTapes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "GatewayARN"=>GatewayARN, "NumTapesToCreate"=>NumTapesToCreate, "TapeBarcodePrefix"=>TapeBarcodePrefix, "TapeSizeInBytes"=>TapeSizeInBytes), args)); aws_config=aws_config)
+CreateTapes(ClientToken, GatewayARN, NumTapesToCreate, TapeBarcodePrefix, TapeSizeInBytes; aws_config::AWSConfig=global_aws_config()) = storage_gateway("CreateTapes", Dict{String, Any}("ClientToken"=>ClientToken, "GatewayARN"=>GatewayARN, "NumTapesToCreate"=>NumTapesToCreate, "TapeBarcodePrefix"=>TapeBarcodePrefix, "TapeSizeInBytes"=>TapeSizeInBytes); aws_config=aws_config)
+CreateTapes(ClientToken, GatewayARN, NumTapesToCreate, TapeBarcodePrefix, TapeSizeInBytes, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("CreateTapes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "GatewayARN"=>GatewayARN, "NumTapesToCreate"=>NumTapesToCreate, "TapeBarcodePrefix"=>TapeBarcodePrefix, "TapeSizeInBytes"=>TapeSizeInBytes), args)); aws_config=aws_config)
 
 """
     DeleteAutomaticTapeCreationPolicy()
@@ -334,8 +356,8 @@ Deletes the automatic tape creation policy of a gateway. If you delete this poli
 
 """
 
-DeleteAutomaticTapeCreationPolicy(GatewayARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DeleteAutomaticTapeCreationPolicy", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
-DeleteAutomaticTapeCreationPolicy(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DeleteAutomaticTapeCreationPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
+DeleteAutomaticTapeCreationPolicy(GatewayARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DeleteAutomaticTapeCreationPolicy", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
+DeleteAutomaticTapeCreationPolicy(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DeleteAutomaticTapeCreationPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
 
 """
     DeleteBandwidthRateLimit()
@@ -343,13 +365,13 @@ DeleteAutomaticTapeCreationPolicy(GatewayARN, args::AbstractDict{String, <:Any};
 Deletes the bandwidth rate limits of a gateway. You can delete either the upload and download bandwidth rate limit, or you can delete both. If you delete only one of the limits, the other limit remains unchanged. To specify which gateway to work with, use the Amazon Resource Name (ARN) of the gateway in your request. This operation is supported for the stored volume, cached volume and tape gateway types.
 
 # Required Parameters
-- `BandwidthType`: One of the BandwidthType values that indicates the gateway bandwidth rate limit to delete. Valid Values: Upload | Download | All 
+- `BandwidthType`: One of the BandwidthType values that indicates the gateway bandwidth rate limit to delete. Valid Values: UPLOAD | DOWNLOAD | ALL 
 - `GatewayARN`: 
 
 """
 
-DeleteBandwidthRateLimit(BandwidthType, GatewayARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DeleteBandwidthRateLimit", Dict{String, Any}("BandwidthType"=>BandwidthType, "GatewayARN"=>GatewayARN); aws_config=aws_config)
-DeleteBandwidthRateLimit(BandwidthType, GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DeleteBandwidthRateLimit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BandwidthType"=>BandwidthType, "GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
+DeleteBandwidthRateLimit(BandwidthType, GatewayARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DeleteBandwidthRateLimit", Dict{String, Any}("BandwidthType"=>BandwidthType, "GatewayARN"=>GatewayARN); aws_config=aws_config)
+DeleteBandwidthRateLimit(BandwidthType, GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DeleteBandwidthRateLimit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BandwidthType"=>BandwidthType, "GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
 
 """
     DeleteChapCredentials()
@@ -362,8 +384,8 @@ Deletes Challenge-Handshake Authentication Protocol (CHAP) credentials for a spe
 
 """
 
-DeleteChapCredentials(InitiatorName, TargetARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DeleteChapCredentials", Dict{String, Any}("InitiatorName"=>InitiatorName, "TargetARN"=>TargetARN); aws_config=aws_config)
-DeleteChapCredentials(InitiatorName, TargetARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DeleteChapCredentials", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InitiatorName"=>InitiatorName, "TargetARN"=>TargetARN), args)); aws_config=aws_config)
+DeleteChapCredentials(InitiatorName, TargetARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DeleteChapCredentials", Dict{String, Any}("InitiatorName"=>InitiatorName, "TargetARN"=>TargetARN); aws_config=aws_config)
+DeleteChapCredentials(InitiatorName, TargetARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DeleteChapCredentials", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InitiatorName"=>InitiatorName, "TargetARN"=>TargetARN), args)); aws_config=aws_config)
 
 """
     DeleteFileShare()
@@ -377,8 +399,8 @@ Deletes a file share from a file gateway. This operation is only supported for f
 - `ForceDelete`: If this value is set to true, the operation deletes a file share immediately and aborts all data uploads to AWS. Otherwise, the file share is not deleted until all data is uploaded to AWS. This process aborts the data upload process, and the file share enters the FORCE_DELETING status. Valid Values: true | false 
 """
 
-DeleteFileShare(FileShareARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DeleteFileShare", Dict{String, Any}("FileShareARN"=>FileShareARN); aws_config=aws_config)
-DeleteFileShare(FileShareARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DeleteFileShare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileShareARN"=>FileShareARN), args)); aws_config=aws_config)
+DeleteFileShare(FileShareARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DeleteFileShare", Dict{String, Any}("FileShareARN"=>FileShareARN); aws_config=aws_config)
+DeleteFileShare(FileShareARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DeleteFileShare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileShareARN"=>FileShareARN), args)); aws_config=aws_config)
 
 """
     DeleteGateway()
@@ -390,8 +412,8 @@ Deletes a gateway. To specify which gateway to delete, use the Amazon Resource N
 
 """
 
-DeleteGateway(GatewayARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DeleteGateway", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
-DeleteGateway(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DeleteGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
+DeleteGateway(GatewayARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DeleteGateway", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
+DeleteGateway(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DeleteGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
 
 """
     DeleteSnapshotSchedule()
@@ -403,8 +425,8 @@ Deletes a snapshot of a volume. You can take snapshots of your gateway volumes o
 
 """
 
-DeleteSnapshotSchedule(VolumeARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DeleteSnapshotSchedule", Dict{String, Any}("VolumeARN"=>VolumeARN); aws_config=aws_config)
-DeleteSnapshotSchedule(VolumeARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DeleteSnapshotSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeARN"=>VolumeARN), args)); aws_config=aws_config)
+DeleteSnapshotSchedule(VolumeARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DeleteSnapshotSchedule", Dict{String, Any}("VolumeARN"=>VolumeARN); aws_config=aws_config)
+DeleteSnapshotSchedule(VolumeARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DeleteSnapshotSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeARN"=>VolumeARN), args)); aws_config=aws_config)
 
 """
     DeleteTape()
@@ -415,10 +437,12 @@ Deletes the specified virtual tape. This operation is only supported in the tape
 - `GatewayARN`: The unique Amazon Resource Name (ARN) of the gateway that the virtual tape to delete is associated with. Use the ListGateways operation to return a list of gateways for your account and AWS Region.
 - `TapeARN`: The Amazon Resource Name (ARN) of the virtual tape to delete.
 
+# Optional Parameters
+- `BypassGovernanceRetention`: Set to TRUE to delete an archived tape that belongs to a custom pool with tape retention lock. Only archived tapes with tape retention lock set to governance can be deleted. Archived tapes with tape retention lock set to compliance can't be deleted.
 """
 
-DeleteTape(GatewayARN, TapeARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DeleteTape", Dict{String, Any}("GatewayARN"=>GatewayARN, "TapeARN"=>TapeARN); aws_config=aws_config)
-DeleteTape(GatewayARN, TapeARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DeleteTape", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN, "TapeARN"=>TapeARN), args)); aws_config=aws_config)
+DeleteTape(GatewayARN, TapeARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DeleteTape", Dict{String, Any}("GatewayARN"=>GatewayARN, "TapeARN"=>TapeARN); aws_config=aws_config)
+DeleteTape(GatewayARN, TapeARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DeleteTape", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN, "TapeARN"=>TapeARN), args)); aws_config=aws_config)
 
 """
     DeleteTapeArchive()
@@ -428,10 +452,25 @@ Deletes the specified virtual tape from the virtual tape shelf (VTS). This opera
 # Required Parameters
 - `TapeARN`: The Amazon Resource Name (ARN) of the virtual tape to delete from the virtual tape shelf (VTS).
 
+# Optional Parameters
+- `BypassGovernanceRetention`: Set to TRUE to delete an archived tape that belongs to a custom pool with tape retention lock. Only archived tapes with tape retention lock set to governance can be deleted. Archived tapes with tape retention lock set to compliance can't be deleted.
 """
 
-DeleteTapeArchive(TapeARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DeleteTapeArchive", Dict{String, Any}("TapeARN"=>TapeARN); aws_config=aws_config)
-DeleteTapeArchive(TapeARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DeleteTapeArchive", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TapeARN"=>TapeARN), args)); aws_config=aws_config)
+DeleteTapeArchive(TapeARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DeleteTapeArchive", Dict{String, Any}("TapeARN"=>TapeARN); aws_config=aws_config)
+DeleteTapeArchive(TapeARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DeleteTapeArchive", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TapeARN"=>TapeARN), args)); aws_config=aws_config)
+
+"""
+    DeleteTapePool()
+
+Delete a custom tape pool. A custom tape pool can only be deleted if there are no tapes in the pool and if there are no automatic tape creation policies that reference the custom tape pool.
+
+# Required Parameters
+- `PoolARN`: The Amazon Resource Name (ARN) of the custom tape pool to delete.
+
+"""
+
+DeleteTapePool(PoolARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DeleteTapePool", Dict{String, Any}("PoolARN"=>PoolARN); aws_config=aws_config)
+DeleteTapePool(PoolARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DeleteTapePool", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PoolARN"=>PoolARN), args)); aws_config=aws_config)
 
 """
     DeleteVolume()
@@ -443,8 +482,8 @@ Deletes the specified storage volume that you previously created using the Creat
 
 """
 
-DeleteVolume(VolumeARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DeleteVolume", Dict{String, Any}("VolumeARN"=>VolumeARN); aws_config=aws_config)
-DeleteVolume(VolumeARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DeleteVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeARN"=>VolumeARN), args)); aws_config=aws_config)
+DeleteVolume(VolumeARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DeleteVolume", Dict{String, Any}("VolumeARN"=>VolumeARN); aws_config=aws_config)
+DeleteVolume(VolumeARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DeleteVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeARN"=>VolumeARN), args)); aws_config=aws_config)
 
 """
     DescribeAvailabilityMonitorTest()
@@ -456,21 +495,21 @@ Returns information about the most recent High Availability monitoring test that
 
 """
 
-DescribeAvailabilityMonitorTest(GatewayARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DescribeAvailabilityMonitorTest", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
-DescribeAvailabilityMonitorTest(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DescribeAvailabilityMonitorTest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
+DescribeAvailabilityMonitorTest(GatewayARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DescribeAvailabilityMonitorTest", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
+DescribeAvailabilityMonitorTest(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DescribeAvailabilityMonitorTest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
 
 """
     DescribeBandwidthRateLimit()
 
-Returns the bandwidth rate limits of a gateway. By default, these limits are not set, which means no bandwidth rate limiting is in effect. This operation is supported for the stored volume, cached volume and tape gateway types. This operation only returns a value for a bandwidth rate limit only if the limit is set. If no limits are set for the gateway, then this operation returns only the gateway ARN in the response body. To specify which gateway to describe, use the Amazon Resource Name (ARN) of the gateway in your request.
+Returns the bandwidth rate limits of a gateway. By default, these limits are not set, which means no bandwidth rate limiting is in effect. This operation is supported for the stored volume, cached volume, and tape gateway types. This operation only returns a value for a bandwidth rate limit only if the limit is set. If no limits are set for the gateway, then this operation returns only the gateway ARN in the response body. To specify which gateway to describe, use the Amazon Resource Name (ARN) of the gateway in your request.
 
 # Required Parameters
 - `GatewayARN`: 
 
 """
 
-DescribeBandwidthRateLimit(GatewayARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DescribeBandwidthRateLimit", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
-DescribeBandwidthRateLimit(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DescribeBandwidthRateLimit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
+DescribeBandwidthRateLimit(GatewayARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DescribeBandwidthRateLimit", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
+DescribeBandwidthRateLimit(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DescribeBandwidthRateLimit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
 
 """
     DescribeCache()
@@ -482,8 +521,8 @@ Returns information about the cache of a gateway. This operation is only support
 
 """
 
-DescribeCache(GatewayARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DescribeCache", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
-DescribeCache(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DescribeCache", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
+DescribeCache(GatewayARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DescribeCache", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
+DescribeCache(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DescribeCache", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
 
 """
     DescribeCachediSCSIVolumes()
@@ -495,8 +534,8 @@ Returns a description of the gateway volumes specified in the request. This oper
 
 """
 
-DescribeCachediSCSIVolumes(VolumeARNs; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DescribeCachediSCSIVolumes", Dict{String, Any}("VolumeARNs"=>VolumeARNs); aws_config=aws_config)
-DescribeCachediSCSIVolumes(VolumeARNs, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DescribeCachediSCSIVolumes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeARNs"=>VolumeARNs), args)); aws_config=aws_config)
+DescribeCachediSCSIVolumes(VolumeARNs; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DescribeCachediSCSIVolumes", Dict{String, Any}("VolumeARNs"=>VolumeARNs); aws_config=aws_config)
+DescribeCachediSCSIVolumes(VolumeARNs, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DescribeCachediSCSIVolumes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeARNs"=>VolumeARNs), args)); aws_config=aws_config)
 
 """
     DescribeChapCredentials()
@@ -508,8 +547,8 @@ Returns an array of Challenge-Handshake Authentication Protocol (CHAP) credentia
 
 """
 
-DescribeChapCredentials(TargetARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DescribeChapCredentials", Dict{String, Any}("TargetARN"=>TargetARN); aws_config=aws_config)
-DescribeChapCredentials(TargetARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DescribeChapCredentials", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetARN"=>TargetARN), args)); aws_config=aws_config)
+DescribeChapCredentials(TargetARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DescribeChapCredentials", Dict{String, Any}("TargetARN"=>TargetARN); aws_config=aws_config)
+DescribeChapCredentials(TargetARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DescribeChapCredentials", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TargetARN"=>TargetARN), args)); aws_config=aws_config)
 
 """
     DescribeGatewayInformation()
@@ -521,8 +560,8 @@ Returns metadata about a gateway such as its name, network interfaces, configure
 
 """
 
-DescribeGatewayInformation(GatewayARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DescribeGatewayInformation", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
-DescribeGatewayInformation(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DescribeGatewayInformation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
+DescribeGatewayInformation(GatewayARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DescribeGatewayInformation", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
+DescribeGatewayInformation(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DescribeGatewayInformation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
 
 """
     DescribeMaintenanceStartTime()
@@ -534,8 +573,8 @@ Returns your gateway's weekly maintenance start time including the day and time 
 
 """
 
-DescribeMaintenanceStartTime(GatewayARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DescribeMaintenanceStartTime", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
-DescribeMaintenanceStartTime(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DescribeMaintenanceStartTime", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
+DescribeMaintenanceStartTime(GatewayARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DescribeMaintenanceStartTime", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
+DescribeMaintenanceStartTime(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DescribeMaintenanceStartTime", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
 
 """
     DescribeNFSFileShares()
@@ -547,8 +586,8 @@ Gets a description for one or more Network File System (NFS) file shares from a 
 
 """
 
-DescribeNFSFileShares(FileShareARNList; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DescribeNFSFileShares", Dict{String, Any}("FileShareARNList"=>FileShareARNList); aws_config=aws_config)
-DescribeNFSFileShares(FileShareARNList, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DescribeNFSFileShares", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileShareARNList"=>FileShareARNList), args)); aws_config=aws_config)
+DescribeNFSFileShares(FileShareARNList; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DescribeNFSFileShares", Dict{String, Any}("FileShareARNList"=>FileShareARNList); aws_config=aws_config)
+DescribeNFSFileShares(FileShareARNList, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DescribeNFSFileShares", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileShareARNList"=>FileShareARNList), args)); aws_config=aws_config)
 
 """
     DescribeSMBFileShares()
@@ -560,8 +599,8 @@ Gets a description for one or more Server Message Block (SMB) file shares from a
 
 """
 
-DescribeSMBFileShares(FileShareARNList; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DescribeSMBFileShares", Dict{String, Any}("FileShareARNList"=>FileShareARNList); aws_config=aws_config)
-DescribeSMBFileShares(FileShareARNList, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DescribeSMBFileShares", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileShareARNList"=>FileShareARNList), args)); aws_config=aws_config)
+DescribeSMBFileShares(FileShareARNList; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DescribeSMBFileShares", Dict{String, Any}("FileShareARNList"=>FileShareARNList); aws_config=aws_config)
+DescribeSMBFileShares(FileShareARNList, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DescribeSMBFileShares", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileShareARNList"=>FileShareARNList), args)); aws_config=aws_config)
 
 """
     DescribeSMBSettings()
@@ -573,8 +612,8 @@ Gets a description of a Server Message Block (SMB) file share settings from a fi
 
 """
 
-DescribeSMBSettings(GatewayARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DescribeSMBSettings", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
-DescribeSMBSettings(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DescribeSMBSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
+DescribeSMBSettings(GatewayARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DescribeSMBSettings", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
+DescribeSMBSettings(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DescribeSMBSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
 
 """
     DescribeSnapshotSchedule()
@@ -586,8 +625,8 @@ Describes the snapshot schedule for the specified gateway volume. The snapshot s
 
 """
 
-DescribeSnapshotSchedule(VolumeARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DescribeSnapshotSchedule", Dict{String, Any}("VolumeARN"=>VolumeARN); aws_config=aws_config)
-DescribeSnapshotSchedule(VolumeARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DescribeSnapshotSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeARN"=>VolumeARN), args)); aws_config=aws_config)
+DescribeSnapshotSchedule(VolumeARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DescribeSnapshotSchedule", Dict{String, Any}("VolumeARN"=>VolumeARN); aws_config=aws_config)
+DescribeSnapshotSchedule(VolumeARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DescribeSnapshotSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeARN"=>VolumeARN), args)); aws_config=aws_config)
 
 """
     DescribeStorediSCSIVolumes()
@@ -599,8 +638,8 @@ Returns the description of the gateway volumes specified in the request. The lis
 
 """
 
-DescribeStorediSCSIVolumes(VolumeARNs; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DescribeStorediSCSIVolumes", Dict{String, Any}("VolumeARNs"=>VolumeARNs); aws_config=aws_config)
-DescribeStorediSCSIVolumes(VolumeARNs, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DescribeStorediSCSIVolumes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeARNs"=>VolumeARNs), args)); aws_config=aws_config)
+DescribeStorediSCSIVolumes(VolumeARNs; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DescribeStorediSCSIVolumes", Dict{String, Any}("VolumeARNs"=>VolumeARNs); aws_config=aws_config)
+DescribeStorediSCSIVolumes(VolumeARNs, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DescribeStorediSCSIVolumes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeARNs"=>VolumeARNs), args)); aws_config=aws_config)
 
 """
     DescribeTapeArchives()
@@ -613,8 +652,8 @@ Returns a description of specified virtual tapes in the virtual tape shelf (VTS)
 - `TapeARNs`: Specifies one or more unique Amazon Resource Names (ARNs) that represent the virtual tapes you want to describe.
 """
 
-DescribeTapeArchives(; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DescribeTapeArchives"; aws_config=aws_config)
-DescribeTapeArchives(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DescribeTapeArchives", args; aws_config=aws_config)
+DescribeTapeArchives(; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DescribeTapeArchives"; aws_config=aws_config)
+DescribeTapeArchives(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DescribeTapeArchives", args; aws_config=aws_config)
 
 """
     DescribeTapeRecoveryPoints()
@@ -629,8 +668,8 @@ Returns a list of virtual tape recovery points that are available for the specif
 - `Marker`: An opaque string that indicates the position at which to begin describing the virtual tape recovery points.
 """
 
-DescribeTapeRecoveryPoints(GatewayARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DescribeTapeRecoveryPoints", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
-DescribeTapeRecoveryPoints(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DescribeTapeRecoveryPoints", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
+DescribeTapeRecoveryPoints(GatewayARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DescribeTapeRecoveryPoints", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
+DescribeTapeRecoveryPoints(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DescribeTapeRecoveryPoints", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
 
 """
     DescribeTapes()
@@ -646,8 +685,8 @@ Returns a description of the specified Amazon Resource Name (ARN) of virtual tap
 - `TapeARNs`: Specifies one or more unique Amazon Resource Names (ARNs) that represent the virtual tapes you want to describe. If this parameter is not specified, Tape gateway returns a description of all virtual tapes associated with the specified gateway.
 """
 
-DescribeTapes(GatewayARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DescribeTapes", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
-DescribeTapes(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DescribeTapes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
+DescribeTapes(GatewayARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DescribeTapes", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
+DescribeTapes(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DescribeTapes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
 
 """
     DescribeUploadBuffer()
@@ -659,8 +698,8 @@ Returns information about the upload buffer of a gateway. This operation is supp
 
 """
 
-DescribeUploadBuffer(GatewayARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DescribeUploadBuffer", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
-DescribeUploadBuffer(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DescribeUploadBuffer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
+DescribeUploadBuffer(GatewayARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DescribeUploadBuffer", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
+DescribeUploadBuffer(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DescribeUploadBuffer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
 
 """
     DescribeVTLDevices()
@@ -676,8 +715,8 @@ Returns a description of virtual tape library (VTL) devices for the specified ta
 - `VTLDeviceARNs`: An array of strings, where each string represents the Amazon Resource Name (ARN) of a VTL device.  All of the specified VTL devices must be from the same gateway. If no VTL devices are specified, the result will contain all devices on the specified gateway. 
 """
 
-DescribeVTLDevices(GatewayARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DescribeVTLDevices", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
-DescribeVTLDevices(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DescribeVTLDevices", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
+DescribeVTLDevices(GatewayARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DescribeVTLDevices", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
+DescribeVTLDevices(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DescribeVTLDevices", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
 
 """
     DescribeWorkingStorage()
@@ -689,8 +728,8 @@ Returns information about the working storage of a gateway. This operation is on
 
 """
 
-DescribeWorkingStorage(GatewayARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DescribeWorkingStorage", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
-DescribeWorkingStorage(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DescribeWorkingStorage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
+DescribeWorkingStorage(GatewayARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DescribeWorkingStorage", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
+DescribeWorkingStorage(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DescribeWorkingStorage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
 
 """
     DetachVolume()
@@ -704,8 +743,8 @@ Disconnects a volume from an iSCSI connection and then detaches the volume from 
 - `ForceDetach`: Set to true to forcibly remove the iSCSI connection of the target volume and detach the volume. The default is false. If this value is set to false, you must manually disconnect the iSCSI connection from the target volume. Valid Values: true | false 
 """
 
-DetachVolume(VolumeARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DetachVolume", Dict{String, Any}("VolumeARN"=>VolumeARN); aws_config=aws_config)
-DetachVolume(VolumeARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DetachVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeARN"=>VolumeARN), args)); aws_config=aws_config)
+DetachVolume(VolumeARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DetachVolume", Dict{String, Any}("VolumeARN"=>VolumeARN); aws_config=aws_config)
+DetachVolume(VolumeARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DetachVolume", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeARN"=>VolumeARN), args)); aws_config=aws_config)
 
 """
     DisableGateway()
@@ -717,8 +756,8 @@ Disables a tape gateway when the gateway is no longer functioning. For example, 
 
 """
 
-DisableGateway(GatewayARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DisableGateway", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
-DisableGateway(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("DisableGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
+DisableGateway(GatewayARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DisableGateway", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
+DisableGateway(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("DisableGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
 
 """
     JoinDomain()
@@ -737,8 +776,8 @@ Adds a file gateway to an Active Directory domain. This operation is only suppor
 - `TimeoutInSeconds`: Specifies the time in seconds, in which the JoinDomain operation must complete. The default is 20 seconds.
 """
 
-JoinDomain(DomainName, GatewayARN, Password, UserName; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("JoinDomain", Dict{String, Any}("DomainName"=>DomainName, "GatewayARN"=>GatewayARN, "Password"=>Password, "UserName"=>UserName); aws_config=aws_config)
-JoinDomain(DomainName, GatewayARN, Password, UserName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("JoinDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "GatewayARN"=>GatewayARN, "Password"=>Password, "UserName"=>UserName), args)); aws_config=aws_config)
+JoinDomain(DomainName, GatewayARN, Password, UserName; aws_config::AWSConfig=global_aws_config()) = storage_gateway("JoinDomain", Dict{String, Any}("DomainName"=>DomainName, "GatewayARN"=>GatewayARN, "Password"=>Password, "UserName"=>UserName); aws_config=aws_config)
+JoinDomain(DomainName, GatewayARN, Password, UserName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("JoinDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainName"=>DomainName, "GatewayARN"=>GatewayARN, "Password"=>Password, "UserName"=>UserName), args)); aws_config=aws_config)
 
 """
     ListAutomaticTapeCreationPolicies()
@@ -749,8 +788,8 @@ Lists the automatic tape creation policies for a gateway. If there are no automa
 - `GatewayARN`: 
 """
 
-ListAutomaticTapeCreationPolicies(; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("ListAutomaticTapeCreationPolicies"; aws_config=aws_config)
-ListAutomaticTapeCreationPolicies(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("ListAutomaticTapeCreationPolicies", args; aws_config=aws_config)
+ListAutomaticTapeCreationPolicies(; aws_config::AWSConfig=global_aws_config()) = storage_gateway("ListAutomaticTapeCreationPolicies"; aws_config=aws_config)
+ListAutomaticTapeCreationPolicies(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("ListAutomaticTapeCreationPolicies", args; aws_config=aws_config)
 
 """
     ListFileShares()
@@ -763,8 +802,8 @@ Gets a list of the file shares for a specific file gateway, or the list of file 
 - `Marker`: Opaque pagination token returned from a previous ListFileShares operation. If present, Marker specifies where to continue the list from after a previous call to ListFileShares. Optional.
 """
 
-ListFileShares(; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("ListFileShares"; aws_config=aws_config)
-ListFileShares(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("ListFileShares", args; aws_config=aws_config)
+ListFileShares(; aws_config::AWSConfig=global_aws_config()) = storage_gateway("ListFileShares"; aws_config=aws_config)
+ListFileShares(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("ListFileShares", args; aws_config=aws_config)
 
 """
     ListGateways()
@@ -776,8 +815,8 @@ Lists gateways owned by an AWS account in an AWS Region specified in the request
 - `Marker`: An opaque string that indicates the position at which to begin the returned list of gateways.
 """
 
-ListGateways(; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("ListGateways"; aws_config=aws_config)
-ListGateways(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("ListGateways", args; aws_config=aws_config)
+ListGateways(; aws_config::AWSConfig=global_aws_config()) = storage_gateway("ListGateways"; aws_config=aws_config)
+ListGateways(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("ListGateways", args; aws_config=aws_config)
 
 """
     ListLocalDisks()
@@ -789,8 +828,8 @@ Returns a list of the gateway's local disks. To specify which gateway to describ
 
 """
 
-ListLocalDisks(GatewayARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("ListLocalDisks", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
-ListLocalDisks(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("ListLocalDisks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
+ListLocalDisks(GatewayARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("ListLocalDisks", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
+ListLocalDisks(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("ListLocalDisks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -805,8 +844,22 @@ Lists the tags that have been added to the specified resource. This operation is
 - `Marker`: An opaque string that indicates the position at which to begin returning the list of tags.
 """
 
-ListTagsForResource(ResourceARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
-ListTagsForResource(ResourceARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), args)); aws_config=aws_config)
+ListTagsForResource(ResourceARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
+ListTagsForResource(ResourceARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), args)); aws_config=aws_config)
+
+"""
+    ListTapePools()
+
+Lists custom tape pools. You specify custom tape pools to list by specifying one or more custom tape pool Amazon Resource Names (ARNs). If you don't specify a custom tape pool ARN, the operation lists all custom tape pools. This operation supports pagination. You can optionally specify the Limit parameter in the body to limit the number of tape pools in the response. If the number of tape pools returned in the response is truncated, the response includes a Marker element that you can use in your subsequent request to retrieve the next set of tape pools.
+
+# Optional Parameters
+- `Limit`: An optional number limit for the tape pools in the list returned by this call.
+- `Marker`: A string that indicates the position at which to begin the returned list of tape pools.
+- `PoolARNs`: The Amazon Resource Name (ARN) of each of the custom tape pools you want to list. If you don't specify a custom tape pool ARN, the response lists all custom tape pools. 
+"""
+
+ListTapePools(; aws_config::AWSConfig=global_aws_config()) = storage_gateway("ListTapePools"; aws_config=aws_config)
+ListTapePools(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("ListTapePools", args; aws_config=aws_config)
 
 """
     ListTapes()
@@ -819,8 +872,8 @@ Lists virtual tapes in your virtual tape library (VTL) and your virtual tape she
 - `TapeARNs`: 
 """
 
-ListTapes(; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("ListTapes"; aws_config=aws_config)
-ListTapes(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("ListTapes", args; aws_config=aws_config)
+ListTapes(; aws_config::AWSConfig=global_aws_config()) = storage_gateway("ListTapes"; aws_config=aws_config)
+ListTapes(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("ListTapes", args; aws_config=aws_config)
 
 """
     ListVolumeInitiators()
@@ -832,8 +885,8 @@ Lists iSCSI initiators that are connected to a volume. You can use this operatio
 
 """
 
-ListVolumeInitiators(VolumeARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("ListVolumeInitiators", Dict{String, Any}("VolumeARN"=>VolumeARN); aws_config=aws_config)
-ListVolumeInitiators(VolumeARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("ListVolumeInitiators", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeARN"=>VolumeARN), args)); aws_config=aws_config)
+ListVolumeInitiators(VolumeARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("ListVolumeInitiators", Dict{String, Any}("VolumeARN"=>VolumeARN); aws_config=aws_config)
+ListVolumeInitiators(VolumeARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("ListVolumeInitiators", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VolumeARN"=>VolumeARN), args)); aws_config=aws_config)
 
 """
     ListVolumeRecoveryPoints()
@@ -845,8 +898,8 @@ Lists the recovery points for a specified gateway. This operation is only suppor
 
 """
 
-ListVolumeRecoveryPoints(GatewayARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("ListVolumeRecoveryPoints", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
-ListVolumeRecoveryPoints(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("ListVolumeRecoveryPoints", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
+ListVolumeRecoveryPoints(GatewayARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("ListVolumeRecoveryPoints", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
+ListVolumeRecoveryPoints(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("ListVolumeRecoveryPoints", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
 
 """
     ListVolumes()
@@ -859,8 +912,8 @@ Lists the iSCSI stored volumes of a gateway. Results are sorted by volume ARN. T
 - `Marker`: A string that indicates the position at which to begin the returned list of volumes. Obtain the marker from the response of a previous List iSCSI Volumes request.
 """
 
-ListVolumes(; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("ListVolumes"; aws_config=aws_config)
-ListVolumes(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("ListVolumes", args; aws_config=aws_config)
+ListVolumes(; aws_config::AWSConfig=global_aws_config()) = storage_gateway("ListVolumes"; aws_config=aws_config)
+ListVolumes(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("ListVolumes", args; aws_config=aws_config)
 
 """
     NotifyWhenUploaded()
@@ -872,8 +925,8 @@ Sends you notification through CloudWatch Events when all files written to your 
 
 """
 
-NotifyWhenUploaded(FileShareARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("NotifyWhenUploaded", Dict{String, Any}("FileShareARN"=>FileShareARN); aws_config=aws_config)
-NotifyWhenUploaded(FileShareARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("NotifyWhenUploaded", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileShareARN"=>FileShareARN), args)); aws_config=aws_config)
+NotifyWhenUploaded(FileShareARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("NotifyWhenUploaded", Dict{String, Any}("FileShareARN"=>FileShareARN); aws_config=aws_config)
+NotifyWhenUploaded(FileShareARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("NotifyWhenUploaded", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileShareARN"=>FileShareARN), args)); aws_config=aws_config)
 
 """
     RefreshCache()
@@ -888,8 +941,8 @@ Refreshes the cache for the specified file share. This operation finds objects i
 - `Recursive`: A value that specifies whether to recursively refresh folders in the cache. The refresh includes folders that were in the cache the last time the gateway listed the folder's contents. If this value set to true, each folder that is listed in FolderList is recursively updated. Otherwise, subfolders listed in FolderList are not refreshed. Only objects that are in folders listed directly under FolderList are found and used for the update. The default is true. Valid Values: true | false 
 """
 
-RefreshCache(FileShareARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("RefreshCache", Dict{String, Any}("FileShareARN"=>FileShareARN); aws_config=aws_config)
-RefreshCache(FileShareARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("RefreshCache", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileShareARN"=>FileShareARN), args)); aws_config=aws_config)
+RefreshCache(FileShareARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("RefreshCache", Dict{String, Any}("FileShareARN"=>FileShareARN); aws_config=aws_config)
+RefreshCache(FileShareARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("RefreshCache", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileShareARN"=>FileShareARN), args)); aws_config=aws_config)
 
 """
     RemoveTagsFromResource()
@@ -902,8 +955,8 @@ Removes one or more tags from the specified resource. This operation is supporte
 
 """
 
-RemoveTagsFromResource(ResourceARN, TagKeys; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("RemoveTagsFromResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
-RemoveTagsFromResource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("RemoveTagsFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+RemoveTagsFromResource(ResourceARN, TagKeys; aws_config::AWSConfig=global_aws_config()) = storage_gateway("RemoveTagsFromResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
+RemoveTagsFromResource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("RemoveTagsFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
 
 """
     ResetCache()
@@ -915,8 +968,8 @@ Resets all cache disks that have encountered an error and makes the disks availa
 
 """
 
-ResetCache(GatewayARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("ResetCache", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
-ResetCache(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("ResetCache", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
+ResetCache(GatewayARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("ResetCache", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
+ResetCache(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("ResetCache", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
 
 """
     RetrieveTapeArchive()
@@ -929,8 +982,8 @@ Retrieves an archived virtual tape from the virtual tape shelf (VTS) to a tape g
 
 """
 
-RetrieveTapeArchive(GatewayARN, TapeARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("RetrieveTapeArchive", Dict{String, Any}("GatewayARN"=>GatewayARN, "TapeARN"=>TapeARN); aws_config=aws_config)
-RetrieveTapeArchive(GatewayARN, TapeARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("RetrieveTapeArchive", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN, "TapeARN"=>TapeARN), args)); aws_config=aws_config)
+RetrieveTapeArchive(GatewayARN, TapeARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("RetrieveTapeArchive", Dict{String, Any}("GatewayARN"=>GatewayARN, "TapeARN"=>TapeARN); aws_config=aws_config)
+RetrieveTapeArchive(GatewayARN, TapeARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("RetrieveTapeArchive", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN, "TapeARN"=>TapeARN), args)); aws_config=aws_config)
 
 """
     RetrieveTapeRecoveryPoint()
@@ -943,8 +996,8 @@ Retrieves the recovery point for the specified virtual tape. This operation is o
 
 """
 
-RetrieveTapeRecoveryPoint(GatewayARN, TapeARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("RetrieveTapeRecoveryPoint", Dict{String, Any}("GatewayARN"=>GatewayARN, "TapeARN"=>TapeARN); aws_config=aws_config)
-RetrieveTapeRecoveryPoint(GatewayARN, TapeARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("RetrieveTapeRecoveryPoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN, "TapeARN"=>TapeARN), args)); aws_config=aws_config)
+RetrieveTapeRecoveryPoint(GatewayARN, TapeARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("RetrieveTapeRecoveryPoint", Dict{String, Any}("GatewayARN"=>GatewayARN, "TapeARN"=>TapeARN); aws_config=aws_config)
+RetrieveTapeRecoveryPoint(GatewayARN, TapeARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("RetrieveTapeRecoveryPoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN, "TapeARN"=>TapeARN), args)); aws_config=aws_config)
 
 """
     SetLocalConsolePassword()
@@ -957,8 +1010,8 @@ Sets the password for your VM local console. When you log in to the local consol
 
 """
 
-SetLocalConsolePassword(GatewayARN, LocalConsolePassword; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("SetLocalConsolePassword", Dict{String, Any}("GatewayARN"=>GatewayARN, "LocalConsolePassword"=>LocalConsolePassword); aws_config=aws_config)
-SetLocalConsolePassword(GatewayARN, LocalConsolePassword, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("SetLocalConsolePassword", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN, "LocalConsolePassword"=>LocalConsolePassword), args)); aws_config=aws_config)
+SetLocalConsolePassword(GatewayARN, LocalConsolePassword; aws_config::AWSConfig=global_aws_config()) = storage_gateway("SetLocalConsolePassword", Dict{String, Any}("GatewayARN"=>GatewayARN, "LocalConsolePassword"=>LocalConsolePassword); aws_config=aws_config)
+SetLocalConsolePassword(GatewayARN, LocalConsolePassword, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("SetLocalConsolePassword", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN, "LocalConsolePassword"=>LocalConsolePassword), args)); aws_config=aws_config)
 
 """
     SetSMBGuestPassword()
@@ -971,8 +1024,8 @@ Sets the password for the guest user smbguest. The smbguest user is the user whe
 
 """
 
-SetSMBGuestPassword(GatewayARN, Password; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("SetSMBGuestPassword", Dict{String, Any}("GatewayARN"=>GatewayARN, "Password"=>Password); aws_config=aws_config)
-SetSMBGuestPassword(GatewayARN, Password, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("SetSMBGuestPassword", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN, "Password"=>Password), args)); aws_config=aws_config)
+SetSMBGuestPassword(GatewayARN, Password; aws_config::AWSConfig=global_aws_config()) = storage_gateway("SetSMBGuestPassword", Dict{String, Any}("GatewayARN"=>GatewayARN, "Password"=>Password); aws_config=aws_config)
+SetSMBGuestPassword(GatewayARN, Password, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("SetSMBGuestPassword", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN, "Password"=>Password), args)); aws_config=aws_config)
 
 """
     ShutdownGateway()
@@ -984,8 +1037,8 @@ Shuts down a gateway. To specify which gateway to shut down, use the Amazon Reso
 
 """
 
-ShutdownGateway(GatewayARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("ShutdownGateway", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
-ShutdownGateway(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("ShutdownGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
+ShutdownGateway(GatewayARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("ShutdownGateway", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
+ShutdownGateway(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("ShutdownGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
 
 """
     StartAvailabilityMonitorTest()
@@ -997,8 +1050,8 @@ Start a test that verifies that the specified gateway is configured for High Ava
 
 """
 
-StartAvailabilityMonitorTest(GatewayARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("StartAvailabilityMonitorTest", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
-StartAvailabilityMonitorTest(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("StartAvailabilityMonitorTest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
+StartAvailabilityMonitorTest(GatewayARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("StartAvailabilityMonitorTest", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
+StartAvailabilityMonitorTest(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("StartAvailabilityMonitorTest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
 
 """
     StartGateway()
@@ -1010,8 +1063,8 @@ Starts a gateway that you previously shut down (see ShutdownGateway). After the 
 
 """
 
-StartGateway(GatewayARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("StartGateway", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
-StartGateway(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("StartGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
+StartGateway(GatewayARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("StartGateway", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
+StartGateway(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("StartGateway", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
 
 """
     UpdateAutomaticTapeCreationPolicy()
@@ -1024,8 +1077,8 @@ Updates the automatic tape creation policy of a gateway. Use this to update the 
 
 """
 
-UpdateAutomaticTapeCreationPolicy(AutomaticTapeCreationRules, GatewayARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("UpdateAutomaticTapeCreationPolicy", Dict{String, Any}("AutomaticTapeCreationRules"=>AutomaticTapeCreationRules, "GatewayARN"=>GatewayARN); aws_config=aws_config)
-UpdateAutomaticTapeCreationPolicy(AutomaticTapeCreationRules, GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("UpdateAutomaticTapeCreationPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutomaticTapeCreationRules"=>AutomaticTapeCreationRules, "GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
+UpdateAutomaticTapeCreationPolicy(AutomaticTapeCreationRules, GatewayARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("UpdateAutomaticTapeCreationPolicy", Dict{String, Any}("AutomaticTapeCreationRules"=>AutomaticTapeCreationRules, "GatewayARN"=>GatewayARN); aws_config=aws_config)
+UpdateAutomaticTapeCreationPolicy(AutomaticTapeCreationRules, GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("UpdateAutomaticTapeCreationPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutomaticTapeCreationRules"=>AutomaticTapeCreationRules, "GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
 
 """
     UpdateBandwidthRateLimit()
@@ -1040,8 +1093,8 @@ Updates the bandwidth rate limits of a gateway. You can update both the upload a
 - `AverageUploadRateLimitInBitsPerSec`: The average upload bandwidth rate limit in bits per second.
 """
 
-UpdateBandwidthRateLimit(GatewayARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("UpdateBandwidthRateLimit", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
-UpdateBandwidthRateLimit(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("UpdateBandwidthRateLimit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
+UpdateBandwidthRateLimit(GatewayARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("UpdateBandwidthRateLimit", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
+UpdateBandwidthRateLimit(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("UpdateBandwidthRateLimit", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
 
 """
     UpdateChapCredentials()
@@ -1057,25 +1110,25 @@ Updates the Challenge-Handshake Authentication Protocol (CHAP) credentials for a
 - `SecretToAuthenticateTarget`: The secret key that the target must provide to participate in mutual CHAP with the initiator (e.g. Windows client). Byte constraints: Minimum bytes of 12. Maximum bytes of 16.  The secret key must be between 12 and 16 bytes when encoded in UTF-8. 
 """
 
-UpdateChapCredentials(InitiatorName, SecretToAuthenticateInitiator, TargetARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("UpdateChapCredentials", Dict{String, Any}("InitiatorName"=>InitiatorName, "SecretToAuthenticateInitiator"=>SecretToAuthenticateInitiator, "TargetARN"=>TargetARN); aws_config=aws_config)
-UpdateChapCredentials(InitiatorName, SecretToAuthenticateInitiator, TargetARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("UpdateChapCredentials", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InitiatorName"=>InitiatorName, "SecretToAuthenticateInitiator"=>SecretToAuthenticateInitiator, "TargetARN"=>TargetARN), args)); aws_config=aws_config)
+UpdateChapCredentials(InitiatorName, SecretToAuthenticateInitiator, TargetARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("UpdateChapCredentials", Dict{String, Any}("InitiatorName"=>InitiatorName, "SecretToAuthenticateInitiator"=>SecretToAuthenticateInitiator, "TargetARN"=>TargetARN); aws_config=aws_config)
+UpdateChapCredentials(InitiatorName, SecretToAuthenticateInitiator, TargetARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("UpdateChapCredentials", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InitiatorName"=>InitiatorName, "SecretToAuthenticateInitiator"=>SecretToAuthenticateInitiator, "TargetARN"=>TargetARN), args)); aws_config=aws_config)
 
 """
     UpdateGatewayInformation()
 
-Updates a gateway's metadata, which includes the gateway's name and time zone. To specify which gateway to update, use the Amazon Resource Name (ARN) of the gateway in your request.  For Gateways activated after September 2, 2015, the gateway's ARN contains the gateway ID rather than the gateway name. However, changing the name of the gateway has no effect on the gateway's ARN. 
+Updates a gateway's metadata, which includes the gateway's name and time zone. To specify which gateway to update, use the Amazon Resource Name (ARN) of the gateway in your request.  For gateways activated after September 2, 2015, the gateway's ARN contains the gateway ID rather than the gateway name. However, changing the name of the gateway has no effect on the gateway's ARN. 
 
 # Required Parameters
 - `GatewayARN`: 
 
 # Optional Parameters
-- `CloudWatchLogGroupARN`: The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that you want to use to monitor and log events in the gateway. For more information, see What is Amazon CloudWatch logs?.
+- `CloudWatchLogGroupARN`: The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that you want to use to monitor and log events in the gateway. For more information, see What is Amazon CloudWatch Logs? 
 - `GatewayName`: 
 - `GatewayTimezone`: A value that indicates the time zone of the gateway.
 """
 
-UpdateGatewayInformation(GatewayARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("UpdateGatewayInformation", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
-UpdateGatewayInformation(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("UpdateGatewayInformation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
+UpdateGatewayInformation(GatewayARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("UpdateGatewayInformation", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
+UpdateGatewayInformation(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("UpdateGatewayInformation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
 
 """
     UpdateGatewaySoftwareNow()
@@ -1087,8 +1140,8 @@ Updates the gateway virtual machine (VM) software. The request immediately trigg
 
 """
 
-UpdateGatewaySoftwareNow(GatewayARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("UpdateGatewaySoftwareNow", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
-UpdateGatewaySoftwareNow(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("UpdateGatewaySoftwareNow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
+UpdateGatewaySoftwareNow(GatewayARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("UpdateGatewaySoftwareNow", Dict{String, Any}("GatewayARN"=>GatewayARN); aws_config=aws_config)
+UpdateGatewaySoftwareNow(GatewayARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("UpdateGatewaySoftwareNow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN), args)); aws_config=aws_config)
 
 """
     UpdateMaintenanceStartTime()
@@ -1105,8 +1158,8 @@ Updates a gateway's weekly maintenance start time information, including day and
 - `DayOfWeek`: The day of the week component of the maintenance start time week represented as an ordinal number from 0 to 6, where 0 represents Sunday and 6 Saturday.
 """
 
-UpdateMaintenanceStartTime(GatewayARN, HourOfDay, MinuteOfHour; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("UpdateMaintenanceStartTime", Dict{String, Any}("GatewayARN"=>GatewayARN, "HourOfDay"=>HourOfDay, "MinuteOfHour"=>MinuteOfHour); aws_config=aws_config)
-UpdateMaintenanceStartTime(GatewayARN, HourOfDay, MinuteOfHour, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("UpdateMaintenanceStartTime", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN, "HourOfDay"=>HourOfDay, "MinuteOfHour"=>MinuteOfHour), args)); aws_config=aws_config)
+UpdateMaintenanceStartTime(GatewayARN, HourOfDay, MinuteOfHour; aws_config::AWSConfig=global_aws_config()) = storage_gateway("UpdateMaintenanceStartTime", Dict{String, Any}("GatewayARN"=>GatewayARN, "HourOfDay"=>HourOfDay, "MinuteOfHour"=>MinuteOfHour); aws_config=aws_config)
+UpdateMaintenanceStartTime(GatewayARN, HourOfDay, MinuteOfHour, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("UpdateMaintenanceStartTime", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN, "HourOfDay"=>HourOfDay, "MinuteOfHour"=>MinuteOfHour), args)); aws_config=aws_config)
 
 """
     UpdateNFSFileShare()
@@ -1131,8 +1184,8 @@ Updates a Network File System (NFS) file share. This operation is only supported
 - `Squash`: The user mapped to anonymous user. Valid values are the following:    RootSquash: Only root is mapped to anonymous user.    NoSquash: No one is mapped to anonymous user.    AllSquash: Everyone is mapped to anonymous user.  
 """
 
-UpdateNFSFileShare(FileShareARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("UpdateNFSFileShare", Dict{String, Any}("FileShareARN"=>FileShareARN); aws_config=aws_config)
-UpdateNFSFileShare(FileShareARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("UpdateNFSFileShare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileShareARN"=>FileShareARN), args)); aws_config=aws_config)
+UpdateNFSFileShare(FileShareARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("UpdateNFSFileShare", Dict{String, Any}("FileShareARN"=>FileShareARN); aws_config=aws_config)
+UpdateNFSFileShare(FileShareARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("UpdateNFSFileShare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileShareARN"=>FileShareARN), args)); aws_config=aws_config)
 
 """
     UpdateSMBFileShare()
@@ -1160,8 +1213,8 @@ Updates a Server Message Block (SMB) file share.  To leave a file share field un
 - `ValidUserList`: A list of users or groups in the Active Directory that are allowed to access the file share. A group must be prefixed with the @ character. Acceptable formats include: DOMAIN User1, user1, @group1, and @DOMAIN group1. Can only be set if Authentication is set to ActiveDirectory.
 """
 
-UpdateSMBFileShare(FileShareARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("UpdateSMBFileShare", Dict{String, Any}("FileShareARN"=>FileShareARN); aws_config=aws_config)
-UpdateSMBFileShare(FileShareARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("UpdateSMBFileShare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileShareARN"=>FileShareARN), args)); aws_config=aws_config)
+UpdateSMBFileShare(FileShareARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("UpdateSMBFileShare", Dict{String, Any}("FileShareARN"=>FileShareARN); aws_config=aws_config)
+UpdateSMBFileShare(FileShareARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("UpdateSMBFileShare", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileShareARN"=>FileShareARN), args)); aws_config=aws_config)
 
 """
     UpdateSMBSecurityStrategy()
@@ -1174,8 +1227,8 @@ Updates the SMB security strategy on a file gateway. This action is only support
 
 """
 
-UpdateSMBSecurityStrategy(GatewayARN, SMBSecurityStrategy; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("UpdateSMBSecurityStrategy", Dict{String, Any}("GatewayARN"=>GatewayARN, "SMBSecurityStrategy"=>SMBSecurityStrategy); aws_config=aws_config)
-UpdateSMBSecurityStrategy(GatewayARN, SMBSecurityStrategy, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("UpdateSMBSecurityStrategy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN, "SMBSecurityStrategy"=>SMBSecurityStrategy), args)); aws_config=aws_config)
+UpdateSMBSecurityStrategy(GatewayARN, SMBSecurityStrategy; aws_config::AWSConfig=global_aws_config()) = storage_gateway("UpdateSMBSecurityStrategy", Dict{String, Any}("GatewayARN"=>GatewayARN, "SMBSecurityStrategy"=>SMBSecurityStrategy); aws_config=aws_config)
+UpdateSMBSecurityStrategy(GatewayARN, SMBSecurityStrategy, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("UpdateSMBSecurityStrategy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GatewayARN"=>GatewayARN, "SMBSecurityStrategy"=>SMBSecurityStrategy), args)); aws_config=aws_config)
 
 """
     UpdateSnapshotSchedule()
@@ -1192,8 +1245,8 @@ Updates a snapshot schedule configured for a gateway volume. This operation is o
 - `Tags`: A list of up to 50 tags that can be assigned to a snapshot. Each tag is a key-value pair.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256. 
 """
 
-UpdateSnapshotSchedule(RecurrenceInHours, StartAt, VolumeARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("UpdateSnapshotSchedule", Dict{String, Any}("RecurrenceInHours"=>RecurrenceInHours, "StartAt"=>StartAt, "VolumeARN"=>VolumeARN); aws_config=aws_config)
-UpdateSnapshotSchedule(RecurrenceInHours, StartAt, VolumeARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("UpdateSnapshotSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RecurrenceInHours"=>RecurrenceInHours, "StartAt"=>StartAt, "VolumeARN"=>VolumeARN), args)); aws_config=aws_config)
+UpdateSnapshotSchedule(RecurrenceInHours, StartAt, VolumeARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("UpdateSnapshotSchedule", Dict{String, Any}("RecurrenceInHours"=>RecurrenceInHours, "StartAt"=>StartAt, "VolumeARN"=>VolumeARN); aws_config=aws_config)
+UpdateSnapshotSchedule(RecurrenceInHours, StartAt, VolumeARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("UpdateSnapshotSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RecurrenceInHours"=>RecurrenceInHours, "StartAt"=>StartAt, "VolumeARN"=>VolumeARN), args)); aws_config=aws_config)
 
 """
     UpdateVTLDeviceType()
@@ -1201,10 +1254,10 @@ UpdateSnapshotSchedule(RecurrenceInHours, StartAt, VolumeARN, args::AbstractDict
 Updates the type of medium changer in a tape gateway. When you activate a tape gateway, you select a medium changer type for the tape gateway. This operation enables you to select a different type of medium changer after a tape gateway is activated. This operation is only supported in the tape gateway type.
 
 # Required Parameters
-- `DeviceType`: The type of medium changer you want to select. Valid Values: STK-L700 | AWS-Gateway-VTL 
+- `DeviceType`: The type of medium changer you want to select. Valid Values: STK-L700 | AWS-Gateway-VTL | IBM-03584L32-0402 
 - `VTLDeviceARN`: The Amazon Resource Name (ARN) of the medium changer you want to select.
 
 """
 
-UpdateVTLDeviceType(DeviceType, VTLDeviceARN; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("UpdateVTLDeviceType", Dict{String, Any}("DeviceType"=>DeviceType, "VTLDeviceARN"=>VTLDeviceARN); aws_config=aws_config)
-UpdateVTLDeviceType(DeviceType, VTLDeviceARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = storage_gateway("UpdateVTLDeviceType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceType"=>DeviceType, "VTLDeviceARN"=>VTLDeviceARN), args)); aws_config=aws_config)
+UpdateVTLDeviceType(DeviceType, VTLDeviceARN; aws_config::AWSConfig=global_aws_config()) = storage_gateway("UpdateVTLDeviceType", Dict{String, Any}("DeviceType"=>DeviceType, "VTLDeviceARN"=>VTLDeviceARN); aws_config=aws_config)
+UpdateVTLDeviceType(DeviceType, VTLDeviceARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = storage_gateway("UpdateVTLDeviceType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeviceType"=>DeviceType, "VTLDeviceARN"=>VTLDeviceARN), args)); aws_config=aws_config)

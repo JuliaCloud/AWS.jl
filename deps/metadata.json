@@ -72,7 +72,7 @@
     "version": "2012-08-10"
   },
   "storagegateway-2013-06-30.normal.json": {
-    "sha": "6d6b5cc0b94ec791dcca4efc989d9a368342371e",
+    "sha": "2268478f7db96ea7988a1ee0ed01f913f6b8f802",
     "version": "2013-06-30"
   },
   "states-2016-11-23.normal.json": {
@@ -128,7 +128,7 @@
     "version": "2017-03-14"
   },
   "servicecatalog-2015-12-10.normal.json": {
-    "sha": "ed3165ed88b9b68cb3e22e5ce64ccb9eff881ada",
+    "sha": "775f606426faf9716fe456fa8437e5b23228b494",
     "version": "2015-12-10"
   },
   "service-quotas-2019-06-24.normal.json": {
@@ -276,7 +276,7 @@
     "version": "2019-12-03"
   },
   "organizations-2016-11-28.normal.json": {
-    "sha": "4eb3004ec6bc271b19908c26c28127d4ad3f71d2",
+    "sha": "cc20983d6780ebd0ffeb66aec609565ddf4f3565",
     "version": "2016-11-28"
   },
   "opsworkscm-2016-11-01.normal.json": {
@@ -400,7 +400,7 @@
     "version": "2015-03-31"
   },
   "lakeformation-2017-03-31.normal.json": {
-    "sha": "af38a1469aa54316f808d4eb53d30c7a471d596e",
+    "sha": "dfb2c3d8e31a1783a17a59be011468a1a8ac13a8",
     "version": "2017-03-31"
   },
   "kms-2014-11-01.normal.json": {
@@ -444,7 +444,7 @@
     "version": "2018-11-14"
   },
   "ivs-2020-07-14.normal.json": {
-    "sha": "a516da723b962918ad5157549c8f7eb11d13b153",
+    "sha": "36395048445c7d6126d490eb4b614e9cf8cff836",
     "version": "2020-07-14"
   },
   "iotthingsgraph-2018-09-06.normal.json": {

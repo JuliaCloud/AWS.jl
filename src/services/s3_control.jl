@@ -19,8 +19,8 @@ Creates an access point and associates it with the specified bucket.
 - `VpcConfiguration`: If you include this field, Amazon S3 restricts access to this access point to requests from the specified virtual private cloud (VPC).
 """
 
-CreateAccessPoint(Bucket, name, x_amz_account_id; aws_config::AWSConfig=AWS.aws_config) = s3_control("PUT", "/v20180820/accesspoint/$(name)", Dict{String, Any}("Bucket"=>Bucket, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-CreateAccessPoint(Bucket, name, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = s3_control("PUT", "/v20180820/accesspoint/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Bucket"=>Bucket, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+CreateAccessPoint(Bucket, name, x_amz_account_id; aws_config::AWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/accesspoint/$(name)", Dict{String, Any}("Bucket"=>Bucket, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
+CreateAccessPoint(Bucket, name, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/accesspoint/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Bucket"=>Bucket, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
 
 """
     CreateJob()
@@ -42,8 +42,8 @@ You can use Amazon S3 Batch Operations to perform large-scale Batch Operations o
 - `Tags`: A set of tags to associate with the Amazon S3 Batch Operations job. This is an optional parameter. 
 """
 
-CreateJob(ClientRequestToken, Manifest, Operation, Priority, Report, RoleArn, x_amz_account_id; aws_config::AWSConfig=AWS.aws_config) = s3_control("POST", "/v20180820/jobs", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Manifest"=>Manifest, "Operation"=>Operation, "Priority"=>Priority, "Report"=>Report, "RoleArn"=>RoleArn, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-CreateJob(ClientRequestToken, Manifest, Operation, Priority, Report, RoleArn, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = s3_control("POST", "/v20180820/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Manifest"=>Manifest, "Operation"=>Operation, "Priority"=>Priority, "Report"=>Report, "RoleArn"=>RoleArn, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+CreateJob(ClientRequestToken, Manifest, Operation, Priority, Report, RoleArn, x_amz_account_id; aws_config::AWSConfig=global_aws_config()) = s3_control("POST", "/v20180820/jobs", Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Manifest"=>Manifest, "Operation"=>Operation, "Priority"=>Priority, "Report"=>Report, "RoleArn"=>RoleArn, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
+CreateJob(ClientRequestToken, Manifest, Operation, Priority, Report, RoleArn, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3_control("POST", "/v20180820/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientRequestToken"=>ClientRequestToken, "Manifest"=>Manifest, "Operation"=>Operation, "Priority"=>Priority, "Report"=>Report, "RoleArn"=>RoleArn, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
 
 """
     DeleteAccessPoint()
@@ -56,8 +56,8 @@ Deletes the specified access point.
 
 """
 
-DeleteAccessPoint(name, x_amz_account_id; aws_config::AWSConfig=AWS.aws_config) = s3_control("DELETE", "/v20180820/accesspoint/$(name)", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-DeleteAccessPoint(name, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = s3_control("DELETE", "/v20180820/accesspoint/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+DeleteAccessPoint(name, x_amz_account_id; aws_config::AWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/accesspoint/$(name)", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
+DeleteAccessPoint(name, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/accesspoint/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
 
 """
     DeleteAccessPointPolicy()
@@ -70,8 +70,8 @@ Deletes the access point policy for the specified access point.
 
 """
 
-DeleteAccessPointPolicy(name, x_amz_account_id; aws_config::AWSConfig=AWS.aws_config) = s3_control("DELETE", "/v20180820/accesspoint/$(name)/policy", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-DeleteAccessPointPolicy(name, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = s3_control("DELETE", "/v20180820/accesspoint/$(name)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+DeleteAccessPointPolicy(name, x_amz_account_id; aws_config::AWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/accesspoint/$(name)/policy", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
+DeleteAccessPointPolicy(name, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/accesspoint/$(name)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
 
 """
     DeleteJobTagging()
@@ -84,8 +84,8 @@ Removes the entire tag set from the specified Amazon S3 Batch Operations job. To
 
 """
 
-DeleteJobTagging(id, x_amz_account_id; aws_config::AWSConfig=AWS.aws_config) = s3_control("DELETE", "/v20180820/jobs/$(id)/tagging", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-DeleteJobTagging(id, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = s3_control("DELETE", "/v20180820/jobs/$(id)/tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+DeleteJobTagging(id, x_amz_account_id; aws_config::AWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/jobs/$(id)/tagging", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
+DeleteJobTagging(id, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/jobs/$(id)/tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
 
 """
     DeletePublicAccessBlock()
@@ -97,8 +97,8 @@ Removes the PublicAccessBlock configuration for an Amazon Web Services account.
 
 """
 
-DeletePublicAccessBlock(x_amz_account_id; aws_config::AWSConfig=AWS.aws_config) = s3_control("DELETE", "/v20180820/configuration/publicAccessBlock", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-DeletePublicAccessBlock(x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = s3_control("DELETE", "/v20180820/configuration/publicAccessBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+DeletePublicAccessBlock(x_amz_account_id; aws_config::AWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/configuration/publicAccessBlock", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
+DeletePublicAccessBlock(x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3_control("DELETE", "/v20180820/configuration/publicAccessBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
 
 """
     DescribeJob()
@@ -111,8 +111,8 @@ Retrieves the configuration parameters and status for a Batch Operations job. Fo
 
 """
 
-DescribeJob(id, x_amz_account_id; aws_config::AWSConfig=AWS.aws_config) = s3_control("GET", "/v20180820/jobs/$(id)", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-DescribeJob(id, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = s3_control("GET", "/v20180820/jobs/$(id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+DescribeJob(id, x_amz_account_id; aws_config::AWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/jobs/$(id)", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
+DescribeJob(id, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/jobs/$(id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
 
 """
     GetAccessPoint()
@@ -125,8 +125,8 @@ Returns configuration information about the specified access point.
 
 """
 
-GetAccessPoint(name, x_amz_account_id; aws_config::AWSConfig=AWS.aws_config) = s3_control("GET", "/v20180820/accesspoint/$(name)", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-GetAccessPoint(name, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = s3_control("GET", "/v20180820/accesspoint/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+GetAccessPoint(name, x_amz_account_id; aws_config::AWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/accesspoint/$(name)", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
+GetAccessPoint(name, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/accesspoint/$(name)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
 
 """
     GetAccessPointPolicy()
@@ -139,8 +139,8 @@ Returns the access point policy associated with the specified access point.
 
 """
 
-GetAccessPointPolicy(name, x_amz_account_id; aws_config::AWSConfig=AWS.aws_config) = s3_control("GET", "/v20180820/accesspoint/$(name)/policy", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-GetAccessPointPolicy(name, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = s3_control("GET", "/v20180820/accesspoint/$(name)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+GetAccessPointPolicy(name, x_amz_account_id; aws_config::AWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/accesspoint/$(name)/policy", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
+GetAccessPointPolicy(name, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/accesspoint/$(name)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
 
 """
     GetAccessPointPolicyStatus()
@@ -153,8 +153,8 @@ Indicates whether the specified access point currently has a policy that allows 
 
 """
 
-GetAccessPointPolicyStatus(name, x_amz_account_id; aws_config::AWSConfig=AWS.aws_config) = s3_control("GET", "/v20180820/accesspoint/$(name)/policyStatus", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-GetAccessPointPolicyStatus(name, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = s3_control("GET", "/v20180820/accesspoint/$(name)/policyStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+GetAccessPointPolicyStatus(name, x_amz_account_id; aws_config::AWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/accesspoint/$(name)/policyStatus", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
+GetAccessPointPolicyStatus(name, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/accesspoint/$(name)/policyStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
 
 """
     GetJobTagging()
@@ -167,8 +167,8 @@ Returns the tags on an Amazon S3 Batch Operations job. To use this operation, yo
 
 """
 
-GetJobTagging(id, x_amz_account_id; aws_config::AWSConfig=AWS.aws_config) = s3_control("GET", "/v20180820/jobs/$(id)/tagging", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-GetJobTagging(id, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = s3_control("GET", "/v20180820/jobs/$(id)/tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+GetJobTagging(id, x_amz_account_id; aws_config::AWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/jobs/$(id)/tagging", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
+GetJobTagging(id, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/jobs/$(id)/tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
 
 """
     GetPublicAccessBlock()
@@ -180,8 +180,8 @@ Retrieves the PublicAccessBlock configuration for an Amazon Web Services account
 
 """
 
-GetPublicAccessBlock(x_amz_account_id; aws_config::AWSConfig=AWS.aws_config) = s3_control("GET", "/v20180820/configuration/publicAccessBlock", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-GetPublicAccessBlock(x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = s3_control("GET", "/v20180820/configuration/publicAccessBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+GetPublicAccessBlock(x_amz_account_id; aws_config::AWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/configuration/publicAccessBlock", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
+GetPublicAccessBlock(x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/configuration/publicAccessBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
 
 """
     ListAccessPoints()
@@ -197,8 +197,8 @@ Returns a list of the access points currently associated with the specified buck
 - `nextToken`: A continuation token. If a previous call to ListAccessPoints returned a continuation token in the NextToken field, then providing that value here causes Amazon S3 to retrieve the next page of results.
 """
 
-ListAccessPoints(x_amz_account_id; aws_config::AWSConfig=AWS.aws_config) = s3_control("GET", "/v20180820/accesspoint", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-ListAccessPoints(x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = s3_control("GET", "/v20180820/accesspoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+ListAccessPoints(x_amz_account_id; aws_config::AWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/accesspoint", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
+ListAccessPoints(x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/accesspoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
 
 """
     ListJobs()
@@ -214,8 +214,8 @@ Lists current Amazon S3 Batch Operations jobs and jobs that have ended within th
 - `nextToken`: A pagination token to request the next page of results. Use the token that Amazon S3 returned in the NextToken element of the ListJobsResult from the previous List Jobs request.
 """
 
-ListJobs(x_amz_account_id; aws_config::AWSConfig=AWS.aws_config) = s3_control("GET", "/v20180820/jobs", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-ListJobs(x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = s3_control("GET", "/v20180820/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+ListJobs(x_amz_account_id; aws_config::AWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/jobs", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
+ListJobs(x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3_control("GET", "/v20180820/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
 
 """
     PutAccessPointPolicy()
@@ -229,8 +229,8 @@ Associates an access policy with the specified access point. Each access point c
 
 """
 
-PutAccessPointPolicy(Policy, name, x_amz_account_id; aws_config::AWSConfig=AWS.aws_config) = s3_control("PUT", "/v20180820/accesspoint/$(name)/policy", Dict{String, Any}("Policy"=>Policy, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-PutAccessPointPolicy(Policy, name, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = s3_control("PUT", "/v20180820/accesspoint/$(name)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+PutAccessPointPolicy(Policy, name, x_amz_account_id; aws_config::AWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/accesspoint/$(name)/policy", Dict{String, Any}("Policy"=>Policy, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
+PutAccessPointPolicy(Policy, name, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/accesspoint/$(name)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
 
 """
     PutJobTagging()
@@ -244,8 +244,8 @@ Set the supplied tag-set on an Amazon S3 Batch Operations job. A tag is a key-va
 
 """
 
-PutJobTagging(Tags, id, x_amz_account_id; aws_config::AWSConfig=AWS.aws_config) = s3_control("PUT", "/v20180820/jobs/$(id)/tagging", Dict{String, Any}("Tags"=>Tags, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-PutJobTagging(Tags, id, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = s3_control("PUT", "/v20180820/jobs/$(id)/tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+PutJobTagging(Tags, id, x_amz_account_id; aws_config::AWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/jobs/$(id)/tagging", Dict{String, Any}("Tags"=>Tags, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
+PutJobTagging(Tags, id, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/jobs/$(id)/tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
 
 """
     PutPublicAccessBlock()
@@ -258,8 +258,8 @@ Creates or modifies the PublicAccessBlock configuration for an Amazon Web Servic
 
 """
 
-PutPublicAccessBlock(PublicAccessBlockConfiguration, x_amz_account_id; aws_config::AWSConfig=AWS.aws_config) = s3_control("PUT", "/v20180820/configuration/publicAccessBlock", Dict{String, Any}("PublicAccessBlockConfiguration"=>PublicAccessBlockConfiguration, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-PutPublicAccessBlock(PublicAccessBlockConfiguration, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = s3_control("PUT", "/v20180820/configuration/publicAccessBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PublicAccessBlockConfiguration"=>PublicAccessBlockConfiguration, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+PutPublicAccessBlock(PublicAccessBlockConfiguration, x_amz_account_id; aws_config::AWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/configuration/publicAccessBlock", Dict{String, Any}("PublicAccessBlockConfiguration"=>PublicAccessBlockConfiguration, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
+PutPublicAccessBlock(PublicAccessBlockConfiguration, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3_control("PUT", "/v20180820/configuration/publicAccessBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PublicAccessBlockConfiguration"=>PublicAccessBlockConfiguration, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
 
 """
     UpdateJobPriority()
@@ -273,8 +273,8 @@ Updates an existing Amazon S3 Batch Operations job's priority. For more informat
 
 """
 
-UpdateJobPriority(id, priority, x_amz_account_id; aws_config::AWSConfig=AWS.aws_config) = s3_control("POST", "/v20180820/jobs/$(id)/priority", Dict{String, Any}("priority"=>priority, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-UpdateJobPriority(id, priority, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = s3_control("POST", "/v20180820/jobs/$(id)/priority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("priority"=>priority, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+UpdateJobPriority(id, priority, x_amz_account_id; aws_config::AWSConfig=global_aws_config()) = s3_control("POST", "/v20180820/jobs/$(id)/priority", Dict{String, Any}("priority"=>priority, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
+UpdateJobPriority(id, priority, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3_control("POST", "/v20180820/jobs/$(id)/priority", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("priority"=>priority, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
 
 """
     UpdateJobStatus()
@@ -290,5 +290,5 @@ Updates the status for the specified job. Use this operation to confirm that you
 - `statusUpdateReason`: A description of the reason why you want to change the specified job's status. This field can be any string up to the maximum length.
 """
 
-UpdateJobStatus(id, requestedJobStatus, x_amz_account_id; aws_config::AWSConfig=AWS.aws_config) = s3_control("POST", "/v20180820/jobs/$(id)/status", Dict{String, Any}("requestedJobStatus"=>requestedJobStatus, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
-UpdateJobStatus(id, requestedJobStatus, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = s3_control("POST", "/v20180820/jobs/$(id)/status", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("requestedJobStatus"=>requestedJobStatus, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)
+UpdateJobStatus(id, requestedJobStatus, x_amz_account_id; aws_config::AWSConfig=global_aws_config()) = s3_control("POST", "/v20180820/jobs/$(id)/status", Dict{String, Any}("requestedJobStatus"=>requestedJobStatus, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)); aws_config=aws_config)
+UpdateJobStatus(id, requestedJobStatus, x_amz_account_id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3_control("POST", "/v20180820/jobs/$(id)/status", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("requestedJobStatus"=>requestedJobStatus, "headers"=>Dict{String, Any}("x-amz-account-id"=>x_amz_account_id)), args)); aws_config=aws_config)

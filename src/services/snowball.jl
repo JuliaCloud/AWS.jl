@@ -14,8 +14,8 @@ Cancels a cluster job. You can only cancel a cluster job while it's in the Await
 
 """
 
-CancelCluster(ClusterId; aws_config::AWSConfig=AWS.aws_config) = snowball("CancelCluster", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
-CancelCluster(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = snowball("CancelCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
+CancelCluster(ClusterId; aws_config::AWSConfig=global_aws_config()) = snowball("CancelCluster", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
+CancelCluster(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = snowball("CancelCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
 
 """
     CancelJob()
@@ -27,8 +27,8 @@ Cancels the specified job. You can only cancel a job before its JobState value c
 
 """
 
-CancelJob(JobId; aws_config::AWSConfig=AWS.aws_config) = snowball("CancelJob", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-CancelJob(JobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = snowball("CancelJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
+CancelJob(JobId; aws_config::AWSConfig=global_aws_config()) = snowball("CancelJob", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
+CancelJob(JobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = snowball("CancelJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
 
 """
     CreateAddress()
@@ -40,8 +40,8 @@ Creates an address for a Snowball to be shipped to. In most regions, addresses a
 
 """
 
-CreateAddress(Address; aws_config::AWSConfig=AWS.aws_config) = snowball("CreateAddress", Dict{String, Any}("Address"=>Address); aws_config=aws_config)
-CreateAddress(Address, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = snowball("CreateAddress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Address"=>Address), args)); aws_config=aws_config)
+CreateAddress(Address; aws_config::AWSConfig=global_aws_config()) = snowball("CreateAddress", Dict{String, Any}("Address"=>Address); aws_config=aws_config)
+CreateAddress(Address, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = snowball("CreateAddress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Address"=>Address), args)); aws_config=aws_config)
 
 """
     CreateCluster()
@@ -64,8 +64,8 @@ Creates an empty cluster. Each cluster supports five nodes. You use the CreateJo
 - `TaxDocuments`: The tax documents required in your AWS Region.
 """
 
-CreateCluster(AddressId, JobType, Resources, RoleARN, ShippingOption; aws_config::AWSConfig=AWS.aws_config) = snowball("CreateCluster", Dict{String, Any}("AddressId"=>AddressId, "JobType"=>JobType, "Resources"=>Resources, "RoleARN"=>RoleARN, "ShippingOption"=>ShippingOption); aws_config=aws_config)
-CreateCluster(AddressId, JobType, Resources, RoleARN, ShippingOption, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = snowball("CreateCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressId"=>AddressId, "JobType"=>JobType, "Resources"=>Resources, "RoleARN"=>RoleARN, "ShippingOption"=>ShippingOption), args)); aws_config=aws_config)
+CreateCluster(AddressId, JobType, Resources, RoleARN, ShippingOption; aws_config::AWSConfig=global_aws_config()) = snowball("CreateCluster", Dict{String, Any}("AddressId"=>AddressId, "JobType"=>JobType, "Resources"=>Resources, "RoleARN"=>RoleARN, "ShippingOption"=>ShippingOption); aws_config=aws_config)
+CreateCluster(AddressId, JobType, Resources, RoleARN, ShippingOption, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = snowball("CreateCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressId"=>AddressId, "JobType"=>JobType, "Resources"=>Resources, "RoleARN"=>RoleARN, "ShippingOption"=>ShippingOption), args)); aws_config=aws_config)
 
 """
     CreateJob()
@@ -89,8 +89,8 @@ Creates a job to import or export data between Amazon S3 and your on-premises da
 - `TaxDocuments`: The tax documents required in your AWS Region.
 """
 
-CreateJob(; aws_config::AWSConfig=AWS.aws_config) = snowball("CreateJob"; aws_config=aws_config)
-CreateJob(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = snowball("CreateJob", args; aws_config=aws_config)
+CreateJob(; aws_config::AWSConfig=global_aws_config()) = snowball("CreateJob"; aws_config=aws_config)
+CreateJob(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = snowball("CreateJob", args; aws_config=aws_config)
 
 """
     DescribeAddress()
@@ -102,8 +102,8 @@ Takes an AddressId and returns specific details about that address in the form o
 
 """
 
-DescribeAddress(AddressId; aws_config::AWSConfig=AWS.aws_config) = snowball("DescribeAddress", Dict{String, Any}("AddressId"=>AddressId); aws_config=aws_config)
-DescribeAddress(AddressId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = snowball("DescribeAddress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressId"=>AddressId), args)); aws_config=aws_config)
+DescribeAddress(AddressId; aws_config::AWSConfig=global_aws_config()) = snowball("DescribeAddress", Dict{String, Any}("AddressId"=>AddressId); aws_config=aws_config)
+DescribeAddress(AddressId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = snowball("DescribeAddress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AddressId"=>AddressId), args)); aws_config=aws_config)
 
 """
     DescribeAddresses()
@@ -115,8 +115,8 @@ Returns a specified number of ADDRESS objects. Calling this API in one of the US
 - `NextToken`: HTTP requests are stateless. To identify what object comes \"next\" in the list of ADDRESS objects, you have the option of specifying a value for NextToken as the starting point for your list of returned addresses.
 """
 
-DescribeAddresses(; aws_config::AWSConfig=AWS.aws_config) = snowball("DescribeAddresses"; aws_config=aws_config)
-DescribeAddresses(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = snowball("DescribeAddresses", args; aws_config=aws_config)
+DescribeAddresses(; aws_config::AWSConfig=global_aws_config()) = snowball("DescribeAddresses"; aws_config=aws_config)
+DescribeAddresses(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = snowball("DescribeAddresses", args; aws_config=aws_config)
 
 """
     DescribeCluster()
@@ -128,8 +128,8 @@ Returns information about a specific cluster including shipping information, clu
 
 """
 
-DescribeCluster(ClusterId; aws_config::AWSConfig=AWS.aws_config) = snowball("DescribeCluster", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
-DescribeCluster(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = snowball("DescribeCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
+DescribeCluster(ClusterId; aws_config::AWSConfig=global_aws_config()) = snowball("DescribeCluster", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
+DescribeCluster(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = snowball("DescribeCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
 
 """
     DescribeJob()
@@ -141,8 +141,8 @@ Returns information about a specific job including shipping information, job sta
 
 """
 
-DescribeJob(JobId; aws_config::AWSConfig=AWS.aws_config) = snowball("DescribeJob", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-DescribeJob(JobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = snowball("DescribeJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
+DescribeJob(JobId; aws_config::AWSConfig=global_aws_config()) = snowball("DescribeJob", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
+DescribeJob(JobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = snowball("DescribeJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
 
 """
     GetJobManifest()
@@ -154,8 +154,8 @@ Returns a link to an Amazon S3 presigned URL for the manifest file associated wi
 
 """
 
-GetJobManifest(JobId; aws_config::AWSConfig=AWS.aws_config) = snowball("GetJobManifest", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-GetJobManifest(JobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = snowball("GetJobManifest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
+GetJobManifest(JobId; aws_config::AWSConfig=global_aws_config()) = snowball("GetJobManifest", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
+GetJobManifest(JobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = snowball("GetJobManifest", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
 
 """
     GetJobUnlockCode()
@@ -167,8 +167,8 @@ Returns the UnlockCode code value for the specified job. A particular UnlockCode
 
 """
 
-GetJobUnlockCode(JobId; aws_config::AWSConfig=AWS.aws_config) = snowball("GetJobUnlockCode", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-GetJobUnlockCode(JobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = snowball("GetJobUnlockCode", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
+GetJobUnlockCode(JobId; aws_config::AWSConfig=global_aws_config()) = snowball("GetJobUnlockCode", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
+GetJobUnlockCode(JobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = snowball("GetJobUnlockCode", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
 
 """
     GetSnowballUsage()
@@ -177,8 +177,8 @@ Returns information about the Snowball service limit for your account, and also 
 
 """
 
-GetSnowballUsage(; aws_config::AWSConfig=AWS.aws_config) = snowball("GetSnowballUsage"; aws_config=aws_config)
-GetSnowballUsage(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = snowball("GetSnowballUsage", args; aws_config=aws_config)
+GetSnowballUsage(; aws_config::AWSConfig=global_aws_config()) = snowball("GetSnowballUsage"; aws_config=aws_config)
+GetSnowballUsage(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = snowball("GetSnowballUsage", args; aws_config=aws_config)
 
 """
     GetSoftwareUpdates()
@@ -190,8 +190,8 @@ Returns an Amazon S3 presigned URL for an update file associated with a specifie
 
 """
 
-GetSoftwareUpdates(JobId; aws_config::AWSConfig=AWS.aws_config) = snowball("GetSoftwareUpdates", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-GetSoftwareUpdates(JobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = snowball("GetSoftwareUpdates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
+GetSoftwareUpdates(JobId; aws_config::AWSConfig=global_aws_config()) = snowball("GetSoftwareUpdates", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
+GetSoftwareUpdates(JobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = snowball("GetSoftwareUpdates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
 
 """
     ListClusterJobs()
@@ -206,8 +206,8 @@ Returns an array of JobListEntry objects of the specified length. Each JobListEn
 - `NextToken`: HTTP requests are stateless. To identify what object comes \"next\" in the list of JobListEntry objects, you have the option of specifying NextToken as the starting point for your returned list.
 """
 
-ListClusterJobs(ClusterId; aws_config::AWSConfig=AWS.aws_config) = snowball("ListClusterJobs", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
-ListClusterJobs(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = snowball("ListClusterJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
+ListClusterJobs(ClusterId; aws_config::AWSConfig=global_aws_config()) = snowball("ListClusterJobs", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
+ListClusterJobs(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = snowball("ListClusterJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
 
 """
     ListClusters()
@@ -219,8 +219,8 @@ Returns an array of ClusterListEntry objects of the specified length. Each Clust
 - `NextToken`: HTTP requests are stateless. To identify what object comes \"next\" in the list of ClusterListEntry objects, you have the option of specifying NextToken as the starting point for your returned list.
 """
 
-ListClusters(; aws_config::AWSConfig=AWS.aws_config) = snowball("ListClusters"; aws_config=aws_config)
-ListClusters(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = snowball("ListClusters", args; aws_config=aws_config)
+ListClusters(; aws_config::AWSConfig=global_aws_config()) = snowball("ListClusters"; aws_config=aws_config)
+ListClusters(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = snowball("ListClusters", args; aws_config=aws_config)
 
 """
     ListCompatibleImages()
@@ -232,8 +232,8 @@ This action returns a list of the different Amazon EC2 Amazon Machine Images (AM
 - `NextToken`: HTTP requests are stateless. To identify what object comes \"next\" in the list of compatible images, you can specify a value for NextToken as the starting point for your list of returned images.
 """
 
-ListCompatibleImages(; aws_config::AWSConfig=AWS.aws_config) = snowball("ListCompatibleImages"; aws_config=aws_config)
-ListCompatibleImages(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = snowball("ListCompatibleImages", args; aws_config=aws_config)
+ListCompatibleImages(; aws_config::AWSConfig=global_aws_config()) = snowball("ListCompatibleImages"; aws_config=aws_config)
+ListCompatibleImages(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = snowball("ListCompatibleImages", args; aws_config=aws_config)
 
 """
     ListJobs()
@@ -245,8 +245,8 @@ Returns an array of JobListEntry objects of the specified length. Each JobListEn
 - `NextToken`: HTTP requests are stateless. To identify what object comes \"next\" in the list of JobListEntry objects, you have the option of specifying NextToken as the starting point for your returned list.
 """
 
-ListJobs(; aws_config::AWSConfig=AWS.aws_config) = snowball("ListJobs"; aws_config=aws_config)
-ListJobs(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = snowball("ListJobs", args; aws_config=aws_config)
+ListJobs(; aws_config::AWSConfig=global_aws_config()) = snowball("ListJobs"; aws_config=aws_config)
+ListJobs(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = snowball("ListJobs", args; aws_config=aws_config)
 
 """
     UpdateCluster()
@@ -266,8 +266,8 @@ While a cluster's ClusterState value is in the AwaitingQuorum state, you can upd
 - `ShippingOption`: The updated shipping option value of this cluster's ShippingDetails object.
 """
 
-UpdateCluster(ClusterId; aws_config::AWSConfig=AWS.aws_config) = snowball("UpdateCluster", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
-UpdateCluster(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = snowball("UpdateCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
+UpdateCluster(ClusterId; aws_config::AWSConfig=global_aws_config()) = snowball("UpdateCluster", Dict{String, Any}("ClusterId"=>ClusterId); aws_config=aws_config)
+UpdateCluster(ClusterId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = snowball("UpdateCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClusterId"=>ClusterId), args)); aws_config=aws_config)
 
 """
     UpdateJob()
@@ -288,5 +288,5 @@ While a job's JobState value is New, you can update some of the information asso
 - `SnowballCapacityPreference`: The updated SnowballCapacityPreference of this job's JobMetadata object. The 50 TB Snowballs are only available in the US regions.
 """
 
-UpdateJob(JobId; aws_config::AWSConfig=AWS.aws_config) = snowball("UpdateJob", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
-UpdateJob(JobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = snowball("UpdateJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
+UpdateJob(JobId; aws_config::AWSConfig=global_aws_config()) = snowball("UpdateJob", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
+UpdateJob(JobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = snowball("UpdateJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)

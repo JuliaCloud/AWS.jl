@@ -17,8 +17,8 @@ Returns a list of accounts in the organization from AWS Organizations that are a
 - `nextToken`: If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
 """
 
-DescribeAffectedAccountsForOrganization(eventArn; aws_config::AWSConfig=AWS.aws_config) = health("DescribeAffectedAccountsForOrganization", Dict{String, Any}("eventArn"=>eventArn); aws_config=aws_config)
-DescribeAffectedAccountsForOrganization(eventArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = health("DescribeAffectedAccountsForOrganization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventArn"=>eventArn), args)); aws_config=aws_config)
+DescribeAffectedAccountsForOrganization(eventArn; aws_config::AWSConfig=global_aws_config()) = health("DescribeAffectedAccountsForOrganization", Dict{String, Any}("eventArn"=>eventArn); aws_config=aws_config)
+DescribeAffectedAccountsForOrganization(eventArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = health("DescribeAffectedAccountsForOrganization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventArn"=>eventArn), args)); aws_config=aws_config)
 
 """
     DescribeAffectedEntities()
@@ -34,8 +34,8 @@ Returns a list of entities that have been affected by the specified events, base
 - `nextToken`: If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
 """
 
-DescribeAffectedEntities(filter; aws_config::AWSConfig=AWS.aws_config) = health("DescribeAffectedEntities", Dict{String, Any}("filter"=>filter); aws_config=aws_config)
-DescribeAffectedEntities(filter, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = health("DescribeAffectedEntities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filter"=>filter), args)); aws_config=aws_config)
+DescribeAffectedEntities(filter; aws_config::AWSConfig=global_aws_config()) = health("DescribeAffectedEntities", Dict{String, Any}("filter"=>filter); aws_config=aws_config)
+DescribeAffectedEntities(filter, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = health("DescribeAffectedEntities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filter"=>filter), args)); aws_config=aws_config)
 
 """
     DescribeAffectedEntitiesForOrganization()
@@ -51,8 +51,8 @@ Returns a list of entities that have been affected by one or more events for one
 - `nextToken`: If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
 """
 
-DescribeAffectedEntitiesForOrganization(organizationEntityFilters; aws_config::AWSConfig=AWS.aws_config) = health("DescribeAffectedEntitiesForOrganization", Dict{String, Any}("organizationEntityFilters"=>organizationEntityFilters); aws_config=aws_config)
-DescribeAffectedEntitiesForOrganization(organizationEntityFilters, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = health("DescribeAffectedEntitiesForOrganization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("organizationEntityFilters"=>organizationEntityFilters), args)); aws_config=aws_config)
+DescribeAffectedEntitiesForOrganization(organizationEntityFilters; aws_config::AWSConfig=global_aws_config()) = health("DescribeAffectedEntitiesForOrganization", Dict{String, Any}("organizationEntityFilters"=>organizationEntityFilters); aws_config=aws_config)
+DescribeAffectedEntitiesForOrganization(organizationEntityFilters, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = health("DescribeAffectedEntitiesForOrganization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("organizationEntityFilters"=>organizationEntityFilters), args)); aws_config=aws_config)
 
 """
     DescribeEntityAggregates()
@@ -63,8 +63,8 @@ Returns the number of entities that are affected by each of the specified events
 - `eventArns`: A list of event ARNs (unique identifiers). For example: \"arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456\", \"arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101\" 
 """
 
-DescribeEntityAggregates(; aws_config::AWSConfig=AWS.aws_config) = health("DescribeEntityAggregates"; aws_config=aws_config)
-DescribeEntityAggregates(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = health("DescribeEntityAggregates", args; aws_config=aws_config)
+DescribeEntityAggregates(; aws_config::AWSConfig=global_aws_config()) = health("DescribeEntityAggregates"; aws_config=aws_config)
+DescribeEntityAggregates(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = health("DescribeEntityAggregates", args; aws_config=aws_config)
 
 """
     DescribeEventAggregates()
@@ -80,8 +80,8 @@ Returns the number of events of each event type (issue, scheduled change, and ac
 - `nextToken`: If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
 """
 
-DescribeEventAggregates(aggregateField; aws_config::AWSConfig=AWS.aws_config) = health("DescribeEventAggregates", Dict{String, Any}("aggregateField"=>aggregateField); aws_config=aws_config)
-DescribeEventAggregates(aggregateField, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = health("DescribeEventAggregates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("aggregateField"=>aggregateField), args)); aws_config=aws_config)
+DescribeEventAggregates(aggregateField; aws_config::AWSConfig=global_aws_config()) = health("DescribeEventAggregates", Dict{String, Any}("aggregateField"=>aggregateField); aws_config=aws_config)
+DescribeEventAggregates(aggregateField, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = health("DescribeEventAggregates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("aggregateField"=>aggregateField), args)); aws_config=aws_config)
 
 """
     DescribeEventDetails()
@@ -95,8 +95,8 @@ Returns detailed information about one or more specified events. Information inc
 - `locale`: The locale (language) to return information in. English (en) is the default and the only supported value at this time.
 """
 
-DescribeEventDetails(eventArns; aws_config::AWSConfig=AWS.aws_config) = health("DescribeEventDetails", Dict{String, Any}("eventArns"=>eventArns); aws_config=aws_config)
-DescribeEventDetails(eventArns, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = health("DescribeEventDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventArns"=>eventArns), args)); aws_config=aws_config)
+DescribeEventDetails(eventArns; aws_config::AWSConfig=global_aws_config()) = health("DescribeEventDetails", Dict{String, Any}("eventArns"=>eventArns); aws_config=aws_config)
+DescribeEventDetails(eventArns, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = health("DescribeEventDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventArns"=>eventArns), args)); aws_config=aws_config)
 
 """
     DescribeEventDetailsForOrganization()
@@ -110,8 +110,8 @@ Returns detailed information about one or more specified events for one or more 
 - `locale`: The locale (language) to return information in. English (en) is the default and the only supported value at this time.
 """
 
-DescribeEventDetailsForOrganization(organizationEventDetailFilters; aws_config::AWSConfig=AWS.aws_config) = health("DescribeEventDetailsForOrganization", Dict{String, Any}("organizationEventDetailFilters"=>organizationEventDetailFilters); aws_config=aws_config)
-DescribeEventDetailsForOrganization(organizationEventDetailFilters, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = health("DescribeEventDetailsForOrganization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("organizationEventDetailFilters"=>organizationEventDetailFilters), args)); aws_config=aws_config)
+DescribeEventDetailsForOrganization(organizationEventDetailFilters; aws_config::AWSConfig=global_aws_config()) = health("DescribeEventDetailsForOrganization", Dict{String, Any}("organizationEventDetailFilters"=>organizationEventDetailFilters); aws_config=aws_config)
+DescribeEventDetailsForOrganization(organizationEventDetailFilters, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = health("DescribeEventDetailsForOrganization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("organizationEventDetailFilters"=>organizationEventDetailFilters), args)); aws_config=aws_config)
 
 """
     DescribeEventTypes()
@@ -125,8 +125,8 @@ Returns the event types that meet the specified filter criteria. If no filter cr
 - `nextToken`: If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
 """
 
-DescribeEventTypes(; aws_config::AWSConfig=AWS.aws_config) = health("DescribeEventTypes"; aws_config=aws_config)
-DescribeEventTypes(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = health("DescribeEventTypes", args; aws_config=aws_config)
+DescribeEventTypes(; aws_config::AWSConfig=global_aws_config()) = health("DescribeEventTypes"; aws_config=aws_config)
+DescribeEventTypes(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = health("DescribeEventTypes", args; aws_config=aws_config)
 
 """
     DescribeEvents()
@@ -140,8 +140,8 @@ DescribeEventTypes(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.
 - `nextToken`: If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
 """
 
-DescribeEvents(; aws_config::AWSConfig=AWS.aws_config) = health("DescribeEvents"; aws_config=aws_config)
-DescribeEvents(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = health("DescribeEvents", args; aws_config=aws_config)
+DescribeEvents(; aws_config::AWSConfig=global_aws_config()) = health("DescribeEvents"; aws_config=aws_config)
+DescribeEvents(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = health("DescribeEvents", args; aws_config=aws_config)
 
 """
     DescribeEventsForOrganization()
@@ -155,8 +155,8 @@ Returns information about events across your organization in AWS Organizations. 
 - `nextToken`: If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
 """
 
-DescribeEventsForOrganization(; aws_config::AWSConfig=AWS.aws_config) = health("DescribeEventsForOrganization"; aws_config=aws_config)
-DescribeEventsForOrganization(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = health("DescribeEventsForOrganization", args; aws_config=aws_config)
+DescribeEventsForOrganization(; aws_config::AWSConfig=global_aws_config()) = health("DescribeEventsForOrganization"; aws_config=aws_config)
+DescribeEventsForOrganization(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = health("DescribeEventsForOrganization", args; aws_config=aws_config)
 
 """
     DescribeHealthServiceStatusForOrganization()
@@ -165,8 +165,8 @@ This operation provides status information on enabling or disabling AWS Health t
 
 """
 
-DescribeHealthServiceStatusForOrganization(; aws_config::AWSConfig=AWS.aws_config) = health("DescribeHealthServiceStatusForOrganization"; aws_config=aws_config)
-DescribeHealthServiceStatusForOrganization(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = health("DescribeHealthServiceStatusForOrganization", args; aws_config=aws_config)
+DescribeHealthServiceStatusForOrganization(; aws_config::AWSConfig=global_aws_config()) = health("DescribeHealthServiceStatusForOrganization"; aws_config=aws_config)
+DescribeHealthServiceStatusForOrganization(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = health("DescribeHealthServiceStatusForOrganization", args; aws_config=aws_config)
 
 """
     DisableHealthServiceAccessForOrganization()
@@ -175,8 +175,8 @@ Disables AWS Health from working with AWS Organizations. To call this operation,
 
 """
 
-DisableHealthServiceAccessForOrganization(; aws_config::AWSConfig=AWS.aws_config) = health("DisableHealthServiceAccessForOrganization"; aws_config=aws_config)
-DisableHealthServiceAccessForOrganization(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = health("DisableHealthServiceAccessForOrganization", args; aws_config=aws_config)
+DisableHealthServiceAccessForOrganization(; aws_config::AWSConfig=global_aws_config()) = health("DisableHealthServiceAccessForOrganization"; aws_config=aws_config)
+DisableHealthServiceAccessForOrganization(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = health("DisableHealthServiceAccessForOrganization", args; aws_config=aws_config)
 
 """
     EnableHealthServiceAccessForOrganization()
@@ -185,5 +185,5 @@ Calling this operation enables AWS Health to work with AWS Organizations. This a
 
 """
 
-EnableHealthServiceAccessForOrganization(; aws_config::AWSConfig=AWS.aws_config) = health("EnableHealthServiceAccessForOrganization"; aws_config=aws_config)
-EnableHealthServiceAccessForOrganization(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = health("EnableHealthServiceAccessForOrganization", args; aws_config=aws_config)
+EnableHealthServiceAccessForOrganization(; aws_config::AWSConfig=global_aws_config()) = health("EnableHealthServiceAccessForOrganization"; aws_config=aws_config)
+EnableHealthServiceAccessForOrganization(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = health("EnableHealthServiceAccessForOrganization", args; aws_config=aws_config)

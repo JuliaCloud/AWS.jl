@@ -47,8 +47,8 @@ using UUIDs
          
 """
 
-CreateCluster(brokerNodeGroupInfo, clusterName, kafkaVersion, numberOfBrokerNodes; aws_config::AWSConfig=AWS.aws_config) = kafka("POST", "/v1/clusters", Dict{String, Any}("brokerNodeGroupInfo"=>brokerNodeGroupInfo, "clusterName"=>clusterName, "kafkaVersion"=>kafkaVersion, "numberOfBrokerNodes"=>numberOfBrokerNodes); aws_config=aws_config)
-CreateCluster(brokerNodeGroupInfo, clusterName, kafkaVersion, numberOfBrokerNodes, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = kafka("POST", "/v1/clusters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("brokerNodeGroupInfo"=>brokerNodeGroupInfo, "clusterName"=>clusterName, "kafkaVersion"=>kafkaVersion, "numberOfBrokerNodes"=>numberOfBrokerNodes), args)); aws_config=aws_config)
+CreateCluster(brokerNodeGroupInfo, clusterName, kafkaVersion, numberOfBrokerNodes; aws_config::AWSConfig=global_aws_config()) = kafka("POST", "/v1/clusters", Dict{String, Any}("brokerNodeGroupInfo"=>brokerNodeGroupInfo, "clusterName"=>clusterName, "kafkaVersion"=>kafkaVersion, "numberOfBrokerNodes"=>numberOfBrokerNodes); aws_config=aws_config)
+CreateCluster(brokerNodeGroupInfo, clusterName, kafkaVersion, numberOfBrokerNodes, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kafka("POST", "/v1/clusters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("brokerNodeGroupInfo"=>brokerNodeGroupInfo, "clusterName"=>clusterName, "kafkaVersion"=>kafkaVersion, "numberOfBrokerNodes"=>numberOfBrokerNodes), args)); aws_config=aws_config)
 
 """
     CreateConfiguration()
@@ -75,8 +75,8 @@ CreateCluster(brokerNodeGroupInfo, clusterName, kafkaVersion, numberOfBrokerNode
          
 """
 
-CreateConfiguration(name, serverProperties; aws_config::AWSConfig=AWS.aws_config) = kafka("POST", "/v1/configurations", Dict{String, Any}("name"=>name, "serverProperties"=>serverProperties); aws_config=aws_config)
-CreateConfiguration(name, serverProperties, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = kafka("POST", "/v1/configurations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "serverProperties"=>serverProperties), args)); aws_config=aws_config)
+CreateConfiguration(name, serverProperties; aws_config::AWSConfig=global_aws_config()) = kafka("POST", "/v1/configurations", Dict{String, Any}("name"=>name, "serverProperties"=>serverProperties); aws_config=aws_config)
+CreateConfiguration(name, serverProperties, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kafka("POST", "/v1/configurations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "serverProperties"=>serverProperties), args)); aws_config=aws_config)
 
 """
     DeleteCluster()
@@ -96,8 +96,8 @@ CreateConfiguration(name, serverProperties, args::AbstractDict{String, <:Any}; a
          
 """
 
-DeleteCluster(clusterArn; aws_config::AWSConfig=AWS.aws_config) = kafka("DELETE", "/v1/clusters/$(clusterArn)"; aws_config=aws_config)
-DeleteCluster(clusterArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = kafka("DELETE", "/v1/clusters/$(clusterArn)", args; aws_config=aws_config)
+DeleteCluster(clusterArn; aws_config::AWSConfig=global_aws_config()) = kafka("DELETE", "/v1/clusters/$(clusterArn)"; aws_config=aws_config)
+DeleteCluster(clusterArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kafka("DELETE", "/v1/clusters/$(clusterArn)", args; aws_config=aws_config)
 
 """
     DescribeCluster()
@@ -113,8 +113,8 @@ DeleteCluster(clusterArn, args::AbstractDict{String, <:Any}; aws_config::AWSConf
 
 """
 
-DescribeCluster(clusterArn; aws_config::AWSConfig=AWS.aws_config) = kafka("GET", "/v1/clusters/$(clusterArn)"; aws_config=aws_config)
-DescribeCluster(clusterArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = kafka("GET", "/v1/clusters/$(clusterArn)", args; aws_config=aws_config)
+DescribeCluster(clusterArn; aws_config::AWSConfig=global_aws_config()) = kafka("GET", "/v1/clusters/$(clusterArn)"; aws_config=aws_config)
+DescribeCluster(clusterArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kafka("GET", "/v1/clusters/$(clusterArn)", args; aws_config=aws_config)
 
 """
     DescribeClusterOperation()
@@ -130,8 +130,8 @@ DescribeCluster(clusterArn, args::AbstractDict{String, <:Any}; aws_config::AWSCo
 
 """
 
-DescribeClusterOperation(clusterOperationArn; aws_config::AWSConfig=AWS.aws_config) = kafka("GET", "/v1/operations/$(clusterOperationArn)"; aws_config=aws_config)
-DescribeClusterOperation(clusterOperationArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = kafka("GET", "/v1/operations/$(clusterOperationArn)", args; aws_config=aws_config)
+DescribeClusterOperation(clusterOperationArn; aws_config::AWSConfig=global_aws_config()) = kafka("GET", "/v1/operations/$(clusterOperationArn)"; aws_config=aws_config)
+DescribeClusterOperation(clusterOperationArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kafka("GET", "/v1/operations/$(clusterOperationArn)", args; aws_config=aws_config)
 
 """
     DescribeConfiguration()
@@ -147,8 +147,8 @@ DescribeClusterOperation(clusterOperationArn, args::AbstractDict{String, <:Any};
 
 """
 
-DescribeConfiguration(arn; aws_config::AWSConfig=AWS.aws_config) = kafka("GET", "/v1/configurations/$(arn)"; aws_config=aws_config)
-DescribeConfiguration(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = kafka("GET", "/v1/configurations/$(arn)", args; aws_config=aws_config)
+DescribeConfiguration(arn; aws_config::AWSConfig=global_aws_config()) = kafka("GET", "/v1/configurations/$(arn)"; aws_config=aws_config)
+DescribeConfiguration(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kafka("GET", "/v1/configurations/$(arn)", args; aws_config=aws_config)
 
 """
     DescribeConfigurationRevision()
@@ -167,8 +167,8 @@ DescribeConfiguration(arn, args::AbstractDict{String, <:Any}; aws_config::AWSCon
 
 """
 
-DescribeConfigurationRevision(arn, revision; aws_config::AWSConfig=AWS.aws_config) = kafka("GET", "/v1/configurations/$(arn)/revisions/$(revision)"; aws_config=aws_config)
-DescribeConfigurationRevision(arn, revision, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = kafka("GET", "/v1/configurations/$(arn)/revisions/$(revision)", args; aws_config=aws_config)
+DescribeConfigurationRevision(arn, revision; aws_config::AWSConfig=global_aws_config()) = kafka("GET", "/v1/configurations/$(arn)/revisions/$(revision)"; aws_config=aws_config)
+DescribeConfigurationRevision(arn, revision, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kafka("GET", "/v1/configurations/$(arn)/revisions/$(revision)", args; aws_config=aws_config)
 
 """
     GetBootstrapBrokers()
@@ -184,8 +184,8 @@ DescribeConfigurationRevision(arn, revision, args::AbstractDict{String, <:Any}; 
 
 """
 
-GetBootstrapBrokers(clusterArn; aws_config::AWSConfig=AWS.aws_config) = kafka("GET", "/v1/clusters/$(clusterArn)/bootstrap-brokers"; aws_config=aws_config)
-GetBootstrapBrokers(clusterArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = kafka("GET", "/v1/clusters/$(clusterArn)/bootstrap-brokers", args; aws_config=aws_config)
+GetBootstrapBrokers(clusterArn; aws_config::AWSConfig=global_aws_config()) = kafka("GET", "/v1/clusters/$(clusterArn)/bootstrap-brokers"; aws_config=aws_config)
+GetBootstrapBrokers(clusterArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kafka("GET", "/v1/clusters/$(clusterArn)/bootstrap-brokers", args; aws_config=aws_config)
 
 """
     GetCompatibleKafkaVersions()
@@ -200,8 +200,8 @@ GetBootstrapBrokers(clusterArn, args::AbstractDict{String, <:Any}; aws_config::A
             
 """
 
-GetCompatibleKafkaVersions(; aws_config::AWSConfig=AWS.aws_config) = kafka("GET", "/v1/compatible-kafka-versions"; aws_config=aws_config)
-GetCompatibleKafkaVersions(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = kafka("GET", "/v1/compatible-kafka-versions", args; aws_config=aws_config)
+GetCompatibleKafkaVersions(; aws_config::AWSConfig=global_aws_config()) = kafka("GET", "/v1/compatible-kafka-versions"; aws_config=aws_config)
+GetCompatibleKafkaVersions(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = kafka("GET", "/v1/compatible-kafka-versions", args; aws_config=aws_config)
 
 """
     ListClusterOperations()
@@ -225,8 +225,8 @@ GetCompatibleKafkaVersions(args::AbstractDict{String, Any}; aws_config::AWSConfi
          
 """
 
-ListClusterOperations(clusterArn; aws_config::AWSConfig=AWS.aws_config) = kafka("GET", "/v1/clusters/$(clusterArn)/operations"; aws_config=aws_config)
-ListClusterOperations(clusterArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = kafka("GET", "/v1/clusters/$(clusterArn)/operations", args; aws_config=aws_config)
+ListClusterOperations(clusterArn; aws_config::AWSConfig=global_aws_config()) = kafka("GET", "/v1/clusters/$(clusterArn)/operations"; aws_config=aws_config)
+ListClusterOperations(clusterArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kafka("GET", "/v1/clusters/$(clusterArn)/operations", args; aws_config=aws_config)
 
 """
     ListClusters()
@@ -248,8 +248,8 @@ ListClusterOperations(clusterArn, args::AbstractDict{String, <:Any}; aws_config:
          
 """
 
-ListClusters(; aws_config::AWSConfig=AWS.aws_config) = kafka("GET", "/v1/clusters"; aws_config=aws_config)
-ListClusters(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = kafka("GET", "/v1/clusters", args; aws_config=aws_config)
+ListClusters(; aws_config::AWSConfig=global_aws_config()) = kafka("GET", "/v1/clusters"; aws_config=aws_config)
+ListClusters(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = kafka("GET", "/v1/clusters", args; aws_config=aws_config)
 
 """
     ListConfigurationRevisions()
@@ -273,8 +273,8 @@ ListClusters(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_conf
          
 """
 
-ListConfigurationRevisions(arn; aws_config::AWSConfig=AWS.aws_config) = kafka("GET", "/v1/configurations/$(arn)/revisions"; aws_config=aws_config)
-ListConfigurationRevisions(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = kafka("GET", "/v1/configurations/$(arn)/revisions", args; aws_config=aws_config)
+ListConfigurationRevisions(arn; aws_config::AWSConfig=global_aws_config()) = kafka("GET", "/v1/configurations/$(arn)/revisions"; aws_config=aws_config)
+ListConfigurationRevisions(arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kafka("GET", "/v1/configurations/$(arn)/revisions", args; aws_config=aws_config)
 
 """
     ListConfigurations()
@@ -293,8 +293,8 @@ ListConfigurationRevisions(arn, args::AbstractDict{String, <:Any}; aws_config::A
          
 """
 
-ListConfigurations(; aws_config::AWSConfig=AWS.aws_config) = kafka("GET", "/v1/configurations"; aws_config=aws_config)
-ListConfigurations(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = kafka("GET", "/v1/configurations", args; aws_config=aws_config)
+ListConfigurations(; aws_config::AWSConfig=global_aws_config()) = kafka("GET", "/v1/configurations"; aws_config=aws_config)
+ListConfigurations(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = kafka("GET", "/v1/configurations", args; aws_config=aws_config)
 
 """
     ListKafkaVersions()
@@ -310,8 +310,8 @@ ListConfigurations(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aw
             The paginated results marker. When the result of the operation is truncated, the call returns NextToken in the response. To get the next batch, provide this token in your next request.
 """
 
-ListKafkaVersions(; aws_config::AWSConfig=AWS.aws_config) = kafka("GET", "/v1/kafka-versions"; aws_config=aws_config)
-ListKafkaVersions(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = kafka("GET", "/v1/kafka-versions", args; aws_config=aws_config)
+ListKafkaVersions(; aws_config::AWSConfig=global_aws_config()) = kafka("GET", "/v1/kafka-versions"; aws_config=aws_config)
+ListKafkaVersions(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = kafka("GET", "/v1/kafka-versions", args; aws_config=aws_config)
 
 """
     ListNodes()
@@ -335,8 +335,8 @@ ListKafkaVersions(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws
          
 """
 
-ListNodes(clusterArn; aws_config::AWSConfig=AWS.aws_config) = kafka("GET", "/v1/clusters/$(clusterArn)/nodes"; aws_config=aws_config)
-ListNodes(clusterArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = kafka("GET", "/v1/clusters/$(clusterArn)/nodes", args; aws_config=aws_config)
+ListNodes(clusterArn; aws_config::AWSConfig=global_aws_config()) = kafka("GET", "/v1/clusters/$(clusterArn)/nodes"; aws_config=aws_config)
+ListNodes(clusterArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kafka("GET", "/v1/clusters/$(clusterArn)/nodes", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -352,8 +352,8 @@ ListNodes(clusterArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=A
 
 """
 
-ListTagsForResource(resourceArn; aws_config::AWSConfig=AWS.aws_config) = kafka("GET", "/v1/tags/$(resourceArn)"; aws_config=aws_config)
-ListTagsForResource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = kafka("GET", "/v1/tags/$(resourceArn)", args; aws_config=aws_config)
+ListTagsForResource(resourceArn; aws_config::AWSConfig=global_aws_config()) = kafka("GET", "/v1/tags/$(resourceArn)"; aws_config=aws_config)
+ListTagsForResource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kafka("GET", "/v1/tags/$(resourceArn)", args; aws_config=aws_config)
 
 """
     RebootBroker()
@@ -370,8 +370,8 @@ Reboots brokers.
 
 """
 
-RebootBroker(brokerIds, clusterArn; aws_config::AWSConfig=AWS.aws_config) = kafka("PUT", "/v1/clusters/$(clusterArn)/reboot-broker", Dict{String, Any}("brokerIds"=>brokerIds); aws_config=aws_config)
-RebootBroker(brokerIds, clusterArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = kafka("PUT", "/v1/clusters/$(clusterArn)/reboot-broker", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("brokerIds"=>brokerIds), args)); aws_config=aws_config)
+RebootBroker(brokerIds, clusterArn; aws_config::AWSConfig=global_aws_config()) = kafka("PUT", "/v1/clusters/$(clusterArn)/reboot-broker", Dict{String, Any}("brokerIds"=>brokerIds); aws_config=aws_config)
+RebootBroker(brokerIds, clusterArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kafka("PUT", "/v1/clusters/$(clusterArn)/reboot-broker", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("brokerIds"=>brokerIds), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -390,8 +390,8 @@ RebootBroker(brokerIds, clusterArn, args::AbstractDict{String, <:Any}; aws_confi
 
 """
 
-TagResource(resourceArn, tags; aws_config::AWSConfig=AWS.aws_config) = kafka("POST", "/v1/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-TagResource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = kafka("POST", "/v1/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
+TagResource(resourceArn, tags; aws_config::AWSConfig=global_aws_config()) = kafka("POST", "/v1/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
+TagResource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kafka("POST", "/v1/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -429,8 +429,8 @@ TagResource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AW
 
 """
 
-UntagResource(resourceArn, tagKeys; aws_config::AWSConfig=AWS.aws_config) = kafka("DELETE", "/v1/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-UntagResource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = kafka("DELETE", "/v1/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
+UntagResource(resourceArn, tagKeys; aws_config::AWSConfig=global_aws_config()) = kafka("DELETE", "/v1/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
+UntagResource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kafka("DELETE", "/v1/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
 
 """
     UpdateBrokerCount()
@@ -452,8 +452,8 @@ UntagResource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_confi
 
 """
 
-UpdateBrokerCount(clusterArn, currentVersion, targetNumberOfBrokerNodes; aws_config::AWSConfig=AWS.aws_config) = kafka("PUT", "/v1/clusters/$(clusterArn)/nodes/count", Dict{String, Any}("currentVersion"=>currentVersion, "targetNumberOfBrokerNodes"=>targetNumberOfBrokerNodes); aws_config=aws_config)
-UpdateBrokerCount(clusterArn, currentVersion, targetNumberOfBrokerNodes, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = kafka("PUT", "/v1/clusters/$(clusterArn)/nodes/count", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("currentVersion"=>currentVersion, "targetNumberOfBrokerNodes"=>targetNumberOfBrokerNodes), args)); aws_config=aws_config)
+UpdateBrokerCount(clusterArn, currentVersion, targetNumberOfBrokerNodes; aws_config::AWSConfig=global_aws_config()) = kafka("PUT", "/v1/clusters/$(clusterArn)/nodes/count", Dict{String, Any}("currentVersion"=>currentVersion, "targetNumberOfBrokerNodes"=>targetNumberOfBrokerNodes); aws_config=aws_config)
+UpdateBrokerCount(clusterArn, currentVersion, targetNumberOfBrokerNodes, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kafka("PUT", "/v1/clusters/$(clusterArn)/nodes/count", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("currentVersion"=>currentVersion, "targetNumberOfBrokerNodes"=>targetNumberOfBrokerNodes), args)); aws_config=aws_config)
 
 """
     UpdateBrokerStorage()
@@ -475,8 +475,8 @@ UpdateBrokerCount(clusterArn, currentVersion, targetNumberOfBrokerNodes, args::A
 
 """
 
-UpdateBrokerStorage(clusterArn, currentVersion, targetBrokerEBSVolumeInfo; aws_config::AWSConfig=AWS.aws_config) = kafka("PUT", "/v1/clusters/$(clusterArn)/nodes/storage", Dict{String, Any}("currentVersion"=>currentVersion, "targetBrokerEBSVolumeInfo"=>targetBrokerEBSVolumeInfo); aws_config=aws_config)
-UpdateBrokerStorage(clusterArn, currentVersion, targetBrokerEBSVolumeInfo, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = kafka("PUT", "/v1/clusters/$(clusterArn)/nodes/storage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("currentVersion"=>currentVersion, "targetBrokerEBSVolumeInfo"=>targetBrokerEBSVolumeInfo), args)); aws_config=aws_config)
+UpdateBrokerStorage(clusterArn, currentVersion, targetBrokerEBSVolumeInfo; aws_config::AWSConfig=global_aws_config()) = kafka("PUT", "/v1/clusters/$(clusterArn)/nodes/storage", Dict{String, Any}("currentVersion"=>currentVersion, "targetBrokerEBSVolumeInfo"=>targetBrokerEBSVolumeInfo); aws_config=aws_config)
+UpdateBrokerStorage(clusterArn, currentVersion, targetBrokerEBSVolumeInfo, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kafka("PUT", "/v1/clusters/$(clusterArn)/nodes/storage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("currentVersion"=>currentVersion, "targetBrokerEBSVolumeInfo"=>targetBrokerEBSVolumeInfo), args)); aws_config=aws_config)
 
 """
     UpdateClusterConfiguration()
@@ -498,8 +498,8 @@ UpdateBrokerStorage(clusterArn, currentVersion, targetBrokerEBSVolumeInfo, args:
 
 """
 
-UpdateClusterConfiguration(clusterArn, configurationInfo, currentVersion; aws_config::AWSConfig=AWS.aws_config) = kafka("PUT", "/v1/clusters/$(clusterArn)/configuration", Dict{String, Any}("configurationInfo"=>configurationInfo, "currentVersion"=>currentVersion); aws_config=aws_config)
-UpdateClusterConfiguration(clusterArn, configurationInfo, currentVersion, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = kafka("PUT", "/v1/clusters/$(clusterArn)/configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configurationInfo"=>configurationInfo, "currentVersion"=>currentVersion), args)); aws_config=aws_config)
+UpdateClusterConfiguration(clusterArn, configurationInfo, currentVersion; aws_config::AWSConfig=global_aws_config()) = kafka("PUT", "/v1/clusters/$(clusterArn)/configuration", Dict{String, Any}("configurationInfo"=>configurationInfo, "currentVersion"=>currentVersion); aws_config=aws_config)
+UpdateClusterConfiguration(clusterArn, configurationInfo, currentVersion, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kafka("PUT", "/v1/clusters/$(clusterArn)/configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configurationInfo"=>configurationInfo, "currentVersion"=>currentVersion), args)); aws_config=aws_config)
 
 """
     UpdateClusterKafkaVersion()
@@ -525,8 +525,8 @@ UpdateClusterConfiguration(clusterArn, configurationInfo, currentVersion, args::
             
 """
 
-UpdateClusterKafkaVersion(clusterArn, currentVersion, targetKafkaVersion; aws_config::AWSConfig=AWS.aws_config) = kafka("PUT", "/v1/clusters/$(clusterArn)/version", Dict{String, Any}("currentVersion"=>currentVersion, "targetKafkaVersion"=>targetKafkaVersion); aws_config=aws_config)
-UpdateClusterKafkaVersion(clusterArn, currentVersion, targetKafkaVersion, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = kafka("PUT", "/v1/clusters/$(clusterArn)/version", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("currentVersion"=>currentVersion, "targetKafkaVersion"=>targetKafkaVersion), args)); aws_config=aws_config)
+UpdateClusterKafkaVersion(clusterArn, currentVersion, targetKafkaVersion; aws_config::AWSConfig=global_aws_config()) = kafka("PUT", "/v1/clusters/$(clusterArn)/version", Dict{String, Any}("currentVersion"=>currentVersion, "targetKafkaVersion"=>targetKafkaVersion); aws_config=aws_config)
+UpdateClusterKafkaVersion(clusterArn, currentVersion, targetKafkaVersion, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kafka("PUT", "/v1/clusters/$(clusterArn)/version", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("currentVersion"=>currentVersion, "targetKafkaVersion"=>targetKafkaVersion), args)); aws_config=aws_config)
 
 """
     UpdateMonitoring()
@@ -553,5 +553,5 @@ UpdateClusterKafkaVersion(clusterArn, currentVersion, targetKafkaVersion, args::
          
 """
 
-UpdateMonitoring(clusterArn, currentVersion; aws_config::AWSConfig=AWS.aws_config) = kafka("PUT", "/v1/clusters/$(clusterArn)/monitoring", Dict{String, Any}("currentVersion"=>currentVersion); aws_config=aws_config)
-UpdateMonitoring(clusterArn, currentVersion, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = kafka("PUT", "/v1/clusters/$(clusterArn)/monitoring", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("currentVersion"=>currentVersion), args)); aws_config=aws_config)
+UpdateMonitoring(clusterArn, currentVersion; aws_config::AWSConfig=global_aws_config()) = kafka("PUT", "/v1/clusters/$(clusterArn)/monitoring", Dict{String, Any}("currentVersion"=>currentVersion); aws_config=aws_config)
+UpdateMonitoring(clusterArn, currentVersion, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = kafka("PUT", "/v1/clusters/$(clusterArn)/monitoring", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("currentVersion"=>currentVersion), args)); aws_config=aws_config)

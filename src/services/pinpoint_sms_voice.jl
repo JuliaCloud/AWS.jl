@@ -13,8 +13,8 @@ Create a new configuration set. After you create the configuration set, you can 
 - `ConfigurationSetName`: The name that you want to give the configuration set.
 """
 
-CreateConfigurationSet(; aws_config::AWSConfig=AWS.aws_config) = pinpoint_sms_voice("POST", "/v1/sms-voice/configuration-sets"; aws_config=aws_config)
-CreateConfigurationSet(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = pinpoint_sms_voice("POST", "/v1/sms-voice/configuration-sets", args; aws_config=aws_config)
+CreateConfigurationSet(; aws_config::AWSConfig=global_aws_config()) = pinpoint_sms_voice("POST", "/v1/sms-voice/configuration-sets"; aws_config=aws_config)
+CreateConfigurationSet(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = pinpoint_sms_voice("POST", "/v1/sms-voice/configuration-sets", args; aws_config=aws_config)
 
 """
     CreateConfigurationSetEventDestination()
@@ -29,8 +29,8 @@ Create a new event destination in a configuration set.
 - `EventDestinationName`: A name that identifies the event destination.
 """
 
-CreateConfigurationSetEventDestination(ConfigurationSetName; aws_config::AWSConfig=AWS.aws_config) = pinpoint_sms_voice("POST", "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)/event-destinations"; aws_config=aws_config)
-CreateConfigurationSetEventDestination(ConfigurationSetName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = pinpoint_sms_voice("POST", "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)/event-destinations", args; aws_config=aws_config)
+CreateConfigurationSetEventDestination(ConfigurationSetName; aws_config::AWSConfig=global_aws_config()) = pinpoint_sms_voice("POST", "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)/event-destinations"; aws_config=aws_config)
+CreateConfigurationSetEventDestination(ConfigurationSetName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = pinpoint_sms_voice("POST", "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)/event-destinations", args; aws_config=aws_config)
 
 """
     DeleteConfigurationSet()
@@ -42,8 +42,8 @@ Deletes an existing configuration set.
 
 """
 
-DeleteConfigurationSet(ConfigurationSetName; aws_config::AWSConfig=AWS.aws_config) = pinpoint_sms_voice("DELETE", "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)"; aws_config=aws_config)
-DeleteConfigurationSet(ConfigurationSetName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = pinpoint_sms_voice("DELETE", "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)", args; aws_config=aws_config)
+DeleteConfigurationSet(ConfigurationSetName; aws_config::AWSConfig=global_aws_config()) = pinpoint_sms_voice("DELETE", "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)"; aws_config=aws_config)
+DeleteConfigurationSet(ConfigurationSetName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = pinpoint_sms_voice("DELETE", "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)", args; aws_config=aws_config)
 
 """
     DeleteConfigurationSetEventDestination()
@@ -56,8 +56,8 @@ Deletes an event destination in a configuration set.
 
 """
 
-DeleteConfigurationSetEventDestination(ConfigurationSetName, EventDestinationName; aws_config::AWSConfig=AWS.aws_config) = pinpoint_sms_voice("DELETE", "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)"; aws_config=aws_config)
-DeleteConfigurationSetEventDestination(ConfigurationSetName, EventDestinationName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = pinpoint_sms_voice("DELETE", "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)", args; aws_config=aws_config)
+DeleteConfigurationSetEventDestination(ConfigurationSetName, EventDestinationName; aws_config::AWSConfig=global_aws_config()) = pinpoint_sms_voice("DELETE", "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)"; aws_config=aws_config)
+DeleteConfigurationSetEventDestination(ConfigurationSetName, EventDestinationName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = pinpoint_sms_voice("DELETE", "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)", args; aws_config=aws_config)
 
 """
     GetConfigurationSetEventDestinations()
@@ -69,8 +69,8 @@ Obtain information about an event destination, including the types of events it 
 
 """
 
-GetConfigurationSetEventDestinations(ConfigurationSetName; aws_config::AWSConfig=AWS.aws_config) = pinpoint_sms_voice("GET", "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)/event-destinations"; aws_config=aws_config)
-GetConfigurationSetEventDestinations(ConfigurationSetName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = pinpoint_sms_voice("GET", "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)/event-destinations", args; aws_config=aws_config)
+GetConfigurationSetEventDestinations(ConfigurationSetName; aws_config::AWSConfig=global_aws_config()) = pinpoint_sms_voice("GET", "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)/event-destinations"; aws_config=aws_config)
+GetConfigurationSetEventDestinations(ConfigurationSetName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = pinpoint_sms_voice("GET", "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)/event-destinations", args; aws_config=aws_config)
 
 """
     ListConfigurationSets()
@@ -82,8 +82,8 @@ List all of the configuration sets associated with your Amazon Pinpoint account 
 - `PageSize`: Used to specify the number of items that should be returned in the response.
 """
 
-ListConfigurationSets(; aws_config::AWSConfig=AWS.aws_config) = pinpoint_sms_voice("GET", "/v1/sms-voice/configuration-sets"; aws_config=aws_config)
-ListConfigurationSets(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = pinpoint_sms_voice("GET", "/v1/sms-voice/configuration-sets", args; aws_config=aws_config)
+ListConfigurationSets(; aws_config::AWSConfig=global_aws_config()) = pinpoint_sms_voice("GET", "/v1/sms-voice/configuration-sets"; aws_config=aws_config)
+ListConfigurationSets(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = pinpoint_sms_voice("GET", "/v1/sms-voice/configuration-sets", args; aws_config=aws_config)
 
 """
     SendVoiceMessage()
@@ -98,8 +98,8 @@ Create a new voice message and send it to a recipient's phone number.
 - `OriginationPhoneNumber`: The phone number that Amazon Pinpoint should use to send the voice message. This isn't necessarily the phone number that appears on recipients' devices when they receive the message, because you can specify a CallerId parameter in the request.
 """
 
-SendVoiceMessage(; aws_config::AWSConfig=AWS.aws_config) = pinpoint_sms_voice("POST", "/v1/sms-voice/voice/message"; aws_config=aws_config)
-SendVoiceMessage(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = pinpoint_sms_voice("POST", "/v1/sms-voice/voice/message", args; aws_config=aws_config)
+SendVoiceMessage(; aws_config::AWSConfig=global_aws_config()) = pinpoint_sms_voice("POST", "/v1/sms-voice/voice/message"; aws_config=aws_config)
+SendVoiceMessage(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = pinpoint_sms_voice("POST", "/v1/sms-voice/voice/message", args; aws_config=aws_config)
 
 """
     UpdateConfigurationSetEventDestination()
@@ -114,5 +114,5 @@ Update an event destination in a configuration set. An event destination is a lo
 - `EventDestination`: 
 """
 
-UpdateConfigurationSetEventDestination(ConfigurationSetName, EventDestinationName; aws_config::AWSConfig=AWS.aws_config) = pinpoint_sms_voice("PUT", "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)"; aws_config=aws_config)
-UpdateConfigurationSetEventDestination(ConfigurationSetName, EventDestinationName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = pinpoint_sms_voice("PUT", "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)", args; aws_config=aws_config)
+UpdateConfigurationSetEventDestination(ConfigurationSetName, EventDestinationName; aws_config::AWSConfig=global_aws_config()) = pinpoint_sms_voice("PUT", "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)"; aws_config=aws_config)
+UpdateConfigurationSetEventDestination(ConfigurationSetName, EventDestinationName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = pinpoint_sms_voice("PUT", "/v1/sms-voice/configuration-sets/$(ConfigurationSetName)/event-destinations/$(EventDestinationName)", args; aws_config=aws_config)

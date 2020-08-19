@@ -15,8 +15,8 @@ BatchMeterUsage is called from a SaaS application listed on the AWS Marketplace 
 
 """
 
-BatchMeterUsage(ProductCode, UsageRecords; aws_config::AWSConfig=AWS.aws_config) = marketplace_metering("BatchMeterUsage", Dict{String, Any}("ProductCode"=>ProductCode, "UsageRecords"=>UsageRecords); aws_config=aws_config)
-BatchMeterUsage(ProductCode, UsageRecords, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = marketplace_metering("BatchMeterUsage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductCode"=>ProductCode, "UsageRecords"=>UsageRecords), args)); aws_config=aws_config)
+BatchMeterUsage(ProductCode, UsageRecords; aws_config::AWSConfig=global_aws_config()) = marketplace_metering("BatchMeterUsage", Dict{String, Any}("ProductCode"=>ProductCode, "UsageRecords"=>UsageRecords); aws_config=aws_config)
+BatchMeterUsage(ProductCode, UsageRecords, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = marketplace_metering("BatchMeterUsage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductCode"=>ProductCode, "UsageRecords"=>UsageRecords), args)); aws_config=aws_config)
 
 """
     MeterUsage()
@@ -33,8 +33,8 @@ API to emit metering records. For identical requests, the API is idempotent. It 
 - `UsageQuantity`: Consumption value for the hour. Defaults to 0 if not specified.
 """
 
-MeterUsage(ProductCode, Timestamp, UsageDimension; aws_config::AWSConfig=AWS.aws_config) = marketplace_metering("MeterUsage", Dict{String, Any}("ProductCode"=>ProductCode, "Timestamp"=>Timestamp, "UsageDimension"=>UsageDimension); aws_config=aws_config)
-MeterUsage(ProductCode, Timestamp, UsageDimension, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = marketplace_metering("MeterUsage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductCode"=>ProductCode, "Timestamp"=>Timestamp, "UsageDimension"=>UsageDimension), args)); aws_config=aws_config)
+MeterUsage(ProductCode, Timestamp, UsageDimension; aws_config::AWSConfig=global_aws_config()) = marketplace_metering("MeterUsage", Dict{String, Any}("ProductCode"=>ProductCode, "Timestamp"=>Timestamp, "UsageDimension"=>UsageDimension); aws_config=aws_config)
+MeterUsage(ProductCode, Timestamp, UsageDimension, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = marketplace_metering("MeterUsage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductCode"=>ProductCode, "Timestamp"=>Timestamp, "UsageDimension"=>UsageDimension), args)); aws_config=aws_config)
 
 """
     RegisterUsage()
@@ -49,8 +49,8 @@ Paid container software products sold through AWS Marketplace must integrate wit
 - `Nonce`: (Optional) To scope down the registration to a specific running software instance and guard against replay attacks.
 """
 
-RegisterUsage(ProductCode, PublicKeyVersion; aws_config::AWSConfig=AWS.aws_config) = marketplace_metering("RegisterUsage", Dict{String, Any}("ProductCode"=>ProductCode, "PublicKeyVersion"=>PublicKeyVersion); aws_config=aws_config)
-RegisterUsage(ProductCode, PublicKeyVersion, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = marketplace_metering("RegisterUsage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductCode"=>ProductCode, "PublicKeyVersion"=>PublicKeyVersion), args)); aws_config=aws_config)
+RegisterUsage(ProductCode, PublicKeyVersion; aws_config::AWSConfig=global_aws_config()) = marketplace_metering("RegisterUsage", Dict{String, Any}("ProductCode"=>ProductCode, "PublicKeyVersion"=>PublicKeyVersion); aws_config=aws_config)
+RegisterUsage(ProductCode, PublicKeyVersion, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = marketplace_metering("RegisterUsage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductCode"=>ProductCode, "PublicKeyVersion"=>PublicKeyVersion), args)); aws_config=aws_config)
 
 """
     ResolveCustomer()
@@ -62,5 +62,5 @@ ResolveCustomer is called by a SaaS application during the registration process.
 
 """
 
-ResolveCustomer(RegistrationToken; aws_config::AWSConfig=AWS.aws_config) = marketplace_metering("ResolveCustomer", Dict{String, Any}("RegistrationToken"=>RegistrationToken); aws_config=aws_config)
-ResolveCustomer(RegistrationToken, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = marketplace_metering("ResolveCustomer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RegistrationToken"=>RegistrationToken), args)); aws_config=aws_config)
+ResolveCustomer(RegistrationToken; aws_config::AWSConfig=global_aws_config()) = marketplace_metering("ResolveCustomer", Dict{String, Any}("RegistrationToken"=>RegistrationToken); aws_config=aws_config)
+ResolveCustomer(RegistrationToken, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = marketplace_metering("ResolveCustomer", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RegistrationToken"=>RegistrationToken), args)); aws_config=aws_config)

@@ -15,8 +15,8 @@ Adds device(s) to your account (i.e., claim one or more devices) if and only if 
 
 """
 
-ClaimDevicesByClaimCode(claimCode; aws_config::AWSConfig=AWS.aws_config) = iot_1click_devices_service("PUT", "/claims/$(claimCode)"; aws_config=aws_config)
-ClaimDevicesByClaimCode(claimCode, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iot_1click_devices_service("PUT", "/claims/$(claimCode)", args; aws_config=aws_config)
+ClaimDevicesByClaimCode(claimCode; aws_config::AWSConfig=global_aws_config()) = iot_1click_devices_service("PUT", "/claims/$(claimCode)"; aws_config=aws_config)
+ClaimDevicesByClaimCode(claimCode, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot_1click_devices_service("PUT", "/claims/$(claimCode)", args; aws_config=aws_config)
 
 """
     DescribeDevice()
@@ -29,8 +29,8 @@ Given a device ID, returns a DescribeDeviceResponse object describing the
 
 """
 
-DescribeDevice(deviceId; aws_config::AWSConfig=AWS.aws_config) = iot_1click_devices_service("GET", "/devices/$(deviceId)"; aws_config=aws_config)
-DescribeDevice(deviceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iot_1click_devices_service("GET", "/devices/$(deviceId)", args; aws_config=aws_config)
+DescribeDevice(deviceId; aws_config::AWSConfig=global_aws_config()) = iot_1click_devices_service("GET", "/devices/$(deviceId)"; aws_config=aws_config)
+DescribeDevice(deviceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot_1click_devices_service("GET", "/devices/$(deviceId)", args; aws_config=aws_config)
 
 """
     FinalizeDeviceClaim()
@@ -52,8 +52,8 @@ Given a device ID, finalizes the claim request for the associated device.
  
 """
 
-FinalizeDeviceClaim(deviceId; aws_config::AWSConfig=AWS.aws_config) = iot_1click_devices_service("PUT", "/devices/$(deviceId)/finalize-claim"; aws_config=aws_config)
-FinalizeDeviceClaim(deviceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iot_1click_devices_service("PUT", "/devices/$(deviceId)/finalize-claim", args; aws_config=aws_config)
+FinalizeDeviceClaim(deviceId; aws_config::AWSConfig=global_aws_config()) = iot_1click_devices_service("PUT", "/devices/$(deviceId)/finalize-claim"; aws_config=aws_config)
+FinalizeDeviceClaim(deviceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot_1click_devices_service("PUT", "/devices/$(deviceId)/finalize-claim", args; aws_config=aws_config)
 
 """
     GetDeviceMethods()
@@ -65,8 +65,8 @@ Given a device ID, returns the invokable methods associated with the device.
 
 """
 
-GetDeviceMethods(deviceId; aws_config::AWSConfig=AWS.aws_config) = iot_1click_devices_service("GET", "/devices/$(deviceId)/methods"; aws_config=aws_config)
-GetDeviceMethods(deviceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iot_1click_devices_service("GET", "/devices/$(deviceId)/methods", args; aws_config=aws_config)
+GetDeviceMethods(deviceId; aws_config::AWSConfig=global_aws_config()) = iot_1click_devices_service("GET", "/devices/$(deviceId)/methods"; aws_config=aws_config)
+GetDeviceMethods(deviceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot_1click_devices_service("GET", "/devices/$(deviceId)/methods", args; aws_config=aws_config)
 
 """
     InitiateDeviceClaim()
@@ -82,8 +82,8 @@ Given a device ID, initiates a claim request for the associated device.
 
 """
 
-InitiateDeviceClaim(deviceId; aws_config::AWSConfig=AWS.aws_config) = iot_1click_devices_service("PUT", "/devices/$(deviceId)/initiate-claim"; aws_config=aws_config)
-InitiateDeviceClaim(deviceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iot_1click_devices_service("PUT", "/devices/$(deviceId)/initiate-claim", args; aws_config=aws_config)
+InitiateDeviceClaim(deviceId; aws_config::AWSConfig=global_aws_config()) = iot_1click_devices_service("PUT", "/devices/$(deviceId)/initiate-claim"; aws_config=aws_config)
+InitiateDeviceClaim(deviceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot_1click_devices_service("PUT", "/devices/$(deviceId)/initiate-claim", args; aws_config=aws_config)
 
 """
     InvokeDeviceMethod()
@@ -99,8 +99,8 @@ Given a device ID, issues a request to invoke a named device method (with possib
 - `deviceMethodParameters`: A JSON encoded string containing the device method request parameters.
 """
 
-InvokeDeviceMethod(deviceId; aws_config::AWSConfig=AWS.aws_config) = iot_1click_devices_service("POST", "/devices/$(deviceId)/methods"; aws_config=aws_config)
-InvokeDeviceMethod(deviceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iot_1click_devices_service("POST", "/devices/$(deviceId)/methods", args; aws_config=aws_config)
+InvokeDeviceMethod(deviceId; aws_config::AWSConfig=global_aws_config()) = iot_1click_devices_service("POST", "/devices/$(deviceId)/methods"; aws_config=aws_config)
+InvokeDeviceMethod(deviceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot_1click_devices_service("POST", "/devices/$(deviceId)/methods", args; aws_config=aws_config)
 
 """
     ListDeviceEvents()
@@ -123,8 +123,8 @@ Using a device ID, returns a DeviceEventsResponse object containing an
 - `nextToken`: The token to retrieve the next set of results.
 """
 
-ListDeviceEvents(deviceId, fromTimeStamp, toTimeStamp; aws_config::AWSConfig=AWS.aws_config) = iot_1click_devices_service("GET", "/devices/$(deviceId)/events", Dict{String, Any}("fromTimeStamp"=>fromTimeStamp, "toTimeStamp"=>toTimeStamp); aws_config=aws_config)
-ListDeviceEvents(deviceId, fromTimeStamp, toTimeStamp, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iot_1click_devices_service("GET", "/devices/$(deviceId)/events", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fromTimeStamp"=>fromTimeStamp, "toTimeStamp"=>toTimeStamp), args)); aws_config=aws_config)
+ListDeviceEvents(deviceId, fromTimeStamp, toTimeStamp; aws_config::AWSConfig=global_aws_config()) = iot_1click_devices_service("GET", "/devices/$(deviceId)/events", Dict{String, Any}("fromTimeStamp"=>fromTimeStamp, "toTimeStamp"=>toTimeStamp); aws_config=aws_config)
+ListDeviceEvents(deviceId, fromTimeStamp, toTimeStamp, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot_1click_devices_service("GET", "/devices/$(deviceId)/events", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fromTimeStamp"=>fromTimeStamp, "toTimeStamp"=>toTimeStamp), args)); aws_config=aws_config)
 
 """
     ListDevices()
@@ -138,8 +138,8 @@ Lists the 1-Click compatible devices associated with your AWS account.
 - `nextToken`: The token to retrieve the next set of results.
 """
 
-ListDevices(; aws_config::AWSConfig=AWS.aws_config) = iot_1click_devices_service("GET", "/devices"; aws_config=aws_config)
-ListDevices(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = iot_1click_devices_service("GET", "/devices", args; aws_config=aws_config)
+ListDevices(; aws_config::AWSConfig=global_aws_config()) = iot_1click_devices_service("GET", "/devices"; aws_config=aws_config)
+ListDevices(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = iot_1click_devices_service("GET", "/devices", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -151,8 +151,8 @@ Lists the tags associated with the specified resource ARN.
 
 """
 
-ListTagsForResource(resource_arn; aws_config::AWSConfig=AWS.aws_config) = iot_1click_devices_service("GET", "/tags/$(resource-arn)"; aws_config=aws_config)
-ListTagsForResource(resource_arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iot_1click_devices_service("GET", "/tags/$(resource-arn)", args; aws_config=aws_config)
+ListTagsForResource(resource_arn; aws_config::AWSConfig=global_aws_config()) = iot_1click_devices_service("GET", "/tags/$(resource-arn)"; aws_config=aws_config)
+ListTagsForResource(resource_arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot_1click_devices_service("GET", "/tags/$(resource-arn)", args; aws_config=aws_config)
 
 """
     TagResource()
@@ -170,8 +170,8 @@ Adds or updates the tags associated with the resource ARN. See AWS IoT 1-Click S
 
 """
 
-TagResource(resource_arn, tags; aws_config::AWSConfig=AWS.aws_config) = iot_1click_devices_service("POST", "/tags/$(resource-arn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
-TagResource(resource_arn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iot_1click_devices_service("POST", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
+TagResource(resource_arn, tags; aws_config::AWSConfig=global_aws_config()) = iot_1click_devices_service("POST", "/tags/$(resource-arn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
+TagResource(resource_arn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot_1click_devices_service("POST", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
 
 """
     UnclaimDevice()
@@ -183,8 +183,8 @@ Disassociates a device from your AWS account using its device ID.
 
 """
 
-UnclaimDevice(deviceId; aws_config::AWSConfig=AWS.aws_config) = iot_1click_devices_service("PUT", "/devices/$(deviceId)/unclaim"; aws_config=aws_config)
-UnclaimDevice(deviceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iot_1click_devices_service("PUT", "/devices/$(deviceId)/unclaim", args; aws_config=aws_config)
+UnclaimDevice(deviceId; aws_config::AWSConfig=global_aws_config()) = iot_1click_devices_service("PUT", "/devices/$(deviceId)/unclaim"; aws_config=aws_config)
+UnclaimDevice(deviceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot_1click_devices_service("PUT", "/devices/$(deviceId)/unclaim", args; aws_config=aws_config)
 
 """
     UntagResource()
@@ -198,8 +198,8 @@ Using tag keys, deletes the tags (key/value pairs) associated with the specified
 
 """
 
-UntagResource(resource_arn, tagKeys; aws_config::AWSConfig=AWS.aws_config) = iot_1click_devices_service("DELETE", "/tags/$(resource-arn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-UntagResource(resource_arn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iot_1click_devices_service("DELETE", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
+UntagResource(resource_arn, tagKeys; aws_config::AWSConfig=global_aws_config()) = iot_1click_devices_service("DELETE", "/tags/$(resource-arn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
+UntagResource(resource_arn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot_1click_devices_service("DELETE", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
 
 """
     UpdateDeviceState()
@@ -215,5 +215,5 @@ Using a Boolean value (true or false), this operation
  disabled.
 """
 
-UpdateDeviceState(deviceId; aws_config::AWSConfig=AWS.aws_config) = iot_1click_devices_service("PUT", "/devices/$(deviceId)/state"; aws_config=aws_config)
-UpdateDeviceState(deviceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iot_1click_devices_service("PUT", "/devices/$(deviceId)/state", args; aws_config=aws_config)
+UpdateDeviceState(deviceId; aws_config::AWSConfig=global_aws_config()) = iot_1click_devices_service("PUT", "/devices/$(deviceId)/state"; aws_config=aws_config)
+UpdateDeviceState(deviceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iot_1click_devices_service("PUT", "/devices/$(deviceId)/state", args; aws_config=aws_config)

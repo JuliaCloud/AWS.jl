@@ -15,8 +15,8 @@ Adds IP addresses to an inbound or an outbound resolver endpoint. If you want to
 
 """
 
-AssociateResolverEndpointIpAddress(IpAddress, ResolverEndpointId; aws_config::AWSConfig=AWS.aws_config) = route53resolver("AssociateResolverEndpointIpAddress", Dict{String, Any}("IpAddress"=>IpAddress, "ResolverEndpointId"=>ResolverEndpointId); aws_config=aws_config)
-AssociateResolverEndpointIpAddress(IpAddress, ResolverEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = route53resolver("AssociateResolverEndpointIpAddress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpAddress"=>IpAddress, "ResolverEndpointId"=>ResolverEndpointId), args)); aws_config=aws_config)
+AssociateResolverEndpointIpAddress(IpAddress, ResolverEndpointId; aws_config::AWSConfig=global_aws_config()) = route53resolver("AssociateResolverEndpointIpAddress", Dict{String, Any}("IpAddress"=>IpAddress, "ResolverEndpointId"=>ResolverEndpointId); aws_config=aws_config)
+AssociateResolverEndpointIpAddress(IpAddress, ResolverEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route53resolver("AssociateResolverEndpointIpAddress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpAddress"=>IpAddress, "ResolverEndpointId"=>ResolverEndpointId), args)); aws_config=aws_config)
 
 """
     AssociateResolverRule()
@@ -31,8 +31,8 @@ Associates a resolver rule with a VPC. When you associate a rule with a VPC, Res
 - `Name`: A name for the association that you're creating between a resolver rule and a VPC.
 """
 
-AssociateResolverRule(ResolverRuleId, VPCId; aws_config::AWSConfig=AWS.aws_config) = route53resolver("AssociateResolverRule", Dict{String, Any}("ResolverRuleId"=>ResolverRuleId, "VPCId"=>VPCId); aws_config=aws_config)
-AssociateResolverRule(ResolverRuleId, VPCId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = route53resolver("AssociateResolverRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverRuleId"=>ResolverRuleId, "VPCId"=>VPCId), args)); aws_config=aws_config)
+AssociateResolverRule(ResolverRuleId, VPCId; aws_config::AWSConfig=global_aws_config()) = route53resolver("AssociateResolverRule", Dict{String, Any}("ResolverRuleId"=>ResolverRuleId, "VPCId"=>VPCId); aws_config=aws_config)
+AssociateResolverRule(ResolverRuleId, VPCId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route53resolver("AssociateResolverRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverRuleId"=>ResolverRuleId, "VPCId"=>VPCId), args)); aws_config=aws_config)
 
 """
     CreateResolverEndpoint()
@@ -50,8 +50,8 @@ Creates a resolver endpoint. There are two types of resolver endpoints, inbound 
 - `Tags`: A list of the tag keys and values that you want to associate with the endpoint.
 """
 
-CreateResolverEndpoint(CreatorRequestId, Direction, IpAddresses, SecurityGroupIds; aws_config::AWSConfig=AWS.aws_config) = route53resolver("CreateResolverEndpoint", Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "Direction"=>Direction, "IpAddresses"=>IpAddresses, "SecurityGroupIds"=>SecurityGroupIds); aws_config=aws_config)
-CreateResolverEndpoint(CreatorRequestId, Direction, IpAddresses, SecurityGroupIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = route53resolver("CreateResolverEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "Direction"=>Direction, "IpAddresses"=>IpAddresses, "SecurityGroupIds"=>SecurityGroupIds), args)); aws_config=aws_config)
+CreateResolverEndpoint(CreatorRequestId, Direction, IpAddresses, SecurityGroupIds; aws_config::AWSConfig=global_aws_config()) = route53resolver("CreateResolverEndpoint", Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "Direction"=>Direction, "IpAddresses"=>IpAddresses, "SecurityGroupIds"=>SecurityGroupIds); aws_config=aws_config)
+CreateResolverEndpoint(CreatorRequestId, Direction, IpAddresses, SecurityGroupIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route53resolver("CreateResolverEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "Direction"=>Direction, "IpAddresses"=>IpAddresses, "SecurityGroupIds"=>SecurityGroupIds), args)); aws_config=aws_config)
 
 """
     CreateResolverRule()
@@ -70,8 +70,8 @@ For DNS queries that originate in your VPCs, specifies which resolver endpoint t
 - `TargetIps`: The IPs that you want Resolver to forward DNS queries to. You can specify only IPv4 addresses. Separate IP addresses with a comma.
 """
 
-CreateResolverRule(CreatorRequestId, DomainName, RuleType; aws_config::AWSConfig=AWS.aws_config) = route53resolver("CreateResolverRule", Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "DomainName"=>DomainName, "RuleType"=>RuleType); aws_config=aws_config)
-CreateResolverRule(CreatorRequestId, DomainName, RuleType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = route53resolver("CreateResolverRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "DomainName"=>DomainName, "RuleType"=>RuleType), args)); aws_config=aws_config)
+CreateResolverRule(CreatorRequestId, DomainName, RuleType; aws_config::AWSConfig=global_aws_config()) = route53resolver("CreateResolverRule", Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "DomainName"=>DomainName, "RuleType"=>RuleType); aws_config=aws_config)
+CreateResolverRule(CreatorRequestId, DomainName, RuleType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route53resolver("CreateResolverRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreatorRequestId"=>CreatorRequestId, "DomainName"=>DomainName, "RuleType"=>RuleType), args)); aws_config=aws_config)
 
 """
     DeleteResolverEndpoint()
@@ -83,8 +83,8 @@ Deletes a resolver endpoint. The effect of deleting a resolver endpoint depends 
 
 """
 
-DeleteResolverEndpoint(ResolverEndpointId; aws_config::AWSConfig=AWS.aws_config) = route53resolver("DeleteResolverEndpoint", Dict{String, Any}("ResolverEndpointId"=>ResolverEndpointId); aws_config=aws_config)
-DeleteResolverEndpoint(ResolverEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = route53resolver("DeleteResolverEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverEndpointId"=>ResolverEndpointId), args)); aws_config=aws_config)
+DeleteResolverEndpoint(ResolverEndpointId; aws_config::AWSConfig=global_aws_config()) = route53resolver("DeleteResolverEndpoint", Dict{String, Any}("ResolverEndpointId"=>ResolverEndpointId); aws_config=aws_config)
+DeleteResolverEndpoint(ResolverEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route53resolver("DeleteResolverEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverEndpointId"=>ResolverEndpointId), args)); aws_config=aws_config)
 
 """
     DeleteResolverRule()
@@ -96,8 +96,8 @@ Deletes a resolver rule. Before you can delete a resolver rule, you must disasso
 
 """
 
-DeleteResolverRule(ResolverRuleId; aws_config::AWSConfig=AWS.aws_config) = route53resolver("DeleteResolverRule", Dict{String, Any}("ResolverRuleId"=>ResolverRuleId); aws_config=aws_config)
-DeleteResolverRule(ResolverRuleId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = route53resolver("DeleteResolverRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverRuleId"=>ResolverRuleId), args)); aws_config=aws_config)
+DeleteResolverRule(ResolverRuleId; aws_config::AWSConfig=global_aws_config()) = route53resolver("DeleteResolverRule", Dict{String, Any}("ResolverRuleId"=>ResolverRuleId); aws_config=aws_config)
+DeleteResolverRule(ResolverRuleId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route53resolver("DeleteResolverRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverRuleId"=>ResolverRuleId), args)); aws_config=aws_config)
 
 """
     DisassociateResolverEndpointIpAddress()
@@ -110,8 +110,8 @@ Removes IP addresses from an inbound or an outbound resolver endpoint. If you wa
 
 """
 
-DisassociateResolverEndpointIpAddress(IpAddress, ResolverEndpointId; aws_config::AWSConfig=AWS.aws_config) = route53resolver("DisassociateResolverEndpointIpAddress", Dict{String, Any}("IpAddress"=>IpAddress, "ResolverEndpointId"=>ResolverEndpointId); aws_config=aws_config)
-DisassociateResolverEndpointIpAddress(IpAddress, ResolverEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = route53resolver("DisassociateResolverEndpointIpAddress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpAddress"=>IpAddress, "ResolverEndpointId"=>ResolverEndpointId), args)); aws_config=aws_config)
+DisassociateResolverEndpointIpAddress(IpAddress, ResolverEndpointId; aws_config::AWSConfig=global_aws_config()) = route53resolver("DisassociateResolverEndpointIpAddress", Dict{String, Any}("IpAddress"=>IpAddress, "ResolverEndpointId"=>ResolverEndpointId); aws_config=aws_config)
+DisassociateResolverEndpointIpAddress(IpAddress, ResolverEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route53resolver("DisassociateResolverEndpointIpAddress", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IpAddress"=>IpAddress, "ResolverEndpointId"=>ResolverEndpointId), args)); aws_config=aws_config)
 
 """
     DisassociateResolverRule()
@@ -124,8 +124,8 @@ Removes the association between a specified resolver rule and a specified VPC.  
 
 """
 
-DisassociateResolverRule(ResolverRuleId, VPCId; aws_config::AWSConfig=AWS.aws_config) = route53resolver("DisassociateResolverRule", Dict{String, Any}("ResolverRuleId"=>ResolverRuleId, "VPCId"=>VPCId); aws_config=aws_config)
-DisassociateResolverRule(ResolverRuleId, VPCId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = route53resolver("DisassociateResolverRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverRuleId"=>ResolverRuleId, "VPCId"=>VPCId), args)); aws_config=aws_config)
+DisassociateResolverRule(ResolverRuleId, VPCId; aws_config::AWSConfig=global_aws_config()) = route53resolver("DisassociateResolverRule", Dict{String, Any}("ResolverRuleId"=>ResolverRuleId, "VPCId"=>VPCId); aws_config=aws_config)
+DisassociateResolverRule(ResolverRuleId, VPCId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route53resolver("DisassociateResolverRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverRuleId"=>ResolverRuleId, "VPCId"=>VPCId), args)); aws_config=aws_config)
 
 """
     GetResolverEndpoint()
@@ -137,8 +137,8 @@ Gets information about a specified resolver endpoint, such as whether it's an in
 
 """
 
-GetResolverEndpoint(ResolverEndpointId; aws_config::AWSConfig=AWS.aws_config) = route53resolver("GetResolverEndpoint", Dict{String, Any}("ResolverEndpointId"=>ResolverEndpointId); aws_config=aws_config)
-GetResolverEndpoint(ResolverEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = route53resolver("GetResolverEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverEndpointId"=>ResolverEndpointId), args)); aws_config=aws_config)
+GetResolverEndpoint(ResolverEndpointId; aws_config::AWSConfig=global_aws_config()) = route53resolver("GetResolverEndpoint", Dict{String, Any}("ResolverEndpointId"=>ResolverEndpointId); aws_config=aws_config)
+GetResolverEndpoint(ResolverEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route53resolver("GetResolverEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverEndpointId"=>ResolverEndpointId), args)); aws_config=aws_config)
 
 """
     GetResolverRule()
@@ -150,8 +150,8 @@ Gets information about a specified resolver rule, such as the domain name that t
 
 """
 
-GetResolverRule(ResolverRuleId; aws_config::AWSConfig=AWS.aws_config) = route53resolver("GetResolverRule", Dict{String, Any}("ResolverRuleId"=>ResolverRuleId); aws_config=aws_config)
-GetResolverRule(ResolverRuleId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = route53resolver("GetResolverRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverRuleId"=>ResolverRuleId), args)); aws_config=aws_config)
+GetResolverRule(ResolverRuleId; aws_config::AWSConfig=global_aws_config()) = route53resolver("GetResolverRule", Dict{String, Any}("ResolverRuleId"=>ResolverRuleId); aws_config=aws_config)
+GetResolverRule(ResolverRuleId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route53resolver("GetResolverRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverRuleId"=>ResolverRuleId), args)); aws_config=aws_config)
 
 """
     GetResolverRuleAssociation()
@@ -163,8 +163,8 @@ Gets information about an association between a specified resolver rule and a VP
 
 """
 
-GetResolverRuleAssociation(ResolverRuleAssociationId; aws_config::AWSConfig=AWS.aws_config) = route53resolver("GetResolverRuleAssociation", Dict{String, Any}("ResolverRuleAssociationId"=>ResolverRuleAssociationId); aws_config=aws_config)
-GetResolverRuleAssociation(ResolverRuleAssociationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = route53resolver("GetResolverRuleAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverRuleAssociationId"=>ResolverRuleAssociationId), args)); aws_config=aws_config)
+GetResolverRuleAssociation(ResolverRuleAssociationId; aws_config::AWSConfig=global_aws_config()) = route53resolver("GetResolverRuleAssociation", Dict{String, Any}("ResolverRuleAssociationId"=>ResolverRuleAssociationId); aws_config=aws_config)
+GetResolverRuleAssociation(ResolverRuleAssociationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route53resolver("GetResolverRuleAssociation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverRuleAssociationId"=>ResolverRuleAssociationId), args)); aws_config=aws_config)
 
 """
     GetResolverRulePolicy()
@@ -176,8 +176,8 @@ Gets information about a resolver rule policy. A resolver rule policy specifies 
 
 """
 
-GetResolverRulePolicy(Arn; aws_config::AWSConfig=AWS.aws_config) = route53resolver("GetResolverRulePolicy", Dict{String, Any}("Arn"=>Arn); aws_config=aws_config)
-GetResolverRulePolicy(Arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = route53resolver("GetResolverRulePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), args)); aws_config=aws_config)
+GetResolverRulePolicy(Arn; aws_config::AWSConfig=global_aws_config()) = route53resolver("GetResolverRulePolicy", Dict{String, Any}("Arn"=>Arn); aws_config=aws_config)
+GetResolverRulePolicy(Arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route53resolver("GetResolverRulePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), args)); aws_config=aws_config)
 
 """
     ListResolverEndpointIpAddresses()
@@ -192,8 +192,8 @@ Gets the IP addresses for a specified resolver endpoint.
 - `NextToken`: For the first ListResolverEndpointIpAddresses request, omit this value. If the specified resolver endpoint has more than MaxResults IP addresses, you can submit another ListResolverEndpointIpAddresses request to get the next group of IP addresses. In the next request, specify the value of NextToken from the previous response. 
 """
 
-ListResolverEndpointIpAddresses(ResolverEndpointId; aws_config::AWSConfig=AWS.aws_config) = route53resolver("ListResolverEndpointIpAddresses", Dict{String, Any}("ResolverEndpointId"=>ResolverEndpointId); aws_config=aws_config)
-ListResolverEndpointIpAddresses(ResolverEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = route53resolver("ListResolverEndpointIpAddresses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverEndpointId"=>ResolverEndpointId), args)); aws_config=aws_config)
+ListResolverEndpointIpAddresses(ResolverEndpointId; aws_config::AWSConfig=global_aws_config()) = route53resolver("ListResolverEndpointIpAddresses", Dict{String, Any}("ResolverEndpointId"=>ResolverEndpointId); aws_config=aws_config)
+ListResolverEndpointIpAddresses(ResolverEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route53resolver("ListResolverEndpointIpAddresses", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverEndpointId"=>ResolverEndpointId), args)); aws_config=aws_config)
 
 """
     ListResolverEndpoints()
@@ -206,8 +206,8 @@ Lists all the resolver endpoints that were created using the current AWS account
 - `NextToken`: For the first ListResolverEndpoints request, omit this value. If you have more than MaxResults resolver endpoints, you can submit another ListResolverEndpoints request to get the next group of resolver endpoints. In the next request, specify the value of NextToken from the previous response. 
 """
 
-ListResolverEndpoints(; aws_config::AWSConfig=AWS.aws_config) = route53resolver("ListResolverEndpoints"; aws_config=aws_config)
-ListResolverEndpoints(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = route53resolver("ListResolverEndpoints", args; aws_config=aws_config)
+ListResolverEndpoints(; aws_config::AWSConfig=global_aws_config()) = route53resolver("ListResolverEndpoints"; aws_config=aws_config)
+ListResolverEndpoints(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route53resolver("ListResolverEndpoints", args; aws_config=aws_config)
 
 """
     ListResolverRuleAssociations()
@@ -220,8 +220,8 @@ Lists the associations that were created between resolver rules and VPCs using t
 - `NextToken`: For the first ListResolverRuleAssociation request, omit this value. If you have more than MaxResults rule associations, you can submit another ListResolverRuleAssociation request to get the next group of rule associations. In the next request, specify the value of NextToken from the previous response. 
 """
 
-ListResolverRuleAssociations(; aws_config::AWSConfig=AWS.aws_config) = route53resolver("ListResolverRuleAssociations"; aws_config=aws_config)
-ListResolverRuleAssociations(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = route53resolver("ListResolverRuleAssociations", args; aws_config=aws_config)
+ListResolverRuleAssociations(; aws_config::AWSConfig=global_aws_config()) = route53resolver("ListResolverRuleAssociations"; aws_config=aws_config)
+ListResolverRuleAssociations(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route53resolver("ListResolverRuleAssociations", args; aws_config=aws_config)
 
 """
     ListResolverRules()
@@ -234,8 +234,8 @@ Lists the resolver rules that were created using the current AWS account.
 - `NextToken`: For the first ListResolverRules request, omit this value. If you have more than MaxResults resolver rules, you can submit another ListResolverRules request to get the next group of resolver rules. In the next request, specify the value of NextToken from the previous response. 
 """
 
-ListResolverRules(; aws_config::AWSConfig=AWS.aws_config) = route53resolver("ListResolverRules"; aws_config=aws_config)
-ListResolverRules(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = route53resolver("ListResolverRules", args; aws_config=aws_config)
+ListResolverRules(; aws_config::AWSConfig=global_aws_config()) = route53resolver("ListResolverRules"; aws_config=aws_config)
+ListResolverRules(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route53resolver("ListResolverRules", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -250,8 +250,8 @@ Lists the tags that you associated with the specified resource.
 - `NextToken`: For the first ListTagsForResource request, omit this value. If you have more than MaxResults tags, you can submit another ListTagsForResource request to get the next group of tags for the resource. In the next request, specify the value of NextToken from the previous response. 
 """
 
-ListTagsForResource(ResourceArn; aws_config::AWSConfig=AWS.aws_config) = route53resolver("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
-ListTagsForResource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = route53resolver("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
+ListTagsForResource(ResourceArn; aws_config::AWSConfig=global_aws_config()) = route53resolver("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
+ListTagsForResource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route53resolver("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
 
 """
     PutResolverRulePolicy()
@@ -264,8 +264,8 @@ Specifies the Resolver operations and resources that you want to allow another A
 
 """
 
-PutResolverRulePolicy(Arn, ResolverRulePolicy; aws_config::AWSConfig=AWS.aws_config) = route53resolver("PutResolverRulePolicy", Dict{String, Any}("Arn"=>Arn, "ResolverRulePolicy"=>ResolverRulePolicy); aws_config=aws_config)
-PutResolverRulePolicy(Arn, ResolverRulePolicy, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = route53resolver("PutResolverRulePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "ResolverRulePolicy"=>ResolverRulePolicy), args)); aws_config=aws_config)
+PutResolverRulePolicy(Arn, ResolverRulePolicy; aws_config::AWSConfig=global_aws_config()) = route53resolver("PutResolverRulePolicy", Dict{String, Any}("Arn"=>Arn, "ResolverRulePolicy"=>ResolverRulePolicy); aws_config=aws_config)
+PutResolverRulePolicy(Arn, ResolverRulePolicy, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route53resolver("PutResolverRulePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "ResolverRulePolicy"=>ResolverRulePolicy), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -278,8 +278,8 @@ Adds one or more tags to a specified resource.
 
 """
 
-TagResource(ResourceArn, Tags; aws_config::AWSConfig=AWS.aws_config) = route53resolver("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
-TagResource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = route53resolver("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), args)); aws_config=aws_config)
+TagResource(ResourceArn, Tags; aws_config::AWSConfig=global_aws_config()) = route53resolver("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
+TagResource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route53resolver("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -292,8 +292,8 @@ Removes one or more tags from a specified resource.
 
 """
 
-UntagResource(ResourceArn, TagKeys; aws_config::AWSConfig=AWS.aws_config) = route53resolver("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
-UntagResource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = route53resolver("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
+UntagResource(ResourceArn, TagKeys; aws_config::AWSConfig=global_aws_config()) = route53resolver("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
+UntagResource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route53resolver("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
 
 """
     UpdateResolverEndpoint()
@@ -307,8 +307,8 @@ Updates the name of an inbound or an outbound resolver endpoint.
 - `Name`: The name of the resolver endpoint that you want to update.
 """
 
-UpdateResolverEndpoint(ResolverEndpointId; aws_config::AWSConfig=AWS.aws_config) = route53resolver("UpdateResolverEndpoint", Dict{String, Any}("ResolverEndpointId"=>ResolverEndpointId); aws_config=aws_config)
-UpdateResolverEndpoint(ResolverEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = route53resolver("UpdateResolverEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverEndpointId"=>ResolverEndpointId), args)); aws_config=aws_config)
+UpdateResolverEndpoint(ResolverEndpointId; aws_config::AWSConfig=global_aws_config()) = route53resolver("UpdateResolverEndpoint", Dict{String, Any}("ResolverEndpointId"=>ResolverEndpointId); aws_config=aws_config)
+UpdateResolverEndpoint(ResolverEndpointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route53resolver("UpdateResolverEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResolverEndpointId"=>ResolverEndpointId), args)); aws_config=aws_config)
 
 """
     UpdateResolverRule()
@@ -321,5 +321,5 @@ Updates settings for a specified resolver rule. ResolverRuleId is required, and 
 
 """
 
-UpdateResolverRule(Config, ResolverRuleId; aws_config::AWSConfig=AWS.aws_config) = route53resolver("UpdateResolverRule", Dict{String, Any}("Config"=>Config, "ResolverRuleId"=>ResolverRuleId); aws_config=aws_config)
-UpdateResolverRule(Config, ResolverRuleId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = route53resolver("UpdateResolverRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Config"=>Config, "ResolverRuleId"=>ResolverRuleId), args)); aws_config=aws_config)
+UpdateResolverRule(Config, ResolverRuleId; aws_config::AWSConfig=global_aws_config()) = route53resolver("UpdateResolverRule", Dict{String, Any}("Config"=>Config, "ResolverRuleId"=>ResolverRuleId); aws_config=aws_config)
+UpdateResolverRule(Config, ResolverRuleId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = route53resolver("UpdateResolverRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Config"=>Config, "ResolverRuleId"=>ResolverRuleId), args)); aws_config=aws_config)

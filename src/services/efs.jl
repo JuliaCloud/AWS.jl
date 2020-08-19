@@ -19,8 +19,8 @@ Creates an EFS access point. An access point is an application-specific view int
 - `Tags`: Creates tags associated with the access point. Each tag is a key-value pair.
 """
 
-CreateAccessPoint(ClientToken, FileSystemId; aws_config::AWSConfig=AWS.aws_config) = efs("POST", "/2015-02-01/access-points", Dict{String, Any}("ClientToken"=>ClientToken, "FileSystemId"=>FileSystemId); aws_config=aws_config)
-CreateAccessPoint(ClientToken, FileSystemId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = efs("POST", "/2015-02-01/access-points", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "FileSystemId"=>FileSystemId), args)); aws_config=aws_config)
+CreateAccessPoint(ClientToken, FileSystemId; aws_config::AWSConfig=global_aws_config()) = efs("POST", "/2015-02-01/access-points", Dict{String, Any}("ClientToken"=>ClientToken, "FileSystemId"=>FileSystemId); aws_config=aws_config)
+CreateAccessPoint(ClientToken, FileSystemId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = efs("POST", "/2015-02-01/access-points", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientToken"=>ClientToken, "FileSystemId"=>FileSystemId), args)); aws_config=aws_config)
 
 """
     CreateFileSystem()
@@ -39,8 +39,8 @@ Creates a new, empty file system. The operation requires a creation token in the
 - `ThroughputMode`: The throughput mode for the file system to be created. There are two throughput modes to choose from for your file system: bursting and provisioned. If you set ThroughputMode to provisioned, you must also set a value for ProvisionedThroughPutInMibps. You can decrease your file system's throughput in Provisioned Throughput mode or change between the throughput modes as long as it’s been more than 24 hours since the last decrease or throughput mode change. For more, see Specifying Throughput with Provisioned Mode in the Amazon EFS User Guide. 
 """
 
-CreateFileSystem(CreationToken; aws_config::AWSConfig=AWS.aws_config) = efs("POST", "/2015-02-01/file-systems", Dict{String, Any}("CreationToken"=>CreationToken); aws_config=aws_config)
-CreateFileSystem(CreationToken, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = efs("POST", "/2015-02-01/file-systems", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreationToken"=>CreationToken), args)); aws_config=aws_config)
+CreateFileSystem(CreationToken; aws_config::AWSConfig=global_aws_config()) = efs("POST", "/2015-02-01/file-systems", Dict{String, Any}("CreationToken"=>CreationToken); aws_config=aws_config)
+CreateFileSystem(CreationToken, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = efs("POST", "/2015-02-01/file-systems", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CreationToken"=>CreationToken), args)); aws_config=aws_config)
 
 """
     CreateMountTarget()
@@ -56,8 +56,8 @@ Creates a mount target for a file system. You can then mount the file system on 
 - `SecurityGroups`: Up to five VPC security group IDs, of the form sg-xxxxxxxx. These must be for the same VPC as subnet specified.
 """
 
-CreateMountTarget(FileSystemId, SubnetId; aws_config::AWSConfig=AWS.aws_config) = efs("POST", "/2015-02-01/mount-targets", Dict{String, Any}("FileSystemId"=>FileSystemId, "SubnetId"=>SubnetId); aws_config=aws_config)
-CreateMountTarget(FileSystemId, SubnetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = efs("POST", "/2015-02-01/mount-targets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemId"=>FileSystemId, "SubnetId"=>SubnetId), args)); aws_config=aws_config)
+CreateMountTarget(FileSystemId, SubnetId; aws_config::AWSConfig=global_aws_config()) = efs("POST", "/2015-02-01/mount-targets", Dict{String, Any}("FileSystemId"=>FileSystemId, "SubnetId"=>SubnetId); aws_config=aws_config)
+CreateMountTarget(FileSystemId, SubnetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = efs("POST", "/2015-02-01/mount-targets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FileSystemId"=>FileSystemId, "SubnetId"=>SubnetId), args)); aws_config=aws_config)
 
 """
     CreateTags()
@@ -70,8 +70,8 @@ Creates or overwrites tags associated with a file system. Each tag is a key-valu
 
 """
 
-CreateTags(FileSystemId, Tags; aws_config::AWSConfig=AWS.aws_config) = efs("POST", "/2015-02-01/create-tags/$(FileSystemId)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
-CreateTags(FileSystemId, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = efs("POST", "/2015-02-01/create-tags/$(FileSystemId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws_config=aws_config)
+CreateTags(FileSystemId, Tags; aws_config::AWSConfig=global_aws_config()) = efs("POST", "/2015-02-01/create-tags/$(FileSystemId)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
+CreateTags(FileSystemId, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = efs("POST", "/2015-02-01/create-tags/$(FileSystemId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     DeleteAccessPoint()
@@ -83,8 +83,8 @@ Deletes the specified access point. After deletion is complete, new clients can 
 
 """
 
-DeleteAccessPoint(AccessPointId; aws_config::AWSConfig=AWS.aws_config) = efs("DELETE", "/2015-02-01/access-points/$(AccessPointId)"; aws_config=aws_config)
-DeleteAccessPoint(AccessPointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = efs("DELETE", "/2015-02-01/access-points/$(AccessPointId)", args; aws_config=aws_config)
+DeleteAccessPoint(AccessPointId; aws_config::AWSConfig=global_aws_config()) = efs("DELETE", "/2015-02-01/access-points/$(AccessPointId)"; aws_config=aws_config)
+DeleteAccessPoint(AccessPointId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = efs("DELETE", "/2015-02-01/access-points/$(AccessPointId)", args; aws_config=aws_config)
 
 """
     DeleteFileSystem()
@@ -96,8 +96,8 @@ Deletes a file system, permanently severing access to its contents. Upon return,
 
 """
 
-DeleteFileSystem(FileSystemId; aws_config::AWSConfig=AWS.aws_config) = efs("DELETE", "/2015-02-01/file-systems/$(FileSystemId)"; aws_config=aws_config)
-DeleteFileSystem(FileSystemId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = efs("DELETE", "/2015-02-01/file-systems/$(FileSystemId)", args; aws_config=aws_config)
+DeleteFileSystem(FileSystemId; aws_config::AWSConfig=global_aws_config()) = efs("DELETE", "/2015-02-01/file-systems/$(FileSystemId)"; aws_config=aws_config)
+DeleteFileSystem(FileSystemId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = efs("DELETE", "/2015-02-01/file-systems/$(FileSystemId)", args; aws_config=aws_config)
 
 """
     DeleteFileSystemPolicy()
@@ -109,8 +109,8 @@ Deletes the FileSystemPolicy for the specified file system. The default FileSyst
 
 """
 
-DeleteFileSystemPolicy(FileSystemId; aws_config::AWSConfig=AWS.aws_config) = efs("DELETE", "/2015-02-01/file-systems/$(FileSystemId)/policy"; aws_config=aws_config)
-DeleteFileSystemPolicy(FileSystemId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = efs("DELETE", "/2015-02-01/file-systems/$(FileSystemId)/policy", args; aws_config=aws_config)
+DeleteFileSystemPolicy(FileSystemId; aws_config::AWSConfig=global_aws_config()) = efs("DELETE", "/2015-02-01/file-systems/$(FileSystemId)/policy"; aws_config=aws_config)
+DeleteFileSystemPolicy(FileSystemId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = efs("DELETE", "/2015-02-01/file-systems/$(FileSystemId)/policy", args; aws_config=aws_config)
 
 """
     DeleteMountTarget()
@@ -122,8 +122,8 @@ Deletes the specified mount target. This operation forcibly breaks any mounts of
 
 """
 
-DeleteMountTarget(MountTargetId; aws_config::AWSConfig=AWS.aws_config) = efs("DELETE", "/2015-02-01/mount-targets/$(MountTargetId)"; aws_config=aws_config)
-DeleteMountTarget(MountTargetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = efs("DELETE", "/2015-02-01/mount-targets/$(MountTargetId)", args; aws_config=aws_config)
+DeleteMountTarget(MountTargetId; aws_config::AWSConfig=global_aws_config()) = efs("DELETE", "/2015-02-01/mount-targets/$(MountTargetId)"; aws_config=aws_config)
+DeleteMountTarget(MountTargetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = efs("DELETE", "/2015-02-01/mount-targets/$(MountTargetId)", args; aws_config=aws_config)
 
 """
     DeleteTags()
@@ -136,8 +136,8 @@ Deletes the specified tags from a file system. If the DeleteTags request include
 
 """
 
-DeleteTags(FileSystemId, TagKeys; aws_config::AWSConfig=AWS.aws_config) = efs("POST", "/2015-02-01/delete-tags/$(FileSystemId)", Dict{String, Any}("TagKeys"=>TagKeys); aws_config=aws_config)
-DeleteTags(FileSystemId, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = efs("POST", "/2015-02-01/delete-tags/$(FileSystemId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKeys"=>TagKeys), args)); aws_config=aws_config)
+DeleteTags(FileSystemId, TagKeys; aws_config::AWSConfig=global_aws_config()) = efs("POST", "/2015-02-01/delete-tags/$(FileSystemId)", Dict{String, Any}("TagKeys"=>TagKeys); aws_config=aws_config)
+DeleteTags(FileSystemId, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = efs("POST", "/2015-02-01/delete-tags/$(FileSystemId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKeys"=>TagKeys), args)); aws_config=aws_config)
 
 """
     DescribeAccessPoints()
@@ -151,8 +151,8 @@ Returns the description of a specific Amazon EFS access point if the AccessPoint
 - `NextToken`:  NextToken is present if the response is paginated. You can use NextMarker in the subsequent request to fetch the next page of access point descriptions.
 """
 
-DescribeAccessPoints(; aws_config::AWSConfig=AWS.aws_config) = efs("GET", "/2015-02-01/access-points"; aws_config=aws_config)
-DescribeAccessPoints(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = efs("GET", "/2015-02-01/access-points", args; aws_config=aws_config)
+DescribeAccessPoints(; aws_config::AWSConfig=global_aws_config()) = efs("GET", "/2015-02-01/access-points"; aws_config=aws_config)
+DescribeAccessPoints(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = efs("GET", "/2015-02-01/access-points", args; aws_config=aws_config)
 
 """
     DescribeBackupPolicy()
@@ -164,8 +164,8 @@ Returns the backup policy for the specified EFS file system.
 
 """
 
-DescribeBackupPolicy(FileSystemId; aws_config::AWSConfig=AWS.aws_config) = efs("GET", "/2015-02-01/file-systems/$(FileSystemId)/backup-policy"; aws_config=aws_config)
-DescribeBackupPolicy(FileSystemId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = efs("GET", "/2015-02-01/file-systems/$(FileSystemId)/backup-policy", args; aws_config=aws_config)
+DescribeBackupPolicy(FileSystemId; aws_config::AWSConfig=global_aws_config()) = efs("GET", "/2015-02-01/file-systems/$(FileSystemId)/backup-policy"; aws_config=aws_config)
+DescribeBackupPolicy(FileSystemId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = efs("GET", "/2015-02-01/file-systems/$(FileSystemId)/backup-policy", args; aws_config=aws_config)
 
 """
     DescribeFileSystemPolicy()
@@ -177,8 +177,8 @@ Returns the FileSystemPolicy for the specified EFS file system. This operation r
 
 """
 
-DescribeFileSystemPolicy(FileSystemId; aws_config::AWSConfig=AWS.aws_config) = efs("GET", "/2015-02-01/file-systems/$(FileSystemId)/policy"; aws_config=aws_config)
-DescribeFileSystemPolicy(FileSystemId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = efs("GET", "/2015-02-01/file-systems/$(FileSystemId)/policy", args; aws_config=aws_config)
+DescribeFileSystemPolicy(FileSystemId; aws_config::AWSConfig=global_aws_config()) = efs("GET", "/2015-02-01/file-systems/$(FileSystemId)/policy"; aws_config=aws_config)
+DescribeFileSystemPolicy(FileSystemId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = efs("GET", "/2015-02-01/file-systems/$(FileSystemId)/policy", args; aws_config=aws_config)
 
 """
     DescribeFileSystems()
@@ -192,8 +192,8 @@ Returns the description of a specific Amazon EFS file system if either the file 
 - `MaxItems`: (Optional) Specifies the maximum number of file systems to return in the response (integer). This number is automatically set to 100. The response is paginated at 100 per page if you have more than 100 file systems. 
 """
 
-DescribeFileSystems(; aws_config::AWSConfig=AWS.aws_config) = efs("GET", "/2015-02-01/file-systems"; aws_config=aws_config)
-DescribeFileSystems(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = efs("GET", "/2015-02-01/file-systems", args; aws_config=aws_config)
+DescribeFileSystems(; aws_config::AWSConfig=global_aws_config()) = efs("GET", "/2015-02-01/file-systems"; aws_config=aws_config)
+DescribeFileSystems(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = efs("GET", "/2015-02-01/file-systems", args; aws_config=aws_config)
 
 """
     DescribeLifecycleConfiguration()
@@ -205,8 +205,8 @@ Returns the current LifecycleConfiguration object for the specified Amazon EFS f
 
 """
 
-DescribeLifecycleConfiguration(FileSystemId; aws_config::AWSConfig=AWS.aws_config) = efs("GET", "/2015-02-01/file-systems/$(FileSystemId)/lifecycle-configuration"; aws_config=aws_config)
-DescribeLifecycleConfiguration(FileSystemId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = efs("GET", "/2015-02-01/file-systems/$(FileSystemId)/lifecycle-configuration", args; aws_config=aws_config)
+DescribeLifecycleConfiguration(FileSystemId; aws_config::AWSConfig=global_aws_config()) = efs("GET", "/2015-02-01/file-systems/$(FileSystemId)/lifecycle-configuration"; aws_config=aws_config)
+DescribeLifecycleConfiguration(FileSystemId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = efs("GET", "/2015-02-01/file-systems/$(FileSystemId)/lifecycle-configuration", args; aws_config=aws_config)
 
 """
     DescribeMountTargetSecurityGroups()
@@ -218,8 +218,8 @@ Returns the security groups currently in effect for a mount target. This operati
 
 """
 
-DescribeMountTargetSecurityGroups(MountTargetId; aws_config::AWSConfig=AWS.aws_config) = efs("GET", "/2015-02-01/mount-targets/$(MountTargetId)/security-groups"; aws_config=aws_config)
-DescribeMountTargetSecurityGroups(MountTargetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = efs("GET", "/2015-02-01/mount-targets/$(MountTargetId)/security-groups", args; aws_config=aws_config)
+DescribeMountTargetSecurityGroups(MountTargetId; aws_config::AWSConfig=global_aws_config()) = efs("GET", "/2015-02-01/mount-targets/$(MountTargetId)/security-groups"; aws_config=aws_config)
+DescribeMountTargetSecurityGroups(MountTargetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = efs("GET", "/2015-02-01/mount-targets/$(MountTargetId)/security-groups", args; aws_config=aws_config)
 
 """
     DescribeMountTargets()
@@ -234,8 +234,8 @@ Returns the descriptions of all the current mount targets, or a specific mount t
 - `MountTargetId`: (Optional) ID of the mount target that you want to have described (String). It must be included in your request if FileSystemId is not included. Accepts either a mount target ID or ARN as input.
 """
 
-DescribeMountTargets(; aws_config::AWSConfig=AWS.aws_config) = efs("GET", "/2015-02-01/mount-targets"; aws_config=aws_config)
-DescribeMountTargets(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = efs("GET", "/2015-02-01/mount-targets", args; aws_config=aws_config)
+DescribeMountTargets(; aws_config::AWSConfig=global_aws_config()) = efs("GET", "/2015-02-01/mount-targets"; aws_config=aws_config)
+DescribeMountTargets(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = efs("GET", "/2015-02-01/mount-targets", args; aws_config=aws_config)
 
 """
     DescribeTags()
@@ -250,8 +250,8 @@ Returns the tags associated with a file system. The order of tags returned in th
 - `MaxItems`: (Optional) The maximum number of file system tags to return in the response. Currently, this number is automatically set to 100, and other values are ignored. The response is paginated at 100 per page if you have more than 100 tags.
 """
 
-DescribeTags(FileSystemId; aws_config::AWSConfig=AWS.aws_config) = efs("GET", "/2015-02-01/tags/$(FileSystemId)/"; aws_config=aws_config)
-DescribeTags(FileSystemId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = efs("GET", "/2015-02-01/tags/$(FileSystemId)/", args; aws_config=aws_config)
+DescribeTags(FileSystemId; aws_config::AWSConfig=global_aws_config()) = efs("GET", "/2015-02-01/tags/$(FileSystemId)/"; aws_config=aws_config)
+DescribeTags(FileSystemId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = efs("GET", "/2015-02-01/tags/$(FileSystemId)/", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -266,8 +266,8 @@ Lists all tags for a top-level EFS resource. You must provide the ID of the reso
 - `NextToken`: You can use NextToken in a subsequent request to fetch the next page of access point descriptions if the response payload was paginated.
 """
 
-ListTagsForResource(ResourceId; aws_config::AWSConfig=AWS.aws_config) = efs("GET", "/2015-02-01/resource-tags/$(ResourceId)"; aws_config=aws_config)
-ListTagsForResource(ResourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = efs("GET", "/2015-02-01/resource-tags/$(ResourceId)", args; aws_config=aws_config)
+ListTagsForResource(ResourceId; aws_config::AWSConfig=global_aws_config()) = efs("GET", "/2015-02-01/resource-tags/$(ResourceId)"; aws_config=aws_config)
+ListTagsForResource(ResourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = efs("GET", "/2015-02-01/resource-tags/$(ResourceId)", args; aws_config=aws_config)
 
 """
     ModifyMountTargetSecurityGroups()
@@ -281,8 +281,8 @@ Modifies the set of security groups in effect for a mount target. When you creat
 - `SecurityGroups`: An array of up to five VPC security group IDs.
 """
 
-ModifyMountTargetSecurityGroups(MountTargetId; aws_config::AWSConfig=AWS.aws_config) = efs("PUT", "/2015-02-01/mount-targets/$(MountTargetId)/security-groups"; aws_config=aws_config)
-ModifyMountTargetSecurityGroups(MountTargetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = efs("PUT", "/2015-02-01/mount-targets/$(MountTargetId)/security-groups", args; aws_config=aws_config)
+ModifyMountTargetSecurityGroups(MountTargetId; aws_config::AWSConfig=global_aws_config()) = efs("PUT", "/2015-02-01/mount-targets/$(MountTargetId)/security-groups"; aws_config=aws_config)
+ModifyMountTargetSecurityGroups(MountTargetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = efs("PUT", "/2015-02-01/mount-targets/$(MountTargetId)/security-groups", args; aws_config=aws_config)
 
 """
     PutBackupPolicy()
@@ -295,8 +295,8 @@ Updates the file system's backup policy. Use this action to start or stop automa
 
 """
 
-PutBackupPolicy(BackupPolicy, FileSystemId; aws_config::AWSConfig=AWS.aws_config) = efs("PUT", "/2015-02-01/file-systems/$(FileSystemId)/backup-policy", Dict{String, Any}("BackupPolicy"=>BackupPolicy); aws_config=aws_config)
-PutBackupPolicy(BackupPolicy, FileSystemId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = efs("PUT", "/2015-02-01/file-systems/$(FileSystemId)/backup-policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupPolicy"=>BackupPolicy), args)); aws_config=aws_config)
+PutBackupPolicy(BackupPolicy, FileSystemId; aws_config::AWSConfig=global_aws_config()) = efs("PUT", "/2015-02-01/file-systems/$(FileSystemId)/backup-policy", Dict{String, Any}("BackupPolicy"=>BackupPolicy); aws_config=aws_config)
+PutBackupPolicy(BackupPolicy, FileSystemId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = efs("PUT", "/2015-02-01/file-systems/$(FileSystemId)/backup-policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BackupPolicy"=>BackupPolicy), args)); aws_config=aws_config)
 
 """
     PutFileSystemPolicy()
@@ -311,8 +311,8 @@ Applies an Amazon EFS FileSystemPolicy to an Amazon EFS file system. A file syst
 - `BypassPolicyLockoutSafetyCheck`: (Optional) A flag to indicate whether to bypass the FileSystemPolicy lockout safety check. The policy lockout safety check determines whether the policy in the request will prevent the principal making the request will be locked out from making future PutFileSystemPolicy requests on the file system. Set BypassPolicyLockoutSafetyCheck to True only when you intend to prevent the principal that is making the request from making a subsequent PutFileSystemPolicy request on the file system. The default value is False. 
 """
 
-PutFileSystemPolicy(FileSystemId, Policy; aws_config::AWSConfig=AWS.aws_config) = efs("PUT", "/2015-02-01/file-systems/$(FileSystemId)/policy", Dict{String, Any}("Policy"=>Policy); aws_config=aws_config)
-PutFileSystemPolicy(FileSystemId, Policy, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = efs("PUT", "/2015-02-01/file-systems/$(FileSystemId)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy), args)); aws_config=aws_config)
+PutFileSystemPolicy(FileSystemId, Policy; aws_config::AWSConfig=global_aws_config()) = efs("PUT", "/2015-02-01/file-systems/$(FileSystemId)/policy", Dict{String, Any}("Policy"=>Policy); aws_config=aws_config)
+PutFileSystemPolicy(FileSystemId, Policy, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = efs("PUT", "/2015-02-01/file-systems/$(FileSystemId)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy), args)); aws_config=aws_config)
 
 """
     PutLifecycleConfiguration()
@@ -325,8 +325,8 @@ Enables lifecycle management by creating a new LifecycleConfiguration object. A 
 
 """
 
-PutLifecycleConfiguration(FileSystemId, LifecyclePolicies; aws_config::AWSConfig=AWS.aws_config) = efs("PUT", "/2015-02-01/file-systems/$(FileSystemId)/lifecycle-configuration", Dict{String, Any}("LifecyclePolicies"=>LifecyclePolicies); aws_config=aws_config)
-PutLifecycleConfiguration(FileSystemId, LifecyclePolicies, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = efs("PUT", "/2015-02-01/file-systems/$(FileSystemId)/lifecycle-configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LifecyclePolicies"=>LifecyclePolicies), args)); aws_config=aws_config)
+PutLifecycleConfiguration(FileSystemId, LifecyclePolicies; aws_config::AWSConfig=global_aws_config()) = efs("PUT", "/2015-02-01/file-systems/$(FileSystemId)/lifecycle-configuration", Dict{String, Any}("LifecyclePolicies"=>LifecyclePolicies); aws_config=aws_config)
+PutLifecycleConfiguration(FileSystemId, LifecyclePolicies, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = efs("PUT", "/2015-02-01/file-systems/$(FileSystemId)/lifecycle-configuration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LifecyclePolicies"=>LifecyclePolicies), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -339,8 +339,8 @@ Creates a tag for an EFS resource. You can create tags for EFS file systems and 
 
 """
 
-TagResource(ResourceId, Tags; aws_config::AWSConfig=AWS.aws_config) = efs("POST", "/2015-02-01/resource-tags/$(ResourceId)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
-TagResource(ResourceId, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = efs("POST", "/2015-02-01/resource-tags/$(ResourceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws_config=aws_config)
+TagResource(ResourceId, Tags; aws_config::AWSConfig=global_aws_config()) = efs("POST", "/2015-02-01/resource-tags/$(ResourceId)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
+TagResource(ResourceId, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = efs("POST", "/2015-02-01/resource-tags/$(ResourceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -353,8 +353,8 @@ Removes tags from an EFS resource. You can remove tags from EFS file systems and
 
 """
 
-UntagResource(ResourceId, tagKeys; aws_config::AWSConfig=AWS.aws_config) = efs("DELETE", "/2015-02-01/resource-tags/$(ResourceId)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
-UntagResource(ResourceId, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = efs("DELETE", "/2015-02-01/resource-tags/$(ResourceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
+UntagResource(ResourceId, tagKeys; aws_config::AWSConfig=global_aws_config()) = efs("DELETE", "/2015-02-01/resource-tags/$(ResourceId)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
+UntagResource(ResourceId, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = efs("DELETE", "/2015-02-01/resource-tags/$(ResourceId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
 
 """
     UpdateFileSystem()
@@ -369,5 +369,5 @@ Updates the throughput mode or the amount of provisioned throughput of an existi
 - `ThroughputMode`: (Optional) The throughput mode that you want your file system to use. If you're not updating your throughput mode, you don't need to provide this value in your request. If you are changing the ThroughputMode to provisioned, you must also set a value for ProvisionedThroughputInMibps.
 """
 
-UpdateFileSystem(FileSystemId; aws_config::AWSConfig=AWS.aws_config) = efs("PUT", "/2015-02-01/file-systems/$(FileSystemId)"; aws_config=aws_config)
-UpdateFileSystem(FileSystemId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = efs("PUT", "/2015-02-01/file-systems/$(FileSystemId)", args; aws_config=aws_config)
+UpdateFileSystem(FileSystemId; aws_config::AWSConfig=global_aws_config()) = efs("PUT", "/2015-02-01/file-systems/$(FileSystemId)"; aws_config=aws_config)
+UpdateFileSystem(FileSystemId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = efs("PUT", "/2015-02-01/file-systems/$(FileSystemId)", args; aws_config=aws_config)

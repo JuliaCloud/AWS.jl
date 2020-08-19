@@ -16,8 +16,8 @@ Creates a scaling plan.
 
 """
 
-CreateScalingPlan(ApplicationSource, ScalingInstructions, ScalingPlanName; aws_config::AWSConfig=AWS.aws_config) = auto_scaling_plans("CreateScalingPlan", Dict{String, Any}("ApplicationSource"=>ApplicationSource, "ScalingInstructions"=>ScalingInstructions, "ScalingPlanName"=>ScalingPlanName); aws_config=aws_config)
-CreateScalingPlan(ApplicationSource, ScalingInstructions, ScalingPlanName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = auto_scaling_plans("CreateScalingPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationSource"=>ApplicationSource, "ScalingInstructions"=>ScalingInstructions, "ScalingPlanName"=>ScalingPlanName), args)); aws_config=aws_config)
+CreateScalingPlan(ApplicationSource, ScalingInstructions, ScalingPlanName; aws_config::AWSConfig=global_aws_config()) = auto_scaling_plans("CreateScalingPlan", Dict{String, Any}("ApplicationSource"=>ApplicationSource, "ScalingInstructions"=>ScalingInstructions, "ScalingPlanName"=>ScalingPlanName); aws_config=aws_config)
+CreateScalingPlan(ApplicationSource, ScalingInstructions, ScalingPlanName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auto_scaling_plans("CreateScalingPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplicationSource"=>ApplicationSource, "ScalingInstructions"=>ScalingInstructions, "ScalingPlanName"=>ScalingPlanName), args)); aws_config=aws_config)
 
 """
     DeleteScalingPlan()
@@ -30,8 +30,8 @@ Deletes the specified scaling plan. Deleting a scaling plan deletes the underlyi
 
 """
 
-DeleteScalingPlan(ScalingPlanName, ScalingPlanVersion; aws_config::AWSConfig=AWS.aws_config) = auto_scaling_plans("DeleteScalingPlan", Dict{String, Any}("ScalingPlanName"=>ScalingPlanName, "ScalingPlanVersion"=>ScalingPlanVersion); aws_config=aws_config)
-DeleteScalingPlan(ScalingPlanName, ScalingPlanVersion, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = auto_scaling_plans("DeleteScalingPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScalingPlanName"=>ScalingPlanName, "ScalingPlanVersion"=>ScalingPlanVersion), args)); aws_config=aws_config)
+DeleteScalingPlan(ScalingPlanName, ScalingPlanVersion; aws_config::AWSConfig=global_aws_config()) = auto_scaling_plans("DeleteScalingPlan", Dict{String, Any}("ScalingPlanName"=>ScalingPlanName, "ScalingPlanVersion"=>ScalingPlanVersion); aws_config=aws_config)
+DeleteScalingPlan(ScalingPlanName, ScalingPlanVersion, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auto_scaling_plans("DeleteScalingPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScalingPlanName"=>ScalingPlanName, "ScalingPlanVersion"=>ScalingPlanVersion), args)); aws_config=aws_config)
 
 """
     DescribeScalingPlanResources()
@@ -47,8 +47,8 @@ Describes the scalable resources in the specified scaling plan.
 - `NextToken`: The token for the next set of results.
 """
 
-DescribeScalingPlanResources(ScalingPlanName, ScalingPlanVersion; aws_config::AWSConfig=AWS.aws_config) = auto_scaling_plans("DescribeScalingPlanResources", Dict{String, Any}("ScalingPlanName"=>ScalingPlanName, "ScalingPlanVersion"=>ScalingPlanVersion); aws_config=aws_config)
-DescribeScalingPlanResources(ScalingPlanName, ScalingPlanVersion, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = auto_scaling_plans("DescribeScalingPlanResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScalingPlanName"=>ScalingPlanName, "ScalingPlanVersion"=>ScalingPlanVersion), args)); aws_config=aws_config)
+DescribeScalingPlanResources(ScalingPlanName, ScalingPlanVersion; aws_config::AWSConfig=global_aws_config()) = auto_scaling_plans("DescribeScalingPlanResources", Dict{String, Any}("ScalingPlanName"=>ScalingPlanName, "ScalingPlanVersion"=>ScalingPlanVersion); aws_config=aws_config)
+DescribeScalingPlanResources(ScalingPlanName, ScalingPlanVersion, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auto_scaling_plans("DescribeScalingPlanResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScalingPlanName"=>ScalingPlanName, "ScalingPlanVersion"=>ScalingPlanVersion), args)); aws_config=aws_config)
 
 """
     DescribeScalingPlans()
@@ -63,8 +63,8 @@ Describes one or more of your scaling plans.
 - `ScalingPlanVersion`: The version number of the scaling plan. If you specify a scaling plan version, you must also specify a scaling plan name.
 """
 
-DescribeScalingPlans(; aws_config::AWSConfig=AWS.aws_config) = auto_scaling_plans("DescribeScalingPlans"; aws_config=aws_config)
-DescribeScalingPlans(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = auto_scaling_plans("DescribeScalingPlans", args; aws_config=aws_config)
+DescribeScalingPlans(; aws_config::AWSConfig=global_aws_config()) = auto_scaling_plans("DescribeScalingPlans"; aws_config=aws_config)
+DescribeScalingPlans(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auto_scaling_plans("DescribeScalingPlans", args; aws_config=aws_config)
 
 """
     GetScalingPlanResourceForecastData()
@@ -83,8 +83,8 @@ Retrieves the forecast data for a scalable resource. Capacity forecasts are repr
 
 """
 
-GetScalingPlanResourceForecastData(EndTime, ForecastDataType, ResourceId, ScalableDimension, ScalingPlanName, ScalingPlanVersion, ServiceNamespace, StartTime; aws_config::AWSConfig=AWS.aws_config) = auto_scaling_plans("GetScalingPlanResourceForecastData", Dict{String, Any}("EndTime"=>EndTime, "ForecastDataType"=>ForecastDataType, "ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ScalingPlanName"=>ScalingPlanName, "ScalingPlanVersion"=>ScalingPlanVersion, "ServiceNamespace"=>ServiceNamespace, "StartTime"=>StartTime); aws_config=aws_config)
-GetScalingPlanResourceForecastData(EndTime, ForecastDataType, ResourceId, ScalableDimension, ScalingPlanName, ScalingPlanVersion, ServiceNamespace, StartTime, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = auto_scaling_plans("GetScalingPlanResourceForecastData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "ForecastDataType"=>ForecastDataType, "ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ScalingPlanName"=>ScalingPlanName, "ScalingPlanVersion"=>ScalingPlanVersion, "ServiceNamespace"=>ServiceNamespace, "StartTime"=>StartTime), args)); aws_config=aws_config)
+GetScalingPlanResourceForecastData(EndTime, ForecastDataType, ResourceId, ScalableDimension, ScalingPlanName, ScalingPlanVersion, ServiceNamespace, StartTime; aws_config::AWSConfig=global_aws_config()) = auto_scaling_plans("GetScalingPlanResourceForecastData", Dict{String, Any}("EndTime"=>EndTime, "ForecastDataType"=>ForecastDataType, "ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ScalingPlanName"=>ScalingPlanName, "ScalingPlanVersion"=>ScalingPlanVersion, "ServiceNamespace"=>ServiceNamespace, "StartTime"=>StartTime); aws_config=aws_config)
+GetScalingPlanResourceForecastData(EndTime, ForecastDataType, ResourceId, ScalableDimension, ScalingPlanName, ScalingPlanVersion, ServiceNamespace, StartTime, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auto_scaling_plans("GetScalingPlanResourceForecastData", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndTime"=>EndTime, "ForecastDataType"=>ForecastDataType, "ResourceId"=>ResourceId, "ScalableDimension"=>ScalableDimension, "ScalingPlanName"=>ScalingPlanName, "ScalingPlanVersion"=>ScalingPlanVersion, "ServiceNamespace"=>ServiceNamespace, "StartTime"=>StartTime), args)); aws_config=aws_config)
 
 """
     UpdateScalingPlan()
@@ -100,5 +100,5 @@ Updates the specified scaling plan. You cannot update a scaling plan if it is in
 - `ScalingInstructions`: The scaling instructions.
 """
 
-UpdateScalingPlan(ScalingPlanName, ScalingPlanVersion; aws_config::AWSConfig=AWS.aws_config) = auto_scaling_plans("UpdateScalingPlan", Dict{String, Any}("ScalingPlanName"=>ScalingPlanName, "ScalingPlanVersion"=>ScalingPlanVersion); aws_config=aws_config)
-UpdateScalingPlan(ScalingPlanName, ScalingPlanVersion, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = auto_scaling_plans("UpdateScalingPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScalingPlanName"=>ScalingPlanName, "ScalingPlanVersion"=>ScalingPlanVersion), args)); aws_config=aws_config)
+UpdateScalingPlan(ScalingPlanName, ScalingPlanVersion; aws_config::AWSConfig=global_aws_config()) = auto_scaling_plans("UpdateScalingPlan", Dict{String, Any}("ScalingPlanName"=>ScalingPlanName, "ScalingPlanVersion"=>ScalingPlanVersion); aws_config=aws_config)
+UpdateScalingPlan(ScalingPlanName, ScalingPlanVersion, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = auto_scaling_plans("UpdateScalingPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ScalingPlanName"=>ScalingPlanName, "ScalingPlanVersion"=>ScalingPlanVersion), args)); aws_config=aws_config)

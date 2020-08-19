@@ -18,8 +18,8 @@ Associates a child asset with the given parent asset through a hierarchy defined
 - `clientToken`: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
 """
 
-AssociateAssets(assetId, childAssetId, hierarchyId; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("POST", "/assets/$(assetId)/associate", Dict{String, Any}("childAssetId"=>childAssetId, "hierarchyId"=>hierarchyId, "clientToken"=>string(uuid4())); aws_config=aws_config)
-AssociateAssets(assetId, childAssetId, hierarchyId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("POST", "/assets/$(assetId)/associate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("childAssetId"=>childAssetId, "hierarchyId"=>hierarchyId, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
+AssociateAssets(assetId, childAssetId, hierarchyId; aws_config::AWSConfig=global_aws_config()) = iotsitewise("POST", "/assets/$(assetId)/associate", Dict{String, Any}("childAssetId"=>childAssetId, "hierarchyId"=>hierarchyId, "clientToken"=>string(uuid4())); aws_config=aws_config)
+AssociateAssets(assetId, childAssetId, hierarchyId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("POST", "/assets/$(assetId)/associate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("childAssetId"=>childAssetId, "hierarchyId"=>hierarchyId, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     BatchAssociateProjectAssets()
@@ -34,8 +34,8 @@ Associates a group (batch) of assets with an AWS IoT SiteWise Monitor project.
 - `clientToken`: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
 """
 
-BatchAssociateProjectAssets(assetIds, projectId; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("POST", "/projects/$(projectId)/assets/associate", Dict{String, Any}("assetIds"=>assetIds, "clientToken"=>string(uuid4())); aws_config=aws_config)
-BatchAssociateProjectAssets(assetIds, projectId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("POST", "/projects/$(projectId)/assets/associate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assetIds"=>assetIds, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
+BatchAssociateProjectAssets(assetIds, projectId; aws_config::AWSConfig=global_aws_config()) = iotsitewise("POST", "/projects/$(projectId)/assets/associate", Dict{String, Any}("assetIds"=>assetIds, "clientToken"=>string(uuid4())); aws_config=aws_config)
+BatchAssociateProjectAssets(assetIds, projectId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("POST", "/projects/$(projectId)/assets/associate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assetIds"=>assetIds, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     BatchDisassociateProjectAssets()
@@ -50,8 +50,8 @@ Disassociates a group (batch) of assets from an AWS IoT SiteWise Monitor project
 - `clientToken`: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
 """
 
-BatchDisassociateProjectAssets(assetIds, projectId; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("POST", "/projects/$(projectId)/assets/disassociate", Dict{String, Any}("assetIds"=>assetIds, "clientToken"=>string(uuid4())); aws_config=aws_config)
-BatchDisassociateProjectAssets(assetIds, projectId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("POST", "/projects/$(projectId)/assets/disassociate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assetIds"=>assetIds, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
+BatchDisassociateProjectAssets(assetIds, projectId; aws_config::AWSConfig=global_aws_config()) = iotsitewise("POST", "/projects/$(projectId)/assets/disassociate", Dict{String, Any}("assetIds"=>assetIds, "clientToken"=>string(uuid4())); aws_config=aws_config)
+BatchDisassociateProjectAssets(assetIds, projectId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("POST", "/projects/$(projectId)/assets/disassociate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assetIds"=>assetIds, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     BatchPutAssetPropertyValue()
@@ -63,8 +63,8 @@ Sends a list of asset property values to AWS IoT SiteWise. Each value is a times
 
 """
 
-BatchPutAssetPropertyValue(entries; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("POST", "/properties", Dict{String, Any}("entries"=>entries); aws_config=aws_config)
-BatchPutAssetPropertyValue(entries, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("POST", "/properties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("entries"=>entries), args)); aws_config=aws_config)
+BatchPutAssetPropertyValue(entries; aws_config::AWSConfig=global_aws_config()) = iotsitewise("POST", "/properties", Dict{String, Any}("entries"=>entries); aws_config=aws_config)
+BatchPutAssetPropertyValue(entries, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("POST", "/properties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("entries"=>entries), args)); aws_config=aws_config)
 
 """
     CreateAccessPolicy()
@@ -81,8 +81,8 @@ Creates an access policy that grants the specified AWS Single Sign-On user or gr
 - `tags`: A list of key-value pairs that contain metadata for the access policy. For more information, see Tagging your AWS IoT SiteWise resources in the AWS IoT SiteWise User Guide.
 """
 
-CreateAccessPolicy(accessPolicyIdentity, accessPolicyPermission, accessPolicyResource; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("POST", "/access-policies", Dict{String, Any}("accessPolicyIdentity"=>accessPolicyIdentity, "accessPolicyPermission"=>accessPolicyPermission, "accessPolicyResource"=>accessPolicyResource, "clientToken"=>string(uuid4())); aws_config=aws_config)
-CreateAccessPolicy(accessPolicyIdentity, accessPolicyPermission, accessPolicyResource, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("POST", "/access-policies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accessPolicyIdentity"=>accessPolicyIdentity, "accessPolicyPermission"=>accessPolicyPermission, "accessPolicyResource"=>accessPolicyResource, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
+CreateAccessPolicy(accessPolicyIdentity, accessPolicyPermission, accessPolicyResource; aws_config::AWSConfig=global_aws_config()) = iotsitewise("POST", "/access-policies", Dict{String, Any}("accessPolicyIdentity"=>accessPolicyIdentity, "accessPolicyPermission"=>accessPolicyPermission, "accessPolicyResource"=>accessPolicyResource, "clientToken"=>string(uuid4())); aws_config=aws_config)
+CreateAccessPolicy(accessPolicyIdentity, accessPolicyPermission, accessPolicyResource, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("POST", "/access-policies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accessPolicyIdentity"=>accessPolicyIdentity, "accessPolicyPermission"=>accessPolicyPermission, "accessPolicyResource"=>accessPolicyResource, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     CreateAsset()
@@ -98,8 +98,8 @@ Creates an asset from an existing asset model. For more information, see Creatin
 - `tags`: A list of key-value pairs that contain metadata for the asset. For more information, see Tagging your AWS IoT SiteWise resources in the AWS IoT SiteWise User Guide.
 """
 
-CreateAsset(assetModelId, assetName; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("POST", "/assets", Dict{String, Any}("assetModelId"=>assetModelId, "assetName"=>assetName, "clientToken"=>string(uuid4())); aws_config=aws_config)
-CreateAsset(assetModelId, assetName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("POST", "/assets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assetModelId"=>assetModelId, "assetName"=>assetName, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
+CreateAsset(assetModelId, assetName; aws_config::AWSConfig=global_aws_config()) = iotsitewise("POST", "/assets", Dict{String, Any}("assetModelId"=>assetModelId, "assetName"=>assetName, "clientToken"=>string(uuid4())); aws_config=aws_config)
+CreateAsset(assetModelId, assetName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("POST", "/assets", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assetModelId"=>assetModelId, "assetName"=>assetName, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     CreateAssetModel()
@@ -117,8 +117,8 @@ Creates an asset model from specified property and hierarchy definitions. You cr
 - `tags`: A list of key-value pairs that contain metadata for the asset model. For more information, see Tagging your AWS IoT SiteWise resources in the AWS IoT SiteWise User Guide.
 """
 
-CreateAssetModel(assetModelName; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("POST", "/asset-models", Dict{String, Any}("assetModelName"=>assetModelName, "clientToken"=>string(uuid4())); aws_config=aws_config)
-CreateAssetModel(assetModelName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("POST", "/asset-models", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assetModelName"=>assetModelName, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
+CreateAssetModel(assetModelName; aws_config::AWSConfig=global_aws_config()) = iotsitewise("POST", "/asset-models", Dict{String, Any}("assetModelName"=>assetModelName, "clientToken"=>string(uuid4())); aws_config=aws_config)
+CreateAssetModel(assetModelName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("POST", "/asset-models", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assetModelName"=>assetModelName, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     CreateDashboard()
@@ -136,8 +136,8 @@ Creates a dashboard in an AWS IoT SiteWise Monitor project.
 - `tags`: A list of key-value pairs that contain metadata for the dashboard. For more information, see Tagging your AWS IoT SiteWise resources in the AWS IoT SiteWise User Guide.
 """
 
-CreateDashboard(dashboardDefinition, dashboardName, projectId; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("POST", "/dashboards", Dict{String, Any}("dashboardDefinition"=>dashboardDefinition, "dashboardName"=>dashboardName, "projectId"=>projectId, "clientToken"=>string(uuid4())); aws_config=aws_config)
-CreateDashboard(dashboardDefinition, dashboardName, projectId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("POST", "/dashboards", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("dashboardDefinition"=>dashboardDefinition, "dashboardName"=>dashboardName, "projectId"=>projectId, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
+CreateDashboard(dashboardDefinition, dashboardName, projectId; aws_config::AWSConfig=global_aws_config()) = iotsitewise("POST", "/dashboards", Dict{String, Any}("dashboardDefinition"=>dashboardDefinition, "dashboardName"=>dashboardName, "projectId"=>projectId, "clientToken"=>string(uuid4())); aws_config=aws_config)
+CreateDashboard(dashboardDefinition, dashboardName, projectId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("POST", "/dashboards", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("dashboardDefinition"=>dashboardDefinition, "dashboardName"=>dashboardName, "projectId"=>projectId, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     CreateGateway()
@@ -152,8 +152,8 @@ Creates a gateway, which is a virtual or edge device that delivers industrial da
 - `tags`: A list of key-value pairs that contain metadata for the gateway. For more information, see Tagging your AWS IoT SiteWise resources in the AWS IoT SiteWise User Guide.
 """
 
-CreateGateway(gatewayName, gatewayPlatform; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("POST", "/20200301/gateways", Dict{String, Any}("gatewayName"=>gatewayName, "gatewayPlatform"=>gatewayPlatform); aws_config=aws_config)
-CreateGateway(gatewayName, gatewayPlatform, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("POST", "/20200301/gateways", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("gatewayName"=>gatewayName, "gatewayPlatform"=>gatewayPlatform), args)); aws_config=aws_config)
+CreateGateway(gatewayName, gatewayPlatform; aws_config::AWSConfig=global_aws_config()) = iotsitewise("POST", "/20200301/gateways", Dict{String, Any}("gatewayName"=>gatewayName, "gatewayPlatform"=>gatewayPlatform); aws_config=aws_config)
+CreateGateway(gatewayName, gatewayPlatform, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("POST", "/20200301/gateways", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("gatewayName"=>gatewayName, "gatewayPlatform"=>gatewayPlatform), args)); aws_config=aws_config)
 
 """
     CreatePortal()
@@ -172,8 +172,8 @@ Creates a portal, which can contain projects and dashboards. Before you can crea
 - `tags`: A list of key-value pairs that contain metadata for the portal. For more information, see Tagging your AWS IoT SiteWise resources in the AWS IoT SiteWise User Guide.
 """
 
-CreatePortal(portalContactEmail, portalName, roleArn; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("POST", "/portals", Dict{String, Any}("portalContactEmail"=>portalContactEmail, "portalName"=>portalName, "roleArn"=>roleArn, "clientToken"=>string(uuid4())); aws_config=aws_config)
-CreatePortal(portalContactEmail, portalName, roleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("POST", "/portals", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("portalContactEmail"=>portalContactEmail, "portalName"=>portalName, "roleArn"=>roleArn, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
+CreatePortal(portalContactEmail, portalName, roleArn; aws_config::AWSConfig=global_aws_config()) = iotsitewise("POST", "/portals", Dict{String, Any}("portalContactEmail"=>portalContactEmail, "portalName"=>portalName, "roleArn"=>roleArn, "clientToken"=>string(uuid4())); aws_config=aws_config)
+CreatePortal(portalContactEmail, portalName, roleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("POST", "/portals", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("portalContactEmail"=>portalContactEmail, "portalName"=>portalName, "roleArn"=>roleArn, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     CreateProject()
@@ -190,8 +190,8 @@ Creates a project in the specified portal.
 - `tags`: A list of key-value pairs that contain metadata for the project. For more information, see Tagging your AWS IoT SiteWise resources in the AWS IoT SiteWise User Guide.
 """
 
-CreateProject(portalId, projectName; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("POST", "/projects", Dict{String, Any}("portalId"=>portalId, "projectName"=>projectName, "clientToken"=>string(uuid4())); aws_config=aws_config)
-CreateProject(portalId, projectName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("POST", "/projects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("portalId"=>portalId, "projectName"=>projectName, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
+CreateProject(portalId, projectName; aws_config::AWSConfig=global_aws_config()) = iotsitewise("POST", "/projects", Dict{String, Any}("portalId"=>portalId, "projectName"=>projectName, "clientToken"=>string(uuid4())); aws_config=aws_config)
+CreateProject(portalId, projectName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("POST", "/projects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("portalId"=>portalId, "projectName"=>projectName, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     DeleteAccessPolicy()
@@ -205,8 +205,8 @@ Deletes an access policy that grants the specified AWS Single Sign-On identity a
 - `clientToken`: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
 """
 
-DeleteAccessPolicy(accessPolicyId; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("DELETE", "/access-policies/$(accessPolicyId)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
-DeleteAccessPolicy(accessPolicyId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("DELETE", "/access-policies/$(accessPolicyId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), args)); aws_config=aws_config)
+DeleteAccessPolicy(accessPolicyId; aws_config::AWSConfig=global_aws_config()) = iotsitewise("DELETE", "/access-policies/$(accessPolicyId)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
+DeleteAccessPolicy(accessPolicyId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("DELETE", "/access-policies/$(accessPolicyId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     DeleteAsset()
@@ -220,8 +220,8 @@ Deletes an asset. This action can't be undone. For more information, see Deletin
 - `clientToken`: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
 """
 
-DeleteAsset(assetId; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("DELETE", "/assets/$(assetId)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
-DeleteAsset(assetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("DELETE", "/assets/$(assetId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), args)); aws_config=aws_config)
+DeleteAsset(assetId; aws_config::AWSConfig=global_aws_config()) = iotsitewise("DELETE", "/assets/$(assetId)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
+DeleteAsset(assetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("DELETE", "/assets/$(assetId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     DeleteAssetModel()
@@ -235,8 +235,8 @@ Deletes an asset model. This action can't be undone. You must delete all assets 
 - `clientToken`: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
 """
 
-DeleteAssetModel(assetModelId; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("DELETE", "/asset-models/$(assetModelId)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
-DeleteAssetModel(assetModelId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("DELETE", "/asset-models/$(assetModelId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), args)); aws_config=aws_config)
+DeleteAssetModel(assetModelId; aws_config::AWSConfig=global_aws_config()) = iotsitewise("DELETE", "/asset-models/$(assetModelId)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
+DeleteAssetModel(assetModelId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("DELETE", "/asset-models/$(assetModelId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     DeleteDashboard()
@@ -250,8 +250,8 @@ Deletes a dashboard from AWS IoT SiteWise Monitor.
 - `clientToken`: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
 """
 
-DeleteDashboard(dashboardId; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("DELETE", "/dashboards/$(dashboardId)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
-DeleteDashboard(dashboardId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("DELETE", "/dashboards/$(dashboardId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), args)); aws_config=aws_config)
+DeleteDashboard(dashboardId; aws_config::AWSConfig=global_aws_config()) = iotsitewise("DELETE", "/dashboards/$(dashboardId)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
+DeleteDashboard(dashboardId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("DELETE", "/dashboards/$(dashboardId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     DeleteGateway()
@@ -263,8 +263,8 @@ Deletes a gateway from AWS IoT SiteWise. When you delete a gateway, some of the 
 
 """
 
-DeleteGateway(gatewayId; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("DELETE", "/20200301/gateways/$(gatewayId)"; aws_config=aws_config)
-DeleteGateway(gatewayId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("DELETE", "/20200301/gateways/$(gatewayId)", args; aws_config=aws_config)
+DeleteGateway(gatewayId; aws_config::AWSConfig=global_aws_config()) = iotsitewise("DELETE", "/20200301/gateways/$(gatewayId)"; aws_config=aws_config)
+DeleteGateway(gatewayId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("DELETE", "/20200301/gateways/$(gatewayId)", args; aws_config=aws_config)
 
 """
     DeletePortal()
@@ -278,8 +278,8 @@ Deletes a portal from AWS IoT SiteWise Monitor.
 - `clientToken`: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
 """
 
-DeletePortal(portalId; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("DELETE", "/portals/$(portalId)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
-DeletePortal(portalId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("DELETE", "/portals/$(portalId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), args)); aws_config=aws_config)
+DeletePortal(portalId; aws_config::AWSConfig=global_aws_config()) = iotsitewise("DELETE", "/portals/$(portalId)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
+DeletePortal(portalId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("DELETE", "/portals/$(portalId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     DeleteProject()
@@ -293,8 +293,8 @@ Deletes a project from AWS IoT SiteWise Monitor.
 - `clientToken`: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
 """
 
-DeleteProject(projectId; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("DELETE", "/projects/$(projectId)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
-DeleteProject(projectId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("DELETE", "/projects/$(projectId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), args)); aws_config=aws_config)
+DeleteProject(projectId; aws_config::AWSConfig=global_aws_config()) = iotsitewise("DELETE", "/projects/$(projectId)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
+DeleteProject(projectId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("DELETE", "/projects/$(projectId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     DescribeAccessPolicy()
@@ -306,8 +306,8 @@ Describes an access policy, which specifies an AWS SSO user or group's access to
 
 """
 
-DescribeAccessPolicy(accessPolicyId; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/access-policies/$(accessPolicyId)"; aws_config=aws_config)
-DescribeAccessPolicy(accessPolicyId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/access-policies/$(accessPolicyId)", args; aws_config=aws_config)
+DescribeAccessPolicy(accessPolicyId; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/access-policies/$(accessPolicyId)"; aws_config=aws_config)
+DescribeAccessPolicy(accessPolicyId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/access-policies/$(accessPolicyId)", args; aws_config=aws_config)
 
 """
     DescribeAsset()
@@ -319,8 +319,8 @@ Retrieves information about an asset.
 
 """
 
-DescribeAsset(assetId; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/assets/$(assetId)"; aws_config=aws_config)
-DescribeAsset(assetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/assets/$(assetId)", args; aws_config=aws_config)
+DescribeAsset(assetId; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/assets/$(assetId)"; aws_config=aws_config)
+DescribeAsset(assetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/assets/$(assetId)", args; aws_config=aws_config)
 
 """
     DescribeAssetModel()
@@ -332,8 +332,8 @@ Retrieves information about an asset model.
 
 """
 
-DescribeAssetModel(assetModelId; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/asset-models/$(assetModelId)"; aws_config=aws_config)
-DescribeAssetModel(assetModelId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/asset-models/$(assetModelId)", args; aws_config=aws_config)
+DescribeAssetModel(assetModelId; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/asset-models/$(assetModelId)"; aws_config=aws_config)
+DescribeAssetModel(assetModelId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/asset-models/$(assetModelId)", args; aws_config=aws_config)
 
 """
     DescribeAssetProperty()
@@ -346,8 +346,8 @@ Retrieves information about an asset's property.
 
 """
 
-DescribeAssetProperty(assetId, propertyId; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/assets/$(assetId)/properties/$(propertyId)"; aws_config=aws_config)
-DescribeAssetProperty(assetId, propertyId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/assets/$(assetId)/properties/$(propertyId)", args; aws_config=aws_config)
+DescribeAssetProperty(assetId, propertyId; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/assets/$(assetId)/properties/$(propertyId)"; aws_config=aws_config)
+DescribeAssetProperty(assetId, propertyId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/assets/$(assetId)/properties/$(propertyId)", args; aws_config=aws_config)
 
 """
     DescribeDashboard()
@@ -359,8 +359,8 @@ Retrieves information about a dashboard.
 
 """
 
-DescribeDashboard(dashboardId; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/dashboards/$(dashboardId)"; aws_config=aws_config)
-DescribeDashboard(dashboardId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/dashboards/$(dashboardId)", args; aws_config=aws_config)
+DescribeDashboard(dashboardId; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/dashboards/$(dashboardId)"; aws_config=aws_config)
+DescribeDashboard(dashboardId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/dashboards/$(dashboardId)", args; aws_config=aws_config)
 
 """
     DescribeGateway()
@@ -372,8 +372,8 @@ Retrieves information about a gateway.
 
 """
 
-DescribeGateway(gatewayId; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/20200301/gateways/$(gatewayId)"; aws_config=aws_config)
-DescribeGateway(gatewayId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/20200301/gateways/$(gatewayId)", args; aws_config=aws_config)
+DescribeGateway(gatewayId; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/20200301/gateways/$(gatewayId)"; aws_config=aws_config)
+DescribeGateway(gatewayId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/20200301/gateways/$(gatewayId)", args; aws_config=aws_config)
 
 """
     DescribeGatewayCapabilityConfiguration()
@@ -386,8 +386,8 @@ Retrieves information about a gateway capability configuration. Each gateway cap
 
 """
 
-DescribeGatewayCapabilityConfiguration(capabilityNamespace, gatewayId; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/20200301/gateways/$(gatewayId)/capability/$(capabilityNamespace)"; aws_config=aws_config)
-DescribeGatewayCapabilityConfiguration(capabilityNamespace, gatewayId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/20200301/gateways/$(gatewayId)/capability/$(capabilityNamespace)", args; aws_config=aws_config)
+DescribeGatewayCapabilityConfiguration(capabilityNamespace, gatewayId; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/20200301/gateways/$(gatewayId)/capability/$(capabilityNamespace)"; aws_config=aws_config)
+DescribeGatewayCapabilityConfiguration(capabilityNamespace, gatewayId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/20200301/gateways/$(gatewayId)/capability/$(capabilityNamespace)", args; aws_config=aws_config)
 
 """
     DescribeLoggingOptions()
@@ -396,8 +396,8 @@ Retrieves the current AWS IoT SiteWise logging options.
 
 """
 
-DescribeLoggingOptions(; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/logging"; aws_config=aws_config)
-DescribeLoggingOptions(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/logging", args; aws_config=aws_config)
+DescribeLoggingOptions(; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/logging"; aws_config=aws_config)
+DescribeLoggingOptions(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/logging", args; aws_config=aws_config)
 
 """
     DescribePortal()
@@ -409,8 +409,8 @@ Retrieves information about a portal.
 
 """
 
-DescribePortal(portalId; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/portals/$(portalId)"; aws_config=aws_config)
-DescribePortal(portalId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/portals/$(portalId)", args; aws_config=aws_config)
+DescribePortal(portalId; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/portals/$(portalId)"; aws_config=aws_config)
+DescribePortal(portalId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/portals/$(portalId)", args; aws_config=aws_config)
 
 """
     DescribeProject()
@@ -422,8 +422,8 @@ Retrieves information about a project.
 
 """
 
-DescribeProject(projectId; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/projects/$(projectId)"; aws_config=aws_config)
-DescribeProject(projectId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/projects/$(projectId)", args; aws_config=aws_config)
+DescribeProject(projectId; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/projects/$(projectId)"; aws_config=aws_config)
+DescribeProject(projectId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/projects/$(projectId)", args; aws_config=aws_config)
 
 """
     DisassociateAssets()
@@ -439,8 +439,8 @@ Disassociates a child asset from the given parent asset through a hierarchy defi
 - `clientToken`: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
 """
 
-DisassociateAssets(assetId, childAssetId, hierarchyId; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("POST", "/assets/$(assetId)/disassociate", Dict{String, Any}("childAssetId"=>childAssetId, "hierarchyId"=>hierarchyId, "clientToken"=>string(uuid4())); aws_config=aws_config)
-DisassociateAssets(assetId, childAssetId, hierarchyId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("POST", "/assets/$(assetId)/disassociate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("childAssetId"=>childAssetId, "hierarchyId"=>hierarchyId, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
+DisassociateAssets(assetId, childAssetId, hierarchyId; aws_config::AWSConfig=global_aws_config()) = iotsitewise("POST", "/assets/$(assetId)/disassociate", Dict{String, Any}("childAssetId"=>childAssetId, "hierarchyId"=>hierarchyId, "clientToken"=>string(uuid4())); aws_config=aws_config)
+DisassociateAssets(assetId, childAssetId, hierarchyId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("POST", "/assets/$(assetId)/disassociate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("childAssetId"=>childAssetId, "hierarchyId"=>hierarchyId, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     GetAssetPropertyAggregates()
@@ -463,8 +463,8 @@ Gets aggregated values for an asset property. For more information, see Querying
 - `timeOrdering`: The chronological sorting order of the requested information.
 """
 
-GetAssetPropertyAggregates(aggregateTypes, endDate, resolution, startDate; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/properties/aggregates", Dict{String, Any}("aggregateTypes"=>aggregateTypes, "endDate"=>endDate, "resolution"=>resolution, "startDate"=>startDate); aws_config=aws_config)
-GetAssetPropertyAggregates(aggregateTypes, endDate, resolution, startDate, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/properties/aggregates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("aggregateTypes"=>aggregateTypes, "endDate"=>endDate, "resolution"=>resolution, "startDate"=>startDate), args)); aws_config=aws_config)
+GetAssetPropertyAggregates(aggregateTypes, endDate, resolution, startDate; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/properties/aggregates", Dict{String, Any}("aggregateTypes"=>aggregateTypes, "endDate"=>endDate, "resolution"=>resolution, "startDate"=>startDate); aws_config=aws_config)
+GetAssetPropertyAggregates(aggregateTypes, endDate, resolution, startDate, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/properties/aggregates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("aggregateTypes"=>aggregateTypes, "endDate"=>endDate, "resolution"=>resolution, "startDate"=>startDate), args)); aws_config=aws_config)
 
 """
     GetAssetPropertyValue()
@@ -477,8 +477,8 @@ Gets an asset property's current value. For more information, see Querying Curre
 - `propertyId`: The ID of the asset property.
 """
 
-GetAssetPropertyValue(; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/properties/latest"; aws_config=aws_config)
-GetAssetPropertyValue(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/properties/latest", args; aws_config=aws_config)
+GetAssetPropertyValue(; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/properties/latest"; aws_config=aws_config)
+GetAssetPropertyValue(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/properties/latest", args; aws_config=aws_config)
 
 """
     GetAssetPropertyValueHistory()
@@ -497,8 +497,8 @@ Gets the history of an asset property's values. For more information, see Queryi
 - `timeOrdering`: The chronological sorting order of the requested information.
 """
 
-GetAssetPropertyValueHistory(; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/properties/history"; aws_config=aws_config)
-GetAssetPropertyValueHistory(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/properties/history", args; aws_config=aws_config)
+GetAssetPropertyValueHistory(; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/properties/history"; aws_config=aws_config)
+GetAssetPropertyValueHistory(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/properties/history", args; aws_config=aws_config)
 
 """
     ListAccessPolicies()
@@ -514,8 +514,8 @@ Retrieves a paginated list of access policies for an AWS SSO identity (a user or
 - `resourceType`: The type of resource (portal or project). This parameter is required if you specify resourceId.
 """
 
-ListAccessPolicies(; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/access-policies"; aws_config=aws_config)
-ListAccessPolicies(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/access-policies", args; aws_config=aws_config)
+ListAccessPolicies(; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/access-policies"; aws_config=aws_config)
+ListAccessPolicies(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/access-policies", args; aws_config=aws_config)
 
 """
     ListAssetModels()
@@ -527,8 +527,8 @@ Retrieves a paginated list of summaries of all asset models.
 - `nextToken`: The token to be used for the next set of paginated results.
 """
 
-ListAssetModels(; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/asset-models"; aws_config=aws_config)
-ListAssetModels(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/asset-models", args; aws_config=aws_config)
+ListAssetModels(; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/asset-models"; aws_config=aws_config)
+ListAssetModels(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/asset-models", args; aws_config=aws_config)
 
 """
     ListAssets()
@@ -542,8 +542,8 @@ Retrieves a paginated list of asset summaries. You can use this operation to do 
 - `nextToken`: The token to be used for the next set of paginated results.
 """
 
-ListAssets(; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/assets"; aws_config=aws_config)
-ListAssets(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/assets", args; aws_config=aws_config)
+ListAssets(; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/assets"; aws_config=aws_config)
+ListAssets(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/assets", args; aws_config=aws_config)
 
 """
     ListAssociatedAssets()
@@ -559,8 +559,8 @@ Retrieves a paginated list of the assets associated to a parent asset (assetId) 
 - `nextToken`: The token to be used for the next set of paginated results.
 """
 
-ListAssociatedAssets(assetId, hierarchyId; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/assets/$(assetId)/hierarchies", Dict{String, Any}("hierarchyId"=>hierarchyId); aws_config=aws_config)
-ListAssociatedAssets(assetId, hierarchyId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/assets/$(assetId)/hierarchies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("hierarchyId"=>hierarchyId), args)); aws_config=aws_config)
+ListAssociatedAssets(assetId, hierarchyId; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/assets/$(assetId)/hierarchies", Dict{String, Any}("hierarchyId"=>hierarchyId); aws_config=aws_config)
+ListAssociatedAssets(assetId, hierarchyId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/assets/$(assetId)/hierarchies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("hierarchyId"=>hierarchyId), args)); aws_config=aws_config)
 
 """
     ListDashboards()
@@ -575,8 +575,8 @@ Retrieves a paginated list of dashboards for an AWS IoT SiteWise Monitor project
 - `nextToken`: The token to be used for the next set of paginated results.
 """
 
-ListDashboards(projectId; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/dashboards", Dict{String, Any}("projectId"=>projectId); aws_config=aws_config)
-ListDashboards(projectId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/dashboards", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectId"=>projectId), args)); aws_config=aws_config)
+ListDashboards(projectId; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/dashboards", Dict{String, Any}("projectId"=>projectId); aws_config=aws_config)
+ListDashboards(projectId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/dashboards", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectId"=>projectId), args)); aws_config=aws_config)
 
 """
     ListGateways()
@@ -588,8 +588,8 @@ Retrieves a paginated list of gateways.
 - `nextToken`: The token to be used for the next set of paginated results.
 """
 
-ListGateways(; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/20200301/gateways"; aws_config=aws_config)
-ListGateways(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/20200301/gateways", args; aws_config=aws_config)
+ListGateways(; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/20200301/gateways"; aws_config=aws_config)
+ListGateways(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/20200301/gateways", args; aws_config=aws_config)
 
 """
     ListPortals()
@@ -601,8 +601,8 @@ Retrieves a paginated list of AWS IoT SiteWise Monitor portals.
 - `nextToken`: The token to be used for the next set of paginated results.
 """
 
-ListPortals(; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/portals"; aws_config=aws_config)
-ListPortals(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/portals", args; aws_config=aws_config)
+ListPortals(; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/portals"; aws_config=aws_config)
+ListPortals(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/portals", args; aws_config=aws_config)
 
 """
     ListProjectAssets()
@@ -617,8 +617,8 @@ Retrieves a paginated list of assets associated with an AWS IoT SiteWise Monitor
 - `nextToken`: The token to be used for the next set of paginated results.
 """
 
-ListProjectAssets(projectId; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/projects/$(projectId)/assets"; aws_config=aws_config)
-ListProjectAssets(projectId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/projects/$(projectId)/assets", args; aws_config=aws_config)
+ListProjectAssets(projectId; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/projects/$(projectId)/assets"; aws_config=aws_config)
+ListProjectAssets(projectId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/projects/$(projectId)/assets", args; aws_config=aws_config)
 
 """
     ListProjects()
@@ -633,8 +633,8 @@ Retrieves a paginated list of projects for an AWS IoT SiteWise Monitor portal.
 - `nextToken`: The token to be used for the next set of paginated results.
 """
 
-ListProjects(portalId; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/projects", Dict{String, Any}("portalId"=>portalId); aws_config=aws_config)
-ListProjects(portalId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/projects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("portalId"=>portalId), args)); aws_config=aws_config)
+ListProjects(portalId; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/projects", Dict{String, Any}("portalId"=>portalId); aws_config=aws_config)
+ListProjects(portalId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/projects", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("portalId"=>portalId), args)); aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -646,8 +646,8 @@ Retrieves the list of tags for an AWS IoT SiteWise resource.
 
 """
 
-ListTagsForResource(resourceArn; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/tags", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config)
-ListTagsForResource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("GET", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), args)); aws_config=aws_config)
+ListTagsForResource(resourceArn; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/tags", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config)
+ListTagsForResource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("GET", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), args)); aws_config=aws_config)
 
 """
     PutLoggingOptions()
@@ -659,8 +659,8 @@ Sets logging options for AWS IoT SiteWise.
 
 """
 
-PutLoggingOptions(loggingOptions; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("PUT", "/logging", Dict{String, Any}("loggingOptions"=>loggingOptions); aws_config=aws_config)
-PutLoggingOptions(loggingOptions, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("PUT", "/logging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("loggingOptions"=>loggingOptions), args)); aws_config=aws_config)
+PutLoggingOptions(loggingOptions; aws_config::AWSConfig=global_aws_config()) = iotsitewise("PUT", "/logging", Dict{String, Any}("loggingOptions"=>loggingOptions); aws_config=aws_config)
+PutLoggingOptions(loggingOptions, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("PUT", "/logging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("loggingOptions"=>loggingOptions), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -673,8 +673,8 @@ Adds tags to an AWS IoT SiteWise resource. If a tag already exists for the resou
 
 """
 
-TagResource(resourceArn, tags; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("POST", "/tags", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws_config=aws_config)
-TagResource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("POST", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), args)); aws_config=aws_config)
+TagResource(resourceArn, tags; aws_config::AWSConfig=global_aws_config()) = iotsitewise("POST", "/tags", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws_config=aws_config)
+TagResource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("POST", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -687,8 +687,8 @@ Removes a tag from an AWS IoT SiteWise resource.
 
 """
 
-UntagResource(resourceArn, tagKeys; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("DELETE", "/tags", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws_config=aws_config)
-UntagResource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("DELETE", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), args)); aws_config=aws_config)
+UntagResource(resourceArn, tagKeys; aws_config::AWSConfig=global_aws_config()) = iotsitewise("DELETE", "/tags", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws_config=aws_config)
+UntagResource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("DELETE", "/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), args)); aws_config=aws_config)
 
 """
     UpdateAccessPolicy()
@@ -705,8 +705,8 @@ Updates an existing access policy that specifies an AWS SSO user or group's acce
 - `clientToken`: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
 """
 
-UpdateAccessPolicy(accessPolicyId, accessPolicyIdentity, accessPolicyPermission, accessPolicyResource; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("PUT", "/access-policies/$(accessPolicyId)", Dict{String, Any}("accessPolicyIdentity"=>accessPolicyIdentity, "accessPolicyPermission"=>accessPolicyPermission, "accessPolicyResource"=>accessPolicyResource, "clientToken"=>string(uuid4())); aws_config=aws_config)
-UpdateAccessPolicy(accessPolicyId, accessPolicyIdentity, accessPolicyPermission, accessPolicyResource, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("PUT", "/access-policies/$(accessPolicyId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accessPolicyIdentity"=>accessPolicyIdentity, "accessPolicyPermission"=>accessPolicyPermission, "accessPolicyResource"=>accessPolicyResource, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
+UpdateAccessPolicy(accessPolicyId, accessPolicyIdentity, accessPolicyPermission, accessPolicyResource; aws_config::AWSConfig=global_aws_config()) = iotsitewise("PUT", "/access-policies/$(accessPolicyId)", Dict{String, Any}("accessPolicyIdentity"=>accessPolicyIdentity, "accessPolicyPermission"=>accessPolicyPermission, "accessPolicyResource"=>accessPolicyResource, "clientToken"=>string(uuid4())); aws_config=aws_config)
+UpdateAccessPolicy(accessPolicyId, accessPolicyIdentity, accessPolicyPermission, accessPolicyResource, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("PUT", "/access-policies/$(accessPolicyId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("accessPolicyIdentity"=>accessPolicyIdentity, "accessPolicyPermission"=>accessPolicyPermission, "accessPolicyResource"=>accessPolicyResource, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     UpdateAsset()
@@ -721,8 +721,8 @@ Updates an asset's name. For more information, see Updating Assets and Models in
 - `clientToken`: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
 """
 
-UpdateAsset(assetId, assetName; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("PUT", "/assets/$(assetId)", Dict{String, Any}("assetName"=>assetName, "clientToken"=>string(uuid4())); aws_config=aws_config)
-UpdateAsset(assetId, assetName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("PUT", "/assets/$(assetId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assetName"=>assetName, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
+UpdateAsset(assetId, assetName; aws_config::AWSConfig=global_aws_config()) = iotsitewise("PUT", "/assets/$(assetId)", Dict{String, Any}("assetName"=>assetName, "clientToken"=>string(uuid4())); aws_config=aws_config)
+UpdateAsset(assetId, assetName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("PUT", "/assets/$(assetId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assetName"=>assetName, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     UpdateAssetModel()
@@ -740,8 +740,8 @@ Updates an asset model and all of the assets that were created from the model. E
 - `clientToken`: A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
 """
 
-UpdateAssetModel(assetModelId, assetModelName; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("PUT", "/asset-models/$(assetModelId)", Dict{String, Any}("assetModelName"=>assetModelName, "clientToken"=>string(uuid4())); aws_config=aws_config)
-UpdateAssetModel(assetModelId, assetModelName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("PUT", "/asset-models/$(assetModelId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assetModelName"=>assetModelName, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
+UpdateAssetModel(assetModelId, assetModelName; aws_config::AWSConfig=global_aws_config()) = iotsitewise("PUT", "/asset-models/$(assetModelId)", Dict{String, Any}("assetModelName"=>assetModelName, "clientToken"=>string(uuid4())); aws_config=aws_config)
+UpdateAssetModel(assetModelId, assetModelName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("PUT", "/asset-models/$(assetModelId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("assetModelName"=>assetModelName, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     UpdateAssetProperty()
@@ -758,8 +758,8 @@ Updates an asset property's alias and notification state.  This operation overwr
 - `propertyNotificationState`: The MQTT notification state (enabled or disabled) for this asset property. When the notification state is enabled, AWS IoT SiteWise publishes property value updates to a unique MQTT topic. For more information, see Interacting with Other Services in the AWS IoT SiteWise User Guide. If you omit this parameter, the notification state is set to DISABLED.
 """
 
-UpdateAssetProperty(assetId, propertyId; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("PUT", "/assets/$(assetId)/properties/$(propertyId)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
-UpdateAssetProperty(assetId, propertyId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("PUT", "/assets/$(assetId)/properties/$(propertyId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), args)); aws_config=aws_config)
+UpdateAssetProperty(assetId, propertyId; aws_config::AWSConfig=global_aws_config()) = iotsitewise("PUT", "/assets/$(assetId)/properties/$(propertyId)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
+UpdateAssetProperty(assetId, propertyId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("PUT", "/assets/$(assetId)/properties/$(propertyId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     UpdateDashboard()
@@ -776,8 +776,8 @@ Updates an AWS IoT SiteWise Monitor dashboard.
 - `dashboardDescription`: A new description for the dashboard.
 """
 
-UpdateDashboard(dashboardDefinition, dashboardId, dashboardName; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("PUT", "/dashboards/$(dashboardId)", Dict{String, Any}("dashboardDefinition"=>dashboardDefinition, "dashboardName"=>dashboardName, "clientToken"=>string(uuid4())); aws_config=aws_config)
-UpdateDashboard(dashboardDefinition, dashboardId, dashboardName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("PUT", "/dashboards/$(dashboardId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("dashboardDefinition"=>dashboardDefinition, "dashboardName"=>dashboardName, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
+UpdateDashboard(dashboardDefinition, dashboardId, dashboardName; aws_config::AWSConfig=global_aws_config()) = iotsitewise("PUT", "/dashboards/$(dashboardId)", Dict{String, Any}("dashboardDefinition"=>dashboardDefinition, "dashboardName"=>dashboardName, "clientToken"=>string(uuid4())); aws_config=aws_config)
+UpdateDashboard(dashboardDefinition, dashboardId, dashboardName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("PUT", "/dashboards/$(dashboardId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("dashboardDefinition"=>dashboardDefinition, "dashboardName"=>dashboardName, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     UpdateGateway()
@@ -790,8 +790,8 @@ Updates a gateway's name.
 
 """
 
-UpdateGateway(gatewayId, gatewayName; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("PUT", "/20200301/gateways/$(gatewayId)", Dict{String, Any}("gatewayName"=>gatewayName); aws_config=aws_config)
-UpdateGateway(gatewayId, gatewayName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("PUT", "/20200301/gateways/$(gatewayId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("gatewayName"=>gatewayName), args)); aws_config=aws_config)
+UpdateGateway(gatewayId, gatewayName; aws_config::AWSConfig=global_aws_config()) = iotsitewise("PUT", "/20200301/gateways/$(gatewayId)", Dict{String, Any}("gatewayName"=>gatewayName); aws_config=aws_config)
+UpdateGateway(gatewayId, gatewayName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("PUT", "/20200301/gateways/$(gatewayId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("gatewayName"=>gatewayName), args)); aws_config=aws_config)
 
 """
     UpdateGatewayCapabilityConfiguration()
@@ -805,8 +805,8 @@ Updates a gateway capability configuration or defines a new capability configura
 
 """
 
-UpdateGatewayCapabilityConfiguration(capabilityConfiguration, capabilityNamespace, gatewayId; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("POST", "/20200301/gateways/$(gatewayId)/capability", Dict{String, Any}("capabilityConfiguration"=>capabilityConfiguration, "capabilityNamespace"=>capabilityNamespace); aws_config=aws_config)
-UpdateGatewayCapabilityConfiguration(capabilityConfiguration, capabilityNamespace, gatewayId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("POST", "/20200301/gateways/$(gatewayId)/capability", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("capabilityConfiguration"=>capabilityConfiguration, "capabilityNamespace"=>capabilityNamespace), args)); aws_config=aws_config)
+UpdateGatewayCapabilityConfiguration(capabilityConfiguration, capabilityNamespace, gatewayId; aws_config::AWSConfig=global_aws_config()) = iotsitewise("POST", "/20200301/gateways/$(gatewayId)/capability", Dict{String, Any}("capabilityConfiguration"=>capabilityConfiguration, "capabilityNamespace"=>capabilityNamespace); aws_config=aws_config)
+UpdateGatewayCapabilityConfiguration(capabilityConfiguration, capabilityNamespace, gatewayId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("POST", "/20200301/gateways/$(gatewayId)/capability", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("capabilityConfiguration"=>capabilityConfiguration, "capabilityNamespace"=>capabilityNamespace), args)); aws_config=aws_config)
 
 """
     UpdatePortal()
@@ -825,8 +825,8 @@ Updates an AWS IoT SiteWise Monitor portal.
 - `portalLogoImage`: 
 """
 
-UpdatePortal(portalContactEmail, portalId, portalName, roleArn; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("PUT", "/portals/$(portalId)", Dict{String, Any}("portalContactEmail"=>portalContactEmail, "portalName"=>portalName, "roleArn"=>roleArn, "clientToken"=>string(uuid4())); aws_config=aws_config)
-UpdatePortal(portalContactEmail, portalId, portalName, roleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("PUT", "/portals/$(portalId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("portalContactEmail"=>portalContactEmail, "portalName"=>portalName, "roleArn"=>roleArn, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
+UpdatePortal(portalContactEmail, portalId, portalName, roleArn; aws_config::AWSConfig=global_aws_config()) = iotsitewise("PUT", "/portals/$(portalId)", Dict{String, Any}("portalContactEmail"=>portalContactEmail, "portalName"=>portalName, "roleArn"=>roleArn, "clientToken"=>string(uuid4())); aws_config=aws_config)
+UpdatePortal(portalContactEmail, portalId, portalName, roleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("PUT", "/portals/$(portalId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("portalContactEmail"=>portalContactEmail, "portalName"=>portalName, "roleArn"=>roleArn, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     UpdateProject()
@@ -842,5 +842,5 @@ Updates an AWS IoT SiteWise Monitor project.
 - `projectDescription`: A new description for the project.
 """
 
-UpdateProject(projectId, projectName; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("PUT", "/projects/$(projectId)", Dict{String, Any}("projectName"=>projectName, "clientToken"=>string(uuid4())); aws_config=aws_config)
-UpdateProject(projectId, projectName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iotsitewise("PUT", "/projects/$(projectId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
+UpdateProject(projectId, projectName; aws_config::AWSConfig=global_aws_config()) = iotsitewise("PUT", "/projects/$(projectId)", Dict{String, Any}("projectName"=>projectName, "clientToken"=>string(uuid4())); aws_config=aws_config)
+UpdateProject(projectId, projectName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iotsitewise("PUT", "/projects/$(projectId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("projectName"=>projectName, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
