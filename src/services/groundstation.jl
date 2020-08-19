@@ -13,8 +13,9 @@ Cancels a contact with a specified contact ID.
 - `contactId`: UUID of a contact.
 
 """
-CancelContact(contactId; aws::AWSConfig=AWS.aws_config) = groundstation("DELETE", "/contact/$(contactId)"; aws=aws)
-CancelContact(contactId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = groundstation("DELETE", "/contact/$(contactId)", args; aws=aws)
+
+CancelContact(contactId; aws_config::AWSConfig=AWS.aws_config) = groundstation("DELETE", "/contact/$(contactId)"; aws_config=aws_config)
+CancelContact(contactId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = groundstation("DELETE", "/contact/$(contactId)", args; aws_config=aws_config)
 
 """
     CreateConfig()
@@ -28,8 +29,9 @@ Creates a Config with the specified configData parameters. Only one type of conf
 # Optional Parameters
 - `tags`: Tags assigned to a Config.
 """
-CreateConfig(configData, name; aws::AWSConfig=AWS.aws_config) = groundstation("POST", "/config", Dict{String, Any}("configData"=>configData, "name"=>name); aws=aws)
-CreateConfig(configData, name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = groundstation("POST", "/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configData"=>configData, "name"=>name), args)); aws=aws)
+
+CreateConfig(configData, name; aws_config::AWSConfig=AWS.aws_config) = groundstation("POST", "/config", Dict{String, Any}("configData"=>configData, "name"=>name); aws_config=aws_config)
+CreateConfig(configData, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = groundstation("POST", "/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configData"=>configData, "name"=>name), args)); aws_config=aws_config)
 
 """
     CreateDataflowEndpointGroup()
@@ -42,8 +44,9 @@ Creates a DataflowEndpoint group containing the specified list of DataflowEndpoi
 # Optional Parameters
 - `tags`: Tags of a dataflow endpoint group.
 """
-CreateDataflowEndpointGroup(endpointDetails; aws::AWSConfig=AWS.aws_config) = groundstation("POST", "/dataflowEndpointGroup", Dict{String, Any}("endpointDetails"=>endpointDetails); aws=aws)
-CreateDataflowEndpointGroup(endpointDetails, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = groundstation("POST", "/dataflowEndpointGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endpointDetails"=>endpointDetails), args)); aws=aws)
+
+CreateDataflowEndpointGroup(endpointDetails; aws_config::AWSConfig=AWS.aws_config) = groundstation("POST", "/dataflowEndpointGroup", Dict{String, Any}("endpointDetails"=>endpointDetails); aws_config=aws_config)
+CreateDataflowEndpointGroup(endpointDetails, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = groundstation("POST", "/dataflowEndpointGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endpointDetails"=>endpointDetails), args)); aws_config=aws_config)
 
 """
     CreateMissionProfile()
@@ -61,8 +64,9 @@ Creates a mission profile.  dataflowEdges is a list of lists of strings. Each lo
 - `contactPrePassDurationSeconds`: Amount of time prior to contact start you’d like to receive a CloudWatch event indicating an upcoming pass.
 - `tags`: Tags assigned to a mission profile.
 """
-CreateMissionProfile(dataflowEdges, minimumViableContactDurationSeconds, name, trackingConfigArn; aws::AWSConfig=AWS.aws_config) = groundstation("POST", "/missionprofile", Dict{String, Any}("dataflowEdges"=>dataflowEdges, "minimumViableContactDurationSeconds"=>minimumViableContactDurationSeconds, "name"=>name, "trackingConfigArn"=>trackingConfigArn); aws=aws)
-CreateMissionProfile(dataflowEdges, minimumViableContactDurationSeconds, name, trackingConfigArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = groundstation("POST", "/missionprofile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("dataflowEdges"=>dataflowEdges, "minimumViableContactDurationSeconds"=>minimumViableContactDurationSeconds, "name"=>name, "trackingConfigArn"=>trackingConfigArn), args)); aws=aws)
+
+CreateMissionProfile(dataflowEdges, minimumViableContactDurationSeconds, name, trackingConfigArn; aws_config::AWSConfig=AWS.aws_config) = groundstation("POST", "/missionprofile", Dict{String, Any}("dataflowEdges"=>dataflowEdges, "minimumViableContactDurationSeconds"=>minimumViableContactDurationSeconds, "name"=>name, "trackingConfigArn"=>trackingConfigArn); aws_config=aws_config)
+CreateMissionProfile(dataflowEdges, minimumViableContactDurationSeconds, name, trackingConfigArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = groundstation("POST", "/missionprofile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("dataflowEdges"=>dataflowEdges, "minimumViableContactDurationSeconds"=>minimumViableContactDurationSeconds, "name"=>name, "trackingConfigArn"=>trackingConfigArn), args)); aws_config=aws_config)
 
 """
     DeleteConfig()
@@ -74,8 +78,9 @@ Deletes a Config.
 - `configType`: Type of a Config.
 
 """
-DeleteConfig(configId, configType; aws::AWSConfig=AWS.aws_config) = groundstation("DELETE", "/config/$(configType)/$(configId)"; aws=aws)
-DeleteConfig(configId, configType, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = groundstation("DELETE", "/config/$(configType)/$(configId)", args; aws=aws)
+
+DeleteConfig(configId, configType; aws_config::AWSConfig=AWS.aws_config) = groundstation("DELETE", "/config/$(configType)/$(configId)"; aws_config=aws_config)
+DeleteConfig(configId, configType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = groundstation("DELETE", "/config/$(configType)/$(configId)", args; aws_config=aws_config)
 
 """
     DeleteDataflowEndpointGroup()
@@ -86,8 +91,9 @@ Deletes a dataflow endpoint group.
 - `dataflowEndpointGroupId`: UUID of a dataflow endpoint group.
 
 """
-DeleteDataflowEndpointGroup(dataflowEndpointGroupId; aws::AWSConfig=AWS.aws_config) = groundstation("DELETE", "/dataflowEndpointGroup/$(dataflowEndpointGroupId)"; aws=aws)
-DeleteDataflowEndpointGroup(dataflowEndpointGroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = groundstation("DELETE", "/dataflowEndpointGroup/$(dataflowEndpointGroupId)", args; aws=aws)
+
+DeleteDataflowEndpointGroup(dataflowEndpointGroupId; aws_config::AWSConfig=AWS.aws_config) = groundstation("DELETE", "/dataflowEndpointGroup/$(dataflowEndpointGroupId)"; aws_config=aws_config)
+DeleteDataflowEndpointGroup(dataflowEndpointGroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = groundstation("DELETE", "/dataflowEndpointGroup/$(dataflowEndpointGroupId)", args; aws_config=aws_config)
 
 """
     DeleteMissionProfile()
@@ -98,8 +104,9 @@ Deletes a mission profile.
 - `missionProfileId`: UUID of a mission profile.
 
 """
-DeleteMissionProfile(missionProfileId; aws::AWSConfig=AWS.aws_config) = groundstation("DELETE", "/missionprofile/$(missionProfileId)"; aws=aws)
-DeleteMissionProfile(missionProfileId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = groundstation("DELETE", "/missionprofile/$(missionProfileId)", args; aws=aws)
+
+DeleteMissionProfile(missionProfileId; aws_config::AWSConfig=AWS.aws_config) = groundstation("DELETE", "/missionprofile/$(missionProfileId)"; aws_config=aws_config)
+DeleteMissionProfile(missionProfileId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = groundstation("DELETE", "/missionprofile/$(missionProfileId)", args; aws_config=aws_config)
 
 """
     DescribeContact()
@@ -110,8 +117,9 @@ Describes an existing contact.
 - `contactId`: UUID of a contact.
 
 """
-DescribeContact(contactId; aws::AWSConfig=AWS.aws_config) = groundstation("GET", "/contact/$(contactId)"; aws=aws)
-DescribeContact(contactId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = groundstation("GET", "/contact/$(contactId)", args; aws=aws)
+
+DescribeContact(contactId; aws_config::AWSConfig=AWS.aws_config) = groundstation("GET", "/contact/$(contactId)"; aws_config=aws_config)
+DescribeContact(contactId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = groundstation("GET", "/contact/$(contactId)", args; aws_config=aws_config)
 
 """
     GetConfig()
@@ -123,8 +131,9 @@ Returns Config information. Only one Config response can be returned.
 - `configType`: Type of a Config.
 
 """
-GetConfig(configId, configType; aws::AWSConfig=AWS.aws_config) = groundstation("GET", "/config/$(configType)/$(configId)"; aws=aws)
-GetConfig(configId, configType, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = groundstation("GET", "/config/$(configType)/$(configId)", args; aws=aws)
+
+GetConfig(configId, configType; aws_config::AWSConfig=AWS.aws_config) = groundstation("GET", "/config/$(configType)/$(configId)"; aws_config=aws_config)
+GetConfig(configId, configType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = groundstation("GET", "/config/$(configType)/$(configId)", args; aws_config=aws_config)
 
 """
     GetDataflowEndpointGroup()
@@ -135,8 +144,9 @@ Returns the dataflow endpoint group.
 - `dataflowEndpointGroupId`: UUID of a dataflow endpoint group.
 
 """
-GetDataflowEndpointGroup(dataflowEndpointGroupId; aws::AWSConfig=AWS.aws_config) = groundstation("GET", "/dataflowEndpointGroup/$(dataflowEndpointGroupId)"; aws=aws)
-GetDataflowEndpointGroup(dataflowEndpointGroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = groundstation("GET", "/dataflowEndpointGroup/$(dataflowEndpointGroupId)", args; aws=aws)
+
+GetDataflowEndpointGroup(dataflowEndpointGroupId; aws_config::AWSConfig=AWS.aws_config) = groundstation("GET", "/dataflowEndpointGroup/$(dataflowEndpointGroupId)"; aws_config=aws_config)
+GetDataflowEndpointGroup(dataflowEndpointGroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = groundstation("GET", "/dataflowEndpointGroup/$(dataflowEndpointGroupId)", args; aws_config=aws_config)
 
 """
     GetMinuteUsage()
@@ -148,8 +158,9 @@ Returns the number of minutes used by account.
 - `year`: The year being requested, in the format of YYYY.
 
 """
-GetMinuteUsage(month, year; aws::AWSConfig=AWS.aws_config) = groundstation("POST", "/minute-usage", Dict{String, Any}("month"=>month, "year"=>year); aws=aws)
-GetMinuteUsage(month, year, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = groundstation("POST", "/minute-usage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("month"=>month, "year"=>year), args)); aws=aws)
+
+GetMinuteUsage(month, year; aws_config::AWSConfig=AWS.aws_config) = groundstation("POST", "/minute-usage", Dict{String, Any}("month"=>month, "year"=>year); aws_config=aws_config)
+GetMinuteUsage(month, year, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = groundstation("POST", "/minute-usage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("month"=>month, "year"=>year), args)); aws_config=aws_config)
 
 """
     GetMissionProfile()
@@ -160,8 +171,9 @@ Returns a mission profile.
 - `missionProfileId`: UUID of a mission profile.
 
 """
-GetMissionProfile(missionProfileId; aws::AWSConfig=AWS.aws_config) = groundstation("GET", "/missionprofile/$(missionProfileId)"; aws=aws)
-GetMissionProfile(missionProfileId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = groundstation("GET", "/missionprofile/$(missionProfileId)", args; aws=aws)
+
+GetMissionProfile(missionProfileId; aws_config::AWSConfig=AWS.aws_config) = groundstation("GET", "/missionprofile/$(missionProfileId)"; aws_config=aws_config)
+GetMissionProfile(missionProfileId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = groundstation("GET", "/missionprofile/$(missionProfileId)", args; aws_config=aws_config)
 
 """
     GetSatellite()
@@ -172,8 +184,9 @@ Returns a satellite.
 - `satelliteId`: UUID of a satellite.
 
 """
-GetSatellite(satelliteId; aws::AWSConfig=AWS.aws_config) = groundstation("GET", "/satellite/$(satelliteId)"; aws=aws)
-GetSatellite(satelliteId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = groundstation("GET", "/satellite/$(satelliteId)", args; aws=aws)
+
+GetSatellite(satelliteId; aws_config::AWSConfig=AWS.aws_config) = groundstation("GET", "/satellite/$(satelliteId)"; aws_config=aws_config)
+GetSatellite(satelliteId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = groundstation("GET", "/satellite/$(satelliteId)", args; aws_config=aws_config)
 
 """
     ListConfigs()
@@ -184,8 +197,9 @@ Returns a list of Config objects.
 - `maxResults`: Maximum number of Configs returned.
 - `nextToken`: Next token returned in the request of a previous ListConfigs call. Used to get the next page of results.
 """
-ListConfigs(; aws::AWSConfig=AWS.aws_config) = groundstation("GET", "/config"; aws=aws)
-ListConfigs(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = groundstation("GET", "/config", args; aws=aws)
+
+ListConfigs(; aws_config::AWSConfig=AWS.aws_config) = groundstation("GET", "/config"; aws_config=aws_config)
+ListConfigs(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = groundstation("GET", "/config", args; aws_config=aws_config)
 
 """
     ListContacts()
@@ -204,8 +218,9 @@ Returns a list of contacts. If statusList contains AVAILABLE, the request must i
 - `nextToken`: Next token returned in the request of a previous ListContacts call. Used to get the next page of results.
 - `satelliteArn`: ARN of a satellite.
 """
-ListContacts(endTime, startTime, statusList; aws::AWSConfig=AWS.aws_config) = groundstation("POST", "/contacts", Dict{String, Any}("endTime"=>endTime, "startTime"=>startTime, "statusList"=>statusList); aws=aws)
-ListContacts(endTime, startTime, statusList, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = groundstation("POST", "/contacts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "startTime"=>startTime, "statusList"=>statusList), args)); aws=aws)
+
+ListContacts(endTime, startTime, statusList; aws_config::AWSConfig=AWS.aws_config) = groundstation("POST", "/contacts", Dict{String, Any}("endTime"=>endTime, "startTime"=>startTime, "statusList"=>statusList); aws_config=aws_config)
+ListContacts(endTime, startTime, statusList, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = groundstation("POST", "/contacts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "startTime"=>startTime, "statusList"=>statusList), args)); aws_config=aws_config)
 
 """
     ListDataflowEndpointGroups()
@@ -216,8 +231,9 @@ Returns a list of DataflowEndpoint groups.
 - `maxResults`: Maximum number of dataflow endpoint groups returned.
 - `nextToken`: Next token returned in the request of a previous ListDataflowEndpointGroups call. Used to get the next page of results.
 """
-ListDataflowEndpointGroups(; aws::AWSConfig=AWS.aws_config) = groundstation("GET", "/dataflowEndpointGroup"; aws=aws)
-ListDataflowEndpointGroups(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = groundstation("GET", "/dataflowEndpointGroup", args; aws=aws)
+
+ListDataflowEndpointGroups(; aws_config::AWSConfig=AWS.aws_config) = groundstation("GET", "/dataflowEndpointGroup"; aws_config=aws_config)
+ListDataflowEndpointGroups(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = groundstation("GET", "/dataflowEndpointGroup", args; aws_config=aws_config)
 
 """
     ListGroundStations()
@@ -229,8 +245,9 @@ Returns a list of ground stations.
 - `nextToken`: Next token that can be supplied in the next call to get the next page of ground stations.
 - `satelliteId`: Satellite ID to retrieve on-boarded ground stations.
 """
-ListGroundStations(; aws::AWSConfig=AWS.aws_config) = groundstation("GET", "/groundstation"; aws=aws)
-ListGroundStations(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = groundstation("GET", "/groundstation", args; aws=aws)
+
+ListGroundStations(; aws_config::AWSConfig=AWS.aws_config) = groundstation("GET", "/groundstation"; aws_config=aws_config)
+ListGroundStations(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = groundstation("GET", "/groundstation", args; aws_config=aws_config)
 
 """
     ListMissionProfiles()
@@ -241,8 +258,9 @@ Returns a list of mission profiles.
 - `maxResults`: Maximum number of mission profiles returned.
 - `nextToken`: Next token returned in the request of a previous ListMissionProfiles call. Used to get the next page of results.
 """
-ListMissionProfiles(; aws::AWSConfig=AWS.aws_config) = groundstation("GET", "/missionprofile"; aws=aws)
-ListMissionProfiles(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = groundstation("GET", "/missionprofile", args; aws=aws)
+
+ListMissionProfiles(; aws_config::AWSConfig=AWS.aws_config) = groundstation("GET", "/missionprofile"; aws_config=aws_config)
+ListMissionProfiles(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = groundstation("GET", "/missionprofile", args; aws_config=aws_config)
 
 """
     ListSatellites()
@@ -253,8 +271,9 @@ Returns a list of satellites.
 - `maxResults`: Maximum number of satellites returned.
 - `nextToken`: Next token that can be supplied in the next call to get the next page of satellites.
 """
-ListSatellites(; aws::AWSConfig=AWS.aws_config) = groundstation("GET", "/satellite"; aws=aws)
-ListSatellites(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = groundstation("GET", "/satellite", args; aws=aws)
+
+ListSatellites(; aws_config::AWSConfig=AWS.aws_config) = groundstation("GET", "/satellite"; aws_config=aws_config)
+ListSatellites(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = groundstation("GET", "/satellite", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -265,8 +284,9 @@ Returns a list of tags for a specified resource.
 - `resourceArn`: ARN of a resource.
 
 """
-ListTagsForResource(resourceArn; aws::AWSConfig=AWS.aws_config) = groundstation("GET", "/tags/$(resourceArn)"; aws=aws)
-ListTagsForResource(resourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = groundstation("GET", "/tags/$(resourceArn)", args; aws=aws)
+
+ListTagsForResource(resourceArn; aws_config::AWSConfig=AWS.aws_config) = groundstation("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
+ListTagsForResource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = groundstation("GET", "/tags/$(resourceArn)", args; aws_config=aws_config)
 
 """
     ReserveContact()
@@ -283,8 +303,9 @@ Reserves a contact using specified parameters.
 # Optional Parameters
 - `tags`: Tags assigned to a contact.
 """
-ReserveContact(endTime, groundStation, missionProfileArn, satelliteArn, startTime; aws::AWSConfig=AWS.aws_config) = groundstation("POST", "/contact", Dict{String, Any}("endTime"=>endTime, "groundStation"=>groundStation, "missionProfileArn"=>missionProfileArn, "satelliteArn"=>satelliteArn, "startTime"=>startTime); aws=aws)
-ReserveContact(endTime, groundStation, missionProfileArn, satelliteArn, startTime, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = groundstation("POST", "/contact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "groundStation"=>groundStation, "missionProfileArn"=>missionProfileArn, "satelliteArn"=>satelliteArn, "startTime"=>startTime), args)); aws=aws)
+
+ReserveContact(endTime, groundStation, missionProfileArn, satelliteArn, startTime; aws_config::AWSConfig=AWS.aws_config) = groundstation("POST", "/contact", Dict{String, Any}("endTime"=>endTime, "groundStation"=>groundStation, "missionProfileArn"=>missionProfileArn, "satelliteArn"=>satelliteArn, "startTime"=>startTime); aws_config=aws_config)
+ReserveContact(endTime, groundStation, missionProfileArn, satelliteArn, startTime, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = groundstation("POST", "/contact", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "groundStation"=>groundStation, "missionProfileArn"=>missionProfileArn, "satelliteArn"=>satelliteArn, "startTime"=>startTime), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -296,8 +317,9 @@ Assigns a tag to a resource.
 - `tags`: Tags assigned to a resource.
 
 """
-TagResource(resourceArn, tags; aws::AWSConfig=AWS.aws_config) = groundstation("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws=aws)
-TagResource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = groundstation("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws=aws)
+
+TagResource(resourceArn, tags; aws_config::AWSConfig=AWS.aws_config) = groundstation("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
+TagResource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = groundstation("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -309,8 +331,9 @@ Deassigns a resource tag.
 - `tagKeys`: Keys of a resource tag.
 
 """
-UntagResource(resourceArn, tagKeys; aws::AWSConfig=AWS.aws_config) = groundstation("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws=aws)
-UntagResource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = groundstation("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws=aws)
+
+UntagResource(resourceArn, tagKeys; aws_config::AWSConfig=AWS.aws_config) = groundstation("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
+UntagResource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = groundstation("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
 
 """
     UpdateConfig()
@@ -324,8 +347,9 @@ Updates the Config used when scheduling contacts. Updating a Config will not upd
 - `name`: Name of a Config.
 
 """
-UpdateConfig(configData, configId, configType, name; aws::AWSConfig=AWS.aws_config) = groundstation("PUT", "/config/$(configType)/$(configId)", Dict{String, Any}("configData"=>configData, "name"=>name); aws=aws)
-UpdateConfig(configData, configId, configType, name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = groundstation("PUT", "/config/$(configType)/$(configId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configData"=>configData, "name"=>name), args)); aws=aws)
+
+UpdateConfig(configData, configId, configType, name; aws_config::AWSConfig=AWS.aws_config) = groundstation("PUT", "/config/$(configType)/$(configId)", Dict{String, Any}("configData"=>configData, "name"=>name); aws_config=aws_config)
+UpdateConfig(configData, configId, configType, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = groundstation("PUT", "/config/$(configType)/$(configId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("configData"=>configData, "name"=>name), args)); aws_config=aws_config)
 
 """
     UpdateMissionProfile()
@@ -343,5 +367,6 @@ Updates a mission profile. Updating a mission profile will not update the execut
 - `name`: Name of a mission profile.
 - `trackingConfigArn`: ARN of a tracking Config.
 """
-UpdateMissionProfile(missionProfileId; aws::AWSConfig=AWS.aws_config) = groundstation("PUT", "/missionprofile/$(missionProfileId)"; aws=aws)
-UpdateMissionProfile(missionProfileId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = groundstation("PUT", "/missionprofile/$(missionProfileId)", args; aws=aws)
+
+UpdateMissionProfile(missionProfileId; aws_config::AWSConfig=AWS.aws_config) = groundstation("PUT", "/missionprofile/$(missionProfileId)"; aws_config=aws_config)
+UpdateMissionProfile(missionProfileId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = groundstation("PUT", "/missionprofile/$(missionProfileId)", args; aws_config=aws_config)

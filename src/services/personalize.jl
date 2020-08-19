@@ -21,8 +21,9 @@ Creates a batch inference job. The operation can handle up to 50 million records
 - `filterArn`: The ARN of the filter to apply to the batch inference job. For more information on using filters, see Using Filters with Amazon Personalize.
 - `numResults`: The number of recommendations to retreive.
 """
-CreateBatchInferenceJob(jobInput, jobName, jobOutput, roleArn, solutionVersionArn; aws::AWSConfig=AWS.aws_config) = personalize("CreateBatchInferenceJob", Dict{String, Any}("jobInput"=>jobInput, "jobName"=>jobName, "jobOutput"=>jobOutput, "roleArn"=>roleArn, "solutionVersionArn"=>solutionVersionArn); aws=aws)
-CreateBatchInferenceJob(jobInput, jobName, jobOutput, roleArn, solutionVersionArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("CreateBatchInferenceJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobInput"=>jobInput, "jobName"=>jobName, "jobOutput"=>jobOutput, "roleArn"=>roleArn, "solutionVersionArn"=>solutionVersionArn), args)); aws=aws)
+
+CreateBatchInferenceJob(jobInput, jobName, jobOutput, roleArn, solutionVersionArn; aws_config::AWSConfig=AWS.aws_config) = personalize("CreateBatchInferenceJob", Dict{String, Any}("jobInput"=>jobInput, "jobName"=>jobName, "jobOutput"=>jobOutput, "roleArn"=>roleArn, "solutionVersionArn"=>solutionVersionArn); aws_config=aws_config)
+CreateBatchInferenceJob(jobInput, jobName, jobOutput, roleArn, solutionVersionArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("CreateBatchInferenceJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobInput"=>jobInput, "jobName"=>jobName, "jobOutput"=>jobOutput, "roleArn"=>roleArn, "solutionVersionArn"=>solutionVersionArn), args)); aws_config=aws_config)
 
 """
     CreateCampaign()
@@ -37,8 +38,9 @@ Creates a campaign by deploying a solution version. When a client calls the GetR
 # Optional Parameters
 - `campaignConfig`: The configuration details of a campaign.
 """
-CreateCampaign(minProvisionedTPS, name, solutionVersionArn; aws::AWSConfig=AWS.aws_config) = personalize("CreateCampaign", Dict{String, Any}("minProvisionedTPS"=>minProvisionedTPS, "name"=>name, "solutionVersionArn"=>solutionVersionArn); aws=aws)
-CreateCampaign(minProvisionedTPS, name, solutionVersionArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("CreateCampaign", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("minProvisionedTPS"=>minProvisionedTPS, "name"=>name, "solutionVersionArn"=>solutionVersionArn), args)); aws=aws)
+
+CreateCampaign(minProvisionedTPS, name, solutionVersionArn; aws_config::AWSConfig=AWS.aws_config) = personalize("CreateCampaign", Dict{String, Any}("minProvisionedTPS"=>minProvisionedTPS, "name"=>name, "solutionVersionArn"=>solutionVersionArn); aws_config=aws_config)
+CreateCampaign(minProvisionedTPS, name, solutionVersionArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("CreateCampaign", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("minProvisionedTPS"=>minProvisionedTPS, "name"=>name, "solutionVersionArn"=>solutionVersionArn), args)); aws_config=aws_config)
 
 """
     CreateDataset()
@@ -52,8 +54,9 @@ Creates an empty dataset and adds it to the specified dataset group. Use CreateD
 - `schemaArn`: The ARN of the schema to associate with the dataset. The schema defines the dataset fields.
 
 """
-CreateDataset(datasetGroupArn, datasetType, name, schemaArn; aws::AWSConfig=AWS.aws_config) = personalize("CreateDataset", Dict{String, Any}("datasetGroupArn"=>datasetGroupArn, "datasetType"=>datasetType, "name"=>name, "schemaArn"=>schemaArn); aws=aws)
-CreateDataset(datasetGroupArn, datasetType, name, schemaArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("CreateDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetGroupArn"=>datasetGroupArn, "datasetType"=>datasetType, "name"=>name, "schemaArn"=>schemaArn), args)); aws=aws)
+
+CreateDataset(datasetGroupArn, datasetType, name, schemaArn; aws_config::AWSConfig=AWS.aws_config) = personalize("CreateDataset", Dict{String, Any}("datasetGroupArn"=>datasetGroupArn, "datasetType"=>datasetType, "name"=>name, "schemaArn"=>schemaArn); aws_config=aws_config)
+CreateDataset(datasetGroupArn, datasetType, name, schemaArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("CreateDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetGroupArn"=>datasetGroupArn, "datasetType"=>datasetType, "name"=>name, "schemaArn"=>schemaArn), args)); aws_config=aws_config)
 
 """
     CreateDatasetGroup()
@@ -67,8 +70,9 @@ Creates an empty dataset group. A dataset group contains related datasets that s
 - `kmsKeyArn`: The Amazon Resource Name (ARN) of a KMS key used to encrypt the datasets.
 - `roleArn`: The ARN of the IAM role that has permissions to access the KMS key. Supplying an IAM role is only valid when also specifying a KMS key.
 """
-CreateDatasetGroup(name; aws::AWSConfig=AWS.aws_config) = personalize("CreateDatasetGroup", Dict{String, Any}("name"=>name); aws=aws)
-CreateDatasetGroup(name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("CreateDatasetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws=aws)
+
+CreateDatasetGroup(name; aws_config::AWSConfig=AWS.aws_config) = personalize("CreateDatasetGroup", Dict{String, Any}("name"=>name); aws_config=aws_config)
+CreateDatasetGroup(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("CreateDatasetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws_config=aws_config)
 
 """
     CreateDatasetImportJob()
@@ -82,8 +86,9 @@ Creates a job that imports training data from your data source (an Amazon S3 buc
 - `roleArn`: The ARN of the IAM role that has permissions to read from the Amazon S3 data source.
 
 """
-CreateDatasetImportJob(dataSource, datasetArn, jobName, roleArn; aws::AWSConfig=AWS.aws_config) = personalize("CreateDatasetImportJob", Dict{String, Any}("dataSource"=>dataSource, "datasetArn"=>datasetArn, "jobName"=>jobName, "roleArn"=>roleArn); aws=aws)
-CreateDatasetImportJob(dataSource, datasetArn, jobName, roleArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("CreateDatasetImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("dataSource"=>dataSource, "datasetArn"=>datasetArn, "jobName"=>jobName, "roleArn"=>roleArn), args)); aws=aws)
+
+CreateDatasetImportJob(dataSource, datasetArn, jobName, roleArn; aws_config::AWSConfig=AWS.aws_config) = personalize("CreateDatasetImportJob", Dict{String, Any}("dataSource"=>dataSource, "datasetArn"=>datasetArn, "jobName"=>jobName, "roleArn"=>roleArn); aws_config=aws_config)
+CreateDatasetImportJob(dataSource, datasetArn, jobName, roleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("CreateDatasetImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("dataSource"=>dataSource, "datasetArn"=>datasetArn, "jobName"=>jobName, "roleArn"=>roleArn), args)); aws_config=aws_config)
 
 """
     CreateEventTracker()
@@ -95,8 +100,9 @@ Creates an event tracker that you use when sending event data to the specified d
 - `name`: The name for the event tracker.
 
 """
-CreateEventTracker(datasetGroupArn, name; aws::AWSConfig=AWS.aws_config) = personalize("CreateEventTracker", Dict{String, Any}("datasetGroupArn"=>datasetGroupArn, "name"=>name); aws=aws)
-CreateEventTracker(datasetGroupArn, name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("CreateEventTracker", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetGroupArn"=>datasetGroupArn, "name"=>name), args)); aws=aws)
+
+CreateEventTracker(datasetGroupArn, name; aws_config::AWSConfig=AWS.aws_config) = personalize("CreateEventTracker", Dict{String, Any}("datasetGroupArn"=>datasetGroupArn, "name"=>name); aws_config=aws_config)
+CreateEventTracker(datasetGroupArn, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("CreateEventTracker", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetGroupArn"=>datasetGroupArn, "name"=>name), args)); aws_config=aws_config)
 
 """
     CreateFilter()
@@ -109,8 +115,9 @@ Creates a recommendation filter. For more information, see Using Filters with Am
 - `name`: The name of the filter to create.
 
 """
-CreateFilter(datasetGroupArn, filterExpression, name; aws::AWSConfig=AWS.aws_config) = personalize("CreateFilter", Dict{String, Any}("datasetGroupArn"=>datasetGroupArn, "filterExpression"=>filterExpression, "name"=>name); aws=aws)
-CreateFilter(datasetGroupArn, filterExpression, name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("CreateFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetGroupArn"=>datasetGroupArn, "filterExpression"=>filterExpression, "name"=>name), args)); aws=aws)
+
+CreateFilter(datasetGroupArn, filterExpression, name; aws_config::AWSConfig=AWS.aws_config) = personalize("CreateFilter", Dict{String, Any}("datasetGroupArn"=>datasetGroupArn, "filterExpression"=>filterExpression, "name"=>name); aws_config=aws_config)
+CreateFilter(datasetGroupArn, filterExpression, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("CreateFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetGroupArn"=>datasetGroupArn, "filterExpression"=>filterExpression, "name"=>name), args)); aws_config=aws_config)
 
 """
     CreateSchema()
@@ -122,8 +129,9 @@ Creates an Amazon Personalize schema from the specified schema string. The schem
 - `schema`: A schema in Avro JSON format.
 
 """
-CreateSchema(name, schema; aws::AWSConfig=AWS.aws_config) = personalize("CreateSchema", Dict{String, Any}("name"=>name, "schema"=>schema); aws=aws)
-CreateSchema(name, schema, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("CreateSchema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "schema"=>schema), args)); aws=aws)
+
+CreateSchema(name, schema; aws_config::AWSConfig=AWS.aws_config) = personalize("CreateSchema", Dict{String, Any}("name"=>name, "schema"=>schema); aws_config=aws_config)
+CreateSchema(name, schema, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("CreateSchema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "schema"=>schema), args)); aws_config=aws_config)
 
 """
     CreateSolution()
@@ -141,8 +149,9 @@ Creates the configuration for training a model. A trained model is known as a so
 - `recipeArn`: The ARN of the recipe to use for model training. Only specified when performAutoML is false.
 - `solutionConfig`: The configuration to use with the solution. When performAutoML is set to true, Amazon Personalize only evaluates the autoMLConfig section of the solution configuration.
 """
-CreateSolution(datasetGroupArn, name; aws::AWSConfig=AWS.aws_config) = personalize("CreateSolution", Dict{String, Any}("datasetGroupArn"=>datasetGroupArn, "name"=>name); aws=aws)
-CreateSolution(datasetGroupArn, name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("CreateSolution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetGroupArn"=>datasetGroupArn, "name"=>name), args)); aws=aws)
+
+CreateSolution(datasetGroupArn, name; aws_config::AWSConfig=AWS.aws_config) = personalize("CreateSolution", Dict{String, Any}("datasetGroupArn"=>datasetGroupArn, "name"=>name); aws_config=aws_config)
+CreateSolution(datasetGroupArn, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("CreateSolution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetGroupArn"=>datasetGroupArn, "name"=>name), args)); aws_config=aws_config)
 
 """
     CreateSolutionVersion()
@@ -155,8 +164,9 @@ Trains or retrains an active solution. A solution is created using the CreateSol
 # Optional Parameters
 - `trainingMode`: The scope of training to be performed when creating the solution version. The FULL option trains the solution version based on the entirety of the input solution's training data, while the UPDATE option processes only the data that has changed in comparison to the input solution. Choose UPDATE when you want to incrementally update your solution version instead of creating an entirely new one.  The UPDATE option can only be used when you already have an active solution version created from the input solution using the FULL option and the input solution was trained with the native-recipe-hrnn-coldstart recipe. 
 """
-CreateSolutionVersion(solutionArn; aws::AWSConfig=AWS.aws_config) = personalize("CreateSolutionVersion", Dict{String, Any}("solutionArn"=>solutionArn); aws=aws)
-CreateSolutionVersion(solutionArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("CreateSolutionVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("solutionArn"=>solutionArn), args)); aws=aws)
+
+CreateSolutionVersion(solutionArn; aws_config::AWSConfig=AWS.aws_config) = personalize("CreateSolutionVersion", Dict{String, Any}("solutionArn"=>solutionArn); aws_config=aws_config)
+CreateSolutionVersion(solutionArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("CreateSolutionVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("solutionArn"=>solutionArn), args)); aws_config=aws_config)
 
 """
     DeleteCampaign()
@@ -167,8 +177,9 @@ Removes a campaign by deleting the solution deployment. The solution that the ca
 - `campaignArn`: The Amazon Resource Name (ARN) of the campaign to delete.
 
 """
-DeleteCampaign(campaignArn; aws::AWSConfig=AWS.aws_config) = personalize("DeleteCampaign", Dict{String, Any}("campaignArn"=>campaignArn); aws=aws)
-DeleteCampaign(campaignArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("DeleteCampaign", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("campaignArn"=>campaignArn), args)); aws=aws)
+
+DeleteCampaign(campaignArn; aws_config::AWSConfig=AWS.aws_config) = personalize("DeleteCampaign", Dict{String, Any}("campaignArn"=>campaignArn); aws_config=aws_config)
+DeleteCampaign(campaignArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("DeleteCampaign", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("campaignArn"=>campaignArn), args)); aws_config=aws_config)
 
 """
     DeleteDataset()
@@ -179,8 +190,9 @@ Deletes a dataset. You can't delete a dataset if an associated DatasetImportJob 
 - `datasetArn`: The Amazon Resource Name (ARN) of the dataset to delete.
 
 """
-DeleteDataset(datasetArn; aws::AWSConfig=AWS.aws_config) = personalize("DeleteDataset", Dict{String, Any}("datasetArn"=>datasetArn); aws=aws)
-DeleteDataset(datasetArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("DeleteDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetArn"=>datasetArn), args)); aws=aws)
+
+DeleteDataset(datasetArn; aws_config::AWSConfig=AWS.aws_config) = personalize("DeleteDataset", Dict{String, Any}("datasetArn"=>datasetArn); aws_config=aws_config)
+DeleteDataset(datasetArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("DeleteDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetArn"=>datasetArn), args)); aws_config=aws_config)
 
 """
     DeleteDatasetGroup()
@@ -191,8 +203,9 @@ Deletes a dataset group. Before you delete a dataset group, you must delete the 
 - `datasetGroupArn`: The ARN of the dataset group to delete.
 
 """
-DeleteDatasetGroup(datasetGroupArn; aws::AWSConfig=AWS.aws_config) = personalize("DeleteDatasetGroup", Dict{String, Any}("datasetGroupArn"=>datasetGroupArn); aws=aws)
-DeleteDatasetGroup(datasetGroupArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("DeleteDatasetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetGroupArn"=>datasetGroupArn), args)); aws=aws)
+
+DeleteDatasetGroup(datasetGroupArn; aws_config::AWSConfig=AWS.aws_config) = personalize("DeleteDatasetGroup", Dict{String, Any}("datasetGroupArn"=>datasetGroupArn); aws_config=aws_config)
+DeleteDatasetGroup(datasetGroupArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("DeleteDatasetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetGroupArn"=>datasetGroupArn), args)); aws_config=aws_config)
 
 """
     DeleteEventTracker()
@@ -203,8 +216,9 @@ Deletes the event tracker. Does not delete the event-interactions dataset from t
 - `eventTrackerArn`: The Amazon Resource Name (ARN) of the event tracker to delete.
 
 """
-DeleteEventTracker(eventTrackerArn; aws::AWSConfig=AWS.aws_config) = personalize("DeleteEventTracker", Dict{String, Any}("eventTrackerArn"=>eventTrackerArn); aws=aws)
-DeleteEventTracker(eventTrackerArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("DeleteEventTracker", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventTrackerArn"=>eventTrackerArn), args)); aws=aws)
+
+DeleteEventTracker(eventTrackerArn; aws_config::AWSConfig=AWS.aws_config) = personalize("DeleteEventTracker", Dict{String, Any}("eventTrackerArn"=>eventTrackerArn); aws_config=aws_config)
+DeleteEventTracker(eventTrackerArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("DeleteEventTracker", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventTrackerArn"=>eventTrackerArn), args)); aws_config=aws_config)
 
 """
     DeleteFilter()
@@ -215,8 +229,9 @@ Deletes a filter.
 - `filterArn`: The ARN of the filter to delete.
 
 """
-DeleteFilter(filterArn; aws::AWSConfig=AWS.aws_config) = personalize("DeleteFilter", Dict{String, Any}("filterArn"=>filterArn); aws=aws)
-DeleteFilter(filterArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("DeleteFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filterArn"=>filterArn), args)); aws=aws)
+
+DeleteFilter(filterArn; aws_config::AWSConfig=AWS.aws_config) = personalize("DeleteFilter", Dict{String, Any}("filterArn"=>filterArn); aws_config=aws_config)
+DeleteFilter(filterArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("DeleteFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filterArn"=>filterArn), args)); aws_config=aws_config)
 
 """
     DeleteSchema()
@@ -227,8 +242,9 @@ Deletes a schema. Before deleting a schema, you must delete all datasets referen
 - `schemaArn`: The Amazon Resource Name (ARN) of the schema to delete.
 
 """
-DeleteSchema(schemaArn; aws::AWSConfig=AWS.aws_config) = personalize("DeleteSchema", Dict{String, Any}("schemaArn"=>schemaArn); aws=aws)
-DeleteSchema(schemaArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("DeleteSchema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("schemaArn"=>schemaArn), args)); aws=aws)
+
+DeleteSchema(schemaArn; aws_config::AWSConfig=AWS.aws_config) = personalize("DeleteSchema", Dict{String, Any}("schemaArn"=>schemaArn); aws_config=aws_config)
+DeleteSchema(schemaArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("DeleteSchema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("schemaArn"=>schemaArn), args)); aws_config=aws_config)
 
 """
     DeleteSolution()
@@ -239,8 +255,9 @@ Deletes all versions of a solution and the Solution object itself. Before deleti
 - `solutionArn`: The ARN of the solution to delete.
 
 """
-DeleteSolution(solutionArn; aws::AWSConfig=AWS.aws_config) = personalize("DeleteSolution", Dict{String, Any}("solutionArn"=>solutionArn); aws=aws)
-DeleteSolution(solutionArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("DeleteSolution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("solutionArn"=>solutionArn), args)); aws=aws)
+
+DeleteSolution(solutionArn; aws_config::AWSConfig=AWS.aws_config) = personalize("DeleteSolution", Dict{String, Any}("solutionArn"=>solutionArn); aws_config=aws_config)
+DeleteSolution(solutionArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("DeleteSolution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("solutionArn"=>solutionArn), args)); aws_config=aws_config)
 
 """
     DescribeAlgorithm()
@@ -251,8 +268,9 @@ Describes the given algorithm.
 - `algorithmArn`: The Amazon Resource Name (ARN) of the algorithm to describe.
 
 """
-DescribeAlgorithm(algorithmArn; aws::AWSConfig=AWS.aws_config) = personalize("DescribeAlgorithm", Dict{String, Any}("algorithmArn"=>algorithmArn); aws=aws)
-DescribeAlgorithm(algorithmArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("DescribeAlgorithm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("algorithmArn"=>algorithmArn), args)); aws=aws)
+
+DescribeAlgorithm(algorithmArn; aws_config::AWSConfig=AWS.aws_config) = personalize("DescribeAlgorithm", Dict{String, Any}("algorithmArn"=>algorithmArn); aws_config=aws_config)
+DescribeAlgorithm(algorithmArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("DescribeAlgorithm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("algorithmArn"=>algorithmArn), args)); aws_config=aws_config)
 
 """
     DescribeBatchInferenceJob()
@@ -263,8 +281,9 @@ Gets the properties of a batch inference job including name, Amazon Resource Nam
 - `batchInferenceJobArn`: The ARN of the batch inference job to describe.
 
 """
-DescribeBatchInferenceJob(batchInferenceJobArn; aws::AWSConfig=AWS.aws_config) = personalize("DescribeBatchInferenceJob", Dict{String, Any}("batchInferenceJobArn"=>batchInferenceJobArn); aws=aws)
-DescribeBatchInferenceJob(batchInferenceJobArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("DescribeBatchInferenceJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("batchInferenceJobArn"=>batchInferenceJobArn), args)); aws=aws)
+
+DescribeBatchInferenceJob(batchInferenceJobArn; aws_config::AWSConfig=AWS.aws_config) = personalize("DescribeBatchInferenceJob", Dict{String, Any}("batchInferenceJobArn"=>batchInferenceJobArn); aws_config=aws_config)
+DescribeBatchInferenceJob(batchInferenceJobArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("DescribeBatchInferenceJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("batchInferenceJobArn"=>batchInferenceJobArn), args)); aws_config=aws_config)
 
 """
     DescribeCampaign()
@@ -275,8 +294,9 @@ Describes the given campaign, including its status. A campaign can be in one of 
 - `campaignArn`: The Amazon Resource Name (ARN) of the campaign.
 
 """
-DescribeCampaign(campaignArn; aws::AWSConfig=AWS.aws_config) = personalize("DescribeCampaign", Dict{String, Any}("campaignArn"=>campaignArn); aws=aws)
-DescribeCampaign(campaignArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("DescribeCampaign", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("campaignArn"=>campaignArn), args)); aws=aws)
+
+DescribeCampaign(campaignArn; aws_config::AWSConfig=AWS.aws_config) = personalize("DescribeCampaign", Dict{String, Any}("campaignArn"=>campaignArn); aws_config=aws_config)
+DescribeCampaign(campaignArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("DescribeCampaign", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("campaignArn"=>campaignArn), args)); aws_config=aws_config)
 
 """
     DescribeDataset()
@@ -287,8 +307,9 @@ Describes the given dataset. For more information on datasets, see CreateDataset
 - `datasetArn`: The Amazon Resource Name (ARN) of the dataset to describe.
 
 """
-DescribeDataset(datasetArn; aws::AWSConfig=AWS.aws_config) = personalize("DescribeDataset", Dict{String, Any}("datasetArn"=>datasetArn); aws=aws)
-DescribeDataset(datasetArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("DescribeDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetArn"=>datasetArn), args)); aws=aws)
+
+DescribeDataset(datasetArn; aws_config::AWSConfig=AWS.aws_config) = personalize("DescribeDataset", Dict{String, Any}("datasetArn"=>datasetArn); aws_config=aws_config)
+DescribeDataset(datasetArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("DescribeDataset", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetArn"=>datasetArn), args)); aws_config=aws_config)
 
 """
     DescribeDatasetGroup()
@@ -299,8 +320,9 @@ Describes the given dataset group. For more information on dataset groups, see C
 - `datasetGroupArn`: The Amazon Resource Name (ARN) of the dataset group to describe.
 
 """
-DescribeDatasetGroup(datasetGroupArn; aws::AWSConfig=AWS.aws_config) = personalize("DescribeDatasetGroup", Dict{String, Any}("datasetGroupArn"=>datasetGroupArn); aws=aws)
-DescribeDatasetGroup(datasetGroupArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("DescribeDatasetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetGroupArn"=>datasetGroupArn), args)); aws=aws)
+
+DescribeDatasetGroup(datasetGroupArn; aws_config::AWSConfig=AWS.aws_config) = personalize("DescribeDatasetGroup", Dict{String, Any}("datasetGroupArn"=>datasetGroupArn); aws_config=aws_config)
+DescribeDatasetGroup(datasetGroupArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("DescribeDatasetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetGroupArn"=>datasetGroupArn), args)); aws_config=aws_config)
 
 """
     DescribeDatasetImportJob()
@@ -311,8 +333,9 @@ Describes the dataset import job created by CreateDatasetImportJob, including th
 - `datasetImportJobArn`: The Amazon Resource Name (ARN) of the dataset import job to describe.
 
 """
-DescribeDatasetImportJob(datasetImportJobArn; aws::AWSConfig=AWS.aws_config) = personalize("DescribeDatasetImportJob", Dict{String, Any}("datasetImportJobArn"=>datasetImportJobArn); aws=aws)
-DescribeDatasetImportJob(datasetImportJobArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("DescribeDatasetImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetImportJobArn"=>datasetImportJobArn), args)); aws=aws)
+
+DescribeDatasetImportJob(datasetImportJobArn; aws_config::AWSConfig=AWS.aws_config) = personalize("DescribeDatasetImportJob", Dict{String, Any}("datasetImportJobArn"=>datasetImportJobArn); aws_config=aws_config)
+DescribeDatasetImportJob(datasetImportJobArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("DescribeDatasetImportJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("datasetImportJobArn"=>datasetImportJobArn), args)); aws_config=aws_config)
 
 """
     DescribeEventTracker()
@@ -323,8 +346,9 @@ Describes an event tracker. The response includes the trackingId and status of t
 - `eventTrackerArn`: The Amazon Resource Name (ARN) of the event tracker to describe.
 
 """
-DescribeEventTracker(eventTrackerArn; aws::AWSConfig=AWS.aws_config) = personalize("DescribeEventTracker", Dict{String, Any}("eventTrackerArn"=>eventTrackerArn); aws=aws)
-DescribeEventTracker(eventTrackerArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("DescribeEventTracker", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventTrackerArn"=>eventTrackerArn), args)); aws=aws)
+
+DescribeEventTracker(eventTrackerArn; aws_config::AWSConfig=AWS.aws_config) = personalize("DescribeEventTracker", Dict{String, Any}("eventTrackerArn"=>eventTrackerArn); aws_config=aws_config)
+DescribeEventTracker(eventTrackerArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("DescribeEventTracker", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventTrackerArn"=>eventTrackerArn), args)); aws_config=aws_config)
 
 """
     DescribeFeatureTransformation()
@@ -335,8 +359,9 @@ Describes the given feature transformation.
 - `featureTransformationArn`: The Amazon Resource Name (ARN) of the feature transformation to describe.
 
 """
-DescribeFeatureTransformation(featureTransformationArn; aws::AWSConfig=AWS.aws_config) = personalize("DescribeFeatureTransformation", Dict{String, Any}("featureTransformationArn"=>featureTransformationArn); aws=aws)
-DescribeFeatureTransformation(featureTransformationArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("DescribeFeatureTransformation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("featureTransformationArn"=>featureTransformationArn), args)); aws=aws)
+
+DescribeFeatureTransformation(featureTransformationArn; aws_config::AWSConfig=AWS.aws_config) = personalize("DescribeFeatureTransformation", Dict{String, Any}("featureTransformationArn"=>featureTransformationArn); aws_config=aws_config)
+DescribeFeatureTransformation(featureTransformationArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("DescribeFeatureTransformation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("featureTransformationArn"=>featureTransformationArn), args)); aws_config=aws_config)
 
 """
     DescribeFilter()
@@ -347,8 +372,9 @@ Describes a filter's properties.
 - `filterArn`: The ARN of the filter to describe.
 
 """
-DescribeFilter(filterArn; aws::AWSConfig=AWS.aws_config) = personalize("DescribeFilter", Dict{String, Any}("filterArn"=>filterArn); aws=aws)
-DescribeFilter(filterArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("DescribeFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filterArn"=>filterArn), args)); aws=aws)
+
+DescribeFilter(filterArn; aws_config::AWSConfig=AWS.aws_config) = personalize("DescribeFilter", Dict{String, Any}("filterArn"=>filterArn); aws_config=aws_config)
+DescribeFilter(filterArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("DescribeFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("filterArn"=>filterArn), args)); aws_config=aws_config)
 
 """
     DescribeRecipe()
@@ -359,8 +385,9 @@ Describes a recipe. A recipe contains three items:   An algorithm that trains a 
 - `recipeArn`: The Amazon Resource Name (ARN) of the recipe to describe.
 
 """
-DescribeRecipe(recipeArn; aws::AWSConfig=AWS.aws_config) = personalize("DescribeRecipe", Dict{String, Any}("recipeArn"=>recipeArn); aws=aws)
-DescribeRecipe(recipeArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("DescribeRecipe", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("recipeArn"=>recipeArn), args)); aws=aws)
+
+DescribeRecipe(recipeArn; aws_config::AWSConfig=AWS.aws_config) = personalize("DescribeRecipe", Dict{String, Any}("recipeArn"=>recipeArn); aws_config=aws_config)
+DescribeRecipe(recipeArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("DescribeRecipe", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("recipeArn"=>recipeArn), args)); aws_config=aws_config)
 
 """
     DescribeSchema()
@@ -371,8 +398,9 @@ Describes a schema. For more information on schemas, see CreateSchema.
 - `schemaArn`: The Amazon Resource Name (ARN) of the schema to retrieve.
 
 """
-DescribeSchema(schemaArn; aws::AWSConfig=AWS.aws_config) = personalize("DescribeSchema", Dict{String, Any}("schemaArn"=>schemaArn); aws=aws)
-DescribeSchema(schemaArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("DescribeSchema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("schemaArn"=>schemaArn), args)); aws=aws)
+
+DescribeSchema(schemaArn; aws_config::AWSConfig=AWS.aws_config) = personalize("DescribeSchema", Dict{String, Any}("schemaArn"=>schemaArn); aws_config=aws_config)
+DescribeSchema(schemaArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("DescribeSchema", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("schemaArn"=>schemaArn), args)); aws_config=aws_config)
 
 """
     DescribeSolution()
@@ -383,8 +411,9 @@ Describes a solution. For more information on solutions, see CreateSolution.
 - `solutionArn`: The Amazon Resource Name (ARN) of the solution to describe.
 
 """
-DescribeSolution(solutionArn; aws::AWSConfig=AWS.aws_config) = personalize("DescribeSolution", Dict{String, Any}("solutionArn"=>solutionArn); aws=aws)
-DescribeSolution(solutionArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("DescribeSolution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("solutionArn"=>solutionArn), args)); aws=aws)
+
+DescribeSolution(solutionArn; aws_config::AWSConfig=AWS.aws_config) = personalize("DescribeSolution", Dict{String, Any}("solutionArn"=>solutionArn); aws_config=aws_config)
+DescribeSolution(solutionArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("DescribeSolution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("solutionArn"=>solutionArn), args)); aws_config=aws_config)
 
 """
     DescribeSolutionVersion()
@@ -395,8 +424,9 @@ Describes a specific version of a solution. For more information on solutions, s
 - `solutionVersionArn`: The Amazon Resource Name (ARN) of the solution version.
 
 """
-DescribeSolutionVersion(solutionVersionArn; aws::AWSConfig=AWS.aws_config) = personalize("DescribeSolutionVersion", Dict{String, Any}("solutionVersionArn"=>solutionVersionArn); aws=aws)
-DescribeSolutionVersion(solutionVersionArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("DescribeSolutionVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("solutionVersionArn"=>solutionVersionArn), args)); aws=aws)
+
+DescribeSolutionVersion(solutionVersionArn; aws_config::AWSConfig=AWS.aws_config) = personalize("DescribeSolutionVersion", Dict{String, Any}("solutionVersionArn"=>solutionVersionArn); aws_config=aws_config)
+DescribeSolutionVersion(solutionVersionArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("DescribeSolutionVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("solutionVersionArn"=>solutionVersionArn), args)); aws_config=aws_config)
 
 """
     GetSolutionMetrics()
@@ -407,8 +437,9 @@ Gets the metrics for the specified solution version.
 - `solutionVersionArn`: The Amazon Resource Name (ARN) of the solution version for which to get metrics.
 
 """
-GetSolutionMetrics(solutionVersionArn; aws::AWSConfig=AWS.aws_config) = personalize("GetSolutionMetrics", Dict{String, Any}("solutionVersionArn"=>solutionVersionArn); aws=aws)
-GetSolutionMetrics(solutionVersionArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("GetSolutionMetrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("solutionVersionArn"=>solutionVersionArn), args)); aws=aws)
+
+GetSolutionMetrics(solutionVersionArn; aws_config::AWSConfig=AWS.aws_config) = personalize("GetSolutionMetrics", Dict{String, Any}("solutionVersionArn"=>solutionVersionArn); aws_config=aws_config)
+GetSolutionMetrics(solutionVersionArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("GetSolutionMetrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("solutionVersionArn"=>solutionVersionArn), args)); aws_config=aws_config)
 
 """
     ListBatchInferenceJobs()
@@ -420,8 +451,9 @@ Gets a list of the batch inference jobs that have been performed off of a soluti
 - `nextToken`: The token to request the next page of results.
 - `solutionVersionArn`: The Amazon Resource Name (ARN) of the solution version from which the batch inference jobs were created.
 """
-ListBatchInferenceJobs(; aws::AWSConfig=AWS.aws_config) = personalize("ListBatchInferenceJobs"; aws=aws)
-ListBatchInferenceJobs(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("ListBatchInferenceJobs", args; aws=aws)
+
+ListBatchInferenceJobs(; aws_config::AWSConfig=AWS.aws_config) = personalize("ListBatchInferenceJobs"; aws_config=aws_config)
+ListBatchInferenceJobs(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("ListBatchInferenceJobs", args; aws_config=aws_config)
 
 """
     ListCampaigns()
@@ -433,8 +465,9 @@ Returns a list of campaigns that use the given solution. When a solution is not 
 - `nextToken`: A token returned from the previous call to ListCampaigns for getting the next set of campaigns (if they exist).
 - `solutionArn`: The Amazon Resource Name (ARN) of the solution to list the campaigns for. When a solution is not specified, all the campaigns associated with the account are listed.
 """
-ListCampaigns(; aws::AWSConfig=AWS.aws_config) = personalize("ListCampaigns"; aws=aws)
-ListCampaigns(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("ListCampaigns", args; aws=aws)
+
+ListCampaigns(; aws_config::AWSConfig=AWS.aws_config) = personalize("ListCampaigns"; aws_config=aws_config)
+ListCampaigns(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("ListCampaigns", args; aws_config=aws_config)
 
 """
     ListDatasetGroups()
@@ -445,8 +478,9 @@ Returns a list of dataset groups. The response provides the properties for each 
 - `maxResults`: The maximum number of dataset groups to return.
 - `nextToken`: A token returned from the previous call to ListDatasetGroups for getting the next set of dataset groups (if they exist).
 """
-ListDatasetGroups(; aws::AWSConfig=AWS.aws_config) = personalize("ListDatasetGroups"; aws=aws)
-ListDatasetGroups(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("ListDatasetGroups", args; aws=aws)
+
+ListDatasetGroups(; aws_config::AWSConfig=AWS.aws_config) = personalize("ListDatasetGroups"; aws_config=aws_config)
+ListDatasetGroups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("ListDatasetGroups", args; aws_config=aws_config)
 
 """
     ListDatasetImportJobs()
@@ -458,8 +492,9 @@ Returns a list of dataset import jobs that use the given dataset. When a dataset
 - `maxResults`: The maximum number of dataset import jobs to return.
 - `nextToken`: A token returned from the previous call to ListDatasetImportJobs for getting the next set of dataset import jobs (if they exist).
 """
-ListDatasetImportJobs(; aws::AWSConfig=AWS.aws_config) = personalize("ListDatasetImportJobs"; aws=aws)
-ListDatasetImportJobs(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("ListDatasetImportJobs", args; aws=aws)
+
+ListDatasetImportJobs(; aws_config::AWSConfig=AWS.aws_config) = personalize("ListDatasetImportJobs"; aws_config=aws_config)
+ListDatasetImportJobs(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("ListDatasetImportJobs", args; aws_config=aws_config)
 
 """
     ListDatasets()
@@ -471,8 +506,9 @@ Returns the list of datasets contained in the given dataset group. The response 
 - `maxResults`: The maximum number of datasets to return.
 - `nextToken`: A token returned from the previous call to ListDatasetImportJobs for getting the next set of dataset import jobs (if they exist).
 """
-ListDatasets(; aws::AWSConfig=AWS.aws_config) = personalize("ListDatasets"; aws=aws)
-ListDatasets(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("ListDatasets", args; aws=aws)
+
+ListDatasets(; aws_config::AWSConfig=AWS.aws_config) = personalize("ListDatasets"; aws_config=aws_config)
+ListDatasets(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("ListDatasets", args; aws_config=aws_config)
 
 """
     ListEventTrackers()
@@ -484,8 +520,9 @@ Returns the list of event trackers associated with the account. The response pro
 - `maxResults`: The maximum number of event trackers to return.
 - `nextToken`: A token returned from the previous call to ListEventTrackers for getting the next set of event trackers (if they exist).
 """
-ListEventTrackers(; aws::AWSConfig=AWS.aws_config) = personalize("ListEventTrackers"; aws=aws)
-ListEventTrackers(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("ListEventTrackers", args; aws=aws)
+
+ListEventTrackers(; aws_config::AWSConfig=AWS.aws_config) = personalize("ListEventTrackers"; aws_config=aws_config)
+ListEventTrackers(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("ListEventTrackers", args; aws_config=aws_config)
 
 """
     ListFilters()
@@ -497,8 +534,9 @@ Lists all filters that belong to a given dataset group.
 - `maxResults`: The maximum number of filters to return.
 - `nextToken`: A token returned from the previous call to ListFilters for getting the next set of filters (if they exist).
 """
-ListFilters(; aws::AWSConfig=AWS.aws_config) = personalize("ListFilters"; aws=aws)
-ListFilters(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("ListFilters", args; aws=aws)
+
+ListFilters(; aws_config::AWSConfig=AWS.aws_config) = personalize("ListFilters"; aws_config=aws_config)
+ListFilters(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("ListFilters", args; aws_config=aws_config)
 
 """
     ListRecipes()
@@ -510,8 +548,9 @@ Returns a list of available recipes. The response provides the properties for ea
 - `nextToken`: A token returned from the previous call to ListRecipes for getting the next set of recipes (if they exist).
 - `recipeProvider`: The default is SERVICE.
 """
-ListRecipes(; aws::AWSConfig=AWS.aws_config) = personalize("ListRecipes"; aws=aws)
-ListRecipes(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("ListRecipes", args; aws=aws)
+
+ListRecipes(; aws_config::AWSConfig=AWS.aws_config) = personalize("ListRecipes"; aws_config=aws_config)
+ListRecipes(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("ListRecipes", args; aws_config=aws_config)
 
 """
     ListSchemas()
@@ -522,8 +561,9 @@ Returns the list of schemas associated with the account. The response provides t
 - `maxResults`: The maximum number of schemas to return.
 - `nextToken`: A token returned from the previous call to ListSchemas for getting the next set of schemas (if they exist).
 """
-ListSchemas(; aws::AWSConfig=AWS.aws_config) = personalize("ListSchemas"; aws=aws)
-ListSchemas(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("ListSchemas", args; aws=aws)
+
+ListSchemas(; aws_config::AWSConfig=AWS.aws_config) = personalize("ListSchemas"; aws_config=aws_config)
+ListSchemas(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("ListSchemas", args; aws_config=aws_config)
 
 """
     ListSolutionVersions()
@@ -535,8 +575,9 @@ Returns a list of solution versions for the given solution. When a solution is n
 - `nextToken`: A token returned from the previous call to ListSolutionVersions for getting the next set of solution versions (if they exist).
 - `solutionArn`: The Amazon Resource Name (ARN) of the solution.
 """
-ListSolutionVersions(; aws::AWSConfig=AWS.aws_config) = personalize("ListSolutionVersions"; aws=aws)
-ListSolutionVersions(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("ListSolutionVersions", args; aws=aws)
+
+ListSolutionVersions(; aws_config::AWSConfig=AWS.aws_config) = personalize("ListSolutionVersions"; aws_config=aws_config)
+ListSolutionVersions(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("ListSolutionVersions", args; aws_config=aws_config)
 
 """
     ListSolutions()
@@ -548,8 +589,9 @@ Returns a list of solutions that use the given dataset group. When a dataset gro
 - `maxResults`: The maximum number of solutions to return.
 - `nextToken`: A token returned from the previous call to ListSolutions for getting the next set of solutions (if they exist).
 """
-ListSolutions(; aws::AWSConfig=AWS.aws_config) = personalize("ListSolutions"; aws=aws)
-ListSolutions(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("ListSolutions", args; aws=aws)
+
+ListSolutions(; aws_config::AWSConfig=AWS.aws_config) = personalize("ListSolutions"; aws_config=aws_config)
+ListSolutions(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("ListSolutions", args; aws_config=aws_config)
 
 """
     UpdateCampaign()
@@ -564,5 +606,6 @@ Updates a campaign by either deploying a new solution or changing the value of t
 - `minProvisionedTPS`: Specifies the requested minimum provisioned transactions (recommendations) per second that Amazon Personalize will support.
 - `solutionVersionArn`: The ARN of a new solution version to deploy.
 """
-UpdateCampaign(campaignArn; aws::AWSConfig=AWS.aws_config) = personalize("UpdateCampaign", Dict{String, Any}("campaignArn"=>campaignArn); aws=aws)
-UpdateCampaign(campaignArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize("UpdateCampaign", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("campaignArn"=>campaignArn), args)); aws=aws)
+
+UpdateCampaign(campaignArn; aws_config::AWSConfig=AWS.aws_config) = personalize("UpdateCampaign", Dict{String, Any}("campaignArn"=>campaignArn); aws_config=aws_config)
+UpdateCampaign(campaignArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = personalize("UpdateCampaign", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("campaignArn"=>campaignArn), args)); aws_config=aws_config)

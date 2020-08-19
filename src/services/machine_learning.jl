@@ -15,8 +15,9 @@ Adds one or more tags to an object, up to a limit of 10. Each tag consists of a 
 - `Tags`: The key-value pairs to use to create tags. If you specify a key without specifying a value, Amazon ML creates a tag with the specified key and a value of null.
 
 """
-AddTags(ResourceId, ResourceType, Tags; aws::AWSConfig=AWS.aws_config) = machine_learning("AddTags", Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType, "Tags"=>Tags); aws=aws)
-AddTags(ResourceId, ResourceType, Tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = machine_learning("AddTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType, "Tags"=>Tags), args)); aws=aws)
+
+AddTags(ResourceId, ResourceType, Tags; aws_config::AWSConfig=AWS.aws_config) = machine_learning("AddTags", Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType, "Tags"=>Tags); aws_config=aws_config)
+AddTags(ResourceId, ResourceType, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = machine_learning("AddTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType, "Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     CreateBatchPrediction()
@@ -32,8 +33,9 @@ Generates predictions for a group of observations. The observations to process e
 # Optional Parameters
 - `BatchPredictionName`: A user-supplied name or description of the BatchPrediction. BatchPredictionName can only use the UTF-8 character set.
 """
-CreateBatchPrediction(BatchPredictionDataSourceId, BatchPredictionId, MLModelId, OutputUri; aws::AWSConfig=AWS.aws_config) = machine_learning("CreateBatchPrediction", Dict{String, Any}("BatchPredictionDataSourceId"=>BatchPredictionDataSourceId, "BatchPredictionId"=>BatchPredictionId, "MLModelId"=>MLModelId, "OutputUri"=>OutputUri); aws=aws)
-CreateBatchPrediction(BatchPredictionDataSourceId, BatchPredictionId, MLModelId, OutputUri, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = machine_learning("CreateBatchPrediction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BatchPredictionDataSourceId"=>BatchPredictionDataSourceId, "BatchPredictionId"=>BatchPredictionId, "MLModelId"=>MLModelId, "OutputUri"=>OutputUri), args)); aws=aws)
+
+CreateBatchPrediction(BatchPredictionDataSourceId, BatchPredictionId, MLModelId, OutputUri; aws_config::AWSConfig=AWS.aws_config) = machine_learning("CreateBatchPrediction", Dict{String, Any}("BatchPredictionDataSourceId"=>BatchPredictionDataSourceId, "BatchPredictionId"=>BatchPredictionId, "MLModelId"=>MLModelId, "OutputUri"=>OutputUri); aws_config=aws_config)
+CreateBatchPrediction(BatchPredictionDataSourceId, BatchPredictionId, MLModelId, OutputUri, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = machine_learning("CreateBatchPrediction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BatchPredictionDataSourceId"=>BatchPredictionDataSourceId, "BatchPredictionId"=>BatchPredictionId, "MLModelId"=>MLModelId, "OutputUri"=>OutputUri), args)); aws_config=aws_config)
 
 """
     CreateDataSourceFromRDS()
@@ -49,8 +51,9 @@ Creates a DataSource object from an  Amazon Relational Database Service (Amazon 
 - `ComputeStatistics`: The compute statistics for a DataSource. The statistics are generated from the observation data referenced by a DataSource. Amazon ML uses the statistics internally during MLModel training. This parameter must be set to true if the DataSource needs to be used for MLModel training. 
 - `DataSourceName`: A user-supplied name or description of the DataSource.
 """
-CreateDataSourceFromRDS(DataSourceId, RDSData, RoleARN; aws::AWSConfig=AWS.aws_config) = machine_learning("CreateDataSourceFromRDS", Dict{String, Any}("DataSourceId"=>DataSourceId, "RDSData"=>RDSData, "RoleARN"=>RoleARN); aws=aws)
-CreateDataSourceFromRDS(DataSourceId, RDSData, RoleARN, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = machine_learning("CreateDataSourceFromRDS", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataSourceId"=>DataSourceId, "RDSData"=>RDSData, "RoleARN"=>RoleARN), args)); aws=aws)
+
+CreateDataSourceFromRDS(DataSourceId, RDSData, RoleARN; aws_config::AWSConfig=AWS.aws_config) = machine_learning("CreateDataSourceFromRDS", Dict{String, Any}("DataSourceId"=>DataSourceId, "RDSData"=>RDSData, "RoleARN"=>RoleARN); aws_config=aws_config)
+CreateDataSourceFromRDS(DataSourceId, RDSData, RoleARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = machine_learning("CreateDataSourceFromRDS", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataSourceId"=>DataSourceId, "RDSData"=>RDSData, "RoleARN"=>RoleARN), args)); aws_config=aws_config)
 
 """
     CreateDataSourceFromRedshift()
@@ -66,8 +69,9 @@ Creates a DataSource from a database hosted on an Amazon Redshift cluster. A Dat
 - `ComputeStatistics`: The compute statistics for a DataSource. The statistics are generated from the observation data referenced by a DataSource. Amazon ML uses the statistics internally during MLModel training. This parameter must be set to true if the DataSource needs to be used for MLModel training.
 - `DataSourceName`: A user-supplied name or description of the DataSource. 
 """
-CreateDataSourceFromRedshift(DataSourceId, DataSpec, RoleARN; aws::AWSConfig=AWS.aws_config) = machine_learning("CreateDataSourceFromRedshift", Dict{String, Any}("DataSourceId"=>DataSourceId, "DataSpec"=>DataSpec, "RoleARN"=>RoleARN); aws=aws)
-CreateDataSourceFromRedshift(DataSourceId, DataSpec, RoleARN, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = machine_learning("CreateDataSourceFromRedshift", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataSourceId"=>DataSourceId, "DataSpec"=>DataSpec, "RoleARN"=>RoleARN), args)); aws=aws)
+
+CreateDataSourceFromRedshift(DataSourceId, DataSpec, RoleARN; aws_config::AWSConfig=AWS.aws_config) = machine_learning("CreateDataSourceFromRedshift", Dict{String, Any}("DataSourceId"=>DataSourceId, "DataSpec"=>DataSpec, "RoleARN"=>RoleARN); aws_config=aws_config)
+CreateDataSourceFromRedshift(DataSourceId, DataSpec, RoleARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = machine_learning("CreateDataSourceFromRedshift", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataSourceId"=>DataSourceId, "DataSpec"=>DataSpec, "RoleARN"=>RoleARN), args)); aws_config=aws_config)
 
 """
     CreateDataSourceFromS3()
@@ -82,8 +86,9 @@ Creates a DataSource object. A DataSource references data that can be used to pe
 - `ComputeStatistics`: The compute statistics for a DataSource. The statistics are generated from the observation data referenced by a DataSource. Amazon ML uses the statistics internally during MLModel training. This parameter must be set to true if the DataSource needs to be used for MLModel training.
 - `DataSourceName`: A user-supplied name or description of the DataSource. 
 """
-CreateDataSourceFromS3(DataSourceId, DataSpec; aws::AWSConfig=AWS.aws_config) = machine_learning("CreateDataSourceFromS3", Dict{String, Any}("DataSourceId"=>DataSourceId, "DataSpec"=>DataSpec); aws=aws)
-CreateDataSourceFromS3(DataSourceId, DataSpec, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = machine_learning("CreateDataSourceFromS3", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataSourceId"=>DataSourceId, "DataSpec"=>DataSpec), args)); aws=aws)
+
+CreateDataSourceFromS3(DataSourceId, DataSpec; aws_config::AWSConfig=AWS.aws_config) = machine_learning("CreateDataSourceFromS3", Dict{String, Any}("DataSourceId"=>DataSourceId, "DataSpec"=>DataSpec); aws_config=aws_config)
+CreateDataSourceFromS3(DataSourceId, DataSpec, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = machine_learning("CreateDataSourceFromS3", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataSourceId"=>DataSourceId, "DataSpec"=>DataSpec), args)); aws_config=aws_config)
 
 """
     CreateEvaluation()
@@ -98,8 +103,9 @@ Creates a new Evaluation of an MLModel. An MLModel is evaluated on a set of obse
 # Optional Parameters
 - `EvaluationName`: A user-supplied name or description of the Evaluation.
 """
-CreateEvaluation(EvaluationDataSourceId, EvaluationId, MLModelId; aws::AWSConfig=AWS.aws_config) = machine_learning("CreateEvaluation", Dict{String, Any}("EvaluationDataSourceId"=>EvaluationDataSourceId, "EvaluationId"=>EvaluationId, "MLModelId"=>MLModelId); aws=aws)
-CreateEvaluation(EvaluationDataSourceId, EvaluationId, MLModelId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = machine_learning("CreateEvaluation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EvaluationDataSourceId"=>EvaluationDataSourceId, "EvaluationId"=>EvaluationId, "MLModelId"=>MLModelId), args)); aws=aws)
+
+CreateEvaluation(EvaluationDataSourceId, EvaluationId, MLModelId; aws_config::AWSConfig=AWS.aws_config) = machine_learning("CreateEvaluation", Dict{String, Any}("EvaluationDataSourceId"=>EvaluationDataSourceId, "EvaluationId"=>EvaluationId, "MLModelId"=>MLModelId); aws_config=aws_config)
+CreateEvaluation(EvaluationDataSourceId, EvaluationId, MLModelId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = machine_learning("CreateEvaluation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EvaluationDataSourceId"=>EvaluationDataSourceId, "EvaluationId"=>EvaluationId, "MLModelId"=>MLModelId), args)); aws_config=aws_config)
 
 """
     CreateMLModel()
@@ -117,8 +123,9 @@ Creates a new MLModel using the DataSource and the recipe as information sources
 - `Recipe`: The data recipe for creating the MLModel. You must specify either the recipe or its URI. If you don't specify a recipe or its URI, Amazon ML creates a default.
 - `RecipeUri`: The Amazon Simple Storage Service (Amazon S3) location and file name that contains the MLModel recipe. You must specify either the recipe or its URI. If you don't specify a recipe or its URI, Amazon ML creates a default.
 """
-CreateMLModel(MLModelId, MLModelType, TrainingDataSourceId; aws::AWSConfig=AWS.aws_config) = machine_learning("CreateMLModel", Dict{String, Any}("MLModelId"=>MLModelId, "MLModelType"=>MLModelType, "TrainingDataSourceId"=>TrainingDataSourceId); aws=aws)
-CreateMLModel(MLModelId, MLModelType, TrainingDataSourceId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = machine_learning("CreateMLModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MLModelId"=>MLModelId, "MLModelType"=>MLModelType, "TrainingDataSourceId"=>TrainingDataSourceId), args)); aws=aws)
+
+CreateMLModel(MLModelId, MLModelType, TrainingDataSourceId; aws_config::AWSConfig=AWS.aws_config) = machine_learning("CreateMLModel", Dict{String, Any}("MLModelId"=>MLModelId, "MLModelType"=>MLModelType, "TrainingDataSourceId"=>TrainingDataSourceId); aws_config=aws_config)
+CreateMLModel(MLModelId, MLModelType, TrainingDataSourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = machine_learning("CreateMLModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MLModelId"=>MLModelId, "MLModelType"=>MLModelType, "TrainingDataSourceId"=>TrainingDataSourceId), args)); aws_config=aws_config)
 
 """
     CreateRealtimeEndpoint()
@@ -129,8 +136,9 @@ Creates a real-time endpoint for the MLModel. The endpoint contains the URI of t
 - `MLModelId`: The ID assigned to the MLModel during creation.
 
 """
-CreateRealtimeEndpoint(MLModelId; aws::AWSConfig=AWS.aws_config) = machine_learning("CreateRealtimeEndpoint", Dict{String, Any}("MLModelId"=>MLModelId); aws=aws)
-CreateRealtimeEndpoint(MLModelId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = machine_learning("CreateRealtimeEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MLModelId"=>MLModelId), args)); aws=aws)
+
+CreateRealtimeEndpoint(MLModelId; aws_config::AWSConfig=AWS.aws_config) = machine_learning("CreateRealtimeEndpoint", Dict{String, Any}("MLModelId"=>MLModelId); aws_config=aws_config)
+CreateRealtimeEndpoint(MLModelId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = machine_learning("CreateRealtimeEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MLModelId"=>MLModelId), args)); aws_config=aws_config)
 
 """
     DeleteBatchPrediction()
@@ -141,8 +149,9 @@ Assigns the DELETED status to a BatchPrediction, rendering it unusable. After us
 - `BatchPredictionId`: A user-supplied ID that uniquely identifies the BatchPrediction.
 
 """
-DeleteBatchPrediction(BatchPredictionId; aws::AWSConfig=AWS.aws_config) = machine_learning("DeleteBatchPrediction", Dict{String, Any}("BatchPredictionId"=>BatchPredictionId); aws=aws)
-DeleteBatchPrediction(BatchPredictionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = machine_learning("DeleteBatchPrediction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BatchPredictionId"=>BatchPredictionId), args)); aws=aws)
+
+DeleteBatchPrediction(BatchPredictionId; aws_config::AWSConfig=AWS.aws_config) = machine_learning("DeleteBatchPrediction", Dict{String, Any}("BatchPredictionId"=>BatchPredictionId); aws_config=aws_config)
+DeleteBatchPrediction(BatchPredictionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = machine_learning("DeleteBatchPrediction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BatchPredictionId"=>BatchPredictionId), args)); aws_config=aws_config)
 
 """
     DeleteDataSource()
@@ -153,8 +162,9 @@ Assigns the DELETED status to a DataSource, rendering it unusable. After using t
 - `DataSourceId`: A user-supplied ID that uniquely identifies the DataSource.
 
 """
-DeleteDataSource(DataSourceId; aws::AWSConfig=AWS.aws_config) = machine_learning("DeleteDataSource", Dict{String, Any}("DataSourceId"=>DataSourceId); aws=aws)
-DeleteDataSource(DataSourceId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = machine_learning("DeleteDataSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataSourceId"=>DataSourceId), args)); aws=aws)
+
+DeleteDataSource(DataSourceId; aws_config::AWSConfig=AWS.aws_config) = machine_learning("DeleteDataSource", Dict{String, Any}("DataSourceId"=>DataSourceId); aws_config=aws_config)
+DeleteDataSource(DataSourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = machine_learning("DeleteDataSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataSourceId"=>DataSourceId), args)); aws_config=aws_config)
 
 """
     DeleteEvaluation()
@@ -165,8 +175,9 @@ Assigns the DELETED status to an Evaluation, rendering it unusable. After invoki
 - `EvaluationId`: A user-supplied ID that uniquely identifies the Evaluation to delete.
 
 """
-DeleteEvaluation(EvaluationId; aws::AWSConfig=AWS.aws_config) = machine_learning("DeleteEvaluation", Dict{String, Any}("EvaluationId"=>EvaluationId); aws=aws)
-DeleteEvaluation(EvaluationId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = machine_learning("DeleteEvaluation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EvaluationId"=>EvaluationId), args)); aws=aws)
+
+DeleteEvaluation(EvaluationId; aws_config::AWSConfig=AWS.aws_config) = machine_learning("DeleteEvaluation", Dict{String, Any}("EvaluationId"=>EvaluationId); aws_config=aws_config)
+DeleteEvaluation(EvaluationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = machine_learning("DeleteEvaluation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EvaluationId"=>EvaluationId), args)); aws_config=aws_config)
 
 """
     DeleteMLModel()
@@ -177,8 +188,9 @@ Assigns the DELETED status to an MLModel, rendering it unusable. After using the
 - `MLModelId`: A user-supplied ID that uniquely identifies the MLModel.
 
 """
-DeleteMLModel(MLModelId; aws::AWSConfig=AWS.aws_config) = machine_learning("DeleteMLModel", Dict{String, Any}("MLModelId"=>MLModelId); aws=aws)
-DeleteMLModel(MLModelId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = machine_learning("DeleteMLModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MLModelId"=>MLModelId), args)); aws=aws)
+
+DeleteMLModel(MLModelId; aws_config::AWSConfig=AWS.aws_config) = machine_learning("DeleteMLModel", Dict{String, Any}("MLModelId"=>MLModelId); aws_config=aws_config)
+DeleteMLModel(MLModelId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = machine_learning("DeleteMLModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MLModelId"=>MLModelId), args)); aws_config=aws_config)
 
 """
     DeleteRealtimeEndpoint()
@@ -189,8 +201,9 @@ Deletes a real time endpoint of an MLModel.
 - `MLModelId`: The ID assigned to the MLModel during creation.
 
 """
-DeleteRealtimeEndpoint(MLModelId; aws::AWSConfig=AWS.aws_config) = machine_learning("DeleteRealtimeEndpoint", Dict{String, Any}("MLModelId"=>MLModelId); aws=aws)
-DeleteRealtimeEndpoint(MLModelId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = machine_learning("DeleteRealtimeEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MLModelId"=>MLModelId), args)); aws=aws)
+
+DeleteRealtimeEndpoint(MLModelId; aws_config::AWSConfig=AWS.aws_config) = machine_learning("DeleteRealtimeEndpoint", Dict{String, Any}("MLModelId"=>MLModelId); aws_config=aws_config)
+DeleteRealtimeEndpoint(MLModelId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = machine_learning("DeleteRealtimeEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MLModelId"=>MLModelId), args)); aws_config=aws_config)
 
 """
     DeleteTags()
@@ -203,8 +216,9 @@ Deletes the specified tags associated with an ML object. After this operation is
 - `TagKeys`: One or more tags to delete.
 
 """
-DeleteTags(ResourceId, ResourceType, TagKeys; aws::AWSConfig=AWS.aws_config) = machine_learning("DeleteTags", Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType, "TagKeys"=>TagKeys); aws=aws)
-DeleteTags(ResourceId, ResourceType, TagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = machine_learning("DeleteTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType, "TagKeys"=>TagKeys), args)); aws=aws)
+
+DeleteTags(ResourceId, ResourceType, TagKeys; aws_config::AWSConfig=AWS.aws_config) = machine_learning("DeleteTags", Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType, "TagKeys"=>TagKeys); aws_config=aws_config)
+DeleteTags(ResourceId, ResourceType, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = machine_learning("DeleteTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
 
 """
     DescribeBatchPredictions()
@@ -224,8 +238,9 @@ Returns a list of BatchPrediction operations that match the search criteria in t
 - `Prefix`: A string that is found at the beginning of a variable, such as Name or Id. For example, a Batch Prediction operation could have the Name 2014-09-09-HolidayGiftMailer. To search for this BatchPrediction, select Name for the FilterVariable and any of the following strings for the Prefix:   2014-09 2014-09-09 2014-09-09-Holiday 
 - `SortOrder`: A two-value parameter that determines the sequence of the resulting list of MLModels.   asc - Arranges the list in ascending order (A-Z, 0-9).  dsc - Arranges the list in descending order (Z-A, 9-0).  Results are sorted by FilterVariable.
 """
-DescribeBatchPredictions(; aws::AWSConfig=AWS.aws_config) = machine_learning("DescribeBatchPredictions"; aws=aws)
-DescribeBatchPredictions(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = machine_learning("DescribeBatchPredictions", args; aws=aws)
+
+DescribeBatchPredictions(; aws_config::AWSConfig=AWS.aws_config) = machine_learning("DescribeBatchPredictions"; aws_config=aws_config)
+DescribeBatchPredictions(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = machine_learning("DescribeBatchPredictions", args; aws_config=aws_config)
 
 """
     DescribeDataSources()
@@ -245,8 +260,9 @@ Returns a list of DataSource that match the search criteria in the request.
 - `Prefix`: A string that is found at the beginning of a variable, such as Name or Id. For example, a DataSource could have the Name 2014-09-09-HolidayGiftMailer. To search for this DataSource, select Name for the FilterVariable and any of the following strings for the Prefix:   2014-09 2014-09-09 2014-09-09-Holiday 
 - `SortOrder`: A two-value parameter that determines the sequence of the resulting list of DataSource.   asc - Arranges the list in ascending order (A-Z, 0-9).  dsc - Arranges the list in descending order (Z-A, 9-0).  Results are sorted by FilterVariable.
 """
-DescribeDataSources(; aws::AWSConfig=AWS.aws_config) = machine_learning("DescribeDataSources"; aws=aws)
-DescribeDataSources(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = machine_learning("DescribeDataSources", args; aws=aws)
+
+DescribeDataSources(; aws_config::AWSConfig=AWS.aws_config) = machine_learning("DescribeDataSources"; aws_config=aws_config)
+DescribeDataSources(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = machine_learning("DescribeDataSources", args; aws_config=aws_config)
 
 """
     DescribeEvaluations()
@@ -266,8 +282,9 @@ Returns a list of DescribeEvaluations that match the search criteria in the requ
 - `Prefix`: A string that is found at the beginning of a variable, such as Name or Id. For example, an Evaluation could have the Name 2014-09-09-HolidayGiftMailer. To search for this Evaluation, select Name for the FilterVariable and any of the following strings for the Prefix:   2014-09 2014-09-09 2014-09-09-Holiday 
 - `SortOrder`: A two-value parameter that determines the sequence of the resulting list of Evaluation.   asc - Arranges the list in ascending order (A-Z, 0-9).  dsc - Arranges the list in descending order (Z-A, 9-0).  Results are sorted by FilterVariable.
 """
-DescribeEvaluations(; aws::AWSConfig=AWS.aws_config) = machine_learning("DescribeEvaluations"; aws=aws)
-DescribeEvaluations(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = machine_learning("DescribeEvaluations", args; aws=aws)
+
+DescribeEvaluations(; aws_config::AWSConfig=AWS.aws_config) = machine_learning("DescribeEvaluations"; aws_config=aws_config)
+DescribeEvaluations(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = machine_learning("DescribeEvaluations", args; aws_config=aws_config)
 
 """
     DescribeMLModels()
@@ -287,8 +304,9 @@ Returns a list of MLModel that match the search criteria in the request.
 - `Prefix`: A string that is found at the beginning of a variable, such as Name or Id. For example, an MLModel could have the Name 2014-09-09-HolidayGiftMailer. To search for this MLModel, select Name for the FilterVariable and any of the following strings for the Prefix:   2014-09 2014-09-09 2014-09-09-Holiday 
 - `SortOrder`: A two-value parameter that determines the sequence of the resulting list of MLModel.   asc - Arranges the list in ascending order (A-Z, 0-9).  dsc - Arranges the list in descending order (Z-A, 9-0).  Results are sorted by FilterVariable.
 """
-DescribeMLModels(; aws::AWSConfig=AWS.aws_config) = machine_learning("DescribeMLModels"; aws=aws)
-DescribeMLModels(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = machine_learning("DescribeMLModels", args; aws=aws)
+
+DescribeMLModels(; aws_config::AWSConfig=AWS.aws_config) = machine_learning("DescribeMLModels"; aws_config=aws_config)
+DescribeMLModels(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = machine_learning("DescribeMLModels", args; aws_config=aws_config)
 
 """
     DescribeTags()
@@ -300,8 +318,9 @@ Describes one or more of the tags for your Amazon ML object.
 - `ResourceType`: The type of the ML object.
 
 """
-DescribeTags(ResourceId, ResourceType; aws::AWSConfig=AWS.aws_config) = machine_learning("DescribeTags", Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType); aws=aws)
-DescribeTags(ResourceId, ResourceType, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = machine_learning("DescribeTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType), args)); aws=aws)
+
+DescribeTags(ResourceId, ResourceType; aws_config::AWSConfig=AWS.aws_config) = machine_learning("DescribeTags", Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType); aws_config=aws_config)
+DescribeTags(ResourceId, ResourceType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = machine_learning("DescribeTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceId"=>ResourceId, "ResourceType"=>ResourceType), args)); aws_config=aws_config)
 
 """
     GetBatchPrediction()
@@ -312,8 +331,9 @@ Returns a BatchPrediction that includes detailed metadata, status, and data file
 - `BatchPredictionId`: An ID assigned to the BatchPrediction at creation.
 
 """
-GetBatchPrediction(BatchPredictionId; aws::AWSConfig=AWS.aws_config) = machine_learning("GetBatchPrediction", Dict{String, Any}("BatchPredictionId"=>BatchPredictionId); aws=aws)
-GetBatchPrediction(BatchPredictionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = machine_learning("GetBatchPrediction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BatchPredictionId"=>BatchPredictionId), args)); aws=aws)
+
+GetBatchPrediction(BatchPredictionId; aws_config::AWSConfig=AWS.aws_config) = machine_learning("GetBatchPrediction", Dict{String, Any}("BatchPredictionId"=>BatchPredictionId); aws_config=aws_config)
+GetBatchPrediction(BatchPredictionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = machine_learning("GetBatchPrediction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BatchPredictionId"=>BatchPredictionId), args)); aws_config=aws_config)
 
 """
     GetDataSource()
@@ -326,8 +346,9 @@ Returns a DataSource that includes metadata and data file information, as well a
 # Optional Parameters
 - `Verbose`: Specifies whether the GetDataSource operation should return DataSourceSchema. If true, DataSourceSchema is returned. If false, DataSourceSchema is not returned.
 """
-GetDataSource(DataSourceId; aws::AWSConfig=AWS.aws_config) = machine_learning("GetDataSource", Dict{String, Any}("DataSourceId"=>DataSourceId); aws=aws)
-GetDataSource(DataSourceId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = machine_learning("GetDataSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataSourceId"=>DataSourceId), args)); aws=aws)
+
+GetDataSource(DataSourceId; aws_config::AWSConfig=AWS.aws_config) = machine_learning("GetDataSource", Dict{String, Any}("DataSourceId"=>DataSourceId); aws_config=aws_config)
+GetDataSource(DataSourceId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = machine_learning("GetDataSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataSourceId"=>DataSourceId), args)); aws_config=aws_config)
 
 """
     GetEvaluation()
@@ -338,8 +359,9 @@ Returns an Evaluation that includes metadata as well as the current status of th
 - `EvaluationId`: The ID of the Evaluation to retrieve. The evaluation of each MLModel is recorded and cataloged. The ID provides the means to access the information. 
 
 """
-GetEvaluation(EvaluationId; aws::AWSConfig=AWS.aws_config) = machine_learning("GetEvaluation", Dict{String, Any}("EvaluationId"=>EvaluationId); aws=aws)
-GetEvaluation(EvaluationId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = machine_learning("GetEvaluation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EvaluationId"=>EvaluationId), args)); aws=aws)
+
+GetEvaluation(EvaluationId; aws_config::AWSConfig=AWS.aws_config) = machine_learning("GetEvaluation", Dict{String, Any}("EvaluationId"=>EvaluationId); aws_config=aws_config)
+GetEvaluation(EvaluationId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = machine_learning("GetEvaluation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EvaluationId"=>EvaluationId), args)); aws_config=aws_config)
 
 """
     GetMLModel()
@@ -352,8 +374,9 @@ Returns an MLModel that includes detailed metadata, data source information, and
 # Optional Parameters
 - `Verbose`: Specifies whether the GetMLModel operation should return Recipe. If true, Recipe is returned. If false, Recipe is not returned.
 """
-GetMLModel(MLModelId; aws::AWSConfig=AWS.aws_config) = machine_learning("GetMLModel", Dict{String, Any}("MLModelId"=>MLModelId); aws=aws)
-GetMLModel(MLModelId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = machine_learning("GetMLModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MLModelId"=>MLModelId), args)); aws=aws)
+
+GetMLModel(MLModelId; aws_config::AWSConfig=AWS.aws_config) = machine_learning("GetMLModel", Dict{String, Any}("MLModelId"=>MLModelId); aws_config=aws_config)
+GetMLModel(MLModelId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = machine_learning("GetMLModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MLModelId"=>MLModelId), args)); aws_config=aws_config)
 
 """
     Predict()
@@ -366,8 +389,9 @@ Generates a prediction for the observation using the specified ML Model. Note No
 - `Record`: 
 
 """
-Predict(MLModelId, PredictEndpoint, Record; aws::AWSConfig=AWS.aws_config) = machine_learning("Predict", Dict{String, Any}("MLModelId"=>MLModelId, "PredictEndpoint"=>PredictEndpoint, "Record"=>Record); aws=aws)
-Predict(MLModelId, PredictEndpoint, Record, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = machine_learning("Predict", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MLModelId"=>MLModelId, "PredictEndpoint"=>PredictEndpoint, "Record"=>Record), args)); aws=aws)
+
+Predict(MLModelId, PredictEndpoint, Record; aws_config::AWSConfig=AWS.aws_config) = machine_learning("Predict", Dict{String, Any}("MLModelId"=>MLModelId, "PredictEndpoint"=>PredictEndpoint, "Record"=>Record); aws_config=aws_config)
+Predict(MLModelId, PredictEndpoint, Record, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = machine_learning("Predict", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MLModelId"=>MLModelId, "PredictEndpoint"=>PredictEndpoint, "Record"=>Record), args)); aws_config=aws_config)
 
 """
     UpdateBatchPrediction()
@@ -379,8 +403,9 @@ Updates the BatchPredictionName of a BatchPrediction. You can use the GetBatchPr
 - `BatchPredictionName`: A new user-supplied name or description of the BatchPrediction.
 
 """
-UpdateBatchPrediction(BatchPredictionId, BatchPredictionName; aws::AWSConfig=AWS.aws_config) = machine_learning("UpdateBatchPrediction", Dict{String, Any}("BatchPredictionId"=>BatchPredictionId, "BatchPredictionName"=>BatchPredictionName); aws=aws)
-UpdateBatchPrediction(BatchPredictionId, BatchPredictionName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = machine_learning("UpdateBatchPrediction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BatchPredictionId"=>BatchPredictionId, "BatchPredictionName"=>BatchPredictionName), args)); aws=aws)
+
+UpdateBatchPrediction(BatchPredictionId, BatchPredictionName; aws_config::AWSConfig=AWS.aws_config) = machine_learning("UpdateBatchPrediction", Dict{String, Any}("BatchPredictionId"=>BatchPredictionId, "BatchPredictionName"=>BatchPredictionName); aws_config=aws_config)
+UpdateBatchPrediction(BatchPredictionId, BatchPredictionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = machine_learning("UpdateBatchPrediction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BatchPredictionId"=>BatchPredictionId, "BatchPredictionName"=>BatchPredictionName), args)); aws_config=aws_config)
 
 """
     UpdateDataSource()
@@ -392,8 +417,9 @@ Updates the DataSourceName of a DataSource. You can use the GetDataSource operat
 - `DataSourceName`: A new user-supplied name or description of the DataSource that will replace the current description. 
 
 """
-UpdateDataSource(DataSourceId, DataSourceName; aws::AWSConfig=AWS.aws_config) = machine_learning("UpdateDataSource", Dict{String, Any}("DataSourceId"=>DataSourceId, "DataSourceName"=>DataSourceName); aws=aws)
-UpdateDataSource(DataSourceId, DataSourceName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = machine_learning("UpdateDataSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataSourceId"=>DataSourceId, "DataSourceName"=>DataSourceName), args)); aws=aws)
+
+UpdateDataSource(DataSourceId, DataSourceName; aws_config::AWSConfig=AWS.aws_config) = machine_learning("UpdateDataSource", Dict{String, Any}("DataSourceId"=>DataSourceId, "DataSourceName"=>DataSourceName); aws_config=aws_config)
+UpdateDataSource(DataSourceId, DataSourceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = machine_learning("UpdateDataSource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataSourceId"=>DataSourceId, "DataSourceName"=>DataSourceName), args)); aws_config=aws_config)
 
 """
     UpdateEvaluation()
@@ -405,8 +431,9 @@ Updates the EvaluationName of an Evaluation. You can use the GetEvaluation opera
 - `EvaluationName`: A new user-supplied name or description of the Evaluation that will replace the current content. 
 
 """
-UpdateEvaluation(EvaluationId, EvaluationName; aws::AWSConfig=AWS.aws_config) = machine_learning("UpdateEvaluation", Dict{String, Any}("EvaluationId"=>EvaluationId, "EvaluationName"=>EvaluationName); aws=aws)
-UpdateEvaluation(EvaluationId, EvaluationName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = machine_learning("UpdateEvaluation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EvaluationId"=>EvaluationId, "EvaluationName"=>EvaluationName), args)); aws=aws)
+
+UpdateEvaluation(EvaluationId, EvaluationName; aws_config::AWSConfig=AWS.aws_config) = machine_learning("UpdateEvaluation", Dict{String, Any}("EvaluationId"=>EvaluationId, "EvaluationName"=>EvaluationName); aws_config=aws_config)
+UpdateEvaluation(EvaluationId, EvaluationName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = machine_learning("UpdateEvaluation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EvaluationId"=>EvaluationId, "EvaluationName"=>EvaluationName), args)); aws_config=aws_config)
 
 """
     UpdateMLModel()
@@ -420,5 +447,6 @@ Updates the MLModelName and the ScoreThreshold of an MLModel. You can use the Ge
 - `MLModelName`: A user-supplied name or description of the MLModel.
 - `ScoreThreshold`: The ScoreThreshold used in binary classification MLModel that marks the boundary between a positive prediction and a negative prediction. Output values greater than or equal to the ScoreThreshold receive a positive result from the MLModel, such as true. Output values less than the ScoreThreshold receive a negative response from the MLModel, such as false.
 """
-UpdateMLModel(MLModelId; aws::AWSConfig=AWS.aws_config) = machine_learning("UpdateMLModel", Dict{String, Any}("MLModelId"=>MLModelId); aws=aws)
-UpdateMLModel(MLModelId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = machine_learning("UpdateMLModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MLModelId"=>MLModelId), args)); aws=aws)
+
+UpdateMLModel(MLModelId; aws_config::AWSConfig=AWS.aws_config) = machine_learning("UpdateMLModel", Dict{String, Any}("MLModelId"=>MLModelId); aws_config=aws_config)
+UpdateMLModel(MLModelId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = machine_learning("UpdateMLModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MLModelId"=>MLModelId), args)); aws_config=aws_config)

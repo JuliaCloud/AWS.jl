@@ -20,8 +20,9 @@ Adds permissions to the resource-based policy of a version of an AWS Lambda laye
 - `OrganizationId`: With the principal set to *, grant permission to all accounts in the specified organization.
 - `RevisionId`: Only update the policy if the revision ID matches the ID specified. Use this option to avoid modifying a policy that has changed since you last read it.
 """
-AddLayerVersionPermission(Action, LayerName, Principal, StatementId, VersionNumber; aws::AWSConfig=AWS.aws_config) = lambda("POST", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy", Dict{String, Any}("Action"=>Action, "Principal"=>Principal, "StatementId"=>StatementId); aws=aws)
-AddLayerVersionPermission(Action, LayerName, Principal, StatementId, VersionNumber, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("POST", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Action"=>Action, "Principal"=>Principal, "StatementId"=>StatementId), args)); aws=aws)
+
+AddLayerVersionPermission(Action, LayerName, Principal, StatementId, VersionNumber; aws_config::AWSConfig=AWS.aws_config) = lambda("POST", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy", Dict{String, Any}("Action"=>Action, "Principal"=>Principal, "StatementId"=>StatementId); aws_config=aws_config)
+AddLayerVersionPermission(Action, LayerName, Principal, StatementId, VersionNumber, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("POST", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Action"=>Action, "Principal"=>Principal, "StatementId"=>StatementId), args)); aws_config=aws_config)
 
 """
     AddPermission()
@@ -41,8 +42,9 @@ Grants an AWS service or another account permission to use a function. You can a
 - `SourceAccount`: For Amazon S3, the ID of the account that owns the resource. Use this together with SourceArn to ensure that the resource is owned by the specified account. It is possible for an Amazon S3 bucket to be deleted by its owner and recreated by another account.
 - `SourceArn`: For AWS services, the ARN of the AWS resource that invokes the function. For example, an Amazon S3 bucket or Amazon SNS topic.
 """
-AddPermission(Action, FunctionName, Principal, StatementId; aws::AWSConfig=AWS.aws_config) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/policy", Dict{String, Any}("Action"=>Action, "Principal"=>Principal, "StatementId"=>StatementId); aws=aws)
-AddPermission(Action, FunctionName, Principal, StatementId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Action"=>Action, "Principal"=>Principal, "StatementId"=>StatementId), args)); aws=aws)
+
+AddPermission(Action, FunctionName, Principal, StatementId; aws_config::AWSConfig=AWS.aws_config) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/policy", Dict{String, Any}("Action"=>Action, "Principal"=>Principal, "StatementId"=>StatementId); aws_config=aws_config)
+AddPermission(Action, FunctionName, Principal, StatementId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Action"=>Action, "Principal"=>Principal, "StatementId"=>StatementId), args)); aws_config=aws_config)
 
 """
     CreateAlias()
@@ -58,8 +60,9 @@ Creates an alias for a Lambda function version. Use aliases to provide clients w
 - `Description`: A description of the alias.
 - `RoutingConfig`: The routing configuration of the alias.
 """
-CreateAlias(FunctionName, FunctionVersion, Name; aws::AWSConfig=AWS.aws_config) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/aliases", Dict{String, Any}("FunctionVersion"=>FunctionVersion, "Name"=>Name); aws=aws)
-CreateAlias(FunctionName, FunctionVersion, Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/aliases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FunctionVersion"=>FunctionVersion, "Name"=>Name), args)); aws=aws)
+
+CreateAlias(FunctionName, FunctionVersion, Name; aws_config::AWSConfig=AWS.aws_config) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/aliases", Dict{String, Any}("FunctionVersion"=>FunctionVersion, "Name"=>Name); aws_config=aws_config)
+CreateAlias(FunctionName, FunctionVersion, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/aliases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FunctionVersion"=>FunctionVersion, "Name"=>Name), args)); aws_config=aws_config)
 
 """
     CreateEventSourceMapping()
@@ -83,8 +86,9 @@ Creates a mapping between an event source and an AWS Lambda function. Lambda rea
 - `StartingPositionTimestamp`: With StartingPosition set to AT_TIMESTAMP, the time from which to start reading.
 - `Topics`:  (MSK) The name of the Kafka topic. 
 """
-CreateEventSourceMapping(EventSourceArn, FunctionName; aws::AWSConfig=AWS.aws_config) = lambda("POST", "/2015-03-31/event-source-mappings/", Dict{String, Any}("EventSourceArn"=>EventSourceArn, "FunctionName"=>FunctionName); aws=aws)
-CreateEventSourceMapping(EventSourceArn, FunctionName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("POST", "/2015-03-31/event-source-mappings/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventSourceArn"=>EventSourceArn, "FunctionName"=>FunctionName), args)); aws=aws)
+
+CreateEventSourceMapping(EventSourceArn, FunctionName; aws_config::AWSConfig=AWS.aws_config) = lambda("POST", "/2015-03-31/event-source-mappings/", Dict{String, Any}("EventSourceArn"=>EventSourceArn, "FunctionName"=>FunctionName); aws_config=aws_config)
+CreateEventSourceMapping(EventSourceArn, FunctionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("POST", "/2015-03-31/event-source-mappings/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EventSourceArn"=>EventSourceArn, "FunctionName"=>FunctionName), args)); aws_config=aws_config)
 
 """
     CreateFunction()
@@ -112,8 +116,9 @@ Creates a Lambda function. To create a function, you need a deployment package a
 - `TracingConfig`: Set Mode to Active to sample and trace a subset of incoming requests with AWS X-Ray.
 - `VpcConfig`: For network connectivity to AWS resources in a VPC, specify a list of security groups and subnets in the VPC. When you connect a function to a VPC, it can only access resources and the internet through that VPC. For more information, see VPC Settings.
 """
-CreateFunction(Code, FunctionName, Handler, Role, Runtime; aws::AWSConfig=AWS.aws_config) = lambda("POST", "/2015-03-31/functions", Dict{String, Any}("Code"=>Code, "FunctionName"=>FunctionName, "Handler"=>Handler, "Role"=>Role, "Runtime"=>Runtime); aws=aws)
-CreateFunction(Code, FunctionName, Handler, Role, Runtime, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("POST", "/2015-03-31/functions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Code"=>Code, "FunctionName"=>FunctionName, "Handler"=>Handler, "Role"=>Role, "Runtime"=>Runtime), args)); aws=aws)
+
+CreateFunction(Code, FunctionName, Handler, Role, Runtime; aws_config::AWSConfig=AWS.aws_config) = lambda("POST", "/2015-03-31/functions", Dict{String, Any}("Code"=>Code, "FunctionName"=>FunctionName, "Handler"=>Handler, "Role"=>Role, "Runtime"=>Runtime); aws_config=aws_config)
+CreateFunction(Code, FunctionName, Handler, Role, Runtime, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("POST", "/2015-03-31/functions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Code"=>Code, "FunctionName"=>FunctionName, "Handler"=>Handler, "Role"=>Role, "Runtime"=>Runtime), args)); aws_config=aws_config)
 
 """
     DeleteAlias()
@@ -125,8 +130,9 @@ Deletes a Lambda function alias.
 - `Name`: The name of the alias.
 
 """
-DeleteAlias(FunctionName, Name; aws::AWSConfig=AWS.aws_config) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)"; aws=aws)
-DeleteAlias(FunctionName, Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)", args; aws=aws)
+
+DeleteAlias(FunctionName, Name; aws_config::AWSConfig=AWS.aws_config) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)"; aws_config=aws_config)
+DeleteAlias(FunctionName, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)", args; aws_config=aws_config)
 
 """
     DeleteEventSourceMapping()
@@ -137,8 +143,9 @@ Deletes an event source mapping. You can get the identifier of a mapping from th
 - `UUID`: The identifier of the event source mapping.
 
 """
-DeleteEventSourceMapping(UUID; aws::AWSConfig=AWS.aws_config) = lambda("DELETE", "/2015-03-31/event-source-mappings/$(UUID)"; aws=aws)
-DeleteEventSourceMapping(UUID, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("DELETE", "/2015-03-31/event-source-mappings/$(UUID)", args; aws=aws)
+
+DeleteEventSourceMapping(UUID; aws_config::AWSConfig=AWS.aws_config) = lambda("DELETE", "/2015-03-31/event-source-mappings/$(UUID)"; aws_config=aws_config)
+DeleteEventSourceMapping(UUID, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("DELETE", "/2015-03-31/event-source-mappings/$(UUID)", args; aws_config=aws_config)
 
 """
     DeleteFunction()
@@ -151,8 +158,9 @@ Deletes a Lambda function. To delete a specific function version, use the Qualif
 # Optional Parameters
 - `Qualifier`: Specify a version to delete. You can't delete a version that's referenced by an alias.
 """
-DeleteFunction(FunctionName; aws::AWSConfig=AWS.aws_config) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)"; aws=aws)
-DeleteFunction(FunctionName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)", args; aws=aws)
+
+DeleteFunction(FunctionName; aws_config::AWSConfig=AWS.aws_config) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)"; aws_config=aws_config)
+DeleteFunction(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)", args; aws_config=aws_config)
 
 """
     DeleteFunctionConcurrency()
@@ -163,8 +171,9 @@ Removes a concurrent execution limit from a function.
 - `FunctionName`: The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
 
 """
-DeleteFunctionConcurrency(FunctionName; aws::AWSConfig=AWS.aws_config) = lambda("DELETE", "/2017-10-31/functions/$(FunctionName)/concurrency"; aws=aws)
-DeleteFunctionConcurrency(FunctionName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("DELETE", "/2017-10-31/functions/$(FunctionName)/concurrency", args; aws=aws)
+
+DeleteFunctionConcurrency(FunctionName; aws_config::AWSConfig=AWS.aws_config) = lambda("DELETE", "/2017-10-31/functions/$(FunctionName)/concurrency"; aws_config=aws_config)
+DeleteFunctionConcurrency(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("DELETE", "/2017-10-31/functions/$(FunctionName)/concurrency", args; aws_config=aws_config)
 
 """
     DeleteFunctionEventInvokeConfig()
@@ -177,8 +186,9 @@ Deletes the configuration for asynchronous invocation for a function, version, o
 # Optional Parameters
 - `Qualifier`: A version number or alias name.
 """
-DeleteFunctionEventInvokeConfig(FunctionName; aws::AWSConfig=AWS.aws_config) = lambda("DELETE", "/2019-09-25/functions/$(FunctionName)/event-invoke-config"; aws=aws)
-DeleteFunctionEventInvokeConfig(FunctionName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("DELETE", "/2019-09-25/functions/$(FunctionName)/event-invoke-config", args; aws=aws)
+
+DeleteFunctionEventInvokeConfig(FunctionName; aws_config::AWSConfig=AWS.aws_config) = lambda("DELETE", "/2019-09-25/functions/$(FunctionName)/event-invoke-config"; aws_config=aws_config)
+DeleteFunctionEventInvokeConfig(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("DELETE", "/2019-09-25/functions/$(FunctionName)/event-invoke-config", args; aws_config=aws_config)
 
 """
     DeleteLayerVersion()
@@ -190,8 +200,9 @@ Deletes a version of an AWS Lambda layer. Deleted versions can no longer be view
 - `VersionNumber`: The version number.
 
 """
-DeleteLayerVersion(LayerName, VersionNumber; aws::AWSConfig=AWS.aws_config) = lambda("DELETE", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)"; aws=aws)
-DeleteLayerVersion(LayerName, VersionNumber, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("DELETE", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)", args; aws=aws)
+
+DeleteLayerVersion(LayerName, VersionNumber; aws_config::AWSConfig=AWS.aws_config) = lambda("DELETE", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)"; aws_config=aws_config)
+DeleteLayerVersion(LayerName, VersionNumber, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("DELETE", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)", args; aws_config=aws_config)
 
 """
     DeleteProvisionedConcurrencyConfig()
@@ -203,8 +214,9 @@ Deletes the provisioned concurrency configuration for a function.
 - `Qualifier`: The version number or alias name.
 
 """
-DeleteProvisionedConcurrencyConfig(FunctionName, Qualifier; aws::AWSConfig=AWS.aws_config) = lambda("DELETE", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", Dict{String, Any}("Qualifier"=>Qualifier); aws=aws)
-DeleteProvisionedConcurrencyConfig(FunctionName, Qualifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("DELETE", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Qualifier"=>Qualifier), args)); aws=aws)
+
+DeleteProvisionedConcurrencyConfig(FunctionName, Qualifier; aws_config::AWSConfig=AWS.aws_config) = lambda("DELETE", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", Dict{String, Any}("Qualifier"=>Qualifier); aws_config=aws_config)
+DeleteProvisionedConcurrencyConfig(FunctionName, Qualifier, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("DELETE", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Qualifier"=>Qualifier), args)); aws_config=aws_config)
 
 """
     GetAccountSettings()
@@ -212,8 +224,9 @@ DeleteProvisionedConcurrencyConfig(FunctionName, Qualifier, args::AbstractDict{S
 Retrieves details about your account's limits and usage in an AWS Region.
 
 """
-GetAccountSettings(; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2016-08-19/account-settings/"; aws=aws)
-GetAccountSettings(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2016-08-19/account-settings/", args; aws=aws)
+
+GetAccountSettings(; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2016-08-19/account-settings/"; aws_config=aws_config)
+GetAccountSettings(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2016-08-19/account-settings/", args; aws_config=aws_config)
 
 """
     GetAlias()
@@ -225,8 +238,9 @@ Returns details about a Lambda function alias.
 - `Name`: The name of the alias.
 
 """
-GetAlias(FunctionName, Name; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)"; aws=aws)
-GetAlias(FunctionName, Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)", args; aws=aws)
+
+GetAlias(FunctionName, Name; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)"; aws_config=aws_config)
+GetAlias(FunctionName, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)", args; aws_config=aws_config)
 
 """
     GetEventSourceMapping()
@@ -237,8 +251,9 @@ Returns details about an event source mapping. You can get the identifier of a m
 - `UUID`: The identifier of the event source mapping.
 
 """
-GetEventSourceMapping(UUID; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2015-03-31/event-source-mappings/$(UUID)"; aws=aws)
-GetEventSourceMapping(UUID, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2015-03-31/event-source-mappings/$(UUID)", args; aws=aws)
+
+GetEventSourceMapping(UUID; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2015-03-31/event-source-mappings/$(UUID)"; aws_config=aws_config)
+GetEventSourceMapping(UUID, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2015-03-31/event-source-mappings/$(UUID)", args; aws_config=aws_config)
 
 """
     GetFunction()
@@ -251,8 +266,9 @@ Returns information about the function or function version, with a link to downl
 # Optional Parameters
 - `Qualifier`: Specify a version or alias to get details about a published version of the function.
 """
-GetFunction(FunctionName; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2015-03-31/functions/$(FunctionName)"; aws=aws)
-GetFunction(FunctionName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2015-03-31/functions/$(FunctionName)", args; aws=aws)
+
+GetFunction(FunctionName; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2015-03-31/functions/$(FunctionName)"; aws_config=aws_config)
+GetFunction(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2015-03-31/functions/$(FunctionName)", args; aws_config=aws_config)
 
 """
     GetFunctionConcurrency()
@@ -263,8 +279,9 @@ Returns details about the reserved concurrency configuration for a function. To 
 - `FunctionName`: The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
 
 """
-GetFunctionConcurrency(FunctionName; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/concurrency"; aws=aws)
-GetFunctionConcurrency(FunctionName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/concurrency", args; aws=aws)
+
+GetFunctionConcurrency(FunctionName; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/concurrency"; aws_config=aws_config)
+GetFunctionConcurrency(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/concurrency", args; aws_config=aws_config)
 
 """
     GetFunctionConfiguration()
@@ -277,8 +294,9 @@ Returns the version-specific settings of a Lambda function or version. The outpu
 # Optional Parameters
 - `Qualifier`: Specify a version or alias to get details about a published version of the function.
 """
-GetFunctionConfiguration(FunctionName; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/configuration"; aws=aws)
-GetFunctionConfiguration(FunctionName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/configuration", args; aws=aws)
+
+GetFunctionConfiguration(FunctionName; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/configuration"; aws_config=aws_config)
+GetFunctionConfiguration(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/configuration", args; aws_config=aws_config)
 
 """
     GetFunctionEventInvokeConfig()
@@ -291,8 +309,9 @@ Retrieves the configuration for asynchronous invocation for a function, version,
 # Optional Parameters
 - `Qualifier`: A version number or alias name.
 """
-GetFunctionEventInvokeConfig(FunctionName; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2019-09-25/functions/$(FunctionName)/event-invoke-config"; aws=aws)
-GetFunctionEventInvokeConfig(FunctionName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2019-09-25/functions/$(FunctionName)/event-invoke-config", args; aws=aws)
+
+GetFunctionEventInvokeConfig(FunctionName; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2019-09-25/functions/$(FunctionName)/event-invoke-config"; aws_config=aws_config)
+GetFunctionEventInvokeConfig(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2019-09-25/functions/$(FunctionName)/event-invoke-config", args; aws_config=aws_config)
 
 """
     GetLayerVersion()
@@ -304,8 +323,9 @@ Returns information about a version of an AWS Lambda layer, with a link to downl
 - `VersionNumber`: The version number.
 
 """
-GetLayerVersion(LayerName, VersionNumber; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)"; aws=aws)
-GetLayerVersion(LayerName, VersionNumber, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)", args; aws=aws)
+
+GetLayerVersion(LayerName, VersionNumber; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)"; aws_config=aws_config)
+GetLayerVersion(LayerName, VersionNumber, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)", args; aws_config=aws_config)
 
 """
     GetLayerVersionByArn()
@@ -316,8 +336,9 @@ Returns information about a version of an AWS Lambda layer, with a link to downl
 - `Arn`: The ARN of the layer version.
 
 """
-GetLayerVersionByArn(Arn; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2018-10-31/layers?find=LayerVersion", Dict{String, Any}("Arn"=>Arn); aws=aws)
-GetLayerVersionByArn(Arn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2018-10-31/layers?find=LayerVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), args)); aws=aws)
+
+GetLayerVersionByArn(Arn; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2018-10-31/layers?find=LayerVersion", Dict{String, Any}("Arn"=>Arn); aws_config=aws_config)
+GetLayerVersionByArn(Arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2018-10-31/layers?find=LayerVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), args)); aws_config=aws_config)
 
 """
     GetLayerVersionPolicy()
@@ -329,8 +350,9 @@ Returns the permission policy for a version of an AWS Lambda layer. For more inf
 - `VersionNumber`: The version number.
 
 """
-GetLayerVersionPolicy(LayerName, VersionNumber; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy"; aws=aws)
-GetLayerVersionPolicy(LayerName, VersionNumber, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy", args; aws=aws)
+
+GetLayerVersionPolicy(LayerName, VersionNumber; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy"; aws_config=aws_config)
+GetLayerVersionPolicy(LayerName, VersionNumber, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy", args; aws_config=aws_config)
 
 """
     GetPolicy()
@@ -343,8 +365,9 @@ Returns the resource-based IAM policy for a function, version, or alias.
 # Optional Parameters
 - `Qualifier`: Specify a version or alias to get the policy for that resource.
 """
-GetPolicy(FunctionName; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/policy"; aws=aws)
-GetPolicy(FunctionName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/policy", args; aws=aws)
+
+GetPolicy(FunctionName; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/policy"; aws_config=aws_config)
+GetPolicy(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/policy", args; aws_config=aws_config)
 
 """
     GetProvisionedConcurrencyConfig()
@@ -356,8 +379,9 @@ Retrieves the provisioned concurrency configuration for a function's alias or ve
 - `Qualifier`: The version number or alias name.
 
 """
-GetProvisionedConcurrencyConfig(FunctionName, Qualifier; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", Dict{String, Any}("Qualifier"=>Qualifier); aws=aws)
-GetProvisionedConcurrencyConfig(FunctionName, Qualifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Qualifier"=>Qualifier), args)); aws=aws)
+
+GetProvisionedConcurrencyConfig(FunctionName, Qualifier; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", Dict{String, Any}("Qualifier"=>Qualifier); aws_config=aws_config)
+GetProvisionedConcurrencyConfig(FunctionName, Qualifier, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Qualifier"=>Qualifier), args)); aws_config=aws_config)
 
 """
     Invoke()
@@ -374,8 +398,9 @@ Invokes a Lambda function. You can invoke a function synchronously (and wait for
 - `X-Amz-Invocation-Type`: Choose from the following options.    RequestResponse (default) - Invoke the function synchronously. Keep the connection open until the function returns a response or times out. The API response includes the function response and additional data.    Event - Invoke the function asynchronously. Send events that fail multiple times to the function's dead-letter queue (if it's configured). The API response only includes a status code.    DryRun - Validate parameter values and verify that the user or role has permission to invoke the function.  
 - `X-Amz-Log-Type`: Set to Tail to include the execution log in the response.
 """
-Invoke(FunctionName; aws::AWSConfig=AWS.aws_config) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/invocations"; aws=aws)
-Invoke(FunctionName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/invocations", args; aws=aws)
+
+Invoke(FunctionName; aws_config::AWSConfig=AWS.aws_config) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/invocations"; aws_config=aws_config)
+Invoke(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/invocations", args; aws_config=aws_config)
 
 """
     InvokeAsync()
@@ -387,8 +412,9 @@ Invoke(FunctionName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_c
 - `InvokeArgs`: The JSON that you want to provide to your Lambda function as input.
 
 """
-InvokeAsync(FunctionName, InvokeArgs; aws::AWSConfig=AWS.aws_config) = lambda("POST", "/2014-11-13/functions/$(FunctionName)/invoke-async/", Dict{String, Any}("InvokeArgs"=>InvokeArgs); aws=aws)
-InvokeAsync(FunctionName, InvokeArgs, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("POST", "/2014-11-13/functions/$(FunctionName)/invoke-async/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InvokeArgs"=>InvokeArgs), args)); aws=aws)
+
+InvokeAsync(FunctionName, InvokeArgs; aws_config::AWSConfig=AWS.aws_config) = lambda("POST", "/2014-11-13/functions/$(FunctionName)/invoke-async/", Dict{String, Any}("InvokeArgs"=>InvokeArgs); aws_config=aws_config)
+InvokeAsync(FunctionName, InvokeArgs, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("POST", "/2014-11-13/functions/$(FunctionName)/invoke-async/", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InvokeArgs"=>InvokeArgs), args)); aws_config=aws_config)
 
 """
     ListAliases()
@@ -403,8 +429,9 @@ Returns a list of aliases for a Lambda function.
 - `Marker`: Specify the pagination token that's returned by a previous request to retrieve the next page of results.
 - `MaxItems`: Limit the number of aliases returned.
 """
-ListAliases(FunctionName; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/aliases"; aws=aws)
-ListAliases(FunctionName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/aliases", args; aws=aws)
+
+ListAliases(FunctionName; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/aliases"; aws_config=aws_config)
+ListAliases(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/aliases", args; aws_config=aws_config)
 
 """
     ListEventSourceMappings()
@@ -417,8 +444,9 @@ Lists event source mappings. Specify an EventSourceArn to only show event source
 - `Marker`: A pagination token returned by a previous call.
 - `MaxItems`: The maximum number of event source mappings to return.
 """
-ListEventSourceMappings(; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2015-03-31/event-source-mappings/"; aws=aws)
-ListEventSourceMappings(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2015-03-31/event-source-mappings/", args; aws=aws)
+
+ListEventSourceMappings(; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2015-03-31/event-source-mappings/"; aws_config=aws_config)
+ListEventSourceMappings(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2015-03-31/event-source-mappings/", args; aws_config=aws_config)
 
 """
     ListFunctionEventInvokeConfigs()
@@ -432,8 +460,9 @@ Retrieves a list of configurations for asynchronous invocation for a function. T
 - `Marker`: Specify the pagination token that's returned by a previous request to retrieve the next page of results.
 - `MaxItems`: The maximum number of configurations to return.
 """
-ListFunctionEventInvokeConfigs(FunctionName; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2019-09-25/functions/$(FunctionName)/event-invoke-config/list"; aws=aws)
-ListFunctionEventInvokeConfigs(FunctionName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2019-09-25/functions/$(FunctionName)/event-invoke-config/list", args; aws=aws)
+
+ListFunctionEventInvokeConfigs(FunctionName; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2019-09-25/functions/$(FunctionName)/event-invoke-config/list"; aws_config=aws_config)
+ListFunctionEventInvokeConfigs(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2019-09-25/functions/$(FunctionName)/event-invoke-config/list", args; aws_config=aws_config)
 
 """
     ListFunctions()
@@ -446,8 +475,9 @@ Returns a list of Lambda functions, with the version-specific configuration of e
 - `MasterRegion`: For Lambda@Edge functions, the AWS Region of the master function. For example, us-east-1 filters the list of functions to only include Lambda@Edge functions replicated from a master function in US East (N. Virginia). If specified, you must set FunctionVersion to ALL.
 - `MaxItems`: The maximum number of functions to return.
 """
-ListFunctions(; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2015-03-31/functions/"; aws=aws)
-ListFunctions(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2015-03-31/functions/", args; aws=aws)
+
+ListFunctions(; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2015-03-31/functions/"; aws_config=aws_config)
+ListFunctions(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2015-03-31/functions/", args; aws_config=aws_config)
 
 """
     ListLayerVersions()
@@ -462,8 +492,9 @@ Lists the versions of an AWS Lambda layer. Versions that have been deleted aren'
 - `Marker`: A pagination token returned by a previous call.
 - `MaxItems`: The maximum number of versions to return.
 """
-ListLayerVersions(LayerName; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions"; aws=aws)
-ListLayerVersions(LayerName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions", args; aws=aws)
+
+ListLayerVersions(LayerName; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions"; aws_config=aws_config)
+ListLayerVersions(LayerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2018-10-31/layers/$(LayerName)/versions", args; aws_config=aws_config)
 
 """
     ListLayers()
@@ -475,8 +506,9 @@ Lists AWS Lambda layers and shows information about the latest version of each. 
 - `Marker`: A pagination token returned by a previous call.
 - `MaxItems`: The maximum number of layers to return.
 """
-ListLayers(; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2018-10-31/layers"; aws=aws)
-ListLayers(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2018-10-31/layers", args; aws=aws)
+
+ListLayers(; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2018-10-31/layers"; aws_config=aws_config)
+ListLayers(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2018-10-31/layers", args; aws_config=aws_config)
 
 """
     ListProvisionedConcurrencyConfigs()
@@ -490,8 +522,9 @@ Retrieves a list of provisioned concurrency configurations for a function.
 - `Marker`: Specify the pagination token that's returned by a previous request to retrieve the next page of results.
 - `MaxItems`: Specify a number to limit the number of configurations returned.
 """
-ListProvisionedConcurrencyConfigs(FunctionName; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency?List=ALL"; aws=aws)
-ListProvisionedConcurrencyConfigs(FunctionName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency?List=ALL", args; aws=aws)
+
+ListProvisionedConcurrencyConfigs(FunctionName; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency?List=ALL"; aws_config=aws_config)
+ListProvisionedConcurrencyConfigs(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency?List=ALL", args; aws_config=aws_config)
 
 """
     ListTags()
@@ -502,8 +535,9 @@ Returns a function's tags. You can also view tags with GetFunction.
 - `ARN`: The function's Amazon Resource Name (ARN).
 
 """
-ListTags(ARN; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2017-03-31/tags/$(ARN)"; aws=aws)
-ListTags(ARN, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2017-03-31/tags/$(ARN)", args; aws=aws)
+
+ListTags(ARN; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2017-03-31/tags/$(ARN)"; aws_config=aws_config)
+ListTags(ARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2017-03-31/tags/$(ARN)", args; aws_config=aws_config)
 
 """
     ListVersionsByFunction()
@@ -517,8 +551,9 @@ Returns a list of versions, with the version-specific configuration of each. Lam
 - `Marker`: Specify the pagination token that's returned by a previous request to retrieve the next page of results.
 - `MaxItems`: The maximum number of versions to return.
 """
-ListVersionsByFunction(FunctionName; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/versions"; aws=aws)
-ListVersionsByFunction(FunctionName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/versions", args; aws=aws)
+
+ListVersionsByFunction(FunctionName; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/versions"; aws_config=aws_config)
+ListVersionsByFunction(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("GET", "/2015-03-31/functions/$(FunctionName)/versions", args; aws_config=aws_config)
 
 """
     PublishLayerVersion()
@@ -534,8 +569,9 @@ Creates an AWS Lambda layer from a ZIP archive. Each time you call PublishLayerV
 - `Description`: The description of the version.
 - `LicenseInfo`: The layer's software license. It can be any of the following:   An SPDX license identifier. For example, MIT.   The URL of a license hosted on the internet. For example, https://opensource.org/licenses/MIT.   The full text of the license.  
 """
-PublishLayerVersion(Content, LayerName; aws::AWSConfig=AWS.aws_config) = lambda("POST", "/2018-10-31/layers/$(LayerName)/versions", Dict{String, Any}("Content"=>Content); aws=aws)
-PublishLayerVersion(Content, LayerName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("POST", "/2018-10-31/layers/$(LayerName)/versions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content), args)); aws=aws)
+
+PublishLayerVersion(Content, LayerName; aws_config::AWSConfig=AWS.aws_config) = lambda("POST", "/2018-10-31/layers/$(LayerName)/versions", Dict{String, Any}("Content"=>Content); aws_config=aws_config)
+PublishLayerVersion(Content, LayerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("POST", "/2018-10-31/layers/$(LayerName)/versions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Content"=>Content), args)); aws_config=aws_config)
 
 """
     PublishVersion()
@@ -550,8 +586,9 @@ Creates a version from the current code and configuration of a function. Use ver
 - `Description`: A description for the version to override the description in the function configuration.
 - `RevisionId`: Only update the function if the revision ID matches the ID that's specified. Use this option to avoid publishing a version if the function configuration has changed since you last updated it.
 """
-PublishVersion(FunctionName; aws::AWSConfig=AWS.aws_config) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/versions"; aws=aws)
-PublishVersion(FunctionName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/versions", args; aws=aws)
+
+PublishVersion(FunctionName; aws_config::AWSConfig=AWS.aws_config) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/versions"; aws_config=aws_config)
+PublishVersion(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("POST", "/2015-03-31/functions/$(FunctionName)/versions", args; aws_config=aws_config)
 
 """
     PutFunctionConcurrency()
@@ -563,8 +600,9 @@ Sets the maximum number of simultaneous executions for a function, and reserves 
 - `ReservedConcurrentExecutions`: The number of simultaneous executions to reserve for the function.
 
 """
-PutFunctionConcurrency(FunctionName, ReservedConcurrentExecutions; aws::AWSConfig=AWS.aws_config) = lambda("PUT", "/2017-10-31/functions/$(FunctionName)/concurrency", Dict{String, Any}("ReservedConcurrentExecutions"=>ReservedConcurrentExecutions); aws=aws)
-PutFunctionConcurrency(FunctionName, ReservedConcurrentExecutions, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("PUT", "/2017-10-31/functions/$(FunctionName)/concurrency", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedConcurrentExecutions"=>ReservedConcurrentExecutions), args)); aws=aws)
+
+PutFunctionConcurrency(FunctionName, ReservedConcurrentExecutions; aws_config::AWSConfig=AWS.aws_config) = lambda("PUT", "/2017-10-31/functions/$(FunctionName)/concurrency", Dict{String, Any}("ReservedConcurrentExecutions"=>ReservedConcurrentExecutions); aws_config=aws_config)
+PutFunctionConcurrency(FunctionName, ReservedConcurrentExecutions, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("PUT", "/2017-10-31/functions/$(FunctionName)/concurrency", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReservedConcurrentExecutions"=>ReservedConcurrentExecutions), args)); aws_config=aws_config)
 
 """
     PutFunctionEventInvokeConfig()
@@ -580,8 +618,9 @@ Configures options for asynchronous invocation on a function, version, or alias.
 - `MaximumRetryAttempts`: The maximum number of times to retry when the function returns an error.
 - `Qualifier`: A version number or alias name.
 """
-PutFunctionEventInvokeConfig(FunctionName; aws::AWSConfig=AWS.aws_config) = lambda("PUT", "/2019-09-25/functions/$(FunctionName)/event-invoke-config"; aws=aws)
-PutFunctionEventInvokeConfig(FunctionName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("PUT", "/2019-09-25/functions/$(FunctionName)/event-invoke-config", args; aws=aws)
+
+PutFunctionEventInvokeConfig(FunctionName; aws_config::AWSConfig=AWS.aws_config) = lambda("PUT", "/2019-09-25/functions/$(FunctionName)/event-invoke-config"; aws_config=aws_config)
+PutFunctionEventInvokeConfig(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("PUT", "/2019-09-25/functions/$(FunctionName)/event-invoke-config", args; aws_config=aws_config)
 
 """
     PutProvisionedConcurrencyConfig()
@@ -594,8 +633,9 @@ Adds a provisioned concurrency configuration to a function's alias or version.
 - `Qualifier`: The version number or alias name.
 
 """
-PutProvisionedConcurrencyConfig(FunctionName, ProvisionedConcurrentExecutions, Qualifier; aws::AWSConfig=AWS.aws_config) = lambda("PUT", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", Dict{String, Any}("ProvisionedConcurrentExecutions"=>ProvisionedConcurrentExecutions, "Qualifier"=>Qualifier); aws=aws)
-PutProvisionedConcurrencyConfig(FunctionName, ProvisionedConcurrentExecutions, Qualifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("PUT", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProvisionedConcurrentExecutions"=>ProvisionedConcurrentExecutions, "Qualifier"=>Qualifier), args)); aws=aws)
+
+PutProvisionedConcurrencyConfig(FunctionName, ProvisionedConcurrentExecutions, Qualifier; aws_config::AWSConfig=AWS.aws_config) = lambda("PUT", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", Dict{String, Any}("ProvisionedConcurrentExecutions"=>ProvisionedConcurrentExecutions, "Qualifier"=>Qualifier); aws_config=aws_config)
+PutProvisionedConcurrencyConfig(FunctionName, ProvisionedConcurrentExecutions, Qualifier, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("PUT", "/2019-09-30/functions/$(FunctionName)/provisioned-concurrency", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProvisionedConcurrentExecutions"=>ProvisionedConcurrentExecutions, "Qualifier"=>Qualifier), args)); aws_config=aws_config)
 
 """
     RemoveLayerVersionPermission()
@@ -610,8 +650,9 @@ Removes a statement from the permissions policy for a version of an AWS Lambda l
 # Optional Parameters
 - `RevisionId`: Only update the policy if the revision ID matches the ID specified. Use this option to avoid modifying a policy that has changed since you last read it.
 """
-RemoveLayerVersionPermission(LayerName, StatementId, VersionNumber; aws::AWSConfig=AWS.aws_config) = lambda("DELETE", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy/$(StatementId)"; aws=aws)
-RemoveLayerVersionPermission(LayerName, StatementId, VersionNumber, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("DELETE", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy/$(StatementId)", args; aws=aws)
+
+RemoveLayerVersionPermission(LayerName, StatementId, VersionNumber; aws_config::AWSConfig=AWS.aws_config) = lambda("DELETE", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy/$(StatementId)"; aws_config=aws_config)
+RemoveLayerVersionPermission(LayerName, StatementId, VersionNumber, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("DELETE", "/2018-10-31/layers/$(LayerName)/versions/$(VersionNumber)/policy/$(StatementId)", args; aws_config=aws_config)
 
 """
     RemovePermission()
@@ -626,8 +667,9 @@ Revokes function-use permission from an AWS service or another account. You can 
 - `Qualifier`: Specify a version or alias to remove permissions from a published version of the function.
 - `RevisionId`: Only update the policy if the revision ID matches the ID that's specified. Use this option to avoid modifying a policy that has changed since you last read it.
 """
-RemovePermission(FunctionName, StatementId; aws::AWSConfig=AWS.aws_config) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)/policy/$(StatementId)"; aws=aws)
-RemovePermission(FunctionName, StatementId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)/policy/$(StatementId)", args; aws=aws)
+
+RemovePermission(FunctionName, StatementId; aws_config::AWSConfig=AWS.aws_config) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)/policy/$(StatementId)"; aws_config=aws_config)
+RemovePermission(FunctionName, StatementId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("DELETE", "/2015-03-31/functions/$(FunctionName)/policy/$(StatementId)", args; aws_config=aws_config)
 
 """
     TagResource()
@@ -639,8 +681,9 @@ Adds tags to a function.
 - `Tags`: A list of tags to apply to the function.
 
 """
-TagResource(ARN, Tags; aws::AWSConfig=AWS.aws_config) = lambda("POST", "/2017-03-31/tags/$(ARN)", Dict{String, Any}("Tags"=>Tags); aws=aws)
-TagResource(ARN, Tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("POST", "/2017-03-31/tags/$(ARN)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws=aws)
+
+TagResource(ARN, Tags; aws_config::AWSConfig=AWS.aws_config) = lambda("POST", "/2017-03-31/tags/$(ARN)", Dict{String, Any}("Tags"=>Tags); aws_config=aws_config)
+TagResource(ARN, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("POST", "/2017-03-31/tags/$(ARN)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -652,8 +695,9 @@ Removes tags from a function.
 - `tagKeys`: A list of tag keys to remove from the function.
 
 """
-UntagResource(ARN, tagKeys; aws::AWSConfig=AWS.aws_config) = lambda("DELETE", "/2017-03-31/tags/$(ARN)", Dict{String, Any}("tagKeys"=>tagKeys); aws=aws)
-UntagResource(ARN, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("DELETE", "/2017-03-31/tags/$(ARN)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws=aws)
+
+UntagResource(ARN, tagKeys; aws_config::AWSConfig=AWS.aws_config) = lambda("DELETE", "/2017-03-31/tags/$(ARN)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
+UntagResource(ARN, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("DELETE", "/2017-03-31/tags/$(ARN)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
 
 """
     UpdateAlias()
@@ -670,8 +714,9 @@ Updates the configuration of a Lambda function alias.
 - `RevisionId`: Only update the alias if the revision ID matches the ID that's specified. Use this option to avoid modifying an alias that has changed since you last read it.
 - `RoutingConfig`: The routing configuration of the alias.
 """
-UpdateAlias(FunctionName, Name; aws::AWSConfig=AWS.aws_config) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)"; aws=aws)
-UpdateAlias(FunctionName, Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)", args; aws=aws)
+
+UpdateAlias(FunctionName, Name; aws_config::AWSConfig=AWS.aws_config) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)"; aws_config=aws_config)
+UpdateAlias(FunctionName, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/aliases/$(Name)", args; aws_config=aws_config)
 
 """
     UpdateEventSourceMapping()
@@ -692,8 +737,9 @@ Updates an event source mapping. You can change the function that AWS Lambda inv
 - `MaximumRetryAttempts`: (Streams) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records will be retried until the record expires.
 - `ParallelizationFactor`: (Streams) The number of batches to process from each shard concurrently.
 """
-UpdateEventSourceMapping(UUID; aws::AWSConfig=AWS.aws_config) = lambda("PUT", "/2015-03-31/event-source-mappings/$(UUID)"; aws=aws)
-UpdateEventSourceMapping(UUID, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("PUT", "/2015-03-31/event-source-mappings/$(UUID)", args; aws=aws)
+
+UpdateEventSourceMapping(UUID; aws_config::AWSConfig=AWS.aws_config) = lambda("PUT", "/2015-03-31/event-source-mappings/$(UUID)"; aws_config=aws_config)
+UpdateEventSourceMapping(UUID, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("PUT", "/2015-03-31/event-source-mappings/$(UUID)", args; aws_config=aws_config)
 
 """
     UpdateFunctionCode()
@@ -712,8 +758,9 @@ Updates a Lambda function's code. The function's code is locked when you publish
 - `S3ObjectVersion`: For versioned objects, the version of the deployment package object to use.
 - `ZipFile`: The base64-encoded contents of the deployment package. AWS SDK and AWS CLI clients handle the encoding for you.
 """
-UpdateFunctionCode(FunctionName; aws::AWSConfig=AWS.aws_config) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/code"; aws=aws)
-UpdateFunctionCode(FunctionName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/code", args; aws=aws)
+
+UpdateFunctionCode(FunctionName; aws_config::AWSConfig=AWS.aws_config) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/code"; aws_config=aws_config)
+UpdateFunctionCode(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/code", args; aws_config=aws_config)
 
 """
     UpdateFunctionConfiguration()
@@ -739,8 +786,9 @@ Modify the version-specific settings of a Lambda function. When you update a fun
 - `TracingConfig`: Set Mode to Active to sample and trace a subset of incoming requests with AWS X-Ray.
 - `VpcConfig`: For network connectivity to AWS resources in a VPC, specify a list of security groups and subnets in the VPC. When you connect a function to a VPC, it can only access resources and the internet through that VPC. For more information, see VPC Settings.
 """
-UpdateFunctionConfiguration(FunctionName; aws::AWSConfig=AWS.aws_config) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/configuration"; aws=aws)
-UpdateFunctionConfiguration(FunctionName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/configuration", args; aws=aws)
+
+UpdateFunctionConfiguration(FunctionName; aws_config::AWSConfig=AWS.aws_config) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/configuration"; aws_config=aws_config)
+UpdateFunctionConfiguration(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("PUT", "/2015-03-31/functions/$(FunctionName)/configuration", args; aws_config=aws_config)
 
 """
     UpdateFunctionEventInvokeConfig()
@@ -756,5 +804,6 @@ Updates the configuration for asynchronous invocation for a function, version, o
 - `MaximumRetryAttempts`: The maximum number of times to retry when the function returns an error.
 - `Qualifier`: A version number or alias name.
 """
-UpdateFunctionEventInvokeConfig(FunctionName; aws::AWSConfig=AWS.aws_config) = lambda("POST", "/2019-09-25/functions/$(FunctionName)/event-invoke-config"; aws=aws)
-UpdateFunctionEventInvokeConfig(FunctionName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = lambda("POST", "/2019-09-25/functions/$(FunctionName)/event-invoke-config", args; aws=aws)
+
+UpdateFunctionEventInvokeConfig(FunctionName; aws_config::AWSConfig=AWS.aws_config) = lambda("POST", "/2019-09-25/functions/$(FunctionName)/event-invoke-config"; aws_config=aws_config)
+UpdateFunctionEventInvokeConfig(FunctionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = lambda("POST", "/2019-09-25/functions/$(FunctionName)/event-invoke-config", args; aws_config=aws_config)

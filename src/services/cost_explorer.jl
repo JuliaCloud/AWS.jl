@@ -15,8 +15,9 @@ Creates a new Cost Category with the requested name and rules.
 - `Rules`: The Cost Category rules used to categorize costs. For more information, see CostCategoryRule.
 
 """
-CreateCostCategoryDefinition(Name, RuleVersion, Rules; aws::AWSConfig=AWS.aws_config) = cost_explorer("CreateCostCategoryDefinition", Dict{String, Any}("Name"=>Name, "RuleVersion"=>RuleVersion, "Rules"=>Rules); aws=aws)
-CreateCostCategoryDefinition(Name, RuleVersion, Rules, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cost_explorer("CreateCostCategoryDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RuleVersion"=>RuleVersion, "Rules"=>Rules), args)); aws=aws)
+
+CreateCostCategoryDefinition(Name, RuleVersion, Rules; aws_config::AWSConfig=AWS.aws_config) = cost_explorer("CreateCostCategoryDefinition", Dict{String, Any}("Name"=>Name, "RuleVersion"=>RuleVersion, "Rules"=>Rules); aws_config=aws_config)
+CreateCostCategoryDefinition(Name, RuleVersion, Rules, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cost_explorer("CreateCostCategoryDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RuleVersion"=>RuleVersion, "Rules"=>Rules), args)); aws_config=aws_config)
 
 """
     DeleteCostCategoryDefinition()
@@ -27,8 +28,9 @@ Deletes a Cost Category. Expenses from this month going forward will no longer b
 - `CostCategoryArn`:  The unique identifier for your Cost Category. 
 
 """
-DeleteCostCategoryDefinition(CostCategoryArn; aws::AWSConfig=AWS.aws_config) = cost_explorer("DeleteCostCategoryDefinition", Dict{String, Any}("CostCategoryArn"=>CostCategoryArn); aws=aws)
-DeleteCostCategoryDefinition(CostCategoryArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cost_explorer("DeleteCostCategoryDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CostCategoryArn"=>CostCategoryArn), args)); aws=aws)
+
+DeleteCostCategoryDefinition(CostCategoryArn; aws_config::AWSConfig=AWS.aws_config) = cost_explorer("DeleteCostCategoryDefinition", Dict{String, Any}("CostCategoryArn"=>CostCategoryArn); aws_config=aws_config)
+DeleteCostCategoryDefinition(CostCategoryArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cost_explorer("DeleteCostCategoryDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CostCategoryArn"=>CostCategoryArn), args)); aws_config=aws_config)
 
 """
     DescribeCostCategoryDefinition()
@@ -41,8 +43,9 @@ Returns the name, ARN, rules, definition, and effective dates of a Cost Category
 # Optional Parameters
 - `EffectiveOn`:  The date when the Cost Category was effective. 
 """
-DescribeCostCategoryDefinition(CostCategoryArn; aws::AWSConfig=AWS.aws_config) = cost_explorer("DescribeCostCategoryDefinition", Dict{String, Any}("CostCategoryArn"=>CostCategoryArn); aws=aws)
-DescribeCostCategoryDefinition(CostCategoryArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cost_explorer("DescribeCostCategoryDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CostCategoryArn"=>CostCategoryArn), args)); aws=aws)
+
+DescribeCostCategoryDefinition(CostCategoryArn; aws_config::AWSConfig=AWS.aws_config) = cost_explorer("DescribeCostCategoryDefinition", Dict{String, Any}("CostCategoryArn"=>CostCategoryArn); aws_config=aws_config)
+DescribeCostCategoryDefinition(CostCategoryArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cost_explorer("DescribeCostCategoryDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CostCategoryArn"=>CostCategoryArn), args)); aws_config=aws_config)
 
 """
     GetCostAndUsage()
@@ -59,8 +62,9 @@ Retrieves cost and usage metrics for your account. You can specify which cost an
 - `Metrics`: Which metrics are returned in the query. For more information about blended and unblended rates, see Why does the \"blended\" annotation appear on some line items in my bill?.  Valid values are AmortizedCost, BlendedCost, NetAmortizedCost, NetUnblendedCost, NormalizedUsageAmount, UnblendedCost, and UsageQuantity.   If you return the UsageQuantity metric, the service aggregates all usage numbers without taking into account the units. For example, if you aggregate usageQuantity across all of Amazon EC2, the results aren't meaningful because Amazon EC2 compute hours and data transfer are measured in different units (for example, hours vs. GB). To get more meaningful UsageQuantity metrics, filter by UsageType or UsageTypeGroups.    Metrics is required for GetCostAndUsage requests.
 - `NextPageToken`: The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
 """
-GetCostAndUsage(TimePeriod; aws::AWSConfig=AWS.aws_config) = cost_explorer("GetCostAndUsage", Dict{String, Any}("TimePeriod"=>TimePeriod); aws=aws)
-GetCostAndUsage(TimePeriod, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cost_explorer("GetCostAndUsage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), args)); aws=aws)
+
+GetCostAndUsage(TimePeriod; aws_config::AWSConfig=AWS.aws_config) = cost_explorer("GetCostAndUsage", Dict{String, Any}("TimePeriod"=>TimePeriod); aws_config=aws_config)
+GetCostAndUsage(TimePeriod, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cost_explorer("GetCostAndUsage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), args)); aws_config=aws_config)
 
 """
     GetCostAndUsageWithResources()
@@ -77,8 +81,9 @@ Retrieves cost and usage metrics with resources for your account. You can specif
 - `Metrics`: Which metrics are returned in the query. For more information about blended and unblended rates, see Why does the \"blended\" annotation appear on some line items in my bill?.  Valid values are AmortizedCost, BlendedCost, NetAmortizedCost, NetUnblendedCost, NormalizedUsageAmount, UnblendedCost, and UsageQuantity.   If you return the UsageQuantity metric, the service aggregates all usage numbers without taking the units into account. For example, if you aggregate usageQuantity across all of Amazon EC2, the results aren't meaningful because Amazon EC2 compute hours and data transfer are measured in different units (for example, hours vs. GB). To get more meaningful UsageQuantity metrics, filter by UsageType or UsageTypeGroups.    Metrics is required for GetCostAndUsageWithResources requests.
 - `NextPageToken`: The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
 """
-GetCostAndUsageWithResources(TimePeriod; aws::AWSConfig=AWS.aws_config) = cost_explorer("GetCostAndUsageWithResources", Dict{String, Any}("TimePeriod"=>TimePeriod); aws=aws)
-GetCostAndUsageWithResources(TimePeriod, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cost_explorer("GetCostAndUsageWithResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), args)); aws=aws)
+
+GetCostAndUsageWithResources(TimePeriod; aws_config::AWSConfig=AWS.aws_config) = cost_explorer("GetCostAndUsageWithResources", Dict{String, Any}("TimePeriod"=>TimePeriod); aws_config=aws_config)
+GetCostAndUsageWithResources(TimePeriod, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cost_explorer("GetCostAndUsageWithResources", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), args)); aws_config=aws_config)
 
 """
     GetCostForecast()
@@ -94,8 +99,9 @@ Retrieves a forecast for how much Amazon Web Services predicts that you will spe
 - `Filter`: The filters that you want to use to filter your forecast. Cost Explorer API supports all of the Cost Explorer filters.
 - `PredictionIntervalLevel`: Cost Explorer always returns the mean forecast as a single point. You can request a prediction interval around the mean by specifying a confidence level. The higher the confidence level, the more confident Cost Explorer is about the actual value falling in the prediction interval. Higher confidence levels result in wider prediction intervals.
 """
-GetCostForecast(Granularity, Metric, TimePeriod; aws::AWSConfig=AWS.aws_config) = cost_explorer("GetCostForecast", Dict{String, Any}("Granularity"=>Granularity, "Metric"=>Metric, "TimePeriod"=>TimePeriod); aws=aws)
-GetCostForecast(Granularity, Metric, TimePeriod, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cost_explorer("GetCostForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Granularity"=>Granularity, "Metric"=>Metric, "TimePeriod"=>TimePeriod), args)); aws=aws)
+
+GetCostForecast(Granularity, Metric, TimePeriod; aws_config::AWSConfig=AWS.aws_config) = cost_explorer("GetCostForecast", Dict{String, Any}("Granularity"=>Granularity, "Metric"=>Metric, "TimePeriod"=>TimePeriod); aws_config=aws_config)
+GetCostForecast(Granularity, Metric, TimePeriod, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cost_explorer("GetCostForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Granularity"=>Granularity, "Metric"=>Metric, "TimePeriod"=>TimePeriod), args)); aws_config=aws_config)
 
 """
     GetDimensionValues()
@@ -111,8 +117,9 @@ Retrieves all available filter values for a specified filter over a period of ti
 - `NextPageToken`: The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
 - `SearchString`: The value that you want to search the filter values for.
 """
-GetDimensionValues(Dimension, TimePeriod; aws::AWSConfig=AWS.aws_config) = cost_explorer("GetDimensionValues", Dict{String, Any}("Dimension"=>Dimension, "TimePeriod"=>TimePeriod); aws=aws)
-GetDimensionValues(Dimension, TimePeriod, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cost_explorer("GetDimensionValues", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Dimension"=>Dimension, "TimePeriod"=>TimePeriod), args)); aws=aws)
+
+GetDimensionValues(Dimension, TimePeriod; aws_config::AWSConfig=AWS.aws_config) = cost_explorer("GetDimensionValues", Dict{String, Any}("Dimension"=>Dimension, "TimePeriod"=>TimePeriod); aws_config=aws_config)
+GetDimensionValues(Dimension, TimePeriod, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cost_explorer("GetDimensionValues", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Dimension"=>Dimension, "TimePeriod"=>TimePeriod), args)); aws_config=aws_config)
 
 """
     GetReservationCoverage()
@@ -129,8 +136,9 @@ Retrieves the reservation coverage for your account. This enables you to see how
 - `Metrics`: The measurement that you want your reservation coverage reported in. Valid values are Hour, Unit, and Cost. You can use multiple values in a request.
 - `NextPageToken`: The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
 """
-GetReservationCoverage(TimePeriod; aws::AWSConfig=AWS.aws_config) = cost_explorer("GetReservationCoverage", Dict{String, Any}("TimePeriod"=>TimePeriod); aws=aws)
-GetReservationCoverage(TimePeriod, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cost_explorer("GetReservationCoverage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), args)); aws=aws)
+
+GetReservationCoverage(TimePeriod; aws_config::AWSConfig=AWS.aws_config) = cost_explorer("GetReservationCoverage", Dict{String, Any}("TimePeriod"=>TimePeriod); aws_config=aws_config)
+GetReservationCoverage(TimePeriod, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cost_explorer("GetReservationCoverage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), args)); aws_config=aws_config)
 
 """
     GetReservationPurchaseRecommendation()
@@ -150,8 +158,9 @@ Gets recommendations for which reservations to purchase. These recommendations c
 - `ServiceSpecification`: The hardware specifications for the service instances that you want recommendations for, such as standard or convertible Amazon EC2 instances.
 - `TermInYears`: The reservation term that you want recommendations for.
 """
-GetReservationPurchaseRecommendation(Service; aws::AWSConfig=AWS.aws_config) = cost_explorer("GetReservationPurchaseRecommendation", Dict{String, Any}("Service"=>Service); aws=aws)
-GetReservationPurchaseRecommendation(Service, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cost_explorer("GetReservationPurchaseRecommendation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Service"=>Service), args)); aws=aws)
+
+GetReservationPurchaseRecommendation(Service; aws_config::AWSConfig=AWS.aws_config) = cost_explorer("GetReservationPurchaseRecommendation", Dict{String, Any}("Service"=>Service); aws_config=aws_config)
+GetReservationPurchaseRecommendation(Service, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cost_explorer("GetReservationPurchaseRecommendation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Service"=>Service), args)); aws_config=aws_config)
 
 """
     GetReservationUtilization()
@@ -167,8 +176,9 @@ Retrieves the reservation utilization for your account. Master accounts in an or
 - `GroupBy`: Groups only by SUBSCRIPTION_ID. Metadata is included.
 - `NextPageToken`: The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
 """
-GetReservationUtilization(TimePeriod; aws::AWSConfig=AWS.aws_config) = cost_explorer("GetReservationUtilization", Dict{String, Any}("TimePeriod"=>TimePeriod); aws=aws)
-GetReservationUtilization(TimePeriod, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cost_explorer("GetReservationUtilization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), args)); aws=aws)
+
+GetReservationUtilization(TimePeriod; aws_config::AWSConfig=AWS.aws_config) = cost_explorer("GetReservationUtilization", Dict{String, Any}("TimePeriod"=>TimePeriod); aws_config=aws_config)
+GetReservationUtilization(TimePeriod, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cost_explorer("GetReservationUtilization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), args)); aws_config=aws_config)
 
 """
     GetRightsizingRecommendation()
@@ -184,8 +194,9 @@ Creates recommendations that help you save cost by identifying idle and underuti
 - `NextPageToken`: The pagination token that indicates the next set of results that you want to retrieve.
 - `PageSize`: The number of recommendations that you want returned in a single response object.
 """
-GetRightsizingRecommendation(Service; aws::AWSConfig=AWS.aws_config) = cost_explorer("GetRightsizingRecommendation", Dict{String, Any}("Service"=>Service); aws=aws)
-GetRightsizingRecommendation(Service, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cost_explorer("GetRightsizingRecommendation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Service"=>Service), args)); aws=aws)
+
+GetRightsizingRecommendation(Service; aws_config::AWSConfig=AWS.aws_config) = cost_explorer("GetRightsizingRecommendation", Dict{String, Any}("Service"=>Service); aws_config=aws_config)
+GetRightsizingRecommendation(Service, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cost_explorer("GetRightsizingRecommendation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Service"=>Service), args)); aws_config=aws_config)
 
 """
     GetSavingsPlansCoverage()
@@ -203,8 +214,9 @@ Retrieves the Savings Plans covered for your account. This enables you to see ho
 - `Metrics`: The measurement that you want your Savings Plans coverage reported in. The only valid value is SpendCoveredBySavingsPlans.
 - `NextToken`: The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
 """
-GetSavingsPlansCoverage(TimePeriod; aws::AWSConfig=AWS.aws_config) = cost_explorer("GetSavingsPlansCoverage", Dict{String, Any}("TimePeriod"=>TimePeriod); aws=aws)
-GetSavingsPlansCoverage(TimePeriod, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cost_explorer("GetSavingsPlansCoverage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), args)); aws=aws)
+
+GetSavingsPlansCoverage(TimePeriod; aws_config::AWSConfig=AWS.aws_config) = cost_explorer("GetSavingsPlansCoverage", Dict{String, Any}("TimePeriod"=>TimePeriod); aws_config=aws_config)
+GetSavingsPlansCoverage(TimePeriod, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cost_explorer("GetSavingsPlansCoverage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), args)); aws_config=aws_config)
 
 """
     GetSavingsPlansPurchaseRecommendation()
@@ -223,8 +235,9 @@ Retrieves your request parameters, Savings Plan Recommendations Summary and Deta
 - `NextPageToken`: The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
 - `PageSize`: The number of recommendations that you want returned in a single response object.
 """
-GetSavingsPlansPurchaseRecommendation(LookbackPeriodInDays, PaymentOption, SavingsPlansType, TermInYears; aws::AWSConfig=AWS.aws_config) = cost_explorer("GetSavingsPlansPurchaseRecommendation", Dict{String, Any}("LookbackPeriodInDays"=>LookbackPeriodInDays, "PaymentOption"=>PaymentOption, "SavingsPlansType"=>SavingsPlansType, "TermInYears"=>TermInYears); aws=aws)
-GetSavingsPlansPurchaseRecommendation(LookbackPeriodInDays, PaymentOption, SavingsPlansType, TermInYears, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cost_explorer("GetSavingsPlansPurchaseRecommendation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LookbackPeriodInDays"=>LookbackPeriodInDays, "PaymentOption"=>PaymentOption, "SavingsPlansType"=>SavingsPlansType, "TermInYears"=>TermInYears), args)); aws=aws)
+
+GetSavingsPlansPurchaseRecommendation(LookbackPeriodInDays, PaymentOption, SavingsPlansType, TermInYears; aws_config::AWSConfig=AWS.aws_config) = cost_explorer("GetSavingsPlansPurchaseRecommendation", Dict{String, Any}("LookbackPeriodInDays"=>LookbackPeriodInDays, "PaymentOption"=>PaymentOption, "SavingsPlansType"=>SavingsPlansType, "TermInYears"=>TermInYears); aws_config=aws_config)
+GetSavingsPlansPurchaseRecommendation(LookbackPeriodInDays, PaymentOption, SavingsPlansType, TermInYears, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cost_explorer("GetSavingsPlansPurchaseRecommendation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LookbackPeriodInDays"=>LookbackPeriodInDays, "PaymentOption"=>PaymentOption, "SavingsPlansType"=>SavingsPlansType, "TermInYears"=>TermInYears), args)); aws_config=aws_config)
 
 """
     GetSavingsPlansUtilization()
@@ -238,8 +251,9 @@ Retrieves the Savings Plans utilization for your account across date ranges with
 - `Filter`: Filters Savings Plans utilization coverage data for active Savings Plans dimensions. You can filter data with the following dimensions:    LINKED_ACCOUNT     SAVINGS_PLAN_ARN     SAVINGS_PLANS_TYPE     REGION     PAYMENT_OPTION     INSTANCE_TYPE_FAMILY     GetSavingsPlansUtilization uses the same Expression object as the other operations, but only AND is supported among each dimension.
 - `Granularity`: The granularity of the Amazon Web Services utillization data for your Savings Plans. The GetSavingsPlansUtilization operation supports only DAILY and MONTHLY granularities.
 """
-GetSavingsPlansUtilization(TimePeriod; aws::AWSConfig=AWS.aws_config) = cost_explorer("GetSavingsPlansUtilization", Dict{String, Any}("TimePeriod"=>TimePeriod); aws=aws)
-GetSavingsPlansUtilization(TimePeriod, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cost_explorer("GetSavingsPlansUtilization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), args)); aws=aws)
+
+GetSavingsPlansUtilization(TimePeriod; aws_config::AWSConfig=AWS.aws_config) = cost_explorer("GetSavingsPlansUtilization", Dict{String, Any}("TimePeriod"=>TimePeriod); aws_config=aws_config)
+GetSavingsPlansUtilization(TimePeriod, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cost_explorer("GetSavingsPlansUtilization", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), args)); aws_config=aws_config)
 
 """
     GetSavingsPlansUtilizationDetails()
@@ -254,8 +268,9 @@ Retrieves attribute data along with aggregate utilization and savings data for a
 - `MaxResults`: The number of items to be returned in a response. The default is 20, with a minimum value of 1.
 - `NextToken`: The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
 """
-GetSavingsPlansUtilizationDetails(TimePeriod; aws::AWSConfig=AWS.aws_config) = cost_explorer("GetSavingsPlansUtilizationDetails", Dict{String, Any}("TimePeriod"=>TimePeriod); aws=aws)
-GetSavingsPlansUtilizationDetails(TimePeriod, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cost_explorer("GetSavingsPlansUtilizationDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), args)); aws=aws)
+
+GetSavingsPlansUtilizationDetails(TimePeriod; aws_config::AWSConfig=AWS.aws_config) = cost_explorer("GetSavingsPlansUtilizationDetails", Dict{String, Any}("TimePeriod"=>TimePeriod); aws_config=aws_config)
+GetSavingsPlansUtilizationDetails(TimePeriod, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cost_explorer("GetSavingsPlansUtilizationDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), args)); aws_config=aws_config)
 
 """
     GetTags()
@@ -270,8 +285,9 @@ Queries for available tag keys and tag values for a specified period. You can se
 - `SearchString`: The value that you want to search for.
 - `TagKey`: The key of the tag that you want to return values for.
 """
-GetTags(TimePeriod; aws::AWSConfig=AWS.aws_config) = cost_explorer("GetTags", Dict{String, Any}("TimePeriod"=>TimePeriod); aws=aws)
-GetTags(TimePeriod, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cost_explorer("GetTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), args)); aws=aws)
+
+GetTags(TimePeriod; aws_config::AWSConfig=AWS.aws_config) = cost_explorer("GetTags", Dict{String, Any}("TimePeriod"=>TimePeriod); aws_config=aws_config)
+GetTags(TimePeriod, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cost_explorer("GetTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TimePeriod"=>TimePeriod), args)); aws_config=aws_config)
 
 """
     GetUsageForecast()
@@ -287,8 +303,9 @@ Retrieves a forecast for how much Amazon Web Services predicts that you will use
 - `Filter`: The filters that you want to use to filter your forecast. Cost Explorer API supports all of the Cost Explorer filters.
 - `PredictionIntervalLevel`: Cost Explorer always returns the mean forecast as a single point. You can request a prediction interval around the mean by specifying a confidence level. The higher the confidence level, the more confident Cost Explorer is about the actual value falling in the prediction interval. Higher confidence levels result in wider prediction intervals.
 """
-GetUsageForecast(Granularity, Metric, TimePeriod; aws::AWSConfig=AWS.aws_config) = cost_explorer("GetUsageForecast", Dict{String, Any}("Granularity"=>Granularity, "Metric"=>Metric, "TimePeriod"=>TimePeriod); aws=aws)
-GetUsageForecast(Granularity, Metric, TimePeriod, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cost_explorer("GetUsageForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Granularity"=>Granularity, "Metric"=>Metric, "TimePeriod"=>TimePeriod), args)); aws=aws)
+
+GetUsageForecast(Granularity, Metric, TimePeriod; aws_config::AWSConfig=AWS.aws_config) = cost_explorer("GetUsageForecast", Dict{String, Any}("Granularity"=>Granularity, "Metric"=>Metric, "TimePeriod"=>TimePeriod); aws_config=aws_config)
+GetUsageForecast(Granularity, Metric, TimePeriod, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cost_explorer("GetUsageForecast", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Granularity"=>Granularity, "Metric"=>Metric, "TimePeriod"=>TimePeriod), args)); aws_config=aws_config)
 
 """
     ListCostCategoryDefinitions()
@@ -300,8 +317,9 @@ Returns the name, ARN, NumberOfRules and effective dates of all Cost Categories 
 - `MaxResults`:  The number of entries a paginated response contains. 
 - `NextToken`:  The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size. 
 """
-ListCostCategoryDefinitions(; aws::AWSConfig=AWS.aws_config) = cost_explorer("ListCostCategoryDefinitions"; aws=aws)
-ListCostCategoryDefinitions(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cost_explorer("ListCostCategoryDefinitions", args; aws=aws)
+
+ListCostCategoryDefinitions(; aws_config::AWSConfig=AWS.aws_config) = cost_explorer("ListCostCategoryDefinitions"; aws_config=aws_config)
+ListCostCategoryDefinitions(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cost_explorer("ListCostCategoryDefinitions", args; aws_config=aws_config)
 
 """
     UpdateCostCategoryDefinition()
@@ -314,5 +332,6 @@ Updates an existing Cost Category. Changes made to the Cost Category rules will 
 - `Rules`: The Expression object used to categorize costs. For more information, see CostCategoryRule . 
 
 """
-UpdateCostCategoryDefinition(CostCategoryArn, RuleVersion, Rules; aws::AWSConfig=AWS.aws_config) = cost_explorer("UpdateCostCategoryDefinition", Dict{String, Any}("CostCategoryArn"=>CostCategoryArn, "RuleVersion"=>RuleVersion, "Rules"=>Rules); aws=aws)
-UpdateCostCategoryDefinition(CostCategoryArn, RuleVersion, Rules, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cost_explorer("UpdateCostCategoryDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CostCategoryArn"=>CostCategoryArn, "RuleVersion"=>RuleVersion, "Rules"=>Rules), args)); aws=aws)
+
+UpdateCostCategoryDefinition(CostCategoryArn, RuleVersion, Rules; aws_config::AWSConfig=AWS.aws_config) = cost_explorer("UpdateCostCategoryDefinition", Dict{String, Any}("CostCategoryArn"=>CostCategoryArn, "RuleVersion"=>RuleVersion, "Rules"=>Rules); aws_config=aws_config)
+UpdateCostCategoryDefinition(CostCategoryArn, RuleVersion, Rules, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cost_explorer("UpdateCostCategoryDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CostCategoryArn"=>CostCategoryArn, "RuleVersion"=>RuleVersion, "Rules"=>Rules), args)); aws_config=aws_config)

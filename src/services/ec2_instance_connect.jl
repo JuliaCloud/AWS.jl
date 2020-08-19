@@ -16,5 +16,6 @@ Pushes an SSH public key to a particular OS user on a given EC2 instance for 60 
 - `SSHPublicKey`: The public key to be published to the instance. To use it after publication you must have the matching private key.
 
 """
-SendSSHPublicKey(AvailabilityZone, InstanceId, InstanceOSUser, SSHPublicKey; aws::AWSConfig=AWS.aws_config) = ec2_instance_connect("SendSSHPublicKey", Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "InstanceId"=>InstanceId, "InstanceOSUser"=>InstanceOSUser, "SSHPublicKey"=>SSHPublicKey); aws=aws)
-SendSSHPublicKey(AvailabilityZone, InstanceId, InstanceOSUser, SSHPublicKey, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = ec2_instance_connect("SendSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "InstanceId"=>InstanceId, "InstanceOSUser"=>InstanceOSUser, "SSHPublicKey"=>SSHPublicKey), args)); aws=aws)
+
+SendSSHPublicKey(AvailabilityZone, InstanceId, InstanceOSUser, SSHPublicKey; aws_config::AWSConfig=AWS.aws_config) = ec2_instance_connect("SendSSHPublicKey", Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "InstanceId"=>InstanceId, "InstanceOSUser"=>InstanceOSUser, "SSHPublicKey"=>SSHPublicKey); aws_config=aws_config)
+SendSSHPublicKey(AvailabilityZone, InstanceId, InstanceOSUser, SSHPublicKey, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = ec2_instance_connect("SendSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AvailabilityZone"=>AvailabilityZone, "InstanceId"=>InstanceId, "InstanceOSUser"=>InstanceOSUser, "SSHPublicKey"=>SSHPublicKey), args)); aws_config=aws_config)

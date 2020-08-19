@@ -20,8 +20,9 @@ Runs a batch SQL statement over an array of data. You can run bulk update and in
 - `schema`: The name of the database schema.
 - `transactionId`: The identifier of a transaction that was started by using the BeginTransaction operation. Specify the transaction ID of the transaction that you want to include the SQL statement in. If the SQL statement is not part of a transaction, don't set this parameter.
 """
-BatchExecuteStatement(resourceArn, secretArn, sql; aws::AWSConfig=AWS.aws_config) = rds_data("POST", "/BatchExecute", Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn, "sql"=>sql); aws=aws)
-BatchExecuteStatement(resourceArn, secretArn, sql, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = rds_data("POST", "/BatchExecute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn, "sql"=>sql), args)); aws=aws)
+
+BatchExecuteStatement(resourceArn, secretArn, sql; aws_config::AWSConfig=AWS.aws_config) = rds_data("POST", "/BatchExecute", Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn, "sql"=>sql); aws_config=aws_config)
+BatchExecuteStatement(resourceArn, secretArn, sql, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = rds_data("POST", "/BatchExecute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn, "sql"=>sql), args)); aws_config=aws_config)
 
 """
     BeginTransaction()
@@ -36,8 +37,9 @@ Starts a SQL transaction.  &lt;important&gt; &lt;p&gt;A transaction can run for 
 - `database`: The name of the database.
 - `schema`: The name of the database schema.
 """
-BeginTransaction(resourceArn, secretArn; aws::AWSConfig=AWS.aws_config) = rds_data("POST", "/BeginTransaction", Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn); aws=aws)
-BeginTransaction(resourceArn, secretArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = rds_data("POST", "/BeginTransaction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn), args)); aws=aws)
+
+BeginTransaction(resourceArn, secretArn; aws_config::AWSConfig=AWS.aws_config) = rds_data("POST", "/BeginTransaction", Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn); aws_config=aws_config)
+BeginTransaction(resourceArn, secretArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = rds_data("POST", "/BeginTransaction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn), args)); aws_config=aws_config)
 
 """
     CommitTransaction()
@@ -50,8 +52,9 @@ Ends a SQL transaction started with the BeginTransaction operation and commits t
 - `transactionId`: The identifier of the transaction to end and commit.
 
 """
-CommitTransaction(resourceArn, secretArn, transactionId; aws::AWSConfig=AWS.aws_config) = rds_data("POST", "/CommitTransaction", Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn, "transactionId"=>transactionId); aws=aws)
-CommitTransaction(resourceArn, secretArn, transactionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = rds_data("POST", "/CommitTransaction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn, "transactionId"=>transactionId), args)); aws=aws)
+
+CommitTransaction(resourceArn, secretArn, transactionId; aws_config::AWSConfig=AWS.aws_config) = rds_data("POST", "/CommitTransaction", Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn, "transactionId"=>transactionId); aws_config=aws_config)
+CommitTransaction(resourceArn, secretArn, transactionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = rds_data("POST", "/CommitTransaction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn, "transactionId"=>transactionId), args)); aws_config=aws_config)
 
 """
     ExecuteSql()
@@ -67,8 +70,9 @@ Runs one or more SQL statements.  This operation is deprecated. Use the BatchExe
 - `database`: The name of the database.
 - `schema`: The name of the database schema.
 """
-ExecuteSql(awsSecretStoreArn, dbClusterOrInstanceArn, sqlStatements; aws::AWSConfig=AWS.aws_config) = rds_data("POST", "/ExecuteSql", Dict{String, Any}("awsSecretStoreArn"=>awsSecretStoreArn, "dbClusterOrInstanceArn"=>dbClusterOrInstanceArn, "sqlStatements"=>sqlStatements); aws=aws)
-ExecuteSql(awsSecretStoreArn, dbClusterOrInstanceArn, sqlStatements, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = rds_data("POST", "/ExecuteSql", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("awsSecretStoreArn"=>awsSecretStoreArn, "dbClusterOrInstanceArn"=>dbClusterOrInstanceArn, "sqlStatements"=>sqlStatements), args)); aws=aws)
+
+ExecuteSql(awsSecretStoreArn, dbClusterOrInstanceArn, sqlStatements; aws_config::AWSConfig=AWS.aws_config) = rds_data("POST", "/ExecuteSql", Dict{String, Any}("awsSecretStoreArn"=>awsSecretStoreArn, "dbClusterOrInstanceArn"=>dbClusterOrInstanceArn, "sqlStatements"=>sqlStatements); aws_config=aws_config)
+ExecuteSql(awsSecretStoreArn, dbClusterOrInstanceArn, sqlStatements, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = rds_data("POST", "/ExecuteSql", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("awsSecretStoreArn"=>awsSecretStoreArn, "dbClusterOrInstanceArn"=>dbClusterOrInstanceArn, "sqlStatements"=>sqlStatements), args)); aws_config=aws_config)
 
 """
     ExecuteStatement()
@@ -89,8 +93,9 @@ Runs a SQL statement against a database.  If a call isn't part of a transaction 
 - `schema`: The name of the database schema.
 - `transactionId`: The identifier of a transaction that was started by using the BeginTransaction operation. Specify the transaction ID of the transaction that you want to include the SQL statement in. If the SQL statement is not part of a transaction, don't set this parameter.
 """
-ExecuteStatement(resourceArn, secretArn, sql; aws::AWSConfig=AWS.aws_config) = rds_data("POST", "/Execute", Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn, "sql"=>sql); aws=aws)
-ExecuteStatement(resourceArn, secretArn, sql, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = rds_data("POST", "/Execute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn, "sql"=>sql), args)); aws=aws)
+
+ExecuteStatement(resourceArn, secretArn, sql; aws_config::AWSConfig=AWS.aws_config) = rds_data("POST", "/Execute", Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn, "sql"=>sql); aws_config=aws_config)
+ExecuteStatement(resourceArn, secretArn, sql, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = rds_data("POST", "/Execute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn, "sql"=>sql), args)); aws_config=aws_config)
 
 """
     RollbackTransaction()
@@ -103,5 +108,6 @@ Performs a rollback of a transaction. Rolling back a transaction cancels its cha
 - `transactionId`: The identifier of the transaction to roll back.
 
 """
-RollbackTransaction(resourceArn, secretArn, transactionId; aws::AWSConfig=AWS.aws_config) = rds_data("POST", "/RollbackTransaction", Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn, "transactionId"=>transactionId); aws=aws)
-RollbackTransaction(resourceArn, secretArn, transactionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = rds_data("POST", "/RollbackTransaction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn, "transactionId"=>transactionId), args)); aws=aws)
+
+RollbackTransaction(resourceArn, secretArn, transactionId; aws_config::AWSConfig=AWS.aws_config) = rds_data("POST", "/RollbackTransaction", Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn, "transactionId"=>transactionId); aws_config=aws_config)
+RollbackTransaction(resourceArn, secretArn, transactionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = rds_data("POST", "/RollbackTransaction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "secretArn"=>secretArn, "transactionId"=>transactionId), args)); aws_config=aws_config)

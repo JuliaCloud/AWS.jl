@@ -16,8 +16,9 @@ Creates a new custom language model. Use Amazon S3 prefixes to provide the locat
 - `ModelName`: The name you choose for your custom language model when you create it.
 
 """
-CreateLanguageModel(BaseModelName, InputDataConfig, LanguageCode, ModelName; aws::AWSConfig=AWS.aws_config) = transcribe("CreateLanguageModel", Dict{String, Any}("BaseModelName"=>BaseModelName, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "ModelName"=>ModelName); aws=aws)
-CreateLanguageModel(BaseModelName, InputDataConfig, LanguageCode, ModelName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = transcribe("CreateLanguageModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BaseModelName"=>BaseModelName, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "ModelName"=>ModelName), args)); aws=aws)
+
+CreateLanguageModel(BaseModelName, InputDataConfig, LanguageCode, ModelName; aws_config::AWSConfig=AWS.aws_config) = transcribe("CreateLanguageModel", Dict{String, Any}("BaseModelName"=>BaseModelName, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "ModelName"=>ModelName); aws_config=aws_config)
+CreateLanguageModel(BaseModelName, InputDataConfig, LanguageCode, ModelName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = transcribe("CreateLanguageModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BaseModelName"=>BaseModelName, "InputDataConfig"=>InputDataConfig, "LanguageCode"=>LanguageCode, "ModelName"=>ModelName), args)); aws_config=aws_config)
 
 """
     CreateMedicalVocabulary()
@@ -30,8 +31,9 @@ Creates a new custom vocabulary that you can use to change how Amazon Transcribe
 - `VocabularyName`: The name of the custom vocabulary. This case-sensitive name must be unique within an AWS account. If you try to create a vocabulary with the same name as a previous vocabulary, you get a ConflictException error.
 
 """
-CreateMedicalVocabulary(LanguageCode, VocabularyFileUri, VocabularyName; aws::AWSConfig=AWS.aws_config) = transcribe("CreateMedicalVocabulary", Dict{String, Any}("LanguageCode"=>LanguageCode, "VocabularyFileUri"=>VocabularyFileUri, "VocabularyName"=>VocabularyName); aws=aws)
-CreateMedicalVocabulary(LanguageCode, VocabularyFileUri, VocabularyName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = transcribe("CreateMedicalVocabulary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "VocabularyFileUri"=>VocabularyFileUri, "VocabularyName"=>VocabularyName), args)); aws=aws)
+
+CreateMedicalVocabulary(LanguageCode, VocabularyFileUri, VocabularyName; aws_config::AWSConfig=AWS.aws_config) = transcribe("CreateMedicalVocabulary", Dict{String, Any}("LanguageCode"=>LanguageCode, "VocabularyFileUri"=>VocabularyFileUri, "VocabularyName"=>VocabularyName); aws_config=aws_config)
+CreateMedicalVocabulary(LanguageCode, VocabularyFileUri, VocabularyName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = transcribe("CreateMedicalVocabulary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "VocabularyFileUri"=>VocabularyFileUri, "VocabularyName"=>VocabularyName), args)); aws_config=aws_config)
 
 """
     CreateVocabulary()
@@ -46,8 +48,9 @@ Creates a new custom vocabulary that you can use to change the way Amazon Transc
 - `Phrases`: An array of strings that contains the vocabulary entries. 
 - `VocabularyFileUri`: The S3 location of the text file that contains the definition of the custom vocabulary. The URI must be in the same region as the API endpoint that you are calling. The general form is  For more information about S3 object names, see Object Keys in the Amazon S3 Developer Guide. For more information about custom vocabularies, see Custom Vocabularies.
 """
-CreateVocabulary(LanguageCode, VocabularyName; aws::AWSConfig=AWS.aws_config) = transcribe("CreateVocabulary", Dict{String, Any}("LanguageCode"=>LanguageCode, "VocabularyName"=>VocabularyName); aws=aws)
-CreateVocabulary(LanguageCode, VocabularyName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = transcribe("CreateVocabulary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "VocabularyName"=>VocabularyName), args)); aws=aws)
+
+CreateVocabulary(LanguageCode, VocabularyName; aws_config::AWSConfig=AWS.aws_config) = transcribe("CreateVocabulary", Dict{String, Any}("LanguageCode"=>LanguageCode, "VocabularyName"=>VocabularyName); aws_config=aws_config)
+CreateVocabulary(LanguageCode, VocabularyName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = transcribe("CreateVocabulary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "VocabularyName"=>VocabularyName), args)); aws_config=aws_config)
 
 """
     CreateVocabularyFilter()
@@ -62,8 +65,9 @@ Creates a new vocabulary filter that you can use to filter words, such as profan
 - `VocabularyFilterFileUri`: The Amazon S3 location of a text file used as input to create the vocabulary filter. Only use characters from the character set defined for custom vocabularies. For a list of character sets, see Character Sets for Custom Vocabularies. The specified file must be less than 50 KB of UTF-8 characters. If you provide the location of a list of words in the VocabularyFilterFileUri parameter, you can't use the Words parameter.
 - `Words`: The words to use in the vocabulary filter. Only use characters from the character set defined for custom vocabularies. For a list of character sets, see Character Sets for Custom Vocabularies. If you provide a list of words in the Words parameter, you can't use the VocabularyFilterFileUri parameter.
 """
-CreateVocabularyFilter(LanguageCode, VocabularyFilterName; aws::AWSConfig=AWS.aws_config) = transcribe("CreateVocabularyFilter", Dict{String, Any}("LanguageCode"=>LanguageCode, "VocabularyFilterName"=>VocabularyFilterName); aws=aws)
-CreateVocabularyFilter(LanguageCode, VocabularyFilterName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = transcribe("CreateVocabularyFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "VocabularyFilterName"=>VocabularyFilterName), args)); aws=aws)
+
+CreateVocabularyFilter(LanguageCode, VocabularyFilterName; aws_config::AWSConfig=AWS.aws_config) = transcribe("CreateVocabularyFilter", Dict{String, Any}("LanguageCode"=>LanguageCode, "VocabularyFilterName"=>VocabularyFilterName); aws_config=aws_config)
+CreateVocabularyFilter(LanguageCode, VocabularyFilterName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = transcribe("CreateVocabularyFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "VocabularyFilterName"=>VocabularyFilterName), args)); aws_config=aws_config)
 
 """
     DeleteLanguageModel()
@@ -74,8 +78,9 @@ Deletes a custom language model using its name.
 - `ModelName`: The name of the model you're choosing to delete.
 
 """
-DeleteLanguageModel(ModelName; aws::AWSConfig=AWS.aws_config) = transcribe("DeleteLanguageModel", Dict{String, Any}("ModelName"=>ModelName); aws=aws)
-DeleteLanguageModel(ModelName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = transcribe("DeleteLanguageModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ModelName"=>ModelName), args)); aws=aws)
+
+DeleteLanguageModel(ModelName; aws_config::AWSConfig=AWS.aws_config) = transcribe("DeleteLanguageModel", Dict{String, Any}("ModelName"=>ModelName); aws_config=aws_config)
+DeleteLanguageModel(ModelName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = transcribe("DeleteLanguageModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ModelName"=>ModelName), args)); aws_config=aws_config)
 
 """
     DeleteMedicalTranscriptionJob()
@@ -86,8 +91,9 @@ Deletes a transcription job generated by Amazon Transcribe Medical and any relat
 - `MedicalTranscriptionJobName`: The name you provide to the DeleteMedicalTranscriptionJob object to delete a transcription job.
 
 """
-DeleteMedicalTranscriptionJob(MedicalTranscriptionJobName; aws::AWSConfig=AWS.aws_config) = transcribe("DeleteMedicalTranscriptionJob", Dict{String, Any}("MedicalTranscriptionJobName"=>MedicalTranscriptionJobName); aws=aws)
-DeleteMedicalTranscriptionJob(MedicalTranscriptionJobName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = transcribe("DeleteMedicalTranscriptionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MedicalTranscriptionJobName"=>MedicalTranscriptionJobName), args)); aws=aws)
+
+DeleteMedicalTranscriptionJob(MedicalTranscriptionJobName; aws_config::AWSConfig=AWS.aws_config) = transcribe("DeleteMedicalTranscriptionJob", Dict{String, Any}("MedicalTranscriptionJobName"=>MedicalTranscriptionJobName); aws_config=aws_config)
+DeleteMedicalTranscriptionJob(MedicalTranscriptionJobName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = transcribe("DeleteMedicalTranscriptionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MedicalTranscriptionJobName"=>MedicalTranscriptionJobName), args)); aws_config=aws_config)
 
 """
     DeleteMedicalVocabulary()
@@ -98,8 +104,9 @@ Deletes a vocabulary from Amazon Transcribe Medical.
 - `VocabularyName`: The name of the vocabulary that you want to delete.
 
 """
-DeleteMedicalVocabulary(VocabularyName; aws::AWSConfig=AWS.aws_config) = transcribe("DeleteMedicalVocabulary", Dict{String, Any}("VocabularyName"=>VocabularyName); aws=aws)
-DeleteMedicalVocabulary(VocabularyName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = transcribe("DeleteMedicalVocabulary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VocabularyName"=>VocabularyName), args)); aws=aws)
+
+DeleteMedicalVocabulary(VocabularyName; aws_config::AWSConfig=AWS.aws_config) = transcribe("DeleteMedicalVocabulary", Dict{String, Any}("VocabularyName"=>VocabularyName); aws_config=aws_config)
+DeleteMedicalVocabulary(VocabularyName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = transcribe("DeleteMedicalVocabulary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VocabularyName"=>VocabularyName), args)); aws_config=aws_config)
 
 """
     DeleteTranscriptionJob()
@@ -110,8 +117,9 @@ Deletes a previously submitted transcription job along with any other generated 
 - `TranscriptionJobName`: The name of the transcription job to be deleted.
 
 """
-DeleteTranscriptionJob(TranscriptionJobName; aws::AWSConfig=AWS.aws_config) = transcribe("DeleteTranscriptionJob", Dict{String, Any}("TranscriptionJobName"=>TranscriptionJobName); aws=aws)
-DeleteTranscriptionJob(TranscriptionJobName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = transcribe("DeleteTranscriptionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TranscriptionJobName"=>TranscriptionJobName), args)); aws=aws)
+
+DeleteTranscriptionJob(TranscriptionJobName; aws_config::AWSConfig=AWS.aws_config) = transcribe("DeleteTranscriptionJob", Dict{String, Any}("TranscriptionJobName"=>TranscriptionJobName); aws_config=aws_config)
+DeleteTranscriptionJob(TranscriptionJobName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = transcribe("DeleteTranscriptionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TranscriptionJobName"=>TranscriptionJobName), args)); aws_config=aws_config)
 
 """
     DeleteVocabulary()
@@ -122,8 +130,9 @@ Deletes a vocabulary from Amazon Transcribe.
 - `VocabularyName`: The name of the vocabulary to delete. 
 
 """
-DeleteVocabulary(VocabularyName; aws::AWSConfig=AWS.aws_config) = transcribe("DeleteVocabulary", Dict{String, Any}("VocabularyName"=>VocabularyName); aws=aws)
-DeleteVocabulary(VocabularyName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = transcribe("DeleteVocabulary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VocabularyName"=>VocabularyName), args)); aws=aws)
+
+DeleteVocabulary(VocabularyName; aws_config::AWSConfig=AWS.aws_config) = transcribe("DeleteVocabulary", Dict{String, Any}("VocabularyName"=>VocabularyName); aws_config=aws_config)
+DeleteVocabulary(VocabularyName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = transcribe("DeleteVocabulary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VocabularyName"=>VocabularyName), args)); aws_config=aws_config)
 
 """
     DeleteVocabularyFilter()
@@ -134,8 +143,9 @@ Removes a vocabulary filter.
 - `VocabularyFilterName`: The name of the vocabulary filter to remove.
 
 """
-DeleteVocabularyFilter(VocabularyFilterName; aws::AWSConfig=AWS.aws_config) = transcribe("DeleteVocabularyFilter", Dict{String, Any}("VocabularyFilterName"=>VocabularyFilterName); aws=aws)
-DeleteVocabularyFilter(VocabularyFilterName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = transcribe("DeleteVocabularyFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VocabularyFilterName"=>VocabularyFilterName), args)); aws=aws)
+
+DeleteVocabularyFilter(VocabularyFilterName; aws_config::AWSConfig=AWS.aws_config) = transcribe("DeleteVocabularyFilter", Dict{String, Any}("VocabularyFilterName"=>VocabularyFilterName); aws_config=aws_config)
+DeleteVocabularyFilter(VocabularyFilterName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = transcribe("DeleteVocabularyFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VocabularyFilterName"=>VocabularyFilterName), args)); aws_config=aws_config)
 
 """
     DescribeLanguageModel()
@@ -146,8 +156,9 @@ Gets information about a single custom language model. Use this information to s
 - `ModelName`: The name of the custom language model you submit to get more information.
 
 """
-DescribeLanguageModel(ModelName; aws::AWSConfig=AWS.aws_config) = transcribe("DescribeLanguageModel", Dict{String, Any}("ModelName"=>ModelName); aws=aws)
-DescribeLanguageModel(ModelName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = transcribe("DescribeLanguageModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ModelName"=>ModelName), args)); aws=aws)
+
+DescribeLanguageModel(ModelName; aws_config::AWSConfig=AWS.aws_config) = transcribe("DescribeLanguageModel", Dict{String, Any}("ModelName"=>ModelName); aws_config=aws_config)
+DescribeLanguageModel(ModelName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = transcribe("DescribeLanguageModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ModelName"=>ModelName), args)); aws_config=aws_config)
 
 """
     GetMedicalTranscriptionJob()
@@ -158,8 +169,9 @@ Returns information about a transcription job from Amazon Transcribe Medical. To
 - `MedicalTranscriptionJobName`: The name of the medical transcription job.
 
 """
-GetMedicalTranscriptionJob(MedicalTranscriptionJobName; aws::AWSConfig=AWS.aws_config) = transcribe("GetMedicalTranscriptionJob", Dict{String, Any}("MedicalTranscriptionJobName"=>MedicalTranscriptionJobName); aws=aws)
-GetMedicalTranscriptionJob(MedicalTranscriptionJobName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = transcribe("GetMedicalTranscriptionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MedicalTranscriptionJobName"=>MedicalTranscriptionJobName), args)); aws=aws)
+
+GetMedicalTranscriptionJob(MedicalTranscriptionJobName; aws_config::AWSConfig=AWS.aws_config) = transcribe("GetMedicalTranscriptionJob", Dict{String, Any}("MedicalTranscriptionJobName"=>MedicalTranscriptionJobName); aws_config=aws_config)
+GetMedicalTranscriptionJob(MedicalTranscriptionJobName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = transcribe("GetMedicalTranscriptionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MedicalTranscriptionJobName"=>MedicalTranscriptionJobName), args)); aws_config=aws_config)
 
 """
     GetMedicalVocabulary()
@@ -170,8 +182,9 @@ Retrieves information about a medical vocabulary.
 - `VocabularyName`: The name of the vocabulary that you want information about. The value is case sensitive. 
 
 """
-GetMedicalVocabulary(VocabularyName; aws::AWSConfig=AWS.aws_config) = transcribe("GetMedicalVocabulary", Dict{String, Any}("VocabularyName"=>VocabularyName); aws=aws)
-GetMedicalVocabulary(VocabularyName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = transcribe("GetMedicalVocabulary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VocabularyName"=>VocabularyName), args)); aws=aws)
+
+GetMedicalVocabulary(VocabularyName; aws_config::AWSConfig=AWS.aws_config) = transcribe("GetMedicalVocabulary", Dict{String, Any}("VocabularyName"=>VocabularyName); aws_config=aws_config)
+GetMedicalVocabulary(VocabularyName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = transcribe("GetMedicalVocabulary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VocabularyName"=>VocabularyName), args)); aws_config=aws_config)
 
 """
     GetTranscriptionJob()
@@ -182,8 +195,9 @@ Returns information about a transcription job. To see the status of the job, che
 - `TranscriptionJobName`: The name of the job.
 
 """
-GetTranscriptionJob(TranscriptionJobName; aws::AWSConfig=AWS.aws_config) = transcribe("GetTranscriptionJob", Dict{String, Any}("TranscriptionJobName"=>TranscriptionJobName); aws=aws)
-GetTranscriptionJob(TranscriptionJobName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = transcribe("GetTranscriptionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TranscriptionJobName"=>TranscriptionJobName), args)); aws=aws)
+
+GetTranscriptionJob(TranscriptionJobName; aws_config::AWSConfig=AWS.aws_config) = transcribe("GetTranscriptionJob", Dict{String, Any}("TranscriptionJobName"=>TranscriptionJobName); aws_config=aws_config)
+GetTranscriptionJob(TranscriptionJobName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = transcribe("GetTranscriptionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TranscriptionJobName"=>TranscriptionJobName), args)); aws_config=aws_config)
 
 """
     GetVocabulary()
@@ -194,8 +208,9 @@ Gets information about a vocabulary.
 - `VocabularyName`: The name of the vocabulary to return information about. The name is case sensitive.
 
 """
-GetVocabulary(VocabularyName; aws::AWSConfig=AWS.aws_config) = transcribe("GetVocabulary", Dict{String, Any}("VocabularyName"=>VocabularyName); aws=aws)
-GetVocabulary(VocabularyName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = transcribe("GetVocabulary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VocabularyName"=>VocabularyName), args)); aws=aws)
+
+GetVocabulary(VocabularyName; aws_config::AWSConfig=AWS.aws_config) = transcribe("GetVocabulary", Dict{String, Any}("VocabularyName"=>VocabularyName); aws_config=aws_config)
+GetVocabulary(VocabularyName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = transcribe("GetVocabulary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VocabularyName"=>VocabularyName), args)); aws_config=aws_config)
 
 """
     GetVocabularyFilter()
@@ -206,8 +221,9 @@ Returns information about a vocabulary filter.
 - `VocabularyFilterName`: The name of the vocabulary filter for which to return information.
 
 """
-GetVocabularyFilter(VocabularyFilterName; aws::AWSConfig=AWS.aws_config) = transcribe("GetVocabularyFilter", Dict{String, Any}("VocabularyFilterName"=>VocabularyFilterName); aws=aws)
-GetVocabularyFilter(VocabularyFilterName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = transcribe("GetVocabularyFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VocabularyFilterName"=>VocabularyFilterName), args)); aws=aws)
+
+GetVocabularyFilter(VocabularyFilterName; aws_config::AWSConfig=AWS.aws_config) = transcribe("GetVocabularyFilter", Dict{String, Any}("VocabularyFilterName"=>VocabularyFilterName); aws_config=aws_config)
+GetVocabularyFilter(VocabularyFilterName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = transcribe("GetVocabularyFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VocabularyFilterName"=>VocabularyFilterName), args)); aws_config=aws_config)
 
 """
     ListLanguageModels()
@@ -220,8 +236,9 @@ Provides more information about the custom language models you've created. You c
 - `NextToken`: When included, fetches the next set of jobs if the result of the previous request was truncated.
 - `StatusEquals`: When specified, returns only custom language models with the specified status. Language models are ordered by creation date, with the newest models first. If you don't specify a status, Amazon Transcribe returns all custom language models ordered by date.
 """
-ListLanguageModels(; aws::AWSConfig=AWS.aws_config) = transcribe("ListLanguageModels"; aws=aws)
-ListLanguageModels(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = transcribe("ListLanguageModels", args; aws=aws)
+
+ListLanguageModels(; aws_config::AWSConfig=AWS.aws_config) = transcribe("ListLanguageModels"; aws_config=aws_config)
+ListLanguageModels(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = transcribe("ListLanguageModels", args; aws_config=aws_config)
 
 """
     ListMedicalTranscriptionJobs()
@@ -234,8 +251,9 @@ Lists medical transcription jobs with a specified status or substring that match
 - `NextToken`: If you a receive a truncated result in the previous request of ListMedicalTranscriptionJobs, include NextToken to fetch the next set of jobs.
 - `Status`: When specified, returns only medical transcription jobs with the specified status. Jobs are ordered by creation date, with the newest jobs returned first. If you don't specify a status, Amazon Transcribe Medical returns all transcription jobs ordered by creation date.
 """
-ListMedicalTranscriptionJobs(; aws::AWSConfig=AWS.aws_config) = transcribe("ListMedicalTranscriptionJobs"; aws=aws)
-ListMedicalTranscriptionJobs(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = transcribe("ListMedicalTranscriptionJobs", args; aws=aws)
+
+ListMedicalTranscriptionJobs(; aws_config::AWSConfig=AWS.aws_config) = transcribe("ListMedicalTranscriptionJobs"; aws_config=aws_config)
+ListMedicalTranscriptionJobs(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = transcribe("ListMedicalTranscriptionJobs", args; aws_config=aws_config)
 
 """
     ListMedicalVocabularies()
@@ -248,8 +266,9 @@ Returns a list of vocabularies that match the specified criteria. If you don't e
 - `NextToken`: If the result of your previous request to ListMedicalVocabularies was truncated, include the NextToken to fetch the next set of vocabularies.
 - `StateEquals`: When specified, returns only vocabularies with the VocabularyState equal to the specified vocabulary state. Use this field to see which vocabularies are ready for your medical transcription jobs.
 """
-ListMedicalVocabularies(; aws::AWSConfig=AWS.aws_config) = transcribe("ListMedicalVocabularies"; aws=aws)
-ListMedicalVocabularies(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = transcribe("ListMedicalVocabularies", args; aws=aws)
+
+ListMedicalVocabularies(; aws_config::AWSConfig=AWS.aws_config) = transcribe("ListMedicalVocabularies"; aws_config=aws_config)
+ListMedicalVocabularies(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = transcribe("ListMedicalVocabularies", args; aws_config=aws_config)
 
 """
     ListTranscriptionJobs()
@@ -262,8 +281,9 @@ Lists transcription jobs with the specified status.
 - `NextToken`: If the result of the previous request to ListTranscriptionJobs was truncated, include the NextToken to fetch the next set of jobs.
 - `Status`: When specified, returns only transcription jobs with the specified status. Jobs are ordered by creation date, with the newest jobs returned first. If you don’t specify a status, Amazon Transcribe returns all transcription jobs ordered by creation date. 
 """
-ListTranscriptionJobs(; aws::AWSConfig=AWS.aws_config) = transcribe("ListTranscriptionJobs"; aws=aws)
-ListTranscriptionJobs(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = transcribe("ListTranscriptionJobs", args; aws=aws)
+
+ListTranscriptionJobs(; aws_config::AWSConfig=AWS.aws_config) = transcribe("ListTranscriptionJobs"; aws_config=aws_config)
+ListTranscriptionJobs(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = transcribe("ListTranscriptionJobs", args; aws_config=aws_config)
 
 """
     ListVocabularies()
@@ -276,8 +296,9 @@ Returns a list of vocabularies that match the specified criteria. If no criteria
 - `NextToken`: If the result of the previous request to ListVocabularies was truncated, include the NextToken to fetch the next set of jobs.
 - `StateEquals`: When specified, only returns vocabularies with the VocabularyState field equal to the specified state.
 """
-ListVocabularies(; aws::AWSConfig=AWS.aws_config) = transcribe("ListVocabularies"; aws=aws)
-ListVocabularies(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = transcribe("ListVocabularies", args; aws=aws)
+
+ListVocabularies(; aws_config::AWSConfig=AWS.aws_config) = transcribe("ListVocabularies"; aws_config=aws_config)
+ListVocabularies(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = transcribe("ListVocabularies", args; aws_config=aws_config)
 
 """
     ListVocabularyFilters()
@@ -289,8 +310,9 @@ Gets information about vocabulary filters.
 - `NameContains`: Filters the response so that it only contains vocabulary filters whose name contains the specified string.
 - `NextToken`: If the result of the previous request to ListVocabularyFilters was truncated, include the NextToken to fetch the next set of collections.
 """
-ListVocabularyFilters(; aws::AWSConfig=AWS.aws_config) = transcribe("ListVocabularyFilters"; aws=aws)
-ListVocabularyFilters(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = transcribe("ListVocabularyFilters", args; aws=aws)
+
+ListVocabularyFilters(; aws_config::AWSConfig=AWS.aws_config) = transcribe("ListVocabularyFilters"; aws_config=aws_config)
+ListVocabularyFilters(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = transcribe("ListVocabularyFilters", args; aws_config=aws_config)
 
 """
     StartMedicalTranscriptionJob()
@@ -311,8 +333,9 @@ Starts a batch job to transcribe medical speech to text.
 - `OutputEncryptionKMSKeyId`: The Amazon Resource Name (ARN) of the AWS Key Management Service (KMS) key used to encrypt the output of the transcription job. The user calling the StartMedicalTranscriptionJob operation must have permission to use the specified KMS key. You use either of the following to identify a KMS key in the current account:   KMS Key ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"   KMS Key Alias: \"alias/ExampleAlias\"   You can use either of the following to identify a KMS key in the current account or another account:   Amazon Resource Name (ARN) of a KMS key in the current account or another account: \"arn:aws:kms:region:account ID:key/1234abcd-12ab-34cd-56ef-1234567890ab\"   ARN of a KMS Key Alias: \"arn:aws:kms:region:account ID:alias/ExampleAlias\"   If you don't specify an encryption key, the output of the medical transcription job is encrypted with the default Amazon S3 key (SSE-S3). If you specify a KMS key to encrypt your output, you must also specify an output location in the OutputBucketName parameter.
 - `Settings`: Optional settings for the medical transcription job.
 """
-StartMedicalTranscriptionJob(LanguageCode, Media, MedicalTranscriptionJobName, OutputBucketName, Specialty, Type; aws::AWSConfig=AWS.aws_config) = transcribe("StartMedicalTranscriptionJob", Dict{String, Any}("LanguageCode"=>LanguageCode, "Media"=>Media, "MedicalTranscriptionJobName"=>MedicalTranscriptionJobName, "OutputBucketName"=>OutputBucketName, "Specialty"=>Specialty, "Type"=>Type); aws=aws)
-StartMedicalTranscriptionJob(LanguageCode, Media, MedicalTranscriptionJobName, OutputBucketName, Specialty, Type, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = transcribe("StartMedicalTranscriptionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "Media"=>Media, "MedicalTranscriptionJobName"=>MedicalTranscriptionJobName, "OutputBucketName"=>OutputBucketName, "Specialty"=>Specialty, "Type"=>Type), args)); aws=aws)
+
+StartMedicalTranscriptionJob(LanguageCode, Media, MedicalTranscriptionJobName, OutputBucketName, Specialty, Type; aws_config::AWSConfig=AWS.aws_config) = transcribe("StartMedicalTranscriptionJob", Dict{String, Any}("LanguageCode"=>LanguageCode, "Media"=>Media, "MedicalTranscriptionJobName"=>MedicalTranscriptionJobName, "OutputBucketName"=>OutputBucketName, "Specialty"=>Specialty, "Type"=>Type); aws_config=aws_config)
+StartMedicalTranscriptionJob(LanguageCode, Media, MedicalTranscriptionJobName, OutputBucketName, Specialty, Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = transcribe("StartMedicalTranscriptionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "Media"=>Media, "MedicalTranscriptionJobName"=>MedicalTranscriptionJobName, "OutputBucketName"=>OutputBucketName, "Specialty"=>Specialty, "Type"=>Type), args)); aws_config=aws_config)
 
 """
     StartTranscriptionJob()
@@ -334,8 +357,9 @@ Starts an asynchronous job to transcribe speech to text.
 - `OutputEncryptionKMSKeyId`: The Amazon Resource Name (ARN) of the AWS Key Management Service (KMS) key used to encrypt the output of the transcription job. The user calling the StartTranscriptionJob operation must have permission to use the specified KMS key. You can use either of the following to identify a KMS key in the current account:   KMS Key ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"   KMS Key Alias: \"alias/ExampleAlias\"   You can use either of the following to identify a KMS key in the current account or another account:   Amazon Resource Name (ARN) of a KMS Key: \"arn:aws:kms:region:account ID:key/1234abcd-12ab-34cd-56ef-1234567890ab\"   ARN of a KMS Key Alias: \"arn:aws:kms:region:account ID:alias/ExampleAlias\"   If you don't specify an encryption key, the output of the transcription job is encrypted with the default Amazon S3 key (SSE-S3).  If you specify a KMS key to encrypt your output, you must also specify an output location in the OutputBucketName parameter.
 - `Settings`: A Settings object that provides optional settings for a transcription job.
 """
-StartTranscriptionJob(LanguageCode, Media, TranscriptionJobName; aws::AWSConfig=AWS.aws_config) = transcribe("StartTranscriptionJob", Dict{String, Any}("LanguageCode"=>LanguageCode, "Media"=>Media, "TranscriptionJobName"=>TranscriptionJobName); aws=aws)
-StartTranscriptionJob(LanguageCode, Media, TranscriptionJobName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = transcribe("StartTranscriptionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "Media"=>Media, "TranscriptionJobName"=>TranscriptionJobName), args)); aws=aws)
+
+StartTranscriptionJob(LanguageCode, Media, TranscriptionJobName; aws_config::AWSConfig=AWS.aws_config) = transcribe("StartTranscriptionJob", Dict{String, Any}("LanguageCode"=>LanguageCode, "Media"=>Media, "TranscriptionJobName"=>TranscriptionJobName); aws_config=aws_config)
+StartTranscriptionJob(LanguageCode, Media, TranscriptionJobName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = transcribe("StartTranscriptionJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "Media"=>Media, "TranscriptionJobName"=>TranscriptionJobName), args)); aws_config=aws_config)
 
 """
     UpdateMedicalVocabulary()
@@ -349,8 +373,9 @@ Updates a vocabulary with new values that you provide in a different text file f
 # Optional Parameters
 - `VocabularyFileUri`: The location in Amazon S3 of the text file that contains the you use for your custom vocabulary. The URI must be in the same AWS Region as the resource that you are calling. The following is the format for a URI:   https://s3.&lt;aws-region&gt;.amazonaws.com/&lt;bucket-name&gt;/&lt;keyprefix&gt;/&lt;objectkey&gt;   For example:  https://s3.us-east-1.amazonaws.com/AWSDOC-EXAMPLE-BUCKET/vocab.txt  For more information about Amazon S3 object names, see Object Keys in the Amazon S3 Developer Guide. For more information about custom vocabularies in Amazon Transcribe Medical, see Medical Custom Vocabularies.
 """
-UpdateMedicalVocabulary(LanguageCode, VocabularyName; aws::AWSConfig=AWS.aws_config) = transcribe("UpdateMedicalVocabulary", Dict{String, Any}("LanguageCode"=>LanguageCode, "VocabularyName"=>VocabularyName); aws=aws)
-UpdateMedicalVocabulary(LanguageCode, VocabularyName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = transcribe("UpdateMedicalVocabulary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "VocabularyName"=>VocabularyName), args)); aws=aws)
+
+UpdateMedicalVocabulary(LanguageCode, VocabularyName; aws_config::AWSConfig=AWS.aws_config) = transcribe("UpdateMedicalVocabulary", Dict{String, Any}("LanguageCode"=>LanguageCode, "VocabularyName"=>VocabularyName); aws_config=aws_config)
+UpdateMedicalVocabulary(LanguageCode, VocabularyName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = transcribe("UpdateMedicalVocabulary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "VocabularyName"=>VocabularyName), args)); aws_config=aws_config)
 
 """
     UpdateVocabulary()
@@ -365,8 +390,9 @@ Updates an existing vocabulary with new values. The UpdateVocabulary operation o
 - `Phrases`: An array of strings containing the vocabulary entries.
 - `VocabularyFileUri`: The S3 location of the text file that contains the definition of the custom vocabulary. The URI must be in the same region as the API endpoint that you are calling. The general form is  For example: For more information about S3 object names, see Object Keys in the Amazon S3 Developer Guide. For more information about custom vocabularies, see Custom Vocabularies.
 """
-UpdateVocabulary(LanguageCode, VocabularyName; aws::AWSConfig=AWS.aws_config) = transcribe("UpdateVocabulary", Dict{String, Any}("LanguageCode"=>LanguageCode, "VocabularyName"=>VocabularyName); aws=aws)
-UpdateVocabulary(LanguageCode, VocabularyName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = transcribe("UpdateVocabulary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "VocabularyName"=>VocabularyName), args)); aws=aws)
+
+UpdateVocabulary(LanguageCode, VocabularyName; aws_config::AWSConfig=AWS.aws_config) = transcribe("UpdateVocabulary", Dict{String, Any}("LanguageCode"=>LanguageCode, "VocabularyName"=>VocabularyName); aws_config=aws_config)
+UpdateVocabulary(LanguageCode, VocabularyName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = transcribe("UpdateVocabulary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LanguageCode"=>LanguageCode, "VocabularyName"=>VocabularyName), args)); aws_config=aws_config)
 
 """
     UpdateVocabularyFilter()
@@ -380,5 +406,6 @@ Updates a vocabulary filter with a new list of filtered words.
 - `VocabularyFilterFileUri`: The Amazon S3 location of a text file used as input to create the vocabulary filter. Only use characters from the character set defined for custom vocabularies. For a list of character sets, see Character Sets for Custom Vocabularies. The specified file must be less than 50 KB of UTF-8 characters. If you provide the location of a list of words in the VocabularyFilterFileUri parameter, you can't use the Words parameter.
 - `Words`: The words to use in the vocabulary filter. Only use characters from the character set defined for custom vocabularies. For a list of character sets, see Character Sets for Custom Vocabularies. If you provide a list of words in the Words parameter, you can't use the VocabularyFilterFileUri parameter.
 """
-UpdateVocabularyFilter(VocabularyFilterName; aws::AWSConfig=AWS.aws_config) = transcribe("UpdateVocabularyFilter", Dict{String, Any}("VocabularyFilterName"=>VocabularyFilterName); aws=aws)
-UpdateVocabularyFilter(VocabularyFilterName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = transcribe("UpdateVocabularyFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VocabularyFilterName"=>VocabularyFilterName), args)); aws=aws)
+
+UpdateVocabularyFilter(VocabularyFilterName; aws_config::AWSConfig=AWS.aws_config) = transcribe("UpdateVocabularyFilter", Dict{String, Any}("VocabularyFilterName"=>VocabularyFilterName); aws_config=aws_config)
+UpdateVocabularyFilter(VocabularyFilterName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = transcribe("UpdateVocabularyFilter", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VocabularyFilterName"=>VocabularyFilterName), args)); aws_config=aws_config)

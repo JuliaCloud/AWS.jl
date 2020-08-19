@@ -17,8 +17,9 @@ Gets details of a job execution.
 - `executionNumber`: Optional. A number that identifies a particular job execution on a particular device. If not specified, the latest job execution is returned.
 - `includeJobDocument`: Optional. When set to true, the response contains the job document. The default is false.
 """
-DescribeJobExecution(jobId, thingName; aws::AWSConfig=AWS.aws_config) = iot_jobs_data_plane("GET", "/things/$(thingName)/jobs/$(jobId)"; aws=aws)
-DescribeJobExecution(jobId, thingName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iot_jobs_data_plane("GET", "/things/$(thingName)/jobs/$(jobId)", args; aws=aws)
+
+DescribeJobExecution(jobId, thingName; aws_config::AWSConfig=AWS.aws_config) = iot_jobs_data_plane("GET", "/things/$(thingName)/jobs/$(jobId)"; aws_config=aws_config)
+DescribeJobExecution(jobId, thingName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iot_jobs_data_plane("GET", "/things/$(thingName)/jobs/$(jobId)", args; aws_config=aws_config)
 
 """
     GetPendingJobExecutions()
@@ -29,8 +30,9 @@ Gets the list of all jobs for a thing that are not in a terminal status.
 - `thingName`: The name of the thing that is executing the job.
 
 """
-GetPendingJobExecutions(thingName; aws::AWSConfig=AWS.aws_config) = iot_jobs_data_plane("GET", "/things/$(thingName)/jobs"; aws=aws)
-GetPendingJobExecutions(thingName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iot_jobs_data_plane("GET", "/things/$(thingName)/jobs", args; aws=aws)
+
+GetPendingJobExecutions(thingName; aws_config::AWSConfig=AWS.aws_config) = iot_jobs_data_plane("GET", "/things/$(thingName)/jobs"; aws_config=aws_config)
+GetPendingJobExecutions(thingName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iot_jobs_data_plane("GET", "/things/$(thingName)/jobs", args; aws_config=aws_config)
 
 """
     StartNextPendingJobExecution()
@@ -44,8 +46,9 @@ Gets and starts the next pending (status IN_PROGRESS or QUEUED) job execution fo
 - `statusDetails`: A collection of name/value pairs that describe the status of the job execution. If not specified, the statusDetails are unchanged.
 - `stepTimeoutInMinutes`: Specifies the amount of time this device has to finish execution of this job. If the job execution status is not set to a terminal state before this timer expires, or before the timer is reset (by calling UpdateJobExecution, setting the status to IN_PROGRESS and specifying a new timeout value in field stepTimeoutInMinutes) the job execution status will be automatically set to TIMED_OUT. Note that setting this timeout has no effect on that job execution timeout which may have been specified when the job was created (CreateJob using field timeoutConfig).
 """
-StartNextPendingJobExecution(thingName; aws::AWSConfig=AWS.aws_config) = iot_jobs_data_plane("PUT", "/things/$(thingName)/jobs/$next"; aws=aws)
-StartNextPendingJobExecution(thingName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iot_jobs_data_plane("PUT", "/things/$(thingName)/jobs/$next", args; aws=aws)
+
+StartNextPendingJobExecution(thingName; aws_config::AWSConfig=AWS.aws_config) = iot_jobs_data_plane("PUT", "/things/$(thingName)/jobs/$next"; aws_config=aws_config)
+StartNextPendingJobExecution(thingName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iot_jobs_data_plane("PUT", "/things/$(thingName)/jobs/$next", args; aws_config=aws_config)
 
 """
     UpdateJobExecution()
@@ -65,5 +68,6 @@ Updates the status of a job execution.
 - `statusDetails`:  Optional. A collection of name/value pairs that describe the status of the job execution. If not specified, the statusDetails are unchanged.
 - `stepTimeoutInMinutes`: Specifies the amount of time this device has to finish execution of this job. If the job execution status is not set to a terminal state before this timer expires, or before the timer is reset (by again calling UpdateJobExecution, setting the status to IN_PROGRESS and specifying a new timeout value in this field) the job execution status will be automatically set to TIMED_OUT. Note that setting or resetting this timeout has no effect on that job execution timeout which may have been specified when the job was created (CreateJob using field timeoutConfig).
 """
-UpdateJobExecution(jobId, status, thingName; aws::AWSConfig=AWS.aws_config) = iot_jobs_data_plane("POST", "/things/$(thingName)/jobs/$(jobId)", Dict{String, Any}("status"=>status); aws=aws)
-UpdateJobExecution(jobId, status, thingName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iot_jobs_data_plane("POST", "/things/$(thingName)/jobs/$(jobId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("status"=>status), args)); aws=aws)
+
+UpdateJobExecution(jobId, status, thingName; aws_config::AWSConfig=AWS.aws_config) = iot_jobs_data_plane("POST", "/things/$(thingName)/jobs/$(jobId)", Dict{String, Any}("status"=>status); aws_config=aws_config)
+UpdateJobExecution(jobId, status, thingName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = iot_jobs_data_plane("POST", "/things/$(thingName)/jobs/$(jobId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("status"=>status), args)); aws_config=aws_config)

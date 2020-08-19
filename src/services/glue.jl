@@ -17,8 +17,9 @@ Creates one or more partitions in a batch operation.
 # Optional Parameters
 - `CatalogId`: The ID of the catalog in which the partition is to be created. Currently, this should be the AWS account ID.
 """
-BatchCreatePartition(DatabaseName, PartitionInputList, TableName; aws::AWSConfig=AWS.aws_config) = glue("BatchCreatePartition", Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionInputList"=>PartitionInputList, "TableName"=>TableName); aws=aws)
-BatchCreatePartition(DatabaseName, PartitionInputList, TableName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("BatchCreatePartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionInputList"=>PartitionInputList, "TableName"=>TableName), args)); aws=aws)
+
+BatchCreatePartition(DatabaseName, PartitionInputList, TableName; aws_config::AWSConfig=AWS.aws_config) = glue("BatchCreatePartition", Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionInputList"=>PartitionInputList, "TableName"=>TableName); aws_config=aws_config)
+BatchCreatePartition(DatabaseName, PartitionInputList, TableName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("BatchCreatePartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionInputList"=>PartitionInputList, "TableName"=>TableName), args)); aws_config=aws_config)
 
 """
     BatchDeleteConnection()
@@ -31,8 +32,9 @@ Deletes a list of connection definitions from the Data Catalog.
 # Optional Parameters
 - `CatalogId`: The ID of the Data Catalog in which the connections reside. If none is provided, the AWS account ID is used by default.
 """
-BatchDeleteConnection(ConnectionNameList; aws::AWSConfig=AWS.aws_config) = glue("BatchDeleteConnection", Dict{String, Any}("ConnectionNameList"=>ConnectionNameList); aws=aws)
-BatchDeleteConnection(ConnectionNameList, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("BatchDeleteConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionNameList"=>ConnectionNameList), args)); aws=aws)
+
+BatchDeleteConnection(ConnectionNameList; aws_config::AWSConfig=AWS.aws_config) = glue("BatchDeleteConnection", Dict{String, Any}("ConnectionNameList"=>ConnectionNameList); aws_config=aws_config)
+BatchDeleteConnection(ConnectionNameList, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("BatchDeleteConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionNameList"=>ConnectionNameList), args)); aws_config=aws_config)
 
 """
     BatchDeletePartition()
@@ -47,8 +49,9 @@ Deletes one or more partitions in a batch operation.
 # Optional Parameters
 - `CatalogId`: The ID of the Data Catalog where the partition to be deleted resides. If none is provided, the AWS account ID is used by default.
 """
-BatchDeletePartition(DatabaseName, PartitionsToDelete, TableName; aws::AWSConfig=AWS.aws_config) = glue("BatchDeletePartition", Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionsToDelete"=>PartitionsToDelete, "TableName"=>TableName); aws=aws)
-BatchDeletePartition(DatabaseName, PartitionsToDelete, TableName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("BatchDeletePartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionsToDelete"=>PartitionsToDelete, "TableName"=>TableName), args)); aws=aws)
+
+BatchDeletePartition(DatabaseName, PartitionsToDelete, TableName; aws_config::AWSConfig=AWS.aws_config) = glue("BatchDeletePartition", Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionsToDelete"=>PartitionsToDelete, "TableName"=>TableName); aws_config=aws_config)
+BatchDeletePartition(DatabaseName, PartitionsToDelete, TableName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("BatchDeletePartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionsToDelete"=>PartitionsToDelete, "TableName"=>TableName), args)); aws_config=aws_config)
 
 """
     BatchDeleteTable()
@@ -62,8 +65,9 @@ Deletes multiple tables at once.  After completing this operation, you no longer
 # Optional Parameters
 - `CatalogId`: The ID of the Data Catalog where the table resides. If none is provided, the AWS account ID is used by default.
 """
-BatchDeleteTable(DatabaseName, TablesToDelete; aws::AWSConfig=AWS.aws_config) = glue("BatchDeleteTable", Dict{String, Any}("DatabaseName"=>DatabaseName, "TablesToDelete"=>TablesToDelete); aws=aws)
-BatchDeleteTable(DatabaseName, TablesToDelete, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("BatchDeleteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TablesToDelete"=>TablesToDelete), args)); aws=aws)
+
+BatchDeleteTable(DatabaseName, TablesToDelete; aws_config::AWSConfig=AWS.aws_config) = glue("BatchDeleteTable", Dict{String, Any}("DatabaseName"=>DatabaseName, "TablesToDelete"=>TablesToDelete); aws_config=aws_config)
+BatchDeleteTable(DatabaseName, TablesToDelete, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("BatchDeleteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TablesToDelete"=>TablesToDelete), args)); aws_config=aws_config)
 
 """
     BatchDeleteTableVersion()
@@ -78,8 +82,9 @@ Deletes a specified batch of versions of a table.
 # Optional Parameters
 - `CatalogId`: The ID of the Data Catalog where the tables reside. If none is provided, the AWS account ID is used by default.
 """
-BatchDeleteTableVersion(DatabaseName, TableName, VersionIds; aws::AWSConfig=AWS.aws_config) = glue("BatchDeleteTableVersion", Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName, "VersionIds"=>VersionIds); aws=aws)
-BatchDeleteTableVersion(DatabaseName, TableName, VersionIds, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("BatchDeleteTableVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName, "VersionIds"=>VersionIds), args)); aws=aws)
+
+BatchDeleteTableVersion(DatabaseName, TableName, VersionIds; aws_config::AWSConfig=AWS.aws_config) = glue("BatchDeleteTableVersion", Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName, "VersionIds"=>VersionIds); aws_config=aws_config)
+BatchDeleteTableVersion(DatabaseName, TableName, VersionIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("BatchDeleteTableVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName, "VersionIds"=>VersionIds), args)); aws_config=aws_config)
 
 """
     BatchGetCrawlers()
@@ -90,8 +95,9 @@ Returns a list of resource metadata for a given list of crawler names. After cal
 - `CrawlerNames`: A list of crawler names, which might be the names returned from the ListCrawlers operation.
 
 """
-BatchGetCrawlers(CrawlerNames; aws::AWSConfig=AWS.aws_config) = glue("BatchGetCrawlers", Dict{String, Any}("CrawlerNames"=>CrawlerNames); aws=aws)
-BatchGetCrawlers(CrawlerNames, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("BatchGetCrawlers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CrawlerNames"=>CrawlerNames), args)); aws=aws)
+
+BatchGetCrawlers(CrawlerNames; aws_config::AWSConfig=AWS.aws_config) = glue("BatchGetCrawlers", Dict{String, Any}("CrawlerNames"=>CrawlerNames); aws_config=aws_config)
+BatchGetCrawlers(CrawlerNames, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("BatchGetCrawlers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CrawlerNames"=>CrawlerNames), args)); aws_config=aws_config)
 
 """
     BatchGetDevEndpoints()
@@ -102,8 +108,9 @@ Returns a list of resource metadata for a given list of development endpoint nam
 - `DevEndpointNames`: The list of DevEndpoint names, which might be the names returned from the ListDevEndpoint operation.
 
 """
-BatchGetDevEndpoints(DevEndpointNames; aws::AWSConfig=AWS.aws_config) = glue("BatchGetDevEndpoints", Dict{String, Any}("DevEndpointNames"=>DevEndpointNames); aws=aws)
-BatchGetDevEndpoints(DevEndpointNames, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("BatchGetDevEndpoints", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DevEndpointNames"=>DevEndpointNames), args)); aws=aws)
+
+BatchGetDevEndpoints(DevEndpointNames; aws_config::AWSConfig=AWS.aws_config) = glue("BatchGetDevEndpoints", Dict{String, Any}("DevEndpointNames"=>DevEndpointNames); aws_config=aws_config)
+BatchGetDevEndpoints(DevEndpointNames, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("BatchGetDevEndpoints", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DevEndpointNames"=>DevEndpointNames), args)); aws_config=aws_config)
 
 """
     BatchGetJobs()
@@ -114,8 +121,9 @@ Returns a list of resource metadata for a given list of job names. After calling
 - `JobNames`: A list of job names, which might be the names returned from the ListJobs operation.
 
 """
-BatchGetJobs(JobNames; aws::AWSConfig=AWS.aws_config) = glue("BatchGetJobs", Dict{String, Any}("JobNames"=>JobNames); aws=aws)
-BatchGetJobs(JobNames, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("BatchGetJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobNames"=>JobNames), args)); aws=aws)
+
+BatchGetJobs(JobNames; aws_config::AWSConfig=AWS.aws_config) = glue("BatchGetJobs", Dict{String, Any}("JobNames"=>JobNames); aws_config=aws_config)
+BatchGetJobs(JobNames, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("BatchGetJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobNames"=>JobNames), args)); aws_config=aws_config)
 
 """
     BatchGetPartition()
@@ -130,8 +138,9 @@ Retrieves partitions in a batch request.
 # Optional Parameters
 - `CatalogId`: The ID of the Data Catalog where the partitions in question reside. If none is supplied, the AWS account ID is used by default.
 """
-BatchGetPartition(DatabaseName, PartitionsToGet, TableName; aws::AWSConfig=AWS.aws_config) = glue("BatchGetPartition", Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionsToGet"=>PartitionsToGet, "TableName"=>TableName); aws=aws)
-BatchGetPartition(DatabaseName, PartitionsToGet, TableName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("BatchGetPartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionsToGet"=>PartitionsToGet, "TableName"=>TableName), args)); aws=aws)
+
+BatchGetPartition(DatabaseName, PartitionsToGet, TableName; aws_config::AWSConfig=AWS.aws_config) = glue("BatchGetPartition", Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionsToGet"=>PartitionsToGet, "TableName"=>TableName); aws_config=aws_config)
+BatchGetPartition(DatabaseName, PartitionsToGet, TableName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("BatchGetPartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionsToGet"=>PartitionsToGet, "TableName"=>TableName), args)); aws_config=aws_config)
 
 """
     BatchGetTriggers()
@@ -142,8 +151,9 @@ Returns a list of resource metadata for a given list of trigger names. After cal
 - `TriggerNames`: A list of trigger names, which may be the names returned from the ListTriggers operation.
 
 """
-BatchGetTriggers(TriggerNames; aws::AWSConfig=AWS.aws_config) = glue("BatchGetTriggers", Dict{String, Any}("TriggerNames"=>TriggerNames); aws=aws)
-BatchGetTriggers(TriggerNames, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("BatchGetTriggers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TriggerNames"=>TriggerNames), args)); aws=aws)
+
+BatchGetTriggers(TriggerNames; aws_config::AWSConfig=AWS.aws_config) = glue("BatchGetTriggers", Dict{String, Any}("TriggerNames"=>TriggerNames); aws_config=aws_config)
+BatchGetTriggers(TriggerNames, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("BatchGetTriggers", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TriggerNames"=>TriggerNames), args)); aws_config=aws_config)
 
 """
     BatchGetWorkflows()
@@ -156,8 +166,9 @@ Returns a list of resource metadata for a given list of workflow names. After ca
 # Optional Parameters
 - `IncludeGraph`: Specifies whether to include a graph when returning the workflow resource metadata.
 """
-BatchGetWorkflows(Names; aws::AWSConfig=AWS.aws_config) = glue("BatchGetWorkflows", Dict{String, Any}("Names"=>Names); aws=aws)
-BatchGetWorkflows(Names, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("BatchGetWorkflows", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Names"=>Names), args)); aws=aws)
+
+BatchGetWorkflows(Names; aws_config::AWSConfig=AWS.aws_config) = glue("BatchGetWorkflows", Dict{String, Any}("Names"=>Names); aws_config=aws_config)
+BatchGetWorkflows(Names, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("BatchGetWorkflows", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Names"=>Names), args)); aws_config=aws_config)
 
 """
     BatchStopJobRun()
@@ -169,8 +180,9 @@ Stops one or more job runs for a specified job definition.
 - `JobRunIds`: A list of the JobRunIds that should be stopped for that job definition.
 
 """
-BatchStopJobRun(JobName, JobRunIds; aws::AWSConfig=AWS.aws_config) = glue("BatchStopJobRun", Dict{String, Any}("JobName"=>JobName, "JobRunIds"=>JobRunIds); aws=aws)
-BatchStopJobRun(JobName, JobRunIds, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("BatchStopJobRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName, "JobRunIds"=>JobRunIds), args)); aws=aws)
+
+BatchStopJobRun(JobName, JobRunIds; aws_config::AWSConfig=AWS.aws_config) = glue("BatchStopJobRun", Dict{String, Any}("JobName"=>JobName, "JobRunIds"=>JobRunIds); aws_config=aws_config)
+BatchStopJobRun(JobName, JobRunIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("BatchStopJobRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName, "JobRunIds"=>JobRunIds), args)); aws_config=aws_config)
 
 """
     CancelMLTaskRun()
@@ -182,8 +194,9 @@ Cancels (stops) a task run. Machine learning task runs are asynchronous tasks th
 - `TransformId`: The unique identifier of the machine learning transform.
 
 """
-CancelMLTaskRun(TaskRunId, TransformId; aws::AWSConfig=AWS.aws_config) = glue("CancelMLTaskRun", Dict{String, Any}("TaskRunId"=>TaskRunId, "TransformId"=>TransformId); aws=aws)
-CancelMLTaskRun(TaskRunId, TransformId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("CancelMLTaskRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskRunId"=>TaskRunId, "TransformId"=>TransformId), args)); aws=aws)
+
+CancelMLTaskRun(TaskRunId, TransformId; aws_config::AWSConfig=AWS.aws_config) = glue("CancelMLTaskRun", Dict{String, Any}("TaskRunId"=>TaskRunId, "TransformId"=>TransformId); aws_config=aws_config)
+CancelMLTaskRun(TaskRunId, TransformId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("CancelMLTaskRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskRunId"=>TaskRunId, "TransformId"=>TransformId), args)); aws_config=aws_config)
 
 """
     CreateClassifier()
@@ -196,8 +209,9 @@ Creates a classifier in the user's account. This can be a GrokClassifier, an XML
 - `JsonClassifier`: A JsonClassifier object specifying the classifier to create.
 - `XMLClassifier`: An XMLClassifier object specifying the classifier to create.
 """
-CreateClassifier(; aws::AWSConfig=AWS.aws_config) = glue("CreateClassifier"; aws=aws)
-CreateClassifier(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("CreateClassifier", args; aws=aws)
+
+CreateClassifier(; aws_config::AWSConfig=AWS.aws_config) = glue("CreateClassifier"; aws_config=aws_config)
+CreateClassifier(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("CreateClassifier", args; aws_config=aws_config)
 
 """
     CreateConnection()
@@ -210,8 +224,9 @@ Creates a connection definition in the Data Catalog.
 # Optional Parameters
 - `CatalogId`: The ID of the Data Catalog in which to create the connection. If none is provided, the AWS account ID is used by default.
 """
-CreateConnection(ConnectionInput; aws::AWSConfig=AWS.aws_config) = glue("CreateConnection", Dict{String, Any}("ConnectionInput"=>ConnectionInput); aws=aws)
-CreateConnection(ConnectionInput, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("CreateConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionInput"=>ConnectionInput), args)); aws=aws)
+
+CreateConnection(ConnectionInput; aws_config::AWSConfig=AWS.aws_config) = glue("CreateConnection", Dict{String, Any}("ConnectionInput"=>ConnectionInput); aws_config=aws_config)
+CreateConnection(ConnectionInput, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("CreateConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionInput"=>ConnectionInput), args)); aws_config=aws_config)
 
 """
     CreateCrawler()
@@ -234,8 +249,9 @@ Creates a new crawler with specified targets, role, configuration, and optional 
 - `TablePrefix`: The table prefix used for catalog tables that are created.
 - `Tags`: The tags to use with this crawler request. You may use tags to limit access to the crawler. For more information about tags in AWS Glue, see AWS Tags in AWS Glue in the developer guide.
 """
-CreateCrawler(Name, Role, Targets; aws::AWSConfig=AWS.aws_config) = glue("CreateCrawler", Dict{String, Any}("Name"=>Name, "Role"=>Role, "Targets"=>Targets); aws=aws)
-CreateCrawler(Name, Role, Targets, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("CreateCrawler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Role"=>Role, "Targets"=>Targets), args)); aws=aws)
+
+CreateCrawler(Name, Role, Targets; aws_config::AWSConfig=AWS.aws_config) = glue("CreateCrawler", Dict{String, Any}("Name"=>Name, "Role"=>Role, "Targets"=>Targets); aws_config=aws_config)
+CreateCrawler(Name, Role, Targets, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("CreateCrawler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Role"=>Role, "Targets"=>Targets), args)); aws_config=aws_config)
 
 """
     CreateDatabase()
@@ -248,8 +264,9 @@ Creates a new database in a Data Catalog.
 # Optional Parameters
 - `CatalogId`: The ID of the Data Catalog in which to create the database. If none is provided, the AWS account ID is used by default.
 """
-CreateDatabase(DatabaseInput; aws::AWSConfig=AWS.aws_config) = glue("CreateDatabase", Dict{String, Any}("DatabaseInput"=>DatabaseInput); aws=aws)
-CreateDatabase(DatabaseInput, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("CreateDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseInput"=>DatabaseInput), args)); aws=aws)
+
+CreateDatabase(DatabaseInput; aws_config::AWSConfig=AWS.aws_config) = glue("CreateDatabase", Dict{String, Any}("DatabaseInput"=>DatabaseInput); aws_config=aws_config)
+CreateDatabase(DatabaseInput, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("CreateDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseInput"=>DatabaseInput), args)); aws_config=aws_config)
 
 """
     CreateDevEndpoint()
@@ -275,8 +292,9 @@ Creates a new development endpoint.
 - `Tags`: The tags to use with this DevEndpoint. You may use tags to limit access to the DevEndpoint. For more information about tags in AWS Glue, see AWS Tags in AWS Glue in the developer guide.
 - `WorkerType`: The type of predefined worker that is allocated to the development endpoint. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   Known issue: when a development endpoint is created with the G.2X WorkerType configuration, the Spark drivers for the development endpoint will run on 4 vCPU, 16 GB of memory, and a 64 GB disk. 
 """
-CreateDevEndpoint(EndpointName, RoleArn; aws::AWSConfig=AWS.aws_config) = glue("CreateDevEndpoint", Dict{String, Any}("EndpointName"=>EndpointName, "RoleArn"=>RoleArn); aws=aws)
-CreateDevEndpoint(EndpointName, RoleArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("CreateDevEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointName"=>EndpointName, "RoleArn"=>RoleArn), args)); aws=aws)
+
+CreateDevEndpoint(EndpointName, RoleArn; aws_config::AWSConfig=AWS.aws_config) = glue("CreateDevEndpoint", Dict{String, Any}("EndpointName"=>EndpointName, "RoleArn"=>RoleArn); aws_config=aws_config)
+CreateDevEndpoint(EndpointName, RoleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("CreateDevEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointName"=>EndpointName, "RoleArn"=>RoleArn), args)); aws_config=aws_config)
 
 """
     CreateJob()
@@ -306,8 +324,9 @@ Creates a new job definition.
 - `Timeout`: The job timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
 - `WorkerType`: The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.  
 """
-CreateJob(Command, Name, Role; aws::AWSConfig=AWS.aws_config) = glue("CreateJob", Dict{String, Any}("Command"=>Command, "Name"=>Name, "Role"=>Role); aws=aws)
-CreateJob(Command, Name, Role, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("CreateJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Command"=>Command, "Name"=>Name, "Role"=>Role), args)); aws=aws)
+
+CreateJob(Command, Name, Role; aws_config::AWSConfig=AWS.aws_config) = glue("CreateJob", Dict{String, Any}("Command"=>Command, "Name"=>Name, "Role"=>Role); aws_config=aws_config)
+CreateJob(Command, Name, Role, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("CreateJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Command"=>Command, "Name"=>Name, "Role"=>Role), args)); aws_config=aws_config)
 
 """
     CreateMLTransform()
@@ -330,8 +349,9 @@ Creates an AWS Glue machine learning transform. This operation creates the trans
 - `Timeout`: The timeout of the task run for this transform in minutes. This is the maximum time that a task run for this transform can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
 - `WorkerType`: The type of predefined worker that is allocated when this task runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.    MaxCapacity is a mutually exclusive option with NumberOfWorkers and WorkerType.   If either NumberOfWorkers or WorkerType is set, then MaxCapacity cannot be set.   If MaxCapacity is set then neither NumberOfWorkers or WorkerType can be set.   If WorkerType is set, then NumberOfWorkers is required (and vice versa).    MaxCapacity and NumberOfWorkers must both be at least 1.  
 """
-CreateMLTransform(InputRecordTables, Name, Parameters, Role; aws::AWSConfig=AWS.aws_config) = glue("CreateMLTransform", Dict{String, Any}("InputRecordTables"=>InputRecordTables, "Name"=>Name, "Parameters"=>Parameters, "Role"=>Role); aws=aws)
-CreateMLTransform(InputRecordTables, Name, Parameters, Role, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("CreateMLTransform", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InputRecordTables"=>InputRecordTables, "Name"=>Name, "Parameters"=>Parameters, "Role"=>Role), args)); aws=aws)
+
+CreateMLTransform(InputRecordTables, Name, Parameters, Role; aws_config::AWSConfig=AWS.aws_config) = glue("CreateMLTransform", Dict{String, Any}("InputRecordTables"=>InputRecordTables, "Name"=>Name, "Parameters"=>Parameters, "Role"=>Role); aws_config=aws_config)
+CreateMLTransform(InputRecordTables, Name, Parameters, Role, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("CreateMLTransform", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InputRecordTables"=>InputRecordTables, "Name"=>Name, "Parameters"=>Parameters, "Role"=>Role), args)); aws_config=aws_config)
 
 """
     CreatePartition()
@@ -346,8 +366,9 @@ Creates a new partition.
 # Optional Parameters
 - `CatalogId`: The AWS account ID of the catalog in which the partition is to be created.
 """
-CreatePartition(DatabaseName, PartitionInput, TableName; aws::AWSConfig=AWS.aws_config) = glue("CreatePartition", Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionInput"=>PartitionInput, "TableName"=>TableName); aws=aws)
-CreatePartition(DatabaseName, PartitionInput, TableName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("CreatePartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionInput"=>PartitionInput, "TableName"=>TableName), args)); aws=aws)
+
+CreatePartition(DatabaseName, PartitionInput, TableName; aws_config::AWSConfig=AWS.aws_config) = glue("CreatePartition", Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionInput"=>PartitionInput, "TableName"=>TableName); aws_config=aws_config)
+CreatePartition(DatabaseName, PartitionInput, TableName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("CreatePartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionInput"=>PartitionInput, "TableName"=>TableName), args)); aws_config=aws_config)
 
 """
     CreateScript()
@@ -359,8 +380,9 @@ Transforms a directed acyclic graph (DAG) into code.
 - `DagNodes`: A list of the nodes in the DAG.
 - `Language`: The programming language of the resulting code from the DAG.
 """
-CreateScript(; aws::AWSConfig=AWS.aws_config) = glue("CreateScript"; aws=aws)
-CreateScript(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("CreateScript", args; aws=aws)
+
+CreateScript(; aws_config::AWSConfig=AWS.aws_config) = glue("CreateScript"; aws_config=aws_config)
+CreateScript(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("CreateScript", args; aws_config=aws_config)
 
 """
     CreateSecurityConfiguration()
@@ -372,8 +394,9 @@ Creates a new security configuration. A security configuration is a set of secur
 - `Name`: The name for the new security configuration.
 
 """
-CreateSecurityConfiguration(EncryptionConfiguration, Name; aws::AWSConfig=AWS.aws_config) = glue("CreateSecurityConfiguration", Dict{String, Any}("EncryptionConfiguration"=>EncryptionConfiguration, "Name"=>Name); aws=aws)
-CreateSecurityConfiguration(EncryptionConfiguration, Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("CreateSecurityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EncryptionConfiguration"=>EncryptionConfiguration, "Name"=>Name), args)); aws=aws)
+
+CreateSecurityConfiguration(EncryptionConfiguration, Name; aws_config::AWSConfig=AWS.aws_config) = glue("CreateSecurityConfiguration", Dict{String, Any}("EncryptionConfiguration"=>EncryptionConfiguration, "Name"=>Name); aws_config=aws_config)
+CreateSecurityConfiguration(EncryptionConfiguration, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("CreateSecurityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EncryptionConfiguration"=>EncryptionConfiguration, "Name"=>Name), args)); aws_config=aws_config)
 
 """
     CreateTable()
@@ -387,8 +410,9 @@ Creates a new table definition in the Data Catalog.
 # Optional Parameters
 - `CatalogId`: The ID of the Data Catalog in which to create the Table. If none is supplied, the AWS account ID is used by default.
 """
-CreateTable(DatabaseName, TableInput; aws::AWSConfig=AWS.aws_config) = glue("CreateTable", Dict{String, Any}("DatabaseName"=>DatabaseName, "TableInput"=>TableInput); aws=aws)
-CreateTable(DatabaseName, TableInput, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("CreateTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableInput"=>TableInput), args)); aws=aws)
+
+CreateTable(DatabaseName, TableInput; aws_config::AWSConfig=AWS.aws_config) = glue("CreateTable", Dict{String, Any}("DatabaseName"=>DatabaseName, "TableInput"=>TableInput); aws_config=aws_config)
+CreateTable(DatabaseName, TableInput, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("CreateTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableInput"=>TableInput), args)); aws_config=aws_config)
 
 """
     CreateTrigger()
@@ -408,8 +432,9 @@ Creates a new trigger.
 - `Tags`: The tags to use with this trigger. You may use tags to limit access to the trigger. For more information about tags in AWS Glue, see AWS Tags in AWS Glue in the developer guide. 
 - `WorkflowName`: The name of the workflow associated with the trigger.
 """
-CreateTrigger(Actions, Name, Type; aws::AWSConfig=AWS.aws_config) = glue("CreateTrigger", Dict{String, Any}("Actions"=>Actions, "Name"=>Name, "Type"=>Type); aws=aws)
-CreateTrigger(Actions, Name, Type, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("CreateTrigger", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Actions"=>Actions, "Name"=>Name, "Type"=>Type), args)); aws=aws)
+
+CreateTrigger(Actions, Name, Type; aws_config::AWSConfig=AWS.aws_config) = glue("CreateTrigger", Dict{String, Any}("Actions"=>Actions, "Name"=>Name, "Type"=>Type); aws_config=aws_config)
+CreateTrigger(Actions, Name, Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("CreateTrigger", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Actions"=>Actions, "Name"=>Name, "Type"=>Type), args)); aws_config=aws_config)
 
 """
     CreateUserDefinedFunction()
@@ -423,8 +448,9 @@ Creates a new function definition in the Data Catalog.
 # Optional Parameters
 - `CatalogId`: The ID of the Data Catalog in which to create the function. If none is provided, the AWS account ID is used by default.
 """
-CreateUserDefinedFunction(DatabaseName, FunctionInput; aws::AWSConfig=AWS.aws_config) = glue("CreateUserDefinedFunction", Dict{String, Any}("DatabaseName"=>DatabaseName, "FunctionInput"=>FunctionInput); aws=aws)
-CreateUserDefinedFunction(DatabaseName, FunctionInput, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("CreateUserDefinedFunction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "FunctionInput"=>FunctionInput), args)); aws=aws)
+
+CreateUserDefinedFunction(DatabaseName, FunctionInput; aws_config::AWSConfig=AWS.aws_config) = glue("CreateUserDefinedFunction", Dict{String, Any}("DatabaseName"=>DatabaseName, "FunctionInput"=>FunctionInput); aws_config=aws_config)
+CreateUserDefinedFunction(DatabaseName, FunctionInput, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("CreateUserDefinedFunction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "FunctionInput"=>FunctionInput), args)); aws_config=aws_config)
 
 """
     CreateWorkflow()
@@ -440,8 +466,9 @@ Creates a new workflow.
 - `MaxConcurrentRuns`: You can use this parameter to prevent unwanted multiple updates to data, to control costs, or in some cases, to prevent exceeding the maximum number of concurrent runs of any of the component jobs. If you leave this parameter blank, there is no limit to the number of concurrent workflow runs.
 - `Tags`: The tags to be used with this workflow.
 """
-CreateWorkflow(Name; aws::AWSConfig=AWS.aws_config) = glue("CreateWorkflow", Dict{String, Any}("Name"=>Name); aws=aws)
-CreateWorkflow(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("CreateWorkflow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+
+CreateWorkflow(Name; aws_config::AWSConfig=AWS.aws_config) = glue("CreateWorkflow", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+CreateWorkflow(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("CreateWorkflow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     DeleteClassifier()
@@ -452,8 +479,9 @@ Removes a classifier from the Data Catalog.
 - `Name`: Name of the classifier to remove.
 
 """
-DeleteClassifier(Name; aws::AWSConfig=AWS.aws_config) = glue("DeleteClassifier", Dict{String, Any}("Name"=>Name); aws=aws)
-DeleteClassifier(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("DeleteClassifier", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+
+DeleteClassifier(Name; aws_config::AWSConfig=AWS.aws_config) = glue("DeleteClassifier", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+DeleteClassifier(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("DeleteClassifier", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     DeleteColumnStatisticsForPartition()
@@ -469,8 +497,9 @@ Delete the partition column statistics of a column.
 # Optional Parameters
 - `CatalogId`: The ID of the Data Catalog where the partitions in question reside. If none is supplied, the AWS account ID is used by default.
 """
-DeleteColumnStatisticsForPartition(ColumnName, DatabaseName, PartitionValues, TableName; aws::AWSConfig=AWS.aws_config) = glue("DeleteColumnStatisticsForPartition", Dict{String, Any}("ColumnName"=>ColumnName, "DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName); aws=aws)
-DeleteColumnStatisticsForPartition(ColumnName, DatabaseName, PartitionValues, TableName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("DeleteColumnStatisticsForPartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ColumnName"=>ColumnName, "DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName), args)); aws=aws)
+
+DeleteColumnStatisticsForPartition(ColumnName, DatabaseName, PartitionValues, TableName; aws_config::AWSConfig=AWS.aws_config) = glue("DeleteColumnStatisticsForPartition", Dict{String, Any}("ColumnName"=>ColumnName, "DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName); aws_config=aws_config)
+DeleteColumnStatisticsForPartition(ColumnName, DatabaseName, PartitionValues, TableName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("DeleteColumnStatisticsForPartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ColumnName"=>ColumnName, "DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName), args)); aws_config=aws_config)
 
 """
     DeleteColumnStatisticsForTable()
@@ -485,8 +514,9 @@ Retrieves table statistics of columns.
 # Optional Parameters
 - `CatalogId`: The ID of the Data Catalog where the partitions in question reside. If none is supplied, the AWS account ID is used by default.
 """
-DeleteColumnStatisticsForTable(ColumnName, DatabaseName, TableName; aws::AWSConfig=AWS.aws_config) = glue("DeleteColumnStatisticsForTable", Dict{String, Any}("ColumnName"=>ColumnName, "DatabaseName"=>DatabaseName, "TableName"=>TableName); aws=aws)
-DeleteColumnStatisticsForTable(ColumnName, DatabaseName, TableName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("DeleteColumnStatisticsForTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ColumnName"=>ColumnName, "DatabaseName"=>DatabaseName, "TableName"=>TableName), args)); aws=aws)
+
+DeleteColumnStatisticsForTable(ColumnName, DatabaseName, TableName; aws_config::AWSConfig=AWS.aws_config) = glue("DeleteColumnStatisticsForTable", Dict{String, Any}("ColumnName"=>ColumnName, "DatabaseName"=>DatabaseName, "TableName"=>TableName); aws_config=aws_config)
+DeleteColumnStatisticsForTable(ColumnName, DatabaseName, TableName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("DeleteColumnStatisticsForTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ColumnName"=>ColumnName, "DatabaseName"=>DatabaseName, "TableName"=>TableName), args)); aws_config=aws_config)
 
 """
     DeleteConnection()
@@ -499,8 +529,9 @@ Deletes a connection from the Data Catalog.
 # Optional Parameters
 - `CatalogId`: The ID of the Data Catalog in which the connection resides. If none is provided, the AWS account ID is used by default.
 """
-DeleteConnection(ConnectionName; aws::AWSConfig=AWS.aws_config) = glue("DeleteConnection", Dict{String, Any}("ConnectionName"=>ConnectionName); aws=aws)
-DeleteConnection(ConnectionName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("DeleteConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionName"=>ConnectionName), args)); aws=aws)
+
+DeleteConnection(ConnectionName; aws_config::AWSConfig=AWS.aws_config) = glue("DeleteConnection", Dict{String, Any}("ConnectionName"=>ConnectionName); aws_config=aws_config)
+DeleteConnection(ConnectionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("DeleteConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionName"=>ConnectionName), args)); aws_config=aws_config)
 
 """
     DeleteCrawler()
@@ -511,8 +542,9 @@ Removes a specified crawler from the AWS Glue Data Catalog, unless the crawler s
 - `Name`: The name of the crawler to remove.
 
 """
-DeleteCrawler(Name; aws::AWSConfig=AWS.aws_config) = glue("DeleteCrawler", Dict{String, Any}("Name"=>Name); aws=aws)
-DeleteCrawler(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("DeleteCrawler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+
+DeleteCrawler(Name; aws_config::AWSConfig=AWS.aws_config) = glue("DeleteCrawler", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+DeleteCrawler(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("DeleteCrawler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     DeleteDatabase()
@@ -525,8 +557,9 @@ Removes a specified database from a Data Catalog.  After completing this operati
 # Optional Parameters
 - `CatalogId`: The ID of the Data Catalog in which the database resides. If none is provided, the AWS account ID is used by default.
 """
-DeleteDatabase(Name; aws::AWSConfig=AWS.aws_config) = glue("DeleteDatabase", Dict{String, Any}("Name"=>Name); aws=aws)
-DeleteDatabase(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("DeleteDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+
+DeleteDatabase(Name; aws_config::AWSConfig=AWS.aws_config) = glue("DeleteDatabase", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+DeleteDatabase(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("DeleteDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     DeleteDevEndpoint()
@@ -537,8 +570,9 @@ Deletes a specified development endpoint.
 - `EndpointName`: The name of the DevEndpoint.
 
 """
-DeleteDevEndpoint(EndpointName; aws::AWSConfig=AWS.aws_config) = glue("DeleteDevEndpoint", Dict{String, Any}("EndpointName"=>EndpointName); aws=aws)
-DeleteDevEndpoint(EndpointName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("DeleteDevEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointName"=>EndpointName), args)); aws=aws)
+
+DeleteDevEndpoint(EndpointName; aws_config::AWSConfig=AWS.aws_config) = glue("DeleteDevEndpoint", Dict{String, Any}("EndpointName"=>EndpointName); aws_config=aws_config)
+DeleteDevEndpoint(EndpointName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("DeleteDevEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointName"=>EndpointName), args)); aws_config=aws_config)
 
 """
     DeleteJob()
@@ -549,8 +583,9 @@ Deletes a specified job definition. If the job definition is not found, no excep
 - `JobName`: The name of the job definition to delete.
 
 """
-DeleteJob(JobName; aws::AWSConfig=AWS.aws_config) = glue("DeleteJob", Dict{String, Any}("JobName"=>JobName); aws=aws)
-DeleteJob(JobName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("DeleteJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName), args)); aws=aws)
+
+DeleteJob(JobName; aws_config::AWSConfig=AWS.aws_config) = glue("DeleteJob", Dict{String, Any}("JobName"=>JobName); aws_config=aws_config)
+DeleteJob(JobName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("DeleteJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName), args)); aws_config=aws_config)
 
 """
     DeleteMLTransform()
@@ -561,8 +596,9 @@ Deletes an AWS Glue machine learning transform. Machine learning transforms are 
 - `TransformId`: The unique identifier of the transform to delete.
 
 """
-DeleteMLTransform(TransformId; aws::AWSConfig=AWS.aws_config) = glue("DeleteMLTransform", Dict{String, Any}("TransformId"=>TransformId); aws=aws)
-DeleteMLTransform(TransformId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("DeleteMLTransform", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransformId"=>TransformId), args)); aws=aws)
+
+DeleteMLTransform(TransformId; aws_config::AWSConfig=AWS.aws_config) = glue("DeleteMLTransform", Dict{String, Any}("TransformId"=>TransformId); aws_config=aws_config)
+DeleteMLTransform(TransformId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("DeleteMLTransform", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransformId"=>TransformId), args)); aws_config=aws_config)
 
 """
     DeletePartition()
@@ -577,8 +613,9 @@ Deletes a specified partition.
 # Optional Parameters
 - `CatalogId`: The ID of the Data Catalog where the partition to be deleted resides. If none is provided, the AWS account ID is used by default.
 """
-DeletePartition(DatabaseName, PartitionValues, TableName; aws::AWSConfig=AWS.aws_config) = glue("DeletePartition", Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName); aws=aws)
-DeletePartition(DatabaseName, PartitionValues, TableName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("DeletePartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName), args)); aws=aws)
+
+DeletePartition(DatabaseName, PartitionValues, TableName; aws_config::AWSConfig=AWS.aws_config) = glue("DeletePartition", Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName); aws_config=aws_config)
+DeletePartition(DatabaseName, PartitionValues, TableName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("DeletePartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName), args)); aws_config=aws_config)
 
 """
     DeleteResourcePolicy()
@@ -589,8 +626,9 @@ Deletes a specified policy.
 - `PolicyHashCondition`: The hash value returned when this policy was set.
 - `ResourceArn`: The ARN of the AWS Glue resource for the resource policy to be deleted.
 """
-DeleteResourcePolicy(; aws::AWSConfig=AWS.aws_config) = glue("DeleteResourcePolicy"; aws=aws)
-DeleteResourcePolicy(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("DeleteResourcePolicy", args; aws=aws)
+
+DeleteResourcePolicy(; aws_config::AWSConfig=AWS.aws_config) = glue("DeleteResourcePolicy"; aws_config=aws_config)
+DeleteResourcePolicy(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("DeleteResourcePolicy", args; aws_config=aws_config)
 
 """
     DeleteSecurityConfiguration()
@@ -601,8 +639,9 @@ Deletes a specified security configuration.
 - `Name`: The name of the security configuration to delete.
 
 """
-DeleteSecurityConfiguration(Name; aws::AWSConfig=AWS.aws_config) = glue("DeleteSecurityConfiguration", Dict{String, Any}("Name"=>Name); aws=aws)
-DeleteSecurityConfiguration(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("DeleteSecurityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+
+DeleteSecurityConfiguration(Name; aws_config::AWSConfig=AWS.aws_config) = glue("DeleteSecurityConfiguration", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+DeleteSecurityConfiguration(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("DeleteSecurityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     DeleteTable()
@@ -616,8 +655,9 @@ Removes a table definition from the Data Catalog.  After completing this operati
 # Optional Parameters
 - `CatalogId`: The ID of the Data Catalog where the table resides. If none is provided, the AWS account ID is used by default.
 """
-DeleteTable(DatabaseName, Name; aws::AWSConfig=AWS.aws_config) = glue("DeleteTable", Dict{String, Any}("DatabaseName"=>DatabaseName, "Name"=>Name); aws=aws)
-DeleteTable(DatabaseName, Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("DeleteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "Name"=>Name), args)); aws=aws)
+
+DeleteTable(DatabaseName, Name; aws_config::AWSConfig=AWS.aws_config) = glue("DeleteTable", Dict{String, Any}("DatabaseName"=>DatabaseName, "Name"=>Name); aws_config=aws_config)
+DeleteTable(DatabaseName, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("DeleteTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "Name"=>Name), args)); aws_config=aws_config)
 
 """
     DeleteTableVersion()
@@ -632,8 +672,9 @@ Deletes a specified version of a table.
 # Optional Parameters
 - `CatalogId`: The ID of the Data Catalog where the tables reside. If none is provided, the AWS account ID is used by default.
 """
-DeleteTableVersion(DatabaseName, TableName, VersionId; aws::AWSConfig=AWS.aws_config) = glue("DeleteTableVersion", Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName, "VersionId"=>VersionId); aws=aws)
-DeleteTableVersion(DatabaseName, TableName, VersionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("DeleteTableVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName, "VersionId"=>VersionId), args)); aws=aws)
+
+DeleteTableVersion(DatabaseName, TableName, VersionId; aws_config::AWSConfig=AWS.aws_config) = glue("DeleteTableVersion", Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName, "VersionId"=>VersionId); aws_config=aws_config)
+DeleteTableVersion(DatabaseName, TableName, VersionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("DeleteTableVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName, "VersionId"=>VersionId), args)); aws_config=aws_config)
 
 """
     DeleteTrigger()
@@ -644,8 +685,9 @@ Deletes a specified trigger. If the trigger is not found, no exception is thrown
 - `Name`: The name of the trigger to delete.
 
 """
-DeleteTrigger(Name; aws::AWSConfig=AWS.aws_config) = glue("DeleteTrigger", Dict{String, Any}("Name"=>Name); aws=aws)
-DeleteTrigger(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("DeleteTrigger", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+
+DeleteTrigger(Name; aws_config::AWSConfig=AWS.aws_config) = glue("DeleteTrigger", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+DeleteTrigger(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("DeleteTrigger", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     DeleteUserDefinedFunction()
@@ -659,8 +701,9 @@ Deletes an existing function definition from the Data Catalog.
 # Optional Parameters
 - `CatalogId`: The ID of the Data Catalog where the function to be deleted is located. If none is supplied, the AWS account ID is used by default.
 """
-DeleteUserDefinedFunction(DatabaseName, FunctionName; aws::AWSConfig=AWS.aws_config) = glue("DeleteUserDefinedFunction", Dict{String, Any}("DatabaseName"=>DatabaseName, "FunctionName"=>FunctionName); aws=aws)
-DeleteUserDefinedFunction(DatabaseName, FunctionName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("DeleteUserDefinedFunction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "FunctionName"=>FunctionName), args)); aws=aws)
+
+DeleteUserDefinedFunction(DatabaseName, FunctionName; aws_config::AWSConfig=AWS.aws_config) = glue("DeleteUserDefinedFunction", Dict{String, Any}("DatabaseName"=>DatabaseName, "FunctionName"=>FunctionName); aws_config=aws_config)
+DeleteUserDefinedFunction(DatabaseName, FunctionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("DeleteUserDefinedFunction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "FunctionName"=>FunctionName), args)); aws_config=aws_config)
 
 """
     DeleteWorkflow()
@@ -671,8 +714,9 @@ Deletes a workflow.
 - `Name`: Name of the workflow to be deleted.
 
 """
-DeleteWorkflow(Name; aws::AWSConfig=AWS.aws_config) = glue("DeleteWorkflow", Dict{String, Any}("Name"=>Name); aws=aws)
-DeleteWorkflow(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("DeleteWorkflow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+
+DeleteWorkflow(Name; aws_config::AWSConfig=AWS.aws_config) = glue("DeleteWorkflow", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+DeleteWorkflow(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("DeleteWorkflow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     GetCatalogImportStatus()
@@ -682,8 +726,9 @@ Retrieves the status of a migration operation.
 # Optional Parameters
 - `CatalogId`: The ID of the catalog to migrate. Currently, this should be the AWS account ID.
 """
-GetCatalogImportStatus(; aws::AWSConfig=AWS.aws_config) = glue("GetCatalogImportStatus"; aws=aws)
-GetCatalogImportStatus(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetCatalogImportStatus", args; aws=aws)
+
+GetCatalogImportStatus(; aws_config::AWSConfig=AWS.aws_config) = glue("GetCatalogImportStatus"; aws_config=aws_config)
+GetCatalogImportStatus(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetCatalogImportStatus", args; aws_config=aws_config)
 
 """
     GetClassifier()
@@ -694,8 +739,9 @@ Retrieve a classifier by name.
 - `Name`: Name of the classifier to retrieve.
 
 """
-GetClassifier(Name; aws::AWSConfig=AWS.aws_config) = glue("GetClassifier", Dict{String, Any}("Name"=>Name); aws=aws)
-GetClassifier(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetClassifier", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+
+GetClassifier(Name; aws_config::AWSConfig=AWS.aws_config) = glue("GetClassifier", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+GetClassifier(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetClassifier", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     GetClassifiers()
@@ -706,8 +752,9 @@ Lists all classifier objects in the Data Catalog.
 - `MaxResults`: The size of the list to return (optional).
 - `NextToken`: An optional continuation token.
 """
-GetClassifiers(; aws::AWSConfig=AWS.aws_config) = glue("GetClassifiers"; aws=aws)
-GetClassifiers(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetClassifiers", args; aws=aws)
+
+GetClassifiers(; aws_config::AWSConfig=AWS.aws_config) = glue("GetClassifiers"; aws_config=aws_config)
+GetClassifiers(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetClassifiers", args; aws_config=aws_config)
 
 """
     GetColumnStatisticsForPartition()
@@ -723,8 +770,9 @@ Retrieves partition statistics of columns.
 # Optional Parameters
 - `CatalogId`: The ID of the Data Catalog where the partitions in question reside. If none is supplied, the AWS account ID is used by default.
 """
-GetColumnStatisticsForPartition(ColumnNames, DatabaseName, PartitionValues, TableName; aws::AWSConfig=AWS.aws_config) = glue("GetColumnStatisticsForPartition", Dict{String, Any}("ColumnNames"=>ColumnNames, "DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName); aws=aws)
-GetColumnStatisticsForPartition(ColumnNames, DatabaseName, PartitionValues, TableName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetColumnStatisticsForPartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ColumnNames"=>ColumnNames, "DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName), args)); aws=aws)
+
+GetColumnStatisticsForPartition(ColumnNames, DatabaseName, PartitionValues, TableName; aws_config::AWSConfig=AWS.aws_config) = glue("GetColumnStatisticsForPartition", Dict{String, Any}("ColumnNames"=>ColumnNames, "DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName); aws_config=aws_config)
+GetColumnStatisticsForPartition(ColumnNames, DatabaseName, PartitionValues, TableName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetColumnStatisticsForPartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ColumnNames"=>ColumnNames, "DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName), args)); aws_config=aws_config)
 
 """
     GetColumnStatisticsForTable()
@@ -739,8 +787,9 @@ Retrieves table statistics of columns.
 # Optional Parameters
 - `CatalogId`: The ID of the Data Catalog where the partitions in question reside. If none is supplied, the AWS account ID is used by default.
 """
-GetColumnStatisticsForTable(ColumnNames, DatabaseName, TableName; aws::AWSConfig=AWS.aws_config) = glue("GetColumnStatisticsForTable", Dict{String, Any}("ColumnNames"=>ColumnNames, "DatabaseName"=>DatabaseName, "TableName"=>TableName); aws=aws)
-GetColumnStatisticsForTable(ColumnNames, DatabaseName, TableName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetColumnStatisticsForTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ColumnNames"=>ColumnNames, "DatabaseName"=>DatabaseName, "TableName"=>TableName), args)); aws=aws)
+
+GetColumnStatisticsForTable(ColumnNames, DatabaseName, TableName; aws_config::AWSConfig=AWS.aws_config) = glue("GetColumnStatisticsForTable", Dict{String, Any}("ColumnNames"=>ColumnNames, "DatabaseName"=>DatabaseName, "TableName"=>TableName); aws_config=aws_config)
+GetColumnStatisticsForTable(ColumnNames, DatabaseName, TableName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetColumnStatisticsForTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ColumnNames"=>ColumnNames, "DatabaseName"=>DatabaseName, "TableName"=>TableName), args)); aws_config=aws_config)
 
 """
     GetConnection()
@@ -754,8 +803,9 @@ Retrieves a connection definition from the Data Catalog.
 - `CatalogId`: The ID of the Data Catalog in which the connection resides. If none is provided, the AWS account ID is used by default.
 - `HidePassword`: Allows you to retrieve the connection metadata without returning the password. For instance, the AWS Glue console uses this flag to retrieve the connection, and does not display the password. Set this parameter when the caller might not have permission to use the AWS KMS key to decrypt the password, but it does have permission to access the rest of the connection properties.
 """
-GetConnection(Name; aws::AWSConfig=AWS.aws_config) = glue("GetConnection", Dict{String, Any}("Name"=>Name); aws=aws)
-GetConnection(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+
+GetConnection(Name; aws_config::AWSConfig=AWS.aws_config) = glue("GetConnection", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+GetConnection(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     GetConnections()
@@ -769,8 +819,9 @@ Retrieves a list of connection definitions from the Data Catalog.
 - `MaxResults`: The maximum number of connections to return in one response.
 - `NextToken`: A continuation token, if this is a continuation call.
 """
-GetConnections(; aws::AWSConfig=AWS.aws_config) = glue("GetConnections"; aws=aws)
-GetConnections(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetConnections", args; aws=aws)
+
+GetConnections(; aws_config::AWSConfig=AWS.aws_config) = glue("GetConnections"; aws_config=aws_config)
+GetConnections(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetConnections", args; aws_config=aws_config)
 
 """
     GetCrawler()
@@ -781,8 +832,9 @@ Retrieves metadata for a specified crawler.
 - `Name`: The name of the crawler to retrieve metadata for.
 
 """
-GetCrawler(Name; aws::AWSConfig=AWS.aws_config) = glue("GetCrawler", Dict{String, Any}("Name"=>Name); aws=aws)
-GetCrawler(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetCrawler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+
+GetCrawler(Name; aws_config::AWSConfig=AWS.aws_config) = glue("GetCrawler", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+GetCrawler(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetCrawler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     GetCrawlerMetrics()
@@ -794,8 +846,9 @@ Retrieves metrics about specified crawlers.
 - `MaxResults`: The maximum size of a list to return.
 - `NextToken`: A continuation token, if this is a continuation call.
 """
-GetCrawlerMetrics(; aws::AWSConfig=AWS.aws_config) = glue("GetCrawlerMetrics"; aws=aws)
-GetCrawlerMetrics(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetCrawlerMetrics", args; aws=aws)
+
+GetCrawlerMetrics(; aws_config::AWSConfig=AWS.aws_config) = glue("GetCrawlerMetrics"; aws_config=aws_config)
+GetCrawlerMetrics(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetCrawlerMetrics", args; aws_config=aws_config)
 
 """
     GetCrawlers()
@@ -806,8 +859,9 @@ Retrieves metadata for all crawlers defined in the customer account.
 - `MaxResults`: The number of crawlers to return on each call.
 - `NextToken`: A continuation token, if this is a continuation request.
 """
-GetCrawlers(; aws::AWSConfig=AWS.aws_config) = glue("GetCrawlers"; aws=aws)
-GetCrawlers(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetCrawlers", args; aws=aws)
+
+GetCrawlers(; aws_config::AWSConfig=AWS.aws_config) = glue("GetCrawlers"; aws_config=aws_config)
+GetCrawlers(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetCrawlers", args; aws_config=aws_config)
 
 """
     GetDataCatalogEncryptionSettings()
@@ -817,8 +871,9 @@ Retrieves the security configuration for a specified catalog.
 # Optional Parameters
 - `CatalogId`: The ID of the Data Catalog to retrieve the security configuration for. If none is provided, the AWS account ID is used by default.
 """
-GetDataCatalogEncryptionSettings(; aws::AWSConfig=AWS.aws_config) = glue("GetDataCatalogEncryptionSettings"; aws=aws)
-GetDataCatalogEncryptionSettings(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetDataCatalogEncryptionSettings", args; aws=aws)
+
+GetDataCatalogEncryptionSettings(; aws_config::AWSConfig=AWS.aws_config) = glue("GetDataCatalogEncryptionSettings"; aws_config=aws_config)
+GetDataCatalogEncryptionSettings(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetDataCatalogEncryptionSettings", args; aws_config=aws_config)
 
 """
     GetDatabase()
@@ -831,8 +886,9 @@ Retrieves the definition of a specified database.
 # Optional Parameters
 - `CatalogId`: The ID of the Data Catalog in which the database resides. If none is provided, the AWS account ID is used by default.
 """
-GetDatabase(Name; aws::AWSConfig=AWS.aws_config) = glue("GetDatabase", Dict{String, Any}("Name"=>Name); aws=aws)
-GetDatabase(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+
+GetDatabase(Name; aws_config::AWSConfig=AWS.aws_config) = glue("GetDatabase", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+GetDatabase(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     GetDatabases()
@@ -845,8 +901,9 @@ Retrieves all databases defined in a given Data Catalog.
 - `NextToken`: A continuation token, if this is a continuation call.
 - `ResourceShareType`: Allows you to specify that you want to list the databases shared with your account. The allowable values are FOREIGN or ALL.    If set to FOREIGN, will list the databases shared with your account.    If set to ALL, will list the databases shared with your account, as well as the databases in yor local account.   
 """
-GetDatabases(; aws::AWSConfig=AWS.aws_config) = glue("GetDatabases"; aws=aws)
-GetDatabases(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetDatabases", args; aws=aws)
+
+GetDatabases(; aws_config::AWSConfig=AWS.aws_config) = glue("GetDatabases"; aws_config=aws_config)
+GetDatabases(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetDatabases", args; aws_config=aws_config)
 
 """
     GetDataflowGraph()
@@ -856,8 +913,9 @@ Transforms a Python script into a directed acyclic graph (DAG).
 # Optional Parameters
 - `PythonScript`: The Python script to transform.
 """
-GetDataflowGraph(; aws::AWSConfig=AWS.aws_config) = glue("GetDataflowGraph"; aws=aws)
-GetDataflowGraph(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetDataflowGraph", args; aws=aws)
+
+GetDataflowGraph(; aws_config::AWSConfig=AWS.aws_config) = glue("GetDataflowGraph"; aws_config=aws_config)
+GetDataflowGraph(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetDataflowGraph", args; aws_config=aws_config)
 
 """
     GetDevEndpoint()
@@ -868,8 +926,9 @@ Retrieves information about a specified development endpoint.  When you create a
 - `EndpointName`: Name of the DevEndpoint to retrieve information for.
 
 """
-GetDevEndpoint(EndpointName; aws::AWSConfig=AWS.aws_config) = glue("GetDevEndpoint", Dict{String, Any}("EndpointName"=>EndpointName); aws=aws)
-GetDevEndpoint(EndpointName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetDevEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointName"=>EndpointName), args)); aws=aws)
+
+GetDevEndpoint(EndpointName; aws_config::AWSConfig=AWS.aws_config) = glue("GetDevEndpoint", Dict{String, Any}("EndpointName"=>EndpointName); aws_config=aws_config)
+GetDevEndpoint(EndpointName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetDevEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointName"=>EndpointName), args)); aws_config=aws_config)
 
 """
     GetDevEndpoints()
@@ -880,8 +939,9 @@ Retrieves all the development endpoints in this AWS account.  When you create a 
 - `MaxResults`: The maximum size of information to return.
 - `NextToken`: A continuation token, if this is a continuation call.
 """
-GetDevEndpoints(; aws::AWSConfig=AWS.aws_config) = glue("GetDevEndpoints"; aws=aws)
-GetDevEndpoints(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetDevEndpoints", args; aws=aws)
+
+GetDevEndpoints(; aws_config::AWSConfig=AWS.aws_config) = glue("GetDevEndpoints"; aws_config=aws_config)
+GetDevEndpoints(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetDevEndpoints", args; aws_config=aws_config)
 
 """
     GetJob()
@@ -892,8 +952,9 @@ Retrieves an existing job definition.
 - `JobName`: The name of the job definition to retrieve.
 
 """
-GetJob(JobName; aws::AWSConfig=AWS.aws_config) = glue("GetJob", Dict{String, Any}("JobName"=>JobName); aws=aws)
-GetJob(JobName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName), args)); aws=aws)
+
+GetJob(JobName; aws_config::AWSConfig=AWS.aws_config) = glue("GetJob", Dict{String, Any}("JobName"=>JobName); aws_config=aws_config)
+GetJob(JobName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName), args)); aws_config=aws_config)
 
 """
     GetJobBookmark()
@@ -906,8 +967,9 @@ Returns information on a job bookmark entry.
 # Optional Parameters
 - `RunId`: The unique run identifier associated with this job run.
 """
-GetJobBookmark(JobName; aws::AWSConfig=AWS.aws_config) = glue("GetJobBookmark", Dict{String, Any}("JobName"=>JobName); aws=aws)
-GetJobBookmark(JobName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetJobBookmark", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName), args)); aws=aws)
+
+GetJobBookmark(JobName; aws_config::AWSConfig=AWS.aws_config) = glue("GetJobBookmark", Dict{String, Any}("JobName"=>JobName); aws_config=aws_config)
+GetJobBookmark(JobName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetJobBookmark", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName), args)); aws_config=aws_config)
 
 """
     GetJobRun()
@@ -921,8 +983,9 @@ Retrieves the metadata for a given job run.
 # Optional Parameters
 - `PredecessorsIncluded`: True if a list of predecessor runs should be returned.
 """
-GetJobRun(JobName, RunId; aws::AWSConfig=AWS.aws_config) = glue("GetJobRun", Dict{String, Any}("JobName"=>JobName, "RunId"=>RunId); aws=aws)
-GetJobRun(JobName, RunId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetJobRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName, "RunId"=>RunId), args)); aws=aws)
+
+GetJobRun(JobName, RunId; aws_config::AWSConfig=AWS.aws_config) = glue("GetJobRun", Dict{String, Any}("JobName"=>JobName, "RunId"=>RunId); aws_config=aws_config)
+GetJobRun(JobName, RunId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetJobRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName, "RunId"=>RunId), args)); aws_config=aws_config)
 
 """
     GetJobRuns()
@@ -936,8 +999,9 @@ Retrieves metadata for all runs of a given job definition.
 - `MaxResults`: The maximum size of the response.
 - `NextToken`: A continuation token, if this is a continuation call.
 """
-GetJobRuns(JobName; aws::AWSConfig=AWS.aws_config) = glue("GetJobRuns", Dict{String, Any}("JobName"=>JobName); aws=aws)
-GetJobRuns(JobName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetJobRuns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName), args)); aws=aws)
+
+GetJobRuns(JobName; aws_config::AWSConfig=AWS.aws_config) = glue("GetJobRuns", Dict{String, Any}("JobName"=>JobName); aws_config=aws_config)
+GetJobRuns(JobName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetJobRuns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName), args)); aws_config=aws_config)
 
 """
     GetJobs()
@@ -948,8 +1012,9 @@ Retrieves all current job definitions.
 - `MaxResults`: The maximum size of the response.
 - `NextToken`: A continuation token, if this is a continuation call.
 """
-GetJobs(; aws::AWSConfig=AWS.aws_config) = glue("GetJobs"; aws=aws)
-GetJobs(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetJobs", args; aws=aws)
+
+GetJobs(; aws_config::AWSConfig=AWS.aws_config) = glue("GetJobs"; aws_config=aws_config)
+GetJobs(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetJobs", args; aws_config=aws_config)
 
 """
     GetMLTaskRun()
@@ -961,8 +1026,9 @@ Gets details for a specific task run on a machine learning transform. Machine le
 - `TransformId`: The unique identifier of the machine learning transform.
 
 """
-GetMLTaskRun(TaskRunId, TransformId; aws::AWSConfig=AWS.aws_config) = glue("GetMLTaskRun", Dict{String, Any}("TaskRunId"=>TaskRunId, "TransformId"=>TransformId); aws=aws)
-GetMLTaskRun(TaskRunId, TransformId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetMLTaskRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskRunId"=>TaskRunId, "TransformId"=>TransformId), args)); aws=aws)
+
+GetMLTaskRun(TaskRunId, TransformId; aws_config::AWSConfig=AWS.aws_config) = glue("GetMLTaskRun", Dict{String, Any}("TaskRunId"=>TaskRunId, "TransformId"=>TransformId); aws_config=aws_config)
+GetMLTaskRun(TaskRunId, TransformId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetMLTaskRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TaskRunId"=>TaskRunId, "TransformId"=>TransformId), args)); aws_config=aws_config)
 
 """
     GetMLTaskRuns()
@@ -978,8 +1044,9 @@ Gets a list of runs for a machine learning transform. Machine learning task runs
 - `NextToken`: A token for pagination of the results. The default is empty.
 - `Sort`: The sorting criteria, in the TaskRunSortCriteria structure, for the task run.
 """
-GetMLTaskRuns(TransformId; aws::AWSConfig=AWS.aws_config) = glue("GetMLTaskRuns", Dict{String, Any}("TransformId"=>TransformId); aws=aws)
-GetMLTaskRuns(TransformId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetMLTaskRuns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransformId"=>TransformId), args)); aws=aws)
+
+GetMLTaskRuns(TransformId; aws_config::AWSConfig=AWS.aws_config) = glue("GetMLTaskRuns", Dict{String, Any}("TransformId"=>TransformId); aws_config=aws_config)
+GetMLTaskRuns(TransformId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetMLTaskRuns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransformId"=>TransformId), args)); aws_config=aws_config)
 
 """
     GetMLTransform()
@@ -990,8 +1057,9 @@ Gets an AWS Glue machine learning transform artifact and all its corresponding m
 - `TransformId`: The unique identifier of the transform, generated at the time that the transform was created.
 
 """
-GetMLTransform(TransformId; aws::AWSConfig=AWS.aws_config) = glue("GetMLTransform", Dict{String, Any}("TransformId"=>TransformId); aws=aws)
-GetMLTransform(TransformId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetMLTransform", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransformId"=>TransformId), args)); aws=aws)
+
+GetMLTransform(TransformId; aws_config::AWSConfig=AWS.aws_config) = glue("GetMLTransform", Dict{String, Any}("TransformId"=>TransformId); aws_config=aws_config)
+GetMLTransform(TransformId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetMLTransform", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransformId"=>TransformId), args)); aws_config=aws_config)
 
 """
     GetMLTransforms()
@@ -1004,8 +1072,9 @@ Gets a sortable, filterable list of existing AWS Glue machine learning transform
 - `NextToken`: A paginated token to offset the results.
 - `Sort`: The sorting criteria.
 """
-GetMLTransforms(; aws::AWSConfig=AWS.aws_config) = glue("GetMLTransforms"; aws=aws)
-GetMLTransforms(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetMLTransforms", args; aws=aws)
+
+GetMLTransforms(; aws_config::AWSConfig=AWS.aws_config) = glue("GetMLTransforms"; aws_config=aws_config)
+GetMLTransforms(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetMLTransforms", args; aws_config=aws_config)
 
 """
     GetMapping()
@@ -1019,8 +1088,9 @@ Creates mappings.
 - `Location`: Parameters for the mapping.
 - `Sinks`: A list of target tables.
 """
-GetMapping(Source; aws::AWSConfig=AWS.aws_config) = glue("GetMapping", Dict{String, Any}("Source"=>Source); aws=aws)
-GetMapping(Source, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Source"=>Source), args)); aws=aws)
+
+GetMapping(Source; aws_config::AWSConfig=AWS.aws_config) = glue("GetMapping", Dict{String, Any}("Source"=>Source); aws_config=aws_config)
+GetMapping(Source, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetMapping", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Source"=>Source), args)); aws_config=aws_config)
 
 """
     GetPartition()
@@ -1035,8 +1105,9 @@ Retrieves information about a specified partition.
 # Optional Parameters
 - `CatalogId`: The ID of the Data Catalog where the partition in question resides. If none is provided, the AWS account ID is used by default.
 """
-GetPartition(DatabaseName, PartitionValues, TableName; aws::AWSConfig=AWS.aws_config) = glue("GetPartition", Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName); aws=aws)
-GetPartition(DatabaseName, PartitionValues, TableName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetPartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName), args)); aws=aws)
+
+GetPartition(DatabaseName, PartitionValues, TableName; aws_config::AWSConfig=AWS.aws_config) = glue("GetPartition", Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName); aws_config=aws_config)
+GetPartition(DatabaseName, PartitionValues, TableName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetPartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName), args)); aws_config=aws_config)
 
 """
     GetPartitions()
@@ -1054,8 +1125,9 @@ Retrieves information about the partitions in a table.
 - `NextToken`: A continuation token, if this is not the first call to retrieve these partitions.
 - `Segment`: The segment of the table's partitions to scan in this request.
 """
-GetPartitions(DatabaseName, TableName; aws::AWSConfig=AWS.aws_config) = glue("GetPartitions", Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName); aws=aws)
-GetPartitions(DatabaseName, TableName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetPartitions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName), args)); aws=aws)
+
+GetPartitions(DatabaseName, TableName; aws_config::AWSConfig=AWS.aws_config) = glue("GetPartitions", Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName); aws_config=aws_config)
+GetPartitions(DatabaseName, TableName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetPartitions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName), args)); aws_config=aws_config)
 
 """
     GetPlan()
@@ -1071,8 +1143,9 @@ Gets code to perform a specified mapping.
 - `Location`: The parameters for the mapping.
 - `Sinks`: The target tables.
 """
-GetPlan(Mapping, Source; aws::AWSConfig=AWS.aws_config) = glue("GetPlan", Dict{String, Any}("Mapping"=>Mapping, "Source"=>Source); aws=aws)
-GetPlan(Mapping, Source, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Mapping"=>Mapping, "Source"=>Source), args)); aws=aws)
+
+GetPlan(Mapping, Source; aws_config::AWSConfig=AWS.aws_config) = glue("GetPlan", Dict{String, Any}("Mapping"=>Mapping, "Source"=>Source); aws_config=aws_config)
+GetPlan(Mapping, Source, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetPlan", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Mapping"=>Mapping, "Source"=>Source), args)); aws_config=aws_config)
 
 """
     GetResourcePolicies()
@@ -1083,8 +1156,9 @@ Retrieves the security configurations for the resource policies set on individua
 - `MaxResults`: The maximum size of a list to return.
 - `NextToken`: A continuation token, if this is a continuation request.
 """
-GetResourcePolicies(; aws::AWSConfig=AWS.aws_config) = glue("GetResourcePolicies"; aws=aws)
-GetResourcePolicies(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetResourcePolicies", args; aws=aws)
+
+GetResourcePolicies(; aws_config::AWSConfig=AWS.aws_config) = glue("GetResourcePolicies"; aws_config=aws_config)
+GetResourcePolicies(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetResourcePolicies", args; aws_config=aws_config)
 
 """
     GetResourcePolicy()
@@ -1094,8 +1168,9 @@ Retrieves a specified resource policy.
 # Optional Parameters
 - `ResourceArn`: The ARN of the AWS Glue resource for the resource policy to be retrieved. For more information about AWS Glue resource ARNs, see the AWS Glue ARN string pattern 
 """
-GetResourcePolicy(; aws::AWSConfig=AWS.aws_config) = glue("GetResourcePolicy"; aws=aws)
-GetResourcePolicy(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetResourcePolicy", args; aws=aws)
+
+GetResourcePolicy(; aws_config::AWSConfig=AWS.aws_config) = glue("GetResourcePolicy"; aws_config=aws_config)
+GetResourcePolicy(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetResourcePolicy", args; aws_config=aws_config)
 
 """
     GetSecurityConfiguration()
@@ -1106,8 +1181,9 @@ Retrieves a specified security configuration.
 - `Name`: The name of the security configuration to retrieve.
 
 """
-GetSecurityConfiguration(Name; aws::AWSConfig=AWS.aws_config) = glue("GetSecurityConfiguration", Dict{String, Any}("Name"=>Name); aws=aws)
-GetSecurityConfiguration(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetSecurityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+
+GetSecurityConfiguration(Name; aws_config::AWSConfig=AWS.aws_config) = glue("GetSecurityConfiguration", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+GetSecurityConfiguration(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetSecurityConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     GetSecurityConfigurations()
@@ -1118,8 +1194,9 @@ Retrieves a list of all security configurations.
 - `MaxResults`: The maximum number of results to return.
 - `NextToken`: A continuation token, if this is a continuation call.
 """
-GetSecurityConfigurations(; aws::AWSConfig=AWS.aws_config) = glue("GetSecurityConfigurations"; aws=aws)
-GetSecurityConfigurations(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetSecurityConfigurations", args; aws=aws)
+
+GetSecurityConfigurations(; aws_config::AWSConfig=AWS.aws_config) = glue("GetSecurityConfigurations"; aws_config=aws_config)
+GetSecurityConfigurations(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetSecurityConfigurations", args; aws_config=aws_config)
 
 """
     GetTable()
@@ -1133,8 +1210,9 @@ Retrieves the Table definition in a Data Catalog for a specified table.
 # Optional Parameters
 - `CatalogId`: The ID of the Data Catalog where the table resides. If none is provided, the AWS account ID is used by default.
 """
-GetTable(DatabaseName, Name; aws::AWSConfig=AWS.aws_config) = glue("GetTable", Dict{String, Any}("DatabaseName"=>DatabaseName, "Name"=>Name); aws=aws)
-GetTable(DatabaseName, Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "Name"=>Name), args)); aws=aws)
+
+GetTable(DatabaseName, Name; aws_config::AWSConfig=AWS.aws_config) = glue("GetTable", Dict{String, Any}("DatabaseName"=>DatabaseName, "Name"=>Name); aws_config=aws_config)
+GetTable(DatabaseName, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "Name"=>Name), args)); aws_config=aws_config)
 
 """
     GetTableVersion()
@@ -1149,8 +1227,9 @@ Retrieves a specified version of a table.
 - `CatalogId`: The ID of the Data Catalog where the tables reside. If none is provided, the AWS account ID is used by default.
 - `VersionId`: The ID value of the table version to be retrieved. A VersionID is a string representation of an integer. Each version is incremented by 1. 
 """
-GetTableVersion(DatabaseName, TableName; aws::AWSConfig=AWS.aws_config) = glue("GetTableVersion", Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName); aws=aws)
-GetTableVersion(DatabaseName, TableName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetTableVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName), args)); aws=aws)
+
+GetTableVersion(DatabaseName, TableName; aws_config::AWSConfig=AWS.aws_config) = glue("GetTableVersion", Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName); aws_config=aws_config)
+GetTableVersion(DatabaseName, TableName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetTableVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName), args)); aws_config=aws_config)
 
 """
     GetTableVersions()
@@ -1166,8 +1245,9 @@ Retrieves a list of strings that identify available versions of a specified tabl
 - `MaxResults`: The maximum number of table versions to return in one response.
 - `NextToken`: A continuation token, if this is not the first call.
 """
-GetTableVersions(DatabaseName, TableName; aws::AWSConfig=AWS.aws_config) = glue("GetTableVersions", Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName); aws=aws)
-GetTableVersions(DatabaseName, TableName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetTableVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName), args)); aws=aws)
+
+GetTableVersions(DatabaseName, TableName; aws_config::AWSConfig=AWS.aws_config) = glue("GetTableVersions", Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName); aws_config=aws_config)
+GetTableVersions(DatabaseName, TableName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetTableVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableName"=>TableName), args)); aws_config=aws_config)
 
 """
     GetTables()
@@ -1183,8 +1263,9 @@ Retrieves the definitions of some or all of the tables in a given Database.
 - `MaxResults`: The maximum number of tables to return in a single response.
 - `NextToken`: A continuation token, included if this is a continuation call.
 """
-GetTables(DatabaseName; aws::AWSConfig=AWS.aws_config) = glue("GetTables", Dict{String, Any}("DatabaseName"=>DatabaseName); aws=aws)
-GetTables(DatabaseName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetTables", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName), args)); aws=aws)
+
+GetTables(DatabaseName; aws_config::AWSConfig=AWS.aws_config) = glue("GetTables", Dict{String, Any}("DatabaseName"=>DatabaseName); aws_config=aws_config)
+GetTables(DatabaseName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetTables", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName), args)); aws_config=aws_config)
 
 """
     GetTags()
@@ -1195,8 +1276,9 @@ Retrieves a list of tags associated with a resource.
 - `ResourceArn`: The Amazon Resource Name (ARN) of the resource for which to retrieve tags.
 
 """
-GetTags(ResourceArn; aws::AWSConfig=AWS.aws_config) = glue("GetTags", Dict{String, Any}("ResourceArn"=>ResourceArn); aws=aws)
-GetTags(ResourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws=aws)
+
+GetTags(ResourceArn; aws_config::AWSConfig=AWS.aws_config) = glue("GetTags", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
+GetTags(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
 
 """
     GetTrigger()
@@ -1207,8 +1289,9 @@ Retrieves the definition of a trigger.
 - `Name`: The name of the trigger to retrieve.
 
 """
-GetTrigger(Name; aws::AWSConfig=AWS.aws_config) = glue("GetTrigger", Dict{String, Any}("Name"=>Name); aws=aws)
-GetTrigger(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetTrigger", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+
+GetTrigger(Name; aws_config::AWSConfig=AWS.aws_config) = glue("GetTrigger", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+GetTrigger(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetTrigger", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     GetTriggers()
@@ -1220,8 +1303,9 @@ Gets all the triggers associated with a job.
 - `MaxResults`: The maximum size of the response.
 - `NextToken`: A continuation token, if this is a continuation call.
 """
-GetTriggers(; aws::AWSConfig=AWS.aws_config) = glue("GetTriggers"; aws=aws)
-GetTriggers(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetTriggers", args; aws=aws)
+
+GetTriggers(; aws_config::AWSConfig=AWS.aws_config) = glue("GetTriggers"; aws_config=aws_config)
+GetTriggers(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetTriggers", args; aws_config=aws_config)
 
 """
     GetUserDefinedFunction()
@@ -1235,8 +1319,9 @@ Retrieves a specified function definition from the Data Catalog.
 # Optional Parameters
 - `CatalogId`: The ID of the Data Catalog where the function to be retrieved is located. If none is provided, the AWS account ID is used by default.
 """
-GetUserDefinedFunction(DatabaseName, FunctionName; aws::AWSConfig=AWS.aws_config) = glue("GetUserDefinedFunction", Dict{String, Any}("DatabaseName"=>DatabaseName, "FunctionName"=>FunctionName); aws=aws)
-GetUserDefinedFunction(DatabaseName, FunctionName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetUserDefinedFunction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "FunctionName"=>FunctionName), args)); aws=aws)
+
+GetUserDefinedFunction(DatabaseName, FunctionName; aws_config::AWSConfig=AWS.aws_config) = glue("GetUserDefinedFunction", Dict{String, Any}("DatabaseName"=>DatabaseName, "FunctionName"=>FunctionName); aws_config=aws_config)
+GetUserDefinedFunction(DatabaseName, FunctionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetUserDefinedFunction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "FunctionName"=>FunctionName), args)); aws_config=aws_config)
 
 """
     GetUserDefinedFunctions()
@@ -1252,8 +1337,9 @@ Retrieves multiple function definitions from the Data Catalog.
 - `MaxResults`: The maximum number of functions to return in one response.
 - `NextToken`: A continuation token, if this is a continuation call.
 """
-GetUserDefinedFunctions(Pattern; aws::AWSConfig=AWS.aws_config) = glue("GetUserDefinedFunctions", Dict{String, Any}("Pattern"=>Pattern); aws=aws)
-GetUserDefinedFunctions(Pattern, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetUserDefinedFunctions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Pattern"=>Pattern), args)); aws=aws)
+
+GetUserDefinedFunctions(Pattern; aws_config::AWSConfig=AWS.aws_config) = glue("GetUserDefinedFunctions", Dict{String, Any}("Pattern"=>Pattern); aws_config=aws_config)
+GetUserDefinedFunctions(Pattern, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetUserDefinedFunctions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Pattern"=>Pattern), args)); aws_config=aws_config)
 
 """
     GetWorkflow()
@@ -1266,8 +1352,9 @@ Retrieves resource metadata for a workflow.
 # Optional Parameters
 - `IncludeGraph`: Specifies whether to include a graph when returning the workflow resource metadata.
 """
-GetWorkflow(Name; aws::AWSConfig=AWS.aws_config) = glue("GetWorkflow", Dict{String, Any}("Name"=>Name); aws=aws)
-GetWorkflow(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetWorkflow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+
+GetWorkflow(Name; aws_config::AWSConfig=AWS.aws_config) = glue("GetWorkflow", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+GetWorkflow(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetWorkflow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     GetWorkflowRun()
@@ -1281,8 +1368,9 @@ Retrieves the metadata for a given workflow run.
 # Optional Parameters
 - `IncludeGraph`: Specifies whether to include the workflow graph in response or not.
 """
-GetWorkflowRun(Name, RunId; aws::AWSConfig=AWS.aws_config) = glue("GetWorkflowRun", Dict{String, Any}("Name"=>Name, "RunId"=>RunId); aws=aws)
-GetWorkflowRun(Name, RunId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetWorkflowRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RunId"=>RunId), args)); aws=aws)
+
+GetWorkflowRun(Name, RunId; aws_config::AWSConfig=AWS.aws_config) = glue("GetWorkflowRun", Dict{String, Any}("Name"=>Name, "RunId"=>RunId); aws_config=aws_config)
+GetWorkflowRun(Name, RunId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetWorkflowRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RunId"=>RunId), args)); aws_config=aws_config)
 
 """
     GetWorkflowRunProperties()
@@ -1294,8 +1382,9 @@ Retrieves the workflow run properties which were set during the run.
 - `RunId`: The ID of the workflow run whose run properties should be returned.
 
 """
-GetWorkflowRunProperties(Name, RunId; aws::AWSConfig=AWS.aws_config) = glue("GetWorkflowRunProperties", Dict{String, Any}("Name"=>Name, "RunId"=>RunId); aws=aws)
-GetWorkflowRunProperties(Name, RunId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetWorkflowRunProperties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RunId"=>RunId), args)); aws=aws)
+
+GetWorkflowRunProperties(Name, RunId; aws_config::AWSConfig=AWS.aws_config) = glue("GetWorkflowRunProperties", Dict{String, Any}("Name"=>Name, "RunId"=>RunId); aws_config=aws_config)
+GetWorkflowRunProperties(Name, RunId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetWorkflowRunProperties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RunId"=>RunId), args)); aws_config=aws_config)
 
 """
     GetWorkflowRuns()
@@ -1310,8 +1399,9 @@ Retrieves metadata for all runs of a given workflow.
 - `MaxResults`: The maximum number of workflow runs to be included in the response.
 - `NextToken`: The maximum size of the response.
 """
-GetWorkflowRuns(Name; aws::AWSConfig=AWS.aws_config) = glue("GetWorkflowRuns", Dict{String, Any}("Name"=>Name); aws=aws)
-GetWorkflowRuns(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("GetWorkflowRuns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+
+GetWorkflowRuns(Name; aws_config::AWSConfig=AWS.aws_config) = glue("GetWorkflowRuns", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+GetWorkflowRuns(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("GetWorkflowRuns", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     ImportCatalogToGlue()
@@ -1321,8 +1411,9 @@ Imports an existing Amazon Athena Data Catalog to AWS Glue
 # Optional Parameters
 - `CatalogId`: The ID of the catalog to import. Currently, this should be the AWS account ID.
 """
-ImportCatalogToGlue(; aws::AWSConfig=AWS.aws_config) = glue("ImportCatalogToGlue"; aws=aws)
-ImportCatalogToGlue(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("ImportCatalogToGlue", args; aws=aws)
+
+ImportCatalogToGlue(; aws_config::AWSConfig=AWS.aws_config) = glue("ImportCatalogToGlue"; aws_config=aws_config)
+ImportCatalogToGlue(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("ImportCatalogToGlue", args; aws_config=aws_config)
 
 """
     ListCrawlers()
@@ -1334,8 +1425,9 @@ Retrieves the names of all crawler resources in this AWS account, or the resourc
 - `NextToken`: A continuation token, if this is a continuation request.
 - `Tags`: Specifies to return only these tagged resources.
 """
-ListCrawlers(; aws::AWSConfig=AWS.aws_config) = glue("ListCrawlers"; aws=aws)
-ListCrawlers(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("ListCrawlers", args; aws=aws)
+
+ListCrawlers(; aws_config::AWSConfig=AWS.aws_config) = glue("ListCrawlers"; aws_config=aws_config)
+ListCrawlers(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("ListCrawlers", args; aws_config=aws_config)
 
 """
     ListDevEndpoints()
@@ -1347,8 +1439,9 @@ Retrieves the names of all DevEndpoint resources in this AWS account, or the res
 - `NextToken`: A continuation token, if this is a continuation request.
 - `Tags`: Specifies to return only these tagged resources.
 """
-ListDevEndpoints(; aws::AWSConfig=AWS.aws_config) = glue("ListDevEndpoints"; aws=aws)
-ListDevEndpoints(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("ListDevEndpoints", args; aws=aws)
+
+ListDevEndpoints(; aws_config::AWSConfig=AWS.aws_config) = glue("ListDevEndpoints"; aws_config=aws_config)
+ListDevEndpoints(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("ListDevEndpoints", args; aws_config=aws_config)
 
 """
     ListJobs()
@@ -1360,8 +1453,9 @@ Retrieves the names of all job resources in this AWS account, or the resources w
 - `NextToken`: A continuation token, if this is a continuation request.
 - `Tags`: Specifies to return only these tagged resources.
 """
-ListJobs(; aws::AWSConfig=AWS.aws_config) = glue("ListJobs"; aws=aws)
-ListJobs(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("ListJobs", args; aws=aws)
+
+ListJobs(; aws_config::AWSConfig=AWS.aws_config) = glue("ListJobs"; aws_config=aws_config)
+ListJobs(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("ListJobs", args; aws_config=aws_config)
 
 """
     ListMLTransforms()
@@ -1375,8 +1469,9 @@ ListJobs(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glu
 - `Sort`: A TransformSortCriteria used to sort the machine learning transforms.
 - `Tags`: Specifies to return only these tagged resources.
 """
-ListMLTransforms(; aws::AWSConfig=AWS.aws_config) = glue("ListMLTransforms"; aws=aws)
-ListMLTransforms(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("ListMLTransforms", args; aws=aws)
+
+ListMLTransforms(; aws_config::AWSConfig=AWS.aws_config) = glue("ListMLTransforms"; aws_config=aws_config)
+ListMLTransforms(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("ListMLTransforms", args; aws_config=aws_config)
 
 """
     ListTriggers()
@@ -1389,8 +1484,9 @@ Retrieves the names of all trigger resources in this AWS account, or the resourc
 - `NextToken`: A continuation token, if this is a continuation request.
 - `Tags`: Specifies to return only these tagged resources.
 """
-ListTriggers(; aws::AWSConfig=AWS.aws_config) = glue("ListTriggers"; aws=aws)
-ListTriggers(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("ListTriggers", args; aws=aws)
+
+ListTriggers(; aws_config::AWSConfig=AWS.aws_config) = glue("ListTriggers"; aws_config=aws_config)
+ListTriggers(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("ListTriggers", args; aws_config=aws_config)
 
 """
     ListWorkflows()
@@ -1401,8 +1497,9 @@ Lists names of workflows created in the account.
 - `MaxResults`: The maximum size of a list to return.
 - `NextToken`: A continuation token, if this is a continuation request.
 """
-ListWorkflows(; aws::AWSConfig=AWS.aws_config) = glue("ListWorkflows"; aws=aws)
-ListWorkflows(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("ListWorkflows", args; aws=aws)
+
+ListWorkflows(; aws_config::AWSConfig=AWS.aws_config) = glue("ListWorkflows"; aws_config=aws_config)
+ListWorkflows(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("ListWorkflows", args; aws_config=aws_config)
 
 """
     PutDataCatalogEncryptionSettings()
@@ -1415,8 +1512,9 @@ Sets the security configuration for a specified catalog. After the configuration
 # Optional Parameters
 - `CatalogId`: The ID of the Data Catalog to set the security configuration for. If none is provided, the AWS account ID is used by default.
 """
-PutDataCatalogEncryptionSettings(DataCatalogEncryptionSettings; aws::AWSConfig=AWS.aws_config) = glue("PutDataCatalogEncryptionSettings", Dict{String, Any}("DataCatalogEncryptionSettings"=>DataCatalogEncryptionSettings); aws=aws)
-PutDataCatalogEncryptionSettings(DataCatalogEncryptionSettings, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("PutDataCatalogEncryptionSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataCatalogEncryptionSettings"=>DataCatalogEncryptionSettings), args)); aws=aws)
+
+PutDataCatalogEncryptionSettings(DataCatalogEncryptionSettings; aws_config::AWSConfig=AWS.aws_config) = glue("PutDataCatalogEncryptionSettings", Dict{String, Any}("DataCatalogEncryptionSettings"=>DataCatalogEncryptionSettings); aws_config=aws_config)
+PutDataCatalogEncryptionSettings(DataCatalogEncryptionSettings, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("PutDataCatalogEncryptionSettings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DataCatalogEncryptionSettings"=>DataCatalogEncryptionSettings), args)); aws_config=aws_config)
 
 """
     PutResourcePolicy()
@@ -1432,8 +1530,9 @@ Sets the Data Catalog resource policy for access control.
 - `PolicyHashCondition`: The hash value returned when the previous policy was set using PutResourcePolicy. Its purpose is to prevent concurrent modifications of a policy. Do not use this parameter if no previous policy has been set.
 - `ResourceArn`: The ARN of the AWS Glue resource for the resource policy to be set. For more information about AWS Glue resource ARNs, see the AWS Glue ARN string pattern 
 """
-PutResourcePolicy(PolicyInJson; aws::AWSConfig=AWS.aws_config) = glue("PutResourcePolicy", Dict{String, Any}("PolicyInJson"=>PolicyInJson); aws=aws)
-PutResourcePolicy(PolicyInJson, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("PutResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyInJson"=>PolicyInJson), args)); aws=aws)
+
+PutResourcePolicy(PolicyInJson; aws_config::AWSConfig=AWS.aws_config) = glue("PutResourcePolicy", Dict{String, Any}("PolicyInJson"=>PolicyInJson); aws_config=aws_config)
+PutResourcePolicy(PolicyInJson, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("PutResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyInJson"=>PolicyInJson), args)); aws_config=aws_config)
 
 """
     PutWorkflowRunProperties()
@@ -1446,8 +1545,9 @@ Puts the specified workflow run properties for the given workflow run. If a prop
 - `RunProperties`: The properties to put for the specified run.
 
 """
-PutWorkflowRunProperties(Name, RunId, RunProperties; aws::AWSConfig=AWS.aws_config) = glue("PutWorkflowRunProperties", Dict{String, Any}("Name"=>Name, "RunId"=>RunId, "RunProperties"=>RunProperties); aws=aws)
-PutWorkflowRunProperties(Name, RunId, RunProperties, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("PutWorkflowRunProperties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RunId"=>RunId, "RunProperties"=>RunProperties), args)); aws=aws)
+
+PutWorkflowRunProperties(Name, RunId, RunProperties; aws_config::AWSConfig=AWS.aws_config) = glue("PutWorkflowRunProperties", Dict{String, Any}("Name"=>Name, "RunId"=>RunId, "RunProperties"=>RunProperties); aws_config=aws_config)
+PutWorkflowRunProperties(Name, RunId, RunProperties, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("PutWorkflowRunProperties", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RunId"=>RunId, "RunProperties"=>RunProperties), args)); aws_config=aws_config)
 
 """
     ResetJobBookmark()
@@ -1460,8 +1560,9 @@ Resets a bookmark entry.
 # Optional Parameters
 - `RunId`: The unique run identifier associated with this job run.
 """
-ResetJobBookmark(JobName; aws::AWSConfig=AWS.aws_config) = glue("ResetJobBookmark", Dict{String, Any}("JobName"=>JobName); aws=aws)
-ResetJobBookmark(JobName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("ResetJobBookmark", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName), args)); aws=aws)
+
+ResetJobBookmark(JobName; aws_config::AWSConfig=AWS.aws_config) = glue("ResetJobBookmark", Dict{String, Any}("JobName"=>JobName); aws_config=aws_config)
+ResetJobBookmark(JobName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("ResetJobBookmark", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName), args)); aws_config=aws_config)
 
 """
     ResumeWorkflowRun()
@@ -1474,8 +1575,9 @@ Restarts selected nodes of a previous partially completed workflow run and resum
 - `RunId`: The ID of the workflow run to resume.
 
 """
-ResumeWorkflowRun(Name, NodeIds, RunId; aws::AWSConfig=AWS.aws_config) = glue("ResumeWorkflowRun", Dict{String, Any}("Name"=>Name, "NodeIds"=>NodeIds, "RunId"=>RunId); aws=aws)
-ResumeWorkflowRun(Name, NodeIds, RunId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("ResumeWorkflowRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "NodeIds"=>NodeIds, "RunId"=>RunId), args)); aws=aws)
+
+ResumeWorkflowRun(Name, NodeIds, RunId; aws_config::AWSConfig=AWS.aws_config) = glue("ResumeWorkflowRun", Dict{String, Any}("Name"=>Name, "NodeIds"=>NodeIds, "RunId"=>RunId); aws_config=aws_config)
+ResumeWorkflowRun(Name, NodeIds, RunId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("ResumeWorkflowRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "NodeIds"=>NodeIds, "RunId"=>RunId), args)); aws_config=aws_config)
 
 """
     SearchTables()
@@ -1491,8 +1593,9 @@ Searches a set of tables based on properties in the table metadata as well as on
 - `SearchText`: A string used for a text search. Specifying a value in quotes filters based on an exact match to the value.
 - `SortCriteria`: A list of criteria for sorting the results by a field name, in an ascending or descending order.
 """
-SearchTables(; aws::AWSConfig=AWS.aws_config) = glue("SearchTables"; aws=aws)
-SearchTables(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("SearchTables", args; aws=aws)
+
+SearchTables(; aws_config::AWSConfig=AWS.aws_config) = glue("SearchTables"; aws_config=aws_config)
+SearchTables(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("SearchTables", args; aws_config=aws_config)
 
 """
     StartCrawler()
@@ -1503,8 +1606,9 @@ Starts a crawl using the specified crawler, regardless of what is scheduled. If 
 - `Name`: Name of the crawler to start.
 
 """
-StartCrawler(Name; aws::AWSConfig=AWS.aws_config) = glue("StartCrawler", Dict{String, Any}("Name"=>Name); aws=aws)
-StartCrawler(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("StartCrawler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+
+StartCrawler(Name; aws_config::AWSConfig=AWS.aws_config) = glue("StartCrawler", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+StartCrawler(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("StartCrawler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     StartCrawlerSchedule()
@@ -1515,8 +1619,9 @@ Changes the schedule state of the specified crawler to SCHEDULED, unless the cra
 - `CrawlerName`: Name of the crawler to schedule.
 
 """
-StartCrawlerSchedule(CrawlerName; aws::AWSConfig=AWS.aws_config) = glue("StartCrawlerSchedule", Dict{String, Any}("CrawlerName"=>CrawlerName); aws=aws)
-StartCrawlerSchedule(CrawlerName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("StartCrawlerSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CrawlerName"=>CrawlerName), args)); aws=aws)
+
+StartCrawlerSchedule(CrawlerName; aws_config::AWSConfig=AWS.aws_config) = glue("StartCrawlerSchedule", Dict{String, Any}("CrawlerName"=>CrawlerName); aws_config=aws_config)
+StartCrawlerSchedule(CrawlerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("StartCrawlerSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CrawlerName"=>CrawlerName), args)); aws_config=aws_config)
 
 """
     StartExportLabelsTaskRun()
@@ -1528,8 +1633,9 @@ Begins an asynchronous task to export all labeled data for a particular transfor
 - `TransformId`: The unique identifier of the machine learning transform.
 
 """
-StartExportLabelsTaskRun(OutputS3Path, TransformId; aws::AWSConfig=AWS.aws_config) = glue("StartExportLabelsTaskRun", Dict{String, Any}("OutputS3Path"=>OutputS3Path, "TransformId"=>TransformId); aws=aws)
-StartExportLabelsTaskRun(OutputS3Path, TransformId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("StartExportLabelsTaskRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutputS3Path"=>OutputS3Path, "TransformId"=>TransformId), args)); aws=aws)
+
+StartExportLabelsTaskRun(OutputS3Path, TransformId; aws_config::AWSConfig=AWS.aws_config) = glue("StartExportLabelsTaskRun", Dict{String, Any}("OutputS3Path"=>OutputS3Path, "TransformId"=>TransformId); aws_config=aws_config)
+StartExportLabelsTaskRun(OutputS3Path, TransformId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("StartExportLabelsTaskRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutputS3Path"=>OutputS3Path, "TransformId"=>TransformId), args)); aws_config=aws_config)
 
 """
     StartImportLabelsTaskRun()
@@ -1543,8 +1649,9 @@ Enables you to provide additional labels (examples of truth) to be used to teach
 # Optional Parameters
 - `ReplaceAllLabels`: Indicates whether to overwrite your existing labels.
 """
-StartImportLabelsTaskRun(InputS3Path, TransformId; aws::AWSConfig=AWS.aws_config) = glue("StartImportLabelsTaskRun", Dict{String, Any}("InputS3Path"=>InputS3Path, "TransformId"=>TransformId); aws=aws)
-StartImportLabelsTaskRun(InputS3Path, TransformId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("StartImportLabelsTaskRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InputS3Path"=>InputS3Path, "TransformId"=>TransformId), args)); aws=aws)
+
+StartImportLabelsTaskRun(InputS3Path, TransformId; aws_config::AWSConfig=AWS.aws_config) = glue("StartImportLabelsTaskRun", Dict{String, Any}("InputS3Path"=>InputS3Path, "TransformId"=>TransformId); aws_config=aws_config)
+StartImportLabelsTaskRun(InputS3Path, TransformId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("StartImportLabelsTaskRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InputS3Path"=>InputS3Path, "TransformId"=>TransformId), args)); aws_config=aws_config)
 
 """
     StartJobRun()
@@ -1565,8 +1672,9 @@ Starts a job run using a job definition.
 - `Timeout`: The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours). This overrides the timeout value set in the parent job.
 - `WorkerType`: The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.  
 """
-StartJobRun(JobName; aws::AWSConfig=AWS.aws_config) = glue("StartJobRun", Dict{String, Any}("JobName"=>JobName); aws=aws)
-StartJobRun(JobName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("StartJobRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName), args)); aws=aws)
+
+StartJobRun(JobName; aws_config::AWSConfig=AWS.aws_config) = glue("StartJobRun", Dict{String, Any}("JobName"=>JobName); aws_config=aws_config)
+StartJobRun(JobName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("StartJobRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName), args)); aws_config=aws_config)
 
 """
     StartMLEvaluationTaskRun()
@@ -1577,8 +1685,9 @@ Starts a task to estimate the quality of the transform.  When you provide label 
 - `TransformId`: The unique identifier of the machine learning transform.
 
 """
-StartMLEvaluationTaskRun(TransformId; aws::AWSConfig=AWS.aws_config) = glue("StartMLEvaluationTaskRun", Dict{String, Any}("TransformId"=>TransformId); aws=aws)
-StartMLEvaluationTaskRun(TransformId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("StartMLEvaluationTaskRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransformId"=>TransformId), args)); aws=aws)
+
+StartMLEvaluationTaskRun(TransformId; aws_config::AWSConfig=AWS.aws_config) = glue("StartMLEvaluationTaskRun", Dict{String, Any}("TransformId"=>TransformId); aws_config=aws_config)
+StartMLEvaluationTaskRun(TransformId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("StartMLEvaluationTaskRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransformId"=>TransformId), args)); aws_config=aws_config)
 
 """
     StartMLLabelingSetGenerationTaskRun()
@@ -1590,8 +1699,9 @@ Starts the active learning workflow for your machine learning transform to impro
 - `TransformId`: The unique identifier of the machine learning transform.
 
 """
-StartMLLabelingSetGenerationTaskRun(OutputS3Path, TransformId; aws::AWSConfig=AWS.aws_config) = glue("StartMLLabelingSetGenerationTaskRun", Dict{String, Any}("OutputS3Path"=>OutputS3Path, "TransformId"=>TransformId); aws=aws)
-StartMLLabelingSetGenerationTaskRun(OutputS3Path, TransformId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("StartMLLabelingSetGenerationTaskRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutputS3Path"=>OutputS3Path, "TransformId"=>TransformId), args)); aws=aws)
+
+StartMLLabelingSetGenerationTaskRun(OutputS3Path, TransformId; aws_config::AWSConfig=AWS.aws_config) = glue("StartMLLabelingSetGenerationTaskRun", Dict{String, Any}("OutputS3Path"=>OutputS3Path, "TransformId"=>TransformId); aws_config=aws_config)
+StartMLLabelingSetGenerationTaskRun(OutputS3Path, TransformId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("StartMLLabelingSetGenerationTaskRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OutputS3Path"=>OutputS3Path, "TransformId"=>TransformId), args)); aws_config=aws_config)
 
 """
     StartTrigger()
@@ -1602,8 +1712,9 @@ Starts an existing trigger. See Triggering Jobs for information about how differ
 - `Name`: The name of the trigger to start.
 
 """
-StartTrigger(Name; aws::AWSConfig=AWS.aws_config) = glue("StartTrigger", Dict{String, Any}("Name"=>Name); aws=aws)
-StartTrigger(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("StartTrigger", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+
+StartTrigger(Name; aws_config::AWSConfig=AWS.aws_config) = glue("StartTrigger", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+StartTrigger(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("StartTrigger", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     StartWorkflowRun()
@@ -1614,8 +1725,9 @@ Starts a new run of the specified workflow.
 - `Name`: The name of the workflow to start.
 
 """
-StartWorkflowRun(Name; aws::AWSConfig=AWS.aws_config) = glue("StartWorkflowRun", Dict{String, Any}("Name"=>Name); aws=aws)
-StartWorkflowRun(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("StartWorkflowRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+
+StartWorkflowRun(Name; aws_config::AWSConfig=AWS.aws_config) = glue("StartWorkflowRun", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+StartWorkflowRun(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("StartWorkflowRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     StopCrawler()
@@ -1626,8 +1738,9 @@ If the specified crawler is running, stops the crawl.
 - `Name`: Name of the crawler to stop.
 
 """
-StopCrawler(Name; aws::AWSConfig=AWS.aws_config) = glue("StopCrawler", Dict{String, Any}("Name"=>Name); aws=aws)
-StopCrawler(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("StopCrawler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+
+StopCrawler(Name; aws_config::AWSConfig=AWS.aws_config) = glue("StopCrawler", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+StopCrawler(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("StopCrawler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     StopCrawlerSchedule()
@@ -1638,8 +1751,9 @@ Sets the schedule state of the specified crawler to NOT_SCHEDULED, but does not 
 - `CrawlerName`: Name of the crawler whose schedule state to set.
 
 """
-StopCrawlerSchedule(CrawlerName; aws::AWSConfig=AWS.aws_config) = glue("StopCrawlerSchedule", Dict{String, Any}("CrawlerName"=>CrawlerName); aws=aws)
-StopCrawlerSchedule(CrawlerName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("StopCrawlerSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CrawlerName"=>CrawlerName), args)); aws=aws)
+
+StopCrawlerSchedule(CrawlerName; aws_config::AWSConfig=AWS.aws_config) = glue("StopCrawlerSchedule", Dict{String, Any}("CrawlerName"=>CrawlerName); aws_config=aws_config)
+StopCrawlerSchedule(CrawlerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("StopCrawlerSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CrawlerName"=>CrawlerName), args)); aws_config=aws_config)
 
 """
     StopTrigger()
@@ -1650,8 +1764,9 @@ Stops a specified trigger.
 - `Name`: The name of the trigger to stop.
 
 """
-StopTrigger(Name; aws::AWSConfig=AWS.aws_config) = glue("StopTrigger", Dict{String, Any}("Name"=>Name); aws=aws)
-StopTrigger(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("StopTrigger", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+
+StopTrigger(Name; aws_config::AWSConfig=AWS.aws_config) = glue("StopTrigger", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+StopTrigger(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("StopTrigger", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     StopWorkflowRun()
@@ -1663,8 +1778,9 @@ Stops the execution of the specified workflow run.
 - `RunId`: The ID of the workflow run to stop.
 
 """
-StopWorkflowRun(Name, RunId; aws::AWSConfig=AWS.aws_config) = glue("StopWorkflowRun", Dict{String, Any}("Name"=>Name, "RunId"=>RunId); aws=aws)
-StopWorkflowRun(Name, RunId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("StopWorkflowRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RunId"=>RunId), args)); aws=aws)
+
+StopWorkflowRun(Name, RunId; aws_config::AWSConfig=AWS.aws_config) = glue("StopWorkflowRun", Dict{String, Any}("Name"=>Name, "RunId"=>RunId); aws_config=aws_config)
+StopWorkflowRun(Name, RunId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("StopWorkflowRun", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "RunId"=>RunId), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -1676,8 +1792,9 @@ Adds tags to a resource. A tag is a label you can assign to an AWS resource. In 
 - `TagsToAdd`: Tags to add to this resource.
 
 """
-TagResource(ResourceArn, TagsToAdd; aws::AWSConfig=AWS.aws_config) = glue("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagsToAdd"=>TagsToAdd); aws=aws)
-TagResource(ResourceArn, TagsToAdd, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagsToAdd"=>TagsToAdd), args)); aws=aws)
+
+TagResource(ResourceArn, TagsToAdd; aws_config::AWSConfig=AWS.aws_config) = glue("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagsToAdd"=>TagsToAdd); aws_config=aws_config)
+TagResource(ResourceArn, TagsToAdd, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagsToAdd"=>TagsToAdd), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -1689,8 +1806,9 @@ Removes tags from a resource.
 - `TagsToRemove`: Tags to remove from this resource.
 
 """
-UntagResource(ResourceArn, TagsToRemove; aws::AWSConfig=AWS.aws_config) = glue("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagsToRemove"=>TagsToRemove); aws=aws)
-UntagResource(ResourceArn, TagsToRemove, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagsToRemove"=>TagsToRemove), args)); aws=aws)
+
+UntagResource(ResourceArn, TagsToRemove; aws_config::AWSConfig=AWS.aws_config) = glue("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagsToRemove"=>TagsToRemove); aws_config=aws_config)
+UntagResource(ResourceArn, TagsToRemove, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagsToRemove"=>TagsToRemove), args)); aws_config=aws_config)
 
 """
     UpdateClassifier()
@@ -1703,8 +1821,9 @@ Modifies an existing classifier (a GrokClassifier, an XMLClassifier, a JsonClass
 - `JsonClassifier`: A JsonClassifier object with updated fields.
 - `XMLClassifier`: An XMLClassifier object with updated fields.
 """
-UpdateClassifier(; aws::AWSConfig=AWS.aws_config) = glue("UpdateClassifier"; aws=aws)
-UpdateClassifier(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("UpdateClassifier", args; aws=aws)
+
+UpdateClassifier(; aws_config::AWSConfig=AWS.aws_config) = glue("UpdateClassifier"; aws_config=aws_config)
+UpdateClassifier(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("UpdateClassifier", args; aws_config=aws_config)
 
 """
     UpdateColumnStatisticsForPartition()
@@ -1720,8 +1839,9 @@ Creates or updates partition statistics of columns.
 # Optional Parameters
 - `CatalogId`: The ID of the Data Catalog where the partitions in question reside. If none is supplied, the AWS account ID is used by default.
 """
-UpdateColumnStatisticsForPartition(ColumnStatisticsList, DatabaseName, PartitionValues, TableName; aws::AWSConfig=AWS.aws_config) = glue("UpdateColumnStatisticsForPartition", Dict{String, Any}("ColumnStatisticsList"=>ColumnStatisticsList, "DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName); aws=aws)
-UpdateColumnStatisticsForPartition(ColumnStatisticsList, DatabaseName, PartitionValues, TableName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("UpdateColumnStatisticsForPartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ColumnStatisticsList"=>ColumnStatisticsList, "DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName), args)); aws=aws)
+
+UpdateColumnStatisticsForPartition(ColumnStatisticsList, DatabaseName, PartitionValues, TableName; aws_config::AWSConfig=AWS.aws_config) = glue("UpdateColumnStatisticsForPartition", Dict{String, Any}("ColumnStatisticsList"=>ColumnStatisticsList, "DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName); aws_config=aws_config)
+UpdateColumnStatisticsForPartition(ColumnStatisticsList, DatabaseName, PartitionValues, TableName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("UpdateColumnStatisticsForPartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ColumnStatisticsList"=>ColumnStatisticsList, "DatabaseName"=>DatabaseName, "PartitionValues"=>PartitionValues, "TableName"=>TableName), args)); aws_config=aws_config)
 
 """
     UpdateColumnStatisticsForTable()
@@ -1736,8 +1856,9 @@ Creates or updates table statistics of columns.
 # Optional Parameters
 - `CatalogId`: The ID of the Data Catalog where the partitions in question reside. If none is supplied, the AWS account ID is used by default.
 """
-UpdateColumnStatisticsForTable(ColumnStatisticsList, DatabaseName, TableName; aws::AWSConfig=AWS.aws_config) = glue("UpdateColumnStatisticsForTable", Dict{String, Any}("ColumnStatisticsList"=>ColumnStatisticsList, "DatabaseName"=>DatabaseName, "TableName"=>TableName); aws=aws)
-UpdateColumnStatisticsForTable(ColumnStatisticsList, DatabaseName, TableName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("UpdateColumnStatisticsForTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ColumnStatisticsList"=>ColumnStatisticsList, "DatabaseName"=>DatabaseName, "TableName"=>TableName), args)); aws=aws)
+
+UpdateColumnStatisticsForTable(ColumnStatisticsList, DatabaseName, TableName; aws_config::AWSConfig=AWS.aws_config) = glue("UpdateColumnStatisticsForTable", Dict{String, Any}("ColumnStatisticsList"=>ColumnStatisticsList, "DatabaseName"=>DatabaseName, "TableName"=>TableName); aws_config=aws_config)
+UpdateColumnStatisticsForTable(ColumnStatisticsList, DatabaseName, TableName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("UpdateColumnStatisticsForTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ColumnStatisticsList"=>ColumnStatisticsList, "DatabaseName"=>DatabaseName, "TableName"=>TableName), args)); aws_config=aws_config)
 
 """
     UpdateConnection()
@@ -1751,8 +1872,9 @@ Updates a connection definition in the Data Catalog.
 # Optional Parameters
 - `CatalogId`: The ID of the Data Catalog in which the connection resides. If none is provided, the AWS account ID is used by default.
 """
-UpdateConnection(ConnectionInput, Name; aws::AWSConfig=AWS.aws_config) = glue("UpdateConnection", Dict{String, Any}("ConnectionInput"=>ConnectionInput, "Name"=>Name); aws=aws)
-UpdateConnection(ConnectionInput, Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("UpdateConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionInput"=>ConnectionInput, "Name"=>Name), args)); aws=aws)
+
+UpdateConnection(ConnectionInput, Name; aws_config::AWSConfig=AWS.aws_config) = glue("UpdateConnection", Dict{String, Any}("ConnectionInput"=>ConnectionInput, "Name"=>Name); aws_config=aws_config)
+UpdateConnection(ConnectionInput, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("UpdateConnection", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ConnectionInput"=>ConnectionInput, "Name"=>Name), args)); aws_config=aws_config)
 
 """
     UpdateCrawler()
@@ -1774,8 +1896,9 @@ Updates a crawler. If a crawler is running, you must stop it using StopCrawler b
 - `TablePrefix`: The table prefix used for catalog tables that are created.
 - `Targets`: A list of targets to crawl.
 """
-UpdateCrawler(Name; aws::AWSConfig=AWS.aws_config) = glue("UpdateCrawler", Dict{String, Any}("Name"=>Name); aws=aws)
-UpdateCrawler(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("UpdateCrawler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+
+UpdateCrawler(Name; aws_config::AWSConfig=AWS.aws_config) = glue("UpdateCrawler", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+UpdateCrawler(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("UpdateCrawler", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     UpdateCrawlerSchedule()
@@ -1788,8 +1911,9 @@ Updates the schedule of a crawler using a cron expression.
 # Optional Parameters
 - `Schedule`: The updated cron expression used to specify the schedule (see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, you would specify: cron(15 12 * * ? *).
 """
-UpdateCrawlerSchedule(CrawlerName; aws::AWSConfig=AWS.aws_config) = glue("UpdateCrawlerSchedule", Dict{String, Any}("CrawlerName"=>CrawlerName); aws=aws)
-UpdateCrawlerSchedule(CrawlerName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("UpdateCrawlerSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CrawlerName"=>CrawlerName), args)); aws=aws)
+
+UpdateCrawlerSchedule(CrawlerName; aws_config::AWSConfig=AWS.aws_config) = glue("UpdateCrawlerSchedule", Dict{String, Any}("CrawlerName"=>CrawlerName); aws_config=aws_config)
+UpdateCrawlerSchedule(CrawlerName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("UpdateCrawlerSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CrawlerName"=>CrawlerName), args)); aws_config=aws_config)
 
 """
     UpdateDatabase()
@@ -1803,8 +1927,9 @@ Updates an existing database definition in a Data Catalog.
 # Optional Parameters
 - `CatalogId`: The ID of the Data Catalog in which the metadata database resides. If none is provided, the AWS account ID is used by default.
 """
-UpdateDatabase(DatabaseInput, Name; aws::AWSConfig=AWS.aws_config) = glue("UpdateDatabase", Dict{String, Any}("DatabaseInput"=>DatabaseInput, "Name"=>Name); aws=aws)
-UpdateDatabase(DatabaseInput, Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("UpdateDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseInput"=>DatabaseInput, "Name"=>Name), args)); aws=aws)
+
+UpdateDatabase(DatabaseInput, Name; aws_config::AWSConfig=AWS.aws_config) = glue("UpdateDatabase", Dict{String, Any}("DatabaseInput"=>DatabaseInput, "Name"=>Name); aws_config=aws_config)
+UpdateDatabase(DatabaseInput, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("UpdateDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseInput"=>DatabaseInput, "Name"=>Name), args)); aws_config=aws_config)
 
 """
     UpdateDevEndpoint()
@@ -1823,8 +1948,9 @@ Updates a specified development endpoint.
 - `PublicKey`: The public key for the DevEndpoint to use.
 - `UpdateEtlLibraries`:  True if the list of custom libraries to be loaded in the development endpoint needs to be updated, or False if otherwise.
 """
-UpdateDevEndpoint(EndpointName; aws::AWSConfig=AWS.aws_config) = glue("UpdateDevEndpoint", Dict{String, Any}("EndpointName"=>EndpointName); aws=aws)
-UpdateDevEndpoint(EndpointName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("UpdateDevEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointName"=>EndpointName), args)); aws=aws)
+
+UpdateDevEndpoint(EndpointName; aws_config::AWSConfig=AWS.aws_config) = glue("UpdateDevEndpoint", Dict{String, Any}("EndpointName"=>EndpointName); aws_config=aws_config)
+UpdateDevEndpoint(EndpointName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("UpdateDevEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointName"=>EndpointName), args)); aws_config=aws_config)
 
 """
     UpdateJob()
@@ -1836,8 +1962,9 @@ Updates an existing job definition.
 - `JobUpdate`: Specifies the values with which to update the job definition.
 
 """
-UpdateJob(JobName, JobUpdate; aws::AWSConfig=AWS.aws_config) = glue("UpdateJob", Dict{String, Any}("JobName"=>JobName, "JobUpdate"=>JobUpdate); aws=aws)
-UpdateJob(JobName, JobUpdate, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("UpdateJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName, "JobUpdate"=>JobUpdate), args)); aws=aws)
+
+UpdateJob(JobName, JobUpdate; aws_config::AWSConfig=AWS.aws_config) = glue("UpdateJob", Dict{String, Any}("JobName"=>JobName, "JobUpdate"=>JobUpdate); aws_config=aws_config)
+UpdateJob(JobName, JobUpdate, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("UpdateJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobName"=>JobName, "JobUpdate"=>JobUpdate), args)); aws_config=aws_config)
 
 """
     UpdateMLTransform()
@@ -1859,8 +1986,9 @@ Updates an existing machine learning transform. Call this operation to tune the 
 - `Timeout`: The timeout for a task run for this transform in minutes. This is the maximum time that a task run for this transform can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
 - `WorkerType`: The type of predefined worker that is allocated when this task runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.  
 """
-UpdateMLTransform(TransformId; aws::AWSConfig=AWS.aws_config) = glue("UpdateMLTransform", Dict{String, Any}("TransformId"=>TransformId); aws=aws)
-UpdateMLTransform(TransformId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("UpdateMLTransform", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransformId"=>TransformId), args)); aws=aws)
+
+UpdateMLTransform(TransformId; aws_config::AWSConfig=AWS.aws_config) = glue("UpdateMLTransform", Dict{String, Any}("TransformId"=>TransformId); aws_config=aws_config)
+UpdateMLTransform(TransformId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("UpdateMLTransform", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransformId"=>TransformId), args)); aws_config=aws_config)
 
 """
     UpdatePartition()
@@ -1876,8 +2004,9 @@ Updates a partition.
 # Optional Parameters
 - `CatalogId`: The ID of the Data Catalog where the partition to be updated resides. If none is provided, the AWS account ID is used by default.
 """
-UpdatePartition(DatabaseName, PartitionInput, PartitionValueList, TableName; aws::AWSConfig=AWS.aws_config) = glue("UpdatePartition", Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionInput"=>PartitionInput, "PartitionValueList"=>PartitionValueList, "TableName"=>TableName); aws=aws)
-UpdatePartition(DatabaseName, PartitionInput, PartitionValueList, TableName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("UpdatePartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionInput"=>PartitionInput, "PartitionValueList"=>PartitionValueList, "TableName"=>TableName), args)); aws=aws)
+
+UpdatePartition(DatabaseName, PartitionInput, PartitionValueList, TableName; aws_config::AWSConfig=AWS.aws_config) = glue("UpdatePartition", Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionInput"=>PartitionInput, "PartitionValueList"=>PartitionValueList, "TableName"=>TableName); aws_config=aws_config)
+UpdatePartition(DatabaseName, PartitionInput, PartitionValueList, TableName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("UpdatePartition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "PartitionInput"=>PartitionInput, "PartitionValueList"=>PartitionValueList, "TableName"=>TableName), args)); aws_config=aws_config)
 
 """
     UpdateTable()
@@ -1892,8 +2021,9 @@ Updates a metadata table in the Data Catalog.
 - `CatalogId`: The ID of the Data Catalog where the table resides. If none is provided, the AWS account ID is used by default.
 - `SkipArchive`: By default, UpdateTable always creates an archived version of the table before updating it. However, if skipArchive is set to true, UpdateTable does not create the archived version.
 """
-UpdateTable(DatabaseName, TableInput; aws::AWSConfig=AWS.aws_config) = glue("UpdateTable", Dict{String, Any}("DatabaseName"=>DatabaseName, "TableInput"=>TableInput); aws=aws)
-UpdateTable(DatabaseName, TableInput, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("UpdateTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableInput"=>TableInput), args)); aws=aws)
+
+UpdateTable(DatabaseName, TableInput; aws_config::AWSConfig=AWS.aws_config) = glue("UpdateTable", Dict{String, Any}("DatabaseName"=>DatabaseName, "TableInput"=>TableInput); aws_config=aws_config)
+UpdateTable(DatabaseName, TableInput, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("UpdateTable", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "TableInput"=>TableInput), args)); aws_config=aws_config)
 
 """
     UpdateTrigger()
@@ -1905,8 +2035,9 @@ Updates a trigger definition.
 - `TriggerUpdate`: The new values with which to update the trigger.
 
 """
-UpdateTrigger(Name, TriggerUpdate; aws::AWSConfig=AWS.aws_config) = glue("UpdateTrigger", Dict{String, Any}("Name"=>Name, "TriggerUpdate"=>TriggerUpdate); aws=aws)
-UpdateTrigger(Name, TriggerUpdate, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("UpdateTrigger", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "TriggerUpdate"=>TriggerUpdate), args)); aws=aws)
+
+UpdateTrigger(Name, TriggerUpdate; aws_config::AWSConfig=AWS.aws_config) = glue("UpdateTrigger", Dict{String, Any}("Name"=>Name, "TriggerUpdate"=>TriggerUpdate); aws_config=aws_config)
+UpdateTrigger(Name, TriggerUpdate, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("UpdateTrigger", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "TriggerUpdate"=>TriggerUpdate), args)); aws_config=aws_config)
 
 """
     UpdateUserDefinedFunction()
@@ -1921,8 +2052,9 @@ Updates an existing function definition in the Data Catalog.
 # Optional Parameters
 - `CatalogId`: The ID of the Data Catalog where the function to be updated is located. If none is provided, the AWS account ID is used by default.
 """
-UpdateUserDefinedFunction(DatabaseName, FunctionInput, FunctionName; aws::AWSConfig=AWS.aws_config) = glue("UpdateUserDefinedFunction", Dict{String, Any}("DatabaseName"=>DatabaseName, "FunctionInput"=>FunctionInput, "FunctionName"=>FunctionName); aws=aws)
-UpdateUserDefinedFunction(DatabaseName, FunctionInput, FunctionName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("UpdateUserDefinedFunction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "FunctionInput"=>FunctionInput, "FunctionName"=>FunctionName), args)); aws=aws)
+
+UpdateUserDefinedFunction(DatabaseName, FunctionInput, FunctionName; aws_config::AWSConfig=AWS.aws_config) = glue("UpdateUserDefinedFunction", Dict{String, Any}("DatabaseName"=>DatabaseName, "FunctionInput"=>FunctionInput, "FunctionName"=>FunctionName); aws_config=aws_config)
+UpdateUserDefinedFunction(DatabaseName, FunctionInput, FunctionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("UpdateUserDefinedFunction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DatabaseName"=>DatabaseName, "FunctionInput"=>FunctionInput, "FunctionName"=>FunctionName), args)); aws_config=aws_config)
 
 """
     UpdateWorkflow()
@@ -1937,5 +2069,6 @@ Updates an existing workflow.
 - `Description`: The description of the workflow.
 - `MaxConcurrentRuns`: You can use this parameter to prevent unwanted multiple updates to data, to control costs, or in some cases, to prevent exceeding the maximum number of concurrent runs of any of the component jobs. If you leave this parameter blank, there is no limit to the number of concurrent workflow runs.
 """
-UpdateWorkflow(Name; aws::AWSConfig=AWS.aws_config) = glue("UpdateWorkflow", Dict{String, Any}("Name"=>Name); aws=aws)
-UpdateWorkflow(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = glue("UpdateWorkflow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+
+UpdateWorkflow(Name; aws_config::AWSConfig=AWS.aws_config) = glue("UpdateWorkflow", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+UpdateWorkflow(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = glue("UpdateWorkflow", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)

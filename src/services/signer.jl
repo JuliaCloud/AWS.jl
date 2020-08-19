@@ -13,8 +13,9 @@ Changes the state of an ACTIVE signing profile to CANCELED. A canceled profile i
 - `profileName`: The name of the signing profile to be canceled.
 
 """
-CancelSigningProfile(profileName; aws::AWSConfig=AWS.aws_config) = signer("DELETE", "/signing-profiles/$(profileName)"; aws=aws)
-CancelSigningProfile(profileName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = signer("DELETE", "/signing-profiles/$(profileName)", args; aws=aws)
+
+CancelSigningProfile(profileName; aws_config::AWSConfig=AWS.aws_config) = signer("DELETE", "/signing-profiles/$(profileName)"; aws_config=aws_config)
+CancelSigningProfile(profileName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = signer("DELETE", "/signing-profiles/$(profileName)", args; aws_config=aws_config)
 
 """
     DescribeSigningJob()
@@ -25,8 +26,9 @@ Returns information about a specific code signing job. You specify the job by us
 - `jobId`: The ID of the signing job on input.
 
 """
-DescribeSigningJob(jobId; aws::AWSConfig=AWS.aws_config) = signer("GET", "/signing-jobs/$(jobId)"; aws=aws)
-DescribeSigningJob(jobId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = signer("GET", "/signing-jobs/$(jobId)", args; aws=aws)
+
+DescribeSigningJob(jobId; aws_config::AWSConfig=AWS.aws_config) = signer("GET", "/signing-jobs/$(jobId)"; aws_config=aws_config)
+DescribeSigningJob(jobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = signer("GET", "/signing-jobs/$(jobId)", args; aws_config=aws_config)
 
 """
     GetSigningPlatform()
@@ -37,8 +39,9 @@ Returns information on a specific signing platform.
 - `platformId`: The ID of the target signing platform.
 
 """
-GetSigningPlatform(platformId; aws::AWSConfig=AWS.aws_config) = signer("GET", "/signing-platforms/$(platformId)"; aws=aws)
-GetSigningPlatform(platformId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = signer("GET", "/signing-platforms/$(platformId)", args; aws=aws)
+
+GetSigningPlatform(platformId; aws_config::AWSConfig=AWS.aws_config) = signer("GET", "/signing-platforms/$(platformId)"; aws_config=aws_config)
+GetSigningPlatform(platformId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = signer("GET", "/signing-platforms/$(platformId)", args; aws_config=aws_config)
 
 """
     GetSigningProfile()
@@ -49,8 +52,9 @@ Returns information on a specific signing profile.
 - `profileName`: The name of the target signing profile.
 
 """
-GetSigningProfile(profileName; aws::AWSConfig=AWS.aws_config) = signer("GET", "/signing-profiles/$(profileName)"; aws=aws)
-GetSigningProfile(profileName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = signer("GET", "/signing-profiles/$(profileName)", args; aws=aws)
+
+GetSigningProfile(profileName; aws_config::AWSConfig=AWS.aws_config) = signer("GET", "/signing-profiles/$(profileName)"; aws_config=aws_config)
+GetSigningProfile(profileName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = signer("GET", "/signing-profiles/$(profileName)", args; aws_config=aws_config)
 
 """
     ListSigningJobs()
@@ -64,8 +68,9 @@ Lists all your signing jobs. You can use the maxResults parameter to limit the n
 - `requestedBy`: The IAM principal that requested the signing job.
 - `status`: A status value with which to filter your results.
 """
-ListSigningJobs(; aws::AWSConfig=AWS.aws_config) = signer("GET", "/signing-jobs"; aws=aws)
-ListSigningJobs(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = signer("GET", "/signing-jobs", args; aws=aws)
+
+ListSigningJobs(; aws_config::AWSConfig=AWS.aws_config) = signer("GET", "/signing-jobs"; aws_config=aws_config)
+ListSigningJobs(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = signer("GET", "/signing-jobs", args; aws_config=aws_config)
 
 """
     ListSigningPlatforms()
@@ -79,8 +84,9 @@ Lists all signing platforms available in code signing that match the request par
 - `partner`: Any partner entities connected to a signing platform.
 - `target`: The validation template that is used by the target signing platform.
 """
-ListSigningPlatforms(; aws::AWSConfig=AWS.aws_config) = signer("GET", "/signing-platforms"; aws=aws)
-ListSigningPlatforms(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = signer("GET", "/signing-platforms", args; aws=aws)
+
+ListSigningPlatforms(; aws_config::AWSConfig=AWS.aws_config) = signer("GET", "/signing-platforms"; aws_config=aws_config)
+ListSigningPlatforms(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = signer("GET", "/signing-platforms", args; aws_config=aws_config)
 
 """
     ListSigningProfiles()
@@ -92,8 +98,9 @@ Lists all available signing profiles in your AWS account. Returns only profiles 
 - `maxResults`: The maximum number of profiles to be returned.
 - `nextToken`: Value for specifying the next set of paginated results to return. After you receive a response with truncated results, use this parameter in a subsequent request. Set it to the value of nextToken from the response that you just received.
 """
-ListSigningProfiles(; aws::AWSConfig=AWS.aws_config) = signer("GET", "/signing-profiles"; aws=aws)
-ListSigningProfiles(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = signer("GET", "/signing-profiles", args; aws=aws)
+
+ListSigningProfiles(; aws_config::AWSConfig=AWS.aws_config) = signer("GET", "/signing-profiles"; aws_config=aws_config)
+ListSigningProfiles(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = signer("GET", "/signing-profiles", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -104,8 +111,9 @@ Returns a list of the tags associated with a signing profile resource.
 - `resourceArn`: The Amazon Resource Name (ARN) for the signing profile.
 
 """
-ListTagsForResource(resourceArn; aws::AWSConfig=AWS.aws_config) = signer("GET", "/tags/$(resourceArn)"; aws=aws)
-ListTagsForResource(resourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = signer("GET", "/tags/$(resourceArn)", args; aws=aws)
+
+ListTagsForResource(resourceArn; aws_config::AWSConfig=AWS.aws_config) = signer("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
+ListTagsForResource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = signer("GET", "/tags/$(resourceArn)", args; aws_config=aws_config)
 
 """
     PutSigningProfile()
@@ -122,8 +130,9 @@ Creates a signing profile. A signing profile is a code signing template that can
 - `signingParameters`: Map of key-value pairs for signing. These can include any information that you want to use during signing.
 - `tags`: Tags to be associated with the signing profile that is being created.
 """
-PutSigningProfile(platformId, profileName, signingMaterial; aws::AWSConfig=AWS.aws_config) = signer("PUT", "/signing-profiles/$(profileName)", Dict{String, Any}("platformId"=>platformId, "signingMaterial"=>signingMaterial); aws=aws)
-PutSigningProfile(platformId, profileName, signingMaterial, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = signer("PUT", "/signing-profiles/$(profileName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("platformId"=>platformId, "signingMaterial"=>signingMaterial), args)); aws=aws)
+
+PutSigningProfile(platformId, profileName, signingMaterial; aws_config::AWSConfig=AWS.aws_config) = signer("PUT", "/signing-profiles/$(profileName)", Dict{String, Any}("platformId"=>platformId, "signingMaterial"=>signingMaterial); aws_config=aws_config)
+PutSigningProfile(platformId, profileName, signingMaterial, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = signer("PUT", "/signing-profiles/$(profileName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("platformId"=>platformId, "signingMaterial"=>signingMaterial), args)); aws_config=aws_config)
 
 """
     StartSigningJob()
@@ -138,8 +147,9 @@ Initiates a signing job to be performed on the code provided. Signing jobs are v
 # Optional Parameters
 - `profileName`: The name of the signing profile.
 """
-StartSigningJob(clientRequestToken, destination, source; aws::AWSConfig=AWS.aws_config) = signer("POST", "/signing-jobs", Dict{String, Any}("clientRequestToken"=>clientRequestToken, "destination"=>destination, "source"=>source); aws=aws)
-StartSigningJob(clientRequestToken, destination, source, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = signer("POST", "/signing-jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>clientRequestToken, "destination"=>destination, "source"=>source), args)); aws=aws)
+
+StartSigningJob(clientRequestToken, destination, source; aws_config::AWSConfig=AWS.aws_config) = signer("POST", "/signing-jobs", Dict{String, Any}("clientRequestToken"=>clientRequestToken, "destination"=>destination, "source"=>source); aws_config=aws_config)
+StartSigningJob(clientRequestToken, destination, source, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = signer("POST", "/signing-jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>clientRequestToken, "destination"=>destination, "source"=>source), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -151,8 +161,9 @@ Adds one or more tags to a signing profile. Tags are labels that you can use to 
 - `tags`: One or more tags to be associated with the signing profile.
 
 """
-TagResource(resourceArn, tags; aws::AWSConfig=AWS.aws_config) = signer("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws=aws)
-TagResource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = signer("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws=aws)
+
+TagResource(resourceArn, tags; aws_config::AWSConfig=AWS.aws_config) = signer("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
+TagResource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = signer("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -164,5 +175,6 @@ Removes one or more tags from a signing profile. To remove the tags, specify a l
 - `tagKeys`: A list of tag keys to be removed from the signing profile.
 
 """
-UntagResource(resourceArn, tagKeys; aws::AWSConfig=AWS.aws_config) = signer("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws=aws)
-UntagResource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = signer("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws=aws)
+
+UntagResource(resourceArn, tagKeys; aws_config::AWSConfig=AWS.aws_config) = signer("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
+UntagResource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = signer("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)

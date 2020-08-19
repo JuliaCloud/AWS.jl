@@ -14,8 +14,9 @@ using UUIDs
 - `Name`: A friendly name or description of the ByteMatchSet. You can't change Name after you create a ByteMatchSet.
 
 """
-CreateByteMatchSet(ChangeToken, Name; aws::AWSConfig=AWS.aws_config) = waf("CreateByteMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name); aws=aws)
-CreateByteMatchSet(ChangeToken, Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("CreateByteMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), args)); aws=aws)
+
+CreateByteMatchSet(ChangeToken, Name; aws_config::AWSConfig=AWS.aws_config) = waf("CreateByteMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name); aws_config=aws_config)
+CreateByteMatchSet(ChangeToken, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("CreateByteMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), args)); aws_config=aws_config)
 
 """
     CreateGeoMatchSet()
@@ -27,8 +28,9 @@ CreateByteMatchSet(ChangeToken, Name, args::AbstractDict{String, <:Any}; aws::AW
 - `Name`: A friendly name or description of the GeoMatchSet. You can't change Name after you create the GeoMatchSet.
 
 """
-CreateGeoMatchSet(ChangeToken, Name; aws::AWSConfig=AWS.aws_config) = waf("CreateGeoMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name); aws=aws)
-CreateGeoMatchSet(ChangeToken, Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("CreateGeoMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), args)); aws=aws)
+
+CreateGeoMatchSet(ChangeToken, Name; aws_config::AWSConfig=AWS.aws_config) = waf("CreateGeoMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name); aws_config=aws_config)
+CreateGeoMatchSet(ChangeToken, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("CreateGeoMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), args)); aws_config=aws_config)
 
 """
     CreateIPSet()
@@ -40,8 +42,9 @@ CreateGeoMatchSet(ChangeToken, Name, args::AbstractDict{String, <:Any}; aws::AWS
 - `Name`: A friendly name or description of the IPSet. You can't change Name after you create the IPSet.
 
 """
-CreateIPSet(ChangeToken, Name; aws::AWSConfig=AWS.aws_config) = waf("CreateIPSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name); aws=aws)
-CreateIPSet(ChangeToken, Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("CreateIPSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), args)); aws=aws)
+
+CreateIPSet(ChangeToken, Name; aws_config::AWSConfig=AWS.aws_config) = waf("CreateIPSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name); aws_config=aws_config)
+CreateIPSet(ChangeToken, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("CreateIPSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), args)); aws_config=aws_config)
 
 """
     CreateRateBasedRule()
@@ -58,8 +61,9 @@ CreateIPSet(ChangeToken, Name, args::AbstractDict{String, <:Any}; aws::AWSConfig
 # Optional Parameters
 - `Tags`: 
 """
-CreateRateBasedRule(ChangeToken, MetricName, Name, RateKey, RateLimit; aws::AWSConfig=AWS.aws_config) = waf("CreateRateBasedRule", Dict{String, Any}("ChangeToken"=>ChangeToken, "MetricName"=>MetricName, "Name"=>Name, "RateKey"=>RateKey, "RateLimit"=>RateLimit); aws=aws)
-CreateRateBasedRule(ChangeToken, MetricName, Name, RateKey, RateLimit, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("CreateRateBasedRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "MetricName"=>MetricName, "Name"=>Name, "RateKey"=>RateKey, "RateLimit"=>RateLimit), args)); aws=aws)
+
+CreateRateBasedRule(ChangeToken, MetricName, Name, RateKey, RateLimit; aws_config::AWSConfig=AWS.aws_config) = waf("CreateRateBasedRule", Dict{String, Any}("ChangeToken"=>ChangeToken, "MetricName"=>MetricName, "Name"=>Name, "RateKey"=>RateKey, "RateLimit"=>RateLimit); aws_config=aws_config)
+CreateRateBasedRule(ChangeToken, MetricName, Name, RateKey, RateLimit, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("CreateRateBasedRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "MetricName"=>MetricName, "Name"=>Name, "RateKey"=>RateKey, "RateLimit"=>RateLimit), args)); aws_config=aws_config)
 
 """
     CreateRegexMatchSet()
@@ -71,8 +75,9 @@ CreateRateBasedRule(ChangeToken, MetricName, Name, RateKey, RateLimit, args::Abs
 - `Name`: A friendly name or description of the RegexMatchSet. You can't change Name after you create a RegexMatchSet.
 
 """
-CreateRegexMatchSet(ChangeToken, Name; aws::AWSConfig=AWS.aws_config) = waf("CreateRegexMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name); aws=aws)
-CreateRegexMatchSet(ChangeToken, Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("CreateRegexMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), args)); aws=aws)
+
+CreateRegexMatchSet(ChangeToken, Name; aws_config::AWSConfig=AWS.aws_config) = waf("CreateRegexMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name); aws_config=aws_config)
+CreateRegexMatchSet(ChangeToken, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("CreateRegexMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), args)); aws_config=aws_config)
 
 """
     CreateRegexPatternSet()
@@ -84,8 +89,9 @@ CreateRegexMatchSet(ChangeToken, Name, args::AbstractDict{String, <:Any}; aws::A
 - `Name`: A friendly name or description of the RegexPatternSet. You can't change Name after you create a RegexPatternSet.
 
 """
-CreateRegexPatternSet(ChangeToken, Name; aws::AWSConfig=AWS.aws_config) = waf("CreateRegexPatternSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name); aws=aws)
-CreateRegexPatternSet(ChangeToken, Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("CreateRegexPatternSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), args)); aws=aws)
+
+CreateRegexPatternSet(ChangeToken, Name; aws_config::AWSConfig=AWS.aws_config) = waf("CreateRegexPatternSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name); aws_config=aws_config)
+CreateRegexPatternSet(ChangeToken, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("CreateRegexPatternSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), args)); aws_config=aws_config)
 
 """
     CreateRule()
@@ -100,8 +106,9 @@ CreateRegexPatternSet(ChangeToken, Name, args::AbstractDict{String, <:Any}; aws:
 # Optional Parameters
 - `Tags`: 
 """
-CreateRule(ChangeToken, MetricName, Name; aws::AWSConfig=AWS.aws_config) = waf("CreateRule", Dict{String, Any}("ChangeToken"=>ChangeToken, "MetricName"=>MetricName, "Name"=>Name); aws=aws)
-CreateRule(ChangeToken, MetricName, Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("CreateRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "MetricName"=>MetricName, "Name"=>Name), args)); aws=aws)
+
+CreateRule(ChangeToken, MetricName, Name; aws_config::AWSConfig=AWS.aws_config) = waf("CreateRule", Dict{String, Any}("ChangeToken"=>ChangeToken, "MetricName"=>MetricName, "Name"=>Name); aws_config=aws_config)
+CreateRule(ChangeToken, MetricName, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("CreateRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "MetricName"=>MetricName, "Name"=>Name), args)); aws_config=aws_config)
 
 """
     CreateRuleGroup()
@@ -116,8 +123,9 @@ CreateRule(ChangeToken, MetricName, Name, args::AbstractDict{String, <:Any}; aws
 # Optional Parameters
 - `Tags`: 
 """
-CreateRuleGroup(ChangeToken, MetricName, Name; aws::AWSConfig=AWS.aws_config) = waf("CreateRuleGroup", Dict{String, Any}("ChangeToken"=>ChangeToken, "MetricName"=>MetricName, "Name"=>Name); aws=aws)
-CreateRuleGroup(ChangeToken, MetricName, Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("CreateRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "MetricName"=>MetricName, "Name"=>Name), args)); aws=aws)
+
+CreateRuleGroup(ChangeToken, MetricName, Name; aws_config::AWSConfig=AWS.aws_config) = waf("CreateRuleGroup", Dict{String, Any}("ChangeToken"=>ChangeToken, "MetricName"=>MetricName, "Name"=>Name); aws_config=aws_config)
+CreateRuleGroup(ChangeToken, MetricName, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("CreateRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "MetricName"=>MetricName, "Name"=>Name), args)); aws_config=aws_config)
 
 """
     CreateSizeConstraintSet()
@@ -129,8 +137,9 @@ CreateRuleGroup(ChangeToken, MetricName, Name, args::AbstractDict{String, <:Any}
 - `Name`: A friendly name or description of the SizeConstraintSet. You can't change Name after you create a SizeConstraintSet.
 
 """
-CreateSizeConstraintSet(ChangeToken, Name; aws::AWSConfig=AWS.aws_config) = waf("CreateSizeConstraintSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name); aws=aws)
-CreateSizeConstraintSet(ChangeToken, Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("CreateSizeConstraintSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), args)); aws=aws)
+
+CreateSizeConstraintSet(ChangeToken, Name; aws_config::AWSConfig=AWS.aws_config) = waf("CreateSizeConstraintSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name); aws_config=aws_config)
+CreateSizeConstraintSet(ChangeToken, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("CreateSizeConstraintSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), args)); aws_config=aws_config)
 
 """
     CreateSqlInjectionMatchSet()
@@ -142,8 +151,9 @@ CreateSizeConstraintSet(ChangeToken, Name, args::AbstractDict{String, <:Any}; aw
 - `Name`: A friendly name or description for the SqlInjectionMatchSet that you're creating. You can't change Name after you create the SqlInjectionMatchSet.
 
 """
-CreateSqlInjectionMatchSet(ChangeToken, Name; aws::AWSConfig=AWS.aws_config) = waf("CreateSqlInjectionMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name); aws=aws)
-CreateSqlInjectionMatchSet(ChangeToken, Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("CreateSqlInjectionMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), args)); aws=aws)
+
+CreateSqlInjectionMatchSet(ChangeToken, Name; aws_config::AWSConfig=AWS.aws_config) = waf("CreateSqlInjectionMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name); aws_config=aws_config)
+CreateSqlInjectionMatchSet(ChangeToken, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("CreateSqlInjectionMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), args)); aws_config=aws_config)
 
 """
     CreateWebACL()
@@ -159,8 +169,9 @@ CreateSqlInjectionMatchSet(ChangeToken, Name, args::AbstractDict{String, <:Any};
 # Optional Parameters
 - `Tags`: 
 """
-CreateWebACL(ChangeToken, DefaultAction, MetricName, Name; aws::AWSConfig=AWS.aws_config) = waf("CreateWebACL", Dict{String, Any}("ChangeToken"=>ChangeToken, "DefaultAction"=>DefaultAction, "MetricName"=>MetricName, "Name"=>Name); aws=aws)
-CreateWebACL(ChangeToken, DefaultAction, MetricName, Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("CreateWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "DefaultAction"=>DefaultAction, "MetricName"=>MetricName, "Name"=>Name), args)); aws=aws)
+
+CreateWebACL(ChangeToken, DefaultAction, MetricName, Name; aws_config::AWSConfig=AWS.aws_config) = waf("CreateWebACL", Dict{String, Any}("ChangeToken"=>ChangeToken, "DefaultAction"=>DefaultAction, "MetricName"=>MetricName, "Name"=>Name); aws_config=aws_config)
+CreateWebACL(ChangeToken, DefaultAction, MetricName, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("CreateWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "DefaultAction"=>DefaultAction, "MetricName"=>MetricName, "Name"=>Name), args)); aws_config=aws_config)
 
 """
     CreateWebACLMigrationStack()
@@ -173,8 +184,9 @@ Creates an AWS CloudFormation WAFV2 template for the specified web ACL in the sp
 - `WebACLId`: The UUID of the WAF Classic web ACL that you want to migrate to WAF v2.
 
 """
-CreateWebACLMigrationStack(IgnoreUnsupportedType, S3BucketName, WebACLId; aws::AWSConfig=AWS.aws_config) = waf("CreateWebACLMigrationStack", Dict{String, Any}("IgnoreUnsupportedType"=>IgnoreUnsupportedType, "S3BucketName"=>S3BucketName, "WebACLId"=>WebACLId); aws=aws)
-CreateWebACLMigrationStack(IgnoreUnsupportedType, S3BucketName, WebACLId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("CreateWebACLMigrationStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IgnoreUnsupportedType"=>IgnoreUnsupportedType, "S3BucketName"=>S3BucketName, "WebACLId"=>WebACLId), args)); aws=aws)
+
+CreateWebACLMigrationStack(IgnoreUnsupportedType, S3BucketName, WebACLId; aws_config::AWSConfig=AWS.aws_config) = waf("CreateWebACLMigrationStack", Dict{String, Any}("IgnoreUnsupportedType"=>IgnoreUnsupportedType, "S3BucketName"=>S3BucketName, "WebACLId"=>WebACLId); aws_config=aws_config)
+CreateWebACLMigrationStack(IgnoreUnsupportedType, S3BucketName, WebACLId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("CreateWebACLMigrationStack", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IgnoreUnsupportedType"=>IgnoreUnsupportedType, "S3BucketName"=>S3BucketName, "WebACLId"=>WebACLId), args)); aws_config=aws_config)
 
 """
     CreateXssMatchSet()
@@ -186,8 +198,9 @@ CreateWebACLMigrationStack(IgnoreUnsupportedType, S3BucketName, WebACLId, args::
 - `Name`: A friendly name or description for the XssMatchSet that you're creating. You can't change Name after you create the XssMatchSet.
 
 """
-CreateXssMatchSet(ChangeToken, Name; aws::AWSConfig=AWS.aws_config) = waf("CreateXssMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name); aws=aws)
-CreateXssMatchSet(ChangeToken, Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("CreateXssMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), args)); aws=aws)
+
+CreateXssMatchSet(ChangeToken, Name; aws_config::AWSConfig=AWS.aws_config) = waf("CreateXssMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name); aws_config=aws_config)
+CreateXssMatchSet(ChangeToken, Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("CreateXssMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Name"=>Name), args)); aws_config=aws_config)
 
 """
     DeleteByteMatchSet()
@@ -199,8 +212,9 @@ CreateXssMatchSet(ChangeToken, Name, args::AbstractDict{String, <:Any}; aws::AWS
 - `ChangeToken`: The value returned by the most recent call to GetChangeToken.
 
 """
-DeleteByteMatchSet(ByteMatchSetId, ChangeToken; aws::AWSConfig=AWS.aws_config) = waf("DeleteByteMatchSet", Dict{String, Any}("ByteMatchSetId"=>ByteMatchSetId, "ChangeToken"=>ChangeToken); aws=aws)
-DeleteByteMatchSet(ByteMatchSetId, ChangeToken, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("DeleteByteMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ByteMatchSetId"=>ByteMatchSetId, "ChangeToken"=>ChangeToken), args)); aws=aws)
+
+DeleteByteMatchSet(ByteMatchSetId, ChangeToken; aws_config::AWSConfig=AWS.aws_config) = waf("DeleteByteMatchSet", Dict{String, Any}("ByteMatchSetId"=>ByteMatchSetId, "ChangeToken"=>ChangeToken); aws_config=aws_config)
+DeleteByteMatchSet(ByteMatchSetId, ChangeToken, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("DeleteByteMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ByteMatchSetId"=>ByteMatchSetId, "ChangeToken"=>ChangeToken), args)); aws_config=aws_config)
 
 """
     DeleteGeoMatchSet()
@@ -212,8 +226,9 @@ DeleteByteMatchSet(ByteMatchSetId, ChangeToken, args::AbstractDict{String, <:Any
 - `GeoMatchSetId`: The GeoMatchSetID of the GeoMatchSet that you want to delete. GeoMatchSetId is returned by CreateGeoMatchSet and by ListGeoMatchSets.
 
 """
-DeleteGeoMatchSet(ChangeToken, GeoMatchSetId; aws::AWSConfig=AWS.aws_config) = waf("DeleteGeoMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "GeoMatchSetId"=>GeoMatchSetId); aws=aws)
-DeleteGeoMatchSet(ChangeToken, GeoMatchSetId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("DeleteGeoMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "GeoMatchSetId"=>GeoMatchSetId), args)); aws=aws)
+
+DeleteGeoMatchSet(ChangeToken, GeoMatchSetId; aws_config::AWSConfig=AWS.aws_config) = waf("DeleteGeoMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "GeoMatchSetId"=>GeoMatchSetId); aws_config=aws_config)
+DeleteGeoMatchSet(ChangeToken, GeoMatchSetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("DeleteGeoMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "GeoMatchSetId"=>GeoMatchSetId), args)); aws_config=aws_config)
 
 """
     DeleteIPSet()
@@ -225,8 +240,9 @@ DeleteGeoMatchSet(ChangeToken, GeoMatchSetId, args::AbstractDict{String, <:Any};
 - `IPSetId`: The IPSetId of the IPSet that you want to delete. IPSetId is returned by CreateIPSet and by ListIPSets.
 
 """
-DeleteIPSet(ChangeToken, IPSetId; aws::AWSConfig=AWS.aws_config) = waf("DeleteIPSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "IPSetId"=>IPSetId); aws=aws)
-DeleteIPSet(ChangeToken, IPSetId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("DeleteIPSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "IPSetId"=>IPSetId), args)); aws=aws)
+
+DeleteIPSet(ChangeToken, IPSetId; aws_config::AWSConfig=AWS.aws_config) = waf("DeleteIPSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "IPSetId"=>IPSetId); aws_config=aws_config)
+DeleteIPSet(ChangeToken, IPSetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("DeleteIPSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "IPSetId"=>IPSetId), args)); aws_config=aws_config)
 
 """
     DeleteLoggingConfiguration()
@@ -237,8 +253,9 @@ DeleteIPSet(ChangeToken, IPSetId, args::AbstractDict{String, <:Any}; aws::AWSCon
 - `ResourceArn`: The Amazon Resource Name (ARN) of the web ACL from which you want to delete the LoggingConfiguration.
 
 """
-DeleteLoggingConfiguration(ResourceArn; aws::AWSConfig=AWS.aws_config) = waf("DeleteLoggingConfiguration", Dict{String, Any}("ResourceArn"=>ResourceArn); aws=aws)
-DeleteLoggingConfiguration(ResourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("DeleteLoggingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws=aws)
+
+DeleteLoggingConfiguration(ResourceArn; aws_config::AWSConfig=AWS.aws_config) = waf("DeleteLoggingConfiguration", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
+DeleteLoggingConfiguration(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("DeleteLoggingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
 
 """
     DeletePermissionPolicy()
@@ -249,8 +266,9 @@ DeleteLoggingConfiguration(ResourceArn, args::AbstractDict{String, <:Any}; aws::
 - `ResourceArn`: The Amazon Resource Name (ARN) of the RuleGroup from which you want to delete the policy. The user making the request must be the owner of the RuleGroup.
 
 """
-DeletePermissionPolicy(ResourceArn; aws::AWSConfig=AWS.aws_config) = waf("DeletePermissionPolicy", Dict{String, Any}("ResourceArn"=>ResourceArn); aws=aws)
-DeletePermissionPolicy(ResourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("DeletePermissionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws=aws)
+
+DeletePermissionPolicy(ResourceArn; aws_config::AWSConfig=AWS.aws_config) = waf("DeletePermissionPolicy", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
+DeletePermissionPolicy(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("DeletePermissionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
 
 """
     DeleteRateBasedRule()
@@ -262,8 +280,9 @@ DeletePermissionPolicy(ResourceArn, args::AbstractDict{String, <:Any}; aws::AWSC
 - `RuleId`: The RuleId of the RateBasedRule that you want to delete. RuleId is returned by CreateRateBasedRule and by ListRateBasedRules.
 
 """
-DeleteRateBasedRule(ChangeToken, RuleId; aws::AWSConfig=AWS.aws_config) = waf("DeleteRateBasedRule", Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleId"=>RuleId); aws=aws)
-DeleteRateBasedRule(ChangeToken, RuleId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("DeleteRateBasedRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleId"=>RuleId), args)); aws=aws)
+
+DeleteRateBasedRule(ChangeToken, RuleId; aws_config::AWSConfig=AWS.aws_config) = waf("DeleteRateBasedRule", Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleId"=>RuleId); aws_config=aws_config)
+DeleteRateBasedRule(ChangeToken, RuleId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("DeleteRateBasedRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleId"=>RuleId), args)); aws_config=aws_config)
 
 """
     DeleteRegexMatchSet()
@@ -275,8 +294,9 @@ DeleteRateBasedRule(ChangeToken, RuleId, args::AbstractDict{String, <:Any}; aws:
 - `RegexMatchSetId`: The RegexMatchSetId of the RegexMatchSet that you want to delete. RegexMatchSetId is returned by CreateRegexMatchSet and by ListRegexMatchSets.
 
 """
-DeleteRegexMatchSet(ChangeToken, RegexMatchSetId; aws::AWSConfig=AWS.aws_config) = waf("DeleteRegexMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "RegexMatchSetId"=>RegexMatchSetId); aws=aws)
-DeleteRegexMatchSet(ChangeToken, RegexMatchSetId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("DeleteRegexMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RegexMatchSetId"=>RegexMatchSetId), args)); aws=aws)
+
+DeleteRegexMatchSet(ChangeToken, RegexMatchSetId; aws_config::AWSConfig=AWS.aws_config) = waf("DeleteRegexMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "RegexMatchSetId"=>RegexMatchSetId); aws_config=aws_config)
+DeleteRegexMatchSet(ChangeToken, RegexMatchSetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("DeleteRegexMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RegexMatchSetId"=>RegexMatchSetId), args)); aws_config=aws_config)
 
 """
     DeleteRegexPatternSet()
@@ -288,8 +308,9 @@ DeleteRegexMatchSet(ChangeToken, RegexMatchSetId, args::AbstractDict{String, <:A
 - `RegexPatternSetId`: The RegexPatternSetId of the RegexPatternSet that you want to delete. RegexPatternSetId is returned by CreateRegexPatternSet and by ListRegexPatternSets.
 
 """
-DeleteRegexPatternSet(ChangeToken, RegexPatternSetId; aws::AWSConfig=AWS.aws_config) = waf("DeleteRegexPatternSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "RegexPatternSetId"=>RegexPatternSetId); aws=aws)
-DeleteRegexPatternSet(ChangeToken, RegexPatternSetId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("DeleteRegexPatternSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RegexPatternSetId"=>RegexPatternSetId), args)); aws=aws)
+
+DeleteRegexPatternSet(ChangeToken, RegexPatternSetId; aws_config::AWSConfig=AWS.aws_config) = waf("DeleteRegexPatternSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "RegexPatternSetId"=>RegexPatternSetId); aws_config=aws_config)
+DeleteRegexPatternSet(ChangeToken, RegexPatternSetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("DeleteRegexPatternSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RegexPatternSetId"=>RegexPatternSetId), args)); aws_config=aws_config)
 
 """
     DeleteRule()
@@ -301,8 +322,9 @@ DeleteRegexPatternSet(ChangeToken, RegexPatternSetId, args::AbstractDict{String,
 - `RuleId`: The RuleId of the Rule that you want to delete. RuleId is returned by CreateRule and by ListRules.
 
 """
-DeleteRule(ChangeToken, RuleId; aws::AWSConfig=AWS.aws_config) = waf("DeleteRule", Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleId"=>RuleId); aws=aws)
-DeleteRule(ChangeToken, RuleId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("DeleteRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleId"=>RuleId), args)); aws=aws)
+
+DeleteRule(ChangeToken, RuleId; aws_config::AWSConfig=AWS.aws_config) = waf("DeleteRule", Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleId"=>RuleId); aws_config=aws_config)
+DeleteRule(ChangeToken, RuleId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("DeleteRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleId"=>RuleId), args)); aws_config=aws_config)
 
 """
     DeleteRuleGroup()
@@ -314,8 +336,9 @@ DeleteRule(ChangeToken, RuleId, args::AbstractDict{String, <:Any}; aws::AWSConfi
 - `RuleGroupId`: The RuleGroupId of the RuleGroup that you want to delete. RuleGroupId is returned by CreateRuleGroup and by ListRuleGroups.
 
 """
-DeleteRuleGroup(ChangeToken, RuleGroupId; aws::AWSConfig=AWS.aws_config) = waf("DeleteRuleGroup", Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleGroupId"=>RuleGroupId); aws=aws)
-DeleteRuleGroup(ChangeToken, RuleGroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("DeleteRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleGroupId"=>RuleGroupId), args)); aws=aws)
+
+DeleteRuleGroup(ChangeToken, RuleGroupId; aws_config::AWSConfig=AWS.aws_config) = waf("DeleteRuleGroup", Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleGroupId"=>RuleGroupId); aws_config=aws_config)
+DeleteRuleGroup(ChangeToken, RuleGroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("DeleteRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleGroupId"=>RuleGroupId), args)); aws_config=aws_config)
 
 """
     DeleteSizeConstraintSet()
@@ -327,8 +350,9 @@ DeleteRuleGroup(ChangeToken, RuleGroupId, args::AbstractDict{String, <:Any}; aws
 - `SizeConstraintSetId`: The SizeConstraintSetId of the SizeConstraintSet that you want to delete. SizeConstraintSetId is returned by CreateSizeConstraintSet and by ListSizeConstraintSets.
 
 """
-DeleteSizeConstraintSet(ChangeToken, SizeConstraintSetId; aws::AWSConfig=AWS.aws_config) = waf("DeleteSizeConstraintSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "SizeConstraintSetId"=>SizeConstraintSetId); aws=aws)
-DeleteSizeConstraintSet(ChangeToken, SizeConstraintSetId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("DeleteSizeConstraintSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "SizeConstraintSetId"=>SizeConstraintSetId), args)); aws=aws)
+
+DeleteSizeConstraintSet(ChangeToken, SizeConstraintSetId; aws_config::AWSConfig=AWS.aws_config) = waf("DeleteSizeConstraintSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "SizeConstraintSetId"=>SizeConstraintSetId); aws_config=aws_config)
+DeleteSizeConstraintSet(ChangeToken, SizeConstraintSetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("DeleteSizeConstraintSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "SizeConstraintSetId"=>SizeConstraintSetId), args)); aws_config=aws_config)
 
 """
     DeleteSqlInjectionMatchSet()
@@ -340,8 +364,9 @@ DeleteSizeConstraintSet(ChangeToken, SizeConstraintSetId, args::AbstractDict{Str
 - `SqlInjectionMatchSetId`: The SqlInjectionMatchSetId of the SqlInjectionMatchSet that you want to delete. SqlInjectionMatchSetId is returned by CreateSqlInjectionMatchSet and by ListSqlInjectionMatchSets.
 
 """
-DeleteSqlInjectionMatchSet(ChangeToken, SqlInjectionMatchSetId; aws::AWSConfig=AWS.aws_config) = waf("DeleteSqlInjectionMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "SqlInjectionMatchSetId"=>SqlInjectionMatchSetId); aws=aws)
-DeleteSqlInjectionMatchSet(ChangeToken, SqlInjectionMatchSetId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("DeleteSqlInjectionMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "SqlInjectionMatchSetId"=>SqlInjectionMatchSetId), args)); aws=aws)
+
+DeleteSqlInjectionMatchSet(ChangeToken, SqlInjectionMatchSetId; aws_config::AWSConfig=AWS.aws_config) = waf("DeleteSqlInjectionMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "SqlInjectionMatchSetId"=>SqlInjectionMatchSetId); aws_config=aws_config)
+DeleteSqlInjectionMatchSet(ChangeToken, SqlInjectionMatchSetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("DeleteSqlInjectionMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "SqlInjectionMatchSetId"=>SqlInjectionMatchSetId), args)); aws_config=aws_config)
 
 """
     DeleteWebACL()
@@ -353,8 +378,9 @@ DeleteSqlInjectionMatchSet(ChangeToken, SqlInjectionMatchSetId, args::AbstractDi
 - `WebACLId`: The WebACLId of the WebACL that you want to delete. WebACLId is returned by CreateWebACL and by ListWebACLs.
 
 """
-DeleteWebACL(ChangeToken, WebACLId; aws::AWSConfig=AWS.aws_config) = waf("DeleteWebACL", Dict{String, Any}("ChangeToken"=>ChangeToken, "WebACLId"=>WebACLId); aws=aws)
-DeleteWebACL(ChangeToken, WebACLId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("DeleteWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "WebACLId"=>WebACLId), args)); aws=aws)
+
+DeleteWebACL(ChangeToken, WebACLId; aws_config::AWSConfig=AWS.aws_config) = waf("DeleteWebACL", Dict{String, Any}("ChangeToken"=>ChangeToken, "WebACLId"=>WebACLId); aws_config=aws_config)
+DeleteWebACL(ChangeToken, WebACLId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("DeleteWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "WebACLId"=>WebACLId), args)); aws_config=aws_config)
 
 """
     DeleteXssMatchSet()
@@ -366,8 +392,9 @@ DeleteWebACL(ChangeToken, WebACLId, args::AbstractDict{String, <:Any}; aws::AWSC
 - `XssMatchSetId`: The XssMatchSetId of the XssMatchSet that you want to delete. XssMatchSetId is returned by CreateXssMatchSet and by ListXssMatchSets.
 
 """
-DeleteXssMatchSet(ChangeToken, XssMatchSetId; aws::AWSConfig=AWS.aws_config) = waf("DeleteXssMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "XssMatchSetId"=>XssMatchSetId); aws=aws)
-DeleteXssMatchSet(ChangeToken, XssMatchSetId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("DeleteXssMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "XssMatchSetId"=>XssMatchSetId), args)); aws=aws)
+
+DeleteXssMatchSet(ChangeToken, XssMatchSetId; aws_config::AWSConfig=AWS.aws_config) = waf("DeleteXssMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "XssMatchSetId"=>XssMatchSetId); aws_config=aws_config)
+DeleteXssMatchSet(ChangeToken, XssMatchSetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("DeleteXssMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "XssMatchSetId"=>XssMatchSetId), args)); aws_config=aws_config)
 
 """
     GetByteMatchSet()
@@ -378,8 +405,9 @@ DeleteXssMatchSet(ChangeToken, XssMatchSetId, args::AbstractDict{String, <:Any};
 - `ByteMatchSetId`: The ByteMatchSetId of the ByteMatchSet that you want to get. ByteMatchSetId is returned by CreateByteMatchSet and by ListByteMatchSets.
 
 """
-GetByteMatchSet(ByteMatchSetId; aws::AWSConfig=AWS.aws_config) = waf("GetByteMatchSet", Dict{String, Any}("ByteMatchSetId"=>ByteMatchSetId); aws=aws)
-GetByteMatchSet(ByteMatchSetId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("GetByteMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ByteMatchSetId"=>ByteMatchSetId), args)); aws=aws)
+
+GetByteMatchSet(ByteMatchSetId; aws_config::AWSConfig=AWS.aws_config) = waf("GetByteMatchSet", Dict{String, Any}("ByteMatchSetId"=>ByteMatchSetId); aws_config=aws_config)
+GetByteMatchSet(ByteMatchSetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("GetByteMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ByteMatchSetId"=>ByteMatchSetId), args)); aws_config=aws_config)
 
 """
     GetChangeToken()
@@ -387,8 +415,9 @@ GetByteMatchSet(ByteMatchSetId, args::AbstractDict{String, <:Any}; aws::AWSConfi
  This is AWS WAF Classic documentation. For more information, see AWS WAF Classic in the developer guide.  For the latest version of AWS WAF, use the AWS WAFV2 API and see the AWS WAF Developer Guide. With the latest version, AWS WAF has a single set of endpoints for regional and global use.   When you want to create, update, or delete AWS WAF objects, get a change token and include the change token in the create, update, or delete request. Change tokens ensure that your application doesn't submit conflicting requests to AWS WAF. Each create, update, or delete request must use a unique change token. If your application submits a GetChangeToken request and then submits a second GetChangeToken request before submitting a create, update, or delete request, the second GetChangeToken request returns the same value as the first GetChangeToken request. When you use a change token in a create, update, or delete request, the status of the change token changes to PENDING, which indicates that AWS WAF is propagating the change to all AWS WAF servers. Use GetChangeTokenStatus to determine the status of your change token.
 
 """
-GetChangeToken(; aws::AWSConfig=AWS.aws_config) = waf("GetChangeToken"; aws=aws)
-GetChangeToken(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("GetChangeToken", args; aws=aws)
+
+GetChangeToken(; aws_config::AWSConfig=AWS.aws_config) = waf("GetChangeToken"; aws_config=aws_config)
+GetChangeToken(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("GetChangeToken", args; aws_config=aws_config)
 
 """
     GetChangeTokenStatus()
@@ -399,8 +428,9 @@ GetChangeToken(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config)
 - `ChangeToken`: The change token for which you want to get the status. This change token was previously returned in the GetChangeToken response.
 
 """
-GetChangeTokenStatus(ChangeToken; aws::AWSConfig=AWS.aws_config) = waf("GetChangeTokenStatus", Dict{String, Any}("ChangeToken"=>ChangeToken); aws=aws)
-GetChangeTokenStatus(ChangeToken, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("GetChangeTokenStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken), args)); aws=aws)
+
+GetChangeTokenStatus(ChangeToken; aws_config::AWSConfig=AWS.aws_config) = waf("GetChangeTokenStatus", Dict{String, Any}("ChangeToken"=>ChangeToken); aws_config=aws_config)
+GetChangeTokenStatus(ChangeToken, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("GetChangeTokenStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken), args)); aws_config=aws_config)
 
 """
     GetGeoMatchSet()
@@ -411,8 +441,9 @@ GetChangeTokenStatus(ChangeToken, args::AbstractDict{String, <:Any}; aws::AWSCon
 - `GeoMatchSetId`: The GeoMatchSetId of the GeoMatchSet that you want to get. GeoMatchSetId is returned by CreateGeoMatchSet and by ListGeoMatchSets.
 
 """
-GetGeoMatchSet(GeoMatchSetId; aws::AWSConfig=AWS.aws_config) = waf("GetGeoMatchSet", Dict{String, Any}("GeoMatchSetId"=>GeoMatchSetId); aws=aws)
-GetGeoMatchSet(GeoMatchSetId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("GetGeoMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GeoMatchSetId"=>GeoMatchSetId), args)); aws=aws)
+
+GetGeoMatchSet(GeoMatchSetId; aws_config::AWSConfig=AWS.aws_config) = waf("GetGeoMatchSet", Dict{String, Any}("GeoMatchSetId"=>GeoMatchSetId); aws_config=aws_config)
+GetGeoMatchSet(GeoMatchSetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("GetGeoMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GeoMatchSetId"=>GeoMatchSetId), args)); aws_config=aws_config)
 
 """
     GetIPSet()
@@ -423,8 +454,9 @@ GetGeoMatchSet(GeoMatchSetId, args::AbstractDict{String, <:Any}; aws::AWSConfig=
 - `IPSetId`: The IPSetId of the IPSet that you want to get. IPSetId is returned by CreateIPSet and by ListIPSets.
 
 """
-GetIPSet(IPSetId; aws::AWSConfig=AWS.aws_config) = waf("GetIPSet", Dict{String, Any}("IPSetId"=>IPSetId); aws=aws)
-GetIPSet(IPSetId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("GetIPSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IPSetId"=>IPSetId), args)); aws=aws)
+
+GetIPSet(IPSetId; aws_config::AWSConfig=AWS.aws_config) = waf("GetIPSet", Dict{String, Any}("IPSetId"=>IPSetId); aws_config=aws_config)
+GetIPSet(IPSetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("GetIPSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("IPSetId"=>IPSetId), args)); aws_config=aws_config)
 
 """
     GetLoggingConfiguration()
@@ -435,8 +467,9 @@ GetIPSet(IPSetId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_conf
 - `ResourceArn`: The Amazon Resource Name (ARN) of the web ACL for which you want to get the LoggingConfiguration.
 
 """
-GetLoggingConfiguration(ResourceArn; aws::AWSConfig=AWS.aws_config) = waf("GetLoggingConfiguration", Dict{String, Any}("ResourceArn"=>ResourceArn); aws=aws)
-GetLoggingConfiguration(ResourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("GetLoggingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws=aws)
+
+GetLoggingConfiguration(ResourceArn; aws_config::AWSConfig=AWS.aws_config) = waf("GetLoggingConfiguration", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
+GetLoggingConfiguration(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("GetLoggingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
 
 """
     GetPermissionPolicy()
@@ -447,8 +480,9 @@ GetLoggingConfiguration(ResourceArn, args::AbstractDict{String, <:Any}; aws::AWS
 - `ResourceArn`: The Amazon Resource Name (ARN) of the RuleGroup for which you want to get the policy.
 
 """
-GetPermissionPolicy(ResourceArn; aws::AWSConfig=AWS.aws_config) = waf("GetPermissionPolicy", Dict{String, Any}("ResourceArn"=>ResourceArn); aws=aws)
-GetPermissionPolicy(ResourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("GetPermissionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws=aws)
+
+GetPermissionPolicy(ResourceArn; aws_config::AWSConfig=AWS.aws_config) = waf("GetPermissionPolicy", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
+GetPermissionPolicy(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("GetPermissionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
 
 """
     GetRateBasedRule()
@@ -459,8 +493,9 @@ GetPermissionPolicy(ResourceArn, args::AbstractDict{String, <:Any}; aws::AWSConf
 - `RuleId`: The RuleId of the RateBasedRule that you want to get. RuleId is returned by CreateRateBasedRule and by ListRateBasedRules.
 
 """
-GetRateBasedRule(RuleId; aws::AWSConfig=AWS.aws_config) = waf("GetRateBasedRule", Dict{String, Any}("RuleId"=>RuleId); aws=aws)
-GetRateBasedRule(RuleId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("GetRateBasedRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleId"=>RuleId), args)); aws=aws)
+
+GetRateBasedRule(RuleId; aws_config::AWSConfig=AWS.aws_config) = waf("GetRateBasedRule", Dict{String, Any}("RuleId"=>RuleId); aws_config=aws_config)
+GetRateBasedRule(RuleId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("GetRateBasedRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleId"=>RuleId), args)); aws_config=aws_config)
 
 """
     GetRateBasedRuleManagedKeys()
@@ -473,8 +508,9 @@ GetRateBasedRule(RuleId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.a
 # Optional Parameters
 - `NextMarker`: A null value and not currently used. Do not include this in your request.
 """
-GetRateBasedRuleManagedKeys(RuleId; aws::AWSConfig=AWS.aws_config) = waf("GetRateBasedRuleManagedKeys", Dict{String, Any}("RuleId"=>RuleId); aws=aws)
-GetRateBasedRuleManagedKeys(RuleId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("GetRateBasedRuleManagedKeys", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleId"=>RuleId), args)); aws=aws)
+
+GetRateBasedRuleManagedKeys(RuleId; aws_config::AWSConfig=AWS.aws_config) = waf("GetRateBasedRuleManagedKeys", Dict{String, Any}("RuleId"=>RuleId); aws_config=aws_config)
+GetRateBasedRuleManagedKeys(RuleId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("GetRateBasedRuleManagedKeys", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleId"=>RuleId), args)); aws_config=aws_config)
 
 """
     GetRegexMatchSet()
@@ -485,8 +521,9 @@ GetRateBasedRuleManagedKeys(RuleId, args::AbstractDict{String, <:Any}; aws::AWSC
 - `RegexMatchSetId`: The RegexMatchSetId of the RegexMatchSet that you want to get. RegexMatchSetId is returned by CreateRegexMatchSet and by ListRegexMatchSets.
 
 """
-GetRegexMatchSet(RegexMatchSetId; aws::AWSConfig=AWS.aws_config) = waf("GetRegexMatchSet", Dict{String, Any}("RegexMatchSetId"=>RegexMatchSetId); aws=aws)
-GetRegexMatchSet(RegexMatchSetId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("GetRegexMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RegexMatchSetId"=>RegexMatchSetId), args)); aws=aws)
+
+GetRegexMatchSet(RegexMatchSetId; aws_config::AWSConfig=AWS.aws_config) = waf("GetRegexMatchSet", Dict{String, Any}("RegexMatchSetId"=>RegexMatchSetId); aws_config=aws_config)
+GetRegexMatchSet(RegexMatchSetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("GetRegexMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RegexMatchSetId"=>RegexMatchSetId), args)); aws_config=aws_config)
 
 """
     GetRegexPatternSet()
@@ -497,8 +534,9 @@ GetRegexMatchSet(RegexMatchSetId, args::AbstractDict{String, <:Any}; aws::AWSCon
 - `RegexPatternSetId`: The RegexPatternSetId of the RegexPatternSet that you want to get. RegexPatternSetId is returned by CreateRegexPatternSet and by ListRegexPatternSets.
 
 """
-GetRegexPatternSet(RegexPatternSetId; aws::AWSConfig=AWS.aws_config) = waf("GetRegexPatternSet", Dict{String, Any}("RegexPatternSetId"=>RegexPatternSetId); aws=aws)
-GetRegexPatternSet(RegexPatternSetId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("GetRegexPatternSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RegexPatternSetId"=>RegexPatternSetId), args)); aws=aws)
+
+GetRegexPatternSet(RegexPatternSetId; aws_config::AWSConfig=AWS.aws_config) = waf("GetRegexPatternSet", Dict{String, Any}("RegexPatternSetId"=>RegexPatternSetId); aws_config=aws_config)
+GetRegexPatternSet(RegexPatternSetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("GetRegexPatternSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RegexPatternSetId"=>RegexPatternSetId), args)); aws_config=aws_config)
 
 """
     GetRule()
@@ -509,8 +547,9 @@ GetRegexPatternSet(RegexPatternSetId, args::AbstractDict{String, <:Any}; aws::AW
 - `RuleId`: The RuleId of the Rule that you want to get. RuleId is returned by CreateRule and by ListRules.
 
 """
-GetRule(RuleId; aws::AWSConfig=AWS.aws_config) = waf("GetRule", Dict{String, Any}("RuleId"=>RuleId); aws=aws)
-GetRule(RuleId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("GetRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleId"=>RuleId), args)); aws=aws)
+
+GetRule(RuleId; aws_config::AWSConfig=AWS.aws_config) = waf("GetRule", Dict{String, Any}("RuleId"=>RuleId); aws_config=aws_config)
+GetRule(RuleId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("GetRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleId"=>RuleId), args)); aws_config=aws_config)
 
 """
     GetRuleGroup()
@@ -521,8 +560,9 @@ GetRule(RuleId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config
 - `RuleGroupId`: The RuleGroupId of the RuleGroup that you want to get. RuleGroupId is returned by CreateRuleGroup and by ListRuleGroups.
 
 """
-GetRuleGroup(RuleGroupId; aws::AWSConfig=AWS.aws_config) = waf("GetRuleGroup", Dict{String, Any}("RuleGroupId"=>RuleGroupId); aws=aws)
-GetRuleGroup(RuleGroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("GetRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleGroupId"=>RuleGroupId), args)); aws=aws)
+
+GetRuleGroup(RuleGroupId; aws_config::AWSConfig=AWS.aws_config) = waf("GetRuleGroup", Dict{String, Any}("RuleGroupId"=>RuleGroupId); aws_config=aws_config)
+GetRuleGroup(RuleGroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("GetRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RuleGroupId"=>RuleGroupId), args)); aws_config=aws_config)
 
 """
     GetSampledRequests()
@@ -536,8 +576,9 @@ GetRuleGroup(RuleGroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.
 - `WebAclId`: The WebACLId of the WebACL for which you want GetSampledRequests to return a sample of requests.
 
 """
-GetSampledRequests(MaxItems, RuleId, TimeWindow, WebAclId; aws::AWSConfig=AWS.aws_config) = waf("GetSampledRequests", Dict{String, Any}("MaxItems"=>MaxItems, "RuleId"=>RuleId, "TimeWindow"=>TimeWindow, "WebAclId"=>WebAclId); aws=aws)
-GetSampledRequests(MaxItems, RuleId, TimeWindow, WebAclId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("GetSampledRequests", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaxItems"=>MaxItems, "RuleId"=>RuleId, "TimeWindow"=>TimeWindow, "WebAclId"=>WebAclId), args)); aws=aws)
+
+GetSampledRequests(MaxItems, RuleId, TimeWindow, WebAclId; aws_config::AWSConfig=AWS.aws_config) = waf("GetSampledRequests", Dict{String, Any}("MaxItems"=>MaxItems, "RuleId"=>RuleId, "TimeWindow"=>TimeWindow, "WebAclId"=>WebAclId); aws_config=aws_config)
+GetSampledRequests(MaxItems, RuleId, TimeWindow, WebAclId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("GetSampledRequests", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MaxItems"=>MaxItems, "RuleId"=>RuleId, "TimeWindow"=>TimeWindow, "WebAclId"=>WebAclId), args)); aws_config=aws_config)
 
 """
     GetSizeConstraintSet()
@@ -548,8 +589,9 @@ GetSampledRequests(MaxItems, RuleId, TimeWindow, WebAclId, args::AbstractDict{St
 - `SizeConstraintSetId`: The SizeConstraintSetId of the SizeConstraintSet that you want to get. SizeConstraintSetId is returned by CreateSizeConstraintSet and by ListSizeConstraintSets.
 
 """
-GetSizeConstraintSet(SizeConstraintSetId; aws::AWSConfig=AWS.aws_config) = waf("GetSizeConstraintSet", Dict{String, Any}("SizeConstraintSetId"=>SizeConstraintSetId); aws=aws)
-GetSizeConstraintSet(SizeConstraintSetId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("GetSizeConstraintSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SizeConstraintSetId"=>SizeConstraintSetId), args)); aws=aws)
+
+GetSizeConstraintSet(SizeConstraintSetId; aws_config::AWSConfig=AWS.aws_config) = waf("GetSizeConstraintSet", Dict{String, Any}("SizeConstraintSetId"=>SizeConstraintSetId); aws_config=aws_config)
+GetSizeConstraintSet(SizeConstraintSetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("GetSizeConstraintSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SizeConstraintSetId"=>SizeConstraintSetId), args)); aws_config=aws_config)
 
 """
     GetSqlInjectionMatchSet()
@@ -560,8 +602,9 @@ GetSizeConstraintSet(SizeConstraintSetId, args::AbstractDict{String, <:Any}; aws
 - `SqlInjectionMatchSetId`: The SqlInjectionMatchSetId of the SqlInjectionMatchSet that you want to get. SqlInjectionMatchSetId is returned by CreateSqlInjectionMatchSet and by ListSqlInjectionMatchSets.
 
 """
-GetSqlInjectionMatchSet(SqlInjectionMatchSetId; aws::AWSConfig=AWS.aws_config) = waf("GetSqlInjectionMatchSet", Dict{String, Any}("SqlInjectionMatchSetId"=>SqlInjectionMatchSetId); aws=aws)
-GetSqlInjectionMatchSet(SqlInjectionMatchSetId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("GetSqlInjectionMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SqlInjectionMatchSetId"=>SqlInjectionMatchSetId), args)); aws=aws)
+
+GetSqlInjectionMatchSet(SqlInjectionMatchSetId; aws_config::AWSConfig=AWS.aws_config) = waf("GetSqlInjectionMatchSet", Dict{String, Any}("SqlInjectionMatchSetId"=>SqlInjectionMatchSetId); aws_config=aws_config)
+GetSqlInjectionMatchSet(SqlInjectionMatchSetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("GetSqlInjectionMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SqlInjectionMatchSetId"=>SqlInjectionMatchSetId), args)); aws_config=aws_config)
 
 """
     GetWebACL()
@@ -572,8 +615,9 @@ GetSqlInjectionMatchSet(SqlInjectionMatchSetId, args::AbstractDict{String, <:Any
 - `WebACLId`: The WebACLId of the WebACL that you want to get. WebACLId is returned by CreateWebACL and by ListWebACLs.
 
 """
-GetWebACL(WebACLId; aws::AWSConfig=AWS.aws_config) = waf("GetWebACL", Dict{String, Any}("WebACLId"=>WebACLId); aws=aws)
-GetWebACL(WebACLId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("GetWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WebACLId"=>WebACLId), args)); aws=aws)
+
+GetWebACL(WebACLId; aws_config::AWSConfig=AWS.aws_config) = waf("GetWebACL", Dict{String, Any}("WebACLId"=>WebACLId); aws_config=aws_config)
+GetWebACL(WebACLId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("GetWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WebACLId"=>WebACLId), args)); aws_config=aws_config)
 
 """
     GetXssMatchSet()
@@ -584,8 +628,9 @@ GetWebACL(WebACLId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_co
 - `XssMatchSetId`: The XssMatchSetId of the XssMatchSet that you want to get. XssMatchSetId is returned by CreateXssMatchSet and by ListXssMatchSets.
 
 """
-GetXssMatchSet(XssMatchSetId; aws::AWSConfig=AWS.aws_config) = waf("GetXssMatchSet", Dict{String, Any}("XssMatchSetId"=>XssMatchSetId); aws=aws)
-GetXssMatchSet(XssMatchSetId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("GetXssMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("XssMatchSetId"=>XssMatchSetId), args)); aws=aws)
+
+GetXssMatchSet(XssMatchSetId; aws_config::AWSConfig=AWS.aws_config) = waf("GetXssMatchSet", Dict{String, Any}("XssMatchSetId"=>XssMatchSetId); aws_config=aws_config)
+GetXssMatchSet(XssMatchSetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("GetXssMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("XssMatchSetId"=>XssMatchSetId), args)); aws_config=aws_config)
 
 """
     ListActivatedRulesInRuleGroup()
@@ -597,8 +642,9 @@ GetXssMatchSet(XssMatchSetId, args::AbstractDict{String, <:Any}; aws::AWSConfig=
 - `NextMarker`: If you specify a value for Limit and you have more ActivatedRules than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of ActivatedRules. For the second and subsequent ListActivatedRulesInRuleGroup requests, specify the value of NextMarker from the previous response to get information about another batch of ActivatedRules.
 - `RuleGroupId`: The RuleGroupId of the RuleGroup for which you want to get a list of ActivatedRule objects.
 """
-ListActivatedRulesInRuleGroup(; aws::AWSConfig=AWS.aws_config) = waf("ListActivatedRulesInRuleGroup"; aws=aws)
-ListActivatedRulesInRuleGroup(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("ListActivatedRulesInRuleGroup", args; aws=aws)
+
+ListActivatedRulesInRuleGroup(; aws_config::AWSConfig=AWS.aws_config) = waf("ListActivatedRulesInRuleGroup"; aws_config=aws_config)
+ListActivatedRulesInRuleGroup(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("ListActivatedRulesInRuleGroup", args; aws_config=aws_config)
 
 """
     ListByteMatchSets()
@@ -609,8 +655,9 @@ ListActivatedRulesInRuleGroup(args::AbstractDict{String, <:Any}; aws::AWSConfig=
 - `Limit`: Specifies the number of ByteMatchSet objects that you want AWS WAF to return for this request. If you have more ByteMatchSets objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of ByteMatchSet objects.
 - `NextMarker`: If you specify a value for Limit and you have more ByteMatchSets than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of ByteMatchSets. For the second and subsequent ListByteMatchSets requests, specify the value of NextMarker from the previous response to get information about another batch of ByteMatchSets.
 """
-ListByteMatchSets(; aws::AWSConfig=AWS.aws_config) = waf("ListByteMatchSets"; aws=aws)
-ListByteMatchSets(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("ListByteMatchSets", args; aws=aws)
+
+ListByteMatchSets(; aws_config::AWSConfig=AWS.aws_config) = waf("ListByteMatchSets"; aws_config=aws_config)
+ListByteMatchSets(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("ListByteMatchSets", args; aws_config=aws_config)
 
 """
     ListGeoMatchSets()
@@ -621,8 +668,9 @@ ListByteMatchSets(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_conf
 - `Limit`: Specifies the number of GeoMatchSet objects that you want AWS WAF to return for this request. If you have more GeoMatchSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of GeoMatchSet objects.
 - `NextMarker`: If you specify a value for Limit and you have more GeoMatchSets than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of GeoMatchSet objects. For the second and subsequent ListGeoMatchSets requests, specify the value of NextMarker from the previous response to get information about another batch of GeoMatchSet objects.
 """
-ListGeoMatchSets(; aws::AWSConfig=AWS.aws_config) = waf("ListGeoMatchSets"; aws=aws)
-ListGeoMatchSets(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("ListGeoMatchSets", args; aws=aws)
+
+ListGeoMatchSets(; aws_config::AWSConfig=AWS.aws_config) = waf("ListGeoMatchSets"; aws_config=aws_config)
+ListGeoMatchSets(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("ListGeoMatchSets", args; aws_config=aws_config)
 
 """
     ListIPSets()
@@ -633,8 +681,9 @@ ListGeoMatchSets(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_confi
 - `Limit`: Specifies the number of IPSet objects that you want AWS WAF to return for this request. If you have more IPSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of IPSet objects.
 - `NextMarker`: AWS WAF returns a NextMarker value in the response that allows you to list another group of IPSets. For the second and subsequent ListIPSets requests, specify the value of NextMarker from the previous response to get information about another batch of IPSets.
 """
-ListIPSets(; aws::AWSConfig=AWS.aws_config) = waf("ListIPSets"; aws=aws)
-ListIPSets(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("ListIPSets", args; aws=aws)
+
+ListIPSets(; aws_config::AWSConfig=AWS.aws_config) = waf("ListIPSets"; aws_config=aws_config)
+ListIPSets(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("ListIPSets", args; aws_config=aws_config)
 
 """
     ListLoggingConfigurations()
@@ -645,8 +694,9 @@ ListIPSets(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = w
 - `Limit`: Specifies the number of LoggingConfigurations that you want AWS WAF to return for this request. If you have more LoggingConfigurations than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of LoggingConfigurations.
 - `NextMarker`: If you specify a value for Limit and you have more LoggingConfigurations than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of LoggingConfigurations. For the second and subsequent ListLoggingConfigurations requests, specify the value of NextMarker from the previous response to get information about another batch of ListLoggingConfigurations.
 """
-ListLoggingConfigurations(; aws::AWSConfig=AWS.aws_config) = waf("ListLoggingConfigurations"; aws=aws)
-ListLoggingConfigurations(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("ListLoggingConfigurations", args; aws=aws)
+
+ListLoggingConfigurations(; aws_config::AWSConfig=AWS.aws_config) = waf("ListLoggingConfigurations"; aws_config=aws_config)
+ListLoggingConfigurations(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("ListLoggingConfigurations", args; aws_config=aws_config)
 
 """
     ListRateBasedRules()
@@ -657,8 +707,9 @@ ListLoggingConfigurations(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.
 - `Limit`: Specifies the number of Rules that you want AWS WAF to return for this request. If you have more Rules than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of Rules.
 - `NextMarker`: If you specify a value for Limit and you have more Rules than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of Rules. For the second and subsequent ListRateBasedRules requests, specify the value of NextMarker from the previous response to get information about another batch of Rules.
 """
-ListRateBasedRules(; aws::AWSConfig=AWS.aws_config) = waf("ListRateBasedRules"; aws=aws)
-ListRateBasedRules(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("ListRateBasedRules", args; aws=aws)
+
+ListRateBasedRules(; aws_config::AWSConfig=AWS.aws_config) = waf("ListRateBasedRules"; aws_config=aws_config)
+ListRateBasedRules(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("ListRateBasedRules", args; aws_config=aws_config)
 
 """
     ListRegexMatchSets()
@@ -669,8 +720,9 @@ ListRateBasedRules(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_con
 - `Limit`: Specifies the number of RegexMatchSet objects that you want AWS WAF to return for this request. If you have more RegexMatchSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of RegexMatchSet objects.
 - `NextMarker`: If you specify a value for Limit and you have more RegexMatchSet objects than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of ByteMatchSets. For the second and subsequent ListRegexMatchSets requests, specify the value of NextMarker from the previous response to get information about another batch of RegexMatchSet objects.
 """
-ListRegexMatchSets(; aws::AWSConfig=AWS.aws_config) = waf("ListRegexMatchSets"; aws=aws)
-ListRegexMatchSets(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("ListRegexMatchSets", args; aws=aws)
+
+ListRegexMatchSets(; aws_config::AWSConfig=AWS.aws_config) = waf("ListRegexMatchSets"; aws_config=aws_config)
+ListRegexMatchSets(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("ListRegexMatchSets", args; aws_config=aws_config)
 
 """
     ListRegexPatternSets()
@@ -681,8 +733,9 @@ ListRegexMatchSets(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_con
 - `Limit`: Specifies the number of RegexPatternSet objects that you want AWS WAF to return for this request. If you have more RegexPatternSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of RegexPatternSet objects.
 - `NextMarker`: If you specify a value for Limit and you have more RegexPatternSet objects than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of RegexPatternSet objects. For the second and subsequent ListRegexPatternSets requests, specify the value of NextMarker from the previous response to get information about another batch of RegexPatternSet objects.
 """
-ListRegexPatternSets(; aws::AWSConfig=AWS.aws_config) = waf("ListRegexPatternSets"; aws=aws)
-ListRegexPatternSets(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("ListRegexPatternSets", args; aws=aws)
+
+ListRegexPatternSets(; aws_config::AWSConfig=AWS.aws_config) = waf("ListRegexPatternSets"; aws_config=aws_config)
+ListRegexPatternSets(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("ListRegexPatternSets", args; aws_config=aws_config)
 
 """
     ListRuleGroups()
@@ -693,8 +746,9 @@ ListRegexPatternSets(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_c
 - `Limit`: Specifies the number of RuleGroups that you want AWS WAF to return for this request. If you have more RuleGroups than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of RuleGroups.
 - `NextMarker`: If you specify a value for Limit and you have more RuleGroups than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of RuleGroups. For the second and subsequent ListRuleGroups requests, specify the value of NextMarker from the previous response to get information about another batch of RuleGroups.
 """
-ListRuleGroups(; aws::AWSConfig=AWS.aws_config) = waf("ListRuleGroups"; aws=aws)
-ListRuleGroups(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("ListRuleGroups", args; aws=aws)
+
+ListRuleGroups(; aws_config::AWSConfig=AWS.aws_config) = waf("ListRuleGroups"; aws_config=aws_config)
+ListRuleGroups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("ListRuleGroups", args; aws_config=aws_config)
 
 """
     ListRules()
@@ -705,8 +759,9 @@ ListRuleGroups(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config)
 - `Limit`: Specifies the number of Rules that you want AWS WAF to return for this request. If you have more Rules than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of Rules.
 - `NextMarker`: If you specify a value for Limit and you have more Rules than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of Rules. For the second and subsequent ListRules requests, specify the value of NextMarker from the previous response to get information about another batch of Rules.
 """
-ListRules(; aws::AWSConfig=AWS.aws_config) = waf("ListRules"; aws=aws)
-ListRules(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("ListRules", args; aws=aws)
+
+ListRules(; aws_config::AWSConfig=AWS.aws_config) = waf("ListRules"; aws_config=aws_config)
+ListRules(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("ListRules", args; aws_config=aws_config)
 
 """
     ListSizeConstraintSets()
@@ -717,8 +772,9 @@ ListRules(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = wa
 - `Limit`: Specifies the number of SizeConstraintSet objects that you want AWS WAF to return for this request. If you have more SizeConstraintSets objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of SizeConstraintSet objects.
 - `NextMarker`: If you specify a value for Limit and you have more SizeConstraintSets than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of SizeConstraintSets. For the second and subsequent ListSizeConstraintSets requests, specify the value of NextMarker from the previous response to get information about another batch of SizeConstraintSets.
 """
-ListSizeConstraintSets(; aws::AWSConfig=AWS.aws_config) = waf("ListSizeConstraintSets"; aws=aws)
-ListSizeConstraintSets(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("ListSizeConstraintSets", args; aws=aws)
+
+ListSizeConstraintSets(; aws_config::AWSConfig=AWS.aws_config) = waf("ListSizeConstraintSets"; aws_config=aws_config)
+ListSizeConstraintSets(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("ListSizeConstraintSets", args; aws_config=aws_config)
 
 """
     ListSqlInjectionMatchSets()
@@ -729,8 +785,9 @@ ListSizeConstraintSets(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws
 - `Limit`: Specifies the number of SqlInjectionMatchSet objects that you want AWS WAF to return for this request. If you have more SqlInjectionMatchSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of Rules.
 - `NextMarker`: If you specify a value for Limit and you have more SqlInjectionMatchSet objects than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of SqlInjectionMatchSets. For the second and subsequent ListSqlInjectionMatchSets requests, specify the value of NextMarker from the previous response to get information about another batch of SqlInjectionMatchSets.
 """
-ListSqlInjectionMatchSets(; aws::AWSConfig=AWS.aws_config) = waf("ListSqlInjectionMatchSets"; aws=aws)
-ListSqlInjectionMatchSets(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("ListSqlInjectionMatchSets", args; aws=aws)
+
+ListSqlInjectionMatchSets(; aws_config::AWSConfig=AWS.aws_config) = waf("ListSqlInjectionMatchSets"; aws_config=aws_config)
+ListSqlInjectionMatchSets(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("ListSqlInjectionMatchSets", args; aws_config=aws_config)
 
 """
     ListSubscribedRuleGroups()
@@ -741,8 +798,9 @@ ListSqlInjectionMatchSets(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.
 - `Limit`: Specifies the number of subscribed rule groups that you want AWS WAF to return for this request. If you have more objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of objects.
 - `NextMarker`: If you specify a value for Limit and you have more ByteMatchSetssubscribed rule groups than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of subscribed rule groups. For the second and subsequent ListSubscribedRuleGroupsRequest requests, specify the value of NextMarker from the previous response to get information about another batch of subscribed rule groups.
 """
-ListSubscribedRuleGroups(; aws::AWSConfig=AWS.aws_config) = waf("ListSubscribedRuleGroups"; aws=aws)
-ListSubscribedRuleGroups(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("ListSubscribedRuleGroups", args; aws=aws)
+
+ListSubscribedRuleGroups(; aws_config::AWSConfig=AWS.aws_config) = waf("ListSubscribedRuleGroups"; aws_config=aws_config)
+ListSubscribedRuleGroups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("ListSubscribedRuleGroups", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -756,8 +814,9 @@ ListSubscribedRuleGroups(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.a
 - `Limit`: 
 - `NextMarker`: 
 """
-ListTagsForResource(ResourceARN; aws::AWSConfig=AWS.aws_config) = waf("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws=aws)
-ListTagsForResource(ResourceARN, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), args)); aws=aws)
+
+ListTagsForResource(ResourceARN; aws_config::AWSConfig=AWS.aws_config) = waf("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
+ListTagsForResource(ResourceARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), args)); aws_config=aws_config)
 
 """
     ListWebACLs()
@@ -768,8 +827,9 @@ ListTagsForResource(ResourceARN, args::AbstractDict{String, <:Any}; aws::AWSConf
 - `Limit`: Specifies the number of WebACL objects that you want AWS WAF to return for this request. If you have more WebACL objects than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of WebACL objects.
 - `NextMarker`: If you specify a value for Limit and you have more WebACL objects than the number that you specify for Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of WebACL objects. For the second and subsequent ListWebACLs requests, specify the value of NextMarker from the previous response to get information about another batch of WebACL objects.
 """
-ListWebACLs(; aws::AWSConfig=AWS.aws_config) = waf("ListWebACLs"; aws=aws)
-ListWebACLs(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("ListWebACLs", args; aws=aws)
+
+ListWebACLs(; aws_config::AWSConfig=AWS.aws_config) = waf("ListWebACLs"; aws_config=aws_config)
+ListWebACLs(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("ListWebACLs", args; aws_config=aws_config)
 
 """
     ListXssMatchSets()
@@ -780,8 +840,9 @@ ListWebACLs(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = 
 - `Limit`: Specifies the number of XssMatchSet objects that you want AWS WAF to return for this request. If you have more XssMatchSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of Rules.
 - `NextMarker`: If you specify a value for Limit and you have more XssMatchSet objects than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of XssMatchSets. For the second and subsequent ListXssMatchSets requests, specify the value of NextMarker from the previous response to get information about another batch of XssMatchSets.
 """
-ListXssMatchSets(; aws::AWSConfig=AWS.aws_config) = waf("ListXssMatchSets"; aws=aws)
-ListXssMatchSets(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("ListXssMatchSets", args; aws=aws)
+
+ListXssMatchSets(; aws_config::AWSConfig=AWS.aws_config) = waf("ListXssMatchSets"; aws_config=aws_config)
+ListXssMatchSets(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("ListXssMatchSets", args; aws_config=aws_config)
 
 """
     PutLoggingConfiguration()
@@ -792,8 +853,9 @@ ListXssMatchSets(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_confi
 - `LoggingConfiguration`: The Amazon Kinesis Data Firehose that contains the inspected traffic information, the redacted fields details, and the Amazon Resource Name (ARN) of the web ACL to monitor.  When specifying Type in RedactedFields, you must use one of the following values: URI, QUERY_STRING, HEADER, or METHOD. 
 
 """
-PutLoggingConfiguration(LoggingConfiguration; aws::AWSConfig=AWS.aws_config) = waf("PutLoggingConfiguration", Dict{String, Any}("LoggingConfiguration"=>LoggingConfiguration); aws=aws)
-PutLoggingConfiguration(LoggingConfiguration, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("PutLoggingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoggingConfiguration"=>LoggingConfiguration), args)); aws=aws)
+
+PutLoggingConfiguration(LoggingConfiguration; aws_config::AWSConfig=AWS.aws_config) = waf("PutLoggingConfiguration", Dict{String, Any}("LoggingConfiguration"=>LoggingConfiguration); aws_config=aws_config)
+PutLoggingConfiguration(LoggingConfiguration, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("PutLoggingConfiguration", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LoggingConfiguration"=>LoggingConfiguration), args)); aws_config=aws_config)
 
 """
     PutPermissionPolicy()
@@ -805,8 +867,9 @@ PutLoggingConfiguration(LoggingConfiguration, args::AbstractDict{String, <:Any};
 - `ResourceArn`: The Amazon Resource Name (ARN) of the RuleGroup to which you want to attach the policy.
 
 """
-PutPermissionPolicy(Policy, ResourceArn; aws::AWSConfig=AWS.aws_config) = waf("PutPermissionPolicy", Dict{String, Any}("Policy"=>Policy, "ResourceArn"=>ResourceArn); aws=aws)
-PutPermissionPolicy(Policy, ResourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("PutPermissionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy, "ResourceArn"=>ResourceArn), args)); aws=aws)
+
+PutPermissionPolicy(Policy, ResourceArn; aws_config::AWSConfig=AWS.aws_config) = waf("PutPermissionPolicy", Dict{String, Any}("Policy"=>Policy, "ResourceArn"=>ResourceArn); aws_config=aws_config)
+PutPermissionPolicy(Policy, ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("PutPermissionPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy, "ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -818,8 +881,9 @@ PutPermissionPolicy(Policy, ResourceArn, args::AbstractDict{String, <:Any}; aws:
 - `Tags`: 
 
 """
-TagResource(ResourceARN, Tags; aws::AWSConfig=AWS.aws_config) = waf("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws=aws)
-TagResource(ResourceARN, Tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), args)); aws=aws)
+
+TagResource(ResourceARN, Tags; aws_config::AWSConfig=AWS.aws_config) = waf("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
+TagResource(ResourceARN, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -831,8 +895,9 @@ TagResource(ResourceARN, Tags, args::AbstractDict{String, <:Any}; aws::AWSConfig
 - `TagKeys`: 
 
 """
-UntagResource(ResourceARN, TagKeys; aws::AWSConfig=AWS.aws_config) = waf("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws=aws)
-UntagResource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), args)); aws=aws)
+
+UntagResource(ResourceARN, TagKeys; aws_config::AWSConfig=AWS.aws_config) = waf("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
+UntagResource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
 
 """
     UpdateByteMatchSet()
@@ -845,8 +910,9 @@ UntagResource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws::AWSC
 - `Updates`: An array of ByteMatchSetUpdate objects that you want to insert into or delete from a ByteMatchSet. For more information, see the applicable data types:    ByteMatchSetUpdate: Contains Action and ByteMatchTuple     ByteMatchTuple: Contains FieldToMatch, PositionalConstraint, TargetString, and TextTransformation     FieldToMatch: Contains Data and Type   
 
 """
-UpdateByteMatchSet(ByteMatchSetId, ChangeToken, Updates; aws::AWSConfig=AWS.aws_config) = waf("UpdateByteMatchSet", Dict{String, Any}("ByteMatchSetId"=>ByteMatchSetId, "ChangeToken"=>ChangeToken, "Updates"=>Updates); aws=aws)
-UpdateByteMatchSet(ByteMatchSetId, ChangeToken, Updates, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("UpdateByteMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ByteMatchSetId"=>ByteMatchSetId, "ChangeToken"=>ChangeToken, "Updates"=>Updates), args)); aws=aws)
+
+UpdateByteMatchSet(ByteMatchSetId, ChangeToken, Updates; aws_config::AWSConfig=AWS.aws_config) = waf("UpdateByteMatchSet", Dict{String, Any}("ByteMatchSetId"=>ByteMatchSetId, "ChangeToken"=>ChangeToken, "Updates"=>Updates); aws_config=aws_config)
+UpdateByteMatchSet(ByteMatchSetId, ChangeToken, Updates, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("UpdateByteMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ByteMatchSetId"=>ByteMatchSetId, "ChangeToken"=>ChangeToken, "Updates"=>Updates), args)); aws_config=aws_config)
 
 """
     UpdateGeoMatchSet()
@@ -859,8 +925,9 @@ UpdateByteMatchSet(ByteMatchSetId, ChangeToken, Updates, args::AbstractDict{Stri
 - `Updates`: An array of GeoMatchSetUpdate objects that you want to insert into or delete from an GeoMatchSet. For more information, see the applicable data types:    GeoMatchSetUpdate: Contains Action and GeoMatchConstraint     GeoMatchConstraint: Contains Type and Value  You can have only one Type and Value per GeoMatchConstraint. To add multiple countries, include multiple GeoMatchSetUpdate objects in your request.  
 
 """
-UpdateGeoMatchSet(ChangeToken, GeoMatchSetId, Updates; aws::AWSConfig=AWS.aws_config) = waf("UpdateGeoMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "GeoMatchSetId"=>GeoMatchSetId, "Updates"=>Updates); aws=aws)
-UpdateGeoMatchSet(ChangeToken, GeoMatchSetId, Updates, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("UpdateGeoMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "GeoMatchSetId"=>GeoMatchSetId, "Updates"=>Updates), args)); aws=aws)
+
+UpdateGeoMatchSet(ChangeToken, GeoMatchSetId, Updates; aws_config::AWSConfig=AWS.aws_config) = waf("UpdateGeoMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "GeoMatchSetId"=>GeoMatchSetId, "Updates"=>Updates); aws_config=aws_config)
+UpdateGeoMatchSet(ChangeToken, GeoMatchSetId, Updates, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("UpdateGeoMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "GeoMatchSetId"=>GeoMatchSetId, "Updates"=>Updates), args)); aws_config=aws_config)
 
 """
     UpdateIPSet()
@@ -873,8 +940,9 @@ UpdateGeoMatchSet(ChangeToken, GeoMatchSetId, Updates, args::AbstractDict{String
 - `Updates`: An array of IPSetUpdate objects that you want to insert into or delete from an IPSet. For more information, see the applicable data types:    IPSetUpdate: Contains Action and IPSetDescriptor     IPSetDescriptor: Contains Type and Value    You can insert a maximum of 1000 addresses in a single request.
 
 """
-UpdateIPSet(ChangeToken, IPSetId, Updates; aws::AWSConfig=AWS.aws_config) = waf("UpdateIPSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "IPSetId"=>IPSetId, "Updates"=>Updates); aws=aws)
-UpdateIPSet(ChangeToken, IPSetId, Updates, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("UpdateIPSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "IPSetId"=>IPSetId, "Updates"=>Updates), args)); aws=aws)
+
+UpdateIPSet(ChangeToken, IPSetId, Updates; aws_config::AWSConfig=AWS.aws_config) = waf("UpdateIPSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "IPSetId"=>IPSetId, "Updates"=>Updates); aws_config=aws_config)
+UpdateIPSet(ChangeToken, IPSetId, Updates, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("UpdateIPSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "IPSetId"=>IPSetId, "Updates"=>Updates), args)); aws_config=aws_config)
 
 """
     UpdateRateBasedRule()
@@ -888,8 +956,9 @@ UpdateIPSet(ChangeToken, IPSetId, Updates, args::AbstractDict{String, <:Any}; aw
 - `Updates`: An array of RuleUpdate objects that you want to insert into or delete from a RateBasedRule. 
 
 """
-UpdateRateBasedRule(ChangeToken, RateLimit, RuleId, Updates; aws::AWSConfig=AWS.aws_config) = waf("UpdateRateBasedRule", Dict{String, Any}("ChangeToken"=>ChangeToken, "RateLimit"=>RateLimit, "RuleId"=>RuleId, "Updates"=>Updates); aws=aws)
-UpdateRateBasedRule(ChangeToken, RateLimit, RuleId, Updates, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("UpdateRateBasedRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RateLimit"=>RateLimit, "RuleId"=>RuleId, "Updates"=>Updates), args)); aws=aws)
+
+UpdateRateBasedRule(ChangeToken, RateLimit, RuleId, Updates; aws_config::AWSConfig=AWS.aws_config) = waf("UpdateRateBasedRule", Dict{String, Any}("ChangeToken"=>ChangeToken, "RateLimit"=>RateLimit, "RuleId"=>RuleId, "Updates"=>Updates); aws_config=aws_config)
+UpdateRateBasedRule(ChangeToken, RateLimit, RuleId, Updates, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("UpdateRateBasedRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RateLimit"=>RateLimit, "RuleId"=>RuleId, "Updates"=>Updates), args)); aws_config=aws_config)
 
 """
     UpdateRegexMatchSet()
@@ -902,8 +971,9 @@ UpdateRateBasedRule(ChangeToken, RateLimit, RuleId, Updates, args::AbstractDict{
 - `Updates`: An array of RegexMatchSetUpdate objects that you want to insert into or delete from a RegexMatchSet. For more information, see RegexMatchTuple.
 
 """
-UpdateRegexMatchSet(ChangeToken, RegexMatchSetId, Updates; aws::AWSConfig=AWS.aws_config) = waf("UpdateRegexMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "RegexMatchSetId"=>RegexMatchSetId, "Updates"=>Updates); aws=aws)
-UpdateRegexMatchSet(ChangeToken, RegexMatchSetId, Updates, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("UpdateRegexMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RegexMatchSetId"=>RegexMatchSetId, "Updates"=>Updates), args)); aws=aws)
+
+UpdateRegexMatchSet(ChangeToken, RegexMatchSetId, Updates; aws_config::AWSConfig=AWS.aws_config) = waf("UpdateRegexMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "RegexMatchSetId"=>RegexMatchSetId, "Updates"=>Updates); aws_config=aws_config)
+UpdateRegexMatchSet(ChangeToken, RegexMatchSetId, Updates, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("UpdateRegexMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RegexMatchSetId"=>RegexMatchSetId, "Updates"=>Updates), args)); aws_config=aws_config)
 
 """
     UpdateRegexPatternSet()
@@ -916,8 +986,9 @@ UpdateRegexMatchSet(ChangeToken, RegexMatchSetId, Updates, args::AbstractDict{St
 - `Updates`: An array of RegexPatternSetUpdate objects that you want to insert into or delete from a RegexPatternSet.
 
 """
-UpdateRegexPatternSet(ChangeToken, RegexPatternSetId, Updates; aws::AWSConfig=AWS.aws_config) = waf("UpdateRegexPatternSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "RegexPatternSetId"=>RegexPatternSetId, "Updates"=>Updates); aws=aws)
-UpdateRegexPatternSet(ChangeToken, RegexPatternSetId, Updates, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("UpdateRegexPatternSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RegexPatternSetId"=>RegexPatternSetId, "Updates"=>Updates), args)); aws=aws)
+
+UpdateRegexPatternSet(ChangeToken, RegexPatternSetId, Updates; aws_config::AWSConfig=AWS.aws_config) = waf("UpdateRegexPatternSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "RegexPatternSetId"=>RegexPatternSetId, "Updates"=>Updates); aws_config=aws_config)
+UpdateRegexPatternSet(ChangeToken, RegexPatternSetId, Updates, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("UpdateRegexPatternSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RegexPatternSetId"=>RegexPatternSetId, "Updates"=>Updates), args)); aws_config=aws_config)
 
 """
     UpdateRule()
@@ -930,8 +1001,9 @@ UpdateRegexPatternSet(ChangeToken, RegexPatternSetId, Updates, args::AbstractDic
 - `Updates`: An array of RuleUpdate objects that you want to insert into or delete from a Rule. For more information, see the applicable data types:    RuleUpdate: Contains Action and Predicate     Predicate: Contains DataId, Negated, and Type     FieldToMatch: Contains Data and Type   
 
 """
-UpdateRule(ChangeToken, RuleId, Updates; aws::AWSConfig=AWS.aws_config) = waf("UpdateRule", Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleId"=>RuleId, "Updates"=>Updates); aws=aws)
-UpdateRule(ChangeToken, RuleId, Updates, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("UpdateRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleId"=>RuleId, "Updates"=>Updates), args)); aws=aws)
+
+UpdateRule(ChangeToken, RuleId, Updates; aws_config::AWSConfig=AWS.aws_config) = waf("UpdateRule", Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleId"=>RuleId, "Updates"=>Updates); aws_config=aws_config)
+UpdateRule(ChangeToken, RuleId, Updates, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("UpdateRule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleId"=>RuleId, "Updates"=>Updates), args)); aws_config=aws_config)
 
 """
     UpdateRuleGroup()
@@ -944,8 +1016,9 @@ UpdateRule(ChangeToken, RuleId, Updates, args::AbstractDict{String, <:Any}; aws:
 - `Updates`: An array of RuleGroupUpdate objects that you want to insert into or delete from a RuleGroup. You can only insert REGULAR rules into a rule group.  ActivatedRule|OverrideAction applies only when updating or adding a RuleGroup to a WebACL. In this case you do not use ActivatedRule|Action. For all other update requests, ActivatedRule|Action is used instead of ActivatedRule|OverrideAction.
 
 """
-UpdateRuleGroup(ChangeToken, RuleGroupId, Updates; aws::AWSConfig=AWS.aws_config) = waf("UpdateRuleGroup", Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleGroupId"=>RuleGroupId, "Updates"=>Updates); aws=aws)
-UpdateRuleGroup(ChangeToken, RuleGroupId, Updates, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("UpdateRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleGroupId"=>RuleGroupId, "Updates"=>Updates), args)); aws=aws)
+
+UpdateRuleGroup(ChangeToken, RuleGroupId, Updates; aws_config::AWSConfig=AWS.aws_config) = waf("UpdateRuleGroup", Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleGroupId"=>RuleGroupId, "Updates"=>Updates); aws_config=aws_config)
+UpdateRuleGroup(ChangeToken, RuleGroupId, Updates, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("UpdateRuleGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "RuleGroupId"=>RuleGroupId, "Updates"=>Updates), args)); aws_config=aws_config)
 
 """
     UpdateSizeConstraintSet()
@@ -958,8 +1031,9 @@ UpdateRuleGroup(ChangeToken, RuleGroupId, Updates, args::AbstractDict{String, <:
 - `Updates`: An array of SizeConstraintSetUpdate objects that you want to insert into or delete from a SizeConstraintSet. For more information, see the applicable data types:    SizeConstraintSetUpdate: Contains Action and SizeConstraint     SizeConstraint: Contains FieldToMatch, TextTransformation, ComparisonOperator, and Size     FieldToMatch: Contains Data and Type   
 
 """
-UpdateSizeConstraintSet(ChangeToken, SizeConstraintSetId, Updates; aws::AWSConfig=AWS.aws_config) = waf("UpdateSizeConstraintSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "SizeConstraintSetId"=>SizeConstraintSetId, "Updates"=>Updates); aws=aws)
-UpdateSizeConstraintSet(ChangeToken, SizeConstraintSetId, Updates, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("UpdateSizeConstraintSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "SizeConstraintSetId"=>SizeConstraintSetId, "Updates"=>Updates), args)); aws=aws)
+
+UpdateSizeConstraintSet(ChangeToken, SizeConstraintSetId, Updates; aws_config::AWSConfig=AWS.aws_config) = waf("UpdateSizeConstraintSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "SizeConstraintSetId"=>SizeConstraintSetId, "Updates"=>Updates); aws_config=aws_config)
+UpdateSizeConstraintSet(ChangeToken, SizeConstraintSetId, Updates, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("UpdateSizeConstraintSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "SizeConstraintSetId"=>SizeConstraintSetId, "Updates"=>Updates), args)); aws_config=aws_config)
 
 """
     UpdateSqlInjectionMatchSet()
@@ -972,8 +1046,9 @@ UpdateSizeConstraintSet(ChangeToken, SizeConstraintSetId, Updates, args::Abstrac
 - `Updates`: An array of SqlInjectionMatchSetUpdate objects that you want to insert into or delete from a SqlInjectionMatchSet. For more information, see the applicable data types:    SqlInjectionMatchSetUpdate: Contains Action and SqlInjectionMatchTuple     SqlInjectionMatchTuple: Contains FieldToMatch and TextTransformation     FieldToMatch: Contains Data and Type   
 
 """
-UpdateSqlInjectionMatchSet(ChangeToken, SqlInjectionMatchSetId, Updates; aws::AWSConfig=AWS.aws_config) = waf("UpdateSqlInjectionMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "SqlInjectionMatchSetId"=>SqlInjectionMatchSetId, "Updates"=>Updates); aws=aws)
-UpdateSqlInjectionMatchSet(ChangeToken, SqlInjectionMatchSetId, Updates, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("UpdateSqlInjectionMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "SqlInjectionMatchSetId"=>SqlInjectionMatchSetId, "Updates"=>Updates), args)); aws=aws)
+
+UpdateSqlInjectionMatchSet(ChangeToken, SqlInjectionMatchSetId, Updates; aws_config::AWSConfig=AWS.aws_config) = waf("UpdateSqlInjectionMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "SqlInjectionMatchSetId"=>SqlInjectionMatchSetId, "Updates"=>Updates); aws_config=aws_config)
+UpdateSqlInjectionMatchSet(ChangeToken, SqlInjectionMatchSetId, Updates, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("UpdateSqlInjectionMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "SqlInjectionMatchSetId"=>SqlInjectionMatchSetId, "Updates"=>Updates), args)); aws_config=aws_config)
 
 """
     UpdateWebACL()
@@ -988,8 +1063,9 @@ UpdateSqlInjectionMatchSet(ChangeToken, SqlInjectionMatchSetId, Updates, args::A
 - `DefaultAction`: A default action for the web ACL, either ALLOW or BLOCK. AWS WAF performs the default action if a request doesn't match the criteria in any of the rules in a web ACL.
 - `Updates`: An array of updates to make to the WebACL. An array of WebACLUpdate objects that you want to insert into or delete from a WebACL. For more information, see the applicable data types:    WebACLUpdate: Contains Action and ActivatedRule     ActivatedRule: Contains Action, OverrideAction, Priority, RuleId, and Type. ActivatedRule|OverrideAction applies only when updating or adding a RuleGroup to a WebACL. In this case, you do not use ActivatedRule|Action. For all other update requests, ActivatedRule|Action is used instead of ActivatedRule|OverrideAction.     WafAction: Contains Type   
 """
-UpdateWebACL(ChangeToken, WebACLId; aws::AWSConfig=AWS.aws_config) = waf("UpdateWebACL", Dict{String, Any}("ChangeToken"=>ChangeToken, "WebACLId"=>WebACLId); aws=aws)
-UpdateWebACL(ChangeToken, WebACLId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("UpdateWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "WebACLId"=>WebACLId), args)); aws=aws)
+
+UpdateWebACL(ChangeToken, WebACLId; aws_config::AWSConfig=AWS.aws_config) = waf("UpdateWebACL", Dict{String, Any}("ChangeToken"=>ChangeToken, "WebACLId"=>WebACLId); aws_config=aws_config)
+UpdateWebACL(ChangeToken, WebACLId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("UpdateWebACL", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "WebACLId"=>WebACLId), args)); aws_config=aws_config)
 
 """
     UpdateXssMatchSet()
@@ -1002,5 +1078,6 @@ UpdateWebACL(ChangeToken, WebACLId, args::AbstractDict{String, <:Any}; aws::AWSC
 - `XssMatchSetId`: The XssMatchSetId of the XssMatchSet that you want to update. XssMatchSetId is returned by CreateXssMatchSet and by ListXssMatchSets.
 
 """
-UpdateXssMatchSet(ChangeToken, Updates, XssMatchSetId; aws::AWSConfig=AWS.aws_config) = waf("UpdateXssMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "Updates"=>Updates, "XssMatchSetId"=>XssMatchSetId); aws=aws)
-UpdateXssMatchSet(ChangeToken, Updates, XssMatchSetId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = waf("UpdateXssMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Updates"=>Updates, "XssMatchSetId"=>XssMatchSetId), args)); aws=aws)
+
+UpdateXssMatchSet(ChangeToken, Updates, XssMatchSetId; aws_config::AWSConfig=AWS.aws_config) = waf("UpdateXssMatchSet", Dict{String, Any}("ChangeToken"=>ChangeToken, "Updates"=>Updates, "XssMatchSetId"=>XssMatchSetId); aws_config=aws_config)
+UpdateXssMatchSet(ChangeToken, Updates, XssMatchSetId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = waf("UpdateXssMatchSet", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ChangeToken"=>ChangeToken, "Updates"=>Updates, "XssMatchSetId"=>XssMatchSetId), args)); aws_config=aws_config)

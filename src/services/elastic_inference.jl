@@ -15,8 +15,9 @@ using UUIDs
 # Optional Parameters
 - `acceleratorTypes`:  The list of accelerator types to describe. 
 """
-DescribeAcceleratorOfferings(locationType; aws::AWSConfig=AWS.aws_config) = elastic_inference("POST", "/describe-accelerator-offerings", Dict{String, Any}("locationType"=>locationType); aws=aws)
-DescribeAcceleratorOfferings(locationType, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = elastic_inference("POST", "/describe-accelerator-offerings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("locationType"=>locationType), args)); aws=aws)
+
+DescribeAcceleratorOfferings(locationType; aws_config::AWSConfig=AWS.aws_config) = elastic_inference("POST", "/describe-accelerator-offerings", Dict{String, Any}("locationType"=>locationType); aws_config=aws_config)
+DescribeAcceleratorOfferings(locationType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = elastic_inference("POST", "/describe-accelerator-offerings", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("locationType"=>locationType), args)); aws_config=aws_config)
 
 """
     DescribeAcceleratorTypes()
@@ -24,8 +25,9 @@ DescribeAcceleratorOfferings(locationType, args::AbstractDict{String, <:Any}; aw
  Describes the accelerator types available in a given region, as well as their characteristics, such as memory and throughput. 
 
 """
-DescribeAcceleratorTypes(; aws::AWSConfig=AWS.aws_config) = elastic_inference("GET", "/describe-accelerator-types"; aws=aws)
-DescribeAcceleratorTypes(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = elastic_inference("GET", "/describe-accelerator-types", args; aws=aws)
+
+DescribeAcceleratorTypes(; aws_config::AWSConfig=AWS.aws_config) = elastic_inference("GET", "/describe-accelerator-types"; aws_config=aws_config)
+DescribeAcceleratorTypes(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = elastic_inference("GET", "/describe-accelerator-types", args; aws_config=aws_config)
 
 """
     DescribeAccelerators()
@@ -38,8 +40,9 @@ DescribeAcceleratorTypes(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws
 - `maxResults`:  The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. 
 - `nextToken`:  A token to specify where to start paginating. This is the NextToken from a previously truncated response. 
 """
-DescribeAccelerators(; aws::AWSConfig=AWS.aws_config) = elastic_inference("POST", "/describe-accelerators"; aws=aws)
-DescribeAccelerators(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = elastic_inference("POST", "/describe-accelerators", args; aws=aws)
+
+DescribeAccelerators(; aws_config::AWSConfig=AWS.aws_config) = elastic_inference("POST", "/describe-accelerators"; aws_config=aws_config)
+DescribeAccelerators(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = elastic_inference("POST", "/describe-accelerators", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -50,8 +53,9 @@ DescribeAccelerators(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_con
 - `resourceArn`:  The ARN of the Elastic Inference Accelerator to list the tags for. 
 
 """
-ListTagsForResource(resourceArn; aws::AWSConfig=AWS.aws_config) = elastic_inference("GET", "/tags/$(resourceArn)"; aws=aws)
-ListTagsForResource(resourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = elastic_inference("GET", "/tags/$(resourceArn)", args; aws=aws)
+
+ListTagsForResource(resourceArn; aws_config::AWSConfig=AWS.aws_config) = elastic_inference("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
+ListTagsForResource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = elastic_inference("GET", "/tags/$(resourceArn)", args; aws_config=aws_config)
 
 """
     TagResource()
@@ -63,8 +67,9 @@ ListTagsForResource(resourceArn, args::AbstractDict{String, <:Any}; aws::AWSConf
 - `tags`:  The tags to add to the Elastic Inference Accelerator. 
 
 """
-TagResource(resourceArn, tags; aws::AWSConfig=AWS.aws_config) = elastic_inference("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws=aws)
-TagResource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = elastic_inference("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws=aws)
+
+TagResource(resourceArn, tags; aws_config::AWSConfig=AWS.aws_config) = elastic_inference("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
+TagResource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = elastic_inference("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -76,5 +81,6 @@ TagResource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws::AWSConfig
 - `tagKeys`:  The list of tags to remove from the Elastic Inference Accelerator. 
 
 """
-UntagResource(resourceArn, tagKeys; aws::AWSConfig=AWS.aws_config) = elastic_inference("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws=aws)
-UntagResource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = elastic_inference("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws=aws)
+
+UntagResource(resourceArn, tagKeys; aws_config::AWSConfig=AWS.aws_config) = elastic_inference("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
+UntagResource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = elastic_inference("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)

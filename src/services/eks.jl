@@ -21,8 +21,9 @@ Creates an Amazon EKS control plane.  The Amazon EKS control plane consists of c
 - `tags`: The metadata to apply to the cluster to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define.
 - `version`: The desired Kubernetes version for your cluster. If you don't specify a value here, the latest version available in Amazon EKS is used.
 """
-CreateCluster(name, resourcesVpcConfig, roleArn; aws::AWSConfig=AWS.aws_config) = eks("POST", "/clusters", Dict{String, Any}("name"=>name, "resourcesVpcConfig"=>resourcesVpcConfig, "roleArn"=>roleArn, "clientRequestToken"=>string(uuid4())); aws=aws)
-CreateCluster(name, resourcesVpcConfig, roleArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = eks("POST", "/clusters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "resourcesVpcConfig"=>resourcesVpcConfig, "roleArn"=>roleArn, "clientRequestToken"=>string(uuid4())), args)); aws=aws)
+
+CreateCluster(name, resourcesVpcConfig, roleArn; aws_config::AWSConfig=AWS.aws_config) = eks("POST", "/clusters", Dict{String, Any}("name"=>name, "resourcesVpcConfig"=>resourcesVpcConfig, "roleArn"=>roleArn, "clientRequestToken"=>string(uuid4())); aws_config=aws_config)
+CreateCluster(name, resourcesVpcConfig, roleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = eks("POST", "/clusters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "resourcesVpcConfig"=>resourcesVpcConfig, "roleArn"=>roleArn, "clientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     CreateFargateProfile()
@@ -40,8 +41,9 @@ Creates an AWS Fargate profile for your Amazon EKS cluster. You must have at lea
 - `subnets`: The IDs of subnets to launch your pods into. At this time, pods running on Fargate are not assigned public IP addresses, so only private subnets (with no direct route to an Internet Gateway) are accepted for this parameter.
 - `tags`: The metadata to apply to the Fargate profile to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Fargate profile tags do not propagate to any other resources associated with the Fargate profile, such as the pods that are scheduled with it.
 """
-CreateFargateProfile(fargateProfileName, name, podExecutionRoleArn; aws::AWSConfig=AWS.aws_config) = eks("POST", "/clusters/$(name)/fargate-profiles", Dict{String, Any}("fargateProfileName"=>fargateProfileName, "podExecutionRoleArn"=>podExecutionRoleArn, "clientRequestToken"=>string(uuid4())); aws=aws)
-CreateFargateProfile(fargateProfileName, name, podExecutionRoleArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = eks("POST", "/clusters/$(name)/fargate-profiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fargateProfileName"=>fargateProfileName, "podExecutionRoleArn"=>podExecutionRoleArn, "clientRequestToken"=>string(uuid4())), args)); aws=aws)
+
+CreateFargateProfile(fargateProfileName, name, podExecutionRoleArn; aws_config::AWSConfig=AWS.aws_config) = eks("POST", "/clusters/$(name)/fargate-profiles", Dict{String, Any}("fargateProfileName"=>fargateProfileName, "podExecutionRoleArn"=>podExecutionRoleArn, "clientRequestToken"=>string(uuid4())); aws_config=aws_config)
+CreateFargateProfile(fargateProfileName, name, podExecutionRoleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = eks("POST", "/clusters/$(name)/fargate-profiles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("fargateProfileName"=>fargateProfileName, "podExecutionRoleArn"=>podExecutionRoleArn, "clientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     CreateNodegroup()
@@ -67,8 +69,9 @@ Creates a managed worker node group for an Amazon EKS cluster. You can only crea
 - `tags`: The metadata to apply to the node group to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Node group tags do not propagate to any other resources associated with the node group, such as the Amazon EC2 instances or subnets.
 - `version`: The Kubernetes version to use for your managed nodes. By default, the Kubernetes version of the cluster is used, and this is the only accepted specified value. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify version, or the node group deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
 """
-CreateNodegroup(name, nodeRole, nodegroupName, subnets; aws::AWSConfig=AWS.aws_config) = eks("POST", "/clusters/$(name)/node-groups", Dict{String, Any}("nodeRole"=>nodeRole, "nodegroupName"=>nodegroupName, "subnets"=>subnets, "clientRequestToken"=>string(uuid4())); aws=aws)
-CreateNodegroup(name, nodeRole, nodegroupName, subnets, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = eks("POST", "/clusters/$(name)/node-groups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("nodeRole"=>nodeRole, "nodegroupName"=>nodegroupName, "subnets"=>subnets, "clientRequestToken"=>string(uuid4())), args)); aws=aws)
+
+CreateNodegroup(name, nodeRole, nodegroupName, subnets; aws_config::AWSConfig=AWS.aws_config) = eks("POST", "/clusters/$(name)/node-groups", Dict{String, Any}("nodeRole"=>nodeRole, "nodegroupName"=>nodegroupName, "subnets"=>subnets, "clientRequestToken"=>string(uuid4())); aws_config=aws_config)
+CreateNodegroup(name, nodeRole, nodegroupName, subnets, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = eks("POST", "/clusters/$(name)/node-groups", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("nodeRole"=>nodeRole, "nodegroupName"=>nodegroupName, "subnets"=>subnets, "clientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     DeleteCluster()
@@ -79,8 +82,9 @@ Deletes the Amazon EKS cluster control plane. If you have active services in you
 - `name`: The name of the cluster to delete.
 
 """
-DeleteCluster(name; aws::AWSConfig=AWS.aws_config) = eks("DELETE", "/clusters/$(name)"; aws=aws)
-DeleteCluster(name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = eks("DELETE", "/clusters/$(name)", args; aws=aws)
+
+DeleteCluster(name; aws_config::AWSConfig=AWS.aws_config) = eks("DELETE", "/clusters/$(name)"; aws_config=aws_config)
+DeleteCluster(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = eks("DELETE", "/clusters/$(name)", args; aws_config=aws_config)
 
 """
     DeleteFargateProfile()
@@ -92,8 +96,9 @@ Deletes an AWS Fargate profile. When you delete a Fargate profile, any pods runn
 - `name`: The name of the Amazon EKS cluster associated with the Fargate profile to delete.
 
 """
-DeleteFargateProfile(fargateProfileName, name; aws::AWSConfig=AWS.aws_config) = eks("DELETE", "/clusters/$(name)/fargate-profiles/$(fargateProfileName)"; aws=aws)
-DeleteFargateProfile(fargateProfileName, name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = eks("DELETE", "/clusters/$(name)/fargate-profiles/$(fargateProfileName)", args; aws=aws)
+
+DeleteFargateProfile(fargateProfileName, name; aws_config::AWSConfig=AWS.aws_config) = eks("DELETE", "/clusters/$(name)/fargate-profiles/$(fargateProfileName)"; aws_config=aws_config)
+DeleteFargateProfile(fargateProfileName, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = eks("DELETE", "/clusters/$(name)/fargate-profiles/$(fargateProfileName)", args; aws_config=aws_config)
 
 """
     DeleteNodegroup()
@@ -105,8 +110,9 @@ Deletes an Amazon EKS node group for a cluster.
 - `nodegroupName`: The name of the node group to delete.
 
 """
-DeleteNodegroup(name, nodegroupName; aws::AWSConfig=AWS.aws_config) = eks("DELETE", "/clusters/$(name)/node-groups/$(nodegroupName)"; aws=aws)
-DeleteNodegroup(name, nodegroupName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = eks("DELETE", "/clusters/$(name)/node-groups/$(nodegroupName)", args; aws=aws)
+
+DeleteNodegroup(name, nodegroupName; aws_config::AWSConfig=AWS.aws_config) = eks("DELETE", "/clusters/$(name)/node-groups/$(nodegroupName)"; aws_config=aws_config)
+DeleteNodegroup(name, nodegroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = eks("DELETE", "/clusters/$(name)/node-groups/$(nodegroupName)", args; aws_config=aws_config)
 
 """
     DescribeCluster()
@@ -117,8 +123,9 @@ Returns descriptive information about an Amazon EKS cluster. The API server endp
 - `name`: The name of the cluster to describe.
 
 """
-DescribeCluster(name; aws::AWSConfig=AWS.aws_config) = eks("GET", "/clusters/$(name)"; aws=aws)
-DescribeCluster(name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = eks("GET", "/clusters/$(name)", args; aws=aws)
+
+DescribeCluster(name; aws_config::AWSConfig=AWS.aws_config) = eks("GET", "/clusters/$(name)"; aws_config=aws_config)
+DescribeCluster(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = eks("GET", "/clusters/$(name)", args; aws_config=aws_config)
 
 """
     DescribeFargateProfile()
@@ -130,8 +137,9 @@ Returns descriptive information about an AWS Fargate profile.
 - `name`: The name of the Amazon EKS cluster associated with the Fargate profile.
 
 """
-DescribeFargateProfile(fargateProfileName, name; aws::AWSConfig=AWS.aws_config) = eks("GET", "/clusters/$(name)/fargate-profiles/$(fargateProfileName)"; aws=aws)
-DescribeFargateProfile(fargateProfileName, name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = eks("GET", "/clusters/$(name)/fargate-profiles/$(fargateProfileName)", args; aws=aws)
+
+DescribeFargateProfile(fargateProfileName, name; aws_config::AWSConfig=AWS.aws_config) = eks("GET", "/clusters/$(name)/fargate-profiles/$(fargateProfileName)"; aws_config=aws_config)
+DescribeFargateProfile(fargateProfileName, name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = eks("GET", "/clusters/$(name)/fargate-profiles/$(fargateProfileName)", args; aws_config=aws_config)
 
 """
     DescribeNodegroup()
@@ -143,8 +151,9 @@ Returns descriptive information about an Amazon EKS node group.
 - `nodegroupName`: The name of the node group to describe.
 
 """
-DescribeNodegroup(name, nodegroupName; aws::AWSConfig=AWS.aws_config) = eks("GET", "/clusters/$(name)/node-groups/$(nodegroupName)"; aws=aws)
-DescribeNodegroup(name, nodegroupName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = eks("GET", "/clusters/$(name)/node-groups/$(nodegroupName)", args; aws=aws)
+
+DescribeNodegroup(name, nodegroupName; aws_config::AWSConfig=AWS.aws_config) = eks("GET", "/clusters/$(name)/node-groups/$(nodegroupName)"; aws_config=aws_config)
+DescribeNodegroup(name, nodegroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = eks("GET", "/clusters/$(name)/node-groups/$(nodegroupName)", args; aws_config=aws_config)
 
 """
     DescribeUpdate()
@@ -158,8 +167,9 @@ Returns descriptive information about an update against your Amazon EKS cluster 
 # Optional Parameters
 - `nodegroupName`: The name of the Amazon EKS node group associated with the update.
 """
-DescribeUpdate(name, updateId; aws::AWSConfig=AWS.aws_config) = eks("GET", "/clusters/$(name)/updates/$(updateId)"; aws=aws)
-DescribeUpdate(name, updateId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = eks("GET", "/clusters/$(name)/updates/$(updateId)", args; aws=aws)
+
+DescribeUpdate(name, updateId; aws_config::AWSConfig=AWS.aws_config) = eks("GET", "/clusters/$(name)/updates/$(updateId)"; aws_config=aws_config)
+DescribeUpdate(name, updateId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = eks("GET", "/clusters/$(name)/updates/$(updateId)", args; aws_config=aws_config)
 
 """
     ListClusters()
@@ -170,8 +180,9 @@ Lists the Amazon EKS clusters in your AWS account in the specified Region.
 - `maxResults`: The maximum number of cluster results returned by ListClusters in paginated output. When you use this parameter, ListClusters returns only maxResults results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListClusters request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListClusters returns up to 100 results and a nextToken value if applicable.
 - `nextToken`: The nextToken value returned from a previous paginated ListClusters request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes. 
 """
-ListClusters(; aws::AWSConfig=AWS.aws_config) = eks("GET", "/clusters"; aws=aws)
-ListClusters(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = eks("GET", "/clusters", args; aws=aws)
+
+ListClusters(; aws_config::AWSConfig=AWS.aws_config) = eks("GET", "/clusters"; aws_config=aws_config)
+ListClusters(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = eks("GET", "/clusters", args; aws_config=aws_config)
 
 """
     ListFargateProfiles()
@@ -185,8 +196,9 @@ Lists the AWS Fargate profiles associated with the specified cluster in your AWS
 - `maxResults`: The maximum number of Fargate profile results returned by ListFargateProfiles in paginated output. When you use this parameter, ListFargateProfiles returns only maxResults results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListFargateProfiles request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListFargateProfiles returns up to 100 results and a nextToken value if applicable.
 - `nextToken`: The nextToken value returned from a previous paginated ListFargateProfiles request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.
 """
-ListFargateProfiles(name; aws::AWSConfig=AWS.aws_config) = eks("GET", "/clusters/$(name)/fargate-profiles"; aws=aws)
-ListFargateProfiles(name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = eks("GET", "/clusters/$(name)/fargate-profiles", args; aws=aws)
+
+ListFargateProfiles(name; aws_config::AWSConfig=AWS.aws_config) = eks("GET", "/clusters/$(name)/fargate-profiles"; aws_config=aws_config)
+ListFargateProfiles(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = eks("GET", "/clusters/$(name)/fargate-profiles", args; aws_config=aws_config)
 
 """
     ListNodegroups()
@@ -200,8 +212,9 @@ Lists the Amazon EKS managed node groups associated with the specified cluster i
 - `maxResults`: The maximum number of node group results returned by ListNodegroups in paginated output. When you use this parameter, ListNodegroups returns only maxResults results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListNodegroups request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListNodegroups returns up to 100 results and a nextToken value if applicable.
 - `nextToken`: The nextToken value returned from a previous paginated ListNodegroups request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.
 """
-ListNodegroups(name; aws::AWSConfig=AWS.aws_config) = eks("GET", "/clusters/$(name)/node-groups"; aws=aws)
-ListNodegroups(name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = eks("GET", "/clusters/$(name)/node-groups", args; aws=aws)
+
+ListNodegroups(name; aws_config::AWSConfig=AWS.aws_config) = eks("GET", "/clusters/$(name)/node-groups"; aws_config=aws_config)
+ListNodegroups(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = eks("GET", "/clusters/$(name)/node-groups", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -212,8 +225,9 @@ List the tags for an Amazon EKS resource.
 - `resourceArn`: The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are Amazon EKS clusters and managed node groups.
 
 """
-ListTagsForResource(resourceArn; aws::AWSConfig=AWS.aws_config) = eks("GET", "/tags/$(resourceArn)"; aws=aws)
-ListTagsForResource(resourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = eks("GET", "/tags/$(resourceArn)", args; aws=aws)
+
+ListTagsForResource(resourceArn; aws_config::AWSConfig=AWS.aws_config) = eks("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
+ListTagsForResource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = eks("GET", "/tags/$(resourceArn)", args; aws_config=aws_config)
 
 """
     ListUpdates()
@@ -228,8 +242,9 @@ Lists the updates associated with an Amazon EKS cluster or managed node group in
 - `nextToken`: The nextToken value returned from a previous paginated ListUpdates request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.
 - `nodegroupName`: The name of the Amazon EKS managed node group to list updates for.
 """
-ListUpdates(name; aws::AWSConfig=AWS.aws_config) = eks("GET", "/clusters/$(name)/updates"; aws=aws)
-ListUpdates(name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = eks("GET", "/clusters/$(name)/updates", args; aws=aws)
+
+ListUpdates(name; aws_config::AWSConfig=AWS.aws_config) = eks("GET", "/clusters/$(name)/updates"; aws_config=aws_config)
+ListUpdates(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = eks("GET", "/clusters/$(name)/updates", args; aws_config=aws_config)
 
 """
     TagResource()
@@ -241,8 +256,9 @@ Associates the specified tags to a resource with the specified resourceArn. If e
 - `tags`: The tags to add to the resource. A tag is an array of key-value pairs.
 
 """
-TagResource(resourceArn, tags; aws::AWSConfig=AWS.aws_config) = eks("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws=aws)
-TagResource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = eks("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws=aws)
+
+TagResource(resourceArn, tags; aws_config::AWSConfig=AWS.aws_config) = eks("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
+TagResource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = eks("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -254,8 +270,9 @@ Deletes specified tags from a resource.
 - `tagKeys`: The keys of the tags to be removed.
 
 """
-UntagResource(resourceArn, tagKeys; aws::AWSConfig=AWS.aws_config) = eks("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws=aws)
-UntagResource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = eks("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws=aws)
+
+UntagResource(resourceArn, tagKeys; aws_config::AWSConfig=AWS.aws_config) = eks("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
+UntagResource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = eks("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
 
 """
     UpdateClusterConfig()
@@ -270,8 +287,9 @@ Updates an Amazon EKS cluster configuration. Your cluster continues to function 
 - `logging`: Enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see Amazon EKS Cluster Control Plane Logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see Amazon CloudWatch Pricing. 
 - `resourcesVpcConfig`: 
 """
-UpdateClusterConfig(name; aws::AWSConfig=AWS.aws_config) = eks("POST", "/clusters/$(name)/update-config", Dict{String, Any}("clientRequestToken"=>string(uuid4())); aws=aws)
-UpdateClusterConfig(name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = eks("POST", "/clusters/$(name)/update-config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>string(uuid4())), args)); aws=aws)
+
+UpdateClusterConfig(name; aws_config::AWSConfig=AWS.aws_config) = eks("POST", "/clusters/$(name)/update-config", Dict{String, Any}("clientRequestToken"=>string(uuid4())); aws_config=aws_config)
+UpdateClusterConfig(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = eks("POST", "/clusters/$(name)/update-config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     UpdateClusterVersion()
@@ -285,8 +303,9 @@ Updates an Amazon EKS cluster to the specified Kubernetes version. Your cluster 
 # Optional Parameters
 - `clientRequestToken`: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
 """
-UpdateClusterVersion(name, version; aws::AWSConfig=AWS.aws_config) = eks("POST", "/clusters/$(name)/updates", Dict{String, Any}("version"=>version, "clientRequestToken"=>string(uuid4())); aws=aws)
-UpdateClusterVersion(name, version, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = eks("POST", "/clusters/$(name)/updates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("version"=>version, "clientRequestToken"=>string(uuid4())), args)); aws=aws)
+
+UpdateClusterVersion(name, version; aws_config::AWSConfig=AWS.aws_config) = eks("POST", "/clusters/$(name)/updates", Dict{String, Any}("version"=>version, "clientRequestToken"=>string(uuid4())); aws_config=aws_config)
+UpdateClusterVersion(name, version, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = eks("POST", "/clusters/$(name)/updates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("version"=>version, "clientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     UpdateNodegroupConfig()
@@ -302,8 +321,9 @@ Updates an Amazon EKS managed node group configuration. Your node group continue
 - `labels`: The Kubernetes labels to be applied to the nodes in the node group after the update.
 - `scalingConfig`: The scaling configuration details for the Auto Scaling group after the update.
 """
-UpdateNodegroupConfig(name, nodegroupName; aws::AWSConfig=AWS.aws_config) = eks("POST", "/clusters/$(name)/node-groups/$(nodegroupName)/update-config", Dict{String, Any}("clientRequestToken"=>string(uuid4())); aws=aws)
-UpdateNodegroupConfig(name, nodegroupName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = eks("POST", "/clusters/$(name)/node-groups/$(nodegroupName)/update-config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>string(uuid4())), args)); aws=aws)
+
+UpdateNodegroupConfig(name, nodegroupName; aws_config::AWSConfig=AWS.aws_config) = eks("POST", "/clusters/$(name)/node-groups/$(nodegroupName)/update-config", Dict{String, Any}("clientRequestToken"=>string(uuid4())); aws_config=aws_config)
+UpdateNodegroupConfig(name, nodegroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = eks("POST", "/clusters/$(name)/node-groups/$(nodegroupName)/update-config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     UpdateNodegroupVersion()
@@ -321,5 +341,6 @@ Updates the Kubernetes version or AMI version of an Amazon EKS managed node grou
 - `releaseVersion`: The AMI version of the Amazon EKS-optimized AMI to use for the update. By default, the latest available AMI version for the node group's Kubernetes version is used. For more information, see Amazon EKS-Optimized Linux AMI Versions  in the Amazon EKS User Guide. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify releaseVersion, or the node group update will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
 - `version`: The Kubernetes version to update to. If no version is specified, then the Kubernetes version of the node group does not change. You can specify the Kubernetes version of the cluster to update the node group to the latest AMI version of the cluster's Kubernetes version. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify version, or the node group update will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
 """
-UpdateNodegroupVersion(name, nodegroupName; aws::AWSConfig=AWS.aws_config) = eks("POST", "/clusters/$(name)/node-groups/$(nodegroupName)/update-version", Dict{String, Any}("clientRequestToken"=>string(uuid4())); aws=aws)
-UpdateNodegroupVersion(name, nodegroupName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = eks("POST", "/clusters/$(name)/node-groups/$(nodegroupName)/update-version", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>string(uuid4())), args)); aws=aws)
+
+UpdateNodegroupVersion(name, nodegroupName; aws_config::AWSConfig=AWS.aws_config) = eks("POST", "/clusters/$(name)/node-groups/$(nodegroupName)/update-version", Dict{String, Any}("clientRequestToken"=>string(uuid4())); aws_config=aws_config)
+UpdateNodegroupVersion(name, nodegroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = eks("POST", "/clusters/$(name)/node-groups/$(nodegroupName)/update-version", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)

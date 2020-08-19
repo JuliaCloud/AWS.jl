@@ -13,8 +13,9 @@ Returns the details of a single named query or a list of up to 50 queries, which
 - `NamedQueryIds`: An array of query IDs.
 
 """
-BatchGetNamedQuery(NamedQueryIds; aws::AWSConfig=AWS.aws_config) = athena("BatchGetNamedQuery", Dict{String, Any}("NamedQueryIds"=>NamedQueryIds); aws=aws)
-BatchGetNamedQuery(NamedQueryIds, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = athena("BatchGetNamedQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NamedQueryIds"=>NamedQueryIds), args)); aws=aws)
+
+BatchGetNamedQuery(NamedQueryIds; aws_config::AWSConfig=AWS.aws_config) = athena("BatchGetNamedQuery", Dict{String, Any}("NamedQueryIds"=>NamedQueryIds); aws_config=aws_config)
+BatchGetNamedQuery(NamedQueryIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = athena("BatchGetNamedQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NamedQueryIds"=>NamedQueryIds), args)); aws_config=aws_config)
 
 """
     BatchGetQueryExecution()
@@ -25,8 +26,9 @@ Returns the details of a single query execution or a list of up to 50 query exec
 - `QueryExecutionIds`: An array of query execution IDs.
 
 """
-BatchGetQueryExecution(QueryExecutionIds; aws::AWSConfig=AWS.aws_config) = athena("BatchGetQueryExecution", Dict{String, Any}("QueryExecutionIds"=>QueryExecutionIds); aws=aws)
-BatchGetQueryExecution(QueryExecutionIds, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = athena("BatchGetQueryExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryExecutionIds"=>QueryExecutionIds), args)); aws=aws)
+
+BatchGetQueryExecution(QueryExecutionIds; aws_config::AWSConfig=AWS.aws_config) = athena("BatchGetQueryExecution", Dict{String, Any}("QueryExecutionIds"=>QueryExecutionIds); aws_config=aws_config)
+BatchGetQueryExecution(QueryExecutionIds, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = athena("BatchGetQueryExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryExecutionIds"=>QueryExecutionIds), args)); aws_config=aws_config)
 
 """
     CreateDataCatalog()
@@ -42,8 +44,9 @@ Creates (registers) a data catalog with the specified name and properties. Catal
 - `Parameters`: Specifies the Lambda function or functions to use for creating the data catalog. This is a mapping whose values depend on the catalog type.    For the HIVE data catalog type, use the following syntax. The metadata-function parameter is required. The sdk-version parameter is optional and defaults to the currently supported version.  metadata-function=lambda_arn, sdk-version=version_number     For the LAMBDA data catalog type, use one of the following sets of required parameters, but not both.   If you have one Lambda function that processes metadata and another for reading the actual data, use the following syntax. Both parameters are required.  metadata-function=lambda_arn, record-function=lambda_arn      If you have a composite Lambda function that processes both metadata and data, use the following syntax to specify your Lambda function.  function=lambda_arn       The GLUE type has no parameters.  
 - `Tags`: A list of comma separated tags to add to the data catalog that is created.
 """
-CreateDataCatalog(Name, Type; aws::AWSConfig=AWS.aws_config) = athena("CreateDataCatalog", Dict{String, Any}("Name"=>Name, "Type"=>Type); aws=aws)
-CreateDataCatalog(Name, Type, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = athena("CreateDataCatalog", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Type"=>Type), args)); aws=aws)
+
+CreateDataCatalog(Name, Type; aws_config::AWSConfig=AWS.aws_config) = athena("CreateDataCatalog", Dict{String, Any}("Name"=>Name, "Type"=>Type); aws_config=aws_config)
+CreateDataCatalog(Name, Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = athena("CreateDataCatalog", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Type"=>Type), args)); aws_config=aws_config)
 
 """
     CreateNamedQuery()
@@ -60,8 +63,9 @@ Creates a named query in the specified workgroup. Requires that you have access 
 - `Description`: The query description.
 - `WorkGroup`: The name of the workgroup in which the named query is being created.
 """
-CreateNamedQuery(Database, Name, QueryString; aws::AWSConfig=AWS.aws_config) = athena("CreateNamedQuery", Dict{String, Any}("Database"=>Database, "Name"=>Name, "QueryString"=>QueryString, "ClientRequestToken"=>string(uuid4())); aws=aws)
-CreateNamedQuery(Database, Name, QueryString, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = athena("CreateNamedQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Database"=>Database, "Name"=>Name, "QueryString"=>QueryString, "ClientRequestToken"=>string(uuid4())), args)); aws=aws)
+
+CreateNamedQuery(Database, Name, QueryString; aws_config::AWSConfig=AWS.aws_config) = athena("CreateNamedQuery", Dict{String, Any}("Database"=>Database, "Name"=>Name, "QueryString"=>QueryString, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+CreateNamedQuery(Database, Name, QueryString, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = athena("CreateNamedQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Database"=>Database, "Name"=>Name, "QueryString"=>QueryString, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     CreateWorkGroup()
@@ -76,8 +80,9 @@ Creates a workgroup with the specified name.
 - `Description`: The workgroup description.
 - `Tags`: A list of comma separated tags to add to the workgroup that is created.
 """
-CreateWorkGroup(Name; aws::AWSConfig=AWS.aws_config) = athena("CreateWorkGroup", Dict{String, Any}("Name"=>Name); aws=aws)
-CreateWorkGroup(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = athena("CreateWorkGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+
+CreateWorkGroup(Name; aws_config::AWSConfig=AWS.aws_config) = athena("CreateWorkGroup", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+CreateWorkGroup(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = athena("CreateWorkGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     DeleteDataCatalog()
@@ -88,8 +93,9 @@ Deletes a data catalog.
 - `Name`: The name of the data catalog to delete.
 
 """
-DeleteDataCatalog(Name; aws::AWSConfig=AWS.aws_config) = athena("DeleteDataCatalog", Dict{String, Any}("Name"=>Name); aws=aws)
-DeleteDataCatalog(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = athena("DeleteDataCatalog", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+
+DeleteDataCatalog(Name; aws_config::AWSConfig=AWS.aws_config) = athena("DeleteDataCatalog", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+DeleteDataCatalog(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = athena("DeleteDataCatalog", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     DeleteNamedQuery()
@@ -100,8 +106,9 @@ Deletes the named query if you have access to the workgroup in which the query w
 - `NamedQueryId`: The unique ID of the query to delete.
 
 """
-DeleteNamedQuery(NamedQueryId; aws::AWSConfig=AWS.aws_config) = athena("DeleteNamedQuery", Dict{String, Any}("NamedQueryId"=>NamedQueryId); aws=aws)
-DeleteNamedQuery(NamedQueryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = athena("DeleteNamedQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NamedQueryId"=>NamedQueryId), args)); aws=aws)
+
+DeleteNamedQuery(NamedQueryId; aws_config::AWSConfig=AWS.aws_config) = athena("DeleteNamedQuery", Dict{String, Any}("NamedQueryId"=>NamedQueryId); aws_config=aws_config)
+DeleteNamedQuery(NamedQueryId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = athena("DeleteNamedQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NamedQueryId"=>NamedQueryId), args)); aws_config=aws_config)
 
 """
     DeleteWorkGroup()
@@ -114,8 +121,9 @@ Deletes the workgroup with the specified name. The primary workgroup cannot be d
 # Optional Parameters
 - `RecursiveDeleteOption`: The option to delete the workgroup and its contents even if the workgroup contains any named queries.
 """
-DeleteWorkGroup(WorkGroup; aws::AWSConfig=AWS.aws_config) = athena("DeleteWorkGroup", Dict{String, Any}("WorkGroup"=>WorkGroup); aws=aws)
-DeleteWorkGroup(WorkGroup, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = athena("DeleteWorkGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkGroup"=>WorkGroup), args)); aws=aws)
+
+DeleteWorkGroup(WorkGroup; aws_config::AWSConfig=AWS.aws_config) = athena("DeleteWorkGroup", Dict{String, Any}("WorkGroup"=>WorkGroup); aws_config=aws_config)
+DeleteWorkGroup(WorkGroup, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = athena("DeleteWorkGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkGroup"=>WorkGroup), args)); aws_config=aws_config)
 
 """
     GetDataCatalog()
@@ -126,8 +134,9 @@ Returns the specified data catalog.
 - `Name`: The name of the data catalog to return.
 
 """
-GetDataCatalog(Name; aws::AWSConfig=AWS.aws_config) = athena("GetDataCatalog", Dict{String, Any}("Name"=>Name); aws=aws)
-GetDataCatalog(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = athena("GetDataCatalog", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+
+GetDataCatalog(Name; aws_config::AWSConfig=AWS.aws_config) = athena("GetDataCatalog", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+GetDataCatalog(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = athena("GetDataCatalog", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     GetDatabase()
@@ -139,8 +148,9 @@ Returns a database object for the specfied database and data catalog.
 - `DatabaseName`: The name of the database to return.
 
 """
-GetDatabase(CatalogName, DatabaseName; aws::AWSConfig=AWS.aws_config) = athena("GetDatabase", Dict{String, Any}("CatalogName"=>CatalogName, "DatabaseName"=>DatabaseName); aws=aws)
-GetDatabase(CatalogName, DatabaseName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = athena("GetDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CatalogName"=>CatalogName, "DatabaseName"=>DatabaseName), args)); aws=aws)
+
+GetDatabase(CatalogName, DatabaseName; aws_config::AWSConfig=AWS.aws_config) = athena("GetDatabase", Dict{String, Any}("CatalogName"=>CatalogName, "DatabaseName"=>DatabaseName); aws_config=aws_config)
+GetDatabase(CatalogName, DatabaseName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = athena("GetDatabase", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CatalogName"=>CatalogName, "DatabaseName"=>DatabaseName), args)); aws_config=aws_config)
 
 """
     GetNamedQuery()
@@ -151,8 +161,9 @@ Returns information about a single query. Requires that you have access to the w
 - `NamedQueryId`: The unique ID of the query. Use ListNamedQueries to get query IDs.
 
 """
-GetNamedQuery(NamedQueryId; aws::AWSConfig=AWS.aws_config) = athena("GetNamedQuery", Dict{String, Any}("NamedQueryId"=>NamedQueryId); aws=aws)
-GetNamedQuery(NamedQueryId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = athena("GetNamedQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NamedQueryId"=>NamedQueryId), args)); aws=aws)
+
+GetNamedQuery(NamedQueryId; aws_config::AWSConfig=AWS.aws_config) = athena("GetNamedQuery", Dict{String, Any}("NamedQueryId"=>NamedQueryId); aws_config=aws_config)
+GetNamedQuery(NamedQueryId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = athena("GetNamedQuery", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NamedQueryId"=>NamedQueryId), args)); aws_config=aws_config)
 
 """
     GetQueryExecution()
@@ -163,8 +174,9 @@ Returns information about a single execution of a query if you have access to th
 - `QueryExecutionId`: The unique ID of the query execution.
 
 """
-GetQueryExecution(QueryExecutionId; aws::AWSConfig=AWS.aws_config) = athena("GetQueryExecution", Dict{String, Any}("QueryExecutionId"=>QueryExecutionId); aws=aws)
-GetQueryExecution(QueryExecutionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = athena("GetQueryExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryExecutionId"=>QueryExecutionId), args)); aws=aws)
+
+GetQueryExecution(QueryExecutionId; aws_config::AWSConfig=AWS.aws_config) = athena("GetQueryExecution", Dict{String, Any}("QueryExecutionId"=>QueryExecutionId); aws_config=aws_config)
+GetQueryExecution(QueryExecutionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = athena("GetQueryExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryExecutionId"=>QueryExecutionId), args)); aws_config=aws_config)
 
 """
     GetQueryResults()
@@ -178,8 +190,9 @@ Streams the results of a single query execution specified by QueryExecutionId fr
 - `MaxResults`: The maximum number of results (rows) to return in this request.
 - `NextToken`: A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
 """
-GetQueryResults(QueryExecutionId; aws::AWSConfig=AWS.aws_config) = athena("GetQueryResults", Dict{String, Any}("QueryExecutionId"=>QueryExecutionId); aws=aws)
-GetQueryResults(QueryExecutionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = athena("GetQueryResults", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryExecutionId"=>QueryExecutionId), args)); aws=aws)
+
+GetQueryResults(QueryExecutionId; aws_config::AWSConfig=AWS.aws_config) = athena("GetQueryResults", Dict{String, Any}("QueryExecutionId"=>QueryExecutionId); aws_config=aws_config)
+GetQueryResults(QueryExecutionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = athena("GetQueryResults", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryExecutionId"=>QueryExecutionId), args)); aws_config=aws_config)
 
 """
     GetTableMetadata()
@@ -192,8 +205,9 @@ Returns table metadata for the specified catalog, database, and table.
 - `TableName`: The name of the table for which metadata is returned.
 
 """
-GetTableMetadata(CatalogName, DatabaseName, TableName; aws::AWSConfig=AWS.aws_config) = athena("GetTableMetadata", Dict{String, Any}("CatalogName"=>CatalogName, "DatabaseName"=>DatabaseName, "TableName"=>TableName); aws=aws)
-GetTableMetadata(CatalogName, DatabaseName, TableName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = athena("GetTableMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CatalogName"=>CatalogName, "DatabaseName"=>DatabaseName, "TableName"=>TableName), args)); aws=aws)
+
+GetTableMetadata(CatalogName, DatabaseName, TableName; aws_config::AWSConfig=AWS.aws_config) = athena("GetTableMetadata", Dict{String, Any}("CatalogName"=>CatalogName, "DatabaseName"=>DatabaseName, "TableName"=>TableName); aws_config=aws_config)
+GetTableMetadata(CatalogName, DatabaseName, TableName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = athena("GetTableMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CatalogName"=>CatalogName, "DatabaseName"=>DatabaseName, "TableName"=>TableName), args)); aws_config=aws_config)
 
 """
     GetWorkGroup()
@@ -204,8 +218,9 @@ Returns information about the workgroup with the specified name.
 - `WorkGroup`: The name of the workgroup.
 
 """
-GetWorkGroup(WorkGroup; aws::AWSConfig=AWS.aws_config) = athena("GetWorkGroup", Dict{String, Any}("WorkGroup"=>WorkGroup); aws=aws)
-GetWorkGroup(WorkGroup, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = athena("GetWorkGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkGroup"=>WorkGroup), args)); aws=aws)
+
+GetWorkGroup(WorkGroup; aws_config::AWSConfig=AWS.aws_config) = athena("GetWorkGroup", Dict{String, Any}("WorkGroup"=>WorkGroup); aws_config=aws_config)
+GetWorkGroup(WorkGroup, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = athena("GetWorkGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkGroup"=>WorkGroup), args)); aws_config=aws_config)
 
 """
     ListDataCatalogs()
@@ -216,8 +231,9 @@ Lists the data catalogs in the current AWS account.
 - `MaxResults`: Specifies the maximum number of data catalogs to return.
 - `NextToken`: A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
 """
-ListDataCatalogs(; aws::AWSConfig=AWS.aws_config) = athena("ListDataCatalogs"; aws=aws)
-ListDataCatalogs(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = athena("ListDataCatalogs", args; aws=aws)
+
+ListDataCatalogs(; aws_config::AWSConfig=AWS.aws_config) = athena("ListDataCatalogs"; aws_config=aws_config)
+ListDataCatalogs(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = athena("ListDataCatalogs", args; aws_config=aws_config)
 
 """
     ListDatabases()
@@ -231,8 +247,9 @@ Lists the databases in the specified data catalog.
 - `MaxResults`: Specifies the maximum number of results to return.
 - `NextToken`: A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
 """
-ListDatabases(CatalogName; aws::AWSConfig=AWS.aws_config) = athena("ListDatabases", Dict{String, Any}("CatalogName"=>CatalogName); aws=aws)
-ListDatabases(CatalogName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = athena("ListDatabases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CatalogName"=>CatalogName), args)); aws=aws)
+
+ListDatabases(CatalogName; aws_config::AWSConfig=AWS.aws_config) = athena("ListDatabases", Dict{String, Any}("CatalogName"=>CatalogName); aws_config=aws_config)
+ListDatabases(CatalogName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = athena("ListDatabases", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CatalogName"=>CatalogName), args)); aws_config=aws_config)
 
 """
     ListNamedQueries()
@@ -244,8 +261,9 @@ Provides a list of available query IDs only for queries saved in the specified w
 - `NextToken`: A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
 - `WorkGroup`: The name of the workgroup from which the named queries are being returned. If a workgroup is not specified, the saved queries for the primary workgroup are returned.
 """
-ListNamedQueries(; aws::AWSConfig=AWS.aws_config) = athena("ListNamedQueries"; aws=aws)
-ListNamedQueries(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = athena("ListNamedQueries", args; aws=aws)
+
+ListNamedQueries(; aws_config::AWSConfig=AWS.aws_config) = athena("ListNamedQueries"; aws_config=aws_config)
+ListNamedQueries(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = athena("ListNamedQueries", args; aws_config=aws_config)
 
 """
     ListQueryExecutions()
@@ -257,8 +275,9 @@ Provides a list of available query execution IDs for the queries in the specifie
 - `NextToken`: A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
 - `WorkGroup`: The name of the workgroup from which queries are being returned. If a workgroup is not specified, a list of available query execution IDs for the queries in the primary workgroup is returned.
 """
-ListQueryExecutions(; aws::AWSConfig=AWS.aws_config) = athena("ListQueryExecutions"; aws=aws)
-ListQueryExecutions(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = athena("ListQueryExecutions", args; aws=aws)
+
+ListQueryExecutions(; aws_config::AWSConfig=AWS.aws_config) = athena("ListQueryExecutions"; aws_config=aws_config)
+ListQueryExecutions(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = athena("ListQueryExecutions", args; aws_config=aws_config)
 
 """
     ListTableMetadata()
@@ -274,8 +293,9 @@ Lists the metadata for the tables in the specified data catalog database.
 - `MaxResults`: Specifies the maximum number of results to return.
 - `NextToken`: A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
 """
-ListTableMetadata(CatalogName, DatabaseName; aws::AWSConfig=AWS.aws_config) = athena("ListTableMetadata", Dict{String, Any}("CatalogName"=>CatalogName, "DatabaseName"=>DatabaseName); aws=aws)
-ListTableMetadata(CatalogName, DatabaseName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = athena("ListTableMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CatalogName"=>CatalogName, "DatabaseName"=>DatabaseName), args)); aws=aws)
+
+ListTableMetadata(CatalogName, DatabaseName; aws_config::AWSConfig=AWS.aws_config) = athena("ListTableMetadata", Dict{String, Any}("CatalogName"=>CatalogName, "DatabaseName"=>DatabaseName); aws_config=aws_config)
+ListTableMetadata(CatalogName, DatabaseName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = athena("ListTableMetadata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CatalogName"=>CatalogName, "DatabaseName"=>DatabaseName), args)); aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -289,8 +309,9 @@ Lists the tags associated with an Athena workgroup or data catalog resource.
 - `MaxResults`: The maximum number of results to be returned per request that lists the tags for the resource.
 - `NextToken`: The token for the next set of results, or null if there are no additional results for this request, where the request lists the tags for the resource with the specified ARN.
 """
-ListTagsForResource(ResourceARN; aws::AWSConfig=AWS.aws_config) = athena("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws=aws)
-ListTagsForResource(ResourceARN, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = athena("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), args)); aws=aws)
+
+ListTagsForResource(ResourceARN; aws_config::AWSConfig=AWS.aws_config) = athena("ListTagsForResource", Dict{String, Any}("ResourceARN"=>ResourceARN); aws_config=aws_config)
+ListTagsForResource(ResourceARN, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = athena("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN), args)); aws_config=aws_config)
 
 """
     ListWorkGroups()
@@ -301,8 +322,9 @@ Lists available workgroups for the account.
 - `MaxResults`: The maximum number of workgroups to return in this request.
 - `NextToken`: A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
 """
-ListWorkGroups(; aws::AWSConfig=AWS.aws_config) = athena("ListWorkGroups"; aws=aws)
-ListWorkGroups(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = athena("ListWorkGroups", args; aws=aws)
+
+ListWorkGroups(; aws_config::AWSConfig=AWS.aws_config) = athena("ListWorkGroups"; aws_config=aws_config)
+ListWorkGroups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = athena("ListWorkGroups", args; aws_config=aws_config)
 
 """
     StartQueryExecution()
@@ -318,8 +340,9 @@ Runs the SQL query statements contained in the Query. Requires you to have acces
 - `ResultConfiguration`: Specifies information about where and how to save the results of the query execution. If the query runs in a workgroup, then workgroup's settings may override query settings. This affects the query results location. The workgroup settings override is specified in EnforceWorkGroupConfiguration (true/false) in the WorkGroupConfiguration. See WorkGroupConfiguration EnforceWorkGroupConfiguration.
 - `WorkGroup`: The name of the workgroup in which the query is being started.
 """
-StartQueryExecution(QueryString; aws::AWSConfig=AWS.aws_config) = athena("StartQueryExecution", Dict{String, Any}("QueryString"=>QueryString, "ClientRequestToken"=>string(uuid4())); aws=aws)
-StartQueryExecution(QueryString, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = athena("StartQueryExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryString"=>QueryString, "ClientRequestToken"=>string(uuid4())), args)); aws=aws)
+
+StartQueryExecution(QueryString; aws_config::AWSConfig=AWS.aws_config) = athena("StartQueryExecution", Dict{String, Any}("QueryString"=>QueryString, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+StartQueryExecution(QueryString, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = athena("StartQueryExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryString"=>QueryString, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     StopQueryExecution()
@@ -330,8 +353,9 @@ Stops a query execution. Requires you to have access to the workgroup in which t
 - `QueryExecutionId`: The unique ID of the query execution to stop.
 
 """
-StopQueryExecution(QueryExecutionId; aws::AWSConfig=AWS.aws_config) = athena("StopQueryExecution", Dict{String, Any}("QueryExecutionId"=>QueryExecutionId); aws=aws)
-StopQueryExecution(QueryExecutionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = athena("StopQueryExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryExecutionId"=>QueryExecutionId), args)); aws=aws)
+
+StopQueryExecution(QueryExecutionId; aws_config::AWSConfig=AWS.aws_config) = athena("StopQueryExecution", Dict{String, Any}("QueryExecutionId"=>QueryExecutionId); aws_config=aws_config)
+StopQueryExecution(QueryExecutionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = athena("StopQueryExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("QueryExecutionId"=>QueryExecutionId), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -343,8 +367,9 @@ Adds one or more tags to an Athena resource. A tag is a label that you assign to
 - `Tags`: A collection of one or more tags, separated by commas, to be added to an Athena workgroup or data catalog resource.
 
 """
-TagResource(ResourceARN, Tags; aws::AWSConfig=AWS.aws_config) = athena("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws=aws)
-TagResource(ResourceARN, Tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = athena("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), args)); aws=aws)
+
+TagResource(ResourceARN, Tags; aws_config::AWSConfig=AWS.aws_config) = athena("TagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags); aws_config=aws_config)
+TagResource(ResourceARN, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = athena("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -356,8 +381,9 @@ Removes one or more tags from a data catalog or workgroup resource.
 - `TagKeys`: A comma-separated list of one or more tag keys whose tags are to be removed from the specified resource.
 
 """
-UntagResource(ResourceARN, TagKeys; aws::AWSConfig=AWS.aws_config) = athena("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws=aws)
-UntagResource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = athena("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), args)); aws=aws)
+
+UntagResource(ResourceARN, TagKeys; aws_config::AWSConfig=AWS.aws_config) = athena("UntagResource", Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys); aws_config=aws_config)
+UntagResource(ResourceARN, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = athena("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceARN"=>ResourceARN, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
 
 """
     UpdateDataCatalog()
@@ -372,8 +398,9 @@ Updates the data catalog that has the specified name.
 - `Description`: New or modified text that describes the data catalog.
 - `Parameters`: Specifies the Lambda function or functions to use for updating the data catalog. This is a mapping whose values depend on the catalog type.    For the HIVE data catalog type, use the following syntax. The metadata-function parameter is required. The sdk-version parameter is optional and defaults to the currently supported version.  metadata-function=lambda_arn, sdk-version=version_number     For the LAMBDA data catalog type, use one of the following sets of required parameters, but not both.   If you have one Lambda function that processes metadata and another for reading the actual data, use the following syntax. Both parameters are required.  metadata-function=lambda_arn, record-function=lambda_arn      If you have a composite Lambda function that processes both metadata and data, use the following syntax to specify your Lambda function.  function=lambda_arn       The GLUE type has no parameters.  
 """
-UpdateDataCatalog(Name, Type; aws::AWSConfig=AWS.aws_config) = athena("UpdateDataCatalog", Dict{String, Any}("Name"=>Name, "Type"=>Type); aws=aws)
-UpdateDataCatalog(Name, Type, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = athena("UpdateDataCatalog", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Type"=>Type), args)); aws=aws)
+
+UpdateDataCatalog(Name, Type; aws_config::AWSConfig=AWS.aws_config) = athena("UpdateDataCatalog", Dict{String, Any}("Name"=>Name, "Type"=>Type); aws_config=aws_config)
+UpdateDataCatalog(Name, Type, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = athena("UpdateDataCatalog", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "Type"=>Type), args)); aws_config=aws_config)
 
 """
     UpdateWorkGroup()
@@ -388,5 +415,6 @@ Updates the workgroup with the specified name. The workgroup's name cannot be ch
 - `Description`: The workgroup description.
 - `State`: The workgroup state that will be updated for the given workgroup.
 """
-UpdateWorkGroup(WorkGroup; aws::AWSConfig=AWS.aws_config) = athena("UpdateWorkGroup", Dict{String, Any}("WorkGroup"=>WorkGroup); aws=aws)
-UpdateWorkGroup(WorkGroup, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = athena("UpdateWorkGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkGroup"=>WorkGroup), args)); aws=aws)
+
+UpdateWorkGroup(WorkGroup; aws_config::AWSConfig=AWS.aws_config) = athena("UpdateWorkGroup", Dict{String, Any}("WorkGroup"=>WorkGroup); aws_config=aws_config)
+UpdateWorkGroup(WorkGroup, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = athena("UpdateWorkGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkGroup"=>WorkGroup), args)); aws_config=aws_config)

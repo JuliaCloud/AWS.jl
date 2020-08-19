@@ -14,8 +14,9 @@ Adds or overwrites one or more tags for the specified Amazon SageMaker resource.
 - `Tags`: An array of Tag objects. Each tag is a key-value pair. Only the key parameter is required. If you don't specify a value, Amazon SageMaker sets the value to an empty string. 
 
 """
-AddTags(ResourceArn, Tags; aws::AWSConfig=AWS.aws_config) = sagemaker("AddTags", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws=aws)
-AddTags(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("AddTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), args)); aws=aws)
+
+AddTags(ResourceArn, Tags; aws_config::AWSConfig=AWS.aws_config) = sagemaker("AddTags", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
+AddTags(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("AddTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     AssociateTrialComponent()
@@ -27,8 +28,9 @@ Associates a trial component with a trial. A trial component can be associated w
 - `TrialName`: The name of the trial to associate with.
 
 """
-AssociateTrialComponent(TrialComponentName, TrialName; aws::AWSConfig=AWS.aws_config) = sagemaker("AssociateTrialComponent", Dict{String, Any}("TrialComponentName"=>TrialComponentName, "TrialName"=>TrialName); aws=aws)
-AssociateTrialComponent(TrialComponentName, TrialName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("AssociateTrialComponent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrialComponentName"=>TrialComponentName, "TrialName"=>TrialName), args)); aws=aws)
+
+AssociateTrialComponent(TrialComponentName, TrialName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("AssociateTrialComponent", Dict{String, Any}("TrialComponentName"=>TrialComponentName, "TrialName"=>TrialName); aws_config=aws_config)
+AssociateTrialComponent(TrialComponentName, TrialName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("AssociateTrialComponent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrialComponentName"=>TrialComponentName, "TrialName"=>TrialName), args)); aws_config=aws_config)
 
 """
     CreateAlgorithm()
@@ -45,8 +47,9 @@ Create a machine learning algorithm that you can use in Amazon SageMaker and lis
 - `InferenceSpecification`: Specifies details about inference jobs that the algorithm runs, including the following:   The Amazon ECR paths of containers that contain the inference code and model artifacts.   The instance types that the algorithm supports for transform jobs and real-time endpoints used for inference.   The input and output content formats that the algorithm supports for inference.  
 - `ValidationSpecification`: Specifies configurations for one or more training jobs and that Amazon SageMaker runs to test the algorithm's training code and, optionally, one or more batch transform jobs that Amazon SageMaker runs to test the algorithm's inference code.
 """
-CreateAlgorithm(AlgorithmName, TrainingSpecification; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateAlgorithm", Dict{String, Any}("AlgorithmName"=>AlgorithmName, "TrainingSpecification"=>TrainingSpecification); aws=aws)
-CreateAlgorithm(AlgorithmName, TrainingSpecification, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateAlgorithm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlgorithmName"=>AlgorithmName, "TrainingSpecification"=>TrainingSpecification), args)); aws=aws)
+
+CreateAlgorithm(AlgorithmName, TrainingSpecification; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateAlgorithm", Dict{String, Any}("AlgorithmName"=>AlgorithmName, "TrainingSpecification"=>TrainingSpecification); aws_config=aws_config)
+CreateAlgorithm(AlgorithmName, TrainingSpecification, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateAlgorithm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlgorithmName"=>AlgorithmName, "TrainingSpecification"=>TrainingSpecification), args)); aws_config=aws_config)
 
 """
     CreateApp()
@@ -63,29 +66,31 @@ Creates a running App for the specified UserProfile. Supported Apps are JupyterS
 - `ResourceSpec`: The instance type and the Amazon Resource Name (ARN) of the SageMaker image created on the instance.
 - `Tags`: Each tag consists of a key and an optional value. Tag keys must be unique per resource.
 """
-CreateApp(AppName, AppType, DomainId, UserProfileName; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateApp", Dict{String, Any}("AppName"=>AppName, "AppType"=>AppType, "DomainId"=>DomainId, "UserProfileName"=>UserProfileName); aws=aws)
-CreateApp(AppName, AppType, DomainId, UserProfileName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateApp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppName"=>AppName, "AppType"=>AppType, "DomainId"=>DomainId, "UserProfileName"=>UserProfileName), args)); aws=aws)
+
+CreateApp(AppName, AppType, DomainId, UserProfileName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateApp", Dict{String, Any}("AppName"=>AppName, "AppType"=>AppType, "DomainId"=>DomainId, "UserProfileName"=>UserProfileName); aws_config=aws_config)
+CreateApp(AppName, AppType, DomainId, UserProfileName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateApp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppName"=>AppName, "AppType"=>AppType, "DomainId"=>DomainId, "UserProfileName"=>UserProfileName), args)); aws_config=aws_config)
 
 """
     CreateAutoMLJob()
 
-Creates an AutoPilot job. After you run an AutoPilot job, you can find the best performing model by calling , and then deploy that model by following the steps described in Step 6.1: Deploy the Model to Amazon SageMaker Hosting Services. For information about how to use AutoPilot, see Use AutoPilot to Automate Model Development.
+Creates an Autopilot job. Find the best performing model after you run an Autopilot job by calling . Deploy that model by following the steps described in Step 6.1: Deploy the Model to Amazon SageMaker Hosting Services. For information about how to use Autopilot, see  Automate Model Development with Amazon SageMaker Autopilot.
 
 # Required Parameters
-- `AutoMLJobName`: Identifies an AutoPilot job. Must be unique to your account and is case-insensitive.
+- `AutoMLJobName`: Identifies an Autopilot job. Must be unique to your account and is case-insensitive.
 - `InputDataConfig`: Similar to InputDataConfig supported by Tuning. Format(s) supported: CSV. Minimum of 1000 rows.
 - `OutputDataConfig`: Similar to OutputDataConfig supported by Tuning. Format(s) supported: CSV.
-- `RoleArn`: The ARN of the role that will be used to access the data.
+- `RoleArn`: The ARN of the role that is used to access the data.
 
 # Optional Parameters
 - `AutoMLJobConfig`: Contains CompletionCriteria and SecurityConfig.
-- `AutoMLJobObjective`: Defines the job's objective. You provide a MetricName and AutoML will infer minimize or maximize. If this is not provided, the most commonly used ObjectiveMetric for problem type will be selected.
-- `GenerateCandidateDefinitionsOnly`: This will generate possible candidates without training a model. A candidate is a combination of data preprocessors, algorithms, and algorithm parameter settings.
+- `AutoMLJobObjective`: Defines the objective of a an AutoML job. You provide a AutoMLJobObjective MetricName and Autopilot infers whether to minimize or maximize it. If a metric is not specified, the most commonly used ObjectiveMetric for problem type is automaically selected.
+- `GenerateCandidateDefinitionsOnly`: Generates possible candidates without training a model. A candidate is a combination of data preprocessors, algorithms, and algorithm parameter settings.
 - `ProblemType`: Defines the kind of preprocessing and algorithms intended for the candidates. Options include: BinaryClassification, MulticlassClassification, and Regression.
 - `Tags`: Each tag consists of a key and an optional value. Tag keys must be unique per resource.
 """
-CreateAutoMLJob(AutoMLJobName, InputDataConfig, OutputDataConfig, RoleArn; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateAutoMLJob", Dict{String, Any}("AutoMLJobName"=>AutoMLJobName, "InputDataConfig"=>InputDataConfig, "OutputDataConfig"=>OutputDataConfig, "RoleArn"=>RoleArn); aws=aws)
-CreateAutoMLJob(AutoMLJobName, InputDataConfig, OutputDataConfig, RoleArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateAutoMLJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoMLJobName"=>AutoMLJobName, "InputDataConfig"=>InputDataConfig, "OutputDataConfig"=>OutputDataConfig, "RoleArn"=>RoleArn), args)); aws=aws)
+
+CreateAutoMLJob(AutoMLJobName, InputDataConfig, OutputDataConfig, RoleArn; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateAutoMLJob", Dict{String, Any}("AutoMLJobName"=>AutoMLJobName, "InputDataConfig"=>InputDataConfig, "OutputDataConfig"=>OutputDataConfig, "RoleArn"=>RoleArn); aws_config=aws_config)
+CreateAutoMLJob(AutoMLJobName, InputDataConfig, OutputDataConfig, RoleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateAutoMLJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoMLJobName"=>AutoMLJobName, "InputDataConfig"=>InputDataConfig, "OutputDataConfig"=>OutputDataConfig, "RoleArn"=>RoleArn), args)); aws_config=aws_config)
 
 """
     CreateCodeRepository()
@@ -97,8 +102,9 @@ Creates a Git repository as a resource in your Amazon SageMaker account. You can
 - `GitConfig`: Specifies details about the repository, including the URL where the repository is located, the default branch, and credentials to use to access the repository.
 
 """
-CreateCodeRepository(CodeRepositoryName, GitConfig; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateCodeRepository", Dict{String, Any}("CodeRepositoryName"=>CodeRepositoryName, "GitConfig"=>GitConfig); aws=aws)
-CreateCodeRepository(CodeRepositoryName, GitConfig, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateCodeRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CodeRepositoryName"=>CodeRepositoryName, "GitConfig"=>GitConfig), args)); aws=aws)
+
+CreateCodeRepository(CodeRepositoryName, GitConfig; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateCodeRepository", Dict{String, Any}("CodeRepositoryName"=>CodeRepositoryName, "GitConfig"=>GitConfig); aws_config=aws_config)
+CreateCodeRepository(CodeRepositoryName, GitConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateCodeRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CodeRepositoryName"=>CodeRepositoryName, "GitConfig"=>GitConfig), args)); aws_config=aws_config)
 
 """
     CreateCompilationJob()
@@ -113,8 +119,9 @@ Starts a model compilation job. After the model has been compiled, Amazon SageMa
 - `StoppingCondition`: Specifies a limit to how long a model compilation job can run. When the job reaches the time limit, Amazon SageMaker ends the compilation job. Use this API to cap model training costs.
 
 """
-CreateCompilationJob(CompilationJobName, InputConfig, OutputConfig, RoleArn, StoppingCondition; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateCompilationJob", Dict{String, Any}("CompilationJobName"=>CompilationJobName, "InputConfig"=>InputConfig, "OutputConfig"=>OutputConfig, "RoleArn"=>RoleArn, "StoppingCondition"=>StoppingCondition); aws=aws)
-CreateCompilationJob(CompilationJobName, InputConfig, OutputConfig, RoleArn, StoppingCondition, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateCompilationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CompilationJobName"=>CompilationJobName, "InputConfig"=>InputConfig, "OutputConfig"=>OutputConfig, "RoleArn"=>RoleArn, "StoppingCondition"=>StoppingCondition), args)); aws=aws)
+
+CreateCompilationJob(CompilationJobName, InputConfig, OutputConfig, RoleArn, StoppingCondition; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateCompilationJob", Dict{String, Any}("CompilationJobName"=>CompilationJobName, "InputConfig"=>InputConfig, "OutputConfig"=>OutputConfig, "RoleArn"=>RoleArn, "StoppingCondition"=>StoppingCondition); aws_config=aws_config)
+CreateCompilationJob(CompilationJobName, InputConfig, OutputConfig, RoleArn, StoppingCondition, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateCompilationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CompilationJobName"=>CompilationJobName, "InputConfig"=>InputConfig, "OutputConfig"=>OutputConfig, "RoleArn"=>RoleArn, "StoppingCondition"=>StoppingCondition), args)); aws_config=aws_config)
 
 """
     CreateDomain()
@@ -132,8 +139,9 @@ Creates a Domain used by SageMaker Studio. A domain consists of an associated di
 - `HomeEfsFileSystemKmsKeyId`: The AWS Key Management Service (KMS) encryption key ID. Encryption with a customer master key (CMK) is not supported.
 - `Tags`: Tags to associated with the Domain. Each tag consists of a key and an optional value. Tag keys must be unique per resource. Tags are searchable using the Search API.
 """
-CreateDomain(AuthMode, DefaultUserSettings, DomainName, SubnetIds, VpcId; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateDomain", Dict{String, Any}("AuthMode"=>AuthMode, "DefaultUserSettings"=>DefaultUserSettings, "DomainName"=>DomainName, "SubnetIds"=>SubnetIds, "VpcId"=>VpcId); aws=aws)
-CreateDomain(AuthMode, DefaultUserSettings, DomainName, SubnetIds, VpcId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthMode"=>AuthMode, "DefaultUserSettings"=>DefaultUserSettings, "DomainName"=>DomainName, "SubnetIds"=>SubnetIds, "VpcId"=>VpcId), args)); aws=aws)
+
+CreateDomain(AuthMode, DefaultUserSettings, DomainName, SubnetIds, VpcId; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateDomain", Dict{String, Any}("AuthMode"=>AuthMode, "DefaultUserSettings"=>DefaultUserSettings, "DomainName"=>DomainName, "SubnetIds"=>SubnetIds, "VpcId"=>VpcId); aws_config=aws_config)
+CreateDomain(AuthMode, DefaultUserSettings, DomainName, SubnetIds, VpcId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthMode"=>AuthMode, "DefaultUserSettings"=>DefaultUserSettings, "DomainName"=>DomainName, "SubnetIds"=>SubnetIds, "VpcId"=>VpcId), args)); aws_config=aws_config)
 
 """
     CreateEndpoint()
@@ -147,8 +155,9 @@ Creates an endpoint using the endpoint configuration specified in the request. A
 # Optional Parameters
 - `Tags`: An array of key-value pairs. For more information, see Using Cost Allocation Tagsin the AWS Billing and Cost Management User Guide. 
 """
-CreateEndpoint(EndpointConfigName, EndpointName; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateEndpoint", Dict{String, Any}("EndpointConfigName"=>EndpointConfigName, "EndpointName"=>EndpointName); aws=aws)
-CreateEndpoint(EndpointConfigName, EndpointName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointConfigName"=>EndpointConfigName, "EndpointName"=>EndpointName), args)); aws=aws)
+
+CreateEndpoint(EndpointConfigName, EndpointName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateEndpoint", Dict{String, Any}("EndpointConfigName"=>EndpointConfigName, "EndpointName"=>EndpointName); aws_config=aws_config)
+CreateEndpoint(EndpointConfigName, EndpointName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointConfigName"=>EndpointConfigName, "EndpointName"=>EndpointName), args)); aws_config=aws_config)
 
 """
     CreateEndpointConfig()
@@ -164,8 +173,9 @@ Creates an endpoint configuration that Amazon SageMaker hosting services uses to
 - `KmsKeyId`: The Amazon Resource Name (ARN) of a AWS Key Management Service key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance that hosts the endpoint. The KmsKeyId can be any of the following formats:    Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias    The KMS key policy must grant permission to the IAM role that you specify in your CreateEndpoint, UpdateEndpoint requests. For more information, refer to the AWS Key Management Service section Using Key Policies in AWS KMS    Certain Nitro-based instances include local storage, dependent on the instance type. Local storage volumes are encrypted using a hardware module on the instance. You can't request a KmsKeyId when using an instance type with local storage. If any of the models that you specify in the ProductionVariants parameter use nitro-based instances with local storage, do not specify a value for the KmsKeyId parameter. If you specify a value for KmsKeyId when using any nitro-based instances with local storage, the call to CreateEndpointConfig fails. For a list of instance types that support local instance storage, see Instance Store Volumes. For more information about local instance storage encryption, see SSD Instance Store Volumes. 
 - `Tags`: A list of key-value pairs. For more information, see Using Cost Allocation Tags in the  AWS Billing and Cost Management User Guide. 
 """
-CreateEndpointConfig(EndpointConfigName, ProductionVariants; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateEndpointConfig", Dict{String, Any}("EndpointConfigName"=>EndpointConfigName, "ProductionVariants"=>ProductionVariants); aws=aws)
-CreateEndpointConfig(EndpointConfigName, ProductionVariants, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateEndpointConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointConfigName"=>EndpointConfigName, "ProductionVariants"=>ProductionVariants), args)); aws=aws)
+
+CreateEndpointConfig(EndpointConfigName, ProductionVariants; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateEndpointConfig", Dict{String, Any}("EndpointConfigName"=>EndpointConfigName, "ProductionVariants"=>ProductionVariants); aws_config=aws_config)
+CreateEndpointConfig(EndpointConfigName, ProductionVariants, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateEndpointConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointConfigName"=>EndpointConfigName, "ProductionVariants"=>ProductionVariants), args)); aws_config=aws_config)
 
 """
     CreateExperiment()
@@ -180,8 +190,9 @@ Creates an SageMaker experiment. An experiment is a collection of trials that ar
 - `DisplayName`: The name of the experiment as displayed. The name doesn't need to be unique. If you don't specify DisplayName, the value in ExperimentName is displayed.
 - `Tags`: A list of tags to associate with the experiment. You can use Search API to search on the tags.
 """
-CreateExperiment(ExperimentName; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateExperiment", Dict{String, Any}("ExperimentName"=>ExperimentName); aws=aws)
-CreateExperiment(ExperimentName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateExperiment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExperimentName"=>ExperimentName), args)); aws=aws)
+
+CreateExperiment(ExperimentName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateExperiment", Dict{String, Any}("ExperimentName"=>ExperimentName); aws_config=aws_config)
+CreateExperiment(ExperimentName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateExperiment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExperimentName"=>ExperimentName), args)); aws_config=aws_config)
 
 """
     CreateFlowDefinition()
@@ -199,8 +210,9 @@ Creates a flow definition.
 - `HumanLoopRequestSource`: Container for configuring the source of human task requests. Use to specify if Amazon Rekognition or Amazon Textract is used as an integration source.
 - `Tags`: An array of key-value pairs that contain metadata to help you categorize and organize a flow definition. Each tag consists of a key and a value, both of which you define.
 """
-CreateFlowDefinition(FlowDefinitionName, HumanLoopConfig, OutputConfig, RoleArn; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateFlowDefinition", Dict{String, Any}("FlowDefinitionName"=>FlowDefinitionName, "HumanLoopConfig"=>HumanLoopConfig, "OutputConfig"=>OutputConfig, "RoleArn"=>RoleArn); aws=aws)
-CreateFlowDefinition(FlowDefinitionName, HumanLoopConfig, OutputConfig, RoleArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateFlowDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FlowDefinitionName"=>FlowDefinitionName, "HumanLoopConfig"=>HumanLoopConfig, "OutputConfig"=>OutputConfig, "RoleArn"=>RoleArn), args)); aws=aws)
+
+CreateFlowDefinition(FlowDefinitionName, HumanLoopConfig, OutputConfig, RoleArn; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateFlowDefinition", Dict{String, Any}("FlowDefinitionName"=>FlowDefinitionName, "HumanLoopConfig"=>HumanLoopConfig, "OutputConfig"=>OutputConfig, "RoleArn"=>RoleArn); aws_config=aws_config)
+CreateFlowDefinition(FlowDefinitionName, HumanLoopConfig, OutputConfig, RoleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateFlowDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FlowDefinitionName"=>FlowDefinitionName, "HumanLoopConfig"=>HumanLoopConfig, "OutputConfig"=>OutputConfig, "RoleArn"=>RoleArn), args)); aws_config=aws_config)
 
 """
     CreateHumanTaskUi()
@@ -214,8 +226,9 @@ Defines the settings you will use for the human review workflow user interface. 
 # Optional Parameters
 - `Tags`: An array of key-value pairs that contain metadata to help you categorize and organize a human review workflow user interface. Each tag consists of a key and a value, both of which you define.
 """
-CreateHumanTaskUi(HumanTaskUiName, UiTemplate; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateHumanTaskUi", Dict{String, Any}("HumanTaskUiName"=>HumanTaskUiName, "UiTemplate"=>UiTemplate); aws=aws)
-CreateHumanTaskUi(HumanTaskUiName, UiTemplate, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateHumanTaskUi", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HumanTaskUiName"=>HumanTaskUiName, "UiTemplate"=>UiTemplate), args)); aws=aws)
+
+CreateHumanTaskUi(HumanTaskUiName, UiTemplate; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateHumanTaskUi", Dict{String, Any}("HumanTaskUiName"=>HumanTaskUiName, "UiTemplate"=>UiTemplate); aws_config=aws_config)
+CreateHumanTaskUi(HumanTaskUiName, UiTemplate, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateHumanTaskUi", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HumanTaskUiName"=>HumanTaskUiName, "UiTemplate"=>UiTemplate), args)); aws_config=aws_config)
 
 """
     CreateHyperParameterTuningJob()
@@ -232,8 +245,9 @@ Starts a hyperparameter tuning job. A hyperparameter tuning job finds the best v
 - `TrainingJobDefinitions`: A list of the HyperParameterTrainingJobDefinition objects launched for this tuning job.
 - `WarmStartConfig`: Specifies the configuration for starting the hyperparameter tuning job using one or more previous tuning jobs as a starting point. The results of previous tuning jobs are used to inform which combinations of hyperparameters to search over in the new tuning job. All training jobs launched by the new hyperparameter tuning job are evaluated by using the objective metric. If you specify IDENTICAL_DATA_AND_ALGORITHM as the WarmStartType value for the warm start configuration, the training job that performs the best in the new tuning job is compared to the best training jobs from the parent tuning jobs. From these, the training job that performs the best as measured by the objective metric is returned as the overall best training job.  All training jobs launched by parent hyperparameter tuning jobs and the new hyperparameter tuning jobs count against the limit of training jobs for the tuning job. 
 """
-CreateHyperParameterTuningJob(HyperParameterTuningJobConfig, HyperParameterTuningJobName; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateHyperParameterTuningJob", Dict{String, Any}("HyperParameterTuningJobConfig"=>HyperParameterTuningJobConfig, "HyperParameterTuningJobName"=>HyperParameterTuningJobName); aws=aws)
-CreateHyperParameterTuningJob(HyperParameterTuningJobConfig, HyperParameterTuningJobName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateHyperParameterTuningJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HyperParameterTuningJobConfig"=>HyperParameterTuningJobConfig, "HyperParameterTuningJobName"=>HyperParameterTuningJobName), args)); aws=aws)
+
+CreateHyperParameterTuningJob(HyperParameterTuningJobConfig, HyperParameterTuningJobName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateHyperParameterTuningJob", Dict{String, Any}("HyperParameterTuningJobConfig"=>HyperParameterTuningJobConfig, "HyperParameterTuningJobName"=>HyperParameterTuningJobName); aws_config=aws_config)
+CreateHyperParameterTuningJob(HyperParameterTuningJobConfig, HyperParameterTuningJobName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateHyperParameterTuningJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HyperParameterTuningJobConfig"=>HyperParameterTuningJobConfig, "HyperParameterTuningJobName"=>HyperParameterTuningJobName), args)); aws_config=aws_config)
 
 """
     CreateLabelingJob()
@@ -254,8 +268,9 @@ Creates a job that uses workers to label the data objects in your input dataset.
 - `StoppingConditions`: A set of conditions for stopping the labeling job. If any of the conditions are met, the job is automatically stopped. You can use these conditions to control the cost of data labeling.
 - `Tags`: An array of key/value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide.
 """
-CreateLabelingJob(HumanTaskConfig, InputConfig, LabelAttributeName, LabelingJobName, OutputConfig, RoleArn; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateLabelingJob", Dict{String, Any}("HumanTaskConfig"=>HumanTaskConfig, "InputConfig"=>InputConfig, "LabelAttributeName"=>LabelAttributeName, "LabelingJobName"=>LabelingJobName, "OutputConfig"=>OutputConfig, "RoleArn"=>RoleArn); aws=aws)
-CreateLabelingJob(HumanTaskConfig, InputConfig, LabelAttributeName, LabelingJobName, OutputConfig, RoleArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateLabelingJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HumanTaskConfig"=>HumanTaskConfig, "InputConfig"=>InputConfig, "LabelAttributeName"=>LabelAttributeName, "LabelingJobName"=>LabelingJobName, "OutputConfig"=>OutputConfig, "RoleArn"=>RoleArn), args)); aws=aws)
+
+CreateLabelingJob(HumanTaskConfig, InputConfig, LabelAttributeName, LabelingJobName, OutputConfig, RoleArn; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateLabelingJob", Dict{String, Any}("HumanTaskConfig"=>HumanTaskConfig, "InputConfig"=>InputConfig, "LabelAttributeName"=>LabelAttributeName, "LabelingJobName"=>LabelingJobName, "OutputConfig"=>OutputConfig, "RoleArn"=>RoleArn); aws_config=aws_config)
+CreateLabelingJob(HumanTaskConfig, InputConfig, LabelAttributeName, LabelingJobName, OutputConfig, RoleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateLabelingJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HumanTaskConfig"=>HumanTaskConfig, "InputConfig"=>InputConfig, "LabelAttributeName"=>LabelAttributeName, "LabelingJobName"=>LabelingJobName, "OutputConfig"=>OutputConfig, "RoleArn"=>RoleArn), args)); aws_config=aws_config)
 
 """
     CreateModel()
@@ -273,8 +288,9 @@ Creates a model in Amazon SageMaker. In the request, you name the model and desc
 - `Tags`: An array of key-value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide. 
 - `VpcConfig`: A VpcConfig object that specifies the VPC that you want your model to connect to. Control access to and from your model container by configuring the VPC. VpcConfig is used in hosting services and in batch transform. For more information, see Protect Endpoints by Using an Amazon Virtual Private Cloud and Protect Data in Batch Transform Jobs by Using an Amazon Virtual Private Cloud.
 """
-CreateModel(ExecutionRoleArn, ModelName; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateModel", Dict{String, Any}("ExecutionRoleArn"=>ExecutionRoleArn, "ModelName"=>ModelName); aws=aws)
-CreateModel(ExecutionRoleArn, ModelName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExecutionRoleArn"=>ExecutionRoleArn, "ModelName"=>ModelName), args)); aws=aws)
+
+CreateModel(ExecutionRoleArn, ModelName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateModel", Dict{String, Any}("ExecutionRoleArn"=>ExecutionRoleArn, "ModelName"=>ModelName); aws_config=aws_config)
+CreateModel(ExecutionRoleArn, ModelName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExecutionRoleArn"=>ExecutionRoleArn, "ModelName"=>ModelName), args)); aws_config=aws_config)
 
 """
     CreateModelPackage()
@@ -291,8 +307,9 @@ Creates a model package that you can use to create Amazon SageMaker models or li
 - `SourceAlgorithmSpecification`: Details about the algorithm that was used to create the model package.
 - `ValidationSpecification`: Specifies configurations for one or more transform jobs that Amazon SageMaker runs to test the model package.
 """
-CreateModelPackage(ModelPackageName; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateModelPackage", Dict{String, Any}("ModelPackageName"=>ModelPackageName); aws=aws)
-CreateModelPackage(ModelPackageName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateModelPackage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ModelPackageName"=>ModelPackageName), args)); aws=aws)
+
+CreateModelPackage(ModelPackageName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateModelPackage", Dict{String, Any}("ModelPackageName"=>ModelPackageName); aws_config=aws_config)
+CreateModelPackage(ModelPackageName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateModelPackage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ModelPackageName"=>ModelPackageName), args)); aws_config=aws_config)
 
 """
     CreateMonitoringSchedule()
@@ -306,8 +323,9 @@ Creates a schedule that regularly starts Amazon SageMaker Processing Jobs to mon
 # Optional Parameters
 - `Tags`: (Optional) An array of key-value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide.
 """
-CreateMonitoringSchedule(MonitoringScheduleConfig, MonitoringScheduleName; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateMonitoringSchedule", Dict{String, Any}("MonitoringScheduleConfig"=>MonitoringScheduleConfig, "MonitoringScheduleName"=>MonitoringScheduleName); aws=aws)
-CreateMonitoringSchedule(MonitoringScheduleConfig, MonitoringScheduleName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateMonitoringSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MonitoringScheduleConfig"=>MonitoringScheduleConfig, "MonitoringScheduleName"=>MonitoringScheduleName), args)); aws=aws)
+
+CreateMonitoringSchedule(MonitoringScheduleConfig, MonitoringScheduleName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateMonitoringSchedule", Dict{String, Any}("MonitoringScheduleConfig"=>MonitoringScheduleConfig, "MonitoringScheduleName"=>MonitoringScheduleName); aws_config=aws_config)
+CreateMonitoringSchedule(MonitoringScheduleConfig, MonitoringScheduleName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateMonitoringSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MonitoringScheduleConfig"=>MonitoringScheduleConfig, "MonitoringScheduleName"=>MonitoringScheduleName), args)); aws_config=aws_config)
 
 """
     CreateNotebookInstance()
@@ -332,8 +350,9 @@ Creates an Amazon SageMaker notebook instance. A notebook instance is a machine 
 - `Tags`: A list of tags to associate with the notebook instance. You can add tags later by using the CreateTags API.
 - `VolumeSizeInGB`: The size, in GB, of the ML storage volume to attach to the notebook instance. The default value is 5 GB.
 """
-CreateNotebookInstance(InstanceType, NotebookInstanceName, RoleArn; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateNotebookInstance", Dict{String, Any}("InstanceType"=>InstanceType, "NotebookInstanceName"=>NotebookInstanceName, "RoleArn"=>RoleArn); aws=aws)
-CreateNotebookInstance(InstanceType, NotebookInstanceName, RoleArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateNotebookInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceType"=>InstanceType, "NotebookInstanceName"=>NotebookInstanceName, "RoleArn"=>RoleArn), args)); aws=aws)
+
+CreateNotebookInstance(InstanceType, NotebookInstanceName, RoleArn; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateNotebookInstance", Dict{String, Any}("InstanceType"=>InstanceType, "NotebookInstanceName"=>NotebookInstanceName, "RoleArn"=>RoleArn); aws_config=aws_config)
+CreateNotebookInstance(InstanceType, NotebookInstanceName, RoleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateNotebookInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceType"=>InstanceType, "NotebookInstanceName"=>NotebookInstanceName, "RoleArn"=>RoleArn), args)); aws_config=aws_config)
 
 """
     CreateNotebookInstanceLifecycleConfig()
@@ -347,8 +366,9 @@ Creates a lifecycle configuration that you can associate with a notebook instanc
 - `OnCreate`: A shell script that runs only once, when you create a notebook instance. The shell script must be a base64-encoded string.
 - `OnStart`: A shell script that runs every time you start a notebook instance, including when you create the notebook instance. The shell script must be a base64-encoded string.
 """
-CreateNotebookInstanceLifecycleConfig(NotebookInstanceLifecycleConfigName; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateNotebookInstanceLifecycleConfig", Dict{String, Any}("NotebookInstanceLifecycleConfigName"=>NotebookInstanceLifecycleConfigName); aws=aws)
-CreateNotebookInstanceLifecycleConfig(NotebookInstanceLifecycleConfigName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateNotebookInstanceLifecycleConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotebookInstanceLifecycleConfigName"=>NotebookInstanceLifecycleConfigName), args)); aws=aws)
+
+CreateNotebookInstanceLifecycleConfig(NotebookInstanceLifecycleConfigName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateNotebookInstanceLifecycleConfig", Dict{String, Any}("NotebookInstanceLifecycleConfigName"=>NotebookInstanceLifecycleConfigName); aws_config=aws_config)
+CreateNotebookInstanceLifecycleConfig(NotebookInstanceLifecycleConfigName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateNotebookInstanceLifecycleConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotebookInstanceLifecycleConfigName"=>NotebookInstanceLifecycleConfigName), args)); aws_config=aws_config)
 
 """
     CreatePresignedDomainUrl()
@@ -362,8 +382,9 @@ Creates a URL for a specified UserProfile in a Domain. When accessed in a web br
 # Optional Parameters
 - `SessionExpirationDurationInSeconds`: The session expiration duration in seconds.
 """
-CreatePresignedDomainUrl(DomainId, UserProfileName; aws::AWSConfig=AWS.aws_config) = sagemaker("CreatePresignedDomainUrl", Dict{String, Any}("DomainId"=>DomainId, "UserProfileName"=>UserProfileName); aws=aws)
-CreatePresignedDomainUrl(DomainId, UserProfileName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("CreatePresignedDomainUrl", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId, "UserProfileName"=>UserProfileName), args)); aws=aws)
+
+CreatePresignedDomainUrl(DomainId, UserProfileName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreatePresignedDomainUrl", Dict{String, Any}("DomainId"=>DomainId, "UserProfileName"=>UserProfileName); aws_config=aws_config)
+CreatePresignedDomainUrl(DomainId, UserProfileName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreatePresignedDomainUrl", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId, "UserProfileName"=>UserProfileName), args)); aws_config=aws_config)
 
 """
     CreatePresignedNotebookInstanceUrl()
@@ -376,8 +397,9 @@ Returns a URL that you can use to connect to the Jupyter server from a notebook 
 # Optional Parameters
 - `SessionExpirationDurationInSeconds`: The duration of the session, in seconds. The default is 12 hours.
 """
-CreatePresignedNotebookInstanceUrl(NotebookInstanceName; aws::AWSConfig=AWS.aws_config) = sagemaker("CreatePresignedNotebookInstanceUrl", Dict{String, Any}("NotebookInstanceName"=>NotebookInstanceName); aws=aws)
-CreatePresignedNotebookInstanceUrl(NotebookInstanceName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("CreatePresignedNotebookInstanceUrl", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotebookInstanceName"=>NotebookInstanceName), args)); aws=aws)
+
+CreatePresignedNotebookInstanceUrl(NotebookInstanceName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreatePresignedNotebookInstanceUrl", Dict{String, Any}("NotebookInstanceName"=>NotebookInstanceName); aws_config=aws_config)
+CreatePresignedNotebookInstanceUrl(NotebookInstanceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreatePresignedNotebookInstanceUrl", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotebookInstanceName"=>NotebookInstanceName), args)); aws_config=aws_config)
 
 """
     CreateProcessingJob()
@@ -399,8 +421,9 @@ Creates a processing job.
 - `StoppingCondition`: The time limit for how long the processing job is allowed to run.
 - `Tags`: (Optional) An array of key-value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide.
 """
-CreateProcessingJob(AppSpecification, ProcessingJobName, ProcessingResources, RoleArn; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateProcessingJob", Dict{String, Any}("AppSpecification"=>AppSpecification, "ProcessingJobName"=>ProcessingJobName, "ProcessingResources"=>ProcessingResources, "RoleArn"=>RoleArn); aws=aws)
-CreateProcessingJob(AppSpecification, ProcessingJobName, ProcessingResources, RoleArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateProcessingJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppSpecification"=>AppSpecification, "ProcessingJobName"=>ProcessingJobName, "ProcessingResources"=>ProcessingResources, "RoleArn"=>RoleArn), args)); aws=aws)
+
+CreateProcessingJob(AppSpecification, ProcessingJobName, ProcessingResources, RoleArn; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateProcessingJob", Dict{String, Any}("AppSpecification"=>AppSpecification, "ProcessingJobName"=>ProcessingJobName, "ProcessingResources"=>ProcessingResources, "RoleArn"=>RoleArn); aws_config=aws_config)
+CreateProcessingJob(AppSpecification, ProcessingJobName, ProcessingResources, RoleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateProcessingJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppSpecification"=>AppSpecification, "ProcessingJobName"=>ProcessingJobName, "ProcessingResources"=>ProcessingResources, "RoleArn"=>RoleArn), args)); aws_config=aws_config)
 
 """
     CreateTrainingJob()
@@ -429,8 +452,9 @@ Starts a model training job. After training completes, Amazon SageMaker saves th
 - `TensorBoardOutputConfig`: 
 - `VpcConfig`: A VpcConfig object that specifies the VPC that you want your training job to connect to. Control access to and from your training container by configuring the VPC. For more information, see Protect Training Jobs by Using an Amazon Virtual Private Cloud.
 """
-CreateTrainingJob(AlgorithmSpecification, OutputDataConfig, ResourceConfig, RoleArn, StoppingCondition, TrainingJobName; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateTrainingJob", Dict{String, Any}("AlgorithmSpecification"=>AlgorithmSpecification, "OutputDataConfig"=>OutputDataConfig, "ResourceConfig"=>ResourceConfig, "RoleArn"=>RoleArn, "StoppingCondition"=>StoppingCondition, "TrainingJobName"=>TrainingJobName); aws=aws)
-CreateTrainingJob(AlgorithmSpecification, OutputDataConfig, ResourceConfig, RoleArn, StoppingCondition, TrainingJobName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateTrainingJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlgorithmSpecification"=>AlgorithmSpecification, "OutputDataConfig"=>OutputDataConfig, "ResourceConfig"=>ResourceConfig, "RoleArn"=>RoleArn, "StoppingCondition"=>StoppingCondition, "TrainingJobName"=>TrainingJobName), args)); aws=aws)
+
+CreateTrainingJob(AlgorithmSpecification, OutputDataConfig, ResourceConfig, RoleArn, StoppingCondition, TrainingJobName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateTrainingJob", Dict{String, Any}("AlgorithmSpecification"=>AlgorithmSpecification, "OutputDataConfig"=>OutputDataConfig, "ResourceConfig"=>ResourceConfig, "RoleArn"=>RoleArn, "StoppingCondition"=>StoppingCondition, "TrainingJobName"=>TrainingJobName); aws_config=aws_config)
+CreateTrainingJob(AlgorithmSpecification, OutputDataConfig, ResourceConfig, RoleArn, StoppingCondition, TrainingJobName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateTrainingJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlgorithmSpecification"=>AlgorithmSpecification, "OutputDataConfig"=>OutputDataConfig, "ResourceConfig"=>ResourceConfig, "RoleArn"=>RoleArn, "StoppingCondition"=>StoppingCondition, "TrainingJobName"=>TrainingJobName), args)); aws_config=aws_config)
 
 """
     CreateTransformJob()
@@ -454,8 +478,9 @@ Starts a transform job. A transform job uses a trained model to get inferences o
 - `ModelClientConfig`: Configures the timeout and maximum number of retries for processing a transform job invocation.
 - `Tags`: (Optional) An array of key-value pairs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide.
 """
-CreateTransformJob(ModelName, TransformInput, TransformJobName, TransformOutput, TransformResources; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateTransformJob", Dict{String, Any}("ModelName"=>ModelName, "TransformInput"=>TransformInput, "TransformJobName"=>TransformJobName, "TransformOutput"=>TransformOutput, "TransformResources"=>TransformResources); aws=aws)
-CreateTransformJob(ModelName, TransformInput, TransformJobName, TransformOutput, TransformResources, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateTransformJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ModelName"=>ModelName, "TransformInput"=>TransformInput, "TransformJobName"=>TransformJobName, "TransformOutput"=>TransformOutput, "TransformResources"=>TransformResources), args)); aws=aws)
+
+CreateTransformJob(ModelName, TransformInput, TransformJobName, TransformOutput, TransformResources; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateTransformJob", Dict{String, Any}("ModelName"=>ModelName, "TransformInput"=>TransformInput, "TransformJobName"=>TransformJobName, "TransformOutput"=>TransformOutput, "TransformResources"=>TransformResources); aws_config=aws_config)
+CreateTransformJob(ModelName, TransformInput, TransformJobName, TransformOutput, TransformResources, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateTransformJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ModelName"=>ModelName, "TransformInput"=>TransformInput, "TransformJobName"=>TransformJobName, "TransformOutput"=>TransformOutput, "TransformResources"=>TransformResources), args)); aws_config=aws_config)
 
 """
     CreateTrial()
@@ -470,8 +495,9 @@ Creates an Amazon SageMaker trial. A trial is a set of steps called trial compon
 - `DisplayName`: The name of the trial as displayed. The name doesn't need to be unique. If DisplayName isn't specified, TrialName is displayed.
 - `Tags`: A list of tags to associate with the trial. You can use Search API to search on the tags.
 """
-CreateTrial(ExperimentName, TrialName; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateTrial", Dict{String, Any}("ExperimentName"=>ExperimentName, "TrialName"=>TrialName); aws=aws)
-CreateTrial(ExperimentName, TrialName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateTrial", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExperimentName"=>ExperimentName, "TrialName"=>TrialName), args)); aws=aws)
+
+CreateTrial(ExperimentName, TrialName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateTrial", Dict{String, Any}("ExperimentName"=>ExperimentName, "TrialName"=>TrialName); aws_config=aws_config)
+CreateTrial(ExperimentName, TrialName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateTrial", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExperimentName"=>ExperimentName, "TrialName"=>TrialName), args)); aws_config=aws_config)
 
 """
     CreateTrialComponent()
@@ -491,8 +517,9 @@ Creates a trial component, which is a stage of a machine learning trial. A trial
 - `Status`: The status of the component. States include:   InProgress   Completed   Failed  
 - `Tags`: A list of tags to associate with the component. You can use Search API to search on the tags.
 """
-CreateTrialComponent(TrialComponentName; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateTrialComponent", Dict{String, Any}("TrialComponentName"=>TrialComponentName); aws=aws)
-CreateTrialComponent(TrialComponentName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateTrialComponent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrialComponentName"=>TrialComponentName), args)); aws=aws)
+
+CreateTrialComponent(TrialComponentName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateTrialComponent", Dict{String, Any}("TrialComponentName"=>TrialComponentName); aws_config=aws_config)
+CreateTrialComponent(TrialComponentName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateTrialComponent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrialComponentName"=>TrialComponentName), args)); aws_config=aws_config)
 
 """
     CreateUserProfile()
@@ -509,13 +536,14 @@ Creates a user profile. A user profile represents a single user within a domain,
 - `Tags`: Each tag consists of a key and an optional value. Tag keys must be unique per resource.
 - `UserSettings`: A collection of settings.
 """
-CreateUserProfile(DomainId, UserProfileName; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateUserProfile", Dict{String, Any}("DomainId"=>DomainId, "UserProfileName"=>UserProfileName); aws=aws)
-CreateUserProfile(DomainId, UserProfileName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId, "UserProfileName"=>UserProfileName), args)); aws=aws)
+
+CreateUserProfile(DomainId, UserProfileName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateUserProfile", Dict{String, Any}("DomainId"=>DomainId, "UserProfileName"=>UserProfileName); aws_config=aws_config)
+CreateUserProfile(DomainId, UserProfileName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId, "UserProfileName"=>UserProfileName), args)); aws_config=aws_config)
 
 """
     CreateWorkforce()
 
-Use this operation to create a workforce. This operation will return an error if a workforce already exists in the AWS Region that you specify. You can only create one workforce in each AWS Region. If you want to create a new workforce in an AWS Region where the a workforce already exists, use the API operation to delete the existing workforce and then use this operation to create a new workforce. To create a private workforce using Amazon Cognito, you must specify a Cognito user pool in CognitoConfig. You can also create an Amazon Cognito workforce using the Amazon SageMaker console. For more information, see  Create a Private Workforce (Amazon Cognito). To create a private workforce using your own OIDC Identity Provider (IdP), specify your IdP configuration in OidcConfig. You must create a OIDC IdP workforce using this API operation. For more information, see  Create a Private Workforce (OIDC IdP).
+Use this operation to create a workforce. This operation will return an error if a workforce already exists in the AWS Region that you specify. You can only create one workforce in each AWS Region per AWS account. If you want to create a new workforce in an AWS Region where a workforce already exists, use the API operation to delete the existing workforce and then use CreateWorkforce to create a new workforce. To create a private workforce using Amazon Cognito, you must specify a Cognito user pool in CognitoConfig. You can also create an Amazon Cognito workforce using the Amazon SageMaker console. For more information, see  Create a Private Workforce (Amazon Cognito). To create a private workforce using your own OIDC Identity Provider (IdP), specify your IdP configuration in OidcConfig. Your OIDC IdP must support groups because groups are used by Ground Truth and Amazon A2I to create work teams. For more information, see  Create a Private Workforce (OIDC IdP).
 
 # Required Parameters
 - `WorkforceName`: The name of the private workforce.
@@ -526,8 +554,9 @@ Use this operation to create a workforce. This operation will return an error if
 - `SourceIpConfig`: 
 - `Tags`: An array of key-value pairs that contain metadata to help you categorize and organize our workforce. Each tag consists of a key and a value, both of which you define.
 """
-CreateWorkforce(WorkforceName; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateWorkforce", Dict{String, Any}("WorkforceName"=>WorkforceName); aws=aws)
-CreateWorkforce(WorkforceName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateWorkforce", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkforceName"=>WorkforceName), args)); aws=aws)
+
+CreateWorkforce(WorkforceName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateWorkforce", Dict{String, Any}("WorkforceName"=>WorkforceName); aws_config=aws_config)
+CreateWorkforce(WorkforceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateWorkforce", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkforceName"=>WorkforceName), args)); aws_config=aws_config)
 
 """
     CreateWorkteam()
@@ -536,7 +565,7 @@ Creates a new work team for labeling your data. A work team is defined by one or
 
 # Required Parameters
 - `Description`: A description of the work team.
-- `MemberDefinitions`: A list of MemberDefinition objects that contains objects that identify the Amazon Cognito user pool that makes up the work team. For more information, see Amazon Cognito User Pools. All of the CognitoMemberDefinition objects that make up the member definition must have the same ClientId and UserPool values.
+- `MemberDefinitions`: A list of MemberDefinition objects that contains objects that identify the workers that make up the work team.  Workforces can be created using Amazon Cognito or your own OIDC Identity Provider (IdP). For private workforces created using Amazon Cognito use CognitoMemberDefinition. For workforces created using your own OIDC identity provider (IdP) use OidcMemberDefinition. Do not provide input for both of these parameters in a single request. For workforces created using Amazon Cognito, private work teams correspond to Amazon Cognito user groups within the user pool used to create a workforce. All of the CognitoMemberDefinition objects that make up the member definition must have the same ClientId and UserPool values. To add a Amazon Cognito user group to an existing worker pool, see Adding groups to a User Pool. For more information about user pools, see Amazon Cognito User Pools. For workforces created using your own OIDC IdP, specify the user groups that you want to include in your private work team in OidcMemberDefinition by listing those groups in Groups.
 - `WorkteamName`: The name of the work team. Use this name to identify the work team.
 
 # Optional Parameters
@@ -544,8 +573,9 @@ Creates a new work team for labeling your data. A work team is defined by one or
 - `Tags`: An array of key-value pairs. For more information, see Resource Tag and Using Cost Allocation Tags in the  AWS Billing and Cost Management User Guide.
 - `WorkforceName`: The name of the workforce.
 """
-CreateWorkteam(Description, MemberDefinitions, WorkteamName; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateWorkteam", Dict{String, Any}("Description"=>Description, "MemberDefinitions"=>MemberDefinitions, "WorkteamName"=>WorkteamName); aws=aws)
-CreateWorkteam(Description, MemberDefinitions, WorkteamName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("CreateWorkteam", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "MemberDefinitions"=>MemberDefinitions, "WorkteamName"=>WorkteamName), args)); aws=aws)
+
+CreateWorkteam(Description, MemberDefinitions, WorkteamName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateWorkteam", Dict{String, Any}("Description"=>Description, "MemberDefinitions"=>MemberDefinitions, "WorkteamName"=>WorkteamName); aws_config=aws_config)
+CreateWorkteam(Description, MemberDefinitions, WorkteamName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("CreateWorkteam", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "MemberDefinitions"=>MemberDefinitions, "WorkteamName"=>WorkteamName), args)); aws_config=aws_config)
 
 """
     DeleteAlgorithm()
@@ -556,8 +586,9 @@ Removes the specified algorithm from your account.
 - `AlgorithmName`: The name of the algorithm to delete.
 
 """
-DeleteAlgorithm(AlgorithmName; aws::AWSConfig=AWS.aws_config) = sagemaker("DeleteAlgorithm", Dict{String, Any}("AlgorithmName"=>AlgorithmName); aws=aws)
-DeleteAlgorithm(AlgorithmName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DeleteAlgorithm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlgorithmName"=>AlgorithmName), args)); aws=aws)
+
+DeleteAlgorithm(AlgorithmName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DeleteAlgorithm", Dict{String, Any}("AlgorithmName"=>AlgorithmName); aws_config=aws_config)
+DeleteAlgorithm(AlgorithmName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DeleteAlgorithm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlgorithmName"=>AlgorithmName), args)); aws_config=aws_config)
 
 """
     DeleteApp()
@@ -571,8 +602,9 @@ Used to stop and delete an app.
 - `UserProfileName`: The user profile name.
 
 """
-DeleteApp(AppName, AppType, DomainId, UserProfileName; aws::AWSConfig=AWS.aws_config) = sagemaker("DeleteApp", Dict{String, Any}("AppName"=>AppName, "AppType"=>AppType, "DomainId"=>DomainId, "UserProfileName"=>UserProfileName); aws=aws)
-DeleteApp(AppName, AppType, DomainId, UserProfileName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DeleteApp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppName"=>AppName, "AppType"=>AppType, "DomainId"=>DomainId, "UserProfileName"=>UserProfileName), args)); aws=aws)
+
+DeleteApp(AppName, AppType, DomainId, UserProfileName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DeleteApp", Dict{String, Any}("AppName"=>AppName, "AppType"=>AppType, "DomainId"=>DomainId, "UserProfileName"=>UserProfileName); aws_config=aws_config)
+DeleteApp(AppName, AppType, DomainId, UserProfileName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DeleteApp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppName"=>AppName, "AppType"=>AppType, "DomainId"=>DomainId, "UserProfileName"=>UserProfileName), args)); aws_config=aws_config)
 
 """
     DeleteCodeRepository()
@@ -583,8 +615,9 @@ Deletes the specified Git repository from your account.
 - `CodeRepositoryName`: The name of the Git repository to delete.
 
 """
-DeleteCodeRepository(CodeRepositoryName; aws::AWSConfig=AWS.aws_config) = sagemaker("DeleteCodeRepository", Dict{String, Any}("CodeRepositoryName"=>CodeRepositoryName); aws=aws)
-DeleteCodeRepository(CodeRepositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DeleteCodeRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CodeRepositoryName"=>CodeRepositoryName), args)); aws=aws)
+
+DeleteCodeRepository(CodeRepositoryName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DeleteCodeRepository", Dict{String, Any}("CodeRepositoryName"=>CodeRepositoryName); aws_config=aws_config)
+DeleteCodeRepository(CodeRepositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DeleteCodeRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CodeRepositoryName"=>CodeRepositoryName), args)); aws_config=aws_config)
 
 """
     DeleteDomain()
@@ -597,8 +630,9 @@ Used to delete a domain. If you onboarded with IAM mode, you will need to delete
 # Optional Parameters
 - `RetentionPolicy`: The retention policy for this domain, which specifies whether resources will be retained after the Domain is deleted. By default, all resources are retained (not automatically deleted). 
 """
-DeleteDomain(DomainId; aws::AWSConfig=AWS.aws_config) = sagemaker("DeleteDomain", Dict{String, Any}("DomainId"=>DomainId); aws=aws)
-DeleteDomain(DomainId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DeleteDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId), args)); aws=aws)
+
+DeleteDomain(DomainId; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DeleteDomain", Dict{String, Any}("DomainId"=>DomainId); aws_config=aws_config)
+DeleteDomain(DomainId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DeleteDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId), args)); aws_config=aws_config)
 
 """
     DeleteEndpoint()
@@ -609,8 +643,9 @@ Deletes an endpoint. Amazon SageMaker frees up all of the resources that were de
 - `EndpointName`: The name of the endpoint that you want to delete.
 
 """
-DeleteEndpoint(EndpointName; aws::AWSConfig=AWS.aws_config) = sagemaker("DeleteEndpoint", Dict{String, Any}("EndpointName"=>EndpointName); aws=aws)
-DeleteEndpoint(EndpointName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DeleteEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointName"=>EndpointName), args)); aws=aws)
+
+DeleteEndpoint(EndpointName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DeleteEndpoint", Dict{String, Any}("EndpointName"=>EndpointName); aws_config=aws_config)
+DeleteEndpoint(EndpointName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DeleteEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointName"=>EndpointName), args)); aws_config=aws_config)
 
 """
     DeleteEndpointConfig()
@@ -621,8 +656,9 @@ Deletes an endpoint configuration. The DeleteEndpointConfig API deletes only the
 - `EndpointConfigName`: The name of the endpoint configuration that you want to delete.
 
 """
-DeleteEndpointConfig(EndpointConfigName; aws::AWSConfig=AWS.aws_config) = sagemaker("DeleteEndpointConfig", Dict{String, Any}("EndpointConfigName"=>EndpointConfigName); aws=aws)
-DeleteEndpointConfig(EndpointConfigName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DeleteEndpointConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointConfigName"=>EndpointConfigName), args)); aws=aws)
+
+DeleteEndpointConfig(EndpointConfigName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DeleteEndpointConfig", Dict{String, Any}("EndpointConfigName"=>EndpointConfigName); aws_config=aws_config)
+DeleteEndpointConfig(EndpointConfigName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DeleteEndpointConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointConfigName"=>EndpointConfigName), args)); aws_config=aws_config)
 
 """
     DeleteExperiment()
@@ -633,8 +669,9 @@ Deletes an Amazon SageMaker experiment. All trials associated with the experimen
 - `ExperimentName`: The name of the experiment to delete.
 
 """
-DeleteExperiment(ExperimentName; aws::AWSConfig=AWS.aws_config) = sagemaker("DeleteExperiment", Dict{String, Any}("ExperimentName"=>ExperimentName); aws=aws)
-DeleteExperiment(ExperimentName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DeleteExperiment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExperimentName"=>ExperimentName), args)); aws=aws)
+
+DeleteExperiment(ExperimentName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DeleteExperiment", Dict{String, Any}("ExperimentName"=>ExperimentName); aws_config=aws_config)
+DeleteExperiment(ExperimentName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DeleteExperiment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExperimentName"=>ExperimentName), args)); aws_config=aws_config)
 
 """
     DeleteFlowDefinition()
@@ -645,8 +682,9 @@ Deletes the specified flow definition.
 - `FlowDefinitionName`: The name of the flow definition you are deleting.
 
 """
-DeleteFlowDefinition(FlowDefinitionName; aws::AWSConfig=AWS.aws_config) = sagemaker("DeleteFlowDefinition", Dict{String, Any}("FlowDefinitionName"=>FlowDefinitionName); aws=aws)
-DeleteFlowDefinition(FlowDefinitionName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DeleteFlowDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FlowDefinitionName"=>FlowDefinitionName), args)); aws=aws)
+
+DeleteFlowDefinition(FlowDefinitionName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DeleteFlowDefinition", Dict{String, Any}("FlowDefinitionName"=>FlowDefinitionName); aws_config=aws_config)
+DeleteFlowDefinition(FlowDefinitionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DeleteFlowDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FlowDefinitionName"=>FlowDefinitionName), args)); aws_config=aws_config)
 
 """
     DeleteHumanTaskUi()
@@ -657,8 +695,9 @@ Use this operation to delete a human task user interface (worker task template).
 - `HumanTaskUiName`: The name of the human task user interface (work task template) you want to delete.
 
 """
-DeleteHumanTaskUi(HumanTaskUiName; aws::AWSConfig=AWS.aws_config) = sagemaker("DeleteHumanTaskUi", Dict{String, Any}("HumanTaskUiName"=>HumanTaskUiName); aws=aws)
-DeleteHumanTaskUi(HumanTaskUiName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DeleteHumanTaskUi", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HumanTaskUiName"=>HumanTaskUiName), args)); aws=aws)
+
+DeleteHumanTaskUi(HumanTaskUiName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DeleteHumanTaskUi", Dict{String, Any}("HumanTaskUiName"=>HumanTaskUiName); aws_config=aws_config)
+DeleteHumanTaskUi(HumanTaskUiName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DeleteHumanTaskUi", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HumanTaskUiName"=>HumanTaskUiName), args)); aws_config=aws_config)
 
 """
     DeleteModel()
@@ -669,8 +708,9 @@ Deletes a model. The DeleteModel API deletes only the model entry that was creat
 - `ModelName`: The name of the model to delete.
 
 """
-DeleteModel(ModelName; aws::AWSConfig=AWS.aws_config) = sagemaker("DeleteModel", Dict{String, Any}("ModelName"=>ModelName); aws=aws)
-DeleteModel(ModelName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DeleteModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ModelName"=>ModelName), args)); aws=aws)
+
+DeleteModel(ModelName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DeleteModel", Dict{String, Any}("ModelName"=>ModelName); aws_config=aws_config)
+DeleteModel(ModelName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DeleteModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ModelName"=>ModelName), args)); aws_config=aws_config)
 
 """
     DeleteModelPackage()
@@ -681,8 +721,9 @@ Deletes a model package. A model package is used to create Amazon SageMaker mode
 - `ModelPackageName`: The name of the model package. The name must have 1 to 63 characters. Valid characters are a-z, A-Z, 0-9, and - (hyphen).
 
 """
-DeleteModelPackage(ModelPackageName; aws::AWSConfig=AWS.aws_config) = sagemaker("DeleteModelPackage", Dict{String, Any}("ModelPackageName"=>ModelPackageName); aws=aws)
-DeleteModelPackage(ModelPackageName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DeleteModelPackage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ModelPackageName"=>ModelPackageName), args)); aws=aws)
+
+DeleteModelPackage(ModelPackageName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DeleteModelPackage", Dict{String, Any}("ModelPackageName"=>ModelPackageName); aws_config=aws_config)
+DeleteModelPackage(ModelPackageName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DeleteModelPackage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ModelPackageName"=>ModelPackageName), args)); aws_config=aws_config)
 
 """
     DeleteMonitoringSchedule()
@@ -693,8 +734,9 @@ Deletes a monitoring schedule. Also stops the schedule had not already been stop
 - `MonitoringScheduleName`: The name of the monitoring schedule to delete.
 
 """
-DeleteMonitoringSchedule(MonitoringScheduleName; aws::AWSConfig=AWS.aws_config) = sagemaker("DeleteMonitoringSchedule", Dict{String, Any}("MonitoringScheduleName"=>MonitoringScheduleName); aws=aws)
-DeleteMonitoringSchedule(MonitoringScheduleName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DeleteMonitoringSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MonitoringScheduleName"=>MonitoringScheduleName), args)); aws=aws)
+
+DeleteMonitoringSchedule(MonitoringScheduleName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DeleteMonitoringSchedule", Dict{String, Any}("MonitoringScheduleName"=>MonitoringScheduleName); aws_config=aws_config)
+DeleteMonitoringSchedule(MonitoringScheduleName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DeleteMonitoringSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MonitoringScheduleName"=>MonitoringScheduleName), args)); aws_config=aws_config)
 
 """
     DeleteNotebookInstance()
@@ -705,8 +747,9 @@ DeleteMonitoringSchedule(MonitoringScheduleName, args::AbstractDict{String, <:An
 - `NotebookInstanceName`: The name of the Amazon SageMaker notebook instance to delete.
 
 """
-DeleteNotebookInstance(NotebookInstanceName; aws::AWSConfig=AWS.aws_config) = sagemaker("DeleteNotebookInstance", Dict{String, Any}("NotebookInstanceName"=>NotebookInstanceName); aws=aws)
-DeleteNotebookInstance(NotebookInstanceName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DeleteNotebookInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotebookInstanceName"=>NotebookInstanceName), args)); aws=aws)
+
+DeleteNotebookInstance(NotebookInstanceName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DeleteNotebookInstance", Dict{String, Any}("NotebookInstanceName"=>NotebookInstanceName); aws_config=aws_config)
+DeleteNotebookInstance(NotebookInstanceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DeleteNotebookInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotebookInstanceName"=>NotebookInstanceName), args)); aws_config=aws_config)
 
 """
     DeleteNotebookInstanceLifecycleConfig()
@@ -717,8 +760,9 @@ Deletes a notebook instance lifecycle configuration.
 - `NotebookInstanceLifecycleConfigName`: The name of the lifecycle configuration to delete.
 
 """
-DeleteNotebookInstanceLifecycleConfig(NotebookInstanceLifecycleConfigName; aws::AWSConfig=AWS.aws_config) = sagemaker("DeleteNotebookInstanceLifecycleConfig", Dict{String, Any}("NotebookInstanceLifecycleConfigName"=>NotebookInstanceLifecycleConfigName); aws=aws)
-DeleteNotebookInstanceLifecycleConfig(NotebookInstanceLifecycleConfigName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DeleteNotebookInstanceLifecycleConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotebookInstanceLifecycleConfigName"=>NotebookInstanceLifecycleConfigName), args)); aws=aws)
+
+DeleteNotebookInstanceLifecycleConfig(NotebookInstanceLifecycleConfigName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DeleteNotebookInstanceLifecycleConfig", Dict{String, Any}("NotebookInstanceLifecycleConfigName"=>NotebookInstanceLifecycleConfigName); aws_config=aws_config)
+DeleteNotebookInstanceLifecycleConfig(NotebookInstanceLifecycleConfigName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DeleteNotebookInstanceLifecycleConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotebookInstanceLifecycleConfigName"=>NotebookInstanceLifecycleConfigName), args)); aws_config=aws_config)
 
 """
     DeleteTags()
@@ -730,8 +774,9 @@ Deletes the specified tags from an Amazon SageMaker resource. To list a resource
 - `TagKeys`: An array or one or more tag keys to delete.
 
 """
-DeleteTags(ResourceArn, TagKeys; aws::AWSConfig=AWS.aws_config) = sagemaker("DeleteTags", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws=aws)
-DeleteTags(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DeleteTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws=aws)
+
+DeleteTags(ResourceArn, TagKeys; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DeleteTags", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
+DeleteTags(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DeleteTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
 
 """
     DeleteTrial()
@@ -742,8 +787,9 @@ Deletes the specified trial. All trial components that make up the trial must be
 - `TrialName`: The name of the trial to delete.
 
 """
-DeleteTrial(TrialName; aws::AWSConfig=AWS.aws_config) = sagemaker("DeleteTrial", Dict{String, Any}("TrialName"=>TrialName); aws=aws)
-DeleteTrial(TrialName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DeleteTrial", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrialName"=>TrialName), args)); aws=aws)
+
+DeleteTrial(TrialName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DeleteTrial", Dict{String, Any}("TrialName"=>TrialName); aws_config=aws_config)
+DeleteTrial(TrialName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DeleteTrial", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrialName"=>TrialName), args)); aws_config=aws_config)
 
 """
     DeleteTrialComponent()
@@ -754,8 +800,9 @@ Deletes the specified trial component. A trial component must be disassociated f
 - `TrialComponentName`: The name of the component to delete.
 
 """
-DeleteTrialComponent(TrialComponentName; aws::AWSConfig=AWS.aws_config) = sagemaker("DeleteTrialComponent", Dict{String, Any}("TrialComponentName"=>TrialComponentName); aws=aws)
-DeleteTrialComponent(TrialComponentName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DeleteTrialComponent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrialComponentName"=>TrialComponentName), args)); aws=aws)
+
+DeleteTrialComponent(TrialComponentName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DeleteTrialComponent", Dict{String, Any}("TrialComponentName"=>TrialComponentName); aws_config=aws_config)
+DeleteTrialComponent(TrialComponentName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DeleteTrialComponent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrialComponentName"=>TrialComponentName), args)); aws_config=aws_config)
 
 """
     DeleteUserProfile()
@@ -767,20 +814,22 @@ Deletes a user profile. When a user profile is deleted, the user loses access to
 - `UserProfileName`: The user profile name.
 
 """
-DeleteUserProfile(DomainId, UserProfileName; aws::AWSConfig=AWS.aws_config) = sagemaker("DeleteUserProfile", Dict{String, Any}("DomainId"=>DomainId, "UserProfileName"=>UserProfileName); aws=aws)
-DeleteUserProfile(DomainId, UserProfileName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DeleteUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId, "UserProfileName"=>UserProfileName), args)); aws=aws)
+
+DeleteUserProfile(DomainId, UserProfileName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DeleteUserProfile", Dict{String, Any}("DomainId"=>DomainId, "UserProfileName"=>UserProfileName); aws_config=aws_config)
+DeleteUserProfile(DomainId, UserProfileName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DeleteUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId, "UserProfileName"=>UserProfileName), args)); aws_config=aws_config)
 
 """
     DeleteWorkforce()
 
-Use this operation to delete a workforce. If you want to create a new workforce in an AWS Region where the a workforce already exists, use this operation to delete the existing workforce and then use to create a new workforce.
+Use this operation to delete a workforce. If you want to create a new workforce in an AWS Region where a workforce already exists, use this operation to delete the existing workforce and then use to create a new workforce.  If a private workforce contains one or more work teams, you must use the operation to delete all work teams before you delete the workforce. If you try to delete a workforce that contains one or more work teams, you will recieve a ResourceInUse error. 
 
 # Required Parameters
 - `WorkforceName`: The name of the workforce.
 
 """
-DeleteWorkforce(WorkforceName; aws::AWSConfig=AWS.aws_config) = sagemaker("DeleteWorkforce", Dict{String, Any}("WorkforceName"=>WorkforceName); aws=aws)
-DeleteWorkforce(WorkforceName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DeleteWorkforce", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkforceName"=>WorkforceName), args)); aws=aws)
+
+DeleteWorkforce(WorkforceName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DeleteWorkforce", Dict{String, Any}("WorkforceName"=>WorkforceName); aws_config=aws_config)
+DeleteWorkforce(WorkforceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DeleteWorkforce", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkforceName"=>WorkforceName), args)); aws_config=aws_config)
 
 """
     DeleteWorkteam()
@@ -791,8 +840,9 @@ Deletes an existing work team. This operation can't be undone.
 - `WorkteamName`: The name of the work team to delete.
 
 """
-DeleteWorkteam(WorkteamName; aws::AWSConfig=AWS.aws_config) = sagemaker("DeleteWorkteam", Dict{String, Any}("WorkteamName"=>WorkteamName); aws=aws)
-DeleteWorkteam(WorkteamName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DeleteWorkteam", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkteamName"=>WorkteamName), args)); aws=aws)
+
+DeleteWorkteam(WorkteamName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DeleteWorkteam", Dict{String, Any}("WorkteamName"=>WorkteamName); aws_config=aws_config)
+DeleteWorkteam(WorkteamName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DeleteWorkteam", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkteamName"=>WorkteamName), args)); aws_config=aws_config)
 
 """
     DescribeAlgorithm()
@@ -803,8 +853,9 @@ Returns a description of the specified algorithm that is in your account.
 - `AlgorithmName`: The name of the algorithm to describe.
 
 """
-DescribeAlgorithm(AlgorithmName; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeAlgorithm", Dict{String, Any}("AlgorithmName"=>AlgorithmName); aws=aws)
-DescribeAlgorithm(AlgorithmName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeAlgorithm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlgorithmName"=>AlgorithmName), args)); aws=aws)
+
+DescribeAlgorithm(AlgorithmName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeAlgorithm", Dict{String, Any}("AlgorithmName"=>AlgorithmName); aws_config=aws_config)
+DescribeAlgorithm(AlgorithmName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeAlgorithm", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AlgorithmName"=>AlgorithmName), args)); aws_config=aws_config)
 
 """
     DescribeApp()
@@ -818,8 +869,9 @@ Describes the app.
 - `UserProfileName`: The user profile name.
 
 """
-DescribeApp(AppName, AppType, DomainId, UserProfileName; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeApp", Dict{String, Any}("AppName"=>AppName, "AppType"=>AppType, "DomainId"=>DomainId, "UserProfileName"=>UserProfileName); aws=aws)
-DescribeApp(AppName, AppType, DomainId, UserProfileName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeApp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppName"=>AppName, "AppType"=>AppType, "DomainId"=>DomainId, "UserProfileName"=>UserProfileName), args)); aws=aws)
+
+DescribeApp(AppName, AppType, DomainId, UserProfileName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeApp", Dict{String, Any}("AppName"=>AppName, "AppType"=>AppType, "DomainId"=>DomainId, "UserProfileName"=>UserProfileName); aws_config=aws_config)
+DescribeApp(AppName, AppType, DomainId, UserProfileName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeApp", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AppName"=>AppName, "AppType"=>AppType, "DomainId"=>DomainId, "UserProfileName"=>UserProfileName), args)); aws_config=aws_config)
 
 """
     DescribeAutoMLJob()
@@ -830,8 +882,9 @@ Returns information about an Amazon SageMaker job.
 - `AutoMLJobName`: Request information about a job using that job's unique name.
 
 """
-DescribeAutoMLJob(AutoMLJobName; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeAutoMLJob", Dict{String, Any}("AutoMLJobName"=>AutoMLJobName); aws=aws)
-DescribeAutoMLJob(AutoMLJobName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeAutoMLJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoMLJobName"=>AutoMLJobName), args)); aws=aws)
+
+DescribeAutoMLJob(AutoMLJobName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeAutoMLJob", Dict{String, Any}("AutoMLJobName"=>AutoMLJobName); aws_config=aws_config)
+DescribeAutoMLJob(AutoMLJobName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeAutoMLJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoMLJobName"=>AutoMLJobName), args)); aws_config=aws_config)
 
 """
     DescribeCodeRepository()
@@ -842,8 +895,9 @@ Gets details about the specified Git repository.
 - `CodeRepositoryName`: The name of the Git repository to describe.
 
 """
-DescribeCodeRepository(CodeRepositoryName; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeCodeRepository", Dict{String, Any}("CodeRepositoryName"=>CodeRepositoryName); aws=aws)
-DescribeCodeRepository(CodeRepositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeCodeRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CodeRepositoryName"=>CodeRepositoryName), args)); aws=aws)
+
+DescribeCodeRepository(CodeRepositoryName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeCodeRepository", Dict{String, Any}("CodeRepositoryName"=>CodeRepositoryName); aws_config=aws_config)
+DescribeCodeRepository(CodeRepositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeCodeRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CodeRepositoryName"=>CodeRepositoryName), args)); aws_config=aws_config)
 
 """
     DescribeCompilationJob()
@@ -854,8 +908,9 @@ Returns information about a model compilation job. To create a model compilation
 - `CompilationJobName`: The name of the model compilation job that you want information about.
 
 """
-DescribeCompilationJob(CompilationJobName; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeCompilationJob", Dict{String, Any}("CompilationJobName"=>CompilationJobName); aws=aws)
-DescribeCompilationJob(CompilationJobName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeCompilationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CompilationJobName"=>CompilationJobName), args)); aws=aws)
+
+DescribeCompilationJob(CompilationJobName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeCompilationJob", Dict{String, Any}("CompilationJobName"=>CompilationJobName); aws_config=aws_config)
+DescribeCompilationJob(CompilationJobName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeCompilationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CompilationJobName"=>CompilationJobName), args)); aws_config=aws_config)
 
 """
     DescribeDomain()
@@ -866,8 +921,9 @@ The description of the domain.
 - `DomainId`: The domain ID.
 
 """
-DescribeDomain(DomainId; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeDomain", Dict{String, Any}("DomainId"=>DomainId); aws=aws)
-DescribeDomain(DomainId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId), args)); aws=aws)
+
+DescribeDomain(DomainId; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeDomain", Dict{String, Any}("DomainId"=>DomainId); aws_config=aws_config)
+DescribeDomain(DomainId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId), args)); aws_config=aws_config)
 
 """
     DescribeEndpoint()
@@ -878,8 +934,9 @@ Returns the description of an endpoint.
 - `EndpointName`: The name of the endpoint.
 
 """
-DescribeEndpoint(EndpointName; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeEndpoint", Dict{String, Any}("EndpointName"=>EndpointName); aws=aws)
-DescribeEndpoint(EndpointName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointName"=>EndpointName), args)); aws=aws)
+
+DescribeEndpoint(EndpointName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeEndpoint", Dict{String, Any}("EndpointName"=>EndpointName); aws_config=aws_config)
+DescribeEndpoint(EndpointName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointName"=>EndpointName), args)); aws_config=aws_config)
 
 """
     DescribeEndpointConfig()
@@ -890,8 +947,9 @@ Returns the description of an endpoint configuration created using the CreateEnd
 - `EndpointConfigName`: The name of the endpoint configuration.
 
 """
-DescribeEndpointConfig(EndpointConfigName; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeEndpointConfig", Dict{String, Any}("EndpointConfigName"=>EndpointConfigName); aws=aws)
-DescribeEndpointConfig(EndpointConfigName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeEndpointConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointConfigName"=>EndpointConfigName), args)); aws=aws)
+
+DescribeEndpointConfig(EndpointConfigName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeEndpointConfig", Dict{String, Any}("EndpointConfigName"=>EndpointConfigName); aws_config=aws_config)
+DescribeEndpointConfig(EndpointConfigName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeEndpointConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointConfigName"=>EndpointConfigName), args)); aws_config=aws_config)
 
 """
     DescribeExperiment()
@@ -902,8 +960,9 @@ Provides a list of an experiment's properties.
 - `ExperimentName`: The name of the experiment to describe.
 
 """
-DescribeExperiment(ExperimentName; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeExperiment", Dict{String, Any}("ExperimentName"=>ExperimentName); aws=aws)
-DescribeExperiment(ExperimentName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeExperiment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExperimentName"=>ExperimentName), args)); aws=aws)
+
+DescribeExperiment(ExperimentName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeExperiment", Dict{String, Any}("ExperimentName"=>ExperimentName); aws_config=aws_config)
+DescribeExperiment(ExperimentName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeExperiment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExperimentName"=>ExperimentName), args)); aws_config=aws_config)
 
 """
     DescribeFlowDefinition()
@@ -914,8 +973,9 @@ Returns information about the specified flow definition.
 - `FlowDefinitionName`: The name of the flow definition.
 
 """
-DescribeFlowDefinition(FlowDefinitionName; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeFlowDefinition", Dict{String, Any}("FlowDefinitionName"=>FlowDefinitionName); aws=aws)
-DescribeFlowDefinition(FlowDefinitionName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeFlowDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FlowDefinitionName"=>FlowDefinitionName), args)); aws=aws)
+
+DescribeFlowDefinition(FlowDefinitionName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeFlowDefinition", Dict{String, Any}("FlowDefinitionName"=>FlowDefinitionName); aws_config=aws_config)
+DescribeFlowDefinition(FlowDefinitionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeFlowDefinition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FlowDefinitionName"=>FlowDefinitionName), args)); aws_config=aws_config)
 
 """
     DescribeHumanTaskUi()
@@ -926,8 +986,9 @@ Returns information about the requested human task user interface (worker task t
 - `HumanTaskUiName`: The name of the human task user interface (worker task template) you want information about.
 
 """
-DescribeHumanTaskUi(HumanTaskUiName; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeHumanTaskUi", Dict{String, Any}("HumanTaskUiName"=>HumanTaskUiName); aws=aws)
-DescribeHumanTaskUi(HumanTaskUiName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeHumanTaskUi", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HumanTaskUiName"=>HumanTaskUiName), args)); aws=aws)
+
+DescribeHumanTaskUi(HumanTaskUiName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeHumanTaskUi", Dict{String, Any}("HumanTaskUiName"=>HumanTaskUiName); aws_config=aws_config)
+DescribeHumanTaskUi(HumanTaskUiName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeHumanTaskUi", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HumanTaskUiName"=>HumanTaskUiName), args)); aws_config=aws_config)
 
 """
     DescribeHyperParameterTuningJob()
@@ -938,8 +999,9 @@ Gets a description of a hyperparameter tuning job.
 - `HyperParameterTuningJobName`: The name of the tuning job.
 
 """
-DescribeHyperParameterTuningJob(HyperParameterTuningJobName; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeHyperParameterTuningJob", Dict{String, Any}("HyperParameterTuningJobName"=>HyperParameterTuningJobName); aws=aws)
-DescribeHyperParameterTuningJob(HyperParameterTuningJobName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeHyperParameterTuningJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HyperParameterTuningJobName"=>HyperParameterTuningJobName), args)); aws=aws)
+
+DescribeHyperParameterTuningJob(HyperParameterTuningJobName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeHyperParameterTuningJob", Dict{String, Any}("HyperParameterTuningJobName"=>HyperParameterTuningJobName); aws_config=aws_config)
+DescribeHyperParameterTuningJob(HyperParameterTuningJobName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeHyperParameterTuningJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HyperParameterTuningJobName"=>HyperParameterTuningJobName), args)); aws_config=aws_config)
 
 """
     DescribeLabelingJob()
@@ -950,8 +1012,9 @@ Gets information about a labeling job.
 - `LabelingJobName`: The name of the labeling job to return information for.
 
 """
-DescribeLabelingJob(LabelingJobName; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeLabelingJob", Dict{String, Any}("LabelingJobName"=>LabelingJobName); aws=aws)
-DescribeLabelingJob(LabelingJobName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeLabelingJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LabelingJobName"=>LabelingJobName), args)); aws=aws)
+
+DescribeLabelingJob(LabelingJobName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeLabelingJob", Dict{String, Any}("LabelingJobName"=>LabelingJobName); aws_config=aws_config)
+DescribeLabelingJob(LabelingJobName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeLabelingJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LabelingJobName"=>LabelingJobName), args)); aws_config=aws_config)
 
 """
     DescribeModel()
@@ -962,8 +1025,9 @@ Describes a model that you created using the CreateModel API.
 - `ModelName`: The name of the model.
 
 """
-DescribeModel(ModelName; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeModel", Dict{String, Any}("ModelName"=>ModelName); aws=aws)
-DescribeModel(ModelName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ModelName"=>ModelName), args)); aws=aws)
+
+DescribeModel(ModelName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeModel", Dict{String, Any}("ModelName"=>ModelName); aws_config=aws_config)
+DescribeModel(ModelName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeModel", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ModelName"=>ModelName), args)); aws_config=aws_config)
 
 """
     DescribeModelPackage()
@@ -974,8 +1038,9 @@ Returns a description of the specified model package, which is used to create Am
 - `ModelPackageName`: The name of the model package to describe.
 
 """
-DescribeModelPackage(ModelPackageName; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeModelPackage", Dict{String, Any}("ModelPackageName"=>ModelPackageName); aws=aws)
-DescribeModelPackage(ModelPackageName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeModelPackage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ModelPackageName"=>ModelPackageName), args)); aws=aws)
+
+DescribeModelPackage(ModelPackageName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeModelPackage", Dict{String, Any}("ModelPackageName"=>ModelPackageName); aws_config=aws_config)
+DescribeModelPackage(ModelPackageName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeModelPackage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ModelPackageName"=>ModelPackageName), args)); aws_config=aws_config)
 
 """
     DescribeMonitoringSchedule()
@@ -986,8 +1051,9 @@ Describes the schedule for a monitoring job.
 - `MonitoringScheduleName`: Name of a previously created monitoring schedule.
 
 """
-DescribeMonitoringSchedule(MonitoringScheduleName; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeMonitoringSchedule", Dict{String, Any}("MonitoringScheduleName"=>MonitoringScheduleName); aws=aws)
-DescribeMonitoringSchedule(MonitoringScheduleName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeMonitoringSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MonitoringScheduleName"=>MonitoringScheduleName), args)); aws=aws)
+
+DescribeMonitoringSchedule(MonitoringScheduleName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeMonitoringSchedule", Dict{String, Any}("MonitoringScheduleName"=>MonitoringScheduleName); aws_config=aws_config)
+DescribeMonitoringSchedule(MonitoringScheduleName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeMonitoringSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MonitoringScheduleName"=>MonitoringScheduleName), args)); aws_config=aws_config)
 
 """
     DescribeNotebookInstance()
@@ -998,8 +1064,9 @@ Returns information about a notebook instance.
 - `NotebookInstanceName`: The name of the notebook instance that you want information about.
 
 """
-DescribeNotebookInstance(NotebookInstanceName; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeNotebookInstance", Dict{String, Any}("NotebookInstanceName"=>NotebookInstanceName); aws=aws)
-DescribeNotebookInstance(NotebookInstanceName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeNotebookInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotebookInstanceName"=>NotebookInstanceName), args)); aws=aws)
+
+DescribeNotebookInstance(NotebookInstanceName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeNotebookInstance", Dict{String, Any}("NotebookInstanceName"=>NotebookInstanceName); aws_config=aws_config)
+DescribeNotebookInstance(NotebookInstanceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeNotebookInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotebookInstanceName"=>NotebookInstanceName), args)); aws_config=aws_config)
 
 """
     DescribeNotebookInstanceLifecycleConfig()
@@ -1010,8 +1077,9 @@ Returns a description of a notebook instance lifecycle configuration. For inform
 - `NotebookInstanceLifecycleConfigName`: The name of the lifecycle configuration to describe.
 
 """
-DescribeNotebookInstanceLifecycleConfig(NotebookInstanceLifecycleConfigName; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeNotebookInstanceLifecycleConfig", Dict{String, Any}("NotebookInstanceLifecycleConfigName"=>NotebookInstanceLifecycleConfigName); aws=aws)
-DescribeNotebookInstanceLifecycleConfig(NotebookInstanceLifecycleConfigName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeNotebookInstanceLifecycleConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotebookInstanceLifecycleConfigName"=>NotebookInstanceLifecycleConfigName), args)); aws=aws)
+
+DescribeNotebookInstanceLifecycleConfig(NotebookInstanceLifecycleConfigName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeNotebookInstanceLifecycleConfig", Dict{String, Any}("NotebookInstanceLifecycleConfigName"=>NotebookInstanceLifecycleConfigName); aws_config=aws_config)
+DescribeNotebookInstanceLifecycleConfig(NotebookInstanceLifecycleConfigName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeNotebookInstanceLifecycleConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotebookInstanceLifecycleConfigName"=>NotebookInstanceLifecycleConfigName), args)); aws_config=aws_config)
 
 """
     DescribeProcessingJob()
@@ -1022,8 +1090,9 @@ Returns a description of a processing job.
 - `ProcessingJobName`: The name of the processing job. The name must be unique within an AWS Region in the AWS account.
 
 """
-DescribeProcessingJob(ProcessingJobName; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeProcessingJob", Dict{String, Any}("ProcessingJobName"=>ProcessingJobName); aws=aws)
-DescribeProcessingJob(ProcessingJobName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeProcessingJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProcessingJobName"=>ProcessingJobName), args)); aws=aws)
+
+DescribeProcessingJob(ProcessingJobName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeProcessingJob", Dict{String, Any}("ProcessingJobName"=>ProcessingJobName); aws_config=aws_config)
+DescribeProcessingJob(ProcessingJobName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeProcessingJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProcessingJobName"=>ProcessingJobName), args)); aws_config=aws_config)
 
 """
     DescribeSubscribedWorkteam()
@@ -1034,8 +1103,9 @@ Gets information about a work team provided by a vendor. It returns details abou
 - `WorkteamArn`: The Amazon Resource Name (ARN) of the subscribed work team to describe.
 
 """
-DescribeSubscribedWorkteam(WorkteamArn; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeSubscribedWorkteam", Dict{String, Any}("WorkteamArn"=>WorkteamArn); aws=aws)
-DescribeSubscribedWorkteam(WorkteamArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeSubscribedWorkteam", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkteamArn"=>WorkteamArn), args)); aws=aws)
+
+DescribeSubscribedWorkteam(WorkteamArn; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeSubscribedWorkteam", Dict{String, Any}("WorkteamArn"=>WorkteamArn); aws_config=aws_config)
+DescribeSubscribedWorkteam(WorkteamArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeSubscribedWorkteam", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkteamArn"=>WorkteamArn), args)); aws_config=aws_config)
 
 """
     DescribeTrainingJob()
@@ -1046,8 +1116,9 @@ Returns information about a training job.
 - `TrainingJobName`: The name of the training job.
 
 """
-DescribeTrainingJob(TrainingJobName; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeTrainingJob", Dict{String, Any}("TrainingJobName"=>TrainingJobName); aws=aws)
-DescribeTrainingJob(TrainingJobName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeTrainingJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrainingJobName"=>TrainingJobName), args)); aws=aws)
+
+DescribeTrainingJob(TrainingJobName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeTrainingJob", Dict{String, Any}("TrainingJobName"=>TrainingJobName); aws_config=aws_config)
+DescribeTrainingJob(TrainingJobName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeTrainingJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrainingJobName"=>TrainingJobName), args)); aws_config=aws_config)
 
 """
     DescribeTransformJob()
@@ -1058,8 +1129,9 @@ Returns information about a transform job.
 - `TransformJobName`: The name of the transform job that you want to view details of.
 
 """
-DescribeTransformJob(TransformJobName; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeTransformJob", Dict{String, Any}("TransformJobName"=>TransformJobName); aws=aws)
-DescribeTransformJob(TransformJobName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeTransformJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransformJobName"=>TransformJobName), args)); aws=aws)
+
+DescribeTransformJob(TransformJobName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeTransformJob", Dict{String, Any}("TransformJobName"=>TransformJobName); aws_config=aws_config)
+DescribeTransformJob(TransformJobName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeTransformJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransformJobName"=>TransformJobName), args)); aws_config=aws_config)
 
 """
     DescribeTrial()
@@ -1070,8 +1142,9 @@ Provides a list of a trial's properties.
 - `TrialName`: The name of the trial to describe.
 
 """
-DescribeTrial(TrialName; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeTrial", Dict{String, Any}("TrialName"=>TrialName); aws=aws)
-DescribeTrial(TrialName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeTrial", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrialName"=>TrialName), args)); aws=aws)
+
+DescribeTrial(TrialName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeTrial", Dict{String, Any}("TrialName"=>TrialName); aws_config=aws_config)
+DescribeTrial(TrialName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeTrial", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrialName"=>TrialName), args)); aws_config=aws_config)
 
 """
     DescribeTrialComponent()
@@ -1082,8 +1155,9 @@ Provides a list of a trials component's properties.
 - `TrialComponentName`: The name of the trial component to describe.
 
 """
-DescribeTrialComponent(TrialComponentName; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeTrialComponent", Dict{String, Any}("TrialComponentName"=>TrialComponentName); aws=aws)
-DescribeTrialComponent(TrialComponentName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeTrialComponent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrialComponentName"=>TrialComponentName), args)); aws=aws)
+
+DescribeTrialComponent(TrialComponentName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeTrialComponent", Dict{String, Any}("TrialComponentName"=>TrialComponentName); aws_config=aws_config)
+DescribeTrialComponent(TrialComponentName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeTrialComponent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrialComponentName"=>TrialComponentName), args)); aws_config=aws_config)
 
 """
     DescribeUserProfile()
@@ -1095,8 +1169,9 @@ Describes a user profile. For more information, see CreateUserProfile.
 - `UserProfileName`: The user profile name.
 
 """
-DescribeUserProfile(DomainId, UserProfileName; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeUserProfile", Dict{String, Any}("DomainId"=>DomainId, "UserProfileName"=>UserProfileName); aws=aws)
-DescribeUserProfile(DomainId, UserProfileName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId, "UserProfileName"=>UserProfileName), args)); aws=aws)
+
+DescribeUserProfile(DomainId, UserProfileName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeUserProfile", Dict{String, Any}("DomainId"=>DomainId, "UserProfileName"=>UserProfileName); aws_config=aws_config)
+DescribeUserProfile(DomainId, UserProfileName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId, "UserProfileName"=>UserProfileName), args)); aws_config=aws_config)
 
 """
     DescribeWorkforce()
@@ -1107,8 +1182,9 @@ Lists private workforce information, including workforce name, Amazon Resource N
 - `WorkforceName`: The name of the private workforce whose access you want to restrict. WorkforceName is automatically set to default when a workforce is created and cannot be modified. 
 
 """
-DescribeWorkforce(WorkforceName; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeWorkforce", Dict{String, Any}("WorkforceName"=>WorkforceName); aws=aws)
-DescribeWorkforce(WorkforceName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeWorkforce", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkforceName"=>WorkforceName), args)); aws=aws)
+
+DescribeWorkforce(WorkforceName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeWorkforce", Dict{String, Any}("WorkforceName"=>WorkforceName); aws_config=aws_config)
+DescribeWorkforce(WorkforceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeWorkforce", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkforceName"=>WorkforceName), args)); aws_config=aws_config)
 
 """
     DescribeWorkteam()
@@ -1119,8 +1195,9 @@ Gets information about a specific work team. You can see information such as the
 - `WorkteamName`: The name of the work team to return a description of.
 
 """
-DescribeWorkteam(WorkteamName; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeWorkteam", Dict{String, Any}("WorkteamName"=>WorkteamName); aws=aws)
-DescribeWorkteam(WorkteamName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DescribeWorkteam", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkteamName"=>WorkteamName), args)); aws=aws)
+
+DescribeWorkteam(WorkteamName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeWorkteam", Dict{String, Any}("WorkteamName"=>WorkteamName); aws_config=aws_config)
+DescribeWorkteam(WorkteamName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DescribeWorkteam", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkteamName"=>WorkteamName), args)); aws_config=aws_config)
 
 """
     DisassociateTrialComponent()
@@ -1132,8 +1209,9 @@ Disassociates a trial component from a trial. This doesn't effect other trials t
 - `TrialName`: The name of the trial to disassociate from.
 
 """
-DisassociateTrialComponent(TrialComponentName, TrialName; aws::AWSConfig=AWS.aws_config) = sagemaker("DisassociateTrialComponent", Dict{String, Any}("TrialComponentName"=>TrialComponentName, "TrialName"=>TrialName); aws=aws)
-DisassociateTrialComponent(TrialComponentName, TrialName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("DisassociateTrialComponent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrialComponentName"=>TrialComponentName, "TrialName"=>TrialName), args)); aws=aws)
+
+DisassociateTrialComponent(TrialComponentName, TrialName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DisassociateTrialComponent", Dict{String, Any}("TrialComponentName"=>TrialComponentName, "TrialName"=>TrialName); aws_config=aws_config)
+DisassociateTrialComponent(TrialComponentName, TrialName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("DisassociateTrialComponent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrialComponentName"=>TrialComponentName, "TrialName"=>TrialName), args)); aws_config=aws_config)
 
 """
     GetSearchSuggestions()
@@ -1146,8 +1224,9 @@ An auto-complete API for the search functionality in the Amazon SageMaker consol
 # Optional Parameters
 - `SuggestionQuery`: Limits the property names that are included in the response.
 """
-GetSearchSuggestions(Resource; aws::AWSConfig=AWS.aws_config) = sagemaker("GetSearchSuggestions", Dict{String, Any}("Resource"=>Resource); aws=aws)
-GetSearchSuggestions(Resource, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("GetSearchSuggestions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource), args)); aws=aws)
+
+GetSearchSuggestions(Resource; aws_config::AWSConfig=AWS.aws_config) = sagemaker("GetSearchSuggestions", Dict{String, Any}("Resource"=>Resource); aws_config=aws_config)
+GetSearchSuggestions(Resource, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("GetSearchSuggestions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource), args)); aws_config=aws_config)
 
 """
     ListAlgorithms()
@@ -1163,8 +1242,9 @@ Lists the machine learning algorithms that have been created.
 - `SortBy`: The parameter by which to sort the results. The default is CreationTime.
 - `SortOrder`: The sort order for the results. The default is Ascending.
 """
-ListAlgorithms(; aws::AWSConfig=AWS.aws_config) = sagemaker("ListAlgorithms"; aws=aws)
-ListAlgorithms(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("ListAlgorithms", args; aws=aws)
+
+ListAlgorithms(; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListAlgorithms"; aws_config=aws_config)
+ListAlgorithms(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListAlgorithms", args; aws_config=aws_config)
 
 """
     ListApps()
@@ -1179,8 +1259,9 @@ Lists apps.
 - `SortOrder`: The sort order for the results. The default is Ascending.
 - `UserProfileNameEquals`: A parameter to search by user profile name.
 """
-ListApps(; aws::AWSConfig=AWS.aws_config) = sagemaker("ListApps"; aws=aws)
-ListApps(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("ListApps", args; aws=aws)
+
+ListApps(; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListApps"; aws_config=aws_config)
+ListApps(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListApps", args; aws_config=aws_config)
 
 """
     ListAutoMLJobs()
@@ -1194,13 +1275,14 @@ Request a list of jobs.
 - `LastModifiedTimeBefore`: Request a list of jobs, using a filter for time.
 - `MaxResults`: Request a list of jobs up to a specified limit.
 - `NameContains`: Request a list of jobs, using a search filter for name.
-- `NextToken`: If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
+- `NextToken`: If the previous response was truncated, you receive this token. Use it in your next request to receive the next set of results.
 - `SortBy`: The parameter by which to sort the results. The default is AutoMLJobName.
 - `SortOrder`: The sort order for the results. The default is Descending.
 - `StatusEquals`: Request a list of jobs, using a filter for status.
 """
-ListAutoMLJobs(; aws::AWSConfig=AWS.aws_config) = sagemaker("ListAutoMLJobs"; aws=aws)
-ListAutoMLJobs(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("ListAutoMLJobs", args; aws=aws)
+
+ListAutoMLJobs(; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListAutoMLJobs"; aws_config=aws_config)
+ListAutoMLJobs(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListAutoMLJobs", args; aws_config=aws_config)
 
 """
     ListCandidatesForAutoMLJob()
@@ -1213,13 +1295,14 @@ List the Candidates created for the job.
 # Optional Parameters
 - `CandidateNameEquals`: List the Candidates for the job and filter by candidate name.
 - `MaxResults`: List the job's Candidates up to a specified limit.
-- `NextToken`: If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
+- `NextToken`: If the previous response was truncated, you receive this token. Use it in your next request to receive the next set of results.
 - `SortBy`: The parameter by which to sort the results. The default is Descending.
 - `SortOrder`: The sort order for the results. The default is Ascending.
 - `StatusEquals`: List the Candidates for the job and filter by status.
 """
-ListCandidatesForAutoMLJob(AutoMLJobName; aws::AWSConfig=AWS.aws_config) = sagemaker("ListCandidatesForAutoMLJob", Dict{String, Any}("AutoMLJobName"=>AutoMLJobName); aws=aws)
-ListCandidatesForAutoMLJob(AutoMLJobName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("ListCandidatesForAutoMLJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoMLJobName"=>AutoMLJobName), args)); aws=aws)
+
+ListCandidatesForAutoMLJob(AutoMLJobName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListCandidatesForAutoMLJob", Dict{String, Any}("AutoMLJobName"=>AutoMLJobName); aws_config=aws_config)
+ListCandidatesForAutoMLJob(AutoMLJobName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListCandidatesForAutoMLJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoMLJobName"=>AutoMLJobName), args)); aws_config=aws_config)
 
 """
     ListCodeRepositories()
@@ -1237,8 +1320,9 @@ Gets a list of the Git repositories in your account.
 - `SortBy`: The field to sort results by. The default is Name.
 - `SortOrder`: The sort order for results. The default is Ascending.
 """
-ListCodeRepositories(; aws::AWSConfig=AWS.aws_config) = sagemaker("ListCodeRepositories"; aws=aws)
-ListCodeRepositories(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("ListCodeRepositories", args; aws=aws)
+
+ListCodeRepositories(; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListCodeRepositories"; aws_config=aws_config)
+ListCodeRepositories(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListCodeRepositories", args; aws_config=aws_config)
 
 """
     ListCompilationJobs()
@@ -1257,8 +1341,9 @@ Lists model compilation jobs that satisfy various filters. To create a model com
 - `SortOrder`: The sort order for results. The default is Ascending.
 - `StatusEquals`: A filter that retrieves model compilation jobs with a specific DescribeCompilationJobResponse CompilationJobStatus status.
 """
-ListCompilationJobs(; aws::AWSConfig=AWS.aws_config) = sagemaker("ListCompilationJobs"; aws=aws)
-ListCompilationJobs(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("ListCompilationJobs", args; aws=aws)
+
+ListCompilationJobs(; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListCompilationJobs"; aws_config=aws_config)
+ListCompilationJobs(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListCompilationJobs", args; aws_config=aws_config)
 
 """
     ListDomains()
@@ -1269,8 +1354,9 @@ Lists the domains.
 - `MaxResults`: Returns a list up to a specified limit.
 - `NextToken`: If the previous response was truncated, you will receive this token. Use it in your next request to receive the next set of results.
 """
-ListDomains(; aws::AWSConfig=AWS.aws_config) = sagemaker("ListDomains"; aws=aws)
-ListDomains(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("ListDomains", args; aws=aws)
+
+ListDomains(; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListDomains"; aws_config=aws_config)
+ListDomains(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListDomains", args; aws_config=aws_config)
 
 """
     ListEndpointConfigs()
@@ -1286,8 +1372,9 @@ Lists endpoint configurations.
 - `SortBy`: The field to sort results by. The default is CreationTime.
 - `SortOrder`: The sort order for results. The default is Descending.
 """
-ListEndpointConfigs(; aws::AWSConfig=AWS.aws_config) = sagemaker("ListEndpointConfigs"; aws=aws)
-ListEndpointConfigs(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("ListEndpointConfigs", args; aws=aws)
+
+ListEndpointConfigs(; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListEndpointConfigs"; aws_config=aws_config)
+ListEndpointConfigs(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListEndpointConfigs", args; aws_config=aws_config)
 
 """
     ListEndpoints()
@@ -1306,8 +1393,9 @@ Lists endpoints.
 - `SortOrder`: The sort order for results. The default is Descending.
 - `StatusEquals`:  A filter that returns only endpoints with the specified status.
 """
-ListEndpoints(; aws::AWSConfig=AWS.aws_config) = sagemaker("ListEndpoints"; aws=aws)
-ListEndpoints(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("ListEndpoints", args; aws=aws)
+
+ListEndpoints(; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListEndpoints"; aws_config=aws_config)
+ListEndpoints(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListEndpoints", args; aws_config=aws_config)
 
 """
     ListExperiments()
@@ -1322,8 +1410,9 @@ Lists all the experiments in your account. The list can be filtered to show only
 - `SortBy`: The property used to sort results. The default value is CreationTime.
 - `SortOrder`: The sort order. The default value is Descending.
 """
-ListExperiments(; aws::AWSConfig=AWS.aws_config) = sagemaker("ListExperiments"; aws=aws)
-ListExperiments(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("ListExperiments", args; aws=aws)
+
+ListExperiments(; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListExperiments"; aws_config=aws_config)
+ListExperiments(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListExperiments", args; aws_config=aws_config)
 
 """
     ListFlowDefinitions()
@@ -1337,8 +1426,9 @@ Returns information about the flow definitions in your account.
 - `NextToken`: A token to resume pagination.
 - `SortOrder`: An optional value that specifies whether you want the results sorted in Ascending or Descending order.
 """
-ListFlowDefinitions(; aws::AWSConfig=AWS.aws_config) = sagemaker("ListFlowDefinitions"; aws=aws)
-ListFlowDefinitions(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("ListFlowDefinitions", args; aws=aws)
+
+ListFlowDefinitions(; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListFlowDefinitions"; aws_config=aws_config)
+ListFlowDefinitions(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListFlowDefinitions", args; aws_config=aws_config)
 
 """
     ListHumanTaskUis()
@@ -1352,8 +1442,9 @@ Returns information about the human task user interfaces in your account.
 - `NextToken`: A token to resume pagination.
 - `SortOrder`: An optional value that specifies whether you want the results sorted in Ascending or Descending order.
 """
-ListHumanTaskUis(; aws::AWSConfig=AWS.aws_config) = sagemaker("ListHumanTaskUis"; aws=aws)
-ListHumanTaskUis(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("ListHumanTaskUis", args; aws=aws)
+
+ListHumanTaskUis(; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListHumanTaskUis"; aws_config=aws_config)
+ListHumanTaskUis(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListHumanTaskUis", args; aws_config=aws_config)
 
 """
     ListHyperParameterTuningJobs()
@@ -1372,8 +1463,9 @@ Gets a list of HyperParameterTuningJobSummary objects that describe the hyperpar
 - `SortOrder`: The sort order for results. The default is Ascending.
 - `StatusEquals`: A filter that returns only tuning jobs with the specified status.
 """
-ListHyperParameterTuningJobs(; aws::AWSConfig=AWS.aws_config) = sagemaker("ListHyperParameterTuningJobs"; aws=aws)
-ListHyperParameterTuningJobs(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("ListHyperParameterTuningJobs", args; aws=aws)
+
+ListHyperParameterTuningJobs(; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListHyperParameterTuningJobs"; aws_config=aws_config)
+ListHyperParameterTuningJobs(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListHyperParameterTuningJobs", args; aws_config=aws_config)
 
 """
     ListLabelingJobs()
@@ -1392,8 +1484,9 @@ Gets a list of labeling jobs.
 - `SortOrder`: The sort order for results. The default is Ascending.
 - `StatusEquals`: A filter that retrieves only labeling jobs with a specific status.
 """
-ListLabelingJobs(; aws::AWSConfig=AWS.aws_config) = sagemaker("ListLabelingJobs"; aws=aws)
-ListLabelingJobs(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("ListLabelingJobs", args; aws=aws)
+
+ListLabelingJobs(; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListLabelingJobs"; aws_config=aws_config)
+ListLabelingJobs(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListLabelingJobs", args; aws_config=aws_config)
 
 """
     ListLabelingJobsForWorkteam()
@@ -1412,8 +1505,9 @@ Gets a list of labeling jobs assigned to a specified work team.
 - `SortBy`: The field to sort results by. The default is CreationTime.
 - `SortOrder`: The sort order for results. The default is Ascending.
 """
-ListLabelingJobsForWorkteam(WorkteamArn; aws::AWSConfig=AWS.aws_config) = sagemaker("ListLabelingJobsForWorkteam", Dict{String, Any}("WorkteamArn"=>WorkteamArn); aws=aws)
-ListLabelingJobsForWorkteam(WorkteamArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("ListLabelingJobsForWorkteam", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkteamArn"=>WorkteamArn), args)); aws=aws)
+
+ListLabelingJobsForWorkteam(WorkteamArn; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListLabelingJobsForWorkteam", Dict{String, Any}("WorkteamArn"=>WorkteamArn); aws_config=aws_config)
+ListLabelingJobsForWorkteam(WorkteamArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListLabelingJobsForWorkteam", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkteamArn"=>WorkteamArn), args)); aws_config=aws_config)
 
 """
     ListModelPackages()
@@ -1429,8 +1523,9 @@ Lists the model packages that have been created.
 - `SortBy`: The parameter by which to sort the results. The default is CreationTime.
 - `SortOrder`: The sort order for the results. The default is Ascending.
 """
-ListModelPackages(; aws::AWSConfig=AWS.aws_config) = sagemaker("ListModelPackages"; aws=aws)
-ListModelPackages(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("ListModelPackages", args; aws=aws)
+
+ListModelPackages(; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListModelPackages"; aws_config=aws_config)
+ListModelPackages(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListModelPackages", args; aws_config=aws_config)
 
 """
     ListModels()
@@ -1446,8 +1541,9 @@ Lists models created with the CreateModel API.
 - `SortBy`: Sorts the list of results. The default is CreationTime.
 - `SortOrder`: The sort order for results. The default is Descending.
 """
-ListModels(; aws::AWSConfig=AWS.aws_config) = sagemaker("ListModels"; aws=aws)
-ListModels(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("ListModels", args; aws=aws)
+
+ListModels(; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListModels"; aws_config=aws_config)
+ListModels(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListModels", args; aws_config=aws_config)
 
 """
     ListMonitoringExecutions()
@@ -1469,8 +1565,9 @@ Returns list of all monitoring job executions.
 - `SortOrder`: Whether to sort the results in Ascending or Descending order. The default is Descending.
 - `StatusEquals`: A filter that retrieves only jobs with a specific status.
 """
-ListMonitoringExecutions(; aws::AWSConfig=AWS.aws_config) = sagemaker("ListMonitoringExecutions"; aws=aws)
-ListMonitoringExecutions(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("ListMonitoringExecutions", args; aws=aws)
+
+ListMonitoringExecutions(; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListMonitoringExecutions"; aws_config=aws_config)
+ListMonitoringExecutions(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListMonitoringExecutions", args; aws_config=aws_config)
 
 """
     ListMonitoringSchedules()
@@ -1490,8 +1587,9 @@ Returns list of all monitoring schedules.
 - `SortOrder`: Whether to sort the results in Ascending or Descending order. The default is Descending.
 - `StatusEquals`: A filter that returns only monitoring schedules modified before a specified time.
 """
-ListMonitoringSchedules(; aws::AWSConfig=AWS.aws_config) = sagemaker("ListMonitoringSchedules"; aws=aws)
-ListMonitoringSchedules(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("ListMonitoringSchedules", args; aws=aws)
+
+ListMonitoringSchedules(; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListMonitoringSchedules"; aws_config=aws_config)
+ListMonitoringSchedules(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListMonitoringSchedules", args; aws_config=aws_config)
 
 """
     ListNotebookInstanceLifecycleConfigs()
@@ -1509,8 +1607,9 @@ Lists notebook instance lifestyle configurations created with the CreateNotebook
 - `SortBy`: Sorts the list of results. The default is CreationTime.
 - `SortOrder`: The sort order for results.
 """
-ListNotebookInstanceLifecycleConfigs(; aws::AWSConfig=AWS.aws_config) = sagemaker("ListNotebookInstanceLifecycleConfigs"; aws=aws)
-ListNotebookInstanceLifecycleConfigs(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("ListNotebookInstanceLifecycleConfigs", args; aws=aws)
+
+ListNotebookInstanceLifecycleConfigs(; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListNotebookInstanceLifecycleConfigs"; aws_config=aws_config)
+ListNotebookInstanceLifecycleConfigs(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListNotebookInstanceLifecycleConfigs", args; aws_config=aws_config)
 
 """
     ListNotebookInstances()
@@ -1532,8 +1631,9 @@ Returns a list of the Amazon SageMaker notebook instances in the requester's acc
 - `SortOrder`: The sort order for results. 
 - `StatusEquals`: A filter that returns only notebook instances with the specified status.
 """
-ListNotebookInstances(; aws::AWSConfig=AWS.aws_config) = sagemaker("ListNotebookInstances"; aws=aws)
-ListNotebookInstances(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("ListNotebookInstances", args; aws=aws)
+
+ListNotebookInstances(; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListNotebookInstances"; aws_config=aws_config)
+ListNotebookInstances(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListNotebookInstances", args; aws_config=aws_config)
 
 """
     ListProcessingJobs()
@@ -1552,8 +1652,9 @@ Lists processing jobs that satisfy various filters.
 - `SortOrder`: The sort order for results. The default is Ascending.
 - `StatusEquals`: A filter that retrieves only processing jobs with a specific status.
 """
-ListProcessingJobs(; aws::AWSConfig=AWS.aws_config) = sagemaker("ListProcessingJobs"; aws=aws)
-ListProcessingJobs(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("ListProcessingJobs", args; aws=aws)
+
+ListProcessingJobs(; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListProcessingJobs"; aws_config=aws_config)
+ListProcessingJobs(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListProcessingJobs", args; aws_config=aws_config)
 
 """
     ListSubscribedWorkteams()
@@ -1565,8 +1666,9 @@ Gets a list of the work teams that you are subscribed to in the AWS Marketplace.
 - `NameContains`: A string in the work team name. This filter returns only work teams whose name contains the specified string.
 - `NextToken`: If the result of the previous ListSubscribedWorkteams request was truncated, the response includes a NextToken. To retrieve the next set of labeling jobs, use the token in the next request.
 """
-ListSubscribedWorkteams(; aws::AWSConfig=AWS.aws_config) = sagemaker("ListSubscribedWorkteams"; aws=aws)
-ListSubscribedWorkteams(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("ListSubscribedWorkteams", args; aws=aws)
+
+ListSubscribedWorkteams(; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListSubscribedWorkteams"; aws_config=aws_config)
+ListSubscribedWorkteams(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListSubscribedWorkteams", args; aws_config=aws_config)
 
 """
     ListTags()
@@ -1580,8 +1682,9 @@ Returns the tags for the specified Amazon SageMaker resource.
 - `MaxResults`: Maximum number of tags to return.
 - `NextToken`:  If the response to the previous ListTags request is truncated, Amazon SageMaker returns this token. To retrieve the next set of tags, use it in the subsequent request. 
 """
-ListTags(ResourceArn; aws::AWSConfig=AWS.aws_config) = sagemaker("ListTags", Dict{String, Any}("ResourceArn"=>ResourceArn); aws=aws)
-ListTags(ResourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("ListTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws=aws)
+
+ListTags(ResourceArn; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListTags", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
+ListTags(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
 
 """
     ListTrainingJobs()
@@ -1600,8 +1703,9 @@ Lists training jobs.
 - `SortOrder`: The sort order for results. The default is Ascending.
 - `StatusEquals`: A filter that retrieves only training jobs with a specific status.
 """
-ListTrainingJobs(; aws::AWSConfig=AWS.aws_config) = sagemaker("ListTrainingJobs"; aws=aws)
-ListTrainingJobs(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("ListTrainingJobs", args; aws=aws)
+
+ListTrainingJobs(; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListTrainingJobs"; aws_config=aws_config)
+ListTrainingJobs(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListTrainingJobs", args; aws_config=aws_config)
 
 """
     ListTrainingJobsForHyperParameterTuningJob()
@@ -1618,8 +1722,9 @@ Gets a list of TrainingJobSummary objects that describe the training jobs that a
 - `SortOrder`: The sort order for results. The default is Ascending.
 - `StatusEquals`: A filter that returns only training jobs with the specified status.
 """
-ListTrainingJobsForHyperParameterTuningJob(HyperParameterTuningJobName; aws::AWSConfig=AWS.aws_config) = sagemaker("ListTrainingJobsForHyperParameterTuningJob", Dict{String, Any}("HyperParameterTuningJobName"=>HyperParameterTuningJobName); aws=aws)
-ListTrainingJobsForHyperParameterTuningJob(HyperParameterTuningJobName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("ListTrainingJobsForHyperParameterTuningJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HyperParameterTuningJobName"=>HyperParameterTuningJobName), args)); aws=aws)
+
+ListTrainingJobsForHyperParameterTuningJob(HyperParameterTuningJobName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListTrainingJobsForHyperParameterTuningJob", Dict{String, Any}("HyperParameterTuningJobName"=>HyperParameterTuningJobName); aws_config=aws_config)
+ListTrainingJobsForHyperParameterTuningJob(HyperParameterTuningJobName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListTrainingJobsForHyperParameterTuningJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HyperParameterTuningJobName"=>HyperParameterTuningJobName), args)); aws_config=aws_config)
 
 """
     ListTransformJobs()
@@ -1638,8 +1743,9 @@ Lists transform jobs.
 - `SortOrder`: The sort order for results. The default is Descending.
 - `StatusEquals`: A filter that retrieves only transform jobs with a specific status.
 """
-ListTransformJobs(; aws::AWSConfig=AWS.aws_config) = sagemaker("ListTransformJobs"; aws=aws)
-ListTransformJobs(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("ListTransformJobs", args; aws=aws)
+
+ListTransformJobs(; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListTransformJobs"; aws_config=aws_config)
+ListTransformJobs(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListTransformJobs", args; aws_config=aws_config)
 
 """
     ListTrialComponents()
@@ -1657,8 +1763,9 @@ Lists the trial components in your account. You can sort the list by trial compo
 - `SourceArn`: A filter that returns only components that have the specified source Amazon Resource Name (ARN). If you specify SourceArn, you can't filter by ExperimentName or TrialName.
 - `TrialName`: A filter that returns only components that are part of the specified trial. If you specify TrialName, you can't filter by ExperimentName or SourceArn.
 """
-ListTrialComponents(; aws::AWSConfig=AWS.aws_config) = sagemaker("ListTrialComponents"; aws=aws)
-ListTrialComponents(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("ListTrialComponents", args; aws=aws)
+
+ListTrialComponents(; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListTrialComponents"; aws_config=aws_config)
+ListTrialComponents(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListTrialComponents", args; aws_config=aws_config)
 
 """
     ListTrials()
@@ -1675,8 +1782,9 @@ Lists the trials in your account. Specify an experiment name to limit the list t
 - `SortOrder`: The sort order. The default value is Descending.
 - `TrialComponentName`: A filter that returns only trials that are associated with the specified trial component.
 """
-ListTrials(; aws::AWSConfig=AWS.aws_config) = sagemaker("ListTrials"; aws=aws)
-ListTrials(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("ListTrials", args; aws=aws)
+
+ListTrials(; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListTrials"; aws_config=aws_config)
+ListTrials(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListTrials", args; aws_config=aws_config)
 
 """
     ListUserProfiles()
@@ -1691,8 +1799,9 @@ Lists user profiles.
 - `SortOrder`: The sort order for the results. The default is Ascending.
 - `UserProfileNameContains`: A parameter by which to filter the results.
 """
-ListUserProfiles(; aws::AWSConfig=AWS.aws_config) = sagemaker("ListUserProfiles"; aws=aws)
-ListUserProfiles(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("ListUserProfiles", args; aws=aws)
+
+ListUserProfiles(; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListUserProfiles"; aws_config=aws_config)
+ListUserProfiles(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListUserProfiles", args; aws_config=aws_config)
 
 """
     ListWorkforces()
@@ -1706,13 +1815,14 @@ Use this operation to list all private and vendor workforces in an AWS Region. N
 - `SortBy`: Sort workforces using the workforce name or creation date.
 - `SortOrder`: Sort workforces in ascending or descending order.
 """
-ListWorkforces(; aws::AWSConfig=AWS.aws_config) = sagemaker("ListWorkforces"; aws=aws)
-ListWorkforces(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("ListWorkforces", args; aws=aws)
+
+ListWorkforces(; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListWorkforces"; aws_config=aws_config)
+ListWorkforces(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListWorkforces", args; aws_config=aws_config)
 
 """
     ListWorkteams()
 
-Gets a list of work teams that you have defined in a region. The list may be empty if no work team satisfies the filter specified in the NameContains parameter.
+Gets a list of private work teams that you have defined in a region. The list may be empty if no work team satisfies the filter specified in the NameContains parameter.
 
 # Optional Parameters
 - `MaxResults`: The maximum number of work teams to return in each page of the response.
@@ -1721,8 +1831,9 @@ Gets a list of work teams that you have defined in a region. The list may be emp
 - `SortBy`: The field to sort results by. The default is CreationTime.
 - `SortOrder`: The sort order for results. The default is Ascending.
 """
-ListWorkteams(; aws::AWSConfig=AWS.aws_config) = sagemaker("ListWorkteams"; aws=aws)
-ListWorkteams(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("ListWorkteams", args; aws=aws)
+
+ListWorkteams(; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListWorkteams"; aws_config=aws_config)
+ListWorkteams(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("ListWorkteams", args; aws_config=aws_config)
 
 """
     RenderUiTemplate()
@@ -1737,8 +1848,9 @@ Renders the UI template so that you can preview the worker's experience.
 - `HumanTaskUiArn`: The HumanTaskUiArn of the worker UI that you want to render. Do not provide a HumanTaskUiArn if you use the UiTemplate parameter. See a list of available Human Ui Amazon Resource Names (ARNs) in UiConfig.
 - `UiTemplate`: A Template object containing the worker UI template to render.
 """
-RenderUiTemplate(RoleArn, Task; aws::AWSConfig=AWS.aws_config) = sagemaker("RenderUiTemplate", Dict{String, Any}("RoleArn"=>RoleArn, "Task"=>Task); aws=aws)
-RenderUiTemplate(RoleArn, Task, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("RenderUiTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleArn"=>RoleArn, "Task"=>Task), args)); aws=aws)
+
+RenderUiTemplate(RoleArn, Task; aws_config::AWSConfig=AWS.aws_config) = sagemaker("RenderUiTemplate", Dict{String, Any}("RoleArn"=>RoleArn, "Task"=>Task); aws_config=aws_config)
+RenderUiTemplate(RoleArn, Task, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("RenderUiTemplate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleArn"=>RoleArn, "Task"=>Task), args)); aws_config=aws_config)
 
 """
     Search()
@@ -1755,8 +1867,9 @@ Finds Amazon SageMaker resources that match a search query. Matching resources a
 - `SortBy`: The name of the resource property used to sort the SearchResults. The default is LastModifiedTime.
 - `SortOrder`: How SearchResults are ordered. Valid values are Ascending or Descending. The default is Descending.
 """
-Search(Resource; aws::AWSConfig=AWS.aws_config) = sagemaker("Search", Dict{String, Any}("Resource"=>Resource); aws=aws)
-Search(Resource, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("Search", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource), args)); aws=aws)
+
+Search(Resource; aws_config::AWSConfig=AWS.aws_config) = sagemaker("Search", Dict{String, Any}("Resource"=>Resource); aws_config=aws_config)
+Search(Resource, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("Search", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource), args)); aws_config=aws_config)
 
 """
     StartMonitoringSchedule()
@@ -1767,8 +1880,9 @@ Starts a previously stopped monitoring schedule.  New monitoring schedules are i
 - `MonitoringScheduleName`: The name of the schedule to start.
 
 """
-StartMonitoringSchedule(MonitoringScheduleName; aws::AWSConfig=AWS.aws_config) = sagemaker("StartMonitoringSchedule", Dict{String, Any}("MonitoringScheduleName"=>MonitoringScheduleName); aws=aws)
-StartMonitoringSchedule(MonitoringScheduleName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("StartMonitoringSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MonitoringScheduleName"=>MonitoringScheduleName), args)); aws=aws)
+
+StartMonitoringSchedule(MonitoringScheduleName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("StartMonitoringSchedule", Dict{String, Any}("MonitoringScheduleName"=>MonitoringScheduleName); aws_config=aws_config)
+StartMonitoringSchedule(MonitoringScheduleName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("StartMonitoringSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MonitoringScheduleName"=>MonitoringScheduleName), args)); aws_config=aws_config)
 
 """
     StartNotebookInstance()
@@ -1779,8 +1893,9 @@ Launches an ML compute instance with the latest version of the libraries and att
 - `NotebookInstanceName`: The name of the notebook instance to start.
 
 """
-StartNotebookInstance(NotebookInstanceName; aws::AWSConfig=AWS.aws_config) = sagemaker("StartNotebookInstance", Dict{String, Any}("NotebookInstanceName"=>NotebookInstanceName); aws=aws)
-StartNotebookInstance(NotebookInstanceName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("StartNotebookInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotebookInstanceName"=>NotebookInstanceName), args)); aws=aws)
+
+StartNotebookInstance(NotebookInstanceName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("StartNotebookInstance", Dict{String, Any}("NotebookInstanceName"=>NotebookInstanceName); aws_config=aws_config)
+StartNotebookInstance(NotebookInstanceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("StartNotebookInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotebookInstanceName"=>NotebookInstanceName), args)); aws_config=aws_config)
 
 """
     StopAutoMLJob()
@@ -1791,8 +1906,9 @@ A method for forcing the termination of a running job.
 - `AutoMLJobName`: The name of the object you are requesting.
 
 """
-StopAutoMLJob(AutoMLJobName; aws::AWSConfig=AWS.aws_config) = sagemaker("StopAutoMLJob", Dict{String, Any}("AutoMLJobName"=>AutoMLJobName); aws=aws)
-StopAutoMLJob(AutoMLJobName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("StopAutoMLJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoMLJobName"=>AutoMLJobName), args)); aws=aws)
+
+StopAutoMLJob(AutoMLJobName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("StopAutoMLJob", Dict{String, Any}("AutoMLJobName"=>AutoMLJobName); aws_config=aws_config)
+StopAutoMLJob(AutoMLJobName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("StopAutoMLJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AutoMLJobName"=>AutoMLJobName), args)); aws_config=aws_config)
 
 """
     StopCompilationJob()
@@ -1803,8 +1919,9 @@ Stops a model compilation job.  To stop a job, Amazon SageMaker sends the algori
 - `CompilationJobName`: The name of the model compilation job to stop.
 
 """
-StopCompilationJob(CompilationJobName; aws::AWSConfig=AWS.aws_config) = sagemaker("StopCompilationJob", Dict{String, Any}("CompilationJobName"=>CompilationJobName); aws=aws)
-StopCompilationJob(CompilationJobName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("StopCompilationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CompilationJobName"=>CompilationJobName), args)); aws=aws)
+
+StopCompilationJob(CompilationJobName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("StopCompilationJob", Dict{String, Any}("CompilationJobName"=>CompilationJobName); aws_config=aws_config)
+StopCompilationJob(CompilationJobName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("StopCompilationJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CompilationJobName"=>CompilationJobName), args)); aws_config=aws_config)
 
 """
     StopHyperParameterTuningJob()
@@ -1815,8 +1932,9 @@ Stops a running hyperparameter tuning job and all running training jobs that the
 - `HyperParameterTuningJobName`: The name of the tuning job to stop.
 
 """
-StopHyperParameterTuningJob(HyperParameterTuningJobName; aws::AWSConfig=AWS.aws_config) = sagemaker("StopHyperParameterTuningJob", Dict{String, Any}("HyperParameterTuningJobName"=>HyperParameterTuningJobName); aws=aws)
-StopHyperParameterTuningJob(HyperParameterTuningJobName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("StopHyperParameterTuningJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HyperParameterTuningJobName"=>HyperParameterTuningJobName), args)); aws=aws)
+
+StopHyperParameterTuningJob(HyperParameterTuningJobName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("StopHyperParameterTuningJob", Dict{String, Any}("HyperParameterTuningJobName"=>HyperParameterTuningJobName); aws_config=aws_config)
+StopHyperParameterTuningJob(HyperParameterTuningJobName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("StopHyperParameterTuningJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("HyperParameterTuningJobName"=>HyperParameterTuningJobName), args)); aws_config=aws_config)
 
 """
     StopLabelingJob()
@@ -1827,8 +1945,9 @@ Stops a running labeling job. A job that is stopped cannot be restarted. Any res
 - `LabelingJobName`: The name of the labeling job to stop.
 
 """
-StopLabelingJob(LabelingJobName; aws::AWSConfig=AWS.aws_config) = sagemaker("StopLabelingJob", Dict{String, Any}("LabelingJobName"=>LabelingJobName); aws=aws)
-StopLabelingJob(LabelingJobName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("StopLabelingJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LabelingJobName"=>LabelingJobName), args)); aws=aws)
+
+StopLabelingJob(LabelingJobName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("StopLabelingJob", Dict{String, Any}("LabelingJobName"=>LabelingJobName); aws_config=aws_config)
+StopLabelingJob(LabelingJobName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("StopLabelingJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("LabelingJobName"=>LabelingJobName), args)); aws_config=aws_config)
 
 """
     StopMonitoringSchedule()
@@ -1839,8 +1958,9 @@ Stops a previously started monitoring schedule.
 - `MonitoringScheduleName`: The name of the schedule to stop.
 
 """
-StopMonitoringSchedule(MonitoringScheduleName; aws::AWSConfig=AWS.aws_config) = sagemaker("StopMonitoringSchedule", Dict{String, Any}("MonitoringScheduleName"=>MonitoringScheduleName); aws=aws)
-StopMonitoringSchedule(MonitoringScheduleName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("StopMonitoringSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MonitoringScheduleName"=>MonitoringScheduleName), args)); aws=aws)
+
+StopMonitoringSchedule(MonitoringScheduleName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("StopMonitoringSchedule", Dict{String, Any}("MonitoringScheduleName"=>MonitoringScheduleName); aws_config=aws_config)
+StopMonitoringSchedule(MonitoringScheduleName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("StopMonitoringSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MonitoringScheduleName"=>MonitoringScheduleName), args)); aws_config=aws_config)
 
 """
     StopNotebookInstance()
@@ -1851,8 +1971,9 @@ Terminates the ML compute instance. Before terminating the instance, Amazon Sage
 - `NotebookInstanceName`: The name of the notebook instance to terminate.
 
 """
-StopNotebookInstance(NotebookInstanceName; aws::AWSConfig=AWS.aws_config) = sagemaker("StopNotebookInstance", Dict{String, Any}("NotebookInstanceName"=>NotebookInstanceName); aws=aws)
-StopNotebookInstance(NotebookInstanceName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("StopNotebookInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotebookInstanceName"=>NotebookInstanceName), args)); aws=aws)
+
+StopNotebookInstance(NotebookInstanceName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("StopNotebookInstance", Dict{String, Any}("NotebookInstanceName"=>NotebookInstanceName); aws_config=aws_config)
+StopNotebookInstance(NotebookInstanceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("StopNotebookInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotebookInstanceName"=>NotebookInstanceName), args)); aws_config=aws_config)
 
 """
     StopProcessingJob()
@@ -1863,8 +1984,9 @@ Stops a processing job.
 - `ProcessingJobName`: The name of the processing job to stop.
 
 """
-StopProcessingJob(ProcessingJobName; aws::AWSConfig=AWS.aws_config) = sagemaker("StopProcessingJob", Dict{String, Any}("ProcessingJobName"=>ProcessingJobName); aws=aws)
-StopProcessingJob(ProcessingJobName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("StopProcessingJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProcessingJobName"=>ProcessingJobName), args)); aws=aws)
+
+StopProcessingJob(ProcessingJobName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("StopProcessingJob", Dict{String, Any}("ProcessingJobName"=>ProcessingJobName); aws_config=aws_config)
+StopProcessingJob(ProcessingJobName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("StopProcessingJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProcessingJobName"=>ProcessingJobName), args)); aws_config=aws_config)
 
 """
     StopTrainingJob()
@@ -1875,8 +1997,9 @@ Stops a training job. To stop a job, Amazon SageMaker sends the algorithm the SI
 - `TrainingJobName`: The name of the training job to stop.
 
 """
-StopTrainingJob(TrainingJobName; aws::AWSConfig=AWS.aws_config) = sagemaker("StopTrainingJob", Dict{String, Any}("TrainingJobName"=>TrainingJobName); aws=aws)
-StopTrainingJob(TrainingJobName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("StopTrainingJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrainingJobName"=>TrainingJobName), args)); aws=aws)
+
+StopTrainingJob(TrainingJobName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("StopTrainingJob", Dict{String, Any}("TrainingJobName"=>TrainingJobName); aws_config=aws_config)
+StopTrainingJob(TrainingJobName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("StopTrainingJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrainingJobName"=>TrainingJobName), args)); aws_config=aws_config)
 
 """
     StopTransformJob()
@@ -1887,8 +2010,9 @@ Stops a transform job. When Amazon SageMaker receives a StopTransformJob request
 - `TransformJobName`: The name of the transform job to stop.
 
 """
-StopTransformJob(TransformJobName; aws::AWSConfig=AWS.aws_config) = sagemaker("StopTransformJob", Dict{String, Any}("TransformJobName"=>TransformJobName); aws=aws)
-StopTransformJob(TransformJobName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("StopTransformJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransformJobName"=>TransformJobName), args)); aws=aws)
+
+StopTransformJob(TransformJobName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("StopTransformJob", Dict{String, Any}("TransformJobName"=>TransformJobName); aws_config=aws_config)
+StopTransformJob(TransformJobName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("StopTransformJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TransformJobName"=>TransformJobName), args)); aws_config=aws_config)
 
 """
     UpdateCodeRepository()
@@ -1901,8 +2025,9 @@ Updates the specified Git repository with the specified values.
 # Optional Parameters
 - `GitConfig`: The configuration of the git repository, including the URL and the Amazon Resource Name (ARN) of the AWS Secrets Manager secret that contains the credentials used to access the repository. The secret must have a staging label of AWSCURRENT and must be in the following format:  {\"username\": UserName, \"password\": Password} 
 """
-UpdateCodeRepository(CodeRepositoryName; aws::AWSConfig=AWS.aws_config) = sagemaker("UpdateCodeRepository", Dict{String, Any}("CodeRepositoryName"=>CodeRepositoryName); aws=aws)
-UpdateCodeRepository(CodeRepositoryName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("UpdateCodeRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CodeRepositoryName"=>CodeRepositoryName), args)); aws=aws)
+
+UpdateCodeRepository(CodeRepositoryName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("UpdateCodeRepository", Dict{String, Any}("CodeRepositoryName"=>CodeRepositoryName); aws_config=aws_config)
+UpdateCodeRepository(CodeRepositoryName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("UpdateCodeRepository", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CodeRepositoryName"=>CodeRepositoryName), args)); aws_config=aws_config)
 
 """
     UpdateDomain()
@@ -1915,8 +2040,9 @@ Updates the default settings for new user profiles in the domain.
 # Optional Parameters
 - `DefaultUserSettings`: A collection of settings.
 """
-UpdateDomain(DomainId; aws::AWSConfig=AWS.aws_config) = sagemaker("UpdateDomain", Dict{String, Any}("DomainId"=>DomainId); aws=aws)
-UpdateDomain(DomainId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("UpdateDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId), args)); aws=aws)
+
+UpdateDomain(DomainId; aws_config::AWSConfig=AWS.aws_config) = sagemaker("UpdateDomain", Dict{String, Any}("DomainId"=>DomainId); aws_config=aws_config)
+UpdateDomain(DomainId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("UpdateDomain", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId), args)); aws_config=aws_config)
 
 """
     UpdateEndpoint()
@@ -1931,8 +2057,9 @@ Deploys the new EndpointConfig specified in the request, switches to using newly
 - `ExcludeRetainedVariantProperties`: When you are updating endpoint resources with UpdateEndpointInput RetainAllVariantProperties, whose value is set to true, ExcludeRetainedVariantProperties specifies the list of type VariantProperty to override with the values provided by EndpointConfig. If you don't specify a value for ExcludeAllVariantProperties, no variant properties are overridden. 
 - `RetainAllVariantProperties`: When updating endpoint resources, enables or disables the retention of variant properties, such as the instance count or the variant weight. To retain the variant properties of an endpoint when updating it, set RetainAllVariantProperties to true. To use the variant properties specified in a new EndpointConfig call when updating an endpoint, set RetainAllVariantProperties to false.
 """
-UpdateEndpoint(EndpointConfigName, EndpointName; aws::AWSConfig=AWS.aws_config) = sagemaker("UpdateEndpoint", Dict{String, Any}("EndpointConfigName"=>EndpointConfigName, "EndpointName"=>EndpointName); aws=aws)
-UpdateEndpoint(EndpointConfigName, EndpointName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("UpdateEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointConfigName"=>EndpointConfigName, "EndpointName"=>EndpointName), args)); aws=aws)
+
+UpdateEndpoint(EndpointConfigName, EndpointName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("UpdateEndpoint", Dict{String, Any}("EndpointConfigName"=>EndpointConfigName, "EndpointName"=>EndpointName); aws_config=aws_config)
+UpdateEndpoint(EndpointConfigName, EndpointName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("UpdateEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointConfigName"=>EndpointConfigName, "EndpointName"=>EndpointName), args)); aws_config=aws_config)
 
 """
     UpdateEndpointWeightsAndCapacities()
@@ -1944,8 +2071,9 @@ Updates variant weight of one or more variants associated with an existing endpo
 - `EndpointName`: The name of an existing Amazon SageMaker endpoint.
 
 """
-UpdateEndpointWeightsAndCapacities(DesiredWeightsAndCapacities, EndpointName; aws::AWSConfig=AWS.aws_config) = sagemaker("UpdateEndpointWeightsAndCapacities", Dict{String, Any}("DesiredWeightsAndCapacities"=>DesiredWeightsAndCapacities, "EndpointName"=>EndpointName); aws=aws)
-UpdateEndpointWeightsAndCapacities(DesiredWeightsAndCapacities, EndpointName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("UpdateEndpointWeightsAndCapacities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DesiredWeightsAndCapacities"=>DesiredWeightsAndCapacities, "EndpointName"=>EndpointName), args)); aws=aws)
+
+UpdateEndpointWeightsAndCapacities(DesiredWeightsAndCapacities, EndpointName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("UpdateEndpointWeightsAndCapacities", Dict{String, Any}("DesiredWeightsAndCapacities"=>DesiredWeightsAndCapacities, "EndpointName"=>EndpointName); aws_config=aws_config)
+UpdateEndpointWeightsAndCapacities(DesiredWeightsAndCapacities, EndpointName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("UpdateEndpointWeightsAndCapacities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DesiredWeightsAndCapacities"=>DesiredWeightsAndCapacities, "EndpointName"=>EndpointName), args)); aws_config=aws_config)
 
 """
     UpdateExperiment()
@@ -1959,8 +2087,9 @@ Adds, updates, or removes the description of an experiment. Updates the display 
 - `Description`: The description of the experiment.
 - `DisplayName`: The name of the experiment as displayed. The name doesn't need to be unique. If DisplayName isn't specified, ExperimentName is displayed.
 """
-UpdateExperiment(ExperimentName; aws::AWSConfig=AWS.aws_config) = sagemaker("UpdateExperiment", Dict{String, Any}("ExperimentName"=>ExperimentName); aws=aws)
-UpdateExperiment(ExperimentName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("UpdateExperiment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExperimentName"=>ExperimentName), args)); aws=aws)
+
+UpdateExperiment(ExperimentName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("UpdateExperiment", Dict{String, Any}("ExperimentName"=>ExperimentName); aws_config=aws_config)
+UpdateExperiment(ExperimentName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("UpdateExperiment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExperimentName"=>ExperimentName), args)); aws_config=aws_config)
 
 """
     UpdateMonitoringSchedule()
@@ -1972,8 +2101,9 @@ Updates a previously created schedule.
 - `MonitoringScheduleName`: The name of the monitoring schedule. The name must be unique within an AWS Region within an AWS account.
 
 """
-UpdateMonitoringSchedule(MonitoringScheduleConfig, MonitoringScheduleName; aws::AWSConfig=AWS.aws_config) = sagemaker("UpdateMonitoringSchedule", Dict{String, Any}("MonitoringScheduleConfig"=>MonitoringScheduleConfig, "MonitoringScheduleName"=>MonitoringScheduleName); aws=aws)
-UpdateMonitoringSchedule(MonitoringScheduleConfig, MonitoringScheduleName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("UpdateMonitoringSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MonitoringScheduleConfig"=>MonitoringScheduleConfig, "MonitoringScheduleName"=>MonitoringScheduleName), args)); aws=aws)
+
+UpdateMonitoringSchedule(MonitoringScheduleConfig, MonitoringScheduleName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("UpdateMonitoringSchedule", Dict{String, Any}("MonitoringScheduleConfig"=>MonitoringScheduleConfig, "MonitoringScheduleName"=>MonitoringScheduleName); aws_config=aws_config)
+UpdateMonitoringSchedule(MonitoringScheduleConfig, MonitoringScheduleName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("UpdateMonitoringSchedule", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MonitoringScheduleConfig"=>MonitoringScheduleConfig, "MonitoringScheduleName"=>MonitoringScheduleName), args)); aws_config=aws_config)
 
 """
     UpdateNotebookInstance()
@@ -1997,8 +2127,9 @@ Updates a notebook instance. NotebookInstance updates include upgrading or downg
 - `RootAccess`: Whether root access is enabled or disabled for users of the notebook instance. The default value is Enabled.  If you set this to Disabled, users don't have root access on the notebook instance, but lifecycle configuration scripts still run with root permissions. 
 - `VolumeSizeInGB`: The size, in GB, of the ML storage volume to attach to the notebook instance. The default value is 5 GB. ML storage volumes are encrypted, so Amazon SageMaker can't determine the amount of available free space on the volume. Because of this, you can increase the volume size when you update a notebook instance, but you can't decrease the volume size. If you want to decrease the size of the ML storage volume in use, create a new notebook instance with the desired size.
 """
-UpdateNotebookInstance(NotebookInstanceName; aws::AWSConfig=AWS.aws_config) = sagemaker("UpdateNotebookInstance", Dict{String, Any}("NotebookInstanceName"=>NotebookInstanceName); aws=aws)
-UpdateNotebookInstance(NotebookInstanceName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("UpdateNotebookInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotebookInstanceName"=>NotebookInstanceName), args)); aws=aws)
+
+UpdateNotebookInstance(NotebookInstanceName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("UpdateNotebookInstance", Dict{String, Any}("NotebookInstanceName"=>NotebookInstanceName); aws_config=aws_config)
+UpdateNotebookInstance(NotebookInstanceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("UpdateNotebookInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotebookInstanceName"=>NotebookInstanceName), args)); aws_config=aws_config)
 
 """
     UpdateNotebookInstanceLifecycleConfig()
@@ -2012,8 +2143,9 @@ Updates a notebook instance lifecycle configuration created with the CreateNoteb
 - `OnCreate`: The shell script that runs only once, when you create a notebook instance. The shell script must be a base64-encoded string.
 - `OnStart`: The shell script that runs every time you start a notebook instance, including when you create the notebook instance. The shell script must be a base64-encoded string.
 """
-UpdateNotebookInstanceLifecycleConfig(NotebookInstanceLifecycleConfigName; aws::AWSConfig=AWS.aws_config) = sagemaker("UpdateNotebookInstanceLifecycleConfig", Dict{String, Any}("NotebookInstanceLifecycleConfigName"=>NotebookInstanceLifecycleConfigName); aws=aws)
-UpdateNotebookInstanceLifecycleConfig(NotebookInstanceLifecycleConfigName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("UpdateNotebookInstanceLifecycleConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotebookInstanceLifecycleConfigName"=>NotebookInstanceLifecycleConfigName), args)); aws=aws)
+
+UpdateNotebookInstanceLifecycleConfig(NotebookInstanceLifecycleConfigName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("UpdateNotebookInstanceLifecycleConfig", Dict{String, Any}("NotebookInstanceLifecycleConfigName"=>NotebookInstanceLifecycleConfigName); aws_config=aws_config)
+UpdateNotebookInstanceLifecycleConfig(NotebookInstanceLifecycleConfigName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("UpdateNotebookInstanceLifecycleConfig", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotebookInstanceLifecycleConfigName"=>NotebookInstanceLifecycleConfigName), args)); aws_config=aws_config)
 
 """
     UpdateTrial()
@@ -2026,8 +2158,9 @@ Updates the display name of a trial.
 # Optional Parameters
 - `DisplayName`: The name of the trial as displayed. The name doesn't need to be unique. If DisplayName isn't specified, TrialName is displayed.
 """
-UpdateTrial(TrialName; aws::AWSConfig=AWS.aws_config) = sagemaker("UpdateTrial", Dict{String, Any}("TrialName"=>TrialName); aws=aws)
-UpdateTrial(TrialName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("UpdateTrial", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrialName"=>TrialName), args)); aws=aws)
+
+UpdateTrial(TrialName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("UpdateTrial", Dict{String, Any}("TrialName"=>TrialName); aws_config=aws_config)
+UpdateTrial(TrialName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("UpdateTrial", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrialName"=>TrialName), args)); aws_config=aws_config)
 
 """
     UpdateTrialComponent()
@@ -2049,8 +2182,9 @@ Updates one or more properties of a trial component.
 - `StartTime`: When the component started.
 - `Status`: The new status of the component.
 """
-UpdateTrialComponent(TrialComponentName; aws::AWSConfig=AWS.aws_config) = sagemaker("UpdateTrialComponent", Dict{String, Any}("TrialComponentName"=>TrialComponentName); aws=aws)
-UpdateTrialComponent(TrialComponentName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("UpdateTrialComponent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrialComponentName"=>TrialComponentName), args)); aws=aws)
+
+UpdateTrialComponent(TrialComponentName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("UpdateTrialComponent", Dict{String, Any}("TrialComponentName"=>TrialComponentName); aws_config=aws_config)
+UpdateTrialComponent(TrialComponentName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("UpdateTrialComponent", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TrialComponentName"=>TrialComponentName), args)); aws_config=aws_config)
 
 """
     UpdateUserProfile()
@@ -2064,23 +2198,25 @@ Updates a user profile.
 # Optional Parameters
 - `UserSettings`: A collection of settings.
 """
-UpdateUserProfile(DomainId, UserProfileName; aws::AWSConfig=AWS.aws_config) = sagemaker("UpdateUserProfile", Dict{String, Any}("DomainId"=>DomainId, "UserProfileName"=>UserProfileName); aws=aws)
-UpdateUserProfile(DomainId, UserProfileName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("UpdateUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId, "UserProfileName"=>UserProfileName), args)); aws=aws)
+
+UpdateUserProfile(DomainId, UserProfileName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("UpdateUserProfile", Dict{String, Any}("DomainId"=>DomainId, "UserProfileName"=>UserProfileName); aws_config=aws_config)
+UpdateUserProfile(DomainId, UserProfileName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("UpdateUserProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DomainId"=>DomainId, "UserProfileName"=>UserProfileName), args)); aws_config=aws_config)
 
 """
     UpdateWorkforce()
 
-Restricts access to tasks assigned to workers in the specified workforce to those within specific ranges of IP addresses. You specify allowed IP addresses by creating a list of up to ten CIDRs. By default, a workforce isn't restricted to specific IP addresses. If you specify a range of IP addresses, workers who attempt to access tasks using any IP address outside the specified range are denied access and get a Not Found error message on the worker portal. After restricting access with this operation, you can see the allowed IP values for a private workforce with the operation.  This operation applies only to private workforces. 
+Use this operation to update your workforce. You can use this operation to require that workers use specific IP addresses to work on tasks and to update your OpenID Connect (OIDC) Identity Provider (IdP) workforce configuration.  Use SourceIpConfig to restrict worker access to tasks to a specific range of IP addresses. You specify allowed IP addresses by creating a list of up to ten CIDRs. By default, a workforce isn't restricted to specific IP addresses. If you specify a range of IP addresses, workers who attempt to access tasks using any IP address outside the specified range are denied and get a Not Found error message on the worker portal. Use OidcConfig to update the configuration of a workforce created using your own OIDC IdP.   You can only update your OIDC IdP configuration when there are no work teams associated with your workforce. You can delete work teams using the operation.  After restricting access to a range of IP addresses or updating your OIDC IdP configuration with this operation, you can view details about your update workforce using the operation.  This operation only applies to private workforces. 
 
 # Required Parameters
-- `WorkforceName`: The name of the private workforce whose access you want to restrict. WorkforceName is automatically set to default when a workforce is created and cannot be modified. 
+- `WorkforceName`: The name of the private workforce that you want to update. You can find your workforce name by using the operation.
 
 # Optional Parameters
 - `OidcConfig`: Use this parameter to update your OIDC Identity Provider (IdP) configuration for a workforce made using your own IdP.
 - `SourceIpConfig`: A list of one to ten worker IP address ranges (CIDRs) that can be used to access tasks assigned to this workforce. Maximum: Ten CIDR values
 """
-UpdateWorkforce(WorkforceName; aws::AWSConfig=AWS.aws_config) = sagemaker("UpdateWorkforce", Dict{String, Any}("WorkforceName"=>WorkforceName); aws=aws)
-UpdateWorkforce(WorkforceName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("UpdateWorkforce", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkforceName"=>WorkforceName), args)); aws=aws)
+
+UpdateWorkforce(WorkforceName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("UpdateWorkforce", Dict{String, Any}("WorkforceName"=>WorkforceName); aws_config=aws_config)
+UpdateWorkforce(WorkforceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("UpdateWorkforce", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkforceName"=>WorkforceName), args)); aws_config=aws_config)
 
 """
     UpdateWorkteam()
@@ -2092,8 +2228,9 @@ Updates an existing work team with new member definitions or description.
 
 # Optional Parameters
 - `Description`: An updated description for the work team.
-- `MemberDefinitions`: A list of MemberDefinition objects that contain the updated work team members.
+- `MemberDefinitions`: A list of MemberDefinition objects that contains objects that identify the workers that make up the work team.  Workforces can be created using Amazon Cognito or your own OIDC Identity Provider (IdP). For private workforces created using Amazon Cognito use CognitoMemberDefinition. For workforces created using your own OIDC identity provider (IdP) use OidcMemberDefinition. You should not provide input for both of these parameters in a single request. For workforces created using Amazon Cognito, private work teams correspond to Amazon Cognito user groups within the user pool used to create a workforce. All of the CognitoMemberDefinition objects that make up the member definition must have the same ClientId and UserPool values. To add a Amazon Cognito user group to an existing worker pool, see Adding groups to a User Pool. For more information about user pools, see Amazon Cognito User Pools. For workforces created using your own OIDC IdP, specify the user groups that you want to include in your private work team in OidcMemberDefinition by listing those groups in Groups. Be aware that user groups that are already in the work team must also be listed in Groups when you make this request to remain on the work team. If you do not include these user groups, they will no longer be associated with the work team you update. 
 - `NotificationConfiguration`: Configures SNS topic notifications for available or expiring work items
 """
-UpdateWorkteam(WorkteamName; aws::AWSConfig=AWS.aws_config) = sagemaker("UpdateWorkteam", Dict{String, Any}("WorkteamName"=>WorkteamName); aws=aws)
-UpdateWorkteam(WorkteamName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sagemaker("UpdateWorkteam", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkteamName"=>WorkteamName), args)); aws=aws)
+
+UpdateWorkteam(WorkteamName; aws_config::AWSConfig=AWS.aws_config) = sagemaker("UpdateWorkteam", Dict{String, Any}("WorkteamName"=>WorkteamName); aws_config=aws_config)
+UpdateWorkteam(WorkteamName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = sagemaker("UpdateWorkteam", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WorkteamName"=>WorkteamName), args)); aws_config=aws_config)

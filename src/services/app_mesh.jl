@@ -31,8 +31,9 @@ request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
          define. Tag keys can have a maximum character length of 128 characters, and tag values can have
             a maximum length of 256 characters.
 """
-CreateGatewayRoute(gatewayRouteName, meshName, spec, virtualGatewayName; aws::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes", Dict{String, Any}("gatewayRouteName"=>gatewayRouteName, "spec"=>spec, "clientToken"=>string(uuid4())); aws=aws)
-CreateGatewayRoute(gatewayRouteName, meshName, spec, virtualGatewayName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("gatewayRouteName"=>gatewayRouteName, "spec"=>spec, "clientToken"=>string(uuid4())), args)); aws=aws)
+
+CreateGatewayRoute(gatewayRouteName, meshName, spec, virtualGatewayName; aws_config::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes", Dict{String, Any}("gatewayRouteName"=>gatewayRouteName, "spec"=>spec, "clientToken"=>string(uuid4())); aws_config=aws_config)
+CreateGatewayRoute(gatewayRouteName, meshName, spec, virtualGatewayName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("gatewayRouteName"=>gatewayRouteName, "spec"=>spec, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     CreateMesh()
@@ -56,8 +57,9 @@ request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
          define. Tag keys can have a maximum character length of 128 characters, and tag values can have
             a maximum length of 256 characters.
 """
-CreateMesh(meshName; aws::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes", Dict{String, Any}("meshName"=>meshName, "clientToken"=>string(uuid4())); aws=aws)
-CreateMesh(meshName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("meshName"=>meshName, "clientToken"=>string(uuid4())), args)); aws=aws)
+
+CreateMesh(meshName; aws_config::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes", Dict{String, Any}("meshName"=>meshName, "clientToken"=>string(uuid4())); aws_config=aws_config)
+CreateMesh(meshName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("meshName"=>meshName, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     CreateRoute()
@@ -85,8 +87,9 @@ request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
          Tag keys can have a maximum character length of 128 characters, and tag values can have
             a maximum length of 256 characters.
 """
-CreateRoute(meshName, routeName, spec, virtualRouterName; aws::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes", Dict{String, Any}("routeName"=>routeName, "spec"=>spec, "clientToken"=>string(uuid4())); aws=aws)
-CreateRoute(meshName, routeName, spec, virtualRouterName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("routeName"=>routeName, "spec"=>spec, "clientToken"=>string(uuid4())), args)); aws=aws)
+
+CreateRoute(meshName, routeName, spec, virtualRouterName; aws_config::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes", Dict{String, Any}("routeName"=>routeName, "spec"=>spec, "clientToken"=>string(uuid4())); aws_config=aws_config)
+CreateRoute(meshName, routeName, spec, virtualRouterName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("routeName"=>routeName, "spec"=>spec, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     CreateVirtualGateway()
@@ -114,8 +117,9 @@ request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
          which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have
             a maximum length of 256 characters.
 """
-CreateVirtualGateway(meshName, spec, virtualGatewayName; aws::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualGateways", Dict{String, Any}("spec"=>spec, "virtualGatewayName"=>virtualGatewayName, "clientToken"=>string(uuid4())); aws=aws)
-CreateVirtualGateway(meshName, spec, virtualGatewayName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualGateways", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spec"=>spec, "virtualGatewayName"=>virtualGatewayName, "clientToken"=>string(uuid4())), args)); aws=aws)
+
+CreateVirtualGateway(meshName, spec, virtualGatewayName; aws_config::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualGateways", Dict{String, Any}("spec"=>spec, "virtualGatewayName"=>virtualGatewayName, "clientToken"=>string(uuid4())); aws_config=aws_config)
+CreateVirtualGateway(meshName, spec, virtualGatewayName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualGateways", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spec"=>spec, "virtualGatewayName"=>virtualGatewayName, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     CreateVirtualNode()
@@ -158,8 +162,9 @@ request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
          define. Tag keys can have a maximum character length of 128 characters, and tag values can have
             a maximum length of 256 characters.
 """
-CreateVirtualNode(meshName, spec, virtualNodeName; aws::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualNodes", Dict{String, Any}("spec"=>spec, "virtualNodeName"=>virtualNodeName, "clientToken"=>string(uuid4())); aws=aws)
-CreateVirtualNode(meshName, spec, virtualNodeName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualNodes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spec"=>spec, "virtualNodeName"=>virtualNodeName, "clientToken"=>string(uuid4())), args)); aws=aws)
+
+CreateVirtualNode(meshName, spec, virtualNodeName; aws_config::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualNodes", Dict{String, Any}("spec"=>spec, "virtualNodeName"=>virtualNodeName, "clientToken"=>string(uuid4())); aws_config=aws_config)
+CreateVirtualNode(meshName, spec, virtualNodeName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualNodes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spec"=>spec, "virtualNodeName"=>virtualNodeName, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     CreateVirtualRouter()
@@ -188,8 +193,9 @@ request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
          define. Tag keys can have a maximum character length of 128 characters, and tag values can have
             a maximum length of 256 characters.
 """
-CreateVirtualRouter(meshName, spec, virtualRouterName; aws::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualRouters", Dict{String, Any}("spec"=>spec, "virtualRouterName"=>virtualRouterName, "clientToken"=>string(uuid4())); aws=aws)
-CreateVirtualRouter(meshName, spec, virtualRouterName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualRouters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spec"=>spec, "virtualRouterName"=>virtualRouterName, "clientToken"=>string(uuid4())), args)); aws=aws)
+
+CreateVirtualRouter(meshName, spec, virtualRouterName; aws_config::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualRouters", Dict{String, Any}("spec"=>spec, "virtualRouterName"=>virtualRouterName, "clientToken"=>string(uuid4())); aws_config=aws_config)
+CreateVirtualRouter(meshName, spec, virtualRouterName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualRouters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spec"=>spec, "virtualRouterName"=>virtualRouterName, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     CreateVirtualService()
@@ -218,8 +224,9 @@ request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
          which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have
             a maximum length of 256 characters.
 """
-CreateVirtualService(meshName, spec, virtualServiceName; aws::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualServices", Dict{String, Any}("spec"=>spec, "virtualServiceName"=>virtualServiceName, "clientToken"=>string(uuid4())); aws=aws)
-CreateVirtualService(meshName, spec, virtualServiceName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualServices", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spec"=>spec, "virtualServiceName"=>virtualServiceName, "clientToken"=>string(uuid4())), args)); aws=aws)
+
+CreateVirtualService(meshName, spec, virtualServiceName; aws_config::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualServices", Dict{String, Any}("spec"=>spec, "virtualServiceName"=>virtualServiceName, "clientToken"=>string(uuid4())); aws_config=aws_config)
+CreateVirtualService(meshName, spec, virtualServiceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualServices", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spec"=>spec, "virtualServiceName"=>virtualServiceName, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     DeleteGatewayRoute()
@@ -235,8 +242,9 @@ Deletes an existing gateway route.
 - `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
 """
-DeleteGatewayRoute(gatewayRouteName, meshName, virtualGatewayName; aws::AWSConfig=AWS.aws_config) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes/$(gatewayRouteName)"; aws=aws)
-DeleteGatewayRoute(gatewayRouteName, meshName, virtualGatewayName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes/$(gatewayRouteName)", args; aws=aws)
+
+DeleteGatewayRoute(gatewayRouteName, meshName, virtualGatewayName; aws_config::AWSConfig=AWS.aws_config) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes/$(gatewayRouteName)"; aws_config=aws_config)
+DeleteGatewayRoute(gatewayRouteName, meshName, virtualGatewayName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes/$(gatewayRouteName)", args; aws_config=aws_config)
 
 """
     DeleteMesh()
@@ -249,8 +257,9 @@ Deletes an existing service mesh.
 - `meshName`: The name of the service mesh to delete.
 
 """
-DeleteMesh(meshName; aws::AWSConfig=AWS.aws_config) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)"; aws=aws)
-DeleteMesh(meshName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)", args; aws=aws)
+
+DeleteMesh(meshName; aws_config::AWSConfig=AWS.aws_config) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)"; aws_config=aws_config)
+DeleteMesh(meshName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)", args; aws_config=aws_config)
 
 """
     DeleteRoute()
@@ -266,8 +275,9 @@ Deletes an existing route.
 - `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
 """
-DeleteRoute(meshName, routeName, virtualRouterName; aws::AWSConfig=AWS.aws_config) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes/$(routeName)"; aws=aws)
-DeleteRoute(meshName, routeName, virtualRouterName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes/$(routeName)", args; aws=aws)
+
+DeleteRoute(meshName, routeName, virtualRouterName; aws_config::AWSConfig=AWS.aws_config) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes/$(routeName)"; aws_config=aws_config)
+DeleteRoute(meshName, routeName, virtualRouterName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes/$(routeName)", args; aws_config=aws_config)
 
 """
     DeleteVirtualGateway()
@@ -283,8 +293,9 @@ Deletes an existing virtual gateway. You cannot delete a virtual gateway if any 
 - `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
 """
-DeleteVirtualGateway(meshName, virtualGatewayName; aws::AWSConfig=AWS.aws_config) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualGateways/$(virtualGatewayName)"; aws=aws)
-DeleteVirtualGateway(meshName, virtualGatewayName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualGateways/$(virtualGatewayName)", args; aws=aws)
+
+DeleteVirtualGateway(meshName, virtualGatewayName; aws_config::AWSConfig=AWS.aws_config) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualGateways/$(virtualGatewayName)"; aws_config=aws_config)
+DeleteVirtualGateway(meshName, virtualGatewayName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualGateways/$(virtualGatewayName)", args; aws_config=aws_config)
 
 """
     DeleteVirtualNode()
@@ -301,8 +312,9 @@ Deletes an existing virtual node.
 - `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
 """
-DeleteVirtualNode(meshName, virtualNodeName; aws::AWSConfig=AWS.aws_config) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualNodes/$(virtualNodeName)"; aws=aws)
-DeleteVirtualNode(meshName, virtualNodeName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualNodes/$(virtualNodeName)", args; aws=aws)
+
+DeleteVirtualNode(meshName, virtualNodeName; aws_config::AWSConfig=AWS.aws_config) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualNodes/$(virtualNodeName)"; aws_config=aws_config)
+DeleteVirtualNode(meshName, virtualNodeName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualNodes/$(virtualNodeName)", args; aws_config=aws_config)
 
 """
     DeleteVirtualRouter()
@@ -319,8 +331,9 @@ Deletes an existing virtual router.
 - `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
 """
-DeleteVirtualRouter(meshName, virtualRouterName; aws::AWSConfig=AWS.aws_config) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualRouters/$(virtualRouterName)"; aws=aws)
-DeleteVirtualRouter(meshName, virtualRouterName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualRouters/$(virtualRouterName)", args; aws=aws)
+
+DeleteVirtualRouter(meshName, virtualRouterName; aws_config::AWSConfig=AWS.aws_config) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualRouters/$(virtualRouterName)"; aws_config=aws_config)
+DeleteVirtualRouter(meshName, virtualRouterName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualRouters/$(virtualRouterName)", args; aws_config=aws_config)
 
 """
     DeleteVirtualService()
@@ -335,8 +348,9 @@ Deletes an existing virtual service.
 - `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
 """
-DeleteVirtualService(meshName, virtualServiceName; aws::AWSConfig=AWS.aws_config) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualServices/$(virtualServiceName)"; aws=aws)
-DeleteVirtualService(meshName, virtualServiceName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualServices/$(virtualServiceName)", args; aws=aws)
+
+DeleteVirtualService(meshName, virtualServiceName; aws_config::AWSConfig=AWS.aws_config) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualServices/$(virtualServiceName)"; aws_config=aws_config)
+DeleteVirtualService(meshName, virtualServiceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = app_mesh("DELETE", "/v20190125/meshes/$(meshName)/virtualServices/$(virtualServiceName)", args; aws_config=aws_config)
 
 """
     DescribeGatewayRoute()
@@ -352,8 +366,9 @@ Describes an existing gateway route.
 - `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
 """
-DescribeGatewayRoute(gatewayRouteName, meshName, virtualGatewayName; aws::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes/$(gatewayRouteName)"; aws=aws)
-DescribeGatewayRoute(gatewayRouteName, meshName, virtualGatewayName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes/$(gatewayRouteName)", args; aws=aws)
+
+DescribeGatewayRoute(gatewayRouteName, meshName, virtualGatewayName; aws_config::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes/$(gatewayRouteName)"; aws_config=aws_config)
+DescribeGatewayRoute(gatewayRouteName, meshName, virtualGatewayName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes/$(gatewayRouteName)", args; aws_config=aws_config)
 
 """
     DescribeMesh()
@@ -367,8 +382,9 @@ Describes an existing service mesh.
 - `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
 """
-DescribeMesh(meshName; aws::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)"; aws=aws)
-DescribeMesh(meshName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)", args; aws=aws)
+
+DescribeMesh(meshName; aws_config::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)"; aws_config=aws_config)
+DescribeMesh(meshName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)", args; aws_config=aws_config)
 
 """
     DescribeRoute()
@@ -384,8 +400,9 @@ Describes an existing route.
 - `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
 """
-DescribeRoute(meshName, routeName, virtualRouterName; aws::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes/$(routeName)"; aws=aws)
-DescribeRoute(meshName, routeName, virtualRouterName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes/$(routeName)", args; aws=aws)
+
+DescribeRoute(meshName, routeName, virtualRouterName; aws_config::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes/$(routeName)"; aws_config=aws_config)
+DescribeRoute(meshName, routeName, virtualRouterName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes/$(routeName)", args; aws_config=aws_config)
 
 """
     DescribeVirtualGateway()
@@ -400,8 +417,9 @@ Describes an existing virtual gateway.
 - `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
 """
-DescribeVirtualGateway(meshName, virtualGatewayName; aws::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualGateways/$(virtualGatewayName)"; aws=aws)
-DescribeVirtualGateway(meshName, virtualGatewayName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualGateways/$(virtualGatewayName)", args; aws=aws)
+
+DescribeVirtualGateway(meshName, virtualGatewayName; aws_config::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualGateways/$(virtualGatewayName)"; aws_config=aws_config)
+DescribeVirtualGateway(meshName, virtualGatewayName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualGateways/$(virtualGatewayName)", args; aws_config=aws_config)
 
 """
     DescribeVirtualNode()
@@ -416,8 +434,9 @@ Describes an existing virtual node.
 - `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
 """
-DescribeVirtualNode(meshName, virtualNodeName; aws::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualNodes/$(virtualNodeName)"; aws=aws)
-DescribeVirtualNode(meshName, virtualNodeName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualNodes/$(virtualNodeName)", args; aws=aws)
+
+DescribeVirtualNode(meshName, virtualNodeName; aws_config::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualNodes/$(virtualNodeName)"; aws_config=aws_config)
+DescribeVirtualNode(meshName, virtualNodeName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualNodes/$(virtualNodeName)", args; aws_config=aws_config)
 
 """
     DescribeVirtualRouter()
@@ -432,8 +451,9 @@ Describes an existing virtual router.
 - `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
 """
-DescribeVirtualRouter(meshName, virtualRouterName; aws::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualRouters/$(virtualRouterName)"; aws=aws)
-DescribeVirtualRouter(meshName, virtualRouterName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualRouters/$(virtualRouterName)", args; aws=aws)
+
+DescribeVirtualRouter(meshName, virtualRouterName; aws_config::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualRouters/$(virtualRouterName)"; aws_config=aws_config)
+DescribeVirtualRouter(meshName, virtualRouterName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualRouters/$(virtualRouterName)", args; aws_config=aws_config)
 
 """
     DescribeVirtualService()
@@ -448,8 +468,9 @@ Describes an existing virtual service.
 - `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
 """
-DescribeVirtualService(meshName, virtualServiceName; aws::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualServices/$(virtualServiceName)"; aws=aws)
-DescribeVirtualService(meshName, virtualServiceName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualServices/$(virtualServiceName)", args; aws=aws)
+
+DescribeVirtualService(meshName, virtualServiceName; aws_config::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualServices/$(virtualServiceName)"; aws_config=aws_config)
+DescribeVirtualService(meshName, virtualServiceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualServices/$(virtualServiceName)", args; aws_config=aws_config)
 
 """
     ListGatewayRoutes()
@@ -477,8 +498,9 @@ Returns a list of existing gateway routes that are associated to a virtual
          exceeded the value of that parameter. Pagination continues from the end of the previous
          results that returned the nextToken value.
 """
-ListGatewayRoutes(meshName, virtualGatewayName; aws::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes"; aws=aws)
-ListGatewayRoutes(meshName, virtualGatewayName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes", args; aws=aws)
+
+ListGatewayRoutes(meshName, virtualGatewayName; aws_config::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes"; aws_config=aws_config)
+ListGatewayRoutes(meshName, virtualGatewayName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes", args; aws_config=aws_config)
 
 """
     ListMeshes()
@@ -503,8 +525,9 @@ Returns a list of existing service meshes.
                 retrieve the next items in a list and not for other programmatic purposes.
         
 """
-ListMeshes(; aws::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes"; aws=aws)
-ListMeshes(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes", args; aws=aws)
+
+ListMeshes(; aws_config::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes"; aws_config=aws_config)
+ListMeshes(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes", args; aws_config=aws_config)
 
 """
     ListRoutes()
@@ -531,8 +554,9 @@ Returns a list of existing routes in a service mesh.
          exceeded the value of that parameter. Pagination continues from the end of the previous
          results that returned the nextToken value.
 """
-ListRoutes(meshName, virtualRouterName; aws::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes"; aws=aws)
-ListRoutes(meshName, virtualRouterName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes", args; aws=aws)
+
+ListRoutes(meshName, virtualRouterName; aws_config::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes"; aws_config=aws_config)
+ListRoutes(meshName, virtualRouterName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -556,8 +580,9 @@ List the tags for an App Mesh resource.
          results exceeded the value of that parameter. Pagination continues from the end of the
          previous results that returned the nextToken value.
 """
-ListTagsForResource(resourceArn; aws::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/tags", Dict{String, Any}("resourceArn"=>resourceArn); aws=aws)
-ListTagsForResource(resourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), args)); aws=aws)
+
+ListTagsForResource(resourceArn; aws_config::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/tags", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config)
+ListTagsForResource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/tags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), args)); aws_config=aws_config)
 
 """
     ListVirtualGateways()
@@ -583,8 +608,9 @@ Returns a list of existing virtual gateways in a service mesh.
          results exceeded the value of that parameter. Pagination continues from the end of the
          previous results that returned the nextToken value.
 """
-ListVirtualGateways(meshName; aws::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualGateways"; aws=aws)
-ListVirtualGateways(meshName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualGateways", args; aws=aws)
+
+ListVirtualGateways(meshName; aws_config::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualGateways"; aws_config=aws_config)
+ListVirtualGateways(meshName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualGateways", args; aws_config=aws_config)
 
 """
     ListVirtualNodes()
@@ -610,8 +636,9 @@ Returns a list of existing virtual nodes.
          exceeded the value of that parameter. Pagination continues from the end of the previous
          results that returned the nextToken value.
 """
-ListVirtualNodes(meshName; aws::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualNodes"; aws=aws)
-ListVirtualNodes(meshName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualNodes", args; aws=aws)
+
+ListVirtualNodes(meshName; aws_config::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualNodes"; aws_config=aws_config)
+ListVirtualNodes(meshName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualNodes", args; aws_config=aws_config)
 
 """
     ListVirtualRouters()
@@ -637,8 +664,9 @@ Returns a list of existing virtual routers in a service mesh.
          results exceeded the value of that parameter. Pagination continues from the end of the
          previous results that returned the nextToken value.
 """
-ListVirtualRouters(meshName; aws::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualRouters"; aws=aws)
-ListVirtualRouters(meshName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualRouters", args; aws=aws)
+
+ListVirtualRouters(meshName; aws_config::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualRouters"; aws_config=aws_config)
+ListVirtualRouters(meshName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualRouters", args; aws_config=aws_config)
 
 """
     ListVirtualServices()
@@ -664,8 +692,9 @@ Returns a list of existing virtual services in a service mesh.
          results exceeded the value of that parameter. Pagination continues from the end of the
          previous results that returned the nextToken value.
 """
-ListVirtualServices(meshName; aws::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualServices"; aws=aws)
-ListVirtualServices(meshName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualServices", args; aws=aws)
+
+ListVirtualServices(meshName; aws_config::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualServices"; aws_config=aws_config)
+ListVirtualServices(meshName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = app_mesh("GET", "/v20190125/meshes/$(meshName)/virtualServices", args; aws_config=aws_config)
 
 """
     TagResource()
@@ -682,8 +711,9 @@ Associates the specified tags to a resource with the specified resourceArn.
             a maximum length of 256 characters.
 
 """
-TagResource(resourceArn, tags; aws::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/tag", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws=aws)
-TagResource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/tag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), args)); aws=aws)
+
+TagResource(resourceArn, tags; aws_config::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/tag", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws_config=aws_config)
+TagResource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/tag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -695,8 +725,9 @@ Deletes specified tags from a resource.
 - `tagKeys`: The keys of the tags to be removed.
 
 """
-UntagResource(resourceArn, tagKeys; aws::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/untag", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws=aws)
-UntagResource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/untag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), args)); aws=aws)
+
+UntagResource(resourceArn, tagKeys; aws_config::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/untag", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws_config=aws_config)
+UntagResource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/untag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), args)); aws_config=aws_config)
 
 """
     UpdateGatewayRoute()
@@ -716,8 +747,9 @@ request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
 - `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
 """
-UpdateGatewayRoute(gatewayRouteName, meshName, spec, virtualGatewayName; aws::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes/$(gatewayRouteName)", Dict{String, Any}("spec"=>spec, "clientToken"=>string(uuid4())); aws=aws)
-UpdateGatewayRoute(gatewayRouteName, meshName, spec, virtualGatewayName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes/$(gatewayRouteName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spec"=>spec, "clientToken"=>string(uuid4())), args)); aws=aws)
+
+UpdateGatewayRoute(gatewayRouteName, meshName, spec, virtualGatewayName; aws_config::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes/$(gatewayRouteName)", Dict{String, Any}("spec"=>spec, "clientToken"=>string(uuid4())); aws_config=aws_config)
+UpdateGatewayRoute(gatewayRouteName, meshName, spec, virtualGatewayName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualGateway/$(virtualGatewayName)/gatewayRoutes/$(gatewayRouteName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spec"=>spec, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     UpdateMesh()
@@ -732,8 +764,9 @@ Updates an existing service mesh.
 request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
 - `spec`: The service mesh specification to apply.
 """
-UpdateMesh(meshName; aws::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)", Dict{String, Any}("clientToken"=>string(uuid4())); aws=aws)
-UpdateMesh(meshName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), args)); aws=aws)
+
+UpdateMesh(meshName; aws_config::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)", Dict{String, Any}("clientToken"=>string(uuid4())); aws_config=aws_config)
+UpdateMesh(meshName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     UpdateRoute()
@@ -752,8 +785,9 @@ request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
 - `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
 """
-UpdateRoute(meshName, routeName, spec, virtualRouterName; aws::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes/$(routeName)", Dict{String, Any}("spec"=>spec, "clientToken"=>string(uuid4())); aws=aws)
-UpdateRoute(meshName, routeName, spec, virtualRouterName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes/$(routeName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spec"=>spec, "clientToken"=>string(uuid4())), args)); aws=aws)
+
+UpdateRoute(meshName, routeName, spec, virtualRouterName; aws_config::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes/$(routeName)", Dict{String, Any}("spec"=>spec, "clientToken"=>string(uuid4())); aws_config=aws_config)
+UpdateRoute(meshName, routeName, spec, virtualRouterName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualRouter/$(virtualRouterName)/routes/$(routeName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spec"=>spec, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     UpdateVirtualGateway()
@@ -772,8 +806,9 @@ request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
 - `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
 """
-UpdateVirtualGateway(meshName, spec, virtualGatewayName; aws::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualGateways/$(virtualGatewayName)", Dict{String, Any}("spec"=>spec, "clientToken"=>string(uuid4())); aws=aws)
-UpdateVirtualGateway(meshName, spec, virtualGatewayName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualGateways/$(virtualGatewayName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spec"=>spec, "clientToken"=>string(uuid4())), args)); aws=aws)
+
+UpdateVirtualGateway(meshName, spec, virtualGatewayName; aws_config::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualGateways/$(virtualGatewayName)", Dict{String, Any}("spec"=>spec, "clientToken"=>string(uuid4())); aws_config=aws_config)
+UpdateVirtualGateway(meshName, spec, virtualGatewayName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualGateways/$(virtualGatewayName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spec"=>spec, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     UpdateVirtualNode()
@@ -791,8 +826,9 @@ request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
 - `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
 """
-UpdateVirtualNode(meshName, spec, virtualNodeName; aws::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualNodes/$(virtualNodeName)", Dict{String, Any}("spec"=>spec, "clientToken"=>string(uuid4())); aws=aws)
-UpdateVirtualNode(meshName, spec, virtualNodeName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualNodes/$(virtualNodeName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spec"=>spec, "clientToken"=>string(uuid4())), args)); aws=aws)
+
+UpdateVirtualNode(meshName, spec, virtualNodeName; aws_config::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualNodes/$(virtualNodeName)", Dict{String, Any}("spec"=>spec, "clientToken"=>string(uuid4())); aws_config=aws_config)
+UpdateVirtualNode(meshName, spec, virtualNodeName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualNodes/$(virtualNodeName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spec"=>spec, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     UpdateVirtualRouter()
@@ -810,8 +846,9 @@ request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
 - `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
 """
-UpdateVirtualRouter(meshName, spec, virtualRouterName; aws::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualRouters/$(virtualRouterName)", Dict{String, Any}("spec"=>spec, "clientToken"=>string(uuid4())); aws=aws)
-UpdateVirtualRouter(meshName, spec, virtualRouterName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualRouters/$(virtualRouterName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spec"=>spec, "clientToken"=>string(uuid4())), args)); aws=aws)
+
+UpdateVirtualRouter(meshName, spec, virtualRouterName; aws_config::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualRouters/$(virtualRouterName)", Dict{String, Any}("spec"=>spec, "clientToken"=>string(uuid4())); aws_config=aws_config)
+UpdateVirtualRouter(meshName, spec, virtualRouterName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualRouters/$(virtualRouterName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spec"=>spec, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     UpdateVirtualService()
@@ -830,5 +867,6 @@ request. Up to 36 letters, numbers, hyphens, and underscores are allowed.
 - `meshOwner`: The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's
                the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
 """
-UpdateVirtualService(meshName, spec, virtualServiceName; aws::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualServices/$(virtualServiceName)", Dict{String, Any}("spec"=>spec, "clientToken"=>string(uuid4())); aws=aws)
-UpdateVirtualService(meshName, spec, virtualServiceName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualServices/$(virtualServiceName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spec"=>spec, "clientToken"=>string(uuid4())), args)); aws=aws)
+
+UpdateVirtualService(meshName, spec, virtualServiceName; aws_config::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualServices/$(virtualServiceName)", Dict{String, Any}("spec"=>spec, "clientToken"=>string(uuid4())); aws_config=aws_config)
+UpdateVirtualService(meshName, spec, virtualServiceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = app_mesh("PUT", "/v20190125/meshes/$(meshName)/virtualServices/$(virtualServiceName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("spec"=>spec, "clientToken"=>string(uuid4())), args)); aws_config=aws_config)

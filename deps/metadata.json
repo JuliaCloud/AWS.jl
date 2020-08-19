@@ -120,7 +120,7 @@
     "version": "2016-06-02"
   },
   "sesv2-2019-09-27.normal.json": {
-    "sha": "47bb5d80191e32daa2310be7e48cc16f1506ac86",
+    "sha": "9762ddcf08b5ce8901fc484f7ac5d97d8bbbbe42",
     "version": "2019-09-27"
   },
   "servicediscovery-2017-03-14.normal.json": {
@@ -140,7 +140,7 @@
     "version": "2017-09-08"
   },
   "securityhub-2018-10-26.normal.json": {
-    "sha": "1b27613c59a688d3294b98bbc28ef7beb52ac2ca",
+    "sha": "32827f10e00b743f5579284e0385f8d17e74ab6f",
     "version": "2018-10-26"
   },
   "secretsmanager-2017-10-17.normal.json": {
@@ -164,7 +164,7 @@
     "version": "2019-11-07"
   },
   "sagemaker-2017-07-24.normal.json": {
-    "sha": "f572dbc9b9983422b30a2cb7dd9ee7fffb1443ce",
+    "sha": "93fd04d92cb9b5b72baa0d2e92bff98c8a04fea1",
     "version": "2017-07-24"
   },
   "s3control-2018-08-20.normal.json": {
@@ -196,7 +196,7 @@
     "version": "2013-04-01"
   },
   "robomaker-2018-06-29.normal.json": {
-    "sha": "ae40c4cbfee997cab945e56321524438e1e59dd9",
+    "sha": "04f6b73e7378dd7a647075e7720b5a2375dcced1",
     "version": "2018-06-29"
   },
   "resourcegroupstaggingapi-2017-01-26.normal.json": {
@@ -228,7 +228,7 @@
     "version": "2018-01-04"
   },
   "quicksight-2018-04-01.normal.json": {
-    "sha": "d0904f85a89e5ec634febf3040cda5339c3d52de",
+    "sha": "a86d7d0d33079546e5cbb117198046bef542b316",
     "version": "2018-04-01"
   },
   "qldb-session-2019-07-11.normal.json": {
@@ -388,7 +388,7 @@
     "version": "2016-11-28"
   },
   "license-manager-2018-08-01.normal.json": {
-    "sha": "4960826c2d33cf286b2620bcbb70b2e0f4dcaaef",
+    "sha": "ec49bfa5c686c97301fbeeb4c832cf5b42b0a4ea",
     "version": "2018-08-01"
   },
   "lex-models-2017-04-19.normal.json": {
@@ -432,7 +432,7 @@
     "version": "2017-09-30"
   },
   "kinesis-2013-12-02.normal.json": {
-    "sha": "da4fd0a710dbaf07540f8a51a9d3e8cb2b9f6342",
+    "sha": "0d7788edf5936083a2ff99b510567a5fb877f218",
     "version": "2013-12-02"
   },
   "kendra-2019-02-03.normal.json": {
@@ -502,6 +502,10 @@
   "imagebuilder-2019-12-02.normal.json": {
     "sha": "c63383de8a48042124974785cf402e3b2f2bd634",
     "version": "2019-12-02"
+  },
+  "identitystore-2020-06-15.normal.json": {
+    "sha": "c76bf2620e96ba7cae1a81291414317652dae3c0",
+    "version": "2020-06-15"
   },
   "iam-2010-05-08.normal.json": {
     "sha": "9b6f17cee005635b2d82ca2286aff7d6c8c0c402",
@@ -596,11 +600,11 @@
     "version": "2009-03-31"
   },
   "elasticloadbalancingv2-2015-12-01.normal.json": {
-    "sha": "3e1baa405707910d02701a2071754698598e43c5",
+    "sha": "0720eb7892ca8be542358d71018cc284dbae9000",
     "version": "2015-12-01"
   },
   "elasticloadbalancing-2012-06-01.normal.json": {
-    "sha": "ede5aeaca21f4ea3ca92cb38a4bb2c27f9fff2e3",
+    "sha": "29415f5c0c3a1a4ef447ad9ec67fb44eb776f7e2",
     "version": "2012-06-01"
   },
   "elasticfilesystem-2015-02-01.normal.json": {
@@ -628,7 +632,7 @@
     "version": "2014-11-13"
   },
   "ecr-2015-09-21.normal.json": {
-    "sha": "56670016299bbc1f05484d50f658f810b2c485da",
+    "sha": "aa9ee7616a3df043d26df6bcdf95b68dee0af416",
     "version": "2015-09-21"
   },
   "ec2-instance-connect-2018-04-02.normal.json": {
@@ -636,7 +640,7 @@
     "version": "2018-04-02"
   },
   "ec2-2016-11-15.normal.json": {
-    "sha": "7ae0256a9df88d303a203b19e7e97e9dbc03d4ae",
+    "sha": "6cc4db118027f92f716798fce0101d3b0f69fa9b",
     "version": "2016-11-15"
   },
   "ebs-2019-11-02.normal.json": {
@@ -684,7 +688,7 @@
     "version": "2017-04-19"
   },
   "datasync-2018-11-09.normal.json": {
-    "sha": "12c558ea39e446c3654a47d3cb56a87bd53e1847",
+    "sha": "b05e14ec302ef1d1f8137e86235ada34978d2265",
     "version": "2018-11-09"
   },
   "datapipeline-2012-10-29.normal.json": {
@@ -728,7 +732,7 @@
     "version": "2014-06-30"
   },
   "cognito-idp-2016-04-18.normal.json": {
-    "sha": "355a419669d420b117e3daf7090965b92f633ebb",
+    "sha": "bfe3b2d7d1c4e087555d3de9b179f1f78962bbe3",
     "version": "2016-04-18"
   },
   "cognito-identity-2014-06-30.normal.json": {
@@ -768,7 +772,7 @@
     "version": "2015-04-13"
   },
   "codebuild-2016-10-06.normal.json": {
-    "sha": "77a8dc49f7ea97dc0c0eb0aaf9fc779324b72c3a",
+    "sha": "e67983fba0f3f363b0a16e29242a638a56d86211",
     "version": "2016-10-06"
   },
   "codeartifact-2018-09-22.normal.json": {
@@ -824,7 +828,7 @@
     "version": "2016-10-20"
   },
   "braket-2019-09-01.normal.json": {
-    "sha": "9503e0d196a31de3aca59c4b4af1247964950532",
+    "sha": "a5b65330e26a1632e46c1d1162ea348cd3073272",
     "version": "2019-09-01"
   },
   "batch-2016-08-10.normal.json": {
@@ -852,7 +856,7 @@
     "version": "2017-07-25"
   },
   "appstream-2016-12-01.normal.json": {
-    "sha": "023e0ed556380c666f0a7a1070fc142539786a93",
+    "sha": "4aad859df80736026305b4895e59f1ee53fac6e1",
     "version": "2016-12-01"
   },
   "appmesh-2019-01-25.normal.json": {
@@ -892,11 +896,11 @@
     "version": "2017-11-09"
   },
   "acm-pca-2017-08-22.normal.json": {
-    "sha": "a3507a64ad3ab72535d392fbdf55daa8a6b64e7e",
+    "sha": "82d100f37a9738ceac1ebcdec0c16ea4234b8f66",
     "version": "2017-08-22"
   },
   "acm-2015-12-08.normal.json": {
-    "sha": "63f09b4053dfa075d950fae9ea8afa97eeda5c86",
+    "sha": "f6a83c190cb35dcb875c66d33d7c6e7649cc0bc0",
     "version": "2015-12-08"
   },
   "accessanalyzer-2019-11-01.normal.json": {

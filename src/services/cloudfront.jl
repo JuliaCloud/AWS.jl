@@ -13,8 +13,9 @@ Creates a cache policy. After you create a cache policy, you can attach it to on
 - `CachePolicyConfig`: A cache policy configuration.
 
 """
-CreateCachePolicy2020_05_31(CachePolicyConfig; aws::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/cache-policy", Dict{String, Any}("CachePolicyConfig"=>CachePolicyConfig); aws=aws)
-CreateCachePolicy2020_05_31(CachePolicyConfig, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/cache-policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CachePolicyConfig"=>CachePolicyConfig), args)); aws=aws)
+
+CreateCachePolicy2020_05_31(CachePolicyConfig; aws_config::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/cache-policy", Dict{String, Any}("CachePolicyConfig"=>CachePolicyConfig); aws_config=aws_config)
+CreateCachePolicy2020_05_31(CachePolicyConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/cache-policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CachePolicyConfig"=>CachePolicyConfig), args)); aws_config=aws_config)
 
 """
     CreateCloudFrontOriginAccessIdentity2020_05_31()
@@ -25,8 +26,9 @@ Creates a new origin access identity. If you're using Amazon S3 for your origin,
 - `CloudFrontOriginAccessIdentityConfig`: The current configuration information for the identity.
 
 """
-CreateCloudFrontOriginAccessIdentity2020_05_31(CloudFrontOriginAccessIdentityConfig; aws::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/origin-access-identity/cloudfront", Dict{String, Any}("CloudFrontOriginAccessIdentityConfig"=>CloudFrontOriginAccessIdentityConfig); aws=aws)
-CreateCloudFrontOriginAccessIdentity2020_05_31(CloudFrontOriginAccessIdentityConfig, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/origin-access-identity/cloudfront", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CloudFrontOriginAccessIdentityConfig"=>CloudFrontOriginAccessIdentityConfig), args)); aws=aws)
+
+CreateCloudFrontOriginAccessIdentity2020_05_31(CloudFrontOriginAccessIdentityConfig; aws_config::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/origin-access-identity/cloudfront", Dict{String, Any}("CloudFrontOriginAccessIdentityConfig"=>CloudFrontOriginAccessIdentityConfig); aws_config=aws_config)
+CreateCloudFrontOriginAccessIdentity2020_05_31(CloudFrontOriginAccessIdentityConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/origin-access-identity/cloudfront", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CloudFrontOriginAccessIdentityConfig"=>CloudFrontOriginAccessIdentityConfig), args)); aws_config=aws_config)
 
 """
     CreateDistribution2020_05_31()
@@ -37,8 +39,9 @@ Creates a new web distribution. You create a CloudFront distribution to tell Clo
 - `DistributionConfig`: The distribution's configuration information.
 
 """
-CreateDistribution2020_05_31(DistributionConfig; aws::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/distribution", Dict{String, Any}("DistributionConfig"=>DistributionConfig); aws=aws)
-CreateDistribution2020_05_31(DistributionConfig, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/distribution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DistributionConfig"=>DistributionConfig), args)); aws=aws)
+
+CreateDistribution2020_05_31(DistributionConfig; aws_config::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/distribution", Dict{String, Any}("DistributionConfig"=>DistributionConfig); aws_config=aws_config)
+CreateDistribution2020_05_31(DistributionConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/distribution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DistributionConfig"=>DistributionConfig), args)); aws_config=aws_config)
 
 """
     CreateDistributionWithTags2020_05_31()
@@ -49,8 +52,9 @@ Create a new distribution with tags.
 - `DistributionConfigWithTags`: The distribution's configuration information. 
 
 """
-CreateDistributionWithTags2020_05_31(DistributionConfigWithTags; aws::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/distribution?WithTags", Dict{String, Any}("DistributionConfigWithTags"=>DistributionConfigWithTags); aws=aws)
-CreateDistributionWithTags2020_05_31(DistributionConfigWithTags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/distribution?WithTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DistributionConfigWithTags"=>DistributionConfigWithTags), args)); aws=aws)
+
+CreateDistributionWithTags2020_05_31(DistributionConfigWithTags; aws_config::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/distribution?WithTags", Dict{String, Any}("DistributionConfigWithTags"=>DistributionConfigWithTags); aws_config=aws_config)
+CreateDistributionWithTags2020_05_31(DistributionConfigWithTags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/distribution?WithTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DistributionConfigWithTags"=>DistributionConfigWithTags), args)); aws_config=aws_config)
 
 """
     CreateFieldLevelEncryptionConfig2020_05_31()
@@ -61,8 +65,9 @@ Create a new field-level encryption configuration.
 - `FieldLevelEncryptionConfig`: The request to create a new field-level encryption configuration.
 
 """
-CreateFieldLevelEncryptionConfig2020_05_31(FieldLevelEncryptionConfig; aws::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/field-level-encryption", Dict{String, Any}("FieldLevelEncryptionConfig"=>FieldLevelEncryptionConfig); aws=aws)
-CreateFieldLevelEncryptionConfig2020_05_31(FieldLevelEncryptionConfig, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/field-level-encryption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FieldLevelEncryptionConfig"=>FieldLevelEncryptionConfig), args)); aws=aws)
+
+CreateFieldLevelEncryptionConfig2020_05_31(FieldLevelEncryptionConfig; aws_config::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/field-level-encryption", Dict{String, Any}("FieldLevelEncryptionConfig"=>FieldLevelEncryptionConfig); aws_config=aws_config)
+CreateFieldLevelEncryptionConfig2020_05_31(FieldLevelEncryptionConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/field-level-encryption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FieldLevelEncryptionConfig"=>FieldLevelEncryptionConfig), args)); aws_config=aws_config)
 
 """
     CreateFieldLevelEncryptionProfile2020_05_31()
@@ -73,8 +78,9 @@ Create a field-level encryption profile.
 - `FieldLevelEncryptionProfileConfig`: The request to create a field-level encryption profile.
 
 """
-CreateFieldLevelEncryptionProfile2020_05_31(FieldLevelEncryptionProfileConfig; aws::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/field-level-encryption-profile", Dict{String, Any}("FieldLevelEncryptionProfileConfig"=>FieldLevelEncryptionProfileConfig); aws=aws)
-CreateFieldLevelEncryptionProfile2020_05_31(FieldLevelEncryptionProfileConfig, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/field-level-encryption-profile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FieldLevelEncryptionProfileConfig"=>FieldLevelEncryptionProfileConfig), args)); aws=aws)
+
+CreateFieldLevelEncryptionProfile2020_05_31(FieldLevelEncryptionProfileConfig; aws_config::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/field-level-encryption-profile", Dict{String, Any}("FieldLevelEncryptionProfileConfig"=>FieldLevelEncryptionProfileConfig); aws_config=aws_config)
+CreateFieldLevelEncryptionProfile2020_05_31(FieldLevelEncryptionProfileConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/field-level-encryption-profile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FieldLevelEncryptionProfileConfig"=>FieldLevelEncryptionProfileConfig), args)); aws_config=aws_config)
 
 """
     CreateInvalidation2020_05_31()
@@ -86,8 +92,9 @@ Create a new invalidation.
 - `InvalidationBatch`: The batch information for the invalidation.
 
 """
-CreateInvalidation2020_05_31(DistributionId, InvalidationBatch; aws::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/distribution/$(DistributionId)/invalidation", Dict{String, Any}("InvalidationBatch"=>InvalidationBatch); aws=aws)
-CreateInvalidation2020_05_31(DistributionId, InvalidationBatch, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/distribution/$(DistributionId)/invalidation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InvalidationBatch"=>InvalidationBatch), args)); aws=aws)
+
+CreateInvalidation2020_05_31(DistributionId, InvalidationBatch; aws_config::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/distribution/$(DistributionId)/invalidation", Dict{String, Any}("InvalidationBatch"=>InvalidationBatch); aws_config=aws_config)
+CreateInvalidation2020_05_31(DistributionId, InvalidationBatch, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/distribution/$(DistributionId)/invalidation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InvalidationBatch"=>InvalidationBatch), args)); aws_config=aws_config)
 
 """
     CreateOriginRequestPolicy2020_05_31()
@@ -98,8 +105,9 @@ Creates an origin request policy. After you create an origin request policy, you
 - `OriginRequestPolicyConfig`: An origin request policy configuration.
 
 """
-CreateOriginRequestPolicy2020_05_31(OriginRequestPolicyConfig; aws::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/origin-request-policy", Dict{String, Any}("OriginRequestPolicyConfig"=>OriginRequestPolicyConfig); aws=aws)
-CreateOriginRequestPolicy2020_05_31(OriginRequestPolicyConfig, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/origin-request-policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OriginRequestPolicyConfig"=>OriginRequestPolicyConfig), args)); aws=aws)
+
+CreateOriginRequestPolicy2020_05_31(OriginRequestPolicyConfig; aws_config::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/origin-request-policy", Dict{String, Any}("OriginRequestPolicyConfig"=>OriginRequestPolicyConfig); aws_config=aws_config)
+CreateOriginRequestPolicy2020_05_31(OriginRequestPolicyConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/origin-request-policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OriginRequestPolicyConfig"=>OriginRequestPolicyConfig), args)); aws_config=aws_config)
 
 """
     CreatePublicKey2020_05_31()
@@ -110,8 +118,9 @@ Add a new public key to CloudFront to use, for example, for field-level encrypti
 - `PublicKeyConfig`: The request to add a public key to CloudFront.
 
 """
-CreatePublicKey2020_05_31(PublicKeyConfig; aws::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/public-key", Dict{String, Any}("PublicKeyConfig"=>PublicKeyConfig); aws=aws)
-CreatePublicKey2020_05_31(PublicKeyConfig, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/public-key", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PublicKeyConfig"=>PublicKeyConfig), args)); aws=aws)
+
+CreatePublicKey2020_05_31(PublicKeyConfig; aws_config::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/public-key", Dict{String, Any}("PublicKeyConfig"=>PublicKeyConfig); aws_config=aws_config)
+CreatePublicKey2020_05_31(PublicKeyConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/public-key", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PublicKeyConfig"=>PublicKeyConfig), args)); aws_config=aws_config)
 
 """
     CreateStreamingDistribution2020_05_31()
@@ -122,8 +131,9 @@ Creates a new RTMP distribution. An RTMP distribution is similar to a web distri
 - `StreamingDistributionConfig`: The streaming distribution's configuration information.
 
 """
-CreateStreamingDistribution2020_05_31(StreamingDistributionConfig; aws::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/streaming-distribution", Dict{String, Any}("StreamingDistributionConfig"=>StreamingDistributionConfig); aws=aws)
-CreateStreamingDistribution2020_05_31(StreamingDistributionConfig, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/streaming-distribution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamingDistributionConfig"=>StreamingDistributionConfig), args)); aws=aws)
+
+CreateStreamingDistribution2020_05_31(StreamingDistributionConfig; aws_config::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/streaming-distribution", Dict{String, Any}("StreamingDistributionConfig"=>StreamingDistributionConfig); aws_config=aws_config)
+CreateStreamingDistribution2020_05_31(StreamingDistributionConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/streaming-distribution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamingDistributionConfig"=>StreamingDistributionConfig), args)); aws_config=aws_config)
 
 """
     CreateStreamingDistributionWithTags2020_05_31()
@@ -134,8 +144,9 @@ Create a new streaming distribution with tags.
 - `StreamingDistributionConfigWithTags`:  The streaming distribution's configuration information. 
 
 """
-CreateStreamingDistributionWithTags2020_05_31(StreamingDistributionConfigWithTags; aws::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/streaming-distribution?WithTags", Dict{String, Any}("StreamingDistributionConfigWithTags"=>StreamingDistributionConfigWithTags); aws=aws)
-CreateStreamingDistributionWithTags2020_05_31(StreamingDistributionConfigWithTags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/streaming-distribution?WithTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamingDistributionConfigWithTags"=>StreamingDistributionConfigWithTags), args)); aws=aws)
+
+CreateStreamingDistributionWithTags2020_05_31(StreamingDistributionConfigWithTags; aws_config::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/streaming-distribution?WithTags", Dict{String, Any}("StreamingDistributionConfigWithTags"=>StreamingDistributionConfigWithTags); aws_config=aws_config)
+CreateStreamingDistributionWithTags2020_05_31(StreamingDistributionConfigWithTags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/streaming-distribution?WithTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamingDistributionConfigWithTags"=>StreamingDistributionConfigWithTags), args)); aws_config=aws_config)
 
 """
     DeleteCachePolicy2020_05_31()
@@ -148,8 +159,9 @@ Deletes a cache policy. You cannot delete a cache policy if it’s attached to a
 # Optional Parameters
 - `If-Match`: The version of the cache policy that you are deleting. The version is the cache policy’s ETag value, which you can get using ListCachePolicies, GetCachePolicy, or GetCachePolicyConfig.
 """
-DeleteCachePolicy2020_05_31(Id; aws::AWSConfig=AWS.aws_config) = cloudfront("DELETE", "/2020-05-31/cache-policy/$(Id)"; aws=aws)
-DeleteCachePolicy2020_05_31(Id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("DELETE", "/2020-05-31/cache-policy/$(Id)", args; aws=aws)
+
+DeleteCachePolicy2020_05_31(Id; aws_config::AWSConfig=AWS.aws_config) = cloudfront("DELETE", "/2020-05-31/cache-policy/$(Id)"; aws_config=aws_config)
+DeleteCachePolicy2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("DELETE", "/2020-05-31/cache-policy/$(Id)", args; aws_config=aws_config)
 
 """
     DeleteCloudFrontOriginAccessIdentity2020_05_31()
@@ -162,8 +174,9 @@ Delete an origin access identity.
 # Optional Parameters
 - `If-Match`: The value of the ETag header you received from a previous GET or PUT request. For example: E2QWRUHAPOMQZL.
 """
-DeleteCloudFrontOriginAccessIdentity2020_05_31(Id; aws::AWSConfig=AWS.aws_config) = cloudfront("DELETE", "/2020-05-31/origin-access-identity/cloudfront/$(Id)"; aws=aws)
-DeleteCloudFrontOriginAccessIdentity2020_05_31(Id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("DELETE", "/2020-05-31/origin-access-identity/cloudfront/$(Id)", args; aws=aws)
+
+DeleteCloudFrontOriginAccessIdentity2020_05_31(Id; aws_config::AWSConfig=AWS.aws_config) = cloudfront("DELETE", "/2020-05-31/origin-access-identity/cloudfront/$(Id)"; aws_config=aws_config)
+DeleteCloudFrontOriginAccessIdentity2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("DELETE", "/2020-05-31/origin-access-identity/cloudfront/$(Id)", args; aws_config=aws_config)
 
 """
     DeleteDistribution2020_05_31()
@@ -176,8 +189,9 @@ Delete a distribution.
 # Optional Parameters
 - `If-Match`: The value of the ETag header that you received when you disabled the distribution. For example: E2QWRUHAPOMQZL. 
 """
-DeleteDistribution2020_05_31(Id; aws::AWSConfig=AWS.aws_config) = cloudfront("DELETE", "/2020-05-31/distribution/$(Id)"; aws=aws)
-DeleteDistribution2020_05_31(Id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("DELETE", "/2020-05-31/distribution/$(Id)", args; aws=aws)
+
+DeleteDistribution2020_05_31(Id; aws_config::AWSConfig=AWS.aws_config) = cloudfront("DELETE", "/2020-05-31/distribution/$(Id)"; aws_config=aws_config)
+DeleteDistribution2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("DELETE", "/2020-05-31/distribution/$(Id)", args; aws_config=aws_config)
 
 """
     DeleteFieldLevelEncryptionConfig2020_05_31()
@@ -190,8 +204,9 @@ Remove a field-level encryption configuration.
 # Optional Parameters
 - `If-Match`: The value of the ETag header that you received when retrieving the configuration identity to delete. For example: E2QWRUHAPOMQZL.
 """
-DeleteFieldLevelEncryptionConfig2020_05_31(Id; aws::AWSConfig=AWS.aws_config) = cloudfront("DELETE", "/2020-05-31/field-level-encryption/$(Id)"; aws=aws)
-DeleteFieldLevelEncryptionConfig2020_05_31(Id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("DELETE", "/2020-05-31/field-level-encryption/$(Id)", args; aws=aws)
+
+DeleteFieldLevelEncryptionConfig2020_05_31(Id; aws_config::AWSConfig=AWS.aws_config) = cloudfront("DELETE", "/2020-05-31/field-level-encryption/$(Id)"; aws_config=aws_config)
+DeleteFieldLevelEncryptionConfig2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("DELETE", "/2020-05-31/field-level-encryption/$(Id)", args; aws_config=aws_config)
 
 """
     DeleteFieldLevelEncryptionProfile2020_05_31()
@@ -204,8 +219,9 @@ Remove a field-level encryption profile.
 # Optional Parameters
 - `If-Match`: The value of the ETag header that you received when retrieving the profile to delete. For example: E2QWRUHAPOMQZL.
 """
-DeleteFieldLevelEncryptionProfile2020_05_31(Id; aws::AWSConfig=AWS.aws_config) = cloudfront("DELETE", "/2020-05-31/field-level-encryption-profile/$(Id)"; aws=aws)
-DeleteFieldLevelEncryptionProfile2020_05_31(Id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("DELETE", "/2020-05-31/field-level-encryption-profile/$(Id)", args; aws=aws)
+
+DeleteFieldLevelEncryptionProfile2020_05_31(Id; aws_config::AWSConfig=AWS.aws_config) = cloudfront("DELETE", "/2020-05-31/field-level-encryption-profile/$(Id)"; aws_config=aws_config)
+DeleteFieldLevelEncryptionProfile2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("DELETE", "/2020-05-31/field-level-encryption-profile/$(Id)", args; aws_config=aws_config)
 
 """
     DeleteOriginRequestPolicy2020_05_31()
@@ -218,8 +234,9 @@ Deletes an origin request policy. You cannot delete an origin request policy if 
 # Optional Parameters
 - `If-Match`: The version of the origin request policy that you are deleting. The version is the origin request policy’s ETag value, which you can get using ListOriginRequestPolicies, GetOriginRequestPolicy, or GetOriginRequestPolicyConfig.
 """
-DeleteOriginRequestPolicy2020_05_31(Id; aws::AWSConfig=AWS.aws_config) = cloudfront("DELETE", "/2020-05-31/origin-request-policy/$(Id)"; aws=aws)
-DeleteOriginRequestPolicy2020_05_31(Id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("DELETE", "/2020-05-31/origin-request-policy/$(Id)", args; aws=aws)
+
+DeleteOriginRequestPolicy2020_05_31(Id; aws_config::AWSConfig=AWS.aws_config) = cloudfront("DELETE", "/2020-05-31/origin-request-policy/$(Id)"; aws_config=aws_config)
+DeleteOriginRequestPolicy2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("DELETE", "/2020-05-31/origin-request-policy/$(Id)", args; aws_config=aws_config)
 
 """
     DeletePublicKey2020_05_31()
@@ -232,8 +249,9 @@ Remove a public key you previously added to CloudFront.
 # Optional Parameters
 - `If-Match`: The value of the ETag header that you received when retrieving the public key identity to delete. For example: E2QWRUHAPOMQZL.
 """
-DeletePublicKey2020_05_31(Id; aws::AWSConfig=AWS.aws_config) = cloudfront("DELETE", "/2020-05-31/public-key/$(Id)"; aws=aws)
-DeletePublicKey2020_05_31(Id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("DELETE", "/2020-05-31/public-key/$(Id)", args; aws=aws)
+
+DeletePublicKey2020_05_31(Id; aws_config::AWSConfig=AWS.aws_config) = cloudfront("DELETE", "/2020-05-31/public-key/$(Id)"; aws_config=aws_config)
+DeletePublicKey2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("DELETE", "/2020-05-31/public-key/$(Id)", args; aws_config=aws_config)
 
 """
     DeleteStreamingDistribution2020_05_31()
@@ -246,8 +264,9 @@ Delete a streaming distribution. To delete an RTMP distribution using the CloudF
 # Optional Parameters
 - `If-Match`: The value of the ETag header that you received when you disabled the streaming distribution. For example: E2QWRUHAPOMQZL.
 """
-DeleteStreamingDistribution2020_05_31(Id; aws::AWSConfig=AWS.aws_config) = cloudfront("DELETE", "/2020-05-31/streaming-distribution/$(Id)"; aws=aws)
-DeleteStreamingDistribution2020_05_31(Id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("DELETE", "/2020-05-31/streaming-distribution/$(Id)", args; aws=aws)
+
+DeleteStreamingDistribution2020_05_31(Id; aws_config::AWSConfig=AWS.aws_config) = cloudfront("DELETE", "/2020-05-31/streaming-distribution/$(Id)"; aws_config=aws_config)
+DeleteStreamingDistribution2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("DELETE", "/2020-05-31/streaming-distribution/$(Id)", args; aws_config=aws_config)
 
 """
     GetCachePolicy2020_05_31()
@@ -258,8 +277,9 @@ Gets a cache policy, including the following metadata:   The policy’s identifi
 - `Id`: The unique identifier for the cache policy. If the cache policy is attached to a distribution’s cache behavior, you can get the policy’s identifier using ListDistributions or GetDistribution. If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies.
 
 """
-GetCachePolicy2020_05_31(Id; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/cache-policy/$(Id)"; aws=aws)
-GetCachePolicy2020_05_31(Id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/cache-policy/$(Id)", args; aws=aws)
+
+GetCachePolicy2020_05_31(Id; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/cache-policy/$(Id)"; aws_config=aws_config)
+GetCachePolicy2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/cache-policy/$(Id)", args; aws_config=aws_config)
 
 """
     GetCachePolicyConfig2020_05_31()
@@ -270,8 +290,9 @@ Gets a cache policy configuration. To get a cache policy configuration, you must
 - `Id`: The unique identifier for the cache policy. If the cache policy is attached to a distribution’s cache behavior, you can get the policy’s identifier using ListDistributions or GetDistribution. If the cache policy is not attached to a cache behavior, you can get the identifier using ListCachePolicies.
 
 """
-GetCachePolicyConfig2020_05_31(Id; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/cache-policy/$(Id)/config"; aws=aws)
-GetCachePolicyConfig2020_05_31(Id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/cache-policy/$(Id)/config", args; aws=aws)
+
+GetCachePolicyConfig2020_05_31(Id; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/cache-policy/$(Id)/config"; aws_config=aws_config)
+GetCachePolicyConfig2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/cache-policy/$(Id)/config", args; aws_config=aws_config)
 
 """
     GetCloudFrontOriginAccessIdentity2020_05_31()
@@ -282,8 +303,9 @@ Get the information about an origin access identity.
 - `Id`: The identity's ID.
 
 """
-GetCloudFrontOriginAccessIdentity2020_05_31(Id; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/origin-access-identity/cloudfront/$(Id)"; aws=aws)
-GetCloudFrontOriginAccessIdentity2020_05_31(Id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/origin-access-identity/cloudfront/$(Id)", args; aws=aws)
+
+GetCloudFrontOriginAccessIdentity2020_05_31(Id; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/origin-access-identity/cloudfront/$(Id)"; aws_config=aws_config)
+GetCloudFrontOriginAccessIdentity2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/origin-access-identity/cloudfront/$(Id)", args; aws_config=aws_config)
 
 """
     GetCloudFrontOriginAccessIdentityConfig2020_05_31()
@@ -294,8 +316,9 @@ Get the configuration information about an origin access identity.
 - `Id`: The identity's ID. 
 
 """
-GetCloudFrontOriginAccessIdentityConfig2020_05_31(Id; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/origin-access-identity/cloudfront/$(Id)/config"; aws=aws)
-GetCloudFrontOriginAccessIdentityConfig2020_05_31(Id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/origin-access-identity/cloudfront/$(Id)/config", args; aws=aws)
+
+GetCloudFrontOriginAccessIdentityConfig2020_05_31(Id; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/origin-access-identity/cloudfront/$(Id)/config"; aws_config=aws_config)
+GetCloudFrontOriginAccessIdentityConfig2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/origin-access-identity/cloudfront/$(Id)/config", args; aws_config=aws_config)
 
 """
     GetDistribution2020_05_31()
@@ -306,8 +329,9 @@ Get the information about a distribution.
 - `Id`: The distribution's ID. If the ID is empty, an empty distribution configuration is returned.
 
 """
-GetDistribution2020_05_31(Id; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/distribution/$(Id)"; aws=aws)
-GetDistribution2020_05_31(Id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/distribution/$(Id)", args; aws=aws)
+
+GetDistribution2020_05_31(Id; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/distribution/$(Id)"; aws_config=aws_config)
+GetDistribution2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/distribution/$(Id)", args; aws_config=aws_config)
 
 """
     GetDistributionConfig2020_05_31()
@@ -318,8 +342,9 @@ Get the configuration information about a distribution.
 - `Id`: The distribution's ID. If the ID is empty, an empty distribution configuration is returned.
 
 """
-GetDistributionConfig2020_05_31(Id; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/distribution/$(Id)/config"; aws=aws)
-GetDistributionConfig2020_05_31(Id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/distribution/$(Id)/config", args; aws=aws)
+
+GetDistributionConfig2020_05_31(Id; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/distribution/$(Id)/config"; aws_config=aws_config)
+GetDistributionConfig2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/distribution/$(Id)/config", args; aws_config=aws_config)
 
 """
     GetFieldLevelEncryption2020_05_31()
@@ -330,8 +355,9 @@ Get the field-level encryption configuration information.
 - `Id`: Request the ID for the field-level encryption configuration information.
 
 """
-GetFieldLevelEncryption2020_05_31(Id; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/field-level-encryption/$(Id)"; aws=aws)
-GetFieldLevelEncryption2020_05_31(Id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/field-level-encryption/$(Id)", args; aws=aws)
+
+GetFieldLevelEncryption2020_05_31(Id; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/field-level-encryption/$(Id)"; aws_config=aws_config)
+GetFieldLevelEncryption2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/field-level-encryption/$(Id)", args; aws_config=aws_config)
 
 """
     GetFieldLevelEncryptionConfig2020_05_31()
@@ -342,8 +368,9 @@ Get the field-level encryption configuration information.
 - `Id`: Request the ID for the field-level encryption configuration information.
 
 """
-GetFieldLevelEncryptionConfig2020_05_31(Id; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/field-level-encryption/$(Id)/config"; aws=aws)
-GetFieldLevelEncryptionConfig2020_05_31(Id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/field-level-encryption/$(Id)/config", args; aws=aws)
+
+GetFieldLevelEncryptionConfig2020_05_31(Id; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/field-level-encryption/$(Id)/config"; aws_config=aws_config)
+GetFieldLevelEncryptionConfig2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/field-level-encryption/$(Id)/config", args; aws_config=aws_config)
 
 """
     GetFieldLevelEncryptionProfile2020_05_31()
@@ -354,8 +381,9 @@ Get the field-level encryption profile information.
 - `Id`: Get the ID for the field-level encryption profile information.
 
 """
-GetFieldLevelEncryptionProfile2020_05_31(Id; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/field-level-encryption-profile/$(Id)"; aws=aws)
-GetFieldLevelEncryptionProfile2020_05_31(Id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/field-level-encryption-profile/$(Id)", args; aws=aws)
+
+GetFieldLevelEncryptionProfile2020_05_31(Id; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/field-level-encryption-profile/$(Id)"; aws_config=aws_config)
+GetFieldLevelEncryptionProfile2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/field-level-encryption-profile/$(Id)", args; aws_config=aws_config)
 
 """
     GetFieldLevelEncryptionProfileConfig2020_05_31()
@@ -366,8 +394,9 @@ Get the field-level encryption profile configuration information.
 - `Id`: Get the ID for the field-level encryption profile configuration information.
 
 """
-GetFieldLevelEncryptionProfileConfig2020_05_31(Id; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/field-level-encryption-profile/$(Id)/config"; aws=aws)
-GetFieldLevelEncryptionProfileConfig2020_05_31(Id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/field-level-encryption-profile/$(Id)/config", args; aws=aws)
+
+GetFieldLevelEncryptionProfileConfig2020_05_31(Id; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/field-level-encryption-profile/$(Id)/config"; aws_config=aws_config)
+GetFieldLevelEncryptionProfileConfig2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/field-level-encryption-profile/$(Id)/config", args; aws_config=aws_config)
 
 """
     GetInvalidation2020_05_31()
@@ -379,8 +408,9 @@ Get the information about an invalidation.
 - `Id`: The identifier for the invalidation request, for example, IDFDVBD632BHDS5.
 
 """
-GetInvalidation2020_05_31(DistributionId, Id; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/distribution/$(DistributionId)/invalidation/$(Id)"; aws=aws)
-GetInvalidation2020_05_31(DistributionId, Id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/distribution/$(DistributionId)/invalidation/$(Id)", args; aws=aws)
+
+GetInvalidation2020_05_31(DistributionId, Id; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/distribution/$(DistributionId)/invalidation/$(Id)"; aws_config=aws_config)
+GetInvalidation2020_05_31(DistributionId, Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/distribution/$(DistributionId)/invalidation/$(Id)", args; aws_config=aws_config)
 
 """
     GetOriginRequestPolicy2020_05_31()
@@ -391,8 +421,9 @@ Gets an origin request policy, including the following metadata:   The policy’
 - `Id`: The unique identifier for the origin request policy. If the origin request policy is attached to a distribution’s cache behavior, you can get the policy’s identifier using ListDistributions or GetDistribution. If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPolicies.
 
 """
-GetOriginRequestPolicy2020_05_31(Id; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/origin-request-policy/$(Id)"; aws=aws)
-GetOriginRequestPolicy2020_05_31(Id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/origin-request-policy/$(Id)", args; aws=aws)
+
+GetOriginRequestPolicy2020_05_31(Id; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/origin-request-policy/$(Id)"; aws_config=aws_config)
+GetOriginRequestPolicy2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/origin-request-policy/$(Id)", args; aws_config=aws_config)
 
 """
     GetOriginRequestPolicyConfig2020_05_31()
@@ -403,8 +434,9 @@ Gets an origin request policy configuration. To get an origin request policy con
 - `Id`: The unique identifier for the origin request policy. If the origin request policy is attached to a distribution’s cache behavior, you can get the policy’s identifier using ListDistributions or GetDistribution. If the origin request policy is not attached to a cache behavior, you can get the identifier using ListOriginRequestPolicies.
 
 """
-GetOriginRequestPolicyConfig2020_05_31(Id; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/origin-request-policy/$(Id)/config"; aws=aws)
-GetOriginRequestPolicyConfig2020_05_31(Id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/origin-request-policy/$(Id)/config", args; aws=aws)
+
+GetOriginRequestPolicyConfig2020_05_31(Id; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/origin-request-policy/$(Id)/config"; aws_config=aws_config)
+GetOriginRequestPolicyConfig2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/origin-request-policy/$(Id)/config", args; aws_config=aws_config)
 
 """
     GetPublicKey2020_05_31()
@@ -415,8 +447,9 @@ Get the public key information.
 - `Id`: Request the ID for the public key.
 
 """
-GetPublicKey2020_05_31(Id; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/public-key/$(Id)"; aws=aws)
-GetPublicKey2020_05_31(Id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/public-key/$(Id)", args; aws=aws)
+
+GetPublicKey2020_05_31(Id; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/public-key/$(Id)"; aws_config=aws_config)
+GetPublicKey2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/public-key/$(Id)", args; aws_config=aws_config)
 
 """
     GetPublicKeyConfig2020_05_31()
@@ -427,8 +460,9 @@ Return public key configuration informaation
 - `Id`: Request the ID for the public key configuration.
 
 """
-GetPublicKeyConfig2020_05_31(Id; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/public-key/$(Id)/config"; aws=aws)
-GetPublicKeyConfig2020_05_31(Id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/public-key/$(Id)/config", args; aws=aws)
+
+GetPublicKeyConfig2020_05_31(Id; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/public-key/$(Id)/config"; aws_config=aws_config)
+GetPublicKeyConfig2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/public-key/$(Id)/config", args; aws_config=aws_config)
 
 """
     GetStreamingDistribution2020_05_31()
@@ -439,8 +473,9 @@ Gets information about a specified RTMP distribution, including the distribution
 - `Id`: The streaming distribution's ID.
 
 """
-GetStreamingDistribution2020_05_31(Id; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/streaming-distribution/$(Id)"; aws=aws)
-GetStreamingDistribution2020_05_31(Id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/streaming-distribution/$(Id)", args; aws=aws)
+
+GetStreamingDistribution2020_05_31(Id; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/streaming-distribution/$(Id)"; aws_config=aws_config)
+GetStreamingDistribution2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/streaming-distribution/$(Id)", args; aws_config=aws_config)
 
 """
     GetStreamingDistributionConfig2020_05_31()
@@ -451,8 +486,9 @@ Get the configuration information about a streaming distribution.
 - `Id`: The streaming distribution's ID.
 
 """
-GetStreamingDistributionConfig2020_05_31(Id; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/streaming-distribution/$(Id)/config"; aws=aws)
-GetStreamingDistributionConfig2020_05_31(Id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/streaming-distribution/$(Id)/config", args; aws=aws)
+
+GetStreamingDistributionConfig2020_05_31(Id; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/streaming-distribution/$(Id)/config"; aws_config=aws_config)
+GetStreamingDistributionConfig2020_05_31(Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/streaming-distribution/$(Id)/config", args; aws_config=aws_config)
 
 """
     ListCachePolicies2020_05_31()
@@ -464,8 +500,9 @@ Gets a list of cache policies. You can optionally apply a filter to return only 
 - `MaxItems`: The maximum number of cache policies that you want in the response.
 - `Type`: A filter to return only the specified kinds of cache policies. Valid values are:    managed – Returns only the managed policies created by AWS.    custom – Returns only the custom policies created in your AWS account.  
 """
-ListCachePolicies2020_05_31(; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/cache-policy"; aws=aws)
-ListCachePolicies2020_05_31(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/cache-policy", args; aws=aws)
+
+ListCachePolicies2020_05_31(; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/cache-policy"; aws_config=aws_config)
+ListCachePolicies2020_05_31(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/cache-policy", args; aws_config=aws_config)
 
 """
     ListCloudFrontOriginAccessIdentities2020_05_31()
@@ -476,8 +513,9 @@ Lists origin access identities.
 - `Marker`: Use this when paginating results to indicate where to begin in your list of origin access identities. The results include identities in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last identity on that page).
 - `MaxItems`: The maximum number of origin access identities you want in the response body. 
 """
-ListCloudFrontOriginAccessIdentities2020_05_31(; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/origin-access-identity/cloudfront"; aws=aws)
-ListCloudFrontOriginAccessIdentities2020_05_31(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/origin-access-identity/cloudfront", args; aws=aws)
+
+ListCloudFrontOriginAccessIdentities2020_05_31(; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/origin-access-identity/cloudfront"; aws_config=aws_config)
+ListCloudFrontOriginAccessIdentities2020_05_31(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/origin-access-identity/cloudfront", args; aws_config=aws_config)
 
 """
     ListDistributions2020_05_31()
@@ -488,8 +526,9 @@ List CloudFront distributions.
 - `Marker`: Use this when paginating results to indicate where to begin in your list of distributions. The results include distributions in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last distribution on that page).
 - `MaxItems`: The maximum number of distributions you want in the response body.
 """
-ListDistributions2020_05_31(; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/distribution"; aws=aws)
-ListDistributions2020_05_31(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/distribution", args; aws=aws)
+
+ListDistributions2020_05_31(; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/distribution"; aws_config=aws_config)
+ListDistributions2020_05_31(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/distribution", args; aws_config=aws_config)
 
 """
     ListDistributionsByCachePolicyId2020_05_31()
@@ -503,8 +542,9 @@ Gets a list of distribution IDs for distributions that have a cache behavior tha
 - `Marker`: Use this field when paginating results to indicate where to begin in your list of distribution IDs. The response includes distribution IDs in the list that occur after the marker. To get the next page of the list, set this field’s value to the value of NextMarker from the current page’s response.
 - `MaxItems`: The maximum number of distribution IDs that you want in the response.
 """
-ListDistributionsByCachePolicyId2020_05_31(CachePolicyId; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/distributionsByCachePolicyId/$(CachePolicyId)"; aws=aws)
-ListDistributionsByCachePolicyId2020_05_31(CachePolicyId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/distributionsByCachePolicyId/$(CachePolicyId)", args; aws=aws)
+
+ListDistributionsByCachePolicyId2020_05_31(CachePolicyId; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/distributionsByCachePolicyId/$(CachePolicyId)"; aws_config=aws_config)
+ListDistributionsByCachePolicyId2020_05_31(CachePolicyId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/distributionsByCachePolicyId/$(CachePolicyId)", args; aws_config=aws_config)
 
 """
     ListDistributionsByOriginRequestPolicyId2020_05_31()
@@ -518,8 +558,9 @@ Gets a list of distribution IDs for distributions that have a cache behavior tha
 - `Marker`: Use this field when paginating results to indicate where to begin in your list of distribution IDs. The response includes distribution IDs in the list that occur after the marker. To get the next page of the list, set this field’s value to the value of NextMarker from the current page’s response.
 - `MaxItems`: The maximum number of distribution IDs that you want in the response.
 """
-ListDistributionsByOriginRequestPolicyId2020_05_31(OriginRequestPolicyId; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/distributionsByOriginRequestPolicyId/$(OriginRequestPolicyId)"; aws=aws)
-ListDistributionsByOriginRequestPolicyId2020_05_31(OriginRequestPolicyId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/distributionsByOriginRequestPolicyId/$(OriginRequestPolicyId)", args; aws=aws)
+
+ListDistributionsByOriginRequestPolicyId2020_05_31(OriginRequestPolicyId; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/distributionsByOriginRequestPolicyId/$(OriginRequestPolicyId)"; aws_config=aws_config)
+ListDistributionsByOriginRequestPolicyId2020_05_31(OriginRequestPolicyId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/distributionsByOriginRequestPolicyId/$(OriginRequestPolicyId)", args; aws_config=aws_config)
 
 """
     ListDistributionsByWebACLId2020_05_31()
@@ -533,8 +574,9 @@ List the distributions that are associated with a specified AWS WAF web ACL.
 - `Marker`: Use Marker and MaxItems to control pagination of results. If you have more than MaxItems distributions that satisfy the request, the response includes a NextMarker element. To get the next page of results, submit another request. For the value of Marker, specify the value of NextMarker from the last response. (For the first request, omit Marker.) 
 - `MaxItems`: The maximum number of distributions that you want CloudFront to return in the response body. The maximum and default values are both 100.
 """
-ListDistributionsByWebACLId2020_05_31(WebACLId; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/distributionsByWebACLId/$(WebACLId)"; aws=aws)
-ListDistributionsByWebACLId2020_05_31(WebACLId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/distributionsByWebACLId/$(WebACLId)", args; aws=aws)
+
+ListDistributionsByWebACLId2020_05_31(WebACLId; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/distributionsByWebACLId/$(WebACLId)"; aws_config=aws_config)
+ListDistributionsByWebACLId2020_05_31(WebACLId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/distributionsByWebACLId/$(WebACLId)", args; aws_config=aws_config)
 
 """
     ListFieldLevelEncryptionConfigs2020_05_31()
@@ -545,8 +587,9 @@ List all field-level encryption configurations that have been created in CloudFr
 - `Marker`: Use this when paginating results to indicate where to begin in your list of configurations. The results include configurations in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last configuration on that page). 
 - `MaxItems`: The maximum number of field-level encryption configurations you want in the response body. 
 """
-ListFieldLevelEncryptionConfigs2020_05_31(; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/field-level-encryption"; aws=aws)
-ListFieldLevelEncryptionConfigs2020_05_31(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/field-level-encryption", args; aws=aws)
+
+ListFieldLevelEncryptionConfigs2020_05_31(; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/field-level-encryption"; aws_config=aws_config)
+ListFieldLevelEncryptionConfigs2020_05_31(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/field-level-encryption", args; aws_config=aws_config)
 
 """
     ListFieldLevelEncryptionProfiles2020_05_31()
@@ -557,8 +600,9 @@ Request a list of field-level encryption profiles that have been created in Clou
 - `Marker`: Use this when paginating results to indicate where to begin in your list of profiles. The results include profiles in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last profile on that page). 
 - `MaxItems`: The maximum number of field-level encryption profiles you want in the response body. 
 """
-ListFieldLevelEncryptionProfiles2020_05_31(; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/field-level-encryption-profile"; aws=aws)
-ListFieldLevelEncryptionProfiles2020_05_31(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/field-level-encryption-profile", args; aws=aws)
+
+ListFieldLevelEncryptionProfiles2020_05_31(; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/field-level-encryption-profile"; aws_config=aws_config)
+ListFieldLevelEncryptionProfiles2020_05_31(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/field-level-encryption-profile", args; aws_config=aws_config)
 
 """
     ListInvalidations2020_05_31()
@@ -572,8 +616,9 @@ Lists invalidation batches.
 - `Marker`: Use this parameter when paginating results to indicate where to begin in your list of invalidation batches. Because the results are returned in decreasing order from most recent to oldest, the most recent results are on the first page, the second page will contain earlier results, and so on. To get the next page of results, set Marker to the value of the NextMarker from the current page's response. This value is the same as the ID of the last invalidation batch on that page. 
 - `MaxItems`: The maximum number of invalidation batches that you want in the response body.
 """
-ListInvalidations2020_05_31(DistributionId; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/distribution/$(DistributionId)/invalidation"; aws=aws)
-ListInvalidations2020_05_31(DistributionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/distribution/$(DistributionId)/invalidation", args; aws=aws)
+
+ListInvalidations2020_05_31(DistributionId; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/distribution/$(DistributionId)/invalidation"; aws_config=aws_config)
+ListInvalidations2020_05_31(DistributionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/distribution/$(DistributionId)/invalidation", args; aws_config=aws_config)
 
 """
     ListOriginRequestPolicies2020_05_31()
@@ -585,8 +630,9 @@ Gets a list of origin request policies. You can optionally apply a filter to ret
 - `MaxItems`: The maximum number of origin request policies that you want in the response.
 - `Type`: A filter to return only the specified kinds of origin request policies. Valid values are:    managed – Returns only the managed policies created by AWS.    custom – Returns only the custom policies created in your AWS account.  
 """
-ListOriginRequestPolicies2020_05_31(; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/origin-request-policy"; aws=aws)
-ListOriginRequestPolicies2020_05_31(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/origin-request-policy", args; aws=aws)
+
+ListOriginRequestPolicies2020_05_31(; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/origin-request-policy"; aws_config=aws_config)
+ListOriginRequestPolicies2020_05_31(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/origin-request-policy", args; aws_config=aws_config)
 
 """
     ListPublicKeys2020_05_31()
@@ -597,8 +643,9 @@ List all public keys that have been added to CloudFront for this account.
 - `Marker`: Use this when paginating results to indicate where to begin in your list of public keys. The results include public keys in the list that occur after the marker. To get the next page of results, set the Marker to the value of the NextMarker from the current page's response (which is also the ID of the last public key on that page). 
 - `MaxItems`: The maximum number of public keys you want in the response body. 
 """
-ListPublicKeys2020_05_31(; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/public-key"; aws=aws)
-ListPublicKeys2020_05_31(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/public-key", args; aws=aws)
+
+ListPublicKeys2020_05_31(; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/public-key"; aws_config=aws_config)
+ListPublicKeys2020_05_31(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/public-key", args; aws_config=aws_config)
 
 """
     ListStreamingDistributions2020_05_31()
@@ -609,8 +656,9 @@ List streaming distributions.
 - `Marker`: The value that you provided for the Marker request parameter.
 - `MaxItems`: The value that you provided for the MaxItems request parameter.
 """
-ListStreamingDistributions2020_05_31(; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/streaming-distribution"; aws=aws)
-ListStreamingDistributions2020_05_31(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/streaming-distribution", args; aws=aws)
+
+ListStreamingDistributions2020_05_31(; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/streaming-distribution"; aws_config=aws_config)
+ListStreamingDistributions2020_05_31(args::AbstractDict{String, Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/streaming-distribution", args; aws_config=aws_config)
 
 """
     ListTagsForResource2020_05_31()
@@ -621,8 +669,9 @@ List tags for a CloudFront resource.
 - `Resource`:  An ARN of a CloudFront resource.
 
 """
-ListTagsForResource2020_05_31(Resource; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/tagging", Dict{String, Any}("Resource"=>Resource); aws=aws)
-ListTagsForResource2020_05_31(Resource, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource), args)); aws=aws)
+
+ListTagsForResource2020_05_31(Resource; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/tagging", Dict{String, Any}("Resource"=>Resource); aws_config=aws_config)
+ListTagsForResource2020_05_31(Resource, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("GET", "/2020-05-31/tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource), args)); aws_config=aws_config)
 
 """
     TagResource2020_05_31()
@@ -634,8 +683,9 @@ Add tags to a CloudFront resource.
 - `Tags`:  A complex type that contains zero or more Tag elements.
 
 """
-TagResource2020_05_31(Resource, Tags; aws::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/tagging?Operation=Tag", Dict{String, Any}("Resource"=>Resource, "Tags"=>Tags); aws=aws)
-TagResource2020_05_31(Resource, Tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/tagging?Operation=Tag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource, "Tags"=>Tags), args)); aws=aws)
+
+TagResource2020_05_31(Resource, Tags; aws_config::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/tagging?Operation=Tag", Dict{String, Any}("Resource"=>Resource, "Tags"=>Tags); aws_config=aws_config)
+TagResource2020_05_31(Resource, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/tagging?Operation=Tag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource, "Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     UntagResource2020_05_31()
@@ -647,8 +697,9 @@ Remove tags from a CloudFront resource.
 - `TagKeys`:  A complex type that contains zero or more Tag key elements.
 
 """
-UntagResource2020_05_31(Resource, TagKeys; aws::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/tagging?Operation=Untag", Dict{String, Any}("Resource"=>Resource, "TagKeys"=>TagKeys); aws=aws)
-UntagResource2020_05_31(Resource, TagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/tagging?Operation=Untag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource, "TagKeys"=>TagKeys), args)); aws=aws)
+
+UntagResource2020_05_31(Resource, TagKeys; aws_config::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/tagging?Operation=Untag", Dict{String, Any}("Resource"=>Resource, "TagKeys"=>TagKeys); aws_config=aws_config)
+UntagResource2020_05_31(Resource, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("POST", "/2020-05-31/tagging?Operation=Untag", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Resource"=>Resource, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
 
 """
     UpdateCachePolicy2020_05_31()
@@ -662,8 +713,9 @@ Updates a cache policy configuration. When you update a cache policy configurati
 # Optional Parameters
 - `If-Match`: The version of the cache policy that you are updating. The version is returned in the cache policy’s ETag field in the response to GetCachePolicyConfig.
 """
-UpdateCachePolicy2020_05_31(CachePolicyConfig, Id; aws::AWSConfig=AWS.aws_config) = cloudfront("PUT", "/2020-05-31/cache-policy/$(Id)", Dict{String, Any}("CachePolicyConfig"=>CachePolicyConfig); aws=aws)
-UpdateCachePolicy2020_05_31(CachePolicyConfig, Id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("PUT", "/2020-05-31/cache-policy/$(Id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CachePolicyConfig"=>CachePolicyConfig), args)); aws=aws)
+
+UpdateCachePolicy2020_05_31(CachePolicyConfig, Id; aws_config::AWSConfig=AWS.aws_config) = cloudfront("PUT", "/2020-05-31/cache-policy/$(Id)", Dict{String, Any}("CachePolicyConfig"=>CachePolicyConfig); aws_config=aws_config)
+UpdateCachePolicy2020_05_31(CachePolicyConfig, Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("PUT", "/2020-05-31/cache-policy/$(Id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CachePolicyConfig"=>CachePolicyConfig), args)); aws_config=aws_config)
 
 """
     UpdateCloudFrontOriginAccessIdentity2020_05_31()
@@ -677,8 +729,9 @@ Update an origin access identity.
 # Optional Parameters
 - `If-Match`: The value of the ETag header that you received when retrieving the identity's configuration. For example: E2QWRUHAPOMQZL.
 """
-UpdateCloudFrontOriginAccessIdentity2020_05_31(CloudFrontOriginAccessIdentityConfig, Id; aws::AWSConfig=AWS.aws_config) = cloudfront("PUT", "/2020-05-31/origin-access-identity/cloudfront/$(Id)/config", Dict{String, Any}("CloudFrontOriginAccessIdentityConfig"=>CloudFrontOriginAccessIdentityConfig); aws=aws)
-UpdateCloudFrontOriginAccessIdentity2020_05_31(CloudFrontOriginAccessIdentityConfig, Id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("PUT", "/2020-05-31/origin-access-identity/cloudfront/$(Id)/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CloudFrontOriginAccessIdentityConfig"=>CloudFrontOriginAccessIdentityConfig), args)); aws=aws)
+
+UpdateCloudFrontOriginAccessIdentity2020_05_31(CloudFrontOriginAccessIdentityConfig, Id; aws_config::AWSConfig=AWS.aws_config) = cloudfront("PUT", "/2020-05-31/origin-access-identity/cloudfront/$(Id)/config", Dict{String, Any}("CloudFrontOriginAccessIdentityConfig"=>CloudFrontOriginAccessIdentityConfig); aws_config=aws_config)
+UpdateCloudFrontOriginAccessIdentity2020_05_31(CloudFrontOriginAccessIdentityConfig, Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("PUT", "/2020-05-31/origin-access-identity/cloudfront/$(Id)/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CloudFrontOriginAccessIdentityConfig"=>CloudFrontOriginAccessIdentityConfig), args)); aws_config=aws_config)
 
 """
     UpdateDistribution2020_05_31()
@@ -692,8 +745,9 @@ Updates the configuration for a web distribution.   When you update a distributi
 # Optional Parameters
 - `If-Match`: The value of the ETag header that you received when retrieving the distribution's configuration. For example: E2QWRUHAPOMQZL.
 """
-UpdateDistribution2020_05_31(DistributionConfig, Id; aws::AWSConfig=AWS.aws_config) = cloudfront("PUT", "/2020-05-31/distribution/$(Id)/config", Dict{String, Any}("DistributionConfig"=>DistributionConfig); aws=aws)
-UpdateDistribution2020_05_31(DistributionConfig, Id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("PUT", "/2020-05-31/distribution/$(Id)/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DistributionConfig"=>DistributionConfig), args)); aws=aws)
+
+UpdateDistribution2020_05_31(DistributionConfig, Id; aws_config::AWSConfig=AWS.aws_config) = cloudfront("PUT", "/2020-05-31/distribution/$(Id)/config", Dict{String, Any}("DistributionConfig"=>DistributionConfig); aws_config=aws_config)
+UpdateDistribution2020_05_31(DistributionConfig, Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("PUT", "/2020-05-31/distribution/$(Id)/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DistributionConfig"=>DistributionConfig), args)); aws_config=aws_config)
 
 """
     UpdateFieldLevelEncryptionConfig2020_05_31()
@@ -707,8 +761,9 @@ Update a field-level encryption configuration.
 # Optional Parameters
 - `If-Match`: The value of the ETag header that you received when retrieving the configuration identity to update. For example: E2QWRUHAPOMQZL.
 """
-UpdateFieldLevelEncryptionConfig2020_05_31(FieldLevelEncryptionConfig, Id; aws::AWSConfig=AWS.aws_config) = cloudfront("PUT", "/2020-05-31/field-level-encryption/$(Id)/config", Dict{String, Any}("FieldLevelEncryptionConfig"=>FieldLevelEncryptionConfig); aws=aws)
-UpdateFieldLevelEncryptionConfig2020_05_31(FieldLevelEncryptionConfig, Id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("PUT", "/2020-05-31/field-level-encryption/$(Id)/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FieldLevelEncryptionConfig"=>FieldLevelEncryptionConfig), args)); aws=aws)
+
+UpdateFieldLevelEncryptionConfig2020_05_31(FieldLevelEncryptionConfig, Id; aws_config::AWSConfig=AWS.aws_config) = cloudfront("PUT", "/2020-05-31/field-level-encryption/$(Id)/config", Dict{String, Any}("FieldLevelEncryptionConfig"=>FieldLevelEncryptionConfig); aws_config=aws_config)
+UpdateFieldLevelEncryptionConfig2020_05_31(FieldLevelEncryptionConfig, Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("PUT", "/2020-05-31/field-level-encryption/$(Id)/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FieldLevelEncryptionConfig"=>FieldLevelEncryptionConfig), args)); aws_config=aws_config)
 
 """
     UpdateFieldLevelEncryptionProfile2020_05_31()
@@ -722,8 +777,9 @@ Update a field-level encryption profile.
 # Optional Parameters
 - `If-Match`: The value of the ETag header that you received when retrieving the profile identity to update. For example: E2QWRUHAPOMQZL.
 """
-UpdateFieldLevelEncryptionProfile2020_05_31(FieldLevelEncryptionProfileConfig, Id; aws::AWSConfig=AWS.aws_config) = cloudfront("PUT", "/2020-05-31/field-level-encryption-profile/$(Id)/config", Dict{String, Any}("FieldLevelEncryptionProfileConfig"=>FieldLevelEncryptionProfileConfig); aws=aws)
-UpdateFieldLevelEncryptionProfile2020_05_31(FieldLevelEncryptionProfileConfig, Id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("PUT", "/2020-05-31/field-level-encryption-profile/$(Id)/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FieldLevelEncryptionProfileConfig"=>FieldLevelEncryptionProfileConfig), args)); aws=aws)
+
+UpdateFieldLevelEncryptionProfile2020_05_31(FieldLevelEncryptionProfileConfig, Id; aws_config::AWSConfig=AWS.aws_config) = cloudfront("PUT", "/2020-05-31/field-level-encryption-profile/$(Id)/config", Dict{String, Any}("FieldLevelEncryptionProfileConfig"=>FieldLevelEncryptionProfileConfig); aws_config=aws_config)
+UpdateFieldLevelEncryptionProfile2020_05_31(FieldLevelEncryptionProfileConfig, Id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("PUT", "/2020-05-31/field-level-encryption-profile/$(Id)/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("FieldLevelEncryptionProfileConfig"=>FieldLevelEncryptionProfileConfig), args)); aws_config=aws_config)
 
 """
     UpdateOriginRequestPolicy2020_05_31()
@@ -737,8 +793,9 @@ Updates an origin request policy configuration. When you update an origin reques
 # Optional Parameters
 - `If-Match`: The version of the origin request policy that you are updating. The version is returned in the origin request policy’s ETag field in the response to GetOriginRequestPolicyConfig.
 """
-UpdateOriginRequestPolicy2020_05_31(Id, OriginRequestPolicyConfig; aws::AWSConfig=AWS.aws_config) = cloudfront("PUT", "/2020-05-31/origin-request-policy/$(Id)", Dict{String, Any}("OriginRequestPolicyConfig"=>OriginRequestPolicyConfig); aws=aws)
-UpdateOriginRequestPolicy2020_05_31(Id, OriginRequestPolicyConfig, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("PUT", "/2020-05-31/origin-request-policy/$(Id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OriginRequestPolicyConfig"=>OriginRequestPolicyConfig), args)); aws=aws)
+
+UpdateOriginRequestPolicy2020_05_31(Id, OriginRequestPolicyConfig; aws_config::AWSConfig=AWS.aws_config) = cloudfront("PUT", "/2020-05-31/origin-request-policy/$(Id)", Dict{String, Any}("OriginRequestPolicyConfig"=>OriginRequestPolicyConfig); aws_config=aws_config)
+UpdateOriginRequestPolicy2020_05_31(Id, OriginRequestPolicyConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("PUT", "/2020-05-31/origin-request-policy/$(Id)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OriginRequestPolicyConfig"=>OriginRequestPolicyConfig), args)); aws_config=aws_config)
 
 """
     UpdatePublicKey2020_05_31()
@@ -752,8 +809,9 @@ Update public key information. Note that the only value you can change is the co
 # Optional Parameters
 - `If-Match`: The value of the ETag header that you received when retrieving the public key to update. For example: E2QWRUHAPOMQZL.
 """
-UpdatePublicKey2020_05_31(Id, PublicKeyConfig; aws::AWSConfig=AWS.aws_config) = cloudfront("PUT", "/2020-05-31/public-key/$(Id)/config", Dict{String, Any}("PublicKeyConfig"=>PublicKeyConfig); aws=aws)
-UpdatePublicKey2020_05_31(Id, PublicKeyConfig, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("PUT", "/2020-05-31/public-key/$(Id)/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PublicKeyConfig"=>PublicKeyConfig), args)); aws=aws)
+
+UpdatePublicKey2020_05_31(Id, PublicKeyConfig; aws_config::AWSConfig=AWS.aws_config) = cloudfront("PUT", "/2020-05-31/public-key/$(Id)/config", Dict{String, Any}("PublicKeyConfig"=>PublicKeyConfig); aws_config=aws_config)
+UpdatePublicKey2020_05_31(Id, PublicKeyConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("PUT", "/2020-05-31/public-key/$(Id)/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PublicKeyConfig"=>PublicKeyConfig), args)); aws_config=aws_config)
 
 """
     UpdateStreamingDistribution2020_05_31()
@@ -767,5 +825,6 @@ Update a streaming distribution.
 # Optional Parameters
 - `If-Match`: The value of the ETag header that you received when retrieving the streaming distribution's configuration. For example: E2QWRUHAPOMQZL.
 """
-UpdateStreamingDistribution2020_05_31(Id, StreamingDistributionConfig; aws::AWSConfig=AWS.aws_config) = cloudfront("PUT", "/2020-05-31/streaming-distribution/$(Id)/config", Dict{String, Any}("StreamingDistributionConfig"=>StreamingDistributionConfig); aws=aws)
-UpdateStreamingDistribution2020_05_31(Id, StreamingDistributionConfig, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = cloudfront("PUT", "/2020-05-31/streaming-distribution/$(Id)/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamingDistributionConfig"=>StreamingDistributionConfig), args)); aws=aws)
+
+UpdateStreamingDistribution2020_05_31(Id, StreamingDistributionConfig; aws_config::AWSConfig=AWS.aws_config) = cloudfront("PUT", "/2020-05-31/streaming-distribution/$(Id)/config", Dict{String, Any}("StreamingDistributionConfig"=>StreamingDistributionConfig); aws_config=aws_config)
+UpdateStreamingDistribution2020_05_31(Id, StreamingDistributionConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=AWS.aws_config) = cloudfront("PUT", "/2020-05-31/streaming-distribution/$(Id)/config", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("StreamingDistributionConfig"=>StreamingDistributionConfig), args)); aws_config=aws_config)
