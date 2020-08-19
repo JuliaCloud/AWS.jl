@@ -486,7 +486,7 @@ Perform a RestXML request to AWS.
 """
 function (service::RestXMLService)(
     request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, String}(); 
-    aws::AWSConfig=aws_config
+    aws_config::AWSConfig=aws_config
 )
     request = Request(
         service=service.name,
@@ -519,9 +519,9 @@ function (service::RestXMLService)(
         end
     end
 
-    request.url = _generate_service_url(aws.region, request.service, request.resource)
+    request.url = _generate_service_url(aws_config.region, request.service, request.resource)
 
-    return do_request(aws, request; return_headers=return_headers)
+    return do_request(aws_config, request; return_headers=return_headers)
 end
 
 
@@ -545,7 +545,7 @@ Perform a Query request to AWS.
 """
 function (service::QueryService)(
     operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}(); 
-    aws::AWSConfig=aws_config
+    aws_config::AWSConfig=aws_config
 )
     POST_RESOURCE = "/"
     return_headers = _return_headers(args)
@@ -556,7 +556,7 @@ function (service::QueryService)(
         resource=POST_RESOURCE,
         request_method="POST",
         headers=LittleDict{String, String}(get(args, "headers", [])),
-        url=_generate_service_url(aws.region, service.name, POST_RESOURCE),
+        url=_generate_service_url(aws_config.region, service.name, POST_RESOURCE),
         return_stream=get(args, "return_stream", false),
         http_options=get(args, "http_options", []),
         response_stream=get(args, "response_stream", nothing),
@@ -569,7 +569,7 @@ function (service::QueryService)(
     args["Version"] = service.api_version
     request.content = HTTP.escapeuri(_flatten_query(service.name, args))
 
-    do_request(aws, request; return_headers=return_headers)
+    do_request(aws_config, request; return_headers=return_headers)
 end
 
 """
@@ -592,7 +592,7 @@ Perform a JSON request to AWS.
 """
 function (service::JSONService)(
     operation::String, args::AbstractDict{String, <:Any}=Dict{String, Any}();
-    aws::AWSConfig=aws_config
+    aws_config::AWSConfig=aws_config
 )
     POST_RESOURCE = "/"
     return_headers = _return_headers(args)
@@ -604,7 +604,7 @@ function (service::JSONService)(
         request_method="POST",
         headers=LittleDict{String, String}(get(args, "headers", [])),
         content=json(args),
-        url=_generate_service_url(aws.region, service.name, POST_RESOURCE),
+        url=_generate_service_url(aws_config.region, service.name, POST_RESOURCE),
         return_stream=get(args, "return_stream", false),
         http_options=get(args, "http_options", []),
         response_stream=get(args, "response_stream", nothing),
@@ -614,7 +614,7 @@ function (service::JSONService)(
     request.headers["Content-Type"] = "application/x-amz-json-$(service.json_version)"
     request.headers["X-Amz-Target"] = "$(service.target).$(operation)"
 
-    do_request(aws, request; return_headers=return_headers)
+    do_request(aws_config, request; return_headers=return_headers)
 end
 
 """
@@ -638,7 +638,7 @@ Perform a RestJSON request to AWS.
 """
 function (service::RestJSONService)(
     request_method::String, request_uri::String, args::AbstractDict{String, <:Any}=Dict{String, String}();
-    aws::AWSConfig=aws_config
+    aws_config::AWSConfig=aws_config
 )
     return_headers = _return_headers(args)
 
@@ -658,7 +658,7 @@ function (service::RestJSONService)(
         request.response_dict_type = args["response_dict_type"]
     end
 
-    request.url = _generate_service_url(aws.region, request.service, request.resource)
+    request.url = _generate_service_url(aws_config.region, request.service, request.resource)
 
     if !isempty(service.service_specific_headers)
         merge!(request.headers, service.service_specific_headers)
@@ -668,7 +668,7 @@ function (service::RestJSONService)(
     delete!(args, "headers")
     request.content = json(args)
 
-    do_request(aws, request; return_headers=return_headers)
+    do_request(aws_config, request; return_headers=return_headers)
 end
 
 end  # module AWS
