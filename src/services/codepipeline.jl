@@ -14,8 +14,9 @@ Returns information about a specified job and whether that job has been received
 - `nonce`: A system-generated random number that AWS CodePipeline uses to ensure that the job is being worked on by only one job worker. Get this number from the response of the PollForJobs request that returned this job.
 
 """
-AcknowledgeJob(jobId, nonce; aws::AWSConfig=AWS.aws_config) = codepipeline("AcknowledgeJob", Dict{String, Any}("jobId"=>jobId, "nonce"=>nonce); aws=aws)
-AcknowledgeJob(jobId, nonce, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codepipeline("AcknowledgeJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobId"=>jobId, "nonce"=>nonce), args)); aws=aws)
+
+AcknowledgeJob(jobId, nonce; aws_config::AWSConfig=global_aws_config()) = codepipeline("AcknowledgeJob", Dict{String, Any}("jobId"=>jobId, "nonce"=>nonce); aws_config=aws_config)
+AcknowledgeJob(jobId, nonce, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codepipeline("AcknowledgeJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobId"=>jobId, "nonce"=>nonce), args)); aws_config=aws_config)
 
 """
     AcknowledgeThirdPartyJob()
@@ -28,8 +29,9 @@ Confirms a job worker has received the specified job. Used for partner actions o
 - `nonce`: A system-generated random number that AWS CodePipeline uses to ensure that the job is being worked on by only one job worker. Get this number from the response to a GetThirdPartyJobDetails request.
 
 """
-AcknowledgeThirdPartyJob(clientToken, jobId, nonce; aws::AWSConfig=AWS.aws_config) = codepipeline("AcknowledgeThirdPartyJob", Dict{String, Any}("clientToken"=>clientToken, "jobId"=>jobId, "nonce"=>nonce); aws=aws)
-AcknowledgeThirdPartyJob(clientToken, jobId, nonce, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codepipeline("AcknowledgeThirdPartyJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "jobId"=>jobId, "nonce"=>nonce), args)); aws=aws)
+
+AcknowledgeThirdPartyJob(clientToken, jobId, nonce; aws_config::AWSConfig=global_aws_config()) = codepipeline("AcknowledgeThirdPartyJob", Dict{String, Any}("clientToken"=>clientToken, "jobId"=>jobId, "nonce"=>nonce); aws_config=aws_config)
+AcknowledgeThirdPartyJob(clientToken, jobId, nonce, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codepipeline("AcknowledgeThirdPartyJob", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "jobId"=>jobId, "nonce"=>nonce), args)); aws_config=aws_config)
 
 """
     CreateCustomActionType()
@@ -48,8 +50,9 @@ Creates a new custom action that can be used in all pipelines associated with th
 - `settings`: URLs that provide users information about this custom action.
 - `tags`: The tags for the custom action.
 """
-CreateCustomActionType(category, inputArtifactDetails, outputArtifactDetails, provider, version; aws::AWSConfig=AWS.aws_config) = codepipeline("CreateCustomActionType", Dict{String, Any}("category"=>category, "inputArtifactDetails"=>inputArtifactDetails, "outputArtifactDetails"=>outputArtifactDetails, "provider"=>provider, "version"=>version); aws=aws)
-CreateCustomActionType(category, inputArtifactDetails, outputArtifactDetails, provider, version, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codepipeline("CreateCustomActionType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("category"=>category, "inputArtifactDetails"=>inputArtifactDetails, "outputArtifactDetails"=>outputArtifactDetails, "provider"=>provider, "version"=>version), args)); aws=aws)
+
+CreateCustomActionType(category, inputArtifactDetails, outputArtifactDetails, provider, version; aws_config::AWSConfig=global_aws_config()) = codepipeline("CreateCustomActionType", Dict{String, Any}("category"=>category, "inputArtifactDetails"=>inputArtifactDetails, "outputArtifactDetails"=>outputArtifactDetails, "provider"=>provider, "version"=>version); aws_config=aws_config)
+CreateCustomActionType(category, inputArtifactDetails, outputArtifactDetails, provider, version, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codepipeline("CreateCustomActionType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("category"=>category, "inputArtifactDetails"=>inputArtifactDetails, "outputArtifactDetails"=>outputArtifactDetails, "provider"=>provider, "version"=>version), args)); aws_config=aws_config)
 
 """
     CreatePipeline()
@@ -62,8 +65,9 @@ Creates a pipeline.  In the pipeline structure, you must include either artifact
 # Optional Parameters
 - `tags`: The tags for the pipeline.
 """
-CreatePipeline(pipeline; aws::AWSConfig=AWS.aws_config) = codepipeline("CreatePipeline", Dict{String, Any}("pipeline"=>pipeline); aws=aws)
-CreatePipeline(pipeline, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codepipeline("CreatePipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipeline"=>pipeline), args)); aws=aws)
+
+CreatePipeline(pipeline; aws_config::AWSConfig=global_aws_config()) = codepipeline("CreatePipeline", Dict{String, Any}("pipeline"=>pipeline); aws_config=aws_config)
+CreatePipeline(pipeline, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codepipeline("CreatePipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipeline"=>pipeline), args)); aws_config=aws_config)
 
 """
     DeleteCustomActionType()
@@ -76,8 +80,9 @@ Marks a custom action as deleted. PollForJobs for the custom action fails after 
 - `version`: The version of the custom action to delete.
 
 """
-DeleteCustomActionType(category, provider, version; aws::AWSConfig=AWS.aws_config) = codepipeline("DeleteCustomActionType", Dict{String, Any}("category"=>category, "provider"=>provider, "version"=>version); aws=aws)
-DeleteCustomActionType(category, provider, version, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codepipeline("DeleteCustomActionType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("category"=>category, "provider"=>provider, "version"=>version), args)); aws=aws)
+
+DeleteCustomActionType(category, provider, version; aws_config::AWSConfig=global_aws_config()) = codepipeline("DeleteCustomActionType", Dict{String, Any}("category"=>category, "provider"=>provider, "version"=>version); aws_config=aws_config)
+DeleteCustomActionType(category, provider, version, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codepipeline("DeleteCustomActionType", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("category"=>category, "provider"=>provider, "version"=>version), args)); aws_config=aws_config)
 
 """
     DeletePipeline()
@@ -88,8 +93,9 @@ Deletes the specified pipeline.
 - `name`: The name of the pipeline to be deleted.
 
 """
-DeletePipeline(name; aws::AWSConfig=AWS.aws_config) = codepipeline("DeletePipeline", Dict{String, Any}("name"=>name); aws=aws)
-DeletePipeline(name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codepipeline("DeletePipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws=aws)
+
+DeletePipeline(name; aws_config::AWSConfig=global_aws_config()) = codepipeline("DeletePipeline", Dict{String, Any}("name"=>name); aws_config=aws_config)
+DeletePipeline(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codepipeline("DeletePipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws_config=aws_config)
 
 """
     DeleteWebhook()
@@ -100,8 +106,9 @@ Deletes a previously created webhook by name. Deleting the webhook stops AWS Cod
 - `name`: The name of the webhook you want to delete.
 
 """
-DeleteWebhook(name; aws::AWSConfig=AWS.aws_config) = codepipeline("DeleteWebhook", Dict{String, Any}("name"=>name); aws=aws)
-DeleteWebhook(name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codepipeline("DeleteWebhook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws=aws)
+
+DeleteWebhook(name; aws_config::AWSConfig=global_aws_config()) = codepipeline("DeleteWebhook", Dict{String, Any}("name"=>name); aws_config=aws_config)
+DeleteWebhook(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codepipeline("DeleteWebhook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws_config=aws_config)
 
 """
     DeregisterWebhookWithThirdParty()
@@ -111,8 +118,9 @@ Removes the connection between the webhook that was created by CodePipeline and 
 # Optional Parameters
 - `webhookName`: The name of the webhook you want to deregister.
 """
-DeregisterWebhookWithThirdParty(; aws::AWSConfig=AWS.aws_config) = codepipeline("DeregisterWebhookWithThirdParty"; aws=aws)
-DeregisterWebhookWithThirdParty(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codepipeline("DeregisterWebhookWithThirdParty", args; aws=aws)
+
+DeregisterWebhookWithThirdParty(; aws_config::AWSConfig=global_aws_config()) = codepipeline("DeregisterWebhookWithThirdParty"; aws_config=aws_config)
+DeregisterWebhookWithThirdParty(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codepipeline("DeregisterWebhookWithThirdParty", args; aws_config=aws_config)
 
 """
     DisableStageTransition()
@@ -126,8 +134,9 @@ Prevents artifacts in a pipeline from transitioning to the next stage in the pip
 - `transitionType`: Specifies whether artifacts are prevented from transitioning into the stage and being processed by the actions in that stage (inbound), or prevented from transitioning from the stage after they have been processed by the actions in that stage (outbound).
 
 """
-DisableStageTransition(pipelineName, reason, stageName, transitionType; aws::AWSConfig=AWS.aws_config) = codepipeline("DisableStageTransition", Dict{String, Any}("pipelineName"=>pipelineName, "reason"=>reason, "stageName"=>stageName, "transitionType"=>transitionType); aws=aws)
-DisableStageTransition(pipelineName, reason, stageName, transitionType, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codepipeline("DisableStageTransition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineName"=>pipelineName, "reason"=>reason, "stageName"=>stageName, "transitionType"=>transitionType), args)); aws=aws)
+
+DisableStageTransition(pipelineName, reason, stageName, transitionType; aws_config::AWSConfig=global_aws_config()) = codepipeline("DisableStageTransition", Dict{String, Any}("pipelineName"=>pipelineName, "reason"=>reason, "stageName"=>stageName, "transitionType"=>transitionType); aws_config=aws_config)
+DisableStageTransition(pipelineName, reason, stageName, transitionType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codepipeline("DisableStageTransition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineName"=>pipelineName, "reason"=>reason, "stageName"=>stageName, "transitionType"=>transitionType), args)); aws_config=aws_config)
 
 """
     EnableStageTransition()
@@ -140,8 +149,9 @@ Enables artifacts in a pipeline to transition to a stage in a pipeline.
 - `transitionType`: Specifies whether artifacts are allowed to enter the stage and be processed by the actions in that stage (inbound) or whether already processed artifacts are allowed to transition to the next stage (outbound).
 
 """
-EnableStageTransition(pipelineName, stageName, transitionType; aws::AWSConfig=AWS.aws_config) = codepipeline("EnableStageTransition", Dict{String, Any}("pipelineName"=>pipelineName, "stageName"=>stageName, "transitionType"=>transitionType); aws=aws)
-EnableStageTransition(pipelineName, stageName, transitionType, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codepipeline("EnableStageTransition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineName"=>pipelineName, "stageName"=>stageName, "transitionType"=>transitionType), args)); aws=aws)
+
+EnableStageTransition(pipelineName, stageName, transitionType; aws_config::AWSConfig=global_aws_config()) = codepipeline("EnableStageTransition", Dict{String, Any}("pipelineName"=>pipelineName, "stageName"=>stageName, "transitionType"=>transitionType); aws_config=aws_config)
+EnableStageTransition(pipelineName, stageName, transitionType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codepipeline("EnableStageTransition", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineName"=>pipelineName, "stageName"=>stageName, "transitionType"=>transitionType), args)); aws_config=aws_config)
 
 """
     GetJobDetails()
@@ -152,8 +162,9 @@ Returns information about a job. Used for custom actions only.  When this API is
 - `jobId`: The unique system-generated ID for the job.
 
 """
-GetJobDetails(jobId; aws::AWSConfig=AWS.aws_config) = codepipeline("GetJobDetails", Dict{String, Any}("jobId"=>jobId); aws=aws)
-GetJobDetails(jobId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codepipeline("GetJobDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobId"=>jobId), args)); aws=aws)
+
+GetJobDetails(jobId; aws_config::AWSConfig=global_aws_config()) = codepipeline("GetJobDetails", Dict{String, Any}("jobId"=>jobId); aws_config=aws_config)
+GetJobDetails(jobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codepipeline("GetJobDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobId"=>jobId), args)); aws_config=aws_config)
 
 """
     GetPipeline()
@@ -166,8 +177,9 @@ Returns the metadata, structure, stages, and actions of a pipeline. Can be used 
 # Optional Parameters
 - `version`: The version number of the pipeline. If you do not specify a version, defaults to the current version.
 """
-GetPipeline(name; aws::AWSConfig=AWS.aws_config) = codepipeline("GetPipeline", Dict{String, Any}("name"=>name); aws=aws)
-GetPipeline(name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codepipeline("GetPipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws=aws)
+
+GetPipeline(name; aws_config::AWSConfig=global_aws_config()) = codepipeline("GetPipeline", Dict{String, Any}("name"=>name); aws_config=aws_config)
+GetPipeline(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codepipeline("GetPipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws_config=aws_config)
 
 """
     GetPipelineExecution()
@@ -179,8 +191,9 @@ Returns information about an execution of a pipeline, including details about ar
 - `pipelineName`: The name of the pipeline about which you want to get execution details.
 
 """
-GetPipelineExecution(pipelineExecutionId, pipelineName; aws::AWSConfig=AWS.aws_config) = codepipeline("GetPipelineExecution", Dict{String, Any}("pipelineExecutionId"=>pipelineExecutionId, "pipelineName"=>pipelineName); aws=aws)
-GetPipelineExecution(pipelineExecutionId, pipelineName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codepipeline("GetPipelineExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineExecutionId"=>pipelineExecutionId, "pipelineName"=>pipelineName), args)); aws=aws)
+
+GetPipelineExecution(pipelineExecutionId, pipelineName; aws_config::AWSConfig=global_aws_config()) = codepipeline("GetPipelineExecution", Dict{String, Any}("pipelineExecutionId"=>pipelineExecutionId, "pipelineName"=>pipelineName); aws_config=aws_config)
+GetPipelineExecution(pipelineExecutionId, pipelineName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codepipeline("GetPipelineExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineExecutionId"=>pipelineExecutionId, "pipelineName"=>pipelineName), args)); aws_config=aws_config)
 
 """
     GetPipelineState()
@@ -191,8 +204,9 @@ Returns information about the state of a pipeline, including the stages and acti
 - `name`: The name of the pipeline about which you want to get information.
 
 """
-GetPipelineState(name; aws::AWSConfig=AWS.aws_config) = codepipeline("GetPipelineState", Dict{String, Any}("name"=>name); aws=aws)
-GetPipelineState(name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codepipeline("GetPipelineState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws=aws)
+
+GetPipelineState(name; aws_config::AWSConfig=global_aws_config()) = codepipeline("GetPipelineState", Dict{String, Any}("name"=>name); aws_config=aws_config)
+GetPipelineState(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codepipeline("GetPipelineState", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws_config=aws_config)
 
 """
     GetThirdPartyJobDetails()
@@ -204,8 +218,9 @@ Requests the details of a job for a third party action. Used for partner actions
 - `jobId`: The unique system-generated ID used for identifying the job.
 
 """
-GetThirdPartyJobDetails(clientToken, jobId; aws::AWSConfig=AWS.aws_config) = codepipeline("GetThirdPartyJobDetails", Dict{String, Any}("clientToken"=>clientToken, "jobId"=>jobId); aws=aws)
-GetThirdPartyJobDetails(clientToken, jobId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codepipeline("GetThirdPartyJobDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "jobId"=>jobId), args)); aws=aws)
+
+GetThirdPartyJobDetails(clientToken, jobId; aws_config::AWSConfig=global_aws_config()) = codepipeline("GetThirdPartyJobDetails", Dict{String, Any}("clientToken"=>clientToken, "jobId"=>jobId); aws_config=aws_config)
+GetThirdPartyJobDetails(clientToken, jobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codepipeline("GetThirdPartyJobDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "jobId"=>jobId), args)); aws_config=aws_config)
 
 """
     ListActionExecutions()
@@ -220,8 +235,9 @@ Lists the action executions that have occurred in a pipeline.
 - `maxResults`: The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value. Action execution history is retained for up to 12 months, based on action execution start times. Default value is 100.   Detailed execution history is available for executions run on or after February 21, 2019. 
 - `nextToken`: The token that was returned from the previous ListActionExecutions call, which can be used to return the next set of action executions in the list.
 """
-ListActionExecutions(pipelineName; aws::AWSConfig=AWS.aws_config) = codepipeline("ListActionExecutions", Dict{String, Any}("pipelineName"=>pipelineName); aws=aws)
-ListActionExecutions(pipelineName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codepipeline("ListActionExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineName"=>pipelineName), args)); aws=aws)
+
+ListActionExecutions(pipelineName; aws_config::AWSConfig=global_aws_config()) = codepipeline("ListActionExecutions", Dict{String, Any}("pipelineName"=>pipelineName); aws_config=aws_config)
+ListActionExecutions(pipelineName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codepipeline("ListActionExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineName"=>pipelineName), args)); aws_config=aws_config)
 
 """
     ListActionTypes()
@@ -232,8 +248,9 @@ Gets a summary of all AWS CodePipeline action types associated with your account
 - `actionOwnerFilter`: Filters the list of action types to those created by a specified entity.
 - `nextToken`: An identifier that was returned from the previous list action types call, which can be used to return the next set of action types in the list.
 """
-ListActionTypes(; aws::AWSConfig=AWS.aws_config) = codepipeline("ListActionTypes"; aws=aws)
-ListActionTypes(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codepipeline("ListActionTypes", args; aws=aws)
+
+ListActionTypes(; aws_config::AWSConfig=global_aws_config()) = codepipeline("ListActionTypes"; aws_config=aws_config)
+ListActionTypes(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codepipeline("ListActionTypes", args; aws_config=aws_config)
 
 """
     ListPipelineExecutions()
@@ -247,8 +264,9 @@ Gets a summary of the most recent executions for a pipeline.
 - `maxResults`: The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value. Pipeline history is limited to the most recent 12 months, based on pipeline execution start times. Default value is 100.
 - `nextToken`: The token that was returned from the previous ListPipelineExecutions call, which can be used to return the next set of pipeline executions in the list.
 """
-ListPipelineExecutions(pipelineName; aws::AWSConfig=AWS.aws_config) = codepipeline("ListPipelineExecutions", Dict{String, Any}("pipelineName"=>pipelineName); aws=aws)
-ListPipelineExecutions(pipelineName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codepipeline("ListPipelineExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineName"=>pipelineName), args)); aws=aws)
+
+ListPipelineExecutions(pipelineName; aws_config::AWSConfig=global_aws_config()) = codepipeline("ListPipelineExecutions", Dict{String, Any}("pipelineName"=>pipelineName); aws_config=aws_config)
+ListPipelineExecutions(pipelineName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codepipeline("ListPipelineExecutions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineName"=>pipelineName), args)); aws_config=aws_config)
 
 """
     ListPipelines()
@@ -258,8 +276,9 @@ Gets a summary of all of the pipelines associated with your account.
 # Optional Parameters
 - `nextToken`: An identifier that was returned from the previous list pipelines call. It can be used to return the next set of pipelines in the list.
 """
-ListPipelines(; aws::AWSConfig=AWS.aws_config) = codepipeline("ListPipelines"; aws=aws)
-ListPipelines(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codepipeline("ListPipelines", args; aws=aws)
+
+ListPipelines(; aws_config::AWSConfig=global_aws_config()) = codepipeline("ListPipelines"; aws_config=aws_config)
+ListPipelines(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codepipeline("ListPipelines", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -273,8 +292,9 @@ Gets the set of key-value pairs (metadata) that are used to manage the resource.
 - `maxResults`: The maximum number of results to return in a single call.
 - `nextToken`: The token that was returned from the previous API call, which would be used to return the next page of the list. The ListTagsforResource call lists all available tags in one call and does not use pagination.
 """
-ListTagsForResource(resourceArn; aws::AWSConfig=AWS.aws_config) = codepipeline("ListTagsForResource", Dict{String, Any}("resourceArn"=>resourceArn); aws=aws)
-ListTagsForResource(resourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codepipeline("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), args)); aws=aws)
+
+ListTagsForResource(resourceArn; aws_config::AWSConfig=global_aws_config()) = codepipeline("ListTagsForResource", Dict{String, Any}("resourceArn"=>resourceArn); aws_config=aws_config)
+ListTagsForResource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codepipeline("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn), args)); aws_config=aws_config)
 
 """
     ListWebhooks()
@@ -285,8 +305,9 @@ Gets a listing of all the webhooks in this AWS Region for this account. The outp
 - `MaxResults`: The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value.
 - `NextToken`: The token that was returned from the previous ListWebhooks call, which can be used to return the next set of webhooks in the list.
 """
-ListWebhooks(; aws::AWSConfig=AWS.aws_config) = codepipeline("ListWebhooks"; aws=aws)
-ListWebhooks(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codepipeline("ListWebhooks", args; aws=aws)
+
+ListWebhooks(; aws_config::AWSConfig=global_aws_config()) = codepipeline("ListWebhooks"; aws_config=aws_config)
+ListWebhooks(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codepipeline("ListWebhooks", args; aws_config=aws_config)
 
 """
     PollForJobs()
@@ -300,8 +321,9 @@ Returns information about any jobs for AWS CodePipeline to act on. PollForJobs i
 - `maxBatchSize`: The maximum number of jobs to return in a poll for jobs call.
 - `queryParam`: A map of property names and values. For an action type with no queryable properties, this value must be null or an empty map. For an action type with a queryable property, you must supply that property as a key in the map. Only jobs whose action configuration matches the mapped value are returned.
 """
-PollForJobs(actionTypeId; aws::AWSConfig=AWS.aws_config) = codepipeline("PollForJobs", Dict{String, Any}("actionTypeId"=>actionTypeId); aws=aws)
-PollForJobs(actionTypeId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codepipeline("PollForJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("actionTypeId"=>actionTypeId), args)); aws=aws)
+
+PollForJobs(actionTypeId; aws_config::AWSConfig=global_aws_config()) = codepipeline("PollForJobs", Dict{String, Any}("actionTypeId"=>actionTypeId); aws_config=aws_config)
+PollForJobs(actionTypeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codepipeline("PollForJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("actionTypeId"=>actionTypeId), args)); aws_config=aws_config)
 
 """
     PollForThirdPartyJobs()
@@ -314,8 +336,9 @@ Determines whether there are any third party jobs for a job worker to act on. Us
 # Optional Parameters
 - `maxBatchSize`: The maximum number of jobs to return in a poll for jobs call.
 """
-PollForThirdPartyJobs(actionTypeId; aws::AWSConfig=AWS.aws_config) = codepipeline("PollForThirdPartyJobs", Dict{String, Any}("actionTypeId"=>actionTypeId); aws=aws)
-PollForThirdPartyJobs(actionTypeId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codepipeline("PollForThirdPartyJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("actionTypeId"=>actionTypeId), args)); aws=aws)
+
+PollForThirdPartyJobs(actionTypeId; aws_config::AWSConfig=global_aws_config()) = codepipeline("PollForThirdPartyJobs", Dict{String, Any}("actionTypeId"=>actionTypeId); aws_config=aws_config)
+PollForThirdPartyJobs(actionTypeId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codepipeline("PollForThirdPartyJobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("actionTypeId"=>actionTypeId), args)); aws_config=aws_config)
 
 """
     PutActionRevision()
@@ -329,8 +352,9 @@ Provides information to AWS CodePipeline about new revisions to a source.
 - `stageName`: The name of the stage that contains the action that acts on the revision.
 
 """
-PutActionRevision(actionName, actionRevision, pipelineName, stageName; aws::AWSConfig=AWS.aws_config) = codepipeline("PutActionRevision", Dict{String, Any}("actionName"=>actionName, "actionRevision"=>actionRevision, "pipelineName"=>pipelineName, "stageName"=>stageName); aws=aws)
-PutActionRevision(actionName, actionRevision, pipelineName, stageName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codepipeline("PutActionRevision", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("actionName"=>actionName, "actionRevision"=>actionRevision, "pipelineName"=>pipelineName, "stageName"=>stageName), args)); aws=aws)
+
+PutActionRevision(actionName, actionRevision, pipelineName, stageName; aws_config::AWSConfig=global_aws_config()) = codepipeline("PutActionRevision", Dict{String, Any}("actionName"=>actionName, "actionRevision"=>actionRevision, "pipelineName"=>pipelineName, "stageName"=>stageName); aws_config=aws_config)
+PutActionRevision(actionName, actionRevision, pipelineName, stageName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codepipeline("PutActionRevision", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("actionName"=>actionName, "actionRevision"=>actionRevision, "pipelineName"=>pipelineName, "stageName"=>stageName), args)); aws_config=aws_config)
 
 """
     PutApprovalResult()
@@ -345,8 +369,9 @@ Provides the response to a manual approval request to AWS CodePipeline. Valid re
 - `token`: The system-generated token used to identify a unique approval request. The token for each open approval request can be obtained using the GetPipelineState action. It is used to validate that the approval request corresponding to this token is still valid.
 
 """
-PutApprovalResult(actionName, pipelineName, result, stageName, token; aws::AWSConfig=AWS.aws_config) = codepipeline("PutApprovalResult", Dict{String, Any}("actionName"=>actionName, "pipelineName"=>pipelineName, "result"=>result, "stageName"=>stageName, "token"=>token); aws=aws)
-PutApprovalResult(actionName, pipelineName, result, stageName, token, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codepipeline("PutApprovalResult", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("actionName"=>actionName, "pipelineName"=>pipelineName, "result"=>result, "stageName"=>stageName, "token"=>token), args)); aws=aws)
+
+PutApprovalResult(actionName, pipelineName, result, stageName, token; aws_config::AWSConfig=global_aws_config()) = codepipeline("PutApprovalResult", Dict{String, Any}("actionName"=>actionName, "pipelineName"=>pipelineName, "result"=>result, "stageName"=>stageName, "token"=>token); aws_config=aws_config)
+PutApprovalResult(actionName, pipelineName, result, stageName, token, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codepipeline("PutApprovalResult", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("actionName"=>actionName, "pipelineName"=>pipelineName, "result"=>result, "stageName"=>stageName, "token"=>token), args)); aws_config=aws_config)
 
 """
     PutJobFailureResult()
@@ -358,8 +383,9 @@ Represents the failure of a job as returned to the pipeline by a job worker. Use
 - `jobId`: The unique system-generated ID of the job that failed. This is the same ID returned from PollForJobs.
 
 """
-PutJobFailureResult(failureDetails, jobId; aws::AWSConfig=AWS.aws_config) = codepipeline("PutJobFailureResult", Dict{String, Any}("failureDetails"=>failureDetails, "jobId"=>jobId); aws=aws)
-PutJobFailureResult(failureDetails, jobId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codepipeline("PutJobFailureResult", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("failureDetails"=>failureDetails, "jobId"=>jobId), args)); aws=aws)
+
+PutJobFailureResult(failureDetails, jobId; aws_config::AWSConfig=global_aws_config()) = codepipeline("PutJobFailureResult", Dict{String, Any}("failureDetails"=>failureDetails, "jobId"=>jobId); aws_config=aws_config)
+PutJobFailureResult(failureDetails, jobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codepipeline("PutJobFailureResult", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("failureDetails"=>failureDetails, "jobId"=>jobId), args)); aws_config=aws_config)
 
 """
     PutJobSuccessResult()
@@ -375,8 +401,9 @@ Represents the success of a job as returned to the pipeline by a job worker. Use
 - `executionDetails`: The execution details of the successful job, such as the actions taken by the job worker.
 - `outputVariables`: Key-value pairs produced as output by a job worker that can be made available to a downstream action configuration. outputVariables can be included only when there is no continuation token on the request.
 """
-PutJobSuccessResult(jobId; aws::AWSConfig=AWS.aws_config) = codepipeline("PutJobSuccessResult", Dict{String, Any}("jobId"=>jobId); aws=aws)
-PutJobSuccessResult(jobId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codepipeline("PutJobSuccessResult", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobId"=>jobId), args)); aws=aws)
+
+PutJobSuccessResult(jobId; aws_config::AWSConfig=global_aws_config()) = codepipeline("PutJobSuccessResult", Dict{String, Any}("jobId"=>jobId); aws_config=aws_config)
+PutJobSuccessResult(jobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codepipeline("PutJobSuccessResult", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobId"=>jobId), args)); aws_config=aws_config)
 
 """
     PutThirdPartyJobFailureResult()
@@ -389,8 +416,9 @@ Represents the failure of a third party job as returned to the pipeline by a job
 - `jobId`: The ID of the job that failed. This is the same ID returned from PollForThirdPartyJobs.
 
 """
-PutThirdPartyJobFailureResult(clientToken, failureDetails, jobId; aws::AWSConfig=AWS.aws_config) = codepipeline("PutThirdPartyJobFailureResult", Dict{String, Any}("clientToken"=>clientToken, "failureDetails"=>failureDetails, "jobId"=>jobId); aws=aws)
-PutThirdPartyJobFailureResult(clientToken, failureDetails, jobId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codepipeline("PutThirdPartyJobFailureResult", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "failureDetails"=>failureDetails, "jobId"=>jobId), args)); aws=aws)
+
+PutThirdPartyJobFailureResult(clientToken, failureDetails, jobId; aws_config::AWSConfig=global_aws_config()) = codepipeline("PutThirdPartyJobFailureResult", Dict{String, Any}("clientToken"=>clientToken, "failureDetails"=>failureDetails, "jobId"=>jobId); aws_config=aws_config)
+PutThirdPartyJobFailureResult(clientToken, failureDetails, jobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codepipeline("PutThirdPartyJobFailureResult", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "failureDetails"=>failureDetails, "jobId"=>jobId), args)); aws_config=aws_config)
 
 """
     PutThirdPartyJobSuccessResult()
@@ -406,8 +434,9 @@ Represents the success of a third party job as returned to the pipeline by a job
 - `currentRevision`: Represents information about a current revision.
 - `executionDetails`: The details of the actions taken and results produced on an artifact as it passes through stages in the pipeline. 
 """
-PutThirdPartyJobSuccessResult(clientToken, jobId; aws::AWSConfig=AWS.aws_config) = codepipeline("PutThirdPartyJobSuccessResult", Dict{String, Any}("clientToken"=>clientToken, "jobId"=>jobId); aws=aws)
-PutThirdPartyJobSuccessResult(clientToken, jobId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codepipeline("PutThirdPartyJobSuccessResult", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "jobId"=>jobId), args)); aws=aws)
+
+PutThirdPartyJobSuccessResult(clientToken, jobId; aws_config::AWSConfig=global_aws_config()) = codepipeline("PutThirdPartyJobSuccessResult", Dict{String, Any}("clientToken"=>clientToken, "jobId"=>jobId); aws_config=aws_config)
+PutThirdPartyJobSuccessResult(clientToken, jobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codepipeline("PutThirdPartyJobSuccessResult", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("clientToken"=>clientToken, "jobId"=>jobId), args)); aws_config=aws_config)
 
 """
     PutWebhook()
@@ -420,8 +449,9 @@ Defines a webhook and returns a unique webhook URL generated by CodePipeline. Th
 # Optional Parameters
 - `tags`: The tags for the webhook.
 """
-PutWebhook(webhook; aws::AWSConfig=AWS.aws_config) = codepipeline("PutWebhook", Dict{String, Any}("webhook"=>webhook); aws=aws)
-PutWebhook(webhook, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codepipeline("PutWebhook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("webhook"=>webhook), args)); aws=aws)
+
+PutWebhook(webhook; aws_config::AWSConfig=global_aws_config()) = codepipeline("PutWebhook", Dict{String, Any}("webhook"=>webhook); aws_config=aws_config)
+PutWebhook(webhook, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codepipeline("PutWebhook", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("webhook"=>webhook), args)); aws_config=aws_config)
 
 """
     RegisterWebhookWithThirdParty()
@@ -431,8 +461,9 @@ Configures a connection between the webhook that was created and the external to
 # Optional Parameters
 - `webhookName`: The name of an existing webhook created with PutWebhook to register with a supported third party. 
 """
-RegisterWebhookWithThirdParty(; aws::AWSConfig=AWS.aws_config) = codepipeline("RegisterWebhookWithThirdParty"; aws=aws)
-RegisterWebhookWithThirdParty(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codepipeline("RegisterWebhookWithThirdParty", args; aws=aws)
+
+RegisterWebhookWithThirdParty(; aws_config::AWSConfig=global_aws_config()) = codepipeline("RegisterWebhookWithThirdParty"; aws_config=aws_config)
+RegisterWebhookWithThirdParty(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codepipeline("RegisterWebhookWithThirdParty", args; aws_config=aws_config)
 
 """
     RetryStageExecution()
@@ -446,8 +477,9 @@ Resumes the pipeline execution by retrying the last failed actions in a stage. Y
 - `stageName`: The name of the failed stage to be retried.
 
 """
-RetryStageExecution(pipelineExecutionId, pipelineName, retryMode, stageName; aws::AWSConfig=AWS.aws_config) = codepipeline("RetryStageExecution", Dict{String, Any}("pipelineExecutionId"=>pipelineExecutionId, "pipelineName"=>pipelineName, "retryMode"=>retryMode, "stageName"=>stageName); aws=aws)
-RetryStageExecution(pipelineExecutionId, pipelineName, retryMode, stageName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codepipeline("RetryStageExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineExecutionId"=>pipelineExecutionId, "pipelineName"=>pipelineName, "retryMode"=>retryMode, "stageName"=>stageName), args)); aws=aws)
+
+RetryStageExecution(pipelineExecutionId, pipelineName, retryMode, stageName; aws_config::AWSConfig=global_aws_config()) = codepipeline("RetryStageExecution", Dict{String, Any}("pipelineExecutionId"=>pipelineExecutionId, "pipelineName"=>pipelineName, "retryMode"=>retryMode, "stageName"=>stageName); aws_config=aws_config)
+RetryStageExecution(pipelineExecutionId, pipelineName, retryMode, stageName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codepipeline("RetryStageExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineExecutionId"=>pipelineExecutionId, "pipelineName"=>pipelineName, "retryMode"=>retryMode, "stageName"=>stageName), args)); aws_config=aws_config)
 
 """
     StartPipelineExecution()
@@ -460,8 +492,9 @@ Starts the specified pipeline. Specifically, it begins processing the latest com
 # Optional Parameters
 - `clientRequestToken`: The system-generated unique ID used to identify a unique execution request.
 """
-StartPipelineExecution(name; aws::AWSConfig=AWS.aws_config) = codepipeline("StartPipelineExecution", Dict{String, Any}("name"=>name, "clientRequestToken"=>string(uuid4())); aws=aws)
-StartPipelineExecution(name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codepipeline("StartPipelineExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "clientRequestToken"=>string(uuid4())), args)); aws=aws)
+
+StartPipelineExecution(name; aws_config::AWSConfig=global_aws_config()) = codepipeline("StartPipelineExecution", Dict{String, Any}("name"=>name, "clientRequestToken"=>string(uuid4())); aws_config=aws_config)
+StartPipelineExecution(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codepipeline("StartPipelineExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name, "clientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     StopPipelineExecution()
@@ -476,8 +509,9 @@ Stops the specified pipeline execution. You choose to either stop the pipeline e
 - `abandon`: Use this option to stop the pipeline execution by abandoning, rather than finishing, in-progress actions.  This option can lead to failed or out-of-sequence tasks. 
 - `reason`: Use this option to enter comments, such as the reason the pipeline was stopped.
 """
-StopPipelineExecution(pipelineExecutionId, pipelineName; aws::AWSConfig=AWS.aws_config) = codepipeline("StopPipelineExecution", Dict{String, Any}("pipelineExecutionId"=>pipelineExecutionId, "pipelineName"=>pipelineName); aws=aws)
-StopPipelineExecution(pipelineExecutionId, pipelineName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codepipeline("StopPipelineExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineExecutionId"=>pipelineExecutionId, "pipelineName"=>pipelineName), args)); aws=aws)
+
+StopPipelineExecution(pipelineExecutionId, pipelineName; aws_config::AWSConfig=global_aws_config()) = codepipeline("StopPipelineExecution", Dict{String, Any}("pipelineExecutionId"=>pipelineExecutionId, "pipelineName"=>pipelineName); aws_config=aws_config)
+StopPipelineExecution(pipelineExecutionId, pipelineName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codepipeline("StopPipelineExecution", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipelineExecutionId"=>pipelineExecutionId, "pipelineName"=>pipelineName), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -489,8 +523,9 @@ Adds to or modifies the tags of the given resource. Tags are metadata that can b
 - `tags`: The tags you want to modify or add to the resource.
 
 """
-TagResource(resourceArn, tags; aws::AWSConfig=AWS.aws_config) = codepipeline("TagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws=aws)
-TagResource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codepipeline("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), args)); aws=aws)
+
+TagResource(resourceArn, tags; aws_config::AWSConfig=global_aws_config()) = codepipeline("TagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags); aws_config=aws_config)
+TagResource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codepipeline("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tags"=>tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -502,8 +537,9 @@ Removes tags from an AWS resource.
 - `tagKeys`: The list of keys for the tags to be removed from the resource.
 
 """
-UntagResource(resourceArn, tagKeys; aws::AWSConfig=AWS.aws_config) = codepipeline("UntagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws=aws)
-UntagResource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codepipeline("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), args)); aws=aws)
+
+UntagResource(resourceArn, tagKeys; aws_config::AWSConfig=global_aws_config()) = codepipeline("UntagResource", Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys); aws_config=aws_config)
+UntagResource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codepipeline("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("resourceArn"=>resourceArn, "tagKeys"=>tagKeys), args)); aws_config=aws_config)
 
 """
     UpdatePipeline()
@@ -514,5 +550,6 @@ Updates a specified pipeline with edits or changes to its structure. Use a JSON 
 - `pipeline`: The name of the pipeline to be updated.
 
 """
-UpdatePipeline(pipeline; aws::AWSConfig=AWS.aws_config) = codepipeline("UpdatePipeline", Dict{String, Any}("pipeline"=>pipeline); aws=aws)
-UpdatePipeline(pipeline, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = codepipeline("UpdatePipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipeline"=>pipeline), args)); aws=aws)
+
+UpdatePipeline(pipeline; aws_config::AWSConfig=global_aws_config()) = codepipeline("UpdatePipeline", Dict{String, Any}("pipeline"=>pipeline); aws_config=aws_config)
+UpdatePipeline(pipeline, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = codepipeline("UpdatePipeline", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("pipeline"=>pipeline), args)); aws_config=aws_config)

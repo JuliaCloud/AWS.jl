@@ -17,5 +17,6 @@ GetEntitlements retrieves entitlement values for a given product. The results ca
 - `MaxResults`: The maximum number of items to retrieve from the GetEntitlements operation. For pagination, use the NextToken field in subsequent calls to GetEntitlements.
 - `NextToken`: For paginated calls to GetEntitlements, pass the NextToken from the previous GetEntitlementsResult.
 """
-GetEntitlements(ProductCode; aws::AWSConfig=AWS.aws_config) = marketplace_entitlement_service("GetEntitlements", Dict{String, Any}("ProductCode"=>ProductCode); aws=aws)
-GetEntitlements(ProductCode, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = marketplace_entitlement_service("GetEntitlements", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductCode"=>ProductCode), args)); aws=aws)
+
+GetEntitlements(ProductCode; aws_config::AWSConfig=global_aws_config()) = marketplace_entitlement_service("GetEntitlements", Dict{String, Any}("ProductCode"=>ProductCode); aws_config=aws_config)
+GetEntitlements(ProductCode, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = marketplace_entitlement_service("GetEntitlements", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ProductCode"=>ProductCode), args)); aws_config=aws_config)

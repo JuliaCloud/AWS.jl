@@ -31,8 +31,9 @@ using UUIDs
 - `repository`:  The repository for an Amplify app. 
 - `tags`:  The tag for an Amplify app. 
 """
-CreateApp(name; aws::AWSConfig=AWS.aws_config) = amplify("POST", "/apps", Dict{String, Any}("name"=>name); aws=aws)
-CreateApp(name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = amplify("POST", "/apps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws=aws)
+
+CreateApp(name; aws_config::AWSConfig=global_aws_config()) = amplify("POST", "/apps", Dict{String, Any}("name"=>name); aws_config=aws_config)
+CreateApp(name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = amplify("POST", "/apps", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("name"=>name), args)); aws_config=aws_config)
 
 """
     CreateBackendEnvironment()
@@ -47,8 +48,9 @@ CreateApp(name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config
 - `deploymentArtifacts`:  The name of deployment artifacts. 
 - `stackName`:  The AWS CloudFormation stack name of a backend environment. 
 """
-CreateBackendEnvironment(appId, environmentName; aws::AWSConfig=AWS.aws_config) = amplify("POST", "/apps/$(appId)/backendenvironments", Dict{String, Any}("environmentName"=>environmentName); aws=aws)
-CreateBackendEnvironment(appId, environmentName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = amplify("POST", "/apps/$(appId)/backendenvironments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentName"=>environmentName), args)); aws=aws)
+
+CreateBackendEnvironment(appId, environmentName; aws_config::AWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/backendenvironments", Dict{String, Any}("environmentName"=>environmentName); aws_config=aws_config)
+CreateBackendEnvironment(appId, environmentName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/backendenvironments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("environmentName"=>environmentName), args)); aws_config=aws_config)
 
 """
     CreateBranch()
@@ -76,8 +78,9 @@ CreateBackendEnvironment(appId, environmentName, args::AbstractDict{String, <:An
 - `tags`:  The tag for the branch. 
 - `ttl`:  The content Time To Live (TTL) for the website in seconds. 
 """
-CreateBranch(appId, branchName; aws::AWSConfig=AWS.aws_config) = amplify("POST", "/apps/$(appId)/branches", Dict{String, Any}("branchName"=>branchName); aws=aws)
-CreateBranch(appId, branchName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = amplify("POST", "/apps/$(appId)/branches", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("branchName"=>branchName), args)); aws=aws)
+
+CreateBranch(appId, branchName; aws_config::AWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/branches", Dict{String, Any}("branchName"=>branchName); aws_config=aws_config)
+CreateBranch(appId, branchName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/branches", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("branchName"=>branchName), args)); aws_config=aws_config)
 
 """
     CreateDeployment()
@@ -91,8 +94,9 @@ CreateBranch(appId, branchName, args::AbstractDict{String, <:Any}; aws::AWSConfi
 # Optional Parameters
 - `fileMap`:  An optional file map that contains the file name as the key and the file content md5 hash as the value. If this argument is provided, the service will generate a unique upload URL per file. Otherwise, the service will only generate a single upload URL for the zipped files. 
 """
-CreateDeployment(appId, branchName; aws::AWSConfig=AWS.aws_config) = amplify("POST", "/apps/$(appId)/branches/$(branchName)/deployments"; aws=aws)
-CreateDeployment(appId, branchName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = amplify("POST", "/apps/$(appId)/branches/$(branchName)/deployments", args; aws=aws)
+
+CreateDeployment(appId, branchName; aws_config::AWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/branches/$(branchName)/deployments"; aws_config=aws_config)
+CreateDeployment(appId, branchName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/branches/$(branchName)/deployments", args; aws_config=aws_config)
 
 """
     CreateDomainAssociation()
@@ -109,8 +113,9 @@ CreateDeployment(appId, branchName, args::AbstractDict{String, <:Any}; aws::AWSC
 - `autoSubDomainIAMRole`:  The required AWS Identity and Access Management (IAM) service role for the Amazon Resource Name (ARN) for automatically creating subdomains. 
 - `enableAutoSubDomain`:  Enables the automated creation of subdomains for branches. 
 """
-CreateDomainAssociation(appId, domainName, subDomainSettings; aws::AWSConfig=AWS.aws_config) = amplify("POST", "/apps/$(appId)/domains", Dict{String, Any}("domainName"=>domainName, "subDomainSettings"=>subDomainSettings); aws=aws)
-CreateDomainAssociation(appId, domainName, subDomainSettings, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = amplify("POST", "/apps/$(appId)/domains", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domainName"=>domainName, "subDomainSettings"=>subDomainSettings), args)); aws=aws)
+
+CreateDomainAssociation(appId, domainName, subDomainSettings; aws_config::AWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/domains", Dict{String, Any}("domainName"=>domainName, "subDomainSettings"=>subDomainSettings); aws_config=aws_config)
+CreateDomainAssociation(appId, domainName, subDomainSettings, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/domains", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domainName"=>domainName, "subDomainSettings"=>subDomainSettings), args)); aws_config=aws_config)
 
 """
     CreateWebhook()
@@ -124,8 +129,9 @@ CreateDomainAssociation(appId, domainName, subDomainSettings, args::AbstractDict
 # Optional Parameters
 - `description`:  The description for a webhook. 
 """
-CreateWebhook(appId, branchName; aws::AWSConfig=AWS.aws_config) = amplify("POST", "/apps/$(appId)/webhooks", Dict{String, Any}("branchName"=>branchName); aws=aws)
-CreateWebhook(appId, branchName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = amplify("POST", "/apps/$(appId)/webhooks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("branchName"=>branchName), args)); aws=aws)
+
+CreateWebhook(appId, branchName; aws_config::AWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/webhooks", Dict{String, Any}("branchName"=>branchName); aws_config=aws_config)
+CreateWebhook(appId, branchName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/webhooks", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("branchName"=>branchName), args)); aws_config=aws_config)
 
 """
     DeleteApp()
@@ -136,8 +142,9 @@ CreateWebhook(appId, branchName, args::AbstractDict{String, <:Any}; aws::AWSConf
 - `appId`:  The unique ID for an Amplify app. 
 
 """
-DeleteApp(appId; aws::AWSConfig=AWS.aws_config) = amplify("DELETE", "/apps/$(appId)"; aws=aws)
-DeleteApp(appId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = amplify("DELETE", "/apps/$(appId)", args; aws=aws)
+
+DeleteApp(appId; aws_config::AWSConfig=global_aws_config()) = amplify("DELETE", "/apps/$(appId)"; aws_config=aws_config)
+DeleteApp(appId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = amplify("DELETE", "/apps/$(appId)", args; aws_config=aws_config)
 
 """
     DeleteBackendEnvironment()
@@ -149,8 +156,9 @@ DeleteApp(appId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_confi
 - `environmentName`:  The name of a backend environment of an Amplify app. 
 
 """
-DeleteBackendEnvironment(appId, environmentName; aws::AWSConfig=AWS.aws_config) = amplify("DELETE", "/apps/$(appId)/backendenvironments/$(environmentName)"; aws=aws)
-DeleteBackendEnvironment(appId, environmentName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = amplify("DELETE", "/apps/$(appId)/backendenvironments/$(environmentName)", args; aws=aws)
+
+DeleteBackendEnvironment(appId, environmentName; aws_config::AWSConfig=global_aws_config()) = amplify("DELETE", "/apps/$(appId)/backendenvironments/$(environmentName)"; aws_config=aws_config)
+DeleteBackendEnvironment(appId, environmentName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = amplify("DELETE", "/apps/$(appId)/backendenvironments/$(environmentName)", args; aws_config=aws_config)
 
 """
     DeleteBranch()
@@ -162,8 +170,9 @@ DeleteBackendEnvironment(appId, environmentName, args::AbstractDict{String, <:An
 - `branchName`:  The name for the branch. 
 
 """
-DeleteBranch(appId, branchName; aws::AWSConfig=AWS.aws_config) = amplify("DELETE", "/apps/$(appId)/branches/$(branchName)"; aws=aws)
-DeleteBranch(appId, branchName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = amplify("DELETE", "/apps/$(appId)/branches/$(branchName)", args; aws=aws)
+
+DeleteBranch(appId, branchName; aws_config::AWSConfig=global_aws_config()) = amplify("DELETE", "/apps/$(appId)/branches/$(branchName)"; aws_config=aws_config)
+DeleteBranch(appId, branchName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = amplify("DELETE", "/apps/$(appId)/branches/$(branchName)", args; aws_config=aws_config)
 
 """
     DeleteDomainAssociation()
@@ -175,8 +184,9 @@ DeleteBranch(appId, branchName, args::AbstractDict{String, <:Any}; aws::AWSConfi
 - `domainName`:  The name of the domain. 
 
 """
-DeleteDomainAssociation(appId, domainName; aws::AWSConfig=AWS.aws_config) = amplify("DELETE", "/apps/$(appId)/domains/$(domainName)"; aws=aws)
-DeleteDomainAssociation(appId, domainName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = amplify("DELETE", "/apps/$(appId)/domains/$(domainName)", args; aws=aws)
+
+DeleteDomainAssociation(appId, domainName; aws_config::AWSConfig=global_aws_config()) = amplify("DELETE", "/apps/$(appId)/domains/$(domainName)"; aws_config=aws_config)
+DeleteDomainAssociation(appId, domainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = amplify("DELETE", "/apps/$(appId)/domains/$(domainName)", args; aws_config=aws_config)
 
 """
     DeleteJob()
@@ -189,8 +199,9 @@ DeleteDomainAssociation(appId, domainName, args::AbstractDict{String, <:Any}; aw
 - `jobId`:  The unique ID for the job. 
 
 """
-DeleteJob(appId, branchName, jobId; aws::AWSConfig=AWS.aws_config) = amplify("DELETE", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)"; aws=aws)
-DeleteJob(appId, branchName, jobId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = amplify("DELETE", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)", args; aws=aws)
+
+DeleteJob(appId, branchName, jobId; aws_config::AWSConfig=global_aws_config()) = amplify("DELETE", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)"; aws_config=aws_config)
+DeleteJob(appId, branchName, jobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = amplify("DELETE", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)", args; aws_config=aws_config)
 
 """
     DeleteWebhook()
@@ -201,8 +212,9 @@ DeleteJob(appId, branchName, jobId, args::AbstractDict{String, <:Any}; aws::AWSC
 - `webhookId`:  The unique ID for a webhook. 
 
 """
-DeleteWebhook(webhookId; aws::AWSConfig=AWS.aws_config) = amplify("DELETE", "/webhooks/$(webhookId)"; aws=aws)
-DeleteWebhook(webhookId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = amplify("DELETE", "/webhooks/$(webhookId)", args; aws=aws)
+
+DeleteWebhook(webhookId; aws_config::AWSConfig=global_aws_config()) = amplify("DELETE", "/webhooks/$(webhookId)"; aws_config=aws_config)
+DeleteWebhook(webhookId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = amplify("DELETE", "/webhooks/$(webhookId)", args; aws_config=aws_config)
 
 """
     GenerateAccessLogs()
@@ -217,8 +229,9 @@ DeleteWebhook(webhookId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.a
 - `endTime`:  The time at which the logs should end. The time range specified is inclusive of the end time. 
 - `startTime`:  The time at which the logs should start. The time range specified is inclusive of the start time. 
 """
-GenerateAccessLogs(appId, domainName; aws::AWSConfig=AWS.aws_config) = amplify("POST", "/apps/$(appId)/accesslogs", Dict{String, Any}("domainName"=>domainName); aws=aws)
-GenerateAccessLogs(appId, domainName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = amplify("POST", "/apps/$(appId)/accesslogs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domainName"=>domainName), args)); aws=aws)
+
+GenerateAccessLogs(appId, domainName; aws_config::AWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/accesslogs", Dict{String, Any}("domainName"=>domainName); aws_config=aws_config)
+GenerateAccessLogs(appId, domainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/accesslogs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("domainName"=>domainName), args)); aws_config=aws_config)
 
 """
     GetApp()
@@ -229,8 +242,9 @@ GenerateAccessLogs(appId, domainName, args::AbstractDict{String, <:Any}; aws::AW
 - `appId`:  The unique ID for an Amplify app. 
 
 """
-GetApp(appId; aws::AWSConfig=AWS.aws_config) = amplify("GET", "/apps/$(appId)"; aws=aws)
-GetApp(appId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = amplify("GET", "/apps/$(appId)", args; aws=aws)
+
+GetApp(appId; aws_config::AWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)"; aws_config=aws_config)
+GetApp(appId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)", args; aws_config=aws_config)
 
 """
     GetArtifactUrl()
@@ -241,8 +255,9 @@ GetApp(appId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) 
 - `artifactId`:  The unique ID for an artifact. 
 
 """
-GetArtifactUrl(artifactId; aws::AWSConfig=AWS.aws_config) = amplify("GET", "/artifacts/$(artifactId)"; aws=aws)
-GetArtifactUrl(artifactId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = amplify("GET", "/artifacts/$(artifactId)", args; aws=aws)
+
+GetArtifactUrl(artifactId; aws_config::AWSConfig=global_aws_config()) = amplify("GET", "/artifacts/$(artifactId)"; aws_config=aws_config)
+GetArtifactUrl(artifactId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = amplify("GET", "/artifacts/$(artifactId)", args; aws_config=aws_config)
 
 """
     GetBackendEnvironment()
@@ -254,8 +269,9 @@ GetArtifactUrl(artifactId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS
 - `environmentName`:  The name for the backend environment. 
 
 """
-GetBackendEnvironment(appId, environmentName; aws::AWSConfig=AWS.aws_config) = amplify("GET", "/apps/$(appId)/backendenvironments/$(environmentName)"; aws=aws)
-GetBackendEnvironment(appId, environmentName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = amplify("GET", "/apps/$(appId)/backendenvironments/$(environmentName)", args; aws=aws)
+
+GetBackendEnvironment(appId, environmentName; aws_config::AWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/backendenvironments/$(environmentName)"; aws_config=aws_config)
+GetBackendEnvironment(appId, environmentName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/backendenvironments/$(environmentName)", args; aws_config=aws_config)
 
 """
     GetBranch()
@@ -267,8 +283,9 @@ GetBackendEnvironment(appId, environmentName, args::AbstractDict{String, <:Any};
 - `branchName`:  The name for the branch. 
 
 """
-GetBranch(appId, branchName; aws::AWSConfig=AWS.aws_config) = amplify("GET", "/apps/$(appId)/branches/$(branchName)"; aws=aws)
-GetBranch(appId, branchName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = amplify("GET", "/apps/$(appId)/branches/$(branchName)", args; aws=aws)
+
+GetBranch(appId, branchName; aws_config::AWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/branches/$(branchName)"; aws_config=aws_config)
+GetBranch(appId, branchName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/branches/$(branchName)", args; aws_config=aws_config)
 
 """
     GetDomainAssociation()
@@ -280,8 +297,9 @@ GetBranch(appId, branchName, args::AbstractDict{String, <:Any}; aws::AWSConfig=A
 - `domainName`:  The name of the domain. 
 
 """
-GetDomainAssociation(appId, domainName; aws::AWSConfig=AWS.aws_config) = amplify("GET", "/apps/$(appId)/domains/$(domainName)"; aws=aws)
-GetDomainAssociation(appId, domainName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = amplify("GET", "/apps/$(appId)/domains/$(domainName)", args; aws=aws)
+
+GetDomainAssociation(appId, domainName; aws_config::AWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/domains/$(domainName)"; aws_config=aws_config)
+GetDomainAssociation(appId, domainName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/domains/$(domainName)", args; aws_config=aws_config)
 
 """
     GetJob()
@@ -294,8 +312,9 @@ GetDomainAssociation(appId, domainName, args::AbstractDict{String, <:Any}; aws::
 - `jobId`:  The unique ID for the job. 
 
 """
-GetJob(appId, branchName, jobId; aws::AWSConfig=AWS.aws_config) = amplify("GET", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)"; aws=aws)
-GetJob(appId, branchName, jobId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = amplify("GET", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)", args; aws=aws)
+
+GetJob(appId, branchName, jobId; aws_config::AWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)"; aws_config=aws_config)
+GetJob(appId, branchName, jobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)", args; aws_config=aws_config)
 
 """
     GetWebhook()
@@ -306,8 +325,9 @@ GetJob(appId, branchName, jobId, args::AbstractDict{String, <:Any}; aws::AWSConf
 - `webhookId`:  The unique ID for a webhook. 
 
 """
-GetWebhook(webhookId; aws::AWSConfig=AWS.aws_config) = amplify("GET", "/webhooks/$(webhookId)"; aws=aws)
-GetWebhook(webhookId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = amplify("GET", "/webhooks/$(webhookId)", args; aws=aws)
+
+GetWebhook(webhookId; aws_config::AWSConfig=global_aws_config()) = amplify("GET", "/webhooks/$(webhookId)"; aws_config=aws_config)
+GetWebhook(webhookId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = amplify("GET", "/webhooks/$(webhookId)", args; aws_config=aws_config)
 
 """
     ListApps()
@@ -318,8 +338,9 @@ GetWebhook(webhookId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_
 - `maxResults`:  The maximum number of records to list in a single response. 
 - `nextToken`:  A pagination token. If non-null, the pagination token is returned in a result. Pass its value in another request to retrieve more entries. 
 """
-ListApps(; aws::AWSConfig=AWS.aws_config) = amplify("GET", "/apps"; aws=aws)
-ListApps(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = amplify("GET", "/apps", args; aws=aws)
+
+ListApps(; aws_config::AWSConfig=global_aws_config()) = amplify("GET", "/apps"; aws_config=aws_config)
+ListApps(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = amplify("GET", "/apps", args; aws_config=aws_config)
 
 """
     ListArtifacts()
@@ -335,8 +356,9 @@ ListApps(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = ampli
 - `maxResults`:  The maximum number of records to list in a single response. 
 - `nextToken`:  A pagination token. Set to null to start listing artifacts from start. If a non-null pagination token is returned in a result, pass its value in here to list more artifacts. 
 """
-ListArtifacts(appId, branchName, jobId; aws::AWSConfig=AWS.aws_config) = amplify("GET", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)/artifacts"; aws=aws)
-ListArtifacts(appId, branchName, jobId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = amplify("GET", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)/artifacts", args; aws=aws)
+
+ListArtifacts(appId, branchName, jobId; aws_config::AWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)/artifacts"; aws_config=aws_config)
+ListArtifacts(appId, branchName, jobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)/artifacts", args; aws_config=aws_config)
 
 """
     ListBackendEnvironments()
@@ -351,8 +373,9 @@ ListArtifacts(appId, branchName, jobId, args::AbstractDict{String, <:Any}; aws::
 - `maxResults`:  The maximum number of records to list in a single response. 
 - `nextToken`:  A pagination token. Set to null to start listing backend environments from the start. If a non-null pagination token is returned in a result, pass its value in here to list more backend environments. 
 """
-ListBackendEnvironments(appId; aws::AWSConfig=AWS.aws_config) = amplify("GET", "/apps/$(appId)/backendenvironments"; aws=aws)
-ListBackendEnvironments(appId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = amplify("GET", "/apps/$(appId)/backendenvironments", args; aws=aws)
+
+ListBackendEnvironments(appId; aws_config::AWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/backendenvironments"; aws_config=aws_config)
+ListBackendEnvironments(appId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/backendenvironments", args; aws_config=aws_config)
 
 """
     ListBranches()
@@ -366,8 +389,9 @@ ListBackendEnvironments(appId, args::AbstractDict{String, <:Any}; aws::AWSConfig
 - `maxResults`:  The maximum number of records to list in a single response. 
 - `nextToken`:  A pagination token. Set to null to start listing branches from the start. If a non-null pagination token is returned in a result, pass its value in here to list more branches. 
 """
-ListBranches(appId; aws::AWSConfig=AWS.aws_config) = amplify("GET", "/apps/$(appId)/branches"; aws=aws)
-ListBranches(appId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = amplify("GET", "/apps/$(appId)/branches", args; aws=aws)
+
+ListBranches(appId; aws_config::AWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/branches"; aws_config=aws_config)
+ListBranches(appId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/branches", args; aws_config=aws_config)
 
 """
     ListDomainAssociations()
@@ -381,8 +405,9 @@ ListBranches(appId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_co
 - `maxResults`:  The maximum number of records to list in a single response. 
 - `nextToken`:  A pagination token. Set to null to start listing apps from the start. If non-null, a pagination token is returned in a result. Pass its value in here to list more projects. 
 """
-ListDomainAssociations(appId; aws::AWSConfig=AWS.aws_config) = amplify("GET", "/apps/$(appId)/domains"; aws=aws)
-ListDomainAssociations(appId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = amplify("GET", "/apps/$(appId)/domains", args; aws=aws)
+
+ListDomainAssociations(appId; aws_config::AWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/domains"; aws_config=aws_config)
+ListDomainAssociations(appId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/domains", args; aws_config=aws_config)
 
 """
     ListJobs()
@@ -397,8 +422,9 @@ ListDomainAssociations(appId, args::AbstractDict{String, <:Any}; aws::AWSConfig=
 - `maxResults`:  The maximum number of records to list in a single response. 
 - `nextToken`:  A pagination token. Set to null to start listing steps from the start. If a non-null pagination token is returned in a result, pass its value in here to list more steps. 
 """
-ListJobs(appId, branchName; aws::AWSConfig=AWS.aws_config) = amplify("GET", "/apps/$(appId)/branches/$(branchName)/jobs"; aws=aws)
-ListJobs(appId, branchName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = amplify("GET", "/apps/$(appId)/branches/$(branchName)/jobs", args; aws=aws)
+
+ListJobs(appId, branchName; aws_config::AWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/branches/$(branchName)/jobs"; aws_config=aws_config)
+ListJobs(appId, branchName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/branches/$(branchName)/jobs", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -409,8 +435,9 @@ ListJobs(appId, branchName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AW
 - `resourceArn`:  The Amazon Resource Name (ARN) to use to list tags. 
 
 """
-ListTagsForResource(resourceArn; aws::AWSConfig=AWS.aws_config) = amplify("GET", "/tags/$(resourceArn)"; aws=aws)
-ListTagsForResource(resourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = amplify("GET", "/tags/$(resourceArn)", args; aws=aws)
+
+ListTagsForResource(resourceArn; aws_config::AWSConfig=global_aws_config()) = amplify("GET", "/tags/$(resourceArn)"; aws_config=aws_config)
+ListTagsForResource(resourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = amplify("GET", "/tags/$(resourceArn)", args; aws_config=aws_config)
 
 """
     ListWebhooks()
@@ -424,8 +451,9 @@ ListTagsForResource(resourceArn, args::AbstractDict{String, <:Any}; aws::AWSConf
 - `maxResults`:  The maximum number of records to list in a single response. 
 - `nextToken`:  A pagination token. Set to null to start listing webhooks from the start. If non-null,the pagination token is returned in a result. Pass its value in here to list more webhooks. 
 """
-ListWebhooks(appId; aws::AWSConfig=AWS.aws_config) = amplify("GET", "/apps/$(appId)/webhooks"; aws=aws)
-ListWebhooks(appId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = amplify("GET", "/apps/$(appId)/webhooks", args; aws=aws)
+
+ListWebhooks(appId; aws_config::AWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/webhooks"; aws_config=aws_config)
+ListWebhooks(appId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = amplify("GET", "/apps/$(appId)/webhooks", args; aws_config=aws_config)
 
 """
     StartDeployment()
@@ -440,8 +468,9 @@ ListWebhooks(appId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_co
 - `jobId`:  The job ID for this deployment, generated by the create deployment request. 
 - `sourceUrl`:  The source URL for this deployment, used when calling start deployment without create deployment. The source URL can be any HTTP GET URL that is publicly accessible and downloads a single .zip file. 
 """
-StartDeployment(appId, branchName; aws::AWSConfig=AWS.aws_config) = amplify("POST", "/apps/$(appId)/branches/$(branchName)/deployments/start"; aws=aws)
-StartDeployment(appId, branchName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = amplify("POST", "/apps/$(appId)/branches/$(branchName)/deployments/start", args; aws=aws)
+
+StartDeployment(appId, branchName; aws_config::AWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/branches/$(branchName)/deployments/start"; aws_config=aws_config)
+StartDeployment(appId, branchName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/branches/$(branchName)/deployments/start", args; aws_config=aws_config)
 
 """
     StartJob()
@@ -460,8 +489,9 @@ StartDeployment(appId, branchName, args::AbstractDict{String, <:Any}; aws::AWSCo
 - `jobId`:  The unique ID for an existing job. This is required if the value of jobType is RETRY. 
 - `jobReason`:  A descriptive reason for starting this job. 
 """
-StartJob(appId, branchName, jobType; aws::AWSConfig=AWS.aws_config) = amplify("POST", "/apps/$(appId)/branches/$(branchName)/jobs", Dict{String, Any}("jobType"=>jobType); aws=aws)
-StartJob(appId, branchName, jobType, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = amplify("POST", "/apps/$(appId)/branches/$(branchName)/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobType"=>jobType), args)); aws=aws)
+
+StartJob(appId, branchName, jobType; aws_config::AWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/branches/$(branchName)/jobs", Dict{String, Any}("jobType"=>jobType); aws_config=aws_config)
+StartJob(appId, branchName, jobType, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/branches/$(branchName)/jobs", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("jobType"=>jobType), args)); aws_config=aws_config)
 
 """
     StopJob()
@@ -474,8 +504,9 @@ StartJob(appId, branchName, jobType, args::AbstractDict{String, <:Any}; aws::AWS
 - `jobId`:  The unique id for the job. 
 
 """
-StopJob(appId, branchName, jobId; aws::AWSConfig=AWS.aws_config) = amplify("DELETE", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)/stop"; aws=aws)
-StopJob(appId, branchName, jobId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = amplify("DELETE", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)/stop", args; aws=aws)
+
+StopJob(appId, branchName, jobId; aws_config::AWSConfig=global_aws_config()) = amplify("DELETE", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)/stop"; aws_config=aws_config)
+StopJob(appId, branchName, jobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = amplify("DELETE", "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)/stop", args; aws_config=aws_config)
 
 """
     TagResource()
@@ -487,8 +518,9 @@ StopJob(appId, branchName, jobId, args::AbstractDict{String, <:Any}; aws::AWSCon
 - `tags`:  The tags used to tag the resource. 
 
 """
-TagResource(resourceArn, tags; aws::AWSConfig=AWS.aws_config) = amplify("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws=aws)
-TagResource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = amplify("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws=aws)
+
+TagResource(resourceArn, tags; aws_config::AWSConfig=global_aws_config()) = amplify("POST", "/tags/$(resourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
+TagResource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = amplify("POST", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -500,8 +532,9 @@ TagResource(resourceArn, tags, args::AbstractDict{String, <:Any}; aws::AWSConfig
 - `tagKeys`:  The tag keys to use to untag a resource. 
 
 """
-UntagResource(resourceArn, tagKeys; aws::AWSConfig=AWS.aws_config) = amplify("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws=aws)
-UntagResource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = amplify("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws=aws)
+
+UntagResource(resourceArn, tagKeys; aws_config::AWSConfig=global_aws_config()) = amplify("DELETE", "/tags/$(resourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
+UntagResource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = amplify("DELETE", "/tags/$(resourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
 
 """
     UpdateApp()
@@ -530,8 +563,9 @@ UntagResource(resourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSC
 - `platform`:  The platform for an Amplify app. 
 - `repository`:  The name of the repository for an Amplify app 
 """
-UpdateApp(appId; aws::AWSConfig=AWS.aws_config) = amplify("POST", "/apps/$(appId)"; aws=aws)
-UpdateApp(appId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = amplify("POST", "/apps/$(appId)", args; aws=aws)
+
+UpdateApp(appId; aws_config::AWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)"; aws_config=aws_config)
+UpdateApp(appId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)", args; aws_config=aws_config)
 
 """
     UpdateBranch()
@@ -558,8 +592,9 @@ UpdateApp(appId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_confi
 - `stage`:  Describes the current stage for the branch. 
 - `ttl`:  The content Time to Live (TTL) for the website in seconds. 
 """
-UpdateBranch(appId, branchName; aws::AWSConfig=AWS.aws_config) = amplify("POST", "/apps/$(appId)/branches/$(branchName)"; aws=aws)
-UpdateBranch(appId, branchName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = amplify("POST", "/apps/$(appId)/branches/$(branchName)", args; aws=aws)
+
+UpdateBranch(appId, branchName; aws_config::AWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/branches/$(branchName)"; aws_config=aws_config)
+UpdateBranch(appId, branchName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/branches/$(branchName)", args; aws_config=aws_config)
 
 """
     UpdateDomainAssociation()
@@ -576,8 +611,9 @@ UpdateBranch(appId, branchName, args::AbstractDict{String, <:Any}; aws::AWSConfi
 - `autoSubDomainIAMRole`:  The required AWS Identity and Access Management (IAM) service role for the Amazon Resource Name (ARN) for automatically creating subdomains. 
 - `enableAutoSubDomain`:  Enables the automated creation of subdomains for branches. 
 """
-UpdateDomainAssociation(appId, domainName, subDomainSettings; aws::AWSConfig=AWS.aws_config) = amplify("POST", "/apps/$(appId)/domains/$(domainName)", Dict{String, Any}("subDomainSettings"=>subDomainSettings); aws=aws)
-UpdateDomainAssociation(appId, domainName, subDomainSettings, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = amplify("POST", "/apps/$(appId)/domains/$(domainName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("subDomainSettings"=>subDomainSettings), args)); aws=aws)
+
+UpdateDomainAssociation(appId, domainName, subDomainSettings; aws_config::AWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/domains/$(domainName)", Dict{String, Any}("subDomainSettings"=>subDomainSettings); aws_config=aws_config)
+UpdateDomainAssociation(appId, domainName, subDomainSettings, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = amplify("POST", "/apps/$(appId)/domains/$(domainName)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("subDomainSettings"=>subDomainSettings), args)); aws_config=aws_config)
 
 """
     UpdateWebhook()
@@ -591,5 +627,6 @@ UpdateDomainAssociation(appId, domainName, subDomainSettings, args::AbstractDict
 - `branchName`:  The name for a branch that is part of an Amplify app. 
 - `description`:  The description for a webhook. 
 """
-UpdateWebhook(webhookId; aws::AWSConfig=AWS.aws_config) = amplify("POST", "/webhooks/$(webhookId)"; aws=aws)
-UpdateWebhook(webhookId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = amplify("POST", "/webhooks/$(webhookId)", args; aws=aws)
+
+UpdateWebhook(webhookId; aws_config::AWSConfig=global_aws_config()) = amplify("POST", "/webhooks/$(webhookId)"; aws_config=aws_config)
+UpdateWebhook(webhookId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = amplify("POST", "/webhooks/$(webhookId)", args; aws_config=aws_config)

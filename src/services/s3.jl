@@ -17,8 +17,9 @@ This operation aborts a multipart upload. After a multipart upload is aborted, n
 # Optional Parameters
 - `x-amz-request-payer`: 
 """
-AbortMultipartUpload(Bucket, Key, uploadId; aws::AWSConfig=AWS.aws_config) = s3("DELETE", "/$(Bucket)/$(Key)", Dict{String, Any}("uploadId"=>uploadId); aws=aws)
-AbortMultipartUpload(Bucket, Key, uploadId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("DELETE", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("uploadId"=>uploadId), args)); aws=aws)
+
+AbortMultipartUpload(Bucket, Key, uploadId; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)/$(Key)", Dict{String, Any}("uploadId"=>uploadId); aws_config=aws_config)
+AbortMultipartUpload(Bucket, Key, uploadId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("uploadId"=>uploadId), args)); aws_config=aws_config)
 
 """
     CompleteMultipartUpload()
@@ -34,8 +35,9 @@ Completes a multipart upload by assembling previously uploaded parts. You first 
 - `CompleteMultipartUpload`: The container for the multipart upload request information.
 - `x-amz-request-payer`: 
 """
-CompleteMultipartUpload(Bucket, Key, uploadId; aws::AWSConfig=AWS.aws_config) = s3("POST", "/$(Bucket)/$(Key)", Dict{String, Any}("uploadId"=>uploadId); aws=aws)
-CompleteMultipartUpload(Bucket, Key, uploadId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("POST", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("uploadId"=>uploadId), args)); aws=aws)
+
+CompleteMultipartUpload(Bucket, Key, uploadId; aws_config::AWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)/$(Key)", Dict{String, Any}("uploadId"=>uploadId); aws_config=aws_config)
+CompleteMultipartUpload(Bucket, Key, uploadId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("uploadId"=>uploadId), args)); aws_config=aws_config)
 
 """
     CopyObject()
@@ -83,8 +85,9 @@ Creates a copy of an object that is already stored in Amazon S3.  You can store 
 - `x-amz-tagging-directive`: Specifies whether the object tag-set are copied from the source object or replaced with tag-set provided in the request.
 - `x-amz-website-redirect-location`: If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
 """
-CopyObject(Bucket, Key, x_amz_copy_source; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)/$(Key)", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-copy-source"=>x_amz_copy_source)); aws=aws)
-CopyObject(Bucket, Key, x_amz_copy_source, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-copy-source"=>x_amz_copy_source)), args)); aws=aws)
+
+CopyObject(Bucket, Key, x_amz_copy_source; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-copy-source"=>x_amz_copy_source)); aws_config=aws_config)
+CopyObject(Bucket, Key, x_amz_copy_source, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-copy-source"=>x_amz_copy_source)), args)); aws_config=aws_config)
 
 """
     CreateBucket()
@@ -104,8 +107,9 @@ Creates a new bucket. To create a bucket, you must register with Amazon S3 and h
 - `x-amz-grant-write`: Allows grantee to create, overwrite, and delete any object in the bucket.
 - `x-amz-grant-write-acp`: Allows grantee to write the ACL for the applicable bucket.
 """
-CreateBucket(Bucket; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)"; aws=aws)
-CreateBucket(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)", args; aws=aws)
+
+CreateBucket(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)"; aws_config=aws_config)
+CreateBucket(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)", args; aws_config=aws_config)
 
 """
     CreateMultipartUpload()
@@ -143,8 +147,9 @@ This operation initiates a multipart upload and returns an upload ID. This uploa
 - `x-amz-tagging`: The tag-set for the object. The tag-set must be encoded as URL Query parameters.
 - `x-amz-website-redirect-location`: If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata.
 """
-CreateMultipartUpload(Bucket, Key; aws::AWSConfig=AWS.aws_config) = s3("POST", "/$(Bucket)/$(Key)?uploads"; aws=aws)
-CreateMultipartUpload(Bucket, Key, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("POST", "/$(Bucket)/$(Key)?uploads", args; aws=aws)
+
+CreateMultipartUpload(Bucket, Key; aws_config::AWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)/$(Key)?uploads"; aws_config=aws_config)
+CreateMultipartUpload(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)/$(Key)?uploads", args; aws_config=aws_config)
 
 """
     DeleteBucket()
@@ -155,8 +160,9 @@ Deletes the bucket. All objects (including all object versions and delete marker
 - `Bucket`: Specifies the bucket being deleted.
 
 """
-DeleteBucket(Bucket; aws::AWSConfig=AWS.aws_config) = s3("DELETE", "/$(Bucket)"; aws=aws)
-DeleteBucket(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("DELETE", "/$(Bucket)", args; aws=aws)
+
+DeleteBucket(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)"; aws_config=aws_config)
+DeleteBucket(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)", args; aws_config=aws_config)
 
 """
     DeleteBucketAnalyticsConfiguration()
@@ -168,8 +174,9 @@ Deletes an analytics configuration for the bucket (specified by the analytics co
 - `id`: The ID that identifies the analytics configuration.
 
 """
-DeleteBucketAnalyticsConfiguration(Bucket, id; aws::AWSConfig=AWS.aws_config) = s3("DELETE", "/$(Bucket)?analytics", Dict{String, Any}("id"=>id); aws=aws)
-DeleteBucketAnalyticsConfiguration(Bucket, id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("DELETE", "/$(Bucket)?analytics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws=aws)
+
+DeleteBucketAnalyticsConfiguration(Bucket, id; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?analytics", Dict{String, Any}("id"=>id); aws_config=aws_config)
+DeleteBucketAnalyticsConfiguration(Bucket, id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?analytics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws_config=aws_config)
 
 """
     DeleteBucketCors()
@@ -180,8 +187,9 @@ Deletes the cors configuration information set for the bucket. To use this opera
 - `Bucket`: Specifies the bucket whose cors configuration is being deleted.
 
 """
-DeleteBucketCors(Bucket; aws::AWSConfig=AWS.aws_config) = s3("DELETE", "/$(Bucket)?cors"; aws=aws)
-DeleteBucketCors(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("DELETE", "/$(Bucket)?cors", args; aws=aws)
+
+DeleteBucketCors(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?cors"; aws_config=aws_config)
+DeleteBucketCors(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?cors", args; aws_config=aws_config)
 
 """
     DeleteBucketEncryption()
@@ -192,8 +200,9 @@ This implementation of the DELETE operation removes default encryption from the 
 - `Bucket`: The name of the bucket containing the server-side encryption configuration to delete.
 
 """
-DeleteBucketEncryption(Bucket; aws::AWSConfig=AWS.aws_config) = s3("DELETE", "/$(Bucket)?encryption"; aws=aws)
-DeleteBucketEncryption(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("DELETE", "/$(Bucket)?encryption", args; aws=aws)
+
+DeleteBucketEncryption(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?encryption"; aws_config=aws_config)
+DeleteBucketEncryption(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?encryption", args; aws_config=aws_config)
 
 """
     DeleteBucketInventoryConfiguration()
@@ -205,8 +214,9 @@ Deletes an inventory configuration (identified by the inventory ID) from the buc
 - `id`: The ID used to identify the inventory configuration.
 
 """
-DeleteBucketInventoryConfiguration(Bucket, id; aws::AWSConfig=AWS.aws_config) = s3("DELETE", "/$(Bucket)?inventory", Dict{String, Any}("id"=>id); aws=aws)
-DeleteBucketInventoryConfiguration(Bucket, id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("DELETE", "/$(Bucket)?inventory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws=aws)
+
+DeleteBucketInventoryConfiguration(Bucket, id; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?inventory", Dict{String, Any}("id"=>id); aws_config=aws_config)
+DeleteBucketInventoryConfiguration(Bucket, id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?inventory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws_config=aws_config)
 
 """
     DeleteBucketLifecycle()
@@ -217,8 +227,9 @@ Deletes the lifecycle configuration from the specified bucket. Amazon S3 removes
 - `Bucket`: The bucket name of the lifecycle to delete.
 
 """
-DeleteBucketLifecycle(Bucket; aws::AWSConfig=AWS.aws_config) = s3("DELETE", "/$(Bucket)?lifecycle"; aws=aws)
-DeleteBucketLifecycle(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("DELETE", "/$(Bucket)?lifecycle", args; aws=aws)
+
+DeleteBucketLifecycle(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?lifecycle"; aws_config=aws_config)
+DeleteBucketLifecycle(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?lifecycle", args; aws_config=aws_config)
 
 """
     DeleteBucketMetricsConfiguration()
@@ -230,8 +241,9 @@ Deletes a metrics configuration for the Amazon CloudWatch request metrics (speci
 - `id`: The ID used to identify the metrics configuration.
 
 """
-DeleteBucketMetricsConfiguration(Bucket, id; aws::AWSConfig=AWS.aws_config) = s3("DELETE", "/$(Bucket)?metrics", Dict{String, Any}("id"=>id); aws=aws)
-DeleteBucketMetricsConfiguration(Bucket, id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("DELETE", "/$(Bucket)?metrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws=aws)
+
+DeleteBucketMetricsConfiguration(Bucket, id; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?metrics", Dict{String, Any}("id"=>id); aws_config=aws_config)
+DeleteBucketMetricsConfiguration(Bucket, id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?metrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws_config=aws_config)
 
 """
     DeleteBucketPolicy()
@@ -242,8 +254,9 @@ This implementation of the DELETE operation uses the policy subresource to delet
 - `Bucket`: The bucket name.
 
 """
-DeleteBucketPolicy(Bucket; aws::AWSConfig=AWS.aws_config) = s3("DELETE", "/$(Bucket)?policy"; aws=aws)
-DeleteBucketPolicy(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("DELETE", "/$(Bucket)?policy", args; aws=aws)
+
+DeleteBucketPolicy(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?policy"; aws_config=aws_config)
+DeleteBucketPolicy(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?policy", args; aws_config=aws_config)
 
 """
     DeleteBucketReplication()
@@ -254,8 +267,9 @@ DeleteBucketPolicy(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS
 - `Bucket`:  The bucket name. 
 
 """
-DeleteBucketReplication(Bucket; aws::AWSConfig=AWS.aws_config) = s3("DELETE", "/$(Bucket)?replication"; aws=aws)
-DeleteBucketReplication(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("DELETE", "/$(Bucket)?replication", args; aws=aws)
+
+DeleteBucketReplication(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?replication"; aws_config=aws_config)
+DeleteBucketReplication(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?replication", args; aws_config=aws_config)
 
 """
     DeleteBucketTagging()
@@ -266,8 +280,9 @@ Deletes the tags from the bucket. To use this operation, you must have permissio
 - `Bucket`: The bucket that has the tag set to be removed.
 
 """
-DeleteBucketTagging(Bucket; aws::AWSConfig=AWS.aws_config) = s3("DELETE", "/$(Bucket)?tagging"; aws=aws)
-DeleteBucketTagging(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("DELETE", "/$(Bucket)?tagging", args; aws=aws)
+
+DeleteBucketTagging(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?tagging"; aws_config=aws_config)
+DeleteBucketTagging(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?tagging", args; aws_config=aws_config)
 
 """
     DeleteBucketWebsite()
@@ -278,8 +293,9 @@ This operation removes the website configuration for a bucket. Amazon S3 returns
 - `Bucket`: The bucket name for which you want to remove the website configuration. 
 
 """
-DeleteBucketWebsite(Bucket; aws::AWSConfig=AWS.aws_config) = s3("DELETE", "/$(Bucket)?website"; aws=aws)
-DeleteBucketWebsite(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("DELETE", "/$(Bucket)?website", args; aws=aws)
+
+DeleteBucketWebsite(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?website"; aws_config=aws_config)
+DeleteBucketWebsite(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?website", args; aws_config=aws_config)
 
 """
     DeleteObject()
@@ -296,8 +312,9 @@ Removes the null version (if there is one) of an object and inserts a delete mar
 - `x-amz-mfa`: The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device. Required to permanently delete a versioned object if versioning is configured with MFA delete enabled.
 - `x-amz-request-payer`: 
 """
-DeleteObject(Bucket, Key; aws::AWSConfig=AWS.aws_config) = s3("DELETE", "/$(Bucket)/$(Key)"; aws=aws)
-DeleteObject(Bucket, Key, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("DELETE", "/$(Bucket)/$(Key)", args; aws=aws)
+
+DeleteObject(Bucket, Key; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)/$(Key)"; aws_config=aws_config)
+DeleteObject(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)/$(Key)", args; aws_config=aws_config)
 
 """
     DeleteObjectTagging()
@@ -311,8 +328,9 @@ Removes the entire tag set from the specified object. For more information about
 # Optional Parameters
 - `versionId`: The versionId of the object that the tag-set will be removed from.
 """
-DeleteObjectTagging(Bucket, Key; aws::AWSConfig=AWS.aws_config) = s3("DELETE", "/$(Bucket)/$(Key)?tagging"; aws=aws)
-DeleteObjectTagging(Bucket, Key, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("DELETE", "/$(Bucket)/$(Key)?tagging", args; aws=aws)
+
+DeleteObjectTagging(Bucket, Key; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)/$(Key)?tagging"; aws_config=aws_config)
+DeleteObjectTagging(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)/$(Key)?tagging", args; aws_config=aws_config)
 
 """
     DeleteObjects()
@@ -328,8 +346,9 @@ This operation enables you to delete multiple objects from a bucket using a sing
 - `x-amz-mfa`: The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device. Required to permanently delete a versioned object if versioning is configured with MFA delete enabled.
 - `x-amz-request-payer`: 
 """
-DeleteObjects(Bucket, Delete; aws::AWSConfig=AWS.aws_config) = s3("POST", "/$(Bucket)?delete", Dict{String, Any}("Delete"=>Delete); aws=aws)
-DeleteObjects(Bucket, Delete, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("POST", "/$(Bucket)?delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Delete"=>Delete), args)); aws=aws)
+
+DeleteObjects(Bucket, Delete; aws_config::AWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)?delete", Dict{String, Any}("Delete"=>Delete); aws_config=aws_config)
+DeleteObjects(Bucket, Delete, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)?delete", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Delete"=>Delete), args)); aws_config=aws_config)
 
 """
     DeletePublicAccessBlock()
@@ -340,8 +359,9 @@ Removes the PublicAccessBlock configuration for an Amazon S3 bucket. To use this
 - `Bucket`: The Amazon S3 bucket whose PublicAccessBlock configuration you want to delete. 
 
 """
-DeletePublicAccessBlock(Bucket; aws::AWSConfig=AWS.aws_config) = s3("DELETE", "/$(Bucket)?publicAccessBlock"; aws=aws)
-DeletePublicAccessBlock(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("DELETE", "/$(Bucket)?publicAccessBlock", args; aws=aws)
+
+DeletePublicAccessBlock(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?publicAccessBlock"; aws_config=aws_config)
+DeletePublicAccessBlock(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("DELETE", "/$(Bucket)?publicAccessBlock", args; aws_config=aws_config)
 
 """
     GetBucketAccelerateConfiguration()
@@ -352,8 +372,9 @@ This implementation of the GET operation uses the accelerate subresource to retu
 - `Bucket`: Name of the bucket for which the accelerate configuration is retrieved.
 
 """
-GetBucketAccelerateConfiguration(Bucket; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?accelerate"; aws=aws)
-GetBucketAccelerateConfiguration(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?accelerate", args; aws=aws)
+
+GetBucketAccelerateConfiguration(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?accelerate"; aws_config=aws_config)
+GetBucketAccelerateConfiguration(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?accelerate", args; aws_config=aws_config)
 
 """
     GetBucketAcl()
@@ -364,8 +385,9 @@ This implementation of the GET operation uses the acl subresource to return the 
 - `Bucket`: Specifies the S3 bucket whose ACL is being requested.
 
 """
-GetBucketAcl(Bucket; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?acl"; aws=aws)
-GetBucketAcl(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?acl", args; aws=aws)
+
+GetBucketAcl(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?acl"; aws_config=aws_config)
+GetBucketAcl(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?acl", args; aws_config=aws_config)
 
 """
     GetBucketAnalyticsConfiguration()
@@ -377,8 +399,9 @@ This implementation of the GET operation returns an analytics configuration (ide
 - `id`: The ID that identifies the analytics configuration.
 
 """
-GetBucketAnalyticsConfiguration(Bucket, id; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?analytics", Dict{String, Any}("id"=>id); aws=aws)
-GetBucketAnalyticsConfiguration(Bucket, id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?analytics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws=aws)
+
+GetBucketAnalyticsConfiguration(Bucket, id; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?analytics", Dict{String, Any}("id"=>id); aws_config=aws_config)
+GetBucketAnalyticsConfiguration(Bucket, id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?analytics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws_config=aws_config)
 
 """
     GetBucketCors()
@@ -389,8 +412,9 @@ Returns the cors configuration information set for the bucket.  To use this oper
 - `Bucket`: The bucket name for which to get the cors configuration.
 
 """
-GetBucketCors(Bucket; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?cors"; aws=aws)
-GetBucketCors(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?cors", args; aws=aws)
+
+GetBucketCors(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?cors"; aws_config=aws_config)
+GetBucketCors(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?cors", args; aws_config=aws_config)
 
 """
     GetBucketEncryption()
@@ -401,8 +425,9 @@ Returns the default encryption configuration for an Amazon S3 bucket. For inform
 - `Bucket`: The name of the bucket from which the server-side encryption configuration is retrieved.
 
 """
-GetBucketEncryption(Bucket; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?encryption"; aws=aws)
-GetBucketEncryption(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?encryption", args; aws=aws)
+
+GetBucketEncryption(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?encryption"; aws_config=aws_config)
+GetBucketEncryption(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?encryption", args; aws_config=aws_config)
 
 """
     GetBucketInventoryConfiguration()
@@ -414,8 +439,9 @@ Returns an inventory configuration (identified by the inventory configuration ID
 - `id`: The ID used to identify the inventory configuration.
 
 """
-GetBucketInventoryConfiguration(Bucket, id; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?inventory", Dict{String, Any}("id"=>id); aws=aws)
-GetBucketInventoryConfiguration(Bucket, id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?inventory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws=aws)
+
+GetBucketInventoryConfiguration(Bucket, id; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?inventory", Dict{String, Any}("id"=>id); aws_config=aws_config)
+GetBucketInventoryConfiguration(Bucket, id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?inventory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws_config=aws_config)
 
 """
     GetBucketLifecycle()
@@ -426,8 +452,9 @@ GetBucketInventoryConfiguration(Bucket, id, args::AbstractDict{String, <:Any}; a
 - `Bucket`: The name of the bucket for which to get the lifecycle information.
 
 """
-GetBucketLifecycle(Bucket; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?lifecycle"; aws=aws)
-GetBucketLifecycle(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?lifecycle", args; aws=aws)
+
+GetBucketLifecycle(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?lifecycle"; aws_config=aws_config)
+GetBucketLifecycle(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?lifecycle", args; aws_config=aws_config)
 
 """
     GetBucketLifecycleConfiguration()
@@ -438,8 +465,9 @@ GetBucketLifecycle(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS
 - `Bucket`: The name of the bucket for which to get the lifecycle information.
 
 """
-GetBucketLifecycleConfiguration(Bucket; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?lifecycle"; aws=aws)
-GetBucketLifecycleConfiguration(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?lifecycle", args; aws=aws)
+
+GetBucketLifecycleConfiguration(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?lifecycle"; aws_config=aws_config)
+GetBucketLifecycleConfiguration(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?lifecycle", args; aws_config=aws_config)
 
 """
     GetBucketLocation()
@@ -450,8 +478,9 @@ Returns the Region the bucket resides in. You set the bucket's Region using the 
 - `Bucket`: The name of the bucket for which to get the location.
 
 """
-GetBucketLocation(Bucket; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?location"; aws=aws)
-GetBucketLocation(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?location", args; aws=aws)
+
+GetBucketLocation(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?location"; aws_config=aws_config)
+GetBucketLocation(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?location", args; aws_config=aws_config)
 
 """
     GetBucketLogging()
@@ -462,8 +491,9 @@ Returns the logging status of a bucket and the permissions users have to view an
 - `Bucket`: The bucket name for which to get the logging information.
 
 """
-GetBucketLogging(Bucket; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?logging"; aws=aws)
-GetBucketLogging(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?logging", args; aws=aws)
+
+GetBucketLogging(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?logging"; aws_config=aws_config)
+GetBucketLogging(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?logging", args; aws_config=aws_config)
 
 """
     GetBucketMetricsConfiguration()
@@ -475,8 +505,9 @@ Gets a metrics configuration (specified by the metrics configuration ID) from th
 - `id`: The ID used to identify the metrics configuration.
 
 """
-GetBucketMetricsConfiguration(Bucket, id; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?metrics", Dict{String, Any}("id"=>id); aws=aws)
-GetBucketMetricsConfiguration(Bucket, id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?metrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws=aws)
+
+GetBucketMetricsConfiguration(Bucket, id; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?metrics", Dict{String, Any}("id"=>id); aws_config=aws_config)
+GetBucketMetricsConfiguration(Bucket, id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?metrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("id"=>id), args)); aws_config=aws_config)
 
 """
     GetBucketNotification()
@@ -487,8 +518,9 @@ GetBucketMetricsConfiguration(Bucket, id, args::AbstractDict{String, <:Any}; aws
 - `Bucket`: Name of the bucket for which to get the notification configuration.
 
 """
-GetBucketNotification(Bucket; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?notification"; aws=aws)
-GetBucketNotification(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?notification", args; aws=aws)
+
+GetBucketNotification(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?notification"; aws_config=aws_config)
+GetBucketNotification(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?notification", args; aws_config=aws_config)
 
 """
     GetBucketNotificationConfiguration()
@@ -499,8 +531,9 @@ Returns the notification configuration of a bucket. If notifications are not ena
 - `Bucket`: Name of the bucket for which to get the notification configuration.
 
 """
-GetBucketNotificationConfiguration(Bucket; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?notification"; aws=aws)
-GetBucketNotificationConfiguration(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?notification", args; aws=aws)
+
+GetBucketNotificationConfiguration(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?notification"; aws_config=aws_config)
+GetBucketNotificationConfiguration(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?notification", args; aws_config=aws_config)
 
 """
     GetBucketPolicy()
@@ -511,8 +544,9 @@ Returns the policy of a specified bucket. If you are using an identity other tha
 - `Bucket`: The bucket name for which to get the bucket policy.
 
 """
-GetBucketPolicy(Bucket; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?policy"; aws=aws)
-GetBucketPolicy(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?policy", args; aws=aws)
+
+GetBucketPolicy(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?policy"; aws_config=aws_config)
+GetBucketPolicy(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?policy", args; aws_config=aws_config)
 
 """
     GetBucketPolicyStatus()
@@ -523,8 +557,9 @@ Retrieves the policy status for an Amazon S3 bucket, indicating whether the buck
 - `Bucket`: The name of the Amazon S3 bucket whose policy status you want to retrieve.
 
 """
-GetBucketPolicyStatus(Bucket; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?policyStatus"; aws=aws)
-GetBucketPolicyStatus(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?policyStatus", args; aws=aws)
+
+GetBucketPolicyStatus(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?policyStatus"; aws_config=aws_config)
+GetBucketPolicyStatus(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?policyStatus", args; aws_config=aws_config)
 
 """
     GetBucketReplication()
@@ -535,8 +570,9 @@ Returns the replication configuration of a bucket.   It can take a while to prop
 - `Bucket`: The bucket name for which to get the replication information.
 
 """
-GetBucketReplication(Bucket; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?replication"; aws=aws)
-GetBucketReplication(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?replication", args; aws=aws)
+
+GetBucketReplication(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?replication"; aws_config=aws_config)
+GetBucketReplication(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?replication", args; aws_config=aws_config)
 
 """
     GetBucketRequestPayment()
@@ -547,8 +583,9 @@ Returns the request payment configuration of a bucket. To use this version of th
 - `Bucket`: The name of the bucket for which to get the payment request configuration
 
 """
-GetBucketRequestPayment(Bucket; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?requestPayment"; aws=aws)
-GetBucketRequestPayment(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?requestPayment", args; aws=aws)
+
+GetBucketRequestPayment(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?requestPayment"; aws_config=aws_config)
+GetBucketRequestPayment(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?requestPayment", args; aws_config=aws_config)
 
 """
     GetBucketTagging()
@@ -559,8 +596,9 @@ Returns the tag set associated with the bucket. To use this operation, you must 
 - `Bucket`: The name of the bucket for which to get the tagging information.
 
 """
-GetBucketTagging(Bucket; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?tagging"; aws=aws)
-GetBucketTagging(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?tagging", args; aws=aws)
+
+GetBucketTagging(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?tagging"; aws_config=aws_config)
+GetBucketTagging(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?tagging", args; aws_config=aws_config)
 
 """
     GetBucketVersioning()
@@ -571,8 +609,9 @@ Returns the versioning state of a bucket. To retrieve the versioning state of a 
 - `Bucket`: The name of the bucket for which to get the versioning information.
 
 """
-GetBucketVersioning(Bucket; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?versioning"; aws=aws)
-GetBucketVersioning(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?versioning", args; aws=aws)
+
+GetBucketVersioning(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?versioning"; aws_config=aws_config)
+GetBucketVersioning(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?versioning", args; aws_config=aws_config)
 
 """
     GetBucketWebsite()
@@ -583,8 +622,9 @@ Returns the website configuration for a bucket. To host website on Amazon S3, yo
 - `Bucket`: The bucket name for which to get the website configuration.
 
 """
-GetBucketWebsite(Bucket; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?website"; aws=aws)
-GetBucketWebsite(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?website", args; aws=aws)
+
+GetBucketWebsite(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?website"; aws_config=aws_config)
+GetBucketWebsite(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?website", args; aws_config=aws_config)
 
 """
     GetObject()
@@ -614,8 +654,9 @@ Retrieves objects from Amazon S3. To use GET, you must have READ access to the o
 - `x-amz-server-side-encryption-customer-key`: Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon S3 does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header.
 - `x-amz-server-side-encryption-customer-key-MD5`: Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the encryption key was transmitted without error.
 """
-GetObject(Bucket, Key; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)/$(Key)"; aws=aws)
-GetObject(Bucket, Key, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)/$(Key)", args; aws=aws)
+
+GetObject(Bucket, Key; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)"; aws_config=aws_config)
+GetObject(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)", args; aws_config=aws_config)
 
 """
     GetObjectAcl()
@@ -630,8 +671,9 @@ Returns the access control list (ACL) of an object. To use this operation, you m
 - `versionId`: VersionId used to reference a specific version of the object.
 - `x-amz-request-payer`: 
 """
-GetObjectAcl(Bucket, Key; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)/$(Key)?acl"; aws=aws)
-GetObjectAcl(Bucket, Key, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)/$(Key)?acl", args; aws=aws)
+
+GetObjectAcl(Bucket, Key; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?acl"; aws_config=aws_config)
+GetObjectAcl(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?acl", args; aws_config=aws_config)
 
 """
     GetObjectLegalHold()
@@ -646,8 +688,9 @@ Gets an object's current Legal Hold status. For more information, see Locking Ob
 - `versionId`: The version ID of the object whose Legal Hold status you want to retrieve.
 - `x-amz-request-payer`: 
 """
-GetObjectLegalHold(Bucket, Key; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)/$(Key)?legal-hold"; aws=aws)
-GetObjectLegalHold(Bucket, Key, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)/$(Key)?legal-hold", args; aws=aws)
+
+GetObjectLegalHold(Bucket, Key; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?legal-hold"; aws_config=aws_config)
+GetObjectLegalHold(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?legal-hold", args; aws_config=aws_config)
 
 """
     GetObjectLockConfiguration()
@@ -658,8 +701,9 @@ Gets the Object Lock configuration for a bucket. The rule specified in the Objec
 - `Bucket`: The bucket whose Object Lock configuration you want to retrieve.
 
 """
-GetObjectLockConfiguration(Bucket; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?object-lock"; aws=aws)
-GetObjectLockConfiguration(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?object-lock", args; aws=aws)
+
+GetObjectLockConfiguration(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?object-lock"; aws_config=aws_config)
+GetObjectLockConfiguration(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?object-lock", args; aws_config=aws_config)
 
 """
     GetObjectRetention()
@@ -674,8 +718,9 @@ Retrieves an object's retention settings. For more information, see Locking Obje
 - `versionId`: The version ID for the object whose retention settings you want to retrieve.
 - `x-amz-request-payer`: 
 """
-GetObjectRetention(Bucket, Key; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)/$(Key)?retention"; aws=aws)
-GetObjectRetention(Bucket, Key, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)/$(Key)?retention", args; aws=aws)
+
+GetObjectRetention(Bucket, Key; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?retention"; aws_config=aws_config)
+GetObjectRetention(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?retention", args; aws_config=aws_config)
 
 """
     GetObjectTagging()
@@ -689,8 +734,9 @@ Returns the tag-set of an object. You send the GET request against the tagging s
 # Optional Parameters
 - `versionId`: The versionId of the object for which to get the tagging information.
 """
-GetObjectTagging(Bucket, Key; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)/$(Key)?tagging"; aws=aws)
-GetObjectTagging(Bucket, Key, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)/$(Key)?tagging", args; aws=aws)
+
+GetObjectTagging(Bucket, Key; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?tagging"; aws_config=aws_config)
+GetObjectTagging(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?tagging", args; aws_config=aws_config)
 
 """
     GetObjectTorrent()
@@ -704,8 +750,9 @@ Return torrent files from a bucket. BitTorrent can save you bandwidth when you'r
 # Optional Parameters
 - `x-amz-request-payer`: 
 """
-GetObjectTorrent(Bucket, Key; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)/$(Key)?torrent"; aws=aws)
-GetObjectTorrent(Bucket, Key, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)/$(Key)?torrent", args; aws=aws)
+
+GetObjectTorrent(Bucket, Key; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?torrent"; aws_config=aws_config)
+GetObjectTorrent(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)?torrent", args; aws_config=aws_config)
 
 """
     GetPublicAccessBlock()
@@ -716,8 +763,9 @@ Retrieves the PublicAccessBlock configuration for an Amazon S3 bucket. To use th
 - `Bucket`: The name of the Amazon S3 bucket whose PublicAccessBlock configuration you want to retrieve. 
 
 """
-GetPublicAccessBlock(Bucket; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?publicAccessBlock"; aws=aws)
-GetPublicAccessBlock(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?publicAccessBlock", args; aws=aws)
+
+GetPublicAccessBlock(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?publicAccessBlock"; aws_config=aws_config)
+GetPublicAccessBlock(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?publicAccessBlock", args; aws_config=aws_config)
 
 """
     HeadBucket()
@@ -728,8 +776,9 @@ This operation is useful to determine if a bucket exists and you have permission
 - `Bucket`: The bucket name.
 
 """
-HeadBucket(Bucket; aws::AWSConfig=AWS.aws_config) = s3("HEAD", "/$(Bucket)"; aws=aws)
-HeadBucket(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("HEAD", "/$(Bucket)", args; aws=aws)
+
+HeadBucket(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("HEAD", "/$(Bucket)"; aws_config=aws_config)
+HeadBucket(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("HEAD", "/$(Bucket)", args; aws_config=aws_config)
 
 """
     HeadObject()
@@ -753,8 +802,9 @@ The HEAD operation retrieves metadata from an object without returning the objec
 - `x-amz-server-side-encryption-customer-key`: Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon S3 does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header.
 - `x-amz-server-side-encryption-customer-key-MD5`: Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the encryption key was transmitted without error.
 """
-HeadObject(Bucket, Key; aws::AWSConfig=AWS.aws_config) = s3("HEAD", "/$(Bucket)/$(Key)"; aws=aws)
-HeadObject(Bucket, Key, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("HEAD", "/$(Bucket)/$(Key)", args; aws=aws)
+
+HeadObject(Bucket, Key; aws_config::AWSConfig=global_aws_config()) = s3("HEAD", "/$(Bucket)/$(Key)"; aws_config=aws_config)
+HeadObject(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("HEAD", "/$(Bucket)/$(Key)", args; aws_config=aws_config)
 
 """
     ListBucketAnalyticsConfigurations()
@@ -767,8 +817,9 @@ Lists the analytics configurations for the bucket. You can have up to 1,000 anal
 # Optional Parameters
 - `continuation-token`: The ContinuationToken that represents a placeholder from where this request should begin.
 """
-ListBucketAnalyticsConfigurations(Bucket; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?analytics"; aws=aws)
-ListBucketAnalyticsConfigurations(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?analytics", args; aws=aws)
+
+ListBucketAnalyticsConfigurations(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?analytics"; aws_config=aws_config)
+ListBucketAnalyticsConfigurations(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?analytics", args; aws_config=aws_config)
 
 """
     ListBucketInventoryConfigurations()
@@ -781,8 +832,9 @@ Returns a list of inventory configurations for the bucket. You can have up to 1,
 # Optional Parameters
 - `continuation-token`: The marker used to continue an inventory configuration listing that has been truncated. Use the NextContinuationToken from a previously truncated list response to continue the listing. The continuation token is an opaque value that Amazon S3 understands.
 """
-ListBucketInventoryConfigurations(Bucket; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?inventory"; aws=aws)
-ListBucketInventoryConfigurations(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?inventory", args; aws=aws)
+
+ListBucketInventoryConfigurations(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?inventory"; aws_config=aws_config)
+ListBucketInventoryConfigurations(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?inventory", args; aws_config=aws_config)
 
 """
     ListBucketMetricsConfigurations()
@@ -795,8 +847,9 @@ Lists the metrics configurations for the bucket. The metrics configurations are 
 # Optional Parameters
 - `continuation-token`: The marker that is used to continue a metrics configuration listing that has been truncated. Use the NextContinuationToken from a previously truncated list response to continue the listing. The continuation token is an opaque value that Amazon S3 understands.
 """
-ListBucketMetricsConfigurations(Bucket; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?metrics"; aws=aws)
-ListBucketMetricsConfigurations(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?metrics", args; aws=aws)
+
+ListBucketMetricsConfigurations(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?metrics"; aws_config=aws_config)
+ListBucketMetricsConfigurations(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?metrics", args; aws_config=aws_config)
 
 """
     ListBuckets()
@@ -804,8 +857,9 @@ ListBucketMetricsConfigurations(Bucket, args::AbstractDict{String, <:Any}; aws::
 Returns a list of all buckets owned by the authenticated sender of the request.
 
 """
-ListBuckets(; aws::AWSConfig=AWS.aws_config) = s3("GET", "/"; aws=aws)
-ListBuckets(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = s3("GET", "/", args; aws=aws)
+
+ListBuckets(; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/"; aws_config=aws_config)
+ListBuckets(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/", args; aws_config=aws_config)
 
 """
     ListMultipartUploads()
@@ -823,8 +877,9 @@ This operation lists in-progress multipart uploads. An in-progress multipart upl
 - `prefix`: Lists in-progress uploads only for those keys that begin with the specified prefix. You can use prefixes to separate a bucket into different grouping of keys. (You can think of using prefix to make groups in the same way you'd use a folder in a file system.)
 - `upload-id-marker`: Together with key-marker, specifies the multipart upload after which listing should begin. If key-marker is not specified, the upload-id-marker parameter is ignored. Otherwise, any multipart uploads for a key equal to the key-marker might be included in the list only if they have an upload ID lexicographically greater than the specified upload-id-marker.
 """
-ListMultipartUploads(Bucket; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?uploads"; aws=aws)
-ListMultipartUploads(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?uploads", args; aws=aws)
+
+ListMultipartUploads(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?uploads"; aws_config=aws_config)
+ListMultipartUploads(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?uploads", args; aws_config=aws_config)
 
 """
     ListObjectVersions()
@@ -842,8 +897,9 @@ Returns metadata about all of the versions of objects in a bucket. You can also 
 - `prefix`: Use this parameter to select only those keys that begin with the specified prefix. You can use prefixes to separate a bucket into different groupings of keys. (You can think of using prefix to make groups in the same way you'd use a folder in a file system.) You can use prefix with delimiter to roll up numerous objects into a single result under CommonPrefixes. 
 - `version-id-marker`: Specifies the object version you want to start listing from.
 """
-ListObjectVersions(Bucket; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?versions"; aws=aws)
-ListObjectVersions(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?versions", args; aws=aws)
+
+ListObjectVersions(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?versions"; aws_config=aws_config)
+ListObjectVersions(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?versions", args; aws_config=aws_config)
 
 """
     ListObjects()
@@ -861,8 +917,9 @@ Returns some or all (up to 1,000) of the objects in a bucket. You can use the re
 - `prefix`: Limits the response to keys that begin with the specified prefix.
 - `x-amz-request-payer`: Confirms that the requester knows that she or he will be charged for the list objects request. Bucket owners need not specify this parameter in their requests.
 """
-ListObjects(Bucket; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)"; aws=aws)
-ListObjects(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)", args; aws=aws)
+
+ListObjects(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)"; aws_config=aws_config)
+ListObjects(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)", args; aws_config=aws_config)
 
 """
     ListObjectsV2()
@@ -882,8 +939,9 @@ Returns some or all (up to 1,000) of the objects in a bucket. You can use the re
 - `start-after`: StartAfter is where you want Amazon S3 to start listing from. Amazon S3 starts listing after this specified key. StartAfter can be any key in the bucket.
 - `x-amz-request-payer`: Confirms that the requester knows that she or he will be charged for the list objects request in V2 style. Bucket owners need not specify this parameter in their requests.
 """
-ListObjectsV2(Bucket; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?list-type=2"; aws=aws)
-ListObjectsV2(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)?list-type=2", args; aws=aws)
+
+ListObjectsV2(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?list-type=2"; aws_config=aws_config)
+ListObjectsV2(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)?list-type=2", args; aws_config=aws_config)
 
 """
     ListParts()
@@ -900,8 +958,9 @@ Lists the parts that have been uploaded for a specific multipart upload. This op
 - `part-number-marker`: Specifies the part after which listing should begin. Only parts with higher part numbers will be listed.
 - `x-amz-request-payer`: 
 """
-ListParts(Bucket, Key, uploadId; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)/$(Key)", Dict{String, Any}("uploadId"=>uploadId); aws=aws)
-ListParts(Bucket, Key, uploadId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("GET", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("uploadId"=>uploadId), args)); aws=aws)
+
+ListParts(Bucket, Key, uploadId; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)", Dict{String, Any}("uploadId"=>uploadId); aws_config=aws_config)
+ListParts(Bucket, Key, uploadId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("GET", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("uploadId"=>uploadId), args)); aws_config=aws_config)
 
 """
     PutBucketAccelerateConfiguration()
@@ -913,8 +972,9 @@ Sets the accelerate configuration of an existing bucket. Amazon S3 Transfer Acce
 - `Bucket`: Name of the bucket for which the accelerate configuration is set.
 
 """
-PutBucketAccelerateConfiguration(AccelerateConfiguration, Bucket; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)?accelerate", Dict{String, Any}("AccelerateConfiguration"=>AccelerateConfiguration); aws=aws)
-PutBucketAccelerateConfiguration(AccelerateConfiguration, Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)?accelerate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccelerateConfiguration"=>AccelerateConfiguration), args)); aws=aws)
+
+PutBucketAccelerateConfiguration(AccelerateConfiguration, Bucket; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?accelerate", Dict{String, Any}("AccelerateConfiguration"=>AccelerateConfiguration); aws_config=aws_config)
+PutBucketAccelerateConfiguration(AccelerateConfiguration, Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?accelerate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccelerateConfiguration"=>AccelerateConfiguration), args)); aws_config=aws_config)
 
 """
     PutBucketAcl()
@@ -934,8 +994,9 @@ Sets the permissions on an existing bucket using access control lists (ACL). For
 - `x-amz-grant-write`: Allows grantee to create, overwrite, and delete any object in the bucket.
 - `x-amz-grant-write-acp`: Allows grantee to write the ACL for the applicable bucket.
 """
-PutBucketAcl(Bucket; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)?acl"; aws=aws)
-PutBucketAcl(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)?acl", args; aws=aws)
+
+PutBucketAcl(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?acl"; aws_config=aws_config)
+PutBucketAcl(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?acl", args; aws_config=aws_config)
 
 """
     PutBucketAnalyticsConfiguration()
@@ -948,8 +1009,9 @@ Sets an analytics configuration for the bucket (specified by the analytics confi
 - `id`: The ID that identifies the analytics configuration.
 
 """
-PutBucketAnalyticsConfiguration(AnalyticsConfiguration, Bucket, id; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)?analytics", Dict{String, Any}("AnalyticsConfiguration"=>AnalyticsConfiguration, "id"=>id); aws=aws)
-PutBucketAnalyticsConfiguration(AnalyticsConfiguration, Bucket, id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)?analytics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnalyticsConfiguration"=>AnalyticsConfiguration, "id"=>id), args)); aws=aws)
+
+PutBucketAnalyticsConfiguration(AnalyticsConfiguration, Bucket, id; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?analytics", Dict{String, Any}("AnalyticsConfiguration"=>AnalyticsConfiguration, "id"=>id); aws_config=aws_config)
+PutBucketAnalyticsConfiguration(AnalyticsConfiguration, Bucket, id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?analytics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AnalyticsConfiguration"=>AnalyticsConfiguration, "id"=>id), args)); aws_config=aws_config)
 
 """
     PutBucketCors()
@@ -963,8 +1025,9 @@ Sets the cors configuration for your bucket. If the configuration exists, Amazon
 # Optional Parameters
 - `Content-MD5`: The base64-encoded 128-bit MD5 digest of the data. This header must be used as a message integrity check to verify that the request body was not corrupted in transit. For more information, go to RFC 1864. 
 """
-PutBucketCors(Bucket, CORSConfiguration; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)?cors", Dict{String, Any}("CORSConfiguration"=>CORSConfiguration); aws=aws)
-PutBucketCors(Bucket, CORSConfiguration, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)?cors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CORSConfiguration"=>CORSConfiguration), args)); aws=aws)
+
+PutBucketCors(Bucket, CORSConfiguration; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?cors", Dict{String, Any}("CORSConfiguration"=>CORSConfiguration); aws_config=aws_config)
+PutBucketCors(Bucket, CORSConfiguration, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?cors", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CORSConfiguration"=>CORSConfiguration), args)); aws_config=aws_config)
 
 """
     PutBucketEncryption()
@@ -978,8 +1041,9 @@ This implementation of the PUT operation uses the encryption subresource to set 
 # Optional Parameters
 - `Content-MD5`: The base64-encoded 128-bit MD5 digest of the server-side encryption configuration. This parameter is auto-populated when using the command from the CLI.
 """
-PutBucketEncryption(Bucket, ServerSideEncryptionConfiguration; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)?encryption", Dict{String, Any}("ServerSideEncryptionConfiguration"=>ServerSideEncryptionConfiguration); aws=aws)
-PutBucketEncryption(Bucket, ServerSideEncryptionConfiguration, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)?encryption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerSideEncryptionConfiguration"=>ServerSideEncryptionConfiguration), args)); aws=aws)
+
+PutBucketEncryption(Bucket, ServerSideEncryptionConfiguration; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?encryption", Dict{String, Any}("ServerSideEncryptionConfiguration"=>ServerSideEncryptionConfiguration); aws_config=aws_config)
+PutBucketEncryption(Bucket, ServerSideEncryptionConfiguration, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?encryption", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerSideEncryptionConfiguration"=>ServerSideEncryptionConfiguration), args)); aws_config=aws_config)
 
 """
     PutBucketInventoryConfiguration()
@@ -992,8 +1056,9 @@ This implementation of the PUT operation adds an inventory configuration (identi
 - `id`: The ID used to identify the inventory configuration.
 
 """
-PutBucketInventoryConfiguration(Bucket, InventoryConfiguration, id; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)?inventory", Dict{String, Any}("InventoryConfiguration"=>InventoryConfiguration, "id"=>id); aws=aws)
-PutBucketInventoryConfiguration(Bucket, InventoryConfiguration, id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)?inventory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InventoryConfiguration"=>InventoryConfiguration, "id"=>id), args)); aws=aws)
+
+PutBucketInventoryConfiguration(Bucket, InventoryConfiguration, id; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?inventory", Dict{String, Any}("InventoryConfiguration"=>InventoryConfiguration, "id"=>id); aws_config=aws_config)
+PutBucketInventoryConfiguration(Bucket, InventoryConfiguration, id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?inventory", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InventoryConfiguration"=>InventoryConfiguration, "id"=>id), args)); aws_config=aws_config)
 
 """
     PutBucketLifecycle()
@@ -1007,8 +1072,9 @@ PutBucketInventoryConfiguration(Bucket, InventoryConfiguration, id, args::Abstra
 - `Content-MD5`: 
 - `LifecycleConfiguration`: 
 """
-PutBucketLifecycle(Bucket; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)?lifecycle"; aws=aws)
-PutBucketLifecycle(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)?lifecycle", args; aws=aws)
+
+PutBucketLifecycle(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?lifecycle"; aws_config=aws_config)
+PutBucketLifecycle(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?lifecycle", args; aws_config=aws_config)
 
 """
     PutBucketLifecycleConfiguration()
@@ -1021,8 +1087,9 @@ Creates a new lifecycle configuration for the bucket or replaces an existing lif
 # Optional Parameters
 - `LifecycleConfiguration`: Container for lifecycle rules. You can add as many as 1,000 rules.
 """
-PutBucketLifecycleConfiguration(Bucket; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)?lifecycle"; aws=aws)
-PutBucketLifecycleConfiguration(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)?lifecycle", args; aws=aws)
+
+PutBucketLifecycleConfiguration(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?lifecycle"; aws_config=aws_config)
+PutBucketLifecycleConfiguration(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?lifecycle", args; aws_config=aws_config)
 
 """
     PutBucketLogging()
@@ -1036,8 +1103,9 @@ Set the logging parameters for a bucket and to specify permissions for who can v
 # Optional Parameters
 - `Content-MD5`: The MD5 hash of the PutBucketLogging request body.
 """
-PutBucketLogging(Bucket, BucketLoggingStatus; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)?logging", Dict{String, Any}("BucketLoggingStatus"=>BucketLoggingStatus); aws=aws)
-PutBucketLogging(Bucket, BucketLoggingStatus, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)?logging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BucketLoggingStatus"=>BucketLoggingStatus), args)); aws=aws)
+
+PutBucketLogging(Bucket, BucketLoggingStatus; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?logging", Dict{String, Any}("BucketLoggingStatus"=>BucketLoggingStatus); aws_config=aws_config)
+PutBucketLogging(Bucket, BucketLoggingStatus, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?logging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("BucketLoggingStatus"=>BucketLoggingStatus), args)); aws_config=aws_config)
 
 """
     PutBucketMetricsConfiguration()
@@ -1050,8 +1118,9 @@ Sets a metrics configuration (specified by the metrics configuration ID) for the
 - `id`: The ID used to identify the metrics configuration.
 
 """
-PutBucketMetricsConfiguration(Bucket, MetricsConfiguration, id; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)?metrics", Dict{String, Any}("MetricsConfiguration"=>MetricsConfiguration, "id"=>id); aws=aws)
-PutBucketMetricsConfiguration(Bucket, MetricsConfiguration, id, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)?metrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricsConfiguration"=>MetricsConfiguration, "id"=>id), args)); aws=aws)
+
+PutBucketMetricsConfiguration(Bucket, MetricsConfiguration, id; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?metrics", Dict{String, Any}("MetricsConfiguration"=>MetricsConfiguration, "id"=>id); aws_config=aws_config)
+PutBucketMetricsConfiguration(Bucket, MetricsConfiguration, id, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?metrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("MetricsConfiguration"=>MetricsConfiguration, "id"=>id), args)); aws_config=aws_config)
 
 """
     PutBucketNotification()
@@ -1065,8 +1134,9 @@ PutBucketMetricsConfiguration(Bucket, MetricsConfiguration, id, args::AbstractDi
 # Optional Parameters
 - `Content-MD5`: The MD5 hash of the PutPublicAccessBlock request body.
 """
-PutBucketNotification(Bucket, NotificationConfiguration; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)?notification", Dict{String, Any}("NotificationConfiguration"=>NotificationConfiguration); aws=aws)
-PutBucketNotification(Bucket, NotificationConfiguration, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)?notification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotificationConfiguration"=>NotificationConfiguration), args)); aws=aws)
+
+PutBucketNotification(Bucket, NotificationConfiguration; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?notification", Dict{String, Any}("NotificationConfiguration"=>NotificationConfiguration); aws_config=aws_config)
+PutBucketNotification(Bucket, NotificationConfiguration, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?notification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotificationConfiguration"=>NotificationConfiguration), args)); aws_config=aws_config)
 
 """
     PutBucketNotificationConfiguration()
@@ -1078,8 +1148,9 @@ Enables notifications of specified events for a bucket. For more information abo
 - `NotificationConfiguration`: 
 
 """
-PutBucketNotificationConfiguration(Bucket, NotificationConfiguration; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)?notification", Dict{String, Any}("NotificationConfiguration"=>NotificationConfiguration); aws=aws)
-PutBucketNotificationConfiguration(Bucket, NotificationConfiguration, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)?notification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotificationConfiguration"=>NotificationConfiguration), args)); aws=aws)
+
+PutBucketNotificationConfiguration(Bucket, NotificationConfiguration; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?notification", Dict{String, Any}("NotificationConfiguration"=>NotificationConfiguration); aws_config=aws_config)
+PutBucketNotificationConfiguration(Bucket, NotificationConfiguration, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?notification", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NotificationConfiguration"=>NotificationConfiguration), args)); aws_config=aws_config)
 
 """
     PutBucketPolicy()
@@ -1094,8 +1165,9 @@ Applies an Amazon S3 bucket policy to an Amazon S3 bucket. If you are using an i
 - `Content-MD5`: The MD5 hash of the request body.
 - `x-amz-confirm-remove-self-bucket-access`: Set this parameter to true to confirm that you want to remove your permissions to change this bucket policy in the future.
 """
-PutBucketPolicy(Bucket, Policy; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)?policy", Dict{String, Any}("Policy"=>Policy); aws=aws)
-PutBucketPolicy(Bucket, Policy, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)?policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy), args)); aws=aws)
+
+PutBucketPolicy(Bucket, Policy; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?policy", Dict{String, Any}("Policy"=>Policy); aws_config=aws_config)
+PutBucketPolicy(Bucket, Policy, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?policy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Policy"=>Policy), args)); aws_config=aws_config)
 
 """
     PutBucketReplication()
@@ -1110,8 +1182,9 @@ PutBucketPolicy(Bucket, Policy, args::AbstractDict{String, <:Any}; aws::AWSConfi
 - `Content-MD5`: The base64-encoded 128-bit MD5 digest of the data. You must use this header as a message integrity check to verify that the request body was not corrupted in transit. For more information, see RFC 1864.
 - `x-amz-bucket-object-lock-token`: 
 """
-PutBucketReplication(Bucket, ReplicationConfiguration; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)?replication", Dict{String, Any}("ReplicationConfiguration"=>ReplicationConfiguration); aws=aws)
-PutBucketReplication(Bucket, ReplicationConfiguration, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)?replication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationConfiguration"=>ReplicationConfiguration), args)); aws=aws)
+
+PutBucketReplication(Bucket, ReplicationConfiguration; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?replication", Dict{String, Any}("ReplicationConfiguration"=>ReplicationConfiguration); aws_config=aws_config)
+PutBucketReplication(Bucket, ReplicationConfiguration, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?replication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ReplicationConfiguration"=>ReplicationConfiguration), args)); aws_config=aws_config)
 
 """
     PutBucketRequestPayment()
@@ -1125,8 +1198,9 @@ Sets the request payment configuration for a bucket. By default, the bucket owne
 # Optional Parameters
 - `Content-MD5`: &gt;The base64-encoded 128-bit MD5 digest of the data. You must use this header as a message integrity check to verify that the request body was not corrupted in transit. For more information, see RFC 1864.
 """
-PutBucketRequestPayment(Bucket, RequestPaymentConfiguration; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)?requestPayment", Dict{String, Any}("RequestPaymentConfiguration"=>RequestPaymentConfiguration); aws=aws)
-PutBucketRequestPayment(Bucket, RequestPaymentConfiguration, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)?requestPayment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequestPaymentConfiguration"=>RequestPaymentConfiguration), args)); aws=aws)
+
+PutBucketRequestPayment(Bucket, RequestPaymentConfiguration; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?requestPayment", Dict{String, Any}("RequestPaymentConfiguration"=>RequestPaymentConfiguration); aws_config=aws_config)
+PutBucketRequestPayment(Bucket, RequestPaymentConfiguration, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?requestPayment", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RequestPaymentConfiguration"=>RequestPaymentConfiguration), args)); aws_config=aws_config)
 
 """
     PutBucketTagging()
@@ -1140,8 +1214,9 @@ Sets the tags for a bucket. Use tags to organize your AWS bill to reflect your o
 # Optional Parameters
 - `Content-MD5`: The base64-encoded 128-bit MD5 digest of the data. You must use this header as a message integrity check to verify that the request body was not corrupted in transit. For more information, see RFC 1864.
 """
-PutBucketTagging(Bucket, Tagging; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)?tagging", Dict{String, Any}("Tagging"=>Tagging); aws=aws)
-PutBucketTagging(Bucket, Tagging, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)?tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tagging"=>Tagging), args)); aws=aws)
+
+PutBucketTagging(Bucket, Tagging; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?tagging", Dict{String, Any}("Tagging"=>Tagging); aws_config=aws_config)
+PutBucketTagging(Bucket, Tagging, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tagging"=>Tagging), args)); aws_config=aws_config)
 
 """
     PutBucketVersioning()
@@ -1156,8 +1231,9 @@ Sets the versioning state of an existing bucket. To set the versioning state, yo
 - `Content-MD5`: &gt;The base64-encoded 128-bit MD5 digest of the data. You must use this header as a message integrity check to verify that the request body was not corrupted in transit. For more information, see RFC 1864.
 - `x-amz-mfa`: The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device.
 """
-PutBucketVersioning(Bucket, VersioningConfiguration; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)?versioning", Dict{String, Any}("VersioningConfiguration"=>VersioningConfiguration); aws=aws)
-PutBucketVersioning(Bucket, VersioningConfiguration, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)?versioning", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VersioningConfiguration"=>VersioningConfiguration), args)); aws=aws)
+
+PutBucketVersioning(Bucket, VersioningConfiguration; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?versioning", Dict{String, Any}("VersioningConfiguration"=>VersioningConfiguration); aws_config=aws_config)
+PutBucketVersioning(Bucket, VersioningConfiguration, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?versioning", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VersioningConfiguration"=>VersioningConfiguration), args)); aws_config=aws_config)
 
 """
     PutBucketWebsite()
@@ -1171,8 +1247,9 @@ Sets the configuration of the website that is specified in the website subresour
 # Optional Parameters
 - `Content-MD5`: The base64-encoded 128-bit MD5 digest of the data. You must use this header as a message integrity check to verify that the request body was not corrupted in transit. For more information, see RFC 1864.
 """
-PutBucketWebsite(Bucket, WebsiteConfiguration; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)?website", Dict{String, Any}("WebsiteConfiguration"=>WebsiteConfiguration); aws=aws)
-PutBucketWebsite(Bucket, WebsiteConfiguration, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)?website", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WebsiteConfiguration"=>WebsiteConfiguration), args)); aws=aws)
+
+PutBucketWebsite(Bucket, WebsiteConfiguration; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?website", Dict{String, Any}("WebsiteConfiguration"=>WebsiteConfiguration); aws_config=aws_config)
+PutBucketWebsite(Bucket, WebsiteConfiguration, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?website", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("WebsiteConfiguration"=>WebsiteConfiguration), args)); aws_config=aws_config)
 
 """
     PutObject()
@@ -1213,8 +1290,9 @@ Adds an object to a bucket. You must have WRITE permissions on a bucket to add a
 - `x-amz-tagging`: The tag-set for the object. The tag-set must be encoded as URL Query parameters. (For example, \"Key1=Value1\")
 - `x-amz-website-redirect-location`: If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata. For information about object metadata, see Object Key and Metadata. In the following example, the request header sets the redirect to an object (anotherPage.html) in the same bucket:  x-amz-website-redirect-location: /anotherPage.html  In the following example, the request header sets the object redirect to another website:  x-amz-website-redirect-location: http://www.example.com/  For more information about website hosting in Amazon S3, see Hosting Websites on Amazon S3 and How to Configure Website Page Redirects. 
 """
-PutObject(Bucket, Key; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)/$(Key)"; aws=aws)
-PutObject(Bucket, Key, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)/$(Key)", args; aws=aws)
+
+PutObject(Bucket, Key; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)"; aws_config=aws_config)
+PutObject(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)", args; aws_config=aws_config)
 
 """
     PutObjectAcl()
@@ -1237,8 +1315,9 @@ Uses the acl subresource to set the access control list (ACL) permissions for an
 - `x-amz-grant-write-acp`: Allows grantee to write the ACL for the applicable bucket.
 - `x-amz-request-payer`: 
 """
-PutObjectAcl(Bucket, Key; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)/$(Key)?acl"; aws=aws)
-PutObjectAcl(Bucket, Key, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)/$(Key)?acl", args; aws=aws)
+
+PutObjectAcl(Bucket, Key; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)?acl"; aws_config=aws_config)
+PutObjectAcl(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)?acl", args; aws_config=aws_config)
 
 """
     PutObjectLegalHold()
@@ -1255,8 +1334,9 @@ Applies a Legal Hold configuration to the specified object.  Related Resources  
 - `versionId`: The version ID of the object that you want to place a Legal Hold on.
 - `x-amz-request-payer`: 
 """
-PutObjectLegalHold(Bucket, Key; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)/$(Key)?legal-hold"; aws=aws)
-PutObjectLegalHold(Bucket, Key, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)/$(Key)?legal-hold", args; aws=aws)
+
+PutObjectLegalHold(Bucket, Key; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)?legal-hold"; aws_config=aws_config)
+PutObjectLegalHold(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)?legal-hold", args; aws_config=aws_config)
 
 """
     PutObjectLockConfiguration()
@@ -1272,8 +1352,9 @@ Places an Object Lock configuration on the specified bucket. The rule specified 
 - `x-amz-bucket-object-lock-token`: A token to allow Object Lock to be enabled for an existing bucket.
 - `x-amz-request-payer`: 
 """
-PutObjectLockConfiguration(Bucket; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)?object-lock"; aws=aws)
-PutObjectLockConfiguration(Bucket, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)?object-lock", args; aws=aws)
+
+PutObjectLockConfiguration(Bucket; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?object-lock"; aws_config=aws_config)
+PutObjectLockConfiguration(Bucket, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?object-lock", args; aws_config=aws_config)
 
 """
     PutObjectRetention()
@@ -1291,8 +1372,9 @@ Places an Object Retention configuration on an object.  Related Resources     Lo
 - `x-amz-bypass-governance-retention`: Indicates whether this operation should bypass Governance-mode restrictions.
 - `x-amz-request-payer`: 
 """
-PutObjectRetention(Bucket, Key; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)/$(Key)?retention"; aws=aws)
-PutObjectRetention(Bucket, Key, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)/$(Key)?retention", args; aws=aws)
+
+PutObjectRetention(Bucket, Key; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)?retention"; aws_config=aws_config)
+PutObjectRetention(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)?retention", args; aws_config=aws_config)
 
 """
     PutObjectTagging()
@@ -1308,8 +1390,9 @@ Sets the supplied tag-set to an object that already exists in a bucket. A tag is
 - `Content-MD5`: The MD5 hash for the request body.
 - `versionId`: The versionId of the object that the tag-set will be added to.
 """
-PutObjectTagging(Bucket, Key, Tagging; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)/$(Key)?tagging", Dict{String, Any}("Tagging"=>Tagging); aws=aws)
-PutObjectTagging(Bucket, Key, Tagging, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)/$(Key)?tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tagging"=>Tagging), args)); aws=aws)
+
+PutObjectTagging(Bucket, Key, Tagging; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)?tagging", Dict{String, Any}("Tagging"=>Tagging); aws_config=aws_config)
+PutObjectTagging(Bucket, Key, Tagging, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)?tagging", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tagging"=>Tagging), args)); aws_config=aws_config)
 
 """
     PutPublicAccessBlock()
@@ -1323,8 +1406,9 @@ Creates or modifies the PublicAccessBlock configuration for an Amazon S3 bucket.
 # Optional Parameters
 - `Content-MD5`: The MD5 hash of the PutPublicAccessBlock request body. 
 """
-PutPublicAccessBlock(Bucket, PublicAccessBlockConfiguration; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)?publicAccessBlock", Dict{String, Any}("PublicAccessBlockConfiguration"=>PublicAccessBlockConfiguration); aws=aws)
-PutPublicAccessBlock(Bucket, PublicAccessBlockConfiguration, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)?publicAccessBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PublicAccessBlockConfiguration"=>PublicAccessBlockConfiguration), args)); aws=aws)
+
+PutPublicAccessBlock(Bucket, PublicAccessBlockConfiguration; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?publicAccessBlock", Dict{String, Any}("PublicAccessBlockConfiguration"=>PublicAccessBlockConfiguration); aws_config=aws_config)
+PutPublicAccessBlock(Bucket, PublicAccessBlockConfiguration, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)?publicAccessBlock", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PublicAccessBlockConfiguration"=>PublicAccessBlockConfiguration), args)); aws_config=aws_config)
 
 """
     RestoreObject()
@@ -1340,8 +1424,9 @@ Restores an archived copy of an object back into Amazon S3 This operation perfor
 - `versionId`: VersionId used to reference a specific version of the object.
 - `x-amz-request-payer`: 
 """
-RestoreObject(Bucket, Key; aws::AWSConfig=AWS.aws_config) = s3("POST", "/$(Bucket)/$(Key)?restore"; aws=aws)
-RestoreObject(Bucket, Key, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("POST", "/$(Bucket)/$(Key)?restore", args; aws=aws)
+
+RestoreObject(Bucket, Key; aws_config::AWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)/$(Key)?restore"; aws_config=aws_config)
+RestoreObject(Bucket, Key, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)/$(Key)?restore", args; aws_config=aws_config)
 
 """
     SelectObjectContent()
@@ -1363,8 +1448,9 @@ This operation filters the contents of an Amazon S3 object based on a simple str
 - `x-amz-server-side-encryption-customer-key`: The SSE Customer Key. For more information, see Server-Side Encryption (Using Customer-Provided Encryption Keys. 
 - `x-amz-server-side-encryption-customer-key-MD5`: The SSE Customer Key MD5. For more information, see Server-Side Encryption (Using Customer-Provided Encryption Keys. 
 """
-SelectObjectContent(Bucket, Expression, ExpressionType, InputSerialization, Key, OutputSerialization; aws::AWSConfig=AWS.aws_config) = s3("POST", "/$(Bucket)/$(Key)?select&select-type=2", Dict{String, Any}("Expression"=>Expression, "ExpressionType"=>ExpressionType, "InputSerialization"=>InputSerialization, "OutputSerialization"=>OutputSerialization); aws=aws)
-SelectObjectContent(Bucket, Expression, ExpressionType, InputSerialization, Key, OutputSerialization, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("POST", "/$(Bucket)/$(Key)?select&select-type=2", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Expression"=>Expression, "ExpressionType"=>ExpressionType, "InputSerialization"=>InputSerialization, "OutputSerialization"=>OutputSerialization), args)); aws=aws)
+
+SelectObjectContent(Bucket, Expression, ExpressionType, InputSerialization, Key, OutputSerialization; aws_config::AWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)/$(Key)?select&select-type=2", Dict{String, Any}("Expression"=>Expression, "ExpressionType"=>ExpressionType, "InputSerialization"=>InputSerialization, "OutputSerialization"=>OutputSerialization); aws_config=aws_config)
+SelectObjectContent(Bucket, Expression, ExpressionType, InputSerialization, Key, OutputSerialization, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("POST", "/$(Bucket)/$(Key)?select&select-type=2", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Expression"=>Expression, "ExpressionType"=>ExpressionType, "InputSerialization"=>InputSerialization, "OutputSerialization"=>OutputSerialization), args)); aws_config=aws_config)
 
 """
     UploadPart()
@@ -1386,8 +1472,9 @@ Uploads a part in a multipart upload.  In this operation, you provide part data 
 - `x-amz-server-side-encryption-customer-key`: Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon S3 does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header. This must be the same encryption key specified in the initiate multipart upload request.
 - `x-amz-server-side-encryption-customer-key-MD5`: Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the encryption key was transmitted without error.
 """
-UploadPart(Bucket, Key, partNumber, uploadId; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)/$(Key)", Dict{String, Any}("partNumber"=>partNumber, "uploadId"=>uploadId); aws=aws)
-UploadPart(Bucket, Key, partNumber, uploadId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("partNumber"=>partNumber, "uploadId"=>uploadId), args)); aws=aws)
+
+UploadPart(Bucket, Key, partNumber, uploadId; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)", Dict{String, Any}("partNumber"=>partNumber, "uploadId"=>uploadId); aws_config=aws_config)
+UploadPart(Bucket, Key, partNumber, uploadId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("partNumber"=>partNumber, "uploadId"=>uploadId), args)); aws_config=aws_config)
 
 """
     UploadPartCopy()
@@ -1415,5 +1502,6 @@ Uploads a part by copying data from an existing object as data source. You speci
 - `x-amz-server-side-encryption-customer-key`: Specifies the customer-provided encryption key for Amazon S3 to use in encrypting data. This value is used to store the object and then it is discarded; Amazon S3 does not store the encryption key. The key must be appropriate for use with the algorithm specified in the x-amz-server-side​-encryption​-customer-algorithm header. This must be the same encryption key specified in the initiate multipart upload request.
 - `x-amz-server-side-encryption-customer-key-MD5`: Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the encryption key was transmitted without error.
 """
-UploadPartCopy(Bucket, Key, partNumber, uploadId, x_amz_copy_source; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)/$(Key)", Dict{String, Any}("partNumber"=>partNumber, "uploadId"=>uploadId, "headers"=>Dict{String, Any}("x-amz-copy-source"=>x_amz_copy_source)); aws=aws)
-UploadPartCopy(Bucket, Key, partNumber, uploadId, x_amz_copy_source, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = s3("PUT", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("partNumber"=>partNumber, "uploadId"=>uploadId, "headers"=>Dict{String, Any}("x-amz-copy-source"=>x_amz_copy_source)), args)); aws=aws)
+
+UploadPartCopy(Bucket, Key, partNumber, uploadId, x_amz_copy_source; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)", Dict{String, Any}("partNumber"=>partNumber, "uploadId"=>uploadId, "headers"=>Dict{String, Any}("x-amz-copy-source"=>x_amz_copy_source)); aws_config=aws_config)
+UploadPartCopy(Bucket, Key, partNumber, uploadId, x_amz_copy_source, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = s3("PUT", "/$(Bucket)/$(Key)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("partNumber"=>partNumber, "uploadId"=>uploadId, "headers"=>Dict{String, Any}("x-amz-copy-source"=>x_amz_copy_source)), args)); aws_config=aws_config)

@@ -19,8 +19,9 @@ using UUIDs
 - `nextToken`:  This parameter is optional. If a nextToken is not specified, the API returns the first page of data.   Pagination tokens expire after 1 hour. If you use a token that was returned more than an hour back, the API will throw ValidationException. 
 - `variables`:  Variables are optional and are needed only if the screen requires them to render correctly. Variables are specified as a map where the key is the name of the variable as defined on the screen. The value is an object which currently has only one property, rawValue, which holds the value of the variable to be passed to the screen. 
 """
-GetScreenData(appId, screenId, workbookId; aws::AWSConfig=AWS.aws_config) = honeycode("POST", "/screendata", Dict{String, Any}("appId"=>appId, "screenId"=>screenId, "workbookId"=>workbookId); aws=aws)
-GetScreenData(appId, screenId, workbookId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = honeycode("POST", "/screendata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId, "screenId"=>screenId, "workbookId"=>workbookId), args)); aws=aws)
+
+GetScreenData(appId, screenId, workbookId; aws_config::AWSConfig=global_aws_config()) = honeycode("POST", "/screendata", Dict{String, Any}("appId"=>appId, "screenId"=>screenId, "workbookId"=>workbookId); aws_config=aws_config)
+GetScreenData(appId, screenId, workbookId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = honeycode("POST", "/screendata", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("appId"=>appId, "screenId"=>screenId, "workbookId"=>workbookId), args)); aws_config=aws_config)
 
 """
     InvokeScreenAutomation()
@@ -38,5 +39,6 @@ GetScreenData(appId, screenId, workbookId, args::AbstractDict{String, <:Any}; aw
 - `rowId`:  The row ID for the automation if the automation is defined inside a block with source or list. 
 - `variables`:  Variables are optional and are needed only if the screen requires them to render correctly. Variables are specified as a map where the key is the name of the variable as defined on the screen. The value is an object which currently has only one property, rawValue, which holds the value of the variable to be passed to the screen. 
 """
-InvokeScreenAutomation(appId, automationId, screenId, workbookId; aws::AWSConfig=AWS.aws_config) = honeycode("POST", "/workbooks/$(workbookId)/apps/$(appId)/screens/$(screenId)/automations/$(automationId)"; aws=aws)
-InvokeScreenAutomation(appId, automationId, screenId, workbookId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = honeycode("POST", "/workbooks/$(workbookId)/apps/$(appId)/screens/$(screenId)/automations/$(automationId)", args; aws=aws)
+
+InvokeScreenAutomation(appId, automationId, screenId, workbookId; aws_config::AWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/apps/$(appId)/screens/$(screenId)/automations/$(automationId)"; aws_config=aws_config)
+InvokeScreenAutomation(appId, automationId, screenId, workbookId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = honeycode("POST", "/workbooks/$(workbookId)/apps/$(appId)/screens/$(screenId)/automations/$(automationId)", args; aws_config=aws_config)

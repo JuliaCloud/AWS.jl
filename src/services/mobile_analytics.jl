@@ -16,5 +16,6 @@ The PutEvents operation records one or more events. You can have up to 1,500 uni
 # Optional Parameters
 - `x-amz-Client-Context-Encoding`: The encoding used for the client context.
 """
-PutEvents(events, x_amz_Client_Context; aws::AWSConfig=AWS.aws_config) = mobile_analytics("POST", "/2014-06-05/events", Dict{String, Any}("events"=>events, "headers"=>Dict{String, Any}("x-amz-Client-Context"=>x_amz_Client_Context)); aws=aws)
-PutEvents(events, x_amz_Client_Context, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mobile_analytics("POST", "/2014-06-05/events", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("events"=>events, "headers"=>Dict{String, Any}("x-amz-Client-Context"=>x_amz_Client_Context)), args)); aws=aws)
+
+PutEvents(events, x_amz_Client_Context; aws_config::AWSConfig=global_aws_config()) = mobile_analytics("POST", "/2014-06-05/events", Dict{String, Any}("events"=>events, "headers"=>Dict{String, Any}("x-amz-Client-Context"=>x_amz_Client_Context)); aws_config=aws_config)
+PutEvents(events, x_amz_Client_Context, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mobile_analytics("POST", "/2014-06-05/events", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("events"=>events, "headers"=>Dict{String, Any}("x-amz-Client-Context"=>x_amz_Client_Context)), args)); aws_config=aws_config)

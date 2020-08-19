@@ -15,8 +15,9 @@ Describes recommendation export jobs created in the last seven days. Use the Exp
 - `maxResults`: The maximum number of export jobs to return with a single request. To retrieve the remaining results, make another request with the returned NextToken value.
 - `nextToken`: The token to advance to the next page of export jobs.
 """
-DescribeRecommendationExportJobs(; aws::AWSConfig=AWS.aws_config) = compute_optimizer("DescribeRecommendationExportJobs"; aws=aws)
-DescribeRecommendationExportJobs(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = compute_optimizer("DescribeRecommendationExportJobs", args; aws=aws)
+
+DescribeRecommendationExportJobs(; aws_config::AWSConfig=global_aws_config()) = compute_optimizer("DescribeRecommendationExportJobs"; aws_config=aws_config)
+DescribeRecommendationExportJobs(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = compute_optimizer("DescribeRecommendationExportJobs", args; aws_config=aws_config)
 
 """
     ExportAutoScalingGroupRecommendations()
@@ -33,8 +34,9 @@ Exports optimization recommendations for Auto Scaling groups. Recommendations ar
 - `filters`: An array of objects that describe a filter to export a more specific set of Auto Scaling group recommendations.
 - `includeMemberAccounts`: Indicates whether to include recommendations for resources in all member accounts of the organization if your account is the master account of an organization. The member accounts must also be opted in to Compute Optimizer. Recommendations for member accounts of the organization are not included in the export file if this parameter is omitted. This parameter cannot be specified together with the account IDs parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the account IDs parameter, is omitted.
 """
-ExportAutoScalingGroupRecommendations(s3DestinationConfig; aws::AWSConfig=AWS.aws_config) = compute_optimizer("ExportAutoScalingGroupRecommendations", Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig); aws=aws)
-ExportAutoScalingGroupRecommendations(s3DestinationConfig, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = compute_optimizer("ExportAutoScalingGroupRecommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig), args)); aws=aws)
+
+ExportAutoScalingGroupRecommendations(s3DestinationConfig; aws_config::AWSConfig=global_aws_config()) = compute_optimizer("ExportAutoScalingGroupRecommendations", Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig); aws_config=aws_config)
+ExportAutoScalingGroupRecommendations(s3DestinationConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = compute_optimizer("ExportAutoScalingGroupRecommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig), args)); aws_config=aws_config)
 
 """
     ExportEC2InstanceRecommendations()
@@ -51,8 +53,9 @@ Exports optimization recommendations for Amazon EC2 instances. Recommendations a
 - `filters`: An array of objects that describe a filter to export a more specific set of instance recommendations.
 - `includeMemberAccounts`: Indicates whether to include recommendations for resources in all member accounts of the organization if your account is the master account of an organization. The member accounts must also be opted in to Compute Optimizer. Recommendations for member accounts of the organization are not included in the export file if this parameter is omitted. Recommendations for member accounts are not included in the export if this parameter, or the account IDs parameter, is omitted.
 """
-ExportEC2InstanceRecommendations(s3DestinationConfig; aws::AWSConfig=AWS.aws_config) = compute_optimizer("ExportEC2InstanceRecommendations", Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig); aws=aws)
-ExportEC2InstanceRecommendations(s3DestinationConfig, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = compute_optimizer("ExportEC2InstanceRecommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig), args)); aws=aws)
+
+ExportEC2InstanceRecommendations(s3DestinationConfig; aws_config::AWSConfig=global_aws_config()) = compute_optimizer("ExportEC2InstanceRecommendations", Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig); aws_config=aws_config)
+ExportEC2InstanceRecommendations(s3DestinationConfig, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = compute_optimizer("ExportEC2InstanceRecommendations", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("s3DestinationConfig"=>s3DestinationConfig), args)); aws_config=aws_config)
 
 """
     GetAutoScalingGroupRecommendations()
@@ -66,8 +69,9 @@ Returns Auto Scaling group recommendations. AWS Compute Optimizer currently gene
 - `maxResults`: The maximum number of Auto Scaling group recommendations to return with a single request. To retrieve the remaining results, make another request with the returned NextToken value.
 - `nextToken`: The token to advance to the next page of Auto Scaling group recommendations.
 """
-GetAutoScalingGroupRecommendations(; aws::AWSConfig=AWS.aws_config) = compute_optimizer("GetAutoScalingGroupRecommendations"; aws=aws)
-GetAutoScalingGroupRecommendations(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = compute_optimizer("GetAutoScalingGroupRecommendations", args; aws=aws)
+
+GetAutoScalingGroupRecommendations(; aws_config::AWSConfig=global_aws_config()) = compute_optimizer("GetAutoScalingGroupRecommendations"; aws_config=aws_config)
+GetAutoScalingGroupRecommendations(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = compute_optimizer("GetAutoScalingGroupRecommendations", args; aws_config=aws_config)
 
 """
     GetEC2InstanceRecommendations()
@@ -81,8 +85,9 @@ Returns Amazon EC2 instance recommendations. AWS Compute Optimizer currently gen
 - `maxResults`: The maximum number of instance recommendations to return with a single request. To retrieve the remaining results, make another request with the returned NextToken value.
 - `nextToken`: The token to advance to the next page of instance recommendations.
 """
-GetEC2InstanceRecommendations(; aws::AWSConfig=AWS.aws_config) = compute_optimizer("GetEC2InstanceRecommendations"; aws=aws)
-GetEC2InstanceRecommendations(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = compute_optimizer("GetEC2InstanceRecommendations", args; aws=aws)
+
+GetEC2InstanceRecommendations(; aws_config::AWSConfig=global_aws_config()) = compute_optimizer("GetEC2InstanceRecommendations"; aws_config=aws_config)
+GetEC2InstanceRecommendations(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = compute_optimizer("GetEC2InstanceRecommendations", args; aws_config=aws_config)
 
 """
     GetEC2RecommendationProjectedMetrics()
@@ -97,8 +102,9 @@ Returns the projected utilization metrics of Amazon EC2 instance recommendations
 - `stat`: The statistic of the projected metrics.
 
 """
-GetEC2RecommendationProjectedMetrics(endTime, instanceArn, period, startTime, stat; aws::AWSConfig=AWS.aws_config) = compute_optimizer("GetEC2RecommendationProjectedMetrics", Dict{String, Any}("endTime"=>endTime, "instanceArn"=>instanceArn, "period"=>period, "startTime"=>startTime, "stat"=>stat); aws=aws)
-GetEC2RecommendationProjectedMetrics(endTime, instanceArn, period, startTime, stat, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = compute_optimizer("GetEC2RecommendationProjectedMetrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "instanceArn"=>instanceArn, "period"=>period, "startTime"=>startTime, "stat"=>stat), args)); aws=aws)
+
+GetEC2RecommendationProjectedMetrics(endTime, instanceArn, period, startTime, stat; aws_config::AWSConfig=global_aws_config()) = compute_optimizer("GetEC2RecommendationProjectedMetrics", Dict{String, Any}("endTime"=>endTime, "instanceArn"=>instanceArn, "period"=>period, "startTime"=>startTime, "stat"=>stat); aws_config=aws_config)
+GetEC2RecommendationProjectedMetrics(endTime, instanceArn, period, startTime, stat, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = compute_optimizer("GetEC2RecommendationProjectedMetrics", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("endTime"=>endTime, "instanceArn"=>instanceArn, "period"=>period, "startTime"=>startTime, "stat"=>stat), args)); aws_config=aws_config)
 
 """
     GetEnrollmentStatus()
@@ -106,8 +112,9 @@ GetEC2RecommendationProjectedMetrics(endTime, instanceArn, period, startTime, st
 Returns the enrollment (opt in) status of an account to the AWS Compute Optimizer service. If the account is the master account of an organization, this action also confirms the enrollment status of member accounts within the organization.
 
 """
-GetEnrollmentStatus(; aws::AWSConfig=AWS.aws_config) = compute_optimizer("GetEnrollmentStatus"; aws=aws)
-GetEnrollmentStatus(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = compute_optimizer("GetEnrollmentStatus", args; aws=aws)
+
+GetEnrollmentStatus(; aws_config::AWSConfig=global_aws_config()) = compute_optimizer("GetEnrollmentStatus"; aws_config=aws_config)
+GetEnrollmentStatus(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = compute_optimizer("GetEnrollmentStatus", args; aws_config=aws_config)
 
 """
     GetRecommendationSummaries()
@@ -119,8 +126,9 @@ Returns the optimization findings for an account. For example, it returns the nu
 - `maxResults`: The maximum number of recommendation summaries to return with a single request. To retrieve the remaining results, make another request with the returned NextToken value.
 - `nextToken`: The token to advance to the next page of recommendation summaries.
 """
-GetRecommendationSummaries(; aws::AWSConfig=AWS.aws_config) = compute_optimizer("GetRecommendationSummaries"; aws=aws)
-GetRecommendationSummaries(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = compute_optimizer("GetRecommendationSummaries", args; aws=aws)
+
+GetRecommendationSummaries(; aws_config::AWSConfig=global_aws_config()) = compute_optimizer("GetRecommendationSummaries"; aws_config=aws_config)
+GetRecommendationSummaries(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = compute_optimizer("GetRecommendationSummaries", args; aws_config=aws_config)
 
 """
     UpdateEnrollmentStatus()
@@ -133,5 +141,6 @@ Updates the enrollment (opt in) status of an account to the AWS Compute Optimize
 # Optional Parameters
 - `includeMemberAccounts`: Indicates whether to enroll member accounts of the organization if the your account is the master account of an organization.
 """
-UpdateEnrollmentStatus(status; aws::AWSConfig=AWS.aws_config) = compute_optimizer("UpdateEnrollmentStatus", Dict{String, Any}("status"=>status); aws=aws)
-UpdateEnrollmentStatus(status, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = compute_optimizer("UpdateEnrollmentStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("status"=>status), args)); aws=aws)
+
+UpdateEnrollmentStatus(status; aws_config::AWSConfig=global_aws_config()) = compute_optimizer("UpdateEnrollmentStatus", Dict{String, Any}("status"=>status); aws_config=aws_config)
+UpdateEnrollmentStatus(status, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = compute_optimizer("UpdateEnrollmentStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("status"=>status), args)); aws_config=aws_config)

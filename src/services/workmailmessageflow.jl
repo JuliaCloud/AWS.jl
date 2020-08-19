@@ -13,5 +13,6 @@ Retrieves the raw content of an in-transit email message, in MIME format.
 - `messageId`: The identifier of the email message to retrieve.
 
 """
-GetRawMessageContent(messageId; aws::AWSConfig=AWS.aws_config) = workmailmessageflow("GET", "/messages/$(messageId)"; aws=aws)
-GetRawMessageContent(messageId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = workmailmessageflow("GET", "/messages/$(messageId)", args; aws=aws)
+
+GetRawMessageContent(messageId; aws_config::AWSConfig=global_aws_config()) = workmailmessageflow("GET", "/messages/$(messageId)"; aws_config=aws_config)
+GetRawMessageContent(messageId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = workmailmessageflow("GET", "/messages/$(messageId)", args; aws_config=aws_config)

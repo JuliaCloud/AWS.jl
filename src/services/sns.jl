@@ -16,8 +16,9 @@ Adds a statement to a topic's access control policy, granting access for the spe
 - `TopicArn`: The ARN of the topic whose access control policy you wish to modify.
 
 """
-AddPermission(AWSAccountId, ActionName, Label, TopicArn; aws::AWSConfig=AWS.aws_config) = sns("AddPermission", Dict{String, Any}("AWSAccountId"=>AWSAccountId, "ActionName"=>ActionName, "Label"=>Label, "TopicArn"=>TopicArn); aws=aws)
-AddPermission(AWSAccountId, ActionName, Label, TopicArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sns("AddPermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AWSAccountId"=>AWSAccountId, "ActionName"=>ActionName, "Label"=>Label, "TopicArn"=>TopicArn), args)); aws=aws)
+
+AddPermission(AWSAccountId, ActionName, Label, TopicArn; aws_config::AWSConfig=global_aws_config()) = sns("AddPermission", Dict{String, Any}("AWSAccountId"=>AWSAccountId, "ActionName"=>ActionName, "Label"=>Label, "TopicArn"=>TopicArn); aws_config=aws_config)
+AddPermission(AWSAccountId, ActionName, Label, TopicArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sns("AddPermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AWSAccountId"=>AWSAccountId, "ActionName"=>ActionName, "Label"=>Label, "TopicArn"=>TopicArn), args)); aws_config=aws_config)
 
 """
     CheckIfPhoneNumberIsOptedOut()
@@ -28,8 +29,9 @@ Accepts a phone number and indicates whether the phone holder has opted out of r
 - `phoneNumber`: The phone number for which you want to check the opt out status.
 
 """
-CheckIfPhoneNumberIsOptedOut(phoneNumber; aws::AWSConfig=AWS.aws_config) = sns("CheckIfPhoneNumberIsOptedOut", Dict{String, Any}("phoneNumber"=>phoneNumber); aws=aws)
-CheckIfPhoneNumberIsOptedOut(phoneNumber, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sns("CheckIfPhoneNumberIsOptedOut", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("phoneNumber"=>phoneNumber), args)); aws=aws)
+
+CheckIfPhoneNumberIsOptedOut(phoneNumber; aws_config::AWSConfig=global_aws_config()) = sns("CheckIfPhoneNumberIsOptedOut", Dict{String, Any}("phoneNumber"=>phoneNumber); aws_config=aws_config)
+CheckIfPhoneNumberIsOptedOut(phoneNumber, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sns("CheckIfPhoneNumberIsOptedOut", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("phoneNumber"=>phoneNumber), args)); aws_config=aws_config)
 
 """
     ConfirmSubscription()
@@ -43,8 +45,9 @@ Verifies an endpoint owner's intent to receive messages by validating the token 
 # Optional Parameters
 - `AuthenticateOnUnsubscribe`: Disallows unauthenticated unsubscribes of the subscription. If the value of this parameter is true and the request has an AWS signature, then only the topic owner and the subscription owner can unsubscribe the endpoint. The unsubscribe action requires AWS authentication. 
 """
-ConfirmSubscription(Token, TopicArn; aws::AWSConfig=AWS.aws_config) = sns("ConfirmSubscription", Dict{String, Any}("Token"=>Token, "TopicArn"=>TopicArn); aws=aws)
-ConfirmSubscription(Token, TopicArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sns("ConfirmSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Token"=>Token, "TopicArn"=>TopicArn), args)); aws=aws)
+
+ConfirmSubscription(Token, TopicArn; aws_config::AWSConfig=global_aws_config()) = sns("ConfirmSubscription", Dict{String, Any}("Token"=>Token, "TopicArn"=>TopicArn); aws_config=aws_config)
+ConfirmSubscription(Token, TopicArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sns("ConfirmSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Token"=>Token, "TopicArn"=>TopicArn), args)); aws_config=aws_config)
 
 """
     CreatePlatformApplication()
@@ -57,8 +60,9 @@ Creates a platform application object for one of the supported push notification
 - `Platform`: The following platforms are supported: ADM (Amazon Device Messaging), APNS (Apple Push Notification Service), APNS_SANDBOX, and GCM (Firebase Cloud Messaging).
 
 """
-CreatePlatformApplication(Attributes, Name, Platform; aws::AWSConfig=AWS.aws_config) = sns("CreatePlatformApplication", Dict{String, Any}("Attributes"=>Attributes, "Name"=>Name, "Platform"=>Platform); aws=aws)
-CreatePlatformApplication(Attributes, Name, Platform, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sns("CreatePlatformApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attributes"=>Attributes, "Name"=>Name, "Platform"=>Platform), args)); aws=aws)
+
+CreatePlatformApplication(Attributes, Name, Platform; aws_config::AWSConfig=global_aws_config()) = sns("CreatePlatformApplication", Dict{String, Any}("Attributes"=>Attributes, "Name"=>Name, "Platform"=>Platform); aws_config=aws_config)
+CreatePlatformApplication(Attributes, Name, Platform, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sns("CreatePlatformApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attributes"=>Attributes, "Name"=>Name, "Platform"=>Platform), args)); aws_config=aws_config)
 
 """
     CreatePlatformEndpoint()
@@ -73,8 +77,9 @@ Creates an endpoint for a device and mobile app on one of the supported push not
 - `Attributes`: For a list of attributes, see SetEndpointAttributes.
 - `CustomUserData`: Arbitrary user data to associate with the endpoint. Amazon SNS does not use this data. The data must be in UTF-8 format and less than 2KB.
 """
-CreatePlatformEndpoint(PlatformApplicationArn, Token; aws::AWSConfig=AWS.aws_config) = sns("CreatePlatformEndpoint", Dict{String, Any}("PlatformApplicationArn"=>PlatformApplicationArn, "Token"=>Token); aws=aws)
-CreatePlatformEndpoint(PlatformApplicationArn, Token, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sns("CreatePlatformEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PlatformApplicationArn"=>PlatformApplicationArn, "Token"=>Token), args)); aws=aws)
+
+CreatePlatformEndpoint(PlatformApplicationArn, Token; aws_config::AWSConfig=global_aws_config()) = sns("CreatePlatformEndpoint", Dict{String, Any}("PlatformApplicationArn"=>PlatformApplicationArn, "Token"=>Token); aws_config=aws_config)
+CreatePlatformEndpoint(PlatformApplicationArn, Token, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sns("CreatePlatformEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PlatformApplicationArn"=>PlatformApplicationArn, "Token"=>Token), args)); aws_config=aws_config)
 
 """
     CreateTopic()
@@ -88,8 +93,9 @@ Creates a topic to which notifications can be published. Users can create at mos
 - `Attributes`: A map of attributes with their corresponding values. The following lists the names, descriptions, and values of the special request parameters that the CreateTopic action uses:    DeliveryPolicy – The policy that defines how Amazon SNS retries failed deliveries to HTTP/S endpoints.    DisplayName – The display name to use for a topic with SMS subscriptions.    Policy – The policy that defines who can access your topic. By default, only the topic owner can publish or subscribe to the topic.   The following attribute applies only to server-side-encryption:    KmsMasterKeyId - The ID of an AWS-managed customer master key (CMK) for Amazon SNS or a custom CMK. For more information, see Key Terms. For more examples, see KeyId in the AWS Key Management Service API Reference.   
 - `Tags`: The list of tags to add to a new topic.  To be able to tag a topic on creation, you must have the sns:CreateTopic and sns:TagResource permissions. 
 """
-CreateTopic(Name; aws::AWSConfig=AWS.aws_config) = sns("CreateTopic", Dict{String, Any}("Name"=>Name); aws=aws)
-CreateTopic(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sns("CreateTopic", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws=aws)
+
+CreateTopic(Name; aws_config::AWSConfig=global_aws_config()) = sns("CreateTopic", Dict{String, Any}("Name"=>Name); aws_config=aws_config)
+CreateTopic(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sns("CreateTopic", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name), args)); aws_config=aws_config)
 
 """
     DeleteEndpoint()
@@ -100,8 +106,9 @@ Deletes the endpoint for a device and mobile app from Amazon SNS. This action is
 - `EndpointArn`: EndpointArn of endpoint to delete.
 
 """
-DeleteEndpoint(EndpointArn; aws::AWSConfig=AWS.aws_config) = sns("DeleteEndpoint", Dict{String, Any}("EndpointArn"=>EndpointArn); aws=aws)
-DeleteEndpoint(EndpointArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sns("DeleteEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn), args)); aws=aws)
+
+DeleteEndpoint(EndpointArn; aws_config::AWSConfig=global_aws_config()) = sns("DeleteEndpoint", Dict{String, Any}("EndpointArn"=>EndpointArn); aws_config=aws_config)
+DeleteEndpoint(EndpointArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sns("DeleteEndpoint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn), args)); aws_config=aws_config)
 
 """
     DeletePlatformApplication()
@@ -112,8 +119,9 @@ Deletes a platform application object for one of the supported push notification
 - `PlatformApplicationArn`: PlatformApplicationArn of platform application object to delete.
 
 """
-DeletePlatformApplication(PlatformApplicationArn; aws::AWSConfig=AWS.aws_config) = sns("DeletePlatformApplication", Dict{String, Any}("PlatformApplicationArn"=>PlatformApplicationArn); aws=aws)
-DeletePlatformApplication(PlatformApplicationArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sns("DeletePlatformApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PlatformApplicationArn"=>PlatformApplicationArn), args)); aws=aws)
+
+DeletePlatformApplication(PlatformApplicationArn; aws_config::AWSConfig=global_aws_config()) = sns("DeletePlatformApplication", Dict{String, Any}("PlatformApplicationArn"=>PlatformApplicationArn); aws_config=aws_config)
+DeletePlatformApplication(PlatformApplicationArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sns("DeletePlatformApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PlatformApplicationArn"=>PlatformApplicationArn), args)); aws_config=aws_config)
 
 """
     DeleteTopic()
@@ -124,8 +132,9 @@ Deletes a topic and all its subscriptions. Deleting a topic might prevent some m
 - `TopicArn`: The ARN of the topic you want to delete.
 
 """
-DeleteTopic(TopicArn; aws::AWSConfig=AWS.aws_config) = sns("DeleteTopic", Dict{String, Any}("TopicArn"=>TopicArn); aws=aws)
-DeleteTopic(TopicArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sns("DeleteTopic", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TopicArn"=>TopicArn), args)); aws=aws)
+
+DeleteTopic(TopicArn; aws_config::AWSConfig=global_aws_config()) = sns("DeleteTopic", Dict{String, Any}("TopicArn"=>TopicArn); aws_config=aws_config)
+DeleteTopic(TopicArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sns("DeleteTopic", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TopicArn"=>TopicArn), args)); aws_config=aws_config)
 
 """
     GetEndpointAttributes()
@@ -136,8 +145,9 @@ Retrieves the endpoint attributes for a device on one of the supported push noti
 - `EndpointArn`: EndpointArn for GetEndpointAttributes input.
 
 """
-GetEndpointAttributes(EndpointArn; aws::AWSConfig=AWS.aws_config) = sns("GetEndpointAttributes", Dict{String, Any}("EndpointArn"=>EndpointArn); aws=aws)
-GetEndpointAttributes(EndpointArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sns("GetEndpointAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn), args)); aws=aws)
+
+GetEndpointAttributes(EndpointArn; aws_config::AWSConfig=global_aws_config()) = sns("GetEndpointAttributes", Dict{String, Any}("EndpointArn"=>EndpointArn); aws_config=aws_config)
+GetEndpointAttributes(EndpointArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sns("GetEndpointAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EndpointArn"=>EndpointArn), args)); aws_config=aws_config)
 
 """
     GetPlatformApplicationAttributes()
@@ -148,8 +158,9 @@ Retrieves the attributes of the platform application object for the supported pu
 - `PlatformApplicationArn`: PlatformApplicationArn for GetPlatformApplicationAttributesInput.
 
 """
-GetPlatformApplicationAttributes(PlatformApplicationArn; aws::AWSConfig=AWS.aws_config) = sns("GetPlatformApplicationAttributes", Dict{String, Any}("PlatformApplicationArn"=>PlatformApplicationArn); aws=aws)
-GetPlatformApplicationAttributes(PlatformApplicationArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sns("GetPlatformApplicationAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PlatformApplicationArn"=>PlatformApplicationArn), args)); aws=aws)
+
+GetPlatformApplicationAttributes(PlatformApplicationArn; aws_config::AWSConfig=global_aws_config()) = sns("GetPlatformApplicationAttributes", Dict{String, Any}("PlatformApplicationArn"=>PlatformApplicationArn); aws_config=aws_config)
+GetPlatformApplicationAttributes(PlatformApplicationArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sns("GetPlatformApplicationAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PlatformApplicationArn"=>PlatformApplicationArn), args)); aws_config=aws_config)
 
 """
     GetSMSAttributes()
@@ -159,8 +170,9 @@ Returns the settings for sending SMS messages from your account. These settings 
 # Optional Parameters
 - `attributes`: A list of the individual attribute names, such as MonthlySpendLimit, for which you want values. For all attribute names, see SetSMSAttributes. If you don't use this parameter, Amazon SNS returns all SMS attributes.
 """
-GetSMSAttributes(; aws::AWSConfig=AWS.aws_config) = sns("GetSMSAttributes"; aws=aws)
-GetSMSAttributes(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sns("GetSMSAttributes", args; aws=aws)
+
+GetSMSAttributes(; aws_config::AWSConfig=global_aws_config()) = sns("GetSMSAttributes"; aws_config=aws_config)
+GetSMSAttributes(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sns("GetSMSAttributes", args; aws_config=aws_config)
 
 """
     GetSubscriptionAttributes()
@@ -171,8 +183,9 @@ Returns all of the properties of a subscription.
 - `SubscriptionArn`: The ARN of the subscription whose properties you want to get.
 
 """
-GetSubscriptionAttributes(SubscriptionArn; aws::AWSConfig=AWS.aws_config) = sns("GetSubscriptionAttributes", Dict{String, Any}("SubscriptionArn"=>SubscriptionArn); aws=aws)
-GetSubscriptionAttributes(SubscriptionArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sns("GetSubscriptionAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionArn"=>SubscriptionArn), args)); aws=aws)
+
+GetSubscriptionAttributes(SubscriptionArn; aws_config::AWSConfig=global_aws_config()) = sns("GetSubscriptionAttributes", Dict{String, Any}("SubscriptionArn"=>SubscriptionArn); aws_config=aws_config)
+GetSubscriptionAttributes(SubscriptionArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sns("GetSubscriptionAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionArn"=>SubscriptionArn), args)); aws_config=aws_config)
 
 """
     GetTopicAttributes()
@@ -183,8 +196,9 @@ Returns all of the properties of a topic. Topic properties returned might differ
 - `TopicArn`: The ARN of the topic whose properties you want to get.
 
 """
-GetTopicAttributes(TopicArn; aws::AWSConfig=AWS.aws_config) = sns("GetTopicAttributes", Dict{String, Any}("TopicArn"=>TopicArn); aws=aws)
-GetTopicAttributes(TopicArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sns("GetTopicAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TopicArn"=>TopicArn), args)); aws=aws)
+
+GetTopicAttributes(TopicArn; aws_config::AWSConfig=global_aws_config()) = sns("GetTopicAttributes", Dict{String, Any}("TopicArn"=>TopicArn); aws_config=aws_config)
+GetTopicAttributes(TopicArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sns("GetTopicAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TopicArn"=>TopicArn), args)); aws_config=aws_config)
 
 """
     ListEndpointsByPlatformApplication()
@@ -197,8 +211,9 @@ Lists the endpoints and endpoint attributes for devices in a supported push noti
 # Optional Parameters
 - `NextToken`: NextToken string is used when calling ListEndpointsByPlatformApplication action to retrieve additional records that are available after the first page results.
 """
-ListEndpointsByPlatformApplication(PlatformApplicationArn; aws::AWSConfig=AWS.aws_config) = sns("ListEndpointsByPlatformApplication", Dict{String, Any}("PlatformApplicationArn"=>PlatformApplicationArn); aws=aws)
-ListEndpointsByPlatformApplication(PlatformApplicationArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sns("ListEndpointsByPlatformApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PlatformApplicationArn"=>PlatformApplicationArn), args)); aws=aws)
+
+ListEndpointsByPlatformApplication(PlatformApplicationArn; aws_config::AWSConfig=global_aws_config()) = sns("ListEndpointsByPlatformApplication", Dict{String, Any}("PlatformApplicationArn"=>PlatformApplicationArn); aws_config=aws_config)
+ListEndpointsByPlatformApplication(PlatformApplicationArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sns("ListEndpointsByPlatformApplication", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PlatformApplicationArn"=>PlatformApplicationArn), args)); aws_config=aws_config)
 
 """
     ListPhoneNumbersOptedOut()
@@ -208,8 +223,9 @@ Returns a list of phone numbers that are opted out, meaning you cannot send SMS 
 # Optional Parameters
 - `nextToken`: A NextToken string is used when you call the ListPhoneNumbersOptedOut action to retrieve additional records that are available after the first page of results.
 """
-ListPhoneNumbersOptedOut(; aws::AWSConfig=AWS.aws_config) = sns("ListPhoneNumbersOptedOut"; aws=aws)
-ListPhoneNumbersOptedOut(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sns("ListPhoneNumbersOptedOut", args; aws=aws)
+
+ListPhoneNumbersOptedOut(; aws_config::AWSConfig=global_aws_config()) = sns("ListPhoneNumbersOptedOut"; aws_config=aws_config)
+ListPhoneNumbersOptedOut(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sns("ListPhoneNumbersOptedOut", args; aws_config=aws_config)
 
 """
     ListPlatformApplications()
@@ -219,8 +235,9 @@ Lists the platform application objects for the supported push notification servi
 # Optional Parameters
 - `NextToken`: NextToken string is used when calling ListPlatformApplications action to retrieve additional records that are available after the first page results.
 """
-ListPlatformApplications(; aws::AWSConfig=AWS.aws_config) = sns("ListPlatformApplications"; aws=aws)
-ListPlatformApplications(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sns("ListPlatformApplications", args; aws=aws)
+
+ListPlatformApplications(; aws_config::AWSConfig=global_aws_config()) = sns("ListPlatformApplications"; aws_config=aws_config)
+ListPlatformApplications(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sns("ListPlatformApplications", args; aws_config=aws_config)
 
 """
     ListSubscriptions()
@@ -230,8 +247,9 @@ Returns a list of the requester's subscriptions. Each call returns a limited lis
 # Optional Parameters
 - `NextToken`: Token returned by the previous ListSubscriptions request.
 """
-ListSubscriptions(; aws::AWSConfig=AWS.aws_config) = sns("ListSubscriptions"; aws=aws)
-ListSubscriptions(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sns("ListSubscriptions", args; aws=aws)
+
+ListSubscriptions(; aws_config::AWSConfig=global_aws_config()) = sns("ListSubscriptions"; aws_config=aws_config)
+ListSubscriptions(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sns("ListSubscriptions", args; aws_config=aws_config)
 
 """
     ListSubscriptionsByTopic()
@@ -244,8 +262,9 @@ Returns a list of the subscriptions to a specific topic. Each call returns a lim
 # Optional Parameters
 - `NextToken`: Token returned by the previous ListSubscriptionsByTopic request.
 """
-ListSubscriptionsByTopic(TopicArn; aws::AWSConfig=AWS.aws_config) = sns("ListSubscriptionsByTopic", Dict{String, Any}("TopicArn"=>TopicArn); aws=aws)
-ListSubscriptionsByTopic(TopicArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sns("ListSubscriptionsByTopic", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TopicArn"=>TopicArn), args)); aws=aws)
+
+ListSubscriptionsByTopic(TopicArn; aws_config::AWSConfig=global_aws_config()) = sns("ListSubscriptionsByTopic", Dict{String, Any}("TopicArn"=>TopicArn); aws_config=aws_config)
+ListSubscriptionsByTopic(TopicArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sns("ListSubscriptionsByTopic", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TopicArn"=>TopicArn), args)); aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -256,8 +275,9 @@ List all tags added to the specified Amazon SNS topic. For an overview, see Amaz
 - `ResourceArn`: The ARN of the topic for which to list tags.
 
 """
-ListTagsForResource(ResourceArn; aws::AWSConfig=AWS.aws_config) = sns("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws=aws)
-ListTagsForResource(ResourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sns("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws=aws)
+
+ListTagsForResource(ResourceArn; aws_config::AWSConfig=global_aws_config()) = sns("ListTagsForResource", Dict{String, Any}("ResourceArn"=>ResourceArn); aws_config=aws_config)
+ListTagsForResource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sns("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn), args)); aws_config=aws_config)
 
 """
     ListTopics()
@@ -267,8 +287,9 @@ Returns a list of the requester's topics. Each call returns a limited list of to
 # Optional Parameters
 - `NextToken`: Token returned by the previous ListTopics request.
 """
-ListTopics(; aws::AWSConfig=AWS.aws_config) = sns("ListTopics"; aws=aws)
-ListTopics(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sns("ListTopics", args; aws=aws)
+
+ListTopics(; aws_config::AWSConfig=global_aws_config()) = sns("ListTopics"; aws_config=aws_config)
+ListTopics(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sns("ListTopics", args; aws_config=aws_config)
 
 """
     OptInPhoneNumber()
@@ -279,8 +300,9 @@ Use this request to opt in a phone number that is opted out, which enables you t
 - `phoneNumber`: The phone number to opt in.
 
 """
-OptInPhoneNumber(phoneNumber; aws::AWSConfig=AWS.aws_config) = sns("OptInPhoneNumber", Dict{String, Any}("phoneNumber"=>phoneNumber); aws=aws)
-OptInPhoneNumber(phoneNumber, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sns("OptInPhoneNumber", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("phoneNumber"=>phoneNumber), args)); aws=aws)
+
+OptInPhoneNumber(phoneNumber; aws_config::AWSConfig=global_aws_config()) = sns("OptInPhoneNumber", Dict{String, Any}("phoneNumber"=>phoneNumber); aws_config=aws_config)
+OptInPhoneNumber(phoneNumber, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sns("OptInPhoneNumber", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("phoneNumber"=>phoneNumber), args)); aws_config=aws_config)
 
 """
     Publish()
@@ -298,8 +320,9 @@ Sends a message to an Amazon SNS topic, a text message (SMS message) directly to
 - `TargetArn`: If you don't specify a value for the TargetArn parameter, you must specify a value for the PhoneNumber or TopicArn parameters.
 - `TopicArn`: The topic you want to publish to. If you don't specify a value for the TopicArn parameter, you must specify a value for the PhoneNumber or TargetArn parameters.
 """
-Publish(Message; aws::AWSConfig=AWS.aws_config) = sns("Publish", Dict{String, Any}("Message"=>Message); aws=aws)
-Publish(Message, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sns("Publish", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Message"=>Message), args)); aws=aws)
+
+Publish(Message; aws_config::AWSConfig=global_aws_config()) = sns("Publish", Dict{String, Any}("Message"=>Message); aws_config=aws_config)
+Publish(Message, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sns("Publish", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Message"=>Message), args)); aws_config=aws_config)
 
 """
     RemovePermission()
@@ -311,8 +334,9 @@ Removes a statement from a topic's access control policy.
 - `TopicArn`: The ARN of the topic whose access control policy you wish to modify.
 
 """
-RemovePermission(Label, TopicArn; aws::AWSConfig=AWS.aws_config) = sns("RemovePermission", Dict{String, Any}("Label"=>Label, "TopicArn"=>TopicArn); aws=aws)
-RemovePermission(Label, TopicArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sns("RemovePermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Label"=>Label, "TopicArn"=>TopicArn), args)); aws=aws)
+
+RemovePermission(Label, TopicArn; aws_config::AWSConfig=global_aws_config()) = sns("RemovePermission", Dict{String, Any}("Label"=>Label, "TopicArn"=>TopicArn); aws_config=aws_config)
+RemovePermission(Label, TopicArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sns("RemovePermission", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Label"=>Label, "TopicArn"=>TopicArn), args)); aws_config=aws_config)
 
 """
     SetEndpointAttributes()
@@ -324,8 +348,9 @@ Sets the attributes for an endpoint for a device on one of the supported push no
 - `EndpointArn`: EndpointArn used for SetEndpointAttributes action.
 
 """
-SetEndpointAttributes(Attributes, EndpointArn; aws::AWSConfig=AWS.aws_config) = sns("SetEndpointAttributes", Dict{String, Any}("Attributes"=>Attributes, "EndpointArn"=>EndpointArn); aws=aws)
-SetEndpointAttributes(Attributes, EndpointArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sns("SetEndpointAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attributes"=>Attributes, "EndpointArn"=>EndpointArn), args)); aws=aws)
+
+SetEndpointAttributes(Attributes, EndpointArn; aws_config::AWSConfig=global_aws_config()) = sns("SetEndpointAttributes", Dict{String, Any}("Attributes"=>Attributes, "EndpointArn"=>EndpointArn); aws_config=aws_config)
+SetEndpointAttributes(Attributes, EndpointArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sns("SetEndpointAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attributes"=>Attributes, "EndpointArn"=>EndpointArn), args)); aws_config=aws_config)
 
 """
     SetPlatformApplicationAttributes()
@@ -337,8 +362,9 @@ Sets the attributes of the platform application object for the supported push no
 - `PlatformApplicationArn`: PlatformApplicationArn for SetPlatformApplicationAttributes action.
 
 """
-SetPlatformApplicationAttributes(Attributes, PlatformApplicationArn; aws::AWSConfig=AWS.aws_config) = sns("SetPlatformApplicationAttributes", Dict{String, Any}("Attributes"=>Attributes, "PlatformApplicationArn"=>PlatformApplicationArn); aws=aws)
-SetPlatformApplicationAttributes(Attributes, PlatformApplicationArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sns("SetPlatformApplicationAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attributes"=>Attributes, "PlatformApplicationArn"=>PlatformApplicationArn), args)); aws=aws)
+
+SetPlatformApplicationAttributes(Attributes, PlatformApplicationArn; aws_config::AWSConfig=global_aws_config()) = sns("SetPlatformApplicationAttributes", Dict{String, Any}("Attributes"=>Attributes, "PlatformApplicationArn"=>PlatformApplicationArn); aws_config=aws_config)
+SetPlatformApplicationAttributes(Attributes, PlatformApplicationArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sns("SetPlatformApplicationAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Attributes"=>Attributes, "PlatformApplicationArn"=>PlatformApplicationArn), args)); aws_config=aws_config)
 
 """
     SetSMSAttributes()
@@ -349,8 +375,9 @@ Use this request to set the default settings for sending SMS messages and receiv
 - `attributes`: The default settings for sending SMS messages from your account. You can set values for the following attribute names:  MonthlySpendLimit – The maximum amount in USD that you are willing to spend each month to send SMS messages. When Amazon SNS determines that sending an SMS message would incur a cost that exceeds this limit, it stops sending SMS messages within minutes.  Amazon SNS stops sending SMS messages within minutes of the limit being crossed. During that interval, if you continue to send SMS messages, you will incur costs that exceed your limit.  By default, the spend limit is set to the maximum allowed by Amazon SNS. If you want to raise the limit, submit an SNS Limit Increase case. For New limit value, enter your desired monthly spend limit. In the Use Case Description field, explain that you are requesting an SMS monthly spend limit increase.  DeliveryStatusIAMRole – The ARN of the IAM role that allows Amazon SNS to write logs about SMS deliveries in CloudWatch Logs. For each SMS message that you send, Amazon SNS writes a log that includes the message price, the success or failure status, the reason for failure (if the message failed), the message dwell time, and other information.  DeliveryStatusSuccessSamplingRate – The percentage of successful SMS deliveries for which Amazon SNS will write logs in CloudWatch Logs. The value can be an integer from 0 - 100. For example, to write logs only for failed deliveries, set this value to 0. To write logs for 10% of your successful deliveries, set it to 10.  DefaultSenderID – A string, such as your business brand, that is displayed as the sender on the receiving device. Support for sender IDs varies by country. The sender ID can be 1 - 11 alphanumeric characters, and it must contain at least one letter.  DefaultSMSType – The type of SMS message that you will send by default. You can assign the following values:    Promotional – (Default) Noncritical messages, such as marketing messages. Amazon SNS optimizes the message delivery to incur the lowest cost.    Transactional – Critical messages that support customer transactions, such as one-time passcodes for multi-factor authentication. Amazon SNS optimizes the message delivery to achieve the highest reliability.    UsageReportS3Bucket – The name of the Amazon S3 bucket to receive daily SMS usage reports from Amazon SNS. Each day, Amazon SNS will deliver a usage report as a CSV file to the bucket. The report includes the following information for each SMS message that was successfully delivered by your account:   Time that the message was published (in UTC)   Message ID   Destination phone number   Message type   Delivery status   Message price (in USD)   Part number (a message is split into multiple parts if it is too long for a single message)   Total number of parts   To receive the report, the bucket must have a policy that allows the Amazon SNS service principle to perform the s3:PutObject and s3:GetBucketLocation actions. For an example bucket policy and usage report, see Monitoring SMS Activity in the Amazon SNS Developer Guide.
 
 """
-SetSMSAttributes(attributes; aws::AWSConfig=AWS.aws_config) = sns("SetSMSAttributes", Dict{String, Any}("attributes"=>attributes); aws=aws)
-SetSMSAttributes(attributes, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sns("SetSMSAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attributes"=>attributes), args)); aws=aws)
+
+SetSMSAttributes(attributes; aws_config::AWSConfig=global_aws_config()) = sns("SetSMSAttributes", Dict{String, Any}("attributes"=>attributes); aws_config=aws_config)
+SetSMSAttributes(attributes, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sns("SetSMSAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("attributes"=>attributes), args)); aws_config=aws_config)
 
 """
     SetSubscriptionAttributes()
@@ -364,8 +391,9 @@ Allows a subscription owner to set an attribute of the subscription to a new val
 # Optional Parameters
 - `AttributeValue`: The new value for the attribute in JSON format.
 """
-SetSubscriptionAttributes(AttributeName, SubscriptionArn; aws::AWSConfig=AWS.aws_config) = sns("SetSubscriptionAttributes", Dict{String, Any}("AttributeName"=>AttributeName, "SubscriptionArn"=>SubscriptionArn); aws=aws)
-SetSubscriptionAttributes(AttributeName, SubscriptionArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sns("SetSubscriptionAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeName"=>AttributeName, "SubscriptionArn"=>SubscriptionArn), args)); aws=aws)
+
+SetSubscriptionAttributes(AttributeName, SubscriptionArn; aws_config::AWSConfig=global_aws_config()) = sns("SetSubscriptionAttributes", Dict{String, Any}("AttributeName"=>AttributeName, "SubscriptionArn"=>SubscriptionArn); aws_config=aws_config)
+SetSubscriptionAttributes(AttributeName, SubscriptionArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sns("SetSubscriptionAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeName"=>AttributeName, "SubscriptionArn"=>SubscriptionArn), args)); aws_config=aws_config)
 
 """
     SetTopicAttributes()
@@ -379,8 +407,9 @@ Allows a topic owner to set an attribute of the topic to a new value.
 # Optional Parameters
 - `AttributeValue`: The new value for the attribute.
 """
-SetTopicAttributes(AttributeName, TopicArn; aws::AWSConfig=AWS.aws_config) = sns("SetTopicAttributes", Dict{String, Any}("AttributeName"=>AttributeName, "TopicArn"=>TopicArn); aws=aws)
-SetTopicAttributes(AttributeName, TopicArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sns("SetTopicAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeName"=>AttributeName, "TopicArn"=>TopicArn), args)); aws=aws)
+
+SetTopicAttributes(AttributeName, TopicArn; aws_config::AWSConfig=global_aws_config()) = sns("SetTopicAttributes", Dict{String, Any}("AttributeName"=>AttributeName, "TopicArn"=>TopicArn); aws_config=aws_config)
+SetTopicAttributes(AttributeName, TopicArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sns("SetTopicAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeName"=>AttributeName, "TopicArn"=>TopicArn), args)); aws_config=aws_config)
 
 """
     Subscribe()
@@ -396,8 +425,9 @@ Subscribes an endpoint to an Amazon SNS topic. If the endpoint type is HTTP/S or
 - `Endpoint`: The endpoint that you want to receive notifications. Endpoints vary by protocol:   For the http protocol, the (public) endpoint is a URL beginning with http://    For the https protocol, the (public) endpoint is a URL beginning with https://    For the email protocol, the endpoint is an email address   For the email-json protocol, the endpoint is an email address   For the sms protocol, the endpoint is a phone number of an SMS-enabled device   For the sqs protocol, the endpoint is the ARN of an Amazon SQS queue   For the application protocol, the endpoint is the EndpointArn of a mobile app and device.   For the lambda protocol, the endpoint is the ARN of an Amazon Lambda function.  
 - `ReturnSubscriptionArn`: Sets whether the response from the Subscribe request includes the subscription ARN, even if the subscription is not yet confirmed.   If you set this parameter to true, the response includes the ARN in all cases, even if the subscription is not yet confirmed. In addition to the ARN for confirmed subscriptions, the response also includes the pending subscription ARN value for subscriptions that aren't yet confirmed. A subscription becomes confirmed when the subscriber calls the ConfirmSubscription action with a confirmation token.    The default value is false.
 """
-Subscribe(Protocol, TopicArn; aws::AWSConfig=AWS.aws_config) = sns("Subscribe", Dict{String, Any}("Protocol"=>Protocol, "TopicArn"=>TopicArn); aws=aws)
-Subscribe(Protocol, TopicArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sns("Subscribe", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Protocol"=>Protocol, "TopicArn"=>TopicArn), args)); aws=aws)
+
+Subscribe(Protocol, TopicArn; aws_config::AWSConfig=global_aws_config()) = sns("Subscribe", Dict{String, Any}("Protocol"=>Protocol, "TopicArn"=>TopicArn); aws_config=aws_config)
+Subscribe(Protocol, TopicArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sns("Subscribe", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Protocol"=>Protocol, "TopicArn"=>TopicArn), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -409,8 +439,9 @@ Add tags to the specified Amazon SNS topic. For an overview, see Amazon SNS Tags
 - `Tags`: The tags to be added to the specified topic. A tag consists of a required key and an optional value.
 
 """
-TagResource(ResourceArn, Tags; aws::AWSConfig=AWS.aws_config) = sns("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws=aws)
-TagResource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sns("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), args)); aws=aws)
+
+TagResource(ResourceArn, Tags; aws_config::AWSConfig=global_aws_config()) = sns("TagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags); aws_config=aws_config)
+TagResource(ResourceArn, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sns("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     Unsubscribe()
@@ -421,8 +452,9 @@ Deletes a subscription. If the subscription requires authentication for deletion
 - `SubscriptionArn`: The ARN of the subscription to be deleted.
 
 """
-Unsubscribe(SubscriptionArn; aws::AWSConfig=AWS.aws_config) = sns("Unsubscribe", Dict{String, Any}("SubscriptionArn"=>SubscriptionArn); aws=aws)
-Unsubscribe(SubscriptionArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sns("Unsubscribe", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionArn"=>SubscriptionArn), args)); aws=aws)
+
+Unsubscribe(SubscriptionArn; aws_config::AWSConfig=global_aws_config()) = sns("Unsubscribe", Dict{String, Any}("SubscriptionArn"=>SubscriptionArn); aws_config=aws_config)
+Unsubscribe(SubscriptionArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sns("Unsubscribe", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionArn"=>SubscriptionArn), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -434,5 +466,6 @@ Remove tags from the specified Amazon SNS topic. For an overview, see Amazon SNS
 - `TagKeys`: The list of tag keys to remove from the specified topic.
 
 """
-UntagResource(ResourceArn, TagKeys; aws::AWSConfig=AWS.aws_config) = sns("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws=aws)
-UntagResource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sns("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws=aws)
+
+UntagResource(ResourceArn, TagKeys; aws_config::AWSConfig=global_aws_config()) = sns("UntagResource", Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys); aws_config=aws_config)
+UntagResource(ResourceArn, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sns("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceArn"=>ResourceArn, "TagKeys"=>TagKeys), args)); aws_config=aws_config)

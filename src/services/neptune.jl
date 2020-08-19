@@ -14,8 +14,9 @@ Associates an Identity and Access Management (IAM) role from an Neptune DB clust
 - `RoleArn`: The Amazon Resource Name (ARN) of the IAM role to associate with the Neptune DB cluster, for example arn:aws:iam::123456789012:role/NeptuneAccessRole.
 
 """
-AddRoleToDBCluster(DBClusterIdentifier, RoleArn; aws::AWSConfig=AWS.aws_config) = neptune("AddRoleToDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "RoleArn"=>RoleArn); aws=aws)
-AddRoleToDBCluster(DBClusterIdentifier, RoleArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("AddRoleToDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "RoleArn"=>RoleArn), args)); aws=aws)
+
+AddRoleToDBCluster(DBClusterIdentifier, RoleArn; aws_config::AWSConfig=global_aws_config()) = neptune("AddRoleToDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "RoleArn"=>RoleArn); aws_config=aws_config)
+AddRoleToDBCluster(DBClusterIdentifier, RoleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("AddRoleToDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "RoleArn"=>RoleArn), args)); aws_config=aws_config)
 
 """
     AddSourceIdentifierToSubscription()
@@ -27,8 +28,9 @@ Adds a source identifier to an existing event notification subscription.
 - `SubscriptionName`: The name of the event notification subscription you want to add a source identifier to.
 
 """
-AddSourceIdentifierToSubscription(SourceIdentifier, SubscriptionName; aws::AWSConfig=AWS.aws_config) = neptune("AddSourceIdentifierToSubscription", Dict{String, Any}("SourceIdentifier"=>SourceIdentifier, "SubscriptionName"=>SubscriptionName); aws=aws)
-AddSourceIdentifierToSubscription(SourceIdentifier, SubscriptionName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("AddSourceIdentifierToSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceIdentifier"=>SourceIdentifier, "SubscriptionName"=>SubscriptionName), args)); aws=aws)
+
+AddSourceIdentifierToSubscription(SourceIdentifier, SubscriptionName; aws_config::AWSConfig=global_aws_config()) = neptune("AddSourceIdentifierToSubscription", Dict{String, Any}("SourceIdentifier"=>SourceIdentifier, "SubscriptionName"=>SubscriptionName); aws_config=aws_config)
+AddSourceIdentifierToSubscription(SourceIdentifier, SubscriptionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("AddSourceIdentifierToSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceIdentifier"=>SourceIdentifier, "SubscriptionName"=>SubscriptionName), args)); aws_config=aws_config)
 
 """
     AddTagsToResource()
@@ -42,8 +44,9 @@ Adds metadata tags to an Amazon Neptune resource. These tags can also be used wi
 # Optional Parameters
 - `Tags`: The tags to be assigned to the Amazon Neptune resource.
 """
-AddTagsToResource(ResourceName, Tag; aws::AWSConfig=AWS.aws_config) = neptune("AddTagsToResource", Dict{String, Any}("ResourceName"=>ResourceName, "Tag"=>Tag); aws=aws)
-AddTagsToResource(ResourceName, Tag, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("AddTagsToResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "Tag"=>Tag), args)); aws=aws)
+
+AddTagsToResource(ResourceName, Tag; aws_config::AWSConfig=global_aws_config()) = neptune("AddTagsToResource", Dict{String, Any}("ResourceName"=>ResourceName, "Tag"=>Tag); aws_config=aws_config)
+AddTagsToResource(ResourceName, Tag, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("AddTagsToResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "Tag"=>Tag), args)); aws_config=aws_config)
 
 """
     ApplyPendingMaintenanceAction()
@@ -56,8 +59,9 @@ Applies a pending maintenance action to a resource (for example, to a DB instanc
 - `ResourceIdentifier`: The Amazon Resource Name (ARN) of the resource that the pending maintenance action applies to. For information about creating an ARN, see  Constructing an Amazon Resource Name (ARN).
 
 """
-ApplyPendingMaintenanceAction(ApplyAction, OptInType, ResourceIdentifier; aws::AWSConfig=AWS.aws_config) = neptune("ApplyPendingMaintenanceAction", Dict{String, Any}("ApplyAction"=>ApplyAction, "OptInType"=>OptInType, "ResourceIdentifier"=>ResourceIdentifier); aws=aws)
-ApplyPendingMaintenanceAction(ApplyAction, OptInType, ResourceIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("ApplyPendingMaintenanceAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplyAction"=>ApplyAction, "OptInType"=>OptInType, "ResourceIdentifier"=>ResourceIdentifier), args)); aws=aws)
+
+ApplyPendingMaintenanceAction(ApplyAction, OptInType, ResourceIdentifier; aws_config::AWSConfig=global_aws_config()) = neptune("ApplyPendingMaintenanceAction", Dict{String, Any}("ApplyAction"=>ApplyAction, "OptInType"=>OptInType, "ResourceIdentifier"=>ResourceIdentifier); aws_config=aws_config)
+ApplyPendingMaintenanceAction(ApplyAction, OptInType, ResourceIdentifier, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("ApplyPendingMaintenanceAction", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ApplyAction"=>ApplyAction, "OptInType"=>OptInType, "ResourceIdentifier"=>ResourceIdentifier), args)); aws_config=aws_config)
 
 """
     CopyDBClusterParameterGroup()
@@ -72,8 +76,9 @@ Copies the specified DB cluster parameter group.
 # Optional Parameters
 - `Tags`: The tags to be assigned to the copied DB cluster parameter group.
 """
-CopyDBClusterParameterGroup(SourceDBClusterParameterGroupIdentifier, TargetDBClusterParameterGroupDescription, TargetDBClusterParameterGroupIdentifier; aws::AWSConfig=AWS.aws_config) = neptune("CopyDBClusterParameterGroup", Dict{String, Any}("SourceDBClusterParameterGroupIdentifier"=>SourceDBClusterParameterGroupIdentifier, "TargetDBClusterParameterGroupDescription"=>TargetDBClusterParameterGroupDescription, "TargetDBClusterParameterGroupIdentifier"=>TargetDBClusterParameterGroupIdentifier); aws=aws)
-CopyDBClusterParameterGroup(SourceDBClusterParameterGroupIdentifier, TargetDBClusterParameterGroupDescription, TargetDBClusterParameterGroupIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("CopyDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceDBClusterParameterGroupIdentifier"=>SourceDBClusterParameterGroupIdentifier, "TargetDBClusterParameterGroupDescription"=>TargetDBClusterParameterGroupDescription, "TargetDBClusterParameterGroupIdentifier"=>TargetDBClusterParameterGroupIdentifier), args)); aws=aws)
+
+CopyDBClusterParameterGroup(SourceDBClusterParameterGroupIdentifier, TargetDBClusterParameterGroupDescription, TargetDBClusterParameterGroupIdentifier; aws_config::AWSConfig=global_aws_config()) = neptune("CopyDBClusterParameterGroup", Dict{String, Any}("SourceDBClusterParameterGroupIdentifier"=>SourceDBClusterParameterGroupIdentifier, "TargetDBClusterParameterGroupDescription"=>TargetDBClusterParameterGroupDescription, "TargetDBClusterParameterGroupIdentifier"=>TargetDBClusterParameterGroupIdentifier); aws_config=aws_config)
+CopyDBClusterParameterGroup(SourceDBClusterParameterGroupIdentifier, TargetDBClusterParameterGroupDescription, TargetDBClusterParameterGroupIdentifier, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("CopyDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceDBClusterParameterGroupIdentifier"=>SourceDBClusterParameterGroupIdentifier, "TargetDBClusterParameterGroupDescription"=>TargetDBClusterParameterGroupDescription, "TargetDBClusterParameterGroupIdentifier"=>TargetDBClusterParameterGroupIdentifier), args)); aws_config=aws_config)
 
 """
     CopyDBClusterSnapshot()
@@ -90,8 +95,9 @@ Copies a snapshot of a DB cluster. To copy a DB cluster snapshot from a shared m
 - `PreSignedUrl`: Not currently supported.
 - `Tags`: The tags to assign to the new DB cluster snapshot copy.
 """
-CopyDBClusterSnapshot(SourceDBClusterSnapshotIdentifier, TargetDBClusterSnapshotIdentifier; aws::AWSConfig=AWS.aws_config) = neptune("CopyDBClusterSnapshot", Dict{String, Any}("SourceDBClusterSnapshotIdentifier"=>SourceDBClusterSnapshotIdentifier, "TargetDBClusterSnapshotIdentifier"=>TargetDBClusterSnapshotIdentifier); aws=aws)
-CopyDBClusterSnapshot(SourceDBClusterSnapshotIdentifier, TargetDBClusterSnapshotIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("CopyDBClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceDBClusterSnapshotIdentifier"=>SourceDBClusterSnapshotIdentifier, "TargetDBClusterSnapshotIdentifier"=>TargetDBClusterSnapshotIdentifier), args)); aws=aws)
+
+CopyDBClusterSnapshot(SourceDBClusterSnapshotIdentifier, TargetDBClusterSnapshotIdentifier; aws_config::AWSConfig=global_aws_config()) = neptune("CopyDBClusterSnapshot", Dict{String, Any}("SourceDBClusterSnapshotIdentifier"=>SourceDBClusterSnapshotIdentifier, "TargetDBClusterSnapshotIdentifier"=>TargetDBClusterSnapshotIdentifier); aws_config=aws_config)
+CopyDBClusterSnapshot(SourceDBClusterSnapshotIdentifier, TargetDBClusterSnapshotIdentifier, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("CopyDBClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceDBClusterSnapshotIdentifier"=>SourceDBClusterSnapshotIdentifier, "TargetDBClusterSnapshotIdentifier"=>TargetDBClusterSnapshotIdentifier), args)); aws_config=aws_config)
 
 """
     CopyDBParameterGroup()
@@ -106,8 +112,9 @@ Copies the specified DB parameter group.
 # Optional Parameters
 - `Tags`: The tags to be assigned to the copied DB parameter group.
 """
-CopyDBParameterGroup(SourceDBParameterGroupIdentifier, TargetDBParameterGroupDescription, TargetDBParameterGroupIdentifier; aws::AWSConfig=AWS.aws_config) = neptune("CopyDBParameterGroup", Dict{String, Any}("SourceDBParameterGroupIdentifier"=>SourceDBParameterGroupIdentifier, "TargetDBParameterGroupDescription"=>TargetDBParameterGroupDescription, "TargetDBParameterGroupIdentifier"=>TargetDBParameterGroupIdentifier); aws=aws)
-CopyDBParameterGroup(SourceDBParameterGroupIdentifier, TargetDBParameterGroupDescription, TargetDBParameterGroupIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("CopyDBParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceDBParameterGroupIdentifier"=>SourceDBParameterGroupIdentifier, "TargetDBParameterGroupDescription"=>TargetDBParameterGroupDescription, "TargetDBParameterGroupIdentifier"=>TargetDBParameterGroupIdentifier), args)); aws=aws)
+
+CopyDBParameterGroup(SourceDBParameterGroupIdentifier, TargetDBParameterGroupDescription, TargetDBParameterGroupIdentifier; aws_config::AWSConfig=global_aws_config()) = neptune("CopyDBParameterGroup", Dict{String, Any}("SourceDBParameterGroupIdentifier"=>SourceDBParameterGroupIdentifier, "TargetDBParameterGroupDescription"=>TargetDBParameterGroupDescription, "TargetDBParameterGroupIdentifier"=>TargetDBParameterGroupIdentifier); aws_config=aws_config)
+CopyDBParameterGroup(SourceDBParameterGroupIdentifier, TargetDBParameterGroupDescription, TargetDBParameterGroupIdentifier, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("CopyDBParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceDBParameterGroupIdentifier"=>SourceDBParameterGroupIdentifier, "TargetDBParameterGroupDescription"=>TargetDBParameterGroupDescription, "TargetDBParameterGroupIdentifier"=>TargetDBParameterGroupIdentifier), args)); aws_config=aws_config)
 
 """
     CreateDBCluster()
@@ -142,8 +149,9 @@ Creates a new Amazon Neptune DB cluster. You can use the ReplicationSourceIdenti
 - `Tags`: The tags to assign to the new DB cluster.
 - `VpcSecurityGroupIds`: A list of EC2 VPC security groups to associate with this DB cluster.
 """
-CreateDBCluster(DBClusterIdentifier, Engine; aws::AWSConfig=AWS.aws_config) = neptune("CreateDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine); aws=aws)
-CreateDBCluster(DBClusterIdentifier, Engine, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("CreateDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine), args)); aws=aws)
+
+CreateDBCluster(DBClusterIdentifier, Engine; aws_config::AWSConfig=global_aws_config()) = neptune("CreateDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine); aws_config=aws_config)
+CreateDBCluster(DBClusterIdentifier, Engine, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("CreateDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine), args)); aws_config=aws_config)
 
 """
     CreateDBClusterParameterGroup()
@@ -158,8 +166,9 @@ Creates a new DB cluster parameter group. Parameters in a DB cluster parameter g
 # Optional Parameters
 - `Tags`: The tags to be assigned to the new DB cluster parameter group.
 """
-CreateDBClusterParameterGroup(DBClusterParameterGroupName, DBParameterGroupFamily, Description; aws::AWSConfig=AWS.aws_config) = neptune("CreateDBClusterParameterGroup", Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName, "DBParameterGroupFamily"=>DBParameterGroupFamily, "Description"=>Description); aws=aws)
-CreateDBClusterParameterGroup(DBClusterParameterGroupName, DBParameterGroupFamily, Description, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("CreateDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName, "DBParameterGroupFamily"=>DBParameterGroupFamily, "Description"=>Description), args)); aws=aws)
+
+CreateDBClusterParameterGroup(DBClusterParameterGroupName, DBParameterGroupFamily, Description; aws_config::AWSConfig=global_aws_config()) = neptune("CreateDBClusterParameterGroup", Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName, "DBParameterGroupFamily"=>DBParameterGroupFamily, "Description"=>Description); aws_config=aws_config)
+CreateDBClusterParameterGroup(DBClusterParameterGroupName, DBParameterGroupFamily, Description, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("CreateDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName, "DBParameterGroupFamily"=>DBParameterGroupFamily, "Description"=>Description), args)); aws_config=aws_config)
 
 """
     CreateDBClusterSnapshot()
@@ -173,8 +182,9 @@ Creates a snapshot of a DB cluster.
 # Optional Parameters
 - `Tags`: The tags to be assigned to the DB cluster snapshot.
 """
-CreateDBClusterSnapshot(DBClusterIdentifier, DBClusterSnapshotIdentifier; aws::AWSConfig=AWS.aws_config) = neptune("CreateDBClusterSnapshot", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier); aws=aws)
-CreateDBClusterSnapshot(DBClusterIdentifier, DBClusterSnapshotIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("CreateDBClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), args)); aws=aws)
+
+CreateDBClusterSnapshot(DBClusterIdentifier, DBClusterSnapshotIdentifier; aws_config::AWSConfig=global_aws_config()) = neptune("CreateDBClusterSnapshot", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier); aws_config=aws_config)
+CreateDBClusterSnapshot(DBClusterIdentifier, DBClusterSnapshotIdentifier, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("CreateDBClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), args)); aws_config=aws_config)
 
 """
     CreateDBInstance()
@@ -228,8 +238,9 @@ Creates a new DB instance.
 - `Timezone`: The time zone of the DB instance.
 - `VpcSecurityGroupIds`: A list of EC2 VPC security groups to associate with this DB instance. Not applicable. The associated list of EC2 VPC security groups is managed by the DB cluster. For more information, see CreateDBCluster. Default: The default EC2 VPC security group for the DB subnet group's VPC.
 """
-CreateDBInstance(DBInstanceClass, DBInstanceIdentifier, Engine; aws::AWSConfig=AWS.aws_config) = neptune("CreateDBInstance", Dict{String, Any}("DBInstanceClass"=>DBInstanceClass, "DBInstanceIdentifier"=>DBInstanceIdentifier, "Engine"=>Engine); aws=aws)
-CreateDBInstance(DBInstanceClass, DBInstanceIdentifier, Engine, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("CreateDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceClass"=>DBInstanceClass, "DBInstanceIdentifier"=>DBInstanceIdentifier, "Engine"=>Engine), args)); aws=aws)
+
+CreateDBInstance(DBInstanceClass, DBInstanceIdentifier, Engine; aws_config::AWSConfig=global_aws_config()) = neptune("CreateDBInstance", Dict{String, Any}("DBInstanceClass"=>DBInstanceClass, "DBInstanceIdentifier"=>DBInstanceIdentifier, "Engine"=>Engine); aws_config=aws_config)
+CreateDBInstance(DBInstanceClass, DBInstanceIdentifier, Engine, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("CreateDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceClass"=>DBInstanceClass, "DBInstanceIdentifier"=>DBInstanceIdentifier, "Engine"=>Engine), args)); aws_config=aws_config)
 
 """
     CreateDBParameterGroup()
@@ -244,8 +255,9 @@ Creates a new DB parameter group. A DB parameter group is initially created with
 # Optional Parameters
 - `Tags`: The tags to be assigned to the new DB parameter group.
 """
-CreateDBParameterGroup(DBParameterGroupFamily, DBParameterGroupName, Description; aws::AWSConfig=AWS.aws_config) = neptune("CreateDBParameterGroup", Dict{String, Any}("DBParameterGroupFamily"=>DBParameterGroupFamily, "DBParameterGroupName"=>DBParameterGroupName, "Description"=>Description); aws=aws)
-CreateDBParameterGroup(DBParameterGroupFamily, DBParameterGroupName, Description, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("CreateDBParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupFamily"=>DBParameterGroupFamily, "DBParameterGroupName"=>DBParameterGroupName, "Description"=>Description), args)); aws=aws)
+
+CreateDBParameterGroup(DBParameterGroupFamily, DBParameterGroupName, Description; aws_config::AWSConfig=global_aws_config()) = neptune("CreateDBParameterGroup", Dict{String, Any}("DBParameterGroupFamily"=>DBParameterGroupFamily, "DBParameterGroupName"=>DBParameterGroupName, "Description"=>Description); aws_config=aws_config)
+CreateDBParameterGroup(DBParameterGroupFamily, DBParameterGroupName, Description, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("CreateDBParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupFamily"=>DBParameterGroupFamily, "DBParameterGroupName"=>DBParameterGroupName, "Description"=>Description), args)); aws_config=aws_config)
 
 """
     CreateDBSubnetGroup()
@@ -261,8 +273,9 @@ Creates a new DB subnet group. DB subnet groups must contain at least one subnet
 - `SubnetIds`: The EC2 Subnet IDs for the DB subnet group.
 - `Tags`: The tags to be assigned to the new DB subnet group.
 """
-CreateDBSubnetGroup(DBSubnetGroupDescription, DBSubnetGroupName, SubnetIdentifier; aws::AWSConfig=AWS.aws_config) = neptune("CreateDBSubnetGroup", Dict{String, Any}("DBSubnetGroupDescription"=>DBSubnetGroupDescription, "DBSubnetGroupName"=>DBSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier); aws=aws)
-CreateDBSubnetGroup(DBSubnetGroupDescription, DBSubnetGroupName, SubnetIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("CreateDBSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSubnetGroupDescription"=>DBSubnetGroupDescription, "DBSubnetGroupName"=>DBSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier), args)); aws=aws)
+
+CreateDBSubnetGroup(DBSubnetGroupDescription, DBSubnetGroupName, SubnetIdentifier; aws_config::AWSConfig=global_aws_config()) = neptune("CreateDBSubnetGroup", Dict{String, Any}("DBSubnetGroupDescription"=>DBSubnetGroupDescription, "DBSubnetGroupName"=>DBSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier); aws_config=aws_config)
+CreateDBSubnetGroup(DBSubnetGroupDescription, DBSubnetGroupName, SubnetIdentifier, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("CreateDBSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSubnetGroupDescription"=>DBSubnetGroupDescription, "DBSubnetGroupName"=>DBSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier), args)); aws_config=aws_config)
 
 """
     CreateEventSubscription()
@@ -280,8 +293,9 @@ Creates an event notification subscription. This action requires a topic ARN (Am
 - `SourceType`: The type of source that is generating the events. For example, if you want to be notified of events generated by a DB instance, you would set this parameter to db-instance. if this value is not specified, all events are returned. Valid values: db-instance | db-cluster | db-parameter-group | db-security-group | db-snapshot | db-cluster-snapshot 
 - `Tags`: The tags to be applied to the new event subscription.
 """
-CreateEventSubscription(SnsTopicArn, SubscriptionName; aws::AWSConfig=AWS.aws_config) = neptune("CreateEventSubscription", Dict{String, Any}("SnsTopicArn"=>SnsTopicArn, "SubscriptionName"=>SubscriptionName); aws=aws)
-CreateEventSubscription(SnsTopicArn, SubscriptionName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("CreateEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnsTopicArn"=>SnsTopicArn, "SubscriptionName"=>SubscriptionName), args)); aws=aws)
+
+CreateEventSubscription(SnsTopicArn, SubscriptionName; aws_config::AWSConfig=global_aws_config()) = neptune("CreateEventSubscription", Dict{String, Any}("SnsTopicArn"=>SnsTopicArn, "SubscriptionName"=>SubscriptionName); aws_config=aws_config)
+CreateEventSubscription(SnsTopicArn, SubscriptionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("CreateEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SnsTopicArn"=>SnsTopicArn, "SubscriptionName"=>SubscriptionName), args)); aws_config=aws_config)
 
 """
     DeleteDBCluster()
@@ -295,8 +309,9 @@ The DeleteDBCluster action deletes a previously provisioned DB cluster. When you
 - `FinalDBSnapshotIdentifier`:  The DB cluster snapshot identifier of the new DB cluster snapshot created when SkipFinalSnapshot is set to false.   Specifying this parameter and also setting the SkipFinalShapshot parameter to true results in an error.  Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens  
 - `SkipFinalSnapshot`:  Determines whether a final DB cluster snapshot is created before the DB cluster is deleted. If true is specified, no DB cluster snapshot is created. If false is specified, a DB cluster snapshot is created before the DB cluster is deleted.  You must specify a FinalDBSnapshotIdentifier parameter if SkipFinalSnapshot is false.  Default: false 
 """
-DeleteDBCluster(DBClusterIdentifier; aws::AWSConfig=AWS.aws_config) = neptune("DeleteDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier); aws=aws)
-DeleteDBCluster(DBClusterIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("DeleteDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), args)); aws=aws)
+
+DeleteDBCluster(DBClusterIdentifier; aws_config::AWSConfig=global_aws_config()) = neptune("DeleteDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier); aws_config=aws_config)
+DeleteDBCluster(DBClusterIdentifier, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("DeleteDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), args)); aws_config=aws_config)
 
 """
     DeleteDBClusterParameterGroup()
@@ -307,8 +322,9 @@ Deletes a specified DB cluster parameter group. The DB cluster parameter group t
 - `DBClusterParameterGroupName`: The name of the DB cluster parameter group. Constraints:   Must be the name of an existing DB cluster parameter group.   You can't delete a default DB cluster parameter group.   Cannot be associated with any DB clusters.  
 
 """
-DeleteDBClusterParameterGroup(DBClusterParameterGroupName; aws::AWSConfig=AWS.aws_config) = neptune("DeleteDBClusterParameterGroup", Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName); aws=aws)
-DeleteDBClusterParameterGroup(DBClusterParameterGroupName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("DeleteDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName), args)); aws=aws)
+
+DeleteDBClusterParameterGroup(DBClusterParameterGroupName; aws_config::AWSConfig=global_aws_config()) = neptune("DeleteDBClusterParameterGroup", Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName); aws_config=aws_config)
+DeleteDBClusterParameterGroup(DBClusterParameterGroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("DeleteDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName), args)); aws_config=aws_config)
 
 """
     DeleteDBClusterSnapshot()
@@ -319,8 +335,9 @@ Deletes a DB cluster snapshot. If the snapshot is being copied, the copy operati
 - `DBClusterSnapshotIdentifier`: The identifier of the DB cluster snapshot to delete. Constraints: Must be the name of an existing DB cluster snapshot in the available state.
 
 """
-DeleteDBClusterSnapshot(DBClusterSnapshotIdentifier; aws::AWSConfig=AWS.aws_config) = neptune("DeleteDBClusterSnapshot", Dict{String, Any}("DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier); aws=aws)
-DeleteDBClusterSnapshot(DBClusterSnapshotIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("DeleteDBClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), args)); aws=aws)
+
+DeleteDBClusterSnapshot(DBClusterSnapshotIdentifier; aws_config::AWSConfig=global_aws_config()) = neptune("DeleteDBClusterSnapshot", Dict{String, Any}("DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier); aws_config=aws_config)
+DeleteDBClusterSnapshot(DBClusterSnapshotIdentifier, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("DeleteDBClusterSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), args)); aws_config=aws_config)
 
 """
     DeleteDBInstance()
@@ -334,8 +351,9 @@ The DeleteDBInstance action deletes a previously provisioned DB instance. When y
 - `FinalDBSnapshotIdentifier`:  The DBSnapshotIdentifier of the new DBSnapshot created when SkipFinalSnapshot is set to false.  Specifying this parameter and also setting the SkipFinalShapshot parameter to true results in an error.  Constraints:   Must be 1 to 255 letters or numbers.   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens   Cannot be specified when deleting a Read Replica.  
 - `SkipFinalSnapshot`:  Determines whether a final DB snapshot is created before the DB instance is deleted. If true is specified, no DBSnapshot is created. If false is specified, a DB snapshot is created before the DB instance is deleted. Note that when a DB instance is in a failure state and has a status of 'failed', 'incompatible-restore', or 'incompatible-network', it can only be deleted when the SkipFinalSnapshot parameter is set to \"true\". Specify true when deleting a Read Replica.  The FinalDBSnapshotIdentifier parameter must be specified if SkipFinalSnapshot is false.  Default: false 
 """
-DeleteDBInstance(DBInstanceIdentifier; aws::AWSConfig=AWS.aws_config) = neptune("DeleteDBInstance", Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier); aws=aws)
-DeleteDBInstance(DBInstanceIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("DeleteDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), args)); aws=aws)
+
+DeleteDBInstance(DBInstanceIdentifier; aws_config::AWSConfig=global_aws_config()) = neptune("DeleteDBInstance", Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier); aws_config=aws_config)
+DeleteDBInstance(DBInstanceIdentifier, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("DeleteDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), args)); aws_config=aws_config)
 
 """
     DeleteDBParameterGroup()
@@ -346,8 +364,9 @@ Deletes a specified DBParameterGroup. The DBParameterGroup to be deleted can't b
 - `DBParameterGroupName`: The name of the DB parameter group. Constraints:   Must be the name of an existing DB parameter group   You can't delete a default DB parameter group   Cannot be associated with any DB instances  
 
 """
-DeleteDBParameterGroup(DBParameterGroupName; aws::AWSConfig=AWS.aws_config) = neptune("DeleteDBParameterGroup", Dict{String, Any}("DBParameterGroupName"=>DBParameterGroupName); aws=aws)
-DeleteDBParameterGroup(DBParameterGroupName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("DeleteDBParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupName"=>DBParameterGroupName), args)); aws=aws)
+
+DeleteDBParameterGroup(DBParameterGroupName; aws_config::AWSConfig=global_aws_config()) = neptune("DeleteDBParameterGroup", Dict{String, Any}("DBParameterGroupName"=>DBParameterGroupName); aws_config=aws_config)
+DeleteDBParameterGroup(DBParameterGroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("DeleteDBParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupName"=>DBParameterGroupName), args)); aws_config=aws_config)
 
 """
     DeleteDBSubnetGroup()
@@ -358,8 +377,9 @@ Deletes a DB subnet group.  The specified database subnet group must not be asso
 - `DBSubnetGroupName`: The name of the database subnet group to delete.  You can't delete the default subnet group.  Constraints: Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup 
 
 """
-DeleteDBSubnetGroup(DBSubnetGroupName; aws::AWSConfig=AWS.aws_config) = neptune("DeleteDBSubnetGroup", Dict{String, Any}("DBSubnetGroupName"=>DBSubnetGroupName); aws=aws)
-DeleteDBSubnetGroup(DBSubnetGroupName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("DeleteDBSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSubnetGroupName"=>DBSubnetGroupName), args)); aws=aws)
+
+DeleteDBSubnetGroup(DBSubnetGroupName; aws_config::AWSConfig=global_aws_config()) = neptune("DeleteDBSubnetGroup", Dict{String, Any}("DBSubnetGroupName"=>DBSubnetGroupName); aws_config=aws_config)
+DeleteDBSubnetGroup(DBSubnetGroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("DeleteDBSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSubnetGroupName"=>DBSubnetGroupName), args)); aws_config=aws_config)
 
 """
     DeleteEventSubscription()
@@ -370,8 +390,9 @@ Deletes an event notification subscription.
 - `SubscriptionName`: The name of the event notification subscription you want to delete.
 
 """
-DeleteEventSubscription(SubscriptionName; aws::AWSConfig=AWS.aws_config) = neptune("DeleteEventSubscription", Dict{String, Any}("SubscriptionName"=>SubscriptionName); aws=aws)
-DeleteEventSubscription(SubscriptionName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("DeleteEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionName"=>SubscriptionName), args)); aws=aws)
+
+DeleteEventSubscription(SubscriptionName; aws_config::AWSConfig=global_aws_config()) = neptune("DeleteEventSubscription", Dict{String, Any}("SubscriptionName"=>SubscriptionName); aws_config=aws_config)
+DeleteEventSubscription(SubscriptionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("DeleteEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionName"=>SubscriptionName), args)); aws_config=aws_config)
 
 """
     DescribeDBClusterParameterGroups()
@@ -384,8 +405,9 @@ DeleteEventSubscription(SubscriptionName, args::AbstractDict{String, <:Any}; aws
 - `Marker`:  An optional pagination token provided by a previous DescribeDBClusterParameterGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
 - `MaxRecords`:  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
 """
-DescribeDBClusterParameterGroups(; aws::AWSConfig=AWS.aws_config) = neptune("DescribeDBClusterParameterGroups"; aws=aws)
-DescribeDBClusterParameterGroups(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("DescribeDBClusterParameterGroups", args; aws=aws)
+
+DescribeDBClusterParameterGroups(; aws_config::AWSConfig=global_aws_config()) = neptune("DescribeDBClusterParameterGroups"; aws_config=aws_config)
+DescribeDBClusterParameterGroups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("DescribeDBClusterParameterGroups", args; aws_config=aws_config)
 
 """
     DescribeDBClusterParameters()
@@ -401,8 +423,9 @@ Returns the detailed parameter list for a particular DB cluster parameter group.
 - `MaxRecords`:  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
 - `Source`:  A value that indicates to return only parameters for a specific source. Parameter sources can be engine, service, or customer.
 """
-DescribeDBClusterParameters(DBClusterParameterGroupName; aws::AWSConfig=AWS.aws_config) = neptune("DescribeDBClusterParameters", Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName); aws=aws)
-DescribeDBClusterParameters(DBClusterParameterGroupName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("DescribeDBClusterParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName), args)); aws=aws)
+
+DescribeDBClusterParameters(DBClusterParameterGroupName; aws_config::AWSConfig=global_aws_config()) = neptune("DescribeDBClusterParameters", Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName); aws_config=aws_config)
+DescribeDBClusterParameters(DBClusterParameterGroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("DescribeDBClusterParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName), args)); aws_config=aws_config)
 
 """
     DescribeDBClusterSnapshotAttributes()
@@ -413,8 +436,9 @@ Returns a list of DB cluster snapshot attribute names and values for a manual DB
 - `DBClusterSnapshotIdentifier`: The identifier for the DB cluster snapshot to describe the attributes for.
 
 """
-DescribeDBClusterSnapshotAttributes(DBClusterSnapshotIdentifier; aws::AWSConfig=AWS.aws_config) = neptune("DescribeDBClusterSnapshotAttributes", Dict{String, Any}("DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier); aws=aws)
-DescribeDBClusterSnapshotAttributes(DBClusterSnapshotIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("DescribeDBClusterSnapshotAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), args)); aws=aws)
+
+DescribeDBClusterSnapshotAttributes(DBClusterSnapshotIdentifier; aws_config::AWSConfig=global_aws_config()) = neptune("DescribeDBClusterSnapshotAttributes", Dict{String, Any}("DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier); aws_config=aws_config)
+DescribeDBClusterSnapshotAttributes(DBClusterSnapshotIdentifier, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("DescribeDBClusterSnapshotAttributes", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), args)); aws_config=aws_config)
 
 """
     DescribeDBClusterSnapshots()
@@ -431,8 +455,9 @@ Returns information about DB cluster snapshots. This API action supports paginat
 - `MaxRecords`: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
 - `SnapshotType`: The type of DB cluster snapshots to be returned. You can specify one of the following values:    automated - Return all DB cluster snapshots that have been automatically taken by Amazon Neptune for my AWS account.    manual - Return all DB cluster snapshots that have been taken by my AWS account.    shared - Return all manual DB cluster snapshots that have been shared to my AWS account.    public - Return all DB cluster snapshots that have been marked as public.   If you don't specify a SnapshotType value, then both automated and manual DB cluster snapshots are returned. You can include shared DB cluster snapshots with these results by setting the IncludeShared parameter to true. You can include public DB cluster snapshots with these results by setting the IncludePublic parameter to true. The IncludeShared and IncludePublic parameters don't apply for SnapshotType values of manual or automated. The IncludePublic parameter doesn't apply when SnapshotType is set to shared. The IncludeShared parameter doesn't apply when SnapshotType is set to public.
 """
-DescribeDBClusterSnapshots(; aws::AWSConfig=AWS.aws_config) = neptune("DescribeDBClusterSnapshots"; aws=aws)
-DescribeDBClusterSnapshots(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("DescribeDBClusterSnapshots", args; aws=aws)
+
+DescribeDBClusterSnapshots(; aws_config::AWSConfig=global_aws_config()) = neptune("DescribeDBClusterSnapshots"; aws_config=aws_config)
+DescribeDBClusterSnapshots(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("DescribeDBClusterSnapshots", args; aws_config=aws_config)
 
 """
     DescribeDBClusters()
@@ -445,8 +470,9 @@ Returns information about provisioned DB clusters, and supports pagination.  Thi
 - `Marker`: An optional pagination token provided by a previous DescribeDBClusters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
 - `MaxRecords`: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
 """
-DescribeDBClusters(; aws::AWSConfig=AWS.aws_config) = neptune("DescribeDBClusters"; aws=aws)
-DescribeDBClusters(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("DescribeDBClusters", args; aws=aws)
+
+DescribeDBClusters(; aws_config::AWSConfig=global_aws_config()) = neptune("DescribeDBClusters"; aws_config=aws_config)
+DescribeDBClusters(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("DescribeDBClusters", args; aws_config=aws_config)
 
 """
     DescribeDBEngineVersions()
@@ -464,8 +490,9 @@ Returns a list of the available DB engines.
 - `Marker`:  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
 - `MaxRecords`:  The maximum number of records to include in the response. If more than the MaxRecords value is available, a pagination token called a marker is included in the response so that the following results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
 """
-DescribeDBEngineVersions(; aws::AWSConfig=AWS.aws_config) = neptune("DescribeDBEngineVersions"; aws=aws)
-DescribeDBEngineVersions(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("DescribeDBEngineVersions", args; aws=aws)
+
+DescribeDBEngineVersions(; aws_config::AWSConfig=global_aws_config()) = neptune("DescribeDBEngineVersions"; aws_config=aws_config)
+DescribeDBEngineVersions(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("DescribeDBEngineVersions", args; aws_config=aws_config)
 
 """
     DescribeDBInstances()
@@ -478,8 +505,9 @@ Returns information about provisioned instances, and supports pagination.  This 
 - `Marker`:  An optional pagination token provided by a previous DescribeDBInstances request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
 - `MaxRecords`:  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
 """
-DescribeDBInstances(; aws::AWSConfig=AWS.aws_config) = neptune("DescribeDBInstances"; aws=aws)
-DescribeDBInstances(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("DescribeDBInstances", args; aws=aws)
+
+DescribeDBInstances(; aws_config::AWSConfig=global_aws_config()) = neptune("DescribeDBInstances"; aws_config=aws_config)
+DescribeDBInstances(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("DescribeDBInstances", args; aws_config=aws_config)
 
 """
     DescribeDBParameterGroups()
@@ -492,8 +520,9 @@ Returns a list of DBParameterGroup descriptions. If a DBParameterGroupName is sp
 - `Marker`: An optional pagination token provided by a previous DescribeDBParameterGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
 - `MaxRecords`: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
 """
-DescribeDBParameterGroups(; aws::AWSConfig=AWS.aws_config) = neptune("DescribeDBParameterGroups"; aws=aws)
-DescribeDBParameterGroups(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("DescribeDBParameterGroups", args; aws=aws)
+
+DescribeDBParameterGroups(; aws_config::AWSConfig=global_aws_config()) = neptune("DescribeDBParameterGroups"; aws_config=aws_config)
+DescribeDBParameterGroups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("DescribeDBParameterGroups", args; aws_config=aws_config)
 
 """
     DescribeDBParameters()
@@ -509,8 +538,9 @@ Returns the detailed parameter list for a particular DB parameter group.
 - `MaxRecords`: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
 - `Source`: The parameter types to return. Default: All parameter types returned Valid Values: user | system | engine-default 
 """
-DescribeDBParameters(DBParameterGroupName; aws::AWSConfig=AWS.aws_config) = neptune("DescribeDBParameters", Dict{String, Any}("DBParameterGroupName"=>DBParameterGroupName); aws=aws)
-DescribeDBParameters(DBParameterGroupName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("DescribeDBParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupName"=>DBParameterGroupName), args)); aws=aws)
+
+DescribeDBParameters(DBParameterGroupName; aws_config::AWSConfig=global_aws_config()) = neptune("DescribeDBParameters", Dict{String, Any}("DBParameterGroupName"=>DBParameterGroupName); aws_config=aws_config)
+DescribeDBParameters(DBParameterGroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("DescribeDBParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupName"=>DBParameterGroupName), args)); aws_config=aws_config)
 
 """
     DescribeDBSubnetGroups()
@@ -523,8 +553,9 @@ Returns a list of DBSubnetGroup descriptions. If a DBSubnetGroupName is specifie
 - `Marker`:  An optional pagination token provided by a previous DescribeDBSubnetGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
 - `MaxRecords`:  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
 """
-DescribeDBSubnetGroups(; aws::AWSConfig=AWS.aws_config) = neptune("DescribeDBSubnetGroups"; aws=aws)
-DescribeDBSubnetGroups(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("DescribeDBSubnetGroups", args; aws=aws)
+
+DescribeDBSubnetGroups(; aws_config::AWSConfig=global_aws_config()) = neptune("DescribeDBSubnetGroups"; aws_config=aws_config)
+DescribeDBSubnetGroups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("DescribeDBSubnetGroups", args; aws_config=aws_config)
 
 """
     DescribeEngineDefaultClusterParameters()
@@ -539,8 +570,9 @@ Returns the default engine and system parameter information for the cluster data
 - `Marker`:  An optional pagination token provided by a previous DescribeEngineDefaultClusterParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
 - `MaxRecords`:  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
 """
-DescribeEngineDefaultClusterParameters(DBParameterGroupFamily; aws::AWSConfig=AWS.aws_config) = neptune("DescribeEngineDefaultClusterParameters", Dict{String, Any}("DBParameterGroupFamily"=>DBParameterGroupFamily); aws=aws)
-DescribeEngineDefaultClusterParameters(DBParameterGroupFamily, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("DescribeEngineDefaultClusterParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupFamily"=>DBParameterGroupFamily), args)); aws=aws)
+
+DescribeEngineDefaultClusterParameters(DBParameterGroupFamily; aws_config::AWSConfig=global_aws_config()) = neptune("DescribeEngineDefaultClusterParameters", Dict{String, Any}("DBParameterGroupFamily"=>DBParameterGroupFamily); aws_config=aws_config)
+DescribeEngineDefaultClusterParameters(DBParameterGroupFamily, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("DescribeEngineDefaultClusterParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupFamily"=>DBParameterGroupFamily), args)); aws_config=aws_config)
 
 """
     DescribeEngineDefaultParameters()
@@ -555,8 +587,9 @@ Returns the default engine and system parameter information for the specified da
 - `Marker`:  An optional pagination token provided by a previous DescribeEngineDefaultParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
 - `MaxRecords`:  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
 """
-DescribeEngineDefaultParameters(DBParameterGroupFamily; aws::AWSConfig=AWS.aws_config) = neptune("DescribeEngineDefaultParameters", Dict{String, Any}("DBParameterGroupFamily"=>DBParameterGroupFamily); aws=aws)
-DescribeEngineDefaultParameters(DBParameterGroupFamily, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("DescribeEngineDefaultParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupFamily"=>DBParameterGroupFamily), args)); aws=aws)
+
+DescribeEngineDefaultParameters(DBParameterGroupFamily; aws_config::AWSConfig=global_aws_config()) = neptune("DescribeEngineDefaultParameters", Dict{String, Any}("DBParameterGroupFamily"=>DBParameterGroupFamily); aws_config=aws_config)
+DescribeEngineDefaultParameters(DBParameterGroupFamily, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("DescribeEngineDefaultParameters", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupFamily"=>DBParameterGroupFamily), args)); aws_config=aws_config)
 
 """
     DescribeEventCategories()
@@ -567,8 +600,9 @@ Displays a list of categories for all event source types, or, if specified, for 
 - `Filters`: This parameter is not currently supported.
 - `SourceType`: The type of source that is generating the events. Valid values: db-instance | db-parameter-group | db-security-group | db-snapshot
 """
-DescribeEventCategories(; aws::AWSConfig=AWS.aws_config) = neptune("DescribeEventCategories"; aws=aws)
-DescribeEventCategories(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("DescribeEventCategories", args; aws=aws)
+
+DescribeEventCategories(; aws_config::AWSConfig=global_aws_config()) = neptune("DescribeEventCategories"; aws_config=aws_config)
+DescribeEventCategories(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("DescribeEventCategories", args; aws_config=aws_config)
 
 """
     DescribeEventSubscriptions()
@@ -581,8 +615,9 @@ Lists all the subscription descriptions for a customer account. The description 
 - `MaxRecords`:  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
 - `SubscriptionName`: The name of the event notification subscription you want to describe.
 """
-DescribeEventSubscriptions(; aws::AWSConfig=AWS.aws_config) = neptune("DescribeEventSubscriptions"; aws=aws)
-DescribeEventSubscriptions(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("DescribeEventSubscriptions", args; aws=aws)
+
+DescribeEventSubscriptions(; aws_config::AWSConfig=global_aws_config()) = neptune("DescribeEventSubscriptions"; aws_config=aws_config)
+DescribeEventSubscriptions(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("DescribeEventSubscriptions", args; aws_config=aws_config)
 
 """
     DescribeEvents()
@@ -600,8 +635,9 @@ Returns events related to DB instances, DB security groups, DB snapshots, and DB
 - `SourceType`: The event source to retrieve events for. If no value is specified, all events are returned.
 - `StartTime`:  The beginning of the time interval to retrieve events for, specified in ISO 8601 format. For more information about ISO 8601, go to the ISO8601 Wikipedia page.  Example: 2009-07-08T18:00Z
 """
-DescribeEvents(; aws::AWSConfig=AWS.aws_config) = neptune("DescribeEvents"; aws=aws)
-DescribeEvents(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("DescribeEvents", args; aws=aws)
+
+DescribeEvents(; aws_config::AWSConfig=global_aws_config()) = neptune("DescribeEvents"; aws_config=aws_config)
+DescribeEvents(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("DescribeEvents", args; aws_config=aws_config)
 
 """
     DescribeOrderableDBInstanceOptions()
@@ -620,8 +656,9 @@ Returns a list of orderable DB instance options for the specified engine.
 - `MaxRecords`:  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
 - `Vpc`: The VPC filter value. Specify this parameter to show only the available VPC or non-VPC offerings.
 """
-DescribeOrderableDBInstanceOptions(Engine; aws::AWSConfig=AWS.aws_config) = neptune("DescribeOrderableDBInstanceOptions", Dict{String, Any}("Engine"=>Engine); aws=aws)
-DescribeOrderableDBInstanceOptions(Engine, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("DescribeOrderableDBInstanceOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Engine"=>Engine), args)); aws=aws)
+
+DescribeOrderableDBInstanceOptions(Engine; aws_config::AWSConfig=global_aws_config()) = neptune("DescribeOrderableDBInstanceOptions", Dict{String, Any}("Engine"=>Engine); aws_config=aws_config)
+DescribeOrderableDBInstanceOptions(Engine, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("DescribeOrderableDBInstanceOptions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Engine"=>Engine), args)); aws_config=aws_config)
 
 """
     DescribePendingMaintenanceActions()
@@ -634,8 +671,9 @@ Returns a list of resources (for example, DB instances) that have at least one p
 - `MaxRecords`:  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
 - `ResourceIdentifier`: The ARN of a resource to return pending maintenance actions for.
 """
-DescribePendingMaintenanceActions(; aws::AWSConfig=AWS.aws_config) = neptune("DescribePendingMaintenanceActions"; aws=aws)
-DescribePendingMaintenanceActions(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("DescribePendingMaintenanceActions", args; aws=aws)
+
+DescribePendingMaintenanceActions(; aws_config::AWSConfig=global_aws_config()) = neptune("DescribePendingMaintenanceActions"; aws_config=aws_config)
+DescribePendingMaintenanceActions(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("DescribePendingMaintenanceActions", args; aws_config=aws_config)
 
 """
     DescribeValidDBInstanceModifications()
@@ -646,8 +684,9 @@ You can call DescribeValidDBInstanceModifications to learn what modifications yo
 - `DBInstanceIdentifier`: The customer identifier or the ARN of your DB instance.
 
 """
-DescribeValidDBInstanceModifications(DBInstanceIdentifier; aws::AWSConfig=AWS.aws_config) = neptune("DescribeValidDBInstanceModifications", Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier); aws=aws)
-DescribeValidDBInstanceModifications(DBInstanceIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("DescribeValidDBInstanceModifications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), args)); aws=aws)
+
+DescribeValidDBInstanceModifications(DBInstanceIdentifier; aws_config::AWSConfig=global_aws_config()) = neptune("DescribeValidDBInstanceModifications", Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier); aws_config=aws_config)
+DescribeValidDBInstanceModifications(DBInstanceIdentifier, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("DescribeValidDBInstanceModifications", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), args)); aws_config=aws_config)
 
 """
     FailoverDBCluster()
@@ -658,8 +697,9 @@ Forces a failover for a DB cluster. A failover for a DB cluster promotes one of 
 - `DBClusterIdentifier`: A DB cluster identifier to force a failover for. This parameter is not case-sensitive. Constraints:   Must match the identifier of an existing DBCluster.  
 - `TargetDBInstanceIdentifier`: The name of the instance to promote to the primary instance. You must specify the instance identifier for an Read Replica in the DB cluster. For example, mydbcluster-replica1.
 """
-FailoverDBCluster(; aws::AWSConfig=AWS.aws_config) = neptune("FailoverDBCluster"; aws=aws)
-FailoverDBCluster(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("FailoverDBCluster", args; aws=aws)
+
+FailoverDBCluster(; aws_config::AWSConfig=global_aws_config()) = neptune("FailoverDBCluster"; aws_config=aws_config)
+FailoverDBCluster(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("FailoverDBCluster", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -672,8 +712,9 @@ Lists all tags on an Amazon Neptune resource.
 # Optional Parameters
 - `Filters`: This parameter is not currently supported.
 """
-ListTagsForResource(ResourceName; aws::AWSConfig=AWS.aws_config) = neptune("ListTagsForResource", Dict{String, Any}("ResourceName"=>ResourceName); aws=aws)
-ListTagsForResource(ResourceName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName), args)); aws=aws)
+
+ListTagsForResource(ResourceName; aws_config::AWSConfig=global_aws_config()) = neptune("ListTagsForResource", Dict{String, Any}("ResourceName"=>ResourceName); aws_config=aws_config)
+ListTagsForResource(ResourceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("ListTagsForResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName), args)); aws_config=aws_config)
 
 """
     ModifyDBCluster()
@@ -699,8 +740,9 @@ Modify a setting for a DB cluster. You can change one or more database configura
 - `PreferredMaintenanceWindow`: The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region, occurring on a random day of the week. Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. Constraints: Minimum 30-minute window.
 - `VpcSecurityGroupIds`: A list of VPC security groups that the DB cluster will belong to.
 """
-ModifyDBCluster(DBClusterIdentifier; aws::AWSConfig=AWS.aws_config) = neptune("ModifyDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier); aws=aws)
-ModifyDBCluster(DBClusterIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("ModifyDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), args)); aws=aws)
+
+ModifyDBCluster(DBClusterIdentifier; aws_config::AWSConfig=global_aws_config()) = neptune("ModifyDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier); aws_config=aws_config)
+ModifyDBCluster(DBClusterIdentifier, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("ModifyDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), args)); aws_config=aws_config)
 
 """
     ModifyDBClusterParameterGroup()
@@ -714,8 +756,9 @@ ModifyDBCluster(DBClusterIdentifier, args::AbstractDict{String, <:Any}; aws::AWS
 # Optional Parameters
 - `Parameters`: A list of parameters in the DB cluster parameter group to modify.
 """
-ModifyDBClusterParameterGroup(DBClusterParameterGroupName, Parameter; aws::AWSConfig=AWS.aws_config) = neptune("ModifyDBClusterParameterGroup", Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName, "Parameter"=>Parameter); aws=aws)
-ModifyDBClusterParameterGroup(DBClusterParameterGroupName, Parameter, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("ModifyDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName, "Parameter"=>Parameter), args)); aws=aws)
+
+ModifyDBClusterParameterGroup(DBClusterParameterGroupName, Parameter; aws_config::AWSConfig=global_aws_config()) = neptune("ModifyDBClusterParameterGroup", Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName, "Parameter"=>Parameter); aws_config=aws_config)
+ModifyDBClusterParameterGroup(DBClusterParameterGroupName, Parameter, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("ModifyDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName, "Parameter"=>Parameter), args)); aws_config=aws_config)
 
 """
     ModifyDBClusterSnapshotAttribute()
@@ -730,8 +773,9 @@ Adds an attribute and values to, or removes an attribute and values from, a manu
 - `ValuesToAdd`: A list of DB cluster snapshot attributes to add to the attribute specified by AttributeName. To authorize other AWS accounts to copy or restore a manual DB cluster snapshot, set this list to include one or more AWS account IDs, or all to make the manual DB cluster snapshot restorable by any AWS account. Do not add the all value for any manual DB cluster snapshots that contain private information that you don't want available to all AWS accounts.
 - `ValuesToRemove`: A list of DB cluster snapshot attributes to remove from the attribute specified by AttributeName. To remove authorization for other AWS accounts to copy or restore a manual DB cluster snapshot, set this list to include one or more AWS account identifiers, or all to remove authorization for any AWS account to copy or restore the DB cluster snapshot. If you specify all, an AWS account whose account ID is explicitly added to the restore attribute can still copy or restore a manual DB cluster snapshot.
 """
-ModifyDBClusterSnapshotAttribute(AttributeName, DBClusterSnapshotIdentifier; aws::AWSConfig=AWS.aws_config) = neptune("ModifyDBClusterSnapshotAttribute", Dict{String, Any}("AttributeName"=>AttributeName, "DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier); aws=aws)
-ModifyDBClusterSnapshotAttribute(AttributeName, DBClusterSnapshotIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("ModifyDBClusterSnapshotAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeName"=>AttributeName, "DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), args)); aws=aws)
+
+ModifyDBClusterSnapshotAttribute(AttributeName, DBClusterSnapshotIdentifier; aws_config::AWSConfig=global_aws_config()) = neptune("ModifyDBClusterSnapshotAttribute", Dict{String, Any}("AttributeName"=>AttributeName, "DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier); aws_config=aws_config)
+ModifyDBClusterSnapshotAttribute(AttributeName, DBClusterSnapshotIdentifier, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("ModifyDBClusterSnapshotAttribute", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AttributeName"=>AttributeName, "DBClusterSnapshotIdentifier"=>DBClusterSnapshotIdentifier), args)); aws_config=aws_config)
 
 """
     ModifyDBInstance()
@@ -779,8 +823,9 @@ Modifies settings for a DB instance. You can change one or more database configu
 - `TdeCredentialPassword`: The password for the given ARN from the key store in order to access the device.
 - `VpcSecurityGroupIds`: A list of EC2 VPC security groups to authorize on this DB instance. This change is asynchronously applied as soon as possible. Not applicable. The associated list of EC2 VPC security groups is managed by the DB cluster. For more information, see ModifyDBCluster. Constraints:   If supplied, must match existing VpcSecurityGroupIds.  
 """
-ModifyDBInstance(DBInstanceIdentifier; aws::AWSConfig=AWS.aws_config) = neptune("ModifyDBInstance", Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier); aws=aws)
-ModifyDBInstance(DBInstanceIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("ModifyDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), args)); aws=aws)
+
+ModifyDBInstance(DBInstanceIdentifier; aws_config::AWSConfig=global_aws_config()) = neptune("ModifyDBInstance", Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier); aws_config=aws_config)
+ModifyDBInstance(DBInstanceIdentifier, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("ModifyDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), args)); aws_config=aws_config)
 
 """
     ModifyDBParameterGroup()
@@ -794,8 +839,9 @@ Modifies the parameters of a DB parameter group. To modify more than one paramet
 # Optional Parameters
 - `Parameters`: An array of parameter names, values, and the apply method for the parameter update. At least one parameter name, value, and apply method must be supplied; subsequent arguments are optional. A maximum of 20 parameters can be modified in a single request. Valid Values (for the application method): immediate | pending-reboot   You can use the immediate value with dynamic parameters only. You can use the pending-reboot value for both dynamic and static parameters, and changes are applied when you reboot the DB instance without failover. 
 """
-ModifyDBParameterGroup(DBParameterGroupName, Parameter; aws::AWSConfig=AWS.aws_config) = neptune("ModifyDBParameterGroup", Dict{String, Any}("DBParameterGroupName"=>DBParameterGroupName, "Parameter"=>Parameter); aws=aws)
-ModifyDBParameterGroup(DBParameterGroupName, Parameter, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("ModifyDBParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupName"=>DBParameterGroupName, "Parameter"=>Parameter), args)); aws=aws)
+
+ModifyDBParameterGroup(DBParameterGroupName, Parameter; aws_config::AWSConfig=global_aws_config()) = neptune("ModifyDBParameterGroup", Dict{String, Any}("DBParameterGroupName"=>DBParameterGroupName, "Parameter"=>Parameter); aws_config=aws_config)
+ModifyDBParameterGroup(DBParameterGroupName, Parameter, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("ModifyDBParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupName"=>DBParameterGroupName, "Parameter"=>Parameter), args)); aws_config=aws_config)
 
 """
     ModifyDBSubnetGroup()
@@ -810,8 +856,9 @@ Modifies an existing DB subnet group. DB subnet groups must contain at least one
 - `DBSubnetGroupDescription`: The description for the DB subnet group.
 - `SubnetIds`: The EC2 subnet IDs for the DB subnet group.
 """
-ModifyDBSubnetGroup(DBSubnetGroupName, SubnetIdentifier; aws::AWSConfig=AWS.aws_config) = neptune("ModifyDBSubnetGroup", Dict{String, Any}("DBSubnetGroupName"=>DBSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier); aws=aws)
-ModifyDBSubnetGroup(DBSubnetGroupName, SubnetIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("ModifyDBSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSubnetGroupName"=>DBSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier), args)); aws=aws)
+
+ModifyDBSubnetGroup(DBSubnetGroupName, SubnetIdentifier; aws_config::AWSConfig=global_aws_config()) = neptune("ModifyDBSubnetGroup", Dict{String, Any}("DBSubnetGroupName"=>DBSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier); aws_config=aws_config)
+ModifyDBSubnetGroup(DBSubnetGroupName, SubnetIdentifier, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("ModifyDBSubnetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBSubnetGroupName"=>DBSubnetGroupName, "SubnetIdentifier"=>SubnetIdentifier), args)); aws_config=aws_config)
 
 """
     ModifyEventSubscription()
@@ -827,8 +874,9 @@ Modifies an existing event notification subscription. Note that you can't modify
 - `SnsTopicArn`: The Amazon Resource Name (ARN) of the SNS topic created for event notification. The ARN is created by Amazon SNS when you create a topic and subscribe to it.
 - `SourceType`: The type of source that is generating the events. For example, if you want to be notified of events generated by a DB instance, you would set this parameter to db-instance. if this value is not specified, all events are returned. Valid values: db-instance | db-parameter-group | db-security-group | db-snapshot
 """
-ModifyEventSubscription(SubscriptionName; aws::AWSConfig=AWS.aws_config) = neptune("ModifyEventSubscription", Dict{String, Any}("SubscriptionName"=>SubscriptionName); aws=aws)
-ModifyEventSubscription(SubscriptionName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("ModifyEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionName"=>SubscriptionName), args)); aws=aws)
+
+ModifyEventSubscription(SubscriptionName; aws_config::AWSConfig=global_aws_config()) = neptune("ModifyEventSubscription", Dict{String, Any}("SubscriptionName"=>SubscriptionName); aws_config=aws_config)
+ModifyEventSubscription(SubscriptionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("ModifyEventSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SubscriptionName"=>SubscriptionName), args)); aws_config=aws_config)
 
 """
     PromoteReadReplicaDBCluster()
@@ -839,8 +887,9 @@ Not supported.
 - `DBClusterIdentifier`: Not supported.
 
 """
-PromoteReadReplicaDBCluster(DBClusterIdentifier; aws::AWSConfig=AWS.aws_config) = neptune("PromoteReadReplicaDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier); aws=aws)
-PromoteReadReplicaDBCluster(DBClusterIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("PromoteReadReplicaDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), args)); aws=aws)
+
+PromoteReadReplicaDBCluster(DBClusterIdentifier; aws_config::AWSConfig=global_aws_config()) = neptune("PromoteReadReplicaDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier); aws_config=aws_config)
+PromoteReadReplicaDBCluster(DBClusterIdentifier, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("PromoteReadReplicaDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), args)); aws_config=aws_config)
 
 """
     RebootDBInstance()
@@ -853,8 +902,9 @@ You might need to reboot your DB instance, usually for maintenance reasons. For 
 # Optional Parameters
 - `ForceFailover`:  When true, the reboot is conducted through a MultiAZ failover. Constraint: You can't specify true if the instance is not configured for MultiAZ.
 """
-RebootDBInstance(DBInstanceIdentifier; aws::AWSConfig=AWS.aws_config) = neptune("RebootDBInstance", Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier); aws=aws)
-RebootDBInstance(DBInstanceIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("RebootDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), args)); aws=aws)
+
+RebootDBInstance(DBInstanceIdentifier; aws_config::AWSConfig=global_aws_config()) = neptune("RebootDBInstance", Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier); aws_config=aws_config)
+RebootDBInstance(DBInstanceIdentifier, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("RebootDBInstance", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBInstanceIdentifier"=>DBInstanceIdentifier), args)); aws_config=aws_config)
 
 """
     RemoveRoleFromDBCluster()
@@ -866,8 +916,9 @@ Disassociates an Identity and Access Management (IAM) role from a DB cluster.
 - `RoleArn`: The Amazon Resource Name (ARN) of the IAM role to disassociate from the DB cluster, for example arn:aws:iam::123456789012:role/NeptuneAccessRole.
 
 """
-RemoveRoleFromDBCluster(DBClusterIdentifier, RoleArn; aws::AWSConfig=AWS.aws_config) = neptune("RemoveRoleFromDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "RoleArn"=>RoleArn); aws=aws)
-RemoveRoleFromDBCluster(DBClusterIdentifier, RoleArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("RemoveRoleFromDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "RoleArn"=>RoleArn), args)); aws=aws)
+
+RemoveRoleFromDBCluster(DBClusterIdentifier, RoleArn; aws_config::AWSConfig=global_aws_config()) = neptune("RemoveRoleFromDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "RoleArn"=>RoleArn); aws_config=aws_config)
+RemoveRoleFromDBCluster(DBClusterIdentifier, RoleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("RemoveRoleFromDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "RoleArn"=>RoleArn), args)); aws_config=aws_config)
 
 """
     RemoveSourceIdentifierFromSubscription()
@@ -879,8 +930,9 @@ Removes a source identifier from an existing event notification subscription.
 - `SubscriptionName`: The name of the event notification subscription you want to remove a source identifier from.
 
 """
-RemoveSourceIdentifierFromSubscription(SourceIdentifier, SubscriptionName; aws::AWSConfig=AWS.aws_config) = neptune("RemoveSourceIdentifierFromSubscription", Dict{String, Any}("SourceIdentifier"=>SourceIdentifier, "SubscriptionName"=>SubscriptionName); aws=aws)
-RemoveSourceIdentifierFromSubscription(SourceIdentifier, SubscriptionName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("RemoveSourceIdentifierFromSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceIdentifier"=>SourceIdentifier, "SubscriptionName"=>SubscriptionName), args)); aws=aws)
+
+RemoveSourceIdentifierFromSubscription(SourceIdentifier, SubscriptionName; aws_config::AWSConfig=global_aws_config()) = neptune("RemoveSourceIdentifierFromSubscription", Dict{String, Any}("SourceIdentifier"=>SourceIdentifier, "SubscriptionName"=>SubscriptionName); aws_config=aws_config)
+RemoveSourceIdentifierFromSubscription(SourceIdentifier, SubscriptionName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("RemoveSourceIdentifierFromSubscription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SourceIdentifier"=>SourceIdentifier, "SubscriptionName"=>SubscriptionName), args)); aws_config=aws_config)
 
 """
     RemoveTagsFromResource()
@@ -892,8 +944,9 @@ Removes metadata tags from an Amazon Neptune resource.
 - `TagKeys`: The tag key (name) of the tag to be removed.
 
 """
-RemoveTagsFromResource(ResourceName, TagKeys; aws::AWSConfig=AWS.aws_config) = neptune("RemoveTagsFromResource", Dict{String, Any}("ResourceName"=>ResourceName, "TagKeys"=>TagKeys); aws=aws)
-RemoveTagsFromResource(ResourceName, TagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("RemoveTagsFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "TagKeys"=>TagKeys), args)); aws=aws)
+
+RemoveTagsFromResource(ResourceName, TagKeys; aws_config::AWSConfig=global_aws_config()) = neptune("RemoveTagsFromResource", Dict{String, Any}("ResourceName"=>ResourceName, "TagKeys"=>TagKeys); aws_config=aws_config)
+RemoveTagsFromResource(ResourceName, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("RemoveTagsFromResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourceName"=>ResourceName, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
 
 """
     ResetDBClusterParameterGroup()
@@ -907,8 +960,9 @@ RemoveTagsFromResource(ResourceName, TagKeys, args::AbstractDict{String, <:Any};
 - `Parameters`: A list of parameter names in the DB cluster parameter group to reset to the default values. You can't use this parameter if the ResetAllParameters parameter is set to true.
 - `ResetAllParameters`: A value that is set to true to reset all parameters in the DB cluster parameter group to their default values, and false otherwise. You can't use this parameter if there is a list of parameter names specified for the Parameters parameter.
 """
-ResetDBClusterParameterGroup(DBClusterParameterGroupName; aws::AWSConfig=AWS.aws_config) = neptune("ResetDBClusterParameterGroup", Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName); aws=aws)
-ResetDBClusterParameterGroup(DBClusterParameterGroupName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("ResetDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName), args)); aws=aws)
+
+ResetDBClusterParameterGroup(DBClusterParameterGroupName; aws_config::AWSConfig=global_aws_config()) = neptune("ResetDBClusterParameterGroup", Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName); aws_config=aws_config)
+ResetDBClusterParameterGroup(DBClusterParameterGroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("ResetDBClusterParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterParameterGroupName"=>DBClusterParameterGroupName), args)); aws_config=aws_config)
 
 """
     ResetDBParameterGroup()
@@ -922,8 +976,9 @@ Modifies the parameters of a DB parameter group to the engine/system default val
 - `Parameters`: To reset the entire DB parameter group, specify the DBParameterGroup name and ResetAllParameters parameters. To reset specific parameters, provide a list of the following: ParameterName and ApplyMethod. A maximum of 20 parameters can be modified in a single request. Valid Values (for Apply method): pending-reboot 
 - `ResetAllParameters`: Specifies whether (true) or not (false) to reset all parameters in the DB parameter group to default values. Default: true 
 """
-ResetDBParameterGroup(DBParameterGroupName; aws::AWSConfig=AWS.aws_config) = neptune("ResetDBParameterGroup", Dict{String, Any}("DBParameterGroupName"=>DBParameterGroupName); aws=aws)
-ResetDBParameterGroup(DBParameterGroupName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("ResetDBParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupName"=>DBParameterGroupName), args)); aws=aws)
+
+ResetDBParameterGroup(DBParameterGroupName; aws_config::AWSConfig=global_aws_config()) = neptune("ResetDBParameterGroup", Dict{String, Any}("DBParameterGroupName"=>DBParameterGroupName); aws_config=aws_config)
+ResetDBParameterGroup(DBParameterGroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("ResetDBParameterGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBParameterGroupName"=>DBParameterGroupName), args)); aws_config=aws_config)
 
 """
     RestoreDBClusterFromSnapshot()
@@ -950,8 +1005,9 @@ Creates a new DB cluster from a DB snapshot or DB cluster snapshot. If a DB snap
 - `Tags`: The tags to be assigned to the restored DB cluster.
 - `VpcSecurityGroupIds`: A list of VPC security groups that the new DB cluster will belong to.
 """
-RestoreDBClusterFromSnapshot(DBClusterIdentifier, Engine, SnapshotIdentifier; aws::AWSConfig=AWS.aws_config) = neptune("RestoreDBClusterFromSnapshot", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine, "SnapshotIdentifier"=>SnapshotIdentifier); aws=aws)
-RestoreDBClusterFromSnapshot(DBClusterIdentifier, Engine, SnapshotIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("RestoreDBClusterFromSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine, "SnapshotIdentifier"=>SnapshotIdentifier), args)); aws=aws)
+
+RestoreDBClusterFromSnapshot(DBClusterIdentifier, Engine, SnapshotIdentifier; aws_config::AWSConfig=global_aws_config()) = neptune("RestoreDBClusterFromSnapshot", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine, "SnapshotIdentifier"=>SnapshotIdentifier); aws_config=aws_config)
+RestoreDBClusterFromSnapshot(DBClusterIdentifier, Engine, SnapshotIdentifier, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("RestoreDBClusterFromSnapshot", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "Engine"=>Engine, "SnapshotIdentifier"=>SnapshotIdentifier), args)); aws_config=aws_config)
 
 """
     RestoreDBClusterToPointInTime()
@@ -977,8 +1033,9 @@ Restores a DB cluster to an arbitrary point in time. Users can restore to any po
 - `UseLatestRestorableTime`: A value that is set to true to restore the DB cluster to the latest restorable backup time, and false otherwise. Default: false  Constraints: Cannot be specified if RestoreToTime parameter is provided.
 - `VpcSecurityGroupIds`: A list of VPC security groups that the new DB cluster belongs to.
 """
-RestoreDBClusterToPointInTime(DBClusterIdentifier, SourceDBClusterIdentifier; aws::AWSConfig=AWS.aws_config) = neptune("RestoreDBClusterToPointInTime", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "SourceDBClusterIdentifier"=>SourceDBClusterIdentifier); aws=aws)
-RestoreDBClusterToPointInTime(DBClusterIdentifier, SourceDBClusterIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("RestoreDBClusterToPointInTime", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "SourceDBClusterIdentifier"=>SourceDBClusterIdentifier), args)); aws=aws)
+
+RestoreDBClusterToPointInTime(DBClusterIdentifier, SourceDBClusterIdentifier; aws_config::AWSConfig=global_aws_config()) = neptune("RestoreDBClusterToPointInTime", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "SourceDBClusterIdentifier"=>SourceDBClusterIdentifier); aws_config=aws_config)
+RestoreDBClusterToPointInTime(DBClusterIdentifier, SourceDBClusterIdentifier, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("RestoreDBClusterToPointInTime", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier, "SourceDBClusterIdentifier"=>SourceDBClusterIdentifier), args)); aws_config=aws_config)
 
 """
     StartDBCluster()
@@ -989,8 +1046,9 @@ Starts an Amazon Neptune DB cluster that was stopped using the AWS console, the 
 - `DBClusterIdentifier`: The DB cluster identifier of the Neptune DB cluster to be started. This parameter is stored as a lowercase string.
 
 """
-StartDBCluster(DBClusterIdentifier; aws::AWSConfig=AWS.aws_config) = neptune("StartDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier); aws=aws)
-StartDBCluster(DBClusterIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("StartDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), args)); aws=aws)
+
+StartDBCluster(DBClusterIdentifier; aws_config::AWSConfig=global_aws_config()) = neptune("StartDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier); aws_config=aws_config)
+StartDBCluster(DBClusterIdentifier, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("StartDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), args)); aws_config=aws_config)
 
 """
     StopDBCluster()
@@ -1001,5 +1059,6 @@ Stops an Amazon Neptune DB cluster. When you stop a DB cluster, Neptune retains 
 - `DBClusterIdentifier`: The DB cluster identifier of the Neptune DB cluster to be stopped. This parameter is stored as a lowercase string.
 
 """
-StopDBCluster(DBClusterIdentifier; aws::AWSConfig=AWS.aws_config) = neptune("StopDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier); aws=aws)
-StopDBCluster(DBClusterIdentifier, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = neptune("StopDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), args)); aws=aws)
+
+StopDBCluster(DBClusterIdentifier; aws_config::AWSConfig=global_aws_config()) = neptune("StopDBCluster", Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier); aws_config=aws_config)
+StopDBCluster(DBClusterIdentifier, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = neptune("StopDBCluster", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DBClusterIdentifier"=>DBClusterIdentifier), args)); aws_config=aws_config)

@@ -15,8 +15,9 @@ Returns the STS short-term credentials for a given role name that is assigned to
 - `x-amz-sso_bearer_token`: The token issued by the CreateToken API call. For more information, see CreateToken in the AWS SSO OIDC API Reference Guide.
 
 """
-GetRoleCredentials(account_id, role_name, x_amz_sso_bearer_token; aws::AWSConfig=AWS.aws_config) = sso("GET", "/federation/credentials", Dict{String, Any}("account_id"=>account_id, "role_name"=>role_name, "headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)); aws=aws)
-GetRoleCredentials(account_id, role_name, x_amz_sso_bearer_token, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sso("GET", "/federation/credentials", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("account_id"=>account_id, "role_name"=>role_name, "headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)), args)); aws=aws)
+
+GetRoleCredentials(account_id, role_name, x_amz_sso_bearer_token; aws_config::AWSConfig=global_aws_config()) = sso("GET", "/federation/credentials", Dict{String, Any}("account_id"=>account_id, "role_name"=>role_name, "headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)); aws_config=aws_config)
+GetRoleCredentials(account_id, role_name, x_amz_sso_bearer_token, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sso("GET", "/federation/credentials", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("account_id"=>account_id, "role_name"=>role_name, "headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)), args)); aws_config=aws_config)
 
 """
     ListAccountRoles()
@@ -31,8 +32,9 @@ Lists all roles that are assigned to the user for a given AWS account.
 - `max_result`: The number of items that clients can request per page.
 - `next_token`: The page token from the previous response output when you request subsequent pages.
 """
-ListAccountRoles(account_id, x_amz_sso_bearer_token; aws::AWSConfig=AWS.aws_config) = sso("GET", "/assignment/roles", Dict{String, Any}("account_id"=>account_id, "headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)); aws=aws)
-ListAccountRoles(account_id, x_amz_sso_bearer_token, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sso("GET", "/assignment/roles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("account_id"=>account_id, "headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)), args)); aws=aws)
+
+ListAccountRoles(account_id, x_amz_sso_bearer_token; aws_config::AWSConfig=global_aws_config()) = sso("GET", "/assignment/roles", Dict{String, Any}("account_id"=>account_id, "headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)); aws_config=aws_config)
+ListAccountRoles(account_id, x_amz_sso_bearer_token, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sso("GET", "/assignment/roles", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("account_id"=>account_id, "headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)), args)); aws_config=aws_config)
 
 """
     ListAccounts()
@@ -46,8 +48,9 @@ Lists all AWS accounts assigned to the user. These AWS accounts are assigned by 
 - `max_result`: This is the number of items clients can request per page.
 - `next_token`: (Optional) When requesting subsequent pages, this is the page token from the previous response output.
 """
-ListAccounts(x_amz_sso_bearer_token; aws::AWSConfig=AWS.aws_config) = sso("GET", "/assignment/accounts", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)); aws=aws)
-ListAccounts(x_amz_sso_bearer_token, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sso("GET", "/assignment/accounts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)), args)); aws=aws)
+
+ListAccounts(x_amz_sso_bearer_token; aws_config::AWSConfig=global_aws_config()) = sso("GET", "/assignment/accounts", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)); aws_config=aws_config)
+ListAccounts(x_amz_sso_bearer_token, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sso("GET", "/assignment/accounts", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)), args)); aws_config=aws_config)
 
 """
     Logout()
@@ -58,5 +61,6 @@ Removes the client- and server-side session that is associated with the user.
 - `x-amz-sso_bearer_token`: The token issued by the CreateToken API call. For more information, see CreateToken in the AWS SSO OIDC API Reference Guide.
 
 """
-Logout(x_amz_sso_bearer_token; aws::AWSConfig=AWS.aws_config) = sso("POST", "/logout", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)); aws=aws)
-Logout(x_amz_sso_bearer_token, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = sso("POST", "/logout", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)), args)); aws=aws)
+
+Logout(x_amz_sso_bearer_token; aws_config::AWSConfig=global_aws_config()) = sso("POST", "/logout", Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)); aws_config=aws_config)
+Logout(x_amz_sso_bearer_token, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = sso("POST", "/logout", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("headers"=>Dict{String, Any}("x-amz-sso_bearer_token"=>x_amz_sso_bearer_token)), args)); aws_config=aws_config)

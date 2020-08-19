@@ -13,8 +13,9 @@ Delete the connection with the provided id.
 - `connectionId`: 
 
 """
-DeleteConnection(connectionId; aws::AWSConfig=AWS.aws_config) = apigatewaymanagementapi("DELETE", "/@connections/$(connectionId)"; aws=aws)
-DeleteConnection(connectionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = apigatewaymanagementapi("DELETE", "/@connections/$(connectionId)", args; aws=aws)
+
+DeleteConnection(connectionId; aws_config::AWSConfig=global_aws_config()) = apigatewaymanagementapi("DELETE", "/@connections/$(connectionId)"; aws_config=aws_config)
+DeleteConnection(connectionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewaymanagementapi("DELETE", "/@connections/$(connectionId)", args; aws_config=aws_config)
 
 """
     GetConnection()
@@ -25,8 +26,9 @@ Get information about the connection with the provided id.
 - `connectionId`: 
 
 """
-GetConnection(connectionId; aws::AWSConfig=AWS.aws_config) = apigatewaymanagementapi("GET", "/@connections/$(connectionId)"; aws=aws)
-GetConnection(connectionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = apigatewaymanagementapi("GET", "/@connections/$(connectionId)", args; aws=aws)
+
+GetConnection(connectionId; aws_config::AWSConfig=global_aws_config()) = apigatewaymanagementapi("GET", "/@connections/$(connectionId)"; aws_config=aws_config)
+GetConnection(connectionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewaymanagementapi("GET", "/@connections/$(connectionId)", args; aws_config=aws_config)
 
 """
     PostToConnection()
@@ -38,5 +40,6 @@ Sends the provided data to the specified connection.
 - `connectionId`: The identifier of the connection that a specific client is using.
 
 """
-PostToConnection(Data, connectionId; aws::AWSConfig=AWS.aws_config) = apigatewaymanagementapi("POST", "/@connections/$(connectionId)", Dict{String, Any}("Data"=>Data); aws=aws)
-PostToConnection(Data, connectionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = apigatewaymanagementapi("POST", "/@connections/$(connectionId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Data"=>Data), args)); aws=aws)
+
+PostToConnection(Data, connectionId; aws_config::AWSConfig=global_aws_config()) = apigatewaymanagementapi("POST", "/@connections/$(connectionId)", Dict{String, Any}("Data"=>Data); aws_config=aws_config)
+PostToConnection(Data, connectionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = apigatewaymanagementapi("POST", "/@connections/$(connectionId)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Data"=>Data), args)); aws_config=aws_config)

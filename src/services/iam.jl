@@ -14,8 +14,9 @@ Adds a new client ID (also known as audience) to the list of client IDs already 
 - `OpenIDConnectProviderArn`: The Amazon Resource Name (ARN) of the IAM OpenID Connect (OIDC) provider resource to add the client ID to. You can get a list of OIDC provider ARNs by using the ListOpenIDConnectProviders operation.
 
 """
-AddClientIDToOpenIDConnectProvider(ClientID, OpenIDConnectProviderArn; aws::AWSConfig=AWS.aws_config) = iam("AddClientIDToOpenIDConnectProvider", Dict{String, Any}("ClientID"=>ClientID, "OpenIDConnectProviderArn"=>OpenIDConnectProviderArn); aws=aws)
-AddClientIDToOpenIDConnectProvider(ClientID, OpenIDConnectProviderArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("AddClientIDToOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientID"=>ClientID, "OpenIDConnectProviderArn"=>OpenIDConnectProviderArn), args)); aws=aws)
+
+AddClientIDToOpenIDConnectProvider(ClientID, OpenIDConnectProviderArn; aws_config::AWSConfig=global_aws_config()) = iam("AddClientIDToOpenIDConnectProvider", Dict{String, Any}("ClientID"=>ClientID, "OpenIDConnectProviderArn"=>OpenIDConnectProviderArn); aws_config=aws_config)
+AddClientIDToOpenIDConnectProvider(ClientID, OpenIDConnectProviderArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("AddClientIDToOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientID"=>ClientID, "OpenIDConnectProviderArn"=>OpenIDConnectProviderArn), args)); aws_config=aws_config)
 
 """
     AddRoleToInstanceProfile()
@@ -27,8 +28,9 @@ Adds the specified IAM role to the specified instance profile. An instance profi
 - `RoleName`: The name of the role to add. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-AddRoleToInstanceProfile(InstanceProfileName, RoleName; aws::AWSConfig=AWS.aws_config) = iam("AddRoleToInstanceProfile", Dict{String, Any}("InstanceProfileName"=>InstanceProfileName, "RoleName"=>RoleName); aws=aws)
-AddRoleToInstanceProfile(InstanceProfileName, RoleName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("AddRoleToInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName, "RoleName"=>RoleName), args)); aws=aws)
+
+AddRoleToInstanceProfile(InstanceProfileName, RoleName; aws_config::AWSConfig=global_aws_config()) = iam("AddRoleToInstanceProfile", Dict{String, Any}("InstanceProfileName"=>InstanceProfileName, "RoleName"=>RoleName); aws_config=aws_config)
+AddRoleToInstanceProfile(InstanceProfileName, RoleName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("AddRoleToInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName, "RoleName"=>RoleName), args)); aws_config=aws_config)
 
 """
     AddUserToGroup()
@@ -40,8 +42,9 @@ Adds the specified user to the specified group.
 - `UserName`: The name of the user to add. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-AddUserToGroup(GroupName, UserName; aws::AWSConfig=AWS.aws_config) = iam("AddUserToGroup", Dict{String, Any}("GroupName"=>GroupName, "UserName"=>UserName); aws=aws)
-AddUserToGroup(GroupName, UserName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("AddUserToGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "UserName"=>UserName), args)); aws=aws)
+
+AddUserToGroup(GroupName, UserName; aws_config::AWSConfig=global_aws_config()) = iam("AddUserToGroup", Dict{String, Any}("GroupName"=>GroupName, "UserName"=>UserName); aws_config=aws_config)
+AddUserToGroup(GroupName, UserName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("AddUserToGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "UserName"=>UserName), args)); aws_config=aws_config)
 
 """
     AttachGroupPolicy()
@@ -53,8 +56,9 @@ Attaches the specified managed policy to the specified IAM group. You use this A
 - `PolicyArn`: The Amazon Resource Name (ARN) of the IAM policy you want to attach. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
 
 """
-AttachGroupPolicy(GroupName, PolicyArn; aws::AWSConfig=AWS.aws_config) = iam("AttachGroupPolicy", Dict{String, Any}("GroupName"=>GroupName, "PolicyArn"=>PolicyArn); aws=aws)
-AttachGroupPolicy(GroupName, PolicyArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("AttachGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "PolicyArn"=>PolicyArn), args)); aws=aws)
+
+AttachGroupPolicy(GroupName, PolicyArn; aws_config::AWSConfig=global_aws_config()) = iam("AttachGroupPolicy", Dict{String, Any}("GroupName"=>GroupName, "PolicyArn"=>PolicyArn); aws_config=aws_config)
+AttachGroupPolicy(GroupName, PolicyArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("AttachGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "PolicyArn"=>PolicyArn), args)); aws_config=aws_config)
 
 """
     AttachRolePolicy()
@@ -66,8 +70,9 @@ Attaches the specified managed policy to the specified IAM role. When you attach
 - `RoleName`: The name (friendly name, not ARN) of the role to attach the policy to. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-AttachRolePolicy(PolicyArn, RoleName; aws::AWSConfig=AWS.aws_config) = iam("AttachRolePolicy", Dict{String, Any}("PolicyArn"=>PolicyArn, "RoleName"=>RoleName); aws=aws)
-AttachRolePolicy(PolicyArn, RoleName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("AttachRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "RoleName"=>RoleName), args)); aws=aws)
+
+AttachRolePolicy(PolicyArn, RoleName; aws_config::AWSConfig=global_aws_config()) = iam("AttachRolePolicy", Dict{String, Any}("PolicyArn"=>PolicyArn, "RoleName"=>RoleName); aws_config=aws_config)
+AttachRolePolicy(PolicyArn, RoleName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("AttachRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "RoleName"=>RoleName), args)); aws_config=aws_config)
 
 """
     AttachUserPolicy()
@@ -79,8 +84,9 @@ Attaches the specified managed policy to the specified user. You use this API to
 - `UserName`: The name (friendly name, not ARN) of the IAM user to attach the policy to. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-AttachUserPolicy(PolicyArn, UserName; aws::AWSConfig=AWS.aws_config) = iam("AttachUserPolicy", Dict{String, Any}("PolicyArn"=>PolicyArn, "UserName"=>UserName); aws=aws)
-AttachUserPolicy(PolicyArn, UserName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("AttachUserPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "UserName"=>UserName), args)); aws=aws)
+
+AttachUserPolicy(PolicyArn, UserName; aws_config::AWSConfig=global_aws_config()) = iam("AttachUserPolicy", Dict{String, Any}("PolicyArn"=>PolicyArn, "UserName"=>UserName); aws_config=aws_config)
+AttachUserPolicy(PolicyArn, UserName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("AttachUserPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "UserName"=>UserName), args)); aws_config=aws_config)
 
 """
     ChangePassword()
@@ -92,8 +98,9 @@ Changes the password of the IAM user who is calling this operation. The AWS acco
 - `OldPassword`: The IAM user's current password.
 
 """
-ChangePassword(NewPassword, OldPassword; aws::AWSConfig=AWS.aws_config) = iam("ChangePassword", Dict{String, Any}("NewPassword"=>NewPassword, "OldPassword"=>OldPassword); aws=aws)
-ChangePassword(NewPassword, OldPassword, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("ChangePassword", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NewPassword"=>NewPassword, "OldPassword"=>OldPassword), args)); aws=aws)
+
+ChangePassword(NewPassword, OldPassword; aws_config::AWSConfig=global_aws_config()) = iam("ChangePassword", Dict{String, Any}("NewPassword"=>NewPassword, "OldPassword"=>OldPassword); aws_config=aws_config)
+ChangePassword(NewPassword, OldPassword, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("ChangePassword", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("NewPassword"=>NewPassword, "OldPassword"=>OldPassword), args)); aws_config=aws_config)
 
 """
     CreateAccessKey()
@@ -103,8 +110,9 @@ ChangePassword(NewPassword, OldPassword, args::AbstractDict{String, <:Any}; aws:
 # Optional Parameters
 - `UserName`: The name of the IAM user that the new key will belong to. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 """
-CreateAccessKey(; aws::AWSConfig=AWS.aws_config) = iam("CreateAccessKey"; aws=aws)
-CreateAccessKey(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("CreateAccessKey", args; aws=aws)
+
+CreateAccessKey(; aws_config::AWSConfig=global_aws_config()) = iam("CreateAccessKey"; aws_config=aws_config)
+CreateAccessKey(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("CreateAccessKey", args; aws_config=aws_config)
 
 """
     CreateAccountAlias()
@@ -115,8 +123,9 @@ Creates an alias for your AWS account. For information about using an AWS accoun
 - `AccountAlias`: The account alias to create. This parameter allows (through its regex pattern) a string of characters consisting of lowercase letters, digits, and dashes. You cannot start or finish with a dash, nor can you have two dashes in a row.
 
 """
-CreateAccountAlias(AccountAlias; aws::AWSConfig=AWS.aws_config) = iam("CreateAccountAlias", Dict{String, Any}("AccountAlias"=>AccountAlias); aws=aws)
-CreateAccountAlias(AccountAlias, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("CreateAccountAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountAlias"=>AccountAlias), args)); aws=aws)
+
+CreateAccountAlias(AccountAlias; aws_config::AWSConfig=global_aws_config()) = iam("CreateAccountAlias", Dict{String, Any}("AccountAlias"=>AccountAlias); aws_config=aws_config)
+CreateAccountAlias(AccountAlias, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("CreateAccountAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountAlias"=>AccountAlias), args)); aws_config=aws_config)
 
 """
     CreateGroup()
@@ -129,8 +138,9 @@ Creates a new group. The number and size of IAM resources in an AWS account are 
 # Optional Parameters
 - `Path`:  The path to the group. For more information about paths, see IAM Identifiers in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a slash (/). This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! ( u0021) through the DEL character ( u007F), including most punctuation characters, digits, and upper and lowercased letters.
 """
-CreateGroup(GroupName; aws::AWSConfig=AWS.aws_config) = iam("CreateGroup", Dict{String, Any}("GroupName"=>GroupName); aws=aws)
-CreateGroup(GroupName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("CreateGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), args)); aws=aws)
+
+CreateGroup(GroupName; aws_config::AWSConfig=global_aws_config()) = iam("CreateGroup", Dict{String, Any}("GroupName"=>GroupName); aws_config=aws_config)
+CreateGroup(GroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("CreateGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), args)); aws_config=aws_config)
 
 """
     CreateInstanceProfile()
@@ -143,8 +153,9 @@ CreateGroup(GroupName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws
 # Optional Parameters
 - `Path`:  The path to the instance profile. For more information about paths, see IAM Identifiers in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a slash (/). This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! ( u0021) through the DEL character ( u007F), including most punctuation characters, digits, and upper and lowercased letters.
 """
-CreateInstanceProfile(InstanceProfileName; aws::AWSConfig=AWS.aws_config) = iam("CreateInstanceProfile", Dict{String, Any}("InstanceProfileName"=>InstanceProfileName); aws=aws)
-CreateInstanceProfile(InstanceProfileName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("CreateInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName), args)); aws=aws)
+
+CreateInstanceProfile(InstanceProfileName; aws_config::AWSConfig=global_aws_config()) = iam("CreateInstanceProfile", Dict{String, Any}("InstanceProfileName"=>InstanceProfileName); aws_config=aws_config)
+CreateInstanceProfile(InstanceProfileName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("CreateInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName), args)); aws_config=aws_config)
 
 """
     CreateLoginProfile()
@@ -158,8 +169,9 @@ CreateInstanceProfile(InstanceProfileName, args::AbstractDict{String, <:Any}; aw
 # Optional Parameters
 - `PasswordResetRequired`: Specifies whether the user is required to set a new password on next sign-in.
 """
-CreateLoginProfile(Password, UserName; aws::AWSConfig=AWS.aws_config) = iam("CreateLoginProfile", Dict{String, Any}("Password"=>Password, "UserName"=>UserName); aws=aws)
-CreateLoginProfile(Password, UserName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("CreateLoginProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Password"=>Password, "UserName"=>UserName), args)); aws=aws)
+
+CreateLoginProfile(Password, UserName; aws_config::AWSConfig=global_aws_config()) = iam("CreateLoginProfile", Dict{String, Any}("Password"=>Password, "UserName"=>UserName); aws_config=aws_config)
+CreateLoginProfile(Password, UserName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("CreateLoginProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Password"=>Password, "UserName"=>UserName), args)); aws_config=aws_config)
 
 """
     CreateOpenIDConnectProvider()
@@ -173,8 +185,9 @@ Creates an IAM entity to describe an identity provider (IdP) that supports OpenI
 # Optional Parameters
 - `ClientIDList`: A list of client IDs (also known as audiences). When a mobile or web app registers with an OpenID Connect provider, they establish a value that identifies the application. (This is the value that's sent as the client_id parameter on OAuth requests.) You can register multiple client IDs with the same provider. For example, you might have multiple applications that use the same OIDC provider. You cannot register more than 100 client IDs with a single IAM OIDC provider. There is no defined format for a client ID. The CreateOpenIDConnectProviderRequest operation accepts client IDs up to 255 characters long.
 """
-CreateOpenIDConnectProvider(ThumbprintList, Url; aws::AWSConfig=AWS.aws_config) = iam("CreateOpenIDConnectProvider", Dict{String, Any}("ThumbprintList"=>ThumbprintList, "Url"=>Url); aws=aws)
-CreateOpenIDConnectProvider(ThumbprintList, Url, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("CreateOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ThumbprintList"=>ThumbprintList, "Url"=>Url), args)); aws=aws)
+
+CreateOpenIDConnectProvider(ThumbprintList, Url; aws_config::AWSConfig=global_aws_config()) = iam("CreateOpenIDConnectProvider", Dict{String, Any}("ThumbprintList"=>ThumbprintList, "Url"=>Url); aws_config=aws_config)
+CreateOpenIDConnectProvider(ThumbprintList, Url, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("CreateOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ThumbprintList"=>ThumbprintList, "Url"=>Url), args)); aws_config=aws_config)
 
 """
     CreatePolicy()
@@ -189,8 +202,9 @@ Creates a new managed policy for your AWS account. This operation creates a poli
 - `Description`: A friendly description of the policy. Typically used to store information about the permissions defined in the policy. For example, \"Grants access to production DynamoDB tables.\" The policy description is immutable. After a value is assigned, it cannot be changed.
 - `Path`: The path for the policy. For more information about paths, see IAM Identifiers in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a slash (/). This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! ( u0021) through the DEL character ( u007F), including most punctuation characters, digits, and upper and lowercased letters.
 """
-CreatePolicy(PolicyDocument, PolicyName; aws::AWSConfig=AWS.aws_config) = iam("CreatePolicy", Dict{String, Any}("PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName); aws=aws)
-CreatePolicy(PolicyDocument, PolicyName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("CreatePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName), args)); aws=aws)
+
+CreatePolicy(PolicyDocument, PolicyName; aws_config::AWSConfig=global_aws_config()) = iam("CreatePolicy", Dict{String, Any}("PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName); aws_config=aws_config)
+CreatePolicy(PolicyDocument, PolicyName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("CreatePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName), args)); aws_config=aws_config)
 
 """
     CreatePolicyVersion()
@@ -204,8 +218,9 @@ Creates a new version of the specified managed policy. To update a managed polic
 # Optional Parameters
 - `SetAsDefault`: Specifies whether to set this version as the policy's default version. When this parameter is true, the new policy version becomes the operative version. That is, it becomes the version that is in effect for the IAM users, groups, and roles that the policy is attached to. For more information about managed policy versions, see Versioning for Managed Policies in the IAM User Guide.
 """
-CreatePolicyVersion(PolicyArn, PolicyDocument; aws::AWSConfig=AWS.aws_config) = iam("CreatePolicyVersion", Dict{String, Any}("PolicyArn"=>PolicyArn, "PolicyDocument"=>PolicyDocument); aws=aws)
-CreatePolicyVersion(PolicyArn, PolicyDocument, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("CreatePolicyVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "PolicyDocument"=>PolicyDocument), args)); aws=aws)
+
+CreatePolicyVersion(PolicyArn, PolicyDocument; aws_config::AWSConfig=global_aws_config()) = iam("CreatePolicyVersion", Dict{String, Any}("PolicyArn"=>PolicyArn, "PolicyDocument"=>PolicyDocument); aws_config=aws_config)
+CreatePolicyVersion(PolicyArn, PolicyDocument, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("CreatePolicyVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "PolicyDocument"=>PolicyDocument), args)); aws_config=aws_config)
 
 """
     CreateRole()
@@ -223,8 +238,9 @@ Creates a new role for your AWS account. For more information about roles, go to
 - `PermissionsBoundary`: The ARN of the policy that is used to set the permissions boundary for the role.
 - `Tags`: A list of tags that you want to attach to the newly created role. Each tag consists of a key name and an associated value. For more information about tagging, see Tagging IAM Identities in the IAM User Guide.  If any one of the tags is invalid or if you exceed the allowed number of tags per role, then the entire request fails and the role is not created. 
 """
-CreateRole(AssumeRolePolicyDocument, RoleName; aws::AWSConfig=AWS.aws_config) = iam("CreateRole", Dict{String, Any}("AssumeRolePolicyDocument"=>AssumeRolePolicyDocument, "RoleName"=>RoleName); aws=aws)
-CreateRole(AssumeRolePolicyDocument, RoleName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("CreateRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssumeRolePolicyDocument"=>AssumeRolePolicyDocument, "RoleName"=>RoleName), args)); aws=aws)
+
+CreateRole(AssumeRolePolicyDocument, RoleName; aws_config::AWSConfig=global_aws_config()) = iam("CreateRole", Dict{String, Any}("AssumeRolePolicyDocument"=>AssumeRolePolicyDocument, "RoleName"=>RoleName); aws_config=aws_config)
+CreateRole(AssumeRolePolicyDocument, RoleName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("CreateRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AssumeRolePolicyDocument"=>AssumeRolePolicyDocument, "RoleName"=>RoleName), args)); aws_config=aws_config)
 
 """
     CreateSAMLProvider()
@@ -236,8 +252,9 @@ Creates an IAM resource that describes an identity provider (IdP) that supports 
 - `SAMLMetadataDocument`: An XML document generated by an identity provider (IdP) that supports SAML 2.0. The document includes the issuer's name, expiration information, and keys that can be used to validate the SAML authentication response (assertions) that are received from the IdP. You must generate the metadata document using the identity management software that is used as your organization's IdP. For more information, see About SAML 2.0-based Federation in the IAM User Guide 
 
 """
-CreateSAMLProvider(Name, SAMLMetadataDocument; aws::AWSConfig=AWS.aws_config) = iam("CreateSAMLProvider", Dict{String, Any}("Name"=>Name, "SAMLMetadataDocument"=>SAMLMetadataDocument); aws=aws)
-CreateSAMLProvider(Name, SAMLMetadataDocument, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("CreateSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SAMLMetadataDocument"=>SAMLMetadataDocument), args)); aws=aws)
+
+CreateSAMLProvider(Name, SAMLMetadataDocument; aws_config::AWSConfig=global_aws_config()) = iam("CreateSAMLProvider", Dict{String, Any}("Name"=>Name, "SAMLMetadataDocument"=>SAMLMetadataDocument); aws_config=aws_config)
+CreateSAMLProvider(Name, SAMLMetadataDocument, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("CreateSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "SAMLMetadataDocument"=>SAMLMetadataDocument), args)); aws_config=aws_config)
 
 """
     CreateServiceLinkedRole()
@@ -251,8 +268,9 @@ Creates an IAM role that is linked to a specific AWS service. The service contro
 - `CustomSuffix`:  A string that you provide, which is combined with the service-provided prefix to form the complete role name. If you make multiple requests for the same service, then you must supply a different CustomSuffix for each request. Otherwise the request fails with a duplicate role name error. For example, you could add -1 or -debug to the suffix. Some services do not support the CustomSuffix parameter. If you provide an optional suffix and the operation fails, try the operation again without the suffix.
 - `Description`: The description of the role.
 """
-CreateServiceLinkedRole(AWSServiceName; aws::AWSConfig=AWS.aws_config) = iam("CreateServiceLinkedRole", Dict{String, Any}("AWSServiceName"=>AWSServiceName); aws=aws)
-CreateServiceLinkedRole(AWSServiceName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("CreateServiceLinkedRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AWSServiceName"=>AWSServiceName), args)); aws=aws)
+
+CreateServiceLinkedRole(AWSServiceName; aws_config::AWSConfig=global_aws_config()) = iam("CreateServiceLinkedRole", Dict{String, Any}("AWSServiceName"=>AWSServiceName); aws_config=aws_config)
+CreateServiceLinkedRole(AWSServiceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("CreateServiceLinkedRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AWSServiceName"=>AWSServiceName), args)); aws_config=aws_config)
 
 """
     CreateServiceSpecificCredential()
@@ -264,8 +282,9 @@ Generates a set of credentials consisting of a user name and password that can b
 - `UserName`: The name of the IAM user that is to be associated with the credentials. The new service-specific credentials have the same permissions as the associated user except that they can be used only to access the specified service. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-CreateServiceSpecificCredential(ServiceName, UserName; aws::AWSConfig=AWS.aws_config) = iam("CreateServiceSpecificCredential", Dict{String, Any}("ServiceName"=>ServiceName, "UserName"=>UserName); aws=aws)
-CreateServiceSpecificCredential(ServiceName, UserName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("CreateServiceSpecificCredential", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceName"=>ServiceName, "UserName"=>UserName), args)); aws=aws)
+
+CreateServiceSpecificCredential(ServiceName, UserName; aws_config::AWSConfig=global_aws_config()) = iam("CreateServiceSpecificCredential", Dict{String, Any}("ServiceName"=>ServiceName, "UserName"=>UserName); aws_config=aws_config)
+CreateServiceSpecificCredential(ServiceName, UserName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("CreateServiceSpecificCredential", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceName"=>ServiceName, "UserName"=>UserName), args)); aws_config=aws_config)
 
 """
     CreateUser()
@@ -280,8 +299,9 @@ Creates a new IAM user for your AWS account. The number and size of IAM resource
 - `PermissionsBoundary`: The ARN of the policy that is used to set the permissions boundary for the user.
 - `Tags`: A list of tags that you want to attach to the newly created user. Each tag consists of a key name and an associated value. For more information about tagging, see Tagging IAM Identities in the IAM User Guide.  If any one of the tags is invalid or if you exceed the allowed number of tags per user, then the entire request fails and the user is not created. 
 """
-CreateUser(UserName; aws::AWSConfig=AWS.aws_config) = iam("CreateUser", Dict{String, Any}("UserName"=>UserName); aws=aws)
-CreateUser(UserName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("CreateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), args)); aws=aws)
+
+CreateUser(UserName; aws_config::AWSConfig=global_aws_config()) = iam("CreateUser", Dict{String, Any}("UserName"=>UserName); aws_config=aws_config)
+CreateUser(UserName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("CreateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), args)); aws_config=aws_config)
 
 """
     CreateVirtualMFADevice()
@@ -294,8 +314,9 @@ Creates a new virtual MFA device for the AWS account. After creating the virtual
 # Optional Parameters
 - `Path`:  The path for the virtual MFA device. For more information about paths, see IAM Identifiers in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a slash (/). This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! ( u0021) through the DEL character ( u007F), including most punctuation characters, digits, and upper and lowercased letters.
 """
-CreateVirtualMFADevice(VirtualMFADeviceName; aws::AWSConfig=AWS.aws_config) = iam("CreateVirtualMFADevice", Dict{String, Any}("VirtualMFADeviceName"=>VirtualMFADeviceName); aws=aws)
-CreateVirtualMFADevice(VirtualMFADeviceName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("CreateVirtualMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VirtualMFADeviceName"=>VirtualMFADeviceName), args)); aws=aws)
+
+CreateVirtualMFADevice(VirtualMFADeviceName; aws_config::AWSConfig=global_aws_config()) = iam("CreateVirtualMFADevice", Dict{String, Any}("VirtualMFADeviceName"=>VirtualMFADeviceName); aws_config=aws_config)
+CreateVirtualMFADevice(VirtualMFADeviceName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("CreateVirtualMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("VirtualMFADeviceName"=>VirtualMFADeviceName), args)); aws_config=aws_config)
 
 """
     DeactivateMFADevice()
@@ -307,8 +328,9 @@ Deactivates the specified MFA device and removes it from association with the us
 - `UserName`: The name of the user whose MFA device you want to deactivate. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-DeactivateMFADevice(SerialNumber, UserName; aws::AWSConfig=AWS.aws_config) = iam("DeactivateMFADevice", Dict{String, Any}("SerialNumber"=>SerialNumber, "UserName"=>UserName); aws=aws)
-DeactivateMFADevice(SerialNumber, UserName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("DeactivateMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SerialNumber"=>SerialNumber, "UserName"=>UserName), args)); aws=aws)
+
+DeactivateMFADevice(SerialNumber, UserName; aws_config::AWSConfig=global_aws_config()) = iam("DeactivateMFADevice", Dict{String, Any}("SerialNumber"=>SerialNumber, "UserName"=>UserName); aws_config=aws_config)
+DeactivateMFADevice(SerialNumber, UserName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("DeactivateMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SerialNumber"=>SerialNumber, "UserName"=>UserName), args)); aws_config=aws_config)
 
 """
     DeleteAccessKey()
@@ -321,8 +343,9 @@ Deletes the access key pair associated with the specified IAM user. If you do no
 # Optional Parameters
 - `UserName`: The name of the user whose access key pair you want to delete. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 """
-DeleteAccessKey(AccessKeyId; aws::AWSConfig=AWS.aws_config) = iam("DeleteAccessKey", Dict{String, Any}("AccessKeyId"=>AccessKeyId); aws=aws)
-DeleteAccessKey(AccessKeyId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("DeleteAccessKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessKeyId"=>AccessKeyId), args)); aws=aws)
+
+DeleteAccessKey(AccessKeyId; aws_config::AWSConfig=global_aws_config()) = iam("DeleteAccessKey", Dict{String, Any}("AccessKeyId"=>AccessKeyId); aws_config=aws_config)
+DeleteAccessKey(AccessKeyId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("DeleteAccessKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessKeyId"=>AccessKeyId), args)); aws_config=aws_config)
 
 """
     DeleteAccountAlias()
@@ -333,8 +356,9 @@ DeleteAccessKey(AccessKeyId, args::AbstractDict{String, <:Any}; aws::AWSConfig=A
 - `AccountAlias`: The name of the account alias to delete. This parameter allows (through its regex pattern) a string of characters consisting of lowercase letters, digits, and dashes. You cannot start or finish with a dash, nor can you have two dashes in a row.
 
 """
-DeleteAccountAlias(AccountAlias; aws::AWSConfig=AWS.aws_config) = iam("DeleteAccountAlias", Dict{String, Any}("AccountAlias"=>AccountAlias); aws=aws)
-DeleteAccountAlias(AccountAlias, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("DeleteAccountAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountAlias"=>AccountAlias), args)); aws=aws)
+
+DeleteAccountAlias(AccountAlias; aws_config::AWSConfig=global_aws_config()) = iam("DeleteAccountAlias", Dict{String, Any}("AccountAlias"=>AccountAlias); aws_config=aws_config)
+DeleteAccountAlias(AccountAlias, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("DeleteAccountAlias", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountAlias"=>AccountAlias), args)); aws_config=aws_config)
 
 """
     DeleteAccountPasswordPolicy()
@@ -342,8 +366,9 @@ DeleteAccountAlias(AccountAlias, args::AbstractDict{String, <:Any}; aws::AWSConf
 Deletes the password policy for the AWS account. There are no parameters.
 
 """
-DeleteAccountPasswordPolicy(; aws::AWSConfig=AWS.aws_config) = iam("DeleteAccountPasswordPolicy"; aws=aws)
-DeleteAccountPasswordPolicy(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("DeleteAccountPasswordPolicy", args; aws=aws)
+
+DeleteAccountPasswordPolicy(; aws_config::AWSConfig=global_aws_config()) = iam("DeleteAccountPasswordPolicy"; aws_config=aws_config)
+DeleteAccountPasswordPolicy(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("DeleteAccountPasswordPolicy", args; aws_config=aws_config)
 
 """
     DeleteGroup()
@@ -354,8 +379,9 @@ Deletes the specified IAM group. The group must not contain any users or have an
 - `GroupName`: The name of the IAM group to delete. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-DeleteGroup(GroupName; aws::AWSConfig=AWS.aws_config) = iam("DeleteGroup", Dict{String, Any}("GroupName"=>GroupName); aws=aws)
-DeleteGroup(GroupName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("DeleteGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), args)); aws=aws)
+
+DeleteGroup(GroupName; aws_config::AWSConfig=global_aws_config()) = iam("DeleteGroup", Dict{String, Any}("GroupName"=>GroupName); aws_config=aws_config)
+DeleteGroup(GroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("DeleteGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), args)); aws_config=aws_config)
 
 """
     DeleteGroupPolicy()
@@ -367,8 +393,9 @@ Deletes the specified inline policy that is embedded in the specified IAM group.
 - `PolicyName`: The name identifying the policy document to delete. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-DeleteGroupPolicy(GroupName, PolicyName; aws::AWSConfig=AWS.aws_config) = iam("DeleteGroupPolicy", Dict{String, Any}("GroupName"=>GroupName, "PolicyName"=>PolicyName); aws=aws)
-DeleteGroupPolicy(GroupName, PolicyName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("DeleteGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "PolicyName"=>PolicyName), args)); aws=aws)
+
+DeleteGroupPolicy(GroupName, PolicyName; aws_config::AWSConfig=global_aws_config()) = iam("DeleteGroupPolicy", Dict{String, Any}("GroupName"=>GroupName, "PolicyName"=>PolicyName); aws_config=aws_config)
+DeleteGroupPolicy(GroupName, PolicyName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("DeleteGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "PolicyName"=>PolicyName), args)); aws_config=aws_config)
 
 """
     DeleteInstanceProfile()
@@ -379,8 +406,9 @@ Deletes the specified instance profile. The instance profile must not have an as
 - `InstanceProfileName`: The name of the instance profile to delete. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-DeleteInstanceProfile(InstanceProfileName; aws::AWSConfig=AWS.aws_config) = iam("DeleteInstanceProfile", Dict{String, Any}("InstanceProfileName"=>InstanceProfileName); aws=aws)
-DeleteInstanceProfile(InstanceProfileName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("DeleteInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName), args)); aws=aws)
+
+DeleteInstanceProfile(InstanceProfileName; aws_config::AWSConfig=global_aws_config()) = iam("DeleteInstanceProfile", Dict{String, Any}("InstanceProfileName"=>InstanceProfileName); aws_config=aws_config)
+DeleteInstanceProfile(InstanceProfileName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("DeleteInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName), args)); aws_config=aws_config)
 
 """
     DeleteLoginProfile()
@@ -391,8 +419,9 @@ Deletes the password for the specified IAM user, which terminates the user's abi
 - `UserName`: The name of the user whose password you want to delete. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-DeleteLoginProfile(UserName; aws::AWSConfig=AWS.aws_config) = iam("DeleteLoginProfile", Dict{String, Any}("UserName"=>UserName); aws=aws)
-DeleteLoginProfile(UserName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("DeleteLoginProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), args)); aws=aws)
+
+DeleteLoginProfile(UserName; aws_config::AWSConfig=global_aws_config()) = iam("DeleteLoginProfile", Dict{String, Any}("UserName"=>UserName); aws_config=aws_config)
+DeleteLoginProfile(UserName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("DeleteLoginProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), args)); aws_config=aws_config)
 
 """
     DeleteOpenIDConnectProvider()
@@ -403,8 +432,9 @@ Deletes an OpenID Connect identity provider (IdP) resource object in IAM. Deleti
 - `OpenIDConnectProviderArn`: The Amazon Resource Name (ARN) of the IAM OpenID Connect provider resource object to delete. You can get a list of OpenID Connect provider resource ARNs by using the ListOpenIDConnectProviders operation.
 
 """
-DeleteOpenIDConnectProvider(OpenIDConnectProviderArn; aws::AWSConfig=AWS.aws_config) = iam("DeleteOpenIDConnectProvider", Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn); aws=aws)
-DeleteOpenIDConnectProvider(OpenIDConnectProviderArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("DeleteOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn), args)); aws=aws)
+
+DeleteOpenIDConnectProvider(OpenIDConnectProviderArn; aws_config::AWSConfig=global_aws_config()) = iam("DeleteOpenIDConnectProvider", Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn); aws_config=aws_config)
+DeleteOpenIDConnectProvider(OpenIDConnectProviderArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("DeleteOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn), args)); aws_config=aws_config)
 
 """
     DeletePolicy()
@@ -415,8 +445,9 @@ Deletes the specified managed policy. Before you can delete a managed policy, yo
 - `PolicyArn`: The Amazon Resource Name (ARN) of the IAM policy you want to delete. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
 
 """
-DeletePolicy(PolicyArn; aws::AWSConfig=AWS.aws_config) = iam("DeletePolicy", Dict{String, Any}("PolicyArn"=>PolicyArn); aws=aws)
-DeletePolicy(PolicyArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("DeletePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn), args)); aws=aws)
+
+DeletePolicy(PolicyArn; aws_config::AWSConfig=global_aws_config()) = iam("DeletePolicy", Dict{String, Any}("PolicyArn"=>PolicyArn); aws_config=aws_config)
+DeletePolicy(PolicyArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("DeletePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn), args)); aws_config=aws_config)
 
 """
     DeletePolicyVersion()
@@ -428,8 +459,9 @@ Deletes the specified version from the specified managed policy. You cannot dele
 - `VersionId`: The policy version to delete. This parameter allows (through its regex pattern) a string of characters that consists of the lowercase letter 'v' followed by one or two digits, and optionally followed by a period '.' and a string of letters and digits. For more information about managed policy versions, see Versioning for Managed Policies in the IAM User Guide.
 
 """
-DeletePolicyVersion(PolicyArn, VersionId; aws::AWSConfig=AWS.aws_config) = iam("DeletePolicyVersion", Dict{String, Any}("PolicyArn"=>PolicyArn, "VersionId"=>VersionId); aws=aws)
-DeletePolicyVersion(PolicyArn, VersionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("DeletePolicyVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "VersionId"=>VersionId), args)); aws=aws)
+
+DeletePolicyVersion(PolicyArn, VersionId; aws_config::AWSConfig=global_aws_config()) = iam("DeletePolicyVersion", Dict{String, Any}("PolicyArn"=>PolicyArn, "VersionId"=>VersionId); aws_config=aws_config)
+DeletePolicyVersion(PolicyArn, VersionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("DeletePolicyVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "VersionId"=>VersionId), args)); aws_config=aws_config)
 
 """
     DeleteRole()
@@ -440,8 +472,9 @@ Deletes the specified role. The role must not have any policies attached. For mo
 - `RoleName`: The name of the role to delete. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-DeleteRole(RoleName; aws::AWSConfig=AWS.aws_config) = iam("DeleteRole", Dict{String, Any}("RoleName"=>RoleName); aws=aws)
-DeleteRole(RoleName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("DeleteRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), args)); aws=aws)
+
+DeleteRole(RoleName; aws_config::AWSConfig=global_aws_config()) = iam("DeleteRole", Dict{String, Any}("RoleName"=>RoleName); aws_config=aws_config)
+DeleteRole(RoleName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("DeleteRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), args)); aws_config=aws_config)
 
 """
     DeleteRolePermissionsBoundary()
@@ -452,8 +485,9 @@ Deletes the permissions boundary for the specified IAM role.   Deleting the perm
 - `RoleName`: The name (friendly name, not ARN) of the IAM role from which you want to remove the permissions boundary.
 
 """
-DeleteRolePermissionsBoundary(RoleName; aws::AWSConfig=AWS.aws_config) = iam("DeleteRolePermissionsBoundary", Dict{String, Any}("RoleName"=>RoleName); aws=aws)
-DeleteRolePermissionsBoundary(RoleName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("DeleteRolePermissionsBoundary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), args)); aws=aws)
+
+DeleteRolePermissionsBoundary(RoleName; aws_config::AWSConfig=global_aws_config()) = iam("DeleteRolePermissionsBoundary", Dict{String, Any}("RoleName"=>RoleName); aws_config=aws_config)
+DeleteRolePermissionsBoundary(RoleName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("DeleteRolePermissionsBoundary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), args)); aws_config=aws_config)
 
 """
     DeleteRolePolicy()
@@ -465,8 +499,9 @@ Deletes the specified inline policy that is embedded in the specified IAM role. 
 - `RoleName`: The name (friendly name, not ARN) identifying the role that the policy is embedded in. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-DeleteRolePolicy(PolicyName, RoleName; aws::AWSConfig=AWS.aws_config) = iam("DeleteRolePolicy", Dict{String, Any}("PolicyName"=>PolicyName, "RoleName"=>RoleName); aws=aws)
-DeleteRolePolicy(PolicyName, RoleName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("DeleteRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "RoleName"=>RoleName), args)); aws=aws)
+
+DeleteRolePolicy(PolicyName, RoleName; aws_config::AWSConfig=global_aws_config()) = iam("DeleteRolePolicy", Dict{String, Any}("PolicyName"=>PolicyName, "RoleName"=>RoleName); aws_config=aws_config)
+DeleteRolePolicy(PolicyName, RoleName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("DeleteRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "RoleName"=>RoleName), args)); aws_config=aws_config)
 
 """
     DeleteSAMLProvider()
@@ -477,8 +512,9 @@ Deletes a SAML provider resource in IAM. Deleting the provider resource from IAM
 - `SAMLProviderArn`: The Amazon Resource Name (ARN) of the SAML provider to delete.
 
 """
-DeleteSAMLProvider(SAMLProviderArn; aws::AWSConfig=AWS.aws_config) = iam("DeleteSAMLProvider", Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn); aws=aws)
-DeleteSAMLProvider(SAMLProviderArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("DeleteSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn), args)); aws=aws)
+
+DeleteSAMLProvider(SAMLProviderArn; aws_config::AWSConfig=global_aws_config()) = iam("DeleteSAMLProvider", Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn); aws_config=aws_config)
+DeleteSAMLProvider(SAMLProviderArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("DeleteSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn), args)); aws_config=aws_config)
 
 """
     DeleteSSHPublicKey()
@@ -490,8 +526,9 @@ Deletes the specified SSH public key. The SSH public key deleted by this operati
 - `UserName`: The name of the IAM user associated with the SSH public key. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-DeleteSSHPublicKey(SSHPublicKeyId, UserName; aws::AWSConfig=AWS.aws_config) = iam("DeleteSSHPublicKey", Dict{String, Any}("SSHPublicKeyId"=>SSHPublicKeyId, "UserName"=>UserName); aws=aws)
-DeleteSSHPublicKey(SSHPublicKeyId, UserName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("DeleteSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SSHPublicKeyId"=>SSHPublicKeyId, "UserName"=>UserName), args)); aws=aws)
+
+DeleteSSHPublicKey(SSHPublicKeyId, UserName; aws_config::AWSConfig=global_aws_config()) = iam("DeleteSSHPublicKey", Dict{String, Any}("SSHPublicKeyId"=>SSHPublicKeyId, "UserName"=>UserName); aws_config=aws_config)
+DeleteSSHPublicKey(SSHPublicKeyId, UserName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("DeleteSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SSHPublicKeyId"=>SSHPublicKeyId, "UserName"=>UserName), args)); aws_config=aws_config)
 
 """
     DeleteServerCertificate()
@@ -502,8 +539,9 @@ Deletes the specified server certificate. For more information about working wit
 - `ServerCertificateName`: The name of the server certificate you want to delete. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-DeleteServerCertificate(ServerCertificateName; aws::AWSConfig=AWS.aws_config) = iam("DeleteServerCertificate", Dict{String, Any}("ServerCertificateName"=>ServerCertificateName); aws=aws)
-DeleteServerCertificate(ServerCertificateName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("DeleteServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerCertificateName"=>ServerCertificateName), args)); aws=aws)
+
+DeleteServerCertificate(ServerCertificateName; aws_config::AWSConfig=global_aws_config()) = iam("DeleteServerCertificate", Dict{String, Any}("ServerCertificateName"=>ServerCertificateName); aws_config=aws_config)
+DeleteServerCertificate(ServerCertificateName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("DeleteServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerCertificateName"=>ServerCertificateName), args)); aws_config=aws_config)
 
 """
     DeleteServiceLinkedRole()
@@ -514,8 +552,9 @@ Submits a service-linked role deletion request and returns a DeletionTaskId, whi
 - `RoleName`: The name of the service-linked role to be deleted.
 
 """
-DeleteServiceLinkedRole(RoleName; aws::AWSConfig=AWS.aws_config) = iam("DeleteServiceLinkedRole", Dict{String, Any}("RoleName"=>RoleName); aws=aws)
-DeleteServiceLinkedRole(RoleName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("DeleteServiceLinkedRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), args)); aws=aws)
+
+DeleteServiceLinkedRole(RoleName; aws_config::AWSConfig=global_aws_config()) = iam("DeleteServiceLinkedRole", Dict{String, Any}("RoleName"=>RoleName); aws_config=aws_config)
+DeleteServiceLinkedRole(RoleName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("DeleteServiceLinkedRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), args)); aws_config=aws_config)
 
 """
     DeleteServiceSpecificCredential()
@@ -528,8 +567,9 @@ Deletes the specified service-specific credential.
 # Optional Parameters
 - `UserName`: The name of the IAM user associated with the service-specific credential. If this value is not specified, then the operation assumes the user whose credentials are used to call the operation. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 """
-DeleteServiceSpecificCredential(ServiceSpecificCredentialId; aws::AWSConfig=AWS.aws_config) = iam("DeleteServiceSpecificCredential", Dict{String, Any}("ServiceSpecificCredentialId"=>ServiceSpecificCredentialId); aws=aws)
-DeleteServiceSpecificCredential(ServiceSpecificCredentialId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("DeleteServiceSpecificCredential", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceSpecificCredentialId"=>ServiceSpecificCredentialId), args)); aws=aws)
+
+DeleteServiceSpecificCredential(ServiceSpecificCredentialId; aws_config::AWSConfig=global_aws_config()) = iam("DeleteServiceSpecificCredential", Dict{String, Any}("ServiceSpecificCredentialId"=>ServiceSpecificCredentialId); aws_config=aws_config)
+DeleteServiceSpecificCredential(ServiceSpecificCredentialId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("DeleteServiceSpecificCredential", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceSpecificCredentialId"=>ServiceSpecificCredentialId), args)); aws_config=aws_config)
 
 """
     DeleteSigningCertificate()
@@ -542,8 +582,9 @@ Deletes a signing certificate associated with the specified IAM user. If you do 
 # Optional Parameters
 - `UserName`: The name of the user the signing certificate belongs to. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 """
-DeleteSigningCertificate(CertificateId; aws::AWSConfig=AWS.aws_config) = iam("DeleteSigningCertificate", Dict{String, Any}("CertificateId"=>CertificateId); aws=aws)
-DeleteSigningCertificate(CertificateId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("DeleteSigningCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateId"=>CertificateId), args)); aws=aws)
+
+DeleteSigningCertificate(CertificateId; aws_config::AWSConfig=global_aws_config()) = iam("DeleteSigningCertificate", Dict{String, Any}("CertificateId"=>CertificateId); aws_config=aws_config)
+DeleteSigningCertificate(CertificateId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("DeleteSigningCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateId"=>CertificateId), args)); aws_config=aws_config)
 
 """
     DeleteUser()
@@ -554,8 +595,9 @@ Deletes the specified IAM user. Unlike the AWS Management Console, when you dele
 - `UserName`: The name of the user to delete. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-DeleteUser(UserName; aws::AWSConfig=AWS.aws_config) = iam("DeleteUser", Dict{String, Any}("UserName"=>UserName); aws=aws)
-DeleteUser(UserName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("DeleteUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), args)); aws=aws)
+
+DeleteUser(UserName; aws_config::AWSConfig=global_aws_config()) = iam("DeleteUser", Dict{String, Any}("UserName"=>UserName); aws_config=aws_config)
+DeleteUser(UserName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("DeleteUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), args)); aws_config=aws_config)
 
 """
     DeleteUserPermissionsBoundary()
@@ -566,8 +608,9 @@ Deletes the permissions boundary for the specified IAM user.  Deleting the permi
 - `UserName`: The name (friendly name, not ARN) of the IAM user from which you want to remove the permissions boundary.
 
 """
-DeleteUserPermissionsBoundary(UserName; aws::AWSConfig=AWS.aws_config) = iam("DeleteUserPermissionsBoundary", Dict{String, Any}("UserName"=>UserName); aws=aws)
-DeleteUserPermissionsBoundary(UserName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("DeleteUserPermissionsBoundary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), args)); aws=aws)
+
+DeleteUserPermissionsBoundary(UserName; aws_config::AWSConfig=global_aws_config()) = iam("DeleteUserPermissionsBoundary", Dict{String, Any}("UserName"=>UserName); aws_config=aws_config)
+DeleteUserPermissionsBoundary(UserName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("DeleteUserPermissionsBoundary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), args)); aws_config=aws_config)
 
 """
     DeleteUserPolicy()
@@ -579,8 +622,9 @@ Deletes the specified inline policy that is embedded in the specified IAM user. 
 - `UserName`: The name (friendly name, not ARN) identifying the user that the policy is embedded in. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-DeleteUserPolicy(PolicyName, UserName; aws::AWSConfig=AWS.aws_config) = iam("DeleteUserPolicy", Dict{String, Any}("PolicyName"=>PolicyName, "UserName"=>UserName); aws=aws)
-DeleteUserPolicy(PolicyName, UserName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("DeleteUserPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "UserName"=>UserName), args)); aws=aws)
+
+DeleteUserPolicy(PolicyName, UserName; aws_config::AWSConfig=global_aws_config()) = iam("DeleteUserPolicy", Dict{String, Any}("PolicyName"=>PolicyName, "UserName"=>UserName); aws_config=aws_config)
+DeleteUserPolicy(PolicyName, UserName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("DeleteUserPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "UserName"=>UserName), args)); aws_config=aws_config)
 
 """
     DeleteVirtualMFADevice()
@@ -591,8 +635,9 @@ Deletes a virtual MFA device.   You must deactivate a user's virtual MFA device 
 - `SerialNumber`: The serial number that uniquely identifies the MFA device. For virtual MFA devices, the serial number is the same as the ARN. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@:/-
 
 """
-DeleteVirtualMFADevice(SerialNumber; aws::AWSConfig=AWS.aws_config) = iam("DeleteVirtualMFADevice", Dict{String, Any}("SerialNumber"=>SerialNumber); aws=aws)
-DeleteVirtualMFADevice(SerialNumber, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("DeleteVirtualMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SerialNumber"=>SerialNumber), args)); aws=aws)
+
+DeleteVirtualMFADevice(SerialNumber; aws_config::AWSConfig=global_aws_config()) = iam("DeleteVirtualMFADevice", Dict{String, Any}("SerialNumber"=>SerialNumber); aws_config=aws_config)
+DeleteVirtualMFADevice(SerialNumber, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("DeleteVirtualMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SerialNumber"=>SerialNumber), args)); aws_config=aws_config)
 
 """
     DetachGroupPolicy()
@@ -604,8 +649,9 @@ Removes the specified managed policy from the specified IAM group. A group can a
 - `PolicyArn`: The Amazon Resource Name (ARN) of the IAM policy you want to detach. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
 
 """
-DetachGroupPolicy(GroupName, PolicyArn; aws::AWSConfig=AWS.aws_config) = iam("DetachGroupPolicy", Dict{String, Any}("GroupName"=>GroupName, "PolicyArn"=>PolicyArn); aws=aws)
-DetachGroupPolicy(GroupName, PolicyArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("DetachGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "PolicyArn"=>PolicyArn), args)); aws=aws)
+
+DetachGroupPolicy(GroupName, PolicyArn; aws_config::AWSConfig=global_aws_config()) = iam("DetachGroupPolicy", Dict{String, Any}("GroupName"=>GroupName, "PolicyArn"=>PolicyArn); aws_config=aws_config)
+DetachGroupPolicy(GroupName, PolicyArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("DetachGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "PolicyArn"=>PolicyArn), args)); aws_config=aws_config)
 
 """
     DetachRolePolicy()
@@ -617,8 +663,9 @@ Removes the specified managed policy from the specified role. A role can also ha
 - `RoleName`: The name (friendly name, not ARN) of the IAM role to detach the policy from. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-DetachRolePolicy(PolicyArn, RoleName; aws::AWSConfig=AWS.aws_config) = iam("DetachRolePolicy", Dict{String, Any}("PolicyArn"=>PolicyArn, "RoleName"=>RoleName); aws=aws)
-DetachRolePolicy(PolicyArn, RoleName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("DetachRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "RoleName"=>RoleName), args)); aws=aws)
+
+DetachRolePolicy(PolicyArn, RoleName; aws_config::AWSConfig=global_aws_config()) = iam("DetachRolePolicy", Dict{String, Any}("PolicyArn"=>PolicyArn, "RoleName"=>RoleName); aws_config=aws_config)
+DetachRolePolicy(PolicyArn, RoleName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("DetachRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "RoleName"=>RoleName), args)); aws_config=aws_config)
 
 """
     DetachUserPolicy()
@@ -630,8 +677,9 @@ Removes the specified managed policy from the specified user. A user can also ha
 - `UserName`: The name (friendly name, not ARN) of the IAM user to detach the policy from. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-DetachUserPolicy(PolicyArn, UserName; aws::AWSConfig=AWS.aws_config) = iam("DetachUserPolicy", Dict{String, Any}("PolicyArn"=>PolicyArn, "UserName"=>UserName); aws=aws)
-DetachUserPolicy(PolicyArn, UserName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("DetachUserPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "UserName"=>UserName), args)); aws=aws)
+
+DetachUserPolicy(PolicyArn, UserName; aws_config::AWSConfig=global_aws_config()) = iam("DetachUserPolicy", Dict{String, Any}("PolicyArn"=>PolicyArn, "UserName"=>UserName); aws_config=aws_config)
+DetachUserPolicy(PolicyArn, UserName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("DetachUserPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "UserName"=>UserName), args)); aws_config=aws_config)
 
 """
     EnableMFADevice()
@@ -645,8 +693,9 @@ Enables the specified MFA device and associates it with the specified IAM user. 
 - `UserName`: The name of the IAM user for whom you want to enable the MFA device. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-EnableMFADevice(AuthenticationCode1, AuthenticationCode2, SerialNumber, UserName; aws::AWSConfig=AWS.aws_config) = iam("EnableMFADevice", Dict{String, Any}("AuthenticationCode1"=>AuthenticationCode1, "AuthenticationCode2"=>AuthenticationCode2, "SerialNumber"=>SerialNumber, "UserName"=>UserName); aws=aws)
-EnableMFADevice(AuthenticationCode1, AuthenticationCode2, SerialNumber, UserName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("EnableMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationCode1"=>AuthenticationCode1, "AuthenticationCode2"=>AuthenticationCode2, "SerialNumber"=>SerialNumber, "UserName"=>UserName), args)); aws=aws)
+
+EnableMFADevice(AuthenticationCode1, AuthenticationCode2, SerialNumber, UserName; aws_config::AWSConfig=global_aws_config()) = iam("EnableMFADevice", Dict{String, Any}("AuthenticationCode1"=>AuthenticationCode1, "AuthenticationCode2"=>AuthenticationCode2, "SerialNumber"=>SerialNumber, "UserName"=>UserName); aws_config=aws_config)
+EnableMFADevice(AuthenticationCode1, AuthenticationCode2, SerialNumber, UserName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("EnableMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationCode1"=>AuthenticationCode1, "AuthenticationCode2"=>AuthenticationCode2, "SerialNumber"=>SerialNumber, "UserName"=>UserName), args)); aws_config=aws_config)
 
 """
     GenerateCredentialReport()
@@ -654,8 +703,9 @@ EnableMFADevice(AuthenticationCode1, AuthenticationCode2, SerialNumber, UserName
  Generates a credential report for the AWS account. For more information about the credential report, see Getting Credential Reports in the IAM User Guide.
 
 """
-GenerateCredentialReport(; aws::AWSConfig=AWS.aws_config) = iam("GenerateCredentialReport"; aws=aws)
-GenerateCredentialReport(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("GenerateCredentialReport", args; aws=aws)
+
+GenerateCredentialReport(; aws_config::AWSConfig=global_aws_config()) = iam("GenerateCredentialReport"; aws_config=aws_config)
+GenerateCredentialReport(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("GenerateCredentialReport", args; aws_config=aws_config)
 
 """
     GenerateOrganizationsAccessReport()
@@ -668,8 +718,9 @@ Generates a report for service last accessed data for AWS Organizations. You can
 # Optional Parameters
 - `OrganizationsPolicyId`: The identifier of the AWS Organizations service control policy (SCP). This parameter is optional. This ID is used to generate information about when an account principal that is limited by the SCP attempted to access an AWS service.
 """
-GenerateOrganizationsAccessReport(EntityPath; aws::AWSConfig=AWS.aws_config) = iam("GenerateOrganizationsAccessReport", Dict{String, Any}("EntityPath"=>EntityPath); aws=aws)
-GenerateOrganizationsAccessReport(EntityPath, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("GenerateOrganizationsAccessReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityPath"=>EntityPath), args)); aws=aws)
+
+GenerateOrganizationsAccessReport(EntityPath; aws_config::AWSConfig=global_aws_config()) = iam("GenerateOrganizationsAccessReport", Dict{String, Any}("EntityPath"=>EntityPath); aws_config=aws_config)
+GenerateOrganizationsAccessReport(EntityPath, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("GenerateOrganizationsAccessReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("EntityPath"=>EntityPath), args)); aws_config=aws_config)
 
 """
     GenerateServiceLastAccessedDetails()
@@ -682,8 +733,9 @@ Generates a report that includes details about when an IAM resource (user, group
 # Optional Parameters
 - `Granularity`: The level of detail that you want to generate. You can specify whether you want to generate information about the last attempt to access services or actions. If you specify service-level granularity, this operation generates only service data. If you specify action-level granularity, it generates service and action data. If you don't include this optional parameter, the operation generates service data.
 """
-GenerateServiceLastAccessedDetails(Arn; aws::AWSConfig=AWS.aws_config) = iam("GenerateServiceLastAccessedDetails", Dict{String, Any}("Arn"=>Arn); aws=aws)
-GenerateServiceLastAccessedDetails(Arn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("GenerateServiceLastAccessedDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), args)); aws=aws)
+
+GenerateServiceLastAccessedDetails(Arn; aws_config::AWSConfig=global_aws_config()) = iam("GenerateServiceLastAccessedDetails", Dict{String, Any}("Arn"=>Arn); aws_config=aws_config)
+GenerateServiceLastAccessedDetails(Arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("GenerateServiceLastAccessedDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn), args)); aws_config=aws_config)
 
 """
     GetAccessKeyLastUsed()
@@ -694,8 +746,9 @@ Retrieves information about when the specified access key was last used. The inf
 - `AccessKeyId`: The identifier of an access key. This parameter allows (through its regex pattern) a string of characters that can consist of any upper or lowercased letter or digit.
 
 """
-GetAccessKeyLastUsed(AccessKeyId; aws::AWSConfig=AWS.aws_config) = iam("GetAccessKeyLastUsed", Dict{String, Any}("AccessKeyId"=>AccessKeyId); aws=aws)
-GetAccessKeyLastUsed(AccessKeyId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("GetAccessKeyLastUsed", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessKeyId"=>AccessKeyId), args)); aws=aws)
+
+GetAccessKeyLastUsed(AccessKeyId; aws_config::AWSConfig=global_aws_config()) = iam("GetAccessKeyLastUsed", Dict{String, Any}("AccessKeyId"=>AccessKeyId); aws_config=aws_config)
+GetAccessKeyLastUsed(AccessKeyId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("GetAccessKeyLastUsed", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessKeyId"=>AccessKeyId), args)); aws_config=aws_config)
 
 """
     GetAccountAuthorizationDetails()
@@ -707,8 +760,9 @@ Retrieves information about all IAM users, groups, roles, and policies in your A
 - `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
 - `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
 """
-GetAccountAuthorizationDetails(; aws::AWSConfig=AWS.aws_config) = iam("GetAccountAuthorizationDetails"; aws=aws)
-GetAccountAuthorizationDetails(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("GetAccountAuthorizationDetails", args; aws=aws)
+
+GetAccountAuthorizationDetails(; aws_config::AWSConfig=global_aws_config()) = iam("GetAccountAuthorizationDetails"; aws_config=aws_config)
+GetAccountAuthorizationDetails(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("GetAccountAuthorizationDetails", args; aws_config=aws_config)
 
 """
     GetAccountPasswordPolicy()
@@ -716,8 +770,9 @@ GetAccountAuthorizationDetails(args::AbstractDict{String, <:Any}; aws::AWSConfig
 Retrieves the password policy for the AWS account. For more information about using a password policy, go to Managing an IAM Password Policy.
 
 """
-GetAccountPasswordPolicy(; aws::AWSConfig=AWS.aws_config) = iam("GetAccountPasswordPolicy"; aws=aws)
-GetAccountPasswordPolicy(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("GetAccountPasswordPolicy", args; aws=aws)
+
+GetAccountPasswordPolicy(; aws_config::AWSConfig=global_aws_config()) = iam("GetAccountPasswordPolicy"; aws_config=aws_config)
+GetAccountPasswordPolicy(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("GetAccountPasswordPolicy", args; aws_config=aws_config)
 
 """
     GetAccountSummary()
@@ -725,8 +780,9 @@ GetAccountPasswordPolicy(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.a
 Retrieves information about IAM entity usage and IAM quotas in the AWS account. The number and size of IAM resources in an AWS account are limited. For more information, see IAM and STS Quotas in the IAM User Guide.
 
 """
-GetAccountSummary(; aws::AWSConfig=AWS.aws_config) = iam("GetAccountSummary"; aws=aws)
-GetAccountSummary(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("GetAccountSummary", args; aws=aws)
+
+GetAccountSummary(; aws_config::AWSConfig=global_aws_config()) = iam("GetAccountSummary"; aws_config=aws_config)
+GetAccountSummary(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("GetAccountSummary", args; aws_config=aws_config)
 
 """
     GetContextKeysForCustomPolicy()
@@ -737,8 +793,9 @@ Gets a list of all of the context keys referenced in the input policies. The pol
 - `PolicyInputList`: A list of policies for which you want the list of context keys referenced in those policies. Each document is specified as a string containing the complete, valid JSON text of an IAM policy. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character ( u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through  u00FF)   The special characters tab ( u0009), line feed ( u000A), and carriage return ( u000D)  
 
 """
-GetContextKeysForCustomPolicy(PolicyInputList; aws::AWSConfig=AWS.aws_config) = iam("GetContextKeysForCustomPolicy", Dict{String, Any}("PolicyInputList"=>PolicyInputList); aws=aws)
-GetContextKeysForCustomPolicy(PolicyInputList, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("GetContextKeysForCustomPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyInputList"=>PolicyInputList), args)); aws=aws)
+
+GetContextKeysForCustomPolicy(PolicyInputList; aws_config::AWSConfig=global_aws_config()) = iam("GetContextKeysForCustomPolicy", Dict{String, Any}("PolicyInputList"=>PolicyInputList); aws_config=aws_config)
+GetContextKeysForCustomPolicy(PolicyInputList, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("GetContextKeysForCustomPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyInputList"=>PolicyInputList), args)); aws_config=aws_config)
 
 """
     GetContextKeysForPrincipalPolicy()
@@ -751,8 +808,9 @@ Gets a list of all of the context keys referenced in all the IAM policies that a
 # Optional Parameters
 - `PolicyInputList`: An optional list of additional policies for which you want the list of context keys that are referenced. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character ( u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through  u00FF)   The special characters tab ( u0009), line feed ( u000A), and carriage return ( u000D)  
 """
-GetContextKeysForPrincipalPolicy(PolicySourceArn; aws::AWSConfig=AWS.aws_config) = iam("GetContextKeysForPrincipalPolicy", Dict{String, Any}("PolicySourceArn"=>PolicySourceArn); aws=aws)
-GetContextKeysForPrincipalPolicy(PolicySourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("GetContextKeysForPrincipalPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicySourceArn"=>PolicySourceArn), args)); aws=aws)
+
+GetContextKeysForPrincipalPolicy(PolicySourceArn; aws_config::AWSConfig=global_aws_config()) = iam("GetContextKeysForPrincipalPolicy", Dict{String, Any}("PolicySourceArn"=>PolicySourceArn); aws_config=aws_config)
+GetContextKeysForPrincipalPolicy(PolicySourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("GetContextKeysForPrincipalPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicySourceArn"=>PolicySourceArn), args)); aws_config=aws_config)
 
 """
     GetCredentialReport()
@@ -760,8 +818,9 @@ GetContextKeysForPrincipalPolicy(PolicySourceArn, args::AbstractDict{String, <:A
  Retrieves a credential report for the AWS account. For more information about the credential report, see Getting Credential Reports in the IAM User Guide.
 
 """
-GetCredentialReport(; aws::AWSConfig=AWS.aws_config) = iam("GetCredentialReport"; aws=aws)
-GetCredentialReport(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("GetCredentialReport", args; aws=aws)
+
+GetCredentialReport(; aws_config::AWSConfig=global_aws_config()) = iam("GetCredentialReport"; aws_config=aws_config)
+GetCredentialReport(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("GetCredentialReport", args; aws_config=aws_config)
 
 """
     GetGroup()
@@ -775,8 +834,9 @@ GetCredentialReport(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_co
 - `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
 - `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
 """
-GetGroup(GroupName; aws::AWSConfig=AWS.aws_config) = iam("GetGroup", Dict{String, Any}("GroupName"=>GroupName); aws=aws)
-GetGroup(GroupName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("GetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), args)); aws=aws)
+
+GetGroup(GroupName; aws_config::AWSConfig=global_aws_config()) = iam("GetGroup", Dict{String, Any}("GroupName"=>GroupName); aws_config=aws_config)
+GetGroup(GroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("GetGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), args)); aws_config=aws_config)
 
 """
     GetGroupPolicy()
@@ -788,8 +848,9 @@ Retrieves the specified inline policy document that is embedded in the specified
 - `PolicyName`: The name of the policy document to get. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-GetGroupPolicy(GroupName, PolicyName; aws::AWSConfig=AWS.aws_config) = iam("GetGroupPolicy", Dict{String, Any}("GroupName"=>GroupName, "PolicyName"=>PolicyName); aws=aws)
-GetGroupPolicy(GroupName, PolicyName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("GetGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "PolicyName"=>PolicyName), args)); aws=aws)
+
+GetGroupPolicy(GroupName, PolicyName; aws_config::AWSConfig=global_aws_config()) = iam("GetGroupPolicy", Dict{String, Any}("GroupName"=>GroupName, "PolicyName"=>PolicyName); aws_config=aws_config)
+GetGroupPolicy(GroupName, PolicyName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("GetGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "PolicyName"=>PolicyName), args)); aws_config=aws_config)
 
 """
     GetInstanceProfile()
@@ -800,8 +861,9 @@ GetGroupPolicy(GroupName, PolicyName, args::AbstractDict{String, <:Any}; aws::AW
 - `InstanceProfileName`: The name of the instance profile to get information about. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-GetInstanceProfile(InstanceProfileName; aws::AWSConfig=AWS.aws_config) = iam("GetInstanceProfile", Dict{String, Any}("InstanceProfileName"=>InstanceProfileName); aws=aws)
-GetInstanceProfile(InstanceProfileName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("GetInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName), args)); aws=aws)
+
+GetInstanceProfile(InstanceProfileName; aws_config::AWSConfig=global_aws_config()) = iam("GetInstanceProfile", Dict{String, Any}("InstanceProfileName"=>InstanceProfileName); aws_config=aws_config)
+GetInstanceProfile(InstanceProfileName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("GetInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName), args)); aws_config=aws_config)
 
 """
     GetLoginProfile()
@@ -812,8 +874,9 @@ Retrieves the user name and password-creation date for the specified IAM user. I
 - `UserName`: The name of the user whose login profile you want to retrieve. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-GetLoginProfile(UserName; aws::AWSConfig=AWS.aws_config) = iam("GetLoginProfile", Dict{String, Any}("UserName"=>UserName); aws=aws)
-GetLoginProfile(UserName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("GetLoginProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), args)); aws=aws)
+
+GetLoginProfile(UserName; aws_config::AWSConfig=global_aws_config()) = iam("GetLoginProfile", Dict{String, Any}("UserName"=>UserName); aws_config=aws_config)
+GetLoginProfile(UserName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("GetLoginProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), args)); aws_config=aws_config)
 
 """
     GetOpenIDConnectProvider()
@@ -824,8 +887,9 @@ Returns information about the specified OpenID Connect (OIDC) provider resource 
 - `OpenIDConnectProviderArn`: The Amazon Resource Name (ARN) of the OIDC provider resource object in IAM to get information for. You can get a list of OIDC provider resource ARNs by using the ListOpenIDConnectProviders operation. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
 
 """
-GetOpenIDConnectProvider(OpenIDConnectProviderArn; aws::AWSConfig=AWS.aws_config) = iam("GetOpenIDConnectProvider", Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn); aws=aws)
-GetOpenIDConnectProvider(OpenIDConnectProviderArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("GetOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn), args)); aws=aws)
+
+GetOpenIDConnectProvider(OpenIDConnectProviderArn; aws_config::AWSConfig=global_aws_config()) = iam("GetOpenIDConnectProvider", Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn); aws_config=aws_config)
+GetOpenIDConnectProvider(OpenIDConnectProviderArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("GetOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn), args)); aws_config=aws_config)
 
 """
     GetOrganizationsAccessReport()
@@ -840,8 +904,9 @@ Retrieves the service last accessed data report for AWS Organizations that was p
 - `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
 - `SortKey`: The key that is used to sort the results. If you choose the namespace key, the results are returned in alphabetical order. If you choose the time key, the results are sorted numerically by the date and time.
 """
-GetOrganizationsAccessReport(JobId; aws::AWSConfig=AWS.aws_config) = iam("GetOrganizationsAccessReport", Dict{String, Any}("JobId"=>JobId); aws=aws)
-GetOrganizationsAccessReport(JobId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("GetOrganizationsAccessReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws=aws)
+
+GetOrganizationsAccessReport(JobId; aws_config::AWSConfig=global_aws_config()) = iam("GetOrganizationsAccessReport", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
+GetOrganizationsAccessReport(JobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("GetOrganizationsAccessReport", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
 
 """
     GetPolicy()
@@ -852,8 +917,9 @@ Retrieves information about the specified managed policy, including the policy's
 - `PolicyArn`: The Amazon Resource Name (ARN) of the managed policy that you want information about. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
 
 """
-GetPolicy(PolicyArn; aws::AWSConfig=AWS.aws_config) = iam("GetPolicy", Dict{String, Any}("PolicyArn"=>PolicyArn); aws=aws)
-GetPolicy(PolicyArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("GetPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn), args)); aws=aws)
+
+GetPolicy(PolicyArn; aws_config::AWSConfig=global_aws_config()) = iam("GetPolicy", Dict{String, Any}("PolicyArn"=>PolicyArn); aws_config=aws_config)
+GetPolicy(PolicyArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("GetPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn), args)); aws_config=aws_config)
 
 """
     GetPolicyVersion()
@@ -865,8 +931,9 @@ Retrieves information about the specified version of the specified managed polic
 - `VersionId`: Identifies the policy version to retrieve. This parameter allows (through its regex pattern) a string of characters that consists of the lowercase letter 'v' followed by one or two digits, and optionally followed by a period '.' and a string of letters and digits.
 
 """
-GetPolicyVersion(PolicyArn, VersionId; aws::AWSConfig=AWS.aws_config) = iam("GetPolicyVersion", Dict{String, Any}("PolicyArn"=>PolicyArn, "VersionId"=>VersionId); aws=aws)
-GetPolicyVersion(PolicyArn, VersionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("GetPolicyVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "VersionId"=>VersionId), args)); aws=aws)
+
+GetPolicyVersion(PolicyArn, VersionId; aws_config::AWSConfig=global_aws_config()) = iam("GetPolicyVersion", Dict{String, Any}("PolicyArn"=>PolicyArn, "VersionId"=>VersionId); aws_config=aws_config)
+GetPolicyVersion(PolicyArn, VersionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("GetPolicyVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "VersionId"=>VersionId), args)); aws_config=aws_config)
 
 """
     GetRole()
@@ -877,8 +944,9 @@ Retrieves information about the specified role, including the role's path, GUID,
 - `RoleName`: The name of the IAM role to get information about. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-GetRole(RoleName; aws::AWSConfig=AWS.aws_config) = iam("GetRole", Dict{String, Any}("RoleName"=>RoleName); aws=aws)
-GetRole(RoleName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("GetRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), args)); aws=aws)
+
+GetRole(RoleName; aws_config::AWSConfig=global_aws_config()) = iam("GetRole", Dict{String, Any}("RoleName"=>RoleName); aws_config=aws_config)
+GetRole(RoleName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("GetRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), args)); aws_config=aws_config)
 
 """
     GetRolePolicy()
@@ -890,8 +958,9 @@ Retrieves the specified inline policy document that is embedded with the specifi
 - `RoleName`: The name of the role associated with the policy. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-GetRolePolicy(PolicyName, RoleName; aws::AWSConfig=AWS.aws_config) = iam("GetRolePolicy", Dict{String, Any}("PolicyName"=>PolicyName, "RoleName"=>RoleName); aws=aws)
-GetRolePolicy(PolicyName, RoleName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("GetRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "RoleName"=>RoleName), args)); aws=aws)
+
+GetRolePolicy(PolicyName, RoleName; aws_config::AWSConfig=global_aws_config()) = iam("GetRolePolicy", Dict{String, Any}("PolicyName"=>PolicyName, "RoleName"=>RoleName); aws_config=aws_config)
+GetRolePolicy(PolicyName, RoleName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("GetRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "RoleName"=>RoleName), args)); aws_config=aws_config)
 
 """
     GetSAMLProvider()
@@ -902,8 +971,9 @@ Returns the SAML provider metadocument that was uploaded when the IAM SAML provi
 - `SAMLProviderArn`: The Amazon Resource Name (ARN) of the SAML provider resource object in IAM to get information about. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
 
 """
-GetSAMLProvider(SAMLProviderArn; aws::AWSConfig=AWS.aws_config) = iam("GetSAMLProvider", Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn); aws=aws)
-GetSAMLProvider(SAMLProviderArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("GetSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn), args)); aws=aws)
+
+GetSAMLProvider(SAMLProviderArn; aws_config::AWSConfig=global_aws_config()) = iam("GetSAMLProvider", Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn); aws_config=aws_config)
+GetSAMLProvider(SAMLProviderArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("GetSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SAMLProviderArn"=>SAMLProviderArn), args)); aws_config=aws_config)
 
 """
     GetSSHPublicKey()
@@ -916,8 +986,9 @@ Retrieves the specified SSH public key, including metadata about the key. The SS
 - `UserName`: The name of the IAM user associated with the SSH public key. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-GetSSHPublicKey(Encoding, SSHPublicKeyId, UserName; aws::AWSConfig=AWS.aws_config) = iam("GetSSHPublicKey", Dict{String, Any}("Encoding"=>Encoding, "SSHPublicKeyId"=>SSHPublicKeyId, "UserName"=>UserName); aws=aws)
-GetSSHPublicKey(Encoding, SSHPublicKeyId, UserName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("GetSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Encoding"=>Encoding, "SSHPublicKeyId"=>SSHPublicKeyId, "UserName"=>UserName), args)); aws=aws)
+
+GetSSHPublicKey(Encoding, SSHPublicKeyId, UserName; aws_config::AWSConfig=global_aws_config()) = iam("GetSSHPublicKey", Dict{String, Any}("Encoding"=>Encoding, "SSHPublicKeyId"=>SSHPublicKeyId, "UserName"=>UserName); aws_config=aws_config)
+GetSSHPublicKey(Encoding, SSHPublicKeyId, UserName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("GetSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Encoding"=>Encoding, "SSHPublicKeyId"=>SSHPublicKeyId, "UserName"=>UserName), args)); aws_config=aws_config)
 
 """
     GetServerCertificate()
@@ -928,8 +999,9 @@ Retrieves information about the specified server certificate stored in IAM. For 
 - `ServerCertificateName`: The name of the server certificate you want to retrieve information about. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-GetServerCertificate(ServerCertificateName; aws::AWSConfig=AWS.aws_config) = iam("GetServerCertificate", Dict{String, Any}("ServerCertificateName"=>ServerCertificateName); aws=aws)
-GetServerCertificate(ServerCertificateName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("GetServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerCertificateName"=>ServerCertificateName), args)); aws=aws)
+
+GetServerCertificate(ServerCertificateName; aws_config::AWSConfig=global_aws_config()) = iam("GetServerCertificate", Dict{String, Any}("ServerCertificateName"=>ServerCertificateName); aws_config=aws_config)
+GetServerCertificate(ServerCertificateName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("GetServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerCertificateName"=>ServerCertificateName), args)); aws_config=aws_config)
 
 """
     GetServiceLastAccessedDetails()
@@ -943,8 +1015,9 @@ Retrieves a service last accessed report that was created using the GenerateServ
 - `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
 - `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
 """
-GetServiceLastAccessedDetails(JobId; aws::AWSConfig=AWS.aws_config) = iam("GetServiceLastAccessedDetails", Dict{String, Any}("JobId"=>JobId); aws=aws)
-GetServiceLastAccessedDetails(JobId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("GetServiceLastAccessedDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws=aws)
+
+GetServiceLastAccessedDetails(JobId; aws_config::AWSConfig=global_aws_config()) = iam("GetServiceLastAccessedDetails", Dict{String, Any}("JobId"=>JobId); aws_config=aws_config)
+GetServiceLastAccessedDetails(JobId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("GetServiceLastAccessedDetails", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId), args)); aws_config=aws_config)
 
 """
     GetServiceLastAccessedDetailsWithEntities()
@@ -959,8 +1032,9 @@ After you generate a group or policy report using the GenerateServiceLastAccesse
 - `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
 - `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
 """
-GetServiceLastAccessedDetailsWithEntities(JobId, ServiceNamespace; aws::AWSConfig=AWS.aws_config) = iam("GetServiceLastAccessedDetailsWithEntities", Dict{String, Any}("JobId"=>JobId, "ServiceNamespace"=>ServiceNamespace); aws=aws)
-GetServiceLastAccessedDetailsWithEntities(JobId, ServiceNamespace, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("GetServiceLastAccessedDetailsWithEntities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId, "ServiceNamespace"=>ServiceNamespace), args)); aws=aws)
+
+GetServiceLastAccessedDetailsWithEntities(JobId, ServiceNamespace; aws_config::AWSConfig=global_aws_config()) = iam("GetServiceLastAccessedDetailsWithEntities", Dict{String, Any}("JobId"=>JobId, "ServiceNamespace"=>ServiceNamespace); aws_config=aws_config)
+GetServiceLastAccessedDetailsWithEntities(JobId, ServiceNamespace, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("GetServiceLastAccessedDetailsWithEntities", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("JobId"=>JobId, "ServiceNamespace"=>ServiceNamespace), args)); aws_config=aws_config)
 
 """
     GetServiceLinkedRoleDeletionStatus()
@@ -971,8 +1045,9 @@ Retrieves the status of your service-linked role deletion. After you use the Del
 - `DeletionTaskId`: The deletion task identifier. This identifier is returned by the DeleteServiceLinkedRole operation in the format task/aws-service-role/&lt;service-principal-name&gt;/&lt;role-name&gt;/&lt;task-uuid&gt;.
 
 """
-GetServiceLinkedRoleDeletionStatus(DeletionTaskId; aws::AWSConfig=AWS.aws_config) = iam("GetServiceLinkedRoleDeletionStatus", Dict{String, Any}("DeletionTaskId"=>DeletionTaskId); aws=aws)
-GetServiceLinkedRoleDeletionStatus(DeletionTaskId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("GetServiceLinkedRoleDeletionStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeletionTaskId"=>DeletionTaskId), args)); aws=aws)
+
+GetServiceLinkedRoleDeletionStatus(DeletionTaskId; aws_config::AWSConfig=global_aws_config()) = iam("GetServiceLinkedRoleDeletionStatus", Dict{String, Any}("DeletionTaskId"=>DeletionTaskId); aws_config=aws_config)
+GetServiceLinkedRoleDeletionStatus(DeletionTaskId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("GetServiceLinkedRoleDeletionStatus", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeletionTaskId"=>DeletionTaskId), args)); aws_config=aws_config)
 
 """
     GetUser()
@@ -982,8 +1057,9 @@ Retrieves information about the specified IAM user, including the user's creatio
 # Optional Parameters
 - `UserName`: The name of the user to get information about. This parameter is optional. If it is not included, it defaults to the user making the request. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 """
-GetUser(; aws::AWSConfig=AWS.aws_config) = iam("GetUser"; aws=aws)
-GetUser(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("GetUser", args; aws=aws)
+
+GetUser(; aws_config::AWSConfig=global_aws_config()) = iam("GetUser"; aws_config=aws_config)
+GetUser(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("GetUser", args; aws_config=aws_config)
 
 """
     GetUserPolicy()
@@ -995,8 +1071,9 @@ Retrieves the specified inline policy document that is embedded in the specified
 - `UserName`: The name of the user who the policy is associated with. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-GetUserPolicy(PolicyName, UserName; aws::AWSConfig=AWS.aws_config) = iam("GetUserPolicy", Dict{String, Any}("PolicyName"=>PolicyName, "UserName"=>UserName); aws=aws)
-GetUserPolicy(PolicyName, UserName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("GetUserPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "UserName"=>UserName), args)); aws=aws)
+
+GetUserPolicy(PolicyName, UserName; aws_config::AWSConfig=global_aws_config()) = iam("GetUserPolicy", Dict{String, Any}("PolicyName"=>PolicyName, "UserName"=>UserName); aws_config=aws_config)
+GetUserPolicy(PolicyName, UserName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("GetUserPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyName"=>PolicyName, "UserName"=>UserName), args)); aws_config=aws_config)
 
 """
     ListAccessKeys()
@@ -1008,8 +1085,9 @@ Returns information about the access key IDs associated with the specified IAM u
 - `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
 - `UserName`: The name of the user. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 """
-ListAccessKeys(; aws::AWSConfig=AWS.aws_config) = iam("ListAccessKeys"; aws=aws)
-ListAccessKeys(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("ListAccessKeys", args; aws=aws)
+
+ListAccessKeys(; aws_config::AWSConfig=global_aws_config()) = iam("ListAccessKeys"; aws_config=aws_config)
+ListAccessKeys(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("ListAccessKeys", args; aws_config=aws_config)
 
 """
     ListAccountAliases()
@@ -1020,8 +1098,9 @@ Lists the account alias associated with the AWS account (Note: you can have only
 - `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
 - `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
 """
-ListAccountAliases(; aws::AWSConfig=AWS.aws_config) = iam("ListAccountAliases"; aws=aws)
-ListAccountAliases(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("ListAccountAliases", args; aws=aws)
+
+ListAccountAliases(; aws_config::AWSConfig=global_aws_config()) = iam("ListAccountAliases"; aws_config=aws_config)
+ListAccountAliases(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("ListAccountAliases", args; aws_config=aws_config)
 
 """
     ListAttachedGroupPolicies()
@@ -1036,8 +1115,9 @@ Lists all managed policies that are attached to the specified IAM group. An IAM 
 - `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
 - `PathPrefix`: The path prefix for filtering the results. This parameter is optional. If it is not included, it defaults to a slash (/), listing all policies. This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! ( u0021) through the DEL character ( u007F), including most punctuation characters, digits, and upper and lowercased letters.
 """
-ListAttachedGroupPolicies(GroupName; aws::AWSConfig=AWS.aws_config) = iam("ListAttachedGroupPolicies", Dict{String, Any}("GroupName"=>GroupName); aws=aws)
-ListAttachedGroupPolicies(GroupName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("ListAttachedGroupPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), args)); aws=aws)
+
+ListAttachedGroupPolicies(GroupName; aws_config::AWSConfig=global_aws_config()) = iam("ListAttachedGroupPolicies", Dict{String, Any}("GroupName"=>GroupName); aws_config=aws_config)
+ListAttachedGroupPolicies(GroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("ListAttachedGroupPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), args)); aws_config=aws_config)
 
 """
     ListAttachedRolePolicies()
@@ -1052,8 +1132,9 @@ Lists all managed policies that are attached to the specified IAM role. An IAM r
 - `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
 - `PathPrefix`: The path prefix for filtering the results. This parameter is optional. If it is not included, it defaults to a slash (/), listing all policies. This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! ( u0021) through the DEL character ( u007F), including most punctuation characters, digits, and upper and lowercased letters.
 """
-ListAttachedRolePolicies(RoleName; aws::AWSConfig=AWS.aws_config) = iam("ListAttachedRolePolicies", Dict{String, Any}("RoleName"=>RoleName); aws=aws)
-ListAttachedRolePolicies(RoleName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("ListAttachedRolePolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), args)); aws=aws)
+
+ListAttachedRolePolicies(RoleName; aws_config::AWSConfig=global_aws_config()) = iam("ListAttachedRolePolicies", Dict{String, Any}("RoleName"=>RoleName); aws_config=aws_config)
+ListAttachedRolePolicies(RoleName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("ListAttachedRolePolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), args)); aws_config=aws_config)
 
 """
     ListAttachedUserPolicies()
@@ -1068,8 +1149,9 @@ Lists all managed policies that are attached to the specified IAM user. An IAM u
 - `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
 - `PathPrefix`: The path prefix for filtering the results. This parameter is optional. If it is not included, it defaults to a slash (/), listing all policies. This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! ( u0021) through the DEL character ( u007F), including most punctuation characters, digits, and upper and lowercased letters.
 """
-ListAttachedUserPolicies(UserName; aws::AWSConfig=AWS.aws_config) = iam("ListAttachedUserPolicies", Dict{String, Any}("UserName"=>UserName); aws=aws)
-ListAttachedUserPolicies(UserName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("ListAttachedUserPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), args)); aws=aws)
+
+ListAttachedUserPolicies(UserName; aws_config::AWSConfig=global_aws_config()) = iam("ListAttachedUserPolicies", Dict{String, Any}("UserName"=>UserName); aws_config=aws_config)
+ListAttachedUserPolicies(UserName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("ListAttachedUserPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), args)); aws_config=aws_config)
 
 """
     ListEntitiesForPolicy()
@@ -1086,8 +1168,9 @@ Lists all IAM users, groups, and roles that the specified managed policy is atta
 - `PathPrefix`: The path prefix for filtering the results. This parameter is optional. If it is not included, it defaults to a slash (/), listing all entities. This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! ( u0021) through the DEL character ( u007F), including most punctuation characters, digits, and upper and lowercased letters.
 - `PolicyUsageFilter`: The policy usage method to use for filtering the results. To list only permissions policies, set PolicyUsageFilter to PermissionsPolicy. To list only the policies used to set permissions boundaries, set the value to PermissionsBoundary. This parameter is optional. If it is not included, all policies are returned. 
 """
-ListEntitiesForPolicy(PolicyArn; aws::AWSConfig=AWS.aws_config) = iam("ListEntitiesForPolicy", Dict{String, Any}("PolicyArn"=>PolicyArn); aws=aws)
-ListEntitiesForPolicy(PolicyArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("ListEntitiesForPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn), args)); aws=aws)
+
+ListEntitiesForPolicy(PolicyArn; aws_config::AWSConfig=global_aws_config()) = iam("ListEntitiesForPolicy", Dict{String, Any}("PolicyArn"=>PolicyArn); aws_config=aws_config)
+ListEntitiesForPolicy(PolicyArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("ListEntitiesForPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn), args)); aws_config=aws_config)
 
 """
     ListGroupPolicies()
@@ -1101,8 +1184,9 @@ Lists the names of the inline policies that are embedded in the specified IAM gr
 - `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
 - `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
 """
-ListGroupPolicies(GroupName; aws::AWSConfig=AWS.aws_config) = iam("ListGroupPolicies", Dict{String, Any}("GroupName"=>GroupName); aws=aws)
-ListGroupPolicies(GroupName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("ListGroupPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), args)); aws=aws)
+
+ListGroupPolicies(GroupName; aws_config::AWSConfig=global_aws_config()) = iam("ListGroupPolicies", Dict{String, Any}("GroupName"=>GroupName); aws_config=aws_config)
+ListGroupPolicies(GroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("ListGroupPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), args)); aws_config=aws_config)
 
 """
     ListGroups()
@@ -1114,8 +1198,9 @@ Lists the IAM groups that have the specified path prefix.  You can paginate the 
 - `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
 - `PathPrefix`:  The path prefix for filtering the results. For example, the prefix /division_abc/subdivision_xyz/ gets all groups whose path starts with /division_abc/subdivision_xyz/. This parameter is optional. If it is not included, it defaults to a slash (/), listing all groups. This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! ( u0021) through the DEL character ( u007F), including most punctuation characters, digits, and upper and lowercased letters.
 """
-ListGroups(; aws::AWSConfig=AWS.aws_config) = iam("ListGroups"; aws=aws)
-ListGroups(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("ListGroups", args; aws=aws)
+
+ListGroups(; aws_config::AWSConfig=global_aws_config()) = iam("ListGroups"; aws_config=aws_config)
+ListGroups(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("ListGroups", args; aws_config=aws_config)
 
 """
     ListGroupsForUser()
@@ -1129,8 +1214,9 @@ Lists the IAM groups that the specified IAM user belongs to. You can paginate th
 - `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
 - `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
 """
-ListGroupsForUser(UserName; aws::AWSConfig=AWS.aws_config) = iam("ListGroupsForUser", Dict{String, Any}("UserName"=>UserName); aws=aws)
-ListGroupsForUser(UserName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("ListGroupsForUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), args)); aws=aws)
+
+ListGroupsForUser(UserName; aws_config::AWSConfig=global_aws_config()) = iam("ListGroupsForUser", Dict{String, Any}("UserName"=>UserName); aws_config=aws_config)
+ListGroupsForUser(UserName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("ListGroupsForUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), args)); aws_config=aws_config)
 
 """
     ListInstanceProfiles()
@@ -1142,8 +1228,9 @@ Lists the instance profiles that have the specified path prefix. If there are no
 - `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
 - `PathPrefix`:  The path prefix for filtering the results. For example, the prefix /application_abc/component_xyz/ gets all instance profiles whose path starts with /application_abc/component_xyz/. This parameter is optional. If it is not included, it defaults to a slash (/), listing all instance profiles. This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! ( u0021) through the DEL character ( u007F), including most punctuation characters, digits, and upper and lowercased letters.
 """
-ListInstanceProfiles(; aws::AWSConfig=AWS.aws_config) = iam("ListInstanceProfiles"; aws=aws)
-ListInstanceProfiles(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("ListInstanceProfiles", args; aws=aws)
+
+ListInstanceProfiles(; aws_config::AWSConfig=global_aws_config()) = iam("ListInstanceProfiles"; aws_config=aws_config)
+ListInstanceProfiles(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("ListInstanceProfiles", args; aws_config=aws_config)
 
 """
     ListInstanceProfilesForRole()
@@ -1157,8 +1244,9 @@ Lists the instance profiles that have the specified associated IAM role. If ther
 - `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
 - `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
 """
-ListInstanceProfilesForRole(RoleName; aws::AWSConfig=AWS.aws_config) = iam("ListInstanceProfilesForRole", Dict{String, Any}("RoleName"=>RoleName); aws=aws)
-ListInstanceProfilesForRole(RoleName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("ListInstanceProfilesForRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), args)); aws=aws)
+
+ListInstanceProfilesForRole(RoleName; aws_config::AWSConfig=global_aws_config()) = iam("ListInstanceProfilesForRole", Dict{String, Any}("RoleName"=>RoleName); aws_config=aws_config)
+ListInstanceProfilesForRole(RoleName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("ListInstanceProfilesForRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), args)); aws_config=aws_config)
 
 """
     ListMFADevices()
@@ -1170,8 +1258,9 @@ Lists the MFA devices for an IAM user. If the request includes a IAM user name, 
 - `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
 - `UserName`: The name of the user whose MFA devices you want to list. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 """
-ListMFADevices(; aws::AWSConfig=AWS.aws_config) = iam("ListMFADevices"; aws=aws)
-ListMFADevices(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("ListMFADevices", args; aws=aws)
+
+ListMFADevices(; aws_config::AWSConfig=global_aws_config()) = iam("ListMFADevices"; aws_config=aws_config)
+ListMFADevices(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("ListMFADevices", args; aws_config=aws_config)
 
 """
     ListOpenIDConnectProviders()
@@ -1179,8 +1268,9 @@ ListMFADevices(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config)
 Lists information about the IAM OpenID Connect (OIDC) provider resource objects defined in the AWS account.
 
 """
-ListOpenIDConnectProviders(; aws::AWSConfig=AWS.aws_config) = iam("ListOpenIDConnectProviders"; aws=aws)
-ListOpenIDConnectProviders(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("ListOpenIDConnectProviders", args; aws=aws)
+
+ListOpenIDConnectProviders(; aws_config::AWSConfig=global_aws_config()) = iam("ListOpenIDConnectProviders"; aws_config=aws_config)
+ListOpenIDConnectProviders(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("ListOpenIDConnectProviders", args; aws_config=aws_config)
 
 """
     ListPolicies()
@@ -1195,8 +1285,9 @@ Lists all the managed policies that are available in your AWS account, including
 - `PolicyUsageFilter`: The policy usage method to use for filtering the results. To list only permissions policies, set PolicyUsageFilter to PermissionsPolicy. To list only the policies used to set permissions boundaries, set the value to PermissionsBoundary. This parameter is optional. If it is not included, all policies are returned. 
 - `Scope`: The scope to use for filtering the results. To list only AWS managed policies, set Scope to AWS. To list only the customer managed policies in your AWS account, set Scope to Local. This parameter is optional. If it is not included, or if it is set to All, all policies are returned.
 """
-ListPolicies(; aws::AWSConfig=AWS.aws_config) = iam("ListPolicies"; aws=aws)
-ListPolicies(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("ListPolicies", args; aws=aws)
+
+ListPolicies(; aws_config::AWSConfig=global_aws_config()) = iam("ListPolicies"; aws_config=aws_config)
+ListPolicies(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("ListPolicies", args; aws_config=aws_config)
 
 """
     ListPoliciesGrantingServiceAccess()
@@ -1210,8 +1301,9 @@ Retrieves a list of policies that the IAM identity (user, group, or role) can us
 # Optional Parameters
 - `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
 """
-ListPoliciesGrantingServiceAccess(Arn, ServiceNamespaces; aws::AWSConfig=AWS.aws_config) = iam("ListPoliciesGrantingServiceAccess", Dict{String, Any}("Arn"=>Arn, "ServiceNamespaces"=>ServiceNamespaces); aws=aws)
-ListPoliciesGrantingServiceAccess(Arn, ServiceNamespaces, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("ListPoliciesGrantingServiceAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "ServiceNamespaces"=>ServiceNamespaces), args)); aws=aws)
+
+ListPoliciesGrantingServiceAccess(Arn, ServiceNamespaces; aws_config::AWSConfig=global_aws_config()) = iam("ListPoliciesGrantingServiceAccess", Dict{String, Any}("Arn"=>Arn, "ServiceNamespaces"=>ServiceNamespaces); aws_config=aws_config)
+ListPoliciesGrantingServiceAccess(Arn, ServiceNamespaces, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("ListPoliciesGrantingServiceAccess", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Arn"=>Arn, "ServiceNamespaces"=>ServiceNamespaces), args)); aws_config=aws_config)
 
 """
     ListPolicyVersions()
@@ -1225,8 +1317,9 @@ Lists information about the versions of the specified managed policy, including 
 - `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
 - `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
 """
-ListPolicyVersions(PolicyArn; aws::AWSConfig=AWS.aws_config) = iam("ListPolicyVersions", Dict{String, Any}("PolicyArn"=>PolicyArn); aws=aws)
-ListPolicyVersions(PolicyArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("ListPolicyVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn), args)); aws=aws)
+
+ListPolicyVersions(PolicyArn; aws_config::AWSConfig=global_aws_config()) = iam("ListPolicyVersions", Dict{String, Any}("PolicyArn"=>PolicyArn); aws_config=aws_config)
+ListPolicyVersions(PolicyArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("ListPolicyVersions", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn), args)); aws_config=aws_config)
 
 """
     ListRolePolicies()
@@ -1240,8 +1333,9 @@ Lists the names of the inline policies that are embedded in the specified IAM ro
 - `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
 - `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
 """
-ListRolePolicies(RoleName; aws::AWSConfig=AWS.aws_config) = iam("ListRolePolicies", Dict{String, Any}("RoleName"=>RoleName); aws=aws)
-ListRolePolicies(RoleName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("ListRolePolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), args)); aws=aws)
+
+ListRolePolicies(RoleName; aws_config::AWSConfig=global_aws_config()) = iam("ListRolePolicies", Dict{String, Any}("RoleName"=>RoleName); aws_config=aws_config)
+ListRolePolicies(RoleName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("ListRolePolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), args)); aws_config=aws_config)
 
 """
     ListRoleTags()
@@ -1255,8 +1349,9 @@ Lists the tags that are attached to the specified role. The returned list of tag
 - `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
 - `MaxItems`: (Optional) Use this only when paginating results to indicate the maximum number of items that you want in the response. If additional items exist beyond the maximum that you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when more results are available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
 """
-ListRoleTags(RoleName; aws::AWSConfig=AWS.aws_config) = iam("ListRoleTags", Dict{String, Any}("RoleName"=>RoleName); aws=aws)
-ListRoleTags(RoleName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("ListRoleTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), args)); aws=aws)
+
+ListRoleTags(RoleName; aws_config::AWSConfig=global_aws_config()) = iam("ListRoleTags", Dict{String, Any}("RoleName"=>RoleName); aws_config=aws_config)
+ListRoleTags(RoleName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("ListRoleTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), args)); aws_config=aws_config)
 
 """
     ListRoles()
@@ -1268,8 +1363,9 @@ Lists the IAM roles that have the specified path prefix. If there are none, the 
 - `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
 - `PathPrefix`:  The path prefix for filtering the results. For example, the prefix /application_abc/component_xyz/ gets all roles whose path starts with /application_abc/component_xyz/. This parameter is optional. If it is not included, it defaults to a slash (/), listing all roles. This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! ( u0021) through the DEL character ( u007F), including most punctuation characters, digits, and upper and lowercased letters.
 """
-ListRoles(; aws::AWSConfig=AWS.aws_config) = iam("ListRoles"; aws=aws)
-ListRoles(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("ListRoles", args; aws=aws)
+
+ListRoles(; aws_config::AWSConfig=global_aws_config()) = iam("ListRoles"; aws_config=aws_config)
+ListRoles(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("ListRoles", args; aws_config=aws_config)
 
 """
     ListSAMLProviders()
@@ -1277,8 +1373,9 @@ ListRoles(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = ia
 Lists the SAML provider resource objects defined in IAM in the account.   This operation requires Signature Version 4. 
 
 """
-ListSAMLProviders(; aws::AWSConfig=AWS.aws_config) = iam("ListSAMLProviders"; aws=aws)
-ListSAMLProviders(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("ListSAMLProviders", args; aws=aws)
+
+ListSAMLProviders(; aws_config::AWSConfig=global_aws_config()) = iam("ListSAMLProviders"; aws_config=aws_config)
+ListSAMLProviders(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("ListSAMLProviders", args; aws_config=aws_config)
 
 """
     ListSSHPublicKeys()
@@ -1290,8 +1387,9 @@ Returns information about the SSH public keys associated with the specified IAM 
 - `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
 - `UserName`: The name of the IAM user to list SSH public keys for. If none is specified, the UserName field is determined implicitly based on the AWS access key used to sign the request. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 """
-ListSSHPublicKeys(; aws::AWSConfig=AWS.aws_config) = iam("ListSSHPublicKeys"; aws=aws)
-ListSSHPublicKeys(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("ListSSHPublicKeys", args; aws=aws)
+
+ListSSHPublicKeys(; aws_config::AWSConfig=global_aws_config()) = iam("ListSSHPublicKeys"; aws_config=aws_config)
+ListSSHPublicKeys(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("ListSSHPublicKeys", args; aws_config=aws_config)
 
 """
     ListServerCertificates()
@@ -1303,8 +1401,9 @@ Lists the server certificates stored in IAM that have the specified path prefix.
 - `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
 - `PathPrefix`:  The path prefix for filtering the results. For example: /company/servercerts would get all server certificates for which the path starts with /company/servercerts. This parameter is optional. If it is not included, it defaults to a slash (/), listing all server certificates. This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! ( u0021) through the DEL character ( u007F), including most punctuation characters, digits, and upper and lowercased letters.
 """
-ListServerCertificates(; aws::AWSConfig=AWS.aws_config) = iam("ListServerCertificates"; aws=aws)
-ListServerCertificates(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("ListServerCertificates", args; aws=aws)
+
+ListServerCertificates(; aws_config::AWSConfig=global_aws_config()) = iam("ListServerCertificates"; aws_config=aws_config)
+ListServerCertificates(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("ListServerCertificates", args; aws_config=aws_config)
 
 """
     ListServiceSpecificCredentials()
@@ -1315,8 +1414,9 @@ Returns information about the service-specific credentials associated with the s
 - `ServiceName`: Filters the returned results to only those for the specified AWS service. If not specified, then AWS returns service-specific credentials for all services.
 - `UserName`: The name of the user whose service-specific credentials you want information about. If this value is not specified, then the operation assumes the user whose credentials are used to call the operation. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 """
-ListServiceSpecificCredentials(; aws::AWSConfig=AWS.aws_config) = iam("ListServiceSpecificCredentials"; aws=aws)
-ListServiceSpecificCredentials(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("ListServiceSpecificCredentials", args; aws=aws)
+
+ListServiceSpecificCredentials(; aws_config::AWSConfig=global_aws_config()) = iam("ListServiceSpecificCredentials"; aws_config=aws_config)
+ListServiceSpecificCredentials(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("ListServiceSpecificCredentials", args; aws_config=aws_config)
 
 """
     ListSigningCertificates()
@@ -1328,8 +1428,9 @@ Returns information about the signing certificates associated with the specified
 - `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
 - `UserName`: The name of the IAM user whose signing certificates you want to examine. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 """
-ListSigningCertificates(; aws::AWSConfig=AWS.aws_config) = iam("ListSigningCertificates"; aws=aws)
-ListSigningCertificates(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("ListSigningCertificates", args; aws=aws)
+
+ListSigningCertificates(; aws_config::AWSConfig=global_aws_config()) = iam("ListSigningCertificates"; aws_config=aws_config)
+ListSigningCertificates(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("ListSigningCertificates", args; aws_config=aws_config)
 
 """
     ListUserPolicies()
@@ -1343,8 +1444,9 @@ Lists the names of the inline policies embedded in the specified IAM user. An IA
 - `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
 - `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
 """
-ListUserPolicies(UserName; aws::AWSConfig=AWS.aws_config) = iam("ListUserPolicies", Dict{String, Any}("UserName"=>UserName); aws=aws)
-ListUserPolicies(UserName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("ListUserPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), args)); aws=aws)
+
+ListUserPolicies(UserName; aws_config::AWSConfig=global_aws_config()) = iam("ListUserPolicies", Dict{String, Any}("UserName"=>UserName); aws_config=aws_config)
+ListUserPolicies(UserName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("ListUserPolicies", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), args)); aws_config=aws_config)
 
 """
     ListUserTags()
@@ -1358,8 +1460,9 @@ Lists the tags that are attached to the specified user. The returned list of tag
 - `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
 - `MaxItems`: (Optional) Use this only when paginating results to indicate the maximum number of items that you want in the response. If additional items exist beyond the maximum that you specify, the IsTruncated response element is true. If you do not include this parameter, it defaults to 100. Note that IAM might return fewer results, even when more results are available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
 """
-ListUserTags(UserName; aws::AWSConfig=AWS.aws_config) = iam("ListUserTags", Dict{String, Any}("UserName"=>UserName); aws=aws)
-ListUserTags(UserName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("ListUserTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), args)); aws=aws)
+
+ListUserTags(UserName; aws_config::AWSConfig=global_aws_config()) = iam("ListUserTags", Dict{String, Any}("UserName"=>UserName); aws_config=aws_config)
+ListUserTags(UserName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("ListUserTags", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), args)); aws_config=aws_config)
 
 """
     ListUsers()
@@ -1371,8 +1474,9 @@ Lists the IAM users that have the specified path prefix. If no path prefix is sp
 - `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
 - `PathPrefix`:  The path prefix for filtering the results. For example: /division_abc/subdivision_xyz/, which would get all user names whose path starts with /division_abc/subdivision_xyz/. This parameter is optional. If it is not included, it defaults to a slash (/), listing all user names. This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! ( u0021) through the DEL character ( u007F), including most punctuation characters, digits, and upper and lowercased letters.
 """
-ListUsers(; aws::AWSConfig=AWS.aws_config) = iam("ListUsers"; aws=aws)
-ListUsers(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("ListUsers", args; aws=aws)
+
+ListUsers(; aws_config::AWSConfig=global_aws_config()) = iam("ListUsers"; aws_config=aws_config)
+ListUsers(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("ListUsers", args; aws_config=aws_config)
 
 """
     ListVirtualMFADevices()
@@ -1384,8 +1488,9 @@ Lists the virtual MFA devices defined in the AWS account by assignment status. I
 - `Marker`: Use this parameter only when paginating results and only after you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call should start.
 - `MaxItems`: Use this only when paginating results to indicate the maximum number of items you want in the response. If additional items exist beyond the maximum you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker contains a value to include in the subsequent call that tells the service where to continue from.
 """
-ListVirtualMFADevices(; aws::AWSConfig=AWS.aws_config) = iam("ListVirtualMFADevices"; aws=aws)
-ListVirtualMFADevices(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("ListVirtualMFADevices", args; aws=aws)
+
+ListVirtualMFADevices(; aws_config::AWSConfig=global_aws_config()) = iam("ListVirtualMFADevices"; aws_config=aws_config)
+ListVirtualMFADevices(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("ListVirtualMFADevices", args; aws_config=aws_config)
 
 """
     PutGroupPolicy()
@@ -1398,8 +1503,9 @@ Adds or updates an inline policy document that is embedded in the specified IAM 
 - `PolicyName`: The name of the policy document. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-PutGroupPolicy(GroupName, PolicyDocument, PolicyName; aws::AWSConfig=AWS.aws_config) = iam("PutGroupPolicy", Dict{String, Any}("GroupName"=>GroupName, "PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName); aws=aws)
-PutGroupPolicy(GroupName, PolicyDocument, PolicyName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("PutGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName), args)); aws=aws)
+
+PutGroupPolicy(GroupName, PolicyDocument, PolicyName; aws_config::AWSConfig=global_aws_config()) = iam("PutGroupPolicy", Dict{String, Any}("GroupName"=>GroupName, "PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName); aws_config=aws_config)
+PutGroupPolicy(GroupName, PolicyDocument, PolicyName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("PutGroupPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName), args)); aws_config=aws_config)
 
 """
     PutRolePermissionsBoundary()
@@ -1411,8 +1517,9 @@ Adds or updates the policy that is specified as the IAM role's permissions bound
 - `RoleName`: The name (friendly name, not ARN) of the IAM role for which you want to set the permissions boundary.
 
 """
-PutRolePermissionsBoundary(PermissionsBoundary, RoleName; aws::AWSConfig=AWS.aws_config) = iam("PutRolePermissionsBoundary", Dict{String, Any}("PermissionsBoundary"=>PermissionsBoundary, "RoleName"=>RoleName); aws=aws)
-PutRolePermissionsBoundary(PermissionsBoundary, RoleName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("PutRolePermissionsBoundary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PermissionsBoundary"=>PermissionsBoundary, "RoleName"=>RoleName), args)); aws=aws)
+
+PutRolePermissionsBoundary(PermissionsBoundary, RoleName; aws_config::AWSConfig=global_aws_config()) = iam("PutRolePermissionsBoundary", Dict{String, Any}("PermissionsBoundary"=>PermissionsBoundary, "RoleName"=>RoleName); aws_config=aws_config)
+PutRolePermissionsBoundary(PermissionsBoundary, RoleName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("PutRolePermissionsBoundary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PermissionsBoundary"=>PermissionsBoundary, "RoleName"=>RoleName), args)); aws_config=aws_config)
 
 """
     PutRolePolicy()
@@ -1425,8 +1532,9 @@ Adds or updates an inline policy document that is embedded in the specified IAM 
 - `RoleName`: The name of the role to associate the policy with. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-PutRolePolicy(PolicyDocument, PolicyName, RoleName; aws::AWSConfig=AWS.aws_config) = iam("PutRolePolicy", Dict{String, Any}("PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName, "RoleName"=>RoleName); aws=aws)
-PutRolePolicy(PolicyDocument, PolicyName, RoleName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("PutRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName, "RoleName"=>RoleName), args)); aws=aws)
+
+PutRolePolicy(PolicyDocument, PolicyName, RoleName; aws_config::AWSConfig=global_aws_config()) = iam("PutRolePolicy", Dict{String, Any}("PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName, "RoleName"=>RoleName); aws_config=aws_config)
+PutRolePolicy(PolicyDocument, PolicyName, RoleName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("PutRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName, "RoleName"=>RoleName), args)); aws_config=aws_config)
 
 """
     PutUserPermissionsBoundary()
@@ -1438,8 +1546,9 @@ Adds or updates the policy that is specified as the IAM user's permissions bound
 - `UserName`: The name (friendly name, not ARN) of the IAM user for which you want to set the permissions boundary.
 
 """
-PutUserPermissionsBoundary(PermissionsBoundary, UserName; aws::AWSConfig=AWS.aws_config) = iam("PutUserPermissionsBoundary", Dict{String, Any}("PermissionsBoundary"=>PermissionsBoundary, "UserName"=>UserName); aws=aws)
-PutUserPermissionsBoundary(PermissionsBoundary, UserName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("PutUserPermissionsBoundary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PermissionsBoundary"=>PermissionsBoundary, "UserName"=>UserName), args)); aws=aws)
+
+PutUserPermissionsBoundary(PermissionsBoundary, UserName; aws_config::AWSConfig=global_aws_config()) = iam("PutUserPermissionsBoundary", Dict{String, Any}("PermissionsBoundary"=>PermissionsBoundary, "UserName"=>UserName); aws_config=aws_config)
+PutUserPermissionsBoundary(PermissionsBoundary, UserName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("PutUserPermissionsBoundary", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PermissionsBoundary"=>PermissionsBoundary, "UserName"=>UserName), args)); aws_config=aws_config)
 
 """
     PutUserPolicy()
@@ -1452,8 +1561,9 @@ Adds or updates an inline policy document that is embedded in the specified IAM 
 - `UserName`: The name of the user to associate the policy with. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-PutUserPolicy(PolicyDocument, PolicyName, UserName; aws::AWSConfig=AWS.aws_config) = iam("PutUserPolicy", Dict{String, Any}("PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName, "UserName"=>UserName); aws=aws)
-PutUserPolicy(PolicyDocument, PolicyName, UserName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("PutUserPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName, "UserName"=>UserName), args)); aws=aws)
+
+PutUserPolicy(PolicyDocument, PolicyName, UserName; aws_config::AWSConfig=global_aws_config()) = iam("PutUserPolicy", Dict{String, Any}("PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName, "UserName"=>UserName); aws_config=aws_config)
+PutUserPolicy(PolicyDocument, PolicyName, UserName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("PutUserPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyDocument"=>PolicyDocument, "PolicyName"=>PolicyName, "UserName"=>UserName), args)); aws_config=aws_config)
 
 """
     RemoveClientIDFromOpenIDConnectProvider()
@@ -1465,8 +1575,9 @@ Removes the specified client ID (also known as audience) from the list of client
 - `OpenIDConnectProviderArn`: The Amazon Resource Name (ARN) of the IAM OIDC provider resource to remove the client ID from. You can get a list of OIDC provider ARNs by using the ListOpenIDConnectProviders operation. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
 
 """
-RemoveClientIDFromOpenIDConnectProvider(ClientID, OpenIDConnectProviderArn; aws::AWSConfig=AWS.aws_config) = iam("RemoveClientIDFromOpenIDConnectProvider", Dict{String, Any}("ClientID"=>ClientID, "OpenIDConnectProviderArn"=>OpenIDConnectProviderArn); aws=aws)
-RemoveClientIDFromOpenIDConnectProvider(ClientID, OpenIDConnectProviderArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("RemoveClientIDFromOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientID"=>ClientID, "OpenIDConnectProviderArn"=>OpenIDConnectProviderArn), args)); aws=aws)
+
+RemoveClientIDFromOpenIDConnectProvider(ClientID, OpenIDConnectProviderArn; aws_config::AWSConfig=global_aws_config()) = iam("RemoveClientIDFromOpenIDConnectProvider", Dict{String, Any}("ClientID"=>ClientID, "OpenIDConnectProviderArn"=>OpenIDConnectProviderArn); aws_config=aws_config)
+RemoveClientIDFromOpenIDConnectProvider(ClientID, OpenIDConnectProviderArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("RemoveClientIDFromOpenIDConnectProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ClientID"=>ClientID, "OpenIDConnectProviderArn"=>OpenIDConnectProviderArn), args)); aws_config=aws_config)
 
 """
     RemoveRoleFromInstanceProfile()
@@ -1478,8 +1589,9 @@ Removes the specified IAM role from the specified EC2 instance profile.  Make su
 - `RoleName`: The name of the role to remove. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-RemoveRoleFromInstanceProfile(InstanceProfileName, RoleName; aws::AWSConfig=AWS.aws_config) = iam("RemoveRoleFromInstanceProfile", Dict{String, Any}("InstanceProfileName"=>InstanceProfileName, "RoleName"=>RoleName); aws=aws)
-RemoveRoleFromInstanceProfile(InstanceProfileName, RoleName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("RemoveRoleFromInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName, "RoleName"=>RoleName), args)); aws=aws)
+
+RemoveRoleFromInstanceProfile(InstanceProfileName, RoleName; aws_config::AWSConfig=global_aws_config()) = iam("RemoveRoleFromInstanceProfile", Dict{String, Any}("InstanceProfileName"=>InstanceProfileName, "RoleName"=>RoleName); aws_config=aws_config)
+RemoveRoleFromInstanceProfile(InstanceProfileName, RoleName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("RemoveRoleFromInstanceProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("InstanceProfileName"=>InstanceProfileName, "RoleName"=>RoleName), args)); aws_config=aws_config)
 
 """
     RemoveUserFromGroup()
@@ -1491,8 +1603,9 @@ Removes the specified user from the specified group.
 - `UserName`: The name of the user to remove. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-RemoveUserFromGroup(GroupName, UserName; aws::AWSConfig=AWS.aws_config) = iam("RemoveUserFromGroup", Dict{String, Any}("GroupName"=>GroupName, "UserName"=>UserName); aws=aws)
-RemoveUserFromGroup(GroupName, UserName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("RemoveUserFromGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "UserName"=>UserName), args)); aws=aws)
+
+RemoveUserFromGroup(GroupName, UserName; aws_config::AWSConfig=global_aws_config()) = iam("RemoveUserFromGroup", Dict{String, Any}("GroupName"=>GroupName, "UserName"=>UserName); aws_config=aws_config)
+RemoveUserFromGroup(GroupName, UserName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("RemoveUserFromGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName, "UserName"=>UserName), args)); aws_config=aws_config)
 
 """
     ResetServiceSpecificCredential()
@@ -1505,8 +1618,9 @@ Resets the password for a service-specific credential. The new password is AWS g
 # Optional Parameters
 - `UserName`: The name of the IAM user associated with the service-specific credential. If this value is not specified, then the operation assumes the user whose credentials are used to call the operation. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 """
-ResetServiceSpecificCredential(ServiceSpecificCredentialId; aws::AWSConfig=AWS.aws_config) = iam("ResetServiceSpecificCredential", Dict{String, Any}("ServiceSpecificCredentialId"=>ServiceSpecificCredentialId); aws=aws)
-ResetServiceSpecificCredential(ServiceSpecificCredentialId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("ResetServiceSpecificCredential", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceSpecificCredentialId"=>ServiceSpecificCredentialId), args)); aws=aws)
+
+ResetServiceSpecificCredential(ServiceSpecificCredentialId; aws_config::AWSConfig=global_aws_config()) = iam("ResetServiceSpecificCredential", Dict{String, Any}("ServiceSpecificCredentialId"=>ServiceSpecificCredentialId); aws_config=aws_config)
+ResetServiceSpecificCredential(ServiceSpecificCredentialId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("ResetServiceSpecificCredential", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceSpecificCredentialId"=>ServiceSpecificCredentialId), args)); aws_config=aws_config)
 
 """
     ResyncMFADevice()
@@ -1520,8 +1634,9 @@ Synchronizes the specified MFA device with its IAM resource object on the AWS se
 - `UserName`: The name of the user whose MFA device you want to resynchronize. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-ResyncMFADevice(AuthenticationCode1, AuthenticationCode2, SerialNumber, UserName; aws::AWSConfig=AWS.aws_config) = iam("ResyncMFADevice", Dict{String, Any}("AuthenticationCode1"=>AuthenticationCode1, "AuthenticationCode2"=>AuthenticationCode2, "SerialNumber"=>SerialNumber, "UserName"=>UserName); aws=aws)
-ResyncMFADevice(AuthenticationCode1, AuthenticationCode2, SerialNumber, UserName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("ResyncMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationCode1"=>AuthenticationCode1, "AuthenticationCode2"=>AuthenticationCode2, "SerialNumber"=>SerialNumber, "UserName"=>UserName), args)); aws=aws)
+
+ResyncMFADevice(AuthenticationCode1, AuthenticationCode2, SerialNumber, UserName; aws_config::AWSConfig=global_aws_config()) = iam("ResyncMFADevice", Dict{String, Any}("AuthenticationCode1"=>AuthenticationCode1, "AuthenticationCode2"=>AuthenticationCode2, "SerialNumber"=>SerialNumber, "UserName"=>UserName); aws_config=aws_config)
+ResyncMFADevice(AuthenticationCode1, AuthenticationCode2, SerialNumber, UserName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("ResyncMFADevice", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AuthenticationCode1"=>AuthenticationCode1, "AuthenticationCode2"=>AuthenticationCode2, "SerialNumber"=>SerialNumber, "UserName"=>UserName), args)); aws_config=aws_config)
 
 """
     SetDefaultPolicyVersion()
@@ -1533,8 +1648,9 @@ Sets the specified version of the specified policy as the policy's default (oper
 - `VersionId`: The version of the policy to set as the default (operative) version. For more information about managed policy versions, see Versioning for Managed Policies in the IAM User Guide.
 
 """
-SetDefaultPolicyVersion(PolicyArn, VersionId; aws::AWSConfig=AWS.aws_config) = iam("SetDefaultPolicyVersion", Dict{String, Any}("PolicyArn"=>PolicyArn, "VersionId"=>VersionId); aws=aws)
-SetDefaultPolicyVersion(PolicyArn, VersionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("SetDefaultPolicyVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "VersionId"=>VersionId), args)); aws=aws)
+
+SetDefaultPolicyVersion(PolicyArn, VersionId; aws_config::AWSConfig=global_aws_config()) = iam("SetDefaultPolicyVersion", Dict{String, Any}("PolicyArn"=>PolicyArn, "VersionId"=>VersionId); aws_config=aws_config)
+SetDefaultPolicyVersion(PolicyArn, VersionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("SetDefaultPolicyVersion", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyArn"=>PolicyArn, "VersionId"=>VersionId), args)); aws_config=aws_config)
 
 """
     SetSecurityTokenServicePreferences()
@@ -1545,8 +1661,9 @@ Sets the specified version of the global endpoint token as the token version use
 - `GlobalEndpointTokenVersion`: The version of the global endpoint token. Version 1 tokens are valid only in AWS Regions that are available by default. These tokens do not work in manually enabled Regions, such as Asia Pacific (Hong Kong). Version 2 tokens are valid in all Regions. However, version 2 tokens are longer and might affect systems where you temporarily store tokens. For information, see Activating and Deactivating STS in an AWS Region in the IAM User Guide.
 
 """
-SetSecurityTokenServicePreferences(GlobalEndpointTokenVersion; aws::AWSConfig=AWS.aws_config) = iam("SetSecurityTokenServicePreferences", Dict{String, Any}("GlobalEndpointTokenVersion"=>GlobalEndpointTokenVersion); aws=aws)
-SetSecurityTokenServicePreferences(GlobalEndpointTokenVersion, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("SetSecurityTokenServicePreferences", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalEndpointTokenVersion"=>GlobalEndpointTokenVersion), args)); aws=aws)
+
+SetSecurityTokenServicePreferences(GlobalEndpointTokenVersion; aws_config::AWSConfig=global_aws_config()) = iam("SetSecurityTokenServicePreferences", Dict{String, Any}("GlobalEndpointTokenVersion"=>GlobalEndpointTokenVersion); aws_config=aws_config)
+SetSecurityTokenServicePreferences(GlobalEndpointTokenVersion, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("SetSecurityTokenServicePreferences", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GlobalEndpointTokenVersion"=>GlobalEndpointTokenVersion), args)); aws_config=aws_config)
 
 """
     SimulateCustomPolicy()
@@ -1568,8 +1685,9 @@ Simulate how a set of IAM policies and optionally a resource-based policy works 
 - `ResourceOwner`: An ARN representing the AWS account ID that specifies the owner of any simulated resource that does not identify its owner in the resource ARN. Examples of resource ARNs include an S3 bucket or object. If ResourceOwner is specified, it is also used as the account owner of any ResourcePolicy included in the simulation. If the ResourceOwner parameter is not specified, then the owner of the resources and the resource policy defaults to the account of the identity provided in CallerArn. This parameter is required only if you specify a resource-based policy and account that owns the resource is different from the account that owns the simulated calling user CallerArn. The ARN for an account uses the following syntax: arn:aws:iam::AWS-account-ID:root. For example, to represent the account with the 112233445566 ID, use the following ARN: arn:aws:iam::112233445566-ID:root. 
 - `ResourcePolicy`: A resource-based policy to include in the simulation provided as a string. Each resource in the simulation is treated as if it had this policy attached. You can include only one resource-based policy in a simulation. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character ( u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through  u00FF)   The special characters tab ( u0009), line feed ( u000A), and carriage return ( u000D)  
 """
-SimulateCustomPolicy(ActionNames, PolicyInputList; aws::AWSConfig=AWS.aws_config) = iam("SimulateCustomPolicy", Dict{String, Any}("ActionNames"=>ActionNames, "PolicyInputList"=>PolicyInputList); aws=aws)
-SimulateCustomPolicy(ActionNames, PolicyInputList, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("SimulateCustomPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ActionNames"=>ActionNames, "PolicyInputList"=>PolicyInputList), args)); aws=aws)
+
+SimulateCustomPolicy(ActionNames, PolicyInputList; aws_config::AWSConfig=global_aws_config()) = iam("SimulateCustomPolicy", Dict{String, Any}("ActionNames"=>ActionNames, "PolicyInputList"=>PolicyInputList); aws_config=aws_config)
+SimulateCustomPolicy(ActionNames, PolicyInputList, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("SimulateCustomPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ActionNames"=>ActionNames, "PolicyInputList"=>PolicyInputList), args)); aws_config=aws_config)
 
 """
     SimulatePrincipalPolicy()
@@ -1592,8 +1710,9 @@ Simulate how a set of IAM policies attached to an IAM entity works with a list o
 - `ResourceOwner`: An AWS account ID that specifies the owner of any simulated resource that does not identify its owner in the resource ARN. Examples of resource ARNs include an S3 bucket or object. If ResourceOwner is specified, it is also used as the account owner of any ResourcePolicy included in the simulation. If the ResourceOwner parameter is not specified, then the owner of the resources and the resource policy defaults to the account of the identity provided in CallerArn. This parameter is required only if you specify a resource-based policy and account that owns the resource is different from the account that owns the simulated calling user CallerArn.
 - `ResourcePolicy`: A resource-based policy to include in the simulation provided as a string. Each resource in the simulation is treated as if it had this policy attached. You can include only one resource-based policy in a simulation. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character ( u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through  u00FF)   The special characters tab ( u0009), line feed ( u000A), and carriage return ( u000D)  
 """
-SimulatePrincipalPolicy(ActionNames, PolicySourceArn; aws::AWSConfig=AWS.aws_config) = iam("SimulatePrincipalPolicy", Dict{String, Any}("ActionNames"=>ActionNames, "PolicySourceArn"=>PolicySourceArn); aws=aws)
-SimulatePrincipalPolicy(ActionNames, PolicySourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("SimulatePrincipalPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ActionNames"=>ActionNames, "PolicySourceArn"=>PolicySourceArn), args)); aws=aws)
+
+SimulatePrincipalPolicy(ActionNames, PolicySourceArn; aws_config::AWSConfig=global_aws_config()) = iam("SimulatePrincipalPolicy", Dict{String, Any}("ActionNames"=>ActionNames, "PolicySourceArn"=>PolicySourceArn); aws_config=aws_config)
+SimulatePrincipalPolicy(ActionNames, PolicySourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("SimulatePrincipalPolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ActionNames"=>ActionNames, "PolicySourceArn"=>PolicySourceArn), args)); aws_config=aws_config)
 
 """
     TagRole()
@@ -1605,8 +1724,9 @@ Adds one or more tags to an IAM role. The role can be a regular role or a servic
 - `Tags`: The list of tags that you want to attach to the role. Each tag consists of a key name and an associated value. You can specify this with a JSON string.
 
 """
-TagRole(RoleName, Tags; aws::AWSConfig=AWS.aws_config) = iam("TagRole", Dict{String, Any}("RoleName"=>RoleName, "Tags"=>Tags); aws=aws)
-TagRole(RoleName, Tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("TagRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName, "Tags"=>Tags), args)); aws=aws)
+
+TagRole(RoleName, Tags; aws_config::AWSConfig=global_aws_config()) = iam("TagRole", Dict{String, Any}("RoleName"=>RoleName, "Tags"=>Tags); aws_config=aws_config)
+TagRole(RoleName, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("TagRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName, "Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     TagUser()
@@ -1618,8 +1738,9 @@ Adds one or more tags to an IAM user. If a tag with the same key name already ex
 - `UserName`: The name of the user that you want to add tags to. This parameter accepts (through its regex pattern) a string of characters that consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
 
 """
-TagUser(Tags, UserName; aws::AWSConfig=AWS.aws_config) = iam("TagUser", Dict{String, Any}("Tags"=>Tags, "UserName"=>UserName); aws=aws)
-TagUser(Tags, UserName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("TagUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags, "UserName"=>UserName), args)); aws=aws)
+
+TagUser(Tags, UserName; aws_config::AWSConfig=global_aws_config()) = iam("TagUser", Dict{String, Any}("Tags"=>Tags, "UserName"=>UserName); aws_config=aws_config)
+TagUser(Tags, UserName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("TagUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Tags"=>Tags, "UserName"=>UserName), args)); aws_config=aws_config)
 
 """
     UntagRole()
@@ -1631,8 +1752,9 @@ Removes the specified tags from the role. For more information about tagging, se
 - `TagKeys`: A list of key names as a simple array of strings. The tags with matching keys are removed from the specified role.
 
 """
-UntagRole(RoleName, TagKeys; aws::AWSConfig=AWS.aws_config) = iam("UntagRole", Dict{String, Any}("RoleName"=>RoleName, "TagKeys"=>TagKeys); aws=aws)
-UntagRole(RoleName, TagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("UntagRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName, "TagKeys"=>TagKeys), args)); aws=aws)
+
+UntagRole(RoleName, TagKeys; aws_config::AWSConfig=global_aws_config()) = iam("UntagRole", Dict{String, Any}("RoleName"=>RoleName, "TagKeys"=>TagKeys); aws_config=aws_config)
+UntagRole(RoleName, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("UntagRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
 
 """
     UntagUser()
@@ -1644,8 +1766,9 @@ Removes the specified tags from the user. For more information about tagging, se
 - `UserName`: The name of the IAM user from which you want to remove tags. This parameter accepts (through its regex pattern) a string of characters that consist of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: =,.@-
 
 """
-UntagUser(TagKeys, UserName; aws::AWSConfig=AWS.aws_config) = iam("UntagUser", Dict{String, Any}("TagKeys"=>TagKeys, "UserName"=>UserName); aws=aws)
-UntagUser(TagKeys, UserName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("UntagUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKeys"=>TagKeys, "UserName"=>UserName), args)); aws=aws)
+
+UntagUser(TagKeys, UserName; aws_config::AWSConfig=global_aws_config()) = iam("UntagUser", Dict{String, Any}("TagKeys"=>TagKeys, "UserName"=>UserName); aws_config=aws_config)
+UntagUser(TagKeys, UserName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("UntagUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("TagKeys"=>TagKeys, "UserName"=>UserName), args)); aws_config=aws_config)
 
 """
     UpdateAccessKey()
@@ -1659,8 +1782,9 @@ Changes the status of the specified access key from Active to Inactive, or vice 
 # Optional Parameters
 - `UserName`: The name of the user whose key you want to update. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 """
-UpdateAccessKey(AccessKeyId, Status; aws::AWSConfig=AWS.aws_config) = iam("UpdateAccessKey", Dict{String, Any}("AccessKeyId"=>AccessKeyId, "Status"=>Status); aws=aws)
-UpdateAccessKey(AccessKeyId, Status, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("UpdateAccessKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessKeyId"=>AccessKeyId, "Status"=>Status), args)); aws=aws)
+
+UpdateAccessKey(AccessKeyId, Status; aws_config::AWSConfig=global_aws_config()) = iam("UpdateAccessKey", Dict{String, Any}("AccessKeyId"=>AccessKeyId, "Status"=>Status); aws_config=aws_config)
+UpdateAccessKey(AccessKeyId, Status, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("UpdateAccessKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccessKeyId"=>AccessKeyId, "Status"=>Status), args)); aws_config=aws_config)
 
 """
     UpdateAccountPasswordPolicy()
@@ -1678,8 +1802,9 @@ Updates the password policy settings for the AWS account.    This operation does
 - `RequireSymbols`: Specifies whether IAM user passwords must contain at least one of the following non-alphanumeric characters: ! @ #   % ^ &amp; * ( ) _ + - = [ ] { } | ' If you do not specify a value for this parameter, then the operation uses the default value of false. The result is that passwords do not require at least one symbol character.
 - `RequireUppercaseCharacters`: Specifies whether IAM user passwords must contain at least one uppercase character from the ISO basic Latin alphabet (A to Z). If you do not specify a value for this parameter, then the operation uses the default value of false. The result is that passwords do not require at least one uppercase character.
 """
-UpdateAccountPasswordPolicy(; aws::AWSConfig=AWS.aws_config) = iam("UpdateAccountPasswordPolicy"; aws=aws)
-UpdateAccountPasswordPolicy(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("UpdateAccountPasswordPolicy", args; aws=aws)
+
+UpdateAccountPasswordPolicy(; aws_config::AWSConfig=global_aws_config()) = iam("UpdateAccountPasswordPolicy"; aws_config=aws_config)
+UpdateAccountPasswordPolicy(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("UpdateAccountPasswordPolicy", args; aws_config=aws_config)
 
 """
     UpdateAssumeRolePolicy()
@@ -1691,8 +1816,9 @@ Updates the policy that grants an IAM entity permission to assume a role. This i
 - `RoleName`: The name of the role to update with the new policy. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-UpdateAssumeRolePolicy(PolicyDocument, RoleName; aws::AWSConfig=AWS.aws_config) = iam("UpdateAssumeRolePolicy", Dict{String, Any}("PolicyDocument"=>PolicyDocument, "RoleName"=>RoleName); aws=aws)
-UpdateAssumeRolePolicy(PolicyDocument, RoleName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("UpdateAssumeRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyDocument"=>PolicyDocument, "RoleName"=>RoleName), args)); aws=aws)
+
+UpdateAssumeRolePolicy(PolicyDocument, RoleName; aws_config::AWSConfig=global_aws_config()) = iam("UpdateAssumeRolePolicy", Dict{String, Any}("PolicyDocument"=>PolicyDocument, "RoleName"=>RoleName); aws_config=aws_config)
+UpdateAssumeRolePolicy(PolicyDocument, RoleName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("UpdateAssumeRolePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("PolicyDocument"=>PolicyDocument, "RoleName"=>RoleName), args)); aws_config=aws_config)
 
 """
     UpdateGroup()
@@ -1706,8 +1832,9 @@ Updates the name and/or the path of the specified IAM group.   You should unders
 - `NewGroupName`: New name for the IAM group. Only include this if changing the group's name. IAM user, group, role, and policy names must be unique within the account. Names are not distinguished by case. For example, you cannot create resources named both \"MyResource\" and \"myresource\".
 - `NewPath`: New path for the IAM group. Only include this if changing the group's path. This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! ( u0021) through the DEL character ( u007F), including most punctuation characters, digits, and upper and lowercased letters.
 """
-UpdateGroup(GroupName; aws::AWSConfig=AWS.aws_config) = iam("UpdateGroup", Dict{String, Any}("GroupName"=>GroupName); aws=aws)
-UpdateGroup(GroupName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("UpdateGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), args)); aws=aws)
+
+UpdateGroup(GroupName; aws_config::AWSConfig=global_aws_config()) = iam("UpdateGroup", Dict{String, Any}("GroupName"=>GroupName); aws_config=aws_config)
+UpdateGroup(GroupName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("UpdateGroup", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GroupName"=>GroupName), args)); aws_config=aws_config)
 
 """
     UpdateLoginProfile()
@@ -1721,8 +1848,9 @@ Changes the password for the specified IAM user. IAM users can change their own 
 - `Password`: The new password for the specified IAM user. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character ( u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through  u00FF)   The special characters tab ( u0009), line feed ( u000A), and carriage return ( u000D)   However, the format can be further restricted by the account administrator by setting a password policy on the AWS account. For more information, see UpdateAccountPasswordPolicy.
 - `PasswordResetRequired`: Allows this new password to be used only once by requiring the specified IAM user to set a new password on next sign-in.
 """
-UpdateLoginProfile(UserName; aws::AWSConfig=AWS.aws_config) = iam("UpdateLoginProfile", Dict{String, Any}("UserName"=>UserName); aws=aws)
-UpdateLoginProfile(UserName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("UpdateLoginProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), args)); aws=aws)
+
+UpdateLoginProfile(UserName; aws_config::AWSConfig=global_aws_config()) = iam("UpdateLoginProfile", Dict{String, Any}("UserName"=>UserName); aws_config=aws_config)
+UpdateLoginProfile(UserName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("UpdateLoginProfile", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), args)); aws_config=aws_config)
 
 """
     UpdateOpenIDConnectProviderThumbprint()
@@ -1734,8 +1862,9 @@ Replaces the existing list of server certificate thumbprints associated with an 
 - `ThumbprintList`: A list of certificate thumbprints that are associated with the specified IAM OpenID Connect provider. For more information, see CreateOpenIDConnectProvider. 
 
 """
-UpdateOpenIDConnectProviderThumbprint(OpenIDConnectProviderArn, ThumbprintList; aws::AWSConfig=AWS.aws_config) = iam("UpdateOpenIDConnectProviderThumbprint", Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn, "ThumbprintList"=>ThumbprintList); aws=aws)
-UpdateOpenIDConnectProviderThumbprint(OpenIDConnectProviderArn, ThumbprintList, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("UpdateOpenIDConnectProviderThumbprint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn, "ThumbprintList"=>ThumbprintList), args)); aws=aws)
+
+UpdateOpenIDConnectProviderThumbprint(OpenIDConnectProviderArn, ThumbprintList; aws_config::AWSConfig=global_aws_config()) = iam("UpdateOpenIDConnectProviderThumbprint", Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn, "ThumbprintList"=>ThumbprintList); aws_config=aws_config)
+UpdateOpenIDConnectProviderThumbprint(OpenIDConnectProviderArn, ThumbprintList, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("UpdateOpenIDConnectProviderThumbprint", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("OpenIDConnectProviderArn"=>OpenIDConnectProviderArn, "ThumbprintList"=>ThumbprintList), args)); aws_config=aws_config)
 
 """
     UpdateRole()
@@ -1749,8 +1878,9 @@ Updates the description or maximum session duration setting of a role.
 - `Description`: The new description that you want to apply to the specified role.
 - `MaxSessionDuration`: The maximum session duration (in seconds) that you want to set for the specified role. If you do not specify a value for this setting, the default maximum of one hour is applied. This setting can have a value from 1 hour to 12 hours. Anyone who assumes the role from the AWS CLI or API can use the DurationSeconds API parameter or the duration-seconds CLI parameter to request a longer session. The MaxSessionDuration setting determines the maximum duration that can be requested using the DurationSeconds parameter. If users don't specify a value for the DurationSeconds parameter, their security credentials are valid for one hour by default. This applies when you use the AssumeRole* API operations or the assume-role* CLI operations but does not apply when you use those operations to create a console URL. For more information, see Using IAM Roles in the IAM User Guide.
 """
-UpdateRole(RoleName; aws::AWSConfig=AWS.aws_config) = iam("UpdateRole", Dict{String, Any}("RoleName"=>RoleName); aws=aws)
-UpdateRole(RoleName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("UpdateRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), args)); aws=aws)
+
+UpdateRole(RoleName; aws_config::AWSConfig=global_aws_config()) = iam("UpdateRole", Dict{String, Any}("RoleName"=>RoleName); aws_config=aws_config)
+UpdateRole(RoleName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("UpdateRole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleName"=>RoleName), args)); aws_config=aws_config)
 
 """
     UpdateRoleDescription()
@@ -1762,8 +1892,9 @@ Use UpdateRole instead. Modifies only the description of a role. This operation 
 - `RoleName`: The name of the role that you want to modify.
 
 """
-UpdateRoleDescription(Description, RoleName; aws::AWSConfig=AWS.aws_config) = iam("UpdateRoleDescription", Dict{String, Any}("Description"=>Description, "RoleName"=>RoleName); aws=aws)
-UpdateRoleDescription(Description, RoleName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("UpdateRoleDescription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "RoleName"=>RoleName), args)); aws=aws)
+
+UpdateRoleDescription(Description, RoleName; aws_config::AWSConfig=global_aws_config()) = iam("UpdateRoleDescription", Dict{String, Any}("Description"=>Description, "RoleName"=>RoleName); aws_config=aws_config)
+UpdateRoleDescription(Description, RoleName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("UpdateRoleDescription", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Description"=>Description, "RoleName"=>RoleName), args)); aws_config=aws_config)
 
 """
     UpdateSAMLProvider()
@@ -1775,8 +1906,9 @@ Updates the metadata document for an existing SAML provider resource object.  Th
 - `SAMLProviderArn`: The Amazon Resource Name (ARN) of the SAML provider to update. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS Service Namespaces in the AWS General Reference.
 
 """
-UpdateSAMLProvider(SAMLMetadataDocument, SAMLProviderArn; aws::AWSConfig=AWS.aws_config) = iam("UpdateSAMLProvider", Dict{String, Any}("SAMLMetadataDocument"=>SAMLMetadataDocument, "SAMLProviderArn"=>SAMLProviderArn); aws=aws)
-UpdateSAMLProvider(SAMLMetadataDocument, SAMLProviderArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("UpdateSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SAMLMetadataDocument"=>SAMLMetadataDocument, "SAMLProviderArn"=>SAMLProviderArn), args)); aws=aws)
+
+UpdateSAMLProvider(SAMLMetadataDocument, SAMLProviderArn; aws_config::AWSConfig=global_aws_config()) = iam("UpdateSAMLProvider", Dict{String, Any}("SAMLMetadataDocument"=>SAMLMetadataDocument, "SAMLProviderArn"=>SAMLProviderArn); aws_config=aws_config)
+UpdateSAMLProvider(SAMLMetadataDocument, SAMLProviderArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("UpdateSAMLProvider", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SAMLMetadataDocument"=>SAMLMetadataDocument, "SAMLProviderArn"=>SAMLProviderArn), args)); aws_config=aws_config)
 
 """
     UpdateSSHPublicKey()
@@ -1789,8 +1921,9 @@ Sets the status of an IAM user's SSH public key to active or inactive. SSH publi
 - `UserName`: The name of the IAM user associated with the SSH public key. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-UpdateSSHPublicKey(SSHPublicKeyId, Status, UserName; aws::AWSConfig=AWS.aws_config) = iam("UpdateSSHPublicKey", Dict{String, Any}("SSHPublicKeyId"=>SSHPublicKeyId, "Status"=>Status, "UserName"=>UserName); aws=aws)
-UpdateSSHPublicKey(SSHPublicKeyId, Status, UserName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("UpdateSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SSHPublicKeyId"=>SSHPublicKeyId, "Status"=>Status, "UserName"=>UserName), args)); aws=aws)
+
+UpdateSSHPublicKey(SSHPublicKeyId, Status, UserName; aws_config::AWSConfig=global_aws_config()) = iam("UpdateSSHPublicKey", Dict{String, Any}("SSHPublicKeyId"=>SSHPublicKeyId, "Status"=>Status, "UserName"=>UserName); aws_config=aws_config)
+UpdateSSHPublicKey(SSHPublicKeyId, Status, UserName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("UpdateSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SSHPublicKeyId"=>SSHPublicKeyId, "Status"=>Status, "UserName"=>UserName), args)); aws_config=aws_config)
 
 """
     UpdateServerCertificate()
@@ -1804,8 +1937,9 @@ Updates the name and/or the path of the specified server certificate stored in I
 - `NewPath`: The new path for the server certificate. Include this only if you are updating the server certificate's path. This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! ( u0021) through the DEL character ( u007F), including most punctuation characters, digits, and upper and lowercased letters.
 - `NewServerCertificateName`: The new name for the server certificate. Include this only if you are updating the server certificate's name. The name of the certificate cannot contain any spaces. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 """
-UpdateServerCertificate(ServerCertificateName; aws::AWSConfig=AWS.aws_config) = iam("UpdateServerCertificate", Dict{String, Any}("ServerCertificateName"=>ServerCertificateName); aws=aws)
-UpdateServerCertificate(ServerCertificateName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("UpdateServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerCertificateName"=>ServerCertificateName), args)); aws=aws)
+
+UpdateServerCertificate(ServerCertificateName; aws_config::AWSConfig=global_aws_config()) = iam("UpdateServerCertificate", Dict{String, Any}("ServerCertificateName"=>ServerCertificateName); aws_config=aws_config)
+UpdateServerCertificate(ServerCertificateName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("UpdateServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServerCertificateName"=>ServerCertificateName), args)); aws_config=aws_config)
 
 """
     UpdateServiceSpecificCredential()
@@ -1819,8 +1953,9 @@ Sets the status of a service-specific credential to Active or Inactive. Service-
 # Optional Parameters
 - `UserName`: The name of the IAM user associated with the service-specific credential. If you do not specify this value, then the operation assumes the user whose credentials are used to call the operation. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 """
-UpdateServiceSpecificCredential(ServiceSpecificCredentialId, Status; aws::AWSConfig=AWS.aws_config) = iam("UpdateServiceSpecificCredential", Dict{String, Any}("ServiceSpecificCredentialId"=>ServiceSpecificCredentialId, "Status"=>Status); aws=aws)
-UpdateServiceSpecificCredential(ServiceSpecificCredentialId, Status, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("UpdateServiceSpecificCredential", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceSpecificCredentialId"=>ServiceSpecificCredentialId, "Status"=>Status), args)); aws=aws)
+
+UpdateServiceSpecificCredential(ServiceSpecificCredentialId, Status; aws_config::AWSConfig=global_aws_config()) = iam("UpdateServiceSpecificCredential", Dict{String, Any}("ServiceSpecificCredentialId"=>ServiceSpecificCredentialId, "Status"=>Status); aws_config=aws_config)
+UpdateServiceSpecificCredential(ServiceSpecificCredentialId, Status, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("UpdateServiceSpecificCredential", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ServiceSpecificCredentialId"=>ServiceSpecificCredentialId, "Status"=>Status), args)); aws_config=aws_config)
 
 """
     UpdateSigningCertificate()
@@ -1834,8 +1969,9 @@ Changes the status of the specified user signing certificate from active to disa
 # Optional Parameters
 - `UserName`: The name of the IAM user the signing certificate belongs to. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 """
-UpdateSigningCertificate(CertificateId, Status; aws::AWSConfig=AWS.aws_config) = iam("UpdateSigningCertificate", Dict{String, Any}("CertificateId"=>CertificateId, "Status"=>Status); aws=aws)
-UpdateSigningCertificate(CertificateId, Status, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("UpdateSigningCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateId"=>CertificateId, "Status"=>Status), args)); aws=aws)
+
+UpdateSigningCertificate(CertificateId, Status; aws_config::AWSConfig=global_aws_config()) = iam("UpdateSigningCertificate", Dict{String, Any}("CertificateId"=>CertificateId, "Status"=>Status); aws_config=aws_config)
+UpdateSigningCertificate(CertificateId, Status, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("UpdateSigningCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateId"=>CertificateId, "Status"=>Status), args)); aws_config=aws_config)
 
 """
     UpdateUser()
@@ -1849,8 +1985,9 @@ Updates the name and/or the path of the specified IAM user.   You should underst
 - `NewPath`: New path for the IAM user. Include this parameter only if you're changing the user's path. This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! ( u0021) through the DEL character ( u007F), including most punctuation characters, digits, and upper and lowercased letters.
 - `NewUserName`: New name for the user. Include this parameter only if you're changing the user's name. IAM user, group, role, and policy names must be unique within the account. Names are not distinguished by case. For example, you cannot create resources named both \"MyResource\" and \"myresource\".
 """
-UpdateUser(UserName; aws::AWSConfig=AWS.aws_config) = iam("UpdateUser", Dict{String, Any}("UserName"=>UserName); aws=aws)
-UpdateUser(UserName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("UpdateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), args)); aws=aws)
+
+UpdateUser(UserName; aws_config::AWSConfig=global_aws_config()) = iam("UpdateUser", Dict{String, Any}("UserName"=>UserName); aws_config=aws_config)
+UpdateUser(UserName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("UpdateUser", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("UserName"=>UserName), args)); aws_config=aws_config)
 
 """
     UploadSSHPublicKey()
@@ -1862,8 +1999,9 @@ Uploads an SSH public key and associates it with the specified IAM user. The SSH
 - `UserName`: The name of the IAM user to associate the SSH public key with. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 """
-UploadSSHPublicKey(SSHPublicKeyBody, UserName; aws::AWSConfig=AWS.aws_config) = iam("UploadSSHPublicKey", Dict{String, Any}("SSHPublicKeyBody"=>SSHPublicKeyBody, "UserName"=>UserName); aws=aws)
-UploadSSHPublicKey(SSHPublicKeyBody, UserName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("UploadSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SSHPublicKeyBody"=>SSHPublicKeyBody, "UserName"=>UserName), args)); aws=aws)
+
+UploadSSHPublicKey(SSHPublicKeyBody, UserName; aws_config::AWSConfig=global_aws_config()) = iam("UploadSSHPublicKey", Dict{String, Any}("SSHPublicKeyBody"=>SSHPublicKeyBody, "UserName"=>UserName); aws_config=aws_config)
+UploadSSHPublicKey(SSHPublicKeyBody, UserName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("UploadSSHPublicKey", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SSHPublicKeyBody"=>SSHPublicKeyBody, "UserName"=>UserName), args)); aws_config=aws_config)
 
 """
     UploadServerCertificate()
@@ -1879,8 +2017,9 @@ Uploads a server certificate entity for the AWS account. The server certificate 
 - `CertificateChain`: The contents of the certificate chain. This is typically a concatenation of the PEM-encoded public key certificates of the chain. The regex pattern used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII character ranging from the space character ( u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and Latin-1 Supplement character set (through  u00FF)   The special characters tab ( u0009), line feed ( u000A), and carriage return ( u000D)  
 - `Path`: The path for the server certificate. For more information about paths, see IAM Identifiers in the IAM User Guide. This parameter is optional. If it is not included, it defaults to a slash (/). This parameter allows (through its regex pattern) a string of characters consisting of either a forward slash (/) by itself or a string that must begin and end with forward slashes. In addition, it can contain any ASCII character from the ! ( u0021) through the DEL character ( u007F), including most punctuation characters, digits, and upper and lowercased letters.   If you are uploading a server certificate specifically for use with Amazon CloudFront distributions, you must specify a path using the path parameter. The path must begin with /cloudfront and must include a trailing slash (for example, /cloudfront/test/). 
 """
-UploadServerCertificate(CertificateBody, PrivateKey, ServerCertificateName; aws::AWSConfig=AWS.aws_config) = iam("UploadServerCertificate", Dict{String, Any}("CertificateBody"=>CertificateBody, "PrivateKey"=>PrivateKey, "ServerCertificateName"=>ServerCertificateName); aws=aws)
-UploadServerCertificate(CertificateBody, PrivateKey, ServerCertificateName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("UploadServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateBody"=>CertificateBody, "PrivateKey"=>PrivateKey, "ServerCertificateName"=>ServerCertificateName), args)); aws=aws)
+
+UploadServerCertificate(CertificateBody, PrivateKey, ServerCertificateName; aws_config::AWSConfig=global_aws_config()) = iam("UploadServerCertificate", Dict{String, Any}("CertificateBody"=>CertificateBody, "PrivateKey"=>PrivateKey, "ServerCertificateName"=>ServerCertificateName); aws_config=aws_config)
+UploadServerCertificate(CertificateBody, PrivateKey, ServerCertificateName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("UploadServerCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateBody"=>CertificateBody, "PrivateKey"=>PrivateKey, "ServerCertificateName"=>ServerCertificateName), args)); aws_config=aws_config)
 
 """
     UploadSigningCertificate()
@@ -1893,5 +2032,6 @@ Uploads an X.509 signing certificate and associates it with the specified IAM us
 # Optional Parameters
 - `UserName`: The name of the user the signing certificate is for. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric characters with no spaces. You can also include any of the following characters: _+=,.@-
 """
-UploadSigningCertificate(CertificateBody; aws::AWSConfig=AWS.aws_config) = iam("UploadSigningCertificate", Dict{String, Any}("CertificateBody"=>CertificateBody); aws=aws)
-UploadSigningCertificate(CertificateBody, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = iam("UploadSigningCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateBody"=>CertificateBody), args)); aws=aws)
+
+UploadSigningCertificate(CertificateBody; aws_config::AWSConfig=global_aws_config()) = iam("UploadSigningCertificate", Dict{String, Any}("CertificateBody"=>CertificateBody); aws_config=aws_config)
+UploadSigningCertificate(CertificateBody, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = iam("UploadSigningCertificate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("CertificateBody"=>CertificateBody), args)); aws_config=aws_config)

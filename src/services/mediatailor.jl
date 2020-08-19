@@ -13,8 +13,9 @@ Deletes the playback configuration for the specified name.
 - `Name`: The identifier for the playback configuration.
 
 """
-DeletePlaybackConfiguration(Name; aws::AWSConfig=AWS.aws_config) = mediatailor("DELETE", "/playbackConfiguration/$(Name)"; aws=aws)
-DeletePlaybackConfiguration(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mediatailor("DELETE", "/playbackConfiguration/$(Name)", args; aws=aws)
+
+DeletePlaybackConfiguration(Name; aws_config::AWSConfig=global_aws_config()) = mediatailor("DELETE", "/playbackConfiguration/$(Name)"; aws_config=aws_config)
+DeletePlaybackConfiguration(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediatailor("DELETE", "/playbackConfiguration/$(Name)", args; aws_config=aws_config)
 
 """
     GetPlaybackConfiguration()
@@ -25,8 +26,9 @@ Returns the playback configuration for the specified name.
 - `Name`: The identifier for the playback configuration.
 
 """
-GetPlaybackConfiguration(Name; aws::AWSConfig=AWS.aws_config) = mediatailor("GET", "/playbackConfiguration/$(Name)"; aws=aws)
-GetPlaybackConfiguration(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mediatailor("GET", "/playbackConfiguration/$(Name)", args; aws=aws)
+
+GetPlaybackConfiguration(Name; aws_config::AWSConfig=global_aws_config()) = mediatailor("GET", "/playbackConfiguration/$(Name)"; aws_config=aws_config)
+GetPlaybackConfiguration(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediatailor("GET", "/playbackConfiguration/$(Name)", args; aws_config=aws_config)
 
 """
     ListPlaybackConfigurations()
@@ -37,8 +39,9 @@ Returns a list of the playback configurations defined in AWS Elemental MediaTail
 - `MaxResults`: Maximum number of records to return. 
 - `NextToken`: Pagination token returned by the GET list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
 """
-ListPlaybackConfigurations(; aws::AWSConfig=AWS.aws_config) = mediatailor("GET", "/playbackConfigurations"; aws=aws)
-ListPlaybackConfigurations(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = mediatailor("GET", "/playbackConfigurations", args; aws=aws)
+
+ListPlaybackConfigurations(; aws_config::AWSConfig=global_aws_config()) = mediatailor("GET", "/playbackConfigurations"; aws_config=aws_config)
+ListPlaybackConfigurations(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = mediatailor("GET", "/playbackConfigurations", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -49,8 +52,9 @@ Returns a list of the tags assigned to the specified playback configuration reso
 - `ResourceArn`: The Amazon Resource Name (ARN) for the playback configuration. You can get this from the response to any playback configuration request. 
 
 """
-ListTagsForResource(ResourceArn; aws::AWSConfig=AWS.aws_config) = mediatailor("GET", "/tags/$(ResourceArn)"; aws=aws)
-ListTagsForResource(ResourceArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mediatailor("GET", "/tags/$(ResourceArn)", args; aws=aws)
+
+ListTagsForResource(ResourceArn; aws_config::AWSConfig=global_aws_config()) = mediatailor("GET", "/tags/$(ResourceArn)"; aws_config=aws_config)
+ListTagsForResource(ResourceArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediatailor("GET", "/tags/$(ResourceArn)", args; aws_config=aws_config)
 
 """
     PutPlaybackConfiguration()
@@ -71,8 +75,9 @@ Adds a new playback configuration to AWS Elemental MediaTailor.
 - `VideoContentSourceUrl`: The URL prefix for the master playlist for the stream, minus the asset ID. The maximum length is 512 characters.
 - `tags`: The tags to assign to the playback configuration. 
 """
-PutPlaybackConfiguration(; aws::AWSConfig=AWS.aws_config) = mediatailor("PUT", "/playbackConfiguration"; aws=aws)
-PutPlaybackConfiguration(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = mediatailor("PUT", "/playbackConfiguration", args; aws=aws)
+
+PutPlaybackConfiguration(; aws_config::AWSConfig=global_aws_config()) = mediatailor("PUT", "/playbackConfiguration"; aws_config=aws_config)
+PutPlaybackConfiguration(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = mediatailor("PUT", "/playbackConfiguration", args; aws_config=aws_config)
 
 """
     TagResource()
@@ -89,8 +94,9 @@ Adds tags to the specified playback configuration resource. You can specify one 
  
 
 """
-TagResource(ResourceArn, tags; aws::AWSConfig=AWS.aws_config) = mediatailor("POST", "/tags/$(ResourceArn)", Dict{String, Any}("tags"=>tags); aws=aws)
-TagResource(ResourceArn, tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mediatailor("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws=aws)
+
+TagResource(ResourceArn, tags; aws_config::AWSConfig=global_aws_config()) = mediatailor("POST", "/tags/$(ResourceArn)", Dict{String, Any}("tags"=>tags); aws_config=aws_config)
+TagResource(ResourceArn, tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediatailor("POST", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tags"=>tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -102,5 +108,6 @@ Removes tags from the specified playback configuration resource. You can specify
 - `tagKeys`: A comma-separated list of the tag keys to remove from the playback configuration. 
 
 """
-UntagResource(ResourceArn, tagKeys; aws::AWSConfig=AWS.aws_config) = mediatailor("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws=aws)
-UntagResource(ResourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = mediatailor("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws=aws)
+
+UntagResource(ResourceArn, tagKeys; aws_config::AWSConfig=global_aws_config()) = mediatailor("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
+UntagResource(ResourceArn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = mediatailor("DELETE", "/tags/$(ResourceArn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)

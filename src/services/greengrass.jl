@@ -14,8 +14,9 @@ Associates a role with a group. Your Greengrass core will use the role to access
 - `RoleArn`: The ARN of the role you wish to associate with this group. The existence of the role is not validated.
 
 """
-AssociateRoleToGroup(GroupId, RoleArn; aws::AWSConfig=AWS.aws_config) = greengrass("PUT", "/greengrass/groups/$(GroupId)/role", Dict{String, Any}("RoleArn"=>RoleArn); aws=aws)
-AssociateRoleToGroup(GroupId, RoleArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("PUT", "/greengrass/groups/$(GroupId)/role", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleArn"=>RoleArn), args)); aws=aws)
+
+AssociateRoleToGroup(GroupId, RoleArn; aws_config::AWSConfig=global_aws_config()) = greengrass("PUT", "/greengrass/groups/$(GroupId)/role", Dict{String, Any}("RoleArn"=>RoleArn); aws_config=aws_config)
+AssociateRoleToGroup(GroupId, RoleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("PUT", "/greengrass/groups/$(GroupId)/role", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleArn"=>RoleArn), args)); aws_config=aws_config)
 
 """
     AssociateServiceRoleToAccount()
@@ -26,8 +27,9 @@ Associates a role with your account. AWS IoT Greengrass will use the role to acc
 - `RoleArn`: The ARN of the service role you wish to associate with your account.
 
 """
-AssociateServiceRoleToAccount(RoleArn; aws::AWSConfig=AWS.aws_config) = greengrass("PUT", "/greengrass/servicerole", Dict{String, Any}("RoleArn"=>RoleArn); aws=aws)
-AssociateServiceRoleToAccount(RoleArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("PUT", "/greengrass/servicerole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleArn"=>RoleArn), args)); aws=aws)
+
+AssociateServiceRoleToAccount(RoleArn; aws_config::AWSConfig=global_aws_config()) = greengrass("PUT", "/greengrass/servicerole", Dict{String, Any}("RoleArn"=>RoleArn); aws_config=aws_config)
+AssociateServiceRoleToAccount(RoleArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("PUT", "/greengrass/servicerole", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("RoleArn"=>RoleArn), args)); aws_config=aws_config)
 
 """
     CreateConnectorDefinition()
@@ -40,8 +42,9 @@ Creates a connector definition. You may provide the initial version of the conne
 - `X-Amzn-Client-Token`: A client token used to correlate requests and responses.
 - `tags`: Tag(s) to add to the new resource.
 """
-CreateConnectorDefinition(; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/definition/connectors"; aws=aws)
-CreateConnectorDefinition(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/definition/connectors", args; aws=aws)
+
+CreateConnectorDefinition(; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/connectors"; aws_config=aws_config)
+CreateConnectorDefinition(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/connectors", args; aws_config=aws_config)
 
 """
     CreateConnectorDefinitionVersion()
@@ -55,8 +58,9 @@ Creates a version of a connector definition which has already been defined.
 - `Connectors`: A list of references to connectors in this version, with their corresponding configuration settings.
 - `X-Amzn-Client-Token`: A client token used to correlate requests and responses.
 """
-CreateConnectorDefinitionVersion(ConnectorDefinitionId; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/definition/connectors/$(ConnectorDefinitionId)/versions"; aws=aws)
-CreateConnectorDefinitionVersion(ConnectorDefinitionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/definition/connectors/$(ConnectorDefinitionId)/versions", args; aws=aws)
+
+CreateConnectorDefinitionVersion(ConnectorDefinitionId; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/connectors/$(ConnectorDefinitionId)/versions"; aws_config=aws_config)
+CreateConnectorDefinitionVersion(ConnectorDefinitionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/connectors/$(ConnectorDefinitionId)/versions", args; aws_config=aws_config)
 
 """
     CreateCoreDefinition()
@@ -69,8 +73,9 @@ Creates a core definition. You may provide the initial version of the core defin
 - `X-Amzn-Client-Token`: A client token used to correlate requests and responses.
 - `tags`: Tag(s) to add to the new resource.
 """
-CreateCoreDefinition(; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/definition/cores"; aws=aws)
-CreateCoreDefinition(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/definition/cores", args; aws=aws)
+
+CreateCoreDefinition(; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/cores"; aws_config=aws_config)
+CreateCoreDefinition(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/cores", args; aws_config=aws_config)
 
 """
     CreateCoreDefinitionVersion()
@@ -84,8 +89,9 @@ Creates a version of a core definition that has already been defined. Greengrass
 - `Cores`: A list of cores in the core definition version.
 - `X-Amzn-Client-Token`: A client token used to correlate requests and responses.
 """
-CreateCoreDefinitionVersion(CoreDefinitionId; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/definition/cores/$(CoreDefinitionId)/versions"; aws=aws)
-CreateCoreDefinitionVersion(CoreDefinitionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/definition/cores/$(CoreDefinitionId)/versions", args; aws=aws)
+
+CreateCoreDefinitionVersion(CoreDefinitionId; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/cores/$(CoreDefinitionId)/versions"; aws_config=aws_config)
+CreateCoreDefinitionVersion(CoreDefinitionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/cores/$(CoreDefinitionId)/versions", args; aws_config=aws_config)
 
 """
     CreateDeployment()
@@ -101,8 +107,9 @@ Creates a deployment. ''CreateDeployment'' requests are idempotent with respect 
 - `GroupVersionId`: The ID of the group version to be deployed.
 - `X-Amzn-Client-Token`: A client token used to correlate requests and responses.
 """
-CreateDeployment(DeploymentType, GroupId; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/groups/$(GroupId)/deployments", Dict{String, Any}("DeploymentType"=>DeploymentType); aws=aws)
-CreateDeployment(DeploymentType, GroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/groups/$(GroupId)/deployments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeploymentType"=>DeploymentType), args)); aws=aws)
+
+CreateDeployment(DeploymentType, GroupId; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/groups/$(GroupId)/deployments", Dict{String, Any}("DeploymentType"=>DeploymentType); aws_config=aws_config)
+CreateDeployment(DeploymentType, GroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/groups/$(GroupId)/deployments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("DeploymentType"=>DeploymentType), args)); aws_config=aws_config)
 
 """
     CreateDeviceDefinition()
@@ -115,8 +122,9 @@ Creates a device definition. You may provide the initial version of the device d
 - `X-Amzn-Client-Token`: A client token used to correlate requests and responses.
 - `tags`: Tag(s) to add to the new resource.
 """
-CreateDeviceDefinition(; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/definition/devices"; aws=aws)
-CreateDeviceDefinition(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/definition/devices", args; aws=aws)
+
+CreateDeviceDefinition(; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/devices"; aws_config=aws_config)
+CreateDeviceDefinition(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/devices", args; aws_config=aws_config)
 
 """
     CreateDeviceDefinitionVersion()
@@ -130,8 +138,9 @@ Creates a version of a device definition that has already been defined.
 - `Devices`: A list of devices in the definition version.
 - `X-Amzn-Client-Token`: A client token used to correlate requests and responses.
 """
-CreateDeviceDefinitionVersion(DeviceDefinitionId; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/definition/devices/$(DeviceDefinitionId)/versions"; aws=aws)
-CreateDeviceDefinitionVersion(DeviceDefinitionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/definition/devices/$(DeviceDefinitionId)/versions", args; aws=aws)
+
+CreateDeviceDefinitionVersion(DeviceDefinitionId; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/devices/$(DeviceDefinitionId)/versions"; aws_config=aws_config)
+CreateDeviceDefinitionVersion(DeviceDefinitionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/devices/$(DeviceDefinitionId)/versions", args; aws_config=aws_config)
 
 """
     CreateFunctionDefinition()
@@ -144,8 +153,9 @@ Creates a Lambda function definition which contains a list of Lambda functions a
 - `X-Amzn-Client-Token`: A client token used to correlate requests and responses.
 - `tags`: Tag(s) to add to the new resource.
 """
-CreateFunctionDefinition(; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/definition/functions"; aws=aws)
-CreateFunctionDefinition(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/definition/functions", args; aws=aws)
+
+CreateFunctionDefinition(; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/functions"; aws_config=aws_config)
+CreateFunctionDefinition(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/functions", args; aws_config=aws_config)
 
 """
     CreateFunctionDefinitionVersion()
@@ -160,8 +170,9 @@ Creates a version of a Lambda function definition that has already been defined.
 - `Functions`: A list of Lambda functions in this function definition version.
 - `X-Amzn-Client-Token`: A client token used to correlate requests and responses.
 """
-CreateFunctionDefinitionVersion(FunctionDefinitionId; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/definition/functions/$(FunctionDefinitionId)/versions"; aws=aws)
-CreateFunctionDefinitionVersion(FunctionDefinitionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/definition/functions/$(FunctionDefinitionId)/versions", args; aws=aws)
+
+CreateFunctionDefinitionVersion(FunctionDefinitionId; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/functions/$(FunctionDefinitionId)/versions"; aws_config=aws_config)
+CreateFunctionDefinitionVersion(FunctionDefinitionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/functions/$(FunctionDefinitionId)/versions", args; aws_config=aws_config)
 
 """
     CreateGroup()
@@ -174,8 +185,9 @@ Creates a group. You may provide the initial version of the group or use ''Creat
 - `X-Amzn-Client-Token`: A client token used to correlate requests and responses.
 - `tags`: Tag(s) to add to the new resource.
 """
-CreateGroup(; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/groups"; aws=aws)
-CreateGroup(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/groups", args; aws=aws)
+
+CreateGroup(; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/groups"; aws_config=aws_config)
+CreateGroup(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/groups", args; aws_config=aws_config)
 
 """
     CreateGroupCertificateAuthority()
@@ -188,8 +200,9 @@ Creates a CA for the group. If a CA already exists, it will rotate the existing 
 # Optional Parameters
 - `X-Amzn-Client-Token`: A client token used to correlate requests and responses.
 """
-CreateGroupCertificateAuthority(GroupId; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/groups/$(GroupId)/certificateauthorities"; aws=aws)
-CreateGroupCertificateAuthority(GroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/groups/$(GroupId)/certificateauthorities", args; aws=aws)
+
+CreateGroupCertificateAuthority(GroupId; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/groups/$(GroupId)/certificateauthorities"; aws_config=aws_config)
+CreateGroupCertificateAuthority(GroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/groups/$(GroupId)/certificateauthorities", args; aws_config=aws_config)
 
 """
     CreateGroupVersion()
@@ -209,8 +222,9 @@ Creates a version of a group which has already been defined.
 - `SubscriptionDefinitionVersionArn`: The ARN of the subscription definition version for this group.
 - `X-Amzn-Client-Token`: A client token used to correlate requests and responses.
 """
-CreateGroupVersion(GroupId; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/groups/$(GroupId)/versions"; aws=aws)
-CreateGroupVersion(GroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/groups/$(GroupId)/versions", args; aws=aws)
+
+CreateGroupVersion(GroupId; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/groups/$(GroupId)/versions"; aws_config=aws_config)
+CreateGroupVersion(GroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/groups/$(GroupId)/versions", args; aws_config=aws_config)
 
 """
     CreateLoggerDefinition()
@@ -223,8 +237,9 @@ Creates a logger definition. You may provide the initial version of the logger d
 - `X-Amzn-Client-Token`: A client token used to correlate requests and responses.
 - `tags`: Tag(s) to add to the new resource.
 """
-CreateLoggerDefinition(; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/definition/loggers"; aws=aws)
-CreateLoggerDefinition(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/definition/loggers", args; aws=aws)
+
+CreateLoggerDefinition(; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/loggers"; aws_config=aws_config)
+CreateLoggerDefinition(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/loggers", args; aws_config=aws_config)
 
 """
     CreateLoggerDefinitionVersion()
@@ -238,8 +253,9 @@ Creates a version of a logger definition that has already been defined.
 - `Loggers`: A list of loggers.
 - `X-Amzn-Client-Token`: A client token used to correlate requests and responses.
 """
-CreateLoggerDefinitionVersion(LoggerDefinitionId; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/definition/loggers/$(LoggerDefinitionId)/versions"; aws=aws)
-CreateLoggerDefinitionVersion(LoggerDefinitionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/definition/loggers/$(LoggerDefinitionId)/versions", args; aws=aws)
+
+CreateLoggerDefinitionVersion(LoggerDefinitionId; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/loggers/$(LoggerDefinitionId)/versions"; aws_config=aws_config)
+CreateLoggerDefinitionVersion(LoggerDefinitionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/loggers/$(LoggerDefinitionId)/versions", args; aws_config=aws_config)
 
 """
     CreateResourceDefinition()
@@ -252,8 +268,9 @@ Creates a resource definition which contains a list of resources to be used in a
 - `X-Amzn-Client-Token`: A client token used to correlate requests and responses.
 - `tags`: Tag(s) to add to the new resource.
 """
-CreateResourceDefinition(; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/definition/resources"; aws=aws)
-CreateResourceDefinition(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/definition/resources", args; aws=aws)
+
+CreateResourceDefinition(; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/resources"; aws_config=aws_config)
+CreateResourceDefinition(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/resources", args; aws_config=aws_config)
 
 """
     CreateResourceDefinitionVersion()
@@ -267,8 +284,9 @@ Creates a version of a resource definition that has already been defined.
 - `Resources`: A list of resources.
 - `X-Amzn-Client-Token`: A client token used to correlate requests and responses.
 """
-CreateResourceDefinitionVersion(ResourceDefinitionId; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/definition/resources/$(ResourceDefinitionId)/versions"; aws=aws)
-CreateResourceDefinitionVersion(ResourceDefinitionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/definition/resources/$(ResourceDefinitionId)/versions", args; aws=aws)
+
+CreateResourceDefinitionVersion(ResourceDefinitionId; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/resources/$(ResourceDefinitionId)/versions"; aws_config=aws_config)
+CreateResourceDefinitionVersion(ResourceDefinitionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/resources/$(ResourceDefinitionId)/versions", args; aws_config=aws_config)
 
 """
     CreateSoftwareUpdateJob()
@@ -286,8 +304,9 @@ Creates a software update for a core or group of cores (specified as an IoT thin
 - `UpdateAgentLogLevel`: 
 - `X-Amzn-Client-Token`: A client token used to correlate requests and responses.
 """
-CreateSoftwareUpdateJob(S3UrlSignerRole, SoftwareToUpdate, UpdateTargets, UpdateTargetsArchitecture, UpdateTargetsOperatingSystem; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/updates", Dict{String, Any}("S3UrlSignerRole"=>S3UrlSignerRole, "SoftwareToUpdate"=>SoftwareToUpdate, "UpdateTargets"=>UpdateTargets, "UpdateTargetsArchitecture"=>UpdateTargetsArchitecture, "UpdateTargetsOperatingSystem"=>UpdateTargetsOperatingSystem); aws=aws)
-CreateSoftwareUpdateJob(S3UrlSignerRole, SoftwareToUpdate, UpdateTargets, UpdateTargetsArchitecture, UpdateTargetsOperatingSystem, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/updates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("S3UrlSignerRole"=>S3UrlSignerRole, "SoftwareToUpdate"=>SoftwareToUpdate, "UpdateTargets"=>UpdateTargets, "UpdateTargetsArchitecture"=>UpdateTargetsArchitecture, "UpdateTargetsOperatingSystem"=>UpdateTargetsOperatingSystem), args)); aws=aws)
+
+CreateSoftwareUpdateJob(S3UrlSignerRole, SoftwareToUpdate, UpdateTargets, UpdateTargetsArchitecture, UpdateTargetsOperatingSystem; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/updates", Dict{String, Any}("S3UrlSignerRole"=>S3UrlSignerRole, "SoftwareToUpdate"=>SoftwareToUpdate, "UpdateTargets"=>UpdateTargets, "UpdateTargetsArchitecture"=>UpdateTargetsArchitecture, "UpdateTargetsOperatingSystem"=>UpdateTargetsOperatingSystem); aws_config=aws_config)
+CreateSoftwareUpdateJob(S3UrlSignerRole, SoftwareToUpdate, UpdateTargets, UpdateTargetsArchitecture, UpdateTargetsOperatingSystem, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/updates", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("S3UrlSignerRole"=>S3UrlSignerRole, "SoftwareToUpdate"=>SoftwareToUpdate, "UpdateTargets"=>UpdateTargets, "UpdateTargetsArchitecture"=>UpdateTargetsArchitecture, "UpdateTargetsOperatingSystem"=>UpdateTargetsOperatingSystem), args)); aws_config=aws_config)
 
 """
     CreateSubscriptionDefinition()
@@ -300,8 +319,9 @@ Creates a subscription definition. You may provide the initial version of the su
 - `X-Amzn-Client-Token`: A client token used to correlate requests and responses.
 - `tags`: Tag(s) to add to the new resource.
 """
-CreateSubscriptionDefinition(; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/definition/subscriptions"; aws=aws)
-CreateSubscriptionDefinition(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/definition/subscriptions", args; aws=aws)
+
+CreateSubscriptionDefinition(; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/subscriptions"; aws_config=aws_config)
+CreateSubscriptionDefinition(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/subscriptions", args; aws_config=aws_config)
 
 """
     CreateSubscriptionDefinitionVersion()
@@ -315,8 +335,9 @@ Creates a version of a subscription definition which has already been defined.
 - `Subscriptions`: A list of subscriptions.
 - `X-Amzn-Client-Token`: A client token used to correlate requests and responses.
 """
-CreateSubscriptionDefinitionVersion(SubscriptionDefinitionId; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)/versions"; aws=aws)
-CreateSubscriptionDefinitionVersion(SubscriptionDefinitionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)/versions", args; aws=aws)
+
+CreateSubscriptionDefinitionVersion(SubscriptionDefinitionId; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)/versions"; aws_config=aws_config)
+CreateSubscriptionDefinitionVersion(SubscriptionDefinitionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)/versions", args; aws_config=aws_config)
 
 """
     DeleteConnectorDefinition()
@@ -327,8 +348,9 @@ Deletes a connector definition.
 - `ConnectorDefinitionId`: The ID of the connector definition.
 
 """
-DeleteConnectorDefinition(ConnectorDefinitionId; aws::AWSConfig=AWS.aws_config) = greengrass("DELETE", "/greengrass/definition/connectors/$(ConnectorDefinitionId)"; aws=aws)
-DeleteConnectorDefinition(ConnectorDefinitionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("DELETE", "/greengrass/definition/connectors/$(ConnectorDefinitionId)", args; aws=aws)
+
+DeleteConnectorDefinition(ConnectorDefinitionId; aws_config::AWSConfig=global_aws_config()) = greengrass("DELETE", "/greengrass/definition/connectors/$(ConnectorDefinitionId)"; aws_config=aws_config)
+DeleteConnectorDefinition(ConnectorDefinitionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("DELETE", "/greengrass/definition/connectors/$(ConnectorDefinitionId)", args; aws_config=aws_config)
 
 """
     DeleteCoreDefinition()
@@ -339,8 +361,9 @@ Deletes a core definition.
 - `CoreDefinitionId`: The ID of the core definition.
 
 """
-DeleteCoreDefinition(CoreDefinitionId; aws::AWSConfig=AWS.aws_config) = greengrass("DELETE", "/greengrass/definition/cores/$(CoreDefinitionId)"; aws=aws)
-DeleteCoreDefinition(CoreDefinitionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("DELETE", "/greengrass/definition/cores/$(CoreDefinitionId)", args; aws=aws)
+
+DeleteCoreDefinition(CoreDefinitionId; aws_config::AWSConfig=global_aws_config()) = greengrass("DELETE", "/greengrass/definition/cores/$(CoreDefinitionId)"; aws_config=aws_config)
+DeleteCoreDefinition(CoreDefinitionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("DELETE", "/greengrass/definition/cores/$(CoreDefinitionId)", args; aws_config=aws_config)
 
 """
     DeleteDeviceDefinition()
@@ -351,8 +374,9 @@ Deletes a device definition.
 - `DeviceDefinitionId`: The ID of the device definition.
 
 """
-DeleteDeviceDefinition(DeviceDefinitionId; aws::AWSConfig=AWS.aws_config) = greengrass("DELETE", "/greengrass/definition/devices/$(DeviceDefinitionId)"; aws=aws)
-DeleteDeviceDefinition(DeviceDefinitionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("DELETE", "/greengrass/definition/devices/$(DeviceDefinitionId)", args; aws=aws)
+
+DeleteDeviceDefinition(DeviceDefinitionId; aws_config::AWSConfig=global_aws_config()) = greengrass("DELETE", "/greengrass/definition/devices/$(DeviceDefinitionId)"; aws_config=aws_config)
+DeleteDeviceDefinition(DeviceDefinitionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("DELETE", "/greengrass/definition/devices/$(DeviceDefinitionId)", args; aws_config=aws_config)
 
 """
     DeleteFunctionDefinition()
@@ -363,8 +387,9 @@ Deletes a Lambda function definition.
 - `FunctionDefinitionId`: The ID of the Lambda function definition.
 
 """
-DeleteFunctionDefinition(FunctionDefinitionId; aws::AWSConfig=AWS.aws_config) = greengrass("DELETE", "/greengrass/definition/functions/$(FunctionDefinitionId)"; aws=aws)
-DeleteFunctionDefinition(FunctionDefinitionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("DELETE", "/greengrass/definition/functions/$(FunctionDefinitionId)", args; aws=aws)
+
+DeleteFunctionDefinition(FunctionDefinitionId; aws_config::AWSConfig=global_aws_config()) = greengrass("DELETE", "/greengrass/definition/functions/$(FunctionDefinitionId)"; aws_config=aws_config)
+DeleteFunctionDefinition(FunctionDefinitionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("DELETE", "/greengrass/definition/functions/$(FunctionDefinitionId)", args; aws_config=aws_config)
 
 """
     DeleteGroup()
@@ -375,8 +400,9 @@ Deletes a group.
 - `GroupId`: The ID of the Greengrass group.
 
 """
-DeleteGroup(GroupId; aws::AWSConfig=AWS.aws_config) = greengrass("DELETE", "/greengrass/groups/$(GroupId)"; aws=aws)
-DeleteGroup(GroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("DELETE", "/greengrass/groups/$(GroupId)", args; aws=aws)
+
+DeleteGroup(GroupId; aws_config::AWSConfig=global_aws_config()) = greengrass("DELETE", "/greengrass/groups/$(GroupId)"; aws_config=aws_config)
+DeleteGroup(GroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("DELETE", "/greengrass/groups/$(GroupId)", args; aws_config=aws_config)
 
 """
     DeleteLoggerDefinition()
@@ -387,8 +413,9 @@ Deletes a logger definition.
 - `LoggerDefinitionId`: The ID of the logger definition.
 
 """
-DeleteLoggerDefinition(LoggerDefinitionId; aws::AWSConfig=AWS.aws_config) = greengrass("DELETE", "/greengrass/definition/loggers/$(LoggerDefinitionId)"; aws=aws)
-DeleteLoggerDefinition(LoggerDefinitionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("DELETE", "/greengrass/definition/loggers/$(LoggerDefinitionId)", args; aws=aws)
+
+DeleteLoggerDefinition(LoggerDefinitionId; aws_config::AWSConfig=global_aws_config()) = greengrass("DELETE", "/greengrass/definition/loggers/$(LoggerDefinitionId)"; aws_config=aws_config)
+DeleteLoggerDefinition(LoggerDefinitionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("DELETE", "/greengrass/definition/loggers/$(LoggerDefinitionId)", args; aws_config=aws_config)
 
 """
     DeleteResourceDefinition()
@@ -399,8 +426,9 @@ Deletes a resource definition.
 - `ResourceDefinitionId`: The ID of the resource definition.
 
 """
-DeleteResourceDefinition(ResourceDefinitionId; aws::AWSConfig=AWS.aws_config) = greengrass("DELETE", "/greengrass/definition/resources/$(ResourceDefinitionId)"; aws=aws)
-DeleteResourceDefinition(ResourceDefinitionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("DELETE", "/greengrass/definition/resources/$(ResourceDefinitionId)", args; aws=aws)
+
+DeleteResourceDefinition(ResourceDefinitionId; aws_config::AWSConfig=global_aws_config()) = greengrass("DELETE", "/greengrass/definition/resources/$(ResourceDefinitionId)"; aws_config=aws_config)
+DeleteResourceDefinition(ResourceDefinitionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("DELETE", "/greengrass/definition/resources/$(ResourceDefinitionId)", args; aws_config=aws_config)
 
 """
     DeleteSubscriptionDefinition()
@@ -411,8 +439,9 @@ Deletes a subscription definition.
 - `SubscriptionDefinitionId`: The ID of the subscription definition.
 
 """
-DeleteSubscriptionDefinition(SubscriptionDefinitionId; aws::AWSConfig=AWS.aws_config) = greengrass("DELETE", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)"; aws=aws)
-DeleteSubscriptionDefinition(SubscriptionDefinitionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("DELETE", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)", args; aws=aws)
+
+DeleteSubscriptionDefinition(SubscriptionDefinitionId; aws_config::AWSConfig=global_aws_config()) = greengrass("DELETE", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)"; aws_config=aws_config)
+DeleteSubscriptionDefinition(SubscriptionDefinitionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("DELETE", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)", args; aws_config=aws_config)
 
 """
     DisassociateRoleFromGroup()
@@ -423,8 +452,9 @@ Disassociates the role from a group.
 - `GroupId`: The ID of the Greengrass group.
 
 """
-DisassociateRoleFromGroup(GroupId; aws::AWSConfig=AWS.aws_config) = greengrass("DELETE", "/greengrass/groups/$(GroupId)/role"; aws=aws)
-DisassociateRoleFromGroup(GroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("DELETE", "/greengrass/groups/$(GroupId)/role", args; aws=aws)
+
+DisassociateRoleFromGroup(GroupId; aws_config::AWSConfig=global_aws_config()) = greengrass("DELETE", "/greengrass/groups/$(GroupId)/role"; aws_config=aws_config)
+DisassociateRoleFromGroup(GroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("DELETE", "/greengrass/groups/$(GroupId)/role", args; aws_config=aws_config)
 
 """
     DisassociateServiceRoleFromAccount()
@@ -432,8 +462,9 @@ DisassociateRoleFromGroup(GroupId, args::AbstractDict{String, <:Any}; aws::AWSCo
 Disassociates the service role from your account. Without a service role, deployments will not work.
 
 """
-DisassociateServiceRoleFromAccount(; aws::AWSConfig=AWS.aws_config) = greengrass("DELETE", "/greengrass/servicerole"; aws=aws)
-DisassociateServiceRoleFromAccount(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = greengrass("DELETE", "/greengrass/servicerole", args; aws=aws)
+
+DisassociateServiceRoleFromAccount(; aws_config::AWSConfig=global_aws_config()) = greengrass("DELETE", "/greengrass/servicerole"; aws_config=aws_config)
+DisassociateServiceRoleFromAccount(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("DELETE", "/greengrass/servicerole", args; aws_config=aws_config)
 
 """
     GetAssociatedRole()
@@ -444,8 +475,9 @@ Retrieves the role associated with a particular group.
 - `GroupId`: The ID of the Greengrass group.
 
 """
-GetAssociatedRole(GroupId; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/groups/$(GroupId)/role"; aws=aws)
-GetAssociatedRole(GroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/groups/$(GroupId)/role", args; aws=aws)
+
+GetAssociatedRole(GroupId; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/groups/$(GroupId)/role"; aws_config=aws_config)
+GetAssociatedRole(GroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/groups/$(GroupId)/role", args; aws_config=aws_config)
 
 """
     GetBulkDeploymentStatus()
@@ -456,8 +488,9 @@ Returns the status of a bulk deployment.
 - `BulkDeploymentId`: The ID of the bulk deployment.
 
 """
-GetBulkDeploymentStatus(BulkDeploymentId; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/bulk/deployments/$(BulkDeploymentId)/status"; aws=aws)
-GetBulkDeploymentStatus(BulkDeploymentId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/bulk/deployments/$(BulkDeploymentId)/status", args; aws=aws)
+
+GetBulkDeploymentStatus(BulkDeploymentId; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/bulk/deployments/$(BulkDeploymentId)/status"; aws_config=aws_config)
+GetBulkDeploymentStatus(BulkDeploymentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/bulk/deployments/$(BulkDeploymentId)/status", args; aws_config=aws_config)
 
 """
     GetConnectivityInfo()
@@ -468,8 +501,9 @@ Retrieves the connectivity information for a core.
 - `ThingName`: The thing name.
 
 """
-GetConnectivityInfo(ThingName; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/things/$(ThingName)/connectivityInfo"; aws=aws)
-GetConnectivityInfo(ThingName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/things/$(ThingName)/connectivityInfo", args; aws=aws)
+
+GetConnectivityInfo(ThingName; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/things/$(ThingName)/connectivityInfo"; aws_config=aws_config)
+GetConnectivityInfo(ThingName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/things/$(ThingName)/connectivityInfo", args; aws_config=aws_config)
 
 """
     GetConnectorDefinition()
@@ -480,8 +514,9 @@ Retrieves information about a connector definition.
 - `ConnectorDefinitionId`: The ID of the connector definition.
 
 """
-GetConnectorDefinition(ConnectorDefinitionId; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/connectors/$(ConnectorDefinitionId)"; aws=aws)
-GetConnectorDefinition(ConnectorDefinitionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/connectors/$(ConnectorDefinitionId)", args; aws=aws)
+
+GetConnectorDefinition(ConnectorDefinitionId; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/connectors/$(ConnectorDefinitionId)"; aws_config=aws_config)
+GetConnectorDefinition(ConnectorDefinitionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/connectors/$(ConnectorDefinitionId)", args; aws_config=aws_config)
 
 """
     GetConnectorDefinitionVersion()
@@ -495,8 +530,9 @@ Retrieves information about a connector definition version, including the connec
 # Optional Parameters
 - `NextToken`: The token for the next set of results, or ''null'' if there are no additional results.
 """
-GetConnectorDefinitionVersion(ConnectorDefinitionId, ConnectorDefinitionVersionId; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/connectors/$(ConnectorDefinitionId)/versions/$(ConnectorDefinitionVersionId)"; aws=aws)
-GetConnectorDefinitionVersion(ConnectorDefinitionId, ConnectorDefinitionVersionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/connectors/$(ConnectorDefinitionId)/versions/$(ConnectorDefinitionVersionId)", args; aws=aws)
+
+GetConnectorDefinitionVersion(ConnectorDefinitionId, ConnectorDefinitionVersionId; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/connectors/$(ConnectorDefinitionId)/versions/$(ConnectorDefinitionVersionId)"; aws_config=aws_config)
+GetConnectorDefinitionVersion(ConnectorDefinitionId, ConnectorDefinitionVersionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/connectors/$(ConnectorDefinitionId)/versions/$(ConnectorDefinitionVersionId)", args; aws_config=aws_config)
 
 """
     GetCoreDefinition()
@@ -507,8 +543,9 @@ Retrieves information about a core definition version.
 - `CoreDefinitionId`: The ID of the core definition.
 
 """
-GetCoreDefinition(CoreDefinitionId; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/cores/$(CoreDefinitionId)"; aws=aws)
-GetCoreDefinition(CoreDefinitionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/cores/$(CoreDefinitionId)", args; aws=aws)
+
+GetCoreDefinition(CoreDefinitionId; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/cores/$(CoreDefinitionId)"; aws_config=aws_config)
+GetCoreDefinition(CoreDefinitionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/cores/$(CoreDefinitionId)", args; aws_config=aws_config)
 
 """
     GetCoreDefinitionVersion()
@@ -520,8 +557,9 @@ Retrieves information about a core definition version.
 - `CoreDefinitionVersionId`: The ID of the core definition version. This value maps to the ''Version'' property of the corresponding ''VersionInformation'' object, which is returned by ''ListCoreDefinitionVersions'' requests. If the version is the last one that was associated with a core definition, the value also maps to the ''LatestVersion'' property of the corresponding ''DefinitionInformation'' object.
 
 """
-GetCoreDefinitionVersion(CoreDefinitionId, CoreDefinitionVersionId; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/cores/$(CoreDefinitionId)/versions/$(CoreDefinitionVersionId)"; aws=aws)
-GetCoreDefinitionVersion(CoreDefinitionId, CoreDefinitionVersionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/cores/$(CoreDefinitionId)/versions/$(CoreDefinitionVersionId)", args; aws=aws)
+
+GetCoreDefinitionVersion(CoreDefinitionId, CoreDefinitionVersionId; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/cores/$(CoreDefinitionId)/versions/$(CoreDefinitionVersionId)"; aws_config=aws_config)
+GetCoreDefinitionVersion(CoreDefinitionId, CoreDefinitionVersionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/cores/$(CoreDefinitionId)/versions/$(CoreDefinitionVersionId)", args; aws_config=aws_config)
 
 """
     GetDeploymentStatus()
@@ -533,8 +571,9 @@ Returns the status of a deployment.
 - `GroupId`: The ID of the Greengrass group.
 
 """
-GetDeploymentStatus(DeploymentId, GroupId; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/groups/$(GroupId)/deployments/$(DeploymentId)/status"; aws=aws)
-GetDeploymentStatus(DeploymentId, GroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/groups/$(GroupId)/deployments/$(DeploymentId)/status", args; aws=aws)
+
+GetDeploymentStatus(DeploymentId, GroupId; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/groups/$(GroupId)/deployments/$(DeploymentId)/status"; aws_config=aws_config)
+GetDeploymentStatus(DeploymentId, GroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/groups/$(GroupId)/deployments/$(DeploymentId)/status", args; aws_config=aws_config)
 
 """
     GetDeviceDefinition()
@@ -545,8 +584,9 @@ Retrieves information about a device definition.
 - `DeviceDefinitionId`: The ID of the device definition.
 
 """
-GetDeviceDefinition(DeviceDefinitionId; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/devices/$(DeviceDefinitionId)"; aws=aws)
-GetDeviceDefinition(DeviceDefinitionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/devices/$(DeviceDefinitionId)", args; aws=aws)
+
+GetDeviceDefinition(DeviceDefinitionId; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/devices/$(DeviceDefinitionId)"; aws_config=aws_config)
+GetDeviceDefinition(DeviceDefinitionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/devices/$(DeviceDefinitionId)", args; aws_config=aws_config)
 
 """
     GetDeviceDefinitionVersion()
@@ -560,8 +600,9 @@ Retrieves information about a device definition version.
 # Optional Parameters
 - `NextToken`: The token for the next set of results, or ''null'' if there are no additional results.
 """
-GetDeviceDefinitionVersion(DeviceDefinitionId, DeviceDefinitionVersionId; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/devices/$(DeviceDefinitionId)/versions/$(DeviceDefinitionVersionId)"; aws=aws)
-GetDeviceDefinitionVersion(DeviceDefinitionId, DeviceDefinitionVersionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/devices/$(DeviceDefinitionId)/versions/$(DeviceDefinitionVersionId)", args; aws=aws)
+
+GetDeviceDefinitionVersion(DeviceDefinitionId, DeviceDefinitionVersionId; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/devices/$(DeviceDefinitionId)/versions/$(DeviceDefinitionVersionId)"; aws_config=aws_config)
+GetDeviceDefinitionVersion(DeviceDefinitionId, DeviceDefinitionVersionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/devices/$(DeviceDefinitionId)/versions/$(DeviceDefinitionVersionId)", args; aws_config=aws_config)
 
 """
     GetFunctionDefinition()
@@ -572,8 +613,9 @@ Retrieves information about a Lambda function definition, including its creation
 - `FunctionDefinitionId`: The ID of the Lambda function definition.
 
 """
-GetFunctionDefinition(FunctionDefinitionId; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/functions/$(FunctionDefinitionId)"; aws=aws)
-GetFunctionDefinition(FunctionDefinitionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/functions/$(FunctionDefinitionId)", args; aws=aws)
+
+GetFunctionDefinition(FunctionDefinitionId; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/functions/$(FunctionDefinitionId)"; aws_config=aws_config)
+GetFunctionDefinition(FunctionDefinitionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/functions/$(FunctionDefinitionId)", args; aws_config=aws_config)
 
 """
     GetFunctionDefinitionVersion()
@@ -587,8 +629,9 @@ Retrieves information about a Lambda function definition version, including whic
 # Optional Parameters
 - `NextToken`: The token for the next set of results, or ''null'' if there are no additional results.
 """
-GetFunctionDefinitionVersion(FunctionDefinitionId, FunctionDefinitionVersionId; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/functions/$(FunctionDefinitionId)/versions/$(FunctionDefinitionVersionId)"; aws=aws)
-GetFunctionDefinitionVersion(FunctionDefinitionId, FunctionDefinitionVersionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/functions/$(FunctionDefinitionId)/versions/$(FunctionDefinitionVersionId)", args; aws=aws)
+
+GetFunctionDefinitionVersion(FunctionDefinitionId, FunctionDefinitionVersionId; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/functions/$(FunctionDefinitionId)/versions/$(FunctionDefinitionVersionId)"; aws_config=aws_config)
+GetFunctionDefinitionVersion(FunctionDefinitionId, FunctionDefinitionVersionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/functions/$(FunctionDefinitionId)/versions/$(FunctionDefinitionVersionId)", args; aws_config=aws_config)
 
 """
     GetGroup()
@@ -599,8 +642,9 @@ Retrieves information about a group.
 - `GroupId`: The ID of the Greengrass group.
 
 """
-GetGroup(GroupId; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/groups/$(GroupId)"; aws=aws)
-GetGroup(GroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/groups/$(GroupId)", args; aws=aws)
+
+GetGroup(GroupId; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/groups/$(GroupId)"; aws_config=aws_config)
+GetGroup(GroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/groups/$(GroupId)", args; aws_config=aws_config)
 
 """
     GetGroupCertificateAuthority()
@@ -612,8 +656,9 @@ Retreives the CA associated with a group. Returns the public key of the CA.
 - `GroupId`: The ID of the Greengrass group.
 
 """
-GetGroupCertificateAuthority(CertificateAuthorityId, GroupId; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/groups/$(GroupId)/certificateauthorities/$(CertificateAuthorityId)"; aws=aws)
-GetGroupCertificateAuthority(CertificateAuthorityId, GroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/groups/$(GroupId)/certificateauthorities/$(CertificateAuthorityId)", args; aws=aws)
+
+GetGroupCertificateAuthority(CertificateAuthorityId, GroupId; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/groups/$(GroupId)/certificateauthorities/$(CertificateAuthorityId)"; aws_config=aws_config)
+GetGroupCertificateAuthority(CertificateAuthorityId, GroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/groups/$(GroupId)/certificateauthorities/$(CertificateAuthorityId)", args; aws_config=aws_config)
 
 """
     GetGroupCertificateConfiguration()
@@ -624,8 +669,9 @@ Retrieves the current configuration for the CA used by the group.
 - `GroupId`: The ID of the Greengrass group.
 
 """
-GetGroupCertificateConfiguration(GroupId; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/groups/$(GroupId)/certificateauthorities/configuration/expiry"; aws=aws)
-GetGroupCertificateConfiguration(GroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/groups/$(GroupId)/certificateauthorities/configuration/expiry", args; aws=aws)
+
+GetGroupCertificateConfiguration(GroupId; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/groups/$(GroupId)/certificateauthorities/configuration/expiry"; aws_config=aws_config)
+GetGroupCertificateConfiguration(GroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/groups/$(GroupId)/certificateauthorities/configuration/expiry", args; aws_config=aws_config)
 
 """
     GetGroupVersion()
@@ -637,8 +683,9 @@ Retrieves information about a group version.
 - `GroupVersionId`: The ID of the group version. This value maps to the ''Version'' property of the corresponding ''VersionInformation'' object, which is returned by ''ListGroupVersions'' requests. If the version is the last one that was associated with a group, the value also maps to the ''LatestVersion'' property of the corresponding ''GroupInformation'' object.
 
 """
-GetGroupVersion(GroupId, GroupVersionId; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/groups/$(GroupId)/versions/$(GroupVersionId)"; aws=aws)
-GetGroupVersion(GroupId, GroupVersionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/groups/$(GroupId)/versions/$(GroupVersionId)", args; aws=aws)
+
+GetGroupVersion(GroupId, GroupVersionId; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/groups/$(GroupId)/versions/$(GroupVersionId)"; aws_config=aws_config)
+GetGroupVersion(GroupId, GroupVersionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/groups/$(GroupId)/versions/$(GroupVersionId)", args; aws_config=aws_config)
 
 """
     GetLoggerDefinition()
@@ -649,8 +696,9 @@ Retrieves information about a logger definition.
 - `LoggerDefinitionId`: The ID of the logger definition.
 
 """
-GetLoggerDefinition(LoggerDefinitionId; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/loggers/$(LoggerDefinitionId)"; aws=aws)
-GetLoggerDefinition(LoggerDefinitionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/loggers/$(LoggerDefinitionId)", args; aws=aws)
+
+GetLoggerDefinition(LoggerDefinitionId; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/loggers/$(LoggerDefinitionId)"; aws_config=aws_config)
+GetLoggerDefinition(LoggerDefinitionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/loggers/$(LoggerDefinitionId)", args; aws_config=aws_config)
 
 """
     GetLoggerDefinitionVersion()
@@ -664,8 +712,9 @@ Retrieves information about a logger definition version.
 # Optional Parameters
 - `NextToken`: The token for the next set of results, or ''null'' if there are no additional results.
 """
-GetLoggerDefinitionVersion(LoggerDefinitionId, LoggerDefinitionVersionId; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/loggers/$(LoggerDefinitionId)/versions/$(LoggerDefinitionVersionId)"; aws=aws)
-GetLoggerDefinitionVersion(LoggerDefinitionId, LoggerDefinitionVersionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/loggers/$(LoggerDefinitionId)/versions/$(LoggerDefinitionVersionId)", args; aws=aws)
+
+GetLoggerDefinitionVersion(LoggerDefinitionId, LoggerDefinitionVersionId; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/loggers/$(LoggerDefinitionId)/versions/$(LoggerDefinitionVersionId)"; aws_config=aws_config)
+GetLoggerDefinitionVersion(LoggerDefinitionId, LoggerDefinitionVersionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/loggers/$(LoggerDefinitionId)/versions/$(LoggerDefinitionVersionId)", args; aws_config=aws_config)
 
 """
     GetResourceDefinition()
@@ -676,8 +725,9 @@ Retrieves information about a resource definition, including its creation time a
 - `ResourceDefinitionId`: The ID of the resource definition.
 
 """
-GetResourceDefinition(ResourceDefinitionId; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/resources/$(ResourceDefinitionId)"; aws=aws)
-GetResourceDefinition(ResourceDefinitionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/resources/$(ResourceDefinitionId)", args; aws=aws)
+
+GetResourceDefinition(ResourceDefinitionId; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/resources/$(ResourceDefinitionId)"; aws_config=aws_config)
+GetResourceDefinition(ResourceDefinitionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/resources/$(ResourceDefinitionId)", args; aws_config=aws_config)
 
 """
     GetResourceDefinitionVersion()
@@ -689,8 +739,9 @@ Retrieves information about a resource definition version, including which resou
 - `ResourceDefinitionVersionId`: The ID of the resource definition version. This value maps to the ''Version'' property of the corresponding ''VersionInformation'' object, which is returned by ''ListResourceDefinitionVersions'' requests. If the version is the last one that was associated with a resource definition, the value also maps to the ''LatestVersion'' property of the corresponding ''DefinitionInformation'' object.
 
 """
-GetResourceDefinitionVersion(ResourceDefinitionId, ResourceDefinitionVersionId; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/resources/$(ResourceDefinitionId)/versions/$(ResourceDefinitionVersionId)"; aws=aws)
-GetResourceDefinitionVersion(ResourceDefinitionId, ResourceDefinitionVersionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/resources/$(ResourceDefinitionId)/versions/$(ResourceDefinitionVersionId)", args; aws=aws)
+
+GetResourceDefinitionVersion(ResourceDefinitionId, ResourceDefinitionVersionId; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/resources/$(ResourceDefinitionId)/versions/$(ResourceDefinitionVersionId)"; aws_config=aws_config)
+GetResourceDefinitionVersion(ResourceDefinitionId, ResourceDefinitionVersionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/resources/$(ResourceDefinitionId)/versions/$(ResourceDefinitionVersionId)", args; aws_config=aws_config)
 
 """
     GetServiceRoleForAccount()
@@ -698,8 +749,9 @@ GetResourceDefinitionVersion(ResourceDefinitionId, ResourceDefinitionVersionId, 
 Retrieves the service role that is attached to your account.
 
 """
-GetServiceRoleForAccount(; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/servicerole"; aws=aws)
-GetServiceRoleForAccount(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/servicerole", args; aws=aws)
+
+GetServiceRoleForAccount(; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/servicerole"; aws_config=aws_config)
+GetServiceRoleForAccount(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/servicerole", args; aws_config=aws_config)
 
 """
     GetSubscriptionDefinition()
@@ -710,8 +762,9 @@ Retrieves information about a subscription definition.
 - `SubscriptionDefinitionId`: The ID of the subscription definition.
 
 """
-GetSubscriptionDefinition(SubscriptionDefinitionId; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)"; aws=aws)
-GetSubscriptionDefinition(SubscriptionDefinitionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)", args; aws=aws)
+
+GetSubscriptionDefinition(SubscriptionDefinitionId; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)"; aws_config=aws_config)
+GetSubscriptionDefinition(SubscriptionDefinitionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)", args; aws_config=aws_config)
 
 """
     GetSubscriptionDefinitionVersion()
@@ -725,8 +778,9 @@ Retrieves information about a subscription definition version.
 # Optional Parameters
 - `NextToken`: The token for the next set of results, or ''null'' if there are no additional results.
 """
-GetSubscriptionDefinitionVersion(SubscriptionDefinitionId, SubscriptionDefinitionVersionId; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)/versions/$(SubscriptionDefinitionVersionId)"; aws=aws)
-GetSubscriptionDefinitionVersion(SubscriptionDefinitionId, SubscriptionDefinitionVersionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)/versions/$(SubscriptionDefinitionVersionId)", args; aws=aws)
+
+GetSubscriptionDefinitionVersion(SubscriptionDefinitionId, SubscriptionDefinitionVersionId; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)/versions/$(SubscriptionDefinitionVersionId)"; aws_config=aws_config)
+GetSubscriptionDefinitionVersion(SubscriptionDefinitionId, SubscriptionDefinitionVersionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)/versions/$(SubscriptionDefinitionVersionId)", args; aws_config=aws_config)
 
 """
     ListBulkDeploymentDetailedReports()
@@ -740,8 +794,9 @@ Gets a paginated list of the deployments that have been started in a bulk deploy
 - `MaxResults`: The maximum number of results to be returned per request.
 - `NextToken`: The token for the next set of results, or ''null'' if there are no additional results.
 """
-ListBulkDeploymentDetailedReports(BulkDeploymentId; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/bulk/deployments/$(BulkDeploymentId)/detailed-reports"; aws=aws)
-ListBulkDeploymentDetailedReports(BulkDeploymentId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/bulk/deployments/$(BulkDeploymentId)/detailed-reports", args; aws=aws)
+
+ListBulkDeploymentDetailedReports(BulkDeploymentId; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/bulk/deployments/$(BulkDeploymentId)/detailed-reports"; aws_config=aws_config)
+ListBulkDeploymentDetailedReports(BulkDeploymentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/bulk/deployments/$(BulkDeploymentId)/detailed-reports", args; aws_config=aws_config)
 
 """
     ListBulkDeployments()
@@ -752,8 +807,9 @@ Returns a list of bulk deployments.
 - `MaxResults`: The maximum number of results to be returned per request.
 - `NextToken`: The token for the next set of results, or ''null'' if there are no additional results.
 """
-ListBulkDeployments(; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/bulk/deployments"; aws=aws)
-ListBulkDeployments(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/bulk/deployments", args; aws=aws)
+
+ListBulkDeployments(; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/bulk/deployments"; aws_config=aws_config)
+ListBulkDeployments(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/bulk/deployments", args; aws_config=aws_config)
 
 """
     ListConnectorDefinitionVersions()
@@ -767,8 +823,9 @@ Lists the versions of a connector definition, which are containers for connector
 - `MaxResults`: The maximum number of results to be returned per request.
 - `NextToken`: The token for the next set of results, or ''null'' if there are no additional results.
 """
-ListConnectorDefinitionVersions(ConnectorDefinitionId; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/connectors/$(ConnectorDefinitionId)/versions"; aws=aws)
-ListConnectorDefinitionVersions(ConnectorDefinitionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/connectors/$(ConnectorDefinitionId)/versions", args; aws=aws)
+
+ListConnectorDefinitionVersions(ConnectorDefinitionId; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/connectors/$(ConnectorDefinitionId)/versions"; aws_config=aws_config)
+ListConnectorDefinitionVersions(ConnectorDefinitionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/connectors/$(ConnectorDefinitionId)/versions", args; aws_config=aws_config)
 
 """
     ListConnectorDefinitions()
@@ -779,8 +836,9 @@ Retrieves a list of connector definitions.
 - `MaxResults`: The maximum number of results to be returned per request.
 - `NextToken`: The token for the next set of results, or ''null'' if there are no additional results.
 """
-ListConnectorDefinitions(; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/connectors"; aws=aws)
-ListConnectorDefinitions(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/connectors", args; aws=aws)
+
+ListConnectorDefinitions(; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/connectors"; aws_config=aws_config)
+ListConnectorDefinitions(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/connectors", args; aws_config=aws_config)
 
 """
     ListCoreDefinitionVersions()
@@ -794,8 +852,9 @@ Lists the versions of a core definition.
 - `MaxResults`: The maximum number of results to be returned per request.
 - `NextToken`: The token for the next set of results, or ''null'' if there are no additional results.
 """
-ListCoreDefinitionVersions(CoreDefinitionId; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/cores/$(CoreDefinitionId)/versions"; aws=aws)
-ListCoreDefinitionVersions(CoreDefinitionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/cores/$(CoreDefinitionId)/versions", args; aws=aws)
+
+ListCoreDefinitionVersions(CoreDefinitionId; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/cores/$(CoreDefinitionId)/versions"; aws_config=aws_config)
+ListCoreDefinitionVersions(CoreDefinitionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/cores/$(CoreDefinitionId)/versions", args; aws_config=aws_config)
 
 """
     ListCoreDefinitions()
@@ -806,8 +865,9 @@ Retrieves a list of core definitions.
 - `MaxResults`: The maximum number of results to be returned per request.
 - `NextToken`: The token for the next set of results, or ''null'' if there are no additional results.
 """
-ListCoreDefinitions(; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/cores"; aws=aws)
-ListCoreDefinitions(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/cores", args; aws=aws)
+
+ListCoreDefinitions(; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/cores"; aws_config=aws_config)
+ListCoreDefinitions(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/cores", args; aws_config=aws_config)
 
 """
     ListDeployments()
@@ -821,8 +881,9 @@ Returns a history of deployments for the group.
 - `MaxResults`: The maximum number of results to be returned per request.
 - `NextToken`: The token for the next set of results, or ''null'' if there are no additional results.
 """
-ListDeployments(GroupId; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/groups/$(GroupId)/deployments"; aws=aws)
-ListDeployments(GroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/groups/$(GroupId)/deployments", args; aws=aws)
+
+ListDeployments(GroupId; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/groups/$(GroupId)/deployments"; aws_config=aws_config)
+ListDeployments(GroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/groups/$(GroupId)/deployments", args; aws_config=aws_config)
 
 """
     ListDeviceDefinitionVersions()
@@ -836,8 +897,9 @@ Lists the versions of a device definition.
 - `MaxResults`: The maximum number of results to be returned per request.
 - `NextToken`: The token for the next set of results, or ''null'' if there are no additional results.
 """
-ListDeviceDefinitionVersions(DeviceDefinitionId; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/devices/$(DeviceDefinitionId)/versions"; aws=aws)
-ListDeviceDefinitionVersions(DeviceDefinitionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/devices/$(DeviceDefinitionId)/versions", args; aws=aws)
+
+ListDeviceDefinitionVersions(DeviceDefinitionId; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/devices/$(DeviceDefinitionId)/versions"; aws_config=aws_config)
+ListDeviceDefinitionVersions(DeviceDefinitionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/devices/$(DeviceDefinitionId)/versions", args; aws_config=aws_config)
 
 """
     ListDeviceDefinitions()
@@ -848,8 +910,9 @@ Retrieves a list of device definitions.
 - `MaxResults`: The maximum number of results to be returned per request.
 - `NextToken`: The token for the next set of results, or ''null'' if there are no additional results.
 """
-ListDeviceDefinitions(; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/devices"; aws=aws)
-ListDeviceDefinitions(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/devices", args; aws=aws)
+
+ListDeviceDefinitions(; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/devices"; aws_config=aws_config)
+ListDeviceDefinitions(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/devices", args; aws_config=aws_config)
 
 """
     ListFunctionDefinitionVersions()
@@ -863,8 +926,9 @@ Lists the versions of a Lambda function definition.
 - `MaxResults`: The maximum number of results to be returned per request.
 - `NextToken`: The token for the next set of results, or ''null'' if there are no additional results.
 """
-ListFunctionDefinitionVersions(FunctionDefinitionId; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/functions/$(FunctionDefinitionId)/versions"; aws=aws)
-ListFunctionDefinitionVersions(FunctionDefinitionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/functions/$(FunctionDefinitionId)/versions", args; aws=aws)
+
+ListFunctionDefinitionVersions(FunctionDefinitionId; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/functions/$(FunctionDefinitionId)/versions"; aws_config=aws_config)
+ListFunctionDefinitionVersions(FunctionDefinitionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/functions/$(FunctionDefinitionId)/versions", args; aws_config=aws_config)
 
 """
     ListFunctionDefinitions()
@@ -875,8 +939,9 @@ Retrieves a list of Lambda function definitions.
 - `MaxResults`: The maximum number of results to be returned per request.
 - `NextToken`: The token for the next set of results, or ''null'' if there are no additional results.
 """
-ListFunctionDefinitions(; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/functions"; aws=aws)
-ListFunctionDefinitions(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/functions", args; aws=aws)
+
+ListFunctionDefinitions(; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/functions"; aws_config=aws_config)
+ListFunctionDefinitions(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/functions", args; aws_config=aws_config)
 
 """
     ListGroupCertificateAuthorities()
@@ -887,8 +952,9 @@ Retrieves the current CAs for a group.
 - `GroupId`: The ID of the Greengrass group.
 
 """
-ListGroupCertificateAuthorities(GroupId; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/groups/$(GroupId)/certificateauthorities"; aws=aws)
-ListGroupCertificateAuthorities(GroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/groups/$(GroupId)/certificateauthorities", args; aws=aws)
+
+ListGroupCertificateAuthorities(GroupId; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/groups/$(GroupId)/certificateauthorities"; aws_config=aws_config)
+ListGroupCertificateAuthorities(GroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/groups/$(GroupId)/certificateauthorities", args; aws_config=aws_config)
 
 """
     ListGroupVersions()
@@ -902,8 +968,9 @@ Lists the versions of a group.
 - `MaxResults`: The maximum number of results to be returned per request.
 - `NextToken`: The token for the next set of results, or ''null'' if there are no additional results.
 """
-ListGroupVersions(GroupId; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/groups/$(GroupId)/versions"; aws=aws)
-ListGroupVersions(GroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/groups/$(GroupId)/versions", args; aws=aws)
+
+ListGroupVersions(GroupId; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/groups/$(GroupId)/versions"; aws_config=aws_config)
+ListGroupVersions(GroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/groups/$(GroupId)/versions", args; aws_config=aws_config)
 
 """
     ListGroups()
@@ -914,8 +981,9 @@ Retrieves a list of groups.
 - `MaxResults`: The maximum number of results to be returned per request.
 - `NextToken`: The token for the next set of results, or ''null'' if there are no additional results.
 """
-ListGroups(; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/groups"; aws=aws)
-ListGroups(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/groups", args; aws=aws)
+
+ListGroups(; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/groups"; aws_config=aws_config)
+ListGroups(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/groups", args; aws_config=aws_config)
 
 """
     ListLoggerDefinitionVersions()
@@ -929,8 +997,9 @@ Lists the versions of a logger definition.
 - `MaxResults`: The maximum number of results to be returned per request.
 - `NextToken`: The token for the next set of results, or ''null'' if there are no additional results.
 """
-ListLoggerDefinitionVersions(LoggerDefinitionId; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/loggers/$(LoggerDefinitionId)/versions"; aws=aws)
-ListLoggerDefinitionVersions(LoggerDefinitionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/loggers/$(LoggerDefinitionId)/versions", args; aws=aws)
+
+ListLoggerDefinitionVersions(LoggerDefinitionId; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/loggers/$(LoggerDefinitionId)/versions"; aws_config=aws_config)
+ListLoggerDefinitionVersions(LoggerDefinitionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/loggers/$(LoggerDefinitionId)/versions", args; aws_config=aws_config)
 
 """
     ListLoggerDefinitions()
@@ -941,8 +1010,9 @@ Retrieves a list of logger definitions.
 - `MaxResults`: The maximum number of results to be returned per request.
 - `NextToken`: The token for the next set of results, or ''null'' if there are no additional results.
 """
-ListLoggerDefinitions(; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/loggers"; aws=aws)
-ListLoggerDefinitions(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/loggers", args; aws=aws)
+
+ListLoggerDefinitions(; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/loggers"; aws_config=aws_config)
+ListLoggerDefinitions(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/loggers", args; aws_config=aws_config)
 
 """
     ListResourceDefinitionVersions()
@@ -956,8 +1026,9 @@ Lists the versions of a resource definition.
 - `MaxResults`: The maximum number of results to be returned per request.
 - `NextToken`: The token for the next set of results, or ''null'' if there are no additional results.
 """
-ListResourceDefinitionVersions(ResourceDefinitionId; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/resources/$(ResourceDefinitionId)/versions"; aws=aws)
-ListResourceDefinitionVersions(ResourceDefinitionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/resources/$(ResourceDefinitionId)/versions", args; aws=aws)
+
+ListResourceDefinitionVersions(ResourceDefinitionId; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/resources/$(ResourceDefinitionId)/versions"; aws_config=aws_config)
+ListResourceDefinitionVersions(ResourceDefinitionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/resources/$(ResourceDefinitionId)/versions", args; aws_config=aws_config)
 
 """
     ListResourceDefinitions()
@@ -968,8 +1039,9 @@ Retrieves a list of resource definitions.
 - `MaxResults`: The maximum number of results to be returned per request.
 - `NextToken`: The token for the next set of results, or ''null'' if there are no additional results.
 """
-ListResourceDefinitions(; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/resources"; aws=aws)
-ListResourceDefinitions(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/resources", args; aws=aws)
+
+ListResourceDefinitions(; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/resources"; aws_config=aws_config)
+ListResourceDefinitions(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/resources", args; aws_config=aws_config)
 
 """
     ListSubscriptionDefinitionVersions()
@@ -983,8 +1055,9 @@ Lists the versions of a subscription definition.
 - `MaxResults`: The maximum number of results to be returned per request.
 - `NextToken`: The token for the next set of results, or ''null'' if there are no additional results.
 """
-ListSubscriptionDefinitionVersions(SubscriptionDefinitionId; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)/versions"; aws=aws)
-ListSubscriptionDefinitionVersions(SubscriptionDefinitionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)/versions", args; aws=aws)
+
+ListSubscriptionDefinitionVersions(SubscriptionDefinitionId; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)/versions"; aws_config=aws_config)
+ListSubscriptionDefinitionVersions(SubscriptionDefinitionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)/versions", args; aws_config=aws_config)
 
 """
     ListSubscriptionDefinitions()
@@ -995,8 +1068,9 @@ Retrieves a list of subscription definitions.
 - `MaxResults`: The maximum number of results to be returned per request.
 - `NextToken`: The token for the next set of results, or ''null'' if there are no additional results.
 """
-ListSubscriptionDefinitions(; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/subscriptions"; aws=aws)
-ListSubscriptionDefinitions(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/greengrass/definition/subscriptions", args; aws=aws)
+
+ListSubscriptionDefinitions(; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/subscriptions"; aws_config=aws_config)
+ListSubscriptionDefinitions(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/greengrass/definition/subscriptions", args; aws_config=aws_config)
 
 """
     ListTagsForResource()
@@ -1007,8 +1081,9 @@ Retrieves a list of resource tags for a resource arn.
 - `resource-arn`: The Amazon Resource Name (ARN) of the resource.
 
 """
-ListTagsForResource(resource_arn; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/tags/$(resource-arn)"; aws=aws)
-ListTagsForResource(resource_arn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("GET", "/tags/$(resource-arn)", args; aws=aws)
+
+ListTagsForResource(resource_arn; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/tags/$(resource-arn)"; aws_config=aws_config)
+ListTagsForResource(resource_arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("GET", "/tags/$(resource-arn)", args; aws_config=aws_config)
 
 """
     ResetDeployments()
@@ -1022,8 +1097,9 @@ Resets a group's deployments.
 - `Force`: If true, performs a best-effort only core reset.
 - `X-Amzn-Client-Token`: A client token used to correlate requests and responses.
 """
-ResetDeployments(GroupId; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/groups/$(GroupId)/deployments/$reset"; aws=aws)
-ResetDeployments(GroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/groups/$(GroupId)/deployments/$reset", args; aws=aws)
+
+ResetDeployments(GroupId; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/groups/$(GroupId)/deployments/$reset"; aws_config=aws_config)
+ResetDeployments(GroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/groups/$(GroupId)/deployments/$reset", args; aws_config=aws_config)
 
 """
     StartBulkDeployment()
@@ -1038,8 +1114,9 @@ Deploys multiple groups in one operation. This action starts the bulk deployment
 - `X-Amzn-Client-Token`: A client token used to correlate requests and responses.
 - `tags`: Tag(s) to add to the new resource.
 """
-StartBulkDeployment(ExecutionRoleArn, InputFileUri; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/bulk/deployments", Dict{String, Any}("ExecutionRoleArn"=>ExecutionRoleArn, "InputFileUri"=>InputFileUri); aws=aws)
-StartBulkDeployment(ExecutionRoleArn, InputFileUri, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/greengrass/bulk/deployments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExecutionRoleArn"=>ExecutionRoleArn, "InputFileUri"=>InputFileUri), args)); aws=aws)
+
+StartBulkDeployment(ExecutionRoleArn, InputFileUri; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/bulk/deployments", Dict{String, Any}("ExecutionRoleArn"=>ExecutionRoleArn, "InputFileUri"=>InputFileUri); aws_config=aws_config)
+StartBulkDeployment(ExecutionRoleArn, InputFileUri, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/greengrass/bulk/deployments", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ExecutionRoleArn"=>ExecutionRoleArn, "InputFileUri"=>InputFileUri), args)); aws_config=aws_config)
 
 """
     StopBulkDeployment()
@@ -1050,8 +1127,9 @@ Stops the execution of a bulk deployment. This action returns a status of ''Stop
 - `BulkDeploymentId`: The ID of the bulk deployment.
 
 """
-StopBulkDeployment(BulkDeploymentId; aws::AWSConfig=AWS.aws_config) = greengrass("PUT", "/greengrass/bulk/deployments/$(BulkDeploymentId)/$stop"; aws=aws)
-StopBulkDeployment(BulkDeploymentId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("PUT", "/greengrass/bulk/deployments/$(BulkDeploymentId)/$stop", args; aws=aws)
+
+StopBulkDeployment(BulkDeploymentId; aws_config::AWSConfig=global_aws_config()) = greengrass("PUT", "/greengrass/bulk/deployments/$(BulkDeploymentId)/$stop"; aws_config=aws_config)
+StopBulkDeployment(BulkDeploymentId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("PUT", "/greengrass/bulk/deployments/$(BulkDeploymentId)/$stop", args; aws_config=aws_config)
 
 """
     TagResource()
@@ -1064,8 +1142,9 @@ Adds tags to a Greengrass resource. Valid resources are 'Group', 'ConnectorDefin
 # Optional Parameters
 - `tags`: 
 """
-TagResource(resource_arn; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/tags/$(resource-arn)"; aws=aws)
-TagResource(resource_arn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("POST", "/tags/$(resource-arn)", args; aws=aws)
+
+TagResource(resource_arn; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/tags/$(resource-arn)"; aws_config=aws_config)
+TagResource(resource_arn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("POST", "/tags/$(resource-arn)", args; aws_config=aws_config)
 
 """
     UntagResource()
@@ -1077,8 +1156,9 @@ Remove resource tags from a Greengrass Resource.
 - `tagKeys`: An array of tag keys to delete
 
 """
-UntagResource(resource_arn, tagKeys; aws::AWSConfig=AWS.aws_config) = greengrass("DELETE", "/tags/$(resource-arn)", Dict{String, Any}("tagKeys"=>tagKeys); aws=aws)
-UntagResource(resource_arn, tagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("DELETE", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws=aws)
+
+UntagResource(resource_arn, tagKeys; aws_config::AWSConfig=global_aws_config()) = greengrass("DELETE", "/tags/$(resource-arn)", Dict{String, Any}("tagKeys"=>tagKeys); aws_config=aws_config)
+UntagResource(resource_arn, tagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("DELETE", "/tags/$(resource-arn)", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("tagKeys"=>tagKeys), args)); aws_config=aws_config)
 
 """
     UpdateConnectivityInfo()
@@ -1091,8 +1171,9 @@ Updates the connectivity information for the core. Any devices that belong to th
 # Optional Parameters
 - `ConnectivityInfo`: A list of connectivity info.
 """
-UpdateConnectivityInfo(ThingName; aws::AWSConfig=AWS.aws_config) = greengrass("PUT", "/greengrass/things/$(ThingName)/connectivityInfo"; aws=aws)
-UpdateConnectivityInfo(ThingName, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("PUT", "/greengrass/things/$(ThingName)/connectivityInfo", args; aws=aws)
+
+UpdateConnectivityInfo(ThingName; aws_config::AWSConfig=global_aws_config()) = greengrass("PUT", "/greengrass/things/$(ThingName)/connectivityInfo"; aws_config=aws_config)
+UpdateConnectivityInfo(ThingName, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("PUT", "/greengrass/things/$(ThingName)/connectivityInfo", args; aws_config=aws_config)
 
 """
     UpdateConnectorDefinition()
@@ -1105,8 +1186,9 @@ Updates a connector definition.
 # Optional Parameters
 - `Name`: The name of the definition.
 """
-UpdateConnectorDefinition(ConnectorDefinitionId; aws::AWSConfig=AWS.aws_config) = greengrass("PUT", "/greengrass/definition/connectors/$(ConnectorDefinitionId)"; aws=aws)
-UpdateConnectorDefinition(ConnectorDefinitionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("PUT", "/greengrass/definition/connectors/$(ConnectorDefinitionId)", args; aws=aws)
+
+UpdateConnectorDefinition(ConnectorDefinitionId; aws_config::AWSConfig=global_aws_config()) = greengrass("PUT", "/greengrass/definition/connectors/$(ConnectorDefinitionId)"; aws_config=aws_config)
+UpdateConnectorDefinition(ConnectorDefinitionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("PUT", "/greengrass/definition/connectors/$(ConnectorDefinitionId)", args; aws_config=aws_config)
 
 """
     UpdateCoreDefinition()
@@ -1119,8 +1201,9 @@ Updates a core definition.
 # Optional Parameters
 - `Name`: The name of the definition.
 """
-UpdateCoreDefinition(CoreDefinitionId; aws::AWSConfig=AWS.aws_config) = greengrass("PUT", "/greengrass/definition/cores/$(CoreDefinitionId)"; aws=aws)
-UpdateCoreDefinition(CoreDefinitionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("PUT", "/greengrass/definition/cores/$(CoreDefinitionId)", args; aws=aws)
+
+UpdateCoreDefinition(CoreDefinitionId; aws_config::AWSConfig=global_aws_config()) = greengrass("PUT", "/greengrass/definition/cores/$(CoreDefinitionId)"; aws_config=aws_config)
+UpdateCoreDefinition(CoreDefinitionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("PUT", "/greengrass/definition/cores/$(CoreDefinitionId)", args; aws_config=aws_config)
 
 """
     UpdateDeviceDefinition()
@@ -1133,8 +1216,9 @@ Updates a device definition.
 # Optional Parameters
 - `Name`: The name of the definition.
 """
-UpdateDeviceDefinition(DeviceDefinitionId; aws::AWSConfig=AWS.aws_config) = greengrass("PUT", "/greengrass/definition/devices/$(DeviceDefinitionId)"; aws=aws)
-UpdateDeviceDefinition(DeviceDefinitionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("PUT", "/greengrass/definition/devices/$(DeviceDefinitionId)", args; aws=aws)
+
+UpdateDeviceDefinition(DeviceDefinitionId; aws_config::AWSConfig=global_aws_config()) = greengrass("PUT", "/greengrass/definition/devices/$(DeviceDefinitionId)"; aws_config=aws_config)
+UpdateDeviceDefinition(DeviceDefinitionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("PUT", "/greengrass/definition/devices/$(DeviceDefinitionId)", args; aws_config=aws_config)
 
 """
     UpdateFunctionDefinition()
@@ -1147,8 +1231,9 @@ Updates a Lambda function definition.
 # Optional Parameters
 - `Name`: The name of the definition.
 """
-UpdateFunctionDefinition(FunctionDefinitionId; aws::AWSConfig=AWS.aws_config) = greengrass("PUT", "/greengrass/definition/functions/$(FunctionDefinitionId)"; aws=aws)
-UpdateFunctionDefinition(FunctionDefinitionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("PUT", "/greengrass/definition/functions/$(FunctionDefinitionId)", args; aws=aws)
+
+UpdateFunctionDefinition(FunctionDefinitionId; aws_config::AWSConfig=global_aws_config()) = greengrass("PUT", "/greengrass/definition/functions/$(FunctionDefinitionId)"; aws_config=aws_config)
+UpdateFunctionDefinition(FunctionDefinitionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("PUT", "/greengrass/definition/functions/$(FunctionDefinitionId)", args; aws_config=aws_config)
 
 """
     UpdateGroup()
@@ -1161,8 +1246,9 @@ Updates a group.
 # Optional Parameters
 - `Name`: The name of the definition.
 """
-UpdateGroup(GroupId; aws::AWSConfig=AWS.aws_config) = greengrass("PUT", "/greengrass/groups/$(GroupId)"; aws=aws)
-UpdateGroup(GroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("PUT", "/greengrass/groups/$(GroupId)", args; aws=aws)
+
+UpdateGroup(GroupId; aws_config::AWSConfig=global_aws_config()) = greengrass("PUT", "/greengrass/groups/$(GroupId)"; aws_config=aws_config)
+UpdateGroup(GroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("PUT", "/greengrass/groups/$(GroupId)", args; aws_config=aws_config)
 
 """
     UpdateGroupCertificateConfiguration()
@@ -1175,8 +1261,9 @@ Updates the Certificate expiry time for a group.
 # Optional Parameters
 - `CertificateExpiryInMilliseconds`: The amount of time remaining before the certificate expires, in milliseconds.
 """
-UpdateGroupCertificateConfiguration(GroupId; aws::AWSConfig=AWS.aws_config) = greengrass("PUT", "/greengrass/groups/$(GroupId)/certificateauthorities/configuration/expiry"; aws=aws)
-UpdateGroupCertificateConfiguration(GroupId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("PUT", "/greengrass/groups/$(GroupId)/certificateauthorities/configuration/expiry", args; aws=aws)
+
+UpdateGroupCertificateConfiguration(GroupId; aws_config::AWSConfig=global_aws_config()) = greengrass("PUT", "/greengrass/groups/$(GroupId)/certificateauthorities/configuration/expiry"; aws_config=aws_config)
+UpdateGroupCertificateConfiguration(GroupId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("PUT", "/greengrass/groups/$(GroupId)/certificateauthorities/configuration/expiry", args; aws_config=aws_config)
 
 """
     UpdateLoggerDefinition()
@@ -1189,8 +1276,9 @@ Updates a logger definition.
 # Optional Parameters
 - `Name`: The name of the definition.
 """
-UpdateLoggerDefinition(LoggerDefinitionId; aws::AWSConfig=AWS.aws_config) = greengrass("PUT", "/greengrass/definition/loggers/$(LoggerDefinitionId)"; aws=aws)
-UpdateLoggerDefinition(LoggerDefinitionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("PUT", "/greengrass/definition/loggers/$(LoggerDefinitionId)", args; aws=aws)
+
+UpdateLoggerDefinition(LoggerDefinitionId; aws_config::AWSConfig=global_aws_config()) = greengrass("PUT", "/greengrass/definition/loggers/$(LoggerDefinitionId)"; aws_config=aws_config)
+UpdateLoggerDefinition(LoggerDefinitionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("PUT", "/greengrass/definition/loggers/$(LoggerDefinitionId)", args; aws_config=aws_config)
 
 """
     UpdateResourceDefinition()
@@ -1203,8 +1291,9 @@ Updates a resource definition.
 # Optional Parameters
 - `Name`: The name of the definition.
 """
-UpdateResourceDefinition(ResourceDefinitionId; aws::AWSConfig=AWS.aws_config) = greengrass("PUT", "/greengrass/definition/resources/$(ResourceDefinitionId)"; aws=aws)
-UpdateResourceDefinition(ResourceDefinitionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("PUT", "/greengrass/definition/resources/$(ResourceDefinitionId)", args; aws=aws)
+
+UpdateResourceDefinition(ResourceDefinitionId; aws_config::AWSConfig=global_aws_config()) = greengrass("PUT", "/greengrass/definition/resources/$(ResourceDefinitionId)"; aws_config=aws_config)
+UpdateResourceDefinition(ResourceDefinitionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("PUT", "/greengrass/definition/resources/$(ResourceDefinitionId)", args; aws_config=aws_config)
 
 """
     UpdateSubscriptionDefinition()
@@ -1217,5 +1306,6 @@ Updates a subscription definition.
 # Optional Parameters
 - `Name`: The name of the definition.
 """
-UpdateSubscriptionDefinition(SubscriptionDefinitionId; aws::AWSConfig=AWS.aws_config) = greengrass("PUT", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)"; aws=aws)
-UpdateSubscriptionDefinition(SubscriptionDefinitionId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = greengrass("PUT", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)", args; aws=aws)
+
+UpdateSubscriptionDefinition(SubscriptionDefinitionId; aws_config::AWSConfig=global_aws_config()) = greengrass("PUT", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)"; aws_config=aws_config)
+UpdateSubscriptionDefinition(SubscriptionDefinitionId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = greengrass("PUT", "/greengrass/definition/subscriptions/$(SubscriptionDefinitionId)", args; aws_config=aws_config)

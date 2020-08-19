@@ -17,5 +17,6 @@ Records user interaction event data. For more information see event-record-api.
 # Optional Parameters
 - `userId`: The user associated with the event.
 """
-PutEvents(eventList, sessionId, trackingId; aws::AWSConfig=AWS.aws_config) = personalize_events("POST", "/events", Dict{String, Any}("eventList"=>eventList, "sessionId"=>sessionId, "trackingId"=>trackingId); aws=aws)
-PutEvents(eventList, sessionId, trackingId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = personalize_events("POST", "/events", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventList"=>eventList, "sessionId"=>sessionId, "trackingId"=>trackingId), args)); aws=aws)
+
+PutEvents(eventList, sessionId, trackingId; aws_config::AWSConfig=global_aws_config()) = personalize_events("POST", "/events", Dict{String, Any}("eventList"=>eventList, "sessionId"=>sessionId, "trackingId"=>trackingId); aws_config=aws_config)
+PutEvents(eventList, sessionId, trackingId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = personalize_events("POST", "/events", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("eventList"=>eventList, "sessionId"=>sessionId, "trackingId"=>trackingId), args)); aws_config=aws_config)

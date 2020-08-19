@@ -13,8 +13,9 @@ Disables automatic scheduled rotation and cancels the rotation of a secret if cu
 - `SecretId`: Specifies the secret to cancel a rotation request. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret.  If you specify an ARN, we generally recommend that you specify a complete ARN. You can specify a partial ARN too—for example, if you don’t include the final hyphen and six random characters that Secrets Manager adds at the end of the ARN when you created the secret. A partial ARN match can work as long as it uniquely matches only one secret. However, if your secret has a name that ends in a hyphen followed by six characters (before Secrets Manager adds the hyphen and six characters to the ARN) and you try to use that as a partial ARN, then those characters cause Secrets Manager to assume that you’re specifying a complete ARN. This confusion can cause unexpected results. To avoid this situation, we recommend that you don’t create secret names ending with a hyphen followed by six characters. If you specify an incomplete ARN without the random suffix, and instead provide the 'friendly name', you must not include the random suffix. If you do include the random suffix added by Secrets Manager, you receive either a ResourceNotFoundException or an AccessDeniedException error, depending on your permissions. 
 
 """
-CancelRotateSecret(SecretId; aws::AWSConfig=AWS.aws_config) = secrets_manager("CancelRotateSecret", Dict{String, Any}("SecretId"=>SecretId); aws=aws)
-CancelRotateSecret(SecretId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = secrets_manager("CancelRotateSecret", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), args)); aws=aws)
+
+CancelRotateSecret(SecretId; aws_config::AWSConfig=global_aws_config()) = secrets_manager("CancelRotateSecret", Dict{String, Any}("SecretId"=>SecretId); aws_config=aws_config)
+CancelRotateSecret(SecretId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = secrets_manager("CancelRotateSecret", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), args)); aws_config=aws_config)
 
 """
     CreateSecret()
@@ -32,8 +33,9 @@ Creates a new secret. A secret in Secrets Manager consists of both the protected
 - `SecretString`: (Optional) Specifies text data that you want to encrypt and store in this new version of the secret. Either SecretString or SecretBinary must have a value, but not both. They cannot both be empty. If you create a secret by using the Secrets Manager console then Secrets Manager puts the protected secret text in only the SecretString parameter. The Secrets Manager console stores the information as a JSON structure of key/value pairs that the Lambda rotation function knows how to parse. For storing multiple values, we recommend that you use a JSON text string argument and specify key/value pairs. For information on how to format a JSON parameter for the various command line tool environments, see Using JSON for Parameters in the AWS CLI User Guide. For example:  {\"username\":\"bob\",\"password\":\"abc123xyz456\"}  If your command-line tool or SDK requires quotation marks around the parameter, you should use single quotes to avoid confusion with the double quotes required in the JSON text. 
 - `Tags`: (Optional) Specifies a list of user-defined tags that are attached to the secret. Each tag is a \"Key\" and \"Value\" pair of strings. This operation only appends tags to the existing list of tags. To remove tags, you must use UntagResource.    Secrets Manager tag key names are case sensitive. A tag with the key \"ABC\" is a different tag from one with key \"abc\".   If you check tags in IAM policy Condition elements as part of your security strategy, then adding or removing a tag can change permissions. If the successful completion of this operation would result in you losing your permissions for this secret, then this operation is blocked and returns an Access Denied error.    This parameter requires a JSON text string argument. For information on how to format a JSON parameter for the various command line tool environments, see Using JSON for Parameters in the AWS CLI User Guide. For example:  [{\"Key\":\"CostCenter\",\"Value\":\"12345\"},{\"Key\":\"environment\",\"Value\":\"production\"}]  If your command-line tool or SDK requires quotation marks around the parameter, you should use single quotes to avoid confusion with the double quotes required in the JSON text.  The following basic restrictions apply to tags:   Maximum number of tags per secret—50   Maximum key length—127 Unicode characters in UTF-8   Maximum value length—255 Unicode characters in UTF-8   Tag keys and values are case sensitive.   Do not use the aws: prefix in your tag names or values because AWS reserves it for AWS use. You can't edit or delete tag names or values with this prefix. Tags with this prefix do not count against your tags per secret limit.   If you use your tagging schema across multiple services and resources, remember other services might have restrictions on allowed characters. Generally allowed characters: letters, spaces, and numbers representable in UTF-8, plus the following special characters: + - = . _ : / @.  
 """
-CreateSecret(Name; aws::AWSConfig=AWS.aws_config) = secrets_manager("CreateSecret", Dict{String, Any}("Name"=>Name, "ClientRequestToken"=>string(uuid4())); aws=aws)
-CreateSecret(Name, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = secrets_manager("CreateSecret", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "ClientRequestToken"=>string(uuid4())), args)); aws=aws)
+
+CreateSecret(Name; aws_config::AWSConfig=global_aws_config()) = secrets_manager("CreateSecret", Dict{String, Any}("Name"=>Name, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+CreateSecret(Name, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = secrets_manager("CreateSecret", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Name"=>Name, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     DeleteResourcePolicy()
@@ -44,8 +46,9 @@ Deletes the resource-based permission policy attached to the secret.  Minimum pe
 - `SecretId`: Specifies the secret that you want to delete the attached resource-based policy for. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret.  If you specify an ARN, we generally recommend that you specify a complete ARN. You can specify a partial ARN too—for example, if you don’t include the final hyphen and six random characters that Secrets Manager adds at the end of the ARN when you created the secret. A partial ARN match can work as long as it uniquely matches only one secret. However, if your secret has a name that ends in a hyphen followed by six characters (before Secrets Manager adds the hyphen and six characters to the ARN) and you try to use that as a partial ARN, then those characters cause Secrets Manager to assume that you’re specifying a complete ARN. This confusion can cause unexpected results. To avoid this situation, we recommend that you don’t create secret names ending with a hyphen followed by six characters. If you specify an incomplete ARN without the random suffix, and instead provide the 'friendly name', you must not include the random suffix. If you do include the random suffix added by Secrets Manager, you receive either a ResourceNotFoundException or an AccessDeniedException error, depending on your permissions. 
 
 """
-DeleteResourcePolicy(SecretId; aws::AWSConfig=AWS.aws_config) = secrets_manager("DeleteResourcePolicy", Dict{String, Any}("SecretId"=>SecretId); aws=aws)
-DeleteResourcePolicy(SecretId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = secrets_manager("DeleteResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), args)); aws=aws)
+
+DeleteResourcePolicy(SecretId; aws_config::AWSConfig=global_aws_config()) = secrets_manager("DeleteResourcePolicy", Dict{String, Any}("SecretId"=>SecretId); aws_config=aws_config)
+DeleteResourcePolicy(SecretId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = secrets_manager("DeleteResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), args)); aws_config=aws_config)
 
 """
     DeleteSecret()
@@ -59,8 +62,9 @@ Deletes an entire secret and all of its versions. You can optionally include a r
 - `ForceDeleteWithoutRecovery`: (Optional) Specifies that the secret is to be deleted without any recovery window. You can't use both this parameter and the RecoveryWindowInDays parameter in the same API call. An asynchronous background process performs the actual deletion, so there can be a short delay before the operation completes. If you write code to delete and then immediately recreate a secret with the same name, ensure that your code includes appropriate back off and retry logic.  Use this parameter with caution. This parameter causes the operation to skip the normal waiting period before the permanent deletion that AWS would normally impose with the RecoveryWindowInDays parameter. If you delete a secret with the ForceDeleteWithouRecovery parameter, then you have no opportunity to recover the secret. It is permanently lost. 
 - `RecoveryWindowInDays`: (Optional) Specifies the number of days that Secrets Manager waits before it can delete the secret. You can't use both this parameter and the ForceDeleteWithoutRecovery parameter in the same API call. This value can range from 7 to 30 days. The default value is 30.
 """
-DeleteSecret(SecretId; aws::AWSConfig=AWS.aws_config) = secrets_manager("DeleteSecret", Dict{String, Any}("SecretId"=>SecretId); aws=aws)
-DeleteSecret(SecretId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = secrets_manager("DeleteSecret", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), args)); aws=aws)
+
+DeleteSecret(SecretId; aws_config::AWSConfig=global_aws_config()) = secrets_manager("DeleteSecret", Dict{String, Any}("SecretId"=>SecretId); aws_config=aws_config)
+DeleteSecret(SecretId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = secrets_manager("DeleteSecret", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), args)); aws_config=aws_config)
 
 """
     DescribeSecret()
@@ -71,8 +75,9 @@ Retrieves the details of a secret. It does not include the encrypted fields. Sec
 - `SecretId`: The identifier of the secret whose details you want to retrieve. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret.  If you specify an ARN, we generally recommend that you specify a complete ARN. You can specify a partial ARN too—for example, if you don’t include the final hyphen and six random characters that Secrets Manager adds at the end of the ARN when you created the secret. A partial ARN match can work as long as it uniquely matches only one secret. However, if your secret has a name that ends in a hyphen followed by six characters (before Secrets Manager adds the hyphen and six characters to the ARN) and you try to use that as a partial ARN, then those characters cause Secrets Manager to assume that you’re specifying a complete ARN. This confusion can cause unexpected results. To avoid this situation, we recommend that you don’t create secret names ending with a hyphen followed by six characters. If you specify an incomplete ARN without the random suffix, and instead provide the 'friendly name', you must not include the random suffix. If you do include the random suffix added by Secrets Manager, you receive either a ResourceNotFoundException or an AccessDeniedException error, depending on your permissions. 
 
 """
-DescribeSecret(SecretId; aws::AWSConfig=AWS.aws_config) = secrets_manager("DescribeSecret", Dict{String, Any}("SecretId"=>SecretId); aws=aws)
-DescribeSecret(SecretId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = secrets_manager("DescribeSecret", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), args)); aws=aws)
+
+DescribeSecret(SecretId; aws_config::AWSConfig=global_aws_config()) = secrets_manager("DescribeSecret", Dict{String, Any}("SecretId"=>SecretId); aws_config=aws_config)
+DescribeSecret(SecretId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = secrets_manager("DescribeSecret", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), args)); aws_config=aws_config)
 
 """
     GetRandomPassword()
@@ -89,8 +94,9 @@ Generates a random password of the specified complexity. This operation is inten
 - `PasswordLength`: The desired length of the generated password. The default value if you do not include this parameter is 32 characters.
 - `RequireEachIncludedType`: A boolean value that specifies whether the generated password must include at least one of every allowed character type. The default value is True and the operation requires at least one of every character type.
 """
-GetRandomPassword(; aws::AWSConfig=AWS.aws_config) = secrets_manager("GetRandomPassword"; aws=aws)
-GetRandomPassword(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = secrets_manager("GetRandomPassword", args; aws=aws)
+
+GetRandomPassword(; aws_config::AWSConfig=global_aws_config()) = secrets_manager("GetRandomPassword"; aws_config=aws_config)
+GetRandomPassword(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = secrets_manager("GetRandomPassword", args; aws_config=aws_config)
 
 """
     GetResourcePolicy()
@@ -101,8 +107,9 @@ Retrieves the JSON text of the resource-based policy document attached to the sp
 - `SecretId`: Specifies the secret that you want to retrieve the attached resource-based policy for. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret.  If you specify an ARN, we generally recommend that you specify a complete ARN. You can specify a partial ARN too—for example, if you don’t include the final hyphen and six random characters that Secrets Manager adds at the end of the ARN when you created the secret. A partial ARN match can work as long as it uniquely matches only one secret. However, if your secret has a name that ends in a hyphen followed by six characters (before Secrets Manager adds the hyphen and six characters to the ARN) and you try to use that as a partial ARN, then those characters cause Secrets Manager to assume that you’re specifying a complete ARN. This confusion can cause unexpected results. To avoid this situation, we recommend that you don’t create secret names ending with a hyphen followed by six characters. If you specify an incomplete ARN without the random suffix, and instead provide the 'friendly name', you must not include the random suffix. If you do include the random suffix added by Secrets Manager, you receive either a ResourceNotFoundException or an AccessDeniedException error, depending on your permissions. 
 
 """
-GetResourcePolicy(SecretId; aws::AWSConfig=AWS.aws_config) = secrets_manager("GetResourcePolicy", Dict{String, Any}("SecretId"=>SecretId); aws=aws)
-GetResourcePolicy(SecretId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = secrets_manager("GetResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), args)); aws=aws)
+
+GetResourcePolicy(SecretId; aws_config::AWSConfig=global_aws_config()) = secrets_manager("GetResourcePolicy", Dict{String, Any}("SecretId"=>SecretId); aws_config=aws_config)
+GetResourcePolicy(SecretId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = secrets_manager("GetResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), args)); aws_config=aws_config)
 
 """
     GetSecretValue()
@@ -116,8 +123,9 @@ Retrieves the contents of the encrypted fields SecretString or SecretBinary from
 - `VersionId`: Specifies the unique identifier of the version of the secret that you want to retrieve. If you specify this parameter then don't specify VersionStage. If you don't specify either a VersionStage or VersionId then the default is to perform the operation on the version with the VersionStage value of AWSCURRENT. This value is typically a UUID-type value with 32 hexadecimal digits.
 - `VersionStage`: Specifies the secret version that you want to retrieve by the staging label attached to the version. Staging labels are used to keep track of different versions during the rotation process. If you use this parameter then don't specify VersionId. If you don't specify either a VersionStage or VersionId, then the default is to perform the operation on the version with the VersionStage value of AWSCURRENT.
 """
-GetSecretValue(SecretId; aws::AWSConfig=AWS.aws_config) = secrets_manager("GetSecretValue", Dict{String, Any}("SecretId"=>SecretId); aws=aws)
-GetSecretValue(SecretId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = secrets_manager("GetSecretValue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), args)); aws=aws)
+
+GetSecretValue(SecretId; aws_config::AWSConfig=global_aws_config()) = secrets_manager("GetSecretValue", Dict{String, Any}("SecretId"=>SecretId); aws_config=aws_config)
+GetSecretValue(SecretId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = secrets_manager("GetSecretValue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), args)); aws_config=aws_config)
 
 """
     ListSecretVersionIds()
@@ -132,8 +140,9 @@ Lists all of the versions attached to the specified secret. The output does not 
 - `MaxResults`: (Optional) Limits the number of results you want to include in the response. If you don't include this parameter, it defaults to a value that's specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (isn't null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that Secrets Manager might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
 - `NextToken`: (Optional) Use this parameter in a request if you receive a NextToken response in a previous request indicating there's more output available. In a subsequent call, set it to the value of the previous call NextToken response to indicate where the output should continue from.
 """
-ListSecretVersionIds(SecretId; aws::AWSConfig=AWS.aws_config) = secrets_manager("ListSecretVersionIds", Dict{String, Any}("SecretId"=>SecretId); aws=aws)
-ListSecretVersionIds(SecretId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = secrets_manager("ListSecretVersionIds", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), args)); aws=aws)
+
+ListSecretVersionIds(SecretId; aws_config::AWSConfig=global_aws_config()) = secrets_manager("ListSecretVersionIds", Dict{String, Any}("SecretId"=>SecretId); aws_config=aws_config)
+ListSecretVersionIds(SecretId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = secrets_manager("ListSecretVersionIds", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), args)); aws_config=aws_config)
 
 """
     ListSecrets()
@@ -146,8 +155,9 @@ Lists all of the secrets that are stored by Secrets Manager in the AWS account. 
 - `NextToken`: (Optional) Use this parameter in a request if you receive a NextToken response in a previous request indicating there's more output available. In a subsequent call, set it to the value of the previous call NextToken response to indicate where the output should continue from.
 - `SortOrder`: Lists secrets in the requested order. 
 """
-ListSecrets(; aws::AWSConfig=AWS.aws_config) = secrets_manager("ListSecrets"; aws=aws)
-ListSecrets(args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = secrets_manager("ListSecrets", args; aws=aws)
+
+ListSecrets(; aws_config::AWSConfig=global_aws_config()) = secrets_manager("ListSecrets"; aws_config=aws_config)
+ListSecrets(args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = secrets_manager("ListSecrets", args; aws_config=aws_config)
 
 """
     PutResourcePolicy()
@@ -161,8 +171,9 @@ Attaches the contents of the specified resource-based permission policy to a sec
 # Optional Parameters
 - `BlockPublicPolicy`: Makes an optional API call to Zelkova to validate the Resource Policy to prevent broad access to your secret.
 """
-PutResourcePolicy(ResourcePolicy, SecretId; aws::AWSConfig=AWS.aws_config) = secrets_manager("PutResourcePolicy", Dict{String, Any}("ResourcePolicy"=>ResourcePolicy, "SecretId"=>SecretId); aws=aws)
-PutResourcePolicy(ResourcePolicy, SecretId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = secrets_manager("PutResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourcePolicy"=>ResourcePolicy, "SecretId"=>SecretId), args)); aws=aws)
+
+PutResourcePolicy(ResourcePolicy, SecretId; aws_config::AWSConfig=global_aws_config()) = secrets_manager("PutResourcePolicy", Dict{String, Any}("ResourcePolicy"=>ResourcePolicy, "SecretId"=>SecretId); aws_config=aws_config)
+PutResourcePolicy(ResourcePolicy, SecretId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = secrets_manager("PutResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourcePolicy"=>ResourcePolicy, "SecretId"=>SecretId), args)); aws_config=aws_config)
 
 """
     PutSecretValue()
@@ -178,8 +189,9 @@ Stores a new encrypted secret value in the specified secret. To do this, the ope
 - `SecretString`: (Optional) Specifies text data that you want to encrypt and store in this new version of the secret. Either SecretString or SecretBinary must have a value, but not both. They cannot both be empty. If you create this secret by using the Secrets Manager console then Secrets Manager puts the protected secret text in only the SecretString parameter. The Secrets Manager console stores the information as a JSON structure of key/value pairs that the default Lambda rotation function knows how to parse. For storing multiple values, we recommend that you use a JSON text string argument and specify key/value pairs. For information on how to format a JSON parameter for the various command line tool environments, see Using JSON for Parameters in the AWS CLI User Guide.  For example:  [{\"username\":\"bob\"},{\"password\":\"abc123xyz456\"}]  If your command-line tool or SDK requires quotation marks around the parameter, you should use single quotes to avoid confusion with the double quotes required in the JSON text.
 - `VersionStages`: (Optional) Specifies a list of staging labels that are attached to this version of the secret. These staging labels are used to track the versions through the rotation process by the Lambda rotation function. A staging label must be unique to a single version of the secret. If you specify a staging label that's already associated with a different version of the same secret then that staging label is automatically removed from the other version and attached to this version. If you do not specify a value for VersionStages then Secrets Manager automatically moves the staging label AWSCURRENT to this new version.
 """
-PutSecretValue(SecretId; aws::AWSConfig=AWS.aws_config) = secrets_manager("PutSecretValue", Dict{String, Any}("SecretId"=>SecretId, "ClientRequestToken"=>string(uuid4())); aws=aws)
-PutSecretValue(SecretId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = secrets_manager("PutSecretValue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId, "ClientRequestToken"=>string(uuid4())), args)); aws=aws)
+
+PutSecretValue(SecretId; aws_config::AWSConfig=global_aws_config()) = secrets_manager("PutSecretValue", Dict{String, Any}("SecretId"=>SecretId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+PutSecretValue(SecretId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = secrets_manager("PutSecretValue", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     RestoreSecret()
@@ -190,8 +202,9 @@ Cancels the scheduled deletion of a secret by removing the DeletedDate time stam
 - `SecretId`: Specifies the secret that you want to restore from a previously scheduled deletion. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret.  If you specify an ARN, we generally recommend that you specify a complete ARN. You can specify a partial ARN too—for example, if you don’t include the final hyphen and six random characters that Secrets Manager adds at the end of the ARN when you created the secret. A partial ARN match can work as long as it uniquely matches only one secret. However, if your secret has a name that ends in a hyphen followed by six characters (before Secrets Manager adds the hyphen and six characters to the ARN) and you try to use that as a partial ARN, then those characters cause Secrets Manager to assume that you’re specifying a complete ARN. This confusion can cause unexpected results. To avoid this situation, we recommend that you don’t create secret names ending with a hyphen followed by six characters. If you specify an incomplete ARN without the random suffix, and instead provide the 'friendly name', you must not include the random suffix. If you do include the random suffix added by Secrets Manager, you receive either a ResourceNotFoundException or an AccessDeniedException error, depending on your permissions. 
 
 """
-RestoreSecret(SecretId; aws::AWSConfig=AWS.aws_config) = secrets_manager("RestoreSecret", Dict{String, Any}("SecretId"=>SecretId); aws=aws)
-RestoreSecret(SecretId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = secrets_manager("RestoreSecret", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), args)); aws=aws)
+
+RestoreSecret(SecretId; aws_config::AWSConfig=global_aws_config()) = secrets_manager("RestoreSecret", Dict{String, Any}("SecretId"=>SecretId); aws_config=aws_config)
+RestoreSecret(SecretId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = secrets_manager("RestoreSecret", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId), args)); aws_config=aws_config)
 
 """
     RotateSecret()
@@ -206,8 +219,9 @@ Configures and starts the asynchronous process of rotating this secret. If you i
 - `RotationLambdaARN`: (Optional) Specifies the ARN of the Lambda function that can rotate the secret.
 - `RotationRules`: A structure that defines the rotation configuration for this secret.
 """
-RotateSecret(SecretId; aws::AWSConfig=AWS.aws_config) = secrets_manager("RotateSecret", Dict{String, Any}("SecretId"=>SecretId, "ClientRequestToken"=>string(uuid4())); aws=aws)
-RotateSecret(SecretId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = secrets_manager("RotateSecret", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId, "ClientRequestToken"=>string(uuid4())), args)); aws=aws)
+
+RotateSecret(SecretId; aws_config::AWSConfig=global_aws_config()) = secrets_manager("RotateSecret", Dict{String, Any}("SecretId"=>SecretId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+RotateSecret(SecretId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = secrets_manager("RotateSecret", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     TagResource()
@@ -219,8 +233,9 @@ Attaches one or more tags, each consisting of a key name and a value, to the spe
 - `Tags`: The tags to attach to the secret. Each element in the list consists of a Key and a Value. This parameter to the API requires a JSON text string argument. For information on how to format a JSON parameter for the various command line tool environments, see Using JSON for Parameters in the AWS CLI User Guide. For the AWS CLI, you can also use the syntax: --Tags Key=\"Key1\",Value=\"Value1\",Key=\"Key2\",Value=\"Value2\"[,…] 
 
 """
-TagResource(SecretId, Tags; aws::AWSConfig=AWS.aws_config) = secrets_manager("TagResource", Dict{String, Any}("SecretId"=>SecretId, "Tags"=>Tags); aws=aws)
-TagResource(SecretId, Tags, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = secrets_manager("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId, "Tags"=>Tags), args)); aws=aws)
+
+TagResource(SecretId, Tags; aws_config::AWSConfig=global_aws_config()) = secrets_manager("TagResource", Dict{String, Any}("SecretId"=>SecretId, "Tags"=>Tags); aws_config=aws_config)
+TagResource(SecretId, Tags, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = secrets_manager("TagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId, "Tags"=>Tags), args)); aws_config=aws_config)
 
 """
     UntagResource()
@@ -232,8 +247,9 @@ Removes one or more tags from the specified secret. This operation is idempotent
 - `TagKeys`: A list of tag key names to remove from the secret. You don't specify the value. Both the key and its associated value are removed. This parameter to the API requires a JSON text string argument. For information on how to format a JSON parameter for the various command line tool environments, see Using JSON for Parameters in the AWS CLI User Guide.
 
 """
-UntagResource(SecretId, TagKeys; aws::AWSConfig=AWS.aws_config) = secrets_manager("UntagResource", Dict{String, Any}("SecretId"=>SecretId, "TagKeys"=>TagKeys); aws=aws)
-UntagResource(SecretId, TagKeys, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = secrets_manager("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId, "TagKeys"=>TagKeys), args)); aws=aws)
+
+UntagResource(SecretId, TagKeys; aws_config::AWSConfig=global_aws_config()) = secrets_manager("UntagResource", Dict{String, Any}("SecretId"=>SecretId, "TagKeys"=>TagKeys); aws_config=aws_config)
+UntagResource(SecretId, TagKeys, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = secrets_manager("UntagResource", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId, "TagKeys"=>TagKeys), args)); aws_config=aws_config)
 
 """
     UpdateSecret()
@@ -250,8 +266,9 @@ Modifies many of the details of the specified secret. If you include a ClientReq
 - `SecretBinary`: (Optional) Specifies updated binary data that you want to encrypt and store in the new version of the secret. To use this parameter in the command-line tools, we recommend that you store your binary data in a file and then use the appropriate technique for your tool to pass the contents of the file as a parameter. Either SecretBinary or SecretString must have a value, but not both. They cannot both be empty. This parameter is not accessible using the Secrets Manager console.
 - `SecretString`: (Optional) Specifies updated text data that you want to encrypt and store in this new version of the secret. Either SecretBinary or SecretString must have a value, but not both. They cannot both be empty. If you create this secret by using the Secrets Manager console then Secrets Manager puts the protected secret text in only the SecretString parameter. The Secrets Manager console stores the information as a JSON structure of key/value pairs that the default Lambda rotation function knows how to parse. For storing multiple values, we recommend that you use a JSON text string argument and specify key/value pairs. For information on how to format a JSON parameter for the various command line tool environments, see Using JSON for Parameters in the AWS CLI User Guide. For example:  [{\"username\":\"bob\"},{\"password\":\"abc123xyz456\"}]  If your command-line tool or SDK requires quotation marks around the parameter, you should use single quotes to avoid confusion with the double quotes required in the JSON text. You can also 'escape' the double quote character in the embedded JSON text by prefacing each with a backslash. For example, the following string is surrounded by double-quotes. All of the embedded double quotes are escaped:  \"[{ \"username \": \"bob \"},{ \"password \": \"abc123xyz456 \"}]\" 
 """
-UpdateSecret(SecretId; aws::AWSConfig=AWS.aws_config) = secrets_manager("UpdateSecret", Dict{String, Any}("SecretId"=>SecretId, "ClientRequestToken"=>string(uuid4())); aws=aws)
-UpdateSecret(SecretId, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = secrets_manager("UpdateSecret", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId, "ClientRequestToken"=>string(uuid4())), args)); aws=aws)
+
+UpdateSecret(SecretId; aws_config::AWSConfig=global_aws_config()) = secrets_manager("UpdateSecret", Dict{String, Any}("SecretId"=>SecretId, "ClientRequestToken"=>string(uuid4())); aws_config=aws_config)
+UpdateSecret(SecretId, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = secrets_manager("UpdateSecret", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId, "ClientRequestToken"=>string(uuid4())), args)); aws_config=aws_config)
 
 """
     UpdateSecretVersionStage()
@@ -266,8 +283,9 @@ Modifies the staging labels attached to a version of a secret. Staging labels ar
 - `MoveToVersionId`: (Optional) The secret version ID that you want to add the staging label. If you want to remove a label from a version, then do not specify this parameter. If the staging label is already attached to a different version of the secret, then you must also specify the RemoveFromVersionId parameter. 
 - `RemoveFromVersionId`: Specifies the secret version ID of the version that the staging label is to be removed from. If the staging label you are trying to attach to one version is already attached to a different version, then you must include this parameter and specify the version that the label is to be removed from. If the label is attached and you either do not specify this parameter, or the version ID does not match, then the operation fails.
 """
-UpdateSecretVersionStage(SecretId, VersionStage; aws::AWSConfig=AWS.aws_config) = secrets_manager("UpdateSecretVersionStage", Dict{String, Any}("SecretId"=>SecretId, "VersionStage"=>VersionStage); aws=aws)
-UpdateSecretVersionStage(SecretId, VersionStage, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = secrets_manager("UpdateSecretVersionStage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId, "VersionStage"=>VersionStage), args)); aws=aws)
+
+UpdateSecretVersionStage(SecretId, VersionStage; aws_config::AWSConfig=global_aws_config()) = secrets_manager("UpdateSecretVersionStage", Dict{String, Any}("SecretId"=>SecretId, "VersionStage"=>VersionStage); aws_config=aws_config)
+UpdateSecretVersionStage(SecretId, VersionStage, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = secrets_manager("UpdateSecretVersionStage", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("SecretId"=>SecretId, "VersionStage"=>VersionStage), args)); aws_config=aws_config)
 
 """
     ValidateResourcePolicy()
@@ -280,5 +298,6 @@ Validates the JSON text of the resource-based policy document attached to the sp
 # Optional Parameters
 - `SecretId`:  The identifier for the secret that you want to validate a resource policy. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret.  If you specify an ARN, we generally recommend that you specify a complete ARN. You can specify a partial ARN too—for example, if you don’t include the final hyphen and six random characters that Secrets Manager adds at the end of the ARN when you created the secret. A partial ARN match can work as long as it uniquely matches only one secret. However, if your secret has a name that ends in a hyphen followed by six characters (before Secrets Manager adds the hyphen and six characters to the ARN) and you try to use that as a partial ARN, then those characters cause Secrets Manager to assume that you’re specifying a complete ARN. This confusion can cause unexpected results. To avoid this situation, we recommend that you don’t create secret names ending with a hyphen followed by six characters. If you specify an incomplete ARN without the random suffix, and instead provide the 'friendly name', you must not include the random suffix. If you do include the random suffix added by Secrets Manager, you receive either a ResourceNotFoundException or an AccessDeniedException error, depending on your permissions. 
 """
-ValidateResourcePolicy(ResourcePolicy; aws::AWSConfig=AWS.aws_config) = secrets_manager("ValidateResourcePolicy", Dict{String, Any}("ResourcePolicy"=>ResourcePolicy); aws=aws)
-ValidateResourcePolicy(ResourcePolicy, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = secrets_manager("ValidateResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourcePolicy"=>ResourcePolicy), args)); aws=aws)
+
+ValidateResourcePolicy(ResourcePolicy; aws_config::AWSConfig=global_aws_config()) = secrets_manager("ValidateResourcePolicy", Dict{String, Any}("ResourcePolicy"=>ResourcePolicy); aws_config=aws_config)
+ValidateResourcePolicy(ResourcePolicy, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = secrets_manager("ValidateResourcePolicy", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("ResourcePolicy"=>ResourcePolicy), args)); aws_config=aws_config)

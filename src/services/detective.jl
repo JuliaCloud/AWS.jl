@@ -13,8 +13,9 @@ Accepts an invitation for the member account to contribute data to a behavior gr
 - `GraphArn`: The ARN of the behavior graph that the member account is accepting the invitation for. The member account status in the behavior graph must be INVITED.
 
 """
-AcceptInvitation(GraphArn; aws::AWSConfig=AWS.aws_config) = detective("PUT", "/invitation", Dict{String, Any}("GraphArn"=>GraphArn); aws=aws)
-AcceptInvitation(GraphArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = detective("PUT", "/invitation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GraphArn"=>GraphArn), args)); aws=aws)
+
+AcceptInvitation(GraphArn; aws_config::AWSConfig=global_aws_config()) = detective("PUT", "/invitation", Dict{String, Any}("GraphArn"=>GraphArn); aws_config=aws_config)
+AcceptInvitation(GraphArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = detective("PUT", "/invitation", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GraphArn"=>GraphArn), args)); aws_config=aws_config)
 
 """
     CreateGraph()
@@ -22,8 +23,9 @@ AcceptInvitation(GraphArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS
 Creates a new behavior graph for the calling account, and sets that account as the master account. This operation is called by the account that is enabling Detective. Before you try to enable Detective, make sure that your account has been enrolled in Amazon GuardDuty for at least 48 hours. If you do not meet this requirement, you cannot enable Detective. If you do meet the GuardDuty prerequisite, then when you make the request to enable Detective, it checks whether your data volume is within the Detective quota. If it exceeds the quota, then you cannot enable Detective.  The operation also enables Detective for the calling account in the currently selected Region. It returns the ARN of the new behavior graph.  CreateGraph triggers a process to create the corresponding data tables for the new behavior graph. An account can only be the master account for one behavior graph within a Region. If the same account calls CreateGraph with the same master account, it always returns the same behavior graph ARN. It does not create a new behavior graph.
 
 """
-CreateGraph(; aws::AWSConfig=AWS.aws_config) = detective("POST", "/graph"; aws=aws)
-CreateGraph(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = detective("POST", "/graph", args; aws=aws)
+
+CreateGraph(; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph"; aws_config=aws_config)
+CreateGraph(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph", args; aws_config=aws_config)
 
 """
     CreateMembers()
@@ -37,8 +39,9 @@ Sends a request to invite the specified AWS accounts to be member accounts in th
 # Optional Parameters
 - `Message`: Customized message text to include in the invitation email message to the invited member accounts.
 """
-CreateMembers(Accounts, GraphArn; aws::AWSConfig=AWS.aws_config) = detective("POST", "/graph/members", Dict{String, Any}("Accounts"=>Accounts, "GraphArn"=>GraphArn); aws=aws)
-CreateMembers(Accounts, GraphArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = detective("POST", "/graph/members", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Accounts"=>Accounts, "GraphArn"=>GraphArn), args)); aws=aws)
+
+CreateMembers(Accounts, GraphArn; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph/members", Dict{String, Any}("Accounts"=>Accounts, "GraphArn"=>GraphArn); aws_config=aws_config)
+CreateMembers(Accounts, GraphArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph/members", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("Accounts"=>Accounts, "GraphArn"=>GraphArn), args)); aws_config=aws_config)
 
 """
     DeleteGraph()
@@ -49,8 +52,9 @@ Disables the specified behavior graph and queues it to be deleted. This operatio
 - `GraphArn`: The ARN of the behavior graph to disable.
 
 """
-DeleteGraph(GraphArn; aws::AWSConfig=AWS.aws_config) = detective("POST", "/graph/removal", Dict{String, Any}("GraphArn"=>GraphArn); aws=aws)
-DeleteGraph(GraphArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = detective("POST", "/graph/removal", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GraphArn"=>GraphArn), args)); aws=aws)
+
+DeleteGraph(GraphArn; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph/removal", Dict{String, Any}("GraphArn"=>GraphArn); aws_config=aws_config)
+DeleteGraph(GraphArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph/removal", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GraphArn"=>GraphArn), args)); aws_config=aws_config)
 
 """
     DeleteMembers()
@@ -62,8 +66,9 @@ Deletes one or more member accounts from the master account behavior graph. This
 - `GraphArn`: The ARN of the behavior graph to delete members from.
 
 """
-DeleteMembers(AccountIds, GraphArn; aws::AWSConfig=AWS.aws_config) = detective("POST", "/graph/members/removal", Dict{String, Any}("AccountIds"=>AccountIds, "GraphArn"=>GraphArn); aws=aws)
-DeleteMembers(AccountIds, GraphArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = detective("POST", "/graph/members/removal", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountIds"=>AccountIds, "GraphArn"=>GraphArn), args)); aws=aws)
+
+DeleteMembers(AccountIds, GraphArn; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph/members/removal", Dict{String, Any}("AccountIds"=>AccountIds, "GraphArn"=>GraphArn); aws_config=aws_config)
+DeleteMembers(AccountIds, GraphArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph/members/removal", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountIds"=>AccountIds, "GraphArn"=>GraphArn), args)); aws_config=aws_config)
 
 """
     DisassociateMembership()
@@ -74,8 +79,9 @@ Removes the member account from the specified behavior graph. This operation can
 - `GraphArn`: The ARN of the behavior graph to remove the member account from. The member account's member status in the behavior graph must be ENABLED.
 
 """
-DisassociateMembership(GraphArn; aws::AWSConfig=AWS.aws_config) = detective("POST", "/membership/removal", Dict{String, Any}("GraphArn"=>GraphArn); aws=aws)
-DisassociateMembership(GraphArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = detective("POST", "/membership/removal", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GraphArn"=>GraphArn), args)); aws=aws)
+
+DisassociateMembership(GraphArn; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/membership/removal", Dict{String, Any}("GraphArn"=>GraphArn); aws_config=aws_config)
+DisassociateMembership(GraphArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/membership/removal", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GraphArn"=>GraphArn), args)); aws_config=aws_config)
 
 """
     GetMembers()
@@ -87,8 +93,9 @@ Returns the membership details for specified member accounts for a behavior grap
 - `GraphArn`: The ARN of the behavior graph for which to request the member details.
 
 """
-GetMembers(AccountIds, GraphArn; aws::AWSConfig=AWS.aws_config) = detective("POST", "/graph/members/get", Dict{String, Any}("AccountIds"=>AccountIds, "GraphArn"=>GraphArn); aws=aws)
-GetMembers(AccountIds, GraphArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = detective("POST", "/graph/members/get", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountIds"=>AccountIds, "GraphArn"=>GraphArn), args)); aws=aws)
+
+GetMembers(AccountIds, GraphArn; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph/members/get", Dict{String, Any}("AccountIds"=>AccountIds, "GraphArn"=>GraphArn); aws_config=aws_config)
+GetMembers(AccountIds, GraphArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph/members/get", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountIds"=>AccountIds, "GraphArn"=>GraphArn), args)); aws_config=aws_config)
 
 """
     ListGraphs()
@@ -99,8 +106,9 @@ Returns the list of behavior graphs that the calling account is a master of. Thi
 - `MaxResults`: The maximum number of graphs to return at a time. The total must be less than the overall limit on the number of results to return, which is currently 200.
 - `NextToken`: For requests to get the next page of results, the pagination token that was returned with the previous set of results. The initial request does not include a pagination token.
 """
-ListGraphs(; aws::AWSConfig=AWS.aws_config) = detective("POST", "/graphs/list"; aws=aws)
-ListGraphs(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = detective("POST", "/graphs/list", args; aws=aws)
+
+ListGraphs(; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graphs/list"; aws_config=aws_config)
+ListGraphs(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graphs/list", args; aws_config=aws_config)
 
 """
     ListInvitations()
@@ -111,8 +119,9 @@ Retrieves the list of open and accepted behavior graph invitations for the membe
 - `MaxResults`: The maximum number of behavior graph invitations to return in the response. The total must be less than the overall limit on the number of results to return, which is currently 200.
 - `NextToken`: For requests to retrieve the next page of results, the pagination token that was returned with the previous page of results. The initial request does not include a pagination token.
 """
-ListInvitations(; aws::AWSConfig=AWS.aws_config) = detective("POST", "/invitations/list"; aws=aws)
-ListInvitations(args::AbstractDict{String, Any}; aws::AWSConfig=AWS.aws_config) = detective("POST", "/invitations/list", args; aws=aws)
+
+ListInvitations(; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/invitations/list"; aws_config=aws_config)
+ListInvitations(args::AbstractDict{String, Any}; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/invitations/list", args; aws_config=aws_config)
 
 """
     ListMembers()
@@ -126,8 +135,9 @@ Retrieves the list of member accounts for a behavior graph. Does not return memb
 - `MaxResults`: The maximum number of member accounts to include in the response. The total must be less than the overall limit on the number of results to return, which is currently 200.
 - `NextToken`: For requests to retrieve the next page of member account results, the pagination token that was returned with the previous page of results. The initial request does not include a pagination token.
 """
-ListMembers(GraphArn; aws::AWSConfig=AWS.aws_config) = detective("POST", "/graph/members/list", Dict{String, Any}("GraphArn"=>GraphArn); aws=aws)
-ListMembers(GraphArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = detective("POST", "/graph/members/list", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GraphArn"=>GraphArn), args)); aws=aws)
+
+ListMembers(GraphArn; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph/members/list", Dict{String, Any}("GraphArn"=>GraphArn); aws_config=aws_config)
+ListMembers(GraphArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph/members/list", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GraphArn"=>GraphArn), args)); aws_config=aws_config)
 
 """
     RejectInvitation()
@@ -138,8 +148,9 @@ Rejects an invitation to contribute the account data to a behavior graph. This o
 - `GraphArn`: The ARN of the behavior graph to reject the invitation to. The member account's current member status in the behavior graph must be INVITED.
 
 """
-RejectInvitation(GraphArn; aws::AWSConfig=AWS.aws_config) = detective("POST", "/invitation/removal", Dict{String, Any}("GraphArn"=>GraphArn); aws=aws)
-RejectInvitation(GraphArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = detective("POST", "/invitation/removal", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GraphArn"=>GraphArn), args)); aws=aws)
+
+RejectInvitation(GraphArn; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/invitation/removal", Dict{String, Any}("GraphArn"=>GraphArn); aws_config=aws_config)
+RejectInvitation(GraphArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/invitation/removal", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("GraphArn"=>GraphArn), args)); aws_config=aws_config)
 
 """
     StartMonitoringMember()
@@ -151,5 +162,6 @@ Sends a request to enable data ingest for a member account that has a status of 
 - `GraphArn`: The ARN of the behavior graph.
 
 """
-StartMonitoringMember(AccountId, GraphArn; aws::AWSConfig=AWS.aws_config) = detective("POST", "/graph/member/monitoringstate", Dict{String, Any}("AccountId"=>AccountId, "GraphArn"=>GraphArn); aws=aws)
-StartMonitoringMember(AccountId, GraphArn, args::AbstractDict{String, <:Any}; aws::AWSConfig=AWS.aws_config) = detective("POST", "/graph/member/monitoringstate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "GraphArn"=>GraphArn), args)); aws=aws)
+
+StartMonitoringMember(AccountId, GraphArn; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph/member/monitoringstate", Dict{String, Any}("AccountId"=>AccountId, "GraphArn"=>GraphArn); aws_config=aws_config)
+StartMonitoringMember(AccountId, GraphArn, args::AbstractDict{String, <:Any}; aws_config::AWSConfig=global_aws_config()) = detective("POST", "/graph/member/monitoringstate", Dict{String, Any}(mergewith(_merge, Dict{String, Any}("AccountId"=>AccountId, "GraphArn"=>GraphArn), args)); aws_config=aws_config)
